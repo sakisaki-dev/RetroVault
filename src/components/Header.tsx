@@ -147,7 +147,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
                 <button className="flex items-center gap-3 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 cursor-pointer transition-colors hover:bg-accent/20">
                   <Calendar className="w-4 h-4 text-accent" />
                   <span className="text-sm text-muted-foreground">Season</span>
-                  <span className="font-display text-lg font-bold text-accent">{currentSeason}</span>
+                  <span className="font-display text-lg font-bold text-accent">{currentSeason || '—'}</span>
                 </button>
               </PopoverTrigger>
               <PopoverContent className="w-64 p-0" align="end">

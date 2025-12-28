@@ -37,8 +37,7 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   useEffect(() => {
     try {
       const savedSeason = localStorage.getItem(STORAGE_KEYS.currentSeason);
-      if (savedSeason) setCurrentSeason(savedSeason);
-
+      
       const savedCareer = localStorage.getItem(STORAGE_KEYS.careerCsv);
       if (savedCareer) {
         setCareerData(parseCSV(savedCareer));
@@ -54,6 +53,11 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         const prev = parseCSV(savedPrev);
         const next = parseCSV(savedCareer);
         setSeasonData(diffLeagueData(prev, next));
+        // Only set current season if we have valid season data
+        if (savedSeason) setCurrentSeason(savedSeason);
+      } else {
+        // No season data, clear current season
+        setCurrentSeason('');
       }
     } catch {
       // Ignore storage issues
@@ -130,42 +134,54 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     });
     saveSeasonHistory(history);
 
-    // If the purged season is the current one, clear season-specific state
-    if (currentSeason === seasonName) {
-      setSeasonData(null);
-      setPreviousData(null);
-      localStorage.removeItem(STORAGE_KEYS.prevCareerCsv);
-      
-      // Find the most recent remaining season
-      const remainingSeasons = new Set<string>();
-      Object.values(history).forEach((snapshots) => {
-        snapshots.forEach((s) => remainingSeasons.add(s.season));
-      });
-      
-      const sortedSeasons = Array.from(remainingSeasons).sort((a, b) => {
-        const aNum = parseInt(a.replace(/\D/g, '')) || 0;
-        const bNum = parseInt(b.replace(/\D/g, '')) || 0;
-        return bNum - aNum;
-      });
-      
-      const newCurrentSeason = sortedSeasons[0] || 'Y1';
-      setCurrentSeason(newCurrentSeason);
+    // Always clear season-specific state when purging any season
+    // This forces a fresh recalculation on next upload
+    setSeasonData(null);
+    setPreviousData(null);
+    localStorage.removeItem(STORAGE_KEYS.prevCareerCsv);
+    
+    // Find the most recent remaining season
+    const remainingSeasons = new Set<string>();
+    Object.values(history).forEach((snapshots) => {
+      snapshots.forEach((s) => remainingSeasons.add(s.season));
+    });
+    
+    const sortedSeasons = Array.from(remainingSeasons).sort((a, b) => {
+      const aNum = parseInt(a.replace(/\D/g, '')) || 0;
+      const bNum = parseInt(b.replace(/\D/g, '')) || 0;
+      return bNum - aNum;
+    });
+    
+    // Update current season to most recent or clear if none
+    const newCurrentSeason = sortedSeasons[0] || '';
+    setCurrentSeason(newCurrentSeason);
+    if (newCurrentSeason) {
       localStorage.setItem(STORAGE_KEYS.currentSeason, newCurrentSeason);
+    } else {
+      localStorage.removeItem(STORAGE_KEYS.currentSeason);
     }
-  }, [currentSeason]);
+  }, []);
 
   const getAvailableSeasons = useCallback((): string[] => {
     const history = loadSeasonHistory();
     const allSeasons = new Set<string>();
+    
+    // Add seasons from history
     Object.values(history).forEach((snapshots) => {
       snapshots.forEach((s) => allSeasons.add(s.season));
     });
+    
+    // Also include current season if it exists and has season data
+    if (currentSeason && seasonData) {
+      allSeasons.add(currentSeason);
+    }
+    
     return Array.from(allSeasons).sort((a, b) => {
       const aNum = parseInt(a.replace(/\D/g, '')) || 0;
       const bNum = parseInt(b.replace(/\D/g, '')) || 0;
       return aNum - bNum;
     });
-  }, []);
+  }, [currentSeason, seasonData]);
 
   const getAllPlayers = useCallback((): Player[] => {
     if (!careerData) return [];
