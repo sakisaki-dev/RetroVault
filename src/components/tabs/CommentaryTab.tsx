@@ -1,20 +1,71 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useLeague } from '@/context/LeagueContext';
-import { Newspaper, Trophy, Star, TrendingUp, Crown, Flame, AlertTriangle, Zap, Target, MessageCircle } from 'lucide-react';
-import type { Player, QBPlayer, RBPlayer, WRPlayer, TEPlayer, LBPlayer, DBPlayer, DLPlayer } from '@/types/player';
+import { 
+  Newspaper, Trophy, Star, TrendingUp, Crown, Flame, AlertTriangle, Zap, Target, 
+  X, ChevronRight, Award, Medal, Users, Calendar, BarChart3, Sparkles
+} from 'lucide-react';
+import type { Player, QBPlayer, RBPlayer, WRPlayer, TEPlayer } from '@/types/player';
 import PositionBadge from '../PositionBadge';
 import { getTeamColors } from '@/utils/teamColors';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface NewsStory {
+  id: string;
   headline: string;
+  subheadline?: string;
   body: string;
+  fullContent?: string;
   player?: Player;
-  tier: 'breaking' | 'hot-take' | 'analysis' | 'controversy';
+  players?: Player[];
+  tier: 'breaking' | 'hot-take' | 'analysis' | 'controversy' | 'milestone' | 'power-ranking';
   icon: typeof Flame;
+  category: string;
+  imageGradient?: string;
 }
+
+const TIER_STYLES = {
+  breaking: { 
+    border: 'border-l-4 border-destructive', 
+    badge: 'bg-destructive text-destructive-foreground',
+    glow: 'shadow-destructive/20',
+    gradient: 'from-destructive/30 via-destructive/10 to-transparent'
+  },
+  'hot-take': { 
+    border: 'border-l-4 border-chart-4', 
+    badge: 'bg-chart-4 text-chart-4-foreground',
+    glow: 'shadow-chart-4/20',
+    gradient: 'from-chart-4/30 via-chart-4/10 to-transparent'
+  },
+  analysis: { 
+    border: 'border-l-4 border-primary', 
+    badge: 'bg-primary text-primary-foreground',
+    glow: 'shadow-primary/20',
+    gradient: 'from-primary/30 via-primary/10 to-transparent'
+  },
+  controversy: { 
+    border: 'border-l-4 border-accent', 
+    badge: 'bg-accent text-accent-foreground',
+    glow: 'shadow-accent/20',
+    gradient: 'from-accent/30 via-accent/10 to-transparent'
+  },
+  milestone: { 
+    border: 'border-l-4 border-chart-2', 
+    badge: 'bg-chart-2 text-chart-2-foreground',
+    glow: 'shadow-chart-2/20',
+    gradient: 'from-chart-2/30 via-chart-2/10 to-transparent'
+  },
+  'power-ranking': { 
+    border: 'border-l-4 border-chart-3', 
+    badge: 'bg-chart-3 text-chart-3-foreground',
+    glow: 'shadow-chart-3/20',
+    gradient: 'from-chart-3/30 via-chart-3/10 to-transparent'
+  },
+};
 
 const CommentaryTab = () => {
   const { careerData, seasonData, currentSeason } = useLeague();
+  const [selectedStory, setSelectedStory] = useState<NewsStory | null>(null);
 
   const { stories, leagueStats } = useMemo(() => {
     if (!careerData) return { stories: [], leagueStats: null };
@@ -34,119 +85,159 @@ const CommentaryTab = () => {
     const hofPlayers = allPlayers.filter((p) => p.careerLegacy >= 8000);
     const legendaryPlayers = allPlayers.filter((p) => p.careerLegacy >= 12000);
 
-    const topByLegacy = [...allPlayers].sort((a, b) => b.careerLegacy - a.careerLegacy).slice(0, 5);
+    const topByLegacy = [...allPlayers].sort((a, b) => b.careerLegacy - a.careerLegacy).slice(0, 10);
     const topByTPG = [...activePlayers].sort((a, b) => b.tpg - a.tpg).slice(0, 5);
     const topByRings = [...allPlayers].sort((a, b) => b.rings - a.rings).slice(0, 5);
     const topByMVP = [...allPlayers].filter((p) => p.mvp > 0).sort((a, b) => b.mvp - a.mvp).slice(0, 5);
 
     const newsStories: NewsStory[] = [];
+    let storyId = 0;
 
-    // Season-specific hot takes
+    // Season-specific stories
     if (seasonData) {
       const qbs = seasonData.quarterbacks as QBPlayer[];
       const rbs = seasonData.runningbacks as RBPlayer[];
       const wrs = seasonData.widereceivers as WRPlayer[];
+      const tes = seasonData.tightends as TEPlayer[];
 
-      // MVP race controversy
-      const topQB = qbs.reduce((a, b) => (a?.passYds > b?.passYds ? a : b), qbs[0]);
-      const topRB = rbs.reduce((a, b) => (a?.rushYds > b?.rushYds ? a : b), rbs[0]);
-      
+      const topQB = qbs.length > 0 ? qbs.reduce((a, b) => (a?.passYds > b?.passYds ? a : b), qbs[0]) : null;
+      const topRB = rbs.length > 0 ? rbs.reduce((a, b) => (a?.rushYds > b?.rushYds ? a : b), rbs[0]) : null;
+      const topWR = wrs.length > 0 ? wrs.reduce((a, b) => (a?.recYds > b?.recYds ? a : b), wrs[0]) : null;
+
+      // MVP Race
       if (topQB && topRB && topQB.passYds > 0 && topRB.rushYds > 0) {
+        const careerQB = careerData.quarterbacks.find((q) => q.name === topQB.name);
+        const careerRB = careerData.runningbacks.find((r) => r.name === topRB.name);
         newsStories.push({
-          headline: `MVP DEBATE: ${topQB.name.split(' ').pop()} vs ${topRB.name.split(' ').pop()} — Who Deserves It?`,
-          body: `${topQB.name} threw for ${topQB.passYds.toLocaleString()} yards while ${topRB.name} dominated on the ground with ${topRB.rushYds.toLocaleString()} rushing yards. The voters are split. This could get ugly.`,
-          player: careerData.quarterbacks.find((q) => q.name === topQB.name) || topQB,
+          id: `story-${storyId++}`,
+          headline: `MVP RACE HEATS UP`,
+          subheadline: `${topQB.name.split(' ').pop()} vs ${topRB.name.split(' ').pop()}`,
+          body: `Two titans battle for the league's most prestigious individual honor.`,
+          fullContent: `The MVP race this season has come down to two incredible performers.\n\n**${topQB.name}** has been surgical from the pocket, throwing for ${topQB.passYds.toLocaleString()} yards this season. ${careerQB?.mvp ? `With ${careerQB.mvp} career MVPs, they know what it takes to win.` : 'A first MVP would cement their elite status.'}\n\n**${topRB.name}** has been a different kind of dominant, rushing for ${topRB.rushYds.toLocaleString()} yards. ${careerRB?.mvp ? `Already a ${careerRB.mvp}x MVP.` : 'Could this be their breakthrough year?'}\n\nVoters will have a tough decision. This could go down to the wire.`,
+          players: [careerQB || topQB, careerRB || topRB],
           tier: 'controversy',
           icon: AlertTriangle,
+          category: 'MVP Watch',
         });
       }
 
-      // Historic season takes
+      // Historic QB season
       if (topQB && topQB.passYds >= 5000) {
+        const careerQB = careerData.quarterbacks.find((q) => q.name === topQB.name) || topQB;
         newsStories.push({
-          headline: `HISTORIC: ${topQB.name.split(' ').pop()} Joins 5,000-Yard Club`,
-          body: `We're witnessing greatness. ${topQB.name} just put up ${topQB.passYds.toLocaleString()} passing yards — a number that will be remembered for decades. This isn't just a great season. This is LEGENDARY.`,
-          player: careerData.quarterbacks.find((q) => q.name === topQB.name) || topQB,
+          id: `story-${storyId++}`,
+          headline: `${topQB.name.split(' ').pop().toUpperCase()} ENTERS HISTORY BOOKS`,
+          subheadline: `5,000-yard season achieved`,
+          body: `An elite performance that will be remembered for generations.`,
+          fullContent: `We are witnessing greatness in its purest form.\n\n**${topQB.name}** just put up ${topQB.passYds.toLocaleString()} passing yards — joining the exclusive 5,000-yard club. Only the truly elite ever reach this milestone.\n\n${topQB.passTD} touchdown passes. A passer rating that makes defensive coordinators lose sleep. This isn't just a great season. This is LEGENDARY.\n\n${careerQB.rings > 0 ? `With ${careerQB.rings} ring(s) already, this season adds another chapter to an already Hall of Fame resume.` : 'Now the mission is to turn this brilliance into a championship run.'}`,
+          player: careerQB,
           tier: 'breaking',
           icon: Flame,
+          category: 'Historic Season',
         });
       }
 
-      // Top WR hot take
-      const topWR = wrs.reduce((a, b) => (a?.recYds > b?.recYds ? a : b), wrs[0]);
-      if (topWR && topWR.recYds >= 1300) {
+      // Top WR
+      if (topWR && topWR.recYds >= 1200) {
+        const careerWR = careerData.widereceivers.find((w) => w.name === topWR.name) || topWR;
         newsStories.push({
-          headline: `${topWR.name.split(' ').pop()} Is the Best Receiver in the League. It's Not Close.`,
-          body: `${topWR.receptions} catches. ${topWR.recYds.toLocaleString()} yards. ${topWR.recTD} touchdowns. If you're still debating who the best receiver is, you're not watching the games.`,
-          player: careerData.widereceivers.find((w) => w.name === topWR.name) || topWR,
+          id: `story-${storyId++}`,
+          headline: `UNSTOPPABLE`,
+          subheadline: `${topWR.name} is the best receiver in football`,
+          body: `${topWR.recYds.toLocaleString()} receiving yards. The debate is over.`,
+          fullContent: `**${topWR.name}** is playing a different sport than everyone else.\n\n${topWR.receptions} receptions. ${topWR.recYds.toLocaleString()} yards. ${topWR.recTD} touchdowns.\n\nDefensive coordinators are game-planning specifically for this player and it doesn't matter. Double coverage? Doesn't matter. Triple coverage? Still getting open.\n\n${careerWR.opoy > 0 ? `A ${careerWR.opoy}x OPOY winner proving why.` : 'An OPOY award feels inevitable.'} ${careerWR.rings > 0 ? `And yes, they've got the rings (${careerWR.rings}) to back it up.` : ''}`,
+          player: careerWR,
           tier: 'hot-take',
           icon: Zap,
+          category: 'Elite Performance',
         });
       }
 
-      // Underperformer hot take
-      const underperformer = qbs.find((qb) => qb.passYds > 0 && qb.passYds < 2000);
-      if (underperformer) {
-        const careerQB = careerData.quarterbacks.find((q) => q.name === underperformer.name);
-        if (careerQB && careerQB.careerLegacy > 3000) {
-          newsStories.push({
-            headline: `Is ${underperformer.name.split(' ').pop()} Washed? The Numbers Say Yes.`,
-            body: `Only ${underperformer.passYds.toLocaleString()} passing yards this season. For a player with ${careerQB.careerLegacy.toFixed(0)} career legacy points, this is alarming. Father Time remains undefeated.`,
-            player: careerQB,
-            tier: 'hot-take',
-            icon: AlertTriangle,
-          });
-        }
-      }
-
-      // Championship story
-      const champs = allPlayers.filter((p) => p.rings > 0);
-      const dynastyPlayer = champs.find((p) => p.rings >= 3);
+      // Dynasty alert
+      const dynastyPlayer = allPlayers.find((p) => p.rings >= 3);
       if (dynastyPlayer) {
         newsStories.push({
-          headline: `Dynasty Alert: ${dynastyPlayer.name.split(' ').pop()} Has ${dynastyPlayer.rings} Rings`,
-          body: `${dynastyPlayer.name} isn't just winning — they're building a legacy. With ${dynastyPlayer.rings} championships, we're talking about one of the greatest winners this league has ever seen.`,
+          id: `story-${storyId++}`,
+          headline: `DYNASTY WATCH`,
+          subheadline: `${dynastyPlayer.name} building a legacy`,
+          body: `${dynastyPlayer.rings} championships and counting.`,
+          fullContent: `Championships are the ultimate measure of greatness. **${dynastyPlayer.name}** has ${dynastyPlayer.rings} of them.\n\nThat is not luck. That is not being carried. That is championship DNA — the ability to elevate your game when it matters most.\n\n${dynastyPlayer.mvp > 0 ? `Add ${dynastyPlayer.mvp} MVP(s) and ` : ''}${dynastyPlayer.sbmvp > 0 ? `${dynastyPlayer.sbmvp} Super Bowl MVP(s)` : ''} ${dynastyPlayer.mvp > 0 || dynastyPlayer.sbmvp > 0 ? "and you are looking at an all-time great." : "The winner mentality is undeniable."}\n\nCan they add another ring this season?`,
           player: dynastyPlayer,
           tier: 'analysis',
           icon: Trophy,
+          category: 'Championship Corner',
+        });
+      }
+
+      // Emerging star
+      const risingStars = activePlayers.filter((p) => p.games < 48 && p.tpg >= 2.5).slice(0, 3);
+      if (risingStars.length > 0) {
+        newsStories.push({
+          id: `story-${storyId++}`,
+          headline: `THE NEXT GENERATION`,
+          subheadline: `Young stars ready to take over`,
+          body: `These players are just getting started.`,
+          fullContent: risingStars.map((star) => 
+            `**${star.name}** (${star.position})\n${star.games} games • ${star.tpg.toFixed(2)} TPG • ${star.trueTalent.toFixed(0)} True Talent\n${star.status === 'Active' ? 'Currently active and ascending.' : ''}`
+          ).join('\n\n'),
+          players: risingStars,
+          tier: 'milestone',
+          icon: Sparkles,
+          category: 'Rising Stars',
         });
       }
     }
 
-    // Career analysis takes
-    const goatCandidate = topByLegacy[0];
-    if (goatCandidate) {
+    // GOAT Watch
+    const goat = topByLegacy[0];
+    if (goat) {
       newsStories.push({
-        headline: `GOAT Watch: ${goatCandidate.name.split(' ').pop()} Leads All-Time Legacy Rankings`,
-        body: `With a ${goatCandidate.careerLegacy.toFixed(0)} career legacy score, ${goatCandidate.name} sits atop the all-time rankings. ${goatCandidate.rings} rings. ${goatCandidate.mvp} MVPs. ${goatCandidate.status === 'Active' ? 'And still going.' : 'A true legend.'} This is what greatness looks like.`,
-        player: goatCandidate,
+        id: `story-${storyId++}`,
+        headline: `THE GOAT DEBATE`,
+        subheadline: `Who is the greatest of all time?`,
+        body: `${goat.name} leads all-time with ${goat.careerLegacy.toFixed(0)} legacy points.`,
+        fullContent: `The question that never dies: Who is the greatest player in league history?\n\nBy the numbers, **${goat.name}** has the strongest case:\n\n• ${goat.careerLegacy.toFixed(0)} Career Legacy\n• ${goat.rings} Championship(s)\n• ${goat.mvp} MVP(s)\n• ${goat.trueTalent.toFixed(0)} True Talent\n\nBut the GOAT debate is never just about numbers. It's about moments. It's about dominance. It's about changing the game.\n\n**The Top 5 All-Time:**\n${topByLegacy.slice(0, 5).map((p, i) => `${i + 1}. ${p.name} — ${p.careerLegacy.toFixed(0)}`).join('\n')}`,
+        player: goat,
+        players: topByLegacy.slice(0, 5),
         tier: 'analysis',
         icon: Crown,
+        category: 'GOAT Watch',
       });
     }
 
-    // Efficiency take
-    const efficiencyKing = topByTPG[0];
-    if (efficiencyKing && efficiencyKing.tpg >= 3) {
+    // Efficiency Kings
+    const effKing = topByTPG[0];
+    if (effKing && effKing.tpg >= 2.5) {
       newsStories.push({
-        headline: `${efficiencyKing.name.split(' ').pop()} Is Playing a Different Game`,
-        body: `${efficiencyKing.tpg.toFixed(2)} TPG. That's elite-tier efficiency. Every snap, every touch, every play — ${efficiencyKing.name} is maximizing their impact. This is what separates the good from the GREAT.`,
-        player: efficiencyKing,
-        tier: 'hot-take',
+        id: `story-${storyId++}`,
+        headline: `EFFICIENCY KINGS`,
+        subheadline: `Maximum impact, every snap`,
+        body: `${effKing.name} leads with ${effKing.tpg.toFixed(2)} TPG.`,
+        fullContent: `In the modern game, efficiency is everything. **${effKing.name}** is the master of it.\n\n${effKing.tpg.toFixed(2)} Talent Per Game means every time they step on the field, they're producing at an elite level.\n\n**TPG Leaders:**\n${topByTPG.map((p, i) => `${i + 1}. ${p.name} (${p.position}) — ${p.tpg.toFixed(2)} TPG`).join('\n')}\n\nThese players don't pad stats. They win games.`,
+        player: effKing,
+        players: topByTPG,
+        tier: 'power-ranking',
         icon: Target,
+        category: 'Analytics',
       });
     }
 
-    // Young gun take (player with high TPG but low games)
-    const youngGun = activePlayers.find((p) => p.games < 50 && p.tpg >= 2.5);
-    if (youngGun) {
-      newsStories.push({
-        headline: `Rising Star: ${youngGun.name.split(' ').pop()} Is the Future`,
-        body: `Only ${youngGun.games} games played but already making waves with a ${youngGun.tpg.toFixed(2)} TPG. ${youngGun.name} is on a trajectory that could redefine their position. The league better be ready.`,
-        player: youngGun,
-        tier: 'analysis',
-        icon: Star,
-      });
+    // Hall of Fame class
+    if (hofPlayers.length > 0) {
+      const newHofers = hofPlayers.filter((p) => p.status === 'Retired').slice(0, 5);
+      if (newHofers.length > 0) {
+        newsStories.push({
+          id: `story-${storyId++}`,
+          headline: `HALL OF FAME CLASS`,
+          subheadline: `${hofPlayers.length} players have earned immortality`,
+          body: `The greatest to ever play, enshrined forever.`,
+          fullContent: `The Hall of Fame represents the pinnacle of achievement. ${hofPlayers.length} players have crossed the 8,000 legacy threshold.\n\n**Recent Inductees:**\n${newHofers.map((p) => `• **${p.name}** (${p.position}) — ${p.careerLegacy.toFixed(0)} Legacy, ${p.rings} Rings`).join('\n')}\n\n${legendaryPlayers.length > 0 ? `**Legendary Status (12,000+):** ${legendaryPlayers.length} players` : ''}\n\nThese are the names that will be remembered forever.`,
+          players: newHofers,
+          tier: 'milestone',
+          icon: Award,
+          category: 'Hall of Fame',
+        });
+      }
     }
 
     return {
@@ -171,215 +262,330 @@ const CommentaryTab = () => {
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-chart-4/10 mb-6">
             <Newspaper className="w-10 h-10 text-chart-4" />
           </div>
-          <h2 className="font-display text-4xl font-bold mb-4 text-chart-4">THE DAILY VAULT</h2>
-          <p className="text-muted-foreground text-lg">Upload your league data to see the latest hot takes and analysis.</p>
+          <h2 className="font-display text-4xl font-bold mb-4 text-chart-4">VAULT SPORTS NETWORK</h2>
+          <p className="text-muted-foreground text-lg">Upload your league data to generate dynamic news coverage.</p>
         </div>
       </div>
     );
   }
 
+  const featuredStory = stories[0];
+  const secondaryStories = stories.slice(1, 3);
+  const gridStories = stories.slice(3);
+
   return (
-    <div className="container mx-auto px-6 py-8 space-y-8">
-      {/* Masthead */}
-      <div className="glass-card-glow p-8 text-center border-b-4 border-chart-4">
-        <div className="flex items-center justify-center gap-3 mb-2">
-          <Newspaper className="w-8 h-8 text-chart-4" />
-          <h1 className="font-display text-5xl font-bold tracking-wider">THE DAILY VAULT</h1>
+    <div className="container mx-auto px-4 py-6 space-y-6">
+      {/* Network Header */}
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-chart-4/20 via-primary/10 to-accent/20 p-6 border border-border/30">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIwLjUiIG9wYWNpdHk9IjAuMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-50" />
+        <div className="relative flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-chart-4/20 border border-chart-4/30">
+              <Newspaper className="w-8 h-8 text-chart-4" />
+            </div>
+            <div>
+              <h1 className="font-display text-3xl md:text-4xl font-bold tracking-tight">VAULT SPORTS NETWORK</h1>
+              <p className="text-muted-foreground text-sm uppercase tracking-widest">
+                Season {currentSeason} Coverage
+              </p>
+            </div>
+          </div>
+          <div className="flex gap-4 text-sm">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/50">
+              <Users className="w-4 h-4 text-primary" />
+              <span>{leagueStats.activePlayers} Active</span>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/50">
+              <Award className="w-4 h-4 text-chart-4" />
+              <span>{leagueStats.hofCount} HOF</span>
+            </div>
+          </div>
         </div>
-        <p className="text-muted-foreground uppercase tracking-widest text-sm">
-          Hot Takes • Analysis • Controversy — Season {currentSeason}
-        </p>
       </div>
 
       {/* Breaking News Ticker */}
       {stories.length > 0 && (
-        <div className="glass-card overflow-hidden">
-          <div className="bg-destructive/20 px-4 py-2 flex items-center gap-2">
-            <Flame className="w-4 h-4 text-destructive animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-wider text-destructive">Breaking</span>
-          </div>
-          <div className="p-4">
-            <p className="font-semibold text-foreground">{stories[0]?.headline}</p>
+        <div className="flex items-center gap-3 px-4 py-2 rounded-lg bg-destructive/10 border border-destructive/30 overflow-hidden">
+          <span className="flex-shrink-0 flex items-center gap-2 px-3 py-1 rounded bg-destructive text-destructive-foreground text-xs font-bold uppercase">
+            <Flame className="w-3 h-3 animate-pulse" />
+            Live
+          </span>
+          <div className="overflow-hidden">
+            <p className="text-sm font-medium truncate">
+              {stories.map((s) => s.headline).join(' • ')}
+            </p>
           </div>
         </div>
       )}
 
-      {/* Main Stories Grid */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        {stories.map((story, i) => (
-          <StoryCard key={i} story={story} featured={i === 0} />
-        ))}
-      </div>
+      {/* Featured + Secondary Grid */}
+      {featuredStory && (
+        <div className="grid lg:grid-cols-3 gap-4">
+          {/* Featured Story */}
+          <button
+            onClick={() => setSelectedStory(featuredStory)}
+            className="lg:col-span-2 group relative overflow-hidden rounded-xl border border-border/30 bg-card hover:border-primary/50 transition-all duration-300 text-left"
+          >
+            <div className={`absolute inset-0 bg-gradient-to-br ${TIER_STYLES[featuredStory.tier].gradient} opacity-50`} />
+            <div className="relative p-8">
+              <div className="flex items-center gap-2 mb-4">
+                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${TIER_STYLES[featuredStory.tier].badge}`}>
+                  {featuredStory.category}
+                </span>
+                <featuredStory.icon className="w-4 h-4 text-muted-foreground" />
+              </div>
+              <h2 className="font-display text-4xl md:text-5xl font-bold mb-2 group-hover:text-primary transition-colors">
+                {featuredStory.headline}
+              </h2>
+              {featuredStory.subheadline && (
+                <p className="text-xl text-muted-foreground mb-4">{featuredStory.subheadline}</p>
+              )}
+              <p className="text-muted-foreground leading-relaxed mb-6">{featuredStory.body}</p>
+              <div className="flex items-center gap-2 text-primary text-sm font-medium">
+                <span>Read Full Story</span>
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </button>
 
-      {/* League Power Rankings */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        <div className="glass-card p-6">
-          <div className="flex items-center gap-2 border-b border-border/30 pb-3 mb-4">
-            <Crown className="w-5 h-5 text-chart-4" />
-            <h3 className="font-display text-xl font-bold">LEGACY POWER RANKINGS</h3>
-          </div>
-          <div className="space-y-3">
-            {leagueStats.topByLegacy.map((player, i) => (
-              <PlayerRankRow key={player.name} player={player} rank={i + 1} stat={player.careerLegacy} statLabel="Legacy" />
+          {/* Secondary Stories */}
+          <div className="flex flex-col gap-4">
+            {secondaryStories.map((story) => (
+              <StoryCard 
+                key={story.id} 
+                story={story} 
+                variant="compact" 
+                onClick={() => setSelectedStory(story)} 
+              />
             ))}
           </div>
         </div>
+      )}
 
-        <div className="glass-card p-6">
-          <div className="flex items-center gap-2 border-b border-border/30 pb-3 mb-4">
-            <Target className="w-5 h-5 text-metric-elite" />
-            <h3 className="font-display text-xl font-bold">EFFICIENCY LEADERS</h3>
-          </div>
-          <div className="space-y-3">
-            {leagueStats.topByTPG.map((player, i) => (
-              <PlayerRankRow key={player.name} player={player} rank={i + 1} stat={player.tpg} statLabel="TPG" decimals={2} />
-            ))}
-          </div>
+      {/* Story Grid */}
+      {gridStories.length > 0 && (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {gridStories.map((story) => (
+            <StoryCard 
+              key={story.id} 
+              story={story} 
+              onClick={() => setSelectedStory(story)} 
+            />
+          ))}
         </div>
+      )}
 
-        <div className="glass-card p-6">
-          <div className="flex items-center gap-2 border-b border-border/30 pb-3 mb-4">
-            <Trophy className="w-5 h-5 text-accent" />
-            <h3 className="font-display text-xl font-bold">RING LEADERS</h3>
-          </div>
-          <div className="space-y-3">
-            {leagueStats.topByRings.map((player, i) => (
-              <PlayerRankRow key={player.name} player={player} rank={i + 1} stat={player.rings} statLabel="Rings" />
-            ))}
-          </div>
-        </div>
-
-        <div className="glass-card p-6">
-          <div className="flex items-center gap-2 border-b border-border/30 pb-3 mb-4">
-            <Star className="w-5 h-5 text-primary" />
-            <h3 className="font-display text-xl font-bold">MVP LEADERS</h3>
-          </div>
-          <div className="space-y-3">
-            {leagueStats.topByMVP.length > 0 ? (
-              leagueStats.topByMVP.map((player, i) => (
-                <PlayerRankRow key={player.name} player={player} rank={i + 1} stat={player.mvp} statLabel="MVPs" />
-              ))
-            ) : (
-              <p className="text-muted-foreground text-sm">No MVP winners yet.</p>
-            )}
-          </div>
-        </div>
+      {/* Power Rankings Section */}
+      <div className="grid lg:grid-cols-2 gap-4">
+        <RankingCard 
+          title="Legacy Power Rankings" 
+          icon={Crown} 
+          players={leagueStats.topByLegacy.slice(0, 5)} 
+          statKey="careerLegacy"
+          statLabel="Legacy"
+        />
+        <RankingCard 
+          title="Ring Leaders" 
+          icon={Trophy} 
+          players={leagueStats.topByRings} 
+          statKey="rings"
+          statLabel="Rings"
+        />
       </div>
 
-      {/* Hot Take Section */}
-      <div className="glass-card p-8">
-        <div className="flex items-center gap-3 mb-6 border-b border-border/30 pb-4">
-          <MessageCircle className="w-6 h-6 text-chart-4" />
-          <h3 className="font-display text-2xl font-bold">THE VAULT'S VERDICT</h3>
-        </div>
-        <div className="grid md:grid-cols-2 gap-8 text-muted-foreground leading-relaxed">
-          <div>
-            <h4 className="font-bold text-chart-4 mb-2 text-lg">🔥 The GOAT Debate Rages On</h4>
-            <p>
-              <span className="text-foreground font-semibold">{leagueStats.topByLegacy[0]?.name}</span> leads with{' '}
-              <span className="text-chart-4 font-semibold">{leagueStats.topByLegacy[0]?.careerLegacy.toFixed(0)}</span> legacy points.
-              But legacy isn't just about stats — it's about moments, championships, and clutch performances.
-              The debate continues.
-            </p>
-          </div>
-          <div>
-            <h4 className="font-bold text-metric-elite mb-2 text-lg">📈 Efficiency Over Volume</h4>
-            <p>
-              <span className="text-foreground font-semibold">{leagueStats.topByTPG[0]?.name}</span> is producing at
-              an insane <span className="text-metric-elite font-semibold">{leagueStats.topByTPG[0]?.tpg.toFixed(2)} TPG</span>.
-              In an era obsessed with volume stats, don't sleep on efficiency. This is how you build a dynasty.
-            </p>
-          </div>
-          <div>
-            <h4 className="font-bold text-accent mb-2 text-lg">💍 Championship DNA</h4>
-            <p>
-              <span className="text-accent font-semibold">{leagueStats.topByRings[0]?.rings} rings</span> for{' '}
-              <span className="text-foreground font-semibold">{leagueStats.topByRings[0]?.name}</span>.
-              You can debate stats all day, but championships are the ultimate measure. Winners find a way.
-            </p>
-          </div>
-          <div>
-            <h4 className="font-bold text-primary mb-2 text-lg">🏆 The Hall Awaits</h4>
-            <p>
-              <span className="text-primary font-semibold">{leagueStats.hofCount} players</span> have crossed the Hall of Fame threshold.
-              Only <span className="text-chart-4 font-semibold">{leagueStats.legendaryCount}</span> have reached legendary status.
-              The bar is high. As it should be.
-            </p>
-          </div>
-        </div>
-      </div>
+      {/* Story Modal */}
+      <StoryModal story={selectedStory} onClose={() => setSelectedStory(null)} />
     </div>
   );
 };
 
-const StoryCard = ({ story, featured }: { story: NewsStory; featured?: boolean }) => {
-  const colors = {
-    breaking: { border: 'border-destructive', text: 'text-destructive', bg: 'bg-destructive/10' },
-    'hot-take': { border: 'border-chart-4', text: 'text-chart-4', bg: 'bg-chart-4/10' },
-    analysis: { border: 'border-primary', text: 'text-primary', bg: 'bg-primary/10' },
-    controversy: { border: 'border-accent', text: 'text-accent', bg: 'bg-accent/10' },
-  };
-  const style = colors[story.tier];
-  const teamColors = story.player ? getTeamColors(story.player.team) : null;
+interface StoryCardProps {
+  story: NewsStory;
+  variant?: 'default' | 'compact';
+  onClick: () => void;
+}
+
+const StoryCard = ({ story, variant = 'default', onClick }: StoryCardProps) => {
+  const style = TIER_STYLES[story.tier];
   const Icon = story.icon;
 
-  return (
-    <div
-      className={`glass-card p-6 ${featured ? 'lg:col-span-2' : ''} ${style.bg} border-l-4 ${style.border}`}
-      style={teamColors ? { borderLeftColor: `hsl(${teamColors.primary})` } : undefined}
-    >
-      <div className="flex items-center gap-2 mb-3">
-        <Icon className={`w-5 h-5 ${style.text}`} />
-        <span className={`text-xs font-bold uppercase tracking-wider ${style.text}`}>
-          {story.tier.replace('-', ' ')}
-        </span>
-      </div>
-      <h4 className={`font-display ${featured ? 'text-3xl' : 'text-xl'} font-bold text-foreground mb-3`}>
-        {story.headline}
-      </h4>
-      <p className="text-muted-foreground leading-relaxed">{story.body}</p>
-      {story.player && (
-        <div className="flex items-center gap-2 mt-4 pt-4 border-t border-border/30">
-          <PositionBadge position={story.player.position} className="text-xs" />
-          {story.player.team && (
-            <span
-              className="text-xs px-2 py-0.5 rounded font-medium"
-              style={teamColors ? { backgroundColor: `hsl(${teamColors.primary} / 0.2)`, color: `hsl(${teamColors.primary})` } : undefined}
-            >
-              {story.player.team}
-            </span>
-          )}
-          <span className="text-xs text-muted-foreground ml-auto">
-            {story.player.games} GP • {story.player.careerLegacy.toFixed(0)} Legacy
+  if (variant === 'compact') {
+    return (
+      <button
+        onClick={onClick}
+        className={`group flex-1 p-4 rounded-xl border border-border/30 bg-card hover:border-primary/50 transition-all text-left ${style.border}`}
+      >
+        <div className="flex items-center gap-2 mb-2">
+          <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${style.badge}`}>
+            {story.category}
           </span>
         </div>
-      )}
-    </div>
-  );
-};
-
-const PlayerRankRow = ({ player, rank, stat, statLabel, decimals = 0 }: { player: Player; rank: number; stat: number; statLabel: string; decimals?: number }) => {
-  const teamColors = getTeamColors(player.team);
+        <h3 className="font-display text-lg font-bold mb-1 group-hover:text-primary transition-colors line-clamp-2">
+          {story.headline}
+        </h3>
+        <p className="text-sm text-muted-foreground line-clamp-2">{story.body}</p>
+      </button>
+    );
+  }
 
   return (
-    <div
-      className="flex items-center gap-4 p-3 rounded-lg bg-secondary/20 hover:bg-secondary/40 transition-colors"
-      style={teamColors ? { borderLeft: `3px solid hsl(${teamColors.primary})` } : undefined}
+    <button
+      onClick={onClick}
+      className={`group p-5 rounded-xl border border-border/30 bg-card hover:border-primary/50 transition-all text-left ${style.border}`}
     >
-      <span className="font-display font-bold text-2xl text-muted-foreground/50 w-8">{rank}</span>
-      <div className="flex-1 min-w-0">
-        <p className="font-semibold truncate">{player.name}</p>
-        <div className="flex items-center gap-2">
-          <PositionBadge position={player.position} className="text-xs" />
-          {player.team && <span className="text-xs text-muted-foreground">{player.team}</span>}
+      <div className="flex items-center gap-2 mb-3">
+        <Icon className={`w-4 h-4`} style={{ color: `hsl(var(--${story.tier === 'breaking' ? 'destructive' : story.tier === 'hot-take' ? 'chart-4' : 'primary'}))` }} />
+        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${style.badge}`}>
+          {story.category}
+        </span>
+      </div>
+      <h3 className="font-display text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+        {story.headline}
+      </h3>
+      {story.subheadline && (
+        <p className="text-sm text-foreground/80 mb-2">{story.subheadline}</p>
+      )}
+      <p className="text-sm text-muted-foreground line-clamp-3">{story.body}</p>
+      {story.player && (
+        <div className="flex items-center gap-2 mt-4 pt-3 border-t border-border/30">
+          <PositionBadge position={story.player.position} className="text-xs" />
+          <span className="text-xs text-muted-foreground">{story.player.name}</span>
         </div>
-      </div>
-      <div className="text-right">
-        <p className="font-mono font-bold text-xl text-primary">{decimals > 0 ? stat.toFixed(decimals) : stat.toLocaleString()}</p>
-        <p className="text-xs text-muted-foreground">{statLabel}</p>
-      </div>
-    </div>
+      )}
+    </button>
   );
 };
+
+interface StoryModalProps {
+  story: NewsStory | null;
+  onClose: () => void;
+}
+
+const StoryModal = ({ story, onClose }: StoryModalProps) => {
+  if (!story) return null;
+
+  const style = TIER_STYLES[story.tier];
+  const Icon = story.icon;
+  const teamColors = story.player ? getTeamColors(story.player.team) : null;
+
+  return (
+    <Dialog open={!!story} onOpenChange={() => onClose()}>
+      <DialogContent className="max-w-2xl p-0 overflow-hidden border-border/50">
+        {/* Header */}
+        <div 
+          className={`p-6 bg-gradient-to-br ${style.gradient}`}
+          style={teamColors ? {
+            borderBottom: `3px solid hsl(${teamColors.primary})`,
+          } : undefined}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Icon className="w-5 h-5" />
+              <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${style.badge}`}>
+                {story.category}
+              </span>
+            </div>
+          </div>
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-2">{story.headline}</h2>
+          {story.subheadline && (
+            <p className="text-xl text-muted-foreground">{story.subheadline}</p>
+          )}
+        </div>
+
+        {/* Content */}
+        <ScrollArea className="max-h-[60vh]">
+          <div className="p-6 space-y-6">
+            {/* Full article content */}
+            <div className="prose prose-invert prose-sm max-w-none">
+              {(story.fullContent || story.body).split('\n\n').map((paragraph, i) => (
+                <p key={i} className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                  {paragraph.split('**').map((part, j) => 
+                    j % 2 === 1 ? <strong key={j} className="text-foreground">{part}</strong> : part
+                  )}
+                </p>
+              ))}
+            </div>
+
+            {/* Featured Players */}
+            {(story.players || (story.player ? [story.player] : [])).length > 0 && (
+              <div className="pt-4 border-t border-border/30">
+                <h4 className="text-xs uppercase tracking-wider text-muted-foreground mb-3">Featured Players</h4>
+                <div className="grid gap-2">
+                  {(story.players || [story.player]).filter(Boolean).map((p) => {
+                    const colors = getTeamColors(p!.team);
+                    return (
+                      <div 
+                        key={p!.name} 
+                        className="flex items-center justify-between p-3 rounded-lg bg-secondary/30"
+                        style={colors ? { borderLeft: `3px solid hsl(${colors.primary})` } : undefined}
+                      >
+                        <div className="flex items-center gap-3">
+                          <PositionBadge position={p!.position} className="text-xs" />
+                          <div>
+                            <p className="font-semibold">{p!.name}</p>
+                            <p className="text-xs text-muted-foreground">{p!.team || 'Free Agent'}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-mono font-bold text-primary">{p!.careerLegacy.toFixed(0)}</p>
+                          <p className="text-xs text-muted-foreground">Legacy</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        </ScrollArea>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+interface RankingCardProps {
+  title: string;
+  icon: typeof Trophy;
+  players: Player[];
+  statKey: keyof Player;
+  statLabel: string;
+}
+
+const RankingCard = ({ title, icon: Icon, players, statKey, statLabel }: RankingCardProps) => (
+  <div className="rounded-xl border border-border/30 bg-card overflow-hidden">
+    <div className="flex items-center gap-2 p-4 border-b border-border/30 bg-secondary/20">
+      <Icon className="w-5 h-5 text-chart-4" />
+      <h3 className="font-display text-lg font-bold uppercase">{title}</h3>
+    </div>
+    <div className="p-2">
+      {players.map((player, i) => {
+        const colors = getTeamColors(player.team);
+        const value = player[statKey] as number;
+        return (
+          <div 
+            key={player.name}
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/30 transition-colors"
+            style={colors ? { borderLeft: `3px solid hsl(${colors.primary})` } : undefined}
+          >
+            <span className="font-display text-2xl font-bold text-muted-foreground/40 w-8">{i + 1}</span>
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold truncate">{player.name}</p>
+              <div className="flex items-center gap-2">
+                <PositionBadge position={player.position} className="text-xs" />
+                {player.team && <span className="text-xs text-muted-foreground">{player.team}</span>}
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="font-mono text-xl font-bold text-primary">
+                {typeof value === 'number' ? (statKey === 'careerLegacy' ? value.toFixed(0) : value.toLocaleString()) : value}
+              </p>
+              <p className="text-xs text-muted-foreground">{statLabel}</p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+);
 
 export default CommentaryTab;

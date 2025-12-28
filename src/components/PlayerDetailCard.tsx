@@ -1,25 +1,37 @@
-import { X, Trophy, Star, Crown, TrendingUp, Calendar, Medal, Award } from 'lucide-react';
+import { Trophy, Star, Crown, TrendingUp, Calendar, Medal, Award } from 'lucide-react';
 import type { Player, QBPlayer, RBPlayer, WRPlayer, TEPlayer, LBPlayer, DBPlayer, DLPlayer } from '@/types/player';
 import { getTeamColors } from '@/utils/teamColors';
 import { getMetricColor, getMetricBgColor, getMetricTier, getTierLabel } from '@/utils/metricColors';
 import PositionBadge from './PositionBadge';
 import StatusBadge from './StatusBadge';
+import { useLeague } from '@/context/LeagueContext';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface PlayerDetailCardProps {
   player: Player | null;
-  seasonHistory?: { season: string; stats: Partial<Player> }[];
   onClose: () => void;
 }
 
-const PlayerDetailCard = ({ player, seasonHistory = [], onClose }: PlayerDetailCardProps) => {
+const PlayerDetailCard = ({ player, onClose }: PlayerDetailCardProps) => {
+  const { getSeasonHistory } = useLeague();
+
   if (!player) return null;
 
+  const seasonHistory = getSeasonHistory(player);
   const teamColors = getTeamColors(player.team);
 
   const getStatRows = (p: Player) => {
@@ -191,30 +203,100 @@ const PlayerDetailCard = ({ player, seasonHistory = [], onClose }: PlayerDetailC
             </div>
           </div>
 
-          {/* Season History */}
+          {/* Season History Table */}
           {seasonHistory.length > 0 && (
             <div>
               <h4 className="text-xs text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-accent" />
-                Season History
+                Season-by-Season Breakdown
               </h4>
-              <div className="space-y-2 max-h-40 overflow-y-auto">
-                {seasonHistory.map((sh) => (
-                  <div 
-                    key={sh.season} 
-                    className="flex items-center justify-between p-3 rounded-lg bg-secondary/20 border border-border/30"
-                  >
-                    <span className="font-display text-lg text-accent">{sh.season}</span>
-                    <div className="flex gap-4 text-sm">
-                      {Object.entries(sh.stats).slice(0, 4).map(([key, val]) => (
-                        <span key={key} className="text-muted-foreground">
-                          <span className="text-foreground font-medium">{val as number}</span> {key}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <ScrollArea className="max-h-48 rounded-lg border border-border/30">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-secondary/30">
+                      <TableHead className="font-bold text-foreground">Season</TableHead>
+                      <TableHead className="text-right">GP</TableHead>
+                      {player.position === 'QB' && (
+                        <>
+                          <TableHead className="text-right">Pass Yds</TableHead>
+                          <TableHead className="text-right">Pass TD</TableHead>
+                          <TableHead className="text-right">INT</TableHead>
+                          <TableHead className="text-right">Rush Yds</TableHead>
+                        </>
+                      )}
+                      {player.position === 'RB' && (
+                        <>
+                          <TableHead className="text-right">Rush Yds</TableHead>
+                          <TableHead className="text-right">Rush TD</TableHead>
+                          <TableHead className="text-right">Rec Yds</TableHead>
+                          <TableHead className="text-right">Rec TD</TableHead>
+                        </>
+                      )}
+                      {(player.position === 'WR' || player.position === 'TE') && (
+                        <>
+                          <TableHead className="text-right">Rec</TableHead>
+                          <TableHead className="text-right">Rec Yds</TableHead>
+                          <TableHead className="text-right">Rec TD</TableHead>
+                        </>
+                      )}
+                      {['LB', 'DB', 'DL'].includes(player.position) && (
+                        <>
+                          <TableHead className="text-right">Tackles</TableHead>
+                          <TableHead className="text-right">Sacks</TableHead>
+                          <TableHead className="text-right">INT</TableHead>
+                          <TableHead className="text-right">FF</TableHead>
+                        </>
+                      )}
+                      <TableHead className="text-right">🏆</TableHead>
+                      <TableHead className="text-right">MVP</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {seasonHistory.map((sh) => (
+                      <TableRow key={sh.season} className="hover:bg-secondary/20">
+                        <TableCell className="font-display font-bold text-accent">{sh.season}</TableCell>
+                        <TableCell className="text-right font-mono">{sh.games}</TableCell>
+                        {player.position === 'QB' && (
+                          <>
+                            <TableCell className="text-right font-mono">{(sh.passYds || 0).toLocaleString()}</TableCell>
+                            <TableCell className="text-right font-mono">{sh.passTD || 0}</TableCell>
+                            <TableCell className="text-right font-mono">{sh.interceptions || 0}</TableCell>
+                            <TableCell className="text-right font-mono">{(sh.rushYds || 0).toLocaleString()}</TableCell>
+                          </>
+                        )}
+                        {player.position === 'RB' && (
+                          <>
+                            <TableCell className="text-right font-mono">{(sh.rushYds || 0).toLocaleString()}</TableCell>
+                            <TableCell className="text-right font-mono">{sh.rushTD || 0}</TableCell>
+                            <TableCell className="text-right font-mono">{(sh.recYds || 0).toLocaleString()}</TableCell>
+                            <TableCell className="text-right font-mono">{sh.recTD || 0}</TableCell>
+                          </>
+                        )}
+                        {(player.position === 'WR' || player.position === 'TE') && (
+                          <>
+                            <TableCell className="text-right font-mono">{sh.receptions || 0}</TableCell>
+                            <TableCell className="text-right font-mono">{(sh.recYds || 0).toLocaleString()}</TableCell>
+                            <TableCell className="text-right font-mono">{sh.recTD || 0}</TableCell>
+                          </>
+                        )}
+                        {['LB', 'DB', 'DL'].includes(player.position) && (
+                          <>
+                            <TableCell className="text-right font-mono">{sh.tackles || 0}</TableCell>
+                            <TableCell className="text-right font-mono">{sh.sacks || 0}</TableCell>
+                            <TableCell className="text-right font-mono">{sh.interceptions || 0}</TableCell>
+                            <TableCell className="text-right font-mono">{sh.forcedFumbles || 0}</TableCell>
+                          </>
+                        )}
+                        <TableCell className="text-right font-mono text-chart-4">{sh.rings || 0}</TableCell>
+                        <TableCell className="text-right font-mono text-primary">{sh.mvp || 0}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </ScrollArea>
+              <p className="text-xs text-muted-foreground mt-2 italic">
+                Stats shown are per-season increments. Upload more seasons to build history.
+              </p>
             </div>
           )}
         </div>
