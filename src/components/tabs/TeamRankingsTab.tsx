@@ -120,14 +120,34 @@ const TeamRankingsTab = () => {
   }
 
   return (
-    <div className="container mx-auto px-6 py-8 space-y-8">
-      {/* Header */}
-      <div className="glass-card-glow p-8 text-center">
-        <Building2 className="w-14 h-14 text-primary mx-auto mb-4" />
-        <h2 className="font-display text-5xl font-bold tracking-wider text-primary mb-2">
-          TEAM POWER RANKINGS
-        </h2>
-        <p className="text-muted-foreground">Combined Career Legacy Across All Players</p>
+    <div className="container mx-auto px-6 py-6 space-y-8">
+      {/* Hero Header */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-500/20 via-violet-500/10 to-purple-500/20 p-8 border border-indigo-500/30">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImhleGFnb25zIiB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwb2x5Z29uIHBvaW50cz0iMzAsMCw2MCwxNSw2MCw0NSwzMCw2MCwwLDQ1LDAsMTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIwLjUiIG9wYWNpdHk9IjAuMDUiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjaGV4YWdvbnMpIi8+PC9zdmc+')] opacity-60" />
+        
+        <div className="relative text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-500/20 border-2 border-indigo-400/50 mb-4 shadow-lg shadow-indigo-500/20">
+            <Building2 className="w-8 h-8 text-indigo-400" />
+          </div>
+          
+          <h1 className="font-display text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent mb-2">
+            TEAM POWER RANKINGS
+          </h1>
+          <p className="text-muted-foreground">Combined Career Legacy Across All Players</p>
+          
+          <div className="flex justify-center gap-4 flex-wrap mt-4">
+            <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/15 border border-indigo-500/40 text-sm">
+              <Users className="w-4 h-4 text-indigo-400" />
+              <span className="text-indigo-400 font-bold">{teamRankings.length}</span>
+              <span className="text-muted-foreground">Teams</span>
+            </span>
+            <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-sm">
+              <Trophy className="w-4 h-4 text-amber-400" />
+              <span className="text-amber-400 font-bold">{teamRankings.reduce((sum, t) => sum + t.rings, 0)}</span>
+              <span className="text-muted-foreground">Total Rings</span>
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* Season Change Highlights */}

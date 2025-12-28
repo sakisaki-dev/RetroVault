@@ -194,17 +194,41 @@ const SeasonTab = () => {
   const hasSeasonData = performances.length > 0;
 
   return (
-    <div className="container mx-auto px-6 py-8 space-y-8">
-      {/* Header */}
-      <div className="glass-card-glow p-8 text-center">
-        <Calendar className="w-12 h-12 text-accent mx-auto mb-4" />
-        <p className="text-muted-foreground text-sm uppercase tracking-wider mb-2">Season:</p>
-        <h2 className="font-display text-6xl font-bold text-accent mb-4">{currentSeason}</h2>
-        {hasSeasonData && (
-          <p className="text-muted-foreground">
-            {topPerformers.legendary.length} legendary • {topPerformers.great.length} great • {performances.length} total
-          </p>
-        )}
+    <div className="container mx-auto px-6 py-6 space-y-8">
+      {/* Hero Header */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-cyan-500/20 p-8 border border-emerald-500/30">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIwLjUiIG9wYWNpdHk9IjAuMDUiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-60" />
+        
+        <div className="relative text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-400/50 mb-4 shadow-lg shadow-emerald-500/20">
+            <Calendar className="w-8 h-8 text-emerald-400" />
+          </div>
+          
+          <p className="text-sm text-emerald-400 uppercase tracking-widest font-medium mb-1">Current Season</p>
+          <h1 className="font-display text-5xl md:text-6xl font-bold bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent mb-3">
+            {currentSeason}
+          </h1>
+          
+          {hasSeasonData && (
+            <div className="flex justify-center gap-4 flex-wrap mt-4">
+              <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-sm">
+                <Crown className="w-4 h-4 text-amber-400" />
+                <span className="text-amber-400 font-bold">{topPerformers.legendary.length}</span>
+                <span className="text-muted-foreground">Legendary</span>
+              </span>
+              <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-sm">
+                <Star className="w-4 h-4 text-emerald-400" />
+                <span className="text-emerald-400 font-bold">{topPerformers.great.length}</span>
+                <span className="text-muted-foreground">Great</span>
+              </span>
+              <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/15 border border-blue-500/40 text-sm">
+                <Target className="w-4 h-4 text-blue-400" />
+                <span className="text-blue-400 font-bold">{performances.length}</span>
+                <span className="text-muted-foreground">Total</span>
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
       {!hasSeasonData && (

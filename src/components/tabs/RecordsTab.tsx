@@ -297,12 +297,32 @@ const RecordsTab = () => {
   );
 
   return (
-    <div className="container mx-auto px-6 py-8">
-      {/* Header */}
-      <div className="glass-card-glow p-8 mb-8 text-center">
-        <Trophy className="w-16 h-16 text-primary mx-auto mb-4" />
-        <h2 className="font-display text-5xl font-bold tracking-wider text-primary mb-2">LEAGUE RECORDS</h2>
-        <p className="text-muted-foreground">All-Time & Single Season Record Holders</p>
+    <div className="container mx-auto px-6 py-6">
+      {/* Hero Header */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-rose-500/20 via-orange-500/10 to-amber-500/20 p-8 mb-8 border border-rose-500/30">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9InN0YXJzIiB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjI1IiBjeT0iMjUiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMSIvPjxjaXJjbGUgY3g9IjUiIGN5PSI1IiByPSIwLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMDgiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjc3RhcnMpIi8+PC9zdmc+')] opacity-60" />
+        
+        <div className="relative text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-rose-500/20 border-2 border-rose-400/50 mb-4 shadow-lg shadow-rose-500/20">
+            <Trophy className="w-8 h-8 text-rose-400" />
+          </div>
+          
+          <h1 className="font-display text-4xl md:text-5xl font-bold bg-gradient-to-r from-rose-400 via-orange-400 to-amber-400 bg-clip-text text-transparent mb-2">
+            LEAGUE RECORDS
+          </h1>
+          <p className="text-muted-foreground">All-Time & Single Season Record Holders</p>
+          
+          <div className="flex justify-center gap-4 flex-wrap mt-4">
+            <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/15 border border-rose-500/40 text-sm">
+              <Crown className="w-4 h-4 text-rose-400" />
+              <span className="text-rose-400 font-bold">All-Time</span>
+            </span>
+            <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-sm">
+              <Calendar className="w-4 h-4 text-amber-400" />
+              <span className="text-amber-400 font-bold">{currentSeason}</span>
+            </span>
+          </div>
+        </div>
       </div>
 
       <Tabs defaultValue="alltime" className="space-y-6">

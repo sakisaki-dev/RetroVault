@@ -6,7 +6,7 @@ import PositionBadge from '../PositionBadge';
 import { getTeamColors } from '@/utils/teamColors';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 
-const HOF_THRESHOLD = 6000;
+const HOF_THRESHOLD = 7000;
 
 // Color scheme: Legendary=Gold, Elite=Purple, Great=Blue, Inductee=Green
 const getTier = (legacy: number) => {
@@ -72,7 +72,7 @@ const HallOfFameTab = () => {
         legendary: hof.filter(p => p.careerLegacy >= 10000).length,
         elite: hof.filter(p => p.careerLegacy >= 8500 && p.careerLegacy < 10000).length,
         great: hof.filter(p => p.careerLegacy >= 7500 && p.careerLegacy < 8500).length,
-        inductee: hof.filter(p => p.careerLegacy < 7500).length,
+        inductee: hof.filter(p => p.careerLegacy >= 7000 && p.careerLegacy < 7500).length,
       }
     };
   }, [careerData]);
