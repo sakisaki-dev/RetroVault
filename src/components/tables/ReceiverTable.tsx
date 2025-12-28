@@ -4,6 +4,7 @@ import PositionBadge from '../PositionBadge';
 import StatusBadge from '../StatusBadge';
 import MetricCell from '../MetricCell';
 import StatCell from '../StatCell';
+import AwardsCell from '../AwardsCell';
 import PlayerDetailCard from '../PlayerDetailCard';
 import TeamOverridesDialog from '../TeamOverridesDialog';
 import { calculateLeaders } from '@/utils/csvParser';
@@ -15,19 +16,30 @@ interface ReceiverTableProps {
   players: (WRPlayer | TEPlayer)[];
   position: 'WR' | 'TE';
   title: string;
+  searchQuery?: string;
+  activeOnly?: boolean;
 }
 
-const ReceiverTable = ({ players, position, title }: ReceiverTableProps) => {
+const ReceiverTable = ({ players, position, title, searchQuery = '', activeOnly = false }: ReceiverTableProps) => {
   const [selectedPlayer, setSelectedPlayer] = useState<WRPlayer | TEPlayer | null>(null);
   const [teamOverrides, setTeamOverrides] = useState(() => loadTeamOverrides());
   const [isTeamDialogOpen, setIsTeamDialogOpen] = useState(false);
 
+  const filteredPlayers = useMemo(() => {
+    return players.filter(p => {
+      const matchesSearch = searchQuery === '' || 
+        p.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesActive = !activeOnly || p.status === 'Active';
+      return matchesSearch && matchesActive;
+    });
+  }, [players, searchQuery, activeOnly]);
+
   const leaders = useMemo(() => {
-    return calculateLeaders(players, [
+    return calculateLeaders(filteredPlayers, [
       'games', 'receptions', 'recYds', 'recTD', 'longest',
       'rings', 'trueTalent', 'dominance', 'careerLegacy', 'tpg',
     ]);
-  }, [players]);
+  }, [filteredPlayers]);
 
   const isLeader = (name: string, stat: string) => {
     return leaders.get(stat)?.name === name;
@@ -37,6 +49,8 @@ const ReceiverTable = ({ players, position, title }: ReceiverTableProps) => {
 
   const getDisplayTeam = (team?: string, name?: string) => team || (name ? teamOverrides[name] : undefined);
 
+  if (filteredPlayers.length === 0) return null;
+
   return (
     <>
       <div className="glass-card overflow-hidden animate-slide-in">
@@ -44,9 +58,8 @@ const ReceiverTable = ({ players, position, title }: ReceiverTableProps) => {
           <PositionBadge position={position} />
           <div className="flex-1">
             <h3 className="font-display font-bold text-lg tracking-wide">{title}</h3>
-            <p className="text-xs text-muted-foreground">Tip: click a player row to open their card</p>
           </div>
-          <span className="text-muted-foreground text-sm">({players.length})</span>
+          <span className="text-muted-foreground text-sm">({filteredPlayers.length})</span>
           {playersMissingTeam > 0 && (
             <Button variant="outline" size="sm" onClick={() => setIsTeamDialogOpen(true)}>
               Set teams
@@ -64,17 +77,16 @@ const ReceiverTable = ({ players, position, title }: ReceiverTableProps) => {
                 <th>Rec</th>
                 <th>Rec Yds</th>
                 <th>Rec TD</th>
-                <th>Fum</th>
                 <th>Long</th>
-                <th>Rings</th>
-                <th className="text-primary">True Talent</th>
-                <th className="text-primary">Dominance</th>
+                <th>Awards</th>
+                <th className="text-primary">Talent</th>
+                <th className="text-primary">Dom</th>
                 <th className="text-primary">Legacy</th>
                 <th className="text-primary">TPG</th>
               </tr>
             </thead>
             <tbody>
-              {players.map((player) => {
+              {filteredPlayers.map((player) => {
                 const displayTeam = getDisplayTeam(player.team, player.name);
                 const teamColors = getTeamColors(displayTeam);
 
@@ -117,12 +129,19 @@ const ReceiverTable = ({ players, position, title }: ReceiverTableProps) => {
                     <td><StatCell value={player.receptions} isLeader={isLeader(player.name, 'receptions')} /></td>
                     <td><StatCell value={player.recYds} isLeader={isLeader(player.name, 'recYds')} /></td>
                     <td><StatCell value={player.recTD} isLeader={isLeader(player.name, 'recTD')} /></td>
-                    <td><StatCell value={player.fumbles} /></td>
                     <td><StatCell value={player.longest} isLeader={isLeader(player.name, 'longest')} /></td>
-                    <td><StatCell value={player.rings} isLeader={isLeader(player.name, 'rings')} /></td>
-                    <td><MetricCell value={player.trueTalent} metric="trueTalent" isLeader={isLeader(player.name, 'trueTalent')} /></td>
-                    <td><MetricCell value={player.dominance} metric="dominance" isLeader={isLeader(player.name, 'dominance')} /></td>
-                    <td><MetricCell value={player.careerLegacy} metric="careerLegacy" isLeader={isLeader(player.name, 'careerLegacy')} /></td>
+                    <td>
+                      <AwardsCell 
+                        rings={player.rings} 
+                        mvp={player.mvp} 
+                        opoy={player.opoy} 
+                        sbmvp={player.sbmvp} 
+                        roty={player.roty}
+                      />
+                    </td>
+                    <td><MetricCell value={player.trueTalent} metric="trueTalent" isLeader={isLeader(player.name, 'trueTalent')} format="number" /></td>
+                    <td><MetricCell value={player.dominance} metric="dominance" isLeader={isLeader(player.name, 'dominance')} format="number" /></td>
+                    <td><MetricCell value={player.careerLegacy} metric="careerLegacy" isLeader={isLeader(player.name, 'careerLegacy')} format="number" /></td>
                     <td><MetricCell value={player.tpg} metric="tpg" isLeader={isLeader(player.name, 'tpg')} /></td>
                   </tr>
                 );

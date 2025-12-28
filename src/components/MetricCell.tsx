@@ -1,4 +1,4 @@
-import { getMetricClass, formatNumber, formatDecimal } from '@/utils/metricColors';
+import { getMetricColor, getMetricBgColor, formatNumber, formatDecimal } from '@/utils/metricColors';
 
 interface MetricCellProps {
   value: number;
@@ -15,13 +15,20 @@ const MetricCell = ({
   format = 'decimal',
   decimalPlaces = 2 
 }: MetricCellProps) => {
-  const colorClass = getMetricClass(value, metric);
+  const color = getMetricColor(value, metric);
+  const bgColor = getMetricBgColor(value, metric);
   const formattedValue = format === 'number' ? formatNumber(value) : formatDecimal(value, decimalPlaces);
 
   return (
-    <span className={`font-mono font-medium ${colorClass} ${isLeader ? 'relative pl-5' : ''}`}>
+    <span 
+      className={`font-mono font-medium px-2 py-1 rounded ${isLeader ? 'relative pl-6' : ''}`}
+      style={{ 
+        color,
+        backgroundColor: bgColor,
+      }}
+    >
       {isLeader && (
-        <span className="absolute left-0 text-xs">👑</span>
+        <span className="absolute left-1 text-xs">👑</span>
       )}
       {formattedValue}
     </span>

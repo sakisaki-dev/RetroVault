@@ -4,6 +4,7 @@ import PositionBadge from '../PositionBadge';
 import StatusBadge from '../StatusBadge';
 import MetricCell from '../MetricCell';
 import StatCell from '../StatCell';
+import AwardsCell from '../AwardsCell';
 import PlayerDetailCard from '../PlayerDetailCard';
 import { calculateLeaders } from '@/utils/csvParser';
 import { getTeamColors } from '@/utils/teamColors';
@@ -14,21 +15,34 @@ interface DefenseTableProps {
   players: DefensivePlayer[];
   position: 'LB' | 'DB' | 'DL';
   title: string;
+  searchQuery?: string;
+  activeOnly?: boolean;
 }
 
-const DefenseTable = ({ players, position, title }: DefenseTableProps) => {
+const DefenseTable = ({ players, position, title, searchQuery = '', activeOnly = false }: DefenseTableProps) => {
   const [selectedPlayer, setSelectedPlayer] = useState<DefensivePlayer | null>(null);
 
+  const filteredPlayers = useMemo(() => {
+    return players.filter(p => {
+      const matchesSearch = searchQuery === '' || 
+        p.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesActive = !activeOnly || p.status === 'Active';
+      return matchesSearch && matchesActive;
+    });
+  }, [players, searchQuery, activeOnly]);
+
   const leaders = useMemo(() => {
-    return calculateLeaders(players, [
+    return calculateLeaders(filteredPlayers, [
       'games', 'tackles', 'interceptions', 'sacks', 'forcedFumbles',
       'rings', 'trueTalent', 'dominance', 'careerLegacy', 'tpg'
     ]);
-  }, [players]);
+  }, [filteredPlayers]);
 
   const isLeader = (name: string, stat: string) => {
     return leaders.get(stat)?.name === name;
   };
+
+  if (filteredPlayers.length === 0) return null;
 
   return (
     <>
@@ -36,7 +50,7 @@ const DefenseTable = ({ players, position, title }: DefenseTableProps) => {
         <div className="p-4 border-b border-border/30 flex items-center gap-3">
           <PositionBadge position={position} />
           <h3 className="font-display font-bold text-lg tracking-wide">{title}</h3>
-          <span className="text-muted-foreground text-sm">({players.length})</span>
+          <span className="text-muted-foreground text-sm">({filteredPlayers.length})</span>
         </div>
         <div className="overflow-x-auto">
           <table className="stats-table">
@@ -50,15 +64,15 @@ const DefenseTable = ({ players, position, title }: DefenseTableProps) => {
                 <th>INT</th>
                 <th>Sacks</th>
                 <th>FF</th>
-                <th>Rings</th>
-                <th className="text-primary">True Talent</th>
-                <th className="text-primary">Dominance</th>
+                <th>Awards</th>
+                <th className="text-primary">Talent</th>
+                <th className="text-primary">Dom</th>
                 <th className="text-primary">Legacy</th>
                 <th className="text-primary">TPG</th>
               </tr>
             </thead>
             <tbody>
-              {players.map((player) => {
+              {filteredPlayers.map((player) => {
                 const teamColors = getTeamColors(player.team);
                 return (
                   <tr 
@@ -96,10 +110,19 @@ const DefenseTable = ({ players, position, title }: DefenseTableProps) => {
                     <td><StatCell value={player.interceptions} isLeader={isLeader(player.name, 'interceptions')} /></td>
                     <td><StatCell value={player.sacks} isLeader={isLeader(player.name, 'sacks')} /></td>
                     <td><StatCell value={player.forcedFumbles} isLeader={isLeader(player.name, 'forcedFumbles')} /></td>
-                    <td><StatCell value={player.rings} isLeader={isLeader(player.name, 'rings')} /></td>
-                    <td><MetricCell value={player.trueTalent} metric="trueTalent" isLeader={isLeader(player.name, 'trueTalent')} /></td>
-                    <td><MetricCell value={player.dominance} metric="dominance" isLeader={isLeader(player.name, 'dominance')} /></td>
-                    <td><MetricCell value={player.careerLegacy} metric="careerLegacy" isLeader={isLeader(player.name, 'careerLegacy')} /></td>
+                    <td>
+                      <AwardsCell 
+                        rings={player.rings} 
+                        mvp={player.mvp} 
+                        opoy={player.opoy}
+                        sbmvp={player.sbmvp} 
+                        roty={player.roty}
+                        isDefense={true}
+                      />
+                    </td>
+                    <td><MetricCell value={player.trueTalent} metric="trueTalent" isLeader={isLeader(player.name, 'trueTalent')} format="number" /></td>
+                    <td><MetricCell value={player.dominance} metric="dominance" isLeader={isLeader(player.name, 'dominance')} format="number" /></td>
+                    <td><MetricCell value={player.careerLegacy} metric="careerLegacy" isLeader={isLeader(player.name, 'careerLegacy')} format="number" /></td>
                     <td><MetricCell value={player.tpg} metric="tpg" isLeader={isLeader(player.name, 'tpg')} /></td>
                   </tr>
                 );

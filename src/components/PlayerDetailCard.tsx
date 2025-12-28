@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
-import { X, Trophy, Star, Crown, TrendingUp, Calendar } from 'lucide-react';
+import { X, Trophy, Star, Crown, TrendingUp, Calendar, Medal, Award } from 'lucide-react';
 import type { Player, QBPlayer, RBPlayer, WRPlayer, TEPlayer, LBPlayer, DBPlayer, DLPlayer } from '@/types/player';
 import { getTeamColors } from '@/utils/teamColors';
+import { getMetricColor, getMetricBgColor, getMetricTier, getTierLabel } from '@/utils/metricColors';
 import PositionBadge from './PositionBadge';
 import StatusBadge from './StatusBadge';
 import {
@@ -24,12 +24,6 @@ const PlayerDetailCard = ({ player, seasonHistory = [], onClose }: PlayerDetailC
 
   const getStatRows = (p: Player) => {
     const pos = p.position;
-    const baseStats = [
-      { label: 'Games', value: p.games },
-      { label: 'Rings', value: p.rings },
-      { label: 'MVP', value: p.mvp },
-      { label: 'SB MVP', value: p.sbmvp },
-    ];
 
     let positionStats: { label: string; value: number | string }[] = [];
 
@@ -70,23 +64,28 @@ const PlayerDetailCard = ({ player, seasonHistory = [], onClose }: PlayerDetailC
       ];
     }
 
-    return { baseStats, positionStats };
+    return { positionStats };
   };
 
-  const { baseStats, positionStats } = getStatRows(player);
+  const { positionStats } = getStatRows(player);
 
-  const metricTier = (value: number, metric: string) => {
-    if (metric === 'careerLegacy') {
-      if (value >= 12000) return 'elite';
-      if (value >= 8000) return 'good';
-      if (value >= 5000) return 'average';
-      return 'below';
-    }
-    if (value >= 8000) return 'elite';
-    if (value >= 6000) return 'good';
-    if (value >= 4000) return 'average';
-    return 'below';
-  };
+  const isDefense = ['LB', 'DB', 'DL'].includes(player.position);
+
+  const awards = [
+    { label: 'Games', value: player.games, icon: null },
+    { label: 'Rings', value: player.rings, icon: Trophy },
+    { label: 'MVP', value: player.mvp, icon: Crown },
+    { label: isDefense ? 'DPOY' : 'OPOY', value: player.opoy, icon: Star },
+    { label: 'SB MVP', value: player.sbmvp, icon: Medal },
+    { label: 'ROTY', value: player.roty, icon: Award },
+  ];
+
+  const metrics = [
+    { label: 'Legacy', value: player.careerLegacy, metric: 'careerLegacy' },
+    { label: 'Talent', value: player.trueTalent, metric: 'trueTalent' },
+    { label: 'Dominance', value: player.dominance, metric: 'dominance' },
+    { label: 'TPG', value: player.tpg, metric: 'tpg' },
+  ];
 
   return (
     <Dialog open={!!player} onOpenChange={() => onClose()}>
@@ -128,20 +127,24 @@ const PlayerDetailCard = ({ player, seasonHistory = [], onClose }: PlayerDetailC
           </DialogHeader>
         </div>
 
-        {/* Metrics Bar */}
+        {/* Metrics Bar with tier labels */}
         <div className="grid grid-cols-4 gap-0 border-b border-border/30">
-          {[
-            { label: 'Legacy', value: player.careerLegacy, metric: 'careerLegacy' },
-            { label: 'Talent', value: player.trueTalent, metric: 'trueTalent' },
-            { label: 'Dominance', value: player.dominance, metric: 'dominance' },
-            { label: 'TPG', value: player.tpg, metric: 'tpg' },
-          ].map((m) => {
-            const tier = metricTier(m.value, m.metric);
+          {metrics.map((m) => {
+            const tier = getMetricTier(m.value, m.metric);
+            const color = getMetricColor(m.value, m.metric);
+            const bgColor = getMetricBgColor(m.value, m.metric);
+            const tierLabel = getTierLabel(tier);
             return (
               <div key={m.label} className="p-4 text-center border-r border-border/30 last:border-r-0">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{m.label}</p>
-                <p className={`font-mono text-xl font-bold metric-${tier}`}>
+                <p 
+                  className="font-mono text-xl font-bold px-2 py-1 rounded"
+                  style={{ color, backgroundColor: bgColor }}
+                >
                   {m.value.toLocaleString()}
+                </p>
+                <p className="text-[10px] mt-1 uppercase tracking-wider" style={{ color }}>
+                  {tierLabel}
                 </p>
               </div>
             );
@@ -156,13 +159,19 @@ const PlayerDetailCard = ({ player, seasonHistory = [], onClose }: PlayerDetailC
               <Trophy className="w-4 h-4 text-chart-4" />
               Career Accolades
             </h4>
-            <div className="grid grid-cols-4 gap-3">
-              {baseStats.map((stat) => (
-                <div key={stat.label} className="p-3 rounded-lg bg-secondary/30 text-center">
-                  <p className="text-xs text-muted-foreground">{stat.label}</p>
-                  <p className="font-mono text-lg font-bold text-foreground">{stat.value}</p>
-                </div>
-              ))}
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+              {awards.map((award) => {
+                const Icon = award.icon;
+                return (
+                  <div key={award.label} className="p-3 rounded-lg bg-secondary/30 text-center">
+                    <p className="text-xs text-muted-foreground flex items-center justify-center gap-1">
+                      {Icon && <Icon className="w-3 h-3" />}
+                      {award.label}
+                    </p>
+                    <p className="font-mono text-lg font-bold text-foreground">{award.value}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
 

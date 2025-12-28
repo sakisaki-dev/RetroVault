@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLeague } from '@/context/LeagueContext';
 import FileUpload from '../FileUpload';
 import QBTable from '../tables/QBTable';
@@ -6,10 +7,15 @@ import ReceiverTable from '../tables/ReceiverTable';
 import OLTable from '../tables/OLTable';
 import DefenseTable from '../tables/DefenseTable';
 import LeagueOverview from './LeagueOverview';
-import { Trophy, Users, Award } from 'lucide-react';
+import { Trophy, Users, Award, Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 const CareerTab = () => {
   const { careerData, loadCareerData, isLoading } = useLeague();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeOnly, setActiveOnly] = useState(false);
 
   const handleFileLoad = (content: string, filename: string) => {
     loadCareerData(content);
@@ -47,6 +53,32 @@ const CareerTab = () => {
         <>
           <LeagueOverview data={careerData} />
           
+          {/* Filter Controls */}
+          <div className="glass-card p-4">
+            <div className="flex flex-wrap items-center gap-4">
+              <div className="relative flex-1 min-w-[200px] max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search players..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 bg-secondary/50 border-border/30"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <Switch
+                  id="active-only"
+                  checked={activeOnly}
+                  onCheckedChange={setActiveOnly}
+                />
+                <Label htmlFor="active-only" className="text-sm text-muted-foreground cursor-pointer">
+                  Active players only
+                </Label>
+              </div>
+            </div>
+          </div>
+          
           <div className="space-y-6">
             {/* Offense */}
             <div className="space-y-4">
@@ -56,18 +88,20 @@ const CareerTab = () => {
               </h2>
               
               {careerData.quarterbacks.length > 0 && (
-                <QBTable players={careerData.quarterbacks} />
+                <QBTable players={careerData.quarterbacks} searchQuery={searchQuery} activeOnly={activeOnly} />
               )}
               
               {careerData.runningbacks.length > 0 && (
-                <RBTable players={careerData.runningbacks} />
+                <RBTable players={careerData.runningbacks} searchQuery={searchQuery} activeOnly={activeOnly} />
               )}
               
               {careerData.widereceivers.length > 0 && (
                 <ReceiverTable 
                   players={careerData.widereceivers} 
                   position="WR" 
-                  title="Wide Receivers" 
+                  title="Wide Receivers"
+                  searchQuery={searchQuery}
+                  activeOnly={activeOnly}
                 />
               )}
               
@@ -75,12 +109,14 @@ const CareerTab = () => {
                 <ReceiverTable 
                   players={careerData.tightends} 
                   position="TE" 
-                  title="Tight Ends" 
+                  title="Tight Ends"
+                  searchQuery={searchQuery}
+                  activeOnly={activeOnly}
                 />
               )}
               
               {careerData.offensiveline.length > 0 && (
-                <OLTable players={careerData.offensiveline} />
+                <OLTable players={careerData.offensiveline} searchQuery={searchQuery} activeOnly={activeOnly} />
               )}
             </div>
 
@@ -95,7 +131,9 @@ const CareerTab = () => {
                 <DefenseTable 
                   players={careerData.linebackers} 
                   position="LB" 
-                  title="Linebackers" 
+                  title="Linebackers"
+                  searchQuery={searchQuery}
+                  activeOnly={activeOnly}
                 />
               )}
               
@@ -103,7 +141,9 @@ const CareerTab = () => {
                 <DefenseTable 
                   players={careerData.defensivebacks} 
                   position="DB" 
-                  title="Defensive Backs" 
+                  title="Defensive Backs"
+                  searchQuery={searchQuery}
+                  activeOnly={activeOnly}
                 />
               )}
               
@@ -111,7 +151,9 @@ const CareerTab = () => {
                 <DefenseTable 
                   players={careerData.defensiveline} 
                   position="DL" 
-                  title="Defensive Line" 
+                  title="Defensive Line"
+                  searchQuery={searchQuery}
+                  activeOnly={activeOnly}
                 />
               )}
             </div>

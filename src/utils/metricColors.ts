@@ -1,31 +1,35 @@
 // Dynamic color coding for metrics based on value ranges
 // Returns tailwind class for the metric tier
+// 6-tier system: below average, average, very good, elite, goat, legendary
 
-export type MetricTier = 'elite' | 'good' | 'average' | 'below' | 'poor';
+export type MetricTier = 'belowAvg' | 'average' | 'veryGood' | 'elite' | 'goat' | 'legendary';
 
 export interface MetricThresholds {
+  legendary: number;
+  goat: number;
   elite: number;
-  good: number;
+  veryGood: number;
   average: number;
-  below: number;
+  // anything below average threshold is belowAvg
 }
 
-// Default thresholds for custom metrics
-const defaultThresholds: Record<string, MetricThresholds> = {
-  trueTalent: { elite: 900, good: 700, average: 500, below: 300 },
-  dominance: { elite: 900, good: 700, average: 500, below: 300 },
-  careerLegacy: { elite: 7000, good: 5000, average: 3500, below: 2000 },
-  tpg: { elite: 4, good: 3, average: 2, below: 1 },
+// Thresholds based on user specification
+const metricThresholds: Record<string, MetricThresholds> = {
+  trueTalent: { legendary: 1000, goat: 900, elite: 750, veryGood: 650, average: 500 },
+  dominance: { legendary: 1200, goat: 1000, elite: 850, veryGood: 750, average: 600 },
+  careerLegacy: { legendary: 10000, goat: 8500, elite: 8000, veryGood: 6250, average: 5000 },
+  tpg: { legendary: 5, goat: 4.5, elite: 4, veryGood: 3, average: 2 },
 };
 
 export const getMetricTier = (value: number, metric: string): MetricTier => {
-  const thresholds = defaultThresholds[metric] || defaultThresholds.trueTalent;
+  const thresholds = metricThresholds[metric] || metricThresholds.trueTalent;
   
+  if (value >= thresholds.legendary) return 'legendary';
+  if (value >= thresholds.goat) return 'goat';
   if (value >= thresholds.elite) return 'elite';
-  if (value >= thresholds.good) return 'good';
+  if (value >= thresholds.veryGood) return 'veryGood';
   if (value >= thresholds.average) return 'average';
-  if (value >= thresholds.below) return 'below';
-  return 'poor';
+  return 'belowAvg';
 };
 
 export const getMetricClass = (value: number, metric: string): string => {
@@ -33,17 +37,49 @@ export const getMetricClass = (value: number, metric: string): string => {
   return `metric-${tier}`;
 };
 
+// Background color classes for metric boxes
+export const getMetricBgClass = (value: number, metric: string): string => {
+  const tier = getMetricTier(value, metric);
+  return `metric-bg-${tier}`;
+};
+
 // For inline styles when needed
 export const getMetricColor = (value: number, metric: string): string => {
   const tier = getMetricTier(value, metric);
   const colors: Record<MetricTier, string> = {
-    elite: 'hsl(150, 80%, 45%)',
-    good: 'hsl(190, 100%, 50%)',
-    average: 'hsl(45, 100%, 55%)',
-    below: 'hsl(25, 90%, 55%)',
-    poor: 'hsl(0, 70%, 55%)',
+    legendary: 'hsl(280, 100%, 65%)',  // Purple/violet for legendary
+    goat: 'hsl(45, 100%, 50%)',        // Gold for GOAT
+    elite: 'hsl(150, 80%, 45%)',       // Green for elite
+    veryGood: 'hsl(190, 100%, 50%)',   // Cyan for very good
+    average: 'hsl(45, 70%, 55%)',      // Yellow for average
+    belowAvg: 'hsl(0, 60%, 55%)',      // Red for below average
   };
   return colors[tier];
+};
+
+export const getMetricBgColor = (value: number, metric: string): string => {
+  const tier = getMetricTier(value, metric);
+  const colors: Record<MetricTier, string> = {
+    legendary: 'hsl(280, 100%, 65%, 0.2)',
+    goat: 'hsl(45, 100%, 50%, 0.2)',
+    elite: 'hsl(150, 80%, 45%, 0.2)',
+    veryGood: 'hsl(190, 100%, 50%, 0.2)',
+    average: 'hsl(45, 70%, 55%, 0.2)',
+    belowAvg: 'hsl(0, 60%, 55%, 0.2)',
+  };
+  return colors[tier];
+};
+
+export const getTierLabel = (tier: MetricTier): string => {
+  const labels: Record<MetricTier, string> = {
+    legendary: 'Legendary',
+    goat: 'GOAT',
+    elite: 'Elite',
+    veryGood: 'Very Good',
+    average: 'Average',
+    belowAvg: 'Below Avg',
+  };
+  return labels[tier];
 };
 
 // Format large numbers with commas
