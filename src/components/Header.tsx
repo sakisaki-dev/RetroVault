@@ -1,11 +1,29 @@
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Trophy, Calendar } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 
 interface HeaderProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
 }
+
+// Retro pixel-style football icon
+const RetroFootballIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6">
+    {/* Football body - pixel style */}
+    <path 
+      d="M12 4C7 4 3 8 3 12C3 16 7 20 12 20C17 20 21 16 21 12C21 8 17 4 12 4Z" 
+      fill="currentColor" 
+      className="text-primary"
+    />
+    {/* Laces - center stripe */}
+    <rect x="11" y="6" width="2" height="12" fill="white" opacity="0.9" />
+    {/* Laces - horizontal */}
+    <rect x="9" y="8" width="6" height="1.5" fill="white" opacity="0.9" />
+    <rect x="9" y="11" width="6" height="1.5" fill="white" opacity="0.9" />
+    <rect x="9" y="14" width="6" height="1.5" fill="white" opacity="0.9" />
+  </svg>
+);
 
 const Header = ({ activeTab, onTabChange }: HeaderProps) => {
   const { currentSeason } = useLeague();
@@ -14,11 +32,11 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/20">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
-          {/* Logo - with subtle glow */}
+          {/* Logo - retro football style */}
           <div className="flex items-center gap-4">
             <div className="relative">
               <div className="flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20">
-                <Trophy className="w-6 h-6 text-primary" />
+                <RetroFootballIcon />
               </div>
               <div className="absolute inset-0 rounded-2xl bg-primary/20 blur-xl opacity-50" />
             </div>

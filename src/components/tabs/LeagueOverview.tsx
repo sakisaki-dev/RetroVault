@@ -27,29 +27,28 @@ const LeagueOverview = ({ data }: LeagueOverviewProps) => {
     // Greatest Legacy player
     const topLegacy = [...allPlayers].sort((a, b) => b.careerLegacy - a.careerLegacy)[0];
     
-    // Rising Star - highest TPG (True Talent Per Game equivalent - trueTalent / games)
-    const risingStars = activePlayers
-      .filter(p => p.games > 0)
-      .map(p => ({ ...p, calculatedTpg: p.trueTalent / Math.max(p.games, 1) }))
-      .sort((a, b) => b.calculatedTpg - a.calculatedTpg);
+    // Rising Star - highest TPG (use existing tpg field)
+    const risingStars = [...activePlayers]
+      .filter(p => p.tpg > 0)
+      .sort((a, b) => b.tpg - a.tpg);
     const risingStar = risingStars[0];
     
-    // Most Successful Team - team with most total rings
-    const teamRings: Record<string, { rings: number; mvps: number; players: number }> = {};
+    // Most Successful Team - team with highest total career legacy
+    const teamStats: Record<string, { legacy: number; rings: number; players: number }> = {};
     allPlayers.forEach(p => {
       if (p.team) {
-        if (!teamRings[p.team]) {
-          teamRings[p.team] = { rings: 0, mvps: 0, players: 0 };
+        if (!teamStats[p.team]) {
+          teamStats[p.team] = { legacy: 0, rings: 0, players: 0 };
         }
-        teamRings[p.team].rings += p.rings;
-        teamRings[p.team].mvps += p.mvp;
-        teamRings[p.team].players += 1;
+        teamStats[p.team].legacy += p.careerLegacy;
+        teamStats[p.team].rings += p.rings;
+        teamStats[p.team].players += 1;
       }
     });
     
-    const topTeam = Object.entries(teamRings)
+    const topTeam = Object.entries(teamStats)
       .map(([name, stats]) => ({ name, ...stats }))
-      .sort((a, b) => b.rings - a.rings)[0];
+      .sort((a, b) => b.legacy - a.legacy)[0];
 
     return {
       total: allPlayers.length,
@@ -154,16 +153,16 @@ const LeagueOverview = ({ data }: LeagueOverviewProps) => {
           <div className="flex items-center gap-3 mt-2 text-sm text-muted-foreground">
             <span>{stats.topTeam?.players} players</span>
             <span>•</span>
-            <span>{stats.topTeam?.mvps} MVPs</span>
+            <span>{stats.topTeam?.rings} rings</span>
           </div>
           <div className="mt-3 pt-3 border-t border-border/20">
             <span 
               className="font-mono text-3xl font-bold"
               style={{ color: topTeamColors ? `hsl(${topTeamColors.primary})` : 'hsl(var(--accent))' }}
             >
-              {stats.topTeam?.rings || 0}
+              {stats.topTeam?.legacy.toLocaleString() || 0}
             </span>
-            <span className="text-sm text-muted-foreground ml-2">Championships</span>
+            <span className="text-sm text-muted-foreground ml-2">Total Legacy</span>
           </div>
         </div>
       </div>
@@ -240,7 +239,7 @@ const LeagueOverview = ({ data }: LeagueOverviewProps) => {
               className="font-mono text-3xl font-bold"
               style={{ color: risingStarColors ? `hsl(${risingStarColors.primary})` : 'hsl(var(--chart-4))' }}
             >
-              {stats.risingStar?.calculatedTpg?.toFixed(1) || '-'}
+              {stats.risingStar?.tpg?.toFixed(2) || '-'}
             </span>
             <span className="text-sm text-muted-foreground ml-2">Talent/Game</span>
           </div>
