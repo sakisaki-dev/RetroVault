@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 import { useLeague } from '@/context/LeagueContext';
-import { Trophy, Crown } from 'lucide-react';
+import { Trophy, Crown, Calendar, Zap } from 'lucide-react';
 import type { Player, QBPlayer, RBPlayer, WRPlayer, TEPlayer, LBPlayer, DBPlayer, DLPlayer } from '@/types/player';
 import PositionBadge from '../PositionBadge';
 import { getTeamColors } from '@/utils/teamColors';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 interface RecordEntry {
   stat: string;
@@ -11,6 +12,7 @@ interface RecordEntry {
   playerName: string;
   team?: string;
   position: string;
+  season?: string;
 }
 
 const RecordRow = ({ record, rank }: { record: RecordEntry; rank: number }) => {
@@ -38,6 +40,11 @@ const RecordRow = ({ record, rank }: { record: RecordEntry; rank: number }) => {
               {record.team}
             </span>
           )}
+          {record.season && (
+            <span className="text-xs px-2 py-0.5 rounded bg-accent/20 text-accent font-medium">
+              {record.season}
+            </span>
+          )}
         </div>
         <p className="text-xs text-muted-foreground mt-0.5">{record.stat}</p>
       </div>
@@ -51,12 +58,11 @@ const RecordRow = ({ record, rank }: { record: RecordEntry; rank: number }) => {
 };
 
 const RecordsTab = () => {
-  const { careerData } = useLeague();
+  const { careerData, seasonData, currentSeason } = useLeague();
 
-  const records = useMemo(() => {
+  const allTimeRecords = useMemo(() => {
     if (!careerData) return null;
 
-    // Helper to find max
     const findMax = <T extends Player>(
       players: T[],
       getValue: (p: T) => number,
@@ -64,9 +70,11 @@ const RecordsTab = () => {
     ): RecordEntry | null => {
       if (players.length === 0) return null;
       const max = players.reduce((a, b) => (getValue(a) > getValue(b) ? a : b));
+      const val = getValue(max);
+      if (val <= 0) return null;
       return {
         stat,
-        value: getValue(max),
+        value: val,
         playerName: max.name,
         team: max.team,
         position: max.position,
@@ -126,7 +134,7 @@ const RecordsTab = () => {
       ].forEach((r) => r && teRecords.push(r));
     }
 
-    // Defensive Records (combined)
+    // Defensive Records
     const allDef = [
       ...careerData.linebackers,
       ...careerData.defensivebacks,
@@ -173,7 +181,94 @@ const RecordsTab = () => {
     return { qbRecords, rbRecords, wrRecords, teRecords, defRecords, accoladeRecords };
   }, [careerData]);
 
-  if (!careerData || !records) {
+  const seasonRecords = useMemo(() => {
+    if (!seasonData) return null;
+
+    const findMax = <T extends Player>(
+      players: T[],
+      getValue: (p: T) => number,
+      stat: string,
+    ): RecordEntry | null => {
+      if (players.length === 0) return null;
+      const max = players.reduce((a, b) => (getValue(a) > getValue(b) ? a : b));
+      const val = getValue(max);
+      if (val <= 0) return null;
+      return {
+        stat,
+        value: val,
+        playerName: max.name,
+        team: max.team,
+        position: max.position,
+        season: currentSeason,
+      };
+    };
+
+    const qbRecords: RecordEntry[] = [];
+    if (seasonData.quarterbacks.length > 0) {
+      const qbs = seasonData.quarterbacks as QBPlayer[];
+      [
+        findMax(qbs, (p) => p.passYds, 'Season Passing Yards'),
+        findMax(qbs, (p) => p.passTD, 'Season Passing TDs'),
+        findMax(qbs, (p) => p.rushYds, 'Season QB Rush Yards'),
+      ].forEach((r) => r && qbRecords.push(r));
+    }
+
+    const rbRecords: RecordEntry[] = [];
+    if (seasonData.runningbacks.length > 0) {
+      const rbs = seasonData.runningbacks as RBPlayer[];
+      [
+        findMax(rbs, (p) => p.rushYds, 'Season Rushing Yards'),
+        findMax(rbs, (p) => p.rushTD, 'Season Rushing TDs'),
+        findMax(rbs, (p) => p.recYds, 'Season RB Receiving Yards'),
+      ].forEach((r) => r && rbRecords.push(r));
+    }
+
+    const wrRecords: RecordEntry[] = [];
+    if (seasonData.widereceivers.length > 0) {
+      const wrs = seasonData.widereceivers as WRPlayer[];
+      [
+        findMax(wrs, (p) => p.recYds, 'Season Receiving Yards'),
+        findMax(wrs, (p) => p.receptions, 'Season Receptions'),
+        findMax(wrs, (p) => p.recTD, 'Season Receiving TDs'),
+      ].forEach((r) => r && wrRecords.push(r));
+    }
+
+    const teRecords: RecordEntry[] = [];
+    if (seasonData.tightends.length > 0) {
+      const tes = seasonData.tightends as TEPlayer[];
+      [
+        findMax(tes, (p) => p.recYds, 'Season TE Receiving Yards'),
+        findMax(tes, (p) => p.recTD, 'Season TE Receiving TDs'),
+      ].forEach((r) => r && teRecords.push(r));
+    }
+
+    const allDef = [
+      ...seasonData.linebackers,
+      ...seasonData.defensivebacks,
+      ...seasonData.defensiveline,
+    ] as (LBPlayer | DBPlayer | DLPlayer)[];
+
+    const defRecords: RecordEntry[] = [];
+    if (allDef.length > 0) {
+      [
+        findMax(allDef, (p) => p.tackles, 'Season Tackles'),
+        findMax(allDef, (p) => p.interceptions, 'Season Interceptions'),
+        findMax(allDef, (p) => p.sacks, 'Season Sacks'),
+      ].forEach((r) => r && defRecords.push(r));
+    }
+
+    const allSeasonRecords = [
+      ...qbRecords,
+      ...rbRecords,
+      ...wrRecords,
+      ...teRecords,
+      ...defRecords,
+    ].filter(Boolean);
+
+    return allSeasonRecords;
+  }, [seasonData, currentSeason]);
+
+  if (!careerData || !allTimeRecords) {
     return (
       <div className="container mx-auto px-6 py-12">
         <div className="max-w-2xl mx-auto text-center">
@@ -195,7 +290,7 @@ const RecordsTab = () => {
       </div>
       <div className="space-y-2">
         {records.map((r, i) => (
-          <RecordRow key={r.stat} record={r} rank={i + 1} />
+          <RecordRow key={`${r.stat}-${r.playerName}`} record={r} rank={i + 1} />
         ))}
       </div>
     </div>
@@ -206,30 +301,69 @@ const RecordsTab = () => {
       {/* Header */}
       <div className="glass-card-glow p-8 mb-8 text-center">
         <Trophy className="w-16 h-16 text-primary mx-auto mb-4" />
-        <h2 className="font-display text-5xl font-bold tracking-wider text-primary mb-2">ALL-TIME RECORDS</h2>
-        <p className="text-muted-foreground">League Leaders Across All Statistical Categories</p>
+        <h2 className="font-display text-5xl font-bold tracking-wider text-primary mb-2">LEAGUE RECORDS</h2>
+        <p className="text-muted-foreground">All-Time & Single Season Record Holders</p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
-        {records.qbRecords.length > 0 && (
-          <Section title="QUARTERBACK RECORDS" records={records.qbRecords} color="hsl(var(--primary))" />
-        )}
-        {records.rbRecords.length > 0 && (
-          <Section title="RUNNING BACK RECORDS" records={records.rbRecords} color="hsl(var(--accent))" />
-        )}
-        {records.wrRecords.length > 0 && (
-          <Section title="WIDE RECEIVER RECORDS" records={records.wrRecords} color="hsl(var(--chart-4))" />
-        )}
-        {records.teRecords.length > 0 && (
-          <Section title="TIGHT END RECORDS" records={records.teRecords} color="hsl(var(--chart-3))" />
-        )}
-        {records.defRecords.length > 0 && (
-          <Section title="DEFENSIVE RECORDS" records={records.defRecords} color="hsl(var(--destructive))" />
-        )}
-        {records.accoladeRecords.length > 0 && (
-          <Section title="ACCOLADES & METRICS" records={records.accoladeRecords} color="hsl(var(--metric-elite))" />
-        )}
-      </div>
+      <Tabs defaultValue="alltime" className="space-y-6">
+        <TabsList className="bg-secondary/50 border border-border/30 mx-auto flex w-fit">
+          <TabsTrigger value="alltime" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-medium gap-2">
+            <Trophy className="w-4 h-4" />
+            All-Time Records
+          </TabsTrigger>
+          <TabsTrigger value="season" className="data-[state=active]:bg-accent/20 data-[state=active]:text-accent font-medium gap-2">
+            <Calendar className="w-4 h-4" />
+            Season Records ({currentSeason})
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="alltime">
+          <div className="grid lg:grid-cols-2 gap-6">
+            {allTimeRecords.qbRecords.length > 0 && (
+              <Section title="QUARTERBACK RECORDS" records={allTimeRecords.qbRecords} color="hsl(var(--primary))" />
+            )}
+            {allTimeRecords.rbRecords.length > 0 && (
+              <Section title="RUNNING BACK RECORDS" records={allTimeRecords.rbRecords} color="hsl(var(--accent))" />
+            )}
+            {allTimeRecords.wrRecords.length > 0 && (
+              <Section title="WIDE RECEIVER RECORDS" records={allTimeRecords.wrRecords} color="hsl(var(--chart-4))" />
+            )}
+            {allTimeRecords.teRecords.length > 0 && (
+              <Section title="TIGHT END RECORDS" records={allTimeRecords.teRecords} color="hsl(var(--chart-3))" />
+            )}
+            {allTimeRecords.defRecords.length > 0 && (
+              <Section title="DEFENSIVE RECORDS" records={allTimeRecords.defRecords} color="hsl(var(--destructive))" />
+            )}
+            {allTimeRecords.accoladeRecords.length > 0 && (
+              <Section title="ACCOLADES & METRICS" records={allTimeRecords.accoladeRecords} color="hsl(var(--metric-elite))" />
+            )}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="season">
+          {seasonRecords && seasonRecords.length > 0 ? (
+            <div className="glass-card p-6">
+              <div className="flex items-center gap-2 border-b border-border/30 pb-3 mb-4">
+                <Zap className="w-5 h-5 text-accent" />
+                <h3 className="font-display text-xl font-bold text-accent">
+                  {currentSeason} SEASON LEADERS
+                </h3>
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                {seasonRecords.map((r, i) => (
+                  <RecordRow key={`${r.stat}-${r.playerName}`} record={r} rank={i + 1} />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="glass-card p-12 text-center">
+              <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+              <h3 className="font-display text-2xl font-bold text-muted-foreground mb-2">No Season Data</h3>
+              <p className="text-muted-foreground">Upload a new season CSV to see per-season records.</p>
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

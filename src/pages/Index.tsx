@@ -5,6 +5,7 @@ import SeasonTab from '@/components/tabs/SeasonTab';
 import CommentaryTab from '@/components/tabs/CommentaryTab';
 import HallOfFameTab from '@/components/tabs/HallOfFameTab';
 import RecordsTab from '@/components/tabs/RecordsTab';
+import TeamRankingsTab from '@/components/tabs/TeamRankingsTab';
 import { LeagueProvider, useLeague } from '@/context/LeagueContext';
 import { Helmet } from 'react-helmet-async';
 
@@ -41,6 +42,7 @@ const IndexContent = () => {
         <main className="flex-1">
           {activeTab === 'career' && <CareerTab />}
           {activeTab === 'season' && <SeasonTab />}
+          {activeTab === 'teams' && <TeamRankingsTab />}
           {activeTab === 'hof' && <HallOfFameTab />}
           {activeTab === 'records' && <RecordsTab />}
           {activeTab === 'commentary' && <CommentaryTab />}
