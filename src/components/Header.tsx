@@ -7,21 +7,23 @@ interface HeaderProps {
   onTabChange: (tab: string) => void;
 }
 
-// Retro pixel-style football icon
+// Retro pixel-style football icon - colorful
 const RetroFootballIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6">
-    {/* Football body - pixel style */}
-    <path 
-      d="M12 4C7 4 3 8 3 12C3 16 7 20 12 20C17 20 21 16 21 12C21 8 17 4 12 4Z" 
-      fill="currentColor" 
-      className="text-primary"
-    />
-    {/* Laces - center stripe */}
-    <rect x="11" y="6" width="2" height="12" fill="white" opacity="0.9" />
-    {/* Laces - horizontal */}
-    <rect x="9" y="8" width="6" height="1.5" fill="white" opacity="0.9" />
-    <rect x="9" y="11" width="6" height="1.5" fill="white" opacity="0.9" />
-    <rect x="9" y="14" width="6" height="1.5" fill="white" opacity="0.9" />
+  <svg viewBox="0 0 32 32" fill="none" className="w-10 h-10 drop-shadow-lg">
+    {/* Football body - brown with gradient feel */}
+    <ellipse cx="16" cy="16" rx="14" ry="10" fill="#8B4513" />
+    {/* Highlight on football */}
+    <ellipse cx="16" cy="13" rx="11" ry="6" fill="#A0522D" opacity="0.6" />
+    {/* Dark shadow */}
+    <ellipse cx="16" cy="19" rx="10" ry="5" fill="#5D2E0C" opacity="0.4" />
+    {/* Center lace stripe */}
+    <rect x="15" y="7" width="2" height="18" rx="1" fill="white" />
+    {/* Horizontal laces */}
+    <rect x="11" y="10" width="10" height="1.5" rx="0.5" fill="white" />
+    <rect x="11" y="14" width="10" height="1.5" rx="0.5" fill="white" />
+    <rect x="11" y="18" width="10" height="1.5" rx="0.5" fill="white" />
+    {/* Stitching detail */}
+    <ellipse cx="16" cy="16" rx="13" ry="9" stroke="#6B3410" strokeWidth="1" fill="none" opacity="0.5" />
   </svg>
 );
 
@@ -33,13 +35,8 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo - retro football style */}
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <div className="flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20">
-                <RetroFootballIcon />
-              </div>
-              <div className="absolute inset-0 rounded-2xl bg-primary/20 blur-xl opacity-50" />
-            </div>
+          <div className="flex items-center gap-3">
+            <RetroFootballIcon />
             <div>
               <span className="font-display text-2xl font-bold tracking-tight text-foreground">
                 Retro Vault
