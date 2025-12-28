@@ -73,37 +73,20 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
 
           {/* Navigation with fluid indicator */}
           <div className="relative bg-secondary/50 backdrop-blur-sm border border-border/20 p-1.5 rounded-full">
-            {/* Fluid animated indicator */}
+            {/* Fluid animated indicator - solid black */}
             <div
-              className={cn(
-                "absolute top-1.5 h-[calc(100%-12px)] bg-background rounded-full shadow-md transition-all ease-out",
-                isAnimating ? "duration-400" : "duration-300"
-              )}
+              className="absolute top-1.5 bottom-1.5 bg-foreground rounded-full"
               style={{
-                left: indicatorStyle.left,
-                width: indicatorStyle.width,
-                transform: isAnimating ? 'scaleX(1.1) scaleY(0.95)' : 'scaleX(1) scaleY(1)',
+                left: `${indicatorStyle.left}px`,
+                width: `${indicatorStyle.width}px`,
+                transition: isAnimating 
+                  ? 'left 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+                  : 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               }}
-            >
-              {/* Water droplet effect layers */}
-              <div 
-                className={cn(
-                  "absolute inset-0 rounded-full bg-gradient-to-b from-white/10 to-transparent transition-opacity duration-200",
-                  isAnimating ? "opacity-100" : "opacity-50"
-                )}
-              />
-              <div 
-                className={cn(
-                  "absolute -inset-0.5 rounded-full transition-all duration-300",
-                  isAnimating 
-                    ? "bg-primary/5 blur-sm scale-110" 
-                    : "bg-transparent blur-0 scale-100"
-                )}
-              />
-            </div>
+            />
 
             {/* Tab buttons */}
-            <div className="relative flex gap-1">
+            <div className="relative flex gap-0">
               {tabs.map((tab, index) => (
                 <button
                   key={tab.value}
@@ -112,8 +95,8 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
                   className={cn(
                     "relative z-10 rounded-full px-5 py-2 text-sm font-medium transition-colors duration-200",
                     activeTab === tab.value 
-                      ? "text-foreground" 
-                      : "text-muted-foreground hover:text-foreground/70"
+                      ? "text-background" 
+                      : "text-muted-foreground"
                   )}
                 >
                   {tab.label}
