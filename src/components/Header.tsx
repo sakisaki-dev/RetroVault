@@ -11,73 +11,67 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
   const { currentSeason } = useLeague();
 
   return (
-    <header className="glass-card border-b border-border/30 sticky top-0 z-50">
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between flex-wrap gap-4">
-          {/* Logo */}
+    <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/20">
+      <div className="container mx-auto px-6">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo - minimal and modern */}
           <div className="flex items-center gap-3">
-            <div className="relative">
-              <Trophy className="w-8 h-8 text-primary" />
-              <div className="absolute inset-0 blur-lg bg-primary/30" />
+            <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-primary/10">
+              <Trophy className="w-5 h-5 text-primary" />
             </div>
-            <div>
-              <h1 className="font-display text-3xl font-bold tracking-wider glow-text">
-                RETRO VAULT
-              </h1>
-              <p className="text-xs text-muted-foreground tracking-widest uppercase">
-                League Analytics
-              </p>
-            </div>
+            <span className="font-display text-xl font-semibold tracking-tight text-foreground">
+              Retro Vault
+            </span>
           </div>
 
-          {/* Season Badge */}
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/30">
-            <Calendar className="w-4 h-4 text-accent" />
-            <span className="text-sm text-muted-foreground">Season:</span>
-            <span className="font-display text-xl text-accent font-bold">{currentSeason}</span>
-          </div>
-
-          {/* Navigation Tabs */}
+          {/* Navigation - Apple style pill navigation */}
           <Tabs value={activeTab} onValueChange={onTabChange}>
-            <TabsList className="bg-secondary/50 border border-border/30 flex-wrap h-auto">
+            <TabsList className="bg-secondary/40 backdrop-blur-sm border-0 p-1 rounded-full h-auto gap-0.5">
               <TabsTrigger 
                 value="career" 
-                className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-medium"
+                className="rounded-full px-4 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-all"
               >
                 Career
               </TabsTrigger>
               <TabsTrigger 
                 value="season"
-                className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-medium"
+                className="rounded-full px-4 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-all"
               >
                 Season
               </TabsTrigger>
               <TabsTrigger 
                 value="teams"
-                className="data-[state=active]:bg-accent/20 data-[state=active]:text-accent font-medium"
+                className="rounded-full px-4 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-all"
               >
                 Teams
               </TabsTrigger>
               <TabsTrigger 
                 value="hof"
-                className="data-[state=active]:bg-chart-4/20 data-[state=active]:text-chart-4 font-medium"
+                className="rounded-full px-4 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-all"
               >
                 Hall of Fame
               </TabsTrigger>
               <TabsTrigger 
                 value="records"
-                className="data-[state=active]:bg-accent/20 data-[state=active]:text-accent font-medium"
+                className="rounded-full px-4 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-all"
               >
                 Records
               </TabsTrigger>
               <TabsTrigger 
                 value="commentary"
-                className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-medium"
+                className="rounded-full px-4 py-1.5 text-sm font-medium text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-all"
               >
                 Commentary
               </TabsTrigger>
             </TabsList>
           </Tabs>
+
+          {/* Season indicator - subtle and modern */}
+          <div className="flex items-center gap-2 text-sm">
+            <Calendar className="w-4 h-4 text-muted-foreground" />
+            <span className="text-muted-foreground">Season</span>
+            <span className="font-semibold text-foreground">{currentSeason}</span>
+          </div>
         </div>
       </div>
     </header>

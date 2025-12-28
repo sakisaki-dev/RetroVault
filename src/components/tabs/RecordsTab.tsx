@@ -91,10 +91,10 @@ const RecordRow = ({ record, rank }: { record: RecordEntry; rank: number }) => {
   
   return (
     <div 
-      className="flex items-center gap-4 p-4 rounded-lg bg-secondary/20 hover:bg-secondary/40 transition-colors"
-      style={teamColors ? { borderLeft: `3px solid hsl(${teamColors.primary})` } : undefined}
+      className="flex items-center gap-4 p-4 rounded-xl bg-background/40 hover:bg-background/60 transition-all border border-border/10"
+      style={teamColors ? { borderLeftWidth: '3px', borderLeftColor: `hsl(${teamColors.primary})` } : undefined}
     >
-      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/20 text-primary font-display font-bold text-lg">
+      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-display font-bold text-lg">
         {rank}
       </div>
       <div className="flex-1 min-w-0">
@@ -104,7 +104,7 @@ const RecordRow = ({ record, rank }: { record: RecordEntry; rank: number }) => {
             <span 
               className="text-xs px-2 py-0.5 rounded font-medium"
               style={teamColors ? {
-                backgroundColor: `hsl(${teamColors.primary} / 0.2)`,
+                backgroundColor: `hsl(${teamColors.primary} / 0.15)`,
                 color: `hsl(${teamColors.primary})`,
               } : { color: 'hsl(var(--muted-foreground))' }}
             >
@@ -112,7 +112,7 @@ const RecordRow = ({ record, rank }: { record: RecordEntry; rank: number }) => {
             </span>
           )}
           {record.season && (
-            <span className="text-xs px-2 py-0.5 rounded bg-accent/20 text-accent font-medium">
+            <span className="text-xs px-2 py-0.5 rounded bg-accent/15 text-accent font-medium">
               {record.season}
             </span>
           )}
