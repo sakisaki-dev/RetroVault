@@ -41,9 +41,8 @@ const getTierInfo = (tier: SeasonTier) => {
 const SeasonTab = () => {
   const { careerData, seasonData, currentSeason, loadSeasonData } = useLeague();
 
-  const handleFileLoad = (content: string, filename: string) => {
-    const seasonMatch = filename.match(/y(\d+)/i);
-    const seasonName = seasonMatch ? `Y${seasonMatch[1]}` : 'New Season';
+  const handleFileLoad = (content: string, filename: string, seasonNumber?: number) => {
+    const seasonName = seasonNumber ? `Y${seasonNumber}` : 'New Season';
     loadSeasonData(content, seasonName);
   };
 
@@ -199,7 +198,7 @@ const SeasonTab = () => {
       {/* Header */}
       <div className="glass-card-glow p-8 text-center">
         <Calendar className="w-12 h-12 text-accent mx-auto mb-4" />
-        <p className="text-muted-foreground text-sm uppercase tracking-wider mb-2">Current Season</p>
+        <p className="text-muted-foreground text-sm uppercase tracking-wider mb-2">Season:</p>
         <h2 className="font-display text-6xl font-bold text-accent mb-4">{currentSeason}</h2>
         {hasSeasonData && (
           <p className="text-muted-foreground">
@@ -210,7 +209,7 @@ const SeasonTab = () => {
 
       {!hasSeasonData && (
         <div className="max-w-xl mx-auto">
-          <FileUpload onFileLoad={handleFileLoad} label="Upload Season CSV" />
+          <FileUpload onFileLoad={handleFileLoad} label="Upload Season CSV" askForSeason />
         </div>
       )}
 
@@ -379,7 +378,7 @@ const SeasonTab = () => {
 
           {/* Upload Next Season */}
           <div className="max-w-md mx-auto">
-            <FileUpload onFileLoad={handleFileLoad} label="Upload Next Season" />
+            <FileUpload onFileLoad={handleFileLoad} label="Upload Next Season" askForSeason />
           </div>
         </>
       )}

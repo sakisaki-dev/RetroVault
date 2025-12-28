@@ -33,7 +33,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
           {/* Season Badge */}
           <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/30">
             <Calendar className="w-4 h-4 text-accent" />
-            <span className="text-xs text-muted-foreground uppercase tracking-wider">Season</span>
+            <span className="text-sm text-muted-foreground">Season:</span>
             <span className="font-display text-xl text-accent font-bold">{currentSeason}</span>
           </div>
 
