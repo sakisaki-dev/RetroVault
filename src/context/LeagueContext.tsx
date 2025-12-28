@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import type { LeagueData, Player } from '@/types/player';
 import { parseCSV } from '@/utils/csvParser';
+import { diffLeagueData } from '@/utils/seasonDiff';
 
 interface LeagueContextType {
   careerData: LeagueData | null;
@@ -15,6 +16,12 @@ interface LeagueContextType {
 
 const LeagueContext = createContext<LeagueContextType | null>(null);
 
+const STORAGE_KEYS = {
+  careerCsv: 'retroVault:careerCsv',
+  prevCareerCsv: 'retroVault:prevCareerCsv',
+  currentSeason: 'retroVault:currentSeason',
+} as const;
+
 export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [careerData, setCareerData] = useState<LeagueData | null>(null);
   const [seasonData, setSeasonData] = useState<LeagueData | null>(null);
@@ -22,11 +29,43 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [currentSeason, setCurrentSeason] = useState<string>('Y30');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Restore last session (keeps the app usable locally with just CSV inputs)
+  useEffect(() => {
+    try {
+      const savedSeason = localStorage.getItem(STORAGE_KEYS.currentSeason);
+      if (savedSeason) setCurrentSeason(savedSeason);
+
+      const savedCareer = localStorage.getItem(STORAGE_KEYS.careerCsv);
+      if (savedCareer) {
+        setCareerData(parseCSV(savedCareer));
+      }
+
+      const savedPrev = localStorage.getItem(STORAGE_KEYS.prevCareerCsv);
+      if (savedPrev) {
+        setPreviousData(parseCSV(savedPrev));
+      }
+
+      // If both exist, compute season diff for commentary.
+      if (savedCareer && savedPrev) {
+        const prev = parseCSV(savedPrev);
+        const next = parseCSV(savedCareer);
+        setSeasonData(diffLeagueData(prev, next));
+      }
+    } catch {
+      // Ignore storage issues
+    }
+  }, []);
+
   const loadCareerData = useCallback((csvContent: string) => {
     setIsLoading(true);
     try {
       const data = parseCSV(csvContent);
       setCareerData(data);
+      setSeasonData(null);
+      setPreviousData(null);
+
+      localStorage.setItem(STORAGE_KEYS.careerCsv, csvContent);
+      localStorage.removeItem(STORAGE_KEYS.prevCareerCsv);
     } catch (error) {
       console.error('Error parsing CSV:', error);
     } finally {
@@ -34,33 +73,38 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, []);
 
-  const loadSeasonData = useCallback((csvContent: string, seasonName: string) => {
-    setIsLoading(true);
-    try {
-      // Store previous data for comparison
-      if (careerData) {
-        setPreviousData(careerData);
+  const loadSeasonData = useCallback(
+    (csvContent: string, seasonName: string) => {
+      setIsLoading(true);
+      try {
+        const prev = careerData;
+        const next = parseCSV(csvContent);
+
+        setCurrentSeason(seasonName);
+        localStorage.setItem(STORAGE_KEYS.currentSeason, seasonName);
+
+        if (prev) {
+          setPreviousData(prev);
+          setSeasonData(diffLeagueData(prev, next));
+
+          const prevCsv = localStorage.getItem(STORAGE_KEYS.careerCsv);
+          if (prevCsv) localStorage.setItem(STORAGE_KEYS.prevCareerCsv, prevCsv);
+        }
+
+        setCareerData(next);
+        localStorage.setItem(STORAGE_KEYS.careerCsv, csvContent);
+      } catch (error) {
+        console.error('Error parsing season CSV:', error);
+      } finally {
+        setIsLoading(false);
       }
-      
-      const newData = parseCSV(csvContent);
-      setCareerData(newData);
-      setCurrentSeason(seasonName);
-      
-      // Calculate season stats as difference
-      if (previousData) {
-        // This would calculate the diff - for now just store the new data
-        setSeasonData(newData);
-      }
-    } catch (error) {
-      console.error('Error parsing season CSV:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [careerData, previousData]);
+    },
+    [careerData],
+  );
 
   const getAllPlayers = useCallback((): Player[] => {
     if (!careerData) return [];
-    
+
     return [
       ...careerData.quarterbacks,
       ...careerData.runningbacks,
@@ -74,16 +118,18 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, [careerData]);
 
   return (
-    <LeagueContext.Provider value={{
-      careerData,
-      seasonData,
-      previousData,
-      currentSeason,
-      loadCareerData,
-      loadSeasonData,
-      getAllPlayers,
-      isLoading,
-    }}>
+    <LeagueContext.Provider
+      value={{
+        careerData,
+        seasonData,
+        previousData,
+        currentSeason,
+        loadCareerData,
+        loadSeasonData,
+        getAllPlayers,
+        isLoading,
+      }}
+    >
       {children}
     </LeagueContext.Provider>
   );
