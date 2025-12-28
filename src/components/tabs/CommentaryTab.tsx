@@ -129,17 +129,72 @@ const CommentaryTab = () => {
       const topTE = tes.length > 0 ? tes.reduce((a, b) => (a?.recYds > b?.recYds ? a : b), tes[0]) : null;
       const topRusherTD = rbs.length > 0 ? rbs.reduce((a, b) => (a?.rushTD > b?.rushTD ? a : b), rbs[0]) : null;
 
-      // MVP Race
-      if (topQB && topRB && topQB.passYds > 0 && topRB.rushYds > 0) {
-        const careerQB = careerData.quarterbacks.find((q) => q.name === topQB.name);
-        const careerRB = careerData.runningbacks.find((r) => r.name === topRB.name);
+      // MVP Race - Dynamic based on actual stats across all offensive positions
+      const mvpCandidates: { player: Player; careerPlayer: Player; score: number; statLine: string }[] = [];
+      
+      // Score QBs by passing performance
+      qbs.forEach((qb) => {
+        if (qb.passYds > 0) {
+          const careerQB = careerData.quarterbacks.find((q) => q.name === qb.name);
+          const score = (qb.passYds / 100) + (qb.passTD * 10) + (qb.rushTD * 8) - (qb.interceptions * 5);
+          mvpCandidates.push({
+            player: qb,
+            careerPlayer: careerQB || qb,
+            score,
+            statLine: `${qb.passYds.toLocaleString()} pass yds, ${qb.passTD} TD`
+          });
+        }
+      });
+      
+      // Score RBs by rushing performance
+      rbs.forEach((rb) => {
+        if (rb.rushYds > 0) {
+          const careerRB = careerData.runningbacks.find((r) => r.name === rb.name);
+          const score = (rb.rushYds / 50) + (rb.rushTD * 12) + (rb.recYds / 100) + (rb.recTD * 8);
+          mvpCandidates.push({
+            player: rb,
+            careerPlayer: careerRB || rb,
+            score,
+            statLine: `${rb.rushYds.toLocaleString()} rush yds, ${rb.rushTD} TD`
+          });
+        }
+      });
+      
+      // Score WRs by receiving performance
+      wrs.forEach((wr) => {
+        if (wr.recYds > 0) {
+          const careerWR = careerData.widereceivers.find((w) => w.name === wr.name);
+          const score = (wr.recYds / 60) + (wr.recTD * 10) + (wr.receptions / 5);
+          mvpCandidates.push({
+            player: wr,
+            careerPlayer: careerWR || wr,
+            score,
+            statLine: `${wr.recYds.toLocaleString()} rec yds, ${wr.recTD} TD`
+          });
+        }
+      });
+      
+      // Sort by MVP score and get top candidates
+      mvpCandidates.sort((a, b) => b.score - a.score);
+      const topMvpCandidates = mvpCandidates.slice(0, 3);
+      
+      if (topMvpCandidates.length >= 2) {
+        const [first, second, third] = topMvpCandidates;
+        const candidateNames = topMvpCandidates.map(c => c.player.name.split(' ').pop()).join(' vs ');
+        
         newsStories.push({
           id: `story-${storyId++}`,
           headline: `MVP RACE HEATS UP`,
-          subheadline: `${topQB.name.split(' ').pop()} vs ${topRB.name.split(' ').pop()}`,
-          body: `Two titans battle for the league's most prestigious individual honor.`,
-          fullContent: `The MVP race this season has come down to two incredible performers.\n\n**${topQB.name}** has been surgical from the pocket, throwing for ${topQB.passYds.toLocaleString()} yards this season. ${careerQB?.mvp ? `With ${careerQB.mvp} career MVPs, they know what it takes to win.` : 'A first MVP would cement their elite status.'}\n\n**${topRB.name}** has been a different kind of dominant, rushing for ${topRB.rushYds.toLocaleString()} yards. ${careerRB?.mvp ? `Already a ${careerRB.mvp}x MVP.` : 'Could this be their breakthrough year?'}\n\nVoters will have a tough decision. This could go down to the wire.`,
-          players: [careerQB || topQB, careerRB || topRB],
+          subheadline: candidateNames,
+          body: `${topMvpCandidates.length === 3 ? 'Three' : 'Two'} titans battle for the league's most prestigious individual honor.`,
+          fullContent: topMvpCandidates.map((candidate, idx) => {
+            const ordinal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : '🥉';
+            const mvpNote = candidate.careerPlayer.mvp 
+              ? `With ${candidate.careerPlayer.mvp} career MVP(s), they know what it takes.` 
+              : 'A first MVP would cement their elite status.';
+            return `${ordinal} **${candidate.player.name}** (${candidate.player.position})\n${candidate.statLine}\n${mvpNote}`;
+          }).join('\n\n') + '\n\nVoters will have a tough decision. This could go down to the wire.',
+          players: topMvpCandidates.map(c => c.careerPlayer),
           tier: 'controversy',
           icon: AlertTriangle,
           category: 'MVP Watch',
