@@ -12,23 +12,13 @@ import { Helmet } from 'react-helmet-async';
 
 const IndexContent = () => {
   const [activeTab, setActiveTab] = useState('career');
-  const { loadCareerData, careerData } = useLeague();
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  // Auto-load initial data if available (only if nothing is in local storage)
-  useEffect(() => {
-    if (!careerData) {
-      fetch('/data/initial-data.csv')
-        .then((res) => res.text())
-        .then((content) => {
-          if (content && content.includes('QB')) {
-            loadCareerData(content);
-          }
-        })
-        .catch(() => {
-          // No initial data available, user will upload
-        });
-    }
-  }, [careerData, loadCareerData]);
+  const handleDataCleared = () => {
+    // Force a re-render by updating key and reloading the page
+    setRefreshKey((k) => k + 1);
+    window.location.reload();
+  };
 
   return (
     <>
@@ -38,7 +28,7 @@ const IndexContent = () => {
       </Helmet>
       
       <div className="min-h-screen flex flex-col">
-        <Header activeTab={activeTab} onTabChange={setActiveTab} />
+        <Header activeTab={activeTab} onTabChange={setActiveTab} onDataCleared={handleDataCleared} />
         
         <main className="flex-1">
           {activeTab === 'career' && <CareerTab />}
