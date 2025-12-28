@@ -5,8 +5,11 @@ import StatusBadge from '../StatusBadge';
 import MetricCell from '../MetricCell';
 import StatCell from '../StatCell';
 import PlayerDetailCard from '../PlayerDetailCard';
+import TeamOverridesDialog from '../TeamOverridesDialog';
 import { calculateLeaders } from '@/utils/csvParser';
 import { getTeamColors } from '@/utils/teamColors';
+import { loadTeamOverrides } from '@/utils/teamOverrides';
+import { Button } from '@/components/ui/button';
 
 interface ReceiverTableProps {
   players: (WRPlayer | TEPlayer)[];
@@ -16,11 +19,13 @@ interface ReceiverTableProps {
 
 const ReceiverTable = ({ players, position, title }: ReceiverTableProps) => {
   const [selectedPlayer, setSelectedPlayer] = useState<WRPlayer | TEPlayer | null>(null);
+  const [teamOverrides, setTeamOverrides] = useState(() => loadTeamOverrides());
+  const [isTeamDialogOpen, setIsTeamDialogOpen] = useState(false);
 
   const leaders = useMemo(() => {
     return calculateLeaders(players, [
       'games', 'receptions', 'recYds', 'recTD', 'longest',
-      'rings', 'trueTalent', 'dominance', 'careerLegacy', 'tpg'
+      'rings', 'trueTalent', 'dominance', 'careerLegacy', 'tpg',
     ]);
   }, [players]);
 
@@ -28,13 +33,25 @@ const ReceiverTable = ({ players, position, title }: ReceiverTableProps) => {
     return leaders.get(stat)?.name === name;
   };
 
+  const playersMissingTeam = useMemo(() => players.filter((p) => !p.team).length, [players]);
+
+  const getDisplayTeam = (team?: string, name?: string) => team || (name ? teamOverrides[name] : undefined);
+
   return (
     <>
       <div className="glass-card overflow-hidden animate-slide-in">
         <div className="p-4 border-b border-border/30 flex items-center gap-3">
           <PositionBadge position={position} />
-          <h3 className="font-display font-bold text-lg tracking-wide">{title}</h3>
+          <div className="flex-1">
+            <h3 className="font-display font-bold text-lg tracking-wide">{title}</h3>
+            <p className="text-xs text-muted-foreground">Tip: click a player row to open their card</p>
+          </div>
           <span className="text-muted-foreground text-sm">({players.length})</span>
+          {playersMissingTeam > 0 && (
+            <Button variant="outline" size="sm" onClick={() => setIsTeamDialogOpen(true)}>
+              Set teams
+            </Button>
+          )}
         </div>
         <div className="overflow-x-auto">
           <table className="stats-table">
@@ -58,13 +75,15 @@ const ReceiverTable = ({ players, position, title }: ReceiverTableProps) => {
             </thead>
             <tbody>
               {players.map((player) => {
-                const teamColors = getTeamColors(player.team);
+                const displayTeam = getDisplayTeam(player.team, player.name);
+                const teamColors = getTeamColors(displayTeam);
+
                 return (
-                  <tr 
-                    key={player.name} 
+                  <tr
+                    key={player.name}
                     className="hover:bg-secondary/20 transition-colors cursor-pointer"
                     style={teamColors ? { borderLeft: `3px solid hsl(${teamColors.primary})` } : undefined}
-                    onClick={() => setSelectedPlayer(player)}
+                    onClick={() => setSelectedPlayer({ ...player, team: displayTeam } as WRPlayer | TEPlayer)}
                   >
                     <td className="sticky left-0 bg-card/90 backdrop-blur z-10">
                       <div className="flex flex-col">
@@ -75,15 +94,19 @@ const ReceiverTable = ({ players, position, title }: ReceiverTableProps) => {
                       </div>
                     </td>
                     <td>
-                      {player.team ? (
-                        <span 
+                      {displayTeam ? (
+                        <span
                           className="text-xs font-medium px-2 py-0.5 rounded"
-                          style={teamColors ? {
-                            backgroundColor: `hsl(${teamColors.primary} / 0.2)`,
-                            color: `hsl(${teamColors.primary})`,
-                          } : { backgroundColor: 'hsl(var(--muted))', color: 'hsl(var(--muted-foreground))' }}
+                          style={
+                            teamColors
+                              ? {
+                                  backgroundColor: `hsl(${teamColors.primary} / 0.2)`,
+                                  color: `hsl(${teamColors.primary})`,
+                                }
+                              : { backgroundColor: 'hsl(var(--muted))', color: 'hsl(var(--muted-foreground))' }
+                          }
                         >
-                          {player.team}
+                          {displayTeam}
                         </span>
                       ) : (
                         <span className="text-xs text-muted-foreground">—</span>
@@ -109,9 +132,17 @@ const ReceiverTable = ({ players, position, title }: ReceiverTableProps) => {
         </div>
       </div>
 
-      <PlayerDetailCard 
-        player={selectedPlayer} 
-        onClose={() => setSelectedPlayer(null)} 
+      <TeamOverridesDialog
+        open={isTeamDialogOpen}
+        onOpenChange={setIsTeamDialogOpen}
+        title={`${title}: set teams`}
+        players={players as any}
+        onApplied={(merged) => setTeamOverrides(merged)}
+      />
+
+      <PlayerDetailCard
+        player={selectedPlayer}
+        onClose={() => setSelectedPlayer(null)}
       />
     </>
   );
