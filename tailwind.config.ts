@@ -79,8 +79,8 @@ export default {
       },
       fontFamily: {
         sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-        display: ["Orbitron", "Inter", "sans-serif"],
-        mono: ["Space Mono", "ui-monospace", "monospace"],
+        display: ["Bebas Neue", "Inter", "sans-serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "monospace"],
       },
       keyframes: {
         "accordion-down": {
