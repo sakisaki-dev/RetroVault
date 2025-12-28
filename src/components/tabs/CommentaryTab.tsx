@@ -508,7 +508,7 @@ const CommentaryTab = () => {
         const bHasPlayer = b.player ? 1 : 0;
         return bHasPlayer - aHasPlayer;
       })
-      .slice(0, 8); // Show max 8 stories
+      .slice(0, 6); // Show max 6 stories
 
     return {
       stories: prioritizedStories,
