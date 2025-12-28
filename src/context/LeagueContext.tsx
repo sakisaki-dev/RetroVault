@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState, useCallback } fr
 import type { LeagueData, Player } from '@/types/player';
 import { parseCSV } from '@/utils/csvParser';
 import { diffLeagueData } from '@/utils/seasonDiff';
-
+import { recordAllPlayersSeasonData, getPlayerSeasonHistory, type SeasonSnapshot } from '@/utils/seasonHistory';
 interface LeagueContextType {
   careerData: LeagueData | null;
   seasonData: LeagueData | null;
@@ -11,6 +11,7 @@ interface LeagueContextType {
   loadCareerData: (csvContent: string) => void;
   loadSeasonData: (csvContent: string, seasonName: string) => void;
   getAllPlayers: () => Player[];
+  getSeasonHistory: (player: Player) => SeasonSnapshot[];
   isLoading: boolean;
 }
 
@@ -85,7 +86,20 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
         if (prev) {
           setPreviousData(prev);
-          setSeasonData(diffLeagueData(prev, next));
+          const seasonDiff = diffLeagueData(prev, next);
+          setSeasonData(seasonDiff);
+
+          // Record season stats for each player
+          recordAllPlayersSeasonData({
+            quarterbacks: seasonDiff.quarterbacks,
+            runningbacks: seasonDiff.runningbacks,
+            widereceivers: seasonDiff.widereceivers,
+            tightends: seasonDiff.tightends,
+            offensiveline: seasonDiff.offensiveline,
+            linebackers: seasonDiff.linebackers,
+            defensivebacks: seasonDiff.defensivebacks,
+            defensiveline: seasonDiff.defensiveline,
+          }, seasonName);
 
           const prevCsv = localStorage.getItem(STORAGE_KEYS.careerCsv);
           if (prevCsv) localStorage.setItem(STORAGE_KEYS.prevCareerCsv, prevCsv);
@@ -117,6 +131,10 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     ];
   }, [careerData]);
 
+  const getSeasonHistory = useCallback((player: Player): SeasonSnapshot[] => {
+    return getPlayerSeasonHistory(player);
+  }, []);
+
   return (
     <LeagueContext.Provider
       value={{
@@ -127,6 +145,7 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         loadCareerData,
         loadSeasonData,
         getAllPlayers,
+        getSeasonHistory,
         isLoading,
       }}
     >
