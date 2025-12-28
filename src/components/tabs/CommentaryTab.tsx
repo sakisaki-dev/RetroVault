@@ -488,8 +488,30 @@ const CommentaryTab = () => {
       category: 'League Report',
     });
 
+    // Prioritize stories by tier and relevance - show max 8 most relevant
+    const tierPriority: Record<string, number> = {
+      'breaking': 1,
+      'hot-take': 2,
+      'controversy': 3,
+      'milestone': 4,
+      'power-ranking': 5,
+      'analysis': 6,
+    };
+
+    const prioritizedStories = newsStories
+      .sort((a, b) => {
+        // First by tier priority
+        const tierDiff = (tierPriority[a.tier] || 99) - (tierPriority[b.tier] || 99);
+        if (tierDiff !== 0) return tierDiff;
+        // Then prefer stories with specific players over general ones
+        const aHasPlayer = a.player ? 1 : 0;
+        const bHasPlayer = b.player ? 1 : 0;
+        return bHasPlayer - aHasPlayer;
+      })
+      .slice(0, 8); // Show max 8 stories
+
     return {
-      stories: newsStories,
+      stories: prioritizedStories,
       leagueStats: {
         totalPlayers: allPlayers.length,
         activePlayers: activePlayers.length,
