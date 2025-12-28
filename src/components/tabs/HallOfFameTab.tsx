@@ -5,7 +5,7 @@ import type { Player } from '@/types/player';
 import PositionBadge from '../PositionBadge';
 import { getTeamColors } from '@/utils/teamColors';
 
-const HOF_THRESHOLD = 5000;
+const HOF_THRESHOLD = 8000;
 
 const HallOfFameTab = () => {
   const { careerData } = useLeague();
@@ -44,9 +44,9 @@ const HallOfFameTab = () => {
   }
 
   const getTier = (legacy: number) => {
-    if (legacy >= 8000) return { label: 'LEGENDARY', color: 'text-chart-4', bg: 'bg-chart-4/20', border: 'border-chart-4' };
-    if (legacy >= 7000) return { label: 'ELITE', color: 'text-metric-elite', bg: 'bg-metric-elite/20', border: 'border-metric-elite' };
-    if (legacy >= 6000) return { label: 'GREAT', color: 'text-primary', bg: 'bg-primary/20', border: 'border-primary' };
+    if (legacy >= 12000) return { label: 'LEGENDARY', color: 'text-chart-4', bg: 'bg-chart-4/20', border: 'border-chart-4' };
+    if (legacy >= 10000) return { label: 'ELITE', color: 'text-metric-elite', bg: 'bg-metric-elite/20', border: 'border-metric-elite' };
+    if (legacy >= 9000) return { label: 'GREAT', color: 'text-primary', bg: 'bg-primary/20', border: 'border-primary' };
     return { label: 'INDUCTEE', color: 'text-accent', bg: 'bg-accent/20', border: 'border-accent' };
   };
 
@@ -58,10 +58,10 @@ const HallOfFameTab = () => {
         <h2 className="font-display text-5xl font-bold tracking-wider text-chart-4 mb-2">HALL OF FAME</h2>
         <p className="text-muted-foreground">Players with Career Legacy ≥ {HOF_THRESHOLD.toLocaleString()}</p>
         <div className="flex justify-center gap-6 mt-6 text-sm flex-wrap">
-          <span className="text-chart-4">LEGENDARY ≥ 8000</span>
-          <span className="text-metric-elite">ELITE ≥ 7000</span>
-          <span className="text-primary">GREAT ≥ 6000</span>
-          <span className="text-accent">INDUCTEE ≥ 5000</span>
+          <span className="text-chart-4">LEGENDARY ≥ 12000</span>
+          <span className="text-metric-elite">ELITE ≥ 10000</span>
+          <span className="text-primary">GREAT ≥ 9000</span>
+          <span className="text-accent">INDUCTEE ≥ 8000</span>
         </div>
       </div>
 

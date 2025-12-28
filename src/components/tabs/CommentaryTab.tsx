@@ -1,15 +1,23 @@
 import { useMemo } from 'react';
 import { useLeague } from '@/context/LeagueContext';
-import { Newspaper, Trophy, Star, TrendingUp, Crown, AlertCircle } from 'lucide-react';
+import { Newspaper, Trophy, Star, TrendingUp, Crown, Flame, AlertTriangle, Zap, Target, MessageCircle } from 'lucide-react';
 import type { Player, QBPlayer, RBPlayer, WRPlayer, TEPlayer, LBPlayer, DBPlayer, DLPlayer } from '@/types/player';
 import PositionBadge from '../PositionBadge';
 import { getTeamColors } from '@/utils/teamColors';
 
+interface NewsStory {
+  headline: string;
+  body: string;
+  player?: Player;
+  tier: 'breaking' | 'hot-take' | 'analysis' | 'controversy';
+  icon: typeof Flame;
+}
+
 const CommentaryTab = () => {
   const { careerData, seasonData, currentSeason } = useLeague();
 
-  const commentary = useMemo(() => {
-    if (!careerData) return null;
+  const { stories, leagueStats } = useMemo(() => {
+    if (!careerData) return { stories: [], leagueStats: null };
 
     const allPlayers: Player[] = [
       ...careerData.quarterbacks,
@@ -23,120 +31,148 @@ const CommentaryTab = () => {
     ];
 
     const activePlayers = allPlayers.filter((p) => p.status === 'Active');
-    const hofPlayers = allPlayers.filter((p) => p.careerLegacy >= 5000);
-    const legendaryPlayers = allPlayers.filter((p) => p.careerLegacy >= 8000);
+    const hofPlayers = allPlayers.filter((p) => p.careerLegacy >= 8000);
+    const legendaryPlayers = allPlayers.filter((p) => p.careerLegacy >= 12000);
 
-    // Top by various metrics
     const topByLegacy = [...allPlayers].sort((a, b) => b.careerLegacy - a.careerLegacy).slice(0, 5);
     const topByTPG = [...activePlayers].sort((a, b) => b.tpg - a.tpg).slice(0, 5);
     const topByRings = [...allPlayers].sort((a, b) => b.rings - a.rings).slice(0, 5);
     const topByMVP = [...allPlayers].filter((p) => p.mvp > 0).sort((a, b) => b.mvp - a.mvp).slice(0, 5);
 
-    // Season stories (if season data exists)
-    let seasonStories: { headline: string; body: string; player?: Player; tier: 'legendary' | 'breaking' | 'notable' }[] = [];
+    const newsStories: NewsStory[] = [];
 
+    // Season-specific hot takes
     if (seasonData) {
-      const allSeasonPlayers: Player[] = [
-        ...seasonData.quarterbacks,
-        ...seasonData.runningbacks,
-        ...seasonData.widereceivers,
-        ...seasonData.tightends,
-        ...seasonData.offensiveline,
-        ...seasonData.linebackers,
-        ...seasonData.defensivebacks,
-        ...seasonData.defensiveline,
-      ];
+      const qbs = seasonData.quarterbacks as QBPlayer[];
+      const rbs = seasonData.runningbacks as RBPlayer[];
+      const wrs = seasonData.widereceivers as WRPlayer[];
 
-      // Find standout season performers
-      const qbStandout = seasonData.quarterbacks.reduce((a, b) => (a.passYds > b.passYds ? a : b), seasonData.quarterbacks[0]);
-      const rbStandout = seasonData.runningbacks.reduce((a, b) => (a.rushYds > b.rushYds ? a : b), seasonData.runningbacks[0]);
-      const wrStandout = seasonData.widereceivers.reduce((a, b) => (a.recYds > b.recYds ? a : b), seasonData.widereceivers[0]);
-
-      if (qbStandout && qbStandout.passYds > 0) {
-        const isLegendary = qbStandout.passYds >= 4500;
-        const careerQB = careerData.quarterbacks.find((q) => q.name === qbStandout.name);
-        seasonStories.push({
-          headline: isLegendary
-            ? `${qbStandout.name.split(' ').pop()} Posts Historic Season`
-            : `${qbStandout.name.split(' ').pop()} Leads League in Passing`,
-          body: `${qbStandout.name} threw for ${qbStandout.passYds.toLocaleString()} yards and ${qbStandout.passTD} touchdowns this season${careerQB ? `, bringing their career total to ${careerQB.passYds.toLocaleString()} yards` : ''}.`,
-          player: careerQB || qbStandout,
-          tier: isLegendary ? 'legendary' : 'breaking',
+      // MVP race controversy
+      const topQB = qbs.reduce((a, b) => (a?.passYds > b?.passYds ? a : b), qbs[0]);
+      const topRB = rbs.reduce((a, b) => (a?.rushYds > b?.rushYds ? a : b), rbs[0]);
+      
+      if (topQB && topRB && topQB.passYds > 0 && topRB.rushYds > 0) {
+        newsStories.push({
+          headline: `MVP DEBATE: ${topQB.name.split(' ').pop()} vs ${topRB.name.split(' ').pop()} — Who Deserves It?`,
+          body: `${topQB.name} threw for ${topQB.passYds.toLocaleString()} yards while ${topRB.name} dominated on the ground with ${topRB.rushYds.toLocaleString()} rushing yards. The voters are split. This could get ugly.`,
+          player: careerData.quarterbacks.find((q) => q.name === topQB.name) || topQB,
+          tier: 'controversy',
+          icon: AlertTriangle,
         });
       }
 
-      if (rbStandout && rbStandout.rushYds > 0) {
-        const isLegendary = rbStandout.rushYds >= 1500;
-        const careerRB = careerData.runningbacks.find((r) => r.name === rbStandout.name);
-        seasonStories.push({
-          headline: isLegendary
-            ? `${rbStandout.name.split(' ').pop()} Dominates on the Ground`
-            : `${rbStandout.name.split(' ').pop()} Paces Rushing Attack`,
-          body: `${rbStandout.name} rushed for ${rbStandout.rushYds.toLocaleString()} yards with ${rbStandout.rushTD} touchdowns${careerRB ? `. Career rushing yards now sit at ${careerRB.rushYds.toLocaleString()}` : ''}.`,
-          player: careerRB || rbStandout,
-          tier: isLegendary ? 'legendary' : 'notable',
+      // Historic season takes
+      if (topQB && topQB.passYds >= 5000) {
+        newsStories.push({
+          headline: `HISTORIC: ${topQB.name.split(' ').pop()} Joins 5,000-Yard Club`,
+          body: `We're witnessing greatness. ${topQB.name} just put up ${topQB.passYds.toLocaleString()} passing yards — a number that will be remembered for decades. This isn't just a great season. This is LEGENDARY.`,
+          player: careerData.quarterbacks.find((q) => q.name === topQB.name) || topQB,
+          tier: 'breaking',
+          icon: Flame,
         });
       }
 
-      if (wrStandout && wrStandout.recYds > 0) {
-        const isLegendary = wrStandout.recYds >= 1400;
-        const careerWR = careerData.widereceivers.find((w) => w.name === wrStandout.name);
-        seasonStories.push({
-          headline: isLegendary
-            ? `${wrStandout.name.split(' ').pop()} Has Career Year`
-            : `${wrStandout.name.split(' ').pop()} Leads Receivers`,
-          body: `${wrStandout.name} hauled in ${wrStandout.receptions} catches for ${wrStandout.recYds.toLocaleString()} yards and ${wrStandout.recTD} scores${careerWR ? `. Now has ${careerWR.recYds.toLocaleString()} career receiving yards` : ''}.`,
-          player: careerWR || wrStandout,
-          tier: isLegendary ? 'legendary' : 'notable',
+      // Top WR hot take
+      const topWR = wrs.reduce((a, b) => (a?.recYds > b?.recYds ? a : b), wrs[0]);
+      if (topWR && topWR.recYds >= 1300) {
+        newsStories.push({
+          headline: `${topWR.name.split(' ').pop()} Is the Best Receiver in the League. It's Not Close.`,
+          body: `${topWR.receptions} catches. ${topWR.recYds.toLocaleString()} yards. ${topWR.recTD} touchdowns. If you're still debating who the best receiver is, you're not watching the games.`,
+          player: careerData.widereceivers.find((w) => w.name === topWR.name) || topWR,
+          tier: 'hot-take',
+          icon: Zap,
         });
       }
 
-      // Championship winner story
-      const newChamps = allSeasonPlayers.filter((p) => p.rings > 0);
-      if (newChamps.length > 0) {
-        seasonStories.unshift({
-          headline: 'Championship Glory',
-          body: `${newChamps.length} player${newChamps.length > 1 ? 's' : ''} added a ring to ${newChamps.length > 1 ? 'their collections' : 'their collection'} this season: ${newChamps.map((p) => p.name).join(', ')}.`,
-          tier: 'legendary',
-        });
+      // Underperformer hot take
+      const underperformer = qbs.find((qb) => qb.passYds > 0 && qb.passYds < 2000);
+      if (underperformer) {
+        const careerQB = careerData.quarterbacks.find((q) => q.name === underperformer.name);
+        if (careerQB && careerQB.careerLegacy > 3000) {
+          newsStories.push({
+            headline: `Is ${underperformer.name.split(' ').pop()} Washed? The Numbers Say Yes.`,
+            body: `Only ${underperformer.passYds.toLocaleString()} passing yards this season. For a player with ${careerQB.careerLegacy.toFixed(0)} career legacy points, this is alarming. Father Time remains undefeated.`,
+            player: careerQB,
+            tier: 'hot-take',
+            icon: AlertTriangle,
+          });
+        }
       }
 
-      // MVP winner
-      const newMVPs = allSeasonPlayers.filter((p) => p.mvp > 0);
-      if (newMVPs.length > 0) {
-        const mvp = newMVPs[0];
-        const careerMVP = allPlayers.find((p) => p.name === mvp.name);
-        seasonStories.unshift({
-          headline: `${mvp.name.split(' ').pop()} Wins MVP`,
-          body: `${mvp.name} captured the league's highest individual honor${careerMVP && careerMVP.mvp > 1 ? `, their ${careerMVP.mvp}${careerMVP.mvp === 2 ? 'nd' : careerMVP.mvp === 3 ? 'rd' : 'th'} career MVP award` : ''}.`,
-          player: careerMVP || mvp,
-          tier: 'legendary',
+      // Championship story
+      const champs = allPlayers.filter((p) => p.rings > 0);
+      const dynastyPlayer = champs.find((p) => p.rings >= 3);
+      if (dynastyPlayer) {
+        newsStories.push({
+          headline: `Dynasty Alert: ${dynastyPlayer.name.split(' ').pop()} Has ${dynastyPlayer.rings} Rings`,
+          body: `${dynastyPlayer.name} isn't just winning — they're building a legacy. With ${dynastyPlayer.rings} championships, we're talking about one of the greatest winners this league has ever seen.`,
+          player: dynastyPlayer,
+          tier: 'analysis',
+          icon: Trophy,
         });
       }
     }
 
+    // Career analysis takes
+    const goatCandidate = topByLegacy[0];
+    if (goatCandidate) {
+      newsStories.push({
+        headline: `GOAT Watch: ${goatCandidate.name.split(' ').pop()} Leads All-Time Legacy Rankings`,
+        body: `With a ${goatCandidate.careerLegacy.toFixed(0)} career legacy score, ${goatCandidate.name} sits atop the all-time rankings. ${goatCandidate.rings} rings. ${goatCandidate.mvp} MVPs. ${goatCandidate.status === 'Active' ? 'And still going.' : 'A true legend.'} This is what greatness looks like.`,
+        player: goatCandidate,
+        tier: 'analysis',
+        icon: Crown,
+      });
+    }
+
+    // Efficiency take
+    const efficiencyKing = topByTPG[0];
+    if (efficiencyKing && efficiencyKing.tpg >= 3) {
+      newsStories.push({
+        headline: `${efficiencyKing.name.split(' ').pop()} Is Playing a Different Game`,
+        body: `${efficiencyKing.tpg.toFixed(2)} TPG. That's elite-tier efficiency. Every snap, every touch, every play — ${efficiencyKing.name} is maximizing their impact. This is what separates the good from the GREAT.`,
+        player: efficiencyKing,
+        tier: 'hot-take',
+        icon: Target,
+      });
+    }
+
+    // Young gun take (player with high TPG but low games)
+    const youngGun = activePlayers.find((p) => p.games < 50 && p.tpg >= 2.5);
+    if (youngGun) {
+      newsStories.push({
+        headline: `Rising Star: ${youngGun.name.split(' ').pop()} Is the Future`,
+        body: `Only ${youngGun.games} games played but already making waves with a ${youngGun.tpg.toFixed(2)} TPG. ${youngGun.name} is on a trajectory that could redefine their position. The league better be ready.`,
+        player: youngGun,
+        tier: 'analysis',
+        icon: Star,
+      });
+    }
+
     return {
-      totalPlayers: allPlayers.length,
-      activePlayers: activePlayers.length,
-      hofCount: hofPlayers.length,
-      legendaryCount: legendaryPlayers.length,
-      topByLegacy,
-      topByTPG,
-      topByRings,
-      topByMVP,
-      seasonStories,
+      stories: newsStories,
+      leagueStats: {
+        totalPlayers: allPlayers.length,
+        activePlayers: activePlayers.length,
+        hofCount: hofPlayers.length,
+        legendaryCount: legendaryPlayers.length,
+        topByLegacy,
+        topByTPG,
+        topByRings,
+        topByMVP,
+      },
     };
   }, [careerData, seasonData]);
 
-  if (!careerData || !commentary) {
+  if (!careerData || !leagueStats) {
     return (
       <div className="container mx-auto px-6 py-12">
         <div className="max-w-2xl mx-auto text-center">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-chart-4/10 mb-6">
             <Newspaper className="w-10 h-10 text-chart-4" />
           </div>
-          <h2 className="font-display text-4xl font-bold mb-4 text-chart-4">LEAGUE REPORT</h2>
-          <p className="text-muted-foreground text-lg">Upload your league data to see commentary and analysis.</p>
+          <h2 className="font-display text-4xl font-bold mb-4 text-chart-4">THE DAILY VAULT</h2>
+          <p className="text-muted-foreground text-lg">Upload your league data to see the latest hot takes and analysis.</p>
         </div>
       </div>
     );
@@ -144,103 +180,84 @@ const CommentaryTab = () => {
 
   return (
     <div className="container mx-auto px-6 py-8 space-y-8">
-      {/* Header */}
-      <div className="glass-card-glow p-8">
-        <div className="flex items-center gap-4 mb-6">
-          <Newspaper className="w-10 h-10 text-chart-4" />
-          <div>
-            <h2 className="font-display text-4xl font-bold tracking-wide">LEAGUE REPORT</h2>
-            <p className="text-muted-foreground">Season {currentSeason} • {commentary.totalPlayers} Players • {commentary.hofCount} Hall of Famers</p>
-          </div>
+      {/* Masthead */}
+      <div className="glass-card-glow p-8 text-center border-b-4 border-chart-4">
+        <div className="flex items-center justify-center gap-3 mb-2">
+          <Newspaper className="w-8 h-8 text-chart-4" />
+          <h1 className="font-display text-5xl font-bold tracking-wider">THE DAILY VAULT</h1>
         </div>
-
-        {/* Quick Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-border/30">
-          <div className="text-center">
-            <p className="font-display text-3xl font-bold text-primary">{commentary.activePlayers}</p>
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">Active Players</p>
-          </div>
-          <div className="text-center">
-            <p className="font-display text-3xl font-bold text-chart-4">{commentary.legendaryCount}</p>
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">Legendary Status</p>
-          </div>
-          <div className="text-center">
-            <p className="font-display text-3xl font-bold text-accent">{commentary.topByRings[0]?.rings || 0}</p>
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">Most Rings</p>
-          </div>
-          <div className="text-center">
-            <p className="font-display text-3xl font-bold text-metric-elite">{commentary.topByTPG[0]?.tpg.toFixed(2) || '0'}</p>
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">Top TPG</p>
-          </div>
-        </div>
+        <p className="text-muted-foreground uppercase tracking-widest text-sm">
+          Hot Takes • Analysis • Controversy — Season {currentSeason}
+        </p>
       </div>
 
-      {/* Season Stories */}
-      {commentary.seasonStories.length > 0 && (
-        <div className="glass-card p-6">
-          <div className="flex items-center gap-2 border-b border-border/30 pb-3 mb-6">
-            <AlertCircle className="w-5 h-5 text-chart-4" />
-            <h3 className="font-display text-xl font-bold text-chart-4">SEASON {currentSeason} HEADLINES</h3>
+      {/* Breaking News Ticker */}
+      {stories.length > 0 && (
+        <div className="glass-card overflow-hidden">
+          <div className="bg-destructive/20 px-4 py-2 flex items-center gap-2">
+            <Flame className="w-4 h-4 text-destructive animate-pulse" />
+            <span className="text-xs font-bold uppercase tracking-wider text-destructive">Breaking</span>
           </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            {commentary.seasonStories.map((story, i) => (
-              <StoryCard key={i} story={story} />
-            ))}
+          <div className="p-4">
+            <p className="font-semibold text-foreground">{stories[0]?.headline}</p>
           </div>
         </div>
       )}
 
-      {/* Career Analysis */}
+      {/* Main Stories Grid */}
       <div className="grid lg:grid-cols-2 gap-6">
-        {/* All-Time Greats */}
+        {stories.map((story, i) => (
+          <StoryCard key={i} story={story} featured={i === 0} />
+        ))}
+      </div>
+
+      {/* League Power Rankings */}
+      <div className="grid lg:grid-cols-2 gap-6">
         <div className="glass-card p-6">
           <div className="flex items-center gap-2 border-b border-border/30 pb-3 mb-4">
             <Crown className="w-5 h-5 text-chart-4" />
-            <h3 className="font-display text-xl font-bold text-chart-4">ALL-TIME LEGACY LEADERS</h3>
+            <h3 className="font-display text-xl font-bold">LEGACY POWER RANKINGS</h3>
           </div>
           <div className="space-y-3">
-            {commentary.topByLegacy.map((player, i) => (
-              <PlayerRow key={player.name} player={player} rank={i + 1} stat={player.careerLegacy} statLabel="Legacy" />
+            {leagueStats.topByLegacy.map((player, i) => (
+              <PlayerRankRow key={player.name} player={player} rank={i + 1} stat={player.careerLegacy} statLabel="Legacy" />
             ))}
           </div>
         </div>
 
-        {/* Most Efficient (TPG) */}
         <div className="glass-card p-6">
           <div className="flex items-center gap-2 border-b border-border/30 pb-3 mb-4">
-            <TrendingUp className="w-5 h-5 text-metric-elite" />
-            <h3 className="font-display text-xl font-bold text-metric-elite">EFFICIENCY LEADERS (TPG)</h3>
+            <Target className="w-5 h-5 text-metric-elite" />
+            <h3 className="font-display text-xl font-bold">EFFICIENCY LEADERS</h3>
           </div>
           <div className="space-y-3">
-            {commentary.topByTPG.map((player, i) => (
-              <PlayerRow key={player.name} player={player} rank={i + 1} stat={player.tpg} statLabel="TPG" decimals={2} />
+            {leagueStats.topByTPG.map((player, i) => (
+              <PlayerRankRow key={player.name} player={player} rank={i + 1} stat={player.tpg} statLabel="TPG" decimals={2} />
             ))}
           </div>
         </div>
 
-        {/* Championship Winners */}
         <div className="glass-card p-6">
           <div className="flex items-center gap-2 border-b border-border/30 pb-3 mb-4">
             <Trophy className="w-5 h-5 text-accent" />
-            <h3 className="font-display text-xl font-bold text-accent">MOST CHAMPIONSHIPS</h3>
+            <h3 className="font-display text-xl font-bold">RING LEADERS</h3>
           </div>
           <div className="space-y-3">
-            {commentary.topByRings.map((player, i) => (
-              <PlayerRow key={player.name} player={player} rank={i + 1} stat={player.rings} statLabel="Rings" />
+            {leagueStats.topByRings.map((player, i) => (
+              <PlayerRankRow key={player.name} player={player} rank={i + 1} stat={player.rings} statLabel="Rings" />
             ))}
           </div>
         </div>
 
-        {/* MVP Winners */}
         <div className="glass-card p-6">
           <div className="flex items-center gap-2 border-b border-border/30 pb-3 mb-4">
             <Star className="w-5 h-5 text-primary" />
-            <h3 className="font-display text-xl font-bold text-primary">MVP AWARD LEADERS</h3>
+            <h3 className="font-display text-xl font-bold">MVP LEADERS</h3>
           </div>
           <div className="space-y-3">
-            {commentary.topByMVP.length > 0 ? (
-              commentary.topByMVP.map((player, i) => (
-                <PlayerRow key={player.name} player={player} rank={i + 1} stat={player.mvp} statLabel="MVPs" />
+            {leagueStats.topByMVP.length > 0 ? (
+              leagueStats.topByMVP.map((player, i) => (
+                <PlayerRankRow key={player.name} player={player} rank={i + 1} stat={player.mvp} statLabel="MVPs" />
               ))
             ) : (
               <p className="text-muted-foreground text-sm">No MVP winners yet.</p>
@@ -249,41 +266,44 @@ const CommentaryTab = () => {
         </div>
       </div>
 
-      {/* League Analysis */}
+      {/* Hot Take Section */}
       <div className="glass-card p-8">
-        <h3 className="font-display font-bold text-2xl mb-6 border-b border-border/30 pb-4">STATE OF THE LEAGUE</h3>
+        <div className="flex items-center gap-3 mb-6 border-b border-border/30 pb-4">
+          <MessageCircle className="w-6 h-6 text-chart-4" />
+          <h3 className="font-display text-2xl font-bold">THE VAULT'S VERDICT</h3>
+        </div>
         <div className="grid md:grid-cols-2 gap-8 text-muted-foreground leading-relaxed">
           <div>
-            <h4 className="font-bold text-primary mb-2">Dynasty in the Making?</h4>
+            <h4 className="font-bold text-chart-4 mb-2 text-lg">🔥 The GOAT Debate Rages On</h4>
             <p>
-              <span className="text-foreground font-semibold">{commentary.topByRings[0]?.name}</span> leads the league with{' '}
-              <span className="text-chart-4 font-semibold">{commentary.topByRings[0]?.rings} championships</span>, cementing their
-              legacy as one of the greatest winners in league history.
-              {commentary.topByRings[0]?.status === 'Active' && ' Still active and hunting for more.'}
+              <span className="text-foreground font-semibold">{leagueStats.topByLegacy[0]?.name}</span> leads with{' '}
+              <span className="text-chart-4 font-semibold">{leagueStats.topByLegacy[0]?.careerLegacy.toFixed(0)}</span> legacy points.
+              But legacy isn't just about stats — it's about moments, championships, and clutch performances.
+              The debate continues.
             </p>
           </div>
           <div>
-            <h4 className="font-bold text-metric-elite mb-2">Peak Performance</h4>
+            <h4 className="font-bold text-metric-elite mb-2 text-lg">📈 Efficiency Over Volume</h4>
             <p>
-              With a <span className="text-metric-elite font-semibold">{commentary.topByTPG[0]?.tpg.toFixed(2)} TPG</span>,{' '}
-              <span className="text-foreground font-semibold">{commentary.topByTPG[0]?.name}</span> ({commentary.topByTPG[0]?.position})
-              is producing at an elite rate. Only <span className="text-chart-4 font-semibold">{commentary.legendaryCount}</span> players
-              have achieved legendary status (Legacy ≥8000).
+              <span className="text-foreground font-semibold">{leagueStats.topByTPG[0]?.name}</span> is producing at
+              an insane <span className="text-metric-elite font-semibold">{leagueStats.topByTPG[0]?.tpg.toFixed(2)} TPG</span>.
+              In an era obsessed with volume stats, don't sleep on efficiency. This is how you build a dynasty.
             </p>
           </div>
           <div>
-            <h4 className="font-bold text-accent mb-2">Hall of Fame Watch</h4>
+            <h4 className="font-bold text-accent mb-2 text-lg">💍 Championship DNA</h4>
             <p>
-              <span className="text-accent font-semibold">{commentary.hofCount} players</span> have crossed the Hall of Fame threshold
-              (Legacy ≥5000). The all-time leader <span className="text-foreground font-semibold">{commentary.topByLegacy[0]?.name}</span> holds
-              a commanding <span className="text-chart-4 font-semibold">{commentary.topByLegacy[0]?.careerLegacy.toFixed(0)}</span> Career Legacy.
+              <span className="text-accent font-semibold">{leagueStats.topByRings[0]?.rings} rings</span> for{' '}
+              <span className="text-foreground font-semibold">{leagueStats.topByRings[0]?.name}</span>.
+              You can debate stats all day, but championships are the ultimate measure. Winners find a way.
             </p>
           </div>
           <div>
-            <h4 className="font-bold text-chart-4 mb-2">Looking Ahead</h4>
+            <h4 className="font-bold text-primary mb-2 text-lg">🏆 The Hall Awaits</h4>
             <p>
-              With <span className="text-primary font-semibold">{commentary.activePlayers} active players</span> still competing,
-              the race for postseason awards and statistical milestones continues. The next generation is ready to make their mark.
+              <span className="text-primary font-semibold">{leagueStats.hofCount} players</span> have crossed the Hall of Fame threshold.
+              Only <span className="text-chart-4 font-semibold">{leagueStats.legendaryCount}</span> have reached legendary status.
+              The bar is high. As it should be.
             </p>
           </div>
         </div>
@@ -292,24 +312,34 @@ const CommentaryTab = () => {
   );
 };
 
-const StoryCard = ({ story }: { story: { headline: string; body: string; player?: Player; tier: string } }) => {
+const StoryCard = ({ story, featured }: { story: NewsStory; featured?: boolean }) => {
   const colors = {
-    legendary: { border: 'border-chart-4', text: 'text-chart-4', bg: 'bg-chart-4/10' },
-    breaking: { border: 'border-primary', text: 'text-primary', bg: 'bg-primary/10' },
-    notable: { border: 'border-muted-foreground', text: 'text-muted-foreground', bg: 'bg-muted/10' },
+    breaking: { border: 'border-destructive', text: 'text-destructive', bg: 'bg-destructive/10' },
+    'hot-take': { border: 'border-chart-4', text: 'text-chart-4', bg: 'bg-chart-4/10' },
+    analysis: { border: 'border-primary', text: 'text-primary', bg: 'bg-primary/10' },
+    controversy: { border: 'border-accent', text: 'text-accent', bg: 'bg-accent/10' },
   };
-  const style = colors[story.tier as keyof typeof colors] || colors.notable;
+  const style = colors[story.tier];
   const teamColors = story.player ? getTeamColors(story.player.team) : null;
+  const Icon = story.icon;
 
   return (
     <div
-      className={`rounded-xl p-4 ${style.bg} border ${style.border}`}
-      style={teamColors ? { borderLeftColor: `hsl(${teamColors.primary})`, borderLeftWidth: '3px' } : undefined}
+      className={`glass-card p-6 ${featured ? 'lg:col-span-2' : ''} ${style.bg} border-l-4 ${style.border}`}
+      style={teamColors ? { borderLeftColor: `hsl(${teamColors.primary})` } : undefined}
     >
-      <h4 className={`font-bold ${style.text} mb-2`}>{story.headline}</h4>
-      <p className="text-sm text-muted-foreground">{story.body}</p>
+      <div className="flex items-center gap-2 mb-3">
+        <Icon className={`w-5 h-5 ${style.text}`} />
+        <span className={`text-xs font-bold uppercase tracking-wider ${style.text}`}>
+          {story.tier.replace('-', ' ')}
+        </span>
+      </div>
+      <h4 className={`font-display ${featured ? 'text-3xl' : 'text-xl'} font-bold text-foreground mb-3`}>
+        {story.headline}
+      </h4>
+      <p className="text-muted-foreground leading-relaxed">{story.body}</p>
       {story.player && (
-        <div className="flex items-center gap-2 mt-3">
+        <div className="flex items-center gap-2 mt-4 pt-4 border-t border-border/30">
           <PositionBadge position={story.player.position} className="text-xs" />
           {story.player.team && (
             <span
@@ -319,13 +349,16 @@ const StoryCard = ({ story }: { story: { headline: string; body: string; player?
               {story.player.team}
             </span>
           )}
+          <span className="text-xs text-muted-foreground ml-auto">
+            {story.player.games} GP • {story.player.careerLegacy.toFixed(0)} Legacy
+          </span>
         </div>
       )}
     </div>
   );
 };
 
-const PlayerRow = ({ player, rank, stat, statLabel, decimals = 0 }: { player: Player; rank: number; stat: number; statLabel: string; decimals?: number }) => {
+const PlayerRankRow = ({ player, rank, stat, statLabel, decimals = 0 }: { player: Player; rank: number; stat: number; statLabel: string; decimals?: number }) => {
   const teamColors = getTeamColors(player.team);
 
   return (
