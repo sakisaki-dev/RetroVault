@@ -2,7 +2,8 @@ import React, { createContext, useContext, useEffect, useState, useCallback } fr
 import type { LeagueData, Player } from '@/types/player';
 import { parseCSV } from '@/utils/csvParser';
 import { diffLeagueData } from '@/utils/seasonDiff';
-import { recordAllPlayersSeasonData, getPlayerSeasonHistory, type SeasonSnapshot } from '@/utils/seasonHistory';
+import { recordAllPlayersSeasonData, getPlayerSeasonHistory, loadSeasonHistory, saveSeasonHistory, type SeasonSnapshot } from '@/utils/seasonHistory';
+
 interface LeagueContextType {
   careerData: LeagueData | null;
   seasonData: LeagueData | null;
@@ -10,8 +11,10 @@ interface LeagueContextType {
   currentSeason: string;
   loadCareerData: (csvContent: string) => void;
   loadSeasonData: (csvContent: string, seasonName: string) => void;
+  purgeSeason: (seasonName: string) => void;
   getAllPlayers: () => Player[];
   getSeasonHistory: (player: Player) => SeasonSnapshot[];
+  getAvailableSeasons: () => string[];
   isLoading: boolean;
 }
 
@@ -116,6 +119,54 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     [careerData],
   );
 
+  const purgeSeason = useCallback((seasonName: string) => {
+    // Remove from season history storage
+    const history = loadSeasonHistory();
+    Object.keys(history).forEach((key) => {
+      history[key] = history[key].filter((s) => s.season !== seasonName);
+      if (history[key].length === 0) {
+        delete history[key];
+      }
+    });
+    saveSeasonHistory(history);
+
+    // If the purged season is the current one, clear season-specific state
+    if (currentSeason === seasonName) {
+      setSeasonData(null);
+      setPreviousData(null);
+      localStorage.removeItem(STORAGE_KEYS.prevCareerCsv);
+      
+      // Find the most recent remaining season
+      const remainingSeasons = new Set<string>();
+      Object.values(history).forEach((snapshots) => {
+        snapshots.forEach((s) => remainingSeasons.add(s.season));
+      });
+      
+      const sortedSeasons = Array.from(remainingSeasons).sort((a, b) => {
+        const aNum = parseInt(a.replace(/\D/g, '')) || 0;
+        const bNum = parseInt(b.replace(/\D/g, '')) || 0;
+        return bNum - aNum;
+      });
+      
+      const newCurrentSeason = sortedSeasons[0] || 'Y1';
+      setCurrentSeason(newCurrentSeason);
+      localStorage.setItem(STORAGE_KEYS.currentSeason, newCurrentSeason);
+    }
+  }, [currentSeason]);
+
+  const getAvailableSeasons = useCallback((): string[] => {
+    const history = loadSeasonHistory();
+    const allSeasons = new Set<string>();
+    Object.values(history).forEach((snapshots) => {
+      snapshots.forEach((s) => allSeasons.add(s.season));
+    });
+    return Array.from(allSeasons).sort((a, b) => {
+      const aNum = parseInt(a.replace(/\D/g, '')) || 0;
+      const bNum = parseInt(b.replace(/\D/g, '')) || 0;
+      return aNum - bNum;
+    });
+  }, []);
+
   const getAllPlayers = useCallback((): Player[] => {
     if (!careerData) return [];
 
@@ -144,8 +195,10 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         currentSeason,
         loadCareerData,
         loadSeasonData,
+        purgeSeason,
         getAllPlayers,
         getSeasonHistory,
+        getAvailableSeasons,
         isLoading,
       }}
     >

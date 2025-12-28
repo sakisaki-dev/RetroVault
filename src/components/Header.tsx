@@ -1,8 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
-import { Calendar, Trash2, X } from 'lucide-react';
+import { Calendar, Trash2 } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 import { cn } from '@/lib/utils';
-import { loadSeasonHistory, saveSeasonHistory } from '@/utils/seasonHistory';
 import {
   Popover,
   PopoverContent,
@@ -42,7 +41,7 @@ const tabs = [
 ];
 
 const Header = ({ activeTab, onTabChange }: HeaderProps) => {
-  const { currentSeason } = useLeague();
+  const { currentSeason, purgeSeason, getAvailableSeasons } = useLeague();
   const navRef = useRef<HTMLDivElement | null>(null);
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
@@ -71,31 +70,14 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
     return () => window.removeEventListener('resize', updateIndicator);
   }, [activeTab]);
 
-  // Load unique seasons from history
+  // Load unique seasons from context
   useEffect(() => {
-    const history = loadSeasonHistory();
-    const allSeasons = new Set<string>();
-    Object.values(history).forEach((snapshots) => {
-      snapshots.forEach((s) => allSeasons.add(s.season));
-    });
-    setSeasons(Array.from(allSeasons).sort((a, b) => {
-      const aNum = parseInt(a.replace(/\D/g, '')) || 0;
-      const bNum = parseInt(b.replace(/\D/g, '')) || 0;
-      return aNum - bNum;
-    }));
-  }, []);
+    setSeasons(getAvailableSeasons());
+  }, [getAvailableSeasons, currentSeason]);
 
   const handleDeleteSeason = (seasonToDelete: string) => {
-    const history = loadSeasonHistory();
-    // Remove this season from all players
-    Object.keys(history).forEach((key) => {
-      history[key] = history[key].filter((s) => s.season !== seasonToDelete);
-      if (history[key].length === 0) {
-        delete history[key];
-      }
-    });
-    saveSeasonHistory(history);
-    setSeasons((prev) => prev.filter((s) => s !== seasonToDelete));
+    purgeSeason(seasonToDelete);
+    setSeasons(getAvailableSeasons());
     toast.success(`Deleted season ${seasonToDelete} data`);
   };
 
