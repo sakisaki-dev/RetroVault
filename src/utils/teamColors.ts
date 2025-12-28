@@ -52,13 +52,21 @@ export const TEAM_COLORS: Record<string, { primary: string; secondary: string }>
 export const getTeamColors = (teamName?: string): { primary: string; secondary: string } | null => {
   if (!teamName) return null;
   
-  const normalized = teamName.toLowerCase().trim().replace(/\s+/g, '');
+  // Normalize: lowercase, trim, remove all non-alphanumeric
+  const normalized = teamName.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
   
-  // Direct match
+  // Direct match first
   if (TEAM_COLORS[normalized]) return TEAM_COLORS[normalized];
+  
+  // Check for '49ers' special case (becomes '49ers' after normalization)
+  if (normalized === '49ers' || normalized.includes('49ers') || normalized.includes('niners')) {
+    return TEAM_COLORS['49ers'];
+  }
   
   // Partial match (e.g., "Buccaneers " -> "buccaneers")
   for (const [key, colors] of Object.entries(TEAM_COLORS)) {
+    // Skip numeric keys for partial matching
+    if (/^\d/.test(key)) continue;
     if (normalized.includes(key) || key.includes(normalized)) {
       return colors;
     }
