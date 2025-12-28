@@ -15,6 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { getTeamColors } from '@/utils/teamColors';
 import type { Player, Position } from '@/types/player';
 
 interface PlayerSearchSelectProps {
@@ -24,26 +25,17 @@ interface PlayerSearchSelectProps {
   placeholder?: string;
 }
 
-const getPositionColors = (position: Position): { bg: string; text: string; border: string } => {
+const getPositionColor = (position: Position): string => {
   switch (position) {
-    case 'QB':
-      return { bg: 'bg-red-500/20', text: 'text-red-400', border: 'border-red-500/30' };
-    case 'RB':
-      return { bg: 'bg-emerald-500/20', text: 'text-emerald-400', border: 'border-emerald-500/30' };
-    case 'WR':
-      return { bg: 'bg-blue-500/20', text: 'text-blue-400', border: 'border-blue-500/30' };
-    case 'TE':
-      return { bg: 'bg-purple-500/20', text: 'text-purple-400', border: 'border-purple-500/30' };
-    case 'OL':
-      return { bg: 'bg-amber-500/20', text: 'text-amber-400', border: 'border-amber-500/30' };
-    case 'LB':
-      return { bg: 'bg-orange-500/20', text: 'text-orange-400', border: 'border-orange-500/30' };
-    case 'DB':
-      return { bg: 'bg-cyan-500/20', text: 'text-cyan-400', border: 'border-cyan-500/30' };
-    case 'DL':
-      return { bg: 'bg-pink-500/20', text: 'text-pink-400', border: 'border-pink-500/30' };
-    default:
-      return { bg: 'bg-secondary', text: 'text-muted-foreground', border: 'border-border' };
+    case 'QB': return 'text-red-400';
+    case 'RB': return 'text-emerald-400';
+    case 'WR': return 'text-blue-400';
+    case 'TE': return 'text-purple-400';
+    case 'OL': return 'text-amber-400';
+    case 'LB': return 'text-orange-400';
+    case 'DB': return 'text-cyan-400';
+    case 'DL': return 'text-pink-400';
+    default: return 'text-muted-foreground';
   }
 };
 
@@ -51,7 +43,7 @@ const PlayerSearchSelect = ({ players, value, onValueChange, placeholder = "Sear
   const [open, setOpen] = useState(false);
 
   const selectedPlayer = value ? players.find(p => `${p.position}:${p.name}` === value) : null;
-  const selectedColors = selectedPlayer ? getPositionColors(selectedPlayer.position) : null;
+  const teamColors = selectedPlayer ? getTeamColors(selectedPlayer.team) : null;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -60,19 +52,27 @@ const PlayerSearchSelect = ({ players, value, onValueChange, placeholder = "Sear
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={cn(
-            "w-full justify-between bg-background/50 hover:bg-background/70 h-11",
-            selectedColors && `${selectedColors.bg} ${selectedColors.border}`
-          )}
+          className="w-full justify-between h-11 bg-background/50 hover:bg-background/70 border-border/50"
+          style={teamColors ? {
+            borderColor: `hsl(${teamColors.primary} / 0.4)`,
+            background: `linear-gradient(90deg, hsl(${teamColors.primary} / 0.1), transparent)`
+          } : undefined}
         >
           {selectedPlayer ? (
             <div className="flex items-center gap-2">
-              <span className={cn("text-xs font-bold px-1.5 py-0.5 rounded", selectedColors?.bg, selectedColors?.text)}>
+              <span className={cn("text-xs font-bold", getPositionColor(selectedPlayer.position))}>
                 {selectedPlayer.position}
               </span>
-              <span>{selectedPlayer.name}</span>
-              {selectedPlayer.team && (
-                <span className="text-xs text-muted-foreground">({selectedPlayer.team})</span>
+              <span className="font-medium">{selectedPlayer.name}</span>
+              {selectedPlayer.team ? (
+                <span 
+                  className="text-xs"
+                  style={teamColors ? { color: `hsl(${teamColors.primary})` } : undefined}
+                >
+                  {selectedPlayer.team}
+                </span>
+              ) : (
+                <span className="text-xs text-muted-foreground italic">Retired</span>
               )}
             </div>
           ) : (
@@ -84,47 +84,55 @@ const PlayerSearchSelect = ({ players, value, onValueChange, placeholder = "Sear
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[400px] p-0 bg-background border border-border shadow-xl z-50" align="start">
+      <PopoverContent className="w-[400px] p-0 bg-background border border-border/50 shadow-2xl z-50" align="start">
         <Command className="bg-background">
-          <CommandInput placeholder="Type to search..." className="h-11" />
-          <CommandList className="max-h-80">
+          <CommandInput placeholder="Type to search..." className="h-10 border-b border-border/30" />
+          <CommandList className="max-h-72">
             <CommandEmpty>No player found.</CommandEmpty>
             <CommandGroup>
               {players.map((player) => {
-                const colors = getPositionColors(player.position);
                 const playerKey = `${player.position}:${player.name}`;
+                const playerTeamColors = getTeamColors(player.team);
+                const isSelected = value === playerKey;
                 
                 return (
                   <CommandItem
                     key={playerKey}
-                    value={`${player.name} ${player.position} ${player.team || ''}`}
+                    value={`${player.name} ${player.position} ${player.team || 'retired'}`}
                     onSelect={() => {
                       onValueChange(playerKey === value ? '' : playerKey);
                       setOpen(false);
                     }}
                     className={cn(
-                      "flex items-center gap-2 cursor-pointer my-0.5 rounded-lg border",
-                      colors.bg,
-                      colors.border,
-                      "hover:opacity-80 transition-opacity"
+                      "flex items-center gap-3 cursor-pointer py-2.5 px-3 mx-1 my-0.5 rounded-lg transition-all",
+                      isSelected ? "bg-primary/10" : "hover:bg-secondary/50"
                     )}
+                    style={playerTeamColors ? {
+                      borderLeft: `3px solid hsl(${playerTeamColors.primary} / 0.6)`
+                    } : {
+                      borderLeft: '3px solid hsl(var(--muted-foreground) / 0.3)'
+                    }}
                   >
                     <Check
                       className={cn(
-                        "h-4 w-4",
-                        value === playerKey ? "opacity-100" : "opacity-0"
+                        "h-4 w-4 shrink-0",
+                        isSelected ? "opacity-100 text-primary" : "opacity-0"
                       )}
                     />
-                    <span className={cn("text-xs font-bold px-1.5 py-0.5 rounded", colors.bg, colors.text)}>
+                    <span className={cn("text-xs font-bold w-6", getPositionColor(player.position))}>
                       {player.position}
                     </span>
-                    <span className="font-medium flex-1">{player.name}</span>
-                    {player.team && (
-                      <span className="text-xs text-muted-foreground">{player.team}</span>
+                    <span className="font-medium flex-1 truncate">{player.name}</span>
+                    {player.team ? (
+                      <span 
+                        className="text-xs font-medium"
+                        style={playerTeamColors ? { color: `hsl(${playerTeamColors.primary})` } : undefined}
+                      >
+                        {player.team}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-muted-foreground italic">Retired</span>
                     )}
-                    <span className="text-xs text-muted-foreground font-mono">
-                      {player.careerLegacy.toFixed(0)}
-                    </span>
                   </CommandItem>
                 );
               })}

@@ -205,7 +205,7 @@ const ComparisonTab = () => {
                   >
                     {player1.name}
                   </p>
-                  <p className="text-sm text-muted-foreground">{player1.team || 'Free Agent'}</p>
+                  <p className="text-sm text-muted-foreground">{player1.team || 'Retired'}</p>
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-3 mt-4">
@@ -268,7 +268,7 @@ const ComparisonTab = () => {
                   >
                     {player2.name}
                   </p>
-                  <p className="text-sm text-muted-foreground">{player2.team || 'Free Agent'}</p>
+                  <p className="text-sm text-muted-foreground">{player2.team || 'Retired'}</p>
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-3 mt-4">
