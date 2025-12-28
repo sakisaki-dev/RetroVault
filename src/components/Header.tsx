@@ -76,9 +76,14 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
   }, [getAvailableSeasons, currentSeason]);
 
   const handleDeleteSeason = (seasonToDelete: string) => {
-    purgeSeason(seasonToDelete);
+    const removed = purgeSeason(seasonToDelete);
     setSeasons(getAvailableSeasons());
-    toast.success(`Deleted season ${seasonToDelete} data`);
+
+    if (removed.length > 1) {
+      toast.success(`Deleted ${removed[0]} and ${removed.length - 1} later season(s)`);
+    } else {
+      toast.success(`Deleted season ${seasonToDelete} data`);
+    }
   };
 
   const handleTabClick = (value: string) => {
