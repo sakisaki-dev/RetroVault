@@ -100,50 +100,57 @@ const HallOfFameTab = () => {
     return (
       <button
         onClick={() => setSelectedPlayer(player)}
-        className={`group relative rounded-lg border ${tier.borderColor} ${tier.bgColor} p-3 text-left transition-all hover:scale-[1.02] hover:shadow-md`}
+        className={`group relative rounded-xl border-2 ${tier.borderColor} ${tier.bgColor} p-4 text-left transition-all hover:scale-[1.02] hover:shadow-lg w-full`}
       >
-        {/* Rank */}
-        <span className="absolute top-2 right-2 font-mono text-xs text-muted-foreground/50">#{rank}</span>
+        {/* Rank badge */}
+        <span className={`absolute top-3 right-3 font-display text-2xl font-bold ${tier.color} opacity-30`}>#{rank}</span>
         
-        {/* Tier icon + Name */}
-        <div className="flex items-center gap-2 mb-1">
-          <TierIcon className={`w-4 h-4 ${tier.color}`} />
-          <span className="font-bold text-sm truncate">{player.name}</span>
+        {/* Tier badge */}
+        <div className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full ${tier.bgColor} border ${tier.borderColor} mb-2`}>
+          <TierIcon className={`w-3.5 h-3.5 ${tier.color}`} />
+          <span className={`text-xs font-bold ${tier.color}`}>{tier.label}</span>
         </div>
 
-        {/* Position + Legacy */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
-            <PositionBadge position={player.position} />
-            {player.team && (
-              <span
-                className="text-[10px] px-1.5 py-0.5 rounded"
-                style={teamColors ? { backgroundColor: `hsl(${teamColors.primary} / 0.2)`, color: `hsl(${teamColors.primary})` } : undefined}
-              >
-                {player.team}
-              </span>
-            )}
+        {/* Player Name - BIG */}
+        <h3 className="font-bold text-lg leading-tight mb-1 pr-8">{player.name}</h3>
+        
+        {/* Position & Team */}
+        <div className="flex items-center gap-2 mb-3">
+          <PositionBadge position={player.position} />
+          {player.team && (
+            <span
+              className="text-xs px-2 py-0.5 rounded font-medium"
+              style={teamColors ? { backgroundColor: `hsl(${teamColors.primary} / 0.2)`, color: `hsl(${teamColors.primary})` } : undefined}
+            >
+              {player.team}
+            </span>
+          )}
+        </div>
+
+        {/* Legacy Score - prominent */}
+        <div className={`flex items-baseline justify-between py-2 px-3 rounded-lg bg-background/40 border ${tier.borderColor} mb-3`}>
+          <span className="text-xs text-muted-foreground uppercase font-medium">Legacy</span>
+          <span className={`font-mono text-2xl font-bold ${tier.color}`}>{player.careerLegacy.toFixed(0)}</span>
+        </div>
+
+        {/* Awards row - always show all */}
+        <div className="grid grid-cols-4 gap-1 text-center">
+          <div className="flex flex-col items-center">
+            <Trophy className="w-4 h-4 text-amber-400 mb-0.5" />
+            <span className="font-mono font-bold text-sm">{player.rings}</span>
           </div>
-          <span className={`font-mono font-bold text-sm ${tier.color}`}>{player.careerLegacy.toFixed(0)}</span>
-        </div>
-
-        {/* Awards row */}
-        <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
-          {player.rings > 0 && (
-            <span className="flex items-center gap-1">
-              <Trophy className="w-3 h-3 text-amber-400" />{player.rings}
-            </span>
-          )}
-          {player.mvp > 0 && (
-            <span className="flex items-center gap-1">
-              <Medal className="w-3 h-3 text-purple-400" />{player.mvp}
-            </span>
-          )}
-          {player.opoy > 0 && (
-            <span className="flex items-center gap-1">
-              <Star className="w-3 h-3 text-blue-400" />{player.opoy}
-            </span>
-          )}
+          <div className="flex flex-col items-center">
+            <Medal className="w-4 h-4 text-purple-400 mb-0.5" />
+            <span className="font-mono font-bold text-sm">{player.mvp}</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <Star className="w-4 h-4 text-blue-400 mb-0.5" />
+            <span className="font-mono font-bold text-sm">{player.opoy}</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <Sparkles className="w-4 h-4 text-emerald-400 mb-0.5" />
+            <span className="font-mono font-bold text-sm">{player.sbmvp}</span>
+          </div>
         </div>
       </button>
     );
@@ -169,16 +176,16 @@ const HallOfFameTab = () => {
     if (players.length === 0) return null;
     
     return (
-      <section className="mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <div className={`p-1.5 rounded ${bgClass} border ${borderClass}`}>
-            <Icon className={`w-4 h-4 ${colorClass}`} />
+      <section className="mb-8">
+        <div className="flex items-center gap-3 mb-4">
+          <div className={`p-2 rounded-lg ${bgClass} border ${borderClass}`}>
+            <Icon className={`w-5 h-5 ${colorClass}`} />
           </div>
-          <h3 className={`font-display text-lg font-bold ${colorClass}`}>{title}</h3>
-          <span className="text-xs text-muted-foreground">({players.length})</span>
+          <h3 className={`font-display text-xl font-bold ${colorClass}`}>{title}</h3>
+          <span className="text-sm text-muted-foreground">({players.length})</span>
           <div className={`flex-1 h-px ${bgClass}`} />
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {players.map((player, i) => (
             <PlayerCard key={player.name} player={player} rank={startRank + i} />
           ))}
@@ -188,42 +195,51 @@ const HallOfFameTab = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-4">
-      {/* Compact Header */}
-      <div className="text-center mb-6 pb-4 border-b border-border/30">
-        <div className="flex items-center justify-center gap-3 mb-2">
-          <Crown className="w-8 h-8 text-amber-400" />
-          <h1 className="font-display text-4xl font-bold bg-gradient-to-r from-amber-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+    <div className="container mx-auto px-4 py-6">
+      {/* Grand Hero Header */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500/20 via-purple-500/10 to-blue-500/20 p-8 mb-8 border border-amber-500/30">
+        {/* Decorative background */}
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9InN0YXJzIiB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjEuNSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC4xNSIvPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMSIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNzdGFycykiLz48L3N2Zz4=')] opacity-60" />
+        
+        <div className="relative text-center">
+          {/* Crown icon */}
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-amber-500/30 to-amber-600/20 border-2 border-amber-400/50 mb-4 shadow-lg shadow-amber-500/20">
+            <Crown className="w-10 h-10 text-amber-400" />
+          </div>
+          
+          {/* Title */}
+          <h1 className="font-display text-5xl md:text-6xl font-bold tracking-wider bg-gradient-to-r from-amber-400 via-purple-400 to-blue-400 bg-clip-text text-transparent mb-3">
             HALL OF FAME
           </h1>
-        </div>
-        
-        {/* Tier legend - compact */}
-        <div className="flex justify-center gap-4 flex-wrap text-xs">
-          <span className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-amber-500/10 border border-amber-500/30">
-            <Flame className="w-3 h-3 text-amber-400" />
-            <span className="text-amber-400 font-semibold">Legendary</span>
-            <span className="text-muted-foreground">≥10k</span>
-            <span className="ml-1 px-1.5 rounded bg-amber-500/20 text-amber-400 font-mono">{tierCounts.legendary}</span>
-          </span>
-          <span className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-purple-500/10 border border-purple-500/30">
-            <Crown className="w-3 h-3 text-purple-400" />
-            <span className="text-purple-400 font-semibold">Elite</span>
-            <span className="text-muted-foreground">≥8.5k</span>
-            <span className="ml-1 px-1.5 rounded bg-purple-500/20 text-purple-400 font-mono">{tierCounts.elite}</span>
-          </span>
-          <span className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-blue-500/10 border border-blue-500/30">
-            <Star className="w-3 h-3 text-blue-400" />
-            <span className="text-blue-400 font-semibold">Great</span>
-            <span className="text-muted-foreground">≥7.5k</span>
-            <span className="ml-1 px-1.5 rounded bg-blue-500/20 text-blue-400 font-mono">{tierCounts.great}</span>
-          </span>
-          <span className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30">
-            <Award className="w-3 h-3 text-emerald-400" />
-            <span className="text-emerald-400 font-semibold">Inductee</span>
-            <span className="text-muted-foreground">≥6k</span>
-            <span className="ml-1 px-1.5 rounded bg-emerald-500/20 text-emerald-400 font-mono">{tierCounts.inductee}</span>
-          </span>
+          <p className="text-lg text-muted-foreground mb-6">Immortalized Legends of the Game</p>
+          
+          {/* Tier Legend */}
+          <div className="flex justify-center gap-3 md:gap-6 flex-wrap">
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/15 border border-amber-500/40">
+              <Flame className="w-4 h-4 text-amber-400" />
+              <span className="text-amber-400 font-bold">LEGENDARY</span>
+              <span className="text-muted-foreground text-sm">≥10k</span>
+              <span className="ml-1 px-2 py-0.5 rounded bg-amber-500/30 text-amber-400 font-mono text-sm font-bold">{tierCounts.legendary}</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/15 border border-purple-500/40">
+              <Crown className="w-4 h-4 text-purple-400" />
+              <span className="text-purple-400 font-bold">ELITE</span>
+              <span className="text-muted-foreground text-sm">≥8.5k</span>
+              <span className="ml-1 px-2 py-0.5 rounded bg-purple-500/30 text-purple-400 font-mono text-sm font-bold">{tierCounts.elite}</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/15 border border-blue-500/40">
+              <Star className="w-4 h-4 text-blue-400" />
+              <span className="text-blue-400 font-bold">GREAT</span>
+              <span className="text-muted-foreground text-sm">≥7.5k</span>
+              <span className="ml-1 px-2 py-0.5 rounded bg-blue-500/30 text-blue-400 font-mono text-sm font-bold">{tierCounts.great}</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/15 border border-emerald-500/40">
+              <Award className="w-4 h-4 text-emerald-400" />
+              <span className="text-emerald-400 font-bold">INDUCTEE</span>
+              <span className="text-muted-foreground text-sm">≥6k</span>
+              <span className="ml-1 px-2 py-0.5 rounded bg-emerald-500/30 text-emerald-400 font-mono text-sm font-bold">{tierCounts.inductee}</span>
+            </div>
+          </div>
         </div>
       </div>
 
