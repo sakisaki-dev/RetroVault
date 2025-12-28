@@ -1,7 +1,16 @@
 import { useRef, useEffect, useState } from 'react';
-import { Calendar } from 'lucide-react';
+import { Calendar, Trash2, X } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 import { cn } from '@/lib/utils';
+import { loadSeasonHistory, saveSeasonHistory } from '@/utils/seasonHistory';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { toast } from 'sonner';
 
 interface HeaderProps {
   activeTab: string;
@@ -38,6 +47,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const [isAnimating, setIsAnimating] = useState(false);
+  const [seasons, setSeasons] = useState<string[]>([]);
 
   useEffect(() => {
     const updateIndicator = () => {
@@ -60,6 +70,34 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
     window.addEventListener('resize', updateIndicator);
     return () => window.removeEventListener('resize', updateIndicator);
   }, [activeTab]);
+
+  // Load unique seasons from history
+  useEffect(() => {
+    const history = loadSeasonHistory();
+    const allSeasons = new Set<string>();
+    Object.values(history).forEach((snapshots) => {
+      snapshots.forEach((s) => allSeasons.add(s.season));
+    });
+    setSeasons(Array.from(allSeasons).sort((a, b) => {
+      const aNum = parseInt(a.replace(/\D/g, '')) || 0;
+      const bNum = parseInt(b.replace(/\D/g, '')) || 0;
+      return aNum - bNum;
+    }));
+  }, []);
+
+  const handleDeleteSeason = (seasonToDelete: string) => {
+    const history = loadSeasonHistory();
+    // Remove this season from all players
+    Object.keys(history).forEach((key) => {
+      history[key] = history[key].filter((s) => s.season !== seasonToDelete);
+      if (history[key].length === 0) {
+        delete history[key];
+      }
+    });
+    saveSeasonHistory(history);
+    setSeasons((prev) => prev.filter((s) => s !== seasonToDelete));
+    toast.success(`Deleted season ${seasonToDelete} data`);
+  };
 
   const handleTabClick = (value: string) => {
     if (value === activeTab) return;
@@ -120,13 +158,49 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
             </div>
           </div>
 
-          {/* Season indicator */}
+          {/* Season indicator with delete toggle */}
           <div className="justify-self-end">
-            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-accent/10 border border-accent/20">
-              <Calendar className="w-4 h-4 text-accent" />
-              <span className="text-sm text-muted-foreground">Season</span>
-              <span className="font-display text-lg font-bold text-accent">{currentSeason}</span>
-            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button className="flex items-center gap-3 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 cursor-pointer transition-colors hover:bg-accent/20">
+                  <Calendar className="w-4 h-4 text-accent" />
+                  <span className="text-sm text-muted-foreground">Season</span>
+                  <span className="font-display text-lg font-bold text-accent">{currentSeason}</span>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-64 p-0" align="end">
+                <div className="p-3 border-b border-border">
+                  <h4 className="font-medium text-sm text-foreground">Delete Season Data</h4>
+                  <p className="text-xs text-muted-foreground mt-1">Remove faulty season data</p>
+                </div>
+                <ScrollArea className="max-h-64">
+                  {seasons.length === 0 ? (
+                    <div className="p-4 text-center text-sm text-muted-foreground">
+                      No season history recorded
+                    </div>
+                  ) : (
+                    <div className="p-2">
+                      {seasons.map((season) => (
+                        <div
+                          key={season}
+                          className="flex items-center justify-between px-3 py-2 rounded-md hover:bg-secondary/50"
+                        >
+                          <span className="text-sm font-medium">{season}</span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-7 w-7 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            onClick={() => handleDeleteSeason(season)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </ScrollArea>
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       </div>
