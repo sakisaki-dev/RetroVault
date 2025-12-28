@@ -12,12 +12,12 @@ const IndexContent = () => {
   const [activeTab, setActiveTab] = useState('career');
   const { loadCareerData, careerData } = useLeague();
 
-  // Auto-load initial data if available
+  // Auto-load initial data if available (only if nothing is in local storage)
   useEffect(() => {
     if (!careerData) {
       fetch('/data/initial-data.csv')
-        .then(res => res.text())
-        .then(content => {
+        .then((res) => res.text())
+        .then((content) => {
           if (content && content.includes('QB')) {
             loadCareerData(content);
           }

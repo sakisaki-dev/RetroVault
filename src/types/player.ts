@@ -3,11 +3,15 @@ export type Status = 'Active' | 'Retired';
 
 export interface BasePlayer {
   name: string;
+  /** Raw value from sheet (can be number-like or "R"), stored for display only */
+  age?: string;
+  /** Team name as provided in the sheet */
+  team?: string;
   status: Status;
   games: number;
   rings: number;
   mvp: number;
-  opoy: number;  // OPOY for offense, DPOY for defense
+  opoy: number; // OPOY for offense, DPOY for defense
   sbmvp: number;
   roty: number;
   trueTalent: number;

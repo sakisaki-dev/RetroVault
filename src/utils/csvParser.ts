@@ -1,237 +1,251 @@
-import type { 
-  LeagueData, 
-  QBPlayer, 
-  RBPlayer, 
-  WRPlayer, 
-  TEPlayer, 
-  OLPlayer, 
-  LBPlayer, 
-  DBPlayer, 
+import type {
+  LeagueData,
+  QBPlayer,
+  RBPlayer,
+  WRPlayer,
+  TEPlayer,
+  OLPlayer,
+  LBPlayer,
+  DBPlayer,
   DLPlayer,
   Status,
-  Position 
+  Position,
 } from '@/types/player';
 
-// Parse numeric value from CSV, handling commas and quotes
+// ---------- CSV parsing helpers (RFC4180-ish) ----------
+
+const parseCSVLine = (line: string): string[] => {
+  const result: string[] = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+
+    if (ch === '"') {
+      // Escaped quote inside quoted field
+      if (inQuotes && line[i + 1] === '"') {
+        current += '"';
+        i++;
+        continue;
+      }
+      inQuotes = !inQuotes;
+      continue;
+    }
+
+    if (ch === ',' && !inQuotes) {
+      result.push(current);
+      current = '';
+      continue;
+    }
+
+    current += ch;
+  }
+
+  result.push(current);
+  return result;
+};
+
+const normalizeHeader = (val: string) =>
+  (val || '')
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '')
+    .replace(/[^a-z0-9]/g, '');
+
+type HeaderIndex = Record<string, number[]>;
+
+const buildHeaderIndex = (headerRow: string[]): HeaderIndex => {
+  const idx: HeaderIndex = {};
+  headerRow.forEach((h, i) => {
+    const key = normalizeHeader(h);
+    if (!key) return;
+    if (!idx[key]) idx[key] = [];
+    idx[key].push(i);
+  });
+  return idx;
+};
+
+const getField = (row: string[], header: HeaderIndex, key: string, occurrence = 0): string => {
+  const k = normalizeHeader(key);
+  const indices = header[k];
+  if (!indices || indices.length <= occurrence) return '';
+  return (row[indices[occurrence]] ?? '').trim();
+};
+
 const parseNum = (val: string): number => {
   if (!val || val.trim() === '') return 0;
-  // Remove quotes and commas, then parse
   const cleaned = val.replace(/["',]/g, '').trim();
   const num = parseFloat(cleaned);
   return isNaN(num) ? 0 : num;
 };
 
-// Parse status
 const parseStatus = (val: string): Status => {
   const lower = val?.toLowerCase().trim() || '';
   return lower === 'active' ? 'Active' : 'Retired';
 };
 
-// Find position sections in the CSV
-const findPositionSections = (lines: string[][]): Map<Position, { headerRow: number; dataStart: number; dataEnd: number }> => {
+const parseText = (val: string): string | undefined => {
+  const t = (val || '').trim();
+  return t ? t.replace(/^"|"$/g, '').trim() : undefined;
+};
+
+// ---------- Section detection ----------
+
+const findPositionSections = (
+  lines: string[][],
+): Map<Position, { headerRow: number; dataStart: number; dataEnd: number }> => {
   const sections = new Map<Position, { headerRow: number; dataStart: number; dataEnd: number }>();
   const positions: Position[] = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
-  
+
   for (let i = 0; i < lines.length; i++) {
-    const firstCell = lines[i][0]?.trim().toUpperCase();
-    if (positions.includes(firstCell as Position)) {
-      const pos = firstCell as Position;
-      // Header is the next row
-      const headerRow = i + 1;
-      const dataStart = i + 2;
-      
-      // Find where this section ends (next position marker or empty rows)
-      let dataEnd = lines.length;
-      for (let j = dataStart; j < lines.length; j++) {
-        const cell = lines[j][0]?.trim().toUpperCase();
-        if (positions.includes(cell as Position) || (lines[j].every(c => !c?.trim()) && j > dataStart)) {
-          dataEnd = j;
-          break;
-        }
+    const firstCell = (lines[i][0] ?? '').trim().toUpperCase();
+    if (!positions.includes(firstCell as Position)) continue;
+
+    const pos = firstCell as Position;
+    const headerRow = i + 1;
+    const dataStart = i + 2;
+
+    // End at next position marker; ignore empty rows.
+    let dataEnd = lines.length;
+    for (let j = dataStart; j < lines.length; j++) {
+      const cell = (lines[j][0] ?? '').trim().toUpperCase();
+      if (positions.includes(cell as Position)) {
+        dataEnd = j;
+        break;
       }
-      
-      sections.set(pos, { headerRow, dataStart, dataEnd });
     }
+
+    sections.set(pos, { headerRow, dataStart, dataEnd });
   }
-  
+
   return sections;
 };
 
-// Parse QB data
-const parseQB = (row: string[], headerRow: string[]): QBPlayer | null => {
-  const name = row[0]?.trim();
+// ---------- Row parsers (header-driven) ----------
+
+const baseFields = (row: string[], header: HeaderIndex) => {
+  const name = parseText(getField(row, header, 'Name'));
   if (!name) return null;
-  
+
+  const age = parseText(getField(row, header, 'Age'));
+  const team = parseText(getField(row, header, 'Team'));
+  const status = parseStatus(getField(row, header, 'Status'));
+
+  // Some sheets may omit team column (e.g., WR header shows empty column)
+  const nickname =
+    parseText(getField(row, header, 'Nicknames')) ??
+    parseText(getField(row, header, 'Nickname'));
+
+  return {
+    name,
+    age,
+    team,
+    status,
+    games: parseNum(getField(row, header, 'Games')),
+    rings: parseNum(getField(row, header, 'Rings')),
+    mvp: parseNum(getField(row, header, 'MVP')),
+    opoy: parseNum(getField(row, header, 'OPOY')) || parseNum(getField(row, header, 'DPOY')),
+    sbmvp: parseNum(getField(row, header, 'SBMVP')),
+    roty: parseNum(getField(row, header, 'ROTY')),
+    trueTalent: parseNum(getField(row, header, 'True Talent')),
+    dominance: parseNum(getField(row, header, 'Dominance')),
+    careerLegacy: parseNum(getField(row, header, 'Career Legacy')),
+    tpg: parseNum(getField(row, header, 'TPG')),
+    nickname,
+  };
+};
+
+const parseQB = (row: string[], header: HeaderIndex): QBPlayer | null => {
+  const base = baseFields(row, header);
+  if (!base) return null;
+
+  // QB has two "Att" columns: pass attempts (first) and rush attempts (second)
+  const passAttempts = parseNum(getField(row, header, 'Att', 0));
+  const rushAttempts = parseNum(getField(row, header, 'Att', 1));
+
   return {
     position: 'QB',
-    name,
-    status: parseStatus(row[1]),
-    games: parseNum(row[2]),
-    attempts: parseNum(row[3]),
-    completions: parseNum(row[4]),
-    passYds: parseNum(row[5]),
-    passTD: parseNum(row[6]),
-    interceptions: parseNum(row[7]),
-    sacks: parseNum(row[8]),
-    rushAtt: parseNum(row[9]),
-    rushYds: parseNum(row[10]),
-    rushTD: parseNum(row[11]),
-    rings: parseNum(row[12]),
-    mvp: parseNum(row[13]),
-    opoy: parseNum(row[14]),
-    sbmvp: parseNum(row[15]),
-    roty: parseNum(row[16]),
-    trueTalent: parseNum(row[18]),
-    dominance: parseNum(row[19]),
-    careerLegacy: parseNum(row[20]),
-    tpg: parseNum(row[21]),
-    nickname: row[23]?.trim() || undefined,
+    ...base,
+    attempts: passAttempts,
+    completions: parseNum(getField(row, header, 'Cmp')),
+    passYds: parseNum(getField(row, header, 'Pass Yds')),
+    passTD: parseNum(getField(row, header, 'Pass TD')),
+    interceptions: parseNum(getField(row, header, 'INT')),
+    sacks: parseNum(getField(row, header, 'Sacks')),
+    rushAtt: rushAttempts,
+    rushYds: parseNum(getField(row, header, 'Rush Yds')),
+    rushTD: parseNum(getField(row, header, 'Rush TD')),
   };
 };
 
-// Parse RB data
-const parseRB = (row: string[]): RBPlayer | null => {
-  const name = row[0]?.trim();
-  if (!name) return null;
-  
+const parseRB = (row: string[], header: HeaderIndex): RBPlayer | null => {
+  const base = baseFields(row, header);
+  if (!base) return null;
+
   return {
     position: 'RB',
-    name,
-    status: parseStatus(row[1]),
-    games: parseNum(row[2]),
-    rushAtt: parseNum(row[3]),
-    rushYds: parseNum(row[4]),
-    rushTD: parseNum(row[5]),
-    fumbles: parseNum(row[6]),
-    receptions: parseNum(row[7]),
-    recYds: parseNum(row[8]),
-    recTD: parseNum(row[9]),
-    rings: parseNum(row[12]),
-    mvp: parseNum(row[13]),
-    opoy: parseNum(row[14]),
-    sbmvp: parseNum(row[15]),
-    roty: parseNum(row[16]),
-    trueTalent: parseNum(row[18]),
-    dominance: parseNum(row[19]),
-    careerLegacy: parseNum(row[20]),
-    tpg: parseNum(row[21]),
-    nickname: row[23]?.trim() || undefined,
+    ...base,
+    rushAtt: parseNum(getField(row, header, 'Rush Att')),
+    rushYds: parseNum(getField(row, header, 'Rush Yds')),
+    rushTD: parseNum(getField(row, header, 'Rush TD')),
+    fumbles: parseNum(getField(row, header, 'Fum')),
+    receptions: parseNum(getField(row, header, 'Rec')),
+    recYds: parseNum(getField(row, header, 'Rec Yds')),
+    recTD: parseNum(getField(row, header, 'Rec TD')),
   };
 };
 
-// Parse WR data
-const parseWR = (row: string[]): WRPlayer | null => {
-  const name = row[0]?.trim();
-  if (!name) return null;
-  
-  return {
-    position: 'WR',
-    name,
-    status: parseStatus(row[1]),
-    games: parseNum(row[2]),
-    receptions: parseNum(row[3]),
-    recYds: parseNum(row[4]),
-    recTD: parseNum(row[5]),
-    fumbles: parseNum(row[6]),
-    longest: parseNum(row[7]),
-    rings: parseNum(row[12]),
-    mvp: parseNum(row[13]),
-    opoy: parseNum(row[14]),
-    sbmvp: parseNum(row[15]),
-    roty: parseNum(row[16]),
-    trueTalent: parseNum(row[18]),
-    dominance: parseNum(row[19]),
-    careerLegacy: parseNum(row[20]),
-    tpg: parseNum(row[21]),
-    nickname: row[23]?.trim() || undefined,
-  };
-};
+const parseReceiver = (row: string[], header: HeaderIndex, position: 'WR' | 'TE'): (WRPlayer | TEPlayer) | null => {
+  const base = baseFields(row, header);
+  if (!base) return null;
 
-// Parse TE data - same structure as WR
-const parseTE = (row: string[]): TEPlayer | null => {
-  const wr = parseWR(row);
-  if (!wr) return null;
-  return { ...wr, position: 'TE' } as TEPlayer;
-};
+  // Some sheets label TDs just as TDs
+  const recTD = parseNum(getField(row, header, 'Rec TD')) || parseNum(getField(row, header, 'TDs'));
 
-// Parse OL data
-const parseOL = (row: string[]): OLPlayer | null => {
-  const name = row[0]?.trim();
-  if (!name) return null;
-  
-  return {
-    position: 'OL',
-    name,
-    status: parseStatus(row[1]),
-    games: parseNum(row[2]),
-    blocks: parseNum(row[3]),
-    rings: parseNum(row[12]),
-    mvp: parseNum(row[13]),
-    opoy: parseNum(row[14]),
-    sbmvp: parseNum(row[15]),
-    roty: parseNum(row[16]),
-    trueTalent: parseNum(row[18]),
-    dominance: parseNum(row[19]),
-    careerLegacy: parseNum(row[20]),
-    tpg: parseNum(row[21]),
-    nickname: row[23]?.trim() || undefined,
-  };
-};
-
-// Parse defensive player data (LB, DB, DL)
-const parseDefensive = <T extends 'LB' | 'DB' | 'DL'>(row: string[], position: T): (LBPlayer | DBPlayer | DLPlayer) | null => {
-  const name = row[0]?.trim();
-  if (!name) return null;
-  
   return {
     position,
-    name,
-    status: parseStatus(row[1]),
-    games: parseNum(row[2]),
-    tackles: parseNum(row[3]),
-    interceptions: parseNum(row[4]),
-    sacks: parseNum(row[5]),
-    forcedFumbles: parseNum(row[6]),
-    rings: parseNum(row[12]),
-    mvp: parseNum(row[13]),
-    opoy: parseNum(row[14]), // DPOY for defense
-    sbmvp: parseNum(row[15]),
-    roty: parseNum(row[16]),
-    trueTalent: parseNum(row[18]),
-    dominance: parseNum(row[19]),
-    careerLegacy: parseNum(row[20]),
-    tpg: parseNum(row[21]),
-    nickname: row[23]?.trim() || undefined,
+    ...base,
+    receptions: parseNum(getField(row, header, 'Rec')),
+    recYds: parseNum(getField(row, header, 'Rec Yds')),
+    recTD,
+    fumbles: parseNum(getField(row, header, 'Fumbles')) || parseNum(getField(row, header, 'Fum')),
+    longest: parseNum(getField(row, header, 'Longest')),
+  } as WRPlayer | TEPlayer;
+};
+
+const parseOL = (row: string[], header: HeaderIndex): OLPlayer | null => {
+  const base = baseFields(row, header);
+  if (!base) return null;
+
+  return {
+    position: 'OL',
+    ...base,
+    blocks: parseNum(getField(row, header, 'Blocks')),
   };
 };
 
-// Parse CSV content that may have quoted fields with commas
-const parseCSVLine = (line: string): string[] => {
-  const result: string[] = [];
-  let current = '';
-  let inQuotes = false;
-  
-  for (let i = 0; i < line.length; i++) {
-    const char = line[i];
-    
-    if (char === '"') {
-      inQuotes = !inQuotes;
-    } else if (char === ',' && !inQuotes) {
-      result.push(current);
-      current = '';
-    } else {
-      current += char;
-    }
-  }
-  result.push(current);
-  
-  return result;
+const parseDefensive = <T extends 'LB' | 'DB' | 'DL'>(row: string[], header: HeaderIndex, position: T): (LBPlayer | DBPlayer | DLPlayer) | null => {
+  const base = baseFields(row, header);
+  if (!base) return null;
+
+  return {
+    position,
+    ...base,
+    tackles: parseNum(getField(row, header, 'Tackles')),
+    interceptions: parseNum(getField(row, header, 'INT')),
+    sacks: parseNum(getField(row, header, 'Sacks')),
+    forcedFumbles: parseNum(getField(row, header, 'FF')),
+  };
 };
 
+// ---------- Public API ----------
+
 export const parseCSV = (csvContent: string): LeagueData => {
-  const lines = csvContent.split('\n').map(line => parseCSVLine(line));
+  const cleaned = (csvContent || '').replace(/^\uFEFF/, '');
+  const lines = cleaned.split(/\r?\n/).map((line) => parseCSVLine(line));
   const sections = findPositionSections(lines);
-  
+
   const data: LeagueData = {
     quarterbacks: [],
     runningbacks: [],
@@ -242,80 +256,47 @@ export const parseCSV = (csvContent: string): LeagueData => {
     defensivebacks: [],
     defensiveline: [],
   };
-  
-  // Parse each section
-  const qbSection = sections.get('QB');
-  if (qbSection) {
-    const headerRow = lines[qbSection.headerRow];
-    for (let i = qbSection.dataStart; i < qbSection.dataEnd; i++) {
-      const player = parseQB(lines[i], headerRow);
-      if (player) data.quarterbacks.push(player);
+
+  const parseSection = <T>(
+    pos: Position,
+    parser: (row: string[], header: HeaderIndex) => T | null,
+    push: (p: T) => void,
+  ) => {
+    const section = sections.get(pos);
+    if (!section) return;
+
+    const headerRow = lines[section.headerRow] || [];
+    const header = buildHeaderIndex(headerRow);
+
+    for (let i = section.dataStart; i < section.dataEnd; i++) {
+      const row = lines[i] || [];
+      const first = (row[0] ?? '').trim();
+      if (!first) continue;
+
+      const player = parser(row, header);
+      if (player) push(player);
     }
-  }
-  
-  const rbSection = sections.get('RB');
-  if (rbSection) {
-    for (let i = rbSection.dataStart; i < rbSection.dataEnd; i++) {
-      const player = parseRB(lines[i]);
-      if (player) data.runningbacks.push(player);
-    }
-  }
-  
-  const wrSection = sections.get('WR');
-  if (wrSection) {
-    for (let i = wrSection.dataStart; i < wrSection.dataEnd; i++) {
-      const player = parseWR(lines[i]);
-      if (player) data.widereceivers.push(player);
-    }
-  }
-  
-  const teSection = sections.get('TE');
-  if (teSection) {
-    for (let i = teSection.dataStart; i < teSection.dataEnd; i++) {
-      const player = parseTE(lines[i]);
-      if (player) data.tightends.push(player);
-    }
-  }
-  
-  const olSection = sections.get('OL');
-  if (olSection) {
-    for (let i = olSection.dataStart; i < olSection.dataEnd; i++) {
-      const player = parseOL(lines[i]);
-      if (player) data.offensiveline.push(player);
-    }
-  }
-  
-  const lbSection = sections.get('LB');
-  if (lbSection) {
-    for (let i = lbSection.dataStart; i < lbSection.dataEnd; i++) {
-      const player = parseDefensive(lines[i], 'LB');
-      if (player) data.linebackers.push(player as LBPlayer);
-    }
-  }
-  
-  const dbSection = sections.get('DB');
-  if (dbSection) {
-    for (let i = dbSection.dataStart; i < dbSection.dataEnd; i++) {
-      const player = parseDefensive(lines[i], 'DB');
-      if (player) data.defensivebacks.push(player as DBPlayer);
-    }
-  }
-  
-  const dlSection = sections.get('DL');
-  if (dlSection) {
-    for (let i = dlSection.dataStart; i < dlSection.dataEnd; i++) {
-      const player = parseDefensive(lines[i], 'DL');
-      if (player) data.defensiveline.push(player as DLPlayer);
-    }
-  }
-  
+  };
+
+  parseSection('QB', parseQB, (p) => data.quarterbacks.push(p));
+  parseSection('RB', parseRB, (p) => data.runningbacks.push(p));
+  parseSection('WR', (r, h) => parseReceiver(r, h, 'WR') as WRPlayer, (p) => data.widereceivers.push(p));
+  parseSection('TE', (r, h) => parseReceiver(r, h, 'TE') as TEPlayer, (p) => data.tightends.push(p));
+  parseSection('OL', parseOL, (p) => data.offensiveline.push(p));
+  parseSection('LB', (r, h) => parseDefensive(r, h, 'LB') as LBPlayer, (p) => data.linebackers.push(p));
+  parseSection('DB', (r, h) => parseDefensive(r, h, 'DB') as DBPlayer, (p) => data.defensivebacks.push(p));
+  parseSection('DL', (r, h) => parseDefensive(r, h, 'DL') as DLPlayer, (p) => data.defensiveline.push(p));
+
   return data;
 };
 
 // Calculate stat leaders for a position group
-export const calculateLeaders = (players: any[], statKeys: string[]): Map<string, { name: string; value: number }> => {
+export const calculateLeaders = (
+  players: any[],
+  statKeys: string[],
+): Map<string, { name: string; value: number }> => {
   const leaders = new Map<string, { name: string; value: number }>();
-  
+
   for (const key of statKeys) {
     let maxPlayer = { name: '', value: -Infinity };
     for (const player of players) {
@@ -324,10 +305,8 @@ export const calculateLeaders = (players: any[], statKeys: string[]): Map<string
         maxPlayer = { name: player.name, value: val };
       }
     }
-    if (maxPlayer.name) {
-      leaders.set(key, maxPlayer);
-    }
+    if (maxPlayer.name) leaders.set(key, maxPlayer);
   }
-  
+
   return leaders;
 };
