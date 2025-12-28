@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
 import { useLeague } from '@/context/LeagueContext';
 import { Scale, User, Trophy, Star, TrendingUp, ArrowRight } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getTeamColors } from '@/utils/teamColors';
 import PositionBadge from '../PositionBadge';
+import PlayerSearchSelect from '../PlayerSearchSelect';
 import type { Player } from '@/types/player';
 
 const ComparisonTab = () => {
@@ -187,22 +187,12 @@ const ComparisonTab = () => {
             <User className="w-5 h-5 text-muted-foreground" />
             <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Player 1</span>
           </div>
-          <Select value={player1Key} onValueChange={setPlayer1Key}>
-            <SelectTrigger className="w-full bg-background/50">
-              <SelectValue placeholder="Select a player..." />
-            </SelectTrigger>
-            <SelectContent className="max-h-80">
-              {allPlayers.map((p) => (
-                <SelectItem key={`${p.position}:${p.name}`} value={`${p.position}:${p.name}`}>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-muted-foreground">{p.position}</span>
-                    <span>{p.name}</span>
-                    {p.team && <span className="text-xs text-muted-foreground">({p.team})</span>}
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <PlayerSearchSelect
+            players={allPlayers}
+            value={player1Key}
+            onValueChange={setPlayer1Key}
+            placeholder="Search for a player..."
+          />
 
           {player1 && (
             <div className="mt-4 pt-4 border-t border-border/20">
@@ -260,22 +250,12 @@ const ComparisonTab = () => {
             <User className="w-5 h-5 text-muted-foreground" />
             <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Player 2</span>
           </div>
-          <Select value={player2Key} onValueChange={setPlayer2Key}>
-            <SelectTrigger className="w-full bg-background/50">
-              <SelectValue placeholder="Select a player..." />
-            </SelectTrigger>
-            <SelectContent className="max-h-80">
-              {allPlayers.map((p) => (
-                <SelectItem key={`${p.position}:${p.name}`} value={`${p.position}:${p.name}`}>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-muted-foreground">{p.position}</span>
-                    <span>{p.name}</span>
-                    {p.team && <span className="text-xs text-muted-foreground">({p.team})</span>}
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <PlayerSearchSelect
+            players={allPlayers}
+            value={player2Key}
+            onValueChange={setPlayer2Key}
+            placeholder="Search for a player..."
+          />
 
           {player2 && (
             <div className="mt-4 pt-4 border-t border-border/20">
