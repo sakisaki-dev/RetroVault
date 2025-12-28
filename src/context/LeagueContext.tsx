@@ -27,7 +27,7 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [careerData, setCareerData] = useState<LeagueData | null>(null);
   const [seasonData, setSeasonData] = useState<LeagueData | null>(null);
   const [previousData, setPreviousData] = useState<LeagueData | null>(null);
-  const [currentSeason, setCurrentSeason] = useState<string>('Y30');
+  const [currentSeason, setCurrentSeason] = useState<string>('Y1');
   const [isLoading, setIsLoading] = useState(false);
 
   // Restore last session (keeps the app usable locally with just CSV inputs)

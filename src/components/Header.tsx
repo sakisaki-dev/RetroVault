@@ -1,8 +1,9 @@
 import { useRef, useEffect, useState } from 'react';
-import { Calendar } from 'lucide-react';
+import { Calendar, Settings } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 import { cn } from '@/lib/utils';
 import SeasonManagementDialog from './SeasonManagementDialog';
+import { Button } from '@/components/ui/button';
 
 interface HeaderProps {
   activeTab: string;
@@ -10,24 +11,18 @@ interface HeaderProps {
   onDataCleared: () => void;
 }
 
-// Retro pixel-style football icon - colorful
-const RetroFootballIcon = ({ onClick }: { onClick?: () => void }) => (
-  <button
-    onClick={onClick}
-    className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg transition-transform hover:scale-105 active:scale-95"
-    aria-label="Open data management"
-  >
-    <svg viewBox="0 0 32 32" fill="none" className="w-10 h-10 drop-shadow-lg cursor-pointer">
-      <ellipse cx="16" cy="16" rx="14" ry="10" fill="#8B4513" />
-      <ellipse cx="16" cy="13" rx="11" ry="6" fill="#A0522D" opacity="0.6" />
-      <ellipse cx="16" cy="19" rx="10" ry="5" fill="#5D2E0C" opacity="0.4" />
-      <rect x="15" y="7" width="2" height="18" rx="1" fill="white" />
-      <rect x="11" y="10" width="10" height="1.5" rx="0.5" fill="white" />
-      <rect x="11" y="14" width="10" height="1.5" rx="0.5" fill="white" />
-      <rect x="11" y="18" width="10" height="1.5" rx="0.5" fill="white" />
-      <ellipse cx="16" cy="16" rx="13" ry="9" stroke="#6B3410" strokeWidth="1" fill="none" opacity="0.5" />
-    </svg>
-  </button>
+// Retro pixel-style football icon
+const RetroFootballIcon = () => (
+  <svg viewBox="0 0 32 32" fill="none" className="w-10 h-10 drop-shadow-lg">
+    <ellipse cx="16" cy="16" rx="14" ry="10" fill="#8B4513" />
+    <ellipse cx="16" cy="13" rx="11" ry="6" fill="#A0522D" opacity="0.6" />
+    <ellipse cx="16" cy="19" rx="10" ry="5" fill="#5D2E0C" opacity="0.4" />
+    <rect x="15" y="7" width="2" height="18" rx="1" fill="white" />
+    <rect x="11" y="10" width="10" height="1.5" rx="0.5" fill="white" />
+    <rect x="11" y="14" width="10" height="1.5" rx="0.5" fill="white" />
+    <rect x="11" y="18" width="10" height="1.5" rx="0.5" fill="white" />
+    <ellipse cx="16" cy="16" rx="13" ry="9" stroke="#6B3410" strokeWidth="1" fill="none" opacity="0.5" />
+  </svg>
 );
 
 const tabs = [
@@ -84,7 +79,7 @@ const Header = ({ activeTab, onTabChange, onDataCleared }: HeaderProps) => {
           <div className="grid grid-cols-[1fr_auto_1fr] items-center h-20">
             {/* Logo */}
             <div className="flex items-center gap-3 justify-self-start">
-              <RetroFootballIcon onClick={() => setShowManagement(true)} />
+              <RetroFootballIcon />
               <div>
                 <span className="font-display text-2xl font-bold tracking-tight text-foreground">
                   Retro Vault
@@ -98,7 +93,7 @@ const Header = ({ activeTab, onTabChange, onDataCleared }: HeaderProps) => {
               ref={navRef}
               className="relative justify-self-center bg-secondary/50 backdrop-blur-sm border border-border/20 p-1.5 rounded-full"
             >
-              {/* Fluid animated indicator - solid black */}
+              {/* Fluid animated indicator - solid */}
               <div
                 className="absolute top-1.5 bottom-1.5 rounded-full bg-background shadow-sm"
                 style={{
@@ -130,13 +125,22 @@ const Header = ({ activeTab, onTabChange, onDataCleared }: HeaderProps) => {
               </div>
             </div>
 
-            {/* Season indicator */}
-            <div className="justify-self-end">
+            {/* Season indicator + Settings button (top right) */}
+            <div className="flex items-center gap-3 justify-self-end">
               <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-accent/10 border border-accent/20">
                 <Calendar className="w-4 h-4 text-accent" />
                 <span className="text-sm text-muted-foreground">Season</span>
                 <span className="font-display text-lg font-bold text-accent">{currentSeason}</span>
               </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowManagement(true)}
+                className="rounded-full"
+                aria-label="Data Management"
+              >
+                <Settings className="w-5 h-5" />
+              </Button>
             </div>
           </div>
         </div>
