@@ -9,6 +9,11 @@ import {
   saveSeasonHistory,
   type SeasonSnapshot,
 } from '@/utils/seasonHistory';
+import {
+  getPlayerEdits,
+  migrateFromLocalStorage,
+  type PlayerEdit,
+} from '@/utils/indexedDB';
 
 interface LeagueContextType {
   careerData: LeagueData | null;
@@ -22,6 +27,10 @@ interface LeagueContextType {
   getAllPlayers: () => Player[];
   getSeasonHistory: (player: Player) => SeasonSnapshot[];
   getAvailableSeasons: () => string[];
+  /** Triggers a refresh of all data (e.g., after player edits) */
+  refreshData: () => void;
+  /** Version counter to force re-renders when data changes */
+  dataVersion: number;
   isLoading: boolean;
 }
 
@@ -84,6 +93,12 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [previousData, setPreviousData] = useState<LeagueData | null>(null);
   const [currentSeason, setCurrentSeason] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
+  const [dataVersion, setDataVersion] = useState(0);
+
+  // Refresh data function - increments version to trigger re-renders
+  const refreshData = useCallback(() => {
+    setDataVersion((v) => v + 1);
+  }, []);
 
   // Restore last session (keeps the app usable locally with just CSV inputs)
   useEffect(() => {
@@ -333,6 +348,8 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         getAllPlayers,
         getSeasonHistory,
         getAvailableSeasons,
+        refreshData,
+        dataVersion,
         isLoading,
       }}
     >

@@ -47,12 +47,12 @@ export const getMetricBgClass = (value: number, metric: string): string => {
 export const getMetricColor = (value: number, metric: string): string => {
   const tier = getMetricTier(value, metric);
   const colors: Record<MetricTier, string> = {
-    legendary: 'hsl(280, 100%, 65%)',  // Purple/violet for legendary
-    goat: 'hsl(45, 100%, 50%)',        // Gold for GOAT
-    elite: 'hsl(150, 80%, 45%)',       // Green for elite
-    veryGood: 'hsl(190, 100%, 50%)',   // Cyan for very good
-    average: 'hsl(45, 70%, 55%)',      // Yellow for average
-    belowAvg: 'hsl(0, 60%, 55%)',      // Red for below average
+    legendary: 'hsl(25, 95%, 55%)',    // Deep orange for legendary
+    goat: 'hsl(280, 100%, 65%)',       // Purple for GOAT
+    elite: 'hsl(210, 100%, 55%)',      // Blue for elite
+    veryGood: 'hsl(120, 60%, 55%)',    // Light green for very good
+    average: 'hsl(50, 100%, 50%)',     // Yellow for average
+    belowAvg: 'hsl(0, 70%, 55%)',      // Red for below average
   };
   return colors[tier];
 };
@@ -60,12 +60,12 @@ export const getMetricColor = (value: number, metric: string): string => {
 export const getMetricBgColor = (value: number, metric: string): string => {
   const tier = getMetricTier(value, metric);
   const colors: Record<MetricTier, string> = {
-    legendary: 'hsl(280, 100%, 65%, 0.2)',
-    goat: 'hsl(45, 100%, 50%, 0.2)',
-    elite: 'hsl(150, 80%, 45%, 0.2)',
-    veryGood: 'hsl(190, 100%, 50%, 0.2)',
-    average: 'hsl(45, 70%, 55%, 0.2)',
-    belowAvg: 'hsl(0, 60%, 55%, 0.2)',
+    legendary: 'hsl(25, 95%, 55%, 0.2)',
+    goat: 'hsl(280, 100%, 65%, 0.2)',
+    elite: 'hsl(210, 100%, 55%, 0.2)',
+    veryGood: 'hsl(120, 60%, 55%, 0.2)',
+    average: 'hsl(50, 100%, 50%, 0.2)',
+    belowAvg: 'hsl(0, 70%, 55%, 0.2)',
   };
   return colors[tier];
 };
