@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Pencil, Trash2, Plus, Save, X } from 'lucide-react';
+import { Pencil, Trash2, Plus, Save, X, ToggleLeft, ToggleRight } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -21,6 +21,7 @@ import { Switch } from '@/components/ui/switch';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
 import type { Player, Position } from '@/types/player';
 import { useLeague } from '@/context/LeagueContext';
 import { toast } from 'sonner';
@@ -60,14 +61,42 @@ const getPositionStats = (position: Position): string[] => {
   }
 };
 
+// All possible season stats by position
+const getSeasonStats = (position: Position): string[] => {
+  const baseStats = ['games', 'rings', 'mvp', 'opoy', 'sbmvp', 'roty'];
+  switch (position) {
+    case 'QB':
+      return [...baseStats, 'passYds', 'passTD', 'completions', 'attempts', 'interceptions', 'sacks', 'rushAtt', 'rushYds', 'rushTD'];
+    case 'RB':
+      return [...baseStats, 'rushAtt', 'rushYds', 'rushTD', 'fumbles', 'receptions', 'recYds', 'recTD'];
+    case 'WR':
+    case 'TE':
+      return [...baseStats, 'receptions', 'recYds', 'recTD', 'fumbles', 'longest'];
+    case 'OL':
+      return [...baseStats, 'blocks'];
+    case 'LB':
+    case 'DB':
+    case 'DL':
+      return [...baseStats, 'tackles', 'interceptions', 'sacks', 'forcedFumbles'];
+    default:
+      return baseStats;
+  }
+};
+
 const statLabels: Record<string, string> = {
+  games: 'Games',
+  rings: 'Rings',
+  mvp: 'MVP',
+  opoy: 'OPOY/DPOY',
+  sbmvp: 'SB MVP',
+  roty: 'ROTY',
   passYds: 'Pass Yards',
   passTD: 'Pass TDs',
   completions: 'Completions',
   attempts: 'Attempts',
   interceptions: 'INTs',
   sacks: 'Sacks',
-  rushAtt: 'Rush Attempts',
+  rushAtt: 'Rush Att',
   rushYds: 'Rush Yards',
   rushTD: 'Rush TDs',
   fumbles: 'Fumbles',
@@ -77,11 +106,11 @@ const statLabels: Record<string, string> = {
   longest: 'Longest',
   blocks: 'Blocks',
   tackles: 'Tackles',
-  forcedFumbles: 'Forced Fumbles',
+  forcedFumbles: 'Forced Fum',
 };
 
 const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: PlayerEditDialogProps) => {
-  const { getAvailableSeasons, refreshData } = useLeague();
+  const { getAvailableSeasons, refreshData, currentSeason } = useLeague();
   const availableSeasons = getAvailableSeasons();
 
   // Form state
@@ -101,7 +130,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
   const [careerLegacy, setCareerLegacy] = useState(0);
   const [tpg, setTpg] = useState(0);
   const [positionStats, setPositionStats] = useState<Record<string, number>>({});
-  const [manualSeasons, setManualSeasons] = useState<Array<{ season: string; stats: Record<string, number> }>>([]);
+  const [manualSeasons, setManualSeasons] = useState<Array<{ season: string; stats: Record<string, number>; isAdditive: boolean }>>([]);
 
   // Load player data when dialog opens
   useEffect(() => {
@@ -128,6 +157,19 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
         stats[stat] = (player as any)[stat] || 0;
       });
       setPositionStats(stats);
+
+      // Load existing season history
+      const history = loadSeasonHistory();
+      const playerKey = `${player.position}:${player.name}`;
+      const existingSeasons = history[playerKey] || [];
+      setManualSeasons(existingSeasons.map((s) => {
+        const { season, ...rest } = s;
+        const stats: Record<string, number> = {};
+        Object.entries(rest).forEach(([k, v]) => {
+          if (typeof v === 'number') stats[k] = v;
+        });
+        return { season, stats, isAdditive: false };
+      })));
     } else if (isNewPlayer) {
       // Reset for new player
       setName('');
@@ -195,19 +237,54 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
     try {
       await savePlayerEdit(edit);
 
-      // If there are manual seasons, save them to season history
+      // Process seasons and save to history
       if (manualSeasons.length > 0) {
         const history = loadSeasonHistory();
-        history[playerKey] = manualSeasons.map((ms) => ({
-          season: ms.season,
-          games: ms.stats.games || 0,
-          rings: ms.stats.rings || 0,
-          mvp: ms.stats.mvp || 0,
-          opoy: ms.stats.opoy || 0,
-          sbmvp: ms.stats.sbmvp || 0,
-          roty: ms.stats.roty || 0,
-          ...ms.stats,
-        }));
+        
+        // Convert seasons to snapshots, handling additive mode
+        const snapshots: SeasonSnapshot[] = [];
+        let runningTotals: Record<string, number> = {};
+        
+        // Sort seasons by number
+        const sortedSeasons = [...manualSeasons].sort((a, b) => {
+          const aNum = parseInt(a.season.replace(/\D/g, '')) || 0;
+          const bNum = parseInt(b.season.replace(/\D/g, '')) || 0;
+          return aNum - bNum;
+        });
+
+        for (const ms of sortedSeasons) {
+          const snapshot: SeasonSnapshot = {
+            season: ms.season,
+            games: 0,
+            rings: 0,
+            mvp: 0,
+            opoy: 0,
+            sbmvp: 0,
+            roty: 0,
+          };
+
+          // Get all season stats for this position
+          const seasonStatKeys = getSeasonStats(position);
+          
+          for (const key of seasonStatKeys) {
+            const value = ms.stats[key] || 0;
+            if (ms.isAdditive) {
+              // Additive mode: this is a delta, add to running total
+              runningTotals[key] = (runningTotals[key] || 0) + value;
+              (snapshot as any)[key] = value; // Store the delta as the season value
+            } else {
+              // Career total mode: calculate delta from previous
+              const prevTotal = runningTotals[key] || 0;
+              const delta = Math.max(0, value - prevTotal);
+              (snapshot as any)[key] = delta;
+              runningTotals[key] = value;
+            }
+          }
+
+          snapshots.push(snapshot);
+        }
+
+        history[playerKey] = snapshots;
         saveSeasonHistory(history);
       }
 
@@ -245,16 +322,20 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
   };
 
   const addSeason = () => {
-    const unusedSeasons = availableSeasons.filter(
+    // Include current season if available, plus all historical seasons
+    const allSeasons = [...new Set([...availableSeasons, ...(currentSeason ? [currentSeason] : [])])];
+    const unusedSeasons = allSeasons.filter(
       (s) => !manualSeasons.some((ms) => ms.season === s)
     );
-    if (unusedSeasons.length === 0) {
-      toast.error('No more seasons available');
-      return;
-    }
+    
+    // If no available seasons, allow manual entry starting from Y1
+    const nextSeason = unusedSeasons.length > 0 
+      ? unusedSeasons[0] 
+      : `Y${manualSeasons.length + 1}`;
+    
     setManualSeasons([
       ...manualSeasons,
-      { season: unusedSeasons[0], stats: {} },
+      { season: nextSeason, stats: {}, isAdditive: true },
     ]);
   };
 
@@ -274,11 +355,36 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
     setManualSeasons(updated);
   };
 
+  const toggleSeasonMode = (index: number) => {
+    const updated = [...manualSeasons];
+    updated[index].isAdditive = !updated[index].isAdditive;
+    setManualSeasons(updated);
+  };
+
   const positionStatsFields = useMemo(() => getPositionStats(position), [position]);
+  const seasonStatsFields = useMemo(() => getSeasonStats(position), [position]);
+
+  // Get all possible seasons for dropdown (including manual entries)
+  const allPossibleSeasons = useMemo(() => {
+    const seasons = new Set([...availableSeasons]);
+    if (currentSeason) seasons.add(currentSeason);
+    // Add Y1 through Y50 as options
+    for (let i = 1; i <= 50; i++) {
+      seasons.add(`Y${i}`);
+    }
+    return Array.from(seasons).sort((a, b) => {
+      const aNum = parseInt(a.replace(/\D/g, '')) || 0;
+      const bNum = parseInt(b.replace(/\D/g, '')) || 0;
+      return aNum - bNum;
+    });
+  }, [availableSeasons, currentSeason]);
 
   return (
     <Dialog open={!!player || isNewPlayer} onOpenChange={() => onClose()}>
-      <DialogContent className="max-w-3xl max-h-[90vh] p-0 overflow-hidden">
+      <DialogContent 
+        className="max-w-4xl max-h-[90vh] p-0 overflow-hidden"
+        onPointerDownOutside={(e) => e.preventDefault()}
+      >
         <DialogHeader className="p-6 pb-0">
           <DialogTitle className="font-display text-2xl flex items-center gap-2">
             <Pencil className="w-5 h-5 text-primary" />
@@ -299,7 +405,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
             <TabsTrigger value="seasons">Season History</TabsTrigger>
           </TabsList>
 
-          <ScrollArea className="h-[60vh]">
+          <ScrollArea className="h-[55vh]">
             <TabsContent value="basic" className="p-6 space-y-4 mt-0">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -374,6 +480,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                   <Input
                     id="games"
                     type="number"
+                    min="0"
                     value={games}
                     onChange={(e) => setGames(parseInt(e.target.value) || 0)}
                   />
@@ -383,6 +490,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                   <Input
                     id="rings"
                     type="number"
+                    min="0"
                     value={rings}
                     onChange={(e) => setRings(parseInt(e.target.value) || 0)}
                   />
@@ -392,6 +500,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                   <Input
                     id="mvp"
                     type="number"
+                    min="0"
                     value={mvp}
                     onChange={(e) => setMvp(parseInt(e.target.value) || 0)}
                   />
@@ -404,6 +513,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                   <Input
                     id="opoy"
                     type="number"
+                    min="0"
                     value={opoy}
                     onChange={(e) => setOpoy(parseInt(e.target.value) || 0)}
                   />
@@ -413,6 +523,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                   <Input
                     id="sbmvp"
                     type="number"
+                    min="0"
                     value={sbmvp}
                     onChange={(e) => setSbmvp(parseInt(e.target.value) || 0)}
                   />
@@ -422,6 +533,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                   <Input
                     id="roty"
                     type="number"
+                    min="0"
                     value={roty}
                     onChange={(e) => setRoty(parseInt(e.target.value) || 0)}
                   />
@@ -440,6 +552,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                     <Input
                       id={stat}
                       type="number"
+                      min="0"
                       value={positionStats[stat] || 0}
                       onChange={(e) =>
                         setPositionStats({
@@ -463,6 +576,8 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                   <Input
                     id="trueTalent"
                     type="number"
+                    min="0"
+                    step="0.1"
                     value={trueTalent}
                     onChange={(e) => setTrueTalent(parseFloat(e.target.value) || 0)}
                   />
@@ -472,6 +587,8 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                   <Input
                     id="dominance"
                     type="number"
+                    min="0"
+                    step="0.1"
                     value={dominance}
                     onChange={(e) => setDominance(parseFloat(e.target.value) || 0)}
                   />
@@ -481,6 +598,8 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                   <Input
                     id="careerLegacy"
                     type="number"
+                    min="0"
+                    step="0.1"
                     value={careerLegacy}
                     onChange={(e) => setCareerLegacy(parseFloat(e.target.value) || 0)}
                   />
@@ -490,7 +609,8 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                   <Input
                     id="tpg"
                     type="number"
-                    step="0.01"
+                    min="0"
+                    step="0.001"
                     value={tpg}
                     onChange={(e) => setTpg(parseFloat(e.target.value) || 0)}
                   />
@@ -502,79 +622,95 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    Optionally add season-by-season stats for this player.
+                    Add season-by-season stats for this player.
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Only add seasons that have been uploaded to the system.
+                    Toggle between <span className="text-primary font-medium">Additive</span> (season delta) and <span className="text-accent font-medium">Career Total</span> (cumulative at season end) modes.
                   </p>
                 </div>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={addSeason}
-                  disabled={availableSeasons.length === 0}
                 >
                   <Plus className="w-4 h-4 mr-1" />
                   Add Season
                 </Button>
               </div>
 
-              {availableSeasons.length === 0 && (
-                <div className="text-center py-8 text-muted-foreground">
-                  <p>No seasons have been uploaded yet.</p>
-                  <p className="text-xs mt-1">Upload season data first to add season history.</p>
+              {manualSeasons.length === 0 && (
+                <div className="text-center py-8 text-muted-foreground border border-dashed border-border/50 rounded-lg">
+                  <p>No seasons added yet.</p>
+                  <p className="text-xs mt-1">Click "Add Season" to start tracking season history.</p>
                 </div>
               )}
 
               {manualSeasons.map((ms, index) => (
                 <div
                   key={index}
-                  className="p-4 rounded-lg border border-border/50 bg-secondary/20 space-y-3"
+                  className="p-4 rounded-lg border border-border/50 bg-secondary/20 space-y-4"
                 >
-                  <div className="flex items-center justify-between">
-                    <Select
-                      value={ms.season}
-                      onValueChange={(v) => updateSeasonName(index, v)}
-                    >
-                      <SelectTrigger className="w-40">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {availableSeasons.map((s) => (
-                          <SelectItem key={s} value={s}>
-                            {s}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <Select
+                        value={ms.season}
+                        onValueChange={(v) => updateSeasonName(index, v)}
+                      >
+                        <SelectTrigger className="w-28">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {allPossibleSeasons.map((s) => (
+                            <SelectItem key={s} value={s}>
+                              {s}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      
+                      <button
+                        type="button"
+                        onClick={() => toggleSeasonMode(index)}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-border/50 hover:bg-secondary/50 transition-colors"
+                      >
+                        {ms.isAdditive ? (
+                          <>
+                            <ToggleRight className="w-4 h-4 text-primary" />
+                            <Badge variant="outline" className="text-xs bg-primary/10 text-primary border-primary/30">
+                              Additive (Season Delta)
+                            </Badge>
+                          </>
+                        ) : (
+                          <>
+                            <ToggleLeft className="w-4 h-4 text-accent" />
+                            <Badge variant="outline" className="text-xs bg-accent/10 text-accent border-accent/30">
+                              Career Total at Season
+                            </Badge>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={() => removeSeason(index)}
+                      className="h-8 w-8 text-muted-foreground hover:text-destructive"
                     >
                       <X className="w-4 h-4" />
                     </Button>
                   </div>
 
-                  <div className="grid grid-cols-4 gap-3">
-                    <div className="space-y-1">
-                      <Label className="text-xs">Games</Label>
-                      <Input
-                        type="number"
-                        className="h-8 text-sm"
-                        value={ms.stats.games || 0}
-                        onChange={(e) =>
-                          updateSeasonStat(index, 'games', parseInt(e.target.value) || 0)
-                        }
-                      />
-                    </div>
-                    {positionStatsFields.slice(0, 3).map((stat) => (
+                  <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-3">
+                    {seasonStatsFields.map((stat) => (
                       <div key={stat} className="space-y-1">
-                        <Label className="text-xs">{statLabels[stat] || stat}</Label>
+                        <Label className="text-xs text-muted-foreground">{statLabels[stat] || stat}</Label>
                         <Input
                           type="number"
-                          className="h-8 text-sm"
-                          value={ms.stats[stat] || 0}
+                          min="0"
+                          className="h-9 text-sm"
+                          value={ms.stats[stat] || ''}
+                          placeholder="0"
                           onChange={(e) =>
                             updateSeasonStat(index, stat, parseInt(e.target.value) || 0)
                           }

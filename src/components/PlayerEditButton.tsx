@@ -13,7 +13,8 @@ const PlayerEditButton = ({ player, onSave }: PlayerEditButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent row click from triggering
+    e.preventDefault();
+    e.stopPropagation();
     setIsOpen(true);
   };
 
@@ -22,11 +23,12 @@ const PlayerEditButton = ({ player, onSave }: PlayerEditButtonProps) => {
       <Button
         variant="ghost"
         size="icon"
-        className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+        className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-secondary/80"
         onClick={handleClick}
+        onMouseDown={(e) => e.stopPropagation()}
         title="Edit player"
       >
-        <Pencil className="h-3.5 w-3.5 text-muted-foreground hover:text-primary" />
+        <Pencil className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-colors" />
       </Button>
 
       <PlayerEditDialog

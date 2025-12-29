@@ -1,11 +1,13 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useLeague } from '@/context/LeagueContext';
-import { Trophy, Crown, Calendar, Zap, Star, Flame, TrendingUp } from 'lucide-react';
+import { Trophy, Crown, Calendar, Zap, Star, Flame, TrendingUp, ChevronDown, ChevronUp, Target, Award, Activity } from 'lucide-react';
 import type { Player, QBPlayer, RBPlayer, WRPlayer, TEPlayer, LBPlayer, DBPlayer, DLPlayer } from '@/types/player';
 import PositionBadge from '../PositionBadge';
 import { getTeamColors } from '@/utils/teamColors';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { loadSeasonHistory, type SeasonSnapshot } from '@/utils/seasonHistory';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Button } from '@/components/ui/button';
 
 interface RecordEntry {
   stat: string;
@@ -14,6 +16,13 @@ interface RecordEntry {
   team?: string;
   position: string;
   season?: string;
+  description?: string;
+}
+
+interface TopNRecord {
+  stat: string;
+  description: string;
+  entries: RecordEntry[];
 }
 
 interface GreatSeason {
@@ -26,15 +35,71 @@ interface GreatSeason {
   awards: { mvp: number; opoy: number; sbmvp: number; roty: number; rings: number };
 }
 
-// Formula to evaluate a season's greatness
-// QB: (passYds/50) + (passTD*10) + (rushYds/20) + (rushTD*15) - (INT*5) + awards
-// RB: (rushYds/20) + (rushTD*15) + (recYds/30) + (recTD*10) + awards
-// WR/TE: (recYds/20) + (receptions*2) + (recTD*15) + awards
-// DEF: (tackles*2) + (sacks*15) + (INT*20) + (FF*10) + awards
-const calculateSeasonScore = (
-  snapshot: SeasonSnapshot,
-  position: string
-): number => {
+// Advanced stat descriptions
+const statDescriptions: Record<string, string> = {
+  // QB
+  'Career Passing Yards': 'Total yards thrown over entire career',
+  'Career Passing TDs': 'Total touchdown passes in career',
+  'Career Completions': 'Total completed passes in career',
+  'QB Career Rush Yards': 'Rushing yards accumulated by quarterbacks',
+  'QB Career Rush TDs': 'Rushing touchdowns by quarterbacks',
+  'Career Passer Rating': 'Efficiency metric combining completion %, yards, TDs, and INTs',
+  'Career Yards Per Attempt': 'Average yards gained per pass attempt',
+  'Career TD/INT Ratio': 'Touchdowns thrown per interception',
+  'Career Total TDs': 'Combined passing and rushing touchdowns',
+  'Career Total Yards': 'Combined passing and rushing yards',
+  // RB
+  'Career Rushing Yards': 'Total rushing yards over career',
+  'Career Rushing TDs': 'Total rushing touchdowns in career',
+  'Career Rush Attempts': 'Total rushing attempts in career',
+  'RB Career Receiving Yards': 'Receiving yards by running backs',
+  'Career Yards Per Carry': 'Average yards gained per rushing attempt',
+  'Career Scrimmage Yards': 'Combined rushing and receiving yards',
+  'Career Total RB TDs': 'Combined rushing and receiving touchdowns',
+  'Career Yards From Scrimmage Per Game': 'Average scrimmage yards per game played',
+  // WR
+  'Career Receiving Yards': 'Total receiving yards over career',
+  'Career Receptions': 'Total catches in career',
+  'Career Receiving TDs': 'Total receiving touchdowns in career',
+  'Career Yards Per Reception': 'Average yards per catch',
+  'Career Yards Per Game': 'Average receiving yards per game',
+  // TE
+  'TE Career Receiving Yards': 'Total receiving yards by tight ends',
+  'TE Career Receiving TDs': 'Total receiving touchdowns by tight ends',
+  'TE Career Receptions': 'Total catches by tight ends',
+  // Defense
+  'Career Tackles': 'Total tackles over entire career',
+  'Career Interceptions': 'Total interceptions in career',
+  'Career Sacks': 'Total quarterback sacks in career',
+  'Career Forced Fumbles': 'Total forced fumbles in career',
+  'Career Defensive TDs': 'Touchdowns from defensive turnovers',
+  'Career Turnovers Created': 'Combined interceptions and forced fumbles',
+  // Accolades
+  'Career Championships': 'Super Bowl/Championship rings won',
+  'Career MVP Awards': 'League MVP awards received',
+  'Super Bowl MVP Awards': 'Super Bowl MVP awards received',
+  'Highest Career Legacy': 'Composite score measuring overall career impact',
+  'Highest True Talent': 'Peak ability rating',
+  'Career OPOY/DPOY': 'Offensive/Defensive Player of Year awards',
+  // Single Season
+  'Single Season Passing Yards': 'Most yards thrown in a single season',
+  'Single Season Passing TDs': 'Most TD passes in a single season',
+  'Single Season QB Rush Yards': 'Most rushing yards by a QB in a season',
+  'Single Season Rushing Yards': 'Most rushing yards in a single season',
+  'Single Season Rushing TDs': 'Most rushing TDs in a single season',
+  'Single Season RB Receiving Yards': 'Most receiving yards by RB in a season',
+  'Single Season Receiving Yards': 'Most receiving yards in a single season',
+  'Single Season Receptions': 'Most receptions in a single season',
+  'Single Season Receiving TDs': 'Most receiving TDs in a single season',
+  'Single Season TE Receiving Yards': 'Most receiving yards by TE in a season',
+  'Single Season TE Receiving TDs': 'Most receiving TDs by TE in a season',
+  'Single Season Tackles': 'Most tackles in a single season',
+  'Single Season Sacks': 'Most sacks in a single season',
+  'Single Season INTs': 'Most interceptions in a single season',
+};
+
+// Season score formula
+const calculateSeasonScore = (snapshot: SeasonSnapshot, position: string): number => {
   const awardBonus = 
     (snapshot.mvp || 0) * 100 + 
     (snapshot.opoy || 0) * 75 + 
@@ -67,7 +132,6 @@ const calculateSeasonScore = (
       awardBonus
     );
   } else {
-    // Defensive
     return (
       ((snapshot.tackles || 0) * 2) +
       ((snapshot.sacks || 0) * 15) +
@@ -91,18 +155,19 @@ const RecordRow = ({ record, rank }: { record: RecordEntry; rank: number }) => {
   
   return (
     <div 
-      className="flex items-center gap-4 p-4 rounded-xl bg-background/40 hover:bg-background/60 transition-all border border-border/10"
+      className="flex items-center gap-3 p-3 rounded-lg bg-background/40 hover:bg-background/60 transition-all border border-border/10"
       style={teamColors ? { borderLeftWidth: '3px', borderLeftColor: `hsl(${teamColors.primary})` } : undefined}
     >
-      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-display font-bold text-lg">
+      <div className="flex items-center justify-center w-7 h-7 rounded-full bg-primary/10 text-primary font-display font-bold text-sm">
         {rank}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-semibold text-foreground">{record.playerName}</span>
+          <span className="font-semibold text-foreground text-sm">{record.playerName}</span>
+          <PositionBadge position={record.position as any} className="text-xs" />
           {record.team && (
             <span 
-              className="text-xs px-2 py-0.5 rounded font-medium"
+              className="text-xs px-1.5 py-0.5 rounded font-medium"
               style={teamColors ? {
                 backgroundColor: `hsl(${teamColors.primary} / 0.15)`,
                 color: `hsl(${teamColors.primary})`,
@@ -112,105 +177,183 @@ const RecordRow = ({ record, rank }: { record: RecordEntry; rank: number }) => {
             </span>
           )}
           {record.season && (
-            <span className="text-xs px-2 py-0.5 rounded bg-accent/15 text-accent font-medium">
+            <span className="text-xs px-1.5 py-0.5 rounded bg-accent/15 text-accent font-medium">
               {record.season}
             </span>
           )}
         </div>
-        <p className="text-xs text-muted-foreground mt-0.5">{record.stat}</p>
       </div>
       <div className="text-right">
-        <p className="font-mono text-xl font-bold text-primary">
-          {record.value.toLocaleString()}
+        <p className="font-mono text-lg font-bold text-primary">
+          {typeof record.value === 'number' && record.value % 1 !== 0 
+            ? record.value.toFixed(2) 
+            : record.value.toLocaleString()}
         </p>
       </div>
     </div>
   );
 };
 
-const RecordsTab = () => {
-  const { careerData, currentSeason } = useLeague();
+const TopNSection = ({ record, defaultExpanded = false }: { record: TopNRecord; defaultExpanded?: boolean }) => {
+  const [isOpen, setIsOpen] = useState(defaultExpanded);
+  
+  return (
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <CollapsibleTrigger asChild>
+        <Button
+          variant="ghost"
+          className="w-full justify-between p-4 h-auto hover:bg-secondary/50"
+        >
+          <div className="flex items-center gap-3 text-left">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10">
+              <Trophy className="w-4 h-4 text-primary" />
+            </div>
+            <div>
+              <h4 className="font-semibold text-foreground">{record.stat}</h4>
+              <p className="text-xs text-muted-foreground">{record.description}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">Top {record.entries.length}</span>
+            {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </div>
+        </Button>
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <div className="px-4 pb-4 space-y-2">
+          {record.entries.map((entry, i) => (
+            <RecordRow key={`${entry.playerName}-${entry.stat}`} record={entry} rank={i + 1} />
+          ))}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+};
 
-  // All-time career records
+const RecordsTab = () => {
+  const { careerData, dataVersion } = useLeague();
+  const [showAllMetrics, setShowAllMetrics] = useState(false);
+
+  // All-time career records with advanced metrics
   const allTimeRecords = useMemo(() => {
     if (!careerData) return null;
 
-    const findMax = <T extends Player>(
+    const findTopN = <T extends Player>(
       players: T[],
       getValue: (p: T) => number,
       stat: string,
-    ): RecordEntry | null => {
+      n: number = 10,
+    ): TopNRecord | null => {
       if (players.length === 0) return null;
-      const max = players.reduce((a, b) => (getValue(a) > getValue(b) ? a : b));
-      const val = getValue(max);
-      if (val <= 0) return null;
+      const sorted = [...players]
+        .filter((p) => getValue(p) > 0)
+        .sort((a, b) => getValue(b) - getValue(a))
+        .slice(0, n);
+      if (sorted.length === 0) return null;
+      
       return {
         stat,
-        value: val,
-        playerName: max.name,
-        team: max.team,
-        position: max.position,
+        description: statDescriptions[stat] || stat,
+        entries: sorted.map((p) => ({
+          stat,
+          value: getValue(p),
+          playerName: p.name,
+          team: p.team,
+          position: p.position,
+        })),
       };
     };
 
-    const qbRecords: RecordEntry[] = [];
-    if (careerData.quarterbacks.length > 0) {
-      const qbs = careerData.quarterbacks;
-      [
-        findMax(qbs, (p) => p.passYds, 'Career Passing Yards'),
-        findMax(qbs, (p) => p.passTD, 'Career Passing Touchdowns'),
-        findMax(qbs, (p) => p.completions, 'Career Completions'),
-        findMax(qbs, (p) => p.rushYds, 'QB Career Rush Yards'),
-        findMax(qbs, (p) => p.rushTD, 'QB Career Rush TDs'),
-      ].forEach((r) => r && qbRecords.push(r));
-    }
+    // QB Records - Basic
+    const qbBasicRecords: TopNRecord[] = [];
+    const qbs = careerData.quarterbacks;
+    [
+      findTopN(qbs, (p) => p.passYds, 'Career Passing Yards', 10),
+      findTopN(qbs, (p) => p.passTD, 'Career Passing TDs', 10),
+      findTopN(qbs, (p) => p.completions, 'Career Completions', 10),
+      findTopN(qbs, (p) => p.rushYds, 'QB Career Rush Yards', 10),
+      findTopN(qbs, (p) => p.rushTD, 'QB Career Rush TDs', 10),
+    ].forEach((r) => r && qbBasicRecords.push(r));
 
-    const rbRecords: RecordEntry[] = [];
-    if (careerData.runningbacks.length > 0) {
-      const rbs = careerData.runningbacks;
-      [
-        findMax(rbs, (p) => p.rushYds, 'Career Rushing Yards'),
-        findMax(rbs, (p) => p.rushTD, 'Career Rushing Touchdowns'),
-        findMax(rbs, (p) => p.rushAtt, 'Career Rush Attempts'),
-        findMax(rbs, (p) => p.recYds, 'RB Career Receiving Yards'),
-      ].forEach((r) => r && rbRecords.push(r));
-    }
+    // QB Records - Advanced
+    const qbAdvancedRecords: TopNRecord[] = [];
+    [
+      findTopN(qbs, (p) => p.attempts > 0 ? p.passYds / p.attempts : 0, 'Career Yards Per Attempt', 10),
+      findTopN(qbs, (p) => p.interceptions > 0 ? p.passTD / p.interceptions : p.passTD, 'Career TD/INT Ratio', 10),
+      findTopN(qbs, (p) => p.passTD + p.rushTD, 'Career Total TDs', 10),
+      findTopN(qbs, (p) => p.passYds + p.rushYds, 'Career Total Yards', 10),
+      findTopN(qbs, (p) => p.games > 0 ? (p.passYds + p.rushYds) / p.games : 0, 'Career Yards Per Game', 10),
+    ].forEach((r) => r && qbAdvancedRecords.push(r));
 
-    const wrRecords: RecordEntry[] = [];
-    if (careerData.widereceivers.length > 0) {
-      const wrs = careerData.widereceivers;
-      [
-        findMax(wrs, (p) => p.recYds, 'Career Receiving Yards'),
-        findMax(wrs, (p) => p.receptions, 'Career Receptions'),
-        findMax(wrs, (p) => p.recTD, 'Career Receiving TDs'),
-      ].forEach((r) => r && wrRecords.push(r));
-    }
+    // RB Records - Basic
+    const rbBasicRecords: TopNRecord[] = [];
+    const rbs = careerData.runningbacks;
+    [
+      findTopN(rbs, (p) => p.rushYds, 'Career Rushing Yards', 10),
+      findTopN(rbs, (p) => p.rushTD, 'Career Rushing TDs', 10),
+      findTopN(rbs, (p) => p.rushAtt, 'Career Rush Attempts', 10),
+      findTopN(rbs, (p) => p.recYds, 'RB Career Receiving Yards', 10),
+    ].forEach((r) => r && rbBasicRecords.push(r));
 
-    const teRecords: RecordEntry[] = [];
-    if (careerData.tightends.length > 0) {
-      const tes = careerData.tightends;
-      [
-        findMax(tes, (p) => p.recYds, 'TE Career Receiving Yards'),
-        findMax(tes, (p) => p.recTD, 'TE Career Receiving TDs'),
-      ].forEach((r) => r && teRecords.push(r));
-    }
+    // RB Records - Advanced
+    const rbAdvancedRecords: TopNRecord[] = [];
+    [
+      findTopN(rbs, (p) => p.rushAtt > 0 ? p.rushYds / p.rushAtt : 0, 'Career Yards Per Carry', 10),
+      findTopN(rbs, (p) => p.rushYds + p.recYds, 'Career Scrimmage Yards', 10),
+      findTopN(rbs, (p) => p.rushTD + p.recTD, 'Career Total RB TDs', 10),
+      findTopN(rbs, (p) => p.games > 0 ? (p.rushYds + p.recYds) / p.games : 0, 'Career Yards From Scrimmage Per Game', 10),
+    ].forEach((r) => r && rbAdvancedRecords.push(r));
 
+    // WR Records - Basic
+    const wrBasicRecords: TopNRecord[] = [];
+    const wrs = careerData.widereceivers;
+    [
+      findTopN(wrs, (p) => p.recYds, 'Career Receiving Yards', 10),
+      findTopN(wrs, (p) => p.receptions, 'Career Receptions', 10),
+      findTopN(wrs, (p) => p.recTD, 'Career Receiving TDs', 10),
+    ].forEach((r) => r && wrBasicRecords.push(r));
+
+    // WR Records - Advanced
+    const wrAdvancedRecords: TopNRecord[] = [];
+    [
+      findTopN(wrs, (p) => p.receptions > 0 ? p.recYds / p.receptions : 0, 'Career Yards Per Reception', 10),
+      findTopN(wrs, (p) => p.games > 0 ? p.recYds / p.games : 0, 'Career Yards Per Game', 10),
+      findTopN(wrs, (p) => p.games > 0 ? p.recTD / p.games * 16 : 0, 'Career TDs Per 16 Games', 10),
+    ].forEach((r) => r && wrAdvancedRecords.push(r));
+
+    // TE Records
+    const teRecords: TopNRecord[] = [];
+    const tes = careerData.tightends;
+    [
+      findTopN(tes, (p) => p.recYds, 'TE Career Receiving Yards', 10),
+      findTopN(tes, (p) => p.recTD, 'TE Career Receiving TDs', 10),
+      findTopN(tes, (p) => p.receptions, 'TE Career Receptions', 10),
+      findTopN(tes, (p) => p.receptions > 0 ? p.recYds / p.receptions : 0, 'TE Yards Per Reception', 10),
+    ].forEach((r) => r && teRecords.push(r));
+
+    // Defense Records
     const allDef = [
       ...careerData.linebackers,
       ...careerData.defensivebacks,
       ...careerData.defensiveline,
     ] as (LBPlayer | DBPlayer | DLPlayer)[];
 
-    const defRecords: RecordEntry[] = [];
-    if (allDef.length > 0) {
-      [
-        findMax(allDef, (p) => p.tackles, 'Career Tackles'),
-        findMax(allDef, (p) => p.interceptions, 'Career Interceptions'),
-        findMax(allDef, (p) => p.sacks, 'Career Sacks'),
-        findMax(allDef, (p) => p.forcedFumbles, 'Career Forced Fumbles'),
-      ].forEach((r) => r && defRecords.push(r));
-    }
+    const defBasicRecords: TopNRecord[] = [];
+    [
+      findTopN(allDef, (p) => p.tackles, 'Career Tackles', 10),
+      findTopN(allDef, (p) => p.interceptions, 'Career Interceptions', 10),
+      findTopN(allDef, (p) => p.sacks, 'Career Sacks', 10),
+      findTopN(allDef, (p) => p.forcedFumbles, 'Career Forced Fumbles', 10),
+    ].forEach((r) => r && defBasicRecords.push(r));
 
+    const defAdvancedRecords: TopNRecord[] = [];
+    [
+      findTopN(allDef, (p) => p.interceptions + p.forcedFumbles, 'Career Turnovers Created', 10),
+      findTopN(allDef, (p) => p.games > 0 ? p.tackles / p.games : 0, 'Career Tackles Per Game', 10),
+      findTopN(allDef, (p) => p.games > 0 ? p.sacks / p.games * 16 : 0, 'Career Sacks Per 16 Games', 10),
+    ].forEach((r) => r && defAdvancedRecords.push(r));
+
+    // Accolades
     const allPlayers: Player[] = [
       ...careerData.quarterbacks,
       ...careerData.runningbacks,
@@ -222,32 +365,34 @@ const RecordsTab = () => {
       ...careerData.defensiveline,
     ];
 
-    const accoladeRecords: RecordEntry[] = [];
-    if (allPlayers.length > 0) {
-      [
-        findMax(allPlayers, (p) => p.rings, 'Career Championships'),
-        findMax(allPlayers, (p) => p.mvp, 'Career MVP Awards'),
-        findMax(allPlayers, (p) => p.sbmvp, 'Super Bowl MVP Awards'),
-        findMax(allPlayers, (p) => p.careerLegacy, 'Highest Career Legacy'),
-        findMax(allPlayers, (p) => p.trueTalent, 'Highest True Talent'),
-      ].forEach((r) => r && accoladeRecords.push(r));
-    }
+    const accoladeRecords: TopNRecord[] = [];
+    [
+      findTopN(allPlayers, (p) => p.rings, 'Career Championships', 10),
+      findTopN(allPlayers, (p) => p.mvp, 'Career MVP Awards', 10),
+      findTopN(allPlayers, (p) => p.sbmvp, 'Super Bowl MVP Awards', 10),
+      findTopN(allPlayers, (p) => p.opoy, 'Career OPOY/DPOY', 10),
+      findTopN(allPlayers, (p) => p.careerLegacy, 'Highest Career Legacy', 10),
+      findTopN(allPlayers, (p) => p.trueTalent, 'Highest True Talent', 10),
+      findTopN(allPlayers, (p) => p.dominance, 'Highest Dominance', 10),
+    ].forEach((r) => r && accoladeRecords.push(r));
 
-    return { qbRecords, rbRecords, wrRecords, teRecords, defRecords, accoladeRecords };
-  }, [careerData]);
+    return { 
+      qbBasicRecords, qbAdvancedRecords,
+      rbBasicRecords, rbAdvancedRecords,
+      wrBasicRecords, wrAdvancedRecords,
+      teRecords,
+      defBasicRecords, defAdvancedRecords,
+      accoladeRecords,
+    };
+  }, [careerData, dataVersion]);
 
-  // Single-season records from stored history
-  // IMPORTANT: Only include seasons from players who have multiple seasons recorded
-  // Players with only 1 season are considered "legacy imports" and excluded
+  // Single-season records
   const singleSeasonRecords = useMemo(() => {
     const history = loadSeasonHistory();
     const allSnapshots: { playerKey: string; snapshot: SeasonSnapshot }[] = [];
     
-    // Only include players with more than one season recorded (not legacy imports)
     Object.entries(history).forEach(([playerKey, snapshots]) => {
-      // If player only has 1 season, they're a legacy import - exclude from single-season records
       if (snapshots.length <= 1) return;
-      
       snapshots.forEach((snapshot) => {
         allSnapshots.push({ playerKey, snapshot });
       });
@@ -255,76 +400,90 @@ const RecordsTab = () => {
 
     if (allSnapshots.length === 0) return null;
 
-    const findMaxSeason = (
+    const findTopNSeason = (
       filter: (key: string) => boolean,
       getValue: (s: SeasonSnapshot) => number,
-      stat: string
-    ): RecordEntry | null => {
+      stat: string,
+      n: number = 10
+    ): TopNRecord | null => {
       const filtered = allSnapshots.filter(({ playerKey }) => filter(playerKey));
       if (filtered.length === 0) return null;
       
-      const max = filtered.reduce((a, b) => 
-        getValue(a.snapshot) > getValue(b.snapshot) ? a : b
-      );
-      const val = getValue(max.snapshot);
-      if (val <= 0) return null;
+      const sorted = [...filtered]
+        .filter(({ snapshot }) => getValue(snapshot) > 0)
+        .sort((a, b) => getValue(b.snapshot) - getValue(a.snapshot))
+        .slice(0, n);
+      
+      if (sorted.length === 0) return null;
 
-      const [position, ...nameParts] = max.playerKey.split(':');
       return {
         stat,
-        value: val,
-        playerName: nameParts.join(':'),
-        position,
-        season: max.snapshot.season,
+        description: statDescriptions[stat] || stat,
+        entries: sorted.map(({ playerKey, snapshot }) => {
+          const [position, ...nameParts] = playerKey.split(':');
+          return {
+            stat,
+            value: getValue(snapshot),
+            playerName: nameParts.join(':'),
+            position,
+            season: snapshot.season,
+          };
+        }),
       };
     };
 
-    const qbRecords: RecordEntry[] = [];
+    // QB Season Records
+    const qbSeasonRecords: TopNRecord[] = [];
     [
-      findMaxSeason((k) => k.startsWith('QB:'), (s) => s.passYds || 0, 'Single Season Passing Yards'),
-      findMaxSeason((k) => k.startsWith('QB:'), (s) => s.passTD || 0, 'Single Season Passing TDs'),
-      findMaxSeason((k) => k.startsWith('QB:'), (s) => s.rushYds || 0, 'Single Season QB Rush Yards'),
-    ].forEach((r) => r && qbRecords.push(r));
+      findTopNSeason((k) => k.startsWith('QB:'), (s) => s.passYds || 0, 'Single Season Passing Yards'),
+      findTopNSeason((k) => k.startsWith('QB:'), (s) => s.passTD || 0, 'Single Season Passing TDs'),
+      findTopNSeason((k) => k.startsWith('QB:'), (s) => s.rushYds || 0, 'Single Season QB Rush Yards'),
+      findTopNSeason((k) => k.startsWith('QB:'), (s) => s.rushTD || 0, 'Single Season QB Rush TDs'),
+      findTopNSeason((k) => k.startsWith('QB:'), (s) => (s.passTD || 0) + (s.rushTD || 0), 'Single Season Total QB TDs'),
+    ].forEach((r) => r && qbSeasonRecords.push(r));
 
-    const rbRecords: RecordEntry[] = [];
+    // RB Season Records
+    const rbSeasonRecords: TopNRecord[] = [];
     [
-      findMaxSeason((k) => k.startsWith('RB:'), (s) => s.rushYds || 0, 'Single Season Rushing Yards'),
-      findMaxSeason((k) => k.startsWith('RB:'), (s) => s.rushTD || 0, 'Single Season Rushing TDs'),
-      findMaxSeason((k) => k.startsWith('RB:'), (s) => s.recYds || 0, 'Single Season RB Receiving Yards'),
-    ].forEach((r) => r && rbRecords.push(r));
+      findTopNSeason((k) => k.startsWith('RB:'), (s) => s.rushYds || 0, 'Single Season Rushing Yards'),
+      findTopNSeason((k) => k.startsWith('RB:'), (s) => s.rushTD || 0, 'Single Season Rushing TDs'),
+      findTopNSeason((k) => k.startsWith('RB:'), (s) => s.recYds || 0, 'Single Season RB Receiving Yards'),
+      findTopNSeason((k) => k.startsWith('RB:'), (s) => (s.rushYds || 0) + (s.recYds || 0), 'Single Season Scrimmage Yards'),
+    ].forEach((r) => r && rbSeasonRecords.push(r));
 
-    const wrRecords: RecordEntry[] = [];
+    // WR Season Records
+    const wrSeasonRecords: TopNRecord[] = [];
     [
-      findMaxSeason((k) => k.startsWith('WR:'), (s) => s.recYds || 0, 'Single Season Receiving Yards'),
-      findMaxSeason((k) => k.startsWith('WR:'), (s) => s.receptions || 0, 'Single Season Receptions'),
-      findMaxSeason((k) => k.startsWith('WR:'), (s) => s.recTD || 0, 'Single Season Receiving TDs'),
-    ].forEach((r) => r && wrRecords.push(r));
+      findTopNSeason((k) => k.startsWith('WR:'), (s) => s.recYds || 0, 'Single Season Receiving Yards'),
+      findTopNSeason((k) => k.startsWith('WR:'), (s) => s.receptions || 0, 'Single Season Receptions'),
+      findTopNSeason((k) => k.startsWith('WR:'), (s) => s.recTD || 0, 'Single Season Receiving TDs'),
+    ].forEach((r) => r && wrSeasonRecords.push(r));
 
-    const teRecords: RecordEntry[] = [];
+    // TE Season Records
+    const teSeasonRecords: TopNRecord[] = [];
     [
-      findMaxSeason((k) => k.startsWith('TE:'), (s) => s.recYds || 0, 'Single Season TE Receiving Yards'),
-      findMaxSeason((k) => k.startsWith('TE:'), (s) => s.recTD || 0, 'Single Season TE Receiving TDs'),
-    ].forEach((r) => r && teRecords.push(r));
+      findTopNSeason((k) => k.startsWith('TE:'), (s) => s.recYds || 0, 'Single Season TE Receiving Yards'),
+      findTopNSeason((k) => k.startsWith('TE:'), (s) => s.recTD || 0, 'Single Season TE Receiving TDs'),
+    ].forEach((r) => r && teSeasonRecords.push(r));
 
-    const defRecords: RecordEntry[] = [];
+    // DEF Season Records
+    const defSeasonRecords: TopNRecord[] = [];
     [
-      findMaxSeason((k) => ['LB:', 'DB:', 'DL:'].some(p => k.startsWith(p)), (s) => s.tackles || 0, 'Single Season Tackles'),
-      findMaxSeason((k) => ['LB:', 'DB:', 'DL:'].some(p => k.startsWith(p)), (s) => s.sacks || 0, 'Single Season Sacks'),
-      findMaxSeason((k) => ['LB:', 'DB:', 'DL:'].some(p => k.startsWith(p)), (s) => s.interceptions || 0, 'Single Season INTs'),
-    ].forEach((r) => r && defRecords.push(r));
+      findTopNSeason((k) => ['LB:', 'DB:', 'DL:'].some(p => k.startsWith(p)), (s) => s.tackles || 0, 'Single Season Tackles'),
+      findTopNSeason((k) => ['LB:', 'DB:', 'DL:'].some(p => k.startsWith(p)), (s) => s.sacks || 0, 'Single Season Sacks'),
+      findTopNSeason((k) => ['LB:', 'DB:', 'DL:'].some(p => k.startsWith(p)), (s) => s.interceptions || 0, 'Single Season INTs'),
+      findTopNSeason((k) => ['LB:', 'DB:', 'DL:'].some(p => k.startsWith(p)), (s) => s.forcedFumbles || 0, 'Single Season Forced Fumbles'),
+    ].forEach((r) => r && defSeasonRecords.push(r));
 
-    return { qbRecords, rbRecords, wrRecords, teRecords, defRecords };
-  }, []);
+    return { qbSeasonRecords, rbSeasonRecords, wrSeasonRecords, teSeasonRecords, defSeasonRecords };
+  }, [dataVersion]);
 
-  // Greatest seasons of all time
-  // IMPORTANT: Only include seasons from players who have multiple seasons recorded
-  // Players with only 1 season are considered "legacy imports" and excluded
+  // Greatest seasons
   const greatestSeasons = useMemo((): GreatSeason[] => {
     const history = loadSeasonHistory();
     const seasons: GreatSeason[] = [];
 
     Object.entries(history).forEach(([playerKey, snapshots]) => {
-      // If player only has 1 season, they're a legacy import - exclude from greatest seasons
       if (snapshots.length <= 1) return;
       
       const [position, ...nameParts] = playerKey.split(':');
@@ -370,7 +529,7 @@ const RecordsTab = () => {
     });
 
     return seasons.sort((a, b) => b.score - a.score).slice(0, 25);
-  }, []);
+  }, [dataVersion]);
 
   if (!careerData || !allTimeRecords) {
     return (
@@ -386,40 +545,41 @@ const RecordsTab = () => {
     );
   }
 
-  const Section = ({ title, records, color }: { title: string; records: RecordEntry[]; color: string }) => (
+  const RecordCategory = ({ title, basicRecords, advancedRecords, color, icon: Icon }: { 
+    title: string; 
+    basicRecords: TopNRecord[]; 
+    advancedRecords?: TopNRecord[];
+    color: string;
+    icon: any;
+  }) => (
     <div 
-      className="relative overflow-hidden rounded-2xl border-2 p-6 space-y-4"
+      className="relative overflow-hidden rounded-2xl border-2 space-y-1"
       style={{ 
         borderColor: `${color}40`,
         background: `linear-gradient(135deg, ${color}08 0%, transparent 50%, ${color}05 100%)`
       }}
     >
-      {/* Decorative corner accent */}
       <div 
         className="absolute top-0 right-0 w-32 h-32 opacity-10"
-        style={{
-          background: `radial-gradient(circle at top right, ${color}, transparent 70%)`
-        }}
-      />
-      <div 
-        className="absolute bottom-0 left-0 w-24 h-24 opacity-5"
-        style={{
-          background: `radial-gradient(circle at bottom left, ${color}, transparent 70%)`
-        }}
+        style={{ background: `radial-gradient(circle at top right, ${color}, transparent 70%)` }}
       />
       
-      <div className="relative flex items-center gap-3 border-b pb-4" style={{ borderColor: `${color}30` }}>
+      <div className="relative flex items-center gap-3 p-4 border-b" style={{ borderColor: `${color}30` }}>
         <div 
           className="flex items-center justify-center w-10 h-10 rounded-xl"
           style={{ backgroundColor: `${color}20` }}
         >
-          <Crown className="w-5 h-5" style={{ color }} />
+          <Icon className="w-5 h-5" style={{ color }} />
         </div>
-        <h3 className="font-display text-2xl font-bold tracking-wide" style={{ color }}>{title}</h3>
+        <h3 className="font-display text-xl font-bold tracking-wide" style={{ color }}>{title}</h3>
       </div>
-      <div className="relative space-y-3">
-        {records.map((r, i) => (
-          <RecordRow key={`${r.stat}-${r.playerName}`} record={r} rank={i + 1} />
+      
+      <div className="relative divide-y divide-border/20">
+        {basicRecords.slice(0, showAllMetrics ? undefined : 3).map((r, i) => (
+          <TopNSection key={r.stat} record={r} defaultExpanded={i === 0} />
+        ))}
+        {advancedRecords && showAllMetrics && advancedRecords.map((r) => (
+          <TopNSection key={r.stat} record={r} />
         ))}
       </div>
     </div>
@@ -458,6 +618,18 @@ const RecordsTab = () => {
         </div>
       </div>
 
+      {/* Toggle for advanced metrics */}
+      <div className="flex justify-center mb-6">
+        <Button
+          variant={showAllMetrics ? "default" : "outline"}
+          onClick={() => setShowAllMetrics(!showAllMetrics)}
+          className="gap-2"
+        >
+          <Activity className="w-4 h-4" />
+          {showAllMetrics ? 'Show Curated Metrics' : 'Expand All Advanced Metrics'}
+        </Button>
+      </div>
+
       <Tabs defaultValue="career" className="space-y-6">
         <TabsList className="bg-secondary/50 border border-border/30 mx-auto flex w-fit">
           <TabsTrigger value="career" className="data-[state=active]:bg-rose-500/20 data-[state=active]:text-rose-400 font-medium gap-2">
@@ -476,23 +648,57 @@ const RecordsTab = () => {
 
         <TabsContent value="career">
           <div className="grid lg:grid-cols-2 gap-6">
-            {allTimeRecords.qbRecords.length > 0 && (
-              <Section title="QUARTERBACK" records={allTimeRecords.qbRecords} color="hsl(var(--primary))" />
+            {allTimeRecords.qbBasicRecords.length > 0 && (
+              <RecordCategory 
+                title="QUARTERBACK" 
+                basicRecords={allTimeRecords.qbBasicRecords}
+                advancedRecords={allTimeRecords.qbAdvancedRecords}
+                color="hsl(var(--primary))" 
+                icon={Target}
+              />
             )}
-            {allTimeRecords.rbRecords.length > 0 && (
-              <Section title="RUNNING BACK" records={allTimeRecords.rbRecords} color="hsl(var(--accent))" />
+            {allTimeRecords.rbBasicRecords.length > 0 && (
+              <RecordCategory 
+                title="RUNNING BACK" 
+                basicRecords={allTimeRecords.rbBasicRecords}
+                advancedRecords={allTimeRecords.rbAdvancedRecords}
+                color="hsl(var(--accent))" 
+                icon={Zap}
+              />
             )}
-            {allTimeRecords.wrRecords.length > 0 && (
-              <Section title="WIDE RECEIVER" records={allTimeRecords.wrRecords} color="hsl(var(--chart-4))" />
+            {allTimeRecords.wrBasicRecords.length > 0 && (
+              <RecordCategory 
+                title="WIDE RECEIVER" 
+                basicRecords={allTimeRecords.wrBasicRecords}
+                advancedRecords={allTimeRecords.wrAdvancedRecords}
+                color="#8b5cf6" 
+                icon={Star}
+              />
             )}
             {allTimeRecords.teRecords.length > 0 && (
-              <Section title="TIGHT END" records={allTimeRecords.teRecords} color="hsl(var(--chart-3))" />
+              <RecordCategory 
+                title="TIGHT END" 
+                basicRecords={allTimeRecords.teRecords}
+                color="#06b6d4" 
+                icon={Award}
+              />
             )}
-            {allTimeRecords.defRecords.length > 0 && (
-              <Section title="DEFENSE" records={allTimeRecords.defRecords} color="hsl(var(--destructive))" />
+            {allTimeRecords.defBasicRecords.length > 0 && (
+              <RecordCategory 
+                title="DEFENSE" 
+                basicRecords={allTimeRecords.defBasicRecords}
+                advancedRecords={allTimeRecords.defAdvancedRecords}
+                color="#ef4444" 
+                icon={Activity}
+              />
             )}
             {allTimeRecords.accoladeRecords.length > 0 && (
-              <Section title="ACCOLADES" records={allTimeRecords.accoladeRecords} color="hsl(var(--metric-elite))" />
+              <RecordCategory 
+                title="ACCOLADES & METRICS" 
+                basicRecords={allTimeRecords.accoladeRecords}
+                color="#f59e0b" 
+                icon={Crown}
+              />
             )}
           </div>
         </TabsContent>
@@ -500,20 +706,45 @@ const RecordsTab = () => {
         <TabsContent value="season">
           {singleSeasonRecords ? (
             <div className="grid lg:grid-cols-2 gap-6">
-              {singleSeasonRecords.qbRecords.length > 0 && (
-                <Section title="QB SINGLE SEASON" records={singleSeasonRecords.qbRecords} color="#f59e0b" />
+              {singleSeasonRecords.qbSeasonRecords.length > 0 && (
+                <RecordCategory 
+                  title="QB SINGLE SEASON" 
+                  basicRecords={singleSeasonRecords.qbSeasonRecords}
+                  color="#f59e0b" 
+                  icon={Target}
+                />
               )}
-              {singleSeasonRecords.rbRecords.length > 0 && (
-                <Section title="RB SINGLE SEASON" records={singleSeasonRecords.rbRecords} color="#10b981" />
+              {singleSeasonRecords.rbSeasonRecords.length > 0 && (
+                <RecordCategory 
+                  title="RB SINGLE SEASON" 
+                  basicRecords={singleSeasonRecords.rbSeasonRecords}
+                  color="#10b981" 
+                  icon={Zap}
+                />
               )}
-              {singleSeasonRecords.wrRecords.length > 0 && (
-                <Section title="WR SINGLE SEASON" records={singleSeasonRecords.wrRecords} color="#8b5cf6" />
+              {singleSeasonRecords.wrSeasonRecords.length > 0 && (
+                <RecordCategory 
+                  title="WR SINGLE SEASON" 
+                  basicRecords={singleSeasonRecords.wrSeasonRecords}
+                  color="#8b5cf6" 
+                  icon={Star}
+                />
               )}
-              {singleSeasonRecords.teRecords.length > 0 && (
-                <Section title="TE SINGLE SEASON" records={singleSeasonRecords.teRecords} color="#06b6d4" />
+              {singleSeasonRecords.teSeasonRecords.length > 0 && (
+                <RecordCategory 
+                  title="TE SINGLE SEASON" 
+                  basicRecords={singleSeasonRecords.teSeasonRecords}
+                  color="#06b6d4" 
+                  icon={Award}
+                />
               )}
-              {singleSeasonRecords.defRecords.length > 0 && (
-                <Section title="DEF SINGLE SEASON" records={singleSeasonRecords.defRecords} color="#ef4444" />
+              {singleSeasonRecords.defSeasonRecords.length > 0 && (
+                <RecordCategory 
+                  title="DEF SINGLE SEASON" 
+                  basicRecords={singleSeasonRecords.defSeasonRecords}
+                  color="#ef4444" 
+                  icon={Activity}
+                />
               )}
             </div>
           ) : (
