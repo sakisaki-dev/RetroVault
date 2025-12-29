@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Pencil, Trash2, Plus, Save, X, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Pencil, Trash2, Plus, Save, X, Info } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -22,6 +22,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import type { Player, Position } from '@/types/player';
 import { useLeague } from '@/context/LeagueContext';
 import { toast } from 'sonner';
@@ -61,7 +67,7 @@ const getPositionStats = (position: Position): string[] => {
   }
 };
 
-// All possible season stats by position
+// All possible season stats by position (what gets recorded per season)
 const getSeasonStats = (position: Position): string[] => {
   const baseStats = ['games', 'rings', 'mvp', 'opoy', 'sbmvp', 'roty'];
   switch (position) {
@@ -109,6 +115,11 @@ const statLabels: Record<string, string> = {
   forcedFumbles: 'Forced Fum',
 };
 
+interface SeasonEdit {
+  season: string;
+  stats: Record<string, number>;
+}
+
 const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: PlayerEditDialogProps) => {
   const { getAvailableSeasons, refreshData, currentSeason } = useLeague();
   const availableSeasons = getAvailableSeasons();
@@ -130,7 +141,9 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
   const [careerLegacy, setCareerLegacy] = useState(0);
   const [tpg, setTpg] = useState(0);
   const [positionStats, setPositionStats] = useState<Record<string, number>>({});
-  const [manualSeasons, setManualSeasons] = useState<Array<{ season: string; stats: Record<string, number>; isAdditive: boolean }>>([]);
+  
+  // Season history - each season is independent, stats are per-season deltas
+  const [seasonEdits, setSeasonEdits] = useState<SeasonEdit[]>([]);
 
   // Load player data when dialog opens
   useEffect(() => {
@@ -158,17 +171,18 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
       });
       setPositionStats(stats);
 
-      // Load existing season history
+      // Load existing season history - each entry is a per-season delta
       const history = loadSeasonHistory();
       const playerKey = `${player.position}:${player.name}`;
       const existingSeasons = history[playerKey] || [];
-      setManualSeasons(existingSeasons.map((s) => {
+      
+      setSeasonEdits(existingSeasons.map((s) => {
         const { season, ...rest } = s;
         const stats: Record<string, number> = {};
         Object.entries(rest).forEach(([k, v]) => {
           if (typeof v === 'number') stats[k] = v;
         });
-        return { season, stats, isAdditive: false };
+        return { season, stats };
       }));
     } else if (isNewPlayer) {
       // Reset for new player
@@ -188,7 +202,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
       setCareerLegacy(0);
       setTpg(0);
       setPositionStats({});
-      setManualSeasons([]);
+      setSeasonEdits([]);
     }
   }, [player, isNewPlayer]);
 
@@ -228,7 +242,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
       sbmvp,
       roty,
       positionStats,
-      manualSeasons: manualSeasons.length > 0 ? manualSeasons : undefined,
+      manualSeasons: seasonEdits.length > 0 ? seasonEdits : undefined,
       createdAt: player ? now : now,
       updatedAt: now,
       isManuallyAdded: isNewPlayer,
@@ -237,54 +251,46 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
     try {
       await savePlayerEdit(edit);
 
-      // Process seasons and save to history
-      if (manualSeasons.length > 0) {
+      // Save season history - each season is stored independently as per-season deltas
+      if (seasonEdits.length > 0) {
         const history = loadSeasonHistory();
         
-        // Convert seasons to snapshots, handling additive mode
-        const snapshots: SeasonSnapshot[] = [];
-        let runningTotals: Record<string, number> = {};
-        
         // Sort seasons by number
-        const sortedSeasons = [...manualSeasons].sort((a, b) => {
+        const sortedSeasons = [...seasonEdits].sort((a, b) => {
           const aNum = parseInt(a.season.replace(/\D/g, '')) || 0;
           const bNum = parseInt(b.season.replace(/\D/g, '')) || 0;
           return aNum - bNum;
         });
 
-        for (const ms of sortedSeasons) {
+        // Convert to snapshots - each season's stats are independent deltas
+        const snapshots: SeasonSnapshot[] = sortedSeasons.map((se) => {
           const snapshot: SeasonSnapshot = {
-            season: ms.season,
-            games: 0,
-            rings: 0,
-            mvp: 0,
-            opoy: 0,
-            sbmvp: 0,
-            roty: 0,
+            season: se.season,
+            games: se.stats.games || 0,
+            rings: se.stats.rings || 0,
+            mvp: se.stats.mvp || 0,
+            opoy: se.stats.opoy || 0,
+            sbmvp: se.stats.sbmvp || 0,
+            roty: se.stats.roty || 0,
           };
-
-          // Get all season stats for this position
-          const seasonStatKeys = getSeasonStats(position);
           
-          for (const key of seasonStatKeys) {
-            const value = ms.stats[key] || 0;
-            if (ms.isAdditive) {
-              // Additive mode: this is a delta, add to running total
-              runningTotals[key] = (runningTotals[key] || 0) + value;
-              (snapshot as any)[key] = value; // Store the delta as the season value
-            } else {
-              // Career total mode: calculate delta from previous
-              const prevTotal = runningTotals[key] || 0;
-              const delta = Math.max(0, value - prevTotal);
-              (snapshot as any)[key] = delta;
-              runningTotals[key] = value;
+          // Add position-specific stats
+          const posStats = getSeasonStats(position);
+          posStats.forEach((stat) => {
+            if (stat !== 'games' && stat !== 'rings' && stat !== 'mvp' && stat !== 'opoy' && stat !== 'sbmvp' && stat !== 'roty') {
+              (snapshot as any)[stat] = se.stats[stat] || 0;
             }
-          }
-
-          snapshots.push(snapshot);
-        }
+          });
+          
+          return snapshot;
+        });
 
         history[playerKey] = snapshots;
+        saveSeasonHistory(history);
+      } else {
+        // If no seasons, remove from history
+        const history = loadSeasonHistory();
+        delete history[playerKey];
         saveSeasonHistory(history);
       }
 
@@ -325,40 +331,38 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
     // Include current season if available, plus all historical seasons
     const allSeasons = [...new Set([...availableSeasons, ...(currentSeason ? [currentSeason] : [])])];
     const unusedSeasons = allSeasons.filter(
-      (s) => !manualSeasons.some((ms) => ms.season === s)
+      (s) => !seasonEdits.some((se) => se.season === s)
     );
     
     // If no available seasons, allow manual entry starting from Y1
     const nextSeason = unusedSeasons.length > 0 
       ? unusedSeasons[0] 
-      : `Y${manualSeasons.length + 1}`;
+      : `Y${seasonEdits.length + 1}`;
     
-    setManualSeasons([
-      ...manualSeasons,
-      { season: nextSeason, stats: {}, isAdditive: true },
-    ]);
+    setSeasonEdits([...seasonEdits, { season: nextSeason, stats: {} }]);
   };
 
   const removeSeason = (index: number) => {
-    setManualSeasons(manualSeasons.filter((_, i) => i !== index));
+    setSeasonEdits(seasonEdits.filter((_, i) => i !== index));
   };
 
   const updateSeasonStat = (index: number, stat: string, value: number) => {
-    const updated = [...manualSeasons];
-    updated[index].stats[stat] = value;
-    setManualSeasons(updated);
+    setSeasonEdits(prev => {
+      const updated = [...prev];
+      updated[index] = {
+        ...updated[index],
+        stats: { ...updated[index].stats, [stat]: value }
+      };
+      return updated;
+    });
   };
 
   const updateSeasonName = (index: number, season: string) => {
-    const updated = [...manualSeasons];
-    updated[index].season = season;
-    setManualSeasons(updated);
-  };
-
-  const toggleSeasonMode = (index: number) => {
-    const updated = [...manualSeasons];
-    updated[index].isAdditive = !updated[index].isAdditive;
-    setManualSeasons(updated);
+    setSeasonEdits(prev => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], season };
+      return updated;
+    });
   };
 
   const positionStatsFields = useMemo(() => getPositionStats(position), [position]);
@@ -620,32 +624,45 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
 
             <TabsContent value="seasons" className="p-6 space-y-4 mt-0">
               <div className="flex items-center justify-between">
-                <div>
+                <div className="flex-1">
                   <p className="text-sm text-muted-foreground">
                     Add season-by-season stats for this player.
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Toggle between <span className="text-primary font-medium">Additive</span> (season delta) and <span className="text-accent font-medium">Career Total</span> (cumulative at season end) modes.
-                  </p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground cursor-help">
+                            <Info className="w-3 h-3" />
+                            <span>Each season represents that season's production only (not cumulative)</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-xs">
+                          <p>Enter the stats earned during that specific season. For example, if a QB threw 4000 yards in Y1 and 4500 in Y2, enter 4000 for Y1 and 4500 for Y2.</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
                 </div>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={addSeason}
+                  className="ml-4"
                 >
                   <Plus className="w-4 h-4 mr-1" />
                   Add Season
                 </Button>
               </div>
 
-              {manualSeasons.length === 0 && (
+              {seasonEdits.length === 0 && (
                 <div className="text-center py-8 text-muted-foreground border border-dashed border-border/50 rounded-lg">
                   <p>No seasons added yet.</p>
                   <p className="text-xs mt-1">Click "Add Season" to start tracking season history.</p>
                 </div>
               )}
 
-              {manualSeasons.map((ms, index) => (
+              {seasonEdits.map((se, index) => (
                 <div
                   key={index}
                   className="p-4 rounded-lg border border-border/50 bg-secondary/20 space-y-4"
@@ -653,10 +670,10 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
                       <Select
-                        value={ms.season}
+                        value={se.season}
                         onValueChange={(v) => updateSeasonName(index, v)}
                       >
-                        <SelectTrigger className="w-28">
+                        <SelectTrigger className="w-24">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -668,27 +685,9 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                         </SelectContent>
                       </Select>
                       
-                      <button
-                        type="button"
-                        onClick={() => toggleSeasonMode(index)}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-border/50 hover:bg-secondary/50 transition-colors"
-                      >
-                        {ms.isAdditive ? (
-                          <>
-                            <ToggleRight className="w-4 h-4 text-primary" />
-                            <Badge variant="outline" className="text-xs bg-primary/10 text-primary border-primary/30">
-                              Additive (Season Delta)
-                            </Badge>
-                          </>
-                        ) : (
-                          <>
-                            <ToggleLeft className="w-4 h-4 text-accent" />
-                            <Badge variant="outline" className="text-xs bg-accent/10 text-accent border-accent/30">
-                              Career Total at Season
-                            </Badge>
-                          </>
-                        )}
-                      </button>
+                      <Badge variant="secondary" className="text-xs">
+                        Season Stats
+                      </Badge>
                     </div>
                     
                     <Button
@@ -709,7 +708,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                           type="number"
                           min="0"
                           className="h-9 text-sm"
-                          value={ms.stats[stat] || ''}
+                          value={se.stats[stat] ?? ''}
                           placeholder="0"
                           onChange={(e) =>
                             updateSeasonStat(index, stat, parseInt(e.target.value) || 0)

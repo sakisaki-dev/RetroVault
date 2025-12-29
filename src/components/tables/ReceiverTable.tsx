@@ -6,13 +6,11 @@ import MetricCell from '../MetricCell';
 import StatCell from '../StatCell';
 import AwardsCell from '../AwardsCell';
 import PlayerDetailCard from '../PlayerDetailCard';
-import PlayerEditButton from '../PlayerEditButton';
 import TeamOverridesDialog from '../TeamOverridesDialog';
 import { calculateLeaders } from '@/utils/csvParser';
 import { getTeamColors } from '@/utils/teamColors';
 import { loadTeamOverrides } from '@/utils/teamOverrides';
 import { Button } from '@/components/ui/button';
-import { useLeague } from '@/context/LeagueContext';
 
 interface ReceiverTableProps {
   players: (WRPlayer | TEPlayer)[];
@@ -26,7 +24,6 @@ const ReceiverTable = ({ players, position, title, searchQuery = '', activeOnly 
   const [selectedPlayer, setSelectedPlayer] = useState<WRPlayer | TEPlayer | null>(null);
   const [teamOverrides, setTeamOverrides] = useState(() => loadTeamOverrides());
   const [isTeamDialogOpen, setIsTeamDialogOpen] = useState(false);
-  const { refreshData } = useLeague();
   const filteredPlayers = useMemo(() => {
     return players.filter(p => {
       const matchesSearch = searchQuery === '' || 
@@ -100,17 +97,11 @@ const ReceiverTable = ({ players, position, title, searchQuery = '', activeOnly 
                     onClick={() => setSelectedPlayer({ ...player, team: displayTeam } as WRPlayer | TEPlayer)}
                   >
                     <td className="sticky left-0 bg-card/90 backdrop-blur z-10">
-                      <div className="flex items-center gap-2">
-                        <div className="flex flex-col flex-1">
-                          <span className="font-medium text-foreground">{player.name}</span>
-                          {player.nickname && (
-                            <span className="text-xs text-muted-foreground italic">"{player.nickname}"</span>
-                          )}
-                        </div>
-                        <PlayerEditButton
-                          player={{ ...player, team: displayTeam } as WRPlayer | TEPlayer}
-                          onSave={refreshData}
-                        />
+                      <div className="flex flex-col">
+                        <span className="font-medium text-foreground">{player.name}</span>
+                        {player.nickname && (
+                          <span className="text-xs text-muted-foreground italic">"{player.nickname}"</span>
+                        )}
                       </div>
                     </td>
                     <td>
