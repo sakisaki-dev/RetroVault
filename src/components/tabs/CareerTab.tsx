@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useLeague } from '@/context/LeagueContext';
 import FileUpload from '../FileUpload';
 import QBTable from '../tables/QBTable';
@@ -7,18 +7,44 @@ import ReceiverTable from '../tables/ReceiverTable';
 import OLTable from '../tables/OLTable';
 import DefenseTable from '../tables/DefenseTable';
 import LeagueOverview from './LeagueOverview';
+import TeamFilterButtons from '../TeamFilterButtons';
 import { Trophy, Users, Award, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { findNFLTeam } from '@/utils/nflTeams';
+import type { Player } from '@/types/player';
 
 const CareerTab = () => {
   const { careerData, loadCareerData, isLoading } = useLeague();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeOnly, setActiveOnly] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
 
   const handleFileLoad = (content: string, filename: string) => {
     loadCareerData(content);
+  };
+
+  // All players for team filtering
+  const allPlayers = useMemo(() => {
+    if (!careerData) return [];
+    return [
+      ...careerData.quarterbacks,
+      ...careerData.runningbacks,
+      ...careerData.widereceivers,
+      ...careerData.tightends,
+      ...careerData.offensiveline,
+      ...careerData.linebackers,
+      ...careerData.defensivebacks,
+      ...careerData.defensiveline,
+    ];
+  }, [careerData]);
+
+  // Team filter function
+  const matchesTeamFilter = (player: Player): boolean => {
+    if (!selectedTeam) return true;
+    const playerTeam = findNFLTeam(player.team);
+    return playerTeam?.id === selectedTeam;
   };
 
   if (!careerData) {
@@ -54,7 +80,7 @@ const CareerTab = () => {
           <LeagueOverview data={careerData} />
           
           {/* Filter Controls */}
-          <div className="glass-card p-4">
+          <div className="glass-card p-4 space-y-4">
             <div className="flex flex-wrap items-center gap-4">
               <div className="relative flex-1 min-w-[200px] max-w-md">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -77,6 +103,13 @@ const CareerTab = () => {
                 </Label>
               </div>
             </div>
+            
+            {/* Team Filter Buttons */}
+            <TeamFilterButtons 
+              players={allPlayers}
+              selectedTeam={selectedTeam}
+              onSelectTeam={setSelectedTeam}
+            />
           </div>
           
           <div className="space-y-6">
@@ -88,16 +121,24 @@ const CareerTab = () => {
               </h2>
               
               {careerData.quarterbacks.length > 0 && (
-                <QBTable players={careerData.quarterbacks} searchQuery={searchQuery} activeOnly={activeOnly} />
+                <QBTable 
+                  players={careerData.quarterbacks.filter(matchesTeamFilter)} 
+                  searchQuery={searchQuery} 
+                  activeOnly={activeOnly} 
+                />
               )}
               
               {careerData.runningbacks.length > 0 && (
-                <RBTable players={careerData.runningbacks} searchQuery={searchQuery} activeOnly={activeOnly} />
+                <RBTable 
+                  players={careerData.runningbacks.filter(matchesTeamFilter)} 
+                  searchQuery={searchQuery} 
+                  activeOnly={activeOnly} 
+                />
               )}
               
               {careerData.widereceivers.length > 0 && (
                 <ReceiverTable 
-                  players={careerData.widereceivers} 
+                  players={careerData.widereceivers.filter(matchesTeamFilter)} 
                   position="WR" 
                   title="Wide Receivers"
                   searchQuery={searchQuery}
@@ -107,7 +148,7 @@ const CareerTab = () => {
               
               {careerData.tightends.length > 0 && (
                 <ReceiverTable 
-                  players={careerData.tightends} 
+                  players={careerData.tightends.filter(matchesTeamFilter)} 
                   position="TE" 
                   title="Tight Ends"
                   searchQuery={searchQuery}
@@ -116,7 +157,11 @@ const CareerTab = () => {
               )}
               
               {careerData.offensiveline.length > 0 && (
-                <OLTable players={careerData.offensiveline} searchQuery={searchQuery} activeOnly={activeOnly} />
+                <OLTable 
+                  players={careerData.offensiveline.filter(matchesTeamFilter)} 
+                  searchQuery={searchQuery} 
+                  activeOnly={activeOnly} 
+                />
               )}
             </div>
 
@@ -129,7 +174,7 @@ const CareerTab = () => {
               
               {careerData.linebackers.length > 0 && (
                 <DefenseTable 
-                  players={careerData.linebackers} 
+                  players={careerData.linebackers.filter(matchesTeamFilter)} 
                   position="LB" 
                   title="Linebackers"
                   searchQuery={searchQuery}
@@ -139,7 +184,7 @@ const CareerTab = () => {
               
               {careerData.defensivebacks.length > 0 && (
                 <DefenseTable 
-                  players={careerData.defensivebacks} 
+                  players={careerData.defensivebacks.filter(matchesTeamFilter)} 
                   position="DB" 
                   title="Defensive Backs"
                   searchQuery={searchQuery}
@@ -149,7 +194,7 @@ const CareerTab = () => {
               
               {careerData.defensiveline.length > 0 && (
                 <DefenseTable 
-                  players={careerData.defensiveline} 
+                  players={careerData.defensiveline.filter(matchesTeamFilter)} 
                   position="DL" 
                   title="Defensive Line"
                   searchQuery={searchQuery}

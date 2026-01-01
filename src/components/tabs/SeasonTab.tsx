@@ -8,6 +8,8 @@ import {
 import type { Player, QBPlayer, RBPlayer, WRPlayer, TEPlayer, LBPlayer, DBPlayer, DLPlayer } from '@/types/player';
 import PositionBadge from '../PositionBadge';
 import { getTeamColors } from '@/utils/teamColors';
+import { findNFLTeam } from '@/utils/nflTeams';
+import { isRookiePlayer } from '@/utils/seasonDiff';
 import PlayerDetailCard from '../PlayerDetailCard';
 import {
   Table,
@@ -115,7 +117,7 @@ const SeasonTab = () => {
     };
   }, [seasonData, dataVersion]);
 
-  // Find award winners
+  // Find award winners (including rookies who won awards this season)
   const awardWinners = useMemo(() => {
     if (!seasonData) return { mvp: null, opoy: null, dpoy: null, sbmvp: null, roty: null };
     
@@ -160,6 +162,26 @@ const SeasonTab = () => {
       sbmvp: getCareerPlayer(sbmvpWinner),
       roty: getCareerPlayer(rotyWinner),
     };
+  }, [seasonData, careerData, dataVersion]);
+
+  // Find rookies for this season (players with <=21 games who have stats this season)
+  const rookies = useMemo(() => {
+    if (!seasonData || !careerData) return [];
+    
+    const allCareerPlayers = [
+      ...careerData.quarterbacks,
+      ...careerData.runningbacks,
+      ...careerData.widereceivers,
+      ...careerData.tightends,
+      ...careerData.offensiveline,
+      ...careerData.linebackers,
+      ...careerData.defensivebacks,
+      ...careerData.defensiveline,
+    ];
+
+    return allCareerPlayers
+      .filter(p => isRookiePlayer(p) && p.games > 0)
+      .sort((a, b) => b.careerLegacy - a.careerLegacy);
   }, [seasonData, careerData, dataVersion]);
 
   const performances = useMemo((): SeasonPerformance[] => {
@@ -358,47 +380,52 @@ const SeasonTab = () => {
           {/* Championship & Awards Section */}
           <div className="grid lg:grid-cols-2 gap-6">
             {/* Championship Winner */}
-            {championshipWinner && (
-              <div className="glass-card p-6 border-2 border-chart-4/30 bg-gradient-to-br from-chart-4/10 to-transparent">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-chart-4/20 flex items-center justify-center">
-                    <Trophy className="w-6 h-6 text-chart-4" />
+            {championshipWinner && (() => {
+              const champTeam = findNFLTeam(championshipWinner.team);
+              return (
+                <div className="glass-card p-6 border-2 border-chart-4/30 bg-gradient-to-br from-chart-4/10 to-transparent">
+                  <div className="flex items-center gap-3 mb-4">
+                    {champTeam ? (
+                      <img src={champTeam.logoUrl} alt={champTeam.name} className="w-16 h-16 object-contain" />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-chart-4/20 flex items-center justify-center">
+                        <Trophy className="w-6 h-6 text-chart-4" />
+                      </div>
+                    )}
+                    <div>
+                      <h3 className="font-display text-xl font-bold text-chart-4">CHAMPIONS</h3>
+                      <p className="text-muted-foreground text-sm">{currentSeason} Super Bowl Winners</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-display text-xl font-bold text-chart-4">CHAMPIONS</h3>
-                    <p className="text-muted-foreground text-sm">{currentSeason} Super Bowl Winners</p>
-                  </div>
-                </div>
-                {championshipWinner.team && (
-                  <div 
-                    className="text-2xl font-display font-bold mb-3"
-                    style={{
-                      color: getTeamColors(championshipWinner.team) 
-                        ? `hsl(${getTeamColors(championshipWinner.team)!.primary})` 
-                        : undefined
-                    }}
-                  >
-                    {championshipWinner.team}
-                  </div>
-                )}
-                <div className="flex flex-wrap gap-2">
-                  {championshipWinner.players.slice(0, 5).map((p) => (
-                    <span 
-                      key={p.name} 
-                      className="text-xs px-2 py-1 rounded bg-chart-4/20 text-chart-4 cursor-pointer hover:bg-chart-4/30"
-                      onClick={() => setSelectedPlayer(p)}
+                  {championshipWinner.team && (
+                    <div 
+                      className="text-2xl font-display font-bold mb-3"
+                      style={{
+                        color: champTeam ? `hsl(${champTeam.primaryColor})` : undefined
+                      }}
                     >
-                      {p.name} ({p.position})
-                    </span>
-                  ))}
-                  {championshipWinner.players.length > 5 && (
-                    <span className="text-xs px-2 py-1 rounded bg-secondary/50 text-muted-foreground">
-                      +{championshipWinner.players.length - 5} more
-                    </span>
+                      {champTeam?.fullName || championshipWinner.team}
+                    </div>
                   )}
+                  <div className="flex flex-wrap gap-2">
+                    {championshipWinner.players.slice(0, 5).map((p) => (
+                      <span 
+                        key={p.name} 
+                        className="text-xs px-2 py-1 rounded bg-chart-4/20 text-chart-4 cursor-pointer hover:bg-chart-4/30"
+                        onClick={() => setSelectedPlayer(p)}
+                      >
+                        {p.name} ({p.position})
+                      </span>
+                    ))}
+                    {championshipWinner.players.length > 5 && (
+                      <span className="text-xs px-2 py-1 rounded bg-secondary/50 text-muted-foreground">
+                        +{championshipWinner.players.length - 5} more
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Award Winners */}
             <div className="glass-card p-6">

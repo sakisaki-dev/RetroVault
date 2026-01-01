@@ -21,6 +21,17 @@ const diffNum = (nextVal: number, prevVal?: number) => {
   return d < 0 ? 0 : d;
 };
 
+// Threshold for considering a player a "rookie" - their full career stats become their season stats
+const ROOKIE_GAMES_THRESHOLD = 21;
+
+/**
+ * Check if a player is a rookie (new to the league with less than threshold games).
+ * Rookies should have their full career stats counted as their first season.
+ */
+export const isRookiePlayer = (player: Player): boolean => {
+  return player.games <= ROOKIE_GAMES_THRESHOLD;
+};
+
 /**
  * Check if a player has any prior season history recorded.
  * Players without prior history are considered "new" and should be excluded
@@ -54,10 +65,40 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
   ];
   allPrev.forEach((p) => prevMap.set(keyFor(p), p));
 
-  const diffQB = (p: QBPlayer): QBPlayer | null => {
+  // Helper: if player is a rookie (not in prev AND has <= ROOKIE_GAMES_THRESHOLD games), 
+  // their full career stats are their season stats
+  const handleNewPlayer = <T extends Player>(p: T): T => {
+    // This is a rookie - their career stats ARE their season stats
+    return { ...p };
+  };
+
+  const diffQB = (p: QBPlayer): QBPlayer => {
     const old = prevMap.get(keyFor(p)) as QBPlayer | undefined;
-    // If player didn't exist in prev, exclude them from season diff
-    if (!old) return null;
+    // If player didn't exist in prev and has <= threshold games, they're a rookie
+    if (!old) {
+      if (isRookiePlayer(p)) {
+        return handleNewPlayer(p);
+      }
+      // Veteran new to tracking - exclude by returning zeroed stats
+      return {
+        ...p,
+        games: 0,
+        rings: 0,
+        mvp: 0,
+        opoy: 0,
+        sbmvp: 0,
+        roty: 0,
+        attempts: 0,
+        completions: 0,
+        passYds: 0,
+        passTD: 0,
+        interceptions: 0,
+        sacks: 0,
+        rushAtt: 0,
+        rushYds: 0,
+        rushTD: 0,
+      };
+    }
     return {
       ...p,
       games: diffNum(p.games, old?.games),
@@ -78,9 +119,17 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
     };
   };
 
-  const diffRB = (p: RBPlayer): RBPlayer | null => {
+  const diffRB = (p: RBPlayer): RBPlayer => {
     const old = prevMap.get(keyFor(p)) as RBPlayer | undefined;
-    if (!old) return null;
+    if (!old) {
+      if (isRookiePlayer(p)) return handleNewPlayer(p);
+      return {
+        ...p,
+        games: 0, rings: 0, mvp: 0, opoy: 0, sbmvp: 0, roty: 0,
+        rushAtt: 0, rushYds: 0, rushTD: 0, fumbles: 0,
+        receptions: 0, recYds: 0, recTD: 0,
+      };
+    }
     return {
       ...p,
       games: diffNum(p.games, old?.games),
@@ -99,9 +148,16 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
     };
   };
 
-  const diffWR = (p: WRPlayer): WRPlayer | null => {
+  const diffWR = (p: WRPlayer): WRPlayer => {
     const old = prevMap.get(keyFor(p)) as WRPlayer | undefined;
-    if (!old) return null;
+    if (!old) {
+      if (isRookiePlayer(p)) return handleNewPlayer(p);
+      return {
+        ...p,
+        games: 0, rings: 0, mvp: 0, opoy: 0, sbmvp: 0, roty: 0,
+        receptions: 0, recYds: 0, recTD: 0, fumbles: 0, longest: 0,
+      };
+    }
     return {
       ...p,
       games: diffNum(p.games, old?.games),
@@ -119,9 +175,16 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
     };
   };
 
-  const diffTE = (p: TEPlayer): TEPlayer | null => {
+  const diffTE = (p: TEPlayer): TEPlayer => {
     const old = prevMap.get(keyFor(p)) as TEPlayer | undefined;
-    if (!old) return null;
+    if (!old) {
+      if (isRookiePlayer(p)) return handleNewPlayer(p);
+      return {
+        ...p,
+        games: 0, rings: 0, mvp: 0, opoy: 0, sbmvp: 0, roty: 0,
+        receptions: 0, recYds: 0, recTD: 0, fumbles: 0, longest: 0,
+      };
+    }
     return {
       ...p,
       games: diffNum(p.games, old?.games),
@@ -138,9 +201,15 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
     };
   };
 
-  const diffOL = (p: OLPlayer): OLPlayer | null => {
+  const diffOL = (p: OLPlayer): OLPlayer => {
     const old = prevMap.get(keyFor(p)) as OLPlayer | undefined;
-    if (!old) return null;
+    if (!old) {
+      if (isRookiePlayer(p)) return handleNewPlayer(p);
+      return {
+        ...p,
+        games: 0, rings: 0, mvp: 0, opoy: 0, sbmvp: 0, roty: 0, blocks: 0,
+      };
+    }
     return {
       ...p,
       games: diffNum(p.games, old?.games),
@@ -153,9 +222,16 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
     };
   };
 
-  const diffDEF = <T extends LBPlayer | DBPlayer | DLPlayer>(p: T): T | null => {
+  const diffDEF = <T extends LBPlayer | DBPlayer | DLPlayer>(p: T): T => {
     const old = prevMap.get(keyFor(p)) as T | undefined;
-    if (!old) return null;
+    if (!old) {
+      if (isRookiePlayer(p)) return handleNewPlayer(p);
+      return {
+        ...p,
+        games: 0, rings: 0, mvp: 0, opoy: 0, sbmvp: 0, roty: 0,
+        tackles: 0, interceptions: 0, sacks: 0, forcedFumbles: 0,
+      } as T;
+    }
     return {
       ...p,
       games: diffNum(p.games, old?.games),
@@ -172,14 +248,14 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
   };
 
   return {
-    quarterbacks: next.quarterbacks.map(diffQB).filter((p): p is QBPlayer => p !== null),
-    runningbacks: next.runningbacks.map(diffRB).filter((p): p is RBPlayer => p !== null),
-    widereceivers: next.widereceivers.map(diffWR).filter((p): p is WRPlayer => p !== null),
-    tightends: next.tightends.map(diffTE).filter((p): p is TEPlayer => p !== null),
-    offensiveline: next.offensiveline.map(diffOL).filter((p): p is OLPlayer => p !== null),
-    linebackers: next.linebackers.map((p) => diffDEF(p)).filter((p): p is LBPlayer => p !== null),
-    defensivebacks: next.defensivebacks.map((p) => diffDEF(p)).filter((p): p is DBPlayer => p !== null),
-    defensiveline: next.defensiveline.map((p) => diffDEF(p)).filter((p): p is DLPlayer => p !== null),
+    quarterbacks: next.quarterbacks.map(diffQB),
+    runningbacks: next.runningbacks.map(diffRB),
+    widereceivers: next.widereceivers.map(diffWR),
+    tightends: next.tightends.map(diffTE),
+    offensiveline: next.offensiveline.map(diffOL),
+    linebackers: next.linebackers.map((p) => diffDEF(p)),
+    defensivebacks: next.defensivebacks.map((p) => diffDEF(p)),
+    defensiveline: next.defensiveline.map((p) => diffDEF(p)),
     metadata: next.metadata,
   };
 };
