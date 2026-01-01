@@ -319,9 +319,41 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
         localStorage.setItem(STORAGE_KEYS.prevCareerCsv, prevCsv);
       } else {
-        // No baseline available (user skipped Career upload)
-        setPreviousData(null);
-        setSeasonData(null);
+        // No baseline available - this is the FIRST season upload
+        // Treat all current career stats as the first season's stats (no diffing needed)
+        // Create an "empty" baseline so we can diff properly
+        const emptyBaseline: LeagueData = {
+          quarterbacks: [],
+          runningbacks: [],
+          widereceivers: [],
+          tightends: [],
+          offensiveline: [],
+          linebackers: [],
+          defensivebacks: [],
+          defensiveline: [],
+        };
+        
+        setPreviousData(emptyBaseline);
+        
+        // Diff against empty baseline - all players become "new" and get their full stats as season stats
+        const seasonDiff = diffLeagueData(emptyBaseline, next);
+        setSeasonData(seasonDiff);
+        
+        // Record season history for all players
+        recordAllPlayersSeasonData(
+          {
+            quarterbacks: seasonDiff.quarterbacks,
+            runningbacks: seasonDiff.runningbacks,
+            widereceivers: seasonDiff.widereceivers,
+            tightends: seasonDiff.tightends,
+            offensiveline: seasonDiff.offensiveline,
+            linebackers: seasonDiff.linebackers,
+            defensivebacks: seasonDiff.defensivebacks,
+            defensiveline: seasonDiff.defensiveline,
+          },
+          seasonName,
+        );
+        
         localStorage.removeItem(STORAGE_KEYS.prevCareerCsv);
       }
 

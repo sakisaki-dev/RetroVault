@@ -1,6 +1,7 @@
 import { Trophy, Star, Crown, TrendingUp, Calendar, Medal, Award, Pencil } from 'lucide-react';
 import type { Player, QBPlayer, RBPlayer, WRPlayer, TEPlayer, LBPlayer, DBPlayer, DLPlayer } from '@/types/player';
 import { getTeamColors } from '@/utils/teamColors';
+import { findNFLTeam } from '@/utils/nflTeams';
 import { getMetricColor, getMetricBgColor, getMetricTier, getTierLabel } from '@/utils/metricColors';
 import PositionBadge from './PositionBadge';
 import StatusBadge from './StatusBadge';
@@ -37,6 +38,7 @@ const PlayerDetailCard = ({ player, onClose }: PlayerDetailCardProps) => {
 
   const seasonHistory = getSeasonHistory(player);
   const teamColors = getTeamColors(player.team);
+  const nflTeam = findNFLTeam(player.team);
 
   const getStatRows = (p: Player) => {
     const pos = p.position;
@@ -106,37 +108,76 @@ const PlayerDetailCard = ({ player, onClose }: PlayerDetailCardProps) => {
   return (
     <Dialog open={!!player} onOpenChange={() => onClose()}>
       <DialogContent className="max-w-2xl glass-card border-border/50 p-0 overflow-hidden">
-        {/* Header with team colors */}
+        {/* Header with team colors and NFL branding */}
         <div 
-          className="p-6 border-b border-border/30"
+          className="p-6 border-b border-border/30 relative"
           style={teamColors ? {
             background: `linear-gradient(135deg, hsl(${teamColors.primary} / 0.2) 0%, transparent 100%)`,
             borderLeft: `4px solid hsl(${teamColors.primary})`,
           } : undefined}
         >
+          {/* NFL Team Logo Banner */}
+          {nflTeam && (
+            <div className="absolute right-4 top-4 opacity-20">
+              <img 
+                src={nflTeam.logoUrl} 
+                alt={nflTeam.fullName} 
+                className="w-24 h-24 object-contain"
+              />
+            </div>
+          )}
           <DialogHeader>
-            <div className="flex items-start justify-between">
-              <div>
-                <DialogTitle className="font-display text-3xl tracking-wide text-foreground">
-                  {player.name}
-                </DialogTitle>
-                {player.nickname && (
-                  <p className="text-lg text-muted-foreground italic mt-1">"{player.nickname}"</p>
+            <div className="flex items-start justify-between relative z-10">
+              <div className="flex items-start gap-4">
+                {/* Team Logo */}
+                {nflTeam && (
+                  <div 
+                    className="w-16 h-16 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ 
+                      backgroundColor: `hsl(${nflTeam.primaryColor} / 0.15)`,
+                      border: `2px solid hsl(${nflTeam.primaryColor} / 0.3)`,
+                    }}
+                  >
+                    <img 
+                      src={nflTeam.logoUrl} 
+                      alt={nflTeam.fullName} 
+                      className="w-12 h-12 object-contain"
+                    />
+                  </div>
                 )}
-                <div className="flex items-center gap-3 mt-3">
-                  <PositionBadge position={player.position} />
-                  <StatusBadge status={player.status} />
-                  {player.team && (
-                    <span 
-                      className="text-sm font-medium px-3 py-1 rounded-full"
-                      style={teamColors ? {
-                        backgroundColor: `hsl(${teamColors.primary} / 0.2)`,
-                        color: `hsl(${teamColors.primary})`,
-                      } : undefined}
-                    >
-                      {player.team}
-                    </span>
+                <div>
+                  <DialogTitle className="font-display text-3xl tracking-wide text-foreground">
+                    {player.name}
+                  </DialogTitle>
+                  {player.nickname && (
+                    <p className="text-lg text-muted-foreground italic mt-1">"{player.nickname}"</p>
                   )}
+                  <div className="flex items-center gap-3 mt-3 flex-wrap">
+                    <PositionBadge position={player.position} />
+                    <StatusBadge status={player.status} />
+                    {nflTeam ? (
+                      <span 
+                        className="text-sm font-medium px-3 py-1 rounded-full flex items-center gap-2"
+                        style={{
+                          backgroundColor: `hsl(${nflTeam.primaryColor} / 0.2)`,
+                          color: `hsl(${nflTeam.primaryColor})`,
+                        }}
+                      >
+                        <img src={nflTeam.logoUrl} alt="" className="w-4 h-4" />
+                        {nflTeam.fullName}
+                      </span>
+                    ) : player.team ? (
+                      <span 
+                        className="text-sm font-medium px-3 py-1 rounded-full"
+                        style={teamColors ? {
+                          backgroundColor: `hsl(${teamColors.primary} / 0.2)`,
+                          color: `hsl(${teamColors.primary})`,
+                        } : undefined}
+                      >
+                        {player.team}
+                      </span>
+                    ) : null}
+                  </div>
                 </div>
               </div>
               <Button
