@@ -300,7 +300,7 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         const prev = await mergePlayerEdits(parsedPrev);
         setPreviousData(prev);
 
-        const seasonDiff = diffLeagueData(prev, next);
+        const seasonDiff = diffLeagueData(prev, next, seasonName);
         setSeasonData(seasonDiff);
 
         recordAllPlayersSeasonData(
@@ -336,7 +336,7 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         setPreviousData(emptyBaseline);
         
         // Diff against empty baseline - all players become "new" and get their full stats as season stats
-        const seasonDiff = diffLeagueData(emptyBaseline, next);
+        const seasonDiff = diffLeagueData(emptyBaseline, next, seasonName);
         setSeasonData(seasonDiff);
         
         // Record season history for all players

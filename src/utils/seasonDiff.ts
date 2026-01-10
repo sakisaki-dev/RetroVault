@@ -51,7 +51,37 @@ export const playerExistedInPrev = (player: Player, prevMap: Map<string, AnyPlay
   return prevMap.has(keyFor(player));
 };
 
-export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData => {
+/**
+ * Get the most recent season number from history for a player
+ */
+const getPlayerLatestSeasonNumber = (playerKey: string): number => {
+  const history = loadSeasonHistory();
+  const snapshots = history[playerKey] || [];
+  if (snapshots.length === 0) return 0;
+  
+  // Extract season numbers and find the max
+  const seasonNumbers = snapshots.map(s => {
+    const match = s.season.match(/Y?(\d+)/i);
+    return match ? parseInt(match[1], 10) : 0;
+  });
+  return Math.max(...seasonNumbers);
+};
+
+/**
+ * Check if there's a season gap (e.g., uploading Y6 when last tracked was Y4)
+ */
+export const hasSeasonGap = (currentSeasonName: string, playerKey: string): boolean => {
+  const currentSeasonNum = parseInt((currentSeasonName || '').replace(/\D/g, ''), 10) || 0;
+  const lastTrackedSeason = getPlayerLatestSeasonNumber(playerKey);
+  
+  // If no history, no gap
+  if (lastTrackedSeason === 0) return false;
+  
+  // Gap exists if current season is more than 1 higher than last tracked
+  return currentSeasonNum > lastTrackedSeason + 1;
+};
+
+export const diffLeagueData = (prev: LeagueData, next: LeagueData, currentSeasonName?: string): LeagueData => {
   const prevMap = new Map<string, AnyPlayer>();
   const allPrev: AnyPlayer[] = [
     ...prev.quarterbacks,
@@ -72,22 +102,28 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
     return { ...p };
   };
 
-  const diffQB = (p: QBPlayer): QBPlayer => {
-    const old = prevMap.get(keyFor(p)) as QBPlayer | undefined;
-    // If player didn't exist in prev and has <= threshold games, they're a rookie
-    if (!old) {
-      if (isRookiePlayer(p)) {
-        return handleNewPlayer(p);
-      }
-      // Veteran new to tracking - exclude by returning zeroed stats
+  // Helper: Check if we should skip this player due to season gap
+  const shouldSkipDueToSeasonGap = (p: Player): boolean => {
+    if (!currentSeasonName) return false;
+    const playerKey = `${p.position}:${p.name}`;
+    return hasSeasonGap(currentSeasonName, playerKey) && !isRookiePlayer(p);
+  };
+
+  // Helper: Zero out stats for players that should be skipped
+  const createZeroedPlayer = <T extends Player>(p: T): T => {
+    const base = {
+      ...p,
+      games: 0,
+      rings: 0,
+      mvp: 0,
+      opoy: 0,
+      sbmvp: 0,
+      roty: 0,
+    };
+
+    if (p.position === 'QB') {
       return {
-        ...p,
-        games: 0,
-        rings: 0,
-        mvp: 0,
-        opoy: 0,
-        sbmvp: 0,
-        roty: 0,
+        ...base,
         attempts: 0,
         completions: 0,
         passYds: 0,
@@ -97,7 +133,62 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
         rushAtt: 0,
         rushYds: 0,
         rushTD: 0,
-      };
+      } as T;
+    } else if (p.position === 'RB') {
+      return {
+        ...base,
+        rushAtt: 0,
+        rushYds: 0,
+        rushTD: 0,
+        fumbles: 0,
+        receptions: 0,
+        recYds: 0,
+        recTD: 0,
+      } as T;
+    } else if (p.position === 'WR' || p.position === 'TE') {
+      return {
+        ...base,
+        receptions: 0,
+        recYds: 0,
+        recTD: 0,
+        fumbles: 0,
+        longest: 0,
+      } as T;
+    } else if (p.position === 'OL') {
+      return {
+        ...base,
+        blocks: 0,
+      } as T;
+    } else {
+      return {
+        ...base,
+        tackles: 0,
+        interceptions: 0,
+        sacks: 0,
+        forcedFumbles: 0,
+      } as T;
+    }
+  };
+
+  const diffQB = (p: QBPlayer): QBPlayer => {
+    // Check for season gap - if so, zero out stats (except rookies)
+    if (shouldSkipDueToSeasonGap(p)) {
+      return createZeroedPlayer(p);
+    }
+
+    const old = prevMap.get(keyFor(p)) as QBPlayer | undefined;
+    // If player didn't exist in prev and has <= threshold games, they're a rookie
+    if (!old) {
+      if (isRookiePlayer(p)) {
+        return handleNewPlayer(p);
+      }
+      // Check if they have prior history - if yes, they exist but weren't in this prev snapshot
+      // This could happen with season gaps - return zeroed stats
+      if (playerHasPriorHistory(p)) {
+        return createZeroedPlayer(p);
+      }
+      // Truly new veteran (first time appearing) - also zero out
+      return createZeroedPlayer(p);
     }
     return {
       ...p,
@@ -120,15 +211,15 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
   };
 
   const diffRB = (p: RBPlayer): RBPlayer => {
+    if (shouldSkipDueToSeasonGap(p)) {
+      return createZeroedPlayer(p);
+    }
+
     const old = prevMap.get(keyFor(p)) as RBPlayer | undefined;
     if (!old) {
       if (isRookiePlayer(p)) return handleNewPlayer(p);
-      return {
-        ...p,
-        games: 0, rings: 0, mvp: 0, opoy: 0, sbmvp: 0, roty: 0,
-        rushAtt: 0, rushYds: 0, rushTD: 0, fumbles: 0,
-        receptions: 0, recYds: 0, recTD: 0,
-      };
+      if (playerHasPriorHistory(p)) return createZeroedPlayer(p);
+      return createZeroedPlayer(p);
     }
     return {
       ...p,
@@ -149,14 +240,15 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
   };
 
   const diffWR = (p: WRPlayer): WRPlayer => {
+    if (shouldSkipDueToSeasonGap(p)) {
+      return createZeroedPlayer(p);
+    }
+
     const old = prevMap.get(keyFor(p)) as WRPlayer | undefined;
     if (!old) {
       if (isRookiePlayer(p)) return handleNewPlayer(p);
-      return {
-        ...p,
-        games: 0, rings: 0, mvp: 0, opoy: 0, sbmvp: 0, roty: 0,
-        receptions: 0, recYds: 0, recTD: 0, fumbles: 0, longest: 0,
-      };
+      if (playerHasPriorHistory(p)) return createZeroedPlayer(p);
+      return createZeroedPlayer(p);
     }
     return {
       ...p,
@@ -176,14 +268,15 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
   };
 
   const diffTE = (p: TEPlayer): TEPlayer => {
+    if (shouldSkipDueToSeasonGap(p)) {
+      return createZeroedPlayer(p);
+    }
+
     const old = prevMap.get(keyFor(p)) as TEPlayer | undefined;
     if (!old) {
       if (isRookiePlayer(p)) return handleNewPlayer(p);
-      return {
-        ...p,
-        games: 0, rings: 0, mvp: 0, opoy: 0, sbmvp: 0, roty: 0,
-        receptions: 0, recYds: 0, recTD: 0, fumbles: 0, longest: 0,
-      };
+      if (playerHasPriorHistory(p)) return createZeroedPlayer(p);
+      return createZeroedPlayer(p);
     }
     return {
       ...p,
@@ -202,13 +295,15 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
   };
 
   const diffOL = (p: OLPlayer): OLPlayer => {
+    if (shouldSkipDueToSeasonGap(p)) {
+      return createZeroedPlayer(p);
+    }
+
     const old = prevMap.get(keyFor(p)) as OLPlayer | undefined;
     if (!old) {
       if (isRookiePlayer(p)) return handleNewPlayer(p);
-      return {
-        ...p,
-        games: 0, rings: 0, mvp: 0, opoy: 0, sbmvp: 0, roty: 0, blocks: 0,
-      };
+      if (playerHasPriorHistory(p)) return createZeroedPlayer(p);
+      return createZeroedPlayer(p);
     }
     return {
       ...p,
@@ -223,14 +318,15 @@ export const diffLeagueData = (prev: LeagueData, next: LeagueData): LeagueData =
   };
 
   const diffDEF = <T extends LBPlayer | DBPlayer | DLPlayer>(p: T): T => {
+    if (shouldSkipDueToSeasonGap(p)) {
+      return createZeroedPlayer(p);
+    }
+
     const old = prevMap.get(keyFor(p)) as T | undefined;
     if (!old) {
       if (isRookiePlayer(p)) return handleNewPlayer(p);
-      return {
-        ...p,
-        games: 0, rings: 0, mvp: 0, opoy: 0, sbmvp: 0, roty: 0,
-        tackles: 0, interceptions: 0, sacks: 0, forcedFumbles: 0,
-      } as T;
+      if (playerHasPriorHistory(p)) return createZeroedPlayer(p);
+      return createZeroedPlayer(p);
     }
     return {
       ...p,
