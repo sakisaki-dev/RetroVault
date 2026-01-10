@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useLeague } from '@/context/LeagueContext';
-import { Scale, User, Trophy, Star, TrendingUp, ArrowRight } from 'lucide-react';
+import { Scale, User, Trophy, Star, TrendingUp, ArrowRight, Zap, Target, Users } from 'lucide-react';
 import { getTeamColors } from '@/utils/teamColors';
+import { findNFLTeam } from '@/utils/nflTeams';
 import PositionBadge from '../PositionBadge';
 import PlayerSearchSelect from '../PlayerSearchSelect';
 import type { Player } from '@/types/player';
@@ -38,6 +39,8 @@ const ComparisonTab = () => {
 
   const player1Colors = getTeamColors(player1?.team);
   const player2Colors = getTeamColors(player2?.team);
+  const nflTeam1 = findNFLTeam(player1?.team);
+  const nflTeam2 = findNFLTeam(player2?.team);
 
   const getComparisonStats = (p1: Player | null, p2: Player | null) => {
     if (!p1 || !p2) return [];
@@ -155,149 +158,260 @@ const ComparisonTab = () => {
 
   return (
     <div className="container mx-auto px-6 py-6">
-      {/* Hero Header */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-500/20 via-purple-500/10 to-pink-500/20 p-8 mb-8 border border-indigo-500/30">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9InN0YXJzIiB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjI1IiBjeT0iMjUiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMSIvPjxjaXJjbGUgY3g9IjUiIGN5PSI1IiByPSIwLjUiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMDgiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjc3RhcnMpIi8+PC9zdmc+')] opacity-60" />
+      {/* Hero Header with gradient */}
+      <div className="relative overflow-hidden rounded-3xl p-8 mb-8 border border-border/30"
+        style={{
+          background: player1Colors && player2Colors
+            ? `linear-gradient(135deg, hsl(${player1Colors.primary} / 0.15) 0%, hsl(var(--background)) 50%, hsl(${player2Colors.primary} / 0.15) 100%)`
+            : 'linear-gradient(135deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--background)) 50%, hsl(var(--accent) / 0.1) 100%)'
+        }}
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent" />
         
         <div className="relative text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-500/20 border-2 border-indigo-400/50 mb-4 shadow-lg shadow-indigo-500/20">
-            <Scale className="w-8 h-8 text-indigo-400" />
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 border-2 border-primary/30 mb-4 shadow-xl shadow-primary/10">
+            <Scale className="w-10 h-10 text-primary" />
           </div>
           
-          <h1 className="font-display text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
-            PLAYER COMPARISON
+          <h1 className="font-display text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-2">
+            HEAD-TO-HEAD
           </h1>
-          <p className="text-muted-foreground">Compare any two players head-to-head</p>
+          <p className="text-muted-foreground text-lg">Compare any two players across all categories</p>
         </div>
       </div>
 
       {/* Player Selection */}
-      <div className="grid md:grid-cols-2 gap-8 mb-8">
+      <div className="grid md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-6 mb-8 items-stretch">
         {/* Player 1 Selector */}
         <div 
-          className="rounded-2xl border-2 p-6"
+          className="relative rounded-2xl border-2 p-6 overflow-hidden"
           style={{
-            borderColor: player1Colors ? `hsl(${player1Colors.primary} / 0.4)` : 'hsl(var(--border))',
+            borderColor: player1Colors ? `hsl(${player1Colors.primary} / 0.5)` : 'hsl(var(--border))',
             background: player1Colors 
-              ? `linear-gradient(135deg, hsl(${player1Colors.primary} / 0.1) 0%, transparent 60%)`
+              ? `linear-gradient(160deg, hsl(${player1Colors.primary} / 0.15) 0%, hsl(${player1Colors.secondary} / 0.08) 50%, transparent 100%)`
               : 'hsl(var(--secondary) / 0.3)'
           }}
         >
-          <div className="flex items-center gap-2 mb-4">
-            <User className="w-5 h-5 text-muted-foreground" />
-            <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Player 1</span>
-          </div>
-          <PlayerSearchSelect
-            players={allPlayers}
-            value={player1Key}
-            onValueChange={setPlayer1Key}
-            placeholder="Search for a player..."
-          />
-
-          {player1 && (
-            <div className="mt-4 pt-4 border-t border-border/20">
-              <div className="flex items-center gap-3">
-                <PositionBadge position={player1.position} />
-                <div>
-                  <p 
-                    className="font-display text-2xl font-bold"
-                    style={{ color: player1Colors ? `hsl(${player1Colors.primary})` : 'hsl(var(--foreground))' }}
-                  >
-                    {player1.name}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{player1.team || 'Retired'}</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-3 mt-4">
-                <div className="text-center p-2 rounded-lg bg-background/30">
-                  <Trophy className="w-4 h-4 mx-auto text-amber-400 mb-1" />
-                  <p className="font-bold">{player1.rings}</p>
-                  <p className="text-xs text-muted-foreground">Rings</p>
-                </div>
-                <div className="text-center p-2 rounded-lg bg-background/30">
-                  <Star className="w-4 h-4 mx-auto text-purple-400 mb-1" />
-                  <p className="font-bold">{player1.mvp}</p>
-                  <p className="text-xs text-muted-foreground">MVP</p>
-                </div>
-                <div className="text-center p-2 rounded-lg bg-background/30">
-                  <TrendingUp className="w-4 h-4 mx-auto text-emerald-400 mb-1" />
-                  <p className="font-bold">{player1.careerLegacy.toFixed(0)}</p>
-                  <p className="text-xs text-muted-foreground">Legacy</p>
-                </div>
-              </div>
+          {/* Team logo watermark */}
+          {nflTeam1 && (
+            <div className="absolute -right-8 -bottom-8 opacity-10">
+              <img src={nflTeam1.logoUrl} alt="" className="w-40 h-40 object-contain" />
             </div>
           )}
+          
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                <User className="w-4 h-4 text-primary" />
+              </div>
+              <span className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Player 1</span>
+            </div>
+            <PlayerSearchSelect
+              players={allPlayers}
+              value={player1Key}
+              onValueChange={setPlayer1Key}
+              placeholder="Search for a player..."
+            />
+
+            {player1 && (
+              <div className="mt-5 pt-5 border-t border-border/30">
+                <div className="flex items-center gap-4">
+                  {nflTeam1 && (
+                    <div 
+                      className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0"
+                      style={{ 
+                        background: `linear-gradient(135deg, hsl(${nflTeam1.primaryColor} / 0.2) 0%, hsl(${nflTeam1.secondaryColor} / 0.1) 100%)`,
+                        border: `2px solid hsl(${nflTeam1.primaryColor} / 0.3)`,
+                      }}
+                    >
+                      <img src={nflTeam1.logoUrl} alt={nflTeam1.name} className="w-10 h-10 object-contain" />
+                    </div>
+                  )}
+                  <div>
+                    <p 
+                      className="font-display text-2xl font-bold"
+                      style={{ color: player1Colors ? `hsl(${player1Colors.primary})` : 'hsl(var(--foreground))' }}
+                    >
+                      {player1.name}
+                    </p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <PositionBadge position={player1.position} />
+                      <span className="text-sm text-muted-foreground">{player1.team || 'Retired'}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-2 mt-4">
+                  <div 
+                    className="text-center p-3 rounded-xl"
+                    style={{ 
+                      background: `linear-gradient(135deg, hsl(var(--chart-4) / 0.15) 0%, transparent 100%)`,
+                      border: '1px solid hsl(var(--chart-4) / 0.2)'
+                    }}
+                  >
+                    <Trophy className="w-5 h-5 mx-auto text-chart-4 mb-1" />
+                    <p className="font-display text-xl font-bold text-chart-4">{player1.rings}</p>
+                    <p className="text-[10px] text-muted-foreground uppercase">Rings</p>
+                  </div>
+                  <div 
+                    className="text-center p-3 rounded-xl"
+                    style={{ 
+                      background: `linear-gradient(135deg, hsl(var(--primary) / 0.15) 0%, transparent 100%)`,
+                      border: '1px solid hsl(var(--primary) / 0.2)'
+                    }}
+                  >
+                    <Star className="w-5 h-5 mx-auto text-primary mb-1" />
+                    <p className="font-display text-xl font-bold text-primary">{player1.mvp}</p>
+                    <p className="text-[10px] text-muted-foreground uppercase">MVP</p>
+                  </div>
+                  <div 
+                    className="text-center p-3 rounded-xl"
+                    style={{ 
+                      background: `linear-gradient(135deg, hsl(var(--accent) / 0.15) 0%, transparent 100%)`,
+                      border: '1px solid hsl(var(--accent) / 0.2)'
+                    }}
+                  >
+                    <TrendingUp className="w-5 h-5 mx-auto text-accent mb-1" />
+                    <p className="font-display text-xl font-bold text-accent">{player1.careerLegacy.toFixed(0)}</p>
+                    <p className="text-[10px] text-muted-foreground uppercase">Legacy</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* VS Divider - Mobile */}
-        <div className="md:hidden flex items-center justify-center">
-          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/30">
-            <span className="font-display font-bold text-indigo-400">VS</span>
+        {/* VS Divider */}
+        <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 via-accent/20 to-primary/20 border-2 border-primary/30 shadow-lg shadow-primary/10">
+            <span className="font-display text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">VS</span>
           </div>
         </div>
 
         {/* Player 2 Selector */}
         <div 
-          className="rounded-2xl border-2 p-6"
+          className="relative rounded-2xl border-2 p-6 overflow-hidden"
           style={{
-            borderColor: player2Colors ? `hsl(${player2Colors.primary} / 0.4)` : 'hsl(var(--border))',
+            borderColor: player2Colors ? `hsl(${player2Colors.primary} / 0.5)` : 'hsl(var(--border))',
             background: player2Colors 
-              ? `linear-gradient(135deg, hsl(${player2Colors.primary} / 0.1) 0%, transparent 60%)`
+              ? `linear-gradient(160deg, hsl(${player2Colors.primary} / 0.15) 0%, hsl(${player2Colors.secondary} / 0.08) 50%, transparent 100%)`
               : 'hsl(var(--secondary) / 0.3)'
           }}
         >
-          <div className="flex items-center gap-2 mb-4">
-            <User className="w-5 h-5 text-muted-foreground" />
-            <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Player 2</span>
-          </div>
-          <PlayerSearchSelect
-            players={allPlayers}
-            value={player2Key}
-            onValueChange={setPlayer2Key}
-            placeholder="Search for a player..."
-          />
-
-          {player2 && (
-            <div className="mt-4 pt-4 border-t border-border/20">
-              <div className="flex items-center gap-3">
-                <PositionBadge position={player2.position} />
-                <div>
-                  <p 
-                    className="font-display text-2xl font-bold"
-                    style={{ color: player2Colors ? `hsl(${player2Colors.primary})` : 'hsl(var(--foreground))' }}
-                  >
-                    {player2.name}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{player2.team || 'Retired'}</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-3 mt-4">
-                <div className="text-center p-2 rounded-lg bg-background/30">
-                  <Trophy className="w-4 h-4 mx-auto text-amber-400 mb-1" />
-                  <p className="font-bold">{player2.rings}</p>
-                  <p className="text-xs text-muted-foreground">Rings</p>
-                </div>
-                <div className="text-center p-2 rounded-lg bg-background/30">
-                  <Star className="w-4 h-4 mx-auto text-purple-400 mb-1" />
-                  <p className="font-bold">{player2.mvp}</p>
-                  <p className="text-xs text-muted-foreground">MVP</p>
-                </div>
-                <div className="text-center p-2 rounded-lg bg-background/30">
-                  <TrendingUp className="w-4 h-4 mx-auto text-emerald-400 mb-1" />
-                  <p className="font-bold">{player2.careerLegacy.toFixed(0)}</p>
-                  <p className="text-xs text-muted-foreground">Legacy</p>
-                </div>
-              </div>
+          {/* Team logo watermark */}
+          {nflTeam2 && (
+            <div className="absolute -left-8 -bottom-8 opacity-10">
+              <img src={nflTeam2.logoUrl} alt="" className="w-40 h-40 object-contain" />
             </div>
           )}
+          
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                <User className="w-4 h-4 text-accent" />
+              </div>
+              <span className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Player 2</span>
+            </div>
+            <PlayerSearchSelect
+              players={allPlayers}
+              value={player2Key}
+              onValueChange={setPlayer2Key}
+              placeholder="Search for a player..."
+            />
+
+            {player2 && (
+              <div className="mt-5 pt-5 border-t border-border/30">
+                <div className="flex items-center gap-4">
+                  {nflTeam2 && (
+                    <div 
+                      className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0"
+                      style={{ 
+                        background: `linear-gradient(135deg, hsl(${nflTeam2.primaryColor} / 0.2) 0%, hsl(${nflTeam2.secondaryColor} / 0.1) 100%)`,
+                        border: `2px solid hsl(${nflTeam2.primaryColor} / 0.3)`,
+                      }}
+                    >
+                      <img src={nflTeam2.logoUrl} alt={nflTeam2.name} className="w-10 h-10 object-contain" />
+                    </div>
+                  )}
+                  <div>
+                    <p 
+                      className="font-display text-2xl font-bold"
+                      style={{ color: player2Colors ? `hsl(${player2Colors.primary})` : 'hsl(var(--foreground))' }}
+                    >
+                      {player2.name}
+                    </p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <PositionBadge position={player2.position} />
+                      <span className="text-sm text-muted-foreground">{player2.team || 'Retired'}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-2 mt-4">
+                  <div 
+                    className="text-center p-3 rounded-xl"
+                    style={{ 
+                      background: `linear-gradient(135deg, hsl(var(--chart-4) / 0.15) 0%, transparent 100%)`,
+                      border: '1px solid hsl(var(--chart-4) / 0.2)'
+                    }}
+                  >
+                    <Trophy className="w-5 h-5 mx-auto text-chart-4 mb-1" />
+                    <p className="font-display text-xl font-bold text-chart-4">{player2.rings}</p>
+                    <p className="text-[10px] text-muted-foreground uppercase">Rings</p>
+                  </div>
+                  <div 
+                    className="text-center p-3 rounded-xl"
+                    style={{ 
+                      background: `linear-gradient(135deg, hsl(var(--primary) / 0.15) 0%, transparent 100%)`,
+                      border: '1px solid hsl(var(--primary) / 0.2)'
+                    }}
+                  >
+                    <Star className="w-5 h-5 mx-auto text-primary mb-1" />
+                    <p className="font-display text-xl font-bold text-primary">{player2.mvp}</p>
+                    <p className="text-[10px] text-muted-foreground uppercase">MVP</p>
+                  </div>
+                  <div 
+                    className="text-center p-3 rounded-xl"
+                    style={{ 
+                      background: `linear-gradient(135deg, hsl(var(--accent) / 0.15) 0%, transparent 100%)`,
+                      border: '1px solid hsl(var(--accent) / 0.2)'
+                    }}
+                  >
+                    <TrendingUp className="w-5 h-5 mx-auto text-accent mb-1" />
+                    <p className="font-display text-xl font-bold text-accent">{player2.careerLegacy.toFixed(0)}</p>
+                    <p className="text-[10px] text-muted-foreground uppercase">Legacy</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Comparison Table */}
       {player1 && player2 && (
-        <div className="rounded-2xl border border-border/30 overflow-hidden bg-background/50">
-          <div className="p-4 border-b border-border/20 bg-secondary/30">
-            <h3 className="font-display text-xl font-bold text-center">Head-to-Head Comparison</h3>
+        <div 
+          className="rounded-2xl border-2 overflow-hidden"
+          style={{
+            borderColor: 'hsl(var(--border) / 0.3)',
+            background: `linear-gradient(180deg, hsl(${player1Colors?.primary || 'var(--primary)'} / 0.03) 0%, transparent 50%, hsl(${player2Colors?.primary || 'var(--accent)'} / 0.03) 100%)`
+          }}
+        >
+          <div 
+            className="p-5 border-b border-border/30"
+            style={{
+              background: 'linear-gradient(90deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--secondary) / 0.5) 50%, hsl(var(--accent) / 0.1) 100%)'
+            }}
+          >
+            <div className="flex items-center justify-center gap-4">
+              <div className="flex items-center gap-2">
+                {nflTeam1 && <img src={nflTeam1.logoUrl} alt="" className="w-8 h-8" />}
+                <span className="font-display text-lg font-bold" style={{ color: player1Colors ? `hsl(${player1Colors.primary})` : undefined }}>{player1.name}</span>
+              </div>
+              <Zap className="w-5 h-5 text-chart-4" />
+              <div className="flex items-center gap-2">
+                <span className="font-display text-lg font-bold" style={{ color: player2Colors ? `hsl(${player2Colors.primary})` : undefined }}>{player2.name}</span>
+                {nflTeam2 && <img src={nflTeam2.logoUrl} alt="" className="w-8 h-8" />}
+              </div>
+            </div>
           </div>
           
           <div className="divide-y divide-border/20">
@@ -305,28 +419,38 @@ const ComparisonTab = () => {
               <div key={stat.label} className="grid grid-cols-3 items-center">
                 {/* Player 1 Value */}
                 <div 
-                  className={`p-4 text-center transition-colors ${stat.highlight === 1 ? 'bg-emerald-500/10' : ''}`}
+                  className="p-4 text-center transition-all"
+                  style={{
+                    background: stat.highlight === 1 
+                      ? `linear-gradient(90deg, hsl(var(--chart-2) / 0.15) 0%, transparent 100%)`
+                      : undefined
+                  }}
                 >
                   <span 
-                    className={`font-mono text-lg font-bold ${stat.highlight === 1 ? 'text-emerald-400' : 'text-foreground'}`}
+                    className={`font-mono text-lg font-bold ${stat.highlight === 1 ? 'text-chart-2' : 'text-foreground'}`}
                   >
                     {typeof stat.p1Value === 'number' ? stat.p1Value.toLocaleString() : stat.p1Value}
                   </span>
-                  {stat.highlight === 1 && <span className="ml-2 text-emerald-400 text-xs">★</span>}
+                  {stat.highlight === 1 && <span className="ml-2 text-chart-2">✓</span>}
                 </div>
                 
                 {/* Stat Label */}
-                <div className="p-4 text-center bg-secondary/20">
-                  <span className="text-sm font-medium text-muted-foreground">{stat.label}</span>
+                <div className="p-4 text-center bg-secondary/30">
+                  <span className="text-sm font-bold text-muted-foreground uppercase tracking-wide">{stat.label}</span>
                 </div>
                 
                 {/* Player 2 Value */}
                 <div 
-                  className={`p-4 text-center transition-colors ${stat.highlight === 2 ? 'bg-emerald-500/10' : ''}`}
+                  className="p-4 text-center transition-all"
+                  style={{
+                    background: stat.highlight === 2 
+                      ? `linear-gradient(270deg, hsl(var(--chart-2) / 0.15) 0%, transparent 100%)`
+                      : undefined
+                  }}
                 >
-                  {stat.highlight === 2 && <span className="mr-2 text-emerald-400 text-xs">★</span>}
+                  {stat.highlight === 2 && <span className="mr-2 text-chart-2">✓</span>}
                   <span 
-                    className={`font-mono text-lg font-bold ${stat.highlight === 2 ? 'text-emerald-400' : 'text-foreground'}`}
+                    className={`font-mono text-lg font-bold ${stat.highlight === 2 ? 'text-chart-2' : 'text-foreground'}`}
                   >
                     {typeof stat.p2Value === 'number' ? stat.p2Value.toLocaleString() : stat.p2Value}
                   </span>
@@ -336,37 +460,77 @@ const ComparisonTab = () => {
           </div>
 
           {/* Winner Summary */}
-          <div className="p-6 bg-gradient-to-r from-secondary/30 via-transparent to-secondary/30 border-t border-border/20">
-            <div className="flex items-center justify-center gap-4">
+          <div 
+            className="p-6 border-t border-border/30"
+            style={{
+              background: 'linear-gradient(180deg, transparent 0%, hsl(var(--secondary) / 0.3) 100%)'
+            }}
+          >
+            <div className="flex items-center justify-center gap-6">
               {(() => {
                 const p1Wins = comparisonStats.filter(s => s.highlight === 1).length;
                 const p2Wins = comparisonStats.filter(s => s.highlight === 2).length;
+                const winner = p1Wins > p2Wins ? player1 : p2Wins > p1Wins ? player2 : null;
+                const winnerColors = winner === player1 ? player1Colors : winner === player2 ? player2Colors : null;
+                const winnerTeam = winner === player1 ? nflTeam1 : winner === player2 ? nflTeam2 : null;
+                
                 return (
                   <>
-                    <div className="text-center">
+                    <div 
+                      className="text-center p-4 rounded-xl min-w-[100px]"
+                      style={{
+                        background: p1Wins >= p2Wins 
+                          ? `linear-gradient(135deg, hsl(${player1Colors?.primary || 'var(--primary)'} / 0.2) 0%, transparent 100%)`
+                          : undefined,
+                        border: p1Wins > p2Wins ? `2px solid hsl(${player1Colors?.primary || 'var(--primary)'} / 0.4)` : '1px solid hsl(var(--border) / 0.3)'
+                      }}
+                    >
                       <p 
-                        className="font-display text-3xl font-bold"
+                        className="font-display text-4xl font-bold"
                         style={{ color: player1Colors ? `hsl(${player1Colors.primary})` : 'hsl(var(--primary))' }}
                       >
                         {p1Wins}
                       </p>
-                      <p className="text-xs text-muted-foreground uppercase">Categories Won</p>
+                      <p className="text-xs text-muted-foreground uppercase mt-1">Wins</p>
                     </div>
-                    <ArrowRight className="w-5 h-5 text-muted-foreground" />
-                    <div className="px-4 py-2 rounded-full bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border border-indigo-500/30">
-                      <span className="font-display font-bold text-indigo-400">
-                        {p1Wins > p2Wins ? player1.name : p2Wins > p1Wins ? player2.name : 'TIE'}
-                      </span>
+                    
+                    <div 
+                      className="px-6 py-3 rounded-xl flex items-center gap-3"
+                      style={{
+                        background: winner 
+                          ? `linear-gradient(135deg, hsl(${winnerColors?.primary || 'var(--chart-4)'} / 0.2) 0%, hsl(${winnerColors?.secondary || 'var(--chart-4)'} / 0.1) 100%)`
+                          : 'hsl(var(--secondary) / 0.5)',
+                        border: `2px solid hsl(${winnerColors?.primary || 'var(--border)'} / 0.4)`
+                      }}
+                    >
+                      {winnerTeam && <img src={winnerTeam.logoUrl} alt="" className="w-8 h-8" />}
+                      <div className="text-center">
+                        <p className="text-[10px] text-muted-foreground uppercase mb-1">Winner</p>
+                        <span 
+                          className="font-display text-lg font-bold"
+                          style={{ color: winnerColors ? `hsl(${winnerColors.primary})` : 'hsl(var(--chart-4))' }}
+                        >
+                          {winner ? winner.name : 'TIE'}
+                        </span>
+                      </div>
                     </div>
-                    <ArrowRight className="w-5 h-5 text-muted-foreground rotate-180" />
-                    <div className="text-center">
+                    
+                    <div 
+                      className="text-center p-4 rounded-xl min-w-[100px]"
+                      style={{
+                        background: p2Wins >= p1Wins 
+                          ? `linear-gradient(135deg, hsl(${player2Colors?.primary || 'var(--accent)'} / 0.2) 0%, transparent 100%)`
+                          : undefined,
+                        border: p2Wins > p1Wins ? `2px solid hsl(${player2Colors?.primary || 'var(--accent)'} / 0.4)` : '1px solid hsl(var(--border) / 0.3)'
+                      }}
+                    >
                       <p 
-                        className="font-display text-3xl font-bold"
+                        className="font-display text-4xl font-bold"
                         style={{ color: player2Colors ? `hsl(${player2Colors.primary})` : 'hsl(var(--accent))' }}
                       >
                         {p2Wins}
                       </p>
-                      <p className="text-xs text-muted-foreground uppercase">Categories Won</p>
+                      <p className="text-xs text-muted-foreground uppercase mt-1">Wins</p>
                     </div>
                   </>
                 );
@@ -378,9 +542,14 @@ const ComparisonTab = () => {
 
       {/* Empty State */}
       {(!player1 || !player2) && (
-        <div className="rounded-2xl border border-dashed border-border/50 p-12 text-center">
-          <Scale className="w-12 h-12 text-muted-foreground mx-auto mb-4 opacity-50" />
-          <p className="text-muted-foreground">Select two players above to compare their stats</p>
+        <div className="rounded-2xl border-2 border-dashed border-border/40 p-12 text-center bg-gradient-to-br from-secondary/20 to-transparent">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-secondary/50 mb-4">
+            <Users className="w-8 h-8 text-muted-foreground" />
+          </div>
+          <h3 className="font-display text-2xl font-bold text-foreground mb-2">Select Two Players</h3>
+          <p className="text-muted-foreground max-w-md mx-auto">
+            Use the search boxes above to select two players for a detailed head-to-head comparison across all statistical categories.
+          </p>
         </div>
       )}
     </div>
