@@ -29,7 +29,7 @@
  */
 import { useCallback, useEffect, useState } from 'react';
 
-export const CONTENT_URL = '/data/league/content.json';
+export const CONTENT_URL = `${import.meta.env.BASE_URL}data/league/content.json`;
 export const CONTENT_STORAGE_KEY = 'retroVault:content';
 const CHANGE_EVENT = 'retroVault:content-changed';
 

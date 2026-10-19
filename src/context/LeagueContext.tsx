@@ -24,7 +24,7 @@ const LeagueContext = createContext<LeagueContextType | null>(null);
  * scripts/build_league_data.py. Nothing league-related is stored in the browser, so every
  * browser sees the same data; new data comes in by rebuilding that file.
  */
-const LEAGUE_URL = '/data/initial-data.csv';
+const LEAGUE_URL = `${import.meta.env.BASE_URL}data/initial-data.csv`;
 
 // Keys from earlier versions (uploaded sheets, cached league copies, per-season tracking).
 const LEGACY_KEYS = [
