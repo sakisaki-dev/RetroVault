@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import Header from '@/components/Header';
 import CareerTab from '@/components/tabs/CareerTab';
 import HallOfFameTab from '@/components/tabs/HallOfFameTab';
-import TeamRankingsTab from '@/components/tabs/TeamRankingsTab';
 import GamesTab from '@/components/tabs/GamesTab';
 import TimelineTab from '@/components/tabs/TimelineTab';
 import FrontOfficeTab from '@/components/tabs/FrontOfficeTab';
@@ -10,10 +9,27 @@ import CollectionTab from '@/components/tabs/CollectionTab';
 import CardUnlockToasts from '@/components/collection/CardUnlockToasts';
 import CeremonyHost from '@/components/ceremony/CeremonyHost';
 import { LeagueProvider } from '@/context/LeagueContext';
+import { onCompFinderRequest, onHeadToHeadRequest } from '@/components/stats/comps/compFinderLink';
+import { HubRouteContext, useHashRoute } from '@/components/stats/hub/hashRoute';
 import { Helmet } from 'react-helmet-async';
 
 const IndexContent = () => {
-  const [activeTab, setActiveTab] = useState('games');
+  // The visible page lives in the URL hash (#stats/teams, #stats/deepdive?p=…) so it is linkable and Back works.
+  const { route, navigate } = useHashRoute('games');
+  const activeTab = route.tab;
+  const hub = useMemo(() => ({ route, navigate }), [route, navigate]);
+  // "Deep Dive" requests (player card, Map, Stats search) open Stats › Deep Dive on that player; the view consumes the
+  // pending request itself. Head-to-Head hand-offs open Stats › Head-to-Head.
+  useEffect(() => {
+    const offDive = onCompFinderRequest((key) => {
+      navigate({ tab: 'career', sub: 'deepdive', p: key || undefined });
+    });
+    const offH2H = onHeadToHeadRequest(() => navigate({ tab: 'career', sub: 'h2h' }));
+    return () => {
+      offDive();
+      offH2H();
+    };
+  }, [navigate]);
 
   return (
     <>
@@ -23,17 +39,18 @@ const IndexContent = () => {
       </Helmet>
       
       <div className="min-h-screen flex flex-col">
-        <Header activeTab={activeTab} onTabChange={setActiveTab} />
+        <Header activeTab={activeTab} onTabChange={(tab) => navigate({ tab })} />
         
-        <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
-          {activeTab === 'career' && <CareerTab />}
-          {activeTab === 'teams' && <TeamRankingsTab />}
-          {activeTab === 'hof' && <HallOfFameTab />}
-          {activeTab === 'collection' && <CollectionTab />}
-          {activeTab === 'timeline' && <TimelineTab />}
-          {activeTab === 'office' && <FrontOfficeTab />}
-          {activeTab === 'games' && <GamesTab />}
-        </main>
+        <HubRouteContext.Provider value={hub}>
+          <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
+            {activeTab === 'career' && <CareerTab />}
+            {activeTab === 'hof' && <HallOfFameTab />}
+            {activeTab === 'collection' && <CollectionTab />}
+            {activeTab === 'timeline' && <TimelineTab />}
+            {activeTab === 'office' && <FrontOfficeTab />}
+            {activeTab === 'games' && <GamesTab />}
+          </main>
+        </HubRouteContext.Provider>
 
         <CeremonyHost />
         <CardUnlockToasts />

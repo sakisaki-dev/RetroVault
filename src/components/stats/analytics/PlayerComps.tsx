@@ -1,7 +1,16 @@
 import { useMemo, useState } from 'react';
 import { Users } from 'lucide-react';
 import type { Player } from '@/types/player';
-import { compFeatureLabels, evaluatePosition, metricsFor, similarPlayers, type AdvContext } from '@/config/advanced';
+import {
+  SIMILARITY_DEFINITIONS,
+  SIMILARITY_LABELS,
+  compFeatureLabels,
+  evaluatePosition,
+  hasSimilarityData,
+  metricsFor,
+  similarPlayers,
+  type AdvContext,
+} from '@/config/advanced';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import PlayerSearchSelect from '../../PlayerSearchSelect';
@@ -31,7 +40,10 @@ const PlayerComps = ({ players, ctx, onSelect }: Props) => {
     const boards = evaluatePosition(players, player.position, ctx);
     return metricsFor(player.position).map((m) => ({ metric: m, row: boards.get(m.id)?.rows.find((r) => r.player === player) }));
   }, [players, player, ctx]);
-  const comps = useMemo(() => (player ? similarPlayers(players, player, 3) : []), [players, player]);
+  const compSets = useMemo(
+    () => (player ? (['style', 'level'] as const).map((mode) => ({ mode, comps: similarPlayers(players, player, 3, mode) })) : []),
+    [players, player],
+  );
 
   if (!player) return null;
   const ovr = ovrMap.get(keyOf(player));
@@ -43,7 +55,7 @@ const PlayerComps = ({ players, ctx, onSelect }: Props) => {
           <Users className="h-4 w-4 text-gold" aria-hidden="true" />
           Player profile &amp; comps
         </h3>
-        <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">Percentile against every qualified player at the same position, and the closest careers by shape.</p>
+        <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">Percentile against every qualified player at the same position, and the players whose per-game and efficiency rates look most like his, regardless of career length.</p>
       </div>
 
       <PlayerSearchSelect players={sortedPlayers} value={keyOf(player)} onValueChange={(v) => v && setSelKey(v)} ariaLabel="Profile player" />
@@ -88,35 +100,46 @@ const PlayerComps = ({ players, ctx, onSelect }: Props) => {
       </ul>
 
       <div className="mt-auto space-y-2 border-t border-line/70 pt-3">
-        <h4 className="font-display text-sm font-bold uppercase tracking-wide text-muted-foreground">Most similar careers</h4>
-        {comps.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Not enough {player.position}s to compare.</p>
-        ) : (
-          <ol className="grid gap-2 sm:grid-cols-3">
-            {comps.map((c) => (
-              <li key={keyOf(c.player)}>
-                <button
-                  type="button"
-                  onClick={() => setSelKey(keyOf(c.player))}
-                  aria-label={`${c.player.name}, similarity ${Math.round(c.similarity)} of 100. Show his profile`}
-                  className="hover-lift flex h-full w-full flex-col gap-1 rounded-lg border border-line bg-panel p-2.5 text-left"
-                >
-                  <span className="flex min-w-0 items-center gap-1.5">
-                    {c.player.team && <TeamLogo team={c.player.team} size={18} decorative />}
-                    <span className="truncate text-sm font-semibold">{c.player.name}</span>
-                  </span>
-                  <span className="flex items-baseline justify-between gap-2">
-                    <span className="font-display text-2xl font-extrabold leading-none text-chalk">{Math.round(c.similarity)}</span>
-                    <span className="font-pixel text-[8px] uppercase text-muted-foreground">similarity</span>
-                  </span>
-                  <span className="text-[11px] text-muted-foreground">{c.player.games} G · TPG {fmtNum(c.player.tpg, 2)}</span>
-                </button>
-              </li>
-            ))}
-          </ol>
-        )}
+        {compSets.map(({ mode, comps }) => (
+          <div key={mode} className="space-y-2">
+            <h4 className="font-display text-sm font-bold uppercase tracking-wide text-muted-foreground" title={SIMILARITY_DEFINITIONS[mode]}>
+              {SIMILARITY_LABELS[mode]}
+            </h4>
+            {comps.length === 0 ? (
+              <p className="text-sm text-muted-foreground">
+                {hasSimilarityData(player) ? `Not enough ${player.position}s to compare.` : 'Insufficient data: too few of his rates are recorded to compare.'}
+              </p>
+            ) : (
+              <ol className="grid gap-2 sm:grid-cols-3">
+                {comps.map((c) => (
+                  <li key={keyOf(c.player)}>
+                    <button
+                      type="button"
+                      onClick={() => setSelKey(keyOf(c.player))}
+                      aria-label={`${c.player.name}, ${mode === 'style' ? 'style match' : 'similarity'} ${Math.round(c.similarity)} of 100. Show his profile`}
+                      className="hover-lift flex h-full w-full flex-col gap-1 rounded-lg border border-line bg-panel p-2.5 text-left"
+                    >
+                      <span className="flex min-w-0 items-center gap-1.5">
+                        {c.player.team && <TeamLogo team={c.player.team} size={18} decorative />}
+                        <span className="truncate text-sm font-semibold">{c.player.name}</span>
+                      </span>
+                      <span className="flex items-baseline justify-between gap-2">
+                        <span className="font-display text-2xl font-extrabold leading-none text-chalk">{Math.round(c.similarity)}</span>
+                        <span className="font-pixel text-[8px] uppercase text-muted-foreground">{mode === 'style' ? 'style match' : 'similarity'}</span>
+                      </span>
+                      <span className="text-[11px] text-muted-foreground">
+                        {c.player.games} G · TPG {fmtNum(c.player.tpg, 2)}
+                        {c.smallSample && <span className="ml-1 text-gold">· small sample</span>}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
+        ))}
         <p className="text-[11px] text-muted-foreground">
-          Similarity (0–100) compares z-scores within the position on {compFeatureLabels(player.position).join(', ')}.
+          Both scores (0–100) use rates z-scored within the position: {compFeatureLabels(player.position).join(', ')}. Career length, totals and True Talent are left out. Style ignores level; closest overall needs the numbers to match too (~60 = about one standard deviation apart on average).
         </p>
       </div>
     </section>

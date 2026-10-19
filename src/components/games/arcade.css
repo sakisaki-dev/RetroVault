@@ -83,13 +83,15 @@
 .arcade .home-intro { margin: 26px 0 14px; display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; justify-content: space-between; }
 .arcade .home-intro h2 { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: clamp(28px, 4.4vw, 44px); text-transform: uppercase; line-height: 1; }
 .arcade .home-intro p { margin: 0; color: var(--muted); max-width: 60ch; }
-.arcade .modes { display: grid; grid-template-columns: 1fr; gap: 16px; }
-/* Any number of modes, no empty cells: the featured first card spans whatever width completes the last row (GamesTab sets --span-N)
-   (4 cols: 2+1+1 / 4 · 3 cols: 3 / 3 / 3 · 2 cols: 2 / 2 / 2 / 2 · 1 col below 560px). */
-@media (min-width: 560px) { .arcade .modes { grid-template-columns: repeat(2, minmax(0, 1fr)); } .arcade .mode-li.featured { grid-column: span var(--span-2, 2); } }
-@media (min-width: 700px) { .arcade .modes { grid-template-columns: repeat(3, minmax(0, 1fr)); } .arcade .mode-li.featured { grid-column: span var(--span-3, 3); } }
-@media (min-width: 1100px) { .arcade .modes { grid-template-columns: repeat(4, minmax(0, 1fr)); } .arcade .mode-li.featured { grid-column: span var(--span-4, 2); } }
-.arcade .mode-li { display: flex; min-width: 0; }
+/* Even grid, every card the same size (equal rows via grid-auto-rows). GamesTab picks a column count per breakpoint that
+   divides the number of modes where it can (10 modes: 1, 2, 2, 5 per row), and otherwise stretches the final row
+   evenly (4 cols: 4+4+2, the last two cards two columns wide) through --tracks-{bp} on the list and --span-{bp} per card. */
+.arcade .modes { --t: 1; display: grid; grid-template-columns: repeat(var(--t), minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 16px; }
+.arcade .mode-li { --s: 1; display: flex; min-width: 0; grid-column: span var(--s); }
+@media (min-width: 560px) { .arcade .modes { --t: var(--tracks-sm, 2); } .arcade .mode-li { --s: var(--span-sm, 1); } }
+@media (min-width: 760px) { .arcade .modes { --t: var(--tracks-md, 3); } .arcade .mode-li { --s: var(--span-md, 1); } }
+@media (min-width: 1100px) { .arcade .modes { --t: var(--tracks-lg, 4); } .arcade .mode-li { --s: var(--span-lg, 1); } }
+@media (min-width: 1200px) { .arcade .modes { --t: var(--tracks-xl, 5); } .arcade .mode-li { --s: var(--span-xl, 1); } }
 .arcade .mode { position: relative; text-align: left; border: 0; padding: 0; background: var(--panel); border-radius: 10px; overflow: hidden; box-shadow: 0 0 0 2px var(--line); transition: transform 0.15s, box-shadow 0.15s; display: flex; flex-direction: column; animation: arc-rise 0.45s both; }
 .arcade .mode:hover, .arcade .mode:focus-visible { transform: translateY(-3px); box-shadow: 0 0 0 2px var(--mc), 0 14px 30px #0009; }
 .arcade .mode-art { height: 150px; padding: 30px 12px 8px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
@@ -97,7 +99,6 @@
 .arcade .mode-art::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-55deg, #0000 0 18px, #ffffff08 18px 36px); pointer-events: none; }
 .arcade .mode-art .tag { position: absolute; left: 12px; top: 10px; z-index: 2; font-family: var(--f-pixel); font-size: 11px; background: #000; color: var(--mc); padding: 4px 7px; border-radius: 3px; }
 .arcade .mode-art > :not(.tag) { position: relative; z-index: 1; }
-.arcade .mode-li.featured .mode-art { height: 170px; }
 .arcade .mode * { transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s; }
 
 /* Blind Rank: five rank slots */

@@ -471,107 +471,248 @@ export const legacyMix = (p: Player): LegacyMix => {
   return { talent, awards, longevity, total: talent + awards + longevity };
 };
 
-// ---------- Similarity (career comps) ----------
+// ---------- Similarity (play-style comps) ----------
 
-/** Per-game / rate features used for comps, z-scored within the position. */
-const COMP_FEATURES: Record<Position, { label: string; get: (p: Player) => number }[]> = {
+/**
+ * One play-style feature: a per-game or efficiency rate (never a career total, games or True Talent),
+ * so a rookie can match a ten-year veteran who plays the same way.
+ */
+export interface CompFeature {
+  id: string;
+  label: string;
+  /** Plain-language definition (tooltips, Build-a-Legend). */
+  definition: string;
+  get: (p: Player) => number;
+  /** Relative weight in the distance (1 = normal; 0.5 for a feature that mostly repeats others). */
+  weight: number;
+  decimals: number;
+  /** Display multiplier (e.g. 100 for a share shown as a percent) and suffix. */
+  scale?: number;
+  suffix?: string;
+  lowerIsBetter?: boolean;
+}
+
+/** Players below this many games still get matched, but are flagged as a small sample and don't set the z-score baselines. */
+export const SIM_MIN_GAMES = 8;
+/** Fewer usable features than this (missing inputs, no games): "insufficient data", never scored (OL: its one feature). */
+export const SIM_MIN_FEATURES = 3;
+/** The style (shape) score needs at least this many shared features for a correlation. */
+export const SIM_MIN_STYLE_FEATURES = 4;
+
+// Strict inputs for similarity: a stat that is missing from the sheet is NaN (never treated as 0), and a rate
+// whose denominator is zero or missing is NaN, so a partial stat line can't fake an extreme value.
+const v = (p: Player, key: string): number => {
+  const x = (p as unknown as Record<string, unknown>)[key];
+  return typeof x === 'number' && Number.isFinite(x) ? x : NaN;
+};
+const safeDiv = (a: number, b: number) => (Number.isFinite(a) && Number.isFinite(b) && b > 0 ? a / b : NaN);
+const sum = (p: Player, ...keys: string[]) => keys.reduce((s, k) => s + v(p, k), 0);
+const perG = (key: string) => (p: Player) => safeDiv(v(p, key), p.games);
+const perAtt = (key: string) => (p: Player) => safeDiv(v(p, key), v(p, 'attempts'));
+const strictRating = (p: Player) => (v(p, 'attempts') > 0 && [v(p, 'completions'), v(p, 'passYds'), v(p, 'passTD'), v(p, 'interceptions')].every(Number.isFinite) ? passerRating(p) : NaN);
+
+const STYLE_FEATURES: Record<Position, CompFeature[]> = {
   QB: [
-    { label: 'Pass yds/G', get: (p) => ratio(n(p, 'passYds'), p.games) },
-    { label: 'Pass TD/G', get: (p) => ratio(n(p, 'passTD'), p.games) },
-    { label: 'Rating', get: passerRating },
-    { label: 'INT%', get: (p) => ratio(n(p, 'interceptions'), n(p, 'attempts')) },
-    { label: 'Rush yds/G', get: (p) => ratio(n(p, 'rushYds'), p.games) },
+    { id: 'ya', label: 'Y/A', definition: 'Passing yards per attempt.', get: perAtt('passYds'), weight: 1, decimals: 1 },
+    { id: 'cmp', label: 'Cmp%', definition: 'Completions per attempt.', get: perAtt('completions'), weight: 1, decimals: 1, scale: 100, suffix: '%' },
+    { id: 'tdPct', label: 'TD%', definition: 'Passing touchdowns per attempt.', get: perAtt('passTD'), weight: 1, decimals: 1, scale: 100, suffix: '%' },
+    { id: 'intPct', label: 'INT%', definition: 'Interceptions per attempt.', get: perAtt('interceptions'), weight: 1, decimals: 1, scale: 100, suffix: '%', lowerIsBetter: true },
+    { id: 'rating', label: 'Rating', definition: 'Official NFL passer rating (mostly a blend of the four rates above, so it counts half).', get: strictRating, weight: 0.5, decimals: 1 },
+    { id: 'passYdsG', label: 'Pass yds/G', definition: 'Passing yards per game played.', get: perG('passYds'), weight: 1, decimals: 1 },
+    { id: 'rushYdsG', label: 'Rush yds/G', definition: 'Rushing yards per game played.', get: perG('rushYds'), weight: 1, decimals: 1 },
+    {
+      id: 'rushShare',
+      label: 'Rush share',
+      definition: 'Designed runs and scrambles as a share of all plays (carries / (carries + pass attempts)).',
+      get: (p) => (v(p, 'attempts') > 0 ? safeDiv(v(p, 'rushAtt'), sum(p, 'rushAtt', 'attempts')) : NaN),
+      weight: 1,
+      decimals: 1,
+      scale: 100,
+      suffix: '%',
+    },
   ],
   RB: [
-    { label: 'Rush yds/G', get: (p) => ratio(n(p, 'rushYds'), p.games) },
-    { label: 'Y/C', get: (p) => ratio(n(p, 'rushYds'), n(p, 'rushAtt')) },
-    { label: 'Rec yds/G', get: (p) => ratio(n(p, 'recYds'), p.games) },
-    { label: 'TD/G', get: (p) => ratio(skillTD(p), p.games) },
+    { id: 'ypc', label: 'Y/C', definition: 'Rushing yards per carry.', get: (p) => safeDiv(v(p, 'rushYds'), v(p, 'rushAtt')), weight: 1, decimals: 2 },
+    { id: 'rushYdsG', label: 'Rush yds/G', definition: 'Rushing yards per game played.', get: perG('rushYds'), weight: 1, decimals: 1 },
+    { id: 'recYdsG', label: 'Rec yds/G', definition: 'Receiving yards per game played.', get: perG('recYds'), weight: 1, decimals: 1 },
+    { id: 'recShare', label: 'Rec share', definition: 'Receiving yards as a share of scrimmage yards.', get: (p) => safeDiv(v(p, 'recYds'), sum(p, 'rushYds', 'recYds')), weight: 1, decimals: 1, scale: 100, suffix: '%' },
+    { id: 'td16', label: 'TD/16', definition: 'Rushing + receiving touchdowns per 16 games.', get: (p) => safeDiv(16 * sum(p, 'rushTD', 'recTD'), p.games), weight: 1, decimals: 1 },
+    { id: 'fumRate', label: 'Fum/100 tch', definition: 'Fumbles per 100 touches (carries + catches).', get: (p) => safeDiv(100 * v(p, 'fumbles'), sum(p, 'rushAtt', 'receptions')), weight: 1, decimals: 2, lowerIsBetter: true },
+    { id: 'ypt', label: 'Yds/touch', definition: 'Scrimmage yards per touch.', get: (p) => safeDiv(sum(p, 'rushYds', 'recYds'), sum(p, 'rushAtt', 'receptions')), weight: 1, decimals: 2 },
   ],
-  WR: [
-    { label: 'Rec/G', get: (p) => ratio(n(p, 'receptions'), p.games) },
-    { label: 'Rec yds/G', get: (p) => ratio(n(p, 'recYds'), p.games) },
-    { label: 'Y/R', get: (p) => ratio(n(p, 'recYds'), n(p, 'receptions')) },
-    { label: 'TD/G', get: (p) => ratio(n(p, 'recTD'), p.games) },
-  ],
-  TE: [
-    { label: 'Rec/G', get: (p) => ratio(n(p, 'receptions'), p.games) },
-    { label: 'Rec yds/G', get: (p) => ratio(n(p, 'recYds'), p.games) },
-    { label: 'Y/R', get: (p) => ratio(n(p, 'recYds'), n(p, 'receptions')) },
-    { label: 'TD/G', get: (p) => ratio(n(p, 'recTD'), p.games) },
-  ],
-  OL: [{ label: 'Blocks/G', get: (p) => ratio(n(p, 'blocks'), p.games) }],
+  WR: [],
+  TE: [],
+  OL: [{ id: 'blocksG', label: 'Blocks/G', definition: 'Blocks per game played.', get: perG('blocks'), weight: 1, decimals: 2 }],
   LB: [],
   DB: [],
   DL: [],
 };
-const DEF_FEATURES = [
-  { label: 'Tackles/G', get: (p: Player) => ratio(n(p, 'tackles'), p.games) },
-  { label: 'Sacks/G', get: (p: Player) => ratio(n(p, 'sacks'), p.games) },
-  { label: 'INT/G', get: (p: Player) => ratio(n(p, 'interceptions'), p.games) },
-  { label: 'FF/G', get: (p: Player) => ratio(n(p, 'forcedFumbles'), p.games) },
+const RECV_FEATURES: CompFeature[] = [
+  { id: 'recG', label: 'Rec/G', definition: 'Catches per game played.', get: perG('receptions'), weight: 1, decimals: 2 },
+  { id: 'recYdsG', label: 'Yds/G', definition: 'Receiving yards per game played.', get: perG('recYds'), weight: 1, decimals: 1 },
+  { id: 'ypr', label: 'Y/R', definition: 'Yards per reception.', get: (p) => safeDiv(v(p, 'recYds'), v(p, 'receptions')), weight: 1, decimals: 1 },
+  { id: 'tdPerRec', label: 'TD/rec', definition: 'Receiving touchdowns per catch.', get: (p) => safeDiv(v(p, 'recTD'), v(p, 'receptions')), weight: 1, decimals: 1, scale: 100, suffix: '%' },
+  { id: 'fumRate', label: 'Fum/100 rec', definition: 'Fumbles per 100 catches.', get: (p) => safeDiv(100 * v(p, 'fumbles'), v(p, 'receptions')), weight: 1, decimals: 2, lowerIsBetter: true },
 ];
+const DEF_STYLE: CompFeature[] = [
+  { id: 'tklG', label: 'Tackles/G', definition: 'Tackles per game played.', get: perG('tackles'), weight: 1, decimals: 2 },
+  { id: 'sackG', label: 'Sacks/G', definition: 'Sacks per game played.', get: perG('sacks'), weight: 1, decimals: 2 },
+  { id: 'intG', label: 'INT/G', definition: 'Interceptions per game played.', get: perG('interceptions'), weight: 1, decimals: 3 },
+  { id: 'ffG', label: 'FF/G', definition: 'Forced fumbles per game played.', get: perG('forcedFumbles'), weight: 1, decimals: 3 },
+  {
+    id: 'impactG',
+    label: 'Impact/G',
+    definition: 'Sacks + interceptions + forced fumbles per game (sums the three above, so it counts half).',
+    get: (p) => safeDiv(sum(p, 'sacks', 'interceptions', 'forcedFumbles'), p.games),
+    weight: 0.5,
+    decimals: 2,
+  },
+];
+STYLE_FEATURES.WR = RECV_FEATURES;
+STYLE_FEATURES.TE = RECV_FEATURES;
 DEF.forEach((pos) => {
-  COMP_FEATURES[pos] = DEF_FEATURES;
+  STYLE_FEATURES[pos] = DEF_STYLE;
 });
-/** Shape-of-career features shared by every position. */
-const CAREER_FEATURES = [
-  { label: 'Games', get: (p: Player) => p.games },
-  { label: 'True Talent', get: (p: Player) => p.trueTalent },
-];
 
-export const compFeatureLabels = (pos: Position) => [...COMP_FEATURES[pos], ...CAREER_FEATURES].map((f) => f.label);
+/** The play-style features similarity compares at a position, in a fixed order. */
+export const compFeatures = (pos: Position): CompFeature[] => STYLE_FEATURES[pos];
+
+export const compFeatureLabels = (pos: Position) => STYLE_FEATURES[pos].map((f) => f.label);
+
+/** A player's raw feature values, in `compFeatures(pos)` order (NaN where a rate has no denominator). */
+export const compFeatureValues = (p: Player): number[] => STYLE_FEATURES[p.position].map((f) => f.get(p));
+
+export type SimilarityMode = 'level' | 'style';
+
+/** Shared labels for the two similarity scores (Player comps, Head-to-Head, player card, Build-a-Legend). */
+export const SIMILARITY_LABELS: Record<SimilarityMode, string> = {
+  style: 'Plays like (style)',
+  level: 'Closest overall (level + style)',
+};
+export const SIMILARITY_DEFINITIONS: Record<SimilarityMode, string> = {
+  level:
+    '0–100 closeness of per-game and efficiency rates (no games, totals or True Talent), z-scored within the position: 100·exp(−D/2W) over the weighted squared gaps. ~60 = about one standard deviation apart on average; 100 = identical rates.',
+  style:
+    '0–100 match of statistical shape regardless of level: the correlation between two players\' z-scored rates (oriented so higher = better, at least 4 shared features), max(0, r)·100. A lesser player with the same strengths and weaknesses scores high.',
+};
 
 export interface Comp {
   player: Player;
-  /** 0–100: 100·exp(−d² / 2k), d = Euclidean distance over k z-scored features. */
+  /** 0–100 score for the requested mode (`level` by default). */
   similarity: number;
+  /** Level + style: 100·exp(−D / 2W), D = weighted squared z-distance over the usable features, W = their total weight. */
+  level: number;
+  /** Shape only: max(0, weighted Pearson r of the oriented z-vectors)·100; NaN with fewer than SIM_MIN_STYLE_FEATURES shared features. */
+  style: number;
+  /** Fewer than SIM_MIN_GAMES games: rates are noisy. */
+  smallSample: boolean;
 }
 
-/** Scorer for one position: z-scores each comp feature over the position pool, returns 0–100 similarity. */
+/** The players that set the z-score baselines at a position (league, ≥ SIM_MIN_GAMES games, enough usable features). */
+export const similarityBaseline = (players: Player[], position: Position) =>
+  players.filter((p) => p.position === position && !p.isRealLegend && p.games >= SIM_MIN_GAMES && hasSimilarityData(p));
+
+/** False when a player has fewer than SIM_MIN_FEATURES usable style features ("insufficient data"). */
+export const hasSimilarityData = (p: Player) =>
+  STYLE_FEATURES[p.position].filter((f) => Number.isFinite(f.get(p))).length >= minFeatures(p.position);
+/** OL has a single style feature (blocks/G), so its minimum is that one feature. */
+const minFeatures = (pos: Position) => Math.min(SIM_MIN_FEATURES, STYLE_FEATURES[pos].length);
+
+/** Scorer for one position: z-scores each style feature over the baseline, returns 0–100 level and style scores. */
 const similarityScorer = (players: Player[], position: Position) => {
-  const pool = players.filter((p) => p.position === position && !p.isRealLegend && p.games > 0);
-  const features = [...COMP_FEATURES[position], ...CAREER_FEATURES];
+  const pool = players.filter((p) => p.position === position && !p.isRealLegend && p.games > 0 && hasSimilarityData(p));
+  const baseline = similarityBaseline(players, position);
+  const features = STYLE_FEATURES[position];
   const stats = features.map((f) => {
-    const vals = pool.map(f.get).filter(Number.isFinite);
-    const mean = vals.reduce((s, v) => s + v, 0) / (vals.length || 1);
-    const sd = Math.sqrt(vals.reduce((s, v) => s + (v - mean) ** 2, 0) / (vals.length || 1));
-    return { get: f.get, mean, sd };
+    const vals = baseline.map(f.get).filter(Number.isFinite);
+    const mean = vals.reduce((s, x) => s + x, 0) / (vals.length || 1);
+    const sd = Math.sqrt(vals.reduce((s, x) => s + (x - mean) ** 2, 0) / (vals.length || 1));
+    return { mean, sd, weight: f.weight, sign: f.lowerIsBetter ? -1 : 1 };
   });
-  const z = (p: Player) => stats.map((s) => (s.sd > 0 ? (s.get(p) - s.mean) / s.sd : NaN));
-  const score = (za: number[], zb: number[]) => {
+  const zv = (vals: number[]) => stats.map((s, i) => (s.sd > 0 && Number.isFinite(vals[i]) ? (vals[i] - s.mean) / s.sd : NaN));
+  const z = (p: Player) => zv(features.map((f) => f.get(p)));
+  const shared = (za: number[], zb: number[]) => za.map((x, i) => i).filter((i) => Number.isFinite(za[i]) && Number.isFinite(zb[i]));
+  const level = (za: number[], zb: number[]) => {
+    const idx = shared(za, zb);
+    if (idx.length < minFeatures(position)) return NaN;
     let d2 = 0;
-    let k = 0;
-    za.forEach((v, i) => {
-      if (Number.isFinite(v) && Number.isFinite(zb[i])) {
-        d2 += (v - zb[i]) ** 2;
-        k += 1;
-      }
+    let w = 0;
+    idx.forEach((i) => {
+      d2 += stats[i].weight * (za[i] - zb[i]) ** 2;
+      w += stats[i].weight;
     });
-    return k > 0 ? 100 * Math.exp(-d2 / (2 * k)) : 0;
+    return 100 * Math.exp(-d2 / (2 * w));
   };
-  return { pool, z, score };
+  const style = (za: number[], zb: number[]) => {
+    const idx = shared(za, zb);
+    if (idx.length < SIM_MIN_STYLE_FEATURES) return NaN;
+    // Orient so higher = better, then a weighted Pearson r: centering removes the overall level
+    const a = idx.map((i) => stats[i].sign * za[i]);
+    const b = idx.map((i) => stats[i].sign * zb[i]);
+    const w = idx.map((i) => stats[i].weight);
+    const W = w.reduce((s, x) => s + x, 0);
+    const ma = a.reduce((s, x, k) => s + w[k] * x, 0) / W;
+    const mb = b.reduce((s, x, k) => s + w[k] * x, 0) / W;
+    let cov = 0;
+    let va = 0;
+    let vb = 0;
+    a.forEach((x, k) => {
+      cov += w[k] * (x - ma) * (b[k] - mb);
+      va += w[k] * (x - ma) ** 2;
+      vb += w[k] * (b[k] - mb) ** 2;
+    });
+    if (va <= 1e-12 || vb <= 1e-12) return NaN;
+    return 100 * Math.max(0, cov / Math.sqrt(va * vb));
+  };
+  return { pool, z, zv, level, style };
+};
+
+type Scorer = ReturnType<typeof similarityScorer>;
+
+const compsAgainst = (sc: Scorer, zt: number[], candidates: Player[], mode: SimilarityMode): Comp[] =>
+  candidates
+    .map((player) => {
+      const zp = sc.z(player);
+      const level = sc.level(zt, zp);
+      const style = sc.style(zt, zp);
+      return { player, level, style, similarity: mode === 'style' ? style : level, smallSample: player.games < SIM_MIN_GAMES };
+    })
+    .filter((c) => Number.isFinite(c.similarity))
+    .sort((a, b) => b.similarity - a.similarity || (mode === 'style' ? b.level - a.level : 0) || a.player.name.localeCompare(b.player.name));
+
+/**
+ * Players at the same position compared on play style: per-game and efficiency rates only (no games, True Talent
+ * or totals), so career length doesn't matter. `level` (default) = closest overall; `style` = same statistical
+ * shape at any level. Returns [] when the target has insufficient data.
+ */
+export const similarPlayers = (players: Player[], target: Player, count = 3, mode: SimilarityMode = 'level'): Comp[] => {
+  if (!hasSimilarityData(target) || target.games <= 0) return [];
+  const sc = similarityScorer(players, target.position);
+  return compsAgainst(
+    sc,
+    sc.z(target),
+    sc.pool.filter((p) => p !== target && p.name !== target.name),
+    mode,
+  ).slice(0, count);
+};
+
+/** Similarity (0–100) between two players; null across positions or with insufficient data. */
+export const pairSimilarity = (players: Player[], a: Player, b: Player, mode: SimilarityMode = 'level'): number | null => {
+  if (a.position !== b.position || a.games <= 0 || b.games <= 0 || !hasSimilarityData(a) || !hasSimilarityData(b)) return null;
+  const sc = similarityScorer(players, a.position);
+  const za = sc.z(a);
+  const zb = sc.z(b);
+  const s = mode === 'style' ? sc.style(za, zb) : sc.level(za, zb);
+  return Number.isFinite(s) ? s : null;
 };
 
 /**
- * Nearest careers at the same position by z-scored per-game rates + games + True Talent.
- * A feature with no spread (or no value for either player) is skipped.
+ * Similarity of a hypothetical player (raw feature values in `compFeatures(position)` order; NaN = unknown) to every
+ * league player at the position, best first. Same normalization and scales as similarPlayers.
  */
-export const similarPlayers = (players: Player[], target: Player, count = 3): Comp[] => {
-  const { pool, z, score } = similarityScorer(players, target.position);
-  const zt = z(target);
-  return pool
-    .filter((p) => p !== target && p.name !== target.name)
-    .map((p) => ({ player: p, similarity: score(zt, z(p)) }))
-    .sort((a, b) => b.similarity - a.similarity || a.player.name.localeCompare(b.player.name))
-    .slice(0, count);
-};
-
-/** Similarity (0–100, same scale as similarPlayers) between two players; null across positions or with no games. */
-export const pairSimilarity = (players: Player[], a: Player, b: Player): number | null => {
-  if (a.position !== b.position || a.games <= 0 || b.games <= 0) return null;
-  const { z, score } = similarityScorer(players, a.position);
-  return score(z(a), z(b));
+export const similarityToVector = (players: Player[], position: Position, vector: number[], count = Infinity, mode: SimilarityMode = 'level'): Comp[] => {
+  const sc = similarityScorer(players, position);
+  return compsAgainst(sc, sc.zv(vector), sc.pool, mode).slice(0, count);
 };
 
 // ---------- Convenience ----------

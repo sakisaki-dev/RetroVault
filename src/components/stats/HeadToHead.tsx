@@ -4,7 +4,7 @@ import type { LeagueData, Player } from '@/types/player';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { buildContext, compFeatureLabels, leaguePlayers } from '@/config/advanced';
+import { SIMILARITY_DEFINITIONS, SIMILARITY_LABELS, buildContext, compFeatureLabels, leaguePlayers } from '@/config/advanced';
 import { isHallOfFamer } from '@/config/stats';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { POSITION_NAMES } from '@/utils/playerMeta';
@@ -18,6 +18,7 @@ import TeamLogo from '../brand/TeamLogo';
 import MetricLabel from './analytics/MetricLabel';
 import { VIZ, fmtNum } from './analytics/viz';
 import { keyOf } from './records';
+import { onHeadToHeadRequest, takeHeadToHeadRequest } from './comps/compFinderLink';
 import { LEAGUE_DEFS, buildMatchup, type Cell, type Matchup, type Row, type Side } from './matchup';
 
 type Select = (p: Player) => void;
@@ -233,28 +234,53 @@ const LegacyBars = ({ p1, p2, m }: { p1: Player; p2: Player; m: Matchup }) => {
   );
 };
 
+/** Headline "plays like" banner: style similarity (shape of their per-game profile) big, level + style as the secondary read. */
 const SimilarityBlock = ({ p1, p2, m }: { p1: Player; p2: Player; m: Matchup }) => {
   if (m.similarity == null) return null;
-  const sim = m.similarity;
+  const style = m.styleSimilarity;
+  const headline = style ?? m.similarity;
+  const verdict = headline >= 85 ? 'Near clones' : headline >= 70 ? 'Very similar' : headline >= 50 ? 'Some overlap' : headline >= 25 ? 'Different styles' : 'Opposites';
   return (
-    <div className="flex flex-col items-center gap-1.5 px-3 py-3 text-center sm:px-6">
-      <span className="font-display text-3xl font-extrabold leading-none tabular-nums text-chalk">
-        {fmtNum(sim, 0)}
-        <span className="text-base text-muted-foreground"> / 100</span>
-      </span>
-      <div
-        role="meter"
-        aria-label={`Similarity between ${p1.name} and ${p2.name}`}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={Math.round(sim)}
-        className="h-2 w-full max-w-xs overflow-hidden rounded-sm"
-        style={{ background: VIZ.track }}
-      >
-        <div className="h-full rounded-r-[4px]" style={{ width: `${Math.max(sim, 1.5)}%`, background: VIZ.bar }} />
+    <section aria-label="How alike they play" className="border-b border-line bg-gradient-to-b from-gold/10 to-transparent px-3 py-4 sm:px-6 sm:py-5">
+      <div className="mx-auto flex max-w-3xl flex-col items-center gap-2 text-center sm:flex-row sm:gap-6 sm:text-left">
+        <div className="flex shrink-0 flex-col items-center">
+          <span className="font-pixel text-[10px] uppercase text-gold" title={SIMILARITY_DEFINITIONS.style}>
+            {style != null ? 'Plays like' : SIMILARITY_LABELS.level}
+          </span>
+          <span className="font-display text-6xl font-extrabold italic leading-none tabular-nums text-chalk sm:text-7xl">
+            <CountUp value={Math.round(headline)} />
+            <span className="text-2xl text-gold sm:text-3xl">%</span>
+          </span>
+        </div>
+        <div className="w-full min-w-0 space-y-2">
+          <p className="font-display text-xl font-bold uppercase leading-tight sm:text-2xl">
+            {verdict}
+            <span className="block text-sm font-semibold normal-case text-secondary-foreground sm:text-base">
+              {p1.name} and {p2.name}
+            </span>
+          </p>
+          <div
+            role="meter"
+            aria-label={`${style != null ? 'Play-style' : 'Overall'} similarity between ${p1.name} and ${p2.name}`}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(headline)}
+            className="h-3 w-full overflow-hidden rounded-sm"
+            style={{ background: VIZ.track }}
+          >
+            <div className="h-full rounded-r-[4px] bg-gold motion-safe:transition-[width] motion-safe:duration-700" style={{ width: `${Math.max(headline, 1.5)}%` }} />
+          </div>
+          <p className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-muted-foreground sm:justify-start">
+            {style != null && (
+              <span title={SIMILARITY_DEFINITIONS.level}>
+                {SIMILARITY_LABELS.level}: <b className="tabular-nums text-chalk">{fmtNum(m.similarity, 0)}%</b>
+              </span>
+            )}
+            <span>Compared on: {compFeatureLabels(p1.position).join(', ')}</span>
+          </p>
+        </div>
       </div>
-      <p className="text-[11px] text-muted-foreground">Compared on: {compFeatureLabels(p1.position).join(', ')}</p>
-    </div>
+    </section>
   );
 };
 
@@ -275,6 +301,17 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
   // Starts empty: the user picks both players.
   const [k1, setK1] = useState('');
   const [k2, setK2] = useState('');
+  // "Compare in Head-to-Head" hand-off (e.g. from the Deep Dive), possibly sent before this view mounted.
+  useEffect(() => {
+    const apply = () => {
+      const req = takeHeadToHeadRequest();
+      if (!req) return;
+      setK1(req.a);
+      setK2(req.b);
+    };
+    apply();
+    return onHeadToHeadRequest(apply);
+  }, []);
 
   const p1 = byKey.get(k1) ?? null;
   const p2 = byKey.get(k2) ?? null;
@@ -373,6 +410,8 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
             </ul>
           </div>
 
+          <SimilarityBlock p1={p1} p2={p2} m={m} />
+
           {!m.sameFamily || !m.samePosition ? (
             <p className="border-b border-line bg-panel-2/50 px-4 py-2 text-center text-xs text-muted-foreground">
               {!m.sameFamily
@@ -439,20 +478,6 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
                 ))}
               </tbody>
             ))}
-            {m.similarity != null && (
-              <tbody>
-                <tr>
-                  <th colSpan={3} scope="colgroup" className="bg-panel-2 px-4 py-1.5 text-center font-pixel text-[10px] font-normal uppercase text-gold">
-                    <MetricLabel metric={LEAGUE_DEFS.similarity} className="mx-auto" />
-                  </th>
-                </tr>
-                <tr>
-                  <td colSpan={3}>
-                    <SimilarityBlock p1={p1} p2={p2} m={m} />
-                  </td>
-                </tr>
-              </tbody>
-            )}
           </table>
         </div>
       ) : (

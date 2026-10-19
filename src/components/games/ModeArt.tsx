@@ -6,7 +6,7 @@ import TeamLogo from '../brand/TeamLogo';
  * Landing-card art for each arcade mode: pure CSS/SVG plus the site's own components, tinted with the
  * mode colour (--mc). Hover motion lives in arcade.css (.mode:hover .ma-*) and is off with reduced motion.
  */
-export type ModeArtId = 'rank' | 'perfect' | 'kc' | 'legend' | 'hol' | 'grid' | 'imposter' | 'sixdeg' | 'ou';
+export type ModeArtId = 'rank' | 'perfect' | 'kc' | 'legend' | 'hol' | 'grid' | 'imposter' | 'sixdeg' | 'ou' | 'build';
 
 const team = (id: string) => NFL_TEAMS.find((t) => t.id === id) ?? null;
 
@@ -22,10 +22,12 @@ const RankArt = () => (
 );
 
 const PerfectArt = () => (
-  <div className="ma-perfect">
-    <div className="ma-score">
+  <div className="ma-perfect" style={{ gap: 12 }}>
+    <div className="ma-score" style={{ padding: '10px 12px' }}>
       <span className="ma-score-k">Final</span>
-      <span className="ma-score-v">18–0</span>
+      <span className="ma-score-v" style={{ fontSize: 36, whiteSpace: 'nowrap' }}>
+        18–0
+      </span>
       <span className="ma-score-k">Perfect season</span>
     </div>
     <div className="ma-sealed-card">
@@ -104,11 +106,11 @@ const ImposterArt = () => (
 
 /** Chain of cards from Start to Target joined by glowing links. */
 const SixDegArt = () => (
-  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
     {['S', '', '', 'T'].map((t, i) => (
-      <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-        {i > 0 && <i style={{ width: 18, height: 4, borderRadius: 2, background: 'var(--mc)', boxShadow: '0 0 8px var(--mc)' }} />}
-        <span className="ma-imp-card" style={{ width: 40 }}>
+      <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+        {i > 0 && <i style={{ width: 12, height: 4, borderRadius: 2, background: 'var(--mc)', boxShadow: '0 0 8px var(--mc)' }} />}
+        <span className="ma-imp-card" style={{ width: 34 }}>
           {t}
         </span>
       </span>
@@ -125,6 +127,56 @@ const OverUnderArt = () => (
   </div>
 );
 
+/** Build-a-Legend: three drafted skill chips feeding one glowing player silhouette. */
+const BUILD_CHIPS = ['Y/A 8.4', 'TD% 6.1', 'Rush 31'];
+const BuildArt = () => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      {BUILD_CHIPS.map((c, i) => (
+        <span
+          key={c}
+          style={{
+            fontFamily: 'var(--f-pixel)',
+            fontSize: 10,
+            padding: '4px 7px',
+            borderRadius: 4,
+            background: '#05070d',
+            color: 'var(--mc)',
+            boxShadow: '0 0 0 1px color-mix(in srgb, var(--mc) 60%, transparent)',
+            transform: `translateX(${i === 1 ? 8 : 0}px)`,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {c}
+        </span>
+      ))}
+    </div>
+    <svg width="46" height="84" viewBox="0 0 46 84" aria-hidden="true" style={{ flex: 'none' }}>
+      {[14, 42, 70].map((y) => (
+        <path key={y} d={`M2 ${y} C 24 ${y}, 24 42, 44 42`} fill="none" stroke="var(--mc)" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+      ))}
+    </svg>
+    <div
+      style={{
+        width: 70,
+        height: 92,
+        borderRadius: 8,
+        display: 'grid',
+        placeItems: 'end center',
+        overflow: 'hidden',
+        background: 'linear-gradient(160deg, color-mix(in srgb, var(--mc) 35%, #0b1020), #0b1020)',
+        boxShadow: '0 0 0 2px var(--mc), 0 0 22px color-mix(in srgb, var(--mc) 55%, transparent), 4px 6px 0 #0008',
+      }}
+    >
+      <svg width="60" height="74" viewBox="0 0 60 74" aria-hidden="true">
+        <circle cx="30" cy="24" r="13" fill="var(--mc)" opacity="0.9" />
+        <path d="M4 74 C 4 50, 16 42, 30 42 C 44 42, 56 50, 56 74 Z" fill="var(--mc)" opacity="0.9" />
+        <text x="30" y="30" textAnchor="middle" fontFamily="var(--f-display)" fontWeight="800" fontSize="17" fill="#0b1020">?</text>
+      </svg>
+    </div>
+  </div>
+);
+
 const ART: Record<ModeArtId, () => JSX.Element> = {
   rank: RankArt,
   perfect: PerfectArt,
@@ -135,6 +187,7 @@ const ART: Record<ModeArtId, () => JSX.Element> = {
   imposter: ImposterArt,
   sixdeg: SixDegArt,
   ou: OverUnderArt,
+  build: BuildArt,
 };
 
 const ModeArt = ({ id }: { id: ModeArtId }) => {

@@ -252,7 +252,14 @@ talent = 6.8·TT, awards = 4·award points, longevity = 2·G (sum matches the st
 | OL | Blocks/G |
 | LB / DB / DL | Tackles/G, sacks/G, INT/G, FF/G, impact plays/G (sacks + INT + FF; ½) |
 
-Each feature is z-scored against the league players at the position with **≥ 8 games** (`SIM_MIN_GAMES`); players with fewer games are still matched but flagged "small sample". Similarity = 100 · exp(−D / 2W), D = Σ wᵢ·(Δzᵢ)² over the usable features, W = Σ wᵢ of those features (a feature with zero spread, or no value for either player, is skipped). 100 = identical rates. Top 3 shown.
+**Inputs are strict.** A stat missing from the sheet is never read as 0, and a rate with a zero or missing denominator is blank (e.g. rush share, Y/A, Cmp%, TD%, INT% and rating need pass attempts > 0; per-game rates need games > 0; RB rec share needs both rush and rec yards). A player with fewer than **3** usable features (OL: its single feature) is shown as "insufficient data" and never scored.
+
+Each feature is z-scored against the league players at the position with **≥ 8 games** (`SIM_MIN_GAMES`) and enough data; players with fewer games are still matched but flagged "small sample". Two scores are exposed (`similarPlayers(players, target, count, mode)`, `pairSimilarity(players, a, b, mode)`):
+
+- **Closest overall (level + style)** (`mode: 'level'`, the default): 100 · exp(−D / 2W), D = Σ wᵢ·(Δzᵢ)² over the shared usable features, W = Σ wᵢ (needs ≥ 3 shared features; a feature with zero spread is skipped). 100 = identical rates. Calibration: an average gap of 1 SD per feature scores **≈ 61**, 0.5 SD ≈ 88, 2 SD ≈ 14 — so "~60 = about one standard deviation apart on average".
+- **Plays like (style)** (`mode: 'style'`): level-independent shape. z-scores are oriented so higher = better (INT% and fumble rates flipped), then the weighted Pearson correlation r between the two players' vectors over shared features (≥ 4) gives **max(0, r) · 100**. Centering removes the overall level, so a lesser player with the same strengths and weaknesses scores high; 0 = no shared profile (or opposite).
+
+Player comps (Analytics Lab) lists the top 3 for each score; Head-to-Head shows both; Build-a-Legend reveals by level.
 
 ---
 

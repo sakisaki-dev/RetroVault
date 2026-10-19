@@ -10,11 +10,12 @@ import KeepCut from '../games/KeepCut';
 import Imposter from '../games/Imposter';
 import SixDegrees from '../games/SixDegrees';
 import OverUnder from '../games/OverUnder';
+import BuildALegend from '../games/BuildALegend';
 import ModeArt from '../games/ModeArt';
 import { ArcadeButton, Lamp } from '../games/ArcadeUI';
 import { STAT_KEYS, loadGameStat, saveGameStat, useGamePlayers, type GamePlayer } from '../games/gameUtils';
 
-type GameId = 'rank' | 'perfect' | 'kc' | 'legend' | 'hol' | 'grid' | 'imposter' | 'sixdeg' | 'ou';
+type GameId = 'rank' | 'perfect' | 'kc' | 'legend' | 'hol' | 'grid' | 'imposter' | 'sixdeg' | 'ou' | 'build';
 
 
 
@@ -112,13 +113,33 @@ const GAMES: GameDef[] = [
     record: rec('ou:best', (n) => `Best bankroll ${n.toLocaleString('en-US', { maximumFractionDigits: 2 })}u`, 'No slips settled'),
     render: (players, ovrMap) => <OverUnder players={players} ovrMap={ovrMap} />,
   },
+  {
+    id: 'build',
+    title: 'Build-a-Legend',
+    rule: 'Pull the lever to land on a league player, then steal one of his play-style traits for your creation. Fill every slot and find out who he plays like: hit 95% for a perfect clone.',
+    color: '#e0a3ff',
+    record: rec('build:best', (n) => `Best match ${Math.round(n)}%`, 'No legends built'),
+    render: (players, ovrMap) => <BuildALegend players={players} ovrMap={ovrMap} />,
+  },
 ];
 
-/** Featured-card width per column count so the grid's last row is always full. */
-const featuredSpan = (cols: number, n: number) => {
-  const rest = (n - 1) % cols;
-  return rest === 0 ? cols : cols - rest;
+/**
+ * Landing grid: every card the same size and no empty cells. For each breakpoint's maximum column count,
+ * use the widest count (max or one fewer) that divides the number of modes. If neither does, keep the max and
+ * stretch the final row: the grid gets lcm(cols, leftover) tracks so the leftover cards share the row evenly.
+ * arcade.css reads --tracks-{bp} on the list and --span-{bp} on each card.
+ */
+const GRID_MAX_COLS = { sm: 2, md: 3, lg: 4, xl: 5 } as const;
+const gcd = (a: number, b: number): number => (b ? gcd(b, a % b) : a);
+const gridLayout = (max: number, n: number) => {
+  const cols = [max, max - 1].find((c) => c >= 1 && n % c === 0) ?? max;
+  const rem = n % cols;
+  const tracks = rem ? (cols * rem) / gcd(cols, rem) : cols;
+  return { tracks, span: (i: number) => (rem && i >= n - rem ? tracks / rem : tracks / cols) };
 };
+const GRID = Object.entries(GRID_MAX_COLS).map(([bp, max]) => ({ bp, ...gridLayout(max, GAMES.length) }));
+const GRID_VARS = Object.fromEntries(GRID.map((g) => [`--tracks-${g.bp}`, g.tracks])) as CSSProperties;
+const spanVars = (i: number) => Object.fromEntries(GRID.map((g) => [`--span-${g.bp}`, g.span(i)])) as CSSProperties;
 const NUMBER_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve'];
 
 const GamesTab = () => {
@@ -192,22 +213,10 @@ const GamesTab = () => {
                 {includeLegends && legends.length > 0 && ' Real NFL players sneak in too, at most one per deal, and you only find out who at the reveal.'}
               </p>
             </div>
-            <ul className="modes" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+            <ul className="modes" style={{ listStyle: 'none', margin: 0, padding: 0, ...GRID_VARS }}>
               {GAMES.map((g, i) => {
                 return (
-                  <li
-                    key={g.id}
-                    className={i === 0 ? 'mode-li featured' : 'mode-li'}
-                    style={
-                      i === 0
-                        ? ({
-                            '--span-2': featuredSpan(2, GAMES.length),
-                            '--span-3': featuredSpan(3, GAMES.length),
-                            '--span-4': featuredSpan(4, GAMES.length),
-                          } as CSSProperties)
-                        : undefined
-                    }
-                  >
+                  <li key={g.id} className="mode-li" style={spanVars(i)}>
                     <button
                       type="button"
                       className="mode"

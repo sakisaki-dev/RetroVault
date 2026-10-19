@@ -6,6 +6,8 @@ import {
   evaluateMetric,
   legacyMix,
   pairSimilarity,
+  SIMILARITY_DEFINITIONS,
+  SIMILARITY_LABELS,
   type AdvContext,
   type AdvMetric,
   type MetricBoard,
@@ -77,6 +79,8 @@ export interface Matchup {
   samePosition: boolean;
   sameFamily: boolean;
   similarity: number | null;
+  /** Style-shape similarity (level-independent), same position only. */
+  styleSimilarity: number | null;
   legacy: [ReturnType<typeof legacyMix>, ReturnType<typeof legacyMix>];
 }
 
@@ -206,9 +210,9 @@ export const LEAGUE_DEFS: Record<string, MetricDef> = {
     minLabel: ALL,
   },
   similarity: {
-    label: 'Similarity',
+    label: SIMILARITY_LABELS.level,
     short: 'Sim',
-    definition: '0–100 closeness of career shape: per-game rates, games and True Talent, z-scored within the position (same score as Player comps).',
+    definition: SIMILARITY_DEFINITIONS.level,
     minLabel: 'same position only',
   },
 };
@@ -376,6 +380,7 @@ export const buildMatchup = (
     samePosition,
     sameFamily,
     similarity: samePosition ? pairSimilarity(players, p1, p2) : null,
+    styleSimilarity: samePosition ? pairSimilarity(players, p1, p2, 'style') : null,
     legacy: [mix1, mix2],
   };
 };

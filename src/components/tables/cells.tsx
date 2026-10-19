@@ -71,16 +71,18 @@ export const TierMetric = ({
         </>
       )}
       <span
-        className="font-mono font-semibold tabular-nums rounded px-1.5 py-0.5"
+        className="font-mono font-semibold tabular-nums rounded px-1 py-0.5"
         style={{ color, backgroundColor: getMetricBgColor(v, metric) }}
       >
         {text}
       </span>
-      {showLabel && (
+      {showLabel ? (
         <span className="w-[3.25rem] text-left text-[9px] font-semibold uppercase tracking-wider" style={{ color }}>
           <span aria-hidden="true">{(metric === 'careerLegacy' ? LEGACY_SHORT : TIER_SHORT)[tier]}</span>
           <span className="sr-only">({getTierLabel(tier, metric)})</span>
         </span>
+      ) : (
+        <span className="sr-only">({getTierLabel(tier, metric)})</span>
       )}
     </span>
   );
@@ -103,9 +105,12 @@ export const HeaderTip = ({ label, tip, children }: { label: ReactNode; tip?: st
 export const PlayerNameCell = ({
   player,
   onSelect,
+  compact = false,
 }: {
   player: Pick<Player, 'name' | 'position' | 'nickname'>;
   onSelect: () => void;
+  /** One line: the nickname moves into the tooltip */
+  compact?: boolean;
 }) => {
   const { numberFor } = useJerseyNumbers();
   const number = numberFor(player);
@@ -113,6 +118,7 @@ export const PlayerNameCell = ({
     <button
       type="button"
       className="flex flex-col items-start text-left min-w-0 max-w-full rounded"
+      title={compact && player.nickname ? `"${player.nickname}"` : undefined}
       onClick={(e) => {
         e.stopPropagation();
         onSelect();
@@ -125,7 +131,7 @@ export const PlayerNameCell = ({
           <span className="sr-only">, number {number}</span>
         </span>
       </span>
-      {player.nickname && <span className="text-xs text-muted-foreground italic truncate max-w-full">"{player.nickname}"</span>}
+      {player.nickname && !compact && <span className="text-xs text-muted-foreground italic truncate max-w-full">"{player.nickname}"</span>}
     </button>
   );
 };

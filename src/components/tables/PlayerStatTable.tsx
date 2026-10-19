@@ -2,11 +2,15 @@ import { useMemo, useState, type ReactNode } from 'react';
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
 import { cn } from '@/lib/utils';
+import type { Overall } from '@/config/skillGrades';
 import PositionBadge from '../PositionBadge';
 import AwardsCell from '../AwardsCell';
 import PlayerDetailCard from '../PlayerDetailCard';
 import TeamBadge from '../brand/TeamBadge';
 import { calculateLeaders } from '@/utils/csvParser';
+import { playerKey } from '@/config/ovr';
+import { useOfficialOvr } from '@/utils/useOfficialOvr';
+import { useSkillRatings } from '@/utils/useSkillRatings';
 import { getTeamColors } from '@/utils/teamColors';
 import { HeaderTip, LeaderStat, PlayerNameCell, TierMetric } from './cells';
 
@@ -46,6 +50,21 @@ interface PlayerStatTableProps<T extends Player> {
   headerActions?: ReactNode;
   children?: ReactNode;
 }
+
+const RATING_KEYS = new Set(['ovr', 'skill']);
+
+/** Skill rating with its letter grade chip. */
+const SkillCell = ({ overall }: { overall?: Overall }) =>
+  overall ? (
+    <span className="inline-flex items-center justify-end gap-1.5" title={`Skill ${overall.grade.grade} · ${Math.round(overall.pct)}th percentile at the position`}>
+      <span className="rounded px-1 font-display text-xs font-extrabold text-[#0b1020]" style={{ background: overall.grade.color }}>
+        {overall.grade.grade}
+      </span>
+      <span className="font-display text-base font-bold tabular-nums">{overall.rating}</span>
+    </span>
+  ) : (
+    <span className="text-muted-foreground">—</span>
+  );
 
 type SortState = { key: string; dir: 'asc' | 'desc' } | null;
 
@@ -99,6 +118,10 @@ function PlayerStatTable<T extends Player>({
 }: PlayerStatTableProps<T>) {
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
   const [sort, setSort] = useState<SortState>(null);
+  const ovrMap = useOfficialOvr();
+  const skillMap = useSkillRatings();
+  const ratingOf = (key: string, p: Player) =>
+    key === 'ovr' ? ovrMap.get(playerKey(p)) : key === 'skill' ? skillMap.get(playerKey(p))?.rating : undefined;
 
   const filteredPlayers = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -122,10 +145,14 @@ function PlayerStatTable<T extends Player>({
     if (!sort) return filteredPlayers;
     const getter =
       columns.find((c) => c.key === sort.key)?.get ??
-      ((p: T) => Number((p as unknown as Record<string, unknown>)[sort.key]) || 0);
+      (RATING_KEYS.has(sort.key)
+        ? (p: T) => ratingOf(sort.key, p) ?? -1
+        : (p: T) => Number((p as unknown as Record<string, unknown>)[sort.key]) || 0);
     const dir = sort.dir === 'desc' ? -1 : 1;
     return [...filteredPlayers].sort((a, b) => dir * ((getter(a) || 0) - (getter(b) || 0)));
-  }, [filteredPlayers, sort, columns]);
+    // ratingOf reads the two rating maps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filteredPlayers, sort, columns, ovrMap, skillMap]);
 
   if (filteredPlayers.length === 0) return null;
 
@@ -141,8 +168,8 @@ function PlayerStatTable<T extends Player>({
           <span className="font-pixel text-[10px] text-muted-foreground">{filteredPlayers.length} PLAYERS</span>
           {headerActions && <div className="ml-auto">{headerActions}</div>}
         </div>
-        <div className="relative overflow-auto max-h-[70vh] overscroll-x-contain">
-          <table className="stats-table">
+        <div className="relative overflow-x-auto overscroll-x-contain">
+          <table className="stats-table text-[13px]">
             <caption className="sr-only">
               {title} career statistics. Select a column header to sort, or a player name for details.
             </caption>
@@ -157,6 +184,8 @@ function PlayerStatTable<T extends Player>({
                 {METRIC_COLUMNS.map((m) => (
                   <SortHeader key={m.key} k={m.key} label={m.label} tip={m.tip} sort={sort} onToggle={toggleSort} />
                 ))}
+                <SortHeader k="ovr" label="OVR" tip="Official overall (62–99): career production and awards, ranked within the position" sort={sort} onToggle={toggleSort} />
+                <SortHeader k="skill" label="Skill" tip="Skill rating: per-game skills graded against the position (S to F), ignores career length and awards" sort={sort} onToggle={toggleSort} />
               </tr>
             </thead>
             <tbody>
@@ -170,10 +199,10 @@ function PlayerStatTable<T extends Player>({
                     onClick={() => setSelectedPlayer({ ...player, team } as Player)}
                   >
                     <td
-                      className="sticky-col max-w-[9.5rem] sm:max-w-none"
+                      className="sticky-col max-w-[9.5rem] sm:max-w-[13rem]"
                       style={colors ? { boxShadow: `inset 3px 0 0 hsl(${colors.primary}), 1px 0 0 hsl(var(--border))` } : undefined}
                     >
-                      <PlayerNameCell player={player} onSelect={() => setSelectedPlayer({ ...player, team } as Player)} />
+                      <PlayerNameCell compact player={player} onSelect={() => setSelectedPlayer({ ...player, team } as Player)} />
                     </td>
                     <td>
                       <TeamBadge team={team} size="sm" />
@@ -195,6 +224,7 @@ function PlayerStatTable<T extends Player>({
                         sbmvp={player.sbmvp}
                         roty={player.roty}
                         isDefense={isDefense}
+                        className="flex-nowrap gap-0.5"
                       />
                     </td>
                     {METRIC_COLUMNS.map((m) => (
@@ -203,10 +233,15 @@ function PlayerStatTable<T extends Player>({
                           value={player[m.key]}
                           metric={m.key}
                           format={m.format}
+                          showLabel={false}
                           isLeader={isLeader(player.name, m.key)}
                         />
                       </td>
                     ))}
+                    <td className="num font-display text-base font-bold tabular-nums">{ovrMap.get(playerKey(player)) ?? '—'}</td>
+                    <td className="num">
+                      <SkillCell overall={skillMap.get(playerKey(player))} />
+                    </td>
                   </tr>
                 );
               })}

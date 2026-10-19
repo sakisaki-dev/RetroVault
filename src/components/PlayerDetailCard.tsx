@@ -12,6 +12,7 @@ import { AWARD_META, POSITION_NAMES } from '@/utils/playerMeta';
 import { AWARD_POINTS, getLegacyTier, isDefensivePosition, isHallOfFamer } from '@/config/stats';
 import { awardPoints } from '@/config/advanced';
 import { leagueScore } from '@/config/ovr';
+import { useSkillRatings } from '@/utils/useSkillRatings';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { useLeagueContent } from '@/utils/leagueContent';
 import TeamBadge from './brand/TeamBadge';
@@ -89,6 +90,7 @@ const RATING_CHIPS = [
 const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardProps) => {
   const { getAllPlayers, legends } = useLeague();
   const officialOvr = useOfficialOvr();
+  const skillMap = useSkillRatings();
   const extras = usePlayerExtras();
   const { content } = useLeagueContent();
   const { numberFor, retiredInfo } = useJerseyNumbers();
@@ -144,6 +146,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   const jerseyNumber = numberFor(player);
   const ovr = overallRating(player, officialOvr);
   const score = leagueScore(player);
+  const skill = skillMap.get(`${player.position}:${player.name}`) ?? null;
   const isDefense = isDefensivePosition(player.position);
   const hof = isHallOfFamer(player);
   const rated = player.trueTalent > 0;
@@ -157,6 +160,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
 
   const scoreboard = [
     { key: 'ovr', label: 'OVR', title: 'Official overall rating (62–99), League Score rank within the position', value: ovr, decimals: 0 },
+    ...(skill ? [{ key: 'skill', label: `Skill · ${skill.grade.grade}`, title: 'Skill rating: per-game skills graded against the position, ignores career length and awards', value: skill.rating, decimals: 0 }] : []),
     { key: 'score', label: 'League Score', title: 'Production + awards (the input to OVR)', value: score, decimals: 0 },
     ...(rated ? [{ key: 'legacy', label: 'Career Legacy', title: '4·True Talent + 4·Dominance + 2·Games', value: player.careerLegacy, decimals: 0 }] : []),
     { key: 'rings', label: 'Rings', title: 'Championship rings', value: player.rings, decimals: 0 },
@@ -469,7 +473,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
               <SectionTitle icon={Users} id={`${headingId}-comps`}>
                 Similar careers
               </SectionTitle>
-              <CompsPanel player={player} players={leaguePool} numberFor={numberFor} onSelect={setJumpTo} />
+              <CompsPanel player={player} players={leaguePool} numberFor={numberFor} onSelect={setJumpTo} onNavigate={onClose} />
             </section>
           </TabsPrimitive.Content>
         </TabsPrimitive.Root>

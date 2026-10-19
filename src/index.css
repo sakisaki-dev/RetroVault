@@ -223,7 +223,7 @@
   }
 
   .stats-table th {
-    @apply text-left py-2.5 px-3 font-semibold uppercase whitespace-nowrap text-[11px] tracking-wider text-muted-foreground;
+    @apply text-left py-2 px-2 font-semibold uppercase whitespace-nowrap text-[11px] tracking-wider text-muted-foreground;
     position: sticky;
     top: 0;
     z-index: 20;
@@ -232,7 +232,7 @@
   }
 
   .stats-table td {
-    @apply py-2.5 px-3 whitespace-nowrap;
+    @apply py-1.5 px-2 whitespace-nowrap;
     border-bottom: 1px solid hsl(var(--border) / 0.5);
   }
 
