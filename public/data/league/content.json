@@ -107,7 +107,7 @@
     "Jawill Perkins"
    ],
    "rival": null,
-   "notes": "Ikarras's 9 rings match your 9 titles in this window. Every rushing record falls.",
+   "notes": "Ikarras's 9 rings match your 9 titles in this window, and every rushing record falls. He is a Seahawks legend (titles Y36–38); he finished his career with one season as a Jet.",
    "history": "Rondale Ikarras (\"The Prodigal Son\") won 9 rings, matching your 9 titles across the Seahawks, Chargers and Ravens. He set the 5-TD game (Y40) and career rushing marks. 4 OPOYs, 5 SB MVPs, **0 MVPs**. Asanjh's final season came alongside him on the Seahawks. Wes Sione (0.78 TD/game, best of any TE) and OL Jawill Perkins played here."
   },
   {
@@ -164,10 +164,11 @@
    "keyPlayers": [
     "Malakai Sawyer",
     "Jason Macleone",
+    "Levante Hopkins",
     "Chance Woodrum"
    ],
    "rival": null,
-   "notes": "Titans three-peat, then a loss to those same Titans as the Seahawks in CXXXIII. One title in the last seven seasons.",
+   "notes": "Titans three-peat (Y70–72) with Levante Hopkins at tight end and Malakai Sawyer in his one Titans season, then a loss to those same Titans as the Seahawks in CXXXIII (Y74). The Jets, your current club, won CXXXVI (Y77) with Sawyer. Jason Macleone, now a Seahawk, quarterbacked the Vikings to the Y78 title (CXXXVII). Sawyer was traded to the Falcons ahead of Y80.",
    "history": "Titans three-peat (Y70–72), then a Super Bowl loss to those Titans as the Seahawks (Y74), and the Jets title (Y77). Malakai Sawyer set the 212-yd game (Y78) and 65-yd run (Y75, from Jason Macleone) but has no Super Bowl appearances in those seasons. Season Y80 ends in Super Bowl CXXXIX."
   }
  ],
@@ -1033,11 +1034,11 @@
    "era": "Bills dynasty",
    "players": [
     "Derrick Myrick",
-    "Dennis Baylon",
     "Reuben Kilian",
+    "Dennis Baylon",
     "Tyrone Baugh",
-    "Cairo Asanjh",
     "Charlie John",
+    "Cairo Asanjh",
     "Rob Lowe",
     "Ian Finney"
    ],
@@ -1129,8 +1130,8 @@
     "God Johnson",
     "Sherman Brandson",
     "Jason Macleone",
-    "Avonte Gooden",
     "Dennis Baylon",
+    "Avonte Gooden",
     "Kyric McQuay",
     "Cairo Asanjh",
     "Ray Waller",
@@ -1146,8 +1147,8 @@
    "tier": "controversy",
    "category": "Snub Watch",
    "players": [
-    "Brennan Higgins",
     "Rondale Ikarras",
+    "Brennan Higgins",
     "Derrick Myrick",
     "Lukas Russell",
     "Cairo Asanjh",
@@ -1165,12 +1166,12 @@
    "category": "Outside the Dynasty",
    "summary": "Amani Bryant, Nico Curl, Jayon Queen and the stars who never wore your colors.",
    "players": [
-    "Shaikal Beebee",
     "Marcel Mathieu",
+    "Shaikal Beebee",
     "Amani Bryant",
-    "Jayon Queen",
-    "Cooper Dean",
     "Mose Junior",
+    "Cooper Dean",
+    "Jayon Queen",
     "Nico Curl"
    ]
   },
@@ -1182,23 +1183,23 @@
    "tier": "controversy",
    "category": "Analytics",
    "players": [
-    "Damone Omameh",
     "Taywan Tuttle",
+    "Damone Omameh",
     "Wayne Wilson",
     "Deante Elder",
     "Cooper Dean",
     "Rob Lowe",
     "Rondale Ikarras",
-    "Jawill Perkins",
     "Marcel Mathieu",
+    "Jawill Perkins",
+    "Rysen Benkert",
     "Aubrey Jewell",
     "Dennis Baylon",
-    "Rysen Benkert",
     "Kyric McQuay",
     "Amani Bryant",
     "Ray Waller",
-    "Tom Brady",
-    "Wes Sione"
+    "Wes Sione",
+    "Tom Brady"
    ],
    "summary": "How they work: Dominance = 0.7 × True Talent + award points (ring 60, MVP 50, OPOY 30, SB MVP 40, DPOY 120, ROTY 0)."
   },
@@ -1211,22 +1212,22 @@
    "category": "Fantasy Draft",
    "players": [
     "Wayne Wilson",
-    "God Johnson",
     "Mose Junior",
+    "God Johnson",
     "Sherman Brandson",
     "Rondale Ikarras",
     "Malakai Sawyer",
     "Dennis Baylon",
-    "Zander Kolar",
     "Tyrone Baugh",
     "Kyric McQuay",
-    "Amani Bryant",
+    "Zander Kolar",
     "Denzel Hayes",
-    "Cairo Asanjh",
     "Jahmyr Gibbs",
+    "Amani Bryant",
+    "Cairo Asanjh",
+    "Kitt Inman",
     "Ray Waller",
-    "Ian Finney",
-    "Kitt Inman"
+    "Ian Finney"
    ],
    "summary": "QB: Brandson's accuracy, Waller's deep ball, McQuay's decisions, Bryant's legs, Baylon's clutch, Wayne Wilson's durability."
   },
@@ -1300,8 +1301,8 @@
    "title": "Ikarras",
    "summary": "**Ikarras:** 4 OPOY, 5 SB MVP, every rushing record, 0 MVPs. Receivers Finney, Russell, Higgins and Asanjh (3) all won MVP.",
    "players": [
-    "Brennan Higgins",
     "Rondale Ikarras",
+    "Brennan Higgins",
     "Lukas Russell",
     "Cairo Asanjh",
     "Ian Finney"
@@ -1469,7 +1470,7 @@
    "position": "RB",
    "nickname": "The Prodigal Son",
    "era": "Ikarras era · Y36–46",
-   "tag": "Record setter, 0 MVPs"
+   "tag": "Seahawks legend and record setter with 0 MVPs; final season with the Jets"
   },
   {
    "name": "Denzel Hayes",
@@ -1706,26 +1707,33 @@
   },
   {
    "name": "Michael Wilson",
-   "team": "UNK",
    "position": "QB",
    "era": "Vikings dynasty · Y59–69",
    "tag": "Wayne’s brother · retired injured"
   },
   {
    "name": "Jason Macleone",
-   "team": "CUR",
+   "team": "Seahawks",
    "position": "QB",
-   "era": "Modern era · Y70–80"
+   "era": "Modern era · Y70–80",
+   "tag": "QB of the Vikings' Y78 title (CXXXVII); now with the Seahawks"
   },
   {
    "name": "Malakai Sawyer",
-   "team": "CUR",
+   "team": "Jets",
    "position": "RB",
-   "era": "Modern era · Y70–80"
+   "era": "Modern era · Y70–80",
+   "tag": "Won CXXXI with the Titans (Y72), then CXXXVI with the Jets (Y77); traded to the Falcons for Y80"
+  },
+  {
+   "name": "Levante Hopkins",
+   "team": "Titans",
+   "position": "TE",
+   "tag": "Tight end for the Titans' Y70–72 three-peat"
   },
   {
    "name": "Chance Woodrum",
-   "team": "CUR",
+   "team": "Jets",
    "position": "DB",
    "era": "Modern era · Y70–80"
   },

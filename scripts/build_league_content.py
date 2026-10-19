@@ -46,7 +46,22 @@ EDITS = [
 ]
 
 # User-confirmed player storyline tags (override players.json `tag`).
-PLAYER_TAG_FIXES = {"Avonte Gooden": "QB of the Commanders four-peat (Y16–19)"}
+PLAYER_TAG_FIXES = {
+    "Avonte Gooden": "QB of the Commanders four-peat (Y16–19)",
+    "Malakai Sawyer": "Won CXXXI with the Titans (Y72), then CXXXVI with the Jets (Y77); traded to the Falcons for Y80",
+    "Jason Macleone": "QB of the Vikings' Y78 title (CXXXVII); now with the Seahawks",
+    "Levante Hopkins": "Tight end for the Titans' Y70–72 three-peat",
+    "Rondale Ikarras": "Seahawks legend and record setter with 0 MVPs; final season with the Jets",
+}
+
+# Real franchises for players the screenshots mark CUR (current club = Jets) or UNK; mirrors
+# TEAM_FIXES in scripts/build_league_data.py.
+CURRENT_CLUB = "Jets"
+PLAYER_TEAM_FIXES = {
+    "Jason Macleone": "Seahawks",
+    "Malakai Sawyer": "Jets",
+    "Levante Hopkins": "Titans",
+}
 
 # User-confirmed corrections to eras.json, keyed by era name.
 ERA_FIXES = {
@@ -54,7 +69,26 @@ ERA_FIXES = {
         "key_players": ["Avonte Gooden", "Ian Finney", "Brennan Higgins"],
         "notes": "Four straight titles with Avonte Gooden at quarterback.",
     },
+    "Ikarras era": {
+        "notes": "Ikarras's 9 rings match your 9 titles in this window, and every rushing record falls. "
+        "He is a Seahawks legend (titles Y36–38); he finished his career with one season as a Jet.",
+    },
+    "Modern era": {
+        "key_players": ["Malakai Sawyer", "Jason Macleone", "Levante Hopkins", "Chance Woodrum"],
+        "notes": "Titans three-peat (Y70–72) with Levante Hopkins at tight end and Malakai Sawyer in his one "
+        "Titans season, then a loss to those same Titans as the Seahawks in CXXXIII (Y74). The Jets, your "
+        "current club, won CXXXVI (Y77) with Sawyer. Jason Macleone, now a Seahawk, quarterbacked the Vikings "
+        "to the Y78 title (CXXXVII). Sawyer was traded to the Falcons ahead of Y80.",
+    },
 }
+
+
+def team_for(p):
+    """Real franchise for a player note: user-confirmed fixes, CUR -> current club, UNK -> none."""
+    team = PLAYER_TEAM_FIXES.get(p["n"], p.get("team"))
+    if team == "CUR":
+        return CURRENT_CLUB
+    return None if team == "UNK" else team
 
 
 def load(name):
@@ -284,7 +318,7 @@ def main():
 
     # Player storyline tags (era + tag) from players.json
     player_notes = [
-        {k: v for k, v in {"name": p["n"], "team": p.get("team"), "position": p.get("pos"), "nickname": p.get("nick"),
+        {k: v for k, v in {"name": p["n"], "team": team_for(p), "position": p.get("pos"), "nickname": p.get("nick"),
                            "era": p.get("era"), "tag": PLAYER_TAG_FIXES.get(p["n"], p.get("tag"))}.items() if v}
         for p in players_src if p.get("tag") or p.get("era") or p["n"] in PLAYER_TAG_FIXES
     ]
