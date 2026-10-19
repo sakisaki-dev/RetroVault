@@ -140,7 +140,11 @@ export const buildSpeechFacts = (
     content?.eras.find((e) => noteEra && normalizeName(e.name) === normalizeName(noteEra))?.name ??
       content?.eras.find((e) => e.keyPlayers.some((k) => normalizeName(k) === normalizeName(player.name)))?.name,
   );
-  const story = content?.storylines.find((s) => s.players.some((n) => normalizeName(n) === normalizeName(player.name)));
+  // Only stories ABOUT this player (listed first in a small cast); a passing mention in e.g. the coach's
+  // Super Bowl record story would misattribute it.
+  const story = content?.storylines.find(
+    (s) => s.players.length > 0 && s.players.length <= 3 && normalizeName(s.players[0]) === normalizeName(player.name),
+  );
   const { first, last } = splitName(player.name);
   const formerName = extras?.formerNames[extrasKey(player.name)];
 
@@ -199,7 +203,6 @@ const awardCount = (f: SpeechFacts) => f.rings + f.mvp + f.opoy + f.sbmvp + f.ro
 
 const statLine = (f: SpeechFacts, max = 2) => listJoin(f.signature.slice(0, max).map((s) => `${fmt(s.value)} ${s.label}`));
 
-const teamPhrase = (f: SpeechFacts) => (f.team ? `the ${f.team}` : 'this league');
 
 const familyLine = (f: SpeechFacts) => {
   const own = f.family.find((t) => / of$/.test(t.label));
@@ -248,7 +251,7 @@ const TEMPLATES: Template[] = [
       paras(
         [
           `Ladies and gentlemen, please rise.`,
-          `For ${plural(f.games, 'game')}, ${f.name} played ${f.positionName.toLowerCase()} the way it is supposed to be played${f.team ? `, wearing the colors of the ${f.team}` : ''}.`,
+          `For ${plural(f.games, 'game')}, ${f.name} played ${f.positionName.toLowerCase()} the way it is supposed to be played.`,
         ],
         [
           f.signature.length ? `The record shows ${statLine(f)}.` : '',
@@ -296,7 +299,7 @@ const TEMPLATES: Template[] = [
       paras(
         [`Every era of this league has a handful of names that define it. The ${f.era} has ${f.name}.`],
         [
-          `${f.last} gave ${teamPhrase(f)} ${plural(f.games, 'game')} at ${f.positionName.toLowerCase()}${f.signature.length ? `, along with ${statLine(f)}` : ''}.`,
+          `${f.last} gave this league ${plural(f.games, 'game')} at ${f.positionName.toLowerCase()}${f.signature.length ? `, along with ${statLine(f)}` : ''}.`,
           hardware(f) ? `Along the way came ${hardware(f)}.` : '',
         ],
         [tagLine(f), storyLine(f), familyLine(f)],
@@ -310,7 +313,7 @@ const TEMPLATES: Template[] = [
       paras(
         [`In this league, you do not give yourself a nickname. The league gives it to you.`, `And the league called ${f.name} ${nickLine(f)}.`],
         [
-          `That name was earned over ${plural(f.games, 'game')}${f.team ? ` with the ${f.team}` : ''}.`,
+          `That name was earned over ${plural(f.games, 'game')}.`,
           f.signature.length ? `It was earned with ${statLine(f)}.` : '',
           hardware(f) ? `It was earned with ${hardware(f)}.` : '',
         ],
@@ -325,7 +328,7 @@ const TEMPLATES: Template[] = [
       paras(
         [`Hold up your hand, ${f.first}. Count the rings.`, `${capitalize(n(f.rings))}.`],
         [
-          `${capitalize(n(f.rings))} times the season ended with a championship${f.team ? ` for the ${f.team}` : ''}, and ${f.last} was in the middle of it.`,
+          `${capitalize(n(f.rings))} times the season ended with a championship, and ${f.last} was in the middle of it.`,
           f.sbmvp ? `${f.sbmvp === 1 ? 'Once' : `${capitalize(n(f.sbmvp))} times`}, the Super Bowl MVP trophy went home with ${f.last} too.` : '',
           f.mvp ? `There ${f.mvp === 1 ? 'is an MVP' : `are ${n(f.mvp)} MVPs`} on the shelf beside them.` : '',
         ],
@@ -341,7 +344,7 @@ const TEMPLATES: Template[] = [
         [`Football in this league is a family business, and tonight we honor one of its own.`],
         [familyLine(f), formerLine(f)],
         [
-          `${f.name} played ${plural(f.games, 'game')}${f.team ? ` for the ${f.team}` : ''}${f.signature.length ? ` and finished with ${statLine(f)}` : ''}.`,
+          `${f.name} played ${plural(f.games, 'game')}${f.signature.length ? ` and finished with ${statLine(f)}` : ''}.`,
           hardware(f) ? `The hardware: ${hardware(f)}.` : '',
           f.era ? `It is a career that belongs to the ${f.era}.` : '',
         ],
@@ -355,7 +358,7 @@ const TEMPLATES: Template[] = [
       paras(
         [`Not every legend lives on the highlight reel.`],
         [
-          `${f.name} did the work that wins games: ${plural(f.games, 'game')} at ${f.positionName.toLowerCase()}${f.team ? ` for the ${f.team}` : ''}${f.signature.length ? `, with ${statLine(f)}` : ''}.`,
+          `${f.name} did the work that wins games: ${plural(f.games, 'game')} at ${f.positionName.toLowerCase()}${f.signature.length ? `, with ${statLine(f)}` : ''}.`,
           hardware(f) ? `There was ${hardware(f)} along the way, but ask any teammate and they will talk about the consistency first.` : `Ask any teammate and they will talk about the consistency first.`,
         ],
         [f.era ? `Through the ${f.era}, ${f.last} was there every week.` : '', tagLine(f), familyLine(f)],

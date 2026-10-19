@@ -368,7 +368,8 @@ export const clearUploadedContent = () => {
 let bundledPromise: Promise<LeagueContent | null> | null = null;
 const fetchBundled = (): Promise<LeagueContent | null> => {
   if (!bundledPromise) {
-    bundledPromise = fetch(CONTENT_URL)
+    // no-cache: always revalidate so a rebuilt content.json (e.g. new speeches) shows on the next load
+    bundledPromise = fetch(CONTENT_URL, { cache: 'no-cache' })
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => (json ? normalizeLeagueContent(json) : null))
       .catch(() => null);
