@@ -16,9 +16,11 @@ export interface PlayerExtras {
   formerNames: Record<string, string>;
   /** player name -> relation text, e.g. "son of Tyrion Kline" */
   family: Record<string, string>;
+  /** player name -> every franchise he played for (full names), when more than his final team is known */
+  franchises: Record<string, string[]>;
 }
 
-const EMPTY: PlayerExtras = { realNflCareer: {}, cards: {}, formerNames: {}, family: {} };
+const EMPTY: PlayerExtras = { realNflCareer: {}, cards: {}, formerNames: {}, family: {}, franchises: {} };
 
 /** Name key that ignores case, extra spaces and curly vs straight apostrophes/quotes. */
 export const normalizeName = (name: string) =>
@@ -55,6 +57,7 @@ export interface IndexedExtras {
   cards: Record<string, PlayerCardExtras>;
   formerNames: Record<string, string>;
   family: Record<string, { name: string; value: string }>;
+  franchises: Record<string, string[]>;
 }
 
 const toIndexed = (raw: Partial<PlayerExtras>): IndexedExtras => ({
@@ -62,6 +65,7 @@ const toIndexed = (raw: Partial<PlayerExtras>): IndexedExtras => ({
   cards: reindex<PlayerCardExtras>(raw.cards),
   formerNames: reindex<string>(raw.formerNames),
   family: reindexWithName(raw.family),
+  franchises: reindex<string[]>(raw.franchises),
 });
 
 const EMPTY_INDEXED = toIndexed(EMPTY);

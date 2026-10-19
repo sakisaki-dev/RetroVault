@@ -38,6 +38,12 @@ TEAM_FIXES: dict[str, str] = {
     "Malakai Sawyer": "Jets",      # user: one Titans season (Y72 title), then the Jets (Y77 title); traded to the Falcons for Y80
     "Levante Hopkins": "Titans",   # user: played for the Titans during the Y70–72 three-peat
 }
+# Franchises a player is confirmed to have played for, beyond his final team (user-confirmed).
+# Card fields former_team / legacy_team are added automatically.
+TEAM_HISTORY: dict[str, list[str]] = {
+    "Sherman Brandson": ["Giants"],  # user: a Giants legend (final team on the sheet: Buccaneers)
+}
+
 # Extra player-card notes supplied by the user (merged into player-extras.json "cards").
 CARD_NOTES: dict[str, dict] = {
     "Malakai Sawyer": {
@@ -193,6 +199,29 @@ def to_app_player(p, teams):
     return {k: v for k, v in out.items() if v is not None}
 
 
+def franchise_history(players, teams, cards):
+    """Full franchise names each league player played for: final team + card former/legacy teams + TEAM_HISTORY."""
+    def full(key):
+        key = (key or "").split(" (")[0].strip()
+        t = teams.get(key)
+        return t["name"] if t and t.get("conference") else None
+
+    out = {}
+    for p in players:
+        if p.get("legend"):
+            continue
+        team_key = TEAM_FIXES.get(p["n"], p.get("team", ""))
+        team_key = CURRENT_CLUB if team_key == "CUR" else team_key
+        names = [full(team_key)]
+        card = cards.get(p["n"], {})
+        names += [full(card.get("former_team")), full(card.get("legacy_team"))]
+        names += [full(t) for t in TEAM_HISTORY.get(p["n"], [])]
+        names = sorted({n for n in names if n})
+        if len(names) > 1:
+            out[p["n"]] = names
+    return out
+
+
 def write_player_extras():
     """Card extras from screenshot_extras.json. Single-season lines are intentionally dropped."""
     src = SRC / "screenshot_extras.json"
@@ -210,6 +239,8 @@ def write_player_extras():
         if not name or not stats.get("games"):
             continue  # e.g. "Mason Taylor 2025": 0 games, nothing to show
         out["realNflCareer"][name.replace("’", "'")] = {"years": years, **stats}
+    out["franchises"] = franchise_history(json.loads((SRC / "players.json").read_text()),
+                                          json.loads((SRC / "teams.json").read_text()), cards)
     PLAYER_EXTRAS_OUT.write_text(json.dumps(out, indent=1, ensure_ascii=False))
     print(f"wrote {PLAYER_EXTRAS_OUT.relative_to(ROOT)}: real-NFL splits for {len(out['realNflCareer'])} players")
 

@@ -131,5 +131,23 @@
  "family": {
   "Jackson Wardell Kline": "son of Tyrion Kline",
   "Wayne Wilson": "brother of Michael Wilson"
+ },
+ "franchises": {
+  "Sherman Brandson": [
+   "New York Giants",
+   "Tampa Bay Buccaneers"
+  ],
+  "Rondale Ikarras": [
+   "New York Jets",
+   "Seattle Seahawks"
+  ],
+  "Jason Macleone": [
+   "Minnesota Vikings",
+   "Seattle Seahawks"
+  ],
+  "Malakai Sawyer": [
+   "New York Jets",
+   "Tennessee Titans"
+  ]
  }
 }

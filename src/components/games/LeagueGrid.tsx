@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { awardPack } from '@/utils/collection';
 import { matchPlayer } from '@/components/PlayerSearchSelect';
+import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 import type { Player } from '@/types/player';
 import { HOF_THRESHOLD, isHallOfFamer } from '@/config/stats';
 import { NFL_TEAMS, findNFLTeam } from '@/utils/nflTeams';
@@ -53,13 +54,25 @@ const teamId = (p: Player) => {
   return t ? findNFLTeam(t)?.id ?? t : null;
 };
 
-/** Teams with enough players become rows (legends' "New England Patriots" and league "Patriots" merge); else position groups. */
-const buildRowCriteria = (players: Player[]): Criterion[] => {
-  const byTeam = new Map<string, number>();
-  players.forEach((p) => {
-    const t = teamId(p);
-    if (t) byTeam.set(t, (byTeam.get(t) || 0) + 1);
+/** Every franchise id a player counts for: his final team plus any confirmed earlier franchises. */
+type FranchiseLookup = (p: Player) => string[];
+const finalTeamOnly: FranchiseLookup = (p) => {
+  const t = teamId(p);
+  return t ? [t] : [];
+};
+const franchiseLookup = (history: Record<string, string[]>): FranchiseLookup => (p) => {
+  const ids = new Set(finalTeamOnly(p));
+  (history[normalizeName(p.name)] ?? []).forEach((name) => {
+    const id = findNFLTeam(name)?.id;
+    if (id) ids.add(id);
   });
+  return [...ids];
+};
+
+/** Teams with enough players become rows (legends' "New England Patriots" and league "Patriots" merge); else position groups. */
+const buildRowCriteria = (players: Player[], teamsOf: FranchiseLookup): Criterion[] => {
+  const byTeam = new Map<string, number>();
+  players.forEach((p) => teamsOf(p).forEach((t) => byTeam.set(t, (byTeam.get(t) || 0) + 1)));
   const teams = [...byTeam.entries()].filter(([, n]) => n >= 3).map(([team]) => team);
   if (teams.length < 3) return POSITION_ROWS;
   return teams.map((team) => {
@@ -69,7 +82,7 @@ const buildRowCriteria = (players: Player[]): Criterion[] => {
       label: nfl?.fullName ?? team,
       color: nfl?.primaryColor,
       logo: nfl?.logoUrl,
-      test: (p: Player) => teamId(p) === team,
+      test: (p: Player) => teamsOf(p).includes(team),
     };
   });
 };
@@ -99,8 +112,8 @@ const hasFullSolution = (answers: Player[][][]) => {
   return cells.every((_, i) => tryCell(i, new Set()));
 };
 
-const makePuzzle = (players: Player[]): Puzzle | null => {
-  const rowPool = buildRowCriteria(players);
+const makePuzzle = (players: Player[], teamsOf: FranchiseLookup = finalTeamOnly): Puzzle | null => {
+  const rowPool = buildRowCriteria(players, teamsOf);
   for (let attempt = 0; attempt < 400; attempt++) {
     const rows = shuffle(rowPool).slice(0, 3);
     const cols = shuffle(COLUMN_CRITERIA).slice(0, 3);
@@ -187,9 +200,17 @@ const CellPicker = ({
 };
 
 const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string, number> }) => {
-  const [puzzle, setPuzzle] = useState<Puzzle | null>(() => makePuzzle(players));
+  const extras = usePlayerExtras();
+  const teamsOf = useMemo(() => franchiseLookup(extras.franchises), [extras.franchises]);
+  const [puzzle, setPuzzle] = useState<Puzzle | null>(() => makePuzzle(players, teamsOf));
   const [filled, setFilled] = useState<Record<string, Player>>({});
   const [guessesLeft, setGuessesLeft] = useState(MAX_GUESSES);
+  // Franchise history loads after the first grid is dealt; re-deal once it arrives if no guess was made yet,
+  // so team rows count every franchise a player played for (e.g. Brandson as a Giant).
+  useEffect(() => {
+    if (guessesLeft === MAX_GUESSES) setPuzzle(makePuzzle(players, teamsOf));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only when the franchise history changes
+  }, [teamsOf]);
   const [activeCell, setActiveCell] = useState<[number, number] | null>(null);
   const [selection, setSelection] = useState('');
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -203,6 +224,8 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
 
   // Answers for missed squares: one DIFFERENT player per square (no repeats, none already on the board),
   // found by backtracking from the most constrained square. Falls back to repeats only if impossible.
+  // Answers for missed squares: a maximum matching, so as many squares as possible show a DIFFERENT player
+  // (never one already on the board). Squares whose every valid player is used elsewhere stay empty and say so.
   const revealPicks = useMemo(() => {
     const picks: Record<string, GamePlayer> = {};
     if (!puzzle || !isOver) return picks;
@@ -213,26 +236,25 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
         if (!filled[id]) cells.push({ id, options: (opts as GamePlayer[]).filter((p) => !usedKeys.has(playerKey(p))) });
       }),
     );
-    cells.sort((a, b) => a.options.length - b.options.length);
-    const taken = new Set<string>();
-    const solve = (i: number): boolean => {
-      if (i === cells.length) return true;
-      for (const p of cells[i].options) {
+    const owner = new Map<string, number>(); // player key -> cell index
+    const tryCell = (ci: number, seen: Set<string>): boolean => {
+      for (const p of cells[ci].options) {
         const k = playerKey(p);
-        if (taken.has(k)) continue;
-        taken.add(k);
-        picks[cells[i].id] = p;
-        if (solve(i + 1)) return true;
-        taken.delete(k);
-        delete picks[cells[i].id];
+        if (seen.has(k)) continue;
+        seen.add(k);
+        const other = owner.get(k);
+        if (other === undefined || tryCell(other, seen)) {
+          owner.set(k, ci);
+          return true;
+        }
       }
       return false;
     };
-    if (!solve(0)) {
-      cells.forEach((cell) => {
-        if (!picks[cell.id]) picks[cell.id] = cell.options[0] ?? (puzzle.answers[+cell.id[0]][+cell.id[2]][0] as GamePlayer);
-      });
-    }
+    cells.forEach((_, ci) => tryCell(ci, new Set()));
+    owner.forEach((ci, k) => {
+      const p = cells[ci].options.find((o) => playerKey(o) === k);
+      if (p) picks[cells[ci].id] = p;
+    });
     return picks;
   }, [puzzle, isOver, filled, usedKeys]);
   const score = Object.keys(filled).length;
@@ -249,7 +271,7 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
   };
 
   const reset = () => {
-    setPuzzle(makePuzzle(players));
+    setPuzzle(makePuzzle(players, teamsOf));
     setFilled({});
     setGuessesLeft(MAX_GUESSES);
     setRevealed(false);
@@ -325,7 +347,8 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
                 const player = filled[cellKey];
                 // When the grid ends unfinished, every missed square shows an answer with a red outline.
                 const missed = finished && !player;
-                const sample = missed ? revealPicks[cellKey] ?? puzzle.answers[r][c][0] : null;
+                const sample = missed ? revealPicks[cellKey] ?? null : null;
+                const exhausted = missed && !sample;
                 const active = activeCell?.[0] === r && activeCell?.[1] === c;
                 if (player) {
                   return (
@@ -370,6 +393,8 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
                         </span>
                         <span className="count">{rarity(r, c)} possible</span>
                       </>
+                    ) : exhausted ? (
+                      <span className="count">All {rarity(r, c)} used elsewhere</span>
                     ) : (
                       <span className="count">{active ? 'Picking…' : '+'}</span>
                     )}
