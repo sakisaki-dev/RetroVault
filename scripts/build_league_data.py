@@ -42,6 +42,8 @@ TEAM_FIXES: dict[str, str] = {
 # Card fields former_team / legacy_team are added automatically.
 TEAM_HISTORY: dict[str, list[str]] = {
     "Sherman Brandson": ["Giants"],  # user: a Giants legend (final team on the sheet: Buccaneers)
+    "Hamsfa Boltt": ["Titans"],
+    "Michael Wilson": ["Ravens"],    # user: Ravens first, then the Giants      # user: Titans QB for their last title season, now with the Commanders
 }
 
 # Extra player-card notes supplied by the user (merged into player-extras.json "cards").
@@ -57,6 +59,10 @@ CARD_NOTES: dict[str, dict] = {
     },
     "Levante Hopkins": {
         "note": "Tight end for the Titans' Y70–72 three-peat",
+    },
+    "Hamsfa Boltt": {
+        "former_team": "Titans",
+        "note": "Quarterbacked the Titans to their most recent title, Super Bowl CXXXIII (Y74), and was named SB MVP; now with the Commanders",
     },
     "Jason Macleone": {
         "former_team": "Vikings",

@@ -1034,10 +1034,10 @@
    "era": "Bills dynasty",
    "players": [
     "Derrick Myrick",
-    "Dennis Baylon",
     "Reuben Kilian",
-    "Charlie John",
+    "Dennis Baylon",
     "Cairo Asanjh",
+    "Charlie John",
     "Tyrone Baugh",
     "Rob Lowe",
     "Ian Finney"
@@ -1147,8 +1147,8 @@
    "tier": "controversy",
    "category": "Snub Watch",
    "players": [
-    "Rondale Ikarras",
     "Brennan Higgins",
+    "Rondale Ikarras",
     "Derrick Myrick",
     "Lukas Russell",
     "Cairo Asanjh",
@@ -1166,12 +1166,12 @@
    "category": "Outside the Dynasty",
    "summary": "Amani Bryant, Nico Curl, Jayon Queen and the stars who never wore your colors.",
    "players": [
-    "Marcel Mathieu",
     "Shaikal Beebee",
+    "Marcel Mathieu",
     "Amani Bryant",
+    "Mose Junior",
     "Cooper Dean",
     "Jayon Queen",
-    "Mose Junior",
     "Nico Curl"
    ]
   },
@@ -1183,8 +1183,8 @@
    "tier": "controversy",
    "category": "Analytics",
    "players": [
-    "Taywan Tuttle",
     "Damone Omameh",
+    "Taywan Tuttle",
     "Wayne Wilson",
     "Deante Elder",
     "Cooper Dean",
@@ -1192,14 +1192,14 @@
     "Rondale Ikarras",
     "Jawill Perkins",
     "Marcel Mathieu",
-    "Dennis Baylon",
     "Rysen Benkert",
     "Aubrey Jewell",
-    "Kyric McQuay",
+    "Dennis Baylon",
     "Amani Bryant",
+    "Kyric McQuay",
     "Ray Waller",
-    "Wes Sione",
-    "Tom Brady"
+    "Tom Brady",
+    "Wes Sione"
    ],
    "summary": "How they work: Dominance = 0.7 × True Talent + award points (ring 60, MVP 50, OPOY 30, SB MVP 40, DPOY 120, ROTY 0)."
   },
@@ -1218,15 +1218,14 @@
     "Rondale Ikarras",
     "Malakai Sawyer",
     "Dennis Baylon",
-    "Jahmyr Gibbs",
     "Cairo Asanjh",
+    "Amani Bryant",
+    "Jahmyr Gibbs",
+    "Zander Kolar",
     "Kyric McQuay",
     "Tyrone Baugh",
-    "Denzel Hayes",
-    "Amani Bryant",
-    "Zander Kolar",
-    "Kitt Inman",
     "Ray Waller",
+    "Kitt Inman",
     "Ian Finney"
    ],
    "summary": "QB: Brandson's accuracy, Waller's deep ball, McQuay's decisions, Bryant's legs, Baylon's clutch, Wayne Wilson's durability."
@@ -1301,8 +1300,8 @@
    "title": "Ikarras",
    "summary": "**Ikarras:** 4 OPOY, 5 SB MVP, every rushing record, 0 MVPs. Receivers Finney, Russell, Higgins and Asanjh (3) all won MVP.",
    "players": [
-    "Rondale Ikarras",
     "Brennan Higgins",
+    "Rondale Ikarras",
     "Lukas Russell",
     "Cairo Asanjh",
     "Ian Finney"
@@ -1707,6 +1706,7 @@
   },
   {
    "name": "Michael Wilson",
+   "team": "Giants",
    "position": "QB",
    "era": "Vikings dynasty · Y59–69",
    "tag": "Wayne’s brother · retired injured"
@@ -2021,6 +2021,138 @@
    "team": "Broncos",
    "position": "DB",
    "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Dorance Hinton",
+   "team": "Seahawks",
+   "position": "OL",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Alvin Tufele",
+   "team": "Seahawks",
+   "position": "WR",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Hamsfa Boltt",
+   "team": "Commanders",
+   "position": "QB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Drake Wise",
+   "team": "Giants",
+   "position": "QB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Le'Veon Richard",
+   "team": "Cowboys",
+   "position": "TE",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Jarred Beasley",
+   "team": "Titans",
+   "position": "WR",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Juawan Lance",
+   "team": "Titans",
+   "position": "WR",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Corey Ivey",
+   "team": "Ravens",
+   "position": "RB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Dan Stout",
+   "team": "Ravens",
+   "position": "QB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Jaylen Conklin",
+   "team": "Jets",
+   "position": "TE",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Obinna Leary",
+   "team": "Jets",
+   "position": "WR",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Kane Van Oxley",
+   "team": "Jets",
+   "position": "WR",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Ryland Maxwell",
+   "team": "Jets",
+   "position": "RB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Ty Lock",
+   "team": "Jets",
+   "position": "QB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Dylan Hyatt",
+   "team": "Jets",
+   "position": "DB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Kalif Suh",
+   "team": "Jets",
+   "position": "LB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Dan Mosley",
+   "team": "Lions",
+   "position": "DB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Blair Iupati",
+   "team": "Seahawks",
+   "position": "DB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Deonte Sutton",
+   "team": "Seahawks",
+   "position": "DB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Romeo Rodgers",
+   "team": "Seahawks",
+   "position": "LB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Taron Hayes",
+   "team": "Chiefs",
+   "position": "DB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Darrel Longa",
+   "team": "Titans",
+   "position": "DL",
+   "era": "Modern era · Y70–80"
   }
  ],
  "speeches": {
