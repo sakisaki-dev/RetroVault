@@ -3,7 +3,6 @@ import Header from '@/components/Header';
 import CareerTab from '@/components/tabs/CareerTab';
 import HallOfFameTab from '@/components/tabs/HallOfFameTab';
 import TeamRankingsTab from '@/components/tabs/TeamRankingsTab';
-import ComparisonTab from '@/components/tabs/ComparisonTab';
 import GamesTab from '@/components/tabs/GamesTab';
 import TimelineTab from '@/components/tabs/TimelineTab';
 import FrontOfficeTab from '@/components/tabs/FrontOfficeTab';
@@ -58,7 +57,6 @@ const IndexContent = () => {
           {activeTab === 'collection' && <CollectionTab />}
           {activeTab === 'timeline' && <TimelineTab />}
           {activeTab === 'office' && <FrontOfficeTab />}
-          {activeTab === 'compare' && <ComparisonTab />}
           {activeTab === 'games' && <GamesTab />}
         </main>
 

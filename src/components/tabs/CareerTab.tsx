@@ -7,19 +7,21 @@ import PlayerDetailCard from '../PlayerDetailCard';
 import CountUp from '../brand/CountUp';
 import RecordBook, { RecordStrip } from '../stats/RecordBook';
 import AnalyticsLab from '../stats/analytics/AnalyticsLab';
+import HeadToHead from '../stats/HeadToHead';
 import PositionLeaders from '../stats/PositionLeaders';
 import StatTables from '../stats/StatTables';
 import { HEADLINE_IDS, LEADER_IDS, buildRecordBook, pickBoards } from '../stats/records';
 
 const JUMPS = [
   { href: '#record-book', label: 'Records' },
+  { href: '#head-to-head', label: 'Head-to-Head' },
   { href: '#analytics', label: 'Analytics Lab' },
   { href: '#efficiency', label: 'Efficiency' },
   { href: '#leaders', label: 'Leaders' },
   { href: '#tables', label: 'Full Tables' },
 ];
 
-/** Stats hub: a compact record strip, then the Analytics Lab, then leaders and the raw career tables. */
+/** Stats hub: a compact record strip, the Head-to-Head comparison, then the Analytics Lab, then leaders and the raw career tables. */
 const CareerTab = () => {
   const { careerData, loadCareerData, isLoading } = useLeague();
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
@@ -82,6 +84,8 @@ const CareerTab = () => {
       </header>
 
       {headline.length > 0 && <RecordStrip headline={headline} onSelect={setSelectedPlayer} />}
+
+      <HeadToHead data={careerData} onSelect={setSelectedPlayer} />
 
       <AnalyticsLab data={careerData} onSelect={setSelectedPlayer} />
 

@@ -19,7 +19,6 @@ export const NAV_TABS = [
   { value: 'collection', label: 'Collection' },
   { value: 'timeline', label: 'Timeline' },
   { value: 'office', label: 'Front Office' },
-  { value: 'compare', label: 'Compare' },
 ] as const;
 
 /** Season tag (e.g. "Y80") from the title line of the saved league sheet, if present. */

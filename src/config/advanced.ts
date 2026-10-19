@@ -528,13 +528,10 @@ export interface Comp {
   similarity: number;
 }
 
-/**
- * Nearest careers at the same position by z-scored per-game rates + games + True Talent.
- * A feature with no spread (or no value for either player) is skipped.
- */
-export const similarPlayers = (players: Player[], target: Player, count = 3): Comp[] => {
-  const pool = players.filter((p) => p.position === target.position && !p.isRealLegend && p.games > 0);
-  const features = [...COMP_FEATURES[target.position], ...CAREER_FEATURES];
+/** Scorer for one position: z-scores each comp feature over the position pool, returns 0–100 similarity. */
+const similarityScorer = (players: Player[], position: Position) => {
+  const pool = players.filter((p) => p.position === position && !p.isRealLegend && p.games > 0);
+  const features = [...COMP_FEATURES[position], ...CAREER_FEATURES];
   const stats = features.map((f) => {
     const vals = pool.map(f.get).filter(Number.isFinite);
     const mean = vals.reduce((s, v) => s + v, 0) / (vals.length || 1);
@@ -542,23 +539,39 @@ export const similarPlayers = (players: Player[], target: Player, count = 3): Co
     return { get: f.get, mean, sd };
   });
   const z = (p: Player) => stats.map((s) => (s.sd > 0 ? (s.get(p) - s.mean) / s.sd : NaN));
+  const score = (za: number[], zb: number[]) => {
+    let d2 = 0;
+    let k = 0;
+    za.forEach((v, i) => {
+      if (Number.isFinite(v) && Number.isFinite(zb[i])) {
+        d2 += (v - zb[i]) ** 2;
+        k += 1;
+      }
+    });
+    return k > 0 ? 100 * Math.exp(-d2 / (2 * k)) : 0;
+  };
+  return { pool, z, score };
+};
+
+/**
+ * Nearest careers at the same position by z-scored per-game rates + games + True Talent.
+ * A feature with no spread (or no value for either player) is skipped.
+ */
+export const similarPlayers = (players: Player[], target: Player, count = 3): Comp[] => {
+  const { pool, z, score } = similarityScorer(players, target.position);
   const zt = z(target);
   return pool
     .filter((p) => p !== target && p.name !== target.name)
-    .map((p) => {
-      const zp = z(p);
-      let d2 = 0;
-      let k = 0;
-      zt.forEach((v, i) => {
-        if (Number.isFinite(v) && Number.isFinite(zp[i])) {
-          d2 += (v - zp[i]) ** 2;
-          k += 1;
-        }
-      });
-      return { player: p, similarity: k > 0 ? 100 * Math.exp(-d2 / (2 * k)) : 0 };
-    })
+    .map((p) => ({ player: p, similarity: score(zt, z(p)) }))
     .sort((a, b) => b.similarity - a.similarity || a.player.name.localeCompare(b.player.name))
     .slice(0, count);
+};
+
+/** Similarity (0–100, same scale as similarPlayers) between two players; null across positions or with no games. */
+export const pairSimilarity = (players: Player[], a: Player, b: Player): number | null => {
+  if (a.position !== b.position || a.games <= 0 || b.games <= 0) return null;
+  const { z, score } = similarityScorer(players, a.position);
+  return score(z(a), z(b));
 };
 
 // ---------- Convenience ----------
