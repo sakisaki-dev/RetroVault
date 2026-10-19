@@ -57,7 +57,15 @@ DPOY, ROTY, SBMVP).
    npx tsc --noEmit -p tsconfig.app.json
    npm run build
    ```
-7. **Commit and push** to `retrovault-v2` with a message listing who was added or updated. The site redeploys
+7. **New Hall of Famers need a custom speech.** If an update pushes anyone to Career Legacy ≥ 7000 (the build
+   summary and the site's HOF tab show who), write his induction speech in `SPEECHES` in
+   `scripts/build_league_content.py`, then rebuild. Never let the generic template in `src/components/ceremony/speech.ts`
+   show. Match the existing speeches:
+   - a one-line hook, then 2–3 short paragraphs, closing "…, welcome to the Hall of Fame."
+   - about 120–190 words
+   - only facts from the data; describe play style from his rates, never invent looks or quotes
+   - no em dashes
+8. **Commit and push** to `retrovault-v2` with a message listing who was added or updated. The site redeploys
    in about two minutes. Reply with a short summary: updated players, new players needing teams, and
    anything notable (records broken, new Hall of Famers).
 
