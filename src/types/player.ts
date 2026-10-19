@@ -19,6 +19,12 @@ export interface BasePlayer {
   careerLegacy: number;
   tpg: number;
   nickname?: string;
+  /** Real-life legend (e.g. Tom Brady). Excluded from league benchmarks and league stats; exposed via `legends`. */
+  isRealLegend?: boolean;
+  /** True Talent before position normalization (set by `normalizeLeague`). `trueTalent` holds the adjusted value. */
+  rawTrueTalent?: number;
+  /** Multiplier applied to raw True Talent by `normalizeLeague` (1 when normalization is off). */
+  positionFactor?: number;
 }
 
 export interface QBPlayer extends BasePlayer {

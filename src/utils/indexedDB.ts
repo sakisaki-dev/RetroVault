@@ -195,11 +195,6 @@ export interface PlayerEdit {
   roty: number;
   // Position-specific stats
   positionStats: Record<string, number>;
-  // Manual season history entries
-  manualSeasons?: Array<{
-    season: string;
-    stats: Record<string, number>;
-  }>;
   // Metadata
   createdAt: number;
   updatedAt: number;
@@ -219,96 +214,4 @@ export async function savePlayerEdit(edit: PlayerEdit): Promise<void> {
 // Delete a player edit
 export async function deletePlayerEdit(playerKey: string): Promise<void> {
   await deleteValue(STORES.playerEdits, playerKey);
-}
-
-// Get season snapshots from IndexedDB
-export async function getSeasonSnapshotsFromDB(): Promise<Record<string, string>> {
-  const value = await getValue<Record<string, string>>(STORES.seasonSnapshots, 'all');
-  return value || {};
-}
-
-// Save season snapshots to IndexedDB
-export async function saveSeasonSnapshotsToDB(snapshots: Record<string, string>): Promise<void> {
-  await setValue(STORES.seasonSnapshots, 'all', snapshots);
-}
-
-// Get season history from IndexedDB
-export async function getSeasonHistoryFromDB(): Promise<Record<string, any[]>> {
-  const value = await getValue<Record<string, any[]>>(STORES.seasonHistory, 'all');
-  return value || {};
-}
-
-// Save season history to IndexedDB
-export async function saveSeasonHistoryToDB(history: Record<string, any[]>): Promise<void> {
-  await setValue(STORES.seasonHistory, 'all', history);
-}
-
-// Get career base CSV
-export async function getCareerBaseCsvFromDB(): Promise<string | null> {
-  return getValue<string>(STORES.careerBaseCsv, 'base');
-}
-
-// Save career base CSV
-export async function saveCareerBaseCsvToDB(csv: string): Promise<void> {
-  await setValue(STORES.careerBaseCsv, 'base', csv);
-}
-
-// Settings helpers
-export async function getSetting<T>(key: string): Promise<T | null> {
-  return getValue<T>(STORES.settings, key);
-}
-
-export async function setSetting<T>(key: string, value: T): Promise<void> {
-  await setValue(STORES.settings, key, value);
-}
-
-// Migration from localStorage to IndexedDB
-export async function migrateFromLocalStorage(): Promise<boolean> {
-  try {
-    const migrated = await getSetting<boolean>('migratedFromLocalStorage');
-    if (migrated) return true;
-
-    // Migrate season snapshots
-    const lsSnapshots = localStorage.getItem('retroVault:seasonSnapshots');
-    if (lsSnapshots) {
-      await saveSeasonSnapshotsToDB(JSON.parse(lsSnapshots));
-    }
-
-    // Migrate season history
-    const lsHistory = localStorage.getItem('retroVault:seasonHistory');
-    if (lsHistory) {
-      await saveSeasonHistoryToDB(JSON.parse(lsHistory));
-    }
-
-    // Migrate career base CSV
-    const lsBaseCsv = localStorage.getItem('retroVault:careerBaseCsv');
-    if (lsBaseCsv) {
-      await saveCareerBaseCsvToDB(lsBaseCsv);
-    }
-
-    // Migrate current season
-    const lsCurrentSeason = localStorage.getItem('retroVault:currentSeason');
-    if (lsCurrentSeason) {
-      await setSetting('currentSeason', lsCurrentSeason);
-    }
-
-    // Migrate career CSV
-    const lsCareerCsv = localStorage.getItem('retroVault:careerCsv');
-    if (lsCareerCsv) {
-      await setSetting('careerCsv', lsCareerCsv);
-    }
-
-    // Migrate prev career CSV
-    const lsPrevCareerCsv = localStorage.getItem('retroVault:prevCareerCsv');
-    if (lsPrevCareerCsv) {
-      await setSetting('prevCareerCsv', lsPrevCareerCsv);
-    }
-
-    await setSetting('migratedFromLocalStorage', true);
-    console.log('Successfully migrated from localStorage to IndexedDB');
-    return true;
-  } catch (error) {
-    console.error('Migration from localStorage failed:', error);
-    return false;
-  }
 }

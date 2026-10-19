@@ -1,93 +1,61 @@
-import { Trophy, Star, Medal, Award, Crown } from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { AWARD_META, type AwardKey } from '@/utils/playerMeta';
 
 interface AwardsCellProps {
   rings?: number;
   mvp?: number;
-  opoy?: number;  // OPOY for offense, DPOY for defense
+  opoy?: number; // OPOY for offense, DPOY for defense
   sbmvp?: number;
   roty?: number;
   isDefense?: boolean;
+  className?: string;
 }
 
-interface AwardBadgeProps {
-  count: number;
-  label: string;
-  icon: React.ReactNode;
-  color: string;
-}
+/**
+ * Compact award chips (icon + count) for tables. Each chip is keyboard-focusable and opens a
+ * tooltip on hover or focus; screen readers get the full text without needing the tooltip.
+ */
+const AwardsCell = ({ rings = 0, mvp = 0, opoy = 0, sbmvp = 0, roty = 0, isDefense = false, className }: AwardsCellProps) => {
+  const counts: Record<AwardKey, number> = { rings, mvp, opoy, sbmvp, roty };
+  const awards = AWARD_META[isDefense ? 'defense' : 'offense'].filter((a) => counts[a.key] > 0);
 
-const AwardBadge = ({ count, label, icon, color }: AwardBadgeProps) => {
-  if (count === 0) return null;
-  
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <span 
-            className="inline-flex items-center gap-0.5 text-xs font-bold px-1.5 py-0.5 rounded"
-            style={{ 
-              backgroundColor: `${color}20`,
-              color: color,
-            }}
-          >
-            {icon}
-            {count > 1 && <span className="text-[10px]">×{count}</span>}
-          </span>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>{count} {label}{count > 1 ? 's' : ''}</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  );
-};
-
-const AwardsCell = ({ rings = 0, mvp = 0, opoy = 0, sbmvp = 0, roty = 0, isDefense = false }: AwardsCellProps) => {
-  const hasAwards = rings > 0 || mvp > 0 || opoy > 0 || sbmvp > 0 || roty > 0;
-
-  if (!hasAwards) {
-    return <span className="text-xs text-muted-foreground">—</span>;
+  if (awards.length === 0) {
+    return (
+      <span className="text-xs text-muted-foreground">
+        <span aria-hidden="true">—</span>
+        <span className="sr-only">No awards</span>
+      </span>
+    );
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-1">
-      <AwardBadge 
-        count={rings} 
-        label="Ring" 
-        icon={<Trophy className="w-3 h-3" />}
-        color="hsl(45, 100%, 50%)"  // Gold
-      />
-      <AwardBadge 
-        count={mvp} 
-        label="MVP" 
-        icon={<Crown className="w-3 h-3" />}
-        color="hsl(280, 100%, 65%)"  // Purple
-      />
-      <AwardBadge 
-        count={opoy} 
-        label={isDefense ? "DPOY" : "OPOY"}
-        icon={<Star className="w-3 h-3" />}
-        color="hsl(190, 100%, 50%)"  // Cyan
-      />
-      <AwardBadge 
-        count={sbmvp} 
-        label="SB MVP" 
-        icon={<Medal className="w-3 h-3" />}
-        color="hsl(150, 80%, 45%)"  // Green
-      />
-      <AwardBadge 
-        count={roty} 
-        label="ROTY" 
-        icon={<Award className="w-3 h-3" />}
-        color="hsl(25, 90%, 55%)"  // Orange
-      />
-    </div>
+    <ul className={cn('flex flex-wrap items-center gap-1', className)} aria-label="Awards">
+      {awards.map(({ key, long, Icon, hsl }) => {
+        const n = counts[key];
+        const text = `${n}× ${long}`;
+        return (
+          <li key={key}>
+            <Tooltip delayDuration={150}>
+              <TooltipTrigger asChild>
+                <span
+                  tabIndex={0}
+                  className="inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[11px] font-bold tabular-nums cursor-help"
+                  style={{ backgroundColor: `hsl(${hsl} / 0.14)`, color: `hsl(${hsl})`, boxShadow: `inset 0 0 0 1px hsl(${hsl} / 0.3)` }}
+                >
+                  <Icon className="h-3 w-3" aria-hidden="true" />
+                  <span aria-hidden="true">{n}</span>
+                  <span className="sr-only">{text}</span>
+                </span>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="text-xs">
+                {text}
+              </TooltipContent>
+            </Tooltip>
+          </li>
+        );
+      })}
+    </ul>
   );
 };
 

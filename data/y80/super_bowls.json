@@ -1,0 +1,792 @@
+[
+ {
+  "number": 60,
+  "roman": "LX",
+  "year": "Y1",
+  "winner": "Bills",
+  "score": "59-29",
+  "loser": "Buccaneers",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 61,
+  "roman": "LXI",
+  "year": "Y2",
+  "winner": "Lions",
+  "score": "44-24",
+  "loser": "Chiefs",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 62,
+  "roman": "LXII",
+  "year": "Y3",
+  "winner": "Vikings",
+  "score": "30-22",
+  "loser": "Bengals",
+  "your_result": "won",
+  "your_team": "Vikings"
+ },
+ {
+  "number": 63,
+  "roman": "LXIII",
+  "year": "Y4",
+  "winner": "Eagles",
+  "score": "36-28",
+  "loser": "Broncos",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 64,
+  "roman": "LXIV",
+  "year": "Y5",
+  "winner": "Bills",
+  "score": "43-33",
+  "loser": "Buccaneers",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 65,
+  "roman": "LXV",
+  "year": "Y6",
+  "winner": "Dolphins",
+  "score": "30-15",
+  "loser": "Commanders",
+  "your_result": "won",
+  "your_team": "Dolphins"
+ },
+ {
+  "number": 66,
+  "roman": "LXVI",
+  "year": "Y7",
+  "winner": "Commanders",
+  "score": "22-16",
+  "loser": "Dolphins",
+  "your_result": "lost",
+  "your_team": "Dolphins"
+ },
+ {
+  "number": 67,
+  "roman": "LXVII",
+  "year": "Y8",
+  "winner": "Dolphins",
+  "score": "24-20",
+  "loser": "Lions",
+  "your_result": "won",
+  "your_team": "Dolphins"
+ },
+ {
+  "number": 68,
+  "roman": "LXVIII",
+  "year": "Y9",
+  "winner": "Dolphins",
+  "score": "30-22",
+  "loser": "Panthers",
+  "your_result": "won",
+  "your_team": "Dolphins"
+ },
+ {
+  "number": 69,
+  "roman": "LXIX",
+  "year": "Y10",
+  "winner": "Chargers",
+  "score": "40-20",
+  "loser": "Packers",
+  "your_result": "won",
+  "your_team": "Chargers"
+ },
+ {
+  "number": 70,
+  "roman": "LXX",
+  "year": "Y11",
+  "winner": "Chargers",
+  "score": "30-20",
+  "loser": "Buccaneers",
+  "your_result": "won",
+  "your_team": "Chargers"
+ },
+ {
+  "number": 71,
+  "roman": "LXXI",
+  "year": "Y12",
+  "winner": "Saints",
+  "score": "52-27",
+  "loser": "Bengals",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 72,
+  "roman": "LXXII",
+  "year": "Y13",
+  "winner": "Bengals",
+  "score": "33-31",
+  "loser": "Eagles",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 73,
+  "roman": "LXXIII",
+  "year": "Y14",
+  "winner": "Chargers",
+  "score": "30-17",
+  "loser": "Packers",
+  "your_result": "won",
+  "your_team": "Chargers"
+ },
+ {
+  "number": 74,
+  "roman": "LXXIV",
+  "year": "Y15",
+  "winner": "Chargers",
+  "score": "28-21",
+  "loser": "Vikings",
+  "your_result": "won",
+  "your_team": "Chargers"
+ },
+ {
+  "number": 75,
+  "roman": "LXXV",
+  "year": "Y16",
+  "winner": "Commanders",
+  "score": "22-16",
+  "loser": "Broncos",
+  "your_result": "won",
+  "your_team": "Commanders"
+ },
+ {
+  "number": 76,
+  "roman": "LXXVI",
+  "year": "Y17",
+  "winner": "Commanders",
+  "score": "40-9",
+  "loser": "Titans",
+  "your_result": "won",
+  "your_team": "Commanders"
+ },
+ {
+  "number": 77,
+  "roman": "LXXVII",
+  "year": "Y18",
+  "winner": "Commanders",
+  "score": "30-23",
+  "loser": "Browns",
+  "your_result": "won",
+  "your_team": "Commanders"
+ },
+ {
+  "number": 78,
+  "roman": "LXXVIII",
+  "year": "Y19",
+  "winner": "Commanders",
+  "score": "38-24",
+  "loser": "Browns",
+  "your_result": "won",
+  "your_team": "Commanders"
+ },
+ {
+  "number": 79,
+  "roman": "LXXIX",
+  "year": "Y20",
+  "winner": "Buccaneers",
+  "score": "38-30",
+  "loser": "Browns",
+  "your_result": "won",
+  "your_team": "Buccaneers"
+ },
+ {
+  "number": 80,
+  "roman": "LXXX",
+  "year": "Y21",
+  "winner": "Buccaneers",
+  "score": "38-23",
+  "loser": "Dolphins",
+  "your_result": "won",
+  "your_team": "Buccaneers"
+ },
+ {
+  "number": 81,
+  "roman": "LXXXI",
+  "year": "Y22",
+  "winner": "Colts",
+  "score": "38-32",
+  "loser": "Buccaneers",
+  "your_result": "lost",
+  "your_team": "Buccaneers"
+ },
+ {
+  "number": 82,
+  "roman": "LXXXII",
+  "year": "Y23",
+  "winner": "Buccaneers",
+  "score": "46-11",
+  "loser": "Broncos",
+  "your_result": "won",
+  "your_team": "Buccaneers"
+ },
+ {
+  "number": 83,
+  "roman": "LXXXIII",
+  "year": "Y24",
+  "winner": "Colts",
+  "score": "29-28",
+  "loser": "Buccaneers",
+  "your_result": "lost",
+  "your_team": "Buccaneers"
+ },
+ {
+  "number": 84,
+  "roman": "LXXXIV",
+  "year": "Y25",
+  "winner": "Buccaneers",
+  "score": "38-16",
+  "loser": "Broncos",
+  "your_result": "won",
+  "your_team": "Buccaneers"
+ },
+ {
+  "number": 85,
+  "roman": "LXXXV",
+  "year": "Y26",
+  "winner": "Buccaneers",
+  "score": "28-17",
+  "loser": "Bills",
+  "your_result": "won",
+  "your_team": "Buccaneers"
+ },
+ {
+  "number": 86,
+  "roman": "LXXXVI",
+  "year": "Y27",
+  "winner": "Bills",
+  "score": "30-24",
+  "loser": "Cardinals",
+  "your_result": "won",
+  "your_team": "Bills"
+ },
+ {
+  "number": 87,
+  "roman": "LXXXVII",
+  "year": "Y28",
+  "winner": "Bills",
+  "score": "36-15",
+  "loser": "Vikings",
+  "your_result": "won",
+  "your_team": "Bills"
+ },
+ {
+  "number": 88,
+  "roman": "LXXXVIII",
+  "year": "Y29",
+  "winner": "Bills",
+  "score": "40-33",
+  "loser": "Buccaneers",
+  "your_result": "won",
+  "your_team": "Bills"
+ },
+ {
+  "number": 89,
+  "roman": "LXXXIX",
+  "year": "Y30",
+  "winner": "Bills",
+  "score": "40-7",
+  "loser": "Rams",
+  "your_result": "won",
+  "your_team": "Bills"
+ },
+ {
+  "number": 90,
+  "roman": "XC",
+  "year": "Y31",
+  "winner": "Bills",
+  "score": "32-25",
+  "loser": "Giants",
+  "your_result": "won",
+  "your_team": "Bills"
+ },
+ {
+  "number": 91,
+  "roman": "XCI",
+  "year": "Y32",
+  "winner": "Bills",
+  "score": "30-14",
+  "loser": "Commanders",
+  "your_result": "won",
+  "your_team": "Bills"
+ },
+ {
+  "number": 92,
+  "roman": "XCII",
+  "year": "Y33",
+  "winner": "Bills",
+  "score": "46-14",
+  "loser": "Panthers",
+  "your_result": "won",
+  "your_team": "Bills"
+ },
+ {
+  "number": 93,
+  "roman": "XCIII",
+  "year": "Y34",
+  "winner": "Chiefs",
+  "score": "54-10",
+  "loser": "Rams",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 94,
+  "roman": "XCIV",
+  "year": "Y35",
+  "winner": "Falcons",
+  "score": "54-25",
+  "loser": "Ravens",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 95,
+  "roman": "XCV",
+  "year": "Y36",
+  "winner": "Seahawks",
+  "score": "32-15",
+  "loser": "Bills",
+  "your_result": "won",
+  "your_team": "Seahawks"
+ },
+ {
+  "number": 96,
+  "roman": "XCVI",
+  "year": "Y37",
+  "winner": "Seahawks",
+  "score": "32-7",
+  "loser": "Dolphins",
+  "your_result": "won",
+  "your_team": "Seahawks"
+ },
+ {
+  "number": 97,
+  "roman": "XCVII",
+  "year": "Y38",
+  "winner": "Seahawks",
+  "score": "24-16",
+  "loser": "Texans",
+  "your_result": "won",
+  "your_team": "Seahawks"
+ },
+ {
+  "number": 98,
+  "roman": "XCVIII",
+  "year": "Y39",
+  "winner": "Broncos",
+  "score": "25-23",
+  "loser": "Panthers",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 99,
+  "roman": "XCIX",
+  "year": "Y40",
+  "winner": "Chargers",
+  "score": "38-22",
+  "loser": "Buccaneers",
+  "your_result": "won",
+  "your_team": "Chargers"
+ },
+ {
+  "number": 100,
+  "roman": "C",
+  "year": "Y41",
+  "winner": "Ravens",
+  "score": "40-28",
+  "loser": "Buccaneers",
+  "your_result": "won",
+  "your_team": "Ravens"
+ },
+ {
+  "number": 101,
+  "roman": "CI",
+  "year": "Y42",
+  "winner": "Ravens",
+  "score": "36-19",
+  "loser": "Packers",
+  "your_result": "won",
+  "your_team": "Ravens"
+ },
+ {
+  "number": 102,
+  "roman": "CII",
+  "year": "Y43",
+  "winner": "Ravens",
+  "score": "30-19",
+  "loser": "Cardinals",
+  "your_result": "won",
+  "your_team": "Ravens"
+ },
+ {
+  "number": 103,
+  "roman": "CIII",
+  "year": "Y44",
+  "winner": "Ravens",
+  "score": "32-26",
+  "loser": "Cardinals",
+  "your_result": "won",
+  "your_team": "Ravens"
+ },
+ {
+  "number": 104,
+  "roman": "CIV",
+  "year": "Y45",
+  "winner": "Bengals",
+  "score": "48-17",
+  "loser": "Giants",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 105,
+  "roman": "CV",
+  "year": "Y46",
+  "winner": "Ravens",
+  "score": "32-24",
+  "loser": "Seahawks",
+  "your_result": "won",
+  "your_team": "Ravens"
+ },
+ {
+  "number": 106,
+  "roman": "CVI",
+  "year": "Y47",
+  "winner": "Bills",
+  "score": "36-24",
+  "loser": "49ers",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 107,
+  "roman": "CVII",
+  "year": "Y48",
+  "winner": "Ravens",
+  "score": "16-9",
+  "loser": "Rams",
+  "your_result": "won",
+  "your_team": "Ravens"
+ },
+ {
+  "number": 108,
+  "roman": "CVIII",
+  "year": "Y49",
+  "winner": "Ravens",
+  "score": "36-28",
+  "loser": "Eagles",
+  "your_result": "won",
+  "your_team": "Ravens"
+ },
+ {
+  "number": 109,
+  "roman": "CIX",
+  "year": "Y50",
+  "winner": "Saints",
+  "score": "36-32",
+  "loser": "Ravens",
+  "your_result": "lost",
+  "your_team": "Ravens"
+ },
+ {
+  "number": 110,
+  "roman": "CX",
+  "year": "Y51",
+  "winner": "Buccaneers",
+  "score": "40-13",
+  "loser": "Jaguars",
+  "your_result": "won",
+  "your_team": "Buccaneers"
+ },
+ {
+  "number": 111,
+  "roman": "CXI",
+  "year": "Y52",
+  "winner": "Buccaneers",
+  "score": "32-25",
+  "loser": "Ravens",
+  "your_result": "won",
+  "your_team": "Buccaneers"
+ },
+ {
+  "number": 112,
+  "roman": "CXII",
+  "year": "Y53",
+  "winner": "Titans",
+  "score": "36-31",
+  "loser": "Eagles",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 113,
+  "roman": "CXIII",
+  "year": "Y54",
+  "winner": "Giants",
+  "score": "36-28",
+  "loser": "Jets",
+  "your_result": "won",
+  "your_team": "Giants"
+ },
+ {
+  "number": 114,
+  "roman": "CXIV",
+  "year": "Y55",
+  "winner": "Giants",
+  "score": "68-21",
+  "loser": "Chiefs",
+  "your_result": "won",
+  "your_team": "Giants"
+ },
+ {
+  "number": 115,
+  "roman": "CXV",
+  "year": "Y56",
+  "winner": "Giants",
+  "score": "38-37",
+  "loser": "Bills",
+  "your_result": "won",
+  "your_team": "Giants"
+ },
+ {
+  "number": 116,
+  "roman": "CXVI",
+  "year": "Y57",
+  "winner": "Dolphins",
+  "score": "36-26",
+  "loser": "49ers",
+  "your_result": "won",
+  "your_team": "Dolphins"
+ },
+ {
+  "number": 117,
+  "roman": "CXVII",
+  "year": "Y58",
+  "winner": "Dolphins",
+  "score": "40-33",
+  "loser": "Cowboys",
+  "your_result": "won",
+  "your_team": "Dolphins"
+ },
+ {
+  "number": 118,
+  "roman": "CXVIII",
+  "year": "Y59",
+  "winner": "Dolphins",
+  "score": "46-9",
+  "loser": "Lions",
+  "your_result": "won",
+  "your_team": "Dolphins"
+ },
+ {
+  "number": 119,
+  "roman": "CXIX",
+  "year": "Y60",
+  "winner": "Cowboys",
+  "score": "28-24",
+  "loser": "Dolphins",
+  "your_result": "lost",
+  "your_team": "Dolphins"
+ },
+ {
+  "number": 120,
+  "roman": "CXX",
+  "year": "Y61",
+  "winner": "Vikings",
+  "score": "40-14",
+  "loser": "Ravens",
+  "your_result": "won",
+  "your_team": "Vikings"
+ },
+ {
+  "number": 121,
+  "roman": "CXXI",
+  "year": "Y62",
+  "winner": "Vikings",
+  "score": "40-24",
+  "loser": "Jaguars",
+  "your_result": "won",
+  "your_team": "Vikings"
+ },
+ {
+  "number": 122,
+  "roman": "CXXII",
+  "year": "Y63",
+  "winner": "Vikings",
+  "score": "40-31",
+  "loser": "Jets",
+  "your_result": "won",
+  "your_team": "Vikings"
+ },
+ {
+  "number": 123,
+  "roman": "CXXIII",
+  "year": "Y64",
+  "winner": "Vikings",
+  "score": "40-39",
+  "loser": "Chargers",
+  "your_result": "won",
+  "your_team": "Vikings"
+ },
+ {
+  "number": 124,
+  "roman": "CXXIV",
+  "year": "Y65",
+  "winner": "Broncos",
+  "score": "32-29",
+  "loser": "Cowboys",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 125,
+  "roman": "CXXV",
+  "year": "Y66",
+  "winner": "Vikings",
+  "score": "38-25",
+  "loser": "Chiefs",
+  "your_result": "won",
+  "your_team": "Vikings"
+ },
+ {
+  "number": 126,
+  "roman": "CXXVI",
+  "year": "Y67",
+  "winner": null,
+  "score": null,
+  "loser": null,
+  "your_result": "not captured",
+  "your_team": null
+ },
+ {
+  "number": 127,
+  "roman": "CXXVII",
+  "year": "Y68",
+  "winner": "Vikings",
+  "score": "32-14",
+  "loser": "Bengals",
+  "your_result": "won",
+  "your_team": "Vikings"
+ },
+ {
+  "number": 128,
+  "roman": "CXXVIII",
+  "year": "Y69",
+  "winner": "Vikings",
+  "score": "48-18",
+  "loser": "Chiefs",
+  "your_result": "won",
+  "your_team": "Vikings"
+ },
+ {
+  "number": 129,
+  "roman": "CXXIX",
+  "year": "Y70",
+  "winner": "Titans",
+  "score": "38-28",
+  "loser": "49ers",
+  "your_result": "won",
+  "your_team": "Titans"
+ },
+ {
+  "number": 130,
+  "roman": "CXXX",
+  "year": "Y71",
+  "winner": "Titans",
+  "score": "32-21",
+  "loser": "Bears",
+  "your_result": "won",
+  "your_team": "Titans"
+ },
+ {
+  "number": 131,
+  "roman": "CXXXI",
+  "year": "Y72",
+  "winner": "Titans",
+  "score": "38-11",
+  "loser": "Eagles",
+  "your_result": "won",
+  "your_team": "Titans"
+ },
+ {
+  "number": 132,
+  "roman": "CXXXII",
+  "year": "Y73",
+  "winner": "Cardinals",
+  "score": "41-40",
+  "loser": "Texans",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 133,
+  "roman": "CXXXIII",
+  "year": "Y74",
+  "winner": "Titans",
+  "score": "39-32",
+  "loser": "Seahawks",
+  "your_result": "lost",
+  "your_team": "Seahawks"
+ },
+ {
+  "number": 134,
+  "roman": "CXXXIV",
+  "year": "Y75",
+  "winner": "Jets",
+  "score": "29-23",
+  "loser": "Giants",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 135,
+  "roman": "CXXXV",
+  "year": "Y76",
+  "winner": "Bengals",
+  "score": "50-23",
+  "loser": "Seahawks",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 136,
+  "roman": "CXXXVI",
+  "year": "Y77",
+  "winner": "Jets",
+  "score": "30-21",
+  "loser": "Seahawks",
+  "your_result": "won",
+  "your_team": "Jets"
+ },
+ {
+  "number": 137,
+  "roman": "CXXXVII",
+  "year": "Y78",
+  "winner": "Vikings",
+  "score": "33-27",
+  "loser": "Broncos",
+  "your_result": "not in it",
+  "your_team": null
+ },
+ {
+  "number": 138,
+  "roman": "CXXXVIII",
+  "year": "Y79",
+  "winner": "Packers",
+  "score": "44-6",
+  "loser": "Chiefs",
+  "your_result": "not in it",
+  "your_team": null
+ }
+]

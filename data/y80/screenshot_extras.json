@@ -1,0 +1,144 @@
+{
+ "note": "Screenshot details that don't fit the career table: current/final season lines, real-NFL splits shown on imported players' cards, and per-card extras.",
+ "season_lines": {
+  "Malakai Sawyer (Y80, in progress)": {
+   "games": 14,
+   "rush_att": 135,
+   "rush_yds": 740,
+   "rush_td": 13,
+   "fumbles": 14
+  },
+  "Sherman Brandson (final season, retired injured)": {
+   "games": 6,
+   "pass_yds": 2237,
+   "pass_td": 28,
+   "cmp_pct": 92
+  },
+  "Michael Wilson (final season, retired injured)": {
+   "games": 11,
+   "pass_yds": 3859,
+   "pass_td": 45,
+   "cmp_pct": 88
+  },
+  "Chance Woodrum (Y80, in progress)": {
+   "tackles": 116
+  }
+ },
+ "player_cards": {
+  "Malakai Sawyer": {
+   "age": 29,
+   "team": "Rams",
+   "rating": "5 stars",
+   "potential": "5 stars",
+   "xp_level": 11,
+   "contract": "$27M / 2 years",
+   "trade_value": "Round 1 pick",
+   "weakest_attribute": "catching",
+   "hof_flag": true,
+   "long_run": 65
+  },
+  "Lamar Jackson": {
+   "pass_long": 84,
+   "rush_long": 79,
+   "rush_fum": 70,
+   "sacks_taken": 66
+  },
+  "Jayden Daniels": {
+   "pass_long": 86,
+   "rush_long": 46,
+   "sacks_taken": 52
+  },
+  "Ray Waller": {
+   "pass_long": 76,
+   "rush_att": 160,
+   "rush_yds": 856,
+   "rush_td": 40,
+   "rush_long": 63,
+   "fumbles": 0,
+   "sacks_taken": 57
+  },
+  "Jahmyr Gibbs": {
+   "rush_long": 70,
+   "rec": 689,
+   "rec_yds": 4816,
+   "rec_td": 115,
+   "rec_long": 54
+  },
+  "Denzel Hayes": {
+   "rec_long": 29
+  },
+  "CeeDee Lamb": {
+   "ret_yds": 5778,
+   "ret_td": 1,
+   "ret_long": 73
+  },
+  "Nick Bolton": {
+   "forced_fumbles": 1
+  }
+ },
+ "real_nfl_splits": {
+  "Lamar Jackson 2018-2025": {
+   "games": 111,
+   "att": 2828,
+   "cmp": 1824,
+   "pass_yds": 21825,
+   "pass_td": 221,
+   "int": 56,
+   "rush_att": 1108,
+   "rush_yds": 6814,
+   "rush_td": 36
+  },
+  "Jayden Daniels 2024-2025": {
+   "games": 20,
+   "att": 594,
+   "cmp": 406,
+   "pass_yds": 4390,
+   "pass_td": 62,
+   "int": 10,
+   "rush_att": 183,
+   "rush_yds": 1026,
+   "rush_td": 7
+  },
+  "Ja'Marr Chase 2021-2025": {
+   "games": 69,
+   "rec": 440,
+   "yds": 6013,
+   "td": 66,
+   "fum": 5
+  },
+  "CeeDee Lamb 2020-2025": {
+   "games": 85,
+   "rec": 520,
+   "yds": 6655,
+   "td": 45,
+   "fum": 6,
+   "ret_yds": 47,
+   "ret_td": 1
+  },
+  "Jahmyr Gibbs 2023-2025": {
+   "games": 36,
+   "rush_att": 475,
+   "rush_yds": 2606,
+   "rush_td": 31,
+   "rec": 121,
+   "rec_yds": 997,
+   "rec_td": 41
+  },
+  "Nick Bolton 2021-2025": {
+   "games": 67,
+   "tackles": 366,
+   "int": 4,
+   "sacks": 5
+  },
+  "Mason Taylor 2025": {
+   "games": 0
+  }
+ },
+ "name_changes": {
+  "Mason Earl III": "God Johnson"
+ },
+ "family": {
+  "Jackson Wardell Kline": "son of Tyrion Kline",
+  "Wayne Wilson": "brother of Michael Wilson"
+ }
+}

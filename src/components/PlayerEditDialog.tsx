@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Pencil, Trash2, Plus, Save, X, Info } from 'lucide-react';
+import { Loader2, Pencil, Save, Trash2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -21,28 +21,34 @@ import { Switch } from '@/components/ui/switch';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
-import { Badge } from '@/components/ui/badge';
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import type { Player, Position } from '@/types/player';
 import { useLeague } from '@/context/LeagueContext';
 import { toast } from 'sonner';
 import {
+  getPlayerEdits,
   savePlayerEdit,
   deletePlayerEdit,
   type PlayerEdit,
 } from '@/utils/indexedDB';
-import { saveSeasonHistory, loadSeasonHistory, type SeasonSnapshot } from '@/utils/seasonHistory';
+import { calcCareerLegacy, calcDominance, calcTPG, getRawTrueTalent, isDefensivePosition } from '@/config/stats';
 
 interface PlayerEditDialogProps {
   player: Player | null;
   isNewPlayer?: boolean;
   onClose: () => void;
   onSave: () => void;
+  /** Called after the player's saved edit is deleted (defaults to onSave) */
+  onDelete?: () => void;
 }
 
 const POSITIONS: Position[] = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
@@ -64,28 +70,6 @@ const getPositionStats = (position: Position): string[] => {
       return ['tackles', 'interceptions', 'sacks', 'forcedFumbles'];
     default:
       return [];
-  }
-};
-
-// All possible season stats by position (what gets recorded per season)
-const getSeasonStats = (position: Position): string[] => {
-  const baseStats = ['games', 'rings', 'mvp', 'opoy', 'sbmvp', 'roty'];
-  switch (position) {
-    case 'QB':
-      return [...baseStats, 'passYds', 'passTD', 'completions', 'attempts', 'interceptions', 'sacks', 'rushAtt', 'rushYds', 'rushTD'];
-    case 'RB':
-      return [...baseStats, 'rushAtt', 'rushYds', 'rushTD', 'fumbles', 'receptions', 'recYds', 'recTD'];
-    case 'WR':
-    case 'TE':
-      return [...baseStats, 'receptions', 'recYds', 'recTD', 'fumbles', 'longest'];
-    case 'OL':
-      return [...baseStats, 'blocks'];
-    case 'LB':
-    case 'DB':
-    case 'DL':
-      return [...baseStats, 'tackles', 'interceptions', 'sacks', 'forcedFumbles'];
-    default:
-      return baseStats;
   }
 };
 
@@ -115,14 +99,8 @@ const statLabels: Record<string, string> = {
   forcedFumbles: 'Forced Fum',
 };
 
-interface SeasonEdit {
-  season: string;
-  stats: Record<string, number>;
-}
-
-const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: PlayerEditDialogProps) => {
-  const { getAvailableSeasons, refreshData, currentSeason } = useLeague();
-  const availableSeasons = getAvailableSeasons();
+const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDelete }: PlayerEditDialogProps) => {
+  const { refreshData } = useLeague();
 
   // Form state
   const [name, setName] = useState('');
@@ -137,13 +115,9 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
   const [sbmvp, setSbmvp] = useState(0);
   const [roty, setRoty] = useState(0);
   const [trueTalent, setTrueTalent] = useState(0);
-  const [dominance, setDominance] = useState(0);
-  const [careerLegacy, setCareerLegacy] = useState(0);
-  const [tpg, setTpg] = useState(0);
   const [positionStats, setPositionStats] = useState<Record<string, number>>({});
-  
-  // Season history - each season is independent, stats are per-season deltas
-  const [seasonEdits, setSeasonEdits] = useState<SeasonEdit[]>([]);
+  const [busy, setBusy] = useState<'saving' | 'deleting' | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   // Load player data when dialog opens
   useEffect(() => {
@@ -159,31 +133,15 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
       setOpoy(player.opoy);
       setSbmvp(player.sbmvp);
       setRoty(player.roty);
-      setTrueTalent(player.trueTalent);
-      setDominance(player.dominance);
-      setCareerLegacy(player.careerLegacy);
-      setTpg(player.tpg);
+      setTrueTalent(getRawTrueTalent(player));
 
       // Extract position stats
       const stats: Record<string, number> = {};
       getPositionStats(player.position).forEach((stat) => {
-        stats[stat] = (player as any)[stat] || 0;
+        stats[stat] = Number((player as unknown as Record<string, unknown>)[stat]) || 0;
       });
       setPositionStats(stats);
 
-      // Load existing season history - each entry is a per-season delta
-      const history = loadSeasonHistory();
-      const playerKey = `${player.position}:${player.name}`;
-      const existingSeasons = history[playerKey] || [];
-      
-      setSeasonEdits(existingSeasons.map((s) => {
-        const { season, ...rest } = s;
-        const stats: Record<string, number> = {};
-        Object.entries(rest).forEach(([k, v]) => {
-          if (typeof v === 'number') stats[k] = v;
-        });
-        return { season, stats };
-      }));
     } else if (isNewPlayer) {
       // Reset for new player
       setName('');
@@ -198,31 +156,42 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
       setSbmvp(0);
       setRoty(0);
       setTrueTalent(0);
-      setDominance(0);
-      setCareerLegacy(0);
-      setTpg(0);
       setPositionStats({});
-      setSeasonEdits([]);
     }
   }, [player, isNewPlayer]);
 
   // Update position stats when position changes
   useEffect(() => {
-    const newStats: Record<string, number> = {};
-    getPositionStats(position).forEach((stat) => {
-      newStats[stat] = positionStats[stat] || 0;
+    setPositionStats((prev) => {
+      const newStats: Record<string, number> = {};
+      getPositionStats(position).forEach((stat) => {
+        newStats[stat] = prev[stat] || 0;
+      });
+      return newStats;
     });
-    setPositionStats(newStats);
   }, [position]);
 
+  // Preview of what the league will compute (normalization recomputes these on load anyway)
+  const positionFactor = player?.position === position ? player.positionFactor ?? 1 : 1;
+  const derived = useMemo(() => {
+    const adjusted = trueTalent * positionFactor;
+    const inputs = { games, rings, mvp, opoy, sbmvp, trueTalent: adjusted, dominance: 0, careerLegacy: 0, tpg: 0 };
+    const dom = calcDominance(inputs, isDefensivePosition(position));
+    return { trueTalent: adjusted, dominance: dom, careerLegacy: calcCareerLegacy(inputs, dom), tpg: calcTPG(inputs) };
+  }, [trueTalent, positionFactor, games, rings, mvp, opoy, sbmvp, position]);
+
   const handleSave = async () => {
+    if (busy) return;
     if (!name.trim()) {
       toast.error('Player name is required');
       return;
     }
+    setBusy('saving');
 
-    const playerKey = `${position}:${name}`;
+    const playerKey = `${position}:${name.trim()}`;
     const now = Date.now();
+    // Keep manually added players visible on later edits (they have no CSV row to merge into)
+    const existingEdit = (await getPlayerEdits())[playerKey];
 
     const edit: PlayerEdit = {
       playerKey,
@@ -232,9 +201,9 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
       nickname: nickname.trim() || undefined,
       status,
       trueTalent,
-      dominance,
-      careerLegacy,
-      tpg,
+      dominance: derived.dominance,
+      careerLegacy: derived.careerLegacy,
+      tpg: derived.tpg,
       games,
       rings,
       mvp,
@@ -242,58 +211,13 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
       sbmvp,
       roty,
       positionStats,
-      manualSeasons: seasonEdits.length > 0 ? seasonEdits : undefined,
-      createdAt: player ? now : now,
+      createdAt: existingEdit?.createdAt ?? now,
       updatedAt: now,
-      isManuallyAdded: isNewPlayer,
+      isManuallyAdded: isNewPlayer || !!existingEdit?.isManuallyAdded,
     };
 
     try {
       await savePlayerEdit(edit);
-
-      // Save season history - each season is stored independently as per-season deltas
-      if (seasonEdits.length > 0) {
-        const history = loadSeasonHistory();
-        
-        // Sort seasons by number
-        const sortedSeasons = [...seasonEdits].sort((a, b) => {
-          const aNum = parseInt(a.season.replace(/\D/g, '')) || 0;
-          const bNum = parseInt(b.season.replace(/\D/g, '')) || 0;
-          return aNum - bNum;
-        });
-
-        // Convert to snapshots - each season's stats are independent deltas
-        const snapshots: SeasonSnapshot[] = sortedSeasons.map((se) => {
-          const snapshot: SeasonSnapshot = {
-            season: se.season,
-            games: se.stats.games || 0,
-            rings: se.stats.rings || 0,
-            mvp: se.stats.mvp || 0,
-            opoy: se.stats.opoy || 0,
-            sbmvp: se.stats.sbmvp || 0,
-            roty: se.stats.roty || 0,
-          };
-          
-          // Add position-specific stats
-          const posStats = getSeasonStats(position);
-          posStats.forEach((stat) => {
-            if (stat !== 'games' && stat !== 'rings' && stat !== 'mvp' && stat !== 'opoy' && stat !== 'sbmvp' && stat !== 'roty') {
-              (snapshot as any)[stat] = se.stats[stat] || 0;
-            }
-          });
-          
-          return snapshot;
-        });
-
-        history[playerKey] = snapshots;
-        saveSeasonHistory(history);
-      } else {
-        // If no seasons, remove from history
-        const history = loadSeasonHistory();
-        delete history[playerKey];
-        saveSeasonHistory(history);
-      }
-
       toast.success(isNewPlayer ? 'Player added successfully' : 'Player updated successfully');
       refreshData();
       onSave();
@@ -301,117 +225,66 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
     } catch (error) {
       console.error('Failed to save player:', error);
       toast.error('Failed to save player');
+    } finally {
+      setBusy(null);
     }
   };
 
   const handleDelete = async () => {
-    if (!player) return;
+    if (!player || busy) return;
+    setBusy('deleting');
 
     const playerKey = `${player.position}:${player.name}`;
 
     try {
       await deletePlayerEdit(playerKey);
 
-      // Also remove from season history
-      const history = loadSeasonHistory();
-      delete history[playerKey];
-      saveSeasonHistory(history);
-
-      toast.success('Player deleted');
+      toast.success('Player edits deleted');
+      setConfirmDelete(false);
       refreshData();
-      onSave();
+      (onDelete ?? onSave)();
       onClose();
     } catch (error) {
       console.error('Failed to delete player:', error);
       toast.error('Failed to delete player');
+    } finally {
+      setBusy(null);
     }
-  };
-
-  const addSeason = () => {
-    // Include current season if available, plus all historical seasons
-    const allSeasons = [...new Set([...availableSeasons, ...(currentSeason ? [currentSeason] : [])])];
-    const unusedSeasons = allSeasons.filter(
-      (s) => !seasonEdits.some((se) => se.season === s)
-    );
-    
-    // If no available seasons, allow manual entry starting from Y1
-    const nextSeason = unusedSeasons.length > 0 
-      ? unusedSeasons[0] 
-      : `Y${seasonEdits.length + 1}`;
-    
-    setSeasonEdits([...seasonEdits, { season: nextSeason, stats: {} }]);
-  };
-
-  const removeSeason = (index: number) => {
-    setSeasonEdits(seasonEdits.filter((_, i) => i !== index));
-  };
-
-  const updateSeasonStat = (index: number, stat: string, value: number) => {
-    setSeasonEdits(prev => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        stats: { ...updated[index].stats, [stat]: value }
-      };
-      return updated;
-    });
-  };
-
-  const updateSeasonName = (index: number, season: string) => {
-    setSeasonEdits(prev => {
-      const updated = [...prev];
-      updated[index] = { ...updated[index], season };
-      return updated;
-    });
   };
 
   const positionStatsFields = useMemo(() => getPositionStats(position), [position]);
-  const seasonStatsFields = useMemo(() => getSeasonStats(position), [position]);
 
-  // Get all possible seasons for dropdown (including manual entries)
-  const allPossibleSeasons = useMemo(() => {
-    const seasons = new Set([...availableSeasons]);
-    if (currentSeason) seasons.add(currentSeason);
-    // Add Y1 through Y50 as options
-    for (let i = 1; i <= 50; i++) {
-      seasons.add(`Y${i}`);
-    }
-    return Array.from(seasons).sort((a, b) => {
-      const aNum = parseInt(a.replace(/\D/g, '')) || 0;
-      const bNum = parseInt(b.replace(/\D/g, '')) || 0;
-      return aNum - bNum;
-    });
-  }, [availableSeasons, currentSeason]);
 
   return (
-    <Dialog open={!!player || isNewPlayer} onOpenChange={() => onClose()}>
-      <DialogContent 
-        className="max-w-4xl max-h-[90vh] p-0 overflow-hidden"
+    <Dialog open={!!player || isNewPlayer} onOpenChange={(open) => !open && !busy && onClose()}>
+      <DialogContent
+        className="flex max-h-[92vh] w-[calc(100vw-1rem)] max-w-4xl flex-col gap-0 overflow-hidden border-line bg-card p-0"
         onPointerDownOutside={(e) => e.preventDefault()}
+        aria-busy={!!busy}
       >
-        <DialogHeader className="p-6 pb-0">
-          <DialogTitle className="font-display text-2xl flex items-center gap-2">
-            <Pencil className="w-5 h-5 text-primary" />
+        <DialogHeader className="border-b border-line p-4 pr-12 text-left sm:p-6 sm:pr-12">
+          <p className="font-pixel text-[10px] uppercase text-gold">{isNewPlayer ? 'New player' : 'Player editor'}</p>
+          <DialogTitle className="font-display text-2xl sm:text-3xl font-extrabold uppercase flex items-center gap-2">
+            <Pencil className="w-5 h-5 text-gold shrink-0" aria-hidden="true" />
             {isNewPlayer ? 'Add New Player' : `Edit ${player?.name}`}
           </DialogTitle>
           <DialogDescription>
             {isNewPlayer
-              ? 'Add a new player with career statistics. Optionally add season history.'
-              : 'Update player details, statistics, and season history.'}
+              ? 'Add a new player with career statistics.'
+              : 'Update player details and career statistics.'}
           </DialogDescription>
         </DialogHeader>
 
-        <Tabs defaultValue="basic" className="w-full">
-          <TabsList className="w-full justify-start px-6 border-b rounded-none h-12 bg-transparent">
+        <Tabs defaultValue="basic" className="flex min-h-0 w-full flex-1 flex-col">
+          <TabsList className="h-12 w-full shrink-0 justify-start overflow-x-auto rounded-none border-b border-line bg-panel-2/60 px-2 sm:px-6 scrollbar-none">
             <TabsTrigger value="basic">Basic Info</TabsTrigger>
             <TabsTrigger value="stats">Career Stats</TabsTrigger>
             <TabsTrigger value="metrics">Metrics</TabsTrigger>
-            <TabsTrigger value="seasons">Season History</TabsTrigger>
           </TabsList>
 
-          <ScrollArea className="h-[55vh]">
-            <TabsContent value="basic" className="p-6 space-y-4 mt-0">
-              <div className="grid grid-cols-2 gap-4">
+          <ScrollArea className="h-[55vh] sm:h-[52vh]">
+            <TabsContent value="basic" className="p-4 sm:p-6 space-y-4 mt-0">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Player Name *</Label>
                   <Input
@@ -433,15 +306,15 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Position</Label>
+                  <Label htmlFor="position">Position</Label>
                   <Select
                     value={position}
                     onValueChange={(v) => setPosition(v as Position)}
                     disabled={!isNewPlayer && !!player}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger id="position">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -462,23 +335,11 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                     placeholder="Team name"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label>Status</Label>
-                  <div className="flex items-center gap-2 h-10">
-                    <Switch
-                      checked={status === 'Active'}
-                      onCheckedChange={(checked) =>
-                        setStatus(checked ? 'Active' : 'Retired')
-                      }
-                    />
-                    <span className="text-sm">{status}</span>
-                  </div>
-                </div>
               </div>
 
               <Separator />
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="games">Games Played</Label>
                   <Input
@@ -511,7 +372,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="opoy">OPOY/DPOY</Label>
                   <Input
@@ -543,13 +404,36 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
                   />
                 </div>
               </div>
+
+              <section
+                aria-labelledby="internal-heading"
+                className="rounded-md border border-dashed border-border p-3 space-y-2"
+              >
+                <h3 id="internal-heading" className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  Internal
+                </h3>
+                <div className="flex items-center gap-2">
+                  <Switch
+                    id="status"
+                    checked={status === 'Active'}
+                    onCheckedChange={(checked) => setStatus(checked ? 'Active' : 'Retired')}
+                    aria-describedby="status-help"
+                  />
+                  <Label htmlFor="status" className="text-sm cursor-pointer">
+                    Still playing
+                  </Label>
+                </div>
+                <p id="status-help" className="text-xs text-muted-foreground">
+                  Not shown on the site; used for pace tracking only.
+                </p>
+              </section>
             </TabsContent>
 
-            <TabsContent value="stats" className="p-6 space-y-4 mt-0">
+            <TabsContent value="stats" className="p-4 sm:p-6 space-y-4 mt-0">
               <p className="text-sm text-muted-foreground">
                 Enter the career totals for {position} statistics.
               </p>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {positionStatsFields.map((stat) => (
                   <div key={stat} className="space-y-2">
                     <Label htmlFor={stat}>{statLabels[stat] || stat}</Label>
@@ -570,178 +454,93 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave }: Play
               </div>
             </TabsContent>
 
-            <TabsContent value="metrics" className="p-6 space-y-4 mt-0">
+            <TabsContent value="metrics" className="p-4 sm:p-6 space-y-4 mt-0">
               <p className="text-sm text-muted-foreground">
-                Set the player's performance metrics. These affect rankings and tier display.
+                Enter the sheet's True Talent. Dominance, Career Legacy and TPG are calculated from it plus games and
+                awards, after the league's position adjustment
+                {positionFactor !== 1 && ` (×${positionFactor.toFixed(3)} for ${position})`}.
               </p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="trueTalent">True Talent</Label>
-                  <Input
-                    id="trueTalent"
-                    type="number"
-                    min="0"
-                    step="0.1"
-                    value={trueTalent}
-                    onChange={(e) => setTrueTalent(parseFloat(e.target.value) || 0)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="dominance">Dominance</Label>
-                  <Input
-                    id="dominance"
-                    type="number"
-                    min="0"
-                    step="0.1"
-                    value={dominance}
-                    onChange={(e) => setDominance(parseFloat(e.target.value) || 0)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="careerLegacy">Career Legacy</Label>
-                  <Input
-                    id="careerLegacy"
-                    type="number"
-                    min="0"
-                    step="0.1"
-                    value={careerLegacy}
-                    onChange={(e) => setCareerLegacy(parseFloat(e.target.value) || 0)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="tpg">TPG (Titles Per Game)</Label>
-                  <Input
-                    id="tpg"
-                    type="number"
-                    min="0"
-                    step="0.001"
-                    value={tpg}
-                    onChange={(e) => setTpg(parseFloat(e.target.value) || 0)}
-                  />
-                </div>
+              <div className="space-y-2 sm:max-w-xs">
+                <Label htmlFor="trueTalent">True Talent (sheet value)</Label>
+                <Input
+                  id="trueTalent"
+                  type="number"
+                  min="0"
+                  step="0.1"
+                  value={trueTalent}
+                  onChange={(e) => setTrueTalent(parseFloat(e.target.value) || 0)}
+                />
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  { label: 'Adjusted Talent', value: derived.trueTalent.toFixed(1) },
+                  { label: 'Dominance', value: derived.dominance.toFixed(1) },
+                  { label: 'Career Legacy', value: derived.careerLegacy.toFixed(0) },
+                  { label: 'TPG (Talent Per Game)', value: derived.tpg.toFixed(2) },
+                ].map((m) => (
+                  <div key={m.label} className="rounded-lg border border-line bg-night/60 px-3 py-2">
+                    <p className="font-pixel text-[9px] uppercase text-muted-foreground">{m.label}</p>
+                    <p className="font-display text-2xl font-bold tabular-nums text-gold">{m.value}</p>
+                  </div>
+                ))}
               </div>
             </TabsContent>
 
-            <TabsContent value="seasons" className="p-6 space-y-4 mt-0">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <p className="text-sm text-muted-foreground">
-                    Add season-by-season stats for this player.
-                  </p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className="flex items-center gap-1 text-xs text-muted-foreground cursor-help">
-                            <Info className="w-3 h-3" />
-                            <span>Each season represents that season's production only (not cumulative)</span>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent className="max-w-xs">
-                          <p>Enter the stats earned during that specific season. For example, if a QB threw 4000 yards in Y1 and 4500 in Y2, enter 4000 for Y1 and 4500 for Y2.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={addSeason}
-                  className="ml-4"
-                >
-                  <Plus className="w-4 h-4 mr-1" />
-                  Add Season
-                </Button>
-              </div>
-
-              {seasonEdits.length === 0 && (
-                <div className="text-center py-8 text-muted-foreground border border-dashed border-border/50 rounded-lg">
-                  <p>No seasons added yet.</p>
-                  <p className="text-xs mt-1">Click "Add Season" to start tracking season history.</p>
-                </div>
-              )}
-
-              {seasonEdits.map((se, index) => (
-                <div
-                  key={index}
-                  className="p-4 rounded-lg border border-border/50 bg-secondary/20 space-y-4"
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <Select
-                        value={se.season}
-                        onValueChange={(v) => updateSeasonName(index, v)}
-                      >
-                        <SelectTrigger className="w-24">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {allPossibleSeasons.map((s) => (
-                            <SelectItem key={s} value={s}>
-                              {s}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      
-                      <Badge variant="secondary" className="text-xs">
-                        Season Stats
-                      </Badge>
-                    </div>
-                    
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeSeason(index)}
-                      className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                    >
-                      <X className="w-4 h-4" />
-                    </Button>
-                  </div>
-
-                  <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-3">
-                    {seasonStatsFields.map((stat) => (
-                      <div key={stat} className="space-y-1">
-                        <Label className="text-xs text-muted-foreground">{statLabels[stat] || stat}</Label>
-                        <Input
-                          type="number"
-                          min="0"
-                          className="h-9 text-sm"
-                          value={se.stats[stat] ?? ''}
-                          placeholder="0"
-                          onChange={(e) =>
-                            updateSeasonStat(index, stat, parseInt(e.target.value) || 0)
-                          }
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </TabsContent>
           </ScrollArea>
         </Tabs>
 
-        <div className="flex items-center justify-between p-6 border-t border-border/30 bg-secondary/20">
-          {!isNewPlayer && player && (
-            <Button variant="destructive" size="sm" onClick={handleDelete}>
-              <Trash2 className="w-4 h-4 mr-1" />
-              Delete Player
+        <div className="flex shrink-0 flex-col-reverse gap-2 border-t border-line bg-panel-2/60 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+          {!isNewPlayer && player ? (
+            <Button variant="destructive" size="sm" onClick={() => setConfirmDelete(true)} disabled={!!busy}>
+              <Trash2 className="w-4 h-4 mr-1" aria-hidden="true" />
+              Delete edits
             </Button>
+          ) : (
+            <span />
           )}
-          <div className="flex-1" />
-          <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={onClose}>
+          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center">
+            <Button variant="outline" onClick={onClose} disabled={!!busy}>
               Cancel
             </Button>
-            <Button onClick={handleSave}>
-              <Save className="w-4 h-4 mr-1" />
-              {isNewPlayer ? 'Add Player' : 'Save Changes'}
+            <Button onClick={handleSave} disabled={!!busy}>
+              {busy === 'saving' ? (
+                <Loader2 className="w-4 h-4 mr-1 motion-safe:animate-spin" aria-hidden="true" />
+              ) : (
+                <Save className="w-4 h-4 mr-1" aria-hidden="true" />
+              )}
+              {busy === 'saving' ? 'Saving...' : isNewPlayer ? 'Add Player' : 'Save Changes'}
             </Button>
           </div>
         </div>
       </DialogContent>
+
+      <AlertDialog open={confirmDelete} onOpenChange={(open) => !busy && setConfirmDelete(open)}>
+        <AlertDialogContent className="w-[calc(100vw-1.5rem)] border-line bg-card">
+          <AlertDialogHeader className="text-left">
+            <AlertDialogTitle className="font-display text-2xl font-extrabold uppercase">
+              Delete edits for {player?.name}?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This removes your saved edits for this player. Players from your CSV go back to their sheet values; players you
+              added by hand are removed from the league. This can't be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={!!busy}>Keep player</AlertDialogCancel>
+            <AlertDialogAction
+              className={buttonVariants({ variant: 'destructive' })}
+              disabled={!!busy}
+              onClick={(e) => {
+                e.preventDefault();
+                void handleDelete();
+              }}
+            >
+              {busy === 'deleting' && <Loader2 className="w-4 h-4 mr-1 motion-safe:animate-spin" aria-hidden="true" />}
+              {busy === 'deleting' ? 'Deleting...' : 'Delete'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Dialog>
   );
 };

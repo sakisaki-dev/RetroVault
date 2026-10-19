@@ -1,141 +1,58 @@
-import { useState, useCallback } from 'react';
-import { Upload, FileSpreadsheet, Calendar } from 'lucide-react';
+import { useCallback } from 'react';
+import { FileSpreadsheet, Upload } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 
 interface FileUploadProps {
-  onFileLoad: (content: string, filename: string, seasonNumber?: number) => void;
+  onFileLoad: (content: string, filename: string) => void;
   label?: string;
-  askForSeason?: boolean;
 }
 
-const FileUpload = ({ onFileLoad, label = 'Upload CSV', askForSeason = false }: FileUploadProps) => {
-  const [pendingFile, setPendingFile] = useState<{ content: string; filename: string } | null>(null);
-  const [seasonNumber, setSeasonNumber] = useState<string>('');
-  const [showSeasonDialog, setShowSeasonDialog] = useState(false);
-
-  const processFile = useCallback((content: string, filename: string) => {
-    if (askForSeason) {
-      // Try to auto-detect season from filename
-      const match = filename.match(/y(\d+)/i);
-      if (match) {
-        setSeasonNumber(match[1]);
-      } else {
-        setSeasonNumber('');
-      }
-      setPendingFile({ content, filename });
-      setShowSeasonDialog(true);
-    } else {
-      onFileLoad(content, filename);
-    }
-  }, [askForSeason, onFileLoad]);
-
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
-    if (file) {
+/** CSV drop zone: drag and drop, click, or focus and press Enter/Space to pick a file. */
+const FileUpload = ({ onFileLoad, label = 'Upload CSV' }: FileUploadProps) => {
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const file = acceptedFiles[0];
+      if (!file) return;
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const content = e.target?.result as string;
-        processFile(content, file.name);
-      };
+      reader.onload = (e) => onFileLoad(e.target?.result as string, file.name);
+      reader.onerror = () => toast.error(`Couldn't read ${file.name}`);
       reader.readAsText(file);
-    }
-  }, [processFile]);
-
-  const handleConfirmSeason = () => {
-    if (pendingFile && seasonNumber) {
-      const num = parseInt(seasonNumber, 10);
-      onFileLoad(pendingFile.content, pendingFile.filename, num);
-      setShowSeasonDialog(false);
-      setPendingFile(null);
-      setSeasonNumber('');
-    }
-  };
+    },
+    [onFileLoad],
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: {
-      'text/csv': ['.csv'],
-    },
+    onDropRejected: () => toast.error('Please upload a single .csv file'),
+    accept: { 'text/csv': ['.csv'] },
     maxFiles: 1,
   });
 
   return (
-    <>
-      <div 
-        {...getRootProps()} 
-        className={`upload-zone cursor-pointer ${isDragActive ? 'dragging' : ''}`}
+    <div
+      {...getRootProps({ role: 'button', 'aria-label': `${label}: drag and drop a CSV file, or press Enter to choose one` })}
+      className={cn('upload-zone cursor-pointer bg-card/60 px-4 py-8 sm:p-10', isDragActive && 'dragging')}
+    >
+      <input {...getInputProps()} />
+      <span
+        aria-hidden="true"
+        className={cn(
+          'flex h-16 w-16 items-center justify-center rounded-full border-2 transition-colors',
+          isDragActive ? 'border-gold bg-gold/15 text-gold' : 'border-line bg-panel-2 text-muted-foreground',
+        )}
       >
-        <input {...getInputProps()} />
-        <div className="relative">
-          {isDragActive ? (
-            <FileSpreadsheet className="w-12 h-12 text-primary animate-pulse" />
-          ) : (
-            <Upload className="w-12 h-12 text-muted-foreground" />
-          )}
-        </div>
-        <div className="text-center">
-          <p className="text-foreground font-medium">{label}</p>
-          <p className="text-sm text-muted-foreground mt-1">
-            {isDragActive ? 'Drop the file here...' : 'Drag & drop or click to select'}
-          </p>
-        </div>
+        {isDragActive ? <FileSpreadsheet className="h-8 w-8 motion-safe:animate-pulse" /> : <Upload className="h-8 w-8" />}
+      </span>
+      <div className="text-center">
+        <p className="font-display text-xl font-bold uppercase tracking-wide text-foreground">{label}</p>
+        <p className="mt-1 text-sm text-muted-foreground" aria-live="polite">
+          {isDragActive ? 'Drop the file to load it' : 'Drag & drop, or click to choose a .csv file'}
+        </p>
+        <span className="lamp mt-3">Format <b>CSV</b></span>
       </div>
-
-      <Dialog open={showSeasonDialog} onOpenChange={setShowSeasonDialog}>
-        <DialogContent className="glass-card border-border/50">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 font-display text-xl">
-              <Calendar className="w-5 h-5 text-accent" />
-              What season is this?
-            </DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            <Label htmlFor="season-number" className="text-sm text-muted-foreground">
-              Enter the season number (e.g., 31 for Year 31)
-            </Label>
-            <div className="flex items-center gap-2 mt-2">
-              <span className="text-lg text-muted-foreground">Y</span>
-              <Input
-                id="season-number"
-                type="number"
-                min="1"
-                value={seasonNumber}
-                onChange={(e) => setSeasonNumber(e.target.value)}
-                placeholder="31"
-                className="w-24 text-lg font-mono"
-                autoFocus
-              />
-            </div>
-            {pendingFile && (
-              <p className="text-xs text-muted-foreground mt-3">
-                File: {pendingFile.filename}
-              </p>
-            )}
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowSeasonDialog(false)}>
-              Cancel
-            </Button>
-            <Button 
-              onClick={handleConfirmSeason}
-              disabled={!seasonNumber || parseInt(seasonNumber, 10) <= 0}
-            >
-              Confirm Season Y{seasonNumber || '?'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </>
+    </div>
   );
 };
 

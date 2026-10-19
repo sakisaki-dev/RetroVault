@@ -63,38 +63,127 @@ export const NFL_TEAMS: NFLTeam[] = [
   { id: 'rams', name: 'Rams', city: 'Los Angeles', fullName: 'Los Angeles Rams', abbreviation: 'LAR', conference: 'NFC', division: 'West', primaryColor: '217 100% 35%', secondaryColor: '45 100% 50%', logoUrl: 'https://a.espncdn.com/i/teamlogos/nfl/500/lar.png' },
 ];
 
-/**
- * Find an NFL team by matching the team name string from player data
- */
-export const findNFLTeam = (teamName?: string): NFLTeam | null => {
-  if (!teamName) return null;
-  
-  const normalized = teamName.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
-  
-  // Direct match
-  const directMatch = NFL_TEAMS.find(t => 
-    t.id === normalized || 
-    t.name.toLowerCase() === normalized ||
-    t.abbreviation.toLowerCase() === normalized
-  );
-  if (directMatch) return directMatch;
-  
-  // Special cases
-  if (normalized === '49ers' || normalized.includes('niners') || normalized.includes('sanfrancisco')) {
-    return NFL_TEAMS.find(t => t.id === '49ers') || null;
-  }
-  
-  // Partial match
-  for (const team of NFL_TEAMS) {
-    if (normalized.includes(team.id) || 
-        normalized.includes(team.name.toLowerCase()) ||
-        team.fullName.toLowerCase().replace(/[^a-z0-9]/g, '').includes(normalized)) {
-      return team;
-    }
-  }
-  
-  return null;
+const normalize = (s: string) => s.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
+
+/** Common alternate spellings, old names and short forms. Keys are normalized. */
+const TEAM_ALIASES: Record<string, string> = {
+  niners: '49ers',
+  sf49ers: '49ers',
+  bucs: 'buccaneers',
+  tampabaybucs: 'buccaneers',
+  pats: 'patriots',
+  wsh: 'commanders',
+  was: 'commanders',
+  washingtonfootballteam: 'commanders',
+  footballteam: 'commanders',
+  redskins: 'commanders',
+  washingtonredskins: 'commanders',
+  jac: 'jaguars',
+  jags: 'jaguars',
+  lvr: 'raiders',
+  oak: 'raiders',
+  oaklandraiders: 'raiders',
+  sd: 'chargers',
+  sdg: 'chargers',
+  sandiegochargers: 'chargers',
+  la: 'rams',
+  stl: 'rams',
+  stlouisrams: 'rams',
+  gnb: 'packers',
+  kan: 'chiefs',
+  nwe: 'patriots',
+  nor: 'saints',
+  tam: 'buccaneers',
+  sfo: '49ers',
+  phx: 'cardinals',
+  houstonoilers: 'titans',
+  oilers: 'titans',
+  tennesseeoilers: 'titans',
+  baltimorecolts: 'colts',
 };
+
+// Exact-match index: id, nickname, abbreviation, full name, city + nickname, and aliases.
+const EXACT_INDEX: Map<string, NFLTeam> = (() => {
+  const map = new Map<string, NFLTeam>();
+  const put = (key: string, team: NFLTeam) => {
+    if (key && !map.has(key)) map.set(key, team);
+  };
+  NFL_TEAMS.forEach((t) => {
+    put(t.id, t);
+    put(normalize(t.name), t);
+    put(normalize(t.abbreviation), t);
+    put(normalize(t.fullName), t);
+  });
+  // Cities only when unambiguous (New York and Los Angeles have two teams).
+  const cityCounts = new Map<string, number>();
+  NFL_TEAMS.forEach((t) => cityCounts.set(normalize(t.city), (cityCounts.get(normalize(t.city)) ?? 0) + 1));
+  NFL_TEAMS.forEach((t) => {
+    if (cityCounts.get(normalize(t.city)) === 1) put(normalize(t.city), t);
+  });
+  Object.entries(TEAM_ALIASES).forEach(([alias, id]) => {
+    const team = NFL_TEAMS.find((t) => t.id === id);
+    if (team) put(alias, team);
+  });
+  return map;
+})();
+
+const lookupCache = new Map<string, NFLTeam | null>();
+
+/**
+ * Find an NFL team from a free-form team string (sheet value, user edit, etc.).
+ *
+ * Matching order, first hit wins:
+ *  1. Exact match on abbreviation ("CHI", "PHI"), nickname ("Chiefs"), full name, unique city, or alias.
+ *  2. Whole-word nickname match ("KC Chiefs", "Buccaneers (2)").
+ *  3. A single unambiguous team whose full name starts with / contains the input (min 4 chars).
+ *
+ * Short strings are never substring-matched, so "CHI" can no longer resolve to the Chiefs
+ * and "PHI" can no longer resolve to the Dolphins.
+ */
+export const findNFLTeam = (teamName?: string | null): NFLTeam | null => {
+  if (!teamName) return null;
+  const normalized = normalize(teamName);
+  if (!normalized) return null;
+
+  const cached = lookupCache.get(normalized);
+  if (cached !== undefined) return cached;
+
+  const resolve = (): NFLTeam | null => {
+    const exact = EXACT_INDEX.get(normalized);
+    if (exact) return exact;
+
+    // Whole-word nickname / alias match
+    const words = teamName.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+    for (const word of words) {
+      const team = NFL_TEAMS.find((t) => normalize(t.name) === word) ?? null;
+      if (team) return team;
+    }
+    for (const word of words) {
+      if (word.length < 3) continue;
+      const aliasId = TEAM_ALIASES[word];
+      if (aliasId) return NFL_TEAMS.find((t) => t.id === aliasId) ?? null;
+    }
+
+    // Unambiguous prefix/containment against full name (e.g. "Kansas City", "Tampa")
+    if (normalized.length >= 4) {
+      const candidates = NFL_TEAMS.filter((t) => {
+        const full = normalize(t.fullName);
+        return full.startsWith(normalized) || full.includes(normalized);
+      });
+      if (candidates.length === 1) return candidates[0];
+    }
+
+    return null;
+  };
+
+  const result = resolve();
+  lookupCache.set(normalized, result);
+  return result;
+};
+
+/** Look up a team by its stable id (e.g. "49ers", "chiefs"). */
+export const getNFLTeamById = (id?: string | null): NFLTeam | null =>
+  (id && NFL_TEAMS.find((t) => t.id === id)) || null;
 
 /**
  * Get all unique teams from player data

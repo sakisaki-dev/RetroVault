@@ -2,47 +2,67 @@ import { useState } from 'react';
 import { Check, ChevronsUpDown, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { getTeamColors } from '@/utils/teamColors';
-import type { Player, Position } from '@/types/player';
+import { findNFLTeam } from '@/utils/nflTeams';
+import type { Player } from '@/types/player';
+import PositionBadge from './PositionBadge';
+import TeamLogo from './brand/TeamLogo';
+import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 
 interface PlayerSearchSelectProps {
   players: Player[];
+  /** Selected player key: `${position}:${name}` */
   value: string;
   onValueChange: (value: string) => void;
   placeholder?: string;
+  /** Accessible name for the trigger when the visible placeholder is not descriptive enough */
+  ariaLabel?: string;
 }
 
-const getPositionColor = (position: Position): string => {
-  switch (position) {
-    case 'QB': return 'text-red-400';
-    case 'RB': return 'text-emerald-400';
-    case 'WR': return 'text-blue-400';
-    case 'TE': return 'text-purple-400';
-    case 'OL': return 'text-amber-400';
-    case 'LB': return 'text-orange-400';
-    case 'DB': return 'text-cyan-400';
-    case 'DL': return 'text-pink-400';
-    default: return 'text-muted-foreground';
-  }
+const playerKey = (p: Pick<Player, 'position' | 'name'>) => `${p.position}:${p.name}`;
+
+const fold = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’']/g, '');
+
+/** Word-based match instead of cmdk's fuzzy scoring (which matched "Ian F" to anyone on SF).
+ * Every typed word must start a word of the entry; name prefixes rank highest. */
+const matchPlayer = (value: string, search: string, keywords?: string[]) => {
+  const q = fold(search).trim();
+  if (!q) return 1;
+  const name = fold(keywords?.[0] ?? value);
+  const tokens = fold(value).split(/[\s.:"()-]+/).filter(Boolean);
+  const words = q.split(/\s+/);
+  // Each typed word must start some word of the player's name, nickname, position or team.
+  if (!words.every((w) => tokens.some((t) => t.startsWith(w)))) return 0;
+  if (name.startsWith(q)) return 1;
+  if (name.split(/\s+/).some((part) => part.startsWith(words[0]))) return 0.8;
+  return 0.4;
 };
 
-const PlayerSearchSelect = ({ players, value, onValueChange, placeholder = "Search players..." }: PlayerSearchSelectProps) => {
-  const [open, setOpen] = useState(false);
+const TeamTag = ({ team }: { team?: string }) => {
+  if (!team) return <span className="text-xs italic text-muted-foreground">No team</span>;
+  const nfl = findNFLTeam(team);
+  return (
+    <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+      <TeamLogo team={team} size={18} decorative />
+      <span className="hidden sm:inline">{nfl?.abbreviation ?? team}</span>
+    </span>
+  );
+};
 
-  const selectedPlayer = value ? players.find(p => `${p.position}:${p.name}` === value) : null;
+/** Searchable player combobox (name, nickname, position or team), with team logos. */
+const PlayerSearchSelect = ({
+  players,
+  value,
+  onValueChange,
+  placeholder = 'Search players...',
+  ariaLabel,
+}: PlayerSearchSelectProps) => {
+  const [open, setOpen] = useState(false);
+  const extras = usePlayerExtras();
+
+  const selectedPlayer = value ? players.find((p) => playerKey(p) === value) ?? null : null;
   const teamColors = selectedPlayer ? getTeamColors(selectedPlayer.team) : null;
 
   return (
@@ -52,87 +72,80 @@ const PlayerSearchSelect = ({ players, value, onValueChange, placeholder = "Sear
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between h-11 bg-background/50 hover:bg-background/70 border-border/50"
-          style={teamColors ? {
-            borderColor: `hsl(${teamColors.primary} / 0.4)`,
-            background: `linear-gradient(90deg, hsl(${teamColors.primary} / 0.1), transparent)`
-          } : undefined}
+          aria-label={ariaLabel ? `${ariaLabel}${selectedPlayer ? `: ${selectedPlayer.name}` : ''}` : undefined}
+          className="h-12 w-full justify-between gap-2 border-line bg-night/60 px-3 hover:bg-panel-2"
+          style={
+            teamColors
+              ? {
+                  boxShadow: `inset 3px 0 0 hsl(${teamColors.primary})`,
+                  background: `linear-gradient(90deg, hsl(${teamColors.primary} / 0.18), transparent 70%)`,
+                }
+              : undefined
+          }
         >
           {selectedPlayer ? (
-            <div className="flex items-center gap-2">
-              <span className={cn("text-xs font-bold", getPositionColor(selectedPlayer.position))}>
-                {selectedPlayer.position}
-              </span>
-              <span className="font-medium">{selectedPlayer.name}</span>
-              {selectedPlayer.team ? (
-                <span 
-                  className="text-xs"
-                  style={teamColors ? { color: `hsl(${teamColors.primary})` } : undefined}
-                >
-                  {selectedPlayer.team}
-                </span>
-              ) : (
-                <span className="text-xs text-muted-foreground italic">Retired</span>
-              )}
-            </div>
+            <span className="flex min-w-0 items-center gap-2">
+              <PositionBadge position={selectedPlayer.position} />
+              <span className="truncate font-semibold text-foreground">{selectedPlayer.name}</span>
+              <TeamTag team={selectedPlayer.team} />
+            </span>
           ) : (
-            <span className="text-muted-foreground flex items-center gap-2">
-              <Search className="w-4 h-4" />
+            <span className="flex items-center gap-2 text-muted-foreground">
+              <Search className="h-4 w-4" aria-hidden="true" />
               {placeholder}
             </span>
           )}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" aria-hidden="true" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[400px] p-0 bg-background border border-border/50 shadow-2xl z-50" align="start">
-        <Command className="bg-background">
-          <CommandInput placeholder="Type to search..." className="h-10 border-b border-border/30" />
-          <CommandList className="max-h-72">
+      {/* Fixed list height + above the sticky header (z-50): the popover no longer flips or hides while typing. */}
+      <PopoverContent
+        className="z-[70] w-[min(420px,calc(100vw-2rem))] border-line bg-popover p-0 shadow-elevated"
+        align="start"
+        side="bottom"
+        sideOffset={6}
+        collisionPadding={12}
+      >
+        <Command className="bg-popover" filter={matchPlayer}>
+          <CommandInput placeholder="Name, nickname, position or team..." className="h-11" />
+          <CommandList className="h-72 max-h-[50vh] overscroll-contain">
             <CommandEmpty>No player found.</CommandEmpty>
             <CommandGroup>
               {players.map((player) => {
-                const playerKey = `${player.position}:${player.name}`;
-                const playerTeamColors = getTeamColors(player.team);
-                const isSelected = value === playerKey;
-                
+                const key = playerKey(player);
+                const colors = getTeamColors(player.team);
+                const isSelected = value === key;
                 return (
                   <CommandItem
-                    key={playerKey}
-                    value={`${player.name} ${player.position} ${player.team || 'retired'}`}
+                    key={key}
+                    keywords={[player.name]}
+                    value={`${player.name} ${player.nickname ?? ''} ${extras.formerNames[normalizeName(player.name)] ?? ''} ${player.position} ${player.team || 'no team'} ${key}`}
                     onSelect={() => {
-                      onValueChange(playerKey === value ? '' : playerKey);
+                      onValueChange(isSelected ? '' : key);
                       setOpen(false);
                     }}
                     className={cn(
-                      "flex items-center gap-3 cursor-pointer py-2.5 px-3 mx-1 my-0.5 rounded-lg transition-all",
-                      isSelected ? "bg-secondary/80" : "hover:bg-secondary/40"
+                      'mx-1 my-0.5 flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-foreground',
+                      // Readable highlight: dark panel + gold edge instead of the green accent fill
+                      'data-[selected=true]:bg-panel-2 data-[selected=true]:text-foreground data-[selected=true]:ring-1 data-[selected=true]:ring-gold/70',
+                      isSelected && 'bg-panel',
                     )}
-                    style={playerTeamColors ? {
-                      borderLeft: `3px solid hsl(${playerTeamColors.primary} / 0.6)`
-                    } : {
-                      borderLeft: '3px solid hsl(var(--muted-foreground) / 0.3)'
-                    }}
+                    style={{ boxShadow: `inset 3px 0 0 ${colors ? `hsl(${colors.primary})` : 'hsl(var(--line))'}` }}
                   >
                     <Check
-                      className={cn(
-                        "h-4 w-4 shrink-0",
-                        isSelected ? "opacity-100 text-primary" : "opacity-0"
-                      )}
+                      className={cn('h-4 w-4 shrink-0 text-gold', isSelected ? 'opacity-100' : 'opacity-0')}
+                      aria-hidden="true"
                     />
-                    <span className={cn("text-xs font-bold w-6", getPositionColor(player.position))}>
-                      {player.position}
-                    </span>
-                    <span className="font-medium flex-1 truncate">{player.name}</span>
-                    {player.team ? (
-                      <span 
-                        className="text-xs font-medium"
-                        style={playerTeamColors ? { color: `hsl(${playerTeamColors.primary})` } : undefined}
-                      >
-                        {player.team}
+                    <PositionBadge position={player.position} className="min-w-[2.25rem]" />
+                    <span className="flex min-w-0 flex-1 flex-col">
+                      <span className="flex min-w-0 items-center gap-1.5">
+                        <span className="truncate font-medium">{player.name}</span>
                       </span>
-                    ) : (
-                      <span className="text-xs text-muted-foreground italic">Retired</span>
-                    )}
+                      {player.nickname && (
+                        <span className="truncate text-[11px] italic text-muted-foreground">"{player.nickname}"</span>
+                      )}
+                    </span>
+                    <TeamTag team={player.team} />
                   </CommandItem>
                 );
               })}

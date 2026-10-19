@@ -1,0 +1,317 @@
+#!/usr/bin/env python3
+"""Build public/data/league/content.json (editorial league content) from data/y80.
+
+Run from the repo root:  python3 -I scripts/build_league_content.py
+
+The output is the *bundled default* editorial content. Everything subjective
+(storylines, rivalries, lineages, snubs) lives in this JSON so it can be
+replaced wholesale by a newer AI-written content.json uploaded in the app
+(Commentary tab -> "Update coverage"). The format is documented in
+src/utils/leagueContent.ts.
+
+Text is copied from data/y80/league-history.md as-is, with one exception:
+single-season stat records are stripped (the app no longer tracks them), via
+the explicit EDITS list below. Each edit must match exactly once, so a changed
+source file fails loudly instead of silently drifting.
+"""
+import json
+import os
+import re
+import sys
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+SRC = os.path.join(ROOT, "data", "y80")
+OUT = os.path.join(ROOT, "public", "data", "league", "content.json")
+
+SEASON = "Y80"
+
+# (old, new) replacements applied to league-history.md to drop single-season records.
+EDITS = [
+    (
+        " Baylon's 7,452-yd season (Y33) is the passing season record, and his 3.55 TPG is the best of any QB.",
+        " His 3.55 TPG is the best of any QB.",
+    ),
+    (
+        "He set the 32-TD season (Y38), 5-TD game (Y40), 2,104-yd season (Y42, 1 yard short of Dickerson's real record) and career rushing marks.",
+        "He set the 5-TD game (Y40) and career rushing marks.",
+    ),
+    ("Set the 9-TD game and 94-TD season (Y55).", "Set the 9-TD game."),
+    # User-confirmed: Avonte Gooden was the QB for the Commanders run.
+    (
+        "Four straight titles. Alexx Sanchez's 4 rings fit as the QB, but Jayden Daniels and Avonte Gooden are also listed as Commanders, so this is unconfirmed.",
+        "Four straight titles with Avonte Gooden at quarterback.",
+    ),
+    ("Lamar → Sanchez (likely) → Waller", "Lamar → Gooden → Waller"),
+    ("- Who played QB for the Commanders run (Sanchez or Daniels)?\n", ""),
+]
+
+# User-confirmed player storyline tags (override players.json `tag`).
+PLAYER_TAG_FIXES = {"Avonte Gooden": "QB of the Commanders four-peat (Y16–19)"}
+
+# User-confirmed corrections to eras.json, keyed by era name.
+ERA_FIXES = {
+    "Commanders run": {
+        "key_players": ["Avonte Gooden", "Ian Finney", "Brennan Higgins"],
+        "notes": "Four straight titles with Avonte Gooden at quarterback.",
+    },
+}
+
+
+def load(name):
+    with open(os.path.join(SRC, name), encoding="utf-8") as f:
+        return json.load(f) if name.endswith(".json") else f.read()
+
+
+def slug(s):
+    return re.sub(r"[^a-z0-9]+", "-", s.lower().replace("’", "").replace("'", "")).strip("-")
+
+
+def parse_years(years):
+    """'Y1–15' -> (1, 15)."""
+    m = re.match(r"Y(\d+)\s*[–-]\s*Y?(\d+)", years)
+    if not m:
+        raise ValueError(f"Unparseable era years: {years!r}")
+    return int(m.group(1)), int(m.group(2))
+
+
+def split_sections(md, level):
+    """Split markdown into {heading: body} for headings of exactly `level` #'s."""
+    prefix = "#" * level + " "
+    out, cur, buf = {}, None, []
+    for line in md.splitlines():
+        if line.startswith(prefix):
+            if cur is not None:
+                out[cur] = "\n".join(buf).strip()
+            cur, buf = line[len(prefix):].strip(), []
+        elif cur is not None:
+            if re.match(r"^#{1,%d} " % level, line):  # higher-level heading ends the section
+                out[cur] = "\n".join(buf).strip()
+                cur, buf = None, []
+            else:
+                buf.append(line)
+    if cur is not None:
+        out[cur] = "\n".join(buf).strip()
+    return out
+
+
+def bullets(body):
+    return [l[2:].strip() for l in body.splitlines() if l.startswith("- ")]
+
+
+def table_rows(body):
+    rows = [l for l in body.splitlines() if l.startswith("|")]
+    parsed = [[c.strip() for c in r.strip("|").split("|")] for r in rows]
+    return parsed[2:] if len(parsed) > 2 else []  # skip header + separator
+
+
+def first_sentence(text):
+    plain = re.sub(r"\*\*|__|\*", "", text).strip()
+    plain = re.sub(r"^[-|]\s*", "", plain.split("\n")[0])
+    m = re.match(r"(.+?[.!?])(\s|$)", plain)
+    return (m.group(1) if m else plain).strip()
+
+
+# Surnames too generic to match on their own in prose.
+SURNAME_STOPLIST = {"Hall", "John", "Junior", "Wood", "Square", "Candy", "Fox", "Baker", "Rice", "Daniel", "Lamb",
+                    "Chase", "Jackson", "Queen", "Taylor", "Wilson", "Kline", "Hunter", "Ankou", "Irving", "Rankin"}
+
+
+def main():
+    eras_src = [{**e, **ERA_FIXES.get(e["name"], {})} for e in load("eras.json")]
+    sbs_src = load("super_bowls.json")
+    players_src = load("players.json")
+    md = load("league-history.md")
+
+    for old, new in EDITS:
+        if md.count(old) != 1:
+            sys.exit(f"Edit did not match exactly once: {old[:60]!r}")
+        md = md.replace(old, new)
+
+    known_names = sorted({p["n"] for p in players_src}, key=len, reverse=True)
+
+    surname_counts = {}
+    for n in known_names:
+        last = n.split()[-1]
+        surname_counts[last] = surname_counts.get(last, 0) + 1
+
+    def mentioned(text):
+        """Known player names referenced in text: full names first, then unambiguous surnames."""
+        found = []
+        for n in known_names:
+            if n in text and not any(n in f for f in found):
+                found.append(n)
+        for n in known_names:
+            last = n.split()[-1]
+            if n in found or surname_counts[last] > 1 or last in SURNAME_STOPLIST:
+                continue
+            if re.search(r"\b%s\b" % re.escape(last), text):
+                found.append(n)
+        return found
+
+    # ---- Super Bowls -------------------------------------------------------
+    super_bowls = []
+    for sb in sbs_src:
+        super_bowls.append({
+            "number": sb["number"],
+            "roman": sb["roman"],
+            "year": int(sb["year"].lstrip("Y")),
+            "winner": sb["winner"],
+            "loser": sb["loser"],
+            "score": sb["score"],
+            "yourResult": sb["your_result"],
+            "yourTeam": sb["your_team"],
+        })
+
+    # ---- Eras --------------------------------------------------------------
+    h2 = split_sections(md, 2)
+    era_md = split_sections(h2["Eras"], 3)
+    era_sections = {}
+    for heading, body in era_md.items():
+        m = re.match(r"\d+\.\s*(.+?)\s*\(", heading)
+        if m:
+            era_sections[m.group(1).strip()] = body
+
+    eras = []
+    for e in eras_src:
+        start, end = parse_years(e["years"])
+        history = era_sections.get(e["name"], "")
+        eras.append({
+            "id": slug(e["name"]),
+            "name": e["name"],
+            "startYear": start,
+            "endYear": end,
+            "superBowlRange": e["super_bowls"],
+            "yourTeams": e["your_teams"],
+            "keyPlayers": e["key_players"],
+            "rival": e.get("rival"),
+            "notes": e["notes"],
+            "history": history,
+        })
+
+    # ---- Storylines --------------------------------------------------------
+    storylines = []
+
+    def add(**kw):
+        kw.setdefault("players", mentioned(kw["body"]))
+        kw.setdefault("summary", first_sentence(kw["body"]))
+        storylines.append({k: v for k, v in kw.items() if v is not None})
+
+    record = h2["Your record"]
+    record_bullets = record.split("\n\n")[0]
+    add(id="your-record", headline="54–6 IN THE BIG GAME",
+        subheadline="Sixty Super Bowl appearances, Y1 through Y79",
+        body=record_bullets, tier="breaking", category="Dynasty Ledger")
+
+    era_tiers = ["analysis", "milestone", "analysis", "milestone", "controversy", "analysis", "milestone", "analysis"]
+    for i, era in enumerate(eras):
+        body = era["history"]
+        rival_para = None
+        paras = body.split("\n\n")
+        kept = []
+        for p in paras:
+            if p.startswith("**The rival:**"):
+                rival_para = p
+            else:
+                kept.append(p)
+        body = "\n\n".join(kept)
+        era["history"] = body
+        era["_rival_para"] = rival_para
+        add(id=f"era-{era['id']}", headline=era["name"].upper(),
+            subheadline=f"Y{era['startYear']}–{era['endYear']} · Super Bowls {era['superBowlRange']} · {', '.join(era['yourTeams'])}",
+            body=body, tier=era_tiers[i % len(era_tiers)], category="Era Report", era=era["name"])
+
+    # Rivalries
+    rivalries = []
+    for era in eras:
+        para = era.pop("_rival_para")
+        if not para:
+            continue
+        text = para.replace("**The rival:** ", "")
+        meetings = [
+            {"roman": sb["roman"], "year": sb["year"], "score": sb["score"], "result": sb["yourResult"],
+             "yourTeam": sb["yourTeam"], "opponent": sb["winner"] if sb["yourResult"] == "lost" else sb["loser"]}
+            for sb in super_bowls
+            if era["startYear"] <= sb["year"] <= era["endYear"] and sb["yourResult"] == "lost"
+        ]
+        rivalries.append({
+            "id": f"rival-{era['id']}",
+            "rival": "Kyric McQuay" if "McQuay" in text else mentioned(text)[0],
+            "team": meetings[0]["opponent"] if meetings else None,
+            "era": era["name"],
+            "summary": text,
+            "meetings": meetings,
+        })
+        add(id=f"rivalry-{era['id']}", headline="THE ONE WHO GOT AWAY",
+            subheadline=era["rival"], body=text, tier="hot-take", category="Rivalry", era=era["name"])
+
+    # Lineages
+    lineages = []
+    for b in bullets(h2["Lineages"]):
+        m = re.match(r"\*\*(.+?):\*\*\s*(.+)", b)
+        label, rest = m.group(1), m.group(2)
+        chain_part, _, note = rest.partition(". ")
+        chain = [c.strip().rstrip(".") for c in chain_part.split("→")]
+        lineages.append({"id": slug(label), "label": label, "chain": chain, "note": note.strip() or None})
+    add(id="lineages", headline="PASSING THE TORCH", subheadline="Quarterback and receiver lineages across 80 seasons",
+        body=h2["Lineages"], tier="analysis", category="Lineage")
+
+    # Snubs
+    snubs = []
+    for b in bullets(h2["Snubs"]):
+        m = re.match(r"\*\*(.+?)\*\*:?\s*(.+)", b)
+        title = m.group(1).rstrip(":") if m else None
+        snubs.append({"id": slug(title or b[:30]), "title": title, "summary": b, "players": mentioned(b)})
+    add(id="snubs", headline="ZERO MVPS, EVERY RECORD", subheadline="The league's biggest snubs",
+        body=h2["Snubs"], tier="controversy", category="Snub Watch")
+
+    # Outsiders
+    outsiders = [
+        {"player": r[0], "position": r[1].split(",")[0].strip(), "team": r[1].split(",")[1].strip() if "," in r[1] else None, "summary": r[2]}
+        for r in table_rows(h2["Best players who never played for you"])
+    ]
+    add(id="outsiders", headline="THE ONES THAT GOT AWAY", subheadline="Best players who never played for you",
+        body=h2["Best players who never played for you"], tier="hot-take", category="Outside the Dynasty",
+        summary="Amani Bryant, Nico Curl, Jayon Queen and the stars who never wore your colors.")
+
+    add(id="metrics", headline="THE RING TAX", subheadline="What your spreadsheet metrics get wrong",
+        body=h2["Your spreadsheet metrics"], tier="controversy", category="Analytics")
+    add(id="composites", headline="BUILD THE PERFECT PLAYER", subheadline="Composite greats at every position",
+        body=h2['Composite "perfect" players'], tier="power-ranking", category="Fantasy Draft")
+
+    open_questions = bullets(h2["Open questions"])
+    add(id="open-questions", headline="UNSOLVED MYSTERIES", subheadline="What the archives can't confirm",
+        body=h2["Open questions"], tier="analysis", category="Open Questions")
+
+    # Player storyline tags (era + tag) from players.json
+    player_notes = [
+        {k: v for k, v in {"name": p["n"], "team": p.get("team"), "position": p.get("pos"), "nickname": p.get("nick"),
+                           "era": p.get("era"), "tag": PLAYER_TAG_FIXES.get(p["n"], p.get("tag"))}.items() if v}
+        for p in players_src if p.get("tag") or p.get("era") or p["n"] in PLAYER_TAG_FIXES
+    ]
+
+    content = {
+        "version": 1,
+        "season": SEASON,
+        "title": "Y80 League History",
+        "source": "data/y80 (eras.json, super_bowls.json, league-history.md, players.json)",
+        "eras": eras,
+        "superBowls": super_bowls,
+        "storylines": storylines,
+        "rivalries": rivalries,
+        "lineages": lineages,
+        "snubs": snubs,
+        "outsiders": outsiders,
+        "openQuestions": open_questions,
+        "playerNotes": player_notes,
+    }
+
+    os.makedirs(os.path.dirname(OUT), exist_ok=True)
+    with open(OUT, "w", encoding="utf-8") as f:
+        json.dump(content, f, ensure_ascii=False, indent=1)
+        f.write("\n")
+    print(f"Wrote {os.path.relpath(OUT, ROOT)}: {len(eras)} eras, {len(super_bowls)} Super Bowls, "
+          f"{len(storylines)} storylines, {len(rivalries)} rivalries, {len(lineages)} lineages, {len(snubs)} snubs")
+
+
+if __name__ == "__main__":
+    main()

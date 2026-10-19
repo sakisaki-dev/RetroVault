@@ -1,0 +1,121 @@
+# Y80 Legends Arcade + league data
+
+Everything from the Y80 Retro Bowl save analysis, packaged for a larger stats site.
+
+## Contents
+
+```
+y80-legends/
+├── README.md                     this file
+├── analysis/league-history.md    eras, storylines, rivalries, metric review, dark horses
+├── formula/
+│   ├── OVR.md                    the OVR formula, step by step
+│   └── ovr.py                    reference code; recomputes every score and ovr in players.json
+├── data/
+│   ├── players.json              147 players in the games (102 from your save, 27 retired NFL legends, 18 current NFL players) plus 7 short-career sheet players kept for reference, merged screenshot + spreadsheet data, with score/ovr/era/tag
+│   ├── players.csv               same, flat, for spreadsheets or DB import
+│   ├── teams.json                32 teams: abbr, name, colors, conference, division, city, stadium
+│   ├── super_bowls.json          Super Bowls LX–CXXXVIII (Y1–Y79) with your result for each
+│   ├── records.json              all 46 in-game Player Records (passing, rushing, receiving, kicking, defense, returns)
+│   ├── screenshot_extras.json    season lines, real-NFL splits, Sawyer's card details, name changes, family ties
+│   ├── eras.json                 the eight eras with teams, key players, notes
+│   └── spreadsheet_parsed.json   every row of your "Retro Bowl V1.0" sheet, all columns incl. age, status, True Talent, Dominance, Career Legacy, TPG
+├── src/                          modular game, ready to drop into a site
+│   ├── index.html
+│   ├── css/arcade.css
+│   ├── js/arcade.js
+│   └── data/y80-data.js          window.Y80_DATA = { players, teams }
+└── dist/arcade-standalone.html   single-file build; open directly in a browser
+```
+
+## Running the game
+
+- **Quick look:** open `dist/arcade-standalone.html`.
+- **Modular:** open `src/index.html`, or serve `src/` from any static host. It uses plain `<script>` tags, so it also works from `file://`.
+
+## Porting into a larger site
+
+`arcade.js` is a self-contained IIFE. It needs:
+
+1. `window.Y80_DATA = { players: [...], teams: {...} }` defined before it loads. To load from your API instead, replace `src/data/y80-data.js` with something like:
+   ```js
+   const [players, teams] = await Promise.all([fetch('/api/players').then(r=>r.json()), fetch('/api/teams').then(r=>r.json())]);
+   window.Y80_DATA = { players, teams };
+   // then inject js/arcade.js
+   ```
+2. These elements in the page: `#app` (the game mounts here), `#boardStat` (status lamp in the header), `canvas#confetti`. The header markup in `index.html` is optional decoration.
+3. `css/arcade.css`. All colors are CSS variables on `:root`; change them there to match your site. Class names are generic (`.card`, `.btn`, `.chip`), so wrap the game in its own container or prefix the selectors if they clash with your CSS.
+
+Saved progress (best season, best Blind Rank round, Keep/Cut totals) lives in `localStorage` under keys starting `y80arc:`.
+
+## Player schema (`players.json`)
+
+| Field | Meaning |
+|---|---|
+| `n` | Name |
+| `pos` | QB, RB, WR, TE, OL, LB, DB, DL |
+| `team` | Key into `teams.json`. Usually the player's **final** team, not the one he won with. `CUR` = your current club, `UNK` = not recorded |
+| `nick`, `era`, `tag` | Nickname, era label, one-line storyline |
+| `g` | Games |
+| QB | `att`, `cmp`, `pct`, `yds`, `td`, `int`, `ratt`, `ryds`, `rtd` |
+| RB | `ratt`, `ryds`, `rtd`, `fum`, `rec`, `recyds`, `rectd` |
+| WR/TE | `rec`, `yds`, `td`, `fum`, `lng` |
+| OL | `blk` |
+| LB/DB/DL | `tkl`, `int`, `sck`, `ff` |
+| Awards | `rings`, `mvp`, `opoy` (offense) or `dpoy` (defense), `sbmvp`, `roty` |
+| `legend` | 1 = real NFL legend with real-life career stats. Five came from your sheet (Brady, Rodgers, Rice, Gronk, Bruce Matthews); 27 retired legends were added (Manning, Brees, Montana, Marino, Favre, Elway, Young, Emmitt Smith, Payton, Barry Sanders, Tomlinson, Peterson, Jim Brown, Moss, Owens, Fitzgerald, Calvin Johnson, Gonzalez, Sharpe, Ray Lewis, Lawrence Taylor, Reggie White, J.J. Watt, Ed Reed, Deion Sanders, Polamalu, Woodson) |
+| `score` | League Score (see formula/OVR.md) |
+| `ovr` | **Main rating.** 62–99, from League Score percentile within the position (see formula/OVR.md) |
+| `current` | 1 = active NFL player; stats are approximate career totals through the 2025 season |
+| `in_games` | 0 = kept for reference, not used in the games |
+
+Missing fields mean the number was never captured, not zero.
+
+## League Score
+
+Production + awards, computed per position:
+
+- **Awards (all):** ring 40, MVP 90, OPOY 45, DPOY 90, SB MVP 40, ROTY 10
+- **QB:** pass yds/80 + 0.9 × pass TD + 0.9 × rush TD − 0.6 × INT
+- **RB:** rush yds/18 + 2.2 × rush TD + rec yds/30 + 2.2 × rec TD − 0.8 × fumbles
+- **WR:** yds/14 + 2.5 × TD − fumbles
+- **TE:** yds/8 + 3 × TD − fumbles
+- **OL:** 5 × blocks + 2 × games
+- **LB/DB/DL:** 0.7 × tackles + 12 × INT + 14 × sacks + 14 × forced fumbles
+
+When a WR/TE TD total is missing, the score estimates it as yds/95. Scores are only comparable within a position; use `ovr` across positions.
+
+## Your spreadsheet metrics (reverse-engineered)
+
+- **Dominance = 0.7 × True Talent + award points**, where ring 60, MVP 50, OPOY 30, SB MVP 40, DPOY 120, ROTY 0. Exact on every row.
+- **Career Legacy ≈ 4.6 × True Talent + 3.9 × Dominance** (plus a small extra term).
+- **TPG ≈ True Talent per game**, scaled.
+
+## Data sources and precedence
+
+1. **Save screenshots are the source of truth.** Players updated or added from them: Wayne Wilson, Michael Wilson, Jason Macleone, Malakai Sawyer, Rondale Ikarras (OPOY), Denzel Hayes, Jahmyr Gibbs, Ja'Marr Chase, CeeDee Lamb, God Johnson, Jackson W. Kline, Pharoah Hunter, Levante Hopkins, Robert Boone, Dedrick Gould, Chance Woodrum, Bilal Tolbert.
+2. **The spreadsheet** fills everything else. Its age and status columns are unreliable and were dropped.
+3. **Kept in the data but left out of the games** (`in_games: 0`): players with under ~60 games (Louis, Parsons, R. Bolton, Egbule, Muse, Crane, Omameh). Brady's and Rodgers's sack numbers were wrong on the sheet and are omitted.
+4. **Year mapping:** Super Bowl LX was Y1, so year = Super Bowl number − 59. LVII–LIX and earlier are real NFL history.
+
+## Current NFL players
+
+Mahomes, Josh Allen, Burrow, Barkley, Henry, McCaffrey, Bijan Robinson, Justin Jefferson, Tyreek Hill, Puka Nacua, Jaxon Smith-Njigba, Kelce, Kittle, T.J. Watt, Micah Parsons, Fred Warner, Myles Garrett, Patrick Surtain II.
+
+- Totals are **approximate, through the 2025 season**, from Claude's knowledge rather than a live source. Spot-check before publishing and expect them to go stale as 2026 games are played.
+- Teams are as of the end of the 2025 season.
+- They share the legends' cap: at most one real NFL player per deal, and no LEGEND label until the reveal.
+
+## Added legends
+
+- Career totals come from Claude's knowledge of public NFL records, not from a live source, so spot-check them before publishing. Fields with uncertain official numbers (pre-1982 sacks, some combined tackle counts, fumbles, long plays) are left blank.
+- `rings` counts league championships, so Jim Brown's pre-Super Bowl NFL title counts as one.
+- Only retired players were added, so their numbers won't go stale.
+- The games cap legends at one per Blind Rank round, one per Keep 3/Cut 3 six, and one per draft round, so your save's players stay the focus.
+- Adding legends shifts every position's OVR percentiles; `ovr` in `players.json` reflects the full 129-player pool.
+
+## Presentation notes
+
+- Banners use team colors, a generic helmet shape and the team abbreviation. No league or team logos are included.
+- Jersey numbers on banners are generated from position ranges, not real numbers.
+- Stadiums and cities in `teams.json` are today's real venues.

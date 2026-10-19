@@ -1,210 +1,92 @@
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { Trophy } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
-import FileUpload from '../FileUpload';
-import QBTable from '../tables/QBTable';
-import RBTable from '../tables/RBTable';
-import ReceiverTable from '../tables/ReceiverTable';
-import OLTable from '../tables/OLTable';
-import DefenseTable from '../tables/DefenseTable';
-import LeagueOverview from './LeagueOverview';
-import TeamFilterButtons from '../TeamFilterButtons';
-import { Trophy, Users, Award, Search } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { findNFLTeam } from '@/utils/nflTeams';
 import type { Player } from '@/types/player';
+import FileUpload from '../FileUpload';
+import PlayerDetailCard from '../PlayerDetailCard';
+import CountUp from '../brand/CountUp';
+import RecordBook from '../stats/RecordBook';
+import PositionLeaders from '../stats/PositionLeaders';
+import StatTables from '../stats/StatTables';
+import { HEADLINE_IDS, LEADER_IDS, buildRecordBook, pickBoards } from '../stats/records';
 
+const JUMPS = [
+  { href: '#record-book', label: 'Record Book' },
+  { href: '#leaders', label: 'Leaders' },
+  { href: '#tables', label: 'Full Tables' },
+];
+
+/** Stats hub: the record book and position leaders up front, raw career tables underneath. */
 const CareerTab = () => {
   const { careerData, loadCareerData, isLoading } = useLeague();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeOnly, setActiveOnly] = useState(false);
-  const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
-  const handleFileLoad = (content: string, filename: string) => {
-    loadCareerData(content);
-  };
-
-  // All players for team filtering
-  const allPlayers = useMemo(() => {
-    if (!careerData) return [];
-    return [
-      ...careerData.quarterbacks,
-      ...careerData.runningbacks,
-      ...careerData.widereceivers,
-      ...careerData.tightends,
-      ...careerData.offensiveline,
-      ...careerData.linebackers,
-      ...careerData.defensivebacks,
-      ...careerData.defensiveline,
-    ];
-  }, [careerData]);
-
-  // Team filter function
-  const matchesTeamFilter = (player: Player): boolean => {
-    if (!selectedTeam) return true;
-    const playerTeam = findNFLTeam(player.team);
-    return playerTeam?.id === selectedTeam;
-  };
+  const book = useMemo(() => buildRecordBook(careerData), [careerData]);
 
   if (!careerData) {
     return (
-      <div className="container mx-auto px-6 py-12">
-        <div className="max-w-2xl mx-auto text-center mb-12">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-6">
-            <Trophy className="w-10 h-10 text-primary" />
+      <div className="container py-12">
+        <div className="mx-auto mb-12 max-w-2xl text-center">
+          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-gold/10">
+            <Trophy className="h-8 w-8 text-gold" aria-hidden="true" />
           </div>
-          <h2 className="font-display text-3xl font-bold mb-4 glow-text">
-            Welcome to Retro Vault
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            Upload your league CSV file to begin tracking career stats, 
-            analyzing player performance, and discovering statistical leaders.
+          <h1 className="mb-4 font-display text-4xl font-extrabold italic uppercase">
+            Welcome to Retro <span className="text-gold">Vault</span>
+          </h1>
+          <p className="text-lg text-muted-foreground">
+            Upload your league CSV file to unlock the record book, position leaders and every career stat line.
           </p>
         </div>
-        <div className="max-w-md mx-auto">
-          <FileUpload onFileLoad={handleFileLoad} label="Upload Career Data CSV" />
+        <div className="mx-auto max-w-md">
+          <FileUpload onFileLoad={(content) => loadCareerData(content)} label="Upload Career Data CSV" />
         </div>
       </div>
     );
   }
 
-  return (
-    <div className="container mx-auto px-6 py-8 space-y-8">
-      {isLoading ? (
-        <div className="flex items-center justify-center py-20">
-          <div className="animate-spin w-12 h-12 border-4 border-primary border-t-transparent rounded-full" />
-        </div>
-      ) : (
-        <>
-          <LeagueOverview data={careerData} />
-          
-          {/* Filter Controls */}
-          <div className="glass-card p-4 space-y-4">
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="relative flex-1 min-w-[200px] max-w-md">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search players..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-secondary/50 border-border/30"
-                />
-              </div>
-              <div className="flex items-center gap-2">
-                <Switch
-                  id="active-only"
-                  checked={activeOnly}
-                  onCheckedChange={setActiveOnly}
-                />
-                <Label htmlFor="active-only" className="text-sm text-muted-foreground cursor-pointer">
-                  Active players only
-                </Label>
-              </div>
-            </div>
-            
-            {/* Team Filter Buttons */}
-            <TeamFilterButtons 
-              players={allPlayers}
-              selectedTeam={selectedTeam}
-              onSelectTeam={setSelectedTeam}
-            />
-          </div>
-          
-          <div className="space-y-6">
-            {/* Offense */}
-            <div className="space-y-4">
-              <h2 className="font-display text-xl font-bold tracking-wide text-primary flex items-center gap-2">
-                <Award className="w-5 h-5" />
-                OFFENSE
-              </h2>
-              
-              {careerData.quarterbacks.length > 0 && (
-                <QBTable 
-                  players={careerData.quarterbacks.filter(matchesTeamFilter)} 
-                  searchQuery={searchQuery} 
-                  activeOnly={activeOnly} 
-                />
-              )}
-              
-              {careerData.runningbacks.length > 0 && (
-                <RBTable 
-                  players={careerData.runningbacks.filter(matchesTeamFilter)} 
-                  searchQuery={searchQuery} 
-                  activeOnly={activeOnly} 
-                />
-              )}
-              
-              {careerData.widereceivers.length > 0 && (
-                <ReceiverTable 
-                  players={careerData.widereceivers.filter(matchesTeamFilter)} 
-                  position="WR" 
-                  title="Wide Receivers"
-                  searchQuery={searchQuery}
-                  activeOnly={activeOnly}
-                />
-              )}
-              
-              {careerData.tightends.length > 0 && (
-                <ReceiverTable 
-                  players={careerData.tightends.filter(matchesTeamFilter)} 
-                  position="TE" 
-                  title="Tight Ends"
-                  searchQuery={searchQuery}
-                  activeOnly={activeOnly}
-                />
-              )}
-              
-              {careerData.offensiveline.length > 0 && (
-                <OLTable 
-                  players={careerData.offensiveline.filter(matchesTeamFilter)} 
-                  searchQuery={searchQuery} 
-                  activeOnly={activeOnly} 
-                />
-              )}
-            </div>
+  if (isLoading) {
+    return (
+      <div className="container flex items-center justify-center py-20">
+        <div role="status" aria-label="Loading league data" className="h-12 w-12 animate-spin rounded-full border-4 border-gold border-t-transparent" />
+      </div>
+    );
+  }
 
-            {/* Defense */}
-            <div className="space-y-4">
-              <h2 className="font-display text-xl font-bold tracking-wide text-accent flex items-center gap-2">
-                <Users className="w-5 h-5" />
-                DEFENSE
-              </h2>
-              
-              {careerData.linebackers.length > 0 && (
-                <DefenseTable 
-                  players={careerData.linebackers.filter(matchesTeamFilter)} 
-                  position="LB" 
-                  title="Linebackers"
-                  searchQuery={searchQuery}
-                  activeOnly={activeOnly}
-                />
-              )}
-              
-              {careerData.defensivebacks.length > 0 && (
-                <DefenseTable 
-                  players={careerData.defensivebacks.filter(matchesTeamFilter)} 
-                  position="DB" 
-                  title="Defensive Backs"
-                  searchQuery={searchQuery}
-                  activeOnly={activeOnly}
-                />
-              )}
-              
-              {careerData.defensiveline.length > 0 && (
-                <DefenseTable 
-                  players={careerData.defensiveline.filter(matchesTeamFilter)} 
-                  position="DL" 
-                  title="Defensive Line"
-                  searchQuery={searchQuery}
-                  activeOnly={activeOnly}
-                />
-              )}
-            </div>
-          </div>
-        </>
+  const headline = pickBoards(book.boards, HEADLINE_IDS);
+  const leaders = pickBoards(book.boards, LEADER_IDS);
+
+  return (
+    <div className="container space-y-10 py-6 sm:py-8">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="font-pixel text-[10px] uppercase text-gold">League Hub</p>
+          <h1 className="font-display text-4xl font-extrabold italic uppercase leading-none sm:text-5xl">
+            Stats <span className="text-gold">&amp;</span> Records
+          </h1>
+          <nav aria-label="On this page" className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+            {JUMPS.map((j) => (
+              <a key={j.href} href={j.href} className="font-semibold text-muted-foreground underline-offset-4 hover:text-gold hover:underline">
+                {j.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <span className="lamp">Players <b><CountUp value={book.playerCount} /></b></span>
+          <span className="lamp">Records <b><CountUp value={book.boards.size} /></b></span>
+          <span className="lamp">Chasing <b><CountUp value={Math.min(book.pace.length, 6)} /></b></span>
+        </div>
+      </header>
+
+      {headline.length > 0 && (
+        <RecordBook headline={headline} leaders={leaders} pace={book.pace} onSelect={setSelectedPlayer} />
       )}
+
+      <PositionLeaders boards={book.boards} onSelect={setSelectedPlayer} />
+
+      <StatTables data={careerData} />
+
+      <PlayerDetailCard player={selectedPlayer} onClose={() => setSelectedPlayer(null)} />
     </div>
   );
 };

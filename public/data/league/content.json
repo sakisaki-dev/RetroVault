@@ -1,0 +1,2018 @@
+{
+ "version": 1,
+ "season": "Y80",
+ "title": "Y80 League History",
+ "source": "data/y80 (eras.json, super_bowls.json, league-history.md, players.json)",
+ "eras": [
+  {
+   "id": "real-roster-era",
+   "name": "Real-roster era",
+   "startYear": 1,
+   "endYear": 15,
+   "superBowlRange": "LX–LXXIV",
+   "yourTeams": [
+    "Vikings",
+    "Dolphins",
+    "Chargers"
+   ],
+   "keyPlayers": [
+    "Lamar Jackson",
+    "Jayden Daniels",
+    "Drake Maye",
+    "Ja’Marr Chase",
+    "CeeDee Lamb",
+    "Jahmyr Gibbs",
+    "Nick Bolton",
+    "Mason Taylor",
+    "Akiem Bouye"
+   ],
+   "rival": null,
+   "notes": "Imported NFL rosters set the early marks. Mason Taylor's 3 rings match the Dolphins' 3 titles; Bouye and Tuttle's 4 match the Chargers' 4.",
+   "history": "Imported NFL rosters set the early marks. Lamar Jackson won 2 MVPs in the save on top of his 2 real ones. Drake Maye (3 MVPs, 1 ring) likely won your first title in Y3. Mason Taylor's 3 rings match the Dolphins' 3 titles; Akiem Bouye and Taywan Tuttle's 4 match the Chargers' 4. T. Watt holds the career sack record and Z. Griffen the 54-yd field goal (Y7)."
+  },
+  {
+   "id": "commanders-run",
+   "name": "Commanders run",
+   "startYear": 16,
+   "endYear": 19,
+   "superBowlRange": "LXXV–LXXVIII",
+   "yourTeams": [
+    "Commanders"
+   ],
+   "keyPlayers": [
+    "Avonte Gooden",
+    "Ian Finney",
+    "Brennan Higgins"
+   ],
+   "rival": null,
+   "notes": "Four straight titles with Avonte Gooden at quarterback.",
+   "history": "Four straight titles with Avonte Gooden at quarterback. Ian Finney's career starts here."
+  },
+  {
+   "id": "waller-finney-era",
+   "name": "Waller–Finney era",
+   "startYear": 20,
+   "endYear": 26,
+   "superBowlRange": "LXXIX–LXXXV",
+   "yourTeams": [
+    "Buccaneers"
+   ],
+   "keyPlayers": [
+    "Ray Waller",
+    "Ian Finney",
+    "Tyrion Kline",
+    "Kitt Inman"
+   ],
+   "rival": "Kyric McQuay's Colts beat you in LXXXI (Y22) and LXXXIII (Y24)",
+   "notes": "Waller's 5 rings match the Bucs' 5 titles. Finney's 9 = Commanders 4 + Bucs 5.",
+   "history": "Ray Waller (\"Ray Comeback Waller\") won 5 rings and 5 MVPs with the Bucs, matching their 5 titles. Ian Finney (\"The Infinity Man\") had Tyrion Kline (\"FBI\") as his WR2. Finney's 9 rings = 4 Commanders + 5 Bucs. Waller's 513-yd game (Y26) and Finney's 6-TD game (Y23) date here."
+  },
+  {
+   "id": "bills-dynasty",
+   "name": "Bills dynasty",
+   "startYear": 27,
+   "endYear": 33,
+   "superBowlRange": "LXXXVI–XCII",
+   "yourTeams": [
+    "Bills"
+   ],
+   "keyPlayers": [
+    "Dennis Baylon",
+    "Charlie John",
+    "Tyrone Baugh",
+    "Rob Lowe",
+    "Reuben Kilian",
+    "Cairo Asanjh"
+   ],
+   "rival": null,
+   "notes": "Seven straight titles; nine straight counting the Bucs' last two. Baylon, John, Baugh and Lowe each have exactly 7 rings.",
+   "history": "Dennis Baylon (\"The Iron Island\") went 7-for-7 in Super Bowls. Charlie John, Tyrone Baugh and Rob Lowe also have exactly 7 rings. Reuben Kilian (\"Mr. Consistent\") was the WR1. His 3.55 TPG is the best of any QB. Cairo Asanjh (\"The Prophecy\") chased Finney's yardage record here; his 9 rings = 7 Bills + 2 Seahawks.\n\nOutside your team: the Falcons won XCIV (Y35), likely behind Derrick Myrick (19,801 yds, 347 TD, 248 fumbles)."
+  },
+  {
+   "id": "ikarras-era",
+   "name": "Ikarras era",
+   "startYear": 36,
+   "endYear": 46,
+   "superBowlRange": "XCV–CV",
+   "yourTeams": [
+    "Seahawks",
+    "Chargers",
+    "Ravens"
+   ],
+   "keyPlayers": [
+    "Rondale Ikarras",
+    "Cairo Asanjh (final season)",
+    "Wes Sione",
+    "Lukas Russell",
+    "Jawill Perkins"
+   ],
+   "rival": null,
+   "notes": "Ikarras's 9 rings match your 9 titles in this window. Every rushing record falls.",
+   "history": "Rondale Ikarras (\"The Prodigal Son\") won 9 rings, matching your 9 titles across the Seahawks, Chargers and Ravens. He set the 5-TD game (Y40) and career rushing marks. 4 OPOYs, 5 SB MVPs, **0 MVPs**. Asanjh's final season came alongside him on the Seahawks. Wes Sione (0.78 TD/game, best of any TE) and OL Jawill Perkins played here."
+  },
+  {
+   "id": "brandson-era",
+   "name": "Brandson era",
+   "startYear": 43,
+   "endYear": 62,
+   "superBowlRange": "CII–CXXI",
+   "yourTeams": [
+    "Ravens",
+    "Buccaneers",
+    "Giants",
+    "Dolphins"
+   ],
+   "keyPlayers": [
+    "Sherman Brandson",
+    "Denzel Hayes"
+   ],
+   "rival": null,
+   "notes": "Record passing numbers, 8 MVPs, playoff losses in CIX (Y50) and CXIX (Y60). 68–21 Super Bowl win in CXIV, the 94-TD season.",
+   "history": "Sherman Brandson (\"General Sherman\"): 91,463 yds, 1,150 TD, 85% completions, 8 MVPs, 10 rings, 0 career fumbles. Set the 9-TD game. Only 4 SB MVPs in 10 rings, plus playoff losses in CIX (Y50, with Denzel Hayes at RB) and CXIX (Y60). Retired injured mid-season."
+  },
+  {
+   "id": "vikings-dynasty",
+   "name": "Vikings dynasty",
+   "startYear": 59,
+   "endYear": 69,
+   "superBowlRange": "CXVIII–CXXVIII",
+   "yourTeams": [
+    "Vikings"
+   ],
+   "keyPlayers": [
+    "God Johnson (Mason Earl III)",
+    "Jackson W. Kline",
+    "Pharoah Hunter",
+    "Wayne Wilson",
+    "Michael Wilson"
+   ],
+   "rival": null,
+   "notes": "Johnson breaks Finney's career mark with Tyrion Kline's son beside him. The Wilson brothers likely at QB.",
+   "history": "God Johnson (formerly Mason Earl III) broke Finney's career receiving mark: 36,005 yds, 378 TD, 10 rings, 3 fumbles, 4 of 6 receiving records. Jackson W. Kline, Tyrion's son, played beside him with 6 OPOYs, the most in the league. Pharoah Hunter set the 288-yd game (Y68). The Wilson brothers likely played QB: Wayne (431 games, 90,450 yds, 5 MVPs) and Michael (58,992 yds, 6 MVPs, retired injured mid-season). Combined 11 MVPs and 10 rings."
+  },
+  {
+   "id": "modern-era",
+   "name": "Modern era",
+   "startYear": 70,
+   "endYear": 80,
+   "superBowlRange": "CXXIX–CXXXVIII",
+   "yourTeams": [
+    "Titans",
+    "Seahawks",
+    "Jets"
+   ],
+   "keyPlayers": [
+    "Malakai Sawyer",
+    "Jason Macleone",
+    "Chance Woodrum"
+   ],
+   "rival": null,
+   "notes": "Titans three-peat, then a loss to those same Titans as the Seahawks in CXXXIII. One title in the last seven seasons.",
+   "history": "Titans three-peat (Y70–72), then a Super Bowl loss to those Titans as the Seahawks (Y74), and the Jets title (Y77). Malakai Sawyer set the 212-yd game (Y78) and 65-yd run (Y75, from Jason Macleone) but has no Super Bowl appearances in those seasons. Season Y80 ends in Super Bowl CXXXIX."
+  }
+ ],
+ "superBowls": [
+  {
+   "number": 60,
+   "roman": "LX",
+   "year": 1,
+   "winner": "Bills",
+   "loser": "Buccaneers",
+   "score": "59-29",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 61,
+   "roman": "LXI",
+   "year": 2,
+   "winner": "Lions",
+   "loser": "Chiefs",
+   "score": "44-24",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 62,
+   "roman": "LXII",
+   "year": 3,
+   "winner": "Vikings",
+   "loser": "Bengals",
+   "score": "30-22",
+   "yourResult": "won",
+   "yourTeam": "Vikings"
+  },
+  {
+   "number": 63,
+   "roman": "LXIII",
+   "year": 4,
+   "winner": "Eagles",
+   "loser": "Broncos",
+   "score": "36-28",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 64,
+   "roman": "LXIV",
+   "year": 5,
+   "winner": "Bills",
+   "loser": "Buccaneers",
+   "score": "43-33",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 65,
+   "roman": "LXV",
+   "year": 6,
+   "winner": "Dolphins",
+   "loser": "Commanders",
+   "score": "30-15",
+   "yourResult": "won",
+   "yourTeam": "Dolphins"
+  },
+  {
+   "number": 66,
+   "roman": "LXVI",
+   "year": 7,
+   "winner": "Commanders",
+   "loser": "Dolphins",
+   "score": "22-16",
+   "yourResult": "lost",
+   "yourTeam": "Dolphins"
+  },
+  {
+   "number": 67,
+   "roman": "LXVII",
+   "year": 8,
+   "winner": "Dolphins",
+   "loser": "Lions",
+   "score": "24-20",
+   "yourResult": "won",
+   "yourTeam": "Dolphins"
+  },
+  {
+   "number": 68,
+   "roman": "LXVIII",
+   "year": 9,
+   "winner": "Dolphins",
+   "loser": "Panthers",
+   "score": "30-22",
+   "yourResult": "won",
+   "yourTeam": "Dolphins"
+  },
+  {
+   "number": 69,
+   "roman": "LXIX",
+   "year": 10,
+   "winner": "Chargers",
+   "loser": "Packers",
+   "score": "40-20",
+   "yourResult": "won",
+   "yourTeam": "Chargers"
+  },
+  {
+   "number": 70,
+   "roman": "LXX",
+   "year": 11,
+   "winner": "Chargers",
+   "loser": "Buccaneers",
+   "score": "30-20",
+   "yourResult": "won",
+   "yourTeam": "Chargers"
+  },
+  {
+   "number": 71,
+   "roman": "LXXI",
+   "year": 12,
+   "winner": "Saints",
+   "loser": "Bengals",
+   "score": "52-27",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 72,
+   "roman": "LXXII",
+   "year": 13,
+   "winner": "Bengals",
+   "loser": "Eagles",
+   "score": "33-31",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 73,
+   "roman": "LXXIII",
+   "year": 14,
+   "winner": "Chargers",
+   "loser": "Packers",
+   "score": "30-17",
+   "yourResult": "won",
+   "yourTeam": "Chargers"
+  },
+  {
+   "number": 74,
+   "roman": "LXXIV",
+   "year": 15,
+   "winner": "Chargers",
+   "loser": "Vikings",
+   "score": "28-21",
+   "yourResult": "won",
+   "yourTeam": "Chargers"
+  },
+  {
+   "number": 75,
+   "roman": "LXXV",
+   "year": 16,
+   "winner": "Commanders",
+   "loser": "Broncos",
+   "score": "22-16",
+   "yourResult": "won",
+   "yourTeam": "Commanders"
+  },
+  {
+   "number": 76,
+   "roman": "LXXVI",
+   "year": 17,
+   "winner": "Commanders",
+   "loser": "Titans",
+   "score": "40-9",
+   "yourResult": "won",
+   "yourTeam": "Commanders"
+  },
+  {
+   "number": 77,
+   "roman": "LXXVII",
+   "year": 18,
+   "winner": "Commanders",
+   "loser": "Browns",
+   "score": "30-23",
+   "yourResult": "won",
+   "yourTeam": "Commanders"
+  },
+  {
+   "number": 78,
+   "roman": "LXXVIII",
+   "year": 19,
+   "winner": "Commanders",
+   "loser": "Browns",
+   "score": "38-24",
+   "yourResult": "won",
+   "yourTeam": "Commanders"
+  },
+  {
+   "number": 79,
+   "roman": "LXXIX",
+   "year": 20,
+   "winner": "Buccaneers",
+   "loser": "Browns",
+   "score": "38-30",
+   "yourResult": "won",
+   "yourTeam": "Buccaneers"
+  },
+  {
+   "number": 80,
+   "roman": "LXXX",
+   "year": 21,
+   "winner": "Buccaneers",
+   "loser": "Dolphins",
+   "score": "38-23",
+   "yourResult": "won",
+   "yourTeam": "Buccaneers"
+  },
+  {
+   "number": 81,
+   "roman": "LXXXI",
+   "year": 22,
+   "winner": "Colts",
+   "loser": "Buccaneers",
+   "score": "38-32",
+   "yourResult": "lost",
+   "yourTeam": "Buccaneers"
+  },
+  {
+   "number": 82,
+   "roman": "LXXXII",
+   "year": 23,
+   "winner": "Buccaneers",
+   "loser": "Broncos",
+   "score": "46-11",
+   "yourResult": "won",
+   "yourTeam": "Buccaneers"
+  },
+  {
+   "number": 83,
+   "roman": "LXXXIII",
+   "year": 24,
+   "winner": "Colts",
+   "loser": "Buccaneers",
+   "score": "29-28",
+   "yourResult": "lost",
+   "yourTeam": "Buccaneers"
+  },
+  {
+   "number": 84,
+   "roman": "LXXXIV",
+   "year": 25,
+   "winner": "Buccaneers",
+   "loser": "Broncos",
+   "score": "38-16",
+   "yourResult": "won",
+   "yourTeam": "Buccaneers"
+  },
+  {
+   "number": 85,
+   "roman": "LXXXV",
+   "year": 26,
+   "winner": "Buccaneers",
+   "loser": "Bills",
+   "score": "28-17",
+   "yourResult": "won",
+   "yourTeam": "Buccaneers"
+  },
+  {
+   "number": 86,
+   "roman": "LXXXVI",
+   "year": 27,
+   "winner": "Bills",
+   "loser": "Cardinals",
+   "score": "30-24",
+   "yourResult": "won",
+   "yourTeam": "Bills"
+  },
+  {
+   "number": 87,
+   "roman": "LXXXVII",
+   "year": 28,
+   "winner": "Bills",
+   "loser": "Vikings",
+   "score": "36-15",
+   "yourResult": "won",
+   "yourTeam": "Bills"
+  },
+  {
+   "number": 88,
+   "roman": "LXXXVIII",
+   "year": 29,
+   "winner": "Bills",
+   "loser": "Buccaneers",
+   "score": "40-33",
+   "yourResult": "won",
+   "yourTeam": "Bills"
+  },
+  {
+   "number": 89,
+   "roman": "LXXXIX",
+   "year": 30,
+   "winner": "Bills",
+   "loser": "Rams",
+   "score": "40-7",
+   "yourResult": "won",
+   "yourTeam": "Bills"
+  },
+  {
+   "number": 90,
+   "roman": "XC",
+   "year": 31,
+   "winner": "Bills",
+   "loser": "Giants",
+   "score": "32-25",
+   "yourResult": "won",
+   "yourTeam": "Bills"
+  },
+  {
+   "number": 91,
+   "roman": "XCI",
+   "year": 32,
+   "winner": "Bills",
+   "loser": "Commanders",
+   "score": "30-14",
+   "yourResult": "won",
+   "yourTeam": "Bills"
+  },
+  {
+   "number": 92,
+   "roman": "XCII",
+   "year": 33,
+   "winner": "Bills",
+   "loser": "Panthers",
+   "score": "46-14",
+   "yourResult": "won",
+   "yourTeam": "Bills"
+  },
+  {
+   "number": 93,
+   "roman": "XCIII",
+   "year": 34,
+   "winner": "Chiefs",
+   "loser": "Rams",
+   "score": "54-10",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 94,
+   "roman": "XCIV",
+   "year": 35,
+   "winner": "Falcons",
+   "loser": "Ravens",
+   "score": "54-25",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 95,
+   "roman": "XCV",
+   "year": 36,
+   "winner": "Seahawks",
+   "loser": "Bills",
+   "score": "32-15",
+   "yourResult": "won",
+   "yourTeam": "Seahawks"
+  },
+  {
+   "number": 96,
+   "roman": "XCVI",
+   "year": 37,
+   "winner": "Seahawks",
+   "loser": "Dolphins",
+   "score": "32-7",
+   "yourResult": "won",
+   "yourTeam": "Seahawks"
+  },
+  {
+   "number": 97,
+   "roman": "XCVII",
+   "year": 38,
+   "winner": "Seahawks",
+   "loser": "Texans",
+   "score": "24-16",
+   "yourResult": "won",
+   "yourTeam": "Seahawks"
+  },
+  {
+   "number": 98,
+   "roman": "XCVIII",
+   "year": 39,
+   "winner": "Broncos",
+   "loser": "Panthers",
+   "score": "25-23",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 99,
+   "roman": "XCIX",
+   "year": 40,
+   "winner": "Chargers",
+   "loser": "Buccaneers",
+   "score": "38-22",
+   "yourResult": "won",
+   "yourTeam": "Chargers"
+  },
+  {
+   "number": 100,
+   "roman": "C",
+   "year": 41,
+   "winner": "Ravens",
+   "loser": "Buccaneers",
+   "score": "40-28",
+   "yourResult": "won",
+   "yourTeam": "Ravens"
+  },
+  {
+   "number": 101,
+   "roman": "CI",
+   "year": 42,
+   "winner": "Ravens",
+   "loser": "Packers",
+   "score": "36-19",
+   "yourResult": "won",
+   "yourTeam": "Ravens"
+  },
+  {
+   "number": 102,
+   "roman": "CII",
+   "year": 43,
+   "winner": "Ravens",
+   "loser": "Cardinals",
+   "score": "30-19",
+   "yourResult": "won",
+   "yourTeam": "Ravens"
+  },
+  {
+   "number": 103,
+   "roman": "CIII",
+   "year": 44,
+   "winner": "Ravens",
+   "loser": "Cardinals",
+   "score": "32-26",
+   "yourResult": "won",
+   "yourTeam": "Ravens"
+  },
+  {
+   "number": 104,
+   "roman": "CIV",
+   "year": 45,
+   "winner": "Bengals",
+   "loser": "Giants",
+   "score": "48-17",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 105,
+   "roman": "CV",
+   "year": 46,
+   "winner": "Ravens",
+   "loser": "Seahawks",
+   "score": "32-24",
+   "yourResult": "won",
+   "yourTeam": "Ravens"
+  },
+  {
+   "number": 106,
+   "roman": "CVI",
+   "year": 47,
+   "winner": "Bills",
+   "loser": "49ers",
+   "score": "36-24",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 107,
+   "roman": "CVII",
+   "year": 48,
+   "winner": "Ravens",
+   "loser": "Rams",
+   "score": "16-9",
+   "yourResult": "won",
+   "yourTeam": "Ravens"
+  },
+  {
+   "number": 108,
+   "roman": "CVIII",
+   "year": 49,
+   "winner": "Ravens",
+   "loser": "Eagles",
+   "score": "36-28",
+   "yourResult": "won",
+   "yourTeam": "Ravens"
+  },
+  {
+   "number": 109,
+   "roman": "CIX",
+   "year": 50,
+   "winner": "Saints",
+   "loser": "Ravens",
+   "score": "36-32",
+   "yourResult": "lost",
+   "yourTeam": "Ravens"
+  },
+  {
+   "number": 110,
+   "roman": "CX",
+   "year": 51,
+   "winner": "Buccaneers",
+   "loser": "Jaguars",
+   "score": "40-13",
+   "yourResult": "won",
+   "yourTeam": "Buccaneers"
+  },
+  {
+   "number": 111,
+   "roman": "CXI",
+   "year": 52,
+   "winner": "Buccaneers",
+   "loser": "Ravens",
+   "score": "32-25",
+   "yourResult": "won",
+   "yourTeam": "Buccaneers"
+  },
+  {
+   "number": 112,
+   "roman": "CXII",
+   "year": 53,
+   "winner": "Titans",
+   "loser": "Eagles",
+   "score": "36-31",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 113,
+   "roman": "CXIII",
+   "year": 54,
+   "winner": "Giants",
+   "loser": "Jets",
+   "score": "36-28",
+   "yourResult": "won",
+   "yourTeam": "Giants"
+  },
+  {
+   "number": 114,
+   "roman": "CXIV",
+   "year": 55,
+   "winner": "Giants",
+   "loser": "Chiefs",
+   "score": "68-21",
+   "yourResult": "won",
+   "yourTeam": "Giants"
+  },
+  {
+   "number": 115,
+   "roman": "CXV",
+   "year": 56,
+   "winner": "Giants",
+   "loser": "Bills",
+   "score": "38-37",
+   "yourResult": "won",
+   "yourTeam": "Giants"
+  },
+  {
+   "number": 116,
+   "roman": "CXVI",
+   "year": 57,
+   "winner": "Dolphins",
+   "loser": "49ers",
+   "score": "36-26",
+   "yourResult": "won",
+   "yourTeam": "Dolphins"
+  },
+  {
+   "number": 117,
+   "roman": "CXVII",
+   "year": 58,
+   "winner": "Dolphins",
+   "loser": "Cowboys",
+   "score": "40-33",
+   "yourResult": "won",
+   "yourTeam": "Dolphins"
+  },
+  {
+   "number": 118,
+   "roman": "CXVIII",
+   "year": 59,
+   "winner": "Dolphins",
+   "loser": "Lions",
+   "score": "46-9",
+   "yourResult": "won",
+   "yourTeam": "Dolphins"
+  },
+  {
+   "number": 119,
+   "roman": "CXIX",
+   "year": 60,
+   "winner": "Cowboys",
+   "loser": "Dolphins",
+   "score": "28-24",
+   "yourResult": "lost",
+   "yourTeam": "Dolphins"
+  },
+  {
+   "number": 120,
+   "roman": "CXX",
+   "year": 61,
+   "winner": "Vikings",
+   "loser": "Ravens",
+   "score": "40-14",
+   "yourResult": "won",
+   "yourTeam": "Vikings"
+  },
+  {
+   "number": 121,
+   "roman": "CXXI",
+   "year": 62,
+   "winner": "Vikings",
+   "loser": "Jaguars",
+   "score": "40-24",
+   "yourResult": "won",
+   "yourTeam": "Vikings"
+  },
+  {
+   "number": 122,
+   "roman": "CXXII",
+   "year": 63,
+   "winner": "Vikings",
+   "loser": "Jets",
+   "score": "40-31",
+   "yourResult": "won",
+   "yourTeam": "Vikings"
+  },
+  {
+   "number": 123,
+   "roman": "CXXIII",
+   "year": 64,
+   "winner": "Vikings",
+   "loser": "Chargers",
+   "score": "40-39",
+   "yourResult": "won",
+   "yourTeam": "Vikings"
+  },
+  {
+   "number": 124,
+   "roman": "CXXIV",
+   "year": 65,
+   "winner": "Broncos",
+   "loser": "Cowboys",
+   "score": "32-29",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 125,
+   "roman": "CXXV",
+   "year": 66,
+   "winner": "Vikings",
+   "loser": "Chiefs",
+   "score": "38-25",
+   "yourResult": "won",
+   "yourTeam": "Vikings"
+  },
+  {
+   "number": 126,
+   "roman": "CXXVI",
+   "year": 67,
+   "winner": null,
+   "loser": null,
+   "score": null,
+   "yourResult": "not captured",
+   "yourTeam": null
+  },
+  {
+   "number": 127,
+   "roman": "CXXVII",
+   "year": 68,
+   "winner": "Vikings",
+   "loser": "Bengals",
+   "score": "32-14",
+   "yourResult": "won",
+   "yourTeam": "Vikings"
+  },
+  {
+   "number": 128,
+   "roman": "CXXVIII",
+   "year": 69,
+   "winner": "Vikings",
+   "loser": "Chiefs",
+   "score": "48-18",
+   "yourResult": "won",
+   "yourTeam": "Vikings"
+  },
+  {
+   "number": 129,
+   "roman": "CXXIX",
+   "year": 70,
+   "winner": "Titans",
+   "loser": "49ers",
+   "score": "38-28",
+   "yourResult": "won",
+   "yourTeam": "Titans"
+  },
+  {
+   "number": 130,
+   "roman": "CXXX",
+   "year": 71,
+   "winner": "Titans",
+   "loser": "Bears",
+   "score": "32-21",
+   "yourResult": "won",
+   "yourTeam": "Titans"
+  },
+  {
+   "number": 131,
+   "roman": "CXXXI",
+   "year": 72,
+   "winner": "Titans",
+   "loser": "Eagles",
+   "score": "38-11",
+   "yourResult": "won",
+   "yourTeam": "Titans"
+  },
+  {
+   "number": 132,
+   "roman": "CXXXII",
+   "year": 73,
+   "winner": "Cardinals",
+   "loser": "Texans",
+   "score": "41-40",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 133,
+   "roman": "CXXXIII",
+   "year": 74,
+   "winner": "Titans",
+   "loser": "Seahawks",
+   "score": "39-32",
+   "yourResult": "lost",
+   "yourTeam": "Seahawks"
+  },
+  {
+   "number": 134,
+   "roman": "CXXXIV",
+   "year": 75,
+   "winner": "Jets",
+   "loser": "Giants",
+   "score": "29-23",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 135,
+   "roman": "CXXXV",
+   "year": 76,
+   "winner": "Bengals",
+   "loser": "Seahawks",
+   "score": "50-23",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 136,
+   "roman": "CXXXVI",
+   "year": 77,
+   "winner": "Jets",
+   "loser": "Seahawks",
+   "score": "30-21",
+   "yourResult": "won",
+   "yourTeam": "Jets"
+  },
+  {
+   "number": 137,
+   "roman": "CXXXVII",
+   "year": 78,
+   "winner": "Vikings",
+   "loser": "Broncos",
+   "score": "33-27",
+   "yourResult": "not in it",
+   "yourTeam": null
+  },
+  {
+   "number": 138,
+   "roman": "CXXXVIII",
+   "year": 79,
+   "winner": "Packers",
+   "loser": "Chiefs",
+   "score": "44-6",
+   "yourResult": "not in it",
+   "yourTeam": null
+  }
+ ],
+ "storylines": [
+  {
+   "id": "your-record",
+   "headline": "54–6 IN THE BIG GAME",
+   "subheadline": "Sixty Super Bowl appearances, Y1 through Y79",
+   "body": "- **54–6 in 60 Super Bowl appearances** across LX–CXXXVIII (CXXVI not captured). You missed 18.\n- **20 straight appearances**, LXXIII–XCII (Y14–33), going 18–2.\n- **9 straight titles**, LXXXIV–XCII (Y25–33): 2 with the Bucs, then 7 with the Bills.\n- **Biggest win:** CXIV (Y55), Giants 68–21 over the Chiefs, the season Brandson threw 94 TDs.\n- **Closest wins:** CXXIII (Vikings 40–39 over the Chargers), CXV (Giants 38–37 over the Bills).\n- **Losses:** LXVI (Y7, Dolphins to the Commanders), LXXXI and LXXXIII (Y22, Y24, Bucs to McQuay's Colts), CIX (Y50, Ravens to the Saints), CXIX (Y60, Dolphins to the Cowboys), CXXXIII (Y74, Seahawks to the Titans you had just left).\n- **Now:** one title (Jets, CXXXVI) in the last seven seasons.",
+   "tier": "breaking",
+   "category": "Dynasty Ledger",
+   "players": [
+    "Sherman Brandson",
+    "Kyric McQuay"
+   ],
+   "summary": "54–6 in 60 Super Bowl appearances across LX–CXXXVIII (CXXVI not captured)."
+  },
+  {
+   "id": "era-real-roster-era",
+   "headline": "REAL-ROSTER ERA",
+   "subheadline": "Y1–15 · Super Bowls LX–LXXIV · Vikings, Dolphins, Chargers",
+   "body": "Imported NFL rosters set the early marks. Lamar Jackson won 2 MVPs in the save on top of his 2 real ones. Drake Maye (3 MVPs, 1 ring) likely won your first title in Y3. Mason Taylor's 3 rings match the Dolphins' 3 titles; Akiem Bouye and Taywan Tuttle's 4 match the Chargers' 4. T. Watt holds the career sack record and Z. Griffen the 54-yd field goal (Y7).",
+   "tier": "analysis",
+   "category": "Era Report",
+   "era": "Real-roster era",
+   "players": [
+    "Lamar Jackson",
+    "Taywan Tuttle",
+    "Mason Taylor",
+    "Akiem Bouye",
+    "Drake Maye"
+   ],
+   "summary": "Imported NFL rosters set the early marks."
+  },
+  {
+   "id": "era-commanders-run",
+   "headline": "COMMANDERS RUN",
+   "subheadline": "Y16–19 · Super Bowls LXXV–LXXVIII · Commanders",
+   "body": "Four straight titles with Avonte Gooden at quarterback. Ian Finney's career starts here.",
+   "tier": "milestone",
+   "category": "Era Report",
+   "era": "Commanders run",
+   "players": [
+    "Avonte Gooden",
+    "Ian Finney"
+   ],
+   "summary": "Four straight titles with Avonte Gooden at quarterback."
+  },
+  {
+   "id": "era-waller-finney-era",
+   "headline": "WALLER–FINNEY ERA",
+   "subheadline": "Y20–26 · Super Bowls LXXIX–LXXXV · Buccaneers",
+   "body": "Ray Waller (\"Ray Comeback Waller\") won 5 rings and 5 MVPs with the Bucs, matching their 5 titles. Ian Finney (\"The Infinity Man\") had Tyrion Kline (\"FBI\") as his WR2. Finney's 9 rings = 4 Commanders + 5 Bucs. Waller's 513-yd game (Y26) and Finney's 6-TD game (Y23) date here.",
+   "tier": "analysis",
+   "category": "Era Report",
+   "era": "Waller–Finney era",
+   "players": [
+    "Tyrion Kline",
+    "Ray Waller",
+    "Ian Finney"
+   ],
+   "summary": "Ray Waller (\"Ray Comeback Waller\") won 5 rings and 5 MVPs with the Bucs, matching their 5 titles."
+  },
+  {
+   "id": "era-bills-dynasty",
+   "headline": "BILLS DYNASTY",
+   "subheadline": "Y27–33 · Super Bowls LXXXVI–XCII · Bills",
+   "body": "Dennis Baylon (\"The Iron Island\") went 7-for-7 in Super Bowls. Charlie John, Tyrone Baugh and Rob Lowe also have exactly 7 rings. Reuben Kilian (\"Mr. Consistent\") was the WR1. His 3.55 TPG is the best of any QB. Cairo Asanjh (\"The Prophecy\") chased Finney's yardage record here; his 9 rings = 7 Bills + 2 Seahawks.\n\nOutside your team: the Falcons won XCIV (Y35), likely behind Derrick Myrick (19,801 yds, 347 TD, 248 fumbles).",
+   "tier": "milestone",
+   "category": "Era Report",
+   "era": "Bills dynasty",
+   "players": [
+    "Derrick Myrick",
+    "Dennis Baylon",
+    "Reuben Kilian",
+    "Tyrone Baugh",
+    "Cairo Asanjh",
+    "Charlie John",
+    "Rob Lowe",
+    "Ian Finney"
+   ],
+   "summary": "Dennis Baylon (\"The Iron Island\") went 7-for-7 in Super Bowls."
+  },
+  {
+   "id": "era-ikarras-era",
+   "headline": "IKARRAS ERA",
+   "subheadline": "Y36–46 · Super Bowls XCV–CV · Seahawks, Chargers, Ravens",
+   "body": "Rondale Ikarras (\"The Prodigal Son\") won 9 rings, matching your 9 titles across the Seahawks, Chargers and Ravens. He set the 5-TD game (Y40) and career rushing marks. 4 OPOYs, 5 SB MVPs, **0 MVPs**. Asanjh's final season came alongside him on the Seahawks. Wes Sione (0.78 TD/game, best of any TE) and OL Jawill Perkins played here.",
+   "tier": "controversy",
+   "category": "Era Report",
+   "era": "Ikarras era",
+   "players": [
+    "Rondale Ikarras",
+    "Jawill Perkins",
+    "Wes Sione",
+    "Cairo Asanjh"
+   ],
+   "summary": "Rondale Ikarras (\"The Prodigal Son\") won 9 rings, matching your 9 titles across the Seahawks, Chargers and Ravens."
+  },
+  {
+   "id": "era-brandson-era",
+   "headline": "BRANDSON ERA",
+   "subheadline": "Y43–62 · Super Bowls CII–CXXI · Ravens, Buccaneers, Giants, Dolphins",
+   "body": "Sherman Brandson (\"General Sherman\"): 91,463 yds, 1,150 TD, 85% completions, 8 MVPs, 10 rings, 0 career fumbles. Set the 9-TD game. Only 4 SB MVPs in 10 rings, plus playoff losses in CIX (Y50, with Denzel Hayes at RB) and CXIX (Y60). Retired injured mid-season.",
+   "tier": "analysis",
+   "category": "Era Report",
+   "era": "Brandson era",
+   "players": [
+    "Sherman Brandson",
+    "Denzel Hayes"
+   ],
+   "summary": "Sherman Brandson (\"General Sherman\"): 91,463 yds, 1,150 TD, 85% completions, 8 MVPs, 10 rings, 0 career fumbles."
+  },
+  {
+   "id": "era-vikings-dynasty",
+   "headline": "VIKINGS DYNASTY",
+   "subheadline": "Y59–69 · Super Bowls CXVIII–CXXVIII · Vikings",
+   "body": "God Johnson (formerly Mason Earl III) broke Finney's career receiving mark: 36,005 yds, 378 TD, 10 rings, 3 fumbles, 4 of 6 receiving records. Jackson W. Kline, Tyrion's son, played beside him with 6 OPOYs, the most in the league. Pharoah Hunter set the 288-yd game (Y68). The Wilson brothers likely played QB: Wayne (431 games, 90,450 yds, 5 MVPs) and Michael (58,992 yds, 6 MVPs, retired injured mid-season). Combined 11 MVPs and 10 rings.",
+   "tier": "milestone",
+   "category": "Era Report",
+   "era": "Vikings dynasty",
+   "players": [
+    "Pharoah Hunter",
+    "God Johnson",
+    "Ian Finney"
+   ],
+   "summary": "God Johnson (formerly Mason Earl III) broke Finney's career receiving mark: 36,005 yds, 378 TD, 10 rings, 3 fumbles, 4 of 6 receiving records."
+  },
+  {
+   "id": "era-modern-era",
+   "headline": "MODERN ERA",
+   "subheadline": "Y70–80 · Super Bowls CXXIX–CXXXVIII · Titans, Seahawks, Jets",
+   "body": "Titans three-peat (Y70–72), then a Super Bowl loss to those Titans as the Seahawks (Y74), and the Jets title (Y77). Malakai Sawyer set the 212-yd game (Y78) and 65-yd run (Y75, from Jason Macleone) but has no Super Bowl appearances in those seasons. Season Y80 ends in Super Bowl CXXXIX.",
+   "tier": "analysis",
+   "category": "Era Report",
+   "era": "Modern era",
+   "players": [
+    "Jason Macleone",
+    "Malakai Sawyer"
+   ],
+   "summary": "Titans three-peat (Y70–72), then a Super Bowl loss to those Titans as the Seahawks (Y74), and the Jets title (Y77)."
+  },
+  {
+   "id": "rivalry-waller-finney-era",
+   "headline": "THE ONE WHO GOT AWAY",
+   "subheadline": "Kyric McQuay's Colts beat you in LXXXI (Y22) and LXXXIII (Y24)",
+   "body": "Kyric McQuay (\"Baby Manning\"), Colts. Beat you in LXXXI (38–32) and LXXXIII (29–28), SB MVP both times. 43 INTs in 10,099 attempts, the best ball security in the league. He's the only QB who beat you consistently without playing for you. His raw talent score (968) beats Waller's (900).",
+   "tier": "hot-take",
+   "category": "Rivalry",
+   "era": "Waller–Finney era",
+   "players": [
+    "Kyric McQuay",
+    "Peyton Manning",
+    "Ray Waller"
+   ],
+   "summary": "Kyric McQuay (\"Baby Manning\"), Colts."
+  },
+  {
+   "id": "lineages",
+   "headline": "PASSING THE TORCH",
+   "subheadline": "Quarterback and receiver lineages across 80 seasons",
+   "body": "- **QBs:** Lamar → Gooden → Waller (rival McQuay) → Baylon → Brandson → the Wilson brothers → Macleone.\n- **Receivers:** Finney with Tyrion Kline → Asanjh chases Finney → God Johnson breaks the record with Jackson Kline. The Klines have 9 OPOYs between them.",
+   "tier": "analysis",
+   "category": "Lineage",
+   "players": [
+    "Tyrion Kline",
+    "God Johnson",
+    "Sherman Brandson",
+    "Jason Macleone",
+    "Avonte Gooden",
+    "Dennis Baylon",
+    "Kyric McQuay",
+    "Cairo Asanjh",
+    "Ray Waller",
+    "Ian Finney"
+   ],
+   "summary": "QBs: Lamar → Gooden → Waller (rival McQuay) → Baylon → Brandson → the Wilson brothers → Macleone."
+  },
+  {
+   "id": "snubs",
+   "headline": "ZERO MVPS, EVERY RECORD",
+   "subheadline": "The league's biggest snubs",
+   "body": "- **Ikarras:** 4 OPOY, 5 SB MVP, every rushing record, 0 MVPs. Receivers Finney, Russell, Higgins and Asanjh (3) all won MVP.\n- **The record board only counts games played for your team**, which is why it shows Ikarras at 18,867 career rushing yds (card: 23,178) and J. Bolden as the rushing-TD leader at 318, behind Curl (362), Myrick (347) and Ikarras (374).",
+   "tier": "controversy",
+   "category": "Snub Watch",
+   "players": [
+    "Brennan Higgins",
+    "Rondale Ikarras",
+    "Derrick Myrick",
+    "Lukas Russell",
+    "Cairo Asanjh",
+    "Ian Finney",
+    "Nico Curl"
+   ],
+   "summary": "Ikarras: 4 OPOY, 5 SB MVP, every rushing record, 0 MVPs."
+  },
+  {
+   "id": "outsiders",
+   "headline": "THE ONES THAT GOT AWAY",
+   "subheadline": "Best players who never played for you",
+   "body": "| Player | Pos / team | Numbers |\n|---|---|---|\n| Amani Bryant | QB, Broncos | 79,121 yds, 124 rush TD (most of any QB), 1 MVP, 0 rings |\n| Marcel Mathieu | QB, Browns | 56,837 yds, 45 INT, ROTY |\n| Shaikal Beebee | QB, Ravens | 60,850 yds, 1 MVP, 0 rings |\n| Nico Curl | RB, 49ers | 17,978 yds, 362 TD, 0 rings |\n| Jayon Queen | DB, Jets | 2,838 tackles, 40 INT, 2 DPOY (only multi-DPOY player) |\n| Mose Junior | DB, Rams | 2,862 tackles, 1 DPOY |\n| Cooper Dean | OL, Commanders | Best lineman by talent score |",
+   "tier": "hot-take",
+   "category": "Outside the Dynasty",
+   "summary": "Amani Bryant, Nico Curl, Jayon Queen and the stars who never wore your colors.",
+   "players": [
+    "Shaikal Beebee",
+    "Marcel Mathieu",
+    "Amani Bryant",
+    "Jayon Queen",
+    "Cooper Dean",
+    "Mose Junior",
+    "Nico Curl"
+   ]
+  },
+  {
+   "id": "metrics",
+   "headline": "THE RING TAX",
+   "subheadline": "What your spreadsheet metrics get wrong",
+   "body": "- **How they work:** Dominance = 0.7 × True Talent + award points (ring 60, MVP 50, OPOY 30, SB MVP 40, DPOY 120, ROTY 0). Career Legacy ≈ 4.6 × Talent + 3.9 × Dominance. TPG ≈ talent per game.\n- **Main flaw:** a ring is worth more than an MVP, and every ring went to your team, so the metric rewards being on your roster.\n- **Overrated:** Waller (21st in talent, 10th in legacy); dynasty role players Rob Lowe, Deante Elder, Damone Omameh, Taywan Tuttle; Brady (real-life awards); Wayne Wilson (lowest TPG of the elite QBs).\n- **Underrated:** Bryant (5th in talent, 13th in legacy); Cooper Dean; Mathieu (17th → 32nd); McQuay; Ikarras (sheet shows 0 OPOY instead of 4, about 470 legacy points short); Baylon (best QB TPG).\n- **TPG favors short careers:** Sione 4.95, Perkins 4.79, Benkert 3.27, Jewell 3.41.\n- **Suggested fixes:** MVP above ring (e.g. 80 vs 40); DPOY near MVP level; score real-life legends separately; a ~150-game minimum for TPG.",
+   "tier": "controversy",
+   "category": "Analytics",
+   "players": [
+    "Damone Omameh",
+    "Taywan Tuttle",
+    "Wayne Wilson",
+    "Deante Elder",
+    "Cooper Dean",
+    "Rob Lowe",
+    "Rondale Ikarras",
+    "Jawill Perkins",
+    "Marcel Mathieu",
+    "Aubrey Jewell",
+    "Dennis Baylon",
+    "Rysen Benkert",
+    "Kyric McQuay",
+    "Amani Bryant",
+    "Ray Waller",
+    "Tom Brady",
+    "Wes Sione"
+   ],
+   "summary": "How they work: Dominance = 0.7 × True Talent + award points (ring 60, MVP 50, OPOY 30, SB MVP 40, DPOY 120, ROTY 0)."
+  },
+  {
+   "id": "composites",
+   "headline": "BUILD THE PERFECT PLAYER",
+   "subheadline": "Composite greats at every position",
+   "body": "- **QB:** Brandson's accuracy, Waller's deep ball, McQuay's decisions, Bryant's legs, Baylon's clutch, Wayne Wilson's durability.\n- **RB:** Sawyer's speed, Ikarras's power and ball security, Hayes's YPC, Gibbs's hands, Inman at the goal line.\n- **WR:** God Johnson's volume and hands, Finney's 17.3 yds/catch, Hunter's peak game, Jackson Kline's consistency, Asanjh's MVP impact.\n- **Defender:** Queen's coverage, Mose Junior's tackling range, Baugh's pass rush and forced fumbles, Kolar's interior pressure.",
+   "tier": "power-ranking",
+   "category": "Fantasy Draft",
+   "players": [
+    "Wayne Wilson",
+    "God Johnson",
+    "Mose Junior",
+    "Sherman Brandson",
+    "Rondale Ikarras",
+    "Malakai Sawyer",
+    "Dennis Baylon",
+    "Zander Kolar",
+    "Tyrone Baugh",
+    "Kyric McQuay",
+    "Amani Bryant",
+    "Denzel Hayes",
+    "Cairo Asanjh",
+    "Jahmyr Gibbs",
+    "Ray Waller",
+    "Ian Finney",
+    "Kitt Inman"
+   ],
+   "summary": "QB: Brandson's accuracy, Waller's deep ball, McQuay's decisions, Bryant's legs, Baylon's clutch, Wayne Wilson's durability."
+  },
+  {
+   "id": "open-questions",
+   "headline": "UNSOLVED MYSTERIES",
+   "subheadline": "What the archives can't confirm",
+   "body": "- Who started at QB for the Titans three-peat?\n- Super Bowl CXXVI result.\n- J. Bolden's position and era; D. Haley's career.",
+   "tier": "analysis",
+   "category": "Open Questions",
+   "players": [],
+   "summary": "Who started at QB for the Titans three-peat?"
+  }
+ ],
+ "rivalries": [
+  {
+   "id": "rival-waller-finney-era",
+   "rival": "Kyric McQuay",
+   "team": "Colts",
+   "era": "Waller–Finney era",
+   "summary": "Kyric McQuay (\"Baby Manning\"), Colts. Beat you in LXXXI (38–32) and LXXXIII (29–28), SB MVP both times. 43 INTs in 10,099 attempts, the best ball security in the league. He's the only QB who beat you consistently without playing for you. His raw talent score (968) beats Waller's (900).",
+   "meetings": [
+    {
+     "roman": "LXXXI",
+     "year": 22,
+     "score": "38-32",
+     "result": "lost",
+     "yourTeam": "Buccaneers",
+     "opponent": "Colts"
+    },
+    {
+     "roman": "LXXXIII",
+     "year": 24,
+     "score": "29-28",
+     "result": "lost",
+     "yourTeam": "Buccaneers",
+     "opponent": "Colts"
+    }
+   ]
+  }
+ ],
+ "lineages": [
+  {
+   "id": "qbs",
+   "label": "QBs",
+   "chain": [
+    "Lamar",
+    "Gooden",
+    "Waller (rival McQuay)",
+    "Baylon",
+    "Brandson",
+    "the Wilson brothers",
+    "Macleone"
+   ],
+   "note": null
+  },
+  {
+   "id": "receivers",
+   "label": "Receivers",
+   "chain": [
+    "Finney with Tyrion Kline",
+    "Asanjh chases Finney",
+    "God Johnson breaks the record with Jackson Kline"
+   ],
+   "note": "The Klines have 9 OPOYs between them."
+  }
+ ],
+ "snubs": [
+  {
+   "id": "ikarras",
+   "title": "Ikarras",
+   "summary": "**Ikarras:** 4 OPOY, 5 SB MVP, every rushing record, 0 MVPs. Receivers Finney, Russell, Higgins and Asanjh (3) all won MVP.",
+   "players": [
+    "Brennan Higgins",
+    "Rondale Ikarras",
+    "Lukas Russell",
+    "Cairo Asanjh",
+    "Ian Finney"
+   ]
+  },
+  {
+   "id": "the-record-board-only-counts-games-played-for-your-team",
+   "title": "The record board only counts games played for your team",
+   "summary": "**The record board only counts games played for your team**, which is why it shows Ikarras at 18,867 career rushing yds (card: 23,178) and J. Bolden as the rushing-TD leader at 318, behind Curl (362), Myrick (347) and Ikarras (374).",
+   "players": [
+    "Rondale Ikarras",
+    "Derrick Myrick",
+    "Nico Curl"
+   ]
+  }
+ ],
+ "outsiders": [
+  {
+   "player": "Amani Bryant",
+   "position": "QB",
+   "team": "Broncos",
+   "summary": "79,121 yds, 124 rush TD (most of any QB), 1 MVP, 0 rings"
+  },
+  {
+   "player": "Marcel Mathieu",
+   "position": "QB",
+   "team": "Browns",
+   "summary": "56,837 yds, 45 INT, ROTY"
+  },
+  {
+   "player": "Shaikal Beebee",
+   "position": "QB",
+   "team": "Ravens",
+   "summary": "60,850 yds, 1 MVP, 0 rings"
+  },
+  {
+   "player": "Nico Curl",
+   "position": "RB",
+   "team": "49ers",
+   "summary": "17,978 yds, 362 TD, 0 rings"
+  },
+  {
+   "player": "Jayon Queen",
+   "position": "DB",
+   "team": "Jets",
+   "summary": "2,838 tackles, 40 INT, 2 DPOY (only multi-DPOY player)"
+  },
+  {
+   "player": "Mose Junior",
+   "position": "DB",
+   "team": "Rams",
+   "summary": "2,862 tackles, 1 DPOY"
+  },
+  {
+   "player": "Cooper Dean",
+   "position": "OL",
+   "team": "Commanders",
+   "summary": "Best lineman by talent score"
+  }
+ ],
+ "openQuestions": [
+  "Who started at QB for the Titans three-peat?",
+  "Super Bowl CXXVI result.",
+  "J. Bolden's position and era; D. Haley's career."
+ ],
+ "playerNotes": [
+  {
+   "name": "Ray Waller",
+   "team": "Buccaneers",
+   "position": "QB",
+   "nickname": "Ray Comeback Waller",
+   "era": "Waller–Finney era · Y15–30"
+  },
+  {
+   "name": "Kyric McQuay",
+   "team": "Colts",
+   "position": "QB",
+   "nickname": "Baby Manning",
+   "era": "Waller–Finney era · Y15–30",
+   "tag": "Beat you in 2 Super Bowls"
+  },
+  {
+   "name": "Wayne Wilson",
+   "team": "Chargers",
+   "position": "QB",
+   "era": "Vikings dynasty · Y59–69",
+   "tag": "Longest career in the league"
+  },
+  {
+   "name": "Amani Bryant",
+   "team": "Broncos",
+   "position": "QB",
+   "tag": "Best QB never to win a ring"
+  },
+  {
+   "name": "Alexx Sanchez",
+   "team": "Titans",
+   "position": "QB",
+   "era": "Commanders run · Y16–19"
+  },
+  {
+   "name": "Sherman Brandson",
+   "team": "Buccaneers",
+   "position": "QB",
+   "nickname": "General Sherman",
+   "era": "Brandson era · Y43–62",
+   "tag": "Passing GOAT"
+  },
+  {
+   "name": "Dennis Baylon",
+   "team": "Bills",
+   "position": "QB",
+   "nickname": "The Iron Island",
+   "era": "Bills dynasty · Y27–33",
+   "tag": "7 Super Bowls, 7 rings"
+  },
+  {
+   "name": "Lamar Jackson",
+   "team": "Ravens",
+   "position": "QB",
+   "nickname": "Him.",
+   "era": "Real-roster era · Y1–15"
+  },
+  {
+   "name": "Jayden Daniels",
+   "team": "Commanders",
+   "position": "QB",
+   "era": "Real-roster era · Y1–15"
+  },
+  {
+   "name": "Drake Maye",
+   "team": "Vikings",
+   "position": "QB",
+   "era": "Real-roster era · Y1–15"
+  },
+  {
+   "name": "Tom Brady",
+   "team": "Patriots",
+   "position": "QB",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Aaron Rodgers",
+   "team": "Steelers",
+   "position": "QB",
+   "nickname": "A-Rod",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Avonte Gooden",
+   "team": "Commanders",
+   "position": "QB",
+   "era": "Commanders run · Y16–19",
+   "tag": "QB of the Commanders four-peat (Y16–19)"
+  },
+  {
+   "name": "Derrick Myrick",
+   "team": "Falcons",
+   "position": "RB",
+   "era": "Falcons champ · Y35"
+  },
+  {
+   "name": "Rondale Ikarras",
+   "team": "Jets",
+   "position": "RB",
+   "nickname": "The Prodigal Son",
+   "era": "Ikarras era · Y36–46",
+   "tag": "Record setter, 0 MVPs"
+  },
+  {
+   "name": "Denzel Hayes",
+   "team": "Ravens",
+   "position": "RB",
+   "era": "Brandson era · Y43–62"
+  },
+  {
+   "name": "Pharaoh Mintze",
+   "team": "Colts",
+   "position": "RB",
+   "era": "Waller–Finney era · Y15–30"
+  },
+  {
+   "name": "Micky Celek",
+   "team": "Bills",
+   "position": "RB",
+   "era": "Bills dynasty · Y27–33"
+  },
+  {
+   "name": "Nico Curl",
+   "team": "49ers",
+   "position": "RB",
+   "tag": "362 TD, zero rings"
+  },
+  {
+   "name": "Kitt Inman",
+   "team": "Buccaneers",
+   "position": "RB",
+   "nickname": "Redzone Titan",
+   "era": "Waller–Finney era · Y15–30"
+  },
+  {
+   "name": "Jahmyr Gibbs",
+   "team": "Dolphins",
+   "position": "RB",
+   "nickname": "Mr. Incredible",
+   "era": "Real-roster era · Y1–15"
+  },
+  {
+   "name": "Breece Hall",
+   "team": "Chargers",
+   "position": "RB",
+   "era": "Real-roster era · Y1–15"
+  },
+  {
+   "name": "Ian Finney",
+   "team": "Buccaneers",
+   "position": "WR",
+   "nickname": "The Infinity Man",
+   "era": "Waller–Finney era · Y15–30"
+  },
+  {
+   "name": "Pharoah Hunter",
+   "team": "Vikings",
+   "position": "WR",
+   "era": "Vikings dynasty · Y59–69"
+  },
+  {
+   "name": "God Johnson",
+   "team": "Vikings",
+   "position": "WR",
+   "era": "Vikings dynasty · Y59–69",
+   "tag": "Formerly Mason Earl III"
+  },
+  {
+   "name": "Jackson Wardell Kline",
+   "team": "Giants",
+   "position": "WR",
+   "era": "Vikings dynasty · Y59–69",
+   "tag": "Son of Tyrion Kline"
+  },
+  {
+   "name": "Tyrion Kline",
+   "team": "Chargers",
+   "position": "WR",
+   "nickname": "FBI",
+   "era": "Waller–Finney era · Y15–30",
+   "tag": "Father of Jackson Kline"
+  },
+  {
+   "name": "Brennan Higgins",
+   "team": "Commanders",
+   "position": "WR",
+   "era": "Commanders run · Y16–19"
+  },
+  {
+   "name": "Cairo Asanjh",
+   "team": "Seahawks",
+   "position": "WR",
+   "nickname": "The Prophecy",
+   "era": "Bills → Seahawks · ~Y25–38",
+   "tag": "Chased Finney’s record"
+  },
+  {
+   "name": "Lukas Russell",
+   "team": "Seahawks",
+   "position": "WR",
+   "nickname": "Running Man",
+   "era": "Ikarras era · Y36–46"
+  },
+  {
+   "name": "Reuben Kilian",
+   "team": "Bills",
+   "position": "WR",
+   "nickname": "Mr. Consistent",
+   "era": "Bills dynasty · Y27–33"
+  },
+  {
+   "name": "Ja’Marr Chase",
+   "team": "Vikings",
+   "position": "WR",
+   "era": "Real-roster era · Y1–15"
+  },
+  {
+   "name": "Jerry Rice",
+   "team": "49ers",
+   "position": "WR",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "CeeDee Lamb",
+   "team": "Dolphins",
+   "position": "WR",
+   "era": "Real-roster era · Y1–15"
+  },
+  {
+   "name": "Rob Gronkowski",
+   "team": "Patriots",
+   "position": "TE",
+   "nickname": "Gronk",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Mason Taylor",
+   "team": "Dolphins",
+   "position": "TE",
+   "era": "Real-roster era · Y1–15"
+  },
+  {
+   "name": "Akiem Bouye",
+   "team": "Chargers",
+   "position": "TE",
+   "nickname": "Akiem the Dream",
+   "era": "Real-roster era · Y1–15"
+  },
+  {
+   "name": "Jahan Square",
+   "team": "Buccaneers",
+   "position": "TE",
+   "era": "Waller–Finney era · Y15–30"
+  },
+  {
+   "name": "Wes Sione",
+   "team": "Seahawks",
+   "position": "TE",
+   "nickname": "Native Threat",
+   "era": "Ikarras era · Y36–46",
+   "tag": "Best TD rate of any TE"
+  },
+  {
+   "name": "Charlie John",
+   "team": "Bills",
+   "position": "TE",
+   "nickname": "CJ",
+   "era": "Bills dynasty · Y27–33"
+  },
+  {
+   "name": "Shemar Wood",
+   "team": "Buccaneers",
+   "position": "TE",
+   "era": "Waller–Finney era · Y15–30"
+  },
+  {
+   "name": "Bruce Matthews",
+   "team": "Titans",
+   "position": "OL",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Jawill Perkins",
+   "team": "Seahawks",
+   "position": "OL",
+   "era": "Ikarras era · Y36–46"
+  },
+  {
+   "name": "Cooper Dean",
+   "team": "Commanders",
+   "position": "OL",
+   "tag": "Best lineman in the league"
+  },
+  {
+   "name": "Nick Bolton",
+   "team": "Vikings",
+   "position": "LB",
+   "era": "Real-roster era · Y1–15"
+  },
+  {
+   "name": "Tyrone Baugh",
+   "team": "Bills",
+   "position": "LB",
+   "era": "Bills dynasty · Y27–33"
+  },
+  {
+   "name": "Taywan Tuttle",
+   "team": "Chargers",
+   "position": "DB",
+   "era": "Real-roster era · Y1–15"
+  },
+  {
+   "name": "Sauce Gardner",
+   "team": "Dolphins",
+   "position": "DB",
+   "era": "Real-roster era · Y1–15"
+  },
+  {
+   "name": "Jayon Queen",
+   "team": "Jets",
+   "position": "DB",
+   "nickname": "FOV",
+   "tag": "Only 2× DPOY"
+  },
+  {
+   "name": "Rob Lowe",
+   "team": "Bills",
+   "position": "DB",
+   "era": "Bills dynasty · Y27–33"
+  },
+  {
+   "name": "Deante Elder",
+   "team": "Seahawks",
+   "position": "DB",
+   "era": "Ikarras era · Y36–46"
+  },
+  {
+   "name": "Michael Wilson",
+   "team": "UNK",
+   "position": "QB",
+   "era": "Vikings dynasty · Y59–69",
+   "tag": "Wayne’s brother · retired injured"
+  },
+  {
+   "name": "Jason Macleone",
+   "team": "CUR",
+   "position": "QB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Malakai Sawyer",
+   "team": "CUR",
+   "position": "RB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Chance Woodrum",
+   "team": "CUR",
+   "position": "DB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Peyton Manning",
+   "team": "Colts",
+   "position": "QB",
+   "nickname": "The Sheriff",
+   "era": "Imported legend · real NFL stats",
+   "tag": "5 real MVPs"
+  },
+  {
+   "name": "Drew Brees",
+   "team": "Saints",
+   "position": "QB",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Joe Montana",
+   "team": "49ers",
+   "position": "QB",
+   "nickname": "Joe Cool",
+   "era": "Imported legend · real NFL stats",
+   "tag": "3 real Super Bowl MVPs"
+  },
+  {
+   "name": "Dan Marino",
+   "team": "Dolphins",
+   "position": "QB",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Brett Favre",
+   "team": "Packers",
+   "position": "QB",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "John Elway",
+   "team": "Broncos",
+   "position": "QB",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Steve Young",
+   "team": "49ers",
+   "position": "QB",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Emmitt Smith",
+   "team": "Cowboys",
+   "position": "RB",
+   "era": "Imported legend · real NFL stats",
+   "tag": "Real NFL rushing king"
+  },
+  {
+   "name": "Walter Payton",
+   "team": "Bears",
+   "position": "RB",
+   "nickname": "Sweetness",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Barry Sanders",
+   "team": "Lions",
+   "position": "RB",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "LaDainian Tomlinson",
+   "team": "Chargers",
+   "position": "RB",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Adrian Peterson",
+   "team": "Vikings",
+   "position": "RB",
+   "nickname": "All Day",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Jim Brown",
+   "team": "Browns",
+   "position": "RB",
+   "era": "Imported legend · real NFL stats",
+   "tag": "3 real MVPs"
+  },
+  {
+   "name": "Randy Moss",
+   "team": "Vikings",
+   "position": "WR",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Terrell Owens",
+   "team": "49ers",
+   "position": "WR",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Larry Fitzgerald",
+   "team": "Cardinals",
+   "position": "WR",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Calvin Johnson",
+   "team": "Lions",
+   "position": "WR",
+   "nickname": "Megatron",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Tony Gonzalez",
+   "team": "Chiefs",
+   "position": "TE",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Shannon Sharpe",
+   "team": "Broncos",
+   "position": "TE",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Ray Lewis",
+   "team": "Ravens",
+   "position": "LB",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Lawrence Taylor",
+   "team": "Giants",
+   "position": "LB",
+   "nickname": "LT",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Reggie White",
+   "team": "Eagles",
+   "position": "DL",
+   "nickname": "Minister of Defense",
+   "era": "Imported legend · real NFL stats",
+   "tag": "198 real sacks"
+  },
+  {
+   "name": "J.J. Watt",
+   "team": "Texans",
+   "position": "DL",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Ed Reed",
+   "team": "Ravens",
+   "position": "DB",
+   "era": "Imported legend · real NFL stats",
+   "tag": "64 real INTs"
+  },
+  {
+   "name": "Deion Sanders",
+   "team": "Cowboys",
+   "position": "DB",
+   "nickname": "Prime Time",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Troy Polamalu",
+   "team": "Steelers",
+   "position": "DB",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Charles Woodson",
+   "team": "Raiders",
+   "position": "DB",
+   "era": "Imported legend · real NFL stats"
+  },
+  {
+   "name": "Patrick Mahomes",
+   "team": "Chiefs",
+   "position": "QB",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Josh Allen",
+   "team": "Bills",
+   "position": "QB",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Joe Burrow",
+   "team": "Bengals",
+   "position": "QB",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Saquon Barkley",
+   "team": "Eagles",
+   "position": "RB",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Derrick Henry",
+   "team": "Ravens",
+   "position": "RB",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Christian McCaffrey",
+   "team": "49ers",
+   "position": "RB",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Bijan Robinson",
+   "team": "Falcons",
+   "position": "RB",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Justin Jefferson",
+   "team": "Vikings",
+   "position": "WR",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Tyreek Hill",
+   "team": "Dolphins",
+   "position": "WR",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Puka Nacua",
+   "team": "Rams",
+   "position": "WR",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Jaxon Smith-Njigba",
+   "team": "Seahawks",
+   "position": "WR",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Travis Kelce",
+   "team": "Chiefs",
+   "position": "TE",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "George Kittle",
+   "team": "49ers",
+   "position": "TE",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "T.J. Watt",
+   "team": "Steelers",
+   "position": "LB",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Micah Parsons",
+   "team": "Packers",
+   "position": "LB",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Fred Warner",
+   "team": "49ers",
+   "position": "LB",
+   "era": "Current NFL star · real stats through 2025"
+  },
+  {
+   "name": "Myles Garrett",
+   "team": "Browns",
+   "position": "DL",
+   "era": "Current NFL star · real stats through 2025",
+   "tag": "Real single-season sack record (23)"
+  },
+  {
+   "name": "Patrick Surtain II",
+   "team": "Broncos",
+   "position": "DB",
+   "era": "Current NFL star · real stats through 2025"
+  }
+ ]
+}

@@ -1,20 +1,18 @@
-import { formatNumber } from '@/utils/metricColors';
+import { cn } from '@/lib/utils';
+import { LeaderStat } from './tables/cells';
 
 interface StatCellProps {
   value: number;
   isLeader?: boolean;
+  decimals?: number;
   className?: string;
 }
 
-const StatCell = ({ value, isLeader = false, className = '' }: StatCellProps) => {
-  return (
-    <span className={`font-mono ${isLeader ? 'font-bold text-primary relative pl-5' : 'text-foreground'} ${className}`}>
-      {isLeader && (
-        <span className="absolute left-0 text-xs">👑</span>
-      )}
-      {formatNumber(value)}
-    </span>
-  );
-};
+/** Plain stat number; leaders get a gold Lucide crown plus screen-reader text. */
+const StatCell = ({ value, isLeader = false, decimals, className }: StatCellProps) => (
+  <span className={cn('inline-flex', className)}>
+    <LeaderStat value={value} isLeader={isLeader} decimals={decimals} />
+  </span>
+);
 
 export default StatCell;

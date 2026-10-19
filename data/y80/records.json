@@ -1,0 +1,281 @@
+{
+ "note": "In-game Player Records board. It only counts games played for your team, so some career marks trail the player cards (e.g. Ikarras 18,867 here vs 23,178 on his card).",
+ "records": [
+  {
+   "record": "Longest passing play",
+   "mark": "77 yds",
+   "holder": "QB S. Brandson \u2192 WR D. Haley",
+   "year": "Y46"
+  },
+  {
+   "record": "Longest rushing play",
+   "mark": "65 yds",
+   "holder": "QB J. Macleone \u2192 RB M. Sawyer",
+   "year": "Y75"
+  },
+  {
+   "record": "Longest passing TD",
+   "mark": "77 yds",
+   "holder": "QB S. Brandson \u2192 WR D. Haley",
+   "year": "Y46"
+  },
+  {
+   "record": "Longest rushing TD",
+   "mark": "58 yds",
+   "holder": "QB S. Brandson \u2192 RB D. Hayes",
+   "year": "Y50"
+  },
+  {
+   "record": "Longest pass (air)",
+   "mark": "30 yds",
+   "holder": "QB J. Vaalhaal \u2192 WR M. Earl III",
+   "year": "Y59"
+  },
+  {
+   "record": "Longest field goal",
+   "mark": "54 yds",
+   "holder": "K Z. Griffen",
+   "year": "Y7"
+  },
+  {
+   "record": "Best passing game",
+   "mark": "513 yds",
+   "holder": "QB R. Waller",
+   "year": "Y26"
+  },
+  {
+   "record": "Best passing season",
+   "mark": "7,452 yds",
+   "holder": "QB D. Baylon",
+   "year": "Y33"
+  },
+  {
+   "record": "Best passing career",
+   "mark": "91,463 yds",
+   "holder": "QB S. Brandson",
+   "year": "Y62"
+  },
+  {
+   "record": "Best receiving game",
+   "mark": "288 yds",
+   "holder": "WR P. Hunter",
+   "year": "Y68"
+  },
+  {
+   "record": "Best receiving season",
+   "mark": "4,247 yds",
+   "holder": "WR M. Earl III (now God Johnson)",
+   "year": "Y62"
+  },
+  {
+   "record": "Best receiving career",
+   "mark": "36,005 yds",
+   "holder": "WR G. Johnson",
+   "year": "Y67"
+  },
+  {
+   "record": "Best rushing game",
+   "mark": "212 yds",
+   "holder": "RB M. Sawyer",
+   "year": "Y78"
+  },
+  {
+   "record": "Best rushing season",
+   "mark": "2,104 yds",
+   "holder": "RB R. Ikarras",
+   "year": "Y42"
+  },
+  {
+   "record": "Best rushing career",
+   "mark": "18,867 yds",
+   "holder": "RB R. Ikarras",
+   "year": "Y47"
+  },
+  {
+   "record": "Most TD passes, game",
+   "mark": "9",
+   "holder": "QB S. Brandson",
+   "year": "Y55"
+  },
+  {
+   "record": "Most TD passes, season",
+   "mark": "94",
+   "holder": "QB S. Brandson",
+   "year": "Y55"
+  },
+  {
+   "record": "Most TD passes, career",
+   "mark": "1,150",
+   "holder": "QB S. Brandson",
+   "year": "Y62"
+  },
+  {
+   "record": "Most TD receptions, game",
+   "mark": "6",
+   "holder": "WR I. Finney",
+   "year": "Y23"
+  },
+  {
+   "record": "Most TD receptions, season",
+   "mark": "49",
+   "holder": "WR G. Johnson",
+   "year": "Y63"
+  },
+  {
+   "record": "Most TD receptions, career",
+   "mark": "378",
+   "holder": "WR G. Johnson",
+   "year": "Y67"
+  },
+  {
+   "record": "Most rushing TDs, game",
+   "mark": "5",
+   "holder": "RB R. Ikarras",
+   "year": "Y40"
+  },
+  {
+   "record": "Most rushing TDs, season",
+   "mark": "32",
+   "holder": "RB R. Ikarras",
+   "year": "Y38"
+  },
+  {
+   "record": "Most rushing TDs, career",
+   "mark": "318",
+   "holder": "RB J. Bolden",
+   "year": "Y71"
+  },
+  {
+   "record": "Most FG yards, game",
+   "mark": "54 yds",
+   "holder": "K Z. Griffen",
+   "year": "Y7"
+  },
+  {
+   "record": "Most FG yards, season",
+   "mark": "238 yds",
+   "holder": "K Z. Griffen",
+   "year": "Y7"
+  },
+  {
+   "record": "Most FG yards, career",
+   "mark": "16,224 yds",
+   "holder": "K E. McPherson",
+   "year": "Y15"
+  },
+  {
+   "record": "Most field goals, game",
+   "mark": "1",
+   "holder": "K B. Dalman",
+   "year": "Y2"
+  },
+  {
+   "record": "Most field goals, season",
+   "mark": "6",
+   "holder": "K Z. Griffen",
+   "year": "Y7"
+  },
+  {
+   "record": "Most field goals, career",
+   "mark": "702",
+   "holder": "K E. McPherson",
+   "year": "Y15"
+  },
+  {
+   "record": "Most tackles, game",
+   "mark": "17",
+   "holder": "LB Z. Franklin",
+   "year": "Y5"
+  },
+  {
+   "record": "Most tackles, season",
+   "mark": "177",
+   "holder": "DB D. Batson",
+   "year": "Y50"
+  },
+  {
+   "record": "Most tackles, career",
+   "mark": "2,441",
+   "holder": "DB R. Mosby",
+   "year": "Y22"
+  },
+  {
+   "record": "Most sacks, game",
+   "mark": "2",
+   "holder": "DL L. Palardy",
+   "year": "Y11"
+  },
+  {
+   "record": "Most sacks, season",
+   "mark": "9",
+   "holder": "DL A. Leavitt",
+   "year": "Y23"
+  },
+  {
+   "record": "Most sacks, career",
+   "mark": "112",
+   "holder": "LB T. Watt",
+   "year": "Y6"
+  },
+  {
+   "record": "Most interceptions, game",
+   "mark": "2",
+   "holder": "LB D. Campbell",
+   "year": "Y2"
+  },
+  {
+   "record": "Most interceptions, season",
+   "mark": "7",
+   "holder": "DB G. Coulter",
+   "year": "Y26"
+  },
+  {
+   "record": "Most interceptions, career",
+   "mark": "37",
+   "holder": "DB C. Lowery",
+   "year": "Y20"
+  },
+  {
+   "record": "Most forced fumbles, game",
+   "mark": "2",
+   "holder": "LB T. Baugh",
+   "year": "Y29"
+  },
+  {
+   "record": "Most forced fumbles, season",
+   "mark": "4",
+   "holder": "DL A. Succop",
+   "year": "Y3"
+  },
+  {
+   "record": "Most forced fumbles, career",
+   "mark": "12",
+   "holder": "LB T. Baugh",
+   "year": "Y36"
+  },
+  {
+   "record": "Longest kick return",
+   "mark": "33 yds",
+   "holder": "DB B. Branch",
+   "year": "Y4"
+  },
+  {
+   "record": "Most return yards, game",
+   "mark": "169 yds",
+   "holder": "DB B. Branch",
+   "year": "Y4"
+  },
+  {
+   "record": "Most return yards, season",
+   "mark": "1,574 yds",
+   "holder": "DB B. Baker",
+   "year": "Y1"
+  },
+  {
+   "record": "Most return yards, career",
+   "mark": "5,778 yds",
+   "holder": "WR C. Lamb",
+   "year": "Y7"
+  }
+ ]
+}

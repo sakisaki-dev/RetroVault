@@ -1,196 +1,161 @@
-import { useRef, useEffect, useState } from 'react';
-import { Calendar, Trash2 } from 'lucide-react';
-import { useLeague } from '@/context/LeagueContext';
+import { useEffect, useMemo, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { toast } from 'sonner';
+import { useLeague } from '@/context/LeagueContext';
+import { findNFLTeam } from '@/utils/nflTeams';
+import { HOF_THRESHOLD } from '@/config/stats';
+import BrandMark from '@/components/brand/BrandMark';
+import CountUp from '@/components/brand/CountUp';
 
 interface HeaderProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
 }
 
-// Retro pixel-style football icon - colorful
-const RetroFootballIcon = () => (
-  <svg viewBox="0 0 32 32" fill="none" className="w-10 h-10 drop-shadow-lg">
-    <ellipse cx="16" cy="16" rx="14" ry="10" fill="#8B4513" />
-    <ellipse cx="16" cy="13" rx="11" ry="6" fill="#A0522D" opacity="0.6" />
-    <ellipse cx="16" cy="19" rx="10" ry="5" fill="#5D2E0C" opacity="0.4" />
-    <rect x="15" y="7" width="2" height="18" rx="1" fill="white" />
-    <rect x="11" y="10" width="10" height="1.5" rx="0.5" fill="white" />
-    <rect x="11" y="14" width="10" height="1.5" rx="0.5" fill="white" />
-    <rect x="11" y="18" width="10" height="1.5" rx="0.5" fill="white" />
-    <ellipse cx="16" cy="16" rx="13" ry="9" stroke="#6B3410" strokeWidth="1" fill="none" opacity="0.5" />
-  </svg>
-);
-
-const tabs = [
-  { value: 'career', label: 'Career' },
-  { value: 'season', label: 'Season' },
+export const NAV_TABS = [
+  { value: 'games', label: 'Arcade' },
+  { value: 'career', label: 'Stats' },
   { value: 'teams', label: 'Teams' },
   { value: 'hof', label: 'Hall of Fame' },
-  { value: 'records', label: 'Records' },
+  { value: 'timeline', label: 'Timeline' },
   { value: 'compare', label: 'Compare' },
-  { value: 'commentary', label: 'Commentary' },
-];
+] as const;
+
+/** Season tag (e.g. "Y80") from the title line of the saved league sheet, if present. */
+const readSeasonTag = (): string | null => {
+  try {
+    const csv = localStorage.getItem('retroVault:careerCsv');
+    if (!csv) return null;
+    const firstLine = csv.slice(0, 300).split(/\r?\n/)[0] ?? '';
+    const match = firstLine.match(/\bY\d{1,3}\b/i);
+    return match ? match[0].toUpperCase() : null;
+  } catch {
+    return null;
+  }
+};
 
 const Header = ({ activeTab, onTabChange }: HeaderProps) => {
-  const { currentSeason, purgeSeason, getAvailableSeasons } = useLeague();
-  const navRef = useRef<HTMLDivElement | null>(null);
-  const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [seasons, setSeasons] = useState<string[]>([]);
+  const { careerData, getAllPlayers, dataVersion } = useLeague();
+  const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
-  useEffect(() => {
-    const updateIndicator = () => {
-      const activeIndex = tabs.findIndex((t) => t.value === activeTab);
-      const activeButton = tabsRef.current[activeIndex];
-      const navEl = navRef.current;
-
-      if (!activeButton || !navEl) return;
-
-      const buttonRect = activeButton.getBoundingClientRect();
-      const navRect = navEl.getBoundingClientRect();
-
-      setIndicatorStyle({
-        left: buttonRect.left - navRect.left,
-        width: buttonRect.width,
-      });
+  const board = useMemo(() => {
+    const players = getAllPlayers();
+    const teams = new Set<string>();
+    players.forEach((p) => {
+      const raw = p.team?.trim();
+      if (!raw) return;
+      teams.add(findNFLTeam(raw)?.id ?? raw.toLowerCase());
+    });
+    return {
+      season: readSeasonTag(),
+      players: players.length,
+      teams: teams.size,
+      hof: players.filter((p) => p.careerLegacy >= HOF_THRESHOLD).length,
+      rings: players.reduce((sum, p) => sum + (p.rings || 0), 0),
     };
+    // dataVersion bumps after edits/uploads so the board stays in sync
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [careerData, getAllPlayers, dataVersion]);
 
-    updateIndicator();
-    window.addEventListener('resize', updateIndicator);
-    return () => window.removeEventListener('resize', updateIndicator);
+  // Keep the active tab visible in the scrollable mobile nav
+  useEffect(() => {
+    tabRefs.current[activeTab]?.scrollIntoView({ block: 'nearest', inline: 'center' });
   }, [activeTab]);
 
-  // Load unique seasons from context
-  useEffect(() => {
-    setSeasons(getAvailableSeasons());
-  }, [getAvailableSeasons, currentSeason]);
+  const nav = (
+    <nav aria-label="Primary" className="min-w-0">
+      <ul className="flex items-stretch gap-1 overflow-x-auto scrollbar-none -mx-1 px-1">
+        {NAV_TABS.map((tab) => {
+          const isActive = activeTab === tab.value;
+          return (
+            <li key={tab.value} className="shrink-0">
+              <button
+                ref={(el) => (tabRefs.current[tab.value] = el)}
+                type="button"
+                onClick={() => onTabChange(tab.value)}
+                aria-current={isActive ? 'page' : undefined}
+                className={cn(
+                  'relative h-11 px-3 sm:px-3.5 font-display text-[17px] font-bold uppercase tracking-wide whitespace-nowrap transition-colors',
+                  'after:absolute after:inset-x-2 after:bottom-0 after:h-[3px] after:rounded-t after:transition-colors',
+                  isActive
+                    ? 'text-chalk after:bg-gold'
+                    : 'text-muted-foreground hover:text-chalk after:bg-transparent hover:after:bg-line',
+                )}
+              >
+                {tab.label}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
 
-  const handleDeleteSeason = (seasonToDelete: string) => {
-    const removed = purgeSeason(seasonToDelete);
-    setSeasons(getAvailableSeasons());
-
-    if (removed.length > 1) {
-      toast.success(`Deleted ${removed[0]} and ${removed.length - 1} later season(s)`);
-    } else {
-      toast.success(`Deleted season ${seasonToDelete} data`);
-    }
-  };
-
-  const handleTabClick = (value: string) => {
-    if (value === activeTab) return;
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 420);
-    onTabChange(value);
-  };
+  const lamps = careerData
+    ? [
+        { k: 'Players', v: board.players },
+        { k: 'Teams', v: board.teams },
+        { k: 'HOF', v: board.hof },
+        { k: 'Rings', v: board.rings },
+      ]
+    : [];
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/20">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center h-20">
-          {/* Logo */}
-          <div className="flex items-center gap-3 justify-self-start">
-            <RetroFootballIcon />
-            <div>
-              <span className="font-display text-2xl font-bold tracking-tight text-foreground">
-                Retro Vault
-              </span>
-              <p className="text-xs text-muted-foreground tracking-wide">League Analytics</p>
-            </div>
-          </div>
+    <header className="sticky top-0 z-50 border-b border-line/70 bg-night/90 backdrop-blur-md supports-[backdrop-filter]:bg-night/80">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[60] focus:rounded focus:bg-gold focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary-foreground"
+      >
+        Skip to content
+      </a>
 
-          {/* Navigation with fluid indicator (centered) */}
-          <div
-            ref={navRef}
-            className="relative justify-self-center bg-secondary/50 backdrop-blur-sm border border-border/20 p-1.5 rounded-full"
+      {/* Gold rule across the top, like a broadcast bug */}
+      <div className="h-[3px] bg-gradient-to-r from-gold via-gold/70 to-turf" aria-hidden="true" />
+
+      <div className="container">
+        <div className="flex items-center gap-4 lg:gap-8 h-14 lg:h-16">
+          <button
+            type="button"
+            onClick={() => onTabChange('career')}
+            className="shrink-0 rounded-md"
+            aria-label="Retro Vault home"
           >
-            {/* Fluid animated indicator - solid black */}
-            <div
-              className="absolute top-1.5 bottom-1.5 rounded-full bg-background shadow-sm"
-              style={{
-                left: `${indicatorStyle.left}px`,
-                width: `${indicatorStyle.width}px`,
-                transform: isAnimating ? 'scaleX(1.06) scaleY(0.92)' : 'scaleX(1) scaleY(1)',
-                transformOrigin: 'center',
-                transition: isAnimating
-                  ? 'left 420ms cubic-bezier(0.4, 0, 0.2, 1), width 420ms cubic-bezier(0.4, 0, 0.2, 1), transform 420ms cubic-bezier(0.4, 0, 0.2, 1)'
-                  : 'left 320ms cubic-bezier(0.4, 0, 0.2, 1), width 320ms cubic-bezier(0.4, 0, 0.2, 1)',
-              }}
-            />
+            <BrandMark compact className="sm:hidden" />
+            <BrandMark className="hidden sm:inline-flex" />
+          </button>
 
-            {/* Tab buttons */}
-            <div className="relative flex gap-0">
-              {tabs.map((tab, index) => (
-                <button
-                  key={tab.value}
-                  ref={(el) => (tabsRef.current[index] = el)}
-                  onClick={() => handleTabClick(tab.value)}
-                  className={cn(
-                    "relative z-10 rounded-full px-5 py-2 text-sm font-medium whitespace-nowrap flex items-center justify-center transition-colors duration-200",
-                    activeTab === tab.value ? "text-foreground" : "text-muted-foreground"
-                  )}
-                >
-                  {tab.label}
-                </button>
+          <div className="hidden lg:block flex-1 min-w-0 self-end">{nav}</div>
+
+          {board.season && (
+            <span className="lamp ml-auto lg:ml-0 shrink-0" aria-label={`Season ${board.season}`}>
+              Season <b>{board.season}</b>
+            </span>
+          )}
+        </div>
+
+        {/* Mobile / tablet nav: horizontal scroll */}
+        <div className="lg:hidden -mt-1">{nav}</div>
+      </div>
+
+      {/* Scoreboard strip */}
+      {lamps.length > 0 && (
+        <div className="scoreboard-strip">
+          <div className="container">
+            <p
+              className="flex items-center gap-x-3 overflow-x-auto scrollbar-none py-1.5 font-pixel text-[10px] uppercase text-muted-foreground whitespace-nowrap"
+              aria-label="League summary"
+            >
+              {lamps.map((l, i) => (
+                <span key={l.k} className="inline-flex items-center gap-1.5">
+                  {i > 0 && <span aria-hidden="true" className="text-line">·</span>}
+                  <CountUp value={Number(l.v)} className="text-gold" />
+                  <span>{l.k}</span>
+                </span>
               ))}
-            </div>
-          </div>
-
-          {/* Season indicator with delete toggle */}
-          <div className="justify-self-end">
-            <Popover>
-              <PopoverTrigger asChild>
-                <button className="flex items-center gap-3 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 cursor-pointer transition-colors hover:bg-accent/20">
-                  <Calendar className="w-4 h-4 text-accent" />
-                  <span className="text-sm text-muted-foreground">Season</span>
-                  <span className="font-display text-lg font-bold text-accent">{currentSeason || '—'}</span>
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="w-64 p-0" align="end">
-                <div className="p-3 border-b border-border">
-                  <h4 className="font-medium text-sm text-foreground">Delete Season Data</h4>
-                  <p className="text-xs text-muted-foreground mt-1">Remove faulty season data</p>
-                </div>
-                <ScrollArea className="max-h-64">
-                  {seasons.length === 0 ? (
-                    <div className="p-4 text-center text-sm text-muted-foreground">
-                      No season history recorded
-                    </div>
-                  ) : (
-                    <div className="p-2">
-                      {seasons.map((season) => (
-                        <div
-                          key={season}
-                          className="flex items-center justify-between px-3 py-2 rounded-md hover:bg-secondary/50"
-                        >
-                          <span className="text-sm font-medium">{season}</span>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-7 w-7 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                            onClick={() => handleDeleteSeason(season)}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </ScrollArea>
-              </PopoverContent>
-            </Popover>
+              <span className="ml-auto pl-4 text-turf" aria-hidden="true">Ready</span>
+            </p>
           </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };

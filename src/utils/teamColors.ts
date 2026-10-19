@@ -1,90 +1,78 @@
-// NFL team colors for banners
-export const TEAM_COLORS: Record<string, { primary: string; secondary: string }> = {
-  // AFC East
-  bills: { primary: '217 89% 35%', secondary: '0 92% 45%' },
-  dolphins: { primary: '173 94% 37%', secondary: '21 100% 54%' },
-  patriots: { primary: '221 72% 26%', secondary: '0 77% 41%' },
-  jets: { primary: '140 100% 22%', secondary: '0 0% 100%' },
-  
-  // AFC North
-  ravens: { primary: '264 73% 33%', secondary: '45 100% 50%' },
-  bengals: { primary: '24 100% 50%', secondary: '0 0% 0%' },
-  browns: { primary: '24 76% 35%', secondary: '24 76% 35%' },
-  steelers: { primary: '45 100% 50%', secondary: '0 0% 0%' },
-  
-  // AFC South
-  texans: { primary: '217 100% 23%', secondary: '0 100% 48%' },
-  colts: { primary: '225 100% 35%', secondary: '0 0% 100%' },
-  jaguars: { primary: '175 100% 30%', secondary: '45 100% 50%' },
-  titans: { primary: '210 100% 40%', secondary: '0 77% 41%' },
-  
-  // AFC West
-  broncos: { primary: '20 100% 50%', secondary: '217 89% 35%' },
-  chiefs: { primary: '0 92% 45%', secondary: '45 100% 50%' },
-  raiders: { primary: '0 0% 45%', secondary: '0 0% 20%' },
-  chargers: { primary: '206 100% 42%', secondary: '45 100% 50%' },
-  
-  // NFC East
-  cowboys: { primary: '217 89% 35%', secondary: '0 0% 75%' },
-  giants: { primary: '217 100% 35%', secondary: '0 77% 41%' },
-  eagles: { primary: '167 91% 24%', secondary: '0 0% 0%' },
-  commanders: { primary: '345 80% 36%', secondary: '45 100% 50%' },
-  
-  // NFC North
-  bears: { primary: '217 89% 25%', secondary: '24 100% 50%' },
-  lions: { primary: '206 100% 42%', secondary: '0 0% 75%' },
-  packers: { primary: '100 69% 28%', secondary: '45 100% 50%' },
-  vikings: { primary: '264 73% 40%', secondary: '45 100% 50%' },
-  
-  // NFC South
-  falcons: { primary: '0 92% 45%', secondary: '0 0% 0%' },
-  panthers: { primary: '200 100% 35%', secondary: '0 0% 0%' },
-  saints: { primary: '45 100% 50%', secondary: '0 0% 0%' },
-  buccaneers: { primary: '0 77% 41%', secondary: '0 0% 10%' },
-  
-  // NFC West
-  cardinals: { primary: '350 84% 38%', secondary: '0 0% 0%' },
-  '49ers': { primary: '350 84% 38%', secondary: '45 80% 50%' },
-  seahawks: { primary: '217 89% 25%', secondary: '97 100% 45%' },
-  rams: { primary: '217 100% 35%', secondary: '45 100% 50%' },
+import { NFL_TEAMS, findNFLTeam } from './nflTeams';
+
+export interface TeamColors {
+  primary: string; // HSL triplet, e.g. "0 92% 45%"
+  secondary: string;
+}
+
+/**
+ * Team colors keyed by team id. Derived from NFL_TEAMS so colors and logos
+ * always come from the same record.
+ */
+export const TEAM_COLORS: Record<string, TeamColors> = Object.fromEntries(
+  NFL_TEAMS.map((t) => [t.id, { primary: t.primaryColor, secondary: t.secondaryColor }]),
+);
+
+/**
+ * Resolve a team string (abbreviation, nickname, city or full name) to its colors.
+ * Goes through findNFLTeam, which matches exact values first, so "CHI" is the Bears
+ * (not the Chiefs) and "PHI" is the Eagles (not the Dolphins).
+ */
+export const getTeamColors = (teamName?: string | null): TeamColors | null => {
+  const team = findNFLTeam(teamName);
+  if (!team) return null;
+  return { primary: team.primaryColor, secondary: team.secondaryColor };
 };
 
-export const getTeamColors = (teamName?: string): { primary: string; secondary: string } | null => {
-  if (!teamName) return null;
-  
-  // Normalize: lowercase, trim, remove all non-alphanumeric
-  const normalized = teamName.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
-  
-  // Direct match first
-  if (TEAM_COLORS[normalized]) return TEAM_COLORS[normalized];
-  
-  // Check for '49ers' special case (becomes '49ers' after normalization)
-  if (normalized === '49ers' || normalized.includes('49ers') || normalized.includes('niners')) {
-    return TEAM_COLORS['49ers'];
-  }
-  
-  // Partial match (e.g., "Buccaneers " -> "buccaneers")
-  for (const [key, colors] of Object.entries(TEAM_COLORS)) {
-    // Skip numeric keys for partial matching
-    if (/^\d/.test(key)) continue;
-    if (normalized.includes(key) || key.includes(normalized)) {
-      return colors;
-    }
-  }
-  
-  return null;
-};
-
-export const getTeamGradient = (teamName?: string): string | null => {
+export const getTeamGradient = (teamName?: string | null): string | null => {
   const colors = getTeamColors(teamName);
   if (!colors) return null;
-  
   return `linear-gradient(135deg, hsl(${colors.primary}) 0%, hsl(${colors.secondary}) 100%)`;
 };
 
-export const getTeamBorderColor = (teamName?: string): string | null => {
+export const getTeamBorderColor = (teamName?: string | null): string | null => {
   const colors = getTeamColors(teamName);
   if (!colors) return null;
-  
   return `hsl(${colors.primary})`;
+};
+
+const parseHsl = (triplet: string): [number, number, number] | null => {
+  const m = triplet.match(/(-?[\d.]+)\s+([\d.]+)%\s+([\d.]+)%/);
+  return m ? [Number(m[1]), Number(m[2]), Number(m[3])] : null;
+};
+
+/** Relative luminance (WCAG) of an HSL triplet. */
+const luminance = (triplet: string): number => {
+  const parsed = parseHsl(triplet);
+  if (!parsed) return 0;
+  const [h, s, l] = [parsed[0], parsed[1] / 100, parsed[2] / 100];
+  const a = s * Math.min(l, 1 - l);
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12;
+    return l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
+  };
+  const lin = (c: number) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+  return 0.2126 * lin(f(0)) + 0.7152 * lin(f(8)) + 0.0722 * lin(f(4));
+};
+
+/** Black or white, whichever reads better on a solid fill of the given HSL triplet. */
+export const getReadableTextOn = (triplet: string): string =>
+  luminance(triplet) > 0.35 ? 'hsl(228 47% 7%)' : 'hsl(0 0% 100%)';
+
+/**
+ * A version of a team color that stays readable as text on the dark UI:
+ * lifts lightness to at least 62% while keeping the hue.
+ */
+export const getTeamTextColor = (teamName?: string | null): string | null => {
+  const colors = getTeamColors(teamName);
+  if (!colors) return null;
+  return liftForDarkBg(colors.primary);
+};
+
+export const liftForDarkBg = (triplet: string, minLightness = 62): string => {
+  const parsed = parseHsl(triplet);
+  if (!parsed) return `hsl(${triplet})`;
+  const [h, s, l] = parsed;
+  // Pure greys (e.g. Raiders silver) stay grey; everything else keeps its hue.
+  return `hsl(${h} ${Math.min(s, 90)}% ${Math.max(l, minLightness)}%)`;
 };

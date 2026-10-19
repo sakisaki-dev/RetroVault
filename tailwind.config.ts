@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import defaultColors from "tailwindcss/colors";
 
 export default {
   darkMode: ["class"],
@@ -7,7 +8,7 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: { DEFAULT: "1rem", sm: "1.5rem", lg: "2rem" },
       screens: {
         "2xl": "1400px",
       },
@@ -64,6 +65,21 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        gold: "hsl(var(--gold))",
+        turf: {
+          DEFAULT: "hsl(var(--turf))",
+          deep: "hsl(var(--turf-deep))",
+        },
+        flag: "hsl(var(--flag))",
+        // Keep the default sky scale (sky-300 etc.) and add the brand token as DEFAULT
+        sky: { ...defaultColors.sky, DEFAULT: "hsl(var(--sky))" },
+        chalk: "hsl(var(--chalk))",
+        night: "hsl(var(--night))",
+        panel: {
+          DEFAULT: "hsl(var(--panel))",
+          2: "hsl(var(--panel-2))",
+        },
+        line: "hsl(var(--line))",
         metric: {
           elite: "hsl(var(--metric-elite))",
           good: "hsl(var(--metric-good))",
@@ -78,8 +94,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-        display: ["Bebas Neue", "Inter", "sans-serif"],
+        sans: ["Barlow", "Inter", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+        display: ["Barlow Condensed", "Arial Narrow", "Arial", "sans-serif"],
+        pixel: ["Silkscreen", "Courier New", "monospace"],
         mono: ["JetBrains Mono", "ui-monospace", "monospace"],
       },
       keyframes: {
@@ -97,9 +114,9 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       boxShadow: {
-        glow: "0 0 30px hsl(var(--primary) / 0.2)",
-        card: "0 8px 32px hsl(0 0% 0% / 0.4)",
-        elevated: "0 20px 50px hsl(0 0% 0% / 0.5)",
+        glow: "var(--shadow-glow)",
+        card: "var(--shadow-card)",
+        elevated: "var(--shadow-elevated)",
       },
     },
   },

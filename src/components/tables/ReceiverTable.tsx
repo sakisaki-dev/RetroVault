@@ -1,168 +1,57 @@
 import { useMemo, useState } from 'react';
 import type { WRPlayer, TEPlayer } from '@/types/player';
-import PositionBadge from '../PositionBadge';
-import StatusBadge from '../StatusBadge';
-import MetricCell from '../MetricCell';
-import StatCell from '../StatCell';
-import AwardsCell from '../AwardsCell';
-import PlayerDetailCard from '../PlayerDetailCard';
 import TeamOverridesDialog from '../TeamOverridesDialog';
-import { calculateLeaders } from '@/utils/csvParser';
-import { getTeamColors } from '@/utils/teamColors';
 import { loadTeamOverrides } from '@/utils/teamOverrides';
 import { Button } from '@/components/ui/button';
+import PlayerStatTable, { type StatColumn } from './PlayerStatTable';
+
+type Receiver = WRPlayer | TEPlayer;
 
 interface ReceiverTableProps {
-  players: (WRPlayer | TEPlayer)[];
+  players: Receiver[];
   position: 'WR' | 'TE';
   title: string;
   searchQuery?: string;
-  activeOnly?: boolean;
 }
 
-const ReceiverTable = ({ players, position, title, searchQuery = '', activeOnly = false }: ReceiverTableProps) => {
-  const [selectedPlayer, setSelectedPlayer] = useState<WRPlayer | TEPlayer | null>(null);
+const COLUMNS: StatColumn<Receiver>[] = [
+  { key: 'games', label: 'GP', tip: 'Games played', get: (p) => p.games },
+  { key: 'receptions', label: 'Rec', tip: 'Receptions', get: (p) => p.receptions },
+  { key: 'recYds', label: 'Rec Yds', tip: 'Receiving yards', get: (p) => p.recYds },
+  { key: 'recTD', label: 'Rec TD', tip: 'Receiving touchdowns', get: (p) => p.recTD },
+  { key: 'longest', label: 'Long', tip: 'Longest reception (yards)', get: (p) => p.longest },
+];
+
+const ReceiverTable = ({ players, position, title, searchQuery = '' }: ReceiverTableProps) => {
   const [teamOverrides, setTeamOverrides] = useState(() => loadTeamOverrides());
   const [isTeamDialogOpen, setIsTeamDialogOpen] = useState(false);
-  const filteredPlayers = useMemo(() => {
-    return players.filter(p => {
-      const matchesSearch = searchQuery === '' || 
-        p.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesActive = !activeOnly || p.status === 'Active';
-      return matchesSearch && matchesActive;
-    });
-  }, [players, searchQuery, activeOnly]);
-
-  const leaders = useMemo(() => {
-    return calculateLeaders(filteredPlayers, [
-      'games', 'receptions', 'recYds', 'recTD', 'longest',
-      'rings', 'trueTalent', 'dominance', 'careerLegacy', 'tpg',
-    ]);
-  }, [filteredPlayers]);
-
-  const isLeader = (name: string, stat: string) => {
-    return leaders.get(stat)?.name === name;
-  };
 
   const playersMissingTeam = useMemo(() => players.filter((p) => !p.team).length, [players]);
 
-  const getDisplayTeam = (team?: string, name?: string) => team || (name ? teamOverrides[name] : undefined);
-
-  if (filteredPlayers.length === 0) return null;
-
   return (
-    <>
-      <div className="glass-card overflow-hidden animate-slide-in">
-        <div className="p-4 border-b border-border/30 flex items-center gap-3">
-          <PositionBadge position={position} />
-          <div className="flex-1">
-            <h3 className="font-display font-bold text-lg tracking-wide">{title}</h3>
-          </div>
-          <span className="text-muted-foreground text-sm">({filteredPlayers.length})</span>
-          {playersMissingTeam > 0 && (
-            <Button variant="outline" size="sm" onClick={() => setIsTeamDialogOpen(true)}>
-              Set teams
-            </Button>
-          )}
-        </div>
-        <div className="overflow-x-auto">
-          <table className="stats-table">
-            <thead>
-              <tr>
-                <th className="sticky left-0 bg-secondary/80 backdrop-blur z-10">Player</th>
-                <th>Team</th>
-                <th>Status</th>
-                <th>GP</th>
-                <th>Rec</th>
-                <th>Rec Yds</th>
-                <th>Rec TD</th>
-                <th>Long</th>
-                <th>Awards</th>
-                <th className="text-primary">Talent</th>
-                <th className="text-primary">Dom</th>
-                <th className="text-primary">Legacy</th>
-                <th className="text-primary">TPG</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredPlayers.map((player) => {
-                const displayTeam = getDisplayTeam(player.team, player.name);
-                const teamColors = getTeamColors(displayTeam);
-
-                return (
-                  <tr
-                    key={player.name}
-                    className="group hover:bg-secondary/20 transition-colors cursor-pointer"
-                    style={teamColors ? { borderLeft: `3px solid hsl(${teamColors.primary})` } : undefined}
-                    onClick={() => setSelectedPlayer({ ...player, team: displayTeam } as WRPlayer | TEPlayer)}
-                  >
-                    <td className="sticky left-0 bg-card/90 backdrop-blur z-10">
-                      <div className="flex flex-col">
-                        <span className="font-medium text-foreground">{player.name}</span>
-                        {player.nickname && (
-                          <span className="text-xs text-muted-foreground italic">"{player.nickname}"</span>
-                        )}
-                      </div>
-                    </td>
-                    <td>
-                      {displayTeam ? (
-                        <span
-                          className="text-xs font-medium px-2 py-0.5 rounded"
-                          style={
-                            teamColors
-                              ? {
-                                  backgroundColor: `hsl(${teamColors.primary} / 0.2)`,
-                                  color: `hsl(${teamColors.primary})`,
-                                }
-                              : { backgroundColor: 'hsl(var(--muted))', color: 'hsl(var(--muted-foreground))' }
-                          }
-                        >
-                          {displayTeam}
-                        </span>
-                      ) : (
-                        <span className="text-xs text-muted-foreground">—</span>
-                      )}
-                    </td>
-                    <td><StatusBadge status={player.status} /></td>
-                    <td><StatCell value={player.games} isLeader={isLeader(player.name, 'games')} /></td>
-                    <td><StatCell value={player.receptions} isLeader={isLeader(player.name, 'receptions')} /></td>
-                    <td><StatCell value={player.recYds} isLeader={isLeader(player.name, 'recYds')} /></td>
-                    <td><StatCell value={player.recTD} isLeader={isLeader(player.name, 'recTD')} /></td>
-                    <td><StatCell value={player.longest} isLeader={isLeader(player.name, 'longest')} /></td>
-                    <td>
-                      <AwardsCell 
-                        rings={player.rings} 
-                        mvp={player.mvp} 
-                        opoy={player.opoy} 
-                        sbmvp={player.sbmvp} 
-                        roty={player.roty}
-                      />
-                    </td>
-                    <td><MetricCell value={player.trueTalent} metric="trueTalent" isLeader={isLeader(player.name, 'trueTalent')} format="number" /></td>
-                    <td><MetricCell value={player.dominance} metric="dominance" isLeader={isLeader(player.name, 'dominance')} format="number" /></td>
-                    <td><MetricCell value={player.careerLegacy} metric="careerLegacy" isLeader={isLeader(player.name, 'careerLegacy')} format="number" /></td>
-                    <td><MetricCell value={player.tpg} metric="tpg" isLeader={isLeader(player.name, 'tpg')} /></td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
+    <PlayerStatTable
+      title={title}
+      position={position}
+      players={players}
+      columns={COLUMNS}
+      searchQuery={searchQuery}
+      getTeam={(p) => p.team || teamOverrides[p.name]}
+      headerActions={
+        playersMissingTeam > 0 ? (
+          <Button variant="outline" size="sm" onClick={() => setIsTeamDialogOpen(true)}>
+            Set teams
+          </Button>
+        ) : undefined
+      }
+    >
       <TeamOverridesDialog
         open={isTeamDialogOpen}
         onOpenChange={setIsTeamDialogOpen}
         title={`${title}: set teams`}
-        players={players as any}
+        players={players}
         onApplied={(merged) => setTeamOverrides(merged)}
       />
-
-      <PlayerDetailCard
-        player={selectedPlayer}
-        onClose={() => setSelectedPlayer(null)}
-      />
-    </>
+    </PlayerStatTable>
   );
 };
 

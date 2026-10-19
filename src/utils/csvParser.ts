@@ -11,6 +11,7 @@ import type {
   Status,
   Position,
 } from '@/types/player';
+import { withDerivedMetrics } from '@/config/stats';
 
 // ---------- CSV parsing helpers (RFC4180-ish) ----------
 
@@ -125,9 +126,13 @@ const findPositionSections = (
   return sections;
 };
 
-// ---------- Fixed column indices for metrics (consistent across all positions) ----------
-// These columns aren't labeled in non-QB headers but data exists at these indices
-const METRICS_INDICES = {
+// ---------- Metric columns ----------
+// The sheet usually labels the metric columns only in the first (QB) header row; other
+// sections leave them blank but keep the data in the same columns. We locate them from
+// whichever header row labels them, falling back to the legacy fixed layout.
+type MetricColumns = { trueTalent: number; dominance: number; careerLegacy: number; tpg: number; nicknames: number };
+
+const LEGACY_METRIC_COLUMNS: MetricColumns = {
   trueTalent: 20,
   dominance: 21,
   careerLegacy: 22,
@@ -135,9 +140,30 @@ const METRICS_INDICES = {
   nicknames: 25,
 };
 
-// ---------- Row parsers (header-driven with fallback for metrics) ----------
+const findMetricColumns = (headerRows: string[][]): MetricColumns => {
+  const cols = { ...LEGACY_METRIC_COLUMNS };
+  const labels: Record<keyof MetricColumns, string[]> = {
+    trueTalent: ['truetalent'],
+    dominance: ['dominance'],
+    careerLegacy: ['careerlegacy'],
+    tpg: ['tpg'],
+    nicknames: ['nicknames', 'nickname'],
+  };
+  (Object.keys(labels) as (keyof MetricColumns)[]).forEach((key) => {
+    for (const row of headerRows) {
+      const idx = row.findIndex((h) => labels[key].includes(normalizeHeader(h)));
+      if (idx >= 0) {
+        cols[key] = idx;
+        return;
+      }
+    }
+  });
+  return cols;
+};
 
-const baseFields = (row: string[], header: HeaderIndex) => {
+// ---------- Row parsers ----------
+
+const baseFields = (row: string[], header: HeaderIndex, metricCols: MetricColumns, isDefense = false) => {
   const name = parseText(getField(row, header, 'Name'));
   if (!name) return null;
 
@@ -145,18 +171,13 @@ const baseFields = (row: string[], header: HeaderIndex) => {
   const team = parseText(getField(row, header, 'Team'));
   const status = parseStatus(getField(row, header, 'Status'));
 
-  // Try header-based lookup first, fallback to fixed indices for metrics
-  const trueTalent = parseNum(getField(row, header, 'True Talent') || getByIndex(row, METRICS_INDICES.trueTalent));
-  const dominance = parseNum(getField(row, header, 'Dominance') || getByIndex(row, METRICS_INDICES.dominance));
-  const careerLegacy = parseNum(getField(row, header, 'Career Legacy') || getByIndex(row, METRICS_INDICES.careerLegacy));
-  const tpg = parseNum(getField(row, header, 'TPG') || getByIndex(row, METRICS_INDICES.tpg));
-  
+  const metric = (label: string, col: number) => parseNum(getField(row, header, label) || getByIndex(row, col));
   const nickname =
     parseText(getField(row, header, 'Nicknames')) ??
     parseText(getField(row, header, 'Nickname')) ??
-    parseText(getByIndex(row, METRICS_INDICES.nicknames));
+    parseText(getByIndex(row, metricCols.nicknames));
 
-  return {
+  return withDerivedMetrics({
     name,
     age,
     team,
@@ -167,16 +188,16 @@ const baseFields = (row: string[], header: HeaderIndex) => {
     opoy: parseNum(getField(row, header, 'OPOY')) || parseNum(getField(row, header, 'DPOY')),
     sbmvp: parseNum(getField(row, header, 'SBMVP')),
     roty: parseNum(getField(row, header, 'ROTY')),
-    trueTalent,
-    dominance,
-    careerLegacy,
-    tpg,
+    trueTalent: metric('True Talent', metricCols.trueTalent),
+    dominance: metric('Dominance', metricCols.dominance),
+    careerLegacy: metric('Career Legacy', metricCols.careerLegacy),
+    tpg: metric('TPG', metricCols.tpg),
     nickname,
-  };
+  }, isDefense);
 };
 
-const parseQB = (row: string[], header: HeaderIndex): QBPlayer | null => {
-  const base = baseFields(row, header);
+const parseQB = (row: string[], header: HeaderIndex, metricCols: MetricColumns): QBPlayer | null => {
+  const base = baseFields(row, header, metricCols);
   if (!base) return null;
 
   const passAttempts = parseNum(getField(row, header, 'Att', 0));
@@ -197,8 +218,8 @@ const parseQB = (row: string[], header: HeaderIndex): QBPlayer | null => {
   };
 };
 
-const parseRB = (row: string[], header: HeaderIndex): RBPlayer | null => {
-  const base = baseFields(row, header);
+const parseRB = (row: string[], header: HeaderIndex, metricCols: MetricColumns): RBPlayer | null => {
+  const base = baseFields(row, header, metricCols);
   if (!base) return null;
 
   return {
@@ -214,8 +235,8 @@ const parseRB = (row: string[], header: HeaderIndex): RBPlayer | null => {
   };
 };
 
-const parseReceiver = (row: string[], header: HeaderIndex, position: 'WR' | 'TE'): (WRPlayer | TEPlayer) | null => {
-  const base = baseFields(row, header);
+const parseReceiver = (row: string[], header: HeaderIndex, metricCols: MetricColumns, position: 'WR' | 'TE'): (WRPlayer | TEPlayer) | null => {
+  const base = baseFields(row, header, metricCols);
   if (!base) return null;
 
   const recTD = parseNum(getField(row, header, 'Rec TD')) || parseNum(getField(row, header, 'TDs'));
@@ -231,8 +252,8 @@ const parseReceiver = (row: string[], header: HeaderIndex, position: 'WR' | 'TE'
   } as WRPlayer | TEPlayer;
 };
 
-const parseOL = (row: string[], header: HeaderIndex): OLPlayer | null => {
-  const base = baseFields(row, header);
+const parseOL = (row: string[], header: HeaderIndex, metricCols: MetricColumns): OLPlayer | null => {
+  const base = baseFields(row, header, metricCols);
   if (!base) return null;
 
   return {
@@ -245,9 +266,10 @@ const parseOL = (row: string[], header: HeaderIndex): OLPlayer | null => {
 const parseDefensive = <T extends 'LB' | 'DB' | 'DL'>(
   row: string[],
   header: HeaderIndex,
+  metricCols: MetricColumns,
   position: T,
 ): (LBPlayer | DBPlayer | DLPlayer) | null => {
-  const base = baseFields(row, header);
+  const base = baseFields(row, header, metricCols, true);
   if (!base) return null;
 
   return {
@@ -266,6 +288,7 @@ export const parseCSV = (csvContent: string): LeagueData => {
   const cleaned = (csvContent || '').replace(/^\uFEFF/, '');
   const lines = cleaned.split(/\r?\n/).map((line) => parseCSVLine(line));
   const sections = findPositionSections(lines);
+  const metricCols = findMetricColumns([...sections.values()].map((s) => lines[s.headerRow] || []));
 
   const data: LeagueData = {
     quarterbacks: [],
@@ -280,7 +303,7 @@ export const parseCSV = (csvContent: string): LeagueData => {
 
   const parseSection = <T>(
     pos: Position,
-    parser: (row: string[], header: HeaderIndex) => T | null,
+    parser: (row: string[], header: HeaderIndex, metricCols: MetricColumns) => T | null,
     push: (p: T) => void,
   ) => {
     const section = sections.get(pos);
@@ -294,25 +317,25 @@ export const parseCSV = (csvContent: string): LeagueData => {
       const first = (row[0] ?? '').trim();
       if (!first) continue;
 
-      const player = parser(row, header);
+      const player = parser(row, header, metricCols);
       if (player) push(player);
     }
   };
 
   parseSection('QB', parseQB, (p) => data.quarterbacks.push(p));
   parseSection('RB', parseRB, (p) => data.runningbacks.push(p));
-  parseSection('WR', (r, h) => parseReceiver(r, h, 'WR') as WRPlayer, (p) => data.widereceivers.push(p));
-  parseSection('TE', (r, h) => parseReceiver(r, h, 'TE') as TEPlayer, (p) => data.tightends.push(p));
+  parseSection('WR', (r, h, m) => parseReceiver(r, h, m, 'WR') as WRPlayer, (p) => data.widereceivers.push(p));
+  parseSection('TE', (r, h, m) => parseReceiver(r, h, m, 'TE') as TEPlayer, (p) => data.tightends.push(p));
   parseSection('OL', parseOL, (p) => data.offensiveline.push(p));
-  parseSection('LB', (r, h) => parseDefensive(r, h, 'LB') as LBPlayer, (p) => data.linebackers.push(p));
-  parseSection('DB', (r, h) => parseDefensive(r, h, 'DB') as DBPlayer, (p) => data.defensivebacks.push(p));
-  parseSection('DL', (r, h) => parseDefensive(r, h, 'DL') as DLPlayer, (p) => data.defensiveline.push(p));
+  parseSection('LB', (r, h, m) => parseDefensive(r, h, m, 'LB') as LBPlayer, (p) => data.linebackers.push(p));
+  parseSection('DB', (r, h, m) => parseDefensive(r, h, m, 'DB') as DBPlayer, (p) => data.defensivebacks.push(p));
+  parseSection('DL', (r, h, m) => parseDefensive(r, h, m, 'DL') as DLPlayer, (p) => data.defensiveline.push(p));
 
   return data;
 };
 
 export const calculateLeaders = (
-  players: any[],
+  players: ReadonlyArray<{ name: string }>,
   statKeys: string[],
 ): Map<string, { name: string; value: number }> => {
   const leaders = new Map<string, { name: string; value: number }>();
@@ -320,7 +343,7 @@ export const calculateLeaders = (
   for (const key of statKeys) {
     let maxPlayer = { name: '', value: -Infinity };
     for (const player of players) {
-      const val = player[key];
+      const val = (player as unknown as Record<string, unknown>)[key];
       if (typeof val === 'number' && val > maxPlayer.value) {
         maxPlayer = { name: player.name, value: val };
       }
