@@ -35,15 +35,15 @@ CURRENT_CLUB = "Jets"
 # Per-player team overrides (user-confirmed or from player cards). Takes precedence over CUR.
 TEAM_FIXES: dict[str, str] = {
     "Jason Macleone": "Seahawks",  # user: now on the Seahawks; previously the Vikings
-    "Malakai Sawyer": "Jets",      # user: a Jet through the drought and the Y77 title; traded to the Falcons for Y80
+    "Malakai Sawyer": "Jets",      # user: one Titans season (Y72 title), then the Jets (Y77 title); traded to the Falcons for Y80
     "Levante Hopkins": "Titans",   # user: played for the Titans during the Y70–72 three-peat
 }
 # Extra player-card notes supplied by the user (merged into player-extras.json "cards").
 CARD_NOTES: dict[str, dict] = {
     "Malakai Sawyer": {
         "team": "Falcons (traded for Y80, season in progress)",
-        "former_team": "Jets",
-        "note": "A Jet through the playoff drought and the Y77 championship; traded to the Falcons ahead of Y80",
+        "former_team": "Titans",
+        "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans, then joined the Jets and won again in Y77 (CXXXVI); traded to the Falcons ahead of Y80",
     },
     "Rondale Ikarras": {
         "legacy_team": "Seahawks",
