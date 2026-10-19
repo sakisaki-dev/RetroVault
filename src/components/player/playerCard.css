@@ -1,0 +1,457 @@
+/*
+ * Immersive player card. Team colors arrive as inline custom properties on .pc-root:
+ *   --tc-p / --tc-s   team primary / secondary (HSL triplets)
+ *   --tc-ink          readable text on a solid primary fill
+ *   --tc-accent       primary lifted for text/rules on the dark UI (full color)
+ *   --tc-accent-2     secondary lifted the same way
+ *   --tc-track        faint accent for meter tracks
+ * Tints over the dark surface stay low-alpha so body text keeps its contrast.
+ */
+
+.pc-root {
+  position: relative;
+  isolation: isolate;
+  /* background (team gradient) is set inline so it wins over the dialog's bg utility */
+}
+
+/* Stadium lights (two soft cones from the top corners) + turf yard lines fading in at the bottom */
+.pc-root::before,
+.pc-root::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.pc-root::before {
+  background:
+    conic-gradient(from 160deg at 6% -4%, transparent 0deg, hsl(0 0% 100% / 0.07) 12deg, transparent 30deg),
+    conic-gradient(from 170deg at 94% -4%, transparent 0deg, hsl(0 0% 100% / 0.06) 14deg, transparent 32deg);
+}
+.pc-root::after {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 63px, hsl(0 0% 100% / 0.035) 63px 65px),
+    repeating-linear-gradient(90deg, hsl(var(--turf) / 0.035) 0 130px, transparent 130px 260px);
+  mask-image: linear-gradient(180deg, transparent 30%, #000 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 30%, #000 100%);
+}
+
+.pc-root--hof {
+  box-shadow: inset 0 0 0 1px hsl(var(--gold) / 0.55), 0 0 60px -20px hsl(var(--gold) / 0.35);
+}
+
+/* Big team logo watermark behind the body */
+.pc-watermark {
+  position: absolute;
+  z-index: -1;
+  right: -70px;
+  top: 360px;
+  opacity: 0.06;
+  transform: rotate(-10deg);
+  pointer-events: none;
+  filter: saturate(0.6);
+}
+
+/* ---------- Broadcast lower-third (nickname) ---------- */
+.pc-lowerthird {
+  display: flex;
+  align-items: stretch;
+  min-height: 2.25rem;
+  overflow: hidden;
+  background: hsl(228 47% 4% / 0.92);
+  border-bottom: 2px solid var(--tc-accent);
+  animation: pc-wipe 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both;
+}
+.pc-lowerthird__tag {
+  display: flex;
+  align-items: center;
+  padding: 0 0.9rem 0 1rem;
+  background: hsl(var(--tc-p));
+  color: var(--tc-ink);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pc-lowerthird__stripe {
+  width: 10px;
+  margin-left: -6px;
+  background: hsl(var(--tc-s));
+  clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+}
+.pc-lowerthird__text {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: hsl(var(--chalk));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- ID strip ---------- */
+.pc-idstrip {
+  background: linear-gradient(90deg, hsl(var(--tc-p) / 0.28), hsl(var(--panel) / 0.85) 55%);
+  border-bottom: 1px solid hsl(var(--line) / 0.7);
+}
+.pc-gold-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: hsl(43 100% 70%);
+  background: linear-gradient(135deg, hsl(43 90% 30% / 0.55), hsl(43 100% 15% / 0.6));
+  box-shadow: inset 0 0 0 1px hsl(43 100% 62% / 0.6);
+}
+
+/* ---------- Tabs ---------- */
+.pc-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: hsl(var(--card) / 0.86);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid hsl(var(--line) / 0.7);
+}
+.pc-tablist {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 0.75rem;
+}
+.pc-tablist::-webkit-scrollbar {
+  display: none;
+}
+.pc-tab {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 0.7rem 0.65rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  transition: color 0.15s;
+}
+.pc-tab:hover {
+  color: hsl(var(--chalk));
+}
+.pc-tab[data-state='active'] {
+  color: hsl(var(--chalk));
+}
+.pc-tab::after {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: -1px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--tc-accent);
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+.pc-tab[data-state='active']::after {
+  transform: scaleX(1);
+}
+.pc-tab:focus-visible {
+  outline: 2px solid var(--tc-accent);
+  outline-offset: -4px;
+  border-radius: 6px;
+}
+
+/* ---------- Sections / tiles ---------- */
+.pc-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: hsl(var(--chalk));
+}
+.pc-title svg {
+  color: var(--tc-accent);
+}
+.pc-title::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  margin-left: 0.4rem;
+  background: linear-gradient(90deg, var(--tc-accent), hsl(var(--tc-s) / 0.5) 40%, transparent);
+  opacity: 0.7;
+}
+.pc-subtitle {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tc-accent);
+}
+
+.pc-panel {
+  border-radius: 0.6rem;
+  border: 1px solid hsl(var(--line) / 0.7);
+  background: hsl(var(--panel) / 0.78);
+}
+.pc-tile {
+  border-radius: 0.6rem;
+  border: 1px solid hsl(var(--line) / 0.7);
+  background:
+    linear-gradient(180deg, hsl(var(--tc-p) / 0.12), transparent 70%),
+    hsl(var(--panel) / 0.88);
+  box-shadow: inset 0 2px 0 var(--tc-accent);
+}
+
+/* Stat grid: hairline-separated cells with a team-colored cap */
+.pc-statgrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  overflow: hidden;
+  border-radius: 0.6rem;
+  border: 1px solid hsl(var(--line) / 0.7);
+  background: hsl(var(--line) / 0.7);
+  box-shadow: inset 0 2px 0 var(--tc-accent);
+}
+/* Short last row stretches to fill, so there are never empty cells */
+.pc-statgrid > div {
+  flex: 1 0 calc(100% / var(--cols-sm, 3) - 1px);
+  background: hsl(var(--panel) / 0.95);
+}
+@media (min-width: 640px) {
+  .pc-statgrid > div {
+    flex-basis: calc(100% / var(--cols, 5) - 1px);
+  }
+}
+
+/* Honors (gold) */
+.pc-honor {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border-radius: 0.6rem;
+  color: hsl(43 100% 70%);
+  background:
+    linear-gradient(160deg, hsl(43 90% 40% / 0.28), transparent 70%),
+    hsl(var(--panel) / 0.9);
+  box-shadow: inset 0 0 0 1px hsl(43 100% 62% / 0.45);
+}
+
+/* Scoreboard numbers */
+.pc-score {
+  border-radius: 0.6rem;
+  background: hsl(228 47% 3% / 0.75);
+  border: 1px solid hsl(0 0% 100% / 0.06);
+  box-shadow: inset 0 0 18px hsl(var(--tc-p) / 0.35), inset 0 2px 0 var(--tc-accent);
+}
+
+/* ---------- Motion ---------- */
+.pc-enter {
+  animation: pc-rise 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 55ms);
+}
+@keyframes pc-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes pc-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pc-enter,
+  .pc-lowerthird {
+    animation: none;
+  }
+  .pc-tab::after {
+    transition: none;
+  }
+}
+
+/* ---------- Career Arc ---------- */
+.arc-era {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  font-size: 12px;
+  background: hsl(var(--panel) / 0.85);
+  border: 1px solid hsl(var(--line) / 0.8);
+}
+
+.arc-track {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+@media (min-width: 640px) {
+  .arc-track {
+    flex-direction: row;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+}
+
+.arc-stint,
+.arc-node {
+  position: relative;
+  min-width: 0;
+  padding: 0.9rem 0.85rem 0.8rem;
+  border-radius: 0.6rem;
+  background:
+    linear-gradient(180deg, hsl(var(--arc-p, var(--tc-p)) / 0.22), transparent 75%),
+    hsl(var(--panel) / 0.9);
+  border: 1px solid hsl(var(--line) / 0.7);
+}
+@media (min-width: 640px) {
+  .arc-stint {
+    flex: 1 1 0;
+    min-width: 168px;
+    border-radius: 0;
+    border-right-width: 0;
+  }
+  .arc-track > :first-child {
+    border-top-left-radius: 0.6rem;
+    border-bottom-left-radius: 0.6rem;
+  }
+  .arc-track > :last-child {
+    border-top-right-radius: 0.6rem;
+    border-bottom-right-radius: 0.6rem;
+    border-right-width: 1px;
+  }
+  .arc-node {
+    flex: 0 0 auto;
+    width: 132px;
+    border-radius: 0;
+    border-right-width: 0;
+  }
+}
+/* Team-colored rail: adjacent stints read as one segmented line */
+.arc-rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 6px;
+  background: linear-gradient(90deg, hsl(var(--arc-p)), hsl(var(--arc-s)));
+}
+.arc-stint--likely .arc-rail {
+  background: repeating-linear-gradient(90deg, hsl(var(--arc-p)) 0 10px, transparent 10px 15px);
+}
+.arc-stint--likely {
+  border-style: dashed;
+}
+.arc-arrival {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.4rem;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--arc-accent);
+}
+.arc-logo {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  /* Light disc so dark logos (Jets, Raiders) read on the dark card */
+  background: radial-gradient(circle, hsl(0 0% 100% / 0.92) 60%, hsl(0 0% 88% / 0.92));
+  box-shadow: 0 0 0 2px hsl(var(--arc-p)), 0 2px 8px hsl(0 0% 0% / 0.4);
+}
+.arc-node {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  justify-content: center;
+  --arc-p: var(--line);
+}
+.arc-node--gold {
+  color: hsl(43 100% 70%);
+  background:
+    linear-gradient(160deg, hsl(43 90% 40% / 0.28), transparent 70%),
+    hsl(var(--panel) / 0.9);
+  box-shadow: inset 0 0 0 1px hsl(43 100% 62% / 0.45);
+}
+.arc-ring {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  color: hsl(43 100% 70%);
+  background: hsl(43 80% 20% / 0.45);
+  border: 1px solid hsl(43 100% 62% / 0.55);
+}
+.arc-ring--likely {
+  background: transparent;
+  border-style: dashed;
+}
+.arc-key {
+  display: inline-block;
+  width: 18px;
+  height: 0;
+  border-top: 3px solid hsl(var(--chalk) / 0.7);
+}
+.arc-key--dashed {
+  border-top-style: dashed;
+}
+
+/* Logo puck for the ID strip */
+.pc-logo-puck {
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 999px;
+  background: radial-gradient(circle, hsl(0 0% 100% / 0.92) 60%, hsl(0 0% 88% / 0.92));
+  box-shadow: 0 0 0 2px hsl(var(--tc-p)), 0 2px 8px hsl(0 0% 0% / 0.4);
+}
+
+/* Keep the banner's photo credit clear of the Edit / Close buttons */
+.pc-root .ppb--hero .ppb__credit {
+  top: 3.1rem;
+}
+
+/* Hint that the tab row scrolls on narrow screens */
+@media (max-width: 639px) {
+  .pc-tablist {
+    mask-image: linear-gradient(90deg, #000 82%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent);
+    padding-right: 2.5rem;
+  }
+}
