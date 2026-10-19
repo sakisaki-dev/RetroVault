@@ -36,11 +36,12 @@ const CARD_TEXT_FIELDS: { key: string; label: string }[] = [
   { key: 'team', label: 'Card team' },
   { key: 'former_team', label: 'Former team' },
   { key: 'legacy_team', label: 'Legacy team' },
+  { key: 'retired_team', label: 'Retired with' },
   { key: 'contract', label: 'Contract' },
   { key: 'trade_value', label: 'Trade value' },
   { key: 'weakest_attribute', label: 'Weakest attribute' },
 ];
-const CARD_SKIP = new Set(['rating', 'potential', 'hof_flag', 'note', ...CARD_TEXT_FIELDS.map((f) => f.key)]);
+const CARD_SKIP = new Set(['rating', 'potential', 'hof_flag', 'hof_ingame', 'note', ...CARD_TEXT_FIELDS.map((f) => f.key)]);
 
 const balancedCols = (n: number, max: number) => (n <= max ? Math.max(n, 1) : Math.ceil(n / Math.ceil(n / max)));
 

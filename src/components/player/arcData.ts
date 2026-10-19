@@ -105,6 +105,7 @@ export const buildCareerArc = ({ player, content, card, retired, hofTier }: Inpu
   const cardTeam = str(card?.team);
   const formerTeam = str(card?.former_team);
   const legacyTeam = str(card?.legacy_team);
+  const retiredTeam = str(card?.retired_team);
   const texts = [cardNote, note?.tag, cardTeam].filter((t): t is string => !!t);
   const allText = texts.join(' ; ');
 
@@ -190,6 +191,17 @@ export const buildCareerArc = ({ player, content, card, retired, hofTier }: Inpu
   }
   for (const m of allText.matchAll(/\btraded to the\s+([A-Z][\w.]+)(?:[^;]*?Y(\d+))?/g)) {
     addStint(m[1], { source: 'Player note', arrival: `Traded${m[2] ? ` · Y${m[2]}` : ''}` });
+  }
+
+  // The game's Hall of Fame lists the team he retired with: always his last stop
+  if (retiredTeam) {
+    const key = teamKey(retiredTeam);
+    const existing = stints.find((s) => s.key === key);
+    if (existing) {
+      existing.tag = 'Retired here';
+      stints.splice(stints.indexOf(existing), 1);
+      stints.push(existing);
+    } else addStint(retiredTeam, { source: 'Game Hall of Fame', tag: 'Retired here' });
   }
 
   const franchiseKeys = () => new Set(stints.map((s) => s.key));

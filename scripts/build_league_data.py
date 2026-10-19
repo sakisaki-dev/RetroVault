@@ -49,12 +49,25 @@ TEAM_HISTORY: dict[str, list[str]] = {
     "Jakeem Friend": ["Seahawks"],   # user: mainly a Seahawk; Jets only the last 2 years      # user: Titans QB for their last title season, now with the Commanders
 }
 
+# Team each in-game Hall of Famer retired with (the game's Player HOF screen, Y80). Often not where he spent
+# most of his career, so it is recorded on the card ("retired_team") and in his franchise list, not as his team.
+RETIRED_WITH: dict[str, str] = {
+    "Nick Bolton": "Vikings", "Lamar Jackson": "Packers", "Ja’Marr Chase": "Vikings", "CeeDee Lamb": "Dolphins",
+    "Jayden Daniels": "Commanders", "Jahmyr Gibbs": "Dolphins", "Mason Taylor": "Dolphins", "Akiem Bouye": "Chargers",
+    "Ian Finney": "Buccaneers", "Brennan Higgins": "Commanders", "Ray Waller": "Buccaneers", "Alohi Godwin": "Seahawks",
+    "Charlie John": "Bills", "Lukas Russell": "Seahawks", "Dennis Baylon": "Chargers", "Cairo Asanjh": "Ravens",
+    "Bilal Tolbert": "Chargers", "Wayne Wilson": "Bills", "Rondale Ikarras": "Jets", "Sherman Brandson": "Vikings",
+    "Dedrick Gould": "Ravens", "Denzel Hayes": "Bears", "Jackson Wardell Kline": "Dolphins", "Robert Boone": "Vikings",
+    "God Johnson": "Vikings", "Levante Hopkins": "Titans", "Michael Wilson": "Titans", "Jason Macleone": "Seahawks",
+    "Pharoah Hunter": "Seahawks", "Malakai Sawyer": "Falcons", "Chance Woodrum": "Jets",
+}
+
 # Extra player-card notes supplied by the user (merged into player-extras.json "cards").
 CARD_NOTES: dict[str, dict] = {
     "Malakai Sawyer": {
-        "team": "Falcons (traded for Y80, season in progress)",
-        "former_team": "Titans",
-        "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans, then joined the Jets and won again in Y77 (CXXXVI); traded to the Falcons ahead of Y80",
+        "team": "Falcons",
+                "former_team": "Titans",
+        "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans, then joined the Jets and won again in Y77 (CXXXVI); traded to the Falcons for Y80, where he retired",
     },
     "Rondale Ikarras": {
         "legacy_team": "Seahawks",
@@ -62,6 +75,10 @@ CARD_NOTES: dict[str, dict] = {
     },
     "Levante Hopkins": {
         "note": "Tight end for the Titans' Y70–72 three-peat",
+    },
+    "Michael Wilson": {
+        "former_team": "Ravens",
+        "note": "Ravens first, then the Giants; retired as a Titan",
     },
     "Jakeem Friend": {
         "legacy_team": "Seahawks",
@@ -227,7 +244,7 @@ def franchise_history(players, teams, cards):
         team_key = CURRENT_CLUB if team_key == "CUR" else team_key
         names = [full(team_key)]
         card = cards.get(p["n"], {})
-        names += [full(card.get("former_team")), full(card.get("legacy_team"))]
+        names += [full(card.get("former_team")), full(card.get("legacy_team")), full(card.get("retired_team"))]
         names += [full(t) for t in TEAM_HISTORY.get(p["n"], [])]
         names = sorted({n for n in names if n})
         if len(names) > 1:
@@ -244,6 +261,8 @@ def write_player_extras():
     cards = extras.get("player_cards", {})
     for name, notes in CARD_NOTES.items():
         cards[name] = {**cards.get(name, {}), **notes}
+    for name, team in RETIRED_WITH.items():
+        cards[name] = {**cards.get(name, {}), "retired_team": team, "hof_ingame": True}
     out = {"realNflCareer": {}, "cards": cards,
            "formerNames": {new: old for old, new in extras.get("name_changes", {}).items()},
            "family": extras.get("family", {})}

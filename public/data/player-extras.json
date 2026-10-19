@@ -63,7 +63,7 @@
  "cards": {
   "Malakai Sawyer": {
    "age": 29,
-   "team": "Falcons (traded for Y80, season in progress)",
+   "team": "Falcons",
    "rating": "5 stars",
    "potential": "5 stars",
    "xp_level": 11,
@@ -73,18 +73,24 @@
    "hof_flag": true,
    "long_run": 65,
    "former_team": "Titans",
-   "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans, then joined the Jets and won again in Y77 (CXXXVI); traded to the Falcons ahead of Y80"
+   "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans, then joined the Jets and won again in Y77 (CXXXVI); traded to the Falcons for Y80, where he retired",
+   "retired_team": "Falcons",
+   "hof_ingame": true
   },
   "Lamar Jackson": {
    "pass_long": 84,
    "rush_long": 79,
    "rush_fum": 70,
-   "sacks_taken": 66
+   "sacks_taken": 66,
+   "retired_team": "Packers",
+   "hof_ingame": true
   },
   "Jayden Daniels": {
    "pass_long": 86,
    "rush_long": 46,
-   "sacks_taken": 52
+   "sacks_taken": 52,
+   "retired_team": "Commanders",
+   "hof_ingame": true
   },
   "Ray Waller": {
    "pass_long": 76,
@@ -93,32 +99,52 @@
    "rush_td": 40,
    "rush_long": 63,
    "fumbles": 0,
-   "sacks_taken": 57
+   "sacks_taken": 57,
+   "retired_team": "Buccaneers",
+   "hof_ingame": true
   },
   "Jahmyr Gibbs": {
    "rush_long": 70,
    "rec": 689,
    "rec_yds": 4816,
    "rec_td": 115,
-   "rec_long": 54
+   "rec_long": 54,
+   "retired_team": "Dolphins",
+   "hof_ingame": true
   },
   "Denzel Hayes": {
-   "rec_long": 29
+   "rec_long": 29,
+   "retired_team": "Bears",
+   "hof_ingame": true
   },
   "CeeDee Lamb": {
    "ret_yds": 5778,
    "ret_td": 1,
-   "ret_long": 73
+   "ret_long": 73,
+   "retired_team": "Dolphins",
+   "hof_ingame": true
   },
   "Nick Bolton": {
-   "forced_fumbles": 1
+   "forced_fumbles": 1,
+   "retired_team": "Vikings",
+   "hof_ingame": true
   },
   "Rondale Ikarras": {
    "legacy_team": "Seahawks",
-   "note": "Seahawks legend from the Ikarras era (titles Y36–38); spent his final season with the Jets"
+   "note": "Seahawks legend from the Ikarras era (titles Y36–38); spent his final season with the Jets",
+   "retired_team": "Jets",
+   "hof_ingame": true
   },
   "Levante Hopkins": {
-   "note": "Tight end for the Titans' Y70–72 three-peat"
+   "note": "Tight end for the Titans' Y70–72 three-peat",
+   "retired_team": "Titans",
+   "hof_ingame": true
+  },
+  "Michael Wilson": {
+   "former_team": "Ravens",
+   "note": "Ravens first, then the Giants; retired as a Titan",
+   "retired_team": "Titans",
+   "hof_ingame": true
   },
   "Jakeem Friend": {
    "legacy_team": "Seahawks",
@@ -130,7 +156,85 @@
   },
   "Jason Macleone": {
    "former_team": "Vikings",
-   "note": "\"Scary Jerry\", named for his imposing stature and scary looks. Started at QB for the Vikings in their Y78 Super Bowl CXXXVII win (33–27 over the Broncos)"
+   "note": "\"Scary Jerry\", named for his imposing stature and scary looks. Started at QB for the Vikings in their Y78 Super Bowl CXXXVII win (33–27 over the Broncos)",
+   "retired_team": "Seahawks",
+   "hof_ingame": true
+  },
+  "Ja’Marr Chase": {
+   "retired_team": "Vikings",
+   "hof_ingame": true
+  },
+  "Mason Taylor": {
+   "retired_team": "Dolphins",
+   "hof_ingame": true
+  },
+  "Akiem Bouye": {
+   "retired_team": "Chargers",
+   "hof_ingame": true
+  },
+  "Ian Finney": {
+   "retired_team": "Buccaneers",
+   "hof_ingame": true
+  },
+  "Brennan Higgins": {
+   "retired_team": "Commanders",
+   "hof_ingame": true
+  },
+  "Alohi Godwin": {
+   "retired_team": "Seahawks",
+   "hof_ingame": true
+  },
+  "Charlie John": {
+   "retired_team": "Bills",
+   "hof_ingame": true
+  },
+  "Lukas Russell": {
+   "retired_team": "Seahawks",
+   "hof_ingame": true
+  },
+  "Dennis Baylon": {
+   "retired_team": "Chargers",
+   "hof_ingame": true
+  },
+  "Cairo Asanjh": {
+   "retired_team": "Ravens",
+   "hof_ingame": true
+  },
+  "Bilal Tolbert": {
+   "retired_team": "Chargers",
+   "hof_ingame": true
+  },
+  "Wayne Wilson": {
+   "retired_team": "Bills",
+   "hof_ingame": true
+  },
+  "Sherman Brandson": {
+   "retired_team": "Vikings",
+   "hof_ingame": true
+  },
+  "Dedrick Gould": {
+   "retired_team": "Ravens",
+   "hof_ingame": true
+  },
+  "Jackson Wardell Kline": {
+   "retired_team": "Dolphins",
+   "hof_ingame": true
+  },
+  "Robert Boone": {
+   "retired_team": "Vikings",
+   "hof_ingame": true
+  },
+  "God Johnson": {
+   "retired_team": "Vikings",
+   "hof_ingame": true
+  },
+  "Pharoah Hunter": {
+   "retired_team": "Seahawks",
+   "hof_ingame": true
+  },
+  "Chance Woodrum": {
+   "retired_team": "Jets",
+   "hof_ingame": true
   }
  },
  "formerNames": {
@@ -141,25 +245,68 @@
   "Wayne Wilson": "brother of Michael Wilson"
  },
  "franchises": {
+  "Wayne Wilson": [
+   "Buffalo Bills",
+   "Los Angeles Chargers"
+  ],
   "Sherman Brandson": [
+   "Minnesota Vikings",
    "New York Giants",
    "Tampa Bay Buccaneers"
+  ],
+  "Dennis Baylon": [
+   "Buffalo Bills",
+   "Los Angeles Chargers"
+  ],
+  "Lamar Jackson": [
+   "Baltimore Ravens",
+   "Green Bay Packers"
   ],
   "Rondale Ikarras": [
    "New York Jets",
    "Seattle Seahawks"
   ],
+  "Denzel Hayes": [
+   "Baltimore Ravens",
+   "Chicago Bears"
+  ],
+  "Pharoah Hunter": [
+   "Minnesota Vikings",
+   "Seattle Seahawks"
+  ],
+  "Jackson Wardell Kline": [
+   "Miami Dolphins",
+   "New York Giants"
+  ],
+  "Cairo Asanjh": [
+   "Baltimore Ravens",
+   "Seattle Seahawks"
+  ],
+  "Bilal Tolbert": [
+   "Los Angeles Chargers",
+   "Seattle Seahawks"
+  ],
   "Michael Wilson": [
    "Baltimore Ravens",
-   "New York Giants"
+   "New York Giants",
+   "Tennessee Titans"
   ],
   "Jason Macleone": [
    "Minnesota Vikings",
    "Seattle Seahawks"
   ],
   "Malakai Sawyer": [
+   "Atlanta Falcons",
    "New York Jets",
    "Tennessee Titans"
+  ],
+  "Robert Boone": [
+   "Minnesota Vikings",
+   "Tampa Bay Buccaneers"
+  ],
+  "Dedrick Gould": [
+   "Baltimore Ravens",
+   "Tampa Bay Buccaneers"
   ],
   "Alvin Tufele": [
    "New York Jets",
