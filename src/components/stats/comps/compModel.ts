@@ -77,7 +77,7 @@ export const buildPositionModel = (players: Player[], position: Position): Posit
 
 const minFeatures = (m: PositionModel) => Math.min(3, m.features.length);
 
-/** Level score (100·exp(−D/2W)) and raw weighted Pearson r of the oriented z-vectors (NaN when not computable). */
+/** Level score (100·exp(−D/2W)) and the style cosine r of league-centred oriented percentiles (NaN when not computable). */
 export const pairScores = (m: PositionModel, za: number[], zb: number[]) => {
   const idx = za.map((_, i) => i).filter((i) => Number.isFinite(za[i]) && Number.isFinite(zb[i]));
   let level = NaN;
@@ -92,21 +92,23 @@ export const pairScores = (m: PositionModel, za: number[], zb: number[]) => {
   }
   let r = NaN;
   if (idx.length >= 4) {
-    const a = idx.map((i) => m.stats[i].sign * za[i]);
-    const b = idx.map((i) => m.stats[i].sign * zb[i]);
-    const w = idx.map((i) => m.stats[i].weight);
-    const W = w.reduce((s, x) => s + x, 0);
-    const ma = a.reduce((s, x, k) => s + w[k] * x, 0) / W;
-    const mb = b.reduce((s, x, k) => s + w[k] * x, 0) / W;
-    let cov = 0;
+    // Same as config/advanced.ts: weighted cosine of league-centred oriented percentiles
+    const centred = (i: number, zi: number) => {
+      const st = m.stats[i];
+      const raw = percentileOf(st.sorted, st.mean + zi * st.sd);
+      return (st.sign < 0 ? 100 - raw : raw) - 50;
+    };
+    let dot = 0;
     let va = 0;
     let vb = 0;
-    a.forEach((x, k) => {
-      cov += w[k] * (x - ma) * (b[k] - mb);
-      va += w[k] * (x - ma) ** 2;
-      vb += w[k] * (b[k] - mb) ** 2;
+    idx.forEach((i) => {
+      const a = centred(i, za[i]);
+      const b = centred(i, zb[i]);
+      dot += m.stats[i].weight * a * b;
+      va += m.stats[i].weight * a ** 2;
+      vb += m.stats[i].weight * b ** 2;
     });
-    if (va > 1e-12 && vb > 1e-12) r = cov / Math.sqrt(va * vb);
+    if (va > 1e-12 && vb > 1e-12) r = dot / Math.sqrt(va * vb);
   }
   return { level, style: Number.isFinite(r) ? 100 * Math.max(0, r) : NaN, r };
 };

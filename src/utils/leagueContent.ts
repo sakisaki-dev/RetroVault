@@ -18,8 +18,10 @@
  *   "outsiders":  [{ player, position?, team?, summary }],
  *   "openQuestions": [string],
  *   "playerNotes":   [{ name, team?, position?, nickname?, era?, tag? }],
- *   "speeches":      { "<player name>": "Hall of Fame induction speech (plain text; blank line = new paragraph)" }
+ *   "speeches":      { "<player name>": "Hall of Fame induction speech (plain text; blank line = new paragraph)" },
+ *   "coach":         { name, age, stars, morale, gamesPlayed, simGames, record{}, bests{}, superBowlRecord[], seasons[{ year, team, abbr, w, l, t, finish }] }
  * }
+ * `coach` is optional (from data/y80/coach.json, the staff screen); bad fields are dropped one by one.
  * `speeches` is optional; when a player has one, the induction ceremony uses it instead of the
  * speech generated from their career data (see src/components/ceremony/speech.ts).
  * Eras/superBowls also accept the raw snake_case shape from data/y80
@@ -120,6 +122,54 @@ export interface PlayerNote {
   tag?: string;
 }
 
+export interface CoachSeason {
+  year: number;
+  /** Nickname as the save shows it ("Vikings") */
+  team: string;
+  abbr?: string;
+  w: number;
+  l: number;
+  t: number;
+  /** Raw finish: "Champions", "NFC Champs", "Champ Rnd", "Divisional", "Wild Card", "AFC WES 3rd"… */
+  finish: string;
+}
+
+export interface CoachRecord {
+  fullSeasons?: number;
+  /** "W-L-T" */
+  regular?: string;
+  regularWinPct?: number;
+  /** "W-L" */
+  playoff?: string;
+  playoffWinPct?: number;
+  /** "78/80" */
+  playoffsReached?: string;
+  seasonsNoSimGames?: number;
+  simGameRecord?: string;
+}
+
+export interface CoachBests {
+  mostPoints?: string;
+  biggestWin?: string;
+  biggestLoss?: string;
+  mostTDs?: string;
+}
+
+export interface CoachInfo {
+  name?: string;
+  age?: number;
+  stars?: number;
+  morale?: string;
+  gamesPlayed?: number;
+  simGames?: number;
+  record?: CoachRecord;
+  bests?: CoachBests;
+  /** The coach vs real-life coaches by Super Bowl titles ({ coach: "NE (2000-2023)", titles: 6 }) */
+  superBowlRecord: { coach: string; titles: number }[];
+  /** One row per season, sorted by year, one per year */
+  seasons: CoachSeason[];
+}
+
 export interface LeagueContent {
   version: number;
   season?: string;
@@ -135,6 +185,8 @@ export interface LeagueContent {
   playerNotes: PlayerNote[];
   /** Optional induction speeches keyed by player name (AI-written offline, uploaded with content.json) */
   speeches?: Record<string, string>;
+  /** Head coach card and season-by-season history (optional) */
+  coach?: CoachInfo;
 }
 
 export type ContentSource = 'uploaded' | 'bundled' | 'none';
@@ -269,6 +321,86 @@ const speechMap = (v: unknown): Record<string, string> | undefined => {
   return Object.keys(out).length ? out : undefined;
 };
 
+/** Strict number: only real finite numbers or plain numeric strings (no "Y12" coercion). */
+const strictNum = (v: unknown): number | undefined => {
+  if (typeof v === 'number' && Number.isFinite(v)) return v;
+  if (typeof v === 'string' && /^\s*-?\d+(\.\d+)?\s*$/.test(v)) return Number(v);
+  return undefined;
+};
+const RECORD_RE = /^\d+\s*-\s*\d+(\s*-\s*\d+)?$/;
+const recordStr = (v: unknown) => {
+  const s = str(v);
+  return s && RECORD_RE.test(s) ? s.replace(/\s+/g, '') : undefined;
+};
+const pct = (v: unknown) => {
+  const n = strictNum(v);
+  return n !== undefined && n >= 0 && n <= 1 ? n : undefined;
+};
+const count = (v: unknown) => {
+  const n = strictNum(v);
+  return n !== undefined && n >= 0 && Number.isInteger(n) ? n : undefined;
+};
+/** Drop undefined keys so optional objects stay clean. */
+const prune = <T extends object>(o: T): T | undefined => {
+  const entries = Object.entries(o).filter(([, v]) => v !== undefined);
+  return entries.length ? (Object.fromEntries(entries) as T) : undefined;
+};
+
+const normCoachSeason = (r: Raw): CoachSeason | null => {
+  const year = num(r.year);
+  const team = str(r.team) ?? str(r.abbr);
+  const w = count(r.w);
+  const l = count(r.l);
+  const finish = str(r.finish);
+  if (year === undefined || year < 1 || !team || w === undefined || l === undefined || !finish) return null;
+  return { year, team, abbr: str(r.abbr), w, l, t: count(r.t) ?? 0, finish };
+};
+
+const normCoach = (v: unknown): CoachInfo | undefined => {
+  if (!isObj(v)) return undefined;
+  const rec = isObj(v.record) ? v.record : {};
+  const bests = isObj(v.bests) ? v.bests : {};
+  const reached = str(rec.playoffsReached);
+  const stars = strictNum(v.stars);
+  const byYear = new Map<number, CoachSeason>();
+  compact(arr(v.seasons).map(normCoachSeason)).forEach((s) => !byYear.has(s.year) && byYear.set(s.year, s));
+  const coach: CoachInfo = {
+    name: str(v.name),
+    age: count(v.age),
+    stars: stars !== undefined && stars >= 0 && stars <= 5 ? stars : undefined,
+    morale: str(v.morale),
+    gamesPlayed: count(v.gamesPlayed),
+    simGames: count(v.simGames),
+    record: prune<CoachRecord>({
+      fullSeasons: count(rec.fullSeasons),
+      regular: recordStr(rec.regular),
+      regularWinPct: pct(rec.regularWinPct),
+      playoff: recordStr(rec.playoff),
+      playoffWinPct: pct(rec.playoffWinPct),
+      playoffsReached: reached && /^\d+\s*\/\s*\d+$/.test(reached) ? reached.replace(/\s+/g, '') : undefined,
+      seasonsNoSimGames: count(rec.seasonsNoSimGames),
+      simGameRecord: recordStr(rec.simGameRecord),
+    }),
+    bests: prune<CoachBests>({
+      mostPoints: str(bests.mostPoints),
+      biggestWin: str(bests.biggestWin),
+      biggestLoss: str(bests.biggestLoss),
+      mostTDs: str(bests.mostTDs),
+    }),
+    superBowlRecord: compact(
+      arr(v.superBowlRecord).map((r) => {
+        const c = str(r.coach);
+        const titles = count(r.titles);
+        return c && titles !== undefined ? { coach: c, titles } : null;
+      }),
+    ),
+    seasons: [...byYear.values()].sort((a, b) => a.year - b.year),
+  };
+  const cleaned = prune(coach);
+  if (!cleaned || (!coach.name && !coach.seasons.length && !coach.record && !coach.superBowlRecord.length)) return undefined;
+  return { ...cleaned, superBowlRecord: coach.superBowlRecord, seasons: coach.seasons };
+};
+
 const compact = <T,>(items: (T | null)[]): T[] => items.filter((x): x is T => x !== null);
 
 /** Normalize anything JSON-ish into LeagueContent. Throws only if it's unusable. */
@@ -303,6 +435,8 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
   };
   const speeches = speechMap(input.speeches);
   if (speeches) content.speeches = speeches;
+  const coach = normCoach(input.coach);
+  if (coach) content.coach = coach;
   const hasAnything =
     content.eras.length || content.superBowls.length || content.storylines.length || content.rivalries.length ||
     content.lineages.length || content.snubs.length;

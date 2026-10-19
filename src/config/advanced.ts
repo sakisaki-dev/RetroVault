@@ -602,7 +602,7 @@ export interface Comp {
   similarity: number;
   /** Level + style: 100·exp(−D / 2W), D = weighted squared z-distance over the usable features, W = their total weight. */
   level: number;
-  /** Shape only: max(0, weighted Pearson r of the oriented z-vectors)·100; NaN with fewer than SIM_MIN_STYLE_FEATURES shared features. */
+  /** Plays like: max(0, weighted cosine of league-centred oriented percentiles)·100; NaN with fewer than SIM_MIN_STYLE_FEATURES shared features. */
   style: number;
   /** Fewer than SIM_MIN_GAMES games: rates are noisy. */
   smallSample: boolean;
@@ -627,8 +627,22 @@ const similarityScorer = (players: Player[], position: Position) => {
     const vals = baseline.map(f.get).filter(Number.isFinite);
     const mean = vals.reduce((s, x) => s + x, 0) / (vals.length || 1);
     const sd = Math.sqrt(vals.reduce((s, x) => s + (x - mean) ** 2, 0) / (vals.length || 1));
-    return { mean, sd, weight: f.weight, sign: f.lowerIsBetter ? -1 : 1 };
+    return { mean, sd, weight: f.weight, sign: f.lowerIsBetter ? -1 : 1, sorted: [...vals].sort((x, y) => x - y) };
   });
+  // Oriented percentile (higher = better) minus 50: how far above or below the position's middle a player sits
+  const centred = (i: number, zi: number) => {
+    const st = stats[i];
+    const v = st.mean + zi * st.sd;
+    const n = st.sorted.length;
+    let below = 0;
+    let ties = 0;
+    st.sorted.forEach((x) => {
+      if (x < v) below += 1;
+      else if (x === v) ties += 1;
+    });
+    const raw = n <= 1 ? 50 : ties > 0 ? (100 * (below + (ties - 1) / 2)) / (n - 1) : (100 * below) / n;
+    return (st.sign < 0 ? 100 - raw : raw) - 50;
+  };
   const zv = (vals: number[]) => stats.map((s, i) => (s.sd > 0 && Number.isFinite(vals[i]) ? (vals[i] - s.mean) / s.sd : NaN));
   const z = (p: Player) => zv(features.map((f) => f.get(p)));
   const shared = (za: number[], zb: number[]) => za.map((x, i) => i).filter((i) => Number.isFinite(za[i]) && Number.isFinite(zb[i]));
@@ -646,23 +660,22 @@ const similarityScorer = (players: Player[], position: Position) => {
   const style = (za: number[], zb: number[]) => {
     const idx = shared(za, zb);
     if (idx.length < SIM_MIN_STYLE_FEATURES) return NaN;
-    // Orient so higher = better, then a weighted Pearson r: centering removes the overall level
-    const a = idx.map((i) => stats[i].sign * za[i]);
-    const b = idx.map((i) => stats[i].sign * zb[i]);
-    const w = idx.map((i) => stats[i].weight);
-    const W = w.reduce((s, x) => s + x, 0);
-    const ma = a.reduce((s, x, k) => s + w[k] * x, 0) / W;
-    const mb = b.reduce((s, x, k) => s + w[k] * x, 0) / W;
-    let cov = 0;
-    let va = 0;
-    let vb = 0;
-    a.forEach((x, k) => {
-      cov += w[k] * (x - ma) * (b[k] - mb);
-      va += w[k] * (x - ma) ** 2;
-      vb += w[k] * (b[k] - mb) ** 2;
+    // Weighted cosine of league-centred percentiles: each axis counts as above or below the position's middle,
+    // so an above-average runner never matches a below-average one (a per-player Pearson r centred on each
+    // player's own mean let elite passers look like poor runners). Matches what the radar draws.
+    const a = idx.map((i) => centred(i, za[i]));
+    const b = idx.map((i) => centred(i, zb[i]));
+    let dot = 0;
+    let na = 0;
+    let nb = 0;
+    idx.forEach((i, k) => {
+      const w = stats[i].weight;
+      dot += w * a[k] * b[k];
+      na += w * a[k] ** 2;
+      nb += w * b[k] ** 2;
     });
-    if (va <= 1e-12 || vb <= 1e-12) return NaN;
-    return 100 * Math.max(0, cov / Math.sqrt(va * vb));
+    if (na <= 1e-12 || nb <= 1e-12) return NaN;
+    return 100 * Math.max(0, dot / Math.sqrt(na * nb));
   };
   return { pool, z, zv, level, style };
 };

@@ -4,7 +4,8 @@ import { isHallOfFamer } from '@/config/stats';
 import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
 import { findNFLTeam } from '@/utils/nflTeams';
-import { FEATURED_PER_STINT, yourScore, type Stint } from '@/utils/frontOffice';
+import { FEATURED_PER_STINT, fmtPct, seasonRecord, yourScore, type Stint } from '@/utils/frontOffice';
+import { FinishTag } from './SeasonLog';
 import { staggerStyle, teamVars, yearSpan } from './shared';
 
 interface FranchiseHistoryProps {
@@ -15,6 +16,7 @@ interface FranchiseHistoryProps {
 
 
 const FranchiseHistory = ({ stints, onPlayerSelect, numberFor }: FranchiseHistoryProps) => {
+  const real = stints.some((s) => s.record);
 
   return (
     <section aria-labelledby="fo-history" className="space-y-3">
@@ -23,7 +25,9 @@ const FranchiseHistory = ({ stints, onPlayerSelect, numberFor }: FranchiseHistor
           Franchise history
         </h2>
         <p className="text-xs text-muted-foreground">
-          {stints.length} stints in order. Years span each stint's Super Bowl seasons.
+          {real
+            ? `${stints.length} coaching stints in order, from the season-by-season history.`
+            : `${stints.length} stints in order. Years span each stint's Super Bowl seasons.`}
         </p>
       </div>
       <ol className="space-y-2.5">
@@ -38,7 +42,7 @@ const FranchiseHistory = ({ stints, onPlayerSelect, numberFor }: FranchiseHistor
                 <TeamLogo team={team ?? s.team} size={48} decorative />
                 <div className="min-w-0">
                   <p className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                    <span>{s.current ? `Y${s.firstYear}–now` : yearSpan(s.firstYear, s.lastYear)}</span>
+                    <span>{s.current && !s.record ? `Y${s.firstYear}–now` : yearSpan(s.firstYear, s.lastYear)}</span>
                     {s.current && <span className="rounded bg-accent/20 px-1.5 py-0.5 text-[10px] text-accent">Current club</span>}
                   </p>
                   <h3 className="truncate font-display text-xl uppercase tracking-tight text-foreground">{team?.fullName ?? s.team}</h3>
@@ -47,12 +51,34 @@ const FranchiseHistory = ({ stints, onPlayerSelect, numberFor }: FranchiseHistor
               </div>
 
               <div className="min-w-0 space-y-1.5">
-                <p className="text-sm">
-                  <span className="font-display text-lg text-foreground">{record}</span>{' '}
-                  <span className="text-muted-foreground">
-                    in Super Bowls · {s.wins} {s.wins === 1 ? 'title' : 'titles'}
-                  </span>
-                </p>
+                {s.record ? (
+                  <>
+                    <p className="flex flex-wrap items-baseline gap-x-2 text-sm">
+                      <span className="font-display text-lg text-foreground">{seasonRecord(s.record)}</span>
+                      <span className="font-display text-gold">{fmtPct(s.record.pct)}</span>
+                      <span className="text-muted-foreground">
+                        · {s.seasons!.length} {s.seasons!.length === 1 ? 'season' : 'seasons'} · {s.record.titles}{' '}
+                        {s.record.titles === 1 ? 'title' : 'titles'}
+                        {s.games.length > 0 && ` · ${record} in Super Bowls`}
+                      </span>
+                    </p>
+                    <p className="flex flex-wrap items-center gap-x-1.5 text-xs text-muted-foreground">
+                      <span className="font-pixel text-[9px] uppercase">Best</span>
+                      <span className="text-foreground">
+                        Y{s.record.best.year} {seasonRecord(s.record.best)}
+                      </span>
+                      <FinishTag kind={s.record.best.kind} className="font-semibold" />
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-sm">
+                    <span className="font-display text-lg text-foreground">{record}</span>{' '}
+                    <span className="text-muted-foreground">
+                      in Super Bowls · {s.wins} {s.wins === 1 ? 'title' : 'titles'}
+                    </span>
+                  </p>
+                )}
+                {s.games.length > 0 && (
                 <ul className="flex flex-wrap gap-1" aria-label={`${team?.name ?? s.team} Super Bowls`}>
                   {s.games.map((g) => (
                     <li
@@ -68,6 +94,7 @@ const FranchiseHistory = ({ stints, onPlayerSelect, numberFor }: FranchiseHistor
                     </li>
                   ))}
                 </ul>
+                )}
               </div>
 
               <div className="min-w-0">

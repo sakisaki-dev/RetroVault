@@ -837,11 +837,11 @@
    "number": 126,
    "roman": "CXXVI",
    "year": 67,
-   "winner": null,
+   "winner": "Vikings",
    "loser": null,
    "score": null,
-   "yourResult": "not captured",
-   "yourTeam": null
+   "yourResult": "won",
+   "yourTeam": "Vikings"
   },
   {
    "number": 127,
@@ -962,6 +962,16 @@
    "score": "44-6",
    "yourResult": "not in it",
    "yourTeam": null
+  },
+  {
+   "number": 139,
+   "roman": "CXXXIX",
+   "year": 80,
+   "winner": "Jets",
+   "loser": "Seahawks",
+   "score": "28-26",
+   "yourResult": "won",
+   "yourTeam": "Jets"
   }
  ],
  "storylines": [
@@ -1034,11 +1044,11 @@
    "era": "Bills dynasty",
    "players": [
     "Derrick Myrick",
-    "Reuben Kilian",
     "Dennis Baylon",
+    "Reuben Kilian",
     "Cairo Asanjh",
-    "Charlie John",
     "Tyrone Baugh",
+    "Charlie John",
     "Rob Lowe",
     "Ian Finney"
    ],
@@ -1098,8 +1108,8 @@
    "category": "Era Report",
    "era": "Modern era",
    "players": [
-    "Jason Macleone",
-    "Malakai Sawyer"
+    "Malakai Sawyer",
+    "Jason Macleone"
    ],
    "summary": "Titans three-peat (Y70–72), then a Super Bowl loss to those Titans as the Seahawks (Y74), and the Jets title (Y77)."
   },
@@ -1130,8 +1140,8 @@
     "God Johnson",
     "Sherman Brandson",
     "Jason Macleone",
-    "Dennis Baylon",
     "Avonte Gooden",
+    "Dennis Baylon",
     "Cairo Asanjh",
     "Kyric McQuay",
     "Ray Waller",
@@ -1147,8 +1157,8 @@
    "tier": "controversy",
    "category": "Snub Watch",
    "players": [
-    "Brennan Higgins",
     "Rondale Ikarras",
+    "Brennan Higgins",
     "Derrick Myrick",
     "Lukas Russell",
     "Cairo Asanjh",
@@ -1169,9 +1179,9 @@
     "Shaikal Beebee",
     "Marcel Mathieu",
     "Amani Bryant",
-    "Mose Junior",
     "Cooper Dean",
     "Jayon Queen",
+    "Mose Junior",
     "Nico Curl"
    ]
   },
@@ -1183,10 +1193,10 @@
    "tier": "controversy",
    "category": "Analytics",
    "players": [
-    "Damone Omameh",
     "Taywan Tuttle",
-    "Wayne Wilson",
+    "Damone Omameh",
     "Deante Elder",
+    "Wayne Wilson",
     "Cooper Dean",
     "Rob Lowe",
     "Rondale Ikarras",
@@ -1195,11 +1205,11 @@
     "Rysen Benkert",
     "Aubrey Jewell",
     "Dennis Baylon",
-    "Amani Bryant",
     "Kyric McQuay",
+    "Amani Bryant",
     "Ray Waller",
-    "Tom Brady",
-    "Wes Sione"
+    "Wes Sione",
+    "Tom Brady"
    ],
    "summary": "How they work: Dominance = 0.7 × True Talent + award points (ring 60, MVP 50, OPOY 30, SB MVP 40, DPOY 120, ROTY 0)."
   },
@@ -1212,21 +1222,21 @@
    "category": "Fantasy Draft",
    "players": [
     "Wayne Wilson",
-    "Mose Junior",
     "God Johnson",
+    "Mose Junior",
     "Sherman Brandson",
     "Rondale Ikarras",
     "Malakai Sawyer",
     "Dennis Baylon",
     "Cairo Asanjh",
-    "Amani Bryant",
-    "Jahmyr Gibbs",
     "Zander Kolar",
     "Kyric McQuay",
+    "Amani Bryant",
     "Tyrone Baugh",
+    "Jahmyr Gibbs",
     "Ray Waller",
-    "Kitt Inman",
-    "Ian Finney"
+    "Ian Finney",
+    "Kitt Inman"
    ],
    "summary": "QB: Brandson's accuracy, Waller's deep ball, McQuay's decisions, Bryant's legs, Baylon's clutch, Wayne Wilson's durability."
   },
@@ -1300,8 +1310,8 @@
    "title": "Ikarras",
    "summary": "**Ikarras:** 4 OPOY, 5 SB MVP, every rushing record, 0 MVPs. Receivers Finney, Russell, Higgins and Asanjh (3) all won MVP.",
    "players": [
-    "Brennan Higgins",
     "Rondale Ikarras",
+    "Brennan Higgins",
     "Lukas Russell",
     "Cairo Asanjh",
     "Ian Finney"
@@ -1715,6 +1725,7 @@
    "name": "Jason Macleone",
    "team": "Seahawks",
    "position": "QB",
+   "nickname": "Scary Jerry",
    "era": "Modern era · Y70–80",
    "tag": "QB of the Vikings' Y78 title (CXXXVII); now with the Seahawks"
   },
@@ -1730,6 +1741,18 @@
    "team": "Titans",
    "position": "TE",
    "tag": "Tight end for the Titans' Y70–72 three-peat"
+  },
+  {
+   "name": "Robert Boone",
+   "team": "Buccaneers",
+   "position": "DB",
+   "era": "Waller–Finney era · Y15–30"
+  },
+  {
+   "name": "Dedrick Gould",
+   "team": "Buccaneers",
+   "position": "LB",
+   "era": "Waller–Finney era · Y15–30"
   },
   {
    "name": "Chance Woodrum",
@@ -2030,7 +2053,7 @@
   },
   {
    "name": "Alvin Tufele",
-   "team": "Seahawks",
+   "team": "Jets",
    "position": "WR",
    "era": "Modern era · Y70–80"
   },
@@ -2084,7 +2107,7 @@
   },
   {
    "name": "Obinna Leary",
-   "team": "Jets",
+   "team": "Seahawks",
    "position": "WR",
    "era": "Modern era · Y70–80"
   },
@@ -2153,8 +2176,861 @@
    "team": "Titans",
    "position": "DL",
    "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Jakeem Friend",
+   "team": "Jets",
+   "position": "OL",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Trequan Roberts",
+   "team": "Jets",
+   "position": "DB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Tyron Colvin",
+   "team": "Titans",
+   "position": "RB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Rysen Nauta",
+   "team": "Titans",
+   "position": "QB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Tim Wright",
+   "team": "Rams",
+   "position": "RB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Von Horsted",
+   "team": "Rams",
+   "position": "DB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Solomon Toohill",
+   "team": "Packers",
+   "position": "QB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Trequan Jensen",
+   "team": "Packers",
+   "position": "RB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Abraham Ward Jr",
+   "team": "Packers",
+   "position": "DB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Pyke T. Lowe",
+   "team": "Vikings",
+   "position": "QB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Craig Whitney",
+   "team": "Vikings",
+   "position": "WR",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Tyson Nassib",
+   "team": "Dolphins",
+   "position": "WR",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Isaiah Karras",
+   "team": "Seahawks",
+   "position": "RB",
+   "era": "Modern era · Y70–80"
+  },
+  {
+   "name": "Shawn Skule",
+   "team": "Lions",
+   "position": "OL",
+   "era": "Modern era · Y70–80"
   }
  ],
+ "coach": {
+  "source": "Retro Bowl staff screen (screen recording, Y80 complete)",
+  "name": "Dorren Skura",
+  "age": 116,
+  "stars": 5,
+  "morale": "Good",
+  "gamesPlayed": 1591,
+  "simGames": 15,
+  "record": {
+   "fullSeasons": 80,
+   "regular": "1156-200-4",
+   "regularWinPct": 0.851,
+   "playoff": "209-22",
+   "playoffWinPct": 0.905,
+   "playoffsReached": "78/80",
+   "seasonsNoSimGames": 70,
+   "simGameRecord": "0-15-0"
+  },
+  "bests": {
+   "mostPoints": "MIN 38-54 CAR",
+   "biggestWin": "MIN 56-3 CIN",
+   "biggestLoss": "CAR 40-8 LAC",
+   "mostTDs": "NYG 68-21 KC (9)"
+  },
+  "superBowlRecord": [
+   {
+    "coach": "D.Skura",
+    "titles": 56
+   },
+   {
+    "coach": "NE (2000-2023)",
+    "titles": 6
+   },
+   {
+    "coach": "PIT (1969-1991)",
+    "titles": 4
+   },
+   {
+    "coach": "SF (1979-1988)",
+    "titles": 3
+   },
+   {
+    "coach": "WAS (1981-1992)",
+    "titles": 3
+   }
+  ],
+  "seasons": [
+   {
+    "year": 1,
+    "team": "Vikings",
+    "abbr": "MIN",
+    "w": 12,
+    "l": 5,
+    "t": 0,
+    "finish": "Champ Rnd"
+   },
+   {
+    "year": 2,
+    "team": "Vikings",
+    "abbr": "MIN",
+    "w": 11,
+    "l": 6,
+    "t": 0,
+    "finish": "Wild Card"
+   },
+   {
+    "year": 3,
+    "team": "Vikings",
+    "abbr": "MIN",
+    "w": 12,
+    "l": 5,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 4,
+    "team": "Vikings",
+    "abbr": "MIN",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "finish": "Champ Rnd"
+   },
+   {
+    "year": 5,
+    "team": "Dolphins",
+    "abbr": "MIA",
+    "w": 9,
+    "l": 8,
+    "t": 0,
+    "finish": "AFC EAS 3rd"
+   },
+   {
+    "year": 6,
+    "team": "Dolphins",
+    "abbr": "MIA",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 7,
+    "team": "Dolphins",
+    "abbr": "MIA",
+    "w": 11,
+    "l": 6,
+    "t": 0,
+    "finish": "AFC Champs"
+   },
+   {
+    "year": 8,
+    "team": "Dolphins",
+    "abbr": "MIA",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 9,
+    "team": "Dolphins",
+    "abbr": "MIA",
+    "w": 11,
+    "l": 6,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 10,
+    "team": "Chargers",
+    "abbr": "LAC",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 11,
+    "team": "Chargers",
+    "abbr": "LAC",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 12,
+    "team": "Chargers",
+    "abbr": "LAC",
+    "w": 8,
+    "l": 9,
+    "t": 0,
+    "finish": "AFC WES 3rd"
+   },
+   {
+    "year": 13,
+    "team": "Chargers",
+    "abbr": "LAC",
+    "w": 11,
+    "l": 6,
+    "t": 0,
+    "finish": "Wild Card"
+   },
+   {
+    "year": 14,
+    "team": "Chargers",
+    "abbr": "LAC",
+    "w": 14,
+    "l": 3,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 15,
+    "team": "Chargers",
+    "abbr": "LAC",
+    "w": 12,
+    "l": 5,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 16,
+    "team": "Commanders",
+    "abbr": "WAS",
+    "w": 12,
+    "l": 5,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 17,
+    "team": "Commanders",
+    "abbr": "WAS",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 18,
+    "team": "Commanders",
+    "abbr": "WAS",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 19,
+    "team": "Commanders",
+    "abbr": "WAS",
+    "w": 14,
+    "l": 3,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 20,
+    "team": "Buccaneers",
+    "abbr": "TB",
+    "w": 12,
+    "l": 5,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 21,
+    "team": "Buccaneers",
+    "abbr": "TB",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 22,
+    "team": "Buccaneers",
+    "abbr": "TB",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "NFC Champs"
+   },
+   {
+    "year": 23,
+    "team": "Buccaneers",
+    "abbr": "TB",
+    "w": 17,
+    "l": 0,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 24,
+    "team": "Buccaneers",
+    "abbr": "TB",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "NFC Champs"
+   },
+   {
+    "year": 25,
+    "team": "Buccaneers",
+    "abbr": "TB",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 26,
+    "team": "Buccaneers",
+    "abbr": "TB",
+    "w": 15,
+    "l": 1,
+    "t": 1,
+    "finish": "Champions"
+   },
+   {
+    "year": 27,
+    "team": "Bills",
+    "abbr": "BUF",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 28,
+    "team": "Bills",
+    "abbr": "BUF",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 29,
+    "team": "Bills",
+    "abbr": "BUF",
+    "w": 17,
+    "l": 0,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 30,
+    "team": "Bills",
+    "abbr": "BUF",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 31,
+    "team": "Bills",
+    "abbr": "BUF",
+    "w": 17,
+    "l": 0,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 32,
+    "team": "Bills",
+    "abbr": "BUF",
+    "w": 17,
+    "l": 0,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 33,
+    "team": "Bills",
+    "abbr": "BUF",
+    "w": 14,
+    "l": 3,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 34,
+    "team": "Seahawks",
+    "abbr": "SEA",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "Champ Rnd"
+   },
+   {
+    "year": 35,
+    "team": "Seahawks",
+    "abbr": "SEA",
+    "w": 12,
+    "l": 5,
+    "t": 0,
+    "finish": "Divisional"
+   },
+   {
+    "year": 36,
+    "team": "Seahawks",
+    "abbr": "SEA",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 37,
+    "team": "Seahawks",
+    "abbr": "SEA",
+    "w": 14,
+    "l": 3,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 38,
+    "team": "Seahawks",
+    "abbr": "SEA",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 39,
+    "team": "Chargers",
+    "abbr": "LAC",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "finish": "Divisional"
+   },
+   {
+    "year": 40,
+    "team": "Chargers",
+    "abbr": "LAC",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 41,
+    "team": "Ravens",
+    "abbr": "BAL",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 42,
+    "team": "Ravens",
+    "abbr": "BAL",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 43,
+    "team": "Ravens",
+    "abbr": "BAL",
+    "w": 14,
+    "l": 3,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 44,
+    "team": "Ravens",
+    "abbr": "BAL",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 45,
+    "team": "Ravens",
+    "abbr": "BAL",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "AFC NOR 1st"
+   },
+   {
+    "year": 46,
+    "team": "Ravens",
+    "abbr": "BAL",
+    "w": 16,
+    "l": 0,
+    "t": 1,
+    "finish": "Champions"
+   },
+   {
+    "year": 47,
+    "team": "Ravens",
+    "abbr": "BAL",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "AFC NOR 1st"
+   },
+   {
+    "year": 48,
+    "team": "Ravens",
+    "abbr": "BAL",
+    "w": 17,
+    "l": 0,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 49,
+    "team": "Ravens",
+    "abbr": "BAL",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 50,
+    "team": "Ravens",
+    "abbr": "BAL",
+    "w": 17,
+    "l": 0,
+    "t": 0,
+    "finish": "AFC Champs"
+   },
+   {
+    "year": 51,
+    "team": "Buccaneers",
+    "abbr": "TB",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 52,
+    "team": "Buccaneers",
+    "abbr": "TB",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 53,
+    "team": "Buccaneers",
+    "abbr": "TB",
+    "w": 17,
+    "l": 0,
+    "t": 0,
+    "finish": "Champ Rnd"
+   },
+   {
+    "year": 54,
+    "team": "Giants",
+    "abbr": "NYG",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 55,
+    "team": "Giants",
+    "abbr": "NYG",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 56,
+    "team": "Giants",
+    "abbr": "NYG",
+    "w": 14,
+    "l": 2,
+    "t": 1,
+    "finish": "Champions"
+   },
+   {
+    "year": 57,
+    "team": "Dolphins",
+    "abbr": "MIA",
+    "w": 12,
+    "l": 5,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 58,
+    "team": "Dolphins",
+    "abbr": "MIA",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 59,
+    "team": "Dolphins",
+    "abbr": "MIA",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 60,
+    "team": "Dolphins",
+    "abbr": "MIA",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "AFC Champs"
+   },
+   {
+    "year": 61,
+    "team": "Vikings",
+    "abbr": "MIN",
+    "w": 12,
+    "l": 5,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 62,
+    "team": "Vikings",
+    "abbr": "MIN",
+    "w": 14,
+    "l": 3,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 63,
+    "team": "Vikings",
+    "abbr": "MIN",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 64,
+    "team": "Vikings",
+    "abbr": "MIN",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 65,
+    "team": "Vikings",
+    "abbr": "MIN",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "NFC NOR 1st"
+   },
+   {
+    "year": 66,
+    "team": "Vikings",
+    "abbr": "MIN",
+    "w": 17,
+    "l": 0,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 67,
+    "team": "Vikings",
+    "abbr": "MIN",
+    "w": 17,
+    "l": 0,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 68,
+    "team": "Vikings",
+    "abbr": "MIN",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 69,
+    "team": "Vikings",
+    "abbr": "MIN",
+    "w": 14,
+    "l": 3,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 70,
+    "team": "Titans",
+    "abbr": "TEN",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 71,
+    "team": "Titans",
+    "abbr": "TEN",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 72,
+    "team": "Titans",
+    "abbr": "TEN",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 73,
+    "team": "Titans",
+    "abbr": "TEN",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "Champ Rnd"
+   },
+   {
+    "year": 74,
+    "team": "Seahawks",
+    "abbr": "SEA",
+    "w": 14,
+    "l": 2,
+    "t": 1,
+    "finish": "NFC Champs"
+   },
+   {
+    "year": 75,
+    "team": "Seahawks",
+    "abbr": "SEA",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "finish": "Champ Rnd"
+   },
+   {
+    "year": 76,
+    "team": "Jets",
+    "abbr": "NYJ",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "Champ Rnd"
+   },
+   {
+    "year": 77,
+    "team": "Jets",
+    "abbr": "NYJ",
+    "w": 17,
+    "l": 0,
+    "t": 0,
+    "finish": "Champions"
+   },
+   {
+    "year": 78,
+    "team": "Jets",
+    "abbr": "NYJ",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "finish": "Wild Card"
+   },
+   {
+    "year": 79,
+    "team": "Jets",
+    "abbr": "NYJ",
+    "w": 12,
+    "l": 5,
+    "t": 0,
+    "finish": "Wild Card"
+   },
+   {
+    "year": 80,
+    "team": "Jets",
+    "abbr": "NYJ",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "Champions"
+   }
+  ]
+ },
  "speeches": {
   "Sherman Brandson": "The General never flinched.\n\nSix-foot-seven, built like a tank, and calm enough to put a defense to sleep before he broke its heart. Sherman Brandson stood in the pocket like it belonged to him, and for twenty seasons it did. Pass rushers came in waves and bounced off. Fifty sacks in 315 games. Most quarterbacks give that up in a few bad years.\n\nThe numbers read like a typo: 91,463 passing yards, 1,150 touchdown passes, eight MVPs and ten rings, four of them with the Super Bowl MVP trophy in his hands. He looked more like a linebacker than a quarterback, and he played like a man who knew exactly how the next five plays would go.\n\nHe did not celebrate much. He did not need to. General Sherman, welcome to the Hall of Fame.",
   "God Johnson": "He changed his name to God. Then he earned it.\n\nMason Earl III walked into the league as a receiver. God Johnson walked out as the standard every receiver gets measured against. Some people thought the name was a joke. Defensive coordinators never laughed.\n\n36,005 receiving yards. 378 receiving touchdowns. Ten rings with the Vikings dynasty and five Super Bowl MVPs, because when the lights were brightest the ball found him. And three fumbles. In his entire career. Ian Finney's career receiving mark stood for decades until God took it, with Jackson Wardell Kline lined up beside him.\n\nThere is not much left to say about a man who named himself after the only being with a better résumé. God Johnson, welcome to the Hall of Fame.",

@@ -41,7 +41,7 @@ const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, on
     <div className="space-y-3">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <div className="min-w-0 flex-1 [&_[role=combobox]]:h-12 [&_[role=combobox]]:text-base">
-          <PlayerSearchSelect players={options} value={keyOf(player)} onValueChange={(v) => v && onChoose(v)} placeholder="Search any league player..." ariaLabel="Deep Dive player" />
+          <PlayerSearchSelect showOvr players={options} value={keyOf(player)} onValueChange={(v) => v && onChoose(v)} placeholder="Search any league player..." ariaLabel="Deep Dive player" />
         </div>
         <div className="grid grid-cols-[1fr_auto_auto] gap-2 sm:flex">
           <button type="button" onClick={onRandom} className={ctl}>

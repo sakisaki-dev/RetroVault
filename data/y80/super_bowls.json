@@ -663,11 +663,12 @@
   "number": 126,
   "roman": "CXXVI",
   "year": "Y67",
-  "winner": null,
+  "winner": "Vikings",
   "score": null,
   "loser": null,
-  "your_result": "not captured",
-  "your_team": null
+  "your_result": "won",
+  "your_team": "Vikings",
+  "note": "Winner from the coach history (17-0 season); opponent and score not captured"
  },
  {
   "number": 127,
@@ -788,5 +789,15 @@
   "loser": "Chiefs",
   "your_result": "not in it",
   "your_team": null
+ },
+ {
+  "number": 139,
+  "roman": "CXXXIX",
+  "year": "Y80",
+  "winner": "Jets",
+  "score": "28-26",
+  "loser": "Seahawks",
+  "your_result": "won",
+  "your_team": "Jets"
  }
 ]

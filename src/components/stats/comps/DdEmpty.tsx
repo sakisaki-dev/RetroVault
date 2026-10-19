@@ -39,7 +39,7 @@ const DdEmpty = ({ options, onChoose, onRandom }: { options: Player[]; onChoose:
         <p className="text-sm text-muted-foreground">Skill grades, style hexagon, advanced profile, his neighbourhood, comps, career and records, all on one page.</p>
       </div>
       <div className="w-full max-w-xl [&_[role=combobox]]:h-14 [&_[role=combobox]]:text-base">
-        <PlayerSearchSelect players={options} value="" onValueChange={(v) => v && onChoose(v)} placeholder="Search any league player..." ariaLabel="Deep Dive player" />
+        <PlayerSearchSelect showOvr players={options} value="" onValueChange={(v) => v && onChoose(v)} placeholder="Search any league player..." ariaLabel="Deep Dive player" />
       </div>
       <div className="w-full space-y-3">
         <p className="font-display text-xs font-bold uppercase tracking-wide text-muted-foreground">Or try</p>

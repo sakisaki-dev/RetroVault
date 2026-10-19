@@ -1,9 +1,10 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
-import { Check, Pencil, X } from 'lucide-react';
+import { Check, Pencil, Star, X } from 'lucide-react';
 import CountUp from '@/components/brand/CountUp';
 import TeamLogo from '@/components/brand/TeamLogo';
 import { findNFLTeam } from '@/utils/nflTeams';
-import { COACH_NAME_KEY, DEFAULT_COACH_NAME, type Resume } from '@/utils/frontOffice';
+import { COACH_NAME_KEY, DEFAULT_COACH_NAME, fmtPct, type CoachFacts, type Resume } from '@/utils/frontOffice';
+import type { CoachInfo } from '@/utils/leagueContent';
 import { staggerStyle, teamVars, yearSpan } from './shared';
 
 const readName = () => {
@@ -108,13 +109,54 @@ const CoachName = () => {
   );
 };
 
+/** Real name from the staff screen: shown as-is (the local nickname editor only covers saves without one). */
+const FixedName = ({ name }: { name: string }) => (
+  <h1 id="fo-title" className="min-w-0 break-words font-display text-4xl uppercase leading-none tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+    <span className="sr-only">The Front Office: </span>
+    {name}
+  </h1>
+);
+
+const Stars = ({ value }: { value: number }) => (
+  <span className="fo-stars" role="img" aria-label={`${value} out of 5 stars`}>
+    {[0, 1, 2, 3, 4].map((i) => (
+      <Star key={i} className={i < Math.round(value) ? 'is-on' : undefined} aria-hidden="true" />
+    ))}
+  </span>
+);
+
+/** "1156-200-4" -> "1156–200–4" */
+const dash = (r: string) => r.replace(/-/g, '–');
+
+interface StripItem {
+  label: string;
+  value: string;
+  sub?: string;
+}
+
+const recordStrip = (coach: CoachInfo, facts: CoachFacts | null, titles: number): StripItem[] => {
+  const r = coach.record ?? {};
+  const items: StripItem[] = [];
+  const regular = r.regular ?? (facts ? `${facts.w}-${facts.l}-${facts.t}` : undefined);
+  if (regular) items.push({ label: 'Regular season', value: dash(regular), sub: r.regularWinPct != null ? fmtPct(r.regularWinPct) : undefined });
+  if (r.playoff) items.push({ label: 'Playoffs', value: dash(r.playoff), sub: r.playoffWinPct != null ? fmtPct(r.playoffWinPct) : undefined });
+  const sbs = facts?.titles ?? titles;
+  if (sbs) items.push({ label: 'Super Bowls', value: String(sbs), sub: sbs === 1 ? 'title' : 'titles' });
+  const trips = r.playoffsReached ?? (facts ? `${facts.playoffTrips}/${facts.seasons}` : undefined);
+  if (trips) items.push({ label: 'Playoff trips', value: trips.replace('/', ' / '), sub: 'seasons' });
+  return items;
+};
+
 interface CoachHeaderProps {
   resume: Resume;
   franchiseCount: number;
   stintCount: number;
+  coach?: CoachInfo;
+  facts?: CoachFacts | null;
 }
 
-const CoachHeader = ({ resume, franchiseCount, stintCount }: CoachHeaderProps) => {
+const CoachHeader = ({ resume, franchiseCount, stintCount, coach, facts = null }: CoachHeaderProps) => {
+  const strip = coach ? recordStrip(coach, facts, resume.wins) : [];
   const club = findNFLTeam(resume.currentClub);
   const clubName = club?.fullName ?? resume.currentClub ?? 'No club';
   const { titleStreak: ts, appearanceStreak: as } = resume;
@@ -164,7 +206,27 @@ const CoachHeader = ({ resume, franchiseCount, stintCount }: CoachHeaderProps) =
                 </span>
               )}
             </div>
-            <CoachName />
+            {coach?.name ? <FixedName name={coach.name} /> : <CoachName />}
+            {coach && (coach.stars != null || coach.age != null || coach.morale) && (
+              <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
+                {coach.stars != null && <Stars value={coach.stars} />}
+                {coach.age != null && (
+                  <span>
+                    Age <b className="font-display text-base text-foreground">{coach.age}</b>
+                  </span>
+                )}
+                {coach.morale && (
+                  <span>
+                    Morale <b className="font-display text-base text-foreground">{coach.morale}</b>
+                  </span>
+                )}
+                {coach.gamesPlayed != null && (
+                  <span>
+                    <b className="font-display text-base text-foreground">{coach.gamesPlayed.toLocaleString()}</b> games
+                  </span>
+                )}
+              </p>
+            )}
             <div className="fo-plate">
               <span className="flex items-center gap-2.5 py-1.5 pl-4 pr-6">
                 <TeamLogo team={club ?? resume.currentClub} size={36} decorative priority />
@@ -179,9 +241,25 @@ const CoachHeader = ({ resume, franchiseCount, stintCount }: CoachHeaderProps) =
           </div>
           <p className="max-w-sm text-sm text-muted-foreground md:text-right">
             {resume.firstYear != null && resume.season != null ? `Y${resume.firstYear}–Y${resume.season}. ` : ''}
-            Every number here is computed from the league's Super Bowl history.
+            {coach?.seasons.length
+              ? 'Records come from the staff screen; everything else is computed from the season and Super Bowl history.'
+              : "Every number here is computed from the league's Super Bowl history."}
           </p>
         </div>
+
+        {strip.length > 0 && (
+          <dl className="fo-strip" aria-label="Career record">
+            {strip.map((it) => (
+              <div key={it.label} className="fo-strip__item">
+                <dt>{it.label}</dt>
+                <dd>
+                  <span className="fo-strip__value">{it.value}</span>
+                  {it.sub && <span className="fo-strip__sub">{it.sub}</span>}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
 
         <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 xl:grid-cols-6" aria-label="Career scoreboard">
           {lamps.map((l, i) => (

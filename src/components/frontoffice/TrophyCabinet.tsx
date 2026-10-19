@@ -2,7 +2,7 @@ import { useState } from 'react';
 import TeamLogo from '@/components/brand/TeamLogo';
 import { cn } from '@/lib/utils';
 import { findNFLTeam } from '@/utils/nflTeams';
-import { yourScore, type YourGame } from '@/utils/frontOffice';
+import { FINISH_META, seasonRecord, yourScore, type SeasonRow, type YourGame } from '@/utils/frontOffice';
 import { staggerStyle, teamColor, teamVars } from './shared';
 
 /** Shared SVG gradients for every trophy on the page (one copy in the DOM). */
@@ -55,10 +55,14 @@ interface Shelf {
   losses: number;
 }
 
-const describe = (g: YourGame) =>
-  `Super Bowl ${g.roman || ''} · Y${g.year} · ${g.won ? 'beat' : 'lost to'} ${g.opponent ?? 'unknown'} ${yourScore(g)}`;
+/** "16–1 regular season · Won Super Bowl" from the season history, when it exists. */
+const seasonLine = (r?: SeasonRow) => (r ? `${seasonRecord(r)} regular season · ${FINISH_META[r.kind].label}` : '');
 
-const TrophyCabinet = ({ shelves }: { shelves: Shelf[] }) => {
+const TrophyCabinet = ({ shelves, seasonByYear }: { shelves: Shelf[]; seasonByYear?: Map<number, SeasonRow> }) => {
+  const describe = (g: YourGame) => {
+    const line = seasonLine(seasonByYear?.get(g.year));
+    return `Super Bowl ${g.roman || ''} · Y${g.year} · ${g.won ? 'beat' : 'lost to'} ${g.opponent ?? 'unknown'} ${yourScore(g)}${line ? ` · ${line}` : ''}`;
+  };
   const [active, setActive] = useState<number | null>(null);
   const totalW = shelves.reduce((n, s) => n + s.wins, 0);
   const totalL = shelves.reduce((n, s) => n + s.losses, 0);
@@ -116,6 +120,7 @@ const TrophyCabinet = ({ shelves }: { shelves: Shelf[] }) => {
                         <span className="fo-tip" aria-hidden="true">
                           <b className="block font-display text-sm uppercase text-gold">Super Bowl {g.roman}</b>
                           Y{g.year} · beat {g.opponent} {yourScore(g)}
+                          {seasonByYear?.get(g.year) && <span className="mt-0.5 block text-muted-foreground">{seasonLine(seasonByYear.get(g.year))}</span>}
                         </span>
                       </button>
                     </li>
@@ -138,6 +143,7 @@ const TrophyCabinet = ({ shelves }: { shelves: Shelf[] }) => {
                         <span className="fo-tip" aria-hidden="true">
                           <b className="block font-display text-sm uppercase text-destructive">Runner-up · {g.roman}</b>
                           Y{g.year} · lost to {g.opponent} {yourScore(g)}
+                          {seasonByYear?.get(g.year) && <span className="mt-0.5 block text-muted-foreground">{seasonLine(seasonByYear.get(g.year))}</span>}
                         </span>
                       </button>
                     </li>

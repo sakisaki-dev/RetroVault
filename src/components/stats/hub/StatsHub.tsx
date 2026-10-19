@@ -128,7 +128,7 @@ const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, children }
   // One control: on Deep Dive the pick loads there; anywhere else it opens the player's card (Deep Dive is one click from the card).
   const search = (
     <div className="min-w-0 [&_[role=combobox]]:h-10">
-      <PlayerSearchSelect
+      <PlayerSearchSelect showOvr
         players={sorted}
         value=""
         onValueChange={(key) => {

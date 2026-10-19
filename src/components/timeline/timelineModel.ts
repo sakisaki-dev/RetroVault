@@ -11,6 +11,8 @@ export interface YearSlot {
   /** Your team that year when you reached the Super Bowl. */
   team: string | null;
   color: string | null;
+  /** Team you coached that year (coach.seasons), whether or not you reached the Super Bowl. */
+  coachColor: string | null;
 }
 
 export interface PlacedEra {
@@ -61,6 +63,7 @@ const longestRun = (slots: YearSlot[], pred: (s: YearSlot) => boolean) => {
 
 export const buildTimelineModel = (content: LeagueContent): TimelineModel => {
   const sbByYear = new Map(content.superBowls.map((sb) => [sb.year, sb]));
+  const coachTeamByYear = new Map((content.coach?.seasons ?? []).map((s) => [s.year, s.team]));
   const maxEraYear = Math.max(0, ...content.eras.map((e) => e.endYear));
   const maxSbYear = Math.max(0, ...content.superBowls.map((s) => s.year));
   const seasonYear = parseInt((content.season ?? '').replace(/\D/g, ''), 10) || 0;
@@ -71,7 +74,8 @@ export const buildTimelineModel = (content: LeagueContent): TimelineModel => {
   for (let y = firstYear; y <= lastYear; y++) {
     const sb = sbByYear.get(y) ?? null;
     const team = sb && (sb.yourResult === 'won' || sb.yourResult === 'lost') ? sb.yourTeam : null;
-    years.push({ year: y, sb, team, color: teamHsl(team) });
+    const color = teamHsl(team);
+    years.push({ year: y, sb, team, color, coachColor: teamHsl(coachTeamByYear.get(y)) ?? color });
   }
   const slot = (y: number) => years[y - firstYear];
 
@@ -88,7 +92,7 @@ export const buildTimelineModel = (content: LeagueContent): TimelineModel => {
     // Per-year colors inside the era, gaps filled from nearest known neighbour.
     const fallbackTeam = era.yourTeams[0] ?? null;
     const raw = [];
-    for (let y = era.startYear; y <= era.endYear; y++) raw.push(slot(y)?.color ?? null);
+    for (let y = era.startYear; y <= era.endYear; y++) raw.push(slot(y)?.coachColor ?? null);
     const filled = raw.map((c, i) => {
       if (c) return c;
       for (let d = 1; d < raw.length; d++) {

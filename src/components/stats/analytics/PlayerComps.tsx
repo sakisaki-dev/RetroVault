@@ -139,7 +139,7 @@ const PlayerComps = ({ players, ctx, onSelect }: Props) => {
           </div>
         ))}
         <p className="text-[11px] text-muted-foreground">
-          Both scores (0–100) use rates z-scored within the position: {compFeatureLabels(player.position).join(', ')}. Career length, totals and True Talent are left out. Style ignores level; closest overall needs the numbers to match too (~60 = about one standard deviation apart on average).
+          Both scores (0–100) use rates z-scored within the position: {compFeatureLabels(player.position).join(', ')}. Career length, totals and True Talent are left out. Plays like asks whether he is above or below the position average in the same places (what the hexagon shows); closest overall needs the numbers to match too (~60 = about one standard deviation apart on average).
         </p>
       </div>
     </section>

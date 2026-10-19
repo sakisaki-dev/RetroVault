@@ -8,6 +8,7 @@ import type { Player } from '@/types/player';
 import { findNFLTeam } from '@/utils/nflTeams';
 import {
   matchPlayerByName,
+  type CoachSeason,
   type LeagueContent,
   type LeagueEra,
   type Rivalry,
@@ -175,6 +176,171 @@ export const buildResume = (content: LeagueContent): Resume => {
 };
 
 // ---------------------------------------------------------------------------
+// Season by season (coach.seasons from the staff screen)
+// ---------------------------------------------------------------------------
+
+/**
+ * How a season ended, best first. "AFC NOR 1st" style finishes are division standings the save shows
+ * instead of a playoff round: 1st = won the division (playoff exit not recorded), lower = missed.
+ */
+export type FinishKind = 'champions' | 'conference' | 'champ-round' | 'divisional' | 'wild-card' | 'division' | 'missed';
+
+export const FINISH_ORDER: FinishKind[] = ['champions', 'conference', 'champ-round', 'divisional', 'wild-card', 'division', 'missed'];
+
+export const FINISH_META: Record<FinishKind, { label: string; short: string; description: string }> = {
+  champions: { label: 'Won Super Bowl', short: 'Champs', description: 'Won the Super Bowl' },
+  conference: { label: 'Conference champs', short: 'Conf', description: 'Won the conference, lost the Super Bowl' },
+  'champ-round': { label: 'Conference final', short: 'Final 4', description: 'Lost in the conference championship' },
+  divisional: { label: 'Divisional round', short: 'Div Rnd', description: 'Lost in the divisional round' },
+  'wild-card': { label: 'Wild Card', short: 'Wild Card', description: 'Lost in the wild card round' },
+  division: { label: 'Division winner', short: 'Div 1st', description: 'Won the division; playoff exit not recorded' },
+  missed: { label: 'Missed playoffs', short: 'Out', description: 'Missed the playoffs' },
+};
+
+export const finishKind = (finish: string): FinishKind => {
+  const f = finish.trim().toLowerCase();
+  if (/^champions?$|super bowl champ/.test(f)) return 'champions';
+  if (/^(afc|nfc) champ/.test(f)) return 'conference';
+  if (/champ\.? ?r(ou)?nd|conf(erence)? (final|champ)/.test(f)) return 'champ-round';
+  if (/divisional/.test(f)) return 'divisional';
+  if (/wild ?card/.test(f)) return 'wild-card';
+  if (/\b1st\b/.test(f)) return 'division';
+  return 'missed';
+};
+
+/** Playoff reached: anything but a non-1st division finish. */
+const madePlayoffs = (k: FinishKind) => k !== 'missed';
+
+export const seasonRecord = (s: { w: number; l: number; t: number }) => `${s.w}–${s.l}${s.t ? `–${s.t}` : ''}`;
+
+/** NFL win %: ties count as half a win. */
+export const winPct = (w: number, l: number, t = 0) => (w + l + t ? (w + t / 2) / (w + l + t) : 0);
+
+/** ".851" style. */
+export const fmtPct = (p: number) => (p >= 1 ? '1.000' : p.toFixed(3).replace(/^0/, ''));
+
+export interface SeasonRow extends CoachSeason {
+  kind: FinishKind;
+  pct: number;
+}
+
+export const seasonRows = (content: LeagueContent): SeasonRow[] =>
+  (content.coach?.seasons ?? []).map((s) => ({ ...s, kind: finishKind(s.finish), pct: winPct(s.w, s.l, s.t) }));
+
+/** Better season first: deeper finish, then win %, then earlier year. */
+export const compareSeasons = (a: SeasonRow, b: SeasonRow) =>
+  FINISH_ORDER.indexOf(a.kind) - FINISH_ORDER.indexOf(b.kind) || b.pct - a.pct || b.w - a.w || a.year - b.year;
+
+/** Longest run of consecutive years where `test` holds (a missing year breaks the run). */
+export const seasonStreak = (rows: SeasonRow[], test: (s: SeasonRow) => boolean): Streak => {
+  let best: Streak = { length: 0, start: null, end: null };
+  let cur = 0;
+  let start = 0;
+  let prev: number | null = null;
+  for (const s of rows) {
+    if (test(s)) {
+      if (cur > 0 && prev !== null && s.year === prev + 1) cur++;
+      else {
+        cur = 1;
+        start = s.year;
+      }
+    } else cur = 0;
+    prev = s.year;
+    if (cur > best.length) best = { length: cur, start, end: s.year };
+  }
+  return best;
+};
+
+export interface CoachFacts {
+  seasons: number;
+  w: number;
+  l: number;
+  t: number;
+  titles: number;
+  titleStreak: Streak;
+  playoffStreak: Streak;
+  winningStreak: Streak;
+  /** 17-0 (no losses or ties, 17+ wins) */
+  perfect: SeasonRow[];
+  /** No losses, ties allowed (16-0-1) */
+  unbeaten: SeasonRow[];
+  perfectChampions: SeasonRow[];
+  best: SeasonRow | null;
+  /** Every season with the best record */
+  bestTies: SeasonRow[];
+  worst: SeasonRow | null;
+  winningSeasons: number;
+  fifteenWin: number;
+  playoffTrips: number;
+  missed: SeasonRow[];
+  byKind: Record<FinishKind, number>;
+}
+
+export const buildCoachFacts = (rows: SeasonRow[]): CoachFacts | null => {
+  if (!rows.length) return null;
+  const byRecord = [...rows].sort((a, b) => b.pct - a.pct || b.w - a.w || a.year - b.year);
+  const best = byRecord[0];
+  const worst = [...rows].sort((a, b) => a.pct - b.pct || a.w - b.w || a.year - b.year)[0];
+  const byKind = Object.fromEntries(FINISH_ORDER.map((k) => [k, 0])) as Record<FinishKind, number>;
+  rows.forEach((r) => byKind[r.kind]++);
+  const perfect = rows.filter((r) => r.l === 0 && r.t === 0 && r.w >= 17);
+  return {
+    seasons: rows.length,
+    w: rows.reduce((n, r) => n + r.w, 0),
+    l: rows.reduce((n, r) => n + r.l, 0),
+    t: rows.reduce((n, r) => n + r.t, 0),
+    titles: byKind.champions,
+    titleStreak: seasonStreak(rows, (r) => r.kind === 'champions'),
+    playoffStreak: seasonStreak(rows, (r) => madePlayoffs(r.kind)),
+    winningStreak: seasonStreak(rows, (r) => r.w > r.l),
+    perfect,
+    unbeaten: rows.filter((r) => r.l === 0),
+    perfectChampions: perfect.filter((r) => r.kind === 'champions'),
+    best,
+    bestTies: rows.filter((r) => r.w === best.w && r.l === best.l && r.t === best.t),
+    worst,
+    winningSeasons: rows.filter((r) => r.w > r.l).length,
+    fifteenWin: rows.filter((r) => r.w >= 15).length,
+    playoffTrips: rows.filter((r) => madePlayoffs(r.kind)).length,
+    missed: rows.filter((r) => r.kind === 'missed'),
+    byKind,
+  };
+};
+
+/** Your time at one franchise, from the season rows (every stint, in order). */
+export interface CoachedSummary {
+  team: string;
+  stints: { firstYear: number; lastYear: number }[];
+  years: number[];
+  w: number;
+  l: number;
+  t: number;
+  titles: number;
+}
+
+/** Per-franchise coaching summary keyed by NFL team id (falls back to the raw team string). */
+export const coachedByTeam = (content: LeagueContent | null | undefined): Map<string, CoachedSummary> => {
+  const map = new Map<string, CoachedSummary>();
+  const rows = content ? seasonRows(content) : [];
+  let prevKey: string | null = null;
+  for (const r of rows) {
+    const key = findNFLTeam(r.team)?.id ?? findNFLTeam(r.abbr)?.id ?? r.team;
+    const row = map.get(key) ?? { team: r.team, stints: [], years: [], w: 0, l: 0, t: 0, titles: 0 };
+    const last = row.stints.at(-1);
+    if (last && prevKey === key && last.lastYear === r.year - 1) last.lastYear = r.year;
+    else row.stints.push({ firstYear: r.year, lastYear: r.year });
+    row.years.push(r.year);
+    row.w += r.w;
+    row.l += r.l;
+    row.t += r.t;
+    if (r.kind === 'champions') row.titles++;
+    map.set(key, row);
+    prevKey = key;
+  }
+  return map;
+};
+
+// ---------------------------------------------------------------------------
 // Franchise stints
 // ---------------------------------------------------------------------------
 
@@ -190,7 +356,47 @@ export interface Stint {
   losses: number;
   eras: LeagueEra[];
   keyPlayers: { raw: string; display: string; player?: Player }[];
+  /** Real regular seasons for this stint (only when coach.seasons exists) */
+  seasons?: SeasonRow[];
+  record?: { w: number; l: number; t: number; pct: number; titles: number; best: SeasonRow };
 }
+
+/** Consecutive seasons with the same franchise form one stint. */
+const seasonStints = (rows: SeasonRow[], resume: Resume): Stint[] => {
+  const stints: Stint[] = [];
+  for (const r of rows) {
+    const last = stints.at(-1);
+    if (last && sameTeam(last.team, r.team) && last.lastYear === r.year - 1) {
+      last.seasons!.push(r);
+      last.lastYear = r.year;
+    } else {
+      stints.push({
+        id: `${r.abbr ?? r.team}-${r.year}`.toLowerCase(),
+        team: r.team,
+        games: [],
+        firstYear: r.year,
+        lastYear: r.year,
+        current: false,
+        wins: 0,
+        losses: 0,
+        eras: [],
+        keyPlayers: [],
+        seasons: [r],
+      });
+    }
+  }
+  for (const s of stints) {
+    const rs = s.seasons!;
+    s.games = resume.games.filter((g) => g.year >= s.firstYear && g.year <= s.lastYear && sameTeam(g.team, s.team));
+    const w = rs.reduce((n, r) => n + r.w, 0);
+    const l = rs.reduce((n, r) => n + r.l, 0);
+    const t = rs.reduce((n, r) => n + r.t, 0);
+    s.record = { w, l, t, pct: winPct(w, l, t), titles: rs.filter((r) => r.kind === 'champions').length, best: [...rs].sort(compareSeasons)[0] };
+  }
+  const tail = stints.at(-1);
+  if (tail && (!resume.season || tail.lastYear >= resume.season)) tail.current = true;
+  return stints;
+};
 
 /**
  * Consecutive Super Bowl appearances with the same team form one stint. Stint years are the span of
@@ -198,8 +404,9 @@ export interface Stint {
  * the current season. Eras attach when they list the team and overlap the stint.
  */
 export const buildStints = (content: LeagueContent, resume: Resume, players: Player[]): Stint[] => {
-  const stints: Stint[] = [];
-  for (const g of resume.games) {
+  const rows = seasonRows(content);
+  const stints: Stint[] = rows.length ? seasonStints(rows, resume) : [];
+  for (const g of rows.length ? [] : resume.games) {
     const last = stints.at(-1);
     if (last && last.team === g.team) {
       last.games.push(g);
@@ -220,7 +427,7 @@ export const buildStints = (content: LeagueContent, resume: Resume, players: Pla
     }
   }
   const tail = stints.at(-1);
-  if (tail && resume.currentClub && tail.team === resume.currentClub) {
+  if (!rows.length && tail && resume.currentClub && tail.team === resume.currentClub) {
     tail.current = true;
     if (resume.season && resume.season > tail.lastYear) tail.lastYear = resume.season;
   }
@@ -229,7 +436,7 @@ export const buildStints = (content: LeagueContent, resume: Resume, players: Pla
     s.wins = s.games.filter((g) => g.won).length;
     s.losses = s.games.length - s.wins;
     s.eras = content.eras.filter(
-      (e) => e.yourTeams.includes(s.team) && e.startYear <= s.lastYear && e.endYear >= s.firstYear,
+      (e) => e.yourTeams.some((t) => sameTeam(t, s.team)) && e.startYear <= s.lastYear && e.endYear >= s.firstYear,
     );
     if (!s.eras.length) s.eras = content.eras.filter((e) => e.startYear <= s.firstYear && e.endYear >= s.firstYear);
     const seen = new Set<string>();
@@ -428,6 +635,14 @@ export const buildAchievements = (
   const tenRing = ringLeaders.filter((p) => p.rings >= 10);
   const hofs = coachedHallOfFamers(content, resume, players);
 
+  // Real regular seasons (coach.seasons), when the staff screen was captured.
+  const rows = seasonRows(content);
+  const facts = buildCoachFacts(rows);
+  const firstPerfect = facts?.perfect[0] ?? null;
+  const bestRegular = facts?.best ?? null;
+  let running = 0;
+  const thousandth = rows.find((r) => (running += r.w) >= 1000) ?? null;
+
   const names = (ps: Player[], n = 3) =>
     ps.slice(0, n).map((p) => p.name).join(', ') + (ps.length > n ? ` +${ps.length - n} more` : '');
 
@@ -492,6 +707,38 @@ export const buildAchievements = (
       progress: clamp01(wins.length / 50),
       detail: `${wins.length} titles`,
     },
+    ...(facts
+      ? ([
+          {
+            id: 'perfect-regular',
+            group: 'Dynasty',
+            icon: 'perfect',
+            title: 'Perfect regular season',
+            description: 'Go 17–0 in the regular season.',
+            rule: 'A regular season with 17+ wins and no losses or ties, from the staff screen season history.',
+            unlocked: !!firstPerfect,
+            when: firstPerfect ? `Y${firstPerfect.year} (${firstPerfect.team})` : undefined,
+            detail: facts.perfect.length
+              ? `${facts.perfect.length} perfect seasons · ${facts.perfectChampions.length} ended with a title`
+              : bestRegular
+                ? `Best: ${seasonRecord(bestRegular)} (Y${bestRegular.year})`
+                : undefined,
+            progress: firstPerfect ? 1 : clamp01((bestRegular?.w ?? 0) / 17),
+          },
+          {
+            id: 'thousand',
+            group: 'Dynasty',
+            icon: 'trophy',
+            title: 'Thousand-win club',
+            description: 'Win 1,000 regular-season games.',
+            rule: 'Regular-season wins summed across every season in the staff screen history.',
+            unlocked: !!thousandth,
+            when: thousandth ? `Y${thousandth.year} (${thousandth.team})` : undefined,
+            detail: `${facts.w.toLocaleString()} wins`,
+            progress: clamp01(facts.w / 1000),
+          },
+        ] satisfies Achievement[])
+      : []),
     {
       id: 'blowout',
       group: 'Big game',

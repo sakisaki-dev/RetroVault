@@ -43,7 +43,10 @@ TEAM_FIXES: dict[str, str] = {
 TEAM_HISTORY: dict[str, list[str]] = {
     "Sherman Brandson": ["Giants"],  # user: a Giants legend (final team on the sheet: Buccaneers)
     "Hamsfa Boltt": ["Titans"],
-    "Michael Wilson": ["Ravens"],    # user: Ravens first, then the Giants      # user: Titans QB for their last title season, now with the Commanders
+    "Michael Wilson": ["Ravens"],    # user: Ravens first, then the Giants
+    "Obinna Leary": ["Jets"],        # user: traded to the Seahawks for Alvin Tufele
+    "Alvin Tufele": ["Seahawks"],    # user: traded to the Jets for Obinna Leary
+    "Jakeem Friend": ["Seahawks"],   # user: mainly a Seahawk; Jets only the last 2 years      # user: Titans QB for their last title season, now with the Commanders
 }
 
 # Extra player-card notes supplied by the user (merged into player-extras.json "cards").
@@ -60,13 +63,17 @@ CARD_NOTES: dict[str, dict] = {
     "Levante Hopkins": {
         "note": "Tight end for the Titans' Y70–72 three-peat",
     },
+    "Jakeem Friend": {
+        "legacy_team": "Seahawks",
+        "note": "A Seahawks lineman for most of his career; a Jet for only the last two seasons (Y79–80)",
+    },
     "Hamsfa Boltt": {
         "former_team": "Titans",
         "note": "Quarterbacked the Titans to their most recent title, Super Bowl CXXXIII (Y74), and was named SB MVP; now with the Commanders",
     },
     "Jason Macleone": {
         "former_team": "Vikings",
-        "note": "Started at QB for the Vikings in their Y78 Super Bowl CXXXVII win (33–27 over the Broncos)",
+        "note": "\"Scary Jerry\", named for his imposing stature and scary looks. Started at QB for the Vikings in their Y78 Super Bowl CXXXVII win (33–27 over the Broncos)",
     },
 }
 # Status for players with no sheet row (the sheet's status column is otherwise used).

@@ -8,6 +8,8 @@ import PlayerDetailCard from '../PlayerDetailCard';
 import TeamCard from '../teams/TeamCard';
 import CountUp from '../brand/CountUp';
 import TeamSheet from '../teams/TeamSheet';
+import { useLeagueContent } from '@/utils/leagueContent';
+import { coachedByTeam } from '@/utils/frontOffice';
 import { TEAM_SORTS, buildTeamSummaries, sortTeams, type TeamSortKey } from '../teams/teamStats';
 
 type ConferenceFilter = 'all' | 'AFC' | 'NFC';
@@ -50,6 +52,8 @@ const TeamRankingsTab = () => {
   const [conference, setConference] = useState<ConferenceFilter>('all');
   const [openKey, setOpenKey] = useState<string | null>(null);
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  const { content } = useLeagueContent();
+  const coached = useMemo(() => coachedByTeam(content), [content]);
 
   const { teams, unassigned } = useMemo(
     () => buildTeamSummaries(getAllPlayers()),
@@ -135,7 +139,12 @@ const TeamRankingsTab = () => {
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" aria-label="Franchises">
           {visible.map((summary, i) => (
             <li key={summary.key} className="stagger-in" style={{ ['--i' as string]: i }}>
-              <TeamCard summary={summary} rank={legacyRank.get(summary.key) ?? 0} onOpen={() => setOpenKey(summary.key)} />
+              <TeamCard
+                summary={summary}
+                rank={legacyRank.get(summary.key) ?? 0}
+                onOpen={() => setOpenKey(summary.key)}
+                coached={coached.get(summary.team?.id ?? summary.label)}
+              />
             </li>
           ))}
         </ul>

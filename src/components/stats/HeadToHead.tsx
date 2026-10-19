@@ -60,7 +60,7 @@ const HeroCard = ({
   const team = findNFLTeam(player?.team);
   return (
     <div className="flex min-w-0 flex-col gap-2">
-      <PlayerSearchSelect
+      <PlayerSearchSelect showOvr
         players={options}
         value={player ? keyOf(player) : ''}
         onValueChange={(v) => v && onChange(v)}

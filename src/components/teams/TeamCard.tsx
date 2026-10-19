@@ -2,12 +2,18 @@ import { cn } from '@/lib/utils';
 import { getReadableTextOn, liftForDarkBg } from '@/utils/teamColors';
 import TeamLogo from '../brand/TeamLogo';
 import type { TeamSummary } from './teamStats';
+import type { CoachedSummary } from '@/utils/frontOffice';
 
 interface TeamCardProps {
   summary: TeamSummary;
   rank: number;
   onOpen: () => void;
+  /** Your coaching tenure here, from the season-by-season history */
+  coached?: CoachedSummary;
 }
+
+const tenure = (c: CoachedSummary) =>
+  c.stints.map((s) => (s.firstYear === s.lastYear ? `Y${s.firstYear}` : `Y${s.firstYear}–${s.lastYear}`)).join(', ');
 
 const Stat = ({ label, value, accent }: { label: string; value: string | number; accent?: string }) => (
   <div className="flex flex-col-reverse items-center">
@@ -19,7 +25,10 @@ const Stat = ({ label, value, accent }: { label: string; value: string | number;
 );
 
 /** Franchise tile for the Teams hub. The whole card is one button that opens the team page. */
-const TeamCard = ({ summary, rank, onOpen }: TeamCardProps) => {
+const TeamCard = ({ summary, rank, onOpen, coached }: TeamCardProps) => {
+  const coachedLine = coached
+    ? `Coached here: ${tenure(coached)} · ${coached.w}–${coached.l}${coached.t ? `–${coached.t}` : ''} · ${coached.titles} ${coached.titles === 1 ? 'title' : 'titles'}`
+    : null;
   const t = summary.team;
   const primary = t?.primaryColor ?? '226 33% 30%';
   const secondary = t?.secondaryColor ?? '226 33% 20%';
@@ -28,7 +37,7 @@ const TeamCard = ({ summary, rank, onOpen }: TeamCardProps) => {
     <button
       type="button"
       onClick={onOpen}
-      aria-label={`${summary.label}: ${summary.players.length} players, ${summary.totalLegacy.toLocaleString()} total legacy. Open team page`}
+      aria-label={`${summary.label}: ${summary.players.length} players, ${summary.totalLegacy.toLocaleString()} total legacy.${coachedLine ? ` ${coachedLine}.` : ''} Open team page`}
       className={cn(
         'hover-lift group relative w-full overflow-hidden rounded-xl border border-border bg-card text-left shadow-card hover:border-line',
       )}
@@ -72,6 +81,15 @@ const TeamCard = ({ summary, rank, onOpen }: TeamCardProps) => {
           <Stat label="Rings" value={summary.rings} accent="hsl(var(--gold))" />
           <Stat label="MVPs" value={summary.mvps} />
         </dl>
+        {coachedLine && (
+          <p className="flex items-center gap-1.5 rounded-md border border-gold/30 bg-gold/10 px-2 py-1 text-xs text-foreground">
+            <span className="font-pixel text-[9px] uppercase text-gold shrink-0">Coached</span>
+            <span className="min-w-0 truncate" title={coachedLine}>
+              {tenure(coached!)} · {coached!.w}–{coached!.l}
+              {coached!.t ? `–${coached!.t}` : ''} · {coached!.titles} {coached!.titles === 1 ? 'title' : 'titles'}
+            </span>
+          </p>
+        )}
         {summary.topPlayer && (
           <p className="text-xs text-muted-foreground truncate">
             <span className="font-pixel text-[9px] uppercase mr-1.5">Top</span>

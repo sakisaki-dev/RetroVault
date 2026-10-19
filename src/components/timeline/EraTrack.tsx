@@ -106,7 +106,7 @@ export const HorizontalTrack = ({
         {/* Team ribbon: your franchise in each Super Bowl appearance */}
         <div className="grid h-1.5 overflow-hidden rounded-full bg-secondary/40" style={grid} aria-hidden>
           {years.map((s) => (
-            <span key={s.year} style={{ background: s.color ? `hsl(${s.color})` : 'transparent' }} />
+            <span key={s.year} style={{ background: s.coachColor ? `hsl(${s.coachColor})` : 'transparent' }} />
           ))}
         </div>
 

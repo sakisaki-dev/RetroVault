@@ -378,6 +378,8 @@ def main():
         "outsiders": outsiders,
         "openQuestions": open_questions,
         "playerNotes": player_notes,
+        # Head coach card + season-by-season history from the staff screen (optional)
+        "coach": load("coach.json") if os.path.exists(os.path.join(SRC, "coach.json")) else None,
         "speeches": SPEECHES,
     }
 

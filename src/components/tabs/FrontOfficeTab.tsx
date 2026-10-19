@@ -7,14 +7,19 @@ import { useJerseyNumbers } from '@/utils/jerseys';
 import {
   buildAchievements,
   buildCabinet,
+  buildCoachFacts,
   buildNemeses,
   buildResume,
   buildStints,
   readArcadeBests,
+  seasonRows,
   type ArcadeBests,
 } from '@/utils/frontOffice';
 import PlayerDetailCard from '@/components/PlayerDetailCard';
 import CoachHeader from '@/components/frontoffice/CoachHeader';
+import AdvancedStats from '@/components/frontoffice/AdvancedStats';
+import SeasonLog from '@/components/frontoffice/SeasonLog';
+import { buildCoachAnalytics } from '@/utils/coachAnalytics';
 import FranchiseHistory from '@/components/frontoffice/FranchiseHistory';
 import TrophyCabinet from '@/components/frontoffice/TrophyCabinet';
 import Achievements from '@/components/frontoffice/Achievements';
@@ -48,9 +53,15 @@ const FrontOfficeTab = () => {
   const model = useMemo(() => {
     if (!content) return null;
     const resume = buildResume(content);
+    const rows = seasonRows(content);
+    const stints = buildStints(content, resume, players);
     return {
       resume,
-      stints: buildStints(content, resume, players),
+      rows,
+      seasonByYear: new Map(rows.map((r) => [r.year, r])),
+      facts: buildCoachFacts(rows),
+      analytics: buildCoachAnalytics(rows, stints, content.coach),
+      stints,
       shelves: buildCabinet(resume),
       nemeses: buildNemeses(resume),
     };
@@ -81,17 +92,21 @@ const FrontOfficeTab = () => {
     );
   }
 
-  const { resume, stints, shelves, nemeses } = model;
+  const { resume, rows, seasonByYear, facts, analytics, stints, shelves, nemeses } = model;
+  const coach = content.coach;
+  const franchiseCount = rows.length ? new Set(stints.map((s) => s.team)).size : resume.franchises.length;
 
   return (
     <div className="container mx-auto space-y-8 px-4 py-6 sm:space-y-10 sm:py-8">
-      <CoachHeader resume={resume} franchiseCount={resume.franchises.length} stintCount={stints.length} />
-      <TrophyCabinet shelves={shelves} />
+      <CoachHeader resume={resume} franchiseCount={franchiseCount} stintCount={stints.length} coach={coach} facts={facts} />
+      <TrophyCabinet shelves={shelves} seasonByYear={rows.length ? seasonByYear : undefined} />
+      {coach && facts && analytics && <AdvancedStats analytics={analytics} facts={facts} coach={coach} rows={rows} />}
       <FranchiseHistory stints={stints} onPlayerSelect={setSelected} numberFor={numberFor} />
       <Achievements items={achievements} />
       {(content.rivalries.length > 0 || nemeses.length > 0) && (
         <RivalsPanel rivalries={content.rivalries} nemeses={nemeses} resume={resume} />
       )}
+      {rows.length > 0 && <SeasonLog rows={rows} games={resume.games} />}
       <PlayerDetailCard player={selected} onClose={() => setSelected(null)} />
     </div>
   );

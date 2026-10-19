@@ -28,7 +28,7 @@ const DeepDiveEntry = ({ players }: { players: Player[] }) => {
       <p className="text-sm text-muted-foreground">
         The player search with his profile, percentiles and closest comps now lives in Stats › Deep Dive. Pick a player to jump straight there.
       </p>
-      <PlayerSearchSelect
+      <PlayerSearchSelect showOvr
         players={sorted}
         value=""
         onValueChange={(key) => {

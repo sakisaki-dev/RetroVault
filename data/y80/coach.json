@@ -1,0 +1,769 @@
+{
+ "source": "Retro Bowl staff screen (screen recording, Y80 complete)",
+ "name": "Dorren Skura",
+ "age": 116,
+ "stars": 5,
+ "morale": "Good",
+ "gamesPlayed": 1591,
+ "simGames": 15,
+ "record": {
+  "fullSeasons": 80,
+  "regular": "1156-200-4",
+  "regularWinPct": 0.851,
+  "playoff": "209-22",
+  "playoffWinPct": 0.905,
+  "playoffsReached": "78/80",
+  "seasonsNoSimGames": 70,
+  "simGameRecord": "0-15-0"
+ },
+ "bests": {
+  "mostPoints": "MIN 38-54 CAR",
+  "biggestWin": "MIN 56-3 CIN",
+  "biggestLoss": "CAR 40-8 LAC",
+  "mostTDs": "NYG 68-21 KC (9)"
+ },
+ "superBowlRecord": [
+  {
+   "coach": "D.Skura",
+   "titles": 56
+  },
+  {
+   "coach": "NE (2000-2023)",
+   "titles": 6
+  },
+  {
+   "coach": "PIT (1969-1991)",
+   "titles": 4
+  },
+  {
+   "coach": "SF (1979-1988)",
+   "titles": 3
+  },
+  {
+   "coach": "WAS (1981-1992)",
+   "titles": 3
+  }
+ ],
+ "seasons": [
+  {
+   "year": 1,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 2,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 11,
+   "l": 6,
+   "t": 0,
+   "finish": "Wild Card"
+  },
+  {
+   "year": 3,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 4,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 5,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 9,
+   "l": 8,
+   "t": 0,
+   "finish": "AFC EAS 3rd"
+  },
+  {
+   "year": 6,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 7,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 11,
+   "l": 6,
+   "t": 0,
+   "finish": "AFC Champs"
+  },
+  {
+   "year": 8,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 9,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 11,
+   "l": 6,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 10,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 11,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 12,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 8,
+   "l": 9,
+   "t": 0,
+   "finish": "AFC WES 3rd"
+  },
+  {
+   "year": 13,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 11,
+   "l": 6,
+   "t": 0,
+   "finish": "Wild Card"
+  },
+  {
+   "year": 14,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 15,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 16,
+   "team": "Commanders",
+   "abbr": "WAS",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 17,
+   "team": "Commanders",
+   "abbr": "WAS",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 18,
+   "team": "Commanders",
+   "abbr": "WAS",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 19,
+   "team": "Commanders",
+   "abbr": "WAS",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 20,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 21,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 22,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "NFC Champs"
+  },
+  {
+   "year": 23,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 24,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "NFC Champs"
+  },
+  {
+   "year": 25,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 26,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 15,
+   "l": 1,
+   "t": 1,
+   "finish": "Champions"
+  },
+  {
+   "year": 27,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 28,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 29,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 30,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 31,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 32,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 33,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 34,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 35,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "finish": "Divisional"
+  },
+  {
+   "year": 36,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 37,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 38,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 39,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "finish": "Divisional"
+  },
+  {
+   "year": 40,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 41,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 42,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 43,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 44,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 45,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "AFC NOR 1st"
+  },
+  {
+   "year": 46,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 16,
+   "l": 0,
+   "t": 1,
+   "finish": "Champions"
+  },
+  {
+   "year": 47,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "AFC NOR 1st"
+  },
+  {
+   "year": 48,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 49,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 50,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "finish": "AFC Champs"
+  },
+  {
+   "year": 51,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 52,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 53,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 54,
+   "team": "Giants",
+   "abbr": "NYG",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 55,
+   "team": "Giants",
+   "abbr": "NYG",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 56,
+   "team": "Giants",
+   "abbr": "NYG",
+   "w": 14,
+   "l": 2,
+   "t": 1,
+   "finish": "Champions"
+  },
+  {
+   "year": 57,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 58,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 59,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 60,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "AFC Champs"
+  },
+  {
+   "year": 61,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 62,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 63,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 64,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 65,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "NFC NOR 1st"
+  },
+  {
+   "year": 66,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 67,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 68,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 69,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 70,
+   "team": "Titans",
+   "abbr": "TEN",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 71,
+   "team": "Titans",
+   "abbr": "TEN",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 72,
+   "team": "Titans",
+   "abbr": "TEN",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 73,
+   "team": "Titans",
+   "abbr": "TEN",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 74,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 14,
+   "l": 2,
+   "t": 1,
+   "finish": "NFC Champs"
+  },
+  {
+   "year": 75,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 76,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 77,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 78,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "finish": "Wild Card"
+  },
+  {
+   "year": 79,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "finish": "Wild Card"
+  },
+  {
+   "year": 80,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "Champions"
+  }
+ ]
+}

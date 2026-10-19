@@ -120,13 +120,17 @@
   "Levante Hopkins": {
    "note": "Tight end for the Titans' Y70–72 three-peat"
   },
+  "Jakeem Friend": {
+   "legacy_team": "Seahawks",
+   "note": "A Seahawks lineman for most of his career; a Jet for only the last two seasons (Y79–80)"
+  },
   "Hamsfa Boltt": {
    "former_team": "Titans",
    "note": "Quarterbacked the Titans to their most recent title, Super Bowl CXXXIII (Y74), and was named SB MVP; now with the Commanders"
   },
   "Jason Macleone": {
    "former_team": "Vikings",
-   "note": "Started at QB for the Vikings in their Y78 Super Bowl CXXXVII win (33–27 over the Broncos)"
+   "note": "\"Scary Jerry\", named for his imposing stature and scary looks. Started at QB for the Vikings in their Y78 Super Bowl CXXXVII win (33–27 over the Broncos)"
   }
  },
  "formerNames": {
@@ -157,9 +161,21 @@
    "New York Jets",
    "Tennessee Titans"
   ],
+  "Alvin Tufele": [
+   "New York Jets",
+   "Seattle Seahawks"
+  ],
   "Hamsfa Boltt": [
    "Tennessee Titans",
    "Washington Commanders"
+  ],
+  "Obinna Leary": [
+   "New York Jets",
+   "Seattle Seahawks"
+  ],
+  "Jakeem Friend": [
+   "New York Jets",
+   "Seattle Seahawks"
   ]
  }
 }
