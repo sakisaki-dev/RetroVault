@@ -1,0 +1,45 @@
+/* Print / save as PDF: only the call sheet (wristband card), black on white. */
+@media print {
+  html,
+  body {
+    background: #fff !important;
+  }
+  /* Drop everything that neither contains nor sits inside the call sheet */
+  body *:not(:has(#lab-callsheet)):not(#lab-callsheet):not(#lab-callsheet *) {
+    display: none !important;
+  }
+  body *:has(#lab-callsheet) {
+    display: block !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    max-width: none !important;
+    background: none !important;
+    border: 0 !important;
+  }
+  #lab-callsheet {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #000 !important;
+    box-shadow: none;
+  }
+  #lab-callsheet,
+  #lab-callsheet * {
+    color: #000 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    break-inside: avoid;
+  }
+  #lab-callsheet td {
+    border: 1px solid #000;
+  }
+  #lab-callsheet .number-plate {
+    border: 1px solid #000;
+    clip-path: none;
+  }
+  #lab-callsheet .no-print {
+    display: none !important;
+  }
+}

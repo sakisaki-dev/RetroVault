@@ -1,4 +1,4 @@
-import { ArrowUpRight, ClipboardList, Info, ListOrdered, ShieldAlert, ThumbsUp, TrendingUp } from 'lucide-react';
+import { ArrowUpRight, Info, ListOrdered, ShieldAlert, ThumbsUp, TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,7 +16,8 @@ import {
   type UnitId,
   type UpgradePlan,
 } from '@/utils/teamLab';
-import { Card, GradeChip, ImpactBadge, PlayerChip, ScoreBar } from './parts';
+import { Card, GradeChip, PlayerChip, ScoreBar } from './parts';
+import CallSheet from './CallSheet';
 
 const GROUPS: { title: string; units: UnitId[] }[] = [
   { title: 'Offense', units: OFFENSE_UNITS },
@@ -68,6 +69,9 @@ const AnalysisPanel = ({ analysis: a, upgrades, ranking, onUpgrade }: AnalysisPa
           </p>
         )}
       </section>
+
+      {/* Call sheet: the in-game view */}
+      <CallSheet analysis={a} />
 
       {/* Unit ratings */}
       <Card title="Unit ratings" icon={<TrendingUp className="h-5 w-5 text-gold" aria-hidden="true" />}>
@@ -147,36 +151,6 @@ const AnalysisPanel = ({ analysis: a, upgrades, ranking, onUpgrade }: AnalysisPa
           </ul>
         </Card>
       </div>
-
-      {/* Game plan */}
-      <Card title="Game plan" icon={<ClipboardList className="h-5 w-5 text-gold" aria-hidden="true" />}>
-        <ol className="grid gap-2 lg:grid-cols-2">
-          {a.gamePlan.map((r, i) => (
-            <li key={r.id} className="flex min-w-0 gap-3 rounded-lg bg-black/40 p-3 ring-1 ring-line/60">
-              <span className="font-display text-3xl font-extrabold italic leading-none text-gold tabular-nums" aria-hidden="true">
-                {i + 1}
-              </span>
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-start gap-2">
-                  <h4 className="min-w-0 flex-1 font-display text-lg font-bold leading-tight text-chalk">
-                    <span className="sr-only">{i + 1}. </span>
-                    {r.title}
-                  </h4>
-                  <ImpactBadge impact={r.impact} />
-                </div>
-                <p className="mt-1.5 text-sm text-chalk/90">
-                  <span className="font-pixel text-[8px] uppercase text-gold">Do </span>
-                  {r.what}
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  <span className="font-pixel text-[8px] uppercase">Why </span>
-                  {r.why}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </Card>
 
       {/* Who to upgrade */}
       {upgrades && (

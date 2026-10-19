@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { SLOTS, headToHead, isComplete, randomLineup, type LabContext, type Lineup, type Matchup, type Preset } from '@/utils/teamLab';
 import type { SavedTeam } from './useTeamLab';
 import { Card, GradeChip, PlayerChip } from './parts';
+import { NumberPlate, SituationIcon, WhyButton } from './CallSheet';
 
 interface HeadToHeadPanelProps {
   ctx: LabContext;
@@ -160,16 +161,25 @@ const HeadToHeadPanel = ({ ctx, lineup, saved, presets }: HeadToHeadPanelProps) 
             </ul>
           </div>
 
-          {/* Matchup plan */}
+          {/* Matchup plan: short calls */}
           <div>
-            <p className="mb-1.5 font-pixel text-[9px] uppercase text-gold">Matchup game plan</p>
-            <ul className="space-y-1.5">
-              {h2h.plan.map((line, i) => (
-                <li key={i} className="flex gap-2 text-sm text-chalk/90">
-                  <span className="font-display font-bold text-gold" aria-hidden="true">
-                    ›
+            <p className="mb-1.5 font-pixel text-[9px] uppercase text-gold">Matchup calls</p>
+            <ul className="grid gap-1.5 lg:grid-cols-2">
+              {h2h.plan.map((c) => (
+                <li
+                  key={c.id}
+                  className={cn(
+                    'flex min-w-0 items-center gap-2 rounded-r-md border-l-4 bg-black/40 py-1.5 pl-2 pr-1.5',
+                    c.id === 'overall' ? 'border-l-gold' : c.edge > 0 ? 'border-l-turf' : 'border-l-destructive',
+                  )}
+                >
+                  <SituationIcon id={c.id} className="h-4 w-4 shrink-0 text-gold" />
+                  {c.target && <NumberPlate p={h2h.a.slots[c.target]} />}
+                  <span className="min-w-0 flex-1 text-[13px] font-semibold leading-snug text-chalk">{c.call}</span>
+                  <span className="shrink-0 font-pixel text-[7px] uppercase text-muted-foreground">
+                    {c.id === 'overall' ? 'Overall' : c.edge > 0 ? 'Your edge' : 'Their edge'}
                   </span>
-                  {line}
+                  <WhyButton why={c.why} subject={c.call} />
                 </li>
               ))}
             </ul>

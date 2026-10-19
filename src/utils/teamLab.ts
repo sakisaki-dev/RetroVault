@@ -632,6 +632,37 @@ export interface Insight {
   score: number;
   grade: GradeStep;
 }
+/** Game situations the call sheet is organised by ('every' = applies on every snap). */
+export type Situation =
+  | 'every'
+  | 'early'
+  | 'third-short'
+  | 'third-medium'
+  | 'third-long'
+  | 'redzone'
+  | 'two-point'
+  | 'fourth'
+  | 'lead'
+  | 'trailing'
+  | 'takeaway'
+  | 'half';
+/** One short call (≤ 10 words) for a situation, optionally aimed at a lineup slot. */
+export interface Call {
+  situation: Situation;
+  text: string;
+  target?: SlotId;
+}
+export interface SheetCall extends Call {
+  impact: Impact;
+  why: string;
+  recId: string;
+  priority: number;
+}
+export interface CallGroup {
+  situation: Situation;
+  label: string;
+  calls: SheetCall[];
+}
 export interface Recommendation {
   id: string;
   title: string;
@@ -639,6 +670,34 @@ export interface Recommendation {
   what: string;
   impact: Impact;
   priority: number;
+  /** Wristband line (a few words) and its key number, e.g. "Lock: no forced throws late" · "4.4% INT" */
+  short: string;
+  stat: string;
+  calls: Call[];
+}
+export type FourthCall = 'GO' | 'FG' | 'PUNT';
+export interface FourthDownChart {
+  policy: 'aggressive' | 'standard' | 'conservative';
+  zones: string[];
+  distances: string[];
+  /** cells[zone][distance] */
+  cells: FourthCall[][];
+  note: string;
+}
+export interface TwoPointChart {
+  tier: 'strong' | 'standard' | 'weak';
+  cells: { margin: number; label: string; go: boolean }[];
+  note: string;
+}
+export interface TargetRole {
+  label: string;
+  tone: 'good' | 'neutral' | 'warn';
+}
+export interface TargetCard {
+  slot: SlotId;
+  profile: PlayerProfile;
+  roles: TargetRole[];
+  numbers: string[];
 }
 export interface Identity {
   label: string;
@@ -649,7 +708,14 @@ export interface TeamAnalysis extends LineupScore {
   identity: Identity;
   strengths: Insight[];
   weaknesses: Insight[];
+  /** Top 10 recommendations by priority (the full rule output feeds the call sheet) */
   gamePlan: Recommendation[];
+  /** Up to 3 high/medium-impact items for the banner lines */
+  mustKnows: Recommendation[];
+  callSheet: CallGroup[];
+  fourthDown: FourthDownChart;
+  twoPoint: TwoPointChart;
+  targets: TargetCard[];
 }
 
 const r0 = (x: number) => Math.round(x);
@@ -751,6 +817,22 @@ const defTotal = (sp: SlotProfiles, rate: string) => DEF_SLOTS.reduce((s, id) =>
 const defLeader = (sp: SlotProfiles, rate: string) => DEF_SLOTS.map((id) => sp[id]).sort((a, b) => (b.rates[rate] ?? 0) - (a.rates[rate] ?? 0))[0];
 
 const IMPACT_W: Record<Impact, number> = { high: 300, med: 200, low: 100 };
+const last = (p: PlayerProfile) => splitLast(p.name);
+/** Surname for short calls: keeps particles ("Van Oxley", "De la Cruz") and suffixes ("Surtain II"). */
+const PARTICLES = new Set(['van', 'von', 'de', 'da', 'di', 'del', 'della', 'la', 'le', 'st', 'st.', 'mac', 'ter', 'du']);
+const SUFFIX = /^(jr\.?|sr\.?|ii|iii|iv|v)$/i;
+const splitLast = (name: string) => {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length < 2) return name;
+  let i = parts.length - 1;
+  if (SUFFIX.test(parts[i]) && i > 1) i -= 1;
+  while (i > 1 && PARTICLES.has(parts[i - 1].toLowerCase())) i -= 1;
+  return parts.slice(i).join(' ');
+};
+
+/** The 4th-down policy the text rules use: aggressive with a weak defense, conservative with an elite one. */
+export type FourthPolicy = 'aggressive' | 'standard' | 'conservative';
+const fourthPolicy = (def: number): FourthPolicy => (def < 40 ? 'aggressive' : def >= 70 ? 'conservative' : 'standard');
 
 /** Game plan: rules over unit scores and individual traits (never per player), most important first. */
 const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
@@ -761,15 +843,38 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
   const te = sp.te;
   const recs = [sp.wr1, sp.wr2, sp.te];
   const carriers = [sp.rb, sp.wr1, sp.wr2, sp.te];
+  const slotOf = (p: PlayerProfile) => SLOT_IDS.find((id) => sp[id] === p);
   const deep = bestByValue(recs, 'ypr', 65);
   const off = s.offense.score;
   const def = s.defense.score;
   const out: Recommendation[] = [];
-  const add = (id: string, impact: Impact, strength: number, title: string, why: string, what: string) =>
-    out.push({ id, impact, priority: IMPACT_W[impact] + Math.max(0, Math.min(99, strength)), title, why, what });
+  type CallIn = [Situation, string, PlayerProfile?];
+  const add = (
+    id: string,
+    impact: Impact,
+    strength: number,
+    title: string,
+    why: string,
+    what: string,
+    short: string,
+    keyStat: string,
+    calls: CallIn[],
+  ) =>
+    out.push({
+      id,
+      impact,
+      priority: IMPACT_W[impact] + Math.max(0, Math.min(99, strength)),
+      title,
+      why,
+      what,
+      short,
+      stat: keyStat,
+      calls: calls.map(([situation, text, p]) => ({ situation, text, target: p ? slotOf(p) : undefined })),
+    });
   const sacks = defTotal(sp, 'sackG');
   const ints = defTotal(sp, 'intG');
   const ffs = defTotal(sp, 'ffG');
+  const policy = fourthPolicy(def);
 
   // Deep shots vs protection
   if (deep && sPct(deep, 'ypr') >= 65 && sPct(qb, 'ya') >= 55) {
@@ -782,6 +887,12 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
         `Take deep shots to ${deep.name} on 1st and 2nd down`,
         `${deep.name} averages ${statOf(deep, 'ypr').display} yards a catch (${pctTxt(sPct(deep, 'ypr'))}) and ${qb.name} throws for ${statOf(qb, 'ya').display} Y/A, but protection grades ${protection.grade.grade} (${pctTxt(protection.score)}): ${ol.name} makes ${stat(ol, 'blocksG')}${Number.isFinite(qb.dropbacksPerSack) ? ` and ${qb.name} is sacked every ${r0(qb.dropbacksPerSack)} dropbacks` : ''}.`,
         `Lead ${deep.name} deep on early downs, before the rush arrives. On 3rd and long, take the first open short route and get rid of it fast.`,
+        `Deep to ${last(deep)} early, before the rush`,
+        `${statOf(deep, 'ypr').display} Y/R`,
+        [
+          ['early', `Deep shot → ${last(deep)}, before the rush`, deep],
+          ['third-long', 'First open route; ball out fast'],
+        ],
       );
     else
       add(
@@ -791,6 +902,12 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
         `Let deep routes develop for ${deep.name}`,
         `${deep.name} averages ${statOf(deep, 'ypr').display} yards a catch (${pctTxt(sPct(deep, 'ypr'))}), ${qb.name} throws for ${statOf(qb, 'ya').display} Y/A, and protection holds (${pctTxt(protection.score)}).`,
         `Hold the ball a beat longer and lead ${deep.name} into open space downfield; you have time in the pocket.`,
+        `${last(deep)} deep: the line holds`,
+        `${statOf(deep, 'ypr').display} Y/R`,
+        [
+          ['early', `Let ${last(deep)} run deep; you have time`, deep],
+          ['third-long', `Lead ${last(deep)} past the sticks`, deep],
+        ],
       );
   }
 
@@ -805,6 +922,9 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Gunslinger: stop forcing throws late in close games',
       `${qb.name} throws a TD on ${statOf(qb, 'tdPct').display} of attempts (${pctTxt(tdP)}) but an INT on ${statOf(qb, 'intPct').display} (${pctTxt(intP)} in decision making).`,
       `Let him hunt big plays early. In the 4th quarter of a one-score game, throw it away instead of into coverage, and protect leads with ${rb.name} and ${te.name}.`,
+      `${last(qb)}: no forced throws late`,
+      `${statOf(qb, 'intPct').display} INT`,
+      [['lead', `No forced throws; feed ${last(rb)} and ${last(te)}`, rb]],
     );
   else if (intP <= 30)
     add(
@@ -814,6 +934,9 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Only throw to clearly open receivers',
       `${qb.name} throws an INT on ${statOf(qb, 'intPct').display} of attempts (${pctTxt(intP)} in decision making).`,
       'Avoid floating passes over the middle and throws into tight windows; a punt beats a pick, especially in your own half.',
+      `${last(qb)}: open receivers only`,
+      `${statOf(qb, 'intPct').display} INT`,
+      [['every', 'Open receivers only; a punt beats a pick']],
     );
   else if (intP >= 75 && sPct(qb, 'cmp') >= 65)
     add(
@@ -823,10 +946,13 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Trust your QB in tight windows on 3rd down',
       `${qb.name} completes ${statOf(qb, 'cmp').display} (${pctTxt(sPct(qb, 'cmp'))}) and throws an INT on only ${statOf(qb, 'intPct').display} (${pctTxt(intP)}).`,
       'Throw to the sticks on 3rd and medium even when the window is small; his turnover risk is low.',
+      `Trust ${last(qb)} in tight windows`,
+      `${statOf(qb, 'intPct').display} INT`,
+      [['third-medium', `Throw to the sticks; trust ${last(qb)}`]],
     );
 
-  // 4th-down policy from the defense
-  if (def < 40)
+  // 4th-down policy from the defense (the chart in fourthDownChart uses the same policy)
+  if (policy === 'aggressive')
     add(
       'fourth-aggressive',
       'high',
@@ -834,8 +960,14 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Play four-down football, go for 2 and onside late',
       `The defense beats only ${r0(def)}% of possible teams: the 4 defenders combine for ${fx(sacks)} sacks/G and ${fx(ints)} INT/G, so stops are rare.`,
       'Go for it on 4th and 3 or less past midfield, go for 2 more often, and try an onside kick when trailing in the last 3 minutes: you may not get the ball back otherwise.',
+      'Four-down football past midfield',
+      `D ${ordinal(def)} pct`,
+      [
+        ['fourth', 'Go on 4th & ≤5 past midfield'],
+        ['trailing', 'Onside kick in the last 3 minutes'],
+      ],
     );
-  else if (def >= 70)
+  else if (policy === 'conservative')
     add(
       'fourth-conservative',
       'high',
@@ -843,6 +975,12 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Punt and win the field-position game',
       `The defense beats ${r0(def)}% of possible teams (${fx(sacks)} sacks/G, ${fx(ints)} INT/G, ${fx(ffs)} FF/G combined).`,
       'Punt on 4th down in your own half, take the field goal over 4th-and-long, and kick off deep: your defense will get the ball back.',
+      'Punt and trust the defense',
+      `D ${ordinal(def)} pct`,
+      [
+        ['fourth', 'Punt in your half; FG over gambles'],
+        ['trailing', 'Kick deep; your D gets it back'],
+      ],
     );
   else
     add(
@@ -852,6 +990,9 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Standard 4th-down rules',
       `The defense is middle of the pack (${pctTxt(def)}), so neither extreme pays.`,
       'Go for it on 4th and 1–2 past midfield; punt from your own half; kick field goals inside the 25 on longer 4th downs.',
+      'Go on 4th & 1–2 past midfield',
+      `D ${ordinal(def)} pct`,
+      [['fourth', 'Go on 4th & 1–2 past midfield']],
     );
 
   // Red zone and 2-point conversions
@@ -864,6 +1005,9 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       `Hand off to ${rb.name} inside the 10`,
       `${rb.name} scores ${statOf(rb, 'td16').display} TDs per 16 games (${pctTxt(rbTd)}).`,
       'Inside the 10, run on 1st and 2nd down and save the pass for 3rd down.',
+      `Inside the 10: ${last(rb)}`,
+      `${statOf(rb, 'td16').display} TD/16`,
+      [['redzone', `Inside the 10 → ${last(rb)} on 1st & 2nd`, rb]],
     );
   const rz = bestBy(recs, 'tdPerRec');
   if (rz && sPct(rz, 'tdPerRec') >= 70)
@@ -874,6 +1018,9 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       `Target ${rz.name} in the end zone`,
       `${statOf(rz, 'tdPerRec').display} of ${rz.name}'s catches are touchdowns (${pctTxt(sPct(rz, 'tdPerRec'))}).`,
       `In the red zone look for him first and lead him to the back of the end zone, where only he can catch it.`,
+      `End zone: ${last(rz)}`,
+      `${statOf(rz, 'tdPerRec').display} TD/rec`,
+      [['redzone', `End zone → ${last(rz)}, back line`, rz]],
     );
   const redzone = s.units.redzone;
   if (redzone.score >= 65)
@@ -883,7 +1030,10 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       redzone.score - 50,
       'Go for 2 more often',
       `Red zone grades ${redzone.grade.grade} (${pctTxt(redzone.score)}): ${qb.name} throws a TD on ${statOf(qb, 'tdPct').display} of attempts.`,
-      'After a touchdown, go for 2 whenever it leaves you up 1 or 5, or down 2 or 5. Your short-yardage offense converts more often than average.',
+      'After a touchdown late, go for 2 when down 9, 5, 2 or 1, or up 1 or 5. Your short-yardage offense converts more often than average.',
+      'Go for 2 more often',
+      `RZ ${ordinal(redzone.score)} pct`,
+      [['two-point', 'Go for 2 more often: see chart']],
     );
   else if (redzone.score < 35)
     add(
@@ -893,6 +1043,24 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Take the points in the red zone',
       `Red zone grades ${redzone.grade.grade} (${pctTxt(redzone.score)}): TDs are hard to come by inside the 20.`,
       'On 4th down inside the 20, kick the field goal, and kick the extra point unless the score demands 2.',
+      'Take the points in the red zone',
+      `RZ ${ordinal(redzone.score)} pct`,
+      [
+        ['redzone', '4th down inside the 20 → kick'],
+        ['two-point', 'Kick the PAT unless down 2'],
+      ],
+    );
+  else
+    add(
+      'two-point-standard',
+      'low',
+      10,
+      'Standard 2-point chart',
+      `Red zone grades ${redzone.grade.grade} (${pctTxt(redzone.score)}): average short-yardage conversion.`,
+      'Late in the game, go for 2 when down 5 or 2, or up 1 or 5; otherwise kick.',
+      'Standard 2-point chart',
+      `RZ ${ordinal(redzone.score)} pct`,
+      [['two-point', 'Kick, except the chart spots']],
     );
 
   // Ball security of the carriers
@@ -905,6 +1073,9 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       `Keep the ball away from ${fumbler.name} when protecting a lead`,
       `${fumbler.name} fumbles ${statOf(fumbler, 'fumRate').display} times per 100 ${fumbler.position === 'RB' ? 'touches' : 'catches'} (${pctTxt(sPct(fumbler, 'fumRate'))} in ball security).`,
       `Use him early when you need yards; with a lead in the 4th, ${fumbler.position === 'RB' ? 'throw short to safer hands or run the QB' : 'target your other receivers'}.`,
+      `${last(fumbler)}: not with a late lead`,
+      `${statOf(fumbler, 'fumRate').display} fum/100`,
+      [['lead', `Keep the ball away from ${last(fumbler)}`, fumbler]],
     );
 
   // Checkdowns
@@ -920,6 +1091,9 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       `Check it down to ${who.name} on 3rd and medium`,
       `${who.name} is ${pctTxt(sPct(who, id))} in ${statOf(who, id).name.toLowerCase()} (${stat(who, id)}).`,
       `On 3rd and 4–7, hit ${who.name} underneath and let him run after the catch instead of forcing it downfield.`,
+      `3rd & medium: ${last(who)} underneath`,
+      stat(who, id),
+      [['third-medium', `3rd & 4–7 → ${last(who)} underneath`, who]],
     );
   }
 
@@ -933,6 +1107,9 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Milk the clock with the lead',
       `The run game grades ${run.grade.grade} (${pctTxt(run.score)}): ${rb.name} averages ${statOf(rb, 'ypc').display} yards a carry (${pctTxt(sPct(rb, 'ypc'))}).`,
       'Up two scores in the second half, run on 1st and 2nd down and let the clock tick between plays.',
+      `Milk the clock with ${last(rb)}`,
+      `${statOf(rb, 'ypc').display} Y/C`,
+      [['lead', `Run ${last(rb)} 1st & 2nd; drain clock`, rb]],
     );
   else if (run.score < 35)
     add(
@@ -942,7 +1119,26 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       "Don't waste downs running on 3rd and long",
       `The run game grades ${run.grade.grade} (${pctTxt(run.score)}): ${rb.name} averages ${statOf(rb, 'ypc').display} yards a carry.`,
       'Run on 1st and 10 and in short yardage only; on 3rd and 4+ throw.',
+      'No runs on 3rd & long',
+      `${statOf(rb, 'ypc').display} Y/C`,
+      [['third-long', 'Never run; throw past the sticks']],
     );
+  // 3rd & short: always a call, from the run game
+  add(
+    'third-short',
+    'low',
+    Math.abs(run.score - 50) / 2,
+    run.score >= 50 ? `Hand off to ${rb.name} on 3rd and short` : `Quick throw on 3rd and short`,
+    `The run game is ${pctTxt(run.score)}: ${rb.name} averages ${statOf(rb, 'ypc').display} yards a carry.`,
+    run.score >= 50 ? 'On 3rd and 1–2, run it.' : `On 3rd and 1–2, throw a quick pass to your surest hands instead of running.`,
+    run.score >= 50 ? `3rd & short: ${last(rb)}` : '3rd & short: quick throw',
+    `${statOf(rb, 'ypc').display} Y/C`,
+    [
+      run.score >= 50
+        ? ['third-short', `3rd & 1–2 → ${last(rb)} up the middle`, rb]
+        : ['third-short', `3rd & 1–2 → quick throw to ${last(bestBy(recs, 'recG') ?? te)}`, bestBy(recs, 'recG') ?? te],
+    ],
+  );
 
   // Protection without deep-shot context
   const protection = s.units.protection;
@@ -956,6 +1152,9 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
         `Roll out with ${qb.name} when the pocket collapses`,
         `Protection grades ${protection.grade.grade} (${pctTxt(protection.score)}), but ${qb.name} is ${pctTxt(legs)} in legs (${stat(qb, 'rushYdsG')}).`,
         'When the rush gets close, scramble outside and either run or throw on the move instead of taking the sack.',
+        `${last(qb)}: roll out under pressure`,
+        stat(qb, 'rushYdsG'),
+        [['third-long', `Pressure → roll out with ${last(qb)}`, qb]],
       );
     else
       add(
@@ -965,6 +1164,12 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
         'Get the ball out fast',
         `Protection grades ${protection.grade.grade} (${pctTxt(protection.score)}): ${ol.name} makes ${stat(ol, 'blocksG')}${Number.isFinite(qb.dropbacksPerSack) ? ` and ${qb.name} is sacked every ${r0(qb.dropbacksPerSack)} dropbacks` : ''}.`,
         'Throw on the first read: short and intermediate routes, no long holds in the pocket.',
+        'Ball out fast: first read',
+        `Prot ${ordinal(protection.score)} pct`,
+        [
+          ['early', 'Quick throws; first read'],
+          ['third-long', 'No long holds; take the sure yards'],
+        ],
       );
   }
 
@@ -978,6 +1183,9 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Play for field position, not hero ball',
       `Ball security grades ${security.grade.grade} (${pctTxt(security.score)}): ${qb.name} throws an INT on ${statOf(qb, 'intPct').display} of attempts.`,
       'Throw it away under pressure, avoid long passes across the field, and punt rather than gamble deep in your own half.',
+      'Throw it away; no hero ball',
+      `Sec ${ordinal(security.score)} pct`,
+      [['every', 'Under pressure → throw it away']],
     );
 
   // Defense-driven decisions
@@ -991,6 +1199,9 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Pin them deep: your pass rush feasts on long fields',
       `The defense combines for ${fx(sacks)} sacks/G (${pctTxt(passRush.score)}), led by ${lead.name} at ${fx(lead.rates.sackG)}.`,
       'Punting from midfield beats a 4th-and-5 gamble: backed-up offenses have to throw into your rush.',
+      'Pin them deep for the pass rush',
+      `${fx(sacks)} sacks/G`,
+      [['fourth', 'Midfield 4th & 5+ → pin them deep']],
     );
   }
   const playmaking = s.units.playmaking;
@@ -1002,6 +1213,21 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Strike right after a takeaway',
       `The defense forces ${fx(ints + ffs)} takeaways per game (${pctTxt(playmaking.score)}).`,
       'After a turnover, take one shot at the end zone on 1st down: the short field makes it a free play.',
+      'After a takeaway: end-zone shot',
+      `${fx(ints + ffs)} TO/G`,
+      [['takeaway', `1st down → end-zone shot${deep ? ` to ${last(deep)}` : ''}`, deep]],
+    );
+  else
+    add(
+      'takeaway-standard',
+      'low',
+      5,
+      'Cash in after a takeaway',
+      `The defense forces ${fx(ints + ffs)} takeaways per game (${pctTxt(playmaking.score)}): they are not routine, so make each one count.`,
+      'After a turnover, play your normal offense and make sure you come away with points.',
+      'After a takeaway: get points',
+      `${fx(ints + ffs)} TO/G`,
+      [['takeaway', 'Normal offense; come away with points']],
     );
 
   // Explosiveness
@@ -1014,6 +1240,9 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       "Don't panic when behind",
       `Explosiveness is ${pctTxt(explosive.score)}: this offense can score in two or three snaps.`,
       'Trailing by 7–10 in the 4th, keep running your normal offense instead of forcing deep throws on every down.',
+      "Behind? Don't panic",
+      `Expl ${ordinal(explosive.score)} pct`,
+      [['trailing', 'Down 7–10: stay in your offense']],
     );
 
   // Clock policy (always applies)
@@ -1025,6 +1254,12 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Play fast: more possessions favour you',
       `The offense (${pctTxt(off)}) is much better than the defense (${pctTxt(def)}).`,
       'Hurry when tied or trailing, but at the end of each half drain the clock so you score with under 30 seconds left and the opponent gets no answer.',
+      'Play fast; score last each half',
+      `O ${ordinal(off)} / D ${ordinal(def)}`,
+      [
+        ['trailing', 'Hurry: more possessions favour you'],
+        ['half', 'Score with under 30 s left'],
+      ],
     );
   else if (def - off >= 15)
     add(
@@ -1034,6 +1269,12 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Shorten the game',
       `The defense (${pctTxt(def)}) is much better than the offense (${pctTxt(off)}).`,
       'Let the clock run between plays once you lead; fewer possessions make every stop count for more.',
+      'Shorten the game',
+      `O ${ordinal(off)} / D ${ordinal(def)}`,
+      [
+        ['lead', 'Let the clock run between plays'],
+        ['half', 'Run the clock out; no risky throws'],
+      ],
     );
   else
     add(
@@ -1043,9 +1284,199 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'Win the end of each half',
       `Offense (${pctTxt(off)}) and defense (${pctTxt(def)}) are close, so possessions at the end of halves swing games.`,
       'With the ball and under 2 minutes left, manage the clock to score last; avoid leaving the opponent more than 30 seconds.',
+      'Score last each half',
+      `O ${ordinal(off)} / D ${ordinal(def)}`,
+      [['half', 'Score last; leave them ≤ 30 s']],
     );
 
-  return out.sort((a, b) => b.priority - a.priority).slice(0, 10);
+  return out.sort((a, b) => b.priority - a.priority);
+};
+
+// ---------- Call sheet, decision charts, target board ----------
+
+export const SITUATIONS: { id: Situation; label: string }[] = [
+  { id: 'every', label: 'Every snap' },
+  { id: 'early', label: 'Early downs' },
+  { id: 'third-short', label: '3rd & short' },
+  { id: 'third-medium', label: '3rd & medium' },
+  { id: 'third-long', label: '3rd & long' },
+  { id: 'redzone', label: 'Red zone' },
+  { id: 'two-point', label: 'After a TD' },
+  { id: 'fourth', label: '4th down' },
+  { id: 'lead', label: 'Protecting a lead' },
+  { id: 'trailing', label: 'Trailing late' },
+  { id: 'takeaway', label: 'After a takeaway' },
+  { id: 'half', label: 'End of half' },
+];
+
+const callSheetFor = (plan: Recommendation[], sp: SlotProfiles, s: LineupScore): CallGroup[] => {
+  const groups = new Map<Situation, SheetCall[]>(SITUATIONS.map((x) => [x.id, []]));
+  plan.forEach((r) => r.calls.forEach((c) => groups.get(c.situation)!.push({ ...c, impact: r.impact, why: r.why, recId: r.id, priority: r.priority })));
+  // Situations no rule spoke to get a neutral default, so the sheet is always complete
+  if (!groups.get('early')!.length) {
+    const hands = bestBy([sp.wr1, sp.wr2, sp.te], 'recG') ?? sp.te;
+    groups.get('early')!.push({
+      situation: 'early',
+      text: s.units.run.score >= s.units.passing.score ? `Mix ${last(sp.rb)} runs with short throws` : `Throw early: ${last(hands)} moves the chains`,
+      target: s.units.run.score >= s.units.passing.score ? 'rb' : SLOT_IDS.find((id) => sp[id] === hands),
+      impact: 'low',
+      why: `Run game ${pctTxt(s.units.run.score)}, passing game ${pctTxt(s.units.passing.score)}.`,
+      recId: 'default-early',
+      priority: 0,
+    });
+  }
+  if (!groups.get('third-medium')!.length) {
+    const hands = bestBy([sp.wr1, sp.wr2, sp.te], 'recG') ?? sp.te;
+    groups.get('third-medium')!.push({
+      situation: 'third-medium',
+      text: `3rd & 4–7 → ${last(hands)} at the sticks`,
+      target: SLOT_IDS.find((id) => sp[id] === hands),
+      impact: 'low',
+      why: `${hands.name} catches ${stat(hands, 'recG')} (${pctTxt(sPct(hands, 'recG'))}), the surest hands in the lineup.`,
+      recId: 'default-third-medium',
+      priority: 0,
+    });
+  }
+  if (!groups.get('third-long')!.length)
+    groups.get('third-long')!.push({
+      situation: 'third-long',
+      text: 'Throw past the sticks; no runs',
+      impact: 'low',
+      why: `Passing game ${pctTxt(s.units.passing.score)} vs run game ${pctTxt(s.units.run.score)}.`,
+      recId: 'default-third-long',
+      priority: 0,
+    });
+  if (!groups.get('redzone')!.length)
+    groups.get('redzone')!.push({
+      situation: 'redzone',
+      text: 'Inside the 20: take the sure TD or FG',
+      impact: 'low',
+      why: `Red zone ${pctTxt(s.units.redzone.score)}.`,
+      recId: 'default-redzone',
+      priority: 0,
+    });
+  if (!groups.get('lead')!.length)
+    groups.get('lead')!.push({
+      situation: 'lead',
+      text: `Short throws and ${last(sp.rb)} runs; no deep shots`,
+      target: 'rb',
+      impact: 'low',
+      why: `Ball security ${pctTxt(s.units.security.score)}.`,
+      recId: 'default-lead',
+      priority: 0,
+    });
+  if (!groups.get('trailing')!.length)
+    groups.get('trailing')!.push({
+      situation: 'trailing',
+      text: 'Hurry up; sideline throws stop the clock',
+      impact: 'low',
+      why: `Offense ${pctTxt(s.offense.score)}.`,
+      recId: 'default-trailing',
+      priority: 0,
+    });
+  return SITUATIONS.filter((x) => groups.get(x.id)!.length).map((x) => ({
+    situation: x.id,
+    label: x.label,
+    calls: groups.get(x.id)!.sort((a, b) => b.priority - a.priority).slice(0, 2),
+  }));
+};
+
+export const FIELD_ZONES = ['Own half', 'Midfield (50–41)', 'Opp 40–25', 'Red zone'] as const;
+export const FOURTH_DISTANCES = ['1–2', '3–5', '6+'] as const;
+
+/**
+ * 4th-down chart: field zone × distance → GO / FG / PUNT. Same policy as the text rule (defense score), nudged by
+ * offense (≥ 70 goes for 4th & 1–2 in your own half when aggressive) and red zone (≥ 65 goes on 3–5 inside the 25,
+ * < 35 kicks even on 1–2).
+ */
+const fourthDownChart = (s: LineupScore): FourthDownChart => {
+  const policy = fourthPolicy(s.defense.score);
+  const off = s.offense.score;
+  const rz = s.units.redzone.score;
+  const table: Record<FourthPolicy, FourthCall[][]> = {
+    aggressive: [
+      [off >= 70 ? 'GO' : 'PUNT', 'PUNT', 'PUNT'],
+      ['GO', 'GO', 'PUNT'],
+      ['GO', 'GO', 'FG'],
+      ['GO', 'GO', 'FG'],
+    ],
+    standard: [
+      ['PUNT', 'PUNT', 'PUNT'],
+      ['GO', 'PUNT', 'PUNT'],
+      ['GO', 'FG', 'FG'],
+      ['GO', 'FG', 'FG'],
+    ],
+    conservative: [
+      ['PUNT', 'PUNT', 'PUNT'],
+      ['PUNT', 'PUNT', 'PUNT'],
+      ['GO', 'FG', 'FG'],
+      ['GO', 'FG', 'FG'],
+    ],
+  };
+  const rows = table[policy].map((r) => [...r]);
+  if (policy === 'conservative' && off >= 70) rows[1][0] = 'GO';
+  if (rz >= 65) rows[3][1] = 'GO';
+  if (rz < 35) rows[3][0] = 'FG';
+  const note = {
+    aggressive: `Defense ${pctTxt(s.defense.score)}: stops are rare, so keep the ball.`,
+    standard: `Defense ${pctTxt(s.defense.score)}: standard risk.`,
+    conservative: `Defense ${pctTxt(s.defense.score)}: give the ball to your defense.`,
+  }[policy];
+  return { policy, zones: [...FIELD_ZONES], distances: [...FOURTH_DISTANCES], cells: rows, note };
+};
+
+/** 2-point chart: score margin after the TD (before the try) → go for 2 or kick, late in the game. */
+const twoPointChart = (s: LineupScore): TwoPointChart => {
+  const rz = s.units.redzone.score;
+  const tier: TwoPointChart['tier'] = rz >= 65 ? 'strong' : rz < 35 ? 'weak' : 'standard';
+  const go: Record<TwoPointChart['tier'], number[]> = { strong: [-9, -5, -2, -1, 1, 5], standard: [-5, -2, 1, 5], weak: [-2] };
+  const margins = [-9, -5, -2, -1, 1, 5];
+  return {
+    tier,
+    cells: margins.map((m) => ({ margin: m, label: m < 0 ? `Down ${-m}` : `Up ${m}`, go: go[tier].includes(m) })),
+    note:
+      tier === 'strong'
+        ? `Red zone ${pctTxt(rz)}: your short-yardage offense converts, so go more often.`
+        : tier === 'weak'
+          ? `Red zone ${pctTxt(rz)}: kick unless you need the tie.`
+          : `Red zone ${pctTxt(rz)}: the standard chart.`,
+  };
+};
+
+/** Who gets the ball: RB, both WRs and the TE with role tags and their 1–2 key numbers. */
+const targetBoardFor = (s: LineupScore, sp: SlotProfiles, plan: Recommendation[]): TargetCard[] => {
+  const recs = [sp.wr1, sp.wr2, sp.te];
+  const deep = bestByValue(recs, 'ypr', 60);
+  const rz = bestBy(recs, 'tdPerRec');
+  const hands = bestBy(recs, 'recG');
+  const check = plan.find((r) => r.id === 'checkdown')?.calls[0]?.target;
+  const fumbler = plan.find((r) => r.id === 'fumbler')?.calls[0]?.target;
+  const slots: SlotId[] = ['rb', 'wr1', 'wr2', 'te'];
+  return slots.map((slot) => {
+    const p = sp[slot];
+    const roles: TargetRole[] = [];
+    const nums: string[] = [];
+    if (slot === 'rb') {
+      if (s.units.run.score >= 70) roles.push({ label: 'Closer: run the clock', tone: 'good' });
+      if (sPct(p, 'td16') >= 65) roles.push({ label: 'Goal-line back', tone: 'good' });
+      if (!roles.length) roles.push({ label: s.units.run.score >= 50 ? 'Early-down back' : 'Change of pace', tone: 'neutral' });
+      nums.push(`${statOf(p, 'ypc').display} Y/C`, `${statOf(p, 'td16').display} TD/16`);
+    } else {
+      if (deep === p) roles.push({ label: 'Deep threat', tone: 'good' });
+      if (rz === p && sPct(p, 'tdPerRec') >= 60) roles.push({ label: 'End-zone target', tone: 'good' });
+      if (hands === p && !roles.length) roles.push({ label: 'Chain mover', tone: 'good' });
+      if (!roles.length) roles.push({ label: slot === 'te' ? 'Safety valve' : 'Second option', tone: 'neutral' });
+      const ypr = `${statOf(p, 'ypr').display} Y/R`;
+      const td = `${statOf(p, 'tdPerRec').display} TD/rec`;
+      const recG = `${statOf(p, 'recG').display} rec/G`;
+      if (deep === p) nums.push(ypr, rz === p ? td : recG);
+      else if (rz === p) nums.push(td, ypr);
+      else nums.push(recG, ypr);
+    }
+    if (check === slot) roles.push({ label: 'Check-down', tone: 'good' });
+    if (fumbler === slot) roles.push({ label: 'Fumble risk late', tone: 'warn' });
+    return { slot, profile: p, roles, numbers: [...new Set(nums)].slice(0, 2) };
+  });
 };
 
 /** Full analysis with cited evidence. Null until all 10 slots are filled. */
@@ -1056,7 +1487,21 @@ export const analyzeLineup = (ctx: LabContext, l: Lineup): TeamAnalysis | null =
   const ranked = [...OFFENSE_UNITS, ...DEFENSE_UNITS].map((u) => s.units[u]).sort((a, b) => b.score - a.score);
   const strengths = ranked.slice(0, 3).map((u) => insightFor(u, true));
   const weaknesses = ranked.slice(-3).reverse().map((u) => insightFor(u, false));
-  return { ...s, slots: sp, identity: identityFor(s), strengths, weaknesses, gamePlan: gamePlanFor(s, sp) };
+  const all = gamePlanFor(s, sp);
+  const gamePlan = all.slice(0, 10);
+  return {
+    ...s,
+    slots: sp,
+    identity: identityFor(s),
+    strengths,
+    weaknesses,
+    gamePlan,
+    mustKnows: all.filter((r) => r.impact !== 'low').slice(0, 3),
+    callSheet: callSheetFor(all, sp, s),
+    fourthDown: fourthDownChart(s),
+    twoPoint: twoPointChart(s),
+    targets: targetBoardFor(s, sp, all),
+  };
 };
 
 // ---------- Presets ----------
@@ -1293,13 +1738,24 @@ export const MATCHUPS: { id: string; label: string; side: Side; ours: UnitId; th
   { id: 'takeaway', label: 'Your playmaking vs their ball security', side: 'defense', ours: 'playmaking', theirs: 'security' },
 ];
 
+export interface MatchupCall {
+  /** Matchup id (MATCHUPS) or 'overall' */
+  id: string;
+  edge: number;
+  call: string;
+  why: string;
+  /** Your player the call is aimed at */
+  target?: SlotId;
+}
+
 export interface HeadToHead {
   a: TeamAnalysis;
   b: TeamAnalysis;
   matchups: Matchup[];
   /** Top 3 by |edge| */
   mismatches: Matchup[];
-  plan: string[];
+  /** Short calls (one per big mismatch, plus an overall call) with the stat reason */
+  plan: MatchupCall[];
   /** Estimate: logistic of the team-rating gap (scale WIN_PROB_SCALE) */
   winProb: number;
 }
@@ -1318,82 +1774,65 @@ export const headToHead = (ctx: LabContext, ours: Lineup, theirs: Lineup): HeadT
   const mismatches = [...matchups].sort((x, y) => Math.abs(y.edge) - Math.abs(x.edge)).slice(0, 3);
   const winProb = 1 / (1 + Math.exp(-(a.team.raw - b.team.raw) / WIN_PROB_SCALE));
 
-  const plan: string[] = [];
+  const plan: MatchupCall[] = [];
   const A = a.slots;
   const B = b.slots;
   const deep = bestByValue([A.wr1, A.wr2, A.te], 'ypr', 0);
   const theirRec = bestBy([B.wr1, B.wr2, B.te], 'recYdsG');
   const theirInts = defTotal(B, 'intG');
   const theirSacks = defTotal(B, 'sackG');
+  const theirTakeaways = theirInts + defTotal(B, 'ffG');
   const theirRusher = defLeader(B, 'sackG');
   const theirHawk = defLeader(B, 'intG');
   const underneath = sPct(A.te, 'recG') >= sPct(A.rb, 'recYdsG') ? A.te : A.rb;
+  const slotOf = (p?: PlayerProfile) => (p ? SLOT_IDS.find((id) => A[id] === p) : undefined);
+  const say = (id: string, edge: number, call: string, why: string, target?: PlayerProfile) => plan.push({ id, edge, call, why, target: slotOf(target) });
   matchups
     .filter((m) => Math.abs(m.edge) >= 15)
     .sort((x, y) => Math.abs(y.edge) - Math.abs(x.edge))
     .forEach((m) => {
       const up = m.edge > 0;
+      const e = m.edge;
       switch (m.id) {
         case 'pass':
-          plan.push(
-            up
-              ? `They can't cover (coverage ${pctTxt(m.theirScore)}, ${fx(theirInts)} INT/G combined): attack ${deep?.name ?? 'your best receiver'}${deep ? ` (${statOf(deep, 'ypr').display} Y/R)` : ''} downfield.`
-              : `Their secondary takes the ball away (${fx(theirInts)} INT/G, ${theirHawk.name} ${fx(theirHawk.rates.intG)}): throw underneath to ${underneath.name} and avoid 50/50 balls.`,
-          );
+          if (up)
+            say(m.id, e, `Attack deep → ${deep ? last(deep) : 'your best receiver'}`, `They can't cover (coverage ${pctTxt(m.theirScore)}, ${fx(theirInts)} INT/G combined)${deep ? `; ${deep.name} averages ${statOf(deep, 'ypr').display} Y/R` : ''}.`, deep);
+          else
+            say(m.id, e, `Underneath → ${last(underneath)}; no 50/50 balls`, `Their secondary takes the ball away: ${fx(theirInts)} INT/G, ${theirHawk.name} ${fx(theirHawk.rates.intG)}.`, underneath);
           break;
         case 'run':
-          plan.push(
-            up
-              ? `Run at them: ${A.rb.name} (${statOf(A.rb, 'ypc').display} Y/C) against a defense making ${fx(defTotal(B, 'tklG'), 1)} tackles/G.`
-              : `Don't force the run: their defenders make ${fx(defTotal(B, 'tklG'), 1)} tackles/G. Use ${A.rb.name} on 1st down and in short yardage only.`,
-          );
+          if (up) say(m.id, e, `Run at them → ${last(A.rb)}`, `${A.rb.name} averages ${statOf(A.rb, 'ypc').display} Y/C against a defense making ${fx(defTotal(B, 'tklG'), 1)} tackles/G.`, A.rb);
+          else say(m.id, e, `${last(A.rb)} on 1st down only`, `Their defenders make ${fx(defTotal(B, 'tklG'), 1)} tackles/G: don't force the run.`, A.rb);
           break;
         case 'protect':
-          plan.push(
-            up
-              ? `You'll have time: their pass rush is only ${pctTxt(m.theirScore)} (${fx(theirSacks)} sacks/G), so let deep routes develop.`
-              : `Their pass rush (${pctTxt(m.theirScore)}, ${fx(theirSacks)} sacks/G led by ${theirRusher.name}) beats your protection (${pctTxt(m.ourScore)}): quick throws, and roll out with ${A.qb.name} when the pocket collapses.`,
-          );
+          if (up) say(m.id, e, 'Time to throw: let routes develop', `Their pass rush is only ${pctTxt(m.theirScore)} (${fx(theirSacks)} sacks/G).`);
+          else say(m.id, e, `Quick throws; ${last(A.qb)} rolls out`, `Their pass rush (${pctTxt(m.theirScore)}, ${fx(theirSacks)} sacks/G, led by ${theirRusher.name}) beats your protection (${pctTxt(m.ourScore)}).`, A.qb);
           break;
         case 'secure':
-          plan.push(
-            up
-              ? `They rarely take it away (${fx(theirInts + defTotal(B, 'ffG'))} takeaways/G): you can be aggressive with throws.`
-              : `Ball security decides this one: they force ${fx(theirInts + defTotal(B, 'ffG'))} takeaways/G. Throw it away rather than into traffic.`,
-          );
+          if (up) say(m.id, e, 'Be aggressive with throws', `They rarely take it away: ${fx(theirTakeaways)} takeaways/G.`);
+          else say(m.id, e, 'Throw it away, not into traffic', `They force ${fx(theirTakeaways)} takeaways/G and your ball security is ${pctTxt(m.ourScore)}.`);
           break;
         case 'cover':
-          plan.push(
-            up
-              ? `Your coverage should win: make them drive the length of the field, and punt rather than gamble on 4th.`
-              : `${theirRec?.name ?? 'Their top receiver'} (${theirRec ? stat(theirRec, 'recYdsG') : ''}) will hurt your coverage: finish drives with TDs, not field goals.`,
-          );
+          if (up) say(m.id, e, 'Make them drive; punt, no 4th gambles', `Your coverage (${pctTxt(m.ourScore)}) beats their passing game (${pctTxt(m.theirScore)}).`);
+          else say(m.id, e, `Their ${theirRec ? `${theirRec.position} ${last(theirRec)}` : 'WR1'} scores: answer with TDs`, `${theirRec?.name ?? 'Their top receiver'} (${theirRec ? stat(theirRec, 'recYdsG') : ''}) against your coverage (${pctTxt(m.ourScore)}).`);
           break;
         case 'stop-run':
-          plan.push(
-            up
-              ? `Your defenders swarm their run game: expect stops on early downs and play for field position.`
-              : `${B.rb.name} will move the chains on your defense: score on every trip and take 4th-and-short chances.`,
-          );
+          if (up) say(m.id, e, 'Expect early-down stops; play field position', `Your run defense (${pctTxt(m.ourScore)}) vs their run game (${pctTxt(m.theirScore)}).`);
+          else say(m.id, e, 'Score every trip; go on 4th & short', `${B.rb.name} will move the chains: their run game ${pctTxt(m.theirScore)} vs your run defense ${pctTxt(m.ourScore)}.`);
           break;
         case 'rush':
-          plan.push(
-            up
-              ? `Your pass rush beats their line: punt them deep and let your rush force mistakes.`
-              : `Their line gives ${B.qb.name} time: expect long drives against you and keep the scoreboard moving.`,
-          );
+          if (up) say(m.id, e, 'Punt them deep; your rush wins', `Your pass rush (${pctTxt(m.ourScore)}) vs their protection (${pctTxt(m.theirScore)}).`);
+          else say(m.id, e, 'Expect long drives; keep scoring', `Their line gives ${B.qb.name} time: protection ${pctTxt(m.theirScore)} vs your rush ${pctTxt(m.ourScore)}.`);
           break;
         case 'takeaway':
-          plan.push(
-            up
-              ? `They are careless with the ball: expect short fields, and take an end-zone shot after every takeaway.`
-              : `They protect the ball well: don't count on turnovers, so win the possession battle on offense.`,
-          );
+          if (up) say(m.id, e, `After a takeaway → end-zone shot`, `They are careless with the ball: ball security ${pctTxt(m.theirScore)} vs your playmaking ${pctTxt(m.ourScore)}.`, deep);
+          else say(m.id, e, "Don't count on turnovers", `They protect the ball well (${pctTxt(m.theirScore)}): win the possession battle on offense.`);
           break;
       }
     });
-  if (winProb >= 0.65) plan.push(`You are the favourite (${r0(winProb * 100)}%): avoid variance. Punt, take field goals and protect the ball.`);
-  else if (winProb <= 0.4) plan.push(`You are the underdog (${r0(winProb * 100)}%): add variance. Go for it on 4th down, go for 2, and onside kick late if trailing.`);
-  else plan.push(`It's close (${r0(winProb * 100)}%): win the turnover battle and the last possession of each half.`);
+  const pct = r0(winProb * 100);
+  if (winProb >= 0.65) say('overall', 0, 'Favourite: punt, take FGs, protect the ball', `Estimated ${pct}% win chance: avoid variance.`);
+  else if (winProb <= 0.4) say('overall', 0, 'Underdog: go on 4th, go for 2, onside late', `Estimated ${pct}% win chance: add variance.`);
+  else say('overall', 0, 'Coin flip: win turnovers and the last possession', `Estimated ${pct}% win chance.`);
   return { a, b, matchups, mismatches, plan: plan.slice(0, 5), winProb };
 };

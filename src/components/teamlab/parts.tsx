@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import type { GradeStep } from '@/config/skillGrades';
-import type { Impact, PlayerProfile } from '@/utils/teamLab';
+import type { PlayerProfile } from '@/utils/teamLab';
 import { getTeamColors } from '@/utils/teamColors';
 import TeamLogo from '@/components/brand/TeamLogo';
 
@@ -19,18 +19,6 @@ export const GradeChip = ({ grade, size = 'md', label }: { grade: GradeStep | nu
     title={label}
   >
     {grade?.grade ?? '—'}
-  </span>
-);
-
-const IMPACT_STYLE: Record<Impact, { label: string; cls: string }> = {
-  high: { label: 'High impact', cls: 'bg-gold text-black' },
-  med: { label: 'Medium impact', cls: 'bg-turf/25 text-chalk ring-1 ring-turf/60' },
-  low: { label: 'Low impact', cls: 'bg-panel-2 text-muted-foreground ring-1 ring-line' },
-};
-
-export const ImpactBadge = ({ impact }: { impact: Impact }) => (
-  <span className={cn('inline-flex shrink-0 items-center rounded px-1.5 py-0.5 font-pixel text-[8px] uppercase', IMPACT_STYLE[impact].cls)}>
-    {IMPACT_STYLE[impact].label}
   </span>
 );
 

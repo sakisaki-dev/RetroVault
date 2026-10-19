@@ -4,6 +4,7 @@ import PlayerSearchSelect from '@/components/PlayerSearchSelect';
 import type { Player } from '@/types/player';
 import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
 import { cn } from '@/lib/utils';
+import { playerSkillGrades } from '@/config/skillGrades';
 import GameBanner from './GameBanner';
 import { ArcadeButton, Confetti, Lamp, LampRow, TeamLogo } from './ArcadeUI';
 import {
@@ -36,13 +37,25 @@ const ClueStat = ({ label, value }: { label: string; value: ReactNode }) => (
   </div>
 );
 
-const buildClues = (p: Player, rating: number): Clue[] => {
+/** 1-based clue numbers that unlock the position and team (also when their feedback tiles start showing). */
+const POSITION_CLUE = 5;
+const TEAM_CLUE = 6;
+
+/**
+ * Clues run from vague to specific. Position stays hidden until clue 5: the stat line (whose categories give the
+ * position away) comes with it, and the skill fingerprint shows bare letter grades with no trait names.
+ */
+const buildClues = (p: Player, rating: number, league: Player[]): Clue[] => {
   const initials = p.name
     .split(/\s+/)
     .filter(Boolean)
     .map((w) => `${w[0]}.`)
     .join(' ');
   const team = findNFLTeam(p.team);
+  const grades = playerSkillGrades(league, p)
+    .traits.filter((t) => t.grade && Number.isFinite(t.percentile))
+    .sort((a, b) => b.percentile - a.percentile)
+    .slice(0, 4);
   return [
     {
       title: 'Rating',
@@ -52,10 +65,6 @@ const buildClues = (p: Player, rating: number): Clue[] => {
           <ClueStat label="League Score" value={fmt(leagueScore(p))} />
         </>
       ),
-    },
-    {
-      title: 'Career stat line',
-      content: getStatLine(p).map((s) => <ClueStat key={s.label} label={s.label} value={s.value} />),
     },
     {
       title: 'Longevity',
@@ -72,16 +81,35 @@ const buildClues = (p: Player, rating: number): Clue[] => {
         <>
           <ClueStat label="Rings" value={fmt(p.rings)} />
           <ClueStat label="MVP" value={fmt(p.mvp)} />
-          <ClueStat label={isDefender(p) ? 'DPOY' : 'OPOY'} value={fmt(p.opoy)} />
+          {/* OPOY and DPOY merged so the award doesn't reveal offense or defense */}
+          <ClueStat label="Player of the Year" value={fmt(p.opoy)} />
           <ClueStat label="SB MVP" value={fmt(p.sbmvp)} />
         </>
       ),
     },
     {
-      title: 'Position & team',
+      title: 'Skill fingerprint',
+      content: grades.length ? (
+        grades.map((g, i) => <ClueStat key={i} label={i === 0 ? 'Best skill' : `Skill ${i + 1}`} value={g.grade!.grade} />)
+      ) : (
+        <ClueStat label="Skills" value="Not enough data" />
+      ),
+    },
+    {
+      title: 'Position & stat line',
       content: (
         <>
           <ClueStat label="Position" value={p.position} />
+          {getStatLine(p).map((s) => (
+            <ClueStat key={s.label} label={s.label} value={s.value} />
+          ))}
+        </>
+      ),
+    },
+    {
+      title: 'Team & initials',
+      content: (
+        <>
           <ClueStat
             label="Team"
             value={
@@ -91,16 +119,17 @@ const buildClues = (p: Player, rating: number): Clue[] => {
               </span>
             }
           />
+          <ClueStat label="Name" value={initials} />
         </>
       ),
     },
-    { title: 'Initials', content: <ClueStat label="Name" value={initials} /> },
   ];
 };
 
-type TileState = 'match' | 'div' | 'conf' | 'wrong' | 'up' | 'down' | 'miss' | 'na';
+type TileState = 'match' | 'div' | 'conf' | 'wrong' | 'up' | 'down' | 'miss' | 'na' | 'hidden';
 
 const TILE_NOTE: Record<TileState, string> = {
+  hidden: 'Clue locked',
   match: 'Match',
   div: 'Same division',
   conf: 'Same conference',
@@ -112,6 +141,7 @@ const TILE_NOTE: Record<TileState, string> = {
 };
 
 const TILE_SPOKEN: Record<TileState, string> = {
+  hidden: 'hidden until its clue unlocks',
   match: 'same as the mystery player',
   div: 'same division as the mystery player',
   conf: 'same conference as the mystery player',
@@ -199,7 +229,7 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
   const [confetti, setConfetti] = useState<number | false>(false);
 
   const ovrOf = useCallback((p: Player) => ovrMap.get(playerKey(p)) ?? 62, [ovrMap]);
-  const clues = useMemo(() => buildClues(answer, ovrOf(answer)), [answer, ovrOf]);
+  const clues = useMemo(() => buildClues(answer, ovrOf(answer), players), [answer, ovrOf, players]);
   const solved = guesses.some((g) => playerKey(g) === playerKey(answer));
   const failed = !solved && guesses.length >= MAX_GUESSES;
   const finished = solved || failed;
@@ -259,7 +289,10 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
                 {!open && <span className="sr-only">(locked)</span>}
               </h4>
               <dl className={cn('stats', !open && 'blur')} aria-hidden={!open}>
-                {clue.content}
+                {/* Locked clues render a uniform placeholder: blurred real content leaked its shape (stat count = position) */}
+                {open
+                  ? clue.content
+                  : [0, 1, 2, 3].map((k) => <ClueStat key={k} label="Locked" value="■■■" />)}
               </dl>
             </section>
           );
@@ -314,7 +347,7 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
             <p className="hint gkey">
               Each row is one of your guesses, compared with the mystery player: <b className="turf">green</b> = match,{' '}
               <b className="sky">blue</b> = same division, <b className="gold">yellow</b> = same conference,{' '}
-              <b className="flag">red</b> = wrong position, <b className="orange">orange Higher ▲ / Lower ▼</b> = the mystery player's OVR or rings
+              <b className="flag">red</b> = wrong position (position and team feedback unlock with clues 5 and 6), <b className="orange">orange Higher ▲ / Lower ▼</b> = the mystery player's OVR or rings
               are higher or lower. Gray = no match.
             </p>
             <ol className="glog">
@@ -331,8 +364,9 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
                       {g.name}
                     </div>
                     <div className="glog-tiles">
-                      <Tile label="Pos" value={g.position} state={g.position === answer.position ? 'match' : 'wrong'} />
-                      <Tile label="Team" value={gTeam?.abbreviation ?? '—'} state={teamTile(gTeam, aTeam)} />
+                      {/* Position and team feedback stay hidden until their clues unlock, so one wrong guess can't give them away */}
+                      <Tile label="Pos" value={g.position} state={revealed >= POSITION_CLUE ? (g.position === answer.position ? 'match' : 'wrong') : 'hidden'} />
+                      <Tile label="Team" value={gTeam?.abbreviation ?? '—'} state={revealed >= TEAM_CLUE ? teamTile(gTeam, aTeam) : 'hidden'} />
                       <Tile label="OVR" value={ovrOf(g)} state={numberTile(ovrOf(g), ovrOf(answer))} />
                       <Tile label="Rings" value={g.rings} state={numberTile(g.rings, answer.rings)} />
                     </div>

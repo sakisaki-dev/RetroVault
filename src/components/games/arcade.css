@@ -685,3 +685,8 @@
 .arcade .lg-picker-opt.hi { background: var(--panel-2); box-shadow: inset 3px 0 0 var(--gold); }
 .arcade .lg-cell.missed { border: 2px solid var(--flag); background: color-mix(in srgb, var(--flag) 10%, #0f1529); }
 .arcade .lg-cell.missed .count { color: var(--flag); }
+
+/* Guess the Legend: position/team feedback before its clue unlocks */
+.arcade .gtile.hidden { border-style: dashed; opacity: 0.55; }
+.arcade .gtile.hidden .gtile-v { filter: blur(0); }
+.arcade .gtile.hidden .gtile-n { color: var(--muted); }
