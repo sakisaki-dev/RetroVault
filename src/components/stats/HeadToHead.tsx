@@ -18,7 +18,7 @@ import TeamLogo from '../brand/TeamLogo';
 import MetricLabel from './analytics/MetricLabel';
 import { VIZ, fmtNum } from './analytics/viz';
 import { keyOf } from './records';
-import { LEAGUE_DEFS, buildMatchup, defaultPair, type Cell, type Matchup, type Row, type Side } from './matchup';
+import { LEAGUE_DEFS, buildMatchup, type Cell, type Matchup, type Row, type Side } from './matchup';
 
 type Select = (p: Player) => void;
 
@@ -272,17 +272,9 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
   const sorted = useMemo(() => [...players].sort((a, b) => b.careerLegacy - a.careerLegacy), [players]);
   const byKey = useMemo(() => new Map(players.map((p) => [keyOf(p), p])), [players]);
 
+  // Starts empty: the user picks both players.
   const [k1, setK1] = useState('');
   const [k2, setK2] = useState('');
-  const seeded = useRef(false);
-  useEffect(() => {
-    if (seeded.current) return;
-    const pair = defaultPair(players);
-    if (!pair) return;
-    seeded.current = true;
-    setK1(keyOf(pair[0]));
-    setK2(keyOf(pair[1]));
-  }, [players]);
 
   const p1 = byKey.get(k1) ?? null;
   const p2 = byKey.get(k2) ?? null;
