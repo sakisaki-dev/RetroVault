@@ -37,6 +37,18 @@ const readSeasonTag = (): string | null => {
 const Header = ({ activeTab, onTabChange }: HeaderProps) => {
   const { careerData, getAllPlayers, dataVersion } = useLeague();
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const headerRef = useRef<HTMLElement | null>(null);
+
+  // Publish the sticky header's live height so other sticky bars can sit right below it.
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const set = () => document.documentElement.style.setProperty('--site-header-h', `${el.offsetHeight}px`);
+    set();
+    const ro = new ResizeObserver(set);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const board = useMemo(() => {
     const players = getAllPlayers();
@@ -101,7 +113,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
     : [];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line/70 bg-night/90 backdrop-blur-md supports-[backdrop-filter]:bg-night/80">
+    <header ref={headerRef} className="sticky top-0 z-50 border-b border-line/70 bg-night/90 backdrop-blur-md supports-[backdrop-filter]:bg-night/80">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[60] focus:rounded focus:bg-gold focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary-foreground"

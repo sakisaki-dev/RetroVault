@@ -14,6 +14,7 @@ import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import PlayerSearchSelect from '../PlayerSearchSelect';
 import ProPlayerBanner from '../brand/ProPlayerBanner';
 import CountUp from '../brand/CountUp';
+import TeamLogo from '../brand/TeamLogo';
 import MetricLabel from './analytics/MetricLabel';
 import { VIZ, fmtNum } from './analytics/viz';
 import { keyOf } from './records';
@@ -332,10 +333,18 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
       </div>
 
       {m && p1 && p2 ? (
-        <div className="glass-card overflow-hidden">
-          {/* Scoreboard */}
-          <div className="scoreboard-strip grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 px-3 py-3 sm:px-6">
-            <span className="truncate text-right font-display text-sm font-bold uppercase sm:text-xl">{p1.name}</span>
+        // overflow-clip (not hidden) so the scoreboard below can stay sticky
+        <div className="glass-card overflow-clip">
+          {/* Scoreboard: pinned under the site header while scrolling the rows, so each side stays labelled */}
+          <div
+            className="scoreboard-strip sticky z-30 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 border-b border-line bg-night/95 px-3 py-2.5 backdrop-blur-md sm:px-6"
+            style={{ top: 'var(--site-header-h, 0px)' }}
+          >
+            <span className="flex min-w-0 items-center justify-end gap-2">
+              <span className="truncate text-right font-display text-sm font-bold uppercase sm:text-xl">{p1.name}</span>
+              <span className="hidden font-pixel text-[9px] text-muted-foreground sm:inline">{p1.position}</span>
+              <TeamLogo team={p1.team} size={22} decorative />
+            </span>
             <div className="flex items-center gap-2 rounded bg-black px-3 py-1.5 font-display text-3xl font-extrabold tabular-nums sm:text-4xl" aria-live="polite" aria-atomic="true">
               <span className="sr-only">Categories won: {p1.name}</span>
               <span className={m.score[1] >= m.score[2] ? 'text-gold' : 'text-muted-foreground'}>
@@ -349,7 +358,11 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
                 <CountUp value={m.score[2]} />
               </span>
             </div>
-            <span className="truncate font-display text-sm font-bold uppercase sm:text-xl">{p2.name}</span>
+            <span className="flex min-w-0 items-center gap-2">
+              <TeamLogo team={p2.team} size={22} decorative />
+              <span className="hidden font-pixel text-[9px] text-muted-foreground sm:inline">{p2.position}</span>
+              <span className="truncate font-display text-sm font-bold uppercase sm:text-xl">{p2.name}</span>
+            </span>
           </div>
           <div className="flex flex-col items-center gap-1.5 border-b border-line px-3 py-2 text-center text-sm">
             <p>
