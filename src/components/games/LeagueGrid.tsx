@@ -80,6 +80,25 @@ interface Puzzle {
   answers: Player[][][]; // [row][col] -> valid players
 }
 
+/** True when all nine squares can be filled with nine DIFFERENT players (bipartite matching). */
+const hasFullSolution = (answers: Player[][][]) => {
+  const cells = answers.flat().map((opts) => opts.map(playerKey));
+  const owner = new Map<string, number>(); // player key -> cell index
+  const tryCell = (cell: number, seen: Set<string>): boolean => {
+    for (const k of cells[cell]) {
+      if (seen.has(k)) continue;
+      seen.add(k);
+      const other = owner.get(k);
+      if (other === undefined || tryCell(other, seen)) {
+        owner.set(k, cell);
+        return true;
+      }
+    }
+    return false;
+  };
+  return cells.every((_, i) => tryCell(i, new Set()));
+};
+
 const makePuzzle = (players: Player[]): Puzzle | null => {
   const rowPool = buildRowCriteria(players);
   for (let attempt = 0; attempt < 400; attempt++) {
@@ -87,10 +106,10 @@ const makePuzzle = (players: Player[]): Puzzle | null => {
     const cols = shuffle(COLUMN_CRITERIA).slice(0, 3);
     if (rows.length < 3) return null;
     const answers = rows.map((r) => cols.map((c) => players.filter((p) => r.test(p) && c.test(p))));
-    // Every cell needs at least one answer, and the board needs 9 distinct players to be completable.
+    // Every cell needs at least one answer.
     if (answers.some((row) => row.some((cell) => cell.length === 0))) continue;
-    const distinct = new Set(answers.flat(2).map(playerKey));
-    if (distinct.size < 9) continue;
+    // The grid must be completable with no repeats (a perfect matching), not just have 9 names overall.
+    if (!hasFullSolution(answers)) continue;
     return { rows, cols, answers };
   }
   return null;
@@ -180,6 +199,42 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
   const [confetti, setConfetti] = useState<number | false>(false);
 
   const usedKeys = useMemo(() => new Set(Object.values(filled).map(playerKey)), [filled]);
+  const isOver = revealed || guessesLeft === 0 || Object.keys(filled).length === 9;
+
+  // Answers for missed squares: one DIFFERENT player per square (no repeats, none already on the board),
+  // found by backtracking from the most constrained square. Falls back to repeats only if impossible.
+  const revealPicks = useMemo(() => {
+    const picks: Record<string, GamePlayer> = {};
+    if (!puzzle || !isOver) return picks;
+    const cells: { id: string; options: GamePlayer[] }[] = [];
+    puzzle.answers.forEach((row, r) =>
+      row.forEach((opts, c) => {
+        const id = `${r}-${c}`;
+        if (!filled[id]) cells.push({ id, options: (opts as GamePlayer[]).filter((p) => !usedKeys.has(playerKey(p))) });
+      }),
+    );
+    cells.sort((a, b) => a.options.length - b.options.length);
+    const taken = new Set<string>();
+    const solve = (i: number): boolean => {
+      if (i === cells.length) return true;
+      for (const p of cells[i].options) {
+        const k = playerKey(p);
+        if (taken.has(k)) continue;
+        taken.add(k);
+        picks[cells[i].id] = p;
+        if (solve(i + 1)) return true;
+        taken.delete(k);
+        delete picks[cells[i].id];
+      }
+      return false;
+    };
+    if (!solve(0)) {
+      cells.forEach((cell) => {
+        if (!picks[cell.id]) picks[cell.id] = cell.options[0] ?? (puzzle.answers[+cell.id[0]][+cell.id[2]][0] as GamePlayer);
+      });
+    }
+    return picks;
+  }, [puzzle, isOver, filled, usedKeys]);
   const score = Object.keys(filled).length;
   const finished = revealed || guessesLeft === 0 || score === 9;
 
@@ -269,7 +324,7 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
                 const player = filled[cellKey];
                 // When the grid ends unfinished, every missed square shows an answer with a red outline.
                 const missed = finished && !player;
-                const sample = missed ? puzzle.answers[r][c][0] : null;
+                const sample = missed ? revealPicks[cellKey] ?? puzzle.answers[r][c][0] : null;
                 const active = activeCell?.[0] === r && activeCell?.[1] === c;
                 if (player) {
                   return (
