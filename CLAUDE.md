@@ -48,7 +48,8 @@ DPOY, ROTY, SBMVP).
 5. **Other screens:**
    - Super Bowl winners list → `data/y80/super_bowls.json`. Add new years; gold rows are the owner's wins.
    - Staff/coach screen → `data/y80/coach.json`.
-   - In-game HOF ribbons are informational. The site's Hall of Fame is Career Legacy ≥ 7000.
+   - The site's Hall of Fame is its own: Career Legacy ≥ 7000. The game's HOF list and ribbons (stored as
+     `hof_ingame` / `retired_team` on cards) must not add or remove anyone. The owner wants the two to stay different.
 6. **Rebuild and verify:**
    ```bash
    python3 scripts/build_league_data.py    # prints "no team: …" for anyone still UNK
