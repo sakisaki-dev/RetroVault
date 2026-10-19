@@ -63,6 +63,47 @@ PLAYER_TEAM_FIXES = {
     "Levante Hopkins": "Titans",
 }
 
+# Induction speeches for the inaugural Hall of Fame class, written from the user's descriptions and
+# the players' real career numbers. The first paragraph is the headline caption the ceremony shows large.
+# Only facts from data/y80 are cited (no single-season marks; God Johnson's reception total is an estimate).
+SPEECHES = {
+    "Sherman Brandson": """The General never flinched.
+
+Six-foot-seven, built like a tank, and calm enough to put a defense to sleep before he broke its heart. Sherman Brandson stood in the pocket like it belonged to him, and for twenty seasons it did. Pass rushers came in waves and bounced off. Fifty sacks in 315 games. Most quarterbacks give that up in a few bad years.
+
+The numbers read like a typo: 91,463 passing yards, 1,150 touchdown passes, eight MVPs and ten rings, four of them with the Super Bowl MVP trophy in his hands. He looked more like a linebacker than a quarterback, and he played like a man who knew exactly how the next five plays would go.
+
+He did not celebrate much. He did not need to. General Sherman, welcome to the Hall of Fame.""",
+    "God Johnson": """He changed his name to God. Then he earned it.
+
+Mason Earl III walked into the league as a receiver. God Johnson walked out as the standard every receiver gets measured against. Some people thought the name was a joke. Defensive coordinators never laughed.
+
+36,005 receiving yards. 378 receiving touchdowns. Ten rings with the Vikings dynasty and five Super Bowl MVPs, because when the lights were brightest the ball found him. And three fumbles. In his entire career. Ian Finney's career receiving mark stood for decades until God took it, with Jackson Wardell Kline lined up beside him.
+
+There is not much left to say about a man who named himself after the only being with a better résumé. God Johnson, welcome to the Hall of Fame.""",
+    "Levante Hopkins": """Looks like he should be grading your homework. Plays like he wants to end your career.
+
+Levante Hopkins showed up with the glasses-and-calculator energy of the smartest kid in class, and then the ball was snapped and something else entirely came out of that helmet. Linebackers learned fast that the nerdy one was the one who would run them over.
+
+291 games, 12,353 receiving yards, 174 touchdowns and nine rings, two of them with the Super Bowl MVP. He was the tight end at the heart of the Titans' three-peat from Y70 to Y72: the safety valve, the blocker and the red-zone problem nobody solved.
+
+Quiet off the field, a demon on it. Levante Hopkins, welcome to the Hall of Fame.""",
+    "Ian Finney": """The first superstar. The Infinity Man.
+
+Before the dynasties had names, there was Ian Finney. He was the first player in this league who made you stop what you were doing to watch, the receiver every kid in the backyard pretended to be.
+
+He started with the Commanders' four-peat, then carried the Buccaneers through the Waller–Finney era with Tyrion Kline at his side: nine rings, four in Washington and five in Tampa Bay. He caught 1,902 passes for 32,980 yards and 292 touchdowns at 17.3 yards a catch, and every one of them looked effortless. Add five Offensive Player of the Year awards, an MVP and three Super Bowl MVPs.
+
+Every great receiver who came after him was chasing Ian Finney. Most of them still are. The Infinity Man, welcome to the Hall of Fame.""",
+    "Rondale Ikarras": """Flashy, loud, unstoppable, and he knew it. He was that guy.
+
+Rondale Ikarras never just ran through a hole. He ran through it with style, pointed at the crowd, and made sure the cameras got his good side on the way to the end zone. The Prodigal Son played like every snap was a highlight reel, and most of them were.
+
+23,178 rushing yards. 374 rushing touchdowns. Nine rings, four Offensive Player of the Year awards and five Super Bowl MVPs. The career rushing records carry his name. He built a legend in Seattle, three straight titles as the heartbeat of the Seahawks, and took one last ride with the Jets before hanging it up.
+
+Zero regular-season MVPs. He will tell you about that one. Rondale Ikarras, Seahawks legend, welcome to the Hall of Fame.""",
+}
+
 # User-confirmed corrections to eras.json, keyed by era name.
 ERA_FIXES = {
     "Commanders run": {
@@ -337,6 +378,7 @@ def main():
         "outsiders": outsiders,
         "openQuestions": open_questions,
         "playerNotes": player_notes,
+        "speeches": SPEECHES,
     }
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
