@@ -6,6 +6,10 @@ import TeamRankingsTab from '@/components/tabs/TeamRankingsTab';
 import ComparisonTab from '@/components/tabs/ComparisonTab';
 import GamesTab from '@/components/tabs/GamesTab';
 import TimelineTab from '@/components/tabs/TimelineTab';
+import FrontOfficeTab from '@/components/tabs/FrontOfficeTab';
+import CollectionTab from '@/components/tabs/CollectionTab';
+import CardUnlockToasts from '@/components/collection/CardUnlockToasts';
+import CeremonyHost from '@/components/ceremony/CeremonyHost';
 import { DATA_SOURCE_KEY, LeagueProvider, isBundledLeague, useLeague } from '@/context/LeagueContext';
 import { Helmet } from 'react-helmet-async';
 
@@ -51,11 +55,15 @@ const IndexContent = () => {
           {activeTab === 'career' && <CareerTab />}
           {activeTab === 'teams' && <TeamRankingsTab />}
           {activeTab === 'hof' && <HallOfFameTab />}
+          {activeTab === 'collection' && <CollectionTab />}
           {activeTab === 'timeline' && <TimelineTab />}
+          {activeTab === 'office' && <FrontOfficeTab />}
           {activeTab === 'compare' && <ComparisonTab />}
           {activeTab === 'games' && <GamesTab />}
         </main>
 
+        <CeremonyHost />
+        <CardUnlockToasts />
         <footer className="mt-12 border-t border-line/70 bg-night">
           <div className="h-1 turf-stripes" aria-hidden="true" />
           <div className="container py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">

@@ -84,11 +84,11 @@
 .arcade .home-intro h2 { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: clamp(28px, 4.4vw, 44px); text-transform: uppercase; line-height: 1; }
 .arcade .home-intro p { margin: 0; color: var(--muted); max-width: 60ch; }
 .arcade .modes { display: grid; grid-template-columns: 1fr; gap: 16px; }
-/* Seven modes, no empty cells: the first card is featured and spans the extra width
+/* Any number of modes, no empty cells: the featured first card spans whatever width completes the last row (GamesTab sets --span-N)
    (4 cols: 2+1+1 / 4 · 3 cols: 3 / 3 / 3 · 2 cols: 2 / 2 / 2 / 2 · 1 col below 560px). */
-@media (min-width: 560px) { .arcade .modes { grid-template-columns: repeat(2, minmax(0, 1fr)); } .arcade .mode-li.featured { grid-column: span 2; } }
-@media (min-width: 700px) { .arcade .modes { grid-template-columns: repeat(3, minmax(0, 1fr)); } .arcade .mode-li.featured { grid-column: span 3; } }
-@media (min-width: 1100px) { .arcade .modes { grid-template-columns: repeat(4, minmax(0, 1fr)); } .arcade .mode-li.featured { grid-column: span 2; } }
+@media (min-width: 560px) { .arcade .modes { grid-template-columns: repeat(2, minmax(0, 1fr)); } .arcade .mode-li.featured { grid-column: span var(--span-2, 2); } }
+@media (min-width: 700px) { .arcade .modes { grid-template-columns: repeat(3, minmax(0, 1fr)); } .arcade .mode-li.featured { grid-column: span var(--span-3, 3); } }
+@media (min-width: 1100px) { .arcade .modes { grid-template-columns: repeat(4, minmax(0, 1fr)); } .arcade .mode-li.featured { grid-column: span var(--span-4, 2); } }
 .arcade .mode-li { display: flex; min-width: 0; }
 .arcade .mode { position: relative; text-align: left; border: 0; padding: 0; background: var(--panel); border-radius: 10px; overflow: hidden; box-shadow: 0 0 0 2px var(--line); transition: transform 0.15s, box-shadow 0.15s; display: flex; flex-direction: column; animation: arc-rise 0.45s both; }
 .arcade .mode:hover, .arcade .mode:focus-visible { transform: translateY(-3px); box-shadow: 0 0 0 2px var(--mc), 0 14px 30px #0009; }
@@ -671,3 +671,16 @@
 @media (prefers-reduced-motion: reduce) {
   .arcade .case:not(.shut) .case-cover { display: none; }
 }
+
+/* League Grid: in-square search + missed squares */
+.arcade .lg-cell-active { position: relative; overflow: visible; border: 2px solid var(--gold); background: #1a2240; z-index: 20; align-items: stretch; justify-content: flex-start; padding: 6px; }
+.arcade .lg-picker { width: 100%; display: flex; flex-direction: column; gap: 4px; }
+.arcade .lg-picker-input { width: 100%; min-width: 0; border-radius: 6px; border: 1px solid var(--line); background: #0b1020; color: var(--chalk); padding: 6px 8px; font: inherit; font-size: 13px; }
+.arcade .lg-picker-input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.arcade .lg-picker-msg { margin: 0; font-size: 11px; color: var(--flag); line-height: 1.25; }
+.arcade .lg-picker-list { position: absolute; left: -2px; right: -2px; top: calc(100% + 2px); margin: 0; padding: 4px; list-style: none; background: #0f1529; border: 2px solid var(--gold); border-radius: 8px; box-shadow: 0 12px 30px #000a; z-index: 30; min-width: 200px; }
+.arcade .lg-picker-opt { padding: 6px 8px; border-radius: 5px; font-size: 13px; cursor: pointer; color: var(--chalk); text-align: left; }
+.arcade .lg-picker-opt b { font-family: var(--f-pixel); font-size: 9px; color: var(--gold); margin-right: 4px; }
+.arcade .lg-picker-opt.hi { background: var(--panel-2); box-shadow: inset 3px 0 0 var(--gold); }
+.arcade .lg-cell.missed { border: 2px solid var(--flag); background: color-mix(in srgb, var(--flag) 10%, #0f1529); }
+.arcade .lg-cell.missed .count { color: var(--flag); }

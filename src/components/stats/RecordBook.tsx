@@ -2,14 +2,10 @@ import { ArrowRight, Crown, Gauge, Timer } from 'lucide-react';
 import type { Player } from '@/types/player';
 import { cn } from '@/lib/utils';
 import { formatDecimal } from '@/utils/metricColors';
-import { useJerseyNumbers } from '@/utils/jerseys';
-import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import PositionBadge from '../PositionBadge';
 import TeamBadge from '../brand/TeamBadge';
 import TeamLogo from '../brand/TeamLogo';
 import CountUp from '../brand/CountUp';
-import ProPlayerBanner from '../brand/ProPlayerBanner';
-import { overallRating } from '../brand/ProPlayerBanner.utils';
 import { GROUP_META, MIN, PACE_MAX_SEASONS, keyOf, type PaceEntry, type RecordBoardData } from './records';
 import { GRID_ITEM, gridVars } from './grid';
 
@@ -17,78 +13,50 @@ const fmt = (v: number, decimals: number) => formatDecimal(v, decimals);
 
 type Select = (p: Player) => void;
 
-// ---------- Headline record card ----------
+// ---------- Compact record strip (top of the page) ----------
 
-const RecordHolderCard = ({ data, index, onSelect }: { data: RecordBoardData; index: number; onSelect: Select }) => {
-  const { numberFor } = useJerseyNumbers();
-  const officialOvr = useOfficialOvr();
-  const [top, ...rest] = data.entries;
-  const runnersUp = rest.slice(0, 2);
+const RecordChip = ({ data, index, onSelect }: { data: RecordBoardData; index: number; onSelect: Select }) => {
+  const top = data.entries[0];
   const hsl = GROUP_META[data.group].hsl;
-  const headingId = `rec-${data.id}`;
-
   return (
     <li className={cn(GRID_ITEM, 'stagger-in')} style={{ ['--i' as string]: index }}>
-      <article
-        aria-labelledby={headingId}
-        className="glass-card flex h-full flex-col gap-3 overflow-hidden p-3 sm:p-4"
-        style={{ boxShadow: `inset 0 3px 0 hsl(${hsl}), var(--shadow-card)` }}
+      <button
+        type="button"
+        onClick={() => onSelect(top.player)}
+        aria-label={`${data.title} record: ${fmt(top.value, data.decimals)} by ${top.player.name}. Open player`}
+        className="hover-lift flex h-full w-full flex-col gap-1 rounded-lg border border-line bg-panel px-3 py-2.5 text-left"
+        style={{ boxShadow: `inset 0 2px 0 hsl(${hsl})` }}
       >
-        <header className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
-            <h3 id={headingId} className="font-display text-base font-bold uppercase tracking-wider" style={{ color: `hsl(${hsl})` }}>
-              {data.title}
-            </h3>
-            <CountUp value={top.value} decimals={data.decimals} className="block font-display text-5xl font-extrabold leading-none text-chalk" />
-          </div>
-          <span className="lamp mt-1 shrink-0">
-            <Crown className="h-3 w-3" aria-hidden="true" />
-            Record
+        <span className="flex items-center justify-between gap-2">
+          <span className="truncate font-display text-xs font-bold uppercase tracking-wider" style={{ color: `hsl(${hsl})` }}>
+            {data.title}
           </span>
-        </header>
-
-        <button
-          type="button"
-          onClick={() => onSelect(top.player)}
-          aria-label={`Record holder: ${top.player.name}. Open player`}
-          className="block w-full rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-        >
-          <ProPlayerBanner
-            size="compact"
-            interactive
-            name={top.player.name}
-            position={top.player.position}
-            team={top.player.team}
-            number={numberFor(top.player)}
-            ovr={overallRating(top.player, officialOvr)}
-          />
-        </button>
-
-        {runnersUp.length > 0 && (
-          <ol className="mt-auto flex gap-2" aria-label={`${data.title} runners-up`}>
-            {runnersUp.map((e, i) => (
-              <li key={keyOf(e.player)} className="min-w-0 flex-1">
-                <button
-                  type="button"
-                  onClick={() => onSelect(e.player)}
-                  className="flex w-full items-center gap-1.5 rounded-md border border-line bg-night/60 px-2 py-1.5 text-left transition-colors hover:border-gold/60 hover:bg-panel-2"
-                >
-                  <span className="font-pixel text-[9px] text-muted-foreground">
-                    <span className="sr-only">Rank </span>
-                    {i + 2}
-                  </span>
-                  {e.player.team && <TeamLogo team={e.player.team} size={16} decorative />}
-                  <span className="min-w-0 flex-1 truncate text-xs font-semibold">{e.player.name}</span>
-                  <span className="font-mono text-xs font-bold tabular-nums text-secondary-foreground">{fmt(e.value, data.decimals)}</span>
-                </button>
-              </li>
-            ))}
-          </ol>
-        )}
-      </article>
+          <Crown className="h-3 w-3 shrink-0 text-gold" aria-hidden="true" />
+        </span>
+        <CountUp value={top.value} decimals={data.decimals} className="font-display text-2xl font-extrabold leading-none text-chalk sm:text-3xl" />
+        <span className="flex min-w-0 items-center gap-1.5">
+          {top.player.team && <TeamLogo team={top.player.team} size={16} decorative />}
+          <span className="line-clamp-2 text-xs font-semibold leading-tight text-secondary-foreground">{top.player.name}</span>
+        </span>
+      </button>
     </li>
   );
 };
+
+/** Compact summary of the headline career records: one chip per record, holder and mark. */
+export const RecordStrip = ({ headline, onSelect }: { headline: RecordBoardData[]; onSelect: Select }) => (
+  <section id="record-book" aria-labelledby="record-book-title" className="scroll-mt-20 space-y-3">
+    <h2 id="record-book-title" className="section-title text-2xl">
+      <Crown className="h-5 w-5 text-gold" aria-hidden="true" />
+      Record Book
+    </h2>
+    <ul className="flex flex-wrap gap-2 sm:gap-3" style={gridVars(headline.length, { base: 2, sm: 3, lg: 5, xl: 9 })}>
+      {headline.map((b, i) => (
+        <RecordChip key={b.id} data={b} index={i} onSelect={onSelect} />
+      ))}
+    </ul>
+  </section>
+);
 
 // ---------- Efficiency leader tile ----------
 
@@ -171,35 +139,23 @@ const PaceCard = ({ pace, onSelect }: { pace: PaceEntry; onSelect: Select }) => 
 // ---------- Section ----------
 
 interface RecordBookProps {
-  headline: RecordBoardData[];
   leaders: RecordBoardData[];
   pace: PaceEntry[];
   onSelect: Select;
 }
 
-const RecordBook = ({ headline, leaders, pace, onSelect }: RecordBookProps) => {
+/** Efficiency leaders (rate records) and the pace tracker. The headline records live in RecordStrip. */
+const RecordBook = ({ leaders, pace, onSelect }: RecordBookProps) => {
   const chasing = pace.slice(0, 6);
+  if (leaders.length === 0 && chasing.length === 0) return null;
   return (
-    <section id="record-book" aria-labelledby="record-book-title" className="scroll-mt-20 space-y-8">
-      <div className="space-y-3">
-        <h2 id="record-book-title" className="section-title text-2xl">
-          <Crown className="h-5 w-5 text-gold" aria-hidden="true" />
-          Record Book
-        </h2>
-        <p className="text-sm text-muted-foreground">The all-time career marks, who owns them and who is next in line.</p>
-        <ul className="flex flex-wrap gap-3" style={gridVars(headline.length, { base: 1, sm: 2, lg: 3 })}>
-          {headline.map((b, i) => (
-            <RecordHolderCard key={b.id} data={b} index={i} onSelect={onSelect} />
-          ))}
-        </ul>
-      </div>
-
+    <section id="efficiency" aria-labelledby="efficiency-title" className="scroll-mt-20 space-y-8">
       {leaders.length > 0 && (
         <div className="space-y-3">
-          <h3 className="flex items-center gap-2 font-display text-xl font-bold uppercase tracking-wide">
+          <h2 id="efficiency-title" className="section-title text-2xl">
             <Gauge className="h-5 w-5 text-gold" aria-hidden="true" />
             Efficiency Leaders
-          </h3>
+          </h2>
           <p className="text-sm text-muted-foreground">Quality over quantity. Rate stats only count players with a full sample.</p>
           <ul className="flex flex-wrap gap-3" style={gridVars(leaders.length, { base: 2, sm: 3, lg: 5 })}>
             {leaders.map((b) => (

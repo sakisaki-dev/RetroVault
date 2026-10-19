@@ -16,7 +16,9 @@ export const NAV_TABS = [
   { value: 'career', label: 'Stats' },
   { value: 'teams', label: 'Teams' },
   { value: 'hof', label: 'Hall of Fame' },
+  { value: 'collection', label: 'Collection' },
   { value: 'timeline', label: 'Timeline' },
+  { value: 'office', label: 'Front Office' },
   { value: 'compare', label: 'Compare' },
 ] as const;
 

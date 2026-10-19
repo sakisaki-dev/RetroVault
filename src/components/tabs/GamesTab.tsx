@@ -8,11 +8,13 @@ import BlindRank from '../games/BlindRank';
 import PerfectSeason from '../games/PerfectSeason';
 import KeepCut from '../games/KeepCut';
 import Imposter from '../games/Imposter';
+import SixDegrees from '../games/SixDegrees';
+import OverUnder from '../games/OverUnder';
 import ModeArt from '../games/ModeArt';
 import { ArcadeButton, Lamp } from '../games/ArcadeUI';
 import { STAT_KEYS, loadGameStat, saveGameStat, useGamePlayers, type GamePlayer } from '../games/gameUtils';
 
-type GameId = 'rank' | 'perfect' | 'kc' | 'legend' | 'hol' | 'grid' | 'imposter';
+type GameId = 'rank' | 'perfect' | 'kc' | 'legend' | 'hol' | 'grid' | 'imposter' | 'sixdeg' | 'ou';
 
 
 
@@ -65,7 +67,7 @@ const GAMES: GameDef[] = [
   {
     id: 'legend',
     title: 'Guess the Legend',
-    rule: 'A sealed player card and six clues that unlock with every miss. Name him in six guesses.',
+    rule: 'A sealed card and six clues that unlock with every miss. Name him on clue 1 for 5 points; needing all six scores nothing.',
     color: 'var(--sky)',
     record: rec(STAT_KEYS.legendBest, (n) => `Best streak ${n}`, 'No streak yet'),
     render: (players, ovrMap) => <GuessTheLegend players={players} ovrMap={ovrMap} />,
@@ -94,7 +96,30 @@ const GAMES: GameDef[] = [
     record: rec('imposter:best', (n) => `Best streak ${n}`, 'No streak yet'),
     render: (players, ovrMap) => <Imposter players={players} ovrMap={ovrMap} />,
   },
+  {
+    id: 'sixdeg',
+    title: 'Six Degrees of Ikarras',
+    rule: 'Connect the start player to the target through teammates, eras, family and lineages. Every link is a stroke and hints cost one. Beat par to keep the streak.',
+    color: '#5ce0c6',
+    record: rec('sixdeg:best', (n) => `Best streak ${n}`, 'No streak yet'),
+    render: (players, ovrMap) => <SixDegrees players={players} ovrMap={ovrMap} />,
+  },
+  {
+    id: 'ou',
+    title: 'Over/Under',
+    rule: 'Five career prop lines from the book. Take the over or the under, stake 1–3 units on each, or parlay all five for 5×. Lines tighten as your streak grows.',
+    color: '#3ddc84',
+    record: rec('ou:best', (n) => `Best bankroll ${n.toLocaleString('en-US', { maximumFractionDigits: 2 })}u`, 'No slips settled'),
+    render: (players, ovrMap) => <OverUnder players={players} ovrMap={ovrMap} />,
+  },
 ];
+
+/** Featured-card width per column count so the grid's last row is always full. */
+const featuredSpan = (cols: number, n: number) => {
+  const rest = (n - 1) % cols;
+  return rest === 0 ? cols : cols - rest;
+};
+const NUMBER_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve'];
 
 const GamesTab = () => {
   const [includeLegends, setIncludeLegends] = useState(() => loadGameStat(STAT_KEYS.includeLegends, 1) !== 0);
@@ -160,7 +185,7 @@ const GamesTab = () => {
           <>
             <div className="home-intro">
               <h2 ref={headingRef} tabIndex={-1}>
-                {GAMES.length === 7 ? 'Seven' : GAMES.length} ways to test your league IQ
+                {NUMBER_WORDS[GAMES.length] ?? GAMES.length} ways to test your league IQ
               </h2>
               <p>
                 Every game is built from your league's careers.
@@ -170,7 +195,19 @@ const GamesTab = () => {
             <ul className="modes" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
               {GAMES.map((g, i) => {
                 return (
-                  <li key={g.id} className={i === 0 ? 'mode-li featured' : 'mode-li'}>
+                  <li
+                    key={g.id}
+                    className={i === 0 ? 'mode-li featured' : 'mode-li'}
+                    style={
+                      i === 0
+                        ? ({
+                            '--span-2': featuredSpan(2, GAMES.length),
+                            '--span-3': featuredSpan(3, GAMES.length),
+                            '--span-4': featuredSpan(4, GAMES.length),
+                          } as CSSProperties)
+                        : undefined
+                    }
+                  >
                     <button
                       type="button"
                       className="mode"

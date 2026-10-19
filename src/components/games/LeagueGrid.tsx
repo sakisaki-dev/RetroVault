@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react';
-import PlayerSearchSelect from '@/components/PlayerSearchSelect';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { unlockCard } from '@/utils/collection';
+import { matchPlayer } from '@/components/PlayerSearchSelect';
 import type { Player } from '@/types/player';
 import { HOF_THRESHOLD, isHallOfFamer } from '@/config/stats';
 import { NFL_TEAMS, findNFLTeam } from '@/utils/nflTeams';
@@ -95,6 +96,77 @@ const makePuzzle = (players: Player[]): Puzzle | null => {
   return null;
 };
 
+/** Search field that lives inside the grid square being filled. Enter / click locks the pick in. */
+const CellPicker = ({
+  players,
+  label,
+  feedback,
+  onPick,
+  onCancel,
+}: {
+  players: GamePlayer[];
+  label: string;
+  feedback: string | null;
+  onPick: (key: string) => void;
+  onCancel: () => void;
+}) => {
+  const [q, setQ] = useState('');
+  const [hi, setHi] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => inputRef.current?.focus({ preventScroll: true }), []);
+  const results = useMemo(() => {
+    if (!q.trim()) return [];
+    return players
+      .map((p) => ({ p, s: matchPlayer(`${p.name} ${p.nickname ?? ''} ${p.position} ${p.team ?? ''}`, q, [p.name]) }))
+      .filter((x) => x.s > 0)
+      .sort((a, b) => b.s - a.s || a.p.name.localeCompare(b.p.name))
+      .slice(0, 6)
+      .map((x) => x.p);
+  }, [players, q]);
+  useEffect(() => setHi(0), [q]);
+  const listId = `lg-list-${label.replace(/\W+/g, '-')}`;
+  return (
+    <div className="lg-picker" onClick={(e) => e.stopPropagation()}>
+      <input
+        ref={inputRef}
+        className="lg-picker-input"
+        value={q}
+        placeholder="Type a name…"
+        aria-label={`Pick a player for ${label}`}
+        role="combobox"
+        aria-expanded={results.length > 0}
+        aria-controls={listId}
+        aria-activedescendant={results[hi] ? `${listId}-${hi}` : undefined}
+        onChange={(e) => setQ(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowDown') { e.preventDefault(); setHi((h) => Math.min(h + 1, results.length - 1)); }
+          else if (e.key === 'ArrowUp') { e.preventDefault(); setHi((h) => Math.max(h - 1, 0)); }
+          else if (e.key === 'Enter' && results[hi]) { e.preventDefault(); onPick(playerKey(results[hi])); setQ(''); }
+          else if (e.key === 'Escape') { e.preventDefault(); onCancel(); }
+        }}
+      />
+      {feedback && <p className="lg-picker-msg" role="alert">{feedback}</p>}
+      {results.length > 0 && (
+        <ul id={listId} role="listbox" className="lg-picker-list">
+          {results.map((p, i) => (
+            <li
+              key={playerKey(p)}
+              id={`${listId}-${i}`}
+              role="option"
+              aria-selected={i === hi}
+              className={cn('lg-picker-opt', i === hi && 'hi')}
+              onMouseEnter={() => setHi(i)}
+              onMouseDown={(e) => { e.preventDefault(); onPick(playerKey(p)); setQ(''); }}
+            >
+              <b>{p.position}</b> {p.name}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
 const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string, number> }) => {
   const [puzzle, setPuzzle] = useState<Puzzle | null>(() => makePuzzle(players));
   const [filled, setFilled] = useState<Record<string, Player>>({});
@@ -128,8 +200,9 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
     setActiveCell(null);
   };
 
-  const submit = () => {
-    if (!puzzle || !activeCell || !selection) return;
+  const submit = (pickedKey: string = selection) => {
+    if (!puzzle || !activeCell || !pickedKey) return;
+    const selection = pickedKey;
     const [r, c] = activeCell;
     const guess = players.find((p) => playerKey(p) === selection);
     if (!guess) return;
@@ -142,6 +215,7 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
     setGuessesLeft(remaining);
     const correct = puzzle.answers[r][c].some((p) => playerKey(p) === selection);
     if (correct) {
+      unlockCard(guess, 'League Grid');
       const next = { ...filled, [`${r}-${c}`]: guess };
       setFilled(next);
       setActiveCell(null);
@@ -193,7 +267,9 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
               {puzzle.cols.map((col, c) => {
                 const cellKey = `${r}-${c}`;
                 const player = filled[cellKey];
-                const sample = revealed && !player ? puzzle.answers[r][c][0] : null;
+                // When the grid ends unfinished, every missed square shows an answer with a red outline.
+                const missed = finished && !player;
+                const sample = missed ? puzzle.answers[r][c][0] : null;
                 const active = activeCell?.[0] === r && activeCell?.[1] === c;
                 if (player) {
                   return (
@@ -202,11 +278,25 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
                     </div>
                   );
                 }
+                if (active && !finished) {
+                  return (
+                    // Keyed on wrong-guess count so the shake replays on every miss
+                    <div key={`${col.id}-${wrong}`} className={cn('lg-cell lg-cell-active', feedback && wrong > 0 && 'shake')}>
+                      <CellPicker
+                        players={players}
+                        label={`${row.label} and ${col.label}`}
+                        feedback={feedback}
+                        onPick={(k) => submit(k)}
+                        onCancel={() => setActiveCell(null)}
+                      />
+                    </div>
+                  );
+                }
                 return (
                   <button
                     key={col.id}
                     type="button"
-                    className="lg-cell"
+                    className={cn('lg-cell', missed && 'missed')}
                     disabled={finished}
                     style={active ? { borderColor: 'var(--gold)', borderStyle: 'solid', background: '#1a2240' } : undefined}
                     aria-pressed={active}
@@ -234,28 +324,6 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
           );
         })}
       </div>
-
-      {activeCell && !finished && (
-        <div className={cn('panel mt-4 mx-auto flex flex-col gap-3', wrong > 0 && feedback && 'shake')} style={{ maxWidth: 520 }} key={`pick-${wrong}`}>
-          <h3>
-            Pick a player · {puzzle.rows[activeCell[0]].label} × {puzzle.cols[activeCell[1]].label}
-          </h3>
-          <PlayerSearchSelect players={players} value={selection} onValueChange={setSelection} placeholder="Search players..." />
-          {feedback && (
-            <p className="flag" role="alert" style={{ margin: 0 }}>
-              {feedback}
-            </p>
-          )}
-          <div className="flex flex-wrap gap-2">
-            <ArcadeButton tone="go" disabled={!selection} onClick={submit}>
-              Lock it in ({guessesLeft} left)
-            </ArcadeButton>
-            <ArcadeButton tone="ghost" onClick={() => setActiveCell(null)}>
-              Cancel
-            </ArcadeButton>
-          </div>
-        </div>
-      )}
 
       {finished && (
         <div className="result">

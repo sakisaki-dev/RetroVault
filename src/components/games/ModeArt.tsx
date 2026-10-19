@@ -6,7 +6,7 @@ import TeamLogo from '../brand/TeamLogo';
  * Landing-card art for each arcade mode: pure CSS/SVG plus the site's own components, tinted with the
  * mode colour (--mc). Hover motion lives in arcade.css (.mode:hover .ma-*) and is off with reduced motion.
  */
-export type ModeArtId = 'rank' | 'perfect' | 'kc' | 'legend' | 'hol' | 'grid' | 'imposter';
+export type ModeArtId = 'rank' | 'perfect' | 'kc' | 'legend' | 'hol' | 'grid' | 'imposter' | 'sixdeg' | 'ou';
 
 const team = (id: string) => NFL_TEAMS.find((t) => t.id === id) ?? null;
 
@@ -102,6 +102,29 @@ const ImposterArt = () => (
   </div>
 );
 
+/** Chain of cards from Start to Target joined by glowing links. */
+const SixDegArt = () => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+    {['S', '', '', 'T'].map((t, i) => (
+      <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        {i > 0 && <i style={{ width: 18, height: 4, borderRadius: 2, background: 'var(--mc)', boxShadow: '0 0 8px var(--mc)' }} />}
+        <span className="ma-imp-card" style={{ width: 40 }}>
+          {t}
+        </span>
+      </span>
+    ))}
+  </div>
+);
+
+/** Mini sportsbook board: one over and one under line with a live lamp. */
+const OverUnderArt = () => (
+  <div style={{ background: '#05070d', border: '1px solid #ffffff22', borderRadius: 6, padding: '6px 10px', fontFamily: 'var(--f-pixel)', fontSize: 11, lineHeight: 1.7, minWidth: 150 }}>
+    <div style={{ color: 'var(--gold)', fontSize: 9 }}>● LIVE</div>
+    <div style={{ color: '#3ddc84' }}>O 9,950.5 −110</div>
+    <div style={{ color: 'var(--flag)' }}>U 9,950.5 −110</div>
+  </div>
+);
+
 const ART: Record<ModeArtId, () => JSX.Element> = {
   rank: RankArt,
   perfect: PerfectArt,
@@ -110,6 +133,8 @@ const ART: Record<ModeArtId, () => JSX.Element> = {
   hol: HolArt,
   grid: GridArt,
   imposter: ImposterArt,
+  sixdeg: SixDegArt,
+  ou: OverUnderArt,
 };
 
 const ModeArt = ({ id }: { id: ModeArtId }) => {

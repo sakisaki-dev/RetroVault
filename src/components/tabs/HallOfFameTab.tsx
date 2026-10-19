@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useLeague } from '@/context/LeagueContext';
-import { Crown, Trophy, Star, Medal, Sparkles, Flame, Award } from 'lucide-react';
+import { Crown, Trophy, Star, Medal, Sparkles, Flame, Award, Clapperboard, PlayCircle } from 'lucide-react';
 import type { Player } from '@/types/player';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { useJerseyNumbers } from '@/utils/jerseys';
@@ -10,6 +10,13 @@ import { overallRating } from '../brand/ProPlayerBanner.utils';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import PlayerDetailCard from '../PlayerDetailCard';
 import { HOF_THRESHOLD, LEGACY_TIERS, formatThreshold, getLegacyTier } from '@/config/stats';
+import {
+  INAUGURAL_CLASS_SIZE,
+  classLabelFor,
+  hofKey,
+  playCeremony,
+  useHofClasses,
+} from '@/utils/hallOfFameWatch';
 
 const tierMin = (key: (typeof LEGACY_TIERS)[number]['key']) => LEGACY_TIERS.find((t) => t.key === key)!.min;
 
@@ -54,6 +61,7 @@ const HallOfFameTab = () => {
   const { numberFor, retiredInfo } = useJerseyNumbers();
   const officialOvr = useOfficialOvr();
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  const hofClasses = useHofClasses();
 
   const { hofPlayers, tierCounts } = useMemo(() => {
     if (!careerData) return { hofPlayers: [], tierCounts: { legendary: 0, elite: 0, great: 0, inductee: 0 } };
@@ -94,6 +102,25 @@ const HallOfFameTab = () => {
     );
   }
 
+  const replay = (player: Player) => {
+    const key = hofKey(player);
+    const cls = [...hofClasses].reverse().find((c) => c.keys.includes(key));
+    playCeremony({ entries: [{ key, variant: 'hof' }], classLabel: cls ? classLabelFor(cls.label) : 'Enshrinement' });
+  };
+
+  // Latest recorded class (players still in the Hall), else the inaugural class: the top legacies
+  const byKey = new Map(hofPlayers.map((p) => [hofKey(p), p]));
+  const latestClass = [...hofClasses].reverse().find((c) => c.keys.some((k) => byKey.has(k)));
+  const classPlayers = latestClass
+    ? latestClass.keys.map((k) => byKey.get(k)).filter((p): p is Player => !!p).sort((a, b) => b.careerLegacy - a.careerLegacy)
+    : hofPlayers.slice(0, INAUGURAL_CLASS_SIZE);
+  const classTitle = latestClass ? `Class of ${latestClass.label}` : 'Inaugural class';
+  const watchClass = () =>
+    playCeremony({
+      entries: classPlayers.map((p) => ({ key: hofKey(p), variant: 'hof' as const })),
+      classLabel: latestClass ? classLabelFor(latestClass.label) : 'Inaugural class',
+    });
+
   const legendaryPlayers = hofPlayers.filter(p => getLegacyTier(p.careerLegacy)?.key === 'legendary');
   const elitePlayers = hofPlayers.filter(p => getLegacyTier(p.careerLegacy)?.key === 'elite');
   const greatPlayers = hofPlayers.filter(p => getLegacyTier(p.careerLegacy)?.key === 'great');
@@ -107,11 +134,12 @@ const HallOfFameTab = () => {
     const retired = retiredInfo(player);
 
     return (
+      <div className={`flex h-full flex-col overflow-hidden rounded-xl border ${tier.borderColor} bg-card shadow-card hover-lift`}>
       <button
         type="button"
         onClick={() => setSelectedPlayer(player)}
         aria-label={`#${rank} ${player.name}, number ${number}${nflTeam ? `, ${nflTeam.fullName}` : ''}, ${tier.label.toLowerCase()} tier, ${Math.round(player.careerLegacy).toLocaleString()} legacy. Open details`}
-        className={`group relative flex w-full flex-col overflow-hidden rounded-xl border ${tier.borderColor} bg-card text-left shadow-card hover-lift`}
+        className="group relative flex w-full flex-1 flex-col text-left"
       >
         <ProPlayerBanner
           size="card"
@@ -161,6 +189,16 @@ const HallOfFameTab = () => {
           </dl>
         </div>
       </button>
+        <button
+          type="button"
+          onClick={() => replay(player)}
+          aria-label={`Replay ${player.name}'s induction ceremony`}
+          className="flex items-center justify-center gap-1.5 border-t border-line/60 bg-background/40 px-3 py-2 text-xs font-semibold text-gold transition-colors hover:bg-amber-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold"
+        >
+          <PlayCircle className="h-3.5 w-3.5" aria-hidden="true" />
+          Replay ceremony
+        </button>
+      </div>
     );
   };
 
@@ -254,6 +292,39 @@ const HallOfFameTab = () => {
           </div>
         </div>
       </div>
+
+      {classPlayers.length > 0 && (
+        <section aria-labelledby="hof-class-title" className="mb-8 rounded-xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-card to-card p-4 sm:p-5">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
+              <p className="font-pixel text-[10px] uppercase tracking-widest text-gold/90">
+                {latestClass ? 'Newest enshrinees' : `The first ${classPlayers.length} through the doors`}
+              </p>
+              <h2 id="hof-class-title" className="font-display text-3xl font-extrabold italic uppercase text-chalk">
+                {classTitle}
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {classPlayers.map((p) => p.name).join(' · ')}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={watchClass}
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-gradient-to-b from-amber-300 to-amber-500 px-4 py-2.5 font-bold text-night shadow-glow transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              <Clapperboard className="h-4 w-4" aria-hidden="true" />
+              {latestClass ? 'Watch the class ceremony' : 'Watch the inaugural class'}
+            </button>
+          </div>
+          <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
+            {classPlayers.map((p) => (
+              <li key={hofKey(p)}>
+                <ProPlayerBanner size="compact" name={p.name} position={p.position} team={p.team} number={numberFor(p)} hallOfFamer />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* Tier Sections */}
       <TierSection 

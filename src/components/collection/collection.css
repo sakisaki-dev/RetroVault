@@ -1,0 +1,497 @@
+/*
+ * Collectible player cards (CollectibleCard) and the daily pack (PackOpening).
+ * Rarity treatments: base matte, silver brushed, gold foil, hof holographic, legend black-gold.
+ * Pointer tilt sets --cc-rx / --cc-ry / --cc-mx / --cc-my inline (desktop, motion allowed only).
+ */
+
+@property --cc-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.cc {
+  --cc-rx: 0deg;
+  --cc-ry: 0deg;
+  --cc-mx: 50%;
+  --cc-my: 30%;
+  --cc-frame: hsl(var(--panel-2));
+  --cc-edge: hsl(var(--line));
+  --cc-ink: hsl(var(--muted-foreground));
+  --cc-foot-bg: hsl(228 47% 6% / 0.7);
+  --cc-glow: transparent;
+  position: relative;
+  perspective: 900px;
+  min-width: 0;
+  height: 100%;
+}
+
+.cc__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  border-radius: 14px;
+  background: var(--cc-frame);
+  box-shadow: inset 0 0 0 1px var(--cc-edge), 0 10px 26px -14px hsl(228 60% 2% / 0.9), 0 0 0 0 var(--cc-glow);
+  text-align: left;
+  color: inherit;
+  transform: rotateX(var(--cc-rx)) rotateY(var(--cc-ry));
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease, box-shadow 0.2s ease;
+}
+
+.cc[data-tilt='on'] .cc__card {
+  transition: transform 0.06s linear, box-shadow 0.2s ease;
+}
+
+button.cc__card {
+  cursor: pointer;
+}
+button.cc__card:hover,
+button.cc__card:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--cc-edge), 0 18px 36px -14px hsl(228 60% 2% / 0.95), 0 0 22px 0 var(--cc-glow);
+}
+.cc:not([data-tilt='on']) button.cc__card:hover,
+.cc:not([data-tilt='on']) button.cc__card:focus-visible {
+  transform: translateY(-3px);
+}
+button.cc__card:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 3px;
+}
+
+.cc__frame {
+  position: relative;
+  display: block;
+  border-radius: 10px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.cc__frame > .ppb {
+  --ppb-radius: 10px;
+}
+
+.cc__foot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-height: 26px;
+  margin-top: 5px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: var(--cc-foot-bg);
+  color: var(--cc-ink);
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.cc__rarity {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cc__setno {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  opacity: 0.75;
+}
+.cc__hint {
+  margin-left: auto;
+  min-width: 0;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: right;
+  color: hsl(var(--muted-foreground));
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.cc__badge {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: hsl(var(--turf));
+  color: hsl(var(--accent-foreground));
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Overlays above the banner (banner content tops out at z 20 inside its own stacking context) */
+.cc__foil,
+.cc__glare {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.cc__glare {
+  background: radial-gradient(circle at var(--cc-mx) var(--cc-my), hsl(0 0% 100% / 0.28), transparent 45%);
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.cc[data-tilt='on'] .cc__glare {
+  opacity: 1;
+}
+
+/* Long surnames ("Gronkowski") must clear the position chip at binder widths */
+.cc .ppb--card .ppb__last--long {
+  font-size: 1.15rem;
+}
+
+/* ---------- Base: matte ---------- */
+.cc--base {
+  --cc-frame: linear-gradient(180deg, hsl(225 30% 19%), hsl(226 36% 13%));
+  --cc-edge: hsl(226 30% 30%);
+}
+
+/* ---------- Silver: brushed metal ---------- */
+.cc--silver {
+  --cc-frame:
+    linear-gradient(115deg, hsl(0 0% 100% / 0) 30%, hsl(0 0% 100% / 0.45) 45%, hsl(0 0% 100% / 0) 60%),
+    repeating-linear-gradient(90deg, hsl(220 10% 74%) 0 1px, hsl(220 8% 62%) 1px 2px, hsl(220 12% 80%) 2px 3px),
+    linear-gradient(180deg, hsl(220 12% 82%), hsl(220 8% 55%));
+  --cc-edge: hsl(220 14% 88% / 0.9);
+  --cc-ink: hsl(222 30% 14%);
+  --cc-foot-bg: hsl(220 12% 88% / 0.85);
+  --cc-glow: hsl(220 20% 85% / 0.35);
+}
+.cc--silver .cc__foil {
+  background: linear-gradient(115deg, transparent 35%, hsl(0 0% 100% / 0.16) 48%, transparent 60%);
+  mix-blend-mode: screen;
+}
+
+/* ---------- Gold: foil gradient ---------- */
+.cc--gold {
+  --cc-frame: linear-gradient(135deg, #7d5a12 0%, #f6d46b 22%, #b5831f 40%, #fff0a8 55%, #a8761a 72%, #f2c94c 88%, #7d5a12 100%);
+  --cc-edge: hsl(45 100% 80% / 0.9);
+  --cc-ink: hsl(36 80% 12%);
+  --cc-foot-bg: hsl(46 95% 72% / 0.88);
+  --cc-glow: hsl(var(--gold) / 0.45);
+}
+.cc--gold .cc__foil {
+  background: linear-gradient(115deg, transparent 30%, hsl(48 100% 75% / 0.22) 45%, hsl(0 0% 100% / 0.28) 50%, transparent 62%);
+  background-size: 250% 100%;
+  mix-blend-mode: screen;
+  animation: cc-sweep-1 5.5s ease-in-out infinite;
+}
+
+/* ---------- Hall of Fame: holographic ---------- */
+.cc--hof {
+  --cc-frame: conic-gradient(from var(--cc-angle), #ff6ad5, #ffd36a, #6affb0, #6ad5ff, #b16aff, #ff6ad5);
+  --cc-edge: hsl(0 0% 100% / 0.75);
+  --cc-ink: hsl(var(--chalk));
+  --cc-foot-bg: hsl(240 40% 8% / 0.82);
+  --cc-glow: hsl(290 100% 75% / 0.45);
+}
+.cc--hof .cc__card {
+  animation: cc-spin 8s linear infinite;
+}
+.cc--hof .cc__foil {
+  background:
+    linear-gradient(115deg, transparent 20%, hsl(320 100% 70% / 0.5) 32%, hsl(50 100% 65% / 0.5) 42%, hsl(150 100% 60% / 0.5) 52%, hsl(200 100% 65% / 0.5) 62%, hsl(270 100% 70% / 0.5) 72%, transparent 84%);
+  background-size: 300% 300%;
+  background-position: var(--cc-mx) var(--cc-my);
+  mix-blend-mode: color-dodge;
+  opacity: 0.55;
+  animation: cc-holo 6s ease-in-out infinite;
+}
+.cc--hof[data-tilt='on'] .cc__foil {
+  animation: none;
+  opacity: 0.75;
+}
+
+/* ---------- Legend: black and gold ---------- */
+.cc--legend {
+  --cc-frame:
+    linear-gradient(#0a0a0c, #0a0a0c) padding-box,
+    linear-gradient(135deg, #8a6416, #f6d46b, #8a6416, #ffe9a0, #8a6416) border-box;
+  --cc-edge: hsl(45 90% 60% / 0.85);
+  --cc-ink: hsl(var(--gold));
+  --cc-foot-bg: #000;
+  --cc-glow: hsl(var(--gold) / 0.5);
+}
+.cc--legend .cc__card {
+  border: 2px solid transparent;
+}
+.cc--legend .cc__foil {
+  background:
+    radial-gradient(circle at 20% 15%, hsl(45 100% 80% / 0.35) 0 1px, transparent 2px),
+    radial-gradient(circle at 70% 40%, hsl(45 100% 80% / 0.3) 0 1px, transparent 2px),
+    radial-gradient(circle at 40% 75%, hsl(45 100% 80% / 0.3) 0 1px, transparent 2px),
+    linear-gradient(115deg, transparent 35%, hsl(45 100% 70% / 0.18) 50%, transparent 65%);
+  background-size: 60px 60px, 80px 80px, 70px 70px, 250% 100%;
+  mix-blend-mode: screen;
+  animation: cc-sweep 7s ease-in-out infinite;
+}
+.cc--legend.cc:not(.cc--locked) .ppb__field {
+  filter: saturate(0.85) contrast(1.05);
+}
+
+/* ---------- Locked ---------- */
+.cc--locked .cc__card {
+  filter: saturate(0.25) brightness(0.72);
+  animation: none;
+}
+.cc--locked .cc__foot {
+  background: hsl(228 47% 6% / 0.85);
+  color: hsl(var(--muted-foreground));
+}
+
+/* ---------- Mini (toasts) ---------- */
+.cc--mini .cc__card {
+  padding: 3px;
+  border-radius: 11px;
+}
+.cc--mini .cc__frame {
+  border-radius: 8px;
+}
+.cc--mini .cc__foot {
+  min-height: 20px;
+  margin-top: 3px;
+  padding: 2px 6px;
+  font-size: 8px;
+}
+
+@keyframes cc-spin {
+  to {
+    --cc-angle: 360deg;
+  }
+}
+@keyframes cc-sweep {
+  0%, 100% { background-position: 100% 0, 0 0, 0 0, 120% 0; }
+  50% { background-position: 0% 0, 0 0, 0 0, -20% 0; }
+}
+@keyframes cc-sweep-1 {
+  0%, 100% { background-position: 120% 0; }
+  50% { background-position: -20% 0; }
+}
+@keyframes cc-holo {
+  0%, 100% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+}
+
+/* ---------- Grid ---------- */
+.cc-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--cc-gap, 12px);
+}
+.cc-grid > * {
+  flex: 0 0 calc((100% - (var(--cc-cols, 2) - 1) * var(--cc-gap, 12px)) / var(--cc-cols, 2));
+  min-width: 0;
+}
+
+/* ---------- Daily pack ---------- */
+.pk-stage {
+  display: grid;
+  place-items: center;
+  min-height: 320px;
+  padding: 8px 0;
+}
+
+.pk-pack {
+  position: relative;
+  width: 200px;
+  height: 290px;
+  border-radius: 12px;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: hsl(var(--primary-foreground));
+  background:
+    linear-gradient(115deg, transparent 30%, hsl(0 0% 100% / 0.45) 45%, transparent 60%),
+    conic-gradient(from 200deg at 50% 40%, #ffd36a, #fff3c4, #e0a21e, #fff0a8, #b5831f, #ffd36a);
+  background-size: 250% 100%, 100% 100%;
+  box-shadow: 0 24px 50px -16px hsl(43 100% 40% / 0.6), inset 0 0 0 2px hsl(45 100% 85% / 0.8);
+  animation: pk-float 3.2s ease-in-out infinite, pk-shine 3.5s ease-in-out infinite;
+}
+.pk-pack:focus-visible {
+  outline: 3px solid hsl(var(--chalk));
+  outline-offset: 4px;
+}
+.pk-pack__crimp {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 18px;
+  background: repeating-linear-gradient(90deg, hsl(36 80% 30% / 0.35) 0 3px, transparent 3px 6px);
+}
+.pk-pack__crimp--top { top: 0; border-radius: 12px 12px 0 0; }
+.pk-pack__crimp--bottom { bottom: 0; border-radius: 0 0 12px 12px; }
+.pk-pack__label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  padding: 24px 16px;
+}
+.pk-pack__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 30px;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.pk-pack__sub {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pk-pack__tear {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40px;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, hsl(36 80% 25% / 0.7) 0 6px, transparent 6px 10px);
+}
+
+/* Tearing: the top strip flies off, the body drops away */
+.pk-pack--tearing {
+  animation: pk-drop 0.75s 0.35s cubic-bezier(0.55, 0, 0.75, 0.2) forwards;
+  cursor: default;
+}
+.pk-pack--tearing .pk-pack__strip {
+  animation: pk-strip 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+.pk-pack__strip {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 41px;
+  border-radius: 12px 12px 0 0;
+  background: inherit;
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 92% 100%, 84% 82%, 76% 100%, 68% 84%, 60% 100%, 52% 82%, 44% 100%, 36% 84%, 28% 100%, 20% 82%, 12% 100%, 4% 84%, 0 100%);
+  box-shadow: inset 0 0 0 2px hsl(45 100% 85% / 0.8);
+}
+
+.pk-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+@media (max-width: 640px) {
+  .pk-cards {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 300px;
+    margin: 0 auto;
+  }
+}
+
+.pk-flip {
+  perspective: 1000px;
+}
+.pk-flip__inner {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.3, 1);
+  transform: rotateY(180deg);
+}
+.pk-flip--open .pk-flip__inner {
+  transform: rotateY(0deg);
+}
+.pk-flip__face {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.pk-flip__back {
+  transform: rotateY(180deg);
+  border-radius: 14px;
+  background:
+    repeating-linear-gradient(45deg, hsl(43 100% 62% / 0.12) 0 8px, transparent 8px 16px),
+    linear-gradient(160deg, hsl(226 40% 16%), hsl(228 47% 8%));
+  box-shadow: inset 0 0 0 2px hsl(var(--gold) / 0.6);
+  display: grid;
+  place-items: center;
+  min-height: 100%;
+}
+.pk-flip__back span {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 28px;
+  color: hsl(var(--gold));
+  text-transform: uppercase;
+}
+.pk-flip--open .cc--silver .cc__card { animation: pk-glow-silver 1.2s ease-out 1; }
+.pk-flip--open .cc--gold .cc__card { animation: pk-glow-gold 1.4s ease-out 1; }
+.pk-flip--open .cc--legend .cc__card { animation: pk-glow-gold 1.6s ease-out 1; }
+.pk-flip--open .cc--hof .cc__card { animation: pk-glow-holo 1.6s ease-out 1, cc-spin 8s linear infinite; }
+
+@keyframes pk-float {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50% { transform: translateY(-8px) rotate(1.5deg); }
+}
+@keyframes pk-shine {
+  0%, 100% { background-position: 120% 0, 0 0; }
+  50% { background-position: -20% 0, 0 0; }
+}
+@keyframes pk-strip {
+  to { transform: translate(60px, -120px) rotate(24deg); opacity: 0; }
+}
+@keyframes pk-drop {
+  to { transform: translateY(160px) scale(0.9); opacity: 0; }
+}
+@keyframes pk-glow-silver {
+  0% { box-shadow: 0 0 0 0 hsl(220 20% 90% / 0.9); }
+  100% { box-shadow: 0 0 0 18px hsl(220 20% 90% / 0); }
+}
+@keyframes pk-glow-gold {
+  0% { box-shadow: 0 0 0 0 hsl(45 100% 65% / 0.95), 0 0 40px hsl(45 100% 60% / 0.8); }
+  100% { box-shadow: 0 0 0 22px hsl(45 100% 65% / 0), 0 0 40px hsl(45 100% 60% / 0); }
+}
+@keyframes pk-glow-holo {
+  0% { box-shadow: 0 0 0 0 hsl(300 100% 75% / 0.95), 0 0 50px hsl(190 100% 70% / 0.8); }
+  100% { box-shadow: 0 0 0 24px hsl(300 100% 75% / 0), 0 0 50px hsl(190 100% 70% / 0); }
+}
+
+/* ---------- Reduced motion: no shimmer, tilt, float or flips ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .cc__card,
+  .cc--hof .cc__card,
+  .cc__foil,
+  .pk-pack,
+  .pk-pack--tearing,
+  .pk-pack--tearing .pk-pack__strip,
+  .pk-flip--open .cc__card {
+    animation: none !important;
+  }
+  .cc__card {
+    transform: none !important;
+    transition: none;
+  }
+  .pk-flip__inner {
+    transition: none;
+  }
+}
+
+.cc__badge--muted {
+  background: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+}

@@ -1,0 +1,506 @@
+/*
+ * Induction ceremony: stadium-night staging. Everything decorative is pure CSS.
+ * `.cer--static` (skip / prefers-reduced-motion) shows the final frame with no motion.
+ */
+
+.cer {
+  --cer-gold: 43 100% 62%;
+  --cer-gold-deep: 36 90% 42%;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  color: hsl(var(--chalk));
+  background:
+    radial-gradient(70% 55% at 50% 38%, hsl(228 60% 14%) 0%, hsl(228 55% 7%) 55%, hsl(230 60% 3%) 100%);
+  overflow: hidden;
+  animation: cer-fade 0.45s ease-out both;
+}
+
+/* ---------- Sky, stands, field glow ---------- */
+
+.cer__sky {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, hsl(0 0% 100% / 0.7), transparent 60%),
+    radial-gradient(1px 1px at 28% 8%, hsl(0 0% 100% / 0.5), transparent 60%),
+    radial-gradient(1.5px 1.5px at 66% 14%, hsl(0 0% 100% / 0.6), transparent 60%),
+    radial-gradient(1px 1px at 82% 6%, hsl(0 0% 100% / 0.5), transparent 60%),
+    radial-gradient(1px 1px at 90% 22%, hsl(0 0% 100% / 0.4), transparent 60%),
+    radial-gradient(1px 1px at 45% 4%, hsl(0 0% 100% / 0.5), transparent 60%);
+}
+
+/* Crowd silhouettes / stands at the bottom, field glow beneath the stage */
+.cer__stands {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 32%;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 70% at 50% 100%, hsl(140 60% 30% / 0.35), transparent 70%),
+    repeating-radial-gradient(circle at 50% 160%, hsl(228 50% 9%) 0 10px, hsl(228 50% 6%) 10px 20px);
+  mask-image: linear-gradient(180deg, transparent, #000 45%);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 45%);
+  opacity: 0.85;
+}
+
+/* Light towers in the top corners */
+.cer__tower {
+  position: absolute;
+  top: 3%;
+  width: 92px;
+  height: 34px;
+  border-radius: 6px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, hsl(50 100% 96%) 0 30%, transparent 32%) 0 0 / 23px 17px,
+    hsl(228 30% 18%);
+  box-shadow: 0 0 40px 12px hsl(50 100% 85% / 0.35);
+}
+.cer__tower--l { left: 4%; transform: rotate(-8deg); }
+@media (max-width: 639px) {
+  .cer__tower { display: none; }
+}
+.cer__tower--r { right: 4%; transform: rotate(8deg); }
+
+/* Sweeping searchlight beams from the towers */
+.cer__beam {
+  position: absolute;
+  top: 6%;
+  width: 34vmax;
+  height: 140vmax;
+  pointer-events: none;
+  transform-origin: 50% 0;
+  background: conic-gradient(from 168deg at 50% 0%, transparent 0deg, hsl(50 100% 92% / 0.2) 8deg, hsl(50 100% 92% / 0.32) 12deg, hsl(50 100% 92% / 0.2) 16deg, transparent 24deg);
+  mix-blend-mode: screen;
+  filter: blur(2px);
+}
+.cer__beam--l { left: calc(4% + 46px - 17vmax); animation: cer-sweep-l 2.6s cubic-bezier(.45,.05,.3,1) both, cer-sway-l 9s 2.6s ease-in-out infinite alternate; }
+.cer__beam--r { right: calc(4% + 46px - 17vmax); animation: cer-sweep-r 2.6s cubic-bezier(.45,.05,.3,1) both, cer-sway-r 9s 2.6s ease-in-out infinite alternate; }
+
+/* Center spotlight on the stage */
+.cer__spot {
+  position: absolute;
+  left: 50%;
+  top: -10%;
+  width: min(1100px, 140vw);
+  height: 120%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: radial-gradient(40% 55% at 50% 55%, hsl(var(--cer-gold) / 0.16), transparent 70%);
+  animation: cer-spot 1.6s 0.6s ease-out both;
+}
+
+/* ---------- Particles ---------- */
+
+.cer__particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.cer__confetti {
+  position: absolute;
+  top: -4%;
+  width: 7px;
+  height: 12px;
+  border-radius: 1px;
+  opacity: 0;
+  animation: cer-fall var(--dur, 5s) var(--delay, 1.2s) linear both;
+}
+.cer__dust {
+  position: absolute;
+  bottom: -2%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: hsl(var(--cer-gold));
+  box-shadow: 0 0 6px 2px hsl(var(--cer-gold) / 0.6);
+  opacity: 0;
+  animation: cer-rise var(--dur, 8s) var(--delay, 2s) ease-in infinite;
+}
+
+/* ---------- Layout ---------- */
+
+.cer__scroll {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 3.25rem 1rem 1.5rem;
+}
+@media (min-width: 768px) {
+  .cer__scroll { padding: 2.5rem 2rem 2rem; }
+}
+
+.cer__inner {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.cer__head { text-align: center; }
+
+.cer__kicker {
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(var(--cer-gold) / 0.9);
+  animation: cer-drop 0.6s 0.15s ease-out both;
+}
+
+.cer__class {
+  margin-top: 0.35rem;
+  font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  font-size: clamp(2.6rem, 9vw, 5.5rem);
+  background: linear-gradient(180deg, hsl(48 100% 86%) 0%, hsl(var(--cer-gold)) 45%, hsl(var(--cer-gold-deep)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 0 hsl(228 60% 3%)) drop-shadow(0 0 22px hsl(var(--cer-gold) / 0.35));
+  animation: cer-title 0.9s 0.3s cubic-bezier(.2,.9,.25,1.2) both;
+}
+
+/* Gold curtain banner dropping from the rafters */
+.cer__curtain {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+  padding: 0.55rem 1.4rem 0.75rem;
+  color: hsl(228 60% 8%);
+  font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: clamp(0.95rem, 2.6vw, 1.2rem);
+  background:
+    repeating-linear-gradient(90deg, hsl(0 0% 100% / 0.12) 0 2px, transparent 2px 14px),
+    linear-gradient(180deg, hsl(48 100% 78%), hsl(var(--cer-gold)) 55%, hsl(var(--cer-gold-deep)));
+  clip-path: polygon(0 0, 100% 0, 100% 78%, calc(100% - 14px) 100%, 14px 100%, 0 78%);
+  box-shadow: 0 12px 30px -10px hsl(var(--cer-gold) / 0.6);
+  transform-origin: 50% 0;
+  animation: cer-unroll 0.75s 0.6s cubic-bezier(.3,1.3,.5,1) both;
+}
+.cer__curtain-sub {
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  background: hsl(228 60% 8% / 0.85);
+  color: hsl(var(--cer-gold));
+}
+
+.cer__stage {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.75rem;
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  .cer__stage { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 2rem; margin-top: 2.25rem; }
+}
+
+/* Hero banner rising out of the stage */
+.cer__rise {
+  position: relative;
+  animation: cer-rise-in 1s 1.05s cubic-bezier(.2,.9,.3,1) both;
+}
+.cer__rise::after {
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -18px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, hsl(var(--cer-gold) / 0.55), transparent);
+  filter: blur(4px);
+  z-index: -1;
+}
+
+.cer__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  animation: cer-drop 0.6s 1.75s ease-out both;
+}
+@media (min-width: 640px) {
+  .cer__stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.cer__stat {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  padding: 0.6rem 0.4rem;
+  border-radius: 0.6rem;
+  border: 1px solid hsl(var(--cer-gold) / 0.28);
+  background: linear-gradient(180deg, hsl(228 45% 12% / 0.9), hsl(228 50% 8% / 0.9));
+  text-align: center;
+}
+.cer__stat dt {
+  margin-top: 0.15rem;
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+.cer__stat dd {
+  font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  font-weight: 800;
+  font-size: 1.65rem;
+  line-height: 1;
+  color: hsl(var(--chalk));
+}
+.cer__stat--gold dd { color: hsl(var(--cer-gold)); }
+
+.cer__awards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+}
+.cer__award {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border: 1px solid hsl(var(--cer-gold) / 0.45);
+  background: hsl(var(--cer-gold) / 0.12);
+  color: hsl(48 100% 80%);
+  animation: cer-pop 0.45s calc(2.15s + var(--i, 0) * 0.12s) cubic-bezier(.3,1.5,.5,1) both;
+}
+.cer__award b { font-family: 'JetBrains Mono', monospace; color: hsl(var(--chalk)); }
+
+/* Retired number banner (Ring of Honor) */
+.cer__rafter {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+.cer__retired {
+  --rb-primary: 226 33% 24%;
+  --rb-secondary: 43 100% 62%;
+  position: relative;
+  width: 9.5rem;
+  padding: 1.1rem 0.75rem 2.4rem;
+  text-align: center;
+  color: hsl(var(--rb-fg, 0 0% 100%));
+  background:
+    repeating-linear-gradient(90deg, hsl(0 0% 100% / 0.05) 0 1px, transparent 1px 9px),
+    linear-gradient(180deg, hsl(var(--rb-primary)), hsl(var(--rb-primary) / 0.85));
+  border-top: 6px solid hsl(var(--rb-secondary));
+  box-shadow: inset 0 0 0 2px hsl(var(--rb-secondary) / 0.65), 0 18px 40px -16px hsl(0 0% 0% / 0.8);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 88%, 0 100%);
+  transform-origin: 50% 0;
+  animation: cer-unfurl 1.1s 2.35s cubic-bezier(.25,1.2,.45,1) both;
+}
+.cer__retired-num {
+  display: block;
+  font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  font-weight: 800;
+  font-size: 4.6rem;
+  line-height: 0.9;
+  -webkit-text-stroke: 2px hsl(var(--rb-secondary));
+}
+.cer__retired-name {
+  display: block;
+  margin-top: 0.45rem;
+  font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 1rem;
+  line-height: 1.05;
+}
+.cer__retired-team {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+/* Speech card */
+.cer__speech {
+  position: relative;
+  margin: 0;
+  padding: 1.25rem 1.25rem 1.1rem;
+  border-radius: 0.9rem;
+  border: 1px solid hsl(var(--cer-gold) / 0.3);
+  background:
+    radial-gradient(120% 80% at 0% 0%, hsl(var(--cer-gold) / 0.09), transparent 60%),
+    hsl(228 50% 7% / 0.88);
+  box-shadow: 0 20px 50px -24px hsl(0 0% 0% / 0.9);
+  animation: cer-drop 0.6s 2.55s ease-out both;
+}
+@media (min-width: 640px) {
+  .cer__speech { padding: 1.6rem 1.75rem 1.4rem; }
+}
+.cer__speech-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+.cer__speech-label {
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: hsl(var(--cer-gold));
+}
+.cer__speech-src {
+  font-size: 0.68rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--line));
+  color: hsl(var(--muted-foreground));
+}
+.cer__speech blockquote { margin: 0; }
+.cer__speech p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: hsl(var(--chalk) / 0.92);
+  animation: cer-line 0.7s calc(2.9s + var(--i, 0) * 0.55s) ease-out both;
+}
+.cer__speech p + p { margin-top: 0.75rem; }
+.cer__speech p:first-child {
+  font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1.35;
+  color: hsl(48 100% 82%);
+}
+@media (min-width: 640px) {
+  .cer__speech p { font-size: 1.06rem; }
+  .cer__speech p:first-child { font-size: 1.45rem; }
+}
+
+/* ---------- Controls ---------- */
+
+.cer__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 3;
+}
+
+.cer__controls {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+  border-top: 1px solid hsl(var(--cer-gold) / 0.2);
+  background: hsl(230 60% 4% / 0.88);
+  backdrop-filter: blur(8px);
+}
+.cer__dots { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center; min-width: 0; }
+.cer__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: hsl(var(--line));
+  transition: width 0.2s, background 0.2s;
+}
+.cer__dot--on { width: 1.4rem; background: hsl(var(--cer-gold)); }
+.cer__dot--done { background: hsl(var(--cer-gold) / 0.45); }
+
+.cer__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  border-radius: 0.55rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  border: 1px solid hsl(var(--line));
+  color: hsl(var(--chalk));
+  background: hsl(228 45% 11%);
+  transition: background 0.15s, border-color 0.15s;
+}
+.cer__btn:hover { background: hsl(228 40% 16%); border-color: hsl(var(--cer-gold) / 0.5); }
+.cer__btn:focus-visible { outline: 2px solid hsl(var(--cer-gold)); outline-offset: 2px; }
+.cer__btn--primary {
+  color: hsl(228 60% 8%);
+  border-color: transparent;
+  background: linear-gradient(180deg, hsl(48 100% 75%), hsl(var(--cer-gold)) 60%, hsl(var(--cer-gold-deep)));
+}
+.cer__btn--primary:hover { background: linear-gradient(180deg, hsl(48 100% 82%), hsl(var(--cer-gold))); }
+.cer__btn--icon { width: 2.5rem; padding: 0; justify-content: center; }
+
+/* ---------- Static (skip / reduced motion) ---------- */
+
+.cer--static,
+.cer--static *,
+.cer--static *::before,
+.cer--static *::after {
+  animation: none !important;
+}
+.cer--static .cer__confetti,
+.cer--static .cer__dust { display: none; }
+.cer--static .cer__beam--l { transform: rotate(-24deg); }
+.cer--static .cer__beam--r { transform: rotate(24deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cer,
+  .cer *,
+  .cer *::before,
+  .cer *::after { animation: none !important; }
+  .cer__confetti,
+  .cer__dust { display: none; }
+  .cer__beam--l { transform: rotate(-24deg); }
+  .cer__beam--r { transform: rotate(24deg); }
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes cer-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cer-sweep-l { from { transform: rotate(-75deg); opacity: 0; } 30% { opacity: 1; } to { transform: rotate(-24deg); } }
+@keyframes cer-sweep-r { from { transform: rotate(75deg); opacity: 0; } 30% { opacity: 1; } to { transform: rotate(24deg); } }
+@keyframes cer-sway-l { from { transform: rotate(-24deg); } to { transform: rotate(-10deg); } }
+@keyframes cer-sway-r { from { transform: rotate(24deg); } to { transform: rotate(10deg); } }
+@keyframes cer-spot { from { opacity: 0; transform: translateX(-50%) scale(0.6); } to { opacity: 1; transform: translateX(-50%) scale(1); } }
+@keyframes cer-drop { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+@keyframes cer-title { from { opacity: 0; transform: scale(1.35); letter-spacing: 0.2em; } to { opacity: 1; transform: none; } }
+@keyframes cer-unroll { from { transform: scaleY(0); opacity: 0; } 20% { opacity: 1; } to { transform: scaleY(1); } }
+@keyframes cer-rise-in { from { opacity: 0; transform: translateY(70px) scale(0.94); filter: brightness(2) saturate(0.4); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes cer-pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+@keyframes cer-unfurl { from { transform: scaleY(0.04); opacity: 0.4; } 60% { transform: scaleY(1.04); opacity: 1; } to { transform: scaleY(1); } }
+@keyframes cer-line { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes cer-fall {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0deg); }
+  8% { opacity: 1; }
+  100% { opacity: 0.9; transform: translate3d(var(--drift, 30px), 108vh, 0) rotate(var(--spin, 540deg)); }
+}
+@keyframes cer-rise {
+  0% { opacity: 0; transform: translateY(0); }
+  15% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateY(-70vh) translateX(var(--drift, 20px)); }
+}

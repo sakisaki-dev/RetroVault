@@ -5,18 +5,21 @@ import type { Player } from '@/types/player';
 import FileUpload from '../FileUpload';
 import PlayerDetailCard from '../PlayerDetailCard';
 import CountUp from '../brand/CountUp';
-import RecordBook from '../stats/RecordBook';
+import RecordBook, { RecordStrip } from '../stats/RecordBook';
+import AnalyticsLab from '../stats/analytics/AnalyticsLab';
 import PositionLeaders from '../stats/PositionLeaders';
 import StatTables from '../stats/StatTables';
 import { HEADLINE_IDS, LEADER_IDS, buildRecordBook, pickBoards } from '../stats/records';
 
 const JUMPS = [
-  { href: '#record-book', label: 'Record Book' },
+  { href: '#record-book', label: 'Records' },
+  { href: '#analytics', label: 'Analytics Lab' },
+  { href: '#efficiency', label: 'Efficiency' },
   { href: '#leaders', label: 'Leaders' },
   { href: '#tables', label: 'Full Tables' },
 ];
 
-/** Stats hub: the record book and position leaders up front, raw career tables underneath. */
+/** Stats hub: a compact record strip, then the Analytics Lab, then leaders and the raw career tables. */
 const CareerTab = () => {
   const { careerData, loadCareerData, isLoading } = useLeague();
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
@@ -34,7 +37,7 @@ const CareerTab = () => {
             Welcome to Retro <span className="text-gold">Vault</span>
           </h1>
           <p className="text-lg text-muted-foreground">
-            Upload your league CSV file to unlock the record book, position leaders and every career stat line.
+            Upload your league CSV file to unlock the record book, advanced analytics, position leaders and every career stat line.
           </p>
         </div>
         <div className="mx-auto max-w-md">
@@ -78,9 +81,11 @@ const CareerTab = () => {
         </div>
       </header>
 
-      {headline.length > 0 && (
-        <RecordBook headline={headline} leaders={leaders} pace={book.pace} onSelect={setSelectedPlayer} />
-      )}
+      {headline.length > 0 && <RecordStrip headline={headline} onSelect={setSelectedPlayer} />}
+
+      <AnalyticsLab data={careerData} onSelect={setSelectedPlayer} />
+
+      <RecordBook leaders={leaders} pace={book.pace} onSelect={setSelectedPlayer} />
 
       <PositionLeaders boards={book.boards} onSelect={setSelectedPlayer} />
 

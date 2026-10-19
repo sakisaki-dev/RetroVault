@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState, type ReactNode } from 'react';
+import { unlockCard } from '@/utils/collection';
 import PlayerSearchSelect from '@/components/PlayerSearchSelect';
 import type { Player } from '@/types/player';
 import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
@@ -20,6 +21,8 @@ import {
 } from './gameUtils';
 
 const MAX_GUESSES = 6;
+/** Points for solving on guess n (1-based): 5, 4, 3, 2, 1, then 0 when every clue was needed. */
+const pointsFor = (guessNumber: number) => Math.max(0, MAX_GUESSES - guessNumber);
 
 interface Clue {
   title: string;
@@ -161,6 +164,7 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
   const [selection, setSelection] = useState('');
   const [streak, setStreak] = useState(() => loadGameStat('legend:streak'));
   const [best, setBest] = useState(() => loadGameStat(STAT_KEYS.legendBest));
+  const [score, setScore] = useState(() => loadGameStat('legend:score'));
   const [misses, setMisses] = useState(0);
   const [confetti, setConfetti] = useState<number | false>(false);
 
@@ -181,9 +185,18 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
 
       const won = key === playerKey(answer);
       if (won) setConfetti(Date.now());
+      if (won) unlockCard(answer, 'Guess the Legend');
       else setMisses((m) => m + 1);
       if (won || next.length >= MAX_GUESSES) {
-        const newStreak = won ? streak + 1 : 0;
+        const points = won ? pointsFor(next.length) : 0;
+        if (points > 0) {
+          setScore((s) => {
+            saveGameStat('legend:score', s + points);
+            return s + points;
+          });
+        }
+        // Needing every clue scores nothing and ends the streak, same as a miss.
+        const newStreak = points > 0 ? streak + 1 : 0;
         setStreak(newStreak);
         saveGameStat('legend:streak', newStreak);
         if (newStreak > best) {
@@ -237,6 +250,8 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
         <div className="panel flex flex-col gap-3">
           <LampRow>
             <Lamp label={finished ? 'Final' : `Guess ${Math.min(guesses.length + 1, MAX_GUESSES)} of ${MAX_GUESSES}`} live flicker={!finished} />
+            {!finished && <Lamp label="Worth" value={`${pointsFor(guesses.length + 1)} pts`} />}
+            <Lamp label="Score" value={score} />
             <Lamp label="Streak" value={streak} />
             <Lamp label="Best" value={best} />
           </LampRow>
@@ -250,7 +265,11 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
             </>
           ) : (
             <div className={cn('verdict-pill', solved ? 'good' : 'bad')} role="status">
-              {solved ? `Got it in ${guesses.length}! It's ${answer.name}` : `Out of guesses. It was ${answer.name}`}
+              {solved
+                ? pointsFor(guesses.length) > 0
+                  ? `Got it in ${guesses.length}! +${pointsFor(guesses.length)} pts · It's ${answer.name}`
+                  : `It's ${answer.name}, but every clue was needed: 0 pts`
+                : `Out of guesses. It was ${answer.name}`}
             </div>
           )}
 

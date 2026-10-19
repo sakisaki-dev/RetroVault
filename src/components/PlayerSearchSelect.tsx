@@ -27,7 +27,7 @@ const fold = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u
 
 /** Word-based match instead of cmdk's fuzzy scoring (which matched "Ian F" to anyone on SF).
  * Every typed word must start a word of the entry; name prefixes rank highest. */
-const matchPlayer = (value: string, search: string, keywords?: string[]) => {
+export const matchPlayer = (value: string, search: string, keywords?: string[]) => {
   const q = fold(search).trim();
   if (!q) return 1;
   const name = fold(keywords?.[0] ?? value);

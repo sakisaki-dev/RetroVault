@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { unlockCard } from '@/utils/collection';
 import { StatBlock } from './ArcadeParts';
 import GameBanner, { BoardCard } from './GameBanner';
 import { ArcadeButton, ChipGroup, Confetti, CountUp, Dots, Lamp, LampRow, ResultPanel } from './ArcadeUI';
@@ -69,6 +70,7 @@ const KeepCut = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map<strin
     const truth = [...round.players].sort((a, b) => key(b) - key(a));
     const score = round.players.filter((p, i) => choice[i] === 'keep' && truth.indexOf(p) < KEEP).length;
     setRound({ ...round, choice, idx: SIZE - 1, done: true });
+    unlockCard(round.players.filter((p, i) => choice[i] === 'keep' && truth.indexOf(p) < KEEP), 'Keep 3 / Cut 3');
     const next = { correct: totals.correct + score, rounds: totals.rounds + 1 };
     setTotals(next);
     saveGameStat(STAT_KEYS.kcCorrect, next.correct);

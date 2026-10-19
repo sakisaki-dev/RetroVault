@@ -17,8 +17,11 @@
  *   "snubs":      [{ id, title?, summary (markdown), players[] }],
  *   "outsiders":  [{ player, position?, team?, summary }],
  *   "openQuestions": [string],
- *   "playerNotes":   [{ name, team?, position?, nickname?, era?, tag? }]
+ *   "playerNotes":   [{ name, team?, position?, nickname?, era?, tag? }],
+ *   "speeches":      { "<player name>": "Hall of Fame induction speech (plain text; blank line = new paragraph)" }
  * }
+ * `speeches` is optional; when a player has one, the induction ceremony uses it instead of the
+ * speech generated from their career data (see src/components/ceremony/speech.ts).
  * Eras/superBowls also accept the raw snake_case shape from data/y80
  * (years: "Y1–15", your_teams, key_players, your_result, your_team).
  */
@@ -130,6 +133,8 @@ export interface LeagueContent {
   outsiders: Outsider[];
   openQuestions: string[];
   playerNotes: PlayerNote[];
+  /** Optional induction speeches keyed by player name (AI-written offline, uploaded with content.json) */
+  speeches?: Record<string, string>;
 }
 
 export type ContentSource = 'uploaded' | 'bundled' | 'none';
@@ -254,6 +259,16 @@ const normSnub = (r: Raw, i: number): Snub | null => {
   return { id: str(r.id) ?? `snub-${i}`, title: str(r.title), summary, players: strArr(r.players) };
 };
 
+const speechMap = (v: unknown): Record<string, string> | undefined => {
+  if (!isObj(v)) return undefined;
+  const out: Record<string, string> = {};
+  Object.entries(v).forEach(([name, text]) => {
+    const t = str(text);
+    if (name.trim() && t) out[name.trim()] = t;
+  });
+  return Object.keys(out).length ? out : undefined;
+};
+
 const compact = <T,>(items: (T | null)[]): T[] => items.filter((x): x is T => x !== null);
 
 /** Normalize anything JSON-ish into LeagueContent. Throws only if it's unusable. */
@@ -286,6 +301,8 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
       }),
     ),
   };
+  const speeches = speechMap(input.speeches);
+  if (speeches) content.speeches = speeches;
   const hasAnything =
     content.eras.length || content.superBowls.length || content.storylines.length || content.rivalries.length ||
     content.lineages.length || content.snubs.length;

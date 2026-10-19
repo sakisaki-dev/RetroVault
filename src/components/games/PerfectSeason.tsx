@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { unlockCard } from '@/utils/collection';
 import { cn } from '@/lib/utils';
 import type { Position } from '@/types/player';
 import { NFL_TEAMS } from '@/utils/nflTeams';
@@ -141,7 +142,9 @@ interface Season {
  * random); harder levels deal from a narrow OVR band so no card is an obvious pick. */
 const makeOptions = (pool: GamePlayer[], ovrMap: Map<string, number>, level: Difficulty): DraftOption[] => {
   const cfg = DIFFICULTY[level];
-  const pl = shuffle(pool);
+  // Per-game scouting needs games played; players without a games count would show an empty case.
+  const scoutable = cfg.rates ? pool.filter((p) => (p.games ?? 0) > 0) : pool;
+  const pl = shuffle(scoutable.length >= 3 ? scoutable : pool);
   const rating = (p: GamePlayer) => ovrMap.get(playerKey(p)) ?? 62;
   let opts: GamePlayer[];
   if (cfg.band == null) {
@@ -441,6 +444,7 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
   }, [phase, flipped, season, draft.picks.length]);
 
   const startReveal = () => {
+    if (season && season.w > season.l) unlockCard(season.l === 0 ? draft.picks.map((x) => x.p) : [...draft.picks].sort((a, b) => b.ovr - a.ovr).slice(0, 3).map((x) => x.p), season.l === 0 ? '18–0 perfect season' : 'Winning season');
     setFlipped(reducedMotion() ? draft.picks.length : 0);
     setPhase('reveal');
     toTop();
