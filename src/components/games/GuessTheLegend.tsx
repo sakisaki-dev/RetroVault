@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useMemo, useRef, useState, type ReactNode } from 'react';
 import { awardPack } from '@/utils/collection';
 import PlayerSearchSelect from '@/components/PlayerSearchSelect';
 import type { Player } from '@/types/player';
@@ -152,6 +152,31 @@ const teamTile = (guess: NFLTeam | null | undefined, answer: NFLTeam | null | un
   return 'miss';
 };
 
+/**
+ * Balanced dealer: positions come from a shuffled bag (every position once per cycle, never the same
+ * position twice in a row), and recently seen players are skipped. Pure randomness made long RB/QB runs.
+ */
+const makeDealer = (pool: Player[]) => {
+  const positions = [...new Set(pool.map((p) => p.position))];
+  let bag: string[] = [];
+  let lastPos: string | null = null;
+  const recent: string[] = [];
+  return (): Player => {
+    if (!bag.length) {
+      bag = [...positions].sort(() => Math.random() - 0.5);
+      if (bag.length > 1 && bag[0] === lastPos) bag.push(bag.shift()!);
+    }
+    const pos = bag.shift()!;
+    lastPos = pos;
+    const atPos = pool.filter((p) => p.position === pos);
+    const fresh = atPos.filter((p) => !recent.includes(playerKey(p)));
+    const pick = randomItem(fresh.length ? fresh : atPos.length ? atPos : pool);
+    recent.push(playerKey(pick));
+    if (recent.length > 24) recent.shift();
+    return pick;
+  };
+};
+
 const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string, number> }) => {
   // Prefer established players so puzzles are fair; fall back to everyone in small leagues.
   const pool = useMemo(() => {
@@ -159,7 +184,12 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
     return established.length >= 5 ? established : players;
   }, [players]);
 
-  const [answer, setAnswer] = useState<Player>(() => randomItem(pool));
+  const dealer = useRef<{ pool: Player[]; next: () => Player } | null>(null);
+  const deal = () => {
+    if (!dealer.current || dealer.current.pool !== pool) dealer.current = { pool, next: makeDealer(pool) };
+    return dealer.current.next();
+  };
+  const [answer, setAnswer] = useState<Player>(() => deal());
   const [guesses, setGuesses] = useState<Player[]>([]);
   const [selection, setSelection] = useState('');
   const [streak, setStreak] = useState(() => loadGameStat('legend:streak'));
@@ -210,8 +240,7 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
   );
 
   const newPuzzle = () => {
-    const candidates = pool.filter((p) => playerKey(p) !== playerKey(answer));
-    setAnswer(randomItem(candidates.length ? candidates : pool));
+    setAnswer(deal());
     setGuesses([]);
     setSelection('');
   };
