@@ -81,13 +81,13 @@ Mason Earl III walked into the league as a receiver. God Johnson walked out as t
 36,005 receiving yards. 378 receiving touchdowns. Ten rings with the Vikings dynasty and five Super Bowl MVPs, because when the lights were brightest the ball found him. And three fumbles. In his entire career. Ian Finney's career receiving mark stood for decades until God took it, with Jackson Wardell Kline lined up beside him.
 
 There is not much left to say about a man who named himself after the only being with a better résumé. God Johnson, welcome to the Hall of Fame.""",
-    "Levante Hopkins": """Looks like he should be grading your homework. Plays like he wants to end your career.
+    "Levante Hopkins": """The quiet one who did the dirty work.
 
-Levante Hopkins showed up with the glasses-and-calculator energy of the smartest kid in class, and then the ball was snapped and something else entirely came out of that helmet. Linebackers learned fast that the nerdy one was the one who would run them over.
+Levante Hopkins never looked the part. Glasses off the field, soft-spoken in the locker room, the guy you would mistake for a team analyst. Then he put the helmet on, and nobody in the league wanted to be the one assigned to him.
 
-291 games, 12,353 receiving yards, 174 touchdowns and nine rings, two of them with the Super Bowl MVP. He was the tight end at the heart of the Titans' three-peat from Y70 to Y72: the safety valve, the blocker and the red-zone problem nobody solved.
+He played 291 games and caught 1,194 passes for 12,353 yards and 174 touchdowns. He won nine rings and was Super Bowl MVP twice. He was the tight end at the center of the Titans' three-peat from Y70 to Y72: blocking on first down, finding the soft spot on third, and finishing in the red zone.
 
-Quiet off the field, a demon on it. Levante Hopkins, welcome to the Hall of Fame.""",
+He never asked for the ball. He just made it hard to lose with him on the field. Levante Hopkins, welcome to the Hall of Fame.""",
     "Ian Finney": """The first superstar. The Infinity Man.
 
 Before the dynasties had names, there was Ian Finney. He was the first player in this league who made you stop what you were doing to watch, the receiver every kid in the backyard pretended to be.

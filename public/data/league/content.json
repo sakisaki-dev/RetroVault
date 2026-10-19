@@ -987,8 +987,8 @@
    "category": "Era Report",
    "era": "Real-roster era",
    "players": [
-    "Lamar Jackson",
     "Taywan Tuttle",
+    "Lamar Jackson",
     "Mason Taylor",
     "Akiem Bouye",
     "Drake Maye"
@@ -1036,8 +1036,8 @@
     "Derrick Myrick",
     "Dennis Baylon",
     "Reuben Kilian",
-    "Cairo Asanjh",
     "Charlie John",
+    "Cairo Asanjh",
     "Tyrone Baugh",
     "Rob Lowe",
     "Ian Finney"
@@ -1098,8 +1098,8 @@
    "category": "Era Report",
    "era": "Modern era",
    "players": [
-    "Malakai Sawyer",
-    "Jason Macleone"
+    "Jason Macleone",
+    "Malakai Sawyer"
    ],
    "summary": "Titans three-peat (Y70–72), then a Super Bowl loss to those Titans as the Seahawks (Y74), and the Jets title (Y77)."
   },
@@ -1130,8 +1130,8 @@
     "God Johnson",
     "Sherman Brandson",
     "Jason Macleone",
-    "Avonte Gooden",
     "Dennis Baylon",
+    "Avonte Gooden",
     "Cairo Asanjh",
     "Kyric McQuay",
     "Ray Waller",
@@ -1147,8 +1147,8 @@
    "tier": "controversy",
    "category": "Snub Watch",
    "players": [
-    "Brennan Higgins",
     "Rondale Ikarras",
+    "Brennan Higgins",
     "Derrick Myrick",
     "Lukas Russell",
     "Cairo Asanjh",
@@ -1169,9 +1169,9 @@
     "Marcel Mathieu",
     "Shaikal Beebee",
     "Amani Bryant",
-    "Mose Junior",
     "Cooper Dean",
     "Jayon Queen",
+    "Mose Junior",
     "Nico Curl"
    ]
   },
@@ -1183,23 +1183,23 @@
    "tier": "controversy",
    "category": "Analytics",
    "players": [
-    "Damone Omameh",
     "Taywan Tuttle",
+    "Damone Omameh",
     "Wayne Wilson",
     "Deante Elder",
     "Cooper Dean",
     "Rob Lowe",
     "Rondale Ikarras",
-    "Marcel Mathieu",
     "Jawill Perkins",
-    "Aubrey Jewell",
+    "Marcel Mathieu",
     "Dennis Baylon",
     "Rysen Benkert",
+    "Aubrey Jewell",
     "Kyric McQuay",
     "Amani Bryant",
     "Ray Waller",
-    "Tom Brady",
-    "Wes Sione"
+    "Wes Sione",
+    "Tom Brady"
    ],
    "summary": "How they work: Dominance = 0.7 × True Talent + award points (ring 60, MVP 50, OPOY 30, SB MVP 40, DPOY 120, ROTY 0)."
   },
@@ -1218,13 +1218,13 @@
     "Rondale Ikarras",
     "Malakai Sawyer",
     "Dennis Baylon",
+    "Jahmyr Gibbs",
     "Cairo Asanjh",
+    "Kyric McQuay",
     "Tyrone Baugh",
     "Denzel Hayes",
-    "Kyric McQuay",
     "Amani Bryant",
     "Zander Kolar",
-    "Jahmyr Gibbs",
     "Kitt Inman",
     "Ray Waller",
     "Ian Finney"
@@ -1301,8 +1301,8 @@
    "title": "Ikarras",
    "summary": "**Ikarras:** 4 OPOY, 5 SB MVP, every rushing record, 0 MVPs. Receivers Finney, Russell, Higgins and Asanjh (3) all won MVP.",
    "players": [
-    "Brennan Higgins",
     "Rondale Ikarras",
+    "Brennan Higgins",
     "Lukas Russell",
     "Cairo Asanjh",
     "Ian Finney"
@@ -2026,7 +2026,7 @@
  "speeches": {
   "Sherman Brandson": "The General never flinched.\n\nSix-foot-seven, built like a tank, and calm enough to put a defense to sleep before he broke its heart. Sherman Brandson stood in the pocket like it belonged to him, and for twenty seasons it did. Pass rushers came in waves and bounced off. Fifty sacks in 315 games. Most quarterbacks give that up in a few bad years.\n\nThe numbers read like a typo: 91,463 passing yards, 1,150 touchdown passes, eight MVPs and ten rings, four of them with the Super Bowl MVP trophy in his hands. He looked more like a linebacker than a quarterback, and he played like a man who knew exactly how the next five plays would go.\n\nHe did not celebrate much. He did not need to. General Sherman, welcome to the Hall of Fame.",
   "God Johnson": "He changed his name to God. Then he earned it.\n\nMason Earl III walked into the league as a receiver. God Johnson walked out as the standard every receiver gets measured against. Some people thought the name was a joke. Defensive coordinators never laughed.\n\n36,005 receiving yards. 378 receiving touchdowns. Ten rings with the Vikings dynasty and five Super Bowl MVPs, because when the lights were brightest the ball found him. And three fumbles. In his entire career. Ian Finney's career receiving mark stood for decades until God took it, with Jackson Wardell Kline lined up beside him.\n\nThere is not much left to say about a man who named himself after the only being with a better résumé. God Johnson, welcome to the Hall of Fame.",
-  "Levante Hopkins": "Looks like he should be grading your homework. Plays like he wants to end your career.\n\nLevante Hopkins showed up with the glasses-and-calculator energy of the smartest kid in class, and then the ball was snapped and something else entirely came out of that helmet. Linebackers learned fast that the nerdy one was the one who would run them over.\n\n291 games, 12,353 receiving yards, 174 touchdowns and nine rings, two of them with the Super Bowl MVP. He was the tight end at the heart of the Titans' three-peat from Y70 to Y72: the safety valve, the blocker and the red-zone problem nobody solved.\n\nQuiet off the field, a demon on it. Levante Hopkins, welcome to the Hall of Fame.",
+  "Levante Hopkins": "The quiet one who did the dirty work.\n\nLevante Hopkins never looked the part. Glasses off the field, soft-spoken in the locker room, the guy you would mistake for a team analyst. Then he put the helmet on, and nobody in the league wanted to be the one assigned to him.\n\nHe played 291 games and caught 1,194 passes for 12,353 yards and 174 touchdowns. He won nine rings and was Super Bowl MVP twice. He was the tight end at the center of the Titans' three-peat from Y70 to Y72: blocking on first down, finding the soft spot on third, and finishing in the red zone.\n\nHe never asked for the ball. He just made it hard to lose with him on the field. Levante Hopkins, welcome to the Hall of Fame.",
   "Ian Finney": "The first superstar. The Infinity Man.\n\nBefore the dynasties had names, there was Ian Finney. He was the first player in this league who made you stop what you were doing to watch, the receiver every kid in the backyard pretended to be.\n\nHe started with the Commanders' four-peat, then carried the Buccaneers through the Waller–Finney era with Tyrion Kline at his side: nine rings, four in Washington and five in Tampa Bay. He caught 1,902 passes for 32,980 yards and 292 touchdowns at 17.3 yards a catch, and every one of them looked effortless. Add five Offensive Player of the Year awards, an MVP and three Super Bowl MVPs.\n\nEvery great receiver who came after him was chasing Ian Finney. Most of them still are. The Infinity Man, welcome to the Hall of Fame.",
   "Rondale Ikarras": "Flashy, loud, unstoppable, and he knew it. He was that guy.\n\nRondale Ikarras never just ran through a hole. He ran through it with style, pointed at the crowd, and made sure the cameras got his good side on the way to the end zone. The Prodigal Son played like every snap was a highlight reel, and most of them were.\n\n23,178 rushing yards. 374 rushing touchdowns. Nine rings, four Offensive Player of the Year awards and five Super Bowl MVPs. The career rushing records carry his name. He built a legend in Seattle, three straight titles as the heartbeat of the Seahawks, and took one last ride with the Jets before hanging it up.\n\nZero regular-season MVPs. He will tell you about that one. Rondale Ikarras, Seahawks legend, welcome to the Hall of Fame."
  }
