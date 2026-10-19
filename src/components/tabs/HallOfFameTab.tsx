@@ -126,7 +126,9 @@ const HallOfFameTab = () => {
   const greatPlayers = hofPlayers.filter(p => getLegacyTier(p.careerLegacy)?.key === 'great');
   const inducteePlayers = hofPlayers.filter(p => getLegacyTier(p.careerLegacy)?.key === 'inductee');
 
-  const PlayerCard = ({ player, rank }: { player: Player; rank: number }) => {
+  // Render helpers, not components: a component declared inside this one is a new type every render, which
+  // remounted the whole grid when a card opened and sent iOS Safari back to the top when it closed.
+  const renderPlayerCard = ({ player, rank }: { player: Player; rank: number }) => {
     const tier = getTier(player.careerLegacy);
     const nflTeam = findNFLTeam(player.team);
     const TierIcon = tier.icon;
@@ -202,7 +204,7 @@ const HallOfFameTab = () => {
     );
   };
 
-  const TierSection = ({ 
+  const renderTierSection = ({ 
     title, 
     players, 
     startRank, 
@@ -234,7 +236,7 @@ const HallOfFameTab = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {players.map((player, i) => (
             <div key={`${player.name}-${player.position}`} className="stagger-in" style={{ ['--i' as string]: i }}>
-              <PlayerCard player={player} rank={startRank + i} />
+              {renderPlayerCard({ player, rank: startRank + i })}
             </div>
           ))}
         </div>
@@ -327,42 +329,10 @@ const HallOfFameTab = () => {
       )}
 
       {/* Tier Sections */}
-      <TierSection 
-        title="LEGENDARY" 
-        players={legendaryPlayers} 
-        startRank={1}
-        icon={Flame}
-        colorClass="text-amber-400"
-        bgClass="bg-amber-500/15"
-        borderClass="border-amber-500/40"
-      />
-      <TierSection 
-        title="ELITE" 
-        players={elitePlayers} 
-        startRank={legendaryPlayers.length + 1}
-        icon={Crown}
-        colorClass="text-purple-400"
-        bgClass="bg-purple-500/15"
-        borderClass="border-purple-500/40"
-      />
-      <TierSection 
-        title="GREAT" 
-        players={greatPlayers} 
-        startRank={legendaryPlayers.length + elitePlayers.length + 1}
-        icon={Star}
-        colorClass="text-blue-400"
-        bgClass="bg-blue-500/15"
-        borderClass="border-blue-500/40"
-      />
-      <TierSection 
-        title="INDUCTEES" 
-        players={inducteePlayers} 
-        startRank={legendaryPlayers.length + elitePlayers.length + greatPlayers.length + 1}
-        icon={Award}
-        colorClass="text-emerald-400"
-        bgClass="bg-emerald-500/15"
-        borderClass="border-emerald-500/40"
-      />
+      {renderTierSection({ title: "LEGENDARY", players: legendaryPlayers, startRank: 1, icon: Flame, colorClass: "text-amber-400", bgClass: "bg-amber-500/15", borderClass: "border-amber-500/40" })}
+      {renderTierSection({ title: "ELITE", players: elitePlayers, startRank: legendaryPlayers.length + 1, icon: Crown, colorClass: "text-purple-400", bgClass: "bg-purple-500/15", borderClass: "border-purple-500/40" })}
+      {renderTierSection({ title: "GREAT", players: greatPlayers, startRank: legendaryPlayers.length + elitePlayers.length + 1, icon: Star, colorClass: "text-blue-400", bgClass: "bg-blue-500/15", borderClass: "border-blue-500/40" })}
+      {renderTierSection({ title: "INDUCTEES", players: inducteePlayers, startRank: legendaryPlayers.length + elitePlayers.length + greatPlayers.length + 1, icon: Award, colorClass: "text-emerald-400", bgClass: "bg-emerald-500/15", borderClass: "border-emerald-500/40" })}
 
       {hofPlayers.length === 0 && (
         <div className="text-center py-16">

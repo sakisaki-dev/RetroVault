@@ -113,6 +113,16 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   const leaguePool = useMemo(() => getAllPlayers().filter((p) => !p.isRealLegend), [getAllPlayers]);
   const photo = useLegendPhoto(player);
 
+  // Where focus was when the card opened (the tapped card). iOS Safari doesn't focus buttons on tap, so Radix's
+  // default "return focus" lands on <body> and jumps the page to the top; we restore it ourselves without scrolling.
+  const returnFocus = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    if (selectedProp) {
+      const el = document.activeElement;
+      returnFocus.current = el instanceof HTMLElement && el !== document.body ? el : null;
+    }
+  }, [selectedProp]);
+
   // New player: back to the overview, scrolled to the top
   const playerId = player ? `${player.position}:${player.name}` : '';
   useEffect(() => {
@@ -171,6 +181,11 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
     <Dialog open={!!selected} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         ref={scrollRef}
+        onCloseAutoFocus={(e) => {
+          e.preventDefault();
+          const el = returnFocus.current;
+          if (el?.isConnected) el.focus({ preventScroll: true });
+        }}
         className={cn(
           'pc-root grid-cols-[minmax(0,1fr)] w-[calc(100vw-1rem)] max-w-4xl max-h-[92vh] overflow-y-auto overflow-x-hidden gap-0 border-line p-0',
           hof && 'pc-root--hof',
