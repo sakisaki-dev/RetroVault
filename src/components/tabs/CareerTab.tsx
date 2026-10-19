@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { Trophy } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
-import FileUpload from '../FileUpload';
 import PlayerDetailCard from '../PlayerDetailCard';
 import CountUp from '../brand/CountUp';
 import RecordBook, { RecordStrip } from '../stats/RecordBook';
@@ -23,28 +22,17 @@ const JUMPS = [
 
 /** Stats hub: a compact record strip, the Head-to-Head comparison, then the Analytics Lab, then leaders and the raw career tables. */
 const CareerTab = () => {
-  const { careerData, loadCareerData, isLoading } = useLeague();
+  const { careerData, isLoading } = useLeague();
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
   const book = useMemo(() => buildRecordBook(careerData), [careerData]);
 
   if (!careerData) {
+    // The league loads from the bundled data file; this only shows for a moment (or if that file is missing).
     return (
-      <div className="container py-12">
-        <div className="mx-auto mb-12 max-w-2xl text-center">
-          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-gold/10">
-            <Trophy className="h-8 w-8 text-gold" aria-hidden="true" />
-          </div>
-          <h1 className="mb-4 font-display text-4xl font-extrabold italic uppercase">
-            Welcome to Retro <span className="text-gold">Vault</span>
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Upload your league CSV file to unlock the record book, advanced analytics, position leaders and every career stat line.
-          </p>
-        </div>
-        <div className="mx-auto max-w-md">
-          <FileUpload onFileLoad={(content) => loadCareerData(content)} label="Upload Career Data CSV" />
-        </div>
+      <div className="container py-12 text-center" role="status">
+        <Trophy className="mx-auto mb-4 h-8 w-8 text-gold" aria-hidden="true" />
+        <p className="text-muted-foreground">Loading the league…</p>
       </div>
     );
   }

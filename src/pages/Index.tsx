@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Header from '@/components/Header';
 import CareerTab from '@/components/tabs/CareerTab';
 import HallOfFameTab from '@/components/tabs/HallOfFameTab';
@@ -9,36 +9,11 @@ import FrontOfficeTab from '@/components/tabs/FrontOfficeTab';
 import CollectionTab from '@/components/tabs/CollectionTab';
 import CardUnlockToasts from '@/components/collection/CardUnlockToasts';
 import CeremonyHost from '@/components/ceremony/CeremonyHost';
-import { DATA_SOURCE_KEY, LeagueProvider, isBundledLeague, useLeague } from '@/context/LeagueContext';
+import { LeagueProvider } from '@/context/LeagueContext';
 import { Helmet } from 'react-helmet-async';
 
 const IndexContent = () => {
   const [activeTab, setActiveTab] = useState('games');
-  const { loadCareerData } = useLeague();
-
-  // Load the bundled league on a first visit, and refresh it on later visits while the user is still
-  // on bundled data (so rebuilt league data shows up). Uploaded sheets are never replaced.
-  useEffect(() => {
-    let keepSaved = false;
-    try {
-      const saved = localStorage.getItem('retroVault:careerCsv');
-      keepSaved = (!!saved && !isBundledLeague(saved, localStorage.getItem(DATA_SOURCE_KEY))) || !!localStorage.getItem('retroVault:seasonSnapshots');
-    } catch {
-      // Storage unavailable; fall through and load the bundled league
-    }
-    if (keepSaved) return;
-
-    fetch('/data/initial-data.csv')
-      .then((res) => res.text())
-      .then((content) => {
-        if (content && content.includes('QB')) {
-          loadCareerData(content, 'bundled');
-        }
-      })
-      .catch(() => {
-        // No initial data available, user will upload
-      });
-  }, [loadCareerData]);
 
   return (
     <>
