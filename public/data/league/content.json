@@ -1029,8 +1029,8 @@
    "era": "Waller–Finney era",
    "players": [
     "Tyrion Kline",
-    "Ray Waller",
-    "Ian Finney"
+    "Ian Finney",
+    "Ray Waller"
    ],
    "summary": "Ray Waller (\"Ray Comeback Waller\") won 5 rings and 5 MVPs with the Bucs, matching their 5 titles."
   },
@@ -1044,10 +1044,10 @@
    "era": "Bills dynasty",
    "players": [
     "Derrick Myrick",
-    "Dennis Baylon",
     "Reuben Kilian",
-    "Charlie John",
+    "Dennis Baylon",
     "Tyrone Baugh",
+    "Charlie John",
     "Cairo Asanjh",
     "Rob Lowe",
     "Ian Finney"
@@ -1108,8 +1108,8 @@
    "category": "Era Report",
    "era": "Modern era",
    "players": [
-    "Malakai Sawyer",
-    "Jason Macleone"
+    "Jason Macleone",
+    "Malakai Sawyer"
    ],
    "summary": "Titans three-peat (Y70–72), then a Super Bowl loss to those Titans as the Seahawks (Y74), and the Jets title (Y77)."
   },
@@ -1140,12 +1140,12 @@
     "God Johnson",
     "Sherman Brandson",
     "Jason Macleone",
-    "Dennis Baylon",
     "Avonte Gooden",
+    "Dennis Baylon",
     "Kyric McQuay",
     "Cairo Asanjh",
-    "Ray Waller",
-    "Ian Finney"
+    "Ian Finney",
+    "Ray Waller"
    ],
    "summary": "QBs: Lamar → Gooden → Waller (rival McQuay) → Baylon → Brandson → the Wilson brothers → Macleone."
   },
@@ -1157,8 +1157,8 @@
    "tier": "controversy",
    "category": "Snub Watch",
    "players": [
-    "Brennan Higgins",
     "Rondale Ikarras",
+    "Brennan Higgins",
     "Derrick Myrick",
     "Lukas Russell",
     "Cairo Asanjh",
@@ -1176,12 +1176,12 @@
    "category": "Outside the Dynasty",
    "summary": "Amani Bryant, Nico Curl, Jayon Queen and the stars who never wore your colors.",
    "players": [
-    "Marcel Mathieu",
     "Shaikal Beebee",
+    "Marcel Mathieu",
     "Amani Bryant",
+    "Jayon Queen",
     "Cooper Dean",
     "Mose Junior",
-    "Jayon Queen",
     "Nico Curl"
    ]
   },
@@ -1202,9 +1202,9 @@
     "Rondale Ikarras",
     "Marcel Mathieu",
     "Jawill Perkins",
+    "Rysen Benkert",
     "Dennis Baylon",
     "Aubrey Jewell",
-    "Rysen Benkert",
     "Amani Bryant",
     "Kyric McQuay",
     "Ray Waller",
@@ -1222,21 +1222,21 @@
    "category": "Fantasy Draft",
    "players": [
     "Wayne Wilson",
-    "God Johnson",
     "Mose Junior",
+    "God Johnson",
     "Sherman Brandson",
     "Rondale Ikarras",
     "Malakai Sawyer",
     "Dennis Baylon",
     "Jahmyr Gibbs",
-    "Amani Bryant",
-    "Zander Kolar",
     "Tyrone Baugh",
+    "Amani Bryant",
     "Kyric McQuay",
     "Cairo Asanjh",
+    "Zander Kolar",
+    "Ian Finney",
     "Kitt Inman",
-    "Ray Waller",
-    "Ian Finney"
+    "Ray Waller"
    ],
    "summary": "QB: Brandson's accuracy, Waller's deep ball, McQuay's decisions, Bryant's legs, Baylon's clutch, Wayne Wilson's durability."
   },
@@ -1310,8 +1310,8 @@
    "title": "Ikarras",
    "summary": "**Ikarras:** 4 OPOY, 5 SB MVP, every rushing record, 0 MVPs. Receivers Finney, Russell, Higgins and Asanjh (3) all won MVP.",
    "players": [
-    "Brennan Higgins",
     "Rondale Ikarras",
+    "Brennan Higgins",
     "Lukas Russell",
     "Cairo Asanjh",
     "Ian Finney"
@@ -2260,6 +2260,18 @@
    "team": "Lions",
    "position": "OL",
    "era": "Modern era · Y70–80"
+  }
+ ],
+ "hofClasses": [
+  {
+   "label": "Y80",
+   "keys": [
+    "QB:Michael Wilson",
+    "DB:Dan Mosley",
+    "DB:Taron Hayes",
+    "QB:Jason Macleone",
+    "OL:Jakeem Friend"
+   ]
   }
  ],
  "coach": {

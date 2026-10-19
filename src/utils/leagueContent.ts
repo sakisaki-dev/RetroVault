@@ -187,6 +187,8 @@ export interface LeagueContent {
   speeches?: Record<string, string>;
   /** Head coach card and season-by-season history (optional) */
   coach?: CoachInfo;
+  /** Hall of Fame classes shared by every device, oldest first (keys "POS:Name") */
+  hofClasses?: { label: string; keys: string[] }[];
 }
 
 export type ContentSource = 'uploaded' | 'bundled' | 'none';
@@ -437,6 +439,12 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
   if (speeches) content.speeches = speeches;
   const coach = normCoach(input.coach);
   if (coach) content.coach = coach;
+  if (Array.isArray(input.hofClasses)) {
+    const classes = input.hofClasses
+      .map((c) => (isObj(c) && str(c.label) && Array.isArray(c.keys) ? { label: str(c.label)!, keys: c.keys.filter((k): k is string => typeof k === 'string') } : null))
+      .filter((c): c is { label: string; keys: string[] } => !!c && c.keys.length > 0);
+    if (classes.length) content.hofClasses = classes;
+  }
   const hasAnything =
     content.eras.length || content.superBowls.length || content.storylines.length || content.rivalries.length ||
     content.lineages.length || content.snubs.length;

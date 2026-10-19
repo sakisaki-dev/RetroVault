@@ -9,6 +9,7 @@ import AnalyticsLab from '../stats/analytics/AnalyticsLab';
 import HeadToHead from '../stats/HeadToHead';
 import PlayerDeepDive from '../stats/comps/PlayerDeepDive';
 import PositionLeaders from '../stats/PositionLeaders';
+import HiddenGems from '../stats/HiddenGems';
 import StatTables from '../stats/StatTables';
 import { HEADLINE_IDS, LEADER_IDS, buildRecordBook, pickBoards } from '../stats/records';
 import StatsHub from '../stats/hub/StatsHub';
@@ -18,6 +19,7 @@ import { buildHash, useHubRoute, type StatsSub } from '../stats/hub/hashRoute';
 /** In-page jumps on the Players sub-tab (each is linkable: #stats/players/<id>). */
 const JUMPS = [
   { id: 'record-book', label: 'Records' },
+  { id: 'hidden-gems', label: 'Hidden Gems' },
   { id: 'efficiency', label: 'Efficiency' },
   { id: 'leaders', label: 'Leaders' },
   { id: 'tables', label: 'Full Tables' },
@@ -104,6 +106,8 @@ const CareerTab = () => {
           </header>
 
           {headline.length > 0 && <RecordStrip headline={headline} onSelect={setSelectedPlayer} />}
+
+          <HiddenGems data={careerData} onSelect={setSelectedPlayer} />
 
           <RecordBook leaders={leaders} pace={book.pace} onSelect={setSelectedPlayer} />
 

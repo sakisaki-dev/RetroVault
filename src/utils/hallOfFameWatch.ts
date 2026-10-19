@@ -12,10 +12,11 @@
  * Ceremonies are played by <CeremonyHost/> (mounted once in pages/Index.tsx); anything can ask it to
  * play via `playCeremony()`.
  */
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Player } from '@/types/player';
 import { isHallOfFamer } from '@/config/stats';
 import type { JerseyIndex, RetiredNumber } from './jerseys';
+import { useLeagueContent } from './leagueContent';
 
 export const HOF_SEEN_KEY = 'retroVault:hofSeen';
 export const RING_SEEN_KEY = 'retroVault:ringSeen';
@@ -195,8 +196,13 @@ export const useCeremonyRequests = (onRequest: (r: CeremonyRequest) => void) => 
 };
 
 /** Recorded classes, newest last; updates when a new class is recorded. */
+/**
+ * Hall of Fame classes: the shared ones from content.json (same on every device) first, then any class this
+ * browser recorded later for players the shared data doesn't place yet.
+ */
 export const useHofClasses = (): HofClass[] => {
-  const [classes, setClasses] = useState<HofClass[]>(() => readHofClasses());
+  const { content } = useLeagueContent();
+  const [local, setClasses] = useState<HofClass[]>(() => readHofClasses());
   useEffect(() => {
     const refresh = () => setClasses(readHofClasses());
     const onStorage = (e: StorageEvent) => {
@@ -209,7 +215,12 @@ export const useHofClasses = (): HofClass[] => {
       window.removeEventListener('storage', onStorage);
     };
   }, []);
-  return classes;
+  return useMemo(() => {
+    const shared: HofClass[] = (content?.hofClasses ?? []).map((c) => ({ label: c.label, keys: c.keys, at: 0 }));
+    const placed = new Set(shared.flatMap((c) => c.keys));
+    const extra = local.map((c) => ({ ...c, keys: c.keys.filter((k) => !placed.has(k)) })).filter((c) => c.keys.length);
+    return [...shared, ...extra];
+  }, [content, local]);
 };
 
 /** "Class of Y80" style label for a season string, with a sensible fallback. */

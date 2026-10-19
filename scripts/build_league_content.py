@@ -63,6 +63,12 @@ PLAYER_TEAM_FIXES = {
     "Levante Hopkins": "Titans",
 }
 
+# Hall of Fame classes (shared data, so every device shows the same history). Everyone enshrined before the
+# Y80 screenshot uploads is the inaugural class (the HOF tab's default); these crossed 7000 Career Legacy with them.
+HOF_CLASSES = [
+    {"label": "Y80", "keys": ["QB:Michael Wilson", "DB:Dan Mosley", "DB:Taron Hayes", "QB:Jason Macleone", "OL:Jakeem Friend"]},
+]
+
 # Induction speeches for the inaugural Hall of Fame class, written from the user's descriptions and
 # the players' real career numbers. The first paragraph is the headline caption the ceremony shows large.
 # Only facts from data/y80 are cited (no single-season marks; God Johnson's reception total is an estimate).
@@ -571,6 +577,8 @@ def main():
         "outsiders": outsiders,
         "openQuestions": open_questions,
         "playerNotes": player_notes,
+        # Hall of Fame classes shared by every device (keys "POS:Name"); newer classes last.
+        "hofClasses": HOF_CLASSES,
         # Head coach card + season-by-season history from the staff screen (optional)
         "coach": load("coach.json") if os.path.exists(os.path.join(SRC, "coach.json")) else None,
         "speeches": SPEECHES,

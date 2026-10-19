@@ -19,6 +19,7 @@ import PlayerDetailCard from '@/components/PlayerDetailCard';
 import CoachHeader from '@/components/frontoffice/CoachHeader';
 import AdvancedStats from '@/components/frontoffice/AdvancedStats';
 import SeasonLog from '@/components/frontoffice/SeasonLog';
+import SyncPanel from '@/components/frontoffice/SyncPanel';
 import { buildCoachAnalytics } from '@/utils/coachAnalytics';
 import FranchiseHistory from '@/components/frontoffice/FranchiseHistory';
 import TrophyCabinet from '@/components/frontoffice/TrophyCabinet';
@@ -107,6 +108,8 @@ const FrontOfficeTab = () => {
         <RivalsPanel rivalries={content.rivalries} nemeses={nemeses} resume={resume} />
       )}
       {rows.length > 0 && <SeasonLog rows={rows} games={resume.games} />}
+
+      <SyncPanel />
       <PlayerDetailCard player={selected} onClose={() => setSelected(null)} />
     </div>
   );
