@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import PlayerSearchSelect from '@/components/PlayerSearchSelect';
 import { cn } from '@/lib/utils';
+import { awardPack } from '@/utils/collection';
 import { useLeagueContent } from '@/utils/leagueContent';
 import { usePlayerExtras } from '@/utils/playerExtras';
 import { ArcadeButton, Confetti, Lamp, LampRow } from './ArcadeUI';
@@ -162,6 +163,8 @@ const SixDegrees = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<s
       setStatus(outcome);
       setSolution(shortestPath(graph, puzzle.start, puzzle.target, puzzle.distToTarget));
       const ok = outcome === 'won' && finalStrokes <= parFor(puzzle.shortest);
+      if (ok && scoreLabel(finalStrokes, puzzle.shortest).label === 'Eagle') awardPack('premium', 'Six Degrees eagle', { once: puzzle });
+      else if (ok) awardPack('standard', `Six Degrees ${scoreLabel(finalStrokes, puzzle.shortest).label.toLowerCase()}`, { once: puzzle });
       const next = ok ? streak + 1 : 0;
       setStreak(next);
       if (next > best) {

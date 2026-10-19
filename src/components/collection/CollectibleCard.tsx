@@ -4,8 +4,9 @@ import { cn } from '@/lib/utils';
 import ProPlayerBanner from '@/components/brand/ProPlayerBanner';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import type { GamePlayer } from '@/config/ovr';
-import { RARITIES, type Rarity } from '@/utils/collection';
-import { RARITY_ICON } from './rarityIcons';
+import { isHallOfFamer } from '@/config/stats';
+import { finishLabel, tierLabel, type Finish, type Tier } from '@/utils/collection';
+import { FINISH_ICON } from './rarityIcons';
 import './collection.css';
 
 
@@ -25,9 +26,14 @@ const canTilt = () => {
   }
 };
 
+const TIER_SHORT: Record<Tier, string> = { common: 'Com', rare: 'Rare', epic: 'Epic', legendary: 'Leg' };
+
 export interface CollectibleCardProps {
   player: GamePlayer;
-  rarity: Rarity;
+  /** Player tier (Common to Legendary) */
+  tier: Tier;
+  /** Finish shown (the best owned in the binder); ignored while locked */
+  finish: Finish;
   owned: boolean;
   ovr?: number | null;
   number?: number | null;
@@ -41,20 +47,24 @@ export interface CollectibleCardProps {
   onOpen?: () => void;
   /** Compact banner, used in toasts */
   mini?: boolean;
-  /** Pack reveal "new" stamp */
+  /** Pack reveal stamp ("New", "Upgrade", "Dupe +5") */
   badge?: string;
+  /** Provenance badges (e.g. a Perfect Season pack) */
+  marks?: string[];
   className?: string;
   style?: CSSProperties;
 }
 
 /**
- * A collectible frame around ProPlayerBanner. Rarity sets the treatment: Base matte, Silver brushed
- * metal, Gold foil, Hall of Fame holographic shimmer (pointer-tilt parallax on desktop) and Legend
- * black-gold with the player's Commons photo. Locked cards show the sealed banner and an unlock hint.
+ * A collectible frame around ProPlayerBanner. The finish sets the treatment: Base matte (real NFL
+ * legends get a black-gold Legend frame instead), Silver brushed metal, Gold foil, Holo animated
+ * holographic shimmer (pointer-tilt parallax on desktop). The footer shows finish and player tier.
+ * Locked cards show the sealed banner and the tier's pull odds.
  */
 const CollectibleCard = ({
   player,
-  rarity,
+  tier,
+  finish,
   owned,
   ovr,
   number,
@@ -65,15 +75,19 @@ const CollectibleCard = ({
   onOpen,
   mini = false,
   badge,
+  marks,
   className,
   style,
 }: CollectibleCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const meta = RARITIES.find((r) => r.key === rarity)!;
-  const Icon = RARITY_ICON[rarity];
-  const legend = rarity === 'legend';
-  const tilts = owned && !mini && (rarity === 'hof' || legend || rarity === 'gold');
-  const photo = owned && legend && player.photo?.url ? player.photo : null;
+  const realLegend = !!player.isRealLegend;
+  // Frame treatment: the finish, except a real legend's Base is the black-gold Legend frame
+  const look = !owned ? 'base' : finish === 'base' && realLegend ? 'legend' : finish;
+  const Icon = FINISH_ICON[finish];
+  const shiny = look === 'holo' || look === 'legend' || look === 'gold';
+  const tilts = owned && !mini && shiny;
+  const photo = owned && realLegend && player.photo?.url ? player.photo : null;
+  const mark = owned && marks?.length ? marks[marks.length - 1] : null;
   const posName = POSITION_NAMES[player.position] ?? player.position;
 
   const onMove = (e: PointerEvent<HTMLDivElement>) => {
@@ -108,8 +122,8 @@ const CollectibleCard = ({
       team={player.team}
       number={number}
       ovr={ovr}
-      hallOfFamer={rarity === 'hof'}
-      retiredBy={!legend ? retiredBy : null}
+      hallOfFamer={!realLegend && isHallOfFamer(player)}
+      retiredBy={!realLegend ? retiredBy : null}
       photoUrl={photo?.url ?? null}
       photoCredit={photo ? photoCreditOf(player) : null}
       interactive={!!onOpen}
@@ -119,24 +133,30 @@ const CollectibleCard = ({
   );
 
   const label = owned
-    ? `${player.name}, ${posName}, ${meta.label} card${ovr != null ? `, OVR ${ovr}` : ''}${setLabel ? `, card ${setNo} of ${setTotal}` : ''}${onOpen ? '. Open player details' : ''}`
-    : `Locked ${meta.label} card, ${posName}${hint ? `. ${hint}` : ''}`;
+    ? `${player.name}, ${posName}, ${finishLabel(finish)} finish, ${tierLabel(tier)} player${ovr != null ? `, OVR ${ovr}` : ''}${setLabel ? `, card ${setNo} of ${setTotal}` : ''}${mark ? `, ${mark}` : ''}${onOpen ? '. Open player details' : ''}`
+    : `Locked ${tierLabel(tier)} card, ${posName}${hint ? `. ${hint}` : ''}`;
 
   const body = (
     <>
       <span className="cc__frame">
         {banner}
-        {owned && rarity !== 'base' && <span className="cc__foil" aria-hidden="true" />}
-        {owned && (rarity === 'hof' || legend || rarity === 'gold') && <span className="cc__glare" aria-hidden="true" />}
+        {owned && look !== 'base' && <span className="cc__foil" aria-hidden="true" />}
+        {owned && shiny && <span className="cc__glare" aria-hidden="true" />}
       </span>
       <span className="cc__foot" aria-hidden="true">
         <span className="cc__rarity">
           {owned ? <Icon className="h-3 w-3" /> : <Lock className="h-3 w-3" />}
-          {meta.short}
+          {owned ? finishLabel(finish) : 'Locked'}
         </span>
-        {badge && <span className={cn('cc__badge', badge === 'Dupe' && 'cc__badge--muted')}>{badge}</span>}
+        <span className={cn('cc__tier', `cc__tier--${tier}`)}>{TIER_SHORT[tier]}</span>
+        {mark && (
+          <span className="cc__mark" title={mark}>
+            18–0
+          </span>
+        )}
+        {badge && <span className={cn('cc__badge', badge.startsWith('Dupe') && 'cc__badge--muted')}>{badge}</span>}
         {!mini && !owned && hint && <span className="cc__hint">{hint}</span>}
-        {setLabel && (owned || mini) && <span className="cc__setno">{setLabel}</span>}
+        {setLabel && (owned || mini) && !badge && <span className="cc__setno">{setLabel}</span>}
       </span>
     </>
   );
@@ -144,7 +164,7 @@ const CollectibleCard = ({
   return (
     <div
       ref={ref}
-      className={cn('cc', `cc--${rarity}`, !owned && 'cc--locked', mini && 'cc--mini', className)}
+      className={cn('cc', `cc--${look}`, !owned && 'cc--locked', mini && 'cc--mini', className)}
       style={style}
       onPointerMove={tilts ? onMove : undefined}
       onPointerLeave={tilts ? onLeave : undefined}

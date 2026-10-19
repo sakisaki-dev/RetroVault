@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState, type ReactNode } from 'react';
-import { unlockCard } from '@/utils/collection';
+import { awardPack } from '@/utils/collection';
 import PlayerSearchSelect from '@/components/PlayerSearchSelect';
 import type { Player } from '@/types/player';
 import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
@@ -185,8 +185,9 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
 
       const won = key === playerKey(answer);
       if (won) setConfetti(Date.now());
-      if (won) unlockCard(answer, 'Guess the Legend');
-      else setMisses((m) => m + 1);
+      if (won && pointsFor(next.length) >= 5) awardPack('premium', `Guess the Legend, ${pointsFor(next.length)} points`, { once: next });
+      else if (won && pointsFor(next.length) >= 3) awardPack('standard', `Guess the Legend, ${pointsFor(next.length)} points`, { once: next });
+      if (!won) setMisses((m) => m + 1);
       if (won || next.length >= MAX_GUESSES) {
         const points = won ? pointsFor(next.length) : 0;
         if (points > 0) {

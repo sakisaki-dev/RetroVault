@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { unlockCard } from '@/utils/collection';
+import { awardPack } from '@/utils/collection';
 import { matchPlayer } from '@/components/PlayerSearchSelect';
 import type { Player } from '@/types/player';
 import { HOF_THRESHOLD, isHallOfFamer } from '@/config/stats';
@@ -244,6 +244,8 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
       saveGameStat(STAT_KEYS.gridBest, s);
     }
     if (s === 9) setConfetti(Date.now());
+    if (s === 9) awardPack('premium', 'League Grid 9/9', { once: puzzle ?? undefined });
+    else if (s >= 6) awardPack('standard', `League Grid ${s}/9`, { once: puzzle ?? undefined });
   };
 
   const reset = () => {
@@ -270,7 +272,6 @@ const LeagueGrid = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string
     setGuessesLeft(remaining);
     const correct = puzzle.answers[r][c].some((p) => playerKey(p) === selection);
     if (correct) {
-      unlockCard(guess, 'League Grid');
       const next = { ...filled, [`${r}-${c}`]: guess };
       setFilled(next);
       setActiveCell(null);

@@ -1,6 +1,6 @@
 /*
- * Collectible player cards (CollectibleCard) and the daily pack (PackOpening).
- * Rarity treatments: base matte, silver brushed, gold foil, hof holographic, legend black-gold.
+ * Collectible player cards (CollectibleCard) and reward packs (PackOpening).
+ * Rarity treatments: base matte, silver brushed, gold foil, holo holographic, legend black-gold (real NFL legends at Base).
  * Pointer tilt sets --cc-rx / --cc-ry / --cc-mx / --cc-my inline (desktop, motion allowed only).
  */
 
@@ -121,6 +121,7 @@ button.cc__card:focus-visible {
 }
 
 .cc__badge {
+  margin-left: auto;
   padding: 2px 6px;
   border-radius: 4px;
   background: hsl(var(--turf));
@@ -193,18 +194,18 @@ button.cc__card:focus-visible {
   animation: cc-sweep-1 5.5s ease-in-out infinite;
 }
 
-/* ---------- Hall of Fame: holographic ---------- */
-.cc--hof {
+/* ---------- Holo: animated holographic ---------- */
+.cc--holo {
   --cc-frame: conic-gradient(from var(--cc-angle), #ff6ad5, #ffd36a, #6affb0, #6ad5ff, #b16aff, #ff6ad5);
   --cc-edge: hsl(0 0% 100% / 0.75);
   --cc-ink: hsl(var(--chalk));
   --cc-foot-bg: hsl(240 40% 8% / 0.82);
   --cc-glow: hsl(290 100% 75% / 0.45);
 }
-.cc--hof .cc__card {
+.cc--holo .cc__card {
   animation: cc-spin 8s linear infinite;
 }
-.cc--hof .cc__foil {
+.cc--holo .cc__foil {
   background:
     linear-gradient(115deg, transparent 20%, hsl(320 100% 70% / 0.5) 32%, hsl(50 100% 65% / 0.5) 42%, hsl(150 100% 60% / 0.5) 52%, hsl(200 100% 65% / 0.5) 62%, hsl(270 100% 70% / 0.5) 72%, transparent 84%);
   background-size: 300% 300%;
@@ -213,7 +214,7 @@ button.cc__card:focus-visible {
   opacity: 0.55;
   animation: cc-holo 6s ease-in-out infinite;
 }
-.cc--hof[data-tilt='on'] .cc__foil {
+.cc--holo[data-tilt='on'] .cc__foil {
   animation: none;
   opacity: 0.75;
 }
@@ -300,7 +301,7 @@ button.cc__card:focus-visible {
   min-width: 0;
 }
 
-/* ---------- Daily pack ---------- */
+/* ---------- Reward packs ---------- */
 .pk-stage {
   display: grid;
   place-items: center;
@@ -390,24 +391,38 @@ button.cc__card:focus-visible {
 }
 
 .pk-cards {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  --pk-gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px var(--pk-gap);
   width: 100%;
+  padding-top: 14px;
+}
+.pk-cards > li {
+  flex: 0 0 calc((100% - (var(--pk-n, 3) - 1) * var(--pk-gap)) / var(--pk-n, 3));
+  max-width: 230px;
+  min-width: 0;
 }
 @media (max-width: 640px) {
-  .pk-cards {
-    grid-template-columns: minmax(0, 1fr);
-    max-width: 300px;
-    margin: 0 auto;
+  .pk-cards > li {
+    flex-basis: calc(50% - var(--pk-gap) / 2);
+  }
+}
+@media (max-width: 480px) {
+  .pk-cards > li {
+    flex-basis: 100%;
+    max-width: 250px;
   }
 }
 
 .pk-flip {
+  position: relative;
   perspective: 1000px;
 }
 .pk-flip__inner {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   transform-style: preserve-3d;
   transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.3, 1);
   transform: rotateY(180deg);
@@ -442,7 +457,7 @@ button.cc__card:focus-visible {
 .pk-flip--open .cc--silver .cc__card { animation: pk-glow-silver 1.2s ease-out 1; }
 .pk-flip--open .cc--gold .cc__card { animation: pk-glow-gold 1.4s ease-out 1; }
 .pk-flip--open .cc--legend .cc__card { animation: pk-glow-gold 1.6s ease-out 1; }
-.pk-flip--open .cc--hof .cc__card { animation: pk-glow-holo 1.6s ease-out 1, cc-spin 8s linear infinite; }
+.pk-flip--open .cc--holo .cc__card { animation: pk-glow-holo 1.6s ease-out 1, cc-spin 8s linear infinite; }
 
 @keyframes pk-float {
   0%, 100% { transform: translateY(0) rotate(-1.5deg); }
@@ -474,13 +489,20 @@ button.cc__card:focus-visible {
 /* ---------- Reduced motion: no shimmer, tilt, float or flips ---------- */
 @media (prefers-reduced-motion: reduce) {
   .cc__card,
-  .cc--hof .cc__card,
+  .cc--holo .cc__card,
   .cc__foil,
   .pk-pack,
   .pk-pack--tearing,
   .pk-pack--tearing .pk-pack__strip,
-  .pk-flip--open .cc__card {
+  .pk-flip--open .cc__card,
+  .pk-flip--charging .pk-flip__back,
+  .pk-holo-hit,
+  .pk-flip--holo::before,
+  .pk-burst i {
     animation: none !important;
+  }
+  .pk-burst {
+    display: none;
   }
   .cc__card {
     transform: none !important;
@@ -494,4 +516,214 @@ button.cc__card:focus-visible {
 .cc__badge--muted {
   background: hsl(var(--muted));
   color: hsl(var(--muted-foreground));
+}
+
+/* ---------- Tier chip and provenance mark ---------- */
+.cc__tier {
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid currentColor;
+  font-size: 8px;
+  line-height: 1.1;
+  white-space: nowrap;
+  opacity: 0.9;
+}
+.cc__tier--rare { color: hsl(200 90% 72%); }
+.cc__tier--epic { color: hsl(28 95% 66%); }
+.cc__tier--legendary { color: hsl(45 100% 62%); }
+.cc--silver .cc__tier--rare,
+.cc--gold .cc__tier--rare { color: hsl(205 80% 28%); }
+.cc--silver .cc__tier--epic,
+.cc--gold .cc__tier--epic { color: hsl(22 85% 32%); }
+.cc--silver .cc__tier--legendary,
+.cc--gold .cc__tier--legendary { color: hsl(35 90% 22%); background: hsl(45 100% 70% / 0.5); }
+.cc--locked .cc__tier { color: hsl(var(--muted-foreground)); }
+
+.cc__mark {
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: #0a0a0c;
+  box-shadow: inset 0 0 0 1px hsl(45 90% 60% / 0.9);
+  color: hsl(var(--gold));
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 11px;
+  line-height: 1.1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+/* Mini pack (pack-earned toasts, pack shelf); per-type foils below override the gold default */
+.pk-mini {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 50px;
+  border-radius: 5px;
+  color: hsl(var(--primary-foreground));
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 18px;
+  background: conic-gradient(from 200deg at 50% 40%, #ffd36a, #fff3c4, #e0a21e, #fff0a8, #b5831f, #ffd36a);
+  box-shadow: inset 0 0 0 1px hsl(45 100% 85% / 0.8), 0 6px 14px -6px hsl(43 100% 40% / 0.7);
+}
+
+/* ---------- Pack foils per type ---------- */
+.pk-pack--premium {
+  color: hsl(0 0% 100%);
+  background:
+    linear-gradient(115deg, transparent 30%, hsl(0 0% 100% / 0.4) 45%, transparent 60%),
+    conic-gradient(from 200deg at 50% 40%, #2b6fd6, #b9d6ff, #1b3f8f, #e6f0ff, #3a7be0, #2b6fd6);
+  background-size: 250% 100%, 100% 100%;
+  box-shadow: 0 24px 50px -16px hsl(215 90% 45% / 0.65), inset 0 0 0 2px hsl(210 100% 90% / 0.85);
+}
+.pk-pack--premium .pk-pack__crimp { background: repeating-linear-gradient(90deg, hsl(220 70% 20% / 0.4) 0 3px, transparent 3px 6px); }
+.pk-pack--premium .pk-pack__tear { background: repeating-linear-gradient(90deg, hsl(220 70% 15% / 0.7) 0 6px, transparent 6px 10px); }
+.pk-pack--premium .pk-pack__strip { box-shadow: inset 0 0 0 2px hsl(210 100% 90% / 0.85); }
+
+.pk-pack--elite {
+  color: hsl(0 0% 100%);
+  background:
+    linear-gradient(115deg, transparent 30%, hsl(0 0% 100% / 0.45) 45%, transparent 60%),
+    conic-gradient(from 180deg at 50% 45%, #ff6ad5, #ffd36a, #6affb0, #6ad5ff, #b16aff, #ff6ad5);
+  background-size: 250% 100%, 100% 100%;
+  box-shadow: 0 24px 54px -14px hsl(290 90% 60% / 0.7), inset 0 0 0 2px hsl(0 0% 100% / 0.85);
+  text-shadow: 0 1px 2px hsl(260 60% 15% / 0.8);
+}
+.pk-pack--elite .pk-pack__crimp { background: repeating-linear-gradient(90deg, hsl(260 50% 20% / 0.35) 0 3px, transparent 3px 6px); }
+.pk-pack--elite .pk-pack__tear { background: repeating-linear-gradient(90deg, hsl(260 60% 15% / 0.7) 0 6px, transparent 6px 10px); }
+
+.pk-pack--perfect {
+  color: hsl(var(--gold));
+  background:
+    linear-gradient(115deg, transparent 30%, hsl(45 100% 70% / 0.35) 45%, transparent 60%),
+    radial-gradient(circle at 50% 42%, #24201a 0, #0a0a0c 70%);
+  background-size: 250% 100%, 100% 100%;
+  box-shadow: 0 26px 60px -14px hsl(45 100% 45% / 0.7), inset 0 0 0 3px #e0b545, inset 0 0 0 6px #0a0a0c, inset 0 0 0 7px hsl(45 90% 60% / 0.6);
+}
+.pk-pack--perfect .pk-pack__crimp { background: repeating-linear-gradient(90deg, hsl(45 90% 55% / 0.45) 0 3px, transparent 3px 6px); }
+.pk-pack--perfect .pk-pack__tear { background: repeating-linear-gradient(90deg, hsl(45 90% 55% / 0.8) 0 6px, transparent 6px 10px); }
+.pk-pack--perfect .pk-pack__strip { box-shadow: inset 0 0 0 3px #e0b545; }
+.pk-pack__title--big { font-size: 52px; line-height: 1; }
+
+/* Perfect Season: confetti burst while tearing */
+.pk-stage { position: relative; }
+.pk-burst {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.pk-burst i {
+  position: absolute;
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  background: hsl(calc(var(--i) * 47) 90% 62%);
+  transform: rotate(calc(var(--i) * 20deg)) translateY(0);
+  animation: pk-confetti 1.3s cubic-bezier(0.15, 0.7, 0.3, 1) forwards;
+}
+.pk-burst i:nth-child(3n) { background: hsl(45 100% 60%); }
+@keyframes pk-confetti {
+  0% { transform: rotate(calc(var(--i) * 20deg)) translateY(0) scale(0.4); opacity: 1; }
+  100% { transform: rotate(calc(var(--i) * 20deg + 90deg)) translateY(-210px) scale(1); opacity: 0; }
+}
+
+.pk-provenance {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0 auto;
+  padding: 6px 12px;
+  width: fit-content;
+  max-width: 100%;
+  border-radius: 999px;
+  background: #0a0a0c;
+  box-shadow: inset 0 0 0 1px hsl(45 90% 60% / 0.8);
+  color: hsl(var(--gold));
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+.pk-dialog--perfect .pk-flip__back {
+  background:
+    repeating-linear-gradient(45deg, hsl(45 100% 60% / 0.14) 0 8px, transparent 8px 16px),
+    #0a0a0c;
+}
+
+/* ---------- Chase slot and Holo flourish ---------- */
+.pk-chase {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: #0a0a0c;
+  box-shadow: inset 0 0 0 1px hsl(45 90% 60% / 0.8);
+  color: hsl(var(--gold));
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Charging: the back glows and trembles before a Holo (or chase) card flips */
+.pk-flip--charging .pk-flip__back {
+  animation: pk-charge 0.32s ease-in-out infinite alternate;
+}
+@keyframes pk-charge {
+  0% { transform: rotateY(180deg) translateX(-1px); box-shadow: inset 0 0 0 2px hsl(var(--gold) / 0.6), 0 0 14px hsl(300 100% 70% / 0.5); }
+  100% { transform: rotateY(180deg) translateX(1px) scale(1.02); box-shadow: inset 0 0 0 2px hsl(0 0% 100% / 0.9), 0 0 34px hsl(190 100% 70% / 0.9); }
+}
+
+/* Holo hit: rainbow rays behind the card and a stamp above it */
+.pk-flip--holo::before {
+  content: '';
+  position: absolute;
+  inset: -30%;
+  z-index: -1;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, hsl(320 100% 70% / 0.55) 0 8deg, transparent 8deg 20deg, hsl(190 100% 70% / 0.5) 20deg 28deg, transparent 28deg 40deg);
+  -webkit-mask: radial-gradient(circle, #000 30%, transparent 70%);
+  mask: radial-gradient(circle, #000 30%, transparent 70%);
+  animation: pk-rays 1.8s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes pk-rays {
+  0% { transform: scale(0.4) rotate(0deg); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: scale(1.1) rotate(60deg); opacity: 0.35; }
+}
+.pk-holo-hit {
+  position: absolute;
+  top: -12px;
+  right: -4px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff6ad5, #ffd36a, #6affb0, #6ad5ff, #b16aff);
+  color: #12101a;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 14px hsl(290 100% 60% / 0.6);
+  animation: pk-stamp 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) both;
+}
+@keyframes pk-stamp {
+  0% { transform: scale(2.2) rotate(-12deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
-import { unlockCard } from '@/utils/collection';
+import { awardPack } from '@/utils/collection';
 import { cn } from '@/lib/utils';
 import type { Position } from '@/types/player';
 import { NFL_TEAMS } from '@/utils/nflTeams';
@@ -444,7 +444,9 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
   }, [phase, flipped, season, draft.picks.length]);
 
   const startReveal = () => {
-    if (season && season.w > season.l) unlockCard(season.l === 0 ? draft.picks.map((x) => x.p) : [...draft.picks].sort((a, b) => b.ovr - a.ovr).slice(0, 3).map((x) => x.p), season.l === 0 ? '18–0 perfect season' : 'Winning season');
+    if (season?.over === 'champ' && season.l === 0) awardPack('perfect', '18–0 perfect season', { once: season, label: `18–0 · ${teamById(season.me).name} · ${new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}` });
+    else if (season?.over && season.games.some((g) => g.po && g.res === 'W')) awardPack('premium', `18–0 game, playoff win at ${season.w}–${season.l}`, { once: season });
+    else if (season?.over && season.w > season.l) awardPack('standard', `18–0 game, winning season ${season.w}–${season.l}`, { once: season });
     setFlipped(reducedMotion() ? draft.picks.length : 0);
     setPhase('reveal');
     toTop();

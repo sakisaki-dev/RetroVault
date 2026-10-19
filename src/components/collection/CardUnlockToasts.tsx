@@ -1,20 +1,18 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
-import { CHANGE_EVENT, rarityLabel, rarityRank, registerToastListener, type CollectionChange } from '@/utils/collection';
-import CollectibleCard from './CollectibleCard';
-import { useCardPool, type CardInfo } from './useCardPool';
+import { Trophy } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { CHANGE_EVENT, PACKS, registerToastListener, type CollectionChange } from '@/utils/collection';
+import './collection.css';
 
 /**
- * Toast with the mini card for the best new card (plus "+N more"). Only the first mounted instance
- * shows toasts; while none is mounted, unlockCard falls back to a plain text toast.
+ * Toasts "Pack earned: Premium Pack (League Grid 9/9)" with a mini foil pack in that pack's colors.
+ * Only the first mounted instance shows toasts; while none is mounted, awardPack falls back to a
+ * plain text toast. (Name kept from v1, when games unlocked cards directly.)
  */
 const owners: object[] = [];
 
 const useCardUnlockToasts = () => {
-  const { byKey, describe } = useCardPool();
-  const lookup = useRef({ byKey, describe });
-  lookup.current = { byKey, describe };
-
   useEffect(() => {
     const unregister = registerToastListener();
     const me = {};
@@ -22,35 +20,28 @@ const useCardUnlockToasts = () => {
     const onChange = (e: Event) => {
       if (owners[0] !== me) return;
       const change = (e as CustomEvent<CollectionChange>).detail;
-      if (!change || change.silent || !change.added.length) return;
-      const { byKey: map, describe: info } = lookup.current;
-      const cards: CardInfo[] = change.added.map((p) => map.get(`${p.position}:${p.name}`) ?? info(p));
-      const best = [...cards].sort((a, b) => rarityRank(b.rarity) - rarityRank(a.rarity) || (b.ovr ?? 0) - (a.ovr ?? 0))[0];
-      const more = cards.length - 1;
+      if (!change || change.kind !== 'earned') return;
+      const spec = PACKS[change.type];
       toast.custom(
         () => (
-          <div className="flex w-[min(340px,calc(100vw-32px))] flex-col gap-2 rounded-xl border border-line bg-card p-3 text-foreground shadow-elevated" role="status">
-            <p className="font-pixel text-[10px] uppercase tracking-wider text-gold">
-              {cards.length === 1 ? 'New card' : `${cards.length} new cards`} · {change.reason}
-            </p>
-            <CollectibleCard
-              mini
-              owned
-              player={best.player}
-              rarity={best.rarity}
-              ovr={best.ovr}
-              number={best.number}
-              retiredBy={best.retiredBy}
-              setNo={best.setNo || undefined}
-              setTotal={map.size || undefined}
-            />
-            <p className="text-xs text-muted-foreground">
-              {rarityLabel(best.rarity)}
-              {more > 0 ? ` · +${more} more` : ''} · added to your Collection
-            </p>
+          <div
+            className="flex w-[min(340px,calc(100vw-32px))] items-center gap-3 rounded-xl border border-line bg-card p-3 text-foreground shadow-elevated"
+            role="status"
+          >
+            <span className={cn('pk-mini', `pk-pack--${change.type}`)} aria-hidden="true">
+              {change.type === 'perfect' ? <Trophy className="h-4 w-4" /> : spec.size}
+            </span>
+            <span className="min-w-0 space-y-0.5">
+              <span className="block font-pixel text-[10px] uppercase tracking-wider text-gold">Pack earned</span>
+              <span className="block font-display text-lg uppercase leading-tight">{spec.label}</span>
+              <span className="block text-xs text-muted-foreground">
+                {change.reason}
+                {change.label ? ` · ${change.label}` : ''} · open it in Collection
+              </span>
+            </span>
           </div>
         ),
-        { duration: 4500 },
+        { duration: 5000 },
       );
     };
     window.addEventListener(CHANGE_EVENT, onChange);
@@ -62,7 +53,7 @@ const useCardUnlockToasts = () => {
   }, []);
 };
 
-/** Mount once inside LeagueProvider to get card toasts when the Arcade unlocks cards. */
+/** Mount once to get pack-earned toasts from the Arcade. */
 const CardUnlockToasts = () => {
   useCardUnlockToasts();
   return null;

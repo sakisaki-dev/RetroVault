@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { unlockCard } from '@/utils/collection';
+import { awardPack } from '@/utils/collection';
 import ProPlayerBanner from '@/components/brand/ProPlayerBanner';
 import PlayerDetailCard from '@/components/PlayerDetailCard';
 import { isHallOfFamer } from '@/config/stats';
@@ -81,8 +81,8 @@ const Imposter = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<str
       if (!round || pick) return;
       setPick(key);
       if (key === round.imposterKey) {
-        unlockCard(round.cards.find((c) => playerKey(c) === key), 'Imposter');
         const next = streak + 1;
+        if (next % 3 === 0) awardPack('standard', `Imposter, ${next} in a row`, { once: round });
         setStreak(next);
         if (next > best) {
           setBest(next);

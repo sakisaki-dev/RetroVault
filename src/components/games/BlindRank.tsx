@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { unlockCard } from '@/utils/collection';
+import { awardPack } from '@/utils/collection';
 import { StatBlock } from './ArcadeParts';
 import GameBanner, { BoardCard } from './GameBanner';
 import { ArcadeButton, ChipGroup, Confetti, CountUp, Dots, Lamp, LampRow, ResultPanel } from './ArcadeUI';
@@ -70,8 +70,8 @@ const BlindRank = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map<str
     setRound({ ...round, slots, idx: done ? SIZE - 1 : idx, done, last: slot });
     if (done) {
       const sorted = [...round.players].sort((a, b) => key(b) - key(a));
-      unlockCard(slots.flatMap((pi, i) => (sorted.indexOf(round.players[pi!]) === i ? [round.players[pi!]] : [])), 'Blind Rank');
       const pts = slots.reduce<number>((s, pi, i) => s + pointsFor(Math.abs(sorted.indexOf(round.players[pi!]) - i)), 0);
+      if (pts === 10) awardPack('premium', 'Blind Rank perfect round', { once: round });
       if (pts > best) {
         setBest(pts);
         saveGameStat(STAT_KEYS.rankBest, pts);

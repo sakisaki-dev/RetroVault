@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { unlockCard } from '@/utils/collection';
+import { awardPack } from '@/utils/collection';
 import type { Player } from '@/types/player';
 import { cn } from '@/lib/utils';
 import GameBanner from './GameBanner';
@@ -91,8 +91,9 @@ const HigherOrLower = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<str
       const correct = guessHigher ? vb > va : vb < va;
       setResult(correct ? 'correct' : 'wrong');
       if (correct) {
-        unlockCard(round.b, 'Higher or Lower');
         const next = streak + 1;
+        if (next % 15 === 0) awardPack('premium', `Higher or Lower, ${next} in a row`, { once: round });
+        else if (next % 5 === 0) awardPack('standard', `Higher or Lower, ${next} in a row`, { once: round });
         setStreak(next);
         if (next > best) {
           setBest(next);

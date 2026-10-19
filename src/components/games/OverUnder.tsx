@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { awardPack } from '@/utils/collection';
 import GameBanner from './GameBanner';
 import { ArcadeButton, Confetti, CountUp, Lamp, LampRow } from './ArcadeUI';
 import { loadGameStat, playerKey, saveGameStat, type GamePlayer } from './gameUtils';
@@ -188,6 +189,8 @@ const OverUnder = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<st
       setStreak(bet.streakAfter);
       const allHit = bet.settlement.hits.every(Boolean);
       if (allHit) setConfetti(Date.now());
+      if (bet.parlay && allHit) awardPack('premium', 'Over / Under parlay hit', { once: bet });
+      else if (bet.settlement.net > 0) awardPack('standard', 'Over / Under slip in profit', { once: bet });
       return;
     }
     const t = window.setTimeout(() => setShown((n) => n + 1), shown === 0 ? 350 : REVEAL_MS);
