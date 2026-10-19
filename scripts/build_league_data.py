@@ -315,7 +315,8 @@ def main():
             team_key = CURRENT_CLUB
         # Only real franchises count; teams.json's UNK/CUR placeholders have no conference.
         team = teams[team_key]["name"] if teams.get(team_key, {}).get("conference") else ""
-        status = STATUS_FIXES.get(p["n"]) or sheet_row.get("st") or ("Active" if p.get("team") == "CUR" else "Active")
+        # In the game's Hall of Fame = retired (internal only; the UI never shows status)
+        status = STATUS_FIXES.get(p["n"]) or ("Retired" if p["n"] in RETIRED_WITH else None) or sheet_row.get("st") or ("Active" if p.get("team") == "CUR" else "Active")
         out[p["pos"]].append({**p, "_tt": round(tt, 2), "_team": team, "_status": status})
 
     award = lambda p: g(p, "dpoy") if p["pos"] in ("LB", "DB", "DL") else g(p, "opoy")

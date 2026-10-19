@@ -8,6 +8,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState } f
  *   #stats/teams                 Stats sub-tab (players, teams, h2h, deepdive)
  *   #stats/players/leaders       ...plus a section id to scroll to inside the sub-tab
  *   #stats/deepdive?p=QB:Name    Player Deep Dive with a player preselected
+ *   #lab?t=<lineup>              Team Lab with a lineup (utils/teamLab encodeLineup)
  *
  * Old in-page anchors (#leaders, #head-to-head, #comp-finder, ...) and the retired #teams tab still resolve.
  * Unknown hashes are ignored (the current page stays), so plain in-page anchors keep working.
@@ -19,7 +20,7 @@ export type StatsSub = (typeof STATS_SUBS)[number];
 /** Internal tab ids (as used by Header / Index) → hash names. */
 const TAB_TO_HASH: Record<string, string> = { career: 'stats' };
 const HASH_TO_TAB: Record<string, string> = { stats: 'career', arcade: 'games' };
-const KNOWN_TABS = new Set(['games', 'career', 'hof', 'collection', 'timeline', 'office']);
+const KNOWN_TABS = new Set(['games', 'career', 'lab', 'hof', 'collection', 'timeline', 'office']);
 
 /** Legacy section anchors from the old one-page Stats layout → where they live now. */
 const LEGACY_SECTIONS: Record<string, { sub: StatsSub; section?: string }> = {
@@ -39,6 +40,8 @@ export interface Route {
   section?: string;
   /** Player key ("POS:Name") for Comps / Map deep links. */
   p?: string;
+  /** Team Lab lineup (encodeLineup) */
+  t?: string;
 }
 
 const isSub = (s: string | undefined): s is StatsSub => !!s && (STATS_SUBS as readonly string[]).includes(s);
@@ -70,7 +73,8 @@ export const parseHash = (hash: string): Route | null => {
     const sub = isSub(segs[1]) ? segs[1] : alias[segs[1]];
     return { tab, sub, section: segs[2] || undefined, p };
   }
-  return { tab, p };
+  const t = params.get('t') || undefined;
+  return t ? { tab, p, t } : { tab, p };
 };
 
 export const buildHash = (r: Route): string => {
@@ -80,6 +84,7 @@ export const buildHash = (r: Route): string => {
     if (r.section) h += `/${encodeURIComponent(r.section)}`;
   }
   if (r.p) h += `?p=${encodeURIComponent(r.p)}`;
+  if (r.t) h += `${r.p ? '&' : '?'}t=${encodeURIComponent(r.t).replace(/%20/g, '+')}`;
   return h;
 };
 

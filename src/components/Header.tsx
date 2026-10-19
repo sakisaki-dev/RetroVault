@@ -14,6 +14,7 @@ interface HeaderProps {
 export const NAV_TABS = [
   { value: 'games', label: 'Arcade' },
   { value: 'career', label: 'Stats' },
+  { value: 'lab', label: 'Team Lab' },
   { value: 'hof', label: 'Hall of Fame' },
   { value: 'collection', label: 'Collection' },
   { value: 'timeline', label: 'Timeline' },

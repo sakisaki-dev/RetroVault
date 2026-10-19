@@ -6,6 +6,7 @@ import GamesTab from '@/components/tabs/GamesTab';
 import TimelineTab from '@/components/tabs/TimelineTab';
 import FrontOfficeTab from '@/components/tabs/FrontOfficeTab';
 import CollectionTab from '@/components/tabs/CollectionTab';
+import TeamLabTab from '@/components/teamlab/TeamLabTab';
 import CardUnlockToasts from '@/components/collection/CardUnlockToasts';
 import CeremonyHost from '@/components/ceremony/CeremonyHost';
 import { LeagueProvider } from '@/context/LeagueContext';
@@ -44,6 +45,7 @@ const IndexContent = () => {
         <HubRouteContext.Provider value={hub}>
           <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
             {activeTab === 'career' && <CareerTab />}
+            {activeTab === 'lab' && <TeamLabTab />}
             {activeTab === 'hof' && <HallOfFameTab />}
             {activeTab === 'collection' && <CollectionTab />}
             {activeTab === 'timeline' && <TimelineTab />}
