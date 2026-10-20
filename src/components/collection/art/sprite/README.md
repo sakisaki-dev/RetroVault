@@ -19,7 +19,7 @@ render.ts    compositor: body, layering, raster, colours      → all of the abo
 - **Rects** are `[x, y, w, h, key]` in sprite pixels. Keys are colour slots (`'H'` shell, `'s'` skin, `'J'` jersey …,
   see `render.ts colours()`); later rects win.
 - **Fine grid.** `render.ts` rasterises at `F` (2) cells per sprite pixel. Everything is drawn in whole sprite pixels
-  except fine detail (helmet logos, number outlines), which uses multiples of `1 / F`.
+  except fine detail (helmet logos, sleeve and pants stripes), which uses multiples of `1 / F`.
 - Primitives: `line(a, b, thickness, key, from?, to?, offset?)` (thick Bresenham line, optionally a fraction of it),
   `stamp(rows, x, y, map?)` (a string template, one char per pixel, `'.'` = empty), `set`, `span`, `shade`, `tint`.
 
@@ -67,8 +67,7 @@ beard, `fT` loc / twist highlight, `fH` skin highlight, `fU` durag sheen, `fR` /
 **Golden hour** (`sig-golden`; no player uses it since the owner reverted Brandson to arms crossed): `buildSprite` returns `goldenHourPortrait` instead of a body:
 a head-and-shoulders portrait on the fine grid (F cells per sprite pixel), the head tilted up ~20° toward a low sun
 at the upper right, eyes up, golden rim light on the sun side, a stepped sun glow and lens flare, locs over massive
-shoulders, the card's number on the near shoulder in the card's uniform. Its own outline is baked in (`runsOf(grid,
-false)` skips the sprite outline). poses.ts registers the key in `SIGNATURES` (label "Signature: Golden hour") with
+shoulders, the card's number on the near shoulder in the card's uniform. No outline (like every figure). poses.ts registers the key in `SIGNATURES` (label "Signature: Golden hour") with
 a fallback body (`sig-crossed`) for full-figure contexts.
 
 **Standardisation rule.** Players without a `sprites.json` entry all get the same generic character (hair hidden
@@ -138,7 +137,7 @@ allHomes(), allAlternates()                         // Art lab strips
 
 Rendering (`render.ts`): sleeve bands are drawn across the arm on the fine grid, clipped to the sleeve's pixels, ending
 half a pixel above the hem; pants stripes run along the thigh as half-pixel columns; sock stripes are half-pixel rows;
-'double' numbers get the second colour as a half-pixel drop to the lower right. New colour keys: `u1…` sleeve bands,
+the sprite draws numbers solid (no outline; the outline fields serve the other art styles). New colour keys: `u1…` sleeve bands,
 `p1…` pants columns, `c1…` sock rows, `uc` collar, `us` shoulder cap, `n2` second number outline, `tg` tiger stripes.
 
 ## `poses.ts`
@@ -165,10 +164,12 @@ markFor(key): 'goal' | 'sideline'     // turf mark the pose needs (pylon + goal 
 - **Variation** (`jitterFor(name)`, stable per player): hands ±1, knee ±1, stride ±1, an arm angle (±7°, free arms
   swing round the shoulder and a held ball moves with its hand), which arm carries the ball in carry poses (`swap`),
   chin up a pixel, and profile ↔ three-quarter head where a pose reads either way (`HEAD_TURN`).
-- **Stand-ins** (`x-…` poses, never rolled) are upright players on the same frame as the card's player: arms at
-  chest height, full-length legs, no hunch. `PixelSprite.tsx` draws them in plain grey with a darker grey helmet,
-  light-grey facemask, no logo or number, behind the turf (so a pile could sink into it) and behind the card's
-  player, so they never cover his face or number.
+- **Stand-ins** (`x-…` poses, never rolled) are upright players on the same frame as the card's player (normal
+  build: same head and torso, which `check:sprites` asserts): arms at chest height, full-length legs, no hunch or
+  lean, the head three-quarter so the facemask shows. `render.ts` defines him (`STAND_IN_LOOK`, `STAND_IN_HELMET`,
+  `STAND_IN_UNIFORM`, `standInColours`: flat two-tone greys per material, a darker helmet with a light cage, no logo
+  or number); `PixelSprite.tsx` draws him opaque, behind the turf (so a pile could sink into it) and behind the card's
+  player, so he never covers his face or number.
 - **Static.** No idle animation; a pose is one frame.
 
 **Scale.** Poses only move limbs, lean (`shear`, a bend at the waist: the chest, number, arms and head move as one
@@ -193,9 +194,23 @@ uniquely named poses, every contact pose has a stand-in and no turf mark is knoc
    (yoke, sleeve trim, collar) → chest number → front leg → helmet on the ground → head (`sideHead` / `tqHead` /
    `frontHead` / `bareHead`) → crossed back arm → front arm (+ finger) → held ball.
 3. Each layer is rasterised at F×. Body layers lean (`shear`) and rotate round the hips; head layers ride the neck
-   with a rigid shift, so a diver's head stays upright (`headUp: false` turns it with the body). `separate` (an
-   outline where raised arms touch the head), then lift; rotated poses are refit just above the turf. Shifts are whole
-   sprite pixels. `runsOf` makes the horizontal runs.
+   with a rigid shift, so a diver's head stays upright (`headUp: false` turns it with the body). `separate` (a crease
+   shade where raised arms touch the head), `ring` (the 1-px black ring round a helmet in a hand or on the ground, the
+   only outline in a figure), `rim` (edge shading, below), then lift; rotated poses are refit just above the turf.
+   Shifts are whole sprite pixels. `runsOf` makes the horizontal runs.
+
+**No outline** (STYLE_GUIDE.md rule 1). `rim` gives every material the game's 2-tone edge: a cell within one sprite
+pixel of the background on its left, right or underside takes its shadow (`s`→`x`, `J`→`Z`, `P`→`z`, `K`→`q`, else
+the derived `<key>~` that `colours()` adds at ~74 % value); top edges stay lit. Where a later layer of the same
+material overlaps (a sleeve over the jersey) the lower one takes the shadow along the contact edge. Eyes, teeth,
+numbers, logos, shoes and the ball keep their colours. `runsOf(grid, true)` (a black ring round everything) is only
+for helmet icons: `PixelHelmet` and the Art lab's `PixelHead` views.
+
+**Jersey, number, shoes.** The torso has a 2-row dark chest band behind the number's top, a dark hem row and a white
+chest pixel under the collar. Numbers are solid 4 × 7 digits with 1-px strokes and no outline (two digits 9 px wide),
+rows 1–2 in the number's shade (`Ns`: `#bec6dd` for white). Sleeve stripes are clipped to the sleeve outside the
+torso, so they never draw lines across the chest. Every team wears the same shoe: a white sock-top row, a `#bec6dd`
+upper and a `#89a1ab` sole row (`B`, `Bs`).
 
 `fieldMarkFor(look, poseKey, name)` gives the sprite x of a pose's turf mark (the goal line and pylon under a reaching
 ball, the sideline under a toe-tap's toes) from the same placement maths; `PixelSpriteArt` draws it in place of the

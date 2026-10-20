@@ -220,6 +220,10 @@
 }
 .fut__art:has(> .ra--pixel)::before {
   inset: 14% 4% 6%;
+  /* Sprites have no outline (the game's style), so the backdrop behind them is a lighter wash of the team colour:
+     dark kits (Ravens, Raiders, Steelers, Bucs pewter) keep a readable edge on the dark tiers */
+  background: radial-gradient(ellipse at 50% 58%, color-mix(in srgb, var(--fut-a) 45%, #c3cde0), transparent 72%);
+  opacity: 0.6;
 }
 .ra--pixel {
   overflow: hidden;
@@ -281,9 +285,15 @@
   color: hsl(var(--foreground));
   border-bottom-color: hsl(var(--gold));
 }
-.lab__tab:focus-visible {
-  outline: 2px solid hsl(var(--gold));
-  outline-offset: -2px;
+/* The underline is the active state; the ring shows only for keyboard focus, and never on an inactive tab (a tap on
+   iOS can leave focus behind on the tab that was active) */
+.lab__tab:focus {
+  outline: none;
+}
+.lab__tab.is-on:focus-visible {
+  outline: 2px solid hsl(var(--gold) / 0.7);
+  outline-offset: -4px;
+  border-radius: 4px;
 }
 .lab__body {
   position: relative;

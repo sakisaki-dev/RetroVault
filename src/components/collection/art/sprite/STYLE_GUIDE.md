@@ -301,12 +301,14 @@ Skin ramps are in section 5.
 
 ### Where the current code differs from the game
 
-- `render.ts` (header step 4, `runsOf(grid, outline = true)`) adds a dark one-pixel outline round every figure. The
-  game's card and detail sprites have none (rule 1).
-- `faces.ts` `SKIN_TONES` (`#ebbca0 … #5a3222`) are close to the game's five bases but not exact, and have six steps
-  where the game has five (section 5).
-- The README's eye spec ("white + 2-px pupil", eyes two rows for intense) is larger than the game's 1 white + 1
-  pupil, 1 row.
+- **Helmets stay on in the normal poses.** The game draws card and detail sprites bare-headed (rule 3); the owner
+  wants NFL-accurate helmets on the cards, so only celebrations and signatures take the helmet off. This is deliberate.
+- **Card backdrop.** The game's cards are light, flat stripes (rule 12); ours keep the tier backgrounds (some near
+  black), so the sprite card's backdrop is a lighter wash of the team colour (`art.css`, `.fut__art:has(> .ra--pixel)`)
+  to keep outline-free dark kits readable.
+- Resolved: no figure outline (`render.ts rim()` does the 2-tone edge shading; only helmet icons keep a black ring),
+  the five skin ramps, 1-px eyes, 7-px solid numbers with `#bec6dd` stem rows, the chest band and hem row, one shoe
+  for every team, the three-row shadow ellipse.
 
 ---
 

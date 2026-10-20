@@ -7,7 +7,7 @@ import { lookFor, useSpriteTable, type HeadOpts, type SpriteLook } from './sprit
 import { frontHead, helmetColours, helmetFor, miniHelmet, sideHead, tqHead, type Helmet } from './sprite/helmets';
 import { helmetWith, homeUniform, type Uniform } from './sprite/uniforms';
 import { poseKeyFor, standInsFor, type PoseOut, type StandIn } from './sprite/poses';
-import { buildSprite, colours, fieldMarkFor, rasterise, runsOf } from './sprite/render';
+import { buildSprite, colours, fieldMarkFor, rasterise, runsOf, STAND_IN_HELMET, STAND_IN_LOOK, STAND_IN_UNIFORM, standInColours } from './sprite/render';
 import { paint, useBitmap } from './bitmap';
 
 /*
@@ -66,30 +66,25 @@ export const PixelPlayer = ({ player, pal, number, pose, uniform, className, tra
 
 // ---------- Stand-in opponent (contact poses) ----------
 
-/** A generic opponent in a plain grey uniform: no logo, no stripe, desaturated, so the card's player stays the focus. */
+/** Palette for the stand-in's derived keys (his own colours come from standInColours) */
 const GREY_PAL: Palette = { a: '#7c828c', b: '#a3a8b0', aDark: '#5f646d', aDeep: '#3d4048', aLight: '#a9aeb6', bDark: '#6d7179', onA: '#c9ccd2', trim: '#9da2aa', pants: '#b4b8bf' };
-const GREY_HELMET: Helmet = { shell: '#585d66', stripe: 'none', stripes: ['#585d66', '#585d66'], mask: '#b9bec6', colors: [], logo: [] };
-const GREY_LOOK: SpriteLook = { skin: 'tan', hair: { style: 'short', color: 'darkbrown' }, facial: 'none', accessories: [], build: 'normal', height: 'normal', locked: false };
 const GREY_STYLE = { ...teamStyleFor({ team: '' }), sleeve: 'none' as const, pantsStripe: '#9da2aa' };
-const GREY_UNIFORM: Uniform = { id: 'stand-in', label: 'Stand-in', jersey: '#8d929b', trim: '#8d929b', sleeve: 'none', number: '#8d929b', numberOutline: '#8d929b', numberStyle: 'solid', pants: '#b1b5bc', pantsStripe: null, socks: '#8d929b', sockStripe: '#8d929b', cleats: '#a7adb8' };
 
+/** A generic opponent (render.ts STAND_IN_*): the card players' normal frame in flat greys, no logo or number. */
 const StandInSprite = ({ s, i }: { s: StandIn; i: number }) => {
-  const bmp = useBitmap(`stand-in|${s.pose}|${i}`, () => {
-    const runs = buildSprite(GREY_LOOK, s.pose, GREY_STYLE, GREY_HELMET, null, `stand-in-${i}`, GREY_UNIFORM);
-    // Desaturated skin too, so nothing on the stand-in competes with the card's player
-    const c = { ...colours(GREY_PAL, GREY_LOOK, GREY_STYLE, GREY_HELMET, GREY_UNIFORM), s: '#9c948f', x: '#857e7a', X: '#7a7470', d: '#857e7a', u: '#aaa29d', m: '#6d6763' };
-    return paint(runs, c, GRID_W, GRID_H);
-  });
-  // Built around x = 22 facing right; mirrored to face the player when flip
+  const bmp = useBitmap(`stand-in|${s.pose}|${i}`, () =>
+    paint(buildSprite(STAND_IN_LOOK, s.pose, GREY_STYLE, STAND_IN_HELMET, null, `stand-in-${i}`, STAND_IN_UNIFORM), standInColours(GREY_PAL, GREY_STYLE), GRID_W, GRID_H),
+  );
+  // Built around x = 22 facing right; mirrored to face the player when flip. Opaque, so his greys stay flat.
   const t = s.flip ? `translate(${s.x + 22} ${s.dy ?? 0}) scale(-1 1)` : `translate(${s.x - 22} ${s.dy ?? 0})`;
-  return <GridImage url={bmp?.url} transform={t} opacity={0.92} />;
+  return <GridImage url={bmp?.url} transform={t} />;
 };
 
 /** One team's helmet on its own (mini helmet, as carried by the sprites). */
 export const PixelHelmet = ({ team, className = 'ra-helmet' }: { team: string; className?: string }) => {
   const hel = helmetFor(team);
   const bmp = useBitmap(`mini|${JSON.stringify(hel)}`, () => {
-    const runs = runsOf(rasterise(miniHelmet(PIX_X + 1, 1, hel))).filter(([x, y]) => x < 14 * F && y < 11 * F);
+    const runs = runsOf(rasterise(miniHelmet(PIX_X + 1, 1, hel)), true).filter(([x, y]) => x < 14 * F && y < 11 * F);
     return paint(runs, { ...helmetColours(hel), o: '#10131a' }, 14 * F, 11 * F);
   });
   return bmp ? <img className={className} src={bmp.url} alt="" draggable={false} /> : <span className={className} aria-hidden="true" />;
@@ -125,7 +120,8 @@ export const PixelHead = ({ player, look, pal, view, uniform, label, className }
   const hel = helmetWith(helmetFor(player.team), uni);
   const style = teamStyleFor(player);
   const bmp = useBitmap(JSON.stringify(['head', view, look, hel, style, uni, pal]), () => {
-    const runs = runsOf(rasterise(HEADS[view](PIX_X + 4, 4, { look, pose: STILL, style, hel })));
+    // Helmet views are icons: they keep the 1-px black outline (STYLE_GUIDE.md §3)
+    const runs = runsOf(rasterise(HEADS[view](PIX_X + 4, 4, { look, pose: STILL, style, hel })), true);
     const c: Record<Key, string> = colours(pal, look, style, hel, uni);
     return paint(runs, c, GRID_W, GRID_H, true, 1);
   });
@@ -175,7 +171,10 @@ const PixelSpriteArt = ({ player, number, pal, pose, uniform }: SpriteArtProps) 
         ) : (
           <rect x="44" y={GROUND} width="2" height={PIX_H - GROUND} fill="#e9f3e6" opacity="0.9" />
         )}
-        <rect x="4" y={GROUND + 1} width="34" height="2" fill="#000" opacity="0.28" />
+        {/* Flat shadow under the feet: three stacked rows, a pixel ellipse (STYLE_GUIDE.md §9) */}
+        <rect x="9" y={GROUND} width="26" height="1" fill="#000" opacity="0.28" />
+        <rect x="7" y={GROUND + 1} width="30" height="1" fill="#000" opacity="0.28" />
+        <rect x="11" y={GROUND + 2} width="22" height="1" fill="#000" opacity="0.28" />
       </g>
       {mark?.kind === 'goal' && (
         // Pylon on the goal line, the ball reaching past it

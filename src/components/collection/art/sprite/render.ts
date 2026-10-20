@@ -16,7 +16,9 @@ import { pantsBands, sleeveBands, sockBands, type Uniform } from './uniforms';
  *      opening behind the facemask bars, chin strap, pixel team decal, crown stripe), or facing out for
  *      celebrations, or helmet off (full face and hair, the helmet in his hand or at his feet). The face has
  *      shading, brows, eyes, nose and a mouth set by the pose (grimace, smile, stern, eyes up) plus his facial hair.
- *   4. Every empty pixel touching the figure becomes a dark outline, like the game's sprites.
+ *   4. No outline (STYLE_GUIDE.md rule 1): edges come from colour contrast plus a darker shade of the same material
+ *      down both sides (and under) every limb, the torso and the face (rim()), and along the contact edge where a
+ *      part overlaps the same material. Only helmet icons (in a hand, on the ground, the Art lab) keep a black ring.
  */
 
 /** Grid keys → colours (see colours()). */
@@ -73,7 +75,7 @@ export const bodyFor = (look: SpriteLook): Body => {
  * from distance d0 along the arm, optionally slanted (skew: extra distance per pixel across the arm), clipped to the
  * sleeve's own pixels so they never change the silhouette.
  */
-const sleeveStripes = (s: Pt, e: Pt, t: number, bands: [Key, number][], d0: number, sleeve: Rect[], skew = 0): Rect[] => {
+const sleeveStripes = (s: Pt, e: Pt, t: number, bands: [Key, number][], d0: number, sleeve: Rect[], skew = 0, torso?: Set<string>): Rect[] => {
   const len = Math.hypot(e[0] - s[0], e[1] - s[1]) || 1;
   const [ux, uy] = [(e[0] - s[0]) / len, (e[1] - s[1]) / len];
   const [nx, ny] = [-uy, ux];
@@ -94,7 +96,9 @@ const sleeveStripes = (s: Pt, e: Pt, t: number, bands: [Key, number][], d0: numb
         const aa = a + k * skew;
         const x = Math.floor((s[0] + c + ux * aa + nx * k) * F) / F;
         const y = Math.floor((s[1] + c + uy * aa + ny * k) * F) / F;
-        if (!cover.has(`${Math.floor(x)},${Math.floor(y)}`)) continue;
+        const px = `${Math.floor(x)},${Math.floor(y)}`;
+        // Only on the sleeve, and never where it overlaps the torso (same colour: a stripe there reads as a stray line)
+        if (!cover.has(px) || torso?.has(px)) continue;
         cells.set(`${x},${y}`, [x, y, 1 / F, 1 / F, key]);
       }
     d = d1;
@@ -121,7 +125,7 @@ const lengthStripe = (a: Pt, b: Pt, keys: Key[], to = 1): Rect[] => {
   return [...cells.values()];
 };
 
-const arm = (pts: [Pt, Pt, Pt], b: Body, look: SpriteLook, front: boolean, palm: boolean, uni: Uniform): Rect[] => {
+const arm = (pts: [Pt, Pt, Pt], b: Body, look: SpriteLook, front: boolean, palm: boolean, uni: Uniform, torsoPx?: Set<string>): Rect[] => {
   const k = (x: Key): Key => (front ? x : (FAR[x] ?? x));
   const acc = look.accessories;
   const sleeve = front && acc.some((a) => a.startsWith('sleeve-'));
@@ -149,14 +153,14 @@ const arm = (pts: [Pt, Pt, Pt], b: Body, look: SpriteLook, front: boolean, palm:
   // tiger stripes on yoke-coloured sleeves; the Chargers' bolt as two slanted strokes
   const len = Math.hypot(e[0] - s[0], e[1] - s[1]) || 1;
   const hem = 0.5 * len + (t + 1) / 2 - 0.5;
-  if (uni.shoulder) out.push(...sleeveStripes(s, e, t, [['us', 1]], -1, sleeveRects));
-  if (uni.sleeve === 'tiger') out.push(...sleeveStripes(s, e, t, [['tg', 1], ['Q', 1], ['tg', 1], ['Q', 1], ['tg', 1]], hem - 3.2, sleeveRects, 0.7));
-  else if (uni.sleeve === 'bolt') out.push(...sleeveStripes(s, e, t, [['j', 1], [k('J'), 1], ['j', 1]], hem - 2.2, sleeveRects, -0.9));
+  if (uni.shoulder) out.push(...sleeveStripes(s, e, t, [['us', 1]], -1, sleeveRects, 0, torsoPx));
+  if (uni.sleeve === 'tiger') out.push(...sleeveStripes(s, e, t, [['tg', 1], ['Q', 1], ['tg', 1], ['Q', 1], ['tg', 1]], hem - 3.2, sleeveRects, 0.7, torsoPx));
+  else if (uni.sleeve === 'bolt') out.push(...sleeveStripes(s, e, t, [['j', 1], [k('J'), 1], ['j', 1]], hem - 2.2, sleeveRects, -0.9, torsoPx));
   else {
     const bands = sleeveBands(uni);
     const total = bands.reduce((a, [, w]) => a + (w ?? 1), 0) / F;
     const keyed = bands.map(([col, w], i): [Key, number] => [col == null ? k('J') : `u${i + 1}`, w ?? 1]);
-    if (keyed.length) out.push(...sleeveStripes(s, e, t, keyed, Math.max(0.5, hem - 0.5 - total), sleeveRects));
+    if (keyed.length) out.push(...sleeveStripes(s, e, t, keyed, Math.max(0.5, hem - 0.5 - total), sleeveRects, 0, torsoPx));
   }
   if (acc.includes('armbands')) band(s, e, 0.66, 'j');
   if (acc.includes('tattoos') && !sleeve) out.push(...line(e, h, t, 't', 0.15, 0.75).filter((_, i) => i % 2 === 0));
@@ -191,11 +195,12 @@ const leg = (pts: [Pt, Pt, Pt], b: Body, front: boolean, uni: Uniform, pointed =
     if (cols.length) out.push(...lengthStripe([hp[0] + 1.5, hp[1] + 0.5], [kn[0] + 1.5, kn[1] + 0.5], cols.map((_, i) => `p${i + 1}`), 0.9));
   }
   const [ax, ay] = an;
-  // Cleat: flat on the turf, or pointed (heel up, toe down on the same sole row: a drag or a push-off)
+  // One shoe for every team (STYLE_GUIDE.md rule 9): a white sock top, a pale lavender upper, a grey sole row.
+  // Flat on the turf, or pointed (heel up, toe down on the same sole row: a drag or a push-off)
+  const x = ax - Math.floor(t / 2);
   if (pointed) {
-    const x = ax - Math.floor(t / 2);
-    out.push([x, ay - 1, t, 1, 'B'], [x + 1, ay, t, 1, 'B'], [x + 2, ay + 1, t - 1, 1, 'B']);
-  } else out.push([ax - Math.floor(t / 2), ay, t + 2, 2, 'B'], [ax + Math.ceil(t / 2), ay + 1, 1, 1, 'B']);
+    out.push([x, ay - 2, t, 1, 'W'], [x, ay - 1, t, 1, 'B'], [x + 1, ay, t, 1, 'B'], [x + 2, ay + 1, t - 1, 1, 'Bs']);
+  } else out.push([x, ay - 1, t, 1, 'W'], [x, ay, t + 2, 1, 'B'], [x, ay + 1, t + 3, 1, 'Bs']);
   return out;
 };
 
@@ -227,12 +232,16 @@ const torso = (cx: number, sy: number, b: Body, uni: Uniform): Rect[] => {
   else if (uni.sleeve === 'tiger' && uni.yoke) {
     R.push([cx - b.sh, sy, b.sh * 2 + 1, 2, 'Q']);
     [-b.sh + 1, -b.sh + 3, b.sh - 3, b.sh - 1].forEach((dx, i) => R.push([cx + dx, sy + (i % 2), 1, 2 - (i % 2), 'tg']));
-  } else if (uni.sleeve !== 'none') R.push([cx - b.sh, sy + 2, 1, 1, 'j'], [cx + b.sh, sy + 2, 1, 1, 'j']);
+  }
   if (uni.shoulder) R.push([cx - b.sh + 1, sy, b.sh * 2 - 1, 1 / F, 'us']);
   if (uni.sleeve === 'bands') for (let y = sy + 4; y < sy + b.torsoH - 1; y += 3) R.push([cx - b.sh, y, b.sh * 2 + 1, 1, 'j']);
   R.push([cx - 2, sy - 1, 5, 1, 'uc'], [cx, sy, 1, 1, 'Z']);
-  // Belt, pants top (hips just wider than the waist)
+  // The game's jersey shading: a darker 2-row chest band behind the number's top, a darker hem row, and the white
+  // chest pixel (the shield) under the collar
   const hy = sy + b.torsoH;
+  const bandHalf = Math.round(b.sh - 1 - (b.sh - 1 - b.waist) * Math.min(1, 2 / Math.max(1, (b.torsoH - 3) * 0.62)));
+  R.push([cx - bandHalf, sy + 5, bandHalf * 2 + 1, 2, 'Z'], [cx - b.waist, hy - 1, b.waist * 2 + 1, 1, 'Z'], [cx, sy + 1, 1, 1, 'W']);
+  // Belt, pants top (hips just wider than the waist)
   R.push([cx - b.waist - 1, hy, b.waist * 2 + 3, 3, 'P'], [cx - b.waist, hy, b.waist * 2 + 1, 1, 'b']);
   return R;
 };
@@ -240,26 +249,31 @@ const torso = (cx: number, sy: number, b: Body, uni: Uniform): Rect[] => {
 
 const ball = ([x, y]: Pt): Rect[] => stamp(['.FFFFF.', 'FFfffFF', '.FFFFF.'], x - 3, y - 1);
 
-/** 3 × 5 pixel digits */
-const DIGITS = ['111101101101111', '010110010010111', '111001111100111', '111001111001111', '101101111001001', '111100111001111', '111100111101111', '111001010010010', '111101111101111', '111101111001111'];
-/** The big chest number with its outline (one ring, or two for 'double'; none for 'solid'). */
-const numberRects = (n: number, x: number, y: number, uni: Uniform): Rect[] => {
+/** 4 × 7 pixel digits with 1-px strokes, like the game's chest numbers (STYLE_GUIDE.md rule 8) */
+const DIGITS = [
+  ['####', '#..#', '#..#', '#..#', '#..#', '#..#', '####'],
+  ['.##.', '..#.', '..#.', '..#.', '..#.', '..#.', '.###'],
+  ['####', '...#', '...#', '####', '#...', '#...', '####'],
+  ['####', '...#', '...#', '.###', '...#', '...#', '####'],
+  ['#..#', '#..#', '#..#', '####', '...#', '...#', '...#'],
+  ['####', '#...', '#...', '####', '...#', '...#', '####'],
+  ['####', '#...', '#...', '####', '#..#', '#..#', '####'],
+  ['####', '...#', '...#', '...#', '...#', '...#', '...#'],
+  ['####', '#..#', '#..#', '####', '#..#', '#..#', '####'],
+  ['####', '#..#', '#..#', '####', '...#', '...#', '####'],
+];
+/**
+ * The chest number: solid, no outline, 7 rows; two digits take 9 px with a 1-px gap, centred on x. Rows 1–2 sit in
+ * the jersey's dark chest band and take the number's shade (`#bec6dd` for white numbers), as in the game.
+ */
+const numberRects = (n: number, x: number, y: number): Rect[] => {
   const s = String(n).slice(0, 2);
-  const start = s.length === 1 ? x - 1 : x - 3;
-  const cells: Pt[] = [];
-  [...s].forEach((ch, i) => {
-    const bits = DIGITS[Number(ch)] ?? DIGITS[0];
-    for (let q = 0; q < 15; q++) if (bits[q] === '1') cells.push([start + i * 4 + (q % 3), y + Math.floor(q / 3)]);
-  });
+  const start = s.length === 1 ? x - 1 : x - 4;
   const out: Rect[] = [];
-  if (uni.numberStyle !== 'solid') {
-    // Outline on the fine grid: half a sprite pixel round each digit cell; 'double' adds the second colour as a
-    // half-pixel drop to the lower right (a full second ring would fill the gaps between digits at this size)
-    const h = 1 / F;
-    if (uni.numberStyle === 'double') cells.forEach(([cx, cy]) => out.push([cx, cy, 1 + 2 * h, 1 + 2 * h, 'n2']));
-    cells.forEach(([cx, cy]) => out.push([cx - h, cy - h, 1 + 2 * h, 1 + 2 * h, 'O']));
-  }
-  cells.forEach(([cx, cy]) => out.push([cx, cy, 1, 1, 'N']));
+  [...s].forEach((ch, i) =>
+    (DIGITS[Number(ch)] ?? DIGITS[0]).forEach((row, j) =>
+      [...row].forEach((c, q) => c === '#' && out.push([start + i * 5 + q, y + j, 1, 1, j === 1 || j === 2 ? 'Ns' : 'N']))),
+  );
   return out;
 };
 
@@ -298,8 +312,11 @@ const NEIGH = [
   [0, 1],
 ];
 
-/** One-sprite-pixel dark outline around the figure (F fine cells), then horizontal runs of one colour. */
-export const runsOf = (grid: Grid, outline = true): Rect[] => {
+/**
+ * Horizontal runs of one colour. `outline` adds a one-sprite-pixel black ring (F fine cells) round everything: only
+ * for helmet icons (the Art lab helmets, mini helmets), never for figures (STYLE_GUIDE.md rule 1).
+ */
+export const runsOf = (grid: Grid, outline = false): Rect[] => {
   let out = grid.slice();
   for (let pass = 0; pass < (outline ? F : 0); pass++) {
     const src = out;
@@ -469,9 +486,14 @@ export const composeSprite = (look: SpriteLook, poseKey: string, style: TeamStyl
         ? miniHelmet(cx - b.sh - 12, GROUND - 9, hel)
         : [];
   const toe = (front: boolean) => pose.toes === 'both' || pose.toes === (front ? 'front' : 'back');
-  const backArm = arm(upper(pose.backArm), b, look, false, !!pose.backPalm, uni);
+  const torsoRects = torso(cx, sy + c, b, uni);
+  const torsoPx = new Set<string>();
+  torsoRects.forEach(([x, y, w, h]) => {
+    for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) torsoPx.add(`${Math.floor(x + i)},${Math.floor(y + j)}`);
+  });
+  const backArm = arm(upper(pose.backArm), b, look, false, !!pose.backPalm, uni, torsoPx);
   const frontArmPts = upper(pose.frontArm);
-  const frontArm = [...arm(frontArmPts, b, look, true, !!pose.palm, uni), ...(pose.finger ? fingerRects(frontArmPts, b, look) : [])];
+  const frontArm = [...arm(frontArmPts, b, look, true, !!pose.palm, uni, torsoPx), ...(pose.finger ? fingerRects(frontArmPts, b, look) : [])];
   const arms = [...(pose.armsFront ? backArm : []), ...frontArm];
 
   // Layers: the body ones lean / rotate together; the head ones ride the neck upright (or turn with the body)
@@ -484,14 +506,14 @@ export const composeSprite = (look: SpriteLook, poseKey: string, style: TeamStyl
   const headShift: Pt = [Math.round(nx - neck[0]) * F, Math.round(ny - neck[1]) * F];
   const headT = (rects: Rect[]): Grid => (pose.rotate && pose.headUp === false ? bodyT(rects) : moveGrid(rasterise(rects), headShift[0], headShift[1]));
 
-  const torsoG = bodyT(torso(cx, sy + c, b, uni));
+  const torsoG = bodyT(torsoRects);
   const headG = headT(headFront);
   const armsG = bodyT(arms);
   const layers: Grid[] = [
     bodyT([...(pose.ballBack ? ballRects : []), ...(pose.armsFront ? [] : backArm), ...(pose.helmetAt === 'hand' ? helmetRects : []), ...leg(legPts(pose.backLeg), b, false, uni, toe(false))]),
     headT(headBehind),
     torsoG,
-    bodyT([...(number != null && !pose.armsFront ? numberRects(number, cx + 1, sy + c + 4, uni) : []), ...leg(legPts(pose.frontLeg), b, true, uni, toe(true)), ...(pose.helmetAt === 'feet' ? helmetRects : [])]),
+    bodyT([...(number != null && !pose.armsFront ? numberRects(number, cx, sy + c + 4) : []), ...leg(legPts(pose.frontLeg), b, true, uni, toe(true)), ...(pose.helmetAt === 'feet' ? helmetRects : [])]),
     headG,
     armsG,
   ];
@@ -499,8 +521,19 @@ export const composeSprite = (look: SpriteLook, poseKey: string, style: TeamStyl
   const ballG = pose.ball && !pose.ballBack ? bodyT(ballRects) : null;
   if (ballG) layers.push(ballG);
   const grid: Grid = new Array(W * H);
-  layers.forEach((g) => g.forEach((v, i) => v && (grid[i] = v)));
+  // Which layer each cell came from (for the contact-edge shading)
+  const lid = new Int8Array(W * H).fill(-1);
+  layers.forEach((g, li) =>
+    g.forEach((v, i) => {
+      if (!v) return;
+      grid[i] = v;
+      lid[i] = li;
+    }),
+  );
   separate(grid, headG, armsG);
+  // A helmet icon in a hand or on the ground keeps its 1-px black ring (against the background only)
+  if (helmetRects.length) ring(grid, bodyT(helmetRects));
+  rim(grid, lid);
 
   // Lift; dives are refit just above the turf. Shifts are whole sprite pixels (F cells), so the art stays on the grid.
   const box = boundsOf(grid);
@@ -517,8 +550,8 @@ export const composeSprite = (look: SpriteLook, poseKey: string, style: TeamStyl
 };
 
 export const buildSprite = (look: SpriteLook, poseKey: string, style: TeamStyle, hel: Helmet, number: number | null | undefined, name: string, uni: Uniform): Rect[] =>
-  // Signature portraits (faces.ts) replace the whole frame, background included, with their own outline
-  isPortraitPose(poseKey) ? runsOf(rasterise(goldenHourPortrait(look, number)), false) : runsOf(composeSprite(look, poseKey, style, hel, number, name, uni).grid);
+  // Signature portraits (faces.ts) replace the whole frame, background included
+  isPortraitPose(poseKey) ? runsOf(rasterise(goldenHourPortrait(look, number))) : runsOf(composeSprite(look, poseKey, style, hel, number, name, uni).grid);
 
 /** Where a pose's turf mark goes (sprite x of a 2-px stripe): under a dive's ball, just behind a toe-tap's toes. */
 export interface FieldMarkAt {
@@ -542,7 +575,7 @@ export const fieldMarkFor = (look: SpriteLook, poseKey: string, name: string): F
   return { kind, x: ax + sx + b.legT - Math.floor(b.legT / 2) - 1 };
 };
 
-/** Where a raised arm touches the head, the arm's edge pixel becomes outline, so the two never merge into a blob. */
+/** Where a raised arm touches the head, the arm's edge pixel takes a crease shade, so the two never merge into a blob. */
 const separate = (grid: Grid, head: Grid, arms: Grid) => {
   for (let y = 0; y < H; y++)
     for (let x = 0; x < W; x++) {
@@ -554,13 +587,79 @@ const separate = (grid: Grid, head: Grid, arms: Grid) => {
         [x, y - 1],
         [x, y + 1],
       ].some(([a, b]) => inside(a, b) && head[at(a, b)] && !arms[at(a, b)]);
-      if (touches) grid[i] = 'o';
+      if (touches) grid[i] = crease(grid[i] as Key);
     }
+};
+
+// ---------- Edge shading (no outline: STYLE_GUIDE.md rules 1 and 4) ----------
+
+/** The shadow tone of a material key; keys without a hand-picked shadow get a derived `<key>~` (colours()). */
+const SHADOW: Record<Key, Key> = { s: 'x', u: 'x', fH: 'x', J: 'Z', Y: 'Z', P: 'z', i: 'z', K: 'q' };
+/** Keys that are already a shadow, a dark, or a detail that must keep its colour (eyes, numbers, logos, shoes, ball) */
+const NO_RIM = new Set<Key>(['x', 'd', 'X', 'Z', 'z', 'q', 'o', 'e', 'w', 'k', 'b', 'm', 't', 'E', 'N', 'Ns', 'M', 'B', 'Bs', 'W', 'F', 'f', 'fN', 'fL', 'fM', 'fE']);
+const shadowOf = (k: Key): Key => SHADOW[k] ?? (k.endsWith('~') ? k : `${k}~`);
+/** A deeper crease (a raised arm against the head) */
+const crease = (k: Key): Key => (k === 's' || k === 'u' || k === 'x' ? 'X' : k === 'J' || k === 'Y' ? 'Z' : shadowOf(k));
+const NO_RIM_PREFIX = /^(L\d|F\d|n2|O$|u\d|p\d|c\d)/;
+
+/**
+ * The game's edge shading: a filled cell within one sprite pixel of the background on its left, right or underside
+ * takes its material's shadow (light from the front and above, so top edges stay lit); a cell that touches a later
+ * layer of the same material (a jersey sleeve over the jersey) takes the shadow along that contact edge.
+ */
+const rim = (grid: Grid, lid: Int8Array) => {
+  const src = grid.slice();
+  const empty = (x: number, y: number) => !inside(x, y) || !src[at(x, y)];
+  for (let y = 0; y < H; y++)
+    for (let x = 0; x < W; x++) {
+      const i = at(x, y);
+      const k = src[i];
+      if (!k || NO_RIM.has(k) || NO_RIM_PREFIX.test(k) || k.endsWith('~')) continue;
+      let edge = false;
+      for (let d = 1; d <= F && !edge; d++) edge = empty(x - d, y) || empty(x + d, y) || empty(x, y + d);
+      if (!edge)
+        for (let d = 1; d <= F && !edge; d++)
+          for (const [a, c] of NEIGH) {
+            const [nx, ny] = [x + a * d, y + c * d];
+            if (!inside(nx, ny)) continue;
+            const n = at(nx, ny);
+            if (src[n] === k && lid[n] > lid[i]) {
+              edge = true;
+              break;
+            }
+          }
+      if (edge) grid[i] = shadowOf(k);
+    }
+};
+
+/** A 1-px (F cells) black ring round a layer's cells, only where the composed grid is empty (and above the turf). */
+const ring = (grid: Grid, layer: Grid) => {
+  const add: number[] = [];
+  for (let y = 0; y < fy(GROUND); y++)
+    for (let x = 0; x < W; x++) {
+      if (grid[at(x, y)]) continue;
+      let near = false;
+      for (let a = -F; a <= F && !near; a++)
+        for (let c = -F; c <= F && !near; c++) if (Math.abs(a) + Math.abs(c) <= F && inside(x + a, y + c) && layer[at(x + a, y + c)]) near = true;
+      if (near) add.push(at(x, y));
+    }
+  add.forEach((i) => (grid[i] = 'o'));
 };
 
 
 
-export const colours = (pal: Palette, look: SpriteLook, style: TeamStyle, hel: Helmet, uni: Uniform): Record<Key, string> => {
+export const colours = (pal: Palette, look: SpriteLook, style: TeamStyle, hel: Helmet, uni: Uniform): Record<Key, string> => withShadows(baseColours(pal, look, style, hel, uni));
+
+/** Adds the derived edge shadow `<key>~` (about 75 % value) for every key (rim()). */
+export const withShadows = (c: Record<Key, string>): Record<Key, string> => {
+  const out = { ...c };
+  Object.entries(c).forEach(([k, v]) => {
+    if (!k.endsWith('~')) out[`${k}~`] = shade(v, 0.74);
+  });
+  return out;
+};
+
+const baseColours = (pal: Palette, look: SpriteLook, style: TeamStyle, hel: Helmet, uni: Uniform): Record<Key, string> => {
   const skin = skinColor(look.skin);
   const ramp = skinRamp(look.skin);
   const acc = look.accessories;
@@ -614,7 +713,10 @@ export const colours = (pal: Palette, look: SpriteLook, style: TeamStyle, hel: H
     K: uni.socks,
     q: shade(uni.socks, 0.82),
     c: uni.sockStripe,
-    B: uni.cleats,
+    // One shoe for every team (STYLE_GUIDE.md rule 9)
+    B: '#bec6dd',
+    Bs: '#89a1ab',
+    Ns: /^#f{3}(f{3})?$/i.test(uni.number) || uni.number.toLowerCase() === '#f4f5f7' ? '#bec6dd' : shade(uni.number, 0.8),
     F: '#8a4f22',
     f: '#f4f1ea',
     W: '#f4f5f7',
@@ -625,3 +727,61 @@ export const colours = (pal: Palette, look: SpriteLook, style: TeamStyle, hel: H
   };
 };
 
+
+// ---------- Stand-in opponent (contact poses) ----------
+//
+// A generic opponent on exactly the card players' normal frame (same body template, head and torso size: the sprite
+// check asserts it), in flat two-tone greys per material so he reads as an ordinary player, not a grey mass: a darker
+// helmet with a light facemask, a mid-grey jersey, light pants, skin and shoes in muted greys. No number, no logo.
+
+export const STAND_IN_LOOK: SpriteLook = { skin: 'tan', hair: { style: 'short', color: 'darkbrown' }, facial: 'none', accessories: [], build: 'normal', height: 'normal', locked: false };
+export const STAND_IN_HELMET: Helmet = { shell: '#575c65', stripe: 'none', stripes: ['#575c65', '#575c65'], mask: '#d6dae0', colors: [], logo: [] };
+export const STAND_IN_UNIFORM: Uniform = {
+  id: 'stand-in',
+  label: 'Stand-in',
+  jersey: '#868b94',
+  trim: '#868b94',
+  sleeve: 'none',
+  number: '#868b94',
+  numberOutline: '#868b94',
+  numberStyle: 'solid',
+  pants: '#c8ccd2',
+  pantsStripe: null,
+  socks: '#6f747d',
+  sockStripe: '#6f747d',
+  cleats: '#b9bdc4',
+};
+/** The stand-in's palette: every key flat grey (base + one shadow), then the derived edge shadows. */
+export const standInColours = (pal: Palette, style: TeamStyle): Record<Key, string> =>
+  withShadows({
+    ...baseColours(pal, STAND_IN_LOOK, style, STAND_IN_HELMET, STAND_IN_UNIFORM),
+    // Helmet: flat shell (no highlight band), light cage, grey chin strap
+    l: '#575c65',
+    M: '#d6dae0',
+    C: '#c4c8ce',
+    k: '#3c3f45',
+    // Jersey, pants, socks: base + one shadow, no highlight
+    Y: '#868b94',
+    Z: '#6d727b',
+    y: '#7a7f88',
+    j: '#868b94',
+    i: '#c8ccd2',
+    z: '#a9adb4',
+    q: '#5c6068',
+    // Muted skin, eyes and hair
+    s: '#a69c95',
+    u: '#a69c95',
+    fH: '#a69c95',
+    x: '#8b827c',
+    d: '#8b827c',
+    X: '#6f6863',
+    m: '#6f6863',
+    fN: '#6f6863',
+    e: '#33363b',
+    w: '#dde0e4',
+    r: '#4b4e54',
+    // Shoes and sock tops
+    B: '#bcc0c7',
+    Bs: '#9a9ea6',
+    W: '#dde0e4',
+  });

@@ -624,35 +624,36 @@ const P: Record<string, PoseFn> = {
     expr: 'stern',
   }),
   // ---------- Stand-in opponents only (never rolled) ----------
-  // Upright and built on the same frame as every card player: arms at chest height, legs at full length, no hunch
+  // Upright and built on the same frame as every card player: arms at chest height, legs at full length, no hunch or
+  // lean, the head turned three-quarter so his facemask shows past the card's player
   /** Pass rusher engaging a blocker */
-  'x-rush': (k) => ({ ...punch(k, 0, 1), ...legs(stride(k)), shear: 1, crouch: 1 }),
+  'x-rush': (k) => ({ ...punch(k, 0, 1), ...legs(stride(k)), look: 'tq' }),
   /** Blocker with his hands on the rusher's chest */
-  'x-block': (k) => ({ ...punch(k, 1, 0), ...legs(plant(k, 4)), crouch: 1 }),
+  'x-block': (k) => ({ ...punch(k, 1, 0), ...legs(plant(k, 4)), look: 'tq' }),
   /** Ball carrier running at the tackler */
-  'x-carrier': (k) => ({ frontArm: tuck(k), backArm: pumpBack(k), ball: tuckBall(k), ...legs(stride(k)), shear: 1 }),
+  'x-carrier': (k) => ({ frontArm: tuck(k), backArm: pumpBack(k), ball: tuckBall(k), ...legs(stride(k)), look: 'tq' }),
   /** Defender reaching for the runner at chest height */
-  'x-tackler': (k) => ({ frontArm: arm(k, true, 10, 0), backArm: reach(k, [k.fs + 9, k.sy + 4]), ...legs(stride(k)), shear: 1, crouch: 1 }),
+  'x-tackler': (k) => ({ frontArm: arm(k, true, 10, 0), backArm: reach(k, [k.fs + 9, k.sy + 4]), ...legs(stride(k)), look: 'tq' }),
   /** Receiver reaching up for the ball */
   'x-catch': (k) => {
     const frontArm = arm(k, true, -60, -75);
-    return { frontArm, backArm: reach(k, at(frontArm, -3, 1)), ...legs(stand(k)), look: 'up' };
+    return { frontArm, backArm: reach(k, at(frontArm, -3, 1)), ...legs(stand(k)), look: 'tq' };
   },
   /** Receiver set at the line */
-  'x-set': (k) => ({ frontArm: arm(k, true, 60, -40), backArm: reach(k, [k.fs + 3, k.sy + 4]), ...legs(plant(k, 3)), crouch: 1 }),
+  'x-set': (k) => ({ frontArm: arm(k, true, 60, -40), backArm: reach(k, [k.fs + 3, k.sy + 4]), ...legs(plant(k, 3)), look: 'tq' }),
   /** Hanging on round a runner's waist from behind, feet dragging */
-  'x-hang': (k) => ({ frontArm: arm(k, true, 30, 10), backArm: reach(k, [k.fs + 8, k.sy + 8]), frontLeg: lg(k, true, 3, k.h, 4), backLeg: lg(k, false, -4, k.h, -8), toes: 'both', shear: 2, crouch: 1 }),
+  'x-hang': (k) => ({ frontArm: arm(k, true, 30, 10), backArm: reach(k, [k.fs + 8, k.sy + 8]), frontLeg: lg(k, true, 3, k.h, 4), backLeg: lg(k, false, -4, k.h, -8), toes: 'both', shear: 1, look: 'tq' }),
   /** Quarterback with the ball cocked */
   'x-qb': (k) => {
     const backArm = arm(k, false, -160, -105);
-    return { frontArm: arm(k, true, -5, -15), backArm, ...legs(plant(k, 3)), ball: at(backArm, -1, -4) };
+    return { frontArm: arm(k, true, -5, -15), backArm, ...legs(plant(k, 3)), ball: at(backArm, -1, -4), look: 'tq' };
   },
   /** Knocked onto his back */
   'x-fall': (k) => ({ frontArm: arm(k, true, -60, -100), backArm: arm(k, false, -120, -150), frontLeg: lg(k, true, 6, 4, 10, k.hy + 8), backLeg: lg(k, false, 4, k.h, 6), rotate: -35, lift: 0 }),
   /** Diving at a runner's legs and missing */
   'x-lunge': (k) => ({ frontArm: arm(k, true, -60, -40), backArm: reach(k, [k.fs + 5, k.sy - 6]), ...legs(trail(k)), rotate: 70, lift: -1 }),
   /** A ball carrier without the ball showing (the card's player is going after it) */
-  'x-runner': (k) => ({ frontArm: pumpFront(k), backArm: pumpBack(k), ...legs(stride(k)), shear: 1, crouch: 1 }),
+  'x-runner': (k) => ({ frontArm: pumpFront(k), backArm: pumpBack(k), ...legs(stride(k)), look: 'tq' }),
 };
 
 /** Contact poses grimace. */

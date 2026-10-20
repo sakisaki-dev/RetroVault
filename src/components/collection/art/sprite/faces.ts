@@ -738,11 +738,7 @@ export const goldenHourPortrait = (look: SpriteLook, number: number | null | und
       if (fx < -11 && fy > -1 && fy < 9 && get(x, y) === 's') put(x, y, 'd');
     }
 
-  // 4. Outline: every empty cell touching the figure
-  const fig = g.slice();
-  for (let y = 0; y < H; y++)
-    for (let x = 0; x < W; x++)
-      if (!fig[at(x, y)] && [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => x + dx >= 0 && y + dy >= 0 && x + dx < W && y + dy < H && fig[at(x + dx, y + dy)])) g[at(x, y)] = 'o';
+  // 4. No outline (STYLE_GUIDE.md rule 1): the figure meets the sky by colour alone
 
   // 5. Sky: a stepped glow round a low sun (dithered at the band edges), the sun, a lens flare toward the head
   const sun: Pt = [97, 20];

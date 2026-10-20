@@ -29,6 +29,8 @@ const TABS: { key: string; label: string; hint: string; Tab: ComponentType<TabPr
 ];
 
 const DEFAULT_PLAYER = 'Sherman Brandson';
+/** Programmatic focus without the keyboard focus ring (browsers that ignore focusVisible fall back to :focus-visible rules) */
+const QUIET_FOCUS = { preventScroll: true, focusVisible: false } as FocusOptions;
 
 /**
  * Art lab (read-only explorer): pick a league player, then browse his card as every variant × finish (with a tier
@@ -52,7 +54,8 @@ const ArtLab = ({ open, onClose, cards, total }: ArtLabProps) => {
         // Focus the active tab, not the search box (no phone keyboard popping up on open)
         onOpenAutoFocus={(e) => {
           e.preventDefault();
-          window.setTimeout(() => document.getElementById(`lab-tab-${tab}`)?.focus(), 0);
+          // No focus ring for this programmatic focus: the ring is for keyboard users moving between tabs
+          window.setTimeout(() => document.getElementById(`lab-tab-${tab}`)?.focus(QUIET_FOCUS), 0);
         }}
         className="lab flex h-[94vh] max-h-[94vh] w-[96vw] max-w-[1240px] flex-col gap-0 overflow-hidden border-line bg-night p-0">
         <div className="lab__top">
@@ -75,7 +78,11 @@ const ArtLab = ({ open, onClose, cards, total }: ArtLabProps) => {
               aria-controls="lab-panel"
               tabIndex={tab === t.key ? 0 : -1}
               className={cn('lab__tab', tab === t.key && 'is-on')}
-              onClick={() => startTransition(() => setTab(t.key))}
+              onClick={(e) => {
+                // A tap doesn't move focus on iOS, so the previously focused tab would keep its ring: move it here
+                e.currentTarget.focus(QUIET_FOCUS);
+                startTransition(() => setTab(t.key));
+              }}
               onKeyDown={(e) => {
                 const i = TABS.findIndex((x) => x.key === tab);
                 const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;

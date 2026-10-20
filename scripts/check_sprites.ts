@@ -7,6 +7,8 @@
  *   - only build / height change size (huge + tall is the biggest)
  *   - every position has 10–12 named poses, names are unique, old keys resolve, every contact pose has a stand-in,
  *     and turf marks (goal line, sideline) are never knocked off by the frame
+ *   - the grey stand-in opponent is drawn on the card players' normal frame: his head and torso match theirs in every
+ *     stand-in pose (no oversized helmet, no hulking torso)
  * Exit code 1 on any failure.
  */
 import { F, GROUND } from '@/components/collection/art/sprite/grid';
@@ -14,7 +16,7 @@ import { lookFor, type SpriteLook } from '@/components/collection/art/sprite/fac
 import { helmetFor } from '@/components/collection/art/sprite/helmets';
 import { homeUniform } from '@/components/collection/art/sprite/uniforms';
 import { teamStyleFor } from '@/components/collection/art/teamStyle';
-import { boundsOf, composeSprite, type Grid } from '@/components/collection/art/sprite/render';
+import { boundsOf, composeSprite, STAND_IN_HELMET, STAND_IN_LOOK, STAND_IN_UNIFORM, type Grid } from '@/components/collection/art/sprite/render';
 import { allPoseKeys, CELEBRATIONS, CONTACT_POSES, isPose, markFor, POSITION_POSES, poseLabel, resolvePose, SIGNATURES, standInsFor } from '@/components/collection/art/sprite/poses';
 
 const errors: string[] = [];
@@ -95,6 +97,20 @@ keys.forEach((key) => {
   if (Math.abs(n - torsoRef.n) > torsoRef.n * 0.1) errors.push(`${key}: rotated torso ${n} px vs ${torsoRef.n}`);
 });
 
+// ---------- 3b. The stand-in opponent matches the normal build ----------
+if (STAND_IN_LOOK.build !== 'normal' || STAND_IN_LOOK.height !== 'normal') errors.push(`stand-in: build ${STAND_IN_LOOK.build} / ${STAND_IN_LOOK.height}, want normal / normal`);
+[...standInKeys].forEach((key) => {
+  const c = composeSprite(STAND_IN_LOOK, key, style, STAND_IN_HELMET, null, 'stand-in-0', STAND_IN_UNIFORM);
+  const head = size(c.head);
+  const kind = kindOf(c.pose);
+  const r = ref[kind];
+  if (!r) errors.push(`stand-in ${key}: ${kind} head has no card-player reference`);
+  else if (!(c.pose.rotate && c.pose.headUp === false) && (head.w !== r.w || head.h !== r.h)) errors.push(`stand-in ${key}: ${kind} head ${head.w}×${head.h}, card players' ${r.w}×${r.h}`);
+  const torso = size(c.torso);
+  if (!c.pose.rotate && torsoRef && (torso.h !== torsoRef.h || torso.n !== torsoRef.n)) errors.push(`stand-in ${key}: torso ${torso.h} rows / ${torso.n} px, card players' ${torsoRef.h} / ${torsoRef.n}`);
+  if (c.pose.rotate && torsoRef && Math.abs(torso.n - torsoRef.n) > torsoRef.n * 0.1) errors.push(`stand-in ${key}: rotated torso ${torso.n} px vs ${torsoRef.n}`);
+});
+
 // ---------- 4. Only build / height change size ----------
 const builds: SpriteLook['build'][] = ['normal', 'big', 'huge'];
 const heights: SpriteLook['height'][] = ['normal', 'tall'];
@@ -119,7 +135,7 @@ for (const bd of builds) {
   if (!(t.h > n.h)) errors.push(`${bd}: tall (${t.h}) is not taller than normal (${n.h})`);
 }
 
-console.log(`Sprite check: ${keys.length} poses (${allPoseKeys().length} rollable + ${standInKeys.size} stand-in), normal build`);
+console.log(`Sprite check: ${keys.length} poses (${allPoseKeys().length} rollable + ${standInKeys.size} stand-in), normal build; stand-in opponent checked in ${standInKeys.size} poses`);
 Object.entries(ref).forEach(([k, r]) => console.log(`  ${k.padEnd(5)} head ${r.w}×${r.h}`));
 if (torsoRef) console.log(`  torso ${torsoRef.h} rows, ${torsoRef.n} px in every unrotated pose`);
 console.log(`  builds (wr-stance): ${sizes.map((s) => `${s.id} ${s.h} rows / torso ${s.torso} px`).join(', ')}`);
