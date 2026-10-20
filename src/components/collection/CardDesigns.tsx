@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Play } from 'lucide-react';
+import { Palette, Play } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { FINISHES, type Finish, type Tier } from '@/utils/collection';
 import CollectibleCard from './CollectibleCard';
@@ -11,12 +11,14 @@ interface CardDesignsProps {
   onClose: () => void;
   cards: CardInfo[];
   total: number;
-  onOpenCard: (info: CardInfo, tier: Tier, finish: Finish) => void;
+  onOpenCard: (info: CardInfo, tier: Tier, finish: Finish, from?: DOMRect) => void;
   onPreviewPack: () => void;
+  /** Opens the Art lab (alternative card-art styles) */
+  onArtLab?: () => void;
 }
 
-/** Read-only gallery: every tier × finish on a real player, plus the NFL legend look. Touches no saved state. */
-const CardDesigns = ({ open, onClose, cards, total, onOpenCard, onPreviewPack }: CardDesignsProps) => {
+/** Read-only gallery: every tier × finish on a league player. Touches no saved state. */
+const CardDesigns = ({ open, onClose, cards, total, onOpenCard, onPreviewPack, onArtLab }: CardDesignsProps) => {
   const rows = useMemo(() => designRows(cards), [cards]);
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
@@ -28,6 +30,15 @@ const CardDesigns = ({ open, onClose, cards, total, onOpenCard, onPreviewPack }:
             </DialogTitle>
             <DialogDescription>Every tier and finish. Preview only, nothing is added.</DialogDescription>
           </div>
+          {onArtLab && (
+            <button
+              type="button"
+              onClick={onArtLab}
+              className="inline-flex h-9 items-center gap-1.5 rounded-md border border-gold/60 px-3 text-sm font-bold text-gold hover:bg-gold/10"
+            >
+              <Palette className="h-4 w-4" aria-hidden="true" /> Art lab
+            </button>
+          )}
           <button
             type="button"
             onClick={onPreviewPack}
@@ -66,7 +77,7 @@ const CardDesigns = ({ open, onClose, cards, total, onOpenCard, onPreviewPack }:
                       stats={r.info.stats}
                       setNo={r.info.setNo}
                       setTotal={total}
-                      onOpen={() => onOpenCard(r.info, r.tier, f.key)}
+                      onOpen={(from) => onOpenCard(r.info, r.tier, f.key, from)}
                     />
                   </div>
                 ))}

@@ -30,11 +30,11 @@ const fmtPct = (x: number) => `${x >= 0.1 ? Math.round(x * 100) : (x * 100).toFi
 const hintFor = (tier: Tier) => `${tierLabel(tier)} · ${fmtPct(STANDARD.tiers[tier])} of Standard pulls`;
 
 /**
- * Every collectible player: the game pool (league minus game exclusions, plus the real NFL legends),
- * in set order (league by franchise, then position and name; legends last).
+ * Every collectible player: league players in the game pool (league minus game exclusions), in set order
+ * (by franchise, then position and name). Real NFL legends are not collectible; they stay in the games only.
  */
 export const useCardPool = () => {
-  const { league, legends, ovrMap, loaded } = useGamePool();
+  const { league, ovrMap, loaded } = useGamePool();
   const { numberFor, retiredInfo } = useJerseyNumbers();
 
   const faceStats = useMemo(() => faceStatsFor(league), [league]);
@@ -48,8 +48,8 @@ export const useCardPool = () => {
         tier,
         ovr,
         number: numberFor(p),
-        retiredBy: (p as GamePlayer).isRealLegend ? null : retiredInfo(p)?.teamLabel ?? null,
-        franchise: (p as GamePlayer).isRealLegend ? 'NFL Legends' : franchiseOf(p),
+        retiredBy: retiredInfo(p)?.teamLabel ?? null,
+        franchise: franchiseOf(p),
         setNo,
         hint: hintFor(tier),
         stats: faceStats(p),
@@ -60,10 +60,9 @@ export const useCardPool = () => {
 
   const cards = useMemo<CardInfo[]>(() => {
     const byName = (a: Player, b: Player) => a.position.localeCompare(b.position) || a.name.localeCompare(b.name);
-    const lg = [...league].sort((a, b) => franchiseOf(a).localeCompare(franchiseOf(b)) || byName(a, b));
-    const lgd = [...legends].sort(byName);
-    return [...lg, ...lgd].map((p, i) => describe(p, i + 1));
-  }, [league, legends, describe]);
+    const lg = league.filter((p) => !p.isRealLegend).sort((a, b) => franchiseOf(a).localeCompare(franchiseOf(b)) || byName(a, b));
+    return lg.map((p, i) => describe(p, i + 1));
+  }, [league, describe]);
 
   const byKey = useMemo(() => new Map(cards.map((c) => [c.key, c])), [cards]);
   const tierPool = useMemo<TierPool>(() => {

@@ -14,6 +14,7 @@ uploads, alternate data paths or hand-edited copies of the generated files.
 | `data/y80/players.json` (career lines, teams, awards) | `python3 scripts/build_league_data.py` | `public/data/initial-data.csv`, `legends.json`, `player-extras.json`, `game-exclusions.json` |
 | `scripts/build_league_data.py` (`TEAM_FIXES`, `TEAM_HISTORY`, `CARD_NOTES`) | same | same |
 | `data/y80/super_bowls.json`, `eras.json`, `coach.json`, `league-history.md` | `python3 scripts/build_league_content.py` | `public/data/league/content.json` |
+| (the files above) | `npm run market` (part of `npm run rebuild`) | `data/y80/market_history.json` (append-only), `public/data/market.json` |
 
 `build_league_data.py` needs numpy (`pip install numpy`). Run both scripts after any data change.
 
@@ -72,7 +73,7 @@ DPOY, ROTY, SBMVP).
 ## Owner facts (confirmed; don't "correct" them)
 
 - The current club is the **Jets**. The coach is Dorren Skura; his 80 seasons are in `coach.json`.
-- Real NFL legends appear only in the games, never in league stats.
+- Real NFL legends appear only in the games, never in league stats or the Collection (cards are league players only).
 - Active/Retired status is internal only; never show it in the UI.
 - Single-season stats are intentionally not tracked.
 
@@ -81,6 +82,11 @@ DPOY, ROTY, SBMVP).
 Pages compute from the data files on every load, so a data change updates every page by itself. Only hand-written
 facts can go stale: speeches, `CARD_NOTES`, era key players and stints. After any data change, run `npm run audit`
 and fix what it reports. Prefer deriving a fact from data over writing it down.
+
+Card market prices (Collection → Market, card detail) are derived too: `npm run rebuild` runs
+`scripts/market_snapshot.ts`, which appends a snapshot to `data/y80/market_history.json` (built into
+`public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. The value formula lives in
+`src/utils/cardMarket.ts`. Never hand-edit either file; just rebuild after a data change and commit both.
 
 ## Code notes
 

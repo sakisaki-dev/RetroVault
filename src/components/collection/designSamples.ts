@@ -1,4 +1,4 @@
-import { TIERS, tierRank, type Finish, type PackCard, type Tier } from '@/utils/collection';
+import { TIERS, type Finish, type PackCard, type Tier } from '@/utils/collection';
 import type { CardInfo } from './useCardPool';
 
 /** Preferred faces for the Legendary row (owner's picks), then the best by OVR. */
@@ -11,10 +11,7 @@ export interface DesignRow {
   info: CardInfo;
 }
 
-/**
- * One representative player per tier (league players, different positions where possible), plus a real NFL
- * legend row because legends use photo art.
- */
+/** One representative league player per tier (different positions where possible). */
 export const designRows = (cards: CardInfo[]): DesignRow[] => {
   const league = cards.filter((c) => !c.player.isRealLegend);
   const used = new Set<string>();
@@ -29,19 +26,23 @@ export const designRows = (cards: CardInfo[]): DesignRow[] => {
     used.add(pick.player.position);
     rows.push({ key: tier, label, tier, info: pick });
   });
-  const legend = cards
-    .filter((c) => c.player.isRealLegend && c.player.photo?.url)
-    .sort((a, b) => tierRank(b.tier) - tierRank(a.tier) || (b.ovr ?? 0) - (a.ovr ?? 0))[0];
-  if (legend) rows.push({ key: 'nfl', label: 'NFL Legend', tier: legend.tier, info: legend });
   return rows;
 };
 
-/** Sample pack for the preview opening: one of each tier rising in finish, ending on a Legendary Holo. */
-export const samplePack = (rows: DesignRow[]): PackCard[] => {
-  const finishes: Record<string, Finish> = { common: 'base', rare: 'silver', epic: 'gold', legendary: 'holo', nfl: 'gold' };
-  const order = ['common', 'rare', 'nfl', 'epic', 'legendary'];
+/**
+ * Sample pack for the preview opening (Card designs). Shows every reveal: a Common and a Rare flip in about a
+ * second, two Epics walk out, and the Legendary closes the pack with a full Legendary walkout
+ * and the hidden-holo twist. It is shown in an Elite pack, so nothing on the pack hints at the holo.
+ */
+export const samplePack = (rows: DesignRow[], cards: CardInfo[] = []): PackCard[] => {
+  const finishes: Record<string, Finish> = { common: 'base', rare: 'silver', epic: 'gold', epic2: 'silver', legendary: 'holo' };
+  const epic = rows.find((r) => r.key === 'epic');
+  // A second Epic (another position) fills the fifth slot
+  const second = epic && cards.filter((c) => c.tier === 'epic' && c.player.position !== epic.info.player.position).sort((a, b) => (b.ovr ?? 0) - (a.ovr ?? 0))[0];
+  const all = second ? [...rows, { key: 'epic2', label: 'Epic', tier: 'epic' as const, info: second }] : rows;
+  const order = ['common', 'rare', 'epic', 'epic2', 'legendary'];
   return order
-    .map((k) => rows.find((r) => r.key === k))
+    .map((k) => all.find((r) => r.key === k))
     .filter((r): r is DesignRow => !!r)
     .map((r) => ({ player: r.info.player, tier: r.tier, finish: finishes[r.key], slot: 'regular' as const, isNew: true, upgrade: false, duplicate: false, shards: 0 }));
 };

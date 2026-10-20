@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, type CSSProperties, type PointerEvent } from 'react';
+import { useEffect, useId, useRef, type CSSProperties, type PointerEvent, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import TeamLogo from '@/components/brand/TeamLogo';
 import { POSITION_NAMES } from '@/utils/playerMeta';
@@ -29,7 +29,7 @@ const surnameOf = (name: string) => {
  * League players have no photos: a game-worn jersey in team colours (shoulder stripes, collar, sleeve numbers and the
  * big chest number), shaded so it reads as fabric. Locked cards show the same jersey as a dark silhouette.
  */
-const PlayerJersey = ({ number, id }: { number?: number | null; id: string }) => (
+export const PlayerJersey = ({ number, id }: { number?: number | null; id: string }) => (
   <svg className="fut__sil fut__jersey" viewBox="0 0 120 110" aria-hidden="true" focusable="false">
     <defs>
       <linearGradient id={`${id}-fab`} x1="0" y1="0" x2="1" y2="1">
@@ -96,8 +96,8 @@ export interface CollectibleCardProps {
   setTotal?: number;
   /** Shown to screen readers on locked cards */
   hint?: string;
-  /** Makes the card a button (Enter / click opens it) */
-  onOpen?: () => void;
+  /** Makes the card a button (Enter / click opens it); gets the card's on-screen box for the fly-in to the large view */
+  onOpen?: (from?: DOMRect) => void;
   /** Large detail size: pointer tilt on any input, plus device tilt where allowed */
   large?: boolean;
   /** Keep shimmer/sparkle running (otherwise only on hover/focus, so a full binder stays idle) */
@@ -106,6 +106,8 @@ export interface CollectibleCardProps {
   badge?: string;
   /** Provenance badges (e.g. a Perfect Season pack) */
   marks?: string[];
+  /** Custom player art (art lab); replaces the photo / jersey inside .fut__art when given */
+  art?: ReactNode;
   className?: string;
   style?: CSSProperties;
 }
@@ -133,6 +135,7 @@ const CollectibleCard = ({
   live = false,
   badge,
   marks,
+  art,
   className,
   style,
 }: CollectibleCardProps) => {
@@ -145,7 +148,8 @@ const CollectibleCard = ({
   const mark = owned && marks?.length ? marks[marks.length - 1] : null;
   const FinishIcon = FINISH_ICON[finish];
   const surname = surnameOf(player.name);
-  const tilts = owned && (large || finish === 'holo' || tier === 'legendary' || finish === 'gold');
+  // Every owned card tilts toward the pointer (mouse only in grids, any pointer at detail size)
+  const tilts = owned;
 
   const setVars = (x: number, y: number) => {
     const el = ref.current;
@@ -212,8 +216,10 @@ const CollectibleCard = ({
     <span className="fut__shape" aria-hidden="true">
       <span className="fut__face">
         <span className="fut__pattern" />
-        <span className={cn('fut__art', photo && 'fut__art--photo')}>
-          {photo ? (
+        <span className={cn('fut__art', art == null && photo && 'fut__art--photo')}>
+          {art != null ? (
+            art
+          ) : photo ? (
             <img src={photo.url} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" draggable={false} />
           ) : (
             <PlayerJersey number={owned ? number : null} id={jerseyId} />
@@ -296,7 +302,7 @@ const CollectibleCard = ({
       onPointerLeave={tilts ? onLeave : undefined}
     >
       {onOpen ? (
-        <button type="button" className="fut__card" onClick={onOpen} aria-label={label}>
+        <button type="button" className="fut__card" onClick={() => onOpen(ref.current?.getBoundingClientRect())} aria-label={label}>
           {face}
           {extras}
         </button>

@@ -8,9 +8,11 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import CollectibleCard from '@/components/collection/CollectibleCard';
 import CardDetail, { type CardDetailTarget } from '@/components/collection/CardDetail';
 import CardDesigns from '@/components/collection/CardDesigns';
+import ArtLab from '@/components/collection/art/ArtLab';
 import { designRows, samplePack } from '@/components/collection/designSamples';
 import { FINISH_ICON, FINISH_TEXT } from '@/components/collection/rarityIcons';
 import PackOpening, { PackArt } from '@/components/collection/PackOpening';
+import MarketView from '@/components/collection/market/MarketView';
 import { byTierDesc, useCardPool, type CardInfo } from '@/components/collection/useCardPool';
 import { FACE_LEGEND } from '@/components/collection/cardStats';
 import { matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
@@ -23,6 +25,7 @@ import {
   GIFTS,
   PACKS,
   PACK_ORDER,
+  SHELF_ORDER,
   TIERS,
   finishRank,
   openPack,
@@ -32,6 +35,7 @@ import {
   tierRank,
   useCollection,
   type Finish,
+  type EarnablePack,
   type PackType,
   type Tier,
 } from '@/utils/collection';
@@ -41,7 +45,7 @@ type Sort = 'set' | 'ovr' | 'tier' | 'finish' | 'recent';
 const PAGE = 60;
 
 const pct = (a: number, b: number) => (b ? Math.round((a / b) * 100) : 0);
-const PACK_SHORT: Record<PackType, string> = { standard: 'Std', premium: 'Prem', elite: 'Elite', perfect: '18–0', holo: 'Holo' };
+const PACK_SHORT: Record<EarnablePack, string> = { standard: 'Std', premium: 'Prem', elite: 'Elite', perfect: '18–0', holo: 'Holo' };
 const fmtOdds = (x: number) => {
   const v = x * 100;
   if (v === 0) return '–';
@@ -49,9 +53,11 @@ const fmtOdds = (x: number) => {
   if (v >= 1) return `${v.toFixed(1)}%`;
   return `${v.toFixed(2)}%`;
 };
-const ODDS = Object.fromEntries(PACK_ORDER.map((t) => [t, packOdds(t)])) as Record<PackType, ReturnType<typeof packOdds>>;
+const ODDS = Object.fromEntries(PACK_ORDER.map((t) => [t, packOdds(t)])) as Record<EarnablePack, ReturnType<typeof packOdds>>;
 
 const DESIGNS_HASH = /[?&]view=designs\b/;
+const MARKET_HASH = /[?&]view=market\b/;
+const ART_HASH = /[?&]view=art\b/;
 const GIFT_HASH = /[?&]gift=([\w-]+)/;
 const cleanHash = () => window.history.replaceState(window.history.state, '', '#collection');
 
@@ -162,10 +168,11 @@ const CollectionTab = () => {
   const [opening, setOpening] = useState<PackType | null>(null);
   const [designs, setDesigns] = useState(false);
   const [preview, setPreview] = useState(false);
+  const [artLab, setArtLab] = useState(false);
 
   useEffect(() => setLimit(PAGE), [tier, finish, pos, team, missing, sort]);
 
-  // #collection?gift=<id> redeems a one-time gift; #collection?view=designs opens the Card designs gallery
+  // #collection?gift=<id> redeems a one-time gift; #collection?view=designs opens the Card designs gallery, ?view=art the Art lab
   useEffect(() => {
     const check = () => {
       const hash = window.location.hash;
@@ -178,6 +185,8 @@ const CollectionTab = () => {
         cleanHash();
       }
       if (DESIGNS_HASH.test(hash)) setDesigns(true);
+      if (MARKET_HASH.test(hash)) window.setTimeout(() => document.getElementById('col-market')?.scrollIntoView({ block: 'start' }), 50);
+      if (ART_HASH.test(hash)) setArtLab(true);
     };
     check();
     window.addEventListener('hashchange', check);
@@ -187,6 +196,10 @@ const CollectionTab = () => {
   const closeDesigns = () => {
     setDesigns(false);
     if (DESIGNS_HASH.test(window.location.hash)) cleanHash();
+  };
+  const closeArtLab = () => {
+    setArtLab(false);
+    if (ART_HASH.test(window.location.hash)) cleanHash();
   };
 
   const ownedCount = useMemo(() => cards.filter((c) => !!owned[c.key]).length, [cards, owned]);
@@ -231,7 +244,6 @@ const CollectionTab = () => {
     const extra = [
       { id: 'legacy-elite', title: 'Legacy elite', members: cards.filter((c) => c.tier === 'legendary').map((c) => c.player) },
       { id: 'hof-wing', title: 'Hall of Fame', members: cards.filter((c) => !c.player.isRealLegend && isHallOfFamer(c.player)).map((c) => c.player) },
-      { id: 'legends-room', title: 'NFL Legends', members: cards.filter((c) => c.player.isRealLegend).map((c) => c.player) },
     ].filter((a) => a.members.length > 0);
     return [...extra, ...eras].map((a) => ({ ...a, have: a.members.filter((p) => !!owned[`${p.position}:${p.name}`]).length }));
   }, [cards, content, owned]);
@@ -259,9 +271,10 @@ const CollectionTab = () => {
   }, [cards, tier, finish, pos, team, missing, sort, owned]);
   const shown = filtered.slice(0, limit);
 
-  const shelf = PACK_ORDER.filter((t) => packCount(state, t) > 0);
-  const previewCards = useMemo(() => samplePack(designRows(cards)), [cards]);
-  const openCard = (c: CardInfo) => setDetail({ info: c });
+  const shelf = SHELF_ORDER.filter((t) => packCount(state, t) > 0);
+  const previewCards = useMemo(() => samplePack(designRows(cards), cards), [cards]);
+  const openCard = (c: CardInfo, list: CardInfo[], from?: DOMRect) => setDetail({ info: c, list, from });
+  const binderOwned = useMemo(() => shown.filter((c) => !!owned[c.key]), [shown, owned]);
   const describe = (pc: { player: Player }) => byKey.get(`${pc.player.position}:${pc.player.name}`)!;
 
   return (
@@ -364,11 +377,21 @@ const CollectionTab = () => {
                   setNo={c.setNo}
                   setTotal={cards.length}
                   marks={owned[c.key].marks}
-                  onOpen={() => openCard(c)}
+                  onOpen={(from) => openCard(c, showcase, from)}
                 />
               </li>
             ))}
           </ul>
+        </section>
+      )}
+
+      {/* Market */}
+      {loaded && cards.length > 0 && (
+        <section aria-labelledby="col-market" className="scroll-mt-20">
+          <h2 id="col-market" className="section-title">
+            Market
+          </h2>
+          <MarketView byKey={byKey} owned={owned} onOpen={(info, list) => setDetail({ info, list })} />
         </section>
       )}
 
@@ -492,7 +515,7 @@ const CollectionTab = () => {
                     setTotal={cards.length}
                     hint={c.hint}
                     marks={entry?.marks}
-                    onOpen={entry ? () => openCard(c) : undefined}
+                    onOpen={entry ? (from) => openCard(c, binderOwned, from) : undefined}
                   />
                 </li>
               );
@@ -519,7 +542,7 @@ const CollectionTab = () => {
       />
       <PackOpening
         preview
-        type={preview ? 'holo' : null}
+        type={preview ? 'elite' : null}
         onClose={() => setPreview(false)}
         onTear={() => (previewCards.length ? previewCards : null)}
         describe={describe}
@@ -531,15 +554,18 @@ const CollectionTab = () => {
         onClose={closeDesigns}
         cards={cards}
         total={cards.length}
-        onOpenCard={(info, t, f) => setDetail({ info, tier: t, finish: f, preview: true })}
+        onOpenCard={(info, t, f, from) => setDetail({ info, tier: t, finish: f, preview: true, from })}
         onPreviewPack={() => setPreview(true)}
+        onArtLab={() => setArtLab(true)}
       />
+      <ArtLab open={artLab} onClose={closeArtLab} cards={cards} total={cards.length} />
       <CardDetail
         target={detail}
         entry={detail && !detail.preview ? owned[detail.info.key] : undefined}
         shards={state.shards}
         total={cards.length}
         onClose={() => setDetail(null)}
+        onNavigate={(info) => setDetail((d) => (d ? { info, list: d.list } : d))}
         onPlayer={(info) => {
           setDetail(null);
           setPlayer(info.player);

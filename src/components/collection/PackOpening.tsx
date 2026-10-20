@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import { Sparkles, Trophy } from 'lucide-react';
+import { Repeat, Sparkles, Trophy } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import TeamLogo from '@/components/brand/TeamLogo';
-import { findNFLTeam } from '@/utils/nflTeams';
-import { POSITION_NAMES } from '@/utils/playerMeta';
 import { PACKS, finishLabel, tierLabel, type PackCard, type PackType, type Tier } from '@/utils/collection';
 import CollectibleCard from './CollectibleCard';
+import Walkout from './Walkout';
+import { bestLast, needsWalkout, skipStep, walkoutBeats, type WkBeat } from './walkoutBeats';
 import type { CardInfo } from './useCardPool';
 
 const reducedMotion = () => {
@@ -27,10 +26,9 @@ const PACK_SUB: Record<PackType, string> = {
   elite: '5 cards · Epic+ inside',
   perfect: '5 cards · 3 chase slots',
   holo: '5 Holos · 2+ Legendary',
+  exchange: 'League cards for your legends',
 };
 
-/** Walkout steps: lights, OVR, position, team, then the card. */
-const WALK_STEPS = [1000, 900, 800, 900] as const;
 const FLASH_MS: Record<Tier, number> = { common: 380, rare: 480, epic: 620, legendary: 900 };
 
 interface PackOpeningProps {
@@ -67,6 +65,15 @@ export const PackArt = ({ type, small = false }: { type: PackType; small?: boole
           <Trophy className={small ? 'h-5 w-5' : 'h-8 w-8'} />
           <span className="pk-pack__title pk-pack__title--big">18–0</span>
         </>
+      ) : type === 'exchange' ? (
+        <>
+          <Repeat className={small ? 'h-5 w-5' : 'h-8 w-8'} />
+          <span className="pk-pack__title">
+            Legends
+            <br />
+            Exchange
+          </span>
+        </>
       ) : type === 'holo' ? (
         <>
           <Sparkles className={small ? 'h-5 w-5' : 'h-8 w-8'} />
@@ -89,87 +96,27 @@ export const PackArt = ({ type, small = false }: { type: PackType; small?: boole
   </>
 );
 
-interface WalkoutProps {
-  card: PackCard;
-  info: CardInfo;
-  total: number;
+interface WalkState {
+  /** Card index in the pack */
+  i: number;
   step: number;
-  onSkip: () => void;
-  onDone: () => void;
+  beats: WkBeat[];
 }
 
-/** FUT-style walkout for a Legendary pull: lights, team-colour sweep, then OVR, position, team and the card. */
-const Walkout = ({ card, info, total, step, onSkip, onDone }: WalkoutProps) => {
-  const team = findNFLTeam(info.player.team);
-  const doneRef = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    if (step >= WALK_STEPS.length) doneRef.current?.focus();
-  }, [step]);
-  const style = (team ? { '--wk-a': `hsl(${team.primaryColor})`, '--wk-b': `hsl(${team.secondaryColor})` } : {}) as CSSProperties;
-  return (
-    <div className={cn('wk', `wk--s${Math.min(step, WALK_STEPS.length)}`)} style={style} role="dialog" aria-label="Legendary walkout">
-      <span className="wk__beam wk__beam--l" aria-hidden="true" />
-      <span className="wk__beam wk__beam--r" aria-hidden="true" />
-      <span className="wk__sweep" aria-hidden="true" />
-      <span className="wk__flare" aria-hidden="true" />
-      <div className="wk__clues" aria-live="polite">
-        {step >= 1 && <span className="wk__ovr">{info.ovr ?? '–'}</span>}
-        {step >= 2 && <span className="wk__pos">{POSITION_NAMES[info.player.position] ?? info.player.position}</span>}
-        {step >= 3 && (
-          <span className="wk__team">
-            {team ? <TeamLogo team={info.player.team} size={64} decorative /> : <span className="text-4xl">★</span>}
-            <span>{team?.name ?? (info.player.isRealLegend ? 'NFL Legend' : info.franchise)}</span>
-          </span>
-        )}
-      </div>
-      {step >= WALK_STEPS.length && (
-        <div className="wk__card">
-          <CollectibleCard
-            owned
-            live
-            large
-            player={info.player}
-            tier={card.tier}
-            finish={card.finish}
-            ovr={info.ovr}
-            number={info.number}
-            stats={info.stats}
-            setNo={info.setNo}
-            setTotal={total}
-            badge={badgeOf(card)}
-          />
-          <p className="sr-only" role="status">
-            Legendary! {info.player.name}, {finishLabel(card.finish)} finish
-          </p>
-        </div>
-      )}
-      <div className="wk__actions">
-        {step < WALK_STEPS.length ? (
-          <Button variant="outline" size="sm" onClick={onSkip}>
-            Skip
-          </Button>
-        ) : (
-          <Button ref={doneRef} onClick={onDone}>
-            Continue
-          </Button>
-        )}
-      </div>
-    </div>
-  );
-};
-
 /**
- * Reward pack as an event: the foil pack tears open, the cards fan out face down and you flip each one. Each
- * flip flashes the card's rarity first; a Legendary pull gets a walkout (lights, team-colour sweep, then OVR,
- * position, team and the player). Holo cards land with a prismatic shine. "Reveal all" flips the rest at once,
- * Skip jumps past a walkout. With reduced motion the cards are face up right away and there is no walkout.
+ * Reward pack as an event: the foil pack tears open, the cards fan out face down (weakest first, the best card
+ * last) and you flip each one. Each flip flashes the card's tier first; commons and rares then flip in about a
+ * second, while Epic+ pulls and every holo get a FUT-style walkout (Walkout.tsx, timings in walkout.ts). A holo
+ * walks out like any card of its tier and only turns holo after the flip. Tap the walkout to advance a beat;
+ * Skip jumps to the end (a holo still gets its twist); "Reveal all" flips every remaining card at once. With
+ * reduced motion the flips are instant and a walkout is a short cross-fade that still reveals the holo last.
  */
 const PackOpening = ({ type, onClose, onTear, describe, total, remaining, provenance, preview = false }: PackOpeningProps) => {
   const [stage, setStage] = useState<Stage>('sealed');
   const [pack, setPack] = useState<PackCard[]>([]);
   const [open, setOpen] = useState<boolean[]>([]);
   const [flash, setFlash] = useState(-1);
-  const [walk, setWalk] = useState<{ i: number; step: number } | null>(null);
+  const [walk, setWalk] = useState<WalkState | null>(null);
   const [shownType, setShownType] = useState<PackType>('standard');
   const [mark, setMark] = useState<string | undefined>();
   const doneRef = useRef<HTMLButtonElement>(null);
@@ -203,16 +150,17 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
     if (!c) return;
     const id = window.setTimeout(() => {
       setFlash(-1);
-      if (c.tier === 'legendary' && !reducedMotion()) setWalk({ i: flash, step: 0 });
+      if (needsWalkout(c)) setWalk({ i: flash, step: 0, beats: walkoutBeats(c, reducedMotion()) });
       else setOpen((o) => o.map((v, j) => v || j === flash));
     }, FLASH_MS[c.tier]);
     return () => window.clearTimeout(id);
   }, [flash, pack]);
 
-  // Walkout steps
+  // Walkout beats: each one holds for its own time, then the next starts (tap advances early)
   useEffect(() => {
-    if (!walk || walk.step >= WALK_STEPS.length) return;
-    const id = window.setTimeout(() => setWalk((w) => (w ? { ...w, step: w.step + 1 } : w)), WALK_STEPS[walk.step]);
+    const ms = walk?.beats[walk.step]?.ms ?? 0;
+    if (!walk || ms <= 0) return;
+    const id = window.setTimeout(() => setWalk((w) => (w ? { ...w, step: Math.min(w.step + 1, w.beats.length - 1) } : w)), ms);
     return () => window.clearTimeout(id);
   }, [walk]);
 
@@ -229,15 +177,11 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
       onClose();
       return;
     }
+    const ordered = bestLast(cards, (c) => describe(c).ovr);
     setMark(label);
-    setPack(cards);
-    if (reducedMotion()) {
-      setOpen(cards.map(() => true));
-      setStage('fan');
-    } else {
-      setOpen(cards.map(() => false));
-      setStage('tearing');
-    }
+    setPack(ordered);
+    setOpen(ordered.map(() => false));
+    setStage(reducedMotion() ? 'fan' : 'tearing');
   };
 
   const reveal = (i: number) => {
@@ -255,6 +199,14 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
     setWalk(null);
     setOpen((o) => o.map((v, j) => v || j === i));
   };
+  const advance = () => setWalk((w) => (w ? { ...w, step: Math.min(w.step + 1, w.beats.length - 1) } : w));
+  const skip = () =>
+    setWalk((w) => {
+      if (!w) return w;
+      const to = skipStep(w.beats);
+      return { ...w, step: w.step >= to ? w.beats.length - 1 : to };
+    });
+  const othersHidden = walk ? open.some((v, j) => !v && j !== walk.i) : false;
 
   const fresh = pack.filter((c) => c.isNew).length;
   const holos = pack.filter((c) => c.finish === 'holo').length;
@@ -276,8 +228,9 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
     <Dialog open={isOpen} onOpenChange={(o) => !o && onClose()}>
       <DialogContent
         className={cn(
-          'pk-dialog max-h-[94vh] min-h-[min(620px,94vh)] max-w-5xl content-start border-line bg-night p-4 sm:p-6',
-          walk ? 'overflow-hidden' : 'overflow-y-auto',
+          'pk-dialog content-start border-line bg-night p-4 sm:p-6',
+          // A walkout takes the whole screen, like FUT
+          walk ? 'h-[100dvh] max-h-[100dvh] max-w-none overflow-hidden border-0 sm:rounded-none' : 'max-h-[94vh] min-h-[min(620px,94vh)] max-w-5xl overflow-y-auto',
           `pk-dialog--${t}`,
         )}
       >
@@ -412,9 +365,14 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
             card={walking}
             info={describe(walking)}
             total={total}
+            beats={walk.beats}
             step={walk.step}
-            onSkip={() => setWalk((w) => (w ? { ...w, step: WALK_STEPS.length } : w))}
+            reduced={reducedMotion()}
+            badge={preview ? undefined : badgeOf(walking)}
+            onAdvance={advance}
+            onSkip={skip}
             onDone={endWalk}
+            onRevealAll={othersHidden ? revealAll : undefined}
           />
         )}
       </DialogContent>

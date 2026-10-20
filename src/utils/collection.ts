@@ -1,17 +1,20 @@
 import { useSyncExternalStore } from 'react';
 import { toast } from 'sonner';
 import type { Player } from '@/types/player';
-import { LEGACY_TIERS, isHallOfFamer } from '@/config/stats';
 import { playerKey } from '@/config/ovr';
+import { FINISHES, TIERS, finishRank, tierRank, type Finish, type Tier } from '@/config/cardTiers';
+
+export * from '@/config/cardTiers';
 
 /**
  * Player card collection, v2: reward packs.
  *
- * A card is a player plus a FINISH (Base, Silver, Gold, Holo). Games never hand out a specific card:
- * they award reward PACKS through awardPack(), and every card comes from opening one on the
- * Collection tab. A pull is two rolls: which player (weighted by the player's TIER, so better players
- * are rarer), then which finish (Holo rarest, and rarer still for top tiers). Duplicates turn into
- * shards that craft finish upgrades.
+ * A card is a league player plus a FINISH (Base, Silver, Gold, Holo). Real NFL legends are not collectible (they
+ * stay in the games only); legend cards in older saves are swapped for league cards in a one-time Legends
+ * Exchange pack (exchangeLegends). Games never hand out a specific card: they award reward PACKS through
+ * awardPack(), and every card comes from opening one on the Collection tab. A pull is two rolls: which player
+ * (weighted by the player's TIER, src/config/cardTiers.ts, so better players are rarer), then which finish (Holo
+ * rarest, and rarer still for top tiers). Duplicates turn into shards that craft finish upgrades.
  *
  * State is per browser, in localStorage under STORAGE_KEY; every write fires CHANGE_EVENT so open
  * views update live. v1 (STORAGE_KEY_V1, one fixed rarity per player, cards granted directly by
@@ -23,61 +26,13 @@ export const STORAGE_KEY_V1 = 'retroVault:collection';
 /** window CustomEvent fired after every write; detail is a CollectionChange. */
 export const CHANGE_EVENT = 'retroVault:collection';
 
-// ---------- Tiers (which player) ----------
-
-export type Tier = 'common' | 'rare' | 'epic' | 'legendary';
-
-/**
- * Player tiers. Legendary is the league's legacy elite only, the best of the best:
- *   Legendary  league players in the LEGENDARY legacy tier (Career Legacy ≥ LEGENDARY_MIN_LEGACY,
- *              getLegacyTier in src/config/stats.ts), plus real NFL legends rated
- *              ≥ LEGEND_LEGENDARY_MIN_OVR official OVR (about ten of them)
- *   Epic       every other Hall of Famer and real NFL legend, and anyone with OVR ≥ EPIC_MIN_OVR
- *   Rare       OVR ≥ RARE_MIN_OVR
- *   Common     everyone else, or OVR unknown
- */
-export const LEGENDARY_MIN_LEGACY = LEGACY_TIERS.find((t) => t.key === 'legendary')!.min;
-export const LEGEND_LEGENDARY_MIN_OVR = 93;
-export const EPIC_MIN_OVR = 90;
-export const RARE_MIN_OVR = 80;
-
-/** Lowest to highest. */
-export const TIERS: { key: Tier; label: string }[] = [
-  { key: 'common', label: 'Common' },
-  { key: 'rare', label: 'Rare' },
-  { key: 'epic', label: 'Epic' },
-  { key: 'legendary', label: 'Legendary' },
-];
-export const tierLabel = (t: Tier) => TIERS.find((x) => x.key === t)!.label;
-export const tierRank = (t: Tier) => TIERS.findIndex((x) => x.key === t);
-
-export const tierFor = (player: Player & { isRealLegend?: boolean }, ovr: number | null | undefined): Tier => {
-  if (player.isRealLegend) return ovr != null && ovr >= LEGEND_LEGENDARY_MIN_OVR ? 'legendary' : 'epic';
-  if (player.careerLegacy >= LEGENDARY_MIN_LEGACY) return 'legendary';
-  if (isHallOfFamer(player) || (ovr != null && ovr >= EPIC_MIN_OVR)) return 'epic';
-  if (ovr != null && ovr >= RARE_MIN_OVR) return 'rare';
-  return 'common';
-};
-
-// ---------- Finishes (which version) ----------
-
-export type Finish = 'base' | 'silver' | 'gold' | 'holo';
-
-/** Lowest to highest. Real NFL legends wear a black-gold Legend frame as their Base look. */
-export const FINISHES: { key: Finish; label: string }[] = [
-  { key: 'base', label: 'Base' },
-  { key: 'silver', label: 'Silver' },
-  { key: 'gold', label: 'Gold' },
-  { key: 'holo', label: 'Holo' },
-];
-export const finishLabel = (f: Finish) => FINISHES.find((x) => x.key === f)!.label;
-export const finishRank = (f: Finish) => FINISHES.findIndex((x) => x.key === f);
-
 // ---------- Packs and odds ----------
 
-export type PackType = 'standard' | 'premium' | 'elite' | 'perfect' | 'holo';
-/** Packs stored as a plain count (the Perfect Season pack is stored one by one, with provenance). */
-export type CountedPack = Exclude<PackType, 'perfect'>;
+export type PackType = 'standard' | 'premium' | 'elite' | 'perfect' | 'holo' | 'exchange';
+/** Packs games and gifts can award. The Legends Exchange pack is only ever created by exchangeLegends. */
+export type EarnablePack = Exclude<PackType, 'exchange'>;
+/** Packs stored as a plain count (Perfect Season and Legends Exchange packs are stored one by one). */
+export type CountedPack = Exclude<PackType, 'perfect' | 'exchange'>;
 
 type Weights<K extends string> = Record<K, number>;
 type FinishTable = Record<Tier, Weights<Finish>>;
@@ -160,9 +115,25 @@ export const PACKS: Record<PackType, PackSpec> = {
     },
     guarantee: '5 Holo cards: at least 2 Legendary, the rest Epic or better.',
   },
+  exchange: {
+    label: 'Legends Exchange',
+    size: 0,
+    // Contents are planned at migration time (ExchangePack.cards); never rolled, never in the odds table
+    tiers: { common: 0, rare: 0, epic: 0, legendary: 0 },
+    finishes: {
+      common: { base: 1, silver: 0, gold: 0, holo: 0 },
+      rare: { base: 1, silver: 0, gold: 0, holo: 0 },
+      epic: { base: 1, silver: 0, gold: 0, holo: 0 },
+      legendary: { base: 1, silver: 0, gold: 0, holo: 0 },
+    },
+    guarantee: 'One league card for each retired NFL legend card, same tier and finish.',
+  },
 };
 
-export const PACK_ORDER: PackType[] = ['standard', 'premium', 'elite', 'perfect', 'holo'];
+/** Earnable packs, in shelf and odds-table order. */
+export const PACK_ORDER: EarnablePack[] = ['standard', 'premium', 'elite', 'perfect', 'holo'];
+/** Every pack the shelf can show (the Legends Exchange pack last). */
+export const SHELF_ORDER: PackType[] = [...PACK_ORDER, 'exchange'];
 /** Packs stored as plain counts. */
 export const COUNTED_PACKS: CountedPack[] = ['standard', 'premium', 'elite', 'holo'];
 
@@ -233,6 +204,24 @@ export interface PerfectPack {
   gift?: boolean;
 }
 
+/** One planned card in a Legends Exchange pack: a league card replacing a retired legend card. */
+export interface ExchangeCard {
+  /** League player's "POS:Name" */
+  key: string;
+  tier: Tier;
+  finish: Finish;
+  /** The legend card it replaces ("POS:Name") */
+  from: string;
+}
+
+/** Legends Exchange pack: contents fixed when it was created, so a reload never rerolls them. */
+export interface ExchangePack {
+  id: string;
+  label: string;
+  at: number;
+  cards: ExchangeCard[];
+}
+
 export interface EarnedPack {
   type: PackType;
   reason: string;
@@ -245,6 +234,8 @@ export interface CollectionState {
   /** Unopened packs */
   packs: Record<CountedPack, number>;
   perfect: PerfectPack[];
+  /** Unopened Legends Exchange packs (normally at most one) */
+  exchange: ExchangePack[];
   shards: number;
   /** Packs opened so far, by type */
   opened: Record<PackType, number>;
@@ -270,8 +261,9 @@ const fresh = (): CollectionState => ({
   cards: {},
   packs: { standard: 0, premium: 0, elite: 0, holo: 0 },
   perfect: [],
+  exchange: [],
   shards: 0,
-  opened: { standard: 0, premium: 0, elite: 0, perfect: 0, holo: 0 },
+  opened: { standard: 0, premium: 0, elite: 0, perfect: 0, holo: 0, exchange: 0 },
   earned: [],
 });
 const EMPTY: CollectionState = fresh();
@@ -279,7 +271,9 @@ let memory: CollectionState | null = null;
 
 const num = (x: unknown) => (typeof x === 'number' && Number.isFinite(x) && x >= 0 ? Math.floor(x) : 0);
 const isFinish = (x: unknown): x is Finish => FINISHES.some((f) => f.key === x);
-const isPack = (x: unknown): x is PackType => PACK_ORDER.includes(x as PackType);
+const isPack = (x: unknown): x is PackType => SHELF_ORDER.includes(x as PackType);
+const isTier = (x: unknown): x is Tier => TIERS.some((t) => t.key === x);
+const KEY_RE = /^[A-Z]{2}:.+/;
 
 const parse = (raw: string | null): CollectionState | null => {
   if (!raw) return null;
@@ -291,7 +285,7 @@ const parse = (raw: string | null): CollectionState | null => {
     Object.entries(rawCards).forEach(([k, v]) => {
       const e = v as Partial<OwnedCard> | null;
       // Keys are "POS:Name"; entries need a valid best finish. Anything else is dropped.
-      if (!/^[A-Z]{2}:.+/.test(k) || !e || typeof e !== 'object' || !isFinish(e.best)) return;
+      if (!KEY_RE.test(k) || !e || typeof e !== 'object' || !isFinish(e.best)) return;
       const counts: Partial<Record<Finish, number>> = {};
       FINISHES.forEach(({ key }) => {
         const n = num(e.counts?.[key]);
@@ -302,10 +296,21 @@ const parse = (raw: string | null): CollectionState | null => {
       s.cards[k] = { best: e.best, counts, first: num(e.first), last: num(e.last), ...(marks.length ? { marks } : {}) };
     });
     COUNTED_PACKS.forEach((t) => (s.packs[t] = num(d.packs?.[t])));
-    PACK_ORDER.forEach((t) => (s.opened[t] = num(d.opened?.[t])));
+    SHELF_ORDER.forEach((t) => (s.opened[t] = num(d.opened?.[t])));
     s.perfect = (Array.isArray(d.perfect) ? d.perfect : []).filter(
       (p): p is PerfectPack => !!p && typeof p.id === 'string' && typeof p.label === 'string',
     );
+    s.exchange = (Array.isArray(d.exchange) ? d.exchange : [])
+      .filter((p): p is ExchangePack => !!p && typeof p.id === 'string' && Array.isArray(p.cards))
+      .map((p) => ({
+        id: p.id,
+        label: typeof p.label === 'string' ? p.label : PACKS.exchange.label,
+        at: num(p.at),
+        cards: p.cards.filter(
+          (c): c is ExchangeCard => !!c && typeof c.key === 'string' && KEY_RE.test(c.key) && isTier(c.tier) && isFinish(c.finish) && typeof c.from === 'string',
+        ),
+      }))
+      .filter((p) => p.cards.length > 0);
     s.shards = num(d.shards);
     s.earned = (Array.isArray(d.earned) ? d.earned : []).filter((e): e is EarnedPack => !!e && isPack(e.type) && typeof e.reason === 'string').slice(0, EARNED_CAP);
     s.migrated = !!d.migrated;
@@ -378,8 +383,8 @@ export const registerToastListener = () => {
 };
 export const hasToastListener = () => toastListeners > 0;
 
-export const packTotal = (s: CollectionState) => COUNTED_PACKS.reduce((n, t) => n + s.packs[t], 0) + s.perfect.length;
-export const packCount = (s: CollectionState, t: PackType) => (t === 'perfect' ? s.perfect.length : s.packs[t]);
+export const packTotal = (s: CollectionState) => COUNTED_PACKS.reduce((n, t) => n + s.packs[t], 0) + s.perfect.length + s.exchange.length;
+export const packCount = (s: CollectionState, t: PackType) => (t === 'perfect' ? s.perfect.length : t === 'exchange' ? s.exchange.length : s.packs[t]);
 
 /** Objects that already paid out (a game round, a season), so a re-run handler can't pay twice. */
 const paid = new WeakSet<object>();
@@ -395,7 +400,7 @@ export interface AwardOptions {
  * Awards one unopened reward pack. Games call this (never a card grant). `reason` is shown in the
  * toast, e.g. "League Grid 9/9". Returns false when `once` already paid out.
  */
-export const awardPack = (type: PackType, reason: string, opts: AwardOptions = {}): boolean => {
+export const awardPack = (type: EarnablePack, reason: string, opts: AwardOptions = {}): boolean => {
   if (opts.once) {
     if (paid.has(opts.once)) return false;
     paid.add(opts.once);
@@ -423,7 +428,7 @@ export const awardPack = (type: PackType, reason: string, opts: AwardOptions = {
 // ---------- Gift links ----------
 
 /** One-time gift links (#collection?gift=<id>): real packs added once per browser. */
-export const GIFTS: Record<string, { label: string; packs: [PackType, number][] }> = {
+export const GIFTS: Record<string, { label: string; packs: [EarnablePack, number][] }> = {
   sampler: {
     label: 'Sampler packs',
     packs: [
@@ -498,7 +503,7 @@ export const groupByTier = <P,>(pool: P[], tierOf: (p: P) => Tier): Record<Tier,
  * tier (empty tiers drop out), a random player of that tier (no repeats within a pack while the tier
  * has others), then a finish. Guarantees apply to the last slot only when still unmet.
  */
-export const rollPack = (type: PackType, pool: TierPool, rng: Rng = Math.random): RolledCard[] => {
+export const rollPack = (type: EarnablePack, pool: TierPool, rng: Rng = Math.random): RolledCard[] => {
   const spec = PACKS[type];
   const has = (t: Tier) => pool[t].length > 0;
   const taken = new Set<string>();
@@ -581,7 +586,7 @@ export interface PackCard extends RolledCard {
 export const openPack = (type: PackType, pool: TierPool): PackCard[] | null => {
   const s = readCollection();
   if (packCount(s, type) <= 0) return null;
-  const rolled = rollPack(type, pool);
+  const rolled = type === 'exchange' ? exchangeCards(s.exchange[0], pool) : rollPack(type, pool);
   if (!rolled.length) return null;
   const perfect = type === 'perfect' && !s.perfect[0]?.gift ? s.perfect[0] : undefined;
   const cards = { ...s.cards };
@@ -609,10 +614,100 @@ export const openPack = (type: PackType, pool: TierPool): PackCard[] | null => {
     cards,
     shards,
     opened: { ...s.opened, [type]: s.opened[type] + 1 },
-    ...(type === 'perfect' ? { perfect: s.perfect.slice(1) } : { packs: { ...s.packs, [type]: s.packs[type] - 1 } }),
+    ...(type === 'perfect'
+      ? { perfect: s.perfect.slice(1) }
+      : type === 'exchange'
+        ? { exchange: s.exchange.slice(1) }
+        : { packs: { ...s.packs, [type]: s.packs[type] - 1 } }),
   };
   write(next, { kind: 'opened', type });
   return out;
+};
+
+// ---------- Legends Exchange (one-time migration: NFL legends are no longer collectible) ----------
+
+/** Cards of a stored Legends Exchange pack, resolved against the current pool (a player gone from it is replaced in his tier). */
+const exchangeCards = (pack: ExchangePack | undefined, pool: TierPool): RolledCard[] => {
+  if (!pack) return [];
+  const where = new Map<string, { player: Player; tier: Tier }>();
+  TIERS.forEach(({ key: tier }) => pool[tier].forEach((player) => where.set(cardKey(player), { player, tier })));
+  const taken = new Set(pack.cards.map((c) => c.key));
+  return pack.cards
+    .map((c): RolledCard | null => {
+      const hit = where.get(c.key);
+      if (hit) return { player: hit.player, tier: hit.tier, finish: c.finish, slot: 'chase' };
+      const list = pool[c.tier].filter((p) => !taken.has(cardKey(p)));
+      const player = list[Math.floor(Math.random() * list.length)];
+      if (!player) return null;
+      taken.add(cardKey(player));
+      return { player, tier: c.tier, finish: c.finish, slot: 'chase' };
+    })
+    .filter((c): c is RolledCard => !!c)
+    .sort((a, b) => tierRank(a.tier) - tierRank(b.tier) || finishRank(a.finish) - finishRank(b.finish));
+};
+
+/** A legend card being retired: its key, the tier it had as a legend, and the best finish owned. */
+export interface RetiredLegend {
+  key: string;
+  position: string;
+  tier: Tier;
+}
+
+/**
+ * One-time migration for saves from when real NFL legends were collectible. Removes every owned card whose key
+ * is in `legends` and adds one Legends Exchange pack holding, per removed card, a league card of the same tier
+ * and the same (best) finish: a random league player of that tier and position when possible, else of that tier,
+ * preferring players not owned yet. The plan is stored, so reloading never rerolls or duplicates it.
+ * Returns the number of legend cards exchanged (0 when there was nothing to do).
+ */
+export const exchangeLegends = (legends: Map<string, RetiredLegend>, pool: TierPool, rng: Rng = Math.random): number => {
+  const s = readCollection();
+  const retired = Object.keys(s.cards).filter((k) => legends.has(k));
+  if (!retired.length) return 0;
+  const owned = new Set(Object.keys(s.cards).filter((k) => !legends.has(k)));
+  const planned = new Set<string>();
+  const choose = (list: Player[]) => {
+    const fresh = list.filter((p) => !owned.has(cardKey(p)) && !planned.has(cardKey(p)));
+    const notPlanned = list.filter((p) => !planned.has(cardKey(p)));
+    const from = fresh.length ? fresh : notPlanned.length ? notPlanned : list;
+    return from.length ? from[Math.floor(rng() * from.length)] : undefined;
+  };
+  const cards: ExchangeCard[] = [];
+  // Best cards first, so they get first pick of unowned players
+  const order = retired
+    .map((k) => ({ k, legend: legends.get(k)!, finish: s.cards[k].best }))
+    .sort((a, b) => tierRank(b.legend.tier) - tierRank(a.legend.tier) || finishRank(b.finish) - finishRank(a.finish));
+  order.forEach(({ k, legend, finish }) => {
+    // Same tier (same position first); if the tier is empty, the nearest lower tier, then higher
+    const tiers = [...TIERS.map((t) => t.key)].sort((a, b) => {
+      const da = tierRank(a) - tierRank(legend.tier);
+      const db = tierRank(b) - tierRank(legend.tier);
+      return (da > 0 ? 10 + da : -da) - (db > 0 ? 10 + db : -db);
+    });
+    for (const tier of tiers) {
+      const p = choose(pool[tier].filter((x) => x.position === legend.position)) ?? choose(pool[tier]);
+      if (p) {
+        planned.add(cardKey(p));
+        cards.push({ key: cardKey(p), tier, finish, from: k });
+        return;
+      }
+    }
+  });
+  if (!cards.length) return 0;
+  const at = Date.now();
+  const nextCards = { ...s.cards };
+  retired.forEach((k) => delete nextCards[k]);
+  const pack: ExchangePack = { id: `ex-${at}-${Math.random().toString(36).slice(2, 8)}`, label: PACKS.exchange.label, at, cards };
+  write(
+    {
+      ...s,
+      cards: nextCards,
+      exchange: [...s.exchange, pack],
+      earned: [{ type: 'exchange' as const, reason: `${retired.length} NFL legend card${retired.length === 1 ? '' : 's'} exchanged`, at }, ...s.earned].slice(0, EARNED_CAP),
+    },
+    { kind: 'other' },
+  );
+  return retired.length;
 };
 
 /** Crafts an owned card up to its next finish with shards. Returns the new finish, or null. */
@@ -666,7 +761,7 @@ const sum = (j: Joint, test: (t: Tier, f: Finish) => boolean) =>
   TIERS.reduce((s, { key: t }) => s + FINISHES.reduce((a, { key: f }) => a + (test(t, f) ? j[t][f] : 0), 0), 0);
 
 /** Exact per-card probability of each tier × finish for a pack type (average over its slots). */
-export const expectedJoint = (type: PackType): Joint => {
+export const expectedJoint = (type: EarnablePack): Joint => {
   const spec = PACKS[type];
   const regular = jointOf(spec.tiers, (t) => spec.finishes[t]);
   const n = spec.size;
@@ -719,7 +814,7 @@ export interface OddsSummary {
   legendaryHolo: number;
 }
 /** Per-card odds for a pack type: by tier, by finish, and Legendary-tier Holo. */
-export const packOdds = (type: PackType): OddsSummary => {
+export const packOdds = (type: EarnablePack): OddsSummary => {
   const j = expectedJoint(type);
   const tiers = Object.fromEntries(TIERS.map(({ key: t }) => [t, sum(j, (x) => x === t)])) as Record<Tier, number>;
   const finishes = Object.fromEntries(FINISHES.map(({ key: f }) => [f, sum(j, (_, y) => y === f)])) as Record<Finish, number>;

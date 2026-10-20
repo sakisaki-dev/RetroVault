@@ -8,6 +8,7 @@ import FrontOfficeTab from '@/components/tabs/FrontOfficeTab';
 import CollectionTab from '@/components/tabs/CollectionTab';
 import TeamLabTab from '@/components/teamlab/TeamLabTab';
 import CardUnlockToasts from '@/components/collection/CardUnlockToasts';
+import LegendExchange from '@/components/collection/LegendExchange';
 import CeremonyHost from '@/components/ceremony/CeremonyHost';
 import QuickPlayerSearch from '@/components/QuickPlayerSearch';
 import { LeagueProvider } from '@/context/LeagueContext';
@@ -89,6 +90,7 @@ const IndexContent = () => {
         <CeremonyHost />
         <QuickPlayerSearch />
         <CardUnlockToasts />
+        <LegendExchange />
         <footer className="mt-12 border-t border-line/70 bg-night">
           <div className="h-1 turf-stripes" aria-hidden="true" />
           <div className="container py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">

@@ -1,0 +1,182 @@
+/* ---------- Art lab: alternative card art (preview only) ---------- */
+
+/* Every style is one SVG filling the card's art area (.fut__art) */
+.ra {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.ra-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+.ra-italic {
+  font-style: italic;
+}
+.ra--helmet,
+.ra--back,
+.ra--number {
+  filter: drop-shadow(0 1.2cqw 1.4cqw hsl(0 0% 0% / 0.45));
+}
+/* Full-bleed scenes: no team glow behind them, and they fill edge to edge */
+.fut__art:has(> .ra--stadium, > .ra--locker, > .ra--vintage)::before {
+  display: none;
+}
+.fut__art:has(> .ra--stadium, > .ra--locker, > .ra--vintage) {
+  -webkit-mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
+}
+/* Inset from the left so the OVR / position column stays readable */
+.ra--stadium,
+.ra--locker,
+.ra--vintage {
+  width: 90%;
+  justify-self: end;
+  border-radius: 2cqw 2cqw 0 0;
+  overflow: hidden;
+}
+
+/* Motion: only when allowed */
+@media (prefers-reduced-motion: no-preference) {
+  .ra-bob {
+    animation: ra-bob 1s steps(1, end) infinite;
+  }
+  .ra-streaks rect {
+    animation: ra-streak 1.4s ease-in-out infinite;
+  }
+  .ra-flashes circle {
+    opacity: 0;
+    animation: ra-flash 3.2s linear infinite;
+  }
+  .ra-shine {
+    animation: ra-shine 4.5s ease-in-out infinite;
+  }
+  .ra-sway {
+    transform-origin: 60px 2px;
+    animation: ra-sway 5s ease-in-out infinite;
+  }
+}
+@keyframes ra-bob {
+  50% { transform: translateY(-1px); }
+}
+@keyframes ra-streak {
+  0%, 100% { transform: translateX(0); opacity: 0.9; }
+  50% { transform: translateX(-6px); opacity: 0.5; }
+}
+@keyframes ra-flash {
+  0%, 88%, 100% { opacity: 0; }
+  90% { opacity: 1; }
+  93% { opacity: 0.2; }
+}
+@keyframes ra-shine {
+  0%, 55% { transform: translateX(0); }
+  100% { transform: translateX(160px); }
+}
+@keyframes ra-sway {
+  0%, 100% { transform: rotate(-1.2deg); }
+  50% { transform: rotate(1.2deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ra-flashes circle {
+    opacity: 0.6;
+  }
+}
+
+/* Lab grid: a label line per style, then its four cards */
+.ral {
+  display: grid;
+  gap: 18px;
+  margin-top: 12px;
+}
+.ral__cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.ral__cols {
+  position: sticky;
+  top: -24px;
+  z-index: 2;
+  padding: 6px 0;
+  background: hsl(var(--background) / 0.92);
+  backdrop-filter: blur(4px);
+}
+.ral__col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  text-align: center;
+}
+.ral__col b {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: hsl(var(--foreground));
+}
+.ral__row {
+  display: grid;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid hsl(var(--border));
+}
+.ral__label {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.ral__label b {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+.ral__label span span,
+.ral__label > span:last-child > span {
+  font-size: 13px;
+  color: hsl(var(--muted-foreground));
+}
+.ral__idx {
+  flex: none;
+  min-width: 34px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: hsl(var(--gold) / 0.15);
+  color: hsl(var(--gold));
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  text-align: center;
+}
+.ral__big {
+  width: min(100%, 340px);
+  margin: 8px auto 0;
+}
+@media (max-width: 640px) {
+  .ral__cards {
+    gap: 5px;
+  }
+  .ral__col {
+    font-size: 7px;
+  }
+  .ral__col b {
+    font-size: 11px;
+  }
+  .ral__label b {
+    display: block;
+    font-size: 15px;
+  }
+  .ral__label > span:last-child > span {
+    font-size: 12px;
+  }
+  .ral__cols {
+    top: -12px;
+  }
+}
