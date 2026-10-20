@@ -39,7 +39,7 @@ import sys  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from owner_facts import (  # noqa: E402
-    ACTIVE_ROSTERS, CARD_NOTES, CURRENT_CLUB, RETIRED_WITH, STATUS_FIXES, TEAM_FIXES, TEAM_HISTORY,
+    ACTIVE_ROSTERS, CARD_NOTES, CURRENT_CLUB, RETIRED_WITH, SIGNATURE_TEAM, STATUS_FIXES, TEAM_FIXES, TEAM_HISTORY,
 )
 
 
@@ -209,6 +209,37 @@ def franchise_history(players, teams, cards, stints=None):
     return out
 
 
+def signature_teams(players, teams, stints):
+    """The club each league player is best known for: the jersey, helmet and colours on his card and banners.
+
+    Rule over the reconstructed stints: the stint with the most rings, then the most seasons, then the earliest.
+    Stints carry no per-stint awards, so awards can't break a tie. No stints: his club of record. Owner facts
+    come first: players.<name>.signature_team, then the card's legacy_team ("mainly a Seahawk"). Values are full
+    franchise names, like the league CSV's team.
+    """
+    def full(key):
+        key = (key or "").split(" (")[0].strip()
+        t = teams.get(key) or next((v for v in teams.values() if v.get("name") == key), None)
+        return t["name"] if t and t.get("conference") else None
+
+    out = {}
+    for p in players:
+        if p.get("legend"):
+            continue
+        name = p["n"]
+        owner = SIGNATURE_TEAM.get(name) or CARD_NOTES.get(name, {}).get("legacy_team")
+        if full(owner):
+            team = full(owner)
+        else:
+            runs = [s for s in stints.get(name, {}).get("stints", []) if full(s["team"])]
+            best = min(runs, key=lambda s: (-len(s.get("rings", [])), -(s["to"] - s["from"] + 1), s["from"]), default=None)
+            team_key = TEAM_FIXES.get(name, p.get("team", ""))
+            team = full(best["team"]) if best else full(CURRENT_CLUB if team_key == "CUR" else team_key)
+        if team:
+            out[name] = team
+    return dict(sorted(out.items()))
+
+
 def write_player_extras():
     """Card extras from screenshot_extras.json. Single-season lines are intentionally dropped."""
     src = SRC / "screenshot_extras.json"
@@ -234,18 +265,22 @@ def write_player_extras():
     out["franchises"] = franchise_history(json.loads((SRC / "players.json").read_text()),
                                           json.loads((SRC / "teams.json").read_text()), cards, stints)
     out["stints"] = stints
+    out["signatureTeams"] = signature_teams(json.loads((SRC / "players.json").read_text()),
+                                            json.loads((SRC / "teams.json").read_text()), stints)
     PLAYER_EXTRAS_OUT.write_text(json.dumps(out, indent=1, ensure_ascii=False))
     print(f"wrote {PLAYER_EXTRAS_OUT.relative_to(ROOT)}: real-NFL splits for {len(out['realNflCareer'])} players")
 
 
 SPRITE_ENUMS = {
     "skin": {"pale", "light", "tan", "medium", "brown", "deep"},
-    "style": {"bald", "buzz", "short", "curly", "twists", "afro", "freeform", "mohawk", "spiky", "dreads", "shortlocs", "braids", "long"},
+    "style": {"bald", "buzz", "short", "curly", "twists", "afro", "freeform", "mohawk", "spiky", "dreads", "crownlocs", "longlocs", "shortlocs", "braids", "long"},
     "facial": {"none", "stubble", "jawline", "shortbeard", "mustache", "goatee", "chinstrap", "beard", "fullbeard"},
     "accessories": {"durag", "visor", "visor-gold", "eyeblack", "earrings", "headband", "sleeve-white", "sleeve-black", "sleeve-team",
                     "wristbands", "gloves-white", "gloves-black", "tattoos", "armbands"},
     "build": {"normal", "big", "huge"},
     "height": {"normal", "tall"},
+    "face": {"oval", "defined", "chiseled"},
+    "nose": {"straight"},
 }
 # Pose keys and their names live in src/components/collection/art/sprite/poses.ts (shown in the Art lab); a lock may use
 # either ("cel-heisman" or "Heisman pose"); old short names still work
@@ -276,7 +311,7 @@ def write_sprites(players):
         if name not in names:
             print(f"warn: sprites.json: {name} is not a league player (skipped)")
             continue
-        bad = [f"{k}={look.get(k)}" for k in ("skin", "facial", "build", "height")
+        bad = [f"{k}={look.get(k)}" for k in ("skin", "facial", "build", "height", "face", "nose")
                if look.get(k) is not None and look[k] not in SPRITE_ENUMS["skin" if k == "skin" else k]]
         if look.get("pose") is not None and not sprite_pose_ok(str(look["pose"])):
             bad.append(f"pose={look['pose']}")

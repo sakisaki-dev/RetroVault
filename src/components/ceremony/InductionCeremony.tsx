@@ -78,7 +78,7 @@ const Particles = () => {
 };
 
 const RetiredBanner = ({ retired, player }: { retired: RetiredNumber; player: Player }) => {
-  const team = resolveTeam(player.team) ?? resolveTeam(retired.teamLabel);
+  const team = resolveTeam(retired.teamLabel) ?? resolveTeam(player.team);
   const primary = team?.primaryColor ?? '226 33% 24%';
   const secondary = team && team.secondaryColor !== team.primaryColor ? team.secondaryColor : '43 100% 62%';
   const style = { '--rb-primary': primary, '--rb-secondary': secondary, '--rb-fg': getReadableTextOn(primary) } as CSSProperties;

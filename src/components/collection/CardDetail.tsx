@@ -280,7 +280,7 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
                   </p>
                   <DialogTitle className="font-display text-4xl uppercase italic leading-none">{info.player.name}</DialogTitle>
                   <DialogDescription className="mt-1.5">
-                    {variantLabel(variant)} · {finishLabel(finish)} · {POSITION_NAMES[info.player.position] ?? info.player.position} · {info.franchise} · OVR {info.ovr ?? '–'}
+                    {variantLabel(variant)} · {finishLabel(finish)} · {POSITION_NAMES[info.player.position] ?? info.player.position} · {info.cardTeam} · OVR {info.ovr ?? '–'}
                   </DialogDescription>
                 </div>
 

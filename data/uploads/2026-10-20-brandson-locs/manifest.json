@@ -1,0 +1,32 @@
+{
+ "id": "2026-10-20-brandson-locs",
+ "created": "2026-10-20",
+ "title": "Brandson: a full crown of locs (owner request); face, stubble, eyes and pose unchanged",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Sherman Brandson",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "crownlocs",
+     "color": "black"
+    },
+    "facial": "shortbeard",
+    "accessories": [],
+    "build": "huge",
+    "height": "tall",
+    "pose": "sig-crossed",
+    "signature": true,
+    "notes": "Fred Warner style: a high-top of short twisted locs standing up and back from the crown, falling over the shoulders; short stubble beard on a strong jaw; huge and 6'7\", muscular V-taper (not fat). Signature (owner): arms crossed, menacing, helmet off [IMG_6206 + IMG_6201]. Face (owner): chiseled, triangular: wide cheekbones tapering to a strong, narrower pointed chin and a defined jawline. Locs (owner): volume, not length: a big full crown of thick locs standing up and out like a mane, wider than the face, falling around the face to the jaw and neck; nothing tied or hanging behind",
+    "face": "chiseled"
+   },
+   "source": "owner",
+   "reason": "Owner: Brandson's locs read like a ponytail; give them volume (a high, wide crown of thick locs falling to the jaw and neck), keep the new face",
+   "trigger": "Owner request in chat"
+  }
+ ]
+}

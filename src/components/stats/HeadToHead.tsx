@@ -10,6 +10,7 @@ import { findNFLTeam } from '@/utils/nflTeams';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import { getMetricTier, getTierColor, getTierLabel } from '@/utils/metricColors';
 import { useJerseyNumbers } from '@/utils/jerseys';
+import { signatureTeamOf, usePlayerExtras } from '@/utils/playerExtras';
 import { useGamePool, useOfficialOvr } from '@/utils/useOfficialOvr';
 import PlayerSearchSelect from '../PlayerSearchSelect';
 import ProPlayerBanner from '../brand/ProPlayerBanner';
@@ -57,7 +58,9 @@ const HeroCard = ({
 }) => {
   const ovrMap = useOfficialOvr();
   const { numberFor, retiredInfo } = useJerseyNumbers();
-  const team = findNFLTeam(player?.team);
+  const extras = usePlayerExtras();
+  // Banner identity: his signature team (where he was best known)
+  const team = findNFLTeam(player ? signatureTeamOf(extras, player) : undefined);
   return (
     <div className="flex min-w-0 flex-col gap-2">
       <PlayerSearchSelect showOvr

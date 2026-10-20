@@ -2,7 +2,7 @@
 
 Scripts hold code; facts live in data. This module only reads the file and exposes the views the build scripts
 used to hard-code (TEAM_FIXES, TEAM_HISTORY, RETIRED_WITH, ACTIVE_ROSTERS, CARD_NOTES, STATUS_FIXES, tags, career
-facts). The file itself is written by scripts/apply_upload.py from an upload manifest.
+facts, signature teams). The file itself is written by scripts/apply_upload.py from an upload manifest.
 """
 from __future__ import annotations
 
@@ -33,6 +33,8 @@ STATUS_FIXES: dict[str, str] = _field("status")
 CARD_NOTES: dict[str, dict] = _field("card")
 TAGS: dict[str, str] = _field("tag")
 CAREER: dict[str, dict] = _field("career")
+# The club a player is best known for (card / banner identity); overrides the stint rule in build_league_data.py
+SIGNATURE_TEAM: dict[str, str] = _field("signature_team")
 REAL_NFL: dict[str, dict] = _field("real_nfl")
 ACTIVE_ROSTERS: dict[str, str] = {n: t for t, names in sorted(FACTS.get("active_rosters", {}).items()) for n in names}
 # {year: {name: team}}

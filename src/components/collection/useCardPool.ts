@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react';
 import type { Player } from '@/types/player';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { useJerseyNumbers } from '@/utils/jerseys';
+import { usePlayerExtras, withSignatureTeam } from '@/utils/playerExtras';
 import { useGamePool } from '@/utils/useOfficialOvr';
 import { playerKey, type GamePlayer } from '@/config/ovr';
 import { faceStatsFor, type FaceStat } from './cardStats';
@@ -9,13 +10,21 @@ import { groupByTier, packOdds, tierFor, tierLabel, tierRank, type Tier, type Ti
 
 export interface CardInfo {
   key: string;
+  /**
+   * The card's player, dressed in his signature team (where he was best known): `player.team` drives the card's
+   * jersey, helmet, colours and logo. His current team is `currentTeam`; `franchise` (filters, set order) follows it.
+   */
   player: GamePlayer;
+  /** His current (or final) team, as in the league data */
+  currentTeam: string;
   tier: Tier;
   ovr: number | null;
   number: number;
   retiredBy: string | null;
-  /** Franchise label (NFL nickname, raw team string, or "Free agents") */
+  /** Franchise label of his current team (NFL nickname, raw team string, or "Free agents"): filters and set order */
   franchise: string;
+  /** Franchise label of the card's team (his signature team), shown on the card */
+  cardTeam: string;
   setNo: number;
   hint: string;
   /** Six 0–99 face stats (FUT layout) */
@@ -36,26 +45,33 @@ const hintFor = (tier: Tier) => `${tierLabel(tier)} · ${fmtPct(STANDARD.tiers[t
 export const useCardPool = () => {
   const { league, ovrMap, loaded } = useGamePool();
   const { numberFor, retiredInfo } = useJerseyNumbers();
+  const extras = usePlayerExtras();
 
   const faceStats = useMemo(() => faceStatsFor(league), [league]);
+  // Pack pulls hand back card players (already in their signature team): describe from the league row
+  const leagueByKey = useMemo(() => new Map(league.map((p) => [playerKey(p), p])), [league]);
   const describe = useCallback(
-    (p: Player, setNo = 0): CardInfo => {
+    (pulled: Player, setNo = 0): CardInfo => {
+      const p = leagueByKey.get(playerKey(pulled)) ?? pulled;
       const ovr = ovrMap.get(playerKey(p)) ?? null;
       const tier = tierFor(p, ovr);
+      const dressed = withSignatureTeam(extras, p as GamePlayer);
       return {
         key: playerKey(p),
-        player: p as GamePlayer,
+        player: dressed,
+        currentTeam: p.team ?? '',
         tier,
         ovr,
         number: numberFor(p),
         retiredBy: retiredInfo(p)?.teamLabel ?? null,
         franchise: franchiseOf(p),
+        cardTeam: franchiseOf(dressed),
         setNo,
         hint: hintFor(tier),
         stats: faceStats(p),
       };
     },
-    [ovrMap, numberFor, retiredInfo, faceStats],
+    [leagueByKey, ovrMap, numberFor, retiredInfo, faceStats, extras],
   );
 
   const cards = useMemo<CardInfo[]>(() => {

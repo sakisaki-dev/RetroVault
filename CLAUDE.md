@@ -89,7 +89,8 @@ Each owner note becomes a `journal.add` with the text **copied exactly** (apply-
 `notes.md`) and tags: `players`, `teams`, `seasons`, `kind` (`rivalry` | `dispute` | `drama` | `note`). Never
 rewrite, summarize or add prose. Owner-stated facts ("he was traded to the Falcons") also become `fact.set`
 mutations with `source: "owner"`, e.g. `players/<name>/team`, `team_history`, `career` (`order`, `on`, `stints`,
-`longest`, `next_team`, `says`), `tag`, `card`.
+`longest`, `next_team`, `says`), `tag`, `card`, `signature_team` (the club his card and banners wear: "where he
+was best").
 
 ### 4. Apply, rebuild, check
 
@@ -169,6 +170,12 @@ current data is a no-op.
   `owner_facts.json` (`career.on`, `career.stints`, `season_rosters`), and the owner's order of clubs. Evidence text
   is templated ("4 rings = Chargers Y10, Y11, Y14, Y15"). Ambiguous players become `openQuestions` in content.json;
   the owner's answer is a `fact.set players/<name>/career` mutation.
+- **Signature team** (`signature_team()` in `scripts/build_league_data.py` → `signatureTeams` in
+  `public/data/player-extras.json`): the club a player's card, art, walkout, HOF card and player banners wear. Owner
+  fact `players/<name>/signature_team`, else the card's `legacy_team`, else the stint with the most rings, then most
+  seasons, then earliest; no stints = current team. Stats, rosters, filters, jersey numbers and market keys keep the
+  current team (`signatureTeamOf` / `withSignatureTeam` in `src/utils/playerExtras.ts`). Audit warns when it's a club
+  he has no stint with.
 - **Eras**: the owner's coaching stints (`coach.json`), split at 3+ title-less seasons between titles and merged when
   a stint won fewer than 3 titles (the current stint always stands alone); named "<Team> dynasty" (5+ titles),
   "<Team> run" (3–4) or "<Team> years". Key players: best Career Legacy whose stints overlap the era on the owner's club.

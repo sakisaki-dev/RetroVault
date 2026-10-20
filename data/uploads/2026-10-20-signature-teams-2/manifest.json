@@ -1,0 +1,81 @@
+{
+ "id": "2026-10-20-signature-teams-2",
+ "created": "2026-10-20",
+ "title": "Signature teams: owner corrections (Asanjh, Elder, Perkins, Russell to Seahawks; Everett Broncos; Hopkins Titans; Tyrion Kline Chargers; Nassib Dolphins)",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Cairo Asanjh/signature_team",
+   "value": "Seahawks",
+   "source": "owner",
+   "reason": "Owner: \"cairo is a seahawks legend so is deante elder, forrest is known for the broncos, perkins for the seahawks hopkins is a titans legend, russel is a seahawks legend kline is a chargers legend and nassib is a dolphins legend\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Deante Elder/signature_team",
+   "value": "Seahawks",
+   "source": "owner",
+   "reason": "Owner: \"cairo is a seahawks legend so is deante elder, forrest is known for the broncos, perkins for the seahawks hopkins is a titans legend, russel is a seahawks legend kline is a chargers legend and nassib is a dolphins legend\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Forrest Everett/signature_team",
+   "value": "Broncos",
+   "source": "owner",
+   "reason": "Owner: \"cairo is a seahawks legend so is deante elder, forrest is known for the broncos, perkins for the seahawks hopkins is a titans legend, russel is a seahawks legend kline is a chargers legend and nassib is a dolphins legend\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jawill Perkins/signature_team",
+   "value": "Seahawks",
+   "source": "owner",
+   "reason": "Owner: \"cairo is a seahawks legend so is deante elder, forrest is known for the broncos, perkins for the seahawks hopkins is a titans legend, russel is a seahawks legend kline is a chargers legend and nassib is a dolphins legend\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Levante Hopkins/signature_team",
+   "value": "Titans",
+   "source": "owner",
+   "reason": "Owner: \"cairo is a seahawks legend so is deante elder, forrest is known for the broncos, perkins for the seahawks hopkins is a titans legend, russel is a seahawks legend kline is a chargers legend and nassib is a dolphins legend\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Lukas Russell/signature_team",
+   "value": "Seahawks",
+   "source": "owner",
+   "reason": "Owner: \"cairo is a seahawks legend so is deante elder, forrest is known for the broncos, perkins for the seahawks hopkins is a titans legend, russel is a seahawks legend kline is a chargers legend and nassib is a dolphins legend\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Tyrion Kline/signature_team",
+   "value": "Chargers",
+   "source": "owner",
+   "reason": "Owner: \"cairo is a seahawks legend so is deante elder, forrest is known for the broncos, perkins for the seahawks hopkins is a titans legend, russel is a seahawks legend kline is a chargers legend and nassib is a dolphins legend\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Tyson Nassib/signature_team",
+   "value": "Dolphins",
+   "source": "owner",
+   "reason": "Owner: \"cairo is a seahawks legend so is deante elder, forrest is known for the broncos, perkins for the seahawks hopkins is a titans legend, russel is a seahawks legend kline is a chargers legend and nassib is a dolphins legend\"",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}

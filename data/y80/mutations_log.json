@@ -36,6 +36,105 @@
     "looks": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-10-20-brandson-chiseled",
+   "dir": "data/uploads/2026-10-20-brandson-chiseled",
+   "applied_at": "2026-10-20T03:33:07-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-karras-look",
+   "dir": "data/uploads/2026-10-20-karras-look",
+   "applied_at": "2026-10-20T03:33:16-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-brandson-locs",
+   "dir": "data/uploads/2026-10-20-brandson-locs",
+   "applied_at": "2026-10-20T03:39:15-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-face-template",
+   "dir": "data/uploads/2026-10-20-face-template",
+   "applied_at": "2026-10-20T03:46:53-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-brandson-locs2",
+   "dir": "data/uploads/2026-10-20-brandson-locs2",
+   "applied_at": "2026-10-20T03:50:05-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-signature-teams",
+   "dir": "data/uploads/2026-10-20-signature-teams",
+   "applied_at": "2026-10-20T03:50:08-07:00",
+   "mutations": {
+    "stats": 2
+   },
+   "changed": 2
+  },
+  {
+   "id": "2026-10-20-ikarras-defined",
+   "dir": "data/uploads/2026-10-20-ikarras-defined",
+   "applied_at": "2026-10-20T03:52:46-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-brandson-locs3",
+   "dir": "data/uploads/2026-10-20-brandson-locs3",
+   "applied_at": "2026-10-20T03:55:10-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-brandson-locs4",
+   "dir": "data/uploads/2026-10-20-brandson-locs4",
+   "applied_at": "2026-10-20T03:58:38-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-signature-teams-2",
+   "dir": "data/uploads/2026-10-20-signature-teams-2",
+   "applied_at": "2026-10-20T03:58:49-07:00",
+   "mutations": {
+    "stats": 8
+   },
+   "changed": 8
+  },
+  {
+   "id": "2026-10-20-signature-teams-3",
+   "dir": "data/uploads/2026-10-20-signature-teams-3",
+   "applied_at": "2026-10-20T03:59:53-07:00",
+   "mutations": {
+    "stats": 3
+   },
+   "changed": 3
   }
  ]
 }

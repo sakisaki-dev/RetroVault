@@ -1,0 +1,42 @@
+{
+ "id": "2026-10-20-karras-look",
+ "created": "2026-10-20",
+ "title": "Isaiah Karras (RB, Seahawks): look re-read from his in-game portrait",
+ "images": [
+  {
+   "file": "IMG_6205.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Seahawks roster: RB Karras portrait (helmet off)"
+  }
+ ],
+ "ai_steps": [
+  {
+   "step": "portrait→look",
+   "reason": "Owner asked for Karras's sprite to match his in-game portrait",
+   "trigger": "Owner request in chat; portrait in IMG_6205"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Isaiah Karras",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "longlocs",
+     "color": "black"
+    },
+    "beard": "#421f1a",
+    "facial": "fullbeard",
+    "accessories": [
+     "wristbands"
+    ],
+    "notes": "Long locs from the crown (no high-top), scalp showing between them on top, a short fringe, falling past the jaw onto the chest in front of the shoulders; full dark-brown beard joined to the locs; thick brows; white band on the ball wrist [IMG_6205 (Seahawks roster)]"
+   },
+   "source": "image:IMG_6205.PNG",
+   "reason": "Portrait re-read at zoom: brown skin, long crown locs (new longlocs style), full beard in dark brown (#421f1a sampled), wristband",
+   "trigger": "Owner request in chat"
+  }
+ ]
+}

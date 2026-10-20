@@ -15,7 +15,7 @@ import { careerTotals } from '@/components/player/statLines';
 import { variantLabel, type Finish, type Tier, type Variant } from '@/utils/collection';
 import { lookFor, useSpriteTable } from './art/sprite/faces';
 import { poseKeyFor, poseLabel } from './art/sprite/poses';
-import { uniformFor } from './art/sprite/uniforms';
+import { uniformFor, uniformLabel } from './art/sprite/uniforms';
 import type { CardInfo } from './useCardPool';
 
 /** "Pose: Rollout throw" for sprite cards (plus "Custom look" when sprites.json locks his look), else "Art: 70s Topps". */
@@ -74,7 +74,7 @@ const CardBack = ({ info, tier, total, variant, finish }: CardBackProps) => {
     .map((a) => ({ ...a, n: (p[a.key] as number) ?? 0 }))
     .filter((a) => a.n > 0);
   const team = findNFLTeam(p.team);
-  // Only alternates get a line ("Uniform: Bucs Creamsicle"); the home uniform is the standard
+  // Only alternates get a line ("Uniform: Bucs Creamsicle", "Uniform: 1985 Bears (era)"); the home uniform is the standard
   const uniform = variant ? uniformFor(p, variant, finish) : null;
 
   return (
@@ -84,7 +84,7 @@ const CardBack = ({ info, tier, total, variant, finish }: CardBackProps) => {
         <span className="min-w-0 flex-1">
           <span className="cb__name">{p.name}</span>
           <span className="cb__sub">
-            {POSITION_NAMES[p.position] ?? p.position} · {info.franchise}
+            {POSITION_NAMES[p.position] ?? p.position} · {info.cardTeam}
           </span>
         </span>
         <span className="cb__set" title="Set number">
@@ -93,7 +93,7 @@ const CardBack = ({ info, tier, total, variant, finish }: CardBackProps) => {
         </span>
       </div>
       {variant && <p className="cb__art">{artNote(variant, info, table)}</p>}
-      {uniform && uniform.id !== 'home' && <p className="cb__art">Uniform: {uniform.label}</p>}
+      {uniform && uniform.id !== 'home' && <p className="cb__art">Uniform: {uniformLabel(uniform)}</p>}
 
       <h4 className="cb__h">Career</h4>
       <dl className="cb__stats">

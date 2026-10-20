@@ -8,7 +8,7 @@ import type { CardInfo } from '../../useCardPool';
 import PixelSpriteArt, { PixelHead, PixelHelmet, type HeadView } from '../PixelSprite';
 import { paletteFor } from '../shared';
 import { SKIN_TONES, lookFor, useSpriteTable } from '../sprite/faces';
-import { allAlternates, homeUniform, uniformFor, type Uniform } from '../sprite/uniforms';
+import { allAlternates, allEraKits, homeUniform, uniformFor, uniformLabel, type Uniform } from '../sprite/uniforms';
 import { CELEBRATIONS, POSITION_POSES, SIGNATURES, poseKeyFor, poseLabel } from '../sprite/poses';
 import { Cell } from './LabParts';
 import { onGridKey, type PreviewItem } from './labStore';
@@ -293,13 +293,14 @@ HelmetsTab.displayName = 'HelmetsTab';
 // ---------- Uniforms ----------
 
 export const UniformsTab = memo(({ pick }: TabProps) => {
-  const [only, setOnly] = useState<'all' | 'alts'>('all');
+  const [only, setOnly] = useState<'all' | 'alts' | 'era'>('all');
   const pose = POSITION_POSES[pick.player.position]?.[0]?.key ?? POSITION_POSES.WR?.[0]?.key;
   const groups = useMemo(() => {
     const alts = allAlternates();
+    const eras = allEraKits();
     return TEAMS.map((t) => {
       const player = onTeam(pick, t.name);
-      const list = [homeUniform(t.name), ...alts.filter((a) => a.team === t.id).map((a) => a.u)];
+      const list = [homeUniform(t.name), ...alts.filter((a) => a.team === t.id).map((a) => a.u), ...eras.filter((a) => a.team === t.id).map((a) => a.u)];
       return {
         t,
         items: list.map((u) => ({
@@ -307,8 +308,8 @@ export const UniformsTab = memo(({ pick }: TabProps) => {
           player,
           item: {
             id: `uni|${t.id}|${u.id}`,
-            title: `${t.name} · ${u.label}`,
-            facts: [['Team', t.fullName], ['Uniform', u.label], ['Pose', pose ? poseLabel(pose) : '–'], ['Number', String(pick.number)]],
+            title: `${t.name} · ${uniformLabel(u)}`,
+            facts: [['Team', t.fullName], ['Uniform', uniformLabel(u)], ['Pose', pose ? poseLabel(pose) : '–'], ['Number', String(pick.number)]],
             base: 200,
             maxZoom: 5,
             render: () => <span className="lab-sprite">{spriteArt(player, pick.number, pose, u)}</span>,
@@ -317,15 +318,24 @@ export const UniformsTab = memo(({ pick }: TabProps) => {
       };
     });
   }, [pick, pose]);
-  const shown = only === 'alts' ? groups.filter((g) => g.items.length > 1) : groups;
+  const shown =
+    only === 'era'
+      ? groups.flatMap((g) => {
+          const items = g.items.filter((i) => i.u.era);
+          return items.length ? [{ ...g, items }] : [];
+        })
+      : only === 'alts'
+        ? groups.filter((g) => g.items.length > 1)
+        : groups;
   return (
     <section aria-label="Uniforms">
-      <Chips<'all' | 'alts'>
+      <Chips<'all' | 'alts' | 'era'>
         label="Teams"
         value={only}
         options={[
           { key: 'all', label: 'All 32' },
           { key: 'alts', label: 'With alternates' },
+          { key: 'era', label: 'Era kits' },
         ]}
         onChange={setOnly}
       />
@@ -340,7 +350,7 @@ export const UniformsTab = memo(({ pick }: TabProps) => {
                 caption={
                   <>
                     <b>{g.t.name}</b>
-                    <span>{i === 0 ? 'Home' : u.label}</span>
+                    <span>{i === 0 ? 'Home' : uniformLabel(u)}</span>
                   </>
                 }
               >

@@ -214,13 +214,15 @@
     "wristbands"
    ],
    "pose": "sig-praise",
-   "notes": "Short black hair, full beard, studs in both ears (IMG_6201). \"The Prodigal Son\". Signature pose (owner): hands up in reverence, helmet off, black durag with tails, eyes up [IMG_6200–6203 (game Hall of Fame)]",
-   "signature": true
+   "notes": "Short black hair, full beard, studs in both ears (IMG_6201). \"The Prodigal Son\". Signature pose (owner): hands up in reverence, helmet off, black durag with tails, eyes up [IMG_6200–6203 (game Hall of Fame)]. Face (owner): the good-looking, proportioned reference face: a triangle (cheekbones tapering to the chin), a little wider at the lower cheeks, jaw and chin so he reads human and handsome; clean defined jawline, straight nose",
+   "signature": true,
+   "face": "defined",
+   "nose": "straight"
   },
   "Sherman Brandson": {
    "skin": "medium",
    "hair": {
-    "style": "dreads",
+    "style": "crownlocs",
     "color": "black"
    },
    "facial": "shortbeard",
@@ -229,7 +231,8 @@
    "height": "tall",
    "pose": "sig-crossed",
    "signature": true,
-   "notes": "Fred Warner style: a high-top of short twisted locs standing up and back from the crown, falling over the shoulders; short stubble beard on a strong jaw; huge and 6'7\", muscular V-taper (not fat). Signature (owner): arms crossed, menacing, helmet off [IMG_6206 + IMG_6201]"
+   "notes": "Fred Warner style: a high-top of short twisted locs standing up and back from the crown, falling over the shoulders; short stubble beard on a strong jaw; huge and 6'7\", muscular V-taper (not fat). Signature (owner): arms crossed, menacing, helmet off [IMG_6206 + IMG_6201]. Face (owner): chiseled, triangular: wide cheekbones tapering to a strong, narrower pointed chin and a defined jawline. Locs (owner): the detailed crown of thick two-tone loc strands (twist glints, lighter tips) falling round the face to the jaw and neck, but not as big on top (a lower crown); nothing hangs behind. Jaw (owner): pushed out 1 px each side, ending a row higher in a blunter chin (the point was too sharp); cheekbones, brow and eyes unchanged",
+   "face": "chiseled"
   },
   "Dedrick Gould": {
    "skin": "brown",
@@ -475,14 +478,15 @@
   "Isaiah Karras": {
    "skin": "brown",
    "hair": {
-    "style": "dreads",
+    "style": "longlocs",
     "color": "black"
    },
+   "beard": "#421f1a",
    "facial": "fullbeard",
    "accessories": [
     "wristbands"
    ],
-   "notes": "Long dreads, full beard [IMG_6205 (Seahawks roster)]"
+   "notes": "Long locs from the crown (no high-top), scalp showing between them on top, a short fringe, falling past the jaw onto the chest in front of the shoulders; full dark-brown beard joined to the locs; thick brows; white band on the ball wrist [IMG_6205 (Seahawks roster)]"
   },
   "Obinna Leary": {
    "skin": "brown",

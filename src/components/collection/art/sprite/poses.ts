@@ -81,6 +81,9 @@ export interface PoseOut {
   headUp?: boolean;
   /** Whole-figure shift in sprite pixels (rotated poses, to keep the dive inside the frame) */
   shiftX?: number;
+  /** Bent at the waist: degrees the upper body (torso, arms, head position) turns forward round the hips; the legs
+   * stay put, the head stays upright, and a held ball is on the turf (not turned) */
+  bend?: number;
 }
 
 type Arm = [Pt, Pt, Pt];
@@ -108,6 +111,15 @@ const reach = (k: Skel, hand: Pt, bend = 2): Arm => {
 };
 /** A point relative to an arm's hand */
 const at = (a: Arm, dx: number, dy: number): Pt => [a[2][0] + dx, a[2][1] + dy];
+/**
+ * For a pose bent at the waist (bend°, crouch c): the pose-space point that lands on a target after the bend, so a
+ * hand can be put exactly on a ball on the turf.
+ */
+const unbend = (k: Skel, c: number, bend: number, [tx, ty]: Pt): Pt => {
+  const [px, py] = [k.cx, k.hy + c + 1];
+  const r = -bend * RAD;
+  return [Math.round(px + (tx - px) * Math.cos(r) - (ty - py) * Math.sin(r)), Math.round(py + (tx - px) * Math.sin(r) + (ty - py) * Math.cos(r) - c)];
+};
 
 /** Front arm tucking the ball high and tight */
 const tuck = (k: Skel): Arm => [sh(k, true), [k.fs + 1, k.sy + k.A], [k.fs + 5, k.sy + k.A - 1]];
@@ -187,10 +199,6 @@ const P: Record<string, PoseFn> = {
     palm: true,
     expr: 'open',
   }),
-  'qb-handoff': (k) => {
-    const frontArm = arm(k, true, 35, 5);
-    return { frontArm, backArm: reach(k, at(frontArm, -2, 1)), ...legs(plant(k, 3)), ball: at(frontArm, 3, -1), shear: 1, crouch: 2 };
-  },
   'qb-scramble': (k) => {
     const frontArm = arm(k, true, 60, -60);
     return { frontArm, backArm: pumpBack(k), ...legs(stride(k, 2)), ball: at(frontArm, 1, -2), shear: 1 };
@@ -199,7 +207,6 @@ const P: Record<string, PoseFn> = {
     const backArm = arm(k, false, 170, 190);
     return { frontArm: arm(k, true, -20, 10), backArm, ...legs(plant(k, 5)), ball: at(backArm, -2, -1), shear: -1, crouch: 2 };
   },
-  'qb-shotgun': (k) => ({ look: 'tq', frontArm: arm(k, true, 50, 0), backArm: reach(k, [k.fs + 5, k.sy + 6]), ...legs(plant(k, 3)), palm: true, backPalm: true, crouch: 4 }),
   'qb-slide': (k) => ({
     // Feet-first slide to end the run: sitting back at 45° on the turf, lead leg out flat along it, the other knee
     // bent up, ball tucked (the legs are set 45° forward so they lie flat once the body tips back)
@@ -213,13 +220,9 @@ const P: Record<string, PoseFn> = {
     lift: -2,
     shiftX: 2,
   }),
-  'qb-pump': (k) => {
-    const frontArm = arm(k, true, 70, -80);
-    return { look: 'tq', frontArm, backArm: reach(k, at(frontArm, -2, -1)), ...legs(plant(k, 3)), ball: at(frontArm, 1, -3) };
-  },
   'qb-dropback': (k) => {
     const frontArm = arm(k, true, 80, -40);
-    return { frontArm, backArm: reach(k, at(frontArm, -2, 1)), frontLeg: lg(k, true, 3, k.h, 4), backLeg: lg(k, false, -5, k.h, -10), ball: at(frontArm, 1, -2), toes: 'front', shear: -1 };
+    return { frontArm, backArm: reach(k, at(frontArm, 2, -5)), frontLeg: lg(k, true, 3, k.h, 4), backLeg: lg(k, false, -5, k.h, -10), ball: at(frontArm, 1, -2), toes: 'front', shear: -1 };
   },
   'qb-jump': (k) => {
     const backArm = arm(k, false, -110, -70);
@@ -278,8 +281,9 @@ const P: Record<string, PoseFn> = {
     crouch: 4,
   }),
   'rb-catch': (k) => {
+    // Both hands up for the ball: the near hand in front of it, the far hand (darker) just behind and below
     const frontArm = arm(k, true, -35, -55);
-    return { frontArm, backArm: reach(k, at(frontArm, -2, 2)), ...legs(stride(k)), ball: at(frontArm, 1, -4), look: 'up' };
+    return { frontArm, backArm: reach(k, at(frontArm, 2, -5)), ...legs(stride(k)), ball: at(frontArm, -1, -4), look: 'up' };
   },
   'rb-block': (k) => ({ ...punch(k, 1), ...legs(plant(k, 5)), shear: 1, crouch: 4 }),
   'rb-cutback': (k, v) => ({
@@ -291,19 +295,19 @@ const P: Record<string, PoseFn> = {
     crouch: 3,
   }),
   'rb-secure': (k) => ({
-    frontArm: [sh(k, true), [k.fs + 2, k.sy + k.A], [k.fs + 4, k.sy + 3]],
-    backArm: reach(k, [k.fs + 1, k.sy + 6], 1),
+    // Two hands on the ball: the near hand over its nose, the far hand cupping it from below
+    frontArm: [sh(k, true), [k.fs + 2, k.sy + k.A], [k.fs + 5, k.sy + 2]],
+    backArm: reach(k, [k.fs + 1, k.sy + 7], 1),
     ...legs(drive(k)),
     ball: [k.fs + 2, k.sy + 4],
     toes: 'back',
     shear: 2,
     crouch: 3,
   }),
-  'rb-breakaway': (k, v) => ({ ...carry(k, v), ...legs(stride(k, 3)), look: 'tq', shear: 1, crouch: 1 }),
   // ---------- Receivers ----------
   'wr-highpoint': (k) => {
     const frontArm = arm(k, true, -60, -75);
-    return { frontArm, backArm: reach(k, at(frontArm, -3, 1)), ...legs(tucked(k)), ball: at(frontArm, 0, -4), look: 'up', lift: 3 };
+    return { frontArm, backArm: reach(k, at(frontArm, 2, -5)), ...legs(tucked(k)), ball: at(frontArm, 0, -4), look: 'up', lift: 3 };
   },
   'wr-onehand': (k) => {
     const frontArm = arm(k, true, -50, -40);
@@ -323,22 +327,13 @@ const P: Record<string, PoseFn> = {
       shear: -5,
     };
   },
-  'wr-stance': (k) => ({
-    look: 'tq',
-    frontArm: hang(k, true),
-    backArm: [sh(k, false), [k.bs - 2, k.sy + k.A - 1], [k.bs - 1, k.sy + k.A * 2 - 2]],
-    frontLeg: lg(k, true, 5, k.h, 6),
-    backLeg: lg(k, false, -2, k.h, -5),
-    shear: 2,
-    crouch: 3,
-  }),
   'wr-slant': (k) => {
     const frontArm = arm(k, true, 0, -10);
-    return { frontArm, backArm: reach(k, at(frontArm, -2, 1)), ...legs(stride(k)), ball: at(frontArm, 3, -1), shear: 1 };
+    return { frontArm, backArm: reach(k, at(frontArm, 2, -5)), ...legs(stride(k)), ball: at(frontArm, 3, -1), shear: 1 };
   },
   'wr-fade': (k) => {
     const frontArm = arm(k, true, -55, -85);
-    return { frontArm, backArm: reach(k, at(frontArm, -3, 0)), ...legs(stride(k, 2)), ball: at(frontArm, -1, -4), look: 'up', shear: -1 };
+    return { frontArm, backArm: reach(k, at(frontArm, 2, -5)), ...legs(stride(k, 2)), ball: at(frontArm, -1, -4), look: 'up', shear: -1 };
   },
   'wr-score': (k) => {
     const frontArm = arm(k, true, -70, -90);
@@ -348,20 +343,19 @@ const P: Record<string, PoseFn> = {
   'wr-yac': (k, v) => ({ ...carry(k, v, [sh(k, false), [k.bs - 4, k.sy + 1], [k.bs - 8, k.sy + 1]]), ...legs(stride(k, 2)), backPalm: !v.swap, shear: 2, crouch: 1 }),
   'wr-dive': (k) => {
     const frontArm: Arm = [sh(k, true), [k.fs + 1, k.sy - k.A + 1], [k.fs + 2, k.sy - k.A * 2 + 1]];
-    return { frontArm, backArm: reach(k, at(frontArm, -3, 1)), ...legs(trail(k)), ball: at(frontArm, 1, -4), toes: 'both', look: 'up', rotate: 80, lift: 2, shiftX: -2 };
+    return { frontArm, backArm: reach(k, at(frontArm, 2, -5)), ...legs(trail(k)), ball: at(frontArm, 1, -4), toes: 'both', look: 'up', rotate: 80, lift: 2, shiftX: -2 };
   },
   'wr-stalk': (k) => ({ ...punch(k, 0, 0), ...legs(plant(k, 4)), shear: 1, crouch: 3 }),
   // ---------- Tight ends ----------
   'te-traffic': (k) => {
     const frontArm = arm(k, true, -20, -60);
-    return { look: 'up', frontArm, backArm: reach(k, at(frontArm, -2, 2)), ...legs(plant(k, 5)), ball: at(frontArm, 0, -4), crouch: 2 };
+    return { look: 'up', frontArm, backArm: reach(k, at(frontArm, 2, -5)), ...legs(plant(k, 5)), ball: at(frontArm, 0, -4), crouch: 2 };
   },
   'te-block': (k) => ({ ...punch(k, 1), ...legs(plant(k, 5)), shear: 2, crouch: 3 }),
   'te-seam': (k) => {
     const frontArm = arm(k, true, -40, -70);
-    return { frontArm, backArm: reach(k, at(frontArm, -3, 2)), ...legs(stride(k, 2)), ball: at(frontArm, 0, -4), look: 'up', shear: 1 };
+    return { frontArm, backArm: reach(k, at(frontArm, 2, -5)), ...legs(stride(k, 2)), ball: at(frontArm, 0, -4), look: 'up', shear: 1 };
   },
-  'te-stance': (k) => ({ frontArm: handDown(k, 7), backArm: lowArm(k, false), ...legs(drive(k)), palm: true, shear: 3, crouch: 7 }),
   'te-chip': (k) => ({ frontArm: [sh(k, true), [k.fs + k.A - 1, k.sy + 4], [k.fs + k.A * 2 + 1, k.sy + 3]], backArm: swingBack(k), ...legs(stride(k)), palm: true, shear: 3, crouch: 2 }),
   'te-rumble': (k, v) => ({ ...carry(k, v, reach(k, [k.fs + 3, k.sy + 3])), ...legs(drive(k)), toes: 'back', shear: 3, crouch: 3 }),
   'te-leak': (k) => ({ look: 'tq', frontArm: arm(k, true, 40, -70), backArm: reach(k, [k.fs + 2, k.sy - 1]), ...legs(stride(k)), palm: true, backPalm: true, expr: 'open' }),
@@ -370,7 +364,6 @@ const P: Record<string, PoseFn> = {
   'ol-passpro': (k) => ({ ...punch(k, 2, 1), palm: false, backPalm: false, ...legs(plant(k, 5)), shear: -1, crouch: 3 }),
   'ol-drive': (k) => ({ ...punch(k, -1, 2), ...legs(drive(k)), toes: 'back', shear: 3, crouch: 4 }),
   'ol-pull': (k) => ({ frontArm: pumpFront(k), backArm: [sh(k, false), [k.bs - 3, k.sy + 4], [k.bs - 6, k.sy + 2]], ...legs(stride(k)), look: 'tq', shear: 1, crouch: 2 }),
-  'ol-stance': (k) => ({ frontArm: handDown(k, 8), backArm: lowArm(k, false), ...legs(drive(k)), palm: true, shear: 3, crouch: 8 }),
   'ol-anchor': (k) => ({ ...punch(k, 0, 1), ...legs(plant(k, 6)), shear: -2, crouch: 4 }),
   'ol-punch': (k) => ({ ...punch(k, 1, 3), ...legs(plant(k, 4)), shear: 1, crouch: 3 }),
   'ol-reach': (k) => ({
@@ -382,7 +375,6 @@ const P: Record<string, PoseFn> = {
     shear: 2,
     crouch: 3,
   }),
-  'ol-ready': (k) => ({ look: 'tq', frontArm: lowArm(k, true), backArm: lowArm(k, false), ...legs(plant(k, 4)), shear: 1, crouch: 4 }),
   'ol-pancake': (k) => ({
     frontArm: [sh(k, true), [k.fs + k.A - 1, k.sy + 4], [k.fs + k.A * 2, k.sy + 8]],
     backArm: reach(k, [k.fs + k.A + 3, k.sy + 9]),
@@ -403,17 +395,26 @@ const P: Record<string, PoseFn> = {
     shear: -1,
     crouch: 4,
   }),
-  'ol-snap': (k) => ({
-    // Center over the ball, both hands on it on the turf
-    frontArm: [sh(k, true), [k.fs + 3, k.sy + k.A], [k.fs + 5, k.G - 10]],
-    backArm: reach(k, [k.fs + 3, k.G - 10]),
-    ...legs(plant(k, 5)),
-    ball: [k.fs + 7, k.G - 8],
-    shear: 4,
-    crouch: 8,
-  }),
+  'ol-snap': (k) => {
+    // Center over the ball: bent at the waist with a flat back, knees bent on a wide base, the ball on the turf in
+    // front of him with both hands on it, head up looking forward (three-quarter)
+    const c = 3;
+    const bend = 60;
+    const ball: Pt = [k.cx + 10, k.G - 1];
+    const fHand = unbend(k, c, bend, [ball[0] + 2, ball[1] - 2]);
+    const bHand = unbend(k, c, bend, [ball[0] - 3, ball[1] - 2]);
+    const s = sh(k, true);
+    return {
+      look: 'tq',
+      frontArm: [s, [Math.round((s[0] + fHand[0]) / 2) + 2, Math.round((s[1] + fHand[1]) / 2)], fHand],
+      backArm: reach(k, bHand, 0),
+      ...legs(plant(k, 8)),
+      ball: [ball[0], ball[1] - c],
+      crouch: c,
+      bend,
+    };
+  },
   // ---------- Defensive line ----------
-  'dl-three': (k) => ({ frontArm: handDown(k, 8), backArm: lowArm(k, false), ...legs(drive(k)), palm: true, shear: 3, crouch: 8 }),
   'dl-swim': (k) => ({
     backArm: [[k.bs + 2, k.sy + 1], [k.cx + 3, k.sy - 6], [k.fs + 6, k.sy - 8]],
     frontArm: [sh(k, true), [k.fs + 3, k.sy + 4], [k.fs + 7, k.sy + 7]],
@@ -453,12 +454,20 @@ const P: Record<string, PoseFn> = {
     crouch: 3,
   }),
   'dl-bat': (k) => ({ frontArm: arm(k, true, -80, -88), backArm: arm(k, false, -95, -85), ...legs(tucked(k)), ball: [k.fs + 1, k.sy - k.A * 2 - 4], palm: true, backPalm: true, look: 'up', lift: 5 }),
-  'dl-four': (k) => ({ frontArm: handDown(k, 9), backArm: [[k.bs + 2, k.sy + 2], [k.bs + 4, k.sy + k.A], [k.fs, k.G - 11]], ...legs(drive(k)), palm: true, backPalm: true, shear: 3, crouch: 9 }),
   'dl-chase': (k) => ({ frontArm: pumpFront(k), backArm: swingBack(k), ...legs(stride(k, 2)), shear: 2, crouch: 1 }),
   'dl-club': (k) => ({ frontArm: arm(k, true, -30, 40), backArm: pumpBack(k), ...legs(stride(k)), palm: true, toes: 'back', shear: 2, crouch: 2 }),
   'dl-strip': (k) => ({ frontArm: arm(k, true, -40, 50), backArm: reach(k, [k.fs + 5, k.sy + 2]), ...legs(drive(k)), palm: true, backPalm: true, toes: 'back', shear: 3, crouch: 2 }),
   // ---------- Linebackers ----------
-  'lb-read': (k) => ({ look: 'tq', frontArm: lowArm(k, true), backArm: lowArm(k, false), frontLeg: lg(k, true, 6, k.h - 1, 6), backLeg: lg(k, false, -6, k.h - 1, -7), shear: 1, crouch: 4 }),
+  'lb-read': (k) => ({
+    // Ready to react: near hand out in front, far hand low on the near thigh, knees bent wide
+    look: 'tq',
+    frontArm: [sh(k, true), [k.fs + k.A - 1, k.sy + 4], [k.fs + k.A * 2 - 2, k.sy + 4]],
+    backArm: reach(k, [k.fs + 2, k.sy + 11], 1),
+    frontLeg: lg(k, true, 6, k.h - 1, 6),
+    backLeg: lg(k, false, -6, k.h - 1, -7),
+    shear: 1,
+    crouch: 4,
+  }),
   'lb-tackle': (k) => ({
     frontArm: [sh(k, true), [k.fs + 5, k.sy + 2], [k.fs + 8, k.sy + 6]],
     backArm: reach(k, [k.fs + 7, k.sy + 7]),
@@ -494,7 +503,7 @@ const P: Record<string, PoseFn> = {
   'db-backpedal': (k) => ({ frontArm: arm(k, true, 70, 80), backArm: arm(k, false, 110, 95), frontLeg: lg(k, true, 3, k.h, 2), backLeg: lg(k, false, -3, k.h, -6), toes: 'front', shear: 1, crouch: 4 }),
   'db-pick': (k) => {
     const frontArm: Arm = [sh(k, true), [k.fs + 1, k.sy - k.A + 1], [k.fs + 2, k.sy - k.A * 2 + 1]];
-    return { frontArm, backArm: reach(k, at(frontArm, -3, 1)), ...legs(trail(k)), ball: at(frontArm, 1, -4), toes: 'both', look: 'up', rotate: 62, lift: 4, shiftX: -2 };
+    return { frontArm, backArm: reach(k, at(frontArm, 2, -5)), ...legs(trail(k)), ball: at(frontArm, 1, -4), toes: 'both', look: 'up', rotate: 62, lift: 4, shiftX: -2 };
   },
   'db-swat': (k) => ({ frontArm: arm(k, true, -60, -50), backArm: swingBack(k), ...legs(tucked(k)), ball: [k.fs + 11, k.sy - k.A * 2 - 2], palm: true, look: 'up', lift: 5 }),
   'db-press': (k) => ({ ...punch(k, 2, 0), ...legs(plant(k, 5)), shear: 2, crouch: 4 }),
@@ -502,7 +511,7 @@ const P: Record<string, PoseFn> = {
   'db-turn': (k) => ({ frontArm: pumpFront(k), backArm: pumpBack(k), ...legs(stride(k, 2)), look: 'up', shear: 1 }),
   'db-highpick': (k) => {
     const frontArm = arm(k, true, -70, -80);
-    return { frontArm, backArm: reach(k, at(frontArm, -3, 1)), ...legs(tucked(k)), ball: at(frontArm, 0, -4), look: 'up', lift: 4 };
+    return { frontArm, backArm: reach(k, at(frontArm, 2, -5)), ...legs(tucked(k)), ball: at(frontArm, 0, -4), look: 'up', lift: 4 };
   },
   'db-return': (k, v) => ({ ...carry(k, v), ...legs(stride(k, 2)), shear: 2, crouch: 1 }),
   'db-jam': (k) => ({ frontArm: [sh(k, true), [k.fs + k.A - 1, k.sy + 3], [k.fs + k.A * 2 + 1, k.sy + 3]], backArm: swingBack(k), ...legs(plant(k, 4)), palm: true, shear: 2, crouch: 3 }),
@@ -603,6 +612,8 @@ const P: Record<string, PoseFn> = {
     helmetOff: true,
     helmetAt: 'feet',
     expr: 'grimace',
+    // Head sits down on the shoulders (shrugged into the flex), so only a pixel or two of neck shows
+    nod: 2,
   }),
   'cel-heisman': (k) => ({
     // The Heisman: stiff-arm out, ball tucked, front knee raised high, standing on the back leg
@@ -637,7 +648,7 @@ const P: Record<string, PoseFn> = {
   /** Receiver reaching up for the ball */
   'x-catch': (k) => {
     const frontArm = arm(k, true, -60, -75);
-    return { frontArm, backArm: reach(k, at(frontArm, -3, 1)), ...legs(stand(k)), look: 'tq' };
+    return { frontArm, backArm: reach(k, at(frontArm, 2, -5)), ...legs(stand(k)), look: 'tq' };
   },
   /** Receiver set at the line */
   'x-set': (k) => ({ frontArm: arm(k, true, 60, -40), backArm: reach(k, [k.fs + 3, k.sy + 4]), ...legs(plant(k, 3)), look: 'tq' }),
@@ -662,7 +673,7 @@ const GRIMACE = new Set([
   'ol-punch', 'ol-pancake', 'te-block', 'te-drag', 'db-jam', 'db-punch', 'rb-drag', 'rb-escape', 'wr-stalk',
 ]);
 /** Poses that read the same with the head in profile or three-quarter (the variation can turn it). */
-const HEAD_TURN = new Set(['qb-shotgun', 'qb-handoff', 'qb-dropback', 'wr-stance', 'wr-stutter', 'ol-ready', 'ol-kick', 'lb-read', 'lb-stack', 'lb-fill', 'db-backpedal', 'db-breakdown', 'cel-ref', 'cel-point', 'rb-block']);
+const HEAD_TURN = new Set(['qb-dropback', 'wr-stutter', 'ol-kick', 'lb-read', 'lb-stack', 'lb-fill', 'db-backpedal', 'db-breakdown', 'cel-ref', 'cel-point', 'rb-block']);
 
 type Entry = [key: string, name: string];
 const L = (rows: Entry[]) => rows.map(([key, label]) => ({ key, label }));
@@ -674,12 +685,9 @@ export const POSITION_POSES: Record<string, { key: string; label: string }[]> = 
     ['qb-follow', 'Follow-through'],
     ['qb-rollout', 'Rollout throw'],
     ['qb-point', 'Audible at the line'],
-    ['qb-handoff', 'Handoff'],
     ['qb-scramble', 'Scramble'],
     ['qb-sidearm', 'Sidearm throw'],
-    ['qb-shotgun', 'Shotgun stance'],
     ['qb-slide', 'Feet-first slide'],
-    ['qb-pump', 'Pump fake'],
     ['qb-dropback', 'Dropback'],
     ['qb-jump', 'Jump pass'],
   ]),
@@ -695,14 +703,12 @@ export const POSITION_POSES: Record<string, { key: string; label: string }[]> = 
     ['rb-block', 'Pass block'],
     ['rb-cutback', 'Cutback'],
     ['rb-secure', 'Two hands on the ball'],
-    ['rb-breakaway', 'Breakaway'],
   ]),
   WR: L([
     ['wr-highpoint', 'High-point catch'],
     ['wr-onehand', 'One-handed catch'],
     ['wr-cut', 'Route cut'],
     ['wr-toetap', 'Sideline toe-tap'],
-    ['wr-stance', 'Stance'],
     ['wr-slant', 'Slant catch'],
     ['wr-fade', 'Fade catch'],
     ['wr-score', 'Ball raised, scoring'],
@@ -715,7 +721,6 @@ export const POSITION_POSES: Record<string, { key: string; label: string }[]> = 
     ['te-traffic', 'Catch in traffic'],
     ['te-block', 'Run block'],
     ['te-seam', 'Seam catch'],
-    ['te-stance', 'In-line stance'],
     ['te-chip', 'Chip and release'],
     ['te-rumble', 'Rumble'],
     ['wr-highpoint', 'High-point catch'],
@@ -727,24 +732,20 @@ export const POSITION_POSES: Record<string, { key: string; label: string }[]> = 
     ['ol-passpro', 'Pass pro'],
     ['ol-drive', 'Drive block'],
     ['ol-pull', 'Pull'],
-    ['ol-stance', 'Three-point stance'],
     ['ol-anchor', 'Anchor'],
     ['ol-punch', 'Punch'],
     ['ol-reach', 'Reach block'],
-    ['ol-ready', 'Ready'],
     ['ol-pancake', 'Pancake block'],
     ['ol-kick', 'Kick slide'],
     ['ol-snap', 'Snap'],
   ]),
   DL: L([
-    ['dl-three', 'Get-off stance'],
     ['dl-swim', 'Swim move'],
     ['dl-bull', 'Bull rush'],
     ['dl-sack', 'Sack'],
     ['dl-spin', 'Spin move'],
     ['dl-rip', 'Rip move'],
     ['dl-bat', 'Batted ball'],
-    ['dl-four', 'Four-point stance'],
     ['dl-chase', 'Chase'],
     ['dl-club', 'Club move'],
     ['dl-strip', 'Strip sack'],
@@ -806,6 +807,17 @@ const ALIASES: Record<string, string> = {
   'cel-sky': 'cel-finger',
   'cel-dance': 'cel-point',
   'cel-bump': 'cel-flex',
+  // Removed at the owner's request (stances, and poses that didn't read): old locks fall back to an action pose
+  'qb-handoff': 'qb-windup',
+  'qb-pump': 'qb-windup',
+  'qb-shotgun': 'qb-windup',
+  'rb-breakaway': 'rb-carry',
+  'wr-stance': 'wr-highpoint',
+  'te-stance': 'te-seam',
+  'ol-stance': 'ol-passpro',
+  'ol-ready': 'ol-passpro',
+  'dl-three': 'dl-bull',
+  'dl-four': 'dl-bull',
   // Replaced at the owner's request (new poses designed from scratch)
   'rb-dive': 'rb-pylon',
   'rb-juke': 'rb-escape',
@@ -895,7 +907,6 @@ const STAND_INS: Record<string, StandIn[]> = {
   'rb-drag': [S('x-hang', 9, false)],
   'te-drag': [S('x-hang', 9, false)],
   'qb-scramble': [S('lb-pursuit', 3, false)],
-  'rb-breakaway': [S('lb-pursuit', -1, false)],
 };
 /** Poses that need a stand-in to read (the sprite check fails if one has none). */
 export const CONTACT_POSES = Object.keys(STAND_INS);
@@ -907,6 +918,29 @@ export const standInsFor = (key: string): StandIn[] => STAND_INS[resolvePose(key
 export type FieldMark = 'goal' | 'sideline';
 const MARKS: Record<string, FieldMark> = { 'rb-pylon': 'goal', 'wr-toetap': 'sideline' };
 export const markFor = (key: string): FieldMark | undefined => MARKS[resolvePose(key) ?? key];
+
+// ---------- Turf ----------
+
+/**
+ * Poses that need turf: something lies on the ground (a diving or sliding body, a tackler at his feet, a knocked-down
+ * blocker, the snap's ball, a helmet) or the pose marks the field (sideline, goal line). Value: the patch's x-span in
+ * sprite pixels, only as wide as needed. Every other pose stands on its flat shadow alone (STYLE_GUIDE.md §9).
+ */
+const TURF: Record<string, [number, number]> = {
+  'wr-toetap': [12, 50],
+  'rb-pylon': [26, 54],
+  'wr-dive': [2, 52],
+  'db-pick': [2, 48],
+  'qb-slide': [6, 46],
+  'rb-escape': [14, 54],
+  'rb-hurdle': [12, 54],
+  'ol-pancake': [6, 54],
+  'ol-snap': [4, 42],
+  'cel-flex': [-2, 40],
+  'sig-crossed': [-2, 40],
+  'sig-praise': [-2, 40],
+};
+export const turfFor = (key: string): [number, number] | null => TURF[resolvePose(key) ?? key] ?? null;
 
 // ---------- Choosing and varying ----------
 
@@ -968,7 +1002,7 @@ export const runPose = (key: string, k: Skel, j?: Jitter): PoseOut => {
   if (!j || k2.startsWith('x-')) return out;
   const leg = (l: Leg, s: number): Leg => [l[0], [l[1][0] + j.knee, l[1][1]], [l[2][0] + s, l[2][1]]];
   const legsOut = { frontLeg: leg(out.frontLeg, j.stride), backLeg: leg(out.backLeg, -j.stride) };
-  if (out.armsFront) return { ...out, ...legsOut };
+  if (out.armsFront || out.bend) return { ...out, ...legsOut };
   // Arm angle: free arms swing round the shoulder; an arm holding the ball takes the ball with it unless both hands hold it
   const ball = out.ball;
   const holdsF = !!ball && near(out.frontArm[2], ball, 5);

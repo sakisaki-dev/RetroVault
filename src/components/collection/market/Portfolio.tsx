@@ -3,7 +3,7 @@ import { Briefcase, PackageOpen } from 'lucide-react';
 import { TIERS, VARIANTS, finishLabel, ownedVariants, tierLabel, variantShort, type Finish, type OwnedCard, type Tier, type Variant } from '@/utils/collection';
 import { cardPrice, fmtCoins, pctChange, portfolioSeries, valueAt, type Holding as Owned, type MarketHistory } from '@/utils/cardMarket';
 import type { CardInfo } from '../useCardPool';
-import { isAlternate } from '../art/sprite/uniforms';
+import { uniformKind } from '../art/sprite/uniforms';
 import PriceChart from './PriceChart';
 import ChangeBadge from './ChangeBadge';
 
@@ -81,7 +81,7 @@ const Portfolio = ({ history, owned, byKey, period, sinceLabel, onOpen }: Portfo
         ownedVariants(c).map((variant) => {
           const finish = c.variants[variant]!.best;
           const player = byKey.get(key)?.player;
-          return { key, variant, finish, alt: !!player && isAlternate(player, variant, finish) };
+          return { key, variant, finish, alt: player ? uniformKind(player, variant, finish) : false };
         }),
       ),
     [owned, byKey],

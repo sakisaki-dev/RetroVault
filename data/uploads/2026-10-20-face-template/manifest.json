@@ -1,0 +1,36 @@
+{
+ "id": "2026-10-20-face-template",
+ "created": "2026-10-20",
+ "title": "Face scale: angular faces for everyone; Ikarras gets the most angular, best-proportioned face",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Rondale Ikarras",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "buzz",
+     "color": "black"
+    },
+    "facial": "jawline",
+    "accessories": [
+     "durag",
+     "eyeblack",
+     "earrings",
+     "wristbands"
+    ],
+    "pose": "sig-praise",
+    "notes": "Short black hair, full beard, studs in both ears (IMG_6201). \"The Prodigal Son\". Signature pose (owner): hands up in reverence, helmet off, black durag with tails, eyes up [IMG_6200–6203 (game Hall of Fame)]. Face (owner): the most angular, well-proportioned face in the set (he is known to be good-looking): symmetric, high cheekbones, a clean defined jawline, straight nose",
+    "signature": true,
+    "face": "chiseled",
+    "nose": "straight"
+   },
+   "source": "owner",
+   "reason": "Owner: give Ikarras the most angular and proportioned face; he's known to be good-looking (durag, eyes-up praise and earrings kept)",
+   "trigger": "Owner request in chat"
+  }
+ ]
+}

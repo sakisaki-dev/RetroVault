@@ -1,0 +1,32 @@
+{
+ "id": "2026-10-20-brandson-chiseled",
+ "created": "2026-10-20",
+ "title": "Brandson: chiseled, triangular face (owner request); everything else as is",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Sherman Brandson",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "dreads",
+     "color": "black"
+    },
+    "facial": "shortbeard",
+    "accessories": [],
+    "build": "huge",
+    "height": "tall",
+    "pose": "sig-crossed",
+    "signature": true,
+    "notes": "Fred Warner style: a high-top of short twisted locs standing up and back from the crown, falling over the shoulders; short stubble beard on a strong jaw; huge and 6'7\", muscular V-taper (not fat). Signature (owner): arms crossed, menacing, helmet off [IMG_6206 + IMG_6201]. Face (owner): chiseled, triangular: wide cheekbones tapering to a strong, narrower pointed chin and a defined jawline",
+    "face": "chiseled"
+   },
+   "source": "owner",
+   "reason": "Owner: make Brandson's face more chiseled, a triangular face (wide cheekbones, narrower pointed chin, defined jaw); keep stubble, locs, eyes, colours and arms crossed",
+   "trigger": "Owner request in chat"
+  }
+ ]
+}

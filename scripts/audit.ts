@@ -109,6 +109,19 @@ for (const era of content.eras ?? []) {
   }
 }
 
+// 5b. Signature team (card / banner identity) is a real franchise the player has a stint with
+for (const [who, team] of Object.entries(extras.signatureTeams ?? {}) as [string, string][]) {
+  const p = byName.get(who);
+  const id = findNFLTeam(team)?.id;
+  if (!p) warnings.push(`Signature team for unknown player ${who}`);
+  else if (!id) errors.push(`Signature team for ${who} is not a franchise: ${team}`);
+  else {
+    const stintIds = new Set((extras.stints?.[who]?.stints ?? []).map((s: { team: string }) => findNFLTeam(s.team)?.id));
+    if (stintIds.size ? !stintIds.has(id) : !franchisesOf(p).has(id))
+      warnings.push(`Signature team for ${who} is the ${team}, but he has no stint there`);
+  }
+}
+
 // 6. Hall of Fame classes point at real Hall of Famers
 for (const cls of content.hofClasses ?? []) {
   for (const key of cls.keys) {

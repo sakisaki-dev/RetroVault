@@ -140,7 +140,7 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
 
   const photo = info.player.isRealLegend ? info.player.photo?.url : undefined;
   const style = (team ? { '--wk-a': `hsl(${team.primaryColor})`, '--wk-b': `hsl(${team.secondaryColor})` } : {}) as CSSProperties;
-  const teamName = team?.name ?? (info.player.isRealLegend ? 'NFL Legend' : info.franchise);
+  const teamName = team?.name ?? (info.player.isRealLegend ? 'NFL Legend' : info.cardTeam);
   const ovrBeat = beats.find((b) => b.stage === 'ovr')?.ms ?? 1000;
 
   const hero = CLUES.includes(stage) ? stage : null;

@@ -23,7 +23,7 @@ import ProPlayerBanner from './brand/ProPlayerBanner';
 import { overallRating } from './brand/ProPlayerBanner.utils';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import PlayerEditDialog from './PlayerEditDialog';
-import { getFamilyTies, normalizeName, usePlayerExtras } from '@/utils/playerExtras';
+import { getFamilyTies, normalizeName, signatureTeamOf, usePlayerExtras } from '@/utils/playerExtras';
 import PositionGlyph from './player/PositionGlyph';
 import StitchedJersey from './player/StitchedJersey';
 import CareerArc from './player/CareerArc';
@@ -153,7 +153,10 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   const formerName = extras.formerNames[nameKey];
   const familyTies = getFamilyTies(extras, player.name);
 
-  const team = findNFLTeam(player.team);
+  // Banner identity (colours, logo, jersey): his signature team, where he was best known. His latest club is
+  // still named in the ID strip when it differs.
+  const team = findNFLTeam(signatureTeamOf(extras, player));
+  const latestTeam = findNFLTeam(player.team);
   const theme = teamThemeVars(team);
   const jerseyNumber = numberFor(player);
   const ovr = overallRating(player, officialOvr);
@@ -293,6 +296,9 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
                   <span className="block text-[11px] font-normal text-muted-foreground">
                     {team.conference} {team.division}
                   </span>
+                  {latestTeam && latestTeam.id !== team.id && (
+                    <span className="block text-[11px] font-normal text-muted-foreground">Latest club: {latestTeam.name}</span>
+                  )}
                 </span>
               </span>
             ) : player.team ? (

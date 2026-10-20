@@ -4,6 +4,7 @@ import { Crown, Trophy, Star, Medal, Sparkles, Flame, Award, Clapperboard, PlayC
 import type { Player } from '@/types/player';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { useJerseyNumbers } from '@/utils/jerseys';
+import { signatureTeamOf, usePlayerExtras } from '@/utils/playerExtras';
 import TeamBadge from '../brand/TeamBadge';
 import ProPlayerBanner from '../brand/ProPlayerBanner';
 import { overallRating } from '../brand/ProPlayerBanner.utils';
@@ -59,6 +60,7 @@ const getTier = (legacy: number) => {
 const HallOfFameTab = () => {
   const { careerData, getAllPlayers } = useLeague();
   const { numberFor, retiredInfo } = useJerseyNumbers();
+  const extras = usePlayerExtras();
   const officialOvr = useOfficialOvr();
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
   const hofClasses = useHofClasses();
@@ -130,7 +132,9 @@ const HallOfFameTab = () => {
   // remounted the whole grid when a card opened and sent iOS Safari back to the top when it closed.
   const renderPlayerCard = ({ player, rank }: { player: Player; rank: number }) => {
     const tier = getTier(player.careerLegacy);
-    const nflTeam = findNFLTeam(player.team);
+    // Card identity: his signature team (where he was best known), not his last club
+    const cardTeam = signatureTeamOf(extras, player);
+    const nflTeam = findNFLTeam(cardTeam);
     const TierIcon = tier.icon;
     const number = numberFor(player);
     const retired = retiredInfo(player);
@@ -147,7 +151,7 @@ const HallOfFameTab = () => {
           size="card"
           name={player.name}
           position={player.position}
-          team={player.team}
+          team={cardTeam}
           number={number}
           ovr={overallRating(player, officialOvr)}
           hallOfFamer
@@ -167,7 +171,7 @@ const HallOfFameTab = () => {
               <TierIcon className={`w-3.5 h-3.5 ${tier.color}`} aria-hidden="true" />
               <span className={`text-[11px] font-bold ${tier.color}`}>{tier.label}</span>
             </span>
-            <TeamBadge team={player.team} size="sm" />
+            <TeamBadge team={cardTeam} size="sm" />
           </div>
 
           <div className={`flex items-baseline justify-between py-1.5 px-3 rounded-lg bg-background/60 border ${tier.borderColor}`}>
@@ -321,7 +325,7 @@ const HallOfFameTab = () => {
           <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
             {classPlayers.map((p) => (
               <li key={hofKey(p)}>
-                <ProPlayerBanner size="compact" name={p.name} position={p.position} team={p.team} number={numberFor(p)} hallOfFamer />
+                <ProPlayerBanner size="compact" name={p.name} position={p.position} team={signatureTeamOf(extras, p)} number={numberFor(p)} hallOfFamer />
               </li>
             ))}
           </ul>

@@ -1,5 +1,5 @@
 import { findNFLTeam } from '@/utils/nflTeams';
-import { ALT_VALUE_BONUS } from '@/utils/cardMarket';
+import { ALT_VALUE_BONUS, ERA_VALUE_BONUS } from '@/utils/cardMarket';
 import { seedOf } from '../shared';
 import { HELMETS, type Helmet } from './helmets';
 
@@ -21,8 +21,10 @@ export type Band = [color: string | null, width?: number];
 export interface Uniform {
   /** "home", or the alternate's id */
   id: string;
-  /** Shown on the card back for alternates, e.g. "Bucs Creamsicle" */
+  /** Shown on the card back for alternates, e.g. "Bucs Creamsicle" or "1985 Bears" (era kits add " (era)") */
   label: string;
+  /** A famous era kit (rarer tier of the roll, higher market bonus) */
+  era?: boolean;
   jersey: string;
   /** Main trim colour (sleeve stripes, pad piping, collar by default) */
   trim: string;
@@ -151,16 +153,17 @@ type Alt = Partial<Uniform> & Pick<Uniform, 'id' | 'label' | 'jersey' | 'trim'>;
 /** A few real, well-known alternates (at most two per club): Color Rush sets and throwbacks. */
 const ALTS: Record<string, Alt[]> = {
   buccaneers: [
-    { id: 'creamsicle', label: 'Bucs Creamsicle', jersey: '#f58025', trim: TB, sleeve: 'stripes2', bands: [[TB, 1], [W, 1], [TB, 1]], collar: TB, number: W, numberOutline: TB, pants: W, pantsStripes: [TB, '#f58025', TB], socks: W, sockStripes: [TB, '#f58025'], cleats: WC, helmet: { shell: W, stripe: 'single', stripes: [TB, '#f58025'], mask: TB } },
+    { id: 'creamsicle', label: 'Bucs Creamsicle', jersey: '#f58025', trim: TB, sleeve: 'stripes2', bands: [[TB, 1], [W, 1], [TB, 1]], collar: TB, number: W, numberOutline: TB, pants: W, pantsStripes: [TB, '#f58025', TB], socks: W, sockStripes: [TB, '#f58025'], cleats: WC, helmet: { logoVariant: 'bucs-bruce', shell: W, stripe: 'single', stripes: [TB, '#f58025'], mask: TB } },
   ],
   titans: [
-    { id: 'oilers', label: 'Oilers Columbia Blue', jersey: '#7ab2dd', trim: TEN_RED, sleeve: 'stripes2', bands: [[W, 1], [TEN_RED, 1], [W, 1]], collar: TEN_RED, number: W, numberOutline: TEN_RED, pants: W, pantsStripes: [TEN_RED, '#7ab2dd', TEN_RED], socks: '#7ab2dd', sockStripes: [W, TEN_RED], cleats: WC, helmet: { shell: '#7ab2dd', stripe: 'triple', stripes: [TEN_RED, W], mask: W } },
+    { id: 'oilers', label: 'Oilers Columbia Blue', jersey: '#7ab2dd', trim: TEN_RED, sleeve: 'stripes2', bands: [[W, 1], [TEN_RED, 1], [W, 1]], collar: TEN_RED, number: W, numberOutline: TEN_RED, pants: W, pantsStripes: [TEN_RED, '#7ab2dd', TEN_RED], socks: '#7ab2dd', sockStripes: [W, TEN_RED], cleats: WC, helmet: { logoVariant: 'titans-oilers', shell: '#7ab2dd', stripe: 'triple', stripes: [TEN_RED, W], mask: W } },
   ],
   jets: [
     { id: 'stealth', label: 'Jets Stealth Black', jersey: '#1b1d20', trim: NYJ, sleeve: 'stripes2', bands: [[NYJ, 1], [null, 1], [NYJ, 1]], collar: NYJ, number: W, numberOutline: NYJ, pants: '#1b1d20', pantsStripes: [NYJ, NYJ], socks: '#1b1d20', sockStripes: [NYJ], cleats: K, helmet: { shell: '#1b1d20', stripe: 'none', mask: K } },
+    { id: 'nytitans', label: 'New York Titans Throwback', jersey: '#1d2a5c', trim: '#c9a227', sleeve: 'stripes2', bands: [['#c9a227', 1], [null, 1], ['#c9a227', 1]], collar: '#c9a227', number: '#c9a227', numberOutline: W, pants: '#c9a227', pantsStripes: ['#1d2a5c', '#1d2a5c'], socks: '#1d2a5c', sockStripes: ['#c9a227', '#c9a227'], cleats: K, helmet: { logoVariant: 'none', shell: '#1d2a5c', stripe: 'single', stripes: ['#c9a227', '#1d2a5c'], mask: '#9aa3ad' } },
   ],
   patriots: [
-    { id: 'pat', label: 'Pat Patriot Red', jersey: NE_RED, trim: W, sleeve: 'stripes2', bands: [[W, 1], [NE_NAVY, 1], [W, 1]], collar: W, number: W, numberOutline: NE_NAVY, pants: W, pantsStripes: [NE_RED, NE_NAVY, NE_RED], socks: NE_RED, sockStripes: [W, NE_NAVY, W], cleats: WC, helmet: { shell: W, stripe: 'triple', stripes: [NE_RED, NE_NAVY], mask: W } },
+    { id: 'pat', label: 'Pat Patriot Red', jersey: NE_RED, trim: W, sleeve: 'stripes2', bands: [[W, 1], [NE_NAVY, 1], [W, 1]], collar: W, number: W, numberOutline: NE_NAVY, pants: W, pantsStripes: [NE_RED, NE_NAVY, NE_RED], socks: NE_RED, sockStripes: [W, NE_NAVY, W], cleats: WC, helmet: { logoVariant: 'patriots-pat', shell: W, stripe: 'triple', stripes: [NE_RED, NE_NAVY], mask: W } },
   ],
   seahawks: [
     { id: 'action', label: 'Seahawks Action Green', jersey: SEA_GREEN, trim: SEA, sleeve: 'stripes2', bands: [[SEA, 1], [WOLF, 1]], shoulder: SEA, collar: SEA, number: SEA, numberOutline: W, pants: SEA_GREEN, pantsStripes: [SEA, SEA], socks: SEA_GREEN, sockStripes: [SEA], cleats: WC },
@@ -171,9 +174,11 @@ const ALTS: Record<string, Alt[]> = {
   ],
   eagles: [
     { id: 'kelly', label: 'Eagles Kelly Green', jersey: '#4c9a2a', trim: W, sleeve: 'stripes2', bands: [[W, 1], [null, 1], [W, 1]], collar: W, number: W, numberOutline: SILVER, pants: W, pantsStripes: ['#4c9a2a', '#4c9a2a'], socks: '#4c9a2a', sockStripes: [W, W], cleats: WC, helmet: { shell: '#4c9a2a', mask: SILVER } },
+    { id: 'black', label: 'Eagles Black Alternate', jersey: '#101214', trim: SILVER, sleeve: 'stripes2', bands: [[PHI, 1], [SILVER, 1], [W, 1]], collar: PHI, number: W, numberOutline: PHI, pants: '#101214', pantsStripes: [PHI, SILVER], socks: '#101214', sockStripes: [PHI], cleats: K, helmet: { shell: '#101214', mask: K } },
   ],
   steelers: [
     { id: 'bumblebee', label: 'Steelers Bumblebee', jersey: K, trim: GOLD_PIT, sleeve: 'bands', bands: [[GOLD_PIT, 2], [null, 1], [GOLD_PIT, 2]], collar: GOLD_PIT, number: K, numberOutline: GOLD_PIT, pants: GOLD_PIT, pantsStripes: [K, K], socks: GOLD_PIT, sockStripes: [K, GOLD_PIT, K], cleats: K },
+    { id: 'colorrush', label: 'Steelers All-Black Color Rush', jersey: K, trim: GOLD_PIT, sleeve: 'stripes2', bands: [[GOLD_PIT, 1], [null, 1], [GOLD_PIT, 1]], collar: GOLD_PIT, number: GOLD_PIT, numberOutline: K, pants: K, pantsStripes: [GOLD_PIT, GOLD_PIT], socks: K, sockStripes: [GOLD_PIT, GOLD_PIT], cleats: K },
   ],
   bills: [
     { id: 'colorrush', label: 'Bills Color Rush Red', jersey: BILLS_RED, trim: BILLS, sleeve: 'stripes2', bands: [[W, 1], [BILLS, 2], [W, 1]], collar: BILLS, number: W, numberOutline: BILLS, pants: BILLS_RED, pantsStripes: [W, BILLS, W], socks: BILLS_RED, sockStripes: [W, BILLS], cleats: WC },
@@ -182,7 +187,7 @@ const ALTS: Record<string, Alt[]> = {
     { id: 'century', label: 'Giants Century Red', jersey: NYG_RED, trim: NYG, sleeve: 'stripes2', bands: [[W, 1], [NYG, 1], [W, 1]], collar: NYG, number: W, numberOutline: NYG, pants: W, pantsStripes: [NYG, NYG_RED, NYG], socks: NYG_RED, sockStripes: [W], cleats: WC },
   ],
   packers: [
-    { id: 'acme', label: 'Packers Acme Throwback', jersey: '#1d2847', trim: GB_GOLD, sleeve: 'none', collar: '#1d2847', number: GB_GOLD, numberOutline: GB_GOLD, numberStyle: 'solid', pants: '#c4a65a', pantsStripe: null, pantsStripes: [], socks: '#1d2847', sockStripes: [GB_GOLD, '#1d2847', GB_GOLD], cleats: K, helmet: { shell: '#5b3a22', stripe: 'none', mask: '#5b3a22' } },
+    { id: 'acme', label: 'Packers Acme Throwback', jersey: '#1d2847', trim: GB_GOLD, sleeve: 'none', collar: '#1d2847', number: GB_GOLD, numberOutline: GB_GOLD, numberStyle: 'solid', pants: '#c4a65a', pantsStripe: null, pantsStripes: [], socks: '#1d2847', sockStripes: [GB_GOLD, '#1d2847', GB_GOLD], cleats: K, helmet: { logoVariant: 'none', shell: '#5b3a22', stripe: 'none', mask: '#5b3a22' } },
   ],
   falcons: [
     { id: 'throwback', label: 'Falcons Red Throwback', jersey: ATL_RED, trim: K, sleeve: 'stripes2', bands: [[K, 1], [W, 1], [K, 1]], collar: K, number: W, numberOutline: K, pants: W, pantsStripes: [K, ATL_RED, K], socks: ATL_RED, sockStripes: [W, K, W], cleats: K, helmet: { shell: K, stripe: 'triple', stripes: [ATL_RED, W], mask: '#9aa3ad' } },
@@ -192,25 +197,93 @@ const ALTS: Record<string, Alt[]> = {
   ],
   texans: [
     { id: 'battlered', label: 'Texans Battle Red', jersey: HOU_RED, trim: HOU, sleeve: 'stripes2', bands: [[HOU, 1], [W, 1]], shoulder: HOU, collar: HOU, number: W, numberOutline: HOU, pants: HOU, pantsStripes: [HOU_RED, HOU_RED], socks: HOU_RED, sockStripes: [HOU], cleats: WC, helmet: { shell: HOU_RED, stripe: 'none', mask: HOU } },
+    { id: 'htownblue', label: 'Texans H-Town Blue', jersey: '#6f9fd8', trim: HOU, sleeve: 'stripes2', bands: [[HOU, 1], [HOU_RED, 1]], shoulder: HOU, collar: HOU, number: HOU, numberOutline: HOU_RED, pants: '#6f9fd8', pantsStripes: [HOU, HOU_RED], socks: '#6f9fd8', sockStripes: [HOU], cleats: WC, helmet: { shell: '#6f9fd8', mask: HOU } },
   ],
   chargers: [
     { id: 'colorrush', label: 'Chargers Navy Color Rush', jersey: LAC_NAVY, trim: LAC_GOLD, sleeve: 'bolt', collar: LAC_GOLD, number: LAC_GOLD, numberOutline: W, pants: LAC_NAVY, pantsStripes: [LAC_GOLD, LAC], socks: LAC_NAVY, sockStripes: [LAC_GOLD], cleats: WC, helmet: { shell: LAC_NAVY, mask: LAC_GOLD } },
   ],
   cowboys: [
     { id: 'navy', label: 'Cowboys Navy Alternate', jersey: '#041e42', trim: DAL_SILVER, sleeve: 'stripes2', bands: [[W, 1], [DAL_SILVER, 1], [W, 1]], collar: DAL_SILVER, number: W, numberOutline: DAL_SILVER, numberStyle: 'double', numberOutline2: '#041e42', pants: DAL_PANTS, pantsStripes: ['#041e42', W, '#041e42'], socks: '#041e42', sockStripes: [W], cleats: WC },
+    { id: 'colorrush', label: 'Cowboys White Color Rush', jersey: W, trim: '#041e42', sleeve: 'stripes2', bands: [['#041e42', 2], [null, 1], ['#041e42', 2]], collar: '#041e42', number: '#041e42', numberOutline: DAL_SILVER, pants: W, pantsStripes: ['#041e42', '#041e42'], socks: W, sockStripes: ['#041e42', '#041e42'], cleats: WC },
   ],
   vikings: [
     { id: 'throwback', label: 'Vikings 1961 Throwback', jersey: MIN, trim: W, sleeve: 'stripes2', bands: [[W, 1], [MIN_GOLD, 1], [W, 1]], collar: W, number: W, numberOutline: MIN_GOLD, pants: W, pantsStripes: [MIN, MIN_GOLD, MIN], socks: MIN, sockStripes: [W, MIN_GOLD, W], cleats: K },
+    { id: 'winterwarrior', label: 'Vikings Winter Warrior', jersey: W, trim: MIN, sleeve: 'stripes2', bands: [[MIN, 1], [MIN_GOLD, 1], [MIN, 1]], collar: MIN, number: MIN, numberOutline: MIN_GOLD, pants: W, pantsStripes: [MIN, MIN], socks: W, sockStripes: [MIN, MIN_GOLD], cleats: WC, helmet: { shell: W, mask: MIN } },
   ],
   '49ers': [
     { id: 'throwback', label: '49ers 1994 Throwback', jersey: SF, trim: W, sleeve: 'stripes2', bands: [[W, 1], [null, 1], [W, 1], [null, 1], [W, 1]], collar: W, number: W, numberOutline: K, pants: SF_GOLD, pantsStripes: [SF, W, SF], socks: SF, sockStripes: [W, W], cleats: K, helmet: { mask: '#9aa3ad' } },
+    { id: 'colorrush', label: '49ers All-White Color Rush', jersey: W, trim: SF, sleeve: 'stripes2', bands: [[SF, 1], [SF_GOLD, 1], [SF, 1]], collar: SF, number: SF, numberOutline: SF_GOLD, pants: W, pantsStripes: [SF, SF_GOLD, SF], socks: W, sockStripes: [SF, SF], cleats: WC },
+  ],
+  broncos: [
+    { id: 'orangecrush', label: 'Broncos Orange Crush 1977', jersey: DEN, trim: '#1f3c88', sleeve: 'stripes2', bands: [['#1f3c88', 1], [W, 1], ['#1f3c88', 1]], collar: '#1f3c88', number: W, numberOutline: '#1f3c88', pants: W, pantsStripes: ['#1f3c88', DEN, '#1f3c88'], socks: DEN, sockStripes: [W, '#1f3c88', W], cleats: K, helmet: { logoVariant: 'broncos-d', shell: '#1f3c88', stripe: 'triple', stripes: [W, DEN], mask: W } },
+  ],
+  colts: [
+    { id: 'indiananights', label: 'Colts Indiana Nights', jersey: '#111318', trim: '#1c5aa8', sleeve: 'stripes2', bands: [['#1c5aa8', 1], [null, 1], ['#1c5aa8', 1]], collar: '#1c5aa8', number: '#3f86e0', numberOutline: W, pants: '#111318', pantsStripes: ['#1c5aa8', '#1c5aa8'], socks: '#111318', sockStripes: ['#1c5aa8'], cleats: K, helmet: { shell: '#111318', stripe: 'single', stripes: ['#1c5aa8', '#111318'], mask: '#1c5aa8' } },
+  ],
+  lions: [
+    { id: 'black', label: 'Lions Black Alternate', jersey: '#121418', trim: DET, sleeve: 'none', shoulder: DET, collar: DET, number: '#2a94dc', numberOutline: W, pants: '#121418', pantsStripes: [DET, DET], socks: '#121418', sockStripes: [DET], cleats: K, helmet: { shell: '#121418', mask: DET } },
+  ],
+  panthers: [
+    { id: 'blue', label: 'Panthers Blue Alternate', jersey: CAR, trim: K, sleeve: 'none', shoulder: K, collar: K, number: W, numberOutline: K, pants: W, pantsStripes: [K, CAR], socks: CAR, sockStripes: [K], cleats: K, helmet: { shell: K, mask: K } },
+  ],
+  cardinals: [
+    { id: 'black', label: 'Cardinals Black Alternate', jersey: '#121418', trim: ARI, sleeve: 'none', shoulder: ARI, collar: ARI, number: W, numberOutline: ARI, pants: '#121418', pantsStripes: [ARI, ARI], socks: '#121418', sockStripes: [ARI], cleats: K, helmet: { shell: '#121418', mask: ARI } },
+  ],
+  browns: [
+    { id: 'whitehelmet', label: 'Browns White Helmet Throwback', jersey: W, trim: CLE_BROWN, sleeve: 'stripes2', bands: [[CLE_BROWN, 1], [CLE_ORANGE, 1], [CLE_BROWN, 1]], collar: CLE_BROWN, number: CLE_BROWN, numberOutline: CLE_ORANGE, pants: W, pantsStripes: [CLE_BROWN, CLE_ORANGE, CLE_BROWN], socks: CLE_BROWN, sockStripes: [CLE_ORANGE, W, CLE_ORANGE], cleats: K, helmet: { logoVariant: 'none', shell: W, stripe: 'triple', stripes: [CLE_ORANGE, CLE_BROWN], mask: CLE_BROWN } },
+  ],
+  commanders: [
+    { id: 'black', label: 'Commanders Black Alternate', jersey: '#141416', trim: WAS_GOLD, sleeve: 'none', shoulder: WAS, collar: WAS_GOLD, number: WAS_GOLD, numberOutline: WAS, pants: '#141416', pantsStripes: [WAS_GOLD, WAS], socks: '#141416', sockStripes: [WAS_GOLD], cleats: K, helmet: { shell: '#141416', stripe: 'none', mask: K } },
+  ],
+  ravens: [
+    { id: 'purplerising', label: 'Ravens Purple Rising', jersey: BAL, trim: K, sleeve: 'none', shoulder: K, collar: K, number: W, numberOutline: K, pants: BAL, pantsStripes: [K, BAL_GOLD, K], socks: BAL, sockStripes: [K], cleats: K, helmet: { shell: K, mask: K } },
+  ],
+  raiders: [
+    { id: 'colorrush', label: 'Raiders All-White Color Rush', jersey: W, trim: K, sleeve: 'none', shoulder: K, collar: K, number: K, numberOutline: SILVER, pants: W, pantsStripes: [K, SILVER, K], socks: W, sockStripes: [K, K], cleats: WC },
+  ],
+  dolphins: [
+    { id: 'colorrush', label: 'Dolphins Orange Color Rush', jersey: MIA_ORANGE, trim: AQUA, sleeve: 'stripes2', bands: [[AQUA, 1], [W, 1], [AQUA, 1]], collar: AQUA, number: W, numberOutline: AQUA, pants: MIA_ORANGE, pantsStripes: [AQUA, W, AQUA], socks: MIA_ORANGE, sockStripes: [AQUA], cleats: WC },
+  ],
+  bears: [
+    { id: 'orange', label: 'Bears Orange Alternate', jersey: CHI_ORANGE, trim: CHI, sleeve: 'stripes2', bands: [[CHI, 1], [W, 1], [CHI, 1]], collar: CHI, number: CHI, numberOutline: W, pants: CHI, pantsStripes: [CHI_ORANGE, W, CHI_ORANGE], socks: CHI, sockStripes: [CHI_ORANGE, W], cleats: K },
+  ],
+  saints: [
+    { id: 'colorrush', label: 'Saints White Color Rush', jersey: W, trim: NO_GOLD, sleeve: 'none', shoulder: NO_GOLD, collar: NO_GOLD, number: '#9c8350', numberOutline: K, pants: W, pantsStripes: [NO_GOLD, K, NO_GOLD], socks: W, sockStripes: [NO_GOLD, K], cleats: K },
+  ],
+  chiefs: [
+    { id: 'colorrush', label: 'Chiefs All-Red Color Rush', jersey: KC, trim: KC_GOLD, sleeve: 'stripes2', bands: [[W, 1], [KC_GOLD, 1], [W, 1]], collar: W, number: W, numberOutline: KC_GOLD, pants: KC, pantsStripes: [W, KC_GOLD, W], socks: KC, sockStripes: [KC_GOLD], cleats: WC },
   ],
 };
 
-/** Share of cards that roll an alternate (for clubs that have one). */
+/**
+ * Famous era kits: the uniforms tied to legendary teams, labelled by era (no player names). One per club at most,
+ * on top of its (up to two) modern alternates. Kits that the clubs have since revived as throwbacks (Creamsicle,
+ * Kelly Green, Vikings 1961, 49ers 1955-style, Packers Acme) stay in ALTS instead.
+ */
+const ERAS: Record<string, Alt> = {
+  dolphins: { id: 'era1972', label: '1972 Dolphins', jersey: '#00a3ad', trim: MIA_ORANGE, sleeve: 'stripes2', bands: [[W, 1], [MIA_ORANGE, 2], [W, 1]], collar: W, number: W, numberOutline: MIA_ORANGE, pants: W, pantsStripes: ['#00a3ad', MIA_ORANGE, '#00a3ad'], socks: '#00a3ad', sockStripes: [W, MIA_ORANGE, W], cleats: K, helmet: { logoVariant: 'dolphins-1972', stripe: 'triple', stripes: [MIA_ORANGE, '#00a3ad'], mask: '#00a3ad' } },
+  steelers: { id: 'era1970s', label: '1970s Steelers', jersey: K, trim: GOLD_PIT, sleeve: 'stripes2', bands: [[GOLD_PIT, 1], [W, 1], [GOLD_PIT, 1]], collar: GOLD_PIT, number: GOLD_PIT, numberOutline: K, pants: GOLD_PIT, pantsStripes: [K, W, K], socks: K, sockStripes: [GOLD_PIT, W, GOLD_PIT], cleats: K, helmet: { mask: '#9aa3ad' } },
+  bears: { id: 'era1985', label: '1985 Bears', jersey: CHI, trim: CHI_ORANGE, sleeve: 'stripes2', bands: [[CHI_ORANGE, 1], [W, 1], [CHI_ORANGE, 1]], collar: CHI, number: W, numberOutline: CHI_ORANGE, pants: W, pantsStripes: [CHI, CHI_ORANGE, CHI], socks: CHI, sockStripes: [CHI_ORANGE, W, CHI_ORANGE], cleats: K, helmet: { mask: '#9aa3ad' } },
+  '49ers': { id: 'era1980s', label: '1980s 49ers', jersey: SF, trim: W, sleeve: 'stripes2', bands: [[W, 1], [K, 1], [W, 1]], collar: SF, number: W, numberOutline: K, pants: SF_GOLD, pantsStripes: [SF, W, SF], socks: SF, sockStripes: [W, K, W], cleats: K, helmet: { logoVariant: '49ers-80s', mask: '#9aa3ad' } },
+  packers: { id: 'era1960s', label: '1960s Packers', jersey: GB, trim: W, sleeve: 'stripes2', bands: [[W, 1], [GB_GOLD, 1], [W, 1]], collar: GB, number: W, numberOutline: GB, pants: GB_GOLD, pantsStripes: [GB, W, GB], socks: GB, sockStripes: [W, GB_GOLD, W], cleats: K, helmet: { logoVariant: 'packers-60s', mask: '#9aa3ad' } },
+  broncos: { id: 'era1998', label: '1998 Broncos', jersey: '#0a2343', trim: DEN, sleeve: 'none', shoulder: DEN, collar: DEN, number: W, numberOutline: DEN, pants: W, pantsStripes: ['#0a2343', DEN], socks: '#0a2343', sockStripes: [DEN], cleats: K, helmet: { shell: '#0a2343', mask: '#0a2343' } },
+  rams: { id: 'era1999', label: '1999 Rams', jersey: '#0d2b56', trim: '#c9af74', sleeve: 'stripes2', bands: [['#c9af74', 2], [null, 1], ['#c9af74', 1]], collar: '#c9af74', number: W, numberOutline: '#c9af74', pants: '#c9af74', pantsStripes: ['#0d2b56', '#0d2b56'], socks: '#0d2b56', sockStripes: ['#c9af74'], cleats: K, helmet: { colors: ['#c9af74'], shell: '#0d2b56', stripes: ['#c9af74', W], mask: '#0d2b56' } },
+  giants: { id: 'era1986', label: '1986 Giants', jersey: '#1f3a93', trim: NYG_RED, sleeve: 'stripes2', bands: [[W, 1], [NYG_RED, 1], [W, 1]], collar: NYG_RED, number: W, numberOutline: NYG_RED, pants: W, pantsStripes: ['#1f3a93', NYG_RED, '#1f3a93'], socks: '#1f3a93', sockStripes: [W, NYG_RED, W], cleats: K, helmet: { mask: '#9aa3ad' } },
+  commanders: { id: 'era1980s', label: '1980s Washington', jersey: '#651c32', trim: '#feb71c', sleeve: 'stripes2', bands: [['#feb71c', 1], [W, 1], ['#feb71c', 1]], collar: '#feb71c', number: W, numberOutline: '#feb71c', pants: '#feb71c', pantsStripes: ['#651c32', W, '#651c32'], socks: '#7f364c', sockStripes: [W, '#feb71c', W], cleats: K, helmet: { logoVariant: 'commanders-r', shell: '#651c32', stripe: 'triple', stripes: ['#feb71c', W], mask: '#9aa3ad' } },
+  chiefs: { id: 'era1969', label: '1969 Chiefs', jersey: KC, trim: W, sleeve: 'stripes2', bands: [[W, 1], [null, 1], [W, 1]], collar: W, number: W, numberOutline: K, pants: W, pantsStripes: [KC, W, KC], socks: KC, sockStripes: [W, W], cleats: K, helmet: { mask: '#9aa3ad' } },
+  lions: { id: 'era1990s', label: '1990s Lions', jersey: DET, trim: W, sleeve: 'stripes2', bands: [[W, 1], [DET_SILVER, 1], [W, 1]], collar: W, number: W, numberOutline: DET_SILVER, pants: DET_SILVER, pantsStripes: [DET, W, DET], socks: DET, sockStripes: [W, DET_SILVER], cleats: K, helmet: { logoVariant: 'lions-90s' } },
+  browns: { id: 'era1960s', label: '1960s Browns', jersey: CLE_BROWN, trim: W, sleeve: 'stripes2', bands: [[W, 1], [CLE_ORANGE, 1], [W, 1], [CLE_ORANGE, 1], [W, 1]], collar: CLE_BROWN, number: W, numberOutline: CLE_BROWN, pants: W, pantsStripes: [CLE_BROWN, CLE_ORANGE, CLE_BROWN], socks: CLE_BROWN, sockStripes: [W, CLE_ORANGE, W], cleats: K, helmet: { mask: '#9aa3ad' } },
+  colts: { id: 'era1950s', label: '1950s Colts', jersey: '#003b7b', trim: W, sleeve: 'stripes2', bands: [[W, 2], [null, 1], [W, 2]], collar: '#003b7b', number: W, numberOutline: '#003b7b', pants: W, pantsStripes: ['#003b7b', '#003b7b'], socks: '#003b7b', sockStripes: [W, W], cleats: K, helmet: { mask: '#9aa3ad' } },
+  patriots: { id: 'era2001', label: '2001 Patriots', jersey: NE_NAVY, trim: NE_RED, sleeve: 'stripes2', bands: [[NE_RED, 1], [W, 1], [NE_RED, 1]], collar: NE_RED, number: W, numberOutline: NE_RED, pants: '#b0b7bc', pantsStripes: [NE_NAVY, NE_RED, NE_NAVY], socks: NE_NAVY, sockStripes: [NE_RED], cleats: K },
+  raiders: { id: 'era1970s', label: '1970s Raiders', jersey: K, trim: '#c4c8cc', sleeve: 'none', collar: K, number: '#c4c8cc', numberOutline: W, pants: SILVER, pantsStripes: [K, W, K], socks: K, sockStripes: ['#c4c8cc'], cleats: K },
+};
+
+/** Share of cards that roll a non-home uniform (for clubs that have one). Clubs with an era kit split it: */
 export const ALT_CHANCE = 0.08;
-/** Market bonus for an alternate-uniform card (applied by src/utils/cardMarket.ts cardPrice) */
-export { ALT_VALUE_BONUS };
+/** … ERA_CHANCE for the era kit, the rest (6%) for the modern alternates. */
+export const ERA_CHANCE = 0.02;
+/** Market bonuses (applied by src/utils/cardMarket.ts cardPrice) */
+export { ALT_VALUE_BONUS, ERA_VALUE_BONUS };
 
 /** Fill the derived fields so every reader can use the plain legacy fields too. */
 const complete = (id: string, label: string, h: Home): Uniform => {
@@ -252,20 +325,35 @@ export const homeUniform = (team: string | undefined): Uniform => {
 };
 
 const ALTERNATES: Record<string, Uniform[]> = Object.fromEntries(Object.entries(ALTS).map(([team, list]) => [team, list.map((a) => complete(a.id, a.label, a))]));
+const ERA_KITS: Record<string, Uniform> = Object.fromEntries(Object.entries(ERAS).map(([team, a]) => [team, { ...complete(a.id, a.label, a), era: true }]));
 
-/** The uniform a card shows: home, or (rarely, stable per player × variant × finish) one of the club's alternates. */
+/**
+ * The uniform a card shows: home, or (rarely, stable per player × variant × finish) a non-home kit. One roll r in
+ * [0, 1): a club with both kinds gives r < ERA_CHANCE its era kit and r < ALT_CHANCE a modern alternate (split
+ * evenly); a club with only alternates gives them the whole ALT_CHANCE; a club with only an era kit, ERA_CHANCE.
+ */
 export const uniformFor = (player: { name: string; team?: string }, variant?: string, finish?: string): Uniform => {
   const home = homeUniform(player.team);
   const t = findNFLTeam(player.team);
   const alts = (t && ALTERNATES[t.id]) || [];
-  if (!alts.length || !variant) return home;
+  const era = t ? ERA_KITS[t.id] : undefined;
+  if ((!alts.length && !era) || !variant) return home;
   const roll = seedOf(`${player.name}|${variant}|${finish ?? ''}|uniform`);
-  if ((roll % 1000) / 1000 >= ALT_CHANCE) return home;
-  return alts[(roll >>> 10) % alts.length];
+  const r = (roll % 1000) / 1000;
+  if (era && r < ERA_CHANCE) return era;
+  if (alts.length && r < ALT_CHANCE) return alts[(roll >>> 10) % alts.length];
+  return home;
 };
 
-/** True when this card (player × variant × finish) rolled an alternate uniform (market bonus, card-back note). */
-export const isAlternate = (player: { name: string; team?: string }, variant?: string, finish?: string) => uniformFor(player, variant, finish).id !== 'home';
+/** Which kind of kit this card (player × variant × finish) wears. */
+export const uniformKind = (player: { name: string; team?: string }, variant?: string, finish?: string): 'home' | 'alt' | 'era' => {
+  const u = uniformFor(player, variant, finish);
+  return u.era ? 'era' : u.id === 'home' ? 'home' : 'alt';
+};
+/** True when this card rolled a non-home uniform (alternate or era kit). */
+export const isAlternate = (player: { name: string; team?: string }, variant?: string, finish?: string) => uniformKind(player, variant, finish) !== 'home';
+/** Card-back label: "Bucs Creamsicle", "1985 Bears (era)". */
+export const uniformLabel = (u: Uniform) => (u.era ? `${u.label} (era)` : u.label);
 
 /** The helmet worn with a uniform (alternates may change the shell, stripe or mask). */
 export const helmetWith = (base: Helmet, u: Uniform): Helmet => (u.helmet ? { ...base, ...u.helmet, fine: u.helmet.shell ? undefined : base.fine } : base);
@@ -288,6 +376,8 @@ export const sockBands = (u: Uniform): string[] => u.sockStripes ?? [u.sockStrip
 
 /** Every home uniform (Art lab strips), in table order. */
 export const allHomes = () => Object.keys(HOME).map((team) => ({ team, u: homeUniform(team) }));
-/** Every alternate (Art lab). */
+/** Every modern alternate (Art lab). */
 export const allAlternates = () => Object.entries(ALTERNATES).flatMap(([team, list]) => list.map((u) => ({ team, u })));
+/** Every famous era kit (Art lab "Era kits"). */
+export const allEraKits = () => Object.entries(ERA_KITS).map(([team, u]) => ({ team, u }));
 export { HELMETS };

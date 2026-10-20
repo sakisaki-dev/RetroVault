@@ -45,7 +45,7 @@ def beside(*marks, gap=1):
     return [("." * gap).join((m[j] if j < len(m) else "").ljust(w, ".") for m, w in zip(marks, ws)) for j in range(h)]
 
 
-# team: (shell colour, for the preview only), colours, rows
+# team: (shell colour the glyph is drawn for: the preview, and helmets.ts recolouring on other shells), colours, rows
 LOGOS = {
     "bills": ("#f4f5f7", ["#00338d", "#c60c30", "#0a1f44"], [
         "...3333.......",
@@ -81,30 +81,37 @@ LOGOS = {
         ".......1133...",
         "........11....",
     ]),
-    "jets": ("#125740", [W], [
-        "11..11.11..11.",
-        "111.11.11..11.",
-        "111111..1111..",
-        "11.111...11...",
-        "11..11...11...",
-        "11..11...11...",
-        "..............",
-        ".1.111.111.111",
-        ".1.1....1..1..",
-        ".1.11...1..111",
-        ".1.1....1....1",
-        "11.111..1..111",
+    # White football-shaped oval on the green shell, a small green "NY" over the green "JETS" wordmark
+    "jets": ("#125740", [W, "#125740"], [
+        ".....111111.....",
+        "...1111111111...",
+        ".11121121212111.",
+        ".11122121212111.",
+        "1111212211211111",
+        "1111211211211111",
+        "1111111111111111",
+        "1121222122212221",
+        "1121211112112111",
+        "1121221112112221",
+        "1121211112111121",
+        "1211222112112221",
+        "..111111111111..",
+        ".....111111.....",
     ]),
-    "ravens": ("#1a1a1a", ["#6a4fc0", W, "#d4a82c", K], [
-        "..1.1.........",
-        ".1111111......",
-        "11111111111...",
-        ".1111111211...",
-        "..11111124311.",
-        "..1111111113333",
-        "...111111113.",
-        "....11111....",
-        "......11.....",
+    # Purple raven head in profile facing forward: dark purple outline, feather tufts at the back, gold eye with a black pupil, white beak edges
+    "ravens": ("#1a1a1a", ["#6a4fc0", W, "#d4a82c", "#3a2a80"], [
+        "......44444.....",
+        "....441111144...",
+        "44441111111114..",
+        ".44111111111114.",
+        "4444111111331144",
+        ".441111111341114",
+        "..41111111222222",
+        "4444111114444444",
+        ".44111111422224.",
+        "..411111114444..",
+        "...441111144....",
+        ".....44444......",
     ]),
     "steelers": ("#14161b", [W, "#ffb612", "#c60c30", "#00539b"], [
         "....1111....",
@@ -284,7 +291,8 @@ LOGOS = {
         ".11.......11..",
         ".1.........11.",
     ]),
-    "packers": ("#203731", ["#ffb612", "#203731", W], [
+    # Green football oval with a white rim and a white "G", on the gold shell
+    "packers": ("#ffb612", [W, "#203731", W], [
         "...1111111111...",
         ".11222222222211.",
         "1122223333332211",
@@ -308,18 +316,21 @@ LOGOS = {
         "......1111111.",
         "........1111..",
     ]),
-    "falcons": ("#14161b", ["#a71930", W], [
-        ".....222......",
-        "....2111222...",
-        "...211111112..",
-        "..21122221112.",
-        ".2112....2112.",
-        "2112..22211112",
-        "212..2111111..",
-        "22...21122222.",
-        ".....2112.....",
-        "....2112......",
-        "....222.......",
+    # Stylised falcon "F" (mirrored to face forward): black body, white outline, red accents, head and hooked beak top right, wing tips as the F bars
+    "falcons": ("#14161b", [K, W, "#a71930", "#a5acaf"], [
+        "..........22222.",
+        ".........2211122",
+        "2222222222113112",
+        "2111111111111112",
+        "2212123333331122",
+        ".22222221112222.",
+        "..212111111112..",
+        "..221233333112..",
+        "...22222211122..",
+        "......2211122...",
+        "......211222....",
+        "......2122......",
+        "......222.......",
     ]),
     "panthers": ("#bfc0bf", [K, "#0085ca", W], [
         "..2...........",
@@ -398,9 +409,111 @@ LOGOS = {
     ]),
 }
 
+# Period / alternate-uniform logos, chosen by a uniform's helmet override (`logoVariant: '<key>'`, see helmets.ts).
+# Keyed '<team>-<era>'; each is drawn for the shell given (helmets.ts adapts the colours to other shells).
+VARIANTS = {
+    # Broncos 1977 (Orange Crush): orange "D", white outline, a white bronco in the counter
+    "broncos-d": ("#1f3c88", ["#fb4f14", W], [
+        "2222222222....",
+        "21111111122...",
+        "211111111122..",
+        "2111....11122.",
+        "2111...221112.",
+        "2111..2222112.",
+        "2111.22.21112.",
+        "2111...2.1112.",
+        "2111.....1112.",
+        "2111....11122.",
+        "211111111122..",
+        "21111111122...",
+        "2222222222....",
+    ]),
+    # Dolphins 1972: orange sunburst, aqua dolphin leaping across it in a navy helmet
+    "dolphins-1972": ("#f4f5f7", ["#008e97", "#fc4c02", "#1a2d5a", W], [
+        "....2..2..2.....",
+        ".2...222222...2.",
+        "..22222222222...",
+        ".2222222222222..",
+        "22222222222222..",
+        ".111111111.333..",
+        "1111111111113333",
+        "11..111111113434",
+        "1.....1111111...",
+        "11......11......",
+        ".1..............",
+    ]),
+    # Washington 1970s/80s: gold "R" with a white outline
+    "commanders-r": ("#651c32", ["#feb71c", W], [
+        "2222222222..",
+        "21111111122.",
+        "21111111112.",
+        "21122222112.",
+        "21122222112.",
+        "21111111112.",
+        "21111111122.",
+        "2112221122..",
+        "2112.221122.",
+        "2112..221122",
+        "2112...22112",
+        "2222....2222",
+    ]),
+    # Bucs 1976-96 "Bucco Bruce": orange pirate, red plume and hat band, a wink, a knife in his teeth
+    "bucs-bruce": ("#f4f5f7", ["#f58025", "#d50a0a", K, "#a5acaf"], [
+        "........222.....",
+        ".......22222....",
+        "..1111111222....",
+        ".111111111111...",
+        "..3333333333....",
+        "...111111111....",
+        "...131113331....",
+        "...111111111....",
+        "44444441444444..",
+        "...1113331......",
+        "....111111......",
+        "......11........",
+    ]),
+    # Pat Patriot (1961-92): navy tricorn, red coat, crouched over a brown ball
+    "patriots-pat": ("#f4f5f7", ["#002244", "#c60c30", "#e0a986", "#7a4a1c"], [
+        ".....1111.......",
+        "...11111111.....",
+        "..1111111111....",
+        ".....3333.......",
+        ".....3333.......",
+        "....22222.......",
+        "...2222222......",
+        "..222222222.44..",
+        "..2222222224444.",
+        "...22222222.44..",
+        "...111..111.....",
+        "...11....11.....",
+    ]),
+    # Houston Oilers: red oil derrick with a white outline
+    "titans-oilers": ("#7ab2dd", ["#c8102e", W], [
+        "....2222....",
+        "....2112....",
+        "...221122...",
+        "...211112...",
+        "...212212...",
+        "..22111122..",
+        "..21211212..",
+        "..21122112..",
+        ".221211212..",
+        ".2111111122.",
+        ".2121221212.",
+        "221122221122",
+        "211111111112",
+        "222222222222",
+    ]),
+}
+# Era recolours of the modern glyphs: 1970s/80s 49ers oval (white rim, no black), 1960s Packers G (no white rim),
+# 1990s Lions (a plain Honolulu-blue leaping lion on the silver shell)
+VARIANTS["49ers-80s"] = ("#b3995d", ["#aa0000", W, W], LOGOS["49ers"][2])
+VARIANTS["packers-60s"] = ("#ffb612", ["#ffb612", "#203731", W], LOGOS["packers"][2])
+VARIANTS["lions-90s"] = ("#b0b7bc", ["#0076b6", "#0076b6", "#0076b6"], LOGOS["lions"][2])
+
 
 def check():
-    for team, (_, colors, rows) in LOGOS.items():
+    for team, (_, colors, rows) in {**LOGOS, **VARIANTS}.items():
         w = max(len(r) for r in rows)
         assert w <= MAX_W and len(rows) <= MAX_H, f"{team}: {w}×{len(rows)} is over {MAX_W}×{MAX_H}"
         used = {c for r in rows for c in r if c != "."}
@@ -408,9 +521,10 @@ def check():
 
 
 def write():
-    out = {t: {"rows": [r.ljust(max(len(x) for x in rows), ".") for r in rows], "colors": colors} for t, (_, colors, rows) in LOGOS.items()}
+    # `shell` is the shell each glyph was drawn for; helmets.ts uses it to keep the glyph readable on other shells
+    out = {t: {"rows": [r.ljust(max(len(x) for x in rows), ".") for r in rows], "colors": colors, "shell": shell} for t, (shell, colors, rows) in {**LOGOS, **VARIANTS}.items()}
     head = ("// Generated by scripts/build_helmet_logos.py (do not hand-edit): hand-drawn pixel-art helmet logos on the sprite's fine grid.\n"
-            "export const HELMET_LOGOS: Record<string, { rows: string[]; colors: string[] }> = ")
+            "export const HELMET_LOGOS: Record<string, { rows: string[]; colors: string[]; shell: string }> = ")
     OUT.write_text(head + json.dumps(out, indent=1) + ";\n")
     print(f"wrote {OUT.relative_to(ROOT)}: {len(out)} logos")
 
@@ -420,10 +534,10 @@ def preview(path: str, s: int = 14):
 
     cell_w, cell_h = (MAX_W + 4) * s, (MAX_H + 4) * s + 16
     cols = 8
-    n = len(LOGOS)
+    n = len(LOGOS) + len(VARIANTS)
     img = Image.new("RGB", (cols * cell_w, -(-n // cols) * cell_h), "#1b2030")
     d = ImageDraw.Draw(img)
-    for i, (team, (shell, colors, rows)) in enumerate(LOGOS.items()):
+    for i, (team, (shell, colors, rows)) in enumerate({**LOGOS, **VARIANTS}.items()):
         ox, oy = (i % cols) * cell_w, (i // cols) * cell_h
         d.rectangle([ox + s, oy + s, ox + cell_w - s, oy + cell_h - 16 - s], fill=shell)
         w = max(len(r) for r in rows)

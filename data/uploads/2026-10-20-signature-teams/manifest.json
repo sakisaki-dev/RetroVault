@@ -1,0 +1,27 @@
+{
+ "id": "2026-10-20-signature-teams",
+ "created": "2026-10-20",
+ "title": "Signature teams (card and banner identity): Rondale Ikarras with the Ravens, Sherman Brandson with the Giants",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Rondale Ikarras/signature_team",
+   "value": "Ravens",
+   "source": "owner",
+   "reason": "Owner: \"put ikarras with the ravens since that's where he's most known for\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Sherman Brandson/signature_team",
+   "value": "Giants",
+   "source": "owner",
+   "reason": "Owner: \"each player's banner jersey etc isn't where they retired but where they were best, for sherman that's the giants\"",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}

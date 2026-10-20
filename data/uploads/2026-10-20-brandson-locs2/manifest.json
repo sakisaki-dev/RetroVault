@@ -1,0 +1,32 @@
+{
+ "id": "2026-10-20-brandson-locs2",
+ "created": "2026-10-20",
+ "title": "Brandson: locs flow down onto his shoulders (owner: the mane read as an afro); look notes updated",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Sherman Brandson",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "crownlocs",
+     "color": "black"
+    },
+    "facial": "shortbeard",
+    "accessories": [],
+    "build": "huge",
+    "height": "tall",
+    "pose": "sig-crossed",
+    "signature": true,
+    "notes": "Fred Warner style: a high-top of short twisted locs standing up and back from the crown, falling over the shoulders; short stubble beard on a strong jaw; huge and 6'7\", muscular V-taper (not fat). Signature (owner): arms crossed, menacing, helmet off [IMG_6206 + IMG_6201]. Face (owner): chiseled, triangular: wide cheekbones tapering to a strong, narrower pointed chin and a defined jawline. Locs (owner): simply locs that flow down onto his shoulders: they grow from the crown and lie close on top (a modest lift, no round puff), then fall as distinct long strands past the ears and jaw onto the shoulders and upper chest in front; the crown-mane version read as an afro. Jaw (owner): pushed out 1 px each side at the corners and lower jaw; cheekbones, brow, eyes and chin point unchanged",
+    "face": "chiseled"
+   },
+   "source": "owner",
+   "reason": "Owner: the crown locs read as an afro; he wants simply locs that flow down onto his shoulders. Jaw very slightly wider (jaw only)",
+   "trigger": "Owner feedback in chat"
+  }
+ ]
+}

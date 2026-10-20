@@ -1,0 +1,36 @@
+{
+ "id": "2026-10-20-signature-teams-3",
+ "created": "2026-10-20",
+ "title": "Signature teams: Macleone Seahawks, Lamar Jackson Vikings, Jackson Wardell Kline Giants",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jason Macleone/signature_team",
+   "value": "Seahawks",
+   "source": "owner",
+   "reason": "Owner: \"macleone to the seahawks lamar to the vikings jackson w kline was a giants legend\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Lamar Jackson/signature_team",
+   "value": "Vikings",
+   "source": "owner",
+   "reason": "Owner: \"macleone to the seahawks lamar to the vikings jackson w kline was a giants legend\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jackson Wardell Kline/signature_team",
+   "value": "Giants",
+   "source": "owner",
+   "reason": "Owner: \"macleone to the seahawks lamar to the vikings jackson w kline was a giants legend\"",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}

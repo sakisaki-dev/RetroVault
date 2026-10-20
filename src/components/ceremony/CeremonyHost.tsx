@@ -3,7 +3,7 @@ import { useLeague } from '@/context/LeagueContext';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import { useLeagueContent } from '@/utils/leagueContent';
-import { usePlayerExtras } from '@/utils/playerExtras';
+import { usePlayerExtras, withSignatureTeam } from '@/utils/playerExtras';
 import { overallRating } from '@/components/brand/ProPlayerBanner.utils';
 import { resolveTeam } from '@/components/brand/TeamLogo';
 import {
@@ -63,7 +63,8 @@ const CeremonyHost = () => {
       return [
         {
           key: entry.key,
-          player,
+          // The stage wears his signature team (where he was best known); the speech facts keep his record
+          player: withSignatureTeam(extras, player),
           variant: entry.variant,
           number: numberFor(player),
           ovr: overallRating(player, officialOvr),

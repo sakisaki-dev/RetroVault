@@ -15,9 +15,11 @@ import type { TeamStyle } from '../teamStyle';
  */
 
 export type SkinTone = 'pale' | 'light' | 'tan' | 'medium' | 'brown' | 'deep';
-export type HairStyle = 'bald' | 'buzz' | 'short' | 'curly' | 'twists' | 'afro' | 'freeform' | 'mohawk' | 'spiky' | 'dreads' | 'shortlocs' | 'braids' | 'long';
+export type HairStyle = 'bald' | 'buzz' | 'short' | 'curly' | 'twists' | 'afro' | 'freeform' | 'mohawk' | 'spiky' | 'dreads' | 'crownlocs' | 'longlocs' | 'shortlocs' | 'braids' | 'long';
 export type Facial = 'none' | 'stubble' | 'jawline' | 'shortbeard' | 'mustache' | 'goatee' | 'chinstrap' | 'beard' | 'fullbeard';
 export type Build = 'normal' | 'big' | 'huge';
+/** Bare-face shape: oval (everyone's default); opt-in for the good-looking faces: defined (Ikarras), chiseled (Brandson) */
+export type FaceShape = 'oval' | 'defined' | 'chiseled';
 /** A pose key from spritePoses.ts (e.g. 'qb-windup', 'cel-flex', 'sig-crossed') */
 export type SpritePose = string;
 
@@ -33,6 +35,12 @@ export interface SpriteLook {
   image?: string;
   /** Eyes: 'intense' = wide whites, small pupils, heavy brows */
   eyes?: 'normal' | 'intense';
+  /** Beard colour (a hair-colour name or #hex) when it differs from the hair's; unset = derived from the hair */
+  beard?: string;
+  /** Bare-face shape (helmet off); oval when unset */
+  face?: FaceShape;
+  /** Nose: 'straight' adds a bridge shadow */
+  nose?: 'straight';
   /** Owner-requested showcase pose */
   signature?: boolean;
   /** From sprites.json (the owner's locked look) rather than generated */
@@ -146,6 +154,9 @@ export const lookFor = (player: GamePlayer, t: Record<string, RawLook> | null): 
     pose: raw.pose,
     signature: !!raw.signature,
     eyes: raw.eyes === 'intense' ? 'intense' : 'normal',
+    face: raw.face === 'chiseled' || raw.face === 'defined' ? raw.face : 'oval',
+    nose: raw.nose === 'straight' ? 'straight' : undefined,
+    beard: typeof raw.beard === 'string' ? raw.beard : undefined,
     image: raw.image,
     locked: true,
   };
@@ -192,6 +203,51 @@ export const HEAD_BARE = [
 ];
 /** Square, strong jaw (huge builds, the 'jawline' beard): rows 11–14. */
 const STRONG_JAW = ['.dssssssssssd.', '.dssssssssssd.', '..dssssssssd..', '...dssssssd...'];
+/**
+ * Chiseled face (look.face 'chiseled', opt-in: Sherman Brandson, the most angular; 'defined' below is the same
+ * structure for Rondale Ikarras, the reference face). Everyone else keeps the oval. Smaller than the oval, so more of the
+ * head reads as hair: 10 wide at the brow, 12 at the high cheekbones (highlight H on row 7, a shadow above and the
+ * hollow under them), then straight jaw lines tapering to a firm 4-px chin, two rows shorter than the oval
+ * (under-chin on row 13); eyes and brows 1 px in. Big and huge builds (Brandson) push the jaw out 1 px each side
+ * (rows 9–10) and end a row higher in a blunt chin (a 6-px last row over a 4-px under-chin on row 12, owner: "too
+ * sharp, bring it up"); brow, cheekbones and eyes stay. Built from the left edge column of each row (L, mirrored at
+ * 13 − L; the last entry is the under-chin); returned 16 wide (column 0 = the face's x − 1) so the ears fit.
+ */
+type FaceShape16 = { rows: string[]; L: (number | null)[]; under: number };
+//                  rows 0 … (last = under-chin): normal build, big / huge
+const CHISELED_L: [number[], number[]] = [
+  [4, 3, 2, 2, 2, 2, 1, 1, 1, 2, 3, 4, 5, 5],
+  [4, 3, 2, 2, 2, 2, 1, 1, 1, 1, 2, 4, 5],
+];
+/**
+ * Defined face (look.face 'defined', opt-in: Rondale Ikarras, the proportioned ideal): the chiseled structure with a
+ * gentler taper, the lower cheeks and jaw 1 px wider each side (rows 9–11) and a 6-px chin instead of a point.
+ */
+const DEFINED_L = [4, 3, 2, 2, 2, 2, 1, 1, 1, 1, 2, 3, 4, 4];
+const faceCache = new Map<string, FaceShape16>();
+const chiseledFace = (wide: boolean, ears: boolean, defined = false): FaceShape16 => {
+  const id = `${+wide}${+ears}${+defined}`;
+  const hit = faceCache.get(id);
+  if (hit) return hit;
+  const Ls = defined ? DEFINED_L : CHISELED_L[+wide];
+  const rows = Array.from({ length: 16 }, (_, y) => {
+    const L = Ls[y];
+    const r = new Array(16).fill('.');
+    if (L === undefined) return r.join('');
+    const put = (x: number, k: string) => (r[x + 1] = k);
+    const both = (x: number, k: string) => (put(x, k), put(13 - x, k));
+    const under = Ls.length - 1;
+    for (let x = L; x <= 13 - L; x++) put(x, y === under ? 'd' : 's');
+    if (y > 0 && y < under) both(L, 'd');
+    if (ears && y >= 6 && y <= 8) both(L - 1, y === 7 ? 'x' : 's');
+    if (y === 7) both(L + 2, 'H');
+    if (y === 6 || y === 8) both(L + 1, 'd');
+    return r.join('');
+  });
+  const out = { rows, L: rows.map((_, y) => Ls[y] ?? null), under: Ls.length - 1 };
+  faceCache.set(id, out);
+  return out;
+};
 
 /**
  * Facial-hair templates on the bare face (14 wide, rows from 7). r = solid beard colour, b = darker beard,
@@ -218,19 +274,23 @@ export const faceColours = (look: SpriteLook): Record<Key, string> => {
   const hair = hairColor(look.hair.color);
   // Beards: near-black for dark hair, a darker version of light hair (with a 1-px checker of two browns)
   const dark = look.hair.color === 'black' || look.hair.color === 'darkbrown' || hair === HAIR_COLORS.black;
+  const own = look.beard ? hairColor(look.beard) : null;
   return {
     fL: ramp.lips,
     fM: ramp.mouth,
     fN: ramp.dark,
     fS: `color-mix(in srgb, ${ramp.base} 50%, ${dark ? '#0c1826' : hair})`,
-    fb: dark ? '#0c1826' : `color-mix(in srgb, ${hair} 60%, #2a1406)`,
-    fB: dark ? '#160b00' : `color-mix(in srgb, ${hair} 45%, #2a1406)`,
+    fb: own ?? (dark ? '#0c1826' : `color-mix(in srgb, ${hair} 60%, #2a1406)`),
+    fB: own ? `color-mix(in srgb, ${own} 70%, #000)` : dark ? '#160b00' : `color-mix(in srgb, ${hair} 45%, #2a1406)`,
     fR: '#ffcf6b',
     fr: '#ffe7a8',
     fH: ramp.hi,
     fU: '#3a3d48',
     fE: '#c0cbdc',
     fT: dark ? '#1e1d1c' : `color-mix(in srgb, ${hair} 75%, #fff)`,
+    // Loc strand tones (crownlocs): lit and mid, both a little lighter than the hair, which fills the gaps
+    fl: `color-mix(in srgb, ${hair} 82%, #fff)`,
+    fm: `color-mix(in srgb, ${hair} 91%, #fff)`,
     ...PORTRAIT_COLOURS,
   };
 };
@@ -328,10 +388,10 @@ export const eyes = (R: Rect[], lx: number, rx: number, y: number, look: SpriteL
  * nose (columns 3 and 10, 7 apart); brows are 2 px, one row above with a 1-row gap (row 4), inner ends 5 apart.
  * Angry / intense looks drop the brow onto the eye (no gap) and slant it 1 px down toward the nose.
  */
-const bareEyes = (R: Rect[], hx: number, hy: number, look: SpriteLook, ex: PoseOut['expr']) => {
+const bareEyes = (R: Rect[], hx: number, hy: number, look: SpriteLook, ex: PoseOut['expr'], inset = 0) => {
   // Left-side rows (face columns 1–5); the right side is their mirror image (columns 8–12)
   const both = (left: string[], dy: number) =>
-    R.push(...stamp(left, hx + 1, hy + dy), ...stamp(left.map((r) => [...r].reverse().join('')), hx + 8, hy + dy));
+    R.push(...stamp(left, hx + 1 + inset, hy + dy), ...stamp(left.map((r) => [...r].reverse().join('')), hx + 8 - inset, hy + dy));
   if (look.eyes === 'intense') {
     // Scary stare: the brow pressed down onto the eye and slanted; a 3-px eye, the pupil staring out of the white
     both(['.E...', '..EE.'], 4);
@@ -347,7 +407,7 @@ const bareEyes = (R: Rect[], hx: number, hy: number, look: SpriteLook, ex: PoseO
     // Reverent, eyes up: brows lifted at the inner end, calm one-row eyes with the pupil on the white's top edge
     both(['...E.', '..E..'], 3);
     both(['.ww..'], 6);
-    R.push([hx + 3, hy + 6, 1, 0.5, 'e'], [hx + 10, hy + 6, 1, 0.5, 'e']);
+    R.push([hx + 3 + inset, hy + 6, 1, 0.5, 'e'], [hx + 10 - inset, hy + 6, 1, 0.5, 'e']);
     return;
   }
   // Calm / smiling / open: level brows
@@ -377,23 +437,72 @@ export const bareHead = (hx: number, hy: number, { look, pose }: HeadOpts, tall:
   const strong = look.build === 'huge' || look.facial === 'jawline';
   // Long hair hangs behind the head and shoulders
   R.push(...hairBehind(hx, hy, look, tall, !!pose.wind));
-  const face = strong ? [...HEAD_BARE.slice(0, 11), ...STRONG_JAW, HEAD_BARE[15]] : HEAD_BARE;
-  R.push(...stamp(face, hx, hy, FACE_MAP));
-  const beard = BEARDS[look.facial];
+  const shape = look.face ?? 'oval';
+  // Faces as 16-wide rows (column 0 = hx − 1). Crown locs fall in front of the ears, so that face has none.
+  const ang = shape === 'oval' ? null : chiseledFace(look.build !== 'normal', look.hair.style !== 'crownlocs', shape === 'defined');
+  const face16 = ang ? ang.rows : (strong ? [...HEAD_BARE.slice(0, 11), ...STRONG_JAW, HEAD_BARE[15]] : HEAD_BARE).map((r) => `.${r}.`);
+  R.push(...stamp(face16, hx - 1, hy, FACE_MAP));
+  // Extent of a face row in face columns (hx + x), ears left out, or null
+  const extent = (y: number): [number, number] | null => {
+    if (ang) {
+      const L = ang.L[y];
+      return L == null ? null : [L, 13 - L];
+    }
+    const r = face16[y];
+    if (!r || !/[^.]/.test(r)) return null;
+    return [r.search(/[^.]/) - 1, r.length - 2 - [...r].reverse().join('').search(/[^.]/)];
+  };
+  // Jawline beard on a chiseled face: a 1-px line along the jaw edge from the cheekbone to the chin, the under-chin,
+  // a thin moustache and a chin strip (the oval keeps its template)
+  const jawLine = !!ang && look.facial === 'jawline';
+  if (jawLine) {
+    for (let y = 8; y <= ang.under; y++) {
+      const e = extent(y);
+      if (!e) continue;
+      if (y === ang.under) R.push([hx + e[0], hy + y, e[1] - e[0] + 1, 1, 'fb']);
+      else R.push([hx + e[0], hy + y, 1, 1, 'fb'], [hx + e[1], hy + y, 1, 1, 'fb']);
+    }
+    R.push([hx + 5, hy + 9, 4, 1, 'fb'], [hx + 6, hy + 12, 2, 1, 'fb']);
+  }
+  const beard = jawLine ? undefined : BEARDS[look.facial];
   if (beard)
     beard.forEach((row, j) => {
       const y = 7 + j;
-      const fr = face[y];
+      // Chiseled faces: the templates are drawn for the oval; each half of a row slides in onto the narrower jaw, and
+      // a full beard below the chin hangs at the under-chin's width
+      const ref = HEAD_BARE[Math.min(y, 15)];
+      const a = ref.search(/[^.]/);
+      const b = ref.length - 1 - [...ref].reverse().join('').search(/[^.]/);
+      const e = !ang ? null : extent(y) ?? (y > ang.under ? extent(ang.under) : null);
       [...row].forEach((ch, i) => {
-        if (ch === '.' || (y <= 14 && (!fr || fr[i] === '.'))) return;
-        R.push([hx + i, hy + y, 1, 1, ch === 'z' ? ((i + y) % 2 ? 'fS' : 'd') : (BEARD_MAP[ch] ?? ch)]);
+        if (ch === '.') return;
+        let x = i;
+        if (ang) {
+          if (!e) return;
+          x = i < 7 ? e[0] + (i - a) : e[1] - (b - i);
+          if (x < e[0] || x > e[1]) return;
+        } else if (y <= 14 && (!face16[y] || face16[y][i + 1] === '.')) return;
+        R.push([hx + x, hy + y, 1, 1, ch === 'z' ? ((x + y) % 2 ? 'fS' : 'd') : (BEARD_MAP[ch] ?? ch)]);
       });
     });
-  bareEyes(R, hx, hy, look, ex);
+  // Chiseled: the jaw edge in skin-dark over any beard, from the cheek hollow down to the chin (a defined jawline)
+  if (ang)
+    for (let y = 9; y < ang.under; y++) {
+      const e = extent(y);
+      if (e) R.push([hx + e[0], hy + y, 1, 1, 'fN'], [hx + e[1], hy + y, 1, 1, 'fN']);
+    }
+  // A straight nose (look.nose): a bridge shadow down the shade side from the eyes to the nostrils
+  if (look.nose === 'straight') R.push([hx + 7, hy + 6, 1, 2, 'd']);
+  const inset = ang ? 1 : 0;
+  bareEyes(R, hx, hy, look, ex, inset);
   bareMouth(R, hx, hy, ex);
   // Eye black: a smudge on the cheekbone (left off when looking up in reverence)
-  if (look.accessories.includes('eyeblack') && ex !== 'exalted') R.push(...stamp(['kk'], hx + 2, hy + 8), ...stamp(['kk'], hx + 10, hy + 8));
-  if (look.accessories.includes('earrings')) R.push([hx, hy + 9, 1, 1, 'fE'], [hx + 13, hy + 9, 1, 1, 'fE']);
+  if (look.accessories.includes('eyeblack') && ex !== 'exalted') R.push(...stamp(['kk'], hx + 2 + inset, hy + 8), ...stamp(['kk'], hx + 10 - inset, hy + 8));
+  if (look.accessories.includes('earrings')) {
+    // On the ear lobe, under the ear (the oval's ear runs a row longer)
+    const lobe = !ang ? 0 : (extent(8)?.[0] ?? 1) - 1;
+    R.push([hx + lobe, hy + 9, 1, 1, 'fE'], [hx + 13 - lobe, hy + 9, 1, 1, 'fE']);
+  }
   R.push(...bareHair(hx, hy, look, tall, !!pose.wind));
   return R;
 };
@@ -402,7 +511,42 @@ export const bareHead = (hx: number, hy: number, { look, pose }: HeadOpts, tall:
 export const hairRise = (look: SpriteLook): number => {
   const s = look.hair.style;
   if (look.accessories.includes('durag')) return 2;
+  if (s === 'crownlocs') return 5;
   return s === 'twists' || s === 'dreads' || s === 'shortlocs' || s === 'freeform' ? 7 : s === 'afro' || s === 'mohawk' || s === 'spiky' ? 6 : s === 'bald' ? 2 : 3;
+};
+
+/**
+ * Crown locs (Sherman Brandson): a crown of thick locs, 2-px strands in two near-black tones (r, fT) with a twist every
+ * few rows, a glint (R) every 5 rows on each strand's outer column and on the tips of every other strand. 11 strands at
+ * x = hx − 4 … hx + 16 (symmetric about the face's centre line), domed from row −5 at the middle to −2 at the edges
+ * (owner: the detailed version, but not as big on top), the top edge still made of staggered loc tips; the five over
+ * the face end in a fringe on rows 0–2, the three each side fall around the face to the jaw / neck (rows 10–13).
+ * Nothing hangs behind. Cells above the forehead's row 1 are drawn over the face, the side strands below it behind the
+ * face so the face stays whole.
+ */
+const crownLocs = (hx: number, hy: number, front: boolean): Rect[] => {
+  const R: Rect[] = [];
+  for (let k = 0; k < 11; k++) {
+    const x0 = -4 + k * 2;
+    const m = Math.min(k, 10 - k);
+    const top = -5 + Math.round(((5 - m) / 5) ** 2 * 3) + (m % 2);
+    // Side strands end staggered round the jaw and neck (a ragged mane, not a cut line); fringe tips over the brow
+    const bottom = m < 3 ? [10, 13, 12][m] : [2, 0, 1][m - 3];
+    // Mirror-image texture: the strand's outer column and twist rows count from the outside in
+    const out = k < 5 ? 0 : 1;
+    for (let y = top; y <= bottom; y++) {
+      if (front !== (y <= 0 || m >= 3)) continue;
+      for (let c = 0; c < 2; c++) {
+        const twistRow = (y - top + m) % 4 === 0;
+        let key: Key = (c === out) !== twistRow ? 'fT' : 'r';
+        // A twist glint every 5 rows on the outer column, and on the tips of every other strand
+        if (c === out && (y - top + 2 * m) % 5 === 2) key = 'R';
+        if (y === bottom && m % 2 === 0 && c === out) key = 'R';
+        R.push([hx + x0 + c, hy + y, 1, 1, key]);
+      }
+    }
+  }
+  return R;
 };
 
 /** Locs / braids / long hair hanging behind the head (drawn before the face). */
@@ -414,16 +558,17 @@ const hairBehind = (hx: number, hy: number, look: SpriteLook, tall: number, wind
     R.push([hx - 1, hy + 2, 2, 2, 'U'], [hx - 2, hy + 4, 2, 7, 'U'], [hx, hy + 4, 1, 5, 'U'], [hx - 2, hy + 6, 1, 3, 'fU']);
     return R;
   }
-  if (s === 'dreads' || s === 'braids') {
+  if (s === 'crownlocs') return crownLocs(hx, hy, false);
+  if (s === 'dreads' || s === 'longlocs' || s === 'braids') {
     // Separate strands (the outline shows between them) over the shoulders, with a twisted texture
-    const len = (s === 'dreads' ? 16 : 13) + tall;
-    const cols = s === 'dreads' ? [-2, 0, 13, 15] : [-1, 14];
+    const len = (s === 'braids' ? 13 : 16) + tall;
+    const cols = s === 'braids' ? [-1, 14] : [-2, 0, 13, 15];
     cols.forEach((dx, i) => {
       const short = i === 0 || i === cols.length - 1 ? 3 : 0;
       for (let j = 0; j < len - short; j++) {
         const sway = wind ? -Math.floor(j / 4) : 0;
         R.push([hx + dx + sway, hy + 1 + j, 1, 1, (j + i) % 3 === 0 ? 'R' : 'r']);
-        if (s === 'dreads') R.push([hx + dx + sway + (dx < 7 ? 1 : -1), hy + 1 + j, 1, 1, 'r']);
+        if (s !== 'braids') R.push([hx + dx + sway + (dx < 7 ? 1 : -1), hy + 1 + j, 1, 1, 'r']);
       }
       if (s === 'braids') R.push([hx + dx, hy + 1 + len, 1, 1, 'j']);
     });
@@ -470,6 +615,25 @@ export const bareHair = (hx: number, hy: number, look: SpriteLook, tall: number,
     const lean = wind ? -1 : 0;
     top(twist(['...r...r..r.....', '..rr..rr.rr.r...', '.rrr.rrrrrrrr...', '.rrrrrrrrrrrrr..', '..rrrrrrrrrrrrr.']), -7, -2 + lean, FACE_MAP);
     top(twist(['.rrrrrrrrrrrr.', '.rrrrrrrrrrrr.', '.rrrrrrrrrrrr.', '.rr.r.rr.r.rr.', '.r..........r.']), -2, 0, FACE_MAP);
+  } else if (s === 'crownlocs') {
+    R.push(...crownLocs(hx, hy, true));
+  } else if (s === 'longlocs') {
+    // Long locs from the crown, no high-top (Isaiah Karras): a cap of locs with the scalp showing between them on the
+    // crown (H), a short fringe, then strands down both sides over the ears, past the jaw and onto the chest in front
+    top(twist(['...rrrrrrrr...', '..rrrrrrrrrr..', '.rrrHrrrHrrrr.', 'rrrHrrrrrHrrrr', 'rrrrrrrrrrrrrr', 'rrr.r.rr.r.rrr', 'rr..........rr']), -3, 0, FACE_MAP);
+    [
+      [-1, 22],
+      [0, 25],
+      [1, 21],
+      [12, 21],
+      [13, 25],
+      [14, 22],
+    ].forEach(([dx, len], i) => {
+      for (let j = 0; j < len; j++) {
+        const sway = wind ? -Math.floor(j / 5) : 0;
+        R.push([hx + dx + sway, hy + 3 + j, 1, 1, (j + i * 2) % 4 === 0 ? 'fT' : 'r']);
+      }
+    });
   } else if (s === 'shortlocs' || s === 'freeform') {
     // Wild twists sticking out all round, down to the jaw (Macleone); freeform a shorter, messier mop
     top(
@@ -509,18 +673,27 @@ export const bareHair = (hx: number, hy: number, look: SpriteLook, tall: number,
 };
 
 /** Hair out of the back / bottom of a side helmet (short hair stays hidden under the helmet). */
-export const helmetHair = (hx: number, hy: number, look: SpriteLook, tall: number): Rect[] => {
+export const helmetHair = (hx0: number, hy: number, look: SpriteLook, tall: number): Rect[] => {
+  // The side helmet's back edge sits at x 2–4 low down (helmets.ts HEAD_SIDE), so the hair hangs from just under it
+  const hx = hx0 - 1;
   const s = look.hair.style;
   const R: Rect[] = [];
-  if (s === 'dreads' || s === 'braids' || s === 'shortlocs' || s === 'long') {
-    const len = (s === 'dreads' ? 9 : s === 'shortlocs' ? 6 : s === 'long' ? 9 : 8) + tall;
+  if (s === 'crownlocs') {
+    // Loc ends hang from under the back of the helmet onto the shoulders: parallel 2-px strands, dark 1-px gaps
+    [9, 11].forEach((len, i) => {
+      const x = hx + i * 3;
+      R.push([x - 1, hy + 13, 1, len - 1, 'r'], [x, hy + 13, 1, len + tall, 'fm'], [x + 1, hy + 13, 1, len + tall, 'fl']);
+      R.push([x + (i % 2), hy + 12 + len + tall, 1, 1, 'R']);
+    });
+  } else if (s === 'dreads' || s === 'longlocs' || s === 'braids' || s === 'shortlocs' || s === 'long') {
+    const len = (s === 'dreads' || s === 'longlocs' ? 9 : s === 'shortlocs' ? 6 : s === 'long' ? 9 : 8) + tall;
     const xs = s === 'braids' ? [0, 2] : [0, 2, 4];
     xs.forEach((dx, i) => {
-      R.push([hx + 1 + dx, hy + 13, s === 'braids' ? 1 : 2, len - (i % 2) * 2, 'r']);
-      for (let y = hy + 14 + (i % 2); y < hy + 12 + len; y += 3) R.push([hx + 1 + dx, y, 1, 1, 'R']);
+      R.push([hx + 2 + dx, hy + 13, s === 'braids' ? 1 : 2, len - (i % 2) * 2, 'r']);
+      for (let y = hy + 14 + (i % 2); y < hy + 12 + len; y += 3) R.push([hx + 2 + dx, y, 1, 1, 'R']);
     });
   } else if (s === 'afro' || s === 'twists' || s === 'freeform' || s === 'curly') {
-    R.push([hx, hy + 12, 3, 4, 'r'], [hx - 1, hy + 13, 1, 2, 'r']);
+    R.push([hx + 1, hy + 12, 3, 4, 'r'], [hx, hy + 13, 1, 2, 'r']);
   }
   return R;
 };
@@ -646,7 +819,7 @@ export const goldenHourPortrait = (look: SpriteLook, number: number | null | und
       }
     }
   };
-  const isHair = look.hair.style === 'dreads' || look.hair.style === 'shortlocs' || look.hair.style === 'braids' || look.hair.style === 'long';
+  const isHair = look.hair.style === 'dreads' || look.hair.style === 'crownlocs' || look.hair.style === 'longlocs' || look.hair.style === 'shortlocs' || look.hair.style === 'braids' || look.hair.style === 'long';
   if (isHair) {
     [-24, -18, -12, -5].forEach((v, i) => {
       const [sx, sy] = toScreen(-a + 1, v + 14);

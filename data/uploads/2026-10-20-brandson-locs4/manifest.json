@@ -1,0 +1,32 @@
+{
+ "id": "2026-10-20-brandson-locs4",
+ "created": "2026-10-20",
+ "title": "Brandson: back to the detailed crown locs, not as big on top (owner); look notes updated",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Sherman Brandson",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "crownlocs",
+     "color": "black"
+    },
+    "facial": "shortbeard",
+    "accessories": [],
+    "build": "huge",
+    "height": "tall",
+    "pose": "sig-crossed",
+    "signature": true,
+    "notes": "Fred Warner style: a high-top of short twisted locs standing up and back from the crown, falling over the shoulders; short stubble beard on a strong jaw; huge and 6'7\", muscular V-taper (not fat). Signature (owner): arms crossed, menacing, helmet off [IMG_6206 + IMG_6201]. Face (owner): chiseled, triangular: wide cheekbones tapering to a strong, narrower pointed chin and a defined jawline. Locs (owner): the detailed crown of thick two-tone loc strands (twist glints, lighter tips) falling round the face to the jaw and neck, but not as big on top (a lower crown); nothing hangs behind. Jaw (owner): pushed out 1 px each side, ending a row higher in a blunter chin (the point was too sharp); cheekbones, brow and eyes unchanged",
+    "face": "chiseled"
+   },
+   "source": "owner",
+   "reason": "Owner: go back to Sherman's old hair, it was more detailed, just don't make it as big on the top",
+   "trigger": "Owner feedback in chat"
+  }
+ ]
+}

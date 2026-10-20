@@ -194,12 +194,14 @@
    "wristbands"
   ],
   "pose": "sig-praise",
-  "signature": true
+  "signature": true,
+  "face": "defined",
+  "nose": "straight"
  },
  "Sherman Brandson": {
   "skin": "medium",
   "hair": {
-   "style": "dreads",
+   "style": "crownlocs",
    "color": "black"
   },
   "facial": "shortbeard",
@@ -207,7 +209,8 @@
   "build": "huge",
   "height": "tall",
   "pose": "sig-crossed",
-  "signature": true
+  "signature": true,
+  "face": "chiseled"
  },
  "Dedrick Gould": {
   "skin": "brown",
@@ -433,9 +436,10 @@
  "Isaiah Karras": {
   "skin": "brown",
   "hair": {
-   "style": "dreads",
+   "style": "longlocs",
    "color": "black"
   },
+  "beard": "#421f1a",
   "facial": "fullbeard",
   "accessories": [
    "wristbands"

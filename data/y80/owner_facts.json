@@ -46,7 +46,8 @@
    "retired_with": "Commanders"
   },
   "Cairo Asanjh": {
-   "retired_with": "Ravens"
+   "retired_with": "Ravens",
+   "signature_team": "Seahawks"
   },
   "CeeDee Lamb": {
    "retired_with": "Dolphins",
@@ -63,6 +64,9 @@
   "Charlie John": {
    "retired_with": "Bills"
   },
+  "Deante Elder": {
+   "signature_team": "Seahawks"
+  },
   "Dedrick Gould": {
    "retired_with": "Ravens"
   },
@@ -78,6 +82,9 @@
     "rings": 0,
     "club": "Patriots"
    }
+  },
+  "Forrest Everett": {
+   "signature_team": "Broncos"
   },
   "God Johnson": {
    "retired_with": "Vikings"
@@ -108,7 +115,8 @@
    "retired_with": "Buccaneers"
   },
   "Jackson Wardell Kline": {
-   "retired_with": "Dolphins"
+   "retired_with": "Dolphins",
+   "signature_team": "Giants"
   },
   "Jahmyr Gibbs": {
    "retired_with": "Dolphins",
@@ -162,7 +170,11 @@
      ]
     ],
     "says": "Started at QB for the Vikings in their Y78 title; now a Seahawk (played the Y80 Super Bowl for them)."
-   }
+   },
+   "signature_team": "Seahawks"
+  },
+  "Jawill Perkins": {
+   "signature_team": "Seahawks"
   },
   "Jayden Daniels": {
    "retired_with": "Commanders",
@@ -186,7 +198,8 @@
     "games": 111,
     "rings": 0,
     "club": "Ravens"
-   }
+   },
+   "signature_team": "Vikings"
   },
   "Levante Hopkins": {
    "team": "Titans",
@@ -211,10 +224,12 @@
      ]
     ],
     "says": "Played tight end for the Titans during the Y70–72 three-peat; retired a Titan."
-   }
+   },
+   "signature_team": "Titans"
   },
   "Lukas Russell": {
-   "retired_with": "Seahawks"
+   "retired_with": "Seahawks",
+   "signature_team": "Seahawks"
   },
   "Malakai Sawyer": {
    "team": "Jets",
@@ -322,7 +337,8 @@
      "Jets"
     ],
     "says": "A Ravens legend after three titles in Seattle; his final season was with the Jets."
-   }
+   },
+   "signature_team": "Ravens"
   },
   "Sauce Gardner": {
    "real_nfl": {
@@ -338,7 +354,14 @@
    "retired_with": "Vikings",
    "career": {
     "says": "A Giants legend."
-   }
+   },
+   "signature_team": "Giants"
+  },
+  "Tyrion Kline": {
+   "signature_team": "Chargers"
+  },
+  "Tyson Nassib": {
+   "signature_team": "Dolphins"
   },
   "Wayne Wilson": {
    "retired_with": "Bills"

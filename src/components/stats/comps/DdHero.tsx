@@ -5,7 +5,7 @@ import { SIM_MIN_GAMES } from '@/config/advanced';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import { useJerseyNumbers } from '@/utils/jerseys';
-import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
+import { normalizeName, signatureTeamOf, usePlayerExtras } from '@/utils/playerExtras';
 import PlayerSearchSelect from '../../PlayerSearchSelect';
 import ProPlayerBanner from '../../brand/ProPlayerBanner';
 import TeamLogo from '../../brand/TeamLogo';
@@ -31,7 +31,8 @@ interface Props {
 const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, onOpenCard }: Props) => {
   const { numberFor, retiredInfo } = useJerseyNumbers();
   const extras = usePlayerExtras();
-  const team = findNFLTeam(player.team);
+  // The banner wears his signature team (where he was best known); the franchise chips list them all
+  const team = findNFLTeam(signatureTeamOf(extras, player));
   const tier = getLegacyTier(player.careerLegacy);
   const known = extras.franchises[normalizeName(player.name)] ?? [];
   const franchises = known.length ? known : player.team ? [player.team] : [];

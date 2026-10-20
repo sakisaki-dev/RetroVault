@@ -1,0 +1,36 @@
+{
+ "id": "2026-10-20-ikarras-defined",
+ "created": "2026-10-20",
+ "title": "Ikarras: a slightly wider triangle (owner: 'just a little bit wider so he doesn't look like an alien')",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Rondale Ikarras",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "buzz",
+     "color": "black"
+    },
+    "facial": "jawline",
+    "accessories": [
+     "durag",
+     "eyeblack",
+     "earrings",
+     "wristbands"
+    ],
+    "pose": "sig-praise",
+    "notes": "Short black hair, full beard, studs in both ears (IMG_6201). \"The Prodigal Son\". Signature pose (owner): hands up in reverence, helmet off, black durag with tails, eyes up [IMG_6200–6203 (game Hall of Fame)]. Face (owner): the good-looking, proportioned reference face: a triangle (cheekbones tapering to the chin), a little wider at the lower cheeks, jaw and chin so he reads human and handsome; clean defined jawline, straight nose",
+    "signature": true,
+    "face": "defined",
+    "nose": "straight"
+   },
+   "source": "owner",
+   "reason": "Owner: keep the triangle but widen it a little (lower cheeks and jaw +1 px a side, a 6-px chin); eyes, brows, durag and jawline beard unchanged",
+   "trigger": "Owner feedback in chat"
+  }
+ ]
+}

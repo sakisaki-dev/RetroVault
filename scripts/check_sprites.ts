@@ -2,10 +2,10 @@
  * Sprite check (`npm run check:sprites`): renders every pose for a normal-build player and asserts the scale rules in
  * src/components/collection/art/sprite/README.md:
  *   - the head and the torso are the same pixel size in every pose (per head kind: side, three-quarter, front, bare);
- *     rotated poses keep the head exact and the torso within 10 % (pixel rotation)
+ *     rotated or bent-over poses keep the head exact and the torso within 10 % (pixel rotation)
  *   - grounded poses stand on one baseline (the cleats' bottom row is GROUND − 1)
  *   - only build / height change size (huge + tall is the biggest)
- *   - every position has 10–12 named poses, names are unique, old keys resolve, every contact pose has a stand-in,
+ *   - every position has 8–12 named poses, names are unique, old keys resolve, every contact pose has a stand-in,
  *     and turf marks (goal line, sideline) are never knocked off by the frame
  *   - the grey stand-in opponent is drawn on the card players' normal frame: his head and torso match theirs in every
  *     stand-in pose (no oversized helmet, no hulking torso)
@@ -17,7 +17,7 @@ import { helmetFor } from '@/components/collection/art/sprite/helmets';
 import { homeUniform } from '@/components/collection/art/sprite/uniforms';
 import { teamStyleFor } from '@/components/collection/art/teamStyle';
 import { boundsOf, composeSprite, STAND_IN_HELMET, STAND_IN_LOOK, STAND_IN_UNIFORM, type Grid } from '@/components/collection/art/sprite/render';
-import { allPoseKeys, CELEBRATIONS, CONTACT_POSES, isPose, markFor, POSITION_POSES, poseLabel, resolvePose, SIGNATURES, standInsFor } from '@/components/collection/art/sprite/poses';
+import { turfFor, allPoseKeys, CELEBRATIONS, CONTACT_POSES, isPose, markFor, POSITION_POSES, poseLabel, resolvePose, SIGNATURES, standInsFor } from '@/components/collection/art/sprite/poses';
 
 const errors: string[] = [];
 const team = 'Jets';
@@ -35,7 +35,7 @@ const render = (look: SpriteLook, key: string) => composeSprite(look, key, style
 
 // ---------- 1. Catalogue ----------
 Object.entries(POSITION_POSES).forEach(([pos, list]) => {
-  if (list.length < 10 || list.length > 12) errors.push(`${pos}: ${list.length} poses (want 10–12)`);
+  if (list.length < 8 || list.length > 12) errors.push(`${pos}: ${list.length} poses (want 8–12)`);
   const names = new Set<string>();
   list.forEach(({ key, label }) => {
     if (!isPose(key)) errors.push(`${pos}: ${key} is not a pose`);
@@ -50,8 +50,12 @@ Object.entries(POSITION_POSES).forEach(([pos, list]) => {
 allPoseKeys().forEach((k) => {
   if (resolvePose(poseLabel(k)) !== k) errors.push(`${k}: its name "${poseLabel(k)}" does not resolve back to it`);
 });
-['qb-sneak', 'rb-dive', 'rb-juke', 'rb-spin', 'cel-leap', 'lambeau', 'heisman'].forEach((old) => {
+['qb-sneak', 'qb-handoff', 'qb-pump', 'qb-shotgun', 'rb-dive', 'rb-juke', 'rb-spin', 'rb-breakaway', 'wr-stance', 'te-stance', 'ol-stance', 'ol-ready', 'dl-three', 'dl-four', 'cel-leap', 'lambeau', 'heisman'].forEach((old) => {
   if (!isPose(old)) errors.push(`old key ${old} no longer resolves`);
+});
+
+allPoseKeys().forEach((k) => {
+  if (markFor(k) && !turfFor(k)) errors.push(`${k}: has a turf mark but no turf patch`);
 });
 
 // ---------- 2. Stand-ins ----------
@@ -79,7 +83,7 @@ keys.forEach((key) => {
   const r = (ref[kind] ??= head);
   const rot = !!c.pose.rotate && c.pose.headUp === false;
   if (!rot && (head.w !== r.w || head.h !== r.h)) errors.push(`${key}: ${kind} head ${head.w}×${head.h}, expected ${r.w}×${r.h}`);
-  if (!c.pose.rotate) {
+  if (!c.pose.rotate && !c.pose.bend) {
     torsoRef ??= { h: torso.h, n: torso.n };
     if (torso.h !== torsoRef.h || torso.n !== torsoRef.n) errors.push(`${key}: torso ${torso.h} rows / ${torso.n} px, expected ${torsoRef.h} / ${torsoRef.n}`);
   }
@@ -89,10 +93,10 @@ keys.forEach((key) => {
   if (c.clamped && markFor(key)) errors.push(`${key}: the frame shifted the figure, so its turf mark would miss`);
   rows.push(`${key.padEnd(14)} ${kind.padEnd(5)} head ${head.w}×${head.h} (${head.n} px)  torso ${torso.w}×${torso.h} (${torso.n} px)  ${grounded ? `sole row ${sole - 1}` : c.pose.rotate ? `rotated ${c.pose.rotate}°` : `lift ${c.pose.lift}`}${c.clamped ? '  [frame-clamped]' : ''}`);
 });
-// Rotated torsos: pixel rotation keeps the area within 10 %
+// Rotated (or bent-over) torsos: pixel rotation keeps the area within 10 %
 keys.forEach((key) => {
   const c = render(base, key);
-  if (!c.pose.rotate || !torsoRef) return;
+  if ((!c.pose.rotate && !c.pose.bend) || !torsoRef) return;
   const n = size(c.torso).n;
   if (Math.abs(n - torsoRef.n) > torsoRef.n * 0.1) errors.push(`${key}: rotated torso ${n} px vs ${torsoRef.n}`);
 });
@@ -117,7 +121,7 @@ const heights: SpriteLook['height'][] = ['normal', 'tall'];
 const sizes = builds.flatMap((build) =>
   heights.map((height) => {
     const look = { ...base, build, height };
-    const c = render(look, 'wr-stance');
+    const c = render(look, 'cel-ref');
     const fig = size(c.grid);
     return { id: `${build}/${height}`, torso: size(c.torso).n, h: fig.h, n: fig.n };
   }),
@@ -138,7 +142,7 @@ for (const bd of builds) {
 console.log(`Sprite check: ${keys.length} poses (${allPoseKeys().length} rollable + ${standInKeys.size} stand-in), normal build; stand-in opponent checked in ${standInKeys.size} poses`);
 Object.entries(ref).forEach(([k, r]) => console.log(`  ${k.padEnd(5)} head ${r.w}×${r.h}`));
 if (torsoRef) console.log(`  torso ${torsoRef.h} rows, ${torsoRef.n} px in every unrotated pose`);
-console.log(`  builds (wr-stance): ${sizes.map((s) => `${s.id} ${s.h} rows / torso ${s.torso} px`).join(', ')}`);
+console.log(`  builds (cel-ref): ${sizes.map((s) => `${s.id} ${s.h} rows / torso ${s.torso} px`).join(', ')}`);
 if (process.argv.includes('--verbose')) rows.forEach((r) => console.log('  ' + r));
 if (errors.length) {
   console.log(`\n${errors.length} error(s):`);

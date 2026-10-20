@@ -1,0 +1,32 @@
+{
+ "id": "2026-10-20-brandson-locs3",
+ "created": "2026-10-20",
+ "title": "Brandson: locs tight to the head (one strand a side) and a blunter chin (owner feedback); look notes updated",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Sherman Brandson",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "crownlocs",
+     "color": "black"
+    },
+    "facial": "shortbeard",
+    "accessories": [],
+    "build": "huge",
+    "height": "tall",
+    "pose": "sig-crossed",
+    "signature": true,
+    "notes": "Fred Warner style: a high-top of short twisted locs standing up and back from the crown, falling over the shoulders; short stubble beard on a strong jaw; huge and 6'7\", muscular V-taper (not fat). Signature (owner): arms crossed, menacing, helmet off [IMG_6206 + IMG_6201]. Face (owner): chiseled, triangular: wide cheekbones tapering to a strong, narrower pointed chin and a defined jawline. Locs (owner): simply locs that flow down onto his shoulders, tight to the head: they grow from the crown and lie close on top, with one strand each side right against the head falling onto the shoulder (the wider three-strand and crown-mane versions read too wide / like an afro). Jaw (owner): pushed out 1 px each side, ending a row higher in a blunter chin (the point was too sharp); cheekbones, brow and eyes unchanged",
+    "face": "chiseled"
+   },
+   "source": "owner",
+   "reason": "Owner: locs too wide, keep only the strand by his head; chin too sharp, bring it up",
+   "trigger": "Owner feedback in chat"
+  }
+ ]
+}

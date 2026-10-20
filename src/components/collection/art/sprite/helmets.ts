@@ -26,6 +26,13 @@ export interface Helmet {
   fine?: { rows: string[]; colors: string[] };
   /** Shell design instead of a decal (Bengals tiger stripes, Rams horn) */
   pattern?: 'tiger' | 'rams';
+  /** Club id (set by helmetFor), so the club's detailed logo survives a uniform's shell override */
+  team?: string;
+  /**
+   * A uniform's logo choice (its helmet override): a period glyph key from scripts/build_helmet_logos.py VARIANTS
+   * ('broncos-d', 'dolphins-1972', …), or 'none' for a plain helmet. Unset = the club's own logo.
+   */
+  logoVariant?: string;
 }
 
 const W = '#f4f5f7';
@@ -55,7 +62,7 @@ export const HELMETS: Record<string, Helmet> = {
   commanders: { shell: '#5a1414', stripe: 'none', stripes: ['#ffb612', W], mask: K, colors: ['#ffb612'], logo: ['1.....1', '1..1..1', '1..1..1', '.11.11.', '.1...1.'] },
   bears: { shell: '#0b162a', stripe: 'triple', stripes: ['#c83803', W], mask: '#0b162a', colors: ['#c83803', W], logo: ['.1111..', '11.....', '11.....', '11.....', '.1111..'] },
   lions: { shell: '#0076b6', stripe: 'none', stripes: [W, '#b0b7bc'], mask: '#b0b7bc', colors: ['#b0b7bc', W], logo: ['..11...', '.1111..', '11111.1', '.1.111.', '1...1..'] },
-  packers: { shell: '#203731', stripe: 'triple', stripes: [W, '#3f7a5c'], mask: '#ffb612', colors: ['#203731', W], logo: ['.22222.', '2111122', '2122112', '2111112', '.22222.'] },
+  packers: { shell: '#ffb612', stripe: 'triple', stripes: [W, '#203731'], mask: '#203731', colors: ['#203731', W], logo: ['.22222.', '2111122', '2122112', '2111112', '.22222.'] },
   vikings: { shell: '#4f2683', stripe: 'none', stripes: [W, '#ffc62f'], mask: K, colors: [W, '#ffc62f'], logo: ['2......', '12.....', '.112...', '..1112.', '...111.'] },
   falcons: { shell: K, stripe: 'none', stripes: ['#a71930', W], mask: K, colors: ['#a71930', W], logo: ['...11..', '.1111.2', '11111..', '..11...', '.1.....'] },
   panthers: { shell: '#bfc0bf', stripe: 'none', stripes: ['#0085ca', K], mask: K, colors: [K, '#0085ca'], logo: ['.1..1..', '1111111', '1121211', '.11111.', '..111..'] },
@@ -83,7 +90,7 @@ export const helmetFor = (team: string | undefined): Helmet => {
   const h = (t && HELMETS[t.id]) || DEFAULT_HELMET;
   if (!t) return { ...h, pants: WHITE_PANTS };
   const pattern = t.id === 'bengals' ? 'tiger' : t.id === 'rams' ? 'rams' : undefined;
-  return { ...h, pants: PANTS[t.id] ?? WHITE_PANTS, fine: pattern ? undefined : HAND_FINE[t.id], pattern };
+  return { ...h, pants: PANTS[t.id] ?? WHITE_PANTS, fine: pattern ? undefined : HAND_FINE[t.id], pattern, team: t.id };
 };
 
 // ---------- Logos ----------
@@ -92,7 +99,18 @@ export const helmetFor = (team: string | undefined): Helmet => {
  * Hand-drawn fine-grid logos (2 cells per sprite pixel, up to 16 × 14 cells, nominally 14 × 12, facing forward), one
  * per club with a decal. Authored in scripts/build_helmet_logos.py, which writes helmetLogos.ts.
  */
-export const HAND_FINE: Record<string, { rows: string[]; colors: string[] }> = HELMET_LOGOS;
+export const HAND_FINE: Record<string, { rows: string[]; colors: string[]; shell?: string }> = HELMET_LOGOS;
+
+/**
+ * The detailed logo a helmet shows: the uniform's period variant ('none' = plain), else its own fine glyph, else its
+ * club's glyph (a uniform that overrides the shell keeps the club logo; helmetColours recolours it for the shell).
+ */
+export const fineOf = (hel: Helmet): { rows: string[]; colors: string[]; shell?: string } | undefined => {
+  if (hel.logoVariant === 'none') return undefined;
+  if (hel.logoVariant && HAND_FINE[hel.logoVariant]) return HAND_FINE[hel.logoVariant];
+  if (hel.pattern) return undefined;
+  return hel.fine ?? (hel.team ? HAND_FINE[hel.team] : undefined);
+};
 
 // ---------- Shell designs (unit grid, clipped to the view's shell cells): Bengals stripes, Rams horn ----------
 
@@ -188,16 +206,16 @@ export const SHELL_DESIGNS: Record<'tiger' | 'rams', Record<DesignView, string[]
 // ---------- Helmet renderer: on the head (side / three-quarter / front), in hand, on the ground ----------
 
 /**
- * Helmet from the side (18 × 15 inside a 20 × 17 box, so the anchors stay put): a compact round dome, wider than tall,
- * crown higher than the forehead, sitting on the head; every build wears the same one. The face is in profile behind the facemask (brow, one eye, a nose bump, mouth, chin); two thin bars and
+ * Helmet from the side (shell 16 × 16 inside a 20 × 17 box, so the face and chin anchors stay put): a full, ball-like
+ * dome, crown runs 8 → 12 → 14 → 15 → 16, the back curving in toward the neck; every build wears the same one. The face is in profile behind the facemask (brow, one eye, a nose bump, mouth, chin); two thin bars and
  * a vertical connector stick forward from the shell; the chin strap runs under the jaw; an ear hole on the shell.
  */
 export const HEAD_SIDE = [
-  '....................',
-  '....................',
-  '......HHHHHHH.......',
-  '....HHHHHHHHHHH.....',
+  '.......HHHHHH.......',
+  '......HHHHHHHH......',
+  '....HHHHHHHHHHHH....',
   '...HHHHHHHHHHHHHH...',
+  '...HHHHHHHHHHHHHHH..',
   '..HHHHHHHHHHHHHHHH..',
   '..HHHHHHHHHHHHHHHHM.',
   '..HHHHHHHHHHssssssMM',
@@ -207,15 +225,15 @@ export const HEAD_SIDE = [
   '..HHHHHHHHkHdsssMMMM',
   '..HHHHHHHHHHdssmmm.M',
   '...HHHHHHHHHdsssMMMM',
-  '...HHHHHHHH.ddsss..M',
-  '....HHHHHH...CCCC.MM',
-  '.....HHHH...........',
+  '....HHHHHHH.ddsss..M',
+  '.....HHHHH...CCCC.MM',
+  '.......HHH..........',
 ];
 /** Helmet in three-quarter view (18 wide): the face turned toward us, the logo side of the shell still showing. */
 export const HEAD_TQ = [
-  '..................',
   '....HHHHHHHH......',
   '..HHHHHHHHHHHH....',
+  '.HHHHHHHHHHHHHH...',
   '.HHHHHHHHHHHHHHH..',
   'HHHHHHHHHHHHHHHHH.',
   'HHHHHHHsssssssssH.',
@@ -232,32 +250,51 @@ export const HEAD_TQ = [
 ];
 /** Helmet facing out (18 wide), bars across the face. */
 export const HEAD_FRONT = [
-  '......HHHHHH......',
+  '.....HHHHHHHH.....',
   '...HHHHHHHHHHHH...',
   '..HHHHHHHHHHHHHH..',
   '.HHHHHHHHHHHHHHHH.',
-  'HHHHHHHHHHHHHHHHHH',
-  'HHHHssssssssssHHHH',
-  'HHHHsEEssssEEsHHHH',
-  'HHHHswwessewwsHHHH',
-  'HHHHssssssssssHHHH',
-  'HHHMMMMMMMMMMMMHHH',
-  'HHHHssssnnssssHHHH',
-  'HHHHsssmmmmsssHHHH',
-  'HHHMMMMMMMMMMMMHHH',
-  '.HHHdssssssssdHHH.',
-  '..HHHddddddddHHH..',
-  '...HH.CCCCCC.HH...',
+  '.HHHHHHHHHHHHHHHH.',
+  '.HHHssssssssssHHH.',
+  '.HHHsEEssssEEsHHH.',
+  '.HHHswwessewwsHHH.',
+  '.HHHssssssssssHHH.',
+  '.HHMMMMMMMMMMMMHH.',
+  '.HHHssssnnssssHHH.',
+  '.HHHsssmmmmsssHHH.',
+  '.HHMMMMMMMMMMMMHH.',
+  '..HHdssssssssdHH..',
+  '...HHddddddddHH...',
+  '....H.CCCCCC.H....',
 ];
-/** Helmet in hand / on the ground (12 × 9), the team's real helmet: shell, stripe, logo, facemask. */
-export const MINI_HELMET = ['...HHHHH....', '.HHHHHHHHH..', 'HHHHHHHHHHH.', 'HHHHHHHHHHH.', 'HHHHHHHHkk.M', 'HHHHHHHHkMMM', 'HHHHHHHHk..M', '.HHHHHHHkMMM', '..HHHHH.....'];
+/** Helmet in hand / on the ground (12 × 9): a full round 10 × 9 dome (6 → 8 → 10 across the crown) with the face opening and facemask in front. */
+export const MINI_HELMET = [
+  '..HHHHHH....',
+  '.HHHHHHHH...',
+  'HHHHHHHHHH..',
+  'HHHHHHHHHHM.',
+  'HHHHHHHHkkMM',
+  'HHHHHHHHkMMM',
+  'HHHHHHHHk..M',
+  '.HHHHHHHkMMM',
+  '..HHHHH.....',
+];
+/**
+ * Round-out caps: one row above the top of the three-quarter, front and mini templates (drawn at y − 1, so every
+ * anchor inside the templates is unchanged), 2 px narrower than the row under it, so the crown is a soft curve.
+ * The side template carries its cap in its own row 0.
+ */
+export const HEAD_TQ_CAP = '.....HHHHHH.......';
+export const HEAD_FRONT_CAP = '......HHHHHH......';
+export const MINI_CAP = '...HHHH.....';
 export const LOGO_KEYS: Record<string, Key> = { 1: 'L1', 2: 'L2', 3: 'L3', 4: 'L4' };
 
 /** A helmet off the head (side view), at (x, y). */
 export const miniHelmet = (x: number, y: number, hel: Helmet): Rect[] => {
-  const R = stamp(MINI_HELMET, x, y);
-  if (hel.stripe !== 'none') R.push(...stamp(['hhhhh'], x + 3, y));
-  R.push(...stamp(['ll'], x + 2, y + 1));
+  const R = [...stamp([MINI_CAP], x, y - 1), ...stamp(MINI_HELMET, x, y)];
+  R.push(...stamp(['.l', 'l.'], x + 3, y - 1));
+  // The crown stripe runs over the round-out cap and the top row, and down a step at each end
+  if (hel.stripe !== 'none') R.push(...stamp(['hh'], x + 4, y - 1), ...onShell(MINI_HELMET, ['..hhhhhh....', '.h......h...'], 0, 0, x, y));
   if (hel.pattern) tiger(R, MINI_HELMET, x, y, hel, 'mini');
   shellLogo(R, x + 0.5, y + 1.5, hel, [MINI_HELMET, x, y]);
   return R;
@@ -267,16 +304,21 @@ export const miniHelmet = (x: number, y: number, hel: Helmet): Rect[] => {
 export const shellLogo = (R: Rect[], x: number, y: number, hel: Helmet, clip?: [string[], number, number]) => {
   // Optionally clipped to a head template's shell cells (template, its x, its y)
   const onShell = (px: number, py: number) => !clip || clip[0][Math.floor(py - clip[2])]?.[Math.floor(px - clip[1])] === 'H';
-  if (hel.fine) {
+  const fine = fineOf(hel);
+  if (fine) {
     // Glyphs are centred on the nominal 14 × 12 box at (x, y), whatever their own size
-    const { rows } = hel.fine;
+    const { rows } = fine;
     const ox = x + Math.floor((LOGO_BOX[0] - Math.max(...rows.map((r) => r.length))) / 2) / F;
     const oy = y + Math.floor((LOGO_BOX[1] - rows.length) / 2) / F;
     rows.forEach((row, j) => [...row].forEach((ch, i) => ch !== '.' && onShell(ox + i / F, oy + j / F) && R.push([ox + i / F, oy + j / F, 1 / F, 1 / F, `F${ch}`])));
-  } else if (hel.logo.length && !hel.pattern) R.push(...stamp(hel.logo, x, y + 0.5, LOGO_KEYS));
+  } else if (hel.logo.length && !hel.pattern && hel.logoVariant !== 'none') R.push(...stamp(hel.logo, x, y + 0.5, LOGO_KEYS));
 };
 /** Nominal logo box in fine cells (glyphs may be up to 16 × 14 and are centred on it) */
 const LOGO_BOX = [14, 12] as const;
+
+/** A template (rows at (x, y) in a head template's coordinates) kept only on the template's shell cells, placed at (hx, hy). */
+const onShell = (tpl: string[], rows: string[], x: number, y: number, hx: number, hy: number): Rect[] =>
+  stamp(rows, x, y).filter(([px, py]) => tpl[py]?.[px] === 'H').map(([px, py, w, h, k]) => [hx + px, hy + py, w, h, k]);
 
 /** Shell designs (Bengals stripes, Rams horn) for a view, clipped to the template's shell cells. */
 export const tiger = (R: Rect[], tpl: string[], hx: number, hy: number, hel?: Helmet, view: DesignView = 'side') => {
@@ -312,20 +354,23 @@ export const sideHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts):
   // A visor is a tinted strip over the eye line only
   if (acc.includes('visor') || acc.includes('visor-gold')) R.push(...stamp(['VVVv'], hx + 15, hy + (up ? 8 : 9)));
   // Crown stripe along the top of the dome, gloss, ear hole, logo
-  // The stripe runs along the crown one row in from the top edge (so dark stripes don't merge with the outline)
-  if (hel.stripe === 'single' || hel.stripe === 'triple') R.push(...stamp(['hhhhhhhhh'], hx + 5, hy + 3), ...stamp(['hhhhhhhhhhhh'], hx + 4, hy + 4));
-  if (hel.stripe === 'triple') R.push(...stamp(['gggggggggggggg'], hx + 3, hy + 5));
-  if (hel.stripe === 'double') R.push(...stamp(['hhhhhhhhh'], hx + 5, hy + 3), ...stamp(['hhhhhhhhhhhhhh'], hx + 3, hy + 5));
+  // The stripe runs along the crown one row in from the top edge, clipped to the dome
+  const crown = (rows: string[], x: number, y: number) => R.push(...onShell(HEAD_SIDE, rows, x, y, hx, hy));
+  // Gloss in the rounded crown, then the stripes over it: they run over the top rows (the round-out cap and the
+  // row under it) and the triple's edge stripes bend down the front and back of the dome
+  R.push(...stamp(['.l', 'l.'], hx + 6, hy));
+  if (hel.stripe === 'single' || hel.stripe === 'triple') crown(['hhhhhhhh', 'hhhhhhhh'], 6, 0);
+  if (hel.stripe === 'triple') crown(['gg........gg'], 4, 2);
+  if (hel.stripe === 'double') crown(['hhhhhhhh', '........', 'hhhhhhhhhh'], 6, 0);
   if (hel.pattern) tiger(R, HEAD_SIDE, hx, hy, hel, 'side');
-  R.push(...stamp(['ll', '.l'], hx + 4, hy + 4));
-  shellLogo(R, hx + 3, hy + 5, hel, [HEAD_SIDE, hx, hy]);
+  shellLogo(R, hx + 3.5, hy + 5, hel, [HEAD_SIDE, hx, hy]);
   R.push(...stamp(['k', 'k'], hx + 10, hy + 10));
   return R;
 };
 
 /** Three-quarter helmet head at (hx, hy): face x 7–15 behind two bars, the logo side of the shell at the left. */
 export const tqHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts): Rect[] => {
-  const R = stamp(HEAD_TQ, hx, hy);
+  const R = [...stamp([HEAD_TQ_CAP], hx, hy - 1), ...stamp(HEAD_TQ, hx, hy)];
   const ex = pose.expr ?? 'line';
   faceHair(R, hx + 7, 9, { must: null, mouth: hy + 11, jaw: hy + 13, chin: hy + 14, under: hy + 15, cheek: hy + 8 }, look.facial);
   mouth(R, hx + 11, hy + 11, ex === 'exalted' ? undefined : ex);
@@ -333,9 +378,9 @@ export const tqHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts): R
   if (look.accessories.includes('eyeblack')) R.push(...stamp(['kk...kk'], hx + 8, hy + 8));
   if (look.accessories.some((a) => a.startsWith('visor'))) R.push(...stamp(['VVVVVVVV'], hx + 8, hy + 7));
   R.push(...stamp(['MMMMMMMMMMMM'], hx + 6, hy + 9), ...stamp(['MMMMMMMMMMMM'], hx + 6, hy + 12));
-  if (hel.stripe !== 'none') R.push(...stamp(['hh', 'hh', 'hh', 'hh'], hx + 7, hy + 1));
+  R.push(...stamp(['.l', 'l.'], hx + 5, hy - 1));
+  if (hel.stripe !== 'none') R.push(...stamp(['hh', 'hh', 'hh', 'hh', 'hh', 'hh'], hx + 7, hy - 1));
   if (hel.pattern) tiger(R, HEAD_TQ.map((r, j) => (j < 5 ? r : r.slice(0, 7))), hx, hy, hel, 'tq');
-  R.push(...stamp(['ll', 'l.'], hx + 3, hy + 2));
   shellLogo(R, hx, hy + 4, hel, [HEAD_TQ.map((r, j) => (j < 5 ? r : r.slice(0, 7))), hx, hy]);
   // The face stays in front of the logo
   R.push(...stamp(['s', 'd', 'd', 'd'], hx + 7, hy + 5));
@@ -344,7 +389,7 @@ export const tqHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts): R
 
 /** Face-out helmet head at (hx, hy). Face window x 4–13. */
 export const frontHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts): Rect[] => {
-  const R = stamp(HEAD_FRONT, hx, hy);
+  const R = [...stamp([HEAD_FRONT_CAP], hx, hy - 1), ...stamp(HEAD_FRONT, hx, hy)];
   const ex = pose.expr ?? 'line';
   faceHair(R, hx + 4, 10, { must: null, mouth: hy + 11, jaw: hy + 13, chin: hy + 14, under: hy + 15, cheek: hy + 8 }, look.facial);
   mouth(R, hx + 7, hy + 11, ex === 'open' || ex === 'grimace' ? ex : ex === 'smile' ? 'smile' : ex === 'stern' ? 'stern' : undefined);
@@ -353,10 +398,10 @@ export const frontHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts)
   if (look.accessories.some((a) => a.startsWith('visor'))) R.push(...stamp(['VVVVVVVVVV', 'VVVVVVVVvV'], hx + 4, hy + 6));
   // Bars stay in front of the face
   R.push(...stamp(['MMMMMMMMMMMM'], hx + 3, hy + 9), ...stamp(['MMMMMMMMMMMM'], hx + 3, hy + 12));
-  if (hel.stripe !== 'none') R.push(...stamp(hel.stripe === 'double' ? ['h..h', 'h..h', 'h..h', 'h..h'] : ['hh', 'hh', 'hh', 'hh'], hel.stripe === 'double' ? hx + 7 : hx + 8, hy));
-  if (hel.stripe === 'triple') R.push(...stamp(['g..g', 'g..g', 'g..g', 'g..g'], hx + 7, hy));
+  R.push(...stamp(['.l', 'l.'], hx + 6, hy - 1));
+  if (hel.stripe !== 'none') R.push(...stamp(hel.stripe === 'double' ? ['h..h', 'h..h', 'h..h', 'h..h', 'h..h'] : ['hh', 'hh', 'hh', 'hh', 'hh'], hel.stripe === 'double' ? hx + 7 : hx + 8, hy - 1));
+  if (hel.stripe === 'triple') R.push(...stamp(['g..g', 'g..g', 'g..g', 'g..g', 'g..g'], hx + 7, hy - 1));
   if (hel.pattern) tiger(R, HEAD_FRONT.slice(0, 6), hx, hy, hel, 'front');
-  R.push(...stamp(['ll', 'l.'], hx + 4, hy + 2));
   return R;
 };
 
@@ -385,8 +430,43 @@ export const helmetColours = (hel: Helmet): Record<Key, string> => ({
   L2: hel.colors[1] ?? hel.mask,
   L3: hel.colors[2] ?? hel.mask,
   L4: hel.colors[3] ?? hel.mask,
-  F1: hel.fine?.colors[0] ?? hel.mask,
-  F2: hel.fine?.colors[1] ?? hel.mask,
-  F3: hel.fine?.colors[2] ?? hel.mask,
-  F4: hel.fine?.colors[3] ?? hel.mask,
+  ...fineColours(hel),
 });
+
+const rgbOf = (c: string): [number, number, number] | null => {
+  const m = /^#([0-9a-f]{6})$/i.exec(c);
+  if (!m) return null;
+  const n = parseInt(m[1], 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+};
+/** Colour distance, 0 (same) … 1 (black vs white); 1 when either isn't a plain hex colour. */
+const dist = (a: string, b: string) => {
+  const p = rgbOf(a);
+  const q = rgbOf(b);
+  return p && q ? Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]) / 441.7 : 1;
+};
+const lumOf = (c: string) => {
+  const p = rgbOf(c);
+  return p ? (0.2126 * p[0] + 0.7152 * p[1] + 0.0722 * p[2]) / 255 : 0.5;
+};
+
+/**
+ * Logo colours (F1–F4) for the shell the helmet actually has. A glyph is drawn for one shell (its `shell`): a glyph
+ * colour equal to that shell is the shell "showing through" (the Jets' green letters), so it follows the new shell; a
+ * colour that would vanish against the new shell takes the glyph's own shell colour, or white / near-black, instead.
+ */
+const fineColours = (hel: Helmet): Record<Key, string> => {
+  const fine = fineOf(hel);
+  const out: Record<Key, string> = {};
+  [0, 1, 2, 3].forEach((i) => {
+    const c = fine?.colors[i] ?? hel.mask;
+    const own = fine?.shell;
+    let v = c;
+    if (fine && own && own !== hel.shell) {
+      if (dist(c, own) < 0.04) v = hel.shell;
+      else if (dist(c, hel.shell) < 0.2) v = dist(own, hel.shell) >= 0.25 ? own : lumOf(hel.shell) < 0.5 ? W : K;
+    }
+    out[`F${i + 1}`] = v;
+  });
+  return out;
+};

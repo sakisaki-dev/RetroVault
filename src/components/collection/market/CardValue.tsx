@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { FINISHES, VARIANTS, finishLabel, variantLabel, type Finish, type Variant } from '@/utils/collection';
 import { FINISH_MULTIPLIER, VARIANT_MULTIPLIER, cardPrice, fmtCoins, pctChange, priceSeries } from '@/utils/cardMarket';
 import { useMarket } from '@/utils/useMarket';
-import { isAlternate } from '../art/sprite/uniforms';
+import { uniformKind } from '../art/sprite/uniforms';
 import PriceChart from './PriceChart';
 import ChangeBadge from './ChangeBadge';
 import './market.css';
@@ -29,7 +29,7 @@ interface CardValueProps {
  */
 const CardValue = ({ cardKey, name, finish, variant, ownedFinish, player }: CardValueProps) => {
   const history = useMarket();
-  const price = (value: number, f: Finish, v: Variant) => cardPrice(value, f, v, !!player && isAlternate(player, v, f));
+  const price = (value: number, f: Finish, v: Variant) => cardPrice(value, f, v, player ? uniformKind(player, v, f) : false);
   const series = useMemo(() => (history ? priceSeries(history, cardKey) : []), [history, cardKey]);
   if (!history) return <p className="mk-card__loading">Loading market…</p>;
   const last = series[series.length - 1];

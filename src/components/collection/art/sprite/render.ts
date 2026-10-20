@@ -372,12 +372,38 @@ const shearAt = (pose: PoseOut, k: Skel, y: number): number => {
 };
 /** Where a (crouched) pose-space point lands after the lean and the rotation round the hips, before the lift. */
 const bodyPoint = ([x, y]: Pt, pose: PoseOut, k: Skel): Pt => {
-  const p: Pt = [x + shearAt(pose, k, Math.floor(y)), y];
+  let p: Pt = [x + shearAt(pose, k, Math.floor(y)), y];
+  // Bent at the waist: points above the hips turn forward round the hip joint (legs stay put)
+  if (pose.bend && y < k.hy + pose.crouch) p = turn(p, pose.bend, bendPivot(pose, k));
   if (!pose.rotate) return p;
   const r = (pose.rotate * Math.PI) / 180;
   const [px, py] = [k.cx, k.hy + pose.crouch];
   const [dx, dy] = [p[0] - px, p[1] - py];
   return [px + dx * Math.cos(r) - dy * Math.sin(r), py + dx * Math.sin(r) + dy * Math.cos(r)];
+};
+
+/** Rotate a point clockwise round a pivot. */
+const turn = ([x, y]: Pt, deg: number, [px, py]: Pt): Pt => {
+  const r = (deg * Math.PI) / 180;
+  return [px + (x - px) * Math.cos(r) - (y - py) * Math.sin(r), py + (x - px) * Math.sin(r) + (y - py) * Math.cos(r)];
+};
+/** The hip joint the upper body bends round (pose.bend) */
+const bendPivot = (pose: PoseOut, k: Skel): Pt => [k.cx, k.hy + pose.crouch + 1];
+
+/**
+ * The far arm's forearm and hand, drawn again over the torso and the near leg (in the far skin shade) wherever it
+ * crosses in front of them, so a second arm never vanishes behind the body.
+ */
+const farForearm = ([, e, h]: [Pt, Pt, Pt], b: Body, look: SpriteLook, palm: boolean): Rect[] => {
+  const gloved = look.accessories.includes('gloves-white') || look.accessories.includes('gloves-black');
+  const key: Key = gloved ? 'G' : (FAR.s ?? 's');
+  const t = b.armT;
+  const hs = t + 1;
+  const [hx, hy] = h;
+  return [
+    ...line(e, h, t, FAR.s ?? 's', 0.65, 1),
+    palm ? [hx - 1, hy - Math.floor(hs / 2) - 1, 2, hs + 2, key] : [hx - Math.floor(hs / 2), hy - Math.floor(hs / 2), hs, hs, key],
+  ];
 };
 
 const shearGrid = (g: Grid, pose: PoseOut, k: Skel): Grid => {
@@ -497,28 +523,36 @@ export const composeSprite = (look: SpriteLook, poseKey: string, style: TeamStyl
   const arms = [...(pose.armsFront ? backArm : []), ...frontArm];
 
   // Layers: the body ones lean / rotate together; the head ones ride the neck upright (or turn with the body)
-  const bodyT = (rects: Rect[]): Grid => {
-    const g = shearGrid(rasterise(rects), pose, skel);
+  const bodyT = (rects: Rect[], upperBody = false): Grid => {
+    let g = shearGrid(rasterise(rects), pose, skel);
+    if (upperBody && pose.bend) g = rotateGrid(g, pose.bend, bendPivot(pose, skel));
     return pose.rotate ? rotateGrid(g, pose.rotate, [cx, skel.hy + c]) : g;
   };
+  // Upper-body layers bend at the waist with pose.bend; legs and anything on the turf don't
+  const upperT = (rects: Rect[]): Grid => bodyT(rects, true);
   const neck: Pt = [cx, sy + c - 4];
   const [nx, ny] = bodyPoint(neck, pose, skel);
   const headShift: Pt = [Math.round(nx - neck[0]) * F, Math.round(ny - neck[1]) * F];
   const headT = (rects: Rect[]): Grid => (pose.rotate && pose.headUp === false ? bodyT(rects) : moveGrid(rasterise(rects), headShift[0], headShift[1]));
 
-  const torsoG = bodyT(torsoRects);
+  const torsoG = upperT(torsoRects);
   const headG = headT(headFront);
-  const armsG = bodyT(arms);
+  const armsG = upperT(arms);
   const layers: Grid[] = [
-    bodyT([...(pose.ballBack ? ballRects : []), ...(pose.armsFront ? [] : backArm), ...(pose.helmetAt === 'hand' ? helmetRects : []), ...leg(legPts(pose.backLeg), b, false, uni, toe(false))]),
+    upperT([...(pose.ballBack ? ballRects : []), ...(pose.armsFront ? [] : backArm), ...(pose.helmetAt === 'hand' ? helmetRects : [])]),
+    bodyT(leg(legPts(pose.backLeg), b, false, uni, toe(false))),
     headT(headBehind),
     torsoG,
-    bodyT([...(number != null && !pose.armsFront ? numberRects(number, cx, sy + c + 4) : []), ...leg(legPts(pose.frontLeg), b, true, uni, toe(true)), ...(pose.helmetAt === 'feet' ? helmetRects : [])]),
+    // (no number when bent over: the chest faces the turf)
+    upperT(number != null && !pose.armsFront && (pose.bend ?? 0) < 45 ? numberRects(number, cx, sy + c + 4) : []),
+    bodyT([...leg(legPts(pose.frontLeg), b, true, uni, toe(true)), ...(pose.helmetAt === 'feet' ? helmetRects : [])]),
+    // The far forearm and hand over the body, so both arms always read
+    pose.armsFront ? [] : upperT(farForearm(upper(pose.backArm), b, look, !!pose.backPalm)),
     headG,
     armsG,
   ];
-  // A held ball sits over the hands (no outline round it: STYLE_GUIDE.md rule 1)
-  const ballG = pose.ball && !pose.ballBack ? bodyT(ballRects) : null;
+  // A held ball sits over the hands (no outline round it: STYLE_GUIDE.md rule 1); a bent player's ball is on the turf
+  const ballG = pose.ball && !pose.ballBack ? (pose.bend ? bodyT(ballRects) : upperT(ballRects)) : null;
   if (ballG) layers.push(ballG);
   const grid: Grid = new Array(W * H);
   // Which layer each cell came from (for the contact-edge shading)

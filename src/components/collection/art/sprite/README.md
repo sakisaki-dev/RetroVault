@@ -29,7 +29,22 @@ render.ts    compositor: body, layering, raster, colours      → all of the abo
 type SkinTone = 'pale' | 'light' | 'tan' | 'medium' | 'brown' | 'deep';
 interface SpriteLook { skin; hair: { style: HairStyle; color }; facial: Facial; accessories: string[];
   build: 'normal' | 'big' | 'huge'; height: 'normal' | 'tall'; pose?: string; eyes?: 'normal' | 'intense';
-  signature?: boolean; image?: string; locked: boolean }
+  face?: 'oval' | 'defined' | 'chiseled'; nose?: 'straight'; beard?: string; signature?: boolean; image?: string;
+  locked: boolean }
+// face: everyone gets the oval (HEAD_BARE, STRONG_JAW for huge builds / jawline beards). The two "good-looking" faces
+//   are opt-in, set only through sprite.set bundles:
+//   'defined'  Rondale Ikarras: the reference face, the proportioned ideal. Smaller and angular (10 px at the brow,
+//              12 at the high cheekbones with a highlight, a shadow above and a hollow under them), then a gentle
+//              taper to a 6-px chin; eyes and brows 1 px in; a jawline beard follows the jaw edge
+//   'chiseled' Sherman Brandson: the most angular. The same structure tapering straight to the chin; big / huge builds
+//              push the jaw out 1 px a side and end a row higher in a blunt chin (6-px last row, 4-px under-chin)
+//   Beard templates are drawn for the oval; on these faces each half of a row slides in onto the narrower jaw.
+// nose 'straight': a bridge shadow (Ikarras). beard: beard colour (name or #hex) when it differs from the hair's
+//   (Isaiah Karras: dark-brown beard, black locs)
+// hair 'crownlocs' (Brandson): a crown of 11 thick 2-px loc strands (two tones r / fT, twist glints and some tips in
+//   R), domed 5 rows above the forehead with a ragged top edge of loc tips, falling round the face to the jaw / neck,
+//   nothing behind; with a helmet on, two strands hang at the nape. 'longlocs' (Karras): locs from the crown with no
+//   high-top, falling onto the chest
 SKIN_TONES, skinColor(t), hairColor(c), DEFAULT_SKIN
 useSpriteTable(): Record<name, RawLook> | null        // public/data/sprites.json, fetched once
 lookFor(player, table): SpriteLook                    // locked entry, else the standard generic character
@@ -79,6 +94,7 @@ under the helmet, the standard short cut when it's off, no facial hair, normal b
 ```ts
 interface Helmet { shell; stripe: 'none' | 'single' | 'double' | 'triple'; stripes: [centre, edge]; mask;
   logo: string[] /* 7 × 5 unit mark */; colors: string[]; pants?; fine?: { rows; colors } /* 14 × 12 fine cells */;
+  team? /* club id, set by helmetFor */; logoVariant? /* a uniform's period glyph key, or 'none' */;
   pattern?: 'tiger' | 'rams' }
 HELMETS: Record<teamId, Helmet>; helmetFor(team): Helmet     // + pants, fine logo (HAND_FINE = helmetLogos.ts)
 HEAD_SIDE (20 × 17), HEAD_TQ (18 × 16), HEAD_FRONT (18 × 16), MINI_HELMET (12 × 9)
@@ -87,16 +103,29 @@ miniHelmet(x, y, hel): Rect[]                                // in hand / on the
 shellLogo(R, x, y, hel, clip?)                               // decal centred on a 14 × 12 fine box, optionally clipped to a template's shell
 tiger(R, template, hx, hy, hel, view = 'side')               // shell design for a view (SHELL_DESIGNS): Bengals stripes / Rams horn
 helmetColours(hel): Record<Key, string>
+fineOf(hel)                                                  // the logo shown: variant ('none' = plain) › own fine › club glyph
 ```
+
+**Logos on other shells and period logos.** A uniform that changes the shell keeps the club's detailed logo
+(`fineOf` falls back to the club glyph via `hel.team`); `helmetColours` recolours it for the shell: a glyph colour equal
+to the shell it was drawn for (`HELMET_LOGOS[k].shell`) follows the new shell, and a colour that would vanish against
+the new shell takes the glyph's own shell colour (or white / near-black). A uniform picks a period glyph with
+`helmet: { logoVariant: '<key>' }` (`VARIANTS` in `scripts/build_helmet_logos.py`: `broncos-d`, `dolphins-1972`,
+`commanders-r`, `bucs-bruce`, `patriots-pat`, `titans-oilers`, `49ers-80s`, `packers-60s`, `lions-90s`), or `'none'`
+for a plain helmet (NY Titans, Packers Acme, Browns white helmet).
 
 Logos are hand-drawn pixel glyphs, one per club with a decal, authored in `scripts/build_helmet_logos.py` (no
 network; `--preview out.png` renders them all big on their shells) which writes `helmetLogos.ts`. A glyph is up to
 16 × 14 fine cells (nominally 14 × 12, centred), faces forward (+x), uses up to four colours and 2-cell strokes for
 letters. The Bengals stripes and Rams horn are per-view pixel templates (`SHELL_DESIGNS`: side, tq, front, mini)
 clipped to the shell; the Browns have no decal. On the side head the crown stripe runs one row in from the top edge.
-Helmets are one compact size for every build: the side shell is 18 × 15 inside the 20 × 17 box (rows 0–1 and columns
-0–1 empty, so the face and chin anchors are unchanged), the three-quarter shell 17 × 15; the back no longer drops
-below the jaw. `render.ts` lifts helmet-on heads by `armT − 3` rows (big +1, huge +2) so the near sleeve doesn't
+Helmets are one compact size for every build, and every shell is a full round dome (a ball, not an egg: a soft
+stepped crown, about as tall as it is wide): the side shell is 16 × 17 inside the 20 × 17 box (columns 0–1 empty, so
+the face and chin anchors are unchanged; crown 6 → 8 → 12 → 14 → 15 → 16, the back curving in toward the neck), the
+three-quarter shell 17 × 15 and the front 16 × 17 (both with a round-out cap row drawn one row above the template,
+`HEAD_TQ_CAP` / `HEAD_FRONT_CAP`, at `hy − 1`), the mini helmet a 10 × 10 dome (cap `MINI_CAP` at `y − 1`; `PixelHelmet`
+draws it at y = 2 in a 14 × 12 box) plus its facemask. Stripes run over the cap and are clipped to the dome
+(`onShell`); the gloss sits in the crown. `render.ts` lifts helmet-on heads by `armT − 3` rows (big +1, huge +2) so the near sleeve doesn't
 cover the jaw. Near-black facemasks are drawn dark graphite (`#4a4f58`) so the cage stays visible.
 
 Head boxes and anchors (sprite pixels, relative to the head's top-left `(hx, hy)`):
@@ -112,7 +141,13 @@ Head boxes and anchors (sprite pixels, relative to the head's top-left `(hx, hy)
 
 One table drives every art style: the sprite (`render.ts`), and the Jersey, Jersey back, Locker and Topps art
 (`JerseyGarment` / `UniformSleeves`, `JerseyBackArt`, `LockerArt`, `VintageArt`, and `teamStyle.ts`, which is now
-derived from it). Home sets for all 32 clubs; at most two real alternates per club (Color Rush, throwbacks).
+derived from it). Home sets for all 32 clubs; 39 real modern alternates, at most two per club (Color Rush sets,
+throwbacks, alternates such as Indiana Nights, Winter Warrior, H-Town Blue, Orange Crush); and 15 famous **era kits**
+(`ERAS`, at most one per club, `era: true`, labelled by era with no player names: "1985 Bears"). The roll is 8% in
+all: for a club with both kinds, 2% (`ERA_CHANCE`) era kit and 6% alternates (split evenly); a club with only
+alternates keeps the full 8%. An alternate's helmet change goes through `helmet` (shell / stripe / mask only:
+period logos such as the Broncos' old "D" or the Titans of New York shield are not drawn; the current decal is
+dropped when the shell changes).
 
 ```ts
 type Band = [color: string | null /* null = jersey colour */, width?: number /* half sprite pixels, default 1 */]
@@ -125,11 +160,13 @@ interface Uniform { id; label; jersey; trim; sleeve: 'stripes2' | 'stripes3' | '
   sockStripes?: string[] /* half-px rows */ }
 homeUniform(team): Uniform                         // cached; clubs outside the table get team colours
 uniformFor(player, variant?, finish?): Uniform     // ALT_CHANCE (8%) of an alternate, stable per player × variant × finish
-isAlternate(player, variant?, finish?): boolean    // card back "Uniform: <label>" line, market bonus
+uniformKind(player, variant?, finish?): 'home' | 'alt' | 'era'   // market bonus
+isAlternate(player, variant?, finish?): boolean    // any non-home kit
+uniformLabel(u): string                            // card back "Uniform: <label>" ("1985 Bears (era)")
 helmetWith(baseHelmet, uniform): Helmet            // alternates may swap the shell / stripe / mask
 sleeveBands(u) / pantsBands(u) / sockBands(u)      // resolved stripe lists for any uniform (legacy kinds included)
-ALT_VALUE_BONUS (×1.1, defined in src/utils/cardMarket.ts, applied by cardPrice(value, finish, variant, alt))
-allHomes(), allAlternates()                         // Art lab strips
+ALT_VALUE_BONUS ×1.1, ERA_VALUE_BONUS ×1.15 (defined in src/utils/cardMarket.ts; cardPrice(value, finish, variant, kind))
+allHomes(), allAlternates(), allEraKits()           // Art lab Uniforms tab (filters: All 32 / With alternates / Era kits)
 ```
 
 `sleeve` meanings: `stripes2` / `stripes3` sleeve stripes (from `bands` when set), `yoke` shoulder yoke, `bolt`,
@@ -147,18 +184,24 @@ interface Skel { cx; sy /* shoulder line */; hy /* hip line */; fs; bs /* front 
 interface PoseOut { frontArm, backArm, frontLeg, backLeg: [Pt, Pt, Pt]; ball?; ballBack?; palm?; backPalm?; finger?;
   toes?: 'front' | 'back' | 'both'; look: 'side' | 'up' | 'front' | 'tq'; expr?; helmetOff?; helmetAt?: 'hand' | 'feet';
   armsFront?; nod?; halo?; lean; shear? /* lean from the waist */; crouch; lift?; rotate?; headUp?; shiftX? }
-POSITION_POSES (10–12 per position), CELEBRATIONS (8), SIGNATURES        // { key, label } — label = the pose's name
+POSITION_POSES (9–12 per position), CELEBRATIONS (8), SIGNATURES        // { key, label } — label = the pose's name
 poseLabel(key), resolvePose(keyOrNameOrAlias), isPose(x), allPoseKeys()
 poseKeyFor(name, position, locked?)   // locked pose (key or name), else 1 in 5 a celebration, else the position's list
 runPose(key, skel, jitter?) / jitterFor(name)
 standInsFor(key): StandIn[]; CONTACT_POSES // grey opponents for contact poses (STAND_INS)
 markFor(key): 'goal' | 'sideline'     // turf mark the pose needs (pylon + goal line, sideline)
+turfFor(key): [x0, x1] | null         // turf patch (only where something is on the ground); else just the shadow
 ```
 
 - **Names.** Every pose has a human-readable name (the `[key, name]` rows in `POSITION_POSES` / `CELEBRATIONS`). It is
   the card-back note, the Art lab Poses strip label, and a valid `pose` in `sprites.json` ("Heisman pose" or
   `cel-heisman`). Removed keys stay in `ALIASES` (e.g. `rb-dive` → `rb-pylon`, `qb-sneak` → `qb-slide`,
-  `cel-leap` → `cel-heisman`), so an old lock still draws a believable pose.
+  `cel-leap` → `cel-heisman`, and the removed stances `wr-stance`, `te-stance`, `ol-stance`, `ol-ready`, `dl-three`,
+  `dl-four`, `qb-shotgun` → an action pose), so an old lock still draws a believable pose.
+- **Both arms read.** The far arm's forearm and hand are drawn again over the torso and near leg in the far skin
+  shade (`render.ts farForearm`), and two-hand catches put the far hand on the far side of the ball.
+- **Bent at the waist** (`bend`, e.g. the snap): the upper body turns forward round the hips, legs stay put, the
+  head stays upright and a held ball sits on the turf (`unbend` puts a hand exactly on it).
 - **Arms by angle.** `arm(k, front, upper°, fore°)` (0 forward, −90 up, 90 down, 180 back) scales with the build;
   `reach(k, hand)` is the far arm reaching across the body; `at(arm, dx, dy)` places a held ball relative to a hand.
 - **Variation** (`jitterFor(name)`, stable per player): hands ±1, knee ±1, stride ±1, an arm angle (±7°, free arms
@@ -181,8 +224,9 @@ row is `GROUND − 1` (feet on the ankle line `G = GROUND − 2`; a pointed toe 
 
 **Check:** `npm run check:sprites` (`scripts/check_sprites.ts`, add `-- --verbose` for the per-pose table) renders
 every pose and stand-in for a normal-build player and fails unless the head (per head kind) and torso are the same
-size in every pose, grounded poses share the baseline, huge + tall is the biggest frame, every position has 10–12
-uniquely named poses, every contact pose has a stand-in and no turf mark is knocked off by the frame.
+size in every pose, grounded poses share the baseline, huge + tall is the biggest frame, every position has
+uniquely named poses (8–12), every contact pose has a stand-in, every turf mark has a turf patch and no turf mark is
+knocked off by the frame.
 
 ## `render.ts` (compositor)
 

@@ -24,7 +24,7 @@ import { TIERS, tierFor, type Finish, type Tier, type Variant } from '@/config/c
  * Art variant multipliers (VARIANT_MULTIPLIER), on top: Prizm number ×1, Team jersey ×1.2, 70s Topps ×1.8,
  * Locker stall ×2.5, Retro Bowl sprite ×5. A card that rolled an alternate uniform (8% of cards for clubs that have
  * one, see art/sprite/uniforms.ts) is worth ALT_VALUE_BONUS (×1.1) more. A card's price is value × finish × variant
- * (× the alternate bonus) (cardPrice).
+ * (× the alternate bonus; an era kit, 2% of cards, ERA_VALUE_BONUS ×1.15) (cardPrice).
  *
  * HISTORY: data/y80/market_history.json (built into public/data/market.json) is a list of snapshots of every
  * collectible league player's { ovr, skill, legacy, value }. `npm run rebuild` appends one whenever any player's
@@ -39,6 +39,8 @@ export const FINISH_MULTIPLIER: Record<Finish, number> = { base: 1, silver: 1.5,
 export const VARIANT_MULTIPLIER: Record<Variant, number> = { number: 1, jersey: 1.2, topps: 1.8, locker: 2.5, sprite: 5 };
 /** Market bonus for a card wearing an alternate uniform (re-exported by art/sprite/uniforms.ts) */
 export const ALT_VALUE_BONUS = 1.1;
+/** Market bonus for a card wearing a famous era kit (rarer: 2% of cards for clubs that have one) */
+export const ERA_VALUE_BONUS = 1.15;
 const LEGACY_REF = LEGACY_TIERS[0].min; // 10000, the Legendary legacy tier
 const LEGACY_CAP = 1.5 * LEGACY_REF;
 
@@ -67,8 +69,8 @@ export const cardValue = ({ ovr, skill, legacy, tier, tierCount, poolSize }: Val
 
 export const finishValue = (value: number, finish: Finish) => Math.round(value * FINISH_MULTIPLIER[finish]);
 /** Price of one card: base value × finish × art variant (× ALT_VALUE_BONUS when it rolled an alternate uniform). */
-export const cardPrice = (value: number, finish: Finish, variant: Variant, alt = false) =>
-  Math.round(value * FINISH_MULTIPLIER[finish] * VARIANT_MULTIPLIER[variant] * (alt ? ALT_VALUE_BONUS : 1));
+export const cardPrice = (value: number, finish: Finish, variant: Variant, alt: boolean | 'alt' | 'era' | 'home' = false) =>
+  Math.round(value * FINISH_MULTIPLIER[finish] * VARIANT_MULTIPLIER[variant] * (alt === 'era' ? ERA_VALUE_BONUS : alt && alt !== 'home' ? ALT_VALUE_BONUS : 1));
 
 // ---------- Snapshots ----------
 
@@ -165,8 +167,8 @@ export interface Holding {
   key: string;
   finish: Finish;
   variant: Variant;
-  /** Wears an alternate uniform (uniforms.ts isAlternate) */
-  alt?: boolean;
+  /** Wears an alternate uniform (true / 'alt') or a famous era kit ('era'): uniforms.ts uniformKind */
+  alt?: boolean | 'alt' | 'era' | 'home';
 }
 
 /** Portfolio value per snapshot: each owned (player, variant) at its best finish (cards not yet listed count 0). */

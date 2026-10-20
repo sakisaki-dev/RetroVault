@@ -6,7 +6,7 @@ import { F, GROUND, PIX_H, PIX_W, PIX_X, type Key, type Rect } from './sprite/gr
 import { lookFor, useSpriteTable, type HeadOpts, type SpriteLook } from './sprite/faces';
 import { frontHead, helmetColours, helmetFor, miniHelmet, sideHead, tqHead, type Helmet } from './sprite/helmets';
 import { helmetWith, homeUniform, type Uniform } from './sprite/uniforms';
-import { poseKeyFor, standInsFor, type PoseOut, type StandIn } from './sprite/poses';
+import { poseKeyFor, standInsFor, turfFor, type PoseOut, type StandIn } from './sprite/poses';
 import { buildSprite, colours, fieldMarkFor, rasterise, runsOf, STAND_IN_HELMET, STAND_IN_LOOK, STAND_IN_UNIFORM, standInColours } from './sprite/render';
 import { paint, useBitmap } from './bitmap';
 
@@ -84,8 +84,9 @@ const StandInSprite = ({ s, i }: { s: StandIn; i: number }) => {
 export const PixelHelmet = ({ team, className = 'ra-helmet' }: { team: string; className?: string }) => {
   const hel = helmetFor(team);
   const bmp = useBitmap(`mini|${JSON.stringify(hel)}`, () => {
-    const runs = runsOf(rasterise(miniHelmet(PIX_X + 1, 1, hel)), true).filter(([x, y]) => x < 14 * F && y < 11 * F);
-    return paint(runs, { ...helmetColours(hel), o: '#10131a' }, 14 * F, 11 * F);
+    // The mini helmet's round-out cap sits one row above its template (y − 1), so it starts at y = 2 in a 12-row box
+    const runs = runsOf(rasterise(miniHelmet(PIX_X + 1, 2, hel)), true).filter(([x, y]) => x < 14 * F && y < 12 * F);
+    return paint(runs, { ...helmetColours(hel), o: '#10131a' }, 14 * F, 12 * F);
   });
   return bmp ? <img className={className} src={bmp.url} alt="" draggable={false} /> : <span className={className} aria-hidden="true" />;
 };
@@ -150,26 +151,28 @@ const PixelSpriteArt = ({ player, number, pal, pose, uniform }: SpriteArtProps) 
   const table = useSpriteTable();
   const look = lookFor(player, table);
   const key = pose ?? poseKeyFor(player.name, player.position, look.pose);
-  // Turf mark the pose needs (goal line under a dive's ball, sideline under a toe-tap's toes); else the yard line
+  // Turf mark the pose needs (goal line under a reaching ball, sideline under a toe-tap's toes)
   const mark = look.image && !pose ? null : fieldMarkFor(look, key, player.name);
+  const turf = look.image && !pose ? null : turfFor(key);
   return (
     <svg className="ra ra--pixel" viewBox={`${PIX_X} 0 ${PIX_W} ${PIX_H}`} preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
-      {/* Stand-in opponents first, so the turf hides anyone sunk into a pile */}
+      {/* Stand-in opponents first, behind everything */}
       {standInsFor(key).map((st, i) => (
         <StandInSprite key={i} s={st} i={i} />
       ))}
       <g shapeRendering="crispEdges">
         {key === 'sig-praise' &&
           HALO.map(([x, w, o]) => [0, 12, 24, 36].map((y, i) => <rect key={`${x}-${y}`} x={x - i % 2} y={y} width={w} height={12} fill="#fff3c4" opacity={o * (1 - i * 0.2)} />))}
-        {/* Turf with a yard line and hash marks */}
-        <rect x={PIX_X} y={GROUND} width={PIX_W} height={PIX_H - GROUND} fill="#2f8f3a" />
-        <rect x={PIX_X} y={GROUND} width={PIX_W} height="1" fill="#48b552" />
-        <rect x={PIX_X} y={GROUND + 3} width={PIX_W} height="1" fill="#287d32" />
-        {mark?.kind === 'sideline' && <rect x={PIX_X} y={GROUND} width={mark.x - PIX_X} height={PIX_H - GROUND} fill="#5d7a55" />}
-        {mark ? (
-          <rect x={mark.x} y={GROUND} width="2" height={PIX_H - GROUND} fill="#f4f5f7" />
-        ) : (
-          <rect x="44" y={GROUND} width="2" height={PIX_H - GROUND} fill="#e9f3e6" opacity="0.9" />
+        {/* Turf only where the pose needs it (something on the ground, a sideline or goal line): a patch as wide as
+            needed, with the mark in it. Everyone else stands on the flat shadow alone. */}
+        {turf && (
+          <>
+            <rect x={turf[0] + 1} y={GROUND} width={turf[1] - turf[0] - 2} height="1" fill="#48b552" />
+            <rect x={turf[0]} y={GROUND + 1} width={turf[1] - turf[0]} height={PIX_H - GROUND - 1} fill="#2f8f3a" />
+            <rect x={turf[0]} y={GROUND + 3} width={turf[1] - turf[0]} height="1" fill="#287d32" />
+            {mark?.kind === 'sideline' && <rect x={turf[0]} y={GROUND} width={mark.x - turf[0]} height={PIX_H - GROUND} fill="#5d7a55" />}
+            {mark && <rect x={mark.x} y={GROUND} width="2" height={PIX_H - GROUND} fill="#f4f5f7" />}
+          </>
         )}
         {/* Flat shadow under the feet: three stacked rows, a pixel ellipse (STYLE_GUIDE.md §9) */}
         <rect x="9" y={GROUND} width="26" height="1" fill="#000" opacity="0.28" />
