@@ -1,0 +1,62 @@
+/* Quick player search ("scouting desk"). Rows use --qs-1 / --qs-2: the player's team colours. */
+
+.qs-root {
+  border: 1px solid hsl(var(--gold) / 0.45);
+  background:
+    radial-gradient(900px 260px at 20% -120px, hsl(var(--gold) / 0.12), transparent 70%),
+    hsl(var(--popover));
+  box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.75), 0 0 0 1px rgb(0 0 0 / 0.4);
+}
+
+.qs-head {
+  background: linear-gradient(100deg, hsl(var(--gold) / 0.14), transparent 55%);
+}
+
+/* Resting row: dark card with a team-colour edge and a soft team tint */
+.qs-item {
+  background: linear-gradient(100deg, color-mix(in srgb, var(--qs-1) 26%, transparent), color-mix(in srgb, var(--qs-1) 6%, transparent) 60%, transparent);
+  box-shadow: inset 4px 0 0 var(--qs-1), inset 0 0 0 1px hsl(var(--line) / 0.7);
+  color: hsl(var(--foreground));
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+.qs-item .qs-plate {
+  background: linear-gradient(135deg, var(--qs-1), color-mix(in srgb, var(--qs-1) 65%, black));
+  color: #fff;
+  text-shadow: 0 1px 0 rgb(0 0 0 / 0.5);
+}
+.qs-item .qs-pos {
+  background: hsl(var(--panel-2));
+  color: hsl(var(--muted-foreground));
+}
+.qs-item .qs-sub { color: hsl(var(--muted-foreground)); }
+.qs-item .qs-name { color: hsl(var(--chalk)); }
+.qs-item .qs-star { color: hsl(var(--gold)); }
+.qs-item .qs-nfl { background: rgb(239 68 68 / 0.18); color: rgb(252 165 165); }
+.qs-item .qs-ovr {
+  background: rgb(0 0 0 / 0.45);
+  box-shadow: inset 0 0 0 1px var(--qs-1);
+  color: hsl(var(--chalk));
+}
+.qs-item .qs-watermark { opacity: 0.1; transition: opacity 0.12s ease; }
+
+/* Highlighted row: solid team colour, white text, gold outline. Every label stays high-contrast. */
+.qs-item[data-selected='true'] {
+  background: linear-gradient(100deg, var(--qs-1), color-mix(in srgb, var(--qs-1) 70%, black));
+  box-shadow: inset 0 0 0 2px hsl(var(--gold)), 0 6px 18px -6px color-mix(in srgb, var(--qs-1) 70%, black);
+  color: #fff;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .qs-item[data-selected='true'] { transform: translateX(3px); }
+}
+.qs-item[data-selected='true'] .qs-plate {
+  background: #fff;
+  color: var(--qs-1);
+  text-shadow: none;
+}
+.qs-item[data-selected='true'] .qs-name { color: #fff; text-shadow: 0 1px 2px rgb(0 0 0 / 0.55); }
+.qs-item[data-selected='true'] .qs-sub { color: rgb(255 255 255 / 0.85); }
+.qs-item[data-selected='true'] .qs-pos { background: rgb(0 0 0 / 0.35); color: #fff; }
+.qs-item[data-selected='true'] .qs-star { color: #ffd84a; }
+.qs-item[data-selected='true'] .qs-nfl { background: rgb(0 0 0 / 0.35); color: #fff; }
+.qs-item[data-selected='true'] .qs-ovr { background: rgb(0 0 0 / 0.4); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6); color: #fff; }
+.qs-item[data-selected='true'] .qs-watermark { opacity: 0.22; }
