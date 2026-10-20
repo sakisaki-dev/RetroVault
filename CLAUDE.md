@@ -52,9 +52,8 @@ DPOY, ROTY, SBMVP).
      `hof_ingame` / `retired_team` on cards) must not add or remove anyone. The owner wants the two to stay different.
 6. **Rebuild and verify:**
    ```bash
-   python3 scripts/build_league_data.py    # prints "no team: …" for anyone still UNK
-   python3 scripts/build_league_content.py
-   npm run audit                           # stale/contradictory facts: fix every ERROR, read the warnings
+   npm run rebuild    # career stints → league data → content → audit (prints "no team: …" for anyone still UNK)
+                      # fix every audit ERROR; read the warnings (stale numbers in speeches, team contradictions)
    npx tsc --noEmit -p tsconfig.app.json
    npm run build
    ```

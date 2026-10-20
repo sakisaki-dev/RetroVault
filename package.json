@@ -9,6 +9,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
+    "rebuild": "python3 scripts/infer_stints.py && python3 scripts/build_league_data.py && python3 scripts/build_league_content.py && npm run -s audit",
     "audit": "esbuild scripts/audit.ts --bundle --platform=node --alias:@=./src --outfile=node_modules/.tmp/audit.cjs --log-level=error && node node_modules/.tmp/audit.cjs"
   },
   "dependencies": {

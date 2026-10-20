@@ -44,6 +44,30 @@ league
   .filter((p) => !speeches[p.name])
   .forEach((p) => errors.push(`Hall of Famer without a custom speech: ${p.name} (Career Legacy ${Math.round(p.careerLegacy)})`));
 
+// 2b. Numbers written into speeches must still match the data (catches stale text after a stats update)
+const WORDS: Record<string, number> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12 };
+const num = (t: string) => WORDS[t.toLowerCase()] ?? Number(t.replace(/,/g, ''));
+const statChecks: { re: RegExp; get: (p: Player) => number; label: string }[] = [
+  { re: /\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) rings?\b/gi, get: (p) => p.rings, label: 'rings' },
+  { re: /\b([\d,]{2,}) games\b/gi, get: (p) => p.games, label: 'games' },
+  { re: /\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten) (?:league |regular-season )?MVPs?\b/gi, get: (p) => p.mvp, label: 'MVPs' },
+  { re: /\b(\d+|one|two|three|four|five|six) Super Bowl MVPs?\b/gi, get: (p) => p.sbmvp, label: 'SB MVPs' },
+];
+for (const [who, text] of Object.entries(speeches)) {
+  const p = byName.get(who);
+  if (!p) continue;
+  for (const c of statChecks) {
+    for (const m of text.matchAll(c.re)) {
+      const said = num(m[1]);
+      // Only flag claims about him: skip sentences naming another player right before the number
+      const before = text.slice(Math.max(0, m.index! - 60), m.index);
+      if (/[A-Z][a-z]+ [A-Z][a-z]+(?:'s)?[^.]*$/.test(before) && !before.includes(who.split(' ').pop()!)) continue;
+      if (Number.isFinite(said) && said !== c.get(p) && said < 10000)
+        warnings.push(`Speech for ${who} says "${m[0]}", data has ${c.get(p)} ${c.label}`);
+    }
+  }
+}
+
 // 3. Speeches / notes that name a team the player never played for
 const NICKS = new Map<string, string>();
 ['Bills', 'Dolphins', 'Jets', 'Patriots', 'Bengals', 'Browns', 'Ravens', 'Steelers', 'Colts', 'Jaguars', 'Texans', 'Titans', 'Broncos', 'Chargers', 'Chiefs', 'Raiders', 'Commanders', 'Cowboys', 'Giants', 'Eagles', 'Lions', 'Packers', 'Vikings', 'Bears', 'Buccaneers', 'Falcons', 'Saints', 'Panthers', '49ers', 'Cardinals', 'Rams', 'Seahawks'].forEach((n) => {
