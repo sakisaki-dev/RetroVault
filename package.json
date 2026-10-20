@@ -8,7 +8,8 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "audit": "esbuild scripts/audit.ts --bundle --platform=node --alias:@=./src --outfile=node_modules/.tmp/audit.cjs --log-level=error && node node_modules/.tmp/audit.cjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

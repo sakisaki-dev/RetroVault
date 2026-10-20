@@ -54,6 +54,7 @@ DPOY, ROTY, SBMVP).
    ```bash
    python3 scripts/build_league_data.py    # prints "no team: …" for anyone still UNK
    python3 scripts/build_league_content.py
+   npm run audit                           # stale/contradictory facts: fix every ERROR, read the warnings
    npx tsc --noEmit -p tsconfig.app.json
    npm run build
    ```
@@ -75,6 +76,12 @@ DPOY, ROTY, SBMVP).
 - Real NFL legends appear only in the games, never in league stats.
 - Active/Retired status is internal only; never show it in the UI.
 - Single-season stats are intentionally not tracked.
+
+## Keeping everything in sync
+
+Pages compute from the data files on every load, so a data change updates every page by itself. Only hand-written
+facts can go stale: speeches, `CARD_NOTES`, era key players and stints. After any data change, run `npm run audit`
+and fix what it reports. Prefer deriving a fact from data over writing it down.
 
 ## Code notes
 

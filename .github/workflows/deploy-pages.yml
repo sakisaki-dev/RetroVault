@@ -26,6 +26,8 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      # Stale or contradictory hand-written facts fail the deploy (warnings are only printed)
+      - run: npm run audit
       - run: npm run build
         env:
           BASE_PATH: /RetroVault/
