@@ -11,11 +11,8 @@ import { useJerseyNumbers } from '@/utils/jerseys';
 import { useSkillRatings } from '@/utils/useSkillRatings';
 import { getTeamColors } from '@/utils/teamColors';
 import { findNFLTeam } from '@/utils/nflTeams';
-import { POSITION_NAMES } from '@/utils/playerMeta';
 import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
-import { getStatLine } from './games/gameUtils';
 import PlayerDetailCard from './PlayerDetailCard';
-import ProPlayerBanner from './brand/ProPlayerBanner';
 import TeamLogo from './brand/TeamLogo';
 import { matchPlayer } from './PlayerSearchSelect';
 import { openInCompFinder } from './stats/comps/compFinderLink';
@@ -111,73 +108,6 @@ const ResultRow = ({ player, number, ovr, grade }: { player: Player; number: num
   );
 };
 
-/** Live preview of the highlighted player (desktop): his banner and career line. */
-const Preview = ({ player, number, ovr, skill }: { player: Player | null; number: number; ovr?: number; skill?: { rating: number; grade: GradeLike } }) => {
-  if (!player) {
-    return (
-      <div className="flex h-full flex-col items-center justify-center gap-2 p-6 text-center text-muted-foreground">
-        <Search className="h-8 w-8 opacity-50" aria-hidden="true" />
-        <p className="text-sm">Start typing, or arrow through the list to scout a player.</p>
-      </div>
-    );
-  }
-  const team = findNFLTeam(player.team);
-  const line = getStatLine(player).slice(0, 3);
-  return (
-    <div className="flex h-full flex-col gap-3 p-4">
-      <ProPlayerBanner
-        size="card"
-        name={player.name}
-        position={player.position}
-        team={player.team}
-        number={number}
-        ovr={ovr ?? null}
-        hallOfFamer={!player.isRealLegend && isHallOfFamer(player)}
-        photoUrl={(player as Player & { photo?: { url?: string } }).photo?.url ?? null}
-      />
-      <p className="font-pixel text-[9px] uppercase text-muted-foreground">
-        {POSITION_NAMES[player.position]}
-        {team ? ` · ${team.fullName}` : ''}
-        {player.isRealLegend ? ' · real NFL' : ''}
-      </p>
-      <dl className="grid grid-cols-2 gap-1.5">
-        {[{ label: 'Games', value: player.games.toLocaleString() }, ...line].map((s) => (
-          <div key={s.label} className="rounded-md border border-line bg-night/50 px-2 py-1.5">
-            <dt className="font-pixel text-[8px] uppercase text-muted-foreground">{s.label}</dt>
-            <dd className="font-display text-lg font-bold tabular-nums">{s.value}</dd>
-          </div>
-        ))}
-      </dl>
-      <div className="flex flex-wrap gap-1.5 text-xs">
-        {player.rings > 0 && (
-          <span className="lamp">
-            Rings <b>{player.rings}</b>
-          </span>
-        )}
-        {player.mvp > 0 && (
-          <span className="lamp">
-            MVP <b>{player.mvp}</b>
-          </span>
-        )}
-        {skill && (
-          <span className="lamp">
-            Skill <b style={{ color: skill.grade.color }}>{skill.grade.grade}</b> {skill.rating}
-          </span>
-        )}
-      </div>
-      <p className="mt-auto text-[11px] text-muted-foreground">
-        <kbd className="rounded border border-line px-1">↵</kbd> open card
-        {!player.isRealLegend && (
-          <>
-            {' '}
-            · <kbd className="rounded border border-line px-1">⇧↵</kbd> Deep Dive
-          </>
-        )}
-      </p>
-    </div>
-  );
-};
-
 /**
  * Site-wide player lookup ("scouting terminal"): ⌘K / Ctrl+K or "/" from any page (⌘T belongs to the browser),
  * or the header's search button. Enter opens his card (league cards link to the Deep Dive); Shift+Enter goes
@@ -270,7 +200,7 @@ const QuickPlayerSearch = () => {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="qs-root top-[4%] max-h-[92vh] w-[calc(100vw-1rem)] max-w-4xl translate-y-0 gap-0 overflow-hidden p-0 sm:top-[8%]">
+        <DialogContent className="qs-root top-[6%] max-h-[85vh] w-[calc(100vw-1rem)] max-w-xl translate-y-0 gap-0 overflow-hidden p-0 sm:top-[8%]">
           <DialogTitle className="sr-only">Look up a player</DialogTitle>
           <Command
             filter={matchPlayer}
@@ -295,8 +225,8 @@ const QuickPlayerSearch = () => {
               <CommandInput
                 value={query}
                 onValueChange={setQuery}
-                placeholder="Who are we scouting? Name, nickname, team or position…"
-                className="h-14 font-display text-xl tracking-wide placeholder:font-sans placeholder:text-base"
+                placeholder="Who are we scouting?"
+                className="h-12 font-display text-lg tracking-wide placeholder:font-sans placeholder:text-sm"
               />
               <div role="group" aria-label="Filter by position" className="flex gap-1 overflow-x-auto px-3 pb-2.5 [scrollbar-width:none]">
                 {(['ALL', ...POSITIONS] as const).map((k) => (
@@ -316,8 +246,8 @@ const QuickPlayerSearch = () => {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-[minmax(0,1fr)_300px]">
-              <CommandList className="max-h-[56vh] overscroll-contain p-1.5 md:h-[58vh] md:max-h-[58vh]">
+            <div>
+              <CommandList className="max-h-[min(26rem,55vh)] overscroll-contain p-1.5">
                 <CommandEmpty className="py-10 text-center text-sm text-muted-foreground">No player by that name in the vault.</CommandEmpty>
                 {groups.map((g) => (
                   <CommandGroup
@@ -348,14 +278,6 @@ const QuickPlayerSearch = () => {
                   </CommandGroup>
                 ))}
               </CommandList>
-              <aside className="hidden border-l border-line bg-night/40 md:block" aria-label="Preview">
-                <Preview
-                  player={activePlayer}
-                  number={activePlayer ? numberFor(activePlayer) : 0}
-                  ovr={activePlayer ? ovrMap.get(playerKey(activePlayer)) : undefined}
-                  skill={activePlayer ? skills.get(playerKey(activePlayer)) : undefined}
-                />
-              </aside>
             </div>
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-line bg-night/60 px-3 py-2 text-[11px] text-muted-foreground">
