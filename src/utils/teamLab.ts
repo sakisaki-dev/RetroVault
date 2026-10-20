@@ -272,7 +272,11 @@ export const OFFENSE_TERMS: Record<string, Term[]> = {
   security: [T('qb', 'intPct', 0.45), T('rb', 'fumRate', 0.25), T('rec', 'fumRate', 0.3)],
 };
 
-/** Defensive units: sums of the four defenders' shrunk per-game rates. */
+/**
+ * Defensive units: sums of the four defenders' shrunk per-game rates. Retro Bowl simulates the defense from the
+ * defenders' ratings (Tackling is the key one at every position) and the coordinator; the box stats are the only
+ * trace of those ratings in the data, so they are a proxy, not the mechanism. See docs/RETRO_BOWL_MECHANICS.md.
+ */
 export const DEFENSE_TERMS: Record<string, { rate: string; w: number }[]> = {
   passRush: [
     { rate: 'sackG', w: 1 },
@@ -288,7 +292,8 @@ export const DEFENSE_TERMS: Record<string, { rate: string; w: number }[]> = {
 
 export const UNIT_WEIGHTS = {
   offense: { passing: 0.28, run: 0.14, protection: 0.14, explosive: 0.14, redzone: 0.15, security: 0.15 } as Record<string, number>,
-  defense: { passRush: 0.3, coverage: 0.25, runDef: 0.2, playmaking: 0.25 } as Record<string, number>,
+  // Tackles carry the most weight: Tackling is the key rating for every defender in the sim (see the mechanics doc).
+  defense: { passRush: 0.25, coverage: 0.25, runDef: 0.3, playmaking: 0.2 } as Record<string, number>,
   team: { offense: 0.55, defense: 0.35, star: 0.1 },
 };
 
@@ -874,6 +879,7 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
   const sacks = defTotal(sp, 'sackG');
   const ints = defTotal(sp, 'intG');
   const ffs = defTotal(sp, 'ffG');
+  const tkls = defTotal(sp, 'tklG');
   const policy = fourthPolicy(def);
 
   // Deep shots vs protection
@@ -899,14 +905,14 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
         'deep',
         'med',
         sPct(deep, 'ypr') - 50,
-        `Let deep routes develop for ${deep.name}`,
-        `${deep.name} averages ${statOf(deep, 'ypr').display} yards a catch (${pctTxt(sPct(deep, 'ypr'))}), ${qb.name} throws for ${statOf(qb, 'ya').display} Y/A, and protection holds (${pctTxt(protection.score)}).`,
-        `Hold the ball a beat longer and lead ${deep.name} into open space downfield; you have time in the pocket.`,
-        `${last(deep)} deep: the line holds`,
+        `Take deep shots to ${deep.name} early in the game`,
+        `${deep.name} averages ${statOf(deep, 'ypr').display} yards a catch (${pctTxt(sPct(deep, 'ypr'))}) and ${qb.name} throws for ${statOf(qb, 'ya').display} Y/A. A QB's throwing range shrinks during a game according to his Stamina, so the deep ball is strongest early.`,
+        `Lead ${deep.name} into open space downfield in the first half; late in the game, and on 3rd and long, prefer timing throws to the sticks. Even with protection at the ${pctTxt(protection.score)}, rushers get through often: don't hold the ball hoping for a deep route.`,
+        `${last(deep)} deep, early`,
         `${statOf(deep, 'ypr').display} Y/R`,
         [
-          ['early', `Let ${last(deep)} run deep; you have time`, deep],
-          ['third-long', `Lead ${last(deep)} past the sticks`, deep],
+          ['early', `Deep to ${last(deep)} in the 1st half`, deep],
+          ['third-long', `Timing throw to ${last(deep)} at the sticks`, deep],
         ],
       );
   }
@@ -933,7 +939,7 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       50 - intP,
       'Only throw to clearly open receivers',
       `${qb.name} throws an INT on ${statOf(qb, 'intPct').display} of attempts (${pctTxt(intP)} in decision making).`,
-      'Avoid floating passes over the middle and throws into tight windows; a punt beats a pick, especially in your own half.',
+      'Avoid short throws with a linebacker in the lane and over-powered throws near a defender; throw it away instead (there are no penalties for it). A punt beats a pick, especially in your own half.',
       `${last(qb)}: open receivers only`,
       `${statOf(qb, 'intPct').display} INT`,
       [['every', 'Open receivers only; a punt beats a pick']],
@@ -957,15 +963,12 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'fourth-aggressive',
       'high',
       40 - def + 30,
-      'Play four-down football, go for 2 and onside late',
-      `The defense beats only ${r0(def)}% of possible teams: the 4 defenders combine for ${fx(sacks)} sacks/G and ${fx(ints)} INT/G, so stops are rare.`,
-      'Go for it on 4th and 3 or less past midfield, go for 2 more often, and try an onside kick when trailing in the last 3 minutes: you may not get the ball back otherwise.',
+      'Play four-down football past midfield',
+      `The defense beats only ${r0(def)}% of possible teams (${fx(tkls, 1)} tackles/G, ${fx(sacks)} sacks/G, ${fx(ints)} INT/G combined). The defense is simulated and only downgrades drives (a TD becomes a FG, a FG a punt), so a weak one rarely gets the ball back.`,
+      'Go for it on 4th and 5 or less past midfield and treat a turnover on downs like a punt: the opponent was likely to score either way.',
       'Four-down football past midfield',
       `D ${ordinal(def)} pct`,
-      [
-        ['fourth', 'Go on 4th & ≤5 past midfield'],
-        ['trailing', 'Onside kick in the last 3 minutes'],
-      ],
+      [['fourth', 'Go on 4th & ≤5 past midfield']],
     );
   else if (policy === 'conservative')
     add(
@@ -974,12 +977,12 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       def - 70 + 30,
       'Punt and win the field-position game',
       `The defense beats ${r0(def)}% of possible teams (${fx(sacks)} sacks/G, ${fx(ints)} INT/G, ${fx(ffs)} FF/G combined).`,
-      'Punt on 4th down in your own half, take the field goal over 4th-and-long, and kick off deep: your defense will get the ball back.',
+      'Punt on 4th down in your own half and take the field goal over 4th-and-long: a strong simulated defense turns opponent TDs into field goals and punts, so you will usually get the ball back. Still go on 4th and 1–2 past midfield.',
       'Punt and trust the defense',
       `D ${ordinal(def)} pct`,
       [
         ['fourth', 'Punt in your half; FG over gambles'],
-        ['trailing', 'Kick deep; your D gets it back'],
+        ['trailing', 'Kick off normally; your D gets it back'],
       ],
     );
   else
@@ -989,10 +992,10 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       20,
       'Standard 4th-down rules',
       `The defense is middle of the pack (${pctTxt(def)}), so neither extreme pays.`,
-      'Go for it on 4th and 1–2 past midfield; punt from your own half; kick field goals inside the 25 on longer 4th downs.',
-      'Go on 4th & 1–2 past midfield',
+      'Go for it on 4th and 1–2 past midfield and on 4th and 3–5 at their 40–25; punt from your own half; kick field goals inside the 25 on longer 4th downs.',
+      'Go on 4th & short past midfield',
       `D ${ordinal(def)} pct`,
-      [['fourth', 'Go on 4th & 1–2 past midfield']],
+      [['fourth', 'Go on 4th & 1–2 past midfield; 3–5 at their 40–25']],
     );
 
   // Red zone and 2-point conversions
@@ -1028,12 +1031,12 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'two-point',
       'med',
       redzone.score - 50,
-      'Go for 2 more often',
-      `Red zone grades ${redzone.grade.grade} (${pctTxt(redzone.score)}): ${qb.name} throws a TD on ${statOf(qb, 'tdPct').display} of attempts.`,
-      'After a touchdown late, go for 2 when down 9, 5, 2 or 1, or up 1 or 5. Your short-yardage offense converts more often than average.',
-      'Go for 2 more often',
+      'Go for 2 by default',
+      `Red zone grades ${redzone.grade.grade} (${pctTxt(redzone.score)}): ${qb.name} throws a TD on ${statOf(qb, 'tdPct').display} of attempts. The 2-point try is one snap from the 2, and experienced players report converting most of them.`,
+      'Go for 2 after every touchdown unless the score says otherwise. Lined up for the wrong try? A timeout lets you switch between the kick and the 2-point play.',
+      'Go for 2 by default',
       `RZ ${ordinal(redzone.score)} pct`,
-      [['two-point', 'Go for 2 more often: see chart']],
+      [['two-point', 'Go for 2 by default: see chart']],
     );
   else if (redzone.score < 35)
     add(
@@ -1042,12 +1045,12 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       35 - redzone.score,
       'Take the points in the red zone',
       `Red zone grades ${redzone.grade.grade} (${pctTxt(redzone.score)}): TDs are hard to come by inside the 20.`,
-      'On 4th down inside the 20, kick the field goal, and kick the extra point unless the score demands 2.',
+      'On 4th down inside the 20, kick the field goal, and kick the extra point unless the score demands 2 (down 5 or 2, up 1 or 5).',
       'Take the points in the red zone',
       `RZ ${ordinal(redzone.score)} pct`,
       [
         ['redzone', '4th down inside the 20 → kick'],
-        ['two-point', 'Kick the PAT unless down 2'],
+        ['two-point', 'Kick the PAT except the chart spots'],
       ],
     );
   else
@@ -1057,7 +1060,7 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       10,
       'Standard 2-point chart',
       `Red zone grades ${redzone.grade.grade} (${pctTxt(redzone.score)}): average short-yardage conversion.`,
-      'Late in the game, go for 2 when down 5 or 2, or up 1 or 5; otherwise kick.',
+      'Late in the game, go for 2 when down 9, 5, 2 or 1, or up 1 or 5; otherwise kick. The try is one snap from the 2, and a timeout lets you switch between the kick and the 2-point play.',
       'Standard 2-point chart',
       `RZ ${ordinal(redzone.score)} pct`,
       [['two-point', 'Kick, except the chart spots']],
@@ -1072,7 +1075,7 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       40 - sPct(fumbler, 'fumRate'),
       `Keep the ball away from ${fumbler.name} when protecting a lead`,
       `${fumbler.name} fumbles ${statOf(fumbler, 'fumRate').display} times per 100 ${fumbler.position === 'RB' ? 'touches' : 'catches'} (${pctTxt(sPct(fumbler, 'fumRate'))} in ball security).`,
-      `Use him early when you need yards; with a lead in the 4th, ${fumbler.position === 'RB' ? 'throw short to safer hands or run the QB' : 'target your other receivers'}.`,
+      `Use him early when you need yards; with a lead in the 4th, ${fumbler.position === 'RB' ? 'throw short to safer hands or run the QB' : 'target your other receivers'}. Diving or stepping out of bounds before contact can't fumble, and tired or low-morale carriers fumble more.`,
       `${last(fumbler)}: not with a late lead`,
       `${statOf(fumbler, 'fumRate').display} fum/100`,
       [['lead', `Keep the ball away from ${last(fumbler)}`, fumbler]],
@@ -1196,10 +1199,10 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       'pin-deep',
       'low',
       passRush.score - 50,
-      'Pin them deep: your pass rush feasts on long fields',
+      'Tip: pin them deep and let the pass rush work',
       `The defense combines for ${fx(sacks)} sacks/G (${pctTxt(passRush.score)}), led by ${lead.name} at ${fx(lead.rates.sackG)}.`,
-      'Punting from midfield beats a 4th-and-5 gamble: backed-up offenses have to throw into your rush.',
-      'Pin them deep for the pass rush',
+      'On 4th and 5+ near midfield, a punt that pins them deep gives this defense a long field to get its stops on. Community advice, not a confirmed mechanic.',
+      'Tip: pin them deep',
       `${fx(sacks)} sacks/G`,
       [['fourth', 'Midfield 4th & 5+ → pin them deep']],
     );
@@ -1245,6 +1248,33 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       [['trailing', 'Down 7–10: stay in your offense']],
     );
 
+  // Onside kicks (always applies): a 5–15% play whose odds rise with the kicker, not with the defense
+  add(
+    'onside',
+    policy === 'aggressive' ? 'med' : 'low',
+    policy === 'aggressive' ? 30 : 15,
+    'Onside kicks are a last resort',
+    `Onside kicks are only offered late in the 4th quarter when trailing and recover roughly 10–20% of the time, more with an accurate kicker${policy === 'aggressive' ? `; a defense at the ${pctTxt(def)} will not get the ball back often either` : ''}.`,
+    'When the onside option appears, take it only if the clock will not allow a stop and another drive (about a minute or less); otherwise kick off.',
+    'Onside: last minute only',
+    '~10–20%',
+    [['trailing', 'Onside only in the last minute (~10–20%)']],
+  );
+
+  // Fatigue (always applies): trucking costs energy, and each truck in a game charges slower
+  const rbLoad = sPct(rb, 'rushYdsG');
+  add(
+    'fatigue',
+    'low',
+    Number.isFinite(rbLoad) ? rbLoad / 4 : 5,
+    `Tip: ration trucking with ${rb.name}`,
+    `Each truck uses more of a player's energy and the meter charges slower every time it is used in a game (it resets each down); ${rb.name} carries ${stat(rb, 'rushYdsG')} (${pctTxt(rbLoad)}). Stamina decides how long a player keeps top speed and how much condition he gets back after the game.`,
+    'Save trucking for short yardage and the goal line and spread touches across the receivers: tired players fumble more, and heavy use drains condition. Rest Tired stars between games; injuries are likelier for heavily used, low-condition and older players.',
+    'Tip: truck only when it counts',
+    stat(rb, 'rushYdsG'),
+    [['every', 'Tip: truck only on short yardage', rb]],
+  );
+
   // Clock policy (always applies)
   if (off - def >= 15)
     add(
@@ -1253,12 +1283,12 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       off - def,
       'Play fast: more possessions favour you',
       `The offense (${pctTxt(off)}) is much better than the defense (${pctTxt(def)}).`,
-      'Hurry when tied or trailing, but at the end of each half drain the clock so you score with under 30 seconds left and the opponent gets no answer.',
+      'Hurry when tied or trailing, but at the end of each half drain the clock so you score with under 20 seconds left: simulated CPU drives usually score when given time, whatever your defense.',
       'Play fast; score last each half',
       `O ${ordinal(off)} / D ${ordinal(def)}`,
       [
         ['trailing', 'Hurry: more possessions favour you'],
-        ['half', 'Score with under 30 s left'],
+        ['half', 'Score with under 20 s left'],
       ],
     );
   else if (def - off >= 15)
@@ -1283,10 +1313,10 @@ const gamePlanFor = (s: LineupScore, sp: SlotProfiles): Recommendation[] => {
       10,
       'Win the end of each half',
       `Offense (${pctTxt(off)}) and defense (${pctTxt(def)}) are close, so possessions at the end of halves swing games.`,
-      'With the ball and under 2 minutes left, manage the clock to score last; avoid leaving the opponent more than 30 seconds.',
+      'With the ball and under 2 minutes left, manage the clock to score last and leave the opponent under 20 seconds: simulated CPU drives usually score when given time. Save your timeouts for the last 30 seconds and step out of bounds to stop the clock when you can.',
       'Score last each half',
       `O ${ordinal(off)} / D ${ordinal(def)}`,
-      [['half', 'Score last; leave them ≤ 30 s']],
+      [['half', 'Score last; leave them < 20 s']],
     );
 
   return out.sort((a, b) => b.priority - a.priority);
@@ -1387,7 +1417,8 @@ export const FOURTH_DISTANCES = ['1–2', '3–5', '6+'] as const;
 /**
  * 4th-down chart: field zone × distance → GO / FG / PUNT. Same policy as the text rule (defense score), nudged by
  * offense (≥ 70 goes for 4th & 1–2 in your own half when aggressive) and red zone (≥ 65 goes on 3–5 inside the 25,
- * < 35 kicks even on 1–2).
+ * < 35 kicks even on 1–2). Every policy goes on 4th & 1–2 past midfield: the simulated defense downgrades drives
+ * rather than stopping them (docs/RETRO_BOWL_MECHANICS.md).
  */
 const fourthDownChart = (s: LineupScore): FourthDownChart => {
   const policy = fourthPolicy(s.defense.score);
@@ -1403,24 +1434,23 @@ const fourthDownChart = (s: LineupScore): FourthDownChart => {
     standard: [
       ['PUNT', 'PUNT', 'PUNT'],
       ['GO', 'PUNT', 'PUNT'],
-      ['GO', 'FG', 'FG'],
+      ['GO', 'GO', 'FG'],
       ['GO', 'FG', 'FG'],
     ],
     conservative: [
       ['PUNT', 'PUNT', 'PUNT'],
-      ['PUNT', 'PUNT', 'PUNT'],
+      ['GO', 'PUNT', 'PUNT'],
       ['GO', 'FG', 'FG'],
       ['GO', 'FG', 'FG'],
     ],
   };
   const rows = table[policy].map((r) => [...r]);
-  if (policy === 'conservative' && off >= 70) rows[1][0] = 'GO';
   if (rz >= 65) rows[3][1] = 'GO';
   if (rz < 35) rows[3][0] = 'FG';
   const note = {
-    aggressive: `Defense ${pctTxt(s.defense.score)}: stops are rare, so keep the ball.`,
-    standard: `Defense ${pctTxt(s.defense.score)}: standard risk.`,
-    conservative: `Defense ${pctTxt(s.defense.score)}: give the ball to your defense.`,
+    aggressive: `Defense ${pctTxt(s.defense.score)} (estimated from box stats): it rarely gets the ball back, so keep it.`,
+    standard: `Defense ${pctTxt(s.defense.score)}: standard risk; inside their 40 a short 4th down is worth going for.`,
+    conservative: `Defense ${pctTxt(s.defense.score)} (estimated from box stats): give it the ball, except on 4th & 1–2.`,
   }[policy];
   return { policy, zones: [...FIELD_ZONES], distances: [...FOURTH_DISTANCES], cells: rows, note };
 };
@@ -1429,17 +1459,18 @@ const fourthDownChart = (s: LineupScore): FourthDownChart => {
 const twoPointChart = (s: LineupScore): TwoPointChart => {
   const rz = s.units.redzone.score;
   const tier: TwoPointChart['tier'] = rz >= 65 ? 'strong' : rz < 35 ? 'weak' : 'standard';
-  const go: Record<TwoPointChart['tier'], number[]> = { strong: [-9, -5, -2, -1, 1, 5], standard: [-5, -2, 1, 5], weak: [-2] };
+  // One snap from the 2 converts often for skilled players (community consensus), so strong goes everywhere
+  const go: Record<TwoPointChart['tier'], number[]> = { strong: [-9, -5, -2, -1, 1, 5], standard: [-9, -5, -2, -1, 1, 5], weak: [-5, -2, 1, 5] };
   const margins = [-9, -5, -2, -1, 1, 5];
   return {
     tier,
     cells: margins.map((m) => ({ margin: m, label: m < 0 ? `Down ${-m}` : `Up ${m}`, go: go[tier].includes(m) })),
     note:
       tier === 'strong'
-        ? `Red zone ${pctTxt(rz)}: your short-yardage offense converts, so go more often.`
+        ? `Red zone ${pctTxt(rz)}: go for 2 after every TD; one snap from the 2 converts most of the time.`
         : tier === 'weak'
-          ? `Red zone ${pctTxt(rz)}: kick unless you need the tie.`
-          : `Red zone ${pctTxt(rz)}: the standard chart.`,
+          ? `Red zone ${pctTxt(rz)}: go only where the score demands it.`
+          : `Red zone ${pctTxt(rz)}: go whenever 2 changes the math.`,
   };
 };
 
