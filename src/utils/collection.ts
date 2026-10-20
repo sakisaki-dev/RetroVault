@@ -75,7 +75,7 @@ export const finishRank = (f: Finish) => FINISHES.findIndex((x) => x.key === f);
 
 // ---------- Packs and odds ----------
 
-export type PackType = 'standard' | 'premium' | 'elite' | 'perfect';
+export type PackType = 'standard' | 'premium' | 'elite' | 'perfect' | 'holo';
 /** Packs stored as a plain count (the Perfect Season pack is stored one by one, with provenance). */
 export type CountedPack = Exclude<PackType, 'perfect'>;
 
@@ -147,9 +147,27 @@ export const PACKS: Record<PackType, PackSpec> = {
     },
     guarantee: '5 cards: 2 at Elite odds, then 3 chase cards, each a Legendary Holo or else an Epic-or-better Gold.',
   },
+  holo: {
+    label: 'Holo Showcase Pack',
+    size: 5,
+    // Every card is Holo: HOLO_PACK_LEGENDARY Legendary slots, the rest rolled from these tier odds
+    tiers: { common: 0, rare: 0, epic: 70, legendary: 30 },
+    finishes: {
+      common: { base: 0, silver: 0, gold: 0, holo: 1 },
+      rare: { base: 0, silver: 0, gold: 0, holo: 1 },
+      epic: { base: 0, silver: 0, gold: 0, holo: 1 },
+      legendary: { base: 0, silver: 0, gold: 0, holo: 1 },
+    },
+    guarantee: '5 Holo cards: at least 2 Legendary, the rest Epic or better.',
+  },
 };
 
-export const PACK_ORDER: PackType[] = ['standard', 'premium', 'elite', 'perfect'];
+export const PACK_ORDER: PackType[] = ['standard', 'premium', 'elite', 'perfect', 'holo'];
+/** Packs stored as plain counts. */
+export const COUNTED_PACKS: CountedPack[] = ['standard', 'premium', 'elite', 'holo'];
+
+/** Holo Showcase pack: guaranteed Legendary Holo slots (the rest roll PACKS.holo.tiers, all Holo). */
+export const HOLO_PACK_LEGENDARY = 2;
 
 /** Premium: finish odds for the last card when the first three had no Gold or Holo. */
 export const PREMIUM_GUARANTEE_FINISH: FinishTable = {
@@ -211,6 +229,8 @@ export interface PerfectPack {
   /** Provenance label stamped on the pack and every card pulled from it */
   label: string;
   at: number;
+  /** From a gift link: opens like any Perfect Season pack but stamps no 18–0 mark on its cards */
+  gift?: boolean;
 }
 
 export interface EarnedPack {
@@ -234,6 +254,8 @@ export interface CollectionState {
   migrated?: boolean;
   /** The one-time "new system" notice was dismissed */
   noticeSeen?: boolean;
+  /** Gift links already redeemed on this browser (GIFTS ids) */
+  gifts?: string[];
 }
 
 export type CollectionChange =
@@ -246,10 +268,10 @@ const EARNED_CAP = 30;
 const fresh = (): CollectionState => ({
   v: 2,
   cards: {},
-  packs: { standard: 0, premium: 0, elite: 0 },
+  packs: { standard: 0, premium: 0, elite: 0, holo: 0 },
   perfect: [],
   shards: 0,
-  opened: { standard: 0, premium: 0, elite: 0, perfect: 0 },
+  opened: { standard: 0, premium: 0, elite: 0, perfect: 0, holo: 0 },
   earned: [],
 });
 const EMPTY: CollectionState = fresh();
@@ -279,7 +301,7 @@ const parse = (raw: string | null): CollectionState | null => {
       const marks = Array.isArray(e.marks) ? e.marks.filter((m): m is string => typeof m === 'string') : [];
       s.cards[k] = { best: e.best, counts, first: num(e.first), last: num(e.last), ...(marks.length ? { marks } : {}) };
     });
-    (['standard', 'premium', 'elite'] as const).forEach((t) => (s.packs[t] = num(d.packs?.[t])));
+    COUNTED_PACKS.forEach((t) => (s.packs[t] = num(d.packs?.[t])));
     PACK_ORDER.forEach((t) => (s.opened[t] = num(d.opened?.[t])));
     s.perfect = (Array.isArray(d.perfect) ? d.perfect : []).filter(
       (p): p is PerfectPack => !!p && typeof p.id === 'string' && typeof p.label === 'string',
@@ -288,6 +310,8 @@ const parse = (raw: string | null): CollectionState | null => {
     s.earned = (Array.isArray(d.earned) ? d.earned : []).filter((e): e is EarnedPack => !!e && isPack(e.type) && typeof e.reason === 'string').slice(0, EARNED_CAP);
     s.migrated = !!d.migrated;
     s.noticeSeen = !!d.noticeSeen;
+    const gifts = Array.isArray(d.gifts) ? d.gifts.filter((g): g is string => typeof g === 'string') : [];
+    if (gifts.length) s.gifts = gifts;
     return s;
   } catch {
     return null;
@@ -354,7 +378,7 @@ export const registerToastListener = () => {
 };
 export const hasToastListener = () => toastListeners > 0;
 
-export const packTotal = (s: CollectionState) => s.packs.standard + s.packs.premium + s.packs.elite + s.perfect.length;
+export const packTotal = (s: CollectionState) => COUNTED_PACKS.reduce((n, t) => n + s.packs[t], 0) + s.perfect.length;
 export const packCount = (s: CollectionState, t: PackType) => (t === 'perfect' ? s.perfect.length : s.packs[t]);
 
 /** Objects that already paid out (a game round, a season), so a re-run handler can't pay twice. */
@@ -394,6 +418,46 @@ export const awardPack = (type: PackType, reason: string, opts: AwardOptions = {
     toast.success(`Pack earned: ${PACKS[type].label} (${reason})`, { description: 'Open it on the Collection tab.' });
   }
   return true;
+};
+
+// ---------- Gift links ----------
+
+/** One-time gift links (#collection?gift=<id>): real packs added once per browser. */
+export const GIFTS: Record<string, { label: string; packs: [PackType, number][] }> = {
+  sampler: {
+    label: 'Sampler packs',
+    packs: [
+      ['standard', 1],
+      ['premium', 1],
+      ['elite', 1],
+      ['perfect', 1],
+      ['holo', 2],
+    ],
+  },
+};
+
+/**
+ * Redeems a gift link once per browser: adds its packs and records the id so a reload never grants again.
+ * Returns 'granted', 'already' (redeemed before) or 'unknown'.
+ */
+export const redeemGift = (id: string): 'granted' | 'already' | 'unknown' => {
+  const gift = GIFTS[id];
+  if (!gift) return 'unknown';
+  const s = readCollection();
+  if (s.gifts?.includes(id)) return 'already';
+  const at = Date.now();
+  const packs = { ...s.packs };
+  const perfect = [...s.perfect];
+  const earned: EarnedPack[] = [];
+  gift.packs.forEach(([type, count]) => {
+    for (let i = 0; i < count; i++) {
+      if (type === 'perfect') perfect.push({ id: `gift-${id}-${at}-${i}`, label: gift.label, at, gift: true });
+      else packs[type] += 1;
+      earned.push({ type, reason: gift.label, at });
+    }
+  });
+  write({ ...s, packs, perfect, earned: [...earned, ...s.earned].slice(0, EARNED_CAP), gifts: [...(s.gifts ?? []), id] }, { kind: 'other' });
+  return 'granted';
 };
 
 // ---------- Rolling ----------
@@ -457,6 +521,21 @@ export const rollPack = (type: PackType, pool: TierPool, rng: Rng = Math.random)
 
   if (!TIERS.some((t) => has(t.key))) return out;
 
+  if (type === 'holo') {
+    const slots: Tier[] = [];
+    for (let i = 0; i < spec.size; i++) {
+      const tier = i < HOLO_PACK_LEGENDARY && has('legendary') ? 'legendary' : (pick(spec.tiers, rng, has) ?? pick(PACKS.standard.tiers, rng, has));
+      if (tier) slots.push(tier);
+    }
+    // Shuffle so the Legendaries can turn up anywhere in the reveal
+    for (let i = slots.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [slots[i], slots[j]] = [slots[j], slots[i]];
+    }
+    slots.forEach((tier, i) => push(tier, 'holo', i < HOLO_PACK_LEGENDARY && tier === 'legendary' ? 'chase' : 'regular'));
+    return out;
+  }
+
   if (type === 'perfect') {
     for (let i = 0; i < spec.size - PERFECT_CHASE_SLOTS; i++) regular();
     for (let i = 0; i < PERFECT_CHASE_SLOTS; i++) {
@@ -504,7 +583,7 @@ export const openPack = (type: PackType, pool: TierPool): PackCard[] | null => {
   if (packCount(s, type) <= 0) return null;
   const rolled = rollPack(type, pool);
   if (!rolled.length) return null;
-  const perfect = type === 'perfect' ? s.perfect[0] : undefined;
+  const perfect = type === 'perfect' && !s.perfect[0]?.gift ? s.perfect[0] : undefined;
   const cards = { ...s.cards };
   const now = Date.now();
   let shards = s.shards;
@@ -592,6 +671,14 @@ export const expectedJoint = (type: PackType): Joint => {
   const regular = jointOf(spec.tiers, (t) => spec.finishes[t]);
   const n = spec.size;
   if (type === 'standard') return regular;
+  if (type === 'holo') {
+    const legHolo = zero();
+    legHolo.legendary.holo = 1;
+    return mix([
+      [HOLO_PACK_LEGENDARY / n, legHolo],
+      [(n - HOLO_PACK_LEGENDARY) / n, regular],
+    ]);
+  }
   if (type === 'premium') {
     const miss = (1 - sum(regular, (_, f) => finishRank(f) >= 2)) ** (n - 1);
     const last = mix([

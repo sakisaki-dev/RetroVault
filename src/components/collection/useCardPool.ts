@@ -4,6 +4,7 @@ import { findNFLTeam } from '@/utils/nflTeams';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { useGamePool } from '@/utils/useOfficialOvr';
 import { playerKey, type GamePlayer } from '@/config/ovr';
+import { faceStatsFor, type FaceStat } from './cardStats';
 import { groupByTier, packOdds, tierFor, tierLabel, tierRank, type Tier, type TierPool } from '@/utils/collection';
 
 export interface CardInfo {
@@ -17,6 +18,8 @@ export interface CardInfo {
   franchise: string;
   setNo: number;
   hint: string;
+  /** Six 0–99 face stats (FUT layout) */
+  stats: FaceStat[];
 }
 
 const franchiseOf = (p: Player) => findNFLTeam(p.team)?.name ?? (p.team?.trim() || 'Free agents');
@@ -34,6 +37,7 @@ export const useCardPool = () => {
   const { league, legends, ovrMap, loaded } = useGamePool();
   const { numberFor, retiredInfo } = useJerseyNumbers();
 
+  const faceStats = useMemo(() => faceStatsFor(league), [league]);
   const describe = useCallback(
     (p: Player, setNo = 0): CardInfo => {
       const ovr = ovrMap.get(playerKey(p)) ?? null;
@@ -48,9 +52,10 @@ export const useCardPool = () => {
         franchise: (p as GamePlayer).isRealLegend ? 'NFL Legends' : franchiseOf(p),
         setNo,
         hint: hintFor(tier),
+        stats: faceStats(p),
       };
     },
-    [ovrMap, numberFor, retiredInfo],
+    [ovrMap, numberFor, retiredInfo, faceStats],
   );
 
   const cards = useMemo<CardInfo[]>(() => {
