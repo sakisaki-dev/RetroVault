@@ -10,7 +10,7 @@ import { findNFLTeam } from '@/utils/nflTeams';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import { getMetricTier, getTierColor, getTierLabel } from '@/utils/metricColors';
 import { useJerseyNumbers } from '@/utils/jerseys';
-import { useOfficialOvr } from '@/utils/useOfficialOvr';
+import { useGamePool, useOfficialOvr } from '@/utils/useOfficialOvr';
 import PlayerSearchSelect from '../PlayerSearchSelect';
 import ProPlayerBanner from '../brand/ProPlayerBanner';
 import CountUp from '../brand/CountUp';
@@ -295,8 +295,26 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
   const ctx = useMemo(() => buildContext(players), [players]);
   const ovrMap = useOfficialOvr();
   const wide = useWide();
-  const sorted = useMemo(() => [...players].sort((a, b) => b.careerLegacy - a.careerLegacy), [players]);
-  const byKey = useMemo(() => new Map(players.map((p) => [keyOf(p), p])), [players]);
+  const { legends } = useGamePool();
+  // Real NFL players can be picked too (games-only pool); every number stays on the league's scale
+  const [withLegends, setWithLegends] = useState(() => {
+    try {
+      return localStorage.getItem('retroVault:h2h:legends') === '1';
+    } catch {
+      return false;
+    }
+  });
+  const toggleLegends = (on: boolean) => {
+    setWithLegends(on);
+    try {
+      localStorage.setItem('retroVault:h2h:legends', on ? '1' : '0');
+    } catch {
+      /* storage unavailable */
+    }
+  };
+  const choosable = useMemo(() => (withLegends ? [...players, ...legends] : players), [withLegends, players, legends]);
+  const sorted = useMemo(() => [...choosable].sort((a, b) => b.careerLegacy - a.careerLegacy || a.name.localeCompare(b.name)), [choosable]);
+  const byKey = useMemo(() => new Map(choosable.map((p) => [keyOf(p), p])), [choosable]);
 
   // Starts empty: the user picks both players.
   const [k1, setK1] = useState('');
@@ -340,6 +358,16 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
           Any two league players, every stat that applies to both. Advanced metrics show the + index (100 = position average) and the percentile within
           the position; hover or focus an underlined metric for its definition.
         </p>
+        <label className="mt-2 inline-flex cursor-pointer items-center gap-2 rounded-full border border-line bg-night/60 px-3 py-1.5 text-xs font-semibold">
+          <input
+            type="checkbox"
+            checked={withLegends}
+            onChange={(e) => toggleLegends(e.target.checked)}
+            className="h-4 w-4 accent-[hsl(var(--gold))]"
+          />
+          Include real NFL players
+          <span className="font-normal text-muted-foreground">(scored on the league&rsquo;s scale)</span>
+        </label>
       </div>
 
       <div className="glass-card relative overflow-hidden p-3 sm:p-5" style={{ boxShadow: 'inset 0 4px 0 hsl(var(--gold)), var(--shadow-card)' }}>

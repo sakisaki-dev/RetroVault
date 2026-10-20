@@ -444,6 +444,38 @@ export const evaluateMetric = (players: Player[], metric: AdvMetric, position: P
   return { metric, position, rows, mean, belowMin: atPos.length - scored.length };
 };
 
+/** A player scored against a league board without joining it (no rank; the board is unchanged). */
+export interface PlacedRow {
+  player: Player;
+  value: number;
+  plus: number | null;
+  /** Share of the league qualifiers he beats, direction-aware (0–100, ties count half). */
+  pct: number;
+}
+
+/**
+ * Places an outside player (a real NFL legend) on a league board: same value formula, + index against the
+ * league mean, percentile against the league qualifiers. League means, ranks and percentiles never move.
+ * Null when he plays another position, misses the minimum sample or the value is not finite.
+ */
+export const placeOnBoard = (board: MetricBoard, player: Player, ctx: AdvContext): PlacedRow | null => {
+  const { metric } = board;
+  if (player.position !== board.position || !metric.qualifies(player)) return null;
+  const value = metric.value(player, ctx);
+  if (!Number.isFinite(value)) return null;
+  let beaten = 0;
+  board.rows.forEach((r) => {
+    if (metric.lowerIsBetter ? r.value > value : r.value < value) beaten += 1;
+    else if (r.value === value) beaten += 0.5;
+  });
+  return {
+    player,
+    value,
+    plus: metric.plus ? plusIndex(value, board.mean, metric.lowerIsBetter) : null,
+    pct: board.rows.length ? (100 * beaten) / board.rows.length : 100,
+  };
+};
+
 /** Every metric for one position, keyed by metric id. */
 export const evaluatePosition = (players: Player[], position: Position, ctx: AdvContext) =>
   new Map(metricsFor(position).map((m) => [m.id, evaluateMetric(players, m, position, ctx)]));
@@ -707,6 +739,17 @@ export const similarPlayers = (players: Player[], target: Player, count = 3, mod
     sc.pool.filter((p) => p !== target && p.name !== target.name),
     mode,
   ).slice(0, count);
+};
+
+/**
+ * Comps for a league player among an outside group (e.g. real NFL legends), scored on the league's own
+ * baseline so the numbers mean the same as league comps. Candidates need the same position and enough data.
+ */
+export const similarAmong = (players: Player[], target: Player, candidates: Player[], count = 3, mode: SimilarityMode = 'level'): Comp[] => {
+  if (!hasSimilarityData(target) || target.games <= 0) return [];
+  const sc = similarityScorer(players, target.position);
+  const pool = candidates.filter((c) => c.position === target.position && c.games > 0 && c.name !== target.name && hasSimilarityData(c));
+  return compsAgainst(sc, sc.z(target), pool, mode).slice(0, count);
 };
 
 /** Similarity (0–100) between two players; null across positions or with insufficient data. */

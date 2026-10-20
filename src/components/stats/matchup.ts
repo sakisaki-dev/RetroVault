@@ -6,6 +6,7 @@ import {
   evaluateMetric,
   legacyMix,
   pairSimilarity,
+  plusIndex,
   SIMILARITY_DEFINITIONS,
   SIMILARITY_LABELS,
   type AdvContext,
@@ -236,7 +237,19 @@ const advCell = (metric: AdvMetric, board: MetricBoard | undefined, p: Player, c
   const hit = board?.rows.find((r) => keyOf(r.player) === keyOf(p));
   if (!hit) {
     const v = metric.value(p, ctx);
-    return { value: Number.isFinite(v) ? v : null };
+    if (!Number.isFinite(v)) return { value: null };
+    // Not on the league board (e.g. a real NFL player): placed on the league's scale without changing it
+    if (!board?.rows.length) return { value: v };
+    const better = (o: number) => (metric.lowerIsBetter ? o > v : o < v);
+    const below = board.rows.filter((r) => better(r.value)).length;
+    const pct = (100 * below) / board.rows.length;
+    const plus = metric.plus ? plusIndex(v, board.mean, metric.lowerIsBetter) : null;
+    return {
+      value: v,
+      cmp: pct,
+      sub: [plus != null ? `${Math.round(plus)}+` : null, `${pctText(pct)} pct`].filter(Boolean).join(' · '),
+      subLabel: `${plus != null ? `index ${Math.round(plus)} on the league scale, ` : ''}better than ${Math.round(pct)}% of league ${p.position}s`,
+    };
   }
   const plus = hit.plus != null ? `${Math.round(hit.plus)}+` : null;
   return {

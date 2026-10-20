@@ -40,15 +40,11 @@ export interface RetiredOverride {
  *   bills: { add: [{ number: 34, name: 'Micky Celek', position: 'RB' }], remove: [12] },
  */
 export const RETIRED_OVERRIDES: Record<string, RetiredOverride> = {
-  // Ikarras is a Seahawks legend (titles Y36–38, Ikarras era). He finished with one season as a
-  // Jet, so the Jets don't retire his number; the Seahawks do.
+  // Ikarras is a Ravens legend: five of his nine rings came in Baltimore (Y41–47) after three in Seattle. He
+  // finished with one season as a Jet, so the Jets don't retire his number; the Ravens do.
+  ravens: { add: [{ number: 48, name: 'Rondale Ikarras', position: 'RB', years: 'Y41–47' }] },
   // Jakeem Friend: a Seahawks lineman for most of his career, a Jet only for Y79–80.
-  seahawks: {
-    add: [
-      { number: 48, name: 'Rondale Ikarras', position: 'RB', years: 'Y36–46' },
-      { number: 60, name: 'Jakeem Friend', position: 'OL' },
-    ],
-  },
+  seahawks: { add: [{ number: 60, name: 'Jakeem Friend', position: 'OL' }] },
   jets: { remove: [48, 60] },
 };
 

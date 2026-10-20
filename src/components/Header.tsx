@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
+import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { openQuickSearch } from '@/components/QuickPlayerSearch';
 import { useLeague } from '@/context/LeagueContext';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { HOF_THRESHOLD } from '@/config/stats';
@@ -138,8 +140,19 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
 
           <div className="hidden lg:block flex-1 min-w-0 self-end">{nav}</div>
 
+          <button
+            type="button"
+            onClick={openQuickSearch}
+            aria-label="Look up a player (Command K)"
+            className="ml-auto inline-flex shrink-0 items-center gap-2 rounded-md border border-line bg-night/60 px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:border-gold/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold lg:ml-0"
+          >
+            <Search className="h-4 w-4" aria-hidden="true" />
+            <span className="hidden xl:inline">Player</span>
+            <kbd className="hidden rounded border border-line px-1 font-mono text-[10px] sm:inline">⌘K</kbd>
+          </button>
+
           {board.season && (
-            <span className="lamp ml-auto lg:ml-0 shrink-0" aria-label={`Season ${board.season}`}>
+            <span className="lamp shrink-0" aria-label={`Season ${board.season}`}>
               Season <b>{board.season}</b>
             </span>
           )}

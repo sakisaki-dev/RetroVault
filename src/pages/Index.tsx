@@ -9,6 +9,7 @@ import CollectionTab from '@/components/tabs/CollectionTab';
 import TeamLabTab from '@/components/teamlab/TeamLabTab';
 import CardUnlockToasts from '@/components/collection/CardUnlockToasts';
 import CeremonyHost from '@/components/ceremony/CeremonyHost';
+import QuickPlayerSearch from '@/components/QuickPlayerSearch';
 import { LeagueProvider } from '@/context/LeagueContext';
 import { onCompFinderRequest, onHeadToHeadRequest } from '@/components/stats/comps/compFinderLink';
 import { HubRouteContext, useHashRoute } from '@/components/stats/hub/hashRoute';
@@ -86,6 +87,7 @@ const IndexContent = () => {
         </HubRouteContext.Provider>
 
         <CeremonyHost />
+        <QuickPlayerSearch />
         <CardUnlockToasts />
         <footer className="mt-12 border-t border-line/70 bg-night">
           <div className="h-1 turf-stripes" aria-hidden="true" />

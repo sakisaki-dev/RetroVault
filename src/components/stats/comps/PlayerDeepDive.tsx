@@ -13,7 +13,7 @@ import {
   type SimilarityMode,
 } from '@/config/advanced';
 import { playerSkillGrades } from '@/config/skillGrades';
-import { useOfficialOvr } from '@/utils/useOfficialOvr';
+import { useGamePool } from '@/utils/useOfficialOvr';
 import { cn } from '@/lib/utils';
 import Chips from '../analytics/Chips';
 import { usePrefersReducedMotion } from '../analytics/viz';
@@ -26,6 +26,7 @@ import DdHero from './DdHero';
 import DdRecords from './DdRecords';
 import DdSkills from './DdSkills';
 import DdWhoPlays from './DdWhoPlays';
+import DdRealComps from './DdRealComps';
 import { DdSection } from './ddParts';
 import { MIN_RADAR_AXES, buildPositionModel, buildSimilarityMap, type PositionModel, type SimilarityMap } from './compModel';
 import { onCompFinderRequest, openInHeadToHead, takeCompFinderRequest } from './compFinderLink';
@@ -108,7 +109,7 @@ const pctIn = (vals: number[], v: number) => {
  */
 const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey, onPlayerChange, onCompare }: PlayerDeepDiveProps) => {
   const players = useMemo(() => (data ? leaguePlayers(data) : (playersProp ?? []).filter((p) => !p.isRealLegend)), [data, playersProp]);
-  const ovrMap = useOfficialOvr();
+  const { ovrMap, legends } = useGamePool();
   const wide = useMedia('(min-width: 768px)');
   const reduced = usePrefersReducedMotion();
   const sorted = useMemo(() => [...players].sort((a, b) => b.careerLegacy - a.careerLegacy), [players]);
@@ -321,6 +322,7 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
               onDive={(p) => choose(keyOf(p))}
               onCompare={compare}
             />
+            <DdRealComps league={players} legends={legends} player={player} ovrMap={ovrMap} onSelect={onSelect} />
           </DdSection>
 
           <DdSection
