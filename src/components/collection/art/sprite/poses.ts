@@ -553,7 +553,8 @@ const P: Record<string, PoseFn> = {
     look: 'front',
   }),
   'sig-praise': (k) => ({
-    // Both arms raised and open to the sky, palms up; eyes up; helmet off (durag); light from above
+    // Both arms raised and open to the sky, palms up; helmet off (durag); light from above. He looks at the camera
+    // (owner: the eyes-up stare was freaky): calm forward eyes and level brows
     frontArm: [sh(k, true), [k.fs + 3, k.sy - k.A + 2], [k.fs + 7, k.sy - k.A * 2 + 1]],
     backArm: [sh(k, false), [k.bs - 3, k.sy - k.A + 2], [k.bs - 7, k.sy - k.A * 2 + 1]],
     ...legs(stand(k)),
@@ -561,13 +562,10 @@ const P: Record<string, PoseFn> = {
     backPalm: true,
     helmetOff: true,
     helmetAt: 'feet',
-    expr: 'exalted',
+    expr: 'line',
     look: 'front',
     halo: true,
   }),
-  // Brandson's "Golden hour": drawn as a head-and-shoulders portrait (faces.ts goldenHourPortrait, PORTRAIT_POSES);
-  // this body is only the fallback where a full figure is needed
-  'sig-golden': (k, v) => ({ ...P['sig-crossed'](k, v), expr: 'exalted' }),
   'sig-cold': (k) => ({
     // "Scary Jerry": helmet off and hanging from one hand, the ball held at his other side, standing tall, staring out
     backArm: [sh(k, false), [k.bs - 2, k.sy + k.A], [k.bs - 3, k.sy + k.A * 2 - 1]],
@@ -612,8 +610,6 @@ const P: Record<string, PoseFn> = {
     helmetOff: true,
     helmetAt: 'feet',
     expr: 'grimace',
-    // Head sits down on the shoulders (shrugged into the flex), so only a pixel or two of neck shows
-    nod: 2,
   }),
   'cel-heisman': (k) => ({
     // The Heisman: stiff-arm out, ball tucked, front knee raised high, standing on the back leg
@@ -781,7 +777,6 @@ export const POSITION_POSES: Record<string, { key: string; label: string }[]> = 
 export const SIGNATURES = L([
   ['sig-praise', 'Signature: Hands up in reverence'],
   ['sig-cold', 'Signature: Scary Jerry stare'],
-  ['sig-golden', 'Signature: Golden hour'],
 ]);
 // 'sig-crossed' (arms crossed, helmet off) was Brandson's signature; the owner moved it into the generic pool
 export const CELEBRATIONS = L([
@@ -797,6 +792,8 @@ export const CELEBRATIONS = L([
 
 /** Older pose names still accepted in sprites.json. */
 const ALIASES: Record<string, string> = {
+  // The Golden hour portrait was removed (owner); old data falls back to arms crossed
+  'sig-golden': 'sig-crossed',
   qb: 'qb-windup',
   rb: 'rb-carry',
   heisman: 'cel-heisman',
@@ -1026,6 +1023,7 @@ export const runPose = (key: string, k: Skel, j?: Jitter): PoseOut => {
   // Head: chin up a pixel, or turned to three-quarter where the pose reads either way
   let look = out.look;
   if (j.turn && HEAD_TURN.has(k2)) look = look === 'side' ? 'tq' : look === 'tq' ? 'side' : look;
-  const nod = out.nod ?? (j.tilt < 0 && look !== 'up' && !GRIMACE.has(k2) ? -1 : undefined);
+  // (No chin-up nod: render.ts seats every head on the collar, so a raised head would only show neck)
+  const nod = out.nod;
   return { ...out, ...legsOut, frontArm, backArm, look, ...(newBall ? { ball: newBall } : {}), ...(nod !== undefined ? { nod } : {}) };
 };

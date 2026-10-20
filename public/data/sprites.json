@@ -210,7 +210,8 @@
   "height": "tall",
   "pose": "sig-crossed",
   "signature": true,
-  "face": "chiseled"
+  "face": "chiseled",
+  "stubble": "dense"
  },
  "Dedrick Gould": {
   "skin": "brown",
@@ -253,11 +254,14 @@
  "God Johnson": {
   "skin": "brown",
   "hair": {
-   "style": "curly",
+   "style": "spikyafro",
    "color": "black"
   },
-  "facial": "stubble",
-  "accessories": []
+  "facial": "goatee",
+  "accessories": [],
+  "face": "chiseled",
+  "beard": "#3c2e2a",
+  "expr": "grin"
  },
  "Levante Hopkins": {
   "skin": "pale",
@@ -307,11 +311,15 @@
  "Malakai Sawyer": {
   "skin": "brown",
   "hair": {
-   "style": "short",
+   "style": "bald",
    "color": "black"
   },
   "facial": "goatee",
-  "accessories": []
+  "accessories": [
+   "bandana",
+   "hoops"
+  ],
+  "face": "chiseled"
  },
  "Chance Woodrum": {
   "skin": "light",
@@ -335,12 +343,13 @@
    "earrings",
    "tattoos",
    "wristbands"
-  ]
+  ],
+  "face": "chiseled"
  },
  "Ryland Maxwell": {
   "skin": "brown",
   "hair": {
-   "style": "twists",
+   "style": "cornrows",
    "color": "black"
   },
   "facial": "none",
@@ -348,7 +357,8 @@
    "sleeve-white",
    "wristbands",
    "tattoos"
-  ]
+  ],
+  "face": "defined"
  },
  "Jaylen Conklin": {
   "skin": "pale",

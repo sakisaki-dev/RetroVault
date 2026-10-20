@@ -273,14 +273,16 @@ def write_player_extras():
 
 SPRITE_ENUMS = {
     "skin": {"pale", "light", "tan", "medium", "brown", "deep"},
-    "style": {"bald", "buzz", "short", "curly", "twists", "afro", "freeform", "mohawk", "spiky", "dreads", "crownlocs", "longlocs", "shortlocs", "braids", "long"},
+    "style": {"bald", "buzz", "short", "curly", "twists", "afro", "spikyafro", "freeform", "mohawk", "spiky", "dreads", "crownlocs", "longlocs", "shortlocs", "braids", "cornrows", "long"},
     "facial": {"none", "stubble", "jawline", "shortbeard", "mustache", "goatee", "chinstrap", "beard", "fullbeard"},
     "accessories": {"durag", "visor", "visor-gold", "eyeblack", "earrings", "headband", "sleeve-white", "sleeve-black", "sleeve-team",
-                    "wristbands", "gloves-white", "gloves-black", "tattoos", "armbands"},
+                    "wristbands", "gloves-white", "gloves-black", "tattoos", "armbands", "bandana", "hoops"},
     "build": {"normal", "big", "huge"},
     "height": {"normal", "tall"},
     "face": {"oval", "defined", "chiseled"},
     "nose": {"straight"},
+    "stubble": {"dense"},
+    "expr": {"line", "grimace", "smile", "open", "stern", "exalted", "grin"},
 }
 # Pose keys and their names live in src/components/collection/art/sprite/poses.ts (shown in the Art lab); a lock may use
 # either ("cel-heisman" or "Heisman pose"); old short names still work
@@ -311,7 +313,7 @@ def write_sprites(players):
         if name not in names:
             print(f"warn: sprites.json: {name} is not a league player (skipped)")
             continue
-        bad = [f"{k}={look.get(k)}" for k in ("skin", "facial", "build", "height", "face", "nose")
+        bad = [f"{k}={look.get(k)}" for k in ("skin", "facial", "build", "height", "face", "nose", "expr", "stubble")
                if look.get(k) is not None and look[k] not in SPRITE_ENUMS["skin" if k == "skin" else k]]
         if look.get("pose") is not None and not sprite_pose_ok(str(look["pose"])):
             bad.append(f"pose={look['pose']}")

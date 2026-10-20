@@ -1,0 +1,36 @@
+{
+ "id": "2026-10-20-ikarras-eyes",
+ "created": "2026-10-20",
+ "title": "Ikarras: looks at the camera in his praise pose (notes only)",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Rondale Ikarras",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "buzz",
+     "color": "black"
+    },
+    "facial": "jawline",
+    "accessories": [
+     "durag",
+     "eyeblack",
+     "earrings",
+     "wristbands"
+    ],
+    "pose": "sig-praise",
+    "notes": "Short black hair, full beard, studs in both ears (IMG_6201). \"The Prodigal Son\". Signature pose (owner): hands up in reverence, helmet off, black durag with tails, looking at the camera (owner: the eyes-up stare was freaky) [IMG_6200–6203 (game Hall of Fame)]. Face (owner): the good-looking, proportioned reference face: a triangle (cheekbones tapering to the chin), a little wider at the lower cheeks, jaw and chin so he reads human and handsome; clean defined jawline, straight nose",
+    "signature": true,
+    "face": "defined",
+    "nose": "straight"
+   },
+   "source": "owner",
+   "reason": "Owner: Ikarras's eyes in the praise God pose are kind of freaky; he should look at the camera instead of up",
+   "trigger": "Owner feedback in chat"
+  }
+ ]
+}

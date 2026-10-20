@@ -1,0 +1,94 @@
+{
+ "id": "2026-10-20-sawyer-lock-maxwell",
+ "created": "2026-10-20",
+ "title": "Looks: Sawyer (bandana, hoops, goatee), Lock (chiseled, studs), Maxwell (cornrows, defined face)",
+ "images": [
+  {
+   "file": "IMG_6202.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Game Hall of Fame page 3: RB Sawyer (ATL) portrait"
+  },
+  {
+   "file": "IMG_6204.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Jets roster: QB Lock and RB Maxwell portraits"
+  }
+ ],
+ "ai_steps": [
+  {
+   "step": "portrait→look",
+   "reason": "Owner look requests checked against the players' in-game portraits (skin tones, hair, beards, earrings)",
+   "trigger": "Owner request in chat; portraits in IMG_6202 and IMG_6204"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Malakai Sawyer",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "bald",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [
+     "bandana",
+     "hoops"
+    ],
+    "notes": "Short hair, mustache and goatee [IMG_6200–6203 (game Hall of Fame)]. Owner: known for looking like Tupac: the 90s style cues only (a bandana tied at the front over a shaved head, a thin moustache and short goatee, small hoop earrings, a slim angular face, a calm intense gaze); brown skin from the portrait [IMG_6202]",
+    "face": "chiseled"
+   },
+   "source": "image:IMG_6202.PNG",
+   "reason": "Owner: known for looking like Tupac (generic 90s cues: bandana tied at the front, thin moustache and goatee, small hoops, slim angular face); portrait: brown skin, short black hair, moustache and goatee",
+   "trigger": "Owner request in chat"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Ty Lock",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "fullbeard",
+    "accessories": [
+     "earrings",
+     "tattoos",
+     "wristbands"
+    ],
+    "notes": "Black cap off the field, full beard, tattooed forearms [IMG_6204 (Jets roster)]. Owner: chiseled with earring (studs in both ears, as in his portrait)",
+    "face": "chiseled"
+   },
+   "source": "image:IMG_6204.PNG",
+   "reason": "Owner: chiseled with earring; portrait: medium skin, full black beard, studs in both ears",
+   "trigger": "Owner request in chat"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Ryland Maxwell",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "cornrows",
+     "color": "black"
+    },
+    "facial": "none",
+    "accessories": [
+     "sleeve-white",
+     "wristbands",
+     "tattoos"
+    ],
+    "notes": "white sleeves, tattoos [IMG_6204 (Jets roster)]. Owner: cornrows (his portrait shows braided rows too) and a chiseled face, a bit wider, youthful (a Carter Bryant look) [IMG_6204]",
+    "face": "defined"
+   },
+   "source": "image:IMG_6204.PNG",
+   "reason": "Owner: cornrows and a chiseled face, a bit wider (Carter Bryant look); portrait: brown skin, braided rows on top, no facial hair",
+   "trigger": "Owner request in chat"
+  }
+ ]
+}

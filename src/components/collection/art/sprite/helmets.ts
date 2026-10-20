@@ -213,9 +213,9 @@ export const SHELL_DESIGNS: Record<'tiger' | 'rams', Record<DesignView, string[]
 export const HEAD_SIDE = [
   '.......HHHHHH.......',
   '......HHHHHHHH......',
+  '.....HHHHHHHHHH.....',
   '....HHHHHHHHHHHH....',
   '...HHHHHHHHHHHHHH...',
-  '...HHHHHHHHHHHHHHH..',
   '..HHHHHHHHHHHHHHHH..',
   '..HHHHHHHHHHHHHHHHM.',
   '..HHHHHHHHHHssssssMM',
@@ -227,15 +227,15 @@ export const HEAD_SIDE = [
   '...HHHHHHHHHdsssMMMM',
   '....HHHHHHH.ddsss..M',
   '.....HHHHH...CCCC.MM',
-  '.......HHH..........',
+  '......HHH...........',
 ];
 /** Helmet in three-quarter view (18 wide): the face turned toward us, the logo side of the shell still showing. */
 export const HEAD_TQ = [
   '....HHHHHHHH......',
+  '...HHHHHHHHHH.....',
   '..HHHHHHHHHHHH....',
   '.HHHHHHHHHHHHHH...',
-  '.HHHHHHHHHHHHHHH..',
-  'HHHHHHHHHHHHHHHHH.',
+  'HHHHHHHHHHHHHHHH..',
   'HHHHHHHsssssssssH.',
   'HHHHHHHsEEsssEEsM.',
   'HHHHHHHdwesssewsM.',
@@ -251,9 +251,9 @@ export const HEAD_TQ = [
 /** Helmet facing out (18 wide), bars across the face. */
 export const HEAD_FRONT = [
   '.....HHHHHHHH.....',
+  '....HHHHHHHHHH....',
   '...HHHHHHHHHHHH...',
   '..HHHHHHHHHHHHHH..',
-  '.HHHHHHHHHHHHHHHH.',
   '.HHHHHHHHHHHHHHHH.',
   '.HHHssssssssssHHH.',
   '.HHHsEEssssEEsHHH.',
@@ -281,7 +281,8 @@ export const MINI_HELMET = [
 ];
 /**
  * Round-out caps: one row above the top of the three-quarter, front and mini templates (drawn at y − 1, so every
- * anchor inside the templates is unchanged), 2 px narrower than the row under it, so the crown is a soft curve.
+ * anchor inside the templates is unchanged), 1 px in on each side from the row under it. Every crown row steps in by at
+ * most 1 px per side from the row below (scripts/check_sprites.ts asserts it), so the crown is one even stepped curve.
  * The side template carries its cap in its own row 0.
  */
 export const HEAD_TQ_CAP = '.....HHHHHH.......';
@@ -294,7 +295,7 @@ export const miniHelmet = (x: number, y: number, hel: Helmet): Rect[] => {
   const R = [...stamp([MINI_CAP], x, y - 1), ...stamp(MINI_HELMET, x, y)];
   R.push(...stamp(['.l', 'l.'], x + 3, y - 1));
   // The crown stripe runs over the round-out cap and the top row, and down a step at each end
-  if (hel.stripe !== 'none') R.push(...stamp(['hh'], x + 4, y - 1), ...onShell(MINI_HELMET, ['..hhhhhh....', '.h......h...'], 0, 0, x, y));
+  if (hel.stripe !== 'none') R.push(...stamp(['hhhh'], x + 3, y - 1), ...onShell(MINI_HELMET, ['..hhhhhh....', '.h......h...'], 0, 0, x, y));
   if (hel.pattern) tiger(R, MINI_HELMET, x, y, hel, 'mini');
   shellLogo(R, x + 0.5, y + 1.5, hel, [MINI_HELMET, x, y]);
   return R;

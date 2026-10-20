@@ -1,7 +1,7 @@
 import type { Palette } from '../shared';
 import type { TeamStyle } from '../teamStyle';
 import { F, FAR, GROUND, PIX_H, PIX_W, PIX_X, line, shade, stamp, tint, type Key, type Pt, type Rect } from './grid';
-import { bareHead, faceColours, goldenHourPortrait, hairColor, hairRise, helmetHair, isPortraitPose, skinColor, skinRamp, type HeadOpts, type SpriteLook } from './faces';
+import { bareHead, faceColours, hairColor, hairRise, helmetHair, skinColor, skinRamp, type HeadOpts, type SpriteLook } from './faces';
 import { frontHead, helmetColours, miniHelmet, sideHead, tqHead, type Helmet } from './helmets';
 import { jitterFor, markFor, runPose, type FieldMark, type PoseOut, type Skel } from './poses';
 import { pantsBands, sleeveBands, sockBands, type Uniform } from './uniforms';
@@ -472,6 +472,8 @@ export interface Composed {
   skel: Skel;
   /** The frame forced a horizontal shift (the figure didn't fit where the pose put it) */
   clamped: boolean;
+  /** Rows of neck showing between the chin and the collar (always 0: heads are seated on the collar) */
+  neck: number;
 }
 
 export const composeSprite = (look: SpriteLook, poseKey: string, style: TeamStyle, hel: Helmet, number: number | null | undefined, name: string, uni: Uniform): Composed => {
@@ -504,6 +506,21 @@ export const composeSprite = (look: SpriteLook, poseKey: string, style: TeamStyl
     headBehind = helmetHair(hx, hyy, look, tall);
     headFront = sideHead(hx, hyy, opts);
   }
+  // No neck (Retro Bowl chibi): the chin (or the helmet's bottom) sits on the collar row, drawn over it. Measured on
+  // the head's centre columns, so locs, durag tails and hair hanging at the sides don't count; heads only move down.
+  const collar = sy + c - 1;
+  const chinRow = (r: Rect[]) => {
+    const mid = cx + pose.lean;
+    const chin = r.reduce((m, [x, y, w, h]) => (x < mid + 3 && x + w > mid - 2 ? Math.max(m, Math.ceil(y + h) - 1) : m), -Infinity);
+    return Number.isFinite(chin) ? chin : collar;
+  };
+  const neckGap = collar - chinRow(headFront);
+  if (neckGap > 0) {
+    const sink = (r: Rect[]): Rect[] => r.map(([x, y, w, h, k]): Rect => [x, y + neckGap, w, h, k]);
+    headFront = sink(headFront);
+    headBehind = sink(headBehind);
+  }
+  const neckLeft = Math.max(0, collar - chinRow(headFront) - 1);
   const ballRects = pose.ball ? ball(down(pose.ball)) : [];
   const helmetRects =
     pose.helmetOff && pose.helmetAt === 'hand'
@@ -571,7 +588,7 @@ export const composeSprite = (look: SpriteLook, poseKey: string, style: TeamStyl
 
   // Lift; dives are refit just above the turf. Shifts are whole sprite pixels (F cells), so the art stays on the grid.
   const box = boundsOf(grid);
-  if (!box) return { grid, head: headG, torso: torsoG, pose, skel, clamped: false };
+  if (!box) return { grid, head: headG, torso: torsoG, pose, skel, clamped: false, neck: neckLeft };
   const [x0, y0, x1, y1] = box;
   let dx = (pose.shiftX ?? 0) * F;
   let dy = -(pose.lift ?? 0) * F;
@@ -580,12 +597,11 @@ export const composeSprite = (look: SpriteLook, poseKey: string, style: TeamStyl
   const want = dx;
   if (x0 + dx < 2 * F) dx = Math.ceil((2 * F - x0) / F) * F;
   if (x1 + dx > W - 2 * F) dx = Math.floor((W - 2 * F - x1) / F) * F;
-  return { grid: moveGrid(grid, dx, dy), head: moveGrid(headG, dx, dy), torso: moveGrid(torsoG, dx, dy), pose, skel, clamped: dx !== want };
+  return { grid: moveGrid(grid, dx, dy), head: moveGrid(headG, dx, dy), torso: moveGrid(torsoG, dx, dy), pose, skel, clamped: dx !== want, neck: neckLeft };
 };
 
 export const buildSprite = (look: SpriteLook, poseKey: string, style: TeamStyle, hel: Helmet, number: number | null | undefined, name: string, uni: Uniform): Rect[] =>
-  // Signature portraits (faces.ts) replace the whole frame, background included
-  isPortraitPose(poseKey) ? runsOf(rasterise(goldenHourPortrait(look, number))) : runsOf(composeSprite(look, poseKey, style, hel, number, name, uni).grid);
+  runsOf(composeSprite(look, poseKey, style, hel, number, name, uni).grid);
 
 /** Where a pose's turf mark goes (sprite x of a 2-px stripe): under a dive's ball, just behind a toe-tap's toes. */
 export interface FieldMarkAt {

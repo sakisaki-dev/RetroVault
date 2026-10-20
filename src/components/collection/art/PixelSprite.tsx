@@ -10,6 +10,10 @@ import { poseKeyFor, standInsFor, turfFor, type PoseOut, type StandIn } from './
 import { buildSprite, colours, fieldMarkFor, rasterise, runsOf, STAND_IN_HELMET, STAND_IN_LOOK, STAND_IN_UNIFORM, standInColours } from './sprite/render';
 import { paint, useBitmap } from './bitmap';
 
+// Sprite code version. This module re-runs whenever any sprite module changes (dev hot reload), so every cache key
+// below carries it and a bitmap painted by older sprite code is never shown next to one painted by the new code.
+const CODE = Math.random().toString(36).slice(2, 8);
+
 /*
  * React wrapper for the Retro Bowl sprite (see ./sprite/README.md for the modules): PixelPlayer (one figure),
  * the stand-in opponents, PixelHelmet / PixelHead (Art lab), and PixelSpriteArt (the "Retro Bowl sprite" card art).
@@ -50,7 +54,7 @@ export const PixelPlayer = ({ player, pal, number, pose, uniform, className, tra
   const poseKey = pose ?? poseKeyFor(player.name, player.position, look.pose);
   const custom = !!look.image && !pose;
   const key = useMemo(
-    () => (custom ? '' : JSON.stringify(['player', look, poseKey, style, hel, number ?? null, player.name, uni, pal])),
+    () => (custom ? '' : JSON.stringify(['player', CODE, look, poseKey, style, hel, number ?? null, player.name, uni, pal])),
     [custom, look, poseKey, style, hel, number, player.name, uni, pal],
   );
   const bmp = useBitmap(key, () => paint(buildSprite(look, poseKey, style, hel, number, player.name, uni), colours(pal, look, style, hel, uni), GRID_W, GRID_H));
@@ -72,7 +76,7 @@ const GREY_STYLE = { ...teamStyleFor({ team: '' }), sleeve: 'none' as const, pan
 
 /** A generic opponent (render.ts STAND_IN_*): the card players' normal frame in flat greys, no logo or number. */
 const StandInSprite = ({ s, i }: { s: StandIn; i: number }) => {
-  const bmp = useBitmap(`stand-in|${s.pose}|${i}`, () =>
+  const bmp = useBitmap(`stand-in|${CODE}|${s.pose}|${i}`, () =>
     paint(buildSprite(STAND_IN_LOOK, s.pose, GREY_STYLE, STAND_IN_HELMET, null, `stand-in-${i}`, STAND_IN_UNIFORM), standInColours(GREY_PAL, GREY_STYLE), GRID_W, GRID_H),
   );
   // Built around x = 22 facing right; mirrored to face the player when flip. Opaque, so his greys stay flat.
@@ -83,7 +87,7 @@ const StandInSprite = ({ s, i }: { s: StandIn; i: number }) => {
 /** One team's helmet on its own (mini helmet, as carried by the sprites). */
 export const PixelHelmet = ({ team, className = 'ra-helmet' }: { team: string; className?: string }) => {
   const hel = helmetFor(team);
-  const bmp = useBitmap(`mini|${JSON.stringify(hel)}`, () => {
+  const bmp = useBitmap(`mini|${CODE}|${JSON.stringify(hel)}`, () => {
     // The mini helmet's round-out cap sits one row above its template (y − 1), so it starts at y = 2 in a 12-row box
     const runs = runsOf(rasterise(miniHelmet(PIX_X + 1, 2, hel)), true).filter(([x, y]) => x < 14 * F && y < 12 * F);
     return paint(runs, { ...helmetColours(hel), o: '#10131a' }, 14 * F, 12 * F);
@@ -120,7 +124,7 @@ export const PixelHead = ({ player, look, pal, view, uniform, label, className }
   const uni = uniform ?? homeUniform(player.team);
   const hel = helmetWith(helmetFor(player.team), uni);
   const style = teamStyleFor(player);
-  const bmp = useBitmap(JSON.stringify(['head', view, look, hel, style, uni, pal]), () => {
+  const bmp = useBitmap(JSON.stringify(['head', CODE, view, look, hel, style, uni, pal]), () => {
     // Helmet views are icons: they keep the 1-px black outline (STYLE_GUIDE.md §3)
     const runs = runsOf(rasterise(HEADS[view](PIX_X + 4, 4, { look, pose: STILL, style, hel })), true);
     const c: Record<Key, string> = colours(pal, look, style, hel, uni);

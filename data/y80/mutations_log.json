@@ -135,6 +135,60 @@
     "stats": 3
    },
    "changed": 3
+  },
+  {
+   "id": "2026-10-20-god-johnson",
+   "dir": "data/uploads/2026-10-20-god-johnson",
+   "applied_at": "2026-10-20T04:06:12-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-signature-teams-4",
+   "dir": "data/uploads/2026-10-20-signature-teams-4",
+   "applied_at": "2026-10-20T04:07:12-07:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-god-johnson2",
+   "dir": "data/uploads/2026-10-20-god-johnson2",
+   "applied_at": "2026-10-20T04:10:58-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-brandson-beard",
+   "dir": "data/uploads/2026-10-20-brandson-beard",
+   "applied_at": "2026-10-20T04:12:16-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-ikarras-eyes",
+   "dir": "data/uploads/2026-10-20-ikarras-eyes",
+   "applied_at": "2026-10-20T04:14:06-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-sawyer-lock-maxwell",
+   "dir": "data/uploads/2026-10-20-sawyer-lock-maxwell",
+   "applied_at": "2026-10-20T04:16:09-07:00",
+   "mutations": {
+    "looks": 3
+   },
+   "changed": 3
   }
  ]
 }

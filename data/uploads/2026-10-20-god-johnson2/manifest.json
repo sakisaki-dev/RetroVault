@@ -1,0 +1,30 @@
+{
+ "id": "2026-10-20-god-johnson2",
+ "created": "2026-10-20",
+ "title": "God Johnson: the full chiseled face (owner: 'more chiseled face for God')",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "God Johnson",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "spikyafro",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [],
+    "notes": "Modest spiky afro (rounded, a little wider than the head, short tufts on top and at the temples), dark-brown moustache and chin beard, a big toothy grin, brown skin [IMG_6202 (game Hall of Fame, page 3)]. Face (owner): chiseled / angular, a big smile, a bit of a spiky afro that isn't crazy big. Owner follow-up: a more chiseled face (the full chiseled shape) and a happy open grin, not a wince",
+    "face": "chiseled",
+    "beard": "#3c2e2a",
+    "expr": "grin"
+   },
+   "source": "owner",
+   "reason": "Owner: more chiseled face for God, and the smile looks like he's wincing (grin redrawn in faces.ts)",
+   "trigger": "Owner feedback in chat"
+  }
+ ]
+}

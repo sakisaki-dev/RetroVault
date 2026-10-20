@@ -4,20 +4,25 @@
  *   - the head and the torso are the same pixel size in every pose (per head kind: side, three-quarter, front, bare);
  *     rotated or bent-over poses keep the head exact and the torso within 10 % (pixel rotation)
  *   - grounded poses stand on one baseline (the cleats' bottom row is GROUND − 1)
+ *   - no neck: every head (helmet on or off) sits on the collar, for the generic player and every locked look
  *   - only build / height change size (huge + tall is the biggest)
  *   - every position has 8–12 named poses, names are unique, old keys resolve, every contact pose has a stand-in,
  *     and turf marks (goal line, sideline) are never knocked off by the frame
  *   - the grey stand-in opponent is drawn on the card players' normal frame: his head and torso match theirs in every
  *     stand-in pose (no oversized helmet, no hulking torso)
+ *   - helmet crowns are one even stepped curve: adjacent crown rows (round-out cap included) step in by at most
+ *     1 px per side
  * Exit code 1 on any failure.
  */
 import { F, GROUND } from '@/components/collection/art/sprite/grid';
 import { lookFor, type SpriteLook } from '@/components/collection/art/sprite/faces';
-import { helmetFor } from '@/components/collection/art/sprite/helmets';
+import { HEAD_FRONT, HEAD_FRONT_CAP, HEAD_SIDE, HEAD_TQ, HEAD_TQ_CAP, helmetFor, MINI_CAP, MINI_HELMET } from '@/components/collection/art/sprite/helmets';
 import { homeUniform } from '@/components/collection/art/sprite/uniforms';
 import { teamStyleFor } from '@/components/collection/art/teamStyle';
 import { boundsOf, composeSprite, STAND_IN_HELMET, STAND_IN_LOOK, STAND_IN_UNIFORM, type Grid } from '@/components/collection/art/sprite/render';
 import { turfFor, allPoseKeys, CELEBRATIONS, CONTACT_POSES, isPose, markFor, POSITION_POSES, poseLabel, resolvePose, SIGNATURES, standInsFor } from '@/components/collection/art/sprite/poses';
+
+import spriteTable from '../public/data/sprites.json';
 
 const errors: string[] = [];
 const team = 'Jets';
@@ -115,6 +120,28 @@ if (STAND_IN_LOOK.build !== 'normal' || STAND_IN_LOOK.height !== 'normal') error
   if (c.pose.rotate && torsoRef && Math.abs(torso.n - torsoRef.n) > torsoRef.n * 0.1) errors.push(`stand-in ${key}: rotated torso ${torso.n} px vs ${torsoRef.n}`);
 });
 
+// ---------- 3c. No neck: every head sits on the collar (generic player and every locked look) ----------
+const lockedLooks = Object.keys(spriteTable).map((n) => lookFor({ name: n, position: 'WR', team } as never, spriteTable as never));
+[base, ...lockedLooks].forEach((look, i) => {
+  allPoseKeys().forEach((key) => {
+    const c = render(look, key);
+    if (c.pose.rotate || c.pose.bend) return;
+    // Measured on the pixels: the torso layer's top rows are the neck stub (3 rows, then the collar); the head layer
+    // must reach the collar row in those columns
+    const W = 58 * F;
+    let top = -1;
+    for (let i = 0; i < c.torso.length && top < 0; i++) if (c.torso[i]) top = Math.floor(i / W);
+    if (top < 0) return;
+    const cols: number[] = [];
+    for (let x = 0; x < W; x++) if (c.torso[top * W + x]) cols.push(x);
+    const collarRow = top + 2 * F;
+    let chin = -1;
+    for (let y = 0; y < c.head.length / W; y++) if (cols.some((x) => c.head[y * W + x])) chin = y;
+    const gap = Math.max(0, Math.ceil((collarRow - chin - 1) / F));
+    if (gap > 0) errors.push(`${key}${i ? ` (${Object.keys(spriteTable)[i - 1]})` : ''}: ${gap} row(s) of neck between chin and collar`);
+  });
+});
+
 // ---------- 4. Only build / height change size ----------
 const builds: SpriteLook['build'][] = ['normal', 'big', 'huge'];
 const heights: SpriteLook['height'][] = ['normal', 'tall'];
@@ -138,6 +165,22 @@ for (const bd of builds) {
   const [n, t] = heights.map((h) => sizes.find((s) => s.id === `${bd}/${h}`)!);
   if (!(t.h > n.h)) errors.push(`${bd}: tall (${t.h}) is not taller than normal (${n.h})`);
 }
+
+// ---------- Helmet crowns: each step in by at most 1 px per side (rows from the top until the face / cage) ----------
+const crowns: [string, string[]][] = [
+  ['side', HEAD_SIDE],
+  ['tq', [HEAD_TQ_CAP, ...HEAD_TQ]],
+  ['front', [HEAD_FRONT_CAP, ...HEAD_FRONT]],
+  ['mini', [MINI_CAP, ...MINI_HELMET]],
+];
+crowns.forEach(([name, rows]) => {
+  const top = rows.findIndex((r) => r.includes('H'));
+  const end = rows.findIndex((r, j) => j >= top && /[^H.]/.test(r));
+  const crown = rows.slice(top, end < 0 ? rows.length : end).map((r) => [r.indexOf('H'), r.lastIndexOf('H')]);
+  crown.forEach(([l, r], j) => {
+    if (j && (Math.abs(l - crown[j - 1][0]) > 1 || Math.abs(r - crown[j - 1][1]) > 1)) errors.push(`helmet ${name}: crown row ${top + j} steps more than 1 px per side (${crown[j - 1]} → ${l},${r})`);
+  });
+});
 
 console.log(`Sprite check: ${keys.length} poses (${allPoseKeys().length} rollable + ${standInKeys.size} stand-in), normal build; stand-in opponent checked in ${standInKeys.size} poses`);
 Object.entries(ref).forEach(([k, r]) => console.log(`  ${k.padEnd(5)} head ${r.w}×${r.h}`));

@@ -39,6 +39,15 @@ interface SpriteLook { skin; hair: { style: HairStyle; color }; facial: Facial; 
 //   'chiseled' Sherman Brandson: the most angular. The same structure tapering straight to the chin; big / huge builds
 //              push the jaw out 1 px a side and end a row higher in a blunt chin (6-px last row, 4-px under-chin)
 //   Beard templates are drawn for the oval; on these faces each half of a row slides in onto the narrower jaw.
+//   God Johnson, Malakai Sawyer and Ty Lock also use 'chiseled' (normal build); Ryland Maxwell 'defined'.
+// expr: the bare face's expression, overriding the pose's ('grin': God Johnson's happy open grin, corners up, upper
+//   teeth, magenta mouth, brows lifted). stubble 'dense': a close-cropped beard, ~75 % darker stubble (Brandson).
+//   On the angular faces a goatee / moustache scales about the face's centre; stubble and short beards stay inside
+//   the face and only full beards hang below the chin.
+// accessories 'bandana' (tied at the front over the crown, covers the hair; Sawyer) and 'hoops' (2-px hoops).
+// hair 'spikyafro' (God Johnson): a rounded afro 1 px past the head each side, 4 rows high, spiky tufts on top.
+//   'cornrows' (Maxwell): braids front to back with scalp lines between, no volume; only the nape ends show under a
+//   helmet.
 // nose 'straight': a bridge shadow (Ikarras). beard: beard colour (name or #hex) when it differs from the hair's
 //   (Isaiah Karras: dark-brown beard, black locs)
 // hair 'crownlocs' (Brandson): a crown of 11 thick 2-px loc strands (two tones r / fT, twist glints and some tips in
@@ -55,9 +64,7 @@ HEAD_BARE                                             // the 14 × 16 bare face 
 faceHair(R, fx, w, rows, facial) / mouth(R, x, y, expr) / eyes(R, lx, rx, y, look, expr)   // helmet faces (unchanged)
 bareHair(hx, hy, look, tall, wind?) / helmetHair(hx, hy, look, tall)   // hair on a bare head / out of a side helmet
 hairRise(look): number                                // rows the bare head's hair rises above hy (render.ts fits by it)
-faceColours(look): Record<Key, string>                // face + portrait colour keys, merged by render.ts colours()
-PORTRAIT_POSES, isPortraitPose(key)                   // pose keys drawn as a portrait ('sig-golden')
-goldenHourPortrait(look, number): Rect[]              // "Signature: Golden hour", fine-grid cells incl. background
+faceColours(look): Record<Key, string>                // face colour keys, merged by render.ts colours()
 ```
 
 **Bare face** (follows `STYLE_GUIDE.md` §5): a 14 × 15 oval (forehead row 0 to chin row 14, neck shadow row 15,
@@ -76,14 +83,9 @@ the game's five ramps: `pale` = Light, `light` = the lighter Tan base `#e2a589`,
 **Interface changes (backward compatible).** `bareHead`'s anchor is unchanged where it matters (the chin is still
 `hy + 14`, so it sits on the shoulder line at `sy − 15`), but the face is taller: the forehead starts at `hy` (was
 `hy + 3`) and the hair rises up to 7 rows above it. New colour keys: `fL` lips, `fM` grin mouth, `fb` beard, `fE` stud, `fN` nostrils, `fS` stubble, `fB` dark
-beard, `fT` loc / twist highlight, `fH` skin highlight, `fU` durag sheen, `fR` / `fr` golden rim / warm highlight,
-`g0`–`g6` sky bands, `gF` / `gf` sun and flare.
+beard, `fT` loc / twist highlight, `fH` skin highlight, `fU` durag sheen, `fl` / `fm` loc strand tones.
 
-**Golden hour** (`sig-golden`; no player uses it since the owner reverted Brandson to arms crossed): `buildSprite` returns `goldenHourPortrait` instead of a body:
-a head-and-shoulders portrait on the fine grid (F cells per sprite pixel), the head tilted up ~20° toward a low sun
-at the upper right, eyes up, golden rim light on the sun side, a stepped sun glow and lens flare, locs over massive
-shoulders, the card's number on the near shoulder in the card's uniform. No outline (like every figure). poses.ts registers the key in `SIGNATURES` (label "Signature: Golden hour") with
-a fallback body (`sig-crossed`) for full-figure contexts.
+The Golden hour portrait (`sig-golden`) was removed at the owner's request; the key is an alias of `sig-crossed`.
 
 **Standardisation rule.** Players without a `sprites.json` entry all get the same generic character (hair hidden
 under the helmet, the standard short cut when it's off, no facial hair, normal build); they vary only by the skin toggle (`Player.spriteSkin`, else

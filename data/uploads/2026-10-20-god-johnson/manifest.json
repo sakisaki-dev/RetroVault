@@ -1,0 +1,42 @@
+{
+ "id": "2026-10-20-god-johnson",
+ "created": "2026-10-20",
+ "title": "God Johnson: angular face, big grin, modest spiky afro (owner request + his HOF portrait)",
+ "images": [
+  {
+   "file": "IMG_6202.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Game Hall of Fame page 3: WR Johnson (MIN) portrait"
+  }
+ ],
+ "ai_steps": [
+  {
+   "step": "portrait→look",
+   "reason": "Owner asked for God Johnson's look to follow his reference portrait",
+   "trigger": "Owner request in chat; portrait in IMG_6202"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "God Johnson",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "spikyafro",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [],
+    "notes": "Modest spiky afro (rounded, a little wider than the head, short tufts on top and at the temples), dark-brown moustache and chin beard, a big toothy grin, brown skin [IMG_6202 (game Hall of Fame, page 3)]. Face (owner): chiseled / angular, a big smile, a bit of a spiky afro that isn't crazy big",
+    "face": "defined",
+    "beard": "#3c2e2a",
+    "expr": "grin"
+   },
+   "source": "image:IMG_6202.PNG",
+   "reason": "Owner: give God Johnson a chiseled face, a big smile and a bit of a spiky afro that isn't crazy big; portrait read at zoom: brown skin, black spiky afro, dark-brown moustache and chin beard (#3c2e2a sampled), open smile",
+   "trigger": "Owner request in chat"
+  }
+ ]
+}

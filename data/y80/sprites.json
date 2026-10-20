@@ -214,7 +214,7 @@
     "wristbands"
    ],
    "pose": "sig-praise",
-   "notes": "Short black hair, full beard, studs in both ears (IMG_6201). \"The Prodigal Son\". Signature pose (owner): hands up in reverence, helmet off, black durag with tails, eyes up [IMG_6200–6203 (game Hall of Fame)]. Face (owner): the good-looking, proportioned reference face: a triangle (cheekbones tapering to the chin), a little wider at the lower cheeks, jaw and chin so he reads human and handsome; clean defined jawline, straight nose",
+   "notes": "Short black hair, full beard, studs in both ears (IMG_6201). \"The Prodigal Son\". Signature pose (owner): hands up in reverence, helmet off, black durag with tails, looking at the camera (owner: the eyes-up stare was freaky) [IMG_6200–6203 (game Hall of Fame)]. Face (owner): the good-looking, proportioned reference face: a triangle (cheekbones tapering to the chin), a little wider at the lower cheeks, jaw and chin so he reads human and handsome; clean defined jawline, straight nose",
    "signature": true,
    "face": "defined",
    "nose": "straight"
@@ -231,8 +231,9 @@
    "height": "tall",
    "pose": "sig-crossed",
    "signature": true,
-   "notes": "Fred Warner style: a high-top of short twisted locs standing up and back from the crown, falling over the shoulders; short stubble beard on a strong jaw; huge and 6'7\", muscular V-taper (not fat). Signature (owner): arms crossed, menacing, helmet off [IMG_6206 + IMG_6201]. Face (owner): chiseled, triangular: wide cheekbones tapering to a strong, narrower pointed chin and a defined jawline. Locs (owner): the detailed crown of thick two-tone loc strands (twist glints, lighter tips) falling round the face to the jaw and neck, but not as big on top (a lower crown); nothing hangs behind. Jaw (owner): pushed out 1 px each side, ending a row higher in a blunter chin (the point was too sharp); cheekbones, brow and eyes unchanged",
-   "face": "chiseled"
+   "notes": "Fred Warner style: a high-top of short twisted locs standing up and back from the crown, falling over the shoulders; short stubble beard on a strong jaw; huge and 6'7\", muscular V-taper (not fat). Signature (owner): arms crossed, menacing, helmet off [IMG_6206 + IMG_6201]. Face (owner): chiseled, triangular: wide cheekbones tapering to a strong, narrower pointed chin and a defined jawline. Locs (owner): the detailed crown of thick two-tone loc strands (twist glints, lighter tips) falling round the face to the jaw and neck, but not as big on top (a lower crown); nothing hangs behind. Jaw (owner): pushed out 1 px each side, ending a row higher in a blunter chin (the point was too sharp); cheekbones, brow and eyes unchanged. Beard (owner): a beard that does not hang: the stubble a little darker and denser, a close-cropped beard",
+   "face": "chiseled",
+   "stubble": "dense"
   },
   "Dedrick Gould": {
    "skin": "brown",
@@ -279,12 +280,15 @@
   "God Johnson": {
    "skin": "brown",
    "hair": {
-    "style": "curly",
+    "style": "spikyafro",
     "color": "black"
    },
-   "facial": "stubble",
+   "facial": "goatee",
    "accessories": [],
-   "notes": "Sponge-curl top, light beard [IMG_6200–6203 (game Hall of Fame)]"
+   "notes": "Modest spiky afro (rounded, a little wider than the head, short tufts on top and at the temples), dark-brown moustache and chin beard, a big toothy grin, brown skin [IMG_6202 (game Hall of Fame, page 3)]. Face (owner): chiseled / angular, a big smile, a bit of a spiky afro that isn't crazy big. Owner follow-up: a more chiseled face (the full chiseled shape) and a happy open grin, not a wince",
+   "face": "chiseled",
+   "beard": "#3c2e2a",
+   "expr": "grin"
   },
   "Levante Hopkins": {
    "skin": "pale",
@@ -338,12 +342,16 @@
   "Malakai Sawyer": {
    "skin": "brown",
    "hair": {
-    "style": "short",
+    "style": "bald",
     "color": "black"
    },
    "facial": "goatee",
-   "accessories": [],
-   "notes": "Short hair, mustache and goatee [IMG_6200–6203 (game Hall of Fame)]"
+   "accessories": [
+    "bandana",
+    "hoops"
+   ],
+   "notes": "Short hair, mustache and goatee [IMG_6200–6203 (game Hall of Fame)]. Owner: known for looking like Tupac: the 90s style cues only (a bandana tied at the front over a shaved head, a thin moustache and short goatee, small hoop earrings, a slim angular face, a calm intense gaze); brown skin from the portrait [IMG_6202]",
+   "face": "chiseled"
   },
   "Chance Woodrum": {
    "skin": "light",
@@ -369,12 +377,13 @@
     "tattoos",
     "wristbands"
    ],
-   "notes": "Black cap off the field, full beard, tattooed forearms [IMG_6204 (Jets roster)]"
+   "notes": "Black cap off the field, full beard, tattooed forearms [IMG_6204 (Jets roster)]. Owner: chiseled with earring (studs in both ears, as in his portrait)",
+   "face": "chiseled"
   },
   "Ryland Maxwell": {
    "skin": "brown",
    "hair": {
-    "style": "twists",
+    "style": "cornrows",
     "color": "black"
    },
    "facial": "none",
@@ -383,7 +392,8 @@
     "wristbands",
     "tattoos"
    ],
-   "notes": "Short twists, white sleeves, tattoos [IMG_6204 (Jets roster)]"
+   "notes": "white sleeves, tattoos [IMG_6204 (Jets roster)]. Owner: cornrows (his portrait shows braided rows too) and a chiseled face, a bit wider, youthful (a Carter Bryant look) [IMG_6204]",
+   "face": "defined"
   },
   "Jaylen Conklin": {
    "skin": "pale",

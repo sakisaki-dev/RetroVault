@@ -1,0 +1,18 @@
+{
+ "id": "2026-10-20-signature-teams-4",
+ "created": "2026-10-20",
+ "title": "Signature team: Lamar Jackson with the Ravens (replaces Vikings)",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Lamar Jackson/signature_team",
+   "value": "Ravens",
+   "source": "owner",
+   "reason": "Owner: \"put lamar with the ravens\"",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}
