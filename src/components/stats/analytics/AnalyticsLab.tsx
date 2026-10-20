@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { FlaskConical } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { FlaskConical, SlidersHorizontal } from 'lucide-react';
 import type { LeagueData, Player, Position } from '@/types/player';
 import { METRIC_BY_ID, POSITIONS, buildContext, evaluateMetric, leaguePlayers, type AdvContext, type AdvMetric } from '@/config/advanced';
 import { POSITION_NAMES } from '@/utils/playerMeta';
@@ -8,7 +8,13 @@ import Chips from './Chips';
 import MetricLabel from './MetricLabel';
 import MetricLeaderboard from './MetricLeaderboard';
 import PlusHeatTable from './PlusHeatTable';
-import PeakLongevity from './PeakLongevity';
+import LabGraphs from '../graph/LabGraphs';
+import GraphBuilder from '../graph/GraphBuilder';
+import LegendsToggle from '../visual/LegendsToggle';
+import { useOverlayLegends } from '../visual/useIncludeLegends';
+import { useGraphDeps } from '../graph/useGraphDeps';
+import { DEFAULT_CONFIG, configToParams, paramsToConfig, useSavedPresets, type GraphConfig } from '../graph/graphConfig';
+import { useHubRoute } from '../hub/hashRoute';
 import LegacyMix from './LegacyMix';
 import { fmtNum } from './viz';
 import { GRID_ITEM, gridVars } from '../grid';
@@ -58,6 +64,30 @@ const AnalyticsLab = ({ data, onSelect }: { data: LeagueData; onSelect: Select }
   const ctx = useMemo(() => buildContext(players), [players]);
   const positions = POSITIONS.filter((pos) => players.some((p) => p.position === pos));
   const [position, setPosition] = useState<Position>(positions[0] ?? 'QB');
+  const legends = useOverlayLegends();
+  const deps = useGraphDeps(players);
+  const { presets, save, remove } = useSavedPresets();
+
+  // Graph Builder: open from a shared link (#stats/players?gx=…&gy=…) and keep the link in sync while open.
+  const { route, navigate } = useHubRoute();
+  const [builder, setBuilder] = useState<GraphConfig | null>(() => paramsToConfig(route.q ?? {}));
+  const routeRef = useRef(route);
+  routeRef.current = route;
+  const linked = paramsToConfig(route.q ?? {});
+  const linkedKey = linked ? JSON.stringify(configToParams(linked)) : '';
+  useEffect(() => {
+    if (linked) setBuilder((b) => (b && JSON.stringify(configToParams(b)) === linkedKey ? b : linked));
+    // Only when the link itself changes (back / forward, a pasted link)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [linkedKey]);
+  const syncUrl = (c: GraphConfig | null) => {
+    const r = routeRef.current;
+    navigate({ tab: 'career', sub: 'players', section: r.section, ...(c ? { q: configToParams(c) } : {}) }, { replace: true });
+  };
+  const openBuilder = (c: GraphConfig) => {
+    setBuilder(c);
+    syncUrl(c);
+  };
 
   const insights = useMemo(
     () =>
@@ -83,6 +113,17 @@ const AnalyticsLab = ({ data, onSelect }: { data: LeagueData; onSelect: Select }
           Rate stats, value over replacement and position-relative indexes, all from career totals. Hover or focus any underlined metric for
           its formula and minimum sample.
         </p>
+        <div className="flex flex-wrap items-center gap-2 pt-1">
+          <button
+            type="button"
+            onClick={() => openBuilder(builder ?? DEFAULT_CONFIG)}
+            className="inline-flex min-h-[36px] items-center gap-2 rounded-md bg-gold px-3 py-1.5 font-display text-sm font-bold uppercase tracking-wide text-night shadow-[0_0_0_1px_hsl(var(--gold))] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-night"
+          >
+            <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
+            Graph Builder
+          </button>
+          <LegendsToggle />
+        </div>
       </div>
 
       {insights.length > 0 && (
@@ -98,7 +139,7 @@ const AnalyticsLab = ({ data, onSelect }: { data: LeagueData; onSelect: Select }
           Position
         </span>
         <Chips
-          label="Position for the leaderboard and + index grid"
+          label="Position for the leaderboard, + index grid and efficiency chart"
           value={position}
           onChange={setPosition}
           options={positions.map((p) => ({ value: p, label: p, title: POSITION_NAMES[p] }))}
@@ -106,11 +147,35 @@ const AnalyticsLab = ({ data, onSelect }: { data: LeagueData; onSelect: Select }
       </div>
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-        <MetricLeaderboard players={players} ctx={ctx} position={position} onSelect={onSelect} />
-        <PlusHeatTable players={players} ctx={ctx} position={position} onSelect={onSelect} />
+        <MetricLeaderboard players={players} ctx={ctx} position={position} extras={legends} onSelect={onSelect} />
+        <PlusHeatTable players={players} ctx={ctx} position={position} extras={legends} onSelect={onSelect} />
       </div>
 
-      <PeakLongevity players={players} onSelect={onSelect} />
+      <LabGraphs
+        players={players}
+        legends={legends}
+        deps={deps}
+        position={position}
+        presets={presets}
+        onRemovePreset={remove}
+        onSelect={onSelect}
+        onOpenBuilder={openBuilder}
+      />
+
+      <GraphBuilder
+        open={!!builder}
+        config={builder ?? DEFAULT_CONFIG}
+        onChange={openBuilder}
+        onClose={() => {
+          setBuilder(null);
+          syncUrl(null);
+        }}
+        players={players}
+        legends={legends}
+        deps={deps}
+        onSelect={onSelect}
+        onSavePreset={save}
+      />
 
       <LegacyMix players={players} onSelect={onSelect} />
     </section>

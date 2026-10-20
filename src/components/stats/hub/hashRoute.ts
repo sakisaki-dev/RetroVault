@@ -8,6 +8,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState } f
  *   #stats/teams                 Stats sub-tab (players, teams, h2h, deepdive)
  *   #stats/players/leaders       ...plus a section id to scroll to inside the sub-tab
  *   #stats/deepdive?p=QB:Name    Player Deep Dive with a player preselected
+ *   #stats/players?gx=ya&gy=intPct&pos=QB   Graph Builder open on a shared chart (stats/graph/graphConfig)
  *   #lab?t=<lineup>              Team Lab with a lineup (utils/teamLab encodeLineup)
  *
  * Old in-page anchors (#leaders, #head-to-head, #comp-finder, ...) and the retired #teams tab still resolve.
@@ -42,6 +43,8 @@ export interface Route {
   p?: string;
   /** Team Lab lineup (encodeLineup) */
   t?: string;
+  /** Other Stats query params, e.g. the Graph Builder's gx / gy / pos (stats/graph/graphConfig GRAPH_PARAMS). */
+  q?: Record<string, string>;
 }
 
 const isSub = (s: string | undefined): s is StatsSub => !!s && (STATS_SUBS as readonly string[]).includes(s);
@@ -71,7 +74,11 @@ export const parseHash = (hash: string): Route | null => {
     // The Analytics Lab now lives on the Players sub-tab
     if (segs[1] === 'advanced') return { tab, sub: 'players', section: 'analytics', p };
     const sub = isSub(segs[1]) ? segs[1] : alias[segs[1]];
-    return { tab, sub, section: segs[2] || undefined, p };
+    const q: Record<string, string> = {};
+    params.forEach((v, k) => {
+      if (k !== 'p') q[k] = v;
+    });
+    return Object.keys(q).length ? { tab, sub, section: segs[2] || undefined, p, q } : { tab, sub, section: segs[2] || undefined, p };
   }
   const t = params.get('t') || undefined;
   return t ? { tab, p, t } : { tab, p };
@@ -85,6 +92,10 @@ export const buildHash = (r: Route): string => {
   }
   if (r.p) h += `?p=${encodeURIComponent(r.p)}`;
   if (r.t) h += `${r.p ? '&' : '?'}t=${encodeURIComponent(r.t).replace(/%20/g, '+')}`;
+  if (r.tab === 'career' && r.q) {
+    const qs = new URLSearchParams(r.q).toString();
+    if (qs) h += `${h.includes('?') ? '&' : '?'}${qs}`;
+  }
   return h;
 };
 

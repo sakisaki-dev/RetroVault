@@ -11,6 +11,9 @@ import PlayerDeepDive from '../stats/comps/PlayerDeepDive';
 import PositionLeaders from '../stats/PositionLeaders';
 import HiddenGems from '../stats/HiddenGems';
 import StatTables from '../stats/StatTables';
+import LeagueShape from '../stats/visual/LeagueShape';
+import LeagueGallery from '../stats/visual/LeagueGallery';
+import StatsPulse from '../stats/visual/StatsPulse';
 import { HEADLINE_IDS, LEADER_IDS, buildRecordBook, pickBoards } from '../stats/records';
 import StatsHub from '../stats/hub/StatsHub';
 import TeamRankingsTab from './TeamRankingsTab';
@@ -19,7 +22,9 @@ import { buildHash, useHubRoute, type StatsSub } from '../stats/hub/hashRoute';
 /** In-page jumps on the Players sub-tab (each is linkable: #stats/players/<id>). */
 const JUMPS = [
   { id: 'analytics', label: 'Advanced' },
+  { id: 'landscape', label: 'Landscape' },
   { id: 'hidden-gems', label: 'Hidden Gems' },
+  { id: 'league-shape', label: 'League Shape' },
   { id: 'record-book', label: 'Records' },
   { id: 'efficiency', label: 'Efficiency' },
   { id: 'leaders', label: 'Leaders' },
@@ -37,7 +42,7 @@ const CareerTab = () => {
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
   const sub: StatsSub = route.sub ?? 'players';
 
-  const book = useMemo(() => buildRecordBook(careerData), [careerData]);
+  const book = useMemo(() => buildRecordBook(careerData, 10), [careerData]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const players = useMemo(() => getAllPlayers(), [getAllPlayers, careerData]);
 
@@ -105,15 +110,21 @@ const CareerTab = () => {
             </div>
           </header>
 
+          <StatsPulse data={careerData} book={book} onSelect={setSelectedPlayer} />
+
           {headline.length > 0 && <RecordStrip headline={headline} onSelect={setSelectedPlayer} />}
 
           <AnalyticsLab data={careerData} onSelect={setSelectedPlayer} />
 
+          <LeagueGallery data={careerData} onSelect={setSelectedPlayer} />
+
           <HiddenGems data={careerData} onSelect={setSelectedPlayer} />
+
+          <LeagueShape data={careerData} onSelect={setSelectedPlayer} />
 
           <RecordBook leaders={leaders} pace={book.pace} onSelect={setSelectedPlayer} />
 
-          <PositionLeaders boards={book.boards} onSelect={setSelectedPlayer} />
+          <PositionLeaders boards={book.boards} data={careerData} onSelect={setSelectedPlayer} />
 
           <StatTables data={careerData} />
         </div>

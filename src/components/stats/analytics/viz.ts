@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import type { Position } from '@/types/player';
 
 /**
  * Chart palette for the Analytics Lab (dark site, surface ≈ #111627). Validated with the dataviz
@@ -20,15 +19,6 @@ export const VIZ = {
   muted: 'hsl(225 30% 70%)',
   ink: 'hsl(228 100% 97%)',
 } as const;
-
-/** Scatter color groups: the three units of a roster (identity follows the unit, never rank). */
-export const UNITS = [
-  { key: 'off', label: 'Offense (QB/RB/WR/TE)', short: 'Offense', positions: ['QB', 'RB', 'WR', 'TE'] as Position[], color: VIZ.series[0] },
-  { key: 'line', label: 'Offensive line', short: 'Line', positions: ['OL'] as Position[], color: VIZ.series[2] },
-  { key: 'def', label: 'Defense (LB/DB/DL)', short: 'Defense', positions: ['LB', 'DB', 'DL'] as Position[], color: VIZ.series[1] },
-] as const;
-
-export const unitOf = (pos: Position) => UNITS.find((u) => u.positions.includes(pos)) ?? UNITS[0];
 
 /** Diverging cell fill for a + index (100 = neutral). Saturates at ±50. */
 export const plusFill = (plus: number | null) => {

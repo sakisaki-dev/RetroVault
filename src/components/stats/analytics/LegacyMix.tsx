@@ -22,7 +22,7 @@ type Mode = 'abs' | 'share';
 const pct = (part: number, m: Mix) => (m.total > 0 ? (part / m.total) * 100 : 0);
 
 /** Career Legacy split into talent, awards and longevity for the top 15 careers. */
-const LegacyMix = ({ players, onSelect }: { players: Player[]; onSelect: (p: Player) => void }) => {
+const LegacyMix = ({ players, onSelect, title = 'Legacy composition', poster = false }: { players: Player[]; onSelect: (p: Player) => void; title?: string; poster?: boolean }) => {
   const [mode, setMode] = useState<Mode>('abs');
   const rows = useMemo(
     () =>
@@ -41,7 +41,8 @@ const LegacyMix = ({ players, onSelect }: { players: Player[]; onSelect: (p: Pla
 
   return (
     <ChartFrame
-      title="Legacy composition"
+      title={title}
+      poster={poster}
       icon={<Layers className="h-4 w-4 text-gold" aria-hidden="true" />}
       description={`Where the top ${TOP} Career Legacy scores come from. Career Legacy = 4·TT + 4·Dominance + 2·G, and Dominance = 0.7·TT + award points, so it splits exactly into talent, awards and longevity.`}
       controls={

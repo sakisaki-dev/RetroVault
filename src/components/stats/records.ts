@@ -109,7 +109,8 @@ export const LEADER_IDS = ['qbYPA', 'qbTDINT', 'qbCmpPct', 'rbYPC', 'rbScrimYPG'
 
 const EMPTY: RecordBook = { boards: new Map(), pace: [], playerCount: 0 };
 
-export function buildRecordBook(data: LeagueData | null | undefined): RecordBook {
+/** `depth` = entries kept per board (the Stats page's bar races show 10; Deep Dive ranks only use the top 5). */
+export function buildRecordBook(data: LeagueData | null | undefined, depth = 5): RecordBook {
   if (!data) return EMPTY;
 
   const qbs = data.quarterbacks;
@@ -129,12 +130,12 @@ export function buildRecordBook(data: LeagueData | null | undefined): RecordBook
 
   const list = [
     // Quarterbacks
-    board(qbs, { id: 'qbPassYds', group: 'qb', title: 'Passing Yards', short: 'Pass Yds', get: (p) => p.passYds }),
-    board(qbs, { id: 'qbPassTD', group: 'qb', title: 'Passing TDs', short: 'Pass TD', get: (p) => p.passTD }),
-    board(qbs, { id: 'qbTotalYds', group: 'qb', title: 'Total Yards', short: 'Total Yds', get: (p) => p.passYds + p.rushYds }),
-    board(qbs, { id: 'qbTotalTD', group: 'qb', title: 'Total TDs', short: 'Total TD', get: (p) => p.passTD + p.rushTD }),
-    board(qbs, { id: 'qbCmpPct', group: 'qb', title: 'Completion %', short: 'Cmp %', get: (p) => (p.completions / p.attempts) * 100, decimals: 1, min: minAtt }),
-    board(qbs, { id: 'qbYPA', group: 'qb', title: 'Yards / Attempt', short: 'Y/A', get: (p) => p.passYds / p.attempts, decimals: 2, min: minAtt }),
+    board(qbs, { id: 'qbPassYds', group: 'qb', title: 'Passing Yards', short: 'Pass Yds', get: (p) => p.passYds }, depth),
+    board(qbs, { id: 'qbPassTD', group: 'qb', title: 'Passing TDs', short: 'Pass TD', get: (p) => p.passTD }, depth),
+    board(qbs, { id: 'qbTotalYds', group: 'qb', title: 'Total Yards', short: 'Total Yds', get: (p) => p.passYds + p.rushYds }, depth),
+    board(qbs, { id: 'qbTotalTD', group: 'qb', title: 'Total TDs', short: 'Total TD', get: (p) => p.passTD + p.rushTD }, depth),
+    board(qbs, { id: 'qbCmpPct', group: 'qb', title: 'Completion %', short: 'Cmp %', get: (p) => (p.completions / p.attempts) * 100, decimals: 1, min: minAtt }, depth),
+    board(qbs, { id: 'qbYPA', group: 'qb', title: 'Yards / Attempt', short: 'Y/A', get: (p) => p.passYds / p.attempts, decimals: 2, min: minAtt }, depth),
     board(qbs, {
       id: 'qbTDINT',
       group: 'qb',
@@ -144,49 +145,49 @@ export function buildRecordBook(data: LeagueData | null | undefined): RecordBook
       decimals: 2,
       // A QB with zero INTs has no ratio; require at least one plus the attempts minimum.
       min: { label: `min ${MIN.qbAttempts} att, 1+ INT`, ok: (p) => p.attempts >= MIN.qbAttempts && p.interceptions >= 1 },
-    }),
+    }, depth),
     // Running backs
-    board(rbs, { id: 'rbRushYds', group: 'rb', title: 'Rushing Yards', short: 'Rush Yds', get: (p) => p.rushYds }),
-    board(rbs, { id: 'rbRushTD', group: 'rb', title: 'Rushing TDs', short: 'Rush TD', get: (p) => p.rushTD }),
-    board(rbs, { id: 'rbScrimmage', group: 'rb', title: 'Scrimmage Yards', short: 'Scrim Yds', get: (p) => p.rushYds + p.recYds }),
-    board(rbs, { id: 'rbYPC', group: 'rb', title: 'Yards / Carry', short: 'Y/C', get: (p) => p.rushYds / p.rushAtt, decimals: 2, min: minCar }),
-    board(rbs, { id: 'rbScrimYPG', group: 'rb', title: 'Scrimmage Yds / Game', short: 'Scrim/G', get: (p) => (p.rushYds + p.recYds) / p.games, decimals: 1, min: minGames }),
+    board(rbs, { id: 'rbRushYds', group: 'rb', title: 'Rushing Yards', short: 'Rush Yds', get: (p) => p.rushYds }, depth),
+    board(rbs, { id: 'rbRushTD', group: 'rb', title: 'Rushing TDs', short: 'Rush TD', get: (p) => p.rushTD }, depth),
+    board(rbs, { id: 'rbScrimmage', group: 'rb', title: 'Scrimmage Yards', short: 'Scrim Yds', get: (p) => p.rushYds + p.recYds }, depth),
+    board(rbs, { id: 'rbYPC', group: 'rb', title: 'Yards / Carry', short: 'Y/C', get: (p) => p.rushYds / p.rushAtt, decimals: 2, min: minCar }, depth),
+    board(rbs, { id: 'rbScrimYPG', group: 'rb', title: 'Scrimmage Yds / Game', short: 'Scrim/G', get: (p) => (p.rushYds + p.recYds) / p.games, decimals: 1, min: minGames }, depth),
     // Wide receivers
-    board(wrs, { id: 'wrRecYds', group: 'wr', title: 'Receiving Yards', short: 'Rec Yds', get: (p) => p.recYds }),
-    board(wrs, { id: 'wrRecTD', group: 'wr', title: 'Receiving TDs', short: 'Rec TD', get: (p) => p.recTD }),
-    board(wrs, { id: 'wrReceptions', group: 'wr', title: 'Receptions', short: 'Rec', get: (p) => p.receptions }),
-    board(wrs, { id: 'wrYPR', group: 'wr', title: 'Yards / Catch', short: 'Y/R', get: (p) => p.recYds / p.receptions, decimals: 2, min: minRec }),
-    board(wrs, { id: 'wrRecYPG', group: 'wr', title: 'Rec Yds / Game', short: 'Yds/G', get: (p) => p.recYds / p.games, decimals: 1, min: minGames }),
-    board(wrs, { id: 'wrTD16', group: 'wr', title: 'TDs / 16 Games', short: 'TD/16', get: (p) => (p.recTD / p.games) * 16, decimals: 1, min: minGames }),
+    board(wrs, { id: 'wrRecYds', group: 'wr', title: 'Receiving Yards', short: 'Rec Yds', get: (p) => p.recYds }, depth),
+    board(wrs, { id: 'wrRecTD', group: 'wr', title: 'Receiving TDs', short: 'Rec TD', get: (p) => p.recTD }, depth),
+    board(wrs, { id: 'wrReceptions', group: 'wr', title: 'Receptions', short: 'Rec', get: (p) => p.receptions }, depth),
+    board(wrs, { id: 'wrYPR', group: 'wr', title: 'Yards / Catch', short: 'Y/R', get: (p) => p.recYds / p.receptions, decimals: 2, min: minRec }, depth),
+    board(wrs, { id: 'wrRecYPG', group: 'wr', title: 'Rec Yds / Game', short: 'Yds/G', get: (p) => p.recYds / p.games, decimals: 1, min: minGames }, depth),
+    board(wrs, { id: 'wrTD16', group: 'wr', title: 'TDs / 16 Games', short: 'TD/16', get: (p) => (p.recTD / p.games) * 16, decimals: 1, min: minGames }, depth),
     // Tight ends
-    board(tes, { id: 'teRecYds', group: 'te', title: 'Receiving Yards', short: 'Rec Yds', get: (p) => p.recYds }),
-    board(tes, { id: 'teRecTD', group: 'te', title: 'Receiving TDs', short: 'Rec TD', get: (p) => p.recTD }),
-    board(tes, { id: 'teReceptions', group: 'te', title: 'Receptions', short: 'Rec', get: (p) => p.receptions }),
-    board(tes, { id: 'teYPR', group: 'te', title: 'Yards / Catch', short: 'Y/R', get: (p) => p.recYds / p.receptions, decimals: 2, min: minRec }),
+    board(tes, { id: 'teRecYds', group: 'te', title: 'Receiving Yards', short: 'Rec Yds', get: (p) => p.recYds }, depth),
+    board(tes, { id: 'teRecTD', group: 'te', title: 'Receiving TDs', short: 'Rec TD', get: (p) => p.recTD }, depth),
+    board(tes, { id: 'teReceptions', group: 'te', title: 'Receptions', short: 'Rec', get: (p) => p.receptions }, depth),
+    board(tes, { id: 'teYPR', group: 'te', title: 'Yards / Catch', short: 'Y/R', get: (p) => p.recYds / p.receptions, decimals: 2, min: minRec }, depth),
     // Offensive line
-    board(ols, { id: 'olBlocks', group: 'ol', title: 'Blocks', short: 'Blocks', get: (p) => p.blocks }),
-    board(ols, { id: 'olBPG', group: 'ol', title: 'Blocks / Game', short: 'Blk/G', get: (p) => p.blocks / p.games, decimals: 2, min: minGames }),
-    board(ols, { id: 'olGames', group: 'ol', title: 'Games Played', short: 'Games', get: (p) => p.games }),
+    board(ols, { id: 'olBlocks', group: 'ol', title: 'Blocks', short: 'Blocks', get: (p) => p.blocks }, depth),
+    board(ols, { id: 'olBPG', group: 'ol', title: 'Blocks / Game', short: 'Blk/G', get: (p) => p.blocks / p.games, decimals: 2, min: minGames }, depth),
+    board(ols, { id: 'olGames', group: 'ol', title: 'Games Played', short: 'Games', get: (p) => p.games }, depth),
     // Defense
-    board(defs, { id: 'defTackles', group: 'def', title: 'Tackles', short: 'Tackles', get: (p) => p.tackles, mixed: true }),
-    board(defs, { id: 'defSacks', group: 'def', title: 'Sacks', short: 'Sacks', get: (p) => p.sacks, mixed: true }),
-    board(defs, { id: 'defINT', group: 'def', title: 'Interceptions', short: 'INT', get: (p) => p.interceptions, mixed: true }),
-    board(defs, { id: 'defFF', group: 'def', title: 'Forced Fumbles', short: 'FF', get: (p) => p.forcedFumbles, mixed: true }),
-    board(defs, { id: 'defTurnovers', group: 'def', title: 'Takeaways (INT + FF)', short: 'Takeaways', get: (p) => p.interceptions + p.forcedFumbles, mixed: true }),
-    board(defs, { id: 'defTPG', group: 'def', title: 'Tackles / Game', short: 'Tkl/G', get: (p) => p.tackles / p.games, decimals: 2, min: minDefGames, mixed: true }),
-    board(defs, { id: 'defSPG', group: 'def', title: 'Sacks / Game', short: 'Sck/G', get: (p) => p.sacks / p.games, decimals: 2, min: minDefGames, mixed: true }),
-    board(defs, { id: 'defTOPG', group: 'def', title: 'Takeaways / Game', short: 'TkA/G', get: (p) => (p.interceptions + p.forcedFumbles) / p.games, decimals: 2, min: minDefGames, mixed: true }),
+    board(defs, { id: 'defTackles', group: 'def', title: 'Tackles', short: 'Tackles', get: (p) => p.tackles, mixed: true }, depth),
+    board(defs, { id: 'defSacks', group: 'def', title: 'Sacks', short: 'Sacks', get: (p) => p.sacks, mixed: true }, depth),
+    board(defs, { id: 'defINT', group: 'def', title: 'Interceptions', short: 'INT', get: (p) => p.interceptions, mixed: true }, depth),
+    board(defs, { id: 'defFF', group: 'def', title: 'Forced Fumbles', short: 'FF', get: (p) => p.forcedFumbles, mixed: true }, depth),
+    board(defs, { id: 'defTurnovers', group: 'def', title: 'Takeaways (INT + FF)', short: 'Takeaways', get: (p) => p.interceptions + p.forcedFumbles, mixed: true }, depth),
+    board(defs, { id: 'defTPG', group: 'def', title: 'Tackles / Game', short: 'Tkl/G', get: (p) => p.tackles / p.games, decimals: 2, min: minDefGames, mixed: true }, depth),
+    board(defs, { id: 'defSPG', group: 'def', title: 'Sacks / Game', short: 'Sck/G', get: (p) => p.sacks / p.games, decimals: 2, min: minDefGames, mixed: true }, depth),
+    board(defs, { id: 'defTOPG', group: 'def', title: 'Takeaways / Game', short: 'TkA/G', get: (p) => (p.interceptions + p.forcedFumbles) / p.games, decimals: 2, min: minDefGames, mixed: true }, depth),
     // Accolades + metrics
-    board(all, { id: 'rings', group: 'awards', title: 'Championships', short: 'Rings', get: (p) => p.rings, mixed: true }),
-    board(all, { id: 'mvp', group: 'awards', title: 'MVP Awards', short: 'MVP', get: (p) => p.mvp, mixed: true }),
-    board(offense, { id: 'opoy', group: 'awards', title: 'OPOY Awards', short: 'OPOY', get: (p) => p.opoy, mixed: true }),
+    board(all, { id: 'rings', group: 'awards', title: 'Championships', short: 'Rings', get: (p) => p.rings, mixed: true }, depth),
+    board(all, { id: 'mvp', group: 'awards', title: 'MVP Awards', short: 'MVP', get: (p) => p.mvp, mixed: true }, depth),
+    board(offense, { id: 'opoy', group: 'awards', title: 'OPOY Awards', short: 'OPOY', get: (p) => p.opoy, mixed: true }, depth),
     // Defensive players store DPOY in the opoy column.
-    board(defs, { id: 'dpoy', group: 'awards', title: 'DPOY Awards', short: 'DPOY', get: (p) => p.opoy, mixed: true }),
-    board(all, { id: 'sbmvp', group: 'awards', title: 'Super Bowl MVPs', short: 'SB MVP', get: (p) => p.sbmvp, mixed: true }),
-    board(all, { id: 'roty', group: 'awards', title: 'Rookie of the Year', short: 'ROTY', get: (p) => p.roty, mixed: true }),
-    board(all, { id: 'legacy', group: 'awards', title: 'Career Legacy', short: 'Legacy', get: (p) => p.careerLegacy, mixed: true }),
-    board(all, { id: 'dominance', group: 'awards', title: 'Dominance', short: 'Dom', get: (p) => p.dominance, decimals: 1, mixed: true }),
-    board(all, { id: 'trueTalent', group: 'awards', title: 'True Talent', short: 'Talent', get: (p) => p.trueTalent, decimals: 1, mixed: true }),
+    board(defs, { id: 'dpoy', group: 'awards', title: 'DPOY Awards', short: 'DPOY', get: (p) => p.opoy, mixed: true }, depth),
+    board(all, { id: 'sbmvp', group: 'awards', title: 'Super Bowl MVPs', short: 'SB MVP', get: (p) => p.sbmvp, mixed: true }, depth),
+    board(all, { id: 'roty', group: 'awards', title: 'Rookie of the Year', short: 'ROTY', get: (p) => p.roty, mixed: true }, depth),
+    board(all, { id: 'legacy', group: 'awards', title: 'Career Legacy', short: 'Legacy', get: (p) => p.careerLegacy, mixed: true }, depth),
+    board(all, { id: 'dominance', group: 'awards', title: 'Dominance', short: 'Dom', get: (p) => p.dominance, decimals: 1, mixed: true }, depth),
+    board(all, { id: 'trueTalent', group: 'awards', title: 'True Talent', short: 'Talent', get: (p) => p.trueTalent, decimals: 1, mixed: true }, depth),
   ];
   const boards = new Map(list.filter((b): b is RecordBoardData => !!b).map((b) => [b.id, b]));
 

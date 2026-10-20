@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
-import { ListOrdered } from 'lucide-react';
+import { BarChart3, ListOrdered, Table2 } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
 import { cn } from '@/lib/utils';
-import { evaluateMetric, metricsFor, type AdvContext } from '@/config/advanced';
+import { evaluateMetric, metricsFor, placeOnBoard, type AdvContext, type MetricRow } from '@/config/advanced';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import TeamLogo from '../../brand/TeamLogo';
 import MetricLabel from './MetricLabel';
@@ -10,36 +10,67 @@ import PercentileBar from './PercentileBar';
 import Chips from './Chips';
 import { fmtNum, fmtPlus, ordinal } from './viz';
 import { keyOf } from '../records';
+import PlusLollipop from '../visual/PlusLollipop';
 
-const SHOWN = 10;
+const SHOWN = 12;
 
 interface Props {
   players: Player[];
   ctx: AdvContext;
   position: Position;
+  /** Real NFL legends placed on the league board (unranked; the board itself never changes). */
+  extras?: Player[];
   onSelect: (p: Player) => void;
 }
 
+/** A leaderboard row; real NFL players are unranked (rank 0) and flagged. */
+export type BoardRow = MetricRow & { nfl?: boolean };
+
+const NflTag = () => <span className="rounded-sm bg-flag/80 px-1 font-pixel text-[7px] leading-tight text-night">NFL</span>;
+
 /** Position leaderboard for any advanced metric: value, + index and percentile per qualifier. */
-const MetricLeaderboard = ({ players, ctx, position, onSelect }: Props) => {
+const MetricLeaderboard = ({ players, ctx, position, extras = [], onSelect }: Props) => {
   const metrics = metricsFor(position);
   const [picked, setPicked] = useState<Partial<Record<Position, string>>>({});
   const [expanded, setExpanded] = useState(false);
+  const [asTable, setAsTable] = useState(false);
   const metric = metrics.find((m) => m.id === picked[position]) ?? metrics[0];
   const board = useMemo(() => evaluateMetric(players, metric, position, ctx), [players, metric, position, ctx]);
-  const rows = expanded ? board.rows : board.rows.slice(0, SHOWN);
+  const merged: BoardRow[] = useMemo(() => {
+    const placed = extras
+      .map((p) => placeOnBoard(board, p, ctx))
+      .filter((r): r is NonNullable<typeof r> => !!r)
+      .map((r) => ({ ...r, rank: 0, nfl: true }));
+    if (!placed.length) return board.rows;
+    return [...board.rows, ...placed].sort((a, b) => (metric.lowerIsBetter ? a.value - b.value : b.value - a.value));
+  }, [board, extras, ctx, metric]);
+  const nflCount = merged.length - board.rows.length;
+  const rows = expanded ? merged : merged.slice(0, SHOWN);
   const suffix = metric.suffix ?? '';
 
   return (
     <section aria-labelledby="lab-board-title" className="glass-card flex min-w-0 flex-col gap-3 p-3 sm:p-4">
-      <div>
-        <h3 id="lab-board-title" className="flex items-center gap-2 font-display text-lg font-bold uppercase tracking-wide">
-          <ListOrdered className="h-4 w-4 text-gold" aria-hidden="true" />
-          {POSITION_NAMES[position]} leaderboard
-        </h3>
-        <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">
-          Pick a metric. <b className="text-foreground">+</b> is a position index (100 = average qualifier, 120 = 20% better); the bar is the percentile among qualifiers.
-        </p>
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div className="min-w-0 flex-1">
+          <h3 id="lab-board-title" className="flex items-center gap-2 font-display text-lg font-bold uppercase tracking-wide">
+            <ListOrdered className="h-4 w-4 text-gold" aria-hidden="true" />
+            {POSITION_NAMES[position]} leaderboard
+          </h3>
+          <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">
+            Pick a metric. Each stem runs from the position average (dashed) to the player on the <b className="text-foreground">+</b> index axis
+            (100 = average qualifier, 120 = 20% better): blue right of the line is better, red left is worse. The table adds percentiles.
+          </p>
+        </div>
+        <button
+          type="button"
+          aria-pressed={asTable}
+          onClick={() => setAsTable((v) => !v)}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-line bg-night/60 px-2 py-1 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+        >
+          {asTable ? <BarChart3 className="h-3.5 w-3.5" aria-hidden="true" /> : <Table2 className="h-3.5 w-3.5" aria-hidden="true" />}
+          {asTable ? 'Chart' : 'Table'}
+          <span className="sr-only"> view for the leaderboard</span>
+        </button>
       </div>
 
       <Chips
@@ -62,6 +93,8 @@ const MetricLeaderboard = ({ players, ctx, position, onSelect }: Props) => {
 
       {board.rows.length === 0 ? (
         <p className="py-6 text-center text-sm text-muted-foreground">No {position} meets the minimum sample yet.</p>
+      ) : !asTable ? (
+        <PlusLollipop board={board} rows={rows} allRows={merged} onSelect={onSelect} />
       ) : (
         <table className="w-full table-fixed text-sm">
           <caption className="sr-only">
@@ -90,8 +123,8 @@ const MetricLeaderboard = ({ players, ctx, position, onSelect }: Props) => {
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr key={keyOf(r.player)} className="group border-t border-line/40">
-                <td className={cn('py-1.5 font-pixel text-[10px]', r.rank === 1 ? 'text-gold' : 'text-muted-foreground')}>{r.rank}</td>
+              <tr key={`${r.nfl ? 'nfl:' : ''}${keyOf(r.player)}`} className="group border-t border-line/40">
+                <td className={cn('py-1.5 font-pixel text-[10px]', r.rank === 1 ? 'text-gold' : 'text-muted-foreground')}>{r.nfl ? <NflTag /> : r.rank}</td>
                 <td className="py-1.5">
                   <button
                     type="button"
@@ -100,6 +133,7 @@ const MetricLeaderboard = ({ players, ctx, position, onSelect }: Props) => {
                   >
                     {r.player.team ? <TeamLogo team={r.player.team} size={18} decorative /> : <span className="w-[18px]" aria-hidden="true" />}
                     <span className="truncate">{r.player.name}</span>
+                    {r.nfl && <span className="sr-only">, real NFL player, unranked</span>}
                   </button>
                   {/* Mobile: percentile under the name */}
                   <PercentileBar
@@ -128,15 +162,16 @@ const MetricLeaderboard = ({ players, ctx, position, onSelect }: Props) => {
       <div className="mt-auto flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
         <span>
           {board.rows.length} qualified{board.belowMin > 0 ? ` · ${board.belowMin} below ${metric.minLabel}` : ''}
+          {nflCount > 0 ? ` · ${nflCount} real NFL shown unranked (percentile = share of the league they beat)` : ''}
         </span>
-        {board.rows.length > SHOWN && (
+        {merged.length > SHOWN && (
           <button
             type="button"
             aria-expanded={expanded}
             onClick={() => setExpanded((v) => !v)}
             className="rounded font-semibold text-gold underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
           >
-            {expanded ? 'Show top 10' : `Show all ${board.rows.length}`}
+            {expanded ? `Show top ${SHOWN}` : `Show all ${merged.length}`}
           </button>
         )}
       </div>
