@@ -371,9 +371,11 @@ button.fut__card:focus-visible {
 .fut__sparks i {
   animation-play-state: paused !important;
 }
+/* Subtle finish shimmer only while the pointer is on the card (owner: no idle animation anywhere, except pack
+   openings). Live showcase / detail cards no longer loop on their own. */
 .fut:hover :is(.fut__shape, .fut__foil, .fut__holo, .fut__sparks i),
-.fut:focus-within :is(.fut__shape, .fut__foil, .fut__holo, .fut__sparks i),
-.fut--live :is(.fut__shape, .fut__foil, .fut__holo, .fut__sparks i) {
+.fut:focus-visible :is(.fut__shape, .fut__foil, .fut__holo, .fut__sparks i),
+.pk-dialog .fut--live :is(.fut__shape, .fut__foil, .fut__holo, .fut__sparks i) {
   animation-play-state: running !important;
 }
 
@@ -2634,3 +2636,10 @@ button.fut__card:focus-visible {
     transition: none;
   }
 }
+
+/* Card detail view is static (owner): no drifting motes, spinning rays, pulsing spotlight or idle sway.
+   Pointer tilt on the card still works. */
+.cd__spot, .cd__rays, .cd__motes i, .cd__floor, .cd__sway, .pk-pack:not(.pk-pack--tearing), .pk-mini.pk-pack--holo {
+  animation: none !important;
+}
+.cd__motes { display: none; }

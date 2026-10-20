@@ -37,26 +37,7 @@
   overflow: hidden;
 }
 
-/* Motion: only when allowed */
-@media (prefers-reduced-motion: no-preference) {
-  .ra-bob {
-    animation: ra-bob 1s steps(1, end) infinite;
-  }
-  .ra-streaks rect {
-    animation: ra-streak 1.4s ease-in-out infinite;
-  }
-  .ra-flashes circle {
-    opacity: 0;
-    animation: ra-flash 3.2s linear infinite;
-  }
-  .ra-shine {
-    animation: ra-shine 4.5s ease-in-out infinite;
-  }
-  .ra-sway {
-    transform-origin: 60px 2px;
-    animation: ra-sway 5s ease-in-out infinite;
-  }
-}
+/* Card art is static by design (owner): no idle bob, streaks, flashes, shine or sway. Keyframes kept for reference. */
 @keyframes ra-bob {
   50% { transform: translateY(-1px); }
 }
