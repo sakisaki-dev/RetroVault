@@ -196,9 +196,9 @@ Queen spent his career with the Jets and never won a ring. He was one of the gre
 
 Jackson Wardell Kline grew up with a famous name. His father stood beside Ian Finney through the Waller–Finney era, and the son could have spent a career being introduced as somebody's kid. Instead he won six Offensive Player of the Year awards, one more than Finney himself.
 
-He piled up 28,331 receiving yards in 237 games, close to 120 a game, and added a league MVP and four rings. He played through the years of the Vikings dynasty, when God Johnson was rewriting the record book and every receiver in the league was measured against two names. Kline made it three.
+He piled up 28,331 receiving yards and 289 touchdowns in 237 games, close to 120 yards a game. He lined up beside God Johnson in the Vikings dynasty, when every receiver in the league was measured against two names, and Kline made it three: eight rings, a league MVP and a Super Bowl MVP of his own.
 
-He made his name with the Giants and finished his career in Miami. The Kline family now has a second chapter worth telling, and this one is all his. Jackson Wardell Kline, welcome to the Hall of Fame.""",
+He broke in with the Giants, won it all again and again in Minnesota, and finished his career in Miami. The Kline family now has a second chapter worth telling, and this one is all his. Jackson Wardell Kline, welcome to the Hall of Fame.""",
     "Tyrone Baugh": """Seven seasons, seven championships, and Tyrone Baugh has a ring for every one of them.
 
 He was the linebacker at the center of the Bills dynasty, the defender who did a little of everything and all of it well. In 158 games he made 656 tackles, intercepted 15 passes, sacked the quarterback 21 times and forced 11 fumbles. Most linebackers are run stoppers, pass rushers or cover men. Baugh was all three, with a habit of taking the ball away.

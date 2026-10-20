@@ -243,9 +243,9 @@ EVIDENCE: dict[str, dict] = {
     },
     "Jackson Wardell Kline": {
         "conf": "likely",
-        "why": "Giants on the sheet, retired a Dolphin (game HOF). 4 rings fit your Giants' Y56 title + Dolphins Y57-59; "
-               "the sheet's 99-game, 4-ring snapshot puts all four early, so he stayed in Miami when you left for "
-               "Minnesota (not beside God Johnson on the Vikings).",
+        "why": "Owner's career card: 237 G, 8 rings, 1 SB MVP. Giants on the sheet, retired a Dolphin (game HOF). "
+               "8 rings = your Vikings dynasty titles beside God Johnson (Y61-64, Y66-69); the sheet's 99-game, "
+               "4-ring snapshot matches the first four Vikings titles.",
     },
     "Wayne Wilson": {
         "conf": "likely",

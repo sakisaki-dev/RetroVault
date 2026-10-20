@@ -997,8 +997,8 @@
    "category": "Era Report",
    "era": "Real-roster era",
    "players": [
-    "Taywan Tuttle",
     "Lamar Jackson",
+    "Taywan Tuttle",
     "Mason Taylor",
     "Akiem Bouye",
     "Drake Maye"
@@ -1044,11 +1044,11 @@
    "era": "Bills dynasty",
    "players": [
     "Derrick Myrick",
-    "Dennis Baylon",
     "Reuben Kilian",
+    "Dennis Baylon",
     "Cairo Asanjh",
-    "Tyrone Baugh",
     "Charlie John",
+    "Tyrone Baugh",
     "Rob Lowe",
     "Ian Finney"
    ],
@@ -1176,12 +1176,12 @@
    "category": "Outside the Dynasty",
    "summary": "Amani Bryant, Nico Curl, Jayon Queen and the stars who never wore your colors.",
    "players": [
-    "Shaikal Beebee",
     "Marcel Mathieu",
+    "Shaikal Beebee",
     "Amani Bryant",
     "Cooper Dean",
-    "Jayon Queen",
     "Mose Junior",
+    "Jayon Queen",
     "Nico Curl"
    ]
   },
@@ -1203,13 +1203,13 @@
     "Marcel Mathieu",
     "Jawill Perkins",
     "Dennis Baylon",
-    "Rysen Benkert",
     "Aubrey Jewell",
+    "Rysen Benkert",
     "Kyric McQuay",
     "Amani Bryant",
     "Ray Waller",
-    "Wes Sione",
-    "Tom Brady"
+    "Tom Brady",
+    "Wes Sione"
    ],
    "summary": "How they work: Dominance = 0.7 × True Talent + award points (ring 60, MVP 50, OPOY 30, SB MVP 40, DPOY 120, ROTY 0)."
   },
@@ -1229,14 +1229,14 @@
     "Malakai Sawyer",
     "Dennis Baylon",
     "Cairo Asanjh",
-    "Kyric McQuay",
-    "Amani Bryant",
     "Jahmyr Gibbs",
+    "Kyric McQuay",
     "Tyrone Baugh",
     "Zander Kolar",
+    "Amani Bryant",
     "Ian Finney",
-    "Kitt Inman",
-    "Ray Waller"
+    "Ray Waller",
+    "Kitt Inman"
    ],
    "summary": "QB: Brandson's accuracy, Waller's deep ball, McQuay's decisions, Bryant's legs, Baylon's clutch, Wayne Wilson's durability."
   },
@@ -3061,7 +3061,7 @@
   "Dennis Baylon": "Seven trips to the Super Bowl. Seven rings. Not one loss.\n\nDennis Baylon was the quarterback of the Bills dynasty, and from Y27 to Y33 Buffalo did not lose on the final Sunday of a season. The Iron Island completed 75.7 percent of his passes over 253 games, the kind of accuracy that turns a playbook into a metronome. He threw for 69,448 yards and 779 touchdowns against 134 interceptions, and when the field got short he kept it himself, running in 81 more scores.\n\nThe league remembers him for one word: clutch. Four times he walked off the Super Bowl field as its MVP, and he collected three regular-season MVPs along the way. Charlie John, Tyrone Baugh and Rob Lowe each matched his seven rings, and the Bills went 113-6 in the regular season across those seven years.\n\nHe took his final snaps as a Charger. Buffalo still claims him. The Iron Island, welcome to the Hall of Fame.",
   "Zander Kolar": "Some defensive linemen are measured in sacks. Zander Kolar was measured in tackles.\n\nHe played 261 games up front and made 1,278 of them, close to five a game from a spot on the field where most players settle for two. The sack total stayed modest at 19, and that was never the point. Kolar lived at the line of scrimmage and ended running plays before they had a chance to become anything. Two forced fumbles and a lone interception round out a stat line built on repetition rather than flash.\n\nTampa Bay was home, and he arrives here with four rings. He never won an MVP or a Defensive Player of the Year award, and he never seemed to need the voters. Running backs knew exactly where he was. Offensive coordinators spent his whole career drawing up plays that went somewhere else.\n\nZander Kolar, welcome to the Hall of Fame.",
   "Jayon Queen": "Two Defensive Player of the Year awards. Only one other player in this league has ever matched that.\n\nJayon Queen made 2,838 tackles in 274 games. That is more than ten a game, every game, for a career long enough to outlast most coaching staffs. For a defensive back it is not a stat line, it is a warning. He was the hitter in the secondary, the player who got to the ball carrier first and usually finished the play alone.\n\nAnd he could cover. Forty interceptions say quarterbacks tested him often enough to regret it.\n\nQueen spent his career with the Jets and never won a ring. He was one of the great stars who never played for the coach who built this league's dynasties, which meant he spent his Sundays on the other side of them, making every champion earn it. FOV, welcome to the Hall of Fame.",
-  "Jackson Wardell Kline": "Tyrion Kline's son did not live in anyone's shadow. He built his own.\n\nJackson Wardell Kline grew up with a famous name. His father stood beside Ian Finney through the Waller–Finney era, and the son could have spent a career being introduced as somebody's kid. Instead he won six Offensive Player of the Year awards, one more than Finney himself.\n\nHe piled up 28,331 receiving yards in 237 games, close to 120 a game, and added a league MVP and four rings. He played through the years of the Vikings dynasty, when God Johnson was rewriting the record book and every receiver in the league was measured against two names. Kline made it three.\n\nHe made his name with the Giants and finished his career in Miami. The Kline family now has a second chapter worth telling, and this one is all his. Jackson Wardell Kline, welcome to the Hall of Fame.",
+  "Jackson Wardell Kline": "Tyrion Kline's son did not live in anyone's shadow. He built his own.\n\nJackson Wardell Kline grew up with a famous name. His father stood beside Ian Finney through the Waller–Finney era, and the son could have spent a career being introduced as somebody's kid. Instead he won six Offensive Player of the Year awards, one more than Finney himself.\n\nHe piled up 28,331 receiving yards and 289 touchdowns in 237 games, close to 120 yards a game. He lined up beside God Johnson in the Vikings dynasty, when every receiver in the league was measured against two names, and Kline made it three: eight rings, a league MVP and a Super Bowl MVP of his own.\n\nHe broke in with the Giants, won it all again and again in Minnesota, and finished his career in Miami. The Kline family now has a second chapter worth telling, and this one is all his. Jackson Wardell Kline, welcome to the Hall of Fame.",
   "Tyrone Baugh": "Seven seasons, seven championships, and Tyrone Baugh has a ring for every one of them.\n\nHe was the linebacker at the center of the Bills dynasty, the defender who did a little of everything and all of it well. In 158 games he made 656 tackles, intercepted 15 passes, sacked the quarterback 21 times and forced 11 fumbles. Most linebackers are run stoppers, pass rushers or cover men. Baugh was all three, with a habit of taking the ball away.\n\nDennis Baylon got the headlines on offense. Baugh's defense made sure the Super Bowls were rarely close: the Rams managed 7 points in Y30, the Commanders 14 in Y32, the Panthers 14 in Y33. When it was over, Baugh, Baylon, Charlie John and Rob Lowe each walked away with exactly seven rings.\n\nHe never won an individual award. Seven rings will do. Tyrone Baugh, welcome to the Hall of Fame.",
   "Amani Bryant": "The best quarterback never to win a ring.\n\nAmani Bryant played 416 games, a career long enough to watch whole dynasties rise and fall around him. He threw for 79,121 yards and 763 touchdowns, and he protected the football like it was borrowed: 62 interceptions on 13,029 attempts, roughly one every 210 throws.\n\nThen there were the legs. Bryant ran for 2,292 yards and 124 touchdowns, a quarterback who finished drives himself whenever the end zone came into view. Defenses had to account for his arm and his feet on every snap, for more than four hundred games.\n\nHe won a league MVP. He never won the last game of a season. Bryant is one of the stars who never played for the coach who collected most of this league's trophies, so he spent his career trying to beat that coach's teams instead. The ring never came. The respect always did.\n\nAmani Bryant, welcome to the Hall of Fame.",
   "Cooper Dean": "The best offensive lineman in the league never needed a highlight. He just needed a man in front of him.\n\nCooper Dean anchored the Commanders' line for 292 games and recorded 345 blocks, nearly three hundred games of the least glamorous work in football. Every clean pocket and every open running lane started with somebody like him, and for most of his career there was nobody quite like him. Quarterbacks stayed upright. Running backs found daylight. The man responsible rarely heard his name over the stadium speakers.\n\nHe was called the best lineman in the league, and nobody put up much of an argument. Dean never played for the coach who built this league's dynasties, so he spent his career trying to hold them back. One ring came anyway, the reward for doing the job right on every snap.\n\nLinemen do not usually get the last word. Cooper Dean, welcome to the Hall of Fame.",

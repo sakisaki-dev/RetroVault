@@ -799,25 +799,34 @@
   "stints": [
    {
     "team": "Giants",
-    "from": 56,
-    "to": 56,
+    "from": 58,
+    "to": 59,
+    "rings": []
+   },
+   {
+    "team": "Vikings",
+    "from": 60,
+    "to": 69,
     "rings": [
-     56
+     61,
+     62,
+     63,
+     64,
+     66,
+     67,
+     68,
+     69
     ]
    },
    {
     "team": "Dolphins",
-    "from": 57,
-    "to": 69,
-    "rings": [
-     57,
-     58,
-     59
-    ]
+    "from": 70,
+    "to": 70,
+    "rings": []
    }
   ],
   "confidence": "likely",
-  "evidence": "Giants on the sheet, retired a Dolphin (game HOF). 4 rings fit your Giants' Y56 title + Dolphins Y57-59; the sheet's 99-game, 4-ring snapshot puts all four early, so he stayed in Miami when you left for Minnesota (not beside God Johnson on the Vikings)."
+  "evidence": "Owner's career card: 237 G, 8 rings, 1 SB MVP. Giants on the sheet, retired a Dolphin (game HOF). 8 rings = your Vikings dynasty titles beside God Johnson (Y61-64, Y66-69); the sheet's 99-game, 4-ring snapshot matches the first four Vikings titles."
  },
  "Tyrion Kline": {
   "stints": [

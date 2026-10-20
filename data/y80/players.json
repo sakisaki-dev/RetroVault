@@ -770,15 +770,19 @@
   "team": "Giants",
   "g": 237,
   "yds": 28331,
-  "rings": 4,
+  "rings": 8,
   "mvp": 1,
   "opoy": 6,
-  "sbmvp": 0,
+  "sbmvp": 1,
   "roty": 0,
   "score": 3289,
   "era": "Vikings dynasty · Y59–69",
   "tag": "Son of Tyrion Kline",
-  "ovr": 95
+  "ovr": 95,
+  "td": 289,
+  "fum": 13,
+  "rec": 1668,
+  "lng": 65
  },
  {
   "n": "Tyrion Kline",
