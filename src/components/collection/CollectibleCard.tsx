@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties, type PointerEvent } from 'react';
+import { useEffect, useId, useRef, type CSSProperties, type PointerEvent } from 'react';
 import { cn } from '@/lib/utils';
 import TeamLogo from '@/components/brand/TeamLogo';
 import { POSITION_NAMES } from '@/utils/playerMeta';
@@ -25,18 +25,46 @@ const surnameOf = (name: string) => {
   return parts[parts.length - 1] ?? name;
 };
 
-/** Generic helmet-and-shoulders bust for league players (no photos exist); filled with team colours by CSS. */
-const PlayerSilhouette = ({ number }: { number?: number | null }) => (
-  <svg className="fut__sil" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-    <path className="fut__sil-body" d="M6 100 C8 80 20 71 36 67 L64 67 C80 71 92 80 94 100 Z" />
-    <path className="fut__sil-body" d="M42 54 h16 v15 h-16 Z" />
-    <path className="fut__sil-helmet" d="M28 40 C28 22 40 12 53 12 C68 12 77 24 77 37 C77 46 74 52 69 56 L52 59 C45 59 38 56 34 52 C30 48 28 45 28 40 Z" />
-    <path className="fut__sil-mask" d="M63 39 L81 41 M63 46 L79 47 M70 35 L72 55" fill="none" />
-    <path className="fut__sil-stripe" d="M50 12 C46 22 45 32 46 44" fill="none" />
+/**
+ * League players have no photos: a game-worn jersey in team colours (shoulder stripes, collar, sleeve numbers and the
+ * big chest number), shaded so it reads as fabric. Locked cards show the same jersey as a dark silhouette.
+ */
+const PlayerJersey = ({ number, id }: { number?: number | null; id: string }) => (
+  <svg className="fut__sil fut__jersey" viewBox="0 0 120 110" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id={`${id}-fab`} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stopColor="#fff" stopOpacity="0.22" />
+        <stop offset="0.45" stopColor="#fff" stopOpacity="0" />
+        <stop offset="1" stopColor="#000" stopOpacity="0.35" />
+      </linearGradient>
+      <clipPath id={`${id}-clip`}>
+        <path d="M38 8 C44 14 52 17 60 17 C68 17 76 14 82 8 L104 18 L118 46 L100 56 L96 48 L96 108 L24 108 L24 48 L20 56 L2 46 L16 18 Z" />
+      </clipPath>
+    </defs>
+    <g clipPath={`url(#${id}-clip)`}>
+      <rect className="fut__jersey-body" x="0" y="0" width="120" height="110" />
+      {/* Shoulder / sleeve stripes */}
+      <path className="fut__jersey-trim" d="M2 40 L22 30 L24 36 L4 46 Z M118 40 L98 30 L96 36 L116 46 Z" />
+      <path className="fut__jersey-trim" d="M8 34 L20 28 L21 31 L9 37 Z M112 34 L100 28 L99 31 L111 37 Z" />
+      {/* Side panels */}
+      <path className="fut__jersey-panel" d="M24 60 L32 60 L32 108 L24 108 Z M88 60 L96 60 L96 108 L88 108 Z" />
+      <rect x="0" y="0" width="120" height="110" fill={`url(#${id}-fab)`} />
+    </g>
+    {/* Collar */}
+    <path className="fut__jersey-collar" d="M38 8 C44 14 52 17 60 17 C68 17 76 14 82 8 L78 6 C72 11 66 13 60 13 C54 13 48 11 42 6 Z" />
+    <path className="fut__jersey-seam" d="M38 8 L16 18 L2 46 L20 56 L24 48 L24 108 L96 108 L96 48 L100 56 L118 46 L104 18 L82 8" fill="none" />
     {number != null && (
-      <text x="50" y="96" textAnchor="middle" className="fut__sil-num">
-        {number}
-      </text>
+      <>
+        <text x="60" y="80" textAnchor="middle" className="fut__jersey-num">
+          {number}
+        </text>
+        <text x="11" y="47" textAnchor="middle" className="fut__jersey-sleeve" transform="rotate(-24 11 47)">
+          {number}
+        </text>
+        <text x="109" y="47" textAnchor="middle" className="fut__jersey-sleeve" transform="rotate(24 109 47)">
+          {number}
+        </text>
+      </>
     )}
   </svg>
 );
@@ -112,6 +140,7 @@ const CollectibleCard = ({
   const realLegend = !!player.isRealLegend;
   const team = findNFLTeam(player.team);
   const photo = owned && realLegend && player.photo?.url ? player.photo : null;
+  const jerseyId = `j${useId().replace(/:/g, '')}`;
   const posName = POSITION_NAMES[player.position] ?? player.position;
   const mark = owned && marks?.length ? marks[marks.length - 1] : null;
   const FinishIcon = FINISH_ICON[finish];
@@ -183,11 +212,11 @@ const CollectibleCard = ({
     <span className="fut__shape" aria-hidden="true">
       <span className="fut__face">
         <span className="fut__pattern" />
-        <span className="fut__art">
+        <span className={cn('fut__art', photo && 'fut__art--photo')}>
           {photo ? (
             <img src={photo.url} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" draggable={false} />
           ) : (
-            <PlayerSilhouette number={owned ? number : null} />
+            <PlayerJersey number={owned ? number : null} id={jerseyId} />
           )}
         </span>
         <span className="fut__meta">
