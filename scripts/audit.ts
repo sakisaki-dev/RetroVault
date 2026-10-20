@@ -94,10 +94,11 @@ for (const cls of content.hofClasses ?? []) {
 }
 
 // 7. Stints (when present) explain each player's rings
-for (const [who, s] of Object.entries(extras.stints ?? {}) as [string, { stints: { rings?: number[] }[] }][]) {
+for (const [who, s] of Object.entries(extras.stints ?? {}) as [string, { stints: { rings?: number[] }[]; preLeagueRings?: number }][]) {
   const p = byName.get(who);
   if (!p) continue;
-  const rings = s.stints.reduce((n, st) => n + (st.rings?.length ?? 0), 0);
+  // Imported real-NFL players carry their real rings on the card (preLeagueRings)
+  const rings = s.stints.reduce((n, st) => n + (st.rings?.length ?? 0), 0) + (s.preLeagueRings ?? 0);
   if (rings !== p.rings) warnings.push(`Stints for ${who} account for ${rings} rings; he has ${p.rings}`);
 }
 

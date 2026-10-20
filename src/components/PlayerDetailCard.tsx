@@ -132,12 +132,13 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
 
   const nameKey = player ? normalizeName(player.name) : '';
   const card = extras.cards[nameKey];
+  const careerStints = extras.stints[nameKey];
   const retired = player ? retiredInfo(player) : undefined;
   const hofTier = player ? getLegacyTier(player.careerLegacy) : null;
 
   const arc = useMemo(
-    () => (player ? buildCareerArc({ player, content, card, retired, hofTier: hofTier?.label ?? null }) : null),
-    [player, content, card, retired, hofTier],
+    () => (player ? buildCareerArc({ player, content, card, retired, hofTier: hofTier?.label ?? null, stints: careerStints }) : null),
+    [player, content, card, retired, hofTier, careerStints],
   );
 
   const findByName = (name: string) => {

@@ -15,6 +15,7 @@ import {
   seasonRows,
   type ArcadeBests,
 } from '@/utils/frontOffice';
+import { usePlayerExtras } from '@/utils/playerExtras';
 import PlayerDetailCard from '@/components/PlayerDetailCard';
 import CoachHeader from '@/components/frontoffice/CoachHeader';
 import AdvancedStats from '@/components/frontoffice/AdvancedStats';
@@ -49,13 +50,14 @@ const FrontOfficeTab = () => {
   const players = useMemo(() => getAllPlayers(), [getAllPlayers]);
   const { numberFor } = useJerseyNumbers();
   const arcade = useArcadeBests();
+  const extras = usePlayerExtras();
   const [selected, setSelected] = useState<Player | null>(null);
 
   const model = useMemo(() => {
     if (!content) return null;
     const resume = buildResume(content);
     const rows = seasonRows(content);
-    const stints = buildStints(content, resume, players);
+    const stints = buildStints(content, resume, players, extras.stints);
     return {
       resume,
       rows,
@@ -66,7 +68,7 @@ const FrontOfficeTab = () => {
       shelves: buildCabinet(resume),
       nemeses: buildNemeses(resume),
     };
-  }, [content, players]);
+  }, [content, players, extras.stints]);
 
   const achievements = useMemo(
     () => (content && model ? buildAchievements(content, model.resume, players, arcade) : []),

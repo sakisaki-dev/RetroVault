@@ -128,7 +128,7 @@ const FranchiseHistory = ({ stints, onPlayerSelect, numberFor }: FranchiseHistor
                     )}
                     {more > 0 && (
                       <li className="text-[11px] text-muted-foreground sm:col-span-2">
-                        +{more} more from {s.eras.length === 1 ? 'this era' : 'these eras'}:{' '}
+                        +{more} more {s.keySource === 'stints' ? (s.current ? 'on the roster' : 'from this stint') : `from ${s.eras.length === 1 ? 'this era' : 'these eras'}`}:{' '}
                         {s.keyPlayers
                           .slice(FEATURED_PER_STINT, FEATURED_PER_STINT + 3)
                           .map((k) => k.player?.name ?? k.display)

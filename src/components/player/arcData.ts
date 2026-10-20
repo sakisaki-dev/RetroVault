@@ -1,7 +1,7 @@
 import type { Player } from '@/types/player';
 import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
 import { matchPlayerByName, type LeagueContent, type PlayerNote, type SuperBowlEntry } from '@/utils/leagueContent';
-import type { PlayerCardExtras } from '@/utils/playerExtras';
+import type { PlayerCardExtras, PlayerStints } from '@/utils/playerExtras';
 import type { RetiredNumber } from '@/utils/jerseys';
 
 /**
@@ -95,9 +95,50 @@ interface Inputs {
   card?: PlayerCardExtras;
   retired?: RetiredNumber | null;
   hofTier?: string | null;
+  /** Reconstructed career stints (player-extras "stints"); when present they are the ordered stops */
+  stints?: PlayerStints;
 }
 
-export const buildCareerArc = ({ player, content, card, retired, hofTier }: Inputs): CareerArcData => {
+/** Stops from the reconstructed stints: ordered, with year ranges and the titles won there. */
+const stintsFromCareer = (career: PlayerStints, sbs: SuperBowlEntry[], retiredTeam?: string): ArcStint[] => {
+  const evidence: Evidence = career.confidence === 'confirmed' || career.confidence === 'strong' ? 'confirmed' : 'likely';
+  const label = { confirmed: 'Confirmed', strong: 'Strong fit', likely: 'Likely', ambiguous: 'Best guess' }[career.confidence];
+  const n = career.stints.length;
+  return career.stints.map((st, i) => {
+    const traded = st.from > 80;
+    const years = career.approx ? [] : traded ? [st.from] : Array.from({ length: st.to - st.from + 1 }, (_, k) => st.from + k);
+    const rings: ArcRing[] = st.rings
+      .map((y) => sbs.find((sb) => sb.year === y))
+      .filter((sb): sb is SuperBowlEntry => !!sb)
+      .map((sb) => ({
+        year: sb.year,
+        roman: sb.roman,
+        team: sb.winner ?? st.team,
+        opponent: sb.loser,
+        score: sb.score,
+        evidence,
+        reason: `The ${teamName(st.team)} won it while he was there (career reconstruction: ${label.toLowerCase()})`,
+      }));
+    const last = i === n - 1;
+    let tag: string | undefined;
+    if (last && retiredTeam && teamKey(retiredTeam) === teamKey(st.team)) tag = 'Retired here';
+    else if (traded) tag = `Joins for Y${st.from}`;
+    else if (career.approx) tag = 'Years unknown';
+    else if (st.from === st.to) tag = 'One season';
+    return {
+      key: `${teamKey(st.team)}-${i}`,
+      label: teamName(st.team),
+      team: findNFLTeam(st.team),
+      evidence,
+      source: i === 0 ? `${label}: ${career.evidence}` : `Career reconstruction: ${label.toLowerCase()}`,
+      tag,
+      years,
+      rings,
+    };
+  });
+};
+
+export const buildCareerArc = ({ player, content, card, retired, hofTier, stints: career }: Inputs): CareerArcData => {
   const sbs: SuperBowlEntry[] = content?.superBowls ?? [];
   const note: PlayerNote | undefined = content?.playerNotes ? matchPlayerByName(player.name, content.playerNotes) : undefined;
   const str = (v: unknown) => (typeof v === 'string' && v.trim() ? v.trim() : undefined);
@@ -131,6 +172,23 @@ export const buildCareerArc = ({ player, content, card, retired, hofTier }: Inpu
     }
   }
   eras.sort((a, b) => (a.start ?? 999) - (b.start ?? 999));
+
+  // Reconstructed stints, when on file, are the ordered stops (with year ranges and ring years)
+  if (career?.stints.length && !player.isRealLegend) {
+    const stops = stintsFromCareer(career, sbs, retiredTeam);
+    const placed = stops.reduce((k, st) => k + st.rings.length, 0);
+    const totalRings = Math.max(0, player.rings ?? 0);
+    return {
+      eras,
+      stints: stops,
+      undatedRings: Math.max(0, totalRings - placed),
+      totalRings,
+      hallOfFame: hofTier ? { tier: hofTier } : null,
+      retired: retired ?? null,
+      legend: false,
+      tagline: note?.tag ?? null,
+    };
+  }
 
   // ---------- Franchises (ordered chain from notes / card) ----------
   const stints: ArcStint[] = [];

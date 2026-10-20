@@ -51,7 +51,7 @@ Rondale Ikarras ("The Prodigal Son") won 9 rings, matching your 9 titles across 
 Sherman Brandson ("General Sherman"): 91,463 yds, 1,150 TD, 85% completions, 8 MVPs, 10 rings, 0 career fumbles. Set the 9-TD game and 94-TD season (Y55). Only 4 SB MVPs in 10 rings, plus playoff losses in CIX (Y50, with Denzel Hayes at RB) and CXIX (Y60). Retired injured mid-season.
 
 ### 7. Vikings dynasty (Y59–69)
-God Johnson (formerly Mason Earl III) broke Finney's career receiving mark: 36,005 yds, 378 TD, 10 rings, 3 fumbles, 4 of 6 receiving records. Jackson W. Kline, Tyrion's son, played beside him with 6 OPOYs, the most in the league. Pharoah Hunter set the 288-yd game (Y68). The Wilson brothers likely played QB: Wayne (431 games, 90,450 yds, 5 MVPs) and Michael (58,992 yds, 6 MVPs, retired injured mid-season). Combined 11 MVPs and 10 rings.
+God Johnson (formerly Mason Earl III) broke Finney's career receiving mark: 36,005 yds, 378 TD, 10 rings, 3 fumbles, 4 of 6 receiving records. Jackson W. Kline, Tyrion's son, played beside him with 6 OPOYs, the most in the league. Pharoah Hunter set the 288-yd game (Y68). The Wilson brothers are often placed here, but their rings say otherwise: Wayne's 4 (431 games, 90,450 yds, 5 MVPs) only fit the Chargers' Y10–15 titles, and Michael's 6 (58,992 yds, 6 MVPs, retired injured as a Titan) only fit the Ravens' Y41–49 run and the Giants or Titans in the 50s. See docs/STINT_QUESTIONS.md.
 
 ### 8. Modern era (Y70–80)
 Titans three-peat (Y70–72), then a Super Bowl loss to those Titans as the Seahawks (Y74), and the Jets title (Y77). Malakai Sawyer set the 212-yd game (Y78) and 65-yd run (Y75, from Jason Macleone) but has no Super Bowl appearances in those seasons. Season Y80 ends in Super Bowl CXXXIX.

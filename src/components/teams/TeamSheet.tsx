@@ -9,7 +9,16 @@ import { getReadableTextOn } from '@/utils/teamColors';
 import { useJerseyNumbers, type RetiredNumber } from '@/utils/jerseys';
 import { matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
 import RetiredRafters from './RetiredRafters';
-import { POSITION_LABELS, groupByPosition, type TeamSummary } from './teamStats';
+import { POSITION_LABELS, groupByPosition, type FranchiseStop, type TeamSummary } from './teamStats';
+
+/** Franchise legends shown on the team page */
+const LEGENDS_SHOWN = 8;
+
+const stopYears = (l: FranchiseStop) => {
+  if (l.approx) return 'Years unknown';
+  if (l.from > 80) return `Joins for Y${l.from}`;
+  return l.from === l.to ? `Y${l.from}` : `Y${l.from}–${l.to}`;
+};
 
 interface TeamSheetProps {
   summary: TeamSummary | null;
@@ -93,6 +102,39 @@ const TeamSheet = ({ summary, onClose }: TeamSheetProps) => {
 
               <div className="p-4 sm:p-5 space-y-5">
                 <RetiredRafters team={t} retired={retired} yearsFor={yearsFor} onSelect={openRetired} />
+                {summary.legends.length > 0 && (
+                  <section aria-labelledby="franchise-legends">
+                    <h3 id="franchise-legends" className="section-title text-base mb-1">
+                      Notable players
+                      <span className="font-pixel text-[9px] text-muted-foreground">{summary.legends.length}</span>
+                    </h3>
+                    <p className="mb-2 text-xs text-muted-foreground">
+                      Everyone whose career ran through {t?.name ?? summary.label}, from reconstructed career stints. Years are approximate.
+                    </p>
+                    <ul className="grid gap-1.5 sm:grid-cols-2">
+                      {summary.legends.slice(0, LEGENDS_SHOWN).map((l) => (
+                        <li key={`${l.player.position}:${l.player.name}`}>
+                          <button
+                            type="button"
+                            onClick={() => setSelectedPlayer(l.player)}
+                            className="flex w-full min-w-0 items-center gap-2 rounded-lg border border-border px-3 py-2 text-left hover:border-line"
+                          >
+                            <PositionBadge position={l.player.position} />
+                            <span className="min-w-0 flex-1">
+                              <span className="block truncate font-semibold hover:text-gold">{l.player.name}</span>
+                              <span className="block truncate text-xs text-muted-foreground">
+                                {stopYears(l)}
+                                {l.rings.length > 0 && ` · ${l.rings.length} ${l.rings.length === 1 ? 'ring' : 'rings'} here`}
+                                {(l.confidence === 'likely' || l.confidence === 'ambiguous') && !l.approx && ' · Likely'}
+                              </span>
+                            </span>
+                            <TierMetric value={l.player.careerLegacy} metric="careerLegacy" format="number" />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                )}
                 {groups.map(({ position, players }) => (
                   <section key={position} aria-labelledby={`roster-${position}`}>
                     <h3 id={`roster-${position}`} className="section-title text-base mb-2">

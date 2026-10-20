@@ -11,6 +11,7 @@ import TeamSheet from '../teams/TeamSheet';
 import { useLeagueContent } from '@/utils/leagueContent';
 import { coachedByTeam } from '@/utils/frontOffice';
 import { TEAM_SORTS, buildTeamSummaries, sortTeams, type TeamSortKey } from '../teams/teamStats';
+import { usePlayerExtras } from '@/utils/playerExtras';
 
 type ConferenceFilter = 'all' | 'AFC' | 'NFC';
 
@@ -53,12 +54,13 @@ const TeamRankingsTab = () => {
   const [openKey, setOpenKey] = useState<string | null>(null);
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
   const { content } = useLeagueContent();
+  const extras = usePlayerExtras();
   const coached = useMemo(() => coachedByTeam(content), [content]);
 
   const { teams, unassigned } = useMemo(
-    () => buildTeamSummaries(getAllPlayers()),
+    () => buildTeamSummaries(getAllPlayers(), extras.stints),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [careerData, getAllPlayers, dataVersion],
+    [careerData, getAllPlayers, dataVersion, extras.stints],
   );
 
   // Rank is always by total legacy, regardless of the chosen sort

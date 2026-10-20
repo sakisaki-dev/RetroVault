@@ -51,7 +51,7 @@ PLAYER_TAG_FIXES = {
     "Malakai Sawyer": "Won CXXXI with the Titans (Y72), then CXXXVI with the Jets (Y77); traded to the Falcons for Y80",
     "Jason Macleone": "QB of the Vikings' Y78 title (CXXXVII); now with the Seahawks",
     "Levante Hopkins": "Tight end for the Titans' Y70–72 three-peat",
-    "Rondale Ikarras": "Seahawks legend and record setter with 0 MVPs; final season with the Jets",
+    "Rondale Ikarras": "Ravens legend and record setter with 0 MVPs; final season with the Jets",
 }
 
 # Real franchises for players the screenshots mark CUR (current club = Jets) or UNK; mirrors
@@ -105,9 +105,9 @@ Every great receiver who came after him was chasing Ian Finney. Most of them sti
 
 Rondale Ikarras never just ran through a hole. He ran through it with style, pointed at the crowd, and made sure the cameras got his good side on the way to the end zone. The Prodigal Son played like every snap was a highlight reel, and most of them were.
 
-23,178 rushing yards. 374 rushing touchdowns. Nine rings, four Offensive Player of the Year awards and five Super Bowl MVPs. The career rushing records carry his name. He built a legend in Seattle, three straight titles as the heartbeat of the Seahawks, and took one last ride with the Jets before hanging it up.
+23,178 rushing yards. 374 rushing touchdowns. Nine rings, four Offensive Player of the Year awards and five Super Bowl MVPs. The career rushing records carry his name. He won three straight titles in Seattle, then built his legend in Baltimore, where five more rings came with the Ravens, and took one last ride with the Jets before hanging it up.
 
-Zero regular-season MVPs. He will tell you about that one. Rondale Ikarras, Seahawks legend, welcome to the Hall of Fame.""",
+Zero regular-season MVPs. He will tell you about that one. Rondale Ikarras, Ravens legend, welcome to the Hall of Fame.""",
     "Jakeem Friend": """Linemen do not win trophies. Jakeem Friend won six rings instead.
 
 For most of his career he was a Seattle Seahawk, a fixture up front through the Modern era. He played 214 games and was credited with 427 blocks, two a game, every game, without a single MVP or Player of the Year award to show for it. That is how the job works. The reward is a quarterback who gets up clean and a running back who finds the hole where it was supposed to be.
@@ -142,7 +142,7 @@ Michael Wilson broke in with the Ravens, made his name with the Giants and finis
 
 Six MVPs. Six rings to go with them. There was one exception to the no-running rule, and it was near the goal line, where he kept it himself and scored 36 rushing touchdowns on only 101 carries.
 
-His prime ran through the Vikings dynasty years, with his brother Wayne building his own name on durability. Michael's career ended as a Titan, cut short by injury, and the numbers he left behind still hold up against anyone's. Michael Wilson, welcome to the Hall of Fame.""",
+His prime ran through Baltimore and New York in the years of Ikarras and Brandson, while his brother Wayne's name rested on durability. Michael's career ended as a Titan, cut short by injury, and the numbers he left behind still hold up against anyone's. Michael Wilson, welcome to the Hall of Fame.""",
     "Mose Junior": """Some players chase rings. Mose Junior chased ball carriers.
 
 He made his name with the Rams, one of the stars who never wore the colors of the dynasties that ran this league. He spent his career trying to stop them instead. Mose Junior never won a ring. He did not need one to get here.
@@ -311,7 +311,7 @@ ERA_FIXES = {
     },
     "Ikarras era": {
         "notes": "Ikarras's 9 rings match your 9 titles in this window, and every rushing record falls. "
-        "He is a Seahawks legend (titles Y36–38); he finished his career with one season as a Jet.",
+        "He won three titles in Seattle (Y36–38), became a Ravens legend in Baltimore (Y41–47) and finished his career with one season as a Jet.",
     },
     "Modern era": {
         "key_players": ["Malakai Sawyer", "Jason Macleone", "Levante Hopkins", "Chance Woodrum"],

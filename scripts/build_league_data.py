@@ -70,8 +70,8 @@ CARD_NOTES: dict[str, dict] = {
         "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans, then joined the Jets and won again in Y77 (CXXXVI); traded to the Falcons for Y80, where he retired",
     },
     "Rondale Ikarras": {
-        "legacy_team": "Seahawks",
-        "note": "Seahawks legend from the Ikarras era (titles Y36–38); spent his final season with the Jets",
+        "legacy_team": "Ravens",
+        "note": "Ravens legend: five of his nine rings came in Baltimore (Y41–47) after three straight titles in Seattle (Y36–38); spent his final season with the Jets",
     },
     "Levante Hopkins": {
         "note": "Tight end for the Titans' Y70–72 three-peat",
@@ -229,8 +229,15 @@ def to_app_player(p, teams):
     return {k: v for k, v in out.items() if v is not None}
 
 
-def franchise_history(players, teams, cards):
-    """Full franchise names each league player played for: final team + card former/legacy teams + TEAM_HISTORY."""
+def load_stints() -> dict:
+    """Reconstructed career stints (data/y80/stints.json, written by scripts/infer_stints.py)."""
+    path = SRC / "stints.json"
+    return json.loads(path.read_text()) if path.exists() else {}
+
+
+def franchise_history(players, teams, cards, stints=None):
+    """Full franchise names each league player played for: final team + card former/legacy teams + TEAM_HISTORY
+    + every reconstructed stint team."""
     def full(key):
         key = (key or "").split(" (")[0].strip()
         t = teams.get(key)
@@ -246,6 +253,7 @@ def franchise_history(players, teams, cards):
         card = cards.get(p["n"], {})
         names += [full(card.get("former_team")), full(card.get("legacy_team")), full(card.get("retired_team"))]
         names += [full(t) for t in TEAM_HISTORY.get(p["n"], [])]
+        names += [full(st["team"]) for st in (stints or {}).get(p["n"], {}).get("stints", [])]
         names = sorted({n for n in names if n})
         if len(names) > 1:
             out[p["n"]] = names
@@ -271,8 +279,10 @@ def write_player_extras():
         if not name or not stats.get("games"):
             continue  # e.g. "Mason Taylor 2025": 0 games, nothing to show
         out["realNflCareer"][name.replace("’", "'")] = {"years": years, **stats}
+    stints = load_stints()
     out["franchises"] = franchise_history(json.loads((SRC / "players.json").read_text()),
-                                          json.loads((SRC / "teams.json").read_text()), cards)
+                                          json.loads((SRC / "teams.json").read_text()), cards, stints)
+    out["stints"] = stints
     PLAYER_EXTRAS_OUT.write_text(json.dumps(out, indent=1, ensure_ascii=False))
     print(f"wrote {PLAYER_EXTRAS_OUT.relative_to(ROOT)}: real-NFL splits for {len(out['realNflCareer'])} players")
 
@@ -349,8 +359,17 @@ def main():
             w.writerow([])
 
     if EXTRA_LEGENDS.exists():
-        seen = {(p["n"], p["pos"]) for p in legends}
-        legends += [p for p in json.loads(EXTRA_LEGENDS.read_text()) if (p["n"], p["pos"]) not in seen]
+        by_key = {(p["n"], p["pos"]): p for p in legends}
+        for extra in json.loads(EXTRA_LEGENDS.read_text()):
+            have = by_key.get((extra["n"], extra["pos"]))
+            if have is None:
+                legends.append(extra)
+            else:
+                # Same legend in both files: keep the save's values, fill any stat the save didn't record
+                # (attempts, completions, tackles…) so rate stats and real-life comps work.
+                for k, v in extra.items():
+                    if have.get(k) is None and v is not None:
+                        have[k] = v
     photos = json.loads(LEGEND_PHOTOS.read_text()) if LEGEND_PHOTOS.exists() else {}
     legend_rows = []
     for p in legends:

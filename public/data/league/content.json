@@ -24,7 +24,8 @@
     "Jahmyr Gibbs",
     "Nick Bolton",
     "Mason Taylor",
-    "Akiem Bouye"
+    "Akiem Bouye",
+    "Wayne Wilson"
    ],
    "rival": null,
    "notes": "Imported NFL rosters set the early marks. Mason Taylor's 3 rings match the Dolphins' 3 titles; Bouye and Tuttle's 4 match the Chargers' 4.",
@@ -104,10 +105,11 @@
     "Cairo Asanjh (final season)",
     "Wes Sione",
     "Lukas Russell",
-    "Jawill Perkins"
+    "Jawill Perkins",
+    "Michael Wilson"
    ],
    "rival": null,
-   "notes": "Ikarras's 9 rings match your 9 titles in this window, and every rushing record falls. He is a Seahawks legend (titles Y36–38); he finished his career with one season as a Jet.",
+   "notes": "Ikarras's 9 rings match your 9 titles in this window, and every rushing record falls. He won three titles in Seattle (Y36–38), became a Ravens legend in Baltimore (Y41–47) and finished his career with one season as a Jet.",
    "history": "Rondale Ikarras (\"The Prodigal Son\") won 9 rings, matching your 9 titles across the Seahawks, Chargers and Ravens. He set the 5-TD game (Y40) and career rushing marks. 4 OPOYs, 5 SB MVPs, **0 MVPs**. Asanjh's final season came alongside him on the Seahawks. Wes Sione (0.78 TD/game, best of any TE) and OL Jawill Perkins played here."
   },
   {
@@ -142,13 +144,11 @@
    "keyPlayers": [
     "God Johnson (Mason Earl III)",
     "Jackson W. Kline",
-    "Pharoah Hunter",
-    "Wayne Wilson",
-    "Michael Wilson"
+    "Pharoah Hunter"
    ],
    "rival": null,
-   "notes": "Johnson breaks Finney's career mark with Tyrion Kline's son beside him. The Wilson brothers likely at QB.",
-   "history": "God Johnson (formerly Mason Earl III) broke Finney's career receiving mark: 36,005 yds, 378 TD, 10 rings, 3 fumbles, 4 of 6 receiving records. Jackson W. Kline, Tyrion's son, played beside him with 6 OPOYs, the most in the league. Pharoah Hunter set the 288-yd game (Y68). The Wilson brothers likely played QB: Wayne (431 games, 90,450 yds, 5 MVPs) and Michael (58,992 yds, 6 MVPs, retired injured mid-season). Combined 11 MVPs and 10 rings."
+   "notes": "Johnson breaks Finney's career mark with Tyrion Kline's son starring in the same era. Ring counts rule out the Wilson brothers here: Wayne's 4 fit the Chargers' Y10–15 titles, Michael's 6 the Ravens' 40s run.",
+   "history": "God Johnson (formerly Mason Earl III) broke Finney's career receiving mark: 36,005 yds, 378 TD, 10 rings, 3 fumbles, 4 of 6 receiving records. Jackson W. Kline, Tyrion's son, played beside him with 6 OPOYs, the most in the league. Pharoah Hunter set the 288-yd game (Y68). The Wilson brothers are often placed here, but their rings say otherwise: Wayne's 4 (431 games, 90,450 yds, 5 MVPs) only fit the Chargers' Y10–15 titles, and Michael's 6 (58,992 yds, 6 MVPs, retired injured as a Titan) only fit the Ravens' Y41–49 run and the Giants or Titans in the 50s. See docs/STINT_QUESTIONS.md."
   },
   {
    "id": "modern-era",
@@ -997,8 +997,8 @@
    "category": "Era Report",
    "era": "Real-roster era",
    "players": [
-    "Lamar Jackson",
     "Taywan Tuttle",
+    "Lamar Jackson",
     "Mason Taylor",
     "Akiem Bouye",
     "Drake Maye"
@@ -1044,11 +1044,11 @@
    "era": "Bills dynasty",
    "players": [
     "Derrick Myrick",
-    "Reuben Kilian",
     "Dennis Baylon",
+    "Reuben Kilian",
+    "Cairo Asanjh",
     "Tyrone Baugh",
     "Charlie John",
-    "Cairo Asanjh",
     "Rob Lowe",
     "Ian Finney"
    ],
@@ -1088,7 +1088,7 @@
    "id": "era-vikings-dynasty",
    "headline": "VIKINGS DYNASTY",
    "subheadline": "Y59–69 · Super Bowls CXVIII–CXXVIII · Vikings",
-   "body": "God Johnson (formerly Mason Earl III) broke Finney's career receiving mark: 36,005 yds, 378 TD, 10 rings, 3 fumbles, 4 of 6 receiving records. Jackson W. Kline, Tyrion's son, played beside him with 6 OPOYs, the most in the league. Pharoah Hunter set the 288-yd game (Y68). The Wilson brothers likely played QB: Wayne (431 games, 90,450 yds, 5 MVPs) and Michael (58,992 yds, 6 MVPs, retired injured mid-season). Combined 11 MVPs and 10 rings.",
+   "body": "God Johnson (formerly Mason Earl III) broke Finney's career receiving mark: 36,005 yds, 378 TD, 10 rings, 3 fumbles, 4 of 6 receiving records. Jackson W. Kline, Tyrion's son, played beside him with 6 OPOYs, the most in the league. Pharoah Hunter set the 288-yd game (Y68). The Wilson brothers are often placed here, but their rings say otherwise: Wayne's 4 (431 games, 90,450 yds, 5 MVPs) only fit the Chargers' Y10–15 titles, and Michael's 6 (58,992 yds, 6 MVPs, retired injured as a Titan) only fit the Ravens' Y41–49 run and the Giants or Titans in the 50s. See docs/STINT_QUESTIONS.md.",
    "tier": "milestone",
    "category": "Era Report",
    "era": "Vikings dynasty",
@@ -1108,8 +1108,8 @@
    "category": "Era Report",
    "era": "Modern era",
    "players": [
-    "Jason Macleone",
-    "Malakai Sawyer"
+    "Malakai Sawyer",
+    "Jason Macleone"
    ],
    "summary": "Titans three-peat (Y70–72), then a Super Bowl loss to those Titans as the Seahawks (Y74), and the Jets title (Y77)."
   },
@@ -1140,10 +1140,10 @@
     "God Johnson",
     "Sherman Brandson",
     "Jason Macleone",
-    "Avonte Gooden",
     "Dennis Baylon",
-    "Kyric McQuay",
+    "Avonte Gooden",
     "Cairo Asanjh",
+    "Kyric McQuay",
     "Ian Finney",
     "Ray Waller"
    ],
@@ -1179,8 +1179,8 @@
     "Shaikal Beebee",
     "Marcel Mathieu",
     "Amani Bryant",
-    "Jayon Queen",
     "Cooper Dean",
+    "Jayon Queen",
     "Mose Junior",
     "Nico Curl"
    ]
@@ -1193,20 +1193,20 @@
    "tier": "controversy",
    "category": "Analytics",
    "players": [
-    "Damone Omameh",
     "Taywan Tuttle",
-    "Wayne Wilson",
+    "Damone Omameh",
     "Deante Elder",
+    "Wayne Wilson",
     "Cooper Dean",
     "Rob Lowe",
     "Rondale Ikarras",
     "Marcel Mathieu",
     "Jawill Perkins",
-    "Rysen Benkert",
     "Dennis Baylon",
+    "Rysen Benkert",
     "Aubrey Jewell",
-    "Amani Bryant",
     "Kyric McQuay",
+    "Amani Bryant",
     "Ray Waller",
     "Wes Sione",
     "Tom Brady"
@@ -1222,17 +1222,17 @@
    "category": "Fantasy Draft",
    "players": [
     "Wayne Wilson",
-    "Mose Junior",
     "God Johnson",
+    "Mose Junior",
     "Sherman Brandson",
     "Rondale Ikarras",
     "Malakai Sawyer",
     "Dennis Baylon",
+    "Cairo Asanjh",
+    "Kyric McQuay",
+    "Amani Bryant",
     "Jahmyr Gibbs",
     "Tyrone Baugh",
-    "Amani Bryant",
-    "Kyric McQuay",
-    "Cairo Asanjh",
     "Zander Kolar",
     "Ian Finney",
     "Kitt Inman",
@@ -1479,7 +1479,7 @@
    "position": "RB",
    "nickname": "The Prodigal Son",
    "era": "Ikarras era · Y36–46",
-   "tag": "Seahawks legend and record setter with 0 MVPs; final season with the Jets"
+   "tag": "Ravens legend and record setter with 0 MVPs; final season with the Jets"
   },
   {
    "name": "Denzel Hayes",
@@ -3048,12 +3048,12 @@
   "God Johnson": "He changed his name to God. Then he earned it.\n\nMason Earl III walked into the league as a receiver. God Johnson walked out as the standard every receiver gets measured against. Some people thought the name was a joke. Defensive coordinators never laughed.\n\n36,005 receiving yards. 378 receiving touchdowns. Ten rings with the Vikings dynasty and five Super Bowl MVPs, because when the lights were brightest the ball found him. And three fumbles. In his entire career. Ian Finney's career receiving mark stood for decades until God took it, with Jackson Wardell Kline lined up beside him.\n\nThere is not much left to say about a man who named himself after the only being with a better résumé. God Johnson, welcome to the Hall of Fame.",
   "Levante Hopkins": "The quiet one who did the dirty work.\n\nLevante Hopkins never looked the part. Glasses off the field, soft-spoken in the locker room, the guy you would mistake for a team analyst. Then he put the helmet on, and nobody in the league wanted to be the one assigned to him.\n\nHe played 291 games and caught 1,194 passes for 12,353 yards and 174 touchdowns. He won nine rings and was Super Bowl MVP twice. He was the tight end at the center of the Titans' three-peat from Y70 to Y72: blocking on first down, finding the soft spot on third, and finishing in the red zone.\n\nHe never asked for the ball. He just made it hard to lose with him on the field. Levante Hopkins, welcome to the Hall of Fame.",
   "Ian Finney": "The first superstar. The Infinity Man.\n\nBefore the dynasties had names, there was Ian Finney. He was the first player in this league who made you stop what you were doing to watch, the receiver every kid in the backyard pretended to be.\n\nHe started with the Commanders' four-peat, then carried the Buccaneers through the Waller–Finney era with Tyrion Kline at his side: nine rings, four in Washington and five in Tampa Bay. He caught 1,902 passes for 32,980 yards and 292 touchdowns at 17.3 yards a catch, and every one of them looked effortless. Add five Offensive Player of the Year awards, an MVP and three Super Bowl MVPs.\n\nEvery great receiver who came after him was chasing Ian Finney. Most of them still are. The Infinity Man, welcome to the Hall of Fame.",
-  "Rondale Ikarras": "Flashy, loud, unstoppable, and he knew it. He was that guy.\n\nRondale Ikarras never just ran through a hole. He ran through it with style, pointed at the crowd, and made sure the cameras got his good side on the way to the end zone. The Prodigal Son played like every snap was a highlight reel, and most of them were.\n\n23,178 rushing yards. 374 rushing touchdowns. Nine rings, four Offensive Player of the Year awards and five Super Bowl MVPs. The career rushing records carry his name. He built a legend in Seattle, three straight titles as the heartbeat of the Seahawks, and took one last ride with the Jets before hanging it up.\n\nZero regular-season MVPs. He will tell you about that one. Rondale Ikarras, Seahawks legend, welcome to the Hall of Fame.",
+  "Rondale Ikarras": "Flashy, loud, unstoppable, and he knew it. He was that guy.\n\nRondale Ikarras never just ran through a hole. He ran through it with style, pointed at the crowd, and made sure the cameras got his good side on the way to the end zone. The Prodigal Son played like every snap was a highlight reel, and most of them were.\n\n23,178 rushing yards. 374 rushing touchdowns. Nine rings, four Offensive Player of the Year awards and five Super Bowl MVPs. The career rushing records carry his name. He won three straight titles in Seattle, then built his legend in Baltimore, where five more rings came with the Ravens, and took one last ride with the Jets before hanging it up.\n\nZero regular-season MVPs. He will tell you about that one. Rondale Ikarras, Ravens legend, welcome to the Hall of Fame.",
   "Jakeem Friend": "Linemen do not win trophies. Jakeem Friend won six rings instead.\n\nFor most of his career he was a Seattle Seahawk, a fixture up front through the Modern era. He played 214 games and was credited with 427 blocks, two a game, every game, without a single MVP or Player of the Year award to show for it. That is how the job works. The reward is a quarterback who gets up clean and a running back who finds the hole where it was supposed to be.\n\nThe last two seasons have come in New York, with the Jets in Y79 and Y80. The jersey changed. The job did not, and Seattle still has first claim on him.\n\nSix rings, 427 blocks, and almost no headlines. Jakeem Friend, Seahawks legend, welcome to the Hall of Fame.",
   "Charlie John": "Seven straight Super Bowls. Charlie John was there for every one of them.\n\nCJ was the tight end in the middle of the Bills dynasty, seven titles in a row from Y27 to Y33, LXXXVI through XCII. Dennis Baylon went 7-for-7 in Super Bowls in that stretch, and John's ring count matches him exactly, as do Tyrone Baugh's and Rob Lowe's. That was the core. He was part of it.\n\nHe caught 840 passes for 9,980 yards and 150 touchdowns in 197 games. More than one catch in six went for a score, which tells you where the ball went when Buffalo got close. He was not there to stretch the field. He was there to finish drives, and he finished a lot of them. He even took home a Super Bowl MVP of his own.\n\nTwenty yards short of 10,000 for his career. Nobody in Buffalo cares. CJ, welcome to the Hall of Fame.",
   "Lukas Russell": "The Running Man started fast and never slowed down.\n\nLukas Russell was Rookie of the Year in his first season and retired a Seahawk 271 games later. In between he caught 1,675 passes for 24,547 yards and 265 touchdowns. That is 14.7 yards a catch over a career that long: deep enough to make safeties back up, steady enough to keep the chains moving.\n\nHe played in the Ikarras era, when Rondale Ikarras was taking every rushing record in the book, and he still found room to collect four Offensive Player of the Year awards and eight rings. Then there is the trophy that settles a lot of arguments. Russell won a regular-season MVP. Ikarras, with all those records, never did.\n\nFifteen fumbles in 1,675 catches. Quarterbacks trusted him with the ball, and he gave it back to them in the end zone. Running Man, welcome to the Hall of Fame.",
   "Nick Bolton": "One of the originals, and he never stopped tackling.\n\nNick Bolton came into this league with the imported NFL rosters of the Real-roster era, the players who set the first marks before the league started making its own stars. He played 253 games and finished his career a Minnesota Viking.\n\nHe was the complete linebacker. 1,233 tackles, close to five a game. Seventeen interceptions and eighteen sacks, almost a perfect split between dropping into coverage and coming after the quarterback. He forced exactly one fumble in his whole career, which says something about how he played: wrap up, put the man on the ground, line up again.\n\nThree rings. No individual awards. Just 253 games of showing up and doing the job, which is its own kind of greatness. Nick Bolton, welcome to the Hall of Fame.",
-  "Michael Wilson": "Wayne's brother, and nobody's afterthought.\n\nMichael Wilson broke in with the Ravens, made his name with the Giants and finished as a Titan. He was a pocket passer in the purest sense: 413 rushing yards in his entire career, because he never needed to run. He completed 72 percent of his passes over 214 games for 58,992 yards and 690 touchdowns, more than three touchdown passes a game.\n\nSix MVPs. Six rings to go with them. There was one exception to the no-running rule, and it was near the goal line, where he kept it himself and scored 36 rushing touchdowns on only 101 carries.\n\nHis prime ran through the Vikings dynasty years, with his brother Wayne building his own name on durability. Michael's career ended as a Titan, cut short by injury, and the numbers he left behind still hold up against anyone's. Michael Wilson, welcome to the Hall of Fame.",
+  "Michael Wilson": "Wayne's brother, and nobody's afterthought.\n\nMichael Wilson broke in with the Ravens, made his name with the Giants and finished as a Titan. He was a pocket passer in the purest sense: 413 rushing yards in his entire career, because he never needed to run. He completed 72 percent of his passes over 214 games for 58,992 yards and 690 touchdowns, more than three touchdown passes a game.\n\nSix MVPs. Six rings to go with them. There was one exception to the no-running rule, and it was near the goal line, where he kept it himself and scored 36 rushing touchdowns on only 101 carries.\n\nHis prime ran through Baltimore and New York in the years of Ikarras and Brandson, while his brother Wayne's name rested on durability. Michael's career ended as a Titan, cut short by injury, and the numbers he left behind still hold up against anyone's. Michael Wilson, welcome to the Hall of Fame.",
   "Mose Junior": "Some players chase rings. Mose Junior chased ball carriers.\n\nHe made his name with the Rams, one of the stars who never wore the colors of the dynasties that ran this league. He spent his career trying to stop them instead. Mose Junior never won a ring. He did not need one to get here.\n\nHe made 2,862 tackles in 247 games. That is 11.6 a game from a defensive back, a number that belongs to a linebacker. He was a hitter first and always, the player who arrived at the ball carrier before anyone else in the secondary. And he took the ball away too: 35 interceptions over his career, plus a Defensive Player of the Year award.\n\nThe Hall is not only for the men who won the last game. It is also for the ones who made every game harder to win. Mose Junior, welcome to the Hall of Fame.",
   "Lamar Jackson": "The league never had to explain who he was. He was just Him.\n\nLamar Jackson arrived with the imported rosters of the Real-roster era, and the early marks were his to set. Over 345 games he threw for 71,958 yards and 682 touchdowns, then ran for 7,939 more yards and 95 scores. That is 6.2 yards a carry from a quarterback. Defenses could cover every receiver on the field and still lose to the man taking the snap.\n\nHe was not careless with it either: 141 interceptions on 9,885 attempts, roughly one every 70 throws. His longest pass went 84 yards. His longest run went 79. Either way, the play was never over until he was down.\n\nFour MVPs and two rings. Baltimore was home for the heart of it, and he finished his career in Green Bay. Him. Lamar Jackson, welcome to the Hall of Fame.",
   "Tyler Pacheco": "Tyler Pacheco never needed the big play. He needed the ball, and he got it.\n\nOver 290 games the Packers tight end caught 1,384 passes for 10,749 yards and 124 touchdowns. That is under eight yards a catch, the profile of a target who lived in the short middle of the field, where the hits come fast and the catches have to be made anyway. He was a volume player in the best sense. Nearly 1,400 receptions is a career's worth of quarterbacks deciding he was the safe throw.\n\nHe won Offensive Player of the Year once and collected four rings. And he lasted: 290 games, one fewer than Levante Hopkins, at a position that wears players down.\n\nHe was never the flashiest name on the field. He was the one who was always open. Tyler Pacheco, welcome to the Hall of Fame.",

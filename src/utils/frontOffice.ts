@@ -6,6 +6,7 @@
 import { HOF_THRESHOLD, isHallOfFamer } from '@/config/stats';
 import type { Player } from '@/types/player';
 import { findNFLTeam } from '@/utils/nflTeams';
+import { normalizeName, type PlayerStints } from '@/utils/playerExtras';
 import {
   matchPlayerByName,
   type CoachSeason,
@@ -356,6 +357,8 @@ export interface Stint {
   losses: number;
   eras: LeagueEra[];
   keyPlayers: { raw: string; display: string; player?: Player }[];
+  /** Where keyPlayers came from: reconstructed player stints, or the era's key-player names (fallback) */
+  keySource?: 'stints' | 'eras';
   /** Real regular seasons for this stint (only when coach.seasons exists) */
   seasons?: SeasonRow[];
   record?: { w: number; l: number; t: number; pct: number; titles: number; best: SeasonRow };
@@ -403,7 +406,32 @@ const seasonStints = (rows: SeasonRow[], resume: Resume): Stint[] => {
  * those appearances (the save doesn't record exact hire/fire dates); the current club's stint runs to
  * the current season. Eras attach when they list the team and overlap the stint.
  */
-export const buildStints = (content: LeagueContent, resume: Resume, players: Player[]): Stint[] => {
+/**
+ * League players whose reconstructed stints overlap this coaching stint (same team, overlapping years), best
+ * Career Legacy first. For the current club's current stint only players still active and still on the club count
+ * (a trade after the last season shows as a stint starting the next year). Placeholder-year stints never count.
+ */
+const stintPlayers = (s: Stint, players: Player[], careers: Record<string, PlayerStints>): Player[] => {
+  const out: Player[] = [];
+  for (const p of players) {
+    if (p.isRealLegend) continue;
+    const c = careers[normalizeName(p.name)];
+    if (!c || c.approx) continue;
+    const last = c.stints.at(-1);
+    const hit = s.current
+      ? p.status !== 'Retired' && !!last && sameTeam(last.team, s.team) && last.to >= s.lastYear
+      : c.stints.some((x) => sameTeam(x.team, s.team) && x.from <= s.lastYear && x.to >= s.firstYear);
+    if (hit) out.push(p);
+  }
+  return out.sort((a, b) => (b.careerLegacy ?? 0) - (a.careerLegacy ?? 0));
+};
+
+export const buildStints = (
+  content: LeagueContent,
+  resume: Resume,
+  players: Player[],
+  careers: Record<string, PlayerStints> = {},
+): Stint[] => {
   const rows = seasonRows(content);
   const stints: Stint[] = rows.length ? seasonStints(rows, resume) : [];
   for (const g of rows.length ? [] : resume.games) {
@@ -439,6 +467,13 @@ export const buildStints = (content: LeagueContent, resume: Resume, players: Pla
       (e) => e.yourTeams.some((t) => sameTeam(t, s.team)) && e.startYear <= s.lastYear && e.endYear >= s.firstYear,
     );
     if (!s.eras.length) s.eras = content.eras.filter((e) => e.startYear <= s.firstYear && e.endYear >= s.firstYear);
+    const fromStints = stintPlayers(s, players, careers);
+    if (fromStints.length) {
+      s.keyPlayers = fromStints.map((p) => ({ raw: p.name, display: p.name, player: p }));
+      s.keySource = 'stints';
+      continue;
+    }
+    s.keySource = 'eras';
     const seen = new Set<string>();
     const kp = s.eras
       .flatMap((e) => e.keyPlayers)

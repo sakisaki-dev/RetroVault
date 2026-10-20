@@ -1,6 +1,19 @@
 import type { Player, Position } from '@/types/player';
 import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
 import { HOF_THRESHOLD } from '@/config/stats';
+import { normalizeName, type PlayerStints, type StintConfidence } from '@/utils/playerExtras';
+
+/** A player's time with one franchise, from the reconstructed career stints. */
+export interface FranchiseStop {
+  player: Player;
+  from: number;
+  to: number;
+  /** Super Bowl years he won here */
+  rings: number[];
+  confidence: StintConfidence;
+  /** Years are a placeholder (only the team is known) */
+  approx: boolean;
+}
 
 export interface TeamSummary {
   /** Stable key: NFL team id, or "raw:<name>" for team strings that don't match an NFL franchise */
@@ -14,7 +27,10 @@ export interface TeamSummary {
   rings: number;
   mvps: number;
   hallOfFamers: number;
+  /** Best player on this roster or in its history (franchise legends count, e.g. Ikarras for the Seahawks) */
   topPlayer: Player | null;
+  /** Everyone whose career stints include this franchise, best Career Legacy first */
+  legends: FranchiseStop[];
 }
 
 export const POSITION_ORDER: Position[] = ['QB', 'RB', 'WR', 'TE', 'OL', 'DL', 'LB', 'DB'];
@@ -38,7 +54,10 @@ export const teamKeyFor = (rawTeam?: string | null): string | null => {
 };
 
 /** Groups players by franchise. Players without a team are returned separately. */
-export const buildTeamSummaries = (players: Player[]): { teams: TeamSummary[]; unassigned: Player[] } => {
+export const buildTeamSummaries = (
+  players: Player[],
+  careers: Record<string, PlayerStints> = {},
+): { teams: TeamSummary[]; unassigned: Player[] } => {
   const groups = new Map<string, { team: NFLTeam | null; label: string; players: Player[] }>();
   const unassigned: Player[] = [];
 
@@ -55,9 +74,30 @@ export const buildTeamSummaries = (players: Player[]): { teams: TeamSummary[]; u
     groups.get(key)!.players.push(p);
   });
 
+  // Franchise stops from the reconstructed stints (one per player per franchise; repeat stints merge)
+  const stops = new Map<string, FranchiseStop[]>();
+  players.forEach((p) => {
+    const c = p.isRealLegend ? undefined : careers[normalizeName(p.name)];
+    c?.stints.forEach((st) => {
+      const key = teamKeyFor(st.team);
+      if (!key) return;
+      const list = stops.get(key) ?? [];
+      const mine = list.find((x) => x.player === p);
+      if (mine) {
+        mine.from = Math.min(mine.from, st.from);
+        mine.to = Math.max(mine.to, st.to);
+        mine.rings = [...mine.rings, ...st.rings].sort((a, b) => a - b);
+      } else {
+        list.push({ player: p, from: st.from, to: st.to, rings: [...st.rings], confidence: c.confidence, approx: !!c.approx });
+      }
+      stops.set(key, list);
+    });
+  });
+
   const teams: TeamSummary[] = [...groups.entries()].map(([key, g]) => {
     const totalLegacy = g.players.reduce((s, p) => s + (p.careerLegacy || 0), 0);
-    const topPlayer = g.players.reduce<Player | null>(
+    const legends = (stops.get(key) ?? []).sort((a, b) => (b.player.careerLegacy || 0) - (a.player.careerLegacy || 0));
+    const topPlayer = [...g.players, ...legends.map((l) => l.player)].reduce<Player | null>(
       (best, p) => (!best || (p.careerLegacy || 0) > (best.careerLegacy || 0) ? p : best),
       null,
     );
@@ -72,6 +112,7 @@ export const buildTeamSummaries = (players: Player[]): { teams: TeamSummary[]; u
       mvps: g.players.reduce((s, p) => s + (p.mvp || 0), 0),
       hallOfFamers: g.players.filter((p) => (p.careerLegacy || 0) >= HOF_THRESHOLD).length,
       topPlayer,
+      legends,
     };
   });
 

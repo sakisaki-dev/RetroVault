@@ -9,6 +9,28 @@ export type RealNflCareer = { years?: string } & Record<string, number | string 
 /** In-game player card extras; any subset of keys may be present. */
 export type PlayerCardExtras = Record<string, number | string | boolean | undefined>;
 
+/** One reconstructed career stop (data/y80/stints.json). Years are save seasons (Y1–Y80; Y81 = joined after Y80). */
+export interface CareerStint {
+  team: string;
+  from: number;
+  to: number;
+  /** Super Bowl years won during this stint */
+  rings: number[];
+}
+
+export type StintConfidence = 'confirmed' | 'strong' | 'likely' | 'ambiguous';
+
+export interface PlayerStints {
+  stints: CareerStint[];
+  confidence: StintConfidence;
+  evidence: string;
+  /** Years are a placeholder; only the team is known */
+  approx?: boolean;
+  /** Real-NFL rings on his card, won before the save */
+  preLeagueRings?: number;
+  alternatives?: { team: string; from: number; to: number }[][];
+}
+
 export interface PlayerExtras {
   realNflCareer: Record<string, RealNflCareer>;
   cards: Record<string, PlayerCardExtras>;
@@ -18,9 +40,11 @@ export interface PlayerExtras {
   family: Record<string, string>;
   /** player name -> every franchise he played for (full names), when more than his final team is known */
   franchises: Record<string, string[]>;
+  /** player name -> reconstructed career stints, in order */
+  stints: Record<string, PlayerStints>;
 }
 
-const EMPTY: PlayerExtras = { realNflCareer: {}, cards: {}, formerNames: {}, family: {}, franchises: {} };
+const EMPTY: PlayerExtras = { realNflCareer: {}, cards: {}, formerNames: {}, family: {}, franchises: {}, stints: {} };
 
 /** Name key that ignores case, extra spaces and curly vs straight apostrophes/quotes. */
 export const normalizeName = (name: string) =>
@@ -58,7 +82,30 @@ export interface IndexedExtras {
   formerNames: Record<string, string>;
   family: Record<string, { name: string; value: string }>;
   franchises: Record<string, string[]>;
+  stints: Record<string, PlayerStints>;
 }
+
+const CONFIDENCE = new Set<StintConfidence>(['confirmed', 'strong', 'likely', 'ambiguous']);
+
+/** Keeps only well-formed stint records (a bad row is dropped, never thrown). */
+const normalizeStints = (rec: unknown): Record<string, PlayerStints> => {
+  const out: Record<string, PlayerStints> = {};
+  Object.entries(reindex<Partial<PlayerStints>>(rec)).forEach(([k, v]) => {
+    const stints = (Array.isArray(v?.stints) ? v.stints : [])
+      .filter((s): s is CareerStint => !!s && typeof s.team === 'string' && Number.isFinite(s.from) && Number.isFinite(s.to))
+      .map((s) => ({ team: s.team, from: s.from, to: s.to, rings: Array.isArray(s.rings) ? s.rings.filter(Number.isFinite) : [] }));
+    if (!stints.length) return;
+    out[k] = {
+      stints,
+      confidence: v.confidence && CONFIDENCE.has(v.confidence) ? v.confidence : 'likely',
+      evidence: typeof v.evidence === 'string' ? v.evidence : '',
+      approx: v.approx === true || undefined,
+      preLeagueRings: typeof v.preLeagueRings === 'number' ? v.preLeagueRings : undefined,
+      alternatives: Array.isArray(v.alternatives) ? v.alternatives : undefined,
+    };
+  });
+  return out;
+};
 
 const toIndexed = (raw: Partial<PlayerExtras>): IndexedExtras => ({
   realNflCareer: reindex<RealNflCareer>(raw.realNflCareer),
@@ -66,6 +113,7 @@ const toIndexed = (raw: Partial<PlayerExtras>): IndexedExtras => ({
   formerNames: reindex<string>(raw.formerNames),
   family: reindexWithName(raw.family),
   franchises: reindex<string[]>(raw.franchises),
+  stints: normalizeStints(raw.stints),
 });
 
 const EMPTY_INDEXED = toIndexed(EMPTY);
@@ -102,6 +150,9 @@ export const usePlayerExtras = (): IndexedExtras => {
   }, []);
   return extras;
 };
+
+/** A player's reconstructed stints, or undefined when none are on file. */
+export const getStints = (extras: IndexedExtras, playerName: string): PlayerStints | undefined => extras.stints[normalizeName(playerName)];
 
 export interface FamilyTie {
   /** Relation text as shown, e.g. "Son of" or "Family" */

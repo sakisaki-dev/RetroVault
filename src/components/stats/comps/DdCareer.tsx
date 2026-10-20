@@ -33,7 +33,11 @@ const DdCareer = ({ player, posStats }: { player: Player; posStats: PosStat[] })
   const card = extras.cards[normalizeName(player.name)];
   const retired = retiredInfo(player);
   const tier = getLegacyTier(player.careerLegacy);
-  const arc = useMemo(() => buildCareerArc({ player, content, card, retired, hofTier: tier?.label ?? null }), [player, content, card, retired, tier]);
+  const stints = extras.stints[normalizeName(player.name)];
+  const arc = useMemo(
+    () => buildCareerArc({ player, content, card, retired, hofTier: tier?.label ?? null, stints }),
+    [player, content, card, retired, tier, stints],
+  );
   const theme = teamThemeVars(findNFLTeam(player.team));
   const mix = legacyMix(player);
   const parts = [

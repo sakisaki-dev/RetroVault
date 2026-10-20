@@ -2404,7 +2404,10 @@
   "score": 2413,
   "era": "Imported legend · real NFL stats",
   "legend": 1,
-  "ovr": 96
+  "ovr": 96,
+  "tkl": 1088,
+  "ff": 33,
+  "approx_stats": true
  },
  {
   "n": "Reggie White",
@@ -2424,7 +2427,9 @@
   "era": "Imported legend · real NFL stats",
   "tag": "198 real sacks",
   "legend": 1,
-  "ovr": 99
+  "ovr": 99,
+  "tkl": 1112,
+  "approx_stats": true
  },
  {
   "n": "J.J. Watt",
@@ -2441,7 +2446,9 @@
   "score": 2251,
   "era": "Imported legend · real NFL stats",
   "legend": 1,
-  "ovr": 91
+  "ovr": 91,
+  "tkl": 584,
+  "approx_stats": true
  },
  {
   "n": "Ed Reed",
@@ -2460,7 +2467,9 @@
   "era": "Imported legend · real NFL stats",
   "tag": "64 real INTs",
   "legend": 1,
-  "ovr": 75
+  "ovr": 75,
+  "tkl": 643,
+  "approx_stats": true
  },
  {
   "n": "Deion Sanders",
@@ -2477,7 +2486,11 @@
   "score": 806,
   "era": "Imported legend · real NFL stats",
   "legend": 1,
-  "ovr": 68
+  "ovr": 68,
+  "tkl": 512,
+  "sck": 1,
+  "ff": 10,
+  "approx_stats": true
  },
  {
   "n": "Troy Polamalu",
@@ -2514,7 +2527,9 @@
   "score": 1662,
   "era": "Imported legend · real NFL stats",
   "legend": 1,
-  "ovr": 88
+  "ovr": 88,
+  "tkl": 1210,
+  "approx_stats": true
  },
  {
   "n": "Patrick Mahomes",
@@ -2536,7 +2551,11 @@
   "score": 1078,
   "era": "Current NFL star · real stats through 2025",
   "legend": 1,
-  "ovr": 74
+  "ovr": 74,
+  "att": 4800,
+  "cmp": 3170,
+  "ratt": 480,
+  "approx_stats": true
  },
  {
   "n": "Josh Allen",
@@ -2558,7 +2577,11 @@
   "score": 632,
   "era": "Current NFL star · real stats through 2025",
   "legend": 1,
-  "ovr": 66
+  "ovr": 66,
+  "att": 3950,
+  "cmp": 2490,
+  "ratt": 830,
+  "approx_stats": true
  },
  {
   "n": "Joe Burrow",
@@ -2580,7 +2603,11 @@
   "score": 381,
   "era": "Current NFL star · real stats through 2025",
   "legend": 1,
-  "ovr": 62
+  "ovr": 62,
+  "att": 2950,
+  "cmp": 2010,
+  "ratt": 260,
+  "approx_stats": true
  },
  {
   "n": "Saquon Barkley",
@@ -2801,7 +2828,9 @@
   "score": 2286,
   "era": "Current NFL star · real stats through 2025",
   "legend": 1,
-  "ovr": 93
+  "ovr": 93,
+  "tkl": 600,
+  "approx_stats": true
  },
  {
   "n": "Micah Parsons",
@@ -2819,7 +2848,10 @@
   "score": 1102,
   "era": "Current NFL star · real stats through 2025",
   "legend": 1,
-  "ovr": 81
+  "ovr": 81,
+  "tkl": 330,
+  "int": 0,
+  "approx_stats": true
  },
  {
   "n": "Fred Warner",
@@ -2858,7 +2890,10 @@
   "era": "Current NFL star · real stats through 2025",
   "tag": "Real single-season sack record (23)",
   "legend": 1,
-  "ovr": 95
+  "ovr": 95,
+  "tkl": 480,
+  "int": 0,
+  "approx_stats": true
  },
  {
   "n": "Patrick Surtain II",
