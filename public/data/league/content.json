@@ -997,8 +997,8 @@
    "category": "Era Report",
    "era": "Real-roster era",
    "players": [
-    "Lamar Jackson",
     "Taywan Tuttle",
+    "Lamar Jackson",
     "Mason Taylor",
     "Akiem Bouye",
     "Drake Maye"
@@ -1029,8 +1029,8 @@
    "era": "Waller–Finney era",
    "players": [
     "Tyrion Kline",
-    "Ray Waller",
-    "Ian Finney"
+    "Ian Finney",
+    "Ray Waller"
    ],
    "summary": "Ray Waller (\"Ray Comeback Waller\") won 5 rings and 5 MVPs with the Bucs, matching their 5 titles."
   },
@@ -1142,10 +1142,10 @@
     "Jason Macleone",
     "Dennis Baylon",
     "Avonte Gooden",
-    "Kyric McQuay",
     "Cairo Asanjh",
-    "Ray Waller",
-    "Ian Finney"
+    "Kyric McQuay",
+    "Ian Finney",
+    "Ray Waller"
    ],
    "summary": "QBs: Lamar → Gooden → Waller (rival McQuay) → Baylon → Brandson → the Wilson brothers → Macleone."
   },
@@ -1193,23 +1193,23 @@
    "tier": "controversy",
    "category": "Analytics",
    "players": [
-    "Damone Omameh",
     "Taywan Tuttle",
+    "Damone Omameh",
     "Wayne Wilson",
     "Deante Elder",
     "Cooper Dean",
     "Rob Lowe",
     "Rondale Ikarras",
-    "Marcel Mathieu",
     "Jawill Perkins",
+    "Marcel Mathieu",
     "Dennis Baylon",
-    "Rysen Benkert",
     "Aubrey Jewell",
-    "Kyric McQuay",
+    "Rysen Benkert",
     "Amani Bryant",
+    "Kyric McQuay",
     "Ray Waller",
-    "Tom Brady",
-    "Wes Sione"
+    "Wes Sione",
+    "Tom Brady"
    ],
    "summary": "How they work: Dominance = 0.7 × True Talent + award points (ring 60, MVP 50, OPOY 30, SB MVP 40, DPOY 120, ROTY 0)."
   },
@@ -1228,15 +1228,15 @@
     "Rondale Ikarras",
     "Malakai Sawyer",
     "Dennis Baylon",
-    "Zander Kolar",
-    "Kyric McQuay",
     "Cairo Asanjh",
-    "Jahmyr Gibbs",
     "Tyrone Baugh",
+    "Jahmyr Gibbs",
     "Amani Bryant",
-    "Ray Waller",
+    "Kyric McQuay",
+    "Zander Kolar",
+    "Kitt Inman",
     "Ian Finney",
-    "Kitt Inman"
+    "Ray Waller"
    ],
    "summary": "QB: Brandson's accuracy, Waller's deep ball, McQuay's decisions, Bryant's legs, Baylon's clutch, Wayne Wilson's durability."
   },
@@ -3076,6 +3076,6 @@
   "Bilal Tolbert": "No individual trophies. Four rings. And a sack record nobody has caught.\n\nBilal Tolbert played 210 games at linebacker and did every job the position asks for. He made 937 tackles, about four and a half a game. He intercepted 13 passes and forced 8 fumbles. And his 22 career sacks are the most in league history, a mark that still stands.\n\nThere were no MVP votes, no Defensive Player of the Year award and no Super Bowl MVP. Tolbert never needed them. He collected four rings in the Chargers' early title years, the linebacker who was in the right place on first down, second down and third.\n\nHe began in Seattle and finished his career as a Charger. Both teams got the same player: steady, versatile and always near the ball. Bilal Tolbert, welcome to the Hall of Fame.",
   "Pharoah Hunter": "The other receiver in the Vikings dynasty was never anybody's second option.\n\nPharoah Hunter broke in as Rookie of the Year and spent his prime in Minnesota, where God Johnson and Jackson Wardell Kline were rewriting the receiving records. Hunter did not need the spotlight to matter. He caught 1,523 passes for 23,261 yards and 260 touchdowns in 233 games, a little over 15 yards a catch, with a 70-yarder to prove he could take the top off a defense.\n\nFour Offensive Player of the Year awards say the voters noticed. Four rings say the Vikings won with him. Twice he was the best player on the field on the biggest night of the year, with two Super Bowl MVPs.\n\nHe finished his career in Seattle. Minnesota remembers a receiver who made a stacked offense even harder to stop. Pharoah Hunter, welcome to the Hall of Fame.",
   "Kyric McQuay": "Twice in three seasons the Buccaneers reached the Super Bowl and lost. Kyric McQuay was the reason both times.\n\nBaby Manning did not beat you with arm strength. He beat you with decisions. In 10,099 pass attempts he threw only 43 interceptions, roughly one every 235 throws. He completed 6,048 passes for 53,797 yards and 562 touchdowns, and when the pocket broke down he could take it himself: 1,997 rushing yards and 107 rushing touchdowns.\n\nHe was Ray Waller's great rival through the Waller and Finney era, and twice his Colts met the Buccaneers on the biggest stage. Twice McQuay won, 38-32 in Super Bowl LXXXI and 29-28 in LXXXIII, the closest of finishes. Two rings, and two Super Bowl MVPs to go with them.\n\nThe best teams in this league rarely lost when it mattered. McQuay is one of the few who made them. Baby Manning, welcome to the Hall of Fame.",
-  "Jason Macleone": "One look at Scary Jerry and you understood the name.\n\nJason Macleone was imposing before he ever threw a pass, and then he threw 8,883 of them. He completed 67 percent for 66,411 yards and 701 touchdowns, with just 124 interceptions across 296 games. He took 83 sacks and never lost a fumble. When he did tuck it and run, he made it count: 64 rushing touchdowns.\n\nHis defining day came in Y78, when he quarterbacked the Vikings past the Broncos 33-27 in Super Bowl CXXXVII. Two rings, three MVPs and a Super Bowl MVP in all, before he took his game to Seattle and finished his career as a Seahawk.\n\nThe league's line of great quarterbacks runs from Lamar through Gooden, Waller, Baylon, Brandson and the Wilson brothers. For now, it ends with him. Scary Jerry, welcome to the Hall of Fame."
+  "Jason Macleone": "One look at Scary Jerry and you understood the name.\n\nJason Macleone was imposing before he ever threw a pass, and then he threw 8,883 of them. He completed 67 percent for 66,411 yards and 701 touchdowns, with just 124 interceptions across 296 games. He took 83 sacks and never lost a fumble. When he did tuck it and run, he made it count: 64 rushing touchdowns.\n\nHis defining day came in Y78, when he quarterbacked the Vikings past the Broncos 33-27 in Super Bowl CXXXVII. Two rings, three MVPs and a Super Bowl MVP in all, and he is still slinging it in Seattle, where every new start adds to the case.\n\nThe league's line of great quarterbacks runs from Lamar through Gooden, Waller, Baylon, Brandson and the Wilson brothers. For now, it ends with him. Scary Jerry, welcome to the Hall of Fame."
  }
 }

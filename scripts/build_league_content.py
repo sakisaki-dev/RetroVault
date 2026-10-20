@@ -305,7 +305,7 @@ The best teams in this league rarely lost when it mattered. McQuay is one of the
 
 Jason Macleone was imposing before he ever threw a pass, and then he threw 8,883 of them. He completed 67 percent for 66,411 yards and 701 touchdowns, with just 124 interceptions across 296 games. He took 83 sacks and never lost a fumble. When he did tuck it and run, he made it count: 64 rushing touchdowns.
 
-His defining day came in Y78, when he quarterbacked the Vikings past the Broncos 33-27 in Super Bowl CXXXVII. Two rings, three MVPs and a Super Bowl MVP in all, before he took his game to Seattle and finished his career as a Seahawk.
+His defining day came in Y78, when he quarterbacked the Vikings past the Broncos 33-27 in Super Bowl CXXXVII. Two rings, three MVPs and a Super Bowl MVP in all, and he is still slinging it in Seattle, where every new start adds to the case.
 
 The league's line of great quarterbacks runs from Lamar through Gooden, Waller, Baylon, Brandson and the Wilson brothers. For now, it ends with him. Scary Jerry, welcome to the Hall of Fame.""",
 }

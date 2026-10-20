@@ -62,6 +62,15 @@ RETIRED_WITH: dict[str, str] = {
     "Pharoah Hunter": "Seahawks", "Malakai Sawyer": "Falcons", "Chance Woodrum": "Jets",
 }
 
+# Current rosters from the game's team screens (Y80 offseason). The game's Hall of Fame also lists some active
+# players (Macleone, Woodrum), so these override the "in the game's HOF = retired" rule.
+ACTIVE_ROSTERS: dict[str, str] = {
+    **{n: "Jets" for n in ["Ty Lock", "Ryland Maxwell", "Jaylen Conklin", "Kane Van Oxley", "Alvin Tufele", "Jakeem Friend",
+                           "Kalif Suh", "Chance Woodrum", "Dylan Hyatt", "Trequan Roberts"]},
+    **{n: "Seahawks" for n in ["Jason Macleone", "Isaiah Karras", "Obinna Leary", "Dorance Hinton", "Romeo Rodgers",
+                               "Deonte Sutton", "Blair Iupati"]},
+}
+
 # Extra player-card notes supplied by the user (merged into player-extras.json "cards").
 CARD_NOTES: dict[str, dict] = {
     "Malakai Sawyer": {
@@ -273,7 +282,9 @@ def write_player_extras():
     for name, notes in CARD_NOTES.items():
         cards[name] = {**cards.get(name, {}), **notes}
     for name, team in RETIRED_WITH.items():
-        cards[name] = {**cards.get(name, {}), "retired_team": team, "hof_ingame": True}
+        # Still on a roster: in the game's Hall of Fame but not retired, so no "Retired with"
+        extra = {"hof_ingame": True} if name in ACTIVE_ROSTERS else {"retired_team": team, "hof_ingame": True}
+        cards[name] = {**cards.get(name, {}), **extra}
     out = {"realNflCareer": {}, "cards": cards,
            "formerNames": {new: old for old, new in extras.get("name_changes", {}).items()},
            "family": extras.get("family", {})}
@@ -329,7 +340,8 @@ def main():
         # Only real franchises count; teams.json's UNK/CUR placeholders have no conference.
         team = teams[team_key]["name"] if teams.get(team_key, {}).get("conference") else ""
         # In the game's Hall of Fame = retired (internal only; the UI never shows status)
-        status = STATUS_FIXES.get(p["n"]) or ("Retired" if p["n"] in RETIRED_WITH else None) or sheet_row.get("st") or ("Active" if p.get("team") == "CUR" else "Active")
+        status = (STATUS_FIXES.get(p["n"]) or ("Active" if p["n"] in ACTIVE_ROSTERS else None)
+                  or ("Retired" if p["n"] in RETIRED_WITH else None) or sheet_row.get("st")) or ("Active" if p.get("team") == "CUR" else "Active")
         out[p["pos"]].append({**p, "_tt": round(tt, 2), "_team": team, "_status": status})
 
     award = lambda p: g(p, "dpoy") if p["pos"] in ("LB", "DB", "DL") else g(p, "opoy")
