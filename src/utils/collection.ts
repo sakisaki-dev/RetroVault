@@ -48,19 +48,46 @@ export interface PackSpec {
   tiers: Weights<Tier>;
   /** Relative odds of each finish per regular slot, by the tier that slot rolled */
   finishes: FinishTable;
-  /** Relative odds of each art variant, per card (rolled last, independent of tier and finish) */
+  /** Base odds of each art variant (rolled last; VARIANT_STACK then makes the rarer arts rarer still on better cards) */
   variants: Weights<Variant>;
   /** One-line summary of the guarantees, shown on the odds table */
   guarantee: string;
 }
 
-/** Variant odds: Standard is the baseline (sprite 3.5% per card); better packs lean rarer, never above 2× it. */
+/**
+ * Base variant odds (what a Common Base card rolls): Prizm most common, then Jersey, Topps, Locker, Sprite rarest.
+ * Standard is the baseline (sprite 3.5%); better packs lean rarer, never above 2× it.
+ */
 const VARIANT_ODDS = {
-  standard: { number: 42, jersey: 30, topps: 16, locker: 8.5, sprite: 3.5 },
-  premium: { number: 38, jersey: 30, topps: 18, locker: 10, sprite: 4 },
-  elite: { number: 34, jersey: 29, topps: 20, locker: 12, sprite: 5 },
-  chase: { number: 30, jersey: 28, topps: 21, locker: 14, sprite: 7 },
+  standard: { number: 44, jersey: 29, topps: 15, locker: 8.5, sprite: 3.5 },
+  premium: { number: 40, jersey: 29, topps: 17, locker: 10, sprite: 4 },
+  elite: { number: 36, jersey: 28, topps: 19, locker: 12, sprite: 5 },
+  chase: { number: 32, jersey: 28, topps: 20, locker: 13.5, sprite: 6.5 },
 } satisfies Record<string, Weights<Variant>>;
+
+/**
+ * Rarity layers stack: the rarer arts get rarer still on better players and finishes. A variant's base weight is
+ * multiplied by its factor for the card's tier and for its finish (Prizm and Jersey stay ×1, so they soak up the
+ * rest). Sprite × Holo × Legendary is 0.04 × 0.04 of its base weight: about 1 card in 12,000 even from Holo
+ * Showcase packs (scripts/simulate_packs.ts), so it should feel out of reach. The market prices it the same way
+ * (value × finish × variant, src/utils/cardMarket.ts), so rarer layers stay worth more.
+ */
+export const VARIANT_STACK: Partial<Record<Variant, { tier: Weights<Tier>; finish: Weights<Finish> }>> = {
+  topps: { tier: { common: 1, rare: 0.9, epic: 0.8, legendary: 0.7 }, finish: { base: 1, silver: 0.9, gold: 0.8, holo: 0.7 } },
+  locker: { tier: { common: 1, rare: 0.85, epic: 0.7, legendary: 0.55 }, finish: { base: 1, silver: 0.85, gold: 0.7, holo: 0.55 } },
+  sprite: { tier: { common: 1, rare: 0.6, epic: 0.25, legendary: 0.04 }, finish: { base: 1, silver: 0.6, gold: 0.25, holo: 0.04 } },
+};
+
+/** Variant odds for one card of a pack, given the tier and finish it already rolled. */
+export const variantWeights = (type: PackType, tier: Tier, finish: Finish): Weights<Variant> => {
+  const base = PACKS[type].variants;
+  return Object.fromEntries(
+    VARIANTS.map(({ key }) => {
+      const s = VARIANT_STACK[key];
+      return [key, base[key] * (s ? s.tier[tier] * s.finish[finish] : 1)];
+    }),
+  ) as Weights<Variant>;
+};
 
 /**
  * Standard pack odds are the baseline (targets, per card: Legendary-tier player ≤ 3%, Holo ≤ 2%,
@@ -145,8 +172,8 @@ export const PACKS: Record<PackType, PackSpec> = {
       epic: { base: 1, silver: 0, gold: 0, holo: 0 },
       legendary: { base: 1, silver: 0, gold: 0, holo: 0 },
     },
-    // Every exchanged card is the Team jersey variant (the art the legend cards had)
-    variants: { number: 0, jersey: 1, topps: 0, locker: 0, sprite: 0 },
+    // Each exchanged card rolls its art at open time like any pull, at Elite variant odds
+    variants: VARIANT_ODDS.elite,
     guarantee: 'One league card for each retired NFL legend card, same tier and finish.',
   },
 };
@@ -271,7 +298,7 @@ export interface ExchangeCard {
   finish: Finish;
   /** The legend card it replaces ("POS:Name") */
   from: string;
-  /** Art variant (always the Team jersey; older saves have none) */
+  /** Unused: older builds stored the Team jersey here. The variant is rolled when the pack is opened. */
   variant?: Variant;
 }
 
@@ -385,7 +412,7 @@ const parse = (raw: string | null): CollectionState | null => {
         cards: p.cards.filter(
           (c): c is ExchangeCard => !!c && typeof c.key === 'string' && KEY_RE.test(c.key) && isTier(c.tier) && isFinish(c.finish) && typeof c.from === 'string',
         )
-        .map((c) => ({ ...c, variant: isVariant(c.variant) ? c.variant : LEGACY_VARIANT })),
+        .map(({ key, tier, finish, from }) => ({ key, tier, finish, from })),
       }))
       .filter((p) => p.cards.length > 0);
     s.shards = num(d.shards);
@@ -519,7 +546,27 @@ export const GIFTS: Record<string, { label: string; packs: [EarnablePack, number
       ['holo', 2],
     ],
   },
+  // New art variants, uniforms and poses (Oct 2026): auto-applied once per device (AUTO_GIFTS), or by link
+  'refresh-2026-10-20': {
+    label: 'Refresh packs',
+    packs: [
+      ['standard', 5],
+      ['premium', 3],
+      ['elite', 2],
+      ['holo', 1],
+    ],
+  },
 };
+
+/** Gifts every device gets once, the first time a build containing them loads (same ids as the links, so never twice). */
+export const AUTO_GIFTS = ['refresh-2026-10-20'];
+
+/** "5 Standard, 3 Premium, 2 Elite, 1 Holo Showcase" */
+export const giftSummary = (id: string) =>
+  (GIFTS[id]?.packs ?? []).map(([t, n]) => `${n} ${PACKS[t].label.replace(/ Pack$/, '')}`).join(', ');
+
+/** Redeems every AUTO_GIFTS id not yet redeemed on this device; returns the ids granted now. */
+export const redeemAutoGifts = (): string[] => AUTO_GIFTS.filter((id) => redeemGift(id) === 'granted');
 
 /**
  * Redeems a gift link once per browser: adds its packs and records the id so a reload never grants again.
@@ -602,7 +649,7 @@ export const rollPack = (type: EarnablePack, pool: TierPool, rng: Rng = Math.ran
   // Order of rolls per card: tier → player → finish (already rolled by the caller) → variant
   const push = (tier: Tier, finish: Finish, slot: RolledCard['slot']) => {
     const player = playerOf(tier);
-    out.push({ player, tier, finish, variant: pick(spec.variants, rng) ?? LEGACY_VARIANT, slot });
+    out.push({ player, tier, finish, variant: pick(variantWeights(type, tier, finish), rng) ?? LEGACY_VARIANT, slot });
   };
   const regular = () => {
     const tier = pick(spec.tiers, rng, has);
@@ -716,7 +763,7 @@ export const openPack = (type: PackType, pool: TierPool): PackCard[] | null => {
 // ---------- Legends Exchange (one-time migration: NFL legends are no longer collectible) ----------
 
 /** Cards of a stored Legends Exchange pack, resolved against the current pool (a player gone from it is replaced in his tier). */
-const exchangeCards = (pack: ExchangePack | undefined, pool: TierPool): RolledCard[] => {
+const exchangeCards = (pack: ExchangePack | undefined, pool: TierPool, rng: Rng = Math.random): RolledCard[] => {
   if (!pack) return [];
   const where = new Map<string, { player: Player; tier: Tier }>();
   TIERS.forEach(({ key: tier }) => pool[tier].forEach((player) => where.set(cardKey(player), { player, tier })));
@@ -724,10 +771,11 @@ const exchangeCards = (pack: ExchangePack | undefined, pool: TierPool): RolledCa
   return pack.cards
     .map((c): RolledCard | null => {
       const hit = where.get(c.key);
-      const variant = c.variant ?? LEGACY_VARIANT;
+      // Rolled now, like any pull (the stored plan fixes only player, tier and finish)
+      const variant = pick(variantWeights('exchange', c.tier, c.finish), rng) ?? LEGACY_VARIANT;
       if (hit) return { player: hit.player, tier: hit.tier, finish: c.finish, variant, slot: 'chase' };
       const list = pool[c.tier].filter((p) => !taken.has(cardKey(p)));
-      const player = list[Math.floor(Math.random() * list.length)];
+      const player = list[Math.floor(rng() * list.length)];
       if (!player) return null;
       taken.add(cardKey(player));
       return { player, tier: c.tier, finish: c.finish, variant, slot: 'chase' };
@@ -778,7 +826,7 @@ export const exchangeLegends = (legends: Map<string, RetiredLegend>, pool: TierP
       const p = choose(pool[tier].filter((x) => x.position === legend.position)) ?? choose(pool[tier]);
       if (p) {
         planned.add(cardKey(p));
-        cards.push({ key: cardKey(p), tier, finish, from: k, variant: LEGACY_VARIANT });
+        cards.push({ key: cardKey(p), tier, finish, from: k });
         return;
       }
     }
@@ -899,18 +947,26 @@ export const expectedJoint = (type: EarnablePack): Joint => {
 export interface OddsSummary {
   tiers: Record<Tier, number>;
   finishes: Record<Finish, number>;
-  /** Per card; independent of tier and finish */
+  /** Per card, averaged over the tier × finish it rolls (VARIANT_STACK) */
   variants: Record<Variant, number>;
   legendaryHolo: number;
+  /** Per card: Retro Bowl sprite × Holo × Legendary, the rarest card there is */
+  spriteLegendaryHolo: number;
 }
 /** Per-card odds for a pack type: by tier, by finish, and Legendary-tier Holo. */
 export const packOdds = (type: EarnablePack): OddsSummary => {
   const j = expectedJoint(type);
   const tiers = Object.fromEntries(TIERS.map(({ key: t }) => [t, sum(j, (x) => x === t)])) as Record<Tier, number>;
   const finishes = Object.fromEntries(FINISHES.map(({ key: f }) => [f, sum(j, (_, y) => y === f)])) as Record<Finish, number>;
-  const pv = norm(PACKS[type].variants);
-  const variants = Object.fromEntries(VARIANTS.map(({ key: v }) => [v, pv(v)])) as Record<Variant, number>;
-  return { tiers, finishes, variants, legendaryHolo: j.legendary.holo };
+  const variants = Object.fromEntries(VARIANTS.map(({ key: v }) => [v, 0])) as Record<Variant, number>;
+  TIERS.forEach(({ key: t }) =>
+    FINISHES.forEach(({ key: f }) => {
+      const pv = norm(variantWeights(type, t, f));
+      VARIANTS.forEach(({ key: v }) => (variants[v] += j[t][f] * pv(v)));
+    }),
+  );
+  const spriteLegendaryHolo = j.legendary.holo * norm(variantWeights(type, 'legendary', 'holo'))('sprite');
+  return { tiers, finishes, variants, legendaryHolo: j.legendary.holo, spriteLegendaryHolo };
 };
 
 // ---------- React ----------

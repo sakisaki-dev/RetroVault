@@ -1,5 +1,6 @@
 import { memo, useContext, useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Search, X, ZoomIn } from 'lucide-react';
+import { useSwipeToDismiss } from '@/hooks/useSwipeToDismiss';
 import { cn } from '@/lib/utils';
 import type { CardInfo } from '../../useCardPool';
 import { LabRootContext, select, useIsSelected, usePreview, type PreviewItem } from './labStore';
@@ -72,22 +73,42 @@ Cell.displayName = 'Cell';
 // ---------- Preview pane ----------
 
 /** The big preview: the selected cell at a zoom the viewer picks (pixel art stays crisp), with its full label. */
+const SHEET_QUERY = '(max-width: 1023px)';
+/** True while the preview is a bottom sheet (phones and tablets), not the desktop side pane */
+const useSheetLayout = () => {
+  const [on, setOn] = useState(() => typeof window !== 'undefined' && window.matchMedia(SHEET_QUERY).matches);
+  useEffect(() => {
+    const mq = window.matchMedia(SHEET_QUERY);
+    const f = () => setOn(mq.matches);
+    f();
+    mq.addEventListener('change', f);
+    return () => mq.removeEventListener('change', f);
+  }, []);
+  return on;
+};
+
 export const PreviewPane = () => {
   const item = usePreview();
   const [zoom, setZoom] = useState(1);
   const zoomId = useId();
+  const sheet = useSheetLayout();
+  // On phones the preview is a bottom sheet: swipe it down (from its handle, or anywhere once scrolled to the top)
+  const swipeRef = useSwipeToDismiss<HTMLElement>({ onDismiss: () => select(null), enabled: sheet && !!item });
   // Each new item opens at 1×
   useEffect(() => setZoom(1), [item?.id]);
   return (
-    <aside className={cn('lab-pv', item && 'lab-pv--open')} aria-label="Preview" aria-live="polite">
+    <aside ref={swipeRef} className={cn('lab-pv', item && 'lab-pv--open')} aria-label="Preview" aria-live="polite">
       {!item ? (
         <p className="lab-pv__empty">Click any card, helmet or uniform to see it large here. Arrow keys move, Enter previews.</p>
       ) : (
         <>
-          <div className="lab-pv__head">
+          <div className="lab-pv__grab" data-swipe-handle aria-hidden="true">
+            <span />
+          </div>
+          <div className="lab-pv__head" data-swipe-handle>
             <h3 className="lab-pv__title">{item.title}</h3>
             <button type="button" className="lab-pv__close" onClick={() => select(null)} aria-label="Close preview">
-              <X className="h-4 w-4" aria-hidden="true" />
+              <X className="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
           <dl className="lab-pv__facts">
@@ -106,6 +127,7 @@ export const PreviewPane = () => {
             <input
               id={zoomId}
               type="range"
+              data-no-swipe
               min={1}
               max={item.maxZoom}
               step={0.5}
@@ -114,7 +136,7 @@ export const PreviewPane = () => {
             />
             <output htmlFor={zoomId}>{zoom.toFixed(1)}×</output>
           </div>
-          <div className="lab-pv__stage">
+          <div className="lab-pv__stage" data-no-swipe>
             <div className="lab-pv__art" style={{ width: item.base * zoom }}>
               {item.render()}
             </div>

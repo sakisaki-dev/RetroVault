@@ -3,6 +3,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { mergeRefs, useSwipeToDismiss } from "@/hooks/useSwipeToDismiss";
 
 const Dialog = DialogPrimitive.Root;
 
@@ -27,28 +28,77 @@ const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
-const DialogContent = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DialogPortal>
-    <DialogOverlay />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
-        className,
+interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+  /** Swipe down to close on touch screens (on by default) */
+  swipeToClose?: boolean;
+  /** Hide the built-in close button (the dialog draws its own; swipe still closes) */
+  hideClose?: boolean;
+}
+
+/*
+ * The close button and the phone grab handle sit in a zero-height sticky bar at the top of the content, so they stay
+ * in view (and inside the safe area) while a long dialog scrolls. The bar is pulled out to the content's edges and
+ * cancels the layout gap after it, so it never shifts the dialog's own layout. It comes last in the DOM (so opening
+ * focuses the dialog's first control, not Close, as before) and is moved to the top with `order: -1`.
+ * Shared by DialogContent and SheetContent.
+ */
+// eslint-disable-next-line react-refresh/only-export-components
+export const useModalChrome = <T extends HTMLElement>(ref: React.ForwardedRef<T>, swipeToClose: boolean, hideClose = false) => {
+  const overlayRef = React.useRef<HTMLDivElement>(null);
+  const closeRef = React.useRef<HTMLButtonElement>(null);
+  const barRef = React.useRef<HTMLDivElement>(null);
+  const swipeRef = useSwipeToDismiss<T>({
+    onDismiss: () => closeRef.current?.click(),
+    enabled: swipeToClose,
+    backdrop: () => overlayRef.current,
+  });
+  const nodeRef = React.useRef<T | null>(null);
+  const contentRef = React.useMemo(() => mergeRefs<T>(ref, swipeRef, nodeRef), [ref, swipeRef]);
+  React.useLayoutEffect(() => {
+    const bar = barRef.current;
+    const box = bar?.parentElement;
+    if (!bar || !box) return;
+    const cs = getComputedStyle(box);
+    const gap = parseFloat(cs.rowGap) || 0;
+    bar.style.margin = `-${cs.paddingTop} -${cs.paddingRight} ${gap ? -gap : 0}px -${cs.paddingLeft}`;
+  });
+  const bar = (
+    <div ref={barRef} className="dlg-bar">
+      {swipeToClose && (
+        <div className="dlg-grab" data-swipe-handle aria-hidden="true">
+          <span />
+        </div>
       )}
-      {...props}
-    >
-      {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity data-[state=open]:bg-accent data-[state=open]:text-muted-foreground hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
-        <X className="h-4 w-4" />
+      <DialogPrimitive.Close ref={closeRef} className="dlg-x" hidden={hideClose}>
+        <X className="h-5 w-5" aria-hidden="true" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>
-    </DialogPrimitive.Content>
-  </DialogPortal>
-));
+    </div>
+  );
+  return { overlayRef, contentRef, nodeRef, bar };
+};
+
+const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
+  ({ className, children, swipeToClose = true, hideClose = false, ...props }, ref) => {
+    const { overlayRef, contentRef, bar } = useModalChrome(ref, swipeToClose, hideClose);
+    return (
+      <DialogPortal>
+        <DialogOverlay ref={overlayRef} />
+        <DialogPrimitive.Content
+          ref={contentRef}
+          className={cn(
+            "dlg fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
+            className,
+          )}
+          {...props}
+        >
+          {children}
+          {bar}
+        </DialogPrimitive.Content>
+      </DialogPortal>
+    );
+  },
+);
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (

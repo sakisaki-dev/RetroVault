@@ -654,10 +654,14 @@ span.lab-head {
   display: none;
   flex: none;
   place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
+  width: 44px;
+  height: 44px;
+  margin: -6px -6px 0 0;
+  border-radius: 999px;
   border: 1px solid var(--lab-line);
+}
+.lab-pv__grab {
+  display: none;
 }
 .lab-pv__facts {
   display: grid;
@@ -700,7 +704,7 @@ span.lab-head {
 }
 .lab-pv__stage {
   overflow: auto;
-  max-height: 64vh;
+  max-height: calc(var(--dvh, 100vh) * 0.64);
   border-radius: 8px;
   padding: 10px;
   background: repeating-conic-gradient(hsl(220 20% 13%) 0 25%, hsl(220 20% 10%) 0 50%) 0 0 / 16px 16px;
@@ -738,7 +742,11 @@ span.lab-head {
     left: 0;
     right: 0;
     bottom: 0;
-    max-height: 78%;
+    max-height: 82%;
+    padding-top: 0;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    border-radius: 16px 16px 0 0;
+    -webkit-overflow-scrolling: touch;
     border-left: 0;
     border-top: 1px solid hsl(var(--gold) / 0.5);
     background: hsl(var(--background));
@@ -747,23 +755,90 @@ span.lab-head {
   .lab-pv__close {
     display: grid;
   }
+  /* Grab handle: drag the sheet down to close it */
+  .lab-pv__grab {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    height: 22px;
+    margin: 0 -16px 2px;
+    background: hsl(var(--background));
+    touch-action: none;
+  }
+  /* Title and close stay in view while the sheet scrolls */
+  .lab-pv__head {
+    position: sticky;
+    top: 22px;
+    z-index: 1;
+    padding-bottom: 4px;
+    background: hsl(var(--background));
+  }
+  .lab-pv__grab span {
+    width: 40px;
+    height: 5px;
+    border-radius: 999px;
+    background: hsl(var(--foreground) / 0.4);
+  }
   .lab-pv__stage {
-    max-height: 46vh;
+    max-height: calc(var(--dvh, 100vh) * 0.46);
   }
 }
 @media (max-width: 640px) {
   .lab__top {
-    padding: 12px 44px 10px 12px;
+    padding: 12px 56px 10px 12px;
   }
   .lab-pick {
     flex-basis: 100%;
+    min-width: 0;
   }
+  .lab-pick input {
+    font-size: 16px; /* iOS zooms into anything smaller on focus */
+  }
+  /* Tabs become a row of chips that scrolls sideways, with a fade hinting at more */
   .lab__tabs {
-    padding: 0 6px;
+    gap: 6px;
+    padding: 8px 12px;
+    scroll-padding-inline: 12px;
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  }
+  .lab__tabs::after {
+    content: '';
+    flex: none;
+    width: 16px;
   }
   .lab__tab {
-    padding: 0 9px;
-    font-size: 14px;
+    height: 40px;
+    padding: 0 14px;
+    font-size: 15px;
+    border: 1px solid var(--lab-line);
+    border-radius: 999px;
+  }
+  .lab__tab.is-on {
+    border-color: hsl(var(--gold));
+    background: hsl(var(--gold) / 0.14);
+    color: hsl(var(--gold));
+  }
+  .lab__hint,
+  .lab-note,
+  .lab-pv__facts {
+    font-size: 13px;
+  }
+  .lab-cell__cap span,
+  .lab-cell__cap code {
+    font-size: 12px;
+  }
+  .lab-chips__label,
+  .lab-mx__corner,
+  .lab-block__title,
+  .lab-pv__facts dt,
+  .lab-pv__zoom output {
+    font-size: 11px;
+  }
+  .lab-tag {
+    font-size: 10px;
   }
   .lab__main {
     padding: 10px 12px 24px;
@@ -789,5 +864,19 @@ span.lab-head {
   }
   .lab-tiles--helmets {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Touch: chips and toggles big enough for a thumb */
+@media (pointer: coarse) {
+  .lab-chip {
+    height: 44px;
+    padding: 0 14px;
+  }
+  .lab__tab {
+    min-height: 44px;
+  }
+  .lab-pv__zoom input {
+    height: 44px;
   }
 }

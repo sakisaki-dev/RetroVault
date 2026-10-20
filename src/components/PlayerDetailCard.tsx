@@ -192,10 +192,10 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
           if (el?.isConnected) el.focus({ preventScroll: true });
         }}
         className={cn(
-          'pc-root grid-cols-[minmax(0,1fr)] w-[calc(100vw-1rem)] max-w-4xl max-h-[92vh] overflow-y-auto overflow-x-hidden gap-0 border-line p-0',
+          'pc-root grid-cols-[minmax(0,1fr)] w-[calc(100vw-1rem)] max-w-4xl max-h-[calc(var(--safe-h)-1rem)] overflow-y-auto overflow-x-hidden gap-0 border-line p-0',
           hof && 'pc-root--hof',
-          // Make the built-in close button readable on any team color
-          '[&>button:last-child]:z-30 [&>button:last-child]:rounded-full [&>button:last-child]:bg-black/55 [&>button:last-child]:p-1.5 [&>button:last-child]:text-white [&>button:last-child]:opacity-100 [&>button:last-child]:top-3 [&>button:last-child]:right-3',
+          // The close button stays readable on any team color
+          '[&_.dlg-x]:border-white/20 [&_.dlg-x]:bg-black/55 [&_.dlg-x]:text-white',
         )}
         style={{
           ...theme.vars,

@@ -66,8 +66,8 @@ const TeamOverridesDialog = ({ open, onOpenChange, title, players, onApplied }: 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="glass-card w-[calc(100vw-1.5rem)] max-w-2xl max-h-[90vh] overflow-y-auto border-line p-4 sm:p-6">
-        <DialogHeader className="text-left">
+      <DialogContent className="glass-card w-[calc(100vw-1.5rem)] max-w-2xl max-h-[calc(var(--safe-h)-1.5rem)] overflow-y-auto border-line p-4 sm:p-6">
+        <DialogHeader className="pr-10 text-left">
           <p className="font-pixel text-[10px] uppercase text-gold">Team overrides</p>
           <DialogTitle className="font-display text-2xl sm:text-3xl font-extrabold uppercase">{title}</DialogTitle>
           <DialogDescription>

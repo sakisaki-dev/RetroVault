@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { Suspense, lazy, useState, useEffect, useMemo } from 'react';
 import { Loader2, Pencil, Save, Trash2 } from 'lucide-react';
 import {
   Dialog,
@@ -41,7 +41,9 @@ import {
   type PlayerEdit,
 } from '@/utils/indexedDB';
 import { calcCareerLegacy, calcDominance, calcTPG, getRawTrueTalent, isDefensivePosition } from '@/config/stats';
-import SkinTonePicker from '@/components/collection/art/SkinTonePicker';
+
+// The sprite look table (faces.ts) belongs to the Collection chunk; load it only when the editor opens
+const SkinTonePicker = lazy(() => import('@/components/collection/art/SkinTonePicker'));
 
 interface PlayerEditDialogProps {
   player: Player | null;
@@ -264,8 +266,10 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
   return (
     <Dialog open={!!player || isNewPlayer} onOpenChange={(open) => !open && !busy && onClose()}>
       <DialogContent
-        className="flex max-h-[92vh] w-[calc(100vw-1rem)] max-w-4xl flex-col gap-0 overflow-hidden border-line bg-card p-0"
+        className="flex max-h-[calc(var(--safe-h)-1rem)] w-[calc(100vw-1rem)] max-w-4xl flex-col gap-0 overflow-hidden border-line bg-card p-0"
         onPointerDownOutside={(e) => e.preventDefault()}
+        // A form with unsaved edits: close only on purpose (X, Cancel, Escape)
+        swipeToClose={false}
         aria-busy={!!busy}
       >
         <DialogHeader className="border-b border-line p-4 pr-12 text-left sm:p-6 sm:pr-12">
@@ -288,7 +292,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
             <TabsTrigger value="metrics">Metrics</TabsTrigger>
           </TabsList>
 
-          <ScrollArea className="h-[55vh] sm:h-[52vh]">
+          <ScrollArea className="h-[min(55vh,calc(var(--safe-h)-16rem))] sm:h-[52vh]">
             <TabsContent value="basic" className="p-4 sm:p-6 space-y-4 mt-0">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -411,7 +415,9 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
                 </div>
               </div>
 
-              <SkinTonePicker name={name.trim()} value={spriteSkin} onChange={setSpriteSkin} />
+              <Suspense fallback={<div className="h-24 rounded-md border border-line" aria-hidden="true" />}>
+                <SkinTonePicker name={name.trim()} value={spriteSkin} onChange={setSpriteSkin} />
+              </Suspense>
 
               <section
                 aria-labelledby="internal-heading"

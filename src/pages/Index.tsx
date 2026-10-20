@@ -1,12 +1,8 @@
-import { useEffect, useMemo } from 'react';
+import { Suspense, lazy, useEffect, useMemo } from 'react';
+import { toast } from 'sonner';
 import Header from '@/components/Header';
-import CareerTab from '@/components/tabs/CareerTab';
-import HallOfFameTab from '@/components/tabs/HallOfFameTab';
-import GamesTab from '@/components/tabs/GamesTab';
-import TimelineTab from '@/components/tabs/TimelineTab';
-import FrontOfficeTab from '@/components/tabs/FrontOfficeTab';
-import CollectionTab from '@/components/tabs/CollectionTab';
-import TeamLabTab from '@/components/teamlab/TeamLabTab';
+import TabFallback from '@/components/TabFallback';
+import { GIFTS, giftSummary, redeemAutoGifts } from '@/utils/collection';
 import CardUnlockToasts from '@/components/collection/CardUnlockToasts';
 import LegendExchange from '@/components/collection/LegendExchange';
 import CeremonyHost from '@/components/ceremony/CeremonyHost';
@@ -16,6 +12,16 @@ import { onCompFinderRequest, onHeadToHeadRequest } from '@/components/stats/com
 import { HubRouteContext, useHashRoute } from '@/components/stats/hub/hashRoute';
 import { Helmet } from 'react-helmet-async';
 import { decodeProgress, importProgress } from '@/utils/deviceSync';
+
+// Every tab is its own chunk, loaded the first time it is opened (the Collection one carries the card art, the
+// sprite engine and pack opening; the Art lab and Card designs split off again inside it).
+const CareerTab = lazy(() => import('@/components/tabs/CareerTab'));
+const HallOfFameTab = lazy(() => import('@/components/tabs/HallOfFameTab'));
+const GamesTab = lazy(() => import('@/components/tabs/GamesTab'));
+const TimelineTab = lazy(() => import('@/components/tabs/TimelineTab'));
+const FrontOfficeTab = lazy(() => import('@/components/tabs/FrontOfficeTab'));
+const CollectionTab = lazy(() => import('@/components/tabs/CollectionTab'));
+const TeamLabTab = lazy(() => import('@/components/teamlab/TeamLabTab'));
 
 const IndexContent = () => {
   // The visible page lives in the URL hash (#stats/teams, #stats/deepdive?p=…) so it is linkable and Back works.
@@ -51,6 +57,19 @@ const IndexContent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // One-time pack gifts (collection.ts AUTO_GIFTS): granted once per device on the first load of a build that has them
+  useEffect(() => {
+    redeemAutoGifts().forEach((id) =>
+      toast.success(`New packs added: ${giftSummary(id)}`, {
+        description: `${GIFTS[id].label} for the new card art, uniforms and poses.`,
+        duration: 12000,
+        action: { label: 'Open', onClick: () => navigate({ tab: 'collection' }) },
+      }),
+    );
+    // Once per load; navigate is stable
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     const offDive = onCompFinderRequest((key) => {
       navigate({ tab: 'career', sub: 'deepdive', p: key || undefined });
@@ -77,13 +96,15 @@ const IndexContent = () => {
 
         <HubRouteContext.Provider value={hub}>
           <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
-            {activeTab === 'career' && <CareerTab />}
-            {activeTab === 'lab' && <TeamLabTab />}
-            {activeTab === 'hof' && <HallOfFameTab />}
-            {activeTab === 'collection' && <CollectionTab />}
-            {activeTab === 'timeline' && <TimelineTab />}
-            {activeTab === 'office' && <FrontOfficeTab />}
-            {activeTab === 'games' && <GamesTab />}
+            <Suspense fallback={<TabFallback />}>
+              {activeTab === 'career' && <CareerTab />}
+              {activeTab === 'lab' && <TeamLabTab />}
+              {activeTab === 'hof' && <HallOfFameTab />}
+              {activeTab === 'collection' && <CollectionTab />}
+              {activeTab === 'timeline' && <TimelineTab />}
+              {activeTab === 'office' && <FrontOfficeTab />}
+              {activeTab === 'games' && <GamesTab />}
+            </Suspense>
           </main>
         </HubRouteContext.Provider>
 

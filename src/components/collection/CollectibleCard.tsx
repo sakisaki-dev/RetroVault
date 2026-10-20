@@ -102,7 +102,7 @@ export interface CollectibleCardProps {
   hint?: string;
   /** Makes the card a button (Enter / click opens it); gets the card's on-screen box for the fly-in to the large view */
   onOpen?: (from?: DOMRect) => void;
-  /** Large detail size: pointer tilt on any input, plus device tilt where allowed */
+  /** Large detail size: mouse / pen tilt, plus device tilt where allowed */
   large?: boolean;
   /** Keep shimmer/sparkle running (otherwise only on hover/focus, so a full binder stays idle) */
   live?: boolean;
@@ -153,7 +153,8 @@ const CollectibleCard = ({
   const mark = owned && marks?.length ? marks[marks.length - 1] : null;
   const FinishIcon = FINISH_ICON[finish];
   const surname = surnameOf(player.name);
-  // Every owned card tilts toward the pointer (mouse only in grids, any pointer at detail size)
+  // Every owned card tilts toward the pointer: mouse only in grids, mouse or pen at detail size. Never a finger: a
+  // touch drag there is a scroll or a swipe-to-close, and phones tilt the large card with the device instead.
   const tilts = owned;
 
   const setVars = (x: number, y: number) => {
@@ -167,7 +168,7 @@ const CollectibleCard = ({
   };
   const onMove = (e: PointerEvent<HTMLDivElement>) => {
     const el = ref.current;
-    if (!tilts || !el || (!large && e.pointerType !== 'mouse') || !motionOk()) return;
+    if (!tilts || !el || e.pointerType === 'touch' || (!large && e.pointerType !== 'mouse') || !motionOk()) return;
     const r = el.getBoundingClientRect();
     setVars((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height);
   };

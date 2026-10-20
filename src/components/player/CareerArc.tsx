@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import { ArrowRight, Flag, Shirt, Sparkles, Trophy } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import TeamLogo from '@/components/brand/TeamLogo';
 import { getReadableTextOn, liftForDarkBg } from '@/utils/teamColors';
 import { stintYears, type ArcRing, type ArcStint, type CareerArcData } from './arcData';
@@ -22,18 +23,24 @@ const LikelyTag = () => (
 const RingChip = ({ ring }: { ring: ArcRing }) => {
   const likely = ring.evidence === 'likely';
   const detail = `Super Bowl ${ring.roman}, Y${ring.year}${ring.opponent ? ` vs ${ring.opponent}` : ''}${ring.score ? ` (${ring.score})` : ''}`;
+  const why = `${detail}. ${likely ? 'Likely: ' : 'Confirmed: '}${ring.reason}.`;
+  // Hover shows the reason (title); a tap opens it in a popover, since phones have no hover
   return (
-    <li
-      className={cn('arc-ring', likely && 'arc-ring--likely')}
-      title={`${detail}. ${likely ? 'Likely: ' : 'Confirmed: '}${ring.reason}.`}
-    >
-      <RingGlyph />
-      <span className="font-display text-sm font-bold leading-none">Y{ring.year}</span>
-      <span className="font-pixel text-[8px] uppercase leading-none opacity-80">{ring.roman}</span>
-      {likely && <LikelyTag />}
-      <span className="sr-only">
-        {detail}. {likely ? 'Likely' : 'Confirmed'}: {ring.reason}.
-      </span>
+    <li>
+      <Popover>
+        <PopoverTrigger asChild>
+          <button type="button" className={cn('arc-ring', likely && 'arc-ring--likely')} title={why}>
+            <RingGlyph />
+            <span className="font-display text-sm font-bold leading-none">Y{ring.year}</span>
+            <span className="font-pixel text-[8px] uppercase leading-none opacity-80">{ring.roman}</span>
+            {likely && <LikelyTag />}
+            <span className="sr-only">{why}</span>
+          </button>
+        </PopoverTrigger>
+        <PopoverContent side="top" className="w-auto max-w-[min(18rem,calc(100vw-2rem))] border-line bg-night p-2.5 text-xs leading-snug">
+          {why}
+        </PopoverContent>
+      </Popover>
     </li>
   );
 };
@@ -177,7 +184,7 @@ const CareerArc = ({ arc, headingId }: Props) => {
         </span>
         {anyLikely && (
           <span className="inline-flex items-center gap-1">
-            <span className="arc-key arc-key--dashed" aria-hidden="true" /> Likely: inferred from his eras and Super Bowl results (hover for why)
+            <span className="arc-key arc-key--dashed" aria-hidden="true" /> Likely: inferred from his eras and Super Bowl results (tap or hover a ring for why)
           </span>
         )}
         <span>No season-by-season data, so stops are in order, not to scale.</span>

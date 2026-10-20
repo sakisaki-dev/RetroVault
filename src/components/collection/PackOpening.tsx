@@ -229,14 +229,16 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
   return (
     <Dialog open={isOpen} onOpenChange={(o) => !o && onClose()}>
       <DialogContent
+        // The walkout is a full-screen show: no swipe (Skip ends it)
+        swipeToClose={!walk}
         className={cn(
           'pk-dialog content-start border-line bg-night p-4 sm:p-6',
           // A walkout takes the whole screen, like FUT
-          walk ? 'h-[100dvh] max-h-[100dvh] max-w-none overflow-hidden border-0 sm:rounded-none' : 'max-h-[94vh] min-h-[min(620px,94vh)] max-w-5xl overflow-y-auto',
+          walk ? 'h-[100dvh] max-h-[100dvh] max-w-none overflow-hidden border-0 sm:rounded-none' : 'max-h-[calc(var(--safe-h)-1rem)] min-h-[min(620px,calc(var(--safe-h)-1rem))] max-w-5xl overflow-y-auto',
           `pk-dialog--${t}`,
         )}
       >
-        <DialogTitle className="pr-8 font-display text-2xl uppercase italic">
+        <DialogTitle className="pr-12 font-display text-2xl uppercase italic">
           {preview && <span className="mr-2 text-muted-foreground">Preview ·</span>}
           {packTitle(t)} <span className="text-gold">pack</span>
         </DialogTitle>
@@ -343,7 +345,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                 );
               })}
             </ol>
-            <div className="flex flex-wrap items-center justify-end gap-2">
+            <div className="pk-actions flex flex-wrap items-center justify-end gap-2">
               {!allOpen && (
                 <Button variant="outline" onClick={revealAll}>
                   Reveal all

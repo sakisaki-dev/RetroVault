@@ -188,7 +188,7 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
       }}
     >
       <DialogContent
-        className={cn('cd max-h-[96vh] max-w-5xl overflow-y-auto border-line bg-night p-0', `cd--${tier}`, upgrading && 'cd--upgrading')}
+        className={cn('cd max-h-[calc(var(--safe-h)-0.5rem)] max-w-5xl overflow-y-auto border-line bg-night p-0', `cd--${tier}`, upgrading && 'cd--upgrading')}
         style={vars}
         onKeyDown={onKey}
       >

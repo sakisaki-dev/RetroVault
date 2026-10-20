@@ -1,9 +1,9 @@
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { cva, type VariantProps } from "class-variance-authority";
-import { X } from "lucide-react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { useModalChrome } from "./dialog";
 
 const Sheet = SheetPrimitive.Root;
 
@@ -49,21 +49,41 @@ const sheetVariants = cva(
 
 interface SheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    VariantProps<typeof sheetVariants> {}
+    VariantProps<typeof sheetVariants> {
+  /** Swipe down to close on touch screens (on by default) */
+  swipeToClose?: boolean;
+}
 
+const TABBABLE = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
+
+/** Same close bar, grab handle and swipe-to-close as DialogContent (see useModalChrome) */
 const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Content>, SheetContentProps>(
-  ({ side = "right", className, children, ...props }, ref) => (
-    <SheetPortal>
-      <SheetOverlay />
-      <SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), className)} {...props}>
-        {children}
-        <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity data-[state=open]:bg-secondary hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
-          <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </SheetPrimitive.Close>
-      </SheetPrimitive.Content>
-    </SheetPortal>
-  ),
+  ({ side = "right", className, children, swipeToClose = true, onOpenAutoFocus, ...props }, ref) => {
+    const { overlayRef, contentRef, nodeRef, bar } = useModalChrome(ref, swipeToClose);
+    return (
+      <SheetPortal>
+        <SheetOverlay ref={overlayRef} />
+        <SheetPrimitive.Content
+          ref={contentRef}
+          className={cn("dlg dlg-sheet", sheetVariants({ side }), className)}
+          // Open on the sheet's first control, not on Close (which comes first in the DOM)
+          onOpenAutoFocus={(e) => {
+            onOpenAutoFocus?.(e);
+            if (e.defaultPrevented) return;
+            e.preventDefault();
+            const root = nodeRef.current;
+            const first = [...(root?.querySelectorAll<HTMLElement>(TABBABLE) ?? [])].find((n) => !n.closest(".dlg-bar"));
+            (first ?? root)?.focus({ preventScroll: true });
+          }}
+          {...props}
+        >
+          {/* Sheets are plain block boxes (order: -1 needs flex or grid), so the bar goes first in the DOM */}
+          {bar}
+          {children}
+        </SheetPrimitive.Content>
+      </SheetPortal>
+    );
+  },
 );
 SheetContent.displayName = SheetPrimitive.Content.displayName;
 

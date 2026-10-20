@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { Hammer, Info, LayoutGrid, Lock } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
@@ -7,8 +7,6 @@ import PlayerDetailCard from '@/components/PlayerDetailCard';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import CollectibleCard from '@/components/collection/CollectibleCard';
 import CardDetail, { type CardDetailTarget } from '@/components/collection/CardDetail';
-import CardDesigns from '@/components/collection/CardDesigns';
-import ArtLab from '@/components/collection/art/ArtLab';
 import { designRows, samplePack } from '@/components/collection/designSamples';
 import { FINISH_ICON, FINISH_TEXT } from '@/components/collection/rarityIcons';
 import PackOpening, { PackArt } from '@/components/collection/PackOpening';
@@ -24,7 +22,7 @@ import {
   DUPLICATE_SHARDS,
   EARNING_RULES,
   FINISHES,
-  GIFTS,
+  giftSummary,
   PACKS,
   PACK_ORDER,
   SHELF_ORDER,
@@ -44,6 +42,15 @@ import {
   type PackType,
   type Tier,
 } from '@/utils/collection';
+
+// The Card designs gallery and the Art lab are their own chunks, loaded the first time they open
+const CardDesigns = lazy(() => import('@/components/collection/CardDesigns'));
+const ArtLab = lazy(() => import('@/components/collection/art/ArtLab'));
+const DialogFallback = () => (
+  <div className="fixed inset-0 z-50 grid place-items-center bg-night/70" role="status" aria-label="Loading">
+    <div className="h-10 w-10 animate-spin rounded-full border-4 border-gold border-t-transparent" />
+  </div>
+);
 
 const POSITIONS: Position[] = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
 type Sort = 'set' | 'ovr' | 'tier' | 'finish' | 'recent';
@@ -93,7 +100,7 @@ const RulesPopover = () => (
         <Info className="h-4 w-4" aria-hidden="true" />
       </button>
     </PopoverTrigger>
-    <PopoverContent align="start" className="max-h-[70vh] w-[min(92vw,460px)] overflow-y-auto border-line bg-night p-3 text-xs">
+    <PopoverContent align="start" className="max-h-[calc(var(--dvh)*0.7)] w-[min(92vw,460px)] overflow-y-auto border-line bg-night p-3 text-xs">
       <table className="w-full table-fixed font-mono tabular-nums">
         <caption className="mb-1 text-left font-sans text-[11px] font-semibold">Chance per card</caption>
         <thead>
@@ -152,9 +159,10 @@ const RulesPopover = () => (
         ))}
       </ul>
       <p className="mt-3 text-muted-foreground">
-        Every card rolls tier, then player, then finish, then art variant ({VARIANTS.map((v) => v.label).join(', ')}; the sprite is rarest). A player
-        can own every variant and they stack in the binder. Market value × variant:{' '}
-        {VARIANTS.map((v) => `${v.short} ×${VARIANT_MULTIPLIER[v.key]}`).join(', ')}. Legends Exchange cards are Team jersey.
+        Every card rolls tier, then player, then finish, then art variant ({VARIANTS.map((v) => v.label).join(', ')}; the sprite is rarest). The
+        rarities stack: the rarer arts get rarer still on better players and finishes, so a Retro Bowl sprite Holo Legendary is about 1 card in{' '}
+        {Math.round(1 / ODDS.holo.spriteLegendaryHolo).toLocaleString()} even from Holo Showcase packs. A player can own every variant and they stack in
+        the binder. Market value × variant: {VARIANTS.map((v) => `${v.short} ×${VARIANT_MULTIPLIER[v.key]}`).join(', ')}.
       </p>
       <p className="mt-3 font-semibold">Earn packs</p>
       <ul className="mt-1 space-y-0.5 text-muted-foreground">
@@ -194,6 +202,11 @@ const CollectionTab = () => {
   const [designs, setDesigns] = useState(false);
   const [preview, setPreview] = useState(false);
   const [artLab, setArtLab] = useState(false);
+  // Once opened, the lazy dialogs stay mounted so they close with their animation and reopen instantly
+  const [designsSeen, setDesignsSeen] = useState(false);
+  const [artLabSeen, setArtLabSeen] = useState(false);
+  useEffect(() => void (designs && setDesignsSeen(true)), [designs]);
+  useEffect(() => void (artLab && setArtLabSeen(true)), [artLab]);
 
   useEffect(() => setLimit(PAGE), [tier, finish, pos, team, missing, sort]);
 
@@ -205,7 +218,7 @@ const CollectionTab = () => {
       const gift = hash.match(GIFT_HASH)?.[1];
       if (gift) {
         const r = redeemGift(gift);
-        if (r === 'granted') toast.success(`${GIFTS[gift].label} added`, { description: 'Tap a pack below to open it.' });
+        if (r === 'granted') toast.success(`New packs added: ${giftSummary(gift)}`, { description: 'Tap a pack below to open it.' });
         else if (r === 'already') toast('That gift was already redeemed on this browser.');
         cleanHash();
       }
@@ -585,16 +598,20 @@ const CollectionTab = () => {
         total={cards.length}
         remaining={0}
       />
-      <CardDesigns
-        open={designs}
-        onClose={closeDesigns}
-        cards={cards}
-        total={cards.length}
-        onOpenCard={(info, t, f, v, from) => setDetail({ info, tier: t, finish: f, variant: v, preview: true, from })}
-        onPreviewPack={() => setPreview(true)}
-        onArtLab={() => setArtLab(true)}
-      />
-      <ArtLab open={artLab} onClose={closeArtLab} cards={cards} total={cards.length} />
+      <Suspense fallback={<DialogFallback />}>
+        {(designs || designsSeen) && (
+          <CardDesigns
+            open={designs}
+            onClose={closeDesigns}
+            cards={cards}
+            total={cards.length}
+            onOpenCard={(info, t, f, v, from) => setDetail({ info, tier: t, finish: f, variant: v, preview: true, from })}
+            onPreviewPack={() => setPreview(true)}
+            onArtLab={() => setArtLab(true)}
+          />
+        )}
+        {(artLab || artLabSeen) && <ArtLab open={artLab} onClose={closeArtLab} cards={cards} total={cards.length} />}
+      </Suspense>
       <CardDetail
         target={detail}
         entry={detail && !detail.preview ? owned[detail.info.key] : undefined}

@@ -132,6 +132,9 @@
   overflow-x: auto;
   scrollbar-width: none;
   padding: 0 0.75rem;
+  /* Room for the dialog's close button, which stays pinned over this bar when it sticks (a margin, not padding:
+     scrolled tabs would still slide under padding) */
+  margin-right: 3rem;
 }
 .pc-tablist::-webkit-scrollbar {
   display: none;
@@ -418,6 +421,11 @@
   color: hsl(43 100% 70%);
   background: hsl(43 80% 20% / 0.45);
   border: 1px solid hsl(43 100% 62% / 0.55);
+}
+@media (pointer: coarse) {
+  .arc-ring {
+    min-height: 2.25rem;
+  }
 }
 .arc-ring--likely {
   background: transparent;

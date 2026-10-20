@@ -1437,7 +1437,7 @@ button.fut__card:focus-visible {
   z-index: 1;
   display: grid;
   place-items: end center;
-  width: min(250px, 58vw, 40vh);
+  width: min(250px, 58vw, calc(var(--dvh, 100vh) * 0.4));
   aspect-ratio: 120 / 110;
   margin-top: 8%;
   filter: brightness(0.08) drop-shadow(0 0 2px var(--wk-t1)) drop-shadow(0 0 22px color-mix(in srgb, var(--wk-a) 80%, transparent));
@@ -1470,7 +1470,7 @@ button.fut__card:focus-visible {
 .wk__card {
   position: relative;
   z-index: 1;
-  width: min(320px, 64vw, 46vh);
+  width: min(320px, 64vw, calc(var(--dvh, 100vh) * 0.46));
   perspective: 1300px;
   animation: wk-fade 0.25s ease-out both;
 }
@@ -1972,8 +1972,7 @@ button.fut__card:focus-visible {
 .cd--rare { --cd-tier: #cfd6de; }
 .cd--epic { --cd-tier: #f2c94c; }
 .cd--legendary { --cd-tier: #f6d46b; }
-.cd > button:last-child {
-  z-index: 3;
+.cd .dlg-x {
   color: #fff;
 }
 .cd.cd--flying,
@@ -1987,7 +1986,7 @@ button.fut__card:focus-visible {
 .cd__inner {
   position: relative;
   isolation: isolate;
-  min-height: min(680px, 92vh);
+  min-height: min(680px, calc(var(--dvh, 100vh) * 0.92));
 }
 .cd__bg {
   position: absolute;
@@ -2097,7 +2096,7 @@ button.fut__card:focus-visible {
   .cd__body {
     grid-template-columns: minmax(0, 1fr) 340px;
     align-items: center;
-    min-height: min(680px, 92vh);
+    min-height: min(680px, calc(var(--dvh, 100vh) * 0.92));
     padding: 28px 32px 28px 16px;
   }
 }
@@ -2119,7 +2118,7 @@ button.fut__card:focus-visible {
   grid-column: 2;
   grid-row: 1;
   /* Fits the column it sits in (container width minus the two 44px buttons) and the viewport height */
-  width: min(330px, calc(100cqw - 104px), 56vh);
+  width: min(330px, calc(100cqw - 104px), calc(var(--dvh, 100vh) * 0.56));
   min-width: 0;
   perspective: 1400px;
 }
@@ -2643,3 +2642,36 @@ button.fut__card:focus-visible {
   animation: none !important;
 }
 .cd__motes { display: none; }
+
+/* Touch screens: every control at least 44 px tall (a thumb, not a cursor). Chip rows scroll sideways on phones, so
+   the extra height costs no wrapping. */
+@media (pointer: coarse) {
+  [role='group'][aria-label='Tier and finish'] > button,
+  [role='group'][aria-label='Position'] > button,
+  [role='group'][aria-label='Position'] > select,
+  [role='group'][aria-label='Sort'] > button,
+  .pk-actions > button,
+  .wk__actions button,
+  .cd-chip,
+  .cd-btn {
+    min-height: 44px;
+  }
+  /* Small round icon buttons keep their look but get a 44 px hit area */
+  button[aria-label='Pack odds and rules'] {
+    position: relative;
+  }
+  button[aria-label='Pack odds and rules']::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+  }
+}
+/* The walkout's buttons clear the home indicator */
+.wk__actions {
+  padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+}
+/* The card back scrolls inside the card: keep that scroll to itself */
+.cb {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}

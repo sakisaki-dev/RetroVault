@@ -134,7 +134,7 @@
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 3.25rem 1rem 1.5rem;
+  padding: calc(3.5rem + env(safe-area-inset-top, 0px)) 1rem 1.5rem;
 }
 @media (min-width: 768px) {
   .cer__scroll { padding: 2.5rem 2rem 2rem; }
@@ -402,9 +402,11 @@
 
 .cer__close {
   position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
+  top: max(0.75rem, env(safe-area-inset-top, 0px));
+  right: max(0.75rem, env(safe-area-inset-right, 0px));
   z-index: 3;
+  width: 2.75rem;
+  height: 2.75rem;
 }
 
 .cer__controls {

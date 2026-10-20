@@ -57,7 +57,7 @@ const ArtLab = ({ open, onClose, cards, total }: ArtLabProps) => {
           // No focus ring for this programmatic focus: the ring is for keyboard users moving between tabs
           window.setTimeout(() => document.getElementById(`lab-tab-${tab}`)?.focus(QUIET_FOCUS), 0);
         }}
-        className="lab flex h-[94vh] max-h-[94vh] w-[96vw] max-w-[1240px] flex-col gap-0 overflow-hidden border-line bg-night p-0">
+        className="lab flex h-[calc(var(--safe-h)-1rem)] max-h-[calc(var(--safe-h)-1rem)] w-[calc(100vw-1rem)] max-w-[1240px] flex-col gap-0 overflow-hidden border-line bg-night p-0">
         <div className="lab__top">
           <div className="lab__titles">
             <DialogTitle className="font-display text-2xl uppercase italic">

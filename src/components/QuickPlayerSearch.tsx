@@ -200,7 +200,7 @@ const QuickPlayerSearch = () => {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="qs-root top-[6%] max-h-[85vh] w-[calc(100vw-1rem)] max-w-xl translate-y-0 gap-0 overflow-hidden p-0 sm:top-[8%]">
+        <DialogContent className="qs-root top-[6%] max-h-[calc(var(--safe-h)-3rem)] w-[calc(100vw-1rem)] max-w-xl translate-y-0 gap-0 overflow-hidden p-0 sm:top-[8%]">
           <DialogTitle className="sr-only">Look up a player</DialogTitle>
           <Command
             filter={matchPlayer}
@@ -247,7 +247,7 @@ const QuickPlayerSearch = () => {
             </div>
 
             <div>
-              <CommandList className="max-h-[min(26rem,55vh)] overscroll-contain p-1.5">
+              <CommandList className="max-h-[min(26rem,calc(var(--dvh)*0.55))] overscroll-contain p-1.5">
                 <CommandEmpty className="py-10 text-center text-sm text-muted-foreground">No player by that name in the vault.</CommandEmpty>
                 {groups.map((g) => (
                   <CommandGroup

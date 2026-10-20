@@ -109,7 +109,24 @@
       radial-gradient(1200px 400px at 50% -200px, hsl(var(--turf-deep) / 0.18), transparent 70%),
       hsl(var(--background));
     min-height: 100vh;
+    min-height: 100dvh;
     font-feature-settings: 'cv11', 'ss01';
+    /* Nothing may push the page sideways on a phone (wide tables and matrices scroll in their own boxes) */
+    overflow-x: clip;
+  }
+
+  /*
+   * Viewport heights that respect the phone toolbars and the notch: --dvh is the visible height (100vh on old
+   * browsers), --safe-h subtracts the safe areas. Dialogs size with max-h-[calc(var(--safe-h)-…)].
+   */
+  :root {
+    --dvh: 100vh;
+    --safe-h: calc(var(--dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  }
+  @supports (height: 100dvh) {
+    :root {
+      --dvh: 100dvh;
+    }
   }
 
   /* Consistent, visible keyboard focus everywhere */
@@ -320,6 +337,83 @@
   }
 }
 
+/*
+ * Dialogs (src/components/ui/dialog.tsx): a zero-height sticky bar holds the close button and, on touch screens, the
+ * grab handle for swipe-to-close. Scrolling dialogs keep their scroll to themselves.
+ */
+.dlg {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+/* Side sheets run edge to edge: keep their last row above the home indicator */
+.dlg-sheet {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.dlg-bar {
+  order: -1;
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  height: 0;
+  grid-column: 1 / -1;
+  align-self: stretch;
+  justify-self: stretch;
+  flex: none;
+  pointer-events: none;
+}
+.dlg-x {
+  pointer-events: auto;
+  position: absolute;
+  top: max(6px, env(safe-area-inset-top, 0px));
+  right: max(6px, env(safe-area-inset-right, 0px));
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  color: hsl(var(--foreground) / 0.8);
+  transition: color 150ms, background-color 150ms;
+}
+.dlg-x:hover {
+  color: hsl(var(--foreground));
+  background: hsl(var(--muted) / 0.5);
+}
+.dlg-x:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: -2px;
+}
+.dlg-grab {
+  display: none;
+}
+@media (pointer: coarse), (max-width: 640px) {
+  /* Over card art and photos the X needs its own backing to stay findable */
+  .dlg-x {
+    color: hsl(var(--foreground));
+    background: hsl(var(--background) / 0.72);
+    border: 1px solid hsl(var(--border));
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .dlg-grab {
+    pointer-events: auto;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    translate: -50% 0;
+    display: grid;
+    place-items: center;
+    width: 112px;
+    height: 24px;
+    touch-action: none;
+  }
+  .dlg-grab span {
+    width: 40px;
+    height: 5px;
+    border-radius: 999px;
+    background: hsl(var(--foreground) / 0.45);
+    box-shadow: 0 0 0 1px hsl(var(--background) / 0.4);
+  }
+}
 @layer utilities {
   .font-display {
     font-family: var(--font-display);

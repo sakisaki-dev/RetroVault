@@ -91,6 +91,8 @@ export interface Bitmap {
   y: number;
 }
 
+let shared: HTMLCanvasElement | null = null;
+
 /** Paint runs (fine-grid rects) into a canvas; crop to the drawn box when asked. */
 export const paint = (runs: Rect[], colours: Record<Key, string>, w: number, h: number, crop = false, pad = 0): Bitmap => {
   let x0 = 0;
@@ -103,11 +105,14 @@ export const paint = (runs: Rect[], colours: Record<Key, string>, w: number, h: 
     cw = Math.max(...runs.map((r) => r[0] + r[2])) + pad - x0;
     ch = Math.max(...runs.map((r) => r[1] + r[3])) + pad - y0;
   }
-  const canvas = document.createElement('canvas');
+  // One shared canvas, resized per paint: iOS Safari caps total canvas memory and frees dropped canvases late, so a
+  // fresh canvas per sprite eventually gets no context and the sprite comes out blank.
+  const canvas = (shared ??= document.createElement('canvas'));
   canvas.width = Math.max(1, cw);
   canvas.height = Math.max(1, ch);
   const g = canvas.getContext('2d');
   if (!g) return { url: '', w: cw, h: ch, x: x0, y: y0 };
+  g.clearRect(0, 0, canvas.width, canvas.height);
   const fills = new Map<Key, string>();
   runs.forEach(([x, y, rw, rh, k]) => {
     let f = fills.get(k);
@@ -132,6 +137,8 @@ const get = (key: string) => {
   return b;
 };
 const put = (key: string, b: Bitmap) => {
+  // A failed paint (no canvas context) is not cached, so the next mount tries again
+  if (!b.url) return;
   cache.set(key, b);
   if (cache.size > MAX) cache.delete(cache.keys().next().value as string);
 };
@@ -144,7 +151,13 @@ type IdleDeadline = { timeRemaining: () => number };
 const ric: (cb: (d: IdleDeadline) => void) => void =
   typeof window !== 'undefined' && 'requestIdleCallback' in window
     ? (cb) => (window as unknown as { requestIdleCallback: (c: (d: IdleDeadline) => void, o: { timeout: number }) => void }).requestIdleCallback(cb, { timeout: 120 })
-    : (cb) => setTimeout(() => cb({ timeRemaining: () => 8 }), 16);
+    : // Safari has no requestIdleCallback: a timer with a real ~10 ms budget (a constant budget would build the whole
+      // queue in one long task and freeze a phone while a lab tab fills)
+      (cb) =>
+        setTimeout(() => {
+          const start = performance.now();
+          cb({ timeRemaining: () => Math.max(0, 10 - (performance.now() - start)) });
+        }, 16);
 
 const pump = (d: IdleDeadline) => {
   scheduled = false;
