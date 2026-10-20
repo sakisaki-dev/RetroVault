@@ -205,8 +205,8 @@ EVIDENCE: dict[str, dict] = {
     "Pharoah Hunter": {
         "seqs": [["Vikings", "Seahawks"]],
         "anchors": [("Vikings", 68)],
-        "why": f"{REC}: 288-yd game for your Vikings in Y68. One ring means Y68 was his only Vikings title season "
-               "(they also won Y67 and Y69), so he joined for Y68 and finished as a Seahawk.",
+        "why": f"Owner's career card: 233 G, 4 rings, 2 SB MVPs. {REC}: 288-yd game for your Vikings in Y68. Four "
+               "Vikings titles in his window put him in Minnesota through Y68; he finished as a Seahawk.",
     },
     "Tyrone Baugh": {
         "seqs": [["Bills", "Seahawks"]],

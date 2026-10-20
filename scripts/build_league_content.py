@@ -280,13 +280,20 @@ Dan Mosley played in the secondary like a linebacker who had wandered back to co
 He did it in the modern era, from Y70 to Y80, while the Titans three-peated and the Jets and Vikings took their turns. Detroit was never the team lifting the trophy, and Mosley retires without a ring. What he does have is a Defensive Player of the Year award, the most heavily weighted honor in this league's Dominance formula, worth twice as much as a ring.
 
 Nobody had to tell ball carriers where Dan Mosley was. They found out. Dan Mosley, welcome to the Hall of Fame.""",
-    "Bilal Tolbert": """No trophies. No rings. Just 937 tackles and a place in this building.
+    "Bilal Tolbert": """No individual trophies. Four rings. And a sack record nobody has caught.
 
-Bilal Tolbert is the rare inductee whose case rests entirely on the work. He played 210 games at linebacker, split between Seattle and Los Angeles, and made 937 tackles, about four and a half every time he took the field. He added 22 sacks, enough that offenses could never ignore him when he came forward.
+Bilal Tolbert played 210 games at linebacker and did every job the position asks for. He made 937 tackles, about four and a half a game. He intercepted 13 passes and forced 8 fumbles. And his 22 career sacks are the most in league history, a mark that still stands.
 
-There were no MVP votes, no Defensive Player of the Year award and no Super Bowl MVP. Tolbert never needed them. Every defense needs a linebacker who is in the right place on first down, second down and third, and for 210 games that was him.
+There were no MVP votes, no Defensive Player of the Year award and no Super Bowl MVP. Tolbert never needed them. He collected four rings in the Chargers' early title years, the linebacker who was in the right place on first down, second down and third.
 
-Seattle claims him as its own, and he finished his career as a Charger. Both teams got the same player: steady, reliable and always near the ball. Bilal Tolbert, welcome to the Hall of Fame.""",
+He began in Seattle and finished his career as a Charger. Both teams got the same player: steady, versatile and always near the ball. Bilal Tolbert, welcome to the Hall of Fame.""",
+    "Pharoah Hunter": """The other receiver in the Vikings dynasty was never anybody's second option.
+
+Pharoah Hunter broke in as Rookie of the Year and spent his prime in Minnesota, where God Johnson and Jackson Wardell Kline were rewriting the receiving records. Hunter did not need the spotlight to matter. He caught 1,523 passes for 23,261 yards and 260 touchdowns in 233 games, a little over 15 yards a catch, with a 70-yarder to prove he could take the top off a defense.
+
+Four Offensive Player of the Year awards say the voters noticed. Four rings say the Vikings won with him. Twice he was the best player on the field on the biggest night of the year, with two Super Bowl MVPs.
+
+He finished his career in Seattle. Minnesota remembers a receiver who made a stacked offense even harder to stop. Pharoah Hunter, welcome to the Hall of Fame.""",
     "Kyric McQuay": """Twice in three seasons the Buccaneers reached the Super Bowl and lost. Kyric McQuay was the reason both times.
 
 Baby Manning did not beat you with arm strength. He beat you with decisions. In 10,099 pass attempts he threw only 43 interceptions, roughly one every 235 throws. He completed 6,048 passes for 53,797 yards and 562 touchdowns, and when the pocket broke down he could take it himself: 1,997 rushing yards and 107 rushing touchdowns.

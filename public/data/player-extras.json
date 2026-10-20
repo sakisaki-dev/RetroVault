@@ -1149,21 +1149,24 @@
    "stints": [
     {
      "team": "Vikings",
-     "from": 68,
+     "from": 64,
      "to": 68,
      "rings": [
+      64,
+      66,
+      67,
       68
      ]
     },
     {
      "team": "Seahawks",
      "from": 69,
-     "to": 80,
+     "to": 76,
      "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "the in-game record board (owner's-club games only): 288-yd game for your Vikings in Y68. One ring means Y68 was his only Vikings title season (they also won Y67 and Y69), so he joined for Y68 and finished as a Seahawk."
+   "confidence": "likely",
+   "evidence": "Owner's career card: 233 G, 4 rings, 2 SB MVPs. the in-game record board (owner's-club games only): 288-yd game for your Vikings in Y68. Four Vikings titles in his window put him in Minnesota through Y68; he finished as a Seahawk."
   },
   "God Johnson": {
    "stints": [
@@ -1934,20 +1937,24 @@
    "stints": [
     {
      "team": "Seahawks",
-     "from": 44,
-     "to": 54,
+     "from": 8,
+     "to": 8,
      "rings": []
     },
     {
      "team": "Chargers",
-     "from": 55,
-     "to": 56,
-     "rings": []
+     "from": 9,
+     "to": 19,
+     "rings": [
+      10,
+      11,
+      14,
+      15
+     ]
     }
    ],
    "confidence": "likely",
-   "evidence": "No rings, era or record to date him; only the team is known. The 210-game window is a placeholder in a stretch where his club won nothing.",
-   "approx": true
+   "evidence": "4 rings = Chargers Y10, Chargers Y11, Chargers Y14, Chargers Y15; exact seasons are approximate."
   },
   "Brian Baker": {
    "stints": [

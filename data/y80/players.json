@@ -90,7 +90,10 @@
   "score": 2682,
   "era": "Vikings dynasty · Y59–69",
   "tag": "Longest career in the league",
-  "ovr": 98
+  "ovr": 98,
+  "att": 12454,
+  "cmp": 8331,
+  "int": 212
  },
  {
   "n": "Marcel Mathieu",
@@ -737,14 +740,18 @@
   "team": "Vikings",
   "g": 233,
   "yds": 23261,
-  "rings": 1,
+  "rings": 4,
   "mvp": 0,
   "opoy": 4,
-  "sbmvp": 0,
+  "sbmvp": 2,
   "roty": 1,
   "score": 2504,
   "era": "Vikings dynasty · Y59–69",
-  "ovr": 93
+  "ovr": 93,
+  "rec": 1523,
+  "td": 260,
+  "fum": 18,
+  "lng": 70
  },
  {
   "n": "God Johnson",
@@ -762,7 +769,8 @@
   "score": 4294,
   "era": "Vikings dynasty · Y59–69",
   "tag": "Formerly Mason Earl III",
-  "ovr": 99
+  "ovr": 99,
+  "rec": 2081
  },
  {
   "n": "Jackson Wardell Kline",
@@ -1494,13 +1502,15 @@
   "g": 210,
   "tkl": 937,
   "sck": 22,
-  "rings": 0,
+  "rings": 4,
   "mvp": 0,
   "dpoy": 0,
   "sbmvp": 0,
   "roty": 0,
   "score": 964,
-  "ovr": 78
+  "ovr": 78,
+  "int": 13,
+  "ff": 8
  },
  {
   "n": "Brian Baker",
