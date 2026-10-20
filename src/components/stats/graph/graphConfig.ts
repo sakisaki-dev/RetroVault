@@ -223,6 +223,15 @@ export const applicablePositions = (c: GraphConfig): Position[] => {
   return POSITIONS.filter((p) => stats.every((s) => s.positions.includes(p)));
 };
 
+/** Sensible sample floor for a pair of stats: rates need a real sample, totals / ratings / hardware don't. */
+export const suggestMinGames = (ids: (string | undefined)[]) =>
+  ids.some((id) => {
+    const g = id ? STAT_BY_ID.get(id)?.group : undefined;
+    return g === 'Rates' || g === 'Plus indexes';
+  })
+    ? 16
+    : 0;
+
 export const POSITION_COLORS: Record<Position, string> = {
   QB: '#3987e5',
   RB: '#d95926',
@@ -257,6 +266,8 @@ export interface GraphModel {
   spec: LandscapeSpec;
   positions: Position[];
   shown: Position[];
+  /** Real NFL players at the shown positions left off because they lack a plotted stat, by stat short label. */
+  nflMissing: { n: number; stats: string[] };
 }
 
 /** Plots a config: league players (baseline) plus optional real NFL legends, filtered as the config says. */
@@ -299,6 +310,20 @@ export const buildGraph = (c: GraphConfig, players: Player[], legends: Player[],
   };
 
   const points = [...players.map((p) => toPoint(p, false)), ...legends.map((p) => toPoint(p, true))].filter((p): p is LPoint => !!p);
+  // Legends the filters would keep but a stat can't be computed for (no data in the real-NFL import).
+  const missing = new Set<string>();
+  let nflMissingN = 0;
+  if (!c.hof && !teamId)
+    legends.forEach((p) => {
+      if (!shown.includes(p.position) || p.games < c.minGames) return;
+      const lacking = [xs, ys, ...(ss ? [ss] : [])].filter((s) => {
+        const v = s.get(p, deps);
+        return v == null || !Number.isFinite(v);
+      });
+      if (!lacking.length) return;
+      nflMissingN += 1;
+      lacking.forEach((s) => missing.add(s.short));
+    });
   const yInvert = !!ys.lowerIsBetter;
   const spec: LandscapeSpec = {
     xLabel: xs.label,
@@ -315,7 +340,7 @@ export const buildGraph = (c: GraphConfig, players: Player[], legends: Player[],
     trend: c.trend,
     noSplits: !c.splits,
   };
-  return { xs, ys, ss, points, spec, positions, shown };
+  return { xs, ys, ss, points, spec, positions, shown, nflMissing: { n: nflMissingN, stats: [...missing] } };
 };
 
 export const HOF_LABEL = `Hall of Fame (${HOF_THRESHOLD.toLocaleString('en-US')}+ Career Legacy)`;

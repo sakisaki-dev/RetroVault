@@ -5,17 +5,18 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState } f
  * and the back button works:
  *
  *   #games                       top-level tab (games, stats, hof, collection, timeline, office)
- *   #stats/teams                 Stats sub-tab (players, teams, h2h, deepdive)
+ *   #stats/teams                 Stats sub-tab (players, teams, graphs, h2h, deepdive)
  *   #stats/players/leaders       ...plus a section id to scroll to inside the sub-tab
  *   #stats/deepdive?p=QB:Name    Player Deep Dive with a player preselected
- *   #stats/players?gx=ya&gy=intPct&pos=QB   Graph Builder open on a shared chart (stats/graph/graphConfig)
+ *   #stats/graphs?gx=ya&gy=intPct&pos=QB    Graph Builder on a shared chart (stats/graph/graphConfig);
+ *                                            the old #stats/players?gx=… links land there too
  *   #lab?t=<lineup>              Team Lab with a lineup (utils/teamLab encodeLineup)
  *
  * Old in-page anchors (#leaders, #head-to-head, #comp-finder, ...) and the retired #teams tab still resolve.
  * Unknown hashes are ignored (the current page stays), so plain in-page anchors keep working.
  */
 
-export const STATS_SUBS = ['players', 'teams', 'h2h', 'deepdive'] as const;
+export const STATS_SUBS = ['players', 'teams', 'graphs', 'h2h', 'deepdive'] as const;
 export type StatsSub = (typeof STATS_SUBS)[number];
 
 /** Internal tab ids (as used by Header / Index) → hash names. */
@@ -70,7 +71,7 @@ export const parseHash = (hash: string): Route | null => {
   const tab = HASH_TO_TAB[head] ?? head;
   if (!KNOWN_TABS.has(tab)) return null;
   if (tab === 'career') {
-    const alias: Record<string, StatsSub> = { compare: 'h2h', comps: 'deepdive', 'deep-dive': 'deepdive' };
+    const alias: Record<string, StatsSub> = { compare: 'h2h', comps: 'deepdive', 'deep-dive': 'deepdive', graph: 'graphs', 'graph-builder': 'graphs' };
     // The Analytics Lab now lives on the Players sub-tab
     if (segs[1] === 'advanced') return { tab, sub: 'players', section: 'analytics', p };
     const sub = isSub(segs[1]) ? segs[1] : alias[segs[1]];
@@ -78,6 +79,8 @@ export const parseHash = (hash: string): Route | null => {
     params.forEach((v, k) => {
       if (k !== 'p') q[k] = v;
     });
+    // Graph Builder links from before the Graphs tab (#stats/players?gx=…) open the Graphs tab.
+    if (q.gx && q.gy && (!sub || sub === 'players')) return { tab, sub: 'graphs', q };
     return Object.keys(q).length ? { tab, sub, section: segs[2] || undefined, p, q } : { tab, sub, section: segs[2] || undefined, p };
   }
   const t = params.get('t') || undefined;

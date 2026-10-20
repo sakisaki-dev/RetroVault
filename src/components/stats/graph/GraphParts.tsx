@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { Player } from '@/types/player';
 import { isHallOfFamer } from '@/config/stats';
 import LandscapeScatter from '../visual/LandscapeScatter';
@@ -8,9 +9,22 @@ import { quadrantName, splitOf } from '../visual/landscape';
 import { POSITION_COLORS, TIER_COLORS, type ColorBy, type GraphModel } from './graphConfig';
 
 /** The plot for a graph model (shared by the Lab cards and the Graph Builder). */
-export const GraphPlot = ({ model, logos, onSelect, highlightKey }: { model: GraphModel; logos: boolean; onSelect: (p: Player) => void; highlightKey?: string | null }) =>
+export const GraphPlot = ({
+  model,
+  logos,
+  onSelect,
+  highlightKey,
+  empty,
+}: {
+  model: GraphModel;
+  logos: boolean;
+  onSelect: (p: Player) => void;
+  highlightKey?: string | null;
+  /** Replaces the default "too few players" message (the Graph Builder explains why and offers a fix). */
+  empty?: ReactNode;
+}) =>
   model.points.filter((p) => !p.nfl).length < 3 ? (
-    <p className="py-10 text-center text-sm text-muted-foreground">Fewer than three league players match these stats and filters. Loosen a filter or pick other stats.</p>
+    empty ?? <p className="py-10 text-center text-sm text-muted-foreground">Fewer than three league players match these stats and filters. Loosen a filter or pick other stats.</p>
   ) : (
     <LandscapeScatter
       points={model.points}
@@ -18,7 +32,7 @@ export const GraphPlot = ({ model, logos, onSelect, highlightKey }: { model: Gra
       logos={logos}
       onSelect={onSelect}
       highlightKey={highlightKey}
-      ariaLabel={`${model.ys.label} against ${model.xs.label}. Each dot is a player; click, tap or press Enter on one to open his card.`}
+      ariaLabel={`${model.ys.label} against ${model.xs.label}. Each dot is a player; click or tap near one to open his card (overlapping dots offer a choice), or Tab to a dot and use the arrow keys.`}
     />
   );
 
@@ -52,6 +66,15 @@ export const GraphLegend = ({ model, color }: { model: GraphModel; color: ColorB
     />
   );
 };
+
+/** "8 NFL players hidden: no INT% data" when the real-NFL overlay can't plot some legends. */
+export const NflMissingNote = ({ model }: { model: GraphModel }) =>
+  model.nflMissing.n > 0 ? (
+    <p className="text-[11px] text-muted-foreground">
+      <span className="mr-1 rounded-sm bg-flag/80 px-1 font-pixel text-[7px] text-night">NFL</span>
+      {model.nflMissing.n} real NFL player{model.nflMissing.n === 1 ? '' : 's'} hidden: no {model.nflMissing.stats.join(' / ')} data.
+    </p>
+  ) : null;
 
 /** Table view of a graph model: every plotted player with both values (and size), quadrant and tags. */
 export const GraphTable = ({ model, onSelect }: { model: GraphModel; onSelect: (p: Player) => void }) => {

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FlaskConical, SlidersHorizontal } from 'lucide-react';
 import type { LeagueData, Player, Position } from '@/types/player';
 import { METRIC_BY_ID, POSITIONS, buildContext, evaluateMetric, leaguePlayers, type AdvContext, type AdvMetric } from '@/config/advanced';
@@ -9,11 +9,11 @@ import MetricLabel from './MetricLabel';
 import MetricLeaderboard from './MetricLeaderboard';
 import PlusHeatTable from './PlusHeatTable';
 import LabGraphs from '../graph/LabGraphs';
-import GraphBuilder from '../graph/GraphBuilder';
 import LegendsToggle from '../visual/LegendsToggle';
 import { useOverlayLegends } from '../visual/useIncludeLegends';
 import { useGraphDeps } from '../graph/useGraphDeps';
-import { DEFAULT_CONFIG, configToParams, paramsToConfig, useSavedPresets, type GraphConfig } from '../graph/graphConfig';
+import { DEFAULT_CONFIG, useSavedPresets, type GraphConfig } from '../graph/graphConfig';
+import { lastGraph, openInGraphs } from '../graph/graphPrefs';
 import { useHubRoute } from '../hub/hashRoute';
 import LegacyMix from './LegacyMix';
 import { fmtNum } from './viz';
@@ -66,28 +66,11 @@ const AnalyticsLab = ({ data, onSelect }: { data: LeagueData; onSelect: Select }
   const [position, setPosition] = useState<Position>(positions[0] ?? 'QB');
   const legends = useOverlayLegends();
   const deps = useGraphDeps(players);
-  const { presets, save, remove } = useSavedPresets();
+  const { presets, remove } = useSavedPresets();
 
-  // Graph Builder: open from a shared link (#stats/players?gx=…&gy=…) and keep the link in sync while open.
-  const { route, navigate } = useHubRoute();
-  const [builder, setBuilder] = useState<GraphConfig | null>(() => paramsToConfig(route.q ?? {}));
-  const routeRef = useRef(route);
-  routeRef.current = route;
-  const linked = paramsToConfig(route.q ?? {});
-  const linkedKey = linked ? JSON.stringify(configToParams(linked)) : '';
-  useEffect(() => {
-    if (linked) setBuilder((b) => (b && JSON.stringify(configToParams(b)) === linkedKey ? b : linked));
-    // Only when the link itself changes (back / forward, a pasted link)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [linkedKey]);
-  const syncUrl = (c: GraphConfig | null) => {
-    const r = routeRef.current;
-    navigate({ tab: 'career', sub: 'players', section: r.section, ...(c ? { q: configToParams(c) } : {}) }, { replace: true });
-  };
-  const openBuilder = (c: GraphConfig) => {
-    setBuilder(c);
-    syncUrl(c);
-  };
+  // Graph Builder: full page on Stats → Graphs (the same builder; it remembers the last chart).
+  const { navigate } = useHubRoute();
+  const openBuilder = (c: GraphConfig) => openInGraphs(navigate, c);
 
   const insights = useMemo(
     () =>
@@ -116,7 +99,7 @@ const AnalyticsLab = ({ data, onSelect }: { data: LeagueData; onSelect: Select }
         <div className="flex flex-wrap items-center gap-2 pt-1">
           <button
             type="button"
-            onClick={() => openBuilder(builder ?? DEFAULT_CONFIG)}
+            onClick={() => openBuilder(lastGraph() ?? DEFAULT_CONFIG)}
             className="inline-flex min-h-[36px] items-center gap-2 rounded-md bg-gold px-3 py-1.5 font-display text-sm font-bold uppercase tracking-wide text-night shadow-[0_0_0_1px_hsl(var(--gold))] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-night"
           >
             <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
@@ -160,21 +143,6 @@ const AnalyticsLab = ({ data, onSelect }: { data: LeagueData; onSelect: Select }
         onRemovePreset={remove}
         onSelect={onSelect}
         onOpenBuilder={openBuilder}
-      />
-
-      <GraphBuilder
-        open={!!builder}
-        config={builder ?? DEFAULT_CONFIG}
-        onChange={openBuilder}
-        onClose={() => {
-          setBuilder(null);
-          syncUrl(null);
-        }}
-        players={players}
-        legends={legends}
-        deps={deps}
-        onSelect={onSelect}
-        onSavePreset={save}
       />
 
       <LegacyMix players={players} onSelect={onSelect} />

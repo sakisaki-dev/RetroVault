@@ -6,6 +6,7 @@ import PlayerDetailCard from '../PlayerDetailCard';
 import CountUp from '../brand/CountUp';
 import RecordBook, { RecordStrip } from '../stats/RecordBook';
 import AnalyticsLab from '../stats/analytics/AnalyticsLab';
+import GraphsPage from '../stats/graph/GraphsPage';
 import HeadToHead from '../stats/HeadToHead';
 import PlayerDeepDive from '../stats/comps/PlayerDeepDive';
 import PositionLeaders from '../stats/PositionLeaders';
@@ -33,7 +34,7 @@ const JUMPS = [
 
 /**
  * Stats hub. A sticky sub-nav switches between Players (record strip, records, efficiency, leaders, full tables, Analytics Lab),
- * Teams, Head-to-Head and Deep Dive (one player, full width). The sub-tab lives in the
+ * Teams, Graphs (the Graph Builder), Head-to-Head and Deep Dive (one player, full width). The sub-tab lives in the
  * URL hash (see stats/hub/hashRoute.ts).
  */
 const CareerTab = () => {
@@ -131,6 +132,9 @@ const CareerTab = () => {
       )}
 
       {sub === 'teams' && <TeamRankingsTab />}
+
+      {/* Graph Builder full page (src/components/stats/graph); the URL's gx / gy / pos… are the chart. */}
+      {sub === 'graphs' && <GraphsPage data={careerData} onSelect={setSelectedPlayer} />}
 
       {sub === 'h2h' && (
         <div className="container py-6 sm:py-8">

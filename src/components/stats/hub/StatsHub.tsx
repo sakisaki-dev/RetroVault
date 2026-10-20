@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Building2, Radar, Swords, Users } from 'lucide-react';
+import { Building2, ChartScatter, Radar, Swords, Users } from 'lucide-react';
 import type { Player } from '@/types/player';
 import { cn } from '@/lib/utils';
 import PlayerSearchSelect from '../../PlayerSearchSelect';
@@ -11,6 +11,7 @@ import { buildHash, type StatsSub } from './hashRoute';
 const SUB_TABS: { id: StatsSub; label: string; short: string; Icon: typeof Users; blurb: string }[] = [
   { id: 'players', label: 'Players', short: 'Players', Icon: Users, blurb: 'Records, full stat tables, advanced analytics and leaders' },
   { id: 'teams', label: 'Teams', short: 'Teams', Icon: Building2, blurb: 'Every franchise and its roster' },
+  { id: 'graphs', label: 'Graphs', short: 'Graphs', Icon: ChartScatter, blurb: 'Graph Builder: any stat against any stat' },
   { id: 'h2h', label: 'Head-to-Head', short: 'H2H', Icon: Swords, blurb: 'Any two players, every stat' },
   { id: 'deepdive', label: 'Deep Dive', short: 'Dive', Icon: Radar, blurb: 'One player, every angle: style, comps and more' },
 ];
@@ -30,7 +31,7 @@ const px = (v: string) => {
 };
 
 /**
- * Stats hub shell: a sticky sub-nav (Players / Teams / Advanced / Head-to-Head / Deep Dive) with a global player
+ * Stats hub shell: a sticky sub-nav (Players / Teams / Graphs / Head-to-Head / Deep Dive) with a global player
  * search, pinned right under the site header. Content below sees `--site-header-h` as header + sub-nav, so
  * sticky bars inside a sub-tab (e.g. the Head-to-Head scoreboard) sit under both.
  */

@@ -1,9 +1,9 @@
-import { useMemo, useState, type KeyboardEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react';
 import type { Player } from '@/types/player';
 import { isHallOfFamer } from '@/config/stats';
 import TeamLogo, { resolveTeam } from '../../brand/TeamLogo';
 import { VIZ } from '../analytics/viz';
-import { GOLD, fmtShort, niceTicks, teamMark, useRoving, useWidth } from './chartKit';
+import { GOLD, fmtShort, niceTicks, teamMark, useWidth } from './chartKit';
 import { ChartTip } from './chartParts';
 import { logTicks, quadrantName, splitOf, trendFit, type LPoint, type LandscapeSpec } from './landscape';
 
@@ -13,6 +13,10 @@ import { logTicks, quadrantName, splitOf, trendFit, type LPoint, type LandscapeS
  * log axes, a league-only trend line with r, median (or custom) split lines with a quadrant name in each corner,
  * an optional y = x diagonal, and greedy label placement that names only notable points (plus the hovered,
  * focused or searched one) so labels never overlap. Medians, quadrants and the trend use league points only.
+ *
+ * Picking never needs pixel precision: hovering anywhere highlights the nearest point within 30px (raised on top,
+ * enlarged, with its tooltip); a click opens that point, or a small chooser when several dots overlap there.
+ * Arrow keys move to the nearest point in that direction; Enter opens it.
  */
 
 const M = { top: 22, right: 18, bottom: 42, left: 50 };
@@ -138,6 +142,40 @@ const QuadrantLabel = ({
   );
 };
 
+/** Dark outline so overlapping translucent dots stay distinguishable. */
+const OUTLINE = 'hsl(228 45% 5%)';
+
+/** One point's mark (no pointer handlers: the plot picks the nearest point). `raised` = the enlarged top copy. */
+const PointShape = ({ pt, cx, cy, r, logo, raised }: { pt: LPoint; cx: number; cy: number; r: number; logo: string | null; raised?: boolean }) => {
+  const hof = !pt.nfl && isHallOfFamer(pt.player);
+  const fill = pt.color ?? teamMark(pt.player.team);
+  if (pt.nfl)
+    return (
+      <>
+        <rect x={cx - r} y={cy - r} width={r * 2} height={r * 2} rx={1.5} fill={VIZ.surface} stroke={raised ? VIZ.ink : fill} strokeWidth={2.5} />
+        <rect x={cx - r * 0.45} y={cy - r * 0.45} width={r * 0.9} height={r * 0.9} fill={fill} />
+      </>
+    );
+  if (logo)
+    return (
+      <>
+        {(hof || raised) && <circle cx={cx} cy={cy} r={r + 5} fill={raised ? VIZ.surface : 'none'} stroke={raised ? VIZ.ink : GOLD} strokeWidth={2} />}
+        <image href={logo} x={cx - r - 3} y={cy - r - 3} width={(r + 3) * 2} height={(r + 3) * 2} preserveAspectRatio="xMidYMid meet" />
+      </>
+    );
+  return (
+    <circle
+      cx={cx}
+      cy={cy}
+      r={r}
+      fill={fill}
+      fillOpacity={raised ? 1 : pt.size != null ? 0.7 : 0.82}
+      stroke={raised ? VIZ.ink : hof ? GOLD : OUTLINE}
+      strokeWidth={raised ? 2.5 : hof ? 2.5 : 1.25}
+    />
+  );
+};
+
 const PointMark = ({
   pt,
   cx,
@@ -161,37 +199,124 @@ const PointMark = ({
 }) => {
   const hof = !pt.nfl && isHallOfFamer(pt.player);
   const p = pt.player;
-  const fill = pt.color ?? teamMark(p.team);
   return (
     <g
       role="button"
       tabIndex={0}
       data-rk={pt.key}
       aria-label={`${p.name}, ${p.position}${p.team ? `, ${p.team}` : ''}${pt.nfl ? ', real NFL player, not in the league baseline' : hof ? ', Hall of Famer' : ''}: ${pt.xText}, ${pt.yText}${pt.sizeText ? `, ${pt.sizeText}` : ''}. Open player`}
-      className="cursor-pointer outline-none [&:focus-visible>.ring]:stroke-[hsl(43_100%_62%)]"
+      className="outline-none [&:focus-visible>.ring]:stroke-[hsl(43_100%_62%)]"
       onClick={() => onSelect(p)}
       onKeyDown={onKey}
-      onMouseEnter={() => onShow(pt.key)}
       onFocus={() => onShow(pt.key)}
       onBlur={() => onShow(null)}
     >
-      {/* ≥ 24px hit target; doubles as the focus ring */}
-      <circle className="ring" cx={cx} cy={cy} r={Math.max(12, r + 3)} fill="transparent" stroke="transparent" strokeWidth={2} />
+      {/* ≥ 24px target; doubles as the focus ring */}
+      <circle className="ring" cx={cx} cy={cy} r={Math.max(12, r + 4)} fill="transparent" stroke="transparent" strokeWidth={2} />
       {highlight && <circle cx={cx} cy={cy} r={r + 8} fill="none" stroke={GOLD} strokeWidth={2} strokeDasharray="3 2" />}
-      {pt.nfl ? (
-        <>
-          <rect x={cx - r} y={cy - r} width={r * 2} height={r * 2} rx={1.5} fill={VIZ.surface} stroke={fill} strokeWidth={2.5} />
-          <rect x={cx - r * 0.45} y={cy - r * 0.45} width={r * 0.9} height={r * 0.9} fill={fill} />
-        </>
-      ) : logo ? (
-        <>
-          {hof && <circle cx={cx} cy={cy} r={r + 5} fill="none" stroke={GOLD} strokeWidth={2} />}
-          <image href={logo} x={cx - r - 3} y={cy - r - 3} width={(r + 3) * 2} height={(r + 3) * 2} preserveAspectRatio="xMidYMid meet" />
-        </>
-      ) : (
-        <circle cx={cx} cy={cy} r={r} fill={fill} fillOpacity={pt.size != null ? 0.85 : 1} stroke={hof ? GOLD : VIZ.surface} strokeWidth={hof ? 2.5 : 1.5} />
-      )}
+      <PointShape pt={pt} cx={cx} cy={cy} r={r} logo={logo} />
     </g>
+  );
+};
+
+/** Pick radius (px): a click or hover anywhere within this of a point counts. */
+const PICK = 30;
+
+interface Screen {
+  pt: LPoint;
+  cx: number;
+  cy: number;
+  r: number;
+}
+
+/** Points within `radius` of (x, y), nearest first. A plain scan: a few hundred points is nothing. */
+const near = (all: Screen[], x: number, y: number, radius: number) =>
+  all
+    .map((s) => ({ s, d: Math.hypot(s.cx - x, s.cy - y) }))
+    .filter((o) => o.d <= radius)
+    .sort((a, b) => a.d - b.d);
+
+/** Nearest point in an arrow direction: within a 60° cone first, then the whole half-plane. */
+const step = (all: Screen[], from: Screen, key: string): Screen | null => {
+  const dir = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[key];
+  if (!dir) return null;
+  let best: Screen | null = null;
+  let bestScore = Infinity;
+  all.forEach((s) => {
+    if (s === from) return;
+    const dx = s.cx - from.cx;
+    const dy = s.cy - from.cy;
+    const along = dx * dir[0] + dy * dir[1];
+    if (along <= 0.5) return;
+    const across = Math.abs(dx * dir[1] - dy * dir[0]);
+    const score = along + across * (across > along * 1.15 ? 6 : 2);
+    if (score < bestScore) {
+      best = s;
+      bestScore = score;
+    }
+  });
+  return best;
+};
+
+/** Small chooser for a cluster of overlapping points. */
+const ClusterChooser = ({
+  at,
+  items,
+  width,
+  onPick,
+  onClose,
+}: {
+  at: { x: number; y: number };
+  items: LPoint[];
+  width: number;
+  onPick: (p: LPoint) => void;
+  onClose: () => void;
+}) => {
+  const left = Math.min(Math.max(8, at.x - 130), Math.max(8, width - 268));
+  return (
+    <div
+      role="dialog"
+      aria-label={`${items.length} players here`}
+      className="absolute z-30 w-[260px] max-w-[calc(100%-16px)] rounded-md border border-line bg-popover p-1 shadow-elevated"
+      style={{ left, top: at.y + 14 }}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') {
+          e.stopPropagation();
+          onClose();
+        }
+      }}
+    >
+      <p className="flex items-center justify-between px-2 pb-1 pt-0.5 font-pixel text-[8px] uppercase text-muted-foreground">
+        {items.length} players here
+        <button type="button" onClick={onClose} className="rounded px-1 text-xs text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold" aria-label="Close">
+          ×
+        </button>
+      </p>
+      <ul className="max-h-[240px] overflow-y-auto">
+        {items.map((pt, i) => (
+          <li key={pt.key}>
+            <button
+              type="button"
+              autoFocus={i === 0}
+              onClick={() => onPick(pt)}
+              className="flex w-full min-w-0 items-center gap-2 rounded px-2 py-1.5 text-left text-xs hover:bg-panel-2 focus-visible:bg-panel-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            >
+              {pt.player.team ? <TeamLogo team={pt.player.team} size={18} decorative /> : <span className="w-[18px]" />}
+              <span className="min-w-0 flex-1">
+                <span className="flex items-center gap-1 truncate font-semibold text-foreground">
+                  {pt.player.name}
+                  <span className="font-normal text-muted-foreground">· {pt.player.position}</span>
+                  {pt.nfl && <span className="rounded-sm bg-flag/80 px-1 font-pixel text-[7px] text-night">NFL</span>}
+                </span>
+                <span className="block truncate font-mono tabular-nums text-muted-foreground">
+                  {pt.xText} · {pt.yText}
+                </span>
+              </span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
@@ -256,7 +381,8 @@ const LandscapeScatter = ({
     const sizes = pts.map((p) => p.size).filter((v): v is number => v != null && Number.isFinite(v));
     const sLo = Math.min(...sizes);
     const sHi = Math.max(...sizes);
-    const base = narrow ? 5 : 6;
+    // Bigger dots (easier to hit), a touch smaller on crowded charts.
+    const base = (narrow ? 6 : 7) * (pts.length >= 100 ? 0.85 : 1);
     const radius = (p: LPoint) => (p.size == null || !sizes.length ? base : 4 + 10 * Math.sqrt(sHi > sLo ? (p.size - sLo) / (sHi - sLo) : 0.5));
 
     // Notability: distance from the split point in plotted units, Hall of Famers and the top-right nudged up.
@@ -294,12 +420,10 @@ const LandscapeScatter = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [points, spec, width, height, narrow, highlightKey]);
 
-  const order = useMemo(() => [...points].sort((a, b) => a.x - b.x || a.y - b.y).map((p) => p.key), [points]);
-  const roving = useRoving(order);
   const byKey = useMemo(() => new Map(points.map((p) => [p.key, p])), [points]);
   const hovered = hover ? byKey.get(hover) : undefined;
   const labelled = new Set(geo?.labels.map((l) => l.key));
-  // Big bubbles first (small ones stay clickable on top), Hall of Famers and legends last.
+  // Big bubbles first (small ones stay visible on top), Hall of Famers and legends last.
   const drawOrder = useMemo(
     () =>
       [...(geo?.pts ?? [])].sort(
@@ -307,6 +431,75 @@ const LandscapeScatter = ({
       ),
     [geo],
   );
+  const screen = useMemo<Screen[]>(() => (geo ? drawOrder.map((pt) => ({ pt, cx: geo.X(pt.x), cy: geo.Y(pt.y), r: geo.radius(pt) })) : []), [geo, drawOrder]);
+  const screenByKey = useMemo(() => new Map(screen.map((s) => [s.pt.key, s])), [screen]);
+
+  // Cluster chooser (several overlapping dots under one click) and the last picked point.
+  const [chooser, setChooser] = useState<{ x: number; y: number; items: LPoint[] } | null>(null);
+  const [picked, setPicked] = useState<string | null>(null);
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const pointsRef = useRef<SVGGElement | null>(null);
+  useEffect(() => setChooser(null), [points, width]);
+  useEffect(() => {
+    if (!chooser) return;
+    const close = (e: globalThis.KeyboardEvent) => {
+      if (e.key === 'Escape') setChooser(null);
+    };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, [chooser]);
+
+  const local = (e: { clientX: number; clientY: number }) => {
+    const box = svgRef.current?.getBoundingClientRect();
+    return box ? { x: e.clientX - box.left, y: e.clientY - box.top } : null;
+  };
+  const open = (pt: LPoint) => {
+    setPicked(pt.key);
+    setChooser(null);
+    onSelect(pt.player);
+  };
+  const onMove = (e: ReactPointerEvent<SVGRectElement>) => {
+    if (e.pointerType !== 'mouse' || chooser) return;
+    const at = local(e);
+    const hit = at ? near(screen, at.x, at.y, PICK)[0] : undefined;
+    setHover(hit ? hit.s.pt.key : null);
+  };
+  const onClick = (e: ReactMouseEvent<SVGRectElement>) => {
+    const at = local(e);
+    if (!at) return;
+    const hits = near(screen, at.x, at.y, PICK);
+    if (!hits.length) {
+      setChooser(null);
+      return;
+    }
+    // Overlapping dots under the cursor: let the viewer choose. An isolated nearest point opens directly.
+    const nearest = hits[0];
+    const cluster = hits.filter((h) => h.d <= Math.max(12, nearest.s.r * 2 + 2));
+    if (cluster.length > 1) {
+      setHover(null);
+      setPicked(nearest.s.pt.key);
+      setChooser({ x: at.x, y: at.y, items: cluster.slice(0, 12).map((h) => h.s.pt) });
+    } else open(nearest.s.pt);
+  };
+  const ARROWS = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'];
+  const onKey = (pt: LPoint, e: KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      open(pt);
+      return;
+    }
+    const from = screenByKey.get(pt.key);
+    let to: Screen | null | undefined = null;
+    if (e.key === 'Home' || e.key === 'End') {
+      const sorted = [...screen].sort((a, b) => a.cx - b.cx);
+      to = e.key === 'Home' ? sorted[0] : sorted[sorted.length - 1];
+    } else if (ARROWS.includes(e.key)) {
+      to = from ? step(screen, from, e.key) : null;
+    } else return;
+    e.preventDefault();
+    if (to) pointsRef.current?.querySelector<SVGGElement>(`[data-rk="${CSS.escape(to.pt.key)}"]`)?.focus();
+  };
+  const raised = [hover, picked !== hover ? picked : null].map((k) => (k ? screenByKey.get(k) : undefined)).filter((x): x is Screen => !!x);
 
   const q = spec.quadrants;
   const qStyle = { fill: GOLD, fillOpacity: 0.8, fontSize: narrow ? 10 : 12, fontWeight: 800, letterSpacing: 1 } as const;
@@ -315,8 +508,8 @@ const LandscapeScatter = ({
   return (
     <div ref={boxRef} className="relative w-full" onMouseLeave={() => setHover(null)}>
       {geo && (
-        <div ref={roving.container}>
-          <svg width={width} height={height} role="group" aria-label={ariaLabel} className="block select-none">
+        <div>
+          <svg ref={svgRef} width={width} height={height} role="group" aria-label={ariaLabel} className="block select-none">
             {/* Grid + axes */}
             <g aria-hidden="true">
               {geo.ax.ticks.map((t) => (
@@ -388,20 +581,44 @@ const LandscapeScatter = ({
               )}
             </g>
 
-            {drawOrder.map((pt) => (
-              <PointMark
-                key={pt.key}
-                pt={pt}
-                cx={geo.X(pt.x)}
-                cy={geo.Y(pt.y)}
-                r={geo.radius(pt)}
-                logo={logos ? resolveTeam(pt.player.team)?.logoUrl ?? null : null}
-                highlight={pt.key === highlightKey}
-                onSelect={onSelect}
-                onShow={setHover}
-                onKey={(e) => roving.onKeyDown(pt.key, e, () => onSelect(pt.player))}
-              />
-            ))}
+            <g ref={pointsRef} pointerEvents="none">
+              {screen.map(({ pt, cx, cy, r }) => (
+                <PointMark
+                  key={pt.key}
+                  pt={pt}
+                  cx={cx}
+                  cy={cy}
+                  r={r}
+                  logo={logos ? resolveTeam(pt.player.team)?.logoUrl ?? null : null}
+                  highlight={pt.key === highlightKey}
+                  onSelect={() => open(pt)}
+                  onShow={setHover}
+                  onKey={(e) => onKey(pt, e)}
+                />
+              ))}
+            </g>
+
+            {/* Hovered / picked point raised on top and enlarged */}
+            <g aria-hidden="true" pointerEvents="none">
+              {raised.map(({ pt, cx, cy, r }) => (
+                <PointShape key={pt.key} pt={pt} cx={cx} cy={cy} r={r + 2.5} logo={logos ? resolveTeam(pt.player.team)?.logoUrl ?? null : null} raised />
+              ))}
+            </g>
+
+            {/* Nearest-point picking surface: hover or click anywhere near a dot */}
+            <rect
+              aria-hidden="true"
+              data-pick-surface=""
+              x={0}
+              y={0}
+              width={width}
+              height={height}
+              fill="transparent"
+              className={hover ? 'cursor-pointer' : undefined}
+              onPointerMove={onMove}
+              onPointerLeave={() => setHover(null)}
+              onClick={onClick}
+            />
 
             {/* Labels (non-interactive; the dot is the target) */}
             <g aria-hidden="true" pointerEvents="none">
@@ -430,7 +647,8 @@ const LandscapeScatter = ({
           </svg>
         </div>
       )}
-      {hovered && geo && (
+      {chooser && <ClusterChooser at={chooser} items={chooser.items} width={width} onPick={open} onClose={() => setChooser(null)} />}
+      {hovered && geo && !chooser && (
         <ChartTip x={geo.X(hovered.x)} y={geo.Y(hovered.y)} width={width}>
           <p className="flex items-center gap-1.5 font-semibold text-foreground">
             {hovered.player.team && <TeamLogo team={hovered.player.team} size={16} decorative />}
