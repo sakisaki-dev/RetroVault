@@ -22,7 +22,9 @@ import { TIERS, tierFor, type Finish, type Tier, type Variant } from '@/config/c
  * into the Hall of Fame adds another 25%. A thin tier is worth more than a crowded one.
  * Finish multipliers (FINISH_MULTIPLIER): Base ×1, Silver ×1.5, Gold ×2.5, Holo ×6.
  * Art variant multipliers (VARIANT_MULTIPLIER), on top: Prizm number ×1, Team jersey ×1.2, 70s Topps ×1.8,
- * Locker stall ×2.5, Retro Bowl sprite ×5. A card's price is value × finish × variant (cardPrice).
+ * Locker stall ×2.5, Retro Bowl sprite ×5. A card that rolled an alternate uniform (8% of cards for clubs that have
+ * one, see art/sprite/uniforms.ts) is worth ALT_VALUE_BONUS (×1.1) more. A card's price is value × finish × variant
+ * (× the alternate bonus) (cardPrice).
  *
  * HISTORY: data/y80/market_history.json (built into public/data/market.json) is a list of snapshots of every
  * collectible league player's { ovr, skill, legacy, value }. `npm run rebuild` appends one whenever any player's
@@ -35,6 +37,8 @@ export const TIER_MULTIPLIER: Record<Tier, number> = { common: 1, rare: 1.25, ep
 export const HOF_MULTIPLIER = 1.25;
 export const FINISH_MULTIPLIER: Record<Finish, number> = { base: 1, silver: 1.5, gold: 2.5, holo: 6 };
 export const VARIANT_MULTIPLIER: Record<Variant, number> = { number: 1, jersey: 1.2, topps: 1.8, locker: 2.5, sprite: 5 };
+/** Market bonus for a card wearing an alternate uniform (re-exported by art/sprite/uniforms.ts) */
+export const ALT_VALUE_BONUS = 1.1;
 const LEGACY_REF = LEGACY_TIERS[0].min; // 10000, the Legendary legacy tier
 const LEGACY_CAP = 1.5 * LEGACY_REF;
 
@@ -62,8 +66,9 @@ export const cardValue = ({ ovr, skill, legacy, tier, tierCount, poolSize }: Val
 };
 
 export const finishValue = (value: number, finish: Finish) => Math.round(value * FINISH_MULTIPLIER[finish]);
-/** Price of one card: base value × finish × art variant. */
-export const cardPrice = (value: number, finish: Finish, variant: Variant) => Math.round(value * FINISH_MULTIPLIER[finish] * VARIANT_MULTIPLIER[variant]);
+/** Price of one card: base value × finish × art variant (× ALT_VALUE_BONUS when it rolled an alternate uniform). */
+export const cardPrice = (value: number, finish: Finish, variant: Variant, alt = false) =>
+  Math.round(value * FINISH_MULTIPLIER[finish] * VARIANT_MULTIPLIER[variant] * (alt ? ALT_VALUE_BONUS : 1));
 
 // ---------- Snapshots ----------
 
@@ -160,6 +165,8 @@ export interface Holding {
   key: string;
   finish: Finish;
   variant: Variant;
+  /** Wears an alternate uniform (uniforms.ts isAlternate) */
+  alt?: boolean;
 }
 
 /** Portfolio value per snapshot: each owned (player, variant) at its best finish (cards not yet listed count 0). */
@@ -167,7 +174,7 @@ export const portfolioSeries = (history: MarketHistory, owned: Holding[]) =>
   history.map((s) => ({
     label: s.label,
     date: s.date,
-    value: owned.reduce((sum, h) => sum + (s.players[h.key] ? cardPrice(s.players[h.key].value, h.finish, h.variant) : 0), 0),
+    value: owned.reduce((sum, h) => sum + (s.players[h.key] ? cardPrice(s.players[h.key].value, h.finish, h.variant, h.alt) : 0), 0),
   }));
 
 /** "+12.4%" / "−3.0%" / "0.0%" */

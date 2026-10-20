@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
+import { isLite } from '@/hooks/usePerfMode';
 import { ChevronLeft, ChevronRight, Hammer, RotateCcw, UserRound } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
@@ -55,7 +56,7 @@ interface CardDetailProps {
 
 const motionOk = () => {
   try {
-    return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return !isLite() && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   } catch {
     return false;
   }
@@ -246,7 +247,7 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
                         )}
                       </div>
                       <div className="cd__face cd__face--back" aria-hidden={!flipped}>
-                        {flipped && <CardBack info={info} tier={tier} total={total} variant={variant} />}
+                        {flipped && <CardBack info={info} tier={tier} total={total} variant={variant} finish={finish} />}
                       </div>
                     </div>
                   </div>
@@ -362,7 +363,7 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
                   </button>
                 )}
 
-                {!target?.preview && <CardValue cardKey={info.key} name={info.player.name} finish={finish} variant={variant} ownedFinish={vEntry?.best} />}
+                {!target?.preview && <CardValue cardKey={info.key} name={info.player.name} finish={finish} variant={variant} ownedFinish={vEntry?.best} player={info.player} />}
 
                 {onPlayer && (
                   <button type="button" onClick={() => onPlayer(info)} className="cd-btn">

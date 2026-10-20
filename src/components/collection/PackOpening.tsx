@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { isLite } from '@/hooks/usePerfMode';
 import { Repeat, Sparkles, Trophy } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -11,7 +12,7 @@ import type { CardInfo } from './useCardPool';
 
 const reducedMotion = () => {
   try {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return isLite() || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   } catch {
     return false;
   }

@@ -66,6 +66,21 @@ const CardDesigns = ({
             </DialogTitle>
             <DialogDescription>
               Every tier and finish. Preview only, nothing is added.
+              {onArtLab && (
+                <>
+                  {" "}
+                  To browse every variant × finish on any player, plus poses,
+                  helmets, uniforms and faces, open the{" "}
+                  <button
+                    type="button"
+                    onClick={onArtLab}
+                    className="font-semibold text-gold underline-offset-2 hover:underline"
+                  >
+                    Art lab
+                  </button>
+                  .
+                </>
+              )}
             </DialogDescription>
           </div>
           {onArtLab && (
@@ -74,7 +89,7 @@ const CardDesigns = ({
               onClick={onArtLab}
               className="inline-flex h-9 items-center gap-1.5 rounded-md border border-gold/60 px-3 text-sm font-bold text-gold hover:bg-gold/10"
             >
-              <Palette className="h-4 w-4" aria-hidden="true" /> Art lab
+              <Palette className="h-4 w-4" aria-hidden="true" /> Open Art lab
             </button>
           )}
           <button

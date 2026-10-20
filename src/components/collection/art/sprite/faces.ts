@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import type { GamePlayer } from '@/config/ovr';
-import { line, set, span, stamp, type Key, type Rect } from './grid';
+import { F, PIX_H, PIX_W, PIX_X, line, set, span, stamp, type Key, type Pt, type Rect } from './grid';
 import type { Helmet } from './helmets';
 import type { PoseOut } from './poses';
 import type { TeamStyle } from '../teamStyle';
@@ -39,20 +39,45 @@ export interface SpriteLook {
   locked: boolean;
 }
 
-/** The six skin swatches (player editor picker and sprites.json "skin"), lightest first. */
+/**
+ * Skin ramps sampled from the game (STYLE_GUIDE.md §5): highlight, base, shadow, dark (brows / nostrils / creases),
+ * lips (closed) and mouth (inside an open grin).
+ */
+export interface SkinRamp {
+  hi: string;
+  base: string;
+  shadow: string;
+  dark: string;
+  lips: string;
+  mouth: string;
+}
+const RAMPS: Record<'light' | 'tan' | 'tan2' | 'medium' | 'brown' | 'deep', SkinRamp> = {
+  light: { hi: '#e8c09e', base: '#eab39e', shadow: '#bb8f7e', dark: '#966143', lips: '#f17a7c', mouth: '#f6757a' },
+  tan2: { hi: '#ecbfa4', base: '#e2a589', shadow: '#b5896c', dark: '#966143', lips: '#f17a7c', mouth: '#f17a7c' },
+  tan: { hi: '#d7ab7c', base: '#cf9064', shadow: '#a57350', dark: '#966143', lips: '#c16263', mouth: '#c16263' },
+  medium: { hi: '#c7936b', base: '#b36849', shadow: '#8f533a', dark: '#503424', lips: '#b5585e', mouth: '#ac5288' },
+  brown: { hi: '#9a6d57', base: '#885345', shadow: '#6d4237', dark: '#4f2f22', lips: '#a8505e', mouth: '#ac5288' },
+  deep: { hi: '#7c5a48', base: '#623c32', shadow: '#4e3028', dark: '#281d1a', lips: '#9a4a58', mouth: '#ac5288' },
+};
+/**
+ * The six skin swatches (player editor picker and sprites.json "skin"), lightest first. The game has five bases; the
+ * six keys stay (saved values keep resolving): pale = the game's Light, light = its lighter Tan (#e2a589).
+ */
+const TONE_RAMP: Record<SkinTone, SkinRamp> = { pale: RAMPS.light, light: RAMPS.tan2, tan: RAMPS.tan, medium: RAMPS.medium, brown: RAMPS.brown, deep: RAMPS.deep };
 export const SKIN_TONES: { key: SkinTone; label: string; color: string }[] = [
-  { key: 'pale', label: 'Pale', color: '#ebbca0' },
-  { key: 'light', label: 'Light', color: '#d9a07a' },
-  { key: 'tan', label: 'Tan', color: '#c98a5a' },
-  { key: 'medium', label: 'Medium', color: '#a5643f' },
-  { key: 'brown', label: 'Brown', color: '#7a4630' },
-  { key: 'deep', label: 'Deep', color: '#5a3222' },
+  { key: 'pale', label: 'Light', color: TONE_RAMP.pale.base },
+  { key: 'light', label: 'Light tan', color: TONE_RAMP.light.base },
+  { key: 'tan', label: 'Tan', color: TONE_RAMP.tan.base },
+  { key: 'medium', label: 'Medium', color: TONE_RAMP.medium.base },
+  { key: 'brown', label: 'Brown', color: TONE_RAMP.brown.base },
+  { key: 'deep', label: 'Deep', color: TONE_RAMP.deep.base },
 ];
 export const isSkinTone = (x: unknown): x is SkinTone => SKIN_TONES.some((t) => t.key === x);
-export const skinColor = (t: SkinTone) => SKIN_TONES.find((x) => x.key === t)!.color;
+export const skinColor = (t: SkinTone) => (TONE_RAMP[t] ?? TONE_RAMP.tan).base;
+export const skinRamp = (t: SkinTone): SkinRamp => TONE_RAMP[t] ?? TONE_RAMP.tan;
 
 const HAIR_COLORS: Record<string, string> = {
-  black: '#16121a',
+  black: '#0c0600',
   darkbrown: '#3b2618',
   brown: '#6b4628',
   auburn: '#8f3e22',
@@ -135,36 +160,85 @@ export const lockedSkin = (name: string, t: Record<string, RawLook> | null): Ski
 
 // ---------- Heads ----------
 //
-// Retro Bowl chibi heads (the in-game player screen is the reference): the head is about a third of the sprite's
-// height and the face 12 px wide × 13 tall, with room for a hairline, brows, eyes (whites + pupil), a nose with
-// nostrils, cheek and jaw shading, a mouth (lips, teeth) and a chin, plus ears and solid pixel facial hair.
+// Retro Bowl chibi heads (IMG_6206, the in-game Fred Warner sprite, is the base style): a natural oval about a
+// third of the sprite's height, 14 wide (ears included) × 15 rows from forehead to chin. Front-facing rows,
+// relative to the head's `hy` (the forehead's top row):
+//
+//   0–3 forehead (the hairline sits on 1–3)   4–5 brows      6 eyes (whites + 2-px pupils; 7 for wide eyes)
+//   7–8 nose bridge, ears 6–9, cheekbones      9 nostrils    10 moustache   11 mouth   12 lower lip
+//   13–14 jaw and chin                         15 under-chin shadow          hair rises above row 0 (to −6)
+//
+// Two-tone skin (base + shadow down the right side, under the cheekbones and the jaw, one highlight on the
+// forehead and cheekbone), dark brows, a nose shadow with nostrils, lips, teeth when smiling, solid facial hair.
 
-
-/** Bare head, face out (14 wide). Rows 0–2 are for hair; forehead from row 3; chin row 14. */
+/** Bare face, face out (14 wide, rows 0–15 from the forehead's top). The oval jaw; STRONG_JAW swaps rows 11–14. */
 export const HEAD_BARE = [
-  '..............',
-  '..............',
-  '..............',
-  '..ssssssssss..',
-  '.ssssssssssss.',
-  '.ssusssssusss.',
-  '.sEEsssssEEss.',
-  'dswwessssewwsd',
-  'dssssssssssssd',
-  '.sssssnnsssss.',
+  '...ssssssss...',
+  '..dssssssssd..',
+  '.dssssHHssssd.',
+  '.dsssHssHsssd.',
   '.dssssssssssd.',
-  '.ssssmmmmssss.',
-  '.ssssssssssss.',
+  '.dssssssssssd.',
+  'sdssssssssssds',
+  'xdssssssssssdx',
+  'sdssssssssssds',
+  'sdssssssssssds',
+  '.dssssssssssd.',
+  '.dssssssssssd.',
   '..dssssssssd..',
   '...dssssssd...',
+  '....dssssd....',
   '....dddddd....',
 ];
+/** Square, strong jaw (huge builds, the 'jawline' beard): rows 11–14. */
+const STRONG_JAW = ['.dssssssssssd.', '.dssssssssssd.', '..dssssssssd..', '...dssssssd...'];
 
+/**
+ * Facial-hair templates on the bare face (14 wide, rows from 7). r = solid beard colour, b = darker beard,
+ * ',' = stubble tone, z = stubble checker (stubble / skin shadow, so the skin shows through). Only the full beards
+ * are solid blocks; shortbeard and stubble are a stubble shadow on the jaw ("Fred Warner with stubble").
+ */
+const BEARDS: Partial<Record<Facial, string[]>> = {
+  stubble: ['..............', '..............', '..............', '.z..........z.', '.zz........zz.', '..zz......zz..', '..zzzzzzzzzz..', '...zzzzzzzz...'],
+  mustache: ['..............', '..............', '....rrrrrr....'],
+  goatee: ['..............', '..............', '....rrrrrr....', '..............', '..............', '.....rrrr.....', '.....rrrr.....', '......rr......'],
+  jawline: ['..............', '..............', '.r...rrrr...r.', '.r..r....r..r.', '.r..........r.', '..r..rrrr..r..', '...r..rr..r...', '....rrrrrr....'],
+  chinstrap: ['.r..........r.', '.r..........r.', '.r..rrrrrr..r.', '.r..........r.', '.rr........rr.', '.rr........rr.', '..rr......rr..', '...rrrrrrrr...'],
+  shortbeard: ['..............', '..............', '.zz.,,,,,,.zz.', '.zz........zz.', '.zzz......zzz.', '.zzzz....zzzz.', '..zzzzzzzzzz..', '...zzzzzzzz...'],
+  beard: ['.r..........r.', '.rr........rr.', '.rrrrrrrrrrrr.', '.rrrr....rrrr.', '.rrrrr..rrrrr.', '.rrrrrrrrrrrr.', '..rrrrrrrrrr..', '..rrrrrrrrrr..', '...rrrrrrrr...'],
+  fullbeard: ['.r..........r.', '.rr........rr.', '.rrrrrrrrrrrr.', '.rrrr....rrrr.', '.rrrrr..rrrrr.', '.rrrrrrrrrrrr.', '..rrrrrrrrrr..', '..rrrrrrrrrr..', '...rrrrrrrr...', '....rrrrrr....'],
+};
+const FACE_MAP: Record<string, Key> = { ',': 'fS', b: 'fB', L: 'fL', M: 'fM', n: 'fN', H: 'fH', T: 'fT', W: 'T' };
+/** Beard pixels: 'r' is the beard colour (near-black, or a darker version of light hair), not the hair */
+const BEARD_MAP: Record<string, Key> = { ...FACE_MAP, r: 'fb' };
+
+/** Face-only colour keys (merged into render.ts colours()): lips, nostrils, stubble, darker beard. */
+export const faceColours = (look: SpriteLook): Record<Key, string> => {
+  const ramp = skinRamp(look.skin);
+  const hair = hairColor(look.hair.color);
+  // Beards: near-black for dark hair, a darker version of light hair (with a 1-px checker of two browns)
+  const dark = look.hair.color === 'black' || look.hair.color === 'darkbrown' || hair === HAIR_COLORS.black;
+  return {
+    fL: ramp.lips,
+    fM: ramp.mouth,
+    fN: ramp.dark,
+    fS: `color-mix(in srgb, ${ramp.base} 50%, ${dark ? '#0c1826' : hair})`,
+    fb: dark ? '#0c1826' : `color-mix(in srgb, ${hair} 60%, #2a1406)`,
+    fB: dark ? '#160b00' : `color-mix(in srgb, ${hair} 45%, #2a1406)`,
+    fR: '#ffcf6b',
+    fr: '#ffe7a8',
+    fH: ramp.hi,
+    fU: '#3a3d48',
+    fE: '#c0cbdc',
+    fT: dark ? '#1e1d1c' : `color-mix(in srgb, ${hair} 75%, #fff)`,
+    ...PORTRAIT_COLOURS,
+  };
+};
 
 /**
  * Facial hair as solid pixel shapes on a face-out head. fx = the face's left column, w its width; rows: must
  * (moustache), mouth (top lip), jaw, chin, under (below the chin), cheek (where sideburns start). Beards leave the
- * mouth open; the expression is drawn after.
+ * mouth open; the expression is drawn after. (Helmet faces; the bare head uses the BEARDS templates.)
  */
 export interface FaceRows {
   must: number | null;
@@ -186,8 +260,8 @@ export const faceHair = (R: Rect[], fx: number, w: number, r: FaceRows, f: Sprit
   };
   if (f === 'none') return;
   if (f === 'stubble') {
-    for (let x = L + 2; x < Rt - 1; x += 2) set(R, x, r.jaw, 'r');
-    for (let x = L + 3; x < Rt - 2; x += 2) set(R, x, r.chin, 'r');
+    for (let x = L + 2; x < Rt - 1; x += 2) set(R, x, r.jaw, 'fS');
+    for (let x = L + 3; x < Rt - 2; x += 2) set(R, x, r.chin, 'fS');
     return;
   }
   const must = () => r.must != null && span(R, mid - 3, mid + 2, r.must);
@@ -227,7 +301,7 @@ export interface HeadOpts {
   hel: Helmet;
 }
 
-/** Mouth by expression, on a face-out head: x = the mouth's left column (4 wide), y = its top row. */
+/** Mouth by expression, on a helmet face: x = the mouth's left column (4 wide), y = its top row. */
 export const mouth = (R: Rect[], x: number, y: number, ex: PoseOut['expr']) => {
   if (ex === 'smile') R.push(...stamp(['mTTTTm', '.mmmm.'], x - 1, y));
   else if (ex === 'open') R.push(...stamp(['mmmm', 'oooo', '.oo.'], x, y));
@@ -236,7 +310,7 @@ export const mouth = (R: Rect[], x: number, y: number, ex: PoseOut['expr']) => {
   else if (ex === 'exalted') R.push(...stamp(['ssss', '.oo.'], x, y));
 };
 
-/** Eyes and brows by expression / look on a face-out head: brows at row y, eyes at y + 1, eye columns ex1 / ex2. */
+/** Eyes and brows by expression / look on a helmet face: brows at row y, eyes at y + 1, eye columns lx / rx. */
 export const eyes = (R: Rect[], lx: number, rx: number, y: number, look: SpriteLook, ex: PoseOut['expr']) => {
   if (look.eyes === 'intense') {
     // Wide bright whites, small pupils, heavy furrowed brows: an unsettling stare
@@ -249,77 +323,192 @@ export const eyes = (R: Rect[], lx: number, rx: number, y: number, look: SpriteL
   if (ex === 'smile' || ex === 'open') R.push(...stamp(['.EE'], lx, y - 1), ...stamp(['EE.'], rx, y - 1), ...stamp(['sss'], lx, y), ...stamp(['sss'], rx, y));
 };
 
+/**
+ * Brows + eyes on the bare face (STYLE_GUIDE §5): each eye is 1 white + 1 pupil in one row (row 6), pupils toward the
+ * nose (columns 3 and 10, 7 apart); brows are 2 px, one row above with a 1-row gap (row 4), inner ends 5 apart.
+ * Angry / intense looks drop the brow onto the eye (no gap) and slant it 1 px down toward the nose.
+ */
+const bareEyes = (R: Rect[], hx: number, hy: number, look: SpriteLook, ex: PoseOut['expr']) => {
+  // Left-side rows (face columns 1–5); the right side is their mirror image (columns 8–12)
+  const both = (left: string[], dy: number) =>
+    R.push(...stamp(left, hx + 1, hy + dy), ...stamp(left.map((r) => [...r].reverse().join('')), hx + 8, hy + dy));
+  if (look.eyes === 'intense') {
+    // Scary stare: the brow pressed down onto the eye and slanted; a 3-px eye, the pupil staring out of the white
+    both(['.E...', '..EE.'], 4);
+    both(['.wew.'], 6);
+    return;
+  }
+  if (ex === 'stern' || ex === 'grimace') {
+    both(['.E...', '..EE.'], 4);
+    both(['.we..'], 6);
+    return;
+  }
+  if (ex === 'exalted') {
+    // Reverent, eyes up: brows lifted at the inner end, calm one-row eyes with the pupil on the white's top edge
+    both(['...E.', '..E..'], 3);
+    both(['.ww..'], 6);
+    R.push([hx + 3, hy + 6, 1, 0.5, 'e'], [hx + 10, hy + 6, 1, 0.5, 'e']);
+    return;
+  }
+  // Calm / smiling / open: level brows
+  both(['..EE.'], ex === 'open' ? 3 : 4);
+  both(['.we..'], 6);
+};
+
+/** Nose (two nostrils, 3 apart, two rows under the eyes) and the mouth (rows 9–11) by expression on the bare face. */
+const bareMouth = (R: Rect[], hx: number, hy: number, ex: PoseOut['expr']) => {
+  R.push(...stamp(['n..n'], hx + 5, hy + 8, FACE_MAP));
+  const m = (rows: string[], dx: number, dy: number) => R.push(...stamp(rows, hx + dx, hy + dy, FACE_MAP));
+  // Grin: dark lip line, white teeth, the mouth colour; corners turned up in skin-dark
+  if (ex === 'smile') m(['mmmmmm', 'nWWWWn', '.MMMM.'], 4, 9);
+  else if (ex === 'open') m(['.mmmm.', 'mWWWWm', 'mMMMMm', '.MMMM.'], 4, 9);
+  else if (ex === 'grimace') m(['mmmmmm', 'mWWWWm', '.mmmm.'], 4, 9);
+  // Frown / pout: 1 px of lip over 3
+  else if (ex === 'stern') m(['..L.', '.LLL'], 4, 10);
+  else if (ex === 'exalted') m(['LL'], 6, 10);
+  // Closed / neutral: 2–3 px of lip colour, one row
+  else m(['LLL'], 5, 10);
+};
+
 /** Bare head (helmet off) at (hx, hy): hair, face, brows / eyes / mouth by expression, facial hair, ears. */
 export const bareHead = (hx: number, hy: number, { look, pose }: HeadOpts, tall: number): Rect[] => {
-  const R: Rect[] = [...stamp(HEAD_BARE, hx, hy)];
+  const R: Rect[] = [];
   const ex = pose.expr ?? 'line';
-  faceHair(R, hx + 1, 12, { must: hy + 10, mouth: hy + 11, jaw: hy + 13, chin: hy + 14, under: hy + 15, cheek: hy + 8 }, look.facial);
-  mouth(R, hx + 5, hy + 11, ex);
-  eyes(R, hx + 2, hx + 9, hy + 6, look, ex);
-  if (look.accessories.includes('eyeblack')) R.push(...stamp(['kkk'], hx + 2, hy + 8), ...stamp(['kkk'], hx + 9, hy + 8));
-  if (look.accessories.includes('earrings')) R.push([hx, hy + 9, 1, 1, 'W'], [hx + 13, hy + 9, 1, 1, 'W']);
-  R.push(...bareHair(hx, hy, look, tall));
+  const strong = look.build === 'huge' || look.facial === 'jawline';
+  // Long hair hangs behind the head and shoulders
+  R.push(...hairBehind(hx, hy, look, tall, !!pose.wind));
+  const face = strong ? [...HEAD_BARE.slice(0, 11), ...STRONG_JAW, HEAD_BARE[15]] : HEAD_BARE;
+  R.push(...stamp(face, hx, hy, FACE_MAP));
+  const beard = BEARDS[look.facial];
+  if (beard)
+    beard.forEach((row, j) => {
+      const y = 7 + j;
+      const fr = face[y];
+      [...row].forEach((ch, i) => {
+        if (ch === '.' || (y <= 14 && (!fr || fr[i] === '.'))) return;
+        R.push([hx + i, hy + y, 1, 1, ch === 'z' ? ((i + y) % 2 ? 'fS' : 'd') : (BEARD_MAP[ch] ?? ch)]);
+      });
+    });
+  bareEyes(R, hx, hy, look, ex);
+  bareMouth(R, hx, hy, ex);
+  // Eye black: a smudge on the cheekbone (left off when looking up in reverence)
+  if (look.accessories.includes('eyeblack') && ex !== 'exalted') R.push(...stamp(['kk'], hx + 2, hy + 8), ...stamp(['kk'], hx + 10, hy + 8));
+  if (look.accessories.includes('earrings')) R.push([hx, hy + 9, 1, 1, 'fE'], [hx + 13, hy + 9, 1, 1, 'fE']);
+  R.push(...bareHair(hx, hy, look, tall, !!pose.wind));
   return R;
 };
 
-/** Hair on a bare head (14 wide at hx; forehead from hy + 3), by style. */
-export const bareHair = (hx: number, hy: number, look: SpriteLook, tall: number): Rect[] => {
+/** How far the bare head's hair rises above the forehead's top row (render.ts fits the frame by height with it). */
+export const hairRise = (look: SpriteLook): number => {
+  const s = look.hair.style;
+  if (look.accessories.includes('durag')) return 2;
+  return s === 'twists' || s === 'dreads' || s === 'shortlocs' || s === 'freeform' ? 7 : s === 'afro' || s === 'mohawk' || s === 'spiky' ? 6 : s === 'bald' ? 2 : 3;
+};
+
+/** Locs / braids / long hair hanging behind the head (drawn before the face). */
+const hairBehind = (hx: number, hy: number, look: SpriteLook, tall: number, wind: boolean): Rect[] => {
   const s = look.hair.style;
   const R: Rect[] = [];
   if (look.accessories.includes('durag')) {
-    // Durag over the crown, knotted at the back, tails trailing behind
-    R.push(...stamp(['....UUUUUU....', '..UUUUUUUUUU..', '.UUUUUUUUUUUU.', '.UuUUUUUUUUUU.', '.U..........U.'], hx, hy));
-    R.push(...line([hx + 1, hy + 4], [hx - 5, hy + 11], 2, 'U'), ...line([hx + 2, hy + 5], [hx - 3, hy + 14], 1, 'U'));
+    // Durag tails: two flat strips from the knot at the back, hanging behind the neck onto the shoulder
+    R.push([hx - 1, hy + 2, 2, 2, 'U'], [hx - 2, hy + 4, 2, 7, 'U'], [hx, hy + 4, 1, 5, 'U'], [hx - 2, hy + 6, 1, 3, 'fU']);
     return R;
   }
-  const top = (rows: string[], dy = 0) => R.push(...stamp(rows, hx, hy + dy));
-  const sidesDown = (to: number) => R.push([hx + 1, hy + 3, 1, to - 3, 'r'], [hx + 12, hy + 3, 1, to - 3, 'r']);
-  if (s === 'bald') top(['..............', '....ssssss....', '..ssusssssss..']);
-  else if (s === 'buzz') {
-    top(['..............', '....rrrrrr....', '..rrrrrrrrrr..', '.r..........r.']);
-  } else if (s === 'short') {
-    top(['....rrrrrr....', '..rrrrRrrrrr..', '.rrrrrrrrrrrr.', '.rr........rr.']);
-    sidesDown(8);
-  } else if (s === 'afro') {
-    top(['...rrrrrrrr...', '.rrrrrRrrrrrr.', 'rrrrrrrrrrrrrr', 'rrrrrrrrrrrrrr', 'rr..........rr', 'r............r'], -2);
-    sidesDown(8);
-  } else if (s === 'mohawk' || s === 'spiky') {
-    top(['....r.r.r.r...', '...rrrrrrrr...', '..rrrrrrrrrr..', '.rr........rr.'], -1);
-  } else if (s === 'curly') {
-    top(['...rr.rr.rr...', '..rrrRrrrRrr..', '.rrrrrrrrrrrr.', '.rrr......rrr.']);
-    sidesDown(7);
-  } else if (s === 'twists' || s === 'freeform' || s === 'dreads' || s === 'shortlocs') {
-    // High-top twists / locs standing up and back (the Retro Bowl look), sides down to the ears
-    const tallTop = s === 'dreads' ? 3 : s === 'shortlocs' || s === 'freeform' ? 2 : 1;
-    const rows = [
-      '..r..r..r..r..',
-      '.rR.rR.rR.rR..',
-      '..rrrRrrrRrr..',
-      '.rrrrrrrrrrrr.',
-      '.rrrrrrrrrrrr.',
-      '.rr........rr.',
-    ];
-    top(rows.slice(3 - tallTop + 0 >= 0 ? 0 : 0), -tallTop);
-    // Locs leaning back (to the left) off the crown, a few hanging behind the ears
-    if (s === 'dreads' || s === 'shortlocs') {
-      const n = s === 'dreads' ? 4 : 3;
-      for (let i = 0; i < n; i++) R.push(...line([hx + 2 + i * 2, hy - tallTop], [hx - 1 + i * 2, hy - tallTop - 2 - (i % 2)], 1, i % 2 ? 'R' : 'r'));
-      R.push([hx, hy + 4, 1, (s === 'dreads' ? 7 : 5) + tall, 'r'], [hx + 13, hy + 4, 1, (s === 'dreads' ? 7 : 5) + tall, 'r']);
-    }
-    sidesDown(8);
-  } else if (s === 'braids') {
-    top(['..rRrRrRrRr...', '.rRrRrRrRrRr..', '.rrrrrrrrrrrr.', '.rr........rr.']);
-    R.push([hx, hy + 3, 1, 10 + tall, 'r'], [hx + 13, hy + 3, 1, 10 + tall, 'r']);
-    sidesDown(8);
+  if (s === 'dreads' || s === 'braids') {
+    // Separate strands (the outline shows between them) over the shoulders, with a twisted texture
+    const len = (s === 'dreads' ? 16 : 13) + tall;
+    const cols = s === 'dreads' ? [-2, 0, 13, 15] : [-1, 14];
+    cols.forEach((dx, i) => {
+      const short = i === 0 || i === cols.length - 1 ? 3 : 0;
+      for (let j = 0; j < len - short; j++) {
+        const sway = wind ? -Math.floor(j / 4) : 0;
+        R.push([hx + dx + sway, hy + 1 + j, 1, 1, (j + i) % 3 === 0 ? 'R' : 'r']);
+        if (s === 'dreads') R.push([hx + dx + sway + (dx < 7 ? 1 : -1), hy + 1 + j, 1, 1, 'r']);
+      }
+      if (s === 'braids') R.push([hx + dx, hy + 1 + len, 1, 1, 'j']);
+    });
   } else if (s === 'long') {
-    top(['...rrrrrrrr...', '.rrrrRrrrrrrr.', 'rrrrrrrrrrrrrr', 'rrr........rrr']);
-    R.push([hx, hy + 4, 2, 10 + tall, 'r'], [hx + 12, hy + 4, 2, 10 + tall, 'r'], [hx, hy + 6, 1, 6, 'R']);
+    const len = 15 + tall;
+    for (let j = 0; j < len; j++) {
+      const sway = wind ? -Math.floor(j / 4) : 0;
+      R.push([hx - 1 + sway, hy + 1 + j, 3, 1, j % 5 === 2 ? 'R' : 'r'], [hx + 12 + sway, hy + 1 + j, 3 - (j > len - 3 ? 1 : 0), 1, j % 5 === 4 ? 'R' : 'r']);
+    }
   }
-  if (look.accessories.includes('headband')) R.push([hx + 1, hy + 3, 12, 1, 'j']);
   return R;
 };
 
-/** Hair out of the back / bottom of a side helmet. */
+/** Twisted-loc texture: r with a checker of highlights. */
+const twist = (rows: string[]) => rows.map((r, j) => [...r].map((c, i) => (c === 'r' && (i * 2 + j) % 7 === 0 ? 'T' : c)).join(''));
+
+/** Hair on a bare head (14 wide at hx; the forehead's top row is hy), by style; drawn over the face. */
+export const bareHair = (hx: number, hy: number, look: SpriteLook, tall: number, wind = false): Rect[] => {
+  void tall;
+  const s = look.hair.style;
+  const R: Rect[] = [];
+  const top = (rows: string[], dy: number, dx = 0, map: Record<string, Key> = {}) => R.push(...stamp(rows, hx + dx, hy + dy, map));
+  if (look.accessories.includes('durag')) {
+    // Durag: a smooth cap hugging the skull, a seam down the middle and a band across the forehead
+    top(['....UUUUUU....', '..UUUUVUUUUU..', '.UUUUUVUUUUUU.', '.UVUUUVUUUUUU.', '.UUUUUVUUUUUU.', '.UUUUUUUUUUUU.'], -3, 0, { V: 'fU' });
+    R.push([hx + 1, hy + 3, 12, 1, 'fB'], [hx + 1, hy + 3, 1, 2, 'U'], [hx + 12, hy + 3, 1, 2, 'U']);
+    return R;
+  }
+  if (s === 'bald') top(['....ssssss....', '..ssuussssss..', '.ssusssssssd..'], -2);
+  else if (s === 'buzz') top(['...rrrrrrrr...', '..rrrrrrrrrr..', '.rrrrrrrrrrrr.', '.r..........r.'], -2);
+  else if (s === 'short') {
+    // The standard short cut (every generic player with his helmet off)
+    top(['....rrrrrr....', '..rrrRRrrrrr..', '.rrRrrrrrrrrr.', '.rrrrrrrrrrrr.', '.rrrrrrrrrrrr.', '.rr.r.rr.r.rr.', '.r..........r.', '.r..........r.'], -3);
+  } else if (s === 'afro') {
+    top(['....rrrrrrrr....', '..rrrrrRrrrrrr..', '.rrrRrrrrrrRrrr.', 'rrrrrrrrrrrrrrrr', 'rrrrrrrrrrrrrrrr', 'rrrrrrrrrrrrrrrr', 'rrrrrrrrrrrrrrrr', 'rrrr........rrrr', '.rr..........rr.', '.rr..........rr.', '..r..........r..'], -6, -1);
+  } else if (s === 'mohawk') {
+    top(['.....rrr......', '....rrRr......', '....rrrrr.....', '...rrRrrr.....', '..,,rrrrr,,,..', '.,,,,rrrr,,,,.', '.,,,,,,,,,,,,.', '.,..........,.'], -6);
+  } else if (s === 'spiky') {
+    top(['...r..r..r....', '...rr.rr.rr.r.', '..rrrrrrrrrr..', '.rrRrrRrrRrrr.', '.rrrrrrrrrrrr.', '.rrrrrrrrrrrr.', '.rr.r.rr.r.rr.', '.r..........r.'], -6);
+  } else if (s === 'curly') {
+    top(['..rr.rr.rr.r..', '.rrRrrRrrRrrr.', '.rrrrrrrrrrrr.', '.rRrrRrrRrrRr.', '.rr.r.rr.r.rr.', '.r..........r.'], -3);
+  } else if (s === 'twists' || s === 'dreads') {
+    // A high-top of twists standing up and swept back (to the left), like Fred Warner's
+    const lean = wind ? -1 : 0;
+    top(twist(['...r...r..r.....', '..rr..rr.rr.r...', '.rrr.rrrrrrrr...', '.rrrrrrrrrrrrr..', '..rrrrrrrrrrrrr.']), -7, -2 + lean, FACE_MAP);
+    top(twist(['.rrrrrrrrrrrr.', '.rrrrrrrrrrrr.', '.rrrrrrrrrrrr.', '.rr.r.rr.r.rr.', '.r..........r.']), -2, 0, FACE_MAP);
+  } else if (s === 'shortlocs' || s === 'freeform') {
+    // Wild twists sticking out all round, down to the jaw (Macleone); freeform a shorter, messier mop
+    top(
+      twist([
+        '.....r...r...r....',
+        '..r..rr.rrr.rr..r.',
+        '...rrrrrrrrrrrrrr.',
+        '.rrrrrrrrrrrrrrrr.',
+        'rrrrrrrrrrrrrrrrrr',
+        '.rrrrrrrrrrrrrrrrr',
+        'rrrrrrrrrrrrrrrrr.',
+        '.rrrrrrrrrrrrrrrrr',
+        'rrrrr.r..r.r.rrrr.',
+        '.rrr..........rrrr',
+        'rrr............rr.',
+        '..rr...........rrr',
+        '.rr............rr.',
+        'r.r.............r.',
+        '.r..............rr',
+        'rr..............r.',
+        '.r...............r',
+        'r.................',
+      ]).slice(0, s === 'freeform' ? 12 : 18),
+      -7,
+      -2,
+      FACE_MAP,
+    );
+  } else if (s === 'braids') {
+    // Cornrows: front-to-back rows
+    top(['....rRrRrR....', '..rRrRrRrRrR..', '.rRrRrRrRrRrr.', '.rRrRrRrRrRrr.', '.rrrrrrrrrrrr.', '.rr........rr.'], -3);
+  } else if (s === 'long') {
+    // Centre-parted curtain framing the face
+    top(['....rrrrrr....', '..rrrRrrRrrr..', '.rrRrrrrrrRrr.', 'rrrrrrr.rrrrrr', 'rrrrr....rrrrr', 'rrr........rrr', 'rr..........rr', 'rr..........rr', 'rr..........rr', 'rr..........rr'], -3);
+  }
+  if (look.accessories.includes('headband')) R.push([hx + 1, hy + 1, 12, 1, 'k']);
+  return R;
+};
+
+/** Hair out of the back / bottom of a side helmet (short hair stays hidden under the helmet). */
 export const helmetHair = (hx: number, hy: number, look: SpriteLook, tall: number): Rect[] => {
   const s = look.hair.style;
   const R: Rect[] = [];
@@ -332,11 +521,269 @@ export const helmetHair = (hx: number, hy: number, look: SpriteLook, tall: numbe
     });
   } else if (s === 'afro' || s === 'twists' || s === 'freeform' || s === 'curly') {
     R.push([hx, hy + 12, 3, 4, 'r'], [hx - 1, hy + 13, 1, 2, 'r']);
-  } else if (s === 'short' || s === 'mohawk' || s === 'spiky') {
-    R.push([hx + 1, hy + 13, 2, 3, 'r']);
-  } else if (s === 'buzz') {
-    R.push([hx + 2, hy + 14, 2, 1, 'r']);
   }
   return R;
 };
 
+// ---------- Signature portrait: "Golden hour" ----------
+//
+// A zoomed-in head-and-shoulders portrait on the fine grid (F cells per sprite pixel, so twice the sprite's
+// detail): the head tilted up toward a low sun at the upper right, eyes up, serene; warm golden-hour rim light down
+// the sun side, a pixel sun with a stepped glow and a lens flare, locs falling over massive shoulders, the number on
+// the near shoulder. Built analytically per cell (head and features in head-local coordinates, rotated), then
+// quantised to a few tones, so it stays crisp pixel art. render.ts draws it instead of the body for these keys.
+
+/** Pose keys drawn as a portrait instead of a full-body sprite. */
+export const PORTRAIT_POSES = new Set(['sig-golden']);
+export const isPortraitPose = (key: string) => PORTRAIT_POSES.has(key);
+
+/** Portrait colour keys (merged into render.ts colours() via faceColours). */
+const PORTRAIT_COLOURS: Record<Key, string> = {
+  g0: '#fff4cf',
+  g1: '#ffe39a',
+  g2: '#fdca6c',
+  g3: '#f7ad57',
+  g4: '#ee8c4a',
+  g5: '#d96c45',
+  g6: '#b8523f',
+  gF: '#fff0bc',
+  gf: '#ffd98a',
+};
+
+const PDIGITS = ['111101101101111', '010110010010111', '111001111100111', '111001111001111', '101101111001001', '111100111001111', '111100111101111', '111001010010010', '111101111101111', '111101111001111'];
+
+/**
+ * The Golden hour portrait as fine-grid cells (sprite coordinates, 1 / F wide), background included. Colour keys:
+ * skin s / d / x, golden rim fR, warm highlight fr, hair r / fT, beard fB, eyes w / e, brows E, lips fL, mouth m,
+ * jersey J / Y / Z / j, number N / O, sky g0–g6, sun / flare gF / gf, outline o.
+ */
+export const goldenHourPortrait = (look: SpriteLook, number: number | null | undefined): Rect[] => {
+  const W = PIX_W * F;
+  const H = PIX_H * F;
+  const g: (Key | undefined)[] = new Array(W * H);
+  const at = (x: number, y: number) => y * W + x;
+  const put = (x: number, y: number, k: Key) => {
+    if (x >= 0 && y >= 0 && x < W && y < H) g[at(x, y)] = k;
+  };
+  const get = (x: number, y: number) => (x >= 0 && y >= 0 && x < W && y < H ? g[at(x, y)] : undefined);
+
+  // Head frame: centre, radii, tilt (negative: crown back to the left, chin up toward the sun)
+  const hc: Pt = [56, 56];
+  const a = 22;
+  const b = 27;
+  const t = (-20 * Math.PI) / 180;
+  const ct = Math.cos(t);
+  const st = Math.sin(t);
+  const local = (x: number, y: number): Pt => {
+    const dx = x + 0.5 - hc[0];
+    const dy = y + 0.5 - hc[1];
+    return [dx * ct + dy * st, -dx * st + dy * ct];
+  };
+  const toScreen = (u: number, v: number): Pt => [hc[0] + u * ct - v * st, hc[1] + u * st + v * ct];
+  // Light from the upper right, in front
+  const L = [0.62, -0.55, 0.56];
+  const inEll = (u: number, v: number, cu: number, cv: number, ru: number, rv: number) => ((u - cu) / ru) ** 2 + ((v - cv) / rv) ** 2 <= 1;
+  // The face looks up and a little to the right: features sit up and right of the head's centre
+  const fu = 2.5;
+  const fv = -3;
+
+  // 1. Shoulders (massive, pads), back locs, neck
+  const shTop = 96;
+  // Massive shoulders: traps sloping up into the neck, two big rounded pads
+  const topAt = (x: number) => {
+    const cx = x + 0.5;
+    const trap = 86 + Math.abs(cx - 58) * 0.5;
+    const pad = (c: number) => (Math.abs(cx - c) < 26 ? shTop + 2 - 12 * Math.sqrt(1 - ((cx - c) / 26) ** 2) : 999);
+    return Math.min(trap, pad(22), pad(95));
+  };
+  for (let x = 0; x < W; x++) {
+    const top = topAt(x);
+    for (let y = Math.ceil(top); y < H; y++) {
+      const dy = y - top;
+      let k: Key = 'J';
+      if (dy < 3.5) k = x > 58 ? 'Y' : 'J';
+      if (x < 14 || (x < 40 && dy > 12)) k = 'Z';
+      if (dy < 1.6 && x > 66) k = 'fR';
+      if (x > 108 && dy < 20) k = 'fR';
+      put(x, y, k);
+    }
+  }
+  // Pad trim lines
+  for (let x = 6; x < 110; x++) {
+    const y = Math.round(topAt(x)) + 9;
+    if (get(x, y) && Math.abs(x - 58) > 18) put(x, y, 'j');
+  }
+  // Number on the near (sun-side) shoulder: 3 × 5 digits, 2 cells per digit pixel, outlined
+  if (number != null) {
+    const s = String(number).slice(0, 2);
+    const x0 = 92 - s.length * 4;
+    const y0 = shTop + 16;
+    const cells: Pt[] = [];
+    [...s].forEach((ch, i) => {
+      const bits = PDIGITS[Number(ch)] ?? PDIGITS[0];
+      for (let q = 0; q < 15; q++)
+        if (bits[q] === '1') for (let e = 0; e < 4; e++) cells.push([x0 + i * 8 + (q % 3) * 2 + (e % 2), y0 + Math.floor(q / 3) * 2 + (e >> 1)]);
+    });
+    cells.forEach(([x, y]) => [-1, 0, 1].forEach((ox) => [-1, 0, 1].forEach((oy) => get(x + ox, y + oy) && put(x + ox, y + oy, 'O'))));
+    cells.forEach(([x, y]) => put(x, y, 'N'));
+  }
+  // Neck: thick, in shadow under the jaw, rim-lit on the sun side
+  for (let y = 74; y < shTop + 2; y++)
+    for (let x = 40; x < 80; x++) {
+      const nx = (x + 0.5 - 60) / (15 + Math.max(0, y - 88) * 0.9);
+      if (Math.abs(nx) > 1) continue;
+      put(x, y, nx > 0.8 ? 'fR' : nx < -0.5 ? 'x' : y < 90 ? 'd' : 's');
+    }
+
+  // 2. Locs: twisted strands from the sides and back of the head falling over the shoulders (behind the face)
+  const strand = (x0: number, y0: number, len: number, sway: number, sun: boolean) => {
+    for (let j = 0; j < len; j++) {
+      const x = Math.round(x0 + sway * Math.sin((j / len) * Math.PI * 0.9) + (j / len) * sway * 0.6);
+      const y = y0 + j;
+      for (let w = 0; w < 3; w++) {
+        const tex = (j + w * 2) % 5 === 0;
+        put(x + w, y, sun && w === 2 ? 'fR' : tex ? 'fT' : 'r');
+      }
+    }
+  };
+  const isHair = look.hair.style === 'dreads' || look.hair.style === 'shortlocs' || look.hair.style === 'braids' || look.hair.style === 'long';
+  if (isHair) {
+    [-24, -18, -12, -5].forEach((v, i) => {
+      const [sx, sy] = toScreen(-a + 1, v + 14);
+      strand(Math.round(sx) - 5 - i * 3 + (i === 3 ? 8 : 0), Math.round(sy), [46, 52, 40, 44][i], -3, false);
+    });
+    [-14, -8, -2, 4].forEach((v, i) => {
+      const [sx, sy] = toScreen(a - 3, v - 6);
+      strand(Math.round(sx) - 2 + i * 3, Math.round(sy), [56, 60, 52, 46][i], 2 + (i % 2), true);
+    });
+  }
+
+  // 3. Head: skin with two tones + warm highlight + golden rim, ears, then hair, features, beard
+  for (let y = 0; y < H; y++)
+    for (let x = 0; x < W; x++) {
+      const [u, v] = local(x, y);
+      const e = (u / a) ** 2 + (v / b) ** 2;
+      // Strong jaw: square off the lower corners a little
+      const jaw = v > b * 0.35 ? (u / (a * (1.02 - (v / b - 0.35) * 0.35))) ** 2 + (v / b) ** 2 : e;
+      const ear = inEll(u, v, -a + 0.5, 2, 3.2, 6);
+      if (jaw > 1 && !ear) continue;
+      const nz = Math.sqrt(Math.max(0, 1 - Math.min(1, e)));
+      const n = [u / a, v / b, nz];
+      const lum = n[0] * L[0] + n[1] * L[1] + n[2] * L[2];
+      let k: Key = lum > 0.9 ? 'fr' : lum > 0.3 ? 's' : 'd';
+      if (e > 0.86 && (n[0] > 0.4 || n[1] < -0.6) && lum > 0.3) k = 'fR';
+      if (ear) k = inEll(u, v, -a + 0.5, 2, 1.4, 3.5) ? 'x' : 'd';
+      put(x, y, k);
+    }
+  for (let y = 0; y < H; y++)
+    for (let x = 0; x < W; x++) {
+      const [u, v] = local(x, y);
+      if (!get(x, y) && v > -b - 12) {
+        // High-top twists above the crown, leaning back
+        if (v < -b * 0.55 && isHair) {
+          const lean = (v + b * 0.55) * 0.45;
+          const w = u - lean;
+          const col = ((Math.round(w) % 5) + 5) % 5;
+          const top = -b - 8 + Math.abs(Math.sin(Math.round(w / 5) * 1.7)) * 4;
+          if (Math.abs(w) < a * 0.92 && v > top && col !== 4) put(x, y, (Math.round(v) + col) % 4 === 0 ? 'fT' : col === 3 && w > 4 ? 'fR' : 'r');
+        }
+        continue;
+      }
+      if (!get(x, y)) continue;
+      const k = get(x, y);
+      if (k === 'J' || k === 'Y' || k === 'Z' || k === 'j' || k === 'N' || k === 'O') continue;
+      if (!(((u / a) ** 2 + (v / b) ** 2) <= 1.05)) continue;
+      // Hairline: the crown under the twists, temples
+      const hairline = -b * 0.58 + 1.6 * Math.cos(u * 0.35);
+      if (isHair && (v < hairline || (Math.abs(u) > a * 0.86 && v < -2 && !(u < 0 && v > -6)))) {
+        put(x, y, u > a * 0.55 && v < hairline ? 'fR' : (Math.round(u) + Math.round(v)) % 6 === 0 ? 'fT' : 'r');
+        continue;
+      }
+      const fx = u - fu;
+      const fy = v - fv;
+      // Brows: thick, gently arched and lifted (serene, confident)
+      const browL = fx > -15 && fx < -4 && Math.abs(fy - (-10.5 + Math.abs(fx + 9.5) * 0.18)) < 1.3;
+      const browR = fx > 4 && fx < 14 && Math.abs(fy - (-11 + Math.abs(fx - 9) * 0.2)) < 1.3;
+      if (browL || browR) put(x, y, 'E');
+      // Eyes: whites with the pupils at the top (looking up), a dark upper lid
+      for (const [ecx, erx] of [[-9.5, 5], [9.4, 4.6]] as const) {
+        if (inEll(fx, fy, ecx, -5, erx, 2.7)) {
+          const lid = fy < -6.9;
+          const pupil = inEll(fx, fy, ecx + 1, -6.2, 2.2, 1.9);
+          put(x, y, lid && !pupil ? 'm' : pupil ? 'e' : 'w');
+        }
+      }
+      // Nose: shadow down the side away from the sun, a lit tip, nostrils
+      if (fx > -2 && fx < 0.2 && fy > -3 && fy < 6) put(x, y, 'd');
+      if (inEll(fx, fy, 1.5, 6.5, 3.2, 1.6)) put(x, y, 'fr');
+      if (inEll(fx, fy, -1.5, 8.2, 1.2, 0.8) || inEll(fx, fy, 4, 8.2, 1.2, 0.8)) put(x, y, 'fN');
+      // Beard: moustache, chin and jaw, solid, with the mouth open in it
+      const beard = look.facial !== 'none' && look.facial !== 'stubble';
+      const inMouth = fy > 12 && fy < 16.5 && fx > -6.5 && fx < 8.5;
+      if (beard && !inMouth) {
+        const must = fy > 10 && fy < 12.6 && fx > -7.5 && fx < 9.5;
+        const chin = fy > 15 && Math.abs(fx - 1) < 16 - Math.max(0, 15 - fy) * 0.9;
+        const side = fy > 6 && Math.abs(fx - 0.5) > 15;
+        if (must || chin || side) put(x, y, (Math.round(fx) * 3 + Math.round(fy)) % 7 === 0 ? 'fT' : get(x, y) === 'fR' ? 'fR' : 'fB');
+      }
+      if (look.facial === 'stubble' && fy > 10 && (Math.round(fx) + Math.round(fy)) % 2 === 0 && !inMouth) put(x, y, 'fS');
+      // Mouth: closed, a confident half-smile rising toward the sun side; fuller lower lip
+      if (inMouth) {
+        const lineY = 13.4 - Math.max(0, fx - 3) * 0.28;
+        if (Math.abs(fy - lineY) < 0.7) put(x, y, 'm');
+        else if (fy > lineY && fy < lineY + 2.4 && fx > -4.5 && fx < 6.5) put(x, y, 'fL');
+        else if (fy < lineY && fy > lineY - 1.6 && fx > -4 && fx < 6) put(x, y, 'fL');
+      }
+      // Cheekbone shadow on the far side
+      if (fx < -11 && fy > -1 && fy < 9 && get(x, y) === 's') put(x, y, 'd');
+    }
+
+  // 4. Outline: every empty cell touching the figure
+  const fig = g.slice();
+  for (let y = 0; y < H; y++)
+    for (let x = 0; x < W; x++)
+      if (!fig[at(x, y)] && [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => x + dx >= 0 && y + dy >= 0 && x + dx < W && y + dy < H && fig[at(x + dx, y + dy)])) g[at(x, y)] = 'o';
+
+  // 5. Sky: a stepped glow round a low sun (dithered at the band edges), the sun, a lens flare toward the head
+  const sun: Pt = [97, 20];
+  const bands = [9, 13, 22, 34, 50, 70, 92];
+  for (let y = 0; y < H; y++)
+    for (let x = 0; x < W; x++) {
+      if (g[at(x, y)]) continue;
+      const d = Math.hypot(x + 0.5 - sun[0], (y + 0.5 - sun[1]) * 1.05);
+      let i = bands.findIndex((r) => d < r);
+      if (i < 0) i = bands.length - 1;
+      // Checker dither across the inner edge of each band
+      if (i > 0 && d - bands[i - 1] < 1.6 && (x + y) % 2 === 0) i -= 1;
+      g[at(x, y)] = i === 0 ? 'gF' : `g${Math.min(6, i - 1)}`;
+    }
+  const ring = (cx: number, cy: number, r: number, k: Key, fill = false) => {
+    for (let y = Math.floor(cy - r - 1); y <= cy + r + 1; y++)
+      for (let x = Math.floor(cx - r - 1); x <= cx + r + 1; x++) {
+        const d = Math.hypot(x + 0.5 - cx, y + 0.5 - cy);
+        const sky = typeof get(x, y) === 'string' && (get(x, y) as string).startsWith('g');
+        if (sky && (fill ? d <= r : Math.abs(d - r) < 0.6)) put(x, y, k);
+      }
+  };
+  // Flare: small discs and a ring along the line from the sun toward the head
+  ring(84, 34, 2.2, 'g0', true);
+  ring(78, 41, 1.2, 'gF', true);
+  ring(66, 54, 4.5, 'gf');
+  ring(104, 9, 1.6, 'g0', true);
+  // Rays: short stepped spokes
+  for (const ang of [0.2, 1.0, 1.75, 2.6, 3.5, 4.4, 5.3]) for (let r = 12; r < 18; r++) put(Math.round(sun[0] + Math.cos(ang) * r), Math.round(sun[1] + Math.sin(ang) * r), 'g0');
+
+  // Runs → rects in sprite coordinates
+  const out: Rect[] = [];
+  for (let y = 0; y < H; y++) {
+    let x = 0;
+    while (x < W) {
+      const k = g[at(x, y)];
+      let e = x + 1;
+      while (e < W && g[at(e, y)] === k) e++;
+      if (k) out.push([PIX_X + x / F, y / F, (e - x) / F, 1 / F, k]);
+      x = e;
+    }
+  }
+  return out;
+};

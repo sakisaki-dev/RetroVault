@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, type CSSProperties, type PointerEvent, type ReactNode } from 'react';
+import { isLite } from '@/hooks/usePerfMode';
 import { cn } from '@/lib/utils';
 import TeamLogo from '@/components/brand/TeamLogo';
 import { POSITION_NAMES } from '@/utils/playerMeta';
@@ -12,7 +13,7 @@ import './collection.css';
 
 const motionOk = () => {
   try {
-    return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return !isLite() && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   } catch {
     return false;
   }

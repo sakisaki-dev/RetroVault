@@ -1,0 +1,28 @@
+{
+ "id": "2026-10-20-brandson-pose",
+ "created": "2026-10-20",
+ "title": "Brandson's signature back to arms crossed (owner reverted Golden hour)",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Sherman Brandson",
+   "value": {
+    "skin": "medium",
+    "hair": {"style": "dreads", "color": "black"},
+    "facial": "shortbeard",
+    "accessories": [],
+    "build": "huge",
+    "height": "tall",
+    "pose": "sig-crossed",
+    "signature": true,
+    "notes": "Fred Warner style: a high-top of short twisted locs standing up and back from the crown, falling over the shoulders; short stubble beard on a strong jaw; huge and 6'7\", muscular V-taper (not fat). Signature (owner): arms crossed, menacing, helmet off [IMG_6206 + IMG_6201]"
+   },
+   "source": "owner",
+   "reason": "Owner: give Brandson back his old arms-crossed pose; the Golden hour portrait is out",
+   "trigger": "Owner request in chat"
+  }
+ ]
+}

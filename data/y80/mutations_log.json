@@ -18,6 +18,24 @@
     "looks": 7
    },
    "changed": 4
+  },
+  {
+   "id": "2026-10-20-face-detail",
+   "dir": "data/uploads/2026-10-20-face-detail",
+   "applied_at": "2026-10-20T02:12:26-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-20-brandson-pose",
+   "dir": "data/uploads/2026-10-20-brandson-pose",
+   "applied_at": "2026-10-20T02:15:05-07:00",
+   "mutations": {
+    "looks": 1
+   },
+   "changed": 1
   }
  ]
 }

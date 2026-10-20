@@ -3,13 +3,18 @@ import { HelmetShape } from './HelmetArt';
 import JerseyGarment from './JerseyGarment';
 import { surnameOf, type ArtProps } from './shared';
 import { logoFor, teamStyleFor } from './teamStyle';
+import { homeUniform } from './sprite/uniforms';
 
-/** Style: his stall in the locker room: nameplate, helmet on the shelf, game jersey on a hanger, a warm downlight. */
-const LockerArt = ({ player, number, pal }: ArtProps) => {
+/**
+ * Style: his stall in the locker room: nameplate, helmet on the shelf, the card's game jersey (home, or a rolled
+ * alternate, with its helmet) on a hanger, his cleats on the floor, a warm downlight.
+ */
+const LockerArt = ({ player, number, pal, uniform }: ArtProps) => {
   const id = `l${useId().replace(/:/g, '')}`;
   const name = surnameOf(player.name).toUpperCase();
   const fs = Math.min(7, 44 / ((name.length + 3) * 0.56));
-  const style = teamStyleFor(player);
+  const u = uniform ?? homeUniform(player.team);
+  const style = teamStyleFor(player, u);
   const logo = logoFor(player);
   return (
     <svg className="ra ra--locker" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
@@ -54,12 +59,13 @@ const LockerArt = ({ player, number, pal }: ArtProps) => {
       <path d="M50 37 c2 -3 -2 -4 -2 -1.5" fill="none" stroke="#c4c9d1" strokeWidth="0.8" />
       <g transform="translate(17 40) scale(0.55)">
         <path d="M14 18 L60 2 L106 18" fill="none" stroke="#6b4a2b" strokeWidth="4" strokeLinecap="round" />
-        <JerseyGarment pal={pal} style={style} number={number} logo={logo} id={`${id}-g`} />
+        <JerseyGarment pal={pal} style={style} number={number} logo={logo} id={`${id}-g`} uniform={u} />
       </g>
-      {/* Cleats on the floor, in team colours */}
+      {/* His cleats on the floor (the uniform's cleat colour, a trim swoosh) */}
       <g transform="translate(66 92)">
-        <path d="M0 4 C0 1 3 0 6 0 L12 2 C15 3 16 5 16 6 L0 6 Z" fill="#1a1d24" />
-        <path d="M2 2 L12 3.4" stroke={pal.trim} strokeWidth="1.2" />
+        <path d="M0 4 C0 1 3 0 6 0 L12 2 C15 3 16 5 16 6 L0 6 Z" fill={u.cleats} stroke="#000" strokeOpacity="0.45" strokeWidth="0.5" />
+        <path d="M2 2 L12 3.4" stroke={u.trim === u.cleats ? u.jersey : u.trim} strokeWidth="1.2" />
+        <path d="M0 6 L16 6" stroke="#000" strokeOpacity="0.6" strokeWidth="1" />
       </g>
       <rect width="100" height="100" fill={`url(#${id}-lamp)`} />
     </svg>

@@ -77,9 +77,11 @@ accessories, build, height, pose, eyes, signature). Custom sprite images and car
 - **Custom pixel image:** put the PNG in the bundle and use `sprite.image` (`{"file": "images/x.png", "as":
   "<slug>.png"}`); it is copied to `public/data/sprites/<slug>.png` and listed as `"image"` in the look, replacing the
   generated sprite. Use a transparent background, feet at the bottom edge, about 58 × 60 pixels.
-- Pose keys and names: the Art lab's Poses strip (`src/components/collection/art/sprite/poses.ts`). The sprite
-  modules are documented in `src/components/collection/art/sprite/README.md`; helmet logos are regenerated with
-  `python3 scripts/build_helmet_logos.py` (needs network).
+- Pose keys and names: the Art lab's Poses strip (`src/components/collection/art/sprite/poses.ts`); a `pose` lock may
+  use the key or the name ("Heisman pose"). The sprite modules are documented in
+  `src/components/collection/art/sprite/README.md`; helmet logos are regenerated with
+  `python3 scripts/build_helmet_logos.py` (hand-drawn glyphs, no network). After any sprite change run `npm run check:sprites` (every
+  pose draws the same head and torso, one baseline, contact poses have stand-ins).
 
 ### 3. Notes (AI step `tag notes`; trigger: `notes.md` present)
 

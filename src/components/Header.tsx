@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { Search } from 'lucide-react';
+import { Gauge, Search } from 'lucide-react';
+import { setPerfSetting, suggestLite, usePerfMode, type PerfSetting } from '@/hooks/usePerfMode';
 import { cn } from '@/lib/utils';
 import { openQuickSearch } from '@/components/QuickPlayerSearch';
 import { useLeague } from '@/context/LeagueContext';
@@ -34,6 +35,30 @@ const readSeasonTag = (): string | null => {
   } catch {
     return null;
   }
+};
+
+/** Header toggle for performance mode: cycles Auto → On → Off (persisted per viewer). */
+const PerfToggle = () => {
+  const { setting, lite } = usePerfMode();
+  const next: Record<PerfSetting, PerfSetting> = { auto: 'on', on: 'off', off: 'auto' };
+  const name = setting === 'auto' ? `Auto (${suggestLite() ? 'on' : 'off'})` : setting === 'on' ? 'On' : 'Off';
+  return (
+    <button
+      type="button"
+      onClick={() => setPerfSetting(next[setting])}
+      aria-pressed={lite}
+      aria-label={`Performance mode: ${name}. Turns off card tilt, shimmer, blur and long walkouts. Click to change.`}
+      title={`Performance mode: ${name}`}
+      className={cn(
+        'inline-flex shrink-0 items-center gap-1.5 rounded-md border px-2 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
+        lite ? 'border-turf/70 text-turf' : 'border-line text-muted-foreground hover:border-gold/60 hover:text-foreground',
+      )}
+    >
+      <Gauge className="h-4 w-4" aria-hidden="true" />
+      <span className="hidden xl:inline">{lite ? 'Lite' : 'Full'}</span>
+      {setting === 'auto' && <span className="hidden font-mono text-[10px] xl:inline">auto</span>}
+    </button>
+  );
 };
 
 const Header = ({ activeTab, onTabChange }: HeaderProps) => {
@@ -150,6 +175,8 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
             <span className="hidden xl:inline">Player</span>
             <kbd className="hidden rounded border border-line px-1 font-mono text-[10px] sm:inline">⌘K</kbd>
           </button>
+
+          <PerfToggle />
 
           {board.season && (
             <span className="lamp shrink-0" aria-label={`Season ${board.season}`}>

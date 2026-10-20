@@ -12,9 +12,10 @@ import { useLeagueContent } from '@/utils/leagueContent';
 import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 import { buildCareerArc, stintYears } from '@/components/player/arcData';
 import { careerTotals } from '@/components/player/statLines';
-import { variantLabel, type Tier, type Variant } from '@/utils/collection';
+import { variantLabel, type Finish, type Tier, type Variant } from '@/utils/collection';
 import { lookFor, useSpriteTable } from './art/sprite/faces';
 import { poseKeyFor, poseLabel } from './art/sprite/poses';
+import { uniformFor } from './art/sprite/uniforms';
 import type { CardInfo } from './useCardPool';
 
 /** "Pose: Rollout throw" for sprite cards (plus "Custom look" when sprites.json locks his look), else "Art: 70s Topps". */
@@ -33,13 +34,15 @@ interface CardBackProps {
   total: number;
   /** Art variant on the front (names the art / the sprite pose on the back) */
   variant?: Variant;
+  /** Finish on the front (with the variant, decides the uniform roll) */
+  finish?: Finish;
 }
 
 /**
  * The back of a card in the large view: career totals, awards, skill-grade bars (league players), a mini career
  * arc (franchise stops with years and rings, from the same builder as the player page) and the set number.
  */
-const CardBack = ({ info, tier, total, variant }: CardBackProps) => {
+const CardBack = ({ info, tier, total, variant, finish }: CardBackProps) => {
   const table = useSpriteTable();
   const { getAllPlayers } = useLeague();
   const extras = usePlayerExtras();
@@ -71,6 +74,8 @@ const CardBack = ({ info, tier, total, variant }: CardBackProps) => {
     .map((a) => ({ ...a, n: (p[a.key] as number) ?? 0 }))
     .filter((a) => a.n > 0);
   const team = findNFLTeam(p.team);
+  // Only alternates get a line ("Uniform: Bucs Creamsicle"); the home uniform is the standard
+  const uniform = variant ? uniformFor(p, variant, finish) : null;
 
   return (
     <div className={cn('cb', `cb--${tier}`)}>
@@ -88,6 +93,7 @@ const CardBack = ({ info, tier, total, variant }: CardBackProps) => {
         </span>
       </div>
       {variant && <p className="cb__art">{artNote(variant, info, table)}</p>}
+      {uniform && uniform.id !== 'home' && <p className="cb__art">Uniform: {uniform.label}</p>}
 
       <h4 className="cb__h">Career</h4>
       <dl className="cb__stats">

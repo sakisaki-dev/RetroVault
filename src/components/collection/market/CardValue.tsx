@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { FINISHES, VARIANTS, finishLabel, variantLabel, type Finish, type Variant } from '@/utils/collection';
 import { FINISH_MULTIPLIER, VARIANT_MULTIPLIER, cardPrice, fmtCoins, pctChange, priceSeries } from '@/utils/cardMarket';
 import { useMarket } from '@/utils/useMarket';
+import { isAlternate } from '../art/sprite/uniforms';
 import PriceChart from './PriceChart';
 import ChangeBadge from './ChangeBadge';
 import './market.css';
@@ -18,14 +19,17 @@ interface CardValueProps {
   variant: Variant;
   /** The owner's best finish in this variant, marked in the finish table */
   ownedFinish?: Finish;
+  /** The card's player: an alternate-uniform roll (per variant × finish) adds ALT_VALUE_BONUS */
+  player?: { name: string; team?: string };
 }
 
 /**
  * Market block for the card detail: value at this finish with its change since the last update, the price over
  * every data snapshot, OVR and skill history, and every finish's value. Self-contained (loads market.json).
  */
-const CardValue = ({ cardKey, name, finish, variant, ownedFinish }: CardValueProps) => {
+const CardValue = ({ cardKey, name, finish, variant, ownedFinish, player }: CardValueProps) => {
   const history = useMarket();
+  const price = (value: number, f: Finish, v: Variant) => cardPrice(value, f, v, !!player && isAlternate(player, v, f));
   const series = useMemo(() => (history ? priceSeries(history, cardKey) : []), [history, cardKey]);
   if (!history) return <p className="mk-card__loading">Loading market…</p>;
   const last = series[series.length - 1];
@@ -37,7 +41,7 @@ const CardValue = ({ cardKey, name, finish, variant, ownedFinish }: CardValuePro
   const allTime = series.length > 1 ? pctChange(last.value, series[0].value) : null;
   const points = series.map((p) => ({
     label: p.label,
-    value: cardPrice(p.value, finish, variant),
+    value: price(p.value, finish, variant),
     detail: `OVR ${p.ovr} · Skill ${p.skill ?? '–'} · Legacy ${fmtCoins(p.legacy)}`,
   }));
   const ovr = series.map((p) => ({ label: p.label, value: p.ovr }));
@@ -51,7 +55,7 @@ const CardValue = ({ cardKey, name, finish, variant, ownedFinish }: CardValuePro
         </p>
         <p className="mk-card__price">
           <Coins className="h-5 w-5 text-gold" aria-hidden="true" />
-          <span className="font-display text-3xl font-extrabold tabular-nums">{fmtCoins(cardPrice(last.value, finish, variant))}</span>
+          <span className="font-display text-3xl font-extrabold tabular-nums">{fmtCoins(price(last.value, finish, variant))}</span>
           <span className="text-xs text-muted-foreground">coins</span>
           <ChangeBadge change={change} label="since the last update" />
         </p>
@@ -102,7 +106,7 @@ const CardValue = ({ cardKey, name, finish, variant, ownedFinish }: CardValuePro
           <tr>
             {FINISHES.map((f) => (
               <td key={f.key} className={cn(f.key === finish && 'is-on')}>
-                {fmtCoins(cardPrice(last.value, f.key, variant))}
+                {fmtCoins(price(last.value, f.key, variant))}
                 {f.key === ownedFinish && <span className="mk-finishes__own">yours</span>}
               </td>
             ))}
@@ -126,7 +130,7 @@ const CardValue = ({ cardKey, name, finish, variant, ownedFinish }: CardValuePro
           <tr>
             {VARIANTS.map((v) => (
               <td key={v.key} className={cn(v.key === variant && 'is-on')}>
-                {fmtCoins(cardPrice(last.value, finish, v.key))}
+                {fmtCoins(price(last.value, finish, v.key))}
               </td>
             ))}
           </tr>

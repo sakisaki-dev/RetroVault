@@ -1,0 +1,34 @@
+{
+ "id": "2026-10-20-face-detail",
+ "created": "2026-10-20",
+ "title": "Face detail pass: Brandson's Golden hour signature and his look notes (Fred Warner style)",
+ "images": [
+  {"file": "IMG_6206.PNG", "path": "~/Downloads/Retrobowl Uploads", "shows": "Player screen: Fred Warner #54 LB, the base sprite style (high-top twists, short beard, strong jaw)"},
+  {"file": "IMG_6201.PNG", "path": "~/Downloads/Retrobowl Uploads", "shows": "Game Hall of Fame: Brandson portrait (locs to the shoulders, beard)"}
+ ],
+ "ai_steps": [
+  {"step": "portrait→look", "reason": "Brandson's look described from the Warner reference and his Hall of Fame portrait", "trigger": "Owner request: Fred Warner-style locs, short stubble, strong jaw"},
+  {"step": "art", "reason": "Owner-requested signature portrait 'Golden hour'", "trigger": "Owner request in chat"}
+ ],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Sherman Brandson",
+   "value": {
+    "skin": "medium",
+    "hair": {"style": "dreads", "color": "black"},
+    "facial": "shortbeard",
+    "accessories": [],
+    "build": "huge",
+    "height": "tall",
+    "pose": "sig-golden",
+    "signature": true,
+    "notes": "Fred Warner style: a high-top of short twisted locs standing up and back from the crown, falling over the shoulders; short stubble beard on a strong jaw; huge and 6'7\", muscular V-taper (not fat). Signature (owner): 'Golden hour', a head-and-shoulders portrait, face tilted up toward the sun, eyes up, serene and confident, golden rim light, locs over massive shoulders, #19 Bucs shoulder [IMG_6206 + IMG_6201]"
+   },
+   "source": "owner",
+   "reason": "Owner: Golden hour signature replaces the arms-crossed pose; Fred Warner-style locs, short stubble, strong jaw, huge + tall",
+   "trigger": "Owner requests in chat"
+  }
+ ]
+}

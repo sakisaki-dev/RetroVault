@@ -3,15 +3,25 @@ import { findNFLTeam } from '@/utils/nflTeams';
 import { HelmetShape } from './HelmetArt';
 import type { ArtProps } from './shared';
 import { logoFor, teamStyleFor } from './teamStyle';
+import { homeUniform, sleeveBands } from './sprite/uniforms';
 
 const BUST = 'M8 108 C10 84 24 70 44 66 L76 66 C92 70 100 84 100 108 Z';
 
-/** Style: a 1970s/80s Topps-style photo window, a duotone halftone bust in helmet and pads, and a team pennant. */
-const VintageArt = ({ player, number, pal }: ArtProps) => {
+/** Printed ink: a uniform colour pulled towards the card's deep ink, like a two-colour press run. */
+const ink = (c: string, deep: string, f = 0.68) => `color-mix(in srgb, ${c} ${Math.round(f * 100)}%, ${deep})`;
+
+/**
+ * Style: a 1970s/80s Topps-style photo window, a halftone bust in helmet and pads printed in the uniform's colours
+ * (the card's uniform: home, or a rolled alternate, with its helmet), and a team pennant.
+ */
+const VintageArt = ({ player, number, pal, uniform }: ArtProps) => {
   const id = `v${useId().replace(/:/g, '')}`;
   const team = (findNFLTeam(player.team)?.name ?? 'Retro Vault').toUpperCase();
   const fs = Math.min(9, 54 / (team.length * 0.55));
-  const style = teamStyleFor(player);
+  const u = uniform ?? homeUniform(player.team);
+  const style = teamStyleFor(player, u);
+  const body = ink(u.jersey, pal.aDeep);
+  const stripes = sleeveBands(u).filter(([c]) => c).map(([c]) => c as string);
   const logo = logoFor(player);
   return (
     <svg className="ra ra--vintage" viewBox="0 0 100 108" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
@@ -46,8 +56,8 @@ const VintageArt = ({ player, number, pal }: ArtProps) => {
         <rect width="100" height="108" fill={pal.aLight} opacity="0.55" />
         <rect width="100" height="108" fill={`url(#${id}-dots)`} opacity="0.22" />
         {/* Duotone bust */}
-        <path d={BUST} fill={pal.aDeep} />
-        <rect x="52" y="54" width="18" height="14" fill={pal.aDeep} />
+        <path d={BUST} fill={body} />
+        <rect x="52" y="54" width="18" height="14" fill={ink(u.jersey, pal.aDeep, 0.5)} />
         <g transform="translate(26 6) scale(0.6)">
           <HelmetShape pal={pal} id={id} flat ink={pal.aDeep} style={style} />
         </g>
@@ -55,14 +65,18 @@ const VintageArt = ({ player, number, pal }: ArtProps) => {
           <rect width="100" height="108" fill={`url(#${id}-hi)`} opacity="0.85" />
         </g>
         {number != null && (
-          <text x="76" y="88" textAnchor="middle" className="ra-display" fontSize="18" fill="#f4ead2" opacity="0.9">
+          <text x="76" y="88" textAnchor="middle" className="ra-display" fontSize="18" fill={ink(u.number, '#f4ead2', 0.75)} stroke={u.numberStyle === 'solid' ? 'none' : ink(u.numberOutline, pal.aDeep, 0.8)} strokeWidth="1" paintOrder="stroke" opacity="0.92">
             {number}
           </text>
         )}
-        {/* Shoulder stripes and collar, printed in the second ink */}
-        <path d="M14 70 L34 62 M86 70 L70 62" stroke="#f4ead2" strokeWidth="2.4" opacity="0.6" />
-        {style.sleeve !== 'none' && <path d="M12 76 L32 67 M88 76 L70 67" stroke={pal.trim} strokeWidth="1.6" opacity="0.75" />}
-        <path d="M50 66 L60 76 L70 66" fill="none" stroke={pal.trim} strokeWidth="2" opacity="0.8" />
+        {/* Shoulder yoke / cap, sleeve stripes and collar, in the uniform's colours */}
+        {(u.sleeve === 'yoke' || u.sleeve === 'tiger') && u.yoke && <path d="M14 72 C20 64 30 62 40 64 L36 70 C28 69 21 71 16 76 Z M86 72 C80 64 72 62 64 64 L66 70 C72 69 79 71 84 76 Z" fill={ink(u.yoke, pal.aDeep, 0.8)} opacity="0.9" />}
+        {u.shoulder && <path d="M14 70 L34 62 M86 70 L70 62" stroke={ink(u.shoulder, '#f4ead2', 0.8)} strokeWidth="1.6" opacity="0.8" />}
+        {stripes.slice(0, 3).map((c, i) => (
+          <path key={i} d={`M${12 - i} ${76 + i * 2} L${32 - i} ${67 + i * 2} M${88 + i} ${76 + i * 2} L${70 + i} ${67 + i * 2}`} stroke={ink(c, '#f4ead2', 0.85)} strokeWidth="1.4" opacity="0.85" />
+        ))}
+        {u.sleeve === 'bolt' && <path d="M12 76 L20 70 L19 73 L30 66 M88 76 L80 70 L81 73 L70 66" fill="none" stroke={ink(u.trim, '#f4ead2', 0.85)} strokeWidth="1.6" />}
+        <path d="M50 66 L60 76 L70 66" fill="none" stroke={ink(u.collar ?? u.trim, '#f4ead2', 0.85)} strokeWidth="2" opacity="0.85" />
       </g>
       {/* Frame: team colour rule + cream inner line */}
       <rect x="7" y="6" width="86" height="94" rx="7" fill="none" stroke={pal.a} strokeWidth="3.2" />

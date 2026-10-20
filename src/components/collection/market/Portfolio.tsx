@@ -3,6 +3,7 @@ import { Briefcase, PackageOpen } from 'lucide-react';
 import { TIERS, VARIANTS, finishLabel, ownedVariants, tierLabel, variantShort, type Finish, type OwnedCard, type Tier, type Variant } from '@/utils/collection';
 import { cardPrice, fmtCoins, pctChange, portfolioSeries, valueAt, type Holding as Owned, type MarketHistory } from '@/utils/cardMarket';
 import type { CardInfo } from '../useCardPool';
+import { isAlternate } from '../art/sprite/uniforms';
 import PriceChart from './PriceChart';
 import ChangeBadge from './ChangeBadge';
 
@@ -75,19 +76,26 @@ const Portfolio = ({ history, owned, byKey, period, sinceLabel, onOpen }: Portfo
   const latest = history[history.length - 1];
   // Every (player, variant) owned is one holding, at that variant's best finish
   const items = useMemo<Owned[]>(
-    () => Object.entries(owned).flatMap(([key, c]) => ownedVariants(c).map((variant) => ({ key, variant, finish: c.variants[variant]!.best }))),
-    [owned],
+    () =>
+      Object.entries(owned).flatMap(([key, c]) =>
+        ownedVariants(c).map((variant) => {
+          const finish = c.variants[variant]!.best;
+          const player = byKey.get(key)?.player;
+          return { key, variant, finish, alt: !!player && isAlternate(player, variant, finish) };
+        }),
+      ),
+    [owned, byKey],
   );
   const series = useMemo(() => portfolioSeries(history, items), [history, items]);
   const holdings = useMemo<Holding[]>(
     () =>
-      items.flatMap(({ key, variant, finish }) => {
+      items.flatMap(({ key, variant, finish, alt }) => {
         const info = byKey.get(key);
         const p = latest?.players[key];
         if (!info || !p) return [];
-        const now = cardPrice(p.value, finish, variant);
+        const now = cardPrice(p.value, finish, variant, alt);
         const base = valueAt(history, key, owned[key].variants[variant]!.first || Date.now());
-        const paid = base != null ? cardPrice(base, finish, variant) : null;
+        const paid = base != null ? cardPrice(base, finish, variant, alt) : null;
         return [{ info, finish, variant, now, paid, gain: pctChange(now, paid) }];
       }),
     [items, owned, byKey, latest, history],

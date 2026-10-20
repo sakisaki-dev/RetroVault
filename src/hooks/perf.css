@@ -1,0 +1,47 @@
+/* Performance mode (usePerfMode.ts): <html data-perf="lite"> turns off the costly effects site-wide. */
+
+/* No backdrop blur anywhere (dialogs, sticky bars, the header) */
+[data-perf='lite'] *,
+[data-perf='lite'] *::before,
+[data-perf='lite'] *::after {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Cards: no tilt, shimmer, glare, sparkles or drop-shadow filters; a plain box shadow and a simpler frame */
+[data-perf='lite'] .fut__card {
+  filter: none !important;
+  transform: none !important;
+  transition: none !important;
+  box-shadow: 0 4px 10px hsl(228 60% 2% / 0.45);
+}
+[data-perf='lite'] .fut__glare,
+[data-perf='lite'] .fut__sparks,
+[data-perf='lite'] .fut__holo {
+  display: none !important;
+}
+[data-perf='lite'] .fut *,
+[data-perf='lite'] .fut *::before,
+[data-perf='lite'] .fut *::after {
+  animation: none !important;
+}
+[data-perf='lite'] .fut__pattern {
+  opacity: 0.5;
+}
+
+/* Art: no drop-shadow filters */
+[data-perf='lite'] .ra,
+[data-perf='lite'] .ra * {
+  filter: none !important;
+}
+
+/* Market ticker: paused, scrolls by hand */
+[data-perf='lite'] .mk-ticker__track {
+  animation: none !important;
+}
+[data-perf='lite'] .mk-ticker {
+  overflow-x: auto;
+}
+[data-perf='lite'] .mk-ticker__track--dup {
+  display: none;
+}

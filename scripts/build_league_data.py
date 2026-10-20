@@ -247,8 +247,21 @@ SPRITE_ENUMS = {
     "build": {"normal", "big", "huge"},
     "height": {"normal", "tall"},
 }
-# Pose keys live in src/components/collection/art/spritePoses.ts (shown in the Art lab); old short names still work
-SPRITE_POSE = re.compile(r"^(qb|rb|wr|te|ol|dl|lb|db|cel|sig)-[a-z]+$|^(qb|rb|wr|ol|def|heisman)$")
+# Pose keys and their names live in src/components/collection/art/sprite/poses.ts (shown in the Art lab); a lock may use
+# either ("cel-heisman" or "Heisman pose"); old short names still work
+SPRITE_POSE = re.compile(r"^(qb|rb|wr|te|ol|dl|lb|db|cel|sig)-[a-z]+$|^(qb|rb|wr|ol|def|heisman|lambeau)$")
+_POSES_TS = Path(__file__).resolve().parent.parent / "src/components/collection/art/sprite/poses.ts"
+
+
+def _pose_norm(s):
+    return re.sub(r"[^a-z0-9]+", " ", re.sub(r"^signature:\s*", "", s.lower())).strip()
+
+
+SPRITE_POSE_NAMES = {_pose_norm(n) for _, n in re.findall(r"\['([a-z]+-[a-z]+)', '([^']+)'\]", _POSES_TS.read_text())} if _POSES_TS.exists() else set()
+
+
+def sprite_pose_ok(pose):
+    return bool(SPRITE_POSE.match(pose)) or _pose_norm(pose) in SPRITE_POSE_NAMES
 
 
 def write_sprites(players):
@@ -265,7 +278,7 @@ def write_sprites(players):
             continue
         bad = [f"{k}={look.get(k)}" for k in ("skin", "facial", "build", "height")
                if look.get(k) is not None and look[k] not in SPRITE_ENUMS["skin" if k == "skin" else k]]
-        if look.get("pose") is not None and not SPRITE_POSE.match(str(look["pose"])):
+        if look.get("pose") is not None and not sprite_pose_ok(str(look["pose"])):
             bad.append(f"pose={look['pose']}")
         hair = look.get("hair") or {}
         if hair.get("style") is not None and hair["style"] not in SPRITE_ENUMS["style"]:

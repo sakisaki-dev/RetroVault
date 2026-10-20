@@ -1,4 +1,4 @@
-/* ---------- Art lab: alternative card art (preview only) ---------- */
+/* ---------- Card art (variants; the Art lab section is at the end) ---------- */
 
 /* Every style is one SVG filling the card's art area (.fut__art) */
 .ra {
@@ -14,21 +14,19 @@
 .ra-italic {
   font-style: italic;
 }
-.ra--helmet,
 .ra--back,
 .ra--number {
   filter: drop-shadow(0 1.2cqw 1.4cqw hsl(0 0% 0% / 0.45));
 }
 /* Full-bleed scenes: no team glow behind them, and they fill edge to edge */
-.fut__art:has(> .ra--stadium, > .ra--locker, > .ra--vintage)::before {
+.fut__art:has(> .ra--locker, > .ra--vintage)::before {
   display: none;
 }
-.fut__art:has(> .ra--stadium, > .ra--locker, > .ra--vintage) {
+.fut__art:has(> .ra--locker, > .ra--vintage) {
   -webkit-mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
   mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
 }
 /* Inset from the left so the OVR / position column stays readable */
-.ra--stadium,
 .ra--locker,
 .ra--vintage {
   width: 90%;
@@ -57,109 +55,6 @@
 @keyframes ra-sway {
   0%, 100% { transform: rotate(-1.2deg); }
   50% { transform: rotate(1.2deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ra-flashes circle {
-    opacity: 0.6;
-  }
-}
-
-/* Lab grid: a label line per style, then its four cards */
-.ral {
-  display: grid;
-  gap: 18px;
-  margin-top: 12px;
-}
-.ral__cards {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-}
-.ral__cols {
-  position: sticky;
-  top: -24px;
-  z-index: 2;
-  padding: 6px 0;
-  background: hsl(var(--background) / 0.92);
-  backdrop-filter: blur(4px);
-}
-.ral__col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: var(--font-pixel);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: hsl(var(--muted-foreground));
-  text-align: center;
-}
-.ral__col b {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-style: italic;
-  letter-spacing: 0.02em;
-  color: hsl(var(--foreground));
-}
-.ral__row {
-  display: grid;
-  gap: 8px;
-  padding-top: 14px;
-  border-top: 1px solid hsl(var(--border));
-}
-.ral__label {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-}
-.ral__label b {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 800;
-  font-style: italic;
-  text-transform: uppercase;
-  margin-right: 8px;
-}
-.ral__label span span,
-.ral__label > span:last-child > span {
-  font-size: 13px;
-  color: hsl(var(--muted-foreground));
-}
-.ral__idx {
-  flex: none;
-  min-width: 34px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: hsl(var(--gold) / 0.15);
-  color: hsl(var(--gold));
-  font-family: var(--font-pixel);
-  font-size: 10px;
-  text-align: center;
-}
-.ral__big {
-  width: min(100%, 340px);
-  margin: 8px auto 0;
-}
-@media (max-width: 640px) {
-  .ral__cards {
-    gap: 5px;
-  }
-  .ral__col {
-    font-size: 7px;
-  }
-  .ral__col b {
-    font-size: 11px;
-  }
-  .ral__label b {
-    display: block;
-    font-size: 15px;
-  }
-  .ral__label > span:last-child > span {
-    font-size: 12px;
-  }
-  .ral__cols {
-    top: -12px;
-  }
 }
 
 /* ---------- Art variants (cards in packs and the binder) ---------- */
@@ -318,78 +213,6 @@
   }
 }
 
-/* Art lab: locked sprite looks */
-.ral__idx[class*='vbadge--'] {
-  background: color-mix(in srgb, var(--vb) 22%, transparent);
-  color: var(--vb);
-}
-.ral__looks {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 14px 10px;
-}
-.ral__look-name {
-  display: block;
-  margin-top: 4px;
-  font-size: 11px;
-  text-align: center;
-  color: hsl(var(--muted-foreground));
-}
-@media (max-width: 480px) {
-  .ral__looks {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px 5px;
-  }
-}
-
-/* Art lab: poses strip */
-.ral__poses {
-  margin-top: 6px;
-}
-.ral__poses-title {
-  font-family: var(--font-pixel);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: hsl(var(--muted-foreground));
-  margin-bottom: 4px;
-}
-.ral__pose-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
-  gap: 8px;
-}
-.ral__pose {
-  display: grid;
-  justify-items: center;
-  gap: 2px;
-  padding: 4px;
-  border-radius: 6px;
-  background: hsl(var(--muted) / 0.35);
-  min-width: 0;
-}
-.ral__pose-art {
-  display: block;
-  width: 100%;
-  aspect-ratio: 58 / 64;
-}
-.ral__pose-name {
-  font-size: 11px;
-  font-weight: 600;
-  text-align: center;
-  line-height: 1.2;
-}
-.ral__pose-key {
-  font-size: 9px;
-  color: hsl(var(--muted-foreground));
-}
-@media (max-width: 480px) {
-  .ral__pose-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 5px;
-  }
-}
-
 /* Sprite cards: no bottom fade (the feet and the turf stay in view), clip stand-ins to the art box */
 .fut__art:has(> .ra--pixel) {
   -webkit-mask-image: none;
@@ -412,24 +235,549 @@
   text-align: right;
   opacity: 0.7;
 }
-.ral__helmets {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
-  gap: 8px;
+
+/* ---------- Art lab (explorer): picker, tabs, matrix, tiles, preview pane ---------- */
+.lab {
+  --lab-line: hsl(var(--border));
 }
-.ral__helmets li {
-  display: grid;
-  justify-items: center;
+.lab__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px 20px;
+  padding: 16px 52px 12px 20px;
+}
+.lab__titles {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+.lab__desc {
+  font-size: 13px;
+}
+.lab__tabs {
+  display: flex;
   gap: 2px;
-  font-size: 10px;
+  padding: 0 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--lab-line);
+}
+.lab__tab {
+  flex: none;
+  height: 40px;
+  padding: 0 12px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  border-bottom: 3px solid transparent;
+}
+.lab__tab:hover {
+  color: hsl(var(--foreground));
+}
+.lab__tab.is-on {
+  color: hsl(var(--foreground));
+  border-bottom-color: hsl(var(--gold));
+}
+.lab__tab:focus-visible {
+  outline: 2px solid hsl(var(--gold));
+  outline-offset: -2px;
+}
+.lab__body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+}
+.lab__main {
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 14px 20px 28px;
+}
+.lab__hint,
+.lab-note {
+  font-size: 13px;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 10px;
+}
+.lab__hint b {
+  color: hsl(var(--foreground));
+}
+
+/* Player picker (combobox) */
+.lab-pick {
+  position: relative;
+  flex: 0 1 320px;
+  min-width: 220px;
+}
+.lab-pick__icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: hsl(var(--muted-foreground));
+  pointer-events: none;
+}
+.lab-pick input {
+  width: 100%;
+  height: 38px;
+  padding: 0 10px 0 32px;
+  border-radius: 8px;
+  border: 1px solid var(--lab-line);
+  background: hsl(var(--background));
+  font-size: 14px;
+}
+.lab-pick input::placeholder {
+  color: hsl(var(--foreground) / 0.85);
+}
+.lab-pick input:focus-visible {
+  outline: 2px solid hsl(var(--gold));
+  outline-offset: 1px;
+}
+.lab-pick__list {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  border-radius: 8px;
+  border: 1px solid var(--lab-line);
+  background: hsl(var(--background));
+  box-shadow: 0 12px 30px hsl(0 0% 0% / 0.5);
+  padding: 4px;
+}
+.lab-pick__opt {
+  display: grid;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.lab-pick__opt span,
+.lab-pick__none {
+  font-size: 12px;
   color: hsl(var(--muted-foreground));
 }
-.ra-helmet {
+.lab-pick__none {
+  padding: 8px;
+}
+.lab-pick__opt.is-hi {
+  background: hsl(var(--gold) / 0.14);
+}
+
+/* Chips: tier toggle, filters */
+.lab-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.lab-chips__label {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  margin-right: 4px;
+}
+.lab-chip {
+  height: 30px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid var(--lab-line);
+  font-size: 13px;
+  font-weight: 600;
+  color: hsl(var(--muted-foreground));
+}
+.lab-chip:hover {
+  color: hsl(var(--foreground));
+}
+.lab-chip.is-on {
+  border-color: hsl(var(--gold));
+  background: hsl(var(--gold) / 0.14);
+  color: hsl(var(--gold));
+}
+.lab-chip:focus-visible {
+  outline: 2px solid hsl(var(--gold));
+  outline-offset: 1px;
+}
+
+/* Combination matrix: scrolls sideways in its own box on phones */
+.lab-mx-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding-bottom: 6px;
+}
+.lab-mx {
+  display: grid;
+  gap: 12px;
+  min-width: 660px;
+}
+.lab-mx__row {
+  display: grid;
+  grid-template-columns: 132px repeat(4, minmax(118px, 1fr));
+  gap: 12px;
+  align-items: center;
+}
+.lab-mx__row--head {
+  align-items: end;
+}
+.lab-mx__col,
+.lab-mx__corner {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  text-align: center;
+}
+.lab-mx__col {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: hsl(var(--foreground));
+}
+.lab-mx__corner {
+  text-align: left;
+}
+.lab-mx__rowhead {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  display: grid;
+  gap: 2px;
+  align-self: stretch;
+  align-content: center;
+  padding-right: 6px;
+  background: hsl(var(--night, var(--background)));
+}
+.lab-mx__rowhead b {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+.lab-mx__rowhead small {
+  font-size: 11px;
+  color: hsl(var(--muted-foreground));
+}
+.lab-tag {
+  justify-self: start;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--vb) 22%, transparent);
+  color: var(--vb);
+  font-family: var(--font-pixel);
+  font-size: 9px;
+}
+
+/* Cells and tiles */
+.lab-cell {
+  display: grid;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 10px;
+  cursor: pointer;
+  min-width: 0;
+  outline: 2px solid transparent;
+  outline-offset: 0;
+}
+.lab-cell:hover {
+  background: hsl(var(--muted) / 0.3);
+}
+.lab-cell:focus-visible {
+  outline-color: hsl(var(--gold) / 0.8);
+}
+.lab-cell.is-on {
+  outline-color: hsl(var(--gold));
+  background: hsl(var(--gold) / 0.1);
+}
+.lab-cell__cap {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.2;
+  min-width: 0;
+}
+.lab-cell__cap b {
+  font-weight: 700;
+}
+.lab-cell__cap span,
+.lab-cell__cap code {
+  font-size: 10px;
+  color: hsl(var(--muted-foreground));
+  overflow-wrap: anywhere;
+}
+.lab-lazy {
   width: 100%;
-  max-width: 96px;
-  aspect-ratio: 14 / 11;
+  min-width: 0;
+}
+.lab-lazy--wait {
+  border-radius: 8px;
+  background: hsl(var(--muted) / 0.25);
+}
+.lab-block {
+  margin-bottom: 18px;
+}
+.lab-block__title {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 6px;
+}
+.lab-tiles {
+  display: grid;
+  gap: 10px;
+}
+.lab-tiles--cards {
+  grid-template-columns: repeat(auto-fill, minmax(136px, 1fr));
+}
+.lab-tiles--helmets {
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+.lab-tiles--uniforms {
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+}
+.lab-alt .lab-cell {
+  box-shadow: inset 0 0 0 1px hsl(var(--gold) / 0.35);
+}
+.lab-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  margin-bottom: 2px;
+}
+
+/* Pixel tiles: a sprite on its turf strip, crisp at any size */
+.lab-sprite {
+  display: block;
+  width: 100%;
+  aspect-ratio: 58 / 64;
+  border-radius: 6px;
+  overflow: hidden;
+  background: linear-gradient(180deg, hsl(220 30% 14%), hsl(220 30% 9%));
+}
+.lab-sprite .ra,
+.lab-head,
+.lab-mini,
+.lab-pv__art img {
   image-rendering: pixelated;
 }
-@media (max-width: 480px) {
-  .ral__helmets { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
+.lab-heads {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  width: 100%;
+  height: 100%;
+  padding: 6px 4px 0;
+  border-radius: 6px;
+  background: linear-gradient(180deg, hsl(220 30% 16%), hsl(220 30% 10%));
+}
+.lab-heads__view {
+  --px: calc(100cqw / 140);
+  display: grid;
+  justify-items: center;
+  align-content: end;
+  gap: 3px;
+  min-width: 0;
+}
+.lab-heads__view small {
+  font-size: 9px;
+  color: hsl(var(--muted-foreground));
+}
+.lab-head {
+  display: block;
+  max-width: 100%;
+}
+span.lab-head {
+  width: 60%;
+  aspect-ratio: 1;
+}
+
+/* Preview pane: sticky aside on desktop, a bottom sheet on phones and tablets */
+.lab-pv {
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-left: 1px solid var(--lab-line);
+  padding: 14px 16px 24px;
+  background: hsl(var(--background) / 0.5);
+}
+.lab-pv__empty {
+  margin-top: 30%;
+  font-size: 13px;
+  text-align: center;
+  color: hsl(var(--muted-foreground));
+}
+.lab-pv__head {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+}
+.lab-pv__title {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+.lab-pv__close {
+  display: none;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--lab-line);
+}
+.lab-pv__facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 10px;
+  margin: 8px 0 10px;
+  font-size: 12px;
+}
+.lab-pv__facts div {
+  display: contents;
+}
+.lab-pv__facts dt {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  padding-top: 2px;
+}
+.lab-pv__facts dd {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.lab-pv__zoom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: hsl(var(--muted-foreground));
+}
+.lab-pv__zoom input {
+  flex: 1;
+  accent-color: hsl(var(--gold));
+}
+.lab-pv__zoom output {
+  min-width: 36px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  text-align: right;
+}
+.lab-pv__stage {
+  overflow: auto;
+  max-height: 64vh;
+  border-radius: 8px;
+  padding: 10px;
+  background: repeating-conic-gradient(hsl(220 20% 13%) 0 25%, hsl(220 20% 10%) 0 50%) 0 0 / 16px 16px;
+}
+.lab-pv__art {
+  margin: 0 auto;
+}
+.lab-pv__art > .lab-sprite {
+  border-radius: 0;
+}
+.lab-pv-helmet {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+.lab-heads--big {
+  aspect-ratio: 3 / 1.2;
+}
+.lab-mini {
+  width: 22%;
+  aspect-ratio: 14 / 11;
+}
+
+@media (max-width: 1023px) {
+  .lab__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .lab-pv {
+    display: none;
+  }
+  .lab-pv.lab-pv--open {
+    display: block;
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 78%;
+    border-left: 0;
+    border-top: 1px solid hsl(var(--gold) / 0.5);
+    background: hsl(var(--background));
+    box-shadow: 0 -16px 40px hsl(0 0% 0% / 0.55);
+  }
+  .lab-pv__close {
+    display: grid;
+  }
+  .lab-pv__stage {
+    max-height: 46vh;
+  }
+}
+@media (max-width: 640px) {
+  .lab__top {
+    padding: 12px 44px 10px 12px;
+  }
+  .lab-pick {
+    flex-basis: 100%;
+  }
+  .lab__tabs {
+    padding: 0 6px;
+  }
+  .lab__tab {
+    padding: 0 9px;
+    font-size: 14px;
+  }
+  .lab__main {
+    padding: 10px 12px 24px;
+  }
+  .lab-mx {
+    min-width: 560px;
+    gap: 8px;
+  }
+  .lab-mx__row {
+    grid-template-columns: 92px repeat(4, minmax(108px, 1fr));
+    gap: 6px;
+  }
+  .lab-mx__rowhead b {
+    font-size: 13px;
+  }
+  .lab-tiles--cards {
+    grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+    gap: 6px;
+  }
+  .lab-tiles--uniforms {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 6px;
+  }
+  .lab-tiles--helmets {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

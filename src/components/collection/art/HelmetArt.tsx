@@ -1,6 +1,5 @@
-import { useId } from 'react';
-import type { ArtProps, Palette } from './shared';
-import { logoFor, teamStyleFor, type TeamStyle } from './teamStyle';
+import type { Palette } from './shared';
+import type { TeamStyle } from './teamStyle';
 
 /** Helmet shell, 3/4 view facing right, in a 100 × 100 box. */
 const SHELL =
@@ -93,25 +92,3 @@ export const HelmetShape = ({ pal, number, id, flat = false, ink, style, logo }:
     </g>
   );
 };
-
-/** Style: one big glossy helmet in team colours, number on the side, on a team-colour spotlight. */
-const HelmetArt = ({ player, number, pal }: ArtProps) => {
-  const id = `h${useId().replace(/:/g, '')}`;
-  return (
-    <svg className="ra ra--helmet" viewBox="0 2 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
-      <defs>
-        <radialGradient id={`${id}-spot`} cx="0.5" cy="0.55" r="0.5">
-          <stop offset="0" stopColor={pal.trim} stopOpacity="0.55" />
-          <stop offset="1" stopColor={pal.trim} stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <circle cx="52" cy="54" r="46" fill={`url(#${id}-spot)`} />
-      <ellipse cx="54" cy="92" rx="36" ry="5" fill="#000" opacity="0.4" />
-      <g transform="translate(-2 6) scale(1.02)">
-        <HelmetShape pal={pal} number={number} id={id} style={teamStyleFor(player)} logo={logoFor(player)} />
-      </g>
-    </svg>
-  );
-};
-
-export default HelmetArt;
