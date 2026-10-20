@@ -41,6 +41,7 @@ import {
   type PlayerEdit,
 } from '@/utils/indexedDB';
 import { calcCareerLegacy, calcDominance, calcTPG, getRawTrueTalent, isDefensivePosition } from '@/config/stats';
+import SkinTonePicker from '@/components/collection/art/SkinTonePicker';
 
 interface PlayerEditDialogProps {
   player: Player | null;
@@ -116,6 +117,8 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
   const [roty, setRoty] = useState(0);
   const [trueTalent, setTrueTalent] = useState(0);
   const [positionStats, setPositionStats] = useState<Record<string, number>>({});
+  /** Sprite skin tone key, '' = auto */
+  const [spriteSkin, setSpriteSkin] = useState('');
   const [busy, setBusy] = useState<'saving' | 'deleting' | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -134,6 +137,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
       setSbmvp(player.sbmvp);
       setRoty(player.roty);
       setTrueTalent(getRawTrueTalent(player));
+      setSpriteSkin(player.spriteSkin ?? '');
 
       // Extract position stats
       const stats: Record<string, number> = {};
@@ -157,6 +161,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
       setRoty(0);
       setTrueTalent(0);
       setPositionStats({});
+      setSpriteSkin('');
     }
   }, [player, isNewPlayer]);
 
@@ -211,6 +216,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
       sbmvp,
       roty,
       positionStats,
+      ...(spriteSkin ? { spriteSkin } : {}),
       createdAt: existingEdit?.createdAt ?? now,
       updatedAt: now,
       isManuallyAdded: isNewPlayer || !!existingEdit?.isManuallyAdded,
@@ -404,6 +410,8 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
                   />
                 </div>
               </div>
+
+              <SkinTonePicker name={name.trim()} value={spriteSkin} onChange={setSpriteSkin} />
 
               <section
                 aria-labelledby="internal-heading"

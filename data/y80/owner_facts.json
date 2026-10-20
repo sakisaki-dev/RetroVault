@@ -1,0 +1,413 @@
+{
+ "_about": "Owner-confirmed facts (data entry, never analysis). Written only by scripts/apply_upload.py from an upload manifest (data/uploads/*/manifest.json). players.<name>: team = club of record when the sheet says CUR/UNK or is out of date; team_history = earlier clubs; retired_with = the club on the game's Player HOF screen; status = Active/Retired when the sheet has no row; tag = the owner's own one-liner; card = player-card fields (team, former_team, legacy_team, note); career = what the owner said about the career path (order of clubs, on = [team, season] he was there, longest = the club he spent most seasons with, stints = exact [team, from, to], next_team = traded after the last season, says = the owner's words); real_nfl = real NFL games / rings / club before the save (imported players). active_rosters = the game's current team screens. season_rosters.<year> = who played for each club that season (games gained between screenshot sets).",
+ "current_club": "Jets",
+ "players": {
+  "Akiem Bouye": {
+   "retired_with": "Chargers"
+  },
+  "Alohi Godwin": {
+   "retired_with": "Seahawks"
+  },
+  "Alvin Tufele": {
+   "team_history": [
+    "Seahawks"
+   ],
+   "career": {
+    "order": [
+     "Seahawks"
+    ],
+    "next_team": "Jets",
+    "on": [
+     [
+      "Seahawks",
+      80
+     ]
+    ],
+    "says": "Traded from the Seahawks to the Jets for Obinna Leary, after playing the Y80 Super Bowl for Seattle."
+   }
+  },
+  "Avonte Gooden": {
+   "tag": "QB of the Commanders four-peat (Y16–19)",
+   "career": {
+    "says": "QB of the Commanders four-peat (Y16–19)."
+   }
+  },
+  "Bilal Tolbert": {
+   "retired_with": "Chargers"
+  },
+  "Breece Hall": {
+   "real_nfl": {
+    "games": 57,
+    "rings": 0,
+    "club": "Jets"
+   }
+  },
+  "Brennan Higgins": {
+   "retired_with": "Commanders"
+  },
+  "Cairo Asanjh": {
+   "retired_with": "Ravens"
+  },
+  "CeeDee Lamb": {
+   "retired_with": "Dolphins",
+   "status": "Retired",
+   "real_nfl": {
+    "games": 85,
+    "rings": 0,
+    "club": "Cowboys"
+   }
+  },
+  "Chance Woodrum": {
+   "retired_with": "Jets"
+  },
+  "Charlie John": {
+   "retired_with": "Bills"
+  },
+  "Dedrick Gould": {
+   "retired_with": "Ravens"
+  },
+  "Dennis Baylon": {
+   "retired_with": "Chargers"
+  },
+  "Denzel Hayes": {
+   "retired_with": "Bears"
+  },
+  "Drake Maye": {
+   "real_nfl": {
+    "games": 29,
+    "rings": 0,
+    "club": "Patriots"
+   }
+  },
+  "God Johnson": {
+   "retired_with": "Vikings"
+  },
+  "Hamsfa Boltt": {
+   "team_history": [
+    "Titans"
+   ],
+   "card": {
+    "former_team": "Titans",
+    "note": "Quarterbacked the Titans to their most recent title, Super Bowl CXXXIII (Y74), and was named SB MVP; now with the Commanders"
+   },
+   "career": {
+    "order": [
+     "Titans",
+     "Commanders"
+    ],
+    "on": [
+     [
+      "Titans",
+      74
+     ]
+    ],
+    "says": "QB and Super Bowl MVP of the Titans' Y74 title; now with the Commanders."
+   }
+  },
+  "Ian Finney": {
+   "retired_with": "Buccaneers"
+  },
+  "Jackson Wardell Kline": {
+   "retired_with": "Dolphins"
+  },
+  "Jahmyr Gibbs": {
+   "retired_with": "Dolphins",
+   "real_nfl": {
+    "games": 36,
+    "rings": 0,
+    "club": "Lions"
+   }
+  },
+  "Jakeem Friend": {
+   "team_history": [
+    "Seahawks"
+   ],
+   "card": {
+    "legacy_team": "Seahawks",
+    "note": "A Seahawks lineman for most of his career; a Jet for only the last two seasons (Y79–80)"
+   },
+   "career": {
+    "order": [
+     "Seahawks",
+     "Jets"
+    ],
+    "longest": "Seahawks",
+    "stints": [
+     [
+      "Jets",
+      79,
+      80
+     ]
+    ],
+    "says": "Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring)."
+   }
+  },
+  "Jason Macleone": {
+   "team": "Seahawks",
+   "retired_with": "Seahawks",
+   "tag": "QB of the Vikings' Y78 title (CXXXVII); now with the Seahawks",
+   "card": {
+    "former_team": "Vikings",
+    "note": "\"Scary Jerry\", named for his imposing stature and scary looks. Started at QB for the Vikings in their Y78 Super Bowl CXXXVII win (33–27 over the Broncos)"
+   },
+   "career": {
+    "on": [
+     [
+      "Vikings",
+      78
+     ],
+     [
+      "Seahawks",
+      80
+     ]
+    ],
+    "says": "Started at QB for the Vikings in their Y78 title; now a Seahawk (played the Y80 Super Bowl for them)."
+   }
+  },
+  "Jayden Daniels": {
+   "retired_with": "Commanders",
+   "real_nfl": {
+    "games": 20,
+    "rings": 0,
+    "club": "Commanders"
+   }
+  },
+  "Ja’Marr Chase": {
+   "retired_with": "Vikings",
+   "real_nfl": {
+    "games": 69,
+    "rings": 0,
+    "club": "Bengals"
+   }
+  },
+  "Lamar Jackson": {
+   "retired_with": "Packers",
+   "real_nfl": {
+    "games": 111,
+    "rings": 0,
+    "club": "Ravens"
+   }
+  },
+  "Levante Hopkins": {
+   "team": "Titans",
+   "retired_with": "Titans",
+   "tag": "Tight end for the Titans' Y70–72 three-peat",
+   "card": {
+    "note": "Tight end for the Titans' Y70–72 three-peat"
+   },
+   "career": {
+    "on": [
+     [
+      "Titans",
+      70
+     ],
+     [
+      "Titans",
+      71
+     ],
+     [
+      "Titans",
+      72
+     ]
+    ],
+    "says": "Played tight end for the Titans during the Y70–72 three-peat; retired a Titan."
+   }
+  },
+  "Lukas Russell": {
+   "retired_with": "Seahawks"
+  },
+  "Malakai Sawyer": {
+   "team": "Jets",
+   "retired_with": "Falcons",
+   "tag": "Won CXXXI with the Titans (Y72), then CXXXVI with the Jets (Y77); traded to the Falcons for Y80",
+   "card": {
+    "team": "Falcons",
+    "former_team": "Titans",
+    "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans, then joined the Jets and won again in Y77 (CXXXVI); traded to the Falcons for Y80, where he retired"
+   },
+   "career": {
+    "order": [
+     "Titans",
+     "Jets",
+     "Falcons"
+    ],
+    "stints": [
+     [
+      "Titans",
+      72,
+      72
+     ]
+    ],
+    "on": [
+     [
+      "Jets",
+      77
+     ],
+     [
+      "Falcons",
+      80
+     ]
+    ],
+    "says": "One Titans season (the Y72 title, Rookie of the Year), then the Jets (the Y77 title); traded to the Falcons for Y80."
+   }
+  },
+  "Mason Taylor": {
+   "retired_with": "Dolphins",
+   "real_nfl": {
+    "games": 0,
+    "rings": 0,
+    "club": "Jets"
+   }
+  },
+  "Michael Wilson": {
+   "team_history": [
+    "Ravens"
+   ],
+   "retired_with": "Titans",
+   "status": "Retired",
+   "tag": "Retired injured",
+   "card": {
+    "former_team": "Ravens",
+    "note": "Ravens first, then the Giants; retired as a Titan"
+   },
+   "career": {
+    "order": [
+     "Ravens",
+     "Giants",
+     "Titans"
+    ],
+    "says": "Ravens first, then the Giants; retired injured as a Titan."
+   }
+  },
+  "Nick Bolton": {
+   "retired_with": "Vikings",
+   "real_nfl": {
+    "games": 67,
+    "rings": 2,
+    "club": "Chiefs"
+   }
+  },
+  "Obinna Leary": {
+   "team_history": [
+    "Jets"
+   ],
+   "career": {
+    "order": [
+     "Jets"
+    ],
+    "next_team": "Seahawks",
+    "says": "Traded from the Jets to the Seahawks for Alvin Tufele after Y80."
+   }
+  },
+  "Pharoah Hunter": {
+   "retired_with": "Seahawks"
+  },
+  "Ray Waller": {
+   "retired_with": "Buccaneers"
+  },
+  "Robert Boone": {
+   "retired_with": "Vikings"
+  },
+  "Rondale Ikarras": {
+   "retired_with": "Jets",
+   "tag": "Ravens legend; final season with the Jets",
+   "card": {
+    "legacy_team": "Ravens",
+    "note": "Ravens legend: five of his nine rings came in Baltimore (Y41–47) after three straight titles in Seattle (Y36–38); spent his final season with the Jets"
+   },
+   "career": {
+    "order": [
+     "Seahawks",
+     "Ravens",
+     "Jets"
+    ],
+    "says": "A Ravens legend after three titles in Seattle; his final season was with the Jets."
+   }
+  },
+  "Sauce Gardner": {
+   "real_nfl": {
+    "games": 57,
+    "rings": 0,
+    "club": "Jets"
+   }
+  },
+  "Sherman Brandson": {
+   "team_history": [
+    "Giants"
+   ],
+   "retired_with": "Vikings",
+   "career": {
+    "says": "A Giants legend."
+   }
+  },
+  "Wayne Wilson": {
+   "retired_with": "Bills"
+  }
+ },
+ "active_rosters": {
+  "Jets": [
+   "Alvin Tufele",
+   "Chance Woodrum",
+   "Dylan Hyatt",
+   "Jakeem Friend",
+   "Jaylen Conklin",
+   "Kalif Suh",
+   "Kane Van Oxley",
+   "Ryland Maxwell",
+   "Trequan Roberts",
+   "Ty Lock"
+  ],
+  "Seahawks": [
+   "Blair Iupati",
+   "Deonte Sutton",
+   "Dorance Hinton",
+   "Isaiah Karras",
+   "Jason Macleone",
+   "Obinna Leary",
+   "Romeo Rodgers"
+  ]
+ },
+ "season_rosters": {
+  "80": {
+   "Commanders": [
+    "Hamsfa Boltt"
+   ],
+   "Cowboys": [
+    "Le'Veon Richard"
+   ],
+   "Falcons": [
+    "Malakai Sawyer"
+   ],
+   "Giants": [
+    "Drake Wise"
+   ],
+   "Jets": [
+    "Chance Woodrum",
+    "Dylan Hyatt",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Kane Van Oxley",
+    "Obinna Leary",
+    "Ryland Maxwell",
+    "Ty Lock"
+   ],
+   "Ravens": [
+    "Corey Ivey",
+    "Dan Stout"
+   ],
+   "Seahawks": [
+    "Alvin Tufele",
+    "Blair Iupati",
+    "Deonte Sutton",
+    "Dorance Hinton",
+    "Jason Macleone",
+    "Romeo Rodgers"
+   ],
+   "Titans": [
+    "Darrel Longa",
+    "Jarred Beasley",
+    "Juawan Lance"
+   ]
+  }
+ }
+}

@@ -4,71 +4,154 @@ Fan stats hub for one Retro Bowl franchise save: stats, games, collection, Hall 
 Vite + React + TypeScript + Tailwind. Live at https://sakisaki-dev.github.io/RetroVault/. Every push to
 `retrovault-v2` (or `main`) redeploys it through `.github/workflows/deploy-pages.yml`.
 
+## The rule: data in, everything else generated
+
+> "The only AI components in the entire system should be the speeches and the art lab variants. New information is
+> uploaded through Claude in the backend; everything else must be heuristic, dynamic, and not dependent on AI
+> intervention." (the owner)
+
+| Kind | What | Where |
+|---|---|---|
+| **Data entry** (facts) | Career lines, awards, Super Bowls, coach seasons, record board, teams/trades/rosters, nicknames, owner-confirmed history ("one Titans season", "mainly a Seahawk"), card notes, the owner's own tags, sprite looks | `data/y80/players.json`, `super_bowls.json`, `coach.json`, `records.json`, `owner_facts.json`, `screenshot_extras.json`, `sprites.json` |
+| **Owner prose** (verbatim) | Season notes about rivalries, disputes, drama, in the owner's words | `data/y80/journal.json` |
+| **Generated** (rules over the data) | Eras, storylines, rivalries, lineages, snubs, outsiders, record chases, iron men, one-team legends, open questions, player tags and eras, Hall of Fame classes, career stints and their evidence text, market prices | `scripts/*.py`, `scripts/market_snapshot.ts` → `public/data/` |
+| **AI-authored** (only these two) | Hall of Fame induction speeches; card art styles and custom sprites (Art lab) | `data/y80/speeches.json`; `src/components/collection/art/**`, `public/data/sprites/` |
+
+Never hand-write analysis: no era write-ups, storylines, rivalry blurbs, player tags or per-player stint judgments.
+If something reads like analysis, it must come out of a rule in `scripts/build_league_content.py` or
+`scripts/infer_stints.py`. **Phone sessions write only facts (through an upload manifest) and speeches.**
+
 ## Single source of truth
 
-The site loads only the bundled files in `public/data/`, which scripts build from `data/y80/`. Never add
-uploads, alternate data paths or hand-edited copies of the generated files.
+The site loads only the bundled files in `public/data/`, which `npm run rebuild` builds from `data/y80/`. Never
+hand-edit generated files, and never edit `data/y80/` directly: every change goes through an upload bundle.
 
-| Edit this (source) | Built by | Into (generated, never hand-edit) |
-|---|---|---|
-| `data/y80/players.json` (career lines, teams, awards) | `python3 scripts/build_league_data.py` | `public/data/initial-data.csv`, `legends.json`, `player-extras.json`, `game-exclusions.json` |
-| `scripts/build_league_data.py` (`TEAM_FIXES`, `TEAM_HISTORY`, `CARD_NOTES`) | same | same |
-| `data/y80/super_bowls.json`, `eras.json`, `coach.json`, `league-history.md` | `python3 scripts/build_league_content.py` | `public/data/league/content.json` |
-| (the files above) | `npm run market` (part of `npm run rebuild`) | `data/y80/market_history.json` (append-only), `public/data/market.json` |
+`npm run rebuild` runs, in order: `infer_stints.py` (career stints) → `build_league_data.py` (league CSV, extras,
+legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `build_league_content.py`
+(`public/data/league/content.json`) → `audit.ts`. It is deterministic: two runs give byte-identical output.
 
-`build_league_data.py` needs numpy (`pip install numpy`). Run both scripts after any data change.
+## Updating: the upload pipeline (the usual phone request)
 
-## Updating from game screenshots (the usual phone request)
+The owner sends Retro Bowl screenshots (and maybe a few lines about the season) and asks to "add these". One upload
+is one bundle, `data/uploads/<YYYY-MM-DD>-<slug>/`:
 
-The owner sends Retro Bowl screenshots and asks to "add these". Each player card shows `POS - FIRST LAST`
-and GAME / SEASON / CAREER panels. **Use only the CAREER panel**, plus the award row (RINGS, MVP, OPOY,
-DPOY, ROTY, SBMVP).
+- `manifest.json`: the structured mutations (format below)
+- `notes.md`: the owner's free text, copied verbatim (only if they wrote some)
+- `images/`: the screenshots (or list their paths in the manifest)
 
-1. **Transcribe** the CAREER numbers into `data/y80/players.json`. Keys:
-   - QB: `g att cmp yds td int sck ratt ryds rtd`
-   - RB: `g ratt ryds rtd fum rec recyds rectd`
-   - WR/TE: `g rec yds td fum lng`
-   - OL: `g blk`
-   - LB/DB/DL: `g tkl int sck ff`
-   - awards: `rings mvp opoy dpoy roty sbmvp`
+### 1. Transcribe (AI step `transcribe`; trigger: new images)
 
-   Read the pixel digits carefully and cross-check each one:
-   - Rushing/receiving `Avg` = yards ÷ attempts (or catches).
-   - **QB passing `Avg` = yards ÷ completions**, not attempts.
-   - `Cmp (x%)` = cmp ÷ att.
+Each player card shows `POS - FIRST LAST` and GAME / SEASON / CAREER panels. **Use only the CAREER panel**, plus
+the award row (RINGS, MVP, OPOY, DPOY, ROTY, SBMVP). players.json keys:
 
-   A QB or RB often spans two screenshots (Passing + Rushing, or Rushing + Receiving); merge them into one record.
-2. **Existing player:** update in place. Career totals only go up, so if any number drops, it's a misread:
-   re-check before saving.
-3. **New player:** append `{"n", "pos", "team": "UNK", ..., "era": "Modern era · Y70–80"}`, then **list the new
-   players and ask the owner for their teams** (red-white-blue stars beside the name don't reliably mean the
-   current team). Team values are nicknames from `data/y80/teams.json` ("Jets", "Seahawks", …).
-4. **Trades and earlier teams:** set `team` to the current club and add the old one to `TEAM_HISTORY` in
-   `scripts/build_league_data.py`, so League Grid counts both. Facts and nicknames for player cards go in
-   `CARD_NOTES`, or in `nick` in players.json.
-5. **Other screens:**
-   - Super Bowl winners list → `data/y80/super_bowls.json`. Add new years; gold rows are the owner's wins.
-   - Staff/coach screen → `data/y80/coach.json`.
-   - The site's Hall of Fame is its own: Career Legacy ≥ 7000. The game's HOF list and ribbons (stored as
-     `hof_ingame` / `retired_team` on cards) must not add or remove anyone. The owner wants the two to stay different.
-6. **Rebuild and verify:**
-   ```bash
-   npm run rebuild    # career stints → league data → content → audit (prints "no team: …" for anyone still UNK)
-                      # fix every audit ERROR; read the warnings (stale numbers in speeches, team contradictions)
-   npx tsc --noEmit -p tsconfig.app.json
-   npm run build
-   ```
-7. **New Hall of Famers need a custom speech.** If an update pushes anyone to Career Legacy ≥ 7000 (the build
-   summary and the site's HOF tab show who), write his induction speech in `SPEECHES` in
-   `scripts/build_league_content.py`, then rebuild. Never let the generic template in `src/components/ceremony/speech.ts`
-   show. Match the existing speeches:
-   - a one-line hook, then 2–3 short paragraphs, closing "…, welcome to the Hall of Fame."
-   - about 120–190 words
-   - only facts from the data; describe play style from his rates, never invent looks or quotes
-   - no em dashes
-8. **Commit and push** to `retrovault-v2` with a message listing who was added or updated. The site redeploys
-   in about two minutes. Reply with a short summary: updated players, new players needing teams, and
-   anything notable (records broken, new Hall of Famers).
+- QB: `g att cmp yds td int sck ratt ryds rtd`
+- RB: `g ratt ryds rtd fum rec recyds rectd`
+- WR/TE: `g rec yds td fum lng`
+- OL: `g blk`
+- LB/DB/DL: `g tkl int sck ff`
+- awards: `rings mvp opoy dpoy roty sbmvp`
+
+Read the pixel digits carefully and cross-check: rushing/receiving `Avg` = yards ÷ attempts (or catches); **QB
+passing `Avg` = yards ÷ completions**; `Cmp (x%)` = cmp ÷ att. A QB or RB often spans two screenshots; merge them
+into one mutation. Career totals only go up; `apply-upload` refuses a drop (a misread) unless you re-check and mark it.
+New players: add them with `team` from the owner. If the owner hasn't said, use `"UNK"` and **ask for their teams**
+(stars beside a name don't reliably mean the current team).
+
+Other screens: Super Bowl list → `superbowl.set` (gold rows are the owner's wins); staff screen → `coach.season` /
+`coach.set`; record board → `record.set`; team screens → `fact.set active_rosters/<Team>`; game Player HOF screen →
+`fact.set players/<name>/retired_with`. The site's Hall of Fame is its own (Career Legacy ≥ 7000); the game's HOF
+list must not add or remove anyone.
+
+### 2. Looks (AI step `portrait→look`; trigger: the upload has portraits)
+
+Describe portraits as sprite fields (`sprite.set`, the `data/y80/sprites.json` format: skin, hair, facial,
+accessories, build, height, pose, eyes, signature). Custom sprite images and card-design requests (`sprite.image`,
+`card.design`) only when the owner asks (AI step `art`).
+
+- **Standardisation rule:** everything is standard unless specified. Players with no `sprites.json` entry all get the
+  same generic character (standard face and body, short cut when the helmet is off) and vary only by the skin toggle
+  (Player editor → Sprite skin tone, stored with the player edits; "Auto" = the neutral default), the pose roll, the
+  uniform roll (home, rarely an alternate) and the number. Only players with a `sprites.json` entry (locked looks from
+  portraits, owner requests) deviate: hair, facial hair, build, eyes, signature pose. Only describe league players
+  with cards; skip real-NFL players who just share a surname.
+- **Custom pixel image:** put the PNG in the bundle and use `sprite.image` (`{"file": "images/x.png", "as":
+  "<slug>.png"}`); it is copied to `public/data/sprites/<slug>.png` and listed as `"image"` in the look, replacing the
+  generated sprite. Use a transparent background, feet at the bottom edge, about 58 × 60 pixels.
+- Pose keys and names: the Art lab's Poses strip (`src/components/collection/art/sprite/poses.ts`). The sprite
+  modules are documented in `src/components/collection/art/sprite/README.md`; helmet logos are regenerated with
+  `python3 scripts/build_helmet_logos.py` (needs network).
+
+### 3. Notes (AI step `tag notes`; trigger: `notes.md` present)
+
+Each owner note becomes a `journal.add` with the text **copied exactly** (apply-upload checks it appears verbatim in
+`notes.md`) and tags: `players`, `teams`, `seasons`, `kind` (`rivalry` | `dispute` | `drama` | `note`). Never
+rewrite, summarize or add prose. Owner-stated facts ("he was traded to the Falcons") also become `fact.set`
+mutations with `source: "owner"`, e.g. `players/<name>/team`, `team_history`, `career` (`order`, `on`, `stints`,
+`longest`, `next_team`, `says`), `tag`, `card`.
+
+### 4. Apply, rebuild, check
+
+```bash
+npm run apply-upload -- data/uploads/2026-10-21-y81-week1 --check   # validate only
+npm run apply-upload -- data/uploads/2026-10-21-y81-week1           # apply, log in data/y80/mutations_log.json, rebuild
+npx tsc --noEmit -p tsconfig.app.json
+npm run build
+```
+
+A manifest applies once (its id is logged). `npm run audit` must have 0 errors: it checks every mutation has a
+source, reason and trigger, that owner text (nicknames, owner tags, card notes, quotes, journal) matches an applied
+manifest, that every Hall of Famer has a speech and every speech belongs to a Hall of Famer, and that speech numbers
+still match the data. Read the warnings.
+
+### 5. Speech (AI step `speech`; trigger: the rebuild prints `SPEECH NEEDED: <name>`)
+
+Only when the rebuild finds someone who first crossed Career Legacy 7000 with no speech. Add it to
+`data/y80/speeches.json` as `{"reason": "New Hall of Famer", "trigger": "First crossed Career Legacy 7000: <class>",
+"text": "..."}` and rebuild. Never let the generic template in `src/components/ceremony/speech.ts` show. Match the
+existing speeches: a one-line hook, then 2–3 short paragraphs, closing "…, welcome to the Hall of Fame."; about
+120–190 words; only facts from the data (play style from his rates, never invented looks or quotes); no em dashes.
+
+### 6. Commit and push
+
+Commit to `retrovault-v2` with a message listing who was added or updated (include the bundle). The site redeploys
+in about two minutes. Reply with a short summary: updated players, new players needing teams, anything notable
+(records broken, new Hall of Famers, open questions in content.json).
+
+### Manifest example
+
+```json
+{
+  "id": "2026-10-21-y81-week1",
+  "created": "2026-10-21",
+  "images": [
+    {"file": "images/IMG_6301.PNG", "shows": "QB Ty Lock career card"},
+    {"file": "images/IMG_6302.PNG", "shows": "Super Bowl winners list"}
+  ],
+  "ai_steps": [
+    {"step": "transcribe", "reason": "Images need reading", "trigger": "New images in the upload"},
+    {"step": "tag notes", "reason": "Link the owner's notes to players and teams", "trigger": "notes.md present"}
+  ],
+  "mutations": [
+    {"lane": "stats", "op": "player.set", "target": "QB:Ty Lock",
+     "value": {"g": 61, "att": 1980, "cmp": 1402, "yds": 15880, "td": 171, "int": 31, "rings": 1},
+     "source": "image:images/IMG_6301.PNG", "reason": "Career panel", "trigger": "New image"},
+    {"lane": "stats", "op": "superbowl.set", "target": "Y81",
+     "value": {"number": 140, "roman": "CXL", "winner": "Jets", "score": "31-24", "loser": "Chiefs",
+               "your_result": "won", "your_team": "Jets"},
+     "source": "image:images/IMG_6302.PNG", "reason": "Super Bowl winners list", "trigger": "New image"},
+    {"lane": "stats", "op": "fact.set", "target": "players/Obinna Leary/team", "value": "Seahawks",
+     "source": "owner", "reason": "Owner: traded to Seattle", "trigger": "Owner statement in notes.md"},
+    {"lane": "notes", "op": "journal.add", "target": "y81-chiefs-feud",
+     "value": {"text": "The Chiefs ran up the score in week 3. I haven't forgotten.", "kind": "rivalry",
+               "season": "Y81", "players": [], "teams": ["Chiefs"], "seasons": [81]},
+     "source": "owner", "reason": "Owner season note", "trigger": "notes.md present"}
+  ]
+}
+```
+
+The first bundle, `data/uploads/2026-10-19-y80-initial/`, is the backfilled record of everything before the
+pipeline existed (IMG_6141–6205, the coaching screen recording, owner facts given in chat). Applying it to the
+current data is a no-op.
 
 ## Owner facts (confirmed; don't "correct" them)
 
@@ -77,16 +160,21 @@ DPOY, ROTY, SBMVP).
 - Active/Retired status is internal only; never show it in the UI.
 - Single-season stats are intentionally not tracked.
 
-## Keeping everything in sync
+## How the generated parts work
 
-Pages compute from the data files on every load, so a data change updates every page by itself. Only hand-written
-facts can go stale: speeches, `CARD_NOTES`, era key players and stints. After any data change, run `npm run audit`
-and fix what it reports. Prefer deriving a fact from data over writing it down.
-
-Card market prices (Collection → Market, card detail) are derived too: `npm run rebuild` runs
-`scripts/market_snapshot.ts`, which appends a snapshot to `data/y80/market_history.json` (built into
-`public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. The value formula lives in
-`src/utils/cardMarket.ts`. Never hand-edit either file; just rebuild after a data change and commit both.
+- **Career stints** (`scripts/infer_stints.py` → `data/y80/stints.json`): ring arithmetic over Super Bowl winners,
+  games per season, hard anchors from the record board (`records.json` counts the owner's club only) and from
+  `owner_facts.json` (`career.on`, `career.stints`, `season_rosters`), and the owner's order of clubs. Evidence text
+  is templated ("4 rings = Chargers Y10, Y11, Y14, Y15"). Ambiguous players become `openQuestions` in content.json;
+  the owner's answer is a `fact.set players/<name>/career` mutation.
+- **Eras**: the owner's coaching stints (`coach.json`), split at 3+ title-less seasons between titles and merged when
+  a stint won fewer than 3 titles (the current stint always stands alone); named "<Team> dynasty" (5+ titles),
+  "<Team> run" (3–4) or "<Team> years". Key players: best Career Legacy whose stints overlap the era on the owner's club.
+- **Hall of Fame classes**: who first crossed Career Legacy 7000 at each market snapshot, labelled by the snapshot's
+  season; the first snapshot's members are the "Inaugural class".
+- **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
+  `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. The value formula lives in
+  `src/utils/cardMarket.ts`. Never hand-edit either file; rebuild and commit both.
 
 ## Code notes
 

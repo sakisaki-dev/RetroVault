@@ -1,0 +1,509 @@
+{
+ "Nick Bolton": {
+  "skin": "brown",
+  "hair": {
+   "style": "dreads",
+   "color": "black"
+  },
+  "facial": "chinstrap",
+  "accessories": [
+   "earrings"
+  ]
+ },
+ "Lamar Jackson": {
+  "skin": "brown",
+  "hair": {
+   "style": "braids",
+   "color": "black"
+  },
+  "facial": "goatee",
+  "accessories": []
+ },
+ "Ja’Marr Chase": {
+  "skin": "brown",
+  "hair": {
+   "style": "twists",
+   "color": "black"
+  },
+  "facial": "chinstrap",
+  "accessories": [
+   "earrings"
+  ]
+ },
+ "CeeDee Lamb": {
+  "skin": "brown",
+  "hair": {
+   "style": "braids",
+   "color": "black"
+  },
+  "facial": "goatee",
+  "accessories": [
+   "earrings"
+  ]
+ },
+ "Jayden Daniels": {
+  "skin": "brown",
+  "hair": {
+   "style": "twists",
+   "color": "black"
+  },
+  "facial": "goatee",
+  "accessories": []
+ },
+ "Jahmyr Gibbs": {
+  "skin": "brown",
+  "hair": {
+   "style": "dreads",
+   "color": "black"
+  },
+  "facial": "none",
+  "accessories": []
+ },
+ "Mason Taylor": {
+  "skin": "light",
+  "hair": {
+   "style": "short",
+   "color": "darkbrown"
+  },
+  "facial": "stubble",
+  "accessories": []
+ },
+ "Akiem Bouye": {
+  "skin": "tan",
+  "hair": {
+   "style": "long",
+   "color": "dirtyblond"
+  },
+  "facial": "none",
+  "accessories": [
+   "headband"
+  ]
+ },
+ "Ian Finney": {
+  "skin": "brown",
+  "hair": {
+   "style": "short",
+   "color": "black"
+  },
+  "facial": "fullbeard",
+  "accessories": [
+   "earrings"
+  ]
+ },
+ "Brennan Higgins": {
+  "skin": "medium",
+  "hair": {
+   "style": "bald",
+   "color": "black"
+  },
+  "facial": "none",
+  "accessories": []
+ },
+ "Ray Waller": {
+  "skin": "deep",
+  "hair": {
+   "style": "twists",
+   "color": "black"
+  },
+  "facial": "fullbeard",
+  "accessories": [
+   "eyeblack",
+   "earrings"
+  ]
+ },
+ "Alohi Godwin": {
+  "skin": "medium",
+  "hair": {
+   "style": "short",
+   "color": "black"
+  },
+  "facial": "fullbeard",
+  "accessories": [
+   "earrings"
+  ]
+ },
+ "Charlie John": {
+  "skin": "pale",
+  "hair": {
+   "style": "short",
+   "color": "darkbrown"
+  },
+  "facial": "none",
+  "accessories": []
+ },
+ "Lukas Russell": {
+  "skin": "tan",
+  "hair": {
+   "style": "mohawk",
+   "color": "black"
+  },
+  "facial": "goatee",
+  "accessories": []
+ },
+ "Dennis Baylon": {
+  "skin": "tan",
+  "hair": {
+   "style": "long",
+   "color": "dirtyblond"
+  },
+  "facial": "none",
+  "accessories": [
+   "headband"
+  ]
+ },
+ "Cairo Asanjh": {
+  "skin": "tan",
+  "hair": {
+   "style": "short",
+   "color": "darkbrown"
+  },
+  "facial": "chinstrap",
+  "accessories": []
+ },
+ "Bilal Tolbert": {
+  "skin": "brown",
+  "hair": {
+   "style": "short",
+   "color": "black"
+  },
+  "facial": "goatee",
+  "accessories": [
+   "earrings"
+  ]
+ },
+ "Wayne Wilson": {
+  "skin": "light",
+  "hair": {
+   "style": "short",
+   "color": "auburn"
+  },
+  "facial": "fullbeard",
+  "accessories": []
+ },
+ "Rondale Ikarras": {
+  "skin": "brown",
+  "hair": {
+   "style": "buzz",
+   "color": "black"
+  },
+  "facial": "jawline",
+  "accessories": [
+   "durag",
+   "eyeblack",
+   "earrings",
+   "wristbands"
+  ],
+  "pose": "sig-praise",
+  "signature": true
+ },
+ "Sherman Brandson": {
+  "skin": "medium",
+  "hair": {
+   "style": "dreads",
+   "color": "black"
+  },
+  "facial": "shortbeard",
+  "accessories": [],
+  "build": "huge",
+  "height": "tall",
+  "pose": "sig-crossed",
+  "signature": true
+ },
+ "Dedrick Gould": {
+  "skin": "brown",
+  "hair": {
+   "style": "afro",
+   "color": "black"
+  },
+  "facial": "none",
+  "accessories": []
+ },
+ "Denzel Hayes": {
+  "skin": "medium",
+  "hair": {
+   "style": "short",
+   "color": "black"
+  },
+  "facial": "fullbeard",
+  "accessories": [
+   "earrings"
+  ]
+ },
+ "Jackson Wardell Kline": {
+  "skin": "brown",
+  "hair": {
+   "style": "buzz",
+   "color": "black"
+  },
+  "facial": "fullbeard",
+  "accessories": []
+ },
+ "Robert Boone": {
+  "skin": "brown",
+  "hair": {
+   "style": "freeform",
+   "color": "black"
+  },
+  "facial": "goatee",
+  "accessories": []
+ },
+ "God Johnson": {
+  "skin": "brown",
+  "hair": {
+   "style": "curly",
+   "color": "black"
+  },
+  "facial": "stubble",
+  "accessories": []
+ },
+ "Levante Hopkins": {
+  "skin": "pale",
+  "hair": {
+   "style": "curly",
+   "color": "strawberry"
+  },
+  "facial": "none",
+  "accessories": []
+ },
+ "Michael Wilson": {
+  "skin": "light",
+  "hair": {
+   "style": "short",
+   "color": "auburn"
+  },
+  "facial": "fullbeard",
+  "accessories": []
+ },
+ "Jason Macleone": {
+  "skin": "brown",
+  "hair": {
+   "style": "shortlocs",
+   "color": "black"
+  },
+  "facial": "goatee",
+  "accessories": [
+   "sleeve-team",
+   "eyeblack"
+  ],
+  "pose": "sig-cold",
+  "signature": true,
+  "build": "big",
+  "eyes": "intense"
+ },
+ "Pharoah Hunter": {
+  "skin": "brown",
+  "hair": {
+   "style": "short",
+   "color": "black"
+  },
+  "facial": "fullbeard",
+  "accessories": [
+   "earrings"
+  ]
+ },
+ "Malakai Sawyer": {
+  "skin": "brown",
+  "hair": {
+   "style": "short",
+   "color": "black"
+  },
+  "facial": "goatee",
+  "accessories": []
+ },
+ "Chance Woodrum": {
+  "skin": "light",
+  "hair": {
+   "style": "short",
+   "color": "black"
+  },
+  "facial": "goatee",
+  "accessories": [
+   "armbands"
+  ]
+ },
+ "Ty Lock": {
+  "skin": "medium",
+  "hair": {
+   "style": "short",
+   "color": "black"
+  },
+  "facial": "fullbeard",
+  "accessories": [
+   "earrings",
+   "tattoos",
+   "wristbands"
+  ]
+ },
+ "Ryland Maxwell": {
+  "skin": "brown",
+  "hair": {
+   "style": "twists",
+   "color": "black"
+  },
+  "facial": "none",
+  "accessories": [
+   "sleeve-white",
+   "wristbands",
+   "tattoos"
+  ]
+ },
+ "Jaylen Conklin": {
+  "skin": "pale",
+  "hair": {
+   "style": "long",
+   "color": "blond"
+  },
+  "facial": "none",
+  "accessories": [
+   "sleeve-white",
+   "gloves-white"
+  ]
+ },
+ "Kane Van Oxley": {
+  "skin": "brown",
+  "hair": {
+   "style": "braids",
+   "color": "black"
+  },
+  "facial": "chinstrap",
+  "accessories": [
+   "earrings",
+   "tattoos"
+  ]
+ },
+ "Alvin Tufele": {
+  "skin": "medium",
+  "hair": {
+   "style": "bald",
+   "color": "black"
+  },
+  "facial": "none",
+  "accessories": [
+   "sleeve-black",
+   "tattoos",
+   "gloves-black"
+  ]
+ },
+ "Jakeem Friend": {
+  "skin": "light",
+  "hair": {
+   "style": "buzz",
+   "color": "blond"
+  },
+  "facial": "none",
+  "accessories": [
+   "tattoos",
+   "wristbands"
+  ]
+ },
+ "Kalif Suh": {
+  "skin": "brown",
+  "hair": {
+   "style": "short",
+   "color": "black"
+  },
+  "facial": "fullbeard",
+  "accessories": [
+   "earrings"
+  ]
+ },
+ "Dylan Hyatt": {
+  "skin": "medium",
+  "hair": {
+   "style": "twists",
+   "color": "bleached"
+  },
+  "facial": "chinstrap",
+  "accessories": [
+   "earrings",
+   "gloves-white"
+  ]
+ },
+ "Trequan Roberts": {
+  "skin": "brown",
+  "hair": {
+   "style": "short",
+   "color": "black"
+  },
+  "facial": "none",
+  "accessories": [
+   "sleeve-white"
+  ]
+ },
+ "Isaiah Karras": {
+  "skin": "brown",
+  "hair": {
+   "style": "dreads",
+   "color": "black"
+  },
+  "facial": "fullbeard",
+  "accessories": [
+   "wristbands"
+  ]
+ },
+ "Obinna Leary": {
+  "skin": "brown",
+  "hair": {
+   "style": "short",
+   "color": "black"
+  },
+  "facial": "beard",
+  "accessories": []
+ },
+ "Dorance Hinton": {
+  "skin": "brown",
+  "hair": {
+   "style": "short",
+   "color": "black"
+  },
+  "facial": "none",
+  "accessories": [
+   "eyeblack"
+  ]
+ },
+ "Romeo Rodgers": {
+  "skin": "medium",
+  "hair": {
+   "style": "short",
+   "color": "darkbrown"
+  },
+  "facial": "fullbeard",
+  "accessories": [
+   "sleeve-white",
+   "wristbands"
+  ]
+ },
+ "Deonte Sutton": {
+  "skin": "brown",
+  "hair": {
+   "style": "short",
+   "color": "black"
+  },
+  "facial": "fullbeard",
+  "accessories": [
+   "earrings",
+   "sleeve-team"
+  ]
+ },
+ "Blair Iupati": {
+  "skin": "tan",
+  "hair": {
+   "style": "spiky",
+   "color": "black"
+  },
+  "facial": "goatee",
+  "accessories": [
+   "sleeve-black",
+   "gloves-white"
+  ]
+ },
+ "Drake Maye": {
+  "skin": "pale",
+  "hair": {
+   "style": "short",
+   "color": "brown"
+  },
+  "facial": "none",
+  "accessories": []
+ }
+}

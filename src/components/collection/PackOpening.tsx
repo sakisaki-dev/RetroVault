@@ -3,7 +3,7 @@ import { Repeat, Sparkles, Trophy } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { PACKS, finishLabel, tierLabel, type PackCard, type PackType, type Tier } from '@/utils/collection';
+import { PACKS, finishLabel, tierLabel, variantLabel, type PackCard, type PackType, type Tier } from '@/utils/collection';
 import CollectibleCard from './CollectibleCard';
 import Walkout from './Walkout';
 import { bestLast, needsWalkout, skipStep, walkoutBeats, type WkBeat } from './walkoutBeats';
@@ -48,7 +48,7 @@ interface PackOpeningProps {
 }
 
 /** Card label for the reveal stamp. */
-const badgeOf = (c: PackCard) => (c.isNew ? 'New' : c.upgrade ? 'Upgrade' : c.duplicate ? `Dupe +${c.shards}` : 'New finish');
+const badgeOf = (c: PackCard) => (c.isNew ? 'New' : c.newVariant ? 'New art' : c.upgrade ? 'Upgrade' : c.duplicate ? `Dupe +${c.shards}` : 'New finish');
 
 const packTitle = (t: PackType) => PACKS[t].label.replace(/ Pack$/, '');
 
@@ -203,14 +203,14 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
   const skip = () =>
     setWalk((w) => {
       if (!w) return w;
-      const to = skipStep(w.beats);
-      return { ...w, step: w.step >= to ? w.beats.length - 1 : to };
+      return { ...w, step: skipStep(w.beats, w.step) };
     });
   const othersHidden = walk ? open.some((v, j) => !v && j !== walk.i) : false;
 
   const fresh = pack.filter((c) => c.isNew).length;
   const holos = pack.filter((c) => c.finish === 'holo').length;
   const legends = pack.filter((c) => c.tier === 'legendary').length;
+  const sprites = pack.filter((c) => c.variant === 'sprite').length;
   const dupeShards = pack.reduce((s, c) => s + c.shards, 0);
 
   const summary = () => {
@@ -218,6 +218,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
     const parts = [`${fresh} new`];
     if (legends) parts.push(`${legends} Legendary`);
     if (holos) parts.push(`${holos} Holo`);
+    if (sprites) parts.push(`${sprites} Sprite`);
     if (dupeShards) parts.push(`+${dupeShards} shards`);
     return parts.join(' · ');
   };
@@ -289,6 +290,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                       shown && 'pk-flip--open',
                       flash === i && 'pk-flip--flash',
                       holo && shown && 'pk-flip--holo',
+                      shown && c.variant === 'sprite' && 'pk-flip--sprite',
                     )}
                     style={{ '--i': i, '--off': i - mid } as CSSProperties}
                   >
@@ -300,6 +302,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                           player={info.player}
                           tier={c.tier}
                           finish={c.finish}
+                          variant={shown ? c.variant : undefined}
                           ovr={info.ovr}
                           number={info.number}
                           stats={info.stats}
@@ -330,7 +333,8 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                     )}
                     {shown && (
                       <p className="sr-only" role="status">
-                        {info.player.name}, {tierLabel(c.tier)} {finishLabel(c.finish)}, OVR {info.ovr ?? 'unknown'}
+                        {info.player.name}, {variantLabel(c.variant)} variant, {tierLabel(c.tier)} tier, {finishLabel(c.finish)} finish, OVR{' '}
+                        {info.ovr ?? 'unknown'}
                         {preview ? '' : `, ${badgeOf(c)}`}
                       </p>
                     )}

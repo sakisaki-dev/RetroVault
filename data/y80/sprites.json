@@ -1,0 +1,559 @@
+{
+ "_about": "Locked sprite looks for the Retro Bowl sprite card art. Keyed by league player name. skin: pale|light|tan|medium|brown|deep. hair.style: bald|buzz|short|curly|twists|afro|freeform|mohawk|spiky|dreads|shortlocs|braids|long. hair.color: black|darkbrown|brown|auburn|strawberry|blond|dirtyblond|bleached|grey or #hex. facial: none|stubble|jawline|shortbeard|mustache|goatee|chinstrap|beard|fullbeard. accessories: durag|visor|visor-gold|eyeblack|earrings|headband|sleeve-white|sleeve-black|sleeve-team|wristbands|gloves-white|gloves-black|tattoos|armbands. Optional: eyes intense, build normal|big|huge, height normal|tall, pose (any key from the Art lab's Poses strip, e.g. qb-windup, rb-stiffarm, cel-flex, sig-crossed), signature true for owner-requested showcase poses, image (a file in public/data/sprites/ that replaces the generated sprite). Built into public/data/sprites.json by scripts/build_league_data.py.",
+ "players": {
+  "Nick Bolton": {
+   "skin": "brown",
+   "hair": {
+    "style": "dreads",
+    "color": "black"
+   },
+   "facial": "chinstrap",
+   "accessories": [
+    "earrings"
+   ],
+   "notes": "Long black locs past the shoulders, thin chin beard, studs [IMG_6200–6203 + IMG_6216]"
+  },
+  "Lamar Jackson": {
+   "skin": "brown",
+   "hair": {
+    "style": "braids",
+    "color": "black"
+   },
+   "facial": "goatee",
+   "accessories": [],
+   "notes": "Shoulder-length braids, moustache and goatee, smile [IMG_6200–6203 + IMG_6211]"
+  },
+  "Ja’Marr Chase": {
+   "skin": "brown",
+   "hair": {
+    "style": "twists",
+    "color": "black"
+   },
+   "facial": "chinstrap",
+   "accessories": [
+    "earrings"
+   ],
+   "notes": "Short twists, mustache and chin strap, studs in both ears [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "CeeDee Lamb": {
+   "skin": "brown",
+   "hair": {
+    "style": "braids",
+    "color": "black"
+   },
+   "facial": "goatee",
+   "accessories": [
+    "earrings"
+   ],
+   "notes": "Long braids with a green bead, mustache and goatee [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Jayden Daniels": {
+   "skin": "brown",
+   "hair": {
+    "style": "twists",
+    "color": "black"
+   },
+   "facial": "goatee",
+   "accessories": [],
+   "notes": "High-top twists, moustache and goatee, big smile [IMG_6200–6203 + IMG_6209]"
+  },
+  "Jahmyr Gibbs": {
+   "skin": "brown",
+   "hair": {
+    "style": "dreads",
+    "color": "black"
+   },
+   "facial": "none",
+   "accessories": [],
+   "notes": "Long dreads, clean-shaven [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Mason Taylor": {
+   "skin": "light",
+   "hair": {
+    "style": "short",
+    "color": "darkbrown"
+   },
+   "facial": "stubble",
+   "accessories": [],
+   "notes": "Short dark-brown hair, light stubble [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Akiem Bouye": {
+   "skin": "tan",
+   "hair": {
+    "style": "long",
+    "color": "dirtyblond"
+   },
+   "facial": "none",
+   "accessories": [
+    "headband"
+   ],
+   "notes": "Long dirty-blond hair under a black headband [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Ian Finney": {
+   "skin": "brown",
+   "hair": {
+    "style": "short",
+    "color": "black"
+   },
+   "facial": "fullbeard",
+   "accessories": [
+    "earrings"
+   ],
+   "notes": "Short hair, full black beard [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Brennan Higgins": {
+   "skin": "medium",
+   "hair": {
+    "style": "bald",
+    "color": "black"
+   },
+   "facial": "none",
+   "accessories": [],
+   "notes": "Shaved head, clean-shaven [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Ray Waller": {
+   "skin": "deep",
+   "hair": {
+    "style": "twists",
+    "color": "black"
+   },
+   "facial": "fullbeard",
+   "accessories": [
+    "eyeblack",
+    "earrings"
+   ],
+   "notes": "Curly high-top, full beard, eye black [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Alohi Godwin": {
+   "skin": "medium",
+   "hair": {
+    "style": "short",
+    "color": "black"
+   },
+   "facial": "fullbeard",
+   "accessories": [
+    "earrings"
+   ],
+   "notes": "Black cap off the field, full beard [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Charlie John": {
+   "skin": "pale",
+   "hair": {
+    "style": "short",
+    "color": "darkbrown"
+   },
+   "facial": "none",
+   "accessories": [],
+   "notes": "Neat dark-brown hair, clean-shaven, blue eyes [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Lukas Russell": {
+   "skin": "tan",
+   "hair": {
+    "style": "mohawk",
+    "color": "black"
+   },
+   "facial": "goatee",
+   "accessories": [],
+   "notes": "Spiky black hair, soul patch [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Dennis Baylon": {
+   "skin": "tan",
+   "hair": {
+    "style": "long",
+    "color": "dirtyblond"
+   },
+   "facial": "none",
+   "accessories": [
+    "headband"
+   ],
+   "notes": "Long dirty-blond hair, black headband [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Cairo Asanjh": {
+   "skin": "tan",
+   "hair": {
+    "style": "short",
+    "color": "darkbrown"
+   },
+   "facial": "chinstrap",
+   "accessories": [],
+   "notes": "Short dark hair, chin strap beard [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Bilal Tolbert": {
+   "skin": "brown",
+   "hair": {
+    "style": "short",
+    "color": "black"
+   },
+   "facial": "goatee",
+   "accessories": [
+    "earrings"
+   ],
+   "notes": "Short hair, small goatee, blue eyes [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Wayne Wilson": {
+   "skin": "light",
+   "hair": {
+    "style": "short",
+    "color": "auburn"
+   },
+   "facial": "fullbeard",
+   "accessories": [],
+   "notes": "Auburn hair and a full red beard, blue eyes. Michael Wilson's brother: same look [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Rondale Ikarras": {
+   "skin": "brown",
+   "hair": {
+    "style": "buzz",
+    "color": "black"
+   },
+   "facial": "jawline",
+   "accessories": [
+    "durag",
+    "eyeblack",
+    "earrings",
+    "wristbands"
+   ],
+   "pose": "sig-praise",
+   "notes": "Short black hair, full beard, studs in both ears (IMG_6201). \"The Prodigal Son\". Signature pose (owner): hands up in reverence, helmet off, black durag with tails, eyes up [IMG_6200–6203 (game Hall of Fame)]",
+   "signature": true
+  },
+  "Sherman Brandson": {
+   "skin": "medium",
+   "hair": {
+    "style": "dreads",
+    "color": "black"
+   },
+   "facial": "shortbeard",
+   "accessories": [],
+   "build": "huge",
+   "height": "tall",
+   "notes": "Long black locs falling over the shoulders, a short stubble beard on a strong jaw (think Fred Warner), huge and 6'7\", muscular V-taper. Signature pose (owner): arms crossed, menacing, helmet off [IMG_6201]",
+   "pose": "sig-crossed",
+   "signature": true
+  },
+  "Dedrick Gould": {
+   "skin": "brown",
+   "hair": {
+    "style": "afro",
+    "color": "black"
+   },
+   "facial": "none",
+   "accessories": [],
+   "notes": "Rounded afro, clean-shaven [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Denzel Hayes": {
+   "skin": "medium",
+   "hair": {
+    "style": "short",
+    "color": "black"
+   },
+   "facial": "fullbeard",
+   "accessories": [
+    "earrings"
+   ],
+   "notes": "Black cap off the field, full beard [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Jackson Wardell Kline": {
+   "skin": "brown",
+   "hair": {
+    "style": "buzz",
+    "color": "black"
+   },
+   "facial": "fullbeard",
+   "accessories": [],
+   "notes": "Buzz cut, full beard [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Robert Boone": {
+   "skin": "brown",
+   "hair": {
+    "style": "freeform",
+    "color": "black"
+   },
+   "facial": "goatee",
+   "accessories": [],
+   "notes": "Messy freeform twists, goatee [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "God Johnson": {
+   "skin": "brown",
+   "hair": {
+    "style": "curly",
+    "color": "black"
+   },
+   "facial": "stubble",
+   "accessories": [],
+   "notes": "Sponge-curl top, light beard [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Levante Hopkins": {
+   "skin": "pale",
+   "hair": {
+    "style": "curly",
+    "color": "strawberry"
+   },
+   "facial": "none",
+   "accessories": [],
+   "notes": "Curly strawberry-blond hair, clean-shaven [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Michael Wilson": {
+   "skin": "light",
+   "hair": {
+    "style": "short",
+    "color": "auburn"
+   },
+   "facial": "fullbeard",
+   "accessories": [],
+   "notes": "Auburn hair and a full red beard, blue eyes. Wayne Wilson's brother: same look [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Jason Macleone": {
+   "skin": "brown",
+   "hair": {
+    "style": "shortlocs",
+    "color": "black"
+   },
+   "facial": "goatee",
+   "accessories": [
+    "sleeve-team",
+    "eyeblack"
+   ],
+   "notes": "\"Scary Jerry\" (imposing stature, scary looks): big muscular frame, short black locs falling to the shoulders, goatee, intense wide-eyed stare with eye black, navy arm sleeve. Signature pose (owner): helmet off in one hand, ball at his side, staring straight out [IMG_6200–6203 + IMG_6205]",
+   "pose": "sig-cold",
+   "signature": true,
+   "build": "big",
+   "eyes": "intense"
+  },
+  "Pharoah Hunter": {
+   "skin": "brown",
+   "hair": {
+    "style": "short",
+    "color": "black"
+   },
+   "facial": "fullbeard",
+   "accessories": [
+    "earrings"
+   ],
+   "notes": "Short hair, full beard, studs [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Malakai Sawyer": {
+   "skin": "brown",
+   "hair": {
+    "style": "short",
+    "color": "black"
+   },
+   "facial": "goatee",
+   "accessories": [],
+   "notes": "Short hair, mustache and goatee [IMG_6200–6203 (game Hall of Fame)]"
+  },
+  "Chance Woodrum": {
+   "skin": "light",
+   "hair": {
+    "style": "short",
+    "color": "black"
+   },
+   "facial": "goatee",
+   "accessories": [
+    "armbands"
+   ],
+   "notes": "Black mop of hair, chin beard, armbands [IMG_6200–6203 (game Hall of Fame) + IMG_6204 (Jets roster)]"
+  },
+  "Ty Lock": {
+   "skin": "medium",
+   "hair": {
+    "style": "short",
+    "color": "black"
+   },
+   "facial": "fullbeard",
+   "accessories": [
+    "earrings",
+    "tattoos",
+    "wristbands"
+   ],
+   "notes": "Black cap off the field, full beard, tattooed forearms [IMG_6204 (Jets roster)]"
+  },
+  "Ryland Maxwell": {
+   "skin": "brown",
+   "hair": {
+    "style": "twists",
+    "color": "black"
+   },
+   "facial": "none",
+   "accessories": [
+    "sleeve-white",
+    "wristbands",
+    "tattoos"
+   ],
+   "notes": "Short twists, white sleeves, tattoos [IMG_6204 (Jets roster)]"
+  },
+  "Jaylen Conklin": {
+   "skin": "pale",
+   "hair": {
+    "style": "long",
+    "color": "blond"
+   },
+   "facial": "none",
+   "accessories": [
+    "sleeve-white",
+    "gloves-white"
+   ],
+   "notes": "Long blond hair to the shoulders, white forearm wrap [IMG_6204 (Jets roster)]"
+  },
+  "Kane Van Oxley": {
+   "skin": "brown",
+   "hair": {
+    "style": "braids",
+    "color": "black"
+   },
+   "facial": "chinstrap",
+   "accessories": [
+    "earrings",
+    "tattoos"
+   ],
+   "notes": "Braids, chin strap, tattooed arms [IMG_6204 (Jets roster)]"
+  },
+  "Alvin Tufele": {
+   "skin": "medium",
+   "hair": {
+    "style": "bald",
+    "color": "black"
+   },
+   "facial": "none",
+   "accessories": [
+    "sleeve-black",
+    "tattoos",
+    "gloves-black"
+   ],
+   "notes": "Shaved head, black arm sleeve [IMG_6204 (Jets roster)]"
+  },
+  "Jakeem Friend": {
+   "skin": "light",
+   "hair": {
+    "style": "buzz",
+    "color": "blond"
+   },
+   "facial": "none",
+   "accessories": [
+    "tattoos",
+    "wristbands"
+   ],
+   "notes": "Blond crew cut, tattoo sleeve [IMG_6204 (Jets roster)]"
+  },
+  "Kalif Suh": {
+   "skin": "brown",
+   "hair": {
+    "style": "short",
+    "color": "black"
+   },
+   "facial": "fullbeard",
+   "accessories": [
+    "earrings"
+   ],
+   "notes": "Short hair, full beard [IMG_6204 (Jets roster)]"
+  },
+  "Dylan Hyatt": {
+   "skin": "medium",
+   "hair": {
+    "style": "twists",
+    "color": "bleached"
+   },
+   "facial": "chinstrap",
+   "accessories": [
+    "earrings",
+    "gloves-white"
+   ],
+   "notes": "Bleached-gold twists on top, dark chin strap [IMG_6204 (Jets roster)]"
+  },
+  "Trequan Roberts": {
+   "skin": "brown",
+   "hair": {
+    "style": "short",
+    "color": "black"
+   },
+   "facial": "none",
+   "accessories": [
+    "sleeve-white"
+   ],
+   "notes": "Short waves, clean-shaven, white forearm sleeve [IMG_6204 (Jets roster)]"
+  },
+  "Isaiah Karras": {
+   "skin": "brown",
+   "hair": {
+    "style": "dreads",
+    "color": "black"
+   },
+   "facial": "fullbeard",
+   "accessories": [
+    "wristbands"
+   ],
+   "notes": "Long dreads, full beard [IMG_6205 (Seahawks roster)]"
+  },
+  "Obinna Leary": {
+   "skin": "brown",
+   "hair": {
+    "style": "short",
+    "color": "black"
+   },
+   "facial": "beard",
+   "accessories": [],
+   "notes": "Short hair, chin beard [IMG_6205 (Seahawks roster)]"
+  },
+  "Dorance Hinton": {
+   "skin": "brown",
+   "hair": {
+    "style": "short",
+    "color": "black"
+   },
+   "facial": "none",
+   "accessories": [
+    "eyeblack"
+   ],
+   "notes": "Short hair, eye black [IMG_6205 (Seahawks roster)]"
+  },
+  "Romeo Rodgers": {
+   "skin": "medium",
+   "hair": {
+    "style": "short",
+    "color": "darkbrown"
+   },
+   "facial": "fullbeard",
+   "accessories": [
+    "sleeve-white",
+    "wristbands"
+   ],
+   "notes": "Short hair, full beard, white sleeves [IMG_6205 (Seahawks roster)]"
+  },
+  "Deonte Sutton": {
+   "skin": "brown",
+   "hair": {
+    "style": "short",
+    "color": "black"
+   },
+   "facial": "fullbeard",
+   "accessories": [
+    "earrings",
+    "sleeve-team"
+   ],
+   "notes": "Short hair, big full beard, navy sleeves [IMG_6205 (Seahawks roster)]"
+  },
+  "Blair Iupati": {
+   "skin": "tan",
+   "hair": {
+    "style": "spiky",
+    "color": "black"
+   },
+   "facial": "goatee",
+   "accessories": [
+    "sleeve-black",
+    "gloves-white"
+   ],
+   "notes": "Spiky black hair, soul patch, black sleeves [IMG_6205 (Seahawks roster)]"
+  },
+  "Drake Maye": {
+   "skin": "pale",
+   "hair": {
+    "style": "short",
+    "color": "brown"
+   },
+   "facial": "none",
+   "accessories": [],
+   "notes": "Short wavy brown hair, blue eyes, clean-shaven, big smile [IMG_6212 (QB list, Maye #10)]"
+  }
+ }
+}

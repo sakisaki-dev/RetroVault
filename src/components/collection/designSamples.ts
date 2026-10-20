@@ -1,4 +1,4 @@
-import { TIERS, type Finish, type PackCard, type Tier } from '@/utils/collection';
+import { TIERS, type Finish, type PackCard, type Tier, type Variant } from '@/utils/collection';
 import type { CardInfo } from './useCardPool';
 
 /** Preferred faces for the Legendary row (owner's picks), then the best by OVR. */
@@ -32,10 +32,12 @@ export const designRows = (cards: CardInfo[]): DesignRow[] => {
 /**
  * Sample pack for the preview opening (Card designs). Shows every reveal: a Common and a Rare flip in about a
  * second, two Epics walk out, and the Legendary closes the pack with a full Legendary walkout
- * and the hidden-holo twist. It is shown in an Elite pack, so nothing on the pack hints at the holo.
+ * and the hidden-holo twist. Each card shows a different art variant; the Legendary is a sprite (8-bit beat). It is shown in an Elite pack, so nothing on the pack hints at the holo.
  */
 export const samplePack = (rows: DesignRow[], cards: CardInfo[] = []): PackCard[] => {
   const finishes: Record<string, Finish> = { common: 'base', rare: 'silver', epic: 'gold', epic2: 'silver', legendary: 'holo' };
+  // Every art variant once, the sprite last (its 8-bit beat, then the holo twist)
+  const variants: Record<string, Variant> = { common: 'number', rare: 'jersey', epic: 'topps', epic2: 'locker', legendary: 'sprite' };
   const epic = rows.find((r) => r.key === 'epic');
   // A second Epic (another position) fills the fifth slot
   const second = epic && cards.filter((c) => c.tier === 'epic' && c.player.position !== epic.info.player.position).sort((a, b) => (b.ovr ?? 0) - (a.ovr ?? 0))[0];
@@ -44,5 +46,16 @@ export const samplePack = (rows: DesignRow[], cards: CardInfo[] = []): PackCard[
   return order
     .map((k) => all.find((r) => r.key === k))
     .filter((r): r is DesignRow => !!r)
-    .map((r) => ({ player: r.info.player, tier: r.tier, finish: finishes[r.key], slot: 'regular' as const, isNew: true, upgrade: false, duplicate: false, shards: 0 }));
+    .map((r) => ({
+      player: r.info.player,
+      tier: r.tier,
+      finish: finishes[r.key],
+      variant: variants[r.key],
+      slot: 'regular' as const,
+      isNew: true,
+      newVariant: false,
+      upgrade: false,
+      duplicate: false,
+      shards: 0,
+    }));
 };

@@ -2088,7 +2088,7 @@ button.fut__card:focus-visible {
   gap: 18px;
   padding: 44px 16px 20px;
 }
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .cd {
     --cd-x: calc((100% - 372px) / 2);
   }
@@ -2106,8 +2106,19 @@ button.fut__card:focus-visible {
   justify-items: center;
   row-gap: 18px;
 }
+.cd__stage {
+  min-width: 0;
+  container-type: inline-size;
+}
+/* Explicit placement: with the ← → buttons hidden (no list) the card must still sit in the middle column */
+.cd__nav--prev { grid-column: 1; grid-row: 1; }
+.cd__nav--next { grid-column: 3; grid-row: 1; }
 .cd__fly {
-  width: min(330px, 66vw, 56vh);
+  grid-column: 2;
+  grid-row: 1;
+  /* Fits the column it sits in (container width minus the two 44px buttons) and the viewport height */
+  width: min(330px, calc(100cqw - 104px), 56vh);
+  min-width: 0;
   perspective: 1400px;
 }
 .cd__sway {

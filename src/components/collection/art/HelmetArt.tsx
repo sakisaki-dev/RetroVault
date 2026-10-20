@@ -1,5 +1,6 @@
 import { useId } from 'react';
 import type { ArtProps, Palette } from './shared';
+import { logoFor, teamStyleFor, type TeamStyle } from './teamStyle';
 
 /** Helmet shell, 3/4 view facing right, in a 100 × 100 box. */
 const SHELL =
@@ -16,27 +17,35 @@ interface HelmetShapeProps {
   flat?: boolean;
   /** Override shell fill (e.g. a duotone ink) */
   ink?: string;
+  /** Team uniform details: shell colour, crown stripe, facemask colour */
+  style?: TeamStyle;
+  /** Team logo decal on the side (replaces the side number) */
+  logo?: string | null;
 }
 
 /** A football helmet as an SVG group: shell, stripe, side number, ear hole, facemask and chin strap. */
-export const HelmetShape = ({ pal, number, id, flat = false, ink }: HelmetShapeProps) => {
-  const shell = ink ?? (flat ? pal.a : `url(#${id}-shell)`);
+export const HelmetShape = ({ pal, number, id, flat = false, ink, style, logo }: HelmetShapeProps) => {
+  const base = style?.helmet ?? pal.a;
+  const shell = ink ?? (flat ? base : `url(#${id}-shell)`);
+  const stripeMain = style?.stripeColors?.[0] ?? pal.trim;
+  const stripeEdge = style?.stripeColors?.[1] ?? pal.aDeep;
+  const showStripe = style?.stripe !== 'none';
   return (
     <g>
       {!flat && (
         <defs>
           <radialGradient id={`${id}-shell`} cx="0.36" cy="0.3" r="0.8">
-            <stop offset="0" stopColor={pal.aLight} />
-            <stop offset="0.45" stopColor={pal.a} />
-            <stop offset="1" stopColor={pal.aDeep} />
+            <stop offset="0" stopColor={`color-mix(in srgb, ${base} 60%, #fff)`} />
+            <stop offset="0.45" stopColor={base} />
+            <stop offset="1" stopColor={`color-mix(in srgb, ${base} 45%, #000)`} />
           </radialGradient>
           <linearGradient id={`${id}-gloss`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#fff" stopOpacity="0.75" />
             <stop offset="1" stopColor="#fff" stopOpacity="0" />
           </linearGradient>
           <linearGradient id={`${id}-mask`} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#f2f4f7" />
-            <stop offset="1" stopColor="#8d96a3" />
+            <stop offset="0" stopColor={style ? `color-mix(in srgb, ${style.mask} 70%, #fff)` : '#f2f4f7'} />
+            <stop offset="1" stopColor={style ? style.mask : '#8d96a3'} />
           </linearGradient>
         </defs>
       )}
@@ -53,8 +62,13 @@ export const HelmetShape = ({ pal, number, id, flat = false, ink }: HelmetShapeP
       </g>
       <path d={SHELL} fill={shell} />
       <g clipPath={`url(#${id}-clip)`}>
-        <path d={STRIPE} fill="none" stroke={ink ? '#fff' : pal.trim} strokeWidth="9" opacity={ink ? 0.25 : 1} />
-        <path d={STRIPE} fill="none" stroke={ink ?? pal.aDeep} strokeWidth="2.4" opacity="0.5" />
+        {showStripe && (
+          <>
+            {style?.stripe === 'triple' && !ink && <path d={STRIPE} fill="none" stroke={stripeEdge} strokeWidth="13" />}
+            <path d={STRIPE} fill="none" stroke={ink ? '#fff' : stripeMain} strokeWidth="9" opacity={ink ? 0.25 : 1} />
+            <path d={STRIPE} fill="none" stroke={ink ?? stripeEdge} strokeWidth="2.4" opacity="0.5" />
+          </>
+        )}
         {!flat && <path d="M17 70 C33 85 58 86 75 81 L74 74 C56 79 34 78 17 64 Z" fill="#000" opacity="0.28" />}
       </g>
       {/* Front edge (face opening) */}
@@ -62,7 +76,8 @@ export const HelmetShape = ({ pal, number, id, flat = false, ink }: HelmetShapeP
       {/* Ear hole + snap */}
       <circle cx="62" cy="62" r="4.2" fill="#0d0f14" />
       <circle cx="62" cy="62" r="5.6" fill="none" stroke={ink ? '#fff' : pal.trim} strokeWidth="1.2" opacity={ink ? 0.3 : 0.8} />
-      {number != null && (
+      {logo && !ink && <image href={logo} x="26" y="38" width="26" height="26" preserveAspectRatio="xMidYMid meet" transform="rotate(-8 39 51)" />}
+      {number != null && !logo && (
         <text x="40" y="58" textAnchor="middle" className="ra-display" fontSize="22" fill={ink ? '#fff' : pal.onA} stroke={ink ? 'none' : pal.trim} strokeWidth="1.4" paintOrder="stroke" transform="rotate(-8 40 52) skewX(-6)" opacity={ink ? 0.85 : 1}>
           {number}
         </text>
@@ -80,7 +95,7 @@ export const HelmetShape = ({ pal, number, id, flat = false, ink }: HelmetShapeP
 };
 
 /** Style: one big glossy helmet in team colours, number on the side, on a team-colour spotlight. */
-const HelmetArt = ({ number, pal }: ArtProps) => {
+const HelmetArt = ({ player, number, pal }: ArtProps) => {
   const id = `h${useId().replace(/:/g, '')}`;
   return (
     <svg className="ra ra--helmet" viewBox="0 2 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
@@ -93,7 +108,7 @@ const HelmetArt = ({ number, pal }: ArtProps) => {
       <circle cx="52" cy="54" r="46" fill={`url(#${id}-spot)`} />
       <ellipse cx="54" cy="92" rx="36" ry="5" fill="#000" opacity="0.4" />
       <g transform="translate(-2 6) scale(1.02)">
-        <HelmetShape pal={pal} number={number} id={id} />
+        <HelmetShape pal={pal} number={number} id={id} style={teamStyleFor(player)} logo={logoFor(player)} />
       </g>
     </svg>
   );

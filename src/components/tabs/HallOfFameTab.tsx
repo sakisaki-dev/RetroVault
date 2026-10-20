@@ -114,7 +114,7 @@ const HallOfFameTab = () => {
   const classPlayers = latestClass
     ? latestClass.keys.map((k) => byKey.get(k)).filter((p): p is Player => !!p).sort((a, b) => b.careerLegacy - a.careerLegacy)
     : hofPlayers.slice(0, INAUGURAL_CLASS_SIZE);
-  const classTitle = latestClass ? `Class of ${latestClass.label}` : 'Inaugural class';
+  const classTitle = latestClass ? classLabelFor(latestClass.label) : 'Inaugural class';
   const watchClass = () =>
     playCeremony({
       entries: classPlayers.map((p) => ({ key: hofKey(p), variant: 'hof' as const })),

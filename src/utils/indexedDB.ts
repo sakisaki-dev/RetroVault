@@ -195,6 +195,8 @@ export interface PlayerEdit {
   roty: number;
   // Position-specific stats
   positionStats: Record<string, number>;
+  /** Sprite skin tone (SKIN_TONES key); absent = auto */
+  spriteSkin?: string;
   // Metadata
   createdAt: number;
   updatedAt: number;

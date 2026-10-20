@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Briefcase, PackageOpen } from 'lucide-react';
-import { TIERS, finishLabel, tierLabel, type Finish, type OwnedCard, type Tier } from '@/utils/collection';
-import { finishValue, fmtCoins, pctChange, portfolioSeries, valueAt, type MarketHistory } from '@/utils/cardMarket';
+import { TIERS, VARIANTS, finishLabel, ownedVariants, tierLabel, variantShort, type Finish, type OwnedCard, type Tier, type Variant } from '@/utils/collection';
+import { cardPrice, fmtCoins, pctChange, portfolioSeries, valueAt, type Holding as Owned, type MarketHistory } from '@/utils/cardMarket';
 import type { CardInfo } from '../useCardPool';
 import PriceChart from './PriceChart';
 import ChangeBadge from './ChangeBadge';
@@ -11,9 +11,13 @@ const POS_ORDER = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
 const TIER_FILL: Record<Tier, string> = { common: 'hsl(28 45% 45%)', rare: 'hsl(220 12% 66%)', epic: 'hsl(43 90% 55%)', legendary: 'hsl(280 60% 62%)' };
 const POS_FILL = POS_ORDER.map((_, i) => `hsl(199 ${60 + i * 3}% ${78 - i * 7}%)`);
 
+/** Variant allocation colours: one warm-to-violet ramp, rarest darkest. */
+const VARIANT_FILL: Record<Variant, string> = { number: 'hsl(43 70% 72%)', jersey: 'hsl(30 70% 60%)', topps: 'hsl(12 60% 52%)', locker: 'hsl(330 45% 45%)', sprite: 'hsl(280 55% 40%)' };
+
 interface Holding {
   info: CardInfo;
   finish: Finish;
+  variant: Variant;
   now: number;
   paid: number | null;
   gain: number | null;
@@ -56,7 +60,7 @@ const HoldingLine = ({ h, label, onOpen }: { h: Holding; label: string; onOpen: 
     <span className="mk-hold__label">{label}</span>
     <span className="mk-hold__name">{h.info.player.name}</span>
     <span className="mk-hold__meta">
-      {finishLabel(h.finish)} · {fmtCoins(h.now)}
+      {variantShort(h.variant)} · {finishLabel(h.finish)} · {fmtCoins(h.now)}
     </span>
     <ChangeBadge change={h.gain} label="since pulled" />
   </button>
@@ -69,20 +73,24 @@ const HoldingLine = ({ h, label, onOpen }: { h: Holding; label: string; onOpen: 
  */
 const Portfolio = ({ history, owned, byKey, period, sinceLabel, onOpen }: PortfolioProps) => {
   const latest = history[history.length - 1];
-  const finishes = useMemo(() => Object.fromEntries(Object.entries(owned).map(([k, c]) => [k, c.best])) as Record<string, Finish>, [owned]);
-  const series = useMemo(() => portfolioSeries(history, finishes), [history, finishes]);
+  // Every (player, variant) owned is one holding, at that variant's best finish
+  const items = useMemo<Owned[]>(
+    () => Object.entries(owned).flatMap(([key, c]) => ownedVariants(c).map((variant) => ({ key, variant, finish: c.variants[variant]!.best }))),
+    [owned],
+  );
+  const series = useMemo(() => portfolioSeries(history, items), [history, items]);
   const holdings = useMemo<Holding[]>(
     () =>
-      Object.entries(owned).flatMap(([k, c]) => {
-        const info = byKey.get(k);
-        const p = latest?.players[k];
+      items.flatMap(({ key, variant, finish }) => {
+        const info = byKey.get(key);
+        const p = latest?.players[key];
         if (!info || !p) return [];
-        const now = finishValue(p.value, c.best);
-        const base = valueAt(history, k, c.first || Date.now());
-        const paid = base != null ? finishValue(base, c.best) : null;
-        return [{ info, finish: c.best, now, paid, gain: pctChange(now, paid) }];
+        const now = cardPrice(p.value, finish, variant);
+        const base = valueAt(history, key, owned[key].variants[variant]!.first || Date.now());
+        const paid = base != null ? cardPrice(base, finish, variant) : null;
+        return [{ info, finish, variant, now, paid, gain: pctChange(now, paid) }];
       }),
-    [owned, byKey, latest, history],
+    [items, owned, byKey, latest, history],
   );
 
   if (!holdings.length) {
@@ -110,9 +118,10 @@ const Portfolio = ({ history, owned, byKey, period, sinceLabel, onOpen }: Portfo
   const best = ranked[0];
   const worst = ranked.length > 1 ? ranked[ranked.length - 1] : undefined;
   const top = [...holdings].sort((a, b) => b.now - a.now)[0];
-  const list = holdings.map((h) => h.info);
+  const list = [...new Map(holdings.map((h) => [h.info.key, h.info])).values()];
 
   const byTier = TIERS.map((t) => ({ label: tierLabel(t.key), value: holdings.filter((h) => h.info.tier === t.key).reduce((a, h) => a + h.now, 0), color: TIER_FILL[t.key] }));
+  const byVariant = VARIANTS.map((v) => ({ label: v.short, value: holdings.filter((h) => h.variant === v.key).reduce((a, h) => a + h.now, 0), color: VARIANT_FILL[v.key] }));
   const byPos = POS_ORDER.map((pos, i) => ({ label: pos, value: holdings.filter((h) => h.info.player.position === pos).reduce((a, h) => a + h.now, 0), color: POS_FILL[i] }));
 
   return (
@@ -127,7 +136,7 @@ const Portfolio = ({ history, owned, byKey, period, sinceLabel, onOpen }: Portfo
         <ChangeBadge change={pctChange(now, before)} label={sinceLabel} />
       </p>
       <p className="text-xs text-muted-foreground">
-        {holdings.length} card{holdings.length === 1 ? '' : 's'} at their best finish ·{' '}
+        {holdings.length} card{holdings.length === 1 ? '' : 's'} (player × variant) at their best finish ·{' '}
         <span className="text-foreground">
           {gain != null && gain >= 0 ? '+' : '−'}
           {fmtCoins(Math.abs(now - paid))}
@@ -141,6 +150,7 @@ const Portfolio = ({ history, owned, byKey, period, sinceLabel, onOpen }: Portfo
         {worst && worst !== best && <HoldingLine h={worst} label="Worst since pulled" onOpen={() => onOpen(worst.info, list)} />}
       </div>
       <AllocBar title="Allocation by tier" parts={byTier} />
+      <AllocBar title="Allocation by variant" parts={byVariant} />
       <AllocBar title="Allocation by position" parts={byPos} />
     </div>
   );

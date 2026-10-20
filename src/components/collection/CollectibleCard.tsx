@@ -4,7 +4,8 @@ import TeamLogo from '@/components/brand/TeamLogo';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import { findNFLTeam } from '@/utils/nflTeams';
 import type { GamePlayer } from '@/config/ovr';
-import { finishLabel, tierLabel, type Finish, type Tier } from '@/utils/collection';
+import { finishLabel, tierLabel, variantLabel, variantShort, type Finish, type Tier, type Variant } from '@/utils/collection';
+import VariantArt from './art/VariantArt';
 import type { FaceStat } from './cardStats';
 import { FINISH_ICON } from './rarityIcons';
 import './collection.css';
@@ -86,6 +87,8 @@ export interface CollectibleCardProps {
   tier: Tier;
   /** Finish (Base, Silver, Gold, Holo): the treatment on top; ignored while locked */
   finish: Finish;
+  /** Art variant (Prizm number … Retro Bowl sprite); omitted = the plain baseline jersey */
+  variant?: Variant;
   owned: boolean;
   ovr?: number | null;
   number?: number | null;
@@ -123,6 +126,7 @@ const CollectibleCard = ({
   player,
   tier,
   finish,
+  variant,
   owned,
   ovr,
   number,
@@ -209,7 +213,7 @@ const CollectibleCard = ({
 
   const setLabel = setNo != null && setTotal ? `card ${setNo} of ${setTotal}` : null;
   const label = owned
-    ? `${player.name}, ${tierLabel(tier)} ${finishLabel(finish)} card, ${ovr != null ? `OVR ${ovr}, ` : ''}${posName}${team ? `, ${team.name}` : ''}${number != null ? `, number ${number}` : ''}${setLabel ? `, ${setLabel}` : ''}${mark ? `, ${mark}` : ''}${onOpen ? '. Open card' : ''}`
+    ? `${player.name}, ${variant ? `${variantLabel(variant)} variant, ` : ''}${tierLabel(tier)} tier, ${finishLabel(finish)} finish, ${ovr != null ? `OVR ${ovr}, ` : ''}${posName}${team ? `, ${team.name}` : ''}${number != null ? `, number ${number}` : ''}${setLabel ? `, ${setLabel}` : ''}${mark ? `, ${mark}` : ''}${onOpen ? '. Open card' : ''}`
     : `Locked ${tierLabel(tier)} card, ${posName}${hint ? `. ${hint}` : ''}`;
 
   const face = (
@@ -221,6 +225,8 @@ const CollectibleCard = ({
             art
           ) : photo ? (
             <img src={photo.url} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" draggable={false} />
+          ) : owned && variant ? (
+            <VariantArt variant={variant} player={player} number={number} finish={finish} />
           ) : (
             <PlayerJersey number={owned ? number : null} id={jerseyId} />
           )}
@@ -250,6 +256,7 @@ const CollectibleCard = ({
           <span className="fut__pip">
             <FinishIcon />
             {finishLabel(finish)}
+            {variant && <span className="fut__vtag">· {variantShort(variant)}</span>}
           </span>
         )}
         {owned && finish !== 'base' && <span className="fut__foil" />}
@@ -291,7 +298,7 @@ const CollectibleCard = ({
       ref={ref}
       className={cn(
         'fut',
-        owned ? [`fut--${tier}`, `fut--f-${finish}`] : 'fut--locked',
+        owned ? [`fut--${tier}`, `fut--f-${finish}`, variant && `fut--v-${variant}`] : 'fut--locked',
         realLegend && owned && 'fut--nfl',
         large && 'fut--lg',
         live && 'fut--live',

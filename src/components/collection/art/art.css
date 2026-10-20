@@ -180,3 +180,275 @@
     top: -12px;
   }
 }
+
+/* ---------- Art variants (cards in packs and the binder) ---------- */
+.ra--jersey {
+  width: 94%;
+  filter: drop-shadow(0 1.2cqw 1.4cqw hsl(0 0% 0% / 0.45));
+}
+.ra--pixel {
+  image-rendering: pixelated;
+}
+.fut__vtag {
+  opacity: 0.9;
+}
+/* Variant colours: a ramp from cool (common) to violet / pixel green (rarest) */
+.vbadge--number,
+.vdot--number { --vb: hsl(199 70% 62%); }
+.vbadge--jersey,
+.vdot--jersey { --vb: hsl(140 50% 52%); }
+.vbadge--topps,
+.vdot--topps { --vb: hsl(35 85% 58%); }
+.vbadge--locker,
+.vdot--locker { --vb: hsl(12 70% 58%); }
+.vbadge--sprite,
+.vdot--sprite { --vb: hsl(290 75% 66%); }
+
+/* Binder tile: variant badges under the card (owned filled, missing hollow) */
+.vbadges {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  margin-top: 6px;
+  line-height: 1;
+}
+.vbadge {
+  display: grid;
+  place-items: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  border: 1px solid color-mix(in srgb, var(--vb) 55%, transparent);
+  color: color-mix(in srgb, var(--vb) 60%, transparent);
+  font-family: var(--font-pixel);
+  font-size: 7px;
+}
+.vbadge.is-owned {
+  background: var(--vb);
+  border-color: var(--vb);
+  color: #0b0d12;
+}
+.vbadge--sprite.is-owned {
+  box-shadow: 0 0 0 1px #0b0d12, 0 0 6px var(--vb);
+}
+@media (max-width: 480px) {
+  .vbadges { gap: 2px; }
+  .vbadge { width: 13px; height: 13px; font-size: 6px; }
+}
+.fut-grid > li.fut-tile {
+  contain-intrinsic-size: auto 274px;
+}
+
+/* Card detail: variant switcher */
+.vdot {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  border: 1.5px solid var(--vb);
+}
+.vdot.is-owned {
+  background: var(--vb);
+}
+.cd-chip.cd-vchip.is-on {
+  border-color: var(--vb, hsl(var(--gold)));
+}
+.cd-chip.cd-vchip--sprite.is-on {
+  box-shadow: 0 0 0 1px hsl(290 75% 66% / 0.6), 0 0 14px hsl(290 75% 66% / 0.45);
+}
+
+/* Pack fan: a sprite card blinks an 8-bit frame when it flips */
+.pk-flip--sprite .pk-flip__face:first-child {
+  outline: 2px dashed hsl(290 75% 66% / 0.8);
+  outline-offset: 2px;
+}
+
+/* Walkout: the sprite's 8-bit beat (only after the flip, so the variant is never given away early) */
+.wk__8bit {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  pointer-events: none;
+}
+.wk__8bit i {
+  background: hsl(290 90% 70%);
+  opacity: 0;
+  animation: wk-8bit 0.9s steps(4, end) both;
+  animation-delay: var(--d);
+}
+.wk__8bit i:nth-child(3n) { background: #48b552; }
+.wk__8bit i:nth-child(5n) { background: #fff; }
+@keyframes wk-8bit {
+  0% { opacity: 0; }
+  25% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+.wk--8bit .wk__face:not(.wk__face--back) {
+  filter: drop-shadow(0 0 0 #000) drop-shadow(4px 4px 0 hsl(290 90% 60% / 0.7));
+}
+.wk--pixel-beat:not(.wk--rm) .wk__spin {
+  animation: wk-8bit-hop 0.6s steps(3, end) 2 both;
+}
+@keyframes wk-8bit-hop {
+  50% { transform: translateY(-14px); }
+}
+.wk--pixel-beat::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, hsl(0 0% 0% / 0.22) 0 2px, transparent 2px 4px);
+}
+.wk__stamp.wk__stamp--8bit {
+  background: #1a1030;
+  color: #7dff8a;
+  font-family: var(--font-pixel);
+  font-style: normal;
+  font-size: 18px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 3px #0b0a0c, 0 0 0 5px hsl(290 90% 70%), 0 10px 30px hsl(290 100% 60% / 0.6);
+  animation-timing-function: steps(4, end);
+}
+@media (prefers-reduced-motion: reduce) {
+  .wk__8bit i,
+  .wk--pixel-beat .wk__spin {
+    animation: none !important;
+  }
+  .wk__8bit { display: none; }
+}
+
+/* Card designs: tier × variant matrix (five columns). Doubled class: collection.css loads after this file. */
+.dz-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding-bottom: 4px;
+}
+.dz-grid.dz-grid--v {
+  grid-template-columns: auto repeat(5, minmax(0, 1fr));
+  min-width: 520px;
+  margin-top: 10px;
+}
+@media (max-width: 480px) {
+  .dz-grid.dz-grid--v {
+    gap: 8px 4px;
+  }
+}
+
+/* Art lab: locked sprite looks */
+.ral__idx[class*='vbadge--'] {
+  background: color-mix(in srgb, var(--vb) 22%, transparent);
+  color: var(--vb);
+}
+.ral__looks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 14px 10px;
+}
+.ral__look-name {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  text-align: center;
+  color: hsl(var(--muted-foreground));
+}
+@media (max-width: 480px) {
+  .ral__looks {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px 5px;
+  }
+}
+
+/* Art lab: poses strip */
+.ral__poses {
+  margin-top: 6px;
+}
+.ral__poses-title {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 4px;
+}
+.ral__pose-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 8px;
+}
+.ral__pose {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 6px;
+  background: hsl(var(--muted) / 0.35);
+  min-width: 0;
+}
+.ral__pose-art {
+  display: block;
+  width: 100%;
+  aspect-ratio: 58 / 64;
+}
+.ral__pose-name {
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+}
+.ral__pose-key {
+  font-size: 9px;
+  color: hsl(var(--muted-foreground));
+}
+@media (max-width: 480px) {
+  .ral__pose-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+  }
+}
+
+/* Sprite cards: no bottom fade (the feet and the turf stay in view), clip stand-ins to the art box */
+.fut__art:has(> .ra--pixel) {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.fut__art:has(> .ra--pixel)::before {
+  inset: 14% 4% 6%;
+}
+.ra--pixel {
+  overflow: hidden;
+}
+
+/* Card back: which art / pose is on the front */
+.cb__art {
+  margin: -2px 0 6px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: right;
+  opacity: 0.7;
+}
+.ral__helmets {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 8px;
+}
+.ral__helmets li {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  font-size: 10px;
+  color: hsl(var(--muted-foreground));
+}
+.ra-helmet {
+  width: 100%;
+  max-width: 96px;
+  aspect-ratio: 14 / 11;
+  image-rendering: pixelated;
+}
+@media (max-width: 480px) {
+  .ral__helmets { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
+}

@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import { PixelPlayer } from './PixelSprite';
-import { poseFor, skinFor, type ArtProps } from './shared';
+import type { ArtProps } from './shared';
 
 const FLASHES = [
   [14, 46],
@@ -15,7 +15,6 @@ const YARD = [-60, -30, 0, 30, 60, 90, 120, 150];
 /** Style: the pixel player under the lights: night sky, light towers, a packed stand with flashbulbs, striped turf. */
 const StadiumArt = ({ player, number, pal }: ArtProps) => {
   const id = `s${useId().replace(/:/g, '')}`;
-  const pose = poseFor(player.position);
   return (
     <svg className="ra ra--stadium" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
       <defs>
@@ -76,8 +75,8 @@ const StadiumArt = ({ player, number, pal }: ArtProps) => {
         <ellipse cx="50" cy="90" rx="22" ry="5.5" fill={pal.a} stroke={pal.trim} strokeWidth="0.9" opacity="0.9" />
       </g>
       <ellipse cx="50" cy="96" rx="15" ry="2.4" fill="#000" opacity="0.4" />
-      <g transform={`translate(30.5 ${pose === 'qb' || pose === 'rb' ? 50 : 45}) scale(1.5)`}>
-        <PixelPlayer pose={pose} pal={pal} skin={skinFor(player)} number={number} />
+      <g transform="translate(31.3 46.8) scale(0.85)">
+        <PixelPlayer player={player} pal={pal} number={number} />
       </g>
     </svg>
   );

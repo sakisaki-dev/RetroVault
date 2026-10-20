@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react';
 import { toast } from 'sonner';
 import type { Player } from '@/types/player';
 import { playerKey } from '@/config/ovr';
-import { FINISHES, TIERS, finishRank, tierRank, type Finish, type Tier } from '@/config/cardTiers';
+import { FINISHES, LEGACY_VARIANT, TIERS, VARIANTS, finishRank, isVariant, tierRank, type Finish, type Tier, type Variant } from '@/config/cardTiers';
 
 export * from '@/config/cardTiers';
 
@@ -14,7 +14,11 @@ export * from '@/config/cardTiers';
  * Exchange pack (exchangeLegends). Games never hand out a specific card: they award reward PACKS through
  * awardPack(), and every card comes from opening one on the Collection tab. A pull is two rolls: which player
  * (weighted by the player's TIER, src/config/cardTiers.ts, so better players are rarer), then which finish (Holo
- * rarest, and rarer still for top tiers). Duplicates turn into shards that craft finish upgrades.
+ * rarest, and rarer still for top tiers), then which art VARIANT (Prizm number most common, Retro Bowl sprite
+ * rarest; PackSpec.variants). A player can own every variant, each at its own best finish, so they stack:
+ * OwnedCard.variants holds one entry per variant owned, and OwnedCard.best / counts / first / last summarise them.
+ * Saves from before variants are migrated on load: every owned card becomes the Team jersey variant.
+ * Duplicates (same player, variant and finish) turn into shards that craft finish upgrades.
  *
  * State is per browser, in localStorage under STORAGE_KEY; every write fires CHANGE_EVENT so open
  * views update live. v1 (STORAGE_KEY_V1, one fixed rarity per player, cards granted directly by
@@ -44,9 +48,19 @@ export interface PackSpec {
   tiers: Weights<Tier>;
   /** Relative odds of each finish per regular slot, by the tier that slot rolled */
   finishes: FinishTable;
+  /** Relative odds of each art variant, per card (rolled last, independent of tier and finish) */
+  variants: Weights<Variant>;
   /** One-line summary of the guarantees, shown on the odds table */
   guarantee: string;
 }
+
+/** Variant odds: Standard is the baseline (sprite 3.5% per card); better packs lean rarer, never above 2× it. */
+const VARIANT_ODDS = {
+  standard: { number: 42, jersey: 30, topps: 16, locker: 8.5, sprite: 3.5 },
+  premium: { number: 38, jersey: 30, topps: 18, locker: 10, sprite: 4 },
+  elite: { number: 34, jersey: 29, topps: 20, locker: 12, sprite: 5 },
+  chase: { number: 30, jersey: 28, topps: 21, locker: 14, sprite: 7 },
+} satisfies Record<string, Weights<Variant>>;
 
 /**
  * Standard pack odds are the baseline (targets, per card: Legendary-tier player ≤ 3%, Holo ≤ 2%,
@@ -63,6 +77,7 @@ export const PACKS: Record<PackType, PackSpec> = {
       epic: { base: 70, silver: 21, gold: 8, holo: 1 },
       legendary: { base: 75, silver: 18, gold: 6, holo: 1 },
     },
+    variants: VARIANT_ODDS.standard,
     guarantee: '3 cards. No guarantees.',
   },
   premium: {
@@ -75,6 +90,7 @@ export const PACKS: Record<PackType, PackSpec> = {
       epic: { base: 66, silver: 22, gold: 10.5, holo: 1.5 },
       legendary: { base: 72, silver: 20, gold: 7, holo: 1 },
     },
+    variants: VARIANT_ODDS.premium,
     guarantee: '4 cards. At least one Gold-or-better finish (the last card is upgraded if needed).',
   },
   elite: {
@@ -87,6 +103,7 @@ export const PACKS: Record<PackType, PackSpec> = {
       epic: { base: 62, silver: 22, gold: 13, holo: 3 },
       legendary: { base: 69, silver: 20, gold: 10, holo: 1 },
     },
+    variants: VARIANT_ODDS.elite,
     guarantee: '5 cards. At least one Epic-or-better player (the last card is upgraded if needed).',
   },
   perfect: {
@@ -100,6 +117,7 @@ export const PACKS: Record<PackType, PackSpec> = {
       epic: { base: 62, silver: 22, gold: 13, holo: 3 },
       legendary: { base: 69, silver: 20, gold: 10, holo: 1 },
     },
+    variants: VARIANT_ODDS.chase,
     guarantee: '5 cards: 2 at Elite odds, then 3 chase cards, each a Legendary Holo or else an Epic-or-better Gold.',
   },
   holo: {
@@ -113,6 +131,7 @@ export const PACKS: Record<PackType, PackSpec> = {
       epic: { base: 0, silver: 0, gold: 0, holo: 1 },
       legendary: { base: 0, silver: 0, gold: 0, holo: 1 },
     },
+    variants: VARIANT_ODDS.chase,
     guarantee: '5 Holo cards: at least 2 Legendary, the rest Epic or better.',
   },
   exchange: {
@@ -126,6 +145,8 @@ export const PACKS: Record<PackType, PackSpec> = {
       epic: { base: 1, silver: 0, gold: 0, holo: 0 },
       legendary: { base: 1, silver: 0, gold: 0, holo: 0 },
     },
+    // Every exchanged card is the Team jersey variant (the art the legend cards had)
+    variants: { number: 0, jersey: 1, topps: 0, locker: 0, sprite: 0 },
     guarantee: 'One league card for each retired NFL legend card, same tier and finish.',
   },
 };
@@ -183,17 +204,55 @@ export const EARNING_RULES: { game: string; rules: string }[] = [
 
 // ---------- Store ----------
 
-export interface OwnedCard {
-  /** Best finish owned */
+/** One art variant of a player's card. */
+export interface VariantCard {
+  /** Best finish owned in this variant */
   best: Finish;
   /** Copies pulled (or crafted) per finish */
   counts: Partial<Record<Finish, number>>;
   /** First pull and latest pull (ms since epoch) */
   first: number;
   last: number;
+}
+
+/** Everything owned of one player: one entry per art variant, plus a summary across them. */
+export interface OwnedCard {
+  /** Best finish owned in any variant */
+  best: Finish;
+  /** Copies per finish, all variants together */
+  counts: Partial<Record<Finish, number>>;
+  /** First pull and latest pull of any variant (ms since epoch) */
+  first: number;
+  last: number;
   /** Provenance badges, e.g. "18–0 · Bills · Oct 19, 2026" for cards from a Perfect Season pack */
   marks?: string[];
+  /** Variants owned (at least one) */
+  variants: Partial<Record<Variant, VariantCard>>;
 }
+
+/** Recomputes an OwnedCard's summary (best, counts, first, last) from its variants. */
+export const summarise = (variants: Partial<Record<Variant, VariantCard>>, marks?: string[]): OwnedCard => {
+  const list = VARIANTS.map((v) => variants[v.key]).filter((x): x is VariantCard => !!x);
+  const counts: Partial<Record<Finish, number>> = {};
+  list.forEach((c) => FINISHES.forEach(({ key }) => c.counts[key] && (counts[key] = (counts[key] ?? 0) + c.counts[key]!)));
+  const best = list.reduce<Finish>((b, c) => (finishRank(c.best) > finishRank(b) ? c.best : b), 'base');
+  const firsts = list.map((c) => c.first).filter((x) => x > 0);
+  return {
+    best,
+    counts,
+    first: firsts.length ? Math.min(...firsts) : 0,
+    last: Math.max(0, ...list.map((c) => c.last)),
+    ...(marks?.length ? { marks } : {}),
+    variants,
+  };
+};
+
+/** Variants owned, rarest first. */
+export const ownedVariants = (card: OwnedCard | undefined): Variant[] =>
+  card ? [...VARIANTS].reverse().map((v) => v.key).filter((v) => !!card.variants[v]) : [];
+
+/** The variant a binder tile shows: the rarest one owned (ties can't happen: one entry per variant). */
+export const bestVariant = (card: OwnedCard | undefined): Variant => ownedVariants(card)[0] ?? LEGACY_VARIANT;
 
 export interface PerfectPack {
   id: string;
@@ -212,6 +271,8 @@ export interface ExchangeCard {
   finish: Finish;
   /** The legend card it replaces ("POS:Name") */
   from: string;
+  /** Art variant (always the Team jersey; older saves have none) */
+  variant?: Variant;
 }
 
 /** Legends Exchange pack: contents fixed when it was created, so a reload never rerolls them. */
@@ -252,7 +313,7 @@ export interface CollectionState {
 export type CollectionChange =
   | { kind: 'earned'; type: PackType; reason: string; label?: string }
   | { kind: 'opened'; type: PackType }
-  | { kind: 'crafted'; key: string; finish: Finish }
+  | { kind: 'crafted'; key: string; finish: Finish; variant: Variant }
   | { kind: 'other' };
 
 const EARNED_CAP = 30;
@@ -275,6 +336,19 @@ const isPack = (x: unknown): x is PackType => SHELF_ORDER.includes(x as PackType
 const isTier = (x: unknown): x is Tier => TIERS.some((t) => t.key === x);
 const KEY_RE = /^[A-Z]{2}:.+/;
 
+/** One variant entry (or a whole pre-variant card): needs a valid best finish. */
+const parseVariant = (x: unknown): VariantCard | null => {
+  const e = x as Partial<VariantCard> | null;
+  if (!e || typeof e !== 'object' || !isFinish(e.best)) return null;
+  const counts: Partial<Record<Finish, number>> = {};
+  FINISHES.forEach(({ key }) => {
+    const n = num(e.counts?.[key]);
+    if (n) counts[key] = n;
+  });
+  if (!counts[e.best]) counts[e.best] = 1;
+  return { best: e.best, counts, first: num(e.first), last: num(e.last) };
+};
+
 const parse = (raw: string | null): CollectionState | null => {
   if (!raw) return null;
   try {
@@ -286,14 +360,16 @@ const parse = (raw: string | null): CollectionState | null => {
       const e = v as Partial<OwnedCard> | null;
       // Keys are "POS:Name"; entries need a valid best finish. Anything else is dropped.
       if (!KEY_RE.test(k) || !e || typeof e !== 'object' || !isFinish(e.best)) return;
-      const counts: Partial<Record<Finish, number>> = {};
-      FINISHES.forEach(({ key }) => {
-        const n = num(e.counts?.[key]);
-        if (n) counts[key] = n;
-      });
-      if (!counts[e.best]) counts[e.best] = 1;
       const marks = Array.isArray(e.marks) ? e.marks.filter((m): m is string => typeof m === 'string') : [];
-      s.cards[k] = { best: e.best, counts, first: num(e.first), last: num(e.last), ...(marks.length ? { marks } : {}) };
+      const variants: Partial<Record<Variant, VariantCard>> = {};
+      const raw = e.variants && typeof e.variants === 'object' && !Array.isArray(e.variants) ? e.variants : null;
+      if (raw) Object.entries(raw).forEach(([vk, vc]) => {
+        const c = parseVariant(vc);
+        if (isVariant(vk) && c) variants[vk] = c;
+      });
+      // Saves from before variants (or with no valid variant): the whole card becomes the Team jersey variant
+      if (!Object.keys(variants).length) variants[LEGACY_VARIANT] = parseVariant(e)!;
+      s.cards[k] = summarise(variants, marks);
     });
     COUNTED_PACKS.forEach((t) => (s.packs[t] = num(d.packs?.[t])));
     SHELF_ORDER.forEach((t) => (s.opened[t] = num(d.opened?.[t])));
@@ -308,7 +384,8 @@ const parse = (raw: string | null): CollectionState | null => {
         at: num(p.at),
         cards: p.cards.filter(
           (c): c is ExchangeCard => !!c && typeof c.key === 'string' && KEY_RE.test(c.key) && isTier(c.tier) && isFinish(c.finish) && typeof c.from === 'string',
-        ),
+        )
+        .map((c) => ({ ...c, variant: isVariant(c.variant) ? c.variant : LEGACY_VARIANT })),
       }))
       .filter((p) => p.cards.length > 0);
     s.shards = num(d.shards);
@@ -367,6 +444,9 @@ const write = (next: CollectionState, change: CollectionChange) => {
 
 export const cardKey = (p: Pick<Player, 'name' | 'position'>) => playerKey(p);
 export const isOwned = (p: Pick<Player, 'name' | 'position'>, state = readCollection()) => !!state.cards[cardKey(p)];
+/** Variants owned across the binder (set progress counts each player × variant). */
+export const variantsOwned = (cards: Record<string, OwnedCard>, keys?: string[]) =>
+  (keys ?? Object.keys(cards)).reduce((n, k) => n + (cards[k] ? Object.keys(cards[k].variants).length : 0), 0);
 
 export const dismissNotice = () => {
   const s = readCollection();
@@ -485,6 +565,8 @@ export interface RolledCard {
   player: Player;
   tier: Tier;
   finish: Finish;
+  /** Art variant (rolled last) */
+  variant: Variant;
   /** Which slot rule produced it (for the reveal) */
   slot: 'regular' | 'guarantee' | 'chase';
 }
@@ -517,7 +599,11 @@ export const rollPack = (type: EarnablePack, pool: TierPool, rng: Rng = Math.ran
     taken.add(cardKey(p));
     return p;
   };
-  const push = (tier: Tier, finish: Finish, slot: RolledCard['slot']) => out.push({ player: playerOf(tier), tier, finish, slot });
+  // Order of rolls per card: tier → player → finish (already rolled by the caller) → variant
+  const push = (tier: Tier, finish: Finish, slot: RolledCard['slot']) => {
+    const player = playerOf(tier);
+    out.push({ player, tier, finish, variant: pick(spec.variants, rng) ?? LEGACY_VARIANT, slot });
+  };
   const regular = () => {
     const tier = pick(spec.tiers, rng, has);
     if (!tier) return;
@@ -570,9 +656,11 @@ export const rollPack = (type: EarnablePack, pool: TierPool, rng: Rng = Math.ran
 export interface PackCard extends RolledCard {
   /** This player was not in the binder before */
   isNew: boolean;
-  /** Better than the best finish owned before */
+  /** The player was owned, but not in this art variant */
+  newVariant: boolean;
+  /** Better than the best finish owned before in this variant */
   upgrade: boolean;
-  /** Same player and finish already owned: converted to shards */
+  /** Same player, variant and finish already owned: converted to shards */
   duplicate: boolean;
   shards: number;
   /** Provenance (Perfect Season packs) */
@@ -595,19 +683,20 @@ export const openPack = (type: PackType, pool: TierPool): PackCard[] | null => {
   const out: PackCard[] = rolled.map((c) => {
     const k = cardKey(c.player);
     const prev = cards[k];
-    const duplicate = !!prev?.counts[c.finish];
+    const pv = prev?.variants[c.variant];
+    const duplicate = !!pv?.counts[c.finish];
     const gain = duplicate ? DUPLICATE_SHARDS[c.finish] : 0;
     shards += gain;
-    const upgrade = !!prev && finishRank(c.finish) > finishRank(prev.best);
+    const upgrade = !!pv && finishRank(c.finish) > finishRank(pv.best);
     const marks = perfect ? [...new Set([...(prev?.marks ?? []), perfect.label])] : prev?.marks;
-    cards[k] = {
-      best: prev && finishRank(prev.best) >= finishRank(c.finish) ? prev.best : c.finish,
-      counts: { ...prev?.counts, [c.finish]: (prev?.counts[c.finish] ?? 0) + 1 },
-      first: prev?.first ?? now,
+    const entry: VariantCard = {
+      best: pv && finishRank(pv.best) >= finishRank(c.finish) ? pv.best : c.finish,
+      counts: { ...pv?.counts, [c.finish]: (pv?.counts[c.finish] ?? 0) + 1 },
+      first: pv?.first || now,
       last: now,
-      ...(marks?.length ? { marks } : {}),
     };
-    return { ...c, isNew: !prev, upgrade, duplicate, shards: gain, mark: perfect?.label };
+    cards[k] = summarise({ ...prev?.variants, [c.variant]: entry }, marks);
+    return { ...c, isNew: !prev, newVariant: !!prev && !pv, upgrade, duplicate, shards: gain, mark: perfect?.label };
   });
   const next: CollectionState = {
     ...s,
@@ -635,12 +724,13 @@ const exchangeCards = (pack: ExchangePack | undefined, pool: TierPool): RolledCa
   return pack.cards
     .map((c): RolledCard | null => {
       const hit = where.get(c.key);
-      if (hit) return { player: hit.player, tier: hit.tier, finish: c.finish, slot: 'chase' };
+      const variant = c.variant ?? LEGACY_VARIANT;
+      if (hit) return { player: hit.player, tier: hit.tier, finish: c.finish, variant, slot: 'chase' };
       const list = pool[c.tier].filter((p) => !taken.has(cardKey(p)));
       const player = list[Math.floor(Math.random() * list.length)];
       if (!player) return null;
       taken.add(cardKey(player));
-      return { player, tier: c.tier, finish: c.finish, slot: 'chase' };
+      return { player, tier: c.tier, finish: c.finish, variant, slot: 'chase' };
     })
     .filter((c): c is RolledCard => !!c)
     .sort((a, b) => tierRank(a.tier) - tierRank(b.tier) || finishRank(a.finish) - finishRank(b.finish));
@@ -688,7 +778,7 @@ export const exchangeLegends = (legends: Map<string, RetiredLegend>, pool: TierP
       const p = choose(pool[tier].filter((x) => x.position === legend.position)) ?? choose(pool[tier]);
       if (p) {
         planned.add(cardKey(p));
-        cards.push({ key: cardKey(p), tier, finish, from: k });
+        cards.push({ key: cardKey(p), tier, finish, from: k, variant: LEGACY_VARIANT });
         return;
       }
     }
@@ -710,22 +800,20 @@ export const exchangeLegends = (legends: Map<string, RetiredLegend>, pool: TierP
   return retired.length;
 };
 
-/** Crafts an owned card up to its next finish with shards. Returns the new finish, or null. */
-export const craftUpgrade = (p: Pick<Player, 'name' | 'position'>, tier: Tier): Finish | null => {
+/** Crafts one owned variant of a card up to its next finish with shards. Returns the new finish, or null. */
+export const craftUpgrade = (p: Pick<Player, 'name' | 'position'>, tier: Tier, variant: Variant): Finish | null => {
   const s = readCollection();
   const k = cardKey(p);
   const card = s.cards[k];
-  const to = card && nextFinish(card.best);
-  if (!card || !to) return null;
+  const v = card?.variants[variant];
+  const to = v && nextFinish(v.best);
+  if (!card || !v || !to) return null;
   const cost = craftCost(to, tier);
   if (s.shards < cost) return null;
+  const entry: VariantCard = { ...v, best: to, counts: { ...v.counts, [to]: (v.counts[to] ?? 0) + 1 }, last: Date.now() };
   write(
-    {
-      ...s,
-      shards: s.shards - cost,
-      cards: { ...s.cards, [k]: { ...card, best: to, counts: { ...card.counts, [to]: (card.counts[to] ?? 0) + 1 }, last: Date.now() } },
-    },
-    { kind: 'crafted', key: k, finish: to },
+    { ...s, shards: s.shards - cost, cards: { ...s.cards, [k]: summarise({ ...card.variants, [variant]: entry }, card.marks) } },
+    { kind: 'crafted', key: k, finish: to, variant },
   );
   return to;
 };
@@ -811,6 +899,8 @@ export const expectedJoint = (type: EarnablePack): Joint => {
 export interface OddsSummary {
   tiers: Record<Tier, number>;
   finishes: Record<Finish, number>;
+  /** Per card; independent of tier and finish */
+  variants: Record<Variant, number>;
   legendaryHolo: number;
 }
 /** Per-card odds for a pack type: by tier, by finish, and Legendary-tier Holo. */
@@ -818,7 +908,9 @@ export const packOdds = (type: EarnablePack): OddsSummary => {
   const j = expectedJoint(type);
   const tiers = Object.fromEntries(TIERS.map(({ key: t }) => [t, sum(j, (x) => x === t)])) as Record<Tier, number>;
   const finishes = Object.fromEntries(FINISHES.map(({ key: f }) => [f, sum(j, (_, y) => y === f)])) as Record<Finish, number>;
-  return { tiers, finishes, legendaryHolo: j.legendary.holo };
+  const pv = norm(PACKS[type].variants);
+  const variants = Object.fromEntries(VARIANTS.map(({ key: v }) => [v, pv(v)])) as Record<Variant, number>;
+  return { tiers, finishes, variants, legendaryHolo: j.legendary.holo };
 };
 
 // ---------- React ----------

@@ -1,5 +1,5 @@
 [
- {"id":"git-8a6ef95","label":"Oct 18, 23:59","date":"2026-10-18T23:59:21-07:00","players":{
+ {"id":"git-8a6ef95","label":"Oct 18, 23:59","date":"2026-10-18T23:59:21-07:00","season":"Y79","players":{
   "DB:Chance Woodrum": {"ovr":65,"skill":74,"legacy":1786,"value":11},
   "DB:Deante Elder": {"ovr":79,"skill":83,"legacy":4455,"value":231},
   "DB:Dee Irvin": {"ovr":92,"skill":89,"legacy":6267,"value":2505},
@@ -98,7 +98,7 @@
   "WR:Sony Driskel": {"ovr":69,"skill":73,"legacy":2327,"value":23},
   "WR:Tyrion Kline": {"ovr":92,"skill":91,"legacy":6331,"value":2585}
  }},
- {"id":"git-e8111f1","label":"Oct 19, 03:01","date":"2026-10-19T03:01:03-07:00","players":{
+ {"id":"git-e8111f1","label":"Oct 19, 03:01","date":"2026-10-19T03:01:03-07:00","season":"Y79","players":{
   "DB:Blair Iupati": {"ovr":65,"skill":75,"legacy":1585,"value":10},
   "DB:Chance Woodrum": {"ovr":67,"skill":75,"legacy":1735,"value":14},
   "DB:Dan Mosley": {"ovr":96,"skill":93,"legacy":7478,"value":5924},
@@ -219,7 +219,7 @@
   "WR:Sony Driskel": {"ovr":70,"skill":72,"legacy":2339,"value":26},
   "WR:Tyrion Kline": {"ovr":93,"skill":91,"legacy":6356,"value":2946}
  }},
- {"id":"git-cf6fd15","label":"Oct 19, 12:27","date":"2026-10-19T12:27:19-07:00","players":{
+ {"id":"git-cf6fd15","label":"Oct 19, 12:27","date":"2026-10-19T12:27:19-07:00","season":"Y80","players":{
   "DB:Abraham Ward Jr": {"ovr":92,"skill":93,"legacy":6612,"value":2897},
   "DB:Blair Iupati": {"ovr":66,"skill":74,"legacy":1635,"value":12},
   "DB:Chance Woodrum": {"ovr":70,"skill":75,"legacy":2165,"value":26},
@@ -354,7 +354,7 @@
   "WR:Tyrion Kline": {"ovr":93,"skill":92,"legacy":6454,"value":3053},
   "WR:Tyson Nassib": {"ovr":70,"skill":77,"legacy":2037,"value":26}
  }},
- {"id":"git-29b7e56","label":"Oct 19, 22:03","date":"2026-10-19T22:03:12-07:00","players":{
+ {"id":"git-29b7e56","label":"Oct 19, 22:03","date":"2026-10-19T22:03:12-07:00","season":"Y80","players":{
   "DB:Abraham Ward Jr": {"ovr":90,"skill":93,"legacy":6612,"value":2424},
   "DB:Blair Iupati": {"ovr":66,"skill":74,"legacy":1635,"value":12},
   "DB:Chance Woodrum": {"ovr":70,"skill":75,"legacy":2165,"value":26},
@@ -489,7 +489,7 @@
   "WR:Tyrion Kline": {"ovr":93,"skill":92,"legacy":6454,"value":3088},
   "WR:Tyson Nassib": {"ovr":70,"skill":77,"legacy":2037,"value":26}
  }},
- {"id":"git-09d2f1f","label":"Oct 19, 22:30","date":"2026-10-19T22:30:13-07:00","players":{
+ {"id":"git-09d2f1f","label":"Oct 19, 22:30","date":"2026-10-19T22:30:13-07:00","season":"Y80","players":{
   "DB:Abraham Ward Jr": {"ovr":90,"skill":93,"legacy":6608,"value":2422},
   "DB:Blair Iupati": {"ovr":66,"skill":74,"legacy":1634,"value":12},
   "DB:Chance Woodrum": {"ovr":70,"skill":75,"legacy":2164,"value":26},
@@ -624,7 +624,7 @@
   "WR:Tyrion Kline": {"ovr":93,"skill":92,"legacy":6470,"value":3097},
   "WR:Tyson Nassib": {"ovr":70,"skill":77,"legacy":2043,"value":26}
  }},
- {"id":"git-21b9a87","label":"Oct 19, 22:36","date":"2026-10-19T22:36:23-07:00","players":{
+ {"id":"git-21b9a87","label":"Oct 19, 22:36","date":"2026-10-19T22:36:23-07:00","season":"Y80","players":{
   "DB:Abraham Ward Jr": {"ovr":90,"skill":93,"legacy":6603,"value":2420},
   "DB:Blair Iupati": {"ovr":66,"skill":74,"legacy":1633,"value":12},
   "DB:Chance Woodrum": {"ovr":70,"skill":75,"legacy":2163,"value":26},
@@ -759,7 +759,7 @@
   "WR:Tyrion Kline": {"ovr":93,"skill":92,"legacy":6468,"value":3096},
   "WR:Tyson Nassib": {"ovr":70,"skill":77,"legacy":2042,"value":26}
  }},
- {"id":"git-f16cd32","label":"Oct 19, 22:38","date":"2026-10-19T22:38:34-07:00","players":{
+ {"id":"git-f16cd32","label":"Oct 19, 22:38","date":"2026-10-19T22:38:34-07:00","season":"Y80","players":{
   "DB:Abraham Ward Jr": {"ovr":90,"skill":93,"legacy":6604,"value":2420},
   "DB:Blair Iupati": {"ovr":66,"skill":74,"legacy":1634,"value":12},
   "DB:Chance Woodrum": {"ovr":70,"skill":75,"legacy":2163,"value":26},

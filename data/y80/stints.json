@@ -15,7 +15,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "the in-game record board (owner's-club games only): 513-yd game in Y26. 5 rings = the Bucs' Y20-26 titles."
+  "evidence": "5 rings = Buccaneers Y20, Y21, Y23, Y25, Y26. Record board (your club's games only): Y26 best passing game (Buccaneers). Exact seasons are approximate."
  },
  "Kyric McQuay": {
   "stints": [
@@ -30,7 +30,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Colts Y22, Colts Y24; the only window that fits."
+  "evidence": "2 rings = Colts Y22, Y24. The only window that fits."
  },
  "Marlowe Hunter": {
   "stints": [
@@ -44,7 +44,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "1 ring = Dolphins Y57; exact seasons are approximate."
+  "evidence": "1 ring = Dolphins Y57. Exact seasons are approximate."
  },
  "Wayne Wilson": {
   "stints": [
@@ -67,7 +67,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "Chargers on the sheet, retired a Bill. 4 rings only fit the Chargers' Y10-15 titles (Bills titles come as a block of 7 or a lone Y47), so his 431-game career runs about Y4-26, not the Vikings dynasty."
+  "evidence": "4 rings = Chargers Y10, Y11, Y14, Y15. Exact seasons are approximate."
  },
  "Marcel Mathieu": {
   "stints": [
@@ -79,7 +79,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 298-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 298-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Rysen Benkert": {
@@ -92,7 +92,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 148-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 148-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Shaikal Beebee": {
@@ -105,7 +105,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 339-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 339-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Amani Bryant": {
@@ -118,7 +118,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 416-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 416-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Aubrey Jewell": {
@@ -133,7 +133,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "1 ring = Chargers Y40; exact seasons are approximate."
+  "evidence": "1 ring = Chargers Y40. Exact seasons are approximate."
  },
  "Alexx Sanchez": {
   "stints": [
@@ -150,13 +150,13 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "Only the Titans are on record: 4 rings = the Titans' Y70-72 + Y74 titles, which fits 216 games ending around Y80. The Commanders-run QB idea (also 4 rings) needs a Commanders stint nothing confirms."
+  "evidence": "4 rings = Titans Y70, Y71, Y72, Y74. Exact seasons are approximate."
  },
  "Sherman Brandson": {
   "stints": [
    {
     "team": "Ravens",
-    "from": 45,
+    "from": 46,
     "to": 50,
     "rings": [
      46,
@@ -176,25 +176,25 @@
    {
     "team": "Giants",
     "from": 54,
-    "to": 60,
+    "to": 55,
     "rings": [
      54,
-     55,
-     56
+     55
     ]
    },
    {
     "team": "Vikings",
-    "from": 61,
-    "to": 62,
+    "from": 56,
+    "to": 63,
     "rings": [
      61,
-     62
+     62,
+     63
     ]
    }
   ],
-  "confidence": "strong",
-  "evidence": "the in-game record board (owner's-club games only) puts him with you on the Ravens (Y46, Y50), Giants (Y55) and Vikings (Y62, retired injured). Following you Y46-62 would be 13 rings, so the Giants years after Y56 (no titles) must be his own: Ravens 46/48/49 + Bucs 51-52 + Giants 54-56 + Vikings 61-62 = 10."
+  "confidence": "likely",
+  "evidence": "10 rings = Ravens Y46, Y48, Y49; Buccaneers Y51, Y52; Giants Y54, Y55; Vikings Y61, Y62, Y63. Record board (your club's games only): Y46 longest passing td (Ravens); Y46 longest passing play (Ravens); Y50 longest rushing td (Ravens); Y55 most td passes, game (Giants); Y55 most td passes, season (Giants); Y62 best passing career (Vikings); Y62 most td passes, career (Vikings). Owner: “A Giants legend.” Exact seasons are approximate."
  },
  "Dennis Baylon": {
   "stints": [
@@ -220,7 +220,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "the in-game record board (owner's-club games only): 7,452-yd season for your Y33 Bills; 7 rings = Y27-33; retired a Charger after the dynasty."
+  "evidence": "7 rings = Bills Y27, Y28, Y29, Y30, Y31, Y32, Y33. Record board (your club's games only): Y33 best passing season (Bills). Exact seasons are approximate."
  },
  "Lamar Jackson": {
   "stints": [
@@ -247,7 +247,7 @@
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "2 rings that his known clubs (Packers, Ravens) cannot account for; best fit adds a stop: Ravens Y1-8, Chargers Y9-11, Packers Y12-14. (imported real-NFL player (in the league from Y1; ~234 save games after his 111 real ones))",
+  "evidence": "2 rings = Chargers Y10, Y11. His known clubs (Packers, Ravens) can't account for every ring, so the best fit adds a stop: Ravens Y1-8, Chargers Y9-11, Packers Y12-14. Imported real-NFL player: in the league from Y1, ~234 save games after his 111 real ones.",
   "alternatives": [
    [
     {
@@ -316,7 +316,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Commanders Y7, Commanders Y16, Commanders Y17; the only window that fits. (imported real-NFL player (in the league from Y1; ~315 save games after his 20 real ones))"
+  "evidence": "3 rings = Commanders Y7, Y16, Y17. The only window that fits. Imported real-NFL player: in the league from Y1, ~315 save games after his 20 real ones."
  },
  "Drake Maye": {
   "stints": [
@@ -330,7 +330,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Vikings Y3; the only window that fits. (imported real-NFL player (in the league from Y1; ~298 save games after his 29 real ones))"
+  "evidence": "1 ring = Vikings Y3. The only window that fits. Imported real-NFL player: in the league from Y1, ~298 save games after his 29 real ones."
  },
  "Avonte Gooden": {
   "stints": [
@@ -345,29 +345,29 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "Owner: QB of the Commanders four-peat (Y16-19). His 2 rings only fit the last two titles (Y18-19), so he likely took over mid-run or missed the first two Super Bowls."
+  "evidence": "2 rings = Commanders Y18, Y19. Owner: “QB of the Commanders four-peat (Y16–19).” Exact seasons are approximate."
  },
  "Derrick Myrick": {
   "stints": [
    {
-    "team": "Colts",
-    "from": 24,
-    "to": 27,
+    "team": "Buccaneers",
+    "from": 26,
+    "to": 33,
     "rings": [
-     24
+     26
     ]
    },
    {
     "team": "Falcons",
-    "from": 28,
-    "to": 40,
+    "from": 34,
+    "to": 42,
     "rings": [
      35
     ]
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "2 rings that his known club (Falcons) cannot account for; best fit adds a stop: Colts Y24-27, Falcons Y28-40.",
+  "evidence": "2 rings = Buccaneers Y26; Falcons Y35. His known clubs (Falcons) can't account for every ring, so the best fit adds a stop: Buccaneers Y26-33, Falcons Y34-42.",
   "alternatives": [
    [
     {
@@ -410,25 +410,25 @@
  "Forrest Everett": {
   "stints": [
    {
-    "team": "Commanders",
-    "from": 14,
-    "to": 26,
+    "team": "Bills",
+    "from": 30,
+    "to": 40,
     "rings": [
-     16,
-     17,
-     18,
-     19
+     30,
+     31,
+     32,
+     33
     ]
    },
    {
     "team": "Broncos",
-    "from": 27,
-    "to": 30,
+    "from": 41,
+    "to": 46,
     "rings": []
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "4 rings that his known club (Broncos) cannot account for; best fit adds a stop: Commanders Y14-26, Broncos Y27-30.",
+  "evidence": "4 rings = Bills Y30, Y31, Y32, Y33. His known clubs (Broncos) can't account for every ring, so the best fit adds a stop: Bills Y30-40, Broncos Y41-46.",
   "alternatives": [
    [
     {
@@ -445,25 +445,25 @@
    [
     {
      "team": "Bills",
-     "from": 30,
-     "to": 39
+     "from": 23,
+     "to": 29
     },
     {
      "team": "Broncos",
-     "from": 40,
-     "to": 45
+     "from": 30,
+     "to": 39
     }
    ],
    [
     {
-     "team": "Buccaneers",
-     "from": 10,
-     "to": 25
+     "team": "Bills",
+     "from": 28,
+     "to": 30
     },
     {
      "team": "Broncos",
-     "from": 26,
-     "to": 26
+     "from": 31,
+     "to": 43
     }
    ]
   ]
@@ -478,7 +478,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 114-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 114-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Rod Kuechly": {
@@ -493,7 +493,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "1 ring = Dolphins Y57; exact seasons are approximate."
+  "evidence": "1 ring = Dolphins Y57. Exact seasons are approximate."
  },
  "Oliver Rankin": {
   "stints": [
@@ -505,15 +505,15 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 143-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 143-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Rondale Ikarras": {
   "stints": [
    {
     "team": "Seahawks",
-    "from": 33,
-    "to": 38,
+    "from": 34,
+    "to": 39,
     "rings": [
      36,
      37,
@@ -522,33 +522,33 @@
    },
    {
     "team": "Chargers",
-    "from": 39,
-    "to": 40,
+    "from": 40,
+    "to": 41,
     "rings": [
      40
     ]
    },
    {
     "team": "Ravens",
-    "from": 41,
-    "to": 47,
+    "from": 42,
+    "to": 48,
     "rings": [
-     41,
      42,
      43,
      44,
-     46
+     46,
+     48
     ]
    },
    {
     "team": "Jets",
-    "from": 48,
-    "to": 48,
+    "from": 49,
+    "to": 49,
     "rings": []
    }
   ],
-  "confidence": "strong",
-  "evidence": "Owner: Ravens legend (after three titles in Seattle), final season a Jet. the in-game record board (owner's-club games only) has him with you in Y38 (Seahawks), Y40 (Chargers), Y42 and Y47 (Ravens): 9 rings = Y36-38 + Y40 + Y41-44 + Y46 exactly. 18,867 of his 23,178 yds came with you, so about two seasons were elsewhere (Y33 and the Jets year)."
+  "confidence": "likely",
+  "evidence": "9 rings = Seahawks Y36, Y37, Y38; Chargers Y40; Ravens Y42, Y43, Y44, Y46, Y48. Record board (your club's games only): Y38 most rushing tds, season (Seahawks); Y40 most rushing tds, game (Chargers); Y42 best rushing season (Ravens); Y47 best rushing career (Ravens). Owner: “A Ravens legend after three titles in Seattle; his final season was with the Jets.” Exact seasons are approximate."
  },
  "Denzel Hayes": {
   "stints": [
@@ -569,7 +569,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "the in-game record board (owner's-club games only): 58-yd TD run from Brandson for your Y50 Ravens; retired a Bear (game HOF). 2 rings = Ravens Y48-49."
+  "evidence": "2 rings = Ravens Y48, Y49. Record board (your club's games only): Y50 longest rushing td (Ravens). The only window that fits."
  },
  "Pharaoh Mintze": {
   "stints": [
@@ -583,7 +583,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "1 ring = Colts Y22; exact seasons are approximate."
+  "evidence": "1 ring = Colts Y22. Exact seasons are approximate."
  },
  "Micky Celek": {
   "stints": [
@@ -597,7 +597,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "1 ring = Bills Y27; exact seasons are approximate."
+  "evidence": "1 ring = Bills Y27. Exact seasons are approximate."
  },
  "JR Bashaam": {
   "stints": [
@@ -609,7 +609,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 97-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 97-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Nico Curl": {
@@ -622,7 +622,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 242-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 242-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Kitt Inman": {
@@ -639,7 +639,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "3 rings = Buccaneers Y20, Buccaneers Y21, Buccaneers Y23; exact seasons are approximate."
+  "evidence": "3 rings = Buccaneers Y20, Y21, Y23. Exact seasons are approximate."
  },
  "Jahmyr Gibbs": {
   "stints": [
@@ -663,7 +663,7 @@
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "4 rings that his known club (Dolphins) cannot account for; best fit adds a stop: Lions Y1-4, Dolphins Y5-14. (imported real-NFL player (in the league from Y1; ~259 save games after his 36 real ones))",
+  "evidence": "4 rings = Lions Y2; Dolphins Y6, Y8, Y9. His known clubs (Dolphins) can't account for every ring, so the best fit adds a stop: Lions Y1-4, Dolphins Y5-14. Imported real-NFL player: in the league from Y1, ~259 save games after his 36 real ones.",
   "alternatives": [
    [
     {
@@ -707,7 +707,7 @@
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "0 rings that his known club (Chargers) cannot account for; best fit adds a stop: Jets Y1-15, Chargers Y16. (imported real-NFL player (in the league from Y1; ~244 save games after his 57 real ones))"
+  "evidence": "No rings. His known clubs (Chargers) can't account for every ring, so the best fit adds a stop: Jets Y1-15, Chargers Y16. Imported real-NFL player: in the league from Y1, ~244 save games after his 57 real ones."
  },
  "Ian Finney": {
   "stints": [
@@ -735,8 +735,8 @@
     ]
    }
   ],
-  "confidence": "strong",
-  "evidence": "the in-game record board (owner's-club games only): 6-TD game for your Y23 Bucs. History: his career starts in the Commanders run, and 9 rings = Commanders Y16-19 (4) + Bucs Y20-26 (5); retired a Buc."
+  "confidence": "ambiguous",
+  "evidence": "9 rings = Commanders Y16, Y17, Y18, Y19; Buccaneers Y20, Y21, Y23, Y25, Y26. Record board (your club's games only): Y23 most td receptions, game (Buccaneers). His known clubs (Buccaneers) can't account for every ring, so the best fit adds a stop: Commanders Y15-19, Buccaneers Y20-28."
  },
  "Pharoah Hunter": {
   "stints": [
@@ -759,24 +759,15 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "Owner's career card: 233 G, 4 rings, 2 SB MVPs. the in-game record board (owner's-club games only): 288-yd game for your Vikings in Y68. Four Vikings titles in his window put him in Minnesota through Y68; he finished as a Seahawk."
+  "evidence": "4 rings = Vikings Y64, Y66, Y67, Y68. Record board (your club's games only): Y68 best receiving game (Vikings). Exact seasons are approximate."
  },
  "God Johnson": {
   "stints": [
    {
-    "team": "Giants",
-    "from": 56,
-    "to": 56,
-    "rings": [
-     56
-    ]
-   },
-   {
     "team": "Dolphins",
-    "from": 57,
+    "from": 58,
     "to": 60,
     "rings": [
-     57,
      58,
      59
     ]
@@ -784,19 +775,21 @@
    {
     "team": "Vikings",
     "from": 61,
-    "to": 67,
+    "to": 69,
     "rings": [
      61,
      62,
      63,
      64,
      66,
-     67
+     67,
+     68,
+     69
     ]
    }
   ],
   "confidence": "likely",
-  "evidence": "the in-game record board (owner's-club games only): on your Dolphins in Y59 (as Mason Earl III) and your Vikings Y62-67, his career marks frozen in Y67; retired a Viking. Dolphins 57-59 + Vikings 61-67 is 9 rings, so the 10th is most likely your Giants' Y56 title (the sheet's 216-game, 9-ring snapshot fits Y56-66 exactly)."
+  "evidence": "10 rings = Dolphins Y58, Y59; Vikings Y61, Y62, Y63, Y64, Y66, Y67, Y68, Y69. Record board (your club's games only): Y59 longest pass (air) (Dolphins); Y62 best receiving season (Vikings); Y63 most td receptions, season (Vikings); Y67 best receiving career (Vikings); Y67 most td receptions, career (Vikings). Exact seasons are approximate."
  },
  "Jackson Wardell Kline": {
   "stints": [
@@ -828,8 +821,27 @@
     "rings": []
    }
   ],
-  "confidence": "likely",
-  "evidence": "Owner's career card: 237 G, 8 rings, 1 SB MVP. Giants on the sheet, retired a Dolphin (game HOF). 8 rings = your Vikings dynasty titles beside God Johnson (Y61-64, Y66-69); the sheet's 99-game, 4-ring snapshot matches the first four Vikings titles."
+  "confidence": "ambiguous",
+  "evidence": "8 rings = Vikings Y61, Y62, Y63, Y64, Y66, Y67, Y68, Y69. His known clubs (Dolphins, Giants) can't account for every ring, so the best fit adds a stop: Giants Y58-59, Vikings Y60-69, Dolphins Y70.",
+  "alternatives": [
+   [
+    {
+     "team": "Vikings",
+     "from": 59,
+     "to": 69
+    },
+    {
+     "team": "Giants",
+     "from": 70,
+     "to": 70
+    },
+    {
+     "team": "Dolphins",
+     "from": 71,
+     "to": 71
+    }
+   ]
+  ]
  },
  "Tyrion Kline": {
   "stints": [
@@ -852,8 +864,22 @@
     "rings": []
    }
   ],
-  "confidence": "strong",
-  "evidence": "History: Finney's WR2 on your Bucs; Chargers on the sheet (his final club). 5 rings = Bucs Y20-26, then the Chargers (no titles until Y40)."
+  "confidence": "ambiguous",
+  "evidence": "5 rings = Buccaneers Y20, Y21, Y23, Y25, Y26. His known clubs (Chargers) can't account for every ring, so the best fit adds a stop: Buccaneers Y20-26, Chargers Y27-29.",
+  "alternatives": [
+   [
+    {
+     "team": "Bills",
+     "from": 23,
+     "to": 31
+    },
+    {
+     "team": "Chargers",
+     "from": 32,
+     "to": 32
+    }
+   ]
+  ]
  },
  "Brennan Higgins": {
   "stints": [
@@ -869,7 +895,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "3 rings = Commanders Y17, Commanders Y18, Commanders Y19; exact seasons are approximate."
+  "evidence": "3 rings = Commanders Y17, Y18, Y19. Exact seasons are approximate."
  },
  "Damien Stout": {
   "stints": [
@@ -881,7 +907,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 160-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 160-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Deven Fox": {
@@ -894,7 +920,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 191-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 191-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Alohi Godwin": {
@@ -910,42 +936,36 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "2 rings = Seahawks Y37, Seahawks Y38; exact seasons are approximate."
+  "evidence": "2 rings = Seahawks Y37, Y38. Exact seasons are approximate."
  },
  "Cairo Asanjh": {
   "stints": [
    {
-    "team": "Bills",
-    "from": 26,
-    "to": 34,
-    "rings": [
-     27,
-     28,
-     29,
-     30,
-     31,
-     32,
-     33
-    ]
-   },
-   {
     "team": "Seahawks",
-    "from": 35,
-    "to": 37,
+    "from": 36,
+    "to": 38,
     "rings": [
      36,
-     37
+     37,
+     38
     ]
    },
    {
     "team": "Ravens",
-    "from": 38,
-    "to": 39,
-    "rings": []
+    "from": 39,
+    "to": 48,
+    "rings": [
+     41,
+     42,
+     43,
+     44,
+     46,
+     48
+    ]
    }
   ],
   "confidence": "likely",
-  "evidence": "History: 9 rings = 7 Bills + 2 Seahawks, final season beside Ikarras on the Seahawks; the game HOF has him retiring a Raven. Bills Y27-33 + Seahawks Y36-37 = 9, then a last stop in Baltimore."
+  "evidence": "9 rings = Seahawks Y36, Y37, Y38; Ravens Y41, Y42, Y43, Y44, Y46, Y48. Exact seasons are approximate."
  },
  "Lukas Russell": {
   "stints": [
@@ -973,7 +993,7 @@
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "8 rings that his known club (Seahawks) cannot account for; best fit adds a stop: Bills Y29-34, Seahawks Y35-42.",
+  "evidence": "8 rings = Bills Y29, Y30, Y31, Y32, Y33; Seahawks Y36, Y37, Y38. His known clubs (Seahawks) can't account for every ring, so the best fit adds a stop: Bills Y29-34, Seahawks Y35-42.",
   "alternatives": [
    [
     {
@@ -1029,7 +1049,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "5 rings = Bills Y29, Bills Y30, Bills Y31, Bills Y32, Bills Y33; exact seasons are approximate."
+  "evidence": "5 rings = Bills Y29, Y30, Y31, Y32, Y33. Exact seasons are approximate."
  },
  "Cole Kittle": {
   "stints": [
@@ -1041,7 +1061,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 265-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 265-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Sony Driskel": {
@@ -1054,7 +1074,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 207-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 207-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Sean Irving": {
@@ -1067,7 +1087,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 289-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 289-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Keesean Candy": {
@@ -1083,7 +1103,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Chargers Y14, Chargers Y15; the only window that fits."
+  "evidence": "2 rings = Chargers Y14, Y15. The only window that fits."
  },
  "Ja’Marr Chase": {
   "stints": [
@@ -1097,7 +1117,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Vikings Y3; the only window that fits. (imported real-NFL player (in the league from Y1; ~185 save games after his 69 real ones))"
+  "evidence": "1 ring = Vikings Y3. The only window that fits. Imported real-NFL player: in the league from Y1, ~185 save games after his 69 real ones."
  },
  "CeeDee Lamb": {
   "stints": [
@@ -1112,7 +1132,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "the in-game record board (owner's-club games only): career return-yards mark last set in Y7 with your Dolphins. His ~156 save games from Y1 with 2 rings fit the Dolphins through Y8 (Y6 and Y8 titles). (imported real-NFL player (in the league from Y1; ~156 save games after his 85 real ones))"
+  "evidence": "2 rings = Dolphins Y6, Y8. Record board (your club's games only): Y7 most return yards, career (Dolphins). The only window that fits. Imported real-NFL player: in the league from Y1, ~156 save games after his 85 real ones."
  },
  "Mason Taylor": {
   "stints": [
@@ -1128,7 +1148,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Dolphins Y6, Dolphins Y8, Dolphins Y9; the only window that fits. (imported real-NFL player (in the league from Y1; ~254 save games after his 0 real ones))"
+  "evidence": "3 rings = Dolphins Y6, Y8, Y9. The only window that fits. Imported real-NFL player: in the league from Y1, ~254 save games after his 0 real ones."
  },
  "Akiem Bouye": {
   "stints": [
@@ -1145,14 +1165,14 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "4 rings = Chargers Y10, Chargers Y11, Chargers Y14, Chargers Y15; the only window that fits."
+  "evidence": "4 rings = Chargers Y10, Y11, Y14, Y15. The only window that fits."
  },
  "Tyler Pacheco": {
   "stints": [
    {
     "team": "Commanders",
     "from": 15,
-    "to": 24,
+    "to": 27,
     "rings": [
      16,
      17,
@@ -1162,13 +1182,13 @@
    },
    {
     "team": "Packers",
-    "from": 25,
+    "from": 28,
     "to": 30,
     "rings": []
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "4 rings that his known club (Packers) cannot account for; best fit adds a stop: Commanders Y15-24, Packers Y25-30.",
+  "evidence": "4 rings = Commanders Y16, Y17, Y18, Y19. His known clubs (Packers) can't account for every ring, so the best fit adds a stop: Commanders Y15-27, Packers Y28-30.",
   "alternatives": [
    [
     {
@@ -1222,7 +1242,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "3 rings = Buccaneers Y20, Buccaneers Y21, Buccaneers Y23; exact seasons are approximate."
+  "evidence": "3 rings = Buccaneers Y20, Y21, Y23. Exact seasons are approximate."
  },
  "Wes Sione": {
   "stints": [
@@ -1238,7 +1258,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Seahawks Y36, Seahawks Y37, Seahawks Y38; the only window that fits."
+  "evidence": "3 rings = Seahawks Y36, Y37, Y38. The only window that fits."
  },
  "Neal Ankou": {
   "stints": [
@@ -1250,7 +1270,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 151-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 151-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "K'Lavon Armah": {
@@ -1263,7 +1283,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 102-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 102-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Charlie John": {
@@ -1284,7 +1304,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "7 rings = Bills Y27, Bills Y28, Bills Y29, Bills Y30, Bills Y31, Bills Y32, Bills Y33; the only window that fits."
+  "evidence": "7 rings = Bills Y27, Y28, Y29, Y30, Y31, Y32, Y33. The only window that fits."
  },
  "Ronald Warring": {
   "stints": [
@@ -1296,7 +1316,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 238-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 238-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Marshal Tupou": {
@@ -1309,7 +1329,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 138-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 138-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Quez Daniel": {
@@ -1322,7 +1342,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 139-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 139-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Shemar Wood": {
@@ -1338,7 +1358,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "2 rings = Buccaneers Y20, Buccaneers Y21; exact seasons are approximate."
+  "evidence": "2 rings = Buccaneers Y20, Y21. Exact seasons are approximate."
  },
  "Daviyon Paye": {
   "stints": [
@@ -1353,7 +1373,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "2 rings = Buccaneers Y51, Buccaneers Y52; exact seasons are approximate."
+  "evidence": "2 rings = Buccaneers Y51, Y52. Exact seasons are approximate."
  },
  "Laurent Akins": {
   "stints": [
@@ -1367,7 +1387,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "1 ring = Commanders Y7; exact seasons are approximate."
+  "evidence": "1 ring = Commanders Y7. Exact seasons are approximate."
  },
  "Jawill Perkins": {
   "stints": [
@@ -1390,7 +1410,7 @@
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "4 rings that his known club (Seahawks) cannot account for; best fit adds a stop: Ravens Y39-45, Seahawks Y46.",
+  "evidence": "4 rings = Ravens Y41, Y42, Y43, Y44. His known clubs (Seahawks) can't account for every ring, so the best fit adds a stop: Ravens Y39-45, Seahawks Y46.",
   "alternatives": [
    [
     {
@@ -1428,7 +1448,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 102-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 102-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Ray Holland": {
@@ -1441,7 +1461,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 187-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 187-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Cooper Dean": {
@@ -1456,7 +1476,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Commanders Y19; the only window that fits."
+  "evidence": "1 ring = Commanders Y19. The only window that fits."
  },
  "Teez Givens": {
   "stints": [
@@ -1468,7 +1488,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 201-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 201-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Nick Bolton": {
@@ -1483,7 +1503,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Vikings Y3; the only window that fits. (imported real-NFL player (in the league from Y1; ~186 save games after his 67 real ones))",
+  "evidence": "1 ring = Vikings Y3. The only window that fits. Imported real-NFL player: in the league from Y1, ~186 save games after his 67 real ones.",
   "preLeagueRings": 2
  },
  "Davon Normus": {
@@ -1496,7 +1516,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 262-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 262-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Tyrone Baugh": {
@@ -1521,10 +1541,16 @@
     "rings": [
      36
     ]
+   },
+   {
+    "team": "Bills",
+    "from": 37,
+    "to": 37,
+    "rings": []
    }
   ],
   "confidence": "likely",
-  "evidence": "the in-game record board (owner's-club games only): forced-fumble game in Y29 (Bills) and career mark last set in Y36, when your club was the Seahawks. 7 rings = Bills Y28-33 (6) + Seahawks Y36 (1)."
+  "evidence": "7 rings = Bills Y28, Y29, Y30, Y31, Y32, Y33; Seahawks Y36. Record board (your club's games only): Y29 most forced fumbles, game (Bills); Y36 most forced fumbles, career (Seahawks). Exact seasons are approximate."
  },
  "Bilal Tolbert": {
   "stints": [
@@ -1547,7 +1573,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "4 rings = Chargers Y10, Chargers Y11, Chargers Y14, Chargers Y15; exact seasons are approximate."
+  "evidence": "4 rings = Chargers Y10, Y11, Y14, Y15. Exact seasons are approximate."
  },
  "Brian Baker": {
   "stints": [
@@ -1559,7 +1585,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 221-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 221-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Odell Ankou": {
@@ -1576,7 +1602,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "3 rings = Buccaneers Y23, Buccaneers Y25, Buccaneers Y26; exact seasons are approximate."
+  "evidence": "3 rings = Buccaneers Y23, Y25, Y26. Exact seasons are approximate."
  },
  "Taywan Tuttle": {
   "stints": [
@@ -1593,7 +1619,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "4 rings = Chargers Y10, Chargers Y11, Chargers Y14, Chargers Y15; the only window that fits."
+  "evidence": "4 rings = Chargers Y10, Y11, Y14, Y15. The only window that fits."
  },
  "Germain Coulter": {
   "stints": [
@@ -1611,7 +1637,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "the in-game record board (owner's-club games only): 7-INT season for your Y26 Bucs; 5 rings = the Bucs' Y20-26 titles."
+  "evidence": "5 rings = Buccaneers Y20, Y21, Y23, Y25, Y26. Record board (your club's games only): Y26 most interceptions, season (Buccaneers). Exact seasons are approximate."
  },
  "Forrest Isom": {
   "stints": [
@@ -1623,7 +1649,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 204-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 204-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Sauce Gardner": {
@@ -1639,7 +1665,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Dolphins Y6, Dolphins Y8; the only window that fits. (imported real-NFL player (in the league from Y1; ~171 save games after his 57 real ones))"
+  "evidence": "2 rings = Dolphins Y6, Y8. The only window that fits. Imported real-NFL player: in the league from Y1, ~171 save games after his 57 real ones."
  },
  "Mose Junior": {
   "stints": [
@@ -1651,7 +1677,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 247-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 247-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Kolton Moreau": {
@@ -1667,7 +1693,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "2 rings = Buccaneers Y51, Buccaneers Y52; exact seasons are approximate."
+  "evidence": "2 rings = Buccaneers Y51, Y52. Exact seasons are approximate."
  },
  "Jayon Queen": {
   "stints": [
@@ -1679,7 +1705,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 274-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 274-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Rob Lowe": {
@@ -1700,7 +1726,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "7 rings = Bills Y27, Bills Y28, Bills Y29, Bills Y30, Bills Y31, Bills Y32, Bills Y33; the only window that fits."
+  "evidence": "7 rings = Bills Y27, Y28, Y29, Y30, Y31, Y32, Y33. The only window that fits."
  },
  "Deante Elder": {
   "stints": [
@@ -1727,7 +1753,7 @@
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "7 rings that his known club (Seahawks) cannot account for; best fit adds a stop: Bills Y30-35, Seahawks Y36-38.",
+  "evidence": "7 rings = Bills Y30, Y31, Y32, Y33; Seahawks Y36, Y37, Y38. His known clubs (Seahawks) can't account for every ring, so the best fit adds a stop: Bills Y30-35, Seahawks Y36-38.",
   "alternatives": [
    [
     {
@@ -1777,30 +1803,31 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 247-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 247-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Dee Irvin": {
   "stints": [
    {
-    "team": "Ravens",
-    "from": 45,
-    "to": 50,
+    "team": "Seahawks",
+    "from": 37,
+    "to": 39,
     "rings": [
-     46,
-     48,
-     49
+     37,
+     38
     ]
    },
    {
     "team": "Bengals",
-    "from": 51,
-    "to": 56,
-    "rings": []
+    "from": 40,
+    "to": 47,
+    "rings": [
+     45
+    ]
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "3 rings that his known club (Bengals) cannot account for; best fit adds a stop: Ravens Y45-50, Bengals Y51-56.",
+  "evidence": "3 rings = Seahawks Y37, Y38; Bengals Y45. His known clubs (Bengals) can't account for every ring, so the best fit adds a stop: Seahawks Y37-39, Bengals Y40-47.",
   "alternatives": [
    [
     {
@@ -1850,7 +1877,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 283-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 283-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Connor Goff": {
@@ -1863,7 +1890,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 131-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 131-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Jake Gano": {
@@ -1876,7 +1903,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 220-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 220-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Willie Doles": {
@@ -1889,7 +1916,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 103-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 103-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Deone Orzech": {
@@ -1902,7 +1929,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 51-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 51-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Zander Kolar": {
@@ -1920,25 +1947,25 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "4 rings = Buccaneers Y21, Buccaneers Y23, Buccaneers Y25, Buccaneers Y26; exact seasons are approximate."
+  "evidence": "4 rings = Buccaneers Y21, Y23, Y25, Y26. Exact seasons are approximate."
  },
  "Michael Wilson": {
   "stints": [
    {
     "team": "Ravens",
-    "from": 41,
-    "to": 46,
+    "from": 43,
+    "to": 50,
     "rings": [
-     41,
-     42,
      43,
      44,
-     46
+     46,
+     48,
+     49
     ]
    },
    {
     "team": "Giants",
-    "from": 47,
+    "from": 51,
     "to": 52,
     "rings": []
    },
@@ -1951,64 +1978,28 @@
     ]
    }
   ],
-  "confidence": "ambiguous",
-  "evidence": "Owner: Ravens, then Giants, retired injured as a Titan. 6 rings only fit the 40s-50s (Ravens Y41-49, Giants Y54-56, Titans Y53), not the Vikings dynasty. With Brandson your QB from Y45, the best fit is your Ravens QB Y41-46, Giants Y47-52 (his MVP years) and the Titans' Y53 title.",
-  "alternatives": [
-   [
-    {
-     "team": "Ravens",
-     "from": 45,
-     "to": 50
-    },
-    {
-     "team": "Giants",
-     "from": 51,
-     "to": 56
-    },
-    {
-     "team": "Titans",
-     "from": 57,
-     "to": 57
-    }
-   ],
-   [
-    {
-     "team": "Ravens",
-     "from": 43,
-     "to": 50
-    },
-    {
-     "team": "Giants",
-     "from": 51,
-     "to": 52
-    },
-    {
-     "team": "Titans",
-     "from": 53,
-     "to": 53
-    }
-   ]
-  ]
+  "confidence": "likely",
+  "evidence": "6 rings = Ravens Y43, Y44, Y46, Y48, Y49; Titans Y53. Owner: “Ravens first, then the Giants; retired injured as a Titan.” Exact seasons are approximate."
  },
  "Jason Macleone": {
   "stints": [
    {
-    "team": "Seahawks",
+    "team": "Titans",
     "from": 65,
-    "to": 75,
-    "rings": []
-   },
-   {
-    "team": "Jets",
-    "from": 76,
-    "to": 77,
+    "to": 70,
     "rings": [
-     77
+     70
     ]
    },
    {
+    "team": "Seahawks",
+    "from": 71,
+    "to": 76,
+    "rings": []
+   },
+   {
     "team": "Vikings",
-    "from": 78,
+    "from": 77,
     "to": 78,
     "rings": [
      78
@@ -2022,7 +2013,31 @@
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "Owner: Vikings QB for the Y78 title, now a Seahawk (played the Y80 Super Bowl for them). The record board's Y75 run puts him on your Seahawks; the sheet first listed him as your club, and his 2nd ring only fits your Jets' Y77 title, so: Seattle, your Jets Y76-77, Minnesota Y78, back to Seattle."
+  "evidence": "2 rings = Titans Y70; Vikings Y78. Record board (your club's games only): Y75 longest rushing play (Seahawks). On the Y80 Seahawks roster. Owner: “Started at QB for the Vikings in their Y78 title; now a Seahawk (played the Y80 Super Bowl for them).” His known clubs (Seahawks, Vikings) can't account for every ring, so the best fit adds a stop: Titans Y65-70, Seahawks Y71-76, Vikings Y77-78, Seahawks Y79-80.",
+  "alternatives": [
+   [
+    {
+     "team": "Seahawks",
+     "from": 65,
+     "to": 75
+    },
+    {
+     "team": "Jets",
+     "from": 76,
+     "to": 77
+    },
+    {
+     "team": "Vikings",
+     "from": 78,
+     "to": 78
+    },
+    {
+     "team": "Seahawks",
+     "from": 79,
+     "to": 80
+    }
+   ]
+  ]
  },
  "Malakai Sawyer": {
   "stints": [
@@ -2037,45 +2052,45 @@
    {
     "team": "Seahawks",
     "from": 73,
-    "to": 75,
+    "to": 76,
     "rings": []
    },
    {
     "team": "Jets",
-    "from": 76,
-    "to": 79,
+    "from": 77,
+    "to": 78,
     "rings": [
      77
     ]
    },
    {
     "team": "Falcons",
-    "from": 80,
+    "from": 79,
     "to": 80,
     "rings": []
    }
   ],
   "confidence": "confirmed",
-  "evidence": "Owner: one Titans season (Y72 title, ROTY), the Jets (Y77 title), traded to the Falcons for Y80. The record board's Y75 Macleone-to-Sawyer run puts him on your Y75 Seahawks in between."
+  "evidence": "2 rings = Titans Y72; Jets Y77. Record board (your club's games only): Y75 longest rushing play (Seahawks); Y78 best rushing game (Jets). On the Y80 Falcons roster. Owner: “One Titans season (the Y72 title, Rookie of the Year), then the Jets (the Y77 title); traded to the Falcons for Y80.”"
  },
  "Levante Hopkins": {
   "stints": [
    {
     "team": "Vikings",
-    "from": 64,
-    "to": 69,
+    "from": 61,
+    "to": 66,
     "rings": [
+     61,
+     62,
+     63,
      64,
-     66,
-     67,
-     68,
-     69
+     66
     ]
    },
    {
     "team": "Titans",
-    "from": 70,
-    "to": 78,
+    "from": 67,
+    "to": 75,
     "rings": [
      70,
      71,
@@ -2085,18 +2100,42 @@
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "Owner: Titans TE for the Y70-72 three-peat; retired a Titan (game HOF). 9 rings in ~15 seasons need Vikings titles too: either Vikings Y64-69 then Titans Y70-78 (with the Y74 title), or Vikings Y61-66 then Titans from Y67.",
+  "evidence": "9 rings = Vikings Y61, Y62, Y63, Y64, Y66; Titans Y70, Y71, Y72, Y74. Owner: “Played tight end for the Titans during the Y70–72 three-peat; retired a Titan.” His known clubs (Titans) can't account for every ring, so the best fit adds a stop: Vikings Y61-66, Titans Y67-75.",
   "alternatives": [
    [
     {
      "team": "Vikings",
-     "from": 61,
-     "to": 66
+     "from": 56,
+     "to": 67
     },
     {
      "team": "Titans",
-     "from": 67,
-     "to": 75
+     "from": 68,
+     "to": 72
+    }
+   ],
+   [
+    {
+     "team": "Vikings",
+     "from": 62,
+     "to": 67
+    },
+    {
+     "team": "Titans",
+     "from": 68,
+     "to": 76
+    }
+   ],
+   [
+    {
+     "team": "Vikings",
+     "from": 63,
+     "to": 68
+    },
+    {
+     "team": "Titans",
+     "from": 69,
+     "to": 77
     }
    ]
   ]
@@ -2123,7 +2162,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "5 rings = Buccaneers Y20, Buccaneers Y21, Buccaneers Y23, Buccaneers Y25, Buccaneers Y26; the only window that fits."
+  "evidence": "5 rings = Buccaneers Y20, Y21, Y23, Y25, Y26. The only window that fits."
  },
  "Dedrick Gould": {
   "stints": [
@@ -2144,7 +2183,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "2 rings = Buccaneers Y20, Buccaneers Y21; exact seasons are approximate."
+  "evidence": "2 rings = Buccaneers Y20, Y21. Exact seasons are approximate."
  },
  "Chance Woodrum": {
   "stints": [
@@ -2159,7 +2198,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Jets Y77, Jets Y80; the only window that fits."
+  "evidence": "2 rings = Jets Y77, Y80. On the Y80 Jets roster. The only window that fits."
  },
  "Jamir Crane": {
   "stints": [
@@ -2174,7 +2213,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "2 rings = Bills Y30, Bills Y31; exact seasons are approximate."
+  "evidence": "2 rings = Bills Y30, Y31. Exact seasons are approximate."
  },
  "Zay Louis": {
   "stints": [
@@ -2186,7 +2225,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 18-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 18-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Deshaun Muse": {
@@ -2201,7 +2240,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "1 ring = Bills Y27; exact seasons are approximate."
+  "evidence": "1 ring = Bills Y27. Exact seasons are approximate."
  },
  "Joshuah Egbule": {
   "stints": [
@@ -2213,7 +2252,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 19-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 19-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Damone Omameh": {
@@ -2230,7 +2269,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "3 rings = Bills Y29, Bills Y30, Bills Y31; exact seasons are approximate."
+  "evidence": "3 rings = Bills Y29, Y30, Y31. Exact seasons are approximate."
  },
  "Rashaad Bolton": {
   "stints": [
@@ -2242,7 +2281,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 19-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 19-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Esezi Parsons": {
@@ -2255,7 +2294,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "No rings, era or record to date him; only the team is known. The 18-game window is a placeholder in a stretch where his club won nothing.",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 18-game window is a placeholder in seasons his club won nothing.",
   "approx": true
  },
  "Dorance Hinton": {
@@ -2268,7 +2307,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (114 games)."
+  "evidence": "No rings. On the Y80 Seahawks roster."
  },
  "Alvin Tufele": {
   "stints": [
@@ -2296,26 +2335,7 @@
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "Owner: traded from the Seahawks to the Jets for Leary, after playing the Y80 Super Bowl for Seattle. Seattle won nothing in his time, so his 3 rings came elsewhere: best fit is your Titans' Y70-72 three-peat.",
-  "alternatives": [
-   [
-    {
-     "team": "Titans",
-     "from": 71,
-     "to": 74
-    },
-    {
-     "team": "Seahawks",
-     "from": 75,
-     "to": 80
-    },
-    {
-     "team": "Jets",
-     "from": 81,
-     "to": 81
-    }
-   ]
-  ]
+  "evidence": "3 rings = Titans Y70, Y71, Y72. On the Y80 Seahawks roster. Owner: “Traded from the Seahawks to the Jets for Obinna Leary, after playing the Y80 Super Bowl for Seattle.” His known clubs (Seahawks) can't account for every ring, so the best fit adds a stop: Titans Y70-72, Seahawks Y73-80. Traded to the Jets after Y80."
  },
  "Hamsfa Boltt": {
   "stints": [
@@ -2335,7 +2355,7 @@
    }
   ],
   "confidence": "confirmed",
-  "evidence": "Card: QB and SB MVP of the Titans' Y74 title, now with the Commanders (in the Y80 playoffs)."
+  "evidence": "1 ring = Titans Y74. On the Y80 Commanders roster. Owner: “QB and Super Bowl MVP of the Titans' Y74 title; now with the Commanders.”"
  },
  "Drake Wise": {
   "stints": [
@@ -2347,7 +2367,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (205 games)."
+  "evidence": "No rings. On the Y80 Giants roster."
  },
  "Le'Veon Richard": {
   "stints": [
@@ -2359,7 +2379,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (198 games)."
+  "evidence": "No rings. On the Y80 Cowboys roster."
  },
  "Jarred Beasley": {
   "stints": [
@@ -2371,7 +2391,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (90 games)."
+  "evidence": "No rings. On the Y80 Titans roster."
  },
  "Juawan Lance": {
   "stints": [
@@ -2388,7 +2408,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "4 rings = Titans Y70, Titans Y71, Titans Y72, Titans Y74; the only window that fits."
+  "evidence": "4 rings = Titans Y70, Y71, Y72, Y74. On the Y80 Titans roster. The only window that fits."
  },
  "Corey Ivey": {
   "stints": [
@@ -2400,7 +2420,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (196 games)."
+  "evidence": "No rings. On the Y80 Ravens roster."
  },
  "Dan Stout": {
   "stints": [
@@ -2412,7 +2432,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (230 games)."
+  "evidence": "No rings. On the Y80 Ravens roster."
  },
  "Jaylen Conklin": {
   "stints": [
@@ -2426,7 +2446,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Jets Y80; the only window that fits."
+  "evidence": "1 ring = Jets Y80. On the Y80 Jets roster. The only window that fits."
  },
  "Obinna Leary": {
   "stints": [
@@ -2445,8 +2465,8 @@
     "rings": []
    }
   ],
-  "confidence": "confirmed",
-  "evidence": "Owner: traded from the Jets to the Seahawks for Alvin Tufele. He won his ring in the Y80 Super Bowl with the Jets (0 to 1 between screenshot sets), so the trade came after Y80."
+  "confidence": "strong",
+  "evidence": "1 ring = Jets Y80. On the Y80 Jets roster. Owner: “Traded from the Jets to the Seahawks for Alvin Tufele after Y80.” The only window that fits. Traded to the Seahawks after Y80."
  },
  "Kane Van Oxley": {
   "stints": [
@@ -2461,7 +2481,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Jets Y77, Jets Y80; the only window that fits."
+  "evidence": "2 rings = Jets Y77, Y80. On the Y80 Jets roster. The only window that fits."
  },
  "Ryland Maxwell": {
   "stints": [
@@ -2475,7 +2495,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Jets Y80; the only window that fits."
+  "evidence": "1 ring = Jets Y80. On the Y80 Jets roster. The only window that fits."
  },
  "Ty Lock": {
   "stints": [
@@ -2489,47 +2509,33 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Jets Y80; the only window that fits."
+  "evidence": "1 ring = Jets Y80. On the Y80 Jets roster. The only window that fits."
  },
  "Dylan Hyatt": {
   "stints": [
    {
     "team": "Titans",
     "from": 70,
-    "to": 75,
+    "to": 72,
     "rings": [
      70,
      71,
-     72,
-     74
+     72
     ]
    },
    {
     "team": "Jets",
-    "from": 76,
+    "from": 73,
     "to": 80,
     "rings": [
+     75,
      77,
      80
     ]
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "Only the Jets are on record; 6 rings (5 before Y80) need the Titans too: Titans Y70-74 titles then your Jets Y77 and Y80, or Titans Y70-72 then the Jets from ~Y73 (their Y75, Y77 and Y80 titles).",
-  "alternatives": [
-   [
-    {
-     "team": "Titans",
-     "from": 70,
-     "to": 72
-    },
-    {
-     "team": "Jets",
-     "from": 73,
-     "to": 80
-    }
-   ]
-  ]
+  "evidence": "6 rings = Titans Y70, Y71, Y72; Jets Y75, Y77, Y80. On the Y80 Jets roster. His known clubs (Jets) can't account for every ring, so the best fit adds a stop: Titans Y70-72, Jets Y73-80."
  },
  "Kalif Suh": {
   "stints": [
@@ -2544,7 +2550,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Jets Y77, Jets Y80; the only window that fits."
+  "evidence": "2 rings = Jets Y77, Y80. On the Y80 Jets roster. The only window that fits."
  },
  "Dan Mosley": {
   "stints": [
@@ -2556,7 +2562,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (248 games)."
+  "evidence": "No rings."
  },
  "Blair Iupati": {
   "stints": [
@@ -2576,7 +2582,7 @@
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "1 ring that his known club (Seahawks) cannot account for; best fit adds a stop: Jets Y76-78, Seahawks Y79-80."
+  "evidence": "1 ring = Jets Y77. On the Y80 Seahawks roster. His known clubs (Seahawks) can't account for every ring, so the best fit adds a stop: Jets Y76-78, Seahawks Y79-80."
  },
  "Deonte Sutton": {
   "stints": [
@@ -2588,7 +2594,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (135 games)."
+  "evidence": "No rings. On the Y80 Seahawks roster."
  },
  "Romeo Rodgers": {
   "stints": [
@@ -2600,7 +2606,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (135 games)."
+  "evidence": "No rings. On the Y80 Seahawks roster."
  },
  "Taron Hayes": {
   "stints": [
@@ -2612,7 +2618,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (213 games)."
+  "evidence": "No rings."
  },
  "Darrel Longa": {
   "stints": [
@@ -2624,32 +2630,25 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (129 games)."
+  "evidence": "No rings. On the Y80 Titans roster."
  },
  "Jakeem Friend": {
   "stints": [
    {
     "team": "Vikings",
-    "from": 68,
-    "to": 69,
+    "from": 64,
+    "to": 70,
     "rings": [
+     64,
+     66,
+     67,
      68,
      69
     ]
    },
    {
-    "team": "Titans",
-    "from": 70,
-    "to": 73,
-    "rings": [
-     70,
-     71,
-     72
-    ]
-   },
-   {
     "team": "Seahawks",
-    "from": 74,
+    "from": 71,
     "to": 78,
     "rings": []
    },
@@ -2663,26 +2662,7 @@
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "Owner: mainly a Seahawk, a Jet only Y79-80 (Y80 ring). Seattle has won nothing since Y38, so 5 of his 6 rings came elsewhere. Best fit: he followed you Vikings Y68-69 and Titans Y70-73 into Seattle (his longest stop, Y74-78), then the Jets.",
-  "alternatives": [
-   [
-    {
-     "team": "Titans",
-     "from": 70,
-     "to": 74
-    },
-    {
-     "team": "Seahawks",
-     "from": 75,
-     "to": 78
-    },
-    {
-     "team": "Jets",
-     "from": 79,
-     "to": 80
-    }
-   ]
-  ]
+  "evidence": "6 rings = Vikings Y64, Y66, Y67, Y68, Y69; Jets Y80. Owner: “Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring).” His known clubs (Jets, Seahawks) can't account for every ring, so the best fit adds a stop: Vikings Y64-70, Seahawks Y71-78, Jets Y79-80."
  },
  "Trequan Roberts": {
   "stints": [
@@ -2696,7 +2676,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Jets Y80; the only window that fits."
+  "evidence": "1 ring = Jets Y80. The only window that fits."
  },
  "Tyron Colvin": {
   "stints": [
@@ -2710,7 +2690,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Titans Y74; the only window that fits."
+  "evidence": "1 ring = Titans Y74. The only window that fits."
  },
  "Rysen Nauta": {
   "stints": [
@@ -2722,7 +2702,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (17 games)."
+  "evidence": "No rings."
  },
  "Tim Wright": {
   "stints": [
@@ -2734,7 +2714,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (57 games)."
+  "evidence": "No rings."
  },
  "Von Horsted": {
   "stints": [
@@ -2746,7 +2726,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (182 games)."
+  "evidence": "No rings."
  },
  "Solomon Toohill": {
   "stints": [
@@ -2760,7 +2740,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Packers Y79; the only window that fits."
+  "evidence": "1 ring = Packers Y79. The only window that fits."
  },
  "Trequan Jensen": {
   "stints": [
@@ -2774,7 +2754,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Packers Y79; the only window that fits."
+  "evidence": "1 ring = Packers Y79. The only window that fits."
  },
  "Abraham Ward Jr": {
   "stints": [
@@ -2788,7 +2768,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Packers Y79; the only window that fits."
+  "evidence": "1 ring = Packers Y79. The only window that fits."
  },
  "Pyke T. Lowe": {
   "stints": [
@@ -2802,7 +2782,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Vikings Y78; the only window that fits."
+  "evidence": "1 ring = Vikings Y78. The only window that fits."
  },
  "Craig Whitney": {
   "stints": [
@@ -2817,7 +2797,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Vikings Y69, Vikings Y78; the only window that fits."
+  "evidence": "2 rings = Vikings Y69, Y78. The only window that fits."
  },
  "Tyson Nassib": {
   "stints": [
@@ -2837,7 +2817,7 @@
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "1 ring that his known club (Dolphins) cannot account for; best fit adds a stop: Jets Y73-75, Dolphins Y76-80.",
+  "evidence": "1 ring = Jets Y75. His known clubs (Dolphins) can't account for every ring, so the best fit adds a stop: Jets Y73-75, Dolphins Y76-80.",
   "alternatives": [
    [
     {
@@ -2887,7 +2867,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (75 games)."
+  "evidence": "No rings."
  },
  "Shawn Skule": {
   "stints": [
@@ -2899,6 +2879,6 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings: placed in his era in seasons his club won nothing (51 games)."
+  "evidence": "No rings."
  }
 }

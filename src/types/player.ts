@@ -25,6 +25,8 @@ export interface BasePlayer {
   rawTrueTalent?: number;
   /** Multiplier applied to raw True Talent by `normalizeLeague` (1 when normalization is off). */
   positionFactor?: number;
+  /** Skin tone for his generated Retro Bowl sprite (player editor; ignored when sprites.json locks his look) */
+  spriteSkin?: string;
 }
 
 export interface QBPlayer extends BasePlayer {

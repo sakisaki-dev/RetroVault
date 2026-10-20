@@ -54,8 +54,8 @@ const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => (
                       Featured rivalry{r.era ? ` · ${r.era}` : ''}
                     </p>
                     <h3 id={`fo-rival-${r.id}`} className="font-display text-2xl uppercase leading-tight">
-                      {r.rival}
-                      {team && <span className="text-muted-foreground">'s {team.name}</span>}
+                      {r.rival === r.team ? (team?.fullName ?? r.rival) : r.rival}
+                      {team && r.rival !== r.team && <span className="text-muted-foreground">'s {team.name}</span>}
                     </h3>
                   </div>
                   {games.length > 0 && (
@@ -66,6 +66,12 @@ const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => (
                   )}
                 </div>
                 <p className="text-sm leading-relaxed text-foreground/85">{r.summary}</p>
+                {(r.ownerNotes ?? []).map((n) => (
+                  <blockquote key={n.id} className="border-l-2 border-[hsl(var(--fo-team))] pl-3 text-sm italic text-foreground/90">
+                    “{n.text}”
+                    <span className="mt-1 block text-[11px] not-italic text-muted-foreground">From the commissioner{n.season ? ` · ${n.season}` : ''}</span>
+                  </blockquote>
+                ))}
                 {games.length > 0 && (
                   <ul className="space-y-1.5" aria-label={`Super Bowl meetings with ${r.rival}`}>
                     {games.map((g) => (

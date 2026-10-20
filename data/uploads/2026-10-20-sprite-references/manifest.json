@@ -1,0 +1,258 @@
+{
+ "id": "2026-10-20-sprite-references",
+ "created": "2026-10-20",
+ "title": "Sprite references: Fred Warner player screen, player screens and free-agent lists (face construction), owner look requests",
+ "images": [
+  {
+   "file": "IMG_6206.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Player screen: Fred Warner #54 LB (49ers), full-body sprite: the base style reference (proportions, face, uniform)"
+  },
+  {
+   "file": "IMG_6207.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Player screen: Amon-Ra St. Brown #14 WR (Lions)"
+  },
+  {
+   "file": "IMG_6208.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Player screen: Derrick Barnes #55 LB (Lions), headband"
+  },
+  {
+   "file": "IMG_6209.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Player screen: Jayden Daniels #5 QB (Commanders)"
+  },
+  {
+   "file": "IMG_6210.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Player screen: Quinn Ewers #10 QB (Eagles)"
+  },
+  {
+   "file": "IMG_6211.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Choose quarterback list (Hurts … Lawrence)"
+  },
+  {
+   "file": "IMG_6212.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Choose quarterback list (Leonard … McKee)"
+  },
+  {
+   "file": "IMG_6213.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Choose wide receiver list (Adams … Austin III)"
+  },
+  {
+   "file": "IMG_6214.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Choose wide receiver list (Brown … Butler)"
+  },
+  {
+   "file": "IMG_6215.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Choose linebacker list (Abdullah … Armstrong)"
+  },
+  {
+   "file": "IMG_6216.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Choose linebacker list (Bethune … Brown)"
+  },
+  {
+   "file": "IMG_6217.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Choose defensive back list (Butler … Carter II)"
+  },
+  {
+   "file": "IMG_6218.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Choose defensive back list (Carter Jr. … Clark)"
+  },
+  {
+   "file": "IMG_6219.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Choose offensive lineman list (Avila … Barton)"
+  },
+  {
+   "file": "IMG_6220.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Choose offensive lineman list (Bass … Bergeron)"
+  },
+  {
+   "file": "IMG_6221.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Choose running back list (Abanikanda … Bankston)"
+  },
+  {
+   "file": "IMG_6222.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Choose running back list (Barkley … Brightwell)"
+  },
+  {
+   "file": "IMG_6223.PNG",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Choose running back list (Brooks … Chandler)"
+  }
+ ],
+ "ai_steps": [
+  {
+   "step": "portrait→look",
+   "reason": "Describe in-game portraits of league players with cards as sprite fields; study the game's face construction (eyes, brows, mouths, hair, beards) for the sprite renderer",
+   "trigger": "New reference images (IMG_6206–6223)",
+   "players": 4
+  },
+  {
+   "step": "art",
+   "reason": "Owner-requested signature looks and builds (Brandson, Ikarras, Macleone)",
+   "trigger": "Owner requests in chat (sprite feedback rounds, Oct 20)"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Drake Maye",
+   "value": {
+    "skin": "pale",
+    "hair": {
+     "style": "short",
+     "color": "brown"
+    },
+    "facial": "none",
+    "accessories": [],
+    "notes": "Short wavy brown hair, blue eyes, clean-shaven, big smile [IMG_6212 (QB list, Maye #10)]"
+   },
+   "source": "image:IMG_6212.PNG",
+   "reason": "New look from the QB list portrait (Maye #10)",
+   "trigger": "New reference images"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Lamar Jackson",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "braids",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [],
+    "notes": "Shoulder-length braids, moustache and goatee, smile [IMG_6200–6203 + IMG_6211]"
+   },
+   "source": "image:IMG_6211.PNG",
+   "reason": "Confirms braids and goatee (QB list, Jackson #8)",
+   "trigger": "New reference images"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Jayden Daniels",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "twists",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [],
+    "notes": "High-top twists, moustache and goatee, big smile [IMG_6200–6203 + IMG_6209]"
+   },
+   "source": "image:IMG_6209.PNG",
+   "reason": "Confirms twists and goatee (player screen)",
+   "trigger": "New reference images"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Nick Bolton",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "dreads",
+     "color": "black"
+    },
+    "facial": "chinstrap",
+    "accessories": [
+     "earrings"
+    ],
+    "notes": "Long black locs past the shoulders, thin chin beard, studs [IMG_6200–6203 + IMG_6216]"
+   },
+   "source": "image:IMG_6216.PNG",
+   "reason": "Confirms long locs (LB list, Bolton #32)",
+   "trigger": "New reference images"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Sherman Brandson",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "dreads",
+     "color": "black"
+    },
+    "facial": "shortbeard",
+    "accessories": [],
+    "build": "huge",
+    "height": "tall",
+    "notes": "Long black locs falling over the shoulders, a short stubble beard on a strong jaw (think Fred Warner), huge and 6'7\", muscular V-taper. Signature pose (owner): arms crossed, menacing, helmet off [IMG_6201]",
+    "pose": "sig-crossed",
+    "signature": true
+   },
+   "source": "owner",
+   "reason": "Owner: huge + tall, muscular; Fred Warner-style locs and short stubble; signature pose (Golden hour portrait requested, arms crossed until it ships)",
+   "trigger": "Owner requests in chat"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Rondale Ikarras",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "buzz",
+     "color": "black"
+    },
+    "facial": "jawline",
+    "accessories": [
+     "durag",
+     "eyeblack",
+     "earrings",
+     "wristbands"
+    ],
+    "pose": "sig-praise",
+    "notes": "Short black hair, full beard, studs in both ears (IMG_6201). \"The Prodigal Son\". Signature pose (owner): hands up in reverence, helmet off, black durag with tails, eyes up [IMG_6200–6203 (game Hall of Fame)]",
+    "signature": true
+   },
+   "source": "owner",
+   "reason": "Owner: 'The Prodigal Son', hands up in reverence, helmet off, durag; trimmed to a jawline beard",
+   "trigger": "Owner requests in chat"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Jason Macleone",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "shortlocs",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [
+     "sleeve-team",
+     "eyeblack"
+    ],
+    "notes": "\"Scary Jerry\" (imposing stature, scary looks): big muscular frame, short black locs falling to the shoulders, goatee, intense wide-eyed stare with eye black, navy arm sleeve. Signature pose (owner): helmet off in one hand, ball at his side, staring straight out [IMG_6200–6203 + IMG_6205]",
+    "pose": "sig-cold",
+    "signature": true,
+    "build": "big",
+    "eyes": "intense"
+   },
+   "source": "owner",
+   "reason": "Owner: 'Scary Jerry', big frame, short locs, intense eyes, helmet-off signature stare",
+   "trigger": "Owner requests in chat"
+  }
+ ]
+}

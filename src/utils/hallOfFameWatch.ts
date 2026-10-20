@@ -225,7 +225,7 @@ export const useHofClasses = (): HofClass[] => {
 
 /** "Class of Y80" style label for a season string, with a sensible fallback. */
 export const classLabelFor = (season?: string | null) =>
-  season ? `Class of ${season}` : `Class of ${new Date().getFullYear()}`;
+  !season ? `Class of ${new Date().getFullYear()}` : /class/i.test(season) ? season : `Class of ${season}`;
 
 /**
  * Watches league data and queues ceremonies for new honorees. Debounced so the burst of loads on

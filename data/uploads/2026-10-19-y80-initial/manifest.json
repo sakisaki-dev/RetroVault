@@ -1,0 +1,2337 @@
+{
+ "id": "2026-10-19-y80-initial",
+ "created": "2026-10-19",
+ "title": "Y80 save: initial screenshots, coaching recording and owner facts (backfilled)",
+ "backfill": true,
+ "about": "Backfilled record of everything uploaded before the pipeline existed. Bulk stats are recorded as baselines (the file states the history starts from); every owner fact, nickname and sprite look is an explicit mutation, so applying this manifest to the current data is a no-op and the audit can trace each text field to it.",
+ "images": [
+  {
+   "group": "IMG_6141–6205",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "files": [
+    "IMG_6141.PNG",
+    "IMG_6142.PNG",
+    "IMG_6144.PNG",
+    "IMG_6145.PNG",
+    "IMG_6146.PNG",
+    "IMG_6147.PNG",
+    "IMG_6148.PNG",
+    "IMG_6149.PNG",
+    "IMG_6150.PNG",
+    "IMG_6151.PNG",
+    "IMG_6152.PNG",
+    "IMG_6153.PNG",
+    "IMG_6154.PNG",
+    "IMG_6155.PNG",
+    "IMG_6156.PNG",
+    "IMG_6157.PNG",
+    "IMG_6158.PNG",
+    "IMG_6159.PNG",
+    "IMG_6160.PNG",
+    "IMG_6161.PNG",
+    "IMG_6162.PNG",
+    "IMG_6163.PNG",
+    "IMG_6164.PNG",
+    "IMG_6165.PNG",
+    "IMG_6166.PNG",
+    "IMG_6167.PNG",
+    "IMG_6168.PNG",
+    "IMG_6169.PNG",
+    "IMG_6170.PNG",
+    "IMG_6171.PNG",
+    "IMG_6172.PNG",
+    "IMG_6173.PNG",
+    "IMG_6174.PNG",
+    "IMG_6175.PNG",
+    "IMG_6176.PNG",
+    "IMG_6177.PNG",
+    "IMG_6178.PNG",
+    "IMG_6179.PNG",
+    "IMG_6180.PNG",
+    "IMG_6181.PNG",
+    "IMG_6182.PNG",
+    "IMG_6183.PNG",
+    "IMG_6184.PNG",
+    "IMG_6185.PNG",
+    "IMG_6186.PNG",
+    "IMG_6187.PNG",
+    "IMG_6188.PNG",
+    "IMG_6189.PNG",
+    "IMG_6190.PNG",
+    "IMG_6191.PNG",
+    "IMG_6192.PNG",
+    "IMG_6193.PNG",
+    "IMG_6194.PNG",
+    "IMG_6195.PNG",
+    "IMG_6196.PNG",
+    "IMG_6198.PNG",
+    "IMG_6199.PNG",
+    "IMG_6200.PNG",
+    "IMG_6201.PNG",
+    "IMG_6202.PNG",
+    "IMG_6203.PNG",
+    "IMG_6204.PNG",
+    "IMG_6205.PNG"
+   ],
+   "shows": "Player cards (CAREER panels, awards), Super Bowl winners list, in-game record board, Player HOF screen, team rosters, staff screen"
+  },
+  {
+   "file": "ScreenRecording_10-19-2026 12-06-02_1.MP4",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "shows": "Coaching staff screen recording: 80 seasons, Super Bowl record"
+  }
+ ],
+ "ai_steps": [
+  {
+   "step": "transcribe",
+   "reason": "Images need reading: CAREER panels, Super Bowl list, record board, HOF and roster screens, staff screen",
+   "trigger": "New images in the upload (IMG_6141–6205, ScreenRecording_10-19-2026 12-06-02_1.MP4)"
+  },
+  {
+   "step": "portrait→look",
+   "reason": "Describe in-game portraits as structured sprite fields",
+   "trigger": "The upload contains portraits (player cards, game Hall of Fame screen)",
+   "players": 46
+  },
+  {
+   "step": "speech",
+   "reason": "New Hall of Famers",
+   "trigger": "The rebuild found players first crossing Career Legacy 7000 with no speech",
+   "output": "data/y80/speeches.json"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "baseline",
+   "target": "data/y80/players.json",
+   "value": {
+    "sha256": "4c434e04911d17dcc3d9cc9dbca3cb7d2f4fbe06ce7ead8a92d98f03896a11ad"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Career lines transcribed from the CAREER panels and the league spreadsheet; the starting state of the history",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "baseline",
+   "target": "data/y80/super_bowls.json",
+   "value": {
+    "sha256": "1b9e1d59b43c97096c7f0b4034426efb0fb813afc7ca4f7c95e0cb97a2053075"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Super Bowl winners list; the starting state of the history",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "baseline",
+   "target": "data/y80/records.json",
+   "value": {
+    "sha256": "2c802d3c271a830fd8d9e489b92ce926a5af6e975c9a9a52c24b9acce303e576"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game Player Records board; the starting state of the history",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "baseline",
+   "target": "data/y80/screenshot_extras.json",
+   "value": {
+    "sha256": "b8a302f0983619f84e249704226cdd0aa60635a7edf6ddfd274b99928ad1d9b8"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Card extras, real-NFL splits, name changes, family ties; the starting state of the history",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "baseline",
+   "target": "data/y80/spreadsheet_parsed.json",
+   "value": {
+    "sha256": "ce7dac037da1fe40238f83f82bf325250282b20ba75f90bab7ddc37c4e789986"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "The owner's league spreadsheet (Retro Bowl V1.0); the starting state of the history",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "baseline",
+   "target": "data/y80/coach.json",
+   "value": {
+    "sha256": "a7aefdbf7ff586fc6db1b04c1d89acaff140dec909c6dcd94edd8391698ec4cb"
+   },
+   "source": "image:ScreenRecording_10-19-2026 12-06-02_1.MP4",
+   "reason": "Staff screen: coach card and 80 seasons",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Ray Waller",
+   "value": {
+    "nick": "Ray Comeback Waller"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Kyric McQuay",
+   "value": {
+    "nick": "Baby Manning"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Aubrey Jewell",
+   "value": {
+    "nick": "North Star"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Sherman Brandson",
+   "value": {
+    "nick": "General Sherman"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Dennis Baylon",
+   "value": {
+    "nick": "The Iron Island"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Lamar Jackson",
+   "value": {
+    "nick": "Him."
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Rondale Ikarras",
+   "value": {
+    "nick": "The Prodigal Son"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:JR Bashaam",
+   "value": {
+    "nick": "Monster 0"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Kitt Inman",
+   "value": {
+    "nick": "Redzone Titan"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Jahmyr Gibbs",
+   "value": {
+    "nick": "Mr. Incredible"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Ian Finney",
+   "value": {
+    "nick": "The Infinity Man"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Tyrion Kline",
+   "value": {
+    "nick": "FBI"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Alohi Godwin",
+   "value": {
+    "nick": "JD3"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Cairo Asanjh",
+   "value": {
+    "nick": "The Prophecy"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Lukas Russell",
+   "value": {
+    "nick": "Running Man"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Reuben Kilian",
+   "value": {
+    "nick": "Mr. Consistent"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Keesean Candy",
+   "value": {
+    "nick": "Candyman"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Akiem Bouye",
+   "value": {
+    "nick": "Akiem the Dream"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Wes Sione",
+   "value": {
+    "nick": "Native Threat"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Charlie John",
+   "value": {
+    "nick": "CJ"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Jayon Queen",
+   "value": {
+    "nick": "FOV"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Jason Macleone",
+   "value": {
+    "nick": "Scary Jerry"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "Nickname shown on the player card",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "current_club",
+   "value": "Jets",
+   "source": "owner",
+   "reason": "The owner's current club",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Akiem Bouye/retired_with",
+   "value": "Chargers",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Alohi Godwin/retired_with",
+   "value": "Seahawks",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Alvin Tufele/team_history",
+   "value": [
+    "Seahawks"
+   ],
+   "source": "owner",
+   "reason": "Earlier clubs the owner confirmed",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Alvin Tufele/career",
+   "value": {
+    "order": [
+     "Seahawks"
+    ],
+    "next_team": "Jets",
+    "on": [
+     [
+      "Seahawks",
+      80
+     ]
+    ],
+    "says": "Traded from the Seahawks to the Jets for Obinna Leary, after playing the Y80 Super Bowl for Seattle."
+   },
+   "source": "owner",
+   "reason": "What the owner said about the career path",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Avonte Gooden/tag",
+   "value": "QB of the Commanders four-peat (Y16–19)",
+   "source": "owner",
+   "reason": "The owner's own one-line note",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Avonte Gooden/career",
+   "value": {
+    "says": "QB of the Commanders four-peat (Y16–19)."
+   },
+   "source": "owner",
+   "reason": "What the owner said about the career path",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Bilal Tolbert/retired_with",
+   "value": "Chargers",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Breece Hall/real_nfl",
+   "value": {
+    "games": 57,
+    "rings": 0,
+    "club": "Jets"
+   },
+   "source": "owner",
+   "reason": "Real-NFL games/rings/club before the save (imported player)",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Brennan Higgins/retired_with",
+   "value": "Commanders",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Cairo Asanjh/retired_with",
+   "value": "Ravens",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/CeeDee Lamb/retired_with",
+   "value": "Dolphins",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/CeeDee Lamb/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Status for a player with no sheet row",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/CeeDee Lamb/real_nfl",
+   "value": {
+    "games": 85,
+    "rings": 0,
+    "club": "Cowboys"
+   },
+   "source": "owner",
+   "reason": "Real-NFL games/rings/club before the save (imported player)",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Chance Woodrum/retired_with",
+   "value": "Jets",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Charlie John/retired_with",
+   "value": "Bills",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dedrick Gould/retired_with",
+   "value": "Ravens",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dennis Baylon/retired_with",
+   "value": "Chargers",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Denzel Hayes/retired_with",
+   "value": "Bears",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Drake Maye/real_nfl",
+   "value": {
+    "games": 29,
+    "rings": 0,
+    "club": "Patriots"
+   },
+   "source": "owner",
+   "reason": "Real-NFL games/rings/club before the save (imported player)",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/God Johnson/retired_with",
+   "value": "Vikings",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Hamsfa Boltt/team_history",
+   "value": [
+    "Titans"
+   ],
+   "source": "owner",
+   "reason": "Earlier clubs the owner confirmed",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Hamsfa Boltt/card",
+   "value": {
+    "former_team": "Titans",
+    "note": "Quarterbacked the Titans to their most recent title, Super Bowl CXXXIII (Y74), and was named SB MVP; now with the Commanders"
+   },
+   "source": "owner",
+   "reason": "Player-card details the owner supplied",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Hamsfa Boltt/career",
+   "value": {
+    "order": [
+     "Titans",
+     "Commanders"
+    ],
+    "on": [
+     [
+      "Titans",
+      74
+     ]
+    ],
+    "says": "QB and Super Bowl MVP of the Titans' Y74 title; now with the Commanders."
+   },
+   "source": "owner",
+   "reason": "What the owner said about the career path",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ian Finney/retired_with",
+   "value": "Buccaneers",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jackson Wardell Kline/retired_with",
+   "value": "Dolphins",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jahmyr Gibbs/retired_with",
+   "value": "Dolphins",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jahmyr Gibbs/real_nfl",
+   "value": {
+    "games": 36,
+    "rings": 0,
+    "club": "Lions"
+   },
+   "source": "owner",
+   "reason": "Real-NFL games/rings/club before the save (imported player)",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jakeem Friend/team_history",
+   "value": [
+    "Seahawks"
+   ],
+   "source": "owner",
+   "reason": "Earlier clubs the owner confirmed",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jakeem Friend/card",
+   "value": {
+    "legacy_team": "Seahawks",
+    "note": "A Seahawks lineman for most of his career; a Jet for only the last two seasons (Y79–80)"
+   },
+   "source": "owner",
+   "reason": "Player-card details the owner supplied",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jakeem Friend/career",
+   "value": {
+    "order": [
+     "Seahawks",
+     "Jets"
+    ],
+    "longest": "Seahawks",
+    "stints": [
+     [
+      "Jets",
+      79,
+      80
+     ]
+    ],
+    "says": "Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring)."
+   },
+   "source": "owner",
+   "reason": "What the owner said about the career path",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jason Macleone/team",
+   "value": "Seahawks",
+   "source": "owner",
+   "reason": "Club of record (owner-confirmed; the sheet said CUR/UNK or an old club)",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jason Macleone/retired_with",
+   "value": "Seahawks",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jason Macleone/tag",
+   "value": "QB of the Vikings' Y78 title (CXXXVII); now with the Seahawks",
+   "source": "owner",
+   "reason": "The owner's own one-line note",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jason Macleone/card",
+   "value": {
+    "former_team": "Vikings",
+    "note": "\"Scary Jerry\", named for his imposing stature and scary looks. Started at QB for the Vikings in their Y78 Super Bowl CXXXVII win (33–27 over the Broncos)"
+   },
+   "source": "owner",
+   "reason": "Player-card details the owner supplied",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jason Macleone/career",
+   "value": {
+    "on": [
+     [
+      "Vikings",
+      78
+     ],
+     [
+      "Seahawks",
+      80
+     ]
+    ],
+    "says": "Started at QB for the Vikings in their Y78 title; now a Seahawk (played the Y80 Super Bowl for them)."
+   },
+   "source": "owner",
+   "reason": "What the owner said about the career path",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jayden Daniels/retired_with",
+   "value": "Commanders",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jayden Daniels/real_nfl",
+   "value": {
+    "games": 20,
+    "rings": 0,
+    "club": "Commanders"
+   },
+   "source": "owner",
+   "reason": "Real-NFL games/rings/club before the save (imported player)",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ja’Marr Chase/retired_with",
+   "value": "Vikings",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ja’Marr Chase/real_nfl",
+   "value": {
+    "games": 69,
+    "rings": 0,
+    "club": "Bengals"
+   },
+   "source": "owner",
+   "reason": "Real-NFL games/rings/club before the save (imported player)",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Lamar Jackson/retired_with",
+   "value": "Packers",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Lamar Jackson/real_nfl",
+   "value": {
+    "games": 111,
+    "rings": 0,
+    "club": "Ravens"
+   },
+   "source": "owner",
+   "reason": "Real-NFL games/rings/club before the save (imported player)",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Levante Hopkins/team",
+   "value": "Titans",
+   "source": "owner",
+   "reason": "Club of record (owner-confirmed; the sheet said CUR/UNK or an old club)",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Levante Hopkins/retired_with",
+   "value": "Titans",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Levante Hopkins/tag",
+   "value": "Tight end for the Titans' Y70–72 three-peat",
+   "source": "owner",
+   "reason": "The owner's own one-line note",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Levante Hopkins/card",
+   "value": {
+    "note": "Tight end for the Titans' Y70–72 three-peat"
+   },
+   "source": "owner",
+   "reason": "Player-card details the owner supplied",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Levante Hopkins/career",
+   "value": {
+    "on": [
+     [
+      "Titans",
+      70
+     ],
+     [
+      "Titans",
+      71
+     ],
+     [
+      "Titans",
+      72
+     ]
+    ],
+    "says": "Played tight end for the Titans during the Y70–72 three-peat; retired a Titan."
+   },
+   "source": "owner",
+   "reason": "What the owner said about the career path",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Lukas Russell/retired_with",
+   "value": "Seahawks",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/team",
+   "value": "Jets",
+   "source": "owner",
+   "reason": "Club of record (owner-confirmed; the sheet said CUR/UNK or an old club)",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/retired_with",
+   "value": "Falcons",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/tag",
+   "value": "Won CXXXI with the Titans (Y72), then CXXXVI with the Jets (Y77); traded to the Falcons for Y80",
+   "source": "owner",
+   "reason": "The owner's own one-line note",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/card",
+   "value": {
+    "team": "Falcons",
+    "former_team": "Titans",
+    "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans, then joined the Jets and won again in Y77 (CXXXVI); traded to the Falcons for Y80, where he retired"
+   },
+   "source": "owner",
+   "reason": "Player-card details the owner supplied",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/career",
+   "value": {
+    "order": [
+     "Titans",
+     "Jets",
+     "Falcons"
+    ],
+    "stints": [
+     [
+      "Titans",
+      72,
+      72
+     ]
+    ],
+    "on": [
+     [
+      "Jets",
+      77
+     ],
+     [
+      "Falcons",
+      80
+     ]
+    ],
+    "says": "One Titans season (the Y72 title, Rookie of the Year), then the Jets (the Y77 title); traded to the Falcons for Y80."
+   },
+   "source": "owner",
+   "reason": "What the owner said about the career path",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Mason Taylor/retired_with",
+   "value": "Dolphins",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Mason Taylor/real_nfl",
+   "value": {
+    "games": 0,
+    "rings": 0,
+    "club": "Jets"
+   },
+   "source": "owner",
+   "reason": "Real-NFL games/rings/club before the save (imported player)",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Michael Wilson/team_history",
+   "value": [
+    "Ravens"
+   ],
+   "source": "owner",
+   "reason": "Earlier clubs the owner confirmed",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Michael Wilson/retired_with",
+   "value": "Titans",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Michael Wilson/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Status for a player with no sheet row",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Michael Wilson/tag",
+   "value": "Retired injured",
+   "source": "owner",
+   "reason": "The owner's own one-line note",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Michael Wilson/card",
+   "value": {
+    "former_team": "Ravens",
+    "note": "Ravens first, then the Giants; retired as a Titan"
+   },
+   "source": "owner",
+   "reason": "Player-card details the owner supplied",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Michael Wilson/career",
+   "value": {
+    "order": [
+     "Ravens",
+     "Giants",
+     "Titans"
+    ],
+    "says": "Ravens first, then the Giants; retired injured as a Titan."
+   },
+   "source": "owner",
+   "reason": "What the owner said about the career path",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Nick Bolton/retired_with",
+   "value": "Vikings",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Nick Bolton/real_nfl",
+   "value": {
+    "games": 67,
+    "rings": 2,
+    "club": "Chiefs"
+   },
+   "source": "owner",
+   "reason": "Real-NFL games/rings/club before the save (imported player)",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Obinna Leary/team_history",
+   "value": [
+    "Jets"
+   ],
+   "source": "owner",
+   "reason": "Earlier clubs the owner confirmed",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Obinna Leary/career",
+   "value": {
+    "order": [
+     "Jets"
+    ],
+    "next_team": "Seahawks",
+    "says": "Traded from the Jets to the Seahawks for Alvin Tufele after Y80."
+   },
+   "source": "owner",
+   "reason": "What the owner said about the career path",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Pharoah Hunter/retired_with",
+   "value": "Seahawks",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ray Waller/retired_with",
+   "value": "Buccaneers",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Robert Boone/retired_with",
+   "value": "Vikings",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Rondale Ikarras/retired_with",
+   "value": "Jets",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Rondale Ikarras/tag",
+   "value": "Ravens legend; final season with the Jets",
+   "source": "owner",
+   "reason": "The owner's own one-line note",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Rondale Ikarras/card",
+   "value": {
+    "legacy_team": "Ravens",
+    "note": "Ravens legend: five of his nine rings came in Baltimore (Y41–47) after three straight titles in Seattle (Y36–38); spent his final season with the Jets"
+   },
+   "source": "owner",
+   "reason": "Player-card details the owner supplied",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Rondale Ikarras/career",
+   "value": {
+    "order": [
+     "Seahawks",
+     "Ravens",
+     "Jets"
+    ],
+    "says": "A Ravens legend after three titles in Seattle; his final season was with the Jets."
+   },
+   "source": "owner",
+   "reason": "What the owner said about the career path",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Sauce Gardner/real_nfl",
+   "value": {
+    "games": 57,
+    "rings": 0,
+    "club": "Jets"
+   },
+   "source": "owner",
+   "reason": "Real-NFL games/rings/club before the save (imported player)",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Sherman Brandson/team_history",
+   "value": [
+    "Giants"
+   ],
+   "source": "owner",
+   "reason": "Earlier clubs the owner confirmed",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Sherman Brandson/retired_with",
+   "value": "Vikings",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Sherman Brandson/career",
+   "value": {
+    "says": "A Giants legend."
+   },
+   "source": "owner",
+   "reason": "What the owner said about the career path",
+   "trigger": "Owner statement in the upload session"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Wayne Wilson/retired_with",
+   "value": "Bills",
+   "source": "image:IMG_6141–6205",
+   "reason": "Club on the game's Player HOF screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "active_rosters/Jets",
+   "value": [
+    "Alvin Tufele",
+    "Chance Woodrum",
+    "Dylan Hyatt",
+    "Jakeem Friend",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Kane Van Oxley",
+    "Ryland Maxwell",
+    "Trequan Roberts",
+    "Ty Lock"
+   ],
+   "source": "image:IMG_6141–6205",
+   "reason": "Current roster from the game's team screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "active_rosters/Seahawks",
+   "value": [
+    "Blair Iupati",
+    "Deonte Sutton",
+    "Dorance Hinton",
+    "Isaiah Karras",
+    "Jason Macleone",
+    "Obinna Leary",
+    "Romeo Rodgers"
+   ],
+   "source": "image:IMG_6141–6205",
+   "reason": "Current roster from the game's team screen",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/80/Commanders",
+   "value": [
+    "Hamsfa Boltt"
+   ],
+   "source": "image:IMG_6141–6205",
+   "reason": "Gained games in Y80 between screenshot sets, so on this club that season",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/80/Cowboys",
+   "value": [
+    "Le'Veon Richard"
+   ],
+   "source": "image:IMG_6141–6205",
+   "reason": "Gained games in Y80 between screenshot sets, so on this club that season",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/80/Falcons",
+   "value": [
+    "Malakai Sawyer"
+   ],
+   "source": "image:IMG_6141–6205",
+   "reason": "Gained games in Y80 between screenshot sets, so on this club that season",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/80/Giants",
+   "value": [
+    "Drake Wise"
+   ],
+   "source": "image:IMG_6141–6205",
+   "reason": "Gained games in Y80 between screenshot sets, so on this club that season",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/80/Jets",
+   "value": [
+    "Chance Woodrum",
+    "Dylan Hyatt",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Kane Van Oxley",
+    "Obinna Leary",
+    "Ryland Maxwell",
+    "Ty Lock"
+   ],
+   "source": "image:IMG_6141–6205",
+   "reason": "Gained games in Y80 between screenshot sets, so on this club that season",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/80/Ravens",
+   "value": [
+    "Corey Ivey",
+    "Dan Stout"
+   ],
+   "source": "image:IMG_6141–6205",
+   "reason": "Gained games in Y80 between screenshot sets, so on this club that season",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/80/Seahawks",
+   "value": [
+    "Alvin Tufele",
+    "Blair Iupati",
+    "Deonte Sutton",
+    "Dorance Hinton",
+    "Jason Macleone",
+    "Romeo Rodgers"
+   ],
+   "source": "image:IMG_6141–6205",
+   "reason": "Gained games in Y80 between screenshot sets, so on this club that season",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/80/Titans",
+   "value": [
+    "Darrel Longa",
+    "Jarred Beasley",
+    "Juawan Lance"
+   ],
+   "source": "image:IMG_6141–6205",
+   "reason": "Gained games in Y80 between screenshot sets, so on this club that season",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Nick Bolton",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "dreads",
+     "color": "black"
+    },
+    "facial": "chinstrap",
+    "accessories": [
+     "earrings"
+    ],
+    "notes": "Long black locs past the shoulders, thin chin strap [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Lamar Jackson",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "braids",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [],
+    "notes": "Shoulder-length braids, chin goatee [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Ja’Marr Chase",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "twists",
+     "color": "black"
+    },
+    "facial": "chinstrap",
+    "accessories": [
+     "earrings"
+    ],
+    "notes": "Short twists, mustache and chin strap, studs in both ears [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "CeeDee Lamb",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "braids",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [
+     "earrings"
+    ],
+    "notes": "Long braids with a green bead, mustache and goatee [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Jayden Daniels",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "twists",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [],
+    "notes": "Short twists on top, small goatee [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Jahmyr Gibbs",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "dreads",
+     "color": "black"
+    },
+    "facial": "none",
+    "accessories": [],
+    "notes": "Long dreads, clean-shaven [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Mason Taylor",
+   "value": {
+    "skin": "light",
+    "hair": {
+     "style": "short",
+     "color": "darkbrown"
+    },
+    "facial": "stubble",
+    "accessories": [],
+    "notes": "Short dark-brown hair, light stubble [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Akiem Bouye",
+   "value": {
+    "skin": "tan",
+    "hair": {
+     "style": "long",
+     "color": "dirtyblond"
+    },
+    "facial": "none",
+    "accessories": [
+     "headband"
+    ],
+    "notes": "Long dirty-blond hair under a black headband [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Ian Finney",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "fullbeard",
+    "accessories": [
+     "earrings"
+    ],
+    "notes": "Short hair, full black beard [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Brennan Higgins",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "bald",
+     "color": "black"
+    },
+    "facial": "none",
+    "accessories": [],
+    "notes": "Shaved head, clean-shaven [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Ray Waller",
+   "value": {
+    "skin": "deep",
+    "hair": {
+     "style": "twists",
+     "color": "black"
+    },
+    "facial": "fullbeard",
+    "accessories": [
+     "eyeblack",
+     "earrings"
+    ],
+    "notes": "Curly high-top, full beard, eye black [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Alohi Godwin",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "fullbeard",
+    "accessories": [
+     "earrings"
+    ],
+    "notes": "Black cap off the field, full beard [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Charlie John",
+   "value": {
+    "skin": "pale",
+    "hair": {
+     "style": "short",
+     "color": "darkbrown"
+    },
+    "facial": "none",
+    "accessories": [],
+    "notes": "Neat dark-brown hair, clean-shaven, blue eyes [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Lukas Russell",
+   "value": {
+    "skin": "tan",
+    "hair": {
+     "style": "mohawk",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [],
+    "notes": "Spiky black hair, soul patch [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Dennis Baylon",
+   "value": {
+    "skin": "tan",
+    "hair": {
+     "style": "long",
+     "color": "dirtyblond"
+    },
+    "facial": "none",
+    "accessories": [
+     "headband"
+    ],
+    "notes": "Long dirty-blond hair, black headband [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Cairo Asanjh",
+   "value": {
+    "skin": "tan",
+    "hair": {
+     "style": "short",
+     "color": "darkbrown"
+    },
+    "facial": "chinstrap",
+    "accessories": [],
+    "notes": "Short dark hair, chin strap beard [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Bilal Tolbert",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [
+     "earrings"
+    ],
+    "notes": "Short hair, small goatee, blue eyes [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Wayne Wilson",
+   "value": {
+    "skin": "light",
+    "hair": {
+     "style": "short",
+     "color": "auburn"
+    },
+    "facial": "fullbeard",
+    "accessories": [],
+    "notes": "Auburn hair and a full red beard, blue eyes. Michael Wilson's brother: same look [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Rondale Ikarras",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "buzz",
+     "color": "black"
+    },
+    "facial": "fullbeard",
+    "accessories": [
+     "visor-gold",
+     "eyeblack",
+     "earrings",
+     "wristbands"
+    ],
+    "pose": "heisman",
+    "notes": "Short black hair, full beard, studs in both ears. The flashy one: gold visor, eye black, Heisman stiff-arm [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Sherman Brandson",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "dreads",
+     "color": "black"
+    },
+    "facial": "fullbeard",
+    "accessories": [],
+    "build": "huge",
+    "height": "tall",
+    "notes": "Long black dreads to the shoulders, full beard. Huge and 6'7\" [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Dedrick Gould",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "afro",
+     "color": "black"
+    },
+    "facial": "none",
+    "accessories": [],
+    "notes": "Rounded afro, clean-shaven [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Denzel Hayes",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "fullbeard",
+    "accessories": [
+     "earrings"
+    ],
+    "notes": "Black cap off the field, full beard [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Jackson Wardell Kline",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "buzz",
+     "color": "black"
+    },
+    "facial": "fullbeard",
+    "accessories": [],
+    "notes": "Buzz cut, full beard [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Robert Boone",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "freeform",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [],
+    "notes": "Messy freeform twists, goatee [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "God Johnson",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "curly",
+     "color": "black"
+    },
+    "facial": "stubble",
+    "accessories": [],
+    "notes": "Sponge-curl top, light beard [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Levante Hopkins",
+   "value": {
+    "skin": "pale",
+    "hair": {
+     "style": "curly",
+     "color": "strawberry"
+    },
+    "facial": "none",
+    "accessories": [],
+    "notes": "Curly strawberry-blond hair, clean-shaven [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Michael Wilson",
+   "value": {
+    "skin": "light",
+    "hair": {
+     "style": "short",
+     "color": "auburn"
+    },
+    "facial": "fullbeard",
+    "accessories": [],
+    "notes": "Auburn hair and a full red beard, blue eyes. Wayne Wilson's brother: same look [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Jason Macleone",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "freeform",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [
+     "sleeve-team"
+    ],
+    "notes": "Messy freeform twists, goatee; navy arm sleeve on the roster screen [IMG_6200–6203 (game Hall of Fame) + IMG_6205 (Seahawks roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Pharoah Hunter",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "fullbeard",
+    "accessories": [
+     "earrings"
+    ],
+    "notes": "Short hair, full beard, studs [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Malakai Sawyer",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [],
+    "notes": "Short hair, mustache and goatee [IMG_6200–6203 (game Hall of Fame)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Chance Woodrum",
+   "value": {
+    "skin": "light",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [
+     "armbands"
+    ],
+    "notes": "Black mop of hair, chin beard, armbands [IMG_6200–6203 (game Hall of Fame) + IMG_6204 (Jets roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Ty Lock",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "fullbeard",
+    "accessories": [
+     "earrings",
+     "tattoos",
+     "wristbands"
+    ],
+    "notes": "Black cap off the field, full beard, tattooed forearms [IMG_6204 (Jets roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Ryland Maxwell",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "twists",
+     "color": "black"
+    },
+    "facial": "none",
+    "accessories": [
+     "sleeve-white",
+     "wristbands",
+     "tattoos"
+    ],
+    "notes": "Short twists, white sleeves, tattoos [IMG_6204 (Jets roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Jaylen Conklin",
+   "value": {
+    "skin": "pale",
+    "hair": {
+     "style": "long",
+     "color": "blond"
+    },
+    "facial": "none",
+    "accessories": [
+     "sleeve-white",
+     "gloves-white"
+    ],
+    "notes": "Long blond hair to the shoulders, white forearm wrap [IMG_6204 (Jets roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Kane Van Oxley",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "braids",
+     "color": "black"
+    },
+    "facial": "chinstrap",
+    "accessories": [
+     "earrings",
+     "tattoos"
+    ],
+    "notes": "Braids, chin strap, tattooed arms [IMG_6204 (Jets roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Alvin Tufele",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "bald",
+     "color": "black"
+    },
+    "facial": "none",
+    "accessories": [
+     "sleeve-black",
+     "tattoos",
+     "gloves-black"
+    ],
+    "notes": "Shaved head, black arm sleeve [IMG_6204 (Jets roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Jakeem Friend",
+   "value": {
+    "skin": "light",
+    "hair": {
+     "style": "buzz",
+     "color": "blond"
+    },
+    "facial": "none",
+    "accessories": [
+     "tattoos",
+     "wristbands"
+    ],
+    "notes": "Blond crew cut, tattoo sleeve [IMG_6204 (Jets roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Kalif Suh",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "fullbeard",
+    "accessories": [
+     "earrings"
+    ],
+    "notes": "Short hair, full beard [IMG_6204 (Jets roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Dylan Hyatt",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "twists",
+     "color": "bleached"
+    },
+    "facial": "chinstrap",
+    "accessories": [
+     "earrings",
+     "gloves-white"
+    ],
+    "notes": "Bleached-gold twists on top, dark chin strap [IMG_6204 (Jets roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Trequan Roberts",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "none",
+    "accessories": [
+     "sleeve-white"
+    ],
+    "notes": "Short waves, clean-shaven, white forearm sleeve [IMG_6204 (Jets roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Isaiah Karras",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "dreads",
+     "color": "black"
+    },
+    "facial": "fullbeard",
+    "accessories": [
+     "wristbands"
+    ],
+    "notes": "Long dreads, full beard [IMG_6205 (Seahawks roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Obinna Leary",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "beard",
+    "accessories": [],
+    "notes": "Short hair, chin beard [IMG_6205 (Seahawks roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Dorance Hinton",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "none",
+    "accessories": [
+     "eyeblack"
+    ],
+    "notes": "Short hair, eye black [IMG_6205 (Seahawks roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Romeo Rodgers",
+   "value": {
+    "skin": "medium",
+    "hair": {
+     "style": "short",
+     "color": "darkbrown"
+    },
+    "facial": "fullbeard",
+    "accessories": [
+     "sleeve-white",
+     "wristbands"
+    ],
+    "notes": "Short hair, full beard, white sleeves [IMG_6205 (Seahawks roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Deonte Sutton",
+   "value": {
+    "skin": "brown",
+    "hair": {
+     "style": "short",
+     "color": "black"
+    },
+    "facial": "fullbeard",
+    "accessories": [
+     "earrings",
+     "sleeve-team"
+    ],
+    "notes": "Short hair, big full beard, navy sleeves [IMG_6205 (Seahawks roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Blair Iupati",
+   "value": {
+    "skin": "tan",
+    "hair": {
+     "style": "spiky",
+     "color": "black"
+    },
+    "facial": "goatee",
+    "accessories": [
+     "sleeve-black",
+     "gloves-white"
+    ],
+    "notes": "Spiky black hair, soul patch, black sleeves [IMG_6205 (Seahawks roster)]"
+   },
+   "source": "image:IMG_6141–6205",
+   "reason": "In-game portrait described as sprite fields",
+   "trigger": "The upload contains portraits"
+  }
+ ]
+}

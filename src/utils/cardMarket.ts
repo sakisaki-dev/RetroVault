@@ -2,7 +2,7 @@ import type { Player } from '@/types/player';
 import { HOF_THRESHOLD, LEGACY_TIERS } from '@/config/stats';
 import { officialOvrMap, playerKey } from '@/config/ovr';
 import { playerSkillGrades } from '@/config/skillGrades';
-import { TIERS, tierFor, type Finish, type Tier } from '@/config/cardTiers';
+import { TIERS, tierFor, type Finish, type Tier, type Variant } from '@/config/cardTiers';
 
 /**
  * Card market: what a collectible card is "worth" in coins, and how that changes as the league data changes.
@@ -21,6 +21,8 @@ import { TIERS, tierFor, type Finish, type Tier } from '@/config/cardTiers';
  * is what keeps moving the price: a real career line that adds 1000 legacy lifts a card ~15–20%, and crossing
  * into the Hall of Fame adds another 25%. A thin tier is worth more than a crowded one.
  * Finish multipliers (FINISH_MULTIPLIER): Base ×1, Silver ×1.5, Gold ×2.5, Holo ×6.
+ * Art variant multipliers (VARIANT_MULTIPLIER), on top: Prizm number ×1, Team jersey ×1.2, 70s Topps ×1.8,
+ * Locker stall ×2.5, Retro Bowl sprite ×5. A card's price is value × finish × variant (cardPrice).
  *
  * HISTORY: data/y80/market_history.json (built into public/data/market.json) is a list of snapshots of every
  * collectible league player's { ovr, skill, legacy, value }. `npm run rebuild` appends one whenever any player's
@@ -32,6 +34,7 @@ export const OVR_SCALE = 2400;
 export const TIER_MULTIPLIER: Record<Tier, number> = { common: 1, rare: 1.25, epic: 1.6, legendary: 2 };
 export const HOF_MULTIPLIER = 1.25;
 export const FINISH_MULTIPLIER: Record<Finish, number> = { base: 1, silver: 1.5, gold: 2.5, holo: 6 };
+export const VARIANT_MULTIPLIER: Record<Variant, number> = { number: 1, jersey: 1.2, topps: 1.8, locker: 2.5, sprite: 5 };
 const LEGACY_REF = LEGACY_TIERS[0].min; // 10000, the Legendary legacy tier
 const LEGACY_CAP = 1.5 * LEGACY_REF;
 
@@ -59,6 +62,8 @@ export const cardValue = ({ ovr, skill, legacy, tier, tierCount, poolSize }: Val
 };
 
 export const finishValue = (value: number, finish: Finish) => Math.round(value * FINISH_MULTIPLIER[finish]);
+/** Price of one card: base value × finish × art variant. */
+export const cardPrice = (value: number, finish: Finish, variant: Variant) => Math.round(value * FINISH_MULTIPLIER[finish] * VARIANT_MULTIPLIER[variant]);
 
 // ---------- Snapshots ----------
 
@@ -150,12 +155,19 @@ export const marketMovers = (history: MarketHistory, since: 'last' | 'all' = 'la
   });
 };
 
-/** Portfolio value per snapshot: each owned card at its finish (cards not yet listed in a snapshot count 0). */
-export const portfolioSeries = (history: MarketHistory, owned: Record<string, Finish>) =>
+/** One owned card for the portfolio: a player's variant at its best finish. */
+export interface Holding {
+  key: string;
+  finish: Finish;
+  variant: Variant;
+}
+
+/** Portfolio value per snapshot: each owned (player, variant) at its best finish (cards not yet listed count 0). */
+export const portfolioSeries = (history: MarketHistory, owned: Holding[]) =>
   history.map((s) => ({
     label: s.label,
     date: s.date,
-    value: Object.entries(owned).reduce((sum, [k, f]) => sum + (s.players[k] ? finishValue(s.players[k].value, f) : 0), 0),
+    value: owned.reduce((sum, h) => sum + (s.players[h.key] ? cardPrice(s.players[h.key].value, h.finish, h.variant) : 0), 0),
   }));
 
 /** "+12.4%" / "−3.0%" / "0.0%" */

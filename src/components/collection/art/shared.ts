@@ -1,11 +1,14 @@
 import type { GamePlayer } from '@/config/ovr';
 import { findNFLTeam } from '@/utils/nflTeams';
+import type { Uniform } from './sprite/uniforms';
 
 /** Every art style takes the same props: the player, his jersey number and a palette built from his team colours. */
 export interface ArtProps {
   player: GamePlayer;
   number?: number | null;
   pal: Palette;
+  /** Uniform the card shows (home unless it rolled an alternate) */
+  uniform?: Uniform;
 }
 
 export interface Palette {
@@ -33,8 +36,24 @@ const parse = (s: string | undefined, fallback: HSL): HSL => {
 const clamp = (x: number, lo = 0, hi = 100) => Math.min(hi, Math.max(lo, x));
 const css = ([h, s, l]: HSL) => `hsl(${h} ${clamp(s)}% ${clamp(l)}%)`;
 
-/** Team palette (Retro Vault navy / gold for free agents and legends without a club). */
-export const paletteFor = (player: GamePlayer): Palette => {
+const mixWith = (c: string, f: number, to: string) => `color-mix(in srgb, ${c} ${Math.round(f * 100)}%, ${to})`;
+
+/** Palette for an alternate uniform (jersey + trim colours). */
+const altPalette = (u: Uniform): Palette => ({
+  a: u.jersey,
+  b: u.trim,
+  aDark: mixWith(u.jersey, 0.62, '#000'),
+  aDeep: mixWith(u.jersey, 0.32, '#000'),
+  aLight: mixWith(u.jersey, 0.65, '#fff'),
+  bDark: mixWith(u.trim, 0.6, '#000'),
+  onA: u.number,
+  trim: u.numberOutline === u.jersey ? u.trim : u.numberOutline,
+  pants: u.pants,
+});
+
+/** Team palette (Retro Vault navy / gold for free agents and legends without a club); an alternate uniform overrides it. */
+export const paletteFor = (player: GamePlayer, uniform?: Uniform): Palette => {
+  if (uniform && uniform.id !== 'home') return altPalette(uniform);
   const team = findNFLTeam(player.team);
   const a = parse(team?.primaryColor, [222, 45, 32]);
   const b = parse(team?.secondaryColor, [43, 100, 62]);
@@ -69,8 +88,6 @@ export const seedOf = (s: string) => {
   return h >>> 0;
 };
 
-export const SKIN = ['#f1c7a1', '#d9a07a', '#b97850', '#8d5537', '#6a3d26'];
-export const skinFor = (player: GamePlayer) => SKIN[seedOf(player.name) % SKIN.length];
 
 export type Pose = 'qb' | 'rb' | 'wr' | 'ol' | 'def';
 export const poseFor = (position: string): Pose => {

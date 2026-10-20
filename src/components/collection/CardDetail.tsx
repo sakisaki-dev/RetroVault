@@ -5,7 +5,21 @@ import { cn } from '@/lib/utils';
 import TeamLogo from '@/components/brand/TeamLogo';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import { findNFLTeam } from '@/utils/nflTeams';
-import { FINISHES, craftCost, craftUpgrade, finishLabel, nextFinish, tierLabel, type Finish, type OwnedCard, type Tier } from '@/utils/collection';
+import {
+  FINISHES,
+  VARIANTS,
+  bestVariant,
+  craftCost,
+  craftUpgrade,
+  finishLabel,
+  nextFinish,
+  tierLabel,
+  variantLabel,
+  type Finish,
+  type OwnedCard,
+  type Tier,
+  type Variant,
+} from '@/utils/collection';
 import CollectibleCard from './CollectibleCard';
 import CardBack from './CardBack';
 import CardValue from './market/CardValue';
@@ -16,6 +30,8 @@ export interface CardDetailTarget {
   info: CardInfo;
   /** Finish shown; defaults to the best owned */
   finish?: Finish;
+  /** Art variant shown; defaults to the rarest owned */
+  variant?: Variant;
   /** Tier shown (Card designs can show any tier); defaults to the player's */
   tier?: Tier;
   /** Card designs preview: no crafting, no ownership */
@@ -74,13 +90,17 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
   const [msg, setMsg] = useState('');
   const [flipped, setFlipped] = useState(false);
   const [view, setView] = useState<Finish | null>(null);
+  const [viewVariant, setViewVariant] = useState<Variant | null>(null);
   const [upgrading, setUpgrading] = useState(false);
   const info = target?.info;
   const key = info?.key;
   const tier = target?.tier ?? info?.tier ?? 'common';
-  const owned = (f: Finish) => !!target?.preview || !!entry?.counts[f] || entry?.best === f;
-  const finish = view ?? target?.finish ?? entry?.best ?? 'base';
-  const to = !target?.preview && entry ? nextFinish(entry.best) : null;
+  const variant: Variant = viewVariant ?? target?.variant ?? (target?.preview ? 'jersey' : bestVariant(entry));
+  const vEntry = entry?.variants[variant];
+  const hasVariant = (v: Variant) => !!target?.preview || !!entry?.variants[v];
+  const owned = (f: Finish) => !!target?.preview || !!vEntry?.counts[f] || vEntry?.best === f;
+  const finish = view ?? (viewVariant ? vEntry?.best : undefined) ?? target?.finish ?? vEntry?.best ?? 'base';
+  const to = !target?.preview && vEntry ? nextFinish(vEntry.best) : null;
   const cost = to && info ? craftCost(to, info.tier) : 0;
   const team = info ? findNFLTeam(info.player.team) : null;
 
@@ -93,6 +113,7 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
   useEffect(() => {
     setFlipped(false);
     setView(null);
+    setViewVariant(null);
     setMsg('');
     setUpgrading(false);
   }, [key]);
@@ -135,7 +156,7 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
 
   const craft = () => {
     if (!info || !to) return;
-    const done = craftUpgrade(info.player, info.tier);
+    const done = craftUpgrade(info.player, info.tier, variant);
     if (done) {
       setView(done);
       setFlipped(false);
@@ -208,6 +229,7 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
                           player={info.player}
                           tier={tier}
                           finish={finish}
+                          variant={variant}
                           ovr={info.ovr}
                           number={info.number}
                           stats={info.stats}
@@ -224,7 +246,7 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
                         )}
                       </div>
                       <div className="cd__face cd__face--back" aria-hidden={!flipped}>
-                        {flipped && <CardBack info={info} tier={tier} total={total} />}
+                        {flipped && <CardBack info={info} tier={tier} total={total} variant={variant} />}
                       </div>
                     </div>
                   </div>
@@ -257,16 +279,48 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
                   </p>
                   <DialogTitle className="font-display text-4xl uppercase italic leading-none">{info.player.name}</DialogTitle>
                   <DialogDescription className="mt-1.5">
-                    {finishLabel(finish)} · {POSITION_NAMES[info.player.position] ?? info.player.position} · {info.franchise} · OVR {info.ovr ?? '–'}
+                    {variantLabel(variant)} · {finishLabel(finish)} · {POSITION_NAMES[info.player.position] ?? info.player.position} · {info.franchise} · OVR {info.ovr ?? '–'}
                   </DialogDescription>
                 </div>
 
                 <div>
-                  <p className="cd__label">{target?.preview ? 'Finishes' : 'Your finishes'}</p>
+                  <p className="cd__label" id="cd-variants">
+                    {target?.preview ? 'Art variants' : `Your variants · ${VARIANTS.filter((v) => hasVariant(v.key)).length}/${VARIANTS.length}`}
+                  </p>
+                  <ul className="flex flex-wrap gap-1.5" aria-labelledby="cd-variants">
+                    {VARIANTS.map((v) => {
+                      const has = hasVariant(v.key);
+                      const e = entry?.variants[v.key];
+                      return (
+                        <li key={v.key}>
+                          <button
+                            type="button"
+                            className={cn('cd-chip cd-vchip', `cd-vchip--${v.key}`, variant === v.key && 'is-on')}
+                            onClick={() => {
+                              setViewVariant(v.key);
+                              setView(null);
+                              setFlipped(false);
+                            }}
+                            disabled={!has}
+                            aria-pressed={variant === v.key}
+                            title={has ? `Show the ${v.label} variant` : `${v.label} not owned yet`}
+                          >
+                            <i className={cn('vdot', `vdot--${v.key}`, has && 'is-owned')} aria-hidden="true" />
+                            {v.short}
+                            {e && !target?.preview && <span className="text-muted-foreground">· {finishLabel(e.best)}</span>}
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+
+                <div>
+                  <p className="cd__label">{target?.preview ? 'Finishes' : `Your finishes · ${variantLabel(variant)}`}</p>
                   <ul className="flex flex-wrap gap-1.5" aria-label="Preview a finish">
                     {FINISHES.map((f) => {
                       const Icon = FINISH_ICON[f.key];
-                      const n = entry?.counts[f.key] ?? 0;
+                      const n = vEntry?.counts[f.key] ?? 0;
                       const has = owned(f.key);
                       return (
                         <li key={f.key}>
@@ -308,7 +362,7 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
                   </button>
                 )}
 
-                {!target?.preview && <CardValue cardKey={info.key} name={info.player.name} finish={finish} ownedFinish={entry?.best} />}
+                {!target?.preview && <CardValue cardKey={info.key} name={info.player.name} finish={finish} variant={variant} ownedFinish={vEntry?.best} />}
 
                 {onPlayer && (
                   <button type="button" onClick={() => onPlayer(info)} className="cd-btn">

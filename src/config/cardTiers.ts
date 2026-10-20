@@ -44,3 +44,23 @@ export const FINISHES: { key: Finish; label: string }[] = [
 ];
 export const finishLabel = (f: Finish) => FINISHES.find((x) => x.key === f)!.label;
 export const finishRank = (f: Finish) => FINISHES.findIndex((x) => x.key === f);
+
+/**
+ * Art VARIANT (which card art): a third rarity layer on top of tier and finish. Every pull rolls one; a player
+ * can own every variant × finish, and they stack. Lowest (most common) to highest.
+ */
+export type Variant = 'number' | 'jersey' | 'topps' | 'locker' | 'sprite';
+
+export const VARIANTS: { key: Variant; label: string; short: string }[] = [
+  { key: 'number', label: 'Prizm number', short: 'Prizm' },
+  { key: 'jersey', label: 'Team jersey', short: 'Jersey' },
+  { key: 'topps', label: '70s Topps', short: 'Topps' },
+  { key: 'locker', label: 'Locker stall', short: 'Locker' },
+  { key: 'sprite', label: 'Retro Bowl sprite', short: 'Sprite' },
+];
+export const variantLabel = (v: Variant) => VARIANTS.find((x) => x.key === v)!.label;
+export const variantShort = (v: Variant) => VARIANTS.find((x) => x.key === v)!.short;
+export const variantRank = (v: Variant) => VARIANTS.findIndex((x) => x.key === v);
+export const isVariant = (x: unknown): x is Variant => VARIANTS.some((v) => v.key === x);
+/** Variant of every card from before variants existed (and of Legends Exchange cards). */
+export const LEGACY_VARIANT: Variant = 'jersey';

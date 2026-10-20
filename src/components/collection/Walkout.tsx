@@ -1,11 +1,11 @@
 import { useEffect, useRef, type CSSProperties, type MouseEvent } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Gamepad2, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import TeamLogo from '@/components/brand/TeamLogo';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { POSITION_NAMES } from '@/utils/playerMeta';
-import { tierLabel, type PackCard } from '@/utils/collection';
+import { tierLabel, variantLabel, type PackCard } from '@/utils/collection';
 import CollectibleCard, { PlayerJersey } from './CollectibleCard';
 import type { CardInfo } from './useCardPool';
 import type { WkBeat, WkStage } from './walkoutBeats';
@@ -50,6 +50,8 @@ const SHARDS = EDGE.map(([x1, y1], i) => {
   };
 });
 const PRISM_BITS = 30;
+/** Sprite beat: blocks of the 8-bit flash grid (8 × 6) */
+const PIXEL_BLOCKS = 48;
 
 const CLUES: WkStage[] = ['logo', 'pos', 'ovr'];
 
@@ -122,6 +124,8 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
   };
   const holo = card.finish === 'holo';
   const twisted = holo && reached('twist');
+  const sprite = card.variant === 'sprite';
+  const pixeled = sprite && reached('pixel');
   const legendary = card.tier === 'legendary';
   const isFinal = stage === 'final';
   const doneRef = useRef<HTMLButtonElement>(null);
@@ -161,6 +165,8 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
         reached('walk') && 'wk--out',
         reached('flip') && 'wk--carded',
         twisted && 'wk--holo',
+        pixeled && 'wk--8bit',
+        stage === 'pixel' && 'wk--pixel-beat',
       )}
       style={style}
       onClick={tap}
@@ -261,6 +267,7 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
                     player={info.player}
                     tier={card.tier}
                     finish={holo && !twisted ? 'base' : card.finish}
+                    variant={card.variant}
                     ovr={info.ovr}
                     number={info.number}
                     stats={info.stats}
@@ -291,6 +298,11 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
                 ))}
               </span>
             )}
+            {pixeled && !twisted && (
+              <span className="wk__stamp wk__stamp--8bit" aria-hidden="true">
+                <Gamepad2 className="h-5 w-5" /> 8-bit
+              </span>
+            )}
             {twisted && (
               <span className="wk__stamp" aria-hidden="true">
                 <Sparkles className="h-5 w-5" /> Holo
@@ -299,12 +311,19 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
           </div>
         )}
         {twisted && !reduced && <span className="wk__white" aria-hidden="true" />}
+        {stage === 'pixel' && !reduced && (
+          <span className="wk__8bit" aria-hidden="true">
+            {Array.from({ length: PIXEL_BLOCKS }, (_, i) => (
+              <i key={i} style={{ '--d': `${((i * 29) % PIXEL_BLOCKS) * 14}ms` } as CSSProperties} />
+            ))}
+          </span>
+        )}
         {!reduced && stage === 'flip' && <span className="wk__flash" aria-hidden="true" />}
       </div>
 
       <p className="sr-only" role="status">
         {reached('flip')
-          ? `${tierLabel(card.tier)}! ${info.player.name}${twisted ? '. Twist: it is a Holo!' : ''}`
+          ? `${tierLabel(card.tier)}! ${info.player.name}, ${variantLabel(card.variant)}${pixeled ? '. 8-bit: a Retro Bowl sprite card!' : ''}${twisted ? '. Twist: it is a Holo!' : ''}`
           : `${tierLabel(card.tier)} walkout`}
       </p>
 

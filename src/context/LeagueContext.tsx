@@ -102,6 +102,7 @@ const mergePlayerEdits = async (baseData: LeagueData): Promise<LeagueData> => {
         dominance: edit.dominance,
         careerLegacy: edit.careerLegacy,
         tpg: edit.tpg,
+        ...(edit.spriteSkin ? { spriteSkin: edit.spriteSkin } : {}),
         ...edit.positionStats,
       } as Player;
 

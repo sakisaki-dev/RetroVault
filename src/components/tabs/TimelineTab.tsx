@@ -10,6 +10,7 @@ import EraDetail from '@/components/timeline/EraDetail';
 import Scorebug from '@/components/timeline/Scorebug';
 import FranchiseTitlesTable from '@/components/timeline/FranchiseTitlesTable';
 import CoverageControl from '@/components/timeline/CoverageControl';
+import Storylines from '@/components/timeline/Storylines';
 import { MarkerGlyph, type MarkerKind } from '@/components/timeline/SuperBowlMarker';
 
 const DETAIL_ID = 'timeline-era-detail';
@@ -24,7 +25,7 @@ const LEGEND: { kind: MarkerKind; label: string }[] = [
 ];
 
 const TimelineTab = () => {
-  const { content, loading, source, upload, reset } = useLeagueContent();
+  const { content, loading, source } = useLeagueContent();
   const { getAllPlayers } = useLeague();
   const players = useMemo(() => getAllPlayers(), [getAllPlayers]);
 
@@ -72,7 +73,7 @@ const TimelineTab = () => {
         <CalendarRange className="mx-auto mb-4 h-12 w-12 text-muted-foreground" aria-hidden />
         <h2 className="font-display text-3xl font-bold uppercase">No league history yet</h2>
         <p className="mx-auto mt-2 max-w-md text-muted-foreground">
-          Upload a league content file from the Commentary tab ("Update coverage") to build the eras timeline.
+          Run <code>npm run rebuild</code> to generate the league history from the data.
         </p>
       </div>
     );
@@ -233,9 +234,11 @@ const TimelineTab = () => {
         </section>
       )}
 
-      {/* League history is AI-editable content: uploading a new content.json replaces it. */}
+      <Storylines storylines={content.storylines} players={players} onPlayerSelect={setSelectedPlayer} />
+
+      {/* League history is generated from the data on every rebuild (scripts/build_league_content.py). */}
       <footer className="flex justify-end border-t border-border/30 pt-4">
-        <CoverageControl source={source} season={content.season} storyCount={content.eras?.length ?? 0} upload={upload} reset={reset} />
+        <CoverageControl source={source} season={content.season} storyCount={content.eras?.length ?? 0} />
       </footer>
 
       <PlayerDetailCard player={selectedPlayer} onClose={() => setSelectedPlayer(null)} />

@@ -15,6 +15,8 @@ import PackOpening, { PackArt } from '@/components/collection/PackOpening';
 import MarketView from '@/components/collection/market/MarketView';
 import { byTierDesc, useCardPool, type CardInfo } from '@/components/collection/useCardPool';
 import { FACE_LEGEND } from '@/components/collection/cardStats';
+import VariantBadges from '@/components/collection/VariantBadges';
+import { VARIANT_MULTIPLIER } from '@/utils/cardMarket';
 import { matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
 import { isHallOfFamer } from '@/config/stats';
 import {
@@ -27,6 +29,8 @@ import {
   PACK_ORDER,
   SHELF_ORDER,
   TIERS,
+  VARIANTS,
+  bestVariant,
   finishRank,
   openPack,
   packCount,
@@ -34,6 +38,7 @@ import {
   redeemGift,
   tierRank,
   useCollection,
+  variantsOwned,
   type Finish,
   type EarnablePack,
   type PackType,
@@ -122,6 +127,21 @@ const RulesPopover = () => (
               ))}
             </tr>
           ))}
+          <tr className="border-t border-line text-left">
+            <th scope="rowgroup" colSpan={PACK_ORDER.length + 1} className="pt-2 font-sans text-[11px] font-semibold">
+              Art variant
+            </th>
+          </tr>
+          {VARIANTS.map((v) => (
+            <tr key={v.key} className="border-t border-line/40 text-right">
+              <th scope="row" className="py-0.5 text-left font-sans font-semibold">
+                {v.short}
+              </th>
+              {PACK_ORDER.map((p) => (
+                <td key={p}>{fmtOdds(ODDS[p].variants[v.key])}</td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
       <ul className="mt-3 space-y-1 text-muted-foreground">
@@ -131,6 +151,11 @@ const RulesPopover = () => (
           </li>
         ))}
       </ul>
+      <p className="mt-3 text-muted-foreground">
+        Every card rolls tier, then player, then finish, then art variant ({VARIANTS.map((v) => v.label).join(', ')}; the sprite is rarest). A player
+        can own every variant and they stack in the binder. Market value × variant:{' '}
+        {VARIANTS.map((v) => `${v.short} ×${VARIANT_MULTIPLIER[v.key]}`).join(', ')}. Legends Exchange cards are Team jersey.
+      </p>
       <p className="mt-3 font-semibold">Earn packs</p>
       <ul className="mt-1 space-y-0.5 text-muted-foreground">
         {EARNING_RULES.map((r) => (
@@ -140,7 +165,7 @@ const RulesPopover = () => (
         ))}
       </ul>
       <p className="mt-3 text-muted-foreground">
-        Duplicates give shards ({FINISHES.map((f) => `${f.label} ${DUPLICATE_SHARDS[f.key]}`).join(', ')}). Upgrading a card one finish costs{' '}
+        Duplicates (same player, variant and finish) give shards ({FINISHES.map((f) => `${f.label} ${DUPLICATE_SHARDS[f.key]}`).join(', ')}). Upgrading a card one finish costs{' '}
         {CRAFT_COST.silver}/{CRAFT_COST.gold}/{CRAFT_COST.holo}, more for higher tiers. Open any card to upgrade it.
       </p>
       <p className="mt-3 font-semibold">Card stats</p>
@@ -203,6 +228,7 @@ const CollectionTab = () => {
   };
 
   const ownedCount = useMemo(() => cards.filter((c) => !!owned[c.key]).length, [cards, owned]);
+  const variantCount = useMemo(() => variantsOwned(owned, cards.map((c) => c.key)), [cards, owned]);
   const tierStats = useMemo(
     () =>
       TIERS.map((t) => {
@@ -220,6 +246,7 @@ const CollectionTab = () => {
           (a, b) =>
             tierRank(b.tier) - tierRank(a.tier) ||
             finishRank(owned[b.key].best) - finishRank(owned[a.key].best) ||
+            Object.keys(owned[b.key].variants).length - Object.keys(owned[a.key].variants).length ||
             (b.ovr ?? 0) - (a.ovr ?? 0),
         )
         .slice(0, 10),
@@ -245,7 +272,8 @@ const CollectionTab = () => {
       { id: 'legacy-elite', title: 'Legacy elite', members: cards.filter((c) => c.tier === 'legendary').map((c) => c.player) },
       { id: 'hof-wing', title: 'Hall of Fame', members: cards.filter((c) => !c.player.isRealLegend && isHallOfFamer(c.player)).map((c) => c.player) },
     ].filter((a) => a.members.length > 0);
-    return [...extra, ...eras].map((a) => ({ ...a, have: a.members.filter((p) => !!owned[`${p.position}:${p.name}`]).length }));
+    // Set progress counts every player × variant
+    return [...extra, ...eras].map((a) => ({ ...a, have: variantsOwned(owned, a.members.map((p) => `${p.position}:${p.name}`)), total: a.members.length * VARIANTS.length }));
   }, [cards, content, owned]);
 
   const teamOptions = useMemo(() => [...new Set(cards.map((c) => c.franchise))].sort(), [cards]);
@@ -257,7 +285,7 @@ const CollectionTab = () => {
     const list = cards.filter(
       (c) =>
         (tier === 'all' || c.tier === tier) &&
-        (finish === 'all' || owned[c.key]?.best === finish) &&
+        (finish === 'all' || (!!owned[c.key] && Object.values(owned[c.key].variants).some((v) => v?.best === finish))) &&
         (pos === 'all' || c.player.position === pos) &&
         (team === 'all' || c.franchise === team) &&
         (missing || !!owned[c.key]),
@@ -312,6 +340,9 @@ const CollectionTab = () => {
               ))}
             </ul>
             <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+              <span>
+                <span className="font-mono text-foreground">{variantCount}</span> / {cards.length * VARIANTS.length} variants
+              </span>
               <span className="inline-flex items-center gap-1">
                 <Hammer className="h-3.5 w-3.5 text-sky-300" aria-hidden="true" />
                 <span className="font-mono text-foreground">{state.shards.toLocaleString()}</span> shards
@@ -370,7 +401,8 @@ const CollectionTab = () => {
                   live={owned[c.key].best === 'holo' || c.tier === 'legendary'}
                   player={c.player}
                   tier={c.tier}
-                  finish={owned[c.key].best}
+                  variant={bestVariant(owned[c.key])}
+                  finish={owned[c.key].variants[bestVariant(owned[c.key])]!.best}
                   ovr={c.ovr}
                   number={c.number}
                   stats={c.stats}
@@ -403,20 +435,20 @@ const CollectionTab = () => {
           </h2>
           <ul className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 scrollbar-none sm:mx-0 sm:px-0">
             {sets.map((s) => {
-              const done = s.have === s.members.length;
+              const done = s.have === s.total;
               return (
                 <li
                   key={s.id}
                   className={cn('w-40 shrink-0 rounded-lg border px-2.5 py-2', done ? 'border-gold bg-gold/10' : 'border-line bg-panel/60')}
-                  title={s.members.map((p) => p.name).join(', ')}
+                  title={`${s.members.map((p) => p.name).join(', ')} (${s.have} of ${s.total} player variants)`}
                 >
                   <p className="truncate text-xs font-semibold">{s.title}</p>
                   <p className="flex items-center gap-2">
                     <span className="block h-1 flex-1 overflow-hidden rounded-full bg-black/40" aria-hidden="true">
-                      <span className="block h-full rounded-full bg-gold" style={{ width: `${pct(s.have, s.members.length)}%` }} />
+                      <span className="block h-full rounded-full bg-gold" style={{ width: `${pct(s.have, s.total)}%` }} />
                     </span>
                     <span className="font-mono text-[11px] tabular-nums text-muted-foreground">
-                      {s.have}/{s.members.length}
+                      {s.have}/{s.total}
                     </span>
                   </p>
                 </li>
@@ -501,12 +533,15 @@ const CollectionTab = () => {
           <ul className="fut-grid" aria-label="Cards">
             {shown.map((c) => {
               const entry = owned[c.key];
+              // One tile per player: his rarest variant owned, at that variant's best finish
+              const v = entry ? bestVariant(entry) : undefined;
               return (
-                <li key={c.key}>
+                <li key={c.key} className="fut-tile">
                   <CollectibleCard
                     player={c.player}
                     tier={c.tier}
-                    finish={entry?.best ?? 'base'}
+                    finish={(v && entry?.variants[v]?.best) || 'base'}
+                    variant={v}
                     owned={!!entry}
                     ovr={c.ovr}
                     number={c.number}
@@ -517,6 +552,7 @@ const CollectionTab = () => {
                     marks={entry?.marks}
                     onOpen={entry ? (from) => openCard(c, binderOwned, from) : undefined}
                   />
+                  <VariantBadges entry={entry} />
                 </li>
               );
             })}
@@ -554,7 +590,7 @@ const CollectionTab = () => {
         onClose={closeDesigns}
         cards={cards}
         total={cards.length}
-        onOpenCard={(info, t, f, from) => setDetail({ info, tier: t, finish: f, preview: true, from })}
+        onOpenCard={(info, t, f, v, from) => setDetail({ info, tier: t, finish: f, variant: v, preview: true, from })}
         onPreviewPack={() => setPreview(true)}
         onArtLab={() => setArtLab(true)}
       />

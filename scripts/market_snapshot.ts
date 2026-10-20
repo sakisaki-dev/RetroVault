@@ -6,7 +6,10 @@
  *   npm run market -- --backfill  rebuild data/y80/market_history.json from git history first: one snapshot per
  *                               commit that changed the league data (identical neighbours deduped), then as above
  *
- * Runs in `npm run rebuild` after the content build, so prices move whenever the data does.
+ * Runs in `npm run rebuild` after the league data build and before the content build, so prices move whenever the
+ * data does and the content build can read Career Legacy / OVR and derive the Hall of Fame classes from the snapshots.
+ * Every snapshot carries `season` (the latest Super Bowl in data/y80/super_bowls.json at that point; older snapshots
+ * get it from git once).
  */
 import { execFileSync } from 'child_process';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
@@ -52,6 +55,29 @@ const dateLabel = (iso: string) => {
   return m ? `${MONTHS[Number(m[2]) - 1]} ${Number(m[3])}, ${m[4]}:${m[5]}` : iso;
 };
 
+type Snap = MarketSnapshot & { season?: string };
+const SUPER_BOWLS = 'data/y80/super_bowls.json';
+/** "Y80": the latest Super Bowl year in a super_bowls.json text. */
+const seasonOf = (json: string | null): string | undefined => {
+  if (!json) return undefined;
+  try {
+    const sbs = JSON.parse(json) as { year?: string }[];
+    const years = sbs.map((s) => Number(String(s.year ?? '').replace(/\D/g, ''))).filter(Number.isFinite);
+    return years.length ? `Y${Math.max(...years)}` : undefined;
+  } catch {
+    return undefined;
+  }
+};
+/** Older snapshots: season from the label ("Y80 · Oct 19…") or from super_bowls.json at the snapshot's commit. */
+const fillSeasons = (history: Snap[]) =>
+  history.forEach((s) => {
+    if (s.season) return;
+    const fromLabel = s.label.match(/^(Y\d+) · /)?.[1];
+    const sha = s.id.match(/^git-([0-9a-f]+)$/)?.[1];
+    const season = fromLabel ?? (sha ? seasonOf(gitShow(sha, SUPER_BOWLS)) : undefined);
+    if (season) s.season = season;
+  });
+
 const append = (history: MarketHistory, snap: MarketSnapshot) => {
   const last = history[history.length - 1];
   if (last && samePlayers(last.players, snap.players)) return false;
@@ -73,7 +99,8 @@ const backfill = (): MarketHistory => {
     if (!csv || !legends) return;
     const players = compute(csv, legends, gitShow(sha, EXCLUSIONS));
     if (!Object.keys(players).length) return;
-    if (append(history, { id: `git-${sha.slice(0, 7)}`, label: dateLabel(date), date, players })) {
+    const season = seasonOf(gitShow(sha, SUPER_BOWLS));
+    if (append(history, { id: `git-${sha.slice(0, 7)}`, label: dateLabel(date), date, ...(season ? { season } : {}), players })) {
       console.log(`  ${sha.slice(0, 7)} ${dateLabel(date)}: ${Object.keys(players).length} players`);
     }
   });
@@ -89,28 +116,24 @@ const localIso = (d: Date) => {
 
 const main = () => {
   const doBackfill = process.argv.includes('--backfill');
-  let history: MarketHistory = [];
+  let history: Snap[] = [];
   if (doBackfill) {
     console.log('Backfilling market history from git…');
     history = backfill();
   } else if (existsSync(HISTORY)) {
     const parsed: unknown = JSON.parse(readFileSync(HISTORY, 'utf8'));
-    history = Array.isArray(parsed) ? (parsed as MarketHistory) : [];
+    history = Array.isArray(parsed) ? (parsed as Snap[]) : [];
   }
 
   const read = (p: string) => (existsSync(p) ? readFileSync(p, 'utf8') : null);
   const players = compute(readFileSync(CSV, 'utf8'), read(LEGENDS), read(EXCLUSIONS));
   const now = new Date();
   const iso = localIso(now);
-  let season = '';
-  try {
-    season = String(JSON.parse(readFileSync('public/data/league/content.json', 'utf8')).season ?? '');
-  } catch {
-    /* no content file */
-  }
+  const season = seasonOf(read(SUPER_BOWLS));
   const label = `${season ? `${season} · ` : ''}${dateLabel(iso)}`;
   const id = `snap-${iso.slice(0, 16).replace(/\D/g, '')}`;
-  const added = append(history, { id, label, date: iso, players });
+  fillSeasons(history);
+  const added = append(history, { id, label, date: iso, ...(season ? { season } : {}), players } as Snap);
 
   // One line per player, so a data update reads as a small diff
   const json = (h: MarketHistory) =>

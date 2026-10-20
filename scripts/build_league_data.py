@@ -14,6 +14,7 @@ Usage: python3 scripts/build_league_data.py
 """
 import csv
 import json
+import re
 from pathlib import Path
 
 import numpy as np
@@ -29,81 +30,17 @@ LEGEND_PHOTOS = ROOT / "data" / "legends" / "photos.json"
 
 GAME_EXCLUSIONS_OUT = ROOT / "public" / "data" / "game-exclusions.json"
 PLAYER_EXTRAS_OUT = ROOT / "public" / "data" / "player-extras.json"
+SPRITES_OUT = ROOT / "public" / "data" / "sprites.json"
+SPRITE_IMAGES = ROOT / "public" / "data" / "sprites"
 
-# CUR = the user's current club (confirmed by the user: Jets).
-CURRENT_CLUB = "Jets"
-# Per-player team overrides (user-confirmed or from player cards). Takes precedence over CUR.
-TEAM_FIXES: dict[str, str] = {
-    "Jason Macleone": "Seahawks",  # user: now on the Seahawks; previously the Vikings
-    "Malakai Sawyer": "Jets",      # user: one Titans season (Y72 title), then the Jets (Y77 title); traded to the Falcons for Y80
-    "Levante Hopkins": "Titans",   # user: played for the Titans during the Y70–72 three-peat
-}
-# Franchises a player is confirmed to have played for, beyond his final team (user-confirmed).
-# Card fields former_team / legacy_team are added automatically.
-TEAM_HISTORY: dict[str, list[str]] = {
-    "Sherman Brandson": ["Giants"],  # user: a Giants legend (final team on the sheet: Buccaneers)
-    "Hamsfa Boltt": ["Titans"],
-    "Michael Wilson": ["Ravens"],    # user: Ravens first, then the Giants
-    "Obinna Leary": ["Jets"],        # user: traded to the Seahawks for Alvin Tufele
-    "Alvin Tufele": ["Seahawks"],    # user: traded to the Jets for Obinna Leary
-    "Jakeem Friend": ["Seahawks"],   # user: mainly a Seahawk; Jets only the last 2 years      # user: Titans QB for their last title season, now with the Commanders
-}
+# Owner-confirmed facts (club of record, earlier clubs, game-HOF club, rosters, card notes, status) live in
+# data/y80/owner_facts.json, written by scripts/apply_upload.py. Scripts hold code, not facts.
+import sys  # noqa: E402
 
-# Team each in-game Hall of Famer retired with (the game's Player HOF screen, Y80). Often not where he spent
-# most of his career, so it is recorded on the card ("retired_team") and in his franchise list, not as his team.
-RETIRED_WITH: dict[str, str] = {
-    "Nick Bolton": "Vikings", "Lamar Jackson": "Packers", "Ja’Marr Chase": "Vikings", "CeeDee Lamb": "Dolphins",
-    "Jayden Daniels": "Commanders", "Jahmyr Gibbs": "Dolphins", "Mason Taylor": "Dolphins", "Akiem Bouye": "Chargers",
-    "Ian Finney": "Buccaneers", "Brennan Higgins": "Commanders", "Ray Waller": "Buccaneers", "Alohi Godwin": "Seahawks",
-    "Charlie John": "Bills", "Lukas Russell": "Seahawks", "Dennis Baylon": "Chargers", "Cairo Asanjh": "Ravens",
-    "Bilal Tolbert": "Chargers", "Wayne Wilson": "Bills", "Rondale Ikarras": "Jets", "Sherman Brandson": "Vikings",
-    "Dedrick Gould": "Ravens", "Denzel Hayes": "Bears", "Jackson Wardell Kline": "Dolphins", "Robert Boone": "Vikings",
-    "God Johnson": "Vikings", "Levante Hopkins": "Titans", "Michael Wilson": "Titans", "Jason Macleone": "Seahawks",
-    "Pharoah Hunter": "Seahawks", "Malakai Sawyer": "Falcons", "Chance Woodrum": "Jets",
-}
-
-# Current rosters from the game's team screens (Y80 offseason). The game's Hall of Fame also lists some active
-# players (Macleone, Woodrum), so these override the "in the game's HOF = retired" rule.
-ACTIVE_ROSTERS: dict[str, str] = {
-    **{n: "Jets" for n in ["Ty Lock", "Ryland Maxwell", "Jaylen Conklin", "Kane Van Oxley", "Alvin Tufele", "Jakeem Friend",
-                           "Kalif Suh", "Chance Woodrum", "Dylan Hyatt", "Trequan Roberts"]},
-    **{n: "Seahawks" for n in ["Jason Macleone", "Isaiah Karras", "Obinna Leary", "Dorance Hinton", "Romeo Rodgers",
-                               "Deonte Sutton", "Blair Iupati"]},
-}
-
-# Extra player-card notes supplied by the user (merged into player-extras.json "cards").
-CARD_NOTES: dict[str, dict] = {
-    "Malakai Sawyer": {
-        "team": "Falcons",
-                "former_team": "Titans",
-        "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans, then joined the Jets and won again in Y77 (CXXXVI); traded to the Falcons for Y80, where he retired",
-    },
-    "Rondale Ikarras": {
-        "legacy_team": "Ravens",
-        "note": "Ravens legend: five of his nine rings came in Baltimore (Y41–47) after three straight titles in Seattle (Y36–38); spent his final season with the Jets",
-    },
-    "Levante Hopkins": {
-        "note": "Tight end for the Titans' Y70–72 three-peat",
-    },
-    "Michael Wilson": {
-        "former_team": "Ravens",
-        "note": "Ravens first, then the Giants; retired as a Titan",
-    },
-    "Jakeem Friend": {
-        "legacy_team": "Seahawks",
-        "note": "A Seahawks lineman for most of his career; a Jet for only the last two seasons (Y79–80)",
-    },
-    "Hamsfa Boltt": {
-        "former_team": "Titans",
-        "note": "Quarterbacked the Titans to their most recent title, Super Bowl CXXXIII (Y74), and was named SB MVP; now with the Commanders",
-    },
-    "Jason Macleone": {
-        "former_team": "Vikings",
-        "note": "\"Scary Jerry\", named for his imposing stature and scary looks. Started at QB for the Vikings in their Y78 Super Bowl CXXXVII win (33–27 over the Broncos)",
-    },
-}
-# Status for players with no sheet row (the sheet's status column is otherwise used).
-STATUS_FIXES = {"Michael Wilson": "Retired", "CeeDee Lamb": "Retired"}
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from owner_facts import (  # noqa: E402
+    ACTIVE_ROSTERS, CARD_NOTES, CURRENT_CLUB, RETIRED_WITH, STATUS_FIXES, TEAM_FIXES, TEAM_HISTORY,
+)
 
 
 def g(p, k):
@@ -301,6 +238,54 @@ def write_player_extras():
     print(f"wrote {PLAYER_EXTRAS_OUT.relative_to(ROOT)}: real-NFL splits for {len(out['realNflCareer'])} players")
 
 
+SPRITE_ENUMS = {
+    "skin": {"pale", "light", "tan", "medium", "brown", "deep"},
+    "style": {"bald", "buzz", "short", "curly", "twists", "afro", "freeform", "mohawk", "spiky", "dreads", "shortlocs", "braids", "long"},
+    "facial": {"none", "stubble", "jawline", "shortbeard", "mustache", "goatee", "chinstrap", "beard", "fullbeard"},
+    "accessories": {"durag", "visor", "visor-gold", "eyeblack", "earrings", "headband", "sleeve-white", "sleeve-black", "sleeve-team",
+                    "wristbands", "gloves-white", "gloves-black", "tattoos", "armbands"},
+    "build": {"normal", "big", "huge"},
+    "height": {"normal", "tall"},
+}
+# Pose keys live in src/components/collection/art/spritePoses.ts (shown in the Art lab); old short names still work
+SPRITE_POSE = re.compile(r"^(qb|rb|wr|te|ol|dl|lb|db|cel|sig)-[a-z]+$|^(qb|rb|wr|ol|def|heisman)$")
+
+
+def write_sprites(players):
+    """Locked sprite looks (data/y80/sprites.json) → public/data/sprites.json, validated against the league."""
+    src = SRC / "sprites.json"
+    if not src.exists():
+        return
+    looks = json.loads(src.read_text()).get("players", {})
+    names = {p["n"] for p in players if not p.get("legend")}
+    out = {}
+    for name, look in looks.items():
+        if name not in names:
+            print(f"warn: sprites.json: {name} is not a league player (skipped)")
+            continue
+        bad = [f"{k}={look.get(k)}" for k in ("skin", "facial", "build", "height")
+               if look.get(k) is not None and look[k] not in SPRITE_ENUMS["skin" if k == "skin" else k]]
+        if look.get("pose") is not None and not SPRITE_POSE.match(str(look["pose"])):
+            bad.append(f"pose={look['pose']}")
+        hair = look.get("hair") or {}
+        if hair.get("style") is not None and hair["style"] not in SPRITE_ENUMS["style"]:
+            bad.append(f"hair.style={hair['style']}")
+        bad += [f"accessory {a}" for a in look.get("accessories", []) if a not in SPRITE_ENUMS["accessories"]]
+        if bad:
+            print(f"warn: sprites.json: {name}: unknown {', '.join(bad)}")
+        image = look.get("image")
+        if image and not (SPRITE_IMAGES / image).exists():
+            print(f"warn: sprites.json: {name}: image public/data/sprites/{image} not found (generated sprite used)")
+            image = None
+        entry = {k: v for k, v in look.items() if k not in ("notes", "image")}
+        if image:
+            entry["image"] = image
+        out[name] = entry
+    SPRITES_OUT.write_text(json.dumps(out, indent=1, ensure_ascii=False))
+    custom = sum(1 for e in out.values() if e.get("image"))
+    print(f"wrote {SPRITES_OUT.relative_to(ROOT)}: {len(out)} locked sprite looks ({custom} custom images)")
+
+
 def main():
     players = json.loads((SRC / "players.json").read_text())
     sheet = json.loads((SRC / "spreadsheet_parsed.json").read_text())
@@ -402,6 +387,7 @@ def main():
     print(f"wrote {GAME_EXCLUSIONS_OUT.relative_to(ROOT)}: {len(excluded)} league players out of the games")
 
     write_player_extras()
+    write_sprites(players)
 
     total = sum(len(v) for v in out.values())
     print(f"wrote {OUT.relative_to(ROOT)}: {total} players")

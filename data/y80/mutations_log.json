@@ -1,0 +1,23 @@
+{
+ "applied": [
+  {
+   "id": "2026-10-19-y80-initial",
+   "dir": "data/uploads/2026-10-19-y80-initial",
+   "applied_at": "2026-10-20T01:07:08-07:00",
+   "mutations": {
+    "stats": 115,
+    "looks": 46
+   },
+   "changed": 0
+  },
+  {
+   "id": "2026-10-20-sprite-references",
+   "dir": "data/uploads/2026-10-20-sprite-references",
+   "applied_at": "2026-10-20T01:45:33-07:00",
+   "mutations": {
+    "looks": 7
+   },
+   "changed": 4
+  }
+ ]
+}

@@ -1,18 +1,18 @@
 /**
- * Editorial league content (eras, Super Bowl history, storylines, rivalries…).
- *
- * Everything subjective lives in data, not code: the bundled default is
- * /data/league/content.json (built by scripts/build_league_content.py), and
- * the user can upload a replacement content.json (e.g. freshly AI-written)
- * which is kept in localStorage and overrides the bundled file until reset.
+ * League content (eras, Super Bowl history, storylines, rivalries…), loaded from
+ * /data/league/content.json. scripts/build_league_content.py generates all of it by rules over the data in
+ * data/y80; the only authored text is the owner's journal (quoted verbatim, `source: "owner"`) and the Hall of
+ * Fame speeches. There is no in-browser override: new information enters through an upload bundle
+ * (scripts/apply_upload.py), never by replacing this file.
  *
  * Format (all top-level arrays optional; unknown fields are ignored):
  * {
  *   "version": 1, "season": "Y80", "title": "...",
  *   "eras":       [{ id, name, startYear, endYear, superBowlRange?, yourTeams[], keyPlayers[], rival?, notes?, history? (markdown) }],
  *   "superBowls": [{ number, roman, year (number or "Y12"), winner, loser, score, yourResult: "won"|"lost"|"not in it"|"not captured", yourTeam }],
- *   "storylines": [{ id, headline, subheadline?, summary?, body (markdown), players[] (names), tier, category, era? }],
- *   "rivalries":  [{ id, rival, team?, era?, summary, meetings?[{ roman, year, score, result, yourTeam, opponent }] }],
+ *   "storylines": [{ id, headline, subheadline?, summary?, body (markdown), players[] (names), tier, category, era?, source? ("generated"|"owner") }],
+ *   "rivalries":  [{ id, rival, team?, era?, summary, record?{ won, lost }, meetings?[{ roman, year, score, result, yourTeam, opponent }], ownerNotes?[JournalNote] }],
+ *   "journal":    [{ id, text (owner's words), season?, kind?, players[], teams[] }],
  *   "lineages":   [{ id, label, chain[], note? }],
  *   "snubs":      [{ id, title?, summary (markdown), players[] }],
  *   "outsiders":  [{ player, position?, team?, summary }],
@@ -27,11 +27,10 @@
  * Eras/superBowls also accept the raw snake_case shape from data/y80
  * (years: "Y1–15", your_teams, key_players, your_result, your_team).
  */
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const CONTENT_URL = `${import.meta.env.BASE_URL}data/league/content.json`;
 export const CONTENT_STORAGE_KEY = 'retroVault:content';
-const CHANGE_EVENT = 'retroVault:content-changed';
 
 export const STORY_TIERS = ['breaking', 'hot-take', 'analysis', 'controversy', 'milestone', 'power-ranking'] as const;
 export type StoryTier = (typeof STORY_TIERS)[number];
@@ -72,6 +71,18 @@ export interface Storyline {
   tier: StoryTier;
   category: string;
   era?: string;
+  /** "owner" = the commissioner's own words (data/y80/journal.json), quoted verbatim; otherwise rule-generated */
+  source?: 'generated' | 'owner';
+}
+
+/** A note from the owner's journal: verbatim text plus the players / teams it was tagged with. */
+export interface JournalNote {
+  id: string;
+  text: string;
+  season?: string;
+  kind?: string;
+  players: string[];
+  teams: string[];
 }
 
 export interface RivalryMeeting {
@@ -89,7 +100,10 @@ export interface Rivalry {
   team?: string;
   era?: string;
   summary: string;
+  record?: { won: number; lost: number };
   meetings: RivalryMeeting[];
+  /** Owner journal notes tagged with this team */
+  ownerNotes?: JournalNote[];
 }
 
 export interface Lineage {
@@ -183,7 +197,9 @@ export interface LeagueContent {
   outsiders: Outsider[];
   openQuestions: string[];
   playerNotes: PlayerNote[];
-  /** Optional induction speeches keyed by player name (AI-written offline, uploaded with content.json) */
+  /** The owner's journal notes (verbatim) */
+  journal?: JournalNote[];
+  /** Induction speeches keyed by player name (data/y80/speeches.json) */
   speeches?: Record<string, string>;
   /** Head coach card and season-by-season history (optional) */
   coach?: CoachInfo;
@@ -277,7 +293,15 @@ const normStory = (r: Raw, i: number): Storyline | null => {
     tier: tier && (STORY_TIERS as readonly string[]).includes(tier) ? tier : 'analysis',
     category: str(r.category) ?? 'League History',
     era: str(r.era),
+    source: r.source === 'owner' ? 'owner' : 'generated',
   };
+};
+
+const normNote = (r: Raw, i: number): JournalNote | null => {
+  const text = str(r.text);
+  return text
+    ? { id: str(r.id) ?? `note-${i}`, text, season: str(r.season), kind: str(r.kind), players: strArr(r.players), teams: strArr(r.teams) }
+    : null;
 };
 
 const normRivalry = (r: Raw, i: number): Rivalry | null => {
@@ -290,6 +314,10 @@ const normRivalry = (r: Raw, i: number): Rivalry | null => {
     team: str(r.team),
     era: str(r.era),
     summary,
+    record: isObj(r.record) && count(r.record.won) !== undefined && count(r.record.lost) !== undefined
+      ? { won: count(r.record.won)!, lost: count(r.record.lost)! }
+      : undefined,
+    ownerNotes: arr(r.ownerNotes).map(normNote).filter((n): n is JournalNote => !!n),
     meetings: arr(r.meetings).map((m) => ({
       roman: str(m.roman),
       year: num(m.year),
@@ -435,6 +463,8 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
       }),
     ),
   };
+  const journal = arr(input.journal).map(normNote).filter((n): n is JournalNote => !!n);
+  if (journal.length) content.journal = journal;
   const speeches = speechMap(input.speeches);
   if (speeches) content.speeches = speeches;
   const coach = normCoach(input.coach);
@@ -454,7 +484,7 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
   return content;
 };
 
-/** Parse uploaded text; throws a user-readable Error. */
+/** Parse content.json text; throws a user-readable Error. */
 export const parseLeagueContent = (text: string): LeagueContent => {
   let json: unknown;
   try {
@@ -466,45 +496,16 @@ export const parseLeagueContent = (text: string): LeagueContent => {
 };
 
 // ---------------------------------------------------------------------------
-// Storage
+// Loading
 // ---------------------------------------------------------------------------
 
-const readUploaded = (): LeagueContent | null => {
-  try {
-    const raw = localStorage.getItem(CONTENT_STORAGE_KEY);
-    return raw ? parseLeagueContent(raw) : null;
-  } catch {
-    return null;
-  }
-};
-
-const notify = () => {
-  try {
-    window.dispatchEvent(new Event(CHANGE_EVENT));
-  } catch {
-    /* non-browser */
-  }
-};
-
-/** Validate and store an uploaded content.json. Returns the parsed content. */
-export const saveUploadedContent = (text: string): LeagueContent => {
-  const content = parseLeagueContent(text);
-  try {
-    localStorage.setItem(CONTENT_STORAGE_KEY, JSON.stringify(content));
-  } catch {
-    throw new Error('Could not save to browser storage (it may be full or disabled).');
-  }
-  notify();
-  return content;
-};
-
-export const clearUploadedContent = () => {
+/** Older builds let a browser override content.json with an uploaded file; drop any leftover copy. */
+const dropLegacyUpload = () => {
   try {
     localStorage.removeItem(CONTENT_STORAGE_KEY);
   } catch {
-    /* ignore */
+    /* storage unavailable */
   }
-  notify();
 };
 
 let bundledPromise: Promise<LeagueContent | null> | null = null;
@@ -519,10 +520,9 @@ const fetchBundled = (): Promise<LeagueContent | null> => {
   return bundledPromise;
 };
 
-/** Uploaded content wins over the bundled file. Never throws. */
+/** The generated content.json. Never throws. */
 export const loadLeagueContent = async (): Promise<{ content: LeagueContent | null; source: ContentSource }> => {
-  const uploaded = readUploaded();
-  if (uploaded) return { content: uploaded, source: 'uploaded' };
+  dropLegacyUpload();
   const bundled = await fetchBundled();
   return bundled ? { content: bundled, source: 'bundled' } : { content: null, source: 'none' };
 };
@@ -536,7 +536,7 @@ export const useLeagueContent = () => {
     { content: null, source: 'none', loading: true },
   );
 
-  const reload = useCallback(() => {
+  useEffect(() => {
     let cancelled = false;
     loadLeagueContent().then((res) => {
       if (!cancelled) setState({ ...res, loading: false });
@@ -546,30 +546,7 @@ export const useLeagueContent = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const cancel = reload();
-    const onChange = () => reload();
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === CONTENT_STORAGE_KEY) reload();
-    };
-    window.addEventListener(CHANGE_EVENT, onChange);
-    window.addEventListener('storage', onStorage);
-    return () => {
-      cancel();
-      window.removeEventListener(CHANGE_EVENT, onChange);
-      window.removeEventListener('storage', onStorage);
-    };
-  }, [reload]);
-
-  /** Reads a File, validates, stores. Rejects with a readable Error. */
-  const upload = useCallback(async (file: File) => {
-    const text = await file.text();
-    return saveUploadedContent(text);
-  }, []);
-
-  const reset = useCallback(() => clearUploadedContent(), []);
-
-  return { ...state, upload, reset };
+  return state;
 };
 
 // ---------------------------------------------------------------------------

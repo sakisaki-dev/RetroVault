@@ -1,10 +1,12 @@
 /**
  * Data audit: finds hand-written facts that no longer agree with the league data, so a stats update can't leave
- * stale text behind. Run after any data change (`npm run audit`); the deploy workflow runs it too.
+ * stale text behind, and checks the upload pipeline (each data/uploads bundle manifest and data/y80/mutations_log.json):
+ * every mutation has a source, reason and trigger, only the allowed AI steps appear, and every owner text field
+ * traces back to an applied manifest. Run after any data change (`npm run audit`); the deploy workflow runs it too.
  *
  * Exit code 1 only on errors (things that are certainly wrong); warnings are printed for a human to judge.
  */
-import { readFileSync } from 'fs';
+import { existsSync, readdirSync, readFileSync } from 'fs';
 import { parseCSV } from '@/utils/csvParser';
 import { normalizeLeague, isHallOfFamer } from '@/config/stats';
 import { findNFLTeam } from '@/utils/nflTeams';
@@ -125,6 +127,70 @@ for (const [who, s] of Object.entries(extras.stints ?? {}) as [string, { stints:
   const rings = s.stints.reduce((n, st) => n + (st.rings?.length ?? 0), 0) + (s.preLeagueRings ?? 0);
   if (rings !== p.rings) warnings.push(`Stints for ${who} account for ${rings} rings; he has ${p.rings}`);
 }
+
+// 8. Speeches exist only for Hall of Famers
+Object.keys(speeches).forEach((who) => {
+  const p = byName.get(who);
+  if (!p) errors.push(`Speech for ${who}, who is not a league player`);
+  else if (!isHallOfFamer(p)) errors.push(`Speech for ${who}, who is not a Hall of Famer (Career Legacy ${Math.round(p.careerLegacy)})`);
+});
+
+// 9. Upload pipeline: manifests are well formed, and owner text traces back to an applied manifest
+type Mutation = { lane?: string; op?: string; target?: string; value?: unknown; source?: string; reason?: string; trigger?: string };
+type Manifest = { id: string; ai_steps?: { step?: string; reason?: string; trigger?: string }[]; mutations?: Mutation[] };
+const AI_STEPS = new Set(['transcribe', 'portrait→look', 'tag notes', 'speech', 'art']);
+const manifests = new Map<string, Manifest>();
+if (existsSync('data/uploads')) {
+  for (const dir of readdirSync('data/uploads').sort()) {
+    const f = `data/uploads/${dir}/manifest.json`;
+    if (!existsSync(f)) continue;
+    const m = read(f) as Manifest;
+    manifests.set(m.id, m);
+    (m.ai_steps ?? []).forEach((st) => {
+      if (!AI_STEPS.has(st.step ?? '')) errors.push(`Upload ${m.id}: AI step "${st.step}" is not allowed`);
+      if (!st.reason || !st.trigger) errors.push(`Upload ${m.id}: AI step "${st.step}" has no reason or trigger`);
+    });
+    (m.mutations ?? []).forEach((mu, i) => {
+      const missing = (['lane', 'op', 'target', 'source', 'reason', 'trigger'] as const).filter((k) => !mu[k]);
+      if (missing.length) errors.push(`Upload ${m.id}: mutation ${i} (${mu.op} ${mu.target}) has no ${missing.join(', ')}`);
+    });
+  }
+}
+const log = existsSync('data/y80/mutations_log.json') ? (read('data/y80/mutations_log.json').applied as { id: string }[]) : [];
+log.forEach((e) => !manifests.has(e.id) && errors.push(`mutations_log lists ${e.id}, but data/uploads has no such manifest`));
+manifests.forEach((_, id) => !log.some((e) => e.id === id) && warnings.push(`Upload ${id} is not applied yet (npm run apply-upload)`));
+
+// Expected owner text, replaying the applied manifests in order: nicknames, owner tags, card notes, owner quotes, journal
+const TEXT_KEYS = new Set(['nick', 'tag', 'note', 'says', 'card_design', 'text']);
+const expected = new Map<string, string>();
+const setLeaves = (path: string, v: unknown) => {
+  if (v && typeof v === 'object' && !Array.isArray(v)) Object.entries(v).forEach(([k, x]) => setLeaves(`${path}/${k}`, x));
+  else if (typeof v === 'string' && TEXT_KEYS.has(path.split('/').pop()!)) expected.set(path, v);
+};
+for (const { id } of log) {
+  for (const mu of manifests.get(id)?.mutations ?? []) {
+    if (mu.op === 'player.set') setLeaves(`player/${String(mu.target).split(/:(.+)/)[1]}`, mu.value);
+    else if (mu.op === 'fact.set') setLeaves(String(mu.target), mu.value);
+    else if (mu.op === 'card.design') setLeaves(`players/${mu.target}/card_design`, mu.value);
+    else if (mu.op === 'journal.add') setLeaves(`journal/${mu.target}`, mu.value);
+  }
+}
+const actual = new Map<string, string>();
+const collect = (path: string, v: unknown) => {
+  if (v && typeof v === 'object' && !Array.isArray(v)) Object.entries(v).forEach(([k, x]) => collect(`${path}/${k}`, x));
+  else if (typeof v === 'string' && TEXT_KEYS.has(path.split('/').pop()!)) actual.set(path, v);
+};
+(read('data/y80/players.json') as { n: string; nick?: string; legend?: boolean }[])
+  .filter((p) => !p.legend && p.nick)
+  .forEach((p) => actual.set(`player/${p.n}/nick`, p.nick!));
+const facts = read('data/y80/owner_facts.json');
+collect('players', facts.players ?? {});
+if (existsSync('data/y80/journal.json')) (read('data/y80/journal.json').notes ?? []).forEach((n: { id: string; text: string }) => actual.set(`journal/${n.id}/text`, n.text));
+actual.forEach((v, path) => {
+  if (!expected.has(path)) errors.push(`${path} is not set by any applied upload manifest (edit data only through npm run apply-upload)`);
+  else if (expected.get(path) !== v) errors.push(`${path} differs from the last applied upload manifest`);
+});
+expected.forEach((_, path) => !actual.has(path) && warnings.push(`${path} was set by an upload but is missing from the data now`));
 
 warnings.forEach((w) => console.log(`warn  ${w}`));
 errors.forEach((e) => console.log(`ERROR ${e}`));

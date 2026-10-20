@@ -2,7 +2,7 @@ import type { Player } from '@/types/player';
 import { cn } from '@/lib/utils';
 import { isDefensivePosition } from '@/config/stats';
 import { AWARD_META } from '@/utils/playerMeta';
-import { cardKey, finishLabel, tierFor, tierLabel, useCollection } from '@/utils/collection';
+import { VARIANTS, cardKey, finishLabel, tierFor, tierLabel, useCollection } from '@/utils/collection';
 import { fmtNum } from '../analytics/viz';
 import type { RecordBook } from '../records';
 
@@ -75,7 +75,7 @@ const DdRecords = ({ player, book, ovr }: { player: Player; book: RecordBook; ov
         <div className="glass-card flex items-center justify-between gap-2 p-3 sm:p-4">
           <div>
             <h3 className="font-display text-base font-bold uppercase tracking-wide">Your collection</h3>
-            <p className="text-sm text-muted-foreground">{owned ? `Owned · best finish ${finishLabel(owned.best)}` : 'Not pulled yet'}</p>
+            <p className="text-sm text-muted-foreground">{owned ? `Owned · best finish ${finishLabel(owned.best)} · ${Object.keys(owned.variants).length} of ${VARIANTS.length} art variants` : 'Not pulled yet'}</p>
           </div>
           <span className="lamp">
             Rarity <b>{tierLabel(tier)}</b>
