@@ -219,7 +219,10 @@ def to_app_player(p, teams):
         "nickname": p.get("nick"), "era": p.get("era"), "tag": p.get("tag"),
         "games": g(p, "g"), "rings": g(p, "rings"), "mvp": g(p, "mvp"),
         "opoy": g(p, "dpoy") if defense else g(p, "opoy"), "sbmvp": g(p, "sbmvp"), "roty": g(p, "roty"),
-        "trueTalent": 0, "dominance": 0, "careerLegacy": 0, "tpg": 0,
+        # Raw True Talent by the same per-position formulas as league players; the app applies the league's
+        # position factors and derives Dominance / Career Legacy / TPG (see useGamePool)
+        "trueTalent": round(qb_true_talent(p, {})[0] if p["pos"] == "QB" else TT_FORMULAS[p["pos"]](p), 2),
+        "dominance": 0, "careerLegacy": 0, "tpg": 0,
         # Active real-NFL player: totals are approximate through the 2025 season
         "isCurrentNFL": bool(p.get("current")) or None,
     }

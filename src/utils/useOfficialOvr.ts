@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLeague } from '@/context/LeagueContext';
 import type { Position } from '@/types/player';
+import { normalizeLeague } from '@/config/stats';
 import { buildGamePool, officialOvrMap, type GamePlayer, type LegendPhoto } from '@/config/ovr';
 
 // ---------- Loaders (one request per page load; 404 / bad JSON resolve to empty) ----------
@@ -86,10 +87,16 @@ export const useGamePool = () => {
   }, []);
 
   const allLeague = useMemo<GamePlayer[]>(() => getAllPlayers(), [getAllPlayers]);
-  const { league, legends } = useMemo(() => buildGamePool(allLeague, allLegends, excluded), [allLeague, allLegends, excluded]);
+  // Legends arrive with raw True Talent only: put them on the league's position factors and derive Dominance,
+  // Career Legacy and TPG the same way as league players (legends never influence the factors)
+  const scaledLegends = useMemo(
+    () => (allLegends.length ? (normalizeLeague([...allLeague, ...allLegends]).slice(allLeague.length) as GamePlayer[]) : allLegends),
+    [allLeague, allLegends],
+  );
+  const { league, legends } = useMemo(() => buildGamePool(allLeague, scaledLegends, excluded), [allLeague, scaledLegends, excluded]);
   const ovrMap = useMemo(
-    () => (loaded ? officialOvrMap(allLeague, allLegends, excluded) : new Map<string, number>()),
-    [loaded, allLeague, allLegends, excluded],
+    () => (loaded ? officialOvrMap(allLeague, scaledLegends, excluded) : new Map<string, number>()),
+    [loaded, allLeague, scaledLegends, excluded],
   );
 
   return { league, legends, ovrMap, loaded, dataVersion };
