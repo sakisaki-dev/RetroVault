@@ -18,12 +18,12 @@ import { buildHash, useHubRoute, type StatsSub } from '../stats/hub/hashRoute';
 
 /** In-page jumps on the Players sub-tab (each is linkable: #stats/players/<id>). */
 const JUMPS = [
-  { id: 'record-book', label: 'Records' },
+  { id: 'analytics', label: 'Advanced' },
   { id: 'hidden-gems', label: 'Hidden Gems' },
+  { id: 'record-book', label: 'Records' },
   { id: 'efficiency', label: 'Efficiency' },
   { id: 'leaders', label: 'Leaders' },
   { id: 'tables', label: 'Full Tables' },
-  { id: 'analytics', label: 'Advanced' },
 ];
 
 /**
@@ -107,6 +107,8 @@ const CareerTab = () => {
 
           {headline.length > 0 && <RecordStrip headline={headline} onSelect={setSelectedPlayer} />}
 
+          <AnalyticsLab data={careerData} onSelect={setSelectedPlayer} />
+
           <HiddenGems data={careerData} onSelect={setSelectedPlayer} />
 
           <RecordBook leaders={leaders} pace={book.pace} onSelect={setSelectedPlayer} />
@@ -114,8 +116,6 @@ const CareerTab = () => {
           <PositionLeaders boards={book.boards} onSelect={setSelectedPlayer} />
 
           <StatTables data={careerData} />
-
-          <AnalyticsLab data={careerData} onSelect={setSelectedPlayer} />
         </div>
       )}
 

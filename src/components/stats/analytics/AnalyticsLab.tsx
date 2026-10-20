@@ -10,7 +10,6 @@ import MetricLeaderboard from './MetricLeaderboard';
 import PlusHeatTable from './PlusHeatTable';
 import PeakLongevity from './PeakLongevity';
 import LegacyMix from './LegacyMix';
-import DeepDiveEntry from '../hub/DeepDiveEntry';
 import { fmtNum } from './viz';
 import { GRID_ITEM, gridVars } from '../grid';
 
@@ -113,10 +112,7 @@ const AnalyticsLab = ({ data, onSelect }: { data: LeagueData; onSelect: Select }
 
       <PeakLongevity players={players} onSelect={onSelect} />
 
-      <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-        <LegacyMix players={players} onSelect={onSelect} />
-        <DeepDiveEntry players={players} />
-      </div>
+      <LegacyMix players={players} onSelect={onSelect} />
     </section>
   );
 };
