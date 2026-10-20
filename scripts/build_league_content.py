@@ -408,7 +408,7 @@ def main():
             sys.exit(f"Edit did not match exactly once: {old[:60]!r}")
         md = md.replace(old, new)
 
-    known_names = sorted({p["n"] for p in players_src}, key=len, reverse=True)
+    known_names = sorted({p["n"] for p in players_src}, key=lambda n: (-len(n), n))  # deterministic: no set-order ties
 
     surname_counts = {}
     for n in known_names:
