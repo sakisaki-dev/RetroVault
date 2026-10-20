@@ -1,0 +1,164 @@
+{
+ "id": "2026-10-20-speech-fixes",
+ "created": "2026-10-20",
+ "title": "Owner corrections: clubs six Hall of Famers never played for (speeches and career facts)",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "Rewrite the passages of six induction speeches that name clubs the owner says the player never played for",
+   "trigger": "Owner correction in chat; audit warned these speeches name clubs outside the player's franchises"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Cairo Asanjh/career",
+   "value": {
+    "never": [
+     "Bills"
+    ],
+    "says": "Asanjh did not play for the Bills."
+   },
+   "source": "owner",
+   "reason": "Owner: \"asanjh did not play for the bills\"",
+   "trigger": "Owner correction in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kyric McQuay/career",
+   "value": {
+    "never": [
+     "Buccaneers"
+    ],
+    "says": "Kyric never played for the Bucs."
+   },
+   "source": "owner",
+   "reason": "Owner: \"kyric never played for the bucs\"",
+   "trigger": "Owner correction in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Taron Hayes/career",
+   "value": {
+    "never": [
+     "Jets",
+     "Titans"
+    ],
+    "says": "Taron Hayes never played for the Jets or the Titans."
+   },
+   "source": "owner",
+   "reason": "Owner: \"taron hayes never played for the jets or the titans\"",
+   "trigger": "Owner correction in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ray Waller/career",
+   "value": {
+    "never": [
+     "Colts"
+    ],
+    "says": "Ray Waller never played for the Colts."
+   },
+   "source": "owner",
+   "reason": "Owner: \"ray waller never played for the colts\"",
+   "trigger": "Owner correction in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dan Mosley/career",
+   "value": {
+    "order": [
+     "Lions"
+    ],
+    "says": "Dan Mosley was only a Lion."
+   },
+   "source": "owner",
+   "reason": "Owner: \"dan mosley was only a lion\"",
+   "trigger": "Owner correction in chat"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Cairo Asanjh",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Inaugural class (class of the first market snapshot)",
+    "text": "Some players chase records. Cairo Asanjh chased Ian Finney.\n\nThey called him The Prophecy, and for more than a decade he delivered on it. Asanjh caught 1,642 passes for 27,508 yards and 280 touchdowns in 250 games, almost 17 yards a catch. He stretched defenses deep, and he held on to the ball while doing it: nine fumbles in his entire career.\n\nHe won in Seattle, and then he won again in Baltimore. Nine rings, three MVPs, two Offensive Player of the Year awards and two Super Bowl MVPs. Three MVPs as a receiver tells you how much of the offense ran through him.\n\nHe finished his career in Baltimore, still within sight of the mark set by the league's first superstar. He never caught Finney. He built a career few receivers will ever touch. The Prophecy, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Owner: \"asanjh did not play for the bills\"; the Bills dynasty passage is replaced with his data clubs (Seahawks, retired a Raven)",
+   "trigger": "Owner correction in chat: speech names a club he never played for"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Kyric McQuay",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y79",
+    "text": "Twice in three seasons Ray Waller reached the Super Bowl and lost. Kyric McQuay was the reason both times.\n\nBaby Manning did not beat you with arm strength. He beat you with decisions. In 10,099 pass attempts he threw only 43 interceptions, roughly one every 235 throws. He completed 6,048 passes for 53,797 yards and 562 touchdowns, and when the pocket broke down he could take it himself: 1,997 rushing yards and 107 rushing touchdowns.\n\nHe was Ray Waller's great rival through the Waller and Finney era, and twice his Colts met Waller on the biggest stage. Twice McQuay won, 38-32 in Super Bowl LXXXI and 29-28 in LXXXIII, the closest of finishes. Two rings, and two Super Bowl MVPs to go with them.\n\nThe best teams in this league rarely lost when it mattered. McQuay is one of the few who made them. Baby Manning, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Owner: \"kyric never played for the bucs\"; the Buccaneers are no longer named (the Super Bowl rival is Ray Waller)",
+   "trigger": "Owner correction in chat: speech names a club he never played for"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Taron Hayes",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y80",
+    "text": "Twice the league looked at every defender in football and picked Taron Hayes.\n\nHe made his name in Kansas City during the Modern era, Y70 to Y80, a decade of three-peats and title runs for other clubs. Hayes never got a ring out of it. What he got was two Defensive Player of the Year awards, in an era stacked with champions.\n\nHe played 213 games and made 2,418 tackles, more than eleven a game, the kind of volume that means he was always around the ball. He also picked off 30 passes, about one every seven games. A defensive back who tackles like a linebacker and still takes the ball away does not come along often.\n\nThe rings went elsewhere. The respect never did. Taron Hayes, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Owner: \"taron hayes never played for the jets or the titans\"; the Jets and Titans are no longer named",
+   "trigger": "Owner correction in chat: speech names a club he never played for"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Ray Waller",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Inaugural class (class of the first market snapshot)",
+    "text": "Never count out a man whose nickname is a promise.\n\nRay Waller threw the ball downfield and dared you to stop it. He completed 5,510 of 7,388 passes, nearly 75 percent, for 70,128 yards and 749 touchdowns, and his 9.5 yards per attempt tell you how far downfield he liked to live. The 214 interceptions were the price of attacking. He took only 57 sacks and never lost a fumble in 278 games.\n\nWaller was the quarterback of the Buccaneers' golden run alongside Ian Finney and Tyrion Kline. Tampa Bay won five titles in his era, and Waller has five rings and five MVPs to match, plus two Super Bowl MVPs. The two Super Bowls that got away went to his great rival, Kyric McQuay.\n\nHe won in Tampa, and he retired in Tampa. The deep ball was his signature, and the comeback was his name. Ray Comeback Waller, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Owner: \"ray waller never played for the colts\"; the Colts are no longer named",
+   "trigger": "Owner correction in chat: speech names a club he never played for"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Dan Mosley",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y79",
+    "text": "2,658 tackles from a defensive back. Read that again.\n\nDan Mosley played in the secondary like a linebacker who had wandered back to cover. Over 248 games he averaged more than ten tackles a game, a number most run stoppers never touch. And he still found the ball in the air, with 37 career interceptions. A hitter and a ballhawk in the same Lions jersey.\n\nHe did it in the modern era, from Y70 to Y80, a decade of three-peats and title runs. Detroit was never the team lifting the trophy, and Mosley retires without a ring. What he does have is a Defensive Player of the Year award, the most heavily weighted honor in this league's Dominance formula, worth twice as much as a ring.\n\nNobody had to tell ball carriers where Dan Mosley was. They found out. Dan Mosley, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Owner: \"dan mosley was only a lion\"; no club but the Lions is named",
+   "trigger": "Owner correction in chat: speech names a club he never played for"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Tyrone Baugh",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Inaugural class (class of the first market snapshot)",
+    "text": "Seven seasons, seven championships, and Tyrone Baugh has a ring for every one of them.\n\nHe was the linebacker at the center of the Bills dynasty, the defender who did a little of everything and all of it well. In 158 games he made 656 tackles, intercepted 15 passes, sacked the quarterback 21 times and forced 11 fumbles. Most linebackers are run stoppers, pass rushers or cover men. Baugh was all three, with a habit of taking the ball away.\n\nDennis Baylon got the headlines on offense. Baugh's defense made sure the Super Bowls were rarely close: a 40-7 rout in Y30, the Commanders 14 in Y32, a 46-14 win in Y33. When it was over, Baugh, Baylon, Charlie John and Rob Lowe each walked away with exactly seven rings.\n\nHe never won an individual award. Seven rings will do. Tyrone Baugh, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Owner: \"tyrone baugh only played for the commanders (unless I'm mistaken)\"; the Rams and Panthers are no longer named. The Commanders mention is left as is (open question: his data stints are Bills and Seahawks)",
+   "trigger": "Owner correction in chat: speech names a club he never played for"
+  }
+ ]
+}

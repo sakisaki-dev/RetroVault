@@ -14,25 +14,25 @@ interface DynastyGridProps {
   onHighlight: (key: string | null) => void;
 }
 
-const DECADES = Array.from({ length: 8 }, (_, i) => i * 10 + 1);
-
-/** Every Super Bowl champion, Y1–80, as a decade-by-decade wall of team-coloured tiles (abbreviation on each). */
+/** Every Super Bowl champion, Y1 to the latest season, as a decade-by-decade wall of team-coloured tiles (abbreviation on each). */
 const DynastyGrid = ({ superBowls, openable, onOpen, highlight, onHighlight }: DynastyGridProps) => {
   const byYear = useMemo(() => new Map(superBowls.map((sb) => [sb.year, sb])), [superBowls]);
   const yours = superBowls.filter((sb) => sb.yourResult === 'won').length;
+  const last = superBowls.reduce((m, sb) => Math.max(m, sb.year), 0);
+  const decades = useMemo(() => Array.from({ length: Math.ceil(last / 10) }, (_, i) => i * 10 + 1), [last]);
 
   return (
     <section className="glass-card p-4 sm:p-5 min-w-0" aria-labelledby="dynasty-heading">
       <p className="font-pixel text-[9px] uppercase text-gold">Dynasty timeline</p>
       <h2 id="dynasty-heading" className="font-display text-2xl sm:text-3xl font-extrabold italic uppercase leading-none">
-        80 years of champions
+        {last} years of champions
       </h2>
       <p className="mt-2 text-xs text-muted-foreground">
         Each tile is one Super Bowl winner. A gold star marks the {yours} titles you coached. Select a tile to open that franchise.
       </p>
 
       <div className="mt-4 space-y-1">
-        {DECADES.map((start) => (
+        {decades.map((start) => (
           <div key={start} className="grid grid-cols-[2.6rem_minmax(0,1fr)] items-center gap-1.5">
             <span className="font-pixel text-[8px] uppercase text-muted-foreground tabular-nums">
               Y{start}–{start + 9}

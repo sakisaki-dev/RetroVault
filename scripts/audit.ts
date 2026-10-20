@@ -91,6 +91,25 @@ Object.entries(extras.cards ?? {}).forEach(([who, card]) => {
   if (typeof c.note === 'string') checkText(who, c.note, 'Card note');
 });
 
+// 3b. Clubs the owner says a player never played for (owner_facts career.never) must not appear in his stints, his
+// speech or his card note, even as an opponent; a single-club order with no trade ("only a Lion") pins every stint
+type CareerFact = { never?: string[]; order?: string[]; next_team?: string };
+const ownerPlayers = (read('data/y80/owner_facts.json').players ?? {}) as Record<string, { career?: CareerFact }>;
+for (const [who, f] of Object.entries(ownerPlayers)) {
+  const never = new Set((f.career?.never ?? []).map((t) => findNFLTeam(t)?.id).filter(Boolean));
+  const stintTeams = (extras.stints?.[who]?.stints ?? []).map((s: { team: string }) => s.team as string);
+  stintTeams.filter((t: string) => never.has(findNFLTeam(t)?.id)).forEach((t: string) => errors.push(`Stints for ${who} include the ${t}; the owner says he never played for them`));
+  const only = f.career?.order?.length === 1 && !f.career.next_team ? findNFLTeam(f.career.order[0])?.id : undefined;
+  if (only) stintTeams.filter((t: string) => findNFLTeam(t)?.id !== only).forEach((t: string) => errors.push(`Stints for ${who} include the ${t}; the owner says he only played for the ${f.career!.order![0]}`));
+  if (!never.size) continue;
+  const texts: [string, unknown][] = [['Speech', speeches[who]], ['Card note', extras.cards?.[who]?.note]];
+  for (const [where, text] of texts) {
+    if (typeof text !== 'string') continue;
+    const named = teamsNamed(text).filter((t) => never.has(t.id));
+    if (named.length) errors.push(`${where} for ${who} names ${named.map((t) => t.n).join(', ')}; the owner says he never played for them`);
+  }
+}
+
 // 4. Notes that still describe something as "in progress" (season lines are not tracked; they go stale)
 Object.entries(extras.cards ?? {}).forEach(([who, card]) => {
   const text = JSON.stringify(card);
@@ -176,6 +195,7 @@ manifests.forEach((_, id) => !log.some((e) => e.id === id) && warnings.push(`Upl
 // Expected owner text, replaying the applied manifests in order: nicknames, owner tags, card notes, owner quotes, journal
 const TEXT_KEYS = new Set(['nick', 'tag', 'note', 'says', 'card_design', 'text']);
 const expected = new Map<string, string>();
+const speechSet = new Map<string, string>();
 const setLeaves = (path: string, v: unknown) => {
   if (v && typeof v === 'object' && !Array.isArray(v)) Object.entries(v).forEach(([k, x]) => setLeaves(`${path}/${k}`, x));
   else if (typeof v === 'string' && TEXT_KEYS.has(path.split('/').pop()!)) expected.set(path, v);
@@ -186,8 +206,14 @@ for (const { id } of log) {
     else if (mu.op === 'fact.set') setLeaves(String(mu.target), mu.value);
     else if (mu.op === 'card.design') setLeaves(`players/${mu.target}/card_design`, mu.value);
     else if (mu.op === 'journal.add') setLeaves(`journal/${mu.target}`, mu.value);
+    else if (mu.op === 'speech.set') speechSet.set(String(mu.target), String((mu.value as { text?: string })?.text ?? ''));
   }
 }
+// Speeches rewritten through an upload (speech.set) must still read exactly as the last applied manifest wrote them
+speechSet.forEach((text, who) => {
+  if (speeches[who] === undefined) warnings.push(`Speech for ${who} was set by an upload but is missing from the data now`);
+  else if (speeches[who] !== text) errors.push(`Speech for ${who} differs from the last applied upload manifest (edit speeches through speech.set)`);
+});
 const actual = new Map<string, string>();
 const collect = (path: string, v: unknown) => {
   if (v && typeof v === 'object' && !Array.isArray(v)) Object.entries(v).forEach(([k, x]) => collect(`${path}/${k}`, x));

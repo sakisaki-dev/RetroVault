@@ -1,23 +1,16 @@
-import { useMemo, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { Trophy } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
 import PlayerDetailCard from '../PlayerDetailCard';
 import CountUp from '../brand/CountUp';
 import RecordBook, { RecordStrip } from '../stats/RecordBook';
-import AnalyticsLab from '../stats/analytics/AnalyticsLab';
-import GraphsPage from '../stats/graph/GraphsPage';
-import HeadToHead from '../stats/HeadToHead';
-import PlayerDeepDive from '../stats/comps/PlayerDeepDive';
 import PositionLeaders from '../stats/PositionLeaders';
-import HiddenGems from '../stats/HiddenGems';
 import StatTables from '../stats/StatTables';
-import LeagueShape from '../stats/visual/LeagueShape';
-import LeagueGallery from '../stats/visual/LeagueGallery';
 import StatsPulse from '../stats/visual/StatsPulse';
 import { HEADLINE_IDS, LEADER_IDS, buildRecordBook, pickBoards } from '../stats/records';
 import StatsHub from '../stats/hub/StatsHub';
-import TeamRankingsTab from './TeamRankingsTab';
+import { GraphsPage, HeadToHead, PlayerDeepDive, PlayersInsights, TeamRankingsTab, ViewLoading, prefetchStatsSub } from '../stats/hub/lazyViews';
 import { buildHash, useHubRoute, type StatsSub } from '../stats/hub/hashRoute';
 
 /** In-page jumps on the Players sub-tab (each is linkable: #stats/players/<id>). */
@@ -76,6 +69,7 @@ const CareerTab = () => {
       onSubChange={(s) => navigate({ tab: 'career', sub: s })}
       players={players}
       onOpenPlayer={setSelectedPlayer}
+      onPrefetch={prefetchStatsSub}
     >
       {sub === 'players' && (
         <div className="container space-y-10 py-6 sm:py-8">
@@ -115,13 +109,10 @@ const CareerTab = () => {
 
           {headline.length > 0 && <RecordStrip headline={headline} onSelect={setSelectedPlayer} />}
 
-          <AnalyticsLab data={careerData} onSelect={setSelectedPlayer} />
-
-          <LeagueGallery data={careerData} onSelect={setSelectedPlayer} />
-
-          <HiddenGems data={careerData} onSelect={setSelectedPlayer} />
-
-          <LeagueShape data={careerData} onSelect={setSelectedPlayer} />
+          {/* Analytics Lab, Landscape, Hidden Gems, League Shape: their own chunk (stats/hub/lazyViews) */}
+          <Suspense fallback={<ViewLoading label="advanced stats" tall={false} />}>
+            <PlayersInsights data={careerData} onSelect={setSelectedPlayer} />
+          </Suspense>
 
           <RecordBook leaders={leaders} pace={book.pace} onSelect={setSelectedPlayer} />
 
@@ -131,6 +122,7 @@ const CareerTab = () => {
         </div>
       )}
 
+      <Suspense fallback={<ViewLoading label={sub} />}>
       {sub === 'teams' && <TeamRankingsTab />}
 
       {/* Graph Builder full page (src/components/stats/graph); the URL's gx / gy / pos… are the chart. */}
@@ -153,6 +145,7 @@ const CareerTab = () => {
           />
         </div>
       )}
+      </Suspense>
 
       <PlayerDetailCard player={selectedPlayer} onClose={() => setSelectedPlayer(null)} />
     </StatsHub>

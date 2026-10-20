@@ -234,7 +234,7 @@ const TimelineTab = () => {
         </section>
       )}
 
-      <Storylines storylines={content.storylines} players={players} onPlayerSelect={setSelectedPlayer} />
+      <Storylines storylines={content.storylines} edition={content.edition} players={players} onPlayerSelect={setSelectedPlayer} />
 
       {/* League history is generated from the data on every rebuild (scripts/build_league_content.py). */}
       <footer className="flex justify-end border-t border-border/30 pt-4">

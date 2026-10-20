@@ -1,11 +1,14 @@
 import { Quote } from 'lucide-react';
 import type { Player } from '@/types/player';
-import { matchPlayerByName, type Storyline } from '@/utils/leagueContent';
+import { matchPlayerByName, type Edition, type Storyline } from '@/utils/leagueContent';
+import { editionShuffle } from '@/utils/edition';
 import { cn } from '@/lib/utils';
 import MiniMarkdown from './MiniMarkdown';
 
 interface StorylinesProps {
   storylines: Storyline[];
+  /** Per-update edition: the generated stories' order rotates with it (owner notes always lead) */
+  edition?: Edition;
   players: Player[];
   onPlayerSelect: (p: Player) => void;
 }
@@ -17,9 +20,14 @@ const HIDDEN = new Set(['Era Report']);
  * League storylines: rule-generated from the data (records, rivalries, snubs…), plus the commissioner's own notes,
  * which are quoted exactly as the owner wrote them.
  */
-const Storylines = ({ storylines, players, onPlayerSelect }: StorylinesProps) => {
+const Storylines = ({ storylines, edition, players, onPlayerSelect }: StorylinesProps) => {
   const owner = storylines.filter((s) => s.source === 'owner');
-  const generated = storylines.filter((s) => s.source !== 'owner' && !HIDDEN.has(s.category) && s.id !== 'lineages');
+  // Featured stories rotate per update (utils/edition.ts): same order for everyone until the next update
+  const generated = editionShuffle(
+    storylines.filter((s) => s.source !== 'owner' && !HIDDEN.has(s.category) && s.id !== 'lineages'),
+    edition,
+    'storylines',
+  );
   if (!owner.length && !generated.length) return null;
 
   const chips = (s: Storyline) =>

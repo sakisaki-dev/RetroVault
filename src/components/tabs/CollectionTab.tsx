@@ -160,8 +160,9 @@ const RulesPopover = () => (
       </ul>
       <p className="mt-3 text-muted-foreground">
         Every card rolls tier, then player, then finish, then art variant ({VARIANTS.map((v) => v.label).join(', ')}; the sprite is rarest). The
-        rarities stack: the rarer arts get rarer still on better players and finishes, so a Retro Bowl sprite Holo Legendary is about 1 card in{' '}
-        {Math.round(1 / ODDS.holo.spriteLegendaryHolo).toLocaleString()} even from Holo Showcase packs. A player can own every variant and they stack in
+        rarities stack: the rarer arts get rarer still on better players and finishes. A Retro Bowl sprite Holo turns up about 1 card in{' '}
+        {Math.round(1 / ODDS.holo.spriteHolo).toLocaleString()} from Holo Showcase packs, but a sprite Holo Legendary is about 1 card in{' '}
+        {Math.round(1 / ODDS.holo.spriteLegendaryHolo).toLocaleString()} even there. A player can own every variant and they stack in
         the binder. Market value × variant: {VARIANTS.map((v) => `${v.short} ×${VARIANT_MULTIPLIER[v.key]}`).join(', ')}.
       </p>
       <p className="mt-3 font-semibold">Earn packs</p>

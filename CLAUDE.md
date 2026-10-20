@@ -32,6 +32,17 @@ legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `b
 
 ## Updating: the upload pipeline (the usual phone request)
 
+### When the owner says "update"
+
+1. Build the bundle (steps 1–3 below), then run **one command**: `npm run update -- data/uploads/<bundle>`. It
+   validates and applies the bundle, rebuilds everything (stints, league data, market snapshot, eras, storylines,
+   HOF classes, edition, audit), checks a season rollover, typechecks, runs `check:sprites` and `npm run build`, then
+   prints a summary (players added or updated, players needing teams, records, new Hall of Famers, SPEECH NEEDED,
+   market movers, open questions, the new edition) and stops. It never commits.
+2. If it printed `SPEECH NEEDED`, write the speech (step 5) as a `speech.set` mutation in a follow-up bundle and run
+   `npm run update` on that bundle.
+3. Commit and push with the commands it prints (step 6).
+
 The owner sends Retro Bowl screenshots (and maybe a few lines about the season) and asks to "add these". One upload
 is one bundle, `data/uploads/<YYYY-MM-DD>-<slug>/`:
 
@@ -69,10 +80,12 @@ accessories, build, height, pose, eyes, signature). Custom sprite images and car
 `card.design`) only when the owner asks (AI step `art`).
 
 - **Standardisation rule:** everything is standard unless specified. Players with no `sprites.json` entry all get the
-  same generic character (standard face and body, short cut when the helmet is off) and vary only by the skin toggle
-  (Player editor → Sprite skin tone, stored with the player edits; "Auto" = the neutral default), the pose roll, the
-  uniform roll (home, rarely an alternate) and the number. Only players with a `sprites.json` entry (locked looks from
-  portraits, owner requests) deviate: hair, facial hair, build, eyes, signature pose. Only describe league players
+  same generic character (standard face and body) and vary only by stable rolls seeded by name (hair style, hair
+  colour, facial hair, eye colour; loosely matched to the skin tone), the skin toggle (Player editor → Sprite skin tone,
+  stored with the player edits; "Auto" = the neutral default), the pose roll, the uniform roll (home, rarely an
+  alternate) and the number. Only players with a `sprites.json` entry (locked looks from portraits, owner requests)
+  deviate: build, signature pose, face, and any hair, facial-hair, eye or `eyeColor` field they set (locked fields win
+  field by field; the rolls fill the rest). Only describe league players
   with cards; skip real-NFL players who just share a surname.
 - **Custom pixel image:** put the PNG in the bundle and use `sprite.image` (`{"file": "images/x.png", "as":
   "<slug>.png"}`); it is copied to `public/data/sprites/<slug>.png` and listed as `"image"` in the look, replacing the
@@ -89,7 +102,7 @@ Each owner note becomes a `journal.add` with the text **copied exactly** (apply-
 `notes.md`) and tags: `players`, `teams`, `seasons`, `kind` (`rivalry` | `dispute` | `drama` | `note`). Never
 rewrite, summarize or add prose. Owner-stated facts ("he was traded to the Falcons") also become `fact.set`
 mutations with `source: "owner"`, e.g. `players/<name>/team`, `team_history`, `career` (`order`, `on`, `stints`,
-`longest`, `next_team`, `says`), `tag`, `card`, `signature_team` (the club his card and banners wear: "where he
+`longest`, `next_team`, `never`, `says`), `tag`, `card`, `signature_team` (the club his card and banners wear: "where he
 was best").
 
 ### 4. Apply, rebuild, check
@@ -108,9 +121,11 @@ still match the data. Read the warnings.
 
 ### 5. Speech (AI step `speech`; trigger: the rebuild prints `SPEECH NEEDED: <name>`)
 
-Only when the rebuild finds someone who first crossed Career Legacy 7000 with no speech. Add it to
-`data/y80/speeches.json` as `{"reason": "New Hall of Famer", "trigger": "First crossed Career Legacy 7000: <class>",
-"text": "..."}` and rebuild. Never let the generic template in `src/components/ceremony/speech.ts` show. Match the
+Only when the rebuild finds someone who first crossed Career Legacy 7000 with no speech, or the owner corrects one.
+Write it as a `speech.set` mutation (lane `speech`, target the player's name, value `{"reason": "New Hall of Famer",
+"trigger": "First crossed Career Legacy 7000: <class>", "text": "..."}`, with the `speech` AI step logged) and apply
+the bundle; apply-upload checks the length, the em dash and the closing line, and the audit fails if the speech later
+differs from the manifest. Never let the generic template in `src/components/ceremony/speech.ts` show. Match the
 existing speeches: a one-line hook, then 2–3 short paragraphs, closing "…, welcome to the Hall of Fame."; about
 120–190 words; only facts from the data (play style from his rates, never invented looks or quotes); no em dashes.
 
@@ -179,6 +194,15 @@ current data is a no-op.
 - **Eras**: the owner's coaching stints (`coach.json`), split at 3+ title-less seasons between titles and merged when
   a stint won fewer than 3 titles (the current stint always stands alone); named "<Team> dynasty" (5+ titles),
   "<Team> run" (3–4) or "<Team> years". Key players: best Career Legacy whose stints overlap the era on the owner's club.
+- **Edition seed** (`edition` in content.json, `src/utils/edition.ts`): FNV-1a of the season, the number of applied
+  uploads and the last upload's id. It changes on every update and never between two rebuilds. Rotating,
+  non-identity picks key off it (featured players, hero picks, Front Office headline order, featured storylines, the
+  pack shelf accent) so the site looks fresh after each update. Never use it for player identity: sprite looks, owned
+  card art, poses and uniforms stay stable.
+- **Current season**: derived from the data (the owner's last season in `coach.json`; `latestSeasonYear()` in
+  `src/utils/leagueContent.ts` on the site). Never hard-code "Y80" or 80 as "now"; a rollover is just new
+  `coach.season` + `superbowl.set` mutations. `career.never` (owner: clubs a player never played for) keeps the stint
+  solver and the audit away from those clubs.
 - **Hall of Fame classes**: who first crossed Career Legacy 7000 at each market snapshot, labelled by the snapshot's
   season; the first snapshot's members are the "Inaugural class".
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into

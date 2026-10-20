@@ -37,6 +37,10 @@ Lanes and ops (deterministic; nothing is inferred here):
          card.design    target "<name>"              value: the owner's card-design request (owner_facts card_design)
   notes  journal.add    target "<note id>"           value {text, kind, season?, players[], teams[], seasons[]}.
                                                     text must appear verbatim in notes.md: notes are never rewritten
+  speech speech.set     target "<player name>"       value {reason, trigger, text}: writes (or rewrites) a Hall of Fame
+                                                    induction speech in data/y80/speeches.json. Needs the 'speech' AI
+                                                    step; the text must follow the CLAUDE.md speech rules (120-190
+                                                    words, no em dashes, closing "..., welcome to the Hall of Fame.")
 """
 from __future__ import annotations
 
@@ -59,6 +63,7 @@ FILES = {
     "records": SRC / "records.json",
     "sprites": SRC / "sprites.json",
     "journal": SRC / "journal.json",
+    "speeches": SRC / "speeches.json",
 }
 SPRITE_IMAGES = ROOT / "public" / "data" / "sprites"
 
@@ -68,9 +73,11 @@ LANE_OPS = {
               "record.set", "baseline"},
     "looks": {"sprite.set", "sprite.image", "card.design"},
     "notes": {"journal.add"},
+    "speech": {"speech.set"},
 }
 # AI step that must be logged when a lane's mutations come from images / owner prose
-NEEDS_STEP = {("stats", "image"): "transcribe", ("looks", "image"): "portrait→look", ("notes", "owner"): "tag notes"}
+NEEDS_STEP = {("stats", "image"): "transcribe", ("looks", "image"): "portrait→look", ("notes", "owner"): "tag notes",
+              ("speech", "owner"): "speech", ("speech", "image"): "speech"}
 CAREER_KEYS = {"g", "att", "cmp", "yds", "td", "int", "sck", "ratt", "ryds", "rtd", "fum", "rec", "recyds", "rectd",
                "blk", "tkl", "ff", "rings", "mvp", "opoy", "dpoy", "roty", "sbmvp"}
 FACT_ORDER = ["team", "team_history", "retired_with", "status", "tag", "card", "card_design", "career", "real_nfl"]
@@ -137,6 +144,24 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
             text = (m.get("value") or {}).get("text", "")
             if not text or text.strip() not in notes_md:
                 errs.append(f"{where}: note text must appear verbatim in notes.md")
+        if op == "speech.set":
+            errs += [f"{where}: {e}" for e in speech_errors(m.get("value"))]
+    return errs
+
+
+def speech_errors(value) -> list[str]:
+    """The CLAUDE.md speech rules that can be checked mechanically."""
+    if not isinstance(value, dict):
+        return ["value must be {reason, trigger, text}"]
+    errs = [f"speech needs a {k}" for k in ("reason", "trigger", "text") if not value.get(k)]
+    text = value.get("text") or ""
+    words = len(text.split())
+    if text and not 120 <= words <= 190:
+        errs.append(f"speech is {words} words (120-190)")
+    if "\u2014" in text:
+        errs.append("speech has an em dash")
+    if text and not text.rstrip().endswith("welcome to the Hall of Fame."):
+        errs.append('speech must close "..., welcome to the Hall of Fame."')
     return errs
 
 
@@ -266,6 +291,13 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
             if look.get("image") != value["as"]:
                 look["image"] = value["as"]
                 changes.append(f"sprite {target}.image")
+        elif op == "speech.set":
+            speeches = data["speeches"].setdefault("speeches", {})
+            rec = {"reason": value["reason"], "trigger": value["trigger"], "text": value["text"]}
+            if speeches.get(target) != rec:
+                speeches[target] = rec
+                data["speeches"]["speeches"] = dict(sorted(speeches.items()))
+                changes.append(f"speech {target}")
         elif op == "journal.add":
             notes = data["journal"].setdefault("notes", [])
             if not any(n["id"] == target for n in notes):

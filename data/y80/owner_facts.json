@@ -47,6 +47,12 @@
   },
   "Cairo Asanjh": {
    "retired_with": "Ravens",
+   "career": {
+    "never": [
+     "Bills"
+    ],
+    "says": "Asanjh did not play for the Bills."
+   },
    "signature_team": "Seahawks"
   },
   "CeeDee Lamb": {
@@ -63,6 +69,14 @@
   },
   "Charlie John": {
    "retired_with": "Bills"
+  },
+  "Dan Mosley": {
+   "career": {
+    "order": [
+     "Lions"
+    ],
+    "says": "Dan Mosley was only a Lion."
+   }
   },
   "Deante Elder": {
    "signature_team": "Seahawks"
@@ -192,6 +206,14 @@
     "club": "Bengals"
    }
   },
+  "Kyric McQuay": {
+   "career": {
+    "never": [
+     "Buccaneers"
+    ],
+    "says": "Kyric never played for the Bucs."
+   }
+  },
   "Lamar Jackson": {
    "retired_with": "Packers",
    "real_nfl": {
@@ -318,7 +340,13 @@
    "retired_with": "Seahawks"
   },
   "Ray Waller": {
-   "retired_with": "Buccaneers"
+   "retired_with": "Buccaneers",
+   "career": {
+    "never": [
+     "Colts"
+    ],
+    "says": "Ray Waller never played for the Colts."
+   }
   },
   "Robert Boone": {
    "retired_with": "Vikings"
@@ -356,6 +384,15 @@
     "says": "A Giants legend."
    },
    "signature_team": "Giants"
+  },
+  "Taron Hayes": {
+   "career": {
+    "never": [
+     "Jets",
+     "Titans"
+    ],
+    "says": "Taron Hayes never played for the Jets or the Titans."
+   }
   },
   "Tyrion Kline": {
    "signature_team": "Chargers"

@@ -16,7 +16,7 @@
  */
 import { F, GROUND } from '@/components/collection/art/sprite/grid';
 import { lookFor, type SpriteLook } from '@/components/collection/art/sprite/faces';
-import { HEAD_FRONT, HEAD_FRONT_CAP, HEAD_SIDE, HEAD_TQ, HEAD_TQ_CAP, helmetFor, MINI_CAP, MINI_HELMET } from '@/components/collection/art/sprite/helmets';
+import { HEAD_FRONT, HEAD_FRONT_CAP, HEAD_SIDE, HEAD_SIDE_CAP, HEAD_TQ, HEAD_TQ_CAP, helmetFor, MINI_CAP, MINI_HELMET } from '@/components/collection/art/sprite/helmets';
 import { homeUniform } from '@/components/collection/art/sprite/uniforms';
 import { teamStyleFor } from '@/components/collection/art/teamStyle';
 import { boundsOf, composeSprite, STAND_IN_HELMET, STAND_IN_LOOK, STAND_IN_UNIFORM, type Grid } from '@/components/collection/art/sprite/render';
@@ -168,10 +168,10 @@ for (const bd of builds) {
 
 // ---------- Helmet crowns: each step in by at most 1 px per side (rows from the top until the face / cage) ----------
 const crowns: [string, string[]][] = [
-  ['side', HEAD_SIDE],
-  ['tq', [HEAD_TQ_CAP, ...HEAD_TQ]],
-  ['front', [HEAD_FRONT_CAP, ...HEAD_FRONT]],
-  ['mini', [MINI_CAP, ...MINI_HELMET]],
+  ['side', [...HEAD_SIDE_CAP, ...HEAD_SIDE]],
+  ['tq', [...HEAD_TQ_CAP, ...HEAD_TQ]],
+  ['front', [...HEAD_FRONT_CAP, ...HEAD_FRONT]],
+  ['mini', [...MINI_CAP, ...MINI_HELMET]],
 ];
 crowns.forEach(([name, rows]) => {
   const top = rows.findIndex((r) => r.includes('H'));

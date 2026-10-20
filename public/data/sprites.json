@@ -129,7 +129,8 @@
    "color": "darkbrown"
   },
   "facial": "none",
-  "accessories": []
+  "accessories": [],
+  "eyeColor": "blue"
  },
  "Lukas Russell": {
   "skin": "tan",
@@ -178,7 +179,8 @@
    "color": "auburn"
   },
   "facial": "fullbeard",
-  "accessories": []
+  "accessories": [],
+  "eyeColor": "blue"
  },
  "Rondale Ikarras": {
   "skin": "brown",
@@ -279,7 +281,8 @@
    "color": "auburn"
   },
   "facial": "fullbeard",
-  "accessories": []
+  "accessories": [],
+  "eyeColor": "blue"
  },
  "Jason Macleone": {
   "skin": "brown",

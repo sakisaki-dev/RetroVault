@@ -41,10 +41,12 @@ interface PowerRankingProps {
   /** Team key being hovered or focused elsewhere on the page */
   highlight: string | null;
   onHighlight: (key: string | null) => void;
+  /** Latest season in the data (Y1–N for the titles metric) */
+  lastSeason?: number;
 }
 
 /** Franchise power ranking as a team-coloured logo bar chart; every bar is a button that opens the team page. */
-const PowerRanking = ({ teams, records, onOpen, highlight, onHighlight }: PowerRankingProps) => {
+const PowerRanking = ({ teams, records, onOpen, highlight, onHighlight, lastSeason }: PowerRankingProps) => {
   const [metric, setMetric] = useState<PowerMetric>('power');
   const [all, setAll] = useState(false);
   const meta = METRICS.find((m) => m.key === metric)!;
@@ -90,7 +92,7 @@ const PowerRanking = ({ teams, records, onOpen, highlight, onHighlight }: PowerR
       <p className="mt-2 text-xs text-muted-foreground">
         {metric === 'power'
           ? `Power blends Super Bowl titles (${POWER_WEIGHTS.titles * 100}%), all-time Hall of Famers (${POWER_WEIGHTS.hof * 100}%), combined Career Legacy of everyone who played there (${POWER_WEIGHTS.legacy * 100}%) and the best player's OVR (${POWER_WEIGHTS.ovr * 100}%), each scaled to the top franchise.`
-          : `Ranked by ${meta.unit}${metric === 'titles' ? ' (Y1–80, any coach)' : metric === 'ovr' ? '' : ', counting everyone who ever played there'}.`}
+          : `Ranked by ${meta.unit}${metric === 'titles' ? ` (Y1–${lastSeason || 'now'}, any coach)` : metric === 'ovr' ? '' : ', counting everyone who ever played there'}.`}
       </p>
 
       <ol className="mt-4 space-y-1.5" aria-label={`Franchises by ${meta.unit}`}>

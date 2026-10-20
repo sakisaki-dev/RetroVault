@@ -205,6 +205,20 @@ export interface LeagueContent {
   coach?: CoachInfo;
   /** Hall of Fame classes shared by every device, oldest first (keys "POS:Name") */
   hofClasses?: { label: string; keys: string[] }[];
+  /** Per-update edition (scripts/build_league_content.py edition()); its seed drives the rotating picks (utils/edition.ts) */
+  edition?: Edition;
+}
+
+export interface Edition {
+  /** Applied uploads so far (data/y80/mutations_log.json) */
+  number: number;
+  season?: string;
+  /** Id of the last applied upload */
+  upload?: string;
+  /** FNV-1a of season, number and upload: changes on every update, stable across rebuilds */
+  seed: number;
+  /** "Y80 · Edition 23" */
+  label?: string;
 }
 
 export type ContentSource = 'uploaded' | 'bundled' | 'none';
@@ -469,6 +483,10 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
   if (speeches) content.speeches = speeches;
   const coach = normCoach(input.coach);
   if (coach) content.coach = coach;
+  if (isObj(input.edition) && num(input.edition.seed) !== undefined) {
+    const e = input.edition;
+    content.edition = { number: num(e.number) ?? 0, season: str(e.season), upload: str(e.upload), seed: num(e.seed)!, label: str(e.label) };
+  }
   if (Array.isArray(input.hofClasses)) {
     const classes = input.hofClasses
       .map((c) => (isObj(c) && str(c.label) && Array.isArray(c.keys) ? { label: str(c.label)!, keys: c.keys.filter((k): k is string => typeof k === 'string') } : null))
@@ -552,6 +570,16 @@ export const useLeagueContent = () => {
 // ---------------------------------------------------------------------------
 // Helpers shared by Timeline / Commentary
 // ---------------------------------------------------------------------------
+
+/**
+ * The latest season in the data (the owner's last coached season or Super Bowl), e.g. 80 for "Y80". Everything that
+ * spans "Y1 to now" derives its end from this, so a season rollover needs no code change. 0 before content loads.
+ */
+export const latestSeasonYear = (content: LeagueContent | null | undefined): number => {
+  const years = [...(content?.superBowls ?? []).map((s) => s.year), ...(content?.coach?.seasons ?? []).map((s) => s.year)];
+  const fromLabel = Number(content?.season?.replace(/\D/g, '') ?? '');
+  return years.length ? Math.max(...years) : Number.isFinite(fromLabel) ? fromLabel : 0;
+};
 
 /** Normalize a display name for lookup: drop parentheticals, quotes, punctuation. */
 export const normalizeName = (name: string) =>

@@ -68,15 +68,22 @@ const VARIANT_ODDS = {
 /**
  * Rarity layers stack: the rarer arts get rarer still on better players and finishes. A variant's base weight is
  * multiplied by its factor for the card's tier and for its finish (Prizm and Jersey stay ×1, so they soak up the
- * rest). Sprite × Holo × Legendary is 0.04 × 0.04 of its base weight: about 1 card in 12,000 even from Holo
- * Showcase packs (scripts/simulate_packs.ts), so it should feel out of reach. The market prices it the same way
+ * rest), then by any VARIANT_COMBO penalty that matches the exact card. The sprite's per-axis factors are gentle, so
+ * a sprite Holo (Common to Epic) turns up now and then, about 1 card in 130 from Holo Showcase packs; the combo
+ * penalty is what keeps Sprite × Holo × Legendary near-unattainable, about 1 card in 13,000 even from Holo Showcase
+ * packs and tens of millions from Standard (scripts/simulate_packs.ts). The market prices it the same way
  * (value × finish × variant, src/utils/cardMarket.ts), so rarer layers stay worth more.
  */
 export const VARIANT_STACK: Partial<Record<Variant, { tier: Weights<Tier>; finish: Weights<Finish> }>> = {
   topps: { tier: { common: 1, rare: 0.9, epic: 0.8, legendary: 0.7 }, finish: { base: 1, silver: 0.9, gold: 0.8, holo: 0.7 } },
   locker: { tier: { common: 1, rare: 0.85, epic: 0.7, legendary: 0.55 }, finish: { base: 1, silver: 0.85, gold: 0.7, holo: 0.55 } },
-  sprite: { tier: { common: 1, rare: 0.6, epic: 0.25, legendary: 0.04 }, finish: { base: 1, silver: 0.6, gold: 0.25, holo: 0.04 } },
+  sprite: { tier: { common: 1, rare: 0.65, epic: 0.45, legendary: 0.15 }, finish: { base: 1, silver: 0.65, gold: 0.5, holo: 0.5 } },
 };
+
+/** Extra multipliers for one exact variant × tier × finish, on top of VARIANT_STACK (the chase cards). */
+export const VARIANT_COMBO: { variant: Variant; tier: Tier; finish: Finish; factor: number }[] = [
+  { variant: 'sprite', tier: 'legendary', finish: 'holo', factor: 0.02 },
+];
 
 /** Variant odds for one card of a pack, given the tier and finish it already rolled. */
 export const variantWeights = (type: PackType, tier: Tier, finish: Finish): Weights<Variant> => {
@@ -84,7 +91,8 @@ export const variantWeights = (type: PackType, tier: Tier, finish: Finish): Weig
   return Object.fromEntries(
     VARIANTS.map(({ key }) => {
       const s = VARIANT_STACK[key];
-      return [key, base[key] * (s ? s.tier[tier] * s.finish[finish] : 1)];
+      const combo = VARIANT_COMBO.reduce((m, c) => (c.variant === key && c.tier === tier && c.finish === finish ? m * c.factor : m), 1);
+      return [key, base[key] * (s ? s.tier[tier] * s.finish[finish] : 1) * combo];
     }),
   ) as Weights<Variant>;
 };
@@ -950,6 +958,8 @@ export interface OddsSummary {
   /** Per card, averaged over the tier × finish it rolls (VARIANT_STACK) */
   variants: Record<Variant, number>;
   legendaryHolo: number;
+  /** Per card: Retro Bowl sprite × Holo at any tier */
+  spriteHolo: number;
   /** Per card: Retro Bowl sprite × Holo × Legendary, the rarest card there is */
   spriteLegendaryHolo: number;
 }
@@ -965,8 +975,10 @@ export const packOdds = (type: EarnablePack): OddsSummary => {
       VARIANTS.forEach(({ key: v }) => (variants[v] += j[t][f] * pv(v)));
     }),
   );
-  const spriteLegendaryHolo = j.legendary.holo * norm(variantWeights(type, 'legendary', 'holo'))('sprite');
-  return { tiers, finishes, variants, legendaryHolo: j.legendary.holo, spriteLegendaryHolo };
+  const spriteHoloAt = (t: Tier) => j[t].holo * norm(variantWeights(type, t, 'holo'))('sprite');
+  const spriteHolo = TIERS.reduce((a, { key: t }) => a + spriteHoloAt(t), 0);
+  const spriteLegendaryHolo = spriteHoloAt('legendary');
+  return { tiers, finishes, variants, legendaryHolo: j.legendary.holo, spriteHolo, spriteLegendaryHolo };
 };
 
 // ---------- React ----------

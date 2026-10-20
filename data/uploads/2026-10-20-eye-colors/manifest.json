@@ -1,0 +1,84 @@
+{
+ "id": "2026-10-20-eye-colors",
+ "created": "2026-10-20",
+ "title": "Eye colour: blue eyes for Charlie John and the Wilsons",
+ "images": [
+  {
+   "group": "IMG_6200–6203",
+   "path": "~/Downloads/Retrobowl Uploads",
+   "files": [
+    "IMG_6200.PNG",
+    "IMG_6201.PNG",
+    "IMG_6202.PNG",
+    "IMG_6203.PNG"
+   ],
+   "shows": "Game Hall of Fame portraits (Charlie John, Michael and Wayne Wilson: blue eyes)"
+  }
+ ],
+ "ai_steps": [
+  {
+   "step": "portrait→look",
+   "reason": "Read eye colour from the portraits",
+   "trigger": "eyeColor added to sprite looks"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Charlie John",
+   "value": {
+    "skin": "pale",
+    "hair": {
+     "style": "short",
+     "color": "darkbrown"
+    },
+    "facial": "none",
+    "accessories": [],
+    "notes": "Neat dark-brown hair, clean-shaven, blue eyes [IMG_6200–6203 (game Hall of Fame)]",
+    "eyeColor": "blue"
+   },
+   "source": "image:IMG_6200–6203",
+   "reason": "Portrait shows blue eyes (game Hall of Fame screens); the new eyeColor look field",
+   "trigger": "eyeColor added to sprite looks"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Michael Wilson",
+   "value": {
+    "skin": "light",
+    "hair": {
+     "style": "short",
+     "color": "auburn"
+    },
+    "facial": "fullbeard",
+    "accessories": [],
+    "notes": "Auburn hair and a full red beard, blue eyes. Wayne Wilson's brother: same look [IMG_6200–6203 (game Hall of Fame)]",
+    "eyeColor": "blue"
+   },
+   "source": "image:IMG_6200–6203",
+   "reason": "Portrait shows blue eyes (game Hall of Fame screens); the new eyeColor look field",
+   "trigger": "eyeColor added to sprite looks"
+  },
+  {
+   "lane": "looks",
+   "op": "sprite.set",
+   "target": "Wayne Wilson",
+   "value": {
+    "skin": "light",
+    "hair": {
+     "style": "short",
+     "color": "auburn"
+    },
+    "facial": "fullbeard",
+    "accessories": [],
+    "notes": "Auburn hair and a full red beard, blue eyes. Michael Wilson's brother: same look [IMG_6200–6203 (game Hall of Fame)]",
+    "eyeColor": "blue"
+   },
+   "source": "image:IMG_6200–6203",
+   "reason": "Portrait shows blue eyes (game Hall of Fame screens); the new eyeColor look field",
+   "trigger": "eyeColor added to sprite looks"
+  }
+ ]
+}

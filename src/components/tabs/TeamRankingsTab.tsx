@@ -11,7 +11,7 @@ import TeamSheet from '../teams/TeamSheet';
 import PowerRanking from '../teams/PowerRanking';
 import DynastyGrid from '../teams/DynastyGrid';
 import { overallRating } from '../brand/ProPlayerBanner.utils';
-import { useLeagueContent } from '@/utils/leagueContent';
+import { latestSeasonYear, useLeagueContent } from '@/utils/leagueContent';
 import { coachedByTeam } from '@/utils/frontOffice';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import { HOF_THRESHOLD } from '@/config/stats';
@@ -83,6 +83,7 @@ const TeamRankingsTab = () => {
   const officialOvr = useOfficialOvr();
   const coached = useMemo(() => coachedByTeam(content), [content]);
   const superBowls = useMemo(() => content?.superBowls ?? [], [content]);
+  const lastSeason = latestSeasonYear(content);
 
   const league = useMemo(
     () => getAllPlayers().filter((p) => !p.isRealLegend),
@@ -148,7 +149,7 @@ const TeamRankingsTab = () => {
           <p className="font-pixel text-[10px] uppercase text-gold">League Hub · Franchises</p>
           <h1 className="font-display text-5xl sm:text-6xl font-extrabold italic uppercase leading-none">Teams</h1>
           <p className="mt-2 text-sm text-muted-foreground max-w-xl">
-            Every franchise in the league's 80 years: who won, who built dynasties, and who is on the roster now. Pick a team for its
+            Every franchise in the league's {lastSeason ? `${lastSeason} years` : 'history'}: who won, who built dynasties, and who is on the roster now. Pick a team for its
             franchise page.
           </p>
         </div>
@@ -165,7 +166,7 @@ const TeamRankingsTab = () => {
       {teams.length > 0 && (
         <div className="grid gap-4 lg:grid-cols-12">
           <div className="lg:col-span-7 min-w-0">
-            <PowerRanking teams={teams} records={records} onOpen={setOpenKey} highlight={highlight} onHighlight={setHighlight} />
+            <PowerRanking teams={teams} records={records} lastSeason={lastSeason} onOpen={setOpenKey} highlight={highlight} onHighlight={setHighlight} />
           </div>
           {superBowls.length > 0 && (
             <div className="lg:col-span-5 min-w-0">

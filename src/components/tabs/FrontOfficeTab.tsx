@@ -3,6 +3,7 @@ import { Briefcase, Loader2 } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
 import { useLeagueContent } from '@/utils/leagueContent';
+import { editionRotate } from '@/utils/edition';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import {
   buildAchievements,
@@ -107,7 +108,7 @@ const FrontOfficeTab = () => {
       <FranchiseHistory stints={stints} onPlayerSelect={setSelected} numberFor={numberFor} />
       <Achievements items={achievements} />
       {(content.rivalries.length > 0 || nemeses.length > 0) && (
-        <RivalsPanel rivalries={content.rivalries} nemeses={nemeses} resume={resume} />
+        <RivalsPanel rivalries={editionRotate(content.rivalries, content.edition, 'fo-rivals')} nemeses={nemeses} resume={resume} />
       )}
       {rows.length > 0 && <SeasonLog rows={rows} games={resume.games} />}
 

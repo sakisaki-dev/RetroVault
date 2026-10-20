@@ -206,15 +206,15 @@ export const SHELL_DESIGNS: Record<'tiger' | 'rams', Record<DesignView, string[]
 // ---------- Helmet renderer: on the head (side / three-quarter / front), in hand, on the ground ----------
 
 /**
- * Helmet from the side (shell 16 × 16 inside a 20 × 17 box, so the face and chin anchors stay put): a full, ball-like
- * dome, crown runs 8 → 12 → 14 → 15 → 16, the back curving in toward the neck; every build wears the same one. The face is in profile behind the facemask (brow, one eye, a nose bump, mouth, chin); two thin bars and
+ * Helmet from the side (shell 16 wide inside a 20 × 17 box, so the face and chin anchors stay put): a full, ball-like
+ * dome, crown 6 (HEAD_SIDE_CAP) → 8 → 10 → 12 → 14 → 14 → 16, the back curving in toward the neck; every build wears the same one. The face is in profile behind the facemask (brow, one eye, a nose bump, mouth, chin); two thin bars and
  * a vertical connector stick forward from the shell; the chin strap runs under the jaw; an ear hole on the shell.
  */
 export const HEAD_SIDE = [
-  '.......HHHHHH.......',
   '......HHHHHHHH......',
   '.....HHHHHHHHHH.....',
   '....HHHHHHHHHHHH....',
+  '...HHHHHHHHHHHHHH...',
   '...HHHHHHHHHHHHHH...',
   '..HHHHHHHHHHHHHHHH..',
   '..HHHHHHHHHHHHHHHHM.',
@@ -231,9 +231,9 @@ export const HEAD_SIDE = [
 ];
 /** Helmet in three-quarter view (18 wide): the face turned toward us, the logo side of the shell still showing. */
 export const HEAD_TQ = [
-  '....HHHHHHHH......',
   '...HHHHHHHHHH.....',
   '..HHHHHHHHHHHH....',
+  '.HHHHHHHHHHHHHH...',
   '.HHHHHHHHHHHHHH...',
   'HHHHHHHHHHHHHHHH..',
   'HHHHHHHsssssssssH.',
@@ -250,9 +250,9 @@ export const HEAD_TQ = [
 ];
 /** Helmet facing out (18 wide), bars across the face. */
 export const HEAD_FRONT = [
-  '.....HHHHHHHH.....',
   '....HHHHHHHHHH....',
   '...HHHHHHHHHHHH...',
+  '..HHHHHHHHHHHHHH..',
   '..HHHHHHHHHHHHHH..',
   '.HHHHHHHHHHHHHHHH.',
   '.HHHssssssssssHHH.',
@@ -267,9 +267,9 @@ export const HEAD_FRONT = [
   '...HHddddddddHH...',
   '....H.CCCCCC.H....',
 ];
-/** Helmet in hand / on the ground (12 × 9): a full round 10 × 9 dome (6 → 8 → 10 across the crown) with the face opening and facemask in front. */
+/** Helmet in hand / on the ground (12 × 9): a full round 10-wide dome (MINI_CAP 4 → 6, then 8 → 8 → 10) with the face opening and facemask in front. */
 export const MINI_HELMET = [
-  '..HHHHHH....',
+  '.HHHHHHHH...',
   '.HHHHHHHH...',
   'HHHHHHHHHH..',
   'HHHHHHHHHHM.',
@@ -280,22 +280,25 @@ export const MINI_HELMET = [
   '..HHHHH.....',
 ];
 /**
- * Round-out caps: one row above the top of the three-quarter, front and mini templates (drawn at y − 1, so every
- * anchor inside the templates is unchanged), 1 px in on each side from the row under it. Every crown row steps in by at
- * most 1 px per side from the row below (scripts/check_sprites.ts asserts it), so the crown is one even stepped curve.
- * The side template carries its cap in its own row 0.
+ * Round-out caps: rows drawn just above each template (capAt; the last cap row sits at y − 1), so every anchor inside
+ * the templates is unchanged. The crown is circle-like: 1-px steps per side at the top, then the widest rows repeat
+ * (0-px steps) at the bulge, so the sides read curved rather than diagonal. No row steps in by more than 1 px per side
+ * from the next (scripts/check_sprites.ts asserts it).
  */
-export const HEAD_TQ_CAP = '.....HHHHHH.......';
-export const HEAD_FRONT_CAP = '......HHHHHH......';
-export const MINI_CAP = '...HHHH.....';
+export const HEAD_SIDE_CAP = ['.......HHHHHH.......'];
+export const HEAD_TQ_CAP = ['.....HHHHHH.......', '....HHHHHHHH......'];
+export const HEAD_FRONT_CAP = ['......HHHHHH......', '.....HHHHHHHH.....'];
+export const MINI_CAP = ['...HHHH.....', '..HHHHHH....'];
+/** A cap's rows stamped above a template whose top-left is (x, y). */
+const capAt = (cap: string[], x: number, y: number): Rect[] => stamp(cap, x, y - cap.length);
 export const LOGO_KEYS: Record<string, Key> = { 1: 'L1', 2: 'L2', 3: 'L3', 4: 'L4' };
 
 /** A helmet off the head (side view), at (x, y). */
 export const miniHelmet = (x: number, y: number, hel: Helmet): Rect[] => {
-  const R = [...stamp([MINI_CAP], x, y - 1), ...stamp(MINI_HELMET, x, y)];
-  R.push(...stamp(['.l', 'l.'], x + 3, y - 1));
-  // The crown stripe runs over the round-out cap and the top row, and down a step at each end
-  if (hel.stripe !== 'none') R.push(...stamp(['hhhh'], x + 3, y - 1), ...onShell(MINI_HELMET, ['..hhhhhh....', '.h......h...'], 0, 0, x, y));
+  const R = [...capAt(MINI_CAP, x, y), ...stamp(MINI_HELMET, x, y)];
+  R.push(...stamp(['.l', 'l.'], x + 3, y - 2));
+  // The crown stripe runs over the round-out cap rows, and down a step at each end
+  if (hel.stripe !== 'none') R.push(...stamp(['.hhhh.', 'hhhhhh'], x + 2, y - 2), ...onShell(MINI_HELMET, ['.h......h...'], 0, 0, x, y));
   if (hel.pattern) tiger(R, MINI_HELMET, x, y, hel, 'mini');
   shellLogo(R, x + 0.5, y + 1.5, hel, [MINI_HELMET, x, y]);
   return R;
@@ -329,7 +332,7 @@ export const tiger = (R: Rect[], tpl: string[], hx: number, hy: number, hel?: He
 
 /** Side helmet head at (hx, hy): profile face behind the bars (face x 12–18). */
 export const sideHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts): Rect[] => {
-  const R = stamp(HEAD_SIDE, hx, hy);
+  const R = [...capAt(HEAD_SIDE_CAP, hx, hy), ...stamp(HEAD_SIDE, hx, hy)];
   const up = pose.look === 'up';
   if (up) R.push(...stamp(['sEEEss', 'swess.', 'ssssss'], hx + 12, hy + 7));
   const ex = pose.expr ?? 'line';
@@ -356,22 +359,25 @@ export const sideHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts):
   if (acc.includes('visor') || acc.includes('visor-gold')) R.push(...stamp(['VVVv'], hx + 15, hy + (up ? 8 : 9)));
   // Crown stripe along the top of the dome, gloss, ear hole, logo
   // The stripe runs along the crown one row in from the top edge, clipped to the dome
-  const crown = (rows: string[], x: number, y: number) => R.push(...onShell(HEAD_SIDE, rows, x, y, hx, hy));
+  const crown = (rows: string[], x: number, y: number) => R.push(...onShell(SIDE_SHELL, rows, x, y + 1, hx, hy - 1));
   // Gloss in the rounded crown, then the stripes over it: they run over the top rows (the round-out cap and the
   // row under it) and the triple's edge stripes bend down the front and back of the dome
-  R.push(...stamp(['.l', 'l.'], hx + 6, hy));
-  if (hel.stripe === 'single' || hel.stripe === 'triple') crown(['hhhhhhhh', 'hhhhhhhh'], 6, 0);
-  if (hel.stripe === 'triple') crown(['gg........gg'], 4, 2);
-  if (hel.stripe === 'double') crown(['hhhhhhhh', '........', 'hhhhhhhhhh'], 6, 0);
+  R.push(...stamp(['.l', 'l.'], hx + 6, hy - 1));
+  if (hel.stripe === 'single' || hel.stripe === 'triple') crown(['hhhhhhhh', 'hhhhhhhh'], 6, -1);
+  if (hel.stripe === 'triple') crown(['gg........gg'], 4, 1);
+  if (hel.stripe === 'double') crown(['hhhhhhhh', '........', 'hhhhhhhhhh'], 6, -1);
   if (hel.pattern) tiger(R, HEAD_SIDE, hx, hy, hel, 'side');
   shellLogo(R, hx + 3.5, hy + 5, hel, [HEAD_SIDE, hx, hy]);
   R.push(...stamp(['k', 'k'], hx + 10, hy + 10));
   return R;
 };
 
+/** The side shell with its cap (origin one row above the template) for clipping the crown stripes. */
+const SIDE_SHELL = [...HEAD_SIDE_CAP, ...HEAD_SIDE];
+
 /** Three-quarter helmet head at (hx, hy): face x 7–15 behind two bars, the logo side of the shell at the left. */
 export const tqHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts): Rect[] => {
-  const R = [...stamp([HEAD_TQ_CAP], hx, hy - 1), ...stamp(HEAD_TQ, hx, hy)];
+  const R = [...capAt(HEAD_TQ_CAP, hx, hy), ...stamp(HEAD_TQ, hx, hy)];
   const ex = pose.expr ?? 'line';
   faceHair(R, hx + 7, 9, { must: null, mouth: hy + 11, jaw: hy + 13, chin: hy + 14, under: hy + 15, cheek: hy + 8 }, look.facial);
   mouth(R, hx + 11, hy + 11, ex === 'exalted' ? undefined : ex);
@@ -379,8 +385,8 @@ export const tqHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts): R
   if (look.accessories.includes('eyeblack')) R.push(...stamp(['kk...kk'], hx + 8, hy + 8));
   if (look.accessories.some((a) => a.startsWith('visor'))) R.push(...stamp(['VVVVVVVV'], hx + 8, hy + 7));
   R.push(...stamp(['MMMMMMMMMMMM'], hx + 6, hy + 9), ...stamp(['MMMMMMMMMMMM'], hx + 6, hy + 12));
-  R.push(...stamp(['.l', 'l.'], hx + 5, hy - 1));
-  if (hel.stripe !== 'none') R.push(...stamp(['hh', 'hh', 'hh', 'hh', 'hh', 'hh'], hx + 7, hy - 1));
+  R.push(...stamp(['.l', 'l.'], hx + 5, hy - 2));
+  if (hel.stripe !== 'none') R.push(...stamp(['hh', 'hh', 'hh', 'hh', 'hh', 'hh', 'hh'], hx + 7, hy - 2));
   if (hel.pattern) tiger(R, HEAD_TQ.map((r, j) => (j < 5 ? r : r.slice(0, 7))), hx, hy, hel, 'tq');
   shellLogo(R, hx, hy + 4, hel, [HEAD_TQ.map((r, j) => (j < 5 ? r : r.slice(0, 7))), hx, hy]);
   // The face stays in front of the logo
@@ -390,7 +396,7 @@ export const tqHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts): R
 
 /** Face-out helmet head at (hx, hy). Face window x 4–13. */
 export const frontHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts): Rect[] => {
-  const R = [...stamp([HEAD_FRONT_CAP], hx, hy - 1), ...stamp(HEAD_FRONT, hx, hy)];
+  const R = [...capAt(HEAD_FRONT_CAP, hx, hy), ...stamp(HEAD_FRONT, hx, hy)];
   const ex = pose.expr ?? 'line';
   faceHair(R, hx + 4, 10, { must: null, mouth: hy + 11, jaw: hy + 13, chin: hy + 14, under: hy + 15, cheek: hy + 8 }, look.facial);
   mouth(R, hx + 7, hy + 11, ex === 'open' || ex === 'grimace' ? ex : ex === 'smile' ? 'smile' : ex === 'stern' ? 'stern' : undefined);
@@ -399,9 +405,10 @@ export const frontHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts)
   if (look.accessories.some((a) => a.startsWith('visor'))) R.push(...stamp(['VVVVVVVVVV', 'VVVVVVVVvV'], hx + 4, hy + 6));
   // Bars stay in front of the face
   R.push(...stamp(['MMMMMMMMMMMM'], hx + 3, hy + 9), ...stamp(['MMMMMMMMMMMM'], hx + 3, hy + 12));
-  R.push(...stamp(['.l', 'l.'], hx + 6, hy - 1));
-  if (hel.stripe !== 'none') R.push(...stamp(hel.stripe === 'double' ? ['h..h', 'h..h', 'h..h', 'h..h', 'h..h'] : ['hh', 'hh', 'hh', 'hh', 'hh'], hel.stripe === 'double' ? hx + 7 : hx + 8, hy - 1));
-  if (hel.stripe === 'triple') R.push(...stamp(['g..g', 'g..g', 'g..g', 'g..g', 'g..g'], hx + 7, hy - 1));
+  R.push(...stamp(['.l', 'l.'], hx + 6, hy - 2));
+  const run = (row: string) => Array<string>(6).fill(row);
+  if (hel.stripe !== 'none') R.push(...stamp(run(hel.stripe === 'double' ? 'h..h' : 'hh'), hel.stripe === 'double' ? hx + 7 : hx + 8, hy - 2));
+  if (hel.stripe === 'triple') R.push(...stamp(run('g..g'), hx + 7, hy - 2));
   if (hel.pattern) tiger(R, HEAD_FRONT.slice(0, 6), hx, hy, hel, 'front');
   return R;
 };

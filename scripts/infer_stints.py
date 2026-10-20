@@ -16,7 +16,8 @@ No per-season data exists, so stints are inferred by ring arithmetic:
       year Y means the holder was on the owner's club that season;
     - owner_facts.json: career.on / career.stints (owner-confirmed seasons) and season_rosters.
 * career.order (the owner's order of clubs) fixes the sequence; career.next_team adds the club he was traded to
-  after the last season.
+  after the last season; career.never lists clubs the owner says he never played for (never a stint, never the
+  extra stop that explains a ring).
 * Soft scoring prefers the games-per-season fit and windows inside the player's era hint.
 
 Every stint's `evidence` is generated from templates over these facts ("4 rings = Chargers Y10, Y11, Y14, Y15").
@@ -133,7 +134,8 @@ def franchise_facts(p, teams, cards, career):
     legacy = short(card.get("legacy_team"), teams)
     hist = [short(t, teams) for t in F.TEAM_HISTORY.get(name, [])]
     order = [short(t, teams) for t in career.get("order", [])]
-    known = {t for t in [main, retired, current, former, legacy, *hist, *order] if t}
+    never = {short(t, teams) for t in career.get("never", [])}
+    known = {t for t in [main, retired, current, former, legacy, *hist, *order] if t and t not in never}
     nxt = short(career.get("next_team"), teams)
     if nxt:
         # traded after the last season: that club is appended outside the solver
@@ -142,7 +144,7 @@ def franchise_facts(p, teams, cards, career):
         main = order[-1] if order else (None if main == nxt else main)
         current = None if current == nxt else current
     return {"main": main, "retired": retired, "current": current, "former": former, "legacy": legacy,
-            "known": known, "order": [t for t in order if t], "next": nxt}
+            "known": known, "order": [t for t in order if t], "next": nxt, "never": never}
 
 
 def candidate_seqs(f, anchors) -> list[list[str]]:
@@ -403,6 +405,7 @@ def main():
             trial = []
             fixed_last = bool(f["retired"] or f["current"] or f["main"] or "end" in target)
             cands = winners + ([real["club"]] if real and real["club"] not in winners else [])
+            cands = [t for t in cands if t not in f["never"]]
             for seq in seqs:
                 for t in cands:
                     if t in seq:

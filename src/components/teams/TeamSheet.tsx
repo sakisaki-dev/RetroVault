@@ -8,7 +8,7 @@ import TeamLogo from '../brand/TeamLogo';
 import ProPlayerBanner from '../brand/ProPlayerBanner';
 import { getReadableTextOn, liftForDarkBg } from '@/utils/teamColors';
 import { useJerseyNumbers, type RetiredNumber } from '@/utils/jerseys';
-import { matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
+import { latestSeasonYear, matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
 import type { CoachedSummary } from '@/utils/frontOffice';
 import { HOF_THRESHOLD } from '@/config/stats';
 import RetiredRafters from './RetiredRafters';
@@ -36,9 +36,9 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: 'leaders', label: 'Leaders' },
 ];
 
-const stopYears = (l: FranchiseStop) => {
+const stopYears = (l: FranchiseStop, last: number) => {
   if (l.approx) return null;
-  if (l.from > 80) return `Joins for Y${l.from}`;
+  if (last && l.from > last) return `Joins for Y${l.from}`;
   return l.from === l.to ? `Y${l.from}` : `Y${l.from}–${l.to}`;
 };
 
@@ -69,6 +69,7 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
   const accent = liftForDarkBg(primary, 60);
   const { numberFor, retiredFor, retiredInfo } = useJerseyNumbers();
   const { content } = useLeagueContent();
+  const lastSeason = latestSeasonYear(content);
   const retired = summary ? retiredFor(t?.id ?? summary.label) : [];
   const teamName = t?.name ?? summary?.label ?? '';
 
@@ -81,7 +82,7 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
     if (!summary) return [];
     const seen = new Set(summary.legends.map((l) => l.player));
     const extra = summary.players.filter((p) => !seen.has(p)).map((player) => ({ player, years: null as string | null, rings: [] as number[] }));
-    return [...summary.legends.map((l) => ({ player: l.player, years: stopYears(l), rings: l.rings })), ...extra].sort(
+    return [...summary.legends.map((l) => ({ player: l.player, years: stopYears(l, lastSeason), rings: l.rings })), ...extra].sort(
       (a, b) => (b.player.careerLegacy || 0) - (a.player.careerLegacy || 0),
     );
   }, [summary]);
@@ -268,6 +269,7 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
                           titleYears={record.titleYears}
                           lossYears={record.lossYears}
                           coachedYears={coached?.years ?? []}
+                          years={lastSeason || undefined}
                         />
                       </section>
                     )}

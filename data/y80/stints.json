@@ -15,7 +15,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "5 rings = Buccaneers Y20, Y21, Y23, Y25, Y26. Record board (your club's games only): Y26 best passing game (Buccaneers). Exact seasons are approximate."
+  "evidence": "5 rings = Buccaneers Y20, Y21, Y23, Y25, Y26. Record board (your club's games only): Y26 best passing game (Buccaneers). Owner: “Ray Waller never played for the Colts.” Exact seasons are approximate."
  },
  "Kyric McQuay": {
   "stints": [
@@ -30,7 +30,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Colts Y22, Y24. The only window that fits."
+  "evidence": "2 rings = Colts Y22, Y24. Owner: “Kyric never played for the Bucs.” The only window that fits."
  },
  "Marlowe Hunter": {
   "stints": [
@@ -965,7 +965,7 @@
    }
   ],
   "confidence": "likely",
-  "evidence": "9 rings = Seahawks Y36, Y37, Y38; Ravens Y41, Y42, Y43, Y44, Y46, Y48. Exact seasons are approximate."
+  "evidence": "9 rings = Seahawks Y36, Y37, Y38; Ravens Y41, Y42, Y43, Y44, Y46, Y48. Owner: “Asanjh did not play for the Bills.” Exact seasons are approximate."
  },
  "Lukas Russell": {
   "stints": [
@@ -2562,7 +2562,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings."
+  "evidence": "No rings. Owner: “Dan Mosley was only a Lion.”"
  },
  "Blair Iupati": {
   "stints": [
@@ -2618,7 +2618,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings."
+  "evidence": "No rings. Owner: “Taron Hayes never played for the Jets or the Titans.”"
  },
  "Darrel Longa": {
   "stints": [

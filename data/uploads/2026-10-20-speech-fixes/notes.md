@@ -1,0 +1,1 @@
+asanjh did not play for the bills, kyric never played for the bucs, taron hayes never played for the jets or the titans, ray waller never played for the colts, dan mosley was only a lion, tyrone baugh only played for the commanders (unless I'm mistaken)

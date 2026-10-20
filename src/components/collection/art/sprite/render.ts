@@ -1,7 +1,7 @@
 import type { Palette } from '../shared';
 import type { TeamStyle } from '../teamStyle';
 import { F, FAR, GROUND, PIX_H, PIX_W, PIX_X, line, shade, stamp, tint, type Key, type Pt, type Rect } from './grid';
-import { bareHead, faceColours, hairColor, hairRise, helmetHair, skinColor, skinRamp, type HeadOpts, type SpriteLook } from './faces';
+import { bareHead, eyeColor, faceColours, hairColor, hairRise, helmetHair, skinColor, skinRamp, type HeadOpts, type SpriteLook } from './faces';
 import { frontHead, helmetColours, miniHelmet, sideHead, tqHead, type Helmet } from './helmets';
 import { jitterFor, markFor, runPose, type FieldMark, type PoseOut, type Skel } from './poses';
 import { pantsBands, sleeveBands, sockBands, type Uniform } from './uniforms';
@@ -735,7 +735,7 @@ const baseColours = (pal: Palette, look: SpriteLook, style: TeamStyle, hel: Helm
     u: ramp.hi,
     x: ramp.shadow,
     X: ramp.dark,
-    e: '#160b00',
+    e: eyeColor(look.eyeColor),
     w: '#ffffff',
     E: look.hair.color === 'black' || look.hair.color === 'darkbrown' ? '#160b00' : shade(hair, 0.85),
     m: ramp.dark,

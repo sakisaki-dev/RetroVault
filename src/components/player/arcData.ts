@@ -104,8 +104,10 @@ const stintsFromCareer = (career: PlayerStints, sbs: SuperBowlEntry[], retiredTe
   const evidence: Evidence = career.confidence === 'confirmed' || career.confidence === 'strong' ? 'confirmed' : 'likely';
   const label = { confirmed: 'Confirmed', strong: 'Strong fit', likely: 'Likely', ambiguous: 'Best guess' }[career.confidence];
   const n = career.stints.length;
+  // A stop that starts after the latest Super Bowl in the data is a post-season trade (infer_stints.py LAST + 1)
+  const lastSeason = sbs.reduce((m, sb) => Math.max(m, sb.year), 0);
   return career.stints.map((st, i) => {
-    const traded = st.from > 80;
+    const traded = lastSeason > 0 && st.from > lastSeason;
     const years = career.approx ? [] : traded ? [st.from] : Array.from({ length: st.to - st.from + 1 }, (_, k) => st.from + k);
     const rings: ArcRing[] = st.rings
       .map((y) => sbs.find((sb) => sb.year === y))

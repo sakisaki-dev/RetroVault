@@ -22,6 +22,8 @@ interface Props {
   onSubChange: (sub: StatsSub) => void;
   players: Player[];
   onOpenPlayer: (p: Player) => void;
+  /** Warm a sub-tab's code chunk (hover / focus on its tab); see lazyViews.tsx */
+  onPrefetch?: (sub: StatsSub) => void;
   children: ReactNode;
 }
 
@@ -35,7 +37,7 @@ const px = (v: string) => {
  * search, pinned right under the site header. Content below sees `--site-header-h` as header + sub-nav, so
  * sticky bars inside a sub-tab (e.g. the Head-to-Head scoreboard) sit under both.
  */
-const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, children }: Props) => {
+const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, onPrefetch, children }: Props) => {
   const barRef = useRef<HTMLDivElement | null>(null);
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [offset, setOffset] = useState<{ header: number; bar: number }>({ header: 0, bar: 0 });
@@ -73,23 +75,56 @@ const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, children }
   }, [total]);
 
   // Sub-tab switch: bring the top of the new panel into view (if we had scrolled past it); sections scroll to themselves.
+  // Parts of a sub-tab load lazily (lazyViews.tsx), so a section may not exist yet, or may move when a chunk above it
+  // lands: wait for it, then keep it aligned while the panel settles (until the user scrolls, or about 3 s).
   const first = useRef(true);
   useEffect(() => {
     const behavior: ScrollBehavior = reduced ? 'auto' : 'smooth';
+    const cleanups: (() => void)[] = [];
     const id = window.requestAnimationFrame(() => {
       if (section) {
-        const el = document.getElementById(section);
-        if (el) {
-          el.scrollIntoView({ behavior, block: 'start' });
-          return;
-        }
+        const root = rootRef.current;
+        let settled = false;
+        const align = (b: ScrollBehavior) => document.getElementById(section)?.scrollIntoView({ behavior: b, block: 'start' });
+        const stop = () => {
+          settled = true;
+          cleanups.forEach((f) => f());
+        };
+        let found = !!document.getElementById(section);
+        if (found) align(behavior);
+        let height = root?.offsetHeight ?? 0;
+        const ro = typeof ResizeObserver !== 'undefined' && root ? new ResizeObserver(() => {
+          if (settled || root.offsetHeight === height) return;
+          height = root.offsetHeight;
+          const now = !!document.getElementById(section);
+          if (now) align(found ? 'auto' : behavior);
+          found ||= now;
+        }) : null;
+        if (root) ro?.observe(root);
+        const userScroll = () => stop();
+        const opts = { passive: true } as const;
+        window.addEventListener('wheel', userScroll, opts);
+        window.addEventListener('touchmove', userScroll, opts);
+        window.addEventListener('keydown', userScroll);
+        const timer = window.setTimeout(stop, 3000);
+        cleanups.push(() => {
+          ro?.disconnect();
+          window.removeEventListener('wheel', userScroll);
+          window.removeEventListener('touchmove', userScroll);
+          window.removeEventListener('keydown', userScroll);
+          window.clearTimeout(timer);
+        });
+        return;
       }
       if (first.current) return;
       const top = (rootRef.current?.getBoundingClientRect().top ?? 0) + window.scrollY - offset.header;
       if (window.scrollY > top + 4) window.scrollTo({ top, behavior });
     });
     first.current = false;
-    return () => window.cancelAnimationFrame(id);
+    return () => {
+      window.cancelAnimationFrame(id);
+      cleanups.forEach((f) => f());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sub, section]);
 
@@ -105,6 +140,8 @@ const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, children }
                 aria-current={active ? 'page' : undefined}
                 title={blurb}
                 aria-label={label}
+                onPointerEnter={() => onPrefetch?.(id)}
+                onFocus={() => onPrefetch?.(id)}
                 onClick={(e) => {
                   if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
                   e.preventDefault();

@@ -12,7 +12,7 @@ interface TitlesTimelineProps {
 }
 
 /**
- * Y1–80 strip for one franchise: tall gold bars are titles, short outlined bars are Super Bowl losses, and the
+ * Y1–(latest season) strip for one franchise: tall gold bars are titles, short outlined bars are Super Bowl losses, and the
  * striped band underneath marks the seasons you coached here. Shapes differ, so colour is never the only cue;
  * the same facts are written out below the strip.
  */
@@ -56,7 +56,7 @@ const TitlesTimeline = ({ teamName, primary, titleYears, lossYears, coachedYears
           ))}
         </div>
         <div className="mt-1 flex justify-between font-pixel text-[8px] text-muted-foreground" aria-hidden="true">
-          {[1, 20, 40, 60, 80].map((y) => (
+          {[1, ...Array.from({ length: Math.ceil(years / 20) - 1 }, (_, i) => (i + 1) * 20).filter((y) => years - y >= 8), years].map((y) => (
             <span key={y}>Y{y}</span>
           ))}
         </div>

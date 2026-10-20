@@ -189,6 +189,25 @@
     "looks": 3
    },
    "changed": 3
+  },
+  {
+   "id": "2026-10-20-speech-fixes",
+   "dir": "data/uploads/2026-10-20-speech-fixes",
+   "applied_at": "2026-10-20T12:46:07-07:00",
+   "mutations": {
+    "stats": 5,
+    "speech": 6
+   },
+   "changed": 11
+  },
+  {
+   "id": "2026-10-20-eye-colors",
+   "dir": "data/uploads/2026-10-20-eye-colors",
+   "applied_at": "2026-10-20T12:49:59-07:00",
+   "mutations": {
+    "looks": 3
+   },
+   "changed": 3
   }
  ]
 }

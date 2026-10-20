@@ -4,13 +4,15 @@ import { set, span, stamp, type Key, type Rect } from './grid';
 import type { Helmet } from './helmets';
 import type { PoseOut } from './poses';
 import type { TeamStyle } from '../teamStyle';
+import { seedOf } from '../shared';
 
 /*
  * Faces: looks (sprites.json → SpriteLook, the standard generic character, skin ramp), heads and hair.
  *
  * Sprite looks for the Retro Bowl sprite art. Locked looks come from public/data/sprites.json (built from
  * data/y80/sprites.json, seeded from the game's portrait screens); everyone else gets a generated look from his
- * name, with the skin tone picked in the player editor (Player.spriteSkin) when set. A locked entry may name a
+ * name (stable hair-style, hair-colour, facial-hair and eye-colour rolls), with the skin tone picked in the player
+ * editor (Player.spriteSkin) when set. A locked entry may name a
  * custom pixel image (public/data/sprites/<file>) that replaces the generated sprite entirely.
  */
 
@@ -35,6 +37,8 @@ export interface SpriteLook {
   image?: string;
   /** Eyes: 'intense' = wide whites, small pupils, heavy brows */
   eyes?: 'normal' | 'intense';
+  /** Iris colour (the pupil pixel): an EYE_COLORS key or #hex; dark brown when unset */
+  eyeColor?: string;
   /** Beard colour (a hair-colour name or #hex) when it differs from the hair's; unset = derived from the hair */
   beard?: string;
   /** Bare-face shape (helmet off); oval when unset */
@@ -101,6 +105,65 @@ const HAIR_COLORS: Record<string, string> = {
 };
 export const hairColor = (c: string) => HAIR_COLORS[c] ?? (/^#[0-9a-f]{3,8}$/i.test(c) ? c : HAIR_COLORS.black);
 
+/**
+ * Eye colours for the pupil pixel (the game's eye is 1 white + 1 pupil px), all dark enough to read against the white
+ * and the skin. sprites.json `eyeColor` takes a key or a #hex.
+ */
+const EYE_COLORS: Record<string, string> = {
+  dark: '#160b00',
+  brown: '#4a2a12',
+  hazel: '#5e4a1c',
+  green: '#2e5a34',
+  blue: '#2c5c9e',
+  grey: '#4c5866',
+};
+export const EYE_COLOR_KEYS = Object.keys(EYE_COLORS);
+export const eyeColor = (c: string | undefined) => (c && (EYE_COLORS[c] ?? (/^#[0-9a-f]{3,8}$/i.test(c) ? c : null))) || EYE_COLORS.dark;
+
+// ---------- Generic look rolls (stable per name, like the pose roll) ----------
+
+/** Weighted pick with a stable roll in [0, 1) from seedOf(`${name}|${salt}`). */
+const roll = <T extends string>(name: string, salt: string, table: [T, number][]): T => {
+  const total = table.reduce((n, [, w]) => n + w, 0);
+  let u = ((seedOf(`${name}|${salt}`) % 100003) / 100003) * total;
+  for (const [v, w] of table) if ((u -= w) < 0) return v;
+  return table[table.length - 1][0];
+};
+const LIGHT_SKIN = (t: SkinTone) => t === 'pale' || t === 'light';
+/** Textured styles: weighted down on the lightest skins, and kept to dark hair colours. */
+const TEXTURED = new Set<HairStyle>(['twists', 'curly', 'braids', 'dreads', 'afro', 'cornrows', 'spikyafro']);
+/** Hair styles roughly in the locked looks' proportions; signature-only styles (crownlocs, longlocs) never roll. */
+const STYLE_POOL: [HairStyle, number][] = [
+  ['short', 30], ['buzz', 10], ['twists', 7], ['curly', 7], ['braids', 5], ['dreads', 5], ['afro', 4], ['bald', 5],
+  ['cornrows', 4], ['spikyafro', 3], ['long', 2], ['mohawk', 2],
+];
+const HAIR_POOL: Record<SkinTone, [string, number][]> = {
+  pale: [['black', 22], ['darkbrown', 26], ['brown', 22], ['auburn', 9], ['dirtyblond', 11], ['blond', 10]],
+  light: [['black', 34], ['darkbrown', 27], ['brown', 18], ['auburn', 6], ['dirtyblond', 8], ['blond', 7]],
+  tan: [['black', 62], ['darkbrown', 24], ['brown', 10], ['auburn', 2], ['dirtyblond', 2]],
+  medium: [['black', 72], ['darkbrown', 21], ['brown', 7]],
+  brown: [['black', 84], ['darkbrown', 14], ['brown', 2]],
+  deep: [['black', 88], ['darkbrown', 12]],
+};
+const EYE_POOL: Record<SkinTone, [string, number][]> = {
+  pale: [['dark', 22], ['brown', 30], ['hazel', 16], ['green', 12], ['blue', 20]],
+  light: [['dark', 34], ['brown', 30], ['hazel', 15], ['green', 8], ['blue', 13]],
+  tan: [['dark', 60], ['brown', 28], ['hazel', 9], ['green', 2], ['blue', 1]],
+  medium: [['dark', 74], ['brown', 21], ['hazel', 5]],
+  brown: [['dark', 86], ['brown', 14]],
+  deep: [['dark', 90], ['brown', 10]],
+};
+const FACIAL_POOL: [Facial, number][] = [['none', 56], ['stubble', 13], ['goatee', 10], ['chinstrap', 8], ['shortbeard', 8], ['fullbeard', 5]];
+
+/** The generic character's rolls for a name and skin: hair style, hair colour, facial hair, eye colour. */
+export const genericRolls = (name: string, skin: SkinTone) => {
+  const style = roll(name, 'hair', LIGHT_SKIN(skin) ? STYLE_POOL.map(([k, w]): [HairStyle, number] => [k, TEXTURED.has(k) ? w / 4 : k === 'long' ? w * 2 : w]) : STYLE_POOL);
+  let color = roll(name, 'hairColor', HAIR_POOL[skin] ?? HAIR_POOL.tan);
+  // Textured hair stays dark (no blond afros)
+  if (TEXTURED.has(style) && color !== 'black' && color !== 'darkbrown') color = 'darkbrown';
+  return { style, color, facial: roll(name, 'facial', FACIAL_POOL), eyeColor: roll(name, 'eyes', EYE_POOL[skin] ?? EYE_POOL.tan) };
+};
+
 type RawLook = Partial<Omit<SpriteLook, 'locked' | 'hair'>> & { hair?: Partial<SpriteLook['hair']> };
 
 let table: Record<string, RawLook> | null = null;
@@ -136,22 +199,27 @@ export const DEFAULT_SKIN: SkinTone = 'tan';
 export const lookFor = (player: GamePlayer, t: Record<string, RawLook> | null): SpriteLook => {
   const raw = t?.[player.name];
   const edited = isSkinTone(player.spriteSkin) ? player.spriteSkin : null;
-  // Standard generic character: everyone without a sprites.json entry gets the same face, body and a short cut;
-  // only the skin toggle (player editor), the pose roll, the uniform roll and the number vary.
+  // Standard generic character: everyone without a sprites.json entry gets the same face and body; he varies by the
+  // skin toggle (player editor), stable hair-style / hair-colour / facial-hair / eye-colour rolls on his name, the
+  // pose roll, the uniform roll and the number. A locked look wins field by field (rolls only fill what it leaves out).
+  const skin = isSkinTone(raw?.skin) ? raw.skin : edited ?? DEFAULT_SKIN;
+  const r = genericRolls(player.name, skin);
   const gen: SpriteLook = {
-    skin: edited ?? DEFAULT_SKIN,
-    hair: { style: 'short', color: 'black' },
-    facial: 'none',
+    skin,
+    hair: { style: r.style, color: r.color },
+    facial: r.facial,
     accessories: [],
     build: 'normal',
     height: 'normal',
+    eyeColor: r.eyeColor,
     locked: false,
   };
   if (!raw) return gen;
   return {
-    skin: isSkinTone(raw.skin) ? raw.skin : gen.skin,
+    skin,
     hair: { style: raw.hair?.style ?? gen.hair.style, color: raw.hair?.color ?? gen.hair.color },
-    facial: raw.facial ?? 'none',
+    facial: raw.facial ?? gen.facial,
+    eyeColor: typeof raw.eyeColor === 'string' ? raw.eyeColor : gen.eyeColor,
     accessories: Array.isArray(raw.accessories) ? raw.accessories : [],
     build: raw.build ?? gen.build,
     height: raw.height ?? 'normal',

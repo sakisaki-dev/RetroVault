@@ -28,7 +28,7 @@ render.ts    compositor: body, layering, raster, colours      → all of the abo
 ```ts
 type SkinTone = 'pale' | 'light' | 'tan' | 'medium' | 'brown' | 'deep';
 interface SpriteLook { skin; hair: { style: HairStyle; color }; facial: Facial; accessories: string[];
-  build: 'normal' | 'big' | 'huge'; height: 'normal' | 'tall'; pose?: string; eyes?: 'normal' | 'intense';
+  build: 'normal' | 'big' | 'huge'; height: 'normal' | 'tall'; pose?: string; eyes?: 'normal' | 'intense'; eyeColor?: string;
   face?: 'oval' | 'defined' | 'chiseled'; nose?: 'straight'; beard?: string; signature?: boolean; image?: string;
   locked: boolean }
 // face: everyone gets the oval (HEAD_BARE, STRONG_JAW for huge builds / jawline beards). The two "good-looking" faces
@@ -54,9 +54,10 @@ interface SpriteLook { skin; hair: { style: HairStyle; color }; facial: Facial; 
 //   R), domed 5 rows above the forehead with a ragged top edge of loc tips, falling round the face to the jaw / neck,
 //   nothing behind; with a helmet on, two strands hang at the nape. 'longlocs' (Karras): locs from the crown with no
 //   high-top, falling onto the chest
-SKIN_TONES, skinColor(t), hairColor(c), DEFAULT_SKIN
+SKIN_TONES, skinColor(t), hairColor(c), eyeColor(c), EYE_COLOR_KEYS, DEFAULT_SKIN
+genericRolls(name, skin): { style, color, facial, eyeColor }   // the generic character's stable rolls
 useSpriteTable(): Record<name, RawLook> | null        // public/data/sprites.json, fetched once
-lookFor(player, table): SpriteLook                    // locked entry, else the standard generic character
+lookFor(player, table): SpriteLook                    // locked entry (field by field) over the generic rolls
 lockedSkin(name, table): SkinTone | null              // player editor: picker read-only when locked
 interface HeadOpts { look; pose: PoseOut; style; hel: Helmet }
 bareHead(hx, hy, opts, tall): Rect[]                  // helmet off, face out, 14 wide; forehead hy, chin hy+14
@@ -87,9 +88,20 @@ beard, `fT` loc / twist highlight, `fH` skin highlight, `fU` durag sheen, `fl` /
 
 The Golden hour portrait (`sig-golden`) was removed at the owner's request; the key is an alias of `sig-crossed`.
 
-**Standardisation rule.** Players without a `sprites.json` entry all get the same generic character (hair hidden
-under the helmet, the standard short cut when it's off, no facial hair, normal build); they vary only by the skin toggle (`Player.spriteSkin`, else
-`DEFAULT_SKIN`), the pose roll, the uniform roll and the number.
+**Standardisation rule.** Players without a `sprites.json` entry all get the same generic character (standard face,
+normal build) and vary by stable rolls on their name (`genericRolls`, `seedOf(name + '|hair')` etc., like the pose
+roll), the skin toggle (`Player.spriteSkin`, else `DEFAULT_SKIN`), the pose roll, the uniform roll and the number:
+- hair style (`|hair`): short (most), buzz, twists, curly, bald, braids, dreads, afro, cornrows, spiky afro; rarely long
+  or mohawk. Never the signature-only crownlocs / longlocs. Textured styles are rarer on the two lightest skins.
+- hair colour (`|hairColor`): mostly black, then dark brown and brown; auburn, dirty blond and blond only on lighter
+  skins. Textured hair stays black or dark brown.
+- facial hair (`|facial`): none (most), stubble, goatee, chinstrap, short beard, occasionally a full beard.
+- eye colour (`|eyes`, look field `eyeColor`): the pupil pixel. Mostly dark brown, some brown or hazel; green and blue
+  rare and only on lighter skins. `EYE_COLORS`: dark `#160b00`, brown, hazel, green, blue, grey (all dark enough to read
+  against the white), or a #hex.
+The skin feeds the colour weights, so changing the skin toggle can change the hair / eye colour roll. A locked look
+wins field by field: rolls only fill the fields its `sprites.json` entry leaves out (`eyeColor` included: the Wilsons
+and Charlie John are locked to blue).
 
 ## `helmets.ts`
 
@@ -121,12 +133,17 @@ network; `--preview out.png` renders them all big on their shells) which writes 
 16 × 14 fine cells (nominally 14 × 12, centred), faces forward (+x), uses up to four colours and 2-cell strokes for
 letters. The Bengals stripes and Rams horn are per-view pixel templates (`SHELL_DESIGNS`: side, tq, front, mini)
 clipped to the shell; the Browns have no decal. On the side head the crown stripe runs one row in from the top edge.
-Helmets are one compact size for every build, and every shell is a full round dome (a ball, not an egg: a soft
-stepped crown, about as tall as it is wide): the side shell is 16 × 17 inside the 20 × 17 box (columns 0–1 empty, so
-the face and chin anchors are unchanged; crown 6 → 8 → 12 → 14 → 15 → 16, the back curving in toward the neck), the
-three-quarter shell 17 × 15 and the front 16 × 17 (both with a round-out cap row drawn one row above the template,
-`HEAD_TQ_CAP` / `HEAD_FRONT_CAP`, at `hy − 1`), the mini helmet a 10 × 10 dome (cap `MINI_CAP` at `y − 1`; `PixelHelmet`
-draws it at y = 2 in a 14 × 12 box) plus its facemask. Stripes run over the cap and are clipped to the dome
+Helmets are one compact size for every build, and every shell is a full round dome (a ball, not an egg). The crown is
+circle-like: 1-px steps per side at the top, then the widest rows repeat (0-px steps) at the bulge, so the sides read
+curved rather than diagonal (never more than 1 px per side between rows; `scripts/check_sprites.ts` asserts it).
+Round-out caps (`HEAD_SIDE_CAP`, `HEAD_TQ_CAP`, `HEAD_FRONT_CAP`, `MINI_CAP`, arrays of rows) are drawn just above
+each template (`capAt`), so every anchor inside the templates (face, chin strap, cage, logo) is unchanged:
+- side: 16 wide inside the 20 × 17 box (columns 0–1 empty), crown 6 (cap, `hy − 1`) → 8 → 10 → 12 → 14 → 14 → 16 …,
+  the back curving in toward the neck
+- three-quarter: caps at `hy − 2`, `hy − 1`; 6 → 8 → 10 → 12 → 14 → 14 → 16 → 17
+- front: caps at `hy − 2`, `hy − 1`; 6 → 8 → 10 → 12 → 14 → 14 → 16 …
+- mini: a 10-wide dome, caps at `y − 2`, `y − 1`; 4 → 6 → 8 → 8 → 10 (`PixelHelmet` draws it at y = 2 in a 14 × 12
+  box, so the top cap lands on row 0) plus its facemask. Stripes run over the cap and are clipped to the dome
 (`onShell`); the gloss sits in the crown. `render.ts` lifts helmet-on heads by `armT − 3` rows (big +1, huge +2) so the near sleeve doesn't
 cover the jaw. Near-black facemasks are drawn dark graphite (`#4a4f58`) so the cage stays visible.
 

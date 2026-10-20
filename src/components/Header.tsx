@@ -6,6 +6,7 @@ import { openQuickSearch } from '@/components/QuickPlayerSearch';
 import { useLeague } from '@/context/LeagueContext';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { HOF_THRESHOLD } from '@/config/stats';
+import { useLeagueContent } from '@/utils/leagueContent';
 import BrandMark from '@/components/brand/BrandMark';
 import CountUp from '@/components/brand/CountUp';
 
@@ -23,19 +24,6 @@ export const NAV_TABS = [
   { value: 'timeline', label: 'Timeline' },
   { value: 'office', label: 'Front Office' },
 ] as const;
-
-/** Season tag (e.g. "Y80") from the title line of the saved league sheet, if present. */
-const readSeasonTag = (): string | null => {
-  try {
-    const csv = localStorage.getItem('retroVault:careerCsv');
-    if (!csv) return null;
-    const firstLine = csv.slice(0, 300).split(/\r?\n/)[0] ?? '';
-    const match = firstLine.match(/\bY\d{1,3}\b/i);
-    return match ? match[0].toUpperCase() : null;
-  } catch {
-    return null;
-  }
-};
 
 /** Header toggle for performance mode: cycles Auto → On → Off (persisted per viewer). */
 const PerfToggle = () => {
@@ -63,6 +51,7 @@ const PerfToggle = () => {
 
 const Header = ({ activeTab, onTabChange }: HeaderProps) => {
   const { careerData, getAllPlayers, dataVersion } = useLeague();
+  const season = useLeagueContent().content?.season;
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const headerRef = useRef<HTMLElement | null>(null);
 
@@ -86,7 +75,8 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
       teams.add(findNFLTeam(raw)?.id ?? raw.toLowerCase());
     });
     return {
-      season: readSeasonTag(),
+      // Season tag ("Y80"): content.json derives it from the owner's last coached season
+      season: season ?? null,
       players: players.length,
       teams: teams.size,
       hof: players.filter((p) => p.careerLegacy >= HOF_THRESHOLD).length,
@@ -94,7 +84,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
     };
     // dataVersion bumps after edits/uploads so the board stays in sync
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [careerData, getAllPlayers, dataVersion]);
+  }, [careerData, getAllPlayers, dataVersion, season]);
 
   // Keep the active tab visible in the scrollable mobile nav
   useEffect(() => {

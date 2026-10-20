@@ -100,14 +100,16 @@ export interface GradeStep {
 }
 
 /**
- * Percentile → letter grade, best first, on a generous curve: S top 8%, A next 17%, B next 25%, C next 25%,
- * D next 15%, F bottom 10%; each of A–D is split into +/plain/− thirds by percentile (S and F have no modifier). Percentiles are per-position rate percentiles (no career
- * volume) and direction-aware (skillPct): INT% and fumble rates are inverted.
+ * Percentile → letter grade, best first, on a generous curve: S top 10%, A next 15%, B next 25%, C next 25%,
+ * D next 15%, F bottom 10%; each of A–D is split into +/plain/− thirds by percentile (S and F have no modifier).
+ * Percentiles are per-position rate percentiles (no career volume) and direction-aware (skillPct): INT% and fumble
+ * rates are inverted. The overall blends trait percentiles (overallFor), which compresses the top, so S at 90 lands
+ * on about the top 5% of the league overall (owner: "the S grade bar should come down").
  */
 export const GRADE_SCALE: GradeStep[] = [
-  { min: 92, grade: 'S', color: '#ffd84a' },
-  { min: 86.33, grade: 'A+', color: '#3ddc84' },
-  { min: 80.67, grade: 'A', color: '#5fdc78' },
+  { min: 90, grade: 'S', color: '#ffd84a' },
+  { min: 85, grade: 'A+', color: '#3ddc84' },
+  { min: 80, grade: 'A', color: '#5fdc78' },
   { min: 75, grade: 'A−', color: '#7fd86c' },
   { min: 66.67, grade: 'B+', color: '#a3d85e' },
   { min: 58.33, grade: 'B', color: '#c2d652' },

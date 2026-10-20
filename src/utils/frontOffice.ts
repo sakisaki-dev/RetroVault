@@ -7,6 +7,7 @@ import { HOF_THRESHOLD, isHallOfFamer } from '@/config/stats';
 import type { Player } from '@/types/player';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { normalizeName, type PlayerStints } from '@/utils/playerExtras';
+import { editionShuffle } from '@/utils/edition';
 import {
   matchPlayerByName,
   type CoachSeason,
@@ -486,8 +487,9 @@ export const buildStints = (
       });
     const keyOf = (k: (typeof kp)[number]) => (k.player ? `${k.player.position}:${k.player.name}` : k.display);
     // Spread an era's names across its stints: players who finished with this franchise first, then
-    // names not yet featured on an earlier stint, then the rest in the era's own order.
-    const order = new Map(kp.map((k, i) => [k, i]));
+    // names not yet featured on an earlier stint, then the rest in an order that rotates with each update's
+    // edition (utils/edition.ts), so the featured names change after an update and stay put between updates.
+    const order = new Map(editionShuffle(kp, content.edition, `fo-stint:${s.team}:${s.firstYear}`).map((k, i) => [k, i]));
     kp.sort(
       (a, b) =>
         Number(sameTeam(b.player?.team, s.team)) - Number(sameTeam(a.player?.team, s.team)) ||
