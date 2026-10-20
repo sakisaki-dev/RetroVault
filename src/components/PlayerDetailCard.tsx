@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { Activity, BarChart3, Gauge, LayoutDashboard, Milestone, Pencil, Trophy, Users } from 'lucide-react';
+import { Activity, BarChart3, Gauge, LayoutDashboard, Milestone, Pencil, Radar, Trophy, Users } from 'lucide-react';
+import { openInCompFinder } from './stats/comps/compFinderLink';
 import type { Player } from '@/types/player';
 import { cn } from '@/lib/utils';
 import { useLeague } from '@/context/LeagueContext';
@@ -229,17 +230,34 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
             {retired ? ` Number ${retired.number} retired by the ${retired.teamLabel}.` : ''}
           </DialogDescription>
 
-          <Button
-            type="button"
-            size="sm"
-            variant="secondary"
-            onClick={() => setIsEditOpen(true)}
-            className="absolute right-14 top-3 z-10 h-8 gap-1.5 border border-black/20 bg-black/55 px-2.5 text-white hover:bg-black/70"
-          >
-            <Pencil className="h-3.5 w-3.5" aria-hidden="true" />
-            <span className="hidden sm:inline">Edit</span>
-            <span className="sr-only sm:hidden">Edit player</span>
-          </Button>
+          <div className="absolute right-14 top-3 z-10 flex gap-1.5">
+            {/* Every league player's card links to his Deep Dive (real NFL players have none) */}
+            {!player.isRealLegend && (
+              <Button
+                type="button"
+                size="sm"
+                onClick={() => {
+                  onClose();
+                  openInCompFinder(player);
+                }}
+                className="h-8 gap-1.5 bg-gold px-2.5 font-display font-bold uppercase text-black hover:bg-gold/90"
+              >
+                <Radar className="h-3.5 w-3.5" aria-hidden="true" />
+                Deep Dive
+              </Button>
+            )}
+            <Button
+              type="button"
+              size="sm"
+              variant="secondary"
+              onClick={() => setIsEditOpen(true)}
+              className="h-8 gap-1.5 border border-black/20 bg-black/55 px-2.5 text-white hover:bg-black/70"
+            >
+              <Pencil className="h-3.5 w-3.5" aria-hidden="true" />
+              <span className="hidden sm:inline">Edit</span>
+              <span className="sr-only sm:hidden">Edit player</span>
+            </Button>
+          </div>
 
           {player.nickname && (
             <p className="pc-lowerthird">

@@ -11,7 +11,6 @@ import PlayerDetailCard from './PlayerDetailCard';
 import PositionBadge from './PositionBadge';
 import TeamLogo from './brand/TeamLogo';
 import { matchPlayer } from './PlayerSearchSelect';
-import { openInCompFinder } from './stats/comps/compFinderLink';
 
 /** Fired by the header's search button (and anything else) to open the quick search. */
 export const QUICK_SEARCH_EVENT = 'retrovault:quick-search';
@@ -43,7 +42,7 @@ const Row = ({ player, number, ovr }: { player: Player; number: number; ovr?: nu
 
 /**
  * Site-wide player lookup: ⌘K / Ctrl+K or "/" from any page (⌘T belongs to the browser and can't be used),
- * or the header's search button. Picking a league player opens his Deep Dive; a real NFL player opens his card.
+ * or the header's search button. Picking a player opens his card (league players' cards link to their Deep Dive).
  */
 const QuickPlayerSearch = () => {
   const [open, setOpen] = useState(false);
@@ -99,9 +98,8 @@ const QuickPlayerSearch = () => {
                         value={`${p.name} ${p.nickname ?? ''} ${extras.formerNames[normalizeName(p.name)] ?? ''} ${p.position} ${p.team || ''} ${key}`}
                         onSelect={() => {
                           setOpen(false);
-                          // League players go to their Deep Dive; real NFL players (no Deep Dive) open their card
-                          if (p.isRealLegend) setSelected(p);
-                          else openInCompFinder(p);
+                          // Opens his card; league players' cards have a Deep Dive button
+                          setSelected(p);
                         }}
                         className="cursor-pointer rounded-md px-2 py-1.5 data-[selected=true]:bg-panel-2 data-[selected=true]:ring-1 data-[selected=true]:ring-gold/70"
                       >
@@ -114,7 +112,7 @@ const QuickPlayerSearch = () => {
             </CommandList>
             <p className="border-t border-line px-3 py-2 text-[11px] text-muted-foreground">
               <kbd className="rounded border border-line px-1">⌘K</kbd> or <kbd className="rounded border border-line px-1">/</kbd> from any page ·{' '}
-              <kbd className="rounded border border-line px-1">↵</kbd> opens his Deep Dive · <kbd className="rounded border border-line px-1">Esc</kbd> closes
+              <kbd className="rounded border border-line px-1">↵</kbd> opens his card · <kbd className="rounded border border-line px-1">Esc</kbd> closes
             </p>
           </Command>
         </DialogContent>
