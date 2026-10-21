@@ -9,6 +9,7 @@ import { finishLabel, tierLabel, variantLabel, variantShort, type Finish, type T
 import VariantArt from './art/VariantArt';
 import type { FaceStat } from './cardStats';
 import { FINISH_ICON, TIER_ICON } from './rarityIcons';
+import { cardFaceVars } from './cardFace';
 import './collection.css';
 
 const motionOk = () => {
@@ -84,7 +85,7 @@ const SPARKS = [
 
 export interface CollectibleCardProps {
   player: GamePlayer;
-  /** Player tier (Common to Legendary): sets the card colour (matte copper, steel blue, deep purple, black-ember) */
+  /** Player tier (Common to Legendary): sets the frame colour (copper, steel blue, amethyst, black-ember) */
   tier: Tier;
   /** Finish (Base, Silver, Gold, Holo): the treatment on top; ignored while locked */
   finish: Finish;
@@ -119,11 +120,13 @@ export interface CollectibleCardProps {
 /**
  * FUT-style collectible: a shield-shaped card with the OVR, position, team logo and jersey number top left,
  * player art (a real legend's photo, or a team-coloured silhouette), the surname on a name bar and six 0–99
- * face stats in two columns. The TIER sets the card colour (matte copper Common, steel blue Rare, deep purple Epic,
- * black-and-ember Legendary with sparkles, glow and a LEGEND ribbon): never silver or gold, so a tier can't be
- * mistaken for a finish. The FINISH sets the metal of the frame (Base keeps the tier colour; brushed Silver, polished
- * Gold, rainbow Holo with a prismatic overlay that follows the pointer / device tilt). Every owned card names both:
- * a finish chip in the meta column and the tier label above the point. Locked cards are dark silhouettes.
+ * face stats in two columns. Three layers, each in its own place:
+ *   FACE    the club's colours (cardFace.ts: home jersey gradient, trim accent; white text, contrast-checked)
+ *   TIER    the frame: an inner band, name-bar rules, the tier gem and label (copper Common, steel blue Rare,
+ *           amethyst Epic, black-ember Legendary with a darker vignette, ember sparkles and a LEGEND ribbon)
+ *   FINISH  the outer rim: Base a plain rim in the tier colour, brushed Silver, polished Gold, rainbow Holo (with a
+ *           prismatic overlay that follows the pointer / device tilt), named by the finish chip
+ * Locked cards are dark silhouettes.
  */
 const CollectibleCard = ({
   player,
@@ -214,6 +217,8 @@ const CollectibleCard = ({
   const vars = {
     ...style,
     ...(team ? { '--fut-a': `hsl(${team.primaryColor})`, '--fut-b': `hsl(${team.secondaryColor})` } : {}),
+    // Team-colour face (owned cards only; locked cards stay dark silhouettes)
+    ...(owned ? cardFaceVars(player.team) : {}),
   } as CSSProperties;
 
   const setLabel = setNo != null && setTotal ? `card ${setNo} of ${setTotal}` : null;
