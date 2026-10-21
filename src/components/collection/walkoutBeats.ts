@@ -13,40 +13,43 @@ export interface WkBeat {
   ms: number;
 }
 
-/** Build-up per tier class, in stage order tunnel → walk (about 6.7 s Epic, 8.3 s Legendary). */
+/**
+ * Build-up per tier class, in stage order tunnel → walk: tightened to about 4.9 s (decoys and non-Legendary holos)
+ * and 5.9 s (Legendary), since the pack's own tell has already built the moment.
+ */
 const BUILD: Record<'epic' | 'legendary', [WkStage, number][]> = {
   epic: [
-    ['tunnel', 900],
-    ['flares', 1000],
-    ['sweep', 800],
-    ['logo', 900],
-    ['pos', 800],
-    ['ovr', 1200],
-    ['walk', 1100],
+    ['tunnel', 600],
+    ['flares', 700],
+    ['sweep', 600],
+    ['logo', 650],
+    ['pos', 600],
+    ['ovr', 900],
+    ['walk', 800],
   ],
   legendary: [
-    ['tunnel', 1200],
-    ['flares', 1300],
-    ['sweep', 1000],
-    ['logo', 1000],
-    ['pos', 900],
-    ['ovr', 1500],
-    ['walk', 1400],
+    ['tunnel', 800],
+    ['flares', 900],
+    ['sweep', 700],
+    ['logo', 750],
+    ['pos', 650],
+    ['ovr', 1100],
+    ['walk', 1000],
   ],
 };
 
 /** Flip hold: the card sits face up (still looking non-holo) for one beat before a holo twist. */
-const FLIP_MS = 1000;
-const FLIP_HOLD_HOLO_MS = 1300;
+const FLIP_MS = 900;
+const FLIP_HOLD_HOLO_MS = 1100;
 /** Sprite pulls: an 8-bit beat after the flip (pixel flash, scanlines, an "8-BIT" stamp). */
 export const PIXEL_MS = 2200;
 /** Twist: flash, shockwave, shatter, stamp, shake and the slow 360° spin. */
 export const TWIST_MS: Record<'normal' | 'legendary', number> = { normal: 3200, legendary: 3800 };
 
-/** Commons and rares flip in about a second; Epic and up, and every holo, walk out. */
 /**
- * Decoys: some plain Commons and Rares walk out too, so a walkout on a low-tier card doesn't give a holo away.
- * Decided once per card object (stable across re-renders), at about one in five.
+ * Who walks out: every Legendary and every Holo (both rare now), plus decoys. Decoys: about one in five other cards
+ * walks out too, so a walkout doesn't give a Legendary or a holo away. Decided once per card object (stable across
+ * re-renders). With reduced motion there are no decoys (needsWalkout(c, true)).
  */
 const DECOY_RATE = 0.2;
 const decoys = new WeakMap<PackCard, boolean>();
@@ -55,7 +58,8 @@ const isDecoy = (c: PackCard) => {
   return decoys.get(c)!;
 };
 
-export const needsWalkout = (c: PackCard) => tierRank(c.tier) >= tierRank('epic') || c.finish === 'holo' || c.variant === 'sprite' || isDecoy(c);
+export const isChase = (c: PackCard) => c.tier === 'legendary' || c.finish === 'holo';
+export const needsWalkout = (c: PackCard, reduced = false) => isChase(c) || (!reduced && isDecoy(c));
 
 const buildFor = (tier: Tier) => BUILD[tier === 'legendary' ? 'legendary' : 'epic'];
 

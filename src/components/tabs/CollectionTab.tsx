@@ -419,7 +419,8 @@ const CollectionTab = () => {
                       <span className={cn('pk-pack', `pk-pack--${t}`)}>
                         <PackArt type={t} small />
                       </span>
-                      <span className="col-pack__count" aria-hidden="true">
+                      {/* Keyed by the count, so it pops each time a pack is opened (or earned) */}
+                      <span key={n} className="col-pack__count" aria-hidden="true">
                         {n}
                       </span>
                       <span className="text-xs font-semibold">{PACKS[t].label.replace(/ Pack$/, '')}</span>

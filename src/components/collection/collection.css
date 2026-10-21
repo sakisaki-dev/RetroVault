@@ -1122,7 +1122,7 @@ button.fut__card:focus-visible {
 
 @keyframes pk-float {
   0%, 100% { transform: translateY(0) rotate(-1.5deg); }
-  50% { transform: translateY(-8px) rotate(1.5deg); }
+  50% { transform: translateY(var(--pk-bob, -8px)) rotate(1.5deg); }
 }
 @keyframes pk-shine {
   0%, 100% { background-position: 120% 0, 0 0; }
@@ -1349,11 +1349,17 @@ button.fut__card:focus-visible {
   0% { opacity: 0; transform: translateY(120px) rotate(calc(var(--off) * -12deg)) scale(0.6); }
   100% { opacity: 1; }
 }
+.pk-flip {
+  --flip-ms: 620ms;
+}
+.pk-flip--best {
+  --flip-ms: 1000ms;
+}
 .pk-flip__inner {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   transform-style: preserve-3d;
-  transition: transform 0.75s cubic-bezier(0.2, 0.8, 0.3, 1);
+  transition: transform var(--flip-ms) cubic-bezier(0.3, 0.9, 0.35, 1.08);
   transform: rotateY(180deg);
 }
 .pk-flip--open .pk-flip__inner {
@@ -1412,38 +1418,14 @@ button.fut__card:focus-visible {
   box-shadow: inset 0 0 0 2cqw hsl(290 100% 75% / 0.6);
 }
 
-/* Rarity flash: the back glows in the tier colour, then flips */
+/* Tier colours (tell, pop, best-card ring) */
 .pk-flip--common { --pk-flash: hsl(22 60% 52%); }
 .pk-flip--rare { --pk-flash: hsl(208 60% 62%); }
 .pk-flip--epic { --pk-flash: hsl(268 80% 66%); }
 .pk-flip--legendary { --pk-flash: hsl(22 100% 58%); }
-.pk-flip--flash .pk-back__shape {
-  animation: pk-flash 0.3s ease-in-out infinite alternate;
-}
-.pk-flip--flash.pk-flip--legendary .pk-back__shape {
-  animation-duration: 0.15s;
-}
-.pk-flip--flash::after {
-  content: '';
-  position: absolute;
-  inset: -20%;
-  z-index: -1;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--pk-flash), transparent 65%);
-  animation: pk-flash-glow 0.9s ease-out forwards;
-  pointer-events: none;
-}
-@keyframes pk-flash {
-  from { filter: brightness(1.1) drop-shadow(0 0 0 var(--pk-flash)); transform: scale(1); }
-  to { filter: brightness(1.8) drop-shadow(0 0 12px var(--pk-flash)); transform: scale(1.04); }
-}
-@keyframes pk-flash-glow {
-  from { opacity: 0; transform: scale(0.5); }
-  to { opacity: 0.9; transform: scale(1.1); }
-}
 
 /* Holo hit: rainbow rays, a one-shot prismatic sweep and a stamp */
-.pk-flip--holo::before {
+.pk-flip--open.pk-flip--f-holo::before {
   content: '';
   position: absolute;
   inset: -30%;
@@ -1455,7 +1437,7 @@ button.fut__card:focus-visible {
   animation: pk-rays 1.8s ease-out forwards;
   pointer-events: none;
 }
-.pk-flip--holo .pk-flip__face:first-child::after {
+.pk-flip--open.pk-flip--f-holo .pk-flip__face:first-child::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -1463,7 +1445,7 @@ button.fut__card:focus-visible {
   background-size: 300% 100%;
   mix-blend-mode: screen;
   pointer-events: none;
-  animation: pk-shine-once 1.3s 0.35s ease-out both;
+  animation: pk-shine-once 1.3s calc(var(--flip-ms) * 0.6) ease-out both;
 }
 .pk-flip__face:first-child {
   position: relative;
@@ -1471,6 +1453,399 @@ button.fut__card:focus-visible {
 @keyframes pk-shine-once {
   from { background-position: 120% 0; opacity: 1; }
   to { background-position: -40% 0; opacity: 0; }
+}
+
+/* ---------- Pack opening v2: stage, tear, tell, flips, tags, shard chips, summary (PackOpening.tsx) ---------- */
+/* The dialog takes focus programmatically once the pack is torn (so Space keeps advancing): no ring for that */
+.pk-dialog:focus-visible {
+  outline: none;
+}
+.pk-stage {
+  isolation: isolate;
+  min-height: 380px;
+  cursor: default;
+}
+.pk-stage--standard { --pk-glow: hsl(43 100% 55%); }
+.pk-stage--premium { --pk-glow: hsl(212 100% 62%); }
+.pk-stage--elite { --pk-glow: hsl(268 90% 66%); }
+.pk-stage--perfect { --pk-glow: hsl(45 100% 60%); }
+.pk-stage--holo { --pk-glow: hsl(300 100% 70%); }
+.pk-stage--exchange { --pk-glow: hsl(22 100% 58%); }
+/* The pack's stage: a soft pool of light in the pack's colour and a floor */
+.pk-stage__glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 34% 46% at 50% 46%, color-mix(in srgb, var(--pk-glow, #f2c14a) 30%, transparent), transparent 70%),
+    radial-gradient(ellipse 30% 6% at 50% 86%, hsl(0 0% 0% / 0.55), transparent 70%);
+}
+.pk-phase--sealed .pk-pack:hover {
+  --pk-bob: -16px;
+}
+/* Drag to tear: the strip lifts with the finger (--tear, 0–1) */
+.pk-pack__strip {
+  transform: translate(calc(var(--tear, 0) * 34px), calc(var(--tear, 0) * -16px)) rotate(calc(var(--tear, 0) * 12deg));
+  transform-origin: 0 100%;
+}
+.pk-pack__tear {
+  opacity: calc(0.6 + var(--tear, 0) * 0.4);
+}
+/* Paper and foil bits from the tear */
+.pk-bits {
+  position: absolute;
+  left: 50%;
+  top: calc(50% - 150px);
+  width: 200px;
+  height: 0;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.pk-bits i {
+  position: absolute;
+  top: 0;
+  width: 7px;
+  height: 4px;
+  border-radius: 1px;
+  background: #f4efe2;
+  opacity: 0;
+  animation: pk-bit 0.75s cubic-bezier(0.2, 0.7, 0.4, 1) forwards;
+}
+.pk-bits i:nth-child(3n) { background: linear-gradient(135deg, #fff3c4, #e0a21e); width: 5px; height: 5px; }
+.pk-bits i:nth-child(4n) { background: linear-gradient(135deg, #e4e9ee, #8b95a2); }
+@keyframes pk-bit {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0); }
+  100% { opacity: 0; transform: translate(var(--dx), -150px) rotate(320deg); }
+}
+
+/* The tell: a light shaft in the best card's tier colour, plus its finish hint; longer and stronger for rare pulls */
+.pk-tell {
+  --tell: hsl(22 60% 55%);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.pk-tell--rare { --tell: hsl(208 70% 66%); }
+.pk-tell--epic { --tell: hsl(268 90% 68%); }
+.pk-tell--legendary { --tell: hsl(22 100% 58%); }
+.pk-tell__shaft {
+  position: absolute;
+  left: 50%;
+  bottom: 22%;
+  width: 26%;
+  height: 120%;
+  margin-left: -13%;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--tell) 85%, white), color-mix(in srgb, var(--tell) 40%, transparent) 55%, transparent);
+  clip-path: polygon(38% 100%, 62% 100%, 100% 0, 0 0);
+  transform-origin: 50% 100%;
+  opacity: 0;
+  animation: pk-shaft var(--tell-ms) cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+.pk-tell__shaft--2 { transform: rotate(-24deg); animation-delay: calc(var(--tell-ms) * 0.12); }
+.pk-tell__shaft--3 { transform: rotate(24deg); animation-delay: calc(var(--tell-ms) * 0.24); }
+.pk-tell--common .pk-tell__shaft,
+.pk-tell--rare .pk-tell__shaft {
+  width: 18%;
+  margin-left: -9%;
+}
+@keyframes pk-shaft {
+  0% { opacity: 0; scale: 1 0.2; }
+  35% { opacity: 0.9; scale: 1 1; }
+  100% { opacity: 0.7; scale: 1 1; }
+}
+.pk-tell--legendary .pk-tell__shaft--2 { animation-name: pk-shaft, pk-sweep-l; animation-duration: var(--tell-ms), var(--tell-ms); }
+.pk-tell--legendary .pk-tell__shaft--3 { animation-name: pk-shaft, pk-sweep-r; animation-duration: var(--tell-ms), var(--tell-ms); }
+@keyframes pk-sweep-l { from { rotate: -10deg; } to { rotate: 14deg; } }
+@keyframes pk-sweep-r { from { rotate: 10deg; } to { rotate: -14deg; } }
+.pk-tell__core {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 260px;
+  height: 260px;
+  margin: -130px 0 0 -130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--tell) 70%, white), color-mix(in srgb, var(--tell) 35%, transparent) 40%, transparent 70%);
+  opacity: 0;
+  animation: pk-core var(--tell-ms) ease-out forwards;
+}
+.pk-tell--epic .pk-tell__core,
+.pk-tell--legendary .pk-tell__core {
+  width: 380px;
+  height: 380px;
+  margin: -190px 0 0 -190px;
+}
+@keyframes pk-core {
+  0% { opacity: 0; transform: scale(0.2); }
+  60% { opacity: 0.95; transform: scale(1); }
+  100% { opacity: 0.8; transform: scale(1.08); }
+}
+/* Finish hints */
+.pk-tell__glint {
+  position: absolute;
+  top: 20%;
+  bottom: 20%;
+  left: 0;
+  width: 30%;
+  background: linear-gradient(100deg, transparent, hsl(210 40% 96% / 0.85) 50%, transparent);
+  transform: translateX(-120%) skewX(-14deg);
+  animation: pk-glint var(--tell-ms) 0.1s ease-in-out forwards;
+}
+@keyframes pk-glint {
+  to { transform: translateX(380%) skewX(-14deg); }
+}
+.pk-tell__sparks i {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle, #fff 0 18%, hsl(45 100% 62%) 32%, transparent 64%);
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+  opacity: 0;
+  animation: fut-twinkle 0.7s ease-in-out 2 both;
+}
+.pk-tell__burst {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 640px;
+  height: 640px;
+  margin: -320px 0 0 -320px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, hsl(320 100% 70% / 0.6) 0 7deg, hsl(50 100% 65% / 0.55) 7deg 14deg, hsl(150 100% 60% / 0.55) 14deg 21deg, hsl(200 100% 65% / 0.55) 21deg 28deg, hsl(270 100% 70% / 0.55) 28deg 35deg, transparent 35deg 45deg);
+  -webkit-mask: radial-gradient(circle, #000 18%, transparent 62%);
+  mask: radial-gradient(circle, #000 18%, transparent 62%);
+  opacity: 0;
+  animation: pk-burst-holo var(--tell-ms) ease-out forwards;
+  animation-delay: calc(var(--tell-ms) * 0.35);
+}
+@keyframes pk-burst-holo {
+  0% { opacity: 0; transform: scale(0.2) rotate(0deg); }
+  40% { opacity: 1; }
+  100% { opacity: 0.85; transform: scale(1.05) rotate(70deg); }
+}
+
+/* Reveal: the next card to flip is ringed (static); a flip lands with a light pop in its finish and a bounce */
+.pk-flip__back[tabindex='0'] .pk-back__shape {
+  box-shadow: inset 0 0 0 2cqw hsl(var(--gold) / 0.9);
+}
+.pk-flip--f-base { --pk-pop: color-mix(in srgb, var(--pk-flash) 70%, white); }
+.pk-flip--f-silver { --pk-pop: hsl(210 40% 92%); }
+.pk-flip--f-gold { --pk-pop: hsl(45 100% 66%); }
+.pk-flip--f-holo { --pk-pop: hsl(300 100% 78%); }
+.pk-flip__pop {
+  position: absolute;
+  inset: -16%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--pk-pop), transparent 62%);
+  opacity: 0;
+  pointer-events: none;
+  animation: pk-pop-light 0.8s ease-out calc(var(--flip-ms) * 0.45) forwards;
+}
+.pk-flip--best .pk-flip__pop {
+  inset: -28%;
+  animation-duration: 1.1s;
+}
+@keyframes pk-pop-light {
+  0% { opacity: 0; transform: scale(0.5); }
+  30% { opacity: 0.95; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.15); }
+}
+.pk-flip--open .pk-flip__face:first-child {
+  animation: pk-bounce 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) calc(var(--flip-ms) * 0.8) both;
+}
+@keyframes pk-bounce {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.07); }
+  100% { transform: scale(1); }
+}
+/* Stamps: NEW (a stamp), NEW ART (a corner ribbon), UPGRADE */
+.pk-tag {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  animation: pk-stamp 0.45s cubic-bezier(0.2, 1.6, 0.4, 1) calc(var(--flip-ms) * 0.9) both;
+}
+.pk-tag--new {
+  top: 8%;
+  right: -6px;
+  padding: 4px 9px;
+  border: 2px solid hsl(var(--turf));
+  border-radius: 6px;
+  background: hsl(228 47% 7% / 0.85);
+  color: hsl(var(--turf));
+  rotate: 8deg;
+  box-shadow: 0 4px 12px hsl(0 0% 0% / 0.5);
+}
+.pk-tag--art {
+  top: 10px;
+  left: -10px;
+  padding: 3px 16px;
+  background: linear-gradient(90deg, #ff6ad5, #6ad5ff);
+  color: #12101a;
+  rotate: -28deg;
+  box-shadow: 0 3px 10px hsl(0 0% 0% / 0.45);
+}
+.pk-tag--up {
+  top: 8%;
+  right: -6px;
+  padding: 4px 9px;
+  border-radius: 6px;
+  background: hsl(var(--gold));
+  color: hsl(var(--primary-foreground));
+}
+/* Shards: the running counter in the header, and the chip that flies to it (a fixed element above the dialog) */
+.pk-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid hsl(200 80% 70% / 0.35);
+  background: hsl(200 60% 20% / 0.35);
+  font-size: 13px;
+}
+.pk-counter > span:first-of-type {
+  display: inline-block;
+}
+.pk-chip {
+  position: fixed;
+  z-index: 70;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #7dd3fc, #38bdf8);
+  color: #062033;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: 0 4px 14px hsl(200 90% 50% / 0.55);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+/* Summary: the pack in a tidy grid, best pull first and ringed in its tier colour */
+.pk-sum {
+  display: grid;
+  gap: 14px;
+  padding-top: 8px;
+}
+.pk-sum__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  gap: 22px 14px;
+  padding: 14px 4px 0;
+}
+.pk-sum__card {
+  position: relative;
+  min-width: 0;
+  animation: pk-sum-in 0.45s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+  animation-delay: calc(var(--k) * 60ms);
+}
+@keyframes pk-sum-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+}
+@media (min-width: 640px) {
+  .pk-sum__grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  .pk-sum__card--best {
+    grid-column: span 2;
+    grid-row: span 2;
+    padding: 0 12%;
+  }
+}
+.pk-sum__card--best::before {
+  content: '';
+  position: absolute;
+  inset: -6% 4%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, hsl(var(--gold) / 0.28), transparent 68%);
+  pointer-events: none;
+}
+.pk-sum__best {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  z-index: 3;
+  translate: -50% 0;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: hsl(var(--gold));
+  color: hsl(var(--primary-foreground));
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.pk-sum__tag {
+  display: block;
+  margin-top: 6px;
+  text-align: center;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+.pk-sum__tag--new { color: hsl(var(--turf)); }
+.pk-sum__tag--art { color: #f0a6e0; }
+.pk-sum__tag--up { color: hsl(var(--gold)); }
+.pk-sum__tag--dupe { color: #7dd3fc; }
+.pk-sum__shards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  color: hsl(var(--muted-foreground));
+  text-align: center;
+}
+.pk-actions {
+  position: sticky;
+  bottom: calc(-1 * var(--pk-pad, 16px));
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0 calc(-1 * var(--pk-pad, 16px)) calc(-1 * var(--pk-pad, 16px));
+  padding: 10px var(--pk-pad, 16px) calc(10px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(180deg, transparent, hsl(var(--night)) 35%);
+}
+@media (min-width: 640px) {
+  .pk-dialog { --pk-pad: 24px; }
+}
+@media (max-width: 480px) {
+  .pk-actions > * { flex: 1 1 auto; }
+}
+/* Reduced motion / performance mode: no tell or flips run (the pack goes straight to the summary); the summary fades in */
+.pk-rm .pk-sum__card {
+  animation: pk-fade 0.25s ease-out both;
+  animation-delay: 0s;
+}
+@keyframes pk-fade {
+  from { opacity: 0; }
+}
+@keyframes pk-count-pop {
+  0% { transform: scale(1.6); }
+  100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pk-tell *,
+  .pk-bits,
+  .pk-flip__pop {
+    animation: none !important;
+    display: none;
+  }
 }
 
 /* ---------- Walkout (Walkout.tsx; beats in walkoutBeats.ts) ----------
@@ -2057,6 +2432,27 @@ button.fut__card:focus-visible {
   100% { opacity: 1; transform: scale(1) rotate(-8deg); }
 }
 
+/* Cinematic letterbox: black bars slide in for the build and part when the card flips */
+.wk::before,
+.wk::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  height: 9vh;
+  background: #000;
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.3, 0, 0.2, 1);
+}
+.wk::before { top: 0; transform: translateY(-100%); animation: wk-bar-top 0.5s 0.1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+.wk::after { bottom: 0; transform: translateY(100%); animation: wk-bar-bottom 0.5s 0.1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+.wk--carded::before { animation: none; transform: translateY(-100%); }
+.wk--carded::after { animation: none; transform: translateY(100%); }
+.wk--rm::before,
+.wk--rm::after { display: none; }
+@keyframes wk-bar-top { to { transform: translateY(0); } }
+@keyframes wk-bar-bottom { to { transform: translateY(0); } }
 .wk__actions {
   position: relative;
   z-index: 6;
@@ -2242,6 +2638,7 @@ button.fut__card:focus-visible {
 .col-pack .pk-pack__crimp { height: 9px; }
 .col-pack .pk-pack__tear { top: 20px; }
 .col-pack__count {
+  animation: pk-count-pop 0.45s cubic-bezier(0.2, 1.6, 0.4, 1);
   position: absolute;
   top: -8px;
   right: -8px;
