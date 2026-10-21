@@ -93,8 +93,11 @@ const UPGRADE_MS = 1500;
 /** Next / previous: the outgoing card leaves in this many ms, the incoming one settles in NAV_IN_MS. */
 const NAV_OUT_MS = 280;
 const NAV_IN_MS = 440;
-/** Close: the card flies back to its tile (or shrinks away) in this many ms. */
-const EXIT_MS = 300;
+/** Close: the card flies back to its tile (or shrinks away) in this many ms; the panel fades faster. */
+const EXIT_MS = 250;
+const EXIT_PANEL_MS = 120;
+const EXIT_FADE_MS = 120;
+const EXIT_EASE = 'cubic-bezier(0.2, 0.8, 0.2, 1)';
 /** Horizontal swipe: past this distance (or a flick) it steps to the next card. */
 const SWIPE_STEP = 64;
 const SWIPE_FLICK = 0.5; // px per ms
@@ -120,8 +123,22 @@ const currentX = (el: HTMLElement | null) => {
   return m + t;
 };
 
-/** The tile this card was opened from (or its tile now), if it is on screen: the target of the close animation. */
-const tileOf = (key: string): DOMRect | null => {
+/** A fixed-position copy of the large card (its flipper) at `r`, above the dialog: what the open and close flights move. */
+const ghostOf = (face: HTMLElement, r: DOMRect) => {
+  const ghost = document.createElement('div');
+  ghost.className = 'cd-ghost';
+  ghost.setAttribute('aria-hidden', 'true');
+  ghost.style.cssText = `left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;`;
+  const copy = face.cloneNode(true) as HTMLElement;
+  copy.style.visibility = '';
+  copy.querySelectorAll('[id]').forEach((n) => n.removeAttribute('id'));
+  ghost.appendChild(copy);
+  document.body.appendChild(ghost);
+  return ghost;
+};
+
+/** The tile of this card, if it is on screen: the target of the close animation (null when off screen). */
+const tileOf = (key: string): HTMLElement | null => {
   let sel = '';
   try {
     sel = `.fut[data-key="${CSS.escape(key)}"]`;
@@ -131,7 +148,7 @@ const tileOf = (key: string): DOMRect | null => {
   for (const el of document.querySelectorAll<HTMLElement>(sel)) {
     if (el.closest('.cd, [role="dialog"]')) continue;
     const r = el.getBoundingClientRect();
-    if (r.width > 0 && r.bottom > 0 && r.top < window.innerHeight && r.right > 0 && r.left < window.innerWidth) return r;
+    if (r.width > 0 && r.bottom > 0 && r.top < window.innerHeight && r.right > 0 && r.left < window.innerWidth) return el;
   }
   return null;
 };
@@ -208,6 +225,17 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
   useEffect(() => {
     if (open) returnFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
   }, [open]);
+  // The market panel (price history and chart) is the heaviest part of the view: it renders a frame after the dialog
+  // and the card appear, so a tap opens the card at once
+  const [panelReady, setPanelReady] = useState(false);
+  useEffect(() => {
+    if (!open) {
+      setPanelReady(false);
+      return;
+    }
+    const id = requestAnimationFrame(() => setPanelReady(true));
+    return () => cancelAnimationFrame(id);
+  }, [open]);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const sideRef = useRef<HTMLDivElement>(null);
@@ -248,25 +276,47 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
     const from = fromRef.current;
     if (!from || flown.current === from || !motionOk()) return;
     flown.current = from;
-    const r = el.getBoundingClientRect();
-    if (!r.width) return;
-    const s = from.width / r.width;
-    const dx = from.left + from.width / 2 - (r.left + r.width / 2);
-    const dy = from.top + from.height / 2 - (r.top + r.height / 2);
-    // Let the card fly over the dialog edge while it travels (the dialog clips its overflow otherwise)
-    const box = el.closest<HTMLElement>('.cd');
-    box?.classList.add('cd--flying');
-    const a = el.animate(
-      [
-        { transform: `translate(${dx}px, ${dy}px) scale(${s})`, easing: 'cubic-bezier(0.3, 0, 0.3, 1)' },
-        { transform: `translate(${dx}px, ${dy - 18}px) scale(${s * 1.12}) rotate(-2deg)`, offset: 0.16, easing: 'cubic-bezier(0.25, 1.15, 0.35, 1)' },
-        { transform: 'none' },
-      ],
-      { duration: 720, fill: 'backwards' },
-    );
-    const done = () => box?.classList.remove('cd--flying');
-    a.onfinish = done;
-    a.oncancel = done;
+    // The flight runs on a fixed-position copy above the dialog (never clipped by it, so the dialog's overflow and
+    // scrollbar never change). The real card stays hidden in its place; the landing spot is measured only once layout
+    // has settled (two frames: the dialog's bar, the panel and the fonts are in), and if anything still moved it by
+    // the time the copy lands, the real card eases the last pixels from the copy's spot, so there is never a jump.
+    const face = el.querySelector<HTMLElement>('.cd__flipper');
+    if (!face) return;
+    face.style.visibility = 'hidden';
+    let ghost: HTMLDivElement | null = null;
+    const show = () => {
+      face.style.visibility = '';
+      ghost?.remove();
+    };
+    const start = () => {
+      if (!face.isConnected) return show();
+      const r = face.getBoundingClientRect();
+      if (!r.width) return show();
+      const s = from.width / r.width;
+      const dx = from.left + from.width / 2 - (r.left + r.width / 2);
+      const dy = from.top + from.height / 2 - (r.top + r.height / 2);
+      ghost = ghostOf(face, r);
+      const a = ghost.animate(
+        [
+          { transform: `translate(${dx}px, ${dy}px) scale(${s})`, easing: 'cubic-bezier(0.3, 0, 0.3, 1)' },
+          { transform: `translate(${dx}px, ${dy - 18}px) scale(${s * 1.12}) rotate(-2deg)`, offset: 0.16, easing: 'cubic-bezier(0.25, 1.15, 0.35, 1)' },
+          { transform: 'none' },
+        ],
+        { duration: 620, fill: 'forwards' },
+      );
+      const land = () => {
+        if (!face.isConnected) return show();
+        const now = face.getBoundingClientRect();
+        const ox = r.left - now.left;
+        const oy = r.top - now.top;
+        show();
+        if (Math.abs(ox) > 0.5 || Math.abs(oy) > 0.5) face.animate([{ translate: `${ox}px ${oy}px` }, { translate: '0 0' }], { duration: 160, easing: 'ease-out' });
+      };
+      a.onfinish = land;
+      a.oncancel = show;
+    };
+    const ready = (document as Document & { fonts?: FontFaceSet }).fonts?.status === 'loaded' ? Promise.resolve() : (document.fonts?.ready ?? Promise.resolve());
+    void ready.then(() => requestAnimationFrame(() => requestAnimationFrame(start)));
   }, []);
 
   // The outgoing card (a copy of the old one) slides away in the travel direction, then unmounts
@@ -402,60 +452,95 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
   }, [stageEl, list.length]);
 
   /**
-   * Every close (X, backdrop, Escape, swipe down) comes through here. With motion: the card flies back into its tile
-   * when the tile is on screen (else it shrinks and fades) while the stage, the panel and the backdrop fade; then the
-   * dialog closes with no exit animation of its own. A swipe down is already sliding the dialog away: that slide just
-   * continues as a fade. Reduced motion: the dialog's own short fade.
+   * Every close (X, backdrop, Escape, swipe down) comes through here, one path. The tile and the large card are
+   * measured once, before anything moves. A fixed-position copy of the large card (at its current tilt, sway and drag
+   * offset) flies back into the tile, or shrinks to 0.92 and fades when the tile is off screen, while the info panel
+   * fades out fast and the stage and backdrop fade with the flight. The real card is hidden under the copy and the tile
+   * stays hidden until the copy lands; the copy, the tile and the dialog then swap in one frame (the dialog closes with
+   * no exit animation of its own). Transform and opacity only. Reduced motion / performance mode: a 120 ms fade.
    */
   const close = () => {
     if (phase !== 'open') return;
     const box = contentRef.current;
-    const fly = flyEl.current;
-    if (!box || !motionOk() || typeof box.animate !== 'function') {
+    if (!box || typeof box.animate !== 'function') {
       onClose();
       return;
     }
     setPhase('closing');
     const overlay = box.previousElementSibling as HTMLElement | null;
-    const ease = 'cubic-bezier(0.4, 0, 0.2, 1)';
-    overlay?.animate?.([{ opacity: getComputedStyle(overlay).opacity }, { opacity: 0 }], { duration: EXIT_MS, easing: ease, fill: 'forwards' });
-    const swiping = !!box.style.translate;
+    const finishWith = (cleanup?: () => void) => {
+      let done = false;
+      return () => {
+        if (done) return;
+        done = true;
+        cleanup?.();
+        setPhase('closed');
+        onClose();
+      };
+    };
+    if (!motionOk()) {
+      const fade = { duration: EXIT_FADE_MS, easing: 'linear', fill: 'forwards' as const };
+      overlay?.animate?.([{ opacity: 1 }, { opacity: 0 }], fade);
+      const a = box.animate([{ opacity: 1 }, { opacity: 0 }], fade);
+      const finish = finishWith();
+      a.onfinish = finish;
+      a.oncancel = finish;
+      window.setTimeout(finish, EXIT_FADE_MS * 4);
+      return;
+    }
+
+    // Measure everything once
+    const face = flyEl.current?.querySelector<HTMLElement>('.cd__flipper') ?? null;
+    const r = face?.getBoundingClientRect() ?? null;
+    const tileEl = key ? tileOf(key) : null;
+    const tile = tileEl?.getBoundingClientRect() ?? null;
+    const sway = flyEl.current?.querySelector<HTMLElement>('.cd__sway') ?? null;
+    const swayT = sway ? getComputedStyle(sway).transform : 'none';
+    const tiltT = face?.querySelector<HTMLElement>('.fut__card') ? getComputedStyle(face.querySelector<HTMLElement>('.fut__card')!).transform : 'none';
+
+    const ease = EXIT_EASE;
+    const fadeFast = { duration: EXIT_PANEL_MS, easing: 'ease-out', fill: 'forwards' as const };
+    box.querySelectorAll<HTMLElement>('.cd__side, .cd__nav, .cd__flip, .dlg-bar').forEach((el) => el.animate([{ opacity: 1 }, { opacity: 0 }], fadeFast));
+    overlay?.animate?.([{ opacity: 1 }, { opacity: 0 }], { duration: EXIT_MS, easing: ease, fill: 'forwards' });
+    box.animate([{ opacity: 1 }, { opacity: 0 }], { duration: EXIT_MS, easing: ease, fill: 'forwards' });
+
+    let ghost: HTMLDivElement | null = null;
     let anim: Animation | null = null;
-    if (swiping) {
-      anim = box.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing: ease, fill: 'forwards' });
-    } else if (fly) {
-      const tile = key ? tileOf(key) : null;
-      const r = fly.getBoundingClientRect();
-      box.classList.add('cd--flying');
-      if (tile && r.width) {
+    if (face && r && r.width) {
+      // The copy: same size and place as the large card, above the dialog, starting at its current sway and tilt
+      ghost = ghostOf(face, r);
+      const card = ghost.querySelector<HTMLElement>('.fut__card');
+      if (card) card.style.transform = tiltT;
+      face.style.visibility = 'hidden';
+      if (tileEl) tileEl.style.opacity = '0';
+      const start = swayT === 'none' ? '' : swayT;
+      if (tile && tile.width) {
         const s = tile.width / r.width;
         const dx = tile.left + tile.width / 2 - (r.left + r.width / 2);
         const dy = tile.top + tile.height / 2 - (r.top + r.height / 2);
-        anim = fly.animate(
-          [
-            { transform: 'none', opacity: 1 },
-            { transform: `translate(${dx}px, ${dy}px) scale(${s})`, opacity: 1, offset: 0.85 },
-            { transform: `translate(${dx}px, ${dy}px) scale(${s})`, opacity: 0 },
-          ],
-          { duration: EXIT_MS + 40, easing: ease, fill: 'forwards' },
-        );
+        anim = ghost.animate([{ transform: start || 'none' }, { transform: `translate(${dx}px, ${dy}px) scale(${s})` }], { duration: EXIT_MS, easing: ease, fill: 'forwards' });
       } else {
-        anim = fly.animate([{ transform: 'none', opacity: 1 }, { transform: 'scale(0.82)', opacity: 0 }], { duration: EXIT_MS - 40, easing: ease, fill: 'forwards' });
+        anim = ghost.animate(
+          [
+            { transform: start || 'none', opacity: 1 },
+            { transform: 'scale(0.92)', opacity: 0 },
+          ],
+          { duration: EXIT_MS, easing: ease, fill: 'forwards' },
+        );
       }
+      // Level the copy's tilt during the flight, so it lands flat on the flat tile
+      if (card && tiltT !== 'none') card.animate([{ transform: tiltT }, { transform: 'none' }], { duration: EXIT_MS, easing: ease, fill: 'forwards' });
     }
-    let finished = false;
-    const finish = () => {
-      if (finished) return;
-      finished = true;
-      setPhase('closed');
-      onClose();
-    };
+    const finish = finishWith(() => {
+      ghost?.remove();
+      if (tileEl) tileEl.style.opacity = '';
+    });
     if (anim) {
       anim.onfinish = finish;
       anim.oncancel = finish;
-    }
-    // Safety net: never leave a half-closed dialog behind
-    window.setTimeout(finish, EXIT_MS * 5);
+    } else window.setTimeout(finish, EXIT_MS);
+    // Safety net: never leave a half-closed dialog or a hidden tile behind
+    window.setTimeout(finish, EXIT_MS * 4);
   };
 
   const craft = () => {
@@ -519,6 +604,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
           phase === 'closed' && 'cd--exited',
         )}
         style={vars}
+        swipeHandoff
         onKeyDown={onKey}
         onCloseAutoFocus={(e) => {
           // Hand focus back to the tile without scrolling the page (iOS jumps otherwise)
@@ -761,7 +847,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                   </button>
                 )}
 
-                {!target?.preview && <CardValue cardKey={info.key} name={info.player.name} finish={finish} variant={variant} ownedFinish={vEntry?.best} player={info.player} />}
+                {!target?.preview && panelReady && <CardValue cardKey={info.key} name={info.player.name} finish={finish} variant={variant} ownedFinish={vEntry?.best} player={info.player} />}
 
                 {onPlayer && (
                   <button type="button" onClick={() => onPlayer(info)} className="cd-btn">

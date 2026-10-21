@@ -33,6 +33,8 @@ interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof Dialo
   swipeToClose?: boolean;
   /** Hide the built-in close button (the dialog draws its own; swipe still closes) */
   hideClose?: boolean;
+  /** Swipe-to-close hands the release to onOpenChange where the finger left it (the dialog runs its own exit) */
+  swipeHandoff?: boolean;
 }
 
 /*
@@ -43,7 +45,7 @@ interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof Dialo
  * Shared by DialogContent and SheetContent.
  */
 // eslint-disable-next-line react-refresh/only-export-components
-export const useModalChrome = <T extends HTMLElement>(ref: React.ForwardedRef<T>, swipeToClose: boolean, hideClose = false) => {
+export const useModalChrome = <T extends HTMLElement>(ref: React.ForwardedRef<T>, swipeToClose: boolean, hideClose = false, swipeHandoff = false) => {
   const overlayRef = React.useRef<HTMLDivElement>(null);
   const closeRef = React.useRef<HTMLButtonElement>(null);
   const barRef = React.useRef<HTMLDivElement>(null);
@@ -51,6 +53,7 @@ export const useModalChrome = <T extends HTMLElement>(ref: React.ForwardedRef<T>
     onDismiss: () => closeRef.current?.click(),
     enabled: swipeToClose,
     backdrop: () => overlayRef.current,
+    handoff: swipeHandoff,
   });
   const nodeRef = React.useRef<T | null>(null);
   const contentRef = React.useMemo(() => mergeRefs<T>(ref, swipeRef, nodeRef), [ref, swipeRef]);
@@ -79,8 +82,8 @@ export const useModalChrome = <T extends HTMLElement>(ref: React.ForwardedRef<T>
 };
 
 const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
-  ({ className, children, swipeToClose = true, hideClose = false, ...props }, ref) => {
-    const { overlayRef, contentRef, bar } = useModalChrome(ref, swipeToClose, hideClose);
+  ({ className, children, swipeToClose = true, hideClose = false, swipeHandoff = false, ...props }, ref) => {
+    const { overlayRef, contentRef, bar } = useModalChrome(ref, swipeToClose, hideClose, swipeHandoff);
     return (
       <DialogPortal>
         <DialogOverlay ref={overlayRef} />

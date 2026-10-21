@@ -21,6 +21,35 @@ const motionOk = () => {
   }
 };
 
+/**
+ * One IntersectionObserver for every idle card: data-vis="on" while the card is on screen (CSS runs the idle loops only
+ * then), so off-screen Holo / Legendary cards cost nothing.
+ */
+let idleIO: IntersectionObserver | null = null;
+const observeIdle = (el: HTMLElement) => {
+  if (typeof IntersectionObserver === 'undefined') return undefined;
+  idleIO ??= new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        const t = e.target as HTMLElement;
+        if (e.isIntersecting) t.dataset.vis = 'on';
+        else delete t.dataset.vis;
+      }),
+    { rootMargin: '80px' },
+  );
+  idleIO.observe(el);
+  return () => {
+    idleIO?.unobserve(el);
+    delete el.dataset.vis;
+  };
+};
+/** Stable 0–8 s offset per player for the idle loops. */
+const idleOffset = (name: string) => {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) | 0;
+  return Math.abs(h) % 8000;
+};
+
 const SUFFIX = /^(jr\.?|sr\.?|ii|iii|iv|v)$/i;
 /** Surname for the name bar ("Odell Beckham Jr." → "Beckham"). */
 const surnameOf = (name: string) => {
@@ -169,6 +198,13 @@ const CollectibleCard = ({
   const FinishIcon = FINISH_ICON[finish];
   const TierIcon = TIER_ICON[tier];
   const surname = surnameOf(player.name);
+  // Idle animation (owner: subtle, super rare cards only): Holo finish or Legendary tier
+  const idle = owned && (finish === 'holo' || tier === 'legendary');
+  useEffect(() => {
+    const el = ref.current;
+    if (!idle || !el) return;
+    return observeIdle(el);
+  }, [idle]);
   // Every owned card tilts toward the pointer: mouse only in grids, mouse or pen at detail size. Never a finger: a
   // touch drag there is a scroll or a swipe-to-close, and phones tilt the large card with the device instead.
   const tilts = owned;
@@ -264,6 +300,8 @@ const CollectibleCard = ({
     ...(team ? { '--fut-a': `hsl(${team.primaryColor})`, '--fut-b': `hsl(${team.secondaryColor})` } : {}),
     // Team-colour face (owned cards only; locked cards stay dark silhouettes)
     ...(owned ? cardFaceVars(player.team) : {}),
+    // Idle cards start their loops at different points, so a binder never pulses in sync
+    ...(idle ? { '--fut-idle-delay': `-${idleOffset(player.name)}ms` } : {}),
   } as CSSProperties;
 
   const setLabel = setNo != null && setTotal ? `card ${setNo} of ${setTotal}` : null;
@@ -272,7 +310,13 @@ const CollectibleCard = ({
     : `Locked ${tierLabel(tier)} card, ${posName}${hint ? `. ${hint}` : ''}`;
 
   const face = (
-    <span className="fut__shape" aria-hidden="true">
+    <>
+      {owned && !large && (
+        <span className="fut__aura" aria-hidden="true">
+          <i />
+        </span>
+      )}
+      <span className="fut__shape" aria-hidden="true">
       <span className="fut__face">
         <span className="fut__pattern" />
         <span className={cn('fut__art', art == null && photo && 'fut__art--photo')}>
@@ -332,7 +376,18 @@ const CollectibleCard = ({
           </span>
         )}
       </span>
-    </span>
+      {/* Idle light, Holo and Legendary only (very slow, staggered per card, paused off screen): a faint rainbow sheen
+          across rim and face, a few rising embers. The art never moves. */}
+      {idle && finish === 'holo' && <span className="fut__idle" />}
+      {idle && tier === 'legendary' && (
+        <span className="fut__embers">
+          <i />
+          <i />
+          <i />
+        </span>
+      )}
+      </span>
+    </>
   );
 
   const extras = (
@@ -373,14 +428,18 @@ const CollectibleCard = ({
       )}
       style={vars}
       data-key={`${player.position}:${player.name}`}
+      data-idle={idle ? '' : undefined}
       onPointerMove={tilts ? onMove : undefined}
       onPointerLeave={tilts ? onLeave : undefined}
       onPointerDown={onOpen ? onDown : undefined}
       onPointerUp={onOpen ? release : undefined}
       onPointerCancel={onOpen ? release : undefined}
     >
-      {owned && !large && <span className="fut__shadow" aria-hidden="true" />}
-      {owned && !large && tier === 'legendary' && <span className="fut__aura" aria-hidden="true" />}
+      {owned && !large && (
+        <span className="fut__shadow" aria-hidden="true">
+          <i />
+        </span>
+      )}
       {onOpen ? (
         <button type="button" className="fut__card" onClick={() => onOpen(ref.current?.getBoundingClientRect())} aria-label={label}>
           {face}

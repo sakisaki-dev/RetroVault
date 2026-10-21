@@ -19,6 +19,11 @@ export interface SwipeOptions {
   enabled?: boolean;
   /** Element to fade with the drag (a backdrop) */
   backdrop?: () => HTMLElement | null;
+  /**
+   * Hand the release straight to onDismiss, leaving the element where the finger left it (the caller runs its own
+   * exit from there) instead of sliding it the rest of the way out first
+   */
+  handoff?: boolean;
 }
 
 const CLOSE_FRACTION = 0.28; // of the element's visible height
@@ -40,10 +45,10 @@ const scrolledDown = (el: HTMLElement) => {
   return oy === 'auto' || oy === 'scroll' || oy === 'overlay';
 };
 
-export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = true, backdrop }: SwipeOptions) => {
+export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = true, backdrop, handoff = false }: SwipeOptions) => {
   const [el, setEl] = useState<T | null>(null);
-  const opts = useRef({ onDismiss, backdrop });
-  opts.current = { onDismiss, backdrop };
+  const opts = useRef({ onDismiss, backdrop, handoff });
+  opts.current = { onDismiss, backdrop, handoff };
 
   useEffect(() => {
     if (!el || !enabled) return;
@@ -141,6 +146,12 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
       if (still) {
         reset();
         opts.current.onDismiss();
+        return;
+      }
+      if (opts.current.handoff) {
+        opts.current.onDismiss();
+        // Put it back if it stays mounted (it normally unmounts once the caller's exit ends)
+        window.setTimeout(reset, 1200);
         return;
       }
       // Slide the rest of the way out, then close (the dialog's own exit animation finishes from there)

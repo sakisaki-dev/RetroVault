@@ -22,6 +22,8 @@
   outline-offset: 2px;
 }
 [data-perf='lite'] .fut__light,
+[data-perf='lite'] .fut__idle,
+[data-perf='lite'] .fut__embers,
 [data-perf='lite'] .fut__shadow,
 [data-perf='lite'] .fut__aura,
 [data-perf='lite'] .fut__glare,
