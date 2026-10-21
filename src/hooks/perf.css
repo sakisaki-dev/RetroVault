@@ -56,3 +56,12 @@
 [data-perf='lite'] .mk-ticker__track--dup {
   display: none;
 }
+
+/* The post-pack highlight in the binder: a still glow, no motion */
+[data-perf='lite'] .fut-tile--fresh > .fut,
+[data-perf='lite'] .fut-tile--fresh > .fut::after {
+  animation: none !important;
+}
+[data-perf='lite'] .fut-tile--fresh > .fut::after {
+  opacity: 0.8;
+}

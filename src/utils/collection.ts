@@ -1133,8 +1133,82 @@ const subscribe = (onChange: () => void) => {
   };
 };
 
-/** Live collection state (updates on every change, including from other tabs). */
+// ---------- Pending reveal: hide a pack's cards from the UI until they are revealed ----------
+
+/*
+ * openPack commits the cards to storage at once (a reload or a device sync mid-pack never loses them), but the
+ * Collection UI must not show them before the flips. While a pack is open, PackOpening holds a reveal: useCollection
+ * then serves the pre-pack snapshot (cards, shards, marks, display choices) with only the unopened-pack counts live,
+ * so the binder, Best pulls, sets, tier counts, the shard workshop and the market behind the dialog can't spoil the
+ * pull. endReveal (at the summary, or when the dialog closes, whichever is first) lets the live state through and
+ * remembers which players changed, for a short "new cards" highlight in the binder.
+ */
+let revealSnapshot: CollectionState | null = null;
+let viewCache: { live: CollectionState; snap: CollectionState; view: CollectionState } | null = null;
+let revealed: { keys: Set<string>; until: number } | null = null;
+let revealTimer: ReturnType<typeof setTimeout> | undefined;
+/** How long the binder highlights the cards a pack added. */
+export const REVEAL_HIGHLIGHT_MS = 4000;
+
+const notify = () => {
+  try {
+    window.dispatchEvent(new CustomEvent<CollectionChange>(CHANGE_EVENT, { detail: { kind: 'other' } }));
+  } catch {
+    // Non-browser environment
+  }
+};
+
+/** Starts hiding the next pack's cards (call just before openPack). Nested calls keep the first snapshot. */
+export const beginReveal = () => {
+  if (revealSnapshot) return;
+  revealSnapshot = readCollection();
+};
+
+/** Shows the pack's cards (summary reached, or the pack dialog closed); idempotent. */
+export const endReveal = () => {
+  const before = revealSnapshot;
+  if (!before) return;
+  revealSnapshot = null;
+  viewCache = null;
+  const live = readCollection();
+  const keys = new Set(
+    Object.keys(live.cards).filter((k) => {
+      const a = before.cards[k];
+      const b = live.cards[k];
+      return !a || a.last !== b.last;
+    }),
+  );
+  if (keys.size) {
+    revealed = { keys, until: Date.now() + REVEAL_HIGHLIGHT_MS };
+    clearTimeout(revealTimer);
+    revealTimer = setTimeout(() => {
+      revealed = null;
+      notify();
+    }, REVEAL_HIGHLIGHT_MS);
+  }
+  notify();
+};
+
+/** True while a pack's cards are hidden from the UI. */
+export const revealPending = () => revealSnapshot != null;
+
+/** What the UI shows: the live state, or during a pending reveal the pre-pack snapshot with live pack counts. */
+const readView = (): CollectionState => {
+  const live = readCollection();
+  const snap = revealSnapshot;
+  if (!snap) return live;
+  if (viewCache && viewCache.live === live && viewCache.snap === snap) return viewCache.view;
+  const view: CollectionState = { ...snap, packs: live.packs, perfect: live.perfect, exchange: live.exchange, opened: live.opened, earned: live.earned, gifts: live.gifts };
+  viewCache = { live, snap, view };
+  return view;
+};
+
+/**
+ * Collection state for the UI (updates on every change, including from other tabs). During a pending reveal it is
+ * the pre-pack snapshot (see beginReveal); `fresh` holds the players a just-revealed pack added or changed.
+ */
 export const useCollection = () => {
-  const state = useSyncExternalStore(subscribe, readCollection, () => EMPTY);
-  return { state, cards: state.cards, packs: packTotal(state) };
+  const state = useSyncExternalStore(subscribe, readView, () => EMPTY);
+  const fresh = revealed && revealed.until > Date.now() ? revealed.keys : null;
+  return { state, cards: state.cards, packs: packTotal(state), fresh };
 };

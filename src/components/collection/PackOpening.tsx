@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/compone
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { sfx } from '@/utils/sfx';
-import { PACKS, PACK_SHARDS, finishLabel, finishRank, tierLabel, tierRank, variantLabel, type Finish, type PackCard, type PackType, type Tier } from '@/utils/collection';
+import { PACKS, PACK_SHARDS, beginReveal, endReveal, finishLabel, finishRank, tierLabel, tierRank, variantLabel, type Finish, type PackCard, type PackType, type Tier } from '@/utils/collection';
 import CollectibleCard from './CollectibleCard';
 import Walkout from './Walkout';
 import { bestLast, needsWalkout, skipStep, walkoutBeats, type WkBeat } from './walkoutBeats';
@@ -172,8 +172,13 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
 
   useEffect(() => {
     if (type) setShownType(type);
-    if (!isOpen) reset();
+    if (!isOpen) {
+      // Closing mid-reveal counts as revealed
+      endReveal();
+      reset();
+    }
   }, [isOpen, type, reset]);
+  useEffect(() => endReveal, []);
 
   const best = pack.length ? bestOf(pack) : null;
   const tellMs = best ? TELL_MS[best.tier] + TELL_FINISH_MS[best.finish] : 0;
@@ -214,6 +219,10 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
     }, TO_SUMMARY_MS);
     return () => window.clearTimeout(id);
   }, [phase, allOpen, walk]);
+  useEffect(() => {
+    // The summary is the reveal: the Collection may show the pack's cards from here on
+    if (phase === 'summary' && !walk) endReveal();
+  }, [phase, walk]);
   useEffect(() => {
     if (phase === 'summary') doneRef.current?.focus({ preventScroll: true });
     // The pack button is gone once torn: keep focus in the dialog so Space / Enter keep advancing
@@ -265,8 +274,11 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
   const startTear = (): PackCard[] | null => {
     if (phase !== 'sealed' || !type) return null;
     const label = provenance;
+    // Hide this pack's cards from the Collection behind the dialog until they are revealed
+    if (!preview) beginReveal();
     const cards = onTear(type);
     if (!cards) {
+      endReveal();
       onClose();
       return null;
     }

@@ -201,7 +201,7 @@ const RulesPopover = () => (
 
 const CollectionTab = () => {
   const { cards, byKey, tierPool, loaded } = useCardPool();
-  const { state, cards: owned } = useCollection();
+  const { state, cards: owned, fresh } = useCollection();
   const { content } = useLeagueContent();
 
   const [tier, setTier] = useState<Tier | 'all'>('all');
@@ -585,7 +585,7 @@ const CollectionTab = () => {
               // One tile per player: his display choice, else his rarest variant owned at that variant's best finish
               const d = entry ? displayOf(entry, state.display?.[c.key]) : undefined;
               return (
-                <li key={c.key} className="fut-tile">
+                <li key={c.key} className={cn('fut-tile', fresh?.has(c.key) && 'fut-tile--fresh')}>
                   <CollectibleCard
                     player={c.player}
                     tier={c.tier}

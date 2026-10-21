@@ -1456,6 +1456,48 @@ button.fut__card:focus-visible {
 }
 
 /* ---------- Pack opening v2: stage, tear, tell, flips, tags, shard chips, summary (PackOpening.tsx) ---------- */
+/*
+ * The pack dialog's backdrop is opaque (with a blur as it fades in), so the Collection behind it is never legible:
+ * nothing there can hint at the pull, even for a frame. The cards themselves are also held back from the UI until
+ * the reveal (beginReveal / endReveal in utils/collection.ts).
+ */
+[data-state]:has(+ .pk-dialog) {
+  background: hsl(var(--night)) !important;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+/* After a pack: the binder tiles it added or changed glow once (a few seconds), so the new cards are easy to find */
+.fut-tile--fresh > .fut {
+  animation: fut-fresh 1.6s ease-out 2;
+}
+.fut-tile--fresh > .fut::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  z-index: -1;
+  border-radius: 14px;
+  background: radial-gradient(ellipse at 50% 50%, hsl(var(--gold) / 0.45), transparent 70%);
+  opacity: 0;
+  animation: fut-fresh-glow 1.6s ease-out 2;
+  pointer-events: none;
+}
+@keyframes fut-fresh {
+  0%, 100% { transform: none; }
+  30% { transform: translateY(-4px); }
+}
+@keyframes fut-fresh-glow {
+  0%, 100% { opacity: 0; }
+  30% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fut-tile--fresh > .fut,
+  .fut-tile--fresh > .fut::after {
+    animation: none;
+  }
+  .fut-tile--fresh > .fut::after {
+    opacity: 0.8;
+  }
+}
 /* The dialog takes focus programmatically once the pack is torn (so Space keeps advancing): no ring for that */
 .pk-dialog:focus-visible {
   outline: none;
