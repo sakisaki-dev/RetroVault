@@ -18,7 +18,10 @@ export * from '@/config/cardTiers';
  * rarest; PackSpec.variants). A player can own every variant, each at its own best finish, so they stack:
  * OwnedCard.variants holds one entry per variant owned, and OwnedCard.best / counts / first / last summarise them.
  * Saves from before variants are migrated on load: every owned card becomes the Team jersey variant.
- * Duplicates (same player, variant and finish) turn into shards that craft finish upgrades.
+ * Shards (every pack opened, more from duplicates of the same player, variant and finish) are the deliberate path:
+ * claim a chosen player's Base card (claimCard; a "Legend claim" for a Legendary), then craft it up a finish at a time
+ * (craftUpgrade; costs scale by tier and art variant). The owner can pin which variant × finish a player's card
+ * displays (setDisplay / displayOf; CollectionState.display), else it shows the rarest variant at its best finish.
  *
  * State is per browser, in localStorage under STORAGE_KEY; every write fires CHANGE_EVENT so open
  * views update live. v1 (STORAGE_KEY_V1, one fixed rarity per player, cards granted directly by
@@ -69,9 +72,9 @@ const VARIANT_ODDS = {
  * Rarity layers stack: the rarer arts get rarer still on better players and finishes. A variant's base weight is
  * multiplied by its factor for the card's tier and for its finish (Prizm and Jersey stay ×1, so they soak up the
  * rest), then by any VARIANT_COMBO penalty that matches the exact card. The sprite's per-axis factors are gentle, so
- * a sprite Holo (Common to Epic) turns up now and then, about 1 card in 130 from Holo Showcase packs; the combo
- * penalty is what keeps Sprite × Holo × Legendary near-unattainable, about 1 card in 13,000 even from Holo Showcase
- * packs and tens of millions from Standard (scripts/simulate_packs.ts). The market prices it the same way
+ * a sprite Holo (Common to Epic) is a rare thrill rather than impossible; the combo penalty is what keeps
+ * Sprite × Holo × Legendary near-unattainable, about 1 card in 900,000 even from the best packs (Perfect Season,
+ * Holo Showcase) and over a billion from Standard (scripts/simulate_packs.ts). The market prices it the same way
  * (value × finish × variant, src/utils/cardMarket.ts), so rarer layers stay worth more.
  */
 export const VARIANT_STACK: Partial<Record<Variant, { tier: Weights<Tier>; finish: Weights<Finish> }>> = {
@@ -98,19 +101,22 @@ export const variantWeights = (type: PackType, tier: Tier, finish: Finish): Weig
 };
 
 /**
- * Standard pack odds are the baseline (targets, per card: Legendary-tier player ≤ 3%, Holo ≤ 2%,
- * Legendary-tier Holo ≤ 0.1%). Premium and Elite raise them, never above about 3× the baseline.
+ * Standard pack odds are the baseline. Targets per card (owner: "Holos are supposed to be super rare, same goes for
+ * legendary players"): Silver about 1 in 9, Gold about 1 in 50, Holo about 1 in 350; Epic player about 1 in 17,
+ * Legendary player about 1 in 100. Premium and Elite improve them (Elite Legendary about 1 in 33, Holo about 1 in
+ * 200) but never make a Holo or a Legendary routine; Holo Showcase packs hold one guaranteed Holo. The shard path
+ * (claims and finish upgrades below) is how a chosen card is worked toward on purpose.
  */
 export const PACKS: Record<PackType, PackSpec> = {
   standard: {
     label: 'Standard Pack',
     size: 3,
-    tiers: { common: 70, rare: 22, epic: 5.5, legendary: 2.5 },
+    tiers: { common: 75, rare: 18, epic: 6, legendary: 1 },
     finishes: {
-      common: { base: 64, silver: 24, gold: 10, holo: 2 },
-      rare: { base: 66, silver: 23, gold: 9.5, holo: 1.5 },
-      epic: { base: 70, silver: 21, gold: 8, holo: 1 },
-      legendary: { base: 75, silver: 18, gold: 6, holo: 1 },
+      common: { base: 86.5, silver: 11.2, gold: 2, holo: 0.3 },
+      rare: { base: 87, silver: 10.8, gold: 1.95, holo: 0.25 },
+      epic: { base: 88, silver: 10, gold: 1.8, holo: 0.2 },
+      legendary: { base: 89, silver: 9.5, gold: 1.4, holo: 0.1 },
     },
     variants: VARIANT_ODDS.standard,
     guarantee: '3 cards. No guarantees.',
@@ -118,25 +124,25 @@ export const PACKS: Record<PackType, PackSpec> = {
   premium: {
     label: 'Premium Pack',
     size: 4,
-    tiers: { common: 55, rare: 32, epic: 10, legendary: 3 },
+    tiers: { common: 66, rare: 24, epic: 8.5, legendary: 1.5 },
     finishes: {
-      common: { base: 60, silver: 25, gold: 12.5, holo: 2.5 },
-      rare: { base: 62, silver: 24, gold: 12, holo: 2 },
-      epic: { base: 66, silver: 22, gold: 10.5, holo: 1.5 },
-      legendary: { base: 72, silver: 20, gold: 7, holo: 1 },
+      common: { base: 80, silver: 15, gold: 4.5, holo: 0.5 },
+      rare: { base: 81, silver: 14.5, gold: 4.1, holo: 0.4 },
+      epic: { base: 82, silver: 14, gold: 3.7, holo: 0.3 },
+      legendary: { base: 84, silver: 13, gold: 2.8, holo: 0.2 },
     },
     variants: VARIANT_ODDS.premium,
-    guarantee: '4 cards. At least one Gold-or-better finish (the last card is upgraded if needed).',
+    guarantee: '4 cards. At least one Silver-or-better finish (the last card is upgraded if needed).',
   },
   elite: {
     label: 'Elite Pack',
     size: 5,
-    tiers: { common: 42, rare: 35, epic: 17, legendary: 6 },
+    tiers: { common: 52, rare: 30, epic: 15, legendary: 3 },
     finishes: {
-      common: { base: 56, silver: 25, gold: 14, holo: 5 },
-      rare: { base: 58, silver: 24, gold: 14, holo: 4 },
-      epic: { base: 62, silver: 22, gold: 13, holo: 3 },
-      legendary: { base: 69, silver: 20, gold: 10, holo: 1 },
+      common: { base: 74, silver: 20, gold: 5.5, holo: 0.5 },
+      rare: { base: 75, silver: 19.5, gold: 5, holo: 0.5 },
+      epic: { base: 77, silver: 18, gold: 4.6, holo: 0.4 },
+      legendary: { base: 80, silver: 16, gold: 3.7, holo: 0.3 },
     },
     variants: VARIANT_ODDS.elite,
     guarantee: '5 cards. At least one Epic-or-better player (the last card is upgraded if needed).',
@@ -145,29 +151,29 @@ export const PACKS: Record<PackType, PackSpec> = {
     label: 'Perfect Season Pack',
     size: 5,
     // The two regular slots use Elite odds; the three chase slots follow PERFECT_CHASE_*
-    tiers: { common: 42, rare: 35, epic: 17, legendary: 6 },
+    tiers: { common: 52, rare: 30, epic: 15, legendary: 3 },
     finishes: {
-      common: { base: 56, silver: 25, gold: 14, holo: 5 },
-      rare: { base: 58, silver: 24, gold: 14, holo: 4 },
-      epic: { base: 62, silver: 22, gold: 13, holo: 3 },
-      legendary: { base: 69, silver: 20, gold: 10, holo: 1 },
+      common: { base: 74, silver: 20, gold: 5.5, holo: 0.5 },
+      rare: { base: 75, silver: 19.5, gold: 5, holo: 0.5 },
+      epic: { base: 77, silver: 18, gold: 4.6, holo: 0.4 },
+      legendary: { base: 80, silver: 16, gold: 3.7, holo: 0.3 },
     },
     variants: VARIANT_ODDS.chase,
-    guarantee: '5 cards: 2 at Elite odds, then 3 chase cards, each a Legendary Holo or else an Epic-or-better Gold.',
+    guarantee: '5 cards: 2 at Elite odds, then 3 chase cards, each an Epic-or-better player (1 in 5 Legendary) at Silver or better; about 1 pack in 25 holds a Legendary Holo.',
   },
   holo: {
     label: 'Holo Showcase Pack',
     size: 5,
-    // Every card is Holo: HOLO_PACK_LEGENDARY Legendary slots, the rest rolled from these tier odds
-    tiers: { common: 0, rare: 0, epic: 70, legendary: 30 },
+    // HOLO_PACK_SLOTS guaranteed Holo cards (tier from HOLO_SLOT_TIER); the other slots roll these Elite odds
+    tiers: { common: 52, rare: 30, epic: 15, legendary: 3 },
     finishes: {
-      common: { base: 0, silver: 0, gold: 0, holo: 1 },
-      rare: { base: 0, silver: 0, gold: 0, holo: 1 },
-      epic: { base: 0, silver: 0, gold: 0, holo: 1 },
-      legendary: { base: 0, silver: 0, gold: 0, holo: 1 },
+      common: { base: 74, silver: 20, gold: 5.5, holo: 0.5 },
+      rare: { base: 75, silver: 19.5, gold: 5, holo: 0.5 },
+      epic: { base: 77, silver: 18, gold: 4.6, holo: 0.4 },
+      legendary: { base: 80, silver: 16, gold: 3.7, holo: 0.3 },
     },
     variants: VARIANT_ODDS.chase,
-    guarantee: '5 Holo cards: at least 2 Legendary, the rest Epic or better.',
+    guarantee: '5 cards: 1 guaranteed Holo (any tier, Legendary 1 in 25), the rest at Elite odds.',
   },
   exchange: {
     label: 'Legends Exchange',
@@ -193,34 +199,63 @@ export const SHELF_ORDER: PackType[] = [...PACK_ORDER, 'exchange'];
 /** Packs stored as plain counts. */
 export const COUNTED_PACKS: CountedPack[] = ['standard', 'premium', 'elite', 'holo'];
 
-/** Holo Showcase pack: guaranteed Legendary Holo slots (the rest roll PACKS.holo.tiers, all Holo). */
-export const HOLO_PACK_LEGENDARY = 2;
+/**
+ * Holo Showcase pack: this many guaranteed Holo slots, their tier rolled from HOLO_SLOT_TIER (the other slots roll
+ * PACKS.holo like an Elite pack). It used to be five Holos with two Legendary Holos guaranteed, which made Holo
+ * routine; one Holo keeps the pack special without handing out the rarest finish by the handful.
+ */
+export const HOLO_PACK_SLOTS = 1;
+export const HOLO_SLOT_TIER: Weights<Tier> = { common: 50, rare: 30, epic: 16, legendary: 4 };
 
-/** Premium: finish odds for the last card when the first three had no Gold or Holo. */
+/** Premium: finish odds for the last card when the first three were all Base. */
 export const PREMIUM_GUARANTEE_FINISH: FinishTable = {
-  common: { base: 0, silver: 0, gold: 97, holo: 3 },
-  rare: { base: 0, silver: 0, gold: 97, holo: 3 },
-  epic: { base: 0, silver: 0, gold: 98, holo: 2 },
-  legendary: { base: 0, silver: 0, gold: 99, holo: 1 },
+  common: { base: 0, silver: 90, gold: 9.5, holo: 0.5 },
+  rare: { base: 0, silver: 90, gold: 9.6, holo: 0.4 },
+  epic: { base: 0, silver: 91, gold: 8.7, holo: 0.3 },
+  legendary: { base: 0, silver: 92, gold: 7.8, holo: 0.2 },
 };
 /** Elite: tier odds for the last card when the first four had no Epic or Legendary player. */
-export const ELITE_GUARANTEE_TIER: Weights<Tier> = { common: 0, rare: 0, epic: 85, legendary: 15 };
+export const ELITE_GUARANTEE_TIER: Weights<Tier> = { common: 0, rare: 0, epic: 92, legendary: 8 };
 
 /** Perfect Season pack: chase slots, each a Legendary-tier Holo with this chance… */
 export const PERFECT_CHASE_SLOTS = 3;
-export const PERFECT_CHASE_HOLO_CHANCE = 0.23;
-/** …and otherwise a Gold card of an Epic-or-better player rolled from these tier odds. */
+export const PERFECT_CHASE_HOLO_CHANCE = 0.01;
+/** …and otherwise an Epic-or-better player rolled from these tier odds, at one of these finishes. */
 export const PERFECT_CHASE_FALLBACK_TIER: Weights<Tier> = { common: 0, rare: 0, epic: 80, legendary: 20 };
-export const PERFECT_CHASE_FALLBACK_FINISH: Finish = 'gold';
+export const PERFECT_CHASE_FALLBACK_FINISH: Weights<Finish> = { base: 0, silver: 62, gold: 36, holo: 2 };
 
-/** Shards from a duplicate (same player and finish already owned), by finish. */
-export const DUPLICATE_SHARDS: Weights<Finish> = { base: 5, silver: 10, gold: 25, holo: 100 };
-/** Shards to craft a card up to the next finish (× CRAFT_TIER_MULTIPLIER for the player's tier). */
-export const CRAFT_COST: Record<Exclude<Finish, 'base'>, number> = { silver: 40, gold: 120, holo: 900 };
-export const CRAFT_TIER_MULTIPLIER: Weights<Tier> = { common: 1, rare: 1.5, epic: 2, legendary: 4 };
+// ---------- Shards: duplicates in, claims and finish upgrades out ----------
 
-export const craftCost = (to: Exclude<Finish, 'base'>, tier: Tier) => Math.round(CRAFT_COST[to] * CRAFT_TIER_MULTIPLIER[tier]);
+/**
+ * Shards from a duplicate (same player, variant and finish already owned), by finish, × DUPLICATE_TIER_MULTIPLIER.
+ * The pool is small (about 130 players), so duplicates come quickly; they fund the deliberate path: claim a chosen
+ * player's card, then upgrade it a finish at a time. Pacing for an active player (scripts/simulate_packs.ts): a
+ * Legend claim in about a week, Gold on a chosen card in about two, Holo only after several weeks.
+ */
+export const DUPLICATE_SHARDS: Weights<Finish> = { base: 5, silver: 12, gold: 40, holo: 150 };
+/** Flat shards for every pack opened, so the shard path moves from day one (before duplicates pile up). */
+export const PACK_SHARDS: Record<PackType, number> = { standard: 10, premium: 20, elite: 35, perfect: 60, holo: 60, exchange: 0 };
+export const DUPLICATE_TIER_MULTIPLIER: Weights<Tier> = { common: 1, rare: 1.5, epic: 2, legendary: 3 };
+export const duplicateShards = (finish: Finish, tier: Tier) => Math.round(DUPLICATE_SHARDS[finish] * DUPLICATE_TIER_MULTIPLIER[tier]);
+
+/** Shards to craft a card up to the next finish, × the tier and the art variant multipliers (sprite upgrades cost most). */
+export const CRAFT_COST: Record<Exclude<Finish, 'base'>, number> = { silver: 80, gold: 360, holo: 2000 };
+export const CRAFT_TIER_MULTIPLIER: Weights<Tier> = { common: 1, rare: 1.5, epic: 2, legendary: 3 };
+export const CRAFT_VARIANT_MULTIPLIER: Weights<Variant> = { number: 1, jersey: 1, topps: 1.25, locker: 1.5, sprite: 2 };
+
+export const craftCost = (to: Exclude<Finish, 'base'>, tier: Tier, variant: Variant = 'number') =>
+  Math.round(CRAFT_COST[to] * CRAFT_TIER_MULTIPLIER[tier] * CRAFT_VARIANT_MULTIPLIER[variant]);
 export const nextFinish = (f: Finish): Exclude<Finish, 'base'> | null => (f === 'base' ? 'silver' : f === 'silver' ? 'gold' : f === 'gold' ? 'holo' : null);
+
+/**
+ * Claim: shards buy a chosen player's Base card (a "Legend claim" for a Legendary player), in the most common art
+ * variant he is still missing (CLAIM_VARIANTS order; never the sprite, which stays a pull).
+ */
+export const CLAIM_COST: Weights<Tier> = { common: 150, rare: 300, epic: 600, legendary: 1000 };
+export const CLAIM_VARIANTS: Variant[] = ['number', 'jersey', 'topps', 'locker'];
+export const claimCost = (tier: Tier) => CLAIM_COST[tier];
+/** The variant a claim would add for this player, or null when every claimable variant is owned. */
+export const claimVariant = (card: OwnedCard | undefined): Variant | null => CLAIM_VARIANTS.find((v) => !card?.variants[v]) ?? null;
 
 // ---------- Earning rules (documented here, called from src/components/games/*) ----------
 
@@ -289,6 +324,22 @@ export const ownedVariants = (card: OwnedCard | undefined): Variant[] =>
 /** The variant a binder tile shows: the rarest one owned (ties can't happen: one entry per variant). */
 export const bestVariant = (card: OwnedCard | undefined): Variant => ownedVariants(card)[0] ?? LEGACY_VARIANT;
 
+/** Is this exact variant × finish owned? */
+export const ownsCombo = (card: OwnedCard | undefined, variant: Variant, finish: Finish) => {
+  const v = card?.variants[variant];
+  return !!v && (!!v.counts[finish] || v.best === finish);
+};
+
+/**
+ * What a player's card shows by default (binder tile, Best pulls, the detail): the owner's display choice when he
+ * still owns it (`pinned`), otherwise auto, the rarest variant owned at its best finish.
+ */
+export const displayOf = (card: OwnedCard | undefined, choice?: DisplayChoice): { variant: Variant; finish: Finish; pinned: boolean } => {
+  if (choice && ownsCombo(card, choice.variant, choice.finish)) return { ...choice, pinned: true };
+  const variant = bestVariant(card);
+  return { variant, finish: card?.variants[variant]?.best ?? 'base', pinned: false };
+};
+
 export interface PerfectPack {
   id: string;
   /** Provenance label stamped on the pack and every card pulled from it */
@@ -343,12 +394,24 @@ export interface CollectionState {
   noticeSeen?: boolean;
   /** Gift links already redeemed on this browser (GIFTS ids) */
   gifts?: string[];
+  /**
+   * Display choice per player ("POS:Name" → variant + finish): what his binder tile, Best pulls and the detail show.
+   * Missing (the default) means auto: the rarest variant owned at its best finish. A choice no longer owned falls
+   * back to auto (displayOf).
+   */
+  display?: Record<string, DisplayChoice>;
+}
+
+export interface DisplayChoice {
+  variant: Variant;
+  finish: Finish;
 }
 
 export type CollectionChange =
   | { kind: 'earned'; type: PackType; reason: string; label?: string }
   | { kind: 'opened'; type: PackType }
   | { kind: 'crafted'; key: string; finish: Finish; variant: Variant }
+  | { kind: 'claimed'; key: string; variant: Variant }
   | { kind: 'other' };
 
 const EARNED_CAP = 30;
@@ -429,6 +492,13 @@ const parse = (raw: string | null): CollectionState | null => {
     s.noticeSeen = !!d.noticeSeen;
     const gifts = Array.isArray(d.gifts) ? d.gifts.filter((g): g is string => typeof g === 'string') : [];
     if (gifts.length) s.gifts = gifts;
+    const rawDisplay = d.display && typeof d.display === 'object' && !Array.isArray(d.display) ? d.display : {};
+    const display: Record<string, DisplayChoice> = {};
+    Object.entries(rawDisplay).forEach(([k, v]) => {
+      const c = v as Partial<DisplayChoice> | null;
+      if (KEY_RE.test(k) && c && isVariant(c.variant) && isFinish(c.finish)) display[k] = { variant: c.variant, finish: c.finish };
+    });
+    if (Object.keys(display).length) s.display = display;
     return s;
   } catch {
     return null;
@@ -668,17 +738,17 @@ export const rollPack = (type: EarnablePack, pool: TierPool, rng: Rng = Math.ran
   if (!TIERS.some((t) => has(t.key))) return out;
 
   if (type === 'holo') {
-    const slots: Tier[] = [];
+    // The guaranteed Holo slots land at random positions in the reveal
+    const holoAt = new Set<number>();
+    while (holoAt.size < Math.min(HOLO_PACK_SLOTS, spec.size)) holoAt.add(Math.floor(rng() * spec.size));
     for (let i = 0; i < spec.size; i++) {
-      const tier = i < HOLO_PACK_LEGENDARY && has('legendary') ? 'legendary' : (pick(spec.tiers, rng, has) ?? pick(PACKS.standard.tiers, rng, has));
-      if (tier) slots.push(tier);
+      if (!holoAt.has(i)) {
+        regular();
+        continue;
+      }
+      const tier = pick(HOLO_SLOT_TIER, rng, has);
+      if (tier) push(tier, 'holo', 'chase');
     }
-    // Shuffle so the Legendaries can turn up anywhere in the reveal
-    for (let i = slots.length - 1; i > 0; i--) {
-      const j = Math.floor(rng() * (i + 1));
-      [slots[i], slots[j]] = [slots[j], slots[i]];
-    }
-    slots.forEach((tier, i) => push(tier, 'holo', i < HOLO_PACK_LEGENDARY && tier === 'legendary' ? 'chase' : 'regular'));
     return out;
   }
 
@@ -689,14 +759,14 @@ export const rollPack = (type: EarnablePack, pool: TierPool, rng: Rng = Math.ran
         push('legendary', 'holo', 'chase');
       } else {
         const tier = pick(PERFECT_CHASE_FALLBACK_TIER, rng, has) ?? pick(spec.tiers, rng, has);
-        if (tier) push(tier, PERFECT_CHASE_FALLBACK_FINISH, 'chase');
+        if (tier) push(tier, pick(PERFECT_CHASE_FALLBACK_FINISH, rng) ?? 'silver', 'chase');
       }
     }
     return out;
   }
 
   for (let i = 0; i < spec.size - 1; i++) regular();
-  if (type === 'premium' && !out.some((c) => finishRank(c.finish) >= finishRank('gold'))) {
+  if (type === 'premium' && !out.some((c) => finishRank(c.finish) >= finishRank('silver'))) {
     const tier = pick(spec.tiers, rng, has)!;
     push(tier, pick(PREMIUM_GUARANTEE_FINISH[tier], rng)!, 'guarantee');
   } else if (type === 'elite' && !out.some((c) => tierRank(c.tier) >= tierRank('epic'))) {
@@ -734,13 +804,13 @@ export const openPack = (type: PackType, pool: TierPool): PackCard[] | null => {
   const perfect = type === 'perfect' && !s.perfect[0]?.gift ? s.perfect[0] : undefined;
   const cards = { ...s.cards };
   const now = Date.now();
-  let shards = s.shards;
+  let shards = s.shards + PACK_SHARDS[type];
   const out: PackCard[] = rolled.map((c) => {
     const k = cardKey(c.player);
     const prev = cards[k];
     const pv = prev?.variants[c.variant];
     const duplicate = !!pv?.counts[c.finish];
-    const gain = duplicate ? DUPLICATE_SHARDS[c.finish] : 0;
+    const gain = duplicate ? duplicateShards(c.finish, c.tier) : 0;
     shards += gain;
     const upgrade = !!pv && finishRank(c.finish) > finishRank(pv.best);
     const marks = perfect ? [...new Set([...(prev?.marks ?? []), perfect.label])] : prev?.marks;
@@ -864,7 +934,7 @@ export const craftUpgrade = (p: Pick<Player, 'name' | 'position'>, tier: Tier, v
   const v = card?.variants[variant];
   const to = v && nextFinish(v.best);
   if (!card || !v || !to) return null;
-  const cost = craftCost(to, tier);
+  const cost = craftCost(to, tier, variant);
   if (s.shards < cost) return null;
   const entry: VariantCard = { ...v, best: to, counts: { ...v.counts, [to]: (v.counts[to] ?? 0) + 1 }, last: Date.now() };
   write(
@@ -872,6 +942,73 @@ export const craftUpgrade = (p: Pick<Player, 'name' | 'position'>, tier: Tier, v
     { kind: 'crafted', key: k, finish: to, variant },
   );
   return to;
+};
+
+/** Sets (or with null clears, back to auto) the variant × finish a player's card displays. Only owned combos. */
+export const setDisplay = (p: Pick<Player, 'name' | 'position'>, choice: DisplayChoice | null): boolean => {
+  const s = readCollection();
+  const k = cardKey(p);
+  if (choice && !ownsCombo(s.cards[k], choice.variant, choice.finish)) return false;
+  const display = { ...s.display };
+  if (choice) display[k] = { variant: choice.variant, finish: choice.finish };
+  else delete display[k];
+  const next: CollectionState = { ...s };
+  if (Object.keys(display).length) next.display = display;
+  else delete next.display;
+  write(next, { kind: 'other' });
+  return true;
+};
+
+/**
+ * Claims a chosen player's Base card with shards (CLAIM_COST by tier; a "Legend claim" for a Legendary player), in
+ * the most common art variant he is still missing (claimVariant). Returns the variant added, or null.
+ */
+export const claimCard = (p: Pick<Player, 'name' | 'position'>, tier: Tier): Variant | null => {
+  const s = readCollection();
+  const k = cardKey(p);
+  const card = s.cards[k];
+  const variant = claimVariant(card);
+  const cost = claimCost(tier);
+  if (!variant || s.shards < cost) return null;
+  const now = Date.now();
+  const entry: VariantCard = { best: 'base', counts: { base: 1 }, first: now, last: now };
+  write(
+    { ...s, shards: s.shards - cost, cards: { ...s.cards, [k]: summarise({ ...card?.variants, [variant]: entry }, card?.marks) } },
+    { kind: 'claimed', key: k, variant },
+  );
+  return variant;
+};
+
+/**
+ * Expected duplicate shards from one pack of `type` for this binder: for every tier × finish × variant a card can
+ * roll, the share of that tier's players already owned in that exact variant × finish, times its shard value, plus
+ * the flat PACK_SHARDS. Used
+ * for "about N packs to go" next to claims and upgrades (an estimate: it ignores the no-repeat rule within a pack).
+ */
+export const expectedShardsPerPack = (type: EarnablePack, cards: Record<string, OwnedCard>, pool: Record<Tier, string[]>): number => {
+  const j = expectedJoint(type);
+  let perCard = 0;
+  TIERS.forEach(({ key: t }) => {
+    const keys = pool[t];
+    if (!keys.length) return;
+    FINISHES.forEach(({ key: f }) => {
+      if (!j[t][f]) return;
+      const pv = norm(variantWeights(type, t, f));
+      VARIANTS.forEach(({ key: v }) => {
+        const have = keys.reduce((n, k) => n + (cards[k]?.variants[v]?.counts[f] ? 1 : 0), 0);
+        perCard += j[t][f] * pv(v) * (have / keys.length) * duplicateShards(f, t);
+      });
+    });
+  });
+  return perCard * PACKS[type].size + PACK_SHARDS[type];
+};
+
+/** "about 12 Standard packs to go" (null when the shards are already there). */
+export const packsToGo = (need: number, have: number, perPack: number): string | null => {
+  if (have >= need) return null;
+  if (perPack <= 0) return 'keep opening packs';
+  const n = Math.ceil((need - have) / perPack);
+  return `about ${n.toLocaleString()} Standard pack${n === 1 ? '' : 's'} to go`;
 };
 
 // ---------- Expected odds (exact, per card; all tiers assumed non-empty) ----------
@@ -911,15 +1048,14 @@ export const expectedJoint = (type: EarnablePack): Joint => {
   const n = spec.size;
   if (type === 'standard') return regular;
   if (type === 'holo') {
-    const legHolo = zero();
-    legHolo.legendary.holo = 1;
+    const holoSlot = jointOf(HOLO_SLOT_TIER, () => ({ base: 0, silver: 0, gold: 0, holo: 1 }));
     return mix([
-      [HOLO_PACK_LEGENDARY / n, legHolo],
-      [(n - HOLO_PACK_LEGENDARY) / n, regular],
+      [HOLO_PACK_SLOTS / n, holoSlot],
+      [(n - HOLO_PACK_SLOTS) / n, regular],
     ]);
   }
   if (type === 'premium') {
-    const miss = (1 - sum(regular, (_, f) => finishRank(f) >= 2)) ** (n - 1);
+    const miss = (1 - sum(regular, (_, f) => finishRank(f) >= 1)) ** (n - 1);
     const last = mix([
       [1 - miss, regular],
       [miss, jointOf(spec.tiers, (t) => PREMIUM_GUARANTEE_FINISH[t])],
@@ -944,7 +1080,7 @@ export const expectedJoint = (type: EarnablePack): Joint => {
   chaseHolo.legendary.holo = 1;
   const chase = mix([
     [PERFECT_CHASE_HOLO_CHANCE, chaseHolo],
-    [1 - PERFECT_CHASE_HOLO_CHANCE, jointOf(PERFECT_CHASE_FALLBACK_TIER, () => ({ base: 0, silver: 0, gold: 1, holo: 0 }))],
+    [1 - PERFECT_CHASE_HOLO_CHANCE, jointOf(PERFECT_CHASE_FALLBACK_TIER, () => PERFECT_CHASE_FALLBACK_FINISH)],
   ]);
   return mix([
     [(n - PERFECT_CHASE_SLOTS) / n, regular],

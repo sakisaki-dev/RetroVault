@@ -11,10 +11,19 @@
 /* Cards: no tilt, shimmer, glare, sparkles or drop-shadow filters; a plain box shadow and a simpler frame */
 [data-perf='lite'] .fut__card {
   filter: none !important;
-  transform: none !important;
-  transition: none !important;
+  transform: translate3d(0, var(--fut-lift, 0px), 0) !important;
+  transition: transform 0.15s ease !important;
   box-shadow: 0 4px 10px hsl(228 60% 2% / 0.45);
 }
+/* Hover: a simple lift and an outline, nothing else */
+[data-perf='lite'] .fut:not(.fut--lg):not(.fut--locked):hover .fut__card {
+  --fut-lift: -4px;
+  outline: 2px solid hsl(var(--gold) / 0.7);
+  outline-offset: 2px;
+}
+[data-perf='lite'] .fut__light,
+[data-perf='lite'] .fut__shadow,
+[data-perf='lite'] .fut__aura,
 [data-perf='lite'] .fut__glare,
 [data-perf='lite'] .fut__sparks,
 [data-perf='lite'] .fut__holo {

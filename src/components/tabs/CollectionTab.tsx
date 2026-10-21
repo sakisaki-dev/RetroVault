@@ -14,13 +14,19 @@ import MarketView from '@/components/collection/market/MarketView';
 import { byTierDesc, useCardPool, type CardInfo } from '@/components/collection/useCardPool';
 import { FACE_LEGEND } from '@/components/collection/cardStats';
 import VariantBadges from '@/components/collection/VariantBadges';
+import ShardWorkshop from '@/components/collection/ShardWorkshop';
 import { VARIANT_MULTIPLIER } from '@/utils/cardMarket';
 import { matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
 import { editionAccent } from '@/utils/edition';
 import { isHallOfFamer } from '@/config/stats';
 import {
+  CLAIM_COST,
   CRAFT_COST,
+  CRAFT_TIER_MULTIPLIER,
+  CRAFT_VARIANT_MULTIPLIER,
   DUPLICATE_SHARDS,
+  DUPLICATE_TIER_MULTIPLIER,
+  PACK_SHARDS,
   EARNING_RULES,
   FINISHES,
   giftSummary,
@@ -29,7 +35,9 @@ import {
   SHELF_ORDER,
   TIERS,
   VARIANTS,
-  bestVariant,
+  cardKey,
+  displayOf,
+  expectedShardsPerPack,
   finishRank,
   openPack,
   packCount,
@@ -66,6 +74,7 @@ const fmtOdds = (x: number) => {
   if (v >= 1) return `${v.toFixed(1)}%`;
   return `${v.toFixed(2)}%`;
 };
+const oneIn = (p: number) => (p > 0 ? Math.round(1 / p).toLocaleString('en-US') : '–');
 const ODDS = Object.fromEntries(PACK_ORDER.map((t) => [t, packOdds(t)])) as Record<EarnablePack, ReturnType<typeof packOdds>>;
 
 const DESIGNS_HASH = /[?&]view=designs\b/;
@@ -160,11 +169,12 @@ const RulesPopover = () => (
         ))}
       </ul>
       <p className="mt-3 text-muted-foreground">
-        Every card rolls tier, then player, then finish, then art variant ({VARIANTS.map((v) => v.label).join(', ')}; the sprite is rarest). The
-        rarities stack: the rarer arts get rarer still on better players and finishes. A Retro Bowl sprite Holo turns up about 1 card in{' '}
-        {Math.round(1 / ODDS.holo.spriteHolo).toLocaleString()} from Holo Showcase packs, but a sprite Holo Legendary is about 1 card in{' '}
-        {Math.round(1 / ODDS.holo.spriteLegendaryHolo).toLocaleString()} even there. A player can own every variant and they stack in
-        the binder. Market value × variant: {VARIANTS.map((v) => `${v.short} ×${VARIANT_MULTIPLIER[v.key]}`).join(', ')}.
+        Every card rolls tier, then player, then finish, then art variant ({VARIANTS.map((v) => v.label).join(', ')}; the sprite is rarest). From
+        Standard packs a Holo is about 1 card in {oneIn(ODDS.standard.finishes.holo)}, a Gold 1 in {oneIn(ODDS.standard.finishes.gold)} and a
+        Legendary player 1 in {oneIn(ODDS.standard.tiers.legendary)}. The rarities stack: the rarer arts get rarer still on better players and
+        finishes. A Retro Bowl sprite Holo is about 1 card in {oneIn(ODDS.holo.spriteHolo)} from Holo Showcase packs, and a sprite Holo Legendary
+        about 1 in {oneIn(Math.max(...PACK_ORDER.map((t) => ODDS[t].spriteLegendaryHolo)))} even from the best pack. A player can own every
+        variant and they stack in the binder. Market value × variant: {VARIANTS.map((v) => `${v.short} ×${VARIANT_MULTIPLIER[v.key]}`).join(', ')}.
       </p>
       <p className="mt-3 font-semibold">Earn packs</p>
       <ul className="mt-1 space-y-0.5 text-muted-foreground">
@@ -175,8 +185,11 @@ const RulesPopover = () => (
         ))}
       </ul>
       <p className="mt-3 text-muted-foreground">
-        Duplicates (same player, variant and finish) give shards ({FINISHES.map((f) => `${f.label} ${DUPLICATE_SHARDS[f.key]}`).join(', ')}). Upgrading a card one finish costs{' '}
-        {CRAFT_COST.silver}/{CRAFT_COST.gold}/{CRAFT_COST.holo}, more for higher tiers. Open any card to upgrade it.
+        Shards: every pack opened gives {PACK_ORDER.map((t) => `${PACK_SHORT[t]} ${PACK_SHARDS[t]}`).join(', ')}; duplicates (same player, variant
+        and finish) give {FINISHES.map((f) => `${f.label} ${DUPLICATE_SHARDS[f.key]}`).join(', ')}, × {TIERS.slice(1).map((t) => `${t.label} ${DUPLICATE_TIER_MULTIPLIER[t.key]}`).join(', ')}.
+        Claim a chosen player&apos;s Base card for {TIERS.map((t) => `${t.label} ${CLAIM_COST[t.key].toLocaleString()}`).join(', ')} shards (a Legend claim
+        for a Legendary). Upgrading one finish costs {CRAFT_COST.silver}/{CRAFT_COST.gold}/{CRAFT_COST.holo.toLocaleString()} (Silver/Gold/Holo), ×{' '}
+        {TIERS.slice(1).map((t) => `${t.label} ${CRAFT_TIER_MULTIPLIER[t.key]}`).join(', ')} and × art ({VARIANTS.filter((v) => CRAFT_VARIANT_MULTIPLIER[v.key] !== 1).map((v) => `${v.short} ${CRAFT_VARIANT_MULTIPLIER[v.key]}`).join(', ')}). Open any card to claim or upgrade it.
       </p>
       <p className="mt-3 font-semibold">Card stats</p>
       <p className="mt-0.5 text-muted-foreground">
@@ -319,6 +332,17 @@ const CollectionTab = () => {
   const openCard = (c: CardInfo, list: CardInfo[], from?: DOMRect) => setDetail({ info: c, list, from });
   const binderOwned = useMemo(() => shown.filter((c) => !!owned[c.key]), [shown, owned]);
   const describe = (pc: { player: Player }) => byKey.get(`${pc.player.position}:${pc.player.name}`)!;
+  // What a card shows by default: the display choice when still owned, else auto
+  const shown_ = (k: string) => {
+    const d = displayOf(owned[k], state.display?.[k]);
+    return { variant: d.variant, finish: d.finish, pinned: d.pinned };
+  };
+  // Shard estimate for "about N packs to go": a Standard pack against this binder
+  const poolKeys = useMemo(
+    () => ({ common: tierPool.common.map(cardKey), rare: tierPool.rare.map(cardKey), epic: tierPool.epic.map(cardKey), legendary: tierPool.legendary.map(cardKey) }),
+    [tierPool],
+  );
+  const shardsPerPack = useMemo(() => expectedShardsPerPack('standard', owned, poolKeys), [owned, poolKeys]);
 
   // Per-edition accent on the hero and pack shelf (utils/edition.ts): changes after an update, same for everyone
   const accent = editionAccent(content?.edition);
@@ -410,6 +434,8 @@ const CollectionTab = () => {
         </div>
       </section>
 
+      {loaded && cards.length > 0 && <ShardWorkshop cards={cards} owned={owned} shards={state.shards} perPack={shardsPerPack} onOpen={(c) => openCard(c, [c])} />}
+
       {/* Showcase */}
       {showcase.length > 0 && (
         <section aria-labelledby="col-best">
@@ -424,8 +450,7 @@ const CollectionTab = () => {
                   live={owned[c.key].best === 'holo' || c.tier === 'legendary'}
                   player={c.player}
                   tier={c.tier}
-                  variant={bestVariant(owned[c.key])}
-                  finish={owned[c.key].variants[bestVariant(owned[c.key])]!.best}
+                  {...shown_(c.key)}
                   ovr={c.ovr}
                   number={c.number}
                   stats={c.stats}
@@ -556,15 +581,16 @@ const CollectionTab = () => {
           <ul className="fut-grid" aria-label="Cards">
             {shown.map((c) => {
               const entry = owned[c.key];
-              // One tile per player: his rarest variant owned, at that variant's best finish
-              const v = entry ? bestVariant(entry) : undefined;
+              // One tile per player: his display choice, else his rarest variant owned at that variant's best finish
+              const d = entry ? displayOf(entry, state.display?.[c.key]) : undefined;
               return (
                 <li key={c.key} className="fut-tile">
                   <CollectibleCard
                     player={c.player}
                     tier={c.tier}
-                    finish={(v && entry?.variants[v]?.best) || 'base'}
-                    variant={v}
+                    finish={d?.finish ?? 'base'}
+                    variant={d?.variant}
+                    pinned={d?.pinned}
                     owned={!!entry}
                     ovr={c.ovr}
                     number={c.number}
@@ -626,6 +652,8 @@ const CollectionTab = () => {
         target={detail}
         entry={detail && !detail.preview ? owned[detail.info.key] : undefined}
         shards={state.shards}
+        shardsPerPack={shardsPerPack}
+        display={detail ? state.display?.[detail.info.key] : undefined}
         total={cards.length}
         onClose={() => setDetail(null)}
         onNavigate={(info) => setDetail((d) => (d ? { info, list: d.list } : d))}

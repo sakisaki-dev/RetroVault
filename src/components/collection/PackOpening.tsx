@@ -4,7 +4,7 @@ import { Repeat, Sparkles, Trophy } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { PACKS, finishLabel, tierLabel, variantLabel, type PackCard, type PackType, type Tier } from '@/utils/collection';
+import { PACKS, PACK_SHARDS, finishLabel, tierLabel, variantLabel, type PackCard, type PackType, type Tier } from '@/utils/collection';
 import CollectibleCard from './CollectibleCard';
 import Walkout from './Walkout';
 import { bestLast, needsWalkout, skipStep, walkoutBeats, type WkBeat } from './walkoutBeats';
@@ -212,7 +212,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
   const holos = pack.filter((c) => c.finish === 'holo').length;
   const legends = pack.filter((c) => c.tier === 'legendary').length;
   const sprites = pack.filter((c) => c.variant === 'sprite').length;
-  const dupeShards = pack.reduce((s, c) => s + c.shards, 0);
+  const dupeShards = pack.reduce((s, c) => s + c.shards, 0) + (pack.length ? PACK_SHARDS[shownType] : 0);
 
   const summary = () => {
     if (preview) return 'Preview only. Nothing was added to your binder.';

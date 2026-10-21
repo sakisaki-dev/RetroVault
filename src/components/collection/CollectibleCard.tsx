@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, type CSSProperties, type PointerEvent, type ReactNode } from 'react';
+import { Pin } from 'lucide-react';
 import { isLite } from '@/hooks/usePerfMode';
 import { cn } from '@/lib/utils';
 import TeamLogo from '@/components/brand/TeamLogo';
@@ -111,6 +112,8 @@ export interface CollectibleCardProps {
   badge?: string;
   /** Provenance badges (e.g. a Perfect Season pack) */
   marks?: string[];
+  /** The owner picked this variant × finish as the player's display card (a small pin on the tile) */
+  pinned?: boolean;
   /** Custom player art (art lab); replaces the photo / jersey inside .fut__art when given */
   art?: ReactNode;
   className?: string;
@@ -145,11 +148,18 @@ const CollectibleCard = ({
   live = false,
   badge,
   marks,
+  pinned = false,
   art,
   className,
   style,
 }: CollectibleCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  // One rAF-throttled pointer handler per hovered card: the box is measured once on enter, the pointer position is
+  // stored on every move, and the CSS variables are written at most once a frame (no layout reads in between)
+  const frame = useRef(0);
+  const box = useRef<DOMRect | null>(null);
+  const point = useRef<[number, number] | null>(null);
+  const pressTimer = useRef(0);
   const realLegend = !!player.isRealLegend;
   const team = findNFLTeam(player.team);
   const photo = owned && realLegend && player.photo?.url ? player.photo : null;
@@ -166,24 +176,59 @@ const CollectibleCard = ({
   const setVars = (x: number, y: number) => {
     const el = ref.current;
     if (!el) return;
-    el.style.setProperty('--fut-rx', `${(0.5 - y) * (large ? 18 : 12)}deg`);
-    el.style.setProperty('--fut-ry', `${(x - 0.5) * (large ? 22 : 14)}deg`);
+    x = Math.min(1, Math.max(0, x));
+    y = Math.min(1, Math.max(0, y));
+    el.style.setProperty('--fut-rx', `${((0.5 - y) * (large ? 18 : 16)).toFixed(2)}deg`);
+    el.style.setProperty('--fut-ry', `${((x - 0.5) * (large ? 22 : 18)).toFixed(2)}deg`);
     el.style.setProperty('--fut-mx', `${(x * 100).toFixed(1)}%`);
     el.style.setProperty('--fut-my', `${(y * 100).toFixed(1)}%`);
+    // Centred pointer (-0.5…0.5): drives the transform-only light, glare and shadow layers
+    el.style.setProperty('--fut-px', (x - 0.5).toFixed(3));
+    el.style.setProperty('--fut-py', (y - 0.5).toFixed(3));
     el.dataset.tilt = 'on';
+  };
+  const apply = () => {
+    frame.current = 0;
+    const r = box.current;
+    const p = point.current;
+    if (r && p && r.width) setVars((p[0] - r.left) / r.width, (p[1] - r.top) / r.height);
   };
   const onMove = (e: PointerEvent<HTMLDivElement>) => {
     const el = ref.current;
     if (!tilts || !el || e.pointerType === 'touch' || (!large && e.pointerType !== 'mouse') || !motionOk()) return;
-    const r = el.getBoundingClientRect();
-    setVars((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height);
+    if (!box.current) box.current = el.getBoundingClientRect();
+    point.current = [e.clientX, e.clientY];
+    if (!frame.current) frame.current = requestAnimationFrame(apply);
   };
   const onLeave = () => {
     const el = ref.current;
+    if (frame.current) cancelAnimationFrame(frame.current);
+    frame.current = 0;
+    box.current = null;
+    point.current = null;
     if (!el) return;
-    ['--fut-rx', '--fut-ry', '--fut-mx', '--fut-my'].forEach((k) => el.style.removeProperty(k));
+    ['--fut-rx', '--fut-ry', '--fut-mx', '--fut-my', '--fut-px', '--fut-py'].forEach((k) => el.style.removeProperty(k));
     delete el.dataset.tilt;
   };
+  // Touch: no tilt on drag; a tap shows a brief press (the springy return comes from the card's transition)
+  const release = () => {
+    window.clearTimeout(pressTimer.current);
+    pressTimer.current = window.setTimeout(() => {
+      if (ref.current) delete ref.current.dataset.press;
+    }, 120);
+  };
+  const onDown = (e: PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== 'touch' || !onOpen || !ref.current) return;
+    window.clearTimeout(pressTimer.current);
+    ref.current.dataset.press = 'on';
+  };
+  useEffect(
+    () => () => {
+      if (frame.current) cancelAnimationFrame(frame.current);
+      window.clearTimeout(pressTimer.current);
+    },
+    [],
+  );
 
   // Large view: device tilt drives the same variables (iOS asks permission on the first tap)
   useEffect(() => {
@@ -223,7 +268,7 @@ const CollectibleCard = ({
 
   const setLabel = setNo != null && setTotal ? `card ${setNo} of ${setTotal}` : null;
   const label = owned
-    ? `${player.name}, ${variant ? `${variantLabel(variant)} variant, ` : ''}${tierLabel(tier)} tier, ${finishLabel(finish)} finish, ${ovr != null ? `OVR ${ovr}, ` : ''}${posName}${team ? `, ${team.name}` : ''}${number != null ? `, number ${number}` : ''}${setLabel ? `, ${setLabel}` : ''}${mark ? `, ${mark}` : ''}${onOpen ? '. Open card' : ''}`
+    ? `${player.name}, ${pinned ? 'your display card, ' : ''}${variant ? `${variantLabel(variant)} variant, ` : ''}${tierLabel(tier)} tier, ${finishLabel(finish)} finish, ${ovr != null ? `OVR ${ovr}, ` : ''}${posName}${team ? `, ${team.name}` : ''}${number != null ? `, number ${number}` : ''}${setLabel ? `, ${setLabel}` : ''}${mark ? `, ${mark}` : ''}${onOpen ? '. Open card' : ''}`
     : `Locked ${tierLabel(tier)} card, ${posName}${hint ? `. ${hint}` : ''}`;
 
   const face = (
@@ -277,6 +322,7 @@ const CollectibleCard = ({
         )}
         {owned && finish !== 'base' && <span className="fut__foil" />}
         {owned && finish === 'holo' && <span className="fut__holo" />}
+        {owned && <span className="fut__light" />}
         {owned && <span className="fut__glare" />}
         {owned && tier === 'legendary' && (
           <span className="fut__sparks">
@@ -306,6 +352,11 @@ const CollectibleCard = ({
           18–0
         </span>
       )}
+      {owned && pinned && (
+        <span className="fut__pin" aria-hidden="true" title="Your display card">
+          <Pin />
+        </span>
+      )}
     </>
   );
 
@@ -321,9 +372,15 @@ const CollectibleCard = ({
         className,
       )}
       style={vars}
+      data-key={`${player.position}:${player.name}`}
       onPointerMove={tilts ? onMove : undefined}
       onPointerLeave={tilts ? onLeave : undefined}
+      onPointerDown={onOpen ? onDown : undefined}
+      onPointerUp={onOpen ? release : undefined}
+      onPointerCancel={onOpen ? release : undefined}
     >
+      {owned && !large && <span className="fut__shadow" aria-hidden="true" />}
+      {owned && !large && tier === 'legendary' && <span className="fut__aura" aria-hidden="true" />}
       {onOpen ? (
         <button type="button" className="fut__card" onClick={() => onOpen(ref.current?.getBoundingClientRect())} aria-label={label}>
           {face}

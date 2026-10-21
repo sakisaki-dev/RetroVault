@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import { isLite } from '@/hooks/usePerfMode';
-import { ChevronLeft, ChevronRight, Hammer, RotateCcw, UserRound } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Crown, Hammer, Pin, PinOff, RotateCcw, UserRound } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import TeamLogo from '@/components/brand/TeamLogo';
@@ -9,9 +9,16 @@ import { findNFLTeam } from '@/utils/nflTeams';
 import {
   FINISHES,
   VARIANTS,
-  bestVariant,
+  claimCard,
+  claimCost,
+  claimVariant,
   craftCost,
   craftUpgrade,
+  displayOf,
+  ownsCombo,
+  packsToGo,
+  setDisplay,
+  type DisplayChoice,
   finishLabel,
   nextFinish,
   tierLabel,
@@ -47,6 +54,10 @@ interface CardDetailProps {
   target: CardDetailTarget | null;
   entry?: OwnedCard;
   shards: number;
+  /** Expected shards per Standard pack (for "about N packs to go") */
+  shardsPerPack?: number;
+  /** The player's display choice (variant × finish the card opens on) */
+  display?: DisplayChoice;
   total: number;
   onClose: () => void;
   onPlayer?: (info: CardInfo) => void;
@@ -79,30 +90,87 @@ const MOTES = [
 ] as const;
 
 const UPGRADE_MS = 1500;
+/** Next / previous: the outgoing card leaves in this many ms, the incoming one settles in NAV_IN_MS. */
+const NAV_OUT_MS = 280;
+const NAV_IN_MS = 440;
+/** Close: the card flies back to its tile (or shrinks away) in this many ms. */
+const EXIT_MS = 300;
+/** Horizontal swipe: past this distance (or a flick) it steps to the next card. */
+const SWIPE_STEP = 64;
+const SWIPE_FLICK = 0.5; // px per ms
+
+type Dir = 1 | -1;
+interface Outgoing {
+  id: number;
+  info: CardInfo;
+  tier: Tier;
+  variant: Variant;
+  finish: Finish;
+  dir: Dir;
+  /** Where it was when it left (px): a swipe hands over the finger's offset, a click mid-slide the slide's */
+  fromX: number;
+}
+
+/** translateX of an element's current transform plus its `translate` property (one style read). */
+const currentX = (el: HTMLElement | null) => {
+  if (!el) return 0;
+  const cs = getComputedStyle(el);
+  const m = cs.transform && cs.transform !== 'none' ? new DOMMatrixReadOnly(cs.transform).m41 : 0;
+  const t = parseFloat(cs.translate) || 0;
+  return m + t;
+};
+
+/** The tile this card was opened from (or its tile now), if it is on screen: the target of the close animation. */
+const tileOf = (key: string): DOMRect | null => {
+  let sel = '';
+  try {
+    sel = `.fut[data-key="${CSS.escape(key)}"]`;
+  } catch {
+    return null;
+  }
+  for (const el of document.querySelectorAll<HTMLElement>(sel)) {
+    if (el.closest('.cd, [role="dialog"]')) continue;
+    const r = el.getBoundingClientRect();
+    if (r.width > 0 && r.bottom > 0 && r.top < window.innerHeight && r.right > 0 && r.left < window.innerWidth) return r;
+  }
+  return null;
+};
 
 /**
  * Large card showcase: a team-colour stadium (spotlight, logo watermark, floating dust; gold rays for
  * Legendary), the card big and centred with pointer / device tilt and an idle sway, a flip to the card back
- * (career, awards, skill grades, career arc, set number), finish chips to preview each finish owned, a one-tap
- * upgrade with its own animation, "Open player card", and ← → through the grid it came from. It flies in
- * from the tapped card (FLIP), with a spring at the start.
+ * (career, awards, skill grades, career arc, set number), finish chips to preview each finish owned, "Set as display",
+ * a shard claim and a one-tap upgrade (each with packs-to-go), "Open player card", and ← → (or a sideways swipe)
+ * through the grid it came from: the old card slides out with a slight turn while the new one springs in, and the
+ * info panel cross-fades. It grows from the tapped tile (FLIP) and, on every close (X, backdrop, Escape, swipe
+ * down), flies back to it, or shrinks and fades when the tile is off screen. Reduced motion / performance mode: short
+ * fades only.
  */
-const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigate }: CardDetailProps) => {
+const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, onClose, onPlayer, onNavigate }: CardDetailProps) => {
   const [msg, setMsg] = useState('');
   const [flipped, setFlipped] = useState(false);
   const [view, setView] = useState<Finish | null>(null);
   const [viewVariant, setViewVariant] = useState<Variant | null>(null);
   const [upgrading, setUpgrading] = useState(false);
+  const [out, setOut] = useState<Outgoing | null>(null);
+  const [phase, setPhase] = useState<'open' | 'closing' | 'closed'>('open');
   const info = target?.info;
   const key = info?.key;
   const tier = target?.tier ?? info?.tier ?? 'common';
-  const variant: Variant = viewVariant ?? target?.variant ?? (target?.preview ? 'jersey' : bestVariant(entry));
+  // Opens on the target's variant / finish (Card designs), else the owner's display choice, else auto
+  const shown = target?.preview ? null : displayOf(entry, display);
+  const variant: Variant = viewVariant ?? target?.variant ?? (target?.preview ? 'jersey' : shown!.variant);
   const vEntry = entry?.variants[variant];
   const hasVariant = (v: Variant) => !!target?.preview || !!entry?.variants[v];
   const owned = (f: Finish) => !!target?.preview || !!vEntry?.counts[f] || vEntry?.best === f;
-  const finish = view ?? (viewVariant ? vEntry?.best : undefined) ?? target?.finish ?? vEntry?.best ?? 'base';
+  const finish =
+    view ?? (viewVariant ? vEntry?.best : undefined) ?? target?.finish ?? (shown && shown.variant === variant ? shown.finish : undefined) ?? vEntry?.best ?? 'base';
   const to = !target?.preview && vEntry ? nextFinish(vEntry.best) : null;
-  const cost = to && info ? craftCost(to, info.tier) : 0;
+  const cost = to && info ? craftCost(to, info.tier, variant) : 0;
+  const claimV = !target?.preview && info ? claimVariant(entry) : null;
+  const claimPrice = info ? claimCost(info.tier) : 0;
+  const isDisplay = !!shown?.pinned && shown.variant === variant && shown.finish === finish;
+  const canPin = !target?.preview && ownsCombo(entry, variant, finish);
   const team = info ? findNFLTeam(info.player.team) : null;
 
   const list = target?.list ?? [];
@@ -125,14 +193,60 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
     return () => window.clearTimeout(id);
   }, [upgrading]);
 
-  // Shared-element fly-in: from the tapped card's box, a quick spring up, then into place. Runs when the large
-  // card mounts (the dialog portal mounts a frame after open), once per tap.
+  // Each open starts fresh; remember what had focus so closing can hand it back without scrolling the page
+  const returnFocus = useRef<HTMLElement | null>(null);
+  const open = !!target;
+  const [wasOpen, setWasOpen] = useState(open);
+  if (open !== wasOpen) {
+    // Reset during render, so a reopened dialog never starts in the closed phase (which has no open animation)
+    setWasOpen(open);
+    if (open) {
+      setPhase('open');
+      setOut(null);
+    }
+  }
+  useEffect(() => {
+    if (open) returnFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  }, [open]);
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const sideRef = useRef<HTMLDivElement>(null);
+  // The stage mounts a frame after open (the dialog portal), so it is tracked as state for the swipe effect
+  const [stageEl, setStageEl] = useState<HTMLDivElement | null>(null);
+  const flyEl = useRef<HTMLDivElement | null>(null);
+  const navIn = useRef<{ dir: Dir; fromX: number } | null>(null);
+  const outSeq = useRef(0);
+
+  // The large card mounts once per card (keyed). Three entrances: grow from the tapped tile (FLIP, with a spring at
+  // the start), slide in from the side after next / previous, or (reduced motion) a short fade.
   const fromRef = useRef<DOMRect | undefined>(undefined);
   fromRef.current = target?.from;
   const flown = useRef<DOMRect | undefined>(undefined);
   const flyRef = useCallback((el: HTMLDivElement | null) => {
+    flyEl.current = el;
+    if (!el) return;
+    const nav = navIn.current;
+    navIn.current = null;
+    if (typeof el.animate !== 'function') return;
+    if (nav) {
+      if (!motionOk()) {
+        el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 140, easing: 'ease-out' });
+        return;
+      }
+      const x0 = nav.fromX ? `${nav.fromX + nav.dir * 120}px` : `${nav.dir * 62}%`;
+      // Slides in past its spot, then settles back (a small spring)
+      el.animate(
+        [
+          { transform: `translateX(${x0}) rotate(${nav.dir * 6}deg) scale(0.94)`, opacity: 0, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)' },
+          { transform: `translateX(${-nav.dir * 2.5}%) rotate(${-nav.dir * 0.8}deg) scale(1.01)`, opacity: 1, offset: 0.62, easing: 'ease-in-out' },
+          { transform: 'none', opacity: 1 },
+        ],
+        { duration: NAV_IN_MS },
+      );
+      return;
+    }
     const from = fromRef.current;
-    if (!el || !from || flown.current === from || !motionOk() || typeof el.animate !== 'function') return;
+    if (!from || flown.current === from || !motionOk()) return;
     flown.current = from;
     const r = el.getBoundingClientRect();
     if (!r.width) return;
@@ -155,6 +269,195 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
     a.oncancel = done;
   }, []);
 
+  // The outgoing card (a copy of the old one) slides away in the travel direction, then unmounts
+  const outRef = useCallback((el: HTMLDivElement | null) => {
+    if (!el || typeof el.animate !== 'function') return;
+    const id = Number(el.dataset.out);
+    const dir = Number(el.dataset.dir) as Dir;
+    const fromX = Number(el.dataset.from) || 0;
+    const a = el.animate(
+      [
+        { transform: `translateX(${fromX}px) rotate(${fromX / 40}deg)`, opacity: 1 },
+        { transform: `translateX(calc(${fromX}px + ${-dir * 70}%)) rotate(${-dir * 9}deg) scale(0.92)`, opacity: 0 },
+      ],
+      { duration: NAV_OUT_MS, easing: 'cubic-bezier(0.4, 0, 0.6, 1)', fill: 'forwards' },
+    );
+    const done = () => setOut((o) => (o?.id === id ? null : o));
+    a.onfinish = done;
+    a.oncancel = done;
+  }, []);
+
+  /**
+   * Steps to another card of the list. Rapid steps never stack: each one replaces the outgoing copy with the card on
+   * screen now (picked up from wherever its own entrance had got to) and the newest card slides in.
+   */
+  const go = (toInfo: CardInfo | null, dir: Dir, fromX = 0) => {
+    if (!toInfo || !onNavigate || !info || phase !== 'open') return;
+    if (motionOk()) {
+      const x = fromX || currentX(flyEl.current);
+      setOut({ id: ++outSeq.current, info, tier, variant, finish, dir, fromX: x });
+      navIn.current = { dir, fromX: 0 };
+      sideRef.current?.animate?.(
+        [
+          { opacity: 0, transform: `translateX(${dir * 18}px)` },
+          { opacity: 1, transform: 'none' },
+        ],
+        { duration: 320, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },
+      );
+    } else {
+      navIn.current = { dir, fromX: 0 };
+      sideRef.current?.animate?.([{ opacity: 0 }, { opacity: 1 }], { duration: 140 });
+    }
+    onNavigate(toInfo);
+  };
+  const goRef = useRef(go);
+  goRef.current = go;
+  const navRef = useRef({ prev, next });
+  navRef.current = { prev, next };
+
+  // Touch: a sideways swipe on the card steps through the list. The axis locks on the first move: sideways is ours,
+  // downward belongs to swipe-to-dismiss (useSwipeToDismiss), upward is scrolling.
+  useEffect(() => {
+    const el = stageEl;
+    if (!el || !list.length) return;
+    let sx = 0;
+    let sy = 0;
+    let lastX = 0;
+    let lastT = 0;
+    let vel = 0;
+    let state: 'idle' | 'pending' | 'drag' | 'off' = 'idle';
+    const card = () => flyEl.current;
+    const onStart = (e: TouchEvent) => {
+      state = 'off';
+      if (e.touches.length !== 1) return;
+      if ((e.target as HTMLElement).closest('button:not(.fut__card), input, select, [data-no-swipe]')) return;
+      sx = lastX = e.touches[0].clientX;
+      sy = e.touches[0].clientY;
+      lastT = e.timeStamp;
+      vel = 0;
+      state = 'pending';
+    };
+    const onMove = (e: TouchEvent) => {
+      if (state !== 'pending' && state !== 'drag') return;
+      const t = e.touches[0];
+      if (!t) return;
+      const dx = t.clientX - sx;
+      const dy = t.clientY - sy;
+      if (state === 'pending') {
+        if (Math.abs(dx) <= Math.abs(dy)) {
+          state = 'off';
+          return;
+        }
+        state = 'drag';
+      }
+      if (e.cancelable) e.preventDefault();
+      if (e.timeStamp > lastT) vel = 0.7 * ((t.clientX - lastX) / (e.timeStamp - lastT)) + 0.3 * vel;
+      lastX = t.clientX;
+      lastT = e.timeStamp;
+      const c = card();
+      if (c && motionOk()) {
+        // Resist past the ends of the list
+        const { prev: p, next: n } = navRef.current;
+        const edge = (dx > 0 && !p) || (dx < 0 && !n);
+        const x = edge ? dx * 0.3 : dx;
+        c.style.transition = 'none';
+        c.style.translate = `${x}px 0`;
+        c.style.rotate = `${x / 40}deg`;
+      }
+    };
+    const onEnd = () => {
+      if (state !== 'drag') {
+        state = 'idle';
+        return;
+      }
+      state = 'idle';
+      const dx = lastX - sx;
+      const { prev: p, next: n } = navRef.current;
+      const dir: Dir = dx < 0 ? 1 : -1;
+      const toInfo = dir === 1 ? n : p;
+      const commit = !!toInfo && (Math.abs(dx) > SWIPE_STEP || (Math.abs(vel) > SWIPE_FLICK && Math.abs(dx) > 24));
+      const c = card();
+      if (commit) {
+        if (c) {
+          c.style.translate = '';
+          c.style.rotate = '';
+        }
+        goRef.current(toInfo, dir, motionOk() ? dx : 0);
+      } else if (c) {
+        c.style.transition = 'translate 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), rotate 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        c.style.translate = '';
+        c.style.rotate = '';
+      }
+    };
+    el.addEventListener('touchstart', onStart, { passive: true });
+    el.addEventListener('touchmove', onMove, { passive: false });
+    el.addEventListener('touchend', onEnd);
+    el.addEventListener('touchcancel', onEnd);
+    return () => {
+      el.removeEventListener('touchstart', onStart);
+      el.removeEventListener('touchmove', onMove);
+      el.removeEventListener('touchend', onEnd);
+      el.removeEventListener('touchcancel', onEnd);
+    };
+  }, [stageEl, list.length]);
+
+  /**
+   * Every close (X, backdrop, Escape, swipe down) comes through here. With motion: the card flies back into its tile
+   * when the tile is on screen (else it shrinks and fades) while the stage, the panel and the backdrop fade; then the
+   * dialog closes with no exit animation of its own. A swipe down is already sliding the dialog away: that slide just
+   * continues as a fade. Reduced motion: the dialog's own short fade.
+   */
+  const close = () => {
+    if (phase !== 'open') return;
+    const box = contentRef.current;
+    const fly = flyEl.current;
+    if (!box || !motionOk() || typeof box.animate !== 'function') {
+      onClose();
+      return;
+    }
+    setPhase('closing');
+    const overlay = box.previousElementSibling as HTMLElement | null;
+    const ease = 'cubic-bezier(0.4, 0, 0.2, 1)';
+    overlay?.animate?.([{ opacity: getComputedStyle(overlay).opacity }, { opacity: 0 }], { duration: EXIT_MS, easing: ease, fill: 'forwards' });
+    const swiping = !!box.style.translate;
+    let anim: Animation | null = null;
+    if (swiping) {
+      anim = box.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing: ease, fill: 'forwards' });
+    } else if (fly) {
+      const tile = key ? tileOf(key) : null;
+      const r = fly.getBoundingClientRect();
+      box.classList.add('cd--flying');
+      if (tile && r.width) {
+        const s = tile.width / r.width;
+        const dx = tile.left + tile.width / 2 - (r.left + r.width / 2);
+        const dy = tile.top + tile.height / 2 - (r.top + r.height / 2);
+        anim = fly.animate(
+          [
+            { transform: 'none', opacity: 1 },
+            { transform: `translate(${dx}px, ${dy}px) scale(${s})`, opacity: 1, offset: 0.85 },
+            { transform: `translate(${dx}px, ${dy}px) scale(${s})`, opacity: 0 },
+          ],
+          { duration: EXIT_MS + 40, easing: ease, fill: 'forwards' },
+        );
+      } else {
+        anim = fly.animate([{ transform: 'none', opacity: 1 }, { transform: 'scale(0.82)', opacity: 0 }], { duration: EXIT_MS - 40, easing: ease, fill: 'forwards' });
+      }
+    }
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      setPhase('closed');
+      onClose();
+    };
+    if (anim) {
+      anim.onfinish = finish;
+      anim.oncancel = finish;
+    }
+    // Safety net: never leave a half-closed dialog behind
+    window.setTimeout(finish, EXIT_MS * 5);
+  };
+
   const craft = () => {
     if (!info || !to) return;
     const done = craftUpgrade(info.player, info.tier, variant);
@@ -166,31 +469,63 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
     } else setMsg('Not enough shards.');
   };
 
+  const claim = () => {
+    if (!info) return;
+    const v = claimCard(info.player, info.tier);
+    if (v) {
+      setViewVariant(v);
+      setView('base');
+      setFlipped(false);
+      setMsg(`Claimed the ${variantLabel(v)} card!`);
+    } else setMsg('Not enough shards.');
+  };
+
+  const pin = (on: boolean) => {
+    if (!info) return;
+    if (on ? setDisplay(info.player, { variant, finish }) : setDisplay(info.player, null))
+      setMsg(on ? `${variantLabel(variant)} ${finishLabel(finish)} is now his display card.` : 'Display set back to auto (rarest art, best finish).');
+  };
+
   const onKey = (e: KeyboardEvent) => {
     const t = e.target as HTMLElement;
     if (t.closest('input, select, textarea')) return;
     if (e.key === 'ArrowLeft' && prev && onNavigate) {
       e.preventDefault();
-      onNavigate(prev);
+      go(prev, -1);
     } else if (e.key === 'ArrowRight' && next && onNavigate) {
       e.preventDefault();
-      onNavigate(next);
+      go(next, 1);
     }
   };
 
   const vars = (team ? { '--cd-a': `hsl(${team.primaryColor})`, '--cd-b': `hsl(${team.secondaryColor})` } : {}) as CSSProperties;
+  const claimTogo = claimV ? packsToGo(claimPrice, shards, shardsPerPack) : null;
+  const craftTogo = to ? packsToGo(cost, shards, shardsPerPack) : null;
 
   return (
     <Dialog
       open={!!target}
       onOpenChange={(o) => {
-        if (!o) onClose();
+        if (!o) close();
       }}
     >
       <DialogContent
-        className={cn('cd max-h-[calc(var(--safe-h)-0.5rem)] max-w-5xl overflow-y-auto border-line bg-night p-0', `cd--${tier}`, upgrading && 'cd--upgrading')}
+        ref={contentRef}
+        className={cn(
+          'cd max-h-[calc(var(--safe-h)-0.5rem)] max-w-5xl overflow-y-auto border-line bg-night p-0',
+          `cd--${tier}`,
+          upgrading && 'cd--upgrading',
+          phase === 'closing' && 'cd--closing',
+          phase === 'closed' && 'cd--exited',
+        )}
         style={vars}
         onKeyDown={onKey}
+        onCloseAutoFocus={(e) => {
+          // Hand focus back to the tile without scrolling the page (iOS jumps otherwise)
+          e.preventDefault();
+          const el = returnFocus.current;
+          if (el?.isConnected) el.focus({ preventScroll: true });
+        }}
       >
         {info && (
           <div className="cd__inner">
@@ -208,17 +543,36 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
             </div>
 
             <div className="cd__body">
-              <div className="cd__stage">
+              <div className="cd__stage" ref={setStageEl}>
                 <button
                   type="button"
                   className="cd__nav cd__nav--prev"
-                  onClick={() => prev && onNavigate?.(prev)}
+                  onClick={() => go(prev, -1)}
                   disabled={!prev || !onNavigate}
                   aria-label={prev ? `Previous card: ${prev.player.name}` : 'Previous card'}
                   hidden={!list.length}
                 >
                   <ChevronLeft className="h-6 w-6" aria-hidden="true" />
                 </button>
+                {out && (
+                  <div className="cd__fly cd__fly--out" key={`out-${out.id}`} ref={outRef} data-out={out.id} data-dir={out.dir} data-from={out.fromX} aria-hidden="true">
+                    <div className="cd__face">
+                      <CollectibleCard
+                        owned
+                        large
+                        player={out.info.player}
+                        tier={out.tier}
+                        finish={out.finish}
+                        variant={out.variant}
+                        ovr={out.info.ovr}
+                        number={out.info.number}
+                        stats={out.info.stats}
+                        setNo={out.info.setNo}
+                        setTotal={total}
+                      />
+                    </div>
+                  </div>
+                )}
                 <div className="cd__fly" ref={flyRef} key={key}>
                   <div className="cd__sway">
                     <div className={cn('cd__flipper', flipped && 'is-flipped')}>
@@ -237,6 +591,7 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
                           setNo={info.setNo}
                           setTotal={total}
                           marks={entry?.marks}
+                          pinned={isDisplay}
                         />
                         {upgrading && (
                           <span className="cd__up" aria-hidden="true">
@@ -255,7 +610,7 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
                 <button
                   type="button"
                   className="cd__nav cd__nav--next"
-                  onClick={() => next && onNavigate?.(next)}
+                  onClick={() => go(next, 1)}
                   disabled={!next || !onNavigate}
                   aria-label={next ? `Next card: ${next.player.name}` : 'Next card'}
                   hidden={!list.length}
@@ -268,7 +623,7 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
                 </button>
               </div>
 
-              <div className="cd__side">
+              <div className="cd__side" ref={sideRef}>
                 <div>
                   <p className={cn('cd__kicker', `cd__kicker--${tier}`)}>
                     {tierLabel(tier)}
@@ -346,6 +701,48 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
                   </ul>
                 </div>
 
+                {canPin && (
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      className={cn('cd-pin', isDisplay && 'is-on')}
+                      onClick={() => pin(true)}
+                      aria-pressed={isDisplay}
+                      disabled={isDisplay}
+                      title="Show this variant and finish on his binder tile and when his card opens"
+                    >
+                      <Pin className="h-4 w-4" aria-hidden="true" />
+                      {isDisplay ? 'Display card' : 'Set as display'}
+                    </button>
+                    {shown?.pinned && (
+                      <button type="button" className="cd-pin cd-pin--reset" onClick={() => pin(false)}>
+                        <PinOff className="h-4 w-4" aria-hidden="true" />
+                        Reset to auto
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                {claimV && (
+                  <button type="button" onClick={claim} disabled={claimPrice > shards} className="cd-craft cd-craft--claim">
+                    <span className="cd-craft__icon">
+                      <Crown className="h-5 w-5" aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0 flex-1 text-left">
+                      <span className="block font-display text-xl font-extrabold uppercase italic leading-none">
+                        {tier === 'legendary' ? 'Legend claim' : 'Claim'} · {variantLabel(claimV)}
+                      </span>
+                      <span className="mt-1 block text-xs opacity-80">
+                        Base card · {claimPrice.toLocaleString()} shards · you have {shards.toLocaleString()}
+                        {claimTogo && ` · ${claimTogo}`}
+                      </span>
+                      <span className="cd-craft__bar" aria-hidden="true">
+                        <i style={{ width: `${Math.min(100, (shards / Math.max(1, claimPrice)) * 100)}%` }} />
+                      </span>
+                    </span>
+                  </button>
+                )}
+
                 {to && (
                   <button type="button" onClick={craft} disabled={cost > shards} className={cn('cd-craft', `cd-craft--${to}`)}>
                     <span className="cd-craft__icon">
@@ -354,7 +751,8 @@ const CardDetail = ({ target, entry, shards, total, onClose, onPlayer, onNavigat
                     <span className="min-w-0 flex-1 text-left">
                       <span className="block font-display text-xl font-extrabold uppercase italic leading-none">Upgrade to {finishLabel(to)}</span>
                       <span className="mt-1 block text-xs opacity-80">
-                        {cost.toLocaleString()} shards · you have {shards.toLocaleString()}
+                        {variantLabel(variant)} · {cost.toLocaleString()} shards · you have {shards.toLocaleString()}
+                        {craftTogo && ` · ${craftTogo}`}
                       </span>
                       <span className="cd-craft__bar" aria-hidden="true">
                         <i style={{ width: `${Math.min(100, (shards / Math.max(1, cost)) * 100)}%` }} />
