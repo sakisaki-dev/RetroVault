@@ -1,0 +1,18 @@
+{
+ "id": "2026-10-20-baylon-career",
+ "created": "2026-10-20",
+ "title": "Dennis Baylon career line from the owner (sacks 54, rush attempts 347)",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Dennis Baylon",
+   "value": {"g": 253, "att": 6802, "cmp": 5146, "yds": 69448, "td": 779, "int": 134, "sck": 54, "ratt": 347, "ryds": 1976, "rtd": 81},
+   "source": "owner",
+   "reason": "Owner career line in chat: 253 games, 6802 att, 5146 cmp, 69448 yds (13.5 per completion), 779 TD, 134 INT, 54 sacks; 347 rush att, 1976 rush yds (5.7 avg), 81 rush TD",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}

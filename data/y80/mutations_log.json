@@ -208,6 +208,15 @@
     "looks": 3
    },
    "changed": 3
+  },
+  {
+   "id": "2026-10-20-baylon-career",
+   "dir": "data/uploads/2026-10-20-baylon-career",
+   "applied_at": "2026-10-20T17:09:00-07:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 2
   }
  ]
 }
