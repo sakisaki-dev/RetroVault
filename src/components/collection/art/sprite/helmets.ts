@@ -207,7 +207,7 @@ export const SHELL_DESIGNS: Record<'tiger' | 'rams', Record<DesignView, string[]
 
 /**
  * Helmet from the side (shell 16 wide inside a 20 × 17 box, so the face and chin anchors stay put): a full, ball-like
- * dome, crown 6 (HEAD_SIDE_CAP) → 8 → 10 → 12 → 14 → 14 → 16, the back curving in toward the neck; every build wears the same one. The face is in profile behind the facemask (brow, one eye, a nose bump, mouth, chin); two thin bars and
+ * dome, crown 8 (no cap) → 10 → 12 → 14 → 14 → 16, the back curving in toward the neck; every build wears the same one. The face is in profile behind the facemask (brow, one eye, a nose bump, mouth, chin); two thin bars and
  * a vertical connector stick forward from the shell; the chin strap runs under the jaw; an ear hole on the shell.
  */
 export const HEAD_SIDE = [
@@ -249,8 +249,8 @@ export const HEAD_TQ = [
   '........CCCCCC....',
 ];
 /**
- * Helmet facing out (18 wide), bars across the face: a round ball as wide as it is tall (16 × 16 with its cap),
- * crown 8 (HEAD_FRONT_CAP) → 10 → 12 → 14 → 14 → 16, the cheek and ear-flap sides straight down to the jaw, then a
+ * Helmet facing out (18 wide), bars across the face: a round ball, slightly wider than tall (16 × 15, no cap),
+ * crown 10 → 12 → 14 → 14 → 16, the cheek and ear-flap sides straight down to the jaw, then a
  * single 1-px step; the chin strap hangs below.
  */
 export const HEAD_FRONT = [
@@ -271,7 +271,7 @@ export const HEAD_FRONT = [
   '..HHHddddddddHHH..',
   '......CCCCCC......',
 ];
-/** Helmet in hand / on the ground (12 × 9): a full round 10-wide dome (MINI_CAP 4 → 6, then 8 → 8 → 10) with the face opening and facemask in front. */
+/** Helmet in hand / on the ground (12 × 9): a full round 10-wide dome (MINI_CAP 6, then 8 → 8 → 10) with the face opening and facemask in front. */
 export const MINI_HELMET = [
   '.HHHHHHHH...',
   '.HHHHHHHH...',
@@ -285,24 +285,24 @@ export const MINI_HELMET = [
 ];
 /**
  * Round-out caps: rows drawn just above each template (capAt; the last cap row sits at y − 1), so every anchor inside
- * the templates is unchanged. The crown is circle-like: 1-px steps per side at the top, then the widest rows repeat
+ * the templates is unchanged. The narrowest top row was taken off every view (owner request), so the side and front
+ * crowns start at the template's own first row and the three-quarter and mini keep one cap row. The crown is circle-like: 1-px steps per side at the top, then the widest rows repeat
  * (0-px steps) at the bulge, so the sides read curved rather than diagonal. No row steps in by more than 1 px per side
  * from the next (scripts/check_sprites.ts asserts it).
  */
-export const HEAD_SIDE_CAP = ['.......HHHHHH.......'];
-export const HEAD_TQ_CAP = ['.....HHHHHH.......', '....HHHHHHHH......'];
-export const HEAD_FRONT_CAP = ['.....HHHHHHHH.....'];
-export const MINI_CAP = ['...HHHH.....', '..HHHHHH....'];
+export const HEAD_SIDE_CAP: string[] = [];
+export const HEAD_TQ_CAP = ['....HHHHHHHH......'];
+export const HEAD_FRONT_CAP: string[] = [];
+export const MINI_CAP = ['..HHHHHH....'];
 /**
  * Side-view crown stripes (side head and the mini helmet). Seen from the side, a stripe painted along the helmet's
- * centreline is a narrow band following the dome: from the forehead, over the crown (one row under the top, so the
- * shell shows above it and it never reads as a coloured cap) and down the back edge, ending above the ear. Three
- * concentric 1-px curves in the shell's own coordinates (row 0 = the cap's top row): 1 outer, 2 centre, 3 inner.
+ * centreline is a narrow band following the dome: from the forehead, over the crown (its ends stop short of the
+ * top row's corners, so it never reads as a coloured cap) and down the back edge, ending above the ear. Three
+ * concentric 1-px curves in the shell's own coordinates (row 0 = the shell's top row): 1 outer, 2 centre, 3 inner.
  * single: 1 + 2 in the stripe colour; double: 1 and 3 (two thin stripes, shell between); triple: 1 and 3 in the
  * edge colour round 2 in the centre colour (Titans: Titans blue, red, Titans blue).
  */
 const SIDE_BAND = [
-  '....................',
   '.......111111.......',
   '......12222221......',
   '.....1233333321.....',
@@ -315,7 +315,6 @@ const SIDE_BAND = [
   '..12................',
 ];
 const MINI_BAND = [
-  '............',
   '...1111.....',
   '..122221....',
   '.12333321...',
@@ -342,7 +341,7 @@ export const LOGO_KEYS: Record<string, Key> = { 1: 'L1', 2: 'L2', 3: 'L3', 4: 'L
 /** A helmet off the head (side view), at (x, y). */
 export const miniHelmet = (x: number, y: number, hel: Helmet): Rect[] => {
   const R = [...capAt(MINI_CAP, x, y), ...stamp(MINI_HELMET, x, y)];
-  R.push(...stamp(['.l', 'l.'], x + 3, y - 2));
+  R.push(...stamp(['.l', 'l.'], x + 3, y - 1));
   // The crown stripe: a band over the crown and down the back (MINI_BAND)
   R.push(...bandOn([...MINI_CAP, ...MINI_HELMET], MINI_BAND, hel.stripe, x, y - MINI_CAP.length));
   if (hel.pattern) tiger(R, MINI_HELMET, x, y, hel, 'mini');
@@ -404,7 +403,7 @@ export const sideHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts):
   // A visor is a tinted strip over the eye line only
   if (acc.includes('visor') || acc.includes('visor-gold')) R.push(...stamp(['VVVv'], hx + 15, hy + (up ? 8 : 9)));
   // Gloss in the rounded crown (outside the stripe band), the crown stripe, ear hole, logo
-  R.push(...stamp(['.l', 'l.'], hx + 6, hy - 1));
+  R.push(...stamp(['.l', 'l.'], hx + 4, hy + 1));
   R.push(...bandOn(SIDE_SHELL, SIDE_BAND, hel.stripe, hx, hy - HEAD_SIDE_CAP.length));
   if (hel.pattern) tiger(R, HEAD_SIDE, hx, hy, hel, 'side');
   shellLogo(R, hx + 3.5, hy + 5, hel, [HEAD_SIDE, hx, hy]);
@@ -425,8 +424,8 @@ export const tqHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts): R
   if (look.accessories.includes('eyeblack')) R.push(...stamp(['kk...kk'], hx + 8, hy + 8));
   if (look.accessories.some((a) => a.startsWith('visor'))) R.push(...stamp(['VVVVVVVV'], hx + 8, hy + 7));
   R.push(...stamp(['MMMMMMMMMMMM'], hx + 6, hy + 9), ...stamp(['MMMMMMMMMMMM'], hx + 6, hy + 12));
-  R.push(...stamp(['.l', 'l.'], hx + 5, hy - 2));
-  if (hel.stripe !== 'none') R.push(...stamp(['hh', 'hh', 'hh', 'hh', 'hh', 'hh', 'hh'], hx + 7, hy - 2));
+  R.push(...stamp(['.l', 'l.'], hx + 5, hy - 1));
+  if (hel.stripe !== 'none') R.push(...stamp(['hh', 'hh', 'hh', 'hh', 'hh', 'hh'], hx + 7, hy - 1));
   if (hel.pattern) tiger(R, HEAD_TQ.map((r, j) => (j < 5 ? r : r.slice(0, 7))), hx, hy, hel, 'tq');
   shellLogo(R, hx, hy + 4, hel, [HEAD_TQ.map((r, j) => (j < 5 ? r : r.slice(0, 7))), hx, hy]);
   // The face stays in front of the logo
@@ -445,9 +444,9 @@ export const frontHead = (hx: number, hy: number, { look, pose, hel }: HeadOpts)
   if (look.accessories.some((a) => a.startsWith('visor'))) R.push(...stamp(['VVVVVVVVVV', 'VVVVVVVVvV'], hx + 4, hy + 6));
   // Bars stay in front of the face
   R.push(...stamp(['MMMMMMMMMMMM'], hx + 3, hy + 9), ...stamp(['MMMMMMMMMMMM'], hx + 3, hy + 12));
-  R.push(...stamp(['.l', 'l.'], hx + 5, hy - 1));
-  // Stripes run straight down the middle from the cap to the face window (rows hy − 1 … hy + 4)
-  const run = (row: string) => Array<string>(6).fill(row);
+  R.push(...stamp(['.l', 'l.'], hx + 5, hy));
+  // Stripes run straight down the middle from the top to the face window (rows hy … hy + 4)
+  const run = (row: string) => Array<string>(5).fill(row);
   const down = (rows: string[], x: number) => R.push(...onShell(FRONT_SHELL, rows, x, 0, hx, hy - HEAD_FRONT_CAP.length));
   if (hel.stripe !== 'none') down(run(hel.stripe === 'double' ? 'h..h' : 'hh'), hel.stripe === 'double' ? 7 : 8);
   if (hel.stripe === 'triple') down(run('g..g'), 7);

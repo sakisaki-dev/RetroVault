@@ -139,15 +139,15 @@ three-quarter views draw the stripe as a vertical band down the middle.
 Helmets are one compact size for every build, and every shell is a full round dome (a ball, not an egg). The crown is
 circle-like: 1-px steps per side at the top, then the widest rows repeat (0-px steps) at the bulge, so the sides read
 curved rather than diagonal (never more than 1 px per side between rows; `scripts/check_sprites.ts` asserts it).
-Round-out caps (`HEAD_SIDE_CAP`, `HEAD_TQ_CAP`, `HEAD_FRONT_CAP`, `MINI_CAP`, arrays of rows) are drawn just above
+The narrowest top row was taken off every view (owner request). Round-out caps (`HEAD_SIDE_CAP`, `HEAD_TQ_CAP`, `HEAD_FRONT_CAP`, `MINI_CAP`, arrays of rows) are drawn just above
 each template (`capAt`), so every anchor inside the templates (face, chin strap, cage, logo) is unchanged:
-- side: 16 wide inside the 20 × 17 box (columns 0–1 empty), crown 6 (cap, `hy − 1`) → 8 → 10 → 12 → 14 → 14 → 16 …,
+- side: 16 wide inside the 20 × 17 box (columns 0–1 empty), no cap: crown 8 (row 0) → 10 → 12 → 14 → 14 → 16 …,
   the back curving in toward the neck
-- three-quarter: caps at `hy − 2`, `hy − 1`; 6 → 8 → 10 → 12 → 14 → 14 → 16 → 17
-- front: a ball 16 wide × 16 tall: cap at `hy − 1`; 8 → 10 → 12 → 14 → 14 → 16 …, sides straight down to the jaw
+- three-quarter: one cap row at `hy − 1`; 8 → 10 → 12 → 14 → 14 → 16 → 17
+- front: a ball 16 wide × 15 tall, no cap: 10 (row 0) → 12 → 14 → 14 → 16 …, sides straight down to the jaw
   (row 13), one 1-px step (row 14), the chin strap below (row 15)
-- mini: a 10-wide dome, caps at `y − 2`, `y − 1`; 4 → 6 → 8 → 8 → 10 (`PixelHelmet` draws it at y = 2 in a 14 × 12
-  box, so the top cap lands on row 0) plus its facemask. Stripes run over the cap and are clipped to the dome
+- mini: a 10-wide dome, one cap row at `y − 1`; 6 → 8 → 8 → 10 (`PixelHelmet` draws it at y = 2 in a 14 × 12
+  box, so the top lands on row 1) plus its facemask. Stripes run over the cap and are clipped to the dome
 (`onShell`); the gloss sits in the crown. `render.ts` lifts helmet-on heads by `armT − 3` rows (big +1, huge +2) so the near sleeve doesn't
 cover the jaw. Near-black facemasks are drawn dark graphite (`#4a4f58`) so the cage stays visible.
 
