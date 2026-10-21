@@ -1,7 +1,9 @@
 /*
  * Collectible cards (CollectibleCard, FUT-style shield) and reward packs (PackOpening).
- * Tier sets the card: common bronze, rare silver, epic gold, legendary black-gold "icon".
- * Finish adds a treatment: silver sheen, gold foil, holo prismatic overlay (pointer / device tilt).
+ * Tier sets the card colour: common matte copper, rare steel blue, epic deep purple, legendary black-and-ember.
+ * No tier is silver or gold, so a tier never reads as a finish (owner: "it was gold but showed silver").
+ * Finish sets the metal of the frame: Base keeps the tier colour; brushed Silver, polished Gold and rainbow Holo
+ * get a thicker rim with a bevel. Every owned card names both: a finish chip (meta column) and the tier label.
  * Everything inside the card is sized in container units (cqw), so it is sharp from binder to detail size.
  * Infinite animations run only on hover / focus, or on .fut--live cards (showcase, detail, reveal).
  */
@@ -25,6 +27,9 @@
   --fut-ink: hsl(220 15% 55%);
   --fut-line: currentColor;
   --fut-glow: transparent;
+  /* Frame thickness (face inset); metal finishes use a thicker rim with a bevel line (--fut-bevel) */
+  --fut-rim: 2.6cqw;
+  --fut-bevel: transparent;
   position: relative;
   min-width: 0;
   container-type: inline-size;
@@ -62,7 +67,7 @@ button.fut__card {
   filter: drop-shadow(0 16px 22px hsl(228 60% 2% / 0.75)) drop-shadow(0 0 14px var(--fut-glow)) drop-shadow(0 0 3px var(--fut-glow));
 }
 .fut--legendary:not(.fut--lg):is(:hover, :focus-within) .fut__card {
-  filter: drop-shadow(0 16px 22px hsl(228 60% 2% / 0.75)) drop-shadow(0 0 22px hsl(45 100% 55% / 0.85)) drop-shadow(0 0 4px hsl(45 100% 70%));
+  filter: drop-shadow(0 16px 22px hsl(228 60% 2% / 0.75)) drop-shadow(0 0 22px hsl(20 100% 52% / 0.85)) drop-shadow(0 0 4px hsl(30 100% 65%));
 }
 .fut--locked:is(:hover, :focus-within) .fut__card {
   --fut-lift: -3px;
@@ -83,8 +88,16 @@ button.fut__card:focus-visible {
   background: var(--fut-frame);
   background-size: 220% 220%;
 }
+/* Bevel: a thin line between the metal rim and the face (painted under the face) */
+.fut__shape::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--fut-rim) - 0.7cqw);
+  clip-path: var(--fut-clip);
+  background: var(--fut-bevel);
+}
 .fut__face {
-  inset: 2.6cqw;
+  inset: var(--fut-rim);
   overflow: hidden;
   background: var(--fut-bg);
   isolation: isolate;
@@ -309,14 +322,66 @@ button.fut__card:focus-visible {
   align-items: center;
   gap: 1cqw;
   font-family: var(--font-pixel);
-  font-size: 3.2cqw;
-  letter-spacing: 0.06em;
+  font-size: 3cqw;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
+  white-space: nowrap;
   opacity: 0.85;
+}
+/* "Legendary · Sprite" is the longest label: a touch smaller so it clears the point */
+.fut--legendary .fut__pip {
+  bottom: 5.4%;
+  font-size: 2.7cqw;
 }
 .fut__pip svg {
   width: 3.6cqw;
   height: 3.6cqw;
+}
+
+/* Finish chip (meta column, under the number): names the finish on every owned card */
+.fut__fchip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5cqw;
+  margin-top: 1.4cqw;
+  padding: 0.6cqw 1.2cqw 0.5cqw;
+  border-radius: 1.2cqw;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 4.2cqw;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 0.3cqw 0.8cqw hsl(0 0% 0% / 0.35);
+}
+.fut__fchip svg {
+  width: 3.4cqw;
+  height: 3.4cqw;
+  flex-shrink: 0;
+}
+.fut__fchip--base {
+  background: hsl(0 0% 0% / 0.32);
+  box-shadow: inset 0 0 0 0.3cqw hsl(0 0% 100% / 0.28);
+  color: hsl(0 0% 100% / 0.88);
+}
+.fut__fchip--silver {
+  background:
+    repeating-linear-gradient(90deg, hsl(0 0% 100% / 0.16) 0 0.25cqw, hsl(0 0% 0% / 0.06) 0.25cqw 0.5cqw),
+    linear-gradient(180deg, #ffffff, #c9d0d8 45%, #8c96a2 55%, #e4e9ee);
+  box-shadow: inset 0 0 0 0.25cqw #5d6672, 0 0.3cqw 0.8cqw hsl(0 0% 0% / 0.35);
+  color: #1b222b;
+}
+.fut__fchip--gold {
+  background: linear-gradient(180deg, #fff3b8, #f6d46b 40%, #b5831f 58%, #f2c94c);
+  box-shadow: inset 0 0 0 0.25cqw #6b4c0e, 0 0 1.2cqw hsl(45 100% 60% / 0.55);
+  color: #3a2503;
+}
+.fut__fchip--holo {
+  background: linear-gradient(100deg, #ff9ce3, #ffe08a 25%, #8affc4 50%, #8ad8ff 75%, #c79cff);
+  box-shadow: inset 0 0 0 0.25cqw hsl(0 0% 100% / 0.7), 0 0 1.2cqw hsl(290 100% 75% / 0.55);
+  color: #24123a;
 }
 
 /* Overlays */
@@ -381,40 +446,45 @@ button.fut__card:focus-visible {
 
 /* ---------- Tiers ---------- */
 .fut--common {
-  --fut-frame: linear-gradient(135deg, #5b3415, #d9a36b 25%, #8a5427 45%, #f0c493 60%, #6b3f1d 80%, #c28a55);
-  --fut-bg: linear-gradient(165deg, #d7a06a 0%, #b27a45 45%, #7a4b23 100%);
-  --fut-ink: #2a1607;
-  --fut-glow: hsl(28 70% 55% / 0.6);
+  /* Matte copper: low-contrast, no mirror highlight (so it never reads as gold) */
+  --fut-frame: linear-gradient(135deg, #4e2a14, #8f5532 30%, #6a3a1e 50%, #a1653d 68%, #55301a);
+  --fut-bg: linear-gradient(165deg, #b47a52 0%, #8f5636 50%, #5e3420 100%);
+  --fut-ink: #fff1e4;
+  --fut-glow: hsl(22 60% 50% / 0.6);
 }
 .fut--rare {
-  --fut-frame: linear-gradient(135deg, #6f7884, #f4f7fa 25%, #98a2ae 45%, #ffffff 60%, #7c8693 80%, #cfd6de);
-  --fut-bg: linear-gradient(165deg, #f0f3f7 0%, #c3cad3 45%, #8c96a2 100%);
-  --fut-ink: #151c28;
-  --fut-glow: hsl(210 30% 85% / 0.6);
+  /* Steel blue */
+  --fut-frame: linear-gradient(135deg, #1c2f45, #4f7397 30%, #2a4562 50%, #6f92b5 68%, #1f344c);
+  --fut-bg: linear-gradient(165deg, #4f7091 0%, #34506e 50%, #1c2d42 100%);
+  --fut-ink: #eef5fc;
+  --fut-glow: hsl(208 60% 60% / 0.6);
 }
 .fut--epic {
-  --fut-frame: linear-gradient(135deg, #7d5a12, #f6d46b 25%, #b5831f 45%, #fff0a8 60%, #8a6416 80%, #f2c94c);
-  --fut-bg: linear-gradient(165deg, #fbe597 0%, #e2b549 45%, #a8781b 100%);
-  --fut-ink: #2b1c02;
-  --fut-glow: hsl(45 100% 60% / 0.65);
+  /* Deep purple */
+  --fut-frame: linear-gradient(135deg, #22093f, #6a3cb0 30%, #3a1668 50%, #8a5fd6 68%, #2a0d4c);
+  --fut-bg: linear-gradient(165deg, #6a40aa 0%, #45217a 50%, #230c42 100%);
+  --fut-ink: #f4ecff;
+  --fut-glow: hsl(268 80% 65% / 0.65);
 }
 .fut--legendary {
-  --fut-frame: linear-gradient(135deg, #6b4c0e, #f6d46b 18%, #8a6416 34%, #fff3c0 50%, #8a6416 66%, #f6d46b 82%, #6b4c0e);
+  /* Black and ember: an obsidian card with glowing ember edges and amber type */
+  --fut-frame: linear-gradient(135deg, #140805, #6b230a 18%, #e0702a 34%, #2a0e05 50%, #f08a3a 66%, #6b230a 82%, #140805);
   --fut-bg:
-    radial-gradient(ellipse at 60% 22%, hsl(45 80% 35% / 0.45), transparent 60%),
-    repeating-linear-gradient(135deg, hsl(45 90% 55% / 0.07) 0 0.6cqw, transparent 0.6cqw 2.4cqw),
-    linear-gradient(170deg, #1d1912 0%, #0b0a0c 55%, #000 100%);
-  --fut-ink: #f3d684;
-  --fut-glow: hsl(45 100% 60% / 0.85);
+    radial-gradient(ellipse at 60% 22%, hsl(20 85% 38% / 0.42), transparent 60%),
+    radial-gradient(ellipse at 50% 110%, hsl(14 90% 40% / 0.35), transparent 55%),
+    repeating-linear-gradient(135deg, hsl(24 90% 55% / 0.06) 0 0.6cqw, transparent 0.6cqw 2.4cqw),
+    linear-gradient(170deg, #1d120d 0%, #0b0807 55%, #000 100%);
+  --fut-ink: #f6c98a;
+  --fut-glow: hsl(22 100% 55% / 0.85);
 }
 .fut--legendary .fut__card {
-  filter: drop-shadow(0 6px 10px hsl(228 60% 2% / 0.55)) drop-shadow(0 0 6px hsl(45 100% 55% / 0.55));
+  filter: drop-shadow(0 6px 10px hsl(228 60% 2% / 0.55)) drop-shadow(0 0 6px hsl(20 100% 50% / 0.55));
 }
 .fut--legendary .fut__shape {
   animation: fut-foil 4.5s linear infinite;
 }
-.fut--legendary .fut__face {
-  inset: 3.2cqw;
+.fut--legendary {
+  --fut-rim: 3.2cqw;
 }
 .fut--legendary .fut__face::after {
   /* inner gold hairline frame */
@@ -422,7 +492,7 @@ button.fut__card:focus-visible {
   position: absolute;
   inset: 2.2cqw;
   clip-path: var(--fut-clip);
-  background: linear-gradient(135deg, #f6d46b, #8a6416, #fff3c0, #8a6416);
+  background: linear-gradient(135deg, #f08a3a, #6b230a, #ffd2a0, #6b230a);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
@@ -431,11 +501,11 @@ button.fut__card:focus-visible {
   pointer-events: none;
 }
 .fut--legendary .fut__name {
-  background: linear-gradient(90deg, transparent, hsl(45 90% 50% / 0.18), transparent);
+  background: linear-gradient(90deg, transparent, hsl(22 90% 50% / 0.18), transparent);
 }
 .fut--legendary .fut__ovr,
 .fut--legendary .fut__name {
-  background-image: linear-gradient(180deg, #fff6cf, #f3d684 45%, #b8862a);
+  background-image: linear-gradient(180deg, #ffe9c8, #f6c98a 45%, #c8642a);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -480,8 +550,19 @@ button.fut__card:focus-visible {
 }
 
 /* ---------- Finishes ---------- */
+/* Silver and Gold are the only silver and gold things on a card: a thick metal rim, a bevel and a face sheen */
+.fut--f-silver,
+.fut--f-gold,
+.fut--f-holo {
+  --fut-rim: 3.8cqw;
+}
 .fut--f-silver {
-  --fut-frame: linear-gradient(135deg, #5d6672, #f4f7fa 22%, #8b95a1 40%, #ffffff 55%, #6f7884 75%, #dfe5eb);
+  /* Brushed silver: fine vertical grain over a chrome ramp */
+  --fut-frame:
+    repeating-linear-gradient(90deg, hsl(0 0% 100% / 0.14) 0 0.35cqw, hsl(0 0% 0% / 0.07) 0.35cqw 0.7cqw),
+    linear-gradient(135deg, #6b7480, #f4f7fa 22%, #9aa4b0 40%, #ffffff 55%, #7b8592 75%, #e4e9ee);
+  --fut-bevel: linear-gradient(135deg, #2b323b, #e9eef3 50%, #2b323b);
+  --fut-glow: hsl(210 25% 90% / 0.7);
 }
 .fut--f-silver .fut__shape {
   animation: fut-foil 7s linear infinite;
@@ -492,8 +573,11 @@ button.fut__card:focus-visible {
   mix-blend-mode: overlay;
   animation: fut-sweep 5s ease-in-out infinite;
 }
-.fut--f-gold:not(.fut--legendary) {
-  --fut-frame: linear-gradient(135deg, #7d5a12, #f6d46b 25%, #b5831f 45%, #fff0a8 60%, #8a6416 80%, #f2c94c);
+.fut--f-gold {
+  /* Polished gold: a bright mirror band across warm gold */
+  --fut-frame: linear-gradient(135deg, #7d5a12, #f6d46b 22%, #b5831f 40%, #fffbe0 52%, #f2c94c 58%, #8a6416 78%, #f6d46b);
+  --fut-bevel: linear-gradient(135deg, #4a3206, #fff0a8 50%, #4a3206);
+  --fut-glow: hsl(45 100% 60% / 0.8);
 }
 .fut--f-gold .fut__shape {
   animation: fut-foil 6s linear infinite;
@@ -510,10 +594,11 @@ button.fut__card:focus-visible {
 }
 .fut--f-holo {
   --fut-frame: conic-gradient(from var(--fut-angle), #ff6ad5, #ffd36a, #6affb0, #6ad5ff, #b16aff, #ff6ad5);
+  --fut-bevel: hsl(0 0% 100% / 0.75);
   --fut-glow: hsl(290 100% 75% / 0.7);
 }
 .fut--f-holo.fut--legendary {
-  --fut-frame: conic-gradient(from var(--fut-angle), #f6d46b, #ff6ad5, #fff3c0, #6ad5ff, #f6d46b, #b16aff, #f6d46b);
+  --fut-frame: conic-gradient(from var(--fut-angle), #f08a3a, #ff6ad5, #ffd2a0, #6ad5ff, #f08a3a, #b16aff, #f08a3a);
 }
 .fut--f-holo .fut__shape {
   background-size: 100% 100%;
@@ -1043,10 +1128,10 @@ button.fut__card:focus-visible {
 }
 
 /* Rarity flash: the back glows in the tier colour, then flips */
-.pk-flip--common { --pk-flash: hsl(28 70% 55%); }
-.pk-flip--rare { --pk-flash: hsl(210 30% 88%); }
-.pk-flip--epic { --pk-flash: hsl(45 100% 60%); }
-.pk-flip--legendary { --pk-flash: hsl(45 100% 70%); }
+.pk-flip--common { --pk-flash: hsl(22 60% 52%); }
+.pk-flip--rare { --pk-flash: hsl(208 60% 62%); }
+.pk-flip--epic { --pk-flash: hsl(268 80% 66%); }
+.pk-flip--legendary { --pk-flash: hsl(22 100% 58%); }
 .pk-flip--flash .pk-back__shape {
   animation: pk-flash 0.3s ease-in-out infinite alternate;
 }
@@ -1131,10 +1216,10 @@ button.fut__card:focus-visible {
 .wk--final {
   cursor: default;
 }
-.wk--t-common { --wk-t1: hsl(28 78% 58%); --wk-t2: hsl(22 60% 34%); --wk-t3: #f6cf9f; }
-.wk--t-rare { --wk-t1: hsl(210 35% 90%); --wk-t2: hsl(212 14% 56%); --wk-t3: #ffffff; }
-.wk--t-epic { --wk-t1: hsl(45 100% 60%); --wk-t2: hsl(40 90% 42%); --wk-t3: #fff0a8; }
-.wk--t-legendary { --wk-t1: hsl(45 100% 62%); --wk-t2: #2a1f08; --wk-t3: #fff3c0; }
+.wk--t-common { --wk-t1: hsl(22 60% 54%); --wk-t2: hsl(20 55% 30%); --wk-t3: #f0c4a2; }
+.wk--t-rare { --wk-t1: hsl(208 60% 64%); --wk-t2: hsl(212 45% 30%); --wk-t3: #d6e6f6; }
+.wk--t-epic { --wk-t1: hsl(268 80% 68%); --wk-t2: hsl(268 60% 30%); --wk-t3: #e4d4ff; }
+.wk--t-legendary { --wk-t1: hsl(22 100% 58%); --wk-t2: #2a1208; --wk-t3: #ffd2a0; }
 .wk--lit { --wk-beam: color-mix(in srgb, var(--wk-t1) 55%, transparent); }
 @keyframes wk-in {
   from { opacity: 0; }
@@ -1747,12 +1832,15 @@ button.fut__card:focus-visible {
 
 /* ---------- Collection hero ---------- */
 .col-hero {
+  /* --ed: the edition accent (utils/edition.ts editionAccent), set inline by CollectionTab */
+  --ed: 280 70% 58%;
   position: relative;
   overflow: hidden;
   border-radius: 20px;
   border: 1px solid hsl(var(--line));
+  border-top: 2px solid hsl(var(--ed) / 0.55);
   background:
-    radial-gradient(ellipse at 85% 0%, hsl(290 80% 50% / 0.16), transparent 50%),
+    radial-gradient(ellipse at 85% 0%, hsl(var(--ed) / 0.2), transparent 50%),
     radial-gradient(ellipse at 10% 100%, hsl(43 100% 55% / 0.14), transparent 55%),
     linear-gradient(160deg, hsl(226 40% 13%), hsl(228 47% 7%));
 }
@@ -1794,17 +1882,36 @@ button.fut__card:focus-visible {
   clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
   background: var(--gem);
 }
-.col-gem--common { --gem: linear-gradient(135deg, #f0c493, #8a5427); }
-.col-gem--rare { --gem: linear-gradient(135deg, #ffffff, #8c96a2); }
-.col-gem--epic { --gem: linear-gradient(135deg, #fff0a8, #b5831f); }
-.col-gem--legendary { --gem: linear-gradient(135deg, #f6d46b 20%, #0b0a0c 60%, #f6d46b); }
+.col-gem--common { --gem: linear-gradient(135deg, #c98a5e, #6a3a1e); }
+.col-gem--rare { --gem: linear-gradient(135deg, #8fb2d4, #2a4562); }
+.col-gem--epic { --gem: linear-gradient(135deg, #b48cf0, #3a1668); }
+.col-gem--legendary { --gem: linear-gradient(135deg, #f08a3a 20%, #0b0807 60%, #f08a3a); }
 
 .col-shelf {
   display: flex;
   gap: 16px;
   overflow-x: auto;
-  padding: 8px 4px 14px;
+  padding: 10px 12px 14px;
   scrollbar-width: none;
+  /* edition-tinted shelf: a faint wash and a ledge under the packs, kept dim so tier foils read first */
+  border-radius: 14px;
+  background: linear-gradient(180deg, transparent 35%, hsl(var(--ed, 280 70% 58%) / 0.12));
+  box-shadow: inset 0 -3px 0 hsl(var(--ed, 280 70% 58%) / 0.5);
+}
+.col-edition {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--ed) / 0.55);
+  background: hsl(var(--ed) / 0.14);
+  color: hsl(var(--ed) / 1);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  filter: brightness(1.25);
 }
 .col-shelf::-webkit-scrollbar {
   display: none;
@@ -1966,12 +2073,12 @@ button.fut__card:focus-visible {
   --cd-a: hsl(222 45% 32%);
   --cd-b: hsl(43 100% 62%);
   --cd-x: 50%;
-  --cd-tier: #c28a55;
+  --cd-tier: #c98a5e;
   gap: 0;
 }
-.cd--rare { --cd-tier: #cfd6de; }
-.cd--epic { --cd-tier: #f2c94c; }
-.cd--legendary { --cd-tier: #f6d46b; }
+.cd--rare { --cd-tier: #8fb2d4; }
+.cd--epic { --cd-tier: #b48cf0; }
+.cd--legendary { --cd-tier: #f39a52; }
 .cd .dlg-x {
   color: #fff;
 }
@@ -2410,7 +2517,7 @@ button.fut__card:focus-visible {
 
 /* Card back */
 .cb {
-  --cb-tier: #c28a55;
+  --cb-tier: #c98a5e;
   height: 100%;
   overflow-y: auto;
   padding: 14px 14px 16px;
@@ -2423,9 +2530,9 @@ button.fut__card:focus-visible {
   font-size: 12px;
   scrollbar-width: thin;
 }
-.cb--rare { --cb-tier: #cfd6de; }
-.cb--epic { --cb-tier: #f2c94c; }
-.cb--legendary { --cb-tier: #f6d46b; }
+.cb--rare { --cb-tier: #8fb2d4; }
+.cb--epic { --cb-tier: #b48cf0; }
+.cb--legendary { --cb-tier: #f39a52; }
 .cb__head {
   display: flex;
   align-items: center;

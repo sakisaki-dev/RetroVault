@@ -15,7 +15,8 @@ Steps (each stops the run on failure; nothing is committed or pushed):
                      snapshot season, Timeline / Teams / Front Office (coach.json, superBowls in content.json)
   5. checks          tsc --noEmit, check:sprites, vite build
   6. summary         players added / updated, players needing teams, records, new Hall of Famers and SPEECH NEEDED,
-                     market movers, open questions, the new edition; then the commit and push commands to run
+                     market movers, the "What changed" headlines (content.json), open questions, the new edition;
+                     then the commit and push commands to run
 """
 from __future__ import annotations
 
@@ -146,6 +147,13 @@ def summary(bundle_id: str, before: dict, after: dict, rebuild_out: str, roll: l
             print(f"  {m}")
     else:
         print("Market: no OVR / skill / legacy changes (no new snapshot)")
+    content = read(CONTENT, {})
+    info, heads = content.get("headlinesInfo", {}), content.get("headlines", [])
+    scope = info.get("scope", "none")
+    when = f" ({info['since']} -> {info['label']})" if info.get("since") else ""
+    print(f"Headlines: {len(heads)}, {scope}{when}" + (" (this bundle changed nothing headline-worthy)" if scope == "Last update" else ""))
+    for h in heads:
+        print(f"  [{h.get('kind')}] {h.get('text')}")
     new_q = sorted(set(after["questions"]) - set(before["questions"]))
     print(f"Open questions: {len(after['questions'])} ({len(new_q)} new{': ' + ', '.join(new_q) if new_q else ''})")
     for l in roll:

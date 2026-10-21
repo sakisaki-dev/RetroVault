@@ -9,7 +9,8 @@ import ChangeBadge from './ChangeBadge';
 
 const POS_ORDER = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
 /** Allocation bar segments: one hue family per bar, stepped light → dark, every segment labelled in the legend. */
-const TIER_FILL: Record<Tier, string> = { common: 'hsl(28 45% 45%)', rare: 'hsl(220 12% 66%)', epic: 'hsl(43 90% 55%)', legendary: 'hsl(280 60% 62%)' };
+/** Tier colours match the card frames (collection.css .fut--<tier>) */
+const TIER_FILL: Record<Tier, string> = { common: 'hsl(22 45% 48%)', rare: 'hsl(208 45% 55%)', epic: 'hsl(268 60% 62%)', legendary: 'hsl(22 90% 55%)' };
 const POS_FILL = POS_ORDER.map((_, i) => `hsl(199 ${60 + i * 3}% ${78 - i * 7}%)`);
 
 /** Variant allocation colours: one warm-to-violet ramp, rarest darkest. */

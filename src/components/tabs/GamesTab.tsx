@@ -13,6 +13,7 @@ import OverUnder from '../games/OverUnder';
 import BuildALegend from '../games/BuildALegend';
 import ModeArt from '../games/ModeArt';
 import { ArcadeButton, Lamp } from '../games/ArcadeUI';
+import { HomeNews } from '../news/WhatChanged';
 import { STAT_KEYS, loadGameStat, saveGameStat, useGamePlayers, type GamePlayer } from '../games/gameUtils';
 
 type GameId = 'rank' | 'perfect' | 'kc' | 'legend' | 'hol' | 'grid' | 'imposter' | 'sixdeg' | 'ou' | 'build';
@@ -204,6 +205,8 @@ const GamesTab = () => {
           </div>
         ) : !active ? (
           <>
+            {/* What changed in the latest update, and this edition's Spotlight */}
+            <HomeNews />
             <div className="home-intro">
               <h2 ref={headingRef} tabIndex={-1}>
                 {NUMBER_WORDS[GAMES.length] ?? GAMES.length} ways to test your league IQ

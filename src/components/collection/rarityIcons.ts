@@ -14,8 +14,8 @@ export const FINISH_TEXT = {
   holo: 'text-fuchsia-300',
 } as const;
 export const TIER_TEXT = {
-  common: 'text-muted-foreground',
+  common: 'text-orange-300/80',
   rare: 'text-sky-300',
-  epic: 'text-orange-300',
-  legendary: 'text-amber-300',
+  epic: 'text-violet-300',
+  legendary: 'text-orange-400',
 } as const;

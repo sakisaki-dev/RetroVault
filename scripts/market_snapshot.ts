@@ -9,7 +9,10 @@
  * Runs in `npm run rebuild` after the league data build and before the content build, so prices move whenever the
  * data does and the content build can read Career Legacy / OVR and derive the Hall of Fame classes from the snapshots.
  * Every snapshot carries `season` (the latest Super Bowl in data/y80/super_bowls.json at that point; older snapshots
- * get it from git once).
+ * get it from git once) and `upload` (the last applied bundle in data/y80/mutations_log.json when it was taken).
+ * Every point also carries `grade` (overall skill letter) and `s` (career totals for milestones), which the content
+ * build diffs between snapshots for the "What changed" headlines; older git snapshots get both from git once. `s`
+ * stays in data/y80/market_history.json only (public/data/market.json leaves it out).
  */
 import { execFileSync } from 'child_process';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
@@ -55,7 +58,7 @@ const dateLabel = (iso: string) => {
   return m ? `${MONTHS[Number(m[2]) - 1]} ${Number(m[3])}, ${m[4]}:${m[5]}` : iso;
 };
 
-type Snap = MarketSnapshot & { season?: string };
+type Snap = MarketSnapshot & { season?: string; upload?: string };
 const SUPER_BOWLS = 'data/y80/super_bowls.json';
 /** "Y80": the latest Super Bowl year in a super_bowls.json text. */
 const seasonOf = (json: string | null): string | undefined => {
@@ -77,6 +80,33 @@ const fillSeasons = (history: Snap[]) =>
     const season = fromLabel ?? (sha ? seasonOf(gitShow(sha, SUPER_BOWLS)) : undefined);
     if (season) s.season = season;
   });
+
+/** Older git snapshots: `grade` and `s` from that commit's data, once (later rebuilds find them filled). */
+const fillExtras = (history: Snap[]) =>
+  history.forEach((s) => {
+    const sha = s.id.match(/^git-([0-9a-f]+)$/)?.[1];
+    if (!sha || Object.values(s.players).every((v) => v.s)) return;
+    const csv = gitShow(sha, CSV);
+    const legends = gitShow(sha, LEGENDS);
+    if (!csv || !legends) return;
+    const then = compute(csv, legends, gitShow(sha, EXCLUSIONS));
+    Object.entries(s.players).forEach(([k, v]) => {
+      const t = then[k];
+      if (!t) return;
+      if (t.grade && !v.grade) v.grade = t.grade;
+      if (!v.s) v.s = t.s;
+    });
+  });
+
+/** Id of the last applied upload bundle (data/y80/mutations_log.json), if any. */
+const lastUpload = (json: string | null): string | undefined => {
+  try {
+    const applied = json ? (JSON.parse(json) as { applied?: { id?: string }[] }).applied : undefined;
+    return applied?.length ? applied[applied.length - 1].id : undefined;
+  } catch {
+    return undefined;
+  }
+};
 
 const append = (history: MarketHistory, snap: MarketSnapshot) => {
   const last = history[history.length - 1];
@@ -133,7 +163,9 @@ const main = () => {
   const label = `${season ? `${season} · ` : ''}${dateLabel(iso)}`;
   const id = `snap-${iso.slice(0, 16).replace(/\D/g, '')}`;
   fillSeasons(history);
-  const added = append(history, { id, label, date: iso, ...(season ? { season } : {}), players } as Snap);
+  fillExtras(history);
+  const upload = lastUpload(read('data/y80/mutations_log.json'));
+  const added = append(history, { id, label, date: iso, ...(season ? { season } : {}), ...(upload ? { upload } : {}), players } as Snap);
 
   // One line per player, so a data update reads as a small diff
   const json = (h: MarketHistory) =>
@@ -145,7 +177,12 @@ const main = () => {
       })
       .join(',\n')}\n]\n`;
   writeFileSync(HISTORY, json(history));
-  writeFileSync(OUT, JSON.stringify(history));
+  // The site never reads the milestone totals: keep market.json lean
+  const lean = history.map((h) => ({
+    ...h,
+    players: Object.fromEntries(Object.entries(h.players).map(([k, { s: _s, ...v }]) => [k, v])),
+  }));
+  writeFileSync(OUT, JSON.stringify(lean));
   console.log(
     `Market: ${history.length} snapshot${history.length === 1 ? '' : 's'}, ${Object.keys(players).length} cards` +
       (added ? ` (added "${label}")` : ' (no OVR / skill / legacy changes; nothing added)'),

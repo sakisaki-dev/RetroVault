@@ -18,6 +18,8 @@
  *   "outsiders":  [{ player, position?, team?, summary }],
  *   "openQuestions": [string],
  *   "playerNotes":   [{ name, team?, position?, nickname?, era?, tag? }],
+ *   "headlines":     [{ kind, text, players[] (names), teams[], weight }] ranked, heaviest first ("What changed")
+ *   "headlinesInfo": { scope: "This update" | "Last update", upload?, since?, label? }
  *   "speeches":      { "<player name>": "Hall of Fame induction speech (plain text; blank line = new paragraph)" },
  *   "coach":         { name, age, stars, morale, gamesPlayed, simGames, record{}, bests{}, superBowlRecord[], seasons[{ year, team, abbr, w, l, t, finish }] }
  * }
@@ -207,6 +209,31 @@ export interface LeagueContent {
   hofClasses?: { label: string; keys: string[] }[];
   /** Per-update edition (scripts/build_league_content.py edition()); its seed drives the rotating picks (utils/edition.ts) */
   edition?: Edition;
+  /** "What changed": rule-based news from the latest update's data diff, heaviest first */
+  headlines?: Headline[];
+  headlinesInfo?: HeadlinesInfo;
+}
+
+export const HEADLINE_KINDS = ['superbowl', 'hof', 'record', 'trade', 'new-player', 'award', 'milestone', 'grade', 'market', 'chase'] as const;
+export type HeadlineKind = (typeof HEADLINE_KINDS)[number];
+
+/** One generated headline (scripts/build_league_content.py build_headlines()). */
+export interface Headline {
+  kind: HeadlineKind;
+  text: string;
+  /** Player names, the subject first */
+  players: string[];
+  teams: string[];
+  weight: number;
+}
+
+export interface HeadlinesInfo {
+  /** "This update" (the latest bundle) or "Last update" (it changed nothing, so the last update that did) */
+  scope: 'This update' | 'Last update';
+  upload?: string;
+  /** Market snapshot labels the diff runs between */
+  since?: string;
+  label?: string;
 }
 
 export interface Edition {
@@ -486,6 +513,25 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
   if (isObj(input.edition) && num(input.edition.seed) !== undefined) {
     const e = input.edition;
     content.edition = { number: num(e.number) ?? 0, season: str(e.season), upload: str(e.upload), seed: num(e.seed)!, label: str(e.label) };
+  }
+  const headlines = compact(
+    arr(input.headlines).map((r) => {
+      const text = str(r.text);
+      const kind = str(r.kind) as HeadlineKind | undefined;
+      return text && kind && (HEADLINE_KINDS as readonly string[]).includes(kind)
+        ? { kind, text, players: strArr(r.players), teams: strArr(r.teams), weight: num(r.weight) ?? 0 }
+        : null;
+    }),
+  );
+  if (headlines.length) content.headlines = headlines;
+  if (isObj(input.headlinesInfo)) {
+    const h = input.headlinesInfo;
+    content.headlinesInfo = {
+      scope: h.scope === 'Last update' ? 'Last update' : 'This update',
+      upload: str(h.upload),
+      since: str(h.since),
+      label: str(h.label),
+    };
   }
   if (Array.isArray(input.hofClasses)) {
     const classes = input.hofClasses

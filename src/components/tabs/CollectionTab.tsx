@@ -16,6 +16,7 @@ import { FACE_LEGEND } from '@/components/collection/cardStats';
 import VariantBadges from '@/components/collection/VariantBadges';
 import { VARIANT_MULTIPLIER } from '@/utils/cardMarket';
 import { matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
+import { editionAccent } from '@/utils/edition';
 import { isHallOfFamer } from '@/config/stats';
 import {
   CRAFT_COST,
@@ -319,10 +320,13 @@ const CollectionTab = () => {
   const binderOwned = useMemo(() => shown.filter((c) => !!owned[c.key]), [shown, owned]);
   const describe = (pc: { player: Player }) => byKey.get(`${pc.player.position}:${pc.player.name}`)!;
 
+  // Per-edition accent on the hero and pack shelf (utils/edition.ts): changes after an update, same for everyone
+  const accent = editionAccent(content?.edition);
+
   return (
     <div className="container space-y-6 px-4 py-5 sm:px-6 sm:py-8">
       {/* Hero */}
-      <section aria-labelledby="col-title" className="col-hero p-4 sm:p-6">
+      <section aria-labelledby="col-title" className="col-hero p-4 sm:p-6" style={{ ['--ed' as string]: accent.hsl }}>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
           <div
             className="col-ring"
@@ -336,11 +340,16 @@ const CollectionTab = () => {
             </span>
           </div>
           <div className="min-w-0 flex-1 space-y-3">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <h1 id="col-title" className="font-display text-4xl uppercase italic sm:text-5xl">
                 Collection
               </h1>
               <RulesPopover />
+              {content?.edition?.label && (
+                <span className="col-edition" title={`${accent.name} edition: the shelf colour changes with every update`}>
+                  {content.edition.label}
+                </span>
+              )}
             </div>
             <ul className="flex flex-wrap gap-2" aria-label="Collected by tier">
               {tierStats.map((t) => (

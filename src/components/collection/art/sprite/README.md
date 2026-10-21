@@ -132,7 +132,10 @@ Logos are hand-drawn pixel glyphs, one per club with a decal, authored in `scrip
 network; `--preview out.png` renders them all big on their shells) which writes `helmetLogos.ts`. A glyph is up to
 16 × 14 fine cells (nominally 14 × 12, centred), faces forward (+x), uses up to four colours and 2-cell strokes for
 letters. The Bengals stripes and Rams horn are per-view pixel templates (`SHELL_DESIGNS`: side, tq, front, mini)
-clipped to the shell; the Browns have no decal. On the side head the crown stripe runs one row in from the top edge.
+clipped to the shell; the Browns have no decal. Side-view crown stripes (side head and mini helmet) are a narrow band
+(`SIDE_BAND`, `MINI_BAND`: three concentric 1-px curves) from the forehead over the crown, one row under the top, and
+down the back edge; triple = edge / centre / edge colours, single = two curves, double = outer and inner. Front and
+three-quarter views draw the stripe as a vertical band down the middle.
 Helmets are one compact size for every build, and every shell is a full round dome (a ball, not an egg). The crown is
 circle-like: 1-px steps per side at the top, then the widest rows repeat (0-px steps) at the bulge, so the sides read
 curved rather than diagonal (never more than 1 px per side between rows; `scripts/check_sprites.ts` asserts it).
@@ -141,7 +144,8 @@ each template (`capAt`), so every anchor inside the templates (face, chin strap,
 - side: 16 wide inside the 20 × 17 box (columns 0–1 empty), crown 6 (cap, `hy − 1`) → 8 → 10 → 12 → 14 → 14 → 16 …,
   the back curving in toward the neck
 - three-quarter: caps at `hy − 2`, `hy − 1`; 6 → 8 → 10 → 12 → 14 → 14 → 16 → 17
-- front: caps at `hy − 2`, `hy − 1`; 6 → 8 → 10 → 12 → 14 → 14 → 16 …
+- front: a ball 16 wide × 16 tall: cap at `hy − 1`; 8 → 10 → 12 → 14 → 14 → 16 …, sides straight down to the jaw
+  (row 13), one 1-px step (row 14), the chin strap below (row 15)
 - mini: a 10-wide dome, caps at `y − 2`, `y − 1`; 4 → 6 → 8 → 8 → 10 (`PixelHelmet` draws it at y = 2 in a 14 × 12
   box, so the top cap lands on row 0) plus its facemask. Stripes run over the cap and are clipped to the dome
 (`onShell`); the gloss sits in the crown. `render.ts` lifts helmet-on heads by `armT − 3` rows (big +1, huge +2) so the near sleeve doesn't

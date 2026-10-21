@@ -82,6 +82,13 @@ export interface MarketPoint {
   legacy: number;
   /** Base-card value in coins */
   value: number;
+  /** Overall skill letter grade (config/skillGrades.ts GRADE_SCALE), for the "What changed" headlines */
+  grade?: string;
+  /**
+   * Career totals the headlines watch for milestones, in data/y80/players.json keys (nonzero only). Kept in
+   * data/y80/market_history.json; scripts/market_snapshot.ts strips them from public/data/market.json.
+   */
+  s?: Record<string, number>;
 }
 
 export interface MarketSnapshot {
@@ -95,6 +102,35 @@ export interface MarketSnapshot {
 /** The file: oldest snapshot first. */
 export type MarketHistory = MarketSnapshot[];
 
+/** Career totals for the milestone headlines (scripts/build_league_content.py headlines()), players.json keys. */
+export const milestoneStats = (p: Player): Record<string, number> => {
+  const n = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? Math.round(v) : 0);
+  const r = p as unknown as Record<string, unknown>;
+  const defense = p.position === 'LB' || p.position === 'DB' || p.position === 'DL';
+  const by: Record<string, Record<string, string>> = {
+    QB: { yds: 'passYds', td: 'passTD', int: 'interceptions', ryds: 'rushYds', rtd: 'rushTD' },
+    RB: { ryds: 'rushYds', rtd: 'rushTD', rec: 'receptions', recyds: 'recYds', rectd: 'recTD' },
+    WR: { rec: 'receptions', yds: 'recYds', td: 'recTD' },
+    TE: { rec: 'receptions', yds: 'recYds', td: 'recTD' },
+    OL: { blk: 'blocks' },
+    DEF: { tkl: 'tackles', int: 'interceptions', sck: 'sacks', ff: 'forcedFumbles' },
+  };
+  const fields: Record<string, string> = {
+    g: 'games',
+    ...by[defense ? 'DEF' : p.position],
+    rings: 'rings',
+    mvp: 'mvp',
+    sbmvp: 'sbmvp',
+    [defense ? 'dpoy' : 'opoy']: 'opoy',
+  };
+  const out: Record<string, number> = {};
+  Object.entries(fields).forEach(([k, f]) => {
+    const v = n(r[f]);
+    if (v) out[k] = v;
+  });
+  return out;
+};
+
 /**
  * Market point for every collectible player (league minus game exclusions), computed like the site does:
  * official OVR over the game pool (league + real NFL players, minus exclusions), skill rating graded against the
@@ -105,16 +141,24 @@ export const snapshotPlayers = (league: Player[], legends: Player[], excluded: S
   const pool = league.filter((p) => !excluded.has(playerKey(p)));
   const rows = pool.map((p) => {
     const ovr = ovrMap.get(playerKey(p)) ?? 62;
-    return { p, ovr, tier: tierFor(p, ovr), skill: playerSkillGrades(league, p).overall?.rating ?? null };
+    const overall = playerSkillGrades(league, p).overall;
+    return { p, ovr, tier: tierFor(p, ovr), skill: overall?.rating ?? null, grade: overall?.grade.grade };
   });
   const counts = new Map<Tier, number>();
   rows.forEach((r) => counts.set(r.tier, (counts.get(r.tier) ?? 0) + 1));
   const out: Record<string, MarketPoint> = {};
   [...rows]
     .sort((a, b) => playerKey(a.p).localeCompare(playerKey(b.p)))
-    .forEach(({ p, ovr, tier, skill }) => {
+    .forEach(({ p, ovr, tier, skill, grade }) => {
       const legacy = Math.round(p.careerLegacy || 0);
-      out[playerKey(p)] = { ovr, skill, legacy, value: cardValue({ ovr, skill, legacy, tier, tierCount: counts.get(tier) ?? 1, poolSize: rows.length }) };
+      out[playerKey(p)] = {
+        ovr,
+        skill,
+        legacy,
+        value: cardValue({ ovr, skill, legacy, tier, tierCount: counts.get(tier) ?? 1, poolSize: rows.length }),
+        ...(grade ? { grade } : {}),
+        s: milestoneStats(p),
+      };
     });
   return out;
 };

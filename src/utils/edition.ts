@@ -59,3 +59,23 @@ export const editionPick = <T>(items: readonly T[], edition: Edition | number | 
 
 /** The current edition from content.json (undefined while loading or when the file has none). */
 export const useEdition = (): Edition | undefined => useLeagueContent().content?.edition;
+
+/**
+ * Edition accents: a small, tasteful palette (HSL triplets) for presentation tints such as the Collection pack shelf.
+ * Low-saturation enough to sit behind the pack foils, so tier colours stay readable. One per edition.
+ */
+export const EDITION_ACCENTS = [
+  { name: 'Violet', hsl: '280 70% 58%' },
+  { name: 'Teal', hsl: '174 62% 44%' },
+  { name: 'Crimson', hsl: '352 72% 56%' },
+  { name: 'Royal', hsl: '224 76% 62%' },
+  { name: 'Emerald', hsl: '150 58% 44%' },
+  { name: 'Amber', hsl: '32 90% 56%' },
+  { name: 'Rose', hsl: '330 66% 62%' },
+  { name: 'Sky', hsl: '199 80% 56%' },
+] as const;
+export type EditionAccent = (typeof EDITION_ACCENTS)[number];
+
+/** This edition's accent (Violet, the original hero tint, while content loads). */
+export const editionAccent = (edition: Edition | undefined | null): EditionAccent =>
+  edition ? editionPick(EDITION_ACCENTS, edition, 'accent')! : EDITION_ACCENTS[0];

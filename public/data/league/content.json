@@ -2534,6 +2534,87 @@
    "era": "Jets years"
   }
  ],
+ "headlines": [
+  {
+   "kind": "hof",
+   "text": "New Hall of Famer: Pharoah Hunter",
+   "players": [
+    "Pharoah Hunter"
+   ],
+   "teams": [],
+   "weight": 90
+  },
+  {
+   "kind": "milestone",
+   "text": "Pharoah Hunter passes 1,500 career receptions",
+   "players": [
+    "Pharoah Hunter"
+   ],
+   "teams": [],
+   "weight": 73
+  },
+  {
+   "kind": "award",
+   "text": "Tolbert wins his 4th ring",
+   "players": [
+    "Bilal Tolbert"
+   ],
+   "teams": [],
+   "weight": 68
+  },
+  {
+   "kind": "grade",
+   "text": "Jackson Wardell Kline enters S tier",
+   "players": [
+    "Jackson Wardell Kline"
+   ],
+   "teams": [],
+   "weight": 68
+  },
+  {
+   "kind": "market",
+   "text": "Market: Tolbert +94%",
+   "players": [
+    "Bilal Tolbert"
+   ],
+   "teams": [],
+   "weight": 55
+  },
+  {
+   "kind": "market",
+   "text": "Market: Baugh −26%",
+   "players": [
+    "Tyrone Baugh"
+   ],
+   "teams": [],
+   "weight": 48
+  },
+  {
+   "kind": "chase",
+   "text": "Jensen is 37 rushing TDs from the all-time mark",
+   "players": [
+    "Trequan Jensen",
+    "Rondale Ikarras"
+   ],
+   "teams": [],
+   "weight": 39
+  },
+  {
+   "kind": "chase",
+   "text": "Mosley is 204 tackles from the all-time mark",
+   "players": [
+    "Dan Mosley",
+    "Mose Junior"
+   ],
+   "teams": [],
+   "weight": 39
+  }
+ ],
+ "headlinesInfo": {
+  "scope": "Last update",
+  "since": "Oct 19, 22:30",
+  "label": "Oct 19, 22:36"
+ },
  "hofClasses": [
   {
    "label": "Inaugural class",

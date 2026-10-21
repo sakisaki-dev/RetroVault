@@ -205,6 +205,21 @@ current data is a no-op.
   solver and the audit away from those clubs.
 - **Hall of Fame classes**: who first crossed Career Legacy 7000 at each market snapshot, labelled by the snapshot's
   season; the first snapshot's members are the "Inaugural class".
+- **"What changed" headlines** (`build_headlines()` in `build_league_content.py` → `content.json` `headlines`
+  `[{kind, text, players, teams, weight}]` + `headlinesInfo`): templated news, ranked by weight (ties by kind, then
+  text; at most 2 per player). Inputs: the last two market snapshots (each point carries `grade` and the career totals
+  `s`; `market_snapshot.ts` writes them and records the bundle as `upload`), the mutations of the bundles between
+  them (`mutations_log.json` → manifests), `records.json`, `super_bowls.json`. Rules: Super Bowls of a rolled-over
+  season; record.set / records dated in it; owner `players/<name>/team` facts ("Traded: …"); crossed Career Legacy
+  7000; new cards; career totals passing a step (10,000 passing yards, 5,000 rushing / receiving yards, 100 passing
+  TDs, 500 tackles…); award counts; skill grade families (S/A/B…, `skillGrades.ts` GRADE_SCALE); market movers (≥ 5%,
+  base value ≥ 50); plus up to 2 record chases (≥ 85% of the mark). If the latest bundle changed nothing headline-worthy,
+  it walks back to the last snapshot pair that did and marks it "Last update". Shown on the Arcade landing (ticker +
+  Spotlight) and in full on the Timeline (`src/components/news/WhatChanged.tsx`); `npm run update` prints them.
+- **Edition** (`content.edition`, `src/utils/edition.ts`): one seed per applied upload, stable across rebuilds. Used
+  only for rotating presentation: Front Office featured stint players and rivals order, Timeline storyline order, the
+  landing Spotlight (up to 2 headline players, then top Career Legacy, shuffled per edition) and the Collection
+  hero / pack shelf accent (`EDITION_ACCENTS`). Never for player identity (looks, card art, poses, uniforms).
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
   `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. The value formula lives in
   `src/utils/cardMarket.ts`. Never hand-edit either file; rebuild and commit both.

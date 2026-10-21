@@ -8,7 +8,7 @@ import type { GamePlayer } from '@/config/ovr';
 import { finishLabel, tierLabel, variantLabel, variantShort, type Finish, type Tier, type Variant } from '@/utils/collection';
 import VariantArt from './art/VariantArt';
 import type { FaceStat } from './cardStats';
-import { FINISH_ICON } from './rarityIcons';
+import { FINISH_ICON, TIER_ICON } from './rarityIcons';
 import './collection.css';
 
 const motionOk = () => {
@@ -84,7 +84,7 @@ const SPARKS = [
 
 export interface CollectibleCardProps {
   player: GamePlayer;
-  /** Player tier (Common to Legendary): sets the card colour (bronze, silver, gold, black-gold icon) */
+  /** Player tier (Common to Legendary): sets the card colour (matte copper, steel blue, deep purple, black-ember) */
   tier: Tier;
   /** Finish (Base, Silver, Gold, Holo): the treatment on top; ignored while locked */
   finish: Finish;
@@ -119,9 +119,11 @@ export interface CollectibleCardProps {
 /**
  * FUT-style collectible: a shield-shaped card with the OVR, position, team logo and jersey number top left,
  * player art (a real legend's photo, or a team-coloured silhouette), the surname on a name bar and six 0–99
- * face stats in two columns. The TIER sets the card (bronze, silver, gold, black-gold "icon" for Legendary,
- * with shimmer, sparkles, glow and a LEGEND ribbon); the FINISH adds a treatment (Silver sheen, Gold foil,
- * Holo prismatic overlay that follows the pointer / device tilt). Locked cards are dark silhouettes.
+ * face stats in two columns. The TIER sets the card colour (matte copper Common, steel blue Rare, deep purple Epic,
+ * black-and-ember Legendary with sparkles, glow and a LEGEND ribbon): never silver or gold, so a tier can't be
+ * mistaken for a finish. The FINISH sets the metal of the frame (Base keeps the tier colour; brushed Silver, polished
+ * Gold, rainbow Holo with a prismatic overlay that follows the pointer / device tilt). Every owned card names both:
+ * a finish chip in the meta column and the tier label above the point. Locked cards are dark silhouettes.
  */
 const CollectibleCard = ({
   player,
@@ -152,6 +154,7 @@ const CollectibleCard = ({
   const posName = POSITION_NAMES[player.position] ?? player.position;
   const mark = owned && marks?.length ? marks[marks.length - 1] : null;
   const FinishIcon = FINISH_ICON[finish];
+  const TierIcon = TIER_ICON[tier];
   const surname = surnameOf(player.name);
   // Every owned card tilts toward the pointer: mouse only in grids, mouse or pen at detail size. Never a finger: a
   // touch drag there is a scroll or a swipe-to-close, and phones tilt the large card with the device instead.
@@ -242,6 +245,12 @@ const CollectibleCard = ({
             </span>
           )}
           {owned && number != null && <span className="fut__num">#{number}</span>}
+          {owned && (
+            <span className={cn('fut__fchip', `fut__fchip--${finish}`)}>
+              <FinishIcon />
+              {finishLabel(finish)}
+            </span>
+          )}
         </span>
         <span className={cn('fut__name', surname.length > 9 && 'fut__name--long', surname.length > 12 && 'fut__name--xl')}>
           {owned ? surname : '? ? ?'}
@@ -256,8 +265,8 @@ const CollectibleCard = ({
         </span>
         {owned && (
           <span className="fut__pip">
-            <FinishIcon />
-            {finishLabel(finish)}
+            <TierIcon />
+            {tierLabel(tier)}
             {variant && <span className="fut__vtag">· {variantShort(variant)}</span>}
           </span>
         )}
