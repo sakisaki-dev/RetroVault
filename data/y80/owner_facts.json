@@ -88,6 +88,9 @@
   "Charlie John": {
    "retired_with": "Bills"
   },
+  "Chazz McCray": {
+   "team": "Buccaneers"
+  },
   "Dan Mosley": {
    "career": {
     "order": [
@@ -234,6 +237,9 @@
     "note": "\"The Ox\", for how strong he is: he breaks tackles and blocks well. Has recovered more fumbles than anyone the owner has ever played with."
    }
   },
+  "Kirk Lenoir": {
+   "team": "Jaguars"
+  },
   "Kyric McQuay": {
    "career": {
     "never": [
@@ -282,13 +288,13 @@
    "signature_team": "Seahawks"
   },
   "Malakai Sawyer": {
-   "team": "Jets",
-   "retired_with": "Falcons",
-   "tag": "Won CXXXI with the Titans (Y72), then CXXXVI with the Jets (Y77); traded to the Falcons for Y80",
+   "team": "Falcons",
+   "status": "Active",
+   "tag": "Won CXXXI with the Titans (Y72), then CXXXVI with the Jets (Y77); a Jet from Y76, a Falcon since Y79",
    "card": {
     "team": "Falcons",
     "former_team": "Titans",
-    "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans, then joined the Jets and won again in Y77 (CXXXVI); traded to the Falcons for Y80, where he retired"
+    "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans; with the Jets from Y76, winning again in Y77 (CXXXVI); went to the Falcons in Y79"
    },
    "career": {
     "order": [
@@ -301,19 +307,19 @@
       "Titans",
       72,
       72
-     ]
-    ],
-    "on": [
+     ],
      [
       "Jets",
-      77
+      76,
+      78
      ],
      [
       "Falcons",
-      80
+      79,
+      81
      ]
     ],
-    "says": "One Titans season (the Y72 title, Rookie of the Year), then the Jets (the Y77 title); traded to the Falcons for Y80."
+    "says": "One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons."
    }
   },
   "Mason Taylor": {
@@ -409,6 +415,9 @@
     "club": "Jets"
    }
   },
+  "Shareef London": {
+   "team": "Bears"
+  },
   "Sherman Brandson": {
    "team_history": [
     "Giants"
@@ -419,6 +428,9 @@
    },
    "signature_team": "Giants"
   },
+  "Siran Spector": {
+   "team": "Patriots"
+  },
   "Taron Hayes": {
    "career": {
     "never": [
@@ -427,6 +439,9 @@
     ],
     "says": "Taron Hayes never played for the Jets or the Titans."
    }
+  },
+  "Tristan Tart": {
+   "team": "Ravens"
   },
   "Tyrion Kline": {
    "signature_team": "Chargers"

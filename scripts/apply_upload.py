@@ -31,6 +31,9 @@ Lanes and ops (deterministic; nothing is inferred here):
          coach.set      target "<field>"             value: coach.json field (record, bests, age…)
          record.set     target "<record name>"       value {mark, holder, year}
          baseline       target "<data file>"         value {sha256}: marks the file state a history starts from
+         extras.set     target "<section>/<key>"     value: the new entry in data/y80/screenshot_extras.json, or null to
+                                                    delete it. <section> must be an existing section (season_lines,
+                                                    player_cards, family, ...); the key can't be empty
   looks  sprite.set     target "<name>"              value {skin, hair, facial, accessories, build?, height?, pose?, notes?}
          sprite.image   target "<name>"              value {file: <path in the bundle>, as: <file name>} copied to
                                                     public/data/sprites/ and set as the look's image
@@ -64,13 +67,14 @@ FILES = {
     "sprites": SRC / "sprites.json",
     "journal": SRC / "journal.json",
     "speeches": SRC / "speeches.json",
+    "extras": SRC / "screenshot_extras.json",
 }
 SPRITE_IMAGES = ROOT / "public" / "data" / "sprites"
 
 AI_STEPS = {"transcribe", "portrait→look", "tag notes", "speech", "art"}
 LANE_OPS = {
     "stats": {"player.set", "fact.set", "fact.add", "fact.remove", "superbowl.set", "coach.season", "coach.set",
-              "record.set", "baseline"},
+              "record.set", "baseline", "extras.set"},
     "looks": {"sprite.set", "sprite.image", "card.design"},
     "notes": {"journal.add"},
     "speech": {"speech.set"},
@@ -146,7 +150,21 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
                 errs.append(f"{where}: note text must appear verbatim in notes.md")
         if op == "speech.set":
             errs += [f"{where}: {e}" for e in speech_errors(m.get("value"))]
+        if op == "extras.set":
+            errs += [f"{where}: {e}" for e in extras_errors(str(m.get("target", "")))]
     return errs
+
+
+def extras_errors(target: str) -> list[str]:
+    """extras.set edits one entry of an existing screenshot_extras.json section; it never adds a section."""
+    section, _, key = target.partition("/")
+    path = FILES["extras"]
+    sections = json.loads(path.read_text()) if path.exists() else {}
+    if not key.strip():
+        return ['target must be "<section>/<key>"']
+    if not isinstance(sections.get(section), dict):
+        return [f"{section!r} is not a section of screenshot_extras.json ({', '.join(k for k, v in sections.items() if isinstance(v, dict))})"]
+    return []
 
 
 def speech_errors(value) -> list[str]:
@@ -298,6 +316,16 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
                 speeches[target] = rec
                 data["speeches"]["speeches"] = dict(sorted(speeches.items()))
                 changes.append(f"speech {target}")
+        elif op == "extras.set":
+            section, _, key = target.partition("/")
+            entries = data["extras"][section]
+            if value is None:
+                if key in entries:
+                    del entries[key]
+                    changes.append(f"screenshot_extras {section}/{key} removed")
+            elif entries.get(key) != value:
+                entries[key] = value
+                changes.append(f"screenshot_extras {section}/{key}")
         elif op == "journal.add":
             notes = data["journal"].setdefault("notes", [])
             if not any(n["id"] == target for n in notes):

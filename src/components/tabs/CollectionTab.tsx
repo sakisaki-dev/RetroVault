@@ -1,12 +1,13 @@
 import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { Hammer, Info, LayoutGrid, Lock } from 'lucide-react';
+import { GalleryHorizontal, Hammer, Info, LayoutGrid, Lock } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
 import { cn } from '@/lib/utils';
 import PlayerDetailCard from '@/components/PlayerDetailCard';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import CollectibleCard from '@/components/collection/CollectibleCard';
 import CardDetail, { type CardDetailTarget } from '@/components/collection/CardDetail';
+import CardBrowser from '@/components/collection/CardBrowser';
 import { designRows, samplePack } from '@/components/collection/designSamples';
 import { FINISH_ICON, FINISH_TEXT } from '@/components/collection/rarityIcons';
 import PackOpening, { PackArt } from '@/components/collection/PackOpening';
@@ -217,6 +218,9 @@ const CollectionTab = () => {
   const [designs, setDesigns] = useState(false);
   const [preview, setPreview] = useState(false);
   const [artLab, setArtLab] = useState(false);
+  // Swipe browser over the binder's filter; browseFocus follows CardDetail when it steps to another card on top of it
+  const [browsing, setBrowsing] = useState(false);
+  const [browseFocus, setBrowseFocus] = useState<string | null>(null);
   // Once opened, the lazy dialogs stay mounted so they close with their animation and reopen instantly
   const [designsSeen, setDesignsSeen] = useState(false);
   const [artLabSeen, setArtLabSeen] = useState(false);
@@ -326,6 +330,8 @@ const CollectionTab = () => {
     return list;
   }, [cards, tier, finish, pos, team, missing, sort, owned]);
   const shown = filtered.slice(0, limit);
+  // The swipe browser shows every owned card of the filter (not just the loaded page of the grid)
+  const browseList = useMemo(() => filtered.filter((c) => !!owned[c.key]), [filtered, owned]);
 
   const shelf = SHELF_ORDER.filter((t) => packCount(state, t) > 0);
   const previewCards = useMemo(() => samplePack(designRows(cards), cards), [cards]);
@@ -516,6 +522,20 @@ const CollectionTab = () => {
           <span className="text-xs text-muted-foreground" aria-live="polite">
             {loaded ? `${filtered.length} cards` : 'Loading…'}
           </span>
+          {loaded && cards.length > 0 && (
+            <button
+              type="button"
+              className="col-swipe-btn"
+              onClick={() => {
+                setBrowseFocus(null);
+                setBrowsing(true);
+              }}
+              aria-label={`Swipe through your cards (${browseList.length} in this filter)`}
+            >
+              <GalleryHorizontal className="h-4 w-4" aria-hidden="true" />
+              Swipe
+            </button>
+          )}
         </div>
         <div className="space-y-2">
           <div className="-mx-4 flex gap-1.5 overflow-x-auto px-4 pb-1 scrollbar-none sm:mx-0 sm:flex-wrap sm:px-0" role="group" aria-label="Tier and finish">
@@ -657,11 +677,25 @@ const CollectionTab = () => {
         display={detail ? state.display?.[detail.info.key] : undefined}
         total={cards.length}
         onClose={() => setDetail(null)}
-        onNavigate={(info) => setDetail((d) => (d ? { info, list: d.list } : d))}
+        onNavigate={(info) => {
+          setDetail((d) => (d ? { info, list: d.list } : d));
+          if (browsing) setBrowseFocus(info.key);
+        }}
         onPlayer={(info) => {
           setDetail(null);
           setPlayer(info.player);
         }}
+      />
+      <CardBrowser
+        open={browsing}
+        list={browseList}
+        owned={owned}
+        display={state.display}
+        total={cards.length}
+        covered={!!detail || !!player}
+        focusKey={browseFocus}
+        onClose={() => setBrowsing(false)}
+        onDetails={(info, variant, finish, from) => setDetail({ info, list: browseList, variant, finish, from })}
       />
       <PlayerDetailCard player={player} onClose={() => setPlayer(null)} />
     </div>

@@ -73,9 +73,7 @@
    "hof_flag": true,
    "long_run": 65,
    "former_team": "Titans",
-   "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans, then joined the Jets and won again in Y77 (CXXXVI); traded to the Falcons for Y80, where he retired",
-   "retired_team": "Falcons",
-   "hof_ingame": true
+   "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans; with the Jets from Y76, winning again in Y77 (CXXXVI); went to the Falcons in Y79"
   },
   "Lamar Jackson": {
    "pass_long": 84,
@@ -2458,12 +2456,12 @@
     {
      "team": "Seahawks",
      "from": 73,
-     "to": 76,
+     "to": 75,
      "rings": []
     },
     {
      "team": "Jets",
-     "from": 77,
+     "from": 76,
      "to": 78,
      "rings": [
       77
@@ -2477,7 +2475,7 @@
     }
    ],
    "confidence": "confirmed",
-   "evidence": "2 rings = Titans Y72; Jets Y77. Record board (your club's games only): Y75 longest rushing play (Seahawks); Y78 best rushing game (Jets). On the Y80 Falcons roster. Owner: “One Titans season (the Y72 title, Rookie of the Year), then the Jets (the Y77 title); traded to the Falcons for Y80.”"
+   "evidence": "2 rings = Titans Y72; Jets Y77. Record board (your club's games only): Y75 longest rushing play (Seahawks); Y78 best rushing game (Jets). On the Y80 Falcons roster. Owner: “One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons.”"
   },
   "Levante Hopkins": {
    "stints": [
@@ -3292,6 +3290,68 @@
    ],
    "confidence": "strong",
    "evidence": "No rings."
+  },
+  "Siran Spector": {
+   "stints": [
+    {
+     "team": "Patriots",
+     "from": 81,
+     "to": 81,
+     "rings": [
+      81
+     ]
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "1 ring = Patriots Y81. The only window that fits."
+  },
+  "Tristan Tart": {
+   "stints": [
+    {
+     "team": "Ravens",
+     "from": 76,
+     "to": 81,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "Kirk Lenoir": {
+   "stints": [
+    {
+     "team": "Jaguars",
+     "from": 63,
+     "to": 81,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "Shareef London": {
+   "stints": [
+    {
+     "team": "Bears",
+     "from": 78,
+     "to": 81,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "Chazz McCray": {
+   "stints": [
+    {
+     "team": "Buccaneers",
+     "from": 79,
+     "to": 81,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
   }
  },
  "signatureTeams": {
@@ -3312,6 +3372,7 @@
   "CeeDee Lamb": "Miami Dolphins",
   "Chance Woodrum": "New York Jets",
   "Charlie John": "Buffalo Bills",
+  "Chazz McCray": "Tampa Bay Buccaneers",
   "Cole Kittle": "Baltimore Ravens",
   "Connor Goff": "New York Giants",
   "Cooper Dean": "Washington Commanders",
@@ -3368,6 +3429,7 @@
   "Kane Van Oxley": "New York Jets",
   "Karl Deane": "New Orleans Saints",
   "Keesean Candy": "Los Angeles Chargers",
+  "Kirk Lenoir": "Jacksonville Jaguars",
   "Kitt Inman": "Tampa Bay Buccaneers",
   "Kolton Moreau": "Tampa Bay Buccaneers",
   "Kyric McQuay": "Indianapolis Colts",
@@ -3411,9 +3473,11 @@
   "Sauce Gardner": "Miami Dolphins",
   "Sean Irving": "Las Vegas Raiders",
   "Shaikal Beebee": "Baltimore Ravens",
+  "Shareef London": "Chicago Bears",
   "Shawn Skule": "Detroit Lions",
   "Shemar Wood": "Tampa Bay Buccaneers",
   "Sherman Brandson": "New York Giants",
+  "Siran Spector": "New England Patriots",
   "Solomon Toohill": "Green Bay Packers",
   "Sony Driskel": "San Francisco 49ers",
   "Taron Hayes": "Kansas City Chiefs",
@@ -3423,6 +3487,7 @@
   "Tramon Amerson": "Los Angeles Chargers",
   "Trequan Jensen": "Green Bay Packers",
   "Trequan Roberts": "New York Jets",
+  "Tristan Tart": "Baltimore Ravens",
   "Ty Lock": "New York Jets",
   "Tyler Pacheco": "Washington Commanders",
   "Tyrion Kline": "Los Angeles Chargers",

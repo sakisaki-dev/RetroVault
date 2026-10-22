@@ -855,6 +855,27 @@ def bundle_mutations(entries: list[dict]) -> list[dict]:
     return out
 
 
+def teams_before(bundle_id: str) -> dict[str, str]:
+    """Each player's club as the applied bundles left it just before `bundle_id` (player.set team, then
+    owner team facts in order). Players never given a club through a bundle are absent."""
+    log_path = SRC / "mutations_log.json"
+    applied = json.loads(log_path.read_text()).get("applied", []) if log_path.exists() else []
+    teams: dict[str, str] = {}
+    for e in applied:
+        if e["id"] == bundle_id:
+            break
+        path = ROOT / e.get("dir", f"data/uploads/{e['id']}") / "manifest.json"
+        if not path.exists():
+            continue
+        for m in json.loads(path.read_text()).get("mutations", []):
+            if m.get("op") == "player.set" and isinstance(m.get("value"), dict) and m["value"].get("team"):
+                teams[m["target"].split(":", 1)[-1]] = m["value"]["team"]
+            mt = re.match(r"players/(.+)/team$", str(m.get("target", "")))
+            if m.get("op") == "fact.set" and mt and isinstance(m.get("value"), str):
+                teams[mt.group(1)] = m["value"]
+    return teams
+
+
 def pair_headlines(prev: dict | None, cur: dict | None, bundles: list[dict]) -> list[dict]:
     """Headlines for one update: the snapshot pair's diff (prev -> cur) plus the bundles' own facts."""
     out: list[dict] = []
@@ -890,10 +911,16 @@ def pair_headlines(prev: dict | None, cur: dict | None, bundles: list[dict]) -> 
             add("record", f"Record broken: {r['record'].lower()}, {r['mark']} ({join([short(n) for n in names]) or r['holder']}, {r['year']})",
                 85, players=names)
 
-    # Trades: owner-stated team facts
+    # Trades: owner-stated team facts that move a player off a known club. A first placement (a new player
+    # or one listed as UNK/CUR), a fact restating the same club, or a correction whose reason doesn't say
+    # "trade" is not a trade.
+    before = teams_before(bundles[0]["id"]) if bundles else {}
     for m in muts:
         mt = re.match(r"players/(.+)/team$", m["target"])
         if m["op"] == "fact.set" and mt and isinstance(m["value"], str) and m["value"] not in ("UNK", "CUR"):
+            was = before.get(mt.group(1))
+            if was in ("UNK", "CUR") or was == m["value"] or not re.search(r"\btrad", m.get("reason", ""), re.I):
+                continue  # first placement, same club, or a correction the owner didn't describe as a trade
             add("trade", f"Traded: {short(mt.group(1))} to the {m['value']}", 80, players=[mt.group(1)], teams=[m["value"]])
 
     if prev and cur:

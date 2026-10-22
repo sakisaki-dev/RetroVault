@@ -145,6 +145,9 @@ const tileOf = (key: string): HTMLElement | null => {
   } catch {
     return null;
   }
+  // The swipe browser's current card (opened from there) wins over a binder tile hidden under it
+  const target = document.querySelector<HTMLElement>(`[data-fly-target] ${sel}`);
+  if (target?.getBoundingClientRect().width) return target;
   for (const el of document.querySelectorAll<HTMLElement>(sel)) {
     if (el.closest('.cd, [role="dialog"]')) continue;
     const r = el.getBoundingClientRect();

@@ -1,13 +1,6 @@
 {
  "note": "Screenshot details that don't fit the career table: current/final season lines, real-NFL splits shown on imported players' cards, and per-card extras.",
  "season_lines": {
-  "Malakai Sawyer (Y80, in progress)": {
-   "games": 14,
-   "rush_att": 135,
-   "rush_yds": 740,
-   "rush_td": 13,
-   "fumbles": 14
-  },
   "Sherman Brandson (final season, retired injured)": {
    "games": 6,
    "pass_yds": 2237,

@@ -3638,3 +3638,302 @@ button.fut__card:focus-visible {
     width: 100%;
   }
 }
+
+/* ---------- Swipe browser (CardBrowser): full-screen card carousel over the binder filter ---------- */
+.cbw {
+  /* Card width: fits the phone's width with the neighbours peeking, and the height left over by the bars */
+  --cbw-w: min(340px, 74vw, calc((var(--safe-h, 100vh) - 330px) * 0.704));
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  color: hsl(var(--foreground));
+  overflow: hidden;
+  overscroll-behavior: contain;
+  /* Every gesture here is ours: the page underneath never scrolls */
+  touch-action: none;
+  outline: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.cbw--closing {
+  pointer-events: none;
+}
+/* The backdrop: opaque; it fades (opacity only) while a swipe down pulls the browser away */
+.cbw__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 42%, hsl(228 40% 14%), transparent 75%),
+    hsl(228 50% 4%);
+  pointer-events: none;
+}
+.cbw {
+  isolation: isolate;
+}
+.cbw__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 8px 0 16px;
+  min-height: 56px;
+}
+.cbw__progress {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+}
+.cbw__count {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.cbw__bar {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  max-width: 220px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: hsl(0 0% 100% / 0.12);
+}
+.cbw__bar i {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: hsl(var(--gold));
+  transform-origin: 0 50%;
+  transition: transform 0.25s ease-out;
+}
+.cbw__x {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid hsl(0 0% 100% / 0.16);
+  background: hsl(0 0% 0% / 0.35);
+  color: #fff;
+}
+.cbw__x:focus-visible,
+.cbw__btn:focus-visible,
+.cbw__dot:focus-visible {
+  outline: 3px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+/* The stage: cards sit in the middle, one above another; CardBrowser moves each slot with transform only */
+.cbw__stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  perspective: 1200px;
+  perspective-origin: 50% 45%;
+  touch-action: none;
+  cursor: grab;
+}
+.cbw__stage[data-moving] {
+  cursor: grabbing;
+}
+.cbw__slot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--cbw-w);
+  margin-left: calc(var(--cbw-w) / -2);
+  margin-top: calc(var(--cbw-w) * -0.71);
+  perspective: 1400px;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+.cbw__slot:not(.is-active) {
+  cursor: pointer;
+}
+.cbw__slot .cd__flipper {
+  width: 100%;
+}
+/* The card back scrolls up and down inside the card; sideways is still a swipe */
+.cbw .cb {
+  touch-action: pan-y;
+}
+/* Neighbours are pictures: no hover tilt, no light */
+.cbw__slot:not(.is-active) .fut {
+  pointer-events: none;
+}
+/* Device tilt (or a mouse over the large card) brings in the finish light that hovering does in the binder */
+.cbw__slot.is-active .fut:is(.fut--f-silver, .fut--f-gold, .fut--f-holo)[data-tilt='on'] .fut__light {
+  opacity: 1;
+}
+/* While a card is being dragged or thrown, the painted loops hold still (transform-only frames) */
+.cbw__stage[data-moving] .fut *,
+.cbw__stage[data-moving] .fut *::before,
+.cbw__stage[data-moving] .fut *::after {
+  animation-play-state: paused !important;
+}
+.cbw__info {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 4px 16px 12px;
+  text-align: center;
+}
+.cbw__dots {
+  display: flex;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  touch-action: pan-x;
+}
+.cbw__dots::-webkit-scrollbar {
+  display: none;
+}
+.cbw__dots-gap {
+  margin-left: 6px;
+}
+.cbw__dot {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 44px;
+  min-width: 36px;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.cbw__dot i {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-style: normal;
+  font-size: 9px;
+  font-weight: 800;
+  color: hsl(0 0% 0% / 0.7);
+  box-shadow: 0 0 0 1px hsl(0 0% 100% / 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cbw__dot--base i { background: linear-gradient(135deg, #5b6170, #2d313b); color: hsl(0 0% 100% / 0.85); }
+.cbw__dot--silver i { background: linear-gradient(135deg, #ffffff, #9aa3ae 55%, #e4e9ee); }
+.cbw__dot--gold i { background: linear-gradient(135deg, #fff3b8, #e8b93f 50%, #a87818); }
+.cbw__dot--holo i { background: linear-gradient(100deg, #ff9ce3, #ffe08a 30%, #8affc4 55%, #8ad8ff 80%, #c79cff); }
+.cbw__dot.is-on i {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 2px hsl(var(--night, 228 50% 4%)), 0 0 0 4px hsl(var(--gold));
+}
+.cbw__name {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-style: italic;
+  line-height: 1;
+  text-transform: uppercase;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cbw__team {
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+}
+.cbw__chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.cbw__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(228 47% 6% / 0.6);
+  font-size: 12px;
+  font-weight: 600;
+}
+.cbw__chip.col-gem i {
+  width: 12px;
+  height: 12px;
+}
+.cbw__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+.cbw__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--gold) / 0.7);
+  background: hsl(var(--gold) / 0.16);
+  color: hsl(var(--gold));
+  font-size: 14px;
+  font-weight: 700;
+}
+.cbw__btn--ghost {
+  border-color: hsl(0 0% 100% / 0.18);
+  background: hsl(0 0% 0% / 0.3);
+  color: hsl(var(--foreground));
+}
+.cbw__empty {
+  display: grid;
+  flex: 1;
+  align-content: center;
+  justify-items: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+}
+/* Short screens (a phone on its side): smaller name, no gaps */
+@media (max-height: 560px) {
+  .cbw { --cbw-w: min(240px, 60vw, calc((var(--safe-h, 100vh) - 210px) * 0.704)); }
+  .cbw__name { font-size: 1.25rem; }
+  .cbw__team { display: none; }
+}
+/* Performance mode: no shadows under moving cards; reduced motion: CardBrowser places the cards flat and fades */
+[data-perf='lite'] .cbw__slot {
+  backface-visibility: visible;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cbw__bar i,
+  .cbw__dot i {
+    transition: none;
+  }
+}
+
+/* Binder header: the Swipe button */
+.col-swipe-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  margin-left: auto;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--gold) / 0.6);
+  background: hsl(var(--gold) / 0.12);
+  color: hsl(var(--gold));
+  font-size: 13px;
+  font-weight: 700;
+}
+.col-swipe-btn:hover {
+  background: hsl(var(--gold) / 0.2);
+}
+@media (pointer: coarse) {
+  .col-swipe-btn {
+    min-height: 44px;
+  }
+}

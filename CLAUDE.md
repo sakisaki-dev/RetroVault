@@ -72,7 +72,8 @@ New players: add them with `team` from the owner. If the owner hasn't said, use 
 Other screens: Super Bowl list → `superbowl.set` (gold rows are the owner's wins); staff screen → `coach.season` /
 `coach.set`; record board → `record.set`; team screens → `fact.set active_rosters/<Team>`; game Player HOF screen →
 `fact.set players/<name>/retired_with`. The site's Hall of Fame is its own (Career Legacy ≥ 7000); the game's HOF
-list must not add or remove anyone.
+list must not add or remove anyone. Stale lines in `screenshot_extras.json` (e.g. "Y80, in progress") →
+`extras.set <section>/<key>` (value `null` deletes it).
 
 ### 2. Looks (AI step `portrait→look`; trigger: the upload has portraits)
 

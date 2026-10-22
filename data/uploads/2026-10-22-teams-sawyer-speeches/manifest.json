@@ -1,0 +1,216 @@
+{
+ "id": "2026-10-22-teams-sawyer-speeches",
+ "created": "2026-10-22",
+ "title": "Owner teams for five new cards; Malakai Sawyer never retired (Jets Y76-78, Falcons Y79-); speeches refreshed through Y81",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "Refresh the Hall of Fame speeches against the data through Y81 (stale numbers, team mentions, career changes)",
+   "trigger": "Owner: \"update all speeches as well\"; audit warned two speeches have stale game counts"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kirk Lenoir/team",
+   "value": "Jaguars",
+   "source": "owner",
+   "reason": "Owner: \"lenoir - jags\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Tristan Tart/team",
+   "value": "Ravens",
+   "source": "owner",
+   "reason": "Owner: \"tristan tart - ravens\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Shareef London/team",
+   "value": "Bears",
+   "source": "owner",
+   "reason": "Owner: \"shareef london - bears\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Chazz McCray/team",
+   "value": "Buccaneers",
+   "source": "owner",
+   "reason": "Owner: \"mcray is the bucs\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Siran Spector/team",
+   "value": "Patriots",
+   "source": "owner",
+   "reason": "Owner: \"u were also right about siran he is a patriot\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: \"sawyer never retired been playing since y76 for the jets then in y79 went to the falcons\" (current club)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.remove",
+   "target": "players/Malakai Sawyer/retired_with",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"sawyer never retired been playing since y76 for the jets then in y79 went to the falcons\" (he never retired: drop the game-HOF retired_with)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/status",
+   "value": "Active",
+   "source": "owner",
+   "reason": "Owner: \"sawyer never retired been playing since y76 for the jets then in y79 went to the falcons\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/tag",
+   "value": "Won CXXXI with the Titans (Y72), then CXXXVI with the Jets (Y77); a Jet from Y76, a Falcon since Y79",
+   "source": "owner",
+   "reason": "Owner: \"sawyer never retired been playing since y76 for the jets then in y79 went to the falcons\" (replaces \"traded to the Falcons for Y80\")",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/card",
+   "value": {
+    "team": "Falcons",
+    "former_team": "Titans",
+    "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans; with the Jets from Y76, winning again in Y77 (CXXXVI); went to the Falcons in Y79"
+   },
+   "source": "owner",
+   "reason": "Owner: \"sawyer never retired been playing since y76 for the jets then in y79 went to the falcons\" (replaces \"traded to the Falcons for Y80, where he retired\")",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/career",
+   "value": {
+    "order": [
+     "Titans",
+     "Jets",
+     "Falcons"
+    ],
+    "stints": [
+     [
+      "Titans",
+      72,
+      72
+     ],
+     [
+      "Jets",
+      76,
+      78
+     ],
+     [
+      "Falcons",
+      79,
+      81
+     ]
+    ],
+    "says": "One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons."
+   },
+   "source": "owner",
+   "reason": "Owner: \"sawyer never retired been playing since y76 for the jets then in y79 went to the falcons\" (Jets Y76-78, Falcons Y79 to now; the Titans Y72 season is from the earlier owner statement)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "extras.set",
+   "target": "season_lines/Malakai Sawyer (Y80, in progress)",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"sawyer never retired been playing since y76 for the jets then in y79 went to the falcons\" (the mid-season Y80 line is stale; single-season stats are not tracked)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Jakeem Friend",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y80",
+    "text": "Linemen do not win trophies. Jakeem Friend won six rings instead.\n\nFor most of his career he was a Seattle Seahawk, a fixture up front through the Modern era. He has played 232 games and been credited with 482 blocks, two a game, every game, without a single MVP or Player of the Year award to show for it. That is how the job works. The reward is a quarterback who gets up clean and a running back who finds the hole where it was supposed to be.\n\nThe last three seasons have come in New York, with the Jets from Y79 to Y81. The jersey changed. The job did not, and Seattle still has first claim on him.\n\nSix rings, 482 blocks, and almost no headlines. Jakeem Friend, Seahawks legend, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Owner: \"update all speeches as well\"; Y81 career numbers (232 games, 482 blocks) and his third Jets season (Y79-81)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Jason Macleone",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y80",
+    "text": "One look at Scary Jerry and you understood the name.\n\nJason Macleone was imposing before he ever threw a pass, and then he threw 9,462 of them. He completed 67 percent for 70,010 yards and 733 touchdowns, with just 126 interceptions across 313 games. He took 85 sacks and never lost a fumble. When he did tuck it and run, he made it count: 67 rushing touchdowns.\n\nHis defining day came in Y78, when he quarterbacked the Vikings past the Broncos 33-27 in Super Bowl CXXXVII. Two rings, three MVPs and a Super Bowl MVP in all, and he is still slinging it in Seattle, where every new start adds to the case.\n\nThe league's line of great quarterbacks runs from Lamar through Gooden, Waller, Baylon, Brandson and the Wilson brothers. For now, it ends with him. Scary Jerry, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Owner: \"update all speeches as well\"; Y81 career numbers (9,462 attempts, 70,010 yards, 733 TDs, 126 INTs, 313 games, 85 sacks, 67 rushing TDs)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Cooper Dean",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Inaugural class (class of the first market snapshot)",
+    "text": "The best offensive lineman in the league never needed a highlight. He just needed a man in front of him.\n\nCooper Dean anchored the Commanders' line for 292 games and recorded 345 blocks, nearly three hundred games of the least glamorous work in football. Every clean pocket and every open running lane started with somebody like him, and for most of his career there was nobody quite like him. Quarterbacks stayed upright. Running backs found daylight. The man responsible rarely heard his name over the stadium speakers.\n\nHe was called the best lineman in the league, and nobody put up much of an argument. His one ring came in Y19, the last title of the Commanders' four-peat under the coach who built this league's dynasties. After the coach moved on, Dean spent the rest of his career trying to hold those dynasties back. That ring was the reward for doing the job right on every snap.\n\nLinemen do not usually get the last word. Cooper Dean, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Owner: \"update all speeches as well\"; he did play for the coach: his one ring is the Commanders' Y19 title (stints Commanders Y19-36; coach.json Commanders Y16-19)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "God Johnson",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Inaugural class (class of the first market snapshot)",
+    "text": "He changed his name to God. Then he earned it.\n\nMason Earl III walked into the league as a receiver. God Johnson walked out as the standard every receiver gets measured against. Some people thought the name was a joke. Defensive coordinators never laughed.\n\n36,005 receiving yards. 378 receiving touchdowns. Ten rings, from Miami to the Vikings dynasty, and five Super Bowl MVPs, because when the lights were brightest the ball found him. And three fumbles. In his entire career. Ian Finney's career receiving mark stood for decades until God took it, with Jackson Wardell Kline lined up beside him.\n\nThere is not much left to say about a man who named himself after the only being with a better résumé. God Johnson, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Owner: \"update all speeches as well\"; two of his ten rings came with the Dolphins (stints Dolphins Y58-60, Vikings Y61-69)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Dan Mosley",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y79",
+    "text": "2,658 tackles from a defensive back. Read that again.\n\nDan Mosley played in the secondary like a linebacker who had wandered back to cover. Over 248 games he averaged more than ten tackles a game, a number most run stoppers never touch. And he still found the ball in the air, with 37 career interceptions. A hitter and a ballhawk in the same Lions jersey.\n\nHe did it in the Modern era, a decade of three-peats and title runs. Detroit was never the team lifting the trophy, and Mosley arrives without a ring. What he does have is a Defensive Player of the Year award, the most heavily weighted honor in this league's Dominance formula, worth twice as much as a ring.\n\nNobody had to tell ball carriers where Dan Mosley was. They found out. Dan Mosley, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Owner: \"update all speeches as well\"; he is still playing (no retirement claim; stints Lions Y68-81)",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}

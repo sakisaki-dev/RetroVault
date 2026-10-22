@@ -227,6 +227,16 @@
     "notes": 2
    },
    "changed": 265
+  },
+  {
+   "id": "2026-10-22-teams-sawyer-speeches",
+   "dir": "data/uploads/2026-10-22-teams-sawyer-speeches",
+   "applied_at": "2026-10-22T00:13:17-07:00",
+   "mutations": {
+    "stats": 12,
+    "speech": 5
+   },
+   "changed": 17
   }
  ]
 }
