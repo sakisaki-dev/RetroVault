@@ -26,3 +26,11 @@ dist-ssr
 # Python bytecode
 __pycache__/
 *.pyc
+
+# Upload screenshots stay local (owner): never commit them
+data/uploads/*/images/
+data/uploads/**/*.png
+data/uploads/**/*.PNG
+data/uploads/**/*.jpg
+data/uploads/**/*.jpeg
+data/uploads/**/*.heic

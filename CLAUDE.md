@@ -48,7 +48,8 @@ is one bundle, `data/uploads/<YYYY-MM-DD>-<slug>/`:
 
 - `manifest.json`: the structured mutations (format below)
 - `notes.md`: the owner's free text, copied verbatim (only if they wrote some)
-- `images/`: the screenshots (or list their paths in the manifest)
+- `images/`: the screenshots (or list their paths in the manifest). **Local only:** `.gitignore` keeps every
+  bundle image out of git (owner rule: screenshots never go to GitHub); the manifest still names them.
 
 ### 1. Transcribe (AI step `transcribe`; trigger: new images)
 
