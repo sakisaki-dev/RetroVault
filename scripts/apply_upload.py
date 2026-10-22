@@ -245,7 +245,7 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
                 sbs.append(row)
                 sbs.sort(key=lambda s: int(s["year"].lstrip("Y")))
             for k, v in value.items():
-                if row.get(k) != v:
+                if k not in row or row[k] != v:  # a new key set to null (your_team) still lands
                     row[k] = v
                     changes.append(f"Super Bowl {target}.{k} = {v!r}")
         elif op == "coach.season":
@@ -256,7 +256,7 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
                 seasons.append(row)
                 seasons.sort(key=lambda s: s["year"])
             for k, v in value.items():
-                if row.get(k) != v:
+                if k not in row or row[k] != v:
                     row[k] = v
                     changes.append(f"coach Y{target}.{k} = {v!r}")
         elif op == "coach.set":
@@ -270,7 +270,7 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
                 row = {"record": target}
                 recs.append(row)
             for k, v in value.items():
-                if row.get(k) != v:
+                if k not in row or row[k] != v:
                     row[k] = v
                     changes.append(f"record {target}.{k} = {v!r}")
         elif op == "sprite.set":

@@ -1,19 +1,19 @@
 {
- "source": "Retro Bowl staff screen (screen recording, Y80 complete)",
+ "source": "Retro Bowl staff screen (IMG_6290, Y81 complete)",
  "name": "Dorren Skura",
- "age": 116,
+ "age": 117,
  "stars": 5,
  "morale": "Good",
- "gamesPlayed": 1591,
+ "gamesPlayed": 1609,
  "simGames": 15,
  "record": {
-  "fullSeasons": 80,
-  "regular": "1156-200-4",
+  "fullSeasons": 81,
+  "regular": "1170-202-5",
   "regularWinPct": 0.851,
-  "playoff": "209-22",
-  "playoffWinPct": 0.905,
-  "playoffsReached": "78/80",
-  "seasonsNoSimGames": 70,
+  "playoff": "209-23",
+  "playoffWinPct": 0.901,
+  "playoffsReached": "79/81",
+  "seasonsNoSimGames": 71,
   "simGameRecord": "0-15-0"
  },
  "bests": {
@@ -764,6 +764,15 @@
    "l": 2,
    "t": 0,
    "finish": "Champions"
+  },
+  {
+   "year": 81,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 14,
+   "l": 2,
+   "t": 1,
+   "finish": "AFC EAS 1st"
   }
  ]
 }

@@ -1,0 +1,1331 @@
+{
+ "id": "2026-10-21-y82",
+ "created": "2026-10-21",
+ "title": "Y81 season (cards, Super Bowl CXL, staff screen) and the owner's Y82 offseason moves",
+ "images": [
+  {
+   "file": "images/IMG_6234.PNG",
+   "shows": "QB Ty Lock career card (passing)"
+  },
+  {
+   "file": "images/IMG_6235.PNG",
+   "shows": "QB Ty Lock career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6236.PNG",
+   "shows": "RB Ryland Maxwell career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6237.PNG",
+   "shows": "RB Ryland Maxwell career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6238.PNG",
+   "shows": "TE Jaylen Conklin career card"
+  },
+  {
+   "file": "images/IMG_6239.PNG",
+   "shows": "WR Kane Van Oxley career card"
+  },
+  {
+   "file": "images/IMG_6240.PNG",
+   "shows": "WR Alvin Tufele career card"
+  },
+  {
+   "file": "images/IMG_6241.PNG",
+   "shows": "OL Jakeem Friend career card"
+  },
+  {
+   "file": "images/IMG_6242.PNG",
+   "shows": "LB Kalif Suh career card"
+  },
+  {
+   "file": "images/IMG_6243.PNG",
+   "shows": "DB Chance Woodrum career card"
+  },
+  {
+   "file": "images/IMG_6244.PNG",
+   "shows": "DB Trequan Roberts career card"
+  },
+  {
+   "file": "images/IMG_6245.PNG",
+   "shows": "DB Dylan Hyatt career card"
+  },
+  {
+   "file": "images/IMG_6246.PNG",
+   "shows": "QB Jason Macleone career card (passing)"
+  },
+  {
+   "file": "images/IMG_6247.PNG",
+   "shows": "QB Jason Macleone career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6248.PNG",
+   "shows": "RB Isaiah Karras career card"
+  },
+  {
+   "file": "images/IMG_6249.PNG",
+   "shows": "WR Obinna Leary career card"
+  },
+  {
+   "file": "images/IMG_6250.PNG",
+   "shows": "OL Dorance Hinton career card"
+  },
+  {
+   "file": "images/IMG_6251.PNG",
+   "shows": "LB Romeo Rodgers career card"
+  },
+  {
+   "file": "images/IMG_6252.PNG",
+   "shows": "DB Deonte Sutton career card"
+  },
+  {
+   "file": "images/IMG_6253.PNG",
+   "shows": "DB Blair Iupati career card"
+  },
+  {
+   "file": "images/IMG_6254.PNG",
+   "shows": "RB Siran Spector career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6255.PNG",
+   "shows": "RB Siran Spector career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6256.PNG",
+   "shows": "QB Dan Stout career card (passing)"
+  },
+  {
+   "file": "images/IMG_6257.PNG",
+   "shows": "QB Dan Stout career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6258.PNG",
+   "shows": "RB Corey Ivey career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6259.PNG",
+   "shows": "RB Corey Ivey career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6260.PNG",
+   "shows": "WR Tristan Tart career card"
+  },
+  {
+   "file": "images/IMG_6261.PNG",
+   "shows": "QB Kirk Lenoir career card (passing)"
+  },
+  {
+   "file": "images/IMG_6262.PNG",
+   "shows": "QB Kirk Lenoir career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6263.PNG",
+   "shows": "RB Tyron Colvin career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6264.PNG",
+   "shows": "RB Tyron Colvin career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6265.PNG",
+   "shows": "QB Rysen Nauta career card (passing)"
+  },
+  {
+   "file": "images/IMG_6266.PNG",
+   "shows": "QB Rysen Nauta career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6267.PNG",
+   "shows": "WR Juawan Lance career card"
+  },
+  {
+   "file": "images/IMG_6268.PNG",
+   "shows": "WR Jarred Beasley career card"
+  },
+  {
+   "file": "images/IMG_6269.PNG",
+   "shows": "DL Darrel Longa career card"
+  },
+  {
+   "file": "images/IMG_6270.PNG",
+   "shows": "TE Le'Veon Richard career card"
+  },
+  {
+   "file": "images/IMG_6271.PNG",
+   "shows": "QB Drake Wise career card (passing)"
+  },
+  {
+   "file": "images/IMG_6272.PNG",
+   "shows": "QB Drake Wise career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6273.PNG",
+   "shows": "QB Hamsfa Boltt career card (passing)"
+  },
+  {
+   "file": "images/IMG_6274.PNG",
+   "shows": "QB Hamsfa Boltt career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6275.PNG",
+   "shows": "RB Tim Wright career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6276.PNG",
+   "shows": "RB Tim Wright career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6277.PNG",
+   "shows": "DB Von Horsted career card"
+  },
+  {
+   "file": "images/IMG_6278.PNG",
+   "shows": "WR Shareef London career card"
+  },
+  {
+   "file": "images/IMG_6279.PNG",
+   "shows": "OL Shawn Skule career card"
+  },
+  {
+   "file": "images/IMG_6280.PNG",
+   "shows": "RB Trequan Jensen career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6281.PNG",
+   "shows": "RB Trequan Jensen career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6282.PNG",
+   "shows": "QB Pyke T. Lowe career card (passing)"
+  },
+  {
+   "file": "images/IMG_6283.PNG",
+   "shows": "QB Pyke T. Lowe career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6284.PNG",
+   "shows": "WR Craig Whitney career card"
+  },
+  {
+   "file": "images/IMG_6285.PNG",
+   "shows": "RB Malakai Sawyer career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6286.PNG",
+   "shows": "RB Malakai Sawyer career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6287.PNG",
+   "shows": "DB Chazz McCray career card"
+  },
+  {
+   "file": "images/IMG_6288.PNG",
+   "shows": "WR Tyson Nassib career card"
+  },
+  {
+   "file": "images/IMG_6289.PNG",
+   "shows": "Hall of Fame: Super Bowl winners list (CXL Patriots 48-45 GB, Y81)"
+  },
+  {
+   "file": "images/IMG_6290.PNG",
+   "shows": "Staff screen after Y81 (81 full seasons; Y81 NYJ 14-2-1, AFC EAS 1st)"
+  }
+ ],
+ "ai_steps": [
+  {
+   "step": "transcribe",
+   "reason": "57 screenshots need reading (career cards, Super Bowl list, staff screen)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "step": "tag notes",
+   "reason": "Link the owner's notes to players and teams",
+   "trigger": "notes.md present"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Ty Lock",
+   "value": {
+    "g": 73,
+    "att": 1670,
+    "cmp": 1257,
+    "yds": 17280,
+    "td": 178,
+    "int": 74,
+    "sck": 26,
+    "ratt": 127,
+    "ryds": 514,
+    "rtd": 17,
+    "rings": 1,
+    "mvp": 2
+   },
+   "source": "image:images/IMG_6234.PNG",
+   "reason": "Career panel and award row (merged with IMG_6235.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Ryland Maxwell",
+   "value": {
+    "g": 36,
+    "ratt": 376,
+    "ryds": 2084,
+    "rtd": 33,
+    "fum": 8,
+    "rec": 35,
+    "recyds": 262,
+    "rectd": 9,
+    "rings": 1,
+    "roty": 1
+   },
+   "source": "image:images/IMG_6236.PNG",
+   "reason": "Career panel and award row (merged with IMG_6237.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Jaylen Conklin",
+   "value": {
+    "g": 73,
+    "rec": 251,
+    "yds": 3750,
+    "td": 58,
+    "fum": 2,
+    "lng": 52,
+    "rings": 1,
+    "opoy": 1
+   },
+   "source": "image:images/IMG_6238.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Kane Van Oxley",
+   "value": {
+    "g": 106,
+    "rec": 705,
+    "yds": 12425,
+    "td": 108,
+    "fum": 5,
+    "lng": 61,
+    "rings": 2,
+    "opoy": 3,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6239.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Alvin Tufele",
+   "value": {
+    "g": 230,
+    "rec": 1158,
+    "yds": 18352,
+    "td": 188,
+    "fum": 26,
+    "lng": 66,
+    "rings": 3,
+    "opoy": 2,
+    "roty": 1
+   },
+   "source": "image:images/IMG_6240.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Jakeem Friend",
+   "value": {
+    "g": 232,
+    "blk": 482,
+    "rings": 6
+   },
+   "source": "image:images/IMG_6241.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Kalif Suh",
+   "value": {
+    "g": 113,
+    "tkl": 337,
+    "int": 14,
+    "sck": 14,
+    "ff": 6,
+    "rings": 2
+   },
+   "source": "image:images/IMG_6242.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Chance Woodrum",
+   "value": {
+    "g": 112,
+    "tkl": 793,
+    "int": 8,
+    "sck": 0,
+    "ff": 0,
+    "rings": 2,
+    "roty": 1,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6243.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Trequan Roberts",
+   "value": {
+    "g": 38,
+    "tkl": 246,
+    "int": 2,
+    "sck": 0,
+    "ff": 0,
+    "rings": 1,
+    "roty": 1
+   },
+   "source": "image:images/IMG_6244.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Dylan Hyatt",
+   "value": {
+    "g": 231,
+    "tkl": 1713,
+    "int": 16,
+    "sck": 0,
+    "ff": 2,
+    "rings": 6
+   },
+   "source": "image:images/IMG_6245.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Jason Macleone",
+   "value": {
+    "g": 313,
+    "att": 9462,
+    "cmp": 6342,
+    "yds": 70010,
+    "td": 733,
+    "int": 126,
+    "sck": 85,
+    "ratt": 192,
+    "ryds": 1145,
+    "rtd": 67,
+    "rings": 2,
+    "mvp": 3,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6246.PNG",
+   "reason": "Career panel and award row (merged with IMG_6247.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Isaiah Karras",
+   "value": {
+    "g": 92,
+    "ratt": 816,
+    "ryds": 6471,
+    "rtd": 101,
+    "fum": 75,
+    "rings": 0
+   },
+   "source": "image:images/IMG_6248.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Obinna Leary",
+   "value": {
+    "g": 54,
+    "rec": 266,
+    "yds": 3817,
+    "td": 31,
+    "fum": 3,
+    "lng": 54,
+    "rings": 1,
+    "roty": 1
+   },
+   "source": "image:images/IMG_6249.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Dorance Hinton",
+   "value": {
+    "g": 131,
+    "blk": 202,
+    "rings": 0
+   },
+   "source": "image:images/IMG_6250.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Romeo Rodgers",
+   "value": {
+    "g": 152,
+    "tkl": 535,
+    "int": 4,
+    "sck": 8,
+    "ff": 3,
+    "rings": 0
+   },
+   "source": "image:images/IMG_6251.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Deonte Sutton",
+   "value": {
+    "g": 152,
+    "tkl": 889,
+    "int": 6,
+    "sck": 0,
+    "ff": 1,
+    "rings": 0
+   },
+   "source": "image:images/IMG_6252.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Blair Iupati",
+   "value": {
+    "g": 112,
+    "tkl": 635,
+    "int": 8,
+    "sck": 0,
+    "ff": 0,
+    "rings": 1
+   },
+   "source": "image:images/IMG_6253.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Siran Spector",
+   "value": {
+    "team": "UNK",
+    "g": 21,
+    "ratt": 184,
+    "ryds": 1649,
+    "rtd": 35,
+    "fum": 10,
+    "rec": 0,
+    "recyds": 0,
+    "rectd": 0,
+    "rings": 1
+   },
+   "source": "image:images/IMG_6254.PNG",
+   "reason": "New player: Career panel and award row (merged with IMG_6255.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Dan Stout",
+   "value": {
+    "g": 247,
+    "att": 8102,
+    "cmp": 5054,
+    "yds": 45741,
+    "td": 446,
+    "int": 47,
+    "sck": 47,
+    "ratt": 184,
+    "ryds": 1120,
+    "rtd": 70,
+    "rings": 0
+   },
+   "source": "image:images/IMG_6256.PNG",
+   "reason": "Career panel and award row (merged with IMG_6257.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Corey Ivey",
+   "value": {
+    "g": 213,
+    "ratt": 1937,
+    "ryds": 15396,
+    "rtd": 264,
+    "fum": 158,
+    "rec": 12,
+    "recyds": 192,
+    "rectd": 0,
+    "rings": 0
+   },
+   "source": "image:images/IMG_6258.PNG",
+   "reason": "Career panel and award row (merged with IMG_6259.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Tristan Tart",
+   "value": {
+    "team": "UNK",
+    "g": 106,
+    "rec": 356,
+    "yds": 3350,
+    "td": 49,
+    "fum": 19,
+    "lng": 61,
+    "rings": 0
+   },
+   "source": "image:images/IMG_6260.PNG",
+   "reason": "New player: Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Kirk Lenoir",
+   "value": {
+    "team": "UNK",
+    "g": 316,
+    "att": 10411,
+    "cmp": 6017,
+    "yds": 48592,
+    "td": 485,
+    "int": 56,
+    "sck": 44,
+    "ratt": 249,
+    "ryds": 1490,
+    "rtd": 84,
+    "rings": 0
+   },
+   "source": "image:images/IMG_6261.PNG",
+   "reason": "New player: Career panel and award row (merged with IMG_6262.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Tyron Colvin",
+   "value": {
+    "g": 146,
+    "ratt": 1405,
+    "ryds": 11817,
+    "rtd": 219,
+    "fum": 96,
+    "rec": 11,
+    "recyds": 71,
+    "rectd": 1,
+    "rings": 1
+   },
+   "source": "image:images/IMG_6263.PNG",
+   "reason": "Career panel and award row (merged with IMG_6264.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Rysen Nauta",
+   "value": {
+    "g": 34,
+    "att": 1200,
+    "cmp": 742,
+    "yds": 6179,
+    "td": 52,
+    "int": 5,
+    "sck": 3,
+    "ratt": 31,
+    "ryds": 195,
+    "rtd": 12,
+    "rings": 0
+   },
+   "source": "image:images/IMG_6265.PNG",
+   "reason": "Career panel and award row (merged with IMG_6266.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Juawan Lance",
+   "value": {
+    "g": 244,
+    "rec": 1121,
+    "yds": 15026,
+    "td": 136,
+    "fum": 28,
+    "lng": 72,
+    "rings": 4,
+    "opoy": 1,
+    "roty": 1
+   },
+   "source": "image:images/IMG_6267.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Jarred Beasley",
+   "value": {
+    "g": 107,
+    "rec": 424,
+    "yds": 4586,
+    "td": 58,
+    "fum": 14,
+    "lng": 73,
+    "rings": 0,
+    "opoy": 1
+   },
+   "source": "image:images/IMG_6268.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Darrel Longa",
+   "value": {
+    "g": 146,
+    "tkl": 616,
+    "int": 2,
+    "sck": 6.0,
+    "ff": 0,
+    "rings": 0
+   },
+   "source": "image:images/IMG_6269.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Le'Veon Richard",
+   "value": {
+    "g": 216,
+    "rec": 921,
+    "yds": 5552,
+    "td": 54,
+    "fum": 44,
+    "lng": 71,
+    "rings": 0
+   },
+   "source": "image:images/IMG_6270.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Drake Wise",
+   "value": {
+    "g": 224,
+    "att": 7024,
+    "cmp": 4512,
+    "yds": 42637,
+    "td": 434,
+    "int": 38,
+    "sck": 42,
+    "ratt": 180,
+    "ryds": 1208,
+    "rtd": 65,
+    "rings": 0,
+    "mvp": 2
+   },
+   "source": "image:images/IMG_6271.PNG",
+   "reason": "Career panel and award row (merged with IMG_6272.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Hamsfa Boltt",
+   "value": {
+    "g": 152,
+    "att": 4797,
+    "cmp": 3166,
+    "yds": 29110,
+    "td": 254,
+    "int": 49,
+    "sck": 31,
+    "ratt": 124,
+    "ryds": 792,
+    "rtd": 40,
+    "rings": 1,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6273.PNG",
+   "reason": "Career panel and award row (merged with IMG_6274.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Tim Wright",
+   "value": {
+    "g": 75,
+    "ratt": 710,
+    "ryds": 5826,
+    "rtd": 124,
+    "fum": 51,
+    "rec": 0,
+    "recyds": 0,
+    "rectd": 0,
+    "rings": 0,
+    "roty": 1
+   },
+   "source": "image:images/IMG_6275.PNG",
+   "reason": "Career panel and award row (merged with IMG_6276.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Von Horsted",
+   "value": {
+    "g": 200,
+    "tkl": 2122,
+    "int": 30,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "dpoy": 1
+   },
+   "source": "image:images/IMG_6277.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Shareef London",
+   "value": {
+    "team": "UNK",
+    "g": 69,
+    "rec": 271,
+    "yds": 2368,
+    "td": 31,
+    "fum": 11,
+    "lng": 73,
+    "rings": 0
+   },
+   "source": "image:images/IMG_6278.PNG",
+   "reason": "New player: Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Shawn Skule",
+   "value": {
+    "g": 68,
+    "blk": 92,
+    "rings": 0
+   },
+   "source": "image:images/IMG_6279.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Trequan Jensen",
+   "value": {
+    "g": 270,
+    "ratt": 2565,
+    "ryds": 20300,
+    "rtd": 369,
+    "fum": 223,
+    "rec": 10,
+    "recyds": 192,
+    "rectd": 0,
+    "rings": 1
+   },
+   "source": "image:images/IMG_6280.PNG",
+   "reason": "Career panel and award row (merged with IMG_6281.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Pyke T. Lowe",
+   "value": {
+    "g": 147,
+    "att": 4512,
+    "cmp": 2828,
+    "yds": 25902,
+    "td": 269,
+    "int": 39,
+    "sck": 39,
+    "ratt": 108,
+    "ryds": 478,
+    "rtd": 37,
+    "rings": 1,
+    "mvp": 2
+   },
+   "source": "image:images/IMG_6282.PNG",
+   "reason": "Career panel and award row (merged with IMG_6283.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Craig Whitney",
+   "value": {
+    "g": 220,
+    "rec": 975,
+    "yds": 10039,
+    "td": 126,
+    "fum": 46,
+    "lng": 69,
+    "rings": 2,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6284.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Malakai Sawyer",
+   "value": {
+    "g": 186,
+    "ratt": 1727,
+    "ryds": 11872,
+    "rtd": 205,
+    "fum": 63,
+    "rec": 225,
+    "recyds": 1728,
+    "rectd": 60,
+    "rings": 2,
+    "opoy": 2,
+    "roty": 1
+   },
+   "source": "image:images/IMG_6285.PNG",
+   "reason": "Career panel and award row (merged with IMG_6286.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Chazz McCray",
+   "value": {
+    "team": "UNK",
+    "g": 55,
+    "tkl": 645,
+    "int": 10,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "dpoy": 1,
+    "roty": 1
+   },
+   "source": "image:images/IMG_6287.PNG",
+   "reason": "New player: Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Tyson Nassib",
+   "value": {
+    "g": 148,
+    "rec": 611,
+    "yds": 6835,
+    "td": 86,
+    "fum": 27,
+    "lng": 67,
+    "rings": 1
+   },
+   "source": "image:images/IMG_6288.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "superbowl.set",
+   "target": "Y81",
+   "value": {
+    "number": 140,
+    "roman": "CXL",
+    "winner": "Patriots",
+    "score": "48-45",
+    "loser": "Packers",
+    "your_result": "not in it",
+    "your_team": null
+   },
+   "source": "image:images/IMG_6289.PNG",
+   "reason": "Super Bowl winners list: CXL Patriots 48-45 GB (white row, not the owner's)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.season",
+   "target": "81",
+   "value": {
+    "team": "Jets",
+    "abbr": "NYJ",
+    "w": 14,
+    "l": 2,
+    "t": 1,
+    "finish": "AFC EAS 1st"
+   },
+   "source": "image:images/IMG_6290.PNG",
+   "reason": "Staff screen, Your History: 81 NYJ 14-2-1 AFC EAS 1st",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "source",
+   "value": "Retro Bowl staff screen (IMG_6290, Y81 complete)",
+   "source": "image:images/IMG_6290.PNG",
+   "reason": "Staff screen snapshot is now from Y81",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "age",
+   "value": 117,
+   "source": "image:images/IMG_6290.PNG",
+   "reason": "Staff screen: Age 117",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "gamesPlayed",
+   "value": 1609,
+   "source": "image:images/IMG_6290.PNG",
+   "reason": "Staff screen: Games played 1609",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "simGames",
+   "value": 15,
+   "source": "image:images/IMG_6290.PNG",
+   "reason": "Staff screen: Sim games 15 (1%)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "record",
+   "value": {
+    "fullSeasons": 81,
+    "regular": "1170-202-5",
+    "regularWinPct": 0.851,
+    "playoff": "209-23",
+    "playoffWinPct": 0.901,
+    "playoffsReached": "79/81",
+    "seasonsNoSimGames": 71,
+    "simGameRecord": "0-15-0"
+   },
+   "source": "image:images/IMG_6290.PNG",
+   "reason": "Staff screen, Your Record: 81 full seasons, 1170-202-5 (.851), playoffs 209-23 (.901), reached 79/81. The two rows below the fold are not on screen: sim games are still 15, so the sim record stays 0-15-0 and Y81 adds a season with no sim games (70 -> 71)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/81/Jets",
+   "value": [
+    "Alvin Tufele",
+    "Chance Woodrum",
+    "Dylan Hyatt",
+    "Jakeem Friend",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Kane Van Oxley",
+    "Ryland Maxwell",
+    "Trequan Roberts",
+    "Ty Lock"
+   ],
+   "source": "owner",
+   "reason": "The Y81 Jets: the active roster recorded after the Y80 trades; every one of them gained 16-18 games on these Y81 cards",
+   "trigger": "Season rollover (npm run update review: keep active_rosters as the Y81 rosters)"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/81/Seahawks",
+   "value": [
+    "Blair Iupati",
+    "Deonte Sutton",
+    "Dorance Hinton",
+    "Isaiah Karras",
+    "Jason Macleone",
+    "Obinna Leary",
+    "Romeo Rodgers"
+   ],
+   "source": "owner",
+   "reason": "The Y81 Seahawks: the active roster recorded after the Y80 trades; every one of them gained 17 games on these Y81 cards",
+   "trigger": "Season rollover (npm run update review: keep active_rosters as the Y81 rosters)"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "active_rosters/Jets",
+   "value": [
+    "Chance Woodrum",
+    "Jakeem Friend",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Kane Van Oxley",
+    "Ryland Maxwell",
+    "Trequan Roberts",
+    "Ty Lock"
+   ],
+   "source": "owner",
+   "reason": "Owner: let Dylan Hyatt and Alvin Tufele walk before Y82 (no new team screen yet)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "active_rosters/Seahawks",
+   "value": [
+    "Deonte Sutton",
+    "Dorance Hinton",
+    "Isaiah Karras",
+    "Jason Macleone",
+    "Obinna Leary",
+    "Romeo Rodgers"
+   ],
+   "source": "owner",
+   "reason": "Owner: Blair Iupati was traded to the Jets, then on to the Saints, before Y82",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dylan Hyatt/career",
+   "value": {
+    "says": "Let walk by the Jets after Y81; new club not known yet."
+   },
+   "source": "owner",
+   "reason": "Owner: \"we let dylan hyatt walk\" (no screenshot shows his new team)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Blair Iupati/team",
+   "value": "Saints",
+   "source": "owner",
+   "reason": "Owner: traded for Iupati briefly, then traded him to the Saints",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Blair Iupati/team_history",
+   "value": [
+    "Seahawks"
+   ],
+   "source": "owner",
+   "reason": "He played Y80 and Y81 for the Seahawks (season rosters) before the trades",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Blair Iupati/career",
+   "value": {
+    "order": [
+     "Seahawks"
+    ],
+    "next_team": "Saints",
+    "says": "Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets."
+   },
+   "source": "owner",
+   "reason": "Owner: \"traded for iupati breifly and then traded im again to the saints\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Alvin Tufele/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: let Alvin Tufele walk and he has since retired (internal only)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Alvin Tufele/career",
+   "value": {
+    "order": [
+     "Seahawks",
+     "Jets"
+    ],
+    "on": [
+     [
+      "Seahawks",
+      80
+     ],
+     [
+      "Jets",
+      81
+     ]
+    ],
+    "says": "Traded from the Seahawks to the Jets for Obinna Leary after playing the Y80 Super Bowl for Seattle; played Y81 for the Jets, was let walk, and has since retired."
+   },
+   "source": "owner",
+   "reason": "The Y80 trade is complete (he played Y81 for the Jets); owner: let walk, has since retired",
+   "trigger": "Season rollover (npm run update review: career.next_team) and owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Obinna Leary/career",
+   "value": {
+    "order": [
+     "Jets",
+     "Seahawks"
+    ],
+    "on": [
+     [
+      "Seahawks",
+      81
+     ]
+    ],
+    "says": "Traded from the Jets to the Seahawks for Alvin Tufele after Y80."
+   },
+   "source": "owner",
+   "reason": "The Y80 trade is complete: he played Y81 for the Seahawks (17 games on his Y81 card)",
+   "trigger": "Season rollover (npm run update review: career.next_team)"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jakeem Friend/career",
+   "value": {
+    "order": [
+     "Seahawks",
+     "Jets"
+    ],
+    "longest": "Seahawks",
+    "stints": [
+     [
+      "Jets",
+      79,
+      81
+     ]
+    ],
+    "says": "Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring)."
+   },
+   "source": "image:images/IMG_6241.PNG",
+   "reason": "His Y81 card shows 18 more games (214 -> 232), the Jets' Y81 count, and he is on the Y81 Jets roster: the owner's exact Jets stint (Y79-80) extends to Y81. Owner words unchanged",
+   "trigger": "Season rollover (stint solver found no placement with the Y80 stint end)"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Kane Van Oxley",
+   "value": {
+    "nick": "The Ox"
+   },
+   "source": "owner",
+   "reason": "Owner: nickname is \"The Ox\" for how strong he is",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kane Van Oxley/card",
+   "value": {
+    "note": "\"The Ox\", for how strong he is: he breaks tackles and blocks well. Has recovered more fumbles than anyone the owner has ever played with."
+   },
+   "source": "owner",
+   "reason": "Owner: nickname reason, plus a quirk for the card (not a storyline)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "notes",
+   "op": "journal.add",
+   "target": "y82-hyatt-iupati-tufele",
+   "value": {
+    "text": "we let dylan hyatt walk, traded for iupati breifly and then traded im again to the saints, we also let alvin tufele walk and he has since retired",
+    "kind": "note",
+    "season": "Y82",
+    "players": [
+     "Dylan Hyatt",
+     "Blair Iupati",
+     "Alvin Tufele"
+    ],
+    "teams": [
+     "Jets",
+     "Saints"
+    ],
+    "seasons": [
+     82
+    ]
+   },
+   "source": "owner",
+   "reason": "Owner season note: roster moves before Y82",
+   "trigger": "notes.md present"
+  },
+  {
+   "lane": "notes",
+   "op": "journal.add",
+   "target": "van-oxley-the-ox",
+   "value": {
+    "text": "kane van oxley's nickname is \"The Ox\" for how strong he is since he breaks tackles and can block p well",
+    "kind": "note",
+    "players": [
+     "Kane Van Oxley"
+    ],
+    "teams": [
+     "Jets"
+    ],
+    "seasons": []
+   },
+   "source": "owner",
+   "reason": "Owner note: where the nickname comes from (the fumble quirk is a card note only, per the owner)",
+   "trigger": "notes.md present"
+  }
+ ]
+}

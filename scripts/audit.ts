@@ -37,7 +37,14 @@ const franchisesOf = (p: Player): Set<string> => {
 };
 
 // 1. Every league player has a real team
-league.filter((p) => !findNFLTeam(p.team)).forEach((p) => errors.push(`No team: ${p.position} ${p.name}`));
+// A new card the owner hasn't placed yet has team "UNK" in players.json (blank in the CSV). CLAUDE.md says add it and
+// ask the owner, so that is a warning; any other missing team is an error.
+const unplaced = new Set((read('data/y80/players.json') as { n: string; team?: string }[])
+  .filter((p) => p.team === 'UNK').map((p) => p.n));
+league.filter((p) => !findNFLTeam(p.team)).forEach((p) =>
+  unplaced.has(p.name)
+    ? warnings.push(`No team yet: ${p.position} ${p.name} (UNK in players.json: ask the owner)`)
+    : errors.push(`No team: ${p.position} ${p.name}`));
 
 // 2. Every Hall of Famer has a custom induction speech (the generic template must never show)
 const speeches: Record<string, string> = content.speeches ?? {};

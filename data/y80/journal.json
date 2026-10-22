@@ -1,4 +1,37 @@
 {
  "_about": "Commissioner's journal: the owner's own notes about rivalries, disputes and drama, stored verbatim. Appended only by scripts/apply_upload.py from an upload's notes lane. Each note: id, upload, season, kind (rivalry|dispute|drama|note), text (the owner's words, never rewritten), players, teams, seasons (tags).",
- "notes": []
+ "notes": [
+  {
+   "id": "y82-hyatt-iupati-tufele",
+   "upload": "2026-10-21-y82",
+   "text": "we let dylan hyatt walk, traded for iupati breifly and then traded im again to the saints, we also let alvin tufele walk and he has since retired",
+   "kind": "note",
+   "season": "Y82",
+   "players": [
+    "Dylan Hyatt",
+    "Blair Iupati",
+    "Alvin Tufele"
+   ],
+   "teams": [
+    "Jets",
+    "Saints"
+   ],
+   "seasons": [
+    82
+   ]
+  },
+  {
+   "id": "van-oxley-the-ox",
+   "upload": "2026-10-21-y82",
+   "text": "kane van oxley's nickname is \"The Ox\" for how strong he is since he breaks tackles and can block p well",
+   "kind": "note",
+   "players": [
+    "Kane Van Oxley"
+   ],
+   "teams": [
+    "Jets"
+   ],
+   "seasons": []
+  }
+ ]
 }

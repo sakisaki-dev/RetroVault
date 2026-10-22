@@ -12,18 +12,23 @@
    "team_history": [
     "Seahawks"
    ],
+   "status": "Retired",
    "career": {
     "order": [
-     "Seahawks"
+     "Seahawks",
+     "Jets"
     ],
-    "next_team": "Jets",
     "on": [
      [
       "Seahawks",
       80
+     ],
+     [
+      "Jets",
+      81
      ]
     ],
-    "says": "Traded from the Seahawks to the Jets for Obinna Leary, after playing the Y80 Super Bowl for Seattle."
+    "says": "Traded from the Seahawks to the Jets for Obinna Leary after playing the Y80 Super Bowl for Seattle; played Y81 for the Jets, was let walk, and has since retired."
    }
   },
   "Avonte Gooden": {
@@ -34,6 +39,19 @@
   },
   "Bilal Tolbert": {
    "retired_with": "Chargers"
+  },
+  "Blair Iupati": {
+   "team": "Saints",
+   "team_history": [
+    "Seahawks"
+   ],
+   "career": {
+    "order": [
+     "Seahawks"
+    ],
+    "next_team": "Saints",
+    "says": "Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets."
+   }
   },
   "Breece Hall": {
    "real_nfl": {
@@ -97,6 +115,11 @@
     "club": "Patriots"
    }
   },
+  "Dylan Hyatt": {
+   "career": {
+    "says": "Let walk by the Jets after Y81; new club not known yet."
+   }
+  },
   "Forrest Everett": {
    "signature_team": "Broncos"
   },
@@ -158,7 +181,7 @@
      [
       "Jets",
       79,
-      80
+      81
      ]
     ],
     "says": "Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring)."
@@ -204,6 +227,11 @@
     "games": 69,
     "rings": 0,
     "club": "Bengals"
+   }
+  },
+  "Kane Van Oxley": {
+   "card": {
+    "note": "\"The Ox\", for how strong he is: he breaks tackles and blocks well. Has recovered more fumbles than anyone the owner has ever played with."
    }
   },
   "Kyric McQuay": {
@@ -330,9 +358,15 @@
    ],
    "career": {
     "order": [
-     "Jets"
+     "Jets",
+     "Seahawks"
     ],
-    "next_team": "Seahawks",
+    "on": [
+     [
+      "Seahawks",
+      81
+     ]
+    ],
     "says": "Traded from the Jets to the Seahawks for Alvin Tufele after Y80."
    }
   },
@@ -406,9 +440,7 @@
  },
  "active_rosters": {
   "Jets": [
-   "Alvin Tufele",
    "Chance Woodrum",
-   "Dylan Hyatt",
    "Jakeem Friend",
    "Jaylen Conklin",
    "Kalif Suh",
@@ -418,7 +450,6 @@
    "Ty Lock"
   ],
   "Seahawks": [
-   "Blair Iupati",
    "Deonte Sutton",
    "Dorance Hinton",
    "Isaiah Karras",
@@ -467,6 +498,29 @@
     "Darrel Longa",
     "Jarred Beasley",
     "Juawan Lance"
+   ]
+  },
+  "81": {
+   "Jets": [
+    "Alvin Tufele",
+    "Chance Woodrum",
+    "Dylan Hyatt",
+    "Jakeem Friend",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Kane Van Oxley",
+    "Ryland Maxwell",
+    "Trequan Roberts",
+    "Ty Lock"
+   ],
+   "Seahawks": [
+    "Blair Iupati",
+    "Deonte Sutton",
+    "Dorance Hinton",
+    "Isaiah Karras",
+    "Jason Macleone",
+    "Obinna Leary",
+    "Romeo Rodgers"
    ]
   }
  }

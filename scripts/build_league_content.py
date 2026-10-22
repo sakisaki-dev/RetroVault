@@ -507,7 +507,8 @@ def build_rivalries(eras):
     ranked = sorted(by_opp.items(), key=lambda kv: (-len(kv[1]), -sum(not x["won"] for x in kv[1]), -kv[1][-1]["year"], kv[0]))
     out = []
     for opp, gs in ranked:
-        noted = journal_for(team=opp)
+        # only the owner's rivalry / dispute notes make (or annotate) a rivalry; a roster note that tags a club does not
+        noted = [n for n in journal_for(team=opp) if n.get("kind") in ("rivalry", "dispute")]
         if len(gs) < 2 and not noted:
             continue
         if len(out) >= 4 and not noted:

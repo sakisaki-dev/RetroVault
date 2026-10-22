@@ -217,6 +217,16 @@
     "stats": 1
    },
    "changed": 2
+  },
+  {
+   "id": "2026-10-21-y82",
+   "dir": "data/uploads/2026-10-21-y82",
+   "applied_at": "2026-10-22T00:00:32-07:00",
+   "mutations": {
+    "stats": 61,
+    "notes": 2
+   },
+   "changed": 265
   }
  ]
 }
