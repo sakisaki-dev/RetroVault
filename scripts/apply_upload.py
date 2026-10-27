@@ -28,7 +28,8 @@ Lanes and ops (deterministic; nothing is inferred here):
          fact.remove    target path                  value: list item to drop, or null to delete the key
          superbowl.set  target "Y80"                 value {number, roman, winner, score, loser, your_result, your_team}
          coach.season   target "80"                  value {team, abbr, w, l, t, finish}
-         coach.set      target "<field>"             value: coach.json field (record, bests, age…)
+         coach.set      target "<field>"             value: coach.json field (record, bests, age…; currentStint
+                                                    {team, abbr, from} = a club switch before the new club plays)
          record.set     target "<record name>"       value {mark, holder, year}
          baseline       target "<data file>"         value {sha256}: marks the file state a history starts from
          extras.set     target "<section>/<key>"     value: the new entry in data/y80/screenshot_extras.json, or null to

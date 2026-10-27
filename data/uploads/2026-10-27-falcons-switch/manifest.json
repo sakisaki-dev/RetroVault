@@ -1,0 +1,269 @@
+{
+ "id": "2026-10-27-falcons-switch",
+ "created": "2026-10-27",
+ "title": "The coach switches to the Falcons for Y83: Van Oxley, Maxwell, Woodrum and Wise to Atlanta, Sawyer back to the Jets; Iupati a Saint in Y82",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "tag notes",
+   "reason": "Link the owner's note to players and teams",
+   "trigger": "notes.md present"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "currentStint",
+   "value": {
+    "team": "Falcons",
+    "abbr": "ATL",
+    "from": 83
+   },
+   "source": "owner",
+   "reason": "Owner: switched clubs from the Jets to the Falcons for Y83 (no Falcons games yet)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "current_club",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: switched clubs from the Jets to the Falcons for Y83",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Blair Iupati/career",
+   "value": {
+    "order": [
+     "Seahawks",
+     "Saints"
+    ],
+    "on": [
+     [
+      "Saints",
+      82
+     ]
+    ],
+    "says": "Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints."
+   },
+   "source": "owner",
+   "reason": "Owner: Iupati was on the Saints in Y82, the season after he was traded",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kane Van Oxley/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: traded to the Falcons with the coach after Y82, in exchange for Malakai Sawyer",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kane Van Oxley/career",
+   "value": {
+    "order": [
+     "Jets"
+    ],
+    "next_team": "Falcons",
+    "says": "Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets."
+   },
+   "source": "owner",
+   "reason": "Owner: traded from the Jets to the Falcons after Y82",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ryland Maxwell/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: traded to the Falcons with the coach after Y82, in exchange for Malakai Sawyer",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ryland Maxwell/career",
+   "value": {
+    "order": [
+     "Jets"
+    ],
+    "next_team": "Falcons",
+    "says": "Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets."
+   },
+   "source": "owner",
+   "reason": "Owner: traded from the Jets to the Falcons after Y82",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Chance Woodrum/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: traded to the Falcons with the coach after Y82, in exchange for Malakai Sawyer",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Chance Woodrum/career",
+   "value": {
+    "order": [
+     "Jets"
+    ],
+    "next_team": "Falcons",
+    "says": "Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets."
+   },
+   "source": "owner",
+   "reason": "Owner: traded from the Jets to the Falcons after Y82",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/team",
+   "value": "Jets",
+   "source": "owner",
+   "reason": "Owner: traded from the Falcons back to the Jets after Y82, for Van Oxley, Maxwell and Woodrum",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/career",
+   "value": {
+    "order": [
+     "Titans",
+     "Jets",
+     "Falcons"
+    ],
+    "stints": [
+     [
+      "Titans",
+      72,
+      72
+     ],
+     [
+      "Jets",
+      76,
+      78
+     ],
+     [
+      "Falcons",
+      79,
+      82
+     ]
+    ],
+    "says": "One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons; traded back to the Jets after Y82 for Kane Van Oxley, Ryland Maxwell and Chance Woodrum.",
+    "next_team": "Jets"
+   },
+   "source": "owner",
+   "reason": "Owner: traded back to the Jets after Y82",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/card/team",
+   "value": "Jets",
+   "source": "owner",
+   "reason": "Owner: back with the Jets for Y83",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Drake Wise/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: traded from the Giants to the Falcons after Y82 for an unnamed QB",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Drake Wise/career",
+   "value": {
+    "order": [
+     "Giants"
+    ],
+    "next_team": "Falcons",
+    "says": "Traded from the Giants to the Falcons after Y82 for an unnamed quarterback."
+   },
+   "source": "owner",
+   "reason": "Owner: traded to the Falcons for an unnamed QB",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "active_rosters/Jets",
+   "value": [
+    "Dwayne Skura",
+    "Jakeem Friend",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Malakai Sawyer",
+    "Trequan Roberts",
+    "Ty Lock",
+    "Vyncint Heath"
+   ],
+   "source": "owner",
+   "reason": "Owner: Van Oxley, Maxwell and Woodrum traded to the Falcons, Malakai Sawyer traded back to the Jets",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "active_rosters/Falcons",
+   "value": [
+    "Chance Woodrum",
+    "Drake Wise",
+    "Kane Van Oxley",
+    "Ryland Maxwell"
+   ],
+   "source": "owner",
+   "reason": "Owner: the coach's new club; Van Oxley, Maxwell and Woodrum traded from the Jets, Drake Wise traded from the Giants",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "notes",
+   "op": "journal.add",
+   "target": "y83-falcons-switch",
+   "value": {
+    "text": "so couple updates iupati was on the saints the last year he got traded, I switched teams to the falcons, I took kane oxley ryland maxwell and chance woodrum w me in exhcange for malakai sawyer who goes bacj to the jets. I also traded a QB (unamed) to the giants for drake wise",
+    "kind": "note",
+    "season": "Y83",
+    "players": [
+     "Blair Iupati",
+     "Kane Van Oxley",
+     "Ryland Maxwell",
+     "Chance Woodrum",
+     "Malakai Sawyer",
+     "Drake Wise"
+    ],
+    "teams": [
+     "Saints",
+     "Falcons",
+     "Jets",
+     "Giants"
+    ],
+    "seasons": [
+     82,
+     83
+    ]
+   },
+   "source": "owner",
+   "reason": "Owner season note",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}

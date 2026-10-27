@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FlaskConical, Loader2, Plane, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useHubRoute } from '@/components/stats/hub/hashRoute';
+import { findNFLTeam } from '@/utils/nflTeams';
 import {
   SLOTS,
   analyzeLineup,
@@ -35,7 +36,7 @@ const SLOT_WORD: Record<string, string> = { qb: 'QB', rb: 'RB', wr1: 'WR', wr2: 
 const TeamLabTab = () => {
   const { route, navigate } = useHubRoute();
   const [includeLegends, setIncludeLegends] = useLegendsToggle();
-  const { ctx, legendKeys, presets } = useTeamLabContext(includeLegends);
+  const { ctx, legendKeys, presets, club } = useTeamLabContext(includeLegends);
   const saved = useSavedTeams();
   const [lineup, setLineup] = useState<Lineup>(emptyLineup);
   const hydrated = useRef(false);
@@ -79,10 +80,11 @@ const TeamLabTab = () => {
   }, [ctx, includeLegends]);
 
   const setSlot = useCallback((slot: SlotId, key: string) => setLineup((l) => ({ ...l, [slot]: key })), []);
-  const loadJets = useCallback(() => ctx && setLineup(teamLineup(ctx)), [ctx]);
+  const loadClub = useCallback(() => ctx && club && setLineup(teamLineup(ctx, club)), [ctx, club]);
+  const clubName = findNFLTeam(club)?.name ?? (club || 'club');
 
   const analysis = useMemo(() => (ctx ? analyzeLineup(ctx, lineup) : null), [ctx, lineup]);
-  const upgrades = useMemo(() => (ctx && analysis ? suggestUpgrades(ctx, lineup) : null), [ctx, analysis, lineup]);
+  const upgrades = useMemo(() => (ctx && analysis ? suggestUpgrades(ctx, lineup, club) : null), [ctx, analysis, lineup, club]);
   const ranking = useMemo(
     () =>
       ctx && analysis
@@ -125,7 +127,8 @@ const TeamLabTab = () => {
             lineup={lineup}
             onSlot={setSlot}
             presets={presets}
-            onJets={loadJets}
+            onClub={loadClub}
+            clubName={clubName}
             onAutoDraft={() => setLineup(autoDraft(ctx))}
             onRandom={() => setLineup(randomLineup(ctx, Math.floor(Math.random() * 1e9)))}
             onPreset={(id) => {
@@ -150,7 +153,7 @@ const TeamLabTab = () => {
         <div className="min-w-0 space-y-4">
           {analysis && isComplete(lineup) ? (
             <>
-              <AnalysisPanel analysis={analysis} upgrades={upgrades} ranking={ranking} onUpgrade={(slot, key) => setSlot(slot as SlotId, key)} />
+              <AnalysisPanel clubName={clubName} analysis={analysis} upgrades={upgrades} ranking={ranking} onUpgrade={(slot, key) => setSlot(slot as SlotId, key)} />
               <HeadToHeadPanel ctx={ctx} lineup={lineup} saved={saved.teams} presets={presets} />
             </>
           ) : (
@@ -163,7 +166,7 @@ const TeamLabTab = () => {
                     Scout your own squad
                   </h2>
                   <p className="relative mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-                    Load the current Jets and get unit grades, your team's identity, a game plan for 4th downs, 2-point tries and the clock,
+                    Load the current {clubName} and get unit grades, your team's identity, a game plan for 4th downs, 2-point tries and the clock,
                     and the trade targets that would help most.
                   </p>
                 </>
@@ -181,8 +184,8 @@ const TeamLabTab = () => {
                 </>
               )}
               <div className="relative mt-5 flex flex-wrap justify-center gap-2">
-                <Button type="button" size="lg" onClick={loadJets} className="bg-gold font-display text-xl font-extrabold uppercase text-black hover:bg-gold/90">
-                  <Plane className="mr-2 h-5 w-5" aria-hidden="true" /> Load my Jets
+                <Button type="button" size="lg" onClick={loadClub} className="bg-gold font-display text-xl font-extrabold uppercase text-black hover:bg-gold/90">
+                  <Plane className="mr-2 h-5 w-5" aria-hidden="true" /> Load my {clubName}
                 </Button>
                 <Button type="button" size="lg" variant="outline" onClick={() => setLineup(autoDraft(ctx))} className="border-line font-display text-lg font-bold uppercase">
                   <Sparkles className="mr-2 h-5 w-5" aria-hidden="true" /> Auto-draft best

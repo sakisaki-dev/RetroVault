@@ -1562,10 +1562,11 @@ export const bestLineupFrom = (list: PlayerProfile[]): Lineup => {
   };
 };
 
-export const CURRENT_TEAM = 'Jets';
-
-/** The current club's best lineup (league players whose current team is `team`). */
-export const teamLineup = (ctx: LabContext, team = CURRENT_TEAM): Lineup => {
+/**
+ * The current club's best lineup (league players whose current team is `team`). The club comes from the data
+ * (src/utils/club.ts currentClub: coach.json), never a constant.
+ */
+export const teamLineup = (ctx: LabContext, team: string): Lineup => {
   const id = findNFLTeam(team)?.id ?? team.toLowerCase();
   // Current roster only: retired players whose final team was this club don't count (status is internal data)
   return bestLineupFrom([...ctx.profiles.values()].filter((p) => !p.isLegend && p.player.status !== 'Retired' && sameTeam(p.team, id)));
@@ -1592,13 +1593,13 @@ export interface Preset {
 /**
  * Franchise dynasty presets: every league player who played for the franchise (current team, or a past team in
  * `history`), best by OVR at each slot. Gaps are filled with a median player at the position. Keeps franchises
- * with at least `minNative` real slots, sorted by team score. The current club is left out ("Load my Jets" covers it).
+ * with at least `minNative` real slots, sorted by team score. The current club (`exclude`) is left out ("Load my <club>" covers it).
  */
 export const dynastyPresets = (
   ctx: LabContext,
   history: (p: Player) => string[] = () => [],
   minNative = 5,
-  exclude: string = CURRENT_TEAM,
+  exclude = '',
 ): Preset[] => {
   const skip = findNFLTeam(exclude)?.id;
   const teams = new Map<string, PlayerProfile[]>();
@@ -1693,7 +1694,7 @@ export interface UpgradePlan {
  * For the weakest slot (lowest skill percentile), the 3 pool players who raise the team rating most. One is
  * from the current club's roster when any of its players helps; the rest are trade targets.
  */
-export const suggestUpgrades = (ctx: LabContext, l: Lineup, team = CURRENT_TEAM): UpgradePlan | null => {
+export const suggestUpgrades = (ctx: LabContext, l: Lineup, team: string): UpgradePlan | null => {
   const base = scoreLineup(ctx, l);
   if (!base) return null;
   const teamId = findNFLTeam(team)?.id ?? '';

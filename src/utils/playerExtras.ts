@@ -162,7 +162,8 @@ export const usePlayerExtras = (): IndexedExtras => {
 export const getStints = (extras: IndexedExtras, playerName: string): PlayerStints | undefined => extras.stints[normalizeName(playerName)];
 
 /**
- * The team a player's card and banners wear: where he was best known (signatureTeams), else his current team.
+ * The team a player's card and banners wear (signatureTeams): his current team while he plays, where he was best
+ * known once he retires (scripts/build_league_data.py signature_teams); else his current team.
  * Only for identity (jersey, helmet, colours, logo); stats, rosters and team filters keep `player.team`.
  */
 export const signatureTeamOf = (extras: IndexedExtras, player: { name: string; team?: string; isRealLegend?: boolean }): string =>

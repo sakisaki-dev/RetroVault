@@ -3,6 +3,7 @@ import type { Player } from '@/types/player';
 import { useLeague } from '@/context/LeagueContext';
 import { useGamePool } from '@/utils/useOfficialOvr';
 import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
+import { useCurrentClub } from '@/utils/club';
 import { createLabContext, dynastyPresets, type LabContext, type Lineup, type Preset } from '@/utils/teamLab';
 
 // ---------- Per-viewer storage (localStorage; every access guarded) ----------
@@ -91,6 +92,8 @@ export const useTeamLabContext = (includeLegends: boolean) => {
   const { careerData, getAllPlayers } = useLeague();
   const { legends, ovrMap, loaded } = useGamePool();
   const extras = usePlayerExtras();
+  // The owner's current club, from the data (coach.json); "Load my <club>" and the upgrade picks use it
+  const club = useCurrentClub() ?? '';
   const league = useMemo(() => getAllPlayers(), [getAllPlayers]);
   const ready = !!careerData && loaded && league.length > 0;
 
@@ -102,7 +105,7 @@ export const useTeamLabContext = (includeLegends: boolean) => {
 
   // Dynasty presets come from league players only, so they don't depend on the legends toggle
   const history = useCallback((p: Player) => extras.franchises[normalizeName(p.name)] ?? [], [extras]);
-  const presets = useMemo<Preset[]>(() => (ctx ? dynastyPresets(ctx, history) : []), [ctx, history]);
+  const presets = useMemo<Preset[]>(() => (ctx ? dynastyPresets(ctx, history, 5, club) : []), [ctx, history, club]);
 
-  return { ctx, ready, legendKeys, presets };
+  return { ctx, ready, legendKeys, presets, club };
 };

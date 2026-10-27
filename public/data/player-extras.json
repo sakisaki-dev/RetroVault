@@ -82,7 +82,7 @@
  "cards": {
   "Malakai Sawyer": {
    "age": 29,
-   "team": "Falcons",
+   "team": "Jets",
    "rating": "5 stars",
    "potential": "5 stars",
    "xp_level": 11,
@@ -393,6 +393,10 @@
    "Baltimore Ravens",
    "Tampa Bay Buccaneers"
   ],
+  "Chance Woodrum": [
+   "Atlanta Falcons",
+   "New York Jets"
+  ],
   "Alvin Tufele": [
    "New York Jets",
    "Seattle Seahawks",
@@ -402,9 +406,21 @@
    "Tennessee Titans",
    "Washington Commanders"
   ],
+  "Drake Wise": [
+   "Atlanta Falcons",
+   "New York Giants"
+  ],
   "Obinna Leary": [
    "New York Jets",
    "Seattle Seahawks"
+  ],
+  "Kane Van Oxley": [
+   "Atlanta Falcons",
+   "New York Jets"
+  ],
+  "Ryland Maxwell": [
+   "Atlanta Falcons",
+   "New York Jets"
   ],
   "Dylan Hyatt": [
    "New York Jets",
@@ -2496,10 +2512,16 @@
      "from": 79,
      "to": 82,
      "rings": []
+    },
+    {
+     "team": "Jets",
+     "from": 83,
+     "to": 83,
+     "rings": []
     }
    ],
    "confidence": "confirmed",
-   "evidence": "2 rings = Titans Y72; Jets Y77. Record board (your club's games only): Y75 longest rushing play (Seahawks); Y78 best rushing game (Jets). On the Y80 Falcons roster. Owner: “One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons.”"
+   "evidence": "2 rings = Titans Y72; Jets Y77. Record board (your club's games only): Y75 longest rushing play (Seahawks); Y78 best rushing game (Jets). On the Y80 Falcons roster. Owner: “One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons; traded back to the Jets after Y82 for Kane Van Oxley, Ryland Maxwell and Chance Woodrum.” Traded to the Jets after Y82."
   },
   "Levante Hopkins": {
    "stints": [
@@ -2624,10 +2646,16 @@
       80,
       82
      ]
+    },
+    {
+     "team": "Falcons",
+     "from": 83,
+     "to": 83,
+     "rings": []
     }
    ],
    "confidence": "strong",
-   "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. The only window that fits."
+   "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.” The only window that fits. Traded to the Falcons after Y82."
   },
   "Jamir Crane": {
    "stints": [
@@ -2829,10 +2857,16 @@
      "from": 69,
      "to": 82,
      "rings": []
+    },
+    {
+     "team": "Falcons",
+     "from": 83,
+     "to": 83,
+     "rings": []
     }
    ],
    "confidence": "strong",
-   "evidence": "No rings. On the Y80 Giants roster."
+   "evidence": "No rings. On the Y80 Giants roster. Owner: “Traded from the Giants to the Falcons after Y82 for an unnamed quarterback.” Traded to the Falcons after Y82."
   },
   "Le'Veon Richard": {
    "stints": [
@@ -2945,10 +2979,16 @@
       80,
       82
      ]
+    },
+    {
+     "team": "Falcons",
+     "from": 83,
+     "to": 83,
+     "rings": []
     }
    ],
    "confidence": "strong",
-   "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. The only window that fits."
+   "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.” The only window that fits. Traded to the Falcons after Y82."
   },
   "Ryland Maxwell": {
    "stints": [
@@ -2960,10 +3000,16 @@
       80,
       82
      ]
+    },
+    {
+     "team": "Falcons",
+     "from": 83,
+     "to": 83,
+     "rings": []
     }
    ],
    "confidence": "strong",
-   "evidence": "2 rings = Jets Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. The only window that fits."
+   "evidence": "2 rings = Jets Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.” The only window that fits. Traded to the Falcons after Y82."
   },
   "Ty Lock": {
    "stints": [
@@ -3073,18 +3119,18 @@
     {
      "team": "Seahawks",
      "from": 80,
-     "to": 82,
+     "to": 81,
      "rings": []
     },
     {
      "team": "Saints",
-     "from": 83,
-     "to": 83,
+     "from": 82,
+     "to": 82,
      "rings": []
     }
    ],
    "confidence": "ambiguous",
-   "evidence": "1 ring = Jets Y77. On the Y80 Seahawks roster. On the Y81 Seahawks roster. Owner: “Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets.” His known clubs (Seahawks) can't account for every ring, so the best fit adds a stop: Jets Y77-79, Seahawks Y80-82. Traded to the Saints after Y82."
+   "evidence": "1 ring = Jets Y77. On the Y80 Seahawks roster. On the Y81 Seahawks roster. Owner: “Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints.” His known clubs (Saints, Seahawks) can't account for every ring, so the best fit adds a stop: Jets Y77-79, Seahawks Y80-81, Saints Y82."
   },
   "Deonte Sutton": {
    "stints": [
@@ -3573,13 +3619,13 @@
   "Aubrey Jewell": "Los Angeles Chargers",
   "Avonte Gooden": "Washington Commanders",
   "Bilal Tolbert": "Los Angeles Chargers",
-  "Blair Iupati": "New York Jets",
+  "Blair Iupati": "New Orleans Saints",
   "Breece Hall": "New York Jets",
   "Brennan Higgins": "Washington Commanders",
   "Brian Baker": "Houston Texans",
   "Cairo Asanjh": "Seattle Seahawks",
   "CeeDee Lamb": "Miami Dolphins",
-  "Chance Woodrum": "New York Jets",
+  "Chance Woodrum": "Atlanta Falcons",
   "Charlie John": "Buffalo Bills",
   "Chazz McCray": "Tampa Bay Buccaneers",
   "Cole Kittle": "Baltimore Ravens",
@@ -3597,7 +3643,7 @@
   "Davon Normus": "Denver Broncos",
   "Deante Elder": "Seattle Seahawks",
   "Dedrick Gould": "Tampa Bay Buccaneers",
-  "Dee Irvin": "Seattle Seahawks",
+  "Dee Irvin": "Cincinnati Bengals",
   "Dennis Baylon": "Buffalo Bills",
   "Denzel Hayes": "Baltimore Ravens",
   "Deone Orzech": "Dallas Cowboys",
@@ -3608,7 +3654,7 @@
   "Dontae Trawick": "New England Patriots",
   "Dorance Hinton": "Seattle Seahawks",
   "Drake Maye": "Minnesota Vikings",
-  "Drake Wise": "New York Giants",
+  "Drake Wise": "Atlanta Falcons",
   "Dwayne Skura": "New York Jets",
   "Dylan Hyatt": "New York Jets",
   "Esezi Parsons": "Buffalo Bills",
@@ -3617,7 +3663,7 @@
   "Germain Coulter": "Tampa Bay Buccaneers",
   "God Johnson": "Minnesota Vikings",
   "Grunky Felton": "San Francisco 49ers",
-  "Hamsfa Boltt": "Tennessee Titans",
+  "Hamsfa Boltt": "Washington Commanders",
   "Ian Finney": "Tampa Bay Buccaneers",
   "Isaiah Karras": "Seattle Seahawks",
   "JR Bashaam": "Seattle Seahawks",
@@ -3625,7 +3671,7 @@
   "Jahan Square": "Tampa Bay Buccaneers",
   "Jahmyr Gibbs": "Miami Dolphins",
   "Jake Gano": "Tennessee Titans",
-  "Jakeem Friend": "Seattle Seahawks",
+  "Jakeem Friend": "New York Jets",
   "Jamir Crane": "Buffalo Bills",
   "Jarred Beasley": "Tennessee Titans",
   "Jason Macleone": "Seattle Seahawks",
@@ -3639,7 +3685,7 @@
   "K'Lavon Armah": "Arizona Cardinals",
   "K'Lavon Settle": "San Francisco 49ers",
   "Kalif Suh": "New York Jets",
-  "Kane Van Oxley": "New York Jets",
+  "Kane Van Oxley": "Atlanta Falcons",
   "Karl Deane": "New Orleans Saints",
   "Keesean Candy": "Los Angeles Chargers",
   "Keion Orzech": "Dallas Cowboys",
@@ -3665,7 +3711,7 @@
   "Neal Ankou": "Los Angeles Rams",
   "Nick Bolton": "Minnesota Vikings",
   "Nico Curl": "San Francisco 49ers",
-  "Obinna Leary": "New York Jets",
+  "Obinna Leary": "Seattle Seahawks",
   "Odell Ankou": "Tampa Bay Buccaneers",
   "Oliver Rankin": "Denver Broncos",
   "Pharaoh Mintze": "Indianapolis Colts",
@@ -3682,7 +3728,7 @@
   "Romeo Rodgers": "Seattle Seahawks",
   "Ronald Warring": "Las Vegas Raiders",
   "Rondale Ikarras": "Baltimore Ravens",
-  "Ryland Maxwell": "New York Jets",
+  "Ryland Maxwell": "Atlanta Falcons",
   "Rysen Benkert": "Tennessee Titans",
   "Rysen Nauta": "Tennessee Titans",
   "Sauce Gardner": "Miami Dolphins",

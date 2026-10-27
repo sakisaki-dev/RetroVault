@@ -1,6 +1,6 @@
 {
  "_about": "Owner-confirmed facts (data entry, never analysis). Written only by scripts/apply_upload.py from an upload manifest (data/uploads/*/manifest.json). players.<name>: team = club of record when the sheet says CUR/UNK or is out of date; team_history = earlier clubs; retired_with = the club on the game's Player HOF screen; status = Active/Retired when the sheet has no row; tag = the owner's own one-liner; card = player-card fields (team, former_team, legacy_team, note); career = what the owner said about the career path (order of clubs, on = [team, season] he was there, longest = the club he spent most seasons with, stints = exact [team, from, to], next_team = traded after the last season, says = the owner's words); real_nfl = real NFL games / rings / club before the save (imported players). active_rosters = the game's current team screens. season_rosters.<year> = who played for each club that season (games gained between screenshot sets).",
- "current_club": "Jets",
+ "current_club": "Falcons",
  "players": {
   "Akiem Bouye": {
    "retired_with": "Chargers"
@@ -50,10 +50,16 @@
    ],
    "career": {
     "order": [
-     "Seahawks"
+     "Seahawks",
+     "Saints"
     ],
-    "next_team": "Saints",
-    "says": "Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets."
+    "on": [
+     [
+      "Saints",
+      82
+     ]
+    ],
+    "says": "Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints."
    }
   },
   "Breece Hall": {
@@ -86,7 +92,15 @@
    }
   },
   "Chance Woodrum": {
-   "retired_with": "Jets"
+   "team": "Falcons",
+   "retired_with": "Jets",
+   "career": {
+    "order": [
+     "Jets"
+    ],
+    "next_team": "Falcons",
+    "says": "Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets."
+   }
   },
   "Charlie John": {
    "retired_with": "Bills"
@@ -122,6 +136,16 @@
     "games": 29,
     "rings": 0,
     "club": "Patriots"
+   }
+  },
+  "Drake Wise": {
+   "team": "Falcons",
+   "career": {
+    "order": [
+     "Giants"
+    ],
+    "next_team": "Falcons",
+    "says": "Traded from the Giants to the Falcons after Y82 for an unnamed quarterback."
    }
   },
   "Dylan Hyatt": {
@@ -247,8 +271,16 @@
    "team": "49ers"
   },
   "Kane Van Oxley": {
+   "team": "Falcons",
    "card": {
     "note": "\"The Ox\", for how strong he is: he breaks tackles and blocks well. Has recovered more fumbles than anyone the owner has ever played with."
+   },
+   "career": {
+    "order": [
+     "Jets"
+    ],
+    "next_team": "Falcons",
+    "says": "Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets."
    }
   },
   "Keion Orzech": {
@@ -305,11 +337,11 @@
    "signature_team": "Seahawks"
   },
   "Malakai Sawyer": {
-   "team": "Falcons",
+   "team": "Jets",
    "status": "Active",
    "tag": "Won CXXXI with the Titans (Y72), then CXXXVI with the Jets (Y77); a Jet from Y76, a Falcon since Y79",
    "card": {
-    "team": "Falcons",
+    "team": "Jets",
     "former_team": "Titans",
     "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans; with the Jets from Y76, winning again in Y77 (CXXXVI); went to the Falcons in Y79"
    },
@@ -336,7 +368,8 @@
       82
      ]
     ],
-    "says": "One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons."
+    "says": "One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons; traded back to the Jets after Y82 for Kane Van Oxley, Ryland Maxwell and Chance Woodrum.",
+    "next_team": "Jets"
    }
   },
   "Mason Taylor": {
@@ -428,6 +461,16 @@
    },
    "signature_team": "Ravens"
   },
+  "Ryland Maxwell": {
+   "team": "Falcons",
+   "career": {
+    "order": [
+     "Jets"
+    ],
+    "next_team": "Falcons",
+    "says": "Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets."
+   }
+  },
   "Sauce Gardner": {
    "real_nfl": {
     "games": 57,
@@ -477,14 +520,18 @@
   }
  },
  "active_rosters": {
-  "Jets": [
+  "Falcons": [
    "Chance Woodrum",
+   "Drake Wise",
+   "Kane Van Oxley",
+   "Ryland Maxwell"
+  ],
+  "Jets": [
    "Dwayne Skura",
    "Jakeem Friend",
    "Jaylen Conklin",
    "Kalif Suh",
-   "Kane Van Oxley",
-   "Ryland Maxwell",
+   "Malakai Sawyer",
    "Trequan Roberts",
    "Ty Lock",
    "Vyncint Heath"

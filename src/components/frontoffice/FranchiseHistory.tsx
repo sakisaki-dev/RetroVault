@@ -46,7 +46,7 @@ const FranchiseHistory = ({ stints, onPlayerSelect, numberFor }: FranchiseHistor
                     {s.current && <span className="rounded bg-accent/20 px-1.5 py-0.5 text-[10px] text-accent">Current club</span>}
                   </p>
                   <h3 className="truncate font-display text-xl uppercase tracking-tight text-foreground">{team?.fullName ?? s.team}</h3>
-                  <p className="truncate text-xs text-muted-foreground">{s.eras.map((e) => e.name).join(' · ') || 'Era not recorded'}</p>
+                  <p className="truncate text-xs text-muted-foreground">{s.eras.map((e) => e.name).join(' · ') || (s.current && !s.seasons ? 'No seasons yet' : 'Era not recorded')}</p>
                 </div>
               </div>
 
@@ -70,6 +70,10 @@ const FranchiseHistory = ({ stints, onPlayerSelect, numberFor }: FranchiseHistor
                       <FinishTag kind={s.record.best.kind} className="font-semibold" />
                     </p>
                   </>
+                ) : s.current && !s.games.length && !s.seasons ? (
+                  <p className="text-sm text-muted-foreground">
+                    <span className="font-display text-lg text-foreground">New club</span> · first season Y{s.firstYear}, no games yet
+                  </p>
                 ) : (
                   <p className="text-sm">
                     <span className="font-display text-lg text-foreground">{record}</span>{' '}

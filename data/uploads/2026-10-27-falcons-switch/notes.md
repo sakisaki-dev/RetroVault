@@ -1,0 +1,1 @@
+so couple updates iupati was on the saints the last year he got traded, I switched teams to the falcons, I took kane oxley ryland maxwell and chance woodrum w me in exhcange for malakai sawyer who goes bacj to the jets. I also traded a QB (unamed) to the giants for drake wise

@@ -32,6 +32,31 @@
     "Jets"
    ],
    "seasons": []
+  },
+  {
+   "id": "y83-falcons-switch",
+   "upload": "2026-10-27-falcons-switch",
+   "text": "so couple updates iupati was on the saints the last year he got traded, I switched teams to the falcons, I took kane oxley ryland maxwell and chance woodrum w me in exhcange for malakai sawyer who goes bacj to the jets. I also traded a QB (unamed) to the giants for drake wise",
+   "kind": "note",
+   "season": "Y83",
+   "players": [
+    "Blair Iupati",
+    "Kane Van Oxley",
+    "Ryland Maxwell",
+    "Chance Woodrum",
+    "Malakai Sawyer",
+    "Drake Wise"
+   ],
+   "teams": [
+    "Saints",
+    "Falcons",
+    "Jets",
+    "Giants"
+   ],
+   "seasons": [
+    82,
+    83
+   ]
   }
  ]
 }

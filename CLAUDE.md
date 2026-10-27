@@ -70,7 +70,8 @@ New players: add them with `team` from the owner. If the owner hasn't said, use 
 (stars beside a name don't reliably mean the current team).
 
 Other screens: Super Bowl list → `superbowl.set` (gold rows are the owner's wins); staff screen → `coach.season` /
-`coach.set`; record board → `record.set`; team screens → `fact.set active_rosters/<Team>`; game Player HOF screen →
+`coach.set`; the owner switching clubs before the new club plays → `coach.set currentStint` `{team, abbr, from}` plus
+`fact.set current_club` (no `coach.season` row until the season is played); record board → `record.set`; team screens → `fact.set active_rosters/<Team>`; game Player HOF screen →
 `fact.set players/<name>/retired_with`. The site's Hall of Fame is its own (Career Legacy ≥ 7000); the game's HOF
 list must not add or remove anyone. Stale lines in `screenshot_extras.json` (e.g. "Y80, in progress") →
 `extras.set <section>/<key>` (value `null` deletes it).
@@ -175,7 +176,10 @@ current data is a no-op.
 
 ## Owner facts (confirmed; don't "correct" them)
 
-- The current club is the **Jets**. The coach is Dorren Skura; his 80 seasons are in `coach.json`.
+- The current club is the **Falcons** (from Y83; owner: "I switched teams to the falcons"). Before that the Jets,
+  Y76–82. The coach is Dorren Skura; his 82 coached seasons are in `coach.json` and the new stint is its
+  `currentStint` ({team, abbr, from}), mirrored by `current_club` in `owner_facts.json`. Code never hard-codes
+  the club: it reads `currentClub()` / `useCurrentClub()` (`src/utils/club.ts`); the audit errors if the two disagree.
 - Real NFL legends appear only in the games, never in league stats or the Collection (cards are league players only).
 - Active/Retired status is internal only; never show it in the UI.
 - Single-season stats are intentionally not tracked.
@@ -189,10 +193,15 @@ current data is a no-op.
   the owner's answer is a `fact.set players/<name>/career` mutation.
 - **Signature team** (`signature_team()` in `scripts/build_league_data.py` → `signatureTeams` in
   `public/data/player-extras.json`): the club a player's card, art, walkout, HOF card and player banners wear. Owner
-  fact `players/<name>/signature_team`, else the card's `legacy_team`, else the stint with the most rings, then most
-  seasons, then earliest; no stints = current team. Stats, rosters, filters, jersey numbers and market keys keep the
-  current team (`signatureTeamOf` / `withSignatureTeam` in `src/utils/playerExtras.ts`). Audit warns when it's a club
-  he has no stint with.
+  rule: "for the banners if its a current team always change to whatever their current team is, the banner only
+  takes the best years after they retire since that's what's best known." **Active** players always wear their
+  current team (overriding the stint rule and any owner `signature_team` fact, which stays stored and takes effect
+  once he retires). **Retired** players: owner fact `players/<name>/signature_team`, else the card's `legacy_team`,
+  else the stint with the most rings, then most seasons, then earliest; no stints = current team. Stats, rosters,
+  filters, jersey numbers and market keys keep the current team (`signatureTeamOf` / `withSignatureTeam` in
+  `src/utils/playerExtras.ts`); the player card's "Latest club" line shows for retired players only. Audit errors
+  when an active player's banner isn't his current team, and warns when a retired player's is a club he has no stint
+  with.
 - **Eras**: the owner's coaching stints (`coach.json`), split at 3+ title-less seasons between titles and merged when
   a stint won fewer than 3 titles (the current stint always stands alone); named "<Team> dynasty" (5+ titles),
   "<Team> run" (3–4) or "<Team> years". Key players: best Career Legacy whose stints overlap the era on the owner's club.

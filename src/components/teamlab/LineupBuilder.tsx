@@ -13,7 +13,9 @@ interface LineupBuilderProps {
   lineup: Lineup;
   onSlot: (slot: SlotId, key: string) => void;
   presets: Preset[];
-  onJets: () => void;
+  /** Load the owner's current club (from the data) */
+  onClub: () => void;
+  clubName: string;
   onAutoDraft: () => void;
   onRandom: () => void;
   onPreset: (id: string) => void;
@@ -78,7 +80,7 @@ const Slot = ({ ctx, slot, lineup, onSlot }: { ctx: LabContext; slot: SlotId; li
   );
 };
 
-const LineupBuilder = ({ ctx, lineup, onSlot, presets, onJets, onAutoDraft, onRandom, onPreset, onClear, includeLegends, onLegends }: LineupBuilderProps) => {
+const LineupBuilder = ({ ctx, lineup, onSlot, presets, onClub, clubName, onAutoDraft, onRandom, onPreset, onClear, includeLegends, onLegends }: LineupBuilderProps) => {
   const filled = filledCount(lineup);
   return (
     <section aria-labelledby="lab-builder" className="glass-card min-w-0 p-3 sm:p-4">
@@ -92,8 +94,8 @@ const LineupBuilder = ({ ctx, lineup, onSlot, presets, onJets, onAutoDraft, onRa
       </div>
 
       <div className="mb-3 flex flex-wrap gap-2">
-        <Button type="button" size="sm" onClick={onJets} className="bg-gold font-display text-[15px] font-bold uppercase text-black hover:bg-gold/90">
-          <Plane className="mr-1 h-4 w-4" aria-hidden="true" /> Load my Jets
+        <Button type="button" size="sm" onClick={onClub} className="bg-gold font-display text-[15px] font-bold uppercase text-black hover:bg-gold/90">
+          <Plane className="mr-1 h-4 w-4" aria-hidden="true" /> Load my {clubName}
         </Button>
         <Button type="button" size="sm" variant="outline" onClick={onAutoDraft} className="border-line font-display text-[15px] font-bold uppercase" title="Starts from the best OVR at every slot, then swaps in whoever raises the team rating most">
           <Sparkles className="mr-1 h-4 w-4" aria-hidden="true" /> Auto-draft best

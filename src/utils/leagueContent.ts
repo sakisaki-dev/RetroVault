@@ -21,7 +21,7 @@
  *   "headlines":     [{ kind, text, players[] (names), teams[], weight }] ranked, heaviest first ("What changed")
  *   "headlinesInfo": { scope: "This update" | "Last update", upload?, since?, label? }
  *   "speeches":      { "<player name>": "Hall of Fame induction speech (plain text; blank line = new paragraph)" },
- *   "coach":         { name, age, stars, morale, gamesPlayed, simGames, record{}, bests{}, superBowlRecord[], seasons[{ year, team, abbr, w, l, t, finish }] }
+ *   "coach":         { name, age, stars, morale, gamesPlayed, simGames, record{}, bests{}, superBowlRecord[], seasons[{ year, team, abbr, w, l, t, finish }], currentStint?{ team, abbr, from } }
  * }
  * `coach` is optional (from data/y80/coach.json, the staff screen); bad fields are dropped one by one.
  * `speeches` is optional; when a player has one, the induction ceremony uses it instead of the
@@ -184,6 +184,8 @@ export interface CoachInfo {
   superBowlRecord: { coach: string; titles: number }[];
   /** One row per season, sorted by year, one per year */
   seasons: CoachSeason[];
+  /** The club the coach is with now when it isn't the last season's club yet (a switch before the new club's first season) */
+  currentStint?: { team: string; abbr?: string; from: number };
 }
 
 export interface LeagueContent {
@@ -469,7 +471,11 @@ const normCoach = (v: unknown): CoachInfo | undefined => {
   };
   const cleaned = prune(coach);
   if (!cleaned || (!coach.name && !coach.seasons.length && !coach.record && !coach.superBowlRecord.length)) return undefined;
-  return { ...cleaned, superBowlRecord: coach.superBowlRecord, seasons: coach.seasons };
+  const cs = isObj(v.currentStint) ? v.currentStint : {};
+  const csTeam = str(cs.team);
+  const csFrom = count(cs.from);
+  const currentStint = csTeam && csFrom ? { team: csTeam, abbr: str(cs.abbr), from: csFrom } : undefined;
+  return { ...cleaned, superBowlRecord: coach.superBowlRecord, seasons: coach.seasons, ...(currentStint ? { currentStint } : {}) };
 };
 
 const compact = <T,>(items: (T | null)[]): T[] => items.filter((x): x is T => x !== null);

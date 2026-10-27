@@ -12,6 +12,7 @@ import { useSkillRatings } from '@/utils/useSkillRatings';
 import { getTeamColors } from '@/utils/teamColors';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
+import { useCurrentClub } from '@/utils/club';
 import PlayerDetailCard from './PlayerDetailCard';
 import TeamLogo from './brand/TeamLogo';
 import { matchPlayer } from './PlayerSearchSelect';
@@ -23,7 +24,6 @@ export const QUICK_SEARCH_EVENT = 'retrovault:quick-search';
 export const openQuickSearch = () => window.dispatchEvent(new Event(QUICK_SEARCH_EVENT));
 
 const RECENT_KEY = 'retroVault:search:recent';
-const CURRENT_CLUB = 'Jets';
 const POSITIONS: Position[] = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
 
 const readRecent = (): string[] => {
@@ -114,6 +114,8 @@ const ResultRow = ({ player, number, ovr, grade }: { player: Player; number: num
  * straight to the Deep Dive.
  */
 const QuickPlayerSearch = () => {
+  // The owner's current club, from the data (coach.json), never hard-coded
+  const currentClub = useCurrentClub();
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Player | null>(null);
   const [query, setQuery] = useState('');
@@ -171,14 +173,15 @@ const QuickPlayerSearch = () => {
     const inPos = (p: Player) => pos === 'ALL' || p.position === pos;
     if (!query.trim()) {
       const rec = recent.map((k) => byKey.get(k)).filter((p): p is Player => !!p && inPos(p));
-      const club = league.filter((p) => findNFLTeam(p.team)?.name === CURRENT_CLUB && p.status !== 'Retired' && inPos(p)).sort(byOvr);
+      const clubId = findNFLTeam(currentClub)?.id;
+      const club = clubId ? league.filter((p) => findNFLTeam(p.team)?.id === clubId && p.status !== 'Retired' && inPos(p)).sort(byOvr) : [];
       const hof = league
         .filter((p) => isHallOfFamer(p) && inPos(p))
         .sort((a, b) => b.careerLegacy - a.careerLegacy)
         .slice(0, pos === 'ALL' ? 8 : 20);
       return [
         { id: 'recent', label: 'Recently scouted', Icon: Clock, players: rec },
-        { id: 'club', label: `Your ${CURRENT_CLUB}`, Icon: Sparkles, players: club },
+        { id: 'club', label: `Your ${findNFLTeam(currentClub)?.name ?? currentClub}`, Icon: Sparkles, players: club },
         { id: 'hof', label: 'Hall of Fame', Icon: Star, players: hof },
       ].filter((g) => g.players.length);
     }
@@ -186,7 +189,7 @@ const QuickPlayerSearch = () => {
       { id: 'league', label: 'League players', Icon: Search, players: league.filter(inPos).sort(byOvr) },
       { id: 'nfl', label: 'Real NFL players', Icon: Star, players: legends.filter(inPos).sort(byOvr) },
     ].filter((g) => g.players.length);
-  }, [query, pos, recent, byKey, league, legends, ovrMap]);
+  }, [query, pos, recent, byKey, league, legends, ovrMap, currentClub]);
 
   const activePlayer = searchText.get(active) ?? [...searchText.entries()].find(([t]) => t.toLowerCase() === active.toLowerCase())?.[1] ?? groups[0]?.players[0] ?? null;
 

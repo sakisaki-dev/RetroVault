@@ -153,8 +153,8 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   const formerName = extras.formerNames[nameKey];
   const familyTies = getFamilyTies(extras, player.name);
 
-  // Banner identity (colours, logo, jersey): his signature team, where he was best known. His latest club is
-  // still named in the ID strip when it differs.
+  // Banner identity (colours, logo, jersey): an active player wears his current team; a retired one his signature
+  // team, where he was best known. For a retired player the latest club is still named in the ID strip when it differs.
   const team = findNFLTeam(signatureTeamOf(extras, player));
   const latestTeam = findNFLTeam(player.team);
   const theme = teamThemeVars(team);
@@ -296,7 +296,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
                   <span className="block text-[11px] font-normal text-muted-foreground">
                     {team.conference} {team.division}
                   </span>
-                  {latestTeam && latestTeam.id !== team.id && (
+                  {player.status === 'Retired' && latestTeam && latestTeam.id !== team.id && (
                     <span className="block text-[11px] font-normal text-muted-foreground">Latest club: {latestTeam.name}</span>
                   )}
                 </span>

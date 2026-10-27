@@ -8,6 +8,7 @@ import type { Player } from '@/types/player';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { normalizeName, type PlayerStints } from '@/utils/playerExtras';
 import { editionShuffle } from '@/utils/edition';
+import { currentClub as clubOf } from '@/utils/club';
 import {
   matchPlayerByName,
   type CoachSeason,
@@ -157,9 +158,9 @@ export const buildResume = (content: LeagueContent): Resume => {
   games.forEach((g) => !franchises.includes(g.team) && franchises.push(g.team));
   const titleFranchises: string[] = [];
   games.forEach((g) => g.won && !titleFranchises.includes(g.team) && titleFranchises.push(g.team));
-  // Current club: the last team named in the latest era, else the last Super Bowl team.
+  // Current club: from the data (coach.json currentStint / last coached season), else the latest era's last team.
   const lastEra = [...content.eras].sort((a, b) => a.endYear - b.endYear).at(-1);
-  const currentClub = lastEra?.yourTeams.at(-1) ?? games.at(-1)?.team ?? null;
+  const currentClub = clubOf(content) ?? lastEra?.yourTeams.at(-1) ?? games.at(-1)?.team ?? null;
   const lastYear = content.superBowls.reduce((m, sb) => Math.max(m, sb.year), 0);
   return {
     games,
@@ -366,7 +367,7 @@ export interface Stint {
 }
 
 /** Consecutive seasons with the same franchise form one stint. */
-const seasonStints = (rows: SeasonRow[], resume: Resume): Stint[] => {
+const seasonStints = (rows: SeasonRow[], resume: Resume, content: LeagueContent): Stint[] => {
   const stints: Stint[] = [];
   for (const r of rows) {
     const last = stints.at(-1);
@@ -398,7 +399,22 @@ const seasonStints = (rows: SeasonRow[], resume: Resume): Stint[] => {
     s.record = { w, l, t, pct: winPct(w, l, t), titles: rs.filter((r) => r.kind === 'champions').length, best: [...rs].sort(compareSeasons)[0] };
   }
   const tail = stints.at(-1);
-  if (tail && (!resume.season || tail.lastYear >= resume.season)) tail.current = true;
+  const next = content.coach?.currentStint;
+  if (tail && next && next.from > tail.lastYear) {
+    // A club switch recorded before the new club's first season: the new stint is current, with no seasons yet
+    stints.push({
+      id: `${next.abbr ?? next.team}-${next.from}`.toLowerCase(),
+      team: next.team,
+      games: [],
+      firstYear: next.from,
+      lastYear: next.from,
+      current: true,
+      wins: 0,
+      losses: 0,
+      eras: [],
+      keyPlayers: [],
+    });
+  } else if (tail && (!resume.season || tail.lastYear >= resume.season)) tail.current = true;
   return stints;
 };
 
@@ -434,7 +450,7 @@ export const buildStints = (
   careers: Record<string, PlayerStints> = {},
 ): Stint[] => {
   const rows = seasonRows(content);
-  const stints: Stint[] = rows.length ? seasonStints(rows, resume) : [];
+  const stints: Stint[] = rows.length ? seasonStints(rows, resume, content) : [];
   for (const g of rows.length ? [] : resume.games) {
     const last = stints.at(-1);
     if (last && last.team === g.team) {

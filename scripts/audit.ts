@@ -135,17 +135,32 @@ for (const era of content.eras ?? []) {
   }
 }
 
-// 5b. Signature team (card / banner identity) is a real franchise the player has a stint with
+// 5b. Signature team (card / banner identity) is a real franchise the player has a stint with. An active player
+// wears his current team (owner rule: the banner follows a current player; best years only once he retires), so an
+// owner signature_team fact that differs is expected while he plays and is never flagged.
 for (const [who, team] of Object.entries(extras.signatureTeams ?? {}) as [string, string][]) {
   const p = byName.get(who);
   const id = findNFLTeam(team)?.id;
   if (!p) warnings.push(`Signature team for unknown player ${who}`);
   else if (!id) errors.push(`Signature team for ${who} is not a franchise: ${team}`);
+  else if (p.status !== 'Retired' && findNFLTeam(p.team)?.id !== id)
+    errors.push(`Signature team for active ${who} is the ${team}, but his current team is the ${p.team}`);
+  else if (p.status !== 'Retired') continue;
   else {
     const stintIds = new Set((extras.stints?.[who]?.stints ?? []).map((s: { team: string }) => findNFLTeam(s.team)?.id));
     if (stintIds.size ? !stintIds.has(id) : !franchisesOf(p).has(id))
       warnings.push(`Signature team for ${who} is the ${team}, but he has no stint there`);
   }
+}
+
+// 5c. The owner's current club agrees everywhere: coach.json currentStint (or the last coached season) and
+// owner_facts.json current_club (the club "CUR" on the sheet resolves to)
+{
+  const coach = read('data/y80/coach.json');
+  const club = coach.currentStint?.team ?? coach.seasons?.at(-1)?.team;
+  const facts = read('data/y80/owner_facts.json');
+  if (club && facts.current_club && findNFLTeam(club)?.id !== findNFLTeam(facts.current_club)?.id)
+    errors.push(`Current club disagrees: coach.json says the ${club}, owner_facts.json current_club the ${facts.current_club}`);
 }
 
 // 6. Hall of Fame classes point at real Hall of Famers

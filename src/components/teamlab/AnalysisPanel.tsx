@@ -41,9 +41,11 @@ interface AnalysisPanelProps {
   upgrades: UpgradePlan | null;
   ranking: RankRow[];
   onUpgrade: (slot: string, key: string) => void;
+  /** The owner's current club (from the data) */
+  clubName: string;
 }
 
-const AnalysisPanel = ({ analysis: a, upgrades, ranking, onUpgrade }: AnalysisPanelProps) => {
+const AnalysisPanel = ({ analysis: a, upgrades, ranking, onUpgrade, clubName }: AnalysisPanelProps) => {
   const rankPos = ranking.findIndex((r) => r.isCurrent) + 1;
   return (
     <div className="min-w-0 space-y-4">
@@ -170,7 +172,7 @@ const AnalysisPanel = ({ analysis: a, upgrades, ranking, onUpgrade }: AnalysisPa
                     +<b>{o.delta.toFixed(1)}</b> team
                   </span>
                   <span className={cn('rounded px-1.5 py-0.5 text-[11px] font-semibold', o.fromCurrentTeam ? 'bg-turf/25 text-chalk' : 'bg-panel-2 text-muted-foreground')}>
-                    {o.fromCurrentTeam ? 'On your Jets roster' : o.in.isLegend ? 'NFL legend' : 'Trade target'}
+                    {o.fromCurrentTeam ? `On your ${clubName} roster` : o.in.isLegend ? 'NFL legend' : 'Trade target'}
                   </span>
                   {o.styleMatch != null && o.styleMatch >= 1 && <span className="text-[11px] text-muted-foreground">plays like him: {Math.round(o.styleMatch)}</span>}
                   <Button type="button" size="sm" variant="outline" className="h-7 border-line px-2 text-xs" onClick={() => onUpgrade(o.slot, o.in.key)}>
@@ -181,7 +183,7 @@ const AnalysisPanel = ({ analysis: a, upgrades, ranking, onUpgrade }: AnalysisPa
             </ul>
           )}
           {upgrades.options.length > 0 && !upgrades.options.some((o) => o.fromCurrentTeam) && (
-            <p className="mt-2 text-xs text-muted-foreground">No Jets player raises the team rating from this slot, so all three are trade targets.</p>
+            <p className="mt-2 text-xs text-muted-foreground">No {clubName} player raises the team rating from this slot, so all three are trade targets.</p>
           )}
           <p className="mt-2 text-xs text-muted-foreground">Projected change in the team rating (the weighted unit score, 0–100) with only this slot changed.</p>
         </Card>

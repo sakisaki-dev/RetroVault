@@ -209,13 +209,23 @@ def franchise_history(players, teams, cards, stints=None):
     return out
 
 
-def signature_teams(players, teams, stints):
-    """The club each league player is best known for: the jersey, helmet and colours on his card and banners.
+def player_status(p, sheet_row=None) -> str:
+    """Active / Retired (internal only; the UI never shows it): owner status, then the game's team screens, then the
+    game's Player HOF screen (retired), then the league sheet; a player with no sheet row is active."""
+    return (STATUS_FIXES.get(p["n"]) or ("Active" if p["n"] in ACTIVE_ROSTERS else None)
+            or ("Retired" if p["n"] in RETIRED_WITH else None) or (sheet_row or {}).get("st")) or "Active"
 
-    Rule over the reconstructed stints: the stint with the most rings, then the most seasons, then the earliest.
-    Stints carry no per-stint awards, so awards can't break a tie. No stints: his club of record. Owner facts
-    come first: players.<name>.signature_team, then the card's legacy_team ("mainly a Seahawk"). Values are full
-    franchise names, like the league CSV's team.
+
+def signature_teams(players, teams, stints, sheet=None):
+    """The club each league player's card and banners wear: the jersey, helmet and colours.
+
+    Owner rule: "for the banners if its a current team always change to whatever their current team is, the banner
+    only takes the best years after they retire since that's what's best known." So an active player always wears
+    his current team (club of record), overriding the stint rule and any owner signature_team fact. A retired
+    player wears where he was best known: owner facts first (players.<name>.signature_team, then the card's
+    legacy_team, "mainly a Seahawk"), else the stint with the most rings, then the most seasons, then the earliest
+    (stints carry no per-stint awards, so awards can't break a tie); no stints = his club of record. Values are
+    full franchise names, like the league CSV's team.
     """
     def full(key):
         key = (key or "").split(" (")[0].strip()
@@ -227,14 +237,17 @@ def signature_teams(players, teams, stints):
         if p.get("legend"):
             continue
         name = p["n"]
+        team_key = TEAM_FIXES.get(name, p.get("team", ""))
+        current = full(CURRENT_CLUB if team_key == "CUR" else team_key)
         owner = SIGNATURE_TEAM.get(name) or CARD_NOTES.get(name, {}).get("legacy_team")
-        if full(owner):
+        if current and player_status(p, (sheet or {}).get((name, p["pos"]))) == "Active":
+            team = current  # still playing: the banner follows him to his current club
+        elif full(owner):
             team = full(owner)
         else:
             runs = [s for s in stints.get(name, {}).get("stints", []) if full(s["team"])]
             best = min(runs, key=lambda s: (-len(s.get("rings", [])), -(s["to"] - s["from"] + 1), s["from"]), default=None)
-            team_key = TEAM_FIXES.get(name, p.get("team", ""))
-            team = full(best["team"]) if best else full(CURRENT_CLUB if team_key == "CUR" else team_key)
+            team = full(best["team"]) if best else current
         if team:
             out[name] = team
     return dict(sorted(out.items()))
@@ -265,8 +278,9 @@ def write_player_extras():
     out["franchises"] = franchise_history(json.loads((SRC / "players.json").read_text()),
                                           json.loads((SRC / "teams.json").read_text()), cards, stints)
     out["stints"] = stints
+    sheet = {(r["n"], r["pos"]): r for r in json.loads((SRC / "spreadsheet_parsed.json").read_text())}
     out["signatureTeams"] = signature_teams(json.loads((SRC / "players.json").read_text()),
-                                            json.loads((SRC / "teams.json").read_text()), stints)
+                                            json.loads((SRC / "teams.json").read_text()), stints, sheet)
     PLAYER_EXTRAS_OUT.write_text(json.dumps(out, indent=1, ensure_ascii=False))
     print(f"wrote {PLAYER_EXTRAS_OUT.relative_to(ROOT)}: real-NFL splits for {len(out['realNflCareer'])} players")
 
@@ -381,8 +395,7 @@ def main():
         # Only real franchises count; teams.json's UNK/CUR placeholders have no conference.
         team = teams[team_key]["name"] if teams.get(team_key, {}).get("conference") else ""
         # In the game's Hall of Fame = retired (internal only; the UI never shows status)
-        status = (STATUS_FIXES.get(p["n"]) or ("Active" if p["n"] in ACTIVE_ROSTERS else None)
-                  or ("Retired" if p["n"] in RETIRED_WITH else None) or sheet_row.get("st")) or ("Active" if p.get("team") == "CUR" else "Active")
+        status = player_status(p, sheet_row)
         out[p["pos"]].append({**p, "_tt": round(tt, 2), "_team": team, "_status": status})
 
     award = lambda p: g(p, "dpoy") if p["pos"] in ("LB", "DB", "DL") else g(p, "opoy")

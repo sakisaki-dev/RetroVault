@@ -256,6 +256,16 @@
     "stats": 10
    },
    "changed": 10
+  },
+  {
+   "id": "2026-10-27-falcons-switch",
+   "dir": "data/uploads/2026-10-27-falcons-switch",
+   "applied_at": "2026-10-27T00:55:06-07:00",
+   "mutations": {
+    "stats": 16,
+    "notes": 1
+   },
+   "changed": 17
   }
  ]
 }

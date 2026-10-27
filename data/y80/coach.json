@@ -783,5 +783,10 @@
    "t": 0,
    "finish": "Champions"
   }
- ]
+ ],
+ "currentStint": {
+  "team": "Falcons",
+  "abbr": "ATL",
+  "from": 83
+ }
 }
