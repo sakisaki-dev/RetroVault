@@ -37,13 +37,15 @@ export interface GraphConfig {
   ySplit?: { value: number; label: string };
   /** Only players who meet this advanced metric's minimum sample. */
   qualifyBy?: string;
+  /** Family zones (config/families.ts); drawn only when exactly one position is shown. */
+  zones?: boolean;
 }
 
 export const DEFAULT_CONFIG: GraphConfig = { x: 'tdPct', y: 'intPct', pos: [], minGames: 16, color: 'team', splits: true };
 
 // ---------- URL (hash) form ----------
 
-export const GRAPH_PARAMS = ['gx', 'gy', 'gs', 'pos', 'team', 'hof', 'gmin', 'gc', 'glx', 'gly', 'gtr', 'gsp'] as const;
+export const GRAPH_PARAMS = ['gx', 'gy', 'gs', 'pos', 'team', 'hof', 'gmin', 'gc', 'glx', 'gly', 'gtr', 'gsp', 'gz'] as const;
 
 export const configToParams = (c: GraphConfig): Record<string, string> => {
   const out: Record<string, string> = { gx: c.x, gy: c.y };
@@ -57,6 +59,7 @@ export const configToParams = (c: GraphConfig): Record<string, string> => {
   if (c.logY) out.gly = '1';
   if (c.trend) out.gtr = '1';
   if (!c.splits) out.gsp = '0';
+  if (c.zones) out.gz = '1';
   return out;
 };
 
@@ -81,6 +84,7 @@ export const paramsToConfig = (p: Record<string, string>): GraphConfig | null =>
     logY: p.gly === '1',
     trend: p.gtr === '1',
     splits: p.gsp !== '0',
+    zones: p.gz === '1',
   };
 };
 

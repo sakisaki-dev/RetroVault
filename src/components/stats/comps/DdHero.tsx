@@ -2,6 +2,7 @@ import { ChevronLeft, ChevronRight, IdCard, Shuffle } from 'lucide-react';
 import type { Player } from '@/types/player';
 import { getLegacyTier, isHallOfFamer } from '@/config/stats';
 import { SIM_MIN_GAMES } from '@/config/advanced';
+import type { Family } from '@/config/families';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import { useJerseyNumbers } from '@/utils/jerseys';
@@ -25,10 +26,13 @@ interface Props {
   prev: Player | null;
   next: Player | null;
   onOpenCard: () => void;
+  /** His play-style family (config/families.ts), shown as a chip; clicking it opens the families map. */
+  family?: Family | null;
+  onFamily?: () => void;
 }
 
 /** Search + navigation bar and the full-width team-themed banner. */
-const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, onOpenCard }: Props) => {
+const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, onOpenCard, family, onFamily }: Props) => {
   const { numberFor, retiredInfo } = useJerseyNumbers();
   const extras = usePlayerExtras();
   // The banner wears his signature team (where he was best known); the franchise chips list them all
@@ -106,6 +110,18 @@ const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, on
           GP <b>{player.games}</b>
         </span>
         {player.games < SIM_MIN_GAMES && <SmallSampleChip />}
+        {family && (
+          <button
+            type="button"
+            onClick={onFamily}
+            disabled={!onFamily}
+            title={`${family.name} (${family.members.length} ${player.position}s): ${family.definition}. Show the families map.`}
+            className="lamp cursor-pointer border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold disabled:cursor-default"
+            style={{ borderColor: family.color }}
+          >
+            Family <b style={{ color: family.color }}>{family.name}</b>
+          </button>
+        )}
         {franchises.length > 0 && (
           <ul className="flex flex-wrap items-center gap-1.5" aria-label="Franchise history">
             {franchises.map((f, i) => (

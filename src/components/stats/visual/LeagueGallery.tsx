@@ -12,13 +12,16 @@ import ChartFrame from '../analytics/ChartFrame';
 import Chips from '../analytics/Chips';
 import TierBoard, { type Tier } from './TierBoard';
 import StatStrips, { StatStripsTable } from './StatStrips';
+import FamilyMap from './FamilyMap';
+import { familiesFor } from '@/config/families';
 
-type View = 'tiers' | 'strips';
+type View = 'tiers' | 'strips' | 'families';
 type TierBy = 'skill' | 'ovr';
 
 const VIEWS: { id: View; label: string }[] = [
   { id: 'tiers', label: 'Tier list' },
   { id: 'strips', label: 'Stat strips' },
+  { id: 'families', label: 'Family map' },
 ];
 
 const LETTERS = ['S', 'A', 'B', 'C', 'D', 'F'];
@@ -41,6 +44,45 @@ const buildTiers = (players: Player[], by: TierBy, ovrMap: Map<string, number>, 
     const step = gradeFor(l === 'S' ? 95 : l === 'F' ? 0 : [80, 60, 40, 15][LETTERS.indexOf(l) - 1]);
     return { ...t, label: step ? tierFor(step) : '', entries: t.entries.sort((a, b) => b.value - a.value || a.player.name.localeCompare(b.player.name)) };
   });
+};
+
+/** Accessible fallback for the family map: every family, its definition and its members. */
+const FamilyTable = ({ players, position, onSelect }: { players: Player[]; position: Position; onSelect: (p: Player) => void }) => {
+  const fams = familiesFor(players, position);
+  if (!fams) return <p className="text-sm text-muted-foreground">Too few {position}s to form families.</p>;
+  return (
+    <div className="relative max-h-[440px] overflow-auto rounded-md border border-line/60">
+      <table className="w-full text-sm">
+        <caption className="sr-only">{position} families</caption>
+        <thead className="sticky top-0 bg-panel-2 text-left font-pixel text-[9px] uppercase text-muted-foreground">
+          <tr>
+            <th scope="col" className="px-2 py-1.5 font-normal">Family</th>
+            <th scope="col" className="px-2 py-1.5 font-normal">Members (by Career Legacy)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {fams.families.map((f) => (
+            <tr key={f.id} className="border-t border-line/40 align-top">
+              <td className="px-2 py-1.5">
+                <b style={{ color: f.color }}>{f.name}</b> <span className="text-xs text-muted-foreground">({f.members.length})</span>
+                <span className="block text-xs text-muted-foreground">{f.definition}</span>
+              </td>
+              <td className="px-2 py-1.5">
+                {f.members.map((p, i) => (
+                  <span key={p.name}>
+                    {i > 0 && ', '}
+                    <button type="button" onClick={() => onSelect(p)} className="font-semibold hover:text-gold">
+                      {p.name}
+                    </button>
+                  </span>
+                ))}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 };
 
 /** League Landscape gallery: per-position graphics (tier list, stat strips) in one card, picked by tabs. */
@@ -70,7 +112,7 @@ const LeagueGallery = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Pla
           <GalleryHorizontalEnd className="h-5 w-5 text-gold" aria-hidden="true" />
           League Landscape
         </h2>
-        <p className="text-sm text-muted-foreground">Position-by-position graphics: a tier list and every rate stat as a strip. Pick a position, then a graphic. For any other comparison, open the Graph Builder in the Lab.</p>
+        <p className="text-sm text-muted-foreground">Position-by-position graphics: a tier list, every rate stat as a strip, and a family map of play styles. Pick a position, then a graphic. For any other comparison, open the Graph Builder in the Lab.</p>
       </div>
 
       <div className="glass-card flex flex-col gap-2 px-3 py-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4">
@@ -133,6 +175,16 @@ const LeagueGallery = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Pla
               </table>
             </div>
           }
+        />
+      )}
+
+      {view === 'families' && (
+        <ChartFrame
+          poster
+          title={`${position} family map`}
+          description={`Every league ${name.toLowerCase()} placed by play-style shape (what he leans on, with his overall level taken out; closer = plays more alike), with shaded zones for the ${position} families: rule-based clusters of those shapes, named from each family's average shape. Hover a zone or legend entry to highlight it; click one to list its members.`}
+          chart={<FamilyMap players={players} position={position} />}
+          table={<FamilyTable players={players} position={position} onSelect={onSelect} />}
         />
       )}
 

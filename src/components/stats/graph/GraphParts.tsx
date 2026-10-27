@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Player } from '@/types/player';
+import type { PositionFamilies } from '@/config/families';
 import { isHallOfFamer } from '@/config/stats';
 import LandscapeScatter from '../visual/LandscapeScatter';
 import { Legend } from '../visual/chartParts';
@@ -15,11 +16,14 @@ export const GraphPlot = ({
   onSelect,
   highlightKey,
   empty,
+  zones,
 }: {
   model: GraphModel;
   logos: boolean;
   onSelect: (p: Player) => void;
   highlightKey?: string | null;
+  /** Family zones of the one shown position. */
+  zones?: { fams: PositionFamilies; active: number | null } | null;
   /** Replaces the default "too few players" message (the Graph Builder explains why and offers a fix). */
   empty?: ReactNode;
 }) =>
@@ -32,6 +36,7 @@ export const GraphPlot = ({
       logos={logos}
       onSelect={onSelect}
       highlightKey={highlightKey}
+      zones={zones}
       ariaLabel={`${model.ys.label} against ${model.xs.label}. Each dot is a player; click or tap near one to open his card (overlapping dots offer a choice), or Tab to a dot and use the arrow keys.`}
     />
   );

@@ -6,6 +6,9 @@ import { VIZ } from '../analytics/viz';
 import { GOLD, fmtShort, niceTicks, teamMark, useWidth } from './chartKit';
 import { ChartTip } from './chartParts';
 import { logTicks, quadrantName, splitOf, trendFit, type LPoint, type LandscapeSpec } from './landscape';
+import type { PositionFamilies } from '@/config/families';
+import { FamilyZoneLabels, FamilyZoneLayer } from './FamilyZones';
+import { buildZones } from './zones';
 
 /**
  * The shared scatter engine for every landscape and the Graph Builder: team-coloured dots or logos (or a colour
@@ -340,6 +343,7 @@ const LandscapeScatter = ({
   onSelect,
   ariaLabel,
   highlightKey,
+  zones,
 }: {
   points: LPoint[];
   spec: LandscapeSpec;
@@ -348,6 +352,8 @@ const LandscapeScatter = ({
   ariaLabel: string;
   /** Searched player: always labelled and ringed. */
   highlightKey?: string | null;
+  /** Family zones of ONE position (config/families.ts), drawn behind that position's dots; `active` dims the rest. */
+  zones?: { fams: PositionFamilies; active: number | null } | null;
 }) => {
   const [boxRef, width] = useWidth();
   const [hover, setHover] = useState<string | null>(null);
@@ -433,6 +439,13 @@ const LandscapeScatter = ({
   );
   const screen = useMemo<Screen[]>(() => (geo ? drawOrder.map((pt) => ({ pt, cx: geo.X(pt.x), cy: geo.Y(pt.y), r: geo.radius(pt) })) : []), [geo, drawOrder]);
   const screenByKey = useMemo(() => new Map(screen.map((s) => [s.pt.key, s])), [screen]);
+  // Zones only ever wrap the zone position's league dots (NFL keys carry an "nfl:" prefix, so they never match).
+  const famOf = (key: string) => zones?.fams.of.get(key);
+  const zoneShapes = useMemo(
+    () => (zones ? buildZones(screen.map((s) => ({ key: s.pt.key, x: s.cx, y: s.cy, r: s.r })), (k) => zones.fams.of.get(k), narrow ? 9 : 12, narrow ? 36 : 56) : []),
+    [screen, zones, narrow],
+  );
+  const famActive = zones?.active ?? null;
 
   // Cluster chooser (several overlapping dots under one click) and the last picked point.
   const [chooser, setChooser] = useState<{ x: number; y: number; items: LPoint[] } | null>(null);
@@ -581,20 +594,27 @@ const LandscapeScatter = ({
               )}
             </g>
 
+            {zones && zoneShapes.length > 0 && (
+              <g pointerEvents="none">
+                <FamilyZoneLayer zones={zoneShapes} fams={zones.fams} active={famActive} onHover={() => {}} onOpen={() => {}} />
+              </g>
+            )}
+
             <g ref={pointsRef} pointerEvents="none">
               {screen.map(({ pt, cx, cy, r }) => (
-                <PointMark
-                  key={pt.key}
-                  pt={pt}
-                  cx={cx}
-                  cy={cy}
-                  r={r}
-                  logo={logos ? resolveTeam(pt.player.team)?.logoUrl ?? null : null}
-                  highlight={pt.key === highlightKey}
-                  onSelect={() => open(pt)}
-                  onShow={setHover}
-                  onKey={(e) => onKey(pt, e)}
-                />
+                <g key={pt.key} className="fz-dot" opacity={famActive != null && famOf(pt.key) !== famActive ? 0.18 : 1}>
+                  <PointMark
+                    pt={pt}
+                    cx={cx}
+                    cy={cy}
+                    r={r}
+                    logo={logos ? resolveTeam(pt.player.team)?.logoUrl ?? null : null}
+                    highlight={pt.key === highlightKey}
+                    onSelect={() => open(pt)}
+                    onShow={setHover}
+                    onKey={(e) => onKey(pt, e)}
+                  />
+                </g>
               ))}
             </g>
 
@@ -638,6 +658,9 @@ const LandscapeScatter = ({
                   {l.text}
                 </text>
               ))}
+              {zones && zoneShapes.length > 0 && (
+                <FamilyZoneLabels zones={zoneShapes} fams={zones.fams} toScreen={(x, y) => [x, y]} dots={screen.map((d) => ({ x: d.cx, y: d.cy, r: d.r }))} W={width} H={height} active={famActive} small={narrow} />
+              )}
               {hovered && !labelled.has(hovered.key) && (
                 <text x={geo.X(hovered.x) + 9} y={geo.Y(hovered.y) - 8} fontSize={11} fontWeight={700} fill={GOLD} stroke={VIZ.surface} strokeWidth={3} paintOrder="stroke">
                   {hovered.player.name}
@@ -659,6 +682,11 @@ const LandscapeScatter = ({
             {hovered.xText} · {hovered.yText}
             {hovered.sizeText ? ` · ${hovered.sizeText}` : ''}
           </p>
+          {zones && famOf(hovered.key) != null && (
+            <p className="mt-0.5 text-muted-foreground">
+              Family: <b style={{ color: zones.fams.families[famOf(hovered.key)!].color }}>{zones.fams.families[famOf(hovered.key)!].name}</b>
+            </p>
+          )}
           <p className="mt-0.5 text-muted-foreground">
             {spec.noSplits ? '' : `${quadrantName(hovered, geo.sx, geo.sy, spec)} · `}
             {hovered.nfl ? 'real NFL, unranked · ' : isHallOfFamer(hovered.player) ? 'Hall of Famer · ' : ''}click to open

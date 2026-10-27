@@ -3,10 +3,13 @@ import { Maximize2, Minus, Plus } from 'lucide-react';
 import type { Player } from '@/types/player';
 import { SIM_MIN_GAMES } from '@/config/advanced';
 import { isHallOfFamer } from '@/config/stats';
+import { familiesFor } from '@/config/families';
 import { findNFLTeam } from '@/utils/nflTeams';
 import TeamLogo from '../../brand/TeamLogo';
 import { VIZ, usePrefersReducedMotion } from '../analytics/viz';
 import { keyOf } from '../records';
+import { FamilyPanel, FamilyZoneLabels, FamilyZoneLayer } from '../visual/FamilyZones';
+import { buildZones } from '../visual/zones';
 import { dotColors } from './compColors';
 import type { SimilarityMap } from './compModel';
 
@@ -24,6 +27,12 @@ interface Props {
   wide: boolean;
   /** Zoom in on the selected player (and re-centre whenever he changes). Omit for the whole-position view. */
   focusZoom?: number;
+  /** Family zones (config/families.ts) with their legend and member list; on by default. */
+  zones?: boolean;
+  /** Opening a player from a zone's member list (default: onPick). */
+  onOpenMember?: (p: Player) => void;
+  /** Tooltip label for the nearest neighbour (default "Top comp"). */
+  nnLabel?: string;
 }
 
 interface View {
@@ -51,9 +60,20 @@ const ZoomButton = ({ label, onClick, children, disabled }: { label: string; onC
 );
 
 /** 2-D similarity map of one position: dots that sit close together play alike. Drag to pan, pinch / ctrl+wheel / buttons to zoom. */
-const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide, focusZoom }: Props) => {
+const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide, focusZoom, zones: zonesProp = true, onOpenMember, nnLabel = 'Top comp' }: Props) => {
   const reduced = usePrefersReducedMotion();
   const [hoverKey, setHoverKey] = useState<string | null>(null);
+  const [zonesOn, setZonesOn] = useState(true);
+  const [famHover, setFamHover] = useState<number | null>(null);
+  const [famOpen, setFamOpen] = useState<number | null>(null);
+  // Families are always per position: the map holds one position's pool, so they come from exactly these players.
+  const fams = useMemo(() => (zonesProp ? familiesFor(map.points.map((p) => p.player), map.position) : null), [map, zonesProp]);
+  useEffect(() => {
+    setFamOpen(null);
+    setFamHover(null);
+  }, [map.position]);
+  const showZones = !!fams && fams.shaped && zonesOn;
+  const famActive = showZones ? famHover ?? famOpen : null;
   const [view, setView] = useState<View>({ k: 1, tx: 0, ty: 0 });
   const svgRef = useRef<SVGSVGElement | null>(null);
   const W = wide ? 1100 : 360;
@@ -201,6 +221,11 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
   };
 
   const byKey = useMemo(() => new Map(layout.map((p) => [p.key, p])), [layout]);
+  const zoneShapes = useMemo(
+    () => (fams ? buildZones(layout.map((p) => ({ key: p.key, x: p.px, y: p.py, r: p.r })), (k) => fams.of.get(k), wide ? 14 : 10, wide ? 90 : 60) : []),
+    [layout, fams, wide],
+  );
+  const famOf = (key: string) => (fams ? fams.of.get(key) : undefined);
   // Focus order: left to right, then top to bottom.
   const order = useMemo(() => [...layout].sort((a, b) => a.px - b.px || a.py - b.py), [layout]);
   const nnLines = useMemo(() => {
@@ -279,9 +304,14 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
           )}
           {hover.player.games < SIM_MIN_GAMES && <span className="text-gold"> · small sample</span>}
         </span>
+        {fams && famOf(hover.key) != null && (
+          <span className="mt-0.5 block text-muted-foreground">
+            Family: <b style={{ color: fams.families[famOf(hover.key)!].color }}>{fams.families[famOf(hover.key)!].name}</b>
+          </span>
+        )}
         {hover.nn >= 0 && (
           <span className="mt-0.5 block text-muted-foreground">
-            Top comp: <b className="text-chalk">{layout[hover.nn].player.name}</b> {Math.round(hover.nnScore)}%
+            {nnLabel}: <b className="text-chalk">{layout[hover.nn].player.name}</b> {Math.round(hover.nnScore)}%
           </span>
         )}
       </div>
@@ -291,135 +321,164 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
   const zoomed = view.k > 1.001;
 
   return (
-    <div className="relative w-full overflow-hidden rounded-lg border border-line/60" style={{ background: 'radial-gradient(ellipse at center, rgba(57,135,229,0.07), transparent 70%)' }}>
-      <svg
-        ref={svgRef}
-        viewBox={`0 0 ${W} ${H}`}
-        className="block h-auto w-full select-none"
-        style={{ touchAction: zoomed ? 'none' : 'pan-y', cursor: zoomed ? 'grab' : undefined }}
-        role="group"
-        aria-label={`Similarity map of ${layout.length} ${map.position}s. Closer dots play more alike. Tab through players, Enter selects.`}
-        onMouseLeave={() => setHoverKey(null)}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onPointerCancel={onPointerUp}
-      >
-        {/* Nearest-neighbour web */}
-        <g aria-hidden="true" stroke={VIZ.axis} strokeOpacity={0.55} strokeWidth={wide ? 1 : 0.8}>
-          {nnLines.map((l) => (
-            <line key={l.id} x1={sx(l.a.px)} y1={sy(l.a.py)} x2={sx(l.b.px)} y2={sy(l.b.py)} />
-          ))}
-        </g>
-        {/* Selected player's top comps */}
-        {sel && (
-          <g aria-hidden="true">
-            {highlighted.map((h) => {
-              const isOverlay = keyOf(h.player) === overlayKey;
-              return (
-                <line
-                  key={keyOf(h.player)}
-                  x1={sx(sel.px)}
-                  y1={sy(sel.py)}
-                  x2={sx(h.pt!.px)}
-                  y2={sy(h.pt!.py)}
-                  stroke={GOLD}
-                  strokeOpacity={isOverlay ? 0.95 : 0.6}
-                  strokeWidth={isOverlay ? 2.8 : 1.7}
-                  strokeDasharray={isOverlay ? undefined : '5 4'}
-                />
-              );
-            })}
+    <div className="space-y-2">
+      <div className="relative w-full overflow-hidden rounded-lg border border-line/60" style={{ background: 'radial-gradient(ellipse at center, rgba(57,135,229,0.07), transparent 70%)' }}>
+        <svg
+          ref={svgRef}
+          viewBox={`0 0 ${W} ${H}`}
+          className="block h-auto w-full select-none"
+          style={{ touchAction: zoomed ? 'none' : 'pan-y', cursor: zoomed ? 'grab' : undefined }}
+          role="group"
+          aria-label={`Similarity map of ${layout.length} ${map.position}s. Closer dots play more alike. Tab through players, Enter selects.`}
+          onMouseLeave={() => setHoverKey(null)}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerUp}
+        >
+          {/* Family zones (behind everything) */}
+          {showZones && (
+            <FamilyZoneLayer
+              zones={zoneShapes}
+              fams={fams}
+              transform={`translate(${((W / 2) * (1 - view.k) + view.tx).toFixed(2)} ${((H / 2) * (1 - view.k) + view.ty).toFixed(2)}) scale(${view.k})`}
+              active={famActive}
+              onHover={setFamHover}
+              onOpen={(id) => setFamOpen((o) => (o === id ? null : id))}
+              isDrag={() => dragged.current}
+            />
+          )}
+          {/* Nearest-neighbour web */}
+          <g aria-hidden="true" stroke={VIZ.axis} strokeOpacity={0.55} strokeWidth={wide ? 1 : 0.8}>
+            {nnLines.map((l) => (
+              <line key={l.id} x1={sx(l.a.px)} y1={sy(l.a.py)} x2={sx(l.b.px)} y2={sy(l.b.py)} />
+            ))}
           </g>
-        )}
-
-        {/* Selected: pulsing halo */}
-        {sel && (
-          <g aria-hidden="true" pointerEvents="none">
-            <circle cx={sx(sel.px)} cy={sy(sel.py)} r={sel.r + 9} fill={GOLD} fillOpacity={0.12} stroke={GOLD} strokeOpacity={0.5} strokeWidth={1.5}>
-              {!reduced && (
-                <>
-                  <animate attributeName="r" values={`${sel.r + 6};${sel.r + 20};${sel.r + 6}`} dur="2s" repeatCount="indefinite" />
-                  <animate attributeName="stroke-opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite" />
-                  <animate attributeName="fill-opacity" values="0.18;0;0.18" dur="2s" repeatCount="indefinite" />
-                </>
-              )}
-            </circle>
-          </g>
-        )}
-
-        {/* Dots (focusable, left-to-right) */}
-        {order.map((p) => {
-          const r = p.r;
-          const cx = sx(p.px);
-          const cy = sy(p.py);
-          const { fill, ring } = dotColors(p.player.team);
-          const hof = isHallOfFamer(p.player);
-          const isSel = p.key === selectedKey;
-          const dim = sel && !isSel && !labelled.has(p.key) && p.key !== hoverKey;
-          return (
-            <g
-              key={p.key}
-              tabIndex={0}
-              role="button"
-              aria-pressed={isSel}
-              aria-label={`${p.player.name}, ${findNFLTeam(p.player.team)?.abbreviation ?? p.player.team ?? 'no team'}${p.ovr != null ? `, OVR ${p.ovr}` : ''}${hof ? ', Hall of Famer' : ''}${p.nn >= 0 ? `. Top comp ${layout[p.nn].player.name} ${Math.round(p.nnScore)}%` : ''}`}
-              className="cursor-pointer outline-none"
-              onClick={() => {
-                if (!dragged.current) onPick(p.player);
-              }}
-              onKeyDown={(e) => onKey(e, p.player)}
-              onMouseEnter={() => setHoverKey(p.key)}
-              onFocus={() => setHoverKey(p.key)}
-              onBlur={() => setHoverKey((k) => (k === p.key ? null : k))}
-            >
-              <circle cx={cx} cy={cy} r={r + 6} fill="transparent" />
-              {hof && <circle cx={cx} cy={cy} r={r + 2.8} fill="none" stroke={GOLD} strokeWidth={2} />}
-              <circle cx={cx} cy={cy} r={r} fill={fill} stroke={ring} strokeWidth={1.2} opacity={dim ? 0.5 : 1} />
-              {p.player.games < SIM_MIN_GAMES && <circle cx={cx} cy={cy} r={r} fill={VIZ.surface} opacity={0.45} />}
+          {/* Selected player's top comps */}
+          {sel && (
+            <g aria-hidden="true">
+              {highlighted.map((h) => {
+                const isOverlay = keyOf(h.player) === overlayKey;
+                return (
+                  <line
+                    key={keyOf(h.player)}
+                    x1={sx(sel.px)}
+                    y1={sy(sel.py)}
+                    x2={sx(h.pt!.px)}
+                    y2={sy(h.pt!.py)}
+                    stroke={GOLD}
+                    strokeOpacity={isOverlay ? 0.95 : 0.6}
+                    strokeWidth={isOverlay ? 2.8 : 1.7}
+                    strokeDasharray={isOverlay ? undefined : '5 4'}
+                  />
+                );
+              })}
             </g>
-          );
-        })}
+          )}
 
-        {/* Decorations on top: selection, hover/focus ring, names */}
-        <g aria-hidden="true" pointerEvents="none">
-          {hover && <circle cx={sx(hover.px)} cy={sy(hover.py)} r={hover.r + 5} fill="none" stroke={VIZ.ink} strokeWidth={2} />}
-          {sel && <circle cx={sx(sel.px)} cy={sy(sel.py)} r={sel.r + 6} fill="none" stroke={GOLD} strokeWidth={2.8} />}
-          {labels.map((l) => (
-            <g key={`lbl-${l.key}`}>
-              {Math.abs(l.y - 4 - l.dotY) > 3 && (
-                <line x1={l.dotX} y1={l.dotY} x2={l.anchor === 'start' ? l.x - 2 : l.x + 2} y2={l.y - 4} stroke={VIZ.muted} strokeOpacity={0.6} strokeWidth={0.8} />
-              )}
-              <text
-                x={l.x}
-                y={l.y}
-                textAnchor={l.anchor}
-                fontSize={l.size}
-                fill={l.isSel ? GOLD : VIZ.ink}
-                stroke={VIZ.surface}
-                strokeWidth={3.5}
-                paintOrder="stroke"
-                className={l.isSel ? 'font-display font-bold uppercase' : 'font-semibold'}
+          {/* Selected: pulsing halo */}
+          {sel && (
+            <g aria-hidden="true" pointerEvents="none">
+              <circle cx={sx(sel.px)} cy={sy(sel.py)} r={sel.r + 9} fill={GOLD} fillOpacity={0.12} stroke={GOLD} strokeOpacity={0.5} strokeWidth={1.5}>
+                {!reduced && (
+                  <>
+                    <animate attributeName="r" values={`${sel.r + 6};${sel.r + 20};${sel.r + 6}`} dur="2s" repeatCount="indefinite" />
+                    <animate attributeName="stroke-opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite" />
+                    <animate attributeName="fill-opacity" values="0.18;0;0.18" dur="2s" repeatCount="indefinite" />
+                  </>
+                )}
+              </circle>
+            </g>
+          )}
+
+          {/* Dots (focusable, left-to-right) */}
+          {order.map((p) => {
+            const r = p.r;
+            const cx = sx(p.px);
+            const cy = sy(p.py);
+            const { fill, ring } = dotColors(p.player.team);
+            const hof = isHallOfFamer(p.player);
+            const isSel = p.key === selectedKey;
+            const dim = sel && !isSel && !labelled.has(p.key) && p.key !== hoverKey;
+            const famDim = famActive != null && famOf(p.key) !== famActive && !isSel;
+            return (
+              <g
+                key={p.key}
+                className="fz-dot cursor-pointer outline-none"
+                opacity={famDim ? 0.18 : 1}
+                tabIndex={0}
+                role="button"
+                aria-pressed={isSel}
+                aria-label={`${p.player.name}, ${findNFLTeam(p.player.team)?.abbreviation ?? p.player.team ?? 'no team'}${p.ovr != null ? `, OVR ${p.ovr}` : ''}${hof ? ', Hall of Famer' : ''}${fams && famOf(p.key) != null ? `, ${fams.families[famOf(p.key)!].name}` : ''}${p.nn >= 0 ? `. Top comp ${layout[p.nn].player.name} ${Math.round(p.nnScore)}%` : ''}`}
+                onClick={() => {
+                  if (!dragged.current) onPick(p.player);
+                }}
+                onKeyDown={(e) => onKey(e, p.player)}
+                onMouseEnter={() => setHoverKey(p.key)}
+                onFocus={() => setHoverKey(p.key)}
+                onBlur={() => setHoverKey((k) => (k === p.key ? null : k))}
               >
-                {l.text}
-              </text>
-            </g>
-          ))}
-        </g>
-      </svg>
-      {tip}
-      <div className="absolute right-2 top-2 flex flex-col gap-1">
-        <ZoomButton label="Zoom in" onClick={() => zoomAt(1.5)} disabled={view.k >= MAX_ZOOM}>
-          <Plus className="h-4 w-4" aria-hidden="true" />
-        </ZoomButton>
-        <ZoomButton label="Zoom out" onClick={() => zoomAt(1 / 1.5)} disabled={!zoomed}>
-          <Minus className="h-4 w-4" aria-hidden="true" />
-        </ZoomButton>
-        <ZoomButton label="Reset zoom" onClick={() => setView({ k: 1, tx: 0, ty: 0 })} disabled={!zoomed}>
-          <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />
-        </ZoomButton>
+                <circle cx={cx} cy={cy} r={r + 6} fill="transparent" />
+                {hof && <circle cx={cx} cy={cy} r={r + 2.8} fill="none" stroke={GOLD} strokeWidth={2} />}
+                <circle cx={cx} cy={cy} r={r} fill={fill} stroke={ring} strokeWidth={1.2} opacity={dim ? 0.5 : 1} />
+                {p.player.games < SIM_MIN_GAMES && <circle cx={cx} cy={cy} r={r} fill={VIZ.surface} opacity={0.45} />}
+              </g>
+            );
+          })}
+
+          {showZones && <FamilyZoneLabels zones={zoneShapes} fams={fams} toScreen={(x, y) => [sx(x), sy(y)]} dots={layout.map((p) => ({ x: sx(p.px), y: sy(p.py), r: p.r }))} W={W} H={H} active={famActive} small={!wide} />}
+          {/* Decorations on top: selection, hover/focus ring, names */}
+          <g aria-hidden="true" pointerEvents="none">
+            {hover && <circle cx={sx(hover.px)} cy={sy(hover.py)} r={hover.r + 5} fill="none" stroke={VIZ.ink} strokeWidth={2} />}
+            {sel && <circle cx={sx(sel.px)} cy={sy(sel.py)} r={sel.r + 6} fill="none" stroke={GOLD} strokeWidth={2.8} />}
+            {labels.map((l) => (
+              <g key={`lbl-${l.key}`}>
+                {Math.abs(l.y - 4 - l.dotY) > 3 && (
+                  <line x1={l.dotX} y1={l.dotY} x2={l.anchor === 'start' ? l.x - 2 : l.x + 2} y2={l.y - 4} stroke={VIZ.muted} strokeOpacity={0.6} strokeWidth={0.8} />
+                )}
+                <text
+                  x={l.x}
+                  y={l.y}
+                  textAnchor={l.anchor}
+                  fontSize={l.size}
+                  fill={l.isSel ? GOLD : VIZ.ink}
+                  stroke={VIZ.surface}
+                  strokeWidth={3.5}
+                  paintOrder="stroke"
+                  className={l.isSel ? 'font-display font-bold uppercase' : 'font-semibold'}
+                >
+                  {l.text}
+                </text>
+              </g>
+            ))}
+          </g>
+        </svg>
+        {tip}
+        <div className="absolute right-2 top-2 flex flex-col gap-1">
+          <ZoomButton label="Zoom in" onClick={() => zoomAt(1.5)} disabled={view.k >= MAX_ZOOM}>
+            <Plus className="h-4 w-4" aria-hidden="true" />
+          </ZoomButton>
+          <ZoomButton label="Zoom out" onClick={() => zoomAt(1 / 1.5)} disabled={!zoomed}>
+            <Minus className="h-4 w-4" aria-hidden="true" />
+          </ZoomButton>
+          <ZoomButton label="Reset zoom" onClick={() => setView({ k: 1, tx: 0, ty: 0 })} disabled={!zoomed}>
+            <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />
+          </ZoomButton>
+        </div>
+        {zoomed && <span className="pointer-events-none absolute bottom-2 left-2 rounded bg-night/80 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">{view.k.toFixed(1)}×</span>}
       </div>
-      {zoomed && <span className="pointer-events-none absolute bottom-2 left-2 rounded bg-night/80 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">{view.k.toFixed(1)}×</span>}
+      {fams && fams.shaped && (
+        <FamilyPanel
+          fams={fams}
+          zonesOn={zonesOn}
+          onToggle={setZonesOn}
+          active={famActive}
+          open={famOpen}
+          onHover={setFamHover}
+          onOpen={setFamOpen}
+          onPick={onOpenMember ?? onPick}
+        />
+      )}
     </div>
   );
 };

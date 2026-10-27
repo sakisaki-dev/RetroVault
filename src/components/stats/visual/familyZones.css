@@ -1,0 +1,18 @@
+/* Family zones (FamilyZones.tsx): soft fades on highlight; none in lite mode or with reduced motion. */
+.fz-zone {
+  transition: fill-opacity 0.18s ease, stroke-opacity 0.18s ease, opacity 0.18s ease;
+}
+.fz-dot {
+  transition: opacity 0.18s ease;
+}
+[data-perf='lite'] .fz-zone,
+[data-perf='lite'] .fz-dot,
+[data-perf='lite'] .fz-legend {
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fz-zone,
+  .fz-dot {
+    transition: none;
+  }
+}

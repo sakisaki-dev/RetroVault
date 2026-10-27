@@ -2,6 +2,9 @@ import { useEffect, useId, useMemo, useState, type ReactNode } from 'react';
 import { ArrowUpDown, BarChart3, Check, ChevronDown, Clock, Link2, Pin, Sparkles, Star, Table2, X } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
 import { POSITIONS } from '@/config/advanced';
+import { familiesFor } from '@/config/families';
+import { FamilyPanel as FamilyPanelBox } from '../visual/FamilyZones';
+import { openInCompFinder } from '../comps/compFinderLink';
 import { cn } from '@/lib/utils';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import { NFL_TEAMS, findNFLTeam } from '@/utils/nflTeams';
@@ -261,6 +264,16 @@ const GraphBuilder = ({
   const model = useMemo(() => buildGraph(config, players, legends, deps), [config, players, legends, deps]);
   const applicable = applicablePositions(config);
   const current = paramsKey(config);
+  // Family zones are per position: only when the chart shows exactly one position.
+  const zonePos = model && model.shown.length === 1 ? model.shown[0] : null;
+  const fams = useMemo(() => (config.zones && zonePos ? familiesFor(players, zonePos) : null), [config.zones, zonePos, players]);
+  const [famHover, setFamHover] = useState<number | null>(null);
+  const [famOpen, setFamOpen] = useState<number | null>(null);
+  useEffect(() => {
+    setFamOpen(null);
+    setFamHover(null);
+  }, [fams]);
+  const famActive = famHover ?? famOpen;
 
   const set = (patch: Partial<GraphConfig>) => onChange({ ...config, ...patch });
   // Picking a stat: drop fixed-chart extras, keep only positions both stats apply to, and pick a sensible sample floor.
@@ -366,6 +379,7 @@ const GraphBuilder = ({
                 logos={mark === 'logos'}
                 onSelect={onSelect}
                 highlightKey={highlight}
+                zones={fams ? { fams, active: famActive } : null}
                 empty={<EmptyState config={config} model={model} applicable={applicable} onFix={set} />}
               />
             )
@@ -373,6 +387,18 @@ const GraphBuilder = ({
             <p className="py-10 text-center text-sm text-muted-foreground">Pick two stats.</p>
           )}
           {model && legends.length > 0 && <NflMissingNote model={model} />}
+          {fams && !asTable && (
+            <FamilyPanelBox
+              fams={fams}
+              zonesOn
+              onToggle={(zones) => set({ zones })}
+              active={famActive}
+              open={famOpen}
+              onHover={setFamHover}
+              onOpen={setFamOpen}
+              onPick={(p) => openInCompFinder(p)}
+            />
+          )}
           <p className="flex items-center justify-between gap-2 text-[11px] text-muted-foreground">
             <span>Hover or tap near a dot; overlapping dots open a chooser.</span>
             <span className="flex items-center gap-1.5 font-pixel text-[8px] uppercase tracking-wider text-muted-foreground/80" aria-hidden="true">
@@ -436,6 +462,12 @@ const GraphBuilder = ({
             <p className="text-[11px] text-muted-foreground">
               {applicable.length ? `Showing ${positionsLabel(model?.shown ?? applicable)}. Crossed-out positions don't have both stats.` : 'These stats share no position.'}
             </p>
+            <CheckField checked={!!config.zones} onChange={(zones) => set({ zones })}>
+              Family zones
+            </CheckField>
+            {config.zones && !zonePos && (
+              <p className="text-[11px] text-gold">Families are per position: pick one position to draw its zones.</p>
+            )}
           </div>
 
           <LegendsToggle className="w-full justify-start" />

@@ -19,6 +19,8 @@ import Chips from '../analytics/Chips';
 import { usePrefersReducedMotion } from '../analytics/viz';
 import { buildRecordBook, keyOf } from '../records';
 import CompMap from './CompMap';
+import { familiesFor, familyOfPlayer } from '@/config/families';
+import { buildShapeMap } from '../visual/shapeMap';
 import DdAdvanced from './DdAdvanced';
 import DdCareer, { type PosStat } from './DdCareer';
 import DdEmpty from './DdEmpty';
@@ -166,11 +168,16 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
 
   // Similarity mode shared by the comp list and the neighbourhood map.
   const [mapMode, setMapMode] = useState<SimilarityMode>('style');
+  // The Neighbourhood can also show the families map (play-style shape, level removed) with its zones.
+  const [famView, setFamView] = useState(false);
 
   const position = player?.position ?? 'QB';
   const model = models.get(position)!;
   const boards = useMemo(() => cachedBoards(players, position, ctx), [players, position, ctx]);
   const simMap = useMemo(() => (model && model.axes >= MIN_RADAR_AXES && model.pool.length >= 3 ? cachedMap(model, mapMode) : null), [model, mapMode]);
+  const fams = useMemo(() => familiesFor(players, position), [players, position]);
+  const shapeMap = useMemo(() => (fams ? buildShapeMap(fams) : null), [fams]);
+  const shownMap = famView && shapeMap ? shapeMap : simMap;
 
   const grades = useMemo(() => (player ? playerSkillGrades(players, player) : null), [players, player]);
   // Comps: top 10 in each mode (cards show 3 per mode, the numbered list 10 in the chosen mode, the map 5).
@@ -295,6 +302,15 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
         prev={prev}
         next={next}
         onOpenCard={() => onSelect(player)}
+        family={fams?.shaped ? familyOfPlayer(fams, player) : null}
+        onFamily={
+          shapeMap
+            ? () => {
+                setFamView(true);
+                document.getElementById('dd-map')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+              }
+            : undefined
+        }
       />
 
       {/* Mobile: sticky section chips */}
@@ -343,15 +359,24 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
               <div className="glass-card space-y-2 p-3 sm:p-4">
                 <Chips
                   label="Map distance"
-                  value={mapMode}
-                  onChange={setMapMode}
+                  value={famView && shapeMap ? 'family' : mapMode}
+                  onChange={(v) => {
+                    if (v === 'family') setFamView(true);
+                    else {
+                      setFamView(false);
+                      setMapMode(v);
+                    }
+                  }}
                   options={[
                     { value: 'style', label: 'Plays like' },
                     { value: 'level', label: 'Closest overall' },
+                    ...(shapeMap ? [{ value: 'family' as const, label: 'Families' }] : []),
                   ]}
                 />
                 <CompMap
-                  map={simMap}
+                  map={shownMap ?? simMap}
+                  zones={famView && !!shapeMap}
+                  nnLabel={famView && shapeMap ? 'Closest shape' : undefined}
                   ovrMap={ovrMap}
                   selectedKey={keyOf(player)}
                   topComps={mapComps}
@@ -367,6 +392,11 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
                     each pair, using the same z-scored rates as the comps ({model.features.map((f) => f.label).join(', ')}). The two axes keep {Math.round(simMap.explained * 100)}% of the
                     spread; they have no units. Dot size = official OVR, gold ring = Hall of Famer, faded = under {SIM_MIN_GAMES} games, grey lines join nearest neighbours, gold lines run
                     to his top 5 comps. Drag to pan, pinch or use the buttons to zoom; Tab through dots and press Enter to dive into a player.
+                  </p>
+                  <p className="mt-1.5">
+                    Families: places every {player.position} by play-style shape instead (his style percentiles with his overall level taken out, so how he plays, not how good
+                    he is) and shades a zone for each {player.position} family: k-means clusters of those shapes, named by rule from a fixed label table. Hover a zone or legend entry to
+                    highlight it; click one to list its members. Same families as the League Landscape family map.
                   </p>
                 </details>
               </div>
