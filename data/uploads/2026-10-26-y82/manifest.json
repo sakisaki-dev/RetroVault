@@ -1,0 +1,1630 @@
+{
+ "id": "2026-10-26-y82",
+ "created": "2026-10-26",
+ "title": "Y82 season (cards, staff screen, playoff bracket) plus two real-NFL splits from leftover screenshots",
+ "images": [
+  {
+   "file": "images/IMG_6333.PNG",
+   "shows": "QB Ty Lock career card (passing)"
+  },
+  {
+   "file": "images/IMG_6334.PNG",
+   "shows": "QB Ty Lock career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6335.PNG",
+   "shows": "RB Ryland Maxwell career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6336.PNG",
+   "shows": "RB Ryland Maxwell career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6337.PNG",
+   "shows": "TE Jaylen Conklin career card"
+  },
+  {
+   "file": "images/IMG_6338.PNG",
+   "shows": "WR Vyncint Heath career card"
+  },
+  {
+   "file": "images/IMG_6339.PNG",
+   "shows": "WR Kane Van Oxley career card"
+  },
+  {
+   "file": "images/IMG_6340.PNG",
+   "shows": "OL Jakeem Friend career card"
+  },
+  {
+   "file": "images/IMG_6341.PNG",
+   "shows": "LB Kalif Suh career card"
+  },
+  {
+   "file": "images/IMG_6342.PNG",
+   "shows": "DB Dwayne Skura career card"
+  },
+  {
+   "file": "images/IMG_6343.PNG",
+   "shows": "DB Chance Woodrum career card"
+  },
+  {
+   "file": "images/IMG_6344.PNG",
+   "shows": "DB Trequan Roberts career card"
+  },
+  {
+   "file": "images/IMG_6345.PNG",
+   "shows": "RB Siran Spector career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6346.PNG",
+   "shows": "RB Siran Spector career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6347.PNG",
+   "shows": "QB Dan Stout career card (passing)"
+  },
+  {
+   "file": "images/IMG_6348.PNG",
+   "shows": "QB Dan Stout career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6349.PNG",
+   "shows": "RB Corey Ivey career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6350.PNG",
+   "shows": "RB Corey Ivey career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6351.PNG",
+   "shows": "WR Tristan Tart career card"
+  },
+  {
+   "file": "images/IMG_6352.PNG",
+   "shows": "QB Kirk Lenoir career card (passing)"
+  },
+  {
+   "file": "images/IMG_6353.PNG",
+   "shows": "QB Kirk Lenoir career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6354.PNG",
+   "shows": "TE Spencer Daniels career card"
+  },
+  {
+   "file": "images/IMG_6355.PNG",
+   "shows": "QB Rysen Nauta career card (passing)"
+  },
+  {
+   "file": "images/IMG_6356.PNG",
+   "shows": "QB Rysen Nauta career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6357.PNG",
+   "shows": "WR Juawan Lance career card"
+  },
+  {
+   "file": "images/IMG_6358.PNG",
+   "shows": "WR Jarred Beasley career card"
+  },
+  {
+   "file": "images/IMG_6359.PNG",
+   "shows": "DL Darrel Longa career card"
+  },
+  {
+   "file": "images/IMG_6360.PNG",
+   "shows": "TE Le'Veon Richard career card"
+  },
+  {
+   "file": "images/IMG_6361.PNG",
+   "shows": "QB Drake Wise career card (passing)"
+  },
+  {
+   "file": "images/IMG_6362.PNG",
+   "shows": "QB Drake Wise career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6363.PNG",
+   "shows": "QB Hamsfa Boltt career card (passing)"
+  },
+  {
+   "file": "images/IMG_6364.PNG",
+   "shows": "QB Hamsfa Boltt career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6365.PNG",
+   "shows": "DL Keion Orzech career card"
+  },
+  {
+   "file": "images/IMG_6366.PNG",
+   "shows": "DB Von Horsted career card"
+  },
+  {
+   "file": "images/IMG_6367.PNG",
+   "shows": "DL Aqib McClain career card"
+  },
+  {
+   "file": "images/IMG_6368.PNG",
+   "shows": "LB Grunky Felton career card"
+  },
+  {
+   "file": "images/IMG_6369.PNG",
+   "shows": "DB K'Lavon Settle career card"
+  },
+  {
+   "file": "images/IMG_6370.PNG",
+   "shows": "LB Romeo Rodgers career card"
+  },
+  {
+   "file": "images/IMG_6371.PNG",
+   "shows": "DB Deonte Sutton career card"
+  },
+  {
+   "file": "images/IMG_6372.PNG",
+   "shows": "OL Dorance Hinton career card"
+  },
+  {
+   "file": "images/IMG_6373.PNG",
+   "shows": "QB Jason Macleone career card (passing)"
+  },
+  {
+   "file": "images/IMG_6374.PNG",
+   "shows": "QB Jason Macleone career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6375.PNG",
+   "shows": "WR Obinna Leary career card"
+  },
+  {
+   "file": "images/IMG_6376.PNG",
+   "shows": "RB Isaiah Karras career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6377.PNG",
+   "shows": "RB Isaiah Karras career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6378.PNG",
+   "shows": "WR Shareef London career card"
+  },
+  {
+   "file": "images/IMG_6379.PNG",
+   "shows": "QB Solomon Toohill career card (passing)"
+  },
+  {
+   "file": "images/IMG_6380.PNG",
+   "shows": "QB Solomon Toohill career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6381.PNG",
+   "shows": "RB Trequan Jensen career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6382.PNG",
+   "shows": "RB Trequan Jensen career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6383.PNG",
+   "shows": "DB Abraham Ward Jr career card"
+  },
+  {
+   "file": "images/IMG_6384.PNG",
+   "shows": "WR Craig Whitney career card"
+  },
+  {
+   "file": "images/IMG_6385.PNG",
+   "shows": "QB Pyke T. Lowe career card (passing)"
+  },
+  {
+   "file": "images/IMG_6386.PNG",
+   "shows": "QB Pyke T. Lowe career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6387.PNG",
+   "shows": "RB Malakai Sawyer career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6388.PNG",
+   "shows": "RB Malakai Sawyer career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6389.PNG",
+   "shows": "RB Matthew Waynes career card (rushing)"
+  },
+  {
+   "file": "images/IMG_6390.PNG",
+   "shows": "RB Matthew Waynes career card (receiving)"
+  },
+  {
+   "file": "images/IMG_6391.PNG",
+   "shows": "DB Chazz McCray career card"
+  },
+  {
+   "file": "images/IMG_6392.PNG",
+   "shows": "TE D.C Paradis career card"
+  },
+  {
+   "file": "images/IMG_6393.PNG",
+   "shows": "Playoff bracket after Y82: Super Bowl NYJ (gold, winner) vs PHI"
+  },
+  {
+   "file": "images/IMG_6394.PNG",
+   "shows": "Staff screen after Y82 (82 NYJ 15-2-0 Champions; Super Bowl record 57)"
+  },
+  {
+   "file": "images/IMG_3358.PNG",
+   "shows": "Set B (leftover, Retro Bowl 26 era): QB Drake Maye final career card with the 2024-2025 real-NFL panel"
+  },
+  {
+   "file": "images/IMG_3359.PNG",
+   "shows": "Set B (leftover, Retro Bowl 26 era): RB Breece Hall final career card (receiving) with the 2022-2025 real-NFL panel"
+  },
+  {
+   "file": "images/IMG_3360.PNG",
+   "shows": "Set B (leftover, Retro Bowl 26 era): RB Breece Hall final career card (rushing) with the 2022-2025 real-NFL panel"
+  },
+  {
+   "group": "Set B reviewed, nothing new",
+   "path": "~/Downloads/Retrobowl Uploads/New Folder With Items",
+   "files": [
+    "IMG_3356.PNG",
+    "IMG_3357.PNG",
+    "IMG_3361.PNG",
+    "IMG_3362.PNG",
+    "IMG_3363.PNG",
+    "IMG_3364.PNG",
+    "IMG_3365.PNG",
+    "IMG_3366.PNG",
+    "IMG_3367.PNG",
+    "IMG_3368.PNG",
+    "IMG_3369.PNG",
+    "IMG_3370.PNG",
+    "IMG_3371.PNG",
+    "IMG_3372.PNG",
+    "IMG_3373.PNG",
+    "IMG_6098.PNG",
+    "IMG_6099.PNG",
+    "IMG_6100.PNG",
+    "IMG_6101.PNG",
+    "IMG_6102.PNG",
+    "IMG_6103.PNG",
+    "IMG_6104.PNG",
+    "IMG_6105.PNG",
+    "IMG_6106.PNG",
+    "IMG_6107.PNG",
+    "IMG_6108.PNG",
+    "IMG_6109.PNG",
+    "IMG_6110.PNG",
+    "IMG_6111.PNG",
+    "IMG_6112.PNG",
+    "IMG_6113.PNG",
+    "IMG_6114.PNG",
+    "IMG_6115.PNG",
+    "IMG_6116.PNG",
+    "IMG_6117.PNG",
+    "IMG_6118.PNG",
+    "IMG_6119.PNG",
+    "IMG_6120.PNG",
+    "IMG_6121.PNG",
+    "IMG_6122.PNG",
+    "IMG_6123.PNG",
+    "IMG_6124.PNG"
+   ],
+   "shows": "Leftover screenshots never processed: IMG_3356-3373 are week-1 cards from the Buccaneers years (Y20-26, Retro Bowl 26) and the game Hall of Fame; IMG_6098-6124 are Y80 cards at 15 games. Every career line is equal to or lower than the stored data (already covered); not applied"
+  }
+ ],
+ "ai_steps": [
+  {
+   "step": "transcribe",
+   "reason": "62 new screenshots (60 career cards, playoff bracket, staff screen) and 45 leftover screenshots need reading",
+   "trigger": "New images in the upload"
+  },
+  {
+   "step": "speech",
+   "reason": "Abraham Ward Jr first crossed Career Legacy 7000 (Y82 class); the audit flagged stale numbers in the Jakeem Friend and Jason Macleone speeches",
+   "trigger": "Rebuild printed SPEECH NEEDED: Abraham Ward Jr; audit speech-number warnings"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Ty Lock",
+   "value": {
+    "g": 93,
+    "att": 2015,
+    "cmp": 1550,
+    "yds": 22189,
+    "td": 239,
+    "int": 92,
+    "sck": 31,
+    "ratt": 164,
+    "ryds": 663,
+    "rtd": 24,
+    "rings": 2,
+    "mvp": 2,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6333.PNG",
+   "reason": "Career panel and award row (merged with IMG_6334.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Ryland Maxwell",
+   "value": {
+    "g": 56,
+    "ratt": 583,
+    "ryds": 3514,
+    "rtd": 50,
+    "fum": 8,
+    "rec": 51,
+    "recyds": 363,
+    "rectd": 15,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6335.PNG",
+   "reason": "Career panel and award row (merged with IMG_6336.PNG). Career rushing yards 3514 and receiving yards 363 are each 1 more than the stored Y81 line plus this SEASON panel (3513, 362); the CAREER panel is used as shown (Avg 6.0 and 7.1 agree)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Jaylen Conklin",
+   "value": {
+    "g": 89,
+    "rec": 298,
+    "yds": 4502,
+    "td": 66,
+    "fum": 2,
+    "lng": 52,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 1,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6337.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Vyncint Heath",
+   "value": {
+    "team": "Jets",
+    "g": 17,
+    "rec": 85,
+    "yds": 1592,
+    "td": 8,
+    "fum": 0,
+    "lng": 33,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 1,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6338.PNG",
+   "reason": "New player: career panel and award row. Team: rookie (career = this season) with 1 ring, and the Jets won the Y82 Super Bowl (staff screen IMG_6394); his last game was At Eagles, the Super Bowl",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Kane Van Oxley",
+   "value": {
+    "g": 126,
+    "rec": 850,
+    "yds": 14921,
+    "td": 147,
+    "fum": 5,
+    "lng": 61,
+    "rings": 3,
+    "mvp": 1,
+    "opoy": 3,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6339.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Jakeem Friend",
+   "value": {
+    "g": 252,
+    "blk": 526,
+    "rings": 7,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6340.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Kalif Suh",
+   "value": {
+    "g": 133,
+    "tkl": 408,
+    "int": 17,
+    "sck": 17,
+    "ff": 10,
+    "rings": 3,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6341.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Dwayne Skura",
+   "value": {
+    "team": "Jets",
+    "g": 20,
+    "tkl": 145,
+    "int": 0,
+    "sck": 0,
+    "ff": 0,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6342.PNG",
+   "reason": "New player: career panel and award row. Team: rookie (career = this season) with 1 ring, and the Jets won the Y82 Super Bowl (staff screen IMG_6394); his last game was At Eagles, the Super Bowl",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Chance Woodrum",
+   "value": {
+    "g": 132,
+    "tkl": 931,
+    "int": 8,
+    "sck": 0,
+    "ff": 1,
+    "rings": 3,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6343.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Trequan Roberts",
+   "value": {
+    "g": 58,
+    "tkl": 363,
+    "int": 4,
+    "sck": 0,
+    "ff": 0,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6344.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Siran Spector",
+   "value": {
+    "g": 38,
+    "ratt": 343,
+    "ryds": 2906,
+    "rtd": 52,
+    "fum": 24,
+    "rec": 2,
+    "recyds": 26,
+    "rectd": 0,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6345.PNG",
+   "reason": "Career panel and award row (merged with IMG_6346.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Dan Stout",
+   "value": {
+    "g": 264,
+    "att": 8694,
+    "cmp": 5411,
+    "yds": 48796,
+    "td": 472,
+    "int": 51,
+    "sck": 51,
+    "ratt": 189,
+    "ryds": 1157,
+    "rtd": 72,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6347.PNG",
+   "reason": "Career panel and award row (merged with IMG_6348.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Corey Ivey",
+   "value": {
+    "g": 230,
+    "ratt": 2094,
+    "ryds": 16649,
+    "rtd": 282,
+    "fum": 171,
+    "rec": 12,
+    "recyds": 192,
+    "rectd": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6349.PNG",
+   "reason": "Career panel and award row (merged with IMG_6350.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Tristan Tart",
+   "value": {
+    "g": 123,
+    "rec": 414,
+    "yds": 3859,
+    "td": 56,
+    "fum": 20,
+    "lng": 61,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6351.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Kirk Lenoir",
+   "value": {
+    "g": 335,
+    "att": 11047,
+    "cmp": 6383,
+    "yds": 51978,
+    "td": 522,
+    "int": 60,
+    "sck": 45,
+    "ratt": 254,
+    "ryds": 1510,
+    "rtd": 86,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6352.PNG",
+   "reason": "Career panel and award row (merged with IMG_6353.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Spencer Daniels",
+   "value": {
+    "g": 179,
+    "rec": 760,
+    "yds": 4634,
+    "td": 40,
+    "fum": 44,
+    "lng": 68,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6354.PNG",
+   "reason": "New player: career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Rysen Nauta",
+   "value": {
+    "g": 51,
+    "att": 1787,
+    "cmp": 1079,
+    "yds": 8907,
+    "td": 80,
+    "int": 6,
+    "sck": 7,
+    "ratt": 41,
+    "ryds": 253,
+    "rtd": 15,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6355.PNG",
+   "reason": "Career panel and award row (merged with IMG_6356.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Juawan Lance",
+   "value": {
+    "g": 261,
+    "rec": 1166,
+    "yds": 15422,
+    "td": 140,
+    "fum": 28,
+    "lng": 72,
+    "rings": 4,
+    "mvp": 0,
+    "opoy": 1,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6357.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Jarred Beasley",
+   "value": {
+    "g": 124,
+    "rec": 491,
+    "yds": 5390,
+    "td": 72,
+    "fum": 15,
+    "lng": 73,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 1,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6358.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Darrel Longa",
+   "value": {
+    "g": 163,
+    "tkl": 711,
+    "int": 2,
+    "sck": 6,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6359.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Le'Veon Richard",
+   "value": {
+    "g": 234,
+    "rec": 1004,
+    "yds": 6014,
+    "td": 59,
+    "fum": 46,
+    "lng": 71,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6360.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Drake Wise",
+   "value": {
+    "g": 242,
+    "att": 7529,
+    "cmp": 4844,
+    "yds": 45968,
+    "td": 467,
+    "int": 41,
+    "sck": 44,
+    "ratt": 192,
+    "ryds": 1279,
+    "rtd": 70,
+    "rings": 0,
+    "mvp": 2,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6361.PNG",
+   "reason": "Career panel and award row (merged with IMG_6362.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Hamsfa Boltt",
+   "value": {
+    "g": 169,
+    "att": 5305,
+    "cmp": 3488,
+    "yds": 32154,
+    "td": 284,
+    "int": 51,
+    "sck": 33,
+    "ratt": 132,
+    "ryds": 836,
+    "rtd": 43,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6363.PNG",
+   "reason": "Career panel and award row (merged with IMG_6364.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Keion Orzech",
+   "value": {
+    "g": 164,
+    "tkl": 806,
+    "int": 5,
+    "sck": 13,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6365.PNG",
+   "reason": "New player: career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Von Horsted",
+   "value": {
+    "g": 218,
+    "tkl": 2286,
+    "int": 31,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 1,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6366.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Aqib McClain",
+   "value": {
+    "g": 153,
+    "tkl": 792,
+    "int": 2,
+    "sck": 4,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6367.PNG",
+   "reason": "New player: career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Grunky Felton",
+   "value": {
+    "g": 170,
+    "tkl": 663,
+    "int": 0,
+    "sck": 3,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6368.PNG",
+   "reason": "New player: career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:K'Lavon Settle",
+   "value": {
+    "g": 170,
+    "tkl": 2118,
+    "int": 22,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6369.PNG",
+   "reason": "New player: career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Romeo Rodgers",
+   "value": {
+    "g": 170,
+    "tkl": 585,
+    "int": 4,
+    "sck": 8,
+    "ff": 3,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6370.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Deonte Sutton",
+   "value": {
+    "g": 170,
+    "tkl": 1062,
+    "int": 7,
+    "sck": 0,
+    "ff": 1,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6371.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Dorance Hinton",
+   "value": {
+    "g": 149,
+    "blk": 223,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6372.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Jason Macleone",
+   "value": {
+    "g": 331,
+    "att": 9970,
+    "cmp": 6667,
+    "yds": 73799,
+    "td": 771,
+    "int": 128,
+    "sck": 86,
+    "ratt": 204,
+    "ryds": 1203,
+    "rtd": 71,
+    "rings": 2,
+    "mvp": 3,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6373.PNG",
+   "reason": "Career panel and award row (merged with IMG_6374.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Obinna Leary",
+   "value": {
+    "g": 72,
+    "rec": 332,
+    "yds": 4692,
+    "td": 42,
+    "fum": 7,
+    "lng": 65,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6375.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Isaiah Karras",
+   "value": {
+    "g": 110,
+    "ratt": 972,
+    "ryds": 7994,
+    "rtd": 133,
+    "fum": 83,
+    "rec": 3,
+    "recyds": 55,
+    "rectd": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6376.PNG",
+   "reason": "Career panel and award row (merged with IMG_6377.PNG). Career receiving 3 catches for 55 yards although the SEASON panel shows 0: the stored Y81 line (2 for 33) was behind; CAREER panel used (Avg 18.3 = 55/3)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Shareef London",
+   "value": {
+    "g": 86,
+    "rec": 332,
+    "yds": 2849,
+    "td": 37,
+    "fum": 15,
+    "lng": 73,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6378.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Solomon Toohill",
+   "value": {
+    "g": 95,
+    "att": 3107,
+    "cmp": 1907,
+    "yds": 17013,
+    "td": 173,
+    "int": 15,
+    "sck": 19,
+    "ratt": 64,
+    "ryds": 436,
+    "rtd": 26,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6379.PNG",
+   "reason": "Career panel and award row (merged with IMG_6380.PNG). Stored line is from Y80 (no Y81 card was uploaded), so the gain covers Y81 and Y82",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Trequan Jensen",
+   "value": {
+    "g": 287,
+    "ratt": 2719,
+    "ryds": 21690,
+    "rtd": 388,
+    "fum": 240,
+    "rec": 10,
+    "recyds": 192,
+    "rectd": 0,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6381.PNG",
+   "reason": "Career panel and award row (merged with IMG_6382.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Abraham Ward Jr",
+   "value": {
+    "g": 236,
+    "tkl": 2653,
+    "int": 33,
+    "sck": 0,
+    "ff": 0,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 1,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6383.PNG",
+   "reason": "Career panel and award row. Stored line is from Y80 (no Y81 card was uploaded), so the gain covers Y81 and Y82",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Craig Whitney",
+   "value": {
+    "g": 237,
+    "rec": 1060,
+    "yds": 10481,
+    "td": 130,
+    "fum": 49,
+    "lng": 69,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6384.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Pyke T. Lowe",
+   "value": {
+    "g": 164,
+    "att": 5071,
+    "cmp": 3146,
+    "yds": 28272,
+    "td": 292,
+    "int": 39,
+    "sck": 43,
+    "ratt": 122,
+    "ryds": 563,
+    "rtd": 43,
+    "rings": 1,
+    "mvp": 2,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6385.PNG",
+   "reason": "Career panel and award row (merged with IMG_6386.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Malakai Sawyer",
+   "value": {
+    "g": 203,
+    "ratt": 1900,
+    "ryds": 13041,
+    "rtd": 231,
+    "fum": 79,
+    "rec": 225,
+    "recyds": 1728,
+    "rectd": 60,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 2,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6387.PNG",
+   "reason": "Career panel and award row (merged with IMG_6388.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Matthew Waynes",
+   "value": {
+    "g": 224,
+    "ratt": 2199,
+    "ryds": 15330,
+    "rtd": 273,
+    "fum": 233,
+    "rec": 5,
+    "recyds": 89,
+    "rectd": 1,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6389.PNG",
+   "reason": "New player: career panel and award row (merged with IMG_6390.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Chazz McCray",
+   "value": {
+    "g": 72,
+    "tkl": 830,
+    "int": 12,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 1,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6391.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:D.C Paradis",
+   "value": {
+    "g": 202,
+    "rec": 819,
+    "yds": 5125,
+    "td": 52,
+    "fum": 43,
+    "lng": 69,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6392.PNG",
+   "reason": "New player: career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "superbowl.set",
+   "target": "Y82",
+   "value": {
+    "number": 141,
+    "roman": "CXLI",
+    "winner": "Jets",
+    "score": null,
+    "loser": "Eagles",
+    "your_result": "won",
+    "your_team": "Jets",
+    "note": "Winner from the staff screen (82 NYJ Champions) and the playoff bracket (NYJ over PHI); score not captured"
+   },
+   "source": "image:images/IMG_6393.PNG",
+   "reason": "Playoff bracket: Super Bowl NYJ (gold) vs PHI; staff screen IMG_6394 confirms 82 NYJ Champions. No Super Bowl list screenshot, so no score",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.season",
+   "target": "82",
+   "value": {
+    "team": "Jets",
+    "abbr": "NYJ",
+    "w": 15,
+    "l": 2,
+    "t": 0,
+    "finish": "Champions"
+   },
+   "source": "image:images/IMG_6394.PNG",
+   "reason": "Staff screen, Your History: 82 NYJ 15-2-0 Champions",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "source",
+   "value": "Retro Bowl staff screen (IMG_6394, Y82 complete)",
+   "source": "image:images/IMG_6394.PNG",
+   "reason": "Staff screen snapshot is now from Y82",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "gamesPlayed",
+   "value": 1629,
+   "source": "image:images/IMG_6394.PNG",
+   "reason": "Staff screen: Games played 1629 (1609 + 17 regular + 3 playoff)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "morale",
+   "value": "Exceptional",
+   "source": "image:images/IMG_6394.PNG",
+   "reason": "Staff screen: Morale Exceptional",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "record",
+   "value": {
+    "fullSeasons": 81,
+    "regular": "1185-204-5",
+    "regularWinPct": 0.852,
+    "playoff": "212-23",
+    "playoffWinPct": 0.902,
+    "playoffsReached": "80/82",
+    "seasonsNoSimGames": 71,
+    "simGameRecord": "0-15-0"
+   },
+   "source": "image:images/IMG_6394.PNG",
+   "reason": "Staff screen, Your Record: Full Seasons 81 (as shown, not 82), 1185-204-5 (.852), playoffs 212-23 (.902), reached 80/82. The two rows below the fold are not on screen and are kept as they were (sim games still 15)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "superBowlRecord",
+   "value": [
+    {
+     "coach": "D.Skura",
+     "titles": 57
+    },
+    {
+     "coach": "NE (2000-2023)",
+     "titles": 6
+    },
+    {
+     "coach": "PIT (1969-1991)",
+     "titles": 4
+    },
+    {
+     "coach": "SF (1979-1988)",
+     "titles": 3
+    },
+    {
+     "coach": "WAS (1981-1992)",
+     "titles": 3
+    }
+   ],
+   "source": "image:images/IMG_6394.PNG",
+   "reason": "Staff screen, Super Bowl Record: D.Skura 57 (was 56); the other rows unchanged",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/82/Jets",
+   "value": [
+    "Chance Woodrum",
+    "Dwayne Skura",
+    "Jakeem Friend",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Kane Van Oxley",
+    "Ryland Maxwell",
+    "Trequan Roberts",
+    "Ty Lock",
+    "Vyncint Heath"
+   ],
+   "source": "image:images/IMG_6394.PNG",
+   "reason": "The Y82 Jets: the eight players on the Jets active roster each gained 16-20 games and one ring on their Y82 cards (Jets 20 games: 17 + 3 playoff, champions), plus the rookies Vyncint Heath and Dwayne Skura (1 ring each)",
+   "trigger": "Season rollover (npm run update review: keep active_rosters as the Y82 rosters)"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/82/Seahawks",
+   "value": [
+    "Deonte Sutton",
+    "Dorance Hinton",
+    "Isaiah Karras",
+    "Jason Macleone",
+    "Obinna Leary",
+    "Romeo Rodgers"
+   ],
+   "source": "image:images/IMG_6394.PNG",
+   "reason": "The Y82 Seahawks: all six players on the Seahawks active roster gained 18 games on their Y82 cards (IMG_6370-6377)",
+   "trigger": "Season rollover (npm run update review: keep active_rosters as the Y82 rosters)"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "active_rosters/Jets",
+   "value": [
+    "Chance Woodrum",
+    "Dwayne Skura",
+    "Jakeem Friend",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Kane Van Oxley",
+    "Ryland Maxwell",
+    "Trequan Roberts",
+    "Ty Lock",
+    "Vyncint Heath"
+   ],
+   "source": "image:images/IMG_6338.PNG",
+   "reason": "No new team screen: the Y82 champions stay the current Jets roster, now with the rookies Vyncint Heath (IMG_6338) and Dwayne Skura (IMG_6342)",
+   "trigger": "Season rollover (npm run update review: active_rosters)"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jakeem Friend/career",
+   "value": {
+    "order": [
+     "Seahawks",
+     "Jets"
+    ],
+    "longest": "Seahawks",
+    "stints": [
+     [
+      "Jets",
+      79,
+      82
+     ]
+    ],
+    "says": "Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring)."
+   },
+   "source": "image:images/IMG_6340.PNG",
+   "reason": "His Y82 card shows 20 more games (232 -> 252) and a 7th ring, the Jets Y82 title: the Jets stint (Y79-81) extends to Y82. Owner words unchanged",
+   "trigger": "Season rollover (owner stint ended at the old season)"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/career",
+   "value": {
+    "order": [
+     "Titans",
+     "Jets",
+     "Falcons"
+    ],
+    "stints": [
+     [
+      "Titans",
+      72,
+      72
+     ],
+     [
+      "Jets",
+      76,
+      78
+     ],
+     [
+      "Falcons",
+      79,
+      82
+     ]
+    ],
+    "says": "One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons."
+   },
+   "source": "image:images/IMG_6387.PNG",
+   "reason": "His Y82 card shows 17 more games (186 -> 203) and no new ring; the owner has him with the Falcons now, so the Falcons stint (Y79-81) extends to Y82. Owner words unchanged",
+   "trigger": "Season rollover (owner stint ended at the old season)"
+  },
+  {
+   "lane": "stats",
+   "op": "extras.set",
+   "target": "season_lines/Chance Woodrum (Y80, in progress)",
+   "value": null,
+   "source": "image:images/IMG_6343.PNG",
+   "reason": "The mid-season Y80 line is stale (his Y82 card has 132 career games); single-season stats are not tracked",
+   "trigger": "Season rollover (npm run update review: season line in progress)"
+  },
+  {
+   "lane": "stats",
+   "op": "extras.set",
+   "target": "real_nfl_splits/Drake Maye 2024-2025",
+   "value": {
+    "games": 13,
+    "att": 338,
+    "cmp": 225,
+    "pass_yds": 2276,
+    "pass_td": 34,
+    "int": 10
+   },
+   "source": "image:images/IMG_3358.PNG",
+   "reason": "Set B leftover: the 2024-2025 real-NFL panel on his final card (Cmp 67% = 225/338, Avg 10.1 = 2276/225); missing from real_nfl_splits. His career panel equals the stored line",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "extras.set",
+   "target": "real_nfl_splits/Breece Hall 2022-2025",
+   "value": {
+    "games": 40,
+    "rush_att": 512,
+    "rush_yds": 2333,
+    "rush_td": 14,
+    "rec": 152,
+    "rec_yds": 1292,
+    "rec_td": 21
+   },
+   "source": "image:images/IMG_3360.PNG",
+   "reason": "Set B leftover: the 2022-2025 real-NFL panels on his final card (rushing IMG_3360, receiving IMG_3359; Avg 4.6 and 8.5 agree); missing from real_nfl_splits",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Abraham Ward Jr",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y82",
+    "text": "Eleven tackles a game, every game, for 236 games.\n\nAbraham Ward Jr plays in the Green Bay secondary, and his stat line reads like a linebacker's. He has made 2,653 tackles and picked off 33 passes along the way. He has never been credited with a sack or a forced fumble. He does not rush the passer and he does not strip the ball. He finds the ball carrier and puts him on the ground, snap after snap, season after season.\n\nThe Packers made him a champion in Y79, when they beat the Chiefs 44-6 in Super Bowl CXXXVIII, and the league named him Defensive Player of the Year. One ring and one award can look like a small haul for a career this long. The tackles tell the rest of the story.\n\nHe crossed into the Hall in Y82 with another full season on his card, and he is still out there adding to the total. Abraham Ward Jr, welcome to the Hall of Fame."
+   },
+   "source": "image:images/IMG_6383.PNG",
+   "reason": "New Hall of Famer: his Y82 card (236 games, 2,653 tackles, 33 interceptions, 1 ring, 1 DPOY) took him past Career Legacy 7000",
+   "trigger": "SPEECH NEEDED: Abraham Ward Jr (Y82)"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Jakeem Friend",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y80",
+    "text": "Linemen do not win trophies. Jakeem Friend won seven rings instead.\n\nFor most of his career he was a Seattle Seahawk, a fixture up front through the Modern era. He has played 252 games and been credited with 526 blocks, two a game, every game, without a single MVP or Player of the Year award to show for it. That is how the job works. The reward is a quarterback who gets up clean and a running back who finds the hole where it was supposed to be.\n\nThe last four seasons have come in New York, with the Jets from Y79 to Y82, and two of those rings were won there. The jersey changed. The job did not, and Seattle still has first claim on him.\n\nSeven rings, 526 blocks, and almost no headlines. Jakeem Friend, Seahawks legend, welcome to the Hall of Fame."
+   },
+   "source": "image:images/IMG_6340.PNG",
+   "reason": "Numbers refreshed from his Y82 card: 7 rings (was six), 252 games (was 232), 526 blocks (was 482), Jets Y79-82; otherwise unchanged",
+   "trigger": "Audit: speech says six rings / 232 games, data has 7 / 252"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Jason Macleone",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y80",
+    "text": "One look at Scary Jerry and you understood the name.\n\nJason Macleone was imposing before he ever threw a pass, and then he threw 9,970 of them. He completed 67 percent for 73,799 yards and 771 touchdowns, with just 128 interceptions across 331 games. He took 86 sacks and never lost a fumble. When he did tuck it and run, he made it count: 71 rushing touchdowns.\n\nHis defining day came in Y78, when he quarterbacked the Vikings past the Broncos 33-27 in Super Bowl CXXXVII. Two rings, three MVPs and a Super Bowl MVP in all, and he is still slinging it in Seattle, where every new start adds to the case.\n\nThe league's line of great quarterbacks runs from Lamar through Gooden, Waller, Baylon, Brandson and the Wilson brothers. For now, it ends with him. Scary Jerry, welcome to the Hall of Fame."
+   },
+   "source": "image:images/IMG_6373.PNG",
+   "reason": "Numbers refreshed from his Y82 card (merged with IMG_6374): 9,970 attempts, 73,799 yards, 771 TDs, 128 INTs, 331 games, 86 sacks, 71 rushing TDs; otherwise unchanged",
+   "trigger": "Audit: speech says 313 games, data has 331"
+  }
+ ]
+}

@@ -1,6 +1,11 @@
 {
  "_about": "Hall of Fame induction speeches: one of the two AI-authored things in the system (the other is art). Trigger: the rebuild finds a player who first crossed Career Legacy 7000 (his Hall of Fame class in content.json) with no speech here; npm run audit fails until one is written. Reason: a new Hall of Famer. Rules (CLAUDE.md): only facts from the data, 120-190 words, no em dashes; the audit checks the numbers.",
  "speeches": {
+  "Abraham Ward Jr": {
+   "reason": "New Hall of Famer",
+   "trigger": "First crossed Career Legacy 7000: Y82",
+   "text": "Eleven tackles a game, every game, for 236 games.\n\nAbraham Ward Jr plays in the Green Bay secondary, and his stat line reads like a linebacker's. He has made 2,653 tackles and picked off 33 passes along the way. He has never been credited with a sack or a forced fumble. He does not rush the passer and he does not strip the ball. He finds the ball carrier and puts him on the ground, snap after snap, season after season.\n\nThe Packers made him a champion in Y79, when they beat the Chiefs 44-6 in Super Bowl CXXXVIII, and the league named him Defensive Player of the Year. One ring and one award can look like a small haul for a career this long. The tackles tell the rest of the story.\n\nHe crossed into the Hall in Y82 with another full season on his card, and he is still out there adding to the total. Abraham Ward Jr, welcome to the Hall of Fame."
+  },
   "Akiem Bouye": {
    "reason": "New Hall of Famer",
    "trigger": "First crossed Career Legacy 7000: Inaugural class (class of the first market snapshot)",
@@ -69,12 +74,12 @@
   "Jakeem Friend": {
    "reason": "New Hall of Famer",
    "trigger": "First crossed Career Legacy 7000: Y80",
-   "text": "Linemen do not win trophies. Jakeem Friend won six rings instead.\n\nFor most of his career he was a Seattle Seahawk, a fixture up front through the Modern era. He has played 232 games and been credited with 482 blocks, two a game, every game, without a single MVP or Player of the Year award to show for it. That is how the job works. The reward is a quarterback who gets up clean and a running back who finds the hole where it was supposed to be.\n\nThe last three seasons have come in New York, with the Jets from Y79 to Y81. The jersey changed. The job did not, and Seattle still has first claim on him.\n\nSix rings, 482 blocks, and almost no headlines. Jakeem Friend, Seahawks legend, welcome to the Hall of Fame."
+   "text": "Linemen do not win trophies. Jakeem Friend won seven rings instead.\n\nFor most of his career he was a Seattle Seahawk, a fixture up front through the Modern era. He has played 252 games and been credited with 526 blocks, two a game, every game, without a single MVP or Player of the Year award to show for it. That is how the job works. The reward is a quarterback who gets up clean and a running back who finds the hole where it was supposed to be.\n\nThe last four seasons have come in New York, with the Jets from Y79 to Y82, and two of those rings were won there. The jersey changed. The job did not, and Seattle still has first claim on him.\n\nSeven rings, 526 blocks, and almost no headlines. Jakeem Friend, Seahawks legend, welcome to the Hall of Fame."
   },
   "Jason Macleone": {
    "reason": "New Hall of Famer",
    "trigger": "First crossed Career Legacy 7000: Y80",
-   "text": "One look at Scary Jerry and you understood the name.\n\nJason Macleone was imposing before he ever threw a pass, and then he threw 9,462 of them. He completed 67 percent for 70,010 yards and 733 touchdowns, with just 126 interceptions across 313 games. He took 85 sacks and never lost a fumble. When he did tuck it and run, he made it count: 67 rushing touchdowns.\n\nHis defining day came in Y78, when he quarterbacked the Vikings past the Broncos 33-27 in Super Bowl CXXXVII. Two rings, three MVPs and a Super Bowl MVP in all, and he is still slinging it in Seattle, where every new start adds to the case.\n\nThe league's line of great quarterbacks runs from Lamar through Gooden, Waller, Baylon, Brandson and the Wilson brothers. For now, it ends with him. Scary Jerry, welcome to the Hall of Fame."
+   "text": "One look at Scary Jerry and you understood the name.\n\nJason Macleone was imposing before he ever threw a pass, and then he threw 9,970 of them. He completed 67 percent for 73,799 yards and 771 touchdowns, with just 128 interceptions across 331 games. He took 86 sacks and never lost a fumble. When he did tuck it and run, he made it count: 71 rushing touchdowns.\n\nHis defining day came in Y78, when he quarterbacked the Vikings past the Broncos 33-27 in Super Bowl CXXXVII. Two rings, three MVPs and a Super Bowl MVP in all, and he is still slinging it in Seattle, where every new start adds to the case.\n\nThe league's line of great quarterbacks runs from Lamar through Gooden, Waller, Baylon, Brandson and the Wilson brothers. For now, it ends with him. Scary Jerry, welcome to the Hall of Fame."
   },
   "Jayon Queen": {
    "reason": "New Hall of Famer",

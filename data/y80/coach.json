@@ -1,18 +1,18 @@
 {
- "source": "Retro Bowl staff screen (IMG_6290, Y81 complete)",
+ "source": "Retro Bowl staff screen (IMG_6394, Y82 complete)",
  "name": "Dorren Skura",
  "age": 117,
  "stars": 5,
- "morale": "Good",
- "gamesPlayed": 1609,
+ "morale": "Exceptional",
+ "gamesPlayed": 1629,
  "simGames": 15,
  "record": {
   "fullSeasons": 81,
-  "regular": "1170-202-5",
-  "regularWinPct": 0.851,
-  "playoff": "209-23",
-  "playoffWinPct": 0.901,
-  "playoffsReached": "79/81",
+  "regular": "1185-204-5",
+  "regularWinPct": 0.852,
+  "playoff": "212-23",
+  "playoffWinPct": 0.902,
+  "playoffsReached": "80/82",
   "seasonsNoSimGames": 71,
   "simGameRecord": "0-15-0"
  },
@@ -25,7 +25,7 @@
  "superBowlRecord": [
   {
    "coach": "D.Skura",
-   "titles": 56
+   "titles": 57
   },
   {
    "coach": "NE (2000-2023)",
@@ -773,6 +773,15 @@
    "l": 2,
    "t": 1,
    "finish": "AFC EAS 1st"
+  },
+  {
+   "year": 82,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "finish": "Champions"
   }
  ]
 }

@@ -184,7 +184,7 @@
      [
       "Jets",
       79,
-      81
+      82
      ]
     ],
     "says": "Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring)."
@@ -316,7 +316,7 @@
      [
       "Falcons",
       79,
-      81
+      82
      ]
     ],
     "says": "One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons."
@@ -456,13 +456,15 @@
  "active_rosters": {
   "Jets": [
    "Chance Woodrum",
+   "Dwayne Skura",
    "Jakeem Friend",
    "Jaylen Conklin",
    "Kalif Suh",
    "Kane Van Oxley",
    "Ryland Maxwell",
    "Trequan Roberts",
-   "Ty Lock"
+   "Ty Lock",
+   "Vyncint Heath"
   ],
   "Seahawks": [
    "Deonte Sutton",
@@ -530,6 +532,28 @@
    ],
    "Seahawks": [
     "Blair Iupati",
+    "Deonte Sutton",
+    "Dorance Hinton",
+    "Isaiah Karras",
+    "Jason Macleone",
+    "Obinna Leary",
+    "Romeo Rodgers"
+   ]
+  },
+  "82": {
+   "Jets": [
+    "Chance Woodrum",
+    "Dwayne Skura",
+    "Jakeem Friend",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Kane Van Oxley",
+    "Ryland Maxwell",
+    "Trequan Roberts",
+    "Ty Lock",
+    "Vyncint Heath"
+   ],
+   "Seahawks": [
     "Deonte Sutton",
     "Dorance Hinton",
     "Isaiah Karras",

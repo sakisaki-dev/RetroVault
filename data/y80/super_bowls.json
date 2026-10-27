@@ -809,5 +809,16 @@
   "loser": "Packers",
   "your_result": "not in it",
   "your_team": null
+ },
+ {
+  "year": "Y82",
+  "number": 141,
+  "roman": "CXLI",
+  "winner": "Jets",
+  "score": null,
+  "loser": "Eagles",
+  "your_result": "won",
+  "your_team": "Jets",
+  "note": "Winner from the staff screen (82 NYJ Champions) and the playoff bracket (NYJ over PHI); score not captured"
  }
 ]

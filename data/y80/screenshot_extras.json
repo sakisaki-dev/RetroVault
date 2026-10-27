@@ -12,9 +12,6 @@
    "pass_yds": 3859,
    "pass_td": 45,
    "cmp_pct": 88
-  },
-  "Chance Woodrum (Y80, in progress)": {
-   "tackles": 116
   }
  },
  "player_cards": {
@@ -125,6 +122,23 @@
   },
   "Mason Taylor 2025": {
    "games": 0
+  },
+  "Drake Maye 2024-2025": {
+   "games": 13,
+   "att": 338,
+   "cmp": 225,
+   "pass_yds": 2276,
+   "pass_td": 34,
+   "int": 10
+  },
+  "Breece Hall 2022-2025": {
+   "games": 40,
+   "rush_att": 512,
+   "rush_yds": 2333,
+   "rush_td": 14,
+   "rec": 152,
+   "rec_yds": 1292,
+   "rec_td": 21
   }
  },
  "name_changes": {

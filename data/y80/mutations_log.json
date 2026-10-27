@@ -237,6 +237,16 @@
     "speech": 5
    },
    "changed": 17
+  },
+  {
+   "id": "2026-10-26-y82",
+   "dir": "data/uploads/2026-10-26-y82",
+   "applied_at": "2026-10-26T23:00:08-07:00",
+   "mutations": {
+    "stats": 59,
+    "speech": 3
+   },
+   "changed": 378
   }
  ]
 }

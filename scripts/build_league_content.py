@@ -819,9 +819,17 @@ KIND_ORDER = ["superbowl", "hof", "record", "trade", "new-player", "award", "mil
 SUFFIXES = {"Jr", "Sr", "II", "III", "IV", "V"}
 
 
+SURNAME_PARTICLES = {"van", "von", "de", "del", "della", "di", "da", "du", "la", "le", "st.", "mac", "ter"}
+
+
 def surname(name: str) -> str:
+    """Last name, keeping a suffix ("Ward Jr") or a particle ("Van Oxley") with it."""
     parts = name.split()
-    return " ".join(parts[-2:]) if len(parts) > 2 and parts[-1] in SUFFIXES else parts[-1]
+    if len(parts) > 2 and parts[-1] in SUFFIXES:
+        return " ".join(parts[-2:])
+    if len(parts) > 2 and parts[-2].lower() in SURNAME_PARTICLES:
+        return " ".join(parts[-2:])
+    return parts[-1]
 
 
 SURNAME_COUNT: dict[str, int] = {}
