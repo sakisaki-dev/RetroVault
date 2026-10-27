@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type MutableRefObject, type Ref } from 'react';
 import { isLite } from './usePerfMode';
+import { dur, ease } from '@/utils/motion';
 
 /*
  * Swipe down to dismiss (touch only), for dialogs and bottom sheets.
@@ -63,19 +64,27 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
     let height = 1;
 
     const bd = () => opts.current.backdrop?.() ?? null;
-    const set = (dy: number, animate: boolean) => {
-      const t = animate ? 'translate 260ms cubic-bezier(0.2, 1.25, 0.4, 1), opacity 200ms ease' : 'none';
+    // animate: false follows the finger; 'back' springs home; a number slides out over that many ms, starting at the
+    // finger's speed (the curve's opening slope is 2, so 2 × distance ÷ speed keeps the release seamless)
+    const set = (dy: number, animate: false | 'back' | number) => {
+      const t =
+        animate === false
+          ? 'none'
+          : animate === 'back'
+            ? `translate ${dur.slow}ms ${ease.spring}`
+            : `translate ${animate}ms cubic-bezier(0.3, 0.6, 0.6, 1)`;
       el.style.transition = t;
       el.style.translate = dy ? `0 ${dy}px` : '';
       const b = bd();
       if (b) {
-        b.style.transition = animate ? 'opacity 200ms ease' : 'none';
+        b.style.transition = animate === false ? 'none' : `opacity ${typeof animate === 'number' ? animate : dur.base}ms ${ease.out}`;
         b.style.opacity = dy ? String(Math.max(0.15, 1 - dy / (height * 0.9))) : '';
       }
     };
     const reset = () => {
       el.style.transition = '';
       el.style.translate = '';
+      delete el.dataset.swiped;
       const b = bd();
       if (b) {
         b.style.transition = '';
@@ -140,9 +149,11 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
       const close = dy > Math.min(CLOSE_MAX, height * CLOSE_FRACTION) || (vel > FLICK && dy > 30);
       if (!close) {
         if (still) reset();
-        else set(0, true);
+        else set(0, 'back');
         return;
       }
+      // Tells the dialog's exit to fade from here rather than replay its own slide (index.css, .dlg-anim)
+      el.dataset.swiped = '';
       if (still) {
         reset();
         opts.current.onDismiss();
@@ -154,13 +165,15 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
         window.setTimeout(reset, 1200);
         return;
       }
-      // Slide the rest of the way out, then close (the dialog's own exit animation finishes from there)
-      set(height + 40, true);
+      // Slide the rest of the way out at the finger's speed, then close (the dialog's exit fades it from there)
+      const rest = height + 40 - dy;
+      const ms = Math.round(Math.min(dur.slow, Math.max(dur.fast, (2 * rest) / Math.max(vel, 0.9))));
+      set(height + 40, ms);
       window.setTimeout(() => {
         opts.current.onDismiss();
         // The element may stay mounted (a sheet that only hides): put it back once it's gone
         window.setTimeout(reset, 320);
-      }, 170);
+      }, ms - 20);
     };
 
     el.addEventListener('touchstart', onStart, { passive: true });

@@ -9,6 +9,7 @@ import { HOF_THRESHOLD } from '@/config/stats';
 import { useLeagueContent } from '@/utils/leagueContent';
 import BrandMark from '@/components/brand/BrandMark';
 import CountUp from '@/components/brand/CountUp';
+import { reducedMotion } from '@/utils/motion';
 
 interface HeaderProps {
   activeTab: string;
@@ -88,7 +89,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
 
   // Keep the active tab visible in the scrollable mobile nav
   useEffect(() => {
-    tabRefs.current[activeTab]?.scrollIntoView({ block: 'nearest', inline: 'center' });
+    tabRefs.current[activeTab]?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reducedMotion() ? 'auto' : 'smooth' });
   }, [activeTab]);
 
   const nav = (
@@ -105,10 +106,11 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
                 aria-current={isActive ? 'page' : undefined}
                 className={cn(
                   'relative h-11 px-3 sm:px-3.5 font-display text-[17px] font-bold uppercase tracking-wide whitespace-nowrap transition-colors',
-                  'after:absolute after:inset-x-2 after:bottom-0 after:h-[3px] after:rounded-t after:transition-colors',
+                  // The underline grows out from the centre as a tab becomes active (transform only)
+                  'after:absolute after:inset-x-2 after:bottom-0 after:h-[3px] after:rounded-t after:transition-[transform,background-color] after:duration-[var(--dur-3)] after:ease-[var(--ease-spring)]',
                   isActive
-                    ? 'text-chalk after:bg-gold'
-                    : 'text-muted-foreground hover:text-chalk after:bg-transparent hover:after:bg-line',
+                    ? 'text-chalk after:scale-x-100 after:bg-gold'
+                    : 'text-muted-foreground hover:text-chalk after:scale-x-0 after:bg-line hover:after:scale-x-100',
                 )}
               >
                 {tab.label}

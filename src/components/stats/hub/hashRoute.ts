@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, startTransition, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 /**
  * Tiny hash router for the single-page hub. The URL hash mirrors the visible page so tabs are linkable
@@ -107,6 +107,11 @@ const sameRoute = (a: Route, b: Route) => buildHash(a) === buildHash(b);
 /**
  * The current route, kept in sync with the URL hash. `navigate` pushes a history entry (or replaces with
  * `{ replace: true }`). Re-navigating to the Stats tab without a sub-tab returns to the last one used.
+ *
+ * Route changes render as a transition: the old page stays up (and responsive) while the new one renders or its
+ * lazy chunk loads, so a fast switch never flashes a skeleton and a slow one never blocks the tap. `target` is the
+ * route being switched to, updated at once, for the nav highlights. Replacements (a view syncing its own state to the
+ * URL) apply at once.
  */
 export const useHashRoute = (defaultTab = 'games') => {
   const lastSub = useRef<StatsSub>('players');
@@ -118,16 +123,23 @@ export const useHashRoute = (defaultTab = 'games') => {
     const r = read();
     return r.tab === 'career' && !r.sub ? { ...r, sub: 'players' } : r;
   });
-  const routeRef = useRef(route);
-  routeRef.current = route;
+  const [target, setTarget] = useState<Route>(route);
   if (route.sub) lastSub.current = route.sub;
+  // The latest route asked for (ahead of `route` while a transition is pending)
+  const targetRef = useRef(route);
+  const show = useCallback((next: Route, urgent = false) => {
+    targetRef.current = next;
+    setTarget(next);
+    if (urgent) setRoute(next);
+    else startTransition(() => setRoute(next));
+  }, []);
 
   useEffect(() => {
     const sync = () => {
       const r = parseHash(window.location.hash);
       if (!r) return; // plain anchor: stay where we are
       const next = r.tab === 'career' && !r.sub ? { ...r, sub: lastSub.current } : r;
-      if (!sameRoute(next, routeRef.current)) setRoute(next);
+      if (!sameRoute(next, targetRef.current)) show(next);
     };
     window.addEventListener('popstate', sync);
     window.addEventListener('hashchange', sync);
@@ -135,7 +147,7 @@ export const useHashRoute = (defaultTab = 'games') => {
       window.removeEventListener('popstate', sync);
       window.removeEventListener('hashchange', sync);
     };
-  }, []);
+  }, [show]);
 
   const navigate = useCallback((to: Route, opts?: { replace?: boolean }) => {
     const next: Route = to.tab === 'career' && !to.sub ? { ...to, sub: lastSub.current } : to;
@@ -144,16 +156,18 @@ export const useHashRoute = (defaultTab = 'games') => {
       if (opts?.replace) window.history.replaceState(window.history.state, '', hash);
       else window.history.pushState(null, '', hash);
     }
-    if (!sameRoute(next, routeRef.current)) setRoute(next);
-  }, []);
+    if (next.sub) lastSub.current = next.sub;
+    // Replacements keep a view's own state in the URL (a chart, the Deep Dive player, a section): those stay urgent
+    if (!sameRoute(next, targetRef.current)) show(next, !!opts?.replace);
+  }, [show]);
 
-  return { route, navigate };
+  return { route, target, navigate };
 };
 
 export type Navigate = (to: Route, opts?: { replace?: boolean }) => void;
 
 /** Route + navigate for pages under Index (Stats hub, Map). Index provides it. */
-export const HubRouteContext = createContext<{ route: Route; navigate: Navigate }>({
+export const HubRouteContext = createContext<{ route: Route; target?: Route; navigate: Navigate }>({
   route: { tab: 'games' },
   navigate: () => undefined,
 });

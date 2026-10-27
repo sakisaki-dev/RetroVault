@@ -21,6 +21,7 @@ import CollectibleCard from './CollectibleCard';
 import CardBack from './CardBack';
 import { FINISH_ICON, FINISH_TEXT } from './rarityIcons';
 import type { CardInfo } from './useCardPool';
+import { dur, ease } from '@/utils/motion';
 
 /*
  * Swipe browser: a full-screen carousel over the binder's current filter and sort (owned cards only). One large card
@@ -178,7 +179,7 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
         place();
         settleCenter();
         // No slide: the new card fades in
-        if (moved) slots.current.get(to)?.animate?.([{ opacity: 0 }, { opacity: 1 }], { duration: 160, easing: 'ease-out' });
+        if (moved) slots.current.get(to)?.animate?.([{ opacity: 0 }, { opacity: 1 }], { duration: dur.fast + 40, easing: ease.out });
         return;
       }
       velRef.current = v0;
@@ -235,9 +236,9 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
     rootRef.current?.focus({ preventScroll: true });
     // Entrance: a short rise and fade (transform / opacity on the stage; reduced motion: fade only)
     const mode = modeRef.current;
-    rootRef.current?.animate?.([{ opacity: 0 }, { opacity: 1 }], { duration: mode === 'still' ? 120 : 200, easing: 'ease-out' });
+    rootRef.current?.animate?.([{ opacity: 0 }, { opacity: 1 }], { duration: mode === 'still' ? dur.fast : dur.base, easing: ease.out });
     if (mode !== 'still')
-      stageRef.current?.animate?.([{ transform: 'translateY(36px) scale(0.94)' }, { transform: 'none' }], { duration: 360, easing: 'cubic-bezier(0.2, 0.9, 0.3, 1.1)' });
+      stageRef.current?.animate?.([{ transform: 'translateY(36px) scale(0.94)' }, { transform: 'none' }], { duration: dur.xslow, easing: ease.spring });
     return () => {
       stop();
       html.style.overflow = prevOverflow;
@@ -258,8 +259,8 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
       if (!root || typeof root.animate !== 'function') return onClose();
       setClosing(true);
       stop();
-      const ms = mode === 'still' ? 120 : 220;
-      const a = root.animate([{ opacity: Number(root.style.opacity || 1) }, { opacity: 0 }], { duration: ms, easing: 'ease-in', fill: 'forwards' });
+      const ms = mode === 'still' ? dur.fast : dur.base + 20;
+      const a = root.animate([{ opacity: Number(root.style.opacity || 1) }, { opacity: 0 }], { duration: ms, easing: ease.exit, fill: 'forwards' });
       if (mode !== 'still')
         stage?.animate?.([{ transform: `translateY(${fromY}px)` }, { transform: `translateY(${Math.max(fromY + 160, window.innerHeight * 0.45)}px) scale(0.9)` }], {
           duration: ms,
@@ -395,11 +396,11 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
 
     const setY = (y: number, animate: boolean) => {
       dragY = y;
-      stage.style.transition = animate ? 'translate 0.4s cubic-bezier(0.34, 1.4, 0.64, 1)' : 'none';
+      stage.style.transition = animate ? `translate ${dur.xslow}ms ${ease.spring}` : 'none';
       stage.style.translate = y ? `0 ${y}px` : '';
       const bg = bgRef.current;
       if (bg) {
-        bg.style.transition = animate ? 'opacity 0.3s ease' : 'none';
+        bg.style.transition = animate ? `opacity ${dur.slow}ms ${ease.out}` : 'none';
         bg.style.opacity = y > 0 ? String(Math.max(0.2, 1 - y / (window.innerHeight * 0.7))) : '';
       }
     };

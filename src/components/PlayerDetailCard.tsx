@@ -323,7 +323,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
           </div>
 
           {/* ---------- Overview ---------- */}
-          <TabsPrimitive.Content value="overview" className="space-y-6 p-4 focus-visible:outline-none sm:p-6">
+          <TabsPrimitive.Content value="overview" className="rv-view-in space-y-6 p-4 focus-visible:outline-none sm:p-6">
             <section aria-labelledby={`${headingId}-board`}>
               <h3 id={`${headingId}-board`} className="sr-only">
                 Headline numbers
@@ -415,7 +415,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
           </TabsPrimitive.Content>
 
           {/* ---------- Career stats ---------- */}
-          <TabsPrimitive.Content value="stats" className="space-y-6 p-4 focus-visible:outline-none sm:p-6">
+          <TabsPrimitive.Content value="stats" className="rv-view-in space-y-6 p-4 focus-visible:outline-none sm:p-6">
             <section aria-labelledby={`${headingId}-career`}>
               <SectionTitle icon={BarChart3} id={`${headingId}-career`}>
                 Career totals
@@ -436,13 +436,13 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
           </TabsPrimitive.Content>
 
           {/* ---------- Advanced ---------- */}
-          <TabsPrimitive.Content value="advanced" className="p-4 focus-visible:outline-none sm:p-6">
+          <TabsPrimitive.Content value="advanced" className="rv-view-in p-4 focus-visible:outline-none sm:p-6">
             <h3 className="sr-only">Advanced metrics</h3>
             <AdvancedPanel player={player} players={leaguePool} />
           </TabsPrimitive.Content>
 
           {/* ---------- Awards ---------- */}
-          <TabsPrimitive.Content value="awards" className="space-y-5 p-4 focus-visible:outline-none sm:p-6">
+          <TabsPrimitive.Content value="awards" className="rv-view-in space-y-5 p-4 focus-visible:outline-none sm:p-6">
             <section aria-labelledby={`${headingId}-awards`}>
               <SectionTitle icon={Trophy} id={`${headingId}-awards`}>
                 Trophy case
@@ -508,7 +508,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
           </TabsPrimitive.Content>
 
           {/* ---------- Comps ---------- */}
-          <TabsPrimitive.Content value="comps" className="p-4 focus-visible:outline-none sm:p-6">
+          <TabsPrimitive.Content value="comps" className="rv-view-in p-4 focus-visible:outline-none sm:p-6">
             <section aria-labelledby={`${headingId}-comps`}>
               <SectionTitle icon={Users} id={`${headingId}-comps`}>
                 Similar careers

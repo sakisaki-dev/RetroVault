@@ -216,7 +216,7 @@ const GamesTab = () => {
                 {includeLegends && legends.length > 0 && ' Real NFL players sneak in too, at most one per deal, and you only find out who at the reveal.'}
               </p>
             </div>
-            <ul className="modes" style={{ listStyle: 'none', margin: 0, padding: 0, ...GRID_VARS }}>
+            <ul className="modes rv-stagger" style={{ listStyle: 'none', margin: 0, padding: 0, ...GRID_VARS }}>
               {GAMES.map((g, i) => {
                 return (
                   <li key={g.id} className="mode-li" style={spanVars(i)}>

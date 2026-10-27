@@ -53,7 +53,10 @@ const ChartFrame = ({ title, description, icon, controls, chart, table, footer, 
         </button>
       </div>
       {controls}
-      <div className="min-w-0">{asTable ? table : chart}</div>
+      {/* Soft fade-in once, and a cross-fade when switching chart / table (.rv-chart-in) */}
+      <div key={asTable ? 'table' : 'chart'} className="rv-chart-in min-w-0">
+        {asTable ? table : chart}
+      </div>
       {footer}
       {poster && (
         <p className="flex items-center justify-end gap-1.5 font-pixel text-[8px] uppercase tracking-wider text-muted-foreground/80" aria-hidden="true">

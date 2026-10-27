@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { BarChart3, ListOrdered, Table2 } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
 import { cn } from '@/lib/utils';
+import { useStagger } from '@/utils/motion';
 import { evaluateMetric, metricsFor, placeOnBoard, type AdvContext, type MetricRow } from '@/config/advanced';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import TeamLogo from '../../brand/TeamLogo';
@@ -34,6 +35,8 @@ const MetricLeaderboard = ({ players, ctx, position, extras = [], onSelect }: Pr
   const [picked, setPicked] = useState<Partial<Record<Position, string>>>({});
   const [expanded, setExpanded] = useState(false);
   const [asTable, setAsTable] = useState(false);
+  // Rows stagger in once; "Show all" and metric changes only fade new rows in
+  const rowMotion = useStagger();
   const metric = metrics.find((m) => m.id === picked[position]) ?? metrics[0];
   const board = useMemo(() => evaluateMetric(players, metric, position, ctx), [players, metric, position, ctx]);
   const merged: BoardRow[] = useMemo(() => {
@@ -121,7 +124,7 @@ const MetricLeaderboard = ({ players, ctx, position, extras = [], onSelect }: Pr
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className={rowMotion}>
             {rows.map((r) => (
               <tr key={`${r.nfl ? 'nfl:' : ''}${keyOf(r.player)}`} className="group border-t border-line/40">
                 <td className={cn('py-1.5 font-pixel text-[10px]', r.rank === 1 ? 'text-gold' : 'text-muted-foreground')}>{r.nfl ? <NflTag /> : r.rank}</td>

@@ -522,7 +522,7 @@ const LandscapeScatter = ({
     <div ref={boxRef} className="relative w-full" onMouseLeave={() => setHover(null)}>
       {geo && (
         <div>
-          <svg ref={svgRef} width={width} height={height} role="group" aria-label={ariaLabel} className="block select-none">
+          <svg ref={svgRef} width={width} height={height} role="group" aria-label={ariaLabel} className="rv-chart-in block select-none">
             {/* Grid + axes */}
             <g aria-hidden="true">
               {geo.ax.ticks.map((t) => (

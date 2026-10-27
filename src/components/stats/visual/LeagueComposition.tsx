@@ -12,6 +12,7 @@ import Chips from '../analytics/Chips';
 import { fmtNum } from '../analytics/viz';
 import { teamMark } from './chartKit';
 import { Legend } from './chartParts';
+import { useStagger } from '@/utils/motion';
 
 // ---------- Hall of Fame tiers by position ----------
 
@@ -194,6 +195,7 @@ export const FranchiseBars = ({ players }: { players: Player[] }) => {
   const { content } = useLeagueContent();
   const [metric, setMetric] = useState<TeamMetric>('titles');
   const [expanded, setExpanded] = useState(false);
+  const rowMotion = useStagger();
 
   const all: TeamRow[] = useMemo(() => {
     const map = new Map<string, TeamRow>();
@@ -235,7 +237,7 @@ export const FranchiseBars = ({ players }: { players: Player[] }) => {
         sorted.length === 0 ? (
           <p className="py-6 text-center text-sm text-muted-foreground">{metric === 'titles' && !content ? 'Loading the Super Bowl history…' : 'Nothing to show yet.'}</p>
         ) : (
-          <ol className="space-y-1.5" aria-label={`Teams by ${m.label}`}>
+          <ol className={`space-y-1.5 ${rowMotion}`} aria-label={`Teams by ${m.label}`}>
             {rows.map((r) => (
               <TeamBar key={r.id} row={r} metric={metric} max={max} />
             ))}

@@ -25,6 +25,7 @@ import { useHubRoute } from '@/components/stats/hub/hashRoute';
 import PlayerDetailCard from '@/components/PlayerDetailCard';
 import PositionBadge from '@/components/PositionBadge';
 import './news.css';
+import { reducedMotion } from '@/utils/motion';
 
 /**
  * "What changed": the generated headlines in content.json (scripts/build_league_content.py build_headlines(), rules
@@ -266,7 +267,7 @@ export const HomeNews = () => {
         onMore={() => {
           navigate({ tab: 'timeline' });
           // the list sits under the Timeline masthead; wait for the lazy tab to mount
-          window.setTimeout(() => document.getElementById('what-changed')?.scrollIntoView({ block: 'start' }), 400);
+          window.setTimeout(() => document.getElementById('what-changed')?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' }), 400);
         }}
       />
       <Spotlight picks={picks} headlines={headlines} notes={content.playerNotes} onPlayer={setSelected} />

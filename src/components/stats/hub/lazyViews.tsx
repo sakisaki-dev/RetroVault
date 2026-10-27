@@ -27,9 +27,9 @@ export const prefetchStatsSub = (sub: StatsSub | 'insights') => {
   loaders[sub]().catch(() => warmed.delete(sub));
 };
 
-/** Suspense fallback: a quiet spinner that holds the panel's height so the page doesn't jump. */
+/** Suspense fallback: a quiet spinner that holds the panel's height so the page doesn't jump (it fades in after ~150 ms). */
 export const ViewLoading = ({ label, tall = true }: { label: string; tall?: boolean }) => (
-  <div role="status" aria-label={`Loading ${label}`} className={tall ? 'flex min-h-[60vh] items-start justify-center pt-20' : 'flex min-h-[40vh] items-start justify-center pt-12'}>
+  <div role="status" aria-label={`Loading ${label}`} className={tall ? 'rv-fallback flex min-h-[60vh] items-start justify-center pt-20' : 'rv-fallback flex min-h-[40vh] items-start justify-center pt-12'}>
     <div className="h-8 w-8 animate-spin rounded-full border-[3px] border-gold border-t-transparent" />
   </div>
 );

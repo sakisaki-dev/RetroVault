@@ -2817,7 +2817,7 @@ button.fut__card:focus-visible {
   display: none;
 }
 .cd.cd[data-state='open'] {
-  animation: cd-in 0.2s ease-out;
+  animation: cd-in var(--dur-2) var(--ease-out);
 }
 @keyframes cd-in {
   from { opacity: 0; }

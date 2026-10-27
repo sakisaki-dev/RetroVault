@@ -110,8 +110,18 @@ export default {
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        "accordion-down": "accordion-down 0.28s cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "accordion-up": "accordion-up 0.2s cubic-bezier(0.4, 0, 1, 1)",
+      },
+      // Plain transition-* utilities use the shared motion tokens (src/index.css, src/utils/motion.ts)
+      transitionDuration: {
+        DEFAULT: "200ms",
+      },
+      transitionTimingFunction: {
+        DEFAULT: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        out: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        spring: "cubic-bezier(0.32, 1.25, 0.5, 1)",
+        exit: "cubic-bezier(0.4, 0, 1, 1)",
       },
       boxShadow: {
         glow: "var(--shadow-glow)",

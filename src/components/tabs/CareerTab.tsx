@@ -12,6 +12,7 @@ import { HEADLINE_IDS, LEADER_IDS, buildRecordBook, pickBoards } from '../stats/
 import StatsHub from '../stats/hub/StatsHub';
 import { GraphsPage, HeadToHead, PlayerDeepDive, PlayersInsights, TeamRankingsTab, ViewLoading, prefetchStatsSub } from '../stats/hub/lazyViews';
 import { buildHash, useHubRoute, type StatsSub } from '../stats/hub/hashRoute';
+import { reducedMotion } from '@/utils/motion';
 
 /** In-page jumps on the Players sub-tab (each is linkable: #stats/players/<id>). */
 const JUMPS = [
@@ -71,8 +72,10 @@ const CareerTab = () => {
       onOpenPlayer={setSelectedPlayer}
       onPrefetch={prefetchStatsSub}
     >
+      {/* Each sub-tab cross-fades in with a short rise (.rv-view-in). The switch is a transition (hashRoute), and the
+          Suspense below stays mounted, so the old sub-tab stays up until a lazy one has loaded. */}
       {sub === 'players' && (
-        <div className="container space-y-10 py-6 sm:py-8">
+        <div className="rv-view-in container space-y-10 py-6 sm:py-8">
           <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="font-pixel text-[10px] uppercase text-gold">League Hub · Players</p>
@@ -89,7 +92,7 @@ const CareerTab = () => {
                       e.preventDefault();
                       navigate({ tab: 'career', sub: 'players', section: j.id }, { replace: true });
                       // Same section clicked twice: the route doesn't change, so scroll directly.
-                      if (route.section === j.id) document.getElementById(j.id)?.scrollIntoView({ block: 'start' });
+                      if (route.section === j.id) document.getElementById(j.id)?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' });
                     }}
                     className="font-semibold text-muted-foreground underline-offset-4 hover:text-gold hover:underline"
                   >
@@ -123,6 +126,7 @@ const CareerTab = () => {
       )}
 
       <Suspense fallback={<ViewLoading label={sub} />}>
+      <div key={sub} className={sub === 'players' ? undefined : 'rv-view-in'}>
       {sub === 'teams' && <TeamRankingsTab />}
 
       {/* Graph Builder full page (src/components/stats/graph); the URL's gx / gy / pos… are the chart. */}
@@ -145,6 +149,7 @@ const CareerTab = () => {
           />
         </div>
       )}
+      </div>
       </Suspense>
 
       <PlayerDetailCard player={selectedPlayer} onClose={() => setSelectedPlayer(null)} />

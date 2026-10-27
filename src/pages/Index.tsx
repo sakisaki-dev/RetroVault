@@ -25,9 +25,9 @@ const TeamLabTab = lazy(() => import('@/components/teamlab/TeamLabTab'));
 
 const IndexContent = () => {
   // The visible page lives in the URL hash (#stats/teams, #stats/deepdive?p=…) so it is linkable and Back works.
-  const { route, navigate } = useHashRoute('games');
+  const { route, target, navigate } = useHashRoute('games');
   const activeTab = route.tab;
-  const hub = useMemo(() => ({ route, navigate }), [route, navigate]);
+  const hub = useMemo(() => ({ route, target, navigate }), [route, target, navigate]);
   // "Deep Dive" requests (player card, Map, Stats search) open Stats › Deep Dive on that player; the view consumes the
   // pending request itself. Head-to-Head hand-offs open Stats › Head-to-Head.
   // A shared transfer link (#sync=<code>) imports progress from another device, after confirmation
@@ -92,18 +92,22 @@ const IndexContent = () => {
       </Helmet>
 
       <div className="min-h-screen flex flex-col">
-        <Header activeTab={activeTab} onTabChange={(tab) => navigate({ tab })} />
+        <Header activeTab={target.tab} onTabChange={(tab) => navigate({ tab })} />
 
         <HubRouteContext.Provider value={hub}>
           <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
+            {/* Tab changes are transitions (hashRoute), so the old tab stays until the new one is ready; it then
+                cross-fades in (.rv-view-in). The fallback only shows on a cold first load, after ~150 ms. */}
             <Suspense fallback={<TabFallback />}>
-              {activeTab === 'career' && <CareerTab />}
-              {activeTab === 'lab' && <TeamLabTab />}
-              {activeTab === 'hof' && <HallOfFameTab />}
-              {activeTab === 'collection' && <CollectionTab />}
-              {activeTab === 'timeline' && <TimelineTab />}
-              {activeTab === 'office' && <FrontOfficeTab />}
-              {activeTab === 'games' && <GamesTab />}
+              <div key={activeTab} className="rv-view-in">
+                {activeTab === 'career' && <CareerTab />}
+                {activeTab === 'lab' && <TeamLabTab />}
+                {activeTab === 'hof' && <HallOfFameTab />}
+                {activeTab === 'collection' && <CollectionTab />}
+                {activeTab === 'timeline' && <TimelineTab />}
+                {activeTab === 'office' && <FrontOfficeTab />}
+                {activeTab === 'games' && <GamesTab />}
+              </div>
             </Suspense>
           </main>
         </HubRouteContext.Provider>

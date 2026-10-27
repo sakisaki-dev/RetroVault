@@ -123,7 +123,7 @@ const HiddenGems = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Player
         </div>
       </div>
 
-      <div className="glass-card p-3 sm:p-4" role="tabpanel" aria-label={active.label}>
+      <div key={active.label} className="rv-view-in glass-card p-3 sm:p-4" role="tabpanel" aria-label={active.label}>
         <p className="mb-3 text-xs text-muted-foreground">{active.blurb}</p>
         {list.length === 0 ? (
           <p className="py-6 text-center text-sm text-muted-foreground">Nobody fits right now.</p>

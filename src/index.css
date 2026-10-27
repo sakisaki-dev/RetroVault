@@ -90,6 +90,19 @@
     --shadow-card: 0 1px 0 hsl(0 0% 100% / 0.03) inset, 0 8px 24px hsl(228 60% 2% / 0.45);
     --shadow-elevated: 0 24px 48px hsl(228 60% 2% / 0.6);
 
+    /* Motion (mirrored in src/utils/motion.ts; the motion section at the end of this file uses them) */
+    --dur-1: 120ms;
+    --dur-2: 200ms;
+    --dur-3: 280ms;
+    --dur-4: 360ms;
+    --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --ease-spring: cubic-bezier(0.32, 1.25, 0.5, 1);
+    --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+    --stagger: 35ms;
+    /* How far views and list items rise as they appear */
+    --rise: 10px;
+    --press-scale: 0.97;
+
     color-scheme: dark;
   }
 }
@@ -101,6 +114,10 @@
 
   html {
     -webkit-text-size-adjust: 100%;
+    /* Every control draws its own press state (src/utils/motion.ts), so no grey iOS flash */
+    -webkit-tap-highlight-color: transparent;
+    /* In-page jumps land below the sticky header (the Stats hub sets its own, taller, value) */
+    scroll-padding-top: calc(var(--site-header-h, 0px) + 8px);
   }
 
   body {
@@ -448,12 +465,12 @@
 
   /* Staggered entrance: set style={{ '--i': index }} on each item */
   .stagger-in {
-    animation: slide-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
-    animation-delay: calc(min(var(--i, 0), 16) * 40ms);
+    animation: slide-in var(--dur-3) var(--ease-out) backwards;
+    animation-delay: calc(min(var(--i, 0), 12) * var(--stagger));
   }
 
   .hover-lift {
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
   }
   .hover-lift:hover,
   .hover-lift:focus-visible {
@@ -462,11 +479,10 @@
   }
 
   .animate-slide-in {
-    animation: slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: slide-in var(--dur-3) var(--ease-out) backwards;
   }
   @keyframes slide-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; translate: 0 var(--rise); }
   }
 
   .gradient-text {
@@ -475,4 +491,246 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+}
+
+/* ============================================================================================================
+ * Motion system. Tokens on :root (above); JS mirror and press feedback in src/utils/motion.ts.
+ * Only transform-family properties (translate / scale) and opacity move. Fill mode is `backwards`, never `both`:
+ * a transform left on a wrapper would trap position: fixed children and make a stacking context for good.
+ * ============================================================================================================ */
+
+/* Performance mode and reduced motion: short fades only (no slides, staggers or press scaling) */
+[data-perf='lite'] {
+  --dur-2: 120ms;
+  --dur-3: 120ms;
+  --dur-4: 120ms;
+  --stagger: 0ms;
+  --rise: 0px;
+  --press-scale: 1;
+  --ease-spring: var(--ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-2: 120ms;
+    --dur-3: 120ms;
+    --dur-4: 120ms;
+    --stagger: 0ms;
+    --rise: 0px;
+    --press-scale: 1;
+    --ease-spring: var(--ease-out);
+  }
+}
+
+@keyframes rv-rise {
+  from {
+    opacity: 0;
+    translate: 0 var(--rise);
+  }
+}
+@keyframes rv-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes rv-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* Tab and sub-tab changes (pages/Index.tsx, StatsHub): a quick cross-fade with a short rise */
+.rv-view-in {
+  animation: rv-rise var(--dur-3) var(--ease-out) backwards;
+}
+/* Suspense fallbacks wait ~150 ms before showing, so a fast chunk never flashes a skeleton */
+.rv-fallback {
+  animation: rv-fade-in var(--dur-2) var(--ease-out) 150ms backwards;
+}
+
+/* Lists and grids (useStagger): staggered fade-up on first appearance, capped at 12 items */
+.rv-stagger > * {
+  animation: rv-rise var(--dur-3) var(--ease-out) backwards;
+  animation-delay: calc(var(--stagger) * 12);
+}
+.rv-stagger > :nth-child(1) { animation-delay: 0ms; }
+.rv-stagger > :nth-child(2) { animation-delay: calc(var(--stagger) * 1); }
+.rv-stagger > :nth-child(3) { animation-delay: calc(var(--stagger) * 2); }
+.rv-stagger > :nth-child(4) { animation-delay: calc(var(--stagger) * 3); }
+.rv-stagger > :nth-child(5) { animation-delay: calc(var(--stagger) * 4); }
+.rv-stagger > :nth-child(6) { animation-delay: calc(var(--stagger) * 5); }
+.rv-stagger > :nth-child(7) { animation-delay: calc(var(--stagger) * 6); }
+.rv-stagger > :nth-child(8) { animation-delay: calc(var(--stagger) * 7); }
+.rv-stagger > :nth-child(9) { animation-delay: calc(var(--stagger) * 8); }
+.rv-stagger > :nth-child(10) { animation-delay: calc(var(--stagger) * 9); }
+.rv-stagger > :nth-child(11) { animation-delay: calc(var(--stagger) * 10); }
+/* Settled: later arrivals (filters, Show more) only fade. Finished animations are not restarted by this. */
+.rv-stagger.is-settled > * {
+  --rise: 0px;
+  animation-delay: 0ms;
+  animation-duration: var(--dur-2);
+}
+
+/* Charts and maps: a soft fade and settle, once, when they mount */
+.rv-chart-in {
+  animation: rv-chart-in var(--dur-4) var(--ease-out) backwards;
+  transform-origin: 50% 100%;
+}
+@keyframes rv-chart-in {
+  from {
+    opacity: 0;
+    scale: 0.985;
+  }
+}
+
+/* Expanders: content rises in as a <details> opens, and the shared Collapse (ui/collapse.tsx) animates its height */
+details[open] > :not(summary) {
+  animation: rv-rise var(--dur-3) var(--ease-out) backwards;
+}
+.rv-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows var(--dur-3) var(--ease-out),
+    opacity var(--dur-2) var(--ease-out);
+}
+.rv-collapse[data-open='true'] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.rv-collapse > * {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Press feedback (installPressFeedback): instant on touch-down; the release eases back in JS */
+[data-pressed] {
+  scale: var(--press-scale);
+  filter: brightness(1.12);
+}
+[data-pressed].fut__card {
+  filter: none;
+}
+
+/* Dialogs (ui/dialog.tsx, alert-dialog.tsx): spring-feel rise on open, a quicker fade-and-drop on close */
+.dlg-overlay[data-state='open'] {
+  animation: rv-fade-in var(--dur-3) var(--ease-out);
+}
+.dlg-overlay[data-state='closed'] {
+  /* No `from`: a backdrop already faded by a swipe continues from where it is */
+  animation: rv-fade-out var(--dur-2) var(--ease-exit) forwards;
+}
+.dlg-anim[data-state='open'] {
+  animation: rv-dlg-in var(--dur-3) var(--ease-spring);
+}
+.dlg-anim[data-state='closed'] {
+  animation: rv-dlg-out var(--dur-2) var(--ease-exit) forwards;
+}
+@keyframes rv-dlg-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+    translate: 0 8px;
+  }
+}
+@keyframes rv-dlg-out {
+  to {
+    opacity: 0;
+    scale: 0.97;
+    translate: 0 6px;
+  }
+}
+@media (max-width: 640px) {
+  .dlg-anim[data-state='open'] {
+    animation: rv-dlg-in-phone var(--dur-4) var(--ease-spring);
+  }
+  .dlg-anim[data-state='closed'] {
+    animation: rv-dlg-out-phone var(--dur-2) var(--ease-exit) forwards;
+  }
+}
+@keyframes rv-dlg-in-phone {
+  from {
+    opacity: 0;
+    translate: 0 48px;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+@keyframes rv-dlg-out-phone {
+  to {
+    opacity: 0;
+    translate: 0 32px;
+  }
+}
+/* Sheets slide in from their edge */
+.sheet-anim[data-state='open'] {
+  animation: rv-sheet-in var(--dur-4) var(--ease-spring);
+}
+.sheet-anim[data-state='closed'] {
+  animation: rv-sheet-out var(--dur-3) var(--ease-exit) forwards;
+}
+.sheet-anim--bottom {
+  --sheet-from: 0 100%;
+}
+.sheet-anim--top {
+  --sheet-from: 0 -100%;
+}
+.sheet-anim--left {
+  --sheet-from: -100% 0;
+}
+.sheet-anim--right {
+  --sheet-from: 100% 0;
+}
+@keyframes rv-sheet-in {
+  from {
+    translate: var(--sheet-from);
+  }
+}
+@keyframes rv-sheet-out {
+  to {
+    translate: var(--sheet-from);
+  }
+}
+/* Swiped away (useSwipeToDismiss marks it data-swiped): it already slid out with the finger, so just fade */
+.dlg-anim[data-state='closed'][data-swiped],
+.sheet-anim[data-state='closed'][data-swiped] {
+  animation: rv-fade-out var(--dur-1) linear forwards;
+}
+/* Lite / reduced motion: dialogs and sheets fade */
+[data-perf='lite'] .dlg-anim[data-state],
+[data-perf='lite'] .sheet-anim[data-state] {
+  animation-name: rv-fade-in;
+}
+[data-perf='lite'] .dlg-anim[data-state='closed'],
+[data-perf='lite'] .sheet-anim[data-state='closed'] {
+  animation-name: rv-fade-out;
+}
+
+/* Popovers, selects and tooltips: a small grow from the trigger */
+.pop-anim[data-state='open'] {
+  animation: rv-pop-in var(--dur-2) var(--ease-out);
+  transform-origin: var(--radix-popover-content-transform-origin, var(--radix-select-content-transform-origin, var(--radix-tooltip-content-transform-origin, 50% 0)));
+}
+.pop-anim[data-state='closed'] {
+  animation: rv-pop-out var(--dur-1) var(--ease-exit) forwards;
+  transform-origin: var(--radix-popover-content-transform-origin, var(--radix-select-content-transform-origin, var(--radix-tooltip-content-transform-origin, 50% 0)));
+}
+@keyframes rv-pop-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+@keyframes rv-pop-out {
+  to {
+    opacity: 0;
+    scale: 0.97;
+  }
+}
+
+/* Toasts (sonner): the same curves as everything else */
+[data-sonner-toast] {
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--dur-4), var(--dur-3), var(--dur-3), var(--dur-2);
 }

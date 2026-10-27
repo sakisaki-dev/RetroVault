@@ -4,6 +4,7 @@ import TeamLogo from './TeamLogo';
 import { MarkerButton } from './SuperBowlMarker';
 import { useRovingFocus } from './useRovingFocus';
 import { describeSuperBowl, eraForYear, type PlacedEra, type TimelineModel, type YearSlot } from './timelineModel';
+import Collapse from '@/components/ui/collapse';
 
 interface TrackProps {
   model: TimelineModel;
@@ -78,7 +79,7 @@ export const HorizontalTrack = ({
                 aria-label={eraLabel(p)}
                 onClick={() => onSelectEra(selected ? null : p.era.id)}
                 className={cn(
-                  'group relative mx-px flex min-w-0 flex-col justify-center overflow-hidden rounded-md px-2 text-left text-white outline-none transition-all duration-200',
+                  'group relative mx-px flex min-w-0 flex-col justify-center overflow-hidden rounded-md px-2 text-left text-white outline-none transition-[transform,opacity,box-shadow] duration-200',
                   'shadow-sm ring-1 ring-black/20 hover:-translate-y-0.5 hover:shadow-lg',
                   'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                   selected && 'ring-2 ring-foreground -translate-y-0.5 shadow-lg',
@@ -292,7 +293,11 @@ const EraCard = ({
           />
         </div>
       </div>
-      {selected && renderDetail && <div className="mt-3">{renderDetail(placed)}</div>}
+      {renderDetail && (
+        <Collapse open={selected}>
+          <div className="pt-3">{renderDetail(placed)}</div>
+        </Collapse>
+      )}
     </li>
   );
 };

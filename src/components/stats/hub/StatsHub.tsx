@@ -6,7 +6,7 @@ import PlayerSearchSelect from '../../PlayerSearchSelect';
 import { openInCompFinder } from '../comps/compFinderLink';
 import { usePrefersReducedMotion } from '../analytics/viz';
 import { keyOf } from '../records';
-import { buildHash, type StatsSub } from './hashRoute';
+import { buildHash, useHubRoute, type StatsSub } from './hashRoute';
 
 const SUB_TABS: { id: StatsSub; label: string; short: string; Icon: typeof Users; blurb: string }[] = [
   { id: 'players', label: 'Players', short: 'Players', Icon: Users, blurb: 'Records, full stat tables, advanced analytics and leaders' },
@@ -42,6 +42,9 @@ const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, onPrefetch
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [offset, setOffset] = useState<{ header: number; bar: number }>({ header: 0, bar: 0 });
   const reduced = usePrefersReducedMotion();
+  // The sub-tab being switched to lights up at once (the switch itself renders as a transition; see hashRoute)
+  const { target } = useHubRoute();
+  const lit = target?.tab === 'career' && target.sub ? target.sub : sub;
   const sorted = useMemo(() => [...players].sort((a, b) => b.careerLegacy - a.careerLegacy), [players]);
 
   // Track the site header height (published by Header on <html>) and our own bar height.
@@ -132,7 +135,7 @@ const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, onPrefetch
     <nav aria-label="Stats sections" className="min-w-0 flex-1">
       <ul className="flex items-stretch gap-1 overflow-x-auto scrollbar-none">
         {SUB_TABS.map(({ id, label, short, Icon, blurb }) => {
-          const active = id === sub;
+          const active = id === lit;
           return (
             <li key={id} className="shrink-0">
               <a

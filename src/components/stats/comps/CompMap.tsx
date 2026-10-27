@@ -326,7 +326,7 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
         <svg
           ref={svgRef}
           viewBox={`0 0 ${W} ${H}`}
-          className="block h-auto w-full select-none"
+          className="rv-chart-in block h-auto w-full select-none"
           style={{ touchAction: zoomed ? 'none' : 'pan-y', cursor: zoomed ? 'grab' : undefined }}
           role="group"
           aria-label={`Similarity map of ${layout.length} ${map.position}s. Closer dots play more alike. Tab through players, Enter selects.`}

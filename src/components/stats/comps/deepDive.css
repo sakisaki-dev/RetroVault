@@ -98,29 +98,15 @@
 }
 .rbk-sheet .rbk-row { min-height: 44px; }
 
-.rbk-pop[data-state='open'] {
-  animation: rbk-in 140ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  transform-origin: var(--radix-popover-content-transform-origin);
-}
-@keyframes rbk-in {
-  from { opacity: 0; transform: scale(0.96); }
-  to { opacity: 1; transform: none; }
-}
-.rbk-sheet[data-state='open'] { animation-duration: 220ms; }
-.rbk-sheet[data-state='closed'] { animation-duration: 160ms; }
-
+/* The popover and the phone sheet use the shared motion (.pop-anim / .sheet-anim in src/index.css) */
 .rbk-chip { transition: border-color 0.12s ease, background-color 0.12s ease; }
 
-[data-perf='lite'] .rbk-pop,
-[data-perf='lite'] .rbk-sheet,
 [data-perf='lite'] .rbk-row,
 [data-perf='lite'] .rbk-chip {
   animation: none !important;
   transition: none !important;
 }
 @media (prefers-reduced-motion: reduce) {
-  .rbk-pop,
-  .rbk-sheet,
   .rbk-row,
   .rbk-chip {
     animation: none !important;

@@ -141,6 +141,10 @@ const LeaderboardPeek = ({ getBoard, player, self, onOpenPlayer, children }: Pro
   getRef.current = getBoard;
   const board = useMemo(() => (open ? getRef.current() : null), [open, player]); // eslint-disable-line react-hooks/exhaustive-deps
   const selfRow = useMemo(() => (open ? self?.() : undefined), [open, player]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Keep the last board through the close animation, so the sheet doesn't collapse to nothing as it leaves
+  const last = useRef<{ board: PeekBoard | null; self?: PeekRow }>({ board: null });
+  if (board) last.current = { board, self: selfRow };
+  const shown = board ? { board, self: selfRow } : last.current;
 
   const go = (p: Player) => {
     leaving.current = true;
@@ -158,7 +162,7 @@ const LeaderboardPeek = ({ getBoard, player, self, onOpenPlayer, children }: Pro
     if (leaving.current) e.preventDefault();
     leaving.current = false;
   };
-  const body = board && <Body board={board} player={player} self={selfRow} onOpen={go} sheet={narrow} />;
+  const body = shown.board && <Body board={shown.board} player={player} self={shown.self} onOpen={go} sheet={narrow} />;
 
   if (narrow) {
     return (

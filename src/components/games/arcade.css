@@ -92,7 +92,8 @@
 @media (min-width: 760px) { .arcade .modes { --t: var(--tracks-md, 3); } .arcade .mode-li { --s: var(--span-md, 1); } }
 @media (min-width: 1100px) { .arcade .modes { --t: var(--tracks-lg, 4); } .arcade .mode-li { --s: var(--span-lg, 1); } }
 @media (min-width: 1200px) { .arcade .modes { --t: var(--tracks-xl, 5); } .arcade .mode-li { --s: var(--span-xl, 1); } }
-.arcade .mode { position: relative; text-align: left; border: 0; padding: 0; background: var(--panel); border-radius: 10px; overflow: hidden; box-shadow: 0 0 0 2px var(--line); transition: transform 0.15s, box-shadow 0.15s; display: flex; flex-direction: column; animation: arc-rise 0.45s both; }
+.arcade .mode { position: relative; text-align: left; border: 0; padding: 0; background: var(--panel); border-radius: 10px; overflow: hidden; box-shadow: 0 0 0 2px var(--line); transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out); display: flex; flex-direction: column; }
+/* The mode cards stagger in once (.rv-stagger on the list, src/index.css); no fill, so the hover lift still works */
 .arcade .mode:hover, .arcade .mode:focus-visible { transform: translateY(-3px); box-shadow: 0 0 0 2px var(--mc), 0 14px 30px #0009; }
 .arcade .mode-art { height: 150px; padding: 30px 12px 8px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
   background: radial-gradient(120% 120% at 50% 0%, color-mix(in srgb, var(--mc) 40%, #0b1020) 0%, color-mix(in srgb, var(--mc) 14%, #0b1020) 70%); }

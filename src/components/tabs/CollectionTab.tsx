@@ -3,6 +3,7 @@ import { toast } from 'sonner';
 import { GalleryHorizontal, Hammer, Info, LayoutGrid, Lock } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
 import { cn } from '@/lib/utils';
+import { reducedMotion, useStagger } from '@/utils/motion';
 import PlayerDetailCard from '@/components/PlayerDetailCard';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import CollectibleCard from '@/components/collection/CollectibleCard';
@@ -242,7 +243,7 @@ const CollectionTab = () => {
         cleanHash();
       }
       if (DESIGNS_HASH.test(hash)) setDesigns(true);
-      if (MARKET_HASH.test(hash)) window.setTimeout(() => document.getElementById('col-market')?.scrollIntoView({ block: 'start' }), 50);
+      if (MARKET_HASH.test(hash)) window.setTimeout(() => document.getElementById('col-market')?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' }), 50);
       if (ART_HASH.test(hash)) setArtLab(true);
     };
     check();
@@ -330,6 +331,8 @@ const CollectionTab = () => {
     return list;
   }, [cards, tier, finish, pos, team, missing, sort, owned]);
   const shown = filtered.slice(0, limit);
+  // First appearance staggers in; later filter changes and "Show more" only fade (utils/motion useStagger)
+  const gridMotion = useStagger(loaded && cards.length > 0);
   // The swipe browser shows every owned card of the filter (not just the loaded page of the grid)
   const browseList = useMemo(() => filtered.filter((c) => !!owned[c.key]), [filtered, owned]);
 
@@ -449,7 +452,7 @@ const CollectionTab = () => {
           <h2 id="col-best" className="section-title">
             Best pulls
           </h2>
-          <ul className="col-showcase">
+          <ul className={cn('col-showcase', gridMotion)}>
             {showcase.map((c) => (
               <li key={c.key}>
                 <CollectibleCard
@@ -599,7 +602,7 @@ const CollectionTab = () => {
             {!loaded ? 'Loading cards…' : !cards.length ? 'No league data yet.' : 'No cards match.'}
           </div>
         ) : (
-          <ul className="fut-grid" aria-label="Cards">
+          <ul className={cn('fut-grid', gridMotion)} aria-label="Cards">
             {shown.map((c) => {
               const entry = owned[c.key];
               // One tile per player: his display choice, else his rarest variant owned at that variant's best finish

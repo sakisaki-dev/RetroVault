@@ -6,6 +6,7 @@ import { familiesFor } from '@/config/families';
 import { FamilyPanel as FamilyPanelBox } from '../visual/FamilyZones';
 import { openInCompFinder } from '../comps/compFinderLink';
 import { cn } from '@/lib/utils';
+import Collapse from '@/components/ui/collapse';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import { NFL_TEAMS, findNFLTeam } from '@/utils/nflTeams';
 import Chips from '../analytics/Chips';
@@ -486,8 +487,8 @@ const GraphBuilder = ({
               </span>
               <ChevronDown className={cn('h-4 w-4 transition-transform', more && 'rotate-180')} aria-hidden="true" />
             </button>
-            {more && (
-              <div id={`${uid}-more`} className="space-y-3 border-t border-line/70 p-3">
+            <Collapse open={more} id={`${uid}-more`}>
+              <div className="space-y-3 border-t border-line/70 p-3">
                 <StatPicker id={`${uid}-s`} label="Size by" value={config.size ?? ''} onChange={(s) => setAxis({ size: s || undefined })} allowNone />
                 <div className="space-y-1">
                   <p className="font-display text-xs font-bold uppercase tracking-wide text-muted-foreground">Colour by</p>
@@ -547,7 +548,7 @@ const GraphBuilder = ({
                   Reset options
                 </button>
               </div>
-            )}
+            </Collapse>
           </div>
         </aside>
       </div>
