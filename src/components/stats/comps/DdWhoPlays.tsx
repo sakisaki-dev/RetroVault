@@ -13,6 +13,7 @@ import CompRadar from './CompRadar';
 import { radarPair } from './compColors';
 import { MIN_RADAR_AXES, type PositionModel } from './compModel';
 import { SmallSampleChip } from './ddParts';
+import { isApproxTotals } from './DdRealComps';
 
 type Overlay = 'comp' | 'avg' | 'none';
 const AVG_COLOR = 'hsl(226 20% 72%)';
@@ -29,6 +30,8 @@ interface Props {
   /** The comp overlaid on the radar (and highlighted on the map). */
   overlay: Comp | undefined;
   onOverlay: (key: string) => void;
+  /** Real NFL comps (both Real-life comps lists, once each): a second group below a divider. Overlay key "nfl:POS:Name". */
+  realComps: Comp[];
   ovrMap: Map<string, number>;
   insufficient: boolean;
   onDive: (p: Player) => void;
@@ -39,7 +42,7 @@ interface Props {
  * "Who plays like him" (the Comp Finder view): style hexagon with the selected comp (or the position average)
  * overlaid, beside the ranked comp list with %, OVR, HOF and mini hexagons. Clicking a comp swaps the overlay.
  */
-const DdWhoPlays = ({ player, model, mode, onMode, comps, topSets, overlay, onOverlay, ovrMap, insufficient, onDive, onCompare }: Props) => {
+const DdWhoPlays = ({ player, model, mode, onMode, comps, topSets, overlay, onOverlay, realComps, ovrMap, insufficient, onDive, onCompare }: Props) => {
   const [kind, setKind] = useState<Overlay>('comp');
   const [axis, setAxis] = useState<number | null>(null);
   const hasRadar = !insufficient && model.axes >= MIN_RADAR_AXES;
@@ -61,6 +64,108 @@ const DdWhoPlays = ({ player, model, mode, onMode, comps, topSets, overlay, onOv
     const a = `${player.name} ${fmtFeature(ft, ft.get(player))}${mine[i] != null ? `, ${ordinal(mine[i] as number)} percentile` : ''}`;
     const b = second?.player ? `; ${second.label} ${fmtFeature(ft, ft.get(second.player))}` : '';
     return `${ft.label}. ${a}${b}. ${ft.definition}`;
+  };
+
+  // One ranked comp row (league or real NFL): click overlays him on the hexagon. NFL rows have no Deep Dive or
+  // Head-to-Head (league players only), so the action buttons are league-only.
+  const compRow = (c: Comp, i: number, nfl: boolean) => {
+    const k = keyOf(c.player);
+    const okey = nfl ? `nfl:${k}` : k;
+    const on = !!overlay && !!overlay.player.isRealLegend === nfl && keyOf(overlay.player) === k;
+    const cOvr = ovrMap.get(k);
+    return (
+      <li
+        key={okey}
+        className={cn(
+          'grid items-center gap-1 rounded-lg border transition-colors',
+          nfl ? 'grid-cols-1' : 'grid-cols-[minmax(0,1fr)_auto]',
+          on ? 'border-gold/70 bg-panel-2' : 'border-line bg-panel hover:bg-panel-2',
+        )}
+      >
+        <button
+          type="button"
+          aria-pressed={!!on}
+          onClick={() => {
+            onOverlay(okey);
+            setKind('comp');
+          }}
+          aria-label={`${i + 1}. ${c.player.name}${nfl ? ', real NFL' : ''}, ${Math.round(c.similarity)}% similar${cOvr != null ? `, OVR ${cOvr}` : ''}. Overlay on the hexagon`}
+          className={cn(
+            'grid min-w-0 grid-cols-[1.5rem_auto_minmax(0,1fr)_auto_auto] items-center gap-2 px-2 py-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
+            nfl ? 'rounded-lg' : 'rounded-l-lg',
+          )}
+        >
+          <span className={cn('font-display text-lg font-extrabold tabular-nums', on ? 'text-gold' : 'text-muted-foreground')}>{i + 1}</span>
+          {c.player.team ? <TeamLogo team={c.player.team} size={24} decorative /> : <span className="w-6" />}
+          <span className="flex min-w-0 flex-col">
+            <span className="flex min-w-0 items-center gap-1">
+              <span className="truncate text-sm font-semibold">{c.player.name}</span>
+              {nfl ? (
+                <span className="shrink-0 rounded bg-red-500/15 px-1 font-pixel text-[8px] uppercase text-red-300 ring-1 ring-red-400/40">NFL</span>
+              ) : (
+                isHallOfFamer(c.player) && <span className="font-pixel text-[8px] text-gold">HOF</span>
+              )}
+              {c.smallSample && <SmallSampleChip />}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="h-1 w-14 overflow-hidden rounded-sm sm:w-20" style={{ background: VIZ.track }} aria-hidden="true">
+                <span className="block h-full rounded-r-[3px]" style={{ width: `${c.similarity}%`, background: on ? GOLD : VIZ.bar }} />
+              </span>
+              <span className="font-mono text-[11px] tabular-nums text-chalk">{Math.round(c.similarity)}%</span>
+            </span>
+              {nfl && (
+                <span className="truncate text-[10px] leading-tight text-muted-foreground">
+                  {[
+                    Number.isFinite(mode === 'style' ? c.level : c.style) && `${mode === 'style' ? 'overall' : 'style'} ${Math.round(mode === 'style' ? c.level : c.style)}%`,
+                    isApproxTotals(c.player) && 'active, approx. totals',
+                  ]
+                    .filter(Boolean)
+                    .join(' · ')}
+                </span>
+              )}
+          </span>
+          <span className="lamp !px-1.5">
+            OVR <b>{cOvr ?? '—'}</b>
+          </span>
+          {hasRadar ? (
+            <CompRadar
+              mini
+              labels={labels}
+              axisOk={ok}
+              series={[
+                { label: player.name, values: mine, color: VIZ.muted },
+                { label: c.player.name, values: model.pct(c.player), color: on ? colors.comp : VIZ.bar },
+              ]}
+              className="hidden h-10 w-10 shrink-0 sm:block"
+            />
+          ) : (
+            <span className="hidden w-10 sm:block" />
+          )}
+        </button>
+        {!nfl && (
+        <span className="flex items-center gap-1 pr-1.5">
+          <button
+            type="button"
+            onClick={() => onDive(c.player)}
+            className="h-8 rounded-md px-1.5 text-[11px] font-semibold text-muted-foreground hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            aria-label={`Deep dive into ${c.player.name}`}
+            title={`Deep dive into ${c.player.name}`}
+          >
+            Dive
+          </button>
+          <button
+            type="button"
+            onClick={() => onCompare(player, c.player)}
+            className="inline-flex h-8 items-center rounded-md border border-line bg-night/60 px-1.5 text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            aria-label={`Compare ${player.name} and ${c.player.name} in Head-to-Head`}
+            title="Compare in Head-to-Head"
+          >
+            <Swords className="h-3.5 w-3.5" aria-hidden="true" />
+          </button>
+        </span>
+        )}
+      </li>
+    );
   };
 
   const radar = hasRadar ? (
@@ -245,85 +350,22 @@ const DdWhoPlays = ({ player, model, mode, onMode, comps, topSets, overlay, onOv
           </p>
         ) : (
           <ol className="space-y-1.5" aria-label={`Most similar ${player.position}s to ${player.name}`}>
-            {comps.map((c, i) => {
-              const k = keyOf(c.player);
-              const on = overlay && keyOf(overlay.player) === k;
-              const cOvr = ovrMap.get(k);
-              return (
-                <li
-                  key={k}
-                  className={cn(
-                    'grid grid-cols-[minmax(0,1fr)_auto] items-center gap-1 rounded-lg border transition-colors',
-                    on ? 'border-gold/70 bg-panel-2' : 'border-line bg-panel hover:bg-panel-2',
-                  )}
-                >
-                  <button
-                    type="button"
-                    aria-pressed={!!on}
-                    onClick={() => {
-                      onOverlay(k);
-                      setKind('comp');
-                    }}
-                    aria-label={`${i + 1}. ${c.player.name}, ${Math.round(c.similarity)}% similar${cOvr != null ? `, OVR ${cOvr}` : ''}. Overlay on the hexagon`}
-                    className="grid min-w-0 grid-cols-[1.5rem_auto_minmax(0,1fr)_auto_auto] items-center gap-2 rounded-l-lg px-2 py-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-                  >
-                    <span className={cn('font-display text-lg font-extrabold tabular-nums', on ? 'text-gold' : 'text-muted-foreground')}>{i + 1}</span>
-                    {c.player.team ? <TeamLogo team={c.player.team} size={24} decorative /> : <span className="w-6" />}
-                    <span className="flex min-w-0 flex-col">
-                      <span className="flex min-w-0 items-center gap-1">
-                        <span className="truncate text-sm font-semibold">{c.player.name}</span>
-                        {isHallOfFamer(c.player) && <span className="font-pixel text-[8px] text-gold">HOF</span>}
-                        {c.smallSample && <SmallSampleChip />}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <span className="h-1 w-14 overflow-hidden rounded-sm sm:w-20" style={{ background: VIZ.track }} aria-hidden="true">
-                          <span className="block h-full rounded-r-[3px]" style={{ width: `${c.similarity}%`, background: on ? GOLD : VIZ.bar }} />
-                        </span>
-                        <span className="font-mono text-[11px] tabular-nums text-chalk">{Math.round(c.similarity)}%</span>
-                      </span>
-                    </span>
-                    <span className="lamp !px-1.5">
-                      OVR <b>{cOvr ?? '—'}</b>
-                    </span>
-                    {hasRadar ? (
-                      <CompRadar
-                        mini
-                        labels={labels}
-                        axisOk={ok}
-                        series={[
-                          { label: player.name, values: mine, color: VIZ.muted },
-                          { label: c.player.name, values: model.pct(c.player), color: on ? colors.comp : VIZ.bar },
-                        ]}
-                        className="hidden h-10 w-10 shrink-0 sm:block"
-                      />
-                    ) : (
-                      <span className="hidden w-10 sm:block" />
-                    )}
-                  </button>
-                  <span className="flex items-center gap-1 pr-1.5">
-                    <button
-                      type="button"
-                      onClick={() => onDive(c.player)}
-                      className="h-8 rounded-md px-1.5 text-[11px] font-semibold text-muted-foreground hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-                      aria-label={`Deep dive into ${c.player.name}`}
-                      title={`Deep dive into ${c.player.name}`}
-                    >
-                      Dive
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => onCompare(player, c.player)}
-                      className="inline-flex h-8 items-center rounded-md border border-line bg-night/60 px-1.5 text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-                      aria-label={`Compare ${player.name} and ${c.player.name} in Head-to-Head`}
-                      title="Compare in Head-to-Head"
-                    >
-                      <Swords className="h-3.5 w-3.5" aria-hidden="true" />
-                    </button>
-                  </span>
-                </li>
-              );
-            })}
+            {comps.map((c, i) => compRow(c, i, false))}
           </ol>
+        )}
+        {realComps.length > 0 && (
+          <>
+            <div className="mt-1 flex items-center gap-2" role="separator" aria-label="Real NFL">
+              <span className="h-px flex-1 bg-line" aria-hidden="true" />
+              <span className="inline-flex items-center gap-1.5 font-pixel text-[9px] uppercase text-red-300">Real NFL</span>
+              <span className="h-px flex-1 bg-line" aria-hidden="true" />
+            </div>
+            <ol className="space-y-1.5" aria-label={`Real NFL ${player.position}s most like ${player.name}`}>
+              {[...realComps]
+                .sort((x, y) => (Number.isFinite(y[mode]) ? y[mode] : -1) - (Number.isFinite(x[mode]) ? x[mode] : -1))
+                .map((c, i) => compRow({ ...c, similarity: Number.isFinite(c[mode]) ? c[mode] : 0 }, i, true))}
+            </ol>
+          </>
         )}
         <p className="mt-auto text-[11px] text-muted-foreground">
           Click a comp to overlay him on the hexagon; mini hexagons show the comp (colour) over {player.name.split(' ').slice(-1)[0]} (grey). Dive opens his report; the swords send the pair to

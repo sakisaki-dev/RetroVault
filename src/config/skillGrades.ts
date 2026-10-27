@@ -1,5 +1,5 @@
 import type { Player, Position } from '@/types/player';
-import { METRIC_BY_ID, compFeatures, similarityBaseline, type CompFeature } from './advanced';
+import { METRIC_BY_ID, SIM_MIN_GAMES, compFeatures, similarityBaseline, type CompFeature } from './advanced';
 
 /**
  * Skill grades: the play-style traits (config/advanced.ts compFeatures, the similarity features) with football
@@ -74,19 +74,24 @@ const SAME_AS_METRIC: Partial<Record<Position, Record<string, string>>> = {
 };
 
 /**
- * Sorted baseline values per feature id. Traits that match an Advanced board use that board's qualifiers;
- * the rest use league players at the position with ≥ SIM_MIN_GAMES games.
+ * The qualifier pool per feature id, with its label. Traits that match an Advanced board use that board's
+ * qualifiers; the rest use league players at the position with ≥ SIM_MIN_GAMES games (similarityBaseline).
  */
-export const positionBaseline = (players: Player[], position: Position): Map<string, number[]> => {
+export const traitPools = (players: Player[], position: Position): Map<string, { pool: Player[]; label: string }> => {
   const base = similarityBaseline(players, position);
   const atPos = players.filter((p) => p.position === position && !p.isRealLegend);
   return new Map(
     compFeatures(position).map((f) => {
       const metric = METRIC_BY_ID.get(SAME_AS_METRIC[position]?.[f.id] ?? '');
-      const pool = metric ? atPos.filter(metric.qualifies) : base;
-      return [f.id, pool.map(f.get).filter(Number.isFinite).sort((a, b) => a - b)];
+      return [f.id, metric ? { pool: atPos.filter(metric.qualifies), label: metric.minLabel } : { pool: base, label: `${SIM_MIN_GAMES}+ games` }];
     }),
   );
+};
+
+/** Sorted baseline values per feature id, over each trait's qualifier pool (traitPools). */
+export const positionBaseline = (players: Player[], position: Position): Map<string, number[]> => {
+  const pools = traitPools(players, position);
+  return new Map(compFeatures(position).map((f) => [f.id, (pools.get(f.id)?.pool ?? []).map(f.get).filter(Number.isFinite).sort((a, b) => a - b)]));
 };
 
 // ---------- Letter grades ----------
@@ -203,4 +208,51 @@ export const playerSkillGrades = (players: Player[], player: Player): { traits: 
   });
   const overall = overallFor(traits, baseline, rows.map((r) => (Number.isFinite(r.value) ? r.value : null)), player.position);
   return { traits: rows, overall };
+};
+
+// ---------- Leaderboards (Deep Dive skill tiles) ----------
+
+export interface SkillLeader {
+  player: Player;
+  value: number;
+  display: string;
+  percentile: number;
+  grade: GradeStep | null;
+}
+
+export interface SkillBoard {
+  /** Qualifier pool label, e.g. "8+ games" or "min 50 touches" */
+  poolLabel: string;
+  lowerIsBetter: boolean;
+  /** Every qualifier, best first (lower-is-better traits ascending; ties by name) */
+  entries: SkillLeader[];
+}
+
+const byName = (a: SkillLeader, b: SkillLeader) => a.player.name.localeCompare(b.player.name);
+
+/** One trait's leaderboard over the same pool and percentile as its grade, so place, value, pct and grade agree. */
+export const skillBoard = (players: Player[], position: Position, traitId: string): SkillBoard | null => {
+  const t = skillTraits(position).find((x) => x.id === traitId);
+  const pool = traitPools(players, position).get(traitId);
+  if (!t || !pool) return null;
+  const sorted = positionBaseline(players, position).get(traitId) ?? [];
+  const entries = pool.pool
+    .map((p) => {
+      const value = t.get(p);
+      const percentile = skillPct(t, sorted, value);
+      return { player: p, value, display: fmtFeature(t, value), percentile, grade: gradeFor(percentile) };
+    })
+    .filter((e) => Number.isFinite(e.value))
+    .sort((a, b) => (t.lowerIsBetter ? a.value - b.value : b.value - a.value) || byName(a, b));
+  return { poolLabel: pool.label, lowerIsBetter: !!t.lowerIsBetter, entries };
+};
+
+/** Overall skill rating leaderboard for a position: players with ≥ SIM_MIN_GAMES games (the grade baseline). */
+export const overallBoard = (players: Player[], position: Position): SkillBoard => {
+  const entries = similarityBaseline(players, position)
+    .map((p) => ({ p, o: playerSkillGrades(players, p).overall }))
+    .filter((x): x is { p: Player; o: Overall } => !!x.o)
+    .map(({ p, o }) => ({ player: p, value: o.rating, display: String(o.rating), percentile: o.pct, grade: o.grade }))
+    .sort((a, b) => b.value - a.value || b.percentile - a.percentile || byName(a, b));
+  return { poolLabel: `${SIM_MIN_GAMES}+ games`, lowerIsBetter: false, entries };
 };

@@ -5,11 +5,12 @@ import { AWARD_META } from '@/utils/playerMeta';
 import { VARIANTS, cardKey, finishLabel, tierFor, tierLabel, useCollection } from '@/utils/collection';
 import { fmtNum } from '../analytics/viz';
 import type { RecordBook } from '../records';
+import LeaderboardPeek, { recordPeek } from './LeaderboardPeek';
 
 const RANK_LABEL = ['Record', '2nd', '3rd', '4th', '5th'];
 
-/** Records held and top-5 ranks, the trophy shelf, and his collection card. */
-const DdRecords = ({ player, book, ovr }: { player: Player; book: RecordBook; ovr: number | undefined }) => {
+/** Records held and top-5 ranks (each opens its leaderboard), the trophy shelf, and his collection card. */
+const DdRecords = ({ player, book, ovr, onOpenPlayer }: { player: Player; book: RecordBook; ovr: number | undefined; onOpenPlayer: (p: Player) => void }) => {
   const { cards } = useCollection();
   const ranks = [...book.boards.values()]
     .map((b) => ({ b, i: b.entries.findIndex((e) => e.player.name === player.name && e.player.position === player.position) }))
@@ -29,12 +30,23 @@ const DdRecords = ({ player, book, ovr }: { player: Player; book: RecordBook; ov
         ) : (
           <ul className="grid gap-1.5 sm:grid-cols-2">
             {ranks.map(({ b, i }) => (
-              <li key={b.id} className={cn('flex items-center gap-2 rounded-lg border px-2.5 py-1.5', i === 0 ? 'border-gold/60 bg-gold/10' : 'border-line bg-panel')}>
-                <span className={cn('w-14 shrink-0 font-pixel text-[9px] uppercase', i === 0 ? 'text-gold' : 'text-muted-foreground')}>{RANK_LABEL[i]}</span>
-                <span className="min-w-0 flex-1 truncate text-sm font-semibold" title={b.minLabel ? `${b.title} (${b.minLabel})` : b.title}>
-                  {b.title}
-                </span>
-                <span className="shrink-0 font-mono text-xs tabular-nums text-chalk">{fmtNum(b.entries[i].value, b.decimals)}</span>
+              <li key={b.id}>
+                <LeaderboardPeek getBoard={() => recordPeek(b)} player={player} onOpenPlayer={onOpenPlayer}>
+                  <button
+                    type="button"
+                    aria-label={`${RANK_LABEL[i]}, ${b.title}, ${fmtNum(b.entries[i].value, b.decimals)}. Show leaderboard`}
+                    className={cn(
+                      'rbk-chip flex w-full items-center gap-2 rounded-lg border px-2.5 py-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
+                      i === 0 ? 'border-gold/60 bg-gold/10 hover:bg-gold/15' : 'border-line bg-panel hover:border-gold/40 hover:bg-panel-2',
+                    )}
+                  >
+                    <span className={cn('w-14 shrink-0 font-pixel text-[9px] uppercase', i === 0 ? 'text-gold' : 'text-muted-foreground')}>{RANK_LABEL[i]}</span>
+                    <span className="min-w-0 flex-1 truncate text-sm font-semibold" title={b.minLabel ? `${b.title} (${b.minLabel})` : b.title}>
+                      {b.title}
+                    </span>
+                    <span className="shrink-0 font-mono text-xs tabular-nums text-chalk">{fmtNum(b.entries[i].value, b.decimals)}</span>
+                  </button>
+                </LeaderboardPeek>
               </li>
             ))}
           </ul>

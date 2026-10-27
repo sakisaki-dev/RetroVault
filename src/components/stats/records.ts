@@ -109,7 +109,7 @@ export const LEADER_IDS = ['qbYPA', 'qbTDINT', 'qbCmpPct', 'rbYPC', 'rbScrimYPG'
 
 const EMPTY: RecordBook = { boards: new Map(), pace: [], playerCount: 0 };
 
-/** `depth` = entries kept per board (the Stats page's bar races show 10; Deep Dive ranks only use the top 5). */
+/** `depth` = entries kept per board (the Stats page's bar races show 10; the Deep Dive keeps every qualifier: its top-5 rank chips and their leaderboard pop-ups read the same list). */
 export function buildRecordBook(data: LeagueData | null | undefined, depth = 5): RecordBook {
   if (!data) return EMPTY;
 

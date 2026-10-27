@@ -1,21 +1,33 @@
-import { useMemo } from 'react';
 import { Flag } from 'lucide-react';
 import type { Player } from '@/types/player';
-import { similarAmong, type Comp } from '@/config/advanced';
+import { similarAmong, type Comp, type SimilarityMode } from '@/config/advanced';
 import { playerKey } from '@/config/ovr';
 import TeamLogo from '../../brand/TeamLogo';
 
+export type RealCompSets = { mode: SimilarityMode; comps: Comp[] }[];
+
 interface Props {
-  /** League players: the similarity baseline (means, SDs, percentiles) */
-  league: Player[];
-  /** Real NFL players from the arcade pool */
-  legends: Player[];
-  player: Player;
+  /** realCompSets(): the same lists the hexagon's "Real NFL" group is built from */
+  sets: RealCompSets;
   ovrMap: Map<string, number>;
   onSelect: (p: Player) => void;
 }
 
 const COUNT = 4;
+
+/** The real NFL comps in each mode, on the league baseline (legends are already scaled by useGamePool). */
+export const realCompSets = (league: Player[], legends: Player[], player: Player): RealCompSets =>
+  player.isRealLegend ? [] : (['style', 'level'] as const).map((mode) => ({ mode, comps: similarAmong(league, player, legends, COUNT, mode).filter((c) => c.similarity > 0) }));
+
+/** Both lists merged, one row per player (first appearance wins; each Comp carries both its style and level score). */
+export const uniqueRealComps = (sets: RealCompSets): Comp[] => {
+  const seen = new Map<string, Comp>();
+  sets.forEach((s) => s.comps.forEach((c) => seen.has(playerKey(c.player)) || seen.set(playerKey(c.player), c)));
+  return [...seen.values()];
+};
+
+/** True for current NFL players, whose career totals are approximate. */
+export const isApproxTotals = (p: Player) => !!(p as { isCurrentNFL?: boolean }).isCurrentNFL;
 
 const CompRow = ({ comp, ovr, onSelect }: { comp: Comp; ovr?: number; onSelect: (p: Player) => void }) => {
   const p = comp.player as Player & { photo?: { url?: string } };
@@ -42,7 +54,7 @@ const CompRow = ({ comp, ovr, onSelect }: { comp: Comp; ovr?: number; onSelect: 
             <span className="block h-full rounded-full bg-gold" style={{ width: `${Math.max(pct, 2)}%` }} />
           </span>
           <span className="mt-0.5 block text-[11px] text-muted-foreground">
-            {p.games} G{(p as { isCurrentNFL?: boolean }).isCurrentNFL ? ' · active, approx. totals' : ''}
+            {p.games} G{isApproxTotals(p) ? ' · active, approx. totals' : ''}
           </span>
         </span>
         <span className="flex shrink-0 flex-col items-end">
@@ -58,14 +70,7 @@ const CompRow = ({ comp, ovr, onSelect }: { comp: Comp; ovr?: number; onSelect: 
  * Real-life comps: the NFL players from the arcade pool who play most like this league player, on the league's own
  * baseline (same features and scales as the league comps above).
  */
-const DdRealComps = ({ league, legends, player, ovrMap, onSelect }: Props) => {
-  const sets = useMemo(
-    () =>
-      player.isRealLegend
-        ? []
-        : (['style', 'level'] as const).map((mode) => ({ mode, comps: similarAmong(league, player, legends, COUNT, mode).filter((c) => c.similarity > 0) })),
-    [league, legends, player],
-  );
+const DdRealComps = ({ sets, ovrMap, onSelect }: Props) => {
   if (!sets.some((s) => s.comps.length)) return null;
   return (
     <div className="mt-4 rounded-xl border border-line bg-panel/40 p-3 sm:p-4">

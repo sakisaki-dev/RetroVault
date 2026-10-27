@@ -26,7 +26,7 @@ import DdHero from './DdHero';
 import DdRecords from './DdRecords';
 import DdSkills from './DdSkills';
 import DdWhoPlays from './DdWhoPlays';
-import DdRealComps from './DdRealComps';
+import DdRealComps, { realCompSets, uniqueRealComps } from './DdRealComps';
 import { DdSection } from './ddParts';
 import { MIN_RADAR_AXES, buildPositionModel, buildSimilarityMap, type PositionModel, type SimilarityMap } from './compModel';
 import { onCompFinderRequest, openInHeadToHead, takeCompFinderRequest } from './compFinderLink';
@@ -153,7 +153,8 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
   // ---------- Memoised league / position computations ----------
   const models = useMemo(() => new Map(POSITIONS.map((pos) => [pos, buildPositionModel(players, pos)] as const)), [players]);
   const ctx = useMemo(() => buildContext(players), [players]);
-  const book = useMemo(() => buildRecordBook(data ?? null), [data]);
+  // Every qualifier per board: the Record book chips rank from these lists and their pop-ups show the same order.
+  const book = useMemo(() => buildRecordBook(data ?? null, Infinity), [data]);
   const posValues = useMemo(() => {
     const m = new Map<Position, { dom: number[]; tt: number[]; tpg: number[] }>();
     POSITIONS.forEach((pos) => {
@@ -181,8 +182,13 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
   // Style needs 4+ shared rates; positions with fewer (OL) fall back to closest overall.
   const listMode: SimilarityMode = model && model.features.length < 4 ? 'level' : mapMode;
   const listComps = compSets.find((s) => s.mode === listMode)?.comps ?? [];
+  // Real NFL comps: the Real-life comps lists, and the same players (once each) as a second group on the hexagon list.
+  const realSets = useMemo(() => (player ? realCompSets(players, legends, player) : []), [players, legends, player]);
+  const realComps = useMemo(() => uniqueRealComps(realSets), [realSets]);
+  // Overlay key: "POS:Name" for a league comp, "nfl:POS:Name" for a real one (names can repeat across the two pools).
   const [overlayKey, setOverlayKey] = useState('');
-  const overlay = listComps.find((c) => keyOf(c.player) === overlayKey) ?? listComps[0];
+  const realOverlay = overlayKey.startsWith('nfl:') ? realComps.find((c) => `nfl:${keyOf(c.player)}` === overlayKey) : undefined;
+  const overlay = listComps.find((c) => keyOf(c.player) === overlayKey) ?? (realOverlay && { ...realOverlay, similarity: realOverlay[listMode] }) ?? listComps[0];
   const mapComps = listComps.slice(0, 5);
 
   // Prev / next at the position, by official OVR (then legacy).
@@ -304,7 +310,7 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
 
         <div key={keyOf(player)} className="min-w-0 space-y-8">
           <DdSection id="dd-ratings" index={0} title="Skill ratings" icon={Gauge} kicker={`Letter grades by percentile among ${player.position}s with ${SIM_MIN_GAMES}+ games (S = top 8%). Same grades as Build-a-Legend.`}>
-            {grades && <DdSkills player={player} ovr={ovr} traits={grades.traits} overall={grades.overall} />}
+            {grades && <DdSkills player={player} ovr={ovr} traits={grades.traits} overall={grades.overall} players={players} onOpenPlayer={(p) => choose(keyOf(p))} />}
           </DdSection>
 
           <DdSection id="dd-who" index={1} title="Who plays like him" icon={Users} kicker="His closest comps by play style and overall, his style hexagon with any comp overlaid, and the full ranked list.">
@@ -317,12 +323,13 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
               topSets={topSets}
               overlay={overlay}
               onOverlay={setOverlayKey}
+              realComps={realComps}
               ovrMap={ovrMap}
               insufficient={insufficient}
               onDive={(p) => choose(keyOf(p))}
               onCompare={compare}
             />
-            <DdRealComps league={players} legends={legends} player={player} ovrMap={ovrMap} onSelect={onSelect} />
+            <DdRealComps sets={realSets} ovrMap={ovrMap} onSelect={onSelect} />
           </DdSection>
 
           <DdSection
@@ -348,7 +355,7 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
                   ovrMap={ovrMap}
                   selectedKey={keyOf(player)}
                   topComps={mapComps}
-                  overlayKey={overlay ? keyOf(overlay.player) : ''}
+                  overlayKey={overlay && !overlay.player.isRealLegend ? keyOf(overlay.player) : ''}
                   onPick={(p) => choose(keyOf(p))}
                   wide={wide}
                   focusZoom={wide ? 1.8 : 1.6}
@@ -381,7 +388,7 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
           </DdSection>
 
           <DdSection id="dd-records" index={5} title="Records & awards" icon={Medal}>
-            <DdRecords player={player} book={book} ovr={ovr} />
+            <DdRecords player={player} book={book} ovr={ovr} onOpenPlayer={(p) => choose(keyOf(p))} />
           </DdSection>
         </div>
       </div>
