@@ -214,6 +214,10 @@
    "retired_team": "Chargers",
    "hof_ingame": true
   },
+  "Dylan Hyatt": {
+   "retired_team": "Jets",
+   "hof_ingame": true
+  },
   "God Johnson": {
    "retired_team": "Vikings",
    "hof_ingame": true
@@ -2980,9 +2984,10 @@
    "stints": [
     {
      "team": "Titans",
-     "from": 71,
+     "from": 70,
      "to": 72,
      "rings": [
+      70,
       71,
       72
      ]
@@ -2990,17 +2995,16 @@
     {
      "team": "Jets",
      "from": 73,
-     "to": 82,
+     "to": 81,
      "rings": [
       75,
       77,
-      80,
-      82
+      80
      ]
     }
    ],
    "confidence": "ambiguous",
-   "evidence": "6 rings = Titans Y71, Y72; Jets Y75, Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. Owner: “Let walk by the Jets after Y81; new club not known yet.” His known clubs (Jets) can't account for every ring, so the best fit adds a stop: Titans Y71-72, Jets Y73-82.",
+   "evidence": "6 rings = Titans Y70, Y71, Y72; Jets Y75, Y77, Y80. On the Y80 Jets roster. On the Y81 Jets roster. Owner: “Let walk by the Jets after Y81, then left the NFL (retired); last club the Jets.” His known clubs (Jets) can't account for every ring, so the best fit adds a stop: Titans Y70-72, Jets Y73-81.",
    "alternatives": [
     [
      {
@@ -3011,6 +3015,18 @@
      {
       "team": "Jets",
       "from": 72,
+      "to": 82
+     }
+    ],
+    [
+     {
+      "team": "Titans",
+      "from": 71,
+      "to": 72
+     },
+     {
+      "team": "Jets",
+      "from": 73,
       "to": 82
      }
     ]
@@ -3458,6 +3474,92 @@
    ],
    "confidence": "strong",
    "evidence": "1 ring = Jets Y82. On the Y82 Jets roster. The only window that fits."
+  },
+  "Spencer Daniels": {
+   "stints": [
+    {
+     "team": "Jaguars",
+     "from": 72,
+     "to": 82,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "Keion Orzech": {
+   "stints": [
+    {
+     "team": "Cowboys",
+     "from": 73,
+     "to": 82,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "Aqib McClain": {
+   "stints": [
+    {
+     "team": "49ers",
+     "from": 74,
+     "to": 82,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "Grunky Felton": {
+   "stints": [
+    {
+     "team": "49ers",
+     "from": 73,
+     "to": 82,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "K'Lavon Settle": {
+   "stints": [
+    {
+     "team": "49ers",
+     "from": 73,
+     "to": 82,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "Matthew Waynes": {
+   "stints": [
+    {
+     "team": "Panthers",
+     "from": 70,
+     "to": 82,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "D.C Paradis": {
+   "stints": [
+    {
+     "team": "Broncos",
+     "from": 65,
+     "to": 82,
+     "rings": [
+      65
+     ]
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "1 ring = Broncos Y65. The only window that fits."
   }
  },
  "signatureTeams": {
@@ -3467,6 +3569,7 @@
   "Alohi Godwin": "Seattle Seahawks",
   "Alvin Tufele": "Tennessee Titans",
   "Amani Bryant": "Denver Broncos",
+  "Aqib McClain": "San Francisco 49ers",
   "Aubrey Jewell": "Los Angeles Chargers",
   "Avonte Gooden": "Washington Commanders",
   "Bilal Tolbert": "Los Angeles Chargers",
@@ -3484,6 +3587,7 @@
   "Cooper Dean": "Washington Commanders",
   "Corey Ivey": "Baltimore Ravens",
   "Craig Whitney": "Minnesota Vikings",
+  "D.C Paradis": "Denver Broncos",
   "Damien Stout": "Los Angeles Chargers",
   "Damone Omameh": "Buffalo Bills",
   "Dan Mosley": "Detroit Lions",
@@ -3512,6 +3616,7 @@
   "Forrest Isom": "Las Vegas Raiders",
   "Germain Coulter": "Tampa Bay Buccaneers",
   "God Johnson": "Minnesota Vikings",
+  "Grunky Felton": "San Francisco 49ers",
   "Hamsfa Boltt": "Tennessee Titans",
   "Ian Finney": "Tampa Bay Buccaneers",
   "Isaiah Karras": "Seattle Seahawks",
@@ -3532,10 +3637,12 @@
   "Joshuah Egbule": "Seattle Seahawks",
   "Juawan Lance": "Tennessee Titans",
   "K'Lavon Armah": "Arizona Cardinals",
+  "K'Lavon Settle": "San Francisco 49ers",
   "Kalif Suh": "New York Jets",
   "Kane Van Oxley": "New York Jets",
   "Karl Deane": "New Orleans Saints",
   "Keesean Candy": "Los Angeles Chargers",
+  "Keion Orzech": "Dallas Cowboys",
   "Kirk Lenoir": "Jacksonville Jaguars",
   "Kitt Inman": "Tampa Bay Buccaneers",
   "Kolton Moreau": "Tampa Bay Buccaneers",
@@ -3551,6 +3658,7 @@
   "Marlowe Hunter": "Miami Dolphins",
   "Marshal Tupou": "Green Bay Packers",
   "Mason Taylor": "Miami Dolphins",
+  "Matthew Waynes": "Carolina Panthers",
   "Michael Wilson": "Baltimore Ravens",
   "Micky Celek": "Buffalo Bills",
   "Mose Junior": "Los Angeles Rams",
@@ -3587,6 +3695,7 @@
   "Siran Spector": "New England Patriots",
   "Solomon Toohill": "Green Bay Packers",
   "Sony Driskel": "San Francisco 49ers",
+  "Spencer Daniels": "Jacksonville Jaguars",
   "Taron Hayes": "Kansas City Chiefs",
   "Taywan Tuttle": "Los Angeles Chargers",
   "Teez Givens": "Tennessee Titans",

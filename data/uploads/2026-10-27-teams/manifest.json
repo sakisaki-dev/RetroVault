@@ -1,0 +1,101 @@
+{
+ "id": "2026-10-27-teams",
+ "created": "2026-10-27",
+ "title": "Teams for the Y82 newcomers; Dylan Hyatt retired",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/D.C Paradis/team",
+   "value": "Broncos",
+   "source": "owner",
+   "reason": "Owner: \"hyatt left the nfl, paradis on the broncos, waynes is a panther, mclain settle and felton were all 49ers, keion orzech is also on the cowboys spencer daniels on the jags\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Matthew Waynes/team",
+   "value": "Panthers",
+   "source": "owner",
+   "reason": "Owner: \"hyatt left the nfl, paradis on the broncos, waynes is a panther, mclain settle and felton were all 49ers, keion orzech is also on the cowboys spencer daniels on the jags\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Aqib McClain/team",
+   "value": "49ers",
+   "source": "owner",
+   "reason": "Owner: \"hyatt left the nfl, paradis on the broncos, waynes is a panther, mclain settle and felton were all 49ers, keion orzech is also on the cowboys spencer daniels on the jags\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/K'Lavon Settle/team",
+   "value": "49ers",
+   "source": "owner",
+   "reason": "Owner: \"hyatt left the nfl, paradis on the broncos, waynes is a panther, mclain settle and felton were all 49ers, keion orzech is also on the cowboys spencer daniels on the jags\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Grunky Felton/team",
+   "value": "49ers",
+   "source": "owner",
+   "reason": "Owner: \"hyatt left the nfl, paradis on the broncos, waynes is a panther, mclain settle and felton were all 49ers, keion orzech is also on the cowboys spencer daniels on the jags\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Keion Orzech/team",
+   "value": "Cowboys",
+   "source": "owner",
+   "reason": "Owner: \"hyatt left the nfl, paradis on the broncos, waynes is a panther, mclain settle and felton were all 49ers, keion orzech is also on the cowboys spencer daniels on the jags\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Spencer Daniels/team",
+   "value": "Jaguars",
+   "source": "owner",
+   "reason": "Owner: \"hyatt left the nfl, paradis on the broncos, waynes is a panther, mclain settle and felton were all 49ers, keion orzech is also on the cowboys spencer daniels on the jags\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dylan Hyatt/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"hyatt left the nfl, paradis on the broncos, waynes is a panther, mclain settle and felton were all 49ers, keion orzech is also on the cowboys spencer daniels on the jags\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dylan Hyatt/retired_with",
+   "value": "Jets",
+   "source": "owner",
+   "reason": "Owner: \"hyatt left the nfl, paradis on the broncos, waynes is a panther, mclain settle and felton were all 49ers, keion orzech is also on the cowboys spencer daniels on the jags\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dylan Hyatt/career",
+   "value": {
+    "says": "Let walk by the Jets after Y81, then left the NFL (retired); last club the Jets."
+   },
+   "source": "owner",
+   "reason": "Owner: \"hyatt left the nfl, paradis on the broncos, waynes is a panther, mclain settle and felton were all 49ers, keion orzech is also on the cowboys spencer daniels on the jags\"",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}

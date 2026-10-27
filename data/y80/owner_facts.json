@@ -31,6 +31,9 @@
     "says": "Traded from the Seahawks to the Jets for Obinna Leary after playing the Y80 Super Bowl for Seattle; played Y81 for the Jets, was let walk, and has since retired."
    }
   },
+  "Aqib McClain": {
+   "team": "49ers"
+  },
   "Avonte Gooden": {
    "tag": "QB of the Commanders four-peat (Y16–19)",
    "career": {
@@ -91,6 +94,9 @@
   "Chazz McCray": {
    "team": "Buccaneers"
   },
+  "D.C Paradis": {
+   "team": "Broncos"
+  },
   "Dan Mosley": {
    "career": {
     "order": [
@@ -119,8 +125,10 @@
    }
   },
   "Dylan Hyatt": {
+   "retired_with": "Jets",
+   "status": "Retired",
    "career": {
-    "says": "Let walk by the Jets after Y81; new club not known yet."
+    "says": "Let walk by the Jets after Y81, then left the NFL (retired); last club the Jets."
    }
   },
   "Forrest Everett": {
@@ -128,6 +136,9 @@
   },
   "God Johnson": {
    "retired_with": "Vikings"
+  },
+  "Grunky Felton": {
+   "team": "49ers"
   },
   "Hamsfa Boltt": {
    "team_history": [
@@ -232,10 +243,16 @@
     "club": "Bengals"
    }
   },
+  "K'Lavon Settle": {
+   "team": "49ers"
+  },
   "Kane Van Oxley": {
    "card": {
     "note": "\"The Ox\", for how strong he is: he breaks tackles and blocks well. Has recovered more fumbles than anyone the owner has ever played with."
    }
+  },
+  "Keion Orzech": {
+   "team": "Cowboys"
   },
   "Kirk Lenoir": {
    "team": "Jaguars"
@@ -329,6 +346,9 @@
     "rings": 0,
     "club": "Jets"
    }
+  },
+  "Matthew Waynes": {
+   "team": "Panthers"
   },
   "Michael Wilson": {
    "team_history": [
@@ -430,6 +450,9 @@
   },
   "Siran Spector": {
    "team": "Patriots"
+  },
+  "Spencer Daniels": {
+   "team": "Jaguars"
   },
   "Taron Hayes": {
    "career": {

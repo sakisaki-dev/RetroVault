@@ -2557,9 +2557,10 @@
   "stints": [
    {
     "team": "Titans",
-    "from": 71,
+    "from": 70,
     "to": 72,
     "rings": [
+     70,
      71,
      72
     ]
@@ -2567,17 +2568,16 @@
    {
     "team": "Jets",
     "from": 73,
-    "to": 82,
+    "to": 81,
     "rings": [
      75,
      77,
-     80,
-     82
+     80
     ]
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "6 rings = Titans Y71, Y72; Jets Y75, Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. Owner: “Let walk by the Jets after Y81; new club not known yet.” His known clubs (Jets) can't account for every ring, so the best fit adds a stop: Titans Y71-72, Jets Y73-82.",
+  "evidence": "6 rings = Titans Y70, Y71, Y72; Jets Y75, Y77, Y80. On the Y80 Jets roster. On the Y81 Jets roster. Owner: “Let walk by the Jets after Y81, then left the NFL (retired); last club the Jets.” His known clubs (Jets) can't account for every ring, so the best fit adds a stop: Titans Y70-72, Jets Y73-81.",
   "alternatives": [
    [
     {
@@ -2588,6 +2588,18 @@
     {
      "team": "Jets",
      "from": 72,
+     "to": 82
+    }
+   ],
+   [
+    {
+     "team": "Titans",
+     "from": 71,
+     "to": 72
+    },
+    {
+     "team": "Jets",
+     "from": 73,
      "to": 82
     }
    ]
@@ -3035,5 +3047,91 @@
   ],
   "confidence": "strong",
   "evidence": "1 ring = Jets Y82. On the Y82 Jets roster. The only window that fits."
+ },
+ "Spencer Daniels": {
+  "stints": [
+   {
+    "team": "Jaguars",
+    "from": 72,
+    "to": 82,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Keion Orzech": {
+  "stints": [
+   {
+    "team": "Cowboys",
+    "from": 73,
+    "to": 82,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Aqib McClain": {
+  "stints": [
+   {
+    "team": "49ers",
+    "from": 74,
+    "to": 82,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Grunky Felton": {
+  "stints": [
+   {
+    "team": "49ers",
+    "from": 73,
+    "to": 82,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "K'Lavon Settle": {
+  "stints": [
+   {
+    "team": "49ers",
+    "from": 73,
+    "to": 82,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Matthew Waynes": {
+  "stints": [
+   {
+    "team": "Panthers",
+    "from": 70,
+    "to": 82,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "D.C Paradis": {
+  "stints": [
+   {
+    "team": "Broncos",
+    "from": 65,
+    "to": 82,
+    "rings": [
+     65
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Broncos Y65. The only window that fits."
  }
 }

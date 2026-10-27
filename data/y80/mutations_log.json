@@ -247,6 +247,15 @@
     "speech": 3
    },
    "changed": 378
+  },
+  {
+   "id": "2026-10-27-teams",
+   "dir": "data/uploads/2026-10-27-teams",
+   "applied_at": "2026-10-26T23:06:46-07:00",
+   "mutations": {
+    "stats": 10
+   },
+   "changed": 10
   }
  ]
 }
