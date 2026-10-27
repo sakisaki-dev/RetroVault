@@ -21,7 +21,7 @@ import { percentileOf } from './skillGrades';
  * 3. Names. A family's profile is its members' mean shape (level-removed centred percentile) on each rate, in
  *    percentile points. Each label in the position's table is a signed weighting of rates; its score is
  *    Σ sign·profile / Σ|sign|. Labels go to families greedily (best score first, each label used once) when the
- *    score ≥ NAME_MIN; a family left without one is "Balanced <POS>".
+ *    score ≥ NAME_MIN (8; WR: any score > 0); a family left without one is "Balanced <POS>".
  * 4. Definition. The label's lead rate, then the rates furthest from the family's own level (≥ DEF_MIN points):
  *    two fixed phrases. Level is reported separately (mean percentile, average Career Legacy), never in the name.
  */
@@ -32,7 +32,9 @@ const RESTARTS = 12;
 const SILHOUETTE_TIE = 0.02;
 const K2_MARGIN = 0.05;
 const BIG_POSITION = 14;
-const NAME_MIN = 10;
+/** A label needs at least this score (percentile points); WR shapes are weakly separated, so any positive lean names a WR family. */
+const NAME_MIN = 8;
+const NAME_MIN_BY_POS: Partial<Record<Position, number>> = { WR: 0 };
 const DEF_MIN = 6;
 const MIN_PLAYERS = 8;
 
@@ -289,6 +291,7 @@ export const defineProfile = (profile: Record<string, number>, features: CompFea
 /** Names families from their shape profiles with the position's label table (see the header). */
 export const nameProfiles = (position: Position, profiles: Record<string, number>[], features: CompFeature[]) => {
   const labels = LABELS[position];
+  const min = NAME_MIN_BY_POS[position] ?? NAME_MIN;
   const has = (id: string) => features.some((f) => f.id === id);
   const pairs: { c: number; l: number; s: number }[] = [];
   profiles.forEach((pr, c) =>
@@ -302,7 +305,7 @@ export const nameProfiles = (position: Position, profiles: Record<string, number
   const out: { name: string; lead?: string; score: number }[] = profiles.map(() => ({ name: '', score: 0 }));
   const usedL = new Set<number>();
   pairs.forEach(({ c, l, s }) => {
-    if (s < NAME_MIN || out[c].name || usedL.has(l)) return;
+    if (s < min || s <= 0 || out[c].name || usedL.has(l)) return;
     const sig = labels[l].sig;
     // The lead rate: the label's positively weighted rate this family shows most (first listed on ties).
     const pr = profiles[c];
