@@ -2318,38 +2318,38 @@
   "Y84": {
    "reason": "Season Story for Y84",
    "trigger": "Season Y84 completed (coach.season 84)",
-   "upload": "2026-10-28-story-y84-v2",
-   "tagline": "A record season on the ground, a second straight title in Atlanta, and the Broncos still waiting.",
+   "upload": "2026-10-28-story-y84-v3",
+   "tagline": "A record season on the ground, a second straight title in Atlanta won with key pieces missing time, and two new names in the Hall of Fame.",
    "articles": [
     {
      "id": "y84-repeat",
      "kind": "lead",
      "headline": "Atlanta Does It Again",
-     "dek": "The Falcons went 13-3-1 and edged the Broncos 32-28 in Super Bowl CXLIII. A record season from Ryland Maxwell carried them there.",
+     "dek": "The Falcons went 13-3-1 and held off the Broncos 32-28 in Super Bowl CXLIII, carried by a record season from Ryland Maxwell and two first-year players who left with rings.",
      "body": [
       "The Falcons are champions again. Atlanta finished the regular season 13-3-1, survived a four-point final against the Denver Broncos, 32-28 in Super Bowl CXLIII, and gave Dorren Skura a third straight title: one with the Jets, now two with the Falcons. A roster that was torn apart and rebuilt after the first ring simply did it again.",
-      "This one was won on the ground. Ryland Maxwell ran for 2,272 yards and 27 touchdowns, the best rushing season the record board has ever shown, and finished the job as Super Bowl MVP. He played all 20 games of the run and now owns 4 rings in 97 career games. A year ago he was the Offensive Player of the Year. This year he was something more.",
-      "Vyncint Heath supplied the rest. The receiver they call \"Starscream\" caught 119 passes for 2,209 yards and 22 touchdowns and won Offensive Player of the Year for the second time, with a card that climbed into the S tier.",
-      "The newcomers fit. Shawn Milne, who came from Tampa Bay in the trade that sent Shareef London the other way, won the first ring of his career. Chance Woodrum, one of the three champions who followed the coach south from New York, now has 5. Eric Raimann, Jashaun Fleming, Simeon Otton and Trysten Floyd each collected a second.",
-      "Up the coast, the old club had a milestone of its own. Malakai Sawyer ran for 1,551 yards and 31 touchdowns for the Jets and crossed into the Hall of Fame. He keeps running. So do the Falcons."
+      "This one was won on the ground. Ryland Maxwell ran for 2,272 yards and 27 touchdowns, the best rushing season the record board has ever shown, and finished the job as Super Bowl MVP. He played all 20 games of the run and now owns 4 rings in 97 career games.",
+      "The passing game belonged to a newcomer. Orlando Larienne, in his first season, completed 205 of 233 throws for 3,485 yards and 41 touchdowns and left with a ring. He appeared in only 15 of the 20 games, and a team that also saw Vyncint Heath miss time still found a way. Heath, the receiver they call \"Starscream\", caught 119 passes for 2,209 yards anyway and won a second Offensive Player of the Year award.",
+      "Up front, Calais Ham made 49 blocks in his first season and has a ring to show for it. Shawn Milne, who came from Tampa Bay in the trade that sent Shareef London the other way, won the first of his career, and Chance Woodrum now has 5.",
+      "Up the coast, the old club had a milestone of its own. Malakai Sawyer ran for 1,551 yards for the Jets and crossed into the Hall of Fame, and in Los Angeles the Rams' Von Horsted joined him in the same class. Two old warhorses went in. The Falcons kept winning."
      ],
      "players": [
       "Ryland Maxwell",
+      "Orlando Larienne",
       "Vyncint Heath",
+      "Calais Ham",
       "Shawn Milne",
       "Shareef London",
       "Chance Woodrum",
-      "Eric Raimann",
-      "Jashaun Fleming",
-      "Simeon Otton",
-      "Trysten Floyd",
-      "Malakai Sawyer"
+      "Malakai Sawyer",
+      "Von Horsted"
      ],
      "teams": [
       "Falcons",
       "Broncos",
       "Jets",
-      "Buccaneers"
+      "Buccaneers",
+      "Rams"
      ],
      "stats": [
       {
@@ -2365,17 +2365,17 @@
       {
        "label": "Maxwell rushing yards (Y84)",
        "value": "2,272",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Ryland Maxwell s.ryds"
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.ryds"
       },
       {
        "label": "Maxwell rushing TDs (Y84)",
        "value": "27",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Ryland Maxwell s.rtd"
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.rtd"
       },
       {
        "label": "Falcons games (Y84)",
        "value": "20",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Ryland Maxwell s.g"
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.g"
       },
       {
        "label": "Maxwell rings",
@@ -2388,19 +2388,44 @@
        "source": "players.json RB:Ryland Maxwell g"
       },
       {
+       "label": "Larienne completions",
+       "value": "205",
+       "source": "players.json QB:Orlando Larienne cmp"
+      },
+      {
+       "label": "Larienne attempts",
+       "value": "233",
+       "source": "players.json QB:Orlando Larienne att"
+      },
+      {
+       "label": "Larienne passing yards",
+       "value": "3,485",
+       "source": "players.json QB:Orlando Larienne yds"
+      },
+      {
+       "label": "Larienne TD passes",
+       "value": "41",
+       "source": "players.json QB:Orlando Larienne td"
+      },
+      {
+       "label": "Larienne games (Y84)",
+       "value": "15",
+       "source": "players.json QB:Orlando Larienne g"
+      },
+      {
        "label": "Heath catches (Y84)",
        "value": "119",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Vyncint Heath s.rec"
+       "source": "market_history.json snap-202610281027..snap-202610281616 WR:Vyncint Heath s.rec"
       },
       {
        "label": "Heath yards (Y84)",
        "value": "2,209",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Vyncint Heath s.yds"
+       "source": "market_history.json snap-202610281027..snap-202610281616 WR:Vyncint Heath s.yds"
       },
       {
-       "label": "Heath touchdowns (Y84)",
-       "value": "22",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Vyncint Heath s.td"
+       "label": "Ham blocks",
+       "value": "49",
+       "source": "players.json OL:Calais Ham blk"
       },
       {
        "label": "Woodrum rings",
@@ -2410,12 +2435,7 @@
       {
        "label": "Sawyer rushing yards (Y84)",
        "value": "1,551",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Malakai Sawyer s.ryds"
-      },
-      {
-       "label": "Sawyer rushing TDs (Y84)",
-       "value": "31",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Malakai Sawyer s.rtd"
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Malakai Sawyer s.ryds"
       }
      ],
      "related": [
@@ -2428,8 +2448,8 @@
      "headline": "Maxwell Runs Into the Record Book",
      "dek": "2,272 rushing yards in one season, a Super Bowl MVP and a fourth ring before his hundredth game.",
      "body": [
-      "No back on the record board had ever had a season like it. Ryland Maxwell carried the Falcons for 2,272 yards in Y84, the new mark for the best rushing season, and added 27 rushing touchdowns plus 4 more as a receiver.",
-      "It was a jump even from the year he won Offensive Player of the Year, when he ran for 1,919. His career now reads 7,705 rushing yards and 102 rushing touchdowns in 97 games, 6.7 yards a carry for a career, and the season pushed him past 100 rushing scores.",
+      "No back on the record board had ever had a season like it. Ryland Maxwell carried the Falcons for 2,272 yards in Y84, the new mark for the best rushing season, and added 27 rushing touchdowns plus 4 more as a receiver. He did it in every one of Atlanta's 20 games, the one constant on a roster that had to cover for missing pieces elsewhere.",
+      "It was a jump even from the year he won Offensive Player of the Year, when he ran for 1,919. His career now reads 7,705 rushing yards and 102 rushing touchdowns in 97 games, 6.7 yards a carry, and the season pushed him past 100 rushing scores.",
       "The market noticed. His card rose from an overall of 67 to 75 and from a C+ grade to B+, and its value went from 20 to 112. With 4 rings and a Super Bowl MVP before his hundredth game, Maxwell has stopped being the back who followed the coach from New York. He is the reason Atlanta keeps winning."
      ],
      "players": [
@@ -2448,12 +2468,17 @@
       {
        "label": "Maxwell rushing TDs (Y84)",
        "value": "27",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Ryland Maxwell s.rtd"
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.rtd"
       },
       {
        "label": "Maxwell receiving TDs (Y84)",
        "value": "4",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Ryland Maxwell s.rectd"
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.rectd"
+      },
+      {
+       "label": "Falcons games (Y84)",
+       "value": "20",
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.g"
       },
       {
        "label": "Maxwell rushing yards (Y83)",
@@ -2483,7 +2508,7 @@
       {
        "label": "Rushing TD milestone",
        "value": "100",
-       "source": "crossed: market_history.json snap-202610281027..snap-202610281537 RB:Ryland Maxwell s.rtd"
+       "source": "crossed: market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.rtd"
       },
       {
        "label": "Maxwell OVR (Y83)",
@@ -2493,7 +2518,7 @@
       {
        "label": "Maxwell OVR (Y84)",
        "value": "75",
-       "source": "market_history.json snap-202610281537 RB:Ryland Maxwell ovr"
+       "source": "market_history.json snap-202610281616 RB:Ryland Maxwell ovr"
       },
       {
        "label": "Maxwell value (Y83)",
@@ -2503,7 +2528,7 @@
       {
        "label": "Maxwell value (Y84)",
        "value": "112",
-       "source": "market_history.json snap-202610281537 RB:Ryland Maxwell value"
+       "source": "market_history.json snap-202610281616 RB:Ryland Maxwell value"
       },
       {
        "label": "Maxwell rings",
@@ -2516,72 +2541,97 @@
      ]
     },
     {
-     "id": "y84-starscream",
-     "kind": "rise",
-     "headline": "Starscream, Again",
-     "dek": "A second Offensive Player of the Year for Vyncint Heath, and a card that reached the S tier.",
+     "id": "y84-missed-time",
+     "kind": "feature",
+     "headline": "A Title Won Short-Handed",
+     "dek": "Orlando Larienne played 15 of Atlanta's 20 games and Vyncint Heath played 18. The champions won anyway.",
      "body": [
-      "Vyncint Heath did not need a full year to prove the first one was no accident. In 18 games he caught 119 passes for 2,209 yards and 22 touchdowns, 18.6 yards a catch, and the league handed him a second Offensive Player of the Year award.",
-      "He has now played 56 games and caught 341 passes for 6,305 yards and 64 touchdowns, more than one score a game. He also has 3 rings, two of them won since the trade that brought him to Atlanta.",
-      "The grade followed the numbers. His card went from A+ to S, its overall from 70 to 77, and its value from 29 to 124, the biggest climb on the Falcons roster. At this pace the career totals will not stay modest for long."
+      "The Falcons' two most productive passing pieces were not always on the field. Orlando Larienne, a first-year quarterback, appeared in 15 of the club's 20 games, missing 5. Injury may have played a part; so may the usual caution with a newcomer on a new team. When he played, he was devastating: 205 completions on 233 attempts, 41 touchdowns against 13 interceptions, and 17.0 yards for every completion. His card opened in the A+ tier.",
+      "Vyncint Heath missed 2 games, a year after playing all 21 of Atlanta's first title run. Whether he was slowed by injury or simply by the wear of back-to-back deep seasons, the absence barely showed in the numbers. In 18 games he caught 119 passes for 2,209 yards and 22 touchdowns, 18.6 yards a catch, and took his second Offensive Player of the Year award. His card climbed into the S tier, its overall from 70 to 77.",
+      "Both finished with rings. For a team that had to keep winning with a starter or a star in street clothes, that may be the most telling number of all."
      ],
      "players": [
+      "Orlando Larienne",
       "Vyncint Heath"
      ],
      "teams": [
-      "Falcons",
-      "Jets"
+      "Falcons"
      ],
      "stats": [
       {
+       "label": "Larienne games (Y84)",
+       "value": "15",
+       "source": "players.json QB:Orlando Larienne g"
+      },
+      {
+       "label": "Falcons games (Y84)",
+       "value": "20",
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.g"
+      },
+      {
+       "label": "Larienne games missed",
+       "value": "5",
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.g minus players.json QB:Orlando Larienne g"
+      },
+      {
+       "label": "Larienne completions",
+       "value": "205",
+       "source": "players.json QB:Orlando Larienne cmp"
+      },
+      {
+       "label": "Larienne attempts",
+       "value": "233",
+       "source": "players.json QB:Orlando Larienne att"
+      },
+      {
+       "label": "Larienne TD passes",
+       "value": "41",
+       "source": "players.json QB:Orlando Larienne td"
+      },
+      {
+       "label": "Larienne interceptions",
+       "value": "13",
+       "source": "players.json QB:Orlando Larienne int"
+      },
+      {
+       "label": "Larienne yards per completion",
+       "value": "17.0",
+       "source": "players.json QB:Orlando Larienne yds/cmp"
+      },
+      {
+       "label": "Heath games missed",
+       "value": "2",
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.g minus market_history.json snap-202610281027..snap-202610281616 WR:Vyncint Heath s.g"
+      },
+      {
+       "label": "Heath games (Y83)",
+       "value": "21",
+       "source": "market_history.json snap-202610262300..snap-202610281027 WR:Vyncint Heath s.g"
+      },
+      {
        "label": "Heath games (Y84)",
        "value": "18",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Vyncint Heath s.g"
+       "source": "market_history.json snap-202610281027..snap-202610281616 WR:Vyncint Heath s.g"
       },
       {
        "label": "Heath catches (Y84)",
        "value": "119",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Vyncint Heath s.rec"
+       "source": "market_history.json snap-202610281027..snap-202610281616 WR:Vyncint Heath s.rec"
       },
       {
        "label": "Heath yards (Y84)",
        "value": "2,209",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Vyncint Heath s.yds"
+       "source": "market_history.json snap-202610281027..snap-202610281616 WR:Vyncint Heath s.yds"
       },
       {
        "label": "Heath touchdowns (Y84)",
        "value": "22",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Vyncint Heath s.td"
+       "source": "market_history.json snap-202610281027..snap-202610281616 WR:Vyncint Heath s.td"
       },
       {
        "label": "Heath yards per catch (Y84)",
        "value": "18.6",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Vyncint Heath s.yds/s.rec"
-      },
-      {
-       "label": "Heath games",
-       "value": "56",
-       "source": "players.json WR:Vyncint Heath g"
-      },
-      {
-       "label": "Heath catches",
-       "value": "341",
-       "source": "players.json WR:Vyncint Heath rec"
-      },
-      {
-       "label": "Heath yards",
-       "value": "6,305",
-       "source": "players.json WR:Vyncint Heath yds"
-      },
-      {
-       "label": "Heath touchdowns",
-       "value": "64",
-       "source": "players.json WR:Vyncint Heath td"
-      },
-      {
-       "label": "Heath rings",
-       "value": "3",
-       "source": "players.json WR:Vyncint Heath rings"
+       "source": "market_history.json snap-202610281027..snap-202610281616 WR:Vyncint Heath s.yds/s.rec"
       },
       {
        "label": "Heath OVR (Y83)",
@@ -2591,21 +2641,665 @@
       {
        "label": "Heath OVR (Y84)",
        "value": "77",
-       "source": "market_history.json snap-202610281537 WR:Vyncint Heath ovr"
-      },
-      {
-       "label": "Heath value (Y83)",
-       "value": "29",
-       "source": "market_history.json snap-202610281027 WR:Vyncint Heath value"
-      },
-      {
-       "label": "Heath value (Y84)",
-       "value": "124",
-       "source": "market_history.json snap-202610281537 WR:Vyncint Heath value"
+       "source": "market_history.json snap-202610281616 WR:Vyncint Heath ovr"
       }
      ],
      "related": [
       "y83-starscream"
+     ]
+    },
+    {
+     "id": "y84-moton",
+     "kind": "rise",
+     "headline": "Green Bay Finds Its Back",
+     "dek": "Angelo Moton ran for 1,717 yards and 31 touchdowns and was named Rookie of the Year for the Packers.",
+     "body": [
+      "Angelo Moton did not ease into the league. In his first 20 games for the Packers he ran for 1,717 yards and 31 touchdowns at 9.3 yards a carry, and the Rookie of the Year award went to Green Bay. His 31 rushing scores matched what Malakai Sawyer, a new Hall of Famer, managed for the Jets in the same season.",
+      "There is one thing to clean up. Moton put the ball on the ground 15 times, a lot for a back with 184 carries, and the kind of number that decides playoff games.",
+      "He had help. Solomon Toohill played all 20 games at quarterback and threw for 3,845 yards and 41 touchdowns with 5 interceptions, his card rising from an overall of 66 to 70. Toohill already has a ring from Green Bay's 44-6 win over the Chiefs in Super Bowl CXXXVIII. With a back like this behind him, the Packers have reason to think about another."
+     ],
+     "players": [
+      "Angelo Moton",
+      "Solomon Toohill",
+      "Malakai Sawyer"
+     ],
+     "teams": [
+      "Packers",
+      "Jets",
+      "Chiefs"
+     ],
+     "stats": [
+      {
+       "label": "Moton rushing yards",
+       "value": "1,717",
+       "source": "players.json RB:Angelo Moton ryds"
+      },
+      {
+       "label": "Moton rushing TDs",
+       "value": "31",
+       "source": "players.json RB:Angelo Moton rtd"
+      },
+      {
+       "label": "Moton games",
+       "value": "20",
+       "source": "players.json RB:Angelo Moton g"
+      },
+      {
+       "label": "Moton yards per carry",
+       "value": "9.3",
+       "source": "players.json RB:Angelo Moton ryds/ratt"
+      },
+      {
+       "label": "Sawyer rushing TDs (Y84)",
+       "value": "31",
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Malakai Sawyer s.rtd"
+      },
+      {
+       "label": "Moton fumbles",
+       "value": "15",
+       "source": "players.json RB:Angelo Moton fum"
+      },
+      {
+       "label": "Moton carries",
+       "value": "184",
+       "source": "players.json RB:Angelo Moton ratt"
+      },
+      {
+       "label": "Toohill games (Y84)",
+       "value": "20",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Solomon Toohill s.g"
+      },
+      {
+       "label": "Toohill passing yards (Y84)",
+       "value": "3,845",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Solomon Toohill s.yds"
+      },
+      {
+       "label": "Toohill TD passes (Y84)",
+       "value": "41",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Solomon Toohill s.td"
+      },
+      {
+       "label": "Toohill interceptions (Y84)",
+       "value": "5",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Solomon Toohill s.int"
+      },
+      {
+       "label": "Toohill OVR (Y83)",
+       "value": "66",
+       "source": "market_history.json snap-202610281027 QB:Solomon Toohill ovr"
+      },
+      {
+       "label": "Toohill OVR (Y84)",
+       "value": "70",
+       "source": "market_history.json snap-202610281616 QB:Solomon Toohill ovr"
+      },
+      {
+       "label": "Super Bowl CXXXVIII",
+       "value": "44-6",
+       "source": "super_bowls.json Y79 score"
+      }
+     ],
+     "related": []
+    },
+    {
+     "id": "y84-hall-class",
+     "kind": "milestone",
+     "headline": "Two for the Hall: Sawyer and Horsted",
+     "dek": "A back who keeps running for the Jets and a Rams safety who never left Los Angeles both crossed Career Legacy 7,000.",
+     "body": [
+      "The Y84 class has 2 members, and they could hardly be more different. Malakai Sawyer, in his second season back with the Jets, ran for 1,551 yards and 31 touchdowns in 19 games, passed 15,000 career rushing yards and reached a Career Legacy of 7,101. He has 16,436 rushing yards and 299 rushing touchdowns in 243 games, 2 rings and 2 Offensive Player of the Year awards.",
+      "Von Horsted got there one tackle at a time. A Ram since Y70 and nothing else, he played all 17 games, made 231 tackles, 13.6 a game, and intercepted 2 passes. That lifted his career to 2,658 tackles and 33 interceptions in 254 games and his Career Legacy from 6,833 to 7,345. His card's value rose from 3,118 to 4,806.",
+      "Sawyer's résumé is rings and records. Horsted's is a Defensive Player of the Year award and a body of work built entirely in one uniform. Neither has stopped."
+     ],
+     "players": [
+      "Malakai Sawyer",
+      "Von Horsted"
+     ],
+     "teams": [
+      "Jets",
+      "Rams"
+     ],
+     "stats": [
+      {
+       "label": "Y84 Hall of Fame class",
+       "value": "2",
+       "source": "content.json hofClasses/[label=Y84]/keys/#"
+      },
+      {
+       "label": "Sawyer rushing yards (Y84)",
+       "value": "1,551",
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Malakai Sawyer s.ryds"
+      },
+      {
+       "label": "Sawyer rushing TDs (Y84)",
+       "value": "31",
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Malakai Sawyer s.rtd"
+      },
+      {
+       "label": "Sawyer games (Y84)",
+       "value": "19",
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Malakai Sawyer s.g"
+      },
+      {
+       "label": "Rushing yards milestone",
+       "value": "15,000",
+       "source": "crossed: market_history.json snap-202610281027..snap-202610281616 RB:Malakai Sawyer s.ryds"
+      },
+      {
+       "label": "Sawyer Career Legacy",
+       "value": "7,101",
+       "source": "market_history.json snap-202610281616 RB:Malakai Sawyer legacy"
+      },
+      {
+       "label": "Hall of Fame line",
+       "value": "7,000",
+       "source": "crossed: market_history.json snap-202610281027..snap-202610281616 RB:Malakai Sawyer legacy"
+      },
+      {
+       "label": "Sawyer rushing yards",
+       "value": "16,436",
+       "source": "players.json RB:Malakai Sawyer ryds"
+      },
+      {
+       "label": "Sawyer rushing TDs",
+       "value": "299",
+       "source": "players.json RB:Malakai Sawyer rtd"
+      },
+      {
+       "label": "Sawyer games",
+       "value": "243",
+       "source": "players.json RB:Malakai Sawyer g"
+      },
+      {
+       "label": "Sawyer rings",
+       "value": "2",
+       "source": "players.json RB:Malakai Sawyer rings"
+      },
+      {
+       "label": "Sawyer OPOY awards",
+       "value": "2",
+       "source": "players.json RB:Malakai Sawyer opoy"
+      },
+      {
+       "label": "Horsted games (Y84)",
+       "value": "17",
+       "source": "market_history.json snap-202610281027..snap-202610281616 DB:Von Horsted s.g"
+      },
+      {
+       "label": "Horsted tackles (Y84)",
+       "value": "231",
+       "source": "market_history.json snap-202610281027..snap-202610281616 DB:Von Horsted s.tkl"
+      },
+      {
+       "label": "Horsted tackles per game (Y84)",
+       "value": "13.6",
+       "source": "market_history.json snap-202610281027..snap-202610281616 DB:Von Horsted s.tkl/s.g"
+      },
+      {
+       "label": "Horsted interceptions (Y84)",
+       "value": "2",
+       "source": "market_history.json snap-202610281027..snap-202610281616 DB:Von Horsted s.int"
+      },
+      {
+       "label": "Horsted tackles",
+       "value": "2,658",
+       "source": "players.json DB:Von Horsted tkl"
+      },
+      {
+       "label": "Horsted interceptions",
+       "value": "33",
+       "source": "players.json DB:Von Horsted int"
+      },
+      {
+       "label": "Horsted games",
+       "value": "254",
+       "source": "players.json DB:Von Horsted g"
+      },
+      {
+       "label": "Horsted Career Legacy (Y83)",
+       "value": "6,833",
+       "source": "market_history.json snap-202610281027 DB:Von Horsted legacy"
+      },
+      {
+       "label": "Horsted Career Legacy (Y84)",
+       "value": "7,345",
+       "source": "market_history.json snap-202610281616 DB:Von Horsted legacy"
+      },
+      {
+       "label": "Horsted value (Y83)",
+       "value": "3,118",
+       "source": "market_history.json snap-202610281027 DB:Von Horsted value"
+      },
+      {
+       "label": "Horsted value (Y84)",
+       "value": "4,806",
+       "source": "market_history.json snap-202610281616 DB:Von Horsted value"
+      }
+     ],
+     "related": [
+      "y83-old-friends"
+     ]
+    },
+    {
+     "id": "y84-record-watch",
+     "kind": "chase",
+     "headline": "Record Watch: A Dead Heat for Second",
+     "dek": "Von Horsted caught Dan Mosley at 2,658 career tackles, 204 short of Mose Junior, with K'Lavon Settle closing behind them.",
+     "body": [
+      "The career tackle mark belongs to Mose Junior at 2,862, and for the first time the chase behind him is a tie. Von Horsted's 231 tackles for the Rams brought him to 2,658, the exact total Dan Mosley of the Lions already had. Both are 204 short. Junior's card wears the Rams colours too, so Horsted would be chasing a club legend as well as a league one.",
+      "K'Lavon Settle is the name coming up fastest. The 49ers defensive back made 189 tackles and picked off 5 passes, passed 2,500 for his career and now sits at 2,545, 317 short, with an A+ grade.",
+      "Settle is also climbing the interception list with 32, 8 behind Jayon Queen's 40. Mosley, at 37, is 3 away from that one.",
+      "In the backfield, Derrick Myrick has 347 rushing touchdowns, 41 behind Trequan Jensen's 388."
+     ],
+     "players": [
+      "Von Horsted",
+      "Dan Mosley",
+      "Mose Junior",
+      "K'Lavon Settle",
+      "Jayon Queen",
+      "Derrick Myrick",
+      "Trequan Jensen"
+     ],
+     "teams": [
+      "Rams",
+      "Lions",
+      "49ers"
+     ],
+     "stats": [
+      {
+       "label": "Career tackle mark",
+       "value": "2,862",
+       "source": "players.json DB:Mose Junior tkl"
+      },
+      {
+       "label": "Horsted tackles (Y84)",
+       "value": "231",
+       "source": "market_history.json snap-202610281027..snap-202610281616 DB:Von Horsted s.tkl"
+      },
+      {
+       "label": "Horsted tackles",
+       "value": "2,658",
+       "source": "players.json DB:Von Horsted tkl"
+      },
+      {
+       "label": "Mosley tackles",
+       "value": "2,658",
+       "source": "players.json DB:Dan Mosley tkl"
+      },
+      {
+       "label": "Gap to the mark",
+       "value": "204",
+       "source": "players.json DB:Mose Junior tkl minus players.json DB:Von Horsted tkl"
+      },
+      {
+       "label": "Settle tackles (Y84)",
+       "value": "189",
+       "source": "market_history.json snap-202610281027..snap-202610281616 DB:K'Lavon Settle s.tkl"
+      },
+      {
+       "label": "Settle interceptions (Y84)",
+       "value": "5",
+       "source": "market_history.json snap-202610281027..snap-202610281616 DB:K'Lavon Settle s.int"
+      },
+      {
+       "label": "Tackle milestone",
+       "value": "2,500",
+       "source": "crossed: market_history.json snap-202610281027..snap-202610281616 DB:K'Lavon Settle s.tkl"
+      },
+      {
+       "label": "Settle tackles",
+       "value": "2,545",
+       "source": "players.json DB:K'Lavon Settle tkl"
+      },
+      {
+       "label": "Settle gap",
+       "value": "317",
+       "source": "players.json DB:Mose Junior tkl minus players.json DB:K'Lavon Settle tkl"
+      },
+      {
+       "label": "Settle interceptions",
+       "value": "32",
+       "source": "players.json DB:K'Lavon Settle int"
+      },
+      {
+       "label": "Settle INT gap",
+       "value": "8",
+       "source": "players.json DB:Jayon Queen int minus players.json DB:K'Lavon Settle int"
+      },
+      {
+       "label": "Interception mark",
+       "value": "40",
+       "source": "players.json DB:Jayon Queen int"
+      },
+      {
+       "label": "Mosley interceptions",
+       "value": "37",
+       "source": "players.json DB:Dan Mosley int"
+      },
+      {
+       "label": "Mosley INT gap",
+       "value": "3",
+       "source": "players.json DB:Jayon Queen int minus players.json DB:Dan Mosley int"
+      },
+      {
+       "label": "Myrick rushing TDs",
+       "value": "347",
+       "source": "players.json RB:Derrick Myrick rtd"
+      },
+      {
+       "label": "Myrick gap",
+       "value": "41",
+       "source": "players.json RB:Trequan Jensen rtd minus players.json RB:Derrick Myrick rtd"
+      },
+      {
+       "label": "Jensen rushing TDs",
+       "value": "388",
+       "source": "players.json RB:Trequan Jensen rtd"
+      }
+     ],
+     "related": [
+      "y83-record-watch"
+     ]
+    },
+    {
+     "id": "y84-veterans",
+     "kind": "feature",
+     "headline": "Long Careers, Late Introductions",
+     "dek": "Vic Cannon in Los Angeles, Terron Stidham in Baltimore and Marvell Rodgers in Tennessee joined the card pool with decades of work already behind them.",
+     "body": [
+      "Vic Cannon has been a Charger since Y65, and his card finally caught up with him: 336 games, 59,531 passing yards, 561 touchdown passes and a Rookie of the Year award, but no ring. The man he most resembles is Kirk Lenoir, the Jaguars lifer, who has 564 touchdown passes, 3 more than Cannon, and also no ring. Cannon's card opened at an overall of 85.",
+      "Terron Stidham has spent every season since Y74 in the Ravens secondary, with 1,980 tackles and 21 interceptions in 178 games after winning Rookie of the Year. Marvell Rodgers has done the same for the Titans since Y77: 1,637 tackles in 139 games, 11.8 a game, and an 80 overall. In Detroit, Travon Swaim, another former Rookie of the Year, has 597 tackles in 54 games beside Dan Mosley.",
+      "None of the four has a ring. All of them now have a card."
+     ],
+     "players": [
+      "Vic Cannon",
+      "Kirk Lenoir",
+      "Terron Stidham",
+      "Marvell Rodgers",
+      "Travon Swaim",
+      "Dan Mosley"
+     ],
+     "teams": [
+      "Chargers",
+      "Jaguars",
+      "Ravens",
+      "Titans",
+      "Lions"
+     ],
+     "stats": [
+      {
+       "label": "Cannon passing yards",
+       "value": "59,531",
+       "source": "players.json QB:Vic Cannon yds"
+      },
+      {
+       "label": "Cannon games",
+       "value": "336",
+       "source": "players.json QB:Vic Cannon g"
+      },
+      {
+       "label": "Cannon TD passes",
+       "value": "561",
+       "source": "players.json QB:Vic Cannon td"
+      },
+      {
+       "label": "Lenoir TD passes",
+       "value": "564",
+       "source": "players.json QB:Kirk Lenoir td"
+      },
+      {
+       "label": "Lenoir lead",
+       "value": "3",
+       "source": "players.json QB:Kirk Lenoir td minus players.json QB:Vic Cannon td"
+      },
+      {
+       "label": "Cannon OVR",
+       "value": "85",
+       "source": "market_history.json snap-202610281616 QB:Vic Cannon ovr"
+      },
+      {
+       "label": "Stidham tackles",
+       "value": "1,980",
+       "source": "players.json DB:Terron Stidham tkl"
+      },
+      {
+       "label": "Stidham interceptions",
+       "value": "21",
+       "source": "players.json DB:Terron Stidham int"
+      },
+      {
+       "label": "Stidham games",
+       "value": "178",
+       "source": "players.json DB:Terron Stidham g"
+      },
+      {
+       "label": "Rodgers tackles",
+       "value": "1,637",
+       "source": "players.json DB:Marvell Rodgers tkl"
+      },
+      {
+       "label": "Rodgers games",
+       "value": "139",
+       "source": "players.json DB:Marvell Rodgers g"
+      },
+      {
+       "label": "Rodgers tackles per game",
+       "value": "11.8",
+       "source": "players.json DB:Marvell Rodgers tkl/g"
+      },
+      {
+       "label": "Rodgers OVR",
+       "value": "80",
+       "source": "market_history.json snap-202610281616 DB:Marvell Rodgers ovr"
+      },
+      {
+       "label": "Swaim tackles",
+       "value": "597",
+       "source": "players.json DB:Travon Swaim tkl"
+      },
+      {
+       "label": "Swaim games",
+       "value": "54",
+       "source": "players.json DB:Travon Swaim g"
+      }
+     ],
+     "related": []
+    },
+    {
+     "id": "y84-jets",
+     "kind": "feature",
+     "headline": "The Jets Hand the Ball to a Rookie",
+     "dek": "Jimmy Tillery threw 589 passes in his first season and was intercepted 4 times. Ty Lock, the old starter, is a Giant now.",
+     "body": [
+      "The club Skura left behind went with youth at quarterback. Jimmy Tillery played all 19 of the Jets' games in his first season and threw 589 passes for 3,392 yards and 27 touchdowns, with only 4 interceptions. He was not explosive, 9.0 yards a completion, but he was careful, and careful kept the Jets in games.",
+      "He had a Hall of Famer behind him in Malakai Sawyer and a familiar target in Jaylen Conklin, the tight end they call \"Takeoff\", who caught 85 passes for 513 yards. Kalif Suh played all 19 games on defense.",
+      "Across town, Ty Lock is a Giant now, traded there from the Jets in the multi-team deal before Y83. He played 18 games and threw for 3,204 yards and 24 touchdowns with 2 interceptions. Lock owns 2 rings and 2 MVP awards. Tillery has a long way to go to match that, but the start was clean."
+     ],
+     "players": [
+      "Jimmy Tillery",
+      "Malakai Sawyer",
+      "Jaylen Conklin",
+      "Kalif Suh",
+      "Ty Lock"
+     ],
+     "teams": [
+      "Jets",
+      "Giants"
+     ],
+     "stats": [
+      {
+       "label": "Tillery attempts",
+       "value": "589",
+       "source": "players.json QB:Jimmy Tillery att"
+      },
+      {
+       "label": "Tillery interceptions",
+       "value": "4",
+       "source": "players.json QB:Jimmy Tillery int"
+      },
+      {
+       "label": "Tillery games",
+       "value": "19",
+       "source": "players.json QB:Jimmy Tillery g"
+      },
+      {
+       "label": "Tillery yards",
+       "value": "3,392",
+       "source": "players.json QB:Jimmy Tillery yds"
+      },
+      {
+       "label": "Tillery touchdowns",
+       "value": "27",
+       "source": "players.json QB:Jimmy Tillery td"
+      },
+      {
+       "label": "Tillery yards per completion",
+       "value": "9.0",
+       "source": "players.json QB:Jimmy Tillery yds/cmp"
+      },
+      {
+       "label": "Conklin catches (Y84)",
+       "value": "85",
+       "source": "market_history.json snap-202610281027..snap-202610281616 TE:Jaylen Conklin s.rec"
+      },
+      {
+       "label": "Conklin yards (Y84)",
+       "value": "513",
+       "source": "market_history.json snap-202610281027..snap-202610281616 TE:Jaylen Conklin s.yds"
+      },
+      {
+       "label": "Suh games (Y84)",
+       "value": "19",
+       "source": "market_history.json snap-202610281027..snap-202610281616 LB:Kalif Suh s.g"
+      },
+      {
+       "label": "Lock games (Y84)",
+       "value": "18",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Ty Lock s.g"
+      },
+      {
+       "label": "Lock passing yards (Y84)",
+       "value": "3,204",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Ty Lock s.yds"
+      },
+      {
+       "label": "Lock TD passes (Y84)",
+       "value": "24",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Ty Lock s.td"
+      },
+      {
+       "label": "Lock interceptions (Y84)",
+       "value": "2",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Ty Lock s.int"
+      },
+      {
+       "label": "Lock rings",
+       "value": "2",
+       "source": "players.json QB:Ty Lock rings"
+      },
+      {
+       "label": "Lock MVP awards",
+       "value": "2",
+       "source": "players.json QB:Ty Lock mvp"
+      }
+     ],
+     "related": [
+      "y83-scattered"
+     ]
+    },
+    {
+     "id": "y84-where-now",
+     "kind": "wherenow",
+     "headline": "Life After Atlanta",
+     "dek": "Brandon Jaclyde, Shareef London and Perrion Randall left the champions after one season. All three spent Y84 watching their old club win again.",
+     "body": [
+      "The Falcons traded away three pieces of their first title team, and none of them got a second ring. Brandon Jaclyde, the reigning Most Valuable Player, went to Miami and threw for 2,807 yards and 26 touchdowns with only 2 interceptions in 17 games for the Dolphins. Solid, but a long way from the 56 touchdowns he threw as a Falcon.",
+      "Shareef London's road ran from the Bears to Atlanta in the multi-team deal before Y83, then on to Tampa Bay in the trade for Shawn Milne. He caught 61 passes for 464 yards and 5 scores with the Buccaneers, 7.6 yards a catch. Milne, meanwhile, collected the ring.",
+      "Perrion Randall played 17 games for the Seahawks and was credited with 16 blocks. His card actually climbed, its overall from 66 to 74, even as his grade fell from the S tier to B+. For all three, Atlanta was a single season, a single ring, and then a view from somewhere else."
+     ],
+     "players": [
+      "Brandon Jaclyde",
+      "Shareef London",
+      "Shawn Milne",
+      "Perrion Randall"
+     ],
+     "teams": [
+      "Falcons",
+      "Dolphins",
+      "Bears",
+      "Buccaneers",
+      "Seahawks"
+     ],
+     "stats": [
+      {
+       "label": "Jaclyde passing yards (Y84)",
+       "value": "2,807",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Brandon Jaclyde s.yds"
+      },
+      {
+       "label": "Jaclyde passing TDs (Y84)",
+       "value": "26",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Brandon Jaclyde s.td"
+      },
+      {
+       "label": "Jaclyde interceptions (Y84)",
+       "value": "2",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Brandon Jaclyde s.int"
+      },
+      {
+       "label": "Jaclyde games (Y84)",
+       "value": "17",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Brandon Jaclyde s.g"
+      },
+      {
+       "label": "Jaclyde passing TDs (Y83)",
+       "value": "56",
+       "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde s.td"
+      },
+      {
+       "label": "London catches (Y84)",
+       "value": "61",
+       "source": "market_history.json snap-202610281027..snap-202610281616 WR:Shareef London s.rec"
+      },
+      {
+       "label": "London yards (Y84)",
+       "value": "464",
+       "source": "market_history.json snap-202610281027..snap-202610281616 WR:Shareef London s.yds"
+      },
+      {
+       "label": "London touchdowns (Y84)",
+       "value": "5",
+       "source": "market_history.json snap-202610281027..snap-202610281616 WR:Shareef London s.td"
+      },
+      {
+       "label": "London yards per catch (Y84)",
+       "value": "7.6",
+       "source": "market_history.json snap-202610281027..snap-202610281616 WR:Shareef London s.yds/s.rec"
+      },
+      {
+       "label": "Randall games (Y84)",
+       "value": "17",
+       "source": "market_history.json snap-202610281027..snap-202610281616 OL:Perrion Randall s.g"
+      },
+      {
+       "label": "Randall blocks (Y84)",
+       "value": "16",
+       "source": "market_history.json snap-202610281027..snap-202610281616 OL:Perrion Randall s.blk"
+      },
+      {
+       "label": "Randall OVR (Y83)",
+       "value": "66",
+       "source": "market_history.json snap-202610281027 OL:Perrion Randall ovr"
+      },
+      {
+       "label": "Randall OVR (Y84)",
+       "value": "74",
+       "source": "market_history.json snap-202610281616 OL:Perrion Randall ovr"
+      }
+     ],
+     "related": [
+      "y83-teardown"
      ]
     },
     {
@@ -2615,7 +3309,7 @@
      "dek": "Four Super Bowls against the Broncos, four wins, with three different clubs across 68 seasons.",
      "body": [
       "The Broncos have now reached the final against Dorren Skura four times and lost every one. The first came in Y16, a 22-16 win with the Commanders. Two more followed with the Buccaneers, 46-11 in Y23 and 38-16 in Y25. Then nothing for nearly six decades, until Atlanta beat Denver 32-28 in Super Bowl CXLIII.",
-      "This was the closest of the four by a distance. The first three were decided by six points or more, two of them by more than three touchdowns. Denver had a four-point game and a tight end who knows the Falcons well: D.C Paradis, who has 995 career catches, played all 20 games of the Broncos' run and is now five catches short of a thousand.",
+      "This was the closest of the four by a distance. The first three were decided by six points or more, two of them by more than three touchdowns. Denver had a four-point game and a tight end with a long memory: D.C Paradis, who has 995 career catches, played all 20 games of the Broncos' run and is now five catches short of a thousand.",
       "For Skura it is a rivalry measured in eras. The Commanders, the Buccaneers dynasty and now the Falcons have all taken their turn, and the Broncos are still waiting for their first win."
      ],
      "players": [
@@ -2661,551 +3355,10 @@
       {
        "label": "Paradis games (Y84)",
        "value": "20",
-       "source": "market_history.json snap-202610281027..snap-202610281537 TE:D.C Paradis s.g"
+       "source": "market_history.json snap-202610281027..snap-202610281616 TE:D.C Paradis s.g"
       }
      ],
      "related": []
-    },
-    {
-     "id": "y84-sawyer-hof",
-     "kind": "milestone",
-     "headline": "Sawyer Runs Into the Hall",
-     "dek": "Twelve seasons after his rookie title in Tennessee, Malakai Sawyer crossed the Career Legacy line, and he is still carrying the ball for the Jets.",
-     "body": [
-      "Malakai Sawyer did not slow down to get there. In his second season back with the Jets he ran for 1,551 yards and 31 touchdowns in 19 games, passed 15,000 career rushing yards along the way, and finished the year with a Career Legacy of 7,101, enough for the Hall of Fame.",
-      "The totals are a career's worth: 16,436 rushing yards and 299 rushing touchdowns in 243 games, plus 233 catches for 60 more scores. He was Rookie of the Year on the Titans team that won it all in Y72, won a second ring with the Jets in Y77, and collected 2 Offensive Player of the Year awards along the way.",
-      "The market had already decided. His card's value went from 3,153 to 5,679 this season, and its overall reached 96. He was the man the Jets took back when Skura left for Atlanta, and he has made that trade look good from both sides."
-     ],
-     "players": [
-      "Malakai Sawyer"
-     ],
-     "teams": [
-      "Jets",
-      "Titans",
-      "Falcons"
-     ],
-     "stats": [
-      {
-       "label": "Sawyer Career Legacy",
-       "value": "7,101",
-       "source": "market_history.json snap-202610281537 RB:Malakai Sawyer legacy"
-      },
-      {
-       "label": "Sawyer rushing yards (Y84)",
-       "value": "1,551",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Malakai Sawyer s.ryds"
-      },
-      {
-       "label": "Sawyer rushing TDs (Y84)",
-       "value": "31",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Malakai Sawyer s.rtd"
-      },
-      {
-       "label": "Sawyer games (Y84)",
-       "value": "19",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Malakai Sawyer s.g"
-      },
-      {
-       "label": "Rushing yards milestone",
-       "value": "15,000",
-       "source": "crossed: market_history.json snap-202610281027..snap-202610281537 RB:Malakai Sawyer s.ryds"
-      },
-      {
-       "label": "Sawyer rushing yards",
-       "value": "16,436",
-       "source": "players.json RB:Malakai Sawyer ryds"
-      },
-      {
-       "label": "Sawyer rushing TDs",
-       "value": "299",
-       "source": "players.json RB:Malakai Sawyer rtd"
-      },
-      {
-       "label": "Sawyer games",
-       "value": "243",
-       "source": "players.json RB:Malakai Sawyer g"
-      },
-      {
-       "label": "Sawyer catches",
-       "value": "233",
-       "source": "players.json RB:Malakai Sawyer rec"
-      },
-      {
-       "label": "Sawyer receiving TDs",
-       "value": "60",
-       "source": "players.json RB:Malakai Sawyer rectd"
-      },
-      {
-       "label": "Sawyer OPOY awards",
-       "value": "2",
-       "source": "players.json RB:Malakai Sawyer opoy"
-      },
-      {
-       "label": "Sawyer value (Y83)",
-       "value": "3,153",
-       "source": "market_history.json snap-202610281027 RB:Malakai Sawyer value"
-      },
-      {
-       "label": "Sawyer value (Y84)",
-       "value": "5,679",
-       "source": "market_history.json snap-202610281537 RB:Malakai Sawyer value"
-      },
-      {
-       "label": "Sawyer OVR",
-       "value": "96",
-       "source": "market_history.json snap-202610281537 RB:Malakai Sawyer ovr"
-      }
-     ],
-     "related": [
-      "y83-old-friends"
-     ]
-    },
-    {
-     "id": "y84-where-now",
-     "kind": "wherenow",
-     "headline": "Life After Atlanta",
-     "dek": "Brandon Jaclyde, Shareef London and Perrion Randall left the champions after one season. All three spent Y84 watching their old club win again.",
-     "body": [
-      "The Falcons traded away three pieces of their first title team, and none of them got a second ring. Brandon Jaclyde, the reigning Most Valuable Player, went to Miami and threw for 2,807 yards and 26 touchdowns with only 2 interceptions in 17 games for the Dolphins. Solid, but a long way from the 56 touchdowns he threw as a Falcon.",
-      "Shareef London went to Tampa Bay in the deal for Shawn Milne and caught 61 passes for 464 yards and 5 scores with the Buccaneers, 7.6 yards a catch. Milne, meanwhile, collected the ring.",
-      "Perrion Randall played 17 games for the Seahawks and was credited with 16 blocks. His card actually climbed, its overall from 66 to 74, even as his grade fell from the S tier to B+. For all three, Atlanta was a single season, a single ring, and then a view from somewhere else."
-     ],
-     "players": [
-      "Brandon Jaclyde",
-      "Shareef London",
-      "Shawn Milne",
-      "Perrion Randall"
-     ],
-     "teams": [
-      "Falcons",
-      "Dolphins",
-      "Buccaneers",
-      "Seahawks"
-     ],
-     "stats": [
-      {
-       "label": "Jaclyde passing yards (Y84)",
-       "value": "2,807",
-       "source": "market_history.json snap-202610281027..snap-202610281537 QB:Brandon Jaclyde s.yds"
-      },
-      {
-       "label": "Jaclyde passing TDs (Y84)",
-       "value": "26",
-       "source": "market_history.json snap-202610281027..snap-202610281537 QB:Brandon Jaclyde s.td"
-      },
-      {
-       "label": "Jaclyde interceptions (Y84)",
-       "value": "2",
-       "source": "market_history.json snap-202610281027..snap-202610281537 QB:Brandon Jaclyde s.int"
-      },
-      {
-       "label": "Jaclyde games (Y84)",
-       "value": "17",
-       "source": "market_history.json snap-202610281027..snap-202610281537 QB:Brandon Jaclyde s.g"
-      },
-      {
-       "label": "Jaclyde passing TDs (Y83)",
-       "value": "56",
-       "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde s.td"
-      },
-      {
-       "label": "London catches (Y84)",
-       "value": "61",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Shareef London s.rec"
-      },
-      {
-       "label": "London yards (Y84)",
-       "value": "464",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Shareef London s.yds"
-      },
-      {
-       "label": "London touchdowns (Y84)",
-       "value": "5",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Shareef London s.td"
-      },
-      {
-       "label": "London yards per catch (Y84)",
-       "value": "7.6",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Shareef London s.yds/s.rec"
-      },
-      {
-       "label": "Randall games (Y84)",
-       "value": "17",
-       "source": "market_history.json snap-202610281027..snap-202610281537 OL:Perrion Randall s.g"
-      },
-      {
-       "label": "Randall blocks (Y84)",
-       "value": "16",
-       "source": "market_history.json snap-202610281027..snap-202610281537 OL:Perrion Randall s.blk"
-      },
-      {
-       "label": "Randall OVR (Y83)",
-       "value": "66",
-       "source": "market_history.json snap-202610281027 OL:Perrion Randall ovr"
-      },
-      {
-       "label": "Randall OVR (Y84)",
-       "value": "74",
-       "source": "market_history.json snap-202610281537 OL:Perrion Randall ovr"
-      }
-     ],
-     "related": [
-      "y83-teardown"
-     ]
-    },
-    {
-     "id": "y84-quiet-jets",
-     "kind": "fall",
-     "headline": "Two Former Jets Stars Go Quiet",
-     "dek": "Kane Van Oxley and Jaylen Conklin piled up catches in Y84 but found almost no room to run after them.",
-     "body": [
-      "Kane Van Oxley built a career on the deep ball: 16,215 yards on 968 catches, 16.8 yards every time he touched it. In his second season with the Bears he caught 60 passes for 385 yards, 6.4 a catch, with 5 touchdowns. His grade slipped from A+ to A, though collectors kept buying; the card's value still rose from 1,906 to 2,150.",
-      "Jaylen Conklin, still with the Jets, caught 85 passes for 513 yards and 5 scores, barely 6 yards a reception for a tight end who used to make the big play look routine. His card was one of the few to lose value this season, from 748 to 713.",
-      "Neither has lost his place in the league's history. Van Oxley has 160 receiving touchdowns and 3 rings. But for the first time in a while, the numbers say these two are being used to move the chains rather than to change games."
-     ],
-     "players": [
-      "Kane Van Oxley",
-      "Jaylen Conklin"
-     ],
-     "teams": [
-      "Bears",
-      "Jets"
-     ],
-     "stats": [
-      {
-       "label": "Van Oxley yards per catch (Y84)",
-       "value": "6.4",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Kane Van Oxley s.yds/s.rec"
-      },
-      {
-       "label": "Van Oxley career yards",
-       "value": "16,215",
-       "source": "players.json WR:Kane Van Oxley yds"
-      },
-      {
-       "label": "Van Oxley career catches",
-       "value": "968",
-       "source": "players.json WR:Kane Van Oxley rec"
-      },
-      {
-       "label": "Van Oxley career yards per catch",
-       "value": "16.8",
-       "source": "players.json WR:Kane Van Oxley yds/rec"
-      },
-      {
-       "label": "Van Oxley catches (Y84)",
-       "value": "60",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Kane Van Oxley s.rec"
-      },
-      {
-       "label": "Van Oxley yards (Y84)",
-       "value": "385",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Kane Van Oxley s.yds"
-      },
-      {
-       "label": "Van Oxley touchdowns (Y84)",
-       "value": "5",
-       "source": "market_history.json snap-202610281027..snap-202610281537 WR:Kane Van Oxley s.td"
-      },
-      {
-       "label": "Van Oxley value (Y83)",
-       "value": "1,906",
-       "source": "market_history.json snap-202610281027 WR:Kane Van Oxley value"
-      },
-      {
-       "label": "Van Oxley value (Y84)",
-       "value": "2,150",
-       "source": "market_history.json snap-202610281537 WR:Kane Van Oxley value"
-      },
-      {
-       "label": "Conklin catches (Y84)",
-       "value": "85",
-       "source": "market_history.json snap-202610281027..snap-202610281537 TE:Jaylen Conklin s.rec"
-      },
-      {
-       "label": "Conklin yards (Y84)",
-       "value": "513",
-       "source": "market_history.json snap-202610281027..snap-202610281537 TE:Jaylen Conklin s.yds"
-      },
-      {
-       "label": "Conklin touchdowns (Y84)",
-       "value": "5",
-       "source": "market_history.json snap-202610281027..snap-202610281537 TE:Jaylen Conklin s.td"
-      },
-      {
-       "label": "Conklin yards per catch (Y84)",
-       "value": "6",
-       "source": "market_history.json snap-202610281027..snap-202610281537 TE:Jaylen Conklin s.yds/s.rec"
-      },
-      {
-       "label": "Conklin value (Y83)",
-       "value": "748",
-       "source": "market_history.json snap-202610281027 TE:Jaylen Conklin value"
-      },
-      {
-       "label": "Conklin value (Y84)",
-       "value": "713",
-       "source": "market_history.json snap-202610281537 TE:Jaylen Conklin value"
-      },
-      {
-       "label": "Van Oxley receiving TDs",
-       "value": "160",
-       "source": "players.json WR:Kane Van Oxley td"
-      },
-      {
-       "label": "Van Oxley rings",
-       "value": "3",
-       "source": "players.json WR:Kane Van Oxley rings"
-      }
-     ],
-     "related": [
-      "y83-scattered"
-     ]
-    },
-    {
-     "id": "y84-newcomers",
-     "kind": "rise",
-     "headline": "The Class That Arrived Ready",
-     "dek": "A rookie back with 31 touchdowns, a quarterback who barely missed, and an A+ grade or better for three first-year cards.",
-     "body": [
-      "The new cards this season did not look like first-year cards. Angelo Moton ran for 1,717 yards and 31 touchdowns in his first 20 games, 9.3 yards a carry, and was named Rookie of the Year. His card opened with an A+ grade.",
-      "Orlando Larienne completed 205 of his 233 passes for 3,485 yards and 41 touchdowns in 15 games and already owns a ring. Jimmy Tillery threw 589 times in his first 19 games and was intercepted only 4 times, with 27 touchdown passes and 3,392 yards.",
-      "Calais Ham, an offensive lineman, made 49 blocks in 20 games, debuted in the S tier and has a ring of his own. Veterans joined the card pool too: Vic Cannon arrives with 59,531 career passing yards, and Terron Stidham with 1,980 tackles."
-     ],
-     "players": [
-      "Angelo Moton",
-      "Orlando Larienne",
-      "Jimmy Tillery",
-      "Calais Ham",
-      "Vic Cannon",
-      "Terron Stidham"
-     ],
-     "teams": [],
-     "stats": [
-      {
-       "label": "Moton rushing yards",
-       "value": "1,717",
-       "source": "players.json RB:Angelo Moton ryds"
-      },
-      {
-       "label": "Moton rushing TDs",
-       "value": "31",
-       "source": "players.json RB:Angelo Moton rtd"
-      },
-      {
-       "label": "Moton games",
-       "value": "20",
-       "source": "players.json RB:Angelo Moton g"
-      },
-      {
-       "label": "Moton yards per carry",
-       "value": "9.3",
-       "source": "players.json RB:Angelo Moton ryds/ratt"
-      },
-      {
-       "label": "Larienne completions",
-       "value": "205",
-       "source": "players.json QB:Orlando Larienne cmp"
-      },
-      {
-       "label": "Larienne attempts",
-       "value": "233",
-       "source": "players.json QB:Orlando Larienne att"
-      },
-      {
-       "label": "Larienne yards",
-       "value": "3,485",
-       "source": "players.json QB:Orlando Larienne yds"
-      },
-      {
-       "label": "Larienne touchdowns",
-       "value": "41",
-       "source": "players.json QB:Orlando Larienne td"
-      },
-      {
-       "label": "Larienne games",
-       "value": "15",
-       "source": "players.json QB:Orlando Larienne g"
-      },
-      {
-       "label": "Tillery attempts",
-       "value": "589",
-       "source": "players.json QB:Jimmy Tillery att"
-      },
-      {
-       "label": "Tillery games",
-       "value": "19",
-       "source": "players.json QB:Jimmy Tillery g"
-      },
-      {
-       "label": "Tillery interceptions",
-       "value": "4",
-       "source": "players.json QB:Jimmy Tillery int"
-      },
-      {
-       "label": "Tillery touchdowns",
-       "value": "27",
-       "source": "players.json QB:Jimmy Tillery td"
-      },
-      {
-       "label": "Tillery yards",
-       "value": "3,392",
-       "source": "players.json QB:Jimmy Tillery yds"
-      },
-      {
-       "label": "Ham blocks",
-       "value": "49",
-       "source": "players.json OL:Calais Ham blk"
-      },
-      {
-       "label": "Ham games",
-       "value": "20",
-       "source": "players.json OL:Calais Ham g"
-      },
-      {
-       "label": "Cannon passing yards",
-       "value": "59,531",
-       "source": "players.json QB:Vic Cannon yds"
-      },
-      {
-       "label": "Stidham tackles",
-       "value": "1,980",
-       "source": "players.json DB:Terron Stidham tkl"
-      }
-     ],
-     "related": []
-    },
-    {
-     "id": "y84-record-watch",
-     "kind": "chase",
-     "headline": "Record Watch: Settle Joins the Tackle Race",
-     "dek": "K'Lavon Settle passed 2,500 tackles and moved within 317 of the all-time mark.",
-     "body": [
-      "The career tackle record belongs to Mose Junior at 2,862, and the chase has a new name in it. K'Lavon Settle made 189 tackles and picked off 5 passes in Y84, passed 2,500 for his career and now sits at 2,545, 317 short. Dan Mosley remains closer at 2,658, 204 away, but Settle has momentum: his card rose from an overall of 89 to 93 and from an A− grade to A+.",
-      "Settle is also climbing the interception list with 32, 8 behind Jayon Queen's 40. Mosley, at 37, is 3 away from that one.",
-      "Elsewhere, Kalif Suh has 10 forced fumbles, 1 short of Tyrone Baugh's 11. In the backfield, Derrick Myrick has 347 rushing touchdowns, 41 behind Trequan Jensen's 388."
-     ],
-     "players": [
-      "K'Lavon Settle",
-      "Mose Junior",
-      "Dan Mosley",
-      "Jayon Queen",
-      "Kalif Suh",
-      "Tyrone Baugh",
-      "Derrick Myrick",
-      "Trequan Jensen"
-     ],
-     "teams": [],
-     "stats": [
-      {
-       "label": "Settle tackles",
-       "value": "2,545",
-       "source": "players.json DB:K'Lavon Settle tkl"
-      },
-      {
-       "label": "Career tackle mark",
-       "value": "2,862",
-       "source": "players.json DB:Mose Junior tkl"
-      },
-      {
-       "label": "Settle tackles (Y84)",
-       "value": "189",
-       "source": "market_history.json snap-202610281027..snap-202610281537 DB:K'Lavon Settle s.tkl"
-      },
-      {
-       "label": "Settle interceptions (Y84)",
-       "value": "5",
-       "source": "market_history.json snap-202610281027..snap-202610281537 DB:K'Lavon Settle s.int"
-      },
-      {
-       "label": "Tackle milestone",
-       "value": "2,500",
-       "source": "crossed: market_history.json snap-202610281027..snap-202610281537 DB:K'Lavon Settle s.tkl"
-      },
-      {
-       "label": "Settle gap",
-       "value": "317",
-       "source": "players.json DB:Mose Junior tkl minus players.json DB:K'Lavon Settle tkl"
-      },
-      {
-       "label": "Mosley tackles",
-       "value": "2,658",
-       "source": "players.json DB:Dan Mosley tkl"
-      },
-      {
-       "label": "Mosley gap",
-       "value": "204",
-       "source": "players.json DB:Mose Junior tkl minus players.json DB:Dan Mosley tkl"
-      },
-      {
-       "label": "Settle OVR (Y83)",
-       "value": "89",
-       "source": "market_history.json snap-202610281027 DB:K'Lavon Settle ovr"
-      },
-      {
-       "label": "Settle OVR (Y84)",
-       "value": "93",
-       "source": "market_history.json snap-202610281537 DB:K'Lavon Settle ovr"
-      },
-      {
-       "label": "Settle interceptions",
-       "value": "32",
-       "source": "players.json DB:K'Lavon Settle int"
-      },
-      {
-       "label": "Settle INT gap",
-       "value": "8",
-       "source": "players.json DB:Jayon Queen int minus players.json DB:K'Lavon Settle int"
-      },
-      {
-       "label": "Interception mark",
-       "value": "40",
-       "source": "players.json DB:Jayon Queen int"
-      },
-      {
-       "label": "Mosley interceptions",
-       "value": "37",
-       "source": "players.json DB:Dan Mosley int"
-      },
-      {
-       "label": "Mosley INT gap",
-       "value": "3",
-       "source": "players.json DB:Jayon Queen int minus players.json DB:Dan Mosley int"
-      },
-      {
-       "label": "Suh forced fumbles",
-       "value": "10",
-       "source": "players.json LB:Kalif Suh ff"
-      },
-      {
-       "label": "Suh gap",
-       "value": "1",
-       "source": "players.json LB:Tyrone Baugh ff minus players.json LB:Kalif Suh ff"
-      },
-      {
-       "label": "Baugh forced fumbles",
-       "value": "11",
-       "source": "players.json LB:Tyrone Baugh ff"
-      },
-      {
-       "label": "Myrick rushing TDs",
-       "value": "347",
-       "source": "players.json RB:Derrick Myrick rtd"
-      },
-      {
-       "label": "Myrick gap",
-       "value": "41",
-       "source": "players.json RB:Trequan Jensen rtd minus players.json RB:Derrick Myrick rtd"
-      },
-      {
-       "label": "Jensen rushing TDs",
-       "value": "388",
-       "source": "players.json RB:Trequan Jensen rtd"
-      }
-     ],
-     "related": [
-      "y83-record-watch"
-     ]
     },
     {
      "id": "y84-quick-hits",
@@ -3213,68 +3366,51 @@
      "headline": "Quick Hits",
      "dek": "Around the league in Y84.",
      "body": [
+      "Dustin Milton joins the card pool as a Patriot with 249 touchdown passes; his one ring and his Super Bowl MVP came in the 48-45 win over the Packers in CXL, with Siran Spector in the same backfield.",
+      "Spector ran for 1,194 yards and 23 touchdowns and now has 116 rushing scores in 75 games.",
+      "Spencer Daniels of the Jaguars passed 200 games and 5,000 receiving yards, but his 51 catches went for 216 yards, 4.2 a catch.",
+      "Kane Van Oxley caught 60 passes for the Bears at 6.4 yards a catch; the card's value still rose from 1,906 to 2,150.",
       "Danny Diggs and Matthew Waynes both passed 300 career rushing touchdowns, and both finished the season at exactly 306.",
-      "Drake Wise threw for 3,632 yards and 29 touchdowns with 1 interception in 17 games.",
-      "Siran Spector ran for 1,194 yards and 23 touchdowns and now has 116 rushing scores in 75 games.",
-      "Marvell Rodgers enters the card pool with 1,637 tackles in 139 games.",
-      "Ty Lock threw for 3,204 yards and 24 touchdowns with only 2 interceptions.",
-      "Corey Ivey added 1,382 rushing yards and now has 19,508 for his career."
+      "Drake Wise threw for 3,632 yards and 29 touchdowns with 1 interception in 17 games for the Ravens.",
+      "Corey Ivey, Wise's Ravens teammate, added 1,382 rushing yards and now has 19,508 for his career."
      ],
      "players": [
+      "Dustin Milton",
+      "Siran Spector",
+      "Spencer Daniels",
+      "Kane Van Oxley",
       "Danny Diggs",
       "Matthew Waynes",
       "Drake Wise",
-      "Siran Spector",
-      "Marvell Rodgers",
-      "Ty Lock",
       "Corey Ivey"
      ],
-     "teams": [],
+     "teams": [
+      "Patriots",
+      "Packers",
+      "Jaguars",
+      "Bears",
+      "Ravens"
+     ],
      "stats": [
       {
-       "label": "Diggs rushing TDs",
-       "value": "306",
-       "source": "players.json RB:Danny Diggs rtd"
+       "label": "Milton TD passes",
+       "value": "249",
+       "source": "players.json QB:Dustin Milton td"
       },
       {
-       "label": "Waynes rushing TDs",
-       "value": "306",
-       "source": "players.json RB:Matthew Waynes rtd"
-      },
-      {
-       "label": "Rushing TD milestone",
-       "value": "300",
-       "source": "crossed: market_history.json snap-202610281027..snap-202610281537 RB:Danny Diggs s.rtd"
-      },
-      {
-       "label": "Wise passing yards (Y84)",
-       "value": "3,632",
-       "source": "market_history.json snap-202610281027..snap-202610281537 QB:Drake Wise s.yds"
-      },
-      {
-       "label": "Wise passing TDs (Y84)",
-       "value": "29",
-       "source": "market_history.json snap-202610281027..snap-202610281537 QB:Drake Wise s.td"
-      },
-      {
-       "label": "Wise interceptions (Y84)",
-       "value": "1",
-       "source": "market_history.json snap-202610281027..snap-202610281537 QB:Drake Wise s.int"
-      },
-      {
-       "label": "Wise games (Y84)",
-       "value": "17",
-       "source": "market_history.json snap-202610281027..snap-202610281537 QB:Drake Wise s.g"
+       "label": "Super Bowl CXL",
+       "value": "48-45",
+       "source": "super_bowls.json Y81 score"
       },
       {
        "label": "Spector rushing yards (Y84)",
        "value": "1,194",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Siran Spector s.ryds"
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Siran Spector s.ryds"
       },
       {
        "label": "Spector rushing TDs (Y84)",
        "value": "23",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Siran Spector s.rtd"
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Siran Spector s.rtd"
       },
       {
        "label": "Spector rushing TDs",
@@ -3287,34 +3423,89 @@
        "source": "players.json RB:Siran Spector g"
       },
       {
-       "label": "Rodgers tackles",
-       "value": "1,637",
-       "source": "players.json DB:Marvell Rodgers tkl"
+       "label": "Daniels games milestone",
+       "value": "200",
+       "source": "crossed: market_history.json snap-202610281027..snap-202610281616 TE:Spencer Daniels s.g"
       },
       {
-       "label": "Rodgers games",
-       "value": "139",
-       "source": "players.json DB:Marvell Rodgers g"
+       "label": "Daniels yards milestone",
+       "value": "5,000",
+       "source": "crossed: market_history.json snap-202610281027..snap-202610281616 TE:Spencer Daniels s.yds"
       },
       {
-       "label": "Lock passing yards (Y84)",
-       "value": "3,204",
-       "source": "market_history.json snap-202610281027..snap-202610281537 QB:Ty Lock s.yds"
+       "label": "Daniels catches (Y84)",
+       "value": "51",
+       "source": "market_history.json snap-202610281027..snap-202610281616 TE:Spencer Daniels s.rec"
       },
       {
-       "label": "Lock passing TDs (Y84)",
-       "value": "24",
-       "source": "market_history.json snap-202610281027..snap-202610281537 QB:Ty Lock s.td"
+       "label": "Daniels yards (Y84)",
+       "value": "216",
+       "source": "market_history.json snap-202610281027..snap-202610281616 TE:Spencer Daniels s.yds"
       },
       {
-       "label": "Lock interceptions (Y84)",
-       "value": "2",
-       "source": "market_history.json snap-202610281027..snap-202610281537 QB:Ty Lock s.int"
+       "label": "Daniels yards per catch (Y84)",
+       "value": "4.2",
+       "source": "market_history.json snap-202610281027..snap-202610281616 TE:Spencer Daniels s.yds/s.rec"
+      },
+      {
+       "label": "Van Oxley catches (Y84)",
+       "value": "60",
+       "source": "market_history.json snap-202610281027..snap-202610281616 WR:Kane Van Oxley s.rec"
+      },
+      {
+       "label": "Van Oxley yards per catch (Y84)",
+       "value": "6.4",
+       "source": "market_history.json snap-202610281027..snap-202610281616 WR:Kane Van Oxley s.yds/s.rec"
+      },
+      {
+       "label": "Van Oxley value (Y83)",
+       "value": "1,906",
+       "source": "market_history.json snap-202610281027 WR:Kane Van Oxley value"
+      },
+      {
+       "label": "Van Oxley value (Y84)",
+       "value": "2,150",
+       "source": "market_history.json snap-202610281616 WR:Kane Van Oxley value"
+      },
+      {
+       "label": "Rushing TD milestone",
+       "value": "300",
+       "source": "crossed: market_history.json snap-202610281027..snap-202610281616 RB:Danny Diggs s.rtd"
+      },
+      {
+       "label": "Diggs rushing TDs",
+       "value": "306",
+       "source": "players.json RB:Danny Diggs rtd"
+      },
+      {
+       "label": "Waynes rushing TDs",
+       "value": "306",
+       "source": "players.json RB:Matthew Waynes rtd"
+      },
+      {
+       "label": "Wise passing yards (Y84)",
+       "value": "3,632",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Drake Wise s.yds"
+      },
+      {
+       "label": "Wise passing TDs (Y84)",
+       "value": "29",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Drake Wise s.td"
+      },
+      {
+       "label": "Wise interceptions (Y84)",
+       "value": "1",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Drake Wise s.int"
+      },
+      {
+       "label": "Wise games (Y84)",
+       "value": "17",
+       "source": "market_history.json snap-202610281027..snap-202610281616 QB:Drake Wise s.g"
       },
       {
        "label": "Ivey rushing yards (Y84)",
        "value": "1,382",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Corey Ivey s.ryds"
+       "source": "market_history.json snap-202610281027..snap-202610281616 RB:Corey Ivey s.ryds"
       },
       {
        "label": "Ivey rushing yards",
@@ -3327,11 +3518,187 @@
    ],
    "didYouKnow": [
     {
+     "id": "y84-dyk-larienne",
+     "text": "Orlando Larienne threw 41 touchdown passes in 15 games for the Falcons and won a ring in his first season.",
+     "players": [
+      "Orlando Larienne"
+     ],
+     "teams": [
+      "Falcons"
+     ],
+     "stats": [
+      {
+       "label": "Larienne TD passes",
+       "value": "41",
+       "source": "players.json QB:Orlando Larienne td"
+      },
+      {
+       "label": "Larienne games",
+       "value": "15",
+       "source": "players.json QB:Orlando Larienne g"
+      }
+     ]
+    },
+    {
+     "id": "y84-dyk-ham",
+     "text": "Calais Ham's card opened in the S tier: 49 blocks in 20 games and a ring with the Falcons in his first season.",
+     "players": [
+      "Calais Ham"
+     ],
+     "teams": [
+      "Falcons"
+     ],
+     "stats": [
+      {
+       "label": "Ham blocks",
+       "value": "49",
+       "source": "players.json OL:Calais Ham blk"
+      },
+      {
+       "label": "Ham games",
+       "value": "20",
+       "source": "players.json OL:Calais Ham g"
+      },
+      {
+       "label": "Ham grade",
+       "value": "S",
+       "source": "market_history.json snap-202610281616 OL:Calais Ham grade"
+      }
+     ]
+    },
+    {
+     "id": "y84-dyk-moton",
+     "text": "Angelo Moton, the Packers' Rookie of the Year, ran for 9.3 yards a carry over his first 184 carries.",
+     "players": [
+      "Angelo Moton"
+     ],
+     "teams": [
+      "Packers"
+     ],
+     "stats": [
+      {
+       "label": "Moton yards per carry",
+       "value": "9.3",
+       "source": "players.json RB:Angelo Moton ryds/ratt"
+      },
+      {
+       "label": "Moton carries",
+       "value": "184",
+       "source": "players.json RB:Angelo Moton ratt"
+      }
+     ]
+    },
+    {
+     "id": "y84-dyk-tie",
+     "text": "Von Horsted of the Rams and Dan Mosley of the Lions both have exactly 2,658 career tackles.",
+     "players": [
+      "Von Horsted",
+      "Dan Mosley"
+     ],
+     "teams": [
+      "Rams",
+      "Lions"
+     ],
+     "stats": [
+      {
+       "label": "Horsted tackles",
+       "value": "2,658",
+       "source": "players.json DB:Von Horsted tkl"
+      },
+      {
+       "label": "Mosley tackles",
+       "value": "2,658",
+       "source": "players.json DB:Dan Mosley tkl"
+      }
+     ]
+    },
+    {
+     "id": "y84-dyk-cannon",
+     "text": "Vic Cannon of the Chargers has 561 touchdown passes in 336 games and no ring.",
+     "players": [
+      "Vic Cannon"
+     ],
+     "teams": [
+      "Chargers"
+     ],
+     "stats": [
+      {
+       "label": "Cannon TD passes",
+       "value": "561",
+       "source": "players.json QB:Vic Cannon td"
+      },
+      {
+       "label": "Cannon games",
+       "value": "336",
+       "source": "players.json QB:Vic Cannon g"
+      },
+      {
+       "label": "Cannon rings",
+       "value": "0",
+       "source": "players.json QB:Vic Cannon rings"
+      }
+     ]
+    },
+    {
+     "id": "y84-dyk-milton",
+     "text": "Dustin Milton's only ring and his Super Bowl MVP came on the same night: the Patriots' 48-45 win over the Packers in CXL.",
+     "players": [
+      "Dustin Milton"
+     ],
+     "teams": [
+      "Patriots",
+      "Packers"
+     ],
+     "stats": [
+      {
+       "label": "Milton rings",
+       "value": "1",
+       "source": "players.json QB:Dustin Milton rings"
+      },
+      {
+       "label": "Milton Super Bowl MVPs",
+       "value": "1",
+       "source": "players.json QB:Dustin Milton sbmvp"
+      },
+      {
+       "label": "Super Bowl CXL",
+       "value": "48-45",
+       "source": "super_bowls.json Y81 score"
+      }
+     ]
+    },
+    {
+     "id": "y84-dyk-rodgers",
+     "text": "Marvell Rodgers has averaged 11.8 tackles a game across 139 games for the Titans.",
+     "players": [
+      "Marvell Rodgers"
+     ],
+     "teams": [
+      "Titans"
+     ],
+     "stats": [
+      {
+       "label": "Rodgers tackles per game",
+       "value": "11.8",
+       "source": "players.json DB:Marvell Rodgers tkl/g"
+      },
+      {
+       "label": "Rodgers games",
+       "value": "139",
+       "source": "players.json DB:Marvell Rodgers g"
+      }
+     ]
+    },
+    {
      "id": "y84-dyk-twins",
      "text": "Danny Diggs and Matthew Waynes have exactly 306 career rushing touchdowns each, and neither has a ring.",
      "players": [
       "Danny Diggs",
       "Matthew Waynes"
+     ],
+     "teams": [
+      "Jaguars",
+      "Panthers"
      ],
      "stats": [
       {
@@ -3347,67 +3714,13 @@
      ]
     },
     {
-     "id": "y84-dyk-maxwell",
-     "text": "Ryland Maxwell has 4 rings in 97 games, and won Super Bowl MVP in the season he set the rushing record.",
-     "players": [
-      "Ryland Maxwell"
-     ],
-     "stats": [
-      {
-       "label": "Maxwell rings",
-       "value": "4",
-       "source": "players.json RB:Ryland Maxwell rings"
-      },
-      {
-       "label": "Maxwell games",
-       "value": "97",
-       "source": "players.json RB:Ryland Maxwell g"
-      }
-     ]
-    },
-    {
-     "id": "y84-dyk-heath",
-     "text": "Vyncint Heath has 2 Offensive Player of the Year awards in his first 56 games.",
-     "players": [
-      "Vyncint Heath"
-     ],
-     "stats": [
-      {
-       "label": "Heath OPOY awards",
-       "value": "2",
-       "source": "players.json WR:Vyncint Heath opoy"
-      },
-      {
-       "label": "Heath games",
-       "value": "56",
-       "source": "players.json WR:Vyncint Heath g"
-      }
-     ]
-    },
-    {
-     "id": "y84-dyk-wise",
-     "text": "Drake Wise threw 29 touchdown passes in Y84 and 1 interception.",
-     "players": [
-      "Drake Wise"
-     ],
-     "stats": [
-      {
-       "label": "Wise passing TDs (Y84)",
-       "value": "29",
-       "source": "market_history.json snap-202610281027..snap-202610281537 QB:Drake Wise s.td"
-      },
-      {
-       "label": "Wise interceptions (Y84)",
-       "value": "1",
-       "source": "market_history.json snap-202610281027..snap-202610281537 QB:Drake Wise s.int"
-      }
-     ]
-    },
-    {
      "id": "y84-dyk-settle",
      "text": "K'Lavon Settle has 2,545 tackles in 204 games, 12.5 a game, without a ring.",
      "players": [
       "K'Lavon Settle"
+     ],
+     "teams": [
+      "49ers"
      ],
      "stats": [
       {
@@ -3438,6 +3751,9 @@
      "players": [
       "Chance Woodrum"
      ],
+     "teams": [
+      "Falcons"
+     ],
      "stats": [
       {
        "label": "Woodrum rings",
@@ -3448,44 +3764,6 @@
        "label": "Woodrum games",
        "value": "173",
        "source": "players.json DB:Chance Woodrum g"
-      }
-     ]
-    },
-    {
-     "id": "y84-dyk-sawyer",
-     "text": "Malakai Sawyer scored 31 rushing touchdowns in Y84, the season he crossed into the Hall of Fame.",
-     "players": [
-      "Malakai Sawyer"
-     ],
-     "stats": [
-      {
-       "label": "Sawyer rushing TDs (Y84)",
-       "value": "31",
-       "source": "market_history.json snap-202610281027..snap-202610281537 RB:Malakai Sawyer s.rtd"
-      }
-     ]
-    },
-    {
-     "id": "y84-dyk-spector",
-     "text": "Siran Spector has 116 rushing touchdowns in 75 games, 1.55 a game.",
-     "players": [
-      "Siran Spector"
-     ],
-     "stats": [
-      {
-       "label": "Spector rushing TDs",
-       "value": "116",
-       "source": "players.json RB:Siran Spector rtd"
-      },
-      {
-       "label": "Spector games",
-       "value": "75",
-       "source": "players.json RB:Siran Spector g"
-      },
-      {
-       "label": "Spector TDs per game",
-       "value": "1.55",
-       "source": "players.json RB:Siran Spector rtd/g"
       }
      ]
     }

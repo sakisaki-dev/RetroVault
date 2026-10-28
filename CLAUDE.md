@@ -200,7 +200,14 @@ could feel Lock's relief in New York", what a trade means for a franchise or a r
   fact with no attribution (Conklin is "Takeoff" for a vertical that catches anything above his head; nobody Skura
   has coached recovered more fumbles than Van Oxley).
 - Nothing in quotation marks except a player's nickname: no journal quotes, no direct quotes attributed to players or
-  coaches, and no invented injuries, contracts or off-field events.
+  coaches, and no invented contracts or off-field events.
+- Missed games and injury as a possible contributor (owner: "note that some players play less games due to injury";
+  "update the stories, include injuries etc as well as another possuble controbutor into the stories etc"): when a
+  player's games for the season (the `s.g` change between the two snapshots around it) are fewer than his club played
+  (a teammate's full count, e.g. the champion's 20), the story may say he missed time and that injury may have played
+  a part, alongside other possible contributors (age, a lost role, a new team). Always frame it as a possibility
+  ("missed time", "may have been slowed by injury"), never name a specific injury, body part or diagnosis, and cite
+  the games figure (and the gap, as `<a> minus <b>`).
 - Play style comes from rates (yards per catch, tackles per game…), never from imagined looks.
 - No em dashes. Lead body 180–350 words, other articles 90–220.
 - Every number written in a headline, dek or body is in that article's `stats[]` with its source. Sources
