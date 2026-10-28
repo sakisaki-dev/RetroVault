@@ -50,6 +50,33 @@ legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `b
    `story.set` mutation in a follow-up bundle and run `npm run update` on that bundle.
 4. Commit and push with the commands it prints (step 7).
 
+### Season update plan: what is AI and what is a rule
+
+Everything an update touches, in order. **AI** steps are the only places a model writes or reads something; every
+other row is a deterministic rule that `npm run update` / `npm run rebuild` runs with no AI involvement.
+
+| # | Step | AI or rule | Trigger | How / where |
+|---|---|---|---|---|
+| 1 | Read the screenshots (career cards, Super Bowl list, staff screen, record board, rosters, HOF pages) | **AI** (`transcribe`) | New images in the upload | `player.set`, `superbowl.set`, `coach.season` / `coach.set`, `record.set`, `fact.set active_rosters/…` |
+| 2 | Describe new portraits as sprite looks | **AI** (`portrait→look`) | The upload has portraits | `sprite.set` |
+| 3 | Owner notes → journal entries with tags | **AI** (`tag notes`, text copied verbatim) | `notes.md` present | `journal.add` |
+| 4 | Owner-stated facts: teams, trades, club switch, retirements, nicknames, card notes, signature teams, `career.never` | Data entry (owner's words) | Owner says it | `fact.set` / `fact.remove` / `player.set {nick}`; ask for teams of new players (`UNK`) |
+| 5 | Career stints and their evidence text | Rule | Every rebuild | `infer_stints.py` |
+| 6 | League sheet, extras, signature (banner) teams, active/retired status | Rule | Every rebuild | `build_league_data.py` (`signature_team()`) |
+| 7 | Market snapshot (OVR, skill, Career Legacy, value, grade, totals) | Rule | Any rating changed | `market_snapshot.ts` → `market_history.json` |
+| 8 | Eras, storylines, rivalries, lineages, snubs, record chases, open questions, HOF classes, headlines ("The Wire"), edition seed | Rule | Every rebuild | `build_league_content.py` |
+| 9 | Skill grades, player families (map zones), similarity, Deep Dive boards | Rule (computed in the app) | Data changes | `src/config/skillGrades.ts`, `families.ts`, `advanced.ts` |
+| 10 | Widget feed: today's story set, rule-generated "Did you know" facts, "From the Vault" history cards, movers, headlines | Rule | Every rebuild | `public/data/widget.json` |
+| 11 | Hall of Fame speech for each new member | **AI** (`speech`) | Rebuild prints `SPEECH NEEDED` | `speech.set` (step 5) |
+| 12 | Season Story: news articles plus written "Did you know" facts for the completed season | **AI** (`story`) | Rebuild prints `STORY NEEDED: Y<n>` | `story.set` (step 6); professional voice, no "owner", only true facts |
+| 13 | Refresh speeches or stories whose numbers went stale | **AI** (same lanes) | Audit warns that a cited number no longer matches | `speech.set` / `story.set` |
+| 14 | Card art styles, custom sprites | **AI** (`art`) | Only when the owner asks | Art lab, `sprite.image`, `card.design` |
+| 15 | Checks: audit (0 errors), typecheck, sprite check, build | Rule | `npm run update` | `audit.ts`, `check_sprites.ts` |
+| 16 | Publish: commit and push (Pages redeploys), rebuild the LAN preview (`npm run build`), the widget picks up `widget.json` | Rule | After the checks pass | Step 7 |
+
+After an update, ask the owner about anything left open: new players' teams, a misread the audit flagged, open stint
+questions in content.json.
+
 The owner sends Retro Bowl screenshots (and maybe a few lines about the season) and asks to "add these". One upload
 is one bundle, `data/uploads/<YYYY-MM-DD>-<slug>/`:
 
