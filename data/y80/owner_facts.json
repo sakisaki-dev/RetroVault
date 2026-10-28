@@ -146,6 +146,8 @@
   },
   "Dan Stout": {
    "team": "Jets",
+   "retired_with": "Jets",
+   "status": "Retired",
    "career": {
     "order": [
      "Ravens",
@@ -157,7 +159,7 @@
       83
      ]
     ],
-    "says": "Traded from the Ravens to the Jets in a multi-team trade before Y83."
+    "says": "Traded from the Ravens to the Jets in a multi-team trade before Y83. Played Y83 and retired after it; final-season (Y83) stats were not captured, so the career stays at its Y82 totals."
    }
   },
   "Danny Diggs": {
@@ -269,6 +271,8 @@
    "team_history": [
     "Seahawks"
    ],
+   "retired_with": "Jets",
+   "status": "Retired",
    "card": {
     "legacy_team": "Seahawks",
     "note": "A Seahawks lineman for most of his career; a Jet for only the last two seasons (Y79–80)"
@@ -283,10 +287,10 @@
      [
       "Jets",
       79,
-      82
+      83
      ]
     ],
-    "says": "Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring)."
+    "says": "Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring). Played Y83 and retired after it; final-season (Y83) stats were not captured, so the career stays at its Y82 totals."
    }
   },
   "Jashaun Fleming": {
@@ -650,6 +654,22 @@
     "says": "Taron Hayes never played for the Jets or the Titans."
    }
   },
+  "Trequan Jensen": {
+   "retired_with": "Packers",
+   "status": "Retired",
+   "career": {
+    "order": [
+     "Packers"
+    ],
+    "on": [
+     [
+      "Packers",
+      83
+     ]
+    ],
+    "says": "Played Y83 and retired after it; final-season (Y83) stats were not captured, so the career stays at its Y82 totals."
+   }
+  },
   "Tristan Tart": {
    "team": "Ravens"
   },
@@ -720,9 +740,7 @@
    "Vyncint Heath"
   ],
   "Jets": [
-   "Dan Stout",
    "Dwayne Skura",
-   "Jakeem Friend",
    "Jaylen Conklin",
    "Kalif Suh",
    "Malakai Sawyer",
@@ -841,6 +859,7 @@
    "Jets": [
     "Dan Stout",
     "Dwayne Skura",
+    "Jakeem Friend",
     "Jaylen Conklin",
     "Kalif Suh",
     "Malakai Sawyer",

@@ -146,6 +146,65 @@
    "seasons": [
     83
    ]
+  },
+  {
+   "id": "y83-three-retired",
+   "upload": "2026-10-28-retirements",
+   "text": "all 3 retired",
+   "kind": "note",
+   "season": "Y84",
+   "players": [
+    "Dan Stout",
+    "Jakeem Friend",
+    "Trequan Jensen"
+   ],
+   "teams": [
+    "Jets",
+    "Packers"
+   ],
+   "seasons": [
+    83,
+    84
+   ]
+  },
+  {
+   "id": "y83-retired-after-y83",
+   "upload": "2026-10-28-retirements",
+   "text": "no he was there for the previous year, they just retired in this new one",
+   "kind": "note",
+   "season": "Y84",
+   "players": [
+    "Dan Stout",
+    "Jakeem Friend",
+    "Trequan Jensen"
+   ],
+   "teams": [
+    "Jets",
+    "Packers"
+   ],
+   "seasons": [
+    83,
+    84
+   ]
+  },
+  {
+   "id": "y83-final-cards-lost",
+   "upload": "2026-10-28-retirements-final",
+   "text": "i forgot to get them and now they're lost so just leave it",
+   "kind": "note",
+   "season": "Y84",
+   "players": [
+    "Dan Stout",
+    "Jakeem Friend",
+    "Trequan Jensen"
+   ],
+   "teams": [
+    "Jets",
+    "Packers"
+   ],
+   "seasons": [
+    83
+   ]
   }
  ]
 }

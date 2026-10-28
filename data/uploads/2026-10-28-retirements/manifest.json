@@ -1,0 +1,195 @@
+{
+ "id": "2026-10-28-retirements",
+ "created": "2026-10-28",
+ "title": "Dan Stout, Jakeem Friend and Trequan Jensen retired after Y83",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "tag notes",
+   "reason": "Link the owner's notes to players and teams",
+   "trigger": "notes.md present"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dan Stout/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"all 3 retired\" / \"no he was there for the previous year, they just retired in this new one\": Dan Stout, Jakeem Friend and Trequan Jensen played Y83 and retired after it",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dan Stout/retired_with",
+   "value": "Jets",
+   "source": "owner",
+   "reason": "Owner: \"all 3 retired\" / \"no he was there for the previous year, they just retired in this new one\": Dan Stout, Jakeem Friend and Trequan Jensen played Y83 and retired after it; his Y83 (last) club: the Jets",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jakeem Friend/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"all 3 retired\" / \"no he was there for the previous year, they just retired in this new one\": Dan Stout, Jakeem Friend and Trequan Jensen played Y83 and retired after it",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jakeem Friend/retired_with",
+   "value": "Jets",
+   "source": "owner",
+   "reason": "Owner: \"all 3 retired\" / \"no he was there for the previous year, they just retired in this new one\": Dan Stout, Jakeem Friend and Trequan Jensen played Y83 and retired after it; his Y83 (last) club: the Jets",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Trequan Jensen/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"all 3 retired\" / \"no he was there for the previous year, they just retired in this new one\": Dan Stout, Jakeem Friend and Trequan Jensen played Y83 and retired after it",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Trequan Jensen/retired_with",
+   "value": "Packers",
+   "source": "owner",
+   "reason": "Owner: \"all 3 retired\" / \"no he was there for the previous year, they just retired in this new one\": Dan Stout, Jakeem Friend and Trequan Jensen played Y83 and retired after it; his Y83 (last) club: the Packers",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jakeem Friend/career",
+   "value": {
+    "order": [
+     "Seahawks",
+     "Jets"
+    ],
+    "longest": "Seahawks",
+    "stints": [
+     [
+      "Jets",
+      79,
+      83
+     ]
+    ],
+    "says": "Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring)."
+   },
+   "source": "owner",
+   "reason": "Owner: \"all 3 retired\" / \"no he was there for the previous year, they just retired in this new one\": Dan Stout, Jakeem Friend and Trequan Jensen played Y83 and retired after it: the Jets stint (Y79-82) extends to Y83, his last season (no Y83 card). Owner words unchanged",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Trequan Jensen/career",
+   "value": {
+    "order": [
+     "Packers"
+    ],
+    "on": [
+     [
+      "Packers",
+      83
+     ]
+    ]
+   },
+   "source": "owner",
+   "reason": "Owner: \"all 3 retired\" / \"no he was there for the previous year, they just retired in this new one\": Dan Stout, Jakeem Friend and Trequan Jensen played Y83 and retired after it: Jensen played Y83 (with the Packers, his club in the data) before retiring; no Y83 card",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/83/Jets",
+   "value": [
+    "Dan Stout",
+    "Dwayne Skura",
+    "Jakeem Friend",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Malakai Sawyer",
+    "Trequan Roberts"
+   ],
+   "source": "owner",
+   "reason": "Owner: \"all 3 retired\" / \"no he was there for the previous year, they just retired in this new one\": Dan Stout, Jakeem Friend and Trequan Jensen played Y83 and retired after it: Friend played Y83 for the Jets too (no Y83 card)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "active_rosters/Jets",
+   "value": [
+    "Dwayne Skura",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Malakai Sawyer",
+    "Trequan Roberts"
+   ],
+   "source": "owner",
+   "reason": "Owner: \"all 3 retired\" / \"no he was there for the previous year, they just retired in this new one\": Dan Stout, Jakeem Friend and Trequan Jensen played Y83 and retired after it: Stout and Friend retired after Y83",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "notes",
+   "op": "journal.add",
+   "target": "y83-three-retired",
+   "value": {
+    "text": "all 3 retired",
+    "kind": "note",
+    "season": "Y84",
+    "players": [
+     "Dan Stout",
+     "Jakeem Friend",
+     "Trequan Jensen"
+    ],
+    "teams": [
+     "Jets",
+     "Packers"
+    ],
+    "seasons": [
+     83,
+     84
+    ]
+   },
+   "source": "owner",
+   "reason": "Owner note",
+   "trigger": "notes.md present"
+  },
+  {
+   "lane": "notes",
+   "op": "journal.add",
+   "target": "y83-retired-after-y83",
+   "value": {
+    "text": "no he was there for the previous year, they just retired in this new one",
+    "kind": "note",
+    "season": "Y84",
+    "players": [
+     "Dan Stout",
+     "Jakeem Friend",
+     "Trequan Jensen"
+    ],
+    "teams": [
+     "Jets",
+     "Packers"
+    ],
+    "seasons": [
+     83,
+     84
+    ]
+   },
+   "source": "owner",
+   "reason": "Owner note",
+   "trigger": "notes.md present"
+  }
+ ]
+}

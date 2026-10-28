@@ -1,0 +1,1145 @@
+{
+ "id": "2026-10-28-story-y83-v2",
+ "created": "2026-10-28",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "story",
+   "reason": "Correct the Y83 Season Story: Stout, Friend and Jensen played Y83 and retired after it (Jensen's chase ends; a farewells article)",
+   "trigger": "Owner correction (2026-10-28-retirements)"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "story",
+   "op": "story.set",
+   "target": "Y83",
+   "value": {
+    "reason": "Season Story for Y83 (revised: Stout, Friend and Jensen retired after Y83)",
+    "trigger": "Season Y83 completed (coach.season 83)",
+    "tagline": "A new club, a new quarterback, a new receiver in full flight, and the old champions waiting in the final.",
+    "articles": [
+     {
+      "id": "y83-rise-up",
+      "kind": "lead",
+      "headline": "Year One in Atlanta Ends With a Ring",
+      "dek": "The Falcons went 12-5, ran the table in the playoffs and beat the Jets 40-25 in Super Bowl CXLII. Dorren Skura has 58 titles, and his first season in red ended against the club he left.",
+      "body": [
+       "Nobody gave the Falcons a bye. They finished 12-5, played their way in through the first weekend of the playoffs and did not lose again, finishing 40-25 over the New York Jets in Super Bowl CXLII. It was Dorren Skura's 58th title, won in his first season with a new club, against the champions he had coached a year earlier.",
+       "The offense belonged to people who were not in Atlanta a year before. Brandon Jaclyde, in his first 21 games in the league, threw for 5,199 yards and 56 touchdowns and was named Most Valuable Player. Vyncint Heath, the receiver they call \"Starscream\", turned a trade into the best season of his young career: 137 catches, 2,504 yards, 34 touchdowns and the Super Bowl MVP. Ryland Maxwell ran for 1,919 yards and 25 scores and won Offensive Player of the Year.",
+       "The defense was new too. Simeon Otton was Rookie of the Year at linebacker, Jashaun Fleming worked the line, and Trysten Floyd joined Chance Woodrum in the secondary. Woodrum, one of the three champions who followed the coach south, now owns 4 rings.",
+       "On the other sideline stood the club Skura built. Malakai Sawyer and Jaylen Conklin carried the Jets back to the final, and lost to Skura on Super Bowl Sunday for the third time in three meetings.",
+       "The celebration did not last long. Before the second season in Atlanta began, Shareef London went to Tampa Bay for Shawn Milne, Jaclyde was traded to the Dolphins and Perrion Randall to the Seahawks. The champions are already a different team."
+      ],
+      "players": [
+       "Brandon Jaclyde",
+       "Vyncint Heath",
+       "Ryland Maxwell",
+       "Simeon Otton",
+       "Jashaun Fleming",
+       "Trysten Floyd",
+       "Chance Woodrum",
+       "Malakai Sawyer",
+       "Jaylen Conklin",
+       "Shareef London",
+       "Perrion Randall"
+      ],
+      "teams": [
+       "Falcons",
+       "Jets",
+       "Buccaneers",
+       "Dolphins",
+       "Seahawks"
+      ],
+      "stats": [
+       {
+        "label": "Falcons regular season",
+        "value": "12-5",
+        "source": "coach.json Y83 record"
+       },
+       {
+        "label": "Super Bowl CXLII",
+        "value": "40-25",
+        "source": "super_bowls.json Y83 score"
+       },
+       {
+        "label": "Dorren Skura's Super Bowl titles",
+        "value": "58",
+        "source": "coach.json superBowlRecord/0/titles"
+       },
+       {
+        "label": "Falcons games (Y83)",
+        "value": "21",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Jaclyde passing yards",
+        "value": "5,199",
+        "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde s.yds"
+       },
+       {
+        "label": "Jaclyde passing TDs",
+        "value": "56",
+        "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde s.td"
+       },
+       {
+        "label": "Heath catches (Y83)",
+        "value": "137",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Vyncint Heath s.rec"
+       },
+       {
+        "label": "Heath yards (Y83)",
+        "value": "2,504",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Vyncint Heath s.yds"
+       },
+       {
+        "label": "Heath touchdowns (Y83)",
+        "value": "34",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Vyncint Heath s.td"
+       },
+       {
+        "label": "Maxwell rushing yards (Y83)",
+        "value": "1,919",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Maxwell rushing TDs (Y83)",
+        "value": "25",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Ryland Maxwell s.rtd"
+       },
+       {
+        "label": "Woodrum's rings",
+        "value": "4",
+        "source": "market_history.json snap-202610281027 DB:Chance Woodrum s.rings"
+       },
+       {
+        "label": "Super Bowl meetings with the Jets",
+        "value": "3",
+        "source": "content.json rivalries/[id=rival-jets]/meetings/#"
+       }
+      ],
+      "related": [
+       "y82-last-dance"
+      ]
+     },
+     {
+      "id": "y83-jaclyde-mvp",
+      "kind": "rise",
+      "headline": "Jaclyde: One Season, One MVP, One Ring, One Trade",
+      "dek": "Brandon Jaclyde threw 56 touchdown passes in his first 21 games, won the MVP and the Super Bowl, and was a Dolphin before his second season began.",
+      "body": [
+       "A year ago the quarterback question in Atlanta was a revolving door. Drake Wise came and went in a single trade, and the Falcons opened Y83 with a passer who had never taken a snap in the league. Brandon Jaclyde answered it emphatically.",
+       "In 21 games he threw for 5,199 yards and 56 touchdowns, about two and a half scores a game, and took the league's Most Valuable Player award. His 26 interceptions say he never stopped taking shots, and with Heath running past people, most of those shots landed. He also ran it in 4 times.",
+       "The skill grades rate him in the A band already. The market is slower: his card opened at a value of 19, a long way below the established passers he outplayed.",
+       "Then the business side arrived. Before the Falcons' second season, Jaclyde was traded to the Dolphins. Miami gets a reigning MVP with one season on his card, and Atlanta goes looking for its third starting quarterback in three offseasons."
+      ],
+      "players": [
+       "Brandon Jaclyde",
+       "Drake Wise",
+       "Vyncint Heath"
+      ],
+      "teams": [
+       "Falcons",
+       "Dolphins"
+      ],
+      "stats": [
+       {
+        "label": "Jaclyde passing TDs",
+        "value": "56",
+        "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde s.td"
+       },
+       {
+        "label": "Jaclyde games",
+        "value": "21",
+        "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde s.g"
+       },
+       {
+        "label": "Jaclyde passing yards",
+        "value": "5,199",
+        "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde s.yds"
+       },
+       {
+        "label": "Jaclyde interceptions",
+        "value": "26",
+        "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde s.int"
+       },
+       {
+        "label": "Jaclyde rushing TDs",
+        "value": "4",
+        "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde s.rtd"
+       },
+       {
+        "label": "Jaclyde MVP awards",
+        "value": "1",
+        "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde s.mvp"
+       },
+       {
+        "label": "Jaclyde skill grade",
+        "value": "A",
+        "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde grade"
+       },
+       {
+        "label": "Jaclyde card value",
+        "value": "19",
+        "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde value"
+       }
+      ],
+      "related": [
+       "y82-qb-carousel"
+      ]
+     },
+     {
+      "id": "y83-starscream",
+      "kind": "rise",
+      "headline": "Starscream Takes Flight",
+      "dek": "Vyncint Heath caught 137 passes for 2,504 yards and 34 touchdowns, then took the Super Bowl MVP. His skill grade climbed to A+.",
+      "body": [
+       "Last season \"Starscream\" was a promising rookie with 85 catches on a loaded Jets roster. This season he was the reason defensive coordinators lost sleep.",
+       "Heath played all 21 Falcons games and caught 137 passes for 2,504 yards and 34 touchdowns. That is 18.3 yards a catch on a season's worth of volume, and a touchdown on roughly one of every four receptions. When the Falcons needed one more play in Super Bowl CXLII, it went his way, and so did the game's MVP award.",
+       "Two seasons in, he has 2 rings, an Offensive Player of the Year award and a Super Bowl MVP. The skill grades moved him from A- to A+, and his card value jumped 262 percent. The ceiling is not in sight yet."
+      ],
+      "players": [
+       "Vyncint Heath"
+      ],
+      "teams": [
+       "Falcons",
+       "Jets"
+      ],
+      "stats": [
+       {
+        "label": "Heath catches (Y83)",
+        "value": "137",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Vyncint Heath s.rec"
+       },
+       {
+        "label": "Heath yards (Y83)",
+        "value": "2,504",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Vyncint Heath s.yds"
+       },
+       {
+        "label": "Heath touchdowns (Y83)",
+        "value": "34",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Vyncint Heath s.td"
+       },
+       {
+        "label": "Heath rookie catches",
+        "value": "85",
+        "source": "market_history.json snap-202610262300 WR:Vyncint Heath s.rec"
+       },
+       {
+        "label": "Heath games (Y83)",
+        "value": "21",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Vyncint Heath s.g"
+       },
+       {
+        "label": "Heath yards per catch (Y83)",
+        "value": "18.3",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Vyncint Heath s.yds/s.rec"
+       },
+       {
+        "label": "Heath rings",
+        "value": "2",
+        "source": "market_history.json snap-202610281027 WR:Vyncint Heath s.rings"
+       },
+       {
+        "label": "Heath card value change",
+        "value": "262%",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Vyncint Heath value%"
+       }
+      ],
+      "related": [
+       "y82-ox-and-starscream"
+      ]
+     },
+     {
+      "id": "y83-maxwell-opoy",
+      "kind": "feature",
+      "headline": "Maxwell Carries the Load, and the Hardware",
+      "dek": "Ryland Maxwell ran for 1,919 yards and 25 touchdowns, won Offensive Player of the Year and added a third ring.",
+      "body": [
+       "Ryland Maxwell was one of the three champions who followed Skura out of New York, and he made the move look like a promotion. In Atlanta he was the every-down back: 1,919 rushing yards and 25 rushing touchdowns across 21 games, plus another 10 catches out of the backfield.",
+       "The league noticed. Maxwell was named Offensive Player of the Year, the first individual award of his career beyond his Rookie of the Year trophy, and the Super Bowl win gave him 3 rings in 77 games.",
+       "The market has been slower to catch up. His skill grade sits at C+ and his card value of 20 is modest for a back with his resume, which makes him one of the better bargains on the board heading into the second Atlanta season, where he remains on the roster."
+      ],
+      "players": [
+       "Ryland Maxwell"
+      ],
+      "teams": [
+       "Falcons",
+       "Jets"
+      ],
+      "stats": [
+       {
+        "label": "Maxwell rushing yards (Y83)",
+        "value": "1,919",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Maxwell rushing TDs (Y83)",
+        "value": "25",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Ryland Maxwell s.rtd"
+       },
+       {
+        "label": "Maxwell games (Y83)",
+        "value": "21",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Maxwell catches (Y83)",
+        "value": "10",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Ryland Maxwell s.rec"
+       },
+       {
+        "label": "Maxwell rings",
+        "value": "3",
+        "source": "market_history.json snap-202610281027 RB:Ryland Maxwell s.rings"
+       },
+       {
+        "label": "Maxwell career games",
+        "value": "77",
+        "source": "market_history.json snap-202610281027 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Maxwell skill grade",
+        "value": "C+",
+        "source": "market_history.json snap-202610281027 RB:Ryland Maxwell grade"
+       },
+       {
+        "label": "Maxwell card value",
+        "value": "20",
+        "source": "market_history.json snap-202610281027 RB:Ryland Maxwell value"
+       }
+      ],
+      "related": [
+       "y82-atlanta-calling"
+      ]
+     },
+     {
+      "id": "y83-new-falcons",
+      "kind": "feature",
+      "headline": "The Rest of the Roster Nobody Knew",
+      "dek": "A rookie of the year at linebacker, an S-grade lineman and a tight end who scored on almost a quarter of his catches.",
+      "body": [
+       "Champions are remembered by their stars, but this Falcons team was built out of first-year cards. Eric Raimann caught 54 passes for 792 yards and 13 touchdowns at tight end. Perrion Randall was credited with 58 blocks in 21 games on the line and debuted with a skill score of 99, the top of the S tier.",
+       "On defense, Simeon Otton made 94 tackles at linebacker and was named Rookie of the Year. Jashaun Fleming matched him with 94 tackles and added 3 sacks up front. Trysten Floyd made 62 tackles, picked off a pass and forced a fumble in a secondary anchored by Chance Woodrum, who added 117 tackles and a fourth ring.",
+       "Every one of them now has a ring in his first season. Not all of them will wear red in the next one: Randall was traded to the Seahawks before the second Atlanta season."
+      ],
+      "players": [
+       "Eric Raimann",
+       "Perrion Randall",
+       "Simeon Otton",
+       "Jashaun Fleming",
+       "Trysten Floyd",
+       "Chance Woodrum"
+      ],
+      "teams": [
+       "Falcons",
+       "Seahawks"
+      ],
+      "stats": [
+       {
+        "label": "Raimann catches",
+        "value": "54",
+        "source": "market_history.json snap-202610281027 TE:Eric Raimann s.rec"
+       },
+       {
+        "label": "Raimann yards",
+        "value": "792",
+        "source": "market_history.json snap-202610281027 TE:Eric Raimann s.yds"
+       },
+       {
+        "label": "Raimann touchdowns",
+        "value": "13",
+        "source": "market_history.json snap-202610281027 TE:Eric Raimann s.td"
+       },
+       {
+        "label": "Randall blocks",
+        "value": "58",
+        "source": "market_history.json snap-202610281027 OL:Perrion Randall s.blk"
+       },
+       {
+        "label": "Randall games",
+        "value": "21",
+        "source": "market_history.json snap-202610281027 OL:Perrion Randall s.g"
+       },
+       {
+        "label": "Randall skill score",
+        "value": "99",
+        "source": "market_history.json snap-202610281027 OL:Perrion Randall skill"
+       },
+       {
+        "label": "Otton tackles",
+        "value": "94",
+        "source": "market_history.json snap-202610281027 LB:Simeon Otton s.tkl"
+       },
+       {
+        "label": "Fleming tackles",
+        "value": "94",
+        "source": "market_history.json snap-202610281027 DL:Jashaun Fleming s.tkl"
+       },
+       {
+        "label": "Fleming sacks",
+        "value": "3",
+        "source": "market_history.json snap-202610281027 DL:Jashaun Fleming s.sck"
+       },
+       {
+        "label": "Floyd tackles",
+        "value": "62",
+        "source": "market_history.json snap-202610281027 DB:Trysten Floyd s.tkl"
+       },
+       {
+        "label": "Woodrum tackles (Y83)",
+        "value": "117",
+        "source": "market_history.json snap-202610262300..snap-202610281027 DB:Chance Woodrum s.tkl"
+       }
+      ],
+      "related": [
+       "y82-atlanta-calling"
+      ]
+     },
+     {
+      "id": "y83-old-friends",
+      "kind": "rivalry",
+      "headline": "Beating the Team He Built",
+      "dek": "The defending champion Jets made it back to the Super Bowl with Skura's old core. Skura is now 3-0 against New York on Super Bowl Sunday.",
+      "body": [
+       "The Jets did not collapse after the coach left. With Dan Stout running the offense, Malakai Sawyer back in green and Jaylen Conklin still catching everything thrown above his head, New York returned to the final. Sawyer ran for 1,844 yards and 37 touchdowns, Conklin added 122 catches for 908 yards and 9 scores, and Kalif Suh made 54 more tackles.",
+       "It was not enough. The Falcons won 40-25, and Skura moved to 3-0 in Super Bowls against the Jets, with three different clubs.",
+       "The market still rated the losers' season. Conklin's card value rose 313 percent, the biggest jump in the league, even as his skill grade slipped from A+ to A. Sawyer's grade rose to B+ and his card value climbed 80 percent. Suh's card value tripled. The roster that won CXLI is still good enough to win another; it simply ran into the coach who assembled it."
+      ],
+      "players": [
+       "Dan Stout",
+       "Malakai Sawyer",
+       "Jaylen Conklin",
+       "Kalif Suh"
+      ],
+      "teams": [
+       "Jets",
+       "Falcons"
+      ],
+      "stats": [
+       {
+        "label": "Sawyer rushing yards (Y83)",
+        "value": "1,844",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Malakai Sawyer s.ryds"
+       },
+       {
+        "label": "Sawyer rushing TDs (Y83)",
+        "value": "37",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Malakai Sawyer s.rtd"
+       },
+       {
+        "label": "Conklin catches (Y83)",
+        "value": "122",
+        "source": "market_history.json snap-202610262300..snap-202610281027 TE:Jaylen Conklin s.rec"
+       },
+       {
+        "label": "Conklin yards (Y83)",
+        "value": "908",
+        "source": "market_history.json snap-202610262300..snap-202610281027 TE:Jaylen Conklin s.yds"
+       },
+       {
+        "label": "Conklin touchdowns (Y83)",
+        "value": "9",
+        "source": "market_history.json snap-202610262300..snap-202610281027 TE:Jaylen Conklin s.td"
+       },
+       {
+        "label": "Suh tackles (Y83)",
+        "value": "54",
+        "source": "market_history.json snap-202610262300..snap-202610281027 LB:Kalif Suh s.tkl"
+       },
+       {
+        "label": "Super Bowl CXLII",
+        "value": "40-25",
+        "source": "super_bowls.json Y83 score"
+       },
+       {
+        "label": "Super Bowl wins over the Jets",
+        "value": "3",
+        "source": "content.json rivalries/[id=rival-jets]/record/won"
+       },
+       {
+        "label": "Super Bowl losses to the Jets",
+        "value": "0",
+        "source": "content.json rivalries/[id=rival-jets]/record/lost"
+       },
+       {
+        "label": "Conklin card value change",
+        "value": "313%",
+        "source": "market_history.json snap-202610262300..snap-202610281027 TE:Jaylen Conklin value%"
+       },
+       {
+        "label": "Sawyer card value change",
+        "value": "80%",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Malakai Sawyer value%"
+       }
+      ],
+      "related": [
+       "y82-new-jets"
+      ]
+     },
+     {
+      "id": "y83-teardown",
+      "kind": "trade",
+      "headline": "Champions, Then Sellers",
+      "dek": "Shareef London went to Tampa Bay for Shawn Milne, Jaclyde to Miami and Randall to Seattle before the second Atlanta season.",
+      "body": [
+       "Shareef London's Atlanta chapter lasted one season. He arrived from the Bears in the Y83 multi-team trades, caught 91 passes for 1,579 yards, won the first ring of his career, and was then shipped to the Buccaneers for Shawn Milne before the second Falcons season. London leaves with 45 career touchdowns and a card value that rose 50 percent in his year as a Falcon.",
+       "He was not the only champion out the door. The MVP, Brandon Jaclyde, was traded to the Dolphins. Perrion Randall, an S-grade lineman after one season, was traded to the Seahawks, the club Skura's Jets beat in Super Bowls CXXXVI and CXXXIX.",
+       "What remains in Atlanta is the spine: Heath, Maxwell, Woodrum and the young defense of Otton, Fleming and Floyd, with Raimann at tight end. The coach has rebuilt on the fly before. He will have to do it again in year two."
+      ],
+      "players": [
+       "Shareef London",
+       "Brandon Jaclyde",
+       "Perrion Randall",
+       "Vyncint Heath",
+       "Ryland Maxwell",
+       "Chance Woodrum",
+       "Simeon Otton",
+       "Jashaun Fleming",
+       "Trysten Floyd",
+       "Eric Raimann"
+      ],
+      "teams": [
+       "Falcons",
+       "Buccaneers",
+       "Dolphins",
+       "Seahawks",
+       "Bears"
+      ],
+      "stats": [
+       {
+        "label": "London catches (Y83)",
+        "value": "91",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Shareef London s.rec"
+       },
+       {
+        "label": "London yards (Y83)",
+        "value": "1,579",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Shareef London s.yds"
+       },
+       {
+        "label": "London career TDs",
+        "value": "45",
+        "source": "market_history.json snap-202610281027 WR:Shareef London s.td"
+       },
+       {
+        "label": "London card value change",
+        "value": "50%",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Shareef London value%"
+       }
+      ],
+      "related": [
+       "y82-atlanta-calling"
+      ]
+     },
+     {
+      "id": "y83-scattered",
+      "kind": "wherenow",
+      "headline": "Where the Old Jets Landed",
+      "dek": "Ty Lock found his footing with the Giants, Drake Wise posted 38 touchdowns in Baltimore and The Ox spent his first season as a Bear outside the playoffs.",
+      "body": [
+       "Last offseason's trades scattered the Jets' stars around the league. One season later, the returns are in.",
+       "Ty Lock played 19 games for the Giants, a playoff appearance included, and threw for 3,678 yards and 33 touchdowns. The skill grades cooled on him slightly, from A+ to A-. Drake Wise, who passed through Atlanta on paper only, threw for 3,496 yards and 38 touchdowns for the Ravens in 19 games, and his card value rose 33 percent.",
+       "Kane Van Oxley had the quietest year of the three. \"The Ox\" played 17 games for the Bears with no postseason, catching 58 passes for 909 yards and 8 touchdowns. His skill grade slipped out of the S tier to A+."
+      ],
+      "players": [
+       "Ty Lock",
+       "Drake Wise",
+       "Kane Van Oxley"
+      ],
+      "teams": [
+       "Giants",
+       "Ravens",
+       "Bears",
+       "Jets",
+       "Falcons"
+      ],
+      "stats": [
+       {
+        "label": "Lock games (Y83)",
+        "value": "19",
+        "source": "market_history.json snap-202610262300..snap-202610281027 QB:Ty Lock s.g"
+       },
+       {
+        "label": "Lock passing yards (Y83)",
+        "value": "3,678",
+        "source": "market_history.json snap-202610262300..snap-202610281027 QB:Ty Lock s.yds"
+       },
+       {
+        "label": "Lock passing TDs (Y83)",
+        "value": "33",
+        "source": "market_history.json snap-202610262300..snap-202610281027 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Wise passing yards (Y83)",
+        "value": "3,496",
+        "source": "market_history.json snap-202610262300..snap-202610281027 QB:Drake Wise s.yds"
+       },
+       {
+        "label": "Wise passing TDs (Y83)",
+        "value": "38",
+        "source": "market_history.json snap-202610262300..snap-202610281027 QB:Drake Wise s.td"
+       },
+       {
+        "label": "Wise games (Y83)",
+        "value": "19",
+        "source": "market_history.json snap-202610262300..snap-202610281027 QB:Drake Wise s.g"
+       },
+       {
+        "label": "Wise card value change",
+        "value": "33%",
+        "source": "market_history.json snap-202610262300..snap-202610281027 QB:Drake Wise value%"
+       },
+       {
+        "label": "Van Oxley games (Y83)",
+        "value": "17",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Kane Van Oxley s.g"
+       },
+       {
+        "label": "Van Oxley catches (Y83)",
+        "value": "58",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Kane Van Oxley s.rec"
+       },
+       {
+        "label": "Van Oxley yards (Y83)",
+        "value": "909",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Kane Van Oxley s.yds"
+       },
+       {
+        "label": "Van Oxley touchdowns (Y83)",
+        "value": "8",
+        "source": "market_history.json snap-202610262300..snap-202610281027 WR:Kane Van Oxley s.td"
+       },
+       {
+        "label": "Van Oxley skill grade",
+        "value": "A+",
+        "source": "market_history.json snap-202610281027 WR:Kane Van Oxley grade"
+       }
+      ],
+      "related": [
+       "y82-qb-carousel",
+       "y82-ox-and-starscream"
+      ]
+     },
+     {
+      "id": "y83-record-watch",
+      "kind": "chase",
+      "headline": "Record Watch: The Jensen Chase Ends Short",
+      "dek": "Trequan Jensen retired after Y83 with the rushing record still in Rondale Ikarras's hands. The tackles chase belongs to Dan Mosley, with K'Lavon Settle coming.",
+      "body": [
+       "For two seasons the question was whether Trequan Jensen had one more big year in him. He played Y83 and then retired, and the career rushing record still belongs to Rondale Ikarras. Through Y82, Jensen had 21,690 rushing yards, 1,488 short of the mark; his final season's line is not yet in the books, but the record did not change hands.",
+       "That leaves the tackles chase as the league's headline pursuit. Dan Mosley's latest card holds 2,658 tackles, 204 behind Mose Junior's record.",
+       "The name to watch behind him is K'Lavon Settle. He added 238 tackles in 17 games, climbed to 2,356 for his career and moved up to an 89 overall with an A- grade. At that pace the tackles leaderboard will have a new name near the top within a few seasons."
+      ],
+      "players": [
+       "Trequan Jensen",
+       "Rondale Ikarras",
+       "Dan Mosley",
+       "Mose Junior",
+       "K'Lavon Settle"
+      ],
+      "teams": [
+       "Packers"
+      ],
+      "stats": [
+       {
+        "label": "Jensen rushing yards through Y82",
+        "value": "21,690",
+        "source": "market_history.json snap-202610262300 RB:Trequan Jensen s.ryds"
+       },
+       {
+        "label": "Yards short of the record through Y82",
+        "value": "1,488",
+        "source": "market_history.json snap-202610262300 RB:Rondale Ikarras s.ryds minus market_history.json snap-202610262300 RB:Trequan Jensen s.ryds"
+       },
+       {
+        "label": "Mosley tackles",
+        "value": "2,658",
+        "source": "market_history.json snap-202610281027 DB:Dan Mosley s.tkl"
+       },
+       {
+        "label": "Tackles to the record",
+        "value": "204",
+        "source": "market_history.json snap-202610281027 DB:Mose Junior s.tkl minus market_history.json snap-202610281027 DB:Dan Mosley s.tkl"
+       },
+       {
+        "label": "Settle tackles (Y83)",
+        "value": "238",
+        "source": "market_history.json snap-202610262300..snap-202610281027 DB:K'Lavon Settle s.tkl"
+       },
+       {
+        "label": "Settle games (Y83)",
+        "value": "17",
+        "source": "market_history.json snap-202610262300..snap-202610281027 DB:K'Lavon Settle s.g"
+       },
+       {
+        "label": "Settle career tackles",
+        "value": "2,356",
+        "source": "market_history.json snap-202610281027 DB:K'Lavon Settle s.tkl"
+       },
+       {
+        "label": "Settle OVR",
+        "value": "89",
+        "source": "market_history.json snap-202610281027 DB:K'Lavon Settle ovr"
+       },
+       {
+        "label": "Settle grade",
+        "value": "A-",
+        "source": "market_history.json snap-202610281027 DB:K'Lavon Settle grade"
+       }
+      ],
+      "related": [
+       "y82-record-watch"
+      ]
+     },
+     {
+      "id": "y83-market",
+      "kind": "fall",
+      "headline": "Market Report: Winners, and Two Backs in Free Fall",
+      "dek": "Conklin, Iupati and Tim Wright more than tripled their card values. JR Bashaam and Tramon Amerson lost nearly half of theirs.",
+      "body": [
+       "The card market rewarded production this season. Jaylen Conklin's value rose 313 percent, Blair Iupati's 300 percent after 474 tackles in 34 games since his last card, and Tim Wright's 283 percent on the back of 2,871 rushing yards and 64 touchdowns across 37 games.",
+       "The other side of the ledger belonged to two running backs who did not get a new card. JR Bashaam's value fell 46 percent as his OVR slid from 69 to 65, and Tramon Amerson's fell 42 percent with a drop from 71 to 68. Jake Gano, a defensive lineman, lost 22 percent.",
+       "The lesson of the market is the lesson of the league: the cards that move are the ones that keep playing."
+      ],
+      "players": [
+       "Jaylen Conklin",
+       "Blair Iupati",
+       "Tim Wright",
+       "JR Bashaam",
+       "Tramon Amerson",
+       "Jake Gano"
+      ],
+      "teams": [],
+      "stats": [
+       {
+        "label": "Conklin card value change",
+        "value": "313%",
+        "source": "market_history.json snap-202610262300..snap-202610281027 TE:Jaylen Conklin value%"
+       },
+       {
+        "label": "Iupati card value change",
+        "value": "300%",
+        "source": "market_history.json snap-202610262300..snap-202610281027 DB:Blair Iupati value%"
+       },
+       {
+        "label": "Iupati tackles since his last card",
+        "value": "474",
+        "source": "market_history.json snap-202610262300..snap-202610281027 DB:Blair Iupati s.tkl"
+       },
+       {
+        "label": "Iupati games since his last card",
+        "value": "34",
+        "source": "market_history.json snap-202610262300..snap-202610281027 DB:Blair Iupati s.g"
+       },
+       {
+        "label": "Wright card value change",
+        "value": "283%",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Tim Wright value%"
+       },
+       {
+        "label": "Wright rushing yards since his last card",
+        "value": "2,871",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Tim Wright s.ryds"
+       },
+       {
+        "label": "Wright rushing TDs since his last card",
+        "value": "64",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Tim Wright s.rtd"
+       },
+       {
+        "label": "Wright games since his last card",
+        "value": "37",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Tim Wright s.g"
+       },
+       {
+        "label": "Bashaam card value change",
+        "value": "-46%",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:JR Bashaam value%"
+       },
+       {
+        "label": "Bashaam OVR before",
+        "value": "69",
+        "source": "market_history.json snap-202610262300 RB:JR Bashaam ovr"
+       },
+       {
+        "label": "Bashaam OVR after",
+        "value": "65",
+        "source": "market_history.json snap-202610281027 RB:JR Bashaam ovr"
+       },
+       {
+        "label": "Amerson card value change",
+        "value": "-42%",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Tramon Amerson value%"
+       },
+       {
+        "label": "Amerson OVR before",
+        "value": "71",
+        "source": "market_history.json snap-202610262300 RB:Tramon Amerson ovr"
+       },
+       {
+        "label": "Amerson OVR after",
+        "value": "68",
+        "source": "market_history.json snap-202610281027 RB:Tramon Amerson ovr"
+       },
+       {
+        "label": "Gano card value change",
+        "value": "-22%",
+        "source": "market_history.json snap-202610262300..snap-202610281027 DL:Jake Gano value%"
+       }
+      ],
+      "related": [
+       "y82-other-side"
+      ]
+     },
+     {
+      "id": "y83-farewells",
+      "kind": "wherenow",
+      "headline": "Three Veterans Walk Away",
+      "dek": "Dan Stout, Jakeem Friend and Trequan Jensen all played Y83 and retired when it ended.",
+      "body": [
+       "The offseason after the Falcons' title took three long careers with it.",
+       "Dan Stout quarterbacked the Jets in his one season in New York, all the way to Super Bowl CXLII, after a long career in Baltimore. He retires without a ring. Through Y82 he had thrown for 48,796 yards and 472 touchdowns against just 51 interceptions.",
+       "Jakeem Friend walks away a seven-time champion on the offensive line. He had 7 rings and 526 blocks across 252 games through Y82, most of those seasons spent in Seattle, and he finished his career in green.",
+       "Trequan Jensen retires a Packer, with 21,690 rushing yards and 388 rushing touchdowns through Y82 and the Y79 title on his resume.",
+       "Their final Y83 lines have not been entered yet; the careers above are the books through Y82."
+      ],
+      "players": [
+       "Dan Stout",
+       "Jakeem Friend",
+       "Trequan Jensen"
+      ],
+      "teams": [
+       "Jets",
+       "Ravens",
+       "Seahawks",
+       "Packers"
+      ],
+      "stats": [
+       {
+        "label": "Stout passing yards through Y82",
+        "value": "48,796",
+        "source": "market_history.json snap-202610262300 QB:Dan Stout s.yds"
+       },
+       {
+        "label": "Stout passing TDs through Y82",
+        "value": "472",
+        "source": "market_history.json snap-202610262300 QB:Dan Stout s.td"
+       },
+       {
+        "label": "Stout interceptions through Y82",
+        "value": "51",
+        "source": "market_history.json snap-202610262300 QB:Dan Stout s.int"
+       },
+       {
+        "label": "Friend rings through Y82",
+        "value": "7",
+        "source": "market_history.json snap-202610262300 OL:Jakeem Friend s.rings"
+       },
+       {
+        "label": "Friend blocks through Y82",
+        "value": "526",
+        "source": "market_history.json snap-202610262300 OL:Jakeem Friend s.blk"
+       },
+       {
+        "label": "Friend games through Y82",
+        "value": "252",
+        "source": "market_history.json snap-202610262300 OL:Jakeem Friend s.g"
+       },
+       {
+        "label": "Jensen rushing yards through Y82",
+        "value": "21,690",
+        "source": "market_history.json snap-202610262300 RB:Trequan Jensen s.ryds"
+       },
+       {
+        "label": "Jensen rushing TDs through Y82",
+        "value": "388",
+        "source": "market_history.json snap-202610262300 RB:Trequan Jensen s.rtd"
+       }
+      ],
+      "related": [
+       "y82-new-jets",
+       "y82-milestones"
+      ]
+     },
+     {
+      "id": "y83-quick-hits",
+      "kind": "quickhits",
+      "headline": "Quick Hits",
+      "dek": "New cards, an S-grade runner and the rest of the Y83 wire.",
+      "body": [
+       "Siran Spector ran for 1,750 yards and 41 touchdowns in 19 games and moved into the S tier.",
+       "Danny Diggs arrives with a Jaguars card: 14,253 career rushing yards and 279 touchdowns, and still no ring.",
+       "Bud Matthew, a Jets receiver, debuts with 228 career catches for 2,251 yards and 38 touchdowns.",
+       "Corey Ivey added 1,477 rushing yards and 37 touchdowns for the Ravens.",
+       "Kirk Lenoir threw for 2,604 more yards and passed 54,000 for his career.",
+       "Simeon Otton is the Rookie of the Year, the only first-year award on the Falcons' shelf."
+      ],
+      "players": [
+       "Siran Spector",
+       "Danny Diggs",
+       "Bud Matthew",
+       "Corey Ivey",
+       "Kirk Lenoir",
+       "Simeon Otton"
+      ],
+      "teams": [
+       "Jaguars",
+       "Jets",
+       "Ravens",
+       "Falcons"
+      ],
+      "stats": [
+       {
+        "label": "Spector rushing yards (Y83)",
+        "value": "1,750",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Siran Spector s.ryds"
+       },
+       {
+        "label": "Spector rushing TDs (Y83)",
+        "value": "41",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Siran Spector s.rtd"
+       },
+       {
+        "label": "Spector games (Y83)",
+        "value": "19",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Siran Spector s.g"
+       },
+       {
+        "label": "Diggs career rushing yards",
+        "value": "14,253",
+        "source": "market_history.json snap-202610281027 RB:Danny Diggs s.ryds"
+       },
+       {
+        "label": "Diggs rushing TDs",
+        "value": "279",
+        "source": "market_history.json snap-202610281027 RB:Danny Diggs s.rtd"
+       },
+       {
+        "label": "Matthew catches",
+        "value": "228",
+        "source": "market_history.json snap-202610281027 WR:Bud Matthew s.rec"
+       },
+       {
+        "label": "Matthew yards",
+        "value": "2,251",
+        "source": "market_history.json snap-202610281027 WR:Bud Matthew s.yds"
+       },
+       {
+        "label": "Matthew touchdowns",
+        "value": "38",
+        "source": "market_history.json snap-202610281027 WR:Bud Matthew s.td"
+       },
+       {
+        "label": "Ivey rushing yards (Y83)",
+        "value": "1,477",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Corey Ivey s.ryds"
+       },
+       {
+        "label": "Ivey rushing TDs (Y83)",
+        "value": "37",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Corey Ivey s.rtd"
+       },
+       {
+        "label": "Lenoir passing yards (Y83)",
+        "value": "2,604",
+        "source": "market_history.json snap-202610262300..snap-202610281027 QB:Kirk Lenoir s.yds"
+       },
+       {
+        "label": "Lenoir milestone",
+        "value": "54,000",
+        "source": "crossed: market_history.json snap-202610262300..snap-202610281027 QB:Kirk Lenoir s.yds"
+       }
+      ],
+      "related": [
+       "y82-milestones"
+      ]
+     }
+    ],
+    "didYouKnow": [
+     {
+      "id": "y83-dyk-jaclyde",
+      "text": "Brandon Jaclyde won the MVP with 56 touchdown passes in his first 21 games, 2.67 a game.",
+      "players": [
+       "Brandon Jaclyde"
+      ],
+      "stats": [
+       {
+        "label": "Jaclyde passing TDs",
+        "value": "56",
+        "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde s.td"
+       },
+       {
+        "label": "Jaclyde games",
+        "value": "21",
+        "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde s.g"
+       },
+       {
+        "label": "Jaclyde TDs per game",
+        "value": "2.67",
+        "source": "market_history.json snap-202610281027 QB:Brandon Jaclyde s.td/s.g"
+       }
+      ]
+     },
+     {
+      "id": "y83-dyk-randall",
+      "text": "Perrion Randall debuted with a skill score of 99 after 21 games on the line, the top of the S tier.",
+      "players": [
+       "Perrion Randall"
+      ],
+      "stats": [
+       {
+        "label": "Randall skill score",
+        "value": "99",
+        "source": "market_history.json snap-202610281027 OL:Perrion Randall skill"
+       },
+       {
+        "label": "Randall games",
+        "value": "21",
+        "source": "market_history.json snap-202610281027 OL:Perrion Randall s.g"
+       }
+      ]
+     },
+     {
+      "id": "y83-dyk-raimann",
+      "text": "Eric Raimann scored on 13 of his 54 catches as a first-year tight end, nearly one in four.",
+      "players": [
+       "Eric Raimann"
+      ],
+      "stats": [
+       {
+        "label": "Raimann touchdowns",
+        "value": "13",
+        "source": "market_history.json snap-202610281027 TE:Eric Raimann s.td"
+       },
+       {
+        "label": "Raimann catches",
+        "value": "54",
+        "source": "market_history.json snap-202610281027 TE:Eric Raimann s.rec"
+       }
+      ]
+     },
+     {
+      "id": "y83-dyk-heath",
+      "text": "Vyncint Heath has 42 touchdown catches in 38 career games, more than one a game.",
+      "players": [
+       "Vyncint Heath"
+      ],
+      "stats": [
+       {
+        "label": "Heath touchdowns",
+        "value": "42",
+        "source": "market_history.json snap-202610281027 WR:Vyncint Heath s.td"
+       },
+       {
+        "label": "Heath games",
+        "value": "38",
+        "source": "market_history.json snap-202610281027 WR:Vyncint Heath s.g"
+       }
+      ]
+     },
+     {
+      "id": "y83-dyk-spector",
+      "text": "Siran Spector has 93 rushing touchdowns in 57 games, 1.63 a game.",
+      "players": [
+       "Siran Spector"
+      ],
+      "stats": [
+       {
+        "label": "Spector rushing TDs",
+        "value": "93",
+        "source": "market_history.json snap-202610281027 RB:Siran Spector s.rtd"
+       },
+       {
+        "label": "Spector games",
+        "value": "57",
+        "source": "market_history.json snap-202610281027 RB:Siran Spector s.g"
+       },
+       {
+        "label": "Spector TDs per game",
+        "value": "1.63",
+        "source": "market_history.json snap-202610281027 RB:Siran Spector s.rtd/s.g"
+       }
+      ]
+     },
+     {
+      "id": "y83-dyk-woodrum",
+      "text": "Chance Woodrum has 4 rings in 153 games, the latest won in his first season as a Falcon.",
+      "players": [
+       "Chance Woodrum"
+      ],
+      "stats": [
+       {
+        "label": "Woodrum rings",
+        "value": "4",
+        "source": "market_history.json snap-202610281027 DB:Chance Woodrum s.rings"
+       },
+       {
+        "label": "Woodrum games",
+        "value": "153",
+        "source": "market_history.json snap-202610281027 DB:Chance Woodrum s.g"
+       }
+      ]
+     },
+     {
+      "id": "y83-dyk-diggs",
+      "text": "Danny Diggs has run for 14,253 yards and 279 touchdowns in 196 games without a ring.",
+      "players": [
+       "Danny Diggs"
+      ],
+      "stats": [
+       {
+        "label": "Diggs rushing yards",
+        "value": "14,253",
+        "source": "market_history.json snap-202610281027 RB:Danny Diggs s.ryds"
+       },
+       {
+        "label": "Diggs rushing TDs",
+        "value": "279",
+        "source": "market_history.json snap-202610281027 RB:Danny Diggs s.rtd"
+       },
+       {
+        "label": "Diggs games",
+        "value": "196",
+        "source": "market_history.json snap-202610281027 RB:Danny Diggs s.g"
+       },
+       {
+        "label": "Diggs rings",
+        "value": "0",
+        "source": "market_history.json snap-202610281027 RB:Danny Diggs s.rings"
+       }
+      ]
+     },
+     {
+      "id": "y83-dyk-maxwell",
+      "text": "Ryland Maxwell has 3 rings in his first 77 games, one for every 26 games he has played.",
+      "players": [
+       "Ryland Maxwell"
+      ],
+      "stats": [
+       {
+        "label": "Maxwell rings",
+        "value": "3",
+        "source": "market_history.json snap-202610281027 RB:Ryland Maxwell s.rings"
+       },
+       {
+        "label": "Maxwell games",
+        "value": "77",
+        "source": "market_history.json snap-202610281027 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Games per ring",
+        "value": "26",
+        "source": "market_history.json snap-202610281027 RB:Ryland Maxwell s.g/s.rings"
+       }
+      ]
+     }
+    ]
+   },
+   "source": "data:players.json, market_history.json (Y82 and Y83 snapshots), coach.json, super_bowls.json, owner_facts.json, journal.json, content.json",
+   "reason": "Rewrite: the record watch and a new farewells article reflect the three retirements after Y83; no Y83 figures for players without a Y83 card",
+   "trigger": "Owner correction: \"all 3 retired\" / \"they just retired in this new one\" (2026-10-28-retirements)"
+  }
+ ]
+}

@@ -2496,7 +2496,7 @@
    }
   ],
   "confidence": "confirmed",
-  "evidence": "No rings. On the Y80 Ravens roster. On the Y83 Jets roster. Owner: “Traded from the Ravens to the Jets in a multi-team trade before Y83.”"
+  "evidence": "No rings. On the Y80 Ravens roster. On the Y83 Jets roster. Owner: “Traded from the Ravens to the Jets in a multi-team trade before Y83. Played Y83 and retired after it; final-season (Y83) stats were not captured, so the career stays at its Y82 totals.”"
  },
  "Jaylen Conklin": {
   "stints": [
@@ -2753,6 +2753,39 @@
   "confidence": "strong",
   "evidence": "No rings. On the Y80 Titans roster."
  },
+ "Jakeem Friend": {
+  "stints": [
+   {
+    "team": "Vikings",
+    "from": 64,
+    "to": 70,
+    "rings": [
+     64,
+     66,
+     67,
+     68,
+     69
+    ]
+   },
+   {
+    "team": "Seahawks",
+    "from": 71,
+    "to": 78,
+    "rings": []
+   },
+   {
+    "team": "Jets",
+    "from": 79,
+    "to": 83,
+    "rings": [
+     80,
+     82
+    ]
+   }
+  ],
+  "confidence": "ambiguous",
+  "evidence": "7 rings = Vikings Y64, Y66, Y67, Y68, Y69; Jets Y80, Y82. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Jets roster. Owner: “Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring). Played Y83 and retired after it; final-season (Y83) stats were not captured, so the career stays at its Y82 totals.” His known clubs (Jets, Seahawks) can't account for every ring, so the best fit adds a stop: Vikings Y64-70, Seahawks Y71-78, Jets Y79-83."
+ },
  "Trequan Roberts": {
   "stints": [
    {
@@ -2843,8 +2876,8 @@
     ]
    }
   ],
-  "confidence": "strong",
-  "evidence": "1 ring = Packers Y79. The only window that fits."
+  "confidence": "confirmed",
+  "evidence": "1 ring = Packers Y79. Owner: “Played Y83 and retired after it; final-season (Y83) stats were not captured, so the career stays at its Y82 totals.”"
  },
  "Abraham Ward Jr": {
   "stints": [
