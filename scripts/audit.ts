@@ -291,6 +291,21 @@ else {
       if (it.player && !cards[it.player]) errors.push(`widget.json names ${it.player} without a card`);
     });
     (wj.spotlightFallback ?? []).forEach((k: string) => !cards[k] && errors.push(`widget.json fallback ${k} has no card`));
+    // Countdown panels and the lock screen (optional lists; the widget skips any that are missing)
+    for (const k of ['hofWatch', 'chases', 'milestones']) {
+      if (wj[k] === undefined) continue;
+      if (!Array.isArray(wj[k])) { errors.push(`widget.json ${k} is not a list`); continue; }
+      (wj[k] as { player?: string; toGo?: number; last?: string }[]).forEach((x) => {
+        if (!x.player || !cards[x.player]) errors.push(`widget.json ${k} names ${x.player} without a card`);
+        if (!(typeof x.toGo === 'number' && x.toGo > 0) || !x.last) errors.push(`widget.json ${k} item is incomplete: ${JSON.stringify(x).slice(0, 80)}`);
+      });
+    }
+    if (wj.champion && wj.champion.season !== content.season) errors.push(`widget.json champion is for ${wj.champion.season}, not ${content.season}`);
+    // Widget cards name the coach ("Skura's Ravens"), never "you" / "your" (speech hooks are quoted verbatim)
+    items.forEach((it) => {
+      if ((it as { kind?: string }).kind === 'hof') return;
+      if (/\b(your|you)\b/i.test(`${it.title ?? ''} ${it.text ?? ''}`)) errors.push(`widget.json says "you/your": ${(it.text ?? '').slice(0, 80)}`);
+    });
     if ((wj.didYouKnow ?? []).length < 40) warnings.push(`widget.json has only ${(wj.didYouKnow ?? []).length} Did you know facts`);
   } catch (e) {
     errors.push(`public/data/widget.json is not valid JSON: ${(e as Error).message}`);

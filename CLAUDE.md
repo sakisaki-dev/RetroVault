@@ -67,13 +67,13 @@ other row is a deterministic rule that `npm run update` / `npm run rebuild` runs
 | 7 | Market snapshot (OVR, skill, Career Legacy, value, grade, totals) | Rule | Any rating changed | `market_snapshot.ts` → `market_history.json` |
 | 8 | Eras, storylines, rivalries, lineages, snubs, record chases, open questions, HOF classes, headlines ("The Wire"), edition seed | Rule | Every rebuild | `build_league_content.py` |
 | 9 | Skill grades, player families (map zones), similarity, Deep Dive boards | Rule (computed in the app) | Data changes | `src/config/skillGrades.ts`, `families.ts`, `advanced.ts` |
-| 10 | Widget feed: the latest story's articles, its written facts plus rule-generated "Did you know" facts, "From the Vault" history cards, movers, headlines, banner cards | Rule | Every rebuild | `build_widget_data.py` → `public/data/widget.json` |
+| 10 | Widget feed: the latest story's articles, its written facts plus rule-generated "Did you know" facts, "From the Vault" history cards, movers, headlines, HOF watch, record chases, milestone countdowns, the champion, banner cards | Rule | Every rebuild | `build_widget_data.py` → `public/data/widget.json` |
 | 11 | Hall of Fame speech for each new member | **AI** (`speech`) | Rebuild prints `SPEECH NEEDED` | `speech.set` (step 5) |
 | 12 | Season Story: news articles plus written "Did you know" facts for the completed season | **AI** (`story`) | Rebuild prints `STORY NEEDED: Y<n>` | `story.set` (step 6); professional voice, no "owner", only true facts |
 | 13 | Refresh speeches or stories whose numbers went stale | **AI** (same lanes) | Audit warns that a cited number no longer matches | `speech.set` / `story.set` |
 | 14 | Card art styles, custom sprites | **AI** (`art`) | Only when the owner asks | Art lab, `sprite.image`, `card.design` |
 | 15 | Checks: audit (0 errors), typecheck, sprite check, build | Rule | `npm run update` | `audit.ts`, `check_sprites.ts` |
-| 16 | Publish: commit and push (Pages redeploys), rebuild the LAN preview (`npm run build`), the widget picks up `widget.json` | Rule | After the checks pass | Step 7 |
+| 16 | Publish: commit and push (Pages redeploys), rebuild the LAN preview (`npm run build`), the widget picks up `widget.json` (and its own code) within about 2 hours | Rule | After the checks pass | Step 7 |
 
 After an update, ask the owner about anything left open: new players' teams, a misread the audit flagged, open stint
 questions in content.json.
@@ -317,22 +317,45 @@ current data is a no-op.
   only for rotating presentation: Front Office featured stint players and rivals order, Timeline storyline order, the
   landing Spotlight (up to 2 headline players, then top Career Legacy, shuffled per edition) and the Collection
   hero / pack shelf accent (`EDITION_ACCENTS`). Never for player identity (looks, card art, poses, uniforms).
-- **Widget feed** (`scripts/build_widget_data.py` → `public/data/widget.json`, about 64 KB, 14 KB gzipped): the only
-  file the Scriptable iPhone widget (`public/widgets/retro-vault-widget.js`) reads, from raw GitHub, then Pages, then
-  its cache. Templates only, numbers straight from the data: `stories` (the latest Season Story's articles, no quick
-  hits), `didYouKnow` (the story's written facts, then rule facts up to 100: record chases, active players closing on
-  a `MILESTONES` step, up-and-comers with an S/A grade or OVR 85+ in 60 games or fewer, oddities such as most rings
+- **Widget feed** (`scripts/build_widget_data.py` → `public/data/widget.json`, about 67 KB): the only file the
+  Scriptable iPhone widget (`public/widgets/retro-vault-widget.js`) reads, from raw GitHub, then Pages, then its cache.
+  Templates only, numbers straight from the data: `stories` (the latest Season Story's articles, no quick hits),
+  `didYouKnow` (the story's written facts, then rule facts up to 100: record chases, active players closing on a
+  `MILESTONES` step, up-and-comers with an S/A grade or OVR 85+ in 60 games or fewer, oddities such as most rings
   without an MVP, one-team legends, small-sample standouts, rate leaders per position with a minimum sample, career
-  leaders and the active leader, iron men), `vault` (every Super Bowl with the owner's wins flagged, the record board
-  credited to the owner's club that year, each Hall of Famer with his speech's first line, class and Career Legacy,
-  the generated storylines), `movers` (top 2 risers and top faller, base value ≥ 50), the top 4 `headlines`,
-  `spotlightFallback`, `cards` (banner team, OVR, grade, Career Legacy, value change for every player named) and
-  `latestUpdateAt` (last applied upload). The widget shows one story a day (the lead pinned for 2 days after an
-  update) and a spotlight that changes at midnight and noon, alternating Did you know and From the Vault, each pool
-  shuffled by `edition.seed`, so nothing repeats until the pool is spent (100 days / 191 days). The widget's Parameter
-  field sets the tap: empty = the site, a Shortcut's name = `shortcuts://run-shortcut`, a URL = as is. The audit
-  errors if widget.json is missing, stale (season or edition differs from content.json) or names a player without
-  a card.
+  leaders and the active leader, iron men; every rate names its stat, e.g. "scores a touchdown on 27.3% of his
+  catches", via `UNIT`), `vault` (every Super Bowl with the owner's wins flagged, the record board credited to the
+  owner's club that year, each Hall of Famer with his speech's first line, class and Career Legacy, the generated
+  storylines), `movers` (top 2 risers and top faller, base value ≥ 50), the top 4 `headlines`, `spotlightFallback`,
+  `hofWatch` (top 5 active players under Career Legacy 7,000: points to go, share), `chases` (the closest active
+  record chases: have, mark, share, amount to go), `milestones` (top 6 countdowns to a round career number),
+  `champion` (the latest season's Super Bowl), `coach` (surname), `cards` (banner team, OVR, grade, Career Legacy,
+  value change for every player named) and `latestUpdateAt` (last applied upload). Widget text never says "you" or
+  "your": history cards name the coach ("Skura's Ravens won it", "Set on Skura's Ravens in Y46") and storylines are
+  rewritten to the third person (`third_person()`); headlines are title-cased with OVR/MVP/II kept (`title_case()`).
+  **One script, every size** (`config.widgetFamily`): large (header, story, spotlight, two rotating panels, footer),
+  medium (story beside the spotlight), small (spotlight only), lock screen inline (even days "🏈 Y82 · Jets won
+  CXLI", odd days a countdown), circular (gauge of the closest record chase, its % and surname, drawn with
+  DrawContext) and rectangular (story headline plus a one-line countdown); lock screen layouts are white-only so they
+  tint. **Rotation**: one story a day (the lead pinned and tagged BREAKING for 2 days after an update), a spotlight
+  that changes at midnight and noon, alternating Did you know and From the Vault, each pool shuffled by
+  `edition.seed` (nothing repeats until the pool is spent); bottom panels on even days and the 2 days after an
+  update MARKET + THE WIRE, on odd days HOF WATCH + RECORD CHASE (every other odd day MILESTONES instead).
+  `refreshAfterDate` is the sooner of 2 hours from now and the next noon/midnight, so a pushed update reaches the
+  widget within about 2 hours while the rotation still turns only at noon and midnight. **Look** (the site's tokens
+  from `src/index.css`): the whole background is a DrawContext image (navy gradient, the gold radial glow, faint
+  scanlines behind the header) with the signature gold gradient rim (bright gold top-left to deep amber bottom-right);
+  the spotlight card and both panels are fixed-size stacks with their own rimmed background image (a team-gradient
+  banner with a dimmed logo watermark for players); the header is the site's BrandGlyph and the italic RETRO VAULT
+  wordmark, an edition chip like the site's `.lamp`, and the masthead's gold-to-turf line; kickers are pixel text from
+  a 5-row glyph table (after Silkscreen) with 7×7 pixel icons (trophy, ticker, radio, stopwatch, pillar, bulb, flag);
+  pixel ▲/▼ arrows, rank badges, gold progress bars; team logos are ESPN's dark-background marks (`500-dark`, 120 px
+  via the CDN combiner), cached in the Scriptable cache and replaced by the team colour bar when offline. Every field
+  is optional, so an older cached widget.json still draws. The widget's Parameter field sets the tap: empty = the
+  site, a Shortcut's name = `shortcuts://run-shortcut`, a URL = as is. The audit errors if widget.json is missing,
+  stale (season or edition differs from content.json), names a player without a card (facts, vault, fallback, HOF
+  watch, chases, milestones), has an incomplete countdown, a champion from another season, or "you/your" outside a
+  Hall of Fame speech hook.
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
   `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. The value formula lives in
   `src/utils/cardMarket.ts`. Never hand-edit either file; rebuild and commit both.

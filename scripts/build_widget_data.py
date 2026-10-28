@@ -17,6 +17,11 @@ Hall of Fame speech (speech.set).
 * headlines         the top 4 "What changed" headlines
 * cards             banner data (team, OVR, grade, Career Legacy, value change) for every player an item names
 * spotlightFallback notable active players for when there is nothing else to show
+* hofWatch          active players closest to the Hall of Fame line (Career Legacy 7,000): points to go, share
+* chases            the closest active chases of all-time career records: have, mark, share, amount to go
+* milestones        active players closest to a round career number (the MILESTONES steps): amount to go
+* champion          the latest season's Super Bowl (lock screen: "Y82 · Jets won CXLI")
+* coach             the coach's surname: history cards say "Skura's Ravens", never "your"
 
 The widget rotates through didYouKnow and vault with a shuffle seeded by edition.seed (scripts/build_league_content.py),
 so the order changes with every update but never between two rebuilds.
@@ -26,6 +31,7 @@ from __future__ import annotations
 import csv
 import io
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -107,6 +113,35 @@ def num(v: float, d: int) -> str:
     return f"{v:,.{d}f}"
 
 
+COACH = (B.COACH.get("name") or "the coach").split()[-1]  # "Dorren Skura" -> "Skura": "Skura's Ravens", never "your"
+KEEP_UPPER = {"OVR", "MVP", "MVPS", "QB", "RB", "WR", "TE", "OL", "DL", "LB", "DB", "TD", "TDS", "INT", "HOF", "NFL", "SB"}
+SMALL_WORDS = {"a", "an", "and", "at", "by", "for", "in", "of", "on", "or", "the", "to", "with", "without"}
+
+
+def title_case(text: str) -> str:
+    """'HIGHEST OVR WITHOUT AN MVP' -> 'Highest OVR without an MVP', 'DOLPHINS RUN II' -> 'Dolphins Run II'."""
+    out = []
+    for i, w in enumerate(text.split()):
+        u = w.upper()
+        if u in KEEP_UPPER:
+            out.append(u[:-1] + "s" if u in ("MVPS", "TDS") else u)
+        elif re.fullmatch(r"[IVX]{2,}", u):
+            out.append(u)
+        elif i and w.lower() in SMALL_WORDS:
+            out.append(w.lower())
+        else:
+            out.append("-".join(x[:1].upper() + x[1:].lower() for x in w.split("-")))
+    return " ".join(out)
+
+
+def third_person(text: str) -> str:
+    """Generated storylines speak to the owner ("You met the Eagles", "on your club"); the widget names the coach."""
+    text = re.sub(r"\bYou\b", COACH, text)
+    text = re.sub(r"\b[Yy]our\b", f"{COACH}'s", text)
+    text = re.sub(r"\byou\b", COACH, text)
+    return text.replace(" W score not recorded", " W, score not recorded")
+
+
 # ---------------------------------------------------------------------------
 # Did you know: rule-generated facts
 # ---------------------------------------------------------------------------
@@ -147,13 +182,13 @@ RATES = [
     ("wr-ypg", {"WR"}, "yds", "g", "g", 50, "games", True, 1, 1,
      "{n} averages {v} receiving yards a game, the most of any receiver with {min}+ games."),
     ("wr-tdrate", {"WR"}, "td", "rec", "rec", 200, "catches", True, 1, 100,
-     "{n} scores on {v}% of his catches, the best rate of any receiver with {min}+ catches."),
+     "{n} scores a touchdown on {v}% of his catches, the best rate of any receiver with {min}+ catches."),
     ("te-ypc", {"TE"}, "yds", "rec", "rec", 100, "catches", True, 1, 1,
      "{n} averages {v} yards a catch, the best of any tight end with {min}+ catches."),
     ("te-ypg", {"TE"}, "yds", "g", "g", 50, "games", True, 1, 1,
      "{n} averages {v} receiving yards a game, the most of any tight end with {min}+ games."),
     ("te-tdrate", {"TE"}, "td", "rec", "rec", 50, "catches", True, 1, 100,
-     "{n} scores on {v}% of his catches, the best rate of any tight end with {min}+ catches."),
+     "{n} scores a touchdown on {v}% of his catches, the best rate of any tight end with {min}+ catches."),
     ("db-tklpg", {"DB"}, "tkl", "g", "g", 100, "games", True, 2, 1,
      "{n} makes {v} tackles a game, the most of any defensive back with {min}+ games."),
     ("db-intpg", {"DB"}, "int", "g", "g", 100, "games", True, 1, 0,
@@ -169,6 +204,15 @@ RATES = [
     ("ol-blkpg", {"OL"}, "blk", "g", "g", 100, "games", True, 2, 1,
      "{n} makes {v} blocks a game, the most of any lineman with {min}+ games."),
 ]
+# How each rate reads after a number, so a bare "13.4" never shows: {v} is the shown value
+UNIT = {"qb-cmp": "{v} completion rate", "qb-tdint": "{v} TDs per INT", "qb-ypa": "{v} yds per attempt",
+        "qb-ypg": "{v} passing yds a game", "qb-tdpg": "{v} TD passes a game", "rb-ypc": "{v} yds a carry",
+        "rb-ypg": "{v} rushing yds a game", "rb-tdpg": "{v} rushing TDs a game", "rb-recypc": "{v} yds a catch",
+        "wr-ypc": "{v} yds a catch", "wr-ypg": "{v} receiving yds a game", "wr-tdrate": "{v} TDs per catch",
+        "te-ypc": "{v} yds a catch", "te-ypg": "{v} receiving yds a game", "te-tdrate": "{v} TDs per catch",
+        "db-tklpg": "{v} tackles a game", "db-intpg": "one INT every {v} games", "lb-tklpg": "{v} tackles a game",
+        "lb-sckpg": "one sack every {v} games", "dl-tklpg": "{v} tackles a game", "dl-sckpg": "one sack every {v} games",
+        "ol-blkpg": "{v} blocks a game"}
 # Lower-is-better rates: (id, positions, numerator, denominator, sample key, minimum, digits, sentence)
 RARE = [
     ("qb-intevery", {"QB"}, "att", "int", "att", 1000, 1,
@@ -183,7 +227,8 @@ def rate_facts():
         pool = [p for p in B.LEAGUE if p["pos"] in poss and g(p, de) > 0]
         val = lambda p: g(p, nu) / g(p, de) * (scale or 1)  # noqa: E731
         show = lambda p: (num(1 / val(p), d) if scale == 0 else num(val(p), d)) + ("%" if scale == 100 else "")  # noqa: E731
-        at = lambda p: f"one every {show(p)} {_label}" if scale == 0 else show(p)  # noqa: E731
+        at = lambda p: UNIT[fid].format(v=show(p))  # noqa: E731
+        clause = lambda p: sentence.format(n=p["n"], v=show(p).rstrip("%"), min=fmt(minimum)).split(", the ")[0]  # noqa: E731
         pool = [p for p in pool if g(p, nu) > 0] if scale == 0 else pool
         qual = sorted([p for p in pool if g(p, samp) >= minimum], key=lambda p: (-val(p), p["n"]))
         if len(qual) < 3:
@@ -194,15 +239,15 @@ def rate_facts():
         act = next((p for p in qual if active(p)), None)
         if act and act is not top:
             fact(fid + "-active", "leader", f"Among active players, {act['n']} leads the {GROUP[act['pos']]}s at "
-                 f"{at(act)} ({fmt(g(act, samp))} {_label}). The all-time best is {top['n']}'s {at(top)}.",
+                 f"{at(act)} ({fmt(g(act, samp))} {_label}). The all-time best: {top['n']}, {at(top)}.",
                  act["n"])
         # A short career beating every qualified player
         small = sorted([p for p in pool if minimum // 5 <= g(p, samp) < minimum and val(p) > val(top)],
                        key=lambda p: (-val(p), p["n"]))
         if small:
             s = small[0]
-            fact(fid + "-small", "sample", f"{s['n']} is at {at(s)} in only {fmt(g(s, samp))} {_label}: better "
-                 f"than every {GROUP[s['pos']]} with {fmt(minimum)}+, where {top['n']} leads at {at(top)}.", s["n"])
+            fact(fid + "-small", "sample", f"{clause(s)} in only {fmt(g(s, samp))} {_label}, better than every "
+                 f"{GROUP[s['pos']]} with {fmt(minimum)}+ {_label} (the best of those: {top['n']}, {at(top)}).", s["n"])
     for fid, poss, nu, de, samp, minimum, d, sentence in RARE:
         qual = sorted([p for p in B.LEAGUE if p["pos"] in poss and g(p, samp) >= minimum and g(p, de) > 0],
                       key=lambda p: (-(g(p, nu) / g(p, de)), p["n"]))
@@ -316,7 +361,8 @@ def upcomer_facts():
              f"(OVR {m['ovr']}) after only {plural(g(p, 'g'), 'game')}.", p["n"])
 
 
-def milestone_facts():
+def close_milestones() -> list[tuple]:
+    """Active players within 10% of a step of the next round career number: (share left, player, key, label, next, now)."""
     out = []
     for p in B.LEAGUE:
         if not active(p):
@@ -329,7 +375,11 @@ def milestone_facts():
             if v >= step * 0.9 and nxt - v <= step * 0.1:
                 out.append(((nxt - v) / step, p, key, label, nxt, v))
     out.sort(key=lambda x: (x[0], x[1]["n"], x[3]))
-    for share, p, key, label, nxt, v in out[:10]:
+    return out
+
+
+def milestone_facts():
+    for share, p, key, label, nxt, v in close_milestones()[:10]:
         what = "games" if key == "g" else label.replace("career ", "")
         fact(f"close-{B.slug(p['n'])}-{B.slug(label)}", "milestone",
              f"{p['n']} is {units(nxt - v, what)} short of {fmt(nxt)} {label} (now {fmt(v)}).", p["n"])
@@ -358,16 +408,23 @@ def vault() -> list[dict]:
     out = []
     for sb in CONTENT["superBowls"]:
         score = (sb.get("score") or "").replace("-", "–")
-        line = f"{sb['winner']} {score} {sb['loser']}" if score else f"{sb['winner']} beat the {sb['loser']}"
-        flag = {"won": f" Your {sb['yourTeam']} won it.", "lost": f" Your {sb['yourTeam']} lost it."}.get(sb["yourResult"], "")
+        mine = f"{COACH}'s {sb['yourTeam']}" if sb.get("yourTeam") else None
+        won = sb["yourResult"] == "won" and mine
+        winner = mine if won else sb["winner"]
+        if score and sb.get("loser"):
+            text = f"{sb['winner']} {score} {sb['loser']}." + (f" {mine} won it." if won else f" {mine} lost it." if sb["yourResult"] == "lost" and mine else "")
+        elif sb.get("loser"):
+            text = f"{winner} beat the {sb['loser']}." + (f" {mine} lost it." if sb["yourResult"] == "lost" and mine else "")
+        else:
+            text = f"{winner} won it. Opponent and score not recorded."
         out.append({"id": f"sb-{sb['number']}", "kind": "superbowl", "when": f"Y{sb['year']}",
-                    "title": f"Super Bowl {sb['roman']}", "text": line + "." + flag, "team": sb["winner"],
+                    "title": f"Super Bowl {sb['roman']}", "text": text, "team": sb["winner"],
                     "owner": sb["yourResult"] == "won"})
     for i, r in enumerate(B.RECORDS):
         names = [n for n in B.board_holder_names(r["holder"]) if n in KEY]
         y = int(r["year"].lstrip("Y")) if r.get("year", "").startswith("Y") else None
         out.append({"id": f"rec-{i}", "kind": "record", "when": r.get("year"), "title": r["record"],
-                    "text": f"{r['mark']}, {r['holder']}. Set on your {B.OWNER.get(y) or 'club'}" + (f" in {r['year']}." if y else "."),
+                    "text": f"{r['mark']}, {r['holder']}. Set on {COACH}'s {B.OWNER.get(y) or 'club'}" + (f" in {r['year']}." if y else "."),
                     "team": B.OWNER.get(y), "player": KEY[names[0]] if names else None})
     for cls in CONTENT.get("hofClasses", []):
         for k in cls["keys"]:
@@ -381,13 +438,70 @@ def vault() -> list[dict]:
         if s.get("source") != "generated":
             continue
         out.append({"id": f"story-{s['id']}", "kind": s.get("category", "storyline").lower().replace(" ", "-"),
-                    "when": None, "title": s["headline"].title() if s["headline"].isupper() else s["headline"],
-                    "text": s["summary"], "team": next((t for t in (s.get("subheadline") or "").split(" · ")[-1].split(", ") if t in B_TEAMS), None),
+                    "when": None, "title": third_person(title_case(s["headline"]) if s["headline"].isupper() else s["headline"]),
+                    "text": third_person(s["summary"]), "team": next((t for t in (s.get("subheadline") or "").split(" · ")[-1].split(", ") if t in B_TEAMS), None),
                     "player": KEY.get((s.get("players") or [None])[0])})
     return [{k: v for k, v in x.items() if v not in (None, False)} for x in out]
 
 
 B_TEAMS = {s["winner"] for s in CONTENT["superBowls"]} | {s["loser"] for s in CONTENT["superBowls"]}
+
+
+# ---------------------------------------------------------------------------
+# Countdowns for the widget's rotating panels and the lock screen
+# ---------------------------------------------------------------------------
+# Short stat names for the panels ("1,488 rush yds to go"): CAREER_MARKS / MILESTONES label -> abbreviation
+SHORT = {"career passing yards": "pass yds", "career passing TDs": "pass TDs", "career rushing yards": "rush yds",
+         "career rushing TDs": "rush TDs", "career receiving yards": "rec yds", "career receiving TDs": "rec TDs",
+         "career receptions": "catches", "career tackles": "tackles", "career interceptions": "INTs",
+         "career sacks": "sacks", "career forced fumbles": "forced fumbles", "career blocks": "blocks",
+         "career games": "games"}
+HOF_WATCH = 5
+
+
+def short_unit(label: str, n: int) -> str:
+    u = SHORT.get(label, label.replace("career ", ""))
+    return u[:-1] if n == 1 and u.endswith("s") and u not in ("pass yds", "rush yds", "rec yds") else u
+
+
+def hof_watch() -> list[dict]:
+    """Active players closest under the Hall of Fame line (Career Legacy 7,000), best first."""
+    pool = sorted(((v["legacy"], k) for k, v in LATEST.items() if k in ACTIVE and 0 < v["legacy"] < B.HOF_THRESHOLD),
+                  key=lambda x: (-x[0], x[1]))
+    out = []
+    for lg, k in pool[:HOF_WATCH]:
+        name = k.split(":", 1)[1]
+        out.append({"player": k, "last": B.surname(name), "pos": k.split(":")[0], "legacy": int(round(lg)),
+                    "toGo": int(B.HOF_THRESHOLD - round(lg)), "pct": round(lg / B.HOF_THRESHOLD * 100, 1),
+                    "team": banner_team(name)})
+    return out
+
+
+def chases() -> list[dict]:
+    """The closest active chases of the league's career records (build_league_content.record_chases)."""
+    out = []
+    for share, label, holder, chaser, get in B.record_chases():
+        gap = get(holder) - get(chaser)
+        out.append({"player": KEY[chaser["n"]], "last": B.surname(chaser["n"]), "stat": label.replace("career ", ""),
+                    "unit": short_unit(label, gap), "have": get(chaser), "mark": get(holder), "toGo": gap,
+                    "pct": round(share * 100), "holder": B.surname(holder["n"]), "team": banner_team(chaser["n"])})
+    return out
+
+
+def milestones() -> list[dict]:
+    out = []
+    for share, p, key, label, nxt, v in close_milestones()[:6]:
+        out.append({"player": KEY[p["n"]], "last": B.surname(p["n"]), "unit": short_unit(label, nxt - v),
+                    "toGo": nxt - v, "target": nxt, "have": v, "team": banner_team(p["n"])})
+    return out
+
+
+def champion() -> dict | None:
+    sb = next((x for x in reversed(CONTENT["superBowls"]) if f"Y{x['year']}" == CONTENT["season"]), None)
+    if not sb:
+        return None
+    return {k: v for k, v in {"season": CONTENT["season"], "roman": sb["roman"], "winner": sb["winner"],
+                              "loser": sb.get("loser"), "owner": sb["yourResult"] == "won"}.items() if v is not None}
 
 
 # ---------------------------------------------------------------------------
@@ -428,7 +542,9 @@ def main():
                                                              or abs(change(k)) >= 25)),
                      key=lambda k: (-score(k), -LATEST[k]["legacy"], k))[:14]
 
-    named = {f["player"] for f in facts if f.get("player")} | {v["player"] for v in vault_items if v.get("player")} | set(notable)
+    watch, chase_list, close = hof_watch(), chases(), milestones()
+    named = ({f["player"] for f in facts if f.get("player")} | {v["player"] for v in vault_items if v.get("player")}
+             | set(notable) | {x["player"] for x in [*watch, *chase_list, *close]})
     cards = {}
     for k in sorted(named):
         m = LATEST.get(k)
@@ -459,12 +575,19 @@ def main():
                    for d, k in movers],
         "headlines": [{"kind": h["kind"], "text": h["text"]} for h in CONTENT.get("headlines", [])[:4]],
         "spotlightFallback": notable,
+        "hofWatch": watch,
+        "chases": chase_list,
+        "milestones": close,
+        "champion": champion(),
+        "coach": COACH,
         "cards": cards,
     }
+    data = {k: v for k, v in data.items() if v is not None}
     OUT.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n")
     print(f"Wrote {OUT.relative_to(ROOT)}: {len(stories)} articles, {len(facts)} facts "
           f"({sum(f['kind'] == 'story' for f in facts)} from the story), {len(vault_items)} vault cards, "
-          f"{len(cards)} player cards, {OUT.stat().st_size / 1024:.1f} KB")
+          f"{len(cards)} player cards, {len(watch)} on HOF watch, {len(chase_list)} record chases, "
+          f"{len(close)} milestone countdowns, {OUT.stat().st_size / 1024:.1f} KB")
 
 
 if __name__ == "__main__":
