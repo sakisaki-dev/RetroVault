@@ -1,0 +1,28 @@
+{
+ "id": "2026-10-28-speech-horsted",
+ "created": "2026-10-28",
+ "title": "Hall of Fame speech: Von Horsted",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "Von Horsted first crossed Career Legacy 7000",
+   "trigger": "SPEECH NEEDED: Von Horsted"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Von Horsted",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y84",
+    "text": "Fifteen seasons, one team, and a tackle on almost every series.\n\nVon Horsted has spent his whole career in the Rams secondary, from Y70 to today. In 254 games he has made 2,658 tackles, better than ten a game, and picked off 33 passes. Like the best tacklers in this league's defensive backfields, he has never been credited with a sack or a forced fumble. His job is simpler and harder: find the ball carrier and bring him down.\n\nThe league named him Defensive Player of the Year once. He has never won a ring, and he never chased one somewhere else. He stayed in Los Angeles and kept stacking tackles, and his Y84 season, 231 more of them, carried him across the line.\n\nHe is still playing, and the all-time tackle list is within sight. Von Horsted, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "New Hall of Famer: his owner-reported Y84 season (254 games, 2,658 tackles, 33 INT, 1 DPOY, Rams Y70-84) took him past Career Legacy 7000",
+   "trigger": "SPEECH NEEDED: Von Horsted (Y84)"
+  }
+ ]
+}

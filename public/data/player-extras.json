@@ -3282,7 +3282,7 @@
    "stints": [
     {
      "team": "Rams",
-     "from": 71,
+     "from": 70,
      "to": 84,
      "rings": []
     }
@@ -3536,7 +3536,7 @@
    "stints": [
     {
      "team": "Jaguars",
-     "from": 73,
+     "from": 72,
      "to": 84,
      "rings": []
     }
@@ -3834,6 +3834,18 @@
    "confidence": "strong",
    "evidence": "1 ring = Falcons Y84. The only window that fits."
   },
+  "Marvell Rodgers": {
+   "stints": [
+    {
+     "team": "Titans",
+     "from": 77,
+     "to": 84,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
   "Travon Swaim": {
    "stints": [
     {
@@ -4013,6 +4025,7 @@
   "Marcel Mathieu": "Cleveland Browns",
   "Marlowe Hunter": "Miami Dolphins",
   "Marshal Tupou": "Green Bay Packers",
+  "Marvell Rodgers": "Tennessee Titans",
   "Mason Taylor": "Miami Dolphins",
   "Matthew Waynes": "Carolina Panthers",
   "Michael Wilson": "Baltimore Ravens",

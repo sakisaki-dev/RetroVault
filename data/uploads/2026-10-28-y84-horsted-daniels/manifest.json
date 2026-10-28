@@ -1,0 +1,38 @@
+{
+ "id": "2026-10-28-y84-horsted-daniels",
+ "created": "2026-10-28",
+ "title": "Y84 seasons for Von Horsted and Spencer Daniels (owner-reported, added to Y83 careers)",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Von Horsted",
+   "value": {
+    "g": 254,
+    "tkl": 2658,
+    "int": 33
+   },
+   "source": "owner",
+   "reason": "Owner gave Y84 season line (237+17 g, 2427+231 tkl, 31+2 int): \"horsted, 17 games, 231 tck, 2 ints for this year, daniels: 17 games, 51 rec, 216 yds, 4.2 avg, 24 lng, 1 td, 3 fumbles\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Spencer Daniels",
+   "value": {
+    "g": 213,
+    "rec": 874,
+    "yds": 5192,
+    "td": 45,
+    "fum": 53,
+    "lng": 68
+   },
+   "source": "owner",
+   "reason": "Owner gave Y84 season line (196+17 g, 823+51 rec, 4976+216 yds, 44+1 td, 50+3 fum; career long 68 stands): \"horsted, 17 games, 231 tck, 2 ints for this year, daniels: 17 games, 51 rec, 216 yds, 4.2 avg, 24 lng, 1 td, 3 fumbles\"",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}

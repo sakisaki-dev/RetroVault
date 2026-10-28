@@ -408,6 +408,33 @@
     "stats": 8
    },
    "changed": 8
+  },
+  {
+   "id": "2026-10-28-y84-horsted-daniels",
+   "dir": "data/uploads/2026-10-28-y84-horsted-daniels",
+   "applied_at": "2026-10-28T16:16:17-07:00",
+   "mutations": {
+    "stats": 2
+   },
+   "changed": 8
+  },
+  {
+   "id": "2026-10-28-speech-horsted",
+   "dir": "data/uploads/2026-10-28-speech-horsted",
+   "applied_at": "2026-10-28T16:16:49-07:00",
+   "mutations": {
+    "speech": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-28-rodgers-team",
+   "dir": "data/uploads/2026-10-28-rodgers-team",
+   "applied_at": "2026-10-28T16:17:23-07:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
   }
  ]
 }

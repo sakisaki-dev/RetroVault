@@ -1,0 +1,2 @@
+{"id":"2026-10-28-rodgers-team","created":"2026-10-28","title":"Marvell Rodgers is a Titan","images":[],"ai_steps":[],
+"mutations":[{"lane":"stats","op":"fact.set","target":"players/Marvell Rodgers/team","value":"Titans","source":"owner","reason":"Owner: \"marvell is a titan\"","trigger":"Owner statement in chat"}]}
