@@ -133,11 +133,11 @@ const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, onPrefetch
 
   const tabs = (
     <nav aria-label="Stats sections" className="min-w-0 flex-1">
-      <ul className="flex items-stretch gap-1 overflow-x-auto scrollbar-none">
+      <ul className="flex items-stretch gap-1 overflow-x-auto scrollbar-none max-sm:gap-0.5">
         {SUB_TABS.map(({ id, label, short, Icon, blurb }) => {
           const active = id === lit;
           return (
-            <li key={id} className="shrink-0">
+            <li key={id} className="shrink-0 max-sm:flex-1">
               <a
                 href={buildHash({ tab: 'career', sub: id })}
                 aria-current={active ? 'page' : undefined}
@@ -151,11 +151,11 @@ const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, onPrefetch
                   onSubChange(id);
                 }}
                 className={cn(
-                  'group relative flex h-10 items-center gap-1 rounded-md px-2 font-display text-[15px] font-bold uppercase tracking-wide transition-colors sm:gap-1.5 sm:px-3 sm:text-base',
+                  'group relative flex h-10 items-center gap-1 rounded-md px-2 font-display text-[15px] font-bold uppercase tracking-wide transition-colors max-sm:h-11 max-sm:justify-center max-sm:px-1 sm:gap-1.5 sm:px-3 sm:text-base',
                   active ? 'bg-gold text-primary-foreground shadow-[0_0_18px_hsl(var(--gold)/0.35)]' : 'text-muted-foreground hover:bg-panel-2 hover:text-chalk',
                 )}
               >
-                <Icon className={cn('h-4 w-4 shrink-0', active ? 'text-primary-foreground' : 'text-gold/80 group-hover:text-gold')} aria-hidden="true" />
+                <Icon className={cn('h-4 w-4 shrink-0 max-sm:hidden', active ? 'text-primary-foreground' : 'text-gold/80 group-hover:text-gold')} aria-hidden="true" />
                 <span className="sm:hidden">{short}</span>
                 <span className="hidden sm:inline">{label}</span>
               </a>
@@ -199,8 +199,8 @@ const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, onPrefetch
           <div className="hidden w-[min(380px,36vw)] shrink-0 md:block">{search}</div>
         </div>
       </div>
-      {/* Phones: the search scrolls with the page so the pinned bar stays one row tall. */}
-      <div className="container pt-3 md:hidden">{search}</div>
+      {/* Small tablets: the search scrolls with the page so the pinned bar stays one row tall (phones use the header search). */}
+      <div className="container pt-3 max-sm:hidden md:hidden">{search}</div>
 
       <div style={total ? { ['--site-header-h' as string]: `${total}px` } : undefined}>{children}</div>
     </div>

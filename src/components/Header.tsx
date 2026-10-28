@@ -144,7 +144,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
       <div className="h-[3px] bg-gradient-to-r from-gold via-gold/70 to-turf" aria-hidden="true" />
 
       <div className="container">
-        <div className="flex items-center gap-4 lg:gap-8 h-14 lg:h-16">
+        <div className="flex items-center gap-3 sm:gap-4 lg:gap-8 h-14 lg:h-16">
           <button
             type="button"
             onClick={() => onTabChange('career')}
@@ -161,14 +161,17 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
             type="button"
             onClick={openQuickSearch}
             aria-label="Look up a player (Command K)"
-            className="ml-auto inline-flex shrink-0 items-center gap-2 rounded-md border border-line bg-night/60 px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:border-gold/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold lg:ml-0"
+            className="ml-auto inline-flex shrink-0 items-center gap-2 rounded-md border border-line bg-night/60 px-2.5 py-1.5 text-sm max-sm:h-11 max-sm:w-11 max-sm:justify-center max-sm:px-0 text-muted-foreground transition-colors hover:border-gold/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold lg:ml-0"
           >
             <Search className="h-4 w-4" aria-hidden="true" />
             <span className="hidden xl:inline">Player</span>
             <kbd className="hidden rounded border border-line px-1 font-mono text-[10px] sm:inline">⌘K</kbd>
           </button>
 
-          <PerfToggle />
+          {/* Phones: in the bottom bar's More sheet */}
+          <span className="contents max-sm:hidden">
+            <PerfToggle />
+          </span>
 
           {board.season && (
             <span className="lamp shrink-0" aria-label={`Season ${board.season}`}>
@@ -177,13 +180,13 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
           )}
         </div>
 
-        {/* Mobile / tablet nav: horizontal scroll */}
-        <div className="lg:hidden -mt-1">{nav}</div>
+        {/* Tablet nav: horizontal scroll (phones use the bottom tab bar, BottomNav) */}
+        <div className="-mt-1 max-sm:hidden lg:hidden">{nav}</div>
       </div>
 
       {/* Scoreboard strip */}
       {lamps.length > 0 && (
-        <div className="scoreboard-strip">
+        <div className="scoreboard-strip max-sm:hidden">
           <div className="container">
             <p
               className="flex items-center gap-x-3 overflow-x-auto scrollbar-none py-1.5 font-pixel text-[10px] uppercase text-muted-foreground whitespace-nowrap"

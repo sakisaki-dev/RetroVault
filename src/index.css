@@ -831,3 +831,62 @@ details[open] > :not(summary) {
   transition-timing-function: var(--ease-out);
   transition-duration: var(--dur-4), var(--dur-3), var(--dur-3), var(--dur-2);
 }
+
+/* ============================================================================================================
+ * Phone layout (max-width 640px). Desktop and tablets never see these rules.
+ * ============================================================================================================ */
+@media (max-width: 640px) {
+  /* Room for the bottom tab bar (BottomNav publishes --bottom-nav-h) */
+  body {
+    padding-bottom: var(--bottom-nav-h, 0px);
+  }
+  [data-sonner-toaster][data-y-position='bottom'] {
+    bottom: calc(var(--bottom-nav-h, 0px) + 10px) !important;
+  }
+}
+.bnav {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 48;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  border-top: 1px solid hsl(var(--line) / 0.8);
+  background: hsl(var(--night));
+  box-shadow: 0 -8px 24px hsl(228 60% 2% / 0.45);
+}
+.bnav__item {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 58px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: hsl(var(--muted-foreground));
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color var(--dur-2) var(--ease-out);
+}
+.bnav__item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 36px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: hsl(var(--gold));
+  translate: -50% 0;
+  scale: 0 1;
+  transition: scale var(--dur-3) var(--ease-spring);
+}
+.bnav__item[data-on='true'] {
+  color: hsl(var(--gold));
+}
+.bnav__item[data-on='true']::before {
+  scale: 1 1;
+}
