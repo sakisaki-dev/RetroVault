@@ -11,6 +11,7 @@ import VariantArt from './art/VariantArt';
 import type { FaceStat } from './cardStats';
 import { FINISH_ICON, TIER_ICON } from './rarityIcons';
 import { cardFaceVars } from './cardFace';
+import { loadMarket } from '@/utils/useMarket';
 import './collection.css';
 
 const motionOk = () => {
@@ -254,6 +255,8 @@ const CollectibleCard = ({
     }, 120);
   };
   const onDown = (e: PointerEvent<HTMLDivElement>) => {
+    // Intent prefetch: the card detail's market panel needs market.json (usually in already; then a no-op)
+    if (onOpen) void loadMarket();
     if (e.pointerType !== 'touch' || !onOpen || !ref.current) return;
     window.clearTimeout(pressTimer.current);
     ref.current.dataset.press = 'on';

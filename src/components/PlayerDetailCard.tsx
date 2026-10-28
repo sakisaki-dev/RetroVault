@@ -34,6 +34,7 @@ import { buildCareerArc } from './player/arcData';
 import { careerRates, careerTotals, headlineStats, type StatItem } from './player/statLines';
 import { teamThemeVars } from './player/teamTheme';
 import { useLegendPhoto } from './player/useLegendPhoto';
+import { useDeferredStage } from '@/hooks/useDeferredStage';
 import './player/playerCard.css';
 
 interface PlayerDetailCardProps {
@@ -80,6 +81,19 @@ const TABS = [
 ] as const;
 type TabId = (typeof TABS)[number]['id'];
 
+/*
+ * Shell-first open. The tap's task renders the frame, the banner, the tabs and the headline numbers; the career arc
+ * and the extras (the heaviest part: a popover per ring, a logo per stop) mount right after the first frame, into a
+ * placeholder that holds their space. The placeholder never makes anything move: either it starts below the fold
+ * (phones: always), or the arc is sure to fill what is visible of it, or its exact height is known from an earlier
+ * open of this player at this width. Otherwise everything renders at once, as before.
+ */
+const reserved = new Map<string, number>();
+/** Height the arc is sure to take (px): a stop, ring or honour card plus the key line; the key line alone when bare */
+const arcFloor = (arc: { stints: unknown[]; legend: boolean; hallOfFame: unknown; retired: unknown; undatedRings: number }) =>
+  arc.stints.length || arc.legend || arc.hallOfFame || arc.retired || arc.undatedRings ? ARC_FLOOR : 16;
+const ARC_FLOOR = 110;
+
 const RATING_CHIPS = [
   { key: 'trueTalent', label: 'True Talent' },
   { key: 'dominance', label: 'Dominance' },
@@ -100,8 +114,22 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   const scrollRef = useRef<HTMLDivElement>(null);
   // Following a family-tie chip or a comp swaps the shown player without closing the dialog
   const [jumpTo, setJumpTo] = useState<Player | null>(null);
-  useEffect(() => setJumpTo(null), [selectedProp]);
-  const selected = selectedProp ? jumpTo ?? selectedProp : null;
+  // A new player from outside clears the jump during render (an effect would render the old one first, then again)
+  const [lastProp, setLastProp] = useState(selectedProp);
+  // The last player shown stays rendered after the caller clears its prop, so the dialog plays its close animation
+  // (instead of vanishing); it is let go when that exit ends (onAnimationEnd below)
+  const [held, setHeld] = useState(selectedProp);
+  if (selectedProp !== lastProp) {
+    setLastProp(selectedProp);
+    if (selectedProp) {
+      if (jumpTo) setJumpTo(null);
+      setHeld(selectedProp);
+    }
+  }
+  const open = !!selectedProp;
+  const shownProp = selectedProp ?? held;
+  const selected = shownProp ? jumpTo ?? shownProp : null;
+  const { stage, late, finish } = useDeferredStage(!!selectedProp);
 
   // Re-resolve from the league so the page reflects edits; keep a caller-provided team (e.g. local overrides).
   const player = useMemo(() => {
@@ -124,10 +152,15 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
     }
   }, [selectedProp]);
 
-  // New player: back to the overview, scrolled to the top
+  // New player: back to the overview (during render, so a reopened card never renders the last tab it showed first),
+  // scrolled to the top
   const playerId = player ? `${player.position}:${player.name}` : '';
+  const [tabFor, setTabFor] = useState(playerId);
+  if (playerId !== tabFor) {
+    setTabFor(playerId);
+    if (tab !== 'overview') setTab('overview');
+  }
   useEffect(() => {
-    setTab('overview');
     scrollRef.current?.scrollTo({ top: 0 });
   }, [playerId]);
 
@@ -141,6 +174,27 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
     () => (player ? buildCareerArc({ player, content, card, retired, hofTier: hofTier?.label ?? null, stints: careerStints }) : null),
     [player, content, card, retired, hofTier, careerStints],
   );
+
+  const reserveKey = `${playerId}|${typeof window === 'undefined' ? 0 : window.innerWidth}`;
+  const showRest = stage >= 1 || tab !== 'overview';
+  // Both checks run as the element attaches (in the commit, before the paint), measured in layout pixels: the dialog
+  // is mid open animation (scaled), so screen distances are divided back by its scale.
+  const layoutGap = (box: HTMLElement, from: number, to: number) => ((to - from) * box.offsetHeight) / (box.getBoundingClientRect().height || 1);
+  // The placeholder stays only where its size can't move anything (see `reserved`); otherwise everything renders now
+  const placeholderRef = (el: HTMLDivElement | null) => {
+    const box = el?.closest<HTMLElement>('[role="dialog"]');
+    if (!el || !box || !arc || reserved.get(reserveKey) != null) return;
+    const visible = box.clientHeight - layoutGap(box, box.getBoundingClientRect().top, el.getBoundingClientRect().top);
+    if (visible > arcFloor(arc)) finish();
+  };
+  // Once filled: remember the exact height the arc and extras took (to the panel's padding), for the next open
+  const filledRef = (el: HTMLDivElement | null) => {
+    const panel = el?.closest<HTMLElement>('[role="tabpanel"]');
+    const box = el?.closest<HTMLElement>('[role="dialog"]');
+    if (!el || !panel || !box) return;
+    const pad = parseFloat(getComputedStyle(panel).paddingBottom) || 0;
+    reserved.set(reserveKey, Math.max(0, Math.round(layoutGap(box, el.getBoundingClientRect().top, panel.getBoundingClientRect().bottom) - pad)));
+  };
 
   const findByName = (name: string) => {
     const key = normalizeName(name);
@@ -183,9 +237,16 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   ];
 
   return (
-    <Dialog open={!!selected} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent
         ref={scrollRef}
+        onAnimationEnd={(e) => {
+          // The exit is over: drop the held player (Radix unmounts the content on the same event)
+          if (!open && e.target === e.currentTarget) {
+            setHeld(null);
+            setJumpTo(null);
+          }
+        }}
         onCloseAutoFocus={(e) => {
           e.preventDefault();
           const el = returnFocus.current;
@@ -402,11 +463,18 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
               <SectionTitle icon={Milestone} id={`${headingId}-arc`}>
                 Career arc
               </SectionTitle>
-              <CareerArc arc={arc} headingId={`${headingId}-arc`} />
+              {showRest ? (
+                <div ref={filledRef} className={cn(late && 'pc-fill')}>
+                  <CareerArc arc={arc} headingId={`${headingId}-arc`} />
+                </div>
+              ) : (
+                // Holds the arc's and the extras' space until they mount (a frame after the card opens)
+                <div ref={placeholderRef} className="pc-defer" style={{ minHeight: reserved.get(reserveKey) ?? 480 }} aria-busy="true" />
+              )}
             </section>
 
-            {(realCareer || card || familyTies.length > 0) && (
-              <section className="space-y-2" aria-label="More about this player">
+            {showRest && (realCareer || card || familyTies.length > 0) && (
+              <section className={cn('space-y-2', late && 'pc-fill')} aria-label="More about this player">
                 {realCareer && <RealCareerPanel career={realCareer} />}
                 {card && <PlayerCardPanel card={card} />}
                 {familyTies.length > 0 && <FamilyChips ties={familyTies} findByName={findByName} onSelect={setJumpTo} />}

@@ -294,9 +294,15 @@
     clip-path: inset(0 0 0 0);
   }
 }
+/* Shell-first open (PlayerDetailCard): the career arc and extras mount a frame after the card, into .pc-defer's space,
+   and cross-fade in. Lite mode shortens the fade through the tokens; reduced motion shows them at once. */
+.pc-fill {
+  animation: rv-fade-in var(--dur-2) var(--ease-out) both;
+}
 @media (prefers-reduced-motion: reduce) {
   .pc-enter,
-  .pc-lowerthird {
+  .pc-lowerthird,
+  .pc-fill {
     animation: none;
   }
   .pc-tab::after {

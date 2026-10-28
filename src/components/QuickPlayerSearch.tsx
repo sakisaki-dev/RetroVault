@@ -14,6 +14,7 @@ import { findNFLTeam } from '@/utils/nflTeams';
 import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 import { useCurrentClub } from '@/utils/club';
 import PlayerDetailCard from './PlayerDetailCard';
+import { warmPlayerCard } from './player/warmPlayerCard';
 import TeamLogo from './brand/TeamLogo';
 import { matchPlayer } from './PlayerSearchSelect';
 import { openInCompFinder } from './stats/comps/compFinderLink';
@@ -271,6 +272,7 @@ const QuickPlayerSearch = () => {
                           value={textOf.get(key) ?? key}
                           keywords={[p.name]}
                           onSelect={() => choose(p)}
+                          onPointerDown={() => warmPlayerCard(p)}
                           className="qs-item my-1 cursor-pointer overflow-hidden rounded-lg p-0"
                           style={teamVars(p.team)}
                         >

@@ -456,6 +456,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
         ref={contentRef}
         // The walkout is a full-screen show: no swipe (Skip ends it)
         swipeToClose={!walk}
+        overlayClassName="pk-overlay"
         className={cn(
           'pk-dialog content-start border-line bg-night p-4 sm:p-6',
           // A walkout takes the whole screen, like FUT

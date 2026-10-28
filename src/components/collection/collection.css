@@ -1468,7 +1468,8 @@ button.fut__card:focus-visible {
  * nothing there can hint at the pull, even for a frame. The cards themselves are also held back from the UI until
  * the reveal (beginReveal / endReveal in utils/collection.ts).
  */
-[data-state]:has(+ .pk-dialog) {
+/* (Set through DialogContent's overlayClassName; a `:has(+ .pk-dialog)` rule restyled the whole page on every modal open) */
+.pk-overlay[data-state] {
   background: hsl(var(--night)) !important;
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
@@ -3575,7 +3576,8 @@ button.fut__card:focus-visible {
  * Closed by the fly-back: no second exit animation, for the dialog or its backdrop (both already faded), so both unmount
  * at once and the page scroll lock (held by the backdrop) is released the moment the card lands
  */
-[data-state='closed']:has(+ .cd--exited) {
+/* (cd-overlay--exited: set through DialogContent's overlayClassName, not a sibling :has(), see .pk-overlay) */
+.cd-overlay--exited[data-state='closed'] {
   animation: none !important;
   opacity: 0;
 }
@@ -3583,6 +3585,15 @@ button.fut__card:focus-visible {
 .cd--exited[data-state='closed'] {
   animation: none !important;
   opacity: 0;
+}
+/* The market panel mounts a frame after the card (CardDetail), into .cd-market-ph's space, and fades in */
+.cd-market--late > * {
+  animation: rv-fade-in var(--dur-2) var(--ease-out) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cd-market--late > * {
+    animation: none;
+  }
 }
 
 /* Display choice and claim controls (44px tall: easy to hit on touch) */

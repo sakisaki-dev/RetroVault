@@ -11,8 +11,14 @@ interface CountUpProps {
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
-const format = (n: number, decimals: number) =>
-  n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+// One formatter per precision: toLocaleString with options builds a new Intl.NumberFormat on every call, and a
+// count-up formats every frame (a player card has ~15 of them running at once)
+const formatters = new Map<number, Intl.NumberFormat>();
+const format = (n: number, decimals: number) => {
+  let f = formatters.get(decimals);
+  if (!f) formatters.set(decimals, (f = new Intl.NumberFormat('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })));
+  return f.format(n);
+};
 
 /**
  * Scoreboard-style number that counts up from its previous value.

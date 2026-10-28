@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
+import { flushSync } from 'react-dom';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import { isLite } from '@/hooks/usePerfMode';
+import { useDeferredStage } from '@/hooks/useDeferredStage';
 import { ChevronLeft, ChevronRight, Crown, Hammer, Pin, PinOff, RotateCcw, UserRound } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
@@ -88,6 +90,9 @@ const MOTES = [
   [86, 4, 3.9, 13],
   [93, 2, 6.8, 11],
 ] as const;
+
+/** Last measured market panel height per card ('' = any card): the placeholder's size before it mounts */
+const marketHeights = new Map<string, number>();
 
 const UPGRADE_MS = 1500;
 /** Next / previous: the outgoing card leaves in this many ms, the incoming one settles in NAV_IN_MS. */
@@ -228,17 +233,19 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
   useEffect(() => {
     if (open) returnFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
   }, [open]);
-  // The market panel (price history and chart) is the heaviest part of the view: it renders a frame after the dialog
-  // and the card appear, so a tap opens the card at once
-  const [panelReady, setPanelReady] = useState(false);
-  useEffect(() => {
-    if (!open) {
-      setPanelReady(false);
-      return;
+  // The market panel (price history and chart) is the heaviest part of the view: it mounts once the first frame (the
+  // dialog and the card) has been painted, into a placeholder of its size, so a tap opens the card at once and the
+  // open flight (which measures the card after two frames) lands on the final layout
+  const { stage: panelStage, late: panelLate } = useDeferredStage(open);
+  const panelReady = panelStage >= 1;
+  const marketRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const h = (marketRef.current?.firstElementChild as HTMLElement | null)?.offsetHeight;
+    if (h && key) {
+      marketHeights.set(key, h);
+      marketHeights.set('', h);
     }
-    const id = requestAnimationFrame(() => setPanelReady(true));
-    return () => cancelAnimationFrame(id);
-  }, [open]);
+  });
 
   const contentRef = useRef<HTMLDivElement>(null);
   const sideRef = useRef<HTMLDivElement>(null);
@@ -477,7 +484,10 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
         if (done) return;
         done = true;
         cleanup?.();
-        setPhase('closed');
+        // The 'closed' phase (no exit animation for the dialog or its backdrop) must be on screen before the dialog
+        // closes: the caller may close it from a store (utils/slot.ts), whose update renders on its own, ahead of a
+        // batched setState, and Radix would then wait forever for a backdrop animation that never ends
+        flushSync(() => setPhase('closed'));
         onClose();
       };
     };
@@ -607,6 +617,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
           phase === 'closed' && 'cd--exited',
         )}
         style={vars}
+        overlayClassName={phase === 'closed' ? 'cd-overlay--exited' : undefined}
         swipeHandoff
         onKeyDown={onKey}
         onCloseAutoFocus={(e) => {
@@ -850,7 +861,14 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                   </button>
                 )}
 
-                {!target?.preview && panelReady && <CardValue cardKey={info.key} name={info.player.name} finish={finish} variant={variant} ownedFinish={vEntry?.best} player={info.player} />}
+                {!target?.preview &&
+                  (panelReady ? (
+                    <div ref={marketRef} className={cn('contents', panelLate && 'cd-market--late')}>
+                      <CardValue cardKey={info.key} name={info.player.name} finish={finish} variant={variant} ownedFinish={vEntry?.best} player={info.player} />
+                    </div>
+                  ) : (
+                    <div className="cd-market-ph" style={{ minHeight: marketHeights.get(info.key) ?? marketHeights.get('') ?? 480 }} aria-hidden="true" />
+                  ))}
 
                 {onPlayer && (
                   <button type="button" onClick={() => onPlayer(info)} className="cd-btn">

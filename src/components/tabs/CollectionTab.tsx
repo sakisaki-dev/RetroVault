@@ -1,4 +1,5 @@
 import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
+import { useNewSlot, useSlot, type Slot } from '@/utils/slot';
 import { toast } from 'sonner';
 import { GalleryHorizontal, Hammer, Info, LayoutGrid, Lock } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
@@ -201,6 +202,68 @@ const RulesPopover = () => (
   </Popover>
 );
 
+/*
+ * The open card and the open player card live in slots (utils/slot.ts), so opening or closing them re-renders only
+ * CollectionOverlays (the dialogs), never the binder behind them (about 75 ms of a slow phone's tap went to that).
+ */
+interface OverlaysProps {
+  detailSlot: Slot<CardDetailTarget | null>;
+  playerSlot: Slot<Player | null>;
+  owned: ReturnType<typeof useCollection>['cards'];
+  state: ReturnType<typeof useCollection>['state'];
+  shardsPerPack: number;
+  total: number;
+  browsing: boolean;
+  onBrowseClose: () => void;
+  browseList: CardInfo[];
+}
+
+/** The card detail, the swipe browser and the player card: everything that opens over the Collection. */
+const CollectionOverlays = ({ detailSlot, playerSlot, owned, state, shardsPerPack, total, browsing, onBrowseClose, browseList }: OverlaysProps) => {
+  const detail = useSlot(detailSlot);
+  const player = useSlot(playerSlot);
+  // browseFocus follows CardDetail when it steps to another card on top of the browser; a fresh browse starts unfocused
+  const [browseFocus, setBrowseFocus] = useState<string | null>(null);
+  const [wasBrowsing, setWasBrowsing] = useState(browsing);
+  if (browsing !== wasBrowsing) {
+    setWasBrowsing(browsing);
+    if (browsing && browseFocus !== null) setBrowseFocus(null);
+  }
+  return (
+    <>
+      <CardDetail
+        target={detail}
+        entry={detail && !detail.preview ? owned[detail.info.key] : undefined}
+        shards={state.shards}
+        shardsPerPack={shardsPerPack}
+        display={detail ? state.display?.[detail.info.key] : undefined}
+        total={total}
+        onClose={() => detailSlot.set(null)}
+        onNavigate={(info) => {
+          detailSlot.set((d) => (d ? { info, list: d.list } : d));
+          if (browsing) setBrowseFocus(info.key);
+        }}
+        onPlayer={(info) => {
+          detailSlot.set(null);
+          playerSlot.set(info.player);
+        }}
+      />
+      <CardBrowser
+        open={browsing}
+        list={browseList}
+        owned={owned}
+        display={state.display}
+        total={total}
+        covered={!!detail || !!player}
+        focusKey={browseFocus}
+        onClose={onBrowseClose}
+        onDetails={(info, variant, finish, from) => detailSlot.set({ info, list: browseList, variant, finish, from })}
+      />
+      <PlayerDetailCard player={player} onClose={() => playerSlot.set(null)} />
+    </>
+  );
+};
+
 const CollectionTab = () => {
   const { cards, byKey, tierPool, loaded } = useCardPool();
   const { state, cards: owned, fresh } = useCollection();
@@ -213,15 +276,15 @@ const CollectionTab = () => {
   const [missing, setMissing] = useState(true);
   const [sort, setSort] = useState<Sort>('set');
   const [limit, setLimit] = useState(PAGE);
-  const [player, setPlayer] = useState<Player | null>(null);
-  const [detail, setDetail] = useState<CardDetailTarget | null>(null);
+  const detailSlot = useNewSlot<CardDetailTarget | null>(null);
+  const playerSlot = useNewSlot<Player | null>(null);
+  const setDetail = detailSlot.set;
   const [opening, setOpening] = useState<PackType | null>(null);
   const [designs, setDesigns] = useState(false);
   const [preview, setPreview] = useState(false);
   const [artLab, setArtLab] = useState(false);
-  // Swipe browser over the binder's filter; browseFocus follows CardDetail when it steps to another card on top of it
+  // Swipe browser over the binder's filter (its focus lives in CollectionOverlays)
   const [browsing, setBrowsing] = useState(false);
-  const [browseFocus, setBrowseFocus] = useState<string | null>(null);
   // Once opened, the lazy dialogs stay mounted so they close with their animation and reopen instantly
   const [designsSeen, setDesignsSeen] = useState(false);
   const [artLabSeen, setArtLabSeen] = useState(false);
@@ -529,10 +592,7 @@ const CollectionTab = () => {
             <button
               type="button"
               className="col-swipe-btn"
-              onClick={() => {
-                setBrowseFocus(null);
-                setBrowsing(true);
-              }}
+              onClick={() => setBrowsing(true)}
               aria-label={`Swipe through your cards (${browseList.length} in this filter)`}
             >
               <GalleryHorizontal className="h-4 w-4" aria-hidden="true" />
@@ -672,35 +732,17 @@ const CollectionTab = () => {
         )}
         {(artLab || artLabSeen) && <ArtLab open={artLab} onClose={closeArtLab} cards={cards} total={cards.length} />}
       </Suspense>
-      <CardDetail
-        target={detail}
-        entry={detail && !detail.preview ? owned[detail.info.key] : undefined}
-        shards={state.shards}
-        shardsPerPack={shardsPerPack}
-        display={detail ? state.display?.[detail.info.key] : undefined}
-        total={cards.length}
-        onClose={() => setDetail(null)}
-        onNavigate={(info) => {
-          setDetail((d) => (d ? { info, list: d.list } : d));
-          if (browsing) setBrowseFocus(info.key);
-        }}
-        onPlayer={(info) => {
-          setDetail(null);
-          setPlayer(info.player);
-        }}
-      />
-      <CardBrowser
-        open={browsing}
-        list={browseList}
+      <CollectionOverlays
+        detailSlot={detailSlot}
+        playerSlot={playerSlot}
         owned={owned}
-        display={state.display}
+        state={state}
+        shardsPerPack={shardsPerPack}
         total={cards.length}
-        covered={!!detail || !!player}
-        focusKey={browseFocus}
-        onClose={() => setBrowsing(false)}
-        onDetails={(info, variant, finish, from) => setDetail({ info, list: browseList, variant, finish, from })}
+        browsing={browsing}
+        onBrowseClose={() => setBrowsing(false)}
+        browseList={browseList}
       />
-      <PlayerDetailCard player={player} onClose={() => setPlayer(null)} />
     </div>
   );
 };

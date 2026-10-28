@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { useLeague } from '@/context/LeagueContext';
 import { Crown, Trophy, Star, Medal, Sparkles, Flame, Award, Clapperboard, PlayCircle } from 'lucide-react';
 import type { Player } from '@/types/player';
@@ -10,6 +10,7 @@ import ProPlayerBanner from '../brand/ProPlayerBanner';
 import { overallRating } from '../brand/ProPlayerBanner.utils';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import PlayerDetailCard from '../PlayerDetailCard';
+import { warmPlayerCard } from '../player/warmPlayerCard';
 import { HOF_THRESHOLD, LEGACY_TIERS, formatThreshold, getLegacyTier } from '@/config/stats';
 import {
   INAUGURAL_CLASS_SIZE,
@@ -57,12 +58,26 @@ const getTier = (legacy: number) => {
   };
 };
 
+/*
+ * The open player card's state lives in this small wrapper, not in the grid: opening or closing a card re-renders
+ * only the card, never the ~60 banners of the Hall (that re-render used to sit in the tap's task, before the card's
+ * first frame).
+ */
 const HallOfFameTab = () => {
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  return (
+    <>
+      <HallOfFameGrid onSelect={setSelectedPlayer} />
+      <PlayerDetailCard player={selectedPlayer} onClose={() => setSelectedPlayer(null)} />
+    </>
+  );
+};
+
+const HallOfFameGrid = memo(function HallOfFameGrid({ onSelect: setSelectedPlayer }: { onSelect: (p: Player) => void }) {
   const { careerData, getAllPlayers } = useLeague();
   const { numberFor, retiredInfo } = useJerseyNumbers();
   const extras = usePlayerExtras();
   const officialOvr = useOfficialOvr();
-  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
   const hofClasses = useHofClasses();
 
   const { hofPlayers, tierCounts } = useMemo(() => {
@@ -144,6 +159,8 @@ const HallOfFameTab = () => {
       <button
         type="button"
         onClick={() => setSelectedPlayer(player)}
+        onPointerEnter={() => warmPlayerCard({ ...player, team: cardTeam })}
+        onPointerDown={() => warmPlayerCard({ ...player, team: cardTeam })}
         aria-label={`#${rank} ${player.name}, number ${number}${nflTeam ? `, ${nflTeam.fullName}` : ''}, ${tier.label.toLowerCase()} tier, ${Math.round(player.careerLegacy).toLocaleString()} legacy. Open details`}
         className="group relative flex w-full flex-1 flex-col text-left"
       >
@@ -345,10 +362,8 @@ const HallOfFameTab = () => {
           <p className="text-muted-foreground">No players have reached {HOF_THRESHOLD.toLocaleString()} legacy yet</p>
         </div>
       )}
-
-      <PlayerDetailCard player={selectedPlayer} onClose={() => setSelectedPlayer(null)} />
     </div>
   );
-};
+});
 
 export default HallOfFameTab;

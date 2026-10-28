@@ -2,7 +2,8 @@ import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Trophy } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
-import PlayerDetailCard from '../PlayerDetailCard';
+import PlayerCardLayer from '../player/PlayerCardLayer';
+import { useNewSlot } from '@/utils/slot';
 import CountUp from '../brand/CountUp';
 import RecordBook, { RecordStrip } from '../stats/RecordBook';
 import PositionLeaders from '../stats/PositionLeaders';
@@ -70,7 +71,9 @@ const useSpy = (on: boolean) => {
 const CareerTab = () => {
   const { careerData, isLoading, getAllPlayers } = useLeague();
   const { route, navigate } = useHubRoute();
-  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  // The open player card lives in a slot: opening it re-renders the card only, not the whole hub behind it
+  const cardSlot = useNewSlot<Player | null>(null);
+  const setSelectedPlayer = cardSlot.set;
   const sub: StatsSub = route.sub ?? 'players';
   const phone = usePhone();
   const spied = useSpy(phone && sub === 'players');
@@ -225,7 +228,7 @@ const CareerTab = () => {
       </div>
       </Suspense>
 
-      <PlayerDetailCard player={selectedPlayer} onClose={() => setSelectedPlayer(null)} />
+      <PlayerCardLayer slot={cardSlot} />
     </StatsHub>
   );
 };

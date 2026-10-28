@@ -35,6 +35,11 @@ interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof Dialo
   hideClose?: boolean;
   /** Swipe-to-close hands the release to onOpenChange where the finger left it (the dialog runs its own exit) */
   swipeHandoff?: boolean;
+  /**
+   * Extra classes for this dialog's backdrop. Style the backdrop through this, never with a `:has(+ .my-dialog)`
+   * rule: a sibling `:has()` makes every modal open restyle the whole page (Radix inserts focus guards into <body>).
+   */
+  overlayClassName?: string;
 }
 
 /*
@@ -82,11 +87,11 @@ export const useModalChrome = <T extends HTMLElement>(ref: React.ForwardedRef<T>
 };
 
 const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
-  ({ className, children, swipeToClose = true, hideClose = false, swipeHandoff = false, ...props }, ref) => {
+  ({ className, children, swipeToClose = true, hideClose = false, swipeHandoff = false, overlayClassName, ...props }, ref) => {
     const { overlayRef, contentRef, bar } = useModalChrome(ref, swipeToClose, hideClose, swipeHandoff);
     return (
       <DialogPortal>
-        <DialogOverlay ref={overlayRef} />
+        <DialogOverlay ref={overlayRef} className={overlayClassName} />
         <DialogPrimitive.Content
           ref={contentRef}
           className={cn(

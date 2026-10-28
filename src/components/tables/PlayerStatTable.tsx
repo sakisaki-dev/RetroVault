@@ -5,7 +5,9 @@ import { cn } from '@/lib/utils';
 import type { Overall } from '@/config/skillGrades';
 import PositionBadge from '../PositionBadge';
 import AwardsCell from '../AwardsCell';
-import PlayerDetailCard from '../PlayerDetailCard';
+import PlayerCardLayer from '../player/PlayerCardLayer';
+import { useNewSlot } from '@/utils/slot';
+import { warmPlayerCard } from '../player/warmPlayerCard';
 import TeamBadge from '../brand/TeamBadge';
 import { calculateLeaders } from '@/utils/csvParser';
 import { playerKey } from '@/config/ovr';
@@ -116,7 +118,9 @@ function PlayerStatTable<T extends Player>({
   headerActions,
   children,
 }: PlayerStatTableProps<T>) {
-  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  // The open player card lives in a slot: opening it re-renders the card only, not every row of the table
+  const cardSlot = useNewSlot<Player | null>(null);
+  const setSelectedPlayer = cardSlot.set;
   const [sort, setSort] = useState<SortState>(null);
   const ovrMap = useOfficialOvr();
   const skillMap = useSkillRatings();
@@ -196,6 +200,7 @@ function PlayerStatTable<T extends Player>({
                   <tr
                     key={`${player.name}-${player.position}`}
                     className="cursor-pointer"
+                    onPointerDown={() => warmPlayerCard({ ...player, team })}
                     onClick={() => setSelectedPlayer({ ...player, team } as Player)}
                   >
                     <td
@@ -252,7 +257,7 @@ function PlayerStatTable<T extends Player>({
 
       {children}
 
-      <PlayerDetailCard player={selectedPlayer} onClose={() => setSelectedPlayer(null)} />
+      <PlayerCardLayer slot={cardSlot} />
     </>
   );
 }
