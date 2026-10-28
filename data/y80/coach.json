@@ -1,20 +1,19 @@
 {
- "source": "Retro Bowl staff screen (IMG_6394, Y82 complete), rolled forward by the owner's Y83 season (12-5, champions)",
+ "source": "Retro Bowl staff screen (IMG_6532, Y84 complete)",
  "name": "Dorren Skura",
- "age": 117,
+ "age": 119,
  "stars": 5,
- "morale": "Exceptional",
- "gamesPlayed": 1650,
- "simGames": 15,
+ "morale": "OK",
+ "gamesPlayed": 1670,
+ "simGames": 16,
  "record": {
-  "fullSeasons": 82,
-  "regular": "1197-209-5",
-  "regularWinPct": 0.85,
-  "playoff": "216-23",
-  "playoffWinPct": 0.904,
-  "playoffsReached": "81/83",
-  "seasonsNoSimGames": 71,
-  "simGameRecord": "0-15-0"
+  "fullSeasons": 83,
+  "regular": "1210-212-6",
+  "regularWinPct": 0.849,
+  "playoff": "219-23",
+  "playoffWinPct": 0.905,
+  "playoffsReached": "82/84",
+  "seasonsNoSimGames": 71
  },
  "bests": {
   "mostPoints": "MIN 38-54 CAR",
@@ -25,7 +24,7 @@
  "superBowlRecord": [
   {
    "coach": "D.Skura",
-   "titles": 58
+   "titles": 59
   },
   {
    "coach": "NE (2000-2023)",
@@ -790,6 +789,15 @@
    "w": 12,
    "l": 5,
    "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 84,
+   "team": "Falcons",
+   "abbr": "ATL",
+   "w": 13,
+   "l": 3,
+   "t": 1,
    "finish": "Champions"
   }
  ],

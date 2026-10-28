@@ -66,15 +66,19 @@
    "team": "Dolphins",
    "career": {
     "order": [
-     "Falcons"
+     "Falcons",
+     "Dolphins"
     ],
     "on": [
      [
       "Falcons",
       83
+     ],
+     [
+      "Dolphins",
+      84
      ]
     ],
-    "next_team": "Dolphins",
     "says": "The Falcons' quarterback in Y83, then traded to the Dolphins."
    }
   },
@@ -464,7 +468,7 @@
      [
       "Jets",
       83,
-      83
+      84
      ]
     ],
     "says": "One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons; traded back to the Jets after Y82 for Kane Van Oxley, Ryland Maxwell and Chance Woodrum."
@@ -531,15 +535,19 @@
    "team": "Seahawks",
    "career": {
     "order": [
-     "Falcons"
+     "Falcons",
+     "Seahawks"
     ],
     "on": [
      [
       "Falcons",
       83
+     ],
+     [
+      "Seahawks",
+      84
      ]
     ],
-    "next_team": "Seahawks",
     "says": "On the Falcons' line in Y83, then traded to the Seahawks."
    }
   },
@@ -603,16 +611,35 @@
    "career": {
     "order": [
      "Bears",
-     "Falcons"
+     "Falcons",
+     "Buccaneers"
     ],
     "on": [
      [
       "Falcons",
       83
+     ],
+     [
+      "Buccaneers",
+      84
      ]
     ],
-    "next_team": "Buccaneers",
     "says": "Traded from the Bears to the Falcons in a multi-team trade before Y83, won the Y83 title there, then traded to the Buccaneers for Shawn Milne."
+   }
+  },
+  "Shawn Milne": {
+   "career": {
+    "order": [
+     "Buccaneers",
+     "Falcons"
+    ],
+    "on": [
+     [
+      "Falcons",
+      84
+     ]
+    ],
+    "says": "Came to the Falcons from the Buccaneers in the trade that sent Shareef London to Tampa Bay before Y84."
    }
   },
   "Sherman Brandson": {
@@ -735,6 +762,7 @@
    "Eric Raimann",
    "Jashaun Fleming",
    "Ryland Maxwell",
+   "Shawn Milne",
    "Simeon Otton",
    "Trysten Floyd",
    "Vyncint Heath"
@@ -860,6 +888,26 @@
     "Dan Stout",
     "Dwayne Skura",
     "Jakeem Friend",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Malakai Sawyer",
+    "Trequan Roberts"
+   ]
+  },
+  "84": {
+   "Falcons": [
+    "Chance Woodrum",
+    "Eric Raimann",
+    "Jashaun Fleming",
+    "Ryland Maxwell",
+    "Shawn Milne",
+    "Simeon Otton",
+    "Trysten Floyd",
+    "Vyncint Heath"
+   ],
+   "Jets": [
+    "Bud Matthew",
+    "Dwayne Skura",
     "Jaylen Conklin",
     "Kalif Suh",
     "Malakai Sawyer",
