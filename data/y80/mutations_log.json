@@ -304,6 +304,15 @@
     "story": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-10-27-story-y82-v2",
+   "dir": "data/uploads/2026-10-27-story-y82-v2",
+   "applied_at": "2026-10-27T18:55:14-07:00",
+   "mutations": {
+    "story": 1
+   },
+   "changed": 1
   }
  ]
 }

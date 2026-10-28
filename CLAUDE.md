@@ -187,15 +187,19 @@ Research first: players.json, the two market snapshots around the season (career
 super_bowls.json, coach.json (and `currentStint`), owner_facts (trades, current club, careers), journal.json,
 records.json, content.json (storylines, rivalries, headlines, record chases, eras), stints.json, families.
 
-Creative liberty (owner: "feel free to take creative liberty on how the players feel and what it means etc etc"):
-narrative voice, emotion, stakes and interpretation are welcome ("you could feel Lock's relief in New York", what a
-trade means for a franchise or a rivalry). Hard rules:
+Write it as a professional sports outlet covering a real league (owner: "love the stories but remove my words or
+'the owner', treat it like a professional story"). Creative liberty (owner: "feel free to take creative liberty on how
+the players feel and what it means etc etc"): narrative voice, emotion, stakes and interpretation are welcome ("you
+could feel Lock's relief in New York", what a trade means for a franchise or a rivalry). Hard rules:
 - Every fact, number, team and who-went-where is true to the data: stats, Super Bowls, coach seasons, trades and owner
-  facts, the journal, the record board, the market, stints, families, skill grades, headlines. Trades are told as the
-  whole chain, ending at each player's final club (owner: "oxley went to the bears, there were so many trades").
-- No direct quotes in quotation marks attributed to players or coaches, and no invented injuries, contracts or
-  off-field events. The only quotes are the owner's journal text, verbatim, attributed to his season notes (a
-  player's nickname may also be quoted).
+  facts, the record board, the market, stints, families, skill grades, headlines. Trades are told as the whole chain,
+  ending at each player's final club (owner: "oxley went to the bears, there were so many trades").
+- Never mention the owner, his notes or the person playing the save, and no second person ("you", "your"). The coach
+  is Dorren Skura ("Skura", "the coach", "the head coach"). What the owner told us is restated as plain reported
+  fact with no attribution (Conklin is "Takeoff" for a vertical that catches anything above his head; nobody Skura
+  has coached recovered more fumbles than Van Oxley).
+- Nothing in quotation marks except a player's nickname: no journal quotes, no direct quotes attributed to players or
+  coaches, and no invented injuries, contracts or off-field events.
 - Play style comes from rates (yards per catch, tackles per game…), never from imagined looks.
 - No em dashes. Lead body 180–350 words, other articles 90–220.
 - Every number written in a headline, dek or body is in that article's `stats[]` with its source. Sources
@@ -206,7 +210,8 @@ trade means for a franchise or a rivalry). Hard rules:
   `<a> minus <b>` for a gap, `crossed: market_history.json <A>..<B> <POS:Name> <field>` for a round milestone passed.
 
 apply-upload runs `scripts/story_check.py` on the mutation (lengths, em dashes, tags exist, every stats value matches
-its source, every number in the text is cited, quotes are journal text) and refuses the bundle on any failure. The
+its source, every number in the text is cited, no "owner" or second person, only nicknames in quotes) and refuses the
+bundle on any failure. The
 audit re-checks the stored stories: a figure that no longer matches the data after a later update is a warning (stale,
 like speech numbers), and a story that differs from its applied manifest is an error. The Timeline's "What changed"
 area shows it (`src/components/news/SeasonStory.tsx`: masthead, lead hero, feed, quick hits, reading sheet, season

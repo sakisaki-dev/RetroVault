@@ -18,7 +18,8 @@ Rules checked here (CLAUDE.md "Season story"):
   * every number written in the headline, dek or body appears in the article's stats[] values (Y82, CXLI and other
     season / Roman labels are not numbers)
   * every stats[] value matches the data at its cited source (see SOURCES below)
-  * text in double quotes is either the owner's journal text (verbatim, case-insensitive) or a player's nickname
+  * a professional story (owner: "remove my words or 'the owner', treat it like a professional story"): no "owner",
+    no second person ("you", "your"), and nothing in quotation marks except a player's nickname (no journal quotes)
 
 SOURCES (the `source` of a stats[] entry; the value is compared after dropping commas, "+", "%" and spaces;
 numbers are compared at the precision written, so "17.2" matches 17.21):
@@ -71,7 +72,6 @@ class Data:
         self.sbs = {s["year"]: s for s in _read(SRC / "super_bowls.json", [])}
         self.coach = _read(SRC / "coach.json", {"seasons": []})
         self.records = {r["record"]: r for r in _read(SRC / "records.json", {"records": []})["records"]}
-        self.journal = [n["text"].lower() for n in (_read(SRC / "journal.json", {}) or {}).get("notes", [])]
         self.files = {
             "owner_facts.json": SRC / "owner_facts.json",
             "stints.json": SRC / "stints.json",
@@ -220,6 +220,8 @@ def matches(stated, actual) -> bool:
 # ---------------------------------------------------------------------------
 # a number in prose; "49ers" is a team name, not a figure
 NUM = re.compile(r"(?<![A-Za-z\d.,])\d[\d,]*(?:\.\d+)?(?!\d|ers\b)")
+# words that break the professional voice: the person running the save is never in the story
+FORBIDDEN = re.compile(r"\b(owner|owner's|owners|you|your|yours|yourself)\b", re.I)
 QUOTE = re.compile(r"[\"“]([^\"”]+)[\"”]")
 
 
@@ -306,8 +308,10 @@ def check_article(d: Data, a: dict, known_ids: set[str]) -> tuple[list[str], lis
                 errs.append(f"{aid}: the number {n} in {t[:60]!r}... is not in its stats[]")
         for q in QUOTE.findall(t):
             ql = q.strip().lower().rstrip(".,")
-            if ql not in d.nicks and not any(ql in j for j in d.journal):
-                errs.append(f"{aid}: quoted text {q[:50]!r} is neither the owner's journal text nor a nickname")
+            if ql not in d.nicks:
+                errs.append(f"{aid}: quoted text {q[:50]!r} is not a nickname (only nicknames go in quotation marks)")
+        for w in FORBIDDEN.findall(t):
+            errs.append(f"{aid}: {w!r} in {t[:50]!r}: write it as a professional story (no owner, no second person)")
     return errs, stale
 
 
@@ -319,6 +323,8 @@ def check_season(d: Data, season: str, value) -> tuple[list[str], list[str]]:
         errs.append(f"target {season!r} must be a season like Y82")
     if EM_DASH in (value.get("tagline") or ""):
         errs.append(f"{season}: em dash in the tagline")
+    if FORBIDDEN.search(value.get("tagline") or ""):
+        errs.append(f"{season}: the tagline mentions the owner or uses the second person")
     arts = value.get("articles") or []
     if not arts:
         errs.append(f"{season}: no articles")
@@ -347,7 +353,7 @@ def check_season(d: Data, season: str, value) -> tuple[list[str], list[str]]:
         if words(text) > QUICK_HIT_MAX_WORDS:
             errs.append(f"{season} {x['id']}: did-you-know is {words(text)} words (max {QUICK_HIT_MAX_WORDS})")
         # checked as a one-line article: tags, numbers, quotes, em dashes, stats against their sources
-        e, st = check_article(d, {"id": x["id"], "kind": "quickhits", "headline": "Did you know", "dek": "-",
+        e, st = check_article(d, {"id": x["id"], "kind": "quickhits", "headline": "Fact", "dek": "-",
                                   "body": [text] * QUICK_HITS[0], "players": x.get("players", []), "teams": x.get("teams", []),
                                   "stats": x.get("stats", []), "related": []}, set())
         errs += [f"{season} {m}" for m in dict.fromkeys(e)]
