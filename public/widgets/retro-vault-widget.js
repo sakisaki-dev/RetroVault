@@ -187,7 +187,7 @@ async function build() {
   const score = ({ r, k }) => ((r.Nicknames || '').trim() ? 2 : 0) + (latest[k].grade === 'S' ? 2 : 0) + Math.min(1, Math.abs(change(k)));
   const pool = cands.sort((a, b) => score(b) - score(a) || (latest[b.k].legacy || 0) - (latest[a.k].legacy || 0)).slice(0, 14);
   const pick = pool.length ? pool[(dayIndex() * 7) % pool.length] : null;
-  const facts = story ? story.articles.filter((a) => a.kind === 'didyouknow') : [];
+  const facts = story ? story.didYouKnow || story.articles.filter((a) => a.kind === 'didyouknow') : [];
   const fact = facts.length ? facts[dayIndex() % facts.length] : null;
   const factRow = fact && fact.players && fact.players.length ? active.concat(rows).find((r) => r.Name === fact.players[0]) : null;
   const factSpot = factRow && latest[`${factRow.pos}:${factRow.Name}`] ? { r: factRow, k: `${factRow.pos}:${factRow.Name}` } : null;
