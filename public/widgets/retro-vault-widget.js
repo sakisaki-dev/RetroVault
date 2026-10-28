@@ -3,7 +3,11 @@
 // a rotating spotlight player, market movers and the wire, all read from the site's public JSON.
 
 const SITE = 'https://sakisaki-dev.github.io/RetroVault/';
-const DATA = SITE + 'data/';
+// Data straight from the repo (works even if GitHub Pages is down or misconfigured); the site is the fallback.
+const DATA_SOURCES = [
+  'https://raw.githubusercontent.com/sakisaki-dev/RetroVault/retrovault-v2/public/data/',
+  SITE + 'data/',
+];
 
 // ---------- look (the site's palette) ----------
 const C = {
@@ -46,18 +50,23 @@ if (!fm.fileExists(cacheDir)) fm.createDirectory(cacheDir, true);
 
 async function load(name, kind) {
   const path = fm.joinPath(cacheDir, name.replace(/\//g, '_'));
-  try {
-    const r = new Request(DATA + name);
-    r.timeoutInterval = 12;
-    const text = await r.loadString();
-    if (kind === 'json') JSON.parse(text); // validate before caching
-    fm.writeString(path, text);
-    return kind === 'json' ? JSON.parse(text) : text;
-  } catch (e) {
-    if (!fm.fileExists(path)) return null;
-    const text = fm.readString(path);
-    return kind === 'json' ? JSON.parse(text) : text;
+  for (const base of DATA_SOURCES) {
+    try {
+      const r = new Request(base + name);
+      r.timeoutInterval = 12;
+      const text = await r.loadString();
+      if (r.response && r.response.statusCode && r.response.statusCode >= 400) continue;
+      if (/^\s*</.test(text)) continue; // an HTML error page, not data
+      if (kind === 'json') JSON.parse(text); // validate before caching
+      fm.writeString(path, text);
+      return kind === 'json' ? JSON.parse(text) : text;
+    } catch (e) {
+      /* try the next source */
+    }
   }
+  if (!fm.fileExists(path)) return null;
+  const text = fm.readString(path);
+  return kind === 'json' ? JSON.parse(text) : text;
 }
 
 function parseCsv(text) {
