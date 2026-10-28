@@ -60,14 +60,14 @@ const GraphsPage = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Player
   const shareLink = `${window.location.origin}${window.location.pathname}${buildHash({ tab: 'career', sub: 'graphs', q: configToParams(config) })}`;
 
   return (
-    <div className="container space-y-4 py-6 sm:py-8">
+    <div className="container space-y-4 py-4 sm:py-8">
       <header>
         <p className="font-pixel text-[10px] uppercase text-gold">League Hub · Graphs</p>
-        <h1 className="flex items-center gap-2 font-display text-4xl font-extrabold italic uppercase leading-none sm:text-5xl">
-          <ChartScatter className="h-8 w-8 text-gold" aria-hidden="true" />
+        <h1 className="flex items-center gap-2 font-display text-3xl font-extrabold italic uppercase leading-none sm:text-5xl">
+          <ChartScatter className="h-7 w-7 text-gold sm:h-8 sm:w-8" aria-hidden="true" />
           Graph Builder
         </h1>
-        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+        <p className="mt-2 max-w-2xl text-sm text-muted-foreground max-sm:hidden">
           Any stat against any stat. Tap a preset or pick two stats; medians, quadrants and the trend use league players only.
         </p>
       </header>

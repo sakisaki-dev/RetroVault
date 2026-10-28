@@ -6,7 +6,7 @@ import LandscapeScatter from '../visual/LandscapeScatter';
 import { Legend } from '../visual/chartParts';
 import { GOLD } from '../visual/chartKit';
 import { VIZ } from '../analytics/viz';
-import { quadrantName, splitOf } from '../visual/landscape';
+import { quadrantName, splitOf, type LPoint } from '../visual/landscape';
 import { POSITION_COLORS, TIER_COLORS, type ColorBy, type GraphModel } from './graphConfig';
 
 /** The plot for a graph model (shared by the Lab cards and the Graph Builder). */
@@ -17,6 +17,7 @@ export const GraphPlot = ({
   highlightKey,
   empty,
   zones,
+  touch,
 }: {
   model: GraphModel;
   logos: boolean;
@@ -26,6 +27,8 @@ export const GraphPlot = ({
   zones?: { fams: PositionFamilies; active: number | null } | null;
   /** Replaces the default "too few players" message (the Graph Builder explains why and offers a fix). */
   empty?: ReactNode;
+  /** Phone mode (LandscapeScatter `touch`): tap previews, pinch zooms */
+  touch?: { onPreview: (pt: LPoint | null) => void; previewKey: string | null } | null;
 }) =>
   model.points.filter((p) => !p.nfl).length < 3 ? (
     empty ?? <p className="py-10 text-center text-sm text-muted-foreground">Fewer than three league players match these stats and filters. Loosen a filter or pick other stats.</p>
@@ -37,6 +40,7 @@ export const GraphPlot = ({
       onSelect={onSelect}
       highlightKey={highlightKey}
       zones={zones}
+      touch={touch}
       ariaLabel={`${model.ys.label} against ${model.xs.label}. Each dot is a player; click or tap near one to open his card (overlapping dots offer a choice), or Tab to a dot and use the arrow keys.`}
     />
   );

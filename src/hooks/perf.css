@@ -79,6 +79,11 @@
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
   }
+  /* ...so the sticky bars that relied on it go near-solid, or the page would show through them */
+  html .sticky[class*='backdrop-blur'],
+  html header[class*='backdrop-blur'] {
+    background-color: hsl(var(--night)) !important;
+  }
   /* Lighter elevation */
   :root {
     --shadow-card: 0 1px 0 hsl(0 0% 100% / 0.03) inset, 0 4px 12px hsl(228 60% 2% / 0.35);

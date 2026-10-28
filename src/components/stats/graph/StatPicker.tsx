@@ -34,6 +34,7 @@ const StatPicker = ({
   onChange,
   pairWith,
   allowNone,
+  compact,
 }: {
   id: string;
   label: string;
@@ -42,6 +43,8 @@ const StatPicker = ({
   /** Positions the other axis covers. */
   pairWith?: Position[];
   allowNone?: boolean;
+  /** Phone axis bar: no definition line or group tag, so two pickers fit side by side */
+  compact?: boolean;
 }) => {
   const [open, setOpen] = useState(false);
   const current = value ? STAT_BY_ID.get(value) : undefined;
@@ -67,8 +70,8 @@ const StatPicker = ({
             >
               {current ? (
                 <span className="flex min-w-0 items-baseline gap-2">
-                  <span className="truncate font-display text-base font-bold uppercase tracking-wide text-foreground">{current.label}</span>
-                  <span className="shrink-0 font-pixel text-[8px] uppercase text-muted-foreground">{current.group}</span>
+                  <span className={cn('truncate font-display font-bold uppercase tracking-wide text-foreground', compact ? 'text-[15px]' : 'text-base')}>{compact ? current.short : current.label}</span>
+                  {!compact && <span className="shrink-0 font-pixel text-[8px] uppercase text-muted-foreground">{current.group}</span>}
                 </span>
               ) : (
                 <span className="text-sm text-muted-foreground">{allowNone ? 'None' : 'Pick a stat…'}</span>
@@ -135,7 +138,7 @@ const StatPicker = ({
           </button>
         )}
       </div>
-      {current && (
+      {current && !compact && (
         <p className="text-[11px] leading-snug text-muted-foreground">
           {current.definition}
           {current.lowerIsBetter && !/lower is better/i.test(current.definition) ? ' Lower is better.' : ''}

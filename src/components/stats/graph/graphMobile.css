@@ -1,0 +1,98 @@
+/* Phone Graph Builder (GraphBuilder phone layout, GraphPreview). Desktop never renders these classes. */
+
+/* Docked preview of the tapped dot: glides up from the bottom, above the bottom tab bar */
+.gp-sheet {
+  position: fixed;
+  left: 8px;
+  right: 8px;
+  bottom: calc(var(--bottom-nav-h, 0px) + 8px + env(safe-area-inset-bottom, 0px));
+  z-index: 45;
+  overflow: hidden;
+  border: 1px solid hsl(var(--line));
+  border-radius: 16px;
+  background: hsl(var(--popover));
+  box-shadow: 0 -6px 28px hsl(228 60% 2% / 0.55);
+  translate: 0 calc(100% + 24px);
+  opacity: 0;
+  transition:
+    translate var(--dur-close) var(--ease-close),
+    opacity var(--dur-close) var(--ease-close);
+}
+.gp-sheet[data-open='true'] {
+  translate: 0 0;
+  opacity: 1;
+  transition:
+    translate var(--dur-open) var(--ease-spring),
+    opacity var(--dur-2) var(--ease-out);
+}
+.gp-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 8px 10px 14px;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--gp-team) 78%, #000) 0%, color-mix(in srgb, var(--gp-team) 35%, #0b0f1a) 70%);
+  border-bottom: 2px solid hsl(var(--gold) / 0.6);
+}
+.gp-grab {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  translate: -50% 0;
+  width: 40px;
+  height: 5px;
+  border-radius: 999px;
+  background: hsl(0 0% 100% / 0.45);
+}
+.gp-x {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: hsl(0 0% 0% / 0.3);
+}
+
+/* Horizontal chip strips: scroll by finger, edge fade */
+.gb-strip {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-inline: -16px;
+  padding: 2px 16px;
+  scroll-padding-inline: 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.gb-strip::-webkit-scrollbar {
+  display: none;
+}
+.gb-strip > * {
+  flex-shrink: 0;
+}
+.gb-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(var(--night) / 0.6);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: hsl(var(--secondary-foreground));
+}
+.gb-chip[aria-pressed='true'] {
+  border-color: hsl(var(--gold));
+  background: hsl(var(--gold));
+  color: hsl(var(--night));
+}
+.gb-chip--ghost[aria-pressed='true'] {
+  background: hsl(var(--gold) / 0.12);
+  color: hsl(var(--foreground));
+}

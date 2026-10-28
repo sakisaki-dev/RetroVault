@@ -1,5 +1,5 @@
 import { useEffect, useId, useMemo, useState, type ReactNode } from 'react';
-import { ArrowUpDown, BarChart3, Check, ChevronDown, Clock, Link2, Pin, Sparkles, Star, Table2, X } from 'lucide-react';
+import { ArrowUpDown, BarChart3, Check, ChevronDown, Clock, Link2, Pin, SlidersHorizontal, Sparkles, Star, Table2, X } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
 import { POSITIONS } from '@/config/advanced';
 import { familiesFor } from '@/config/families';
@@ -27,6 +27,10 @@ import { autoTitle, explainer, graphSummary, positionsLabel } from './graphText'
 import { paramsKey } from './graphPrefs';
 import { GraphLegend, GraphPlot, GraphTable, NflMissingNote } from './GraphParts';
 import StatPicker from './StatPicker';
+import GraphPreview from './GraphPreview';
+import type { LPoint } from '../visual/landscape';
+import { usePhone } from '@/hooks/usePhone';
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 
 type Mark = 'dots' | 'logos';
 const MIN_GAMES = [0, 8, 16, 32, 64, 100];
@@ -275,6 +279,11 @@ const GraphBuilder = ({
     setFamHover(null);
   }, [fams]);
   const famActive = famHover ?? famOpen;
+  // Phones get their own layout (chart first, controls in chips and a sheet, tap-to-preview); desktop is unchanged
+  const phone = usePhone();
+  const [preview, setPreview] = useState<LPoint | null>(null);
+  const [sheet, setSheet] = useState(false);
+  useEffect(() => setPreview(null), [current]);
 
   const set = (patch: Partial<GraphConfig>) => onChange({ ...config, ...patch });
   // Picking a stat: drop fixed-chart extras, keep only positions both stats apply to, and pick a sensible sample floor.
@@ -311,6 +320,266 @@ const GraphBuilder = ({
       window.prompt('Copy this link', shareLink);
     }
   };
+
+  if (phone) {
+    const posChips = applicable.length > 1 ? ['All', ...POSITIONS.filter((p) => applicable.includes(p))] : [];
+    const recentShown = recent.filter((c) => paramsKey(c) !== current).slice(0, 5);
+    return (
+      <div className="space-y-3">
+        {/* Axes: the two stat pickers side by side with swap between them */}
+        <div className="grid grid-cols-[minmax(0,1fr)_44px_minmax(0,1fr)] items-end gap-1.5">
+          <StatPicker compact id={`${uid}-x`} label="X across" value={config.x} onChange={(x) => setAxis({ x })} pairWith={yPositions} />
+          <button
+            type="button"
+            onClick={swap}
+            aria-label="Swap axes"
+            className="flex h-11 w-11 items-center justify-center rounded-md border border-gold/50 bg-gold/10 text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          >
+            <ArrowUpDown className="h-5 w-5 -rotate-90" aria-hidden="true" />
+          </button>
+          <StatPicker compact id={`${uid}-y`} label="Y up" value={config.y} onChange={(y) => setAxis({ y })} pairWith={xPositions} />
+        </div>
+
+        {/* Positions + the options sheet, one finger-scrollable strip */}
+        <div className="gb-strip" role="group" aria-label="Positions and options">
+          <button type="button" onClick={() => setSheet(true)} className="gb-chip gb-chip--ghost" aria-haspopup="dialog">
+            <SlidersHorizontal className="h-4 w-4 text-gold" aria-hidden="true" />
+            Options
+            {advancedOn + (config.zones ? 1 : 0) > 0 && (
+              <span className="rounded-full bg-gold px-1.5 text-[11px] font-bold text-night">{advancedOn + (config.zones ? 1 : 0)}</span>
+            )}
+          </button>
+          {posChips.map((p) => {
+            const on = p === 'All' ? config.pos.length === 0 : config.pos.includes(p as Position);
+            return (
+              <button
+                key={p}
+                type="button"
+                aria-pressed={on}
+                title={p === 'All' ? 'All positions' : POSITION_NAMES[p as Position]}
+                onClick={() => (p === 'All' ? set({ pos: [] }) : togglePos(p as Position))}
+                className="gb-chip font-display uppercase tracking-wide"
+              >
+                {p}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Presets, saved (pinned) and recent charts */}
+        <div className="gb-strip" role="group" aria-label="Presets, saved and recent charts">
+          {saved.map((pr) => (
+            <button key={pr.id} type="button" aria-pressed={paramsKey(pr.config) === current} onClick={() => onChange(pr.config)} className="gb-chip gb-chip--ghost border-gold/50">
+              <Star className="h-3.5 w-3.5 text-gold" aria-hidden="true" />
+              {pr.name}
+            </button>
+          ))}
+          {TRY_THESE.map((t) => (
+            <button key={t.id} type="button" aria-pressed={paramsKey(t.config) === current} onClick={() => onChange(t.config)} className="gb-chip gb-chip--ghost">
+              <Sparkles className="h-3.5 w-3.5 text-gold" aria-hidden="true" />
+              {t.name}
+            </button>
+          ))}
+          {recentShown.map((c) => (
+            <button key={paramsKey(c)} type="button" onClick={() => onChange(c)} className="gb-chip gb-chip--ghost">
+              <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+              {quickTitle(c)}
+            </button>
+          ))}
+        </div>
+
+        {/* Chart, edge to edge */}
+        <section aria-labelledby={`${uid}-title`} className="-mx-4 space-y-2 border-y border-line/70 bg-panel/40 px-2 py-3">
+          <div className="px-2">
+            <h2 id={`${uid}-title`} className="font-display text-xl font-extrabold italic uppercase leading-tight">
+              {title}
+            </h2>
+            {model && (
+              <p className="mt-0.5 text-[13px] leading-snug text-muted-foreground" aria-live="polite">
+                {graphSummary(model)}
+              </p>
+            )}
+          </div>
+          {model && (
+            <div className="px-2">
+              <GraphLegend model={model} color={config.color} />
+            </div>
+          )}
+          {model ? (
+            asTable ? (
+              <GraphTable model={model} onSelect={onSelect} />
+            ) : (
+              <GraphPlot
+                model={model}
+                logos={mark === 'logos'}
+                onSelect={onSelect}
+                highlightKey={highlight}
+                zones={fams ? { fams, active: famActive } : null}
+                touch={{ onPreview: setPreview, previewKey: preview?.key ?? null }}
+                empty={<EmptyState config={config} model={model} applicable={applicable} onFix={set} />}
+              />
+            )
+          ) : (
+            <p className="py-10 text-center text-sm text-muted-foreground">Pick two stats.</p>
+          )}
+          {model && legends.length > 0 && (
+            <div className="px-2">
+              <NflMissingNote model={model} />
+            </div>
+          )}
+        </section>
+
+        {model && <p className="text-[15px] leading-relaxed text-secondary-foreground">{config.subtitle ? `${config.subtitle} ` : ''}{explainer(model, config)}</p>}
+
+        <div className="gb-strip">
+          <button type="button" aria-pressed={asTable} onClick={() => setAsTable((v) => !v)} className="gb-chip gb-chip--ghost">
+            {asTable ? <BarChart3 className="h-4 w-4" aria-hidden="true" /> : <Table2 className="h-4 w-4" aria-hidden="true" />}
+            {asTable ? 'Chart view' : 'Table view'}
+          </button>
+          <button type="button" onClick={copy} className="gb-chip gb-chip--ghost">
+            {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Link2 className="h-4 w-4" aria-hidden="true" />}
+            {copied ? 'Link copied' : 'Copy link'}
+          </button>
+          <SavePreset defaultName={title} onSave={(name) => onSavePreset(name, config)} />
+        </div>
+
+        {fams && !asTable && (
+          <FamilyPanelBox
+            fams={fams}
+            zonesOn
+            onToggle={(zones) => set({ zones })}
+            active={famActive}
+            open={famOpen}
+            onHover={setFamHover}
+            onOpen={setFamOpen}
+            onPick={(p) => openInCompFinder(p)}
+          />
+        )}
+
+        {model && (
+          <GraphPreview
+            pt={preview}
+            xLabel={model.xs.label}
+            yLabel={model.ys.label}
+            xShort={model.xs.short}
+            yShort={model.ys.short}
+            onClose={() => setPreview(null)}
+            onOpen={(p) => onSelect(p)}
+          />
+        )}
+
+        <Sheet open={sheet} onOpenChange={setSheet}>
+          <SheetContent
+            side="bottom"
+            // No keyboard popping up on open: the sheet is mostly toggles
+            onOpenAutoFocus={(e) => e.preventDefault()}
+            className="max-h-[85dvh] overflow-y-auto rounded-t-2xl border-line bg-popover px-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-6"
+          >
+            <SheetTitle className="flex min-h-[48px] items-center pr-14 font-display text-xl font-extrabold uppercase italic">Chart options</SheetTitle>
+            <SheetDescription className="sr-only">Positions, filters, colours and extras for this chart</SheetDescription>
+            <div className="mt-4 space-y-5">
+              <div className="space-y-1">
+                <label htmlFor={`${uid}-mq`} className="block font-display text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                  Find a player on the chart
+                </label>
+                <input id={`${uid}-mq`} type="search" value={search} list={`${uid}-mnames`} onChange={(e) => setSearch(e.target.value)} placeholder="Name…" className={cn(inputCls, 'h-11 text-base')} />
+                <datalist id={`${uid}-mnames`}>
+                  {model?.points.map((p) => <option key={p.key} value={p.player.name} />)}
+                </datalist>
+                {search.trim().length >= 2 && <p className="text-xs text-muted-foreground">{highlight ? 'Ringed and labelled in gold.' : 'Not on this chart.'}</p>}
+              </div>
+              <div className="space-y-2">
+                <CheckField checked={!!config.zones} onChange={(zones) => set({ zones })}>
+                  Family zones
+                </CheckField>
+                {config.zones && !zonePos && <p className="text-xs text-gold">Families are per position: pick one position to draw its zones.</p>}
+                <LegendsToggle className="w-full justify-start" />
+              </div>
+              <StatPicker id={`${uid}-ms`} label="Size by" value={config.size ?? ''} onChange={(sz) => setAxis({ size: sz || undefined })} allowNone />
+              <div className="space-y-1">
+                <p className="font-display text-xs font-bold uppercase tracking-wide text-muted-foreground">Colour by</p>
+                <Chips
+                  label="Colour by"
+                  value={config.color}
+                  onChange={(color) => set({ color })}
+                  className="[&>button]:min-h-[40px] [&>button]:px-3.5"
+                  options={[
+                    { value: 'team' as ColorBy, label: 'Team' },
+                    { value: 'position' as ColorBy, label: 'Position' },
+                    { value: 'tier' as ColorBy, label: 'Legacy tier' },
+                  ]}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <Field label="Team" htmlFor={`${uid}-mteam`}>
+                  <select id={`${uid}-mteam`} value={config.team ?? ''} onChange={(e) => set({ team: e.target.value || undefined })} className={cn(inputCls, 'h-11 text-base')}>
+                    <option value="">All teams</option>
+                    {teams.map((t) => (
+                      <option key={t.id} value={t.id}>
+                        {t.name}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+                <Field label="Min games" htmlFor={`${uid}-mmin`}>
+                  <select id={`${uid}-mmin`} value={config.minGames} onChange={(e) => set({ minGames: Number(e.target.value) })} className={cn(inputCls, 'h-11 text-base')}>
+                    {[...new Set([...MIN_GAMES, config.minGames])].sort((a, b) => a - b).map((g) => (
+                      <option key={g} value={g}>
+                        {g === 0 ? 'Any' : `${g}+`}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+              </div>
+              <div className="grid grid-cols-2 gap-x-2 gap-y-1 [&_label]:min-h-[44px]">
+                <CheckField checked={config.splits} onChange={(splits) => set({ splits })}>
+                  Quadrants
+                </CheckField>
+                <CheckField checked={!!config.trend} onChange={(trend) => set({ trend })}>
+                  Trend line (r)
+                </CheckField>
+                <CheckField checked={mark === 'logos'} onChange={(v) => setMark(v ? 'logos' : 'dots')}>
+                  Team logos
+                </CheckField>
+                <CheckField checked={!!config.hof} onChange={(hof) => set({ hof })}>
+                  Hall of Famers
+                </CheckField>
+                <CheckField checked={!!config.logX} onChange={(logX) => set({ logX })}>
+                  Log X
+                </CheckField>
+                <CheckField checked={!!config.logY} onChange={(logY) => set({ logY })}>
+                  Log Y
+                </CheckField>
+              </div>
+              {saved.length > 0 && (
+                <div className="space-y-1">
+                  <p className="font-display text-xs font-bold uppercase tracking-wide text-muted-foreground">Your saved charts</p>
+                  <ul className="space-y-1">
+                    {saved.map((pr) => (
+                      <li key={pr.id} className="flex items-center justify-between gap-2 rounded-md border border-line/70 px-3">
+                        <span className="truncate text-sm">★ {pr.name}</span>
+                        <button type="button" onClick={() => onRemovePreset(pr.id)} aria-label={`Delete saved chart ${pr.name}`} className="inline-flex h-11 w-11 items-center justify-center text-muted-foreground">
+                          <X className="h-4 w-4" aria-hidden="true" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <div className="flex gap-2">
+                <button type="button" onClick={() => onChange({ ...DEFAULT_CONFIG, x: config.x, y: config.y, minGames: suggestMinGames([config.x, config.y]) })} className={cn(ghostBtn, 'min-h-[44px] flex-1 justify-center text-sm')}>
+                  Reset options
+                </button>
+                <button type="button" onClick={() => setSheet(false)} className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-md bg-gold font-display text-sm font-bold uppercase tracking-wide text-night">
+                  Done
+                </button>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

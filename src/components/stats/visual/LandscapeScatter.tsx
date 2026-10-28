@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react';
 import type { Player } from '@/types/player';
 import { isHallOfFamer } from '@/config/stats';
 import TeamLogo, { resolveTeam } from '../../brand/TeamLogo';
@@ -20,7 +20,39 @@ import { buildZones } from './zones';
  * Picking never needs pixel precision: hovering anywhere highlights the nearest point within 30px (raised on top,
  * enlarged, with its tooltip); a click opens that point, or a small chooser when several dots overlap there.
  * Arrow keys move to the nearest point in that direction; Enter opens it.
+ *
+ * Touch mode (`touch`, the Graph Builder on phones): a tap selects the nearest point within 30px (a 60px target, so
+ * no dot is too small) and hands it to `touch.onPreview` (a bottom-sheet preview) instead of opening the card. Two
+ * fingers pinch-zoom and pan the plot (semantic zoom: the axes re-tick and dots keep their size); once zoomed, one
+ * finger pans too. Unzoomed, one finger always scrolls the page, so the chart never traps the scroll. Why this and
+ * not a scrubber: the chart is a scatter (no single axis to scrub along), and the crowded corners are what people
+ * want to get into; pinch is the gesture phones already use for that.
  */
+
+/** Visible window in normalised plot units (0..1 on each axis); the full chart is {0, 1, 0, 1}. */
+export interface ScatterView {
+  u0: number;
+  u1: number;
+  v0: number;
+  v1: number;
+}
+const FULL: ScatterView = { u0: 0, u1: 1, v0: 0, v1: 1 };
+const MIN_SPAN = 1 / 8;
+const SLACK = 0.06;
+const clampView = (v: ScatterView): ScatterView => {
+  const fit = (a: number, b: number): [number, number] => {
+    let span = Math.min(1 + 2 * SLACK, Math.max(MIN_SPAN, b - a));
+    if (span >= 1) span = 1;
+    let lo = a;
+    if (span === 1) lo = 0;
+    lo = Math.min(Math.max(lo, -SLACK), 1 + SLACK - span);
+    return [lo, lo + span];
+  };
+  const [u0, u1] = fit(v.u0, v.u1);
+  const [v0, v1] = fit(v.v0, v.v1);
+  return { u0, u1, v0, v1 };
+};
+const isZoomed = (v: ScatterView) => v.u1 - v.u0 < 0.999 || v.v1 - v.v0 < 0.999;
 
 const M = { top: 22, right: 18, bottom: 42, left: 50 };
 
@@ -344,6 +376,7 @@ const LandscapeScatter = ({
   ariaLabel,
   highlightKey,
   zones,
+  touch,
 }: {
   points: LPoint[];
   spec: LandscapeSpec;
@@ -354,12 +387,24 @@ const LandscapeScatter = ({
   highlightKey?: string | null;
   /** Family zones of ONE position (config/families.ts), drawn behind that position's dots; `active` dims the rest. */
   zones?: { fams: PositionFamilies; active: number | null } | null;
+  /** Phone mode: tap previews (instead of opening), pinch-zoom and pan. `previewKey` is the previewed point. */
+  touch?: { onPreview: (pt: LPoint | null) => void; previewKey: string | null } | null;
 }) => {
   const [boxRef, width] = useWidth();
   const [hover, setHover] = useState<string | null>(null);
   const narrow = width < 520;
-  const height = narrow ? Math.max(360, Math.round(width * 1.05)) : Math.round(Math.min(560, Math.max(400, width * 0.58)));
+  // Phones: close to 4:5, but never taller than about two thirds of the screen (the page must stay scrollable)
+  const touchH = typeof window === 'undefined' ? 560 : Math.round(window.innerHeight * 0.64);
+  const height = touch
+    ? Math.round(Math.min(Math.max(340, width * 1.2), Math.max(340, touchH)))
+    : narrow
+      ? Math.max(360, Math.round(width * 1.05))
+      : Math.round(Math.min(560, Math.max(400, width * 0.58)));
   const plot: Box = [M.left, M.top, width - M.right, height - M.bottom];
+  const [view, setView] = useState<ScatterView>(FULL);
+  const zoomed = isZoomed(view);
+  // A new chart (other stats, filters) starts unzoomed
+  useEffect(() => setView(FULL), [points, spec]);
 
   const geo = useMemo(() => {
     const pts = points.filter((p) => (!spec.logX || p.x > 0) && (!spec.logY || p.y > 0));
@@ -379,9 +424,25 @@ const LandscapeScatter = ({
     const ay = axis(ylo, yhi, !!spec.logY, !!spec.yZero, narrow ? 5 : 6, 0.06);
     const fx = (v: number) => (ax.t(v) - ax.t(ax.domain[0])) / (ax.t(ax.domain[1]) - ax.t(ax.domain[0]) || 1);
     const fy = (v: number) => (ay.t(v) - ay.t(ay.domain[0])) / (ay.t(ay.domain[1]) - ay.t(ay.domain[0]) || 1);
-    const X = (v: number) => plot[0] + fx(v) * (plot[2] - plot[0]);
-    const Y = (v: number) => (spec.yInvert ? plot[1] + fy(v) * (plot[3] - plot[1]) : plot[3] - fy(v) * (plot[3] - plot[1]));
-    const yTicks = spec.yInteger ? ay.ticks.filter((t) => Number.isInteger(t)) : ay.ticks;
+    // Zoom (touch mode): the visible window [u0, u1] × [v0, v1] of the normalised plot fills the plot box
+    const zx = (u: number) => (u - view.u0) / (view.u1 - view.u0);
+    const zy = (u: number) => (u - view.v0) / (view.v1 - view.v0);
+    const X = (v: number) => plot[0] + zx(fx(v)) * (plot[2] - plot[0]);
+    const Y = (v: number) => (spec.yInvert ? plot[1] + zy(fy(v)) * (plot[3] - plot[1]) : plot[3] - zy(fy(v)) * (plot[3] - plot[1]));
+    // Ticks for the visible window only (re-ticked while zoomed, so the axes stay readable)
+    const visTicks = (a: typeof ax, u0: number, u1: number, log: boolean, count: number) => {
+      if (u0 <= 0.001 && u1 >= 0.999) return a.ticks;
+      const t0 = a.t(a.domain[0]);
+      const t1 = a.t(a.domain[1]);
+      const lo = a.inv(t0 + Math.max(0, u0) * (t1 - t0));
+      const hi = a.inv(t0 + Math.min(1, u1) * (t1 - t0));
+      const raw = log ? logTicks(lo, hi) : niceTicks(lo, hi, count).ticks;
+      const eps = (hi - lo) * 1e-6;
+      return raw.filter((t) => t >= lo - eps && t <= hi + eps);
+    };
+    const xTicks = visTicks(ax, view.u0, view.u1, !!spec.logX, narrow ? 4 : 6);
+    const yAll = visTicks(ay, view.v0, view.v1, !!spec.logY, narrow ? 5 : 6);
+    const yTicks = spec.yInteger ? yAll.filter((t) => Number.isInteger(t)) : yAll;
 
     // Bubble size: sqrt scale of the third stat, 4–14px.
     const sizes = pts.map((p) => p.size).filter((v): v is number => v != null && Number.isFinite(v));
@@ -404,11 +465,17 @@ const LandscapeScatter = ({
       }))
       .sort((a, b) => b.s - a.s);
     const dots = pts.map((p) => ({ cx: X(p.x), cy: Y(p.y) }));
+    const inPlot = (p: LPoint) => {
+      const cx = X(p.x);
+      const cy = Y(p.y);
+      return cx >= plot[0] && cx <= plot[2] && cy >= plot[1] && cy <= plot[3];
+    };
+    const zoomLevel = 1 / Math.min(view.u1 - view.u0, view.v1 - view.v0);
     const labels = placeLabels(
-      scored.map(({ p }) => ({ key: p.key, text: `${narrow ? shortName(p.player.name) : p.player.name}${p.nfl ? ' (NFL)' : ''}`, cx: X(p.x), cy: Y(p.y) })),
+      scored.filter(({ p }) => inPlot(p)).map(({ p }) => ({ key: p.key, text: `${narrow ? shortName(p.player.name) : p.player.name}${p.nfl ? ' (NFL)' : ''}`, cx: X(p.x), cy: Y(p.y) })),
       dots,
       plot,
-      (narrow ? 6 : 14) + (highlightKey ? 1 : 0),
+      Math.min(16, Math.round((narrow ? 6 : 14) * Math.sqrt(zoomLevel))) + (highlightKey ? 1 : 0),
       spec.noSplits ? [] : cornerBoxes(spec, plot, narrow ? 10 : 12),
     );
 
@@ -421,10 +488,10 @@ const LandscapeScatter = ({
       const clampY = (v: number) => Math.min(Math.max(v, Math.min(...ay.domain)), Math.max(...ay.domain));
       trendLine = { x1: X(ax.inv(u0)), y1: Y(clampY(yAt(u0))), x2: X(ax.inv(u1)), y2: Y(clampY(yAt(u1))) };
     }
-    return { pts, X, Y, ax, yTicks, sx, sy, labels, radius, fit, trendLine };
+    return { pts, X, Y, ax, xTicks, yTicks, sx, sy, labels, radius, fit, trendLine };
     // plot is derived from width/height
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [points, spec, width, height, narrow, highlightKey]);
+  }, [points, spec, width, height, narrow, highlightKey, view]);
 
   const byKey = useMemo(() => new Map(points.map((p) => [p.key, p])), [points]);
   const hovered = hover ? byKey.get(hover) : undefined;
@@ -437,7 +504,13 @@ const LandscapeScatter = ({
       ),
     [geo],
   );
-  const screen = useMemo<Screen[]>(() => (geo ? drawOrder.map((pt) => ({ pt, cx: geo.X(pt.x), cy: geo.Y(pt.y), r: geo.radius(pt) })) : []), [geo, drawOrder]);
+  const screen = useMemo<Screen[]>(() => {
+    if (!geo) return [];
+    const all = drawOrder.map((pt) => ({ pt, cx: geo.X(pt.x), cy: geo.Y(pt.y), r: geo.radius(pt) }));
+    // Zoomed: only what's inside the plot (plus a dot's radius) is drawn and pickable
+    return zoomed ? all.filter((s) => s.cx >= plot[0] - s.r && s.cx <= plot[2] + s.r && s.cy >= plot[1] - s.r && s.cy <= plot[3] + s.r) : all;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [geo, drawOrder, zoomed]);
   const screenByKey = useMemo(() => new Map(screen.map((s) => [s.pt.key, s])), [screen]);
   // Zones only ever wrap the zone position's league dots (NFL keys carry an "nfl:" prefix, so they never match).
   const famOf = (key: string) => zones?.fams.of.get(key);
@@ -469,8 +542,15 @@ const LandscapeScatter = ({
   const open = (pt: LPoint) => {
     setPicked(pt.key);
     setChooser(null);
-    onSelect(pt.player);
+    if (touch) touch.onPreview(pt);
+    else onSelect(pt.player);
   };
+  // The preview closed elsewhere: drop the raised highlight with it
+  const previewKey = touch?.previewKey;
+  useEffect(() => {
+    if (touch && previewKey == null) setPicked(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [previewKey]);
   const onMove = (e: ReactPointerEvent<SVGRectElement>) => {
     if (e.pointerType !== 'mouse' || chooser) return;
     const at = local(e);
@@ -483,6 +563,10 @@ const LandscapeScatter = ({
     const hits = near(screen, at.x, at.y, PICK);
     if (!hits.length) {
       setChooser(null);
+      if (touch) {
+        setPicked(null);
+        touch.onPreview(null);
+      }
       return;
     }
     // Overlapping dots under the cursor: let the viewer choose. An isolated nearest point opens directly.
@@ -512,6 +596,123 @@ const LandscapeScatter = ({
     e.preventDefault();
     if (to) pointsRef.current?.querySelector<SVGGElement>(`[data-rk="${CSS.escape(to.pt.key)}"]`)?.focus();
   };
+  // Touch gestures (touch mode): two fingers pinch / pan; one finger pans only while zoomed (else the page scrolls)
+  const gestureRef = useRef<HTMLDivElement | null>(null);
+  const viewRef = useRef(view);
+  viewRef.current = view;
+  const plotRef = useRef(plot);
+  plotRef.current = plot;
+  useEffect(() => {
+    const el = gestureRef.current;
+    if (!touch || !el) return;
+    type G = { mode: 'pinch' | 'pan' | 'maybe-pan'; start: ScatterView; ax: number; ay: number; d: number; mx: number; my: number };
+    let g: G | null = null;
+    let raf = 0;
+    let next: ScatterView | null = null;
+    const flush = () => {
+      raf = 0;
+      if (next) setView(next);
+      next = null;
+    };
+    const push = (v: ScatterView) => {
+      next = clampView(v);
+      viewRef.current = next;
+      if (!raf) raf = requestAnimationFrame(flush);
+    };
+    // Screen point -> fraction of the plot box (y measured from the bottom unless the axis is inverted)
+    const frac = (x: number, y: number) => {
+      const r = el.getBoundingClientRect();
+      const [l, t, rr, b] = plotRef.current;
+      const fxs = (x - r.left - l) / (rr - l || 1);
+      const fys = spec.yInvert ? (y - r.top - t) / (b - t || 1) : (b - (y - r.top)) / (b - t || 1);
+      return [fxs, fys] as const;
+    };
+    const mid = (e: TouchEvent) => {
+      const [a, b] = [e.touches[0], e.touches[1]];
+      return { x: (a.clientX + b.clientX) / 2, y: (a.clientY + b.clientY) / 2, d: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY) || 1 };
+    };
+    const begin = (e: TouchEvent) => {
+      const v = viewRef.current;
+      if (e.touches.length >= 2) {
+        const m = mid(e);
+        const [fa, fb] = frac(m.x, m.y);
+        g = { mode: 'pinch', start: v, ax: v.u0 + fa * (v.u1 - v.u0), ay: v.v0 + fb * (v.v1 - v.v0), d: m.d, mx: m.x, my: m.y };
+        if (e.cancelable) e.preventDefault();
+      } else if (e.touches.length === 1 && isZoomed(v)) {
+        const t = e.touches[0];
+        g = { mode: 'maybe-pan', start: v, ax: 0, ay: 0, d: 0, mx: t.clientX, my: t.clientY };
+      } else g = null;
+    };
+    const move = (e: TouchEvent) => {
+      if (!g) return;
+      const pl = plotRef.current;
+      const pw = pl[2] - pl[0] || 1;
+      const ph = pl[3] - pl[1] || 1;
+      if (g.mode === 'pinch' && e.touches.length >= 2) {
+        if (e.cancelable) e.preventDefault();
+        const m = mid(e);
+        const k = g.d / m.d;
+        const w = (g.start.u1 - g.start.u0) * k;
+        const h = (g.start.v1 - g.start.v0) * k;
+        const [fa, fb] = frac(m.x, m.y);
+        const u0 = g.ax - fa * w;
+        const v0 = g.ay - fb * h;
+        push({ u0, u1: u0 + w, v0, v1: v0 + h });
+        return;
+      }
+      if (e.touches.length !== 1) return;
+      const t = e.touches[0];
+      const dx = t.clientX - g.mx;
+      const dy = t.clientY - g.my;
+      if (g.mode === 'maybe-pan') {
+        if (Math.hypot(dx, dy) < 8) return;
+        g.mode = 'pan';
+      }
+      if (g.mode !== 'pan') return;
+      if (e.cancelable) e.preventDefault();
+      const s0 = g.start;
+      const du = (-dx / pw) * (s0.u1 - s0.u0);
+      const dv = ((spec.yInvert ? -dy : dy) / ph) * (s0.v1 - s0.v0);
+      push({ u0: s0.u0 + du, u1: s0.u1 + du, v0: s0.v0 + dv, v1: s0.v1 + dv });
+    };
+    const end = (e: TouchEvent) => {
+      if (!g) return;
+      // Lifting one finger of a pinch: carry on as a one-finger pan from here
+      if (g.mode === 'pinch' && e.touches.length === 1 && isZoomed(viewRef.current)) {
+        const t = e.touches[0];
+        g = { mode: 'pan', start: viewRef.current, ax: 0, ay: 0, d: 0, mx: t.clientX, my: t.clientY };
+        return;
+      }
+      if (e.touches.length === 0) g = null;
+    };
+    // iOS: keep Safari's own page zoom out of the chart
+    const stopGesture = (e: Event) => e.preventDefault();
+    el.addEventListener('touchstart', begin, { passive: false });
+    el.addEventListener('touchmove', move, { passive: false });
+    el.addEventListener('touchend', end);
+    el.addEventListener('touchcancel', end);
+    el.addEventListener('gesturestart', stopGesture);
+    return () => {
+      el.removeEventListener('touchstart', begin);
+      el.removeEventListener('touchmove', move);
+      el.removeEventListener('touchend', end);
+      el.removeEventListener('touchcancel', end);
+      el.removeEventListener('gesturestart', stopGesture);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [touch, spec.yInvert, geo != null]);
+  const resetZoom = useCallback(() => setView(FULL), []);
+  const zoomBy = useCallback((k: number) => {
+    const v = viewRef.current;
+    const cu = (v.u0 + v.u1) / 2;
+    const cv = (v.v0 + v.v1) / 2;
+    const w = (v.u1 - v.u0) * k;
+    const h = (v.v1 - v.v0) * k;
+    setView(clampView({ u0: cu - w / 2, u1: cu + w / 2, v0: cv - h / 2, v1: cv + h / 2 }));
+  }, []);
+  const clipId = `ls-clip-${useMemo(() => Math.random().toString(36).slice(2, 8), [])}`;
+  const clip = touch ? `url(#${clipId})` : undefined;
+
   const raised = [hover, picked !== hover ? picked : null].map((k) => (k ? screenByKey.get(k) : undefined)).filter((x): x is Screen => !!x);
 
   const q = spec.quadrants;
@@ -521,14 +722,21 @@ const LandscapeScatter = ({
   return (
     <div ref={boxRef} className="relative w-full" onMouseLeave={() => setHover(null)}>
       {geo && (
-        <div>
+        <div ref={gestureRef} className="relative" style={touch ? { touchAction: zoomed ? 'none' : 'pan-x pan-y' } : undefined}>
           <svg ref={svgRef} width={width} height={height} role="group" aria-label={ariaLabel} className="rv-chart-in block select-none">
+            {touch && (
+              <defs>
+                <clipPath id={clipId}>
+                  <rect x={plot[0]} y={plot[1]} width={Math.max(0, plot[2] - plot[0])} height={Math.max(0, plot[3] - plot[1])} />
+                </clipPath>
+              </defs>
+            )}
             {/* Grid + axes */}
             <g aria-hidden="true">
-              {geo.ax.ticks.map((t) => (
+              {geo.xTicks.map((t) => (
                 <g key={`x${t}`}>
                   <line x1={geo.X(t)} x2={geo.X(t)} y1={plot[1]} y2={plot[3]} stroke={VIZ.grid} />
-                  <text x={geo.X(t)} y={plot[3] + 16} textAnchor="middle" fontSize={11} fill={VIZ.muted}>
+                  <text x={geo.X(t)} y={plot[3] + 16} textAnchor="middle" fontSize={touch ? 12 : 11} fill={VIZ.muted}>
                     {fmtTick(t)}
                   </text>
                 </g>
@@ -536,7 +744,7 @@ const LandscapeScatter = ({
               {geo.yTicks.map((t) => (
                 <g key={`y${t}`}>
                   <line x1={plot[0]} x2={plot[2]} y1={geo.Y(t)} y2={geo.Y(t)} stroke={VIZ.grid} />
-                  <text x={plot[0] - 6} y={geo.Y(t) + 4} textAnchor="end" fontSize={11} fill={VIZ.muted}>
+                  <text x={plot[0] - 6} y={geo.Y(t) + 4} textAnchor="end" fontSize={touch ? 12 : 11} fill={VIZ.muted}>
                     {fmtTick(t)}
                   </text>
                 </g>
@@ -552,10 +760,12 @@ const LandscapeScatter = ({
 
               {!spec.noSplits && (
                 <>
-                  {/* Top-right quadrant tint, split lines */}
+ {/* Top-right quadrant tint, split lines */}
+                  <g clipPath={clip}>
                   <rect x={geo.X(geo.sx)} y={plot[1]} width={Math.max(plot[2] - geo.X(geo.sx), 0)} height={Math.max(geo.Y(geo.sy) - plot[1], 0)} fill={GOLD} fillOpacity={0.045} />
                   <line x1={geo.X(geo.sx)} x2={geo.X(geo.sx)} y1={plot[1]} y2={plot[3]} stroke={spec.xSplit ? GOLD : VIZ.muted} strokeOpacity={spec.xSplit ? 0.8 : 0.6} strokeDasharray="5 4" />
                   <line x1={plot[0]} x2={plot[2]} y1={geo.Y(geo.sy)} y2={geo.Y(geo.sy)} stroke={spec.ySplit ? GOLD : VIZ.muted} strokeOpacity={spec.ySplit ? 0.8 : 0.6} strokeDasharray="5 4" />
+                  </g>
                   {spec.ySplit && (
                     <text x={plot[2] - 4} y={geo.Y(geo.sy) - 5} textAnchor="end" fontSize={10} fontWeight={700} fill={GOLD}>
                       {spec.ySplit.label}
@@ -574,16 +784,16 @@ const LandscapeScatter = ({
                 </>
               )}
               {spec.diagonal && (
-                <>
+                <g clipPath={clip}>
                   <line x1={geo.X(geo.ax.domain[0])} y1={geo.Y(geo.ax.domain[0])} x2={geo.X(geo.ax.domain[1])} y2={geo.Y(geo.ax.domain[1])} stroke={VIZ.ink} strokeOpacity={0.35} strokeWidth={1.5} />
                   <text x={geo.X(geo.ax.domain[1]) - 4} y={geo.Y(geo.ax.domain[1]) + 14} textAnchor="end" fontSize={10} fill={VIZ.muted}>
                     y = x
                   </text>
-                </>
+                </g>
               )}
               {geo.trendLine && geo.fit && (
                 <>
-                  <line {...geo.trendLine} stroke={VIZ.ink} strokeOpacity={0.7} strokeWidth={2} strokeDasharray="8 5" />
+                  <line {...geo.trendLine} clipPath={clip} stroke={VIZ.ink} strokeOpacity={0.7} strokeWidth={2} strokeDasharray="8 5" />
                   <g transform={`translate(${(plot[0] + plot[2]) / 2} ${plot[1] + 4})`}>
                     <rect x={-34} y={0} width={68} height={18} rx={4} fill={VIZ.surface} stroke={VIZ.axis} />
                     <text x={0} y={13} textAnchor="middle" fontSize={11} fontWeight={700} fill={VIZ.ink} className="font-mono">
@@ -595,12 +805,12 @@ const LandscapeScatter = ({
             </g>
 
             {zones && zoneShapes.length > 0 && (
-              <g pointerEvents="none">
+              <g pointerEvents="none" clipPath={clip}>
                 <FamilyZoneLayer zones={zoneShapes} fams={zones.fams} active={famActive} onHover={() => {}} onOpen={() => {}} />
               </g>
             )}
 
-            <g ref={pointsRef} pointerEvents="none">
+            <g ref={pointsRef} pointerEvents="none" clipPath={clip}>
               {screen.map(({ pt, cx, cy, r }) => (
                 <g key={pt.key} className="fz-dot" opacity={famActive != null && famOf(pt.key) !== famActive ? 0.18 : 1}>
                   <PointMark
@@ -619,7 +829,7 @@ const LandscapeScatter = ({
             </g>
 
             {/* Hovered / picked point raised on top and enlarged */}
-            <g aria-hidden="true" pointerEvents="none">
+            <g aria-hidden="true" pointerEvents="none" clipPath={clip}>
               {raised.map(({ pt, cx, cy, r }) => (
                 <PointShape key={pt.key} pt={pt} cx={cx} cy={cy} r={r + 2.5} logo={logos ? resolveTeam(pt.player.team)?.logoUrl ?? null : null} raised />
               ))}
@@ -668,6 +878,28 @@ const LandscapeScatter = ({
               )}
             </g>
           </svg>
+          {touch && (
+            <div className="mt-1 flex items-center gap-1.5">
+              <p className="mr-auto text-xs text-muted-foreground" aria-live="polite">
+                {zoomed ? 'Drag to move around · pinch to zoom' : 'Tap a dot · pinch with two fingers to zoom'}
+              </p>
+              {zoomed && (
+                <button
+                  type="button"
+                  onClick={resetZoom}
+                  className="inline-flex h-11 items-center rounded-full border border-gold/60 bg-night/90 px-3 font-display text-xs font-bold uppercase tracking-wide text-gold"
+                >
+                  Reset zoom
+                </button>
+              )}
+              <button type="button" onClick={() => zoomBy(1.6)} disabled={!zoomed} aria-label="Zoom out" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-night/90 text-lg font-bold text-foreground disabled:opacity-35">
+                −
+              </button>
+              <button type="button" onClick={() => zoomBy(1 / 1.6)} aria-label="Zoom in" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-night/90 text-lg font-bold text-foreground">
+                +
+              </button>
+            </div>
+          )}
         </div>
       )}
       {chooser && <ClusterChooser at={chooser} items={chooser.items} width={width} onPick={open} onClose={() => setChooser(null)} />}
