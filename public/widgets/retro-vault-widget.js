@@ -220,35 +220,49 @@ async function build() {
 
   w.addSpacer(9);
 
-  // Market strip: two risers, one faller
-  const strip = w.addStack();
-  strip.centerAlignContent();
-  const mk = strip.addText('MARKET');
-  mk.font = mono(9); mk.textColor = C.gold;
-  strip.addSpacer(6);
+  // Bottom: two panels side by side, Market (left) and The Wire (right)
+  const cols = w.addStack();
+  cols.layoutHorizontally();
+  cols.topAlignContent();
+  const panel = (title, width) => {
+    const p = cols.addStack();
+    p.layoutVertically();
+    p.size = new Size(width, 0);
+    p.setPadding(7, 9, 7, 9);
+    p.cornerRadius = 10;
+    p.backgroundColor = C.panel;
+    p.borderColor = C.line; p.borderWidth = 1;
+    const h = p.addText(title);
+    h.font = mono(8.5); h.textColor = C.gold;
+    p.addSpacer(4);
+    return p;
+  };
+  const market = panel('MARKET', 118);
   const movers = data.movers || [];
   if (!movers.length) {
-    const q = strip.addText('Quiet since the last update');
-    q.font = body(11); q.textColor = C.muted;
+    const q = market.addText('Quiet since the last update');
+    q.font = body(10.5); q.textColor = C.muted; q.lineLimit = 3;
   }
-  movers.forEach((m, i) => {
-    if (i) strip.addSpacer(8);
-    const t = strip.addText(`${m.pct > 0 ? '▲' : '▼'} ${m.last} ${Math.abs(m.pct)}%`);
-    t.font = mono(10.5); t.textColor = m.pct > 0 ? C.up : C.down; t.lineLimit = 1;
+  movers.slice(0, 3).forEach((m, i) => {
+    if (i) market.addSpacer(4);
+    const row = market.addStack();
+    row.centerAlignContent();
+    const n = row.addText(m.last);
+    n.font = displayB(12.5); n.textColor = C.chalk; n.lineLimit = 1; n.minimumScaleFactor = 0.75;
+    row.addSpacer();
+    const t = row.addText(`${m.pct > 0 ? '▲' : '▼'}${Math.abs(m.pct)}%`);
+    t.font = mono(10); t.textColor = m.pct > 0 ? C.up : C.down; t.lineLimit = 1;
   });
-
-  w.addSpacer(8);
-
-  // Wire: newest headlines (the record chase gets its own icon)
-  const wireHead = w.addText('THE WIRE');
-  wireHead.font = mono(9); wireHead.textColor = C.gold;
-  w.addSpacer(3);
+  market.addSpacer();
+  cols.addSpacer(8);
+  const wire = panel('THE WIRE', 0);
   const news = (data.headlines || []).slice(art ? 0 : 1, art ? 3 : 4);
-  news.forEach((h) => {
-    const t = w.addText(`${h.kind === 'chase' ? '⏱' : h.kind === 'trade' ? '⇄' : '●'}  ${h.text}`);
-    t.font = body(11.5); t.textColor = C.chalk; t.lineLimit = 1; t.minimumScaleFactor = 0.85;
-    w.addSpacer(2);
+  news.forEach((h, i) => {
+    if (i) wire.addSpacer(4);
+    const t = wire.addText(`${h.kind === 'chase' ? '⏱' : h.kind === 'trade' ? '⇄' : '●'} ${h.text}`);
+    t.font = body(10.5); t.textColor = C.chalk; t.lineLimit = 2; t.minimumScaleFactor = 0.85;
   });
+  wire.addSpacer();
 
   w.addSpacer();
   const foot = w.addText((data.updatedLabel || '') + ' · tap for the full story');
