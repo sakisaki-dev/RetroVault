@@ -342,19 +342,24 @@ current data is a no-op.
   `edition.seed` (nothing repeats until the pool is spent); bottom panels on even days and the 2 days after an
   update MARKET + THE WIRE, on odd days HOF WATCH + RECORD CHASE (every other odd day MILESTONES instead).
   `refreshAfterDate` is the sooner of 2 hours from now and the next noon/midnight, so a pushed update reaches the
-  widget within about 2 hours while the rotation still turns only at noon and midnight. **Look** (the site's tokens
-  from `src/index.css`): the whole background is a DrawContext image (navy gradient, the gold radial glow, faint
-  scanlines behind the header) with the signature gold gradient rim (bright gold top-left to deep amber bottom-right);
-  the spotlight card and both panels are fixed-size stacks with their own rimmed background image (a team-gradient
-  banner with a dimmed logo watermark for players); the header is the site's BrandGlyph and the italic RETRO VAULT
-  wordmark, an edition chip like the site's `.lamp`, and the masthead's gold-to-turf line; kickers are pixel text from
-  a 5-row glyph table (after Silkscreen) with 7×7 pixel icons (trophy, ticker, radio, stopwatch, pillar, bulb, flag);
-  pixel ▲/▼ arrows, rank badges, gold progress bars; team logos are ESPN's dark-background marks (`500-dark`, 120 px
-  via the CDN combiner), cached in the Scriptable cache and replaced by the team colour bar when offline. Every field
+  widget within about 2 hours while the rotation still turns only at noon and midnight. **Look** (the site's tokens from
+  `src/index.css`, calm on purpose): the background is a DrawContext image (navy gradient, faint scanlines at the top)
+  whose one gold element is the signature gold gradient rim (bright gold top-left to deep amber bottom-right). No header
+  banner: the story comes first and the footer carries "Y82 · ED 34 · <last update>". Content padding (`PAD`) keeps
+  everything at least 10 pt inside the rim. Cards and panels are fixed-size stacks with their own background image
+  (panel fill clipped to the rounded shape, a quiet `--line` rim, a faint team tint and rim, team stripe and dimmed
+  logo watermark on player cards). Kickers are muted pixel text from a 5-row glyph table (after Silkscreen) with 7×7
+  pixel icons; body text is chalk. **Team colours carry the identity**: every player name (spotlight, market, HOF
+  watch, record chase, milestones, small widget) and its progress bar wear the club colour from `teamInk()`, which
+  keeps the hue and raises lightness until it reaches 4.5:1 on `#111627`, `#1a2137` and `#090d1a`, switching dark
+  navy/black primaries to a real secondary (Bears orange, Patriots red); a fact that opens with the name drops it under
+  the coloured name line; wire bullets wear the headline's club (`team` per headline, rule-built). Pixel ▲/▼ arrows,
+  neutral rank badges, a red BREAKING tag; team logos are ESPN's dark-background marks (`500-dark`, 120 px via the
+  CDN combiner), cached, replaced by the colour bar offline. Every field
   is optional, so an older cached widget.json still draws. The widget's Parameter field sets the tap: empty = the
   site, a Shortcut's name = `shortcuts://run-shortcut`, a URL = as is. The audit errors if widget.json is missing,
   stale (season or edition differs from content.json), names a player without a card (facts, vault, fallback, HOF
-  watch, chases, milestones), has an incomplete countdown, a champion from another season, or "you/your" outside a
+  watch, chases, milestones) or an item without a `team` (or with a club outside the 32), has an incomplete countdown, a champion from another season, or "you/your" outside a
   Hall of Fame speech hook.
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
   `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. The value formula lives in

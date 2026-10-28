@@ -14,7 +14,7 @@ Hall of Fame speech (speech.set).
 * vault             evergreen history cards: every Super Bowl, the record board, the Hall of Fame (speech hook, class,
                     Career Legacy) and the generated storylines (eras, rivalries, snubs, chases...)
 * movers            top 2 risers and top faller between the last two market snapshots (base value >= 50)
-* headlines         the top 4 "What changed" headlines
+* headlines         the top 4 "What changed" headlines, each with the club its bullet wears
 * cards             banner data (team, OVR, grade, Career Legacy, value change) for every player an item names
 * spotlightFallback notable active players for when there is nothing else to show
 * hofWatch          active players closest to the Hall of Fame line (Career Legacy 7,000): points to go, share
@@ -439,7 +439,9 @@ def vault() -> list[dict]:
             continue
         out.append({"id": f"story-{s['id']}", "kind": s.get("category", "storyline").lower().replace(" ", "-"),
                     "when": None, "title": third_person(title_case(s["headline"]) if s["headline"].isupper() else s["headline"]),
-                    "text": third_person(s["summary"]), "team": next((t for t in (s.get("subheadline") or "").split(" · ")[-1].split(", ") if t in B_TEAMS), None),
+                    "text": third_person(s["summary"]),
+                    "team": next((t for t in (s.get("subheadline") or "").split(" · ")[-1].split(", ") if t in B_TEAMS), None)
+                    or (banner_team(s["players"][0]) if s.get("players") and s["players"][0] in KEY else None),
                     "player": KEY.get((s.get("players") or [None])[0])})
     return [{k: v for k, v in x.items() if v not in (None, False)} for x in out]
 
@@ -502,6 +504,12 @@ def champion() -> dict | None:
         return None
     return {k: v for k, v in {"season": CONTENT["season"], "roman": sb["roman"], "winner": sb["winner"],
                               "loser": sb.get("loser"), "owner": sb["yourResult"] == "won"}.items() if v is not None}
+
+
+def headline_team(h: dict) -> str | None:
+    """The club a headline's bullet wears: its first player's banner team, else its first team."""
+    names = [n for n in h.get("players") or [] if n in KEY]
+    return banner_team(names[0]) if names else nick((h.get("teams") or [None])[0])
 
 
 # ---------------------------------------------------------------------------
@@ -573,7 +581,8 @@ def main():
         "vault": vault_items,
         "movers": [{"key": k, "last": B.surname(k.split(":", 1)[1]), "pct": d, "team": banner_team(k.split(":", 1)[1])}
                    for d, k in movers],
-        "headlines": [{"kind": h["kind"], "text": h["text"]} for h in CONTENT.get("headlines", [])[:4]],
+        "headlines": [{k: v for k, v in {"kind": h["kind"], "text": h["text"], "team": headline_team(h)}.items() if v}
+                      for h in CONTENT.get("headlines", [])[:4]],
         "spotlightFallback": notable,
         "hofWatch": watch,
         "chases": chase_list,

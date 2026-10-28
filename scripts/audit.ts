@@ -10,7 +10,7 @@ import { existsSync, readdirSync, readFileSync } from 'fs';
 import { execFileSync } from 'child_process';
 import { parseCSV } from '@/utils/csvParser';
 import { normalizeLeague, isHallOfFamer } from '@/config/stats';
-import { findNFLTeam } from '@/utils/nflTeams';
+import { findNFLTeam, NFL_TEAMS } from '@/utils/nflTeams';
 import type { Player } from '@/types/player';
 
 const read = (p: string) => JSON.parse(readFileSync(p, 'utf8'));
@@ -300,6 +300,13 @@ else {
         if (!(typeof x.toGo === 'number' && x.toGo > 0) || !x.last) errors.push(`widget.json ${k} item is incomplete: ${JSON.stringify(x).slice(0, 80)}`);
       });
     }
+    // Team colours: every item that names a player carries his club, and every club is one of the 32 (the widget's
+    // colour table and logo map cover exactly those)
+    const lists = ['didYouKnow', 'vault', 'movers', 'hofWatch', 'chases', 'milestones', 'headlines'];
+    lists.forEach((k) => (wj[k] ?? []).forEach((x: { player?: string; key?: string; team?: string }) => {
+      if ((x.player || x.key) && !x.team) errors.push(`widget.json ${k} item for ${x.player || x.key} has no team (names wear team colours)`);
+      if (x.team && !NFL_TEAMS.some((t) => t.name === x.team)) errors.push(`widget.json ${k} team "${x.team}" is not one of the 32 clubs`);
+    }));
     if (wj.champion && wj.champion.season !== content.season) errors.push(`widget.json champion is for ${wj.champion.season}, not ${content.season}`);
     // Widget cards name the coach ("Skura's Ravens"), never "you" / "your" (speech hooks are quoted verbatim)
     items.forEach((it) => {

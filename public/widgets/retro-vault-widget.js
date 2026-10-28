@@ -1,11 +1,11 @@
 // Retro Vault widget for Scriptable (iOS). Loaded by retro-vault-install.js, which fetches this file from the repo on
-// every refresh, so the widget updates itself. A league front page in the site's own look (navy, gold rim, pixel
-// kickers, the pixel football): the season story, a spotlight ("Did you know" facts and "From the Vault" history) and
-// rotating panels. It reads one small file, public/data/widget.json, which `npm run rebuild` generates by rule
+// every refresh, so the widget updates itself. A league front page in the site's own look: navy, one gold gradient rim
+// as the signature, muted pixel kickers, and team colours on every player name (made legible on navy). It shows the
+// season story, a spotlight ("Did you know" facts and "From the Vault" history) and rotating panels. It reads one small file, public/data/widget.json, which `npm run rebuild` generates by rule
 // (scripts/build_widget_data.py). Every field it reads is optional, so an older cached widget.json still draws.
 //
 // One script, every size (Scriptable picks the layout from config.widgetFamily):
-//   large      header, story, spotlight, two rotating panels, footer
+//   large      story, spotlight, two rotating panels, footer (season · edition · last update)
 //   medium     story beside the spotlight
 //   small      the spotlight alone
 //   lock screen (accessoryInline / accessoryCircular / accessoryRectangular): the champion or top headline, a gauge of
@@ -47,7 +47,6 @@ const HEX = {
 };
 const C = Object.fromEntries(Object.entries(HEX).map(([k, v]) => [k, new Color(v)]));
 const display = (s) => new Font('AvenirNextCondensed-Heavy', s); // the site's Barlow Condensed headings
-const displayI = (s) => new Font('AvenirNextCondensed-HeavyItalic', s); // the RETRO VAULT wordmark
 const displayB = (s) => new Font('AvenirNextCondensed-Bold', s);
 const body = (s) => Font.mediumSystemFont(s);
 const mono = (s) => Font.boldMonospacedSystemFont(s); // JetBrains Mono numbers
@@ -310,15 +309,15 @@ const textWidth = (s) => [...String(s).toUpperCase()].reduce((n, ch) => n + (GLY
 function pixelLabel(parts, opts = {}) {
   const icon = opts.icon ? ICONS[opts.icon] : null;
   const px = opts.px || PX;
-  const list = typeof parts === 'string' ? [[parts, HEX.gold]] : parts;
+  const list = typeof parts === 'string' ? [[parts, HEX.muted]] : parts; // kickers: muted, like the site's labels
   const cols = (icon ? 7 + 3 : 0) + list.reduce((n, [t]) => n + textWidth(t), 0) + (list.length - 1);
   const rows = icon ? 7 : 5;
-  const key = JSON.stringify([list, opts.icon, px, opts.iconHex]);
+  const key = JSON.stringify([list, opts.icon, px, opts.iconHex, opts.iconDeep]);
   if (IMG_CACHE[key]) return IMG_CACHE[key];
   const dc = newCtx(cols * px, rows * px);
   let x = 0;
   if (icon) {
-    drawGrid(dc, icon, 0, 0, px, { g: opts.iconHex || HEX.gold, d: opts.iconDeep || HEX.goldDeep, w: HEX.chalk });
+    drawGrid(dc, icon, 0, 0, px, { g: opts.iconHex || HEX.muted, d: opts.iconDeep || mixHex(HEX.muted, HEX.night, 0.35), w: HEX.chalk });
     x = 10;
   }
   const top = icon ? 1 : 0;
@@ -426,6 +425,26 @@ function fillDiagonal(dc, w, h, from, to, alpha = 1) {
     dc.fillRect(new Rect((w * i) / n, 0, w / n + 0.6, h));
   }
 }
+// Fills clipped to a rounded rectangle (DrawContext cannot clip): 1-pt strips inset at the corners, so the card's
+// corners stay transparent over any background
+function cornerInset(t, len, r) {
+  const d = t < r ? r - t : t > len - r ? t - (len - r) : 0;
+  return d > 0 ? r - Math.sqrt(Math.max(0, r * r - d * d)) : 0;
+}
+function roundedRows(dc, w, h, r, top, bottom, alpha = 1) {
+  for (let y = 0; y < h; y += 1) {
+    const dx = cornerInset(y + 0.5, h, r);
+    dc.setFillColor(rgba(mixHex(top, bottom, y / Math.max(1, h - 1)), alpha));
+    dc.fillRect(new Rect(dx, y, w - 2 * dx, Math.min(1.4, h - y)));
+  }
+}
+function roundedCols(dc, w, h, r, from, to, alpha = 1) {
+  for (let x = 0; x < w; x += 1) {
+    const dy = cornerInset(x + 0.5, w, r);
+    dc.setFillColor(rgba(mixHex(from, to, x / Math.max(1, w - 1)), alpha));
+    dc.fillRect(new Rect(x, dy, Math.min(1.4, w - x), h - 2 * dy));
+  }
+}
 // Soft glow: stacked translucent ellipses (the site's radial-gradient glows)
 function glow(dc, cx, cy, rx, ry, hex, peak) {
   const n = 14;
@@ -436,86 +455,109 @@ function glow(dc, cx, cy, rx, ry, hex, peak) {
   }
 }
 
-// The widget background: navy, the gold glow at the top-left, faint scanlines behind the header, the gold rim
+// ---------- team colour, made legible on navy ----------
+// Names wear their club's colour. A colour must reach 4.5:1 against the panels (#111627, #1a2137) and the night
+// (#090d1a); dark navy/black primaries switch to the club's secondary when that is a real colour (Bears orange,
+// Patriots red), otherwise the primary's lightness is raised just enough, keeping its hue (Jets green, Colts blue).
+function lum(hex) {
+  const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+    .map((v) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)));
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+function contrast(a, b) {
+  const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p);
+  return (x + 0.05) / (y + 0.05);
+}
+function hsl(hex) {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn;
+  if (!d) return [0, 0, l];
+  const s = d / (1 - Math.abs(2 * l - 1));
+  const h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  return [(h * 60 + 360) % 360, s, l];
+}
+const INK_BACKS = [HEX.panel, HEX.panel2, HEX.night];
+function hslHex(h, s, l) {
+  const k = (n) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n) => l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1));
+  return '#' + [f(0), f(8), f(4)].map((v) => Math.round(v * 255).toString(16).padStart(2, '0')).join('');
+}
+// Raise the lightness (keeping the hue, and some saturation so it stays the club's colour) until it reads
+function readable(hex) {
+  const [h, s0, l0] = hsl(hex);
+  const s = s0 < 0.12 ? s0 : Math.max(s0, 0.5);
+  for (let l = l0; l <= 0.97; l += 0.015) {
+    const c = hslHex(h, s, l);
+    if (INK_BACKS.every((b) => contrast(c, b) >= 4.5)) return c;
+  }
+  return HEX.chalk;
+}
+const INK = {};
+function teamInk(team) {
+  const k = nick(team);
+  if (!TEAMS[k]) return HEX.chalk;
+  if (INK[k]) return INK[k];
+  const [p, s] = TEAMS[k];
+  const [hue, sat] = hsl(p);
+  const navyish = lum(p) < 0.03 && ((hue >= 195 && hue <= 235) || sat < 0.25);
+  const chromatic = hsl(s)[1] >= 0.25 && lum(s) < 0.85;
+  return (INK[k] = readable(navyish && chromatic ? s : p));
+}
+const inkColor = (team) => new Color(teamInk(team));
+
+// ---------- backgrounds ----------
+// The widget background: navy, a faint lift at the top, scanlines behind the first block, and the one gold
+// signature: the gradient rim. Content padding (PAD) keeps everything clear of the rim (inset + stroke + air).
+const RIM_INSET = 3, RIM_W = 1.7;
 function backgroundImage(w, h, opts = {}) {
   const dc = newCtx(w, h);
   fillVertical(dc, 0, 0, w, h, HEX.night2, HEX.night);
-  glow(dc, w * 0.2, -h * 0.12, w * 0.75, h * 0.42, HEX.gold, 0.16);
-  glow(dc, w * 0.85, h * 1.05, w * 0.6, h * 0.3, HEX.turfDeep, 0.14);
+  glow(dc, w * 0.3, -h * 0.15, w * 0.8, h * 0.4, HEX.panel2, 0.5);
+  glow(dc, w * 0.85, h * 1.05, w * 0.6, h * 0.3, HEX.turfDeep, 0.1);
   const band = opts.scan || 0;
-  for (let y = 1; y < band; y += 3) {
-    dc.setFillColor(rgba('#ffffff', 0.035 * (1 - y / band)));
+  for (let y = RIM_INSET + 2; y < band; y += 3) {
+    dc.setFillColor(rgba('#ffffff', 0.03 * (1 - y / band)));
     dc.fillRect(new Rect(0, y, w, 1));
   }
-  const inset = opts.inset == null ? 3 : opts.inset;
-  strokeGoldRim(dc, inset, inset, w - 2 * inset, h - 2 * inset, opts.radius || 19, opts.lw || 1.7);
+  strokeGoldRim(dc, RIM_INSET, RIM_INSET, w - 2 * RIM_INSET, h - 2 * RIM_INSET, opts.radius || 19, RIM_W);
   return dc.getImage();
 }
-// A card behind a fixed-size stack: fill (flat or team gradient), optional dimmed logo watermark, the gold rim
+// A plain rounded outline in one colour (cards and panels: the line colour, or a faint team tint)
+function strokeRim(dc, x, y, w, h, r, lw, hex, alpha = 1) {
+  const p = new Path();
+  p.addRoundedRect(new Rect(x, y, w, h), r, r);
+  dc.addPath(p);
+  dc.setStrokeColor(rgba(hex, alpha));
+  dc.setLineWidth(lw);
+  dc.strokePath();
+}
+// A card behind a fixed-size stack: panel fill, optional team stripe, dimmed logo watermark, a quiet rim
 function cardImage(w, h, opts = {}) {
   const dc = newCtx(w, h);
   const r = opts.radius || 11;
-  const fill = () => {
-    if (opts.team) fillDiagonal(dc, w, h, mixHex(opts.team, HEX.night, 0.15), mixHex(HEX.night, HEX.panel, 0.4), opts.alpha || 1);
-    else fillVertical(dc, 0, 0, w, h, HEX.panel2, HEX.panel, 24, (opts.alpha || 1) * 0.92);
-  };
-  fill();
+  const fill = (alpha) => roundedRows(dc, w, h, r, HEX.panel2, HEX.panel, alpha);
+  fill(0.94);
+  if (opts.tint) roundedCols(dc, w, h, r, opts.tint, HEX.panel, 0.16);
   if (opts.logo) {
-    const s = Math.min(h * 1.15, w * 0.6);
-    dc.drawImageInRect(opts.logo, new Rect(w - s * 0.82, (h - s) / 2, s, s));
-    if (opts.team) fillDiagonal(dc, w, h, mixHex(opts.team, HEX.night, 0.15), mixHex(HEX.night, HEX.panel, 0.4), 0.84);
-    else fillVertical(dc, 0, 0, w, h, HEX.panel2, HEX.panel, 24, 0.86);
+    // A watermark kept inside the card (images cannot be clipped), dimmed by a second wash of the fill
+    const s = Math.min(h - 8, w * 0.5);
+    dc.drawImageInRect(opts.logo, new Rect(w - s - r * 0.5, (h - s) / 2, s, s));
+    fill(0.86);
+    if (opts.tint) roundedCols(dc, w, h, r, opts.tint, HEX.panel, 0.12);
   }
   if (opts.stripe) {
-    dc.setFillColor(new Color(opts.stripe));
-    dc.fillRect(new Rect(0, 0, 4, h));
+    for (let y = 0; y < h; y += 1) {
+      const dx = cornerInset(y + 0.5, h, r);
+      if (dx >= 4) continue;
+      dc.setFillColor(new Color(opts.stripe));
+      dc.fillRect(new Rect(dx, y, 4 - dx, Math.min(1.4, h - y)));
+    }
   }
-  // Mask the four corners with the transparent outside: redraw the corners in the widget background colour
-  maskCorners(dc, w, h, r, opts.under || HEX.night);
-  strokeGoldRim(dc, 0.9, 0.9, w - 1.8, h - 1.8, r - 0.5, opts.lw || 1.2, opts.rim == null ? 0.85 : opts.rim);
+  strokeRim(dc, 0.6, 0.6, w - 1.2, h - 1.2, r - 0.3, 1, opts.rim || HEX.line, opts.rimAlpha || 1);
   return dc.getImage();
 }
-// Paint the area outside a rounded corner in the colour underneath (DrawContext cannot clip)
-function maskCorners(dc, w, h, r, hex) {
-  dc.setFillColor(new Color(hex));
-  const steps = Math.ceil(r * 2);
-  for (let i = 0; i < steps; i++) {
-    const y = (i / steps) * r;
-    const dx = r - Math.sqrt(Math.max(0, r * r - (r - y) * (r - y)));
-    const hh = r / steps + 0.4;
-    if (dx <= 0) continue;
-    dc.fillRect(new Rect(0, y, dx, hh));
-    dc.fillRect(new Rect(w - dx, y, dx, hh));
-    dc.fillRect(new Rect(0, h - y - hh, dx, hh));
-    dc.fillRect(new Rect(w - dx, h - y - hh, dx, hh));
-  }
-}
-// The site's masthead line: gold, gold/70, then turf (Header.tsx)
-function mastheadLine(w, h = 2) {
-  const dc = newCtx(w, h);
-  const n = Math.ceil(w / 2);
-  for (let i = 0; i < n; i++) {
-    const t = i / (n - 1);
-    const hex = t < 0.5 ? HEX.gold : mixHex(HEX.gold, HEX.turf, (t - 0.5) / 0.5);
-    dc.setFillColor(rgba(hex, t < 0.5 ? 1 - t * 0.6 : 0.7 + (t - 0.5) * 0.3));
-    dc.fillRect(new Rect(i * 2, 0, 2.6, h));
-  }
-  return dc.getImage();
-}
-// Edition chip: the site's .lamp (black, pixel text) as a pill with a gold rim
-function editionChip(data) {
-  const label = String((data.edition && data.edition.label) || data.season || '');
-  const m = /^(Y\d+)\s*·\s*Edition\s*(\d+)/i.exec(label);
-  const parts = m ? [[m[1], HEX.chalk], [' · ED ' + m[2], HEX.gold]] : [[label, HEX.gold]];
-  const t = pixelLabel(parts);
-  const w = t.w + 12, h = t.h + 7;
-  const dc = newCtx(w, h);
-  fillRounded(dc, new Rect(0.5, 0.5, w - 1, h - 1), h / 2, rgba('#000000', 0.85));
-  strokeGoldRim(dc, 0.6, 0.6, w - 1.2, h - 1.2, h / 2 - 0.6, 1, 1);
-  dc.drawImageInRect(t.image, new Rect(6, 3.5, t.w, t.h));
-  return { image: dc.getImage(), w, h };
-}
-// A small pill tag (BREAKING / LIVE) in the site's flag red
+// A small pill tag (BREAKING) in the site's flag red
 function tagImage(text, hex = HEX.flag) {
   const t = pixelLabel([[text, '#ffffff']]);
   const w = t.w + 7, h = t.h + 3.4;
@@ -524,36 +566,29 @@ function tagImage(text, hex = HEX.flag) {
   dc.drawImageInRect(t.image, new Rect(3.5, 1.7, t.w, t.h));
   return { image: dc.getImage(), w, h };
 }
-// Gold (or green) progress bar
-function barImage(w, pct, hex = HEX.gold, h = 3.5) {
+// Progress bar in the player's team colour
+function barImage(w, pct, hex, h = 3.5) {
   const dc = newCtx(w, h);
   fillRounded(dc, new Rect(0, 0, w, h), h / 2, rgba('#ffffff', 0.1));
   const fw = Math.max(h, (w * Math.max(0, Math.min(100, pct))) / 100);
-  const n = Math.ceil(fw / 2);
-  for (let i = 0; i < n; i++) {
-    dc.setFillColor(new Color(mixHex(HEX.goldDeep, hex, i / Math.max(1, n - 1))));
-    dc.fillRect(new Rect(i * 2, 0, Math.min(2.4, fw - i * 2), h));
-  }
-  maskCorners(dc, w, h, h / 2, HEX.panel);
+  roundedCols(dc, fw, h, h / 2, mixHex(hex, HEX.night, 0.45), hex);
   return dc.getImage();
 }
-// Place badge (1 gold, 2 silver, 3 bronze) with a pixel digit
+// Place badge (1, 2, 3): a quiet chip with a pixel digit
 function rankBadge(n) {
-  const hex = ['#ffc83d', '#c9d1e6', '#d08a4e'][n - 1] || HEX.line;
   const s = 11;
   const dc = newCtx(s, s);
-  fillRounded(dc, new Rect(0, 0, s, s), 2.5, new Color(hex));
+  fillRounded(dc, new Rect(0, 0, s, s), 2.5, new Color(n === 1 ? mixHex(HEX.line, HEX.chalk, 0.25) : HEX.line));
   const g = GLYPHS[String(n)];
   const px = PX * 0.9;
   g.forEach((row, y) => [...row].forEach((ch, x) => {
     if (ch !== '#') return;
-    dc.setFillColor(new Color(HEX.night));
+    dc.setFillColor(new Color(HEX.chalk));
     dc.fillRect(new Rect((s - row.length * px) / 2 + x * px, (s - 5 * px) / 2 + y * px, px, px));
   }));
   return dc.getImage();
 }
-
-// The site's brand glyph (src/components/brand/BrandMark.tsx): pixel football on a turf tile with a gold pip
+// The site's brand glyph (src/components/brand/BrandMark.tsx): only the circular lock screen fallback uses it
 function brandGlyph() {
   const k = 'brand';
   if (IMG_CACHE[k]) return IMG_CACHE[k];
@@ -569,36 +604,6 @@ function brandGlyph() {
 }
 
 // ---------- shared pieces ----------
-function header(w, data, opts = {}) {
-  const head = w.addStack();
-  head.layoutHorizontally();
-  head.centerAlignContent();
-  const g = head.addImage(brandGlyph());
-  g.imageSize = new Size(opts.glyph || 20, opts.glyph || 20);
-  g.cornerRadius = 3;
-  head.addSpacer(6);
-  const word = (t, color) => {
-    const x = head.addText(t);
-    x.font = displayI(opts.word || 17); x.textColor = color;
-    x.shadowColor = new Color('#000000', 0.9); x.shadowOffset = new Point(1.2, 1.2); x.shadowRadius = 0;
-    return x;
-  };
-  word('RETRO', C.chalk);
-  head.addSpacer(4);
-  word('VAULT', C.gold);
-  head.addSpacer();
-  if (opts.chip !== false) {
-    const chip = editionChip(data);
-    const im = head.addImage(chip.image);
-    im.imageSize = new Size(chip.w, chip.h);
-  }
-  return head;
-}
-function hairline(w, width) {
-  const row = w.addStack();
-  const im = row.addImage(mastheadLine(width));
-  im.imageSize = new Size(width, 2);
-}
 function label(stack, text, font, color, lines) {
   const t = stack.addText(text);
   t.font = font; t.textColor = color;
@@ -616,6 +621,18 @@ function vaultWhat(item) {
 function vaultIcon(item) {
   return item.kind === 'hof' ? 'pillar' : item.kind === 'record' ? 'stopwatch' : 'trophy';
 }
+// "Y82 · ED 34 · Oct 26, 23:00": the season and edition folded into the footer
+function footLine(data) {
+  const m = /^(Y\d+)\s*·\s*Edition\s*(\d+)/i.exec((data.edition && data.edition.label) || '');
+  const season = (m && m[1]) || data.season || '';
+  const when = String(data.updatedLabel || '').replace(new RegExp('^' + season + '\\s*·\\s*'), '');
+  return [season, m ? 'ED ' + m[2] : null, when].filter(Boolean).join(' · ');
+}
+// A fact that opens with the player's name loses it when the coloured name sits above it ("NICK BOLTON" / "makes…")
+function afterName(text, name) {
+  const t = String(text || '');
+  return name && t.startsWith(name + ' ') ? t.slice(name.length + 1) : t;
+}
 
 // Story block: team colour bar, pixel kicker (+ BREAKING), condensed headline, dek, the lead team's logo
 function story(parent, data, art, size, logo, opts = {}) {
@@ -626,7 +643,7 @@ function story(parent, data, art, size, logo, opts = {}) {
   row.url = tap(SITE + '#timeline');
   const bar = row.addStack();
   bar.size = new Size(3, 0);
-  bar.backgroundColor = teamColors(art && art.team)[0];
+  bar.backgroundColor = art && art.team ? inkColor(art.team) : C.line;
   bar.cornerRadius = 1.5;
   row.addSpacer(8);
   const col = row.addStack();
@@ -644,13 +661,13 @@ function story(parent, data, art, size, logo, opts = {}) {
   }
   col.addSpacer(opts.short ? 4 : 5);
   const headline = art ? art.headline : (arr(data.headlines)[0] || {}).text || 'No news yet';
-  const hl = label(col, headline, display(opts.hl || 19), C.chalk, opts.hlLines || 2);
+  const hl = label(col, headline, display(opts.hl || 20), C.chalk, opts.hlLines || 2);
   hl.minimumScaleFactor = 0.75;
   if (art && art.dek && opts.dek !== false) {
     col.addSpacer(3);
-    // A headline that wraps (about 27 condensed characters a line beside the logo) leaves room for one dek line
     const first = (/^(.+?[.!?])\s/.exec(art.dek + ' ') || [null, art.dek])[1]; // the dek's first sentence
-    const dk = label(col, first, body(opts.dekSize || 11), C.muted, opts.short ? (headline.length <= 34 ? 3 : 2) : headline.length <= 27 ? 2 : 1);
+    // About 26 condensed characters a line beside the logo: a wrapped headline leaves room for fewer dek lines
+    const dk = label(col, first, body(opts.dekSize || 11), C.muted, opts.dekLines || (headline.length <= 26 ? 3 : 2));
     dk.minimumScaleFactor = 0.85;
   }
   col.addSpacer();
@@ -661,7 +678,8 @@ function story(parent, data, art, size, logo, opts = {}) {
   } else row.addSpacer();
 }
 
-// Spotlight card (fixed size, its own rimmed background): a player banner or a history/fact card
+// Spotlight card (fixed size, its own background image): a player card (team stripe, faint team tint and rim, logo
+// watermark, the name in team colour, OVR) or a history card (team stripe, chalk title)
 function spotlight(parent, spot, cards, size, logo, opts = {}) {
   const it = spot.item;
   const key = it.player;
@@ -669,7 +687,7 @@ function spotlight(parent, spot, cards, size, logo, opts = {}) {
   const name = key ? key.split(':').slice(1).join(':') : null;
   const isVault = spot.kind === 'vault';
   const team = it.team || (card && card.team);
-  const [c1hex] = teamHex(team);
+  const ink = teamInk(team);
   const box = parent.addStack();
   box.size = size;
   box.layoutHorizontally();
@@ -683,56 +701,53 @@ function spotlight(parent, spot, cards, size, logo, opts = {}) {
     : [[spot.kind === 'fact' ? 'DID YOU KNOW' : 'SPOTLIGHT']];
   const kickerText = tries.map((t) => t.filter(Boolean).join(' · ')).find((t) => textWidth(t) * PX <= room) || tries[tries.length - 1][0];
   box.backgroundImage = cardImage(size.width, size.height, {
-    team: player ? c1hex : null, stripe: player ? null : c1hex, logo, under: opts.under,
+    stripe: team ? ink : null, tint: player ? ink : null, logo,
+    rim: player ? mixHex(ink, HEX.line, 0.55) : HEX.line,
   });
-  box.setPadding(compact ? 8 : 8, player ? 11 : 12, compact ? 8 : 8, 11);
+  box.setPadding(8, 13, 8, 11);
   box.url = player ? tap(SITE + '#stats/deepdive?p=' + encodeURIComponent(key)) : tap(SITE + (it.kind === 'hof' ? '#hof' : '#timeline'));
   const left = box.addStack();
   left.layoutVertically();
   addPixel(left, kickerText, { icon: kickerIcon });
-  left.addSpacer(compact ? 4 : 4);
-  if (player && !compact) {
-    const nm = label(left, name.toUpperCase(), display(opts.nameSize || 16), Color.white(), 1);
-    nm.minimumScaleFactor = 0.7;
-    const text = spot.kind === 'player'
-      ? `${card.nick ? '"' + card.nick + '" · ' : ''}${key.split(':')[0]} · Legacy ${fmt(card.legacy || 0)}`
-      : isVault && it.kind !== 'hof' ? `${it.title}: ${it.text}` : it.text;
-    const sub = label(left, text, spot.kind === 'player' ? displayB(12) : body(opts.textSize || 10.5), C.gold, spot.kind === 'player' ? 1 : opts.lines || 3);
-    sub.minimumScaleFactor = 0.85;
-    box.addSpacer(6);
-    const right = box.addStack();
-    right.layoutVertically();
-    right.size = new Size(48, 0);
-    const top = right.addStack();
-    top.addSpacer();
-    label(top, String(card.ovr), display(26), Color.white(), 1);
-    const ch = card.chg || 0;
-    const vline = right.addStack();
-    vline.centerAlignContent();
-    vline.addSpacer();
-    label(vline, `${card.grade || 'OVR'}${ch ? ' ' : ''}`, mono(10), C.muted, 1);
-    if (ch) {
-      const a = arrowImage(ch > 0);
-      const im = vline.addImage(a.image);
-      im.imageSize = new Size(a.w, a.h);
-      vline.addSpacer(2);
-      label(vline, `${Math.abs(ch)}%`, mono(10), ch > 0 ? C.up : C.flag, 1);
-    }
-    return;
-  }
-  if (isVault && it.title) {
-    const tt = label(left, (it.kind === 'hof' && name ? name : it.title).toUpperCase(), display(compact ? 14 : 16), C.chalk, 1);
-    tt.minimumScaleFactor = 0.7;
-    left.addSpacer(1);
-  } else if (player && name) {
-    const nm = label(left, name.toUpperCase(), display(compact ? 14 : 16), C.chalk, 1);
-    nm.minimumScaleFactor = 0.7;
+  left.addSpacer(4);
+  // Title line: the player's name in his team colour; a history card's title in chalk
+  const isHofOrFact = !isVault || it.kind === 'hof';
+  const title = player && isHofOrFact ? name : isVault ? it.title || name : name;
+  const titleInk = title && title === name && team ? new Color(ink) : C.chalk;
+  if (title) {
+    const t = label(left, title.toUpperCase(), display(compact ? 14 : 16), titleInk, 1);
+    t.minimumScaleFactor = 0.7;
     left.addSpacer(1);
   }
-  const tx = label(left, it.text || '', body(opts.textSize || 10.5), it.owner ? C.gold : C.chalk, opts.lines || 3);
+  const text = spot.kind === 'player'
+    ? `${card.nick ? '"' + card.nick + '" · ' : ''}${key.split(':')[0]} · Career Legacy ${fmt(card.legacy || 0)}`
+    : title === name ? afterName(it.text, name) : it.text || '';
+  const tx = label(left, text, body(opts.textSize || 10.5), C.chalk, opts.lines || 4);
   tx.minimumScaleFactor = 0.85;
   left.addSpacer();
-  box.addSpacer();
+  if (!player || compact) {
+    box.addSpacer();
+    return;
+  }
+  box.addSpacer(6);
+  const right = box.addStack();
+  right.layoutVertically();
+  right.size = new Size(48, 0);
+  const top = right.addStack();
+  top.addSpacer();
+  label(top, String(card.ovr), display(26), Color.white(), 1);
+  const ch = card.chg || 0;
+  const vline = right.addStack();
+  vline.centerAlignContent();
+  vline.addSpacer();
+  label(vline, `${card.grade || 'OVR'}${ch ? ' ' : ''}`, mono(10), C.muted, 1);
+  if (ch) {
+    const a = arrowImage(ch > 0);
+    const im = vline.addImage(a.image);
+    im.imageSize = new Size(a.w, a.h);
+    vline.addSpacer(2);
+    label(vline, `${Math.abs(ch)}%`, mono(10), ch > 0 ? C.up : C.flag, 1);
+  }
 }
 
 // ---------- bottom panels (large) ----------
@@ -741,23 +756,27 @@ function panelShell(cols, title, icon, size) {
   p.layoutVertically();
   p.size = size;
   p.setPadding(8, 10, 8, 10);
-  p.backgroundImage = cardImage(size.width, size.height, { radius: 10, rim: 0.7 });
+  p.backgroundImage = cardImage(size.width, size.height, { radius: 10 });
   addPixel(p, title, { icon });
   p.addSpacer(6);
   return p;
 }
 const rowsFor = (h, per) => Math.max(1, Math.floor((h - 30) / per));
+function nameText(stack, text, team, size = 12.5) {
+  const n = label(stack, text || '', displayB(size), inkColor(team), 1);
+  n.minimumScaleFactor = 0.75;
+  return n;
+}
 
 function panelMarket(p, data, size) {
   const movers = arr(data.movers);
   p.url = tap(SITE + '#collection');
   if (!movers.length) label(p, 'Quiet since the last update', body(10.5), C.muted, 3);
   movers.slice(0, rowsFor(size.height, 20)).forEach((m, i) => {
-    if (i) p.addSpacer(5);
+    if (i) p.addSpacer(6);
     const row = p.addStack();
     row.centerAlignContent();
-    const n = label(row, m.last || '', displayB(13), C.chalk, 1);
-    n.minimumScaleFactor = 0.75;
+    nameText(row, m.last, m.team, 13);
     row.addSpacer();
     const a = arrowImage(m.pct > 0);
     const im = row.addImage(a.image);
@@ -772,10 +791,12 @@ function panelWire(p, data, size, art) {
   p.url = tap(SITE + '#timeline');
   const icon = { chase: 'stopwatch', trade: 'trade', superbowl: 'trophy', hof: 'pillar', milestone: 'flag', record: 'stopwatch' };
   news.forEach((h, i) => {
-    if (i) p.addSpacer(4);
+    if (i) p.addSpacer(5);
     const row = p.addStack();
     row.topAlignContent();
-    const ic = pixelLabel([], { icon: icon[h.kind] || 'dot', px: 1.1 });
+    // The bullet wears the headline's club colour (WidgetText cannot colour part of a line)
+    const hex = h.team ? teamInk(h.team) : HEX.muted;
+    const ic = pixelLabel([], { icon: icon[h.kind] || 'dot', px: 1.1, iconHex: hex, iconDeep: hex });
     const im = row.addImage(ic.image);
     im.imageSize = new Size(7.7, 7.7);
     row.addSpacer(5);
@@ -787,19 +808,18 @@ function panelWire(p, data, size, art) {
 function panelHof(p, data, size) {
   p.url = tap(SITE + '#hof');
   const inner = size.width - 20;
-  arr(data.hofWatch).slice(0, rowsFor(size.height, 21)).forEach((x, i) => {
+  arr(data.hofWatch).slice(0, rowsFor(size.height, 22)).forEach((x, i) => {
     if (i) p.addSpacer(5);
     const row = p.addStack();
     row.centerAlignContent();
     const b = row.addImage(rankBadge(i + 1));
     b.imageSize = new Size(11, 11);
     row.addSpacer(5);
-    const n = label(row, x.last || '', displayB(12.5), C.chalk, 1);
-    n.minimumScaleFactor = 0.75;
+    nameText(row, x.last, x.team);
     row.addSpacer();
-    label(row, `${fmt(x.toGo || 0)} to go`, mono(9), C.gold, 1);
-    p.addSpacer(2);
-    const bar = p.addImage(barImage(inner, x.pct || 0));
+    label(row, `${fmt(x.toGo || 0)} to go`, mono(9), C.muted, 1);
+    p.addSpacer(3);
+    const bar = p.addImage(barImage(inner, x.pct || 0, teamInk(x.team)));
     bar.imageSize = new Size(inner, 3.5);
   });
   p.addSpacer();
@@ -807,19 +827,18 @@ function panelHof(p, data, size) {
 function panelChase(p, data, size) {
   p.url = tap(SITE + '#timeline');
   const inner = size.width - 20;
-  arr(data.chases).slice(0, rowsFor(size.height, 31)).forEach((x, i) => {
-    if (i) p.addSpacer(5);
+  arr(data.chases).slice(0, rowsFor(size.height, 32)).forEach((x, i) => {
+    if (i) p.addSpacer(6);
     const row = p.addStack();
     row.centerAlignContent();
-    const n = label(row, x.last || '', displayB(12.5), C.chalk, 1);
-    n.minimumScaleFactor = 0.75;
+    nameText(row, x.last, x.team);
     row.addSpacer();
-    label(row, `${x.pct}%`, mono(10), C.gold, 1);
-    p.addSpacer(2);
-    const bar = p.addImage(barImage(inner, x.pct || 0, HEX.goldHi));
+    label(row, `${x.pct}%`, mono(10), C.chalk, 1);
+    p.addSpacer(3);
+    const bar = p.addImage(barImage(inner, x.pct || 0, teamInk(x.team)));
     bar.imageSize = new Size(inner, 3.5);
-    p.addSpacer(1);
-    const sub = label(p, `${fmt(x.toGo || 0)} ${x.unit || ''} to ${x.holder ? x.holder + "'s mark" : 'the record'}`, body(8.5), C.muted, 1);
+    p.addSpacer(2);
+    const sub = label(p, `${fmt(x.toGo || 0)} ${x.unit || ''} to go${x.holder ? ' · ' + x.holder : ''}`, body(8.5), C.muted, 1);
     sub.minimumScaleFactor = 0.8;
   });
   p.addSpacer();
@@ -827,13 +846,12 @@ function panelChase(p, data, size) {
 function panelMiles(p, data, size) {
   p.url = tap(SITE + '#timeline');
   const all = arr(data.milestones);
-  const n = Math.min(all.length, rowsFor(size.height, 29));
-  const start = all.length ? mod(TODAY, all.length) : 0; // a different pair each time the panel comes round
+  const n = Math.min(all.length, rowsFor(size.height, 27));
+  const start = all.length ? mod(TODAY, all.length) : 0; // a different set each time the panel comes round
   Array.from({ length: n }, (_, i) => all[(start + i) % all.length]).forEach((x, i) => {
-    if (i) p.addSpacer(4);
-    const n = label(p, x.last || '', displayB(12.5), C.chalk, 1);
-    n.minimumScaleFactor = 0.75;
-    const sub = label(p, `${fmt(x.toGo || 0)} ${x.unit || ''} to ${fmt(x.target || 0)}`, mono(9), C.gold, 1);
+    if (i) p.addSpacer(5);
+    nameText(p, x.last, x.team);
+    const sub = label(p, `${fmt(x.toGo || 0)} ${x.unit || ''} to ${fmt(x.target || 0)}`, mono(9), C.muted, 1);
     sub.minimumScaleFactor = 0.8;
   });
   p.addSpacer();
@@ -844,6 +862,8 @@ const PANELS = {
 };
 
 // ---------- layouts ----------
+// Content padding: the rim sits RIM_INSET in and is RIM_W wide; PAD leaves at least 10 pt of air inside it
+const PAD = { top: 15, side: 16, bottom: 15 };
 function base(sz, opts = {}) {
   const w = new ListWidget();
   w.backgroundColor = C.night;
@@ -855,37 +875,34 @@ function base(sz, opts = {}) {
     bg.locations = [0, 1];
     w.backgroundGradient = bg;
   }
+  w.setPadding(PAD.top, PAD.side, PAD.bottom, PAD.side);
   w.url = tap(SITE + '#timeline');
   w.refreshAfterDate = refreshAt(NOW);
   return w;
 }
-function offline(w, small) {
-  const t = w.addText('RETRO VAULT');
-  t.font = displayI(small ? 18 : 22); t.textColor = C.gold;
+function offline(w) {
+  const t = w.addText('Retro Vault');
+  t.font = display(20); t.textColor = C.chalk;
   w.addSpacer(4);
   const m = w.addText('Could not reach the site yet. It will try again soon.');
   m.font = body(12); m.textColor = C.muted;
   return w;
 }
+const spotTeamOf = (data, spot) => spot && (spot.item.team || ((data.cards || {})[spot.item.player] || {}).team);
 
 async function large(data) {
   const sz = widgetSize('large');
-  const padT = 13, padX = 14, padB = 11;
-  const w = base(sz, { scan: 44 });
-  w.setPadding(padT, padX, padB, padX);
+  const w = base(sz, { scan: 60 });
   if (!data) return offline(w);
-  const cw = sz.w - 2 * padX;
-  const avail = sz.h - padT - padB - (22 + 7 + 2 + 9) - 8 - 8 - 17; // header, hairline, gaps, footer
-  const storyH = Math.round(avail * 0.295), spotH = Math.round(avail * 0.335), panelH = avail - storyH - spotH;
+  const cw = sz.w - 2 * PAD.side;
+  const footH = 11, slack = 8;
+  const avail = sz.h - PAD.top - PAD.bottom - 8 - 8 - footH - slack;
+  const storyH = Math.round(avail * 0.3), spotH = Math.round(avail * 0.33), panelH = avail - storyH - spotH;
   const art = pickStory(data);
   const spot = pickSpotlight(data);
-  const spotTeam = spot && (spot.item.team || ((data.cards || {})[spot.item.player] || {}).team);
+  const spotTeam = spotTeamOf(data, spot);
   const [storyLogo, spotLogo] = await Promise.all([art ? teamLogo(art.team) : null, spotTeam ? teamLogo(spotTeam) : null]);
 
-  header(w, data);
-  w.addSpacer(7);
-  hairline(w, cw);
-  w.addSpacer(9);
   story(w, data, art, new Size(cw, storyH), storyLogo);
   w.addSpacer(8);
   if (spot) spotlight(w, spot, data.cards || {}, new Size(cw, spotH), spotLogo);
@@ -904,33 +921,28 @@ async function large(data) {
   w.addSpacer();
   const foot = w.addStack();
   foot.centerAlignContent();
-  label(foot, data.updatedLabel || '', mono(8.5), C.muted, 1);
+  label(foot, footLine(data), mono(8.5), C.muted, 1);
   foot.addSpacer();
-  label(foot, 'tap for the full story ›', mono(8.5), C.gold, 1);
+  label(foot, 'tap for the full story ›', mono(8.5), C.muted, 1);
   return w;
 }
 
 async function medium(data) {
   const sz = widgetSize('medium');
-  const padT = 11, padX = 13, padB = 11;
-  const w = base(sz, { scan: 30 });
-  w.setPadding(padT, padX, padB, padX);
+  const w = base(sz, { scan: 40 });
   if (!data) return offline(w);
-  const cw = sz.w - 2 * padX;
-  header(w, data, { glyph: 16, word: 14 });
-  w.addSpacer(5);
-  hairline(w, cw);
-  w.addSpacer(8);
-  const h = sz.h - padT - padB - (16 + 5 + 2 + 8);
+  const cw = sz.w - 2 * PAD.side;
+  const h = sz.h - PAD.top - PAD.bottom;
   const art = pickStory(data);
   const spot = pickSpotlight(data);
-  const spotTeam = spot && (spot.item.team || ((data.cards || {})[spot.item.player] || {}).team);
+  const spotTeam = spotTeamOf(data, spot);
   const spotLogo = spotTeam ? await teamLogo(spotTeam) : null;
   const row = w.addStack();
   row.layoutHorizontally();
   row.topAlignContent();
   const leftW = Math.floor((cw - 8) * 0.48);
-  story(row, data, art, new Size(leftW, h), null, { short: true, hl: 17, hlLines: 3, dekSize: 10.5, logo: false });
+  story(row, data, art, new Size(leftW, h), null, { short: true, hl: 17, hlLines: 3, dekSize: 10.5, logo: false,
+    dekLines: art && art.headline.length <= 34 ? 3 : 2 });
   row.addSpacer(8);
   if (spot) spotlight(row, spot, data.cards || {}, new Size(cw - leftW - 8, h), spotLogo, { compact: true, lines: 5, textSize: 10 });
   return w;
@@ -938,53 +950,44 @@ async function medium(data) {
 
 async function small(data) {
   const sz = widgetSize('small');
-  const pad = 13;
-  const w = base(sz, { scan: 26 });
-  w.setPadding(pad, pad, pad - 1, pad);
-  if (!data) return offline(w, true);
+  const w = base(sz, { scan: 30 });
+  if (!data) return offline(w);
   const spot = pickSpotlight(data);
-  if (!spot) return offline(w, true);
+  if (!spot) return offline(w);
   const it = spot.item;
   const card = it.player ? (data.cards || {})[it.player] : null;
   const name = it.player ? it.player.split(':').slice(1).join(':') : null;
   const team = it.team || (card && card.team);
   const isVault = spot.kind === 'vault';
   w.url = card && card.ovr != null ? tap(SITE + '#stats/deepdive?p=' + encodeURIComponent(it.player)) : tap(SITE + (it.kind === 'hof' ? '#hof' : '#timeline'));
-  const top = w.addStack();
-  top.centerAlignContent();
-  const g = top.addImage(brandGlyph());
-  g.imageSize = new Size(14, 14);
-  g.cornerRadius = 2;
-  top.addSpacer(6);
-  addPixel(top, isVault ? 'FROM THE VAULT' : spot.kind === 'fact' ? 'DID YOU KNOW' : 'SPOTLIGHT', { icon: isVault ? vaultIcon(it) : 'bulb' });
-  top.addSpacer();
-  w.addSpacer(6);
-  hairline(w, sz.w - 2 * pad);
-  w.addSpacer(7);
+  addPixel(w, isVault ? 'FROM THE VAULT' : spot.kind === 'fact' ? 'DID YOU KNOW' : 'SPOTLIGHT', { icon: isVault ? vaultIcon(it) : 'bulb' });
+  w.addSpacer(8);
   const row = w.addStack();
   row.layoutHorizontally();
   const bar = row.addStack();
   bar.size = new Size(3, 0);
-  bar.backgroundColor = teamColors(team)[0];
+  bar.backgroundColor = team ? inkColor(team) : C.line;
   bar.cornerRadius = 1.5;
   row.addSpacer(7);
   const col = row.addStack();
   col.layoutVertically();
   const title = isVault && it.kind !== 'hof' ? it.title : name || (isVault ? it.title : null);
   if (title) {
-    const t = label(col, title.toUpperCase(), display(14.5), C.chalk, 1);
+    const t = label(col, title.toUpperCase(), display(14.5), title === name ? inkColor(team) : C.chalk, 1);
     t.minimumScaleFactor = 0.65;
     col.addSpacer(2);
   }
-  const tx = label(col, it.text || (card ? `${it.player.split(':')[0]} · Legacy ${fmt(card.legacy || 0)}` : ''), body(11), it.owner ? C.gold : C.chalk, title ? 5 : 6);
+  const text = it.text ? (title === name ? afterName(it.text, name) : it.text)
+    : card ? `${it.player.split(':')[0]} · Career Legacy ${fmt(card.legacy || 0)}` : '';
+  const tx = label(col, text, body(11), C.chalk, title ? 5 : 6);
   tx.minimumScaleFactor = 0.8;
   col.addSpacer();
   w.addSpacer();
   const foot = w.addStack();
   foot.centerAlignContent();
-  label(foot, isVault && it.when ? it.when : nick(team) || '', mono(8.5), C.gold, 1);
+  label(foot, isVault && it.when ? it.when : nick(team) || '', mono(8.5), team && !(isVault && it.when) ? inkColor(team) : C.muted, 1);
   foot.addSpacer();
-  label(foot, (data.edition && data.edition.label ? data.edition.label.split('·')[0].trim() : data.season) || '', mono(8.5), C.muted, 1);
+  label(foot, data.season || '', mono(8.5), C.muted, 1);
   return w;
 }
 
@@ -1072,7 +1075,7 @@ function accessory(data) {
   // accessoryRectangular: story headline + one countdown line
   w.addAccessoryWidgetBackground = false;
   w.setPadding(2, 4, 2, 4);
-  if (!data) return offline(w, true);
+  if (!data) return offline(w);
   const art = pickStory(data);
   const k = w.addText(`🏈 ${data.storySeason || data.season || ''} ${art ? kindLabel(art.kind) : 'RETRO VAULT'}${art && isBreaking(data) && art === arr(data.stories)[0] ? ' · BREAKING' : ''}`);
   k.font = Font.boldSystemFont(10); k.textColor = new Color('#ffffff', 0.7); k.lineLimit = 1;
