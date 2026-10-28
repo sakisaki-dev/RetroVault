@@ -276,6 +276,15 @@
     "notes": 1
    },
    "changed": 15
+  },
+  {
+   "id": "2026-10-27-woodrum-sawyer",
+   "dir": "data/uploads/2026-10-27-woodrum-sawyer",
+   "applied_at": "2026-10-27T17:57:45-07:00",
+   "mutations": {
+    "stats": 4
+   },
+   "changed": 4
   }
  ]
 }

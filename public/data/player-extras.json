@@ -92,7 +92,7 @@
    "hof_flag": true,
    "long_run": 65,
    "former_team": "Titans",
-   "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans; with the Jets from Y76, winning again in Y77 (CXXXVI); went to the Falcons in Y79"
+   "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans; with the Jets from Y76, winning again in Y77 (CXXXVI); went to the Falcons in Y79; traded back to the Jets after Y82"
   },
   "Lamar Jackson": {
    "pass_long": 84,
@@ -197,9 +197,6 @@
   },
   "Cairo Asanjh": {
    "retired_team": "Ravens",
-   "hof_ingame": true
-  },
-  "Chance Woodrum": {
    "hof_ingame": true
   },
   "Charlie John": {

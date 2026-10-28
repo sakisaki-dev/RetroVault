@@ -1,0 +1,45 @@
+{
+ "id": "2026-10-27-woodrum-sawyer",
+ "created": "2026-10-27",
+ "title": "Woodrum still playing; Sawyer card note updated",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Chance Woodrum/status",
+   "value": "Active",
+   "source": "owner",
+   "reason": "Owner: \"he is still playing\" (Woodrum)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.remove",
+   "target": "players/Chance Woodrum/retired_with",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"he is still playing\" (the game HOF listing is not a retirement)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/tag",
+   "value": "Won CXXXI with the Titans (Y72), then CXXXVI with the Jets (Y77); a Jet Y76–78, a Falcon Y79–82, back with the Jets from Y83",
+   "source": "owner",
+   "reason": "Owner: \"update sayer's card\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/card/note",
+   "value": "Won Super Bowl CXXXI (Y72) in his one season with the Titans; with the Jets from Y76, winning again in Y77 (CXXXVI); went to the Falcons in Y79; traded back to the Jets after Y82",
+   "source": "owner",
+   "reason": "Owner: \"update sayer's card\"",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}

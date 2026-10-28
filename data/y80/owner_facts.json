@@ -93,7 +93,7 @@
   },
   "Chance Woodrum": {
    "team": "Falcons",
-   "retired_with": "Jets",
+   "status": "Active",
    "career": {
     "order": [
      "Jets"
@@ -349,11 +349,11 @@
   "Malakai Sawyer": {
    "team": "Jets",
    "status": "Active",
-   "tag": "Won CXXXI with the Titans (Y72), then CXXXVI with the Jets (Y77); a Jet from Y76, a Falcon since Y79",
+   "tag": "Won CXXXI with the Titans (Y72), then CXXXVI with the Jets (Y77); a Jet Y76–78, a Falcon Y79–82, back with the Jets from Y83",
    "card": {
     "team": "Jets",
     "former_team": "Titans",
-    "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans; with the Jets from Y76, winning again in Y77 (CXXXVI); went to the Falcons in Y79"
+    "note": "Won Super Bowl CXXXI (Y72) in his one season with the Titans; with the Jets from Y76, winning again in Y77 (CXXXVI); went to the Falcons in Y79; traded back to the Jets after Y82"
    },
    "career": {
     "order": [
