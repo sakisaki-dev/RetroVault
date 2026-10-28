@@ -166,7 +166,8 @@ const HallOfFameTab = () => {
         />
 
         <div className="flex flex-1 flex-col gap-2.5 p-3">
-          <div className="flex items-center justify-between gap-2">
+          {/* Phones: the tier is the section heading and the team is on the banner, so this row goes */}
+          <div className="flex items-center justify-between gap-2 max-sm:hidden">
             <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full ${tier.bgColor} border ${tier.borderColor}`}>
               <TierIcon className={`w-3.5 h-3.5 ${tier.color}`} aria-hidden="true" />
               <span className={`text-[11px] font-bold ${tier.color}`}>{tier.label}</span>
@@ -187,7 +188,7 @@ const HallOfFameTab = () => {
               { label: 'SB MVP', value: player.sbmvp, Icon: Sparkles, color: 'text-emerald-400' },
             ].map(({ label, value, Icon, color }) => (
               <div key={label} className="flex flex-col-reverse items-center">
-                <dt className="font-pixel text-[8px] uppercase text-muted-foreground mt-0.5">{label}</dt>
+                <dt className="font-pixel text-[8px] uppercase text-muted-foreground mt-0.5 max-sm:font-sans max-sm:text-xs max-sm:normal-case">{label}</dt>
                 <dd className="font-mono font-bold text-sm tabular-nums">{value}</dd>
                 <Icon className={`w-4 h-4 ${color} mb-0.5`} aria-hidden="true" />
               </div>
@@ -199,7 +200,7 @@ const HallOfFameTab = () => {
           type="button"
           onClick={() => replay(player)}
           aria-label={`Replay ${player.name}'s induction ceremony`}
-          className="flex items-center justify-center gap-1.5 border-t border-line/60 bg-background/40 px-3 py-2 text-xs font-semibold text-gold transition-colors hover:bg-amber-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold"
+          className="flex items-center justify-center gap-1.5 border-t border-line/60 bg-background/40 px-3 py-2 text-xs font-semibold text-gold max-sm:min-h-[44px] max-sm:text-sm transition-colors hover:bg-amber-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold"
         >
           <PlayCircle className="h-3.5 w-3.5" aria-hidden="true" />
           Replay ceremony

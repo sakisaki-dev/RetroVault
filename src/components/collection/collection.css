@@ -1030,6 +1030,13 @@ button.fut__card:focus-visible {
     --fut-gap-x: 8px;
   }
 }
+/* Phones: no hover lift to make room for, so the paint bleed shrinks (it pushed the page 12px sideways) */
+@media (max-width: 640px) {
+  .fut-grid > li {
+    margin: -8px;
+    padding: 8px;
+  }
+}
 
 /* ---------- Reward packs ---------- */
 .pk-stage {

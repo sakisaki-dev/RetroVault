@@ -74,7 +74,7 @@ const TrophyCabinet = ({ shelves, seasonByYear }: { shelves: Shelf[]; seasonByYe
         <h2 id="fo-cabinet" className="section-title min-w-0 flex-1">
           Trophy cabinet
         </h2>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground max-sm:basis-full">
           {totalW} trophies, {totalL} runner-up plaques. Hover, focus or tap one for the game.
         </p>
       </div>

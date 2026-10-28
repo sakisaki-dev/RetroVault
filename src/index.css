@@ -928,7 +928,8 @@ details[open] > :not(summary) {
 }
 .pts-hint {
   position: fixed;
-  top: calc(var(--site-header-h, 56px) + 10px);
+  /* Above the bottom bar, so it never covers a sticky sub-nav */
+  bottom: calc(var(--bottom-nav-h, 0px) + 12px);
   left: 50%;
   z-index: 44;
   display: inline-flex;
@@ -949,6 +950,25 @@ details[open] > :not(summary) {
 @keyframes rv-pts-hint {
   from {
     opacity: 0;
-    translate: -50% -16px;
+    translate: -50% 16px;
+  }
+}
+
+/* Phones: readable type. Body copy at least 15px, small labels at least 12px (the pixel font stays decorative). */
+@media (max-width: 640px) {
+  body {
+    font-size: 15px;
+  }
+  .text-sm:not(.font-pixel) {
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .text-xs:not(.font-pixel) {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .text-\[11px\]:not(.font-pixel),
+  .text-\[10px\]:not(.font-pixel) {
+    font-size: 12px;
   }
 }

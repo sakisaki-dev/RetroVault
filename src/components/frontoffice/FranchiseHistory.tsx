@@ -24,7 +24,7 @@ const FranchiseHistory = ({ stints, onPlayerSelect, numberFor }: FranchiseHistor
         <h2 id="fo-history" className="section-title min-w-0 flex-1">
           Franchise history
         </h2>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground max-sm:basis-full">
           {real
             ? `${stints.length} coaching stints in order, from the season-by-season history.`
             : `${stints.length} stints in order. Years span each stint's Super Bowl seasons.`}

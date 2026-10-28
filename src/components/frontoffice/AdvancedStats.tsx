@@ -498,7 +498,7 @@ const AdvancedStats = ({ analytics: a, facts, coach, rows }: AdvancedStatsProps)
       <h2 id="fo-advanced" className="section-title min-w-0 flex-1 whitespace-nowrap">
         Advanced statistics
       </h2>
-      <p className="text-xs text-muted-foreground">
+      <p className="text-xs text-muted-foreground max-sm:basis-full">
         Computed from {a.seasons} seasons of results and the staff-screen record.
       </p>
     </div>

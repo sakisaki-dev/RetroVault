@@ -212,7 +212,7 @@ const PullToSearch = () => {
           }}
         >
           <Search className="h-3.5 w-3.5" aria-hidden="true" />
-          Pull down to search
+          Pull down from the top to search
         </button>
       )}
     </>
