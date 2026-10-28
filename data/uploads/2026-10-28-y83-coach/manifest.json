@@ -1,0 +1,75 @@
+{
+ "id": "2026-10-28-y83-coach",
+ "created": "2026-10-28",
+ "title": "Coach totals rolled forward by the Y83 season row (no staff screen)",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "superBowlRecord",
+   "value": [
+    {
+     "coach": "D.Skura",
+     "titles": 58
+    },
+    {
+     "coach": "NE (2000-2023)",
+     "titles": 6
+    },
+    {
+     "coach": "PIT (1969-1991)",
+     "titles": 4
+    },
+    {
+     "coach": "SF (1979-1988)",
+     "titles": 3
+    },
+    {
+     "coach": "WAS (1981-1992)",
+     "titles": 3
+    }
+   ],
+   "source": "owner",
+   "reason": "Owner: \"y83 12-5 ATL champions\"; Super Bowl list CXLII Falcons 40-25 NYJ (2026-10-28-y83, IMG_6456): D.Skura 57 + 1 = 58; the other rows unchanged",
+   "trigger": "Season rollover (npm run update review: staff-screen snapshots from Y82)"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "gamesPlayed",
+   "value": 1650,
+   "source": "owner",
+   "reason": "1629 (Y82 staff screen) + 21 Y83 games (12-5 regular season + 4 playoff wins; the Falcons cards gained 21 games)",
+   "trigger": "Season rollover (npm run update review: staff-screen snapshots from Y82)"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "record",
+   "value": {
+    "fullSeasons": 82,
+    "regular": "1197-209-5",
+    "regularWinPct": 0.85,
+    "playoff": "216-23",
+    "playoffWinPct": 0.904,
+    "playoffsReached": "81/83",
+    "seasonsNoSimGames": 71,
+    "simGameRecord": "0-15-0"
+   },
+   "source": "owner",
+   "reason": "Y82 staff screen totals plus the owner's Y83 row (12-5-0, champions after 4 playoff wins: 21 games on the Falcons cards): regular 1185-204-5 + 12-5-0, playoffs 212-23 + 4-0, reached 80/82 -> 81/83, full seasons 81 -> 82 (the screen counts one fewer than seasons played). Win % as the screen computes it (ties half). Sim-game rows unknown without a staff screen, kept",
+   "trigger": "Season rollover (npm run update review: staff-screen snapshots from Y82)"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "source",
+   "value": "Retro Bowl staff screen (IMG_6394, Y82 complete), rolled forward by the owner's Y83 season (12-5, champions)",
+   "source": "owner",
+   "reason": "No Y83 staff screen: the totals are the Y82 screen plus the Y83 row; age, morale and bests stay as last seen",
+   "trigger": "Season rollover (npm run update review: staff-screen snapshots from Y82)"
+  }
+ ]
+}

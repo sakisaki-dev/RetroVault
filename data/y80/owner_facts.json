@@ -62,6 +62,22 @@
     "says": "Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints."
    }
   },
+  "Brandon Jaclyde": {
+   "team": "Dolphins",
+   "career": {
+    "order": [
+     "Falcons"
+    ],
+    "on": [
+     [
+      "Falcons",
+      83
+     ]
+    ],
+    "next_team": "Dolphins",
+    "says": "The Falcons' quarterback in Y83, then traded to the Dolphins."
+   }
+  },
   "Breece Hall": {
    "real_nfl": {
     "games": 57,
@@ -71,6 +87,9 @@
   },
   "Brennan Higgins": {
    "retired_with": "Commanders"
+  },
+  "Bud Matthew": {
+   "team": "Jets"
   },
   "Cairo Asanjh": {
    "retired_with": "Ravens",
@@ -96,9 +115,15 @@
    "status": "Active",
    "career": {
     "order": [
-     "Jets"
+     "Jets",
+     "Falcons"
     ],
-    "next_team": "Falcons",
+    "on": [
+     [
+      "Falcons",
+      83
+     ]
+    ],
     "says": "Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets."
    }
   },
@@ -123,11 +148,20 @@
    "team": "Jets",
    "career": {
     "order": [
-     "Ravens"
+     "Ravens",
+     "Jets"
     ],
-    "next_team": "Jets",
+    "on": [
+     [
+      "Jets",
+      83
+     ]
+    ],
     "says": "Traded from the Ravens to the Jets in a multi-team trade before Y83."
    }
+  },
+  "Danny Diggs": {
+   "team": "Jaguars"
   },
   "Deante Elder": {
    "signature_team": "Seahawks"
@@ -152,9 +186,15 @@
    "team": "Ravens",
    "career": {
     "order": [
-     "Giants"
+     "Giants",
+     "Ravens"
     ],
-    "next_team": "Ravens",
+    "on": [
+     [
+      "Ravens",
+      83
+     ]
+    ],
     "says": "Traded from the Giants to the Falcons after Y82 for an unnamed quarterback, then traded on to the Ravens before playing a game for the Falcons."
    }
   },
@@ -163,6 +203,20 @@
    "status": "Retired",
    "career": {
     "says": "Let walk by the Jets after Y81, then left the NFL (retired); last club the Jets."
+   }
+  },
+  "Eric Raimann": {
+   "career": {
+    "order": [
+     "Falcons"
+    ],
+    "on": [
+     [
+      "Falcons",
+      83
+     ]
+    ],
+    "says": "The Falcons' tight end in Y83."
    }
   },
   "Forrest Everett": {
@@ -235,6 +289,20 @@
     "says": "Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring)."
    }
   },
+  "Jashaun Fleming": {
+   "career": {
+    "order": [
+     "Falcons"
+    ],
+    "on": [
+     [
+      "Falcons",
+      83
+     ]
+    ],
+    "says": "On the Falcons' defense in Y83, alongside Chance Woodrum."
+   }
+  },
   "Jason Macleone": {
    "team": "Seahawks",
    "retired_with": "Seahawks",
@@ -292,9 +360,15 @@
    },
    "career": {
     "order": [
-     "Jets"
+     "Jets",
+     "Bears"
     ],
-    "next_team": "Bears",
+    "on": [
+     [
+      "Bears",
+      83
+     ]
+    ],
     "says": "Went with the coach from the Jets to the Falcons after Y82, then traded on to the Bears before playing a game for the Falcons."
    }
   },
@@ -364,7 +438,8 @@
     "order": [
      "Titans",
      "Jets",
-     "Falcons"
+     "Falcons",
+     "Jets"
     ],
     "stints": [
      [
@@ -381,10 +456,14 @@
       "Falcons",
       79,
       82
+     ],
+     [
+      "Jets",
+      83,
+      83
      ]
     ],
-    "says": "One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons; traded back to the Jets after Y82 for Kane Van Oxley, Ryland Maxwell and Chance Woodrum.",
-    "next_team": "Jets"
+    "says": "One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons; traded back to the Jets after Y82 for Kane Van Oxley, Ryland Maxwell and Chance Woodrum."
    }
   },
   "Mason Taylor": {
@@ -444,6 +523,22 @@
     "says": "Traded from the Jets to the Seahawks for Alvin Tufele after Y80."
    }
   },
+  "Perrion Randall": {
+   "team": "Seahawks",
+   "career": {
+    "order": [
+     "Falcons"
+    ],
+    "on": [
+     [
+      "Falcons",
+      83
+     ]
+    ],
+    "next_team": "Seahawks",
+    "says": "On the Falcons' line in Y83, then traded to the Seahawks."
+   }
+  },
   "Pharoah Hunter": {
    "retired_with": "Seahawks"
   },
@@ -480,9 +575,15 @@
    "team": "Falcons",
    "career": {
     "order": [
-     "Jets"
+     "Jets",
+     "Falcons"
     ],
-    "next_team": "Falcons",
+    "on": [
+     [
+      "Falcons",
+      83
+     ]
+    ],
     "says": "Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets."
    }
   },
@@ -494,13 +595,20 @@
    }
   },
   "Shareef London": {
-   "team": "Falcons",
+   "team": "Buccaneers",
    "career": {
     "order": [
-     "Bears"
+     "Bears",
+     "Falcons"
     ],
-    "next_team": "Falcons",
-    "says": "Traded from the Bears to the Falcons in a multi-team trade before Y83."
+    "on": [
+     [
+      "Falcons",
+      83
+     ]
+    ],
+    "next_team": "Buccaneers",
+    "says": "Traded from the Bears to the Falcons in a multi-team trade before Y83, won the Y83 title there, then traded to the Buccaneers for Shawn Milne."
    }
   },
   "Sherman Brandson": {
@@ -512,6 +620,20 @@
     "says": "A Giants legend."
    },
    "signature_team": "Giants"
+  },
+  "Simeon Otton": {
+   "career": {
+    "order": [
+     "Falcons"
+    ],
+    "on": [
+     [
+      "Falcons",
+      83
+     ]
+    ],
+    "says": "On the Falcons' defense in Y83, alongside Chance Woodrum."
+   }
   },
   "Siran Spector": {
    "team": "Patriots"
@@ -531,13 +653,33 @@
   "Tristan Tart": {
    "team": "Ravens"
   },
+  "Trysten Floyd": {
+   "career": {
+    "order": [
+     "Falcons"
+    ],
+    "on": [
+     [
+      "Falcons",
+      83
+     ]
+    ],
+    "says": "On the Falcons' defense in Y83, alongside Chance Woodrum."
+   }
+  },
   "Ty Lock": {
    "team": "Giants",
    "career": {
     "order": [
-     "Jets"
+     "Jets",
+     "Giants"
     ],
-    "next_team": "Giants",
+    "on": [
+     [
+      "Giants",
+      83
+     ]
+    ],
     "says": "Traded from the Jets to the Giants in a multi-team trade before Y83."
    }
   },
@@ -551,9 +693,15 @@
    "team": "Falcons",
    "career": {
     "order": [
-     "Jets"
+     "Jets",
+     "Falcons"
     ],
-    "next_team": "Falcons",
+    "on": [
+     [
+      "Falcons",
+      83
+     ]
+    ],
     "says": "Traded from the Jets to the Falcons in a multi-team trade before Y83."
    }
   },
@@ -564,8 +712,11 @@
  "active_rosters": {
   "Falcons": [
    "Chance Woodrum",
+   "Eric Raimann",
+   "Jashaun Fleming",
    "Ryland Maxwell",
-   "Shareef London",
+   "Simeon Otton",
+   "Trysten Floyd",
    "Vyncint Heath"
   ],
   "Jets": [
@@ -583,6 +734,7 @@
    "Isaiah Karras",
    "Jason Macleone",
    "Obinna Leary",
+   "Perrion Randall",
    "Romeo Rodgers"
   ]
  },
@@ -671,6 +823,28 @@
     "Jason Macleone",
     "Obinna Leary",
     "Romeo Rodgers"
+   ]
+  },
+  "83": {
+   "Falcons": [
+    "Brandon Jaclyde",
+    "Chance Woodrum",
+    "Eric Raimann",
+    "Jashaun Fleming",
+    "Perrion Randall",
+    "Ryland Maxwell",
+    "Shareef London",
+    "Simeon Otton",
+    "Trysten Floyd",
+    "Vyncint Heath"
+   ],
+   "Jets": [
+    "Dan Stout",
+    "Dwayne Skura",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Malakai Sawyer",
+    "Trequan Roberts"
    ]
   }
  }

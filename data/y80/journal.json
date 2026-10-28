@@ -101,6 +101,51 @@
    "seasons": [
     83
    ]
+  },
+  {
+   "id": "y84-falcons-moves",
+   "upload": "2026-10-28-y83",
+   "text": "also for the storyline, shareef london got shipped to the bucs for shawn milne at the start of the second season, and brandon jaclyde was the qb for the falcons last year (also traded to the dolphins) eric raimann was the TE so was jashaun fleming, simeon otton, and trysten floyd, OL Perrion Randall was on the falcons this year and then at the start of the second season was traded to the seahawks",
+   "kind": "note",
+   "season": "Y84",
+   "players": [
+    "Shareef London",
+    "Brandon Jaclyde",
+    "Eric Raimann",
+    "Jashaun Fleming",
+    "Simeon Otton",
+    "Trysten Floyd",
+    "Perrion Randall"
+   ],
+   "teams": [
+    "Falcons",
+    "Buccaneers",
+    "Dolphins",
+    "Seahawks"
+   ],
+   "seasons": [
+    83,
+    84
+   ]
+  },
+  {
+   "id": "y83-falcons-defense",
+   "upload": "2026-10-28-y83",
+   "text": "no they're on the falcons, they're defensive players DL, DB and DB for the last 3 respectively along with chance woodrum",
+   "kind": "note",
+   "season": "Y83",
+   "players": [
+    "Jashaun Fleming",
+    "Simeon Otton",
+    "Trysten Floyd",
+    "Chance Woodrum"
+   ],
+   "teams": [
+    "Falcons"
+   ],
+   "seasons": [
+    83
+   ]
   }
  ]
 }

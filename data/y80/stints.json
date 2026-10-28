@@ -73,7 +73,7 @@
   "stints": [
    {
     "team": "Browns",
-    "from": 36,
+    "from": 37,
     "to": 54,
     "rings": []
    }
@@ -99,7 +99,7 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 18,
+    "from": 19,
     "to": 38,
     "rings": []
    }
@@ -473,8 +473,8 @@
   "stints": [
    {
     "team": "Chargers",
-    "from": 48,
-    "to": 54,
+    "from": 49,
+    "to": 55,
     "rings": []
    }
   ],
@@ -500,8 +500,8 @@
   "stints": [
    {
     "team": "Broncos",
-    "from": 25,
-    "to": 33,
+    "from": 26,
+    "to": 34,
     "rings": []
    }
   ],
@@ -604,8 +604,8 @@
   "stints": [
    {
     "team": "Seahawks",
-    "from": 40,
-    "to": 45,
+    "from": 41,
+    "to": 46,
     "rings": []
    }
   ],
@@ -618,7 +618,7 @@
    {
     "team": "49ers",
     "from": 35,
-    "to": 48,
+    "to": 49,
     "rings": []
    }
   ],
@@ -902,8 +902,8 @@
   "stints": [
    {
     "team": "Chargers",
-    "from": 54,
-    "to": 63,
+    "from": 55,
+    "to": 64,
     "rings": []
    }
   ],
@@ -1056,8 +1056,8 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 26,
-    "to": 40,
+    "from": 50,
+    "to": 64,
     "rings": []
    }
   ],
@@ -1069,7 +1069,7 @@
   "stints": [
    {
     "team": "49ers",
-    "from": 35,
+    "from": 36,
     "to": 47,
     "rings": []
    }
@@ -1082,7 +1082,7 @@
   "stints": [
    {
     "team": "Raiders",
-    "from": 33,
+    "from": 34,
     "to": 50,
     "rings": []
    }
@@ -1171,25 +1171,25 @@
  "Tyler Pacheco": {
   "stints": [
    {
-    "team": "Buccaneers",
+    "team": "Commanders",
     "from": 16,
-    "to": 25,
+    "to": 22,
     "rings": [
-     20,
-     21,
-     23,
-     25
+     16,
+     17,
+     18,
+     19
     ]
    },
    {
     "team": "Packers",
-    "from": 26,
-    "to": 32,
+    "from": 23,
+    "to": 31,
     "rings": []
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "4 rings = Buccaneers Y20, Y21, Y23, Y25. His known clubs (Packers) can't account for every ring, so the best fit adds a stop: Buccaneers Y16-25, Packers Y26-32.",
+  "evidence": "4 rings = Commanders Y16, Y17, Y18, Y19. His known clubs (Packers) can't account for every ring, so the best fit adds a stop: Commanders Y16-22, Packers Y23-31.",
   "alternatives": [
    [
     {
@@ -1278,8 +1278,8 @@
   "stints": [
    {
     "team": "Cardinals",
-    "from": 36,
-    "to": 41,
+    "from": 37,
+    "to": 42,
     "rings": []
    }
   ],
@@ -1312,7 +1312,7 @@
    {
     "team": "Raiders",
     "from": 35,
-    "to": 48,
+    "to": 49,
     "rings": []
    }
   ],
@@ -1456,8 +1456,8 @@
   "stints": [
    {
     "team": "Giants",
-    "from": 30,
-    "to": 40,
+    "from": 31,
+    "to": 41,
     "rings": []
    }
   ],
@@ -1512,7 +1512,7 @@
    {
     "team": "Broncos",
     "from": 19,
-    "to": 33,
+    "to": 34,
     "rings": []
    }
   ],
@@ -1580,8 +1580,8 @@
   "stints": [
    {
     "team": "Texans",
-    "from": 34,
-    "to": 46,
+    "from": 35,
+    "to": 47,
     "rings": []
    }
   ],
@@ -1645,7 +1645,7 @@
    {
     "team": "Raiders",
     "from": 36,
-    "to": 47,
+    "to": 48,
     "rings": []
    }
   ],
@@ -1798,8 +1798,8 @@
   "stints": [
    {
     "team": "Saints",
-    "from": 33,
-    "to": 47,
+    "from": 34,
+    "to": 48,
     "rings": []
    }
   ],
@@ -1872,8 +1872,8 @@
   "stints": [
    {
     "team": "Buccaneers",
-    "from": 53,
-    "to": 69,
+    "from": 54,
+    "to": 70,
     "rings": []
    }
   ],
@@ -1885,8 +1885,8 @@
   "stints": [
    {
     "team": "Giants",
-    "from": 33,
-    "to": 40,
+    "from": 34,
+    "to": 41,
     "rings": []
    }
   ],
@@ -1911,8 +1911,8 @@
   "stints": [
    {
     "team": "Jaguars",
-    "from": 39,
-    "to": 44,
+    "from": 40,
+    "to": 45,
     "rings": []
    }
   ],
@@ -1924,8 +1924,8 @@
   "stints": [
    {
     "team": "Cowboys",
-    "from": 39,
-    "to": 41,
+    "from": 40,
+    "to": 42,
     "rings": []
    }
   ],
@@ -1985,22 +1985,22 @@
  "Jason Macleone": {
   "stints": [
    {
-    "team": "Titans",
-    "from": 65,
-    "to": 70,
-    "rings": [
-     70
-    ]
-   },
-   {
     "team": "Seahawks",
-    "from": 71,
-    "to": 76,
+    "from": 66,
+    "to": 75,
     "rings": []
    },
    {
+    "team": "Jets",
+    "from": 76,
+    "to": 77,
+    "rings": [
+     77
+    ]
+   },
+   {
     "team": "Vikings",
-    "from": 77,
+    "from": 78,
     "to": 78,
     "rings": [
      78
@@ -2009,27 +2009,27 @@
    {
     "team": "Seahawks",
     "from": 79,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "2 rings = Titans Y70; Vikings Y78. Record board (your club's games only): Y75 longest rushing play (Seahawks). On the Y80 Seahawks roster. On the Y81 Seahawks roster. On the Y82 Seahawks roster. Owner: “Started at QB for the Vikings in their Y78 title; now a Seahawk (played the Y80 Super Bowl for them).” His known clubs (Seahawks, Vikings) can't account for every ring, so the best fit adds a stop: Titans Y65-70, Seahawks Y71-76, Vikings Y77-78, Seahawks Y79-82.",
+  "evidence": "2 rings = Jets Y77; Vikings Y78. Record board (your club's games only): Y75 longest rushing play (Seahawks). On the Y80 Seahawks roster. On the Y81 Seahawks roster. On the Y82 Seahawks roster. Owner: “Started at QB for the Vikings in their Y78 title; now a Seahawk (played the Y80 Super Bowl for them).” His known clubs (Seahawks, Vikings) can't account for every ring, so the best fit adds a stop: Seahawks Y66-75, Jets Y76-77, Vikings Y78, Seahawks Y79-83.",
   "alternatives": [
    [
     {
-     "team": "Seahawks",
+     "team": "Titans",
      "from": 65,
-     "to": 75
+     "to": 70
     },
     {
-     "team": "Jets",
-     "from": 76,
-     "to": 77
+     "team": "Seahawks",
+     "from": 71,
+     "to": 76
     },
     {
      "team": "Vikings",
-     "from": 78,
+     "from": 77,
      "to": 78
     },
     {
@@ -2078,7 +2078,7 @@
    }
   ],
   "confidence": "confirmed",
-  "evidence": "2 rings = Titans Y72; Jets Y77. Record board (your club's games only): Y75 longest rushing play (Seahawks); Y78 best rushing game (Jets). On the Y80 Falcons roster. Owner: “One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons; traded back to the Jets after Y82 for Kane Van Oxley, Ryland Maxwell and Chance Woodrum.” Traded to the Jets after Y82."
+  "evidence": "2 rings = Titans Y72; Jets Y77. Record board (your club's games only): Y75 longest rushing play (Seahawks); Y78 best rushing game (Jets). On the Y80 Falcons roster. On the Y83 Jets roster. Owner: “One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons; traded back to the Jets after Y82 for Kane Van Oxley, Ryland Maxwell and Chance Woodrum.”"
  },
  "Levante Hopkins": {
   "stints": [
@@ -2208,11 +2208,13 @@
     "team": "Falcons",
     "from": 83,
     "to": 83,
-    "rings": []
+    "rings": [
+     83
+    ]
    }
   ],
-  "confidence": "strong",
-  "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.” The only window that fits. Traded to the Falcons after Y82."
+  "confidence": "confirmed",
+  "evidence": "4 rings = Jets Y77, Y80, Y82; Falcons Y83. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
  },
  "Jamir Crane": {
   "stints": [
@@ -2316,7 +2318,7 @@
    {
     "team": "Seahawks",
     "from": 75,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2400,7 +2402,7 @@
    {
     "team": "Commanders",
     "from": 78,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2412,25 +2414,25 @@
    {
     "team": "Giants",
     "from": 69,
-    "to": 82,
+    "to": 81,
     "rings": []
    },
    {
     "team": "Ravens",
-    "from": 83,
+    "from": 82,
     "to": 83,
     "rings": []
    }
   ],
-  "confidence": "strong",
-  "evidence": "No rings. On the Y80 Giants roster. Owner: “Traded from the Giants to the Falcons after Y82 for an unnamed quarterback, then traded on to the Ravens before playing a game for the Falcons.” Traded to the Ravens after Y82."
+  "confidence": "confirmed",
+  "evidence": "No rings. On the Y80 Giants roster. Owner: “Traded from the Giants to the Falcons after Y82 for an unnamed quarterback, then traded on to the Ravens before playing a game for the Falcons.”"
  },
  "Le'Veon Richard": {
   "stints": [
    {
     "team": "Cowboys",
-    "from": 69,
-    "to": 82,
+    "from": 70,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2442,7 +2444,7 @@
    {
     "team": "Titans",
     "from": 76,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2454,7 +2456,7 @@
    {
     "team": "Titans",
     "from": 69,
-    "to": 82,
+    "to": 83,
     "rings": [
      70,
      71,
@@ -2471,7 +2473,7 @@
    {
     "team": "Ravens",
     "from": 69,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2482,7 +2484,7 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 68,
+    "from": 69,
     "to": 82,
     "rings": []
    },
@@ -2493,15 +2495,15 @@
     "rings": []
    }
   ],
-  "confidence": "strong",
-  "evidence": "No rings. On the Y80 Ravens roster. Owner: “Traded from the Ravens to the Jets in a multi-team trade before Y83.” Traded to the Jets after Y82."
+  "confidence": "confirmed",
+  "evidence": "No rings. On the Y80 Ravens roster. On the Y83 Jets roster. Owner: “Traded from the Ravens to the Jets in a multi-team trade before Y83.”"
  },
  "Jaylen Conklin": {
   "stints": [
    {
     "team": "Jets",
     "from": 78,
-    "to": 82,
+    "to": 83,
     "rings": [
      80,
      82
@@ -2509,7 +2511,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Jets Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. The only window that fits."
+  "evidence": "2 rings = Jets Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Jets roster. The only window that fits."
  },
  "Obinna Leary": {
   "stints": [
@@ -2524,7 +2526,7 @@
    {
     "team": "Seahawks",
     "from": 81,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2550,8 +2552,8 @@
     "rings": []
    }
   ],
-  "confidence": "strong",
-  "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, then traded on to the Bears before playing a game for the Falcons.” The only window that fits. Traded to the Bears after Y82."
+  "confidence": "confirmed",
+  "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, then traded on to the Bears before playing a game for the Falcons.”"
  },
  "Ryland Maxwell": {
   "stints": [
@@ -2568,11 +2570,13 @@
     "team": "Falcons",
     "from": 83,
     "to": 83,
-    "rings": []
+    "rings": [
+     83
+    ]
    }
   ],
-  "confidence": "strong",
-  "evidence": "2 rings = Jets Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.” The only window that fits. Traded to the Falcons after Y82."
+  "confidence": "confirmed",
+  "evidence": "3 rings = Jets Y80, Y82; Falcons Y83. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
  },
  "Ty Lock": {
   "stints": [
@@ -2592,8 +2596,8 @@
     "rings": []
    }
   ],
-  "confidence": "strong",
-  "evidence": "2 rings = Jets Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. Owner: “Traded from the Jets to the Giants in a multi-team trade before Y83.” The only window that fits. Traded to the Giants after Y82."
+  "confidence": "confirmed",
+  "evidence": "2 rings = Jets Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. Owner: “Traded from the Jets to the Giants in a multi-team trade before Y83.”"
  },
  "Dylan Hyatt": {
   "stints": [
@@ -2652,7 +2656,7 @@
    {
     "team": "Jets",
     "from": 76,
-    "to": 82,
+    "to": 83,
     "rings": [
      77,
      80,
@@ -2661,14 +2665,14 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. The only window that fits."
+  "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Jets roster. The only window that fits."
  },
  "Dan Mosley": {
   "stints": [
    {
     "team": "Lions",
     "from": 69,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2679,34 +2683,34 @@
   "stints": [
    {
     "team": "Jets",
-    "from": 77,
-    "to": 79,
+    "from": 76,
+    "to": 78,
     "rings": [
      77
     ]
    },
    {
     "team": "Seahawks",
-    "from": 80,
+    "from": 79,
     "to": 81,
     "rings": []
    },
    {
     "team": "Saints",
     "from": 82,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "1 ring = Jets Y77. On the Y80 Seahawks roster. On the Y81 Seahawks roster. Owner: “Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints.” His known clubs (Saints, Seahawks) can't account for every ring, so the best fit adds a stop: Jets Y77-79, Seahawks Y80-81, Saints Y82."
+  "evidence": "1 ring = Jets Y77. On the Y80 Seahawks roster. On the Y81 Seahawks roster. Owner: “Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints.” His known clubs (Saints, Seahawks) can't account for every ring, so the best fit adds a stop: Jets Y76-78, Seahawks Y79-81, Saints Y82-83."
  },
  "Deonte Sutton": {
   "stints": [
    {
     "team": "Seahawks",
     "from": 74,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2718,7 +2722,7 @@
    {
     "team": "Seahawks",
     "from": 74,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2729,8 +2733,8 @@
   "stints": [
    {
     "team": "Chiefs",
-    "from": 71,
-    "to": 82,
+    "from": 72,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2742,52 +2746,19 @@
    {
     "team": "Titans",
     "from": 75,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
   "confidence": "strong",
   "evidence": "No rings. On the Y80 Titans roster."
  },
- "Jakeem Friend": {
-  "stints": [
-   {
-    "team": "Vikings",
-    "from": 64,
-    "to": 70,
-    "rings": [
-     64,
-     66,
-     67,
-     68,
-     69
-    ]
-   },
-   {
-    "team": "Seahawks",
-    "from": 71,
-    "to": 78,
-    "rings": []
-   },
-   {
-    "team": "Jets",
-    "from": 79,
-    "to": 82,
-    "rings": [
-     80,
-     82
-    ]
-   }
-  ],
-  "confidence": "ambiguous",
-  "evidence": "7 rings = Vikings Y64, Y66, Y67, Y68, Y69; Jets Y80, Y82. On the Y81 Jets roster. On the Y82 Jets roster. Owner: “Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring).” His known clubs (Jets, Seahawks) can't account for every ring, so the best fit adds a stop: Vikings Y64-70, Seahawks Y71-78, Jets Y79-82."
- },
  "Trequan Roberts": {
   "stints": [
    {
     "team": "Jets",
     "from": 80,
-    "to": 82,
+    "to": 83,
     "rings": [
      80,
      82
@@ -2795,14 +2766,14 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Jets Y80, Y82. On the Y81 Jets roster. On the Y82 Jets roster. The only window that fits."
+  "evidence": "2 rings = Jets Y80, Y82. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Jets roster. The only window that fits."
  },
  "Tyron Colvin": {
   "stints": [
    {
     "team": "Titans",
     "from": 74,
-    "to": 82,
+    "to": 83,
     "rings": [
      74
     ]
@@ -2816,7 +2787,7 @@
    {
     "team": "Titans",
     "from": 80,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2827,8 +2798,8 @@
   "stints": [
    {
     "team": "Rams",
-    "from": 78,
-    "to": 82,
+    "from": 77,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2840,7 +2811,7 @@
    {
     "team": "Rams",
     "from": 70,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2851,8 +2822,8 @@
   "stints": [
    {
     "team": "Packers",
-    "from": 78,
-    "to": 82,
+    "from": 77,
+    "to": 83,
     "rings": [
      79
     ]
@@ -2865,8 +2836,8 @@
   "stints": [
    {
     "team": "Packers",
-    "from": 67,
-    "to": 82,
+    "from": 68,
+    "to": 83,
     "rings": [
      79
     ]
@@ -2879,8 +2850,8 @@
   "stints": [
    {
     "team": "Packers",
-    "from": 69,
-    "to": 82,
+    "from": 70,
+    "to": 83,
     "rings": [
      79
     ]
@@ -2894,7 +2865,7 @@
    {
     "team": "Vikings",
     "from": 73,
-    "to": 82,
+    "to": 83,
     "rings": [
      78
     ]
@@ -2908,7 +2879,7 @@
    {
     "team": "Vikings",
     "from": 69,
-    "to": 82,
+    "to": 83,
     "rings": [
      69,
      78
@@ -2921,57 +2892,57 @@
  "Tyson Nassib": {
   "stints": [
    {
-    "team": "Titans",
-    "from": 74,
-    "to": 74,
+    "team": "Jets",
+    "from": 76,
+    "to": 79,
     "rings": [
-     74
+     77
     ]
    },
    {
     "team": "Dolphins",
-    "from": 75,
-    "to": 82,
+    "from": 80,
+    "to": 83,
     "rings": []
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "1 ring = Titans Y74. His known clubs (Dolphins) can't account for every ring, so the best fit adds a stop: Titans Y74, Dolphins Y75-82.",
+  "evidence": "1 ring = Jets Y77. His known clubs (Dolphins) can't account for every ring, so the best fit adds a stop: Jets Y76-79, Dolphins Y80-83.",
   "alternatives": [
    [
     {
      "team": "Bengals",
-     "from": 74,
+     "from": 75,
      "to": 76
     },
     {
      "team": "Dolphins",
      "from": 77,
-     "to": 82
+     "to": 83
     }
    ],
    [
     {
      "team": "Jets",
-     "from": 74,
+     "from": 75,
      "to": 75
     },
     {
      "team": "Dolphins",
      "from": 76,
-     "to": 82
+     "to": 83
     }
    ],
    [
     {
      "team": "Packers",
-     "from": 74,
+     "from": 75,
      "to": 79
     },
     {
      "team": "Dolphins",
      "from": 80,
-     "to": 82
+     "to": 83
     }
    ]
   ]
@@ -2981,7 +2952,7 @@
    {
     "team": "Seahawks",
     "from": 77,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -2992,8 +2963,8 @@
   "stints": [
    {
     "team": "Lions",
-    "from": 79,
-    "to": 82,
+    "from": 78,
+    "to": 83,
     "rings": []
    }
   ],
@@ -3005,7 +2976,7 @@
    {
     "team": "Patriots",
     "from": 81,
-    "to": 82,
+    "to": 83,
     "rings": [
      81
     ]
@@ -3018,8 +2989,8 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 76,
-    "to": 82,
+    "from": 75,
+    "to": 83,
     "rings": []
    }
   ],
@@ -3031,7 +3002,7 @@
    {
     "team": "Jaguars",
     "from": 63,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -3043,25 +3014,33 @@
    {
     "team": "Bears",
     "from": 78,
-    "to": 82,
+    "to": 80,
     "rings": []
    },
    {
     "team": "Falcons",
-    "from": 83,
+    "from": 81,
     "to": 83,
+    "rings": [
+     83
+    ]
+   },
+   {
+    "team": "Buccaneers",
+    "from": 84,
+    "to": 84,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. Owner: “Traded from the Bears to the Falcons in a multi-team trade before Y83.” Traded to the Falcons after Y82."
+  "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. Owner: “Traded from the Bears to the Falcons in a multi-team trade before Y83, won the Y83 title there, then traded to the Buccaneers for Shawn Milne.” The only window that fits. Traded to the Buccaneers after Y83."
  },
  "Chazz McCray": {
   "stints": [
    {
     "team": "Buccaneers",
     "from": 79,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -3082,32 +3061,34 @@
     "team": "Falcons",
     "from": 83,
     "to": 83,
-    "rings": []
+    "rings": [
+     83
+    ]
    }
   ],
-  "confidence": "strong",
-  "evidence": "1 ring = Jets Y82. On the Y82 Jets roster. Owner: “Traded from the Jets to the Falcons in a multi-team trade before Y83.” The only window that fits. Traded to the Falcons after Y82."
+  "confidence": "confirmed",
+  "evidence": "2 rings = Jets Y82; Falcons Y83. On the Y82 Jets roster. On the Y83 Falcons roster. Owner: “Traded from the Jets to the Falcons in a multi-team trade before Y83.”"
  },
  "Dwayne Skura": {
   "stints": [
    {
     "team": "Jets",
     "from": 82,
-    "to": 82,
+    "to": 83,
     "rings": [
      82
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Jets Y82. On the Y82 Jets roster. The only window that fits."
+  "evidence": "1 ring = Jets Y82. On the Y82 Jets roster. On the Y83 Jets roster. The only window that fits."
  },
  "Spencer Daniels": {
   "stints": [
    {
     "team": "Jaguars",
     "from": 72,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -3119,7 +3100,7 @@
    {
     "team": "Cowboys",
     "from": 73,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -3131,7 +3112,7 @@
    {
     "team": "49ers",
     "from": 74,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -3143,7 +3124,7 @@
    {
     "team": "49ers",
     "from": 73,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -3155,7 +3136,7 @@
    {
     "team": "49ers",
     "from": 73,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -3167,7 +3148,7 @@
    {
     "team": "Panthers",
     "from": 70,
-    "to": 82,
+    "to": 83,
     "rings": []
    }
   ],
@@ -3179,7 +3160,7 @@
    {
     "team": "Broncos",
     "from": 65,
-    "to": 82,
+    "to": 83,
     "rings": [
      65
     ]
@@ -3187,5 +3168,169 @@
   ],
   "confidence": "strong",
   "evidence": "1 ring = Broncos Y65. The only window that fits."
+ },
+ "Brandon Jaclyde": {
+  "stints": [
+   {
+    "team": "Falcons",
+    "from": 83,
+    "to": 83,
+    "rings": [
+     83
+    ]
+   },
+   {
+    "team": "Dolphins",
+    "from": 84,
+    "to": 84,
+    "rings": []
+   }
+  ],
+  "confidence": "confirmed",
+  "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. Owner: “The Falcons' quarterback in Y83, then traded to the Dolphins.” Traded to the Dolphins after Y83."
+ },
+ "Eric Raimann": {
+  "stints": [
+   {
+    "team": "Falcons",
+    "from": 83,
+    "to": 83,
+    "rings": [
+     83
+    ]
+   }
+  ],
+  "confidence": "confirmed",
+  "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. Owner: “The Falcons' tight end in Y83.”"
+ },
+ "Perrion Randall": {
+  "stints": [
+   {
+    "team": "Falcons",
+    "from": 83,
+    "to": 83,
+    "rings": [
+     83
+    ]
+   },
+   {
+    "team": "Seahawks",
+    "from": 84,
+    "to": 84,
+    "rings": []
+   }
+  ],
+  "confidence": "confirmed",
+  "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. Owner: “On the Falcons' line in Y83, then traded to the Seahawks.” Traded to the Seahawks after Y83."
+ },
+ "Jashaun Fleming": {
+  "stints": [
+   {
+    "team": "Falcons",
+    "from": 83,
+    "to": 83,
+    "rings": [
+     83
+    ]
+   }
+  ],
+  "confidence": "confirmed",
+  "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
+ },
+ "Simeon Otton": {
+  "stints": [
+   {
+    "team": "Falcons",
+    "from": 83,
+    "to": 83,
+    "rings": [
+     83
+    ]
+   }
+  ],
+  "confidence": "confirmed",
+  "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
+ },
+ "Trysten Floyd": {
+  "stints": [
+   {
+    "team": "Falcons",
+    "from": 83,
+    "to": 83,
+    "rings": [
+     83
+    ]
+   }
+  ],
+  "confidence": "confirmed",
+  "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
+ },
+ "Bud Matthew": {
+  "stints": [
+   {
+    "team": "Dolphins",
+    "from": 80,
+    "to": 82,
+    "rings": []
+   },
+   {
+    "team": "Jets",
+    "from": 83,
+    "to": 83,
+    "rings": []
+   }
+  ],
+  "confidence": "ambiguous",
+  "evidence": "No rings. His known clubs (Jets) can't account for every ring, so the best fit adds a stop: Dolphins Y80-82, Jets Y83.",
+  "alternatives": [
+   [
+    {
+     "team": "Bengals",
+     "from": 80,
+     "to": 82
+    },
+    {
+     "team": "Jets",
+     "from": 83,
+     "to": 83
+    }
+   ],
+   [
+    {
+     "team": "Bills",
+     "from": 80,
+     "to": 82
+    },
+    {
+     "team": "Jets",
+     "from": 83,
+     "to": 83
+    }
+   ],
+   [
+    {
+     "team": "Broncos",
+     "from": 80,
+     "to": 82
+    },
+    {
+     "team": "Jets",
+     "from": 83,
+     "to": 83
+    }
+   ]
+  ]
+ },
+ "Danny Diggs": {
+  "stints": [
+   {
+    "team": "Jaguars",
+    "from": 72,
+    "to": 83,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
  }
 }

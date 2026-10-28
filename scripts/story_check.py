@@ -24,7 +24,8 @@ Rules checked here (CLAUDE.md "Season story"):
 SOURCES (the `source` of a stats[] entry; the value is compared after dropping commas, "+", "%" and spaces;
 numbers are compared at the precision written, so "17.2" matches 17.21):
   players.json <POS:Name> <key>                    career total on the card; <a>/<b> is a rate (yds/rec)
-  market_history.json <snap> <POS:Name> <field>    a market snapshot (field: ovr skill legacy value grade s.<key>)
+  market_history.json <snap> <POS:Name> <field>    a market snapshot (field: ovr skill legacy value grade s.<key>;
+                                                    s.<a>/s.<b> is a career rate as of that snapshot)
   market_history.json <snapA>..<snapB> <POS:Name> <field>
                                                     the change between two snapshots (s.<key>, ovr, value...);
                                                     s.<a>/s.<b> is the rate of the changes, value% the % change
@@ -169,6 +170,13 @@ def resolve(d: Data, source: str):
             return market_field(b, key, field) - market_field(a, key, field)
         if snap not in d.market:
             raise Unresolved(f"unknown market snapshot {snap}")
+        if field.startswith("s.") and "/" in field:  # a career rate as of that snapshot (s.yds/s.rec)
+            x, y = field.split("/", 1)
+            y = y if y.startswith("s.") else f"s.{y}"
+            den = market_field(d.market[snap], key, y)
+            if not den:
+                raise Unresolved(f"{y} is 0 in market snapshot {snap} for {key}")
+            return market_field(d.market[snap], key, x) / den
         return market_field(d.market[snap], key, field)
     if file == "super_bowls.json":
         year, _, field = rest.partition(" ")

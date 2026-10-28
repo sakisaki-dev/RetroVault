@@ -149,6 +149,8 @@ FACTS: list[dict] = []
 
 
 def fact(fid: str, kind: str, text: str, name: str | None):
+    if name and not banner_team(name):
+        return  # no club yet (UNK, ask the owner): every named fact wears a team colour
     FACTS.append({"id": fid, "kind": kind, "text": text, "player": KEY.get(name) if name else None,
                   "team": banner_team(name) if name else None})
 

@@ -815,10 +815,20 @@
   "number": 141,
   "roman": "CXLI",
   "winner": "Jets",
-  "score": null,
+  "score": "46-8",
   "loser": "Eagles",
   "your_result": "won",
   "your_team": "Jets",
-  "note": "Winner from the staff screen (82 NYJ Champions) and the playoff bracket (NYJ over PHI); score not captured"
+  "note": "Score from the Super Bowl winners list (IMG_6456 in 2026-10-28-y83): CXLI Jets 46-8 PHI"
+ },
+ {
+  "year": "Y83",
+  "number": 142,
+  "roman": "CXLII",
+  "winner": "Falcons",
+  "score": "40-25",
+  "loser": "Jets",
+  "your_result": "won",
+  "your_team": "Falcons"
  }
 ]

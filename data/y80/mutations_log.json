@@ -313,6 +313,34 @@
     "story": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-10-28-y83",
+   "dir": "data/uploads/2026-10-28-y83",
+   "applied_at": "2026-10-28T10:27:27-07:00",
+   "mutations": {
+    "stats": 71,
+    "notes": 2
+   },
+   "changed": 343
+  },
+  {
+   "id": "2026-10-28-y83-coach",
+   "dir": "data/uploads/2026-10-28-y83-coach",
+   "applied_at": "2026-10-28T10:28:26-07:00",
+   "mutations": {
+    "stats": 4
+   },
+   "changed": 4
+  },
+  {
+   "id": "2026-10-28-story-y83",
+   "dir": "data/uploads/2026-10-28-story-y83",
+   "applied_at": "2026-10-28T10:39:44-07:00",
+   "mutations": {
+    "story": 2
+   },
+   "changed": 2
   }
  ]
 }
