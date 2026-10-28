@@ -1,6 +1,16 @@
 // Retro Vault large widget for Scriptable (iOS). Loaded by retro-vault-install.js, which fetches this file from the
-// public site on every refresh, so the widget updates itself. A league front page, not a team page: the season story,
-// a rotating spotlight player, market movers and the wire, all read from the site's public JSON.
+// repo on every refresh, so the widget updates itself. A league front page, not a team page: the season story, a
+// spotlight ("Did you know" facts and "From the Vault" history), market movers and the wire. It reads one small file,
+// public/data/widget.json, which `npm run rebuild` generates by rule (scripts/build_widget_data.py).
+//
+// Rotation (local time; nothing depends on the network between refreshes):
+//   story      one article a day (midnight); the lead is pinned for the first 2 days after an update
+//   spotlight  twice a day (midnight, noon), alternating Did you know / From the Vault; each pool is shuffled with the
+//              edition seed, so an item returns only after the whole pool has shown (months) and the order changes
+//              with every update
+//   refresh    at the next midnight or noon
+// Tap: the widget's Parameter field (long-press > Edit Widget > Parameter). Empty = open the site. A Shortcut's name
+// = run that Shortcut (shortcuts://run-shortcut?name=...). A URL (http..., or anything with ://) = open it as is.
 
 const SITE = 'https://sakisaki-dev.github.io/RetroVault/';
 // Data straight from the repo (works even if GitHub Pages is down or misconfigured); the site is the fallback.
@@ -43,12 +53,20 @@ const nick = (team) => {
 };
 const teamColors = (team) => (TEAMS[nick(team)] || ['#2b3660', '#f2c14a']).map((h) => new Color(h));
 
+// ---------- tap target (the widget's Parameter field) ----------
+const PARAM = String((typeof args !== 'undefined' && args && args.widgetParameter) || '').trim();
+const tap = (siteUrl) => {
+  if (!PARAM) return siteUrl;
+  if (/^http/i.test(PARAM) || PARAM.includes('://')) return PARAM;
+  return 'shortcuts://run-shortcut?name=' + encodeURIComponent(PARAM);
+};
+
 // ---------- data (cached for offline refreshes) ----------
 const fm = FileManager.local();
 const cacheDir = fm.joinPath(fm.cacheDirectory(), 'retro-vault');
 if (!fm.fileExists(cacheDir)) fm.createDirectory(cacheDir, true);
 
-async function load(name, kind) {
+async function load(name) {
   const path = fm.joinPath(cacheDir, name.replace(/\//g, '_'));
   for (const base of DATA_SOURCES) {
     try {
@@ -57,70 +75,94 @@ async function load(name, kind) {
       const text = await r.loadString();
       if (r.response && r.response.statusCode && r.response.statusCode >= 400) continue;
       if (/^\s*</.test(text)) continue; // an HTML error page, not data
-      if (kind === 'json') JSON.parse(text); // validate before caching
+      const data = JSON.parse(text); // validate before caching
       fm.writeString(path, text);
-      return kind === 'json' ? JSON.parse(text) : text;
+      return data;
     } catch (e) {
       /* try the next source */
     }
   }
   if (!fm.fileExists(path)) return null;
-  const text = fm.readString(path);
-  return kind === 'json' ? JSON.parse(text) : text;
-}
-
-function parseCsv(text) {
-  // The league sheet: a position line ("QB"), its header ("Name,Status,Team,…"), then rows.
-  const rows = [];
-  let pos = null, header = null;
-  const split = (line) => {
-    const out = []; let cur = '', q = false;
-    for (const ch of line) {
-      if (ch === '"') q = !q;
-      else if (ch === ',' && !q) { out.push(cur); cur = ''; }
-      else cur += ch;
-    }
-    out.push(cur);
-    return out;
-  };
-  for (const raw of text.split(/\r?\n/)) {
-    const line = raw.trim();
-    if (!line) { header = null; continue; }
-    if (/^(QB|RB|WR|TE|OL|DL|LB|DB|K|P)$/.test(line)) { pos = line; continue; }
-    if (line.startsWith('Name,')) { header = split(line); continue; }
-    if (!header || !pos) continue;
-    const cells = split(line), row = { pos };
-    header.forEach((h, i) => (row[h] = cells[i]));
-    rows.push(row);
+  try {
+    return JSON.parse(fm.readString(path));
+  } catch (e) {
+    return null;
   }
-  return rows;
 }
 
-// The league moves once a season, so the widget rotates once a day (local midnight), not every refresh.
-const dayIndex = () => {
-  const d = new Date();
-  return Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
+// ---------- time and rotation ----------
+// The league moves once a season, so nothing here depends on the network: the day and half-day decide what shows.
+const NOW = typeof RV_NOW !== 'undefined' && RV_NOW ? new Date(RV_NOW) : new Date(); // RV_NOW: test harness only
+const dayNumber = (d) => Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 864e5);
+const TODAY = dayNumber(NOW);
+const SLOT = TODAY * 2 + (NOW.getHours() >= 12 ? 1 : 0); // midnight and noon
+const dateDay = (iso) => {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || '');
+  return m ? Math.floor(Date.UTC(+m[1], +m[2] - 1, +m[3]) / 864e5) : null;
 };
+function nextTurn(d) {
+  const t = new Date(d.getTime());
+  if (t.getHours() < 12) t.setHours(12, 0, 0, 0);
+  else { t.setDate(t.getDate() + 1); t.setHours(0, 0, 0, 0); }
+  return t;
+}
+// Deterministic shuffle (mulberry32 seeded by the edition): the same order all season, a new one after each update
+function shuffled(list, seed) {
+  let a = seed >>> 0;
+  const rnd = () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const out = list.slice();
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(rnd() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
 const fmt = (n) => Math.round(n).toLocaleString('en-US');
+
+function pickStory(data) {
+  const arts = data.stories || [];
+  if (!arts.length) return null;
+  const since = dateDay(data.latestUpdateAt) == null ? null : TODAY - dateDay(data.latestUpdateAt);
+  if (since != null && since >= 0 && since < 2) return arts[0]; // breaking news: the lead for 2 days
+  if (since != null && since >= 2) return arts[(since - 1) % arts.length];
+  return arts[((TODAY % arts.length) + arts.length) % arts.length];
+}
+
+function pickSpotlight(data) {
+  const seed = (data.edition && data.edition.seed) || 1;
+  const facts = shuffled(data.didYouKnow || [], seed);
+  const vault = shuffled(data.vault || [], seed ^ 0x9e3779b9);
+  // Each pool moves once a day: Did you know in the morning, From the Vault in the afternoon
+  const turn = Math.floor(SLOT / 2);
+  const wantVault = SLOT % 2 === 1;
+  const pools = wantVault ? [['vault', vault], ['fact', facts]] : [['fact', facts], ['vault', vault]];
+  for (const [kind, pool] of pools) {
+    if (pool.length) return { kind, item: pool[((turn % pool.length) + pool.length) % pool.length] };
+  }
+  const fb = data.spotlightFallback || [];
+  return fb.length ? { kind: 'player', item: { player: fb[((TODAY % fb.length) + fb.length) % fb.length] } } : null;
+}
 
 // ---------- build ----------
 async function build() {
-  const [content, market, csv] = await Promise.all([
-    load('league/content.json', 'json'),
-    load('market.json', 'json'),
-    load('initial-data.csv', 'text'),
-  ]);
+  const data = await load('widget.json');
 
   const w = new ListWidget();
   const bg = new LinearGradient();
   bg.colors = [C.night2, C.night];
   bg.locations = [0, 1];
   w.backgroundGradient = bg;
-  w.setPadding(12, 14, 12, 14);
-  w.url = SITE + '#timeline';
-  w.refreshAfterDate = new Date(Date.now() + 30 * 60 * 1000);
+  w.setPadding(12, 14, 17, 14);
+  w.url = tap(SITE + '#timeline');
+  w.refreshAfterDate = nextTurn(NOW);
 
-  if (!content) {
+  if (!data) {
     const t = w.addText('Retro Vault');
     t.font = display(22); t.textColor = C.gold;
     w.addSpacer(4);
@@ -128,6 +170,7 @@ async function build() {
     m.font = body(12); m.textColor = C.muted;
     return w;
   }
+  const cards = data.cards || {};
 
   // Header
   const head = w.addStack();
@@ -138,118 +181,60 @@ async function build() {
   const brand = head.addText('RETRO VAULT');
   brand.font = display(16); brand.textColor = C.chalk;
   head.addSpacer();
-  const ed = head.addText((content.edition && content.edition.label) || content.season || '');
+  const ed = head.addText((data.edition && data.edition.label) || data.season || '');
   ed.font = mono(10); ed.textColor = C.gold;
 
   w.addSpacer(8);
 
-  // Story (rotates through the season's articles; falls back to the top headline)
-  const story = (content.seasonStories || []).slice(-1)[0];
-  const articles = story ? story.articles.filter((a) => a.kind !== 'quickhits' && a.kind !== 'didyouknow') : [];
-  const art = articles.length ? articles[dayIndex() % articles.length] : null;
-  const leadTeam = art && art.teams && art.teams[0];
+  // Story: one article a day (the lead pinned for 2 days after an update); falls back to the top headline
+  const art = pickStory(data);
   const storyRow = w.addStack();
   storyRow.layoutHorizontally();
   const bar = storyRow.addStack();
   bar.size = new Size(4, 0);
-  bar.backgroundColor = teamColors(leadTeam)[0];
+  bar.backgroundColor = teamColors(art && art.team)[0];
   bar.cornerRadius = 2;
   storyRow.addSpacer(8);
   const sCol = storyRow.addStack();
   sCol.layoutVertically();
+  // The story is about the season it names (a newer data season without a story yet keeps the honest label)
   const kicker = sCol.addText(
-    art ? `THE ${story.season} SEASON · ${kindLabel(art.kind)}` : `${content.season || ''} · WHAT CHANGED`,
+    art ? `THE ${data.storySeason} SEASON · ${kindLabel(art.kind)}` : `${data.season || ''} · WHAT CHANGED`,
   );
   kicker.font = mono(9); kicker.textColor = C.gold;
   sCol.addSpacer(2);
-  const hl = sCol.addText(art ? art.headline : ((content.headlines || [])[0] || {}).text || 'No news yet');
+  const hl = sCol.addText(art ? art.headline : ((data.headlines || [])[0] || {}).text || 'No news yet');
   hl.font = display(21); hl.textColor = C.chalk; hl.lineLimit = 2; hl.minimumScaleFactor = 0.8;
   if (art && art.dek) {
     sCol.addSpacer(2);
     const dk = sCol.addText(art.dek);
     dk.font = body(11.5); dk.textColor = C.muted; dk.lineLimit = 3;
   }
-  if (art) storyRow.url = SITE + '#timeline';
+  storyRow.url = tap(SITE + '#timeline');
 
   w.addSpacer(10);
 
-  // Spotlight (rotates hourly over active nicknamed players, big market movers and S-tier players)
-  const latest = market && market.length ? market[market.length - 1].players : {};
-  const prev = market && market.length > 1 ? market[market.length - 2].players : {};
-  const rows = csv ? parseCsv(csv) : [];
-  const active = rows.filter((r) => r.Status === 'Active');
-  const change = (k) => (prev[k] && prev[k].value >= 50 && latest[k] ? (latest[k].value - prev[k].value) / prev[k].value : 0);
-  const cands = active
-    .map((r) => ({ r, k: `${r.pos}:${r.Name}` }))
-    .filter(({ r, k }) => latest[k] && ((r.Nicknames || '').trim() || latest[k].grade === 'S' || Math.abs(change(k)) >= 0.25))
-    .sort((a, b) => (latest[b.k].legacy || 0) - (latest[a.k].legacy || 0));
-  // Prefer the names worth a spotlight: nicknames and S grades first, then the biggest movers; top 14 by legacy rotate.
-  const score = ({ r, k }) => ((r.Nicknames || '').trim() ? 2 : 0) + (latest[k].grade === 'S' ? 2 : 0) + Math.min(1, Math.abs(change(k)));
-  const pool = cands.sort((a, b) => score(b) - score(a) || (latest[b.k].legacy || 0) - (latest[a.k].legacy || 0)).slice(0, 14);
-  const pick = pool.length ? pool[(dayIndex() * 7) % pool.length] : null;
-  const facts = story ? story.didYouKnow || story.articles.filter((a) => a.kind === 'didyouknow') : [];
-  const fact = facts.length ? facts[dayIndex() % facts.length] : null;
-  const factRow = fact && fact.players && fact.players.length ? active.concat(rows).find((r) => r.Name === fact.players[0]) : null;
-  const factSpot = factRow && latest[`${factRow.pos}:${factRow.Name}`] ? { r: factRow, k: `${factRow.pos}:${factRow.Name}` } : null;
-  const spot = factSpot || pick;
-  if (spot && latest[spot.k]) {
-    const { r, k } = spot;
-    const p = latest[k];
-    const [c1, c2] = teamColors(r.Team);
-    const card = w.addStack();
-    card.layoutHorizontally();
-    card.centerAlignContent();
-    card.setPadding(8, 10, 8, 10);
-    card.cornerRadius = 12;
-    const g = new LinearGradient();
-    g.colors = [c1, new Color('#0b1020', 0.95)];
-    g.locations = [0, 1];
-    g.startPoint = new Point(0, 0); g.endPoint = new Point(1, 1);
-    card.backgroundGradient = g;
-    card.borderColor = c2; card.borderWidth = 1;
-    card.url = SITE + '#stats/deepdive?p=' + encodeURIComponent(k);
-    const left = card.addStack();
-    left.layoutVertically();
-    const lab = left.addText((factSpot ? 'DID YOU KNOW · ' : 'SPOTLIGHT · ') + nick(r.Team).toUpperCase());
-    lab.font = mono(8.5); lab.textColor = new Color('#ffffff', 0.75);
-    const nm = left.addText(r.Name.toUpperCase());
-    nm.font = display(18); nm.textColor = Color.white(); nm.lineLimit = 1; nm.minimumScaleFactor = 0.7;
-    const nn = (r.Nicknames || '').trim();
-    const factText = factSpot ? fact.text || fact.dek || fact.headline : null;
-    const sub = left.addText(factText || `${nn ? '"' + nn + '" · ' : ''}${r.pos} · Legacy ${fmt(p.legacy || 0)}`);
-    sub.font = factText ? body(11) : displayB(12); sub.textColor = C.gold; sub.lineLimit = factText ? 3 : 1;
-    card.addSpacer();
-    const right = card.addStack();
-    right.layoutVertically();
-    const ovr = right.addText(String(p.ovr));
-    ovr.font = display(26); ovr.textColor = Color.white(); ovr.rightAlignText();
-    const ch = change(k);
-    const vline = right.addText(`${p.grade || ''} ${ch ? (ch > 0 ? '▲' : '▼') + Math.abs(Math.round(ch * 100)) + '%' : ''}`.trim());
-    vline.font = mono(10); vline.textColor = ch > 0 ? C.up : ch < 0 ? C.down : C.muted; vline.rightAlignText();
-  }
+  // Spotlight: Did you know / From the Vault, twice a day
+  const spot = pickSpotlight(data);
+  if (spot) drawSpotlight(w, spot, cards);
 
   w.addSpacer(9);
 
   // Market strip: two risers, one faller
-  const movers = Object.keys(latest)
-    .map((k) => ({ k, d: change(k) }))
-    .filter((m) => m.d)
-    .sort((a, b) => b.d - a.d);
   const strip = w.addStack();
   strip.centerAlignContent();
   const mk = strip.addText('MARKET');
   mk.font = mono(9); mk.textColor = C.gold;
   strip.addSpacer(6);
-  const chosen = [...movers.slice(0, 2), ...movers.slice(-1).filter((m) => m.d < 0)];
-  if (!chosen.length) {
+  const movers = data.movers || [];
+  if (!movers.length) {
     const q = strip.addText('Quiet since the last update');
     q.font = body(11); q.textColor = C.muted;
   }
-  chosen.forEach((m, i) => {
+  movers.forEach((m, i) => {
     if (i) strip.addSpacer(8);
-    const last = m.k.split(':')[1].split(' ').slice(-1)[0];
-    const t = strip.addText(`${m.d > 0 ? '▲' : '▼'} ${last} ${Math.abs(Math.round(m.d * 100))}%`);
-    t.font = mono(10.5); t.textColor = m.d > 0 ? C.up : C.down; t.lineLimit = 1;
+    const t = strip.addText(`${m.pct > 0 ? '▲' : '▼'} ${m.last} ${Math.abs(m.pct)}%`);
+    t.font = mono(10.5); t.textColor = m.pct > 0 ? C.up : C.down; t.lineLimit = 1;
   });
 
   w.addSpacer(8);
@@ -258,7 +243,7 @@ async function build() {
   const wireHead = w.addText('THE WIRE');
   wireHead.font = mono(9); wireHead.textColor = C.gold;
   w.addSpacer(3);
-  const news = (content.headlines || []).slice(art ? 0 : 1, art ? 3 : 4);
+  const news = (data.headlines || []).slice(art ? 0 : 1, art ? 3 : 4);
   news.forEach((h) => {
     const t = w.addText(`${h.kind === 'chase' ? '⏱' : h.kind === 'trade' ? '⇄' : '●'}  ${h.text}`);
     t.font = body(11.5); t.textColor = C.chalk; t.lineLimit = 1; t.minimumScaleFactor = 0.85;
@@ -266,9 +251,85 @@ async function build() {
   });
 
   w.addSpacer();
-  const foot = w.addText(((content.headlinesInfo && content.headlinesInfo.label) || '') + ' · tap for the full story');
+  const foot = w.addText((data.updatedLabel || '') + ' · tap for the full story');
   foot.font = mono(8.5); foot.textColor = C.muted; foot.lineLimit = 1;
   return w;
+}
+
+function vaultLabel(item) {
+  const named = { superbowl: '', record: 'RECORD BOARD', hof: 'HALL OF FAME' };
+  const what = item.kind in named ? named[item.kind] : String(item.kind || '').replace(/-/g, ' ');
+  return ['FROM THE VAULT', what, item.when].filter(Boolean).join(' · ').toUpperCase();
+}
+
+function drawSpotlight(w, spot, cards) {
+  const it = spot.item;
+  const key = it.player;
+  const card = key ? cards[key] : null;
+  const name = key ? key.split(':').slice(1).join(':') : null;
+  const isVault = spot.kind === 'vault';
+  const team = it.team || (card && card.team);
+  const [c1, c2] = teamColors(team);
+  const box = w.addStack();
+  box.layoutHorizontally();
+  box.centerAlignContent();
+  box.cornerRadius = 12;
+
+  if (card && card.ovr != null) {
+    // A player: the team-coloured banner with his OVR, grade and value move
+    box.setPadding(8, 10, 8, 10);
+    const g = new LinearGradient();
+    g.colors = [c1, new Color('#0b1020', 0.95)];
+    g.locations = [0, 1];
+    g.startPoint = new Point(0, 0); g.endPoint = new Point(1, 1);
+    box.backgroundGradient = g;
+    box.borderColor = c2; box.borderWidth = 1;
+    box.url = tap(SITE + '#stats/deepdive?p=' + encodeURIComponent(key));
+    const left = box.addStack();
+    left.layoutVertically();
+    const lab = left.addText(isVault ? vaultLabel(it) : spot.kind === 'fact' ? 'DID YOU KNOW · ' + nick(team).toUpperCase() : 'SPOTLIGHT · ' + nick(team).toUpperCase());
+    lab.font = mono(8.5); lab.textColor = new Color('#ffffff', 0.75); lab.lineLimit = 1;
+    const nm = left.addText(name.toUpperCase());
+    nm.font = display(18); nm.textColor = Color.white(); nm.lineLimit = 1; nm.minimumScaleFactor = 0.7;
+    const text = spot.kind === 'player'
+      ? `${card.nick ? '"' + card.nick + '" · ' : ''}${key.split(':')[0]} · Legacy ${fmt(card.legacy || 0)}`
+      : isVault && it.kind !== 'hof' ? `${it.title}: ${it.text}` : it.text;
+    const sub = left.addText(text);
+    sub.font = spot.kind === 'player' ? displayB(12) : body(11); sub.textColor = C.gold;
+    sub.lineLimit = spot.kind === 'player' ? 1 : 3; sub.minimumScaleFactor = 0.85;
+    box.addSpacer();
+    const right = box.addStack();
+    right.layoutVertically();
+    const ovr = right.addText(String(card.ovr));
+    ovr.font = display(26); ovr.textColor = Color.white(); ovr.rightAlignText();
+    const ch = card.chg || 0;
+    const vline = right.addText(`${card.grade || ''} ${ch ? (ch > 0 ? '▲' : '▼') + Math.abs(ch) + '%' : ''}`.trim());
+    vline.font = mono(10); vline.textColor = ch > 0 ? C.up : ch < 0 ? C.down : C.muted; vline.rightAlignText();
+    return;
+  }
+
+  // No player card: the dark history card with a gold kicker and the team colour bar
+  box.setPadding(8, 0, 8, 10);
+  box.backgroundColor = C.panel;
+  box.borderColor = C.line; box.borderWidth = 1;
+  box.url = tap(SITE + (it.kind === 'superbowl' ? '#timeline' : it.kind === 'hof' ? '#hof' : '#timeline'));
+  const stripe = box.addStack();
+  stripe.size = new Size(5, 0);
+  stripe.backgroundColor = c1;
+  box.addSpacer(9);
+  const col = box.addStack();
+  col.layoutVertically();
+  const lab = col.addText(isVault ? vaultLabel(it) : 'DID YOU KNOW' + (team ? ' · ' + nick(team).toUpperCase() : ''));
+  lab.font = mono(8.5); lab.textColor = C.gold; lab.lineLimit = 1;
+  if (isVault && it.title) {
+    col.addSpacer(1);
+    const tt = col.addText(it.title.toUpperCase());
+    tt.font = display(17); tt.textColor = C.chalk; tt.lineLimit = 1; tt.minimumScaleFactor = 0.7;
+  }
+  col.addSpacer(1);
+  const tx = col.addText(it.text || '');
+  tx.font = body(11.5); tx.textColor = it.owner ? C.gold : C.chalk; tx.lineLimit = isVault ? 2 : 3; tx.minimumScaleFactor = 0.85;
+  box.addSpacer();
 }
 
 function kindLabel(kind) {

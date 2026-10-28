@@ -9,7 +9,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "rebuild": "python3 scripts/infer_stints.py && python3 scripts/build_league_data.py && npm run -s market && python3 scripts/build_league_content.py && npm run -s audit",
+    "rebuild": "python3 scripts/infer_stints.py && python3 scripts/build_league_data.py && npm run -s market && python3 scripts/build_league_content.py && python3 scripts/build_widget_data.py && npm run -s audit",
     "apply-upload": "python3 scripts/apply_upload.py",
     "update": "python3 scripts/update.py",
     "market": "esbuild scripts/market_snapshot.ts --bundle --platform=node --alias:@=./src --outfile=node_modules/.tmp/market.cjs --log-level=error && node node_modules/.tmp/market.cjs",

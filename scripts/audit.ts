@@ -275,6 +275,28 @@ actual.forEach((v, path) => {
 });
 expected.forEach((_, path) => !actual.has(path) && warnings.push(`${path} was set by an upload but is missing from the data now`));
 
+// 10. The widget feed (public/data/widget.json, scripts/build_widget_data.py) exists, is current and well formed
+if (!existsSync('public/data/widget.json')) errors.push('public/data/widget.json is missing (npm run rebuild writes it)');
+else {
+  try {
+    const wj = read('public/data/widget.json');
+    if (wj.season !== content.season) errors.push(`widget.json is for ${wj.season}, content.json for ${content.season} (rebuild)`);
+    if (wj.edition?.seed !== content.edition?.seed) errors.push('widget.json edition differs from content.json (rebuild)');
+    for (const k of ['stories', 'didYouKnow', 'vault', 'movers', 'headlines', 'spotlightFallback'])
+      if (!Array.isArray(wj[k])) errors.push(`widget.json has no ${k} list`);
+    const cards = wj.cards ?? {};
+    const items = [...(wj.didYouKnow ?? []), ...(wj.vault ?? [])] as { text?: string; title?: string; player?: string }[];
+    items.forEach((it) => {
+      if (!it.text) errors.push(`widget.json item without text: ${JSON.stringify(it).slice(0, 80)}`);
+      if (it.player && !cards[it.player]) errors.push(`widget.json names ${it.player} without a card`);
+    });
+    (wj.spotlightFallback ?? []).forEach((k: string) => !cards[k] && errors.push(`widget.json fallback ${k} has no card`));
+    if ((wj.didYouKnow ?? []).length < 40) warnings.push(`widget.json has only ${(wj.didYouKnow ?? []).length} Did you know facts`);
+  } catch (e) {
+    errors.push(`public/data/widget.json is not valid JSON: ${(e as Error).message}`);
+  }
+}
+
 warnings.forEach((w) => console.log(`warn  ${w}`));
 errors.forEach((e) => console.log(`ERROR ${e}`));
 console.log(`\naudit: ${league.length} players, ${errors.length} errors, ${warnings.length} warnings`);

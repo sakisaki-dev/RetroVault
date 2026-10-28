@@ -33,7 +33,8 @@ hand-edit generated files, and never edit `data/y80/` directly: every change goe
 
 `npm run rebuild` runs, in order: `infer_stints.py` (career stints) → `build_league_data.py` (league CSV, extras,
 legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `build_league_content.py`
-(`public/data/league/content.json`) → `audit.ts`. It is deterministic: two runs give byte-identical output.
+(`public/data/league/content.json`) → `build_widget_data.py` (`public/data/widget.json`) → `audit.ts`. It is
+deterministic: two runs give byte-identical output.
 
 ## Updating: the upload pipeline (the usual phone request)
 
@@ -66,7 +67,7 @@ other row is a deterministic rule that `npm run update` / `npm run rebuild` runs
 | 7 | Market snapshot (OVR, skill, Career Legacy, value, grade, totals) | Rule | Any rating changed | `market_snapshot.ts` → `market_history.json` |
 | 8 | Eras, storylines, rivalries, lineages, snubs, record chases, open questions, HOF classes, headlines ("The Wire"), edition seed | Rule | Every rebuild | `build_league_content.py` |
 | 9 | Skill grades, player families (map zones), similarity, Deep Dive boards | Rule (computed in the app) | Data changes | `src/config/skillGrades.ts`, `families.ts`, `advanced.ts` |
-| 10 | Widget feed: today's story set, rule-generated "Did you know" facts, "From the Vault" history cards, movers, headlines | Rule | Every rebuild | `public/data/widget.json` |
+| 10 | Widget feed: the latest story's articles, its written facts plus rule-generated "Did you know" facts, "From the Vault" history cards, movers, headlines, banner cards | Rule | Every rebuild | `build_widget_data.py` → `public/data/widget.json` |
 | 11 | Hall of Fame speech for each new member | **AI** (`speech`) | Rebuild prints `SPEECH NEEDED` | `speech.set` (step 5) |
 | 12 | Season Story: news articles plus written "Did you know" facts for the completed season | **AI** (`story`) | Rebuild prints `STORY NEEDED: Y<n>` | `story.set` (step 6); professional voice, no "owner", only true facts |
 | 13 | Refresh speeches or stories whose numbers went stale | **AI** (same lanes) | Audit warns that a cited number no longer matches | `speech.set` / `story.set` |
@@ -316,6 +317,22 @@ current data is a no-op.
   only for rotating presentation: Front Office featured stint players and rivals order, Timeline storyline order, the
   landing Spotlight (up to 2 headline players, then top Career Legacy, shuffled per edition) and the Collection
   hero / pack shelf accent (`EDITION_ACCENTS`). Never for player identity (looks, card art, poses, uniforms).
+- **Widget feed** (`scripts/build_widget_data.py` → `public/data/widget.json`, about 64 KB, 14 KB gzipped): the only
+  file the Scriptable iPhone widget (`public/widgets/retro-vault-widget.js`) reads, from raw GitHub, then Pages, then
+  its cache. Templates only, numbers straight from the data: `stories` (the latest Season Story's articles, no quick
+  hits), `didYouKnow` (the story's written facts, then rule facts up to 100: record chases, active players closing on
+  a `MILESTONES` step, up-and-comers with an S/A grade or OVR 85+ in 60 games or fewer, oddities such as most rings
+  without an MVP, one-team legends, small-sample standouts, rate leaders per position with a minimum sample, career
+  leaders and the active leader, iron men), `vault` (every Super Bowl with the owner's wins flagged, the record board
+  credited to the owner's club that year, each Hall of Famer with his speech's first line, class and Career Legacy,
+  the generated storylines), `movers` (top 2 risers and top faller, base value ≥ 50), the top 4 `headlines`,
+  `spotlightFallback`, `cards` (banner team, OVR, grade, Career Legacy, value change for every player named) and
+  `latestUpdateAt` (last applied upload). The widget shows one story a day (the lead pinned for 2 days after an
+  update) and a spotlight that changes at midnight and noon, alternating Did you know and From the Vault, each pool
+  shuffled by `edition.seed`, so nothing repeats until the pool is spent (100 days / 191 days). The widget's Parameter
+  field sets the tap: empty = the site, a Shortcut's name = `shortcuts://run-shortcut`, a URL = as is. The audit
+  errors if widget.json is missing, stale (season or edition differs from content.json) or names a player without
+  a card.
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
   `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. The value formula lives in
   `src/utils/cardMarket.ts`. Never hand-edit either file; rebuild and commit both.
