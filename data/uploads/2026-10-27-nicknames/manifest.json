@@ -1,0 +1,70 @@
+{
+ "id": "2026-10-27-nicknames",
+ "created": "2026-10-27",
+ "title": "Nicknames: Conklin \"Takeoff\", Heath \"Starscream\"",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "tag notes",
+   "reason": "Link the owner's notes",
+   "trigger": "notes.md present"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Jaylen Conklin",
+   "value": {
+    "nick": "Takeoff"
+   },
+   "source": "owner",
+   "reason": "Owner: \"his nickname is takeoff, he has the highest vertical ever for pass catching\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jaylen Conklin/card",
+   "value": {
+    "note": "\"Takeoff\": the highest vertical the owner has ever seen for pass catching; he catches anything as long as it's above his head."
+   },
+   "source": "owner",
+   "reason": "Owner: \"his nickname is takeoff, he has the highest vertical ever for pass catching\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Vyncint Heath",
+   "value": {
+    "nick": "Starscream"
+   },
+   "source": "owner",
+   "reason": "Owner: \"for vyncent heath it's starscream\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "notes",
+   "op": "journal.add",
+   "target": "conklin-takeoff",
+   "value": {
+    "text": "also for jaylen conklin his nickname is takeoff, he has the highest vertical ever for pass catching this dude catches anything as long as it's above his head",
+    "kind": "note",
+    "season": "Y83",
+    "players": [
+     "Jaylen Conklin"
+    ],
+    "teams": [
+     "Jets"
+    ],
+    "seasons": [
+     83
+    ]
+   },
+   "source": "owner",
+   "reason": "Owner note",
+   "trigger": "notes.md present"
+  }
+ ]
+}

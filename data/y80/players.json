@@ -3228,7 +3228,8 @@
   "sbmvp": 0,
   "roty": 0,
   "era": "Modern era · Y70–80",
-  "dpoy": 0
+  "dpoy": 0,
+  "nick": "Takeoff"
  },
  {
   "n": "Obinna Leary",
@@ -3814,7 +3815,8 @@
   "opoy": 1,
   "dpoy": 0,
   "roty": 0,
-  "sbmvp": 0
+  "sbmvp": 0,
+  "nick": "Starscream"
  },
  {
   "n": "Dwayne Skura",
