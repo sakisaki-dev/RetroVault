@@ -1,0 +1,1 @@
+so a couple of changes in the beginning after the changes I said, some big 3-4 way trades happened in the league, the jets now have dan stout as Qb and malakai sawyer as RB drake wise is now a raven, ty lock is now a giant, Kane Van Oxley is now a bear. Vyncent Heath is now a falcon, along with shareef london ryland maxwell and chance woodrum

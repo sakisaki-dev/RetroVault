@@ -1,0 +1,224 @@
+{
+ "id": "2026-10-27-y83-trades",
+ "created": "2026-10-27",
+ "title": "Y83 offseason multi-team trades",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "tag notes",
+   "reason": "Link the owner's note to players and teams",
+   "trigger": "notes.md present"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dan Stout/team",
+   "value": "Jets",
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): traded to the Jets as QB",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dan Stout/career",
+   "value": {
+    "order": [
+     "Ravens"
+    ],
+    "next_team": "Jets",
+    "says": "Traded from the Ravens to the Jets in a multi-team trade before Y83."
+   },
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): traded to the Jets",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Drake Wise/team",
+   "value": "Ravens",
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): traded to the Ravens",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Drake Wise/career",
+   "value": {
+    "order": [
+     "Giants"
+    ],
+    "next_team": "Ravens",
+    "says": "Traded from the Giants to the Falcons after Y82 for an unnamed quarterback, then traded on to the Ravens before playing a game for the Falcons."
+   },
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): traded to the Ravens",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ty Lock/team",
+   "value": "Giants",
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): traded to the Giants",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ty Lock/career",
+   "value": {
+    "order": [
+     "Jets"
+    ],
+    "next_team": "Giants",
+    "says": "Traded from the Jets to the Giants in a multi-team trade before Y83."
+   },
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): traded to the Giants",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kane Van Oxley/team",
+   "value": "Bears",
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): traded to the Bears",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kane Van Oxley/career",
+   "value": {
+    "order": [
+     "Jets"
+    ],
+    "next_team": "Bears",
+    "says": "Went with the coach from the Jets to the Falcons after Y82, then traded on to the Bears before playing a game for the Falcons."
+   },
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): traded to the Bears",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Vyncint Heath/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): traded to the Falcons",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Vyncint Heath/career",
+   "value": {
+    "order": [
+     "Jets"
+    ],
+    "next_team": "Falcons",
+    "says": "Traded from the Jets to the Falcons in a multi-team trade before Y83."
+   },
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): traded to the Falcons",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Shareef London/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): traded to the Falcons",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Shareef London/career",
+   "value": {
+    "order": [
+     "Bears"
+    ],
+    "next_team": "Falcons",
+    "says": "Traded from the Bears to the Falcons in a multi-team trade before Y83."
+   },
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): traded to the Falcons",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "active_rosters/Jets",
+   "value": [
+    "Dan Stout",
+    "Dwayne Skura",
+    "Jakeem Friend",
+    "Jaylen Conklin",
+    "Kalif Suh",
+    "Malakai Sawyer",
+    "Trequan Roberts"
+   ],
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): Jets roster after the trades",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "active_rosters/Falcons",
+   "value": [
+    "Chance Woodrum",
+    "Ryland Maxwell",
+    "Shareef London",
+    "Vyncint Heath"
+   ],
+   "source": "owner",
+   "reason": "Owner: \"some big 3-4 way trades happened in the league\" (Y83 offseason): Falcons roster after the trades",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "notes",
+   "op": "journal.add",
+   "target": "y83-multi-team-trades",
+   "value": {
+    "text": "so a couple of changes in the beginning after the changes I said, some big 3-4 way trades happened in the league, the jets now have dan stout as Qb and malakai sawyer as RB drake wise is now a raven, ty lock is now a giant, Kane Van Oxley is now a bear. Vyncent Heath is now a falcon, along with shareef london ryland maxwell and chance woodrum",
+    "kind": "note",
+    "season": "Y83",
+    "players": [
+     "Dan Stout",
+     "Malakai Sawyer",
+     "Drake Wise",
+     "Ty Lock",
+     "Kane Van Oxley",
+     "Vyncint Heath",
+     "Shareef London",
+     "Ryland Maxwell",
+     "Chance Woodrum"
+    ],
+    "teams": [
+     "Jets",
+     "Ravens",
+     "Giants",
+     "Bears",
+     "Falcons"
+    ],
+    "seasons": [
+     83
+    ]
+   },
+   "source": "owner",
+   "reason": "Owner season note",
+   "trigger": "notes.md present"
+  }
+ ]
+}

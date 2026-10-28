@@ -2416,14 +2416,14 @@
     "rings": []
    },
    {
-    "team": "Falcons",
+    "team": "Ravens",
     "from": 83,
     "to": 83,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y80 Giants roster. Owner: “Traded from the Giants to the Falcons after Y82 for an unnamed quarterback.” Traded to the Falcons after Y82."
+  "evidence": "No rings. On the Y80 Giants roster. Owner: “Traded from the Giants to the Falcons after Y82 for an unnamed quarterback, then traded on to the Ravens before playing a game for the Falcons.” Traded to the Ravens after Y82."
  },
  "Le'Veon Richard": {
   "stints": [
@@ -2485,10 +2485,16 @@
     "from": 68,
     "to": 82,
     "rings": []
+   },
+   {
+    "team": "Jets",
+    "from": 83,
+    "to": 83,
+    "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y80 Ravens roster."
+  "evidence": "No rings. On the Y80 Ravens roster. Owner: “Traded from the Ravens to the Jets in a multi-team trade before Y83.” Traded to the Jets after Y82."
  },
  "Jaylen Conklin": {
   "stints": [
@@ -2538,14 +2544,14 @@
     ]
    },
    {
-    "team": "Falcons",
+    "team": "Bears",
     "from": 83,
     "to": 83,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.” The only window that fits. Traded to the Falcons after Y82."
+  "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, then traded on to the Bears before playing a game for the Falcons.” The only window that fits. Traded to the Bears after Y82."
  },
  "Ryland Maxwell": {
   "stints": [
@@ -2578,10 +2584,16 @@
      80,
      82
     ]
+   },
+   {
+    "team": "Giants",
+    "from": 83,
+    "to": 83,
+    "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Jets Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. The only window that fits."
+  "evidence": "2 rings = Jets Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. Owner: “Traded from the Jets to the Giants in a multi-team trade before Y83.” The only window that fits. Traded to the Giants after Y82."
  },
  "Dylan Hyatt": {
   "stints": [
@@ -3033,10 +3045,16 @@
     "from": 78,
     "to": 82,
     "rings": []
+   },
+   {
+    "team": "Falcons",
+    "from": 83,
+    "to": 83,
+    "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings."
+  "evidence": "No rings. Owner: “Traded from the Bears to the Falcons in a multi-team trade before Y83.” Traded to the Falcons after Y82."
  },
  "Chazz McCray": {
   "stints": [
@@ -3059,10 +3077,16 @@
     "rings": [
      82
     ]
+   },
+   {
+    "team": "Falcons",
+    "from": 83,
+    "to": 83,
+    "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Jets Y82. On the Y82 Jets roster. The only window that fits."
+  "evidence": "1 ring = Jets Y82. On the Y82 Jets roster. Owner: “Traded from the Jets to the Falcons in a multi-team trade before Y83.” The only window that fits. Traded to the Falcons after Y82."
  },
  "Dwayne Skura": {
   "stints": [

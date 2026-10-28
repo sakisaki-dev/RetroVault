@@ -119,6 +119,16 @@
     "says": "Dan Mosley was only a Lion."
    }
   },
+  "Dan Stout": {
+   "team": "Jets",
+   "career": {
+    "order": [
+     "Ravens"
+    ],
+    "next_team": "Jets",
+    "says": "Traded from the Ravens to the Jets in a multi-team trade before Y83."
+   }
+  },
   "Deante Elder": {
    "signature_team": "Seahawks"
   },
@@ -139,13 +149,13 @@
    }
   },
   "Drake Wise": {
-   "team": "Falcons",
+   "team": "Ravens",
    "career": {
     "order": [
      "Giants"
     ],
-    "next_team": "Falcons",
-    "says": "Traded from the Giants to the Falcons after Y82 for an unnamed quarterback."
+    "next_team": "Ravens",
+    "says": "Traded from the Giants to the Falcons after Y82 for an unnamed quarterback, then traded on to the Ravens before playing a game for the Falcons."
    }
   },
   "Dylan Hyatt": {
@@ -271,7 +281,7 @@
    "team": "49ers"
   },
   "Kane Van Oxley": {
-   "team": "Falcons",
+   "team": "Bears",
    "card": {
     "note": "\"The Ox\", for how strong he is: he breaks tackles and blocks well. Has recovered more fumbles than anyone the owner has ever played with."
    },
@@ -279,8 +289,8 @@
     "order": [
      "Jets"
     ],
-    "next_team": "Falcons",
-    "says": "Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets."
+    "next_team": "Bears",
+    "says": "Went with the coach from the Jets to the Falcons after Y82, then traded on to the Bears before playing a game for the Falcons."
    }
   },
   "Keion Orzech": {
@@ -479,7 +489,14 @@
    }
   },
   "Shareef London": {
-   "team": "Bears"
+   "team": "Falcons",
+   "career": {
+    "order": [
+     "Bears"
+    ],
+    "next_team": "Falcons",
+    "says": "Traded from the Bears to the Falcons in a multi-team trade before Y83."
+   }
   },
   "Sherman Brandson": {
    "team_history": [
@@ -509,11 +526,31 @@
   "Tristan Tart": {
    "team": "Ravens"
   },
+  "Ty Lock": {
+   "team": "Giants",
+   "career": {
+    "order": [
+     "Jets"
+    ],
+    "next_team": "Giants",
+    "says": "Traded from the Jets to the Giants in a multi-team trade before Y83."
+   }
+  },
   "Tyrion Kline": {
    "signature_team": "Chargers"
   },
   "Tyson Nassib": {
    "signature_team": "Dolphins"
+  },
+  "Vyncint Heath": {
+   "team": "Falcons",
+   "career": {
+    "order": [
+     "Jets"
+    ],
+    "next_team": "Falcons",
+    "says": "Traded from the Jets to the Falcons in a multi-team trade before Y83."
+   }
   },
   "Wayne Wilson": {
    "retired_with": "Bills"
@@ -522,19 +559,18 @@
  "active_rosters": {
   "Falcons": [
    "Chance Woodrum",
-   "Drake Wise",
-   "Kane Van Oxley",
-   "Ryland Maxwell"
+   "Ryland Maxwell",
+   "Shareef London",
+   "Vyncint Heath"
   ],
   "Jets": [
+   "Dan Stout",
    "Dwayne Skura",
    "Jakeem Friend",
    "Jaylen Conklin",
    "Kalif Suh",
    "Malakai Sawyer",
-   "Trequan Roberts",
-   "Ty Lock",
-   "Vyncint Heath"
+   "Trequan Roberts"
   ],
   "Seahawks": [
    "Deonte Sutton",
