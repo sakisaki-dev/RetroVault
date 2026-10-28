@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { ArrowRightLeft, Check, Copy, Share2, Upload } from 'lucide-react';
+import { ArrowRightLeft, Check, Copy, ExternalLink, Share2, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { decodeProgress, exportProgress, importProgress, isLocalhost, transferLink } from '@/utils/deviceSync';
+import { decodeProgress, exportProgress, importProgress, isLocalhost, isPublicSite, publicTransferLink, transferLink } from '@/utils/deviceSync';
 
 /**
  * "Use on another device": your collection, arcade scores, saved Team Lab builds and Hall of Fame "seen" state live
@@ -42,6 +42,12 @@ const SyncPanel = () => {
     }
   };
 
+  /** Opens the public site with this browser's progress attached; it asks there before replacing anything. */
+  const toPublic = async () => {
+    const c = code || (await make());
+    window.location.href = publicTransferLink(c);
+  };
+
   const doImport = async () => {
     try {
       const data = await decodeProgress(paste);
@@ -76,6 +82,11 @@ const SyncPanel = () => {
               {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
               {copied ? 'Copied' : 'Copy transfer code'}
             </Button>
+            {!isPublicSite() && (
+              <Button type="button" variant="outline" onClick={toPublic} className="gap-1.5 border-gold/60 text-gold">
+                <ExternalLink className="h-4 w-4" aria-hidden="true" /> Move to the public site
+              </Button>
+            )}
             {canShare && (
               <Button type="button" variant="outline" onClick={share} className="gap-1.5 border-line">
                 <Share2 className="h-4 w-4" aria-hidden="true" /> Share

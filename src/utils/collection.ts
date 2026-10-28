@@ -643,8 +643,21 @@ export const AUTO_GIFTS = ['refresh-2026-10-20'];
 export const giftSummary = (id: string) =>
   (GIFTS[id]?.packs ?? []).map(([t, n]) => `${n} ${PACKS[t].label.replace(/ Pack$/, '')}`).join(', ');
 
-/** Redeems every AUTO_GIFTS id not yet redeemed on this device; returns the ids granted now. */
-export const redeemAutoGifts = (): string[] => AUTO_GIFTS.filter((id) => redeemGift(id) === 'granted');
+/**
+ * Redeems every AUTO_GIFTS id not yet redeemed on this device; returns the ids granted now. Auto gifts top up an
+ * existing collection only: a brand-new one (no cards, no packs opened, e.g. a new device or the public site before
+ * a sync) just records them as redeemed, so a fresh browser never hands out the refresh bundle.
+ */
+export const redeemAutoGifts = (): string[] => {
+  const s = readCollection();
+  const fresh = Object.keys(s.cards).length === 0 && Object.values(s.opened).every((n) => !n);
+  if (fresh) {
+    const missing = AUTO_GIFTS.filter((id) => !s.gifts?.includes(id));
+    if (missing.length) write({ ...s, gifts: [...(s.gifts ?? []), ...missing] }, { kind: 'other' });
+    return [];
+  }
+  return AUTO_GIFTS.filter((id) => redeemGift(id) === 'granted');
+};
 
 /**
  * Redeems a gift link once per browser: adds its packs and records the id so a reload never grants again.
