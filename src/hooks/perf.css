@@ -65,3 +65,59 @@
 [data-perf='lite'] .fut-tile--fresh > .fut::after {
   opacity: 0.8;
 }
+
+/*
+ * Phones and touch screens (always, not just lite): drop the desktop flourishes that cost frames or clutter a small
+ * screen. Kept: pack openings, the Holo / Legendary idle on screen (data-idle + data-vis), the swipe browser, and
+ * the large card's device tilt.
+ */
+@media (pointer: coarse), (max-width: 640px) {
+  /* No backdrop blur: sticky bars and the header use near-solid fills instead (index.css) */
+  *,
+  *::before,
+  *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  /* Lighter elevation */
+  :root {
+    --shadow-card: 0 1px 0 hsl(0 0% 100% / 0.03) inset, 0 4px 12px hsl(228 60% 2% / 0.35);
+    --shadow-elevated: 0 10px 24px hsl(228 60% 2% / 0.5);
+    --shadow-glow: none;
+  }
+  html .hover-lift:hover {
+    transform: none;
+    box-shadow: var(--shadow-card);
+  }
+  /* Tickers sit still and scroll by finger */
+  html .mk-ticker__track,
+  html .wc-ticker__track {
+    animation: none !important;
+  }
+  html .mk-ticker,
+  html .wc-ticker {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  html .mk-ticker__track--dup,
+  html .wc-ticker__track--dup {
+    display: none;
+  }
+}
+
+/* A tap leaves :hover stuck on touch screens: grid cards must not light up, glare or sparkle because of it */
+@media (hover: none) {
+  html .fut:not(.fut--lg) :is(.fut__glare, .fut__shadow) {
+    display: none;
+  }
+  html .fut:not(.fut--lg):not(.fut--locked):hover .fut__aura {
+    opacity: 0;
+  }
+  html .fut:not(.fut--lg):hover .fut__sparks i {
+    animation-play-state: paused !important;
+  }
+  html .fut:not(.fut--lg):is(.fut--f-silver, .fut--f-gold, .fut--f-holo):hover .fut__light {
+    opacity: 0;
+  }
+}

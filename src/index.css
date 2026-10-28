@@ -102,9 +102,34 @@
     /* How far views and list items rise as they appear */
     --rise: 10px;
     --press-scale: 0.97;
+    /* Role tokens: views (tab changes), modal open / close, and the exit curve (phones redefine them below) */
+    --dur-view: var(--dur-3);
+    --dur-open: var(--dur-3);
+    --dur-close: var(--dur-2);
+    --dur-sheet-open: var(--dur-4);
+    --dur-sheet-close: var(--dur-3);
+    --rise-view: var(--rise);
+    --ease-close: var(--ease-exit);
 
     color-scheme: dark;
   }
+}
+
+/*
+ * Opening a modal (Radix Dialog / Sheet) used to restyle the whole page twice, in the tap's own task (measured
+ * 12–22 ms each on a phone-sized page, x4 on a slow phone): the scroll lock puts the custom property
+ * --removed-body-scroll-bar-size on <body>, and the modal sets `pointer-events: none` on <body>; both inherit into
+ * every element of the page. Registering the property as non-inherited (nothing reads it) and giving #root its own
+ * pointer-events stop both at the top, so they cost well under a millisecond. The page under a modal still takes no
+ * pointer input: the modal's backdrop covers it (nothing in #root that is interactive sits above the backdrop), and
+ * the portals Radix layers itself (dialogs, popovers) are <body> children, so they still inherit as before.
+ */
+@property --removed-body-scroll-bar-size {
+  syntax: '*';
+  inherits: false;
+}
+#root {
+  pointer-events: auto;
 }
 
 @layer base {
@@ -499,8 +524,44 @@
  * a transform left on a wrapper would trap position: fixed children and make a stacking context for good.
  * ============================================================================================================ */
 
+/*
+ * Phones and touch screens: calmer motion (owner: "no need to be super quick and snappy"). About 1.5x longer, a
+ * smooth deceleration with no spring overshoot, slightly longer rises for views, no scale pop. Dialogs and sheets
+ * open over ~480 ms with the backdrop on the same clock and glide away over ~360 ms. Mirrored in src/utils/motion.ts
+ * (MOBILE_MOTION). Lite mode and reduced motion below still win.
+ */
+@media (pointer: coarse), (max-width: 640px) {
+  :root {
+    --dur-1: 180ms;
+    --dur-2: 300ms;
+    --dur-3: 360ms;
+    --dur-4: 480ms;
+    --dur-view: 320ms;
+    --dur-open: 480ms;
+    --dur-close: 360ms;
+    --dur-sheet-open: 500ms;
+    --dur-sheet-close: 380ms;
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    /* The iOS sheet curve: a long, soft landing with no overshoot */
+    --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+    --ease-exit: cubic-bezier(0.4, 0, 0.6, 1);
+    --ease-close: cubic-bezier(0.4, 0, 0.6, 1);
+    --stagger: 45ms;
+    --rise: 12px;
+    --rise-view: 18px;
+    --press-scale: 0.98;
+  }
+}
+
 /* Performance mode and reduced motion: short fades only (no slides, staggers or press scaling) */
 [data-perf='lite'] {
+  --dur-view: 120ms;
+  --dur-open: 120ms;
+  --dur-close: 120ms;
+  --dur-sheet-open: 120ms;
+  --dur-sheet-close: 120ms;
+  --rise-view: 0px;
+  --ease-close: var(--ease-out);
   --dur-2: 120ms;
   --dur-3: 120ms;
   --dur-4: 120ms;
@@ -518,6 +579,13 @@
     --rise: 0px;
     --press-scale: 1;
     --ease-spring: var(--ease-out);
+    --dur-view: 120ms;
+    --dur-open: 120ms;
+    --dur-close: 120ms;
+    --dur-sheet-open: 120ms;
+    --dur-sheet-close: 120ms;
+    --rise-view: 0px;
+    --ease-close: var(--ease-out);
   }
 }
 
@@ -532,6 +600,12 @@
     opacity: 0;
   }
 }
+@keyframes rv-rise-view {
+  from {
+    opacity: 0;
+    translate: 0 var(--rise-view);
+  }
+}
 @keyframes rv-fade-out {
   to {
     opacity: 0;
@@ -540,7 +614,7 @@
 
 /* Tab and sub-tab changes (pages/Index.tsx, StatsHub): a quick cross-fade with a short rise */
 .rv-view-in {
-  animation: rv-rise var(--dur-3) var(--ease-out) backwards;
+  animation: rv-rise-view var(--dur-view) var(--ease-out) backwards;
 }
 /* Suspense fallbacks wait ~150 ms before showing, so a fast chunk never flashes a skeleton */
 .rv-fallback {
@@ -570,6 +644,14 @@
   animation-duration: var(--dur-2);
 }
 
+/* Phones: only the first 6 items stagger; the rest arrive with the sixth, without a slide */
+@media (pointer: coarse), (max-width: 640px) {
+  .rv-stagger > :nth-child(n + 7) {
+    --rise: 0px;
+    animation-delay: calc(var(--stagger) * 5);
+  }
+}
+
 /* Charts and maps: a soft fade and settle, once, when they mount */
 .rv-chart-in {
   animation: rv-chart-in var(--dur-4) var(--ease-out) backwards;
@@ -579,6 +661,12 @@
   from {
     opacity: 0;
     scale: 0.985;
+  }
+}
+/* Phones: a plain fade (no scale pop) */
+@media (pointer: coarse), (max-width: 640px) {
+  .rv-chart-in {
+    animation-name: rv-fade-in;
   }
 }
 
@@ -614,17 +702,17 @@ details[open] > :not(summary) {
 
 /* Dialogs (ui/dialog.tsx, alert-dialog.tsx): spring-feel rise on open, a quicker fade-and-drop on close */
 .dlg-overlay[data-state='open'] {
-  animation: rv-fade-in var(--dur-3) var(--ease-out);
+  animation: rv-fade-in var(--dur-open) var(--ease-out);
 }
 .dlg-overlay[data-state='closed'] {
   /* No `from`: a backdrop already faded by a swipe continues from where it is */
-  animation: rv-fade-out var(--dur-2) var(--ease-exit) forwards;
+  animation: rv-fade-out var(--dur-close) var(--ease-close) forwards;
 }
 .dlg-anim[data-state='open'] {
-  animation: rv-dlg-in var(--dur-3) var(--ease-spring);
+  animation: rv-dlg-in var(--dur-open) var(--ease-spring);
 }
 .dlg-anim[data-state='closed'] {
-  animation: rv-dlg-out var(--dur-2) var(--ease-exit) forwards;
+  animation: rv-dlg-out var(--dur-close) var(--ease-close) forwards;
 }
 @keyframes rv-dlg-in {
   from {
@@ -640,35 +728,44 @@ details[open] > :not(summary) {
     translate: 0 6px;
   }
 }
+/* Phones: the dialog glides up while the backdrop fades on the same clock and curve, and glides back down to close */
+@media (pointer: coarse), (max-width: 640px) {
+  .dlg-overlay[data-state='open'] {
+    animation-timing-function: var(--ease-spring);
+  }
+}
 @media (max-width: 640px) {
   .dlg-anim[data-state='open'] {
-    animation: rv-dlg-in-phone var(--dur-4) var(--ease-spring);
+    animation: rv-dlg-in-phone var(--dur-open) var(--ease-spring);
   }
   .dlg-anim[data-state='closed'] {
-    animation: rv-dlg-out-phone var(--dur-2) var(--ease-exit) forwards;
+    animation: rv-dlg-out-phone var(--dur-close) var(--ease-close) forwards;
   }
 }
 @keyframes rv-dlg-in-phone {
   from {
     opacity: 0;
-    translate: 0 48px;
+    translate: 0 64px;
   }
-  40% {
+  45% {
     opacity: 1;
   }
 }
 @keyframes rv-dlg-out-phone {
+  40% {
+    opacity: 1;
+  }
   to {
     opacity: 0;
-    translate: 0 32px;
+    translate: 0 72px;
   }
 }
 /* Sheets slide in from their edge */
 .sheet-anim[data-state='open'] {
-  animation: rv-sheet-in var(--dur-4) var(--ease-spring);
+  animation: rv-sheet-in var(--dur-sheet-open) var(--ease-spring);
 }
 .sheet-anim[data-state='closed'] {
-  animation: rv-sheet-out var(--dur-3) var(--ease-exit) forwards;
+  animation: rv-sheet-out var(--dur-sheet-close) var(--ease-close) forwards;
 }
 .sheet-anim--bottom {
   --sheet-from: 0 100%;

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type MutableRefObject, type Ref } from 'react';
 import { isLite } from './usePerfMode';
-import { dur, ease } from '@/utils/motion';
+import { dur, ease, isMobileMotion } from '@/utils/motion';
 
 /*
  * Swipe down to dismiss (touch only), for dialogs and bottom sheets.
@@ -9,7 +9,7 @@ import { dur, ease } from '@/utils/motion';
  * scroller between the finger and the element is already at its top. Otherwise the drag is ordinary scrolling.
  * Sideways drags (matrix and chip rows), range sliders and text fields are left alone. The element follows the finger
  * (the `translate` property, so it composes with any centring transform) and the backdrop fades with it; past a
- * distance or a flick it closes, otherwise it springs back. In performance mode or with reduced motion nothing
+ * distance or a flick it glides out at the finger's speed (at least 300 ms on phones), otherwise it glides back. In performance mode or with reduced motion nothing
  * moves, but a long enough drag still closes it.
  *
  * Nested roots (a sheet inside a dialog) each mark themselves data-swipe-root; a drag belongs to the innermost one.
@@ -64,22 +64,34 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
     let height = 1;
 
     const bd = () => opts.current.backdrop?.() ?? null;
-    // animate: false follows the finger; 'back' springs home; a number slides out over that many ms, starting at the
-    // finger's speed (the curve's opening slope is 2, so 2 × distance ÷ speed keeps the release seamless)
-    const set = (dy: number, animate: false | 'back' | number) => {
-      const t =
-        animate === false
-          ? 'none'
-          : animate === 'back'
-            ? `translate ${dur.slow}ms ${ease.spring}`
-            : `translate ${animate}ms cubic-bezier(0.3, 0.6, 0.6, 1)`;
-      el.style.transition = t;
+    // animate: false follows the finger; 'back' glides home; [ms, curve] slides out over that many ms on a curve whose
+    // opening slope matches the finger's speed (see slideOut). The backdrop fades on the same clock.
+    const set = (dy: number, animate: false | 'back' | [number, string]) => {
+      const [ms, curve] = animate === false ? [0, ''] : animate === 'back' ? [dur.slow, ease.spring] : animate;
+      el.style.transition = animate === false ? 'none' : `translate ${ms}ms ${curve}`;
       el.style.translate = dy ? `0 ${dy}px` : '';
       const b = bd();
       if (b) {
-        b.style.transition = animate === false ? 'none' : `opacity ${typeof animate === 'number' ? animate : dur.base}ms ${ease.out}`;
-        b.style.opacity = dy ? String(Math.max(0.15, 1 - dy / (height * 0.9))) : '';
+        b.style.transition = animate === false ? 'none' : `opacity ${ms}ms ${curve}`;
+        b.style.opacity = dy ? String(Math.max(animate === false ? 0.15 : 0, 1 - dy / (height * 0.9))) : '';
       }
+    };
+    /*
+     * The rest of the way out: never shorter than MIN_OUT (a calm glide, not a snap) and never longer than MAX_OUT.
+     * The curve's first control point sets its opening slope (y1 / x1) to speed × duration ÷ distance, so the sheet
+     * leaves at exactly the finger's speed, then eases out without overshoot.
+     */
+    const slideOut = (rest: number, speed: number): [number, string] => {
+      const [lo, hi] = isMobileMotion() ? [300, 460] : [dur.fast, dur.slow];
+      const ms = Math.round(Math.min(hi, Math.max(lo, (2 * rest) / Math.max(speed, 0.6))));
+      const slope = Math.max(0.5, (speed * ms) / Math.max(rest, 1));
+      let x1 = 0.25;
+      let y1 = x1 * slope;
+      if (y1 > 1) {
+        y1 = 1;
+        x1 = 1 / slope;
+      }
+      return [ms, `cubic-bezier(${x1.toFixed(3)}, ${y1.toFixed(3)}, 0.36, 1)`];
     };
     const reset = () => {
       el.style.transition = '';
@@ -167,12 +179,12 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
       }
       // Slide the rest of the way out at the finger's speed, then close (the dialog's exit fades it from there)
       const rest = height + 40 - dy;
-      const ms = Math.round(Math.min(dur.slow, Math.max(dur.fast, (2 * rest) / Math.max(vel, 0.9))));
-      set(height + 40, ms);
+      const [ms, curve] = slideOut(rest, Math.max(vel, 0));
+      set(height + 40, [ms, curve]);
       window.setTimeout(() => {
         opts.current.onDismiss();
         // The element may stay mounted (a sheet that only hides): put it back once it's gone
-        window.setTimeout(reset, 320);
+        window.setTimeout(reset, 420);
       }, ms - 20);
     };
 
