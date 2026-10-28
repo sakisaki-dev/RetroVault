@@ -87,7 +87,11 @@ function parseCsv(text) {
   return rows;
 }
 
-const hourIndex = () => Math.floor(Date.now() / 3.6e6);
+// The league moves once a season, so the widget rotates once a day (local midnight), not every refresh.
+const dayIndex = () => {
+  const d = new Date();
+  return Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
+};
 const fmt = (n) => Math.round(n).toLocaleString('en-US');
 
 // ---------- build ----------
@@ -132,8 +136,8 @@ async function build() {
 
   // Story (rotates through the season's articles; falls back to the top headline)
   const story = (content.seasonStories || []).slice(-1)[0];
-  const articles = story ? story.articles.filter((a) => a.kind !== 'quickhits') : [];
-  const art = articles.length ? articles[hourIndex() % articles.length] : null;
+  const articles = story ? story.articles.filter((a) => a.kind !== 'quickhits' && a.kind !== 'didyouknow') : [];
+  const art = articles.length ? articles[dayIndex() % articles.length] : null;
   const leadTeam = art && art.teams && art.teams[0];
   const storyRow = w.addStack();
   storyRow.layoutHorizontally();
@@ -173,9 +177,14 @@ async function build() {
   // Prefer the names worth a spotlight: nicknames and S grades first, then the biggest movers; top 14 by legacy rotate.
   const score = ({ r, k }) => ((r.Nicknames || '').trim() ? 2 : 0) + (latest[k].grade === 'S' ? 2 : 0) + Math.min(1, Math.abs(change(k)));
   const pool = cands.sort((a, b) => score(b) - score(a) || (latest[b.k].legacy || 0) - (latest[a.k].legacy || 0)).slice(0, 14);
-  const pick = pool.length ? pool[(hourIndex() * 7) % pool.length] : null;
-  if (pick) {
-    const { r, k } = pick;
+  const pick = pool.length ? pool[(dayIndex() * 7) % pool.length] : null;
+  const facts = story ? story.articles.filter((a) => a.kind === 'didyouknow') : [];
+  const fact = facts.length ? facts[dayIndex() % facts.length] : null;
+  const factRow = fact && fact.players && fact.players.length ? active.concat(rows).find((r) => r.Name === fact.players[0]) : null;
+  const factSpot = factRow && latest[`${factRow.pos}:${factRow.Name}`] ? { r: factRow, k: `${factRow.pos}:${factRow.Name}` } : null;
+  const spot = factSpot || pick;
+  if (spot && latest[spot.k]) {
+    const { r, k } = spot;
     const p = latest[k];
     const [c1, c2] = teamColors(r.Team);
     const card = w.addStack();
@@ -192,13 +201,14 @@ async function build() {
     card.url = SITE + '#stats/deepdive?p=' + encodeURIComponent(k);
     const left = card.addStack();
     left.layoutVertically();
-    const lab = left.addText('SPOTLIGHT · ' + nick(r.Team).toUpperCase());
+    const lab = left.addText((factSpot ? 'DID YOU KNOW · ' : 'SPOTLIGHT · ') + nick(r.Team).toUpperCase());
     lab.font = mono(8.5); lab.textColor = new Color('#ffffff', 0.75);
     const nm = left.addText(r.Name.toUpperCase());
     nm.font = display(18); nm.textColor = Color.white(); nm.lineLimit = 1; nm.minimumScaleFactor = 0.7;
     const nn = (r.Nicknames || '').trim();
-    const sub = left.addText(`${nn ? '"' + nn + '" · ' : ''}${r.pos} · Legacy ${fmt(p.legacy || 0)}`);
-    sub.font = displayB(12); sub.textColor = C.gold; sub.lineLimit = 1;
+    const factText = factSpot ? fact.text || fact.dek || fact.headline : null;
+    const sub = left.addText(factText || `${nn ? '"' + nn + '" · ' : ''}${r.pos} · Legacy ${fmt(p.legacy || 0)}`);
+    sub.font = factText ? body(11) : displayB(12); sub.textColor = C.gold; sub.lineLimit = factText ? 3 : 1;
     card.addSpacer();
     const right = card.addStack();
     right.layoutVertically();
