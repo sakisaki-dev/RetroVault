@@ -10,16 +10,21 @@ Vite + React + TypeScript + Tailwind. Live at https://sakisaki-dev.github.io/Ret
 > uploaded through Claude in the backend; everything else must be heuristic, dynamic, and not dependent on AI
 > intervention." (the owner)
 
+The owner later approved a third AI lane, the Season Story: "option 1 give me the season story it can be multiple
+articles in a news format or whatever you think is best I'm giving u creative liberty" (asked for as "for the timeline
+section for what changed, make a story about the previous year … I want it in a news format").
+
 | Kind | What | Where |
 |---|---|---|
 | **Data entry** (facts) | Career lines, awards, Super Bowls, coach seasons, record board, teams/trades/rosters, nicknames, owner-confirmed history ("one Titans season", "mainly a Seahawk"), card notes, the owner's own tags, sprite looks | `data/y80/players.json`, `super_bowls.json`, `coach.json`, `records.json`, `owner_facts.json`, `screenshot_extras.json`, `sprites.json` |
 | **Owner prose** (verbatim) | Season notes about rivalries, disputes, drama, in the owner's words | `data/y80/journal.json` |
 | **Generated** (rules over the data) | Eras, storylines, rivalries, lineages, snubs, outsiders, record chases, iron men, one-team legends, open questions, player tags and eras, Hall of Fame classes, career stints and their evidence text, market prices | `scripts/*.py`, `scripts/market_snapshot.ts` → `public/data/` |
-| **AI-authored** (only these two) | Hall of Fame induction speeches; card art styles and custom sprites (Art lab) | `data/y80/speeches.json`; `src/components/collection/art/**`, `public/data/sprites/` |
+| **AI-authored** (only these three) | Hall of Fame induction speeches; card art styles and custom sprites (Art lab); the Season Story (news articles about each completed season) | `data/y80/speeches.json`; `src/components/collection/art/**`, `public/data/sprites/`; `data/y80/stories.json` |
 
 Never hand-write analysis: no era write-ups, storylines, rivalry blurbs, player tags or per-player stint judgments.
 If something reads like analysis, it must come out of a rule in `scripts/build_league_content.py` or
-`scripts/infer_stints.py`. **Phone sessions write only facts (through an upload manifest) and speeches.**
+`scripts/infer_stints.py`. **Phone sessions write only facts (through an upload manifest), speeches and season
+stories.**
 
 ## Single source of truth
 
@@ -38,10 +43,12 @@ legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `b
    validates and applies the bundle, rebuilds everything (stints, league data, market snapshot, eras, storylines,
    HOF classes, edition, audit), checks a season rollover, typechecks, runs `check:sprites` and `npm run build`, then
    prints a summary (players added or updated, players needing teams, records, new Hall of Famers, SPEECH NEEDED,
-   market movers, open questions, the new edition) and stops. It never commits.
+   STORY NEEDED, market movers, open questions, the new edition) and stops. It never commits.
 2. If it printed `SPEECH NEEDED`, write the speech (step 5) as a `speech.set` mutation in a follow-up bundle and run
    `npm run update` on that bundle.
-3. Commit and push with the commands it prints (step 6).
+3. If it printed `STORY NEEDED: Y<n>` (a season completed with no story), write the Season Story (step 6) as a
+   `story.set` mutation in a follow-up bundle and run `npm run update` on that bundle.
+4. Commit and push with the commands it prints (step 7).
 
 The owner sends Retro Bowl screenshots (and maybe a few lines about the season) and asks to "add these". One upload
 is one bundle, `data/uploads/<YYYY-MM-DD>-<slug>/`:
@@ -132,7 +139,53 @@ differs from the manifest. Never let the generic template in `src/components/cer
 existing speeches: a one-line hook, then 2–3 short paragraphs, closing "…, welcome to the Hall of Fame."; about
 120–190 words; only facts from the data (play style from his rates, never invented looks or quotes); no em dashes.
 
-### 6. Commit and push
+### 6. Season story (AI step `story`; trigger: the rebuild prints `STORY NEEDED: Y<n>`)
+
+When a season completes (a new `coach.season` row) and `data/y80/stories.json` has no story for it, the rebuild prints
+`STORY NEEDED`. Write a news package about that season in a bundle `data/uploads/<date>-story-y<n>/` with one
+`story.set` mutation: lane `story`, target the season (`"Y82"`), source `"data:<files read>"`, the `story` AI step
+logged, value `{reason, trigger: "Season Y<n> completed (coach.season <n>)", tagline, articles}`. A rewrite (a
+correction, stale numbers) is another `story.set` for the same season.
+
+Article: `{id, kind, headline, dek, body: [paragraphs], players: [names], teams: [names], stats: [{label, value,
+source}], related: [ids of earlier articles it continues]}`. `kind` is `lead` (exactly one) | `feature` | `trade` |
+`rise` | `fall` | `rivalry` | `chase` (record watch) | `milestone` | `wherenow` | `quickhits` (at most one; `body` is
+4–8 one-liners). About 7–10 articles. Ids are unique across seasons (`y82-...`); `related` may point at an earlier
+season's article, which the Timeline shows as "Continued from…". The first `stats[]` entry is the card's big number.
+The season value may also carry `didYouKnow: [{id, text, players, stats}]`: short standalone facts (statistical
+outliers with small samples, rookies posting elite numbers, oddities like most rings without an MVP), at most 40 words
+each, under the same rules; the Timeline shows them as a rail and the Arcade widget shows one a day.
+
+Research first: players.json, the two market snapshots around the season (career deltas, OVR, grades, values),
+super_bowls.json, coach.json (and `currentStint`), owner_facts (trades, current club, careers), journal.json,
+records.json, content.json (storylines, rivalries, headlines, record chases, eras), stints.json, families.
+
+Creative liberty (owner: "feel free to take creative liberty on how the players feel and what it means etc etc"):
+narrative voice, emotion, stakes and interpretation are welcome ("you could feel Lock's relief in New York", what a
+trade means for a franchise or a rivalry). Hard rules:
+- Every fact, number, team and who-went-where is true to the data: stats, Super Bowls, coach seasons, trades and owner
+  facts, the journal, the record board, the market, stints, families, skill grades, headlines. Trades are told as the
+  whole chain, ending at each player's final club (owner: "oxley went to the bears, there were so many trades").
+- No direct quotes in quotation marks attributed to players or coaches, and no invented injuries, contracts or
+  off-field events. The only quotes are the owner's journal text, verbatim, attributed to his season notes (a
+  player's nickname may also be quoted).
+- Play style comes from rates (yards per catch, tackles per game…), never from imagined looks.
+- No em dashes. Lead body 180–350 words, other articles 90–220.
+- Every number written in a headline, dek or body is in that article's `stats[]` with its source. Sources
+  (`scripts/story_check.py` documents them all): `players.json QB:Ty Lock yds` (a career total; `yds/rec` for a
+  rate), `market_history.json <snap> <POS:Name> <field>` or `<snapA>..<snapB>` for the change on a season's card
+  (`s.yds`, `ovr`, `value%`, `s.yds/s.rec`), `super_bowls.json Y82 <field>`, `coach.json Y82 record` /
+  `coach.json superBowlRecord/0/titles`, `records.json <record> mark`, `content.json rivalries/[id=rival-eagles]/record/won`,
+  `<a> minus <b>` for a gap, `crossed: market_history.json <A>..<B> <POS:Name> <field>` for a round milestone passed.
+
+apply-upload runs `scripts/story_check.py` on the mutation (lengths, em dashes, tags exist, every stats value matches
+its source, every number in the text is cited, quotes are journal text) and refuses the bundle on any failure. The
+audit re-checks the stored stories: a figure that no longer matches the data after a later update is a warning (stale,
+like speech numbers), and a story that differs from its applied manifest is an error. The Timeline's "What changed"
+area shows it (`src/components/news/SeasonStory.tsx`: masthead, lead hero, feed, quick hits, reading sheet, season
+switcher), with the rule-based headlines as "The Wire" above it; the Arcade ticker links to the lead.
+
+### 7. Commit and push
 
 Commit to `retrovault-v2` with a message listing who was added or updated (include the bundle). The site redeploys
 in about two minutes. Reply with a short summary: updated players, new players needing teams, anything notable

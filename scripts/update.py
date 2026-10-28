@@ -15,6 +15,7 @@ Steps (each stops the run on failure; nothing is committed or pushed):
                      snapshot season, Timeline / Teams / Front Office (coach.json, superBowls in content.json)
   5. checks          tsc --noEmit, check:sprites, vite build
   6. summary         players added / updated, players needing teams, records, new Hall of Famers and SPEECH NEEDED,
+                     STORY NEEDED (a completed season with no Season Story), the season stories present,
                      market movers, the "What changed" headlines (content.json), open questions, the new edition;
                      then the commit and push commands to run
 """
@@ -128,6 +129,12 @@ def summary(bundle_id: str, before: dict, after: dict, rebuild_out: str, roll: l
     print(f"New Hall of Famers ({len(new_hof)}): {', '.join(new_hof) or 'none'}")
     needed = [l for l in rebuild_out.splitlines() if l.startswith("SPEECH NEEDED")]
     for l in needed:
+        print(f"  {l}")
+    stories = read(CONTENT, {}).get("seasonStories", [])
+    story_needed = [l for l in rebuild_out.splitlines() if l.startswith("STORY NEEDED")]
+    listed = ", ".join(f"{s['season']} ({len(s['articles'])} articles)" for s in stories)
+    print(f"Season stories: {listed or 'none'}")
+    for l in story_needed:
         print(f"  {l}")
     market = read(SRC / "market_history.json", [])
     if after["snapshots"] > before["snapshots"] and len(market) >= 2:

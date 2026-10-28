@@ -11,7 +11,7 @@ import Scorebug from '@/components/timeline/Scorebug';
 import FranchiseTitlesTable from '@/components/timeline/FranchiseTitlesTable';
 import CoverageControl from '@/components/timeline/CoverageControl';
 import Storylines from '@/components/timeline/Storylines';
-import { WhatChangedList } from '@/components/news/WhatChanged';
+import { TimelineNews } from '@/components/news/WhatChanged';
 import { MarkerGlyph, type MarkerKind } from '@/components/timeline/SuperBowlMarker';
 
 const DETAIL_ID = 'timeline-era-detail';
@@ -147,7 +147,7 @@ const TimelineTab = () => {
         </div>
       </header>
 
-      <WhatChangedList headlines={content.headlines} info={content.headlinesInfo} onPlayer={setSelectedPlayer} />
+      <TimelineNews headlines={content.headlines} info={content.headlinesInfo} stories={content.seasonStories} onPlayer={setSelectedPlayer} />
 
       {/* Timeline */}
       <section aria-labelledby="timeline-heading" className="space-y-3 rounded-xl border border-border/40 bg-card p-3 sm:p-4">

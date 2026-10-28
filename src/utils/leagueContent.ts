@@ -21,6 +21,9 @@
  *   "headlines":     [{ kind, text, players[] (names), teams[], weight }] ranked, heaviest first ("What changed")
  *   "headlinesInfo": { scope: "This update" | "Last update", upload?, since?, label? }
  *   "speeches":      { "<player name>": "Hall of Fame induction speech (plain text; blank line = new paragraph)" },
+ *   "seasonStories": [{ season: "Y82", tagline, upload?, articles: [{ id, kind, headline, dek, body[], players[], teams[],
+ *                      stats[{ label, value, source }], related[] }], didYouKnow: [{ id, text, players[], stats[] }] }]
+ *                      the Season Story (AI-authored, data/y80/stories.json)
  *   "coach":         { name, age, stars, morale, gamesPlayed, simGames, record{}, bests{}, superBowlRecord[], seasons[{ year, team, abbr, w, l, t, finish }], currentStint?{ team, abbr, from } }
  * }
  * `coach` is optional (from data/y80/coach.json, the staff screen); bad fields are dropped one by one.
@@ -214,6 +217,48 @@ export interface LeagueContent {
   /** "What changed": rule-based news from the latest update's data diff, heaviest first */
   headlines?: Headline[];
   headlinesInfo?: HeadlinesInfo;
+  /** Season Story: a news package per completed season, oldest first (data/y80/stories.json, written by story.set) */
+  seasonStories?: SeasonStory[];
+}
+
+export const STORY_KINDS = ['lead', 'feature', 'trade', 'rise', 'fall', 'rivalry', 'chase', 'milestone', 'wherenow', 'quickhits'] as const;
+export type StoryKind = (typeof STORY_KINDS)[number];
+
+/** A figure an article cites, with the data it comes from (scripts/story_check.py checks it) */
+export interface StoryStat {
+  label: string;
+  value: string;
+  source: string;
+}
+
+export interface StoryArticle {
+  id: string;
+  kind: StoryKind;
+  headline: string;
+  dek: string;
+  /** Paragraphs (quick hits: one line each) */
+  body: string[];
+  players: string[];
+  teams: string[];
+  stats: StoryStat[];
+  /** Ids of earlier articles this one continues */
+  related: string[];
+}
+
+/** A short standalone fact (an outlier, an up-and-comer, an oddity); the Arcade widget shows one a day */
+export interface DidYouKnow {
+  id: string;
+  text: string;
+  players: string[];
+  stats: StoryStat[];
+}
+
+export interface SeasonStory {
+  season: string;
+  tagline: string;
+  upload?: string;
+  articles: StoryArticle[];
+  didYouKnow: DidYouKnow[];
 }
 
 export const HEADLINE_KINDS = ['superbowl', 'hof', 'record', 'trade', 'new-player', 'award', 'milestone', 'grade', 'market', 'chase'] as const;
@@ -539,6 +584,44 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
       label: str(h.label),
     };
   }
+  const stories = compact(
+    arr(input.seasonStories).map((r) => {
+      const season = str(r.season);
+      const articles = compact(
+        arr(r.articles).map((a) => {
+          const id = str(a.id);
+          const kind = str(a.kind) as StoryKind | undefined;
+          const headline = str(a.headline);
+          if (!id || !headline || !kind || !(STORY_KINDS as readonly string[]).includes(kind)) return null;
+          const stats = compact(
+            arr(a.stats).map((x) => {
+              const label = str(x.label);
+              const value = typeof x.value === 'number' ? String(x.value) : str(x.value);
+              return label && value ? { label, value, source: str(x.source) ?? '' } : null;
+            }),
+          );
+          return { id, kind, headline, dek: str(a.dek) ?? '', body: strArr(a.body), players: strArr(a.players), teams: strArr(a.teams), stats, related: strArr(a.related) };
+        }),
+      );
+      const statsOf = (v: unknown) =>
+        compact(
+          arr(v).map((x) => {
+            const label = str(x.label);
+            const value = typeof x.value === 'number' ? String(x.value) : str(x.value);
+            return label && value ? { label, value, source: str(x.source) ?? '' } : null;
+          }),
+        );
+      const didYouKnow = compact(
+        arr(r.didYouKnow).map((x) => {
+          const id = str(x.id);
+          const text = str(x.text);
+          return id && text ? { id, text, players: strArr(x.players), stats: statsOf(x.stats) } : null;
+        }),
+      );
+      return season && articles.length ? { season, tagline: str(r.tagline) ?? '', upload: str(r.upload), articles, didYouKnow } : null;
+    }),
+  );
+  if (stories.length) content.seasonStories = stories;
   if (Array.isArray(input.hofClasses)) {
     const classes = input.hofClasses
       .map((c) => (isObj(c) && str(c.label) && Array.isArray(c.keys) ? { label: str(c.label)!, keys: c.keys.filter((k): k is string => typeof k === 'string') } : null))

@@ -7,6 +7,7 @@
  * Exit code 1 only on errors (things that are certainly wrong); warnings are printed for a human to judge.
  */
 import { existsSync, readdirSync, readFileSync } from 'fs';
+import { execFileSync } from 'child_process';
 import { parseCSV } from '@/utils/csvParser';
 import { normalizeLeague, isHallOfFamer } from '@/config/stats';
 import { findNFLTeam } from '@/utils/nflTeams';
@@ -192,7 +193,7 @@ Object.keys(speeches).forEach((who) => {
 // 9. Upload pipeline: manifests are well formed, and owner text traces back to an applied manifest
 type Mutation = { lane?: string; op?: string; target?: string; value?: unknown; source?: string; reason?: string; trigger?: string };
 type Manifest = { id: string; ai_steps?: { step?: string; reason?: string; trigger?: string }[]; mutations?: Mutation[] };
-const AI_STEPS = new Set(['transcribe', 'portrait→look', 'tag notes', 'speech', 'art']);
+const AI_STEPS = new Set(['transcribe', 'portrait→look', 'tag notes', 'speech', 'art', 'story']);
 const manifests = new Map<string, Manifest>();
 if (existsSync('data/uploads')) {
   for (const dir of readdirSync('data/uploads').sort()) {
@@ -218,6 +219,7 @@ manifests.forEach((_, id) => !log.some((e) => e.id === id) && warnings.push(`Upl
 const TEXT_KEYS = new Set(['nick', 'tag', 'note', 'says', 'card_design', 'text']);
 const expected = new Map<string, string>();
 const speechSet = new Map<string, string>();
+const storySet = new Map<string, unknown>();
 const setLeaves = (path: string, v: unknown) => {
   if (v && typeof v === 'object' && !Array.isArray(v)) Object.entries(v).forEach(([k, x]) => setLeaves(`${path}/${k}`, x));
   else if (typeof v === 'string' && TEXT_KEYS.has(path.split('/').pop()!)) expected.set(path, v);
@@ -229,6 +231,7 @@ for (const { id } of log) {
     else if (mu.op === 'card.design') setLeaves(`players/${mu.target}/card_design`, mu.value);
     else if (mu.op === 'journal.add') setLeaves(`journal/${mu.target}`, mu.value);
     else if (mu.op === 'speech.set') speechSet.set(String(mu.target), String((mu.value as { text?: string })?.text ?? ''));
+    else if (mu.op === 'story.set') storySet.set(String(mu.target), { ...(mu.value as object), upload: id });
   }
 }
 // Speeches rewritten through an upload (speech.set) must still read exactly as the last applied manifest wrote them
@@ -236,6 +239,25 @@ speechSet.forEach((text, who) => {
   if (speeches[who] === undefined) warnings.push(`Speech for ${who} was set by an upload but is missing from the data now`);
   else if (speeches[who] !== text) errors.push(`Speech for ${who} differs from the last applied upload manifest (edit speeches through speech.set)`);
 });
+// Season stories (the third AI-authored lane) must read exactly as the last applied story.set wrote them, and pass the
+// story rules: tags exist, every stats[] figure resolves to its source (a mismatch after a later update is a stale
+// warning, as with speech numbers), no em dashes, lengths, numbers in the text cited in stats[] (scripts/story_check.py)
+{
+  const stories = (existsSync('data/y80/stories.json') ? read('data/y80/stories.json').seasons : {}) ?? {};
+  const canon = (v: unknown) => JSON.stringify(v, (_k, x) => (x && typeof x === 'object' && !Array.isArray(x) ? Object.fromEntries(Object.entries(x).sort(([a], [b]) => a.localeCompare(b))) : x));
+  storySet.forEach((value, season) => {
+    if (!stories[season]) warnings.push(`Story for ${season} was set by an upload but is missing from the data now`);
+    else if (canon(stories[season]) !== canon(value)) errors.push(`Story for ${season} differs from the last applied upload manifest (edit stories through story.set)`);
+  });
+  Object.keys(stories).forEach((season) => !storySet.has(season) && errors.push(`Story for ${season} is not set by any applied upload manifest`));
+  try {
+    const out = JSON.parse(execFileSync('python3', ['scripts/story_check.py', '--audit'], { encoding: 'utf8' })) as { errors: string[]; warnings: string[] };
+    out.errors.forEach((e) => errors.push(`Story ${e}`));
+    out.warnings.forEach((w) => warnings.push(w));
+  } catch (e) {
+    errors.push(`Story check failed to run (python3 scripts/story_check.py --audit): ${(e as Error).message.split('\n')[0]}`);
+  }
+}
 const actual = new Map<string, string>();
 const collect = (path: string, v: unknown) => {
   if (v && typeof v === 'object' && !Array.isArray(v)) Object.entries(v).forEach(([k, x]) => collect(`${path}/${k}`, x));

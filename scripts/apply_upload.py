@@ -15,9 +15,9 @@ manifest.json
   created    YYYY-MM-DD
   images     [{file, path?, shows?}] or groups [{group, path?, files: [...], shows?}]
   ai_steps   [{step, reason, trigger, ...}]: the AI work done to produce the mutations. Allowed steps only:
-             transcribe | portrait→look | tag notes | speech | art
+             transcribe | portrait→look | tag notes | speech | art | story
   mutations  [{lane, op, target, value, source, reason, trigger}]
-             source: "owner" or "image:<file or group in images>"
+             source: "owner" or "image:<file or group in images>" (the story lane also takes "data:<files read>")
 
 Lanes and ops (deterministic; nothing is inferred here):
   stats  player.set     target "POS:Name"           value {players.json fields}; creates the player if new.
@@ -45,6 +45,11 @@ Lanes and ops (deterministic; nothing is inferred here):
                                                     induction speech in data/y80/speeches.json. Needs the 'speech' AI
                                                     step; the text must follow the CLAUDE.md speech rules (120-190
                                                     words, no em dashes, closing "..., welcome to the Hall of Fame.")
+  story  story.set      target "Y82"                 value {reason, trigger, tagline, articles[], didYouKnow[]?}: writes (or rewrites)
+                                                    the season's story in data/y80/stories.json. Needs the 'story'
+                                                    AI step; scripts/story_check.py checks the CLAUDE.md story rules
+                                                    (lengths, no em dashes, tags exist, every number cited in stats[]
+                                                    and matching its source, quotes only from the owner's journal)
 """
 from __future__ import annotations
 
@@ -58,6 +63,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "data" / "y80"
+sys.path.insert(0, str(ROOT / "scripts"))
+import story_check  # noqa: E402
 LOG = SRC / "mutations_log.json"
 FILES = {
     "players": SRC / "players.json",
@@ -69,20 +76,26 @@ FILES = {
     "journal": SRC / "journal.json",
     "speeches": SRC / "speeches.json",
     "extras": SRC / "screenshot_extras.json",
+    "stories": SRC / "stories.json",
 }
 SPRITE_IMAGES = ROOT / "public" / "data" / "sprites"
+STORIES_ABOUT = ("Season Story: the third AI-authored lane (owner-approved). One news package per completed season, "
+                 "written only by a story.set upload mutation; facts only from the data, every number cited in stats[] "
+                 "with its source (scripts/story_check.py). Never hand-edit.")
 
-AI_STEPS = {"transcribe", "portrait→look", "tag notes", "speech", "art"}
+AI_STEPS = {"transcribe", "portrait→look", "tag notes", "speech", "art", "story"}
 LANE_OPS = {
     "stats": {"player.set", "fact.set", "fact.add", "fact.remove", "superbowl.set", "coach.season", "coach.set",
               "record.set", "baseline", "extras.set"},
     "looks": {"sprite.set", "sprite.image", "card.design"},
     "notes": {"journal.add"},
     "speech": {"speech.set"},
+    "story": {"story.set"},
 }
 # AI step that must be logged when a lane's mutations come from images / owner prose
 NEEDS_STEP = {("stats", "image"): "transcribe", ("looks", "image"): "portrait→look", ("notes", "owner"): "tag notes",
-              ("speech", "owner"): "speech", ("speech", "image"): "speech"}
+              ("speech", "owner"): "speech", ("speech", "image"): "speech",
+              ("story", "data"): "story", ("story", "owner"): "story", ("story", "image"): "story"}
 CAREER_KEYS = {"g", "att", "cmp", "yds", "td", "int", "sck", "ratt", "ryds", "rtd", "fum", "rec", "recyds", "rectd",
                "blk", "tkl", "ff", "rings", "mvp", "opoy", "dpoy", "roty", "sbmvp"}
 FACT_ORDER = ["team", "team_history", "retired_with", "status", "tag", "card", "card_design", "career", "real_nfl"]
@@ -137,9 +150,10 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
         lane, op, src = m.get("lane"), m.get("op"), str(m.get("source", ""))
         if op not in LANE_OPS.get(lane, set()):
             errs.append(f"{where}: op {op!r} is not in lane {lane!r}")
-        kind = "image" if src.startswith("image:") else "owner" if src == "owner" else None
+        kind = "image" if src.startswith("image:") else "owner" if src == "owner" else \
+            "data" if src.startswith("data:") and lane == "story" else None
         if kind is None:
-            errs.append(f"{where}: source must be 'owner' or 'image:<file>'")
+            errs.append(f"{where}: source must be 'owner' or 'image:<file>'" + (" or 'data:<files>'" if lane == "story" else ""))
         elif kind == "image" and src[6:] not in images:
             errs.append(f"{where}: {src} is not listed in images")
         need = NEEDS_STEP.get((lane, kind))
@@ -153,6 +167,10 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
             errs += [f"{where}: {e}" for e in speech_errors(m.get("value"))]
         if op == "extras.set":
             errs += [f"{where}: {e}" for e in extras_errors(str(m.get("target", "")))]
+        if op == "story.set":
+            # at apply time a stats value that no longer matches its source is an error, not a stale warning
+            story_errs, story_stale = story_check.check_season(story_check.Data(), str(m.get("target", "")), m.get("value"))
+            errs += [f"{where}: {e}" for e in story_errs + story_stale]
     return errs
 
 
@@ -210,6 +228,8 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
     data = {k: json.loads(p.read_text()) if p.exists() else None for k, p in FILES.items()}
     if data["journal"] is None:
         data["journal"] = {"notes": []}
+    if data["stories"] is None:
+        data["stories"] = {"_about": STORIES_ABOUT, "seasons": {}}
     changes = []
     for m in manifest["mutations"]:
         op, target, value = m["op"], m["target"], m["value"]
@@ -317,6 +337,16 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
                 speeches[target] = rec
                 data["speeches"]["speeches"] = dict(sorted(speeches.items()))
                 changes.append(f"speech {target}")
+        elif op == "story.set":
+            seasons = data["stories"].setdefault("seasons", {})
+            rec = {"reason": value["reason"], "trigger": value["trigger"], "upload": manifest["id"],
+                   "tagline": value["tagline"], "articles": value["articles"]}
+            if value.get("didYouKnow"):
+                rec["didYouKnow"] = value["didYouKnow"]
+            if seasons.get(target) != rec:
+                seasons[target] = rec
+                data["stories"]["seasons"] = dict(sorted(seasons.items(), key=lambda kv: int(kv[0].lstrip("Y"))))
+                changes.append(f"story {target} ({len(value['articles'])} articles)")
         elif op == "extras.set":
             section, _, key = target.partition("/")
             entries = data["extras"][section]

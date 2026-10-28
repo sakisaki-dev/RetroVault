@@ -244,3 +244,17 @@ button.wc-item:focus-visible {
   .wc-spot__name { font-size: 20px; }
   .wc-spot__line { font-size: 12px; }
 }
+
+/* ---------- Timeline news block: the Wire + Season Story (TimelineNews) ---------- */
+.wc-news { display: grid; gap: 16px; min-width: 0; }
+.wc-wire-all > summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 4px;
+  color: hsl(var(--muted-foreground));
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.wc-wire-all[open] > summary { margin-bottom: 8px; }

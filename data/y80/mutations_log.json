@@ -295,6 +295,15 @@
     "notes": 1
    },
    "changed": 4
+  },
+  {
+   "id": "2026-10-27-story-y82",
+   "dir": "data/uploads/2026-10-27-story-y82",
+   "applied_at": "2026-10-27T18:37:44-07:00",
+   "mutations": {
+    "story": 1
+   },
+   "changed": 1
   }
  ]
 }

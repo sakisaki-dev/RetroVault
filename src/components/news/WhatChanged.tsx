@@ -18,7 +18,7 @@ import {
 import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
 import { useLeague } from '@/context/LeagueContext';
-import { matchPlayerByName, useLeagueContent, type Edition, type Headline, type HeadlinesInfo, type HeadlineKind, type PlayerNote } from '@/utils/leagueContent';
+import { matchPlayerByName, useLeagueContent, type Edition, type Headline, type HeadlinesInfo, type HeadlineKind, type PlayerNote, type SeasonStory } from '@/utils/leagueContent';
 import { editionShuffle } from '@/utils/edition';
 import { getTeamColors } from '@/utils/teamColors';
 import { useHubRoute } from '@/components/stats/hub/hashRoute';
@@ -26,6 +26,7 @@ import PlayerDetailCard from '@/components/PlayerDetailCard';
 import PositionBadge from '@/components/PositionBadge';
 import './news.css';
 import { reducedMotion } from '@/utils/motion';
+import { SeasonStoryDesk, openSeasonStory } from './SeasonStory';
 
 /**
  * "What changed": the generated headlines in content.json (scripts/build_league_content.py build_headlines(), rules
@@ -102,15 +103,23 @@ export const HeadlineTicker = ({
   players,
   onPlayer,
   onMore,
+  title = 'What changed',
+  story,
+  onStory,
 }: {
   headlines: Headline[];
   info?: HeadlinesInfo;
   players: Player[];
   onPlayer: (p: Player) => void;
   onMore?: () => void;
+  title?: string;
+  /** The latest Season Story: its lead is linked above the ticker */
+  story?: SeasonStory;
+  onStory?: (id: string) => void;
 }) => {
   const items = headlines.slice(0, 10);
   if (!items.length) return null;
+  const lead = story?.articles.find((a) => a.kind === 'lead');
   const find = (h: Headline) => (h.players[0] ? matchPlayerByName(h.players[0], players) : undefined);
   const track = (copy: boolean) => (
     <ul className={cn('wc-ticker__track', copy && 'wc-ticker__track--dup')} aria-hidden={copy || undefined}>
@@ -125,7 +134,7 @@ export const HeadlineTicker = ({
     <section className="wc wc-strip" aria-labelledby="wc-strip-title">
       <div className="wc-strip__head">
         <h2 id="wc-strip-title" className="wc-strip__title">
-          <Newspaper className="h-4 w-4" aria-hidden="true" /> What changed
+          <Newspaper className="h-4 w-4" aria-hidden="true" /> {title}
         </h2>
         <span className="wc-strip__scope">{scopeLabel(info)}</span>
         {onMore && (
@@ -138,6 +147,13 @@ export const HeadlineTicker = ({
         {track(false)}
         {track(true)}
       </div>
+      {lead && story && onStory && (
+        <button type="button" className="wc-story-link" onClick={() => onStory(lead.id)}>
+          <span className="wc-story-link__kick">{story.season} Season Story</span>
+          <span className="wc-story-link__text">{lead.headline}</span>
+          <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+        </button>
+      )}
     </section>
   );
 };
@@ -148,15 +164,18 @@ export const HeadlineList = ({
   info,
   players,
   onPlayer,
+  anchor = true,
 }: {
   headlines: Headline[];
   info?: HeadlinesInfo;
   players: Player[];
   onPlayer: (p: Player) => void;
+  /** Carry the #what-changed anchor (off when a wrapper carries it) */
+  anchor?: boolean;
 }) => {
   if (!headlines.length) return null;
   return (
-    <section id="what-changed" className="wc wc-list scroll-mt-24" aria-labelledby="wc-list-title">
+    <section id={anchor ? 'what-changed' : undefined} className="wc wc-list scroll-mt-24" aria-labelledby="wc-list-title">
       <div className="wc-list__head">
         <h2 id="wc-list-title" className="font-display text-lg font-bold uppercase tracking-wide">
           What changed
@@ -269,9 +288,47 @@ export const HomeNews = () => {
           // the list sits under the Timeline masthead; wait for the lazy tab to mount
           window.setTimeout(() => document.getElementById('what-changed')?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' }), 400);
         }}
+        story={content.seasonStories?.at(-1)}
+        onStory={(id) => {
+          // the Timeline's story desk opens it when it mounts (or right away if it already is)
+          openSeasonStory(id);
+          navigate({ tab: 'timeline' });
+          window.setTimeout(() => document.getElementById('season-story')?.scrollIntoView({ block: 'start', behavior: 'auto' }), 400);
+        }}
       />
       <Spotlight picks={picks} headlines={headlines} notes={content.playerNotes} onPlayer={setSelected} />
       <PlayerDetailCard player={selected} onClose={() => setSelected(null)} />
+    </div>
+  );
+};
+
+/**
+ * Timeline news block: the rule-based headlines as "The Wire" (a ticker, with the full list folded below) and the
+ * Season Story desk (SeasonStory.tsx). Without a story it is the plain headline list, as before.
+ */
+export const TimelineNews = ({
+  headlines,
+  info,
+  stories,
+  onPlayer,
+}: {
+  headlines?: Headline[];
+  info?: HeadlinesInfo;
+  stories?: SeasonStory[];
+  onPlayer: (p: Player) => void;
+}) => {
+  const players = useLeaguePlayers();
+  if (!stories?.length) return <HeadlineList headlines={headlines ?? []} info={info} players={players} onPlayer={onPlayer} />;
+  return (
+    <div id="what-changed" className="wc-news scroll-mt-24">
+      <HeadlineTicker headlines={headlines ?? []} info={info} players={players} onPlayer={onPlayer} title="The Wire" />
+      <SeasonStoryDesk stories={stories} players={players} onPlayer={onPlayer} />
+      {!!headlines?.length && (
+        <details className="wc-wire-all">
+          <summary>All wire items ({headlines.length})</summary>
+          <HeadlineList headlines={headlines} info={info} players={players} onPlayer={onPlayer} anchor={false} />
+        </details>
+      )}
     </div>
   );
 };
