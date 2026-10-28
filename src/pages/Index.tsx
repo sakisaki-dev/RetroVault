@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useMemo } from 'react';
 import { toast } from 'sonner';
 import Header from '@/components/Header';
 import BottomNav from '@/components/BottomNav';
+import PullToSearch from '@/components/PullToSearch';
 import TabFallback from '@/components/TabFallback';
 import { GIFTS, giftSummary, redeemAutoGifts } from '@/utils/collection';
 import CardUnlockToasts from '@/components/collection/CardUnlockToasts';
@@ -113,6 +114,7 @@ const IndexContent = () => {
           </main>
         </HubRouteContext.Provider>
 
+        <PullToSearch />
         <BottomNav activeTab={target.tab} onTabChange={(tab) => navigate({ tab })} />
         <CeremonyHost />
         <QuickPlayerSearch />

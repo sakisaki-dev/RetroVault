@@ -890,3 +890,65 @@ details[open] > :not(summary) {
 .bnav__item[data-on='true']::before {
   scale: 1 1;
 }
+
+/* Pull down to search (PullToSearch.tsx): the pill slides out from under the header with the finger */
+.pts-pill {
+  position: fixed;
+  top: var(--site-header-h, 56px);
+  left: 50%;
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(var(--popover));
+  box-shadow: 0 8px 24px hsl(228 60% 2% / 0.5);
+  color: hsl(var(--secondary-foreground));
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  translate: -50% -52px;
+  scale: 0.7;
+  opacity: 0;
+}
+.pts-pill[data-ready='true'] {
+  border-color: hsl(var(--gold));
+  color: hsl(var(--gold));
+}
+.pts-pill__ready,
+.pts-pill[data-ready='true'] .pts-pill__idle {
+  display: none;
+}
+.pts-pill[data-ready='true'] .pts-pill__ready {
+  display: inline;
+}
+.pts-hint {
+  position: fixed;
+  top: calc(var(--site-header-h, 56px) + 10px);
+  left: 50%;
+  z-index: 44;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--gold) / 0.6);
+  background: hsl(var(--popover));
+  box-shadow: 0 8px 24px hsl(228 60% 2% / 0.5);
+  color: hsl(var(--gold));
+  font-size: 13px;
+  font-weight: 600;
+  translate: -50% 0;
+  animation: rv-pts-hint var(--dur-open) var(--ease-spring) backwards;
+}
+@keyframes rv-pts-hint {
+  from {
+    opacity: 0;
+    translate: -50% -16px;
+  }
+}
