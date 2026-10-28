@@ -399,6 +399,15 @@
     "story": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-10-28-y84-teams",
+   "dir": "data/uploads/2026-10-28-y84-teams",
+   "applied_at": "2026-10-28T16:04:43-07:00",
+   "mutations": {
+    "stats": 8
+   },
+   "changed": 8
   }
  ]
 }

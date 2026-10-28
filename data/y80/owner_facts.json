@@ -31,6 +31,9 @@
     "says": "Traded from the Seahawks to the Jets for Obinna Leary after playing the Y80 Super Bowl for Seattle; played Y81 for the Jets, was let walk, and has since retired."
    }
   },
+  "Angelo Moton": {
+   "team": "Packers"
+  },
   "Aqib McClain": {
    "team": "49ers"
   },
@@ -104,6 +107,9 @@
     "says": "Asanjh did not play for the Bills."
    },
    "signature_team": "Seahawks"
+  },
+  "Calais Ham": {
+   "team": "Falcons"
   },
   "CeeDee Lamb": {
    "retired_with": "Dolphins",
@@ -203,6 +209,9 @@
     ],
     "says": "Traded from the Giants to the Falcons after Y82 for an unnamed quarterback, then traded on to the Ravens before playing a game for the Falcons."
    }
+  },
+  "Dustin Milton": {
+   "team": "Patriots"
   },
   "Dylan Hyatt": {
    "retired_with": "Jets",
@@ -357,6 +366,9 @@
     "rings": 0,
     "club": "Bengals"
    }
+  },
+  "Jimmy Tillery": {
+   "team": "Jets"
   },
   "K'Lavon Settle": {
    "team": "49ers"
@@ -531,6 +543,9 @@
     "says": "Traded from the Jets to the Seahawks for Alvin Tufele after Y80."
    }
   },
+  "Orlando Larienne": {
+   "team": "Falcons"
+  },
   "Perrion Randall": {
    "team": "Seahawks",
    "career": {
@@ -681,6 +696,12 @@
     "says": "Taron Hayes never played for the Jets or the Titans."
    }
   },
+  "Terron Stidham": {
+   "team": "Ravens"
+  },
+  "Travon Swaim": {
+   "team": "Lions"
+  },
   "Trequan Jensen": {
    "retired_with": "Packers",
    "status": "Retired",
@@ -735,6 +756,9 @@
   },
   "Tyson Nassib": {
    "signature_team": "Dolphins"
+  },
+  "Vic Cannon": {
+   "team": "Chargers"
   },
   "Vyncint Heath": {
    "team": "Falcons",

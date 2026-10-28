@@ -3304,6 +3304,20 @@
   "confidence": "strong",
   "evidence": "No rings."
  },
+ "Orlando Larienne": {
+  "stints": [
+   {
+    "team": "Falcons",
+    "from": 84,
+    "to": 84,
+    "rings": [
+     84
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Falcons Y84. The only window that fits."
+ },
  "Shawn Milne": {
   "stints": [
    {
@@ -3323,5 +3337,93 @@
   ],
   "confidence": "strong",
   "evidence": "1 ring = Falcons Y84. On the Y84 Falcons roster. Owner: “Came to the Falcons from the Buccaneers in the trade that sent Shareef London to Tampa Bay before Y84.” The only window that fits."
+ },
+ "Calais Ham": {
+  "stints": [
+   {
+    "team": "Falcons",
+    "from": 84,
+    "to": 84,
+    "rings": [
+     84
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Falcons Y84. The only window that fits."
+ },
+ "Travon Swaim": {
+  "stints": [
+   {
+    "team": "Lions",
+    "from": 82,
+    "to": 84,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Angelo Moton": {
+  "stints": [
+   {
+    "team": "Packers",
+    "from": 84,
+    "to": 84,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Jimmy Tillery": {
+  "stints": [
+   {
+    "team": "Jets",
+    "from": 84,
+    "to": 84,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Vic Cannon": {
+  "stints": [
+   {
+    "team": "Chargers",
+    "from": 65,
+    "to": 84,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Terron Stidham": {
+  "stints": [
+   {
+    "team": "Ravens",
+    "from": 74,
+    "to": 84,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Dustin Milton": {
+  "stints": [
+   {
+    "team": "Patriots",
+    "from": 77,
+    "to": 84,
+    "rings": [
+     81
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Patriots Y81. The only window that fits."
  }
 }

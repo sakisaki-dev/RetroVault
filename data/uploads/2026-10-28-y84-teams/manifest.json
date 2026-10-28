@@ -1,0 +1,81 @@
+{
+ "id": "2026-10-28-y84-teams",
+ "created": "2026-10-28",
+ "title": "Teams for the Y84 newcomers",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Orlando Larienne/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: \"orlando larienne falcon, calais ham falcon, moton is a packer, dustin milton patriot with siran spector, stidham is a raven, vic cannon is a charger, tillery is a jet, swaim is a lion\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Calais Ham/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: \"orlando larienne falcon, calais ham falcon, moton is a packer, dustin milton patriot with siran spector, stidham is a raven, vic cannon is a charger, tillery is a jet, swaim is a lion\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Angelo Moton/team",
+   "value": "Packers",
+   "source": "owner",
+   "reason": "Owner: \"orlando larienne falcon, calais ham falcon, moton is a packer, dustin milton patriot with siran spector, stidham is a raven, vic cannon is a charger, tillery is a jet, swaim is a lion\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dustin Milton/team",
+   "value": "Patriots",
+   "source": "owner",
+   "reason": "Owner: \"orlando larienne falcon, calais ham falcon, moton is a packer, dustin milton patriot with siran spector, stidham is a raven, vic cannon is a charger, tillery is a jet, swaim is a lion\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Terron Stidham/team",
+   "value": "Ravens",
+   "source": "owner",
+   "reason": "Owner: \"orlando larienne falcon, calais ham falcon, moton is a packer, dustin milton patriot with siran spector, stidham is a raven, vic cannon is a charger, tillery is a jet, swaim is a lion\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Vic Cannon/team",
+   "value": "Chargers",
+   "source": "owner",
+   "reason": "Owner: \"orlando larienne falcon, calais ham falcon, moton is a packer, dustin milton patriot with siran spector, stidham is a raven, vic cannon is a charger, tillery is a jet, swaim is a lion\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jimmy Tillery/team",
+   "value": "Jets",
+   "source": "owner",
+   "reason": "Owner: \"orlando larienne falcon, calais ham falcon, moton is a packer, dustin milton patriot with siran spector, stidham is a raven, vic cannon is a charger, tillery is a jet, swaim is a lion\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Travon Swaim/team",
+   "value": "Lions",
+   "source": "owner",
+   "reason": "Owner: \"orlando larienne falcon, calais ham falcon, moton is a packer, dustin milton patriot with siran spector, stidham is a raven, vic cannon is a charger, tillery is a jet, swaim is a lion\"",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}

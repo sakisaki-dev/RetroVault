@@ -3786,6 +3786,20 @@
    "confidence": "strong",
    "evidence": "No rings."
   },
+  "Orlando Larienne": {
+   "stints": [
+    {
+     "team": "Falcons",
+     "from": 84,
+     "to": 84,
+     "rings": [
+      84
+     ]
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "1 ring = Falcons Y84. The only window that fits."
+  },
   "Shawn Milne": {
    "stints": [
     {
@@ -3805,6 +3819,94 @@
    ],
    "confidence": "strong",
    "evidence": "1 ring = Falcons Y84. On the Y84 Falcons roster. Owner: “Came to the Falcons from the Buccaneers in the trade that sent Shareef London to Tampa Bay before Y84.” The only window that fits."
+  },
+  "Calais Ham": {
+   "stints": [
+    {
+     "team": "Falcons",
+     "from": 84,
+     "to": 84,
+     "rings": [
+      84
+     ]
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "1 ring = Falcons Y84. The only window that fits."
+  },
+  "Travon Swaim": {
+   "stints": [
+    {
+     "team": "Lions",
+     "from": 82,
+     "to": 84,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "Angelo Moton": {
+   "stints": [
+    {
+     "team": "Packers",
+     "from": 84,
+     "to": 84,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "Jimmy Tillery": {
+   "stints": [
+    {
+     "team": "Jets",
+     "from": 84,
+     "to": 84,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "Vic Cannon": {
+   "stints": [
+    {
+     "team": "Chargers",
+     "from": 65,
+     "to": 84,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "Terron Stidham": {
+   "stints": [
+    {
+     "team": "Ravens",
+     "from": 74,
+     "to": 84,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
+  "Dustin Milton": {
+   "stints": [
+    {
+     "team": "Patriots",
+     "from": 77,
+     "to": 84,
+     "rings": [
+      81
+     ]
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "1 ring = Patriots Y81. The only window that fits."
   }
  },
  "signatureTeams": {
@@ -3814,6 +3916,7 @@
   "Alohi Godwin": "Seattle Seahawks",
   "Alvin Tufele": "Tennessee Titans",
   "Amani Bryant": "Denver Broncos",
+  "Angelo Moton": "Green Bay Packers",
   "Aqib McClain": "San Francisco 49ers",
   "Aubrey Jewell": "Los Angeles Chargers",
   "Avonte Gooden": "Washington Commanders",
@@ -3825,6 +3928,7 @@
   "Brian Baker": "Houston Texans",
   "Bud Matthew": "New York Jets",
   "Cairo Asanjh": "Seattle Seahawks",
+  "Calais Ham": "Atlanta Falcons",
   "CeeDee Lamb": "Miami Dolphins",
   "Chance Woodrum": "Atlanta Falcons",
   "Charlie John": "Buffalo Bills",
@@ -3857,6 +3961,7 @@
   "Dorance Hinton": "Seattle Seahawks",
   "Drake Maye": "Minnesota Vikings",
   "Drake Wise": "Baltimore Ravens",
+  "Dustin Milton": "New England Patriots",
   "Dwayne Skura": "New York Jets",
   "Dylan Hyatt": "New York Jets",
   "Eric Raimann": "Atlanta Falcons",
@@ -3884,6 +3989,7 @@
   "Jaylen Conklin": "New York Jets",
   "Jayon Queen": "New York Jets",
   "Ja’Marr Chase": "Minnesota Vikings",
+  "Jimmy Tillery": "New York Jets",
   "Joshuah Egbule": "Seattle Seahawks",
   "Juawan Lance": "Tennessee Titans",
   "K'Lavon Armah": "Arizona Cardinals",
@@ -3918,6 +4024,7 @@
   "Obinna Leary": "Seattle Seahawks",
   "Odell Ankou": "Tampa Bay Buccaneers",
   "Oliver Rankin": "Denver Broncos",
+  "Orlando Larienne": "Atlanta Falcons",
   "Perrion Randall": "Seattle Seahawks",
   "Pharaoh Mintze": "Indianapolis Colts",
   "Pharoah Hunter": "Minnesota Vikings",
@@ -3952,8 +4059,10 @@
   "Taron Hayes": "Kansas City Chiefs",
   "Taywan Tuttle": "Los Angeles Chargers",
   "Teez Givens": "Tennessee Titans",
+  "Terron Stidham": "Baltimore Ravens",
   "Tim Wright": "Los Angeles Rams",
   "Tramon Amerson": "Los Angeles Chargers",
+  "Travon Swaim": "Detroit Lions",
   "Trequan Jensen": "Green Bay Packers",
   "Trequan Roberts": "New York Jets",
   "Tristan Tart": "Baltimore Ravens",
@@ -3964,6 +4073,7 @@
   "Tyron Colvin": "Tennessee Titans",
   "Tyrone Baugh": "Buffalo Bills",
   "Tyson Nassib": "Miami Dolphins",
+  "Vic Cannon": "Los Angeles Chargers",
   "Von Horsted": "Los Angeles Rams",
   "Vyncint Heath": "Atlanta Falcons",
   "Wayne Wilson": "Los Angeles Chargers",
