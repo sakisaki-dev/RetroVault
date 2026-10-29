@@ -11,7 +11,7 @@ import { findNFLTeam } from '@/utils/nflTeams';
 import { formatDecimal, getMetricTier, getTierBgColor, getTierColor, getTierLabel } from '@/utils/metricColors';
 import { AWARD_META, POSITION_NAMES } from '@/utils/playerMeta';
 import { AWARD_POINTS, getLegacyTier, isDefensivePosition, isHallOfFamer } from '@/config/stats';
-import { awardPoints } from '@/config/advanced';
+import { ADV_METRICS, awardPoints, buildContext, evaluateMetric } from '@/config/advanced';
 import { leagueScore } from '@/config/ovr';
 import { useSkillRatings } from '@/utils/useSkillRatings';
 import { useJerseyNumbers } from '@/utils/jerseys';
@@ -140,6 +140,11 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   }, [selected, getAllPlayers]);
 
   const leaguePool = useMemo(() => getAllPlayers().filter((p) => !p.isRealLegend), [getAllPlayers]);
+  // Value / Game board at his position, so the card can show the rate beside the career totals
+  const valueBoard = useMemo(() => {
+    const metric = ADV_METRICS.find((m) => m.id === 'scorePerGame');
+    return player && metric ? evaluateMetric(leaguePool, metric, player.position, buildContext(leaguePool)) : null;
+  }, [leaguePool, player]);
   const photo = useLegendPhoto(player);
 
   // Where focus was when the card opened (the tapped card). iOS Safari doesn't focus buttons on tap, so Radix's
@@ -215,6 +220,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   const jerseyNumber = numberFor(player);
   const ovr = overallRating(player, officialOvr);
   const score = leagueScore(player);
+  const valueRow = valueBoard?.rows.find((r) => r.player.name === player.name) ?? null;
   const skill = skillMap.get(`${player.position}:${player.name}`) ?? null;
   const isDefense = isDefensivePosition(player.position);
   const hof = isHallOfFamer(player);
@@ -231,6 +237,19 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
     { key: 'ovr', label: 'OVR', title: 'Official overall rating (62–99), League Score rank within the position', value: ovr, decimals: 0 },
     ...(skill ? [{ key: 'skill', label: `Skill · ${skill.grade.grade}`, title: 'Skill rating: per-game skills graded against the position, ignores career length and awards', value: skill.rating, decimals: 0 }] : []),
     { key: 'score', label: 'League Score', title: 'Production + awards (the input to OVR)', value: score, decimals: 0 },
+    ...(player.games > 0
+      ? [
+          {
+            key: 'perGame',
+            label: valueRow ? `Value/G · #${valueRow.rank} ${player.position}` : 'Value / Game',
+            title: valueRow
+              ? `League Score per game: ${valueRow.rank} of ${valueBoard?.rows.length} ${player.position}s (min 16 games), the rate beside the career totals`
+              : 'League Score per game: the rate beside the career totals',
+            value: score / player.games,
+            decimals: 2,
+          },
+        ]
+      : []),
     ...(rated ? [{ key: 'legacy', label: 'Career Legacy', title: '4·True Talent + 4·Dominance + 2·Games', value: player.careerLegacy, decimals: 0 }] : []),
     { key: 'rings', label: 'Rings', title: 'Championship rings', value: player.rings, decimals: 0 },
     { key: 'games', label: 'Games', title: 'Games played', value: player.games, decimals: 0 },

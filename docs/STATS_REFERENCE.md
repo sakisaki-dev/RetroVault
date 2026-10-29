@@ -227,7 +227,7 @@ The Stats page centerpiece. Pure functions over **career totals** (no per-season
 | Takeaways/16 (`takeawaysPer16`) | LB DB DL | (INT + FF) / G · 16 | 32 G |
 | Tackles/G (`tacklesPerGame`) | LB DB DL | tackles / G | 32 G |
 | Blocks/G (`blocksPerGame`) | OL | blocks / G | 16 G |
-| League Score/G (`scorePerGame`) | all | `leagueScore` (config/ovr.ts, production + awards) / G | 16 G |
+| Value / Game (`scorePerGame`) | all | `leagueScore` (config/ovr.ts, production + awards) / G: what a player is worth each game; the rate beside OVR's career total. Shown on the player card scoreboard with the position rank | 16 G |
 | VOR (`vor`) | all | League Score − replacement, replacement = 20th percentile (linear interpolation) of League Score at the position (`REPLACEMENT_PERCENTILE`) | 1 G |
 | VOR/16 (`vorPer16`) | all | VOR / G · 16 | 16 G |
 | Award Points/100 G (`awardRate`) | all | (60·rings + 50·MVP + 30·OPOY or 120·DPOY + 40·SB MVP) / G · 100 (`AWARD_POINTS`, the Dominance weights) | 16 G |
@@ -235,6 +235,7 @@ The Stats page centerpiece. Pure functions over **career totals** (no per-season
 **Position-relative views**
 - **+ index** (`plusIndex`): 100 = mean of the position's qualifiers. Higher-is-better: 100 · value / avg (like OPS+). Lower-is-better: 100 · avg / value (like ERA+). Capped at 300 (`PLUS_CAP`; a zero-INT sample gets 300). Not computed for VOR / VOR/16 (centered near zero).
 - **Percentile**: mid-rank among the position's qualifiers, best = 100, worst = 0, ties share a value; inverted for lower-is-better.
+- **Value / Game across positions** (`valueAcrossPositions`, Analytics Lab "Value / Game, every position"): each player's Value / Game in standard deviations above his position's mean (population SD), among players with 60+ games (`VALUE_ACROSS_MIN_GAMES`). Used instead of the + index, which flatters positions with a wide spread (WR).
 - **Headline stat per position** (`HEADLINE_METRIC`, sorts the grid): QB Passer Rating; RB/WR/TE Scrimmage Yds/G; OL Blocks/G; LB/DB/DL Impact Plays/G.
 
 **Legacy composition** (`legacyMix`). Career Legacy = 4·TT + 4·Dom + 2·G with Dom = 0.7·TT + award points, so it splits exactly:

@@ -8,6 +8,7 @@ import Chips from './Chips';
 import MetricLabel from './MetricLabel';
 import MetricLeaderboard from './MetricLeaderboard';
 import PlusHeatTable from './PlusHeatTable';
+import ValueAcrossBoard from './ValueAcrossBoard';
 import LabGraphs from '../graph/LabGraphs';
 import LegendsToggle from '../visual/LegendsToggle';
 import { useOverlayLegends } from '../visual/useIncludeLegends';
@@ -116,6 +117,8 @@ const AnalyticsLab = ({ data, onSelect }: { data: LeagueData; onSelect: Select }
           ))}
         </ul>
       )}
+
+      <ValueAcrossBoard players={players} onSelect={onSelect} />
 
       <div className="glass-card flex flex-wrap items-center gap-x-3 gap-y-2 px-3 py-2">
         <span id="lab-pos-label" className="font-display text-sm font-bold uppercase tracking-wide text-muted-foreground">

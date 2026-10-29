@@ -303,10 +303,10 @@ export const ADV_METRICS: AdvMetric[] = [
   // Cross-position value
   {
     id: 'scorePerGame',
-    label: 'League Score / Game',
-    short: 'LS/G',
+    label: 'Value / Game',
+    short: 'Val/G',
     family: 'Value',
-    definition: 'Official League Score (production + awards, the input to OVR) per game: the production rate.',
+    definition: 'League Score (production + awards, the input to OVR) per game played: what a player is worth each time he takes the field.',
     minLabel: `min ${ADV_MIN.games} games`,
     positions: POSITIONS,
     decimals: 2,
@@ -474,6 +474,44 @@ export const placeOnBoard = (board: MetricBoard, player: Player, ctx: AdvContext
     plus: metric.plus ? plusIndex(value, board.mean, metric.lowerIsBetter) : null,
     pct: board.rows.length ? (100 * beaten) / board.rows.length : 100,
   };
+};
+
+/** Games needed for the all-positions Value board: a fuller career than the 16-game metric minimum. */
+export const VALUE_ACROSS_MIN_GAMES = 60;
+
+export interface ValueAcrossRow {
+  player: Player;
+  /** Value / Game (League Score per game). */
+  value: number;
+  /** Standard deviations above his position's average Value / Game (qualifiers only). */
+  sigma: number;
+  /** Rank by Value / Game within his position, and how many qualify there. */
+  posRank: number;
+  posCount: number;
+  rank: number;
+}
+
+/**
+ * Value / Game ranked across every position. Raw values don't compare (a WR's average is far above a DL's) and the
+ * + index flatters positions with a wide spread, so each player is scored by how far above his own position's average
+ * he sits, in standard deviations, among players with VALUE_ACROSS_MIN_GAMES+ games.
+ */
+export const valueAcrossPositions = (players: Player[], minGames = VALUE_ACROSS_MIN_GAMES): ValueAcrossRow[] => {
+  const rows: ValueAcrossRow[] = [];
+  POSITIONS.forEach((pos) => {
+    const scored = players
+      .filter((p) => p.position === pos && !p.isRealLegend && p.games >= minGames)
+      .map((p) => ({ player: p, value: leagueScore(p) / p.games }))
+      .sort((a, b) => b.value - a.value || a.player.name.localeCompare(b.player.name));
+    if (scored.length < 2) return;
+    const mean = scored.reduce((s, r) => s + r.value, 0) / scored.length;
+    const sd = Math.sqrt(scored.reduce((s, r) => s + (r.value - mean) ** 2, 0) / scored.length);
+    if (!(sd > 0)) return;
+    scored.forEach((r, i) => rows.push({ ...r, sigma: (r.value - mean) / sd, posRank: i + 1, posCount: scored.length, rank: 0 }));
+  });
+  rows.sort((a, b) => b.sigma - a.sigma || a.player.name.localeCompare(b.player.name));
+  rows.forEach((r, i) => (r.rank = i + 1));
+  return rows;
 };
 
 /** Every metric for one position, keyed by metric id. */
