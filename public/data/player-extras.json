@@ -472,6 +472,11 @@
   "Bud Matthew": [
    "Miami Dolphins",
    "New York Jets"
+  ],
+  "Shawn Milne": [
+   "Atlanta Falcons",
+   "New York Giants",
+   "Tampa Bay Buccaneers"
   ]
  },
  "stints": {
@@ -3774,6 +3779,32 @@
    "confidence": "strong",
    "evidence": "2 rings = Falcons Y84, Y85. The only window that fits."
   },
+  "Shawn Milne": {
+   "stints": [
+    {
+     "team": "Buccaneers",
+     "from": 82,
+     "to": 83,
+     "rings": []
+    },
+    {
+     "team": "Falcons",
+     "from": 84,
+     "to": 84,
+     "rings": [
+      84
+     ]
+    },
+    {
+     "team": "Giants",
+     "from": 85,
+     "to": 85,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "1 ring = Falcons Y84. On the Y84 Falcons roster. Owner: “Came to the Falcons from the Buccaneers in the trade that sent Shareef London to Tampa Bay before Y84, won the Y84 title there, then was traded to the Giants at the start of Y85.” The only window that fits."
+  },
   "Calais Ham": {
    "stints": [
     {
@@ -4086,7 +4117,7 @@
   "Sean Irving": "Las Vegas Raiders",
   "Shaikal Beebee": "Baltimore Ravens",
   "Shareef London": "Tampa Bay Buccaneers",
-  "Shawn Milne": "Atlanta Falcons",
+  "Shawn Milne": "New York Giants",
   "Shawn Skule": "Detroit Lions",
   "Shemar Wood": "Tampa Bay Buccaneers",
   "Sherman Brandson": "New York Giants",

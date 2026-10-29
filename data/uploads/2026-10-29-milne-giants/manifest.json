@@ -1,0 +1,31 @@
+{
+ "id": "2026-10-29-milne-giants",
+ "created": "2026-10-29",
+ "title": "Shawn Milne was a Giant in Y85",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Shawn Milne/team",
+   "value": "Giants",
+   "source": "owner",
+   "reason": "Owner: \"in the newest snapshot shawn milne is listed as a falcon but is actually a giant for this last season as he was traded at the start of\" (Y85)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Shawn Milne/career",
+   "value": {
+    "order": ["Buccaneers", "Falcons", "Giants"],
+    "on": [["Falcons", 84], ["Giants", 85]],
+    "says": "Came to the Falcons from the Buccaneers in the trade that sent Shareef London to Tampa Bay before Y84, won the Y84 title there, then was traded to the Giants at the start of Y85."
+   },
+   "source": "owner",
+   "reason": "Owner: \"in the newest snapshot shawn milne is listed as a falcon but is actually a giant for this last season as he was traded at the start of\" (Y85); earlier career kept from 2026-10-28-y84",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}

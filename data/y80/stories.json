@@ -3711,9 +3711,9 @@
    ]
   },
   "Y85": {
-   "reason": "Season Story for Y85",
-   "trigger": "Season Y85 completed (coach.season 85)",
-   "upload": "2026-10-28-story-y85-v2",
+   "reason": "Correct the Apollo article: Shawn Milne was traded to the Giants at the start of Y85 and did not play for Atlanta that season",
+   "trigger": "Owner correction: Milne was a Giant in Y85 (2026-10-29-milne-giants)",
+   "upload": "2026-10-29-story-y85-v3",
    "tagline": "A fourth straight title for Dorren Skura, three records for Ryland Maxwell and a rookie Super Bowl MVP in Atlanta.",
    "articles": [
     {
@@ -3927,9 +3927,9 @@
      "headline": "Apollo Arrives: A Rookie Takes the Biggest Stage",
      "dek": "Adam Apollo caught 85 passes for 1,654 yards in his first season and left Super Bowl CXLIV as its Most Valuable Player.",
      "body": [
-      "Atlanta did not need a new star receiver. It found one anyway. Adam Apollo stepped into an offense that already had Vyncint Heath and Shawn Milne and averaged 19.5 yards a catch as a rookie: 85 receptions, 1,654 yards and 18 touchdowns, with a long of 75.",
+      "Atlanta did not need a new star receiver. It found one anyway. Adam Apollo stepped into an offense that already had Vyncint Heath and averaged 19.5 yards a catch as a rookie: 85 receptions, 1,654 yards and 18 touchdowns, with a long of 75.",
       "He saved his best for the last game. Against the Bengals in Super Bowl CXLIV he was named Most Valuable Player, and he leaves his first season with a ring, a title-game award and a card that opened in the A tier.",
-      "He did it without playing every week. Apollo appeared in 18 of Atlanta's 20 games, missing 2. Injury may have played a part, as may the usual care with a first-year player finding his place in a crowded receiving room. Heath played all 20 and caught 106 passes for 2,059 yards; Milne added 72 catches for 842 yards and 13 touchdowns. The question now is not whether Apollo belongs, but how much more there is."
+      "He did it without playing every week. Apollo appeared in 18 of Atlanta's 20 games, missing 2. Injury may have played a part, as may the usual care with a first-year player finding his place. The room had already changed: Shawn Milne, a champion in Atlanta in Y84, was traded to the Giants at the start of the season, and Heath carried the veteran load, playing all 20 games and catching 106 passes for 2,059 yards. The question now is not whether Apollo belongs, but how much more there is."
      ],
      "players": [
       "Adam Apollo",
@@ -3937,8 +3937,9 @@
       "Shawn Milne"
      ],
      "teams": [
+      "Bengals",
       "Falcons",
-      "Bengals"
+      "Giants"
      ],
      "stats": [
       {
@@ -3990,21 +3991,6 @@
        "label": "Heath yards (Y85)",
        "value": "2,059",
        "source": "market_history.json snap-202610281616..snap-202610281922 WR:Vyncint Heath s.yds"
-      },
-      {
-       "label": "Milne catches (Y85)",
-       "value": "72",
-       "source": "market_history.json snap-202610281616..snap-202610281922 WR:Shawn Milne s.rec"
-      },
-      {
-       "label": "Milne yards (Y85)",
-       "value": "842",
-       "source": "market_history.json snap-202610281616..snap-202610281922 WR:Shawn Milne s.yds"
-      },
-      {
-       "label": "Milne touchdowns (Y85)",
-       "value": "13",
-       "source": "market_history.json snap-202610281616..snap-202610281922 WR:Shawn Milne s.td"
       }
      ],
      "related": []
