@@ -112,16 +112,18 @@ A value at or above the threshold gets that tier; anything under Average is Belo
 |---|---|---|---|---|---|
 | True Talent | 1000 | 900 | 750 | 650 | 500 |
 | Dominance | 1200 | 1000 | 850 | 750 | 600 |
-| Career Legacy (labels: Legendary / Elite / Great / Hall of Fame / Average) | 10000 | 8500 | 7500 | 7000 | 5000 |
+| Career Legacy (labels: Legendary / Elite / Great / Hall of Fame / Average) | 10000 | 8500 | 7500 | 7300 | 5000 |
 | TPG | 5 | 4.5 | 4 | 3 | 2 |
 
 ### 3.2 Hall of Fame (`HOF_THRESHOLD`, `LEGACY_TIERS` in `src/config/stats.ts`)
-- Induction: Career Legacy ≥ **7000**. Active players are included. Career Legacy here is the **normalized** value (§2.2).
+- Induction: Career Legacy ≥ **7500** from Y85 on (**7000** through Y84). Active players are included. Career Legacy here is the **normalized** value (§2.2).
+- Membership (`isHallOfFamer`): Career Legacy ≥ `HOF_THRESHOLD` (7500), or inducted earlier and still ≥ `HOF_FLOOR` (**7300**). "Inducted" (the sheet's `Inducted` column, from `market_history.json`) means the player reached the bar of its season in some market snapshot. The floor removed the borderline 7,000 members (owner): those who dipped back under 7,000 or sat just above it.
 - Tiers:
   - Legendary ≥ 10000
   - Elite ≥ 8500
   - Great ≥ 7500
-  - Inductee ≥ 7000
+  - Inductee ≥ 7300 (`HOF_FLOOR`)
+- The card market's Hall of Fame price premium (`cardMarket.ts`) still starts at Career Legacy 7000, so prices did not jump when the bar rose.
 - The thresholds were set against raw values and kept after normalization. On the Y80 sheet (97 players), normalization takes the HOF from 31 inductees (QB 13, RB 3, WR 6, TE 4, OL 2, LB 1, DB 1, DL 1) to 23 (QB 7, RB 2, WR 4, TE 2, OL 2, LB 2, DB 2, DL 2). The reference is the mean benchmark, so the overall scale barely moves (median CL 5575 → 5670; p90 9195 → 8658).
 
 ### 3.3 Commentary (`CommentaryTab.tsx`)

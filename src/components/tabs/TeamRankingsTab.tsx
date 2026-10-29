@@ -14,7 +14,7 @@ import { overallRating } from '../brand/ProPlayerBanner.utils';
 import { latestSeasonYear, useLeagueContent } from '@/utils/leagueContent';
 import { coachedByTeam } from '@/utils/frontOffice';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
-import { HOF_THRESHOLD } from '@/config/stats';
+import { isHallOfFamer } from '@/config/stats';
 import {
   DIVISIONS,
   TEAM_SORTS,
@@ -122,7 +122,7 @@ const TeamRankingsTab = () => {
   const totals = useMemo(
     () => ({
       yourTitles: superBowls.filter((sb) => sb.yourResult === 'won').length,
-      hof: league.filter((p) => (p.careerLegacy || 0) >= HOF_THRESHOLD).length,
+      hof: league.filter(isHallOfFamer).length,
       champions: new Set(superBowls.map((sb) => sb.winner).filter(Boolean)).size,
     }),
     [superBowls, league],

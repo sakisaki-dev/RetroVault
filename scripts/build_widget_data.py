@@ -470,7 +470,8 @@ def short_unit(label: str, n: int) -> str:
 
 def hof_watch() -> list[dict]:
     """Active players closest under the Hall of Fame line (Career Legacy 7,000), best first."""
-    pool = sorted(((v["legacy"], k) for k, v in LATEST.items() if k in ACTIVE and 0 < v["legacy"] < B.HOF_THRESHOLD),
+    pool = sorted(((v["legacy"], k) for k, v in LATEST.items()
+                   if k in ACTIVE and not B.is_hall_of_famer(k) and 0 < v["legacy"] < B.HOF_THRESHOLD),
                   key=lambda x: (-x[0], x[1]))
     out = []
     for lg, k in pool[:HOF_WATCH]:

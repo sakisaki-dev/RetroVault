@@ -1,0 +1,1142 @@
+{
+  "id": "2026-10-28-story-y85",
+  "created": "2026-10-28",
+  "images": [],
+  "ai_steps": [
+    {
+      "step": "story",
+      "reason": "Write the Season Story for the completed Y85 season",
+      "trigger": "Rebuild printed STORY NEEDED: Y85"
+    }
+  ],
+  "mutations": [
+    {
+      "lane": "story",
+      "op": "story.set",
+      "target": "Y85",
+      "source": "data:players.json, market_history.json (Y84 and Y85 snapshots), super_bowls.json, coach.json, records.json, owner_facts.json, content.json",
+      "reason": "Season Story for Y85",
+      "trigger": "Season Y85 completed (coach.season 85)",
+      "value": {
+        "reason": "Season Story for Y85",
+        "trigger": "Season Y85 completed (coach.season 85)",
+        "tagline": "A fourth straight title for Dorren Skura, three records for Ryland Maxwell and a rookie Super Bowl MVP in Atlanta.",
+        "articles": [
+          {
+            "id": "y85-four-straight",
+            "kind": "lead",
+            "headline": "Four Straight for Skura, and Atlanta Has Never Looked Better",
+            "dek": "The Falcons went 15-2, beat the Bengals in Super Bowl CXLIV and gave Dorren Skura his 60th title behind a record season from Ryland Maxwell.",
+            "body": [
+              "The Falcons are champions for a third straight season, and Dorren Skura has now won four titles in a row across two clubs. Atlanta went 15-2 in the regular season, beat the Cincinnati Bengals in Super Bowl CXLIV and delivered the 60th championship of Skura's career.",
+              "It was the most complete season of the run. The 15-2 mark was the club's best since Skura arrived, two wins better than last year's 13-3-1, and Atlanta played 20 games in all on the way to the trophy.",
+              "Ryland Maxwell was the engine again. He ran for 2,617 yards and 39 touchdowns, breaking his own single-season rushing mark and the rushing touchdown record on the same board, and added the best rushing game it has ever recorded, 237 yards. He won his second Offensive Player of the Year award and his fifth ring.",
+              "The new piece was a rookie. Adam Apollo caught 85 passes for 1,654 yards and 18 touchdowns in his first season and was named Super Bowl MVP. Orlando Larienne, who missed time a year ago, played in all 20 games and threw 51 touchdown passes. Vyncint Heath, the receiver they call \"Starscream\", added 2,059 yards.",
+              "Around the league, the Jets' Jimmy Tillery was named Most Valuable Player and Seattle's Deonte Sutton took Defensive Player of the Year. In Atlanta, the only question left is how long this can last."
+            ],
+            "players": [
+              "Ryland Maxwell",
+              "Adam Apollo",
+              "Orlando Larienne",
+              "Vyncint Heath",
+              "Jimmy Tillery",
+              "Deonte Sutton"
+            ],
+            "teams": [
+              "Falcons",
+              "Bengals",
+              "Jets",
+              "Seahawks"
+            ],
+            "stats": [
+              {
+                "label": "Falcons regular season",
+                "value": "15-2",
+                "source": "coach.json Y85 record"
+              },
+              {
+                "label": "Skura's Super Bowl titles",
+                "value": "60",
+                "source": "coach.json superBowlRecord/0/titles"
+              },
+              {
+                "label": "Falcons regular season (Y84)",
+                "value": "13-3-1",
+                "source": "coach.json Y84 record"
+              },
+              {
+                "label": "Falcons games (Y85)",
+                "value": "20",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.g"
+              },
+              {
+                "label": "Maxwell rushing yards (Y85)",
+                "value": "2,617",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.ryds"
+              },
+              {
+                "label": "Maxwell rushing TDs (Y85)",
+                "value": "39",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.rtd"
+              },
+              {
+                "label": "Best rushing game",
+                "value": "237 yds",
+                "source": "records.json Best rushing game mark"
+              },
+              {
+                "label": "Apollo catches",
+                "value": "85",
+                "source": "players.json WR:Adam Apollo rec"
+              },
+              {
+                "label": "Apollo receiving yards",
+                "value": "1,654",
+                "source": "players.json WR:Adam Apollo yds"
+              },
+              {
+                "label": "Apollo touchdowns",
+                "value": "18",
+                "source": "players.json WR:Adam Apollo td"
+              },
+              {
+                "label": "Larienne TD passes (Y85)",
+                "value": "51",
+                "source": "market_history.json snap-202610281616..snap-202610281922 QB:Orlando Larienne s.td"
+              },
+              {
+                "label": "Heath receiving yards (Y85)",
+                "value": "2,059",
+                "source": "market_history.json snap-202610281616..snap-202610281922 WR:Vyncint Heath s.yds"
+              }
+            ],
+            "related": [
+              "y84-repeat"
+            ]
+          },
+          {
+            "id": "y85-maxwell-record",
+            "kind": "milestone",
+            "headline": "Maxwell Breaks His Own Record, and Then Some",
+            "dek": "2,617 rushing yards, 39 rushing touchdowns and a 237-yard game: Ryland Maxwell rewrote three lines of the record board in one season.",
+            "body": [
+              "A year ago Ryland Maxwell set the best rushing season the record board had ever shown with 2,272 yards. In Y85 he cleared it by 345. He ran for 2,617 yards across all 20 of Atlanta's games, scored 39 rushing touchdowns to take a season record that had stood since Y38, and posted a 237-yard game that is now the best on the board.",
+              "That carried him past 10,000 career rushing yards. He now has 10,322 of them and 141 rushing touchdowns in 117 games, 7.0 yards a carry for his career, with 5 rings and 2 Offensive Player of the Year awards.",
+              "The market moved with him. His card went from an overall of 75 to 79 and from a B+ grade to A minus, and its value rose 150.9%, from 112 to 281. Two seasons ago he was a supporting piece who followed the coach from New York. Now the season rushing marks and the single-game yardage mark all carry his name."
+            ],
+            "players": [
+              "Ryland Maxwell"
+            ],
+            "teams": [
+              "Falcons",
+              "Jets"
+            ],
+            "stats": [
+              {
+                "label": "Best rushing season",
+                "value": "2,617 yds",
+                "source": "records.json Best rushing season mark"
+              },
+              {
+                "label": "Most rushing TDs, season",
+                "value": "39",
+                "source": "records.json Most rushing TDs, season mark"
+              },
+              {
+                "label": "Best rushing game",
+                "value": "237 yds",
+                "source": "records.json Best rushing game mark"
+              },
+              {
+                "label": "Maxwell rushing yards (Y84)",
+                "value": "2,272",
+                "source": "market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.ryds"
+              },
+              {
+                "label": "Margin over his Y84 mark",
+                "value": "345",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.ryds minus market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.ryds"
+              },
+              {
+                "label": "Falcons games (Y85)",
+                "value": "20",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.g"
+              },
+              {
+                "label": "Career rushing yards passed",
+                "value": "10,000",
+                "source": "crossed: market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.ryds"
+              },
+              {
+                "label": "Career rushing yards",
+                "value": "10,322",
+                "source": "players.json RB:Ryland Maxwell ryds"
+              },
+              {
+                "label": "Career rushing TDs",
+                "value": "141",
+                "source": "players.json RB:Ryland Maxwell rtd"
+              },
+              {
+                "label": "Career games",
+                "value": "117",
+                "source": "players.json RB:Ryland Maxwell g"
+              },
+              {
+                "label": "Career yards per carry",
+                "value": "7.0",
+                "source": "players.json RB:Ryland Maxwell ryds/ratt"
+              },
+              {
+                "label": "Rings",
+                "value": "5",
+                "source": "players.json RB:Ryland Maxwell rings"
+              },
+              {
+                "label": "Offensive Player of the Year awards",
+                "value": "2",
+                "source": "players.json RB:Ryland Maxwell opoy"
+              },
+              {
+                "label": "OVR before",
+                "value": "75",
+                "source": "market_history.json snap-202610281616 RB:Ryland Maxwell ovr"
+              },
+              {
+                "label": "OVR after",
+                "value": "79",
+                "source": "market_history.json snap-202610281922 RB:Ryland Maxwell ovr"
+              },
+              {
+                "label": "Card value change",
+                "value": "+150.9%",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell value%"
+              },
+              {
+                "label": "Value before",
+                "value": "112",
+                "source": "market_history.json snap-202610281616 RB:Ryland Maxwell value"
+              },
+              {
+                "label": "Value after",
+                "value": "281",
+                "source": "market_history.json snap-202610281922 RB:Ryland Maxwell value"
+              }
+            ],
+            "related": [
+              "y84-maxwell-record"
+            ]
+          },
+          {
+            "id": "y85-apollo",
+            "kind": "rise",
+            "headline": "Apollo Arrives: A Rookie Takes the Biggest Stage",
+            "dek": "Adam Apollo caught 85 passes for 1,654 yards in his first season and left Super Bowl CXLIV as its Most Valuable Player.",
+            "body": [
+              "Atlanta did not need a new star receiver. It found one anyway. Adam Apollo stepped into an offense that already had Vyncint Heath and Shawn Milne and averaged 19.5 yards a catch as a rookie: 85 receptions, 1,654 yards and 18 touchdowns, with a long of 75.",
+              "He saved his best for the last game. Against the Bengals in Super Bowl CXLIV he was named Most Valuable Player, and he leaves his first season with a ring, a title-game award and a card that opened in the A tier.",
+              "He did it without playing every week. Apollo appeared in 18 of Atlanta's 20 games, missing 2. Injury may have played a part, as may the usual care with a first-year player finding his place in a crowded receiving room. Heath played all 20 and caught 106 passes for 2,059 yards; Milne added 72 catches for 842 yards and 13 touchdowns. The question now is not whether Apollo belongs, but how much more there is."
+            ],
+            "players": [
+              "Adam Apollo",
+              "Vyncint Heath",
+              "Shawn Milne"
+            ],
+            "teams": [
+              "Falcons",
+              "Bengals"
+            ],
+            "stats": [
+              {
+                "label": "Apollo yards per catch",
+                "value": "19.5",
+                "source": "players.json WR:Adam Apollo yds/rec"
+              },
+              {
+                "label": "Catches",
+                "value": "85",
+                "source": "players.json WR:Adam Apollo rec"
+              },
+              {
+                "label": "Receiving yards",
+                "value": "1,654",
+                "source": "players.json WR:Adam Apollo yds"
+              },
+              {
+                "label": "Touchdowns",
+                "value": "18",
+                "source": "players.json WR:Adam Apollo td"
+              },
+              {
+                "label": "Long",
+                "value": "75",
+                "source": "players.json WR:Adam Apollo lng"
+              },
+              {
+                "label": "Apollo games",
+                "value": "18",
+                "source": "players.json WR:Adam Apollo g"
+              },
+              {
+                "label": "Falcons games (Y85)",
+                "value": "20",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.g"
+              },
+              {
+                "label": "Games missed",
+                "value": "2",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.g minus players.json WR:Adam Apollo g"
+              },
+              {
+                "label": "Heath catches (Y85)",
+                "value": "106",
+                "source": "market_history.json snap-202610281616..snap-202610281922 WR:Vyncint Heath s.rec"
+              },
+              {
+                "label": "Heath yards (Y85)",
+                "value": "2,059",
+                "source": "market_history.json snap-202610281616..snap-202610281922 WR:Vyncint Heath s.yds"
+              },
+              {
+                "label": "Milne catches (Y85)",
+                "value": "72",
+                "source": "market_history.json snap-202610281616..snap-202610281922 WR:Shawn Milne s.rec"
+              },
+              {
+                "label": "Milne yards (Y85)",
+                "value": "842",
+                "source": "market_history.json snap-202610281616..snap-202610281922 WR:Shawn Milne s.yds"
+              },
+              {
+                "label": "Milne touchdowns (Y85)",
+                "value": "13",
+                "source": "market_history.json snap-202610281616..snap-202610281922 WR:Shawn Milne s.td"
+              }
+            ],
+            "related": []
+          },
+          {
+            "id": "y85-full-strength",
+            "kind": "feature",
+            "headline": "Larienne Stays on the Field, and Atlanta Pulls Away",
+            "dek": "Orlando Larienne played all 20 games after missing 5 a year ago. This time Chance Woodrum, now with 6 rings, was the one who missed time.",
+            "body": [
+              "Last season the Falcons won a title with their quarterback in and out of the lineup. This season Orlando Larienne was there for all 20 games, and the difference showed. He threw for 4,226 yards and 51 touchdowns and now has 92 touchdown passes in 35 career games, with 2 rings. The interceptions climbed too, 14 of them, the cost of a passing game built on big plays: his career average is 17.4 yards per completion.",
+              "Vyncint Heath, who missed 2 games a year ago, also played every week this time.",
+              "The absence this year was in the secondary. Chance Woodrum appeared in 15 of the 20 games, missing 5. Injury may have been a factor; so may a lighter role in a deep defensive backfield. When he played he made 64 tackles and intercepted 3 passes, and he collected a sixth ring. A champion that kept its key pieces healthy for most of the year looked like a different team."
+            ],
+            "players": [
+              "Orlando Larienne",
+              "Vyncint Heath",
+              "Chance Woodrum"
+            ],
+            "teams": [
+              "Falcons"
+            ],
+            "stats": [
+              {
+                "label": "Falcons games (Y85)",
+                "value": "20",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.g"
+              },
+              {
+                "label": "Larienne games before Y85",
+                "value": "15",
+                "source": "market_history.json snap-202610281616 QB:Orlando Larienne s.g"
+              },
+              {
+                "label": "Larienne games missed (Y84)",
+                "value": "5",
+                "source": "market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.g minus market_history.json snap-202610281616 QB:Orlando Larienne s.g"
+              },
+              {
+                "label": "Larienne passing yards (Y85)",
+                "value": "4,226",
+                "source": "market_history.json snap-202610281616..snap-202610281922 QB:Orlando Larienne s.yds"
+              },
+              {
+                "label": "Larienne TD passes (Y85)",
+                "value": "51",
+                "source": "market_history.json snap-202610281616..snap-202610281922 QB:Orlando Larienne s.td"
+              },
+              {
+                "label": "Larienne career TD passes",
+                "value": "92",
+                "source": "players.json QB:Orlando Larienne td"
+              },
+              {
+                "label": "Larienne career games",
+                "value": "35",
+                "source": "players.json QB:Orlando Larienne g"
+              },
+              {
+                "label": "Larienne rings",
+                "value": "2",
+                "source": "players.json QB:Orlando Larienne rings"
+              },
+              {
+                "label": "Larienne interceptions (Y85)",
+                "value": "14",
+                "source": "market_history.json snap-202610281616..snap-202610281922 QB:Orlando Larienne s.int"
+              },
+              {
+                "label": "Larienne yards per completion",
+                "value": "17.4",
+                "source": "players.json QB:Orlando Larienne yds/cmp"
+              },
+              {
+                "label": "Heath games missed (Y84)",
+                "value": "2",
+                "source": "market_history.json snap-202610281027..snap-202610281616 RB:Ryland Maxwell s.g minus market_history.json snap-202610281027..snap-202610281616 WR:Vyncint Heath s.g"
+              },
+              {
+                "label": "Woodrum games (Y85)",
+                "value": "15",
+                "source": "market_history.json snap-202610281616..snap-202610281922 DB:Chance Woodrum s.g"
+              },
+              {
+                "label": "Woodrum games missed",
+                "value": "5",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.g minus market_history.json snap-202610281616..snap-202610281922 DB:Chance Woodrum s.g"
+              },
+              {
+                "label": "Woodrum tackles (Y85)",
+                "value": "64",
+                "source": "market_history.json snap-202610281616..snap-202610281922 DB:Chance Woodrum s.tkl"
+              },
+              {
+                "label": "Woodrum interceptions (Y85)",
+                "value": "3",
+                "source": "market_history.json snap-202610281616..snap-202610281922 DB:Chance Woodrum s.int"
+              },
+              {
+                "label": "Woodrum rings",
+                "value": "6",
+                "source": "players.json DB:Chance Woodrum rings"
+              }
+            ],
+            "related": [
+              "y84-missed-time"
+            ]
+          },
+          {
+            "id": "y85-record-watch",
+            "kind": "chase",
+            "headline": "Record Watch: Settle Closes In on Junior",
+            "dek": "K'Lavon Settle made 208 tackles and sits 109 short of Mose Junior's 2,862. A new card, Juwann Gilman, is 10 behind him.",
+            "body": [
+              "The career tackle mark still belongs to Mose Junior at 2,862, but the pack behind him tightened in Y85. Jayon Queen, the defensive back known as \"FOV\", remains closest at 2,838. The man moving fastest is K'Lavon Settle. The 49ers defensive back made 208 tackles in 17 games, 12.2 a game, and reached 2,753, 109 short. At this season's pace, one more year would do it.",
+              "Settle has company he did not have a year ago. Juwann Gilman of the Cardinals joined the card pool with 2,743 tackles, 32 interceptions, a Defensive Player of the Year award and a ring in 229 games. He opened with a Career Legacy of 7,557.",
+              "In the backfield, Corey Ivey of the Ravens passed 20,000 career rushing yards and 350 rushing touchdowns in the same season. He has 362 scores, 26 short of Trequan Jensen's 388."
+            ],
+            "players": [
+              "K'Lavon Settle",
+              "Mose Junior",
+              "Jayon Queen",
+              "Juwann Gilman",
+              "Corey Ivey",
+              "Trequan Jensen"
+            ],
+            "teams": [
+              "49ers",
+              "Cardinals",
+              "Ravens",
+              "Rams",
+              "Packers"
+            ],
+            "stats": [
+              {
+                "label": "Settle tackles (Y85)",
+                "value": "208",
+                "source": "market_history.json snap-202610281616..snap-202610281922 DB:K'Lavon Settle s.tkl"
+              },
+              {
+                "label": "Short of the mark",
+                "value": "109",
+                "source": "players.json DB:Mose Junior tkl minus players.json DB:K'Lavon Settle tkl"
+              },
+              {
+                "label": "Career tackle mark",
+                "value": "2,862",
+                "source": "players.json DB:Mose Junior tkl"
+              },
+              {
+                "label": "Settle ahead of Gilman",
+                "value": "10",
+                "source": "players.json DB:K'Lavon Settle tkl minus players.json DB:Juwann Gilman tkl"
+              },
+              {
+                "label": "Queen career tackles",
+                "value": "2,838",
+                "source": "players.json DB:Jayon Queen tkl"
+              },
+              {
+                "label": "Settle games (Y85)",
+                "value": "17",
+                "source": "market_history.json snap-202610281616..snap-202610281922 DB:K'Lavon Settle s.g"
+              },
+              {
+                "label": "Settle tackles per game (Y85)",
+                "value": "12.2",
+                "source": "market_history.json snap-202610281616..snap-202610281922 DB:K'Lavon Settle s.tkl/s.g"
+              },
+              {
+                "label": "Settle career tackles",
+                "value": "2,753",
+                "source": "players.json DB:K'Lavon Settle tkl"
+              },
+              {
+                "label": "Gilman career tackles",
+                "value": "2,743",
+                "source": "players.json DB:Juwann Gilman tkl"
+              },
+              {
+                "label": "Gilman interceptions",
+                "value": "32",
+                "source": "players.json DB:Juwann Gilman int"
+              },
+              {
+                "label": "Gilman games",
+                "value": "229",
+                "source": "players.json DB:Juwann Gilman g"
+              },
+              {
+                "label": "Gilman Career Legacy",
+                "value": "7,557",
+                "source": "market_history.json snap-202610281922 DB:Juwann Gilman legacy"
+              },
+              {
+                "label": "Ivey rushing yards passed",
+                "value": "20,000",
+                "source": "crossed: market_history.json snap-202610281616..snap-202610281922 RB:Corey Ivey s.ryds"
+              },
+              {
+                "label": "Ivey rushing TDs passed",
+                "value": "350",
+                "source": "crossed: market_history.json snap-202610281616..snap-202610281922 RB:Corey Ivey s.rtd"
+              },
+              {
+                "label": "Ivey rushing TDs",
+                "value": "362",
+                "source": "players.json RB:Corey Ivey rtd"
+              },
+              {
+                "label": "Ivey short of Jensen",
+                "value": "26",
+                "source": "players.json RB:Trequan Jensen rtd minus players.json RB:Corey Ivey rtd"
+              },
+              {
+                "label": "Jensen rushing TDs",
+                "value": "388",
+                "source": "players.json RB:Trequan Jensen rtd"
+              }
+            ],
+            "related": [
+              "y84-record-watch"
+            ]
+          },
+          {
+            "id": "y85-new-cards",
+            "kind": "feature",
+            "headline": "Old Hands, New Cards",
+            "dek": "Kahzin Heath in Denver, Camaron Knight and Juwann Gilman in Arizona and Linval Laulile in Pittsburgh joined the card pool with long careers already written.",
+            "body": [
+              "Two quarterbacks with long resumes finally have cards. Kahzin Heath of the Broncos arrives with 40,614 passing yards and 398 touchdown passes in 235 games, against only 39 interceptions, plus a Rookie of the Year award and a Most Valuable Player award. What he does not have is a ring.",
+              "Camaron Knight of the Cardinals has the opposite profile. He has thrown fewer touchdowns, 359, for more yards, 42,351 in 246 games, but he has a ring and a Super Bowl MVP award. His card opened at an overall of 76, Heath's at 78.",
+              "Knight shares Arizona with Juwann Gilman, whose 2,743 tackles put him in the career record chase the moment his card was printed. Gilman also has a ring.",
+              "In Pittsburgh, Linval Laulile adds a Defensive Player of the Year award to 1,173 tackles and 14 interceptions in 110 games, 10.7 tackles a game. Four cards, three clubs, and years of football the market had never priced until now."
+            ],
+            "players": [
+              "Kahzin Heath",
+              "Camaron Knight",
+              "Juwann Gilman",
+              "Linval Laulile"
+            ],
+            "teams": [
+              "Broncos",
+              "Cardinals",
+              "Steelers"
+            ],
+            "stats": [
+              {
+                "label": "Heath passing yards",
+                "value": "40,614",
+                "source": "players.json QB:Kahzin Heath yds"
+              },
+              {
+                "label": "Heath TD passes",
+                "value": "398",
+                "source": "players.json QB:Kahzin Heath td"
+              },
+              {
+                "label": "Heath games",
+                "value": "235",
+                "source": "players.json QB:Kahzin Heath g"
+              },
+              {
+                "label": "Heath interceptions",
+                "value": "39",
+                "source": "players.json QB:Kahzin Heath int"
+              },
+              {
+                "label": "Knight TD passes",
+                "value": "359",
+                "source": "players.json QB:Camaron Knight td"
+              },
+              {
+                "label": "Knight passing yards",
+                "value": "42,351",
+                "source": "players.json QB:Camaron Knight yds"
+              },
+              {
+                "label": "Knight games",
+                "value": "246",
+                "source": "players.json QB:Camaron Knight g"
+              },
+              {
+                "label": "Knight OVR",
+                "value": "76",
+                "source": "market_history.json snap-202610281922 QB:Camaron Knight ovr"
+              },
+              {
+                "label": "Heath OVR",
+                "value": "78",
+                "source": "market_history.json snap-202610281922 QB:Kahzin Heath ovr"
+              },
+              {
+                "label": "Gilman tackles",
+                "value": "2,743",
+                "source": "players.json DB:Juwann Gilman tkl"
+              },
+              {
+                "label": "Laulile tackles",
+                "value": "1,173",
+                "source": "players.json DB:Linval Laulile tkl"
+              },
+              {
+                "label": "Laulile interceptions",
+                "value": "14",
+                "source": "players.json DB:Linval Laulile int"
+              },
+              {
+                "label": "Laulile games",
+                "value": "110",
+                "source": "players.json DB:Linval Laulile g"
+              },
+              {
+                "label": "Laulile tackles per game",
+                "value": "10.7",
+                "source": "players.json DB:Linval Laulile tkl/g"
+              }
+            ],
+            "related": [
+              "y84-veterans"
+            ]
+          },
+          {
+            "id": "y85-jets",
+            "kind": "feature",
+            "headline": "Tillery Takes the MVP in His Second Season",
+            "dek": "Jimmy Tillery threw for 4,183 yards and 44 touchdowns for the Jets, while Kalif Suh and Malakai Sawyer kept adding to long careers.",
+            "body": [
+              "A year ago Jimmy Tillery was the careful rookie who kept the Jets in games. In Y85 he became the league's Most Valuable Player. Across 19 games he threw for 4,183 yards and 44 touchdowns with 6 interceptions, and added 5 more scores on the ground. His card's grade rose from C to B minus.",
+              "He had a familiar supporting cast. Jaylen Conklin, the tight end they call \"Takeoff\", caught 97 passes for 654 yards. Malakai Sawyer ran for 1,240 yards and 16 touchdowns and passed 300 career rushing touchdowns; he now has 315.",
+              "On defense, Kalif Suh played all 19 games, made 61 tackles and 2 sacks, and pushed his Career Legacy from 6,758 to 7,204. Suh has 3 rings, 20 career sacks and 10 forced fumbles in 192 games, and his card's value nearly doubled, from 1,070 to 2,016.",
+              "Ty Lock, the Jets' old starter, played 20 games for the Giants and threw 37 touchdown passes with 3 interceptions."
+            ],
+            "players": [
+              "Jimmy Tillery",
+              "Jaylen Conklin",
+              "Malakai Sawyer",
+              "Kalif Suh",
+              "Ty Lock"
+            ],
+            "teams": [
+              "Jets",
+              "Giants"
+            ],
+            "stats": [
+              {
+                "label": "Tillery passing yards (Y85)",
+                "value": "4,183",
+                "source": "market_history.json snap-202610281616..snap-202610281922 QB:Jimmy Tillery s.yds"
+              },
+              {
+                "label": "Tillery TD passes (Y85)",
+                "value": "44",
+                "source": "market_history.json snap-202610281616..snap-202610281922 QB:Jimmy Tillery s.td"
+              },
+              {
+                "label": "Jets games (Y85)",
+                "value": "19",
+                "source": "market_history.json snap-202610281616..snap-202610281922 QB:Jimmy Tillery s.g"
+              },
+              {
+                "label": "Tillery interceptions (Y85)",
+                "value": "6",
+                "source": "market_history.json snap-202610281616..snap-202610281922 QB:Jimmy Tillery s.int"
+              },
+              {
+                "label": "Tillery rushing TDs (Y85)",
+                "value": "5",
+                "source": "market_history.json snap-202610281616..snap-202610281922 QB:Jimmy Tillery s.rtd"
+              },
+              {
+                "label": "Conklin catches (Y85)",
+                "value": "97",
+                "source": "market_history.json snap-202610281616..snap-202610281922 TE:Jaylen Conklin s.rec"
+              },
+              {
+                "label": "Conklin yards (Y85)",
+                "value": "654",
+                "source": "market_history.json snap-202610281616..snap-202610281922 TE:Jaylen Conklin s.yds"
+              },
+              {
+                "label": "Sawyer rushing yards (Y85)",
+                "value": "1,240",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Malakai Sawyer s.ryds"
+              },
+              {
+                "label": "Sawyer rushing TDs (Y85)",
+                "value": "16",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Malakai Sawyer s.rtd"
+              },
+              {
+                "label": "Rushing TDs passed",
+                "value": "300",
+                "source": "crossed: market_history.json snap-202610281616..snap-202610281922 RB:Malakai Sawyer s.rtd"
+              },
+              {
+                "label": "Sawyer career rushing TDs",
+                "value": "315",
+                "source": "players.json RB:Malakai Sawyer rtd"
+              },
+              {
+                "label": "Suh tackles (Y85)",
+                "value": "61",
+                "source": "market_history.json snap-202610281616..snap-202610281922 LB:Kalif Suh s.tkl"
+              },
+              {
+                "label": "Suh sacks (Y85)",
+                "value": "2",
+                "source": "market_history.json snap-202610281616..snap-202610281922 LB:Kalif Suh s.sck"
+              },
+              {
+                "label": "Suh Career Legacy before",
+                "value": "6,758",
+                "source": "market_history.json snap-202610281616 LB:Kalif Suh legacy"
+              },
+              {
+                "label": "Suh Career Legacy after",
+                "value": "7,204",
+                "source": "market_history.json snap-202610281922 LB:Kalif Suh legacy"
+              },
+              {
+                "label": "Suh rings",
+                "value": "3",
+                "source": "players.json LB:Kalif Suh rings"
+              },
+              {
+                "label": "Suh career sacks",
+                "value": "20",
+                "source": "players.json LB:Kalif Suh sck"
+              },
+              {
+                "label": "Suh forced fumbles",
+                "value": "10",
+                "source": "players.json LB:Kalif Suh ff"
+              },
+              {
+                "label": "Suh games",
+                "value": "192",
+                "source": "players.json LB:Kalif Suh g"
+              },
+              {
+                "label": "Suh value before",
+                "value": "1,070",
+                "source": "market_history.json snap-202610281616 LB:Kalif Suh value"
+              },
+              {
+                "label": "Suh value after",
+                "value": "2,016",
+                "source": "market_history.json snap-202610281922 LB:Kalif Suh value"
+              },
+              {
+                "label": "Lock games (Y85)",
+                "value": "20",
+                "source": "market_history.json snap-202610281616..snap-202610281922 QB:Ty Lock s.g"
+              },
+              {
+                "label": "Lock TD passes (Y85)",
+                "value": "37",
+                "source": "market_history.json snap-202610281616..snap-202610281922 QB:Ty Lock s.td"
+              },
+              {
+                "label": "Lock interceptions (Y85)",
+                "value": "3",
+                "source": "market_history.json snap-202610281616..snap-202610281922 QB:Ty Lock s.int"
+              }
+            ],
+            "related": [
+              "y84-jets"
+            ]
+          },
+          {
+            "id": "y85-bengals",
+            "kind": "rivalry",
+            "headline": "Cincinnati Joins the List",
+            "dek": "The Bengals have now met Dorren Skura in 3 Super Bowls and lost all 3, the first two to his Vikings.",
+            "body": [
+              "Super Bowl CXLIV made the Bengals the latest club to learn what the Broncos learned a year earlier. Cincinnati reached the final, met Dorren Skura, and lost, just as it had in Y3 and Y68.",
+              "Those first two meetings came when Skura coached the Vikings. The Bengals lost Super Bowl LXII 30-22 and Super Bowl CXXVII 32-14, and then went the better part of two decades without seeing him in a final. This time he arrived with Atlanta, at the end of a 15-2 season, and the result did not change.",
+              "The final belonged to the Falcons' newest and oldest weapons. Adam Apollo, a rookie, was named the game's Most Valuable Player. Ryland Maxwell closed a season in which he broke three records. For Cincinnati, a franchise that has now been stopped by the same coach with two different clubs, the wait for a first win over Skura goes on."
+            ],
+            "players": [
+              "Adam Apollo",
+              "Ryland Maxwell"
+            ],
+            "teams": [
+              "Bengals",
+              "Falcons",
+              "Vikings",
+              "Broncos"
+            ],
+            "stats": [
+              {
+                "label": "Super Bowl meetings won",
+                "value": "3",
+                "source": "content.json rivalries/[id=rival-bengals]/record/won"
+              },
+              {
+                "label": "Super Bowl LXII",
+                "value": "30-22",
+                "source": "super_bowls.json Y3 score"
+              },
+              {
+                "label": "Super Bowl CXXVII",
+                "value": "32-14",
+                "source": "super_bowls.json Y68 score"
+              },
+              {
+                "label": "Falcons regular season",
+                "value": "15-2",
+                "source": "coach.json Y85 record"
+              }
+            ],
+            "related": [
+              "y84-broncos"
+            ]
+          },
+          {
+            "id": "y85-quick-hits",
+            "kind": "quickhits",
+            "headline": "Quick Hits",
+            "dek": "Around the league in Y85.",
+            "body": [
+              "Deonte Sutton of the Seahawks was Defensive Player of the Year with 235 tackles in 19 games; his card's value rose from 89 to 427.",
+              "Seattle's Isaiah Karras ran for 1,600 yards and 33 touchdowns in 19 games and still finished 6 scores behind Ryland Maxwell.",
+              "Angelo Moton followed his Rookie of the Year season with 1,341 yards and 19 touchdowns in 18 games for the Packers; his grade slipped from A+ to B+.",
+              "Siran Spector ran for 26 touchdowns for the Patriots and now has 142 rushing scores in 93 games.",
+              "Calais Ham made 50 blocks in 20 games and won his second ring with the Falcons; his card's overall jumped from 62 to 74.",
+              "Blair Iupati intercepted 6 passes and made 189 tackles in 17 games, and his card's overall rose from 74 to 79."
+            ],
+            "players": [
+              "Deonte Sutton",
+              "Isaiah Karras",
+              "Ryland Maxwell",
+              "Angelo Moton",
+              "Siran Spector",
+              "Calais Ham",
+              "Blair Iupati"
+            ],
+            "teams": [
+              "Seahawks",
+              "Packers",
+              "Patriots",
+              "Falcons"
+            ],
+            "stats": [
+              {
+                "label": "Sutton tackles (Y85)",
+                "value": "235",
+                "source": "market_history.json snap-202610281616..snap-202610281922 DB:Deonte Sutton s.tkl"
+              },
+              {
+                "label": "Sutton games (Y85)",
+                "value": "19",
+                "source": "market_history.json snap-202610281616..snap-202610281922 DB:Deonte Sutton s.g"
+              },
+              {
+                "label": "Sutton value before",
+                "value": "89",
+                "source": "market_history.json snap-202610281616 DB:Deonte Sutton value"
+              },
+              {
+                "label": "Sutton value after",
+                "value": "427",
+                "source": "market_history.json snap-202610281922 DB:Deonte Sutton value"
+              },
+              {
+                "label": "Karras rushing yards (Y85)",
+                "value": "1,600",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Isaiah Karras s.ryds"
+              },
+              {
+                "label": "Karras rushing TDs (Y85)",
+                "value": "33",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Isaiah Karras s.rtd"
+              },
+              {
+                "label": "Behind Maxwell",
+                "value": "6",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.rtd minus market_history.json snap-202610281616..snap-202610281922 RB:Isaiah Karras s.rtd"
+              },
+              {
+                "label": "Moton rushing yards (Y85)",
+                "value": "1,341",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Angelo Moton s.ryds"
+              },
+              {
+                "label": "Moton rushing TDs (Y85)",
+                "value": "19",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Angelo Moton s.rtd"
+              },
+              {
+                "label": "Moton games (Y85)",
+                "value": "18",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Angelo Moton s.g"
+              },
+              {
+                "label": "Spector rushing TDs (Y85)",
+                "value": "26",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Siran Spector s.rtd"
+              },
+              {
+                "label": "Spector career rushing TDs",
+                "value": "142",
+                "source": "players.json RB:Siran Spector rtd"
+              },
+              {
+                "label": "Spector games",
+                "value": "93",
+                "source": "players.json RB:Siran Spector g"
+              },
+              {
+                "label": "Ham blocks (Y85)",
+                "value": "50",
+                "source": "market_history.json snap-202610281616..snap-202610281922 OL:Calais Ham s.blk"
+              },
+              {
+                "label": "Ham games (Y85)",
+                "value": "20",
+                "source": "market_history.json snap-202610281616..snap-202610281922 OL:Calais Ham s.g"
+              },
+              {
+                "label": "Ham OVR before",
+                "value": "62",
+                "source": "market_history.json snap-202610281616 OL:Calais Ham ovr"
+              },
+              {
+                "label": "Ham OVR after",
+                "value": "74",
+                "source": "market_history.json snap-202610281922 OL:Calais Ham ovr"
+              },
+              {
+                "label": "Iupati interceptions (Y85)",
+                "value": "6",
+                "source": "market_history.json snap-202610281616..snap-202610281922 DB:Blair Iupati s.int"
+              },
+              {
+                "label": "Iupati tackles (Y85)",
+                "value": "189",
+                "source": "market_history.json snap-202610281616..snap-202610281922 DB:Blair Iupati s.tkl"
+              },
+              {
+                "label": "Iupati games (Y85)",
+                "value": "17",
+                "source": "market_history.json snap-202610281616..snap-202610281922 DB:Blair Iupati s.g"
+              },
+              {
+                "label": "Iupati OVR before",
+                "value": "74",
+                "source": "market_history.json snap-202610281616 DB:Blair Iupati ovr"
+              },
+              {
+                "label": "Iupati OVR after",
+                "value": "79",
+                "source": "market_history.json snap-202610281922 DB:Blair Iupati ovr"
+              }
+            ],
+            "related": [
+              "y84-moton"
+            ]
+          }
+        ],
+        "didYouKnow": [
+          {
+            "id": "y85-dyk-apollo",
+            "text": "Adam Apollo averaged 19.5 yards a catch as a rookie and was named Super Bowl MVP in his first season with the Falcons.",
+            "players": [
+              "Adam Apollo"
+            ],
+            "teams": [
+              "Falcons"
+            ],
+            "stats": [
+              {
+                "label": "Yards per catch",
+                "value": "19.5",
+                "source": "players.json WR:Adam Apollo yds/rec"
+              }
+            ]
+          },
+          {
+            "id": "y85-dyk-maxwell",
+            "text": "Ryland Maxwell scored 39 rushing touchdowns in Y85, almost two a game across Atlanta's 20 games.",
+            "players": [
+              "Ryland Maxwell"
+            ],
+            "teams": [
+              "Falcons"
+            ],
+            "stats": [
+              {
+                "label": "Rushing TDs (Y85)",
+                "value": "39",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.rtd"
+              },
+              {
+                "label": "Falcons games (Y85)",
+                "value": "20",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.g"
+              }
+            ]
+          },
+          {
+            "id": "y85-dyk-karras",
+            "text": "Isaiah Karras ran for 33 touchdowns for the Seahawks in Y85 and still finished 6 behind Ryland Maxwell.",
+            "players": [
+              "Isaiah Karras",
+              "Ryland Maxwell"
+            ],
+            "teams": [
+              "Seahawks"
+            ],
+            "stats": [
+              {
+                "label": "Karras rushing TDs (Y85)",
+                "value": "33",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Isaiah Karras s.rtd"
+              },
+              {
+                "label": "Behind Maxwell",
+                "value": "6",
+                "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.rtd minus market_history.json snap-202610281616..snap-202610281922 RB:Isaiah Karras s.rtd"
+              }
+            ]
+          },
+          {
+            "id": "y85-dyk-woodrum",
+            "text": "Chance Woodrum has 6 rings in 188 games, three of them won as a Falcon.",
+            "players": [
+              "Chance Woodrum"
+            ],
+            "teams": [
+              "Falcons"
+            ],
+            "stats": [
+              {
+                "label": "Rings",
+                "value": "6",
+                "source": "players.json DB:Chance Woodrum rings"
+              },
+              {
+                "label": "Games",
+                "value": "188",
+                "source": "players.json DB:Chance Woodrum g"
+              }
+            ]
+          },
+          {
+            "id": "y85-dyk-tacklers",
+            "text": "K'Lavon Settle and Juwann Gilman are separated by 10 career tackles: 2,753 for Settle, 2,743 for Gilman.",
+            "players": [
+              "K'Lavon Settle",
+              "Juwann Gilman"
+            ],
+            "teams": [
+              "49ers",
+              "Cardinals"
+            ],
+            "stats": [
+              {
+                "label": "Gap",
+                "value": "10",
+                "source": "players.json DB:K'Lavon Settle tkl minus players.json DB:Juwann Gilman tkl"
+              },
+              {
+                "label": "Settle tackles",
+                "value": "2,753",
+                "source": "players.json DB:K'Lavon Settle tkl"
+              },
+              {
+                "label": "Gilman tackles",
+                "value": "2,743",
+                "source": "players.json DB:Juwann Gilman tkl"
+              }
+            ]
+          },
+          {
+            "id": "y85-dyk-larienne",
+            "text": "Orlando Larienne has 92 touchdown passes in his first 35 games and a ring in each of his 2 seasons.",
+            "players": [
+              "Orlando Larienne"
+            ],
+            "teams": [
+              "Falcons"
+            ],
+            "stats": [
+              {
+                "label": "TD passes",
+                "value": "92",
+                "source": "players.json QB:Orlando Larienne td"
+              },
+              {
+                "label": "Games",
+                "value": "35",
+                "source": "players.json QB:Orlando Larienne g"
+              },
+              {
+                "label": "Rings",
+                "value": "2",
+                "source": "players.json QB:Orlando Larienne rings"
+              }
+            ]
+          },
+          {
+            "id": "y85-dyk-kheath",
+            "text": "Kahzin Heath of the Broncos has 398 career touchdown passes against only 39 interceptions, and no ring.",
+            "players": [
+              "Kahzin Heath"
+            ],
+            "teams": [
+              "Broncos"
+            ],
+            "stats": [
+              {
+                "label": "TD passes",
+                "value": "398",
+                "source": "players.json QB:Kahzin Heath td"
+              },
+              {
+                "label": "Interceptions",
+                "value": "39",
+                "source": "players.json QB:Kahzin Heath int"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

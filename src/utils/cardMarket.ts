@@ -13,7 +13,7 @@ import { TIERS, tierFor, type Finish, type Tier, type Variant } from '@/config/c
  *   value = round( OVR_FLOOR + OVR_SCALE · c³ )        c = clamp((OVR − 60) / 39, 0, 1)   official OVR, convex
  *           × skill     0.80 + 0.40 · clamp((skill − 62) / 37, 0, 1)                      skill rating 62–99 (1 if none)
  *           × legacy    ( (1 + L / 10000) / 1.5 )³        L = clamp(Career Legacy, 0, 15000); 1 at 5000
- *           × HOF       1.25 if Career Legacy ≥ 7000 (Hall of Fame), else 1
+ *           × HOF       1.25 if Career Legacy ≥ 7000 (the original Hall of Fame line), else 1
  *           × tier      Common 1, Rare 1.25, Epic 1.6, Legendary 2
  *           × scarcity  clamp( sqrt( (pool size / 4) / players in his tier ), 0.8, 1.5 )
  *
@@ -35,6 +35,8 @@ export const OVR_FLOOR = 25;
 export const OVR_SCALE = 2400;
 export const TIER_MULTIPLIER: Record<Tier, number> = { common: 1, rare: 1.25, epic: 1.6, legendary: 2 };
 export const HOF_MULTIPLIER = 1.25;
+/** Career Legacy that earns the Hall of Fame price premium: the original 7,000 line, kept when the induction bar rose so card prices did not jump. */
+const HOF_PREMIUM_LEGACY = 7000;
 export const FINISH_MULTIPLIER: Record<Finish, number> = { base: 1, silver: 1.5, gold: 2.5, holo: 6 };
 export const VARIANT_MULTIPLIER: Record<Variant, number> = { number: 1, jersey: 1.2, topps: 1.8, locker: 2.5, sprite: 5 };
 /** Market bonus for a card wearing an alternate uniform (re-exported by art/sprite/uniforms.ts) */
@@ -62,7 +64,7 @@ export const cardValue = ({ ovr, skill, legacy, tier, tierCount, poolSize }: Val
   const base = OVR_FLOOR + OVR_SCALE * c ** 3;
   const skillM = skill == null ? 1 : 0.8 + 0.4 * clamp((skill - 62) / 37, 0, 1);
   const legacyM = ((1 + clamp(legacy, 0, LEGACY_CAP) / LEGACY_REF) / 1.5) ** 3;
-  const hofM = legacy >= HOF_THRESHOLD ? HOF_MULTIPLIER : 1;
+  const hofM = legacy >= HOF_PREMIUM_LEGACY ? HOF_MULTIPLIER : 1;
   const scarcity = clamp(Math.sqrt(poolSize / TIERS.length / Math.max(1, tierCount)), 0.8, 1.5);
   return Math.max(1, Math.round(base * skillM * legacyM * hofM * TIER_MULTIPLIER[tier] * scarcity));
 };

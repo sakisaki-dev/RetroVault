@@ -1,6 +1,6 @@
 import type { Player, Position } from '@/types/player';
 import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
-import { HOF_THRESHOLD } from '@/config/stats';
+import { isHallOfFamer } from '@/config/stats';
 import { normalizeName, type PlayerStints, type StintConfidence } from '@/utils/playerExtras';
 import type { SuperBowlEntry } from '@/utils/leagueContent';
 
@@ -128,7 +128,7 @@ export const buildTeamSummaries = (
       avgLegacy: g.players.length ? Math.round(totalLegacy / g.players.length) : 0,
       rings: g.players.reduce((s, p) => s + (p.rings || 0), 0),
       mvps: g.players.reduce((s, p) => s + (p.mvp || 0), 0),
-      hallOfFamers: g.players.filter((p) => (p.careerLegacy || 0) >= HOF_THRESHOLD).length,
+      hallOfFamers: g.players.filter(isHallOfFamer).length,
       topPlayer: franchisePlayers[0] ?? null,
       legends,
       franchisePlayers,
@@ -204,7 +204,7 @@ export const buildFranchiseRecords = (
       lossYears: [...sb.lost].sort((a, b) => a - b),
       appearances: sb.won.length + sb.lost.length,
       yourTitleYears: sb.yours,
-      hof: t.franchisePlayers.filter((p) => (p.careerLegacy || 0) >= HOF_THRESHOLD),
+      hof: t.franchisePlayers.filter(isHallOfFamer),
       legacy: Math.round(t.franchisePlayers.reduce((s, p) => s + (p.careerLegacy || 0), 0)),
       bestOvr: bestOvr as number | null,
       bestOvrPlayer: bestOvrPlayer as Player | null,

@@ -1,0 +1,64 @@
+{
+ "id": "2026-10-28-hof-7500",
+ "created": "2026-10-28",
+ "title": "Hall of Fame bar 7,500 from Y85; borderline members removed",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "Induction speech for the Y85 class (Juwann Gilman)",
+   "trigger": "Rebuild printed SPEECH NEEDED: Juwann Gilman"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Cooper Dean",
+   "value": null,
+   "source": "owner",
+   "reason": "No longer a Hall of Famer: the bar is 7,500 from Y85 and earlier members stay only while they hold 7,300 (Career Legacy 7,103). Owner: \"nd require 7,500 from Y85 on. yes but also reomove the ones lower than this that have been back and forth or borderline 7K\"",
+   "trigger": "Owner changed the Hall of Fame rule in chat"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Forrest Everett",
+   "value": null,
+   "source": "owner",
+   "reason": "No longer a Hall of Famer: the bar is 7,500 from Y85 and earlier members stay only while they hold 7,300 (Career Legacy 6,990). Owner: \"nd require 7,500 from Y85 on. yes but also reomove the ones lower than this that have been back and forth or borderline 7K\"",
+   "trigger": "Owner changed the Hall of Fame rule in chat"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Kyric McQuay",
+   "value": null,
+   "source": "owner",
+   "reason": "No longer a Hall of Famer: the bar is 7,500 from Y85 and earlier members stay only while they hold 7,300 (Career Legacy 7,232). Owner: \"nd require 7,500 from Y85 on. yes but also reomove the ones lower than this that have been back and forth or borderline 7K\"",
+   "trigger": "Owner changed the Hall of Fame rule in chat"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Taron Hayes",
+   "value": null,
+   "source": "owner",
+   "reason": "No longer a Hall of Famer: the bar is 7,500 from Y85 and earlier members stay only while they hold 7,300 (Career Legacy 7,186). Owner: \"nd require 7,500 from Y85 on. yes but also reomove the ones lower than this that have been back and forth or borderline 7K\"",
+   "trigger": "Owner changed the Hall of Fame rule in chat"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Juwann Gilman",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7500: Y85",
+    "text": "Thirteen seasons in Arizona, and almost twelve tackles every time he takes the field.\n\nJuwann Gilman has spent his whole career with the Cardinals, from Y73 to today. In 229 games he has made 2,743 tackles and intercepted 32 passes. He has never been credited with a sack or a forced fumble, because that was never the job. Gilman works in the open field, where one missed tackle becomes six points, and he almost never misses.\n\nHe won his ring with the Cardinals in Y73, and the league later named him Defensive Player of the Year. In the seasons since, he has kept the same address and the same assignment: find the ball and finish the play.\n\nHe arrives under a stricter standard. The bar is now Career Legacy 7,500, and Gilman is the first player to clear it. Juwann Gilman, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "New Hall of Famer (Y85 class, Career Legacy 7,557)",
+   "trigger": "Rebuild printed SPEECH NEEDED: Juwann Gilman"
+  }
+ ]
+}

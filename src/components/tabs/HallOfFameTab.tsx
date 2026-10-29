@@ -11,7 +11,7 @@ import { overallRating } from '../brand/ProPlayerBanner.utils';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import PlayerDetailCard from '../PlayerDetailCard';
 import { warmPlayerCard } from '../player/warmPlayerCard';
-import { HOF_THRESHOLD, LEGACY_TIERS, formatThreshold, getLegacyTier } from '@/config/stats';
+import { HOF_FLOOR, HOF_THRESHOLD, LEGACY_TIERS, formatThreshold, hallOfFameTier, isHallOfFamer } from '@/config/stats';
 import {
   INAUGURAL_CLASS_SIZE,
   classLabelFor,
@@ -95,16 +95,16 @@ const HallOfFameGrid = memo(function HallOfFameGrid({ onSelect: setSelectedPlaye
     ];
 
     const hof = allPlayers
-      .filter((p) => p.careerLegacy >= HOF_THRESHOLD)
+      .filter(isHallOfFamer)
       .sort((a, b) => b.careerLegacy - a.careerLegacy);
 
     return {
       hofPlayers: hof,
       tierCounts: {
-        legendary: hof.filter(p => getLegacyTier(p.careerLegacy)?.key === 'legendary').length,
-        elite: hof.filter(p => getLegacyTier(p.careerLegacy)?.key === 'elite').length,
-        great: hof.filter(p => getLegacyTier(p.careerLegacy)?.key === 'great').length,
-        inductee: hof.filter(p => getLegacyTier(p.careerLegacy)?.key === 'inductee').length,
+        legendary: hof.filter(p => hallOfFameTier(p)?.key === 'legendary').length,
+        elite: hof.filter(p => hallOfFameTier(p)?.key === 'elite').length,
+        great: hof.filter(p => hallOfFameTier(p)?.key === 'great').length,
+        inductee: hof.filter(p => hallOfFameTier(p)?.key === 'inductee').length,
       }
     };
   }, [careerData]);
@@ -138,10 +138,10 @@ const HallOfFameGrid = memo(function HallOfFameGrid({ onSelect: setSelectedPlaye
       classLabel: latestClass ? classLabelFor(latestClass.label) : 'Inaugural class',
     });
 
-  const legendaryPlayers = hofPlayers.filter(p => getLegacyTier(p.careerLegacy)?.key === 'legendary');
-  const elitePlayers = hofPlayers.filter(p => getLegacyTier(p.careerLegacy)?.key === 'elite');
-  const greatPlayers = hofPlayers.filter(p => getLegacyTier(p.careerLegacy)?.key === 'great');
-  const inducteePlayers = hofPlayers.filter(p => getLegacyTier(p.careerLegacy)?.key === 'inductee');
+  const legendaryPlayers = hofPlayers.filter(p => hallOfFameTier(p)?.key === 'legendary');
+  const elitePlayers = hofPlayers.filter(p => hallOfFameTier(p)?.key === 'elite');
+  const greatPlayers = hofPlayers.filter(p => hallOfFameTier(p)?.key === 'great');
+  const inducteePlayers = hofPlayers.filter(p => hallOfFameTier(p)?.key === 'inductee');
 
   // Render helpers, not components: a component declared inside this one is a new type every render, which
   // remounted the whole grid when a card opened and sent iOS Safari back to the top when it closed.
@@ -284,7 +284,7 @@ const HallOfFameGrid = memo(function HallOfFameGrid({ onSelect: setSelectedPlaye
             Hall of <span className="text-gold">Fame</span>
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground mb-6">
-            Every player with {HOF_THRESHOLD.toLocaleString()}+ career legacy
+            Every player with {HOF_THRESHOLD.toLocaleString()}+ career legacy, plus earlier members still above {HOF_FLOOR.toLocaleString()}
           </p>
           
           {/* Tier Legend */}

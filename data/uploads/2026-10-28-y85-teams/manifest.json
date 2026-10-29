@@ -1,0 +1,54 @@
+{
+ "id": "2026-10-28-y85-teams",
+ "created": "2026-10-28",
+ "title": "Teams for the Y85 newcomers",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Adam Apollo/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: \"adam apollo is a falcon, heath is a bronco, camaron knight is a cardinal, juwann is a cardinal, Linval is a steeler\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kahzin Heath/team",
+   "value": "Broncos",
+   "source": "owner",
+   "reason": "Owner: \"adam apollo is a falcon, heath is a bronco, camaron knight is a cardinal, juwann is a cardinal, Linval is a steeler\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Camaron Knight/team",
+   "value": "Cardinals",
+   "source": "owner",
+   "reason": "Owner: \"adam apollo is a falcon, heath is a bronco, camaron knight is a cardinal, juwann is a cardinal, Linval is a steeler\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Juwann Gilman/team",
+   "value": "Cardinals",
+   "source": "owner",
+   "reason": "Owner: \"adam apollo is a falcon, heath is a bronco, camaron knight is a cardinal, juwann is a cardinal, Linval is a steeler\"",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Linval Laulile/team",
+   "value": "Steelers",
+   "source": "owner",
+   "reason": "Owner: \"adam apollo is a falcon, heath is a bronco, camaron knight is a cardinal, juwann is a cardinal, Linval is a steeler\"",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}

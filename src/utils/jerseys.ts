@@ -19,7 +19,7 @@ import { findNFLTeam, getNFLTeamById } from './nflTeams';
  * else on that team.
  */
 
-type JerseyPlayer = Pick<Player, 'name' | 'position'> & { team?: string; careerLegacy?: number; isRealLegend?: boolean };
+type JerseyPlayer = Pick<Player, 'name' | 'position'> & { team?: string; careerLegacy?: number; inducted?: boolean; isRealLegend?: boolean };
 
 /** Real-life number for a real NFL legend (LEGEND_NUMBERS), else their generated pick. */
 export const legendNumber = (p: Pick<Player, 'name' | 'position'>): number => {
@@ -195,7 +195,7 @@ export const buildJerseyIndex = (players: JerseyPlayer[]): JerseyIndex => {
     });
 
     // 2. Everyone else, by priority.
-    const isHof = (p: JerseyPlayer) => isFranchise && isHallOfFamer({ careerLegacy: p.careerLegacy ?? 0 });
+    const isHof = (p: JerseyPlayer) => isFranchise && isHallOfFamer({ careerLegacy: p.careerLegacy ?? 0, inducted: p.inducted });
     const rank = (p: JerseyPlayer) => (isValidNumber(JERSEY_OVERRIDES[jerseyKey(p)]) ? 0 : isHof(p) ? 1 : 2);
     const ordered = pool
       .filter((p) => !configFor.has(jerseyKey(p)))

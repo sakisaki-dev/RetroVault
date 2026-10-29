@@ -125,20 +125,30 @@ export const normalizeLeague = <T extends NormalizablePlayer>(players: T[]): T[]
 
 // ---------- Hall of Fame / legacy tiers ----------
 
-export const HOF_THRESHOLD = 7000;
+/** Induction bar (owner): Career Legacy 7,000 through Y84, 7,500 from Y85 on. */
+export const HOF_THRESHOLD = 7500;
+/** Members inducted at the old 7,000 bar stay only while they hold this; the borderline ones under it were removed (owner). */
+export const HOF_FLOOR = 7300;
 
 export const LEGACY_TIERS = [
   { key: 'legendary', label: 'LEGENDARY', min: 10000 },
   { key: 'elite', label: 'ELITE', min: 8500 },
   { key: 'great', label: 'GREAT', min: 7500 },
-  { key: 'inductee', label: 'INDUCTEE', min: HOF_THRESHOLD },
+  { key: 'inductee', label: 'INDUCTEE', min: HOF_FLOOR },
 ] as const;
 
 export type LegacyTierKey = (typeof LEGACY_TIERS)[number]['key'];
 
-export const isHallOfFamer = (p: { careerLegacy: number }) => p.careerLegacy >= HOF_THRESHOLD;
+/** In the Hall at today's bar, or inducted earlier (`inducted`: reached the bar of its season in some market snapshot)
+ * and still at or above HOF_FLOOR, so a member whose Career Legacy dips a little keeps his place. */
+export const isHallOfFamer = (p: { careerLegacy: number; inducted?: boolean }) =>
+  p.careerLegacy >= HOF_THRESHOLD || (!!p.inducted && p.careerLegacy >= HOF_FLOOR);
 
 export const getLegacyTier = (careerLegacy: number) =>
   LEGACY_TIERS.find((t) => careerLegacy >= t.min) ?? null;
+
+/** A Hall of Famer's tier; one who dipped under the line stays an inductee. */
+export const hallOfFameTier = (p: { careerLegacy: number; inducted?: boolean }) =>
+  getLegacyTier(p.careerLegacy) ?? (isHallOfFamer(p) ? LEGACY_TIERS[LEGACY_TIERS.length - 1] : null);
 
 export const formatThreshold = (n: number) => `≥${n >= 1000 ? `${n / 1000}k` : n}`;

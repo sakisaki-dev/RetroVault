@@ -209,6 +209,21 @@ def franchise_history(players, teams, cards, stints=None):
     return out
 
 
+def hof_bar(snapshot) -> int:
+    """The induction bar in force at a market snapshot (owner): 7,000 through Y84, 7,500 from Y85
+    (src/config/stats.ts HOF_THRESHOLD; build_league_content.hof_bar)."""
+    m = re.match(r"Y(\d+)", snapshot.get("season") or snapshot.get("label", ""))
+    return 7500 if m and int(m.group(1)) >= 85 else 7000
+
+
+def inducted_keys() -> set[str]:
+    """Every POS:Name whose Career Legacy reached the bar of its season in some market snapshot. Written as the
+    sheet's Inducted column; the site's isHallOfFamer() keeps them while they hold HOF_FLOOR."""
+    path = SRC / "market_history.json"
+    snaps = json.loads(path.read_text()) if path.exists() else []
+    return {k for s in snaps for k, v in s["players"].items() if v.get("legacy", 0) >= hof_bar(s)}
+
+
 def player_status(p, sheet_row=None) -> str:
     """Active / Retired (internal only; the UI never shows it): owner status, then the game's team screens, then the
     game's Player HOF screen (retired), then the league sheet; a player with no sheet row is active."""
@@ -412,6 +427,7 @@ def main():
         "DL": (["Tackles", "INT", "Sacks", "FF"], ["tkl", "int", "sck", "ff"], "DPOY"),
     }
 
+    inducted = inducted_keys()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with OUT.open("w", newline="") as fh:
         w = csv.writer(fh)
@@ -422,11 +438,12 @@ def main():
         for pos, (labels, keys, award_label) in sections.items():
             w.writerow([pos])
             w.writerow(["Name", "Status", "Team", "Games", *labels, "Rings", "MVP", award_label, "SBMVP", "ROTY",
-                        "True Talent", "Dominance", "Career Legacy", "TPG", "Nicknames"])
+                        "True Talent", "Dominance", "Career Legacy", "TPG", "Nicknames", "Inducted"])
             for p in sorted(out[pos], key=lambda r: -r["_tt"]):
                 stats = ["" if p.get(k) is None else p[k] for k in keys]
                 w.writerow([p["n"], p["_status"], p["_team"], g(p, "g"), *stats, g(p, "rings"), g(p, "mvp"), award(p),
-                            g(p, "sbmvp"), g(p, "roty"), p["_tt"], "", "", "", p.get("nick", "")])
+                            g(p, "sbmvp"), g(p, "roty"), p["_tt"], "", "", "", p.get("nick", ""),
+                            "Y" if f'{pos}:{p["n"]}' in inducted else ""])
             w.writerow([])
 
     if EXTRA_LEGENDS.exists():

@@ -193,6 +193,7 @@ const baseFields = (row: string[], header: HeaderIndex, metricCols: MetricColumn
     careerLegacy: metric('Career Legacy', metricCols.careerLegacy),
     tpg: metric('TPG', metricCols.tpg),
     nickname,
+    ...(parseText(getField(row, header, 'Inducted')) === 'Y' ? { inducted: true } : {}),
   }, isDefense);
 };
 

@@ -444,6 +444,51 @@
     "story": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-10-28-y85",
+   "dir": "data/uploads/2026-10-28-y85",
+   "applied_at": "2026-10-28T19:22:33-07:00",
+   "mutations": {
+    "stats": 69
+   },
+   "changed": 390
+  },
+  {
+   "id": "2026-10-28-y85-teams",
+   "dir": "data/uploads/2026-10-28-y85-teams",
+   "applied_at": "2026-10-28T19:25:58-07:00",
+   "mutations": {
+    "stats": 5
+   },
+   "changed": 5
+  },
+  {
+   "id": "2026-10-28-story-y83-v3",
+   "dir": "data/uploads/2026-10-28-story-y83-v3",
+   "applied_at": "2026-10-28T19:28:29-07:00",
+   "mutations": {
+    "story": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-28-hof-7500",
+   "dir": "data/uploads/2026-10-28-hof-7500",
+   "applied_at": "2026-10-28T19:33:40-07:00",
+   "mutations": {
+    "speech": 5
+   },
+   "changed": 5
+  },
+  {
+   "id": "2026-10-28-story-y85",
+   "dir": "data/uploads/2026-10-28-story-y85",
+   "applied_at": "2026-10-28T19:33:52-07:00",
+   "mutations": {
+    "story": 1
+   },
+   "changed": 1
   }
  ]
 }

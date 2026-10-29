@@ -107,7 +107,7 @@ New players: add them with `team` from the owner. If the owner hasn't said, use 
 Other screens: Super Bowl list → `superbowl.set` (gold rows are the owner's wins); staff screen → `coach.season` /
 `coach.set`; the owner switching clubs before the new club plays → `coach.set currentStint` `{team, abbr, from}` plus
 `fact.set current_club` (no `coach.season` row until the season is played); record board → `record.set`; team screens → `fact.set active_rosters/<Team>`; game Player HOF screen →
-`fact.set players/<name>/retired_with`. The site's Hall of Fame is its own (Career Legacy ≥ 7000); the game's HOF
+`fact.set players/<name>/retired_with`. The site's Hall of Fame is its own (Career Legacy ≥ 7500, see Hall of Fame below); the game's HOF
 list must not add or remove anyone. Stale lines in `screenshot_extras.json` (e.g. "Y80, in progress") →
 `extras.set <section>/<key>` (value `null` deletes it).
 
@@ -159,9 +159,9 @@ still match the data. Read the warnings.
 
 ### 5. Speech (AI step `speech`; trigger: the rebuild prints `SPEECH NEEDED: <name>`)
 
-Only when the rebuild finds someone who first crossed Career Legacy 7000 with no speech, or the owner corrects one.
+Only when the rebuild finds a new Hall of Famer with no speech, or the owner corrects one.
 Write it as a `speech.set` mutation (lane `speech`, target the player's name, value `{"reason": "New Hall of Famer",
-"trigger": "First crossed Career Legacy 7000: <class>", "text": "..."}`, with the `speech` AI step logged) and apply
+"trigger": "First crossed Career Legacy 7500: <class>", "text": "..."}`, with the `speech` AI step logged) and apply
 the bundle; apply-upload checks the length, the em dash and the closing line, and the audit fails if the speech later
 differs from the manifest. Never let the generic template in `src/components/ceremony/speech.ts` show. Match the
 existing speeches: a one-line hook, then 2–3 short paragraphs, closing "…, welcome to the Hall of Fame."; about
@@ -307,7 +307,10 @@ current data is a no-op.
   `src/utils/leagueContent.ts` on the site). Never hard-code "Y80" or 80 as "now"; a rollover is just new
   `coach.season` + `superbowl.set` mutations. `career.never` (owner: clubs a player never played for) keeps the stint
   solver and the audit away from those clubs.
-- **Hall of Fame classes**: who first crossed Career Legacy 7000 at each market snapshot, labelled by the snapshot's
+- **Hall of Fame** (owner): the bar is Career Legacy 7,500 from Y85 on (7,000 through Y84). Members inducted earlier stay
+  while they hold 7,300 (`HOF_FLOOR`); the borderline 7,000 members under it were removed with their speeches
+  (`speech.remove`). `isHallOfFamer()` in `src/config/stats.ts`, `is_hall_of_famer()` in `build_league_content.py`.
+- **Hall of Fame classes**: who first reached the bar of the season at each market snapshot (and is still in), labelled by the snapshot's
   season; the first snapshot's members are the "Inaugural class".
 - **"What changed" headlines** (`build_headlines()` in `build_league_content.py` → `content.json` `headlines`
   `[{kind, text, players, teams, weight}]` + `headlinesInfo`): templated news, ranked by weight (ties by kind, then
@@ -315,7 +318,7 @@ current data is a no-op.
   `s`; `market_snapshot.ts` writes them and records the bundle as `upload`), the mutations of the bundles between
   them (`mutations_log.json` → manifests), `records.json`, `super_bowls.json`. Rules: Super Bowls of a rolled-over
   season; record.set / records dated in it; owner `players/<name>/team` facts ("Traded: …"); crossed Career Legacy
-  7000; new cards; career totals passing a step (10,000 passing yards, 5,000 rushing / receiving yards, 100 passing
+  the Hall of Fame bar; new cards; career totals passing a step (10,000 passing yards, 5,000 rushing / receiving yards, 100 passing
   TDs, 500 tackles…); award counts; skill grade families (S/A/B…, `skillGrades.ts` GRADE_SCALE); market movers (≥ 5%,
   base value ≥ 50); plus up to 2 record chases (≥ 85% of the mark). If the latest bundle changed nothing headline-worthy,
   it walks back to the last snapshot pair that did and marks it "Last update". Shown on the Arcade landing (ticker +
@@ -334,7 +337,7 @@ current data is a no-op.
   catches", via `UNIT`), `vault` (every Super Bowl with the owner's wins flagged, the record board credited to the
   owner's club that year, each Hall of Famer with his speech's first line, class and Career Legacy, the generated
   storylines), `movers` (top 2 risers and top faller, base value ≥ 50), the top 4 `headlines`, `spotlightFallback`,
-  `hofWatch` (top 5 active players under Career Legacy 7,000: points to go, share), `chases` (the closest active
+  `hofWatch` (top 5 active non-members under Career Legacy 7,500: points to go, share), `chases` (the closest active
   record chases: have, mark, share, amount to go), `milestones` (top 6 countdowns to a round career number),
   `champion` (the latest season's Super Bowl), `coach` (surname), `cards` (banner team, OVR, grade, Career Legacy,
   value change for every player named) and `latestUpdateAt` (last applied upload). Widget text never says "you" or

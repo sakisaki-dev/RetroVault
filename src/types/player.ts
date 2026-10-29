@@ -17,6 +17,8 @@ export interface BasePlayer {
   trueTalent: number;
   dominance: number;
   careerLegacy: number;
+  /** Reached the Hall of Fame line in some market snapshot (sheet column Inducted); see isHallOfFamer */
+  inducted?: boolean;
   tpg: number;
   nickname?: string;
   /** Real-life legend (e.g. Tom Brady). Excluded from league benchmarks and league stats; exposed via `legends`. */

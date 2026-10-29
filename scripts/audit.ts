@@ -231,6 +231,7 @@ for (const { id } of log) {
     else if (mu.op === 'card.design') setLeaves(`players/${mu.target}/card_design`, mu.value);
     else if (mu.op === 'journal.add') setLeaves(`journal/${mu.target}`, mu.value);
     else if (mu.op === 'speech.set') speechSet.set(String(mu.target), String((mu.value as { text?: string })?.text ?? ''));
+    else if (mu.op === 'speech.remove') speechSet.delete(String(mu.target));
     else if (mu.op === 'story.set') storySet.set(String(mu.target), { ...(mu.value as object), upload: id });
   }
 }

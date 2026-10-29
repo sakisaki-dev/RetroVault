@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { openQuickSearch } from '@/components/QuickPlayerSearch';
 import { useLeague } from '@/context/LeagueContext';
 import { findNFLTeam } from '@/utils/nflTeams';
-import { HOF_THRESHOLD } from '@/config/stats';
+import { isHallOfFamer } from '@/config/stats';
 import { useLeagueContent } from '@/utils/leagueContent';
 import BrandMark from '@/components/brand/BrandMark';
 import CountUp from '@/components/brand/CountUp';
@@ -80,7 +80,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
       season: season ?? null,
       players: players.length,
       teams: teams.size,
-      hof: players.filter((p) => p.careerLegacy >= HOF_THRESHOLD).length,
+      hof: players.filter(isHallOfFamer).length,
       rings: players.reduce((sum, p) => sum + (p.rings || 0), 0),
     };
     // dataVersion bumps after edits/uploads so the board stays in sync

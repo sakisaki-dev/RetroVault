@@ -10,7 +10,7 @@ import { getReadableTextOn, liftForDarkBg } from '@/utils/teamColors';
 import { useJerseyNumbers, type RetiredNumber } from '@/utils/jerseys';
 import { latestSeasonYear, matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
 import type { CoachedSummary } from '@/utils/frontOffice';
-import { HOF_THRESHOLD } from '@/config/stats';
+import { isHallOfFamer } from '@/config/stats';
 import RetiredRafters from './RetiredRafters';
 import TitlesTimeline from './TitlesTimeline';
 import PositionRadar from './PositionRadar';
@@ -42,7 +42,7 @@ const stopYears = (l: FranchiseStop, last: number) => {
   return l.from === l.to ? `Y${l.from}` : `Y${l.from}–${l.to}`;
 };
 
-const isHof = (p: Player) => (p.careerLegacy || 0) >= HOF_THRESHOLD;
+const isHof = (p: Player) => isHallOfFamer(p);
 
 interface TeamSheetProps {
   summary: TeamSummary | null;

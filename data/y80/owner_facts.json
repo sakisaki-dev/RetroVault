@@ -2,6 +2,9 @@
  "_about": "Owner-confirmed facts (data entry, never analysis). Written only by scripts/apply_upload.py from an upload manifest (data/uploads/*/manifest.json). players.<name>: team = club of record when the sheet says CUR/UNK or is out of date; team_history = earlier clubs; retired_with = the club on the game's Player HOF screen; status = Active/Retired when the sheet has no row; tag = the owner's own one-liner; card = player-card fields (team, former_team, legacy_team, note); career = what the owner said about the career path (order of clubs, on = [team, season] he was there, longest = the club he spent most seasons with, stints = exact [team, from, to], next_team = traded after the last season, says = the owner's words); real_nfl = real NFL games / rings / club before the save (imported players). active_rosters = the game's current team screens. season_rosters.<year> = who played for each club that season (games gained between screenshot sets).",
  "current_club": "Falcons",
  "players": {
+  "Adam Apollo": {
+   "team": "Falcons"
+  },
   "Akiem Bouye": {
    "retired_with": "Chargers"
   },
@@ -110,6 +113,9 @@
   },
   "Calais Ham": {
    "team": "Falcons"
+  },
+  "Camaron Knight": {
+   "team": "Cardinals"
   },
   "CeeDee Lamb": {
    "retired_with": "Dolphins",
@@ -370,8 +376,14 @@
   "Jimmy Tillery": {
    "team": "Jets"
   },
+  "Juwann Gilman": {
+   "team": "Cardinals"
+  },
   "K'Lavon Settle": {
    "team": "49ers"
+  },
+  "Kahzin Heath": {
+   "team": "Broncos"
   },
   "Kane Van Oxley": {
    "team": "Bears",
@@ -440,6 +452,9 @@
     "says": "Played tight end for the Titans during the Y70–72 three-peat; retired a Titan."
    },
    "signature_team": "Titans"
+  },
+  "Linval Laulile": {
+   "team": "Steelers"
   },
   "Lukas Russell": {
    "retired_with": "Seahawks",
