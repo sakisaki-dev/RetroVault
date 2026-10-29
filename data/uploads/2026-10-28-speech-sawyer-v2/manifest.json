@@ -1,0 +1,27 @@
+{
+ "id": "2026-10-28-speech-sawyer-v2",
+ "created": "2026-10-28",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "Refresh Malakai Sawyer's speech: his career numbers grew in Y85 and Maxwell broke his single-game rushing record",
+   "trigger": "Audit: speech numbers no longer match the data; owner: \"fix\""
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Malakai Sawyer",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y84",
+    "text": "Some backs have a great season. Malakai Sawyer keeps having them.\n\nHe has played 262 games and carried the ball 2,450 times for 17,676 yards, better than seven yards a carry, with 315 rushing touchdowns. He catches it too: 235 receptions for 1,871 yards and 60 more scores. Two Offensive Player of the Year awards say the league noticed.\n\nIt started in Tennessee, where he was Rookie of the Year on the Titans team that won it all in Y72. Seattle came next, then the Jets, where he won a second ring in Y77 and ran for 212 yards in a single game in Y78, a record that stood until Y85. Four seasons in Atlanta followed, and then the road led back to New York, where he is still carrying the ball.\n\nMalakai Sawyer, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Refresh stale numbers (Y85 career line; the Y78 single-game record fell in Y85)",
+   "trigger": "Audit: speech numbers no longer match the data; owner: \"fix\""
+  }
+ ]
+}

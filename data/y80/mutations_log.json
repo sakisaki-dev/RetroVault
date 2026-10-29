@@ -489,6 +489,33 @@
     "story": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-10-28-speech-sawyer-v2",
+   "dir": "data/uploads/2026-10-28-speech-sawyer-v2",
+   "applied_at": "2026-10-28T19:40:47-07:00",
+   "mutations": {
+    "speech": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-28-story-y84-v4",
+   "dir": "data/uploads/2026-10-28-story-y84-v4",
+   "applied_at": "2026-10-28T19:40:54-07:00",
+   "mutations": {
+    "story": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-28-story-y85-v2",
+   "dir": "data/uploads/2026-10-28-story-y85-v2",
+   "applied_at": "2026-10-28T19:41:01-07:00",
+   "mutations": {
+    "story": 1
+   },
+   "changed": 1
   }
  ]
 }
