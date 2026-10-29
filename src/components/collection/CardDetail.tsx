@@ -32,6 +32,7 @@ import {
 } from '@/utils/collection';
 import CollectibleCard from './CollectibleCard';
 import CardBack from './CardBack';
+import { useFlipFaces } from './useFlipFaces';
 import CardValue from './market/CardValue';
 import { FINISH_ICON, FINISH_TEXT } from './rarityIcons';
 import type { CardInfo } from './useCardPool';
@@ -181,6 +182,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
   const [phase, setPhase] = useState<'open' | 'closing' | 'closed'>('open');
   const info = target?.info;
   const key = info?.key;
+  const { face, backMounted } = useFlipFaces(flipped, key);
   const tier = target?.tier ?? info?.tier ?? 'common';
   // Opens on the target's variant / finish (Card designs), else the owner's display choice, else auto
   const shown = target?.preview ? null : displayOf(entry, display);
@@ -675,7 +677,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                 )}
                 <div className="cd__fly" ref={flyRef} key={key}>
                   <div className="cd__sway">
-                    <div className={cn('cd__flipper', flipped && 'is-flipped')}>
+                    <div className={cn('cd__flipper', flipped && 'is-flipped')} data-face={face}>
                       <div className="cd__face" aria-hidden={flipped}>
                         <CollectibleCard
                           owned
@@ -702,7 +704,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                         )}
                       </div>
                       <div className="cd__face cd__face--back" aria-hidden={!flipped}>
-                        {flipped && <CardBack info={info} tier={tier} total={total} variant={variant} finish={finish} />}
+                        {backMounted && <CardBack info={info} tier={tier} total={total} variant={variant} finish={finish} />}
                       </div>
                     </div>
                   </div>

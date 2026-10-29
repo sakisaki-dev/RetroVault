@@ -19,6 +19,7 @@ import {
 import { useSpriteTable, lookFor } from './art/sprite/faces';
 import CollectibleCard from './CollectibleCard';
 import CardBack from './CardBack';
+import { useFlipFaces } from './useFlipFaces';
 import { FINISH_ICON, FINISH_TEXT } from './rarityIcons';
 import type { CardInfo } from './useCardPool';
 import { dur, ease } from '@/utils/motion';
@@ -105,6 +106,7 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
   // Current card (integer): decides which five are mounted. The float position lives in posRef.
   const [center, setCenter] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const { face, backMounted } = useFlipFaces(flipped, center);
   const [picks, setPicks] = useState<Record<string, { variant: Variant; finish: Finish }>>({});
   const [closing, setClosing] = useState(false);
 
@@ -618,7 +620,7 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
                   data-fly-target={active ? '' : undefined}
                   aria-hidden={!active}
                 >
-                  <div className={cn('cd__flipper', active && flipped && 'is-flipped')}>
+                  <div className={cn('cd__flipper', active && flipped && 'is-flipped')} data-face={active ? face : undefined}>
                     <div className="cd__face" aria-hidden={active && flipped}>
                       <CollectibleCard
                         owned
@@ -638,7 +640,7 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
                     </div>
                     {active && (
                       <div className="cd__face cd__face--back" aria-hidden={!flipped}>
-                        {flipped && <CardBack info={c} tier={c.tier} total={total} variant={k.variant} finish={k.finish} />}
+                        {backMounted && <CardBack info={c} tier={c.tier} total={total} variant={k.variant} finish={k.finish} />}
                       </div>
                     )}
                   </div>

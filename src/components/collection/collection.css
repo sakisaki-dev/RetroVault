@@ -3010,6 +3010,12 @@ button.fut__card:focus-visible {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
+/* The far face is hidden outright once the card turns edge-on (useFlipFaces.ts sets data-face): iOS Safari
+   flickered both faces through each other with backface-visibility alone */
+.cd__flipper[data-face='back'] > .cd__face:not(.cd__face--back),
+.cd__flipper[data-face='front'] > .cd__face--back {
+  visibility: hidden;
+}
 .cd__face--back {
   position: absolute;
   inset: 0;
