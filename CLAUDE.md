@@ -109,7 +109,9 @@ Other screens: Super Bowl list → `superbowl.set` (gold rows are the owner's wi
 `fact.set current_club` (no `coach.season` row until the season is played); record board → `record.set`; team screens → `fact.set active_rosters/<Team>`; game Player HOF screen →
 `fact.set players/<name>/retired_with`. The site's Hall of Fame is its own (Career Legacy ≥ 7500, see Hall of Fame below); the game's HOF
 list must not add or remove anyone. Stale lines in `screenshot_extras.json` (e.g. "Y80, in progress") →
-`extras.set <section>/<key>` (value `null` deletes it).
+`extras.set <section>/<key>` (value `null` deletes it). A name correction ("rename X to Y") → `player.rename`
+(target `POS:Old Name`, value the new name; it renames the player everywhere but the stories), then a `story.set`
+rewrite of every season story that names him, in a follow-up bundle.
 
 ### 2. Looks (AI step `portrait→look`; trigger: the upload has portraits)
 

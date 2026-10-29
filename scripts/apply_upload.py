@@ -23,6 +23,9 @@ Lanes and ops (deterministic; nothing is inferred here):
   stats  player.set     target "POS:Name"           value {players.json fields}; creates the player if new.
                                                     Career totals never go down (a drop is a misread) unless
                                                     value has "_allow_decrease": true
+         player.rename  target "POS:Old Name"       value "New Name": renames the player in players.json, owner_facts,
+                                                    sprites, speeches, journal tags and every market_history snapshot.
+                                                    Stories are not touched: rewrite them with story.set
          fact.set       target "players/<name>/<field>" (or any path in owner_facts.json)  value: the new value
          fact.add       target path to a list        value: item(s) appended if missing
          fact.remove    target path                  value: list item to drop, or null to delete the key
@@ -80,6 +83,7 @@ FILES = {
     "extras": SRC / "screenshot_extras.json",
     "stories": SRC / "stories.json",
 }
+MARKET = SRC / "market_history.json"  # written by market_snapshot.ts in its own compact layout; renamed as text
 SPRITE_IMAGES = ROOT / "public" / "data" / "sprites"
 STORIES_ABOUT = ("Season Story: the third AI-authored lane (owner-approved). One news package per completed season, "
                  "written only by a story.set upload mutation; facts only from the data, every number cited in stats[] "
@@ -87,7 +91,7 @@ STORIES_ABOUT = ("Season Story: the third AI-authored lane (owner-approved). One
 
 AI_STEPS = {"transcribe", "portrait→look", "tag notes", "speech", "art", "story"}
 LANE_OPS = {
-    "stats": {"player.set", "fact.set", "fact.add", "fact.remove", "superbowl.set", "coach.season", "coach.set",
+    "stats": {"player.set", "player.rename", "fact.set", "fact.add", "fact.remove", "superbowl.set", "coach.season", "coach.set",
               "record.set", "baseline", "extras.set"},
     "looks": {"sprite.set", "sprite.image", "card.design"},
     "notes": {"journal.add"},
@@ -226,6 +230,15 @@ def sort_facts(facts):
             facts[key] = {t: sorted(v) for t, v in sorted(facts[key].items())}
 
 
+def rename_in(obj, old: str, new: str):
+    """A copy of obj with every dict key or string value equal to old replaced by new (exact matches only)."""
+    if isinstance(obj, dict):
+        return {(new if k == old else k): rename_in(v, old, new) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [rename_in(v, old, new) for v in obj]
+    return new if obj == old else obj
+
+
 def apply(bundle: Path, manifest: dict) -> list[str]:
     data = {k: json.loads(p.read_text()) if p.exists() else None for k, p in FILES.items()}
     if data["journal"] is None:
@@ -233,6 +246,7 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
     if data["stories"] is None:
         data["stories"] = {"_about": STORIES_ABOUT, "seasons": {}}
     changes = []
+    market_renames = []
     for m in manifest["mutations"]:
         op, target, value = m["op"], m["target"], m["value"]
         if op == "baseline":
@@ -255,6 +269,23 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
                 if old != v:
                     row[k] = v
                     changes.append(f"{target}.{k}: {old!r} -> {v!r}")
+        elif op == "player.rename":
+            pos, _, old = target.partition(":")
+            if not isinstance(value, str) or not value.strip() or value == old:
+                raise Bad(f"{target}: player.rename needs the new name as a string")
+            rows = data["players"]
+            row = next((r for r in rows if r["n"] == old and r["pos"] == pos), None)
+            if row is None:
+                raise Bad(f"{target}: no such player to rename")
+            if any(r["n"] == value for r in rows):
+                raise Bad(f"{target}: {value!r} already exists")
+            row["n"] = value
+            for k in ("facts", "sprites", "speeches", "journal"):
+                if data[k] is not None:
+                    data[k] = rename_in(data[k], old, value)
+            market_renames.append((json.dumps(f"{pos}:{old}"), json.dumps(f"{pos}:{value}")))
+            sort_facts(data["facts"])
+            changes.append(f"renamed {target} -> {value}")
         elif op in ("fact.set", "fact.add", "fact.remove", "card.design"):
             facts = data["facts"]
             parts = ["players", target, "card_design"] if op == "card.design" else target.split("/")
@@ -373,6 +404,11 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
         # only files whose content changed are rewritten (unchanged files keep their exact bytes)
         if not p.exists() or json.loads(p.read_text()) != data[k]:
             p.write_text(dump(data[k]))
+    if market_renames and MARKET.exists():
+        text = MARKET.read_text()
+        for old, new in market_renames:
+            text = text.replace(old, new)
+        MARKET.write_text(text)
     return changes
 
 

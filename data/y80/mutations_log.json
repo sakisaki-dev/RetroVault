@@ -534,6 +534,24 @@
     "story": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-10-29-apollo-adam",
+   "dir": "data/uploads/2026-10-29-apollo-adam",
+   "applied_at": "2026-10-29T05:57:25+00:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-10-29-story-y85-v4",
+   "dir": "data/uploads/2026-10-29-story-y85-v4",
+   "applied_at": "2026-10-29T05:57:42+00:00",
+   "mutations": {
+    "story": 1
+   },
+   "changed": 1
   }
  ]
 }

@@ -1,0 +1,18 @@
+{
+ "id": "2026-10-29-apollo-adam",
+ "created": "2026-10-29",
+ "title": "Adam Apollo is Apollo Adam",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "player.rename",
+   "target": "WR:Adam Apollo",
+   "value": "Apollo Adam",
+   "source": "owner",
+   "reason": "Owner: \"rename adam apollo to apollo adam\"",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}
