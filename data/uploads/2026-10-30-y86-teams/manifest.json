@@ -1,0 +1,65 @@
+{
+ "id": "2026-10-30-y86-teams",
+ "created": "2026-10-30",
+ "title": "Teams for Iupati and Brooker",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Blair Iupati/team",
+   "value": "Falcons",
+   "reason": "Owner: \"vlair iuoatio us a falcon, jamon brooker is a packer\" (Blair Iupati; on the Falcons Y86 season review with a Y86 ring)"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Blair Iupati/team_history",
+   "value": [
+    "Seahawks",
+    "Saints"
+   ],
+   "reason": "Owner: \"vlair iuoatio us a falcon, jamon brooker is a packer\" (Saints before the Falcons)"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Blair Iupati/career",
+   "value": {
+    "order": [
+     "Seahawks",
+     "Saints",
+     "Falcons"
+    ],
+    "on": [
+     [
+      "Saints",
+      82
+     ],
+     [
+      "Falcons",
+      86
+     ]
+    ],
+    "says": "Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints."
+   },
+   "reason": "Owner: \"vlair iuoatio us a falcon, jamon brooker is a packer\" (Falcons added after the Saints; on the Y86 Falcons)"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Jamon Brooker/team",
+   "value": "Packers",
+   "reason": "Owner: \"vlair iuoatio us a falcon, jamon brooker is a packer\""
+  }
+ ]
+}

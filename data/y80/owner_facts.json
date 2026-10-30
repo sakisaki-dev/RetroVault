@@ -50,19 +50,25 @@
    "retired_with": "Chargers"
   },
   "Blair Iupati": {
-   "team": "Saints",
+   "team": "Falcons",
    "team_history": [
-    "Seahawks"
+    "Seahawks",
+    "Saints"
    ],
    "career": {
     "order": [
      "Seahawks",
-     "Saints"
+     "Saints",
+     "Falcons"
     ],
     "on": [
      [
       "Saints",
       82
+     ],
+     [
+      "Falcons",
+      86
      ]
     ],
     "says": "Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints."
@@ -311,6 +317,9 @@
     ],
     "says": "Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring). Played Y83 and retired after it; final-season (Y83) stats were not captured, so the career stays at its Y82 totals."
    }
+  },
+  "Jamon Brooker": {
+   "team": "Packers"
   },
   "Jashaun Fleming": {
    "career": {

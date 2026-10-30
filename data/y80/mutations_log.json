@@ -588,6 +588,15 @@
     "story": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-10-30-y86-teams",
+   "dir": "data/uploads/2026-10-30-y86-teams",
+   "applied_at": "2026-10-30T04:02:04-05:00",
+   "mutations": {
+    "stats": 4
+   },
+   "changed": 4
   }
  ]
 }

@@ -439,8 +439,8 @@
    "Tennessee Titans"
   ],
   "Blair Iupati": [
+   "Atlanta Falcons",
    "New Orleans Saints",
-   "New York Jets",
    "Seattle Seahawks"
   ],
   "Jakeem Friend": [
@@ -3084,29 +3084,29 @@
   "Blair Iupati": {
    "stints": [
     {
-     "team": "Jets",
-     "from": 75,
-     "to": 78,
-     "rings": [
-      75,
-      77
-     ]
-    },
-    {
      "team": "Seahawks",
-     "from": 79,
+     "from": 76,
      "to": 81,
      "rings": []
     },
     {
      "team": "Saints",
      "from": 82,
-     "to": 86,
+     "to": 84,
      "rings": []
+    },
+    {
+     "team": "Falcons",
+     "from": 85,
+     "to": 86,
+     "rings": [
+      85,
+      86
+     ]
     }
    ],
-   "confidence": "ambiguous",
-   "evidence": "2 rings = Jets Y75, Y77. On the Y80 Seahawks roster. On the Y81 Seahawks roster. Owner: “Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints.” His known clubs (Saints, Seahawks) can't account for every ring, so the best fit adds a stop: Jets Y75-78, Seahawks Y79-81, Saints Y82-86."
+   "confidence": "confirmed",
+   "evidence": "2 rings = Falcons Y85, Y86. On the Y80 Seahawks roster. On the Y81 Seahawks roster. Owner: “Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints.”"
   },
   "Deonte Sutton": {
    "stints": [
@@ -3947,6 +3947,18 @@
    ],
    "confidence": "strong",
    "evidence": "1 ring = Falcons Y86. The only window that fits."
+  },
+  "Jamon Brooker": {
+   "stints": [
+    {
+     "team": "Packers",
+     "from": 83,
+     "to": 86,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
   }
  },
  "signatureTeams": {
@@ -3962,7 +3974,7 @@
   "Aubrey Jewell": "Los Angeles Chargers",
   "Avonte Gooden": "Washington Commanders",
   "Bilal Tolbert": "Los Angeles Chargers",
-  "Blair Iupati": "New Orleans Saints",
+  "Blair Iupati": "Atlanta Falcons",
   "Brandon Jaclyde": "Miami Dolphins",
   "Breece Hall": "New York Jets",
   "Brennan Higgins": "Washington Commanders",
@@ -4024,6 +4036,7 @@
   "Jake Gano": "Tennessee Titans",
   "Jakeem Friend": "Seattle Seahawks",
   "Jamir Crane": "Buffalo Bills",
+  "Jamon Brooker": "Green Bay Packers",
   "Jarred Beasley": "Tennessee Titans",
   "Jashaun Fleming": "Atlanta Falcons",
   "Jason Macleone": "Seattle Seahawks",
