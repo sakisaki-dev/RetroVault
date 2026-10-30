@@ -1,0 +1,40 @@
+{
+ "id": "2026-10-30-speech-suh",
+ "created": "2026-10-30",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "Kalif Suh is a new Hall of Famer; Malakai Sawyer's speech numbers went stale after Y86",
+   "trigger": "Rebuild printed SPEECH NEEDED: Kalif Suh; audit warned Sawyer's speech says 262 games"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Kalif Suh",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7500: Y86",
+    "text": "A Jets linebacker since Y76, and the middle of that defense has rarely moved without him.\n\nKalif Suh has played 210 games and made 638 tackles, with 17 interceptions, 20 sacks and 10 forced fumbles. That is a linebacker who does a little of everything: about three tackles a game, a takeaway when an offense gets careless, and pressure when the call comes to go get the quarterback.\n\nHe won three rings in New York, in Y77, Y80 and Y82, all on Dorren Skura's teams. When Skura left for Atlanta, Suh stayed, and he has kept the Jets defense steady ever since.\n\nHe arrives under the higher bar of Career Legacy 7,500, the second player inducted under it after Juwann Gilman. Kalif Suh, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "New Hall of Famer (Y86 class)",
+   "trigger": "Rebuild printed SPEECH NEEDED: Kalif Suh"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Malakai Sawyer",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y84",
+    "text": "Some backs have a great season. Malakai Sawyer keeps having them.\n\nHe has played 280 games and carried the ball 2,636 times for 19,129 yards, better than seven yards a carry, with 341 rushing touchdowns. He catches it too: 235 receptions for 1,871 yards and 60 more scores. Two Offensive Player of the Year awards say the league noticed.\n\nIt started in Tennessee, where he was Rookie of the Year on the Titans team that won it all in Y72. Seattle came next, then the Jets, where he won a second ring in Y77 and ran for 212 yards in a single game in Y78, a record that stood until Y85. Four seasons in Atlanta followed, and then the road led back to New York, where he is still carrying the ball.\n\nMalakai Sawyer, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Refresh stale numbers (Y86 career line)",
+   "trigger": "Audit: speech numbers no longer match the data"
+  }
+ ]
+}

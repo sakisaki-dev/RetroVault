@@ -1,0 +1,1702 @@
+{
+ "id": "2026-10-30-y86",
+ "created": "2026-10-30",
+ "images": [
+  {
+   "file": "images/IMG_6623.PNG",
+   "shows": "QB Orlando Larienne career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6624.PNG",
+   "shows": "QB Orlando Larienne career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6625.PNG",
+   "shows": "RB Ryland Maxwell career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6626.PNG",
+   "shows": "RB Ryland Maxwell career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6627.PNG",
+   "shows": "TE Marc Saine II career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6628.PNG",
+   "shows": "WR Apollo Adam career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6629.PNG",
+   "shows": "WR Vyncint Heath career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6630.PNG",
+   "shows": "OL Calais Ham career card (Blocking)"
+  },
+  {
+   "file": "images/IMG_6631.PNG",
+   "shows": "LB Simeon Otton career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6632.PNG",
+   "shows": "DB Ian Clapp career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6633.PNG",
+   "shows": "DB Chance Woodrum career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6634.PNG",
+   "shows": "DB Blair Iupati career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6635.PNG",
+   "shows": "QB Brandon Jaclyde career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6636.PNG",
+   "shows": "QB Brandon Jaclyde career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6637.PNG",
+   "shows": "QB Dustin Milton career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6638.PNG",
+   "shows": "QB Dustin Milton career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6639.PNG",
+   "shows": "RB Siran Spector career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6640.PNG",
+   "shows": "RB Siran Spector career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6641.PNG",
+   "shows": "QB Jimmy Tillery career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6642.PNG",
+   "shows": "QB Jimmy Tillery career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6643.PNG",
+   "shows": "RB Malakai Sawyer career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6644.PNG",
+   "shows": "RB Malakai Sawyer career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6645.PNG",
+   "shows": "TE Jaylen Conklin career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6646.PNG",
+   "shows": "WR Bud Matthew career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6647.PNG",
+   "shows": "LB Kalif Suh career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6648.PNG",
+   "shows": "DB Dwayne Skura career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6649.PNG",
+   "shows": "DB Trequan Roberts career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6650.PNG",
+   "shows": "QB Kahzin Heath career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6651.PNG",
+   "shows": "QB Kahzin Heath career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6652.PNG",
+   "shows": "TE D.C Paradis career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6653.PNG",
+   "shows": "QB Drake Wise career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6654.PNG",
+   "shows": "QB Drake Wise career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6655.PNG",
+   "shows": "WR Tristan Tart career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6656.PNG",
+   "shows": "DB Terron Stidham career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6657.PNG",
+   "shows": "DB Linval Laulile career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6658.PNG",
+   "shows": "QB Kirk Lenoir career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6659.PNG",
+   "shows": "QB Kirk Lenoir career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6660.PNG",
+   "shows": "RB Danny Diggs career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6661.PNG",
+   "shows": "RB Danny Diggs career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6662.PNG",
+   "shows": "TE Spencer Daniels career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6663.PNG",
+   "shows": "WR Jarred Beasley career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6664.PNG",
+   "shows": "DL Darrel Longa career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6665.PNG",
+   "shows": "DB Marvell Rodgers career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6666.PNG",
+   "shows": "QB Rysen Nauta career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6667.PNG",
+   "shows": "QB Rysen Nauta career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6668.PNG",
+   "shows": "DL Keion Orzech career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6669.PNG",
+   "shows": "QB Ty Lock career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6670.PNG",
+   "shows": "QB Ty Lock career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6671.PNG",
+   "shows": "WR Shawn Milne career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6672.PNG",
+   "shows": "QB Hamsfa Boltt career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6673.PNG",
+   "shows": "QB Hamsfa Boltt career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6674.PNG",
+   "shows": "DB Trysten Floyd career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6675.PNG",
+   "shows": "LB Bryson Lucas career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6676.PNG",
+   "shows": "QB Camaron Knight career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6677.PNG",
+   "shows": "QB Camaron Knight career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6678.PNG",
+   "shows": "RB Tim Wright career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6679.PNG",
+   "shows": "RB Tim Wright career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6680.PNG",
+   "shows": "DL Aqib McClain career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6681.PNG",
+   "shows": "LB Grunky Felton career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6682.PNG",
+   "shows": "DB K'Lavon Settle career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6683.PNG",
+   "shows": "WR Obinna Leary career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6684.PNG",
+   "shows": "OL Perrion Randall career card (Blocking)"
+  },
+  {
+   "file": "images/IMG_6685.PNG",
+   "shows": "WR Kane Van Oxley career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6686.PNG",
+   "shows": "OL Shawn Skule career card (Blocking)"
+  },
+  {
+   "file": "images/IMG_6687.PNG",
+   "shows": "DB Travon Swaim career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6688.PNG",
+   "shows": "QB Solomon Toohill career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6689.PNG",
+   "shows": "QB Solomon Toohill career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6690.PNG",
+   "shows": "RB Angelo Moton career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6691.PNG",
+   "shows": "RB Angelo Moton career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6692.PNG",
+   "shows": "DB Jamon Brooker career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6693.PNG",
+   "shows": "QB Pyke T. Lowe career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6694.PNG",
+   "shows": "QB Pyke T. Lowe career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6695.PNG",
+   "shows": "DB Chazz McCray career card (Defense)"
+  },
+  {
+   "file": "images/IMG_6696.PNG",
+   "shows": "WR Shareef London career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6697.PNG",
+   "shows": "Y86 playoff bracket: ATL over HOU in the Super Bowl"
+  },
+  {
+   "file": "images/IMG_6698.PNG",
+   "shows": "Falcons Y86 season review, player page"
+  },
+  {
+   "file": "images/IMG_6699.PNG",
+   "shows": "Staff screen, Y86 complete"
+  },
+  {
+   "file": "images/IMG_6700.PNG",
+   "shows": "Falcons Y86 season review, schedule and scores"
+  },
+  {
+   "file": "images/IMG_6701.PNG",
+   "shows": "Falcons Y86 season review, schedule and scores (duplicate)"
+  }
+ ],
+ "ai_steps": [
+  {
+   "step": "transcribe",
+   "reason": "Images need reading",
+   "trigger": "New images in the upload"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Orlando Larienne",
+   "value": {
+    "g": 54,
+    "att": 823,
+    "cmp": 712,
+    "yds": 12532,
+    "td": 142,
+    "int": 42,
+    "sck": 12,
+    "ratt": 54,
+    "ryds": 159,
+    "rtd": 11,
+    "rings": 3,
+    "mvp": 1,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6623.PNG",
+   "reason": "Career panel and award row (merged with IMG_6624.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Ryland Maxwell",
+   "value": {
+    "g": 136,
+    "ratt": 1743,
+    "ryds": 12472,
+    "rtd": 176,
+    "fum": 27,
+    "rec": 94,
+    "recyds": 714,
+    "rectd": 26,
+    "rings": 6,
+    "mvp": 0,
+    "opoy": 2,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 2
+   },
+   "source": "image:images/IMG_6625.PNG",
+   "reason": "Career panel and award row (merged with IMG_6626.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Marc Saine II",
+   "value": {
+    "g": 21,
+    "rec": 53,
+    "yds": 730,
+    "td": 10,
+    "fum": 1,
+    "lng": 32,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "Falcons"
+   },
+   "source": "image:images/IMG_6627.PNG",
+   "reason": "Career panel and award row; new card. team Falcons: he is on the Falcons Y86 season review (IMG_6698)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Apollo Adam",
+   "value": {
+    "g": 39,
+    "rec": 199,
+    "yds": 3854,
+    "td": 40,
+    "fum": 2,
+    "lng": 75,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 1,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6628.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Vyncint Heath",
+   "value": {
+    "g": 97,
+    "rec": 552,
+    "yds": 10391,
+    "td": 102,
+    "fum": 5,
+    "lng": 66,
+    "rings": 5,
+    "mvp": 0,
+    "opoy": 2,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6629.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Calais Ham",
+   "value": {
+    "g": 61,
+    "blk": 167,
+    "rings": 3,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6630.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Simeon Otton",
+   "value": {
+    "g": 82,
+    "tkl": 379,
+    "int": 3,
+    "sck": 8.0,
+    "ff": 1,
+    "rings": 4,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6631.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Ian Clapp",
+   "value": {
+    "g": 19,
+    "tkl": 141,
+    "int": 2,
+    "sck": 0.0,
+    "ff": 0,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "Falcons"
+   },
+   "source": "image:images/IMG_6632.PNG",
+   "reason": "Career panel and award row; new card. team Falcons: he is on the Falcons Y86 season review (IMG_6698)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Chance Woodrum",
+   "value": {
+    "g": 209,
+    "tkl": 1346,
+    "int": 15,
+    "sck": 0.0,
+    "ff": 2,
+    "rings": 7,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6633.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Blair Iupati",
+   "value": {
+    "g": 201,
+    "tkl": 1600,
+    "int": 22,
+    "sck": 0.0,
+    "ff": 0,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6634.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Brandon Jaclyde",
+   "value": {
+    "g": 72,
+    "att": 2098,
+    "cmp": 1338,
+    "yds": 13524,
+    "td": 137,
+    "int": 35,
+    "sck": 10,
+    "ratt": 54,
+    "ryds": 287,
+    "rtd": 17,
+    "rings": 1,
+    "mvp": 1,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6635.PNG",
+   "reason": "Career panel and award row (merged with IMG_6636.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Dustin Milton",
+   "value": {
+    "g": 180,
+    "att": 5846,
+    "cmp": 3509,
+    "yds": 32144,
+    "td": 311,
+    "int": 34,
+    "sck": 32,
+    "ratt": 155,
+    "ryds": 1032,
+    "rtd": 54,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6637.PNG",
+   "reason": "Career panel and award row (merged with IMG_6638.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Siran Spector",
+   "value": {
+    "g": 112,
+    "rec": 5,
+    "recyds": 70,
+    "rectd": 1,
+    "fum": 76,
+    "ratt": 1007,
+    "ryds": 8450,
+    "rtd": 168,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6639.PNG",
+   "reason": "Career panel and award row (merged with IMG_6640.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Jimmy Tillery",
+   "value": {
+    "g": 56,
+    "att": 1875,
+    "cmp": 1154,
+    "yds": 11107,
+    "td": 102,
+    "int": 10,
+    "sck": 5,
+    "ratt": 32,
+    "ryds": 213,
+    "rtd": 12,
+    "rings": 0,
+    "mvp": 1,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6641.PNG",
+   "reason": "Career panel and award row (merged with IMG_6642.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Malakai Sawyer",
+   "value": {
+    "g": 280,
+    "ratt": 2636,
+    "ryds": 19129,
+    "rtd": 341,
+    "fum": 129,
+    "rec": 235,
+    "recyds": 1871,
+    "rectd": 60,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 2,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6643.PNG",
+   "reason": "Career panel and award row (merged with IMG_6644.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Jaylen Conklin",
+   "value": {
+    "g": 166,
+    "rec": 693,
+    "yds": 7038,
+    "td": 88,
+    "fum": 18,
+    "lng": 69,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 1,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6645.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Bud Matthew",
+   "value": {
+    "g": 128,
+    "rec": 424,
+    "yds": 4023,
+    "td": 61,
+    "fum": 13,
+    "lng": 68,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6646.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Kalif Suh",
+   "value": {
+    "g": 210,
+    "tkl": 638,
+    "int": 17,
+    "sck": 20.0,
+    "ff": 10,
+    "rings": 3,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6647.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Dwayne Skura",
+   "value": {
+    "g": 97,
+    "tkl": 494,
+    "int": 7,
+    "sck": 0.0,
+    "ff": 0,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6648.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Trequan Roberts",
+   "value": {
+    "g": 135,
+    "tkl": 711,
+    "int": 7,
+    "sck": 0.0,
+    "ff": 0,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6649.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Kahzin Heath",
+   "value": {
+    "g": 252,
+    "att": 8327,
+    "cmp": 5111,
+    "yds": 43997,
+    "td": 430,
+    "int": 41,
+    "sck": 44,
+    "ratt": 170,
+    "ryds": 1173,
+    "rtd": 62,
+    "rings": 0,
+    "mvp": 1,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6650.PNG",
+   "reason": "Career panel and award row (merged with IMG_6651.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:D.C Paradis",
+   "value": {
+    "g": 274,
+    "rec": 1129,
+    "yds": 6738,
+    "td": 61,
+    "fum": 64,
+    "lng": 69,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6652.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Drake Wise",
+   "value": {
+    "g": 312,
+    "att": 9769,
+    "cmp": 6256,
+    "yds": 58643,
+    "td": 586,
+    "int": 54,
+    "sck": 57,
+    "ratt": 260,
+    "ryds": 1771,
+    "rtd": 94,
+    "rings": 0,
+    "mvp": 2,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6653.PNG",
+   "reason": "Career panel and award row (merged with IMG_6654.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Tristan Tart",
+   "value": {
+    "g": 193,
+    "rec": 709,
+    "yds": 6152,
+    "td": 87,
+    "fum": 34,
+    "lng": 71,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6655.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Terron Stidham",
+   "value": {
+    "g": 212,
+    "tkl": 2341,
+    "int": 24,
+    "sck": 0.0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6656.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Linval Laulile",
+   "value": {
+    "g": 128,
+    "tkl": 1374,
+    "int": 14,
+    "sck": 0.0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 1,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6657.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Kirk Lenoir",
+   "value": {
+    "g": 403,
+    "att": 13337,
+    "cmp": 7713,
+    "yds": 61937,
+    "td": 600,
+    "int": 74,
+    "sck": 62,
+    "ratt": 306,
+    "ryds": 1891,
+    "rtd": 106,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6658.PNG",
+   "reason": "Career panel and award row (merged with IMG_6659.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Danny Diggs",
+   "value": {
+    "g": 247,
+    "ratt": 2531,
+    "ryds": 17911,
+    "rtd": 350,
+    "fum": 184,
+    "rec": 8,
+    "recyds": 133,
+    "rectd": 1,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6660.PNG",
+   "reason": "Career panel and award row (merged with IMG_6661.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Spencer Daniels",
+   "value": {
+    "g": 247,
+    "rec": 1071,
+    "yds": 6335,
+    "td": 53,
+    "fum": 62,
+    "lng": 68,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6662.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Jarred Beasley",
+   "value": {
+    "g": 192,
+    "rec": 698,
+    "yds": 7358,
+    "td": 99,
+    "fum": 23,
+    "lng": 78,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 1,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6663.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Darrel Longa",
+   "value": {
+    "g": 231,
+    "tkl": 1077,
+    "int": 3,
+    "sck": 6.0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6664.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Marvell Rodgers",
+   "value": {
+    "g": 173,
+    "tkl": 2064,
+    "int": 16,
+    "sck": 0.0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6665.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Rysen Nauta",
+   "value": {
+    "g": 119,
+    "att": 4157,
+    "cmp": 2476,
+    "yds": 19797,
+    "td": 178,
+    "int": 18,
+    "sck": 18,
+    "ratt": 98,
+    "ryds": 590,
+    "rtd": 36,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6666.PNG",
+   "reason": "Career panel and award row (merged with IMG_6667.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Keion Orzech",
+   "value": {
+    "g": 236,
+    "tkl": 1122,
+    "int": 5,
+    "sck": 13.0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6668.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Ty Lock",
+   "value": {
+    "g": 167,
+    "att": 4436,
+    "cmp": 3066,
+    "yds": 36384,
+    "td": 363,
+    "int": 106,
+    "sck": 40,
+    "ratt": 237,
+    "ryds": 1168,
+    "rtd": 51,
+    "rings": 2,
+    "mvp": 2,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6669.PNG",
+   "reason": "Career panel and award row (merged with IMG_6670.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Shawn Milne",
+   "value": {
+    "g": 91,
+    "rec": 331,
+    "yds": 4053,
+    "td": 53,
+    "fum": 11,
+    "lng": 68,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6671.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Hamsfa Boltt",
+   "value": {
+    "g": 240,
+    "ratt": 180,
+    "ryds": 1112,
+    "rtd": 60,
+    "att": 7764,
+    "cmp": 5017,
+    "yds": 44898,
+    "td": 389,
+    "int": 54,
+    "sck": 40,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6672.PNG",
+   "reason": "Career panel and award row (merged with IMG_6673.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Trysten Floyd",
+   "value": {
+    "g": 79,
+    "tkl": 240,
+    "int": 3,
+    "sck": 0.0,
+    "ff": 3,
+    "rings": 3,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6674.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Bryson Lucas",
+   "value": {
+    "g": 88,
+    "tkl": 318,
+    "int": 0,
+    "sck": 5.0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_6675.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Camaron Knight",
+   "value": {
+    "g": 263,
+    "att": 8757,
+    "cmp": 5341,
+    "yds": 45125,
+    "td": 381,
+    "int": 41,
+    "sck": 45,
+    "ratt": 184,
+    "ryds": 1177,
+    "rtd": 65,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6676.PNG",
+   "reason": "Career panel and award row (merged with IMG_6677.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Tim Wright",
+   "value": {
+    "g": 165,
+    "rec": 6,
+    "recyds": 67,
+    "rectd": 0,
+    "fum": 106,
+    "ratt": 1571,
+    "ryds": 12479,
+    "rtd": 250,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6678.PNG",
+   "reason": "Career panel and award row (merged with IMG_6679.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Aqib McClain",
+   "value": {
+    "g": 221,
+    "tkl": 1183,
+    "int": 2,
+    "sck": 7.0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6680.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Grunky Felton",
+   "value": {
+    "g": 238,
+    "tkl": 919,
+    "int": 0,
+    "sck": 4.0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6681.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:K'Lavon Settle",
+   "value": {
+    "g": 238,
+    "tkl": 2965,
+    "int": 35,
+    "sck": 0.0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6682.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Obinna Leary",
+   "value": {
+    "g": 142,
+    "rec": 589,
+    "yds": 6866,
+    "td": 73,
+    "fum": 17,
+    "lng": 65,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6683.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Perrion Randall",
+   "value": {
+    "g": 74,
+    "blk": 122,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6684.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Kane Van Oxley",
+   "value": {
+    "g": 195,
+    "rec": 1090,
+    "yds": 17187,
+    "td": 172,
+    "fum": 18,
+    "lng": 68,
+    "rings": 3,
+    "mvp": 1,
+    "opoy": 3,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6685.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Shawn Skule",
+   "value": {
+    "g": 157,
+    "blk": 208,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6686.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Travon Swaim",
+   "value": {
+    "g": 89,
+    "tkl": 994,
+    "int": 7,
+    "sck": 0.0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6687.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Solomon Toohill",
+   "value": {
+    "g": 170,
+    "ratt": 130,
+    "ryds": 844,
+    "rtd": 50,
+    "att": 5635,
+    "cmp": 3511,
+    "yds": 31433,
+    "td": 305,
+    "int": 31,
+    "sck": 30,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6688.PNG",
+   "reason": "Career panel and award row (merged with IMG_6689.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Angelo Moton",
+   "value": {
+    "g": 57,
+    "ratt": 550,
+    "ryds": 4396,
+    "rtd": 73,
+    "fum": 52,
+    "rec": 0,
+    "recyds": 0,
+    "rectd": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6690.PNG",
+   "reason": "Career panel and award row (merged with IMG_6691.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Jamon Brooker",
+   "value": {
+    "g": 57,
+    "tkl": 607,
+    "int": 7,
+    "sck": 0.0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_6692.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Pyke T. Lowe",
+   "value": {
+    "g": 232,
+    "att": 7347,
+    "cmp": 4431,
+    "yds": 37659,
+    "td": 391,
+    "int": 57,
+    "sck": 60,
+    "ratt": 152,
+    "ryds": 748,
+    "rtd": 55,
+    "rings": 1,
+    "mvp": 2,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6693.PNG",
+   "reason": "Career panel and award row (merged with IMG_6694.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Chazz McCray",
+   "value": {
+    "g": 140,
+    "tkl": 1522,
+    "int": 19,
+    "sck": 0.0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 1,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6695.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Shareef London",
+   "value": {
+    "g": 157,
+    "rec": 627,
+    "yds": 6768,
+    "td": 69,
+    "fum": 21,
+    "lng": 78,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6696.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.season",
+   "target": "86",
+   "value": {
+    "team": "Falcons",
+    "abbr": "ATL",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "finish": "Champions"
+   },
+   "source": "image:images/IMG_6699.PNG",
+   "reason": "Staff screen, Your history: 86 ATL 13-4-0 Champions; season review record 13-4-0",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "superbowl.set",
+   "target": "Y86",
+   "value": {
+    "number": 145,
+    "roman": "CXLV",
+    "winner": "Falcons",
+    "score": "48-13",
+    "loser": "Texans",
+    "your_result": "won",
+    "your_team": "Falcons"
+   },
+   "source": "image:images/IMG_6700.PNG",
+   "reason": "Season review: RB (Retro Bowl) vs HOU 13-48, +35; playoff bracket IMG_6697 shows ATL (gold) over HOU; staff screen D.Skura 61 titles",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "superBowlRecord",
+   "value": [
+    {
+     "coach": "D.Skura",
+     "titles": 61
+    },
+    {
+     "coach": "NE (2000-2023)",
+     "titles": 6
+    },
+    {
+     "coach": "PIT (1969-1991)",
+     "titles": 4
+    },
+    {
+     "coach": "SF (1979-1988)",
+     "titles": 3
+    },
+    {
+     "coach": "WAS (1981-1992)",
+     "titles": 3
+    }
+   ],
+   "source": "image:images/IMG_6699.PNG",
+   "reason": "Staff screen Super Bowl record: D.Skura 61, the other rows unchanged",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "gamesPlayed",
+   "value": 1711,
+   "source": "image:images/IMG_6699.PNG",
+   "reason": "Staff screen: games played 1711 (1690 + 21 Y86 games: 17 regular + 4 playoff)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "simGames",
+   "value": 16,
+   "source": "image:images/IMG_6699.PNG",
+   "reason": "Staff screen: sim games 16 (1%), unchanged",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "age",
+   "value": 121,
+   "source": "image:images/IMG_6699.PNG",
+   "reason": "Staff screen: age 121",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "morale",
+   "value": "Great",
+   "source": "image:images/IMG_6699.PNG",
+   "reason": "Staff screen: morale Great",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "record",
+   "value": {
+    "fullSeasons": 85,
+    "regular": "1238-218-6",
+    "regularWinPct": 0.849,
+    "playoff": "226-23",
+    "playoffWinPct": 0.908,
+    "playoffsReached": "84/86",
+    "seasonsNoSimGames": 73
+   },
+   "source": "image:images/IMG_6699.PNG",
+   "reason": "Staff screen, Your record: full seasons 85, regular 1238-218-6 (.849), playoffs 226-23 (.908), reached 84/86. Sim games stayed 16, so Y86 adds a season without sim games (72 -> 73)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "source",
+   "value": "Retro Bowl staff screen (IMG_6699, Y86 complete)",
+   "source": "image:images/IMG_6699.PNG",
+   "reason": "New staff screen; bests stay as last seen",
+   "trigger": "New images in the upload"
+  }
+ ]
+}
