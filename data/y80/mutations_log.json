@@ -670,6 +670,15 @@
     "stats": 1
    },
    "changed": 6
+  },
+  {
+   "id": "2026-11-04-into-games",
+   "dir": "data/uploads/2026-11-04-into-games",
+   "applied_at": "2026-11-04T11:16:16-08:00",
+   "mutations": {
+    "stats": 7
+   },
+   "changed": 7
   }
  ]
 }

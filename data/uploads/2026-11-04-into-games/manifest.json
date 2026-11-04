@@ -1,0 +1,86 @@
+{
+ "id": "2026-11-04-into-games",
+ "created": "2026-11-04",
+ "title": "Seven short-career league players join the games and the card market",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Jamir Crane",
+   "value": {
+    "in_games": 1
+   },
+   "source": "owner",
+   "reason": "Owner: \"keep them in\" (asked whether the 7 short-career players flagged in_games: 0 since the first import should join the games and the card market)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Zay Louis",
+   "value": {
+    "in_games": 1
+   },
+   "source": "owner",
+   "reason": "Owner: \"keep them in\" (asked whether the 7 short-career players flagged in_games: 0 since the first import should join the games and the card market)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Deshaun Muse",
+   "value": {
+    "in_games": 1
+   },
+   "source": "owner",
+   "reason": "Owner: \"keep them in\" (asked whether the 7 short-career players flagged in_games: 0 since the first import should join the games and the card market)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Joshuah Egbule",
+   "value": {
+    "in_games": 1
+   },
+   "source": "owner",
+   "reason": "Owner: \"keep them in\" (asked whether the 7 short-career players flagged in_games: 0 since the first import should join the games and the card market)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Damone Omameh",
+   "value": {
+    "in_games": 1
+   },
+   "source": "owner",
+   "reason": "Owner: \"keep them in\" (asked whether the 7 short-career players flagged in_games: 0 since the first import should join the games and the card market)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Rashaad Bolton",
+   "value": {
+    "in_games": 1
+   },
+   "source": "owner",
+   "reason": "Owner: \"keep them in\" (asked whether the 7 short-career players flagged in_games: 0 since the first import should join the games and the card market)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Esezi Parsons",
+   "value": {
+    "in_games": 1
+   },
+   "source": "owner",
+   "reason": "Owner: \"keep them in\" (asked whether the 7 short-career players flagged in_games: 0 since the first import should join the games and the card market)",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}
