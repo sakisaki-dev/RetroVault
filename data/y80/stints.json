@@ -3467,6 +3467,18 @@
   "confidence": "strong",
   "evidence": "1 ring = Falcons Y86. The only window that fits."
  },
+ "Bryson Lucas": {
+  "stints": [
+   {
+    "team": "Commanders",
+    "from": 82,
+    "to": 86,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
  "Jamon Brooker": {
   "stints": [
    {

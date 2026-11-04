@@ -597,6 +597,16 @@
     "stats": 4
    },
    "changed": 4
+  },
+  {
+   "id": "2026-11-04-lucas-baugh",
+   "dir": "data/uploads/2026-11-04-lucas-baugh",
+   "applied_at": "2026-11-04T10:55:37-08:00",
+   "mutations": {
+    "stats": 1,
+    "speech": 1
+   },
+   "changed": 2
   }
  ]
 }

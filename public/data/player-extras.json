@@ -3948,6 +3948,18 @@
    "confidence": "strong",
    "evidence": "1 ring = Falcons Y86. The only window that fits."
   },
+  "Bryson Lucas": {
+   "stints": [
+    {
+     "team": "Commanders",
+     "from": 82,
+     "to": 86,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
+  },
   "Jamon Brooker": {
    "stints": [
     {
@@ -3979,6 +3991,7 @@
   "Breece Hall": "New York Jets",
   "Brennan Higgins": "Washington Commanders",
   "Brian Baker": "Houston Texans",
+  "Bryson Lucas": "Washington Commanders",
   "Bud Matthew": "New York Jets",
   "Cairo Asanjh": "Seattle Seahawks",
   "Calais Ham": "Atlanta Falcons",
