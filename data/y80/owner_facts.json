@@ -2,6 +2,9 @@
  "_about": "Owner-confirmed facts (data entry, never analysis). Written only by scripts/apply_upload.py from an upload manifest (data/uploads/*/manifest.json). players.<name>: team = club of record when the sheet says CUR/UNK or is out of date; team_history = earlier clubs; retired_with = the club on the game's Player HOF screen; status = Active/Retired when the sheet has no row; tag = the owner's own one-liner; card = player-card fields (team, former_team, legacy_team, note); career = what the owner said about the career path (order of clubs, on = [team, season] he was there, longest = the club he spent most seasons with, stints = exact [team, from, to], next_team = traded after the last season, says = the owner's words); real_nfl = real NFL games / rings / club before the save (imported players). active_rosters = the game's current team screens. season_rosters.<year> = who played for each club that season (games gained between screenshot sets).",
  "current_club": "Falcons",
  "players": {
+  "Akeem Trask": {
+   "team": "Packers"
+  },
   "Akiem Bouye": {
    "retired_with": "Chargers"
   },
@@ -31,6 +34,9 @@
     "says": "Traded from the Seahawks to the Jets for Obinna Leary after playing the Y80 Super Bowl for Seattle; played Y81 for the Jets, was let walk, and has since retired."
    }
   },
+  "Andrew Biegel": {
+   "team": "Texans"
+  },
   "Angelo Moton": {
    "team": "Packers"
   },
@@ -39,6 +45,9 @@
   },
   "Aqib McClain": {
    "team": "49ers"
+  },
+  "Asante Biadasz": {
+   "team": "Cardinals"
   },
   "Avonte Gooden": {
    "tag": "QB of the Commanders four-peat (Y16–19)",
@@ -252,6 +261,9 @@
   "Forrest Everett": {
    "signature_team": "Broncos"
   },
+  "Gerrit Ogbah": {
+   "team": "Texans"
+  },
   "God Johnson": {
    "retired_with": "Vikings"
   },
@@ -323,6 +335,9 @@
   },
   "Jamon Brooker": {
    "team": "Packers"
+  },
+  "Jarrell Cann": {
+   "team": "Cowboys"
   },
   "Jashaun Fleming": {
    "career": {
@@ -429,6 +444,9 @@
     ],
     "says": "Kyric never played for the Bucs."
    }
+  },
+  "Kyron Atwell": {
+   "team": "Texans"
   },
   "Lamar Jackson": {
    "retired_with": "Packers",
@@ -599,6 +617,12 @@
   "Pharoah Hunter": {
    "retired_with": "Seahawks"
   },
+  "Phil Ekuale": {
+   "team": "Steelers"
+  },
+  "Preston Gore": {
+   "team": "Texans"
+  },
   "Ray Waller": {
    "retired_with": "Buccaneers",
    "career": {
@@ -735,6 +759,12 @@
   "Terron Stidham": {
    "team": "Ravens"
   },
+  "Tim Sweeney": {
+   "team": "Texans"
+  },
+  "Tramon Holton": {
+   "team": "Falcons"
+  },
   "Travon Swaim": {
    "team": "Lions"
   },
@@ -758,6 +788,7 @@
    "team": "Ravens"
   },
   "Trysten Floyd": {
+   "team": "Commanders",
    "career": {
     "order": [
      "Falcons"
@@ -814,6 +845,9 @@
   },
   "Wayne Wilson": {
    "retired_with": "Bills"
+  },
+  "Xavier Mosley": {
+   "team": "Raiders"
   }
  },
  "active_rosters": {

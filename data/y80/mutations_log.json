@@ -607,6 +607,51 @@
     "speech": 1
    },
    "changed": 2
+  },
+  {
+   "id": "2026-11-04-y87",
+   "dir": "data/uploads/2026-11-04-y87",
+   "applied_at": "2026-11-04T10:58:50-08:00",
+   "mutations": {
+    "stats": 72
+   },
+   "changed": 449
+  },
+  {
+   "id": "2026-11-04-speeches-y87",
+   "dir": "data/uploads/2026-11-04-speeches-y87",
+   "applied_at": "2026-11-04T11:01:58-08:00",
+   "mutations": {
+    "speech": 4
+   },
+   "changed": 4
+  },
+  {
+   "id": "2026-11-04-story-y85-v6",
+   "dir": "data/uploads/2026-11-04-story-y85-v6",
+   "applied_at": "2026-11-04T11:02:09-08:00",
+   "mutations": {
+    "story": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-04-story-y87",
+   "dir": "data/uploads/2026-11-04-story-y87",
+   "applied_at": "2026-11-04T11:06:18-08:00",
+   "mutations": {
+    "story": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-04-y87-teams",
+   "dir": "data/uploads/2026-11-04-y87-teams",
+   "applied_at": "2026-11-04T11:08:18-08:00",
+   "mutations": {
+    "stats": 12
+   },
+   "changed": 12
   }
  ]
 }

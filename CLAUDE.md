@@ -311,7 +311,9 @@ current data is a no-op.
   solver and the audit away from those clubs.
 - **Hall of Fame** (owner): the bar is Career Legacy 7,500 from Y85 on (7,000 through Y84). Members inducted earlier stay
   while they hold 7,300 (`HOF_FLOOR`); the borderline 7,000 members under it were removed with their speeches
-  (`speech.remove`). `isHallOfFamer()` in `src/config/stats.ts`, `is_hall_of_famer()` in `build_league_content.py`.
+  (`speech.remove`). A removed member stays out for good (owner: Kyric McQuay, "keep him out"): his old-bar crossings
+  no longer count (`removed_from_hof()` in `build_league_data.py` / `build_league_content.py`), so only reaching
+  7,500 puts him back. `isHallOfFamer()` in `src/config/stats.ts`, `is_hall_of_famer()` in `build_league_content.py`.
 - **Hall of Fame classes**: who first reached the bar of the season at each market snapshot (and is still in), labelled by the snapshot's
   season; the first snapshot's members are the "Inaugural class".
 - **"What changed" headlines** (`build_headlines()` in `build_league_content.py` → `content.json` `headlines`

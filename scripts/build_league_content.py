@@ -777,9 +777,27 @@ def hof_bar(s) -> int:
     return HOF_THRESHOLD if m and int(m.group(1)) >= 85 else 7000
 
 
+def removed_from_hof() -> set[str]:
+    """Names whose Hall of Fame speech an applied bundle removed (speech.remove: the borderline 7,000 members, owner).
+    Their old-bar crossings no longer count; only reaching the 7,500 bar puts them back."""
+    log_path = SRC / "mutations_log.json"
+    applied = json.loads(log_path.read_text()).get("applied", []) if log_path.exists() else []
+    out = set()
+    for e in applied:
+        path = ROOT / e.get("dir", f"data/uploads/{e['id']}") / "manifest.json"
+        if path.exists():
+            out |= {m["target"] for m in json.loads(path.read_text()).get("mutations", []) if m.get("op") == "speech.remove"}
+    return out
+
+
+REMOVED_FROM_HOF = removed_from_hof()
+
+
 def inducted(upto: int | None = None) -> set[str]:
-    """Players who reached the bar of its season in a snapshot (MARKET[:upto])."""
-    return {k for s in MARKET[:upto] for k, v in s["players"].items() if v.get("legacy", 0) >= hof_bar(s)}
+    """Players who reached the bar of its season in a snapshot (MARKET[:upto]); a removed member counts only at
+    the 7,500 bar."""
+    return {k for s in MARKET[:upto] for k, v in s["players"].items() if v.get("legacy", 0) >= hof_bar(s)
+            and (hof_bar(s) >= HOF_THRESHOLD or k.split(":", 1)[1] not in REMOVED_FROM_HOF)}
 
 
 def is_hall_of_famer(k: str) -> bool:

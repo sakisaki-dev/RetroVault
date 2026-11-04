@@ -1,0 +1,117 @@
+{
+ "id": "2026-11-04-y87-teams",
+ "created": "2026-11-04",
+ "title": "Teams for the Y87 newcomers; Trysten Floyd traded to the Commanders",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Tramon Holton/team",
+   "value": "Falcons",
+   "reason": "Owner: \"tramon holton is on the falcons, cann is on the cowboys, sweeney is texans so is ogbah, gore, beigel and atwell, mosley on the raiders, ekuale on the steelers, biadasz on the cardinals akeem trask on the packers trysten floyd is a commander he got traded\""
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Jarrell Cann/team",
+   "value": "Cowboys",
+   "reason": "Owner: \"tramon holton is on the falcons, cann is on the cowboys, sweeney is texans so is ogbah, gore, beigel and atwell, mosley on the raiders, ekuale on the steelers, biadasz on the cardinals akeem trask on the packers trysten floyd is a commander he got traded\""
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Tim Sweeney/team",
+   "value": "Texans",
+   "reason": "Owner: \"tramon holton is on the falcons, cann is on the cowboys, sweeney is texans so is ogbah, gore, beigel and atwell, mosley on the raiders, ekuale on the steelers, biadasz on the cardinals akeem trask on the packers trysten floyd is a commander he got traded\""
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Gerrit Ogbah/team",
+   "value": "Texans",
+   "reason": "Owner: \"tramon holton is on the falcons, cann is on the cowboys, sweeney is texans so is ogbah, gore, beigel and atwell, mosley on the raiders, ekuale on the steelers, biadasz on the cardinals akeem trask on the packers trysten floyd is a commander he got traded\""
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Preston Gore/team",
+   "value": "Texans",
+   "reason": "Owner: \"tramon holton is on the falcons, cann is on the cowboys, sweeney is texans so is ogbah, gore, beigel and atwell, mosley on the raiders, ekuale on the steelers, biadasz on the cardinals akeem trask on the packers trysten floyd is a commander he got traded\""
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Andrew Biegel/team",
+   "value": "Texans",
+   "reason": "Owner: \"tramon holton is on the falcons, cann is on the cowboys, sweeney is texans so is ogbah, gore, beigel and atwell, mosley on the raiders, ekuale on the steelers, biadasz on the cardinals akeem trask on the packers trysten floyd is a commander he got traded\""
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Kyron Atwell/team",
+   "value": "Texans",
+   "reason": "Owner: \"tramon holton is on the falcons, cann is on the cowboys, sweeney is texans so is ogbah, gore, beigel and atwell, mosley on the raiders, ekuale on the steelers, biadasz on the cardinals akeem trask on the packers trysten floyd is a commander he got traded\""
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Xavier Mosley/team",
+   "value": "Raiders",
+   "reason": "Owner: \"tramon holton is on the falcons, cann is on the cowboys, sweeney is texans so is ogbah, gore, beigel and atwell, mosley on the raiders, ekuale on the steelers, biadasz on the cardinals akeem trask on the packers trysten floyd is a commander he got traded\""
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Phil Ekuale/team",
+   "value": "Steelers",
+   "reason": "Owner: \"tramon holton is on the falcons, cann is on the cowboys, sweeney is texans so is ogbah, gore, beigel and atwell, mosley on the raiders, ekuale on the steelers, biadasz on the cardinals akeem trask on the packers trysten floyd is a commander he got traded\""
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Asante Biadasz/team",
+   "value": "Cardinals",
+   "reason": "Owner: \"tramon holton is on the falcons, cann is on the cowboys, sweeney is texans so is ogbah, gore, beigel and atwell, mosley on the raiders, ekuale on the steelers, biadasz on the cardinals akeem trask on the packers trysten floyd is a commander he got traded\""
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Akeem Trask/team",
+   "value": "Packers",
+   "reason": "Owner: \"tramon holton is on the falcons, cann is on the cowboys, sweeney is texans so is ogbah, gore, beigel and atwell, mosley on the raiders, ekuale on the steelers, biadasz on the cardinals akeem trask on the packers trysten floyd is a commander he got traded\""
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "source": "owner",
+   "trigger": "Owner statement in chat",
+   "target": "players/Trysten Floyd/team",
+   "value": "Commanders",
+   "reason": "Owner: \"tramon holton is on the falcons, cann is on the cowboys, sweeney is texans so is ogbah, gore, beigel and atwell, mosley on the raiders, ekuale on the steelers, biadasz on the cardinals akeem trask on the packers trysten floyd is a commander he got traded\" (traded)"
+  }
+ ]
+}

@@ -1,19 +1,19 @@
 {
- "source": "Retro Bowl staff screen (IMG_6699, Y86 complete)",
+ "source": "Retro Bowl staff screen (IMG_6868, Y87 complete)",
  "name": "Dorren Skura",
- "age": 121,
+ "age": 122,
  "stars": 5,
- "morale": "Great",
- "gamesPlayed": 1711,
+ "morale": "Exceptional",
+ "gamesPlayed": 1731,
  "simGames": 16,
  "record": {
-  "fullSeasons": 85,
-  "regular": "1238-218-6",
-  "regularWinPct": 0.849,
-  "playoff": "226-23",
-  "playoffWinPct": 0.908,
-  "playoffsReached": "84/86",
-  "seasonsNoSimGames": 73
+  "fullSeasons": 86,
+  "regular": "1255-218-6",
+  "regularWinPct": 0.851,
+  "playoff": "229-23",
+  "playoffWinPct": 0.909,
+  "playoffsReached": "85/87",
+  "seasonsNoSimGames": 74
  },
  "bests": {
   "mostPoints": "MIN 38-54 CAR",
@@ -24,7 +24,7 @@
  "superBowlRecord": [
   {
    "coach": "D.Skura",
-   "titles": 61
+   "titles": 62
   },
   {
    "coach": "NE (2000-2023)",
@@ -815,6 +815,15 @@
    "abbr": "ATL",
    "w": 13,
    "l": 4,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 87,
+   "team": "Falcons",
+   "abbr": "ATL",
+   "w": 17,
+   "l": 0,
    "t": 0,
    "finish": "Champions"
   }
