@@ -1,0 +1,126 @@
+{
+ "id": "2026-11-04-eagles-switch",
+ "created": "2026-11-04",
+ "title": "The coach switches to the Eagles for Y88: Adam, Roberts, Atwell and Spector to Philadelphia, Karras to the Patriots; Sawyer and Settle retire",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "Sawyer's and Settle's speeches said they were still playing; both retired",
+   "trigger": "Owner statement in notes.md"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "currentStint",
+   "value": {
+    "team": "Eagles",
+    "abbr": "PHI",
+    "from": 88
+   },
+   "source": "owner",
+   "reason": "Owner: \"in this new season i've moved to the eagles, apollo adam came here, so did trequan roberts and kyron atwell, Siran spector is also in this with isaiah karras going to the patriots ... malakai sawyer has since retired so has klavon settle\" (switched clubs from the Falcons to the Eagles for Y88; no Eagles games yet)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "current_club",
+   "value": "Eagles",
+   "source": "owner",
+   "reason": "Owner: \"in this new season i've moved to the eagles, apollo adam came here, so did trequan roberts and kyron atwell, Siran spector is also in this with isaiah karras going to the patriots ... malakai sawyer has since retired so has klavon settle\" (switched clubs from the Falcons to the Eagles for Y88)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Apollo Adam/team",
+   "value": "Eagles",
+   "source": "owner",
+   "reason": "Owner: \"in this new season i've moved to the eagles, apollo adam came here, so did trequan roberts and kyron atwell, Siran spector is also in this with isaiah karras going to the patriots ... malakai sawyer has since retired so has klavon settle\" (came to the Eagles with the coach, from the Falcons)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Trequan Roberts/team",
+   "value": "Eagles",
+   "source": "owner",
+   "reason": "Owner: \"in this new season i've moved to the eagles, apollo adam came here, so did trequan roberts and kyron atwell, Siran spector is also in this with isaiah karras going to the patriots ... malakai sawyer has since retired so has klavon settle\" (traded to the Eagles, from the Jets)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kyron Atwell/team",
+   "value": "Eagles",
+   "source": "owner",
+   "reason": "Owner: \"in this new season i've moved to the eagles, apollo adam came here, so did trequan roberts and kyron atwell, Siran spector is also in this with isaiah karras going to the patriots ... malakai sawyer has since retired so has klavon settle\" (traded to the Eagles, from the Texans)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Siran Spector/team",
+   "value": "Eagles",
+   "source": "owner",
+   "reason": "Owner: \"in this new season i've moved to the eagles, apollo adam came here, so did trequan roberts and kyron atwell, Siran spector is also in this with isaiah karras going to the patriots ... malakai sawyer has since retired so has klavon settle\" (traded to the Eagles, from the Patriots)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Isaiah Karras/team",
+   "value": "Patriots",
+   "source": "owner",
+   "reason": "Owner: \"in this new season i've moved to the eagles, apollo adam came here, so did trequan roberts and kyron atwell, Siran spector is also in this with isaiah karras going to the patriots ... malakai sawyer has since retired so has klavon settle\" (traded to the Patriots, from the Seahawks)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Malakai Sawyer/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"in this new season i've moved to the eagles, apollo adam came here, so did trequan roberts and kyron atwell, Siran spector is also in this with isaiah karras going to the patriots ... malakai sawyer has since retired so has klavon settle\" (retired after Y87)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/K'Lavon Settle/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"in this new season i've moved to the eagles, apollo adam came here, so did trequan roberts and kyron atwell, Siran spector is also in this with isaiah karras going to the patriots ... malakai sawyer has since retired so has klavon settle\" (retired after Y87)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Malakai Sawyer",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y84",
+    "text": "Some backs have a great season. Malakai Sawyer keeps having them.\n\nHe has played 299 games and carried the ball 2,805 times for 20,416 yards, better than seven yards a carry, with 367 rushing touchdowns. He catches it too: 235 receptions for 1,871 yards and 60 more scores. Two Offensive Player of the Year awards say the league noticed.\n\nIt started in Tennessee, where he was Rookie of the Year on the Titans team that won it all in Y72. Seattle came next, then the Jets, where he won a second ring in Y77 and ran for 212 yards in a single game in Y78, a record that stood until Y85. Four seasons in Atlanta followed, and then the road led back to New York, where he finished his career after Y87.\n\nMalakai Sawyer, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Owner: \"in this new season i've moved to the eagles, apollo adam came here, so did trequan roberts and kyron atwell, Siran spector is also in this with isaiah karras going to the patriots ... malakai sawyer has since retired so has klavon settle\" (his speech said he was still carrying the ball)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "K'Lavon Settle",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7500: Y87",
+    "text": "Fifteen seasons in San Francisco, and nobody on a card has made more tackles.\n\nK'Lavon Settle played 255 games for the 49ers from Y73 to Y87 and made 3,185 tackles, about twelve and a half every time he took the field. He intercepted 36 passes. He was never credited with a sack or a forced fumble, because his job was never to gamble. He read the play, closed the distance and brought the ball carrier down, snap after snap, season after season.\n\nHe did it without a ring and without an individual award. What he left instead is the deepest tackle total the league has seen.\n\nHe arrives in the Y87 class under the Career Legacy 7,500 standard. K'Lavon Settle, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Owner: \"in this new season i've moved to the eagles, apollo adam came here, so did trequan roberts and kyron atwell, Siran spector is also in this with isaiah karras going to the patriots ... malakai sawyer has since retired so has klavon settle\" (his speech said he was still playing)",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}

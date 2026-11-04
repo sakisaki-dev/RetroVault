@@ -1,0 +1,1 @@
+in this new season i've moved to the eagles, apollo adam came here, so did trequan roberts and kyron atwell, Siran spector is also in this with isaiah karras going to the patriots and a bunch of new players we're going to update, malakai sawyer has since retired so has klavon settle

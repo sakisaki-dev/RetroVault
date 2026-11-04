@@ -1,0 +1,18 @@
+{
+ "id": "2026-11-04-boltt-retired",
+ "created": "2026-11-04",
+ "title": "Hamsfa Boltt retires",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Hamsfa Boltt/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"hamsfa boltt is also retired\"",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}

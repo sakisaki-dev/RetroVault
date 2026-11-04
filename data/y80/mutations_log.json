@@ -679,6 +679,25 @@
     "stats": 7
    },
    "changed": 7
+  },
+  {
+   "id": "2026-11-04-eagles-switch",
+   "dir": "data/uploads/2026-11-04-eagles-switch",
+   "applied_at": "2026-11-04T11:48:53-08:00",
+   "mutations": {
+    "stats": 9,
+    "speech": 2
+   },
+   "changed": 11
+  },
+  {
+   "id": "2026-11-04-boltt-retired",
+   "dir": "data/uploads/2026-11-04-boltt-retired",
+   "applied_at": "2026-11-04T11:49:27-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
   }
  ]
 }

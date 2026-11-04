@@ -23,7 +23,7 @@ Dan Stout,Retired,New York Jets,264,8694,5411,48796,472,51,51,189,1157,72,0,0,0,
 Jarrell Cann,Active,Dallas Cowboys,235,7628,4848,45242,405,44,37,206,1529,80,0,1,0,0,0,798.05,,,,,
 Kahzin Heath,Active,Denver Broncos,270,8959,5529,47597,456,44,44,179,1240,66,0,1,0,0,1,796.27,,,,,
 Camaron Knight,Active,Arizona Cardinals,280,9331,5657,48197,409,43,53,196,1265,70,1,0,0,1,0,760.32,,,,,
-Hamsfa Boltt,Active,Washington Commanders,258,8317,5354,48211,424,55,42,196,1205,65,1,0,0,1,0,747.7,,,,,
+Hamsfa Boltt,Retired,Washington Commanders,258,8317,5354,48211,424,55,42,196,1205,65,1,0,0,1,0,747.7,,,,,
 Solomon Toohill,Active,Green Bay Packers,190,6312,3964,35759,346,32,34,153,1050,57,1,1,0,0,0,746.45,,,,,
 Alexx Sanchez,Active,Tennessee Titans,216,5784,3816,42951,496,109,48,176,991,44,4,3,0,1,0,723.79,,,,,
 Dustin Milton,Active,New England Patriots,197,6389,3838,34854,345,37,33,170,1121,60,1,0,0,1,0,709.01,,,,,
@@ -41,7 +41,7 @@ Brandon Jaclyde,Active,Miami Dolphins,90,2684,1704,16571,169,39,15,69,398,23,1,1
 RB
 Name,Status,Team,Games,Rush Att,Rush Yds,Rush TD,Fum,Rec,Rec Yds,Rec TD,Rings,MVP,OPOY,SBMVP,ROTY,True Talent,Dominance,Career Legacy,TPG,Nicknames,Inducted
 Rondale Ikarras,Retired,New York Jets,303,3446,23178,374,83,249,1749,65,9,0,4,5,1,1208.17,,,,The Prodigal Son,Y
-Malakai Sawyer,Active,New York Jets,299,2805,20416,367,148,235,1871,60,2,0,2,0,1,1032.22,,,,,Y
+Malakai Sawyer,Retired,New York Jets,299,2805,20416,367,148,235,1871,60,2,0,2,0,1,1032.22,,,,,Y
 Jahmyr Gibbs,Retired,Miami Dolphins,295,2443,16644,307,140,689,4816,115,4,0,0,1,0,1013.22,,,,Mr. Incredible,Y
 Trequan Jensen,Retired,Green Bay Packers,287,2719,21690,388,240,10,192,0,1,0,0,0,0,842.27,,,,,
 Forrest Everett,Active,Denver Broncos,290,2270,16283,321,132,109,748,41,4,0,0,0,0,822.54,,,,,
@@ -57,9 +57,9 @@ Micky Celek,Active,Buffalo Bills,256,2372,17126,324,193,25,335,3,1,0,0,0,0,698.4
 Tim Wright,Active,Los Angeles Rams,184,1733,13793,271,121,7,96,1,0,0,0,0,1,611.97,,,,,
 Matthew Waynes,Retired,Carolina Panthers,258,2511,17802,306,256,5,89,1,0,0,0,0,0,598.35,,,,,
 Pharaoh Mintze,Active,Indianapolis Colts,199,1914,14080,287,161,9,144,3,1,0,0,0,0,594.02,,,,,
-Isaiah Karras,Active,Seattle Seahawks,198,1867,14687,263,159,9,122,0,0,0,0,0,0,575.88,,,,,
+Isaiah Karras,Active,New England Patriots,198,1867,14687,263,159,9,122,0,0,0,0,0,0,575.88,,,,,
 Tyron Colvin,Active,Tennessee Titans,146,1405,11817,219,96,11,71,1,1,0,0,0,0,514.66,,,,,
-Siran Spector,Active,New England Patriots,129,1147,9381,183,90,5,70,1,1,0,0,0,0,405.3,,,,,
+Siran Spector,Active,Philadelphia Eagles,129,1147,9381,183,90,5,70,1,1,0,0,0,0,405.3,,,,,
 Rod Kuechly,Active,Miami Dolphins,132,1111,9460,168,98,15,169,5,1,0,0,0,0,384.99,,,,,
 Oliver Rankin,Active,Denver Broncos,143,1441,10694,183,139,6,81,0,0,0,0,0,0,376.07,,,,,
 Tramon Amerson,Retired,Los Angeles Chargers,114,1088,9121,154,112,2,24,0,0,0,0,0,1,324.13,,,,,
@@ -102,7 +102,7 @@ Deven Fox,Active,Cincinnati Bengals,191,666,5698,75,28,68,0,0,0,0,0,312.25,,,,,
 Damien Stout,Active,Los Angeles Chargers,160,619,5217,74,24,64,0,0,0,0,0,294.2,,,,,
 Bud Matthew,Active,New York Jets,147,478,4489,67,15,63,0,0,0,0,0,252.86,,,,,
 Shawn Milne,Active,New York Giants,109,407,4702,62,13,68,1,0,0,0,0,231.81,,,,,
-Apollo Adam,Active,Atlanta Falcons,59,296,5702,60,4,75,3,0,2,1,0,224.66,,,,,
+Apollo Adam,Active,Philadelphia Eagles,59,296,5702,60,4,75,3,0,2,1,0,224.66,,,,,
 Zay Louis,Active,Buffalo Bills,18,55,910,15,2,55,0,0,0,0,0,44.4,,,,,
 
 TE
@@ -164,7 +164,7 @@ Joshuah Egbule,Active,Seattle Seahawks,19,96,2,1,1,0,0,0,0,1,78.49,,,,,
 
 DB
 Name,Status,Team,Games,Tackles,INT,Sacks,FF,Rings,MVP,DPOY,SBMVP,ROTY,True Talent,Dominance,Career Legacy,TPG,Nicknames,Inducted
-K'Lavon Settle,Active,San Francisco 49ers,255,3185,36,0,0,0,0,0,0,0,938.38,,,,,Y
+K'Lavon Settle,Retired,San Francisco 49ers,255,3185,36,0,0,0,0,0,0,0,938.38,,,,,Y
 Jayon Queen,Retired,New York Jets,274,2838,40,0,0,0,0,2,0,0,936.56,,,,FOV,Y
 Mose Junior,Retired,Los Angeles Rams,247,2862,35,0,0,0,0,1,0,0,876.85,,,,,Y
 Dan Mosley,Active,Detroit Lions,248,2658,37,0,0,0,0,1,0,0,871.21,,,,,Y
@@ -181,7 +181,7 @@ Robert Boone,Retired,Tampa Bay Buccaneers,188,1623,27,0,2,5,0,1,0,0,595.53,,,,,
 Marvell Rodgers,Active,Tennessee Titans,190,2265,19,0,0,0,0,0,0,0,584.26,,,,,
 Kolton Moreau,Active,Tampa Bay Buccaneers,154,1499,25,0,1,2,0,0,0,0,547.37,,,,,
 Chazz McCray,Active,Tampa Bay Buccaneers,157,1726,22,0,0,0,0,1,0,1,540.15,,,,,
-Kyron Atwell,Active,Houston Texans,147,1616,23,0.0,0,0,0,1,0,0,535.99,,,,,
+Kyron Atwell,Active,Philadelphia Eagles,147,1616,23,0.0,0,0,0,1,0,0,535.99,,,,,
 Blair Iupati,Retired,Atlanta Falcons,201,1600,22,0.0,0,2,0,0,0,0,521.65,,,,,
 Dylan Hyatt,Retired,New York Jets,231,1713,16,0,2,6,0,0,0,0,471.08,,,,,
 Chance Woodrum,Active,Atlanta Falcons,229,1503,17,0,3,8,0,0,1,1,455.68,,,,,
@@ -193,7 +193,7 @@ Deante Elder,Active,Seattle Seahawks,159,1171,10,0,2,7,0,0,0,1,312.62,,,,,
 Jamon Brooker,Active,Green Bay Packers,77,801,14,0.0,0,0,0,0,0,1,298.48,,,,,
 Travon Swaim,Active,Detroit Lions,106,1214,9,0,0,0,0,0,0,1,298.29,,,,,
 Taywan Tuttle,Retired,Los Angeles Chargers,257,813,7,0,0,4,0,0,0,1,214.36,,,,,
-Trequan Roberts,Active,New York Jets,154,807,7,0,0,2,0,0,0,1,212.16,,,,,
+Trequan Roberts,Active,Philadelphia Eagles,154,807,7,0,0,2,0,0,0,1,212.16,,,,,
 Dwayne Skura,Active,New York Jets,116,609,9,0,0,1,0,0,0,0,206.94,,,,,
 Damone Omameh,Retired,Buffalo Bills,60,434,3,0,0,3,0,0,0,0,104.18,,,,,
 Trysten Floyd,Active,Washington Commanders,97,241,3,0,3,3,0,0,0,0,86.8,,,,,

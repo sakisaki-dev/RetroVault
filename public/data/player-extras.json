@@ -382,7 +382,9 @@
    "Tennessee Titans"
   ],
   "Malakai Sawyer": [
+   "Atlanta Falcons",
    "New York Jets",
+   "Seattle Seahawks",
    "Tennessee Titans"
   ],
   "Levante Hopkins": [
@@ -448,9 +450,21 @@
    "New York Jets",
    "Seattle Seahawks"
   ],
+  "Trequan Roberts": [
+   "New York Jets",
+   "Philadelphia Eagles"
+  ],
   "Tyson Nassib": [
    "Miami Dolphins",
    "New York Jets"
+  ],
+  "Isaiah Karras": [
+   "New England Patriots",
+   "Seattle Seahawks"
+  ],
+  "Siran Spector": [
+   "Atlanta Falcons",
+   "Philadelphia Eagles"
   ],
   "Shareef London": [
    "Atlanta Falcons",
@@ -477,6 +491,10 @@
    "Atlanta Falcons",
    "New York Giants",
    "Tampa Bay Buccaneers"
+  ],
+  "Apollo Adam": [
+   "Atlanta Falcons",
+   "Philadelphia Eagles"
   ]
  },
  "stints": {
@@ -2476,6 +2494,46 @@
     ]
    ]
   },
+  "Malakai Sawyer": {
+   "stints": [
+    {
+     "team": "Titans",
+     "from": 72,
+     "to": 72,
+     "rings": [
+      72
+     ]
+    },
+    {
+     "team": "Seahawks",
+     "from": 73,
+     "to": 75,
+     "rings": []
+    },
+    {
+     "team": "Jets",
+     "from": 76,
+     "to": 78,
+     "rings": [
+      77
+     ]
+    },
+    {
+     "team": "Falcons",
+     "from": 79,
+     "to": 82,
+     "rings": []
+    },
+    {
+     "team": "Jets",
+     "from": 83,
+     "to": 84,
+     "rings": []
+    }
+   ],
+   "confidence": "confirmed",
+   "evidence": "2 rings = Titans Y72; Jets Y77. Record board (your club's games only): Y75 longest rushing play (Seahawks). On the Y80 Falcons roster. On the Y83 Jets roster. On the Y84 Jets roster. Owner: “One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons; traded back to the Jets after Y82 for Kane Van Oxley, Ryland Maxwell and Chance Woodrum.”"
+  },
   "Levante Hopkins": {
    "stints": [
     {
@@ -3196,11 +3254,17 @@
     {
      "team": "Jets",
      "from": 79,
-     "to": 87,
+     "to": 85,
      "rings": [
       80,
       82
      ]
+    },
+    {
+     "team": "Eagles",
+     "from": 86,
+     "to": 87,
+     "rings": []
     }
    ],
    "confidence": "strong",
@@ -3366,6 +3430,12 @@
     {
      "team": "Seahawks",
      "from": 77,
+     "to": 82,
+     "rings": []
+    },
+    {
+     "team": "Patriots",
+     "from": 83,
      "to": 87,
      "rings": []
     }
@@ -3388,16 +3458,48 @@
   "Siran Spector": {
    "stints": [
     {
-     "team": "Patriots",
+     "team": "Falcons",
      "from": 80,
-     "to": 87,
+     "to": 83,
      "rings": [
-      81
+      83
      ]
+    },
+    {
+     "team": "Eagles",
+     "from": 84,
+     "to": 87,
+     "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "1 ring = Patriots Y81. The only window that fits."
+   "confidence": "ambiguous",
+   "evidence": "1 ring = Falcons Y83. His known clubs (Eagles) can't account for every ring, so the best fit adds a stop: Falcons Y80-83, Eagles Y84-87.",
+   "alternatives": [
+    [
+     {
+      "team": "Jets",
+      "from": 80,
+      "to": 81
+     },
+     {
+      "team": "Eagles",
+      "from": 82,
+      "to": 87
+     }
+    ],
+    [
+     {
+      "team": "Jets",
+      "from": 81,
+      "to": 83
+     },
+     {
+      "team": "Eagles",
+      "from": 84,
+      "to": 87
+     }
+    ]
+   ]
   },
   "Tristan Tart": {
    "stints": [
@@ -3555,13 +3657,14 @@
    "stints": [
     {
      "team": "49ers",
-     "from": 73,
-     "to": 87,
+     "from": 37,
+     "to": 51,
      "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "No rings."
+   "confidence": "likely",
+   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 255-game window is a placeholder in seasons his club won nothing.",
+   "approx": true
   },
   "Matthew Waynes": {
    "stints": [
@@ -3899,17 +4002,23 @@
    "stints": [
     {
      "team": "Falcons",
-     "from": 85,
-     "to": 87,
+     "from": 84,
+     "to": 86,
      "rings": [
+      84,
       85,
-      86,
-      87
+      86
      ]
+    },
+    {
+     "team": "Eagles",
+     "from": 87,
+     "to": 87,
+     "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "3 rings = Falcons Y85, Y86, Y87. The only window that fits."
+   "confidence": "ambiguous",
+   "evidence": "3 rings = Falcons Y84, Y85, Y86. His known clubs (Eagles) can't account for every ring, so the best fit adds a stop: Falcons Y84-86, Eagles Y87."
   },
   "Kahzin Heath": {
    "stints": [
@@ -4058,7 +4167,7 @@
   "Kyron Atwell": {
    "stints": [
     {
-     "team": "Texans",
+     "team": "Eagles",
      "from": 79,
      "to": 87,
      "rings": []
@@ -4166,7 +4275,7 @@
   "Amani Bryant": "Denver Broncos",
   "Andrew Biegel": "Houston Texans",
   "Angelo Moton": "Green Bay Packers",
-  "Apollo Adam": "Atlanta Falcons",
+  "Apollo Adam": "Philadelphia Eagles",
   "Aqib McClain": "San Francisco 49ers",
   "Asante Biadasz": "Arizona Cardinals",
   "Aubrey Jewell": "Los Angeles Chargers",
@@ -4225,10 +4334,10 @@
   "Gerrit Ogbah": "Houston Texans",
   "God Johnson": "Minnesota Vikings",
   "Grunky Felton": "San Francisco 49ers",
-  "Hamsfa Boltt": "Washington Commanders",
+  "Hamsfa Boltt": "Tennessee Titans",
   "Ian Clapp": "Atlanta Falcons",
   "Ian Finney": "Tampa Bay Buccaneers",
-  "Isaiah Karras": "Seattle Seahawks",
+  "Isaiah Karras": "New England Patriots",
   "JR Bashaam": "Seattle Seahawks",
   "Jackson Wardell Kline": "New York Giants",
   "Jahan Square": "Tampa Bay Buccaneers",
@@ -4262,7 +4371,7 @@
   "Kitt Inman": "Tampa Bay Buccaneers",
   "Kolton Moreau": "Tampa Bay Buccaneers",
   "Kyric McQuay": "Indianapolis Colts",
-  "Kyron Atwell": "Houston Texans",
+  "Kyron Atwell": "Philadelphia Eagles",
   "Lamar Jackson": "Baltimore Ravens",
   "Laurent Akins": "Washington Commanders",
   "Le'Veon Richard": "Dallas Cowboys",
@@ -4317,7 +4426,7 @@
   "Shemar Wood": "Tampa Bay Buccaneers",
   "Sherman Brandson": "New York Giants",
   "Simeon Otton": "Atlanta Falcons",
-  "Siran Spector": "New England Patriots",
+  "Siran Spector": "Philadelphia Eagles",
   "Solomon Toohill": "Green Bay Packers",
   "Sony Driskel": "San Francisco 49ers",
   "Spencer Daniels": "Jacksonville Jaguars",
@@ -4331,7 +4440,7 @@
   "Tramon Holton": "Atlanta Falcons",
   "Travon Swaim": "Detroit Lions",
   "Trequan Jensen": "Green Bay Packers",
-  "Trequan Roberts": "New York Jets",
+  "Trequan Roberts": "Philadelphia Eagles",
   "Tristan Tart": "Baltimore Ravens",
   "Trysten Floyd": "Washington Commanders",
   "Ty Lock": "New York Giants",

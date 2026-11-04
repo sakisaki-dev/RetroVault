@@ -1,6 +1,6 @@
 {
  "_about": "Owner-confirmed facts (data entry, never analysis). Written only by scripts/apply_upload.py from an upload manifest (data/uploads/*/manifest.json). players.<name>: team = club of record when the sheet says CUR/UNK or is out of date; team_history = earlier clubs; retired_with = the club on the game's Player HOF screen; status = Active/Retired when the sheet has no row; tag = the owner's own one-liner; card = player-card fields (team, former_team, legacy_team, note); career = what the owner said about the career path (order of clubs, on = [team, season] he was there, longest = the club he spent most seasons with, stints = exact [team, from, to], next_team = traded after the last season, says = the owner's words); real_nfl = real NFL games / rings / club before the save (imported players). active_rosters = the game's current team screens. season_rosters.<year> = who played for each club that season (games gained between screenshot sets).",
- "current_club": "Falcons",
+ "current_club": "Eagles",
  "players": {
   "Akeem Trask": {
    "team": "Packers"
@@ -41,7 +41,7 @@
    "team": "Packers"
   },
   "Apollo Adam": {
-   "team": "Falcons"
+   "team": "Eagles"
   },
   "Aqib McClain": {
    "team": "49ers"
@@ -282,6 +282,7 @@
    "team_history": [
     "Titans"
    ],
+   "status": "Retired",
    "card": {
     "former_team": "Titans",
     "note": "Quarterbacked the Titans to their most recent title, Super Bowl CXXXIII (Y74), and was named SB MVP; now with the Commanders"
@@ -302,6 +303,9 @@
   },
   "Ian Finney": {
    "retired_with": "Buccaneers"
+  },
+  "Isaiah Karras": {
+   "team": "Patriots"
   },
   "Jackson Wardell Kline": {
    "retired_with": "Dolphins",
@@ -418,7 +422,8 @@
    "status": "Retired"
   },
   "K'Lavon Settle": {
-   "team": "49ers"
+   "team": "49ers",
+   "status": "Retired"
   },
   "Kahzin Heath": {
    "team": "Broncos"
@@ -458,7 +463,7 @@
    }
   },
   "Kyron Atwell": {
-   "team": "Texans"
+   "team": "Eagles"
   },
   "Lamar Jackson": {
    "retired_with": "Packers",
@@ -504,7 +509,7 @@
   },
   "Malakai Sawyer": {
    "team": "Jets",
-   "status": "Active",
+   "status": "Retired",
    "tag": "Won CXXXI with the Titans (Y72), then CXXXVI with the Jets (Y77); a Jet Y76–78, a Falcon Y79–82, back with the Jets from Y83",
    "card": {
     "team": "Jets",
@@ -755,7 +760,7 @@
    }
   },
   "Siran Spector": {
-   "team": "Patriots"
+   "team": "Eagles"
   },
   "Spencer Daniels": {
    "team": "Jaguars",
@@ -797,6 +802,9 @@
     ],
     "says": "Played Y83 and retired after it; final-season (Y83) stats were not captured, so the career stays at its Y82 totals."
    }
+  },
+  "Trequan Roberts": {
+   "team": "Eagles"
   },
   "Tristan Tart": {
    "team": "Ravens"
