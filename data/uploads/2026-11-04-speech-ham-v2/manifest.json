@@ -1,0 +1,27 @@
+{
+ "id": "2026-11-04-speech-ham-v2",
+ "created": "2026-11-04",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "Calais Ham's speech named opponents outside his franchises",
+   "trigger": "Audit warning"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Calais Ham",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7500: Y87",
+    "text": "Four seasons in Atlanta, four Super Bowl rings.\n\nCalais Ham arrived on the Falcons line in Y84 and has not lost a final since. He has played 81 games and been credited with 213 blocks, more than two and a half a game, the highest rate of any lineman on a card. Nobody up front has done more with every snap.\n\nThe rings came one after another under Dorren Skura, in Y84, Y85, Y86 and Y87, the last of them at the end of a perfect 17-0 season and a 30-21 win in Super Bowl CXLVI. Ham was in front for all of it, without an MVP or a Player of the Year award, because linemen do not win those.\n\nHe arrives in the Y87 class under the Career Legacy 7,500 standard. Calais Ham, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Speech refresh: drop opponents he never played for",
+   "trigger": "Audit warned the speech names clubs outside his franchises"
+  }
+ ]
+}

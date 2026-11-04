@@ -707,6 +707,15 @@
     "speech": 2
    },
    "changed": 2
+  },
+  {
+   "id": "2026-11-04-speech-ham-v2",
+   "dir": "data/uploads/2026-11-04-speech-ham-v2",
+   "applied_at": "2026-11-04T14:49:54-08:00",
+   "mutations": {
+    "speech": 1
+   },
+   "changed": 1
   }
  ]
 }
