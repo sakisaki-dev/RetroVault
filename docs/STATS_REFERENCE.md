@@ -59,7 +59,7 @@ The CSV has one section per position. The first cell of a row is the position (`
 | RB | 0.027·(RushYds + RecYds) + 1.35·(RushTD + RecTD − Fumbles) + 0.18·Games |
 | WR | 0.25·Rec + 0.015·RecYds + RecTD − 1.5·Fumbles + 0.05·Longest + 0.125·Games |
 | TE | 0.056·RecYds + 1.47·RecTD − 3.5·Fumbles + 0.07·Longest + 0.035·Games + 28·(RecYds/Rec) |
-| OL | 2.85·Blocks + 0.285·Games |
+| OL | 8·√Blocks + 0.227·Games + 636·Blocks/(Games + 50) (volume with diminishing returns plus a shrunk per-game rate; was 2.85·Blocks + 0.285·Games until Y88) |
 | LB | 0.4·Tackles + 10·(INT + Sacks + FF) + 0.0049·Games |
 | DB | 0.1512·Tackles + 12.6·INT + 2.5241·Sacks + 3.78·FF + 0.0126·Games |
 | DL | 0.55·Tackles + 5.5·Sacks + 2.75·FF + 0.11·Games |

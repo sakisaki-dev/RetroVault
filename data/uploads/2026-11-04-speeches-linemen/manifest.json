@@ -1,0 +1,40 @@
+{
+ "id": "2026-11-04-speeches-linemen",
+ "created": "2026-11-04",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "Jawill Perkins and Calais Ham crossed Career Legacy 7500 after the lineman True Talent formula started counting blocks per game",
+   "trigger": "Rebuild printed SPEECH NEEDED"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Jawill Perkins",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7500: Inaugural class",
+    "text": "Few linemen have ever been busier on a snap-for-snap basis than Jawill Perkins.\n\nHe has played 139 games and been credited with 304 blocks, a shade under two and a quarter every time he lines up. Among the league's linemen only Calais Ham has blocked at a higher rate. He never piled up the games of the iron men up front. He made the games he played count.\n\nHe has four rings to show for it, without a single MVP or Player of the Year award, because that is how the position works. The credit goes to the quarterback who stays clean and the back who finds the lane. Perkins is the reason the lane was there. Seattle wears him on its banner.\n\nFour rings, 304 blocks, and one of the best rates the position has seen. Jawill Perkins, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "New Hall of Famer",
+   "trigger": "Rebuild printed SPEECH NEEDED: Jawill Perkins"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Calais Ham",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7500: Y87",
+    "text": "Four seasons in Atlanta, four Super Bowl rings.\n\nCalais Ham arrived on the Falcons line in Y84 and has not lost a final since. He has played 81 games and been credited with 213 blocks, more than two and a half a game, the highest rate of any lineman on a card. Nobody up front has done more with every snap.\n\nThe rings came one after another under Dorren Skura: a 32-28 win over the Broncos in Y84, the Bengals in Y85, a 48-13 rout of the Texans in Y86, and a perfect 17-0 season in Y87 that ended with a 30-21 win over Houston in Super Bowl CXLVI. Ham was in front for all of it, without an MVP or a Player of the Year award, because linemen do not win those.\n\nHe arrives in the Y87 class under the Career Legacy 7,500 standard. Calais Ham, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "New Hall of Famer (Y87 class)",
+   "trigger": "Rebuild printed SPEECH NEEDED: Calais Ham"
+  }
+ ]
+}

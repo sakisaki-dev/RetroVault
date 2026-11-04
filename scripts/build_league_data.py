@@ -61,7 +61,11 @@ def tt_te(p):
 
 
 def tt_ol(p):
-    return 2.85 * g(p, "blk") + 0.285 * g(p, "g")
+    # Owner: a lineman's talent is not just his block total. Career blocks count with diminishing returns (square
+    # root) and blocks per game count alongside, shrunk toward zero over the first games (+50) so a short career
+    # can't ride a hot rate. Weights keep the position's top-3 benchmark where the old 2.85·Blocks formula had it.
+    blk, games = g(p, "blk"), g(p, "g")
+    return 8.0 * blk ** 0.5 + 0.227 * games + (636 * blk / (games + 50) if blk else 0)
 
 
 def tt_lb(p):

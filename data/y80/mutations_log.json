@@ -698,6 +698,15 @@
     "stats": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-04-speeches-linemen",
+   "dir": "data/uploads/2026-11-04-speeches-linemen",
+   "applied_at": "2026-11-04T14:49:11-08:00",
+   "mutations": {
+    "speech": 2
+   },
+   "changed": 2
   }
  ]
 }
