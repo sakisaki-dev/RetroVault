@@ -1,0 +1,25 @@
+{
+ "id": "2026-11-04-bud-matthew",
+ "created": "2026-11-04",
+ "title": "Bud Matthew Y87 card (owner-reported)",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Bud Matthew",
+   "value": {
+    "g": 147,
+    "rec": 478,
+    "yds": 4489,
+    "td": 67,
+    "fum": 15,
+    "lng": 63
+   },
+   "source": "owner",
+   "reason": "Owner typed his Y87 card: season 19 g, 54 rec, 466 yds, 6 td, 2 fum; career 147 g, 478 rec, 4489 yds (9.4 avg), lng 63, 67 td, 15 fum. Career = old line + season exactly. Career long 63 replaces the earlier 68 (a likely 3/8 misread from a screenshot)",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}

@@ -469,6 +469,10 @@
    "Atlanta Falcons",
    "Seattle Seahawks"
   ],
+  "Bud Matthew": [
+   "Dallas Cowboys",
+   "New York Jets"
+  ],
   "Shawn Milne": [
    "Atlanta Falcons",
    "New York Giants",
@@ -3679,14 +3683,58 @@
   "Bud Matthew": {
    "stints": [
     {
+     "team": "Cowboys",
+     "from": 79,
+     "to": 83,
+     "rings": []
+    },
+    {
      "team": "Jets",
-     "from": 83,
+     "from": 84,
      "to": 87,
      "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "No rings. On the Y84 Jets roster."
+   "confidence": "ambiguous",
+   "evidence": "No rings. On the Y84 Jets roster. His known clubs (Jets) can't account for every ring, so the best fit adds a stop: Cowboys Y79-83, Jets Y84-87.",
+   "alternatives": [
+    [
+     {
+      "team": "Bengals",
+      "from": 79,
+      "to": 82
+     },
+     {
+      "team": "Jets",
+      "from": 83,
+      "to": 87
+     }
+    ],
+    [
+     {
+      "team": "Bills",
+      "from": 79,
+      "to": 82
+     },
+     {
+      "team": "Jets",
+      "from": 83,
+      "to": 87
+     }
+    ],
+    [
+     {
+      "team": "Broncos",
+      "from": 79,
+      "to": 82
+     },
+     {
+      "team": "Jets",
+      "from": 83,
+      "to": 87
+     }
+    ]
+   ]
   },
   "Danny Diggs": {
    "stints": [
