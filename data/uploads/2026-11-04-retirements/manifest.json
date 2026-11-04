@@ -1,0 +1,117 @@
+{
+ "id": "2026-11-04-retirements",
+ "created": "2026-11-04",
+ "title": "Players with no Y87 card retired or out of the league",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Blair Iupati/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone but bud mathew retired or is out of the league\" (asked about the players with no Y87 card)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kirk Lenoir/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone but bud mathew retired or is out of the league\" (asked about the players with no Y87 card)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jaylen Conklin/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone but bud mathew retired or is out of the league\" (asked about the players with no Y87 card)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Spencer Daniels/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone but bud mathew retired or is out of the league\" (asked about the players with no Y87 card)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Deonte Sutton/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone but bud mathew retired or is out of the league\" (asked about the players with no Y87 card)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Juwann Gilman/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone but bud mathew retired or is out of the league\" (asked about the players with no Y87 card)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jashaun Fleming/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone but bud mathew retired or is out of the league\" (asked about the players with no Y87 card)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Corey Ivey/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone but bud mathew retired or is out of the league\" (asked about the players with no Y87 card)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Eric Raimann/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone but bud mathew retired or is out of the league\" (asked about the players with no Y87 card)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Von Horsted/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone but bud mathew retired or is out of the league\" (asked about the players with no Y87 card)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Vic Cannon/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone but bud mathew retired or is out of the league\" (asked about the players with no Y87 card)",
+   "trigger": "Owner statement in chat"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Matthew Waynes/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone but bud mathew retired or is out of the league\" (asked about the players with no Y87 card)",
+   "trigger": "Owner statement in chat"
+  }
+ ]
+}

@@ -2391,13 +2391,13 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 71,
-    "to": 87,
+    "from": 68,
+    "to": 83,
     "rings": []
    }
   ],
-  "confidence": "strong",
-  "evidence": "No rings. On the Y80 Ravens roster."
+  "confidence": "likely",
+  "evidence": "No rings. On the Y80 Ravens roster. Exact seasons are approximate."
  },
  "Dan Stout": {
   "stints": [
@@ -2421,8 +2421,8 @@
   "stints": [
    {
     "team": "Jets",
-    "from": 79,
-    "to": 87,
+    "from": 78,
+    "to": 86,
     "rings": [
      80,
      82
@@ -2606,35 +2606,35 @@
   "stints": [
    {
     "team": "Seahawks",
-    "from": 77,
+    "from": 76,
     "to": 81,
     "rings": []
    },
    {
     "team": "Saints",
     "from": 82,
-    "to": 85,
+    "to": 84,
     "rings": []
    },
    {
     "team": "Falcons",
-    "from": 86,
-    "to": 87,
+    "from": 85,
+    "to": 86,
     "rings": [
-     86,
-     87
+     85,
+     86
     ]
    }
   ],
   "confidence": "confirmed",
-  "evidence": "2 rings = Falcons Y86, Y87. On the Y80 Seahawks roster. On the Y81 Seahawks roster. Owner: “Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints.”"
+  "evidence": "2 rings = Falcons Y85, Y86. On the Y80 Seahawks roster. On the Y81 Seahawks roster. Owner: “Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints.”"
  },
  "Deonte Sutton": {
   "stints": [
    {
     "team": "Seahawks",
-    "from": 75,
-    "to": 87,
+    "from": 71,
+    "to": 82,
     "rings": []
    }
   ],
@@ -2767,13 +2767,13 @@
   "stints": [
    {
     "team": "Rams",
-    "from": 73,
-    "to": 87,
+    "from": 68,
+    "to": 82,
     "rings": []
    }
   ],
-  "confidence": "strong",
-  "evidence": "No rings."
+  "confidence": "likely",
+  "evidence": "No rings. Exact seasons are approximate."
  },
  "Solomon Toohill": {
   "stints": [
@@ -2934,13 +2934,14 @@
   "stints": [
    {
     "team": "Jaguars",
-    "from": 64,
-    "to": 87,
+    "from": 33,
+    "to": 55,
     "rings": []
    }
   ],
-  "confidence": "strong",
-  "evidence": "No rings."
+  "confidence": "likely",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 403-game window is a placeholder in seasons his club won nothing.",
+  "approx": true
  },
  "Shareef London": {
   "stints": [
@@ -3024,13 +3025,14 @@
   "stints": [
    {
     "team": "Jaguars",
-    "from": 73,
-    "to": 87,
+    "from": 44,
+    "to": 57,
     "rings": []
    }
   ],
-  "confidence": "strong",
-  "evidence": "No rings."
+  "confidence": "likely",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 247-game window is a placeholder in seasons his club won nothing.",
+  "approx": true
  },
  "Keion Orzech": {
   "stints": [
@@ -3084,13 +3086,14 @@
   "stints": [
    {
     "team": "Panthers",
-    "from": 73,
-    "to": 87,
+    "from": 37,
+    "to": 51,
     "rings": []
    }
   ],
-  "confidence": "strong",
-  "evidence": "No rings."
+  "confidence": "likely",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 258-game window is a placeholder in seasons his club won nothing.",
+  "approx": true
  },
  "D.C Paradis": {
   "stints": [
@@ -3126,6 +3129,22 @@
   "confidence": "confirmed",
   "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. Owner: “The Falcons' quarterback in Y83, then traded to the Dolphins.”"
  },
+ "Eric Raimann": {
+  "stints": [
+   {
+    "team": "Falcons",
+    "from": 83,
+    "to": 85,
+    "rings": [
+     83,
+     84,
+     85
+    ]
+   }
+  ],
+  "confidence": "confirmed",
+  "evidence": "3 rings = Falcons Y83, Y84, Y85. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “The Falcons' tight end in Y83.”"
+ },
  "Perrion Randall": {
   "stints": [
    {
@@ -3145,6 +3164,22 @@
   ],
   "confidence": "confirmed",
   "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. Owner: “On the Falcons' line in Y83, then traded to the Seahawks.”"
+ },
+ "Jashaun Fleming": {
+  "stints": [
+   {
+    "team": "Falcons",
+    "from": 83,
+    "to": 85,
+    "rings": [
+     83,
+     84,
+     85
+    ]
+   }
+  ],
+  "confidence": "confirmed",
+  "evidence": "3 rings = Falcons Y83, Y84, Y85. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
  },
  "Simeon Otton": {
   "stints": [
@@ -3300,13 +3335,14 @@
   "stints": [
    {
     "team": "Chargers",
-    "from": 68,
-    "to": 87,
+    "from": 53,
+    "to": 72,
     "rings": []
    }
   ],
-  "confidence": "strong",
-  "evidence": "No rings."
+  "confidence": "likely",
+  "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 336-game window is a placeholder in seasons his club won nothing.",
+  "approx": true
  },
  "Terron Stidham": {
   "stints": [
@@ -3392,15 +3428,15 @@
   "stints": [
    {
     "team": "Cardinals",
-    "from": 73,
-    "to": 87,
+    "from": 67,
+    "to": 79,
     "rings": [
      73
     ]
    }
   ],
-  "confidence": "strong",
-  "evidence": "1 ring = Cardinals Y73. The only window that fits."
+  "confidence": "likely",
+  "evidence": "1 ring = Cardinals Y73. Exact seasons are approximate."
  },
  "Marc Saine II": {
   "stints": [

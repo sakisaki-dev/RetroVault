@@ -64,6 +64,7 @@
     "Seahawks",
     "Saints"
    ],
+   "status": "Retired",
    "career": {
     "order": [
      "Seahawks",
@@ -167,6 +168,9 @@
   "Chazz McCray": {
    "team": "Buccaneers"
   },
+  "Corey Ivey": {
+   "status": "Retired"
+  },
   "D.C Paradis": {
    "team": "Broncos"
   },
@@ -211,6 +215,9 @@
   "Denzel Hayes": {
    "retired_with": "Bears"
   },
+  "Deonte Sutton": {
+   "status": "Retired"
+  },
   "Drake Maye": {
    "real_nfl": {
     "games": 29,
@@ -245,6 +252,7 @@
    }
   },
   "Eric Raimann": {
+   "status": "Retired",
    "career": {
     "order": [
      "Falcons"
@@ -340,6 +348,7 @@
    "team": "Cowboys"
   },
   "Jashaun Fleming": {
+   "status": "Retired",
    "career": {
     "order": [
      "Falcons"
@@ -388,6 +397,7 @@
    }
   },
   "Jaylen Conklin": {
+   "status": "Retired",
    "card": {
     "note": "\"Takeoff\": the highest vertical the owner has ever seen for pass catching; he catches anything as long as it's above his head."
    }
@@ -404,7 +414,8 @@
    "team": "Jets"
   },
   "Juwann Gilman": {
-   "team": "Cardinals"
+   "team": "Cardinals",
+   "status": "Retired"
   },
   "K'Lavon Settle": {
    "team": "49ers"
@@ -435,7 +446,8 @@
    "team": "Cowboys"
   },
   "Kirk Lenoir": {
-   "team": "Jaguars"
+   "team": "Jaguars",
+   "status": "Retired"
   },
   "Kyric McQuay": {
    "career": {
@@ -543,7 +555,8 @@
    }
   },
   "Matthew Waynes": {
-   "team": "Panthers"
+   "team": "Panthers",
+   "status": "Retired"
   },
   "Michael Wilson": {
    "team_history": [
@@ -745,7 +758,8 @@
    "team": "Patriots"
   },
   "Spencer Daniels": {
-   "team": "Jaguars"
+   "team": "Jaguars",
+   "status": "Retired"
   },
   "Taron Hayes": {
    "career": {
@@ -825,7 +839,11 @@
    "signature_team": "Dolphins"
   },
   "Vic Cannon": {
-   "team": "Chargers"
+   "team": "Chargers",
+   "status": "Retired"
+  },
+  "Von Horsted": {
+   "status": "Retired"
   },
   "Vyncint Heath": {
    "team": "Falcons",
