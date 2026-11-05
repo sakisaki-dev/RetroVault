@@ -3,6 +3,7 @@ import { HOF_THRESHOLD, LEGACY_TIERS } from '@/config/stats';
 import { officialOvrMap, playerKey } from '@/config/ovr';
 import { playerSkillGrades } from '@/config/skillGrades';
 import { TIERS, tierFor, type Finish, type Tier, type Variant } from '@/config/cardTiers';
+import { AUTOGRAPH_MEAN_MULT } from '@/config/autographs';
 
 /**
  * Card market: what a collectible card is "worth" in coins, and how that changes as the league data changes.
@@ -22,12 +23,14 @@ import { TIERS, tierFor, type Finish, type Tier, type Variant } from '@/config/c
  * into the Hall of Fame adds another 25%. A thin tier is worth more than a crowded one.
  * Finish multipliers (FINISH_MULTIPLIER): Base ×1, Silver ×1.5, Gold ×2.5, Holo ×6.
  * Art variant multipliers (VARIANT_MULTIPLIER), on top: Prizm number ×1, Team jersey ×1.2, 70s Topps ×1.8,
- * Locker stall ×2.5 (the Retro Bowl sprite ×5 went with the sprite art). A card that rolled an alternate uniform (8% of cards for clubs that have
- * one, see art/sprite/uniforms.ts) is worth ALT_VALUE_BONUS (×1.1) more. A card's price is value × finish × variant
- * (× the alternate bonus; an era kit, 2% of cards, ERA_VALUE_BONUS ×1.15) (cardPrice).
- * An AUTOGRAPH is priced on top of the card: value × its multiplier (parallel × pen and ink × inscription × serial ×
- * throwback, config/autographs.ts autographValue), from ×2.7 for a black ballpoint sticker to ×91 for a
- * nickname-inscribed throwback 1/1 cut (autographPrice).
+ * Locker stall ×2.5, Autograph ×1 (it is priced by its own roll instead, below). A card that rolled an alternate uniform
+ * (8% of cards for clubs that have one, see art/sprite/uniforms.ts) is worth ALT_VALUE_BONUS (×1.1) more. A card's
+ * price is value × finish × variant (× the alternate bonus; an era kit, 2% of cards, ERA_VALUE_BONUS ×1.15) (cardPrice).
+ * An AUTOGRAPH (the Autograph variant) is value × finish × its own multiplier (parallel × pen and ink × inscription ×
+ * serial × throwback, config/autographs.ts autographValue), from ×2.7 for a black ballpoint sticker to ×91 for a
+ * nickname-inscribed throwback 1/1 cut (autographPrice). Each owned autograph is its own holding, so nothing counts
+ * twice; an Autograph card with no roll behind it (not owned, a gallery sample) is priced at the mean multiplier
+ * (AUTOGRAPH_MEAN_MULT, about ×7.4 with every parallel open).
  *
  * HISTORY: data/y80/market_history.json (built into public/data/market.json) is a list of snapshots of every
  * collectible league player's { ovr, skill, legacy, value }. `npm run rebuild` appends one whenever any player's
@@ -41,7 +44,7 @@ export const HOF_MULTIPLIER = 1.25;
 /** Career Legacy that earns the Hall of Fame price premium: the original 7,000 line, kept when the induction bar rose so card prices did not jump. */
 const HOF_PREMIUM_LEGACY = 7000;
 export const FINISH_MULTIPLIER: Record<Finish, number> = { base: 1, silver: 1.5, gold: 2.5, holo: 6 };
-export const VARIANT_MULTIPLIER: Record<Variant, number> = { number: 1, jersey: 1.2, topps: 1.8, locker: 2.5 };
+export const VARIANT_MULTIPLIER: Record<Variant, number> = { number: 1, jersey: 1.2, topps: 1.8, locker: 2.5, auto: 1 };
 /** Market bonus for a card wearing an alternate uniform (re-exported by art/sprite/uniforms.ts) */
 export const ALT_VALUE_BONUS = 1.1;
 /** Market bonus for a card wearing a famous era kit (rarer: 2% of cards for clubs that have one) */
@@ -73,12 +76,19 @@ export const cardValue = ({ ovr, skill, legacy, tier, tierCount, poolSize }: Val
 };
 
 export const finishValue = (value: number, finish: Finish) => Math.round(value * FINISH_MULTIPLIER[finish]);
-/** Price of one card: base value × finish × art variant (× ALT_VALUE_BONUS when it rolled an alternate uniform). */
+/**
+ * Price of one card: base value × finish × art variant (× ALT_VALUE_BONUS when it rolled an alternate uniform). An
+ * Autograph card with no roll behind it is priced at the mean autograph multiplier (an owned one: autographPrice).
+ */
 export const cardPrice = (value: number, finish: Finish, variant: Variant, alt: boolean | 'alt' | 'era' | 'home' = false) =>
-  Math.round(value * FINISH_MULTIPLIER[finish] * VARIANT_MULTIPLIER[variant] * (alt === 'era' ? ERA_VALUE_BONUS : alt && alt !== 'home' ? ALT_VALUE_BONUS : 1));
+  variant === 'auto'
+    ? autographPrice(value, AUTOGRAPH_MEAN_MULT, finish)
+    : Math.round(value * FINISH_MULTIPLIER[finish] * VARIANT_MULTIPLIER[variant] * (alt === 'era' ? ERA_VALUE_BONUS : alt && alt !== 'home' ? ALT_VALUE_BONUS : 1));
 
-/** Price of an autograph: the player's base card value × the autograph's multiplier (config/autographs.ts). */
-export const autographPrice = (value: number, mult: number) => Math.round(value * mult);
+/** Price of an autograph: the player's base card value × the finish it was pulled at × its multiplier (config/autographs.ts). */
+export function autographPrice(value: number, mult: number, finish: Finish = 'base') {
+  return Math.round(value * FINISH_MULTIPLIER[finish] * VARIANT_MULTIPLIER.auto * mult);
+}
 
 // ---------- Snapshots ----------
 
@@ -221,12 +231,12 @@ export interface Holding {
   variant: Variant;
   /** Wears an alternate uniform (true / 'alt') or a famous era kit ('era'): uniforms.ts uniformKind */
   alt?: boolean | 'alt' | 'era' | 'home';
-  /** An autograph: priced as the base card × this multiplier instead (autographPrice) */
+  /** An autograph: priced as the base card × its finish × this multiplier instead (autographPrice) */
   mult?: number;
 }
 
 /** A holding's price at one base value. */
-export const holdingPrice = (value: number, h: Holding) => (h.mult != null ? autographPrice(value, h.mult) : cardPrice(value, h.finish, h.variant, h.alt));
+export const holdingPrice = (value: number, h: Holding) => (h.mult != null ? autographPrice(value, h.mult, h.finish) : cardPrice(value, h.finish, h.variant, h.alt));
 
 /** Portfolio value per snapshot: each owned (player, variant) at its best finish (cards not yet listed count 0). */
 export const portfolioSeries = (history: MarketHistory, owned: Holding[]) =>

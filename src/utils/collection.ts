@@ -15,7 +15,7 @@ export * from '@/config/cardTiers';
  * Exchange pack (exchangeLegends). Games never hand out a specific card: they award reward PACKS through
  * awardPack(), and every card comes from opening one on the Collection tab. A pull is two rolls: which player
  * (weighted by the player's TIER, src/config/cardTiers.ts, so better players are rarer), then which finish (Holo
- * rarest, and rarer still for top tiers), then which art VARIANT (Prizm number most common, Locker stall
+ * rarest, and rarer still for top tiers), then which art VARIANT (Prizm number most common, the Autograph
  * rarest; PackSpec.variants). A player can own every variant, each at its own best finish, so they stack:
  * OwnedCard.variants holds one entry per variant owned, and OwnedCard.best / counts / first / last summarise them.
  * Saves from before variants are migrated on load: every owned card becomes the Team jersey variant.
@@ -23,8 +23,10 @@ export * from '@/config/cardTiers';
  * claim a chosen player's Base card (claimCard; a "Legend claim" for a Legendary), then craft it up a finish at a time
  * (craftUpgrade; costs scale by tier and art variant). The owner can pin which variant × finish a player's card
  * displays (setDisplay / displayOf; CollectionState.display), else it shows the rarest variant at its best finish.
- * Autographs (CollectionState.autos) are rare hits inside packs: each pulled card may also carry one (AUTOGRAPH_ODDS),
- * stored as its own item with its rolls and a frozen snapshot of the player (src/config/autographs.ts).
+ * The Autograph is the fifth and rarest art variant, at the retired Retro Bowl sprite's old odds. A pull that rolls it
+ * also rolls its autograph (parallel, pen and ink, inscription, serial, throwback; src/config/autographs.ts), stored as
+ * its own item in CollectionState.autos with a snapshot of the player frozen at the pull, while variants.auto counts
+ * the finish like any other variant. Autographs are pulled only: never claimed or crafted with shards.
  *
  * State is per browser, in localStorage under STORAGE_KEY; every write fires CHANGE_EVENT so open
  * views update live. v1 (STORAGE_KEY_V1, one fixed rarity per player, cards granted directly by
@@ -62,30 +64,36 @@ export interface PackSpec {
 
 /**
  * Base variant odds (what a Common Base card rolls; relative weights, normalized per roll): Prizm most common, then
- * Jersey, Topps, Locker rarest. Standard is the baseline; better packs lean rarer. (The Retro Bowl sprite art was
- * removed; owner: "Remove the sprite card from the game".)
+ * Jersey, Topps, Locker, the Autograph rarest. Standard is the baseline (Autograph 3.5%); better packs lean rarer, never
+ * above 2× it. The Autograph has exactly the retired Retro Bowl sprite's odds and stacking (owner: "keep the sprites
+ * old odds with the diff rarities within the autographs having their own rarities").
  */
 const VARIANT_ODDS = {
-  standard: { number: 44, jersey: 29, topps: 15, locker: 8.5 },
-  premium: { number: 40, jersey: 29, topps: 17, locker: 10 },
-  elite: { number: 36, jersey: 28, topps: 19, locker: 12 },
-  chase: { number: 32, jersey: 28, topps: 20, locker: 13.5 },
+  standard: { number: 44, jersey: 29, topps: 15, locker: 8.5, auto: 3.5 },
+  premium: { number: 40, jersey: 29, topps: 17, locker: 10, auto: 4 },
+  elite: { number: 36, jersey: 28, topps: 19, locker: 12, auto: 5 },
+  chase: { number: 32, jersey: 28, topps: 20, locker: 13.5, auto: 6.5 },
 } satisfies Record<string, Weights<Variant>>;
 
 /**
  * Rarity layers stack: the rarer arts get rarer still on better players and finishes. A variant's base weight is
  * multiplied by its factor for the card's tier and for its finish (Prizm and Jersey stay ×1, so they soak up the
- * rest), then by any VARIANT_COMBO penalty that matches the exact card. Locker × Holo × Legendary is the rarest
- * card there is (scripts/simulate_packs.ts prints its odds). The market prices it the same way (value × finish ×
- * variant, src/utils/cardMarket.ts), so rarer layers stay worth more.
+ * rest), then by any VARIANT_COMBO penalty that matches the exact card. The Autograph's per-axis factors are gentle,
+ * so an Autograph Holo (Common to Epic) is a rare thrill rather than impossible; the combo penalty is what keeps
+ * Autograph × Holo × Legendary near-unattainable (scripts/simulate_packs.ts prints its odds). The market prices it the
+ * same way (value × finish × variant, src/utils/cardMarket.ts; an autograph by its own multiplier), so rarer layers
+ * stay worth more.
  */
 export const VARIANT_STACK: Partial<Record<Variant, { tier: Weights<Tier>; finish: Weights<Finish> }>> = {
   topps: { tier: { common: 1, rare: 0.9, epic: 0.8, legendary: 0.7 }, finish: { base: 1, silver: 0.9, gold: 0.8, holo: 0.7 } },
   locker: { tier: { common: 1, rare: 0.85, epic: 0.7, legendary: 0.55 }, finish: { base: 1, silver: 0.85, gold: 0.7, holo: 0.55 } },
+  auto: { tier: { common: 1, rare: 0.65, epic: 0.45, legendary: 0.15 }, finish: { base: 1, silver: 0.65, gold: 0.5, holo: 0.5 } },
 };
 
-/** Extra multipliers for one exact variant × tier × finish, on top of VARIANT_STACK (the chase cards; none since the sprite went). */
-export const VARIANT_COMBO: { variant: Variant; tier: Tier; finish: Finish; factor: number }[] = [];
+/** Extra multipliers for one exact variant × tier × finish, on top of VARIANT_STACK (the chase cards). */
+export const VARIANT_COMBO: { variant: Variant; tier: Tier; finish: Finish; factor: number }[] = [
+  { variant: 'auto', tier: 'legendary', finish: 'holo', factor: 0.02 },
+];
 
 /** Variant odds for one card of a pack, given the tier and finish it already rolled. */
 export const variantWeights = (type: PackType, tier: Tier, finish: Finish): Weights<Variant> => {
@@ -199,16 +207,6 @@ export const SHELF_ORDER: PackType[] = [...PACK_ORDER, 'exchange'];
 export const COUNTED_PACKS: CountedPack[] = ['standard', 'premium', 'elite', 'holo'];
 
 /**
- * Autograph odds, per card pulled: Standard 1 in 300, Premium 1 in 220, Elite 1 in 160, Holo Showcase and Perfect
- * Season 1 in 120, Legends Exchange never. A hit doesn't replace the card: the base card is added as normal and the
- * autograph is added to `autos` (its parallel, pen, serial and the rest are rolled by rollAutograph, config/autographs.ts).
- * scripts/simulate_packs.ts prints the rates per pack.
- */
-export const AUTOGRAPH_ODDS: Record<PackType, number> = { standard: 1 / 300, premium: 1 / 220, elite: 1 / 160, holo: 1 / 120, perfect: 1 / 120, exchange: 0 };
-/** Does this card of a `type` pack carry an autograph? */
-export const autographHit = (type: PackType, rng: () => number = Math.random) => AUTOGRAPH_ODDS[type] > 0 && rng() < AUTOGRAPH_ODDS[type];
-
-/**
  * Holo Showcase pack: this many guaranteed Holo slots, their tier rolled from HOLO_SLOT_TIER (the other slots roll
  * PACKS.holo like an Elite pack). It used to be five Holos with two Legendary Holos guaranteed, which made Holo
  * routine; one Holo keeps the pack special without handing out the rarest finish by the handful.
@@ -247,18 +245,23 @@ export const PACK_SHARDS: Record<PackType, number> = { standard: 10, premium: 20
 export const DUPLICATE_TIER_MULTIPLIER: Weights<Tier> = { common: 1, rare: 1.5, epic: 2, legendary: 3 };
 export const duplicateShards = (finish: Finish, tier: Tier) => Math.round(DUPLICATE_SHARDS[finish] * DUPLICATE_TIER_MULTIPLIER[tier]);
 
-/** Shards to craft a card up to the next finish, × the tier and the art variant multipliers (Locker upgrades cost most). */
+/**
+ * Shards to craft a card up to the next finish, × the tier and the art variant multipliers (Locker upgrades cost
+ * most). Autographs are pulled only: their finish is the one they were pulled at, so they are never upgraded.
+ */
 export const CRAFT_COST: Record<Exclude<Finish, 'base'>, number> = { silver: 80, gold: 360, holo: 2000 };
 export const CRAFT_TIER_MULTIPLIER: Weights<Tier> = { common: 1, rare: 1.5, epic: 2, legendary: 3 };
-export const CRAFT_VARIANT_MULTIPLIER: Weights<Variant> = { number: 1, jersey: 1, topps: 1.25, locker: 1.5 };
+export const CRAFT_VARIANT_MULTIPLIER: Partial<Weights<Variant>> = { number: 1, jersey: 1, topps: 1.25, locker: 1.5 };
+/** Can this variant be upgraded a finish with shards? (Every art but the Autograph.) */
+export const isCraftable = (v: Variant) => CRAFT_VARIANT_MULTIPLIER[v] != null;
 
 export const craftCost = (to: Exclude<Finish, 'base'>, tier: Tier, variant: Variant = 'number') =>
-  Math.round(CRAFT_COST[to] * CRAFT_TIER_MULTIPLIER[tier] * CRAFT_VARIANT_MULTIPLIER[variant]);
+  Math.round(CRAFT_COST[to] * CRAFT_TIER_MULTIPLIER[tier] * (CRAFT_VARIANT_MULTIPLIER[variant] ?? 1));
 export const nextFinish = (f: Finish): Exclude<Finish, 'base'> | null => (f === 'base' ? 'silver' : f === 'silver' ? 'gold' : f === 'gold' ? 'holo' : null);
 
 /**
  * Claim: shards buy a chosen player's Base card (a "Legend claim" for a Legendary player), in the most common art
- * variant he is still missing (CLAIM_VARIANTS order).
+ * variant he is still missing (CLAIM_VARIANTS order; never the Autograph, which stays a pull).
  */
 export const CLAIM_COST: Weights<Tier> = { common: 150, rare: 300, epic: 600, legendary: 1000 };
 export const CLAIM_VARIANTS: Variant[] = ['number', 'jersey', 'topps', 'locker'];
@@ -385,6 +388,8 @@ export interface OwnedAuto {
   key: string;
   pulledAt: number;
   pack: PackType;
+  /** The finish of the card it was pulled on (autographs pulled before the Autograph variant: Base) */
+  finish: Finish;
   roll: AutographRoll;
   /** The player as he was at the pull; the card renders from this forever */
   snap: AutographSnapshot;
@@ -491,6 +496,26 @@ const mergeVariant = (a: VariantCard, b: VariantCard): VariantCard => {
   };
 };
 
+/**
+ * Autographs pulled before the Autograph was an art variant were a separate hit on top of a card: each player who has
+ * one but no Autograph variant gets it (Base, one copy per autograph, first and last from the pulls), so the binder,
+ * variant badges and counts see every autograph owned. Idempotent: a player with an Autograph variant is left alone.
+ */
+const migrateAutos = (s: CollectionState) => {
+  const missing = new Map<string, OwnedAuto[]>();
+  s.autos.forEach((a) => {
+    if (s.cards[a.key]?.variants.auto) return;
+    missing.set(a.key, [...(missing.get(a.key) ?? []), a]);
+  });
+  missing.forEach((list, k) => {
+    const times = list.map((a) => a.pulledAt).filter((t) => t > 0);
+    const first = times.length ? Math.min(...times) : 0;
+    const entry: VariantCard = { best: 'base', counts: { base: list.length }, first, last: times.length ? Math.max(...times) : 0 };
+    const card = s.cards[k];
+    s.cards[k] = summarise({ ...card?.variants, auto: entry }, card?.marks ?? []);
+  });
+};
+
 const parse = (raw: string | null): CollectionState | null => {
   if (!raw) return null;
   try {
@@ -509,7 +534,7 @@ const parse = (raw: string | null): CollectionState | null => {
         const c = parseVariant(vc);
         if (!c) return;
         if (isVariant(vk)) variants[vk] = variants[vk] ? mergeVariant(variants[vk]!, c) : c;
-        // The retired Retro Bowl sprite art: its cards become the Locker stall (the next rarest art)
+        // The retired Retro Bowl sprite art: its cards become the Locker stall (never an Autograph: those are signed pulls)
         else if (vk === RETIRED_SPRITE) variants.locker = variants.locker ? mergeVariant(variants.locker, c) : c;
       });
       // Saves from before variants (or with no valid variant): the whole card becomes the Team jersey variant
@@ -553,8 +578,9 @@ const parse = (raw: string | null): CollectionState | null => {
       const roll = parseRoll(e.roll);
       const snap = parseSnapshot(e.snap);
       if (!roll || !snap) return [];
-      return [{ id: e.id, key: e.key, pulledAt: num(e.pulledAt), pack: isPack(e.pack) ? e.pack : 'standard', roll, snap }];
+      return [{ id: e.id, key: e.key, pulledAt: num(e.pulledAt), pack: isPack(e.pack) ? e.pack : 'standard', finish: isFinish(e.finish) ? e.finish : 'base', roll, snap }];
     });
+    migrateAutos(s);
     return s;
   } catch {
     return null;
@@ -894,7 +920,7 @@ export interface PackCard extends RolledCard {
   shards: number;
   /** Provenance (Perfect Season packs) */
   mark?: string;
-  /** This card also carried an autograph (already added to `autos`) */
+  /** The Autograph variant's autograph (already added to `autos`); previews attach a sample roll */
   auto?: OwnedAuto;
 }
 
@@ -903,8 +929,8 @@ export type AutographFreezer = (player: Player) => AutographSnapshot | null;
 
 /**
  * Opens one stored pack of `type`: rolls it, adds the cards, credits duplicate shards. Null when no
- * such pack is stored or the pool is empty. Each card may also carry an autograph (AUTOGRAPH_ODDS), frozen by `freeze`
- * (no freezer, or a player it can't describe: no autograph).
+ * such pack is stored or the pool is empty. A card that rolls the Autograph variant is signed: its autograph is rolled
+ * and frozen by `freeze` and added to `autos` (no freezer, or a player it can't describe: the card is a Locker stall).
  */
 export const openPack = (type: PackType, pool: TierPool, freeze?: AutographFreezer): PackCard[] | null => {
   const s = readCollection();
@@ -916,7 +942,11 @@ export const openPack = (type: PackType, pool: TierPool, freeze?: AutographFreez
   const now = Date.now();
   let shards = s.shards + PACK_SHARDS[type];
   const autos: OwnedAuto[] = [];
-  const out: PackCard[] = rolled.map((c, i) => {
+  const out: PackCard[] = rolled.map((rc, i) => {
+    // The Autograph variant signs the card: freeze his career as of now and roll the autograph. A player the freezer
+    // can't describe (or no freezer) falls back to the next rarest art, so the variant never exists without its autograph.
+    const snap = rc.variant === 'auto' && freeze ? freeze(rc.player) : null;
+    const c: RolledCard = rc.variant === 'auto' && !snap ? { ...rc, variant: 'locker' } : rc;
     const k = cardKey(c.player);
     const prev = cards[k];
     const pv = prev?.variants[c.variant];
@@ -932,9 +962,16 @@ export const openPack = (type: PackType, pool: TierPool, freeze?: AutographFreez
       last: now,
     };
     cards[k] = summarise({ ...prev?.variants, [c.variant]: entry }, marks);
-    const snap = freeze && autographHit(type) ? freeze(c.player) : null;
     const auto: OwnedAuto | undefined = snap
-      ? { id: `au-${now.toString(36)}-${i}-${Math.random().toString(36).slice(2, 8)}`, key: k, pulledAt: now, pack: type, roll: rollAutograph(snap, Math.floor(Math.random() * 2 ** 32)), snap }
+      ? {
+          id: `au-${now.toString(36)}-${i}-${Math.random().toString(36).slice(2, 8)}`,
+          key: k,
+          pulledAt: now,
+          pack: type,
+          finish: c.finish,
+          roll: rollAutograph(snap, Math.floor(Math.random() * 2 ** 32)),
+          snap,
+        }
       : undefined;
     if (auto) autos.push(auto);
     return { ...c, isNew: !prev, newVariant: !!prev && !pv, upgrade, duplicate, shards: gain, mark: perfect?.label, ...(auto ? { auto } : {}) };
@@ -1049,7 +1086,7 @@ export const craftUpgrade = (p: Pick<Player, 'name' | 'position'>, tier: Tier, v
   const k = cardKey(p);
   const card = s.cards[k];
   const v = card?.variants[variant];
-  const to = v && nextFinish(v.best);
+  const to = v && isCraftable(variant) && nextFinish(v.best);
   if (!card || !v || !to) return null;
   const cost = craftCost(to, tier, variant);
   if (s.shards < cost) return null;
@@ -1211,7 +1248,7 @@ export interface OddsSummary {
   /** Per card, averaged over the tier × finish it rolls (VARIANT_STACK) */
   variants: Record<Variant, number>;
   legendaryHolo: number;
-  /** Per card: the rarest art (Locker stall) × Holo at any tier */
+  /** Per card: the rarest art (the Autograph) × Holo at any tier */
   rarestHolo: number;
   /** Per card: the rarest art × Holo × Legendary, the rarest card there is */
   rarestLegendaryHolo: number;

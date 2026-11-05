@@ -3,8 +3,8 @@ import { finishRank, tierRank, variantRank, type PackCard, type Tier } from '@/u
 /**
  * FUT-style walkout timeline. Each beat is one stage of the reveal and how long it holds before the next one
  * starts on its own (tap advances early). The holo twist is appended only for holo cards, after the flip, so
- * everything before it looks exactly like a normal walkout of that tier. A card that carries an autograph gets one more
- * beat after that: AUTOGRAPH, then his signature writing itself across the autograph card.
+ * everything before it looks exactly like a normal walkout of that tier. An Autograph-variant card gets one more beat
+ * after that: AUTOGRAPH, then his signature writing itself across the autograph card.
  */
 export type WkStage = 'tunnel' | 'flares' | 'sweep' | 'logo' | 'pos' | 'ovr' | 'walk' | 'flip' | 'twist' | 'auto' | 'final';
 
@@ -51,7 +51,7 @@ const AUTO_MS = AUTO_WRITE_DELAY_MS + AUTO_WRITE_MS + 1100;
 const AUTO_REDUCED_MS = 1400;
 
 /**
- * Who walks out: every Legendary, every Holo and every autograph (all rare), plus decoys. Decoys: about one in five other cards
+ * Who walks out: every Legendary, every Holo and every Autograph (all rare), plus decoys. Decoys: about one in five other cards
  * walks out too, so a walkout doesn't give a Legendary or a holo away. Decided once per card object (stable across
  * re-renders). With reduced motion there are no decoys (needsWalkout(c, true)).
  */
@@ -62,19 +62,21 @@ const isDecoy = (c: PackCard) => {
   return decoys.get(c)!;
 };
 
+/** The Autograph variant (its autograph rides along as `auto`; previews attach a sample). */
+export const isAuto = (c: Pick<PackCard, 'variant'>) => c.variant === 'auto';
 export const isChase = (c: PackCard) => c.tier === 'legendary' || c.finish === 'holo';
-export const needsWalkout = (c: PackCard, reduced = false) => isChase(c) || !!c.auto || (!reduced && isDecoy(c));
+export const needsWalkout = (c: PackCard, reduced = false) => isChase(c) || isAuto(c) || (!reduced && isDecoy(c));
 
 const buildFor = (tier: Tier) => BUILD[tier === 'legendary' ? 'legendary' : 'epic'];
 
 export const walkoutBeats = (c: PackCard, reduced: boolean): WkBeat[] => {
   const holo = c.finish === 'holo';
   const twist: WkBeat[] = holo ? [{ stage: 'twist', ms: reduced ? 900 : TWIST_MS[c.tier === 'legendary' ? 'legendary' : 'normal'] }] : [];
-  const auto: WkBeat[] = c.auto ? [{ stage: 'auto', ms: reduced ? AUTO_REDUCED_MS : AUTO_MS }] : [];
+  const auto: WkBeat[] = isAuto(c) ? [{ stage: 'auto', ms: reduced ? AUTO_REDUCED_MS : AUTO_MS }] : [];
   if (reduced) return [{ stage: 'flip', ms: holo ? 1200 : 600 }, ...twist, ...auto, { stage: 'final', ms: 0 }];
   return [
     ...buildFor(c.tier).map(([stage, ms]) => ({ stage, ms })),
-    { stage: 'flip', ms: holo || c.auto ? FLIP_HOLD_HOLO_MS : FLIP_MS },
+    { stage: 'flip', ms: holo || isAuto(c) ? FLIP_HOLD_HOLO_MS : FLIP_MS },
     ...twist,
     ...auto,
     { stage: 'final', ms: 0 },
@@ -96,7 +98,7 @@ export const bestLast = <C extends PackCard>(cards: C[], ovrOf: (c: C) => number
     .map((c, i) => ({ c, i }))
     .sort(
       (a, b) =>
-        Number(!!a.c.auto) - Number(!!b.c.auto) ||
+        Number(isAuto(a.c)) - Number(isAuto(b.c)) ||
         tierRank(a.c.tier) - tierRank(b.c.tier) ||
         finishRank(a.c.finish) - finishRank(b.c.finish) ||
         variantRank(a.c.variant) - variantRank(b.c.variant) ||

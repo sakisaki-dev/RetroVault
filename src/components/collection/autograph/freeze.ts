@@ -16,7 +16,7 @@ const RISING_GAMES = 60;
  * his skill grade (only needed for Rising), and the season his career centres on (the midpoint of the era his
  * playerNotes entry names, else the latest season).
  */
-export const freezeFor = (info: CardInfo, content: LeagueContent | null, players: Player[]): AutographSnapshot => {
+export const freezeFor = (info: Pick<CardInfo, 'player' | 'number'>, content: LeagueContent | null, players: Player[]): AutographSnapshot => {
   const p = info.player;
   const key = playerKey(p);
   const hof = !p.isRealLegend && isHallOfFamer(p);

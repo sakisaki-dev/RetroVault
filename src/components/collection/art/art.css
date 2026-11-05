@@ -35,6 +35,31 @@
   overflow: hidden;
 }
 
+/* Autograph variant: the signed autograph card itself, standing in the art window like a slabbed insert (full
+   height, no fade, no team glow behind it) */
+.fut__art:has(> .ra--auto) {
+  -webkit-mask-image: none;
+  mask-image: none;
+  place-items: center;
+}
+.fut__art:has(> .ra--auto)::before {
+  display: none;
+}
+.ra--auto {
+  display: block;
+  width: auto;
+  height: 96%;
+  aspect-ratio: 5 / 7;
+  border-radius: 1.6cqw;
+  box-shadow: 0 0 0 0.35cqw hsl(45 95% 62% / 0.55), 0 1.2cqw 2.4cqw hsl(0 0% 0% / 0.5);
+  overflow: hidden;
+}
+.ra--auto > canvas {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
 /* Card art is static by design (owner): no idle bob, streaks, flashes, shine or sway. Keyframes kept for reference. */
 @keyframes ra-bob {
   50% { transform: translateY(-1px); }
@@ -74,6 +99,14 @@
 .vdot--topps { --vb: hsl(35 85% 58%); }
 .vbadge--locker,
 .vdot--locker { --vb: hsl(12 70% 58%); }
+.vbadge--auto,
+.vdot--auto { --vb: hsl(45 95% 62%); }
+.vbadge--auto.is-owned {
+  box-shadow: 0 0 0 1px #0b0d12, 0 0 6px var(--vb);
+}
+.cd-chip.cd-vchip--auto.is-on {
+  box-shadow: 0 0 0 1px hsl(45 95% 62% / 0.6), 0 0 14px hsl(45 95% 62% / 0.4);
+}
 
 /* Binder tile: variant badges under the card (owned filled, missing hollow) */
 .vbadges {
@@ -121,15 +154,18 @@
   border-color: var(--vb, hsl(var(--gold)));
 }
 
-/* Card designs: tier × variant matrix (four columns). Doubled class: collection.css loads after this file. */
+/* Card designs: tier × variant matrix (five columns). Doubled class: collection.css loads after this file. */
 .dz-scroll {
   overflow-x: auto;
   overscroll-behavior-x: contain;
   padding-bottom: 4px;
+  /* A scroller in the dialog's grid has no automatic minimum height: without this the row collapsed to its padding
+     whenever the dialog was taller than the screen, hiding the whole variants grid */
+  min-height: max-content;
 }
 .dz-grid.dz-grid--v {
-  grid-template-columns: auto repeat(4, minmax(0, 1fr));
-  min-width: 520px;
+  grid-template-columns: auto repeat(5, minmax(0, 1fr));
+  min-width: 640px;
   margin-top: 10px;
 }
 @media (max-width: 480px) {

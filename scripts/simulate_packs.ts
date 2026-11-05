@@ -1,8 +1,8 @@
 /**
  * Pack odds simulation: opens N packs of every type (and one big Legends Exchange) against a synthetic pool and
- * prints the variant × finish × tier distribution, plus how many cards it takes to see the rarest art (Locker stall) Holo
- * Legendary, and the autograph rate per pack (with the parallels they roll). Touches no real data (localStorage is an
- * in-memory stub).
+ * prints the variant × finish × tier distribution, plus how many cards it takes to see the rarest art (the Autograph)
+ * Holo Legendary, and the Autograph variant's rate per card and per pack (with the parallels they roll and the
+ * Autograph × Holo × Legendary odds). Touches no real data (localStorage is an in-memory stub).
  *
  *   npm run -s sim:packs            # 10,000 packs per type
  *   npm run -s sim:packs -- 50000   # more
@@ -19,9 +19,7 @@ const store = new Map<string, string>();
 
 import type { Player } from '@/types/player';
 import {
-  AUTOGRAPH_ODDS,
   FINISHES,
-  autographHit,
   PACK_ORDER,
   STORAGE_KEY,
   TIERS,
@@ -55,7 +53,7 @@ TIERS.forEach(({ key }, ti) => {
 });
 
 const pct = (n: number, d: number) => (d ? `${((100 * n) / d).toFixed(2)}%` : '-');
-/** The rarest art variant (Locker stall since the sprite was removed): its Holo × Legendary is the chase card. */
+/** The rarest art variant (the Autograph, at the retired sprite's odds): its Holo × Legendary is the chase card. */
 const RAREST = VARIANTS[VARIANTS.length - 1];
 const oneIn = (n: number, d: number) => (n ? `1 in ${Math.round(d / n).toLocaleString('en-US')}` : `none in ${d.toLocaleString('en-US')}`);
 
@@ -92,39 +90,53 @@ PACK_ORDER.forEach((type, i) => {
   );
 });
 
-// Autographs: per card AUTOGRAPH_ODDS (the card itself is still added); a hit rolls its parallel, pen, serial…
-import { PARALLELS, autographValue, freezeSnapshot, rollAutograph } from '@/config/autographs';
-const signer = freezeSnapshot({ name: 'Sim Signer', position: 'QB', team: 'Falcons', number: 12, rings: 3, mvp: 1, nickname: 'The Sim', careerLegacy: 9000, games: 200, hof: true, hofClass: 'Y80', eraYear: 80 });
-console.log(`\n=== Autographs: ${N.toLocaleString('en-US')} packs per type (Hall of Famer signer, so every parallel can roll) ===`);
-console.log('pack        per card         per pack     ' + '   packs per auto (odds)'.padEnd(32) + PARALLELS.map((p) => p.id.padStart(10)).join('') + '   avg ×');
-[...PACK_ORDER, 'exchange' as const].forEach((type, i) => {
+// Autographs: the Autograph art variant (rolled like any variant); each one also rolls its parallel, pen, serial…
+import { PARALLELS, autographValue, freezeSnapshot, rollAutograph, type AutographSnapshot } from '@/config/autographs';
+const signerOf = (hof: boolean): AutographSnapshot =>
+  freezeSnapshot({ name: 'Sim Signer', position: 'QB', team: 'Falcons', number: 12, rings: hof ? 3 : 0, mvp: hof ? 1 : 0, nickname: hof ? 'The Sim' : undefined, careerLegacy: hof ? 9000 : 4000, games: 200, hof, hofClass: hof ? 'Y80' : undefined, eraYear: 80 });
+const SIGNERS = { hof: signerOf(true), plain: signerOf(false) };
+console.log(`\n=== Autograph variant: ${N.toLocaleString('en-US')} packs per type ===`);
+console.log('pack        per card (sim)    exact per card    packs with one    packs per auto   Auto Holo Legendary (exact)');
+const parallels: Record<keyof typeof SIGNERS, Record<string, number>> = { hof: {}, plain: {} };
+const mults: Record<keyof typeof SIGNERS, number[]> = { hof: [], plain: [] };
+PACK_ORDER.forEach((type, i) => {
   const rng = rngOf(5000 + i);
   let cards = 0;
   let hits = 0;
   let packsWith = 0;
-  const par: Record<string, number> = {};
-  let mult = 0;
   for (let n = 0; n < N; n++) {
-    const size = type === 'exchange' ? 5 : rollPack(type, pool, rng).length;
-    let any = false;
-    for (let c = 0; c < size; c++) {
-      cards++;
-      if (!autographHit(type, rng)) continue;
-      hits++;
-      any = true;
-      const roll = rollAutograph(signer, Math.floor(rng() * 2 ** 32));
-      par[roll.parallel] = (par[roll.parallel] ?? 0) + 1;
-      mult += autographValue(roll).total;
-    }
-    if (any) packsWith++;
+    const pack = rollPack(type, pool, rng);
+    cards += pack.length;
+    const autos = pack.filter((c) => c.variant === 'auto');
+    hits += autos.length;
+    if (autos.length) packsWith++;
+    autos.forEach(() =>
+      (Object.keys(SIGNERS) as (keyof typeof SIGNERS)[]).forEach((who) => {
+        const roll = rollAutograph(SIGNERS[who], Math.floor(rng() * 2 ** 32));
+        parallels[who][roll.parallel] = (parallels[who][roll.parallel] ?? 0) + 1;
+        mults[who].push(autographValue(roll).total);
+      }),
+    );
   }
-  const exact = AUTOGRAPH_ODDS[type] ? `1 in ${Math.round(1 / AUTOGRAPH_ODDS[type])}` : 'never';
+  const o = packOdds(type);
+  const size = cards / N;
   console.log(
-    `${type.padEnd(10)}  ${oneIn(hits, cards).padEnd(15)}  ${pct(packsWith, N).padEnd(11)}  ${(packsWith ? (N / packsWith).toFixed(0) : '-').padStart(9)} (${exact} per card)  ` +
-      PARALLELS.map((p) => pct(par[p.id] ?? 0, hits).padStart(10)).join('') +
-      `   ${hits ? (mult / hits).toFixed(2) : '-'}`,
+    `${type.padEnd(10)}  ${oneIn(hits, cards).padEnd(16)}  ${`1 in ${(1 / o.variants.auto).toFixed(1)}`.padEnd(16)}  ${pct(packsWith, N).padEnd(16)}  ${(packsWith ? (N / packsWith).toFixed(1) : '-').padStart(14)}   ` +
+      `1 in ${Math.round(1 / o.rarestLegendaryHolo).toLocaleString('en-US')} cards (1 in ${Math.round(1 / (o.rarestLegendaryHolo * size)).toLocaleString('en-US')} packs); Auto Holo any tier 1 in ${Math.round(1 / o.rarestHolo).toLocaleString('en-US')} cards`,
   );
 });
+console.log('\nParallel split of every Autograph pulled above (each rolled for a Hall of Famer with rings, an MVP and a nickname, and for a plain player):');
+console.log('signer     ' + PARALLELS.map((p) => `${p.id} /${p.serial}`.padStart(15)).join('') + '      avg ×    median ×      max ×');
+(Object.keys(SIGNERS) as (keyof typeof SIGNERS)[]).forEach((who) => {
+  const n = mults[who].length;
+  const sorted = [...mults[who]].sort((a, b) => a - b);
+  console.log(
+    `${(who === 'hof' ? 'HOF' : 'plain').padEnd(10)} ` +
+      PARALLELS.map((p) => pct(parallels[who][p.id] ?? 0, n).padStart(15)).join('') +
+      `${(n ? sorted.reduce((a, x) => a + x, 0) / n : 0).toFixed(2).padStart(11)}${(sorted[Math.floor(n / 2)] ?? 0).toFixed(2).padStart(12)}${(sorted[n - 1] ?? 0).toFixed(2).padStart(11)}`,
+  );
+});
+console.log(`table weights: ${PARALLELS.map((p) => `${p.label} ${p.w}`).join(', ')} (a cut needs a Hall of Famer, an Inscribed something to inscribe; else On-card)`);
 
 // Legends Exchange: one exchange of N legend cards (Epic/Legendary, mixed finishes), opened through the real store
 const legends = new Map<string, RetiredLegend>();
@@ -139,7 +151,8 @@ for (let i = 0; i < N; i++) {
 }
 store.set(STORAGE_KEY, JSON.stringify({ v: 2, cards: seeded, packs: {}, perfect: [], exchange: [], shards: 0, opened: {}, earned: [] }));
 exchangeLegends(legends, pool, rngOf(8));
-report('exchange', openPack('exchange', pool) ?? [], 1);
+// The store signs an Autograph-variant card with a frozen snapshot (without a freezer it would be a Locker stall)
+report('exchange', openPack('exchange', pool, () => SIGNERS.plain) ?? [], 1);
 
 // ---------- Pacing: an active player's packs per day, shards from duplicates, and days to each milestone ----------
 // Pool: the real league (latest market snapshot: OVR and Career Legacy), tiered by tierFor. Packs come only from the

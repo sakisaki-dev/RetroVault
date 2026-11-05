@@ -7,6 +7,7 @@ import { POSITION_NAMES } from '@/utils/playerMeta';
 import { findNFLTeam } from '@/utils/nflTeams';
 import type { GamePlayer } from '@/config/ovr';
 import { finishLabel, tierLabel, variantLabel, variantShort, type Finish, type Tier, type Variant } from '@/utils/collection';
+import type { AutographChoice } from './autograph/sample';
 import VariantArt from './art/VariantArt';
 import type { FaceStat } from './cardStats';
 import { FINISH_ICON, TIER_ICON } from './rarityIcons';
@@ -120,8 +121,10 @@ export interface CollectibleCardProps {
   tier: Tier;
   /** Finish (Base, Silver, Gold, Holo): the treatment on top; ignored while locked */
   finish: Finish;
-  /** Art variant (Prizm number … Locker stall); omitted = the plain baseline jersey */
+  /** Art variant (Prizm number … Autograph); omitted = the plain baseline jersey */
   variant?: Variant;
+  /** Autograph variant: the autograph it shows (a pull), or 'sample' (galleries); omitted = his best owned one, else a sample */
+  autograph?: AutographChoice;
   owned: boolean;
   ovr?: number | null;
   number?: number | null;
@@ -166,6 +169,7 @@ const CollectibleCard = ({
   tier,
   finish,
   variant,
+  autograph,
   owned,
   ovr,
   number,
@@ -328,7 +332,7 @@ const CollectibleCard = ({
           ) : photo ? (
             <img src={photo.url} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" draggable={false} />
           ) : owned && variant ? (
-            <VariantArt variant={variant} player={player} number={number} finish={finish} />
+            <VariantArt variant={variant} player={player} number={number} finish={finish} autograph={autograph} />
           ) : (
             <PlayerJersey number={owned ? number : null} id={jerseyId} />
           )}

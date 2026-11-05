@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { Signature } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
-import type { OwnedAuto } from '@/utils/collection';
+import { finishLabel, type OwnedAuto } from '@/utils/collection';
 import { useMarket } from '@/utils/useMarket';
 import { autographPrice, fmtCoins } from '@/utils/cardMarket';
 import { autographValue, fmtMult, parallelOf, serialStr } from '@/config/autographs';
@@ -27,7 +27,7 @@ const AutographsSection = ({ autos }: { autos: OwnedAuto[] }) => {
   const latest = history?.[history.length - 1];
   const valueOf = (a: OwnedAuto) => (history ? (latest?.players[a.key]?.value ?? null) : undefined);
   const total = useMemo(
-    () => list.reduce((s, a) => s + (latest?.players[a.key] ? autographPrice(latest.players[a.key].value, autographValue(a.roll).total) : 0), 0),
+    () => list.reduce((s, a) => s + (latest?.players[a.key] ? autographPrice(latest.players[a.key].value, autographValue(a.roll).total, a.finish) : 0), 0),
     [list, latest],
   );
 
@@ -55,8 +55,9 @@ const AutographsSection = ({ autos }: { autos: OwnedAuto[] }) => {
           <div className="min-w-0 space-y-1">
             <p className="font-display text-xl font-extrabold uppercase italic leading-none">No autographs yet</p>
             <p className="text-sm text-muted-foreground">
-              Autographs are rare hits inside packs. Any card you pull can come signed, on top of the card itself: {autographOddsLine()} cards. Each
-              is one of a numbered run, signed in the player&apos;s own hand and printed in the design of his era.
+              The Autograph is the rarest card art: {autographOddsLine()} cards pulled, rarer still on better players and finishes. Each one is
+              its own numbered card from a run (Sticker /99 up to a Hall of Famer&apos;s Cut 1/1), signed in the player&apos;s own hand and printed in the
+              design of his era. Autographs can&apos;t be claimed or crafted with shards.
             </p>
           </div>
         </div>
@@ -97,14 +98,14 @@ const AutographsSection = ({ autos }: { autos: OwnedAuto[] }) => {
               <div className="pr-10">
                 <DialogTitle className="font-display text-3xl uppercase italic leading-none">{shown.snap.name}</DialogTitle>
                 <DialogDescription className="mt-1">
-                  {parallelOf(shown.roll.parallel).label} · {serialStr(shown.roll)} · worth {fmtMult(autographValue(shown.roll).total)} the card
+                  {parallelOf(shown.roll.parallel).label} · {serialStr(shown.roll)} · {finishLabel(shown.finish)} · worth {fmtMult(autographValue(shown.roll).total)} the card
                 </DialogDescription>
               </div>
               <div className="au-detail mt-4">
                 <div className="au-detail__card">
                   <AutographCanvas key={shown.id} snap={shown.snap} roll={shown.roll} cacheKey={shown.id} />
                 </div>
-                <AutographDetails snap={shown.snap} roll={shown.roll} value={valueOf(shown)} pulledAt={shown.pulledAt} pack={shown.pack} />
+                <AutographDetails snap={shown.snap} roll={shown.roll} value={valueOf(shown)} pulledAt={shown.pulledAt} pack={shown.pack} finish={shown.finish} />
               </div>
             </>
           )}

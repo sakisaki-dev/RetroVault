@@ -47,20 +47,25 @@ export const finishRank = (f: Finish) => FINISHES.findIndex((x) => x.key === f);
 
 /**
  * Art VARIANT (which card art): a third rarity layer on top of tier and finish. Every pull rolls one; a player
- * can own every variant × finish, and they stack. Lowest (most common) to highest. The Retro Bowl sprite art was
- * removed (owner: "Remove the sprite card from the game"); saved sprite cards load as Locker stall cards.
+ * can own every variant × finish, and they stack. Lowest (most common) to highest. The Autograph is the rarest: it
+ * took the retired Retro Bowl sprite's place and odds (owner: "aren't they just a replacement for the sprite cards
+ * with many more variants and rarities?"), and each one pulled is also its own signed item with its own parallel,
+ * ink and serial (CollectionState.autos, src/config/autographs.ts). Saved sprite cards still load as Locker stall cards.
  */
-export type Variant = 'number' | 'jersey' | 'topps' | 'locker';
+export type Variant = 'number' | 'jersey' | 'topps' | 'locker' | 'auto';
 
 export const VARIANTS: { key: Variant; label: string; short: string }[] = [
   { key: 'number', label: 'Prizm number', short: 'Prizm' },
   { key: 'jersey', label: 'Team jersey', short: 'Jersey' },
   { key: 'topps', label: '70s Topps', short: 'Topps' },
   { key: 'locker', label: 'Locker stall', short: 'Locker' },
+  { key: 'auto', label: 'Autograph', short: 'Auto' },
 ];
 export const variantLabel = (v: Variant) => VARIANTS.find((x) => x.key === v)!.label;
 export const variantShort = (v: Variant) => VARIANTS.find((x) => x.key === v)!.short;
 export const variantRank = (v: Variant) => VARIANTS.findIndex((x) => x.key === v);
 export const isVariant = (x: unknown): x is Variant => VARIANTS.some((v) => v.key === x);
+/** The Autograph variant: pulled only (never claimed or crafted with shards), each one a unique signed card. */
+export const AUTO_VARIANT: Variant = 'auto';
 /** Variant of every card from before variants existed (and of Legends Exchange cards). */
 export const LEGACY_VARIANT: Variant = 'jersey';

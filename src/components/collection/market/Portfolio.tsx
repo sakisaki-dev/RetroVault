@@ -15,7 +15,13 @@ const TIER_FILL: Record<Tier, string> = { common: 'hsl(22 45% 48%)', rare: 'hsl(
 const POS_FILL = POS_ORDER.map((_, i) => `hsl(199 ${60 + i * 3}% ${78 - i * 7}%)`);
 
 /** Variant allocation colours: one warm-to-violet ramp, rarest darkest. */
-const VARIANT_FILL: Record<Variant, string> = { number: 'hsl(43 70% 72%)', jersey: 'hsl(30 70% 60%)', topps: 'hsl(12 60% 52%)', locker: 'hsl(330 45% 45%)' };
+const VARIANT_FILL: Record<Variant, string> = {
+  number: 'hsl(43 70% 72%)',
+  jersey: 'hsl(30 70% 60%)',
+  topps: 'hsl(12 60% 52%)',
+  locker: 'hsl(330 45% 45%)',
+  auto: 'hsl(285 45% 32%)',
+};
 
 interface Holding {
   info: CardInfo;
@@ -81,11 +87,12 @@ const HoldingLine = ({ h, label, onOpen }: { h: Holding; label: string; onOpen: 
  */
 const Portfolio = ({ history, owned, autos = [], byKey, period, sinceLabel, onOpen }: PortfolioProps) => {
   const latest = history[history.length - 1];
-  // Every (player, variant) owned is one holding, at that variant's best finish; every autograph is one more
+  // Every (player, variant) owned is one holding, at that variant's best finish; the Autograph variant is counted
+  // once per autograph instead (each at the finish it was pulled at × its own multiplier), so nothing counts twice
   const items = useMemo<(Owned & { since: number; auto?: string })[]>(
     () => [
       ...Object.entries(owned).flatMap(([key, c]) =>
-        ownedVariants(c).map((variant) => {
+        ownedVariants(c).filter((variant) => variant !== 'auto').map((variant) => {
           const finish = c.variants[variant]!.best;
           const player = byKey.get(key)?.player;
           return { key, variant, finish, alt: player ? uniformKind(player, variant, finish) : false, since: c.variants[variant]!.first };
@@ -93,8 +100,8 @@ const Portfolio = ({ history, owned, autos = [], byKey, period, sinceLabel, onOp
       ),
       ...autos.map((a) => ({
         key: a.key,
-        variant: 'number' as Variant,
-        finish: 'base' as Finish,
+        variant: 'auto' as Variant,
+        finish: a.finish,
         mult: autographValue(a.roll).total,
         since: a.pulledAt,
         auto: `${parallelOf(a.roll.parallel).label} ${serialStr(a.roll)}`,
@@ -147,7 +154,7 @@ const Portfolio = ({ history, owned, autos = [], byKey, period, sinceLabel, onOp
   const cardCount = holdings.length - autoCount;
 
   const byTier = TIERS.map((t) => ({ label: tierLabel(t.key), value: holdings.filter((h) => h.info.tier === t.key).reduce((a, h) => a + h.now, 0), color: TIER_FILL[t.key] }));
-  const byVariant = VARIANTS.map((v) => ({ label: v.short, value: holdings.filter((h) => !h.auto && h.variant === v.key).reduce((a, h) => a + h.now, 0), color: VARIANT_FILL[v.key] }));
+  const byVariant = VARIANTS.map((v) => ({ label: v.short, value: holdings.filter((h) => h.variant === v.key).reduce((a, h) => a + h.now, 0), color: VARIANT_FILL[v.key] }));
   const byPos = POS_ORDER.map((pos, i) => ({ label: pos, value: holdings.filter((h) => h.info.player.position === pos).reduce((a, h) => a + h.now, 0), color: POS_FILL[i] }));
 
   return (
@@ -162,7 +169,7 @@ const Portfolio = ({ history, owned, autos = [], byKey, period, sinceLabel, onOp
         <ChangeBadge change={pctChange(now, before)} label={sinceLabel} />
       </p>
       <p className="text-xs text-muted-foreground">
-        {cardCount} card{cardCount === 1 ? '' : 's'} (player × variant) at their best finish
+        {cardCount} card{cardCount === 1 ? '' : 's'} (player × art) at their best finish
         {autoCount > 0 && ` and ${autoCount} autograph${autoCount === 1 ? '' : 's'}`} ·{' '}
         <span className="text-foreground">
           {gain != null && gain >= 0 ? '+' : '−'}

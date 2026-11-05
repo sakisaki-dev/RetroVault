@@ -16,6 +16,7 @@ import {
   claimVariant,
   craftCost,
   craftUpgrade,
+  isCraftable,
   displayOf,
   ownsCombo,
   packsToGo,
@@ -192,7 +193,8 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
   const owned = (f: Finish) => !!target?.preview || !!vEntry?.counts[f] || vEntry?.best === f;
   const finish =
     view ?? (viewVariant ? vEntry?.best : undefined) ?? target?.finish ?? (shown && shown.variant === variant ? shown.finish : undefined) ?? vEntry?.best ?? 'base';
-  const to = !target?.preview && vEntry ? nextFinish(vEntry.best) : null;
+  // Autographs are pulled only: never upgraded with shards (each keeps the finish it was pulled at)
+  const to = !target?.preview && vEntry && isCraftable(variant) ? nextFinish(vEntry.best) : null;
   const cost = to && info ? craftCost(to, info.tier, variant) : 0;
   const claimV = !target?.preview && info ? claimVariant(entry) : null;
   const claimPrice = info ? claimCost(info.tier) : 0;
@@ -687,6 +689,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                           tier={tier}
                           finish={finish}
                           variant={variant}
+                          autograph={target?.preview ? 'sample' : undefined}
                           ovr={info.ovr}
                           number={info.number}
                           stats={info.stats}
@@ -861,6 +864,13 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                       </span>
                     </span>
                   </button>
+                )}
+
+                {!target?.preview && variant === 'auto' && vEntry && (
+                  <p className="text-xs text-muted-foreground">
+                    Autographs are pulled only: they can&apos;t be claimed or upgraded with shards. Each is its own numbered card, in Autographs below the
+                    binder.
+                  </p>
                 )}
 
                 {!target?.preview &&

@@ -115,7 +115,7 @@ export const PacksTab = memo(({ league, total }: LabTabProps) => {
     const g = groupByTier(league, (c) => c.tier);
     return { common: g.common.map((c) => c.player), rare: g.rare.map((c) => c.player), epic: g.epic.map((c) => c.player), legendary: g.legendary.map((c) => c.player) };
   }, [league]);
-  // The Card designs sample: a Common, a Rare, two Epics and a Legendary Holo, so every reveal plays once
+  // The Card designs sample: a Common, a Rare, two Epics and a Legendary Holo Autograph, so every reveal plays once
   const showcase = useMemo(() => samplePack(designRows(league), league), [league]);
   const describe = useCallback((c: PackCard) => byKey.get(`${c.player.position}:${c.player.name}`)!, [byKey]);
   // Fresh objects every tear, so the walkout decoys re-roll on Replay
@@ -154,7 +154,7 @@ export const PacksTab = memo(({ league, total }: LabTabProps) => {
           {plays ? 'Replay' : 'Open a sample pack'}
         </button>
         <span className="lab-note">
-          {mix === 'showcase' ? 'A Common, a Rare, two Epics and a Legendary that turns Holo. ' : 'Different cards every time. '}
+          {mix === 'showcase' ? 'A Common, a Rare, two Epics and a Legendary Autograph that turns Holo, every art once. ' : 'Different cards every time. '}
           Nothing is added and no pack is used.
         </span>
       </div>
@@ -215,7 +215,10 @@ export const WalkoutTab = memo(({ pick, total }: LabTabProps) => {
             ? 'Hidden holo: it walks out like a normal card of its tier, flips, then shatters into a Holo.'
             : tier === 'legendary'
               ? 'Every Legendary walks out.'
-              : 'In a pack this one walks out only as a decoy (about one card in five).'}
+              : variant === 'auto'
+                ? 'Every Autograph walks out.'
+                : 'In a pack this one walks out only as a decoy (about one card in five).'}
+          {variant === 'auto' && finish === 'holo' ? ' Then the AUTOGRAPH beat signs it.' : variant === 'auto' && tier === 'legendary' ? ' The AUTOGRAPH beat signs it last.' : ''}
         </span>
       </div>
       <div ref={stageRef} className="lab-stage">
@@ -257,6 +260,7 @@ const LabCard = ({ info, finish, variant, total, uniform }: { info: CardInfo; fi
       tier={info.tier}
       finish={finish}
       variant={variant}
+      autograph="sample"
       ovr={info.ovr}
       number={info.number}
       stats={info.stats}
@@ -281,7 +285,7 @@ export const DesignsTab = memo(({ pick, total }: LabTabProps) => {
   return (
     <section aria-label="Card designs" className="lab-sec">
       <Chips<Finish> label="Finish" value={finish} options={FINISHES.map((f) => ({ key: f.key, label: f.label }))} onChange={setFinish} />
-      <ul className="lab-cards" aria-label={`${pick.player.name}: the four art variants, ${finishLabel(finish)} finish`}>
+      <ul className="lab-cards" aria-label={`${pick.player.name}: the ${VARIANTS.length} art variants, ${finishLabel(finish)} finish`}>
         {VARIANTS.map((v) => (
           <li key={v.key}>
             <LabCard info={pick} finish={finish} variant={v.key} total={total} />
@@ -289,7 +293,8 @@ export const DesignsTab = memo(({ pick, total }: LabTabProps) => {
               <span className={`lab-tag vbadge--${v.key}`}>{v.short}</span>
               <b>{v.label}</b>
               <span>
-                {pct(STANDARD.variants[v.key])} of Standard pulls · {uniformLabel(uniformFor(pick.player, v.key, finish))}
+                {pct(STANDARD.variants[v.key])} of Standard pulls ·{' '}
+                {v.key === 'auto' ? 'a sample roll (each pull rolls its own parallel, ink and serial)' : uniformLabel(uniformFor(pick.player, v.key, finish))}
               </span>
             </p>
           </li>
@@ -335,7 +340,7 @@ const AutographsTab = ({ pick, league }: LabTabProps) => <AutographPreview cards
 export const LAB_TABS: LabTab[] = [
   { key: 'packs', label: 'Pack opening', hint: 'Pick a pack and open a sample of it: the real tear, tell, flips and walkouts.', Tab: PacksTab },
   { key: 'walkout', label: 'Walkout', hint: 'His walkout at any tier, finish and art, one at a time.', Tab: WalkoutTab },
-  { key: 'designs', label: 'Card designs', hint: "His card in each of the four art variants at one finish, and his club's uniforms.", Tab: DesignsTab },
+  { key: 'designs', label: 'Card designs', hint: "His card in each of the five art variants at one finish (the Autograph a sample roll), and his club's uniforms.", Tab: DesignsTab },
   { key: 'autographs', label: 'Autographs', hint: 'His autograph as a pack would roll it: roll again for another parallel, pen, era and serial.', Tab: AutographsTab },
 ];
 // The heavy grids (Combinations: 4 variants × 4 finishes; Uniforms: all 32 clubs) were replaced by these (owner:

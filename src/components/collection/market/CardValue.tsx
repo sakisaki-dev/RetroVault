@@ -1,8 +1,10 @@
 import { useMemo } from 'react';
 import { Coins } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { FINISHES, VARIANTS, finishLabel, variantLabel, type Finish, type Variant } from '@/utils/collection';
-import { FINISH_MULTIPLIER, VARIANT_MULTIPLIER, cardPrice, fmtCoins, pctChange, priceSeries } from '@/utils/cardMarket';
+import { FINISHES, VARIANTS, finishLabel, useCollection, variantLabel, type Finish, type Variant } from '@/utils/collection';
+import { FINISH_MULTIPLIER, VARIANT_MULTIPLIER, autographPrice, cardPrice, fmtCoins, pctChange, priceSeries } from '@/utils/cardMarket';
+import { AUTOGRAPH_MEAN_MULT, autographValue, fmtMult } from '@/config/autographs';
+import { bestAuto } from '../autograph/sample';
 import { useMarket } from '@/utils/useMarket';
 import { uniformKind } from '../art/sprite/uniforms';
 import PriceChart from './PriceChart';
@@ -29,7 +31,26 @@ interface CardValueProps {
  */
 const CardValue = ({ cardKey, name, finish, variant, ownedFinish, player }: CardValueProps) => {
   const history = useMarket();
-  const price = (value: number, f: Finish, v: Variant) => cardPrice(value, f, v, player ? uniformKind(player, v, f) : false);
+  const { state } = useCollection();
+  // The Autograph: his best owned autograph at each finish is priced by its own roll; with none, the mean multiplier
+  const autoAt = useMemo(() => {
+    const mine = state.autos.filter((a) => a.key === cardKey);
+    return (f: Finish) => bestAuto(mine.filter((a) => a.finish === f));
+  }, [state.autos, cardKey]);
+  const autoMult = (f: Finish) => {
+    const a = autoAt(f);
+    return a ? autographValue(a.roll).total : null;
+  };
+  const price = (value: number, f: Finish, v: Variant) => {
+    const m = v === 'auto' ? autoMult(f) : null;
+    return m != null ? autographPrice(value, m, f) : cardPrice(value, f, v, player ? uniformKind(player, v, f) : false);
+  };
+  // Column header: the art's multiplier (an Autograph shows his own roll's, else the mean)
+  const variantMult = (v: Variant) => {
+    if (v !== 'auto') return `×${VARIANT_MULTIPLIER[v]}`;
+    const m = autoMult(finish);
+    return m != null ? fmtMult(m) : `≈×${AUTOGRAPH_MEAN_MULT.toFixed(1)}`;
+  };
   const series = useMemo(() => (history ? priceSeries(history, cardKey) : []), [history, cardKey]);
   if (!history) return <p className="mk-card__loading">Loading market…</p>;
   const last = series[series.length - 1];
@@ -121,7 +142,7 @@ const CardValue = ({ cardKey, name, finish, variant, ownedFinish, player }: Card
             {VARIANTS.map((v) => (
               <th key={v.key} scope="col" className={cn(v.key === variant && 'is-on')}>
                 {v.short}
-                <span className="mk-finishes__mult"> ×{VARIANT_MULTIPLIER[v.key]}</span>
+                <span className="mk-finishes__mult"> {variantMult(v.key)}</span>
               </th>
             ))}
           </tr>

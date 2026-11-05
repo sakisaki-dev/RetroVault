@@ -13,6 +13,7 @@ import type { CardInfo } from './useCardPool';
 import AutographCanvas from './autograph/AutographCanvas';
 import { autographValue, fmtMult, identity, parallelOf, serialStr } from '@/config/autographs';
 import { loadAutographFonts } from './autograph/fonts';
+import { useSampleAutos } from './autograph/sample';
 
 const reducedMotion = () => {
   try {
@@ -148,6 +149,7 @@ const SPARKLES = Array.from({ length: 12 }, (_, i) => [10 + ((i * 41) % 80), 18 
  */
 const PackOpening = ({ type, onClose, onTear, describe, total, remaining, provenance, preview = false }: PackOpeningProps) => {
   const [phase, setPhase] = useState<Phase>('sealed');
+  const { attach: attachSamples } = useSampleAutos();
   const [pack, setPack] = useState<PackCard[]>([]);
   const [open, setOpen] = useState<boolean[]>([]);
   const [walk, setWalk] = useState<WalkState | null>(null);
@@ -280,7 +282,9 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
     const label = provenance;
     // Hide this pack's cards from the Collection behind the dialog until they are revealed
     if (!preview) beginReveal();
-    const cards = onTear(type);
+    const torn = onTear(type);
+    // A preview's Autograph-variant cards get a sample roll (a real pull always carries its own autograph)
+    const cards = torn && attachSamples(torn, describe);
     if (!cards) {
       endReveal();
       onClose();
@@ -593,6 +597,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                           tier={c.tier}
                           finish={c.finish}
                           variant={shown ? c.variant : undefined}
+                          autograph={c.auto}
                           ovr={info.ovr}
                           number={info.number}
                           stats={info.stats}
@@ -663,6 +668,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                       tier={c.tier}
                       finish={c.finish}
                       variant={c.variant}
+                      autograph={c.auto}
                       ovr={info.ovr}
                       number={info.number}
                       stats={info.stats}
@@ -698,7 +704,11 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                     </li>
                   ))}
                 </ul>
-                <p className="text-xs text-muted-foreground">Added to Autographs in your Collection, on top of the card itself.</p>
+                <p className="text-xs text-muted-foreground">
+                  {preview
+                    ? 'Sample rolls: a real Autograph card rolls its own parallel, ink and serial.'
+                    : 'Each joins his binder as the Autograph variant, and Autographs in your Collection as its own numbered card.'}
+                </p>
               </section>
             )}
             {!preview && (

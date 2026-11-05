@@ -385,18 +385,32 @@ current data is a no-op.
   Hall of Fame speech hook.
 - **Weekly scores** (`scripts/schedule_content.py` → `public/data/league/schedule.json`, run by `npm run rebuild` before the content builder): from `schedules.json` (schedule.set) it builds, per season, the coach's game log (opponent records and O/D stars from the season summary, playoff rounds from the season review), a 32-club table with points for/against, differential, strength of schedule (average final win % of the clubs played) and a power score (100 × win % + 1.5 × differential per game + 40 × (SOS − 0.5), regular season only), the upset (the worst final record beating the best), blowout and shootout; across seasons the coach's head-to-head record with every club and game records (biggest margin, most combined points, most points, longest winning streak). Rivalries carry the head-to-head `games`, and a club met twice or more without a winning record becomes a rivalry; a `schedule.set` brings Wire headlines (power No. 1, upset, best defense, blowout); the widget gets `game` facts; stories may cite `schedule.json <path>` / `schedules.json <path>`. The Timeline shows the game log, power rankings, standings and records; the Games tab blends in each club's latest-season form. The audit errors when a schedule.set season is missing from schedule.json.
 - **Autographs** (`src/config/autographs.ts` rules, `src/components/collection/autograph/` canvas, `autos` in
-  `src/utils/collection.ts`): rare hits inside packs, per card pulled (`AUTOGRAPH_ODDS`): Standard 1 in 300, Premium 1
-  in 220, Elite 1 in 160, Holo Showcase and Perfect Season 1 in 120, Legends Exchange never; the base card is still
-  added. The hand is fixed by the name (36 Google signature fonts × 6 forms, slant, flourish…; fonts load lazily on the
-  first draw); each pull rolls the parallel (Sticker /99, On-card /50, Inscribed /25, Patch /10, Cut 1/1 for Hall of
-  Famers), pen and ink, an inscription, the serial and a 6% throwback design. Value = the card's market value ×
-  (parallel × ink × inscription × serial × throwback), ×2.7 to ×91 (`autographValue`, `autographPrice`), counted in the
-  portfolio. Timeless (owner: "these stats can change all the time therefore the card should be permanent and
-  timeless"): rings, Career Legacy tier, Hall of Fame class, nickname, number, banner team and colours and his era are
-  frozen into the stored snapshot at the pull and the card renders only from it; no stat line, record ribbon or stat
-  wall on its face. Designs by the era his career centres on (Leather Y1–25, Broadcast Y26–50, Prizm Y51–70, Night Game
-  Y71–82, Current Y83+; the midpoint of his `playerNotes` era). `AutographPreview` rolls samples without touching the
-  collection; `npm run -s sim:packs` prints the rates.
+  `src/utils/collection.ts`): the fifth and rarest art variant, `auto` ("Autograph", `src/config/cardTiers.ts`), in
+  the retired Retro Bowl sprite's place with exactly its odds and stacking (owner: "aren't they just a replacement for
+  the sprite cards with many more variants and rarities?"; "keep the sprites old odds with the diff rarities within the
+  autographs having their own rarities"): base weight Standard 3.5, Premium 4, Elite 5, Holo Showcase / Perfect Season
+  6.5 (`VARIANT_ODDS`), × tier {1, .65, .45, .15} and × finish {1, .65, .5, .5} (`VARIANT_STACK`), × 0.02 more for a
+  Legendary Holo (`VARIANT_COMBO`). About 1 card in 33 from Standard packs; an Autograph Holo Legendary about 1 in
+  900,000 cards from the best packs and 1 in 1.6 billion from Standard (`npm run -s sim:packs`). A pull that rolls it
+  is signed: `openPack` freezes his snapshot and rolls the autograph, stored as its own item in `autos` (with the
+  finish it was pulled at), while `cards[key].variants.auto` counts the finish like any variant (binder tiles, variant
+  badges, the variant count, display choice, Best pulls). Pulled only: no shard claim or finish upgrade
+  (`isCraftable`); duplicates still give shards. Saved sprite cards still load as Locker stalls; autographs from the
+  old separate hit get a Base `variants.auto` on load (`migrateAutos`). The hand is fixed by the name (36 Google
+  signature fonts × 6 forms, slant, flourish…; fonts load lazily on the first draw); each pull rolls its parallel
+  (`PARALLELS` weights: Sticker /99 50 ×3, On-card /50 27 ×5, Inscribed /25 13 ×6, Patch /10 8 ×10, Cut 1/1 2 ×40 for
+  Hall of Famers only; a cut without a Hall of Famer or an Inscribed with nothing to inscribe falls back to On-card),
+  pen and ink, an inscription, the serial and a 6% throwback design. Price = the card's market value × its finish ×
+  (parallel × ink × inscription × serial × throwback), ×2.7 to ×91 (`autographValue`, `autographPrice`;
+  `VARIANT_MULTIPLIER.auto` = 1), each autograph its own portfolio holding; an Autograph card with no roll (not owned,
+  galleries) uses `AUTOGRAPH_MEAN_MULT`. `VariantArt` draws the `auto` variant with the autograph canvas: an owned card
+  shows his best owned autograph, galleries, the Art lab and preview packs a deterministic sample seeded by player and
+  finish (`autograph/sample.ts`). The walkout's AUTOGRAPH beat follows the variant. Timeless (owner: "these stats can
+  change all the time therefore the card should be permanent and timeless"): rings, Career Legacy tier, Hall of Fame
+  class, nickname, number, banner team and colours and his era are frozen into the stored snapshot at the pull and the
+  card renders only from it; no stat line, record ribbon or stat wall on its face. Designs by the era his career
+  centres on (Leather Y1–25, Broadcast Y26–50, Prizm Y51–70, Night Game Y71–82, Current Y83+; the midpoint of his
+  `playerNotes` era). `AutographPreview` rolls samples without touching the collection.
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
   `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. The value formula lives in
   `src/utils/cardMarket.ts`. Never hand-edit either file; rebuild and commit both.

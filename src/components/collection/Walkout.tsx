@@ -10,6 +10,7 @@ import CollectibleCard, { PlayerJersey } from './CollectibleCard';
 import type { CardInfo } from './useCardPool';
 import { AUTO_WRITE_DELAY_MS, AUTO_WRITE_MS, type WkBeat, type WkStage } from './walkoutBeats';
 import AutographCanvas from './autograph/AutographCanvas';
+import { useAutographFor } from './autograph/sample';
 import { autographValue, fmtMult, inkRowOf, parallelOf, serialStr } from '@/config/autographs';
 
 /** Firework bursts: [left %, top %, delay s]; Legendary fires a second volley. */
@@ -128,7 +129,9 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
   const twisted = holo && reached('twist');
   const legendary = card.tier === 'legendary';
   const isFinal = stage === 'final';
-  const auto = card.auto;
+  // The Autograph variant's autograph: the pull's own, else (an Art lab walkout) his sample roll
+  const sampled = useAutographFor(info, card.finish, card.auto ?? 'sample');
+  const auto = card.variant === 'auto' ? sampled : undefined;
   const signed = !!auto && reached('auto');
   const doneRef = useRef<HTMLButtonElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -284,6 +287,7 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
                     tier={card.tier}
                     finish={holo && !twisted ? 'base' : card.finish}
                     variant={card.variant}
+                    autograph={auto}
                     ovr={info.ovr}
                     number={info.number}
                     stats={info.stats}

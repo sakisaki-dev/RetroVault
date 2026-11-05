@@ -21,6 +21,7 @@ import ShardWorkshop from '@/components/collection/ShardWorkshop';
 import DailyDraw from '@/components/collection/DailyDraw';
 import AutographsSection from '@/components/collection/autograph/AutographsSection';
 import { autographOddsLine } from '@/components/collection/autograph/AutographDetails';
+import { PARALLELS } from '@/config/autographs';
 import { useAutographFreezer } from '@/components/collection/autograph/freeze';
 import { VARIANT_MULTIPLIER } from '@/utils/cardMarket';
 import { matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
@@ -31,6 +32,7 @@ import {
   CRAFT_COST,
   CRAFT_TIER_MULTIPLIER,
   CRAFT_VARIANT_MULTIPLIER,
+  isCraftable,
   DUPLICATE_SHARDS,
   DUPLICATE_TIER_MULTIPLIER,
   PACK_SHARDS,
@@ -176,18 +178,20 @@ const RulesPopover = () => (
         ))}
       </ul>
       <p className="mt-3 text-muted-foreground">
-        Every card rolls tier, then player, then finish, then art variant ({VARIANTS.map((v) => v.label).join(', ')}; the Locker stall is rarest). From
+        Every card rolls tier, then player, then finish, then art variant ({VARIANTS.map((v) => v.label).join(', ')}; the Autograph is rarest). From
         Standard packs a Holo is about 1 card in {oneIn(ODDS.standard.finishes.holo)}, a Gold 1 in {oneIn(ODDS.standard.finishes.gold)} and a
         Legendary player 1 in {oneIn(ODDS.standard.tiers.legendary)}. The rarities stack: the rarer arts get rarer still on better players and
-        finishes. A Locker stall Holo is about 1 card in {oneIn(ODDS.holo.rarestHolo)} from Holo Showcase packs, and a Locker Holo Legendary
+        finishes. An Autograph Holo is about 1 card in {oneIn(ODDS.holo.rarestHolo)} from Holo Showcase packs, and an Autograph Holo Legendary
         about 1 in {oneIn(Math.max(...PACK_ORDER.map((t) => ODDS[t].rarestLegendaryHolo)))} even from the best pack. A player can own every
-        variant and they stack in the binder. Market value × variant: {VARIANTS.map((v) => `${v.short} ×${VARIANT_MULTIPLIER[v.key]}`).join(', ')}.
+        variant and they stack in the binder. Market value × variant:{' '}
+        {VARIANTS.filter((v) => v.key !== 'auto').map((v) => `${v.short} ×${VARIANT_MULTIPLIER[v.key]}`).join(', ')}; an Autograph by its own roll.
       </p>
       <p className="mt-3 font-semibold">Autographs</p>
       <p className="mt-0.5 text-muted-foreground">
-        Any card can come signed, on top of the card itself: {autographOddsLine()} cards (never from the Legends Exchange). The parallel (Sticker /99,
-        On-card /50, Inscribed /25, Patch /10, Cut 1/1 for Hall of Famers), pen and ink, inscription, serial and a rare throwback design set its value:
-        the card&apos;s price × 2.7 (a black ballpoint sticker) up to × 91 (a Hall of Famer&apos;s inscribed throwback 1/1 cut).
+        The Autograph art is a signed card: {autographOddsLine()} cards. Each one also rolls its parallel ({PARALLELS.map((p) => `${p.label.replace(/ auto( 1\/1)?$/, '')} ${p.serial === 1 ? '1/1' : `/${p.serial}`} ${p.w}%`).join(', ')};
+        the Cut only for Hall of Famers), pen and ink, inscription, serial and a rare throwback design, which set its value: the card&apos;s price × its
+        finish × 2.7 (a black ballpoint sticker) up to × 91 (a Hall of Famer&apos;s inscribed throwback 1/1 cut). Each autograph is its own numbered
+        card in Autographs; they are pulled only, never claimed or upgraded with shards.
       </p>
       <p className="mt-3 font-semibold">Earn packs</p>
       <ul className="mt-1 space-y-0.5 text-muted-foreground">
@@ -202,7 +206,7 @@ const RulesPopover = () => (
         and finish) give {FINISHES.map((f) => `${f.label} ${DUPLICATE_SHARDS[f.key]}`).join(', ')}, × {TIERS.slice(1).map((t) => `${t.label} ${DUPLICATE_TIER_MULTIPLIER[t.key]}`).join(', ')}.
         Claim a chosen player&apos;s Base card for {TIERS.map((t) => `${t.label} ${CLAIM_COST[t.key].toLocaleString()}`).join(', ')} shards (a Legend claim
         for a Legendary). Upgrading one finish costs {CRAFT_COST.silver}/{CRAFT_COST.gold}/{CRAFT_COST.holo.toLocaleString()} (Silver/Gold/Holo), ×{' '}
-        {TIERS.slice(1).map((t) => `${t.label} ${CRAFT_TIER_MULTIPLIER[t.key]}`).join(', ')} and × art ({VARIANTS.filter((v) => CRAFT_VARIANT_MULTIPLIER[v.key] !== 1).map((v) => `${v.short} ${CRAFT_VARIANT_MULTIPLIER[v.key]}`).join(', ')}). Open any card to claim or upgrade it.
+        {TIERS.slice(1).map((t) => `${t.label} ${CRAFT_TIER_MULTIPLIER[t.key]}`).join(', ')} and × art ({VARIANTS.filter((v) => isCraftable(v.key) && CRAFT_VARIANT_MULTIPLIER[v.key] !== 1).map((v) => `${v.short} ${CRAFT_VARIANT_MULTIPLIER[v.key]}`).join(', ')}). Open any card to claim or upgrade it (any art but the Autograph).
       </p>
       <p className="mt-3 font-semibold">Card stats</p>
       <p className="mt-0.5 text-muted-foreground">

@@ -158,7 +158,8 @@ const CardDesigns = ({
               {VARIANTS.map(
                 (v) => `${v.label} ${pctOf(STANDARD.variants[v.key])}`,
               ).join(" · ")}
-              .
+              . The Autograph is a signed card with its own parallel, ink and
+              serial; these are sample rolls.
             </p>
             <div className="dz-scroll">
               <div
@@ -187,6 +188,7 @@ const CardDesigns = ({
                           tier={r.tier}
                           finish={VARIANT_FINISH[r.tier]}
                           variant={v.key}
+                          autograph="sample"
                           ovr={r.info.ovr}
                           number={r.info.number}
                           stats={r.info.stats}
