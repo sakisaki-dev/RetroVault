@@ -1414,7 +1414,7 @@
    "id": "rivalry-broncos",
    "headline": "BRONCOS SERIES: 5–0",
    "subheadline": "Your Super Bowls against the Broncos",
-   "body": "You met the Broncos in 5 Super Bowls and won all 5: LXXV (Y16) W 22–16, LXXXII (Y23) W 46–11, LXXXIV (Y25) W 38–16, CXLIII (Y84) W 32–28 and CXLVII (Y88) W 40–22.",
+   "body": "You met the Broncos in 5 Super Bowls and won all 5: LXXV (Y16) W 22–16, LXXXII (Y23) W 46–11, LXXXIV (Y25) W 38–16, CXLIII (Y84) W 32–28 and CXLVII (Y88) W 40–22. In the weekly scores you went 1-0 against them: Y88 super bowl W 40-22.",
    "players": [],
    "tier": "hot-take",
    "category": "Rivalry",
@@ -1426,7 +1426,7 @@
    "id": "rivalry-buccaneers",
    "headline": "BUCCANEERS SERIES: 4–0",
    "subheadline": "Your Super Bowls against the Buccaneers",
-   "body": "You met the Buccaneers in 4 Super Bowls and won all 4: LXX (Y11) W 30–20, LXXXVIII (Y29) W 40–33, XCIX (Y40) W 38–22 and C (Y41) W 40–28.",
+   "body": "You met the Buccaneers in 4 Super Bowls and won all 4: LXX (Y11) W 30–20, LXXXVIII (Y29) W 40–33, XCIX (Y40) W 38–22 and C (Y41) W 40–28. In the weekly scores you went 1-0 against them: Y88 week 12 W 32-22.",
    "players": [],
    "tier": "hot-take",
    "category": "Rivalry",
@@ -1438,7 +1438,7 @@
    "id": "rivalry-commanders",
    "headline": "COMMANDERS SERIES: 2–1",
    "subheadline": "Your Super Bowls against the Commanders",
-   "body": "You met the Commanders in 3 Super Bowls and went 2–1: LXV (Y6) W 30–15, LXVI (Y7) L 16–22 and XCI (Y32) W 30–14. Jayden Daniels (QB, Career Legacy 7,009) was on their side for 2 of them.",
+   "body": "You met the Commanders in 3 Super Bowls and went 2–1: LXV (Y6) W 30–15, LXVI (Y7) L 16–22 and XCI (Y32) W 30–14. Jayden Daniels (QB, Career Legacy 7,009) was on their side for 2 of them. In the weekly scores you went 0-1-1 against them: Y88 week 4 L 24-29 and Y88 week 13 T 40-40.",
    "players": [
     "Jayden Daniels"
    ],
@@ -1808,7 +1808,7 @@
    "rival": "Broncos",
    "team": "Broncos",
    "era": "Buccaneers dynasty",
-   "summary": "You met the Broncos in 5 Super Bowls and won all 5: LXXV (Y16) W 22–16, LXXXII (Y23) W 46–11, LXXXIV (Y25) W 38–16, CXLIII (Y84) W 32–28 and CXLVII (Y88) W 40–22.",
+   "summary": "You met the Broncos in 5 Super Bowls and won all 5: LXXV (Y16) W 22–16, LXXXII (Y23) W 46–11, LXXXIV (Y25) W 38–16, CXLIII (Y84) W 32–28 and CXLVII (Y88) W 40–22. In the weekly scores you went 1-0 against them: Y88 super bowl W 40-22.",
    "record": {
     "won": 5,
     "lost": 0
@@ -1854,14 +1854,34 @@
      "yourTeam": "Eagles",
      "opponent": "Broncos"
     }
-   ]
+   ],
+   "games": {
+    "team": "Broncos",
+    "w": 1,
+    "l": 0,
+    "t": 0,
+    "meetings": [
+     {
+      "season": "Y88",
+      "week": 31,
+      "round": "Super Bowl",
+      "site": "home",
+      "coachTeam": "Eagles",
+      "for": 40,
+      "against": 22,
+      "result": "W"
+     }
+    ],
+    "record": "1-0",
+    "games": 1
+   }
   },
   {
    "id": "rival-buccaneers",
    "rival": "Buccaneers",
    "team": "Buccaneers",
    "era": "Ravens dynasty",
-   "summary": "You met the Buccaneers in 4 Super Bowls and won all 4: LXX (Y11) W 30–20, LXXXVIII (Y29) W 40–33, XCIX (Y40) W 38–22 and C (Y41) W 40–28.",
+   "summary": "You met the Buccaneers in 4 Super Bowls and won all 4: LXX (Y11) W 30–20, LXXXVIII (Y29) W 40–33, XCIX (Y40) W 38–22 and C (Y41) W 40–28. In the weekly scores you went 1-0 against them: Y88 week 12 W 32-22.",
    "record": {
     "won": 4,
     "lost": 0
@@ -1899,14 +1919,34 @@
      "yourTeam": "Ravens",
      "opponent": "Buccaneers"
     }
-   ]
+   ],
+   "games": {
+    "team": "Buccaneers",
+    "w": 1,
+    "l": 0,
+    "t": 0,
+    "meetings": [
+     {
+      "season": "Y88",
+      "week": 12,
+      "round": "Week 12",
+      "site": "home",
+      "coachTeam": "Eagles",
+      "for": 32,
+      "against": 22,
+      "result": "W"
+     }
+    ],
+    "record": "1-0",
+    "games": 1
+   }
   },
   {
    "id": "rival-commanders",
    "rival": "Jayden Daniels",
    "team": "Commanders",
    "era": "Dolphins run",
-   "summary": "You met the Commanders in 3 Super Bowls and went 2–1: LXV (Y6) W 30–15, LXVI (Y7) L 16–22 and XCI (Y32) W 30–14. Jayden Daniels (QB, Career Legacy 7,009) was on their side for 2 of them.",
+   "summary": "You met the Commanders in 3 Super Bowls and went 2–1: LXV (Y6) W 30–15, LXVI (Y7) L 16–22 and XCI (Y32) W 30–14. Jayden Daniels (QB, Career Legacy 7,009) was on their side for 2 of them. In the weekly scores you went 0-1-1 against them: Y88 week 4 L 24-29 and Y88 week 13 T 40-40.",
    "record": {
     "won": 2,
     "lost": 1
@@ -1936,7 +1976,37 @@
      "yourTeam": "Bills",
      "opponent": "Commanders"
     }
-   ]
+   ],
+   "games": {
+    "team": "Commanders",
+    "w": 0,
+    "l": 1,
+    "t": 1,
+    "meetings": [
+     {
+      "season": "Y88",
+      "week": 4,
+      "round": "Week 4",
+      "site": "home",
+      "coachTeam": "Eagles",
+      "for": 24,
+      "against": 29,
+      "result": "L"
+     },
+     {
+      "season": "Y88",
+      "week": 13,
+      "round": "Week 13",
+      "site": "away",
+      "coachTeam": "Eagles",
+      "for": 40,
+      "against": 40,
+      "result": "T"
+     }
+    ],
+    "record": "0-1-1",
+    "games": 2
+   }
   },
   {
    "id": "rival-texans",
@@ -2021,6 +2091,68 @@
    "note": "Wayne Wilson is the brother of Michael Wilson."
   }
  ],
+ "schedule": {
+  "seasons": [
+   {
+    "season": "Y88",
+    "coachTeam": "Eagles",
+    "record": "14-2-1",
+    "power": 4,
+    "games": 272
+   }
+  ],
+  "records": [
+   {
+    "id": "biggest-margin",
+    "label": "Biggest margin",
+    "value": 41,
+    "season": "Y88",
+    "week": 8,
+    "away": "Cardinals",
+    "home": "Buccaneers",
+    "awayScore": 57,
+    "homeScore": 16
+   },
+   {
+    "id": "most-combined",
+    "label": "Most combined points",
+    "value": 109,
+    "season": "Y88",
+    "week": 6,
+    "away": "Cowboys",
+    "home": "Chargers",
+    "awayScore": 62,
+    "homeScore": 47
+   },
+   {
+    "id": "most-points",
+    "label": "Most points by one club",
+    "value": 62,
+    "season": "Y88",
+    "week": 6,
+    "away": "Cowboys",
+    "home": "Chargers",
+    "awayScore": 62,
+    "homeScore": 47
+   },
+   {
+    "id": "coach-win-streak",
+    "label": "Longest winning streak (the coach's club)",
+    "value": 8,
+    "games": 8,
+    "from": {
+     "season": "Y88",
+     "week": 14
+    },
+    "to": {
+     "season": "Y88",
+     "week": 31,
+     "round": "Super Bowl"
+    },
+    "team": "Eagles"
+   }
+  ]
+ },
  "snubs": [
   {
    "id": "best-without-a-ring",

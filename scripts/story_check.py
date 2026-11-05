@@ -34,7 +34,10 @@ numbers are compared at the precision written, so "17.2" matches 17.21):
   coach.json <path/with/slashes>                    any other coach.json value (record/regular, superBowlRecord/0/titles)
   records.json <record name> <field>                a record-board row (mark holder year)
   <file>.json <path/with/slashes>                   owner_facts.json, stints.json, content.json (public/data/league),
-                                                    teams.json; list items by index or [key=value]; # = list length
+                                                    teams.json, schedule.json (public/data/league: game logs, tables,
+                                                    head-to-head, e.g. "schedule.json seasons/Y88/coachGames/[week=13]/for"
+                                                    or "seasons/Y88/table/[abbr=PHI]/pf"), schedules.json (raw weekly
+                                                    scores); list items by index or [key=value]; # = list length
   <source> minus <source>                           a gap between two figures (yards to the record)
   crossed: market_history.json <snapA>..<snapB> <POS:Name> <field>
                                                     a round milestone passed between two snapshots: the stated
@@ -78,6 +81,8 @@ class Data:
             "stints.json": SRC / "stints.json",
             "teams.json": SRC / "teams.json",
             "content.json": CONTENT,
+            "schedule.json": ROOT / "public" / "data" / "league" / "schedule.json",
+            "schedules.json": SRC / "schedules.json",
         }
         self.stories = (_read(SRC / "stories.json", {}) or {}).get("seasons", {})
 

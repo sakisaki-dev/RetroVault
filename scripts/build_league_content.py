@@ -112,6 +112,9 @@ JOURNAL = load("journal.json").get("notes", []) if (SRC / "journal.json").exists
 STORIES = load("stories.json").get("seasons", {}) if (SRC / "stories.json").exists() else {}
 
 SB_BY_YEAR = {int(s["year"].lstrip("Y")): s for s in SBS}
+# Weekly scores turned into game logs, tables and head-to-head records (scripts/schedule_content.py, run just before)
+_SCHED_PATH = ROOT / "public" / "data" / "league" / "schedule.json"
+SCHEDULE = json.loads(_SCHED_PATH.read_text()) if _SCHED_PATH.exists() else {"seasons": {}, "headToHead": {}, "records": []}
 WON = sorted(y for y, s in SB_BY_YEAR.items() if s["your_result"] == "won")
 LATEST = MARKET[-1]["players"] if MARKET else {}
 LEGACY = {k.split(":", 1)[1]: v["legacy"] for k, v in LATEST.items()}
@@ -534,6 +537,10 @@ def build_rivalries(eras):
             both = "every one" if star_n == len(gs) else f"{star_n} of them"
             summary += (f" {star['n']} ({star['pos']}, Career Legacy {fmt(legacy(star['n']))}) was on their side for "
                         f"{both}." if len(gs) > 1 else f" {star['n']} ({star['pos']}) was on their side.")
+        h = SCHEDULE["headToHead"].get(opp)
+        if h:
+            summary += (f" In the weekly scores you went {h['record']} against them: "
+                        f"{join([m['season'] + ' ' + m['round'].lower() + ' ' + m['result'] + ' ' + str(m['for']) + '-' + str(m['against']) for m in h['meetings']])}.")
         eras_hit: dict[str, int] = {}
         for y in meet_years:
             e = era_of_year(eras, y)
@@ -550,6 +557,26 @@ def build_rivalries(eras):
             "meetings": [{"roman": x["roman"], "year": x["year"], "score": x["yourScore"], "result": "won" if x["won"] else "lost",
                           "yourTeam": x["team"], "opponent": opp} for x in gs],
             **({"ownerNotes": [note_ref(n) for n in noted]} if noted else {}),
+            **({"games": SCHEDULE["headToHead"][opp]} if opp in SCHEDULE["headToHead"] else {}),
+        })
+    # Weekly scores: a club the coach's teams met at least twice in games and never had the better of (wins at most
+    # losses plus ties) is a rivalry too, even with no Super Bowl between them
+    have = {r["team"] for r in out}
+    for opp, h in SCHEDULE["headToHead"].items():
+        if opp in have or h["games"] < 2 or h["w"] > h["l"] + h["t"]:
+            continue
+        seasons = sorted({m["season"] for m in h["meetings"]}, key=lambda y: int(y.lstrip("Y")))
+        lines = [f"{m['season']} {m['round'].lower()} {m['result']} {m['for']}-{m['against']}" for m in h["meetings"]]
+        out.append({
+            "id": f"rival-{slug(opp)}",
+            "rival": opp,
+            "team": opp,
+            **({"era": era_of_year(eras, int(seasons[-1].lstrip("Y")))} if era_of_year(eras, int(seasons[-1].lstrip("Y"))) else {}),
+            "summary": f"You met the {opp} {plural(h['games'], 'time')} in {join(seasons)} and went {h['record']}: {join(lines)}.",
+            "record": {"won": h["w"], "lost": h["l"], **({"tied": h["t"]} if h["t"] else {})},
+            "meetings": [],
+            "games": h,
+            "source": "weekly scores",
         })
     return out
 
@@ -854,7 +881,8 @@ MARKET_MIN_VALUE = 50  # coins: cheaper cards swing by large percentages on tiny
 MARKET_MIN_MOVE = 0.05
 MAX_HEADLINES = 14
 PER_PLAYER = 2
-KIND_ORDER = ["superbowl", "hof", "record", "trade", "new-player", "award", "milestone", "grade", "market", "chase"]
+KIND_ORDER = ["superbowl", "hof", "record", "trade", "new-player", "award", "milestone", "grade", "market", "schedule",
+              "chase"]
 SUFFIXES = {"Jr", "Sr", "II", "III", "IV", "V"}
 
 
@@ -948,6 +976,26 @@ def pair_headlines(prev: dict | None, cur: dict | None, bundles: list[dict]) -> 
                 teams=[sb["your_team"], sb["winner"]])
         else:
             add("superbowl", f"{sb['winner']} win Super Bowl {sb['roman']}", 60, teams=[sb["winner"]])
+
+    # Weekly scores: a season's schedule.set brings its power No. 1, the upset of the year, the best defense and the
+    # biggest blowout
+    for y in sorted({m["target"] for m in muts if m["op"] == "schedule.set"}, key=lambda t: int(t.lstrip("Y"))):
+        sc = SCHEDULE["seasons"].get(y)
+        if not sc:
+            continue
+        top = sc["table"][0]
+        add("schedule", f"Power rankings: the {top['team']} finish {y} No. 1 at {top['record']}", 55, teams=[top["team"]])
+        if sc.get("upset"):
+            u = sc["upset"]
+            add("schedule", f"Upset of {y}: the {u['winner']} ({u['winnerRecord']}) beat the {u['loser']} ({u['loserRecord']}) "
+                f"{u['score']}", 50, teams=[u["winner"], u["loser"]])
+        best_d = next(r for r in sc["table"] if r["team"] == sc["leaders"]["bestDefense"])
+        add("schedule", f"Best defense of {y}: the {best_d['team']} allowed {best_d['papg']} points a game", 45,
+            teams=[best_d["team"]])
+        if sc.get("blowout"):
+            b_ = sc["blowout"]
+            add("schedule", f"Blowout of {y}: the {b_['winner']} beat the {b_['loser']} {b_['score']} in week {b_['week']}", 40,
+                teams=[b_["winner"], b_["loser"]])
 
     # Records: record.set mutations, plus marks dated in a rolled-over season
     rec_names = {m["target"] for m in muts if m["op"] == "record.set"}
@@ -1134,6 +1182,11 @@ def main():
         "storylines": storylines,
         "rivalries": rivalries,
         "lineages": lineages,
+        # Weekly scores, summarized (the full game logs and tables are public/data/league/schedule.json)
+        "schedule": {"seasons": [{"season": y, "coachTeam": sc["coachTeam"], "record": sc["coachRecord"]["record"],
+                                  "power": sc["coachRecord"]["power"], "games": len(sc["games"])}
+                                 for y, sc in SCHEDULE["seasons"].items()],
+                     "records": SCHEDULE["records"]},
         "snubs": snubs,
         "outsiders": outsiders,
         "openQuestions": open_questions(),

@@ -394,6 +394,50 @@ def chase_facts():
              chaser["n"])
 
 
+def schedule_facts():
+    """Weekly scores (public/data/league/schedule.json): each season's upset, blowout, shootout, best offense and
+    defense and power No. 1, the coach's record against the clubs he met twice or more, and the game records."""
+    path = ROOT / "public" / "data" / "league" / "schedule.json"
+    sched = json.loads(path.read_text()) if path.exists() else {}
+    coach = COACH
+
+    def add(fid, text, team):
+        FACTS.append({"id": fid, "kind": "game", "text": text, "player": None, "team": team})
+    for y, sc in (sched.get("seasons") or {}).items():
+        table = {r["team"]: r for r in sc["table"]}
+        if sc.get("upset"):
+            u = sc["upset"]
+            add(f"game-upset-{y}", f"Upset of {y}: the {u['winner']} finished {u['winnerRecord']}, and one of their wins "
+                f"was {u['score']} over the {u['loser']}, who finished {u['loserRecord']}.", u["winner"])
+        if sc.get("blowout"):
+            b = sc["blowout"]
+            add(f"game-blowout-{y}", f"The biggest blowout of {y}: the {b['winner']} beat the {b['loser']} {b['score']} in "
+                f"week {b['week']}, a {b['margin']}-point margin.", b["winner"])
+        if sc.get("shootout"):
+            g_ = sc["shootout"]
+            add(f"game-shootout-{y}", f"The highest-scoring game of {y}: {g_['away']} {g_['awayScore']}, {g_['home']} "
+                f"{g_['homeScore']} in week {g_['week']}, {g_['total']} points in all.", g_["winner"] or g_["home"])
+        off, dfn = table[sc["leaders"]["bestOffense"]], table[sc["leaders"]["bestDefense"]]
+        add(f"game-offense-{y}", f"The {off['team']} scored {off['ppg']} points a game in {y}, the most in the league.",
+            off["team"])
+        add(f"game-defense-{y}", f"The {dfn['team']} allowed {dfn['papg']} points a game in {y}, the fewest in the league.",
+            dfn["team"])
+        top = sc["table"][0]
+        add(f"game-power-{y}", f"The {top['team']} ({top['record']}, {'+' if top['diff'] >= 0 else ''}{top['diff']} points) "
+            f"top the {y} power rankings, built from record, point differential and strength of schedule.", top["team"])
+    for opp, h in (sched.get("headToHead") or {}).items():
+        if h["games"] >= 2:
+            team = h["meetings"][-1]["coachTeam"]
+            add(f"game-h2h-{B.slug(opp)}", f"{coach}'s {team} are {h['record']} against the {opp} in the weekly scores, "
+                f"over {h['games']} meetings.", opp)
+    for r in sched.get("records") or []:
+        if r["id"] == "coach-win-streak":
+            add("game-record-streak", f"{coach}'s {r['team']} won {r['games']} straight from {r['from']['season']} week "
+                f"{r['from']['week']} through " + ("the Super Bowl" if r["to"].get("round") == "Super Bowl" else
+                f"{r['to']['season']} {r['to'].get('round', 'week ' + str(r['to']['week'])).lower()}") +
+                ", the longest run in the weekly scores.", r["team"])
+
+
 def story_facts(story) -> list[dict]:
     out = []
     for f in (story or {}).get("didYouKnow", []):
@@ -530,8 +574,9 @@ def main():
     upcomer_facts()
     milestone_facts()
     chase_facts()
+    schedule_facts()
     seen, facts = set(), []
-    order = ["chase", "milestone", "rising", "oddity", "oneteam", "sample", "leader", "record", "iron"]
+    order = ["chase", "milestone", "game", "rising", "oddity", "oneteam", "sample", "leader", "record", "iron"]
     ranked = sorted(FACTS, key=lambda f: order.index(f["kind"]))  # stable: keeps each rule's own order
     for f in [*story_facts(story), *ranked]:
         if f["id"] in seen or not f["text"]:
