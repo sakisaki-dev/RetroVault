@@ -126,7 +126,7 @@ def legacy(name: str) -> int:
 def team_of(p) -> str | None:
     t = F.TEAM_FIXES.get(p["n"], p.get("team"))
     t = F.CURRENT_CLUB if t == "CUR" else t
-    return None if t in (None, "UNK") else t
+    return None if t in (None, "UNK", "FA") else t  # FA = free agent (owner: no club right now)
 
 
 def dated_stints(name: str) -> list[dict]:

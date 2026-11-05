@@ -359,10 +359,12 @@
    "team": "Eagles"
   },
   "Hamsfa Boltt": {
+   "team": "FA",
    "team_history": [
-    "Titans"
+    "Titans",
+    "Commanders"
    ],
-   "status": "Retired",
+   "status": "Active",
    "card": {
     "former_team": "Titans",
     "note": "Quarterbacked the Titans to their most recent title, Super Bowl CXXXIII (Y74), and was named SB MVP; now with the Commanders"
@@ -860,8 +862,13 @@
    }
   },
   "Shawn Milne": {
-   "team": "Giants",
-   "status": "Retired",
+   "team": "FA",
+   "team_history": [
+    "Buccaneers",
+    "Falcons",
+    "Giants"
+   ],
+   "status": "Active",
    "career": {
     "order": [
      "Buccaneers",

@@ -291,7 +291,7 @@ current data is a no-op.
   rule: "for the banners if its a current team always change to whatever their current team is, the banner only
   takes the best years after they retire since that's what's best known." **Active** players always wear their
   current team (overriding the stint rule and any owner `signature_team` fact, which stays stored and takes effect
-  once he retires). **Retired** players: owner fact `players/<name>/signature_team`, else the card's `legacy_team`,
+  once he retires). **Free agents** (owner: "free agent"): `fact.set players/<name>/team "FA"` with status `Active`; the league sheet leaves the club blank (the site's "Free agents" fallback), the banner follows the retired rule (where he was best known), and the audit accepts both. **Retired** players: owner fact `players/<name>/signature_team`, else the card's `legacy_team`,
   else the stint with the most rings, then most seasons, then earliest; no stints = current team. Stats, rosters,
   filters, jersey numbers and market keys keep the current team (`signatureTeamOf` / `withSignatureTeam` in
   `src/utils/playerExtras.ts`); the player card's "Latest club" line shows for retired players only. Audit errors

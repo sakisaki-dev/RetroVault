@@ -1,0 +1,134 @@
+{
+ "id": "2026-11-05-free-agents",
+ "created": "2026-11-05",
+ "title": "Shawn Milne and Hamsfa Boltt are free agents (not retired); cards unchanged",
+ "images": [
+  {
+   "file": "images/IMG_6988.PNG",
+   "shows": "WR Shawn Milne career card (Receiving), 0 games in Y88"
+  },
+  {
+   "file": "images/IMG_6989.PNG",
+   "shows": "QB Hamsfa Boltt career card (Passing), 0 games in Y88"
+  },
+  {
+   "file": "images/IMG_6990.PNG",
+   "shows": "QB Hamsfa Boltt career card (Rushing)"
+  }
+ ],
+ "ai_steps": [
+  {
+   "step": "transcribe",
+   "reason": "Images need reading",
+   "trigger": "New images in the upload"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Shawn Milne/status",
+   "value": "Active",
+   "source": "owner",
+   "reason": "Owner: \"shawn milne and hamsfa boltt are both free agents, their screenshots are uploaded\" (free agent, not retired; reverses the Y88 retirement)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Shawn Milne/team",
+   "value": "FA",
+   "source": "owner",
+   "reason": "Owner: \"shawn milne and hamsfa boltt are both free agents, their screenshots are uploaded\" (free agent: no club (was the Giants))",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Shawn Milne/team_history",
+   "value": [
+    "Buccaneers",
+    "Falcons",
+    "Giants"
+   ],
+   "source": "owner",
+   "reason": "Owner: \"shawn milne and hamsfa boltt are both free agents, their screenshots are uploaded\" (clubs before free agency, from his career order)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Hamsfa Boltt/status",
+   "value": "Active",
+   "source": "owner",
+   "reason": "Owner: \"shawn milne and hamsfa boltt are both free agents, their screenshots are uploaded\" (free agent, not retired; reverses the retirement recorded after Y87)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Hamsfa Boltt/team",
+   "value": "FA",
+   "source": "owner",
+   "reason": "Owner: \"shawn milne and hamsfa boltt are both free agents, their screenshots are uploaded\" (free agent: no club (was the Commanders))",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.add",
+   "target": "players/Hamsfa Boltt/team_history",
+   "value": "Commanders",
+   "source": "owner",
+   "reason": "Owner: \"shawn milne and hamsfa boltt are both free agents, their screenshots are uploaded\" (his last club before free agency)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Shawn Milne",
+   "value": {
+    "g": 109,
+    "rec": 407,
+    "yds": 4702,
+    "td": 62,
+    "fum": 13,
+    "lng": 68,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6988.PNG",
+   "reason": "Career panel and award row; season panel shows 0 games in Y88 (free agent)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Hamsfa Boltt",
+   "value": {
+    "g": 258,
+    "att": 8317,
+    "cmp": 5354,
+    "yds": 48211,
+    "td": 424,
+    "int": 55,
+    "sck": 42,
+    "ratt": 196,
+    "ryds": 1205,
+    "rtd": 65,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6989.PNG",
+   "reason": "Career panel and award row (merged with IMG_6990.PNG); season panel shows 0 games in Y88 (free agent)",
+   "trigger": "New images in the upload"
+  }
+ ]
+}

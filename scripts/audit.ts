@@ -42,7 +42,10 @@ const franchisesOf = (p: Player): Set<string> => {
 // ask the owner, so that is a warning; any other missing team is an error.
 const unplaced = new Set((read('data/y80/players.json') as { n: string; team?: string }[])
   .filter((p) => p.team === 'UNK').map((p) => p.n));
-league.filter((p) => !findNFLTeam(p.team)).forEach((p) =>
+// A free agent (owner fact team "FA") has no club on purpose: blank in the CSV, banner = where he was best known.
+const freeAgents = new Set(Object.entries((read('data/y80/owner_facts.json') as { players?: Record<string, { team?: string }> })
+  .players ?? {}).filter(([, f]) => f.team === 'FA').map(([n]) => n));
+league.filter((p) => !findNFLTeam(p.team) && !freeAgents.has(p.name)).forEach((p) =>
   unplaced.has(p.name)
     ? warnings.push(`No team yet: ${p.position} ${p.name} (UNK in players.json: ask the owner)`)
     : errors.push(`No team: ${p.position} ${p.name}`));
@@ -144,7 +147,7 @@ for (const [who, team] of Object.entries(extras.signatureTeams ?? {}) as [string
   const id = findNFLTeam(team)?.id;
   if (!p) warnings.push(`Signature team for unknown player ${who}`);
   else if (!id) errors.push(`Signature team for ${who} is not a franchise: ${team}`);
-  else if (p.status !== 'Retired' && findNFLTeam(p.team)?.id !== id)
+  else if (p.status !== 'Retired' && !freeAgents.has(who) && findNFLTeam(p.team)?.id !== id)
     errors.push(`Signature team for active ${who} is the ${team}, but his current team is the ${p.team}`);
   else if (p.status !== 'Retired') continue;
   else {

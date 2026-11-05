@@ -2878,16 +2878,16 @@
    "stints": [
     {
      "team": "Titans",
-     "from": 73,
-     "to": 77,
+     "from": 74,
+     "to": 74,
      "rings": [
       74
      ]
     },
     {
      "team": "Commanders",
-     "from": 78,
-     "to": 87,
+     "from": 75,
+     "to": 88,
      "rings": []
     }
    ],
@@ -3896,7 +3896,7 @@
    "stints": [
     {
      "team": "Buccaneers",
-     "from": 82,
+     "from": 83,
      "to": 83,
      "rings": []
     },
@@ -3911,7 +3911,7 @@
     {
      "team": "Giants",
      "from": 85,
-     "to": 87,
+     "to": 88,
      "rings": []
     }
    ],

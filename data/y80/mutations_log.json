@@ -789,6 +789,15 @@
     "stats": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-05-free-agents",
+   "dir": "data/uploads/2026-11-05-free-agents",
+   "applied_at": "2026-11-05T11:14:00-08:00",
+   "mutations": {
+    "stats": 8
+   },
+   "changed": 6
   }
  ]
 }
