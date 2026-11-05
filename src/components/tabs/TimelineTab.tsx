@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CalendarRange, Flame, GitBranch, Loader2, Trophy } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
-import { useLeagueContent } from '@/utils/leagueContent';
+import { latestSeasonYear, useLeagueContent } from '@/utils/leagueContent';
 import PlayerDetailCard from '@/components/PlayerDetailCard';
 import { buildTimelineModel, eraForYear, type PlacedEra } from '@/components/timeline/timelineModel';
 import { HorizontalTrack, VerticalTrack } from '@/components/timeline/EraTrack';
@@ -35,6 +35,16 @@ const TimelineTab = () => {
   const [selectedEraId, setSelectedEraId] = useState<string | null>(null);
   const [activeYear, setActiveYear] = useState<number | null>(null);
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  // One season for the Season Story and Season games: picking it in either switches both. Until a pick, the
+  // latest story's season (else the latest season in the data).
+  const [pickedSeason, setPickedSeason] = useState<string | null>(null);
+  const shownSeason = useMemo(() => {
+    if (pickedSeason) return pickedSeason;
+    const stories = content?.seasonStories ?? [];
+    if (stories.length) return stories[stories.length - 1].season;
+    const y = latestSeasonYear(content);
+    return y ? `Y${y}` : null;
+  }, [pickedSeason, content]);
   const detailRef = useRef<HTMLDivElement>(null);
 
   // Drop a selection that no longer exists after a content upload.
@@ -148,9 +158,16 @@ const TimelineTab = () => {
         </div>
       </header>
 
-      <TimelineNews headlines={content.headlines} info={content.headlinesInfo} stories={content.seasonStories} onPlayer={setSelectedPlayer} />
+      <TimelineNews
+        headlines={content.headlines}
+        info={content.headlinesInfo}
+        stories={content.seasonStories}
+        onPlayer={setSelectedPlayer}
+        season={shownSeason}
+        onSeason={setPickedSeason}
+      />
 
-      <SeasonGames />
+      <SeasonGames season={shownSeason} onSeason={setPickedSeason} />
 
       {/* Timeline */}
       <section aria-labelledby="timeline-heading" className="space-y-3 rounded-xl border border-border/40 bg-card p-3 sm:p-4">

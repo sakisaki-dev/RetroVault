@@ -17,13 +17,16 @@ import { reducedMotion } from '@/utils/motion';
 import { usePhone } from '@/hooks/usePhone';
 import { cn } from '@/lib/utils';
 
-/** In-page jumps on the Players sub-tab (each is linkable: #stats/players/<id>). */
+/**
+ * In-page jumps on the Players sub-tab (each is linkable: #stats/players/<id>), in the page's top-to-bottom order so
+ * the phone chip row's highlight moves steadily left to right while scrolling.
+ */
 const JUMPS = [
+  { id: 'record-book', label: 'Records' },
   { id: 'analytics', label: 'Advanced' },
   { id: 'landscape', label: 'Landscape' },
   { id: 'hidden-gems', label: 'Hidden Gems' },
   { id: 'league-shape', label: 'League Shape' },
-  { id: 'record-book', label: 'Records' },
   { id: 'efficiency', label: 'Efficiency' },
   { id: 'leaders', label: 'Leaders' },
   { id: 'tables', label: 'Full Tables' },
@@ -38,7 +41,7 @@ const useSpy = (on: boolean) => {
     const check = () => {
       raf = 0;
       const line = (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0) + 110;
-      // The section whose top most recently passed the line (DOM order differs from the chip order)
+      // The section whose top most recently passed the line (measured, so a layout change can't desync the chips)
       let cur: string | null = null;
       let best = -Infinity;
       for (const j of JUMPS) {

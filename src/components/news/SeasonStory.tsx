@@ -226,12 +226,23 @@ interface DeskProps {
   stories: SeasonStory[];
   players: Player[];
   onPlayer: (p: Player) => void;
+  /** Controlled season ("Y88"), shared with the Timeline's Season games; uncontrolled when left out */
+  season?: string | null;
+  onSeason?: (season: string) => void;
 }
 
 /** The Timeline news desk for one season at a time (latest first), with the season switcher */
-export const SeasonStoryDesk = ({ stories, players, onPlayer }: DeskProps) => {
+export const SeasonStoryDesk = ({ stories, players, onPlayer, season: controlled, onSeason }: DeskProps) => {
   const seasons = useMemo(() => [...stories].reverse(), [stories]);
-  const [seasonId, setSeasonId] = useState<string | null>(null);
+  const [ownSeason, setOwnSeason] = useState<string | null>(null);
+  const seasonId = controlled !== undefined ? controlled : ownSeason;
+  const setSeasonId = useCallback(
+    (id: string) => {
+      setOwnSeason(id);
+      onSeason?.(id);
+    },
+    [onSeason],
+  );
   const story = seasons.find((s) => s.season === seasonId) ?? seasons[0];
   const [openId, setOpenId] = useState<string | null>(null);
   const open = openId ? findArticle(stories, openId) : null;
@@ -243,7 +254,7 @@ export const SeasonStoryDesk = ({ stories, players, onPlayer }: DeskProps) => {
       setSeasonId(hit.story.season);
       setOpenId(id);
     },
-    [stories],
+    [stories, setSeasonId],
   );
 
   // Requests from elsewhere (the Arcade ticker): one made before this mounted, and any made while it is mounted

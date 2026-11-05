@@ -48,6 +48,39 @@ export interface TableRow {
   /** 100 × win % + 1.5 × diff per game + 40 × (SOS − 0.5) */
   powerScore: number;
   power: number;
+  /** Regular-season splits: home, away and one-score (decided by 8 or fewer, ties included) records ("7-2") */
+  home?: string;
+  away?: string;
+  oneScore?: string;
+  longestWinStreak?: number;
+  /** Current streak at season's end ("W7") and the last five results, oldest first ("WWLWW") */
+  streak?: string;
+  last5?: string;
+  /** Every regular-season result in game order ("WLWWT…") */
+  results?: string;
+  /** Pythagorean win expectation (exponent 2.37), its expected wins, and luck (actual wins minus expected) */
+  pythag?: number;
+  expWins?: number;
+  luck?: number;
+  /** Consistency: standard deviation of game margins (lower is steadier) */
+  marginSd?: number;
+  /** Home win % minus away win % */
+  homeEdge?: number;
+  /** Margin per game adjusted for the schedule */
+  adjMargin?: number;
+}
+
+/** One club's season in `progression`, with the change against its previous season that has weekly scores. */
+export interface TeamSeasonRow
+  extends Partial<Omit<TableRow, 'team' | 'abbr' | 'conference' | 'division' | 'results' | 'longestWinStreak'>> {
+  season: string;
+  record: string;
+  w: number;
+  l: number;
+  t: number;
+  diff: number;
+  power: number;
+  change?: { power: number; diff: number; wins: number; since: string };
 }
 
 export interface GameRef {
@@ -65,12 +98,70 @@ export interface GameRef {
   loserRecord?: string;
 }
 
+/** The league's regular season by the numbers. */
+export interface LeagueNumbers {
+  games: number;
+  points: number;
+  /** Points per team per game */
+  ppg: number;
+  /** Average combined points per game */
+  combinedAvg: number;
+  homeWinPct: number;
+  homeWins: number;
+  awayWins: number;
+  ties: GameRef[];
+  /** Games decided by 8 points or fewer (ties excluded) and their share of all games */
+  oneScoreGames: number;
+  oneScoreShare: number;
+  /** Games where a club scored 50 or more */
+  fiftyPointGames: number;
+  avgMargin: number;
+  /** Per week: the league average points per team and the week's high score */
+  weeks: { week: number; avg: number; high: number }[];
+  closest?: GameRef;
+  mostInLoss?: GameRef;
+  fewestInWin?: GameRef;
+}
+
+export interface CoachGameBrief {
+  week: number;
+  round: string;
+  opp: string;
+  for: number;
+  against: number;
+  margin: number;
+}
+
+/** The coached club's season in detail (playoffs included unless noted). */
+export interface CoachDetail {
+  /** Regular-season home / away records */
+  home: string;
+  away: string;
+  /** Games decided by 8 or fewer */
+  oneScore: string;
+  /** Regular season against clubs that finished above .500 */
+  vsWinning: string;
+  vsWinningGames: number;
+  ppg: number;
+  papg: number;
+  /** Average opponent offense / defense rating (0–5 stars) */
+  avgOppOff?: number | null;
+  avgOppDef?: number | null;
+  longestWinStreak?: number | null;
+  bestWin?: CoachGameBrief;
+  worstLoss?: CoachGameBrief;
+  /** W / L / T in game order, playoffs included, byes skipped */
+  results: string;
+}
+
 export interface ScheduleSeason {
   season: string;
   coachTeam: string;
   coachAbbr: string;
   coachRecord: { w: number; l: number; t: number; pf: number; pa: number; diff: number; power: number; record: string; playoffs: string };
   coachGames: CoachGame[];
+  coachDetail?: CoachDetail;
+  league?: LeagueNumbers;
   table: TableRow[];
   leaders: { bestOffense: string; bestDefense: string; worstDefense: string; bestDiff: string };
   upset?: GameRef;
@@ -107,6 +198,8 @@ export interface Schedule {
   seasons: Record<string, ScheduleSeason>;
   headToHead: Record<string, HeadToHead>;
   records: GameRecord[];
+  /** Every club's row for each season with weekly scores, oldest first (missing seasons are simply absent) */
+  progression?: Record<string, TeamSeasonRow[]>;
 }
 
 const EMPTY: Schedule = { seasons: {}, headToHead: {}, records: [] };

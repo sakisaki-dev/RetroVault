@@ -311,18 +311,23 @@ export const TimelineNews = ({
   info,
   stories,
   onPlayer,
+  season,
+  onSeason,
 }: {
   headlines?: Headline[];
   info?: HeadlinesInfo;
   stories?: SeasonStory[];
   onPlayer: (p: Player) => void;
+  /** The Timeline's shared season (Season Story and Season games show the same one) */
+  season?: string | null;
+  onSeason?: (season: string) => void;
 }) => {
   const players = useLeaguePlayers();
   if (!stories?.length) return <HeadlineList headlines={headlines ?? []} info={info} players={players} onPlayer={onPlayer} />;
   return (
     <div id="what-changed" className="wc-news scroll-mt-24">
       <HeadlineTicker headlines={headlines ?? []} info={info} players={players} onPlayer={onPlayer} title="The Wire" />
-      <SeasonStoryDesk stories={stories} players={players} onPlayer={onPlayer} />
+      <SeasonStoryDesk stories={stories} players={players} onPlayer={onPlayer} season={season} onSeason={onSeason} />
       {!!headlines?.length && (
         <details className="wc-wire-all">
           <summary>All wire items ({headlines.length})</summary>

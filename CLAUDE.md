@@ -278,9 +278,10 @@ current data is a no-op.
 
 ## Owner facts (confirmed; don't "correct" them)
 
-- The current club is the **Falcons** (from Y83; owner: "I switched teams to the falcons"). Before that the Jets,
-  Y76–82. The coach is Dorren Skura; his 82 coached seasons are in `coach.json` and the new stint is its
-  `currentStint` ({team, abbr, from}), mirrored by `current_club` in `owner_facts.json`. Code never hard-codes
+- The current club is the **Eagles** (from Y88; owner: "in this new season i've moved to the eagles"). Before that the
+  Falcons Y83–87 (owner: "I switched teams to the falcons") and the Jets Y76–82. The coach is Dorren Skura; his coached
+  seasons are in `coach.json` and the current stint is its `currentStint` ({team, abbr, from}), mirrored by
+  `current_club` in `owner_facts.json`. Code never hard-codes
   the club: it reads `currentClub()` / `useCurrentClub()` (`src/utils/club.ts`); the audit errors if the two disagree.
 - Real NFL legends appear only in the games, never in league stats or the Collection (cards are league players only).
 - Active/Retired status is internal only; never show it in the UI.

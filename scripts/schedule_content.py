@@ -39,6 +39,10 @@ BY_ABBR = {t["abbr"]: name for name, t in TEAMS.items() if t.get("conference")}
 SCHEDULES = (_read(SRC / "schedules.json", {}) or {}).get("seasons", {})
 
 
+# Pythagorean expectation exponent (the NFL convention, 2.37): win share ~ PF^x / (PF^x + PA^x)
+PYTHAG_EXP = 2.37
+
+
 def pct(w: int, l: int, t: int) -> float:
     n = w + l + t
     return (w + 0.5 * t) / n if n else 0.0
@@ -153,6 +157,90 @@ def season_content(season: str, s: dict) -> dict:
         "worstDefense": min(table, key=lambda r: (-r["papg"], r["team"]))["team"],
         "bestDiff": min(table, key=lambda r: (-r["diff"], r["team"]))["team"],
     }
+    # ---- League by the numbers (regular season) ----
+    n_games = len(games)
+    pts = [g["awayScore"] + g["homeScore"] for g in games]
+    margins = [abs(g["awayScore"] - g["homeScore"]) for g in games]
+    home_w = sum(g["homeScore"] > g["awayScore"] for g in games)
+    away_w = sum(g["awayScore"] > g["homeScore"] for g in games)
+    ties = [game_ref(g) for g in games if g["awayScore"] == g["homeScore"]]
+    one_score = sum(1 for m in margins if 0 < m <= 8)
+    weeks_avg = [{"week": wk["week"], "avg": round(sum(g["away_score"] + g["home_score"] for g in wk["games"]) / max(1, 2 * len(wk["games"])), 1),
+                  "high": max((max(g["away_score"], g["home_score"]) for g in wk["games"]), default=0)} for wk in weeks]
+    closest = min((g for g in games if g["awayScore"] != g["homeScore"]), key=lambda g: (abs(g["awayScore"] - g["homeScore"]), -(g["awayScore"] + g["homeScore"]), g["week"]), default=None)
+    most_in_loss = max((g for g in games if g["awayScore"] != g["homeScore"]), key=lambda g: (min(g["awayScore"], g["homeScore"]), -g["week"]), default=None)
+    fewest_in_win = min((g for g in games if g["awayScore"] != g["homeScore"]), key=lambda g: (max(g["awayScore"], g["homeScore"]), g["week"]), default=None)
+    league = {
+        "games": n_games, "points": sum(pts), "ppg": round(sum(pts) / (2 * n_games), 1) if n_games else 0,
+        "combinedAvg": round(sum(pts) / n_games, 1) if n_games else 0,
+        "homeWinPct": round(home_w / max(1, home_w + away_w), 3), "homeWins": home_w, "awayWins": away_w,
+        "ties": ties, "oneScoreGames": one_score, "oneScoreShare": round(one_score / max(1, n_games), 3),
+        "fiftyPointGames": sum(1 for g in games if max(g["awayScore"], g["homeScore"]) >= 50),
+        "avgMargin": round(sum(margins) / max(1, n_games), 1),
+        "weeks": weeks_avg,
+        **({"closest": game_ref(closest)} if closest else {}),
+        **({"mostInLoss": game_ref(most_in_loss)} if most_in_loss else {}),
+        **({"fewestInWin": game_ref(fewest_in_win)} if fewest_in_win else {}),
+    }
+
+    # ---- Every club: home/away, one-score record, streaks, last five ----
+    for row in table:
+        mine = [(wk["week"], g) for wk in weeks for g in wk["games"] if row["abbr"] in (g["away"], g["home"])]
+        res = []
+        home = [0, 0, 0]; away = [0, 0, 0]; close = [0, 0, 0]
+        for wk_n, g in mine:
+            is_home = g["home"] == row["abbr"]
+            us, them = (g["home_score"], g["away_score"]) if is_home else (g["away_score"], g["home_score"])
+            k = 0 if us > them else 1 if us < them else 2
+            (home if is_home else away)[k] += 1
+            if abs(us - them) <= 8:
+                close[k] += 1
+            res.append("WLT"[k])
+        best_w = cur = 0
+        for x in res:
+            cur = cur + 1 if x == "W" else 0
+            best_w = max(best_w, cur)
+        tail = res[-1] if res else ""
+        streak = len(res) - len("".join(res).rstrip(tail)) if res else 0
+        n_g = row["w"] + row["l"] + row["t"]
+        margins_t = []
+        for _, g in mine:
+            is_home = g["home"] == row["abbr"]
+            margins_t.append((g["home_score"] - g["away_score"]) * (1 if is_home else -1))
+        mean_m = sum(margins_t) / max(1, len(margins_t))
+        sd = (sum((m - mean_m) ** 2 for m in margins_t) / max(1, len(margins_t))) ** 0.5
+        pf_e, pa_e = row["pf"] ** PYTHAG_EXP, row["pa"] ** PYTHAG_EXP
+        pythag = pf_e / (pf_e + pa_e) if pf_e + pa_e else 0.5
+        wins_eq = row["w"] + 0.5 * row["t"]
+        hp, ap = pct(*home), pct(*away)
+        row.update({"pythag": round(pythag, 3), "expWins": round(pythag * n_g, 1), "luck": round(wins_eq - pythag * n_g, 1),
+                    "marginSd": round(sd, 1), "homeEdge": round(hp - ap, 3),
+                    "adjMargin": round(mean_m + 40 * (row["sos"] - 0.5), 1)})
+        row.update({"home": record_str(*home), "away": record_str(*away), "oneScore": record_str(*close),
+                    "longestWinStreak": best_w, "streak": f"{tail}{streak}" if res else "", "last5": "".join(res[-5:]),
+                    "results": "".join(res)})
+
+    # ---- The coach's season in detail ----
+    played = [g for g in log if "result" in g]
+    reg_played = [g for g in played if not g.get("playoff")]
+    def rec(gs):
+        return record_str(sum(g["result"] == "W" for g in gs), sum(g["result"] == "L" for g in gs), sum(g["result"] == "T" for g in gs))
+    winning_opps = [g for g in reg_played if g["oppAbbr"] in by_abbr and by_abbr[g["oppAbbr"]]["pct"] > 0.5]
+    rated = [g for g in played if g.get("oppOff") is not None]
+    best_win = max((g for g in played if g["result"] == "W"), key=lambda g: (g["margin"], g["week"]), default=None)
+    worst = min((g for g in played if g["result"] == "L"), key=lambda g: (g["margin"], -g["week"]), default=None)
+    coach_detail = {
+        "home": rec([g for g in reg_played if g["site"] == "home"]), "away": rec([g for g in reg_played if g["site"] == "away"]),
+        "oneScore": rec([g for g in played if abs(g["margin"]) <= 8]), "vsWinning": rec(winning_opps), "vsWinningGames": len(winning_opps),
+        "ppg": round(sum(g["for"] for g in played) / max(1, len(played)), 1), "papg": round(sum(g["against"] for g in played) / max(1, len(played)), 1),
+        "avgOppOff": round(sum(g["oppOff"] for g in rated) / max(1, len(rated)), 2) if rated else None,
+        "avgOppDef": round(sum(g["oppDef"] for g in rated) / max(1, len(rated)), 2) if rated else None,
+        "longestWinStreak": coach_row.get("longestWinStreak"),
+        **({"bestWin": {k: best_win[k] for k in ("week", "round", "opp", "for", "against", "margin")}} if best_win else {}),
+        **({"worstLoss": {k: worst[k] for k in ("week", "round", "opp", "for", "against", "margin")}} if worst else {}),
+        "results": "".join(g["result"] for g in played),
+    }
+
     up = None
     if upset:
         g, w_, l_ = upset
@@ -165,6 +253,8 @@ def season_content(season: str, s: dict) -> dict:
                         "playoffs": record_str(sum(g["result"] == "W" for g in post), sum(g["result"] == "L" for g in post),
                                                sum(g["result"] == "T" for g in post))},
         "coachGames": log,
+        "coachDetail": coach_detail,
+        "league": league,
         "table": table,
         "leaders": leaders,
         **({"upset": up} if up else {}),
@@ -217,9 +307,22 @@ def build() -> dict:
     if best:
         records.append({"id": "coach-win-streak", "label": "Longest winning streak (the coach's club)", "value": best["games"],
                         **best})
+    # Every club across the seasons that have weekly scores (a season with no upload is simply missing, and the next
+    # uploaded one picks up from there); the change is against the club's previous season with data
+    KEEP = ("record", "w", "l", "t", "pct", "pf", "pa", "diff", "ppg", "papg", "sos", "powerScore", "power", "divisionRank",
+            "pythag", "expWins", "luck", "marginSd", "homeEdge", "adjMargin", "home", "away", "oneScore", "streak", "last5")
+    progression: dict[str, list[dict]] = {}
+    for y, sc in seasons.items():
+        for row in sc["table"]:
+            progression.setdefault(row["team"], []).append({"season": y, **{k: row[k] for k in KEEP if k in row}})
+    for rows in progression.values():
+        for prev, cur in zip(rows, rows[1:]):
+            cur["change"] = {"power": prev["power"] - cur["power"], "diff": cur["diff"] - prev["diff"],
+                             "wins": cur["w"] - prev["w"], "since": prev["season"]}
     return {
         "_about": "Generated by scripts/schedule_content.py from data/y80/schedules.json (schedule.set). Rules only; "
                   "never hand-edit.",
+        "progression": dict(sorted(progression.items())),
         "seasons": seasons,
         "headToHead": dict(sorted(h2h.items(), key=lambda kv: (-kv[1]["games"], kv[0]))),
         "records": records,

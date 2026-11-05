@@ -10,6 +10,7 @@ import CountUp from '../brand/CountUp';
 import TeamSheet from '../teams/TeamSheet';
 import PowerRanking from '../teams/PowerRanking';
 import DynastyGrid from '../teams/DynastyGrid';
+import TeamAdvanced from '../teams/TeamAdvanced';
 import { overallRating } from '../brand/ProPlayerBanner.utils';
 import { latestSeasonYear, useLeagueContent } from '@/utils/leagueContent';
 import { coachedByTeam } from '@/utils/frontOffice';
@@ -175,6 +176,9 @@ const TeamRankingsTab = () => {
           )}
         </div>
       )}
+
+      {/* Weekly scores: advanced team stats, insights and each club's progression */}
+      <TeamAdvanced />
 
       {/* Controls */}
       <section aria-labelledby="franchises-heading" className="space-y-4">
