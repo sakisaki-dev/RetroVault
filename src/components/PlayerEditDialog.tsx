@@ -1,4 +1,4 @@
-import { Suspense, lazy, useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Loader2, Pencil, Save, Trash2 } from 'lucide-react';
 import {
   Dialog,
@@ -43,7 +43,6 @@ import {
 import { calcCareerLegacy, calcDominance, calcTPG, getRawTrueTalent, isDefensivePosition } from '@/config/stats';
 
 // The sprite look table (faces.ts) belongs to the Collection chunk; load it only when the editor opens
-const SkinTonePicker = lazy(() => import('@/components/collection/art/SkinTonePicker'));
 
 interface PlayerEditDialogProps {
   player: Player | null;
@@ -120,7 +119,6 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
   const [trueTalent, setTrueTalent] = useState(0);
   const [positionStats, setPositionStats] = useState<Record<string, number>>({});
   /** Sprite skin tone key, '' = auto */
-  const [spriteSkin, setSpriteSkin] = useState('');
   const [busy, setBusy] = useState<'saving' | 'deleting' | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -139,7 +137,6 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
       setSbmvp(player.sbmvp);
       setRoty(player.roty);
       setTrueTalent(getRawTrueTalent(player));
-      setSpriteSkin(player.spriteSkin ?? '');
 
       // Extract position stats
       const stats: Record<string, number> = {};
@@ -163,7 +160,6 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
       setRoty(0);
       setTrueTalent(0);
       setPositionStats({});
-      setSpriteSkin('');
     }
   }, [player, isNewPlayer]);
 
@@ -218,7 +214,6 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
       sbmvp,
       roty,
       positionStats,
-      ...(spriteSkin ? { spriteSkin } : {}),
       createdAt: existingEdit?.createdAt ?? now,
       updatedAt: now,
       isManuallyAdded: isNewPlayer || !!existingEdit?.isManuallyAdded,
@@ -414,10 +409,6 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
                   />
                 </div>
               </div>
-
-              <Suspense fallback={<div className="h-24 rounded-md border border-line" aria-hidden="true" />}>
-                <SkinTonePicker name={name.trim()} value={spriteSkin} onChange={setSpriteSkin} />
-              </Suspense>
 
               <section
                 aria-labelledby="internal-heading"
