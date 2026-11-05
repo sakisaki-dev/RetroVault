@@ -3,6 +3,7 @@ import { awardPack } from '@/utils/collection';
 import { cn } from '@/lib/utils';
 import type { Position } from '@/types/player';
 import { NFL_TEAMS } from '@/utils/nflTeams';
+import { formLine, latestScheduleSeason, useSchedule, type Schedule } from '@/utils/schedule';
 import { StatBlock } from './ArcadeParts';
 import GameBanner from './GameBanner';
 import { ArcadeButton, ChipGroup, Confetti, CountUp, Lamp, TeamLogo } from './ArcadeUI';
@@ -52,6 +53,45 @@ const estPerfect = (teamOvr: number) => {
   for (let i = 0; i < 4; i++) p *= winP(teamOvr, 88.5);
   return p;
 };
+
+// ---------- Club form (weekly scores) ----------
+
+/** Share of an AI club's rating that comes from its real form; the rest is the usual random roll. */
+const FORM_WEIGHT = 0.6;
+/** The random roll's range (72–91); form ratings are mapped onto the same scale. */
+const ROLL_MIN = 72;
+const ROLL_SPAN = 19;
+
+interface ClubForm {
+  /** Form on the 72–91 rating scale */
+  rating: number;
+  /** "Y88 15-2, +119" */
+  label: string;
+}
+
+/**
+ * Real form from the latest season with weekly scores, keyed by team id: the power score
+ * (0 → 72, 100 → 91, clamped), and where the coach's club played them, a quarter from the
+ * season summary's offense + defense stars (0–10 → 72–91). Empty with no weekly scores.
+ */
+const clubForm = (schedule: Schedule | null): Record<string, ClubForm> => {
+  const season = schedule && latestScheduleSeason(schedule);
+  if (!season) return {};
+  const out: Record<string, ClubForm> = {};
+  for (const row of season.table) {
+    const team = NFL_TEAMS.find((t) => t.abbreviation === row.abbr);
+    if (!team) continue;
+    const power = ROLL_MIN + ROLL_SPAN * Math.min(1, Math.max(0, row.powerScore / 100));
+    const met = season.coachGames.filter((g) => g.oppAbbr === row.abbr && g.oppOff != null && g.oppDef != null);
+    const stars = met.length ? met.reduce((sum, g) => sum + g.oppOff! + g.oppDef!, 0) / met.length : null;
+    const rating = stars == null ? power : 0.75 * power + 0.25 * (ROLL_MIN + (ROLL_SPAN * stars) / 10);
+    out[team.id] = { rating, label: `${season.season} ${formLine(row)}` };
+  }
+  return out;
+};
+
+/** An AI club's rating: the random roll, blended with its form when the weekly scores have it. */
+const clubRating = (roll: number, form?: ClubForm) => Math.round(form ? FORM_WEIGHT * form.rating + (1 - FORM_WEIGHT) * roll : roll);
 
 const scoreline = (win: boolean): [number, number] => {
   const hi = [17, 20, 21, 23, 24, 27, 28, 30, 31, 34, 35, 38, 41, 45][randomInt(14)];
@@ -134,6 +174,8 @@ interface Season {
   over: Over;
   seeds: string[] | null;
   seed: number | null;
+  /** Club form the ratings were blended with (empty without weekly scores) */
+  form: Record<string, ClubForm>;
 }
 
 // ---------- Pure helpers ----------
@@ -258,11 +300,11 @@ const withPlayoffs = (s: Season): Season => {
   return { ...s, seeds, seed, games: [...s.games, ...playoff] };
 };
 
-const newSeason = (teamOvr: number, me: string): Season => {
+const newSeason = (teamOvr: number, me: string, form: Record<string, ClubForm>): Season => {
   const M = teamById(me);
   const ids = NFL_TEAMS.map((t) => t.id);
   const rating: Record<string, number> = {};
-  ids.forEach((t) => (rating[t] = t === me ? teamOvr : 72 + randomInt(20)));
+  ids.forEach((t) => (rating[t] = t === me ? teamOvr : clubRating(ROLL_MIN + randomInt(ROLL_SPAN + 1), form[t])));
   const div = ids.filter((t) => t !== me && teamById(t).conference === M.conference && teamById(t).division === M.division);
   const conf = shuffle(ids.filter((t) => teamById(t).conference === M.conference && teamById(t).division !== M.division)).slice(0, 4);
   const other = shuffle(ids.filter((t) => teamById(t).conference !== M.conference)).slice(0, 4);
@@ -293,6 +335,7 @@ const newSeason = (teamOvr: number, me: string): Season => {
     over: false,
     seeds: null,
     seed: null,
+    form,
   };
 };
 
@@ -358,6 +401,8 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
   const [newBest, setNewBest] = useState(false);
   const [confetti, setConfetti] = useState<number | false>(false);
   const [flipped, setFlipped] = useState(0);
+  const schedule = useSchedule();
+  const form = useMemo(() => clubForm(schedule), [schedule]);
 
   const teamOvr = useMemo(() => {
     const w = draft.picks.reduce((s, x) => s + x.w, 0);
@@ -464,7 +509,7 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
     setFast(false);
     setConfetti(false);
     setNewBest(false);
-    setSeason(newSeason(teamOvr, franchise));
+    setSeason(newSeason(teamOvr, franchise, form));
     setPhase('season');
     toTop();
   };
@@ -658,6 +703,7 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
             </select>
             <span className="hint">
               {fTeam.conference} {fTeam.division}
+              {form[fTeam.id] && ` · ${form[fTeam.id].label}`}
             </span>
           </div>
           <ArcadeButton tone="green" onClick={kickOff}>
@@ -750,6 +796,7 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
         {season.games.map((g, i) => {
           const T = teamById(g.t);
           const sb = g.label === 'Super Bowl';
+          const f = season.form[g.t];
           return (
             <li key={`${g.label}-${g.t}`}>
               {i === REG_SEASON && (
@@ -767,7 +814,10 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
                     {T.name}
                   </span>
                   {g.div && <span className="divtag">DIV</span>}
-                  <span className="rtg">{Math.round(g.r)}</span>
+                  <span className="rtg" title={f ? `Team rating, blended with ${f.label}` : 'Team rating'}>
+                    {Math.round(g.r)}
+                  </span>
+                  {f && <span className="form">{f.label}</span>}
                 </span>
                 <span className="sc">{g.res && g.sc ? `${g.res} ${g.sc[0]}–${g.sc[1]}` : '—'}</span>
               </div>
@@ -829,7 +879,9 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
           </ArcadeButton>
         )}
         <p className="hint" style={{ margin: 0 }}>
-          The number after each opponent is its team rating. Playoff opponents rate at least 85. Your roster stays sealed until the final whistle.
+          The number after each opponent is its team rating
+          {Object.keys(season.form).length > 0 && `, ${Math.round(FORM_WEIGHT * 100)}% from its real form in the latest weekly scores`}. Playoff
+          opponents rate at least 85. Your roster stays sealed until the final whistle.
         </p>
       </aside>
     </div>

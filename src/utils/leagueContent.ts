@@ -105,10 +105,14 @@ export interface Rivalry {
   team?: string;
   era?: string;
   summary: string;
-  record?: { won: number; lost: number };
+  record?: { won: number; lost: number; tied?: number };
   meetings: RivalryMeeting[];
   /** Owner journal notes tagged with this team */
   ownerNotes?: JournalNote[];
+  /** Head-to-head record in the weekly scores (scripts/schedule_content.py) */
+  games?: import('./schedule').HeadToHead;
+  /** "weekly scores" when the rivalry comes from the weekly scores rather than Super Bowls */
+  source?: string;
 }
 
 export interface Lineage {

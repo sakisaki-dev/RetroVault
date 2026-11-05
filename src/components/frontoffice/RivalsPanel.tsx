@@ -1,6 +1,7 @@
 import TeamLogo from '@/components/brand/TeamLogo';
 import { cn } from '@/lib/utils';
 import type { Rivalry } from '@/utils/leagueContent';
+import type { HeadToHead } from '@/utils/schedule';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { rivalryGames, yourScore, type Nemesis, type Resume, type YourGame } from '@/utils/frontOffice';
 import { staggerStyle, teamVars } from './shared';
@@ -17,6 +18,30 @@ const GameLine = ({ g }: { g: YourGame }) => (
     </span>
   </li>
 );
+
+type Meeting = HeadToHead['meetings'][number];
+
+const CHIP = { W: 'fo-chip--won', L: 'fo-chip--lost', T: 'fo-chip--tied' } as const;
+
+/** One weekly-scores meeting: result, season and round, the coach's club, home or away, score (his first). */
+const MeetingLine = ({ m }: { m: Meeting }) => (
+  <li className="flex items-center gap-2 rounded-md bg-black/40 px-2.5 py-1.5 text-sm">
+    <span className={cn('fo-chip', CHIP[m.result])}>{m.result}</span>
+    <span className="font-display text-base">{m.season}</span>
+    <span className="truncate text-xs text-muted-foreground">
+      {m.round} · {m.site === 'home' ? 'home' : 'away'}
+    </span>
+    <span className="ml-auto flex min-w-0 shrink-0 items-center gap-1.5">
+      <TeamLogo team={m.coachTeam} size={20} decorative />
+      <span className="hidden truncate text-xs text-muted-foreground sm:inline">{findNFLTeam(m.coachTeam)?.name ?? m.coachTeam}</span>
+      <span className="font-mono tabular-nums">
+        {m.for}–{m.against}
+      </span>
+    </span>
+  </li>
+);
+
+const h2hRecord = (h: HeadToHead) => `${h.w}–${h.l}${h.t ? `–${h.t}` : ''}`;
 
 const record = (games: YourGame[]) => {
   const w = games.filter((g) => g.won).length;
@@ -39,7 +64,10 @@ const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => (
         <div className="flex flex-col gap-3">
           {rivalries.map((r, i) => {
             const games = rivalryGames(r, resume);
+            const weekly = r.games?.meetings.length ? r.games : null;
+            const meetings = weekly ? [...weekly.meetings].sort((a, b) => Number(a.season.slice(1)) - Number(b.season.slice(1)) || a.week - b.week) : [];
             const team = findNFLTeam(r.team);
+            const kicker = r.era ?? (r.source === 'weekly scores' ? 'Weekly scores' : '');
             return (
               <article
                 key={r.id}
@@ -51,17 +79,27 @@ const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => (
                   <TeamLogo team={team ?? r.team} size={56} decorative />
                   <div className="min-w-0 flex-1">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                      Featured rivalry{r.era ? ` · ${r.era}` : ''}
+                      Featured rivalry{kicker ? ` · ${kicker}` : ''}
                     </p>
                     <h3 id={`fo-rival-${r.id}`} className="font-display text-2xl uppercase leading-tight">
                       {r.rival === r.team ? (team?.fullName ?? r.rival) : r.rival}
                       {team && r.rival !== r.team && <span className="text-muted-foreground">'s {team.name}</span>}
                     </h3>
                   </div>
-                  {games.length > 0 && (
-                    <div className="text-right">
-                      <p className="fo-vs text-3xl leading-none">{record(games)}</p>
-                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Your SB record</p>
+                  {(games.length > 0 || weekly) && (
+                    <div className="flex shrink-0 gap-4 text-right">
+                      {games.length > 0 && (
+                        <div>
+                          <p className="fo-vs text-3xl leading-none">{record(games)}</p>
+                          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Your SB record</p>
+                        </div>
+                      )}
+                      {weekly && (
+                        <div>
+                          <p className={cn('fo-vs leading-none', games.length ? 'text-2xl' : 'text-3xl')}>{h2hRecord(weekly)}</p>
+                          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">In the weekly scores</p>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -72,12 +110,31 @@ const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => (
                     <span className="mt-1 block text-[11px] not-italic text-muted-foreground">From the commissioner{n.season ? ` · ${n.season}` : ''}</span>
                   </blockquote>
                 ))}
-                {games.length > 0 && (
-                  <ul className="space-y-1.5" aria-label={`Super Bowl meetings with ${r.rival}`}>
-                    {games.map((g) => (
-                      <GameLine key={g.year} g={g} />
-                    ))}
-                  </ul>
+                {(games.length > 0 || weekly) && (
+                  <div className={cn('grid gap-3', games.length > 0 && weekly && 'sm:grid-cols-2')}>
+                    {games.length > 0 && (
+                      <div className="min-w-0 space-y-1.5">
+                        {weekly && <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Super Bowls</p>}
+                        <ul className="space-y-1.5" aria-label={`Super Bowl meetings with ${r.rival}`}>
+                          {games.map((g) => (
+                            <GameLine key={g.year} g={g} />
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {weekly && (
+                      <div className="min-w-0 space-y-1.5">
+                        <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                          Weekly scores · {weekly.meetings.length} {weekly.meetings.length === 1 ? 'game' : 'games'}
+                        </p>
+                        <ul className="space-y-1.5" aria-label={`Weekly-score meetings with ${r.rival}`}>
+                          {meetings.map((m) => (
+                            <MeetingLine key={`${m.season}-${m.week}`} m={m} />
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
                 )}
               </article>
             );

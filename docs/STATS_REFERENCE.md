@@ -276,6 +276,18 @@ Player comps (Analytics Lab) lists the top 3 for each score; Head-to-Head shows 
 
 ---
 
+## 4B. Arcade club form (Can you go 18–0?, `src/components/games/PerfectSeason.tsx`)
+
+The drafted team's rating is its Team OVR (weighted pick OVRs). Every AI club gets a rating on the 72–91 scale; without weekly scores it is the random roll `72 + randomInt(20)`. When `public/data/league/schedule.json` has a season, the **latest** one (`latestScheduleSeason`) is blended in:
+
+- **Power part**: `72 + 19 · clamp(powerScore / 100, 0, 1)`, with `powerScore = 100 · win % + 1.5 · diff per game + 40 · (SOS − 0.5)` from the standings table.
+- **Stars part** (only clubs the coach's club played that season): the season summary's offense + defense stars, averaged over the meetings, `72 + 19 · (off + def) / 10`. Form = 0.75 · power + 0.25 · stars; otherwise form = power.
+- **Rating** = round(0.6 · form + 0.4 · roll) (`FORM_WEIGHT` = 0.6). A club missing from the table keeps the roll.
+
+The roll keeps every run different while the form is deterministic, so in Y88 the 15-2 Texans rate about 87 on average and the 2-15 Bears about 77. AI records, seeding and playoff opponents (at least 85) follow from the blended rating as before. The schedule shows each opponent's form line (`formLine`: "Y88 15-2, +119", record and point differential), and the franchise picker shows the chosen club's.
+
+---
+
 ## 5. Single-season stats (removed)
 
 Per-season tracking (upload diffs, season history, single-season records, Greatest Seasons, MVP race, Season tab) was removed: career totals are the only source. `data/y80/records.json` (the in-game record board) is kept as source data but not shown.

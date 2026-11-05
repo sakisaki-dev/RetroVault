@@ -313,6 +313,8 @@
 .arcade .game .opp { display: flex; align-items: center; gap: 8px; min-width: 0; font-family: var(--f-display); font-weight: 600; font-size: 19px; text-transform: uppercase; overflow: hidden; white-space: nowrap; }
 .arcade .game .opp .nm { overflow: hidden; text-overflow: ellipsis; }
 .arcade .game .opp img { width: 26px; height: 26px; object-fit: contain; flex: none; }
+.arcade .game .opp .form { flex: none; font-family: var(--f-pixel); font-size: 9px; font-weight: 400; color: var(--muted); }
+@media (max-width: 560px) { .arcade .game .opp .form { display: none; } }
 .arcade .game .sc { font-family: var(--f-pixel); font-size: 12px; }
 .arcade .game.w .sc { color: var(--turf); } .arcade .game.l .sc { color: var(--flag); }
 .arcade .game.pend { opacity: 0.35; }

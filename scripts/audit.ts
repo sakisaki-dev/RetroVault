@@ -280,6 +280,19 @@ actual.forEach((v, path) => {
 expected.forEach((_, path) => !actual.has(path) && warnings.push(`${path} was set by an upload but is missing from the data now`));
 
 // 10. The widget feed (public/data/widget.json, scripts/build_widget_data.py) exists, is current and well formed
+// Weekly scores: every schedule.set season is in the generated schedule.json, with one game-log row per week
+if (existsSync('data/y80/schedules.json')) {
+  const raw = read('data/y80/schedules.json') as { seasons?: Record<string, { weeks?: unknown[] }> };
+  const gen = existsSync('public/data/league/schedule.json')
+    ? (read('public/data/league/schedule.json') as { seasons?: Record<string, { games?: unknown[]; coachGames?: { playoff?: boolean }[] }> })
+    : null;
+  for (const [y, s] of Object.entries(raw.seasons ?? {})) {
+    const g = gen?.seasons?.[y];
+    if (!g) errors.push(`schedule.json has no ${y} (npm run rebuild runs scripts/schedule_content.py)`);
+    else if ((g.coachGames ?? []).filter((x) => !x.playoff).length !== (s.weeks ?? []).length)
+      errors.push(`schedule.json ${y}: the coach's game log doesn't have one row per week`);
+  }
+}
 if (!existsSync('public/data/widget.json')) errors.push('public/data/widget.json is missing (npm run rebuild writes it)');
 else {
   try {
