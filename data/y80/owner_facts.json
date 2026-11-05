@@ -139,6 +139,9 @@
    },
    "signature_team": "Seahawks"
   },
+  "Cairo Colbert": {
+   "team": "Saints"
+  },
   "Calais Ham": {
    "team": "Falcons"
   },
@@ -226,6 +229,9 @@
   },
   "Deonte Sutton": {
    "status": "Retired"
+  },
+  "Deshone Bello": {
+   "team": "Falcons"
   },
   "Drake Maye": {
    "real_nfl": {
@@ -484,7 +490,7 @@
    }
   },
   "Kyron Atwell": {
-   "team": "Eagles"
+   "team": "Falcons"
   },
   "Lamar Jackson": {
    "retired_with": "Packers",
@@ -674,6 +680,9 @@
   "Robert Boone": {
    "retired_with": "Vikings"
   },
+  "Rodger Samuel": {
+   "team": "Packers"
+  },
   "Rondale Ikarras": {
    "retired_with": "Jets",
    "tag": "Ravens legend; final season with the Jets",
@@ -826,6 +835,9 @@
   },
   "Trequan Roberts": {
    "team": "Eagles"
+  },
+  "Treyvon Scott": {
+   "team": "Packers"
   },
   "Tristan Tart": {
    "team": "Ravens"

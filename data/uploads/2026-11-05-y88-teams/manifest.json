@@ -1,0 +1,77 @@
+{
+ "id": "2026-11-05-y88-teams",
+ "created": "2026-11-05",
+ "title": "Y88 teams: Atwell and Bello Falcons, Colbert Saints, Samuel and Scott Packers; Larienne TD correction",
+ "images": [
+  {
+   "file": "images/IMG_6906.PNG",
+   "shows": "QB Orlando Larienne career card (Passing), re-checked"
+  }
+ ],
+ "ai_steps": [
+  {
+   "step": "transcribe",
+   "reason": "Re-read a misread career total",
+   "trigger": "Inconsistent total found"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kyron Atwell/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: \"atwell is on the falcons, so is bello, cairo colbert on the saints, rodger samuel and treyvon scott both on the packers\" (left the Eagles; not on the Eagles roster screen at the end of Y88)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Deshone Bello/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: \"atwell is on the falcons, so is bello, cairo colbert on the saints, rodger samuel and treyvon scott both on the packers\" (new card)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Cairo Colbert/team",
+   "value": "Saints",
+   "source": "owner",
+   "reason": "Owner: \"atwell is on the falcons, so is bello, cairo colbert on the saints, rodger samuel and treyvon scott both on the packers\" (new card)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Rodger Samuel/team",
+   "value": "Packers",
+   "source": "owner",
+   "reason": "Owner: \"atwell is on the falcons, so is bello, cairo colbert on the saints, rodger samuel and treyvon scott both on the packers\" (new card)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Treyvon Scott/team",
+   "value": "Packers",
+   "source": "owner",
+   "reason": "Owner: \"atwell is on the falcons, so is bello, cairo colbert on the saints, rodger samuel and treyvon scott both on the packers\" (new card)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Orlando Larienne",
+   "value": {
+    "td": 235,
+    "_allow_decrease": true
+   },
+   "source": "image:images/IMG_6906.PNG",
+   "reason": "Correction: career passing TDs are 235, not 285 (pixel 3 read as 8). Re-checked: Y87 card 198 + Y88 season 37 = 235, and his yards, attempts and completions match the same way",
+   "trigger": "Story research found the career total inconsistent with the season panel"
+  }
+ ]
+}

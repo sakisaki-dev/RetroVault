@@ -752,6 +752,24 @@
     "speech": 5
    },
    "changed": 5
+  },
+  {
+   "id": "2026-11-05-story-y88",
+   "dir": "data/uploads/2026-11-05-story-y88",
+   "applied_at": "2026-11-05T11:02:13-08:00",
+   "mutations": {
+    "story": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-05-y88-teams",
+   "dir": "data/uploads/2026-11-05-y88-teams",
+   "applied_at": "2026-11-05T11:03:28-08:00",
+   "mutations": {
+    "stats": 6
+   },
+   "changed": 6
   }
  ]
 }

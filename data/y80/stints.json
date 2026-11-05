@@ -3718,6 +3718,62 @@
   "confidence": "strong",
   "evidence": "No rings."
  },
+ "Kyron Atwell": {
+  "stints": [
+   {
+    "team": "Cowboys",
+    "from": 79,
+    "to": 87,
+    "rings": []
+   },
+   {
+    "team": "Falcons",
+    "from": 88,
+    "to": 88,
+    "rings": []
+   }
+  ],
+  "confidence": "ambiguous",
+  "evidence": "No rings. His known clubs (Falcons) can't account for every ring, so the best fit adds a stop: Cowboys Y79-87, Falcons Y88.",
+  "alternatives": [
+   [
+    {
+     "team": "Bengals",
+     "from": 79,
+     "to": 87
+    },
+    {
+     "team": "Falcons",
+     "from": 88,
+     "to": 88
+    }
+   ],
+   [
+    {
+     "team": "Bills",
+     "from": 79,
+     "to": 87
+    },
+    {
+     "team": "Falcons",
+     "from": 88,
+     "to": 88
+    }
+   ],
+   [
+    {
+     "team": "Broncos",
+     "from": 79,
+     "to": 87
+    },
+    {
+     "team": "Falcons",
+     "from": 88,
+     "to": 88
+    }
+   ]
+  ]
+ },
  "Jarrell Cann": {
   "stints": [
    {
@@ -3891,5 +3947,97 @@
   ],
   "confidence": "strong",
   "evidence": "1 ring = Eagles Y88. The only window that fits."
+ },
+ "Deshone Bello": {
+  "stints": [
+   {
+    "team": "Dolphins",
+    "from": 81,
+    "to": 87,
+    "rings": []
+   },
+   {
+    "team": "Falcons",
+    "from": 88,
+    "to": 88,
+    "rings": []
+   }
+  ],
+  "confidence": "ambiguous",
+  "evidence": "No rings. His known clubs (Falcons) can't account for every ring, so the best fit adds a stop: Dolphins Y81-87, Falcons Y88.",
+  "alternatives": [
+   [
+    {
+     "team": "Bengals",
+     "from": 81,
+     "to": 87
+    },
+    {
+     "team": "Falcons",
+     "from": 88,
+     "to": 88
+    }
+   ],
+   [
+    {
+     "team": "Bills",
+     "from": 81,
+     "to": 87
+    },
+    {
+     "team": "Falcons",
+     "from": 88,
+     "to": 88
+    }
+   ],
+   [
+    {
+     "team": "Broncos",
+     "from": 81,
+     "to": 87
+    },
+    {
+     "team": "Falcons",
+     "from": 88,
+     "to": 88
+    }
+   ]
+  ]
+ },
+ "Rodger Samuel": {
+  "stints": [
+   {
+    "team": "Packers",
+    "from": 80,
+    "to": 88,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Treyvon Scott": {
+  "stints": [
+   {
+    "team": "Packers",
+    "from": 81,
+    "to": 88,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Cairo Colbert": {
+  "stints": [
+   {
+    "team": "Saints",
+    "from": 76,
+    "to": 88,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
  }
 }
