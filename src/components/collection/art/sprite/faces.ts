@@ -173,7 +173,7 @@ const listeners = new Set<() => void>();
 const load = () => {
   if (table || loading || typeof fetch === 'undefined') return;
   loading = true;
-  fetch(`${import.meta.env.BASE_URL}data/sprites.json`)
+  fetch(`${import.meta.env.BASE_URL}data/sprites.json`, { cache: 'no-cache' })
     .then((r) => (r.ok ? r.json() : {}))
     .catch(() => ({}))
     .then((d: unknown) => {

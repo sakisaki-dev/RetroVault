@@ -109,6 +109,12 @@ const mergePlayerEdits = async (baseData: LeagueData): Promise<LeagueData> => {
       if (existingIndex >= 0) {
         // Merge: edit values override CSV values
         const existing = arr[existingIndex];
+        // Career totals only go up, so a sheet with more games than the edit is newer than it: keep the sheet's
+        // stats and apply only the cosmetic part of the edit (an old skin-tone save must not freeze his stats).
+        if ((existing.games || 0) > (edit.games || 0)) {
+          if (edit.spriteSkin) arr[existingIndex] = { ...existing, spriteSkin: edit.spriteSkin };
+          return;
+        }
         // A blank team (or nickname) in an edit never erases the sheet's value.
         arr[existingIndex] = {
           ...existing,

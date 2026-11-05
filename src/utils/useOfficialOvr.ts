@@ -40,7 +40,7 @@ let legendsRequest: Promise<GamePlayer[]> | null = null;
 let exclusionsRequest: Promise<Set<string>> | null = null;
 
 const fetchJson = (path: string): Promise<unknown> =>
-  fetch(`${import.meta.env.BASE_URL}${path}`)
+  fetch(`${import.meta.env.BASE_URL}${path}`, { cache: 'no-cache' })
     .then((res) => (res.ok ? res.json() : null))
     .catch(() => null);
 

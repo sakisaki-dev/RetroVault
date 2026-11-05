@@ -133,7 +133,7 @@ export const loadPlayerExtras = (): Promise<IndexedExtras> => {
   if (cache) return Promise.resolve(cache);
   if (!inflight) {
     const url = `${import.meta.env.BASE_URL}data/player-extras.json`;
-    inflight = fetch(url)
+    inflight = fetch(url, { cache: 'no-cache' })
       .then((res) => (res.ok ? (res.json() as Promise<Partial<PlayerExtras>>) : EMPTY))
       .catch(() => EMPTY)
       .then((raw) => {
