@@ -17,6 +17,7 @@ import MetricLabel from '@/components/stats/analytics/MetricLabel';
 import PercentileBar from '@/components/stats/analytics/PercentileBar';
 import { VIZ, fmtNum, fmtPlus, ordinal } from '@/components/stats/analytics/viz';
 import CountUp from '@/components/brand/CountUp';
+import LeaderboardPeek, { type PeekBoard } from '@/components/stats/comps/LeaderboardPeek';
 
 interface MetricResult {
   metric: AdvMetric;
@@ -127,10 +128,30 @@ interface Props {
   player: Player;
   /** League players (no legends): the comparison pool */
   players: Player[];
+  /** Open another player's card from a leaderboard row */
+  onSelect?: (p: Player) => void;
 }
 
-const AdvancedPanel = ({ player, players }: Props) => {
+const POS_PLURAL: Record<string, string> = { QB: 'QBs', RB: 'RBs', WR: 'WRs', TE: 'TEs', OL: 'linemen', LB: 'LBs', DB: 'DBs', DL: 'DLs' };
+
+const AdvancedPanel = ({ player, players, onSelect }: Props) => {
   const pos = player.position;
+  // His position's rated players, best first, per rating metric: his rank and the leaderboard behind each tile
+  const ratingBoards = useMemo(() => {
+    const pool = players.filter((p) => p.position === pos && !p.isRealLegend && p.trueTalent > 0);
+    return Object.fromEntries(
+      RATING_METRICS.map((m) => {
+        const rows = [...pool].sort((a, b) => (b[m.key] ?? 0) - (a[m.key] ?? 0) || a.name.localeCompare(b.name));
+        const rank = rows.findIndex((p) => p.name === player.name && p.position === player.position);
+        const board: PeekBoard = {
+          title: `${m.label} · ${pos}`,
+          sub: `${POS_PLURAL[pos] ?? pos} · ${rows.length} rated`,
+          rows: rows.map((p) => ({ player: p, display: fmtNum(p[m.key] ?? 0, m.decimals) })),
+        };
+        return [m.key, { rank: rank >= 0 ? rank + 1 : null, total: rows.length, board }];
+      }),
+    ) as Record<(typeof RATING_METRICS)[number]['key'], { rank: number | null; total: number; board: PeekBoard }>;
+  }, [players, pos, player.name, player.position]);
   const ctx = useMemo(() => buildContext(players), [players]);
   const boards = useMemo(() => evaluatePosition(players, pos, ctx), [players, pos, ctx]);
 
@@ -176,9 +197,17 @@ const AdvancedPanel = ({ player, players }: Props) => {
               const value = player[m.key] ?? 0;
               const tier = getMetricTier(value, m.key);
               const color = getTierColor(tier);
+              const rb = ratingBoards[m.key];
               return (
                 <div key={m.key} className="pc-tile pc-enter flex flex-col p-3" style={{ '--i': i } as CSSProperties}>
-                  <dt className="font-pixel text-[9px] uppercase text-muted-foreground">{m.label}</dt>
+                  <dt className="flex items-baseline justify-between gap-2 font-pixel text-[9px] uppercase text-muted-foreground">
+                    <span>{m.label}</span>
+                    {rb.rank != null && (
+                      <span className={cn('tabular-nums', rb.rank === 1 ? 'text-gold' : 'text-chalk')} aria-hidden="true">
+                        #{rb.rank}
+                      </span>
+                    )}
+                  </dt>
                   <dd className="mt-1 font-display text-3xl font-bold leading-none tabular-nums text-chalk">
                     <CountUp value={value} decimals={m.decimals} />
                   </dd>
@@ -191,6 +220,22 @@ const AdvancedPanel = ({ player, players }: Props) => {
                     </span>
                   </dd>
                   <dd className="mt-1.5 text-[11px] leading-snug text-muted-foreground">{m.note}</dd>
+                  {rb.rank != null && (
+                    <dd className="mt-2 border-t border-line/60 pt-1.5">
+                      <LeaderboardPeek getBoard={() => rb.board} player={player} onOpenPlayer={(p) => onSelect?.(p)}>
+                        <button
+                          type="button"
+                          className="group flex w-full items-center justify-between gap-2 rounded text-left text-[11px] font-semibold text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                          aria-label={`${ordinal(rb.rank)} of ${rb.total} ${POS_PLURAL[pos] ?? pos} in ${m.label}. Show the ${pos} rankings`}
+                        >
+                          <span>
+                            <span className="text-chalk">{ordinal(rb.rank)}</span> of {rb.total} {POS_PLURAL[pos] ?? pos}
+                          </span>
+                          <span className="text-[color:var(--tc-accent)] group-hover:underline">Rankings</span>
+                        </button>
+                      </LeaderboardPeek>
+                    </dd>
+                  )}
                 </div>
               );
             })}

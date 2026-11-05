@@ -525,7 +525,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
           {/* ---------- Advanced ---------- */}
           <TabsPrimitive.Content value="advanced" className="rv-view-in p-4 focus-visible:outline-none sm:p-6">
             <h3 className="sr-only">Advanced metrics</h3>
-            <AdvancedPanel player={player} players={leaguePool} />
+            <AdvancedPanel player={player} players={leaguePool} onSelect={setJumpTo} />
           </TabsPrimitive.Content>
 
           {/* ---------- Awards ---------- */}
