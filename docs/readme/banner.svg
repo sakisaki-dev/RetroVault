@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="380" viewBox="0 0 1280 380" role="img" aria-labelledby="t d">
   <title id="t">Retro Vault</title>
-  <desc id="d">Pixel-art banner: a green football field under a navy night sky with the words Retro Vault, League Hub.</desc>
+  <desc id="d">Pixel-art banner: a green football field under a navy night sky with the words Retro Vault, sports analytics platform.</desc>
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#090d1a"/>
@@ -76,7 +76,7 @@
       <text x="640" y="190" font-size="150"><tspan fill="#f4f1de">RETRO </tspan><tspan fill="url(#gold)">VAULT</tspan></text>
     </g>
     <text x="640" y="236" text-anchor="middle" font-family="Menlo, Consolas, monospace" font-size="20" font-weight="700"
-          letter-spacing="7" fill="#9aa6c8">LEAGUE HUB · ONE RETRO BOWL SAVE · EVERY SEASON · EVERY LEGEND</text>
+          letter-spacing="6" fill="#9aa6c8">SPORTS ANALYTICS PLATFORM · DETERMINISTIC DATA PIPELINE · ARCADE</text>
 
     <rect width="1280" height="380" fill="url(#scan)"/>
   </g>
