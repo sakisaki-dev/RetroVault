@@ -104,7 +104,7 @@ const AutographCanvas = ({ snap, roll, cacheKey, write = false, writeDelayMs = 0
   return (
     <canvas
       ref={ref}
-      className={cn('block aspect-[5/7] h-auto w-full rounded-[clamp(6px,5.2%,14px)] bg-panel', className)}
+      className={cn('au-shield block aspect-[100/142] h-auto w-full bg-panel', className)}
       role="img"
       aria-label={label ?? `${snap.name} autograph`}
     />

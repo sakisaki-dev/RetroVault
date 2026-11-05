@@ -35,11 +35,8 @@
   overflow: hidden;
 }
 
-/* Autograph variant as the full card (CollectibleCard fullAuto): a rounded rectangle instead of the shield, because
-   the autograph has its own header and name bar edge to edge; the art fills the whole face under the finish layers */
-.fut--v-auto {
-  --fut-clip: inset(0 round 5.5%);
-}
+/* Autograph variant as the full card (CollectibleCard fullAuto): the autograph is drawn in the same shield with its
+   text inside the shield's safe area (render.ts), so it fills the face under the finish layers without cropping */
 .fut__art.fut__art--auto {
   inset: 0;
   top: 0;
@@ -78,8 +75,8 @@
   display: block;
   width: auto;
   height: 96%;
-  aspect-ratio: 5 / 7;
-  border-radius: 1.6cqw;
+  aspect-ratio: 100 / 142;
+  clip-path: var(--au-shield);
   box-shadow: 0 0 0 0.35cqw hsl(45 95% 62% / 0.55), 0 1.2cqw 2.4cqw hsl(0 0% 0% / 0.5);
   overflow: hidden;
 }

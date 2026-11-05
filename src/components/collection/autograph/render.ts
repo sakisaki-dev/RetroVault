@@ -31,7 +31,23 @@ import {
  */
 
 export const CARD_W = 500;
-export const CARD_H = 700;
+/** The card shape every collectible uses (collection.css .fut: aspect 100 / 142, the FUT shield) */
+export const CARD_H = 710;
+/** The FUT shield (collection.css --fut-clip) in card fractions: notched top corners, a point from 85% down */
+const SHIELD: [number, number][] = [
+  [0, 8.5], [6, 4.2], [17, 3], [27, 0.6], [73, 0.6], [83, 3], [94, 4.2], [100, 8.5],
+  [100, 85], [90, 91], [66, 95.4], [50, 100], [34, 95.4], [10, 91], [0, 85],
+];
+/** Layout lines inside the shield: everything with text stays above NAME_BOTTOM (where the point starts) and below
+ *  HEADER_BOTTOM; only background art runs into the notched corners and the point */
+const HEADER_BOTTOM = 0.12;
+const NAME_TOP = 0.71;
+const NAME_BOTTOM = 0.85;
+function shieldPath(ctx: Ctx, W: number, H: number) {
+  ctx.beginPath();
+  SHIELD.forEach(([x, y], i) => (i ? ctx.lineTo((x / 100) * W, (y / 100) * H) : ctx.moveTo((x / 100) * W, (y / 100) * H)));
+  ctx.closePath();
+}
 
 /** Pixel scale of the render in progress (shadow blur and offsets are not scaled by the transform). */
 let K = 1;
@@ -386,7 +402,7 @@ const BG: Record<AutoEra, (ctx: Ctx, W: number, H: number, p: AutographSnapshot)
     const ix = 28;
     const iy = 76;
     const iw = W - 56;
-    const ih = H - 196;
+    const ih = H * NAME_TOP - iy - 16;
     // sepia photo panel tinted by the club
     const g = ctx.createLinearGradient(0, iy, 0, iy + ih);
     g.addColorStop(0, mixHex(light(p), '#c8a26a', 0.45));
@@ -560,7 +576,7 @@ const BG: Record<AutoEra, (ctx: Ctx, W: number, H: number, p: AutographSnapshot)
       ctx.restore();
     });
     // the field: mowing stripes, yard lines, his number painted on the turf
-    const fy = H * 0.66;
+    const fy = H * 0.56;
     for (let i = 0; i < 6; i++) {
       ctx.fillStyle = i % 2 ? '#1b6a3c' : '#227a46';
       ctx.fillRect(0, fy + i * ((H - fy) / 6), W, (H - fy) / 6 + 1);
@@ -575,7 +591,7 @@ const BG: Record<AutoEra, (ctx: Ctx, W: number, H: number, p: AutographSnapshot)
     ctx.fillStyle = '#fff';
     ctx.font = `800 70px ${DISPLAY}`;
     ctx.textAlign = 'center';
-    ctx.fillText(String(p.number), W / 2, fy + 80);
+    ctx.fillText(String(p.number), W / 2, fy + 66);
     ctx.restore();
     return {};
   },
@@ -658,7 +674,7 @@ function playDiagram(ctx: Ctx, W: number, H: number, p: AutographSnapshot, era: 
   ctx.lineCap = 'round';
   ctx.setLineDash([]);
   const top = 96;
-  const bot = H - 150;
+  const bot = H * NAME_TOP - 20;
   const mid = (top + bot) / 2;
   const los = mid + 70;
   if (p.position === 'QB') {
@@ -780,7 +796,7 @@ function prestige(ctx: Ctx, W: number, H: number, p: AutographSnapshot, era: Aut
   const tier = PRESTIGE[p.prestige];
   const L = tier.level;
   const cx = W / 2;
-  const cy = H * 0.47;
+  const cy = H * 0.42; // centre of the art area between the header band and the name bar
   const glow = era === 'leather' ? '200,150,80' : rgbOf(light(p));
   playDiagram(ctx, W, H, p, era, L);
   // nickname watermark in his own hand
@@ -941,9 +957,7 @@ export function renderLayers(p: AutographSnapshot, roll: AutographRoll, pw: numb
   const era = roll.era;
   const eraInfo = eraOf(era);
   ctx.save();
-  const rr = 26;
-  ctx.beginPath();
-  rrect(ctx, 0, 0, W, H, rr);
+  shieldPath(ctx, W, H);
   ctx.clip();
   const look = BG[era](ctx, W, H, p);
   prestige(ctx, W, H, p, era);
@@ -956,31 +970,50 @@ export function renderLayers(p: AutographSnapshot, roll: AutographRoll, pw: numb
   ctx.restore();
   const lightHead = look.header === 'light';
   const foil = foilOf(ctx, W);
-  // header
+  // header band: text kept in the wide part of the shield, clear of the notched corners
+  const hb = H * HEADER_BOTTOM;
   ctx.fillStyle = lightHead ? '#3b2a17' : 'rgba(9,13,26,0.72)';
-  ctx.fillRect(0, 0, W, 64);
+  ctx.fillRect(0, 0, W, hb);
   ctx.fillStyle = lightHead ? '#efe4c8' : foil;
-  ctx.font = `800 26px ${DISPLAY}`;
+  ctx.font = `800 24px ${DISPLAY}`;
   ctx.textAlign = 'left';
-  ctx.fillText('AUTHENTIC AUTOGRAPH', 26, 42);
+  ctx.fillText('AUTHENTIC AUTOGRAPH', W * 0.12, hb * 0.66, W * 0.5);
   ctx.textAlign = 'right';
-  ctx.font = `700 22px ${MONO}`;
-  ctx.fillText(serialStr(roll), W - 24, 42);
-  // footer
-  ctx.fillStyle = lightHead ? '#efe4c8' : 'rgba(9,13,26,0.8)';
-  ctx.fillRect(0, H - 104, W, 104);
+  ctx.font = `700 21px ${MONO}`;
+  ctx.fillText(serialStr(roll), W * 0.88, hb * 0.66, W * 0.26);
   ctx.fillStyle = lightHead ? '#3b2a17' : foil;
-  ctx.fillRect(0, H - 106, W, 3);
-  ctx.textAlign = 'left';
+  ctx.fillRect(0, hb, W, 2);
+  // name bar: ends where the shield narrows into its point, text centred inside the full-width part
+  const nt = H * NAME_TOP;
+  const nb = H * NAME_BOTTOM;
+  ctx.fillStyle = lightHead ? '#efe4c8' : 'rgba(9,13,26,0.82)';
+  ctx.fillRect(0, nt, W, nb - nt);
+  ctx.fillStyle = lightHead ? '#3b2a17' : foil;
+  ctx.fillRect(0, nt - 2, W, 3);
+  ctx.fillRect(0, nb - 1, W, 2);
+  ctx.textAlign = 'center';
   ctx.fillStyle = lightHead ? '#2a1d10' : '#eef1fa';
   ctx.font = `italic 800 40px ${DISPLAY}`;
-  ctx.fillText(p.name.toUpperCase(), 26, H - 54, W - 52);
+  ctx.fillText(p.name.toUpperCase(), W / 2, nt + (nb - nt) * 0.5, W * 0.84);
   ctx.fillStyle = lightHead ? '#6b5333' : '#9aa6c8';
-  ctx.font = `600 18px ${BODY}`;
-  ctx.fillText(`${p.position} #${p.number} · ${p.team} · ${eraInfo.label}${roll.throwback ? ' (throwback)' : ''}`, 26, H - 24, W - 52);
+  ctx.font = `600 17px ${BODY}`;
+  ctx.fillText(`${p.position} #${p.number} · ${p.team} · ${eraInfo.label}${roll.throwback ? ' (throwback)' : ''}`, W / 2, nt + (nb - nt) * 0.83, W * 0.84);
+  // the point: only the era art, plus a small foil star at its centre
+  ctx.save();
+  ctx.fillStyle = lightHead ? '#3b2a17' : foil;
+  ctx.translate(W / 2, (nb + H) / 2 - 4);
+  ctx.beginPath();
+  for (let i = 0; i < 10; i++) {
+    const a = -Math.PI / 2 + (i * Math.PI) / 5;
+    const rr2 = i % 2 ? 5 : 12;
+    ctx.lineTo(Math.cos(a) * rr2, Math.sin(a) * rr2);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
 
   const cx = W / 2;
-  const cy = H * 0.47;
+  const cy = H * 0.42; // centre of the art area between the header band and the name bar
   const id = identity(p.name);
   const pull: SigPull = { id, pen: PENS[roll.pen], ink: roll.ink, team: roll.teamInk, seed: roll.seed, inscription: roll.inscription };
   sctx.setTransform(K, 0, 0, K, 0, 0);
@@ -1081,15 +1114,15 @@ export function renderLayers(p: AutographSnapshot, roll: AutographRoll, pw: numb
     ctx.fillText(p.hofClass ? `HALL OF FAME · ${p.hofClass === 'Inaugural' ? 'INAUGURAL CLASS' : `${p.hofClass.toUpperCase()} CLASS`}` : 'HALL OF FAME', cx, sy + sh + 50);
     ctx.restore();
   } else {
-    clip = { x: 0, y: 70, w: W, h: H - 180 };
+    clip = { x: 0, y: H * HEADER_BOTTOM + 6, w: W, h: H * (NAME_TOP - HEADER_BOTTOM) - 12 };
     drawSignature(sctx, p.name, cx, cy, W * 0.86, pull);
   }
   ctx.restore();
+  // rim along the shield (the collectible frame adds its own tier / finish rim outside this)
   ctx.save();
   ctx.lineWidth = 6;
   ctx.strokeStyle = lightHead ? '#3b2a17' : foil;
-  ctx.beginPath();
-  rrect(ctx, 3, 3, W - 6, H - 6, rr - 3);
+  shieldPath(ctx, W, H);
   ctx.stroke();
   ctx.restore();
   K = 1;

@@ -1,3 +1,11 @@
+/* Every autograph is drawn in the collectible shield (collection.css .fut --fut-clip), wherever it appears */
+:root {
+  --au-shield: polygon(0% 8.5%, 6% 4.2%, 17% 3%, 27% 0.6%, 73% 0.6%, 83% 3%, 94% 4.2%, 100% 8.5%, 100% 85%, 90% 91%, 66% 95.4%, 50% 100%, 34% 95.4%, 10% 91%, 0% 85%);
+}
+.au-shield {
+  clip-path: var(--au-shield);
+}
+
 /* ---------- Autographs: the walkout beat, the binder and the detail ---------- */
 
 /* Walkout: AUTOGRAPH, then the card with the signature writing itself (AutographCanvas write) */
@@ -162,8 +170,8 @@
   display: grid;
   place-items: center;
   width: 64px;
-  aspect-ratio: 5 / 7;
-  border-radius: 8px;
+  aspect-ratio: 100 / 142;
+  clip-path: var(--au-shield);
   border: 1px solid hsl(var(--gold) / 0.45);
   background: linear-gradient(160deg, hsl(var(--panel-2, var(--panel))), hsl(var(--night, var(--background))));
   color: hsl(var(--gold));
