@@ -559,6 +559,128 @@ const ChangeCell = ({ row }: { row: TeamSeasonRow }) => {
   );
 };
 
+type LeagueMetric = 'power' | 'diff' | 'pct';
+const LEAGUE_METRICS: { key: LeagueMetric; label: string; axis: string }[] = [
+  { key: 'power', label: 'Power rank', axis: 'Power rank (No. 1 at the top)' },
+  { key: 'diff', label: 'Point diff', axis: 'Point differential' },
+  { key: 'pct', label: 'Win %', axis: 'Win %' },
+];
+
+/** Every club on one chart, season by season: a bump chart of power rank, or point differential / win %. */
+const LeagueChart = ({ progression, clubs, team, onTeam }: { progression: Record<string, TeamSeasonRow[]>; clubs: number; team: string; onTeam: (t: string) => void }) => {
+  const [ref, width] = useWidth<HTMLDivElement>(340);
+  const [metric, setMetric] = useState<LeagueMetric>('power');
+  const [hover, setHover] = useState<string | null>(null);
+  const series = useMemo(
+    () => Object.entries(progression).map(([t, rows]) => ({ team: t, abbr: findNFLTeam(t)?.abbreviation ?? t.slice(0, 3).toUpperCase(), rows: [...rows].sort((a, b) => seasonNum(a.season) - seasonNum(b.season)) })),
+    [progression],
+  );
+  const seasons = useMemo(() => [...new Set(series.flatMap((s) => s.rows.map((r) => r.season)))].sort((a, b) => seasonNum(a) - seasonNum(b)), [series]);
+  if (!seasons.length) return null;
+  const value = (r: TeamSeasonRow) => (metric === 'power' ? r.power : metric === 'diff' ? r.diff : r.pct);
+  const labelW = 46;
+  const H = metric === 'power' ? Math.max(360, clubs * 15 + 50) : 300;
+  const pad = { l: 40, r: labelW, t: 18, b: 24 };
+  const nums = seasons.map(seasonNum);
+  const min = Math.min(...nums), max = Math.max(...nums);
+  const inner = width - pad.l - pad.r;
+  const x = (season: string) => (max === min ? pad.l + inner / 2 : pad.l + ((seasonNum(season) - min) / (max - min)) * inner);
+  const vals = series.flatMap((s) => s.rows.map(value));
+  const lo = metric === 'power' ? 1 : metric === 'pct' ? 0 : Math.min(-50, ...vals);
+  const hi = metric === 'power' ? clubs : metric === 'pct' ? 1 : Math.max(50, ...vals);
+  const bound = metric === 'diff' ? Math.ceil(Math.max(Math.abs(lo), Math.abs(hi)) / 50) * 50 : 0;
+  const y = (v: number) => {
+    const t = metric === 'power' ? (v - 1) / Math.max(1, clubs - 1) : metric === 'pct' ? 1 - v : (bound - v) / (2 * bound);
+    return pad.t + t * (H - pad.t - pad.b);
+  };
+  const ticks = metric === 'power' ? [1, 8, 16, 24, clubs] : metric === 'pct' ? [1, 0.75, 0.5, 0.25, 0] : [bound, bound / 2, 0, -bound / 2, -bound];
+  const tickLabel = (t: number) => (metric === 'power' ? `#${t}` : metric === 'pct' ? rate(t) : signed(t));
+  const focus = hover ?? team;
+  const ordered = [...series].sort((a, b) => (a.team === focus ? 1 : b.team === focus ? -1 : 0));
+  // end-of-line labels: power ranks are unique, so every club gets one; other metrics label only the focused club
+  const lastOf = (s: (typeof series)[number]) => s.rows.at(-1)!;
+  return (
+    <div className="glass-card space-y-3 p-3 sm:p-4">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="font-display text-base font-bold uppercase tracking-wide">All {series.length} clubs</p>
+        <div role="group" aria-label="Chart metric" className="flex rounded-md border border-border/60 p-0.5 text-xs">
+          {LEAGUE_METRICS.map((m) => (
+            <button
+              key={m.key}
+              type="button"
+              aria-pressed={metric === m.key}
+              onClick={() => setMetric(m.key)}
+              className={cn('rounded px-2.5 py-1 font-semibold', metric === m.key ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground')}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div ref={ref} className="min-w-0" onMouseLeave={() => setHover(null)}>
+        <svg
+          width={width}
+          height={H}
+          viewBox={`0 0 ${width} ${H}`}
+          role="img"
+          aria-label={`${LEAGUE_METRICS.find((m) => m.key === metric)!.axis} for every club across ${seasons.join(', ')}. Highlighted: ${focus}, ${series
+            .find((s) => s.team === focus)
+            ?.rows.map((r) => `${r.season} ${tickLabel(value(r))}`)
+            .join(', ')}.`}
+          className="block"
+        >
+          {ticks.map((t) => (
+            <g key={t}>
+              <line x1={pad.l} x2={width - pad.r} y1={y(t)} y2={y(t)} className="stroke-border" strokeOpacity={metric === 'diff' && t === 0 ? 0.9 : 0.4} strokeDasharray={metric === 'diff' && t === 0 ? undefined : '2 3'} />
+              <text x={pad.l - 6} y={y(t) + 3} fontSize={10} textAnchor="end" className="fill-muted-foreground tabular-nums">
+                {tickLabel(t)}
+              </text>
+            </g>
+          ))}
+          {seasons.map((ss) => (
+            <text key={ss} x={x(ss)} y={H - 6} fontSize={10} textAnchor="middle" className="fill-muted-foreground">
+              {ss}
+            </text>
+          ))}
+          {ordered.map((s) => {
+            const on = s.team === focus;
+            const stroke = teamColor(s.team);
+            return (
+              <g
+                key={s.team}
+                className="cursor-pointer [filter:brightness(1.6)]"
+                opacity={on ? 1 : hover ? 0.18 : 0.38}
+                onMouseEnter={() => setHover(s.team)}
+                onClick={() => onTeam(s.team)}
+              >
+                <title>{`${s.team}: ${s.rows.map((r) => `${r.season} ${tickLabel(value(r))}`).join(', ')}`}</title>
+                {s.rows.slice(1).map((cur, i) => {
+                  const prev = s.rows[i];
+                  const gap = seasonNum(cur.season) - seasonNum(prev.season) > 1;
+                  return <line key={cur.season} x1={x(prev.season)} y1={y(value(prev))} x2={x(cur.season)} y2={y(value(cur))} stroke={stroke} strokeWidth={on ? 3.5 : 2} strokeDasharray={gap ? '4 4' : undefined} />;
+                })}
+                {s.rows.map((r) => (
+                  <circle key={r.season} cx={x(r.season)} cy={y(value(r))} r={on ? 5 : 3.5} fill={stroke} className={on ? 'stroke-foreground' : undefined} strokeWidth={on ? 1.5 : 0} />
+                ))}
+                {(metric === 'power' || on) && (
+                  <text x={Math.min(width - pad.r + 6, x(lastOf(s).season) + 9)} y={y(value(lastOf(s))) + 3.5} fontSize={on ? 11 : 9.5} className={on ? 'fill-foreground font-bold' : 'fill-muted-foreground'}>
+                    {s.abbr}
+                  </text>
+                )}
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+      <p className="text-xs text-muted-foreground">
+        {seasons.length === 1
+          ? `One season of weekly scores so far (${seasons[0]}), so every club is a single point. Lines appear as more seasons are uploaded; skipped seasons show as dashed stretches.`
+          : 'Hover or tap a line to bring a club forward; tap to track it below. Dashed stretches skip seasons without weekly scores.'}
+      </p>
+    </div>
+  );
+};
+
 const Progression = ({ progression, clubs, team, onTeam }: { progression: Record<string, TeamSeasonRow[]>; clubs: number; team: string; onTeam: (t: string) => void }) => {
   const [ref, width] = useWidth<HTMLDivElement>(340);
   const teams = useMemo(() => Object.keys(progression).sort((a, b) => a.localeCompare(b)), [progression]);
@@ -567,6 +689,8 @@ const Progression = ({ progression, clubs, team, onTeam }: { progression: Record
   const latest = rows.at(-1);
 
   return (
+    <div className="space-y-4">
+    <LeagueChart progression={progression} clubs={clubs} team={team} onTeam={onTeam} />
     <div className="glass-card space-y-4 p-3 sm:p-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex min-w-0 items-center gap-3">
@@ -647,6 +771,7 @@ const Progression = ({ progression, clubs, team, onTeam }: { progression: Record
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 };
