@@ -1,18 +1,18 @@
 {
- "source": "Retro Bowl staff screen (IMG_6868, Y87 complete)",
+ "source": "Retro Bowl staff screen (IMG_6963, Y88 complete)",
  "name": "Dorren Skura",
- "age": 122,
+ "age": 123,
  "stars": 5,
- "morale": "Exceptional",
- "gamesPlayed": 1731,
- "simGames": 16,
+ "morale": "Good",
+ "gamesPlayed": 1751,
+ "simGames": 17,
  "record": {
-  "fullSeasons": 86,
-  "regular": "1255-218-6",
+  "fullSeasons": 87,
+  "regular": "1269-220-7",
   "regularWinPct": 0.851,
-  "playoff": "229-23",
-  "playoffWinPct": 0.909,
-  "playoffsReached": "85/87",
+  "playoff": "232-23",
+  "playoffWinPct": 0.91,
+  "playoffsReached": "86/88",
   "seasonsNoSimGames": 74
  },
  "bests": {
@@ -24,7 +24,7 @@
  "superBowlRecord": [
   {
    "coach": "D.Skura",
-   "titles": 62
+   "titles": 63
   },
   {
    "coach": "NE (2000-2023)",
@@ -825,6 +825,15 @@
    "w": 17,
    "l": 0,
    "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 88,
+   "team": "Eagles",
+   "abbr": "PHI",
+   "w": 14,
+   "l": 2,
+   "t": 1,
    "finish": "Champions"
   }
  ],

@@ -82,6 +82,7 @@ FILES = {
     "speeches": SRC / "speeches.json",
     "extras": SRC / "screenshot_extras.json",
     "stories": SRC / "stories.json",
+    "schedules": SRC / "schedules.json",
 }
 MARKET = SRC / "market_history.json"  # written by market_snapshot.ts in its own compact layout; renamed as text
 SPRITE_IMAGES = ROOT / "public" / "data" / "sprites"
@@ -89,10 +90,13 @@ STORIES_ABOUT = ("Season Story: the third AI-authored lane (owner-approved). One
                  "written only by a story.set upload mutation; facts only from the data, every number cited in stats[] "
                  "with its source (scripts/story_check.py). Never hand-edit.")
 
+SCHEDULES_ABOUT = ("Week-by-week league scores, final standings and the coach's opponents per season, transcribed from "
+                   "the game's LEAGUE schedule, standings and season summary screens (schedule.set). Facts only; never hand-edit.")
+
 AI_STEPS = {"transcribe", "portrait→look", "tag notes", "speech", "art", "story"}
 LANE_OPS = {
     "stats": {"player.set", "player.rename", "fact.set", "fact.add", "fact.remove", "superbowl.set", "coach.season", "coach.set",
-              "record.set", "baseline", "extras.set"},
+              "record.set", "baseline", "extras.set", "schedule.set"},
     "looks": {"sprite.set", "sprite.image", "card.design"},
     "notes": {"journal.add"},
     "speech": {"speech.set", "speech.remove"},
@@ -173,6 +177,8 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
             errs += [f"{where}: {e}" for e in speech_errors(m.get("value"))]
         if op == "extras.set":
             errs += [f"{where}: {e}" for e in extras_errors(str(m.get("target", "")))]
+        if op == "schedule.set":
+            errs += [f"{where}: {e}" for e in schedule_errors(m.get("value"))]
         if op == "story.set":
             # at apply time a stats value that no longer matches its source is an error, not a stale warning
             story_errs, story_stale = story_check.check_season(story_check.Data(), str(m.get("target", "")), m.get("value"))
@@ -239,12 +245,48 @@ def rename_in(obj, old: str, new: str):
     return new if obj == old else obj
 
 
+def schedule_errors(value) -> list[str]:
+    """A season's weekly scores: only the 32 clubs, one game per team per week, integer scores, and (when the
+    standings are given) every team's W-L-T from the scores equals its standings row."""
+    teams = json.loads((SRC / "teams.json").read_text())
+    abbrs = {t["abbr"] for t in teams.values()}
+    errs, tally = [], {}
+    for wk in (value or {}).get("weeks", []):
+        seen = set()
+        for g in wk.get("games", []):
+            a, h, sa, sh = g.get("away"), g.get("home"), g.get("away_score"), g.get("home_score")
+            if a not in abbrs or h not in abbrs:
+                errs.append(f"week {wk.get('week')}: unknown club in {a} at {h}")
+                continue
+            if not isinstance(sa, int) or not isinstance(sh, int):
+                errs.append(f"week {wk.get('week')}: {a} at {h} needs integer scores")
+                continue
+            if {a, h} & seen:
+                errs.append(f"week {wk.get('week')}: {a} or {h} plays twice")
+            seen |= {a, h}
+            for me, us, them in ((a, sa, sh), (h, sh, sa)):
+                r = tally.setdefault(me, [0, 0, 0])
+                r[0 if us > them else 1 if us < them else 2] += 1
+    by_name = {name: t["abbr"] for name, t in teams.items()}
+    for division, rows in (value or {}).get("standings", {}).items():
+        for row in rows:
+            abbr = by_name.get(row.get("team"))
+            if abbr is None:
+                errs.append(f"standings {division}: unknown club {row.get('team')!r}")
+            elif tally and tally.get(abbr, [0, 0, 0]) != [row.get("w"), row.get("l"), row.get("t")]:
+                errs.append(f"standings {division}: {row['team']} {row.get('w')}-{row.get('l')}-{row.get('t')} but the weekly "
+                            f"scores give {'-'.join(map(str, tally.get(abbr, [0, 0, 0])))}")
+    return errs
+
+
 def apply(bundle: Path, manifest: dict) -> list[str]:
     data = {k: json.loads(p.read_text()) if p.exists() else None for k, p in FILES.items()}
     if data["journal"] is None:
         data["journal"] = {"notes": []}
     if data["stories"] is None:
         data["stories"] = {"_about": STORIES_ABOUT, "seasons": {}}
+    if data["schedules"] is None:
+        data["schedules"] = {"_about": SCHEDULES_ABOUT, "seasons": {}}
     changes = []
     market_renames = []
     for m in manifest["mutations"]:
@@ -335,6 +377,13 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
             if data["coach"].get(target) != value:
                 data["coach"][target] = value
                 changes.append(f"coach.{target}")
+        elif op == "schedule.set":
+            seasons = data["schedules"]["seasons"]
+            if seasons.get(target) != value:
+                seasons[target] = value
+                seasons_sorted = dict(sorted(seasons.items(), key=lambda kv: int(kv[0].lstrip("Y"))))
+                data["schedules"]["seasons"] = seasons_sorted
+                changes.append(f"schedule {target}: {len(value.get('weeks', []))} weeks")
         elif op == "record.set":
             recs = data["records"]["records"]
             row = next((r for r in recs if r["record"] == target), None)

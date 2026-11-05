@@ -734,6 +734,24 @@
     "stats": 2
    },
    "changed": 2
+  },
+  {
+   "id": "2026-11-05-y88",
+   "dir": "data/uploads/2026-11-05-y88",
+   "applied_at": "2026-11-05T10:56:17-08:00",
+   "mutations": {
+    "stats": 82
+   },
+   "changed": 468
+  },
+  {
+   "id": "2026-11-05-speeches-y88",
+   "dir": "data/uploads/2026-11-05-speeches-y88",
+   "applied_at": "2026-11-05T10:57:32-08:00",
+   "mutations": {
+    "speech": 5
+   },
+   "changed": 5
   }
  ]
 }

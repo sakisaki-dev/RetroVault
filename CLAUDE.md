@@ -16,7 +16,7 @@ section for what changed, make a story about the previous year … I want it in 
 
 | Kind | What | Where |
 |---|---|---|
-| **Data entry** (facts) | Career lines, awards, Super Bowls, coach seasons, record board, teams/trades/rosters, nicknames, owner-confirmed history ("one Titans season", "mainly a Seahawk"), card notes, the owner's own tags, sprite looks | `data/y80/players.json`, `super_bowls.json`, `coach.json`, `records.json`, `owner_facts.json`, `screenshot_extras.json`, `sprites.json` |
+| **Data entry** (facts) | Career lines, awards, Super Bowls, coach seasons, weekly league scores and standings, record board, teams/trades/rosters, nicknames, owner-confirmed history ("one Titans season", "mainly a Seahawk"), card notes, the owner's own tags, sprite looks | `data/y80/players.json`, `super_bowls.json`, `coach.json`, `schedules.json`, `records.json`, `owner_facts.json`, `screenshot_extras.json`, `sprites.json` |
 | **Owner prose** (verbatim) | Season notes about rivalries, disputes, drama, in the owner's words | `data/y80/journal.json` |
 | **Generated** (rules over the data) | Eras, storylines, rivalries, lineages, snubs, outsiders, record chases, iron men, one-team legends, open questions, player tags and eras, Hall of Fame classes, career stints and their evidence text, market prices | `scripts/*.py`, `scripts/market_snapshot.ts` → `public/data/` |
 | **AI-authored** (only these three) | Hall of Fame induction speeches; card art styles and custom sprites (Art lab); the Season Story (news articles about each completed season) | `data/y80/speeches.json`; `src/components/collection/art/**`, `public/data/sprites/`; `data/y80/stories.json` |
@@ -106,7 +106,7 @@ New players: add them with `team` from the owner. If the owner hasn't said, use 
 
 Other screens: Super Bowl list → `superbowl.set` (gold rows are the owner's wins); staff screen → `coach.season` /
 `coach.set`; the owner switching clubs before the new club plays → `coach.set currentStint` `{team, abbr, from}` plus
-`fact.set current_club` (no `coach.season` row until the season is played); record board → `record.set`; team screens → `fact.set active_rosters/<Team>`; game Player HOF screen →
+`fact.set current_club` (no `coach.season` row until the season is played); record board → `record.set`; team screens → `fact.set active_rosters/<Team>`; the LEAGUE schedule screens (one per week), the standings and the season summary (each opponent's record and O/D rating) → one `schedule.set` for the season (`data/y80/schedules.json`; apply-upload refuses a club outside the 32, a team playing twice in a week, or W-L-T that doesn't match the standings); game Player HOF screen →
 `fact.set players/<name>/retired_with`. The site's Hall of Fame is its own (Career Legacy ≥ 7500, see Hall of Fame below); the game's HOF
 list must not add or remove anyone. Stale lines in `screenshot_extras.json` (e.g. "Y80, in progress") →
 `extras.set <section>/<key>` (value `null` deletes it). A name correction ("rename X to Y") → `player.rename`

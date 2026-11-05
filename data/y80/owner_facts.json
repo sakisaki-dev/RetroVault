@@ -8,6 +8,9 @@
   "Akiem Bouye": {
    "retired_with": "Chargers"
   },
+  "Akiem Brock": {
+   "team": "Eagles"
+  },
   "Alohi Godwin": {
    "retired_with": "Seahawks"
   },
@@ -84,6 +87,9 @@
     "says": "Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints."
    }
   },
+  "Bones Crawford": {
+   "team": "Eagles"
+  },
   "Brandon Jaclyde": {
    "team": "Dolphins",
    "career": {
@@ -113,6 +119,9 @@
   },
   "Brennan Higgins": {
    "retired_with": "Commanders"
+  },
+  "Bryant Zappe": {
+   "team": "Eagles"
   },
   "Bryson Lucas": {
    "team": "Commanders"
@@ -280,6 +289,9 @@
   },
   "Grunky Felton": {
    "team": "49ers"
+  },
+  "Hamp McPhee": {
+   "team": "Eagles"
   },
   "Hamsfa Boltt": {
    "team_history": [
@@ -450,8 +462,14 @@
     "says": "Went with the coach from the Jets to the Falcons after Y82, then traded on to the Bears before playing a game for the Falcons."
    }
   },
+  "Kaulani Rahman": {
+   "team": "Eagles"
+  },
   "Keion Orzech": {
    "team": "Cowboys"
+  },
+  "Kenyon Shaheed": {
+   "team": "Eagles"
   },
   "Kirk Lenoir": {
    "team": "Jaguars",
@@ -880,6 +898,18 @@
   }
  },
  "active_rosters": {
+  "Eagles": [
+   "Akiem Brock",
+   "Bones Crawford",
+   "Bryant Zappe",
+   "Dwayne Skura",
+   "Gerrit Ogbah",
+   "Hamp McPhee",
+   "Kaulani Rahman",
+   "Kenyon Shaheed",
+   "Trequan Roberts",
+   "Vyncint Heath"
+  ],
   "Falcons": [
    "Chance Woodrum",
    "Eric Raimann",
