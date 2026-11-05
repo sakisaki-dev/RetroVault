@@ -1,5 +1,5 @@
 import { useEffect, useRef, type CSSProperties, type MouseEvent } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Signature, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import TeamLogo from '@/components/brand/TeamLogo';
@@ -8,7 +8,9 @@ import { POSITION_NAMES } from '@/utils/playerMeta';
 import { tierLabel, variantLabel, type PackCard } from '@/utils/collection';
 import CollectibleCard, { PlayerJersey } from './CollectibleCard';
 import type { CardInfo } from './useCardPool';
-import type { WkBeat, WkStage } from './walkoutBeats';
+import { AUTO_WRITE_DELAY_MS, AUTO_WRITE_MS, type WkBeat, type WkStage } from './walkoutBeats';
+import AutographCanvas from './autograph/AutographCanvas';
+import { autographValue, fmtMult, inkRowOf, parallelOf, serialStr } from '@/config/autographs';
 
 /** Firework bursts: [left %, top %, delay s]; Legendary fires a second volley. */
 const VOLLEY = [
@@ -112,6 +114,8 @@ interface WalkoutProps {
  * a team-colour sweep and logo, the position, the OVR counting up, a silhouette walking out, then the card flips.
  * A holo looks like a normal walkout of its tier until after the flip; then the twist: white flash, prismatic
  * shockwave, the card shatters and reforms as holo, prism confetti, a HOLO stamp, a screen shake and a slow 360°.
+ * A card that carries an autograph ends on its own beat: AUTOGRAPH, then the autograph card with his signature writing
+ * itself left to right (drawn whole with reduced motion).
  */
 const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, onSkip, onDone, onRevealAll }: WalkoutProps) => {
   const team = findNFLTeam(info.player.team);
@@ -124,6 +128,8 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
   const twisted = holo && reached('twist');
   const legendary = card.tier === 'legendary';
   const isFinal = stage === 'final';
+  const auto = card.auto;
+  const signed = !!auto && reached('auto');
   const doneRef = useRef<HTMLButtonElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   // Focus the stage (so Space / Enter reach Skip next), then Continue once it is over
@@ -161,6 +167,7 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
         reached('walk') && 'wk--out',
         reached('flip') && 'wk--carded',
         twisted && 'wk--holo',
+        signed && 'wk--signed',
       )}
       style={style}
       onClick={tap}
@@ -241,7 +248,22 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
           </span>
         )}
 
-        {reached('flip') && (
+        {signed && auto && (
+          <div className="wk__auto">
+            <span className="wk__auto-kicker" aria-hidden="true">
+              <Signature className="h-6 w-6" /> Autograph
+            </span>
+            <div className="wk__auto-card">
+              <AutographCanvas snap={auto.snap} roll={auto.roll} cacheKey={reduced ? auto.id : undefined} write={!reduced} writeDelayMs={AUTO_WRITE_DELAY_MS} writeMs={AUTO_WRITE_MS} />
+            </div>
+            <p className="wk__auto-meta">
+              {parallelOf(auto.roll.parallel).label} · {serialStr(auto.roll)} · {inkRowOf(auto.roll).label}
+              {auto.roll.inscription ? ` · inscribed ${auto.roll.inscription}` : ''} · <b>{fmtMult(autographValue(auto.roll).total)}</b> the card
+            </p>
+          </div>
+        )}
+
+        {reached('flip') && !signed && (
           <div className="wk__card">
             {twisted && !reduced && (
               <>
@@ -300,12 +322,12 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
           </div>
         )}
         {twisted && !reduced && <span className="wk__white" aria-hidden="true" />}
-        {!reduced && stage === 'flip' && <span className="wk__flash" aria-hidden="true" />}
+        {!reduced && (stage === 'flip' || stage === 'auto') && <span key={stage} className="wk__flash" aria-hidden="true" />}
       </div>
 
       <p className="sr-only" role="status">
         {reached('flip')
-          ? `${tierLabel(card.tier)}! ${info.player.name}, ${variantLabel(card.variant)}${twisted ? '. Twist: it is a Holo!' : ''}`
+          ? `${tierLabel(card.tier)}! ${info.player.name}, ${variantLabel(card.variant)}${twisted ? '. Twist: it is a Holo!' : ''}${signed && auto ? `. And an autograph: ${parallelOf(auto.roll.parallel).label} ${serialStr(auto.roll)}!` : ''}`
           : `${tierLabel(card.tier)} walkout`}
       </p>
 

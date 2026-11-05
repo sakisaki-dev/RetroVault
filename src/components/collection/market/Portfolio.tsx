@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { Briefcase, PackageOpen } from 'lucide-react';
-import { TIERS, VARIANTS, finishLabel, ownedVariants, tierLabel, variantShort, type Finish, type OwnedCard, type Tier, type Variant } from '@/utils/collection';
-import { cardPrice, fmtCoins, pctChange, portfolioSeries, valueAt, type Holding as Owned, type MarketHistory } from '@/utils/cardMarket';
+import { TIERS, VARIANTS, finishLabel, ownedVariants, tierLabel, variantShort, type Finish, type OwnedAuto, type OwnedCard, type Tier, type Variant } from '@/utils/collection';
+import { fmtCoins, holdingPrice, pctChange, portfolioSeries, valueAt, type Holding as Owned, type MarketHistory } from '@/utils/cardMarket';
+import { autographValue, parallelOf, serialStr } from '@/config/autographs';
 import type { CardInfo } from '../useCardPool';
 import { uniformKind } from '../art/sprite/uniforms';
 import PriceChart from './PriceChart';
@@ -23,11 +24,15 @@ interface Holding {
   now: number;
   paid: number | null;
   gain: number | null;
+  /** An autograph holding: its parallel and serial, e.g. "Sticker auto 07/99" */
+  auto?: string;
 }
 
 interface PortfolioProps {
   history: MarketHistory;
   owned: Record<string, OwnedCard>;
+  /** Owned autographs: each is a holding priced as the base card × its multiplier */
+  autos?: OwnedAuto[];
   byKey: Map<string, CardInfo>;
   period: 'last' | 'all';
   sinceLabel: string;
@@ -62,7 +67,7 @@ const HoldingLine = ({ h, label, onOpen }: { h: Holding; label: string; onOpen: 
     <span className="mk-hold__label">{label}</span>
     <span className="mk-hold__name">{h.info.player.name}</span>
     <span className="mk-hold__meta">
-      {variantShort(h.variant)} · {finishLabel(h.finish)} · {fmtCoins(h.now)}
+      {h.auto ?? `${variantShort(h.variant)} · ${finishLabel(h.finish)}`} · {fmtCoins(h.now)}
     </span>
     <ChangeBadge change={h.gain} label="since pulled" />
   </button>
@@ -71,35 +76,45 @@ const HoldingLine = ({ h, label, onOpen }: { h: Holding; label: string; onOpen: 
 /**
  * The owner's cards as a portfolio: value at each card's best finish over every data update, unrealized gain since
  * each card was pulled (its value in the snapshot current at the first pull), best and worst holdings, and
- * allocation by tier and position. Empty: an invitation to open packs.
+ * allocation by tier and position. Autographs are holdings too (the base card × the autograph's multiplier, from the
+ * day each was pulled). Empty: an invitation to open packs.
  */
-const Portfolio = ({ history, owned, byKey, period, sinceLabel, onOpen }: PortfolioProps) => {
+const Portfolio = ({ history, owned, autos = [], byKey, period, sinceLabel, onOpen }: PortfolioProps) => {
   const latest = history[history.length - 1];
-  // Every (player, variant) owned is one holding, at that variant's best finish
-  const items = useMemo<Owned[]>(
-    () =>
-      Object.entries(owned).flatMap(([key, c]) =>
+  // Every (player, variant) owned is one holding, at that variant's best finish; every autograph is one more
+  const items = useMemo<(Owned & { since: number; auto?: string })[]>(
+    () => [
+      ...Object.entries(owned).flatMap(([key, c]) =>
         ownedVariants(c).map((variant) => {
           const finish = c.variants[variant]!.best;
           const player = byKey.get(key)?.player;
-          return { key, variant, finish, alt: player ? uniformKind(player, variant, finish) : false };
+          return { key, variant, finish, alt: player ? uniformKind(player, variant, finish) : false, since: c.variants[variant]!.first };
         }),
       ),
-    [owned, byKey],
+      ...autos.map((a) => ({
+        key: a.key,
+        variant: 'number' as Variant,
+        finish: 'base' as Finish,
+        mult: autographValue(a.roll).total,
+        since: a.pulledAt,
+        auto: `${parallelOf(a.roll.parallel).label} ${serialStr(a.roll)}`,
+      })),
+    ],
+    [owned, autos, byKey],
   );
   const series = useMemo(() => portfolioSeries(history, items), [history, items]);
   const holdings = useMemo<Holding[]>(
     () =>
-      items.flatMap(({ key, variant, finish, alt }) => {
-        const info = byKey.get(key);
-        const p = latest?.players[key];
+      items.flatMap((h) => {
+        const info = byKey.get(h.key);
+        const p = latest?.players[h.key];
         if (!info || !p) return [];
-        const now = cardPrice(p.value, finish, variant, alt);
-        const base = valueAt(history, key, owned[key].variants[variant]!.first || Date.now());
-        const paid = base != null ? cardPrice(base, finish, variant, alt) : null;
-        return [{ info, finish, variant, now, paid, gain: pctChange(now, paid) }];
+        const now = holdingPrice(p.value, h);
+        const base = valueAt(history, h.key, h.since || Date.now());
+        const paid = base != null ? holdingPrice(base, h) : null;
+        return [{ info, finish: h.finish, variant: h.variant, now, paid, gain: pctChange(now, paid), ...(h.auto ? { auto: h.auto } : {}) }];
       }),
-    [items, owned, byKey, latest, history],
+    [items, byKey, latest, history],
   );
 
   if (!holdings.length) {
@@ -128,9 +143,11 @@ const Portfolio = ({ history, owned, byKey, period, sinceLabel, onOpen }: Portfo
   const worst = ranked.length > 1 ? ranked[ranked.length - 1] : undefined;
   const top = [...holdings].sort((a, b) => b.now - a.now)[0];
   const list = [...new Map(holdings.map((h) => [h.info.key, h.info])).values()];
+  const autoCount = holdings.filter((h) => h.auto).length;
+  const cardCount = holdings.length - autoCount;
 
   const byTier = TIERS.map((t) => ({ label: tierLabel(t.key), value: holdings.filter((h) => h.info.tier === t.key).reduce((a, h) => a + h.now, 0), color: TIER_FILL[t.key] }));
-  const byVariant = VARIANTS.map((v) => ({ label: v.short, value: holdings.filter((h) => h.variant === v.key).reduce((a, h) => a + h.now, 0), color: VARIANT_FILL[v.key] }));
+  const byVariant = VARIANTS.map((v) => ({ label: v.short, value: holdings.filter((h) => !h.auto && h.variant === v.key).reduce((a, h) => a + h.now, 0), color: VARIANT_FILL[v.key] }));
   const byPos = POS_ORDER.map((pos, i) => ({ label: pos, value: holdings.filter((h) => h.info.player.position === pos).reduce((a, h) => a + h.now, 0), color: POS_FILL[i] }));
 
   return (
@@ -145,7 +162,8 @@ const Portfolio = ({ history, owned, byKey, period, sinceLabel, onOpen }: Portfo
         <ChangeBadge change={pctChange(now, before)} label={sinceLabel} />
       </p>
       <p className="text-xs text-muted-foreground">
-        {holdings.length} card{holdings.length === 1 ? '' : 's'} (player × variant) at their best finish ·{' '}
+        {cardCount} card{cardCount === 1 ? '' : 's'} (player × variant) at their best finish
+        {autoCount > 0 && ` and ${autoCount} autograph${autoCount === 1 ? '' : 's'}`} ·{' '}
         <span className="text-foreground">
           {gain != null && gain >= 0 ? '+' : '−'}
           {fmtCoins(Math.abs(now - paid))}

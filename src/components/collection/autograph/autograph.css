@@ -1,0 +1,221 @@
+/* ---------- Autographs: the walkout beat, the binder and the detail ---------- */
+
+/* Walkout: AUTOGRAPH, then the card with the signature writing itself (AutographCanvas write) */
+.wk__auto {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  width: min(300px, 64vw, calc(var(--dvh, 100vh) * 0.42));
+}
+.wk__auto-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: hsl(var(--gold));
+  font-family: var(--font-display);
+  font-size: clamp(28px, 7vw, 44px);
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-shadow: 0 0 24px hsl(var(--gold) / 0.55);
+  animation: au-kicker 0.6s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+.wk__auto-card {
+  width: 100%;
+  border-radius: 14px;
+  box-shadow: 0 0 0 1px hsl(var(--gold) / 0.35), 0 18px 50px rgb(0 0 0 / 0.6), 0 0 60px hsl(var(--gold) / 0.25);
+  animation: au-card 0.55s 0.15s ease-out both;
+}
+.wk__auto-meta {
+  max-width: 34ch;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  color: hsl(var(--muted-foreground));
+  animation: wk-fade 0.4s 1.2s ease-out both;
+}
+.wk__auto-meta b {
+  color: hsl(var(--gold));
+}
+@keyframes au-kicker {
+  from { opacity: 0; transform: translateY(10px) scale(0.85); letter-spacing: 0.3em; }
+}
+@keyframes au-card {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+}
+.wk--rm .wk__auto-kicker,
+.wk--rm .wk__auto-card,
+.wk--rm .wk__auto-meta {
+  animation: wk-fade 0.35s ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wk__auto-kicker,
+  .wk__auto-card,
+  .wk__auto-meta,
+  .au-tile {
+    animation: none !important;
+  }
+}
+
+/* Pack: the autograph marker on a revealed or summarised card */
+.pk-auto-hit {
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ffe08a, hsl(var(--gold)) 45%, #b8740f);
+  color: #090d1a;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.45);
+}
+.pk-sum__card .pk-auto-hit {
+  bottom: 30px;
+}
+.pk-autos {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 14px;
+  background: radial-gradient(120% 90% at 50% 0%, hsl(var(--gold) / 0.12), transparent 70%), hsl(var(--panel) / 0.7);
+  box-shadow: inset 0 0 0 1px hsl(var(--gold) / 0.35);
+}
+.pk-autos ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+.pk-autos li {
+  display: grid;
+  gap: 6px;
+  width: min(170px, 40vw);
+  text-align: center;
+}
+
+/* Binder */
+.au-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--au-min, 132px), 1fr));
+  gap: 16px 12px;
+}
+@media (max-width: 480px) {
+  .au-grid {
+    --au-min: 104px;
+    gap: 12px 8px;
+  }
+}
+.au-tile {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  animation: wk-fade 0.3s ease-out both;
+}
+.au-tile canvas {
+  box-shadow: 0 10px 24px rgb(0 0 0 / 0.4), 0 0 0 1px rgb(255 255 255 / 0.05);
+  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
+}
+.au-tile:hover canvas,
+.au-tile:focus-visible canvas {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgb(0 0 0 / 0.5), 0 0 0 2px hsl(var(--gold) / 0.6);
+}
+.au-tile:focus-visible {
+  outline: none;
+}
+.au-empty {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  padding: 18px;
+  border: 1px dashed hsl(var(--line));
+  border-radius: 14px;
+  background: radial-gradient(90% 120% at 0% 0%, hsl(var(--gold) / 0.08), transparent 60%);
+}
+.au-empty__card {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  aspect-ratio: 5 / 7;
+  border-radius: 8px;
+  border: 1px solid hsl(var(--gold) / 0.45);
+  background: linear-gradient(160deg, hsl(var(--panel-2, var(--panel))), hsl(var(--night, var(--background))));
+  color: hsl(var(--gold));
+}
+@media (max-width: 420px) {
+  .au-empty {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Detail */
+.au-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 720px) {
+  .au-detail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .au-detail__card {
+    width: min(320px, 100%);
+    justify-self: center;
+  }
+}
+.au-facts {
+  display: grid;
+  gap: 0;
+  font-size: 14px;
+}
+.au-facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px dashed hsl(var(--line));
+}
+.au-facts dt {
+  color: hsl(var(--muted-foreground));
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding-top: 2px;
+}
+.au-facts dd {
+  margin: 0;
+  text-align: right;
+  min-width: 0;
+}
+.au-facts .au-facts__total dd {
+  color: hsl(var(--gold));
+  font-weight: 700;
+}

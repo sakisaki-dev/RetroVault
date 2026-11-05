@@ -1,10 +1,9 @@
-import { startTransition, useCallback, useEffect, useMemo, useState, type ComponentType } from 'react';
+import { startTransition, useCallback, useMemo, useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import type { CardInfo } from '../useCardPool';
-import { PlayerPicker, PreviewPane } from './lab/LabParts';
-import { CombosTab, UniformsTab } from './lab/LabTabs';
-import { LabRootContext, select } from './lab/labStore';
+import { LabRootContext, PlayerPicker } from './lab/LabParts';
+import { LAB_TABS as TABS } from './lab/LabTabs';
 import './art.css';
 
 interface ArtLabProps {
@@ -14,26 +13,16 @@ interface ArtLabProps {
   total: number;
 }
 
-interface TabProps {
-  pick: CardInfo;
-  league: CardInfo[];
-  total: number;
-}
-
-const TABS: { key: string; label: string; hint: string; Tab: ComponentType<TabProps> }[] = [
-  { key: 'combos', label: 'Combinations', hint: 'The four art variants pulled from packs × the four finishes, on one player. Switch the tier frame above.', Tab: CombosTab },
-  { key: 'uniforms', label: 'Uniforms', hint: "Each club's home uniform, then its alternates (a card rolls one about 8% of the time), on the Team jersey art.", Tab: UniformsTab },
-];
-// The sprite tabs (Poses, Helmets, Faces) went with the Retro Bowl sprite card (owner: "Remove the sprite card from the game")
-
 const DEFAULT_PLAYER = 'Sherman Brandson';
 /** Programmatic focus without the keyboard focus ring (browsers that ignore focusVisible fall back to :focus-visible rules) */
 const QUIET_FOCUS = { preventScroll: true, focusVisible: false } as FocusOptions;
 
 /**
- * Art lab (read-only explorer): pick a league player, then browse his card as every variant × finish (with a tier
- * toggle) and every uniform. Click (or Enter on) any cell to see it large in
- * the preview pane with a zoom slider. Only the open tab renders, and cells mount as they scroll into view.
+ * Art lab (preview only): pick a league player, then watch the parts of a card opening. Pack opening plays a sample
+ * pack of any type through the real pack dialog in preview mode; Walkout plays his walkout at a chosen tier, finish
+ * and art; Card designs shows his card in the four arts at one finish and his club's uniforms. Nothing is written to
+ * the collection: samples come from rollPack (pure) or the Card designs sample pack. Only the open tab mounts (the
+ * registry is LAB_TABS in lab/LabTabs.tsx), and cards mount as they scroll into view.
  */
 const ArtLab = ({ open, onClose, cards, total }: ArtLabProps) => {
   const league = useMemo(() => cards.filter((c) => !c.player.isRealLegend).sort((a, b) => (b.ovr ?? 0) - (a.ovr ?? 0) || a.player.name.localeCompare(b.player.name)), [cards]);
@@ -42,8 +31,6 @@ const ArtLab = ({ open, onClose, cards, total }: ArtLabProps) => {
   const [tab, setTab] = useState(TABS[0].key);
   const [root, setRoot] = useState<HTMLDivElement | null>(null);
   const onPick = useCallback((c: CardInfo) => startTransition(() => setPickKey(c.key)), []);
-  // A new player or tab clears the preview; so does closing
-  useEffect(() => select(null), [pick, tab, open]);
   const active = TABS.find((t) => t.key === tab) ?? TABS[0];
   const { Tab } = active;
   return (
@@ -61,7 +48,7 @@ const ArtLab = ({ open, onClose, cards, total }: ArtLabProps) => {
             <DialogTitle className="font-display text-2xl uppercase italic">
               Art <span className="text-gold">lab</span>
             </DialogTitle>
-            <DialogDescription className="lab__desc">Every variant, finish and uniform. Preview only; nothing is added.</DialogDescription>
+            <DialogDescription className="lab__desc">Packs, walkouts and card art, played on samples. Preview only; nothing is added.</DialogDescription>
           </div>
           <PlayerPicker players={league} value={pick} onPick={onPick} />
         </div>
@@ -108,7 +95,6 @@ const ArtLab = ({ open, onClose, cards, total }: ArtLabProps) => {
               <LabRootContext.Provider value={root}>{root && <Tab key={`${tab}|${pick.key}`} pick={pick} league={league} total={total} />}</LabRootContext.Provider>
             )}
           </div>
-          <PreviewPane />
         </div>
       </DialogContent>
     </Dialog>

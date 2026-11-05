@@ -1,7 +1,8 @@
 /**
  * Pack odds simulation: opens N packs of every type (and one big Legends Exchange) against a synthetic pool and
  * prints the variant × finish × tier distribution, plus how many cards it takes to see the rarest art (Locker stall) Holo
- * Legendary. Touches no real data (localStorage is an in-memory stub).
+ * Legendary, and the autograph rate per pack (with the parallels they roll). Touches no real data (localStorage is an
+ * in-memory stub).
  *
  *   npm run -s sim:packs            # 10,000 packs per type
  *   npm run -s sim:packs -- 50000   # more
@@ -18,7 +19,9 @@ const store = new Map<string, string>();
 
 import type { Player } from '@/types/player';
 import {
+  AUTOGRAPH_ODDS,
   FINISHES,
+  autographHit,
   PACK_ORDER,
   STORAGE_KEY,
   TIERS,
@@ -86,6 +89,40 @@ PACK_ORDER.forEach((type, i) => {
     `exact: ${RAREST.short} Holo Legendary 1 in ${Math.round(1 / o.rarestLegendaryHolo).toLocaleString('en-US')} cards ` +
       `(1 in ${Math.round(1 / (o.rarestLegendaryHolo * size)).toLocaleString('en-US')} packs); variants ` +
       VARIANTS.map((v) => `${v.short} ${(100 * o.variants[v.key]).toFixed(2)}%`).join(', '),
+  );
+});
+
+// Autographs: per card AUTOGRAPH_ODDS (the card itself is still added); a hit rolls its parallel, pen, serial…
+import { PARALLELS, autographValue, freezeSnapshot, rollAutograph } from '@/config/autographs';
+const signer = freezeSnapshot({ name: 'Sim Signer', position: 'QB', team: 'Falcons', number: 12, rings: 3, mvp: 1, nickname: 'The Sim', careerLegacy: 9000, games: 200, hof: true, hofClass: 'Y80', eraYear: 80 });
+console.log(`\n=== Autographs: ${N.toLocaleString('en-US')} packs per type (Hall of Famer signer, so every parallel can roll) ===`);
+console.log('pack        per card         per pack     ' + '   packs per auto (odds)'.padEnd(32) + PARALLELS.map((p) => p.id.padStart(10)).join('') + '   avg ×');
+[...PACK_ORDER, 'exchange' as const].forEach((type, i) => {
+  const rng = rngOf(5000 + i);
+  let cards = 0;
+  let hits = 0;
+  let packsWith = 0;
+  const par: Record<string, number> = {};
+  let mult = 0;
+  for (let n = 0; n < N; n++) {
+    const size = type === 'exchange' ? 5 : rollPack(type, pool, rng).length;
+    let any = false;
+    for (let c = 0; c < size; c++) {
+      cards++;
+      if (!autographHit(type, rng)) continue;
+      hits++;
+      any = true;
+      const roll = rollAutograph(signer, Math.floor(rng() * 2 ** 32));
+      par[roll.parallel] = (par[roll.parallel] ?? 0) + 1;
+      mult += autographValue(roll).total;
+    }
+    if (any) packsWith++;
+  }
+  const exact = AUTOGRAPH_ODDS[type] ? `1 in ${Math.round(1 / AUTOGRAPH_ODDS[type])}` : 'never';
+  console.log(
+    `${type.padEnd(10)}  ${oneIn(hits, cards).padEnd(15)}  ${pct(packsWith, N).padEnd(11)}  ${(packsWith ? (N / packsWith).toFixed(0) : '-').padStart(9)} (${exact} per card)  ` +
+      PARALLELS.map((p) => pct(par[p.id] ?? 0, hits).padStart(10)).join('') +
+      `   ${hits ? (mult / hits).toFixed(2) : '-'}`,
   );
 });
 

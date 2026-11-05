@@ -124,6 +124,7 @@ A value at or above the threshold gets that tier; anything under Average is Belo
   - Great ≥ 7500
   - Inductee ≥ 7300 (`HOF_FLOOR`)
 - The card market's Hall of Fame price premium (`cardMarket.ts`) still starts at Career Legacy 7000, so prices did not jump when the bar rose.
+- Autograph cards (`src/config/autographs.ts`) freeze a prestige tier at the pull from the same lines: Legendary ≥ 10000, Elite ≥ 8500, Great ≥ 7500, Hall of Famer ≥ 7300 (members only), else Rising (60 games or fewer with an S or A skill grade). An autograph's price is the card's market value × its multiplier (parallel × pen and ink × inscription × serial × throwback, ×2.7 to ×91; `autographPrice` in `cardMarket.ts`).
 - The thresholds were set against raw values and kept after normalization. On the Y80 sheet (97 players), normalization takes the HOF from 31 inductees (QB 13, RB 3, WR 6, TE 4, OL 2, LB 1, DB 1, DL 1) to 23 (QB 7, RB 2, WR 4, TE 2, OL 2, LB 2, DB 2, DL 2). The reference is the mean benchmark, so the overall scale barely moves (median CL 5575 → 5670; p90 9195 → 8658).
 
 ### 3.3 Commentary (`CommentaryTab.tsx`)

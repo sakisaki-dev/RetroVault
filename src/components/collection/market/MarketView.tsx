@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Gem, Search, TrendingDown, TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { OwnedCard } from '@/utils/collection';
+import type { OwnedAuto, OwnedCard } from '@/utils/collection';
 import { marketIndex, marketMovers, marketNews, pctChange, priceSeries, type MarketHistory } from '@/utils/cardMarket';
 import { useMarket } from '@/utils/useMarket';
 import type { CardInfo } from '../useCardPool';
@@ -16,6 +16,8 @@ type Period = 'last' | 'all';
 interface MarketViewProps {
   byKey: Map<string, CardInfo>;
   owned: Record<string, OwnedCard>;
+  /** Owned autographs (counted in the portfolio) */
+  autos?: OwnedAuto[];
   onOpen: (info: CardInfo, list: CardInfo[]) => void;
 }
 
@@ -42,7 +44,7 @@ const allRows = (history: MarketHistory, period: Period, byKey: Map<string, Card
  * a value heatmap by position, and the owner's portfolio. Filters: since the last update or all time, position,
  * name search. Prices come from public/data/market.json; any player opens his card.
  */
-const MarketView = ({ byKey, owned, onOpen }: MarketViewProps) => {
+const MarketView = ({ byKey, owned, autos, onOpen }: MarketViewProps) => {
   const history = useMarket();
   const [period, setPeriod] = useState<Period>('last');
   const [pos, setPos] = useState<string>('all');
@@ -148,7 +150,7 @@ const MarketView = ({ byKey, owned, onOpen }: MarketViewProps) => {
           </p>
           {heat.length ? <Heatmap rows={heat} onOpen={(r) => open(r, heat)} /> : <p className="mk-list__empty">No cards match.</p>}
         </div>
-        <Portfolio history={history} owned={owned} byKey={byKey} period={period} sinceLabel={sinceLabel} onOpen={onOpen} />
+        <Portfolio history={history} owned={owned} autos={autos} byKey={byKey} period={period} sinceLabel={sinceLabel} onOpen={onOpen} />
       </div>
     </div>
   );

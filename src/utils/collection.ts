@@ -3,6 +3,7 @@ import { toast } from 'sonner';
 import type { Player } from '@/types/player';
 import { playerKey } from '@/config/ovr';
 import { FINISHES, LEGACY_VARIANT, TIERS, VARIANTS, finishRank, isVariant, tierRank, type Finish, type Tier, type Variant } from '@/config/cardTiers';
+import { parseRoll, parseSnapshot, rollAutograph, type AutographRoll, type AutographSnapshot } from '@/config/autographs';
 
 export * from '@/config/cardTiers';
 
@@ -22,6 +23,8 @@ export * from '@/config/cardTiers';
  * claim a chosen player's Base card (claimCard; a "Legend claim" for a Legendary), then craft it up a finish at a time
  * (craftUpgrade; costs scale by tier and art variant). The owner can pin which variant × finish a player's card
  * displays (setDisplay / displayOf; CollectionState.display), else it shows the rarest variant at its best finish.
+ * Autographs (CollectionState.autos) are rare hits inside packs: each pulled card may also carry one (AUTOGRAPH_ODDS),
+ * stored as its own item with its rolls and a frozen snapshot of the player (src/config/autographs.ts).
  *
  * State is per browser, in localStorage under STORAGE_KEY; every write fires CHANGE_EVENT so open
  * views update live. v1 (STORAGE_KEY_V1, one fixed rarity per player, cards granted directly by
@@ -196,6 +199,16 @@ export const SHELF_ORDER: PackType[] = [...PACK_ORDER, 'exchange'];
 export const COUNTED_PACKS: CountedPack[] = ['standard', 'premium', 'elite', 'holo'];
 
 /**
+ * Autograph odds, per card pulled: Standard 1 in 300, Premium 1 in 220, Elite 1 in 160, Holo Showcase and Perfect
+ * Season 1 in 120, Legends Exchange never. A hit doesn't replace the card: the base card is added as normal and the
+ * autograph is added to `autos` (its parallel, pen, serial and the rest are rolled by rollAutograph, config/autographs.ts).
+ * scripts/simulate_packs.ts prints the rates per pack.
+ */
+export const AUTOGRAPH_ODDS: Record<PackType, number> = { standard: 1 / 300, premium: 1 / 220, elite: 1 / 160, holo: 1 / 120, perfect: 1 / 120, exchange: 0 };
+/** Does this card of a `type` pack carry an autograph? */
+export const autographHit = (type: PackType, rng: () => number = Math.random) => AUTOGRAPH_ODDS[type] > 0 && rng() < AUTOGRAPH_ODDS[type];
+
+/**
  * Holo Showcase pack: this many guaranteed Holo slots, their tier rolled from HOLO_SLOT_TIER (the other slots roll
  * PACKS.holo like an Elite pack). It used to be five Holos with two Legendary Holos guaranteed, which made Holo
  * routine; one Holo keeps the pack special without handing out the rarest finish by the handful.
@@ -365,6 +378,18 @@ export interface ExchangePack {
   cards: ExchangeCard[];
 }
 
+/** One owned autograph: an individual card (two pulls of the same player are two autographs). */
+export interface OwnedAuto {
+  id: string;
+  /** "POS:Name" */
+  key: string;
+  pulledAt: number;
+  pack: PackType;
+  roll: AutographRoll;
+  /** The player as he was at the pull; the card renders from this forever */
+  snap: AutographSnapshot;
+}
+
 export interface EarnedPack {
   type: PackType;
   reason: string;
@@ -398,6 +423,8 @@ export interface CollectionState {
    * back to auto (displayOf).
    */
   display?: Record<string, DisplayChoice>;
+  /** Owned autographs, in pull order (older saves have none) */
+  autos: OwnedAuto[];
 }
 
 export interface DisplayChoice {
@@ -422,6 +449,7 @@ const fresh = (): CollectionState => ({
   shards: 0,
   opened: { standard: 0, premium: 0, elite: 0, perfect: 0, holo: 0, exchange: 0 },
   earned: [],
+  autos: [],
 });
 const EMPTY: CollectionState = fresh();
 let memory: CollectionState | null = null;
@@ -519,6 +547,14 @@ const parse = (raw: string | null): CollectionState | null => {
       if (KEY_RE.test(k) && c && isVariant(c.variant) && isFinish(c.finish)) display[k] = { variant: c.variant, finish: c.finish };
     });
     if (Object.keys(display).length) s.display = display;
+    s.autos = (Array.isArray(d.autos) ? d.autos : []).flatMap((a): OwnedAuto[] => {
+      const e = a as Partial<OwnedAuto> | null;
+      if (!e || typeof e !== 'object' || typeof e.id !== 'string' || typeof e.key !== 'string' || !KEY_RE.test(e.key)) return [];
+      const roll = parseRoll(e.roll);
+      const snap = parseSnapshot(e.snap);
+      if (!roll || !snap) return [];
+      return [{ id: e.id, key: e.key, pulledAt: num(e.pulledAt), pack: isPack(e.pack) ? e.pack : 'standard', roll, snap }];
+    });
     return s;
   } catch {
     return null;
@@ -858,13 +894,19 @@ export interface PackCard extends RolledCard {
   shards: number;
   /** Provenance (Perfect Season packs) */
   mark?: string;
+  /** This card also carried an autograph (already added to `autos`) */
+  auto?: OwnedAuto;
 }
+
+/** Freezes a pulled player's autograph snapshot (the Collection passes one built from the card pool and content). */
+export type AutographFreezer = (player: Player) => AutographSnapshot | null;
 
 /**
  * Opens one stored pack of `type`: rolls it, adds the cards, credits duplicate shards. Null when no
- * such pack is stored or the pool is empty.
+ * such pack is stored or the pool is empty. Each card may also carry an autograph (AUTOGRAPH_ODDS), frozen by `freeze`
+ * (no freezer, or a player it can't describe: no autograph).
  */
-export const openPack = (type: PackType, pool: TierPool): PackCard[] | null => {
+export const openPack = (type: PackType, pool: TierPool, freeze?: AutographFreezer): PackCard[] | null => {
   const s = readCollection();
   if (packCount(s, type) <= 0) return null;
   const rolled = type === 'exchange' ? exchangeCards(s.exchange[0], pool) : rollPack(type, pool);
@@ -873,7 +915,8 @@ export const openPack = (type: PackType, pool: TierPool): PackCard[] | null => {
   const cards = { ...s.cards };
   const now = Date.now();
   let shards = s.shards + PACK_SHARDS[type];
-  const out: PackCard[] = rolled.map((c) => {
+  const autos: OwnedAuto[] = [];
+  const out: PackCard[] = rolled.map((c, i) => {
     const k = cardKey(c.player);
     const prev = cards[k];
     const pv = prev?.variants[c.variant];
@@ -889,12 +932,18 @@ export const openPack = (type: PackType, pool: TierPool): PackCard[] | null => {
       last: now,
     };
     cards[k] = summarise({ ...prev?.variants, [c.variant]: entry }, marks);
-    return { ...c, isNew: !prev, newVariant: !!prev && !pv, upgrade, duplicate, shards: gain, mark: perfect?.label };
+    const snap = freeze && autographHit(type) ? freeze(c.player) : null;
+    const auto: OwnedAuto | undefined = snap
+      ? { id: `au-${now.toString(36)}-${i}-${Math.random().toString(36).slice(2, 8)}`, key: k, pulledAt: now, pack: type, roll: rollAutograph(snap, Math.floor(Math.random() * 2 ** 32)), snap }
+      : undefined;
+    if (auto) autos.push(auto);
+    return { ...c, isNew: !prev, newVariant: !!prev && !pv, upgrade, duplicate, shards: gain, mark: perfect?.label, ...(auto ? { auto } : {}) };
   });
   const next: CollectionState = {
     ...s,
     cards,
     shards,
+    ...(autos.length ? { autos: [...s.autos, ...autos] } : {}),
     opened: { ...s.opened, [type]: s.opened[type] + 1 },
     ...(type === 'perfect'
       ? { perfect: s.perfect.slice(1) }

@@ -384,6 +384,19 @@ current data is a no-op.
   watch, chases, milestones) or an item without a `team` (or with a club outside the 32), has an incomplete countdown, a champion from another season, or "you/your" outside a
   Hall of Fame speech hook.
 - **Weekly scores** (`scripts/schedule_content.py` → `public/data/league/schedule.json`, run by `npm run rebuild` before the content builder): from `schedules.json` (schedule.set) it builds, per season, the coach's game log (opponent records and O/D stars from the season summary, playoff rounds from the season review), a 32-club table with points for/against, differential, strength of schedule (average final win % of the clubs played) and a power score (100 × win % + 1.5 × differential per game + 40 × (SOS − 0.5), regular season only), the upset (the worst final record beating the best), blowout and shootout; across seasons the coach's head-to-head record with every club and game records (biggest margin, most combined points, most points, longest winning streak). Rivalries carry the head-to-head `games`, and a club met twice or more without a winning record becomes a rivalry; a `schedule.set` brings Wire headlines (power No. 1, upset, best defense, blowout); the widget gets `game` facts; stories may cite `schedule.json <path>` / `schedules.json <path>`. The Timeline shows the game log, power rankings, standings and records; the Games tab blends in each club's latest-season form. The audit errors when a schedule.set season is missing from schedule.json.
+- **Autographs** (`src/config/autographs.ts` rules, `src/components/collection/autograph/` canvas, `autos` in
+  `src/utils/collection.ts`): rare hits inside packs, per card pulled (`AUTOGRAPH_ODDS`): Standard 1 in 300, Premium 1
+  in 220, Elite 1 in 160, Holo Showcase and Perfect Season 1 in 120, Legends Exchange never; the base card is still
+  added. The hand is fixed by the name (36 Google signature fonts × 6 forms, slant, flourish…; fonts load lazily on the
+  first draw); each pull rolls the parallel (Sticker /99, On-card /50, Inscribed /25, Patch /10, Cut 1/1 for Hall of
+  Famers), pen and ink, an inscription, the serial and a 6% throwback design. Value = the card's market value ×
+  (parallel × ink × inscription × serial × throwback), ×2.7 to ×91 (`autographValue`, `autographPrice`), counted in the
+  portfolio. Timeless (owner: "these stats can change all the time therefore the card should be permanent and
+  timeless"): rings, Career Legacy tier, Hall of Fame class, nickname, number, banner team and colours and his era are
+  frozen into the stored snapshot at the pull and the card renders only from it; no stat line, record ribbon or stat
+  wall on its face. Designs by the era his career centres on (Leather Y1–25, Broadcast Y26–50, Prizm Y51–70, Night Game
+  Y71–82, Current Y83+; the midpoint of his `playerNotes` era). `AutographPreview` rolls samples without touching the
+  collection; `npm run -s sim:packs` prints the rates.
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
   `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. The value formula lives in
   `src/utils/cardMarket.ts`. Never hand-edit either file; rebuild and commit both.

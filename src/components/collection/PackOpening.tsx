@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent, type TouchEvent as ReactTouchEvent } from 'react';
 import { isLite } from '@/hooks/usePerfMode';
-import { Hammer, Repeat, Sparkles, Trophy } from 'lucide-react';
+import { Hammer, Repeat, Signature, Sparkles, Trophy } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -10,6 +10,9 @@ import CollectibleCard from './CollectibleCard';
 import Walkout from './Walkout';
 import { bestLast, needsWalkout, skipStep, walkoutBeats, type WkBeat } from './walkoutBeats';
 import type { CardInfo } from './useCardPool';
+import AutographCanvas from './autograph/AutographCanvas';
+import { autographValue, fmtMult, identity, parallelOf, serialStr } from '@/config/autographs';
+import { loadAutographFonts } from './autograph/fonts';
 
 const reducedMotion = () => {
   try {
@@ -136,7 +139,8 @@ const SPARKLES = Array.from({ length: 12 }, (_, i) => [10 + ((i * 41) % 80), 18 
  * in the best card's tier colour (copper, steel, amethyst, ember) with its finish hint (a silver glint, gold sparkle,
  * a rainbow burst for Holo), longer only for rare pulls. The cards deal out face down; each advance (tap, Space,
  * Enter or a swipe) flips the next one with a light pop in its finish and a bounce, the best card last and slowest.
- * Legendary and Holo cards (and about one decoy in five) get the walkout instead. A duplicate's shards fly to the
+ * Legendary and Holo cards, every card that carries an autograph (revealed last, with its own AUTOGRAPH beat), and about
+ * one decoy in five get the walkout instead. A duplicate's shards fly to the
  * counter; new cards get a NEW stamp, new art a NEW ART ribbon. The summary shows the pack in a grid with the best
  * pull highlighted. "Open all" (or Esc) skips to the summary at any time. Reduced motion / performance mode: straight
  * to the summary (the cards fade in), with a short walkout first for a Legendary or Holo. Animations are transform /
@@ -283,6 +287,8 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
       return null;
     }
     const ordered = bestLast(cards, (c) => describe(c).ovr);
+    // An autograph's signature font starts loading now, so it is ready by its reveal beat
+    cards.forEach((c) => c.auto && void loadAutographFonts(identity(c.auto.snap.name).hand.font, c.auto.snap.name));
     sfx('tear');
     setMark(label);
     setPack(ordered);
@@ -430,9 +436,11 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
   const fresh = pack.filter((c) => c.isNew).length;
   const holos = pack.filter((c) => c.finish === 'holo').length;
   const legends = pack.filter((c) => c.tier === 'legendary').length;
+  const autos = pack.filter((c) => c.auto);
   const summaryLine = () => {
     if (preview) return 'Preview only. Nothing was added to your binder.';
     const parts = [`${fresh} new`];
+    if (autos.length) parts.push(`${autos.length} autograph${autos.length === 1 ? '' : 's'}`);
     if (legends) parts.push(`${legends} Legendary`);
     if (holos) parts.push(`${holos} Holo`);
     return parts.join(' · ');
@@ -621,10 +629,16 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                         <Sparkles className="h-3.5 w-3.5" /> Holo
                       </span>
                     )}
+                    {shown && c.auto && (
+                      <span className="pk-auto-hit" aria-hidden="true">
+                        <Signature className="h-3.5 w-3.5" /> Autograph
+                      </span>
+                    )}
                     {shown && (
                       <p className="sr-only" role="status">
                         {info.player.name}, {variantLabel(c.variant)} variant, {tierLabel(c.tier)} tier, {finishLabel(c.finish)} finish, OVR {info.ovr ?? 'unknown'}
                         {preview ? '' : `, ${TAG_LABEL[tag]}${c.duplicate ? `, plus ${c.shards} shards` : ''}`}
+                        {c.auto ? `, with an autograph: ${parallelOf(c.auto.roll.parallel).label} ${serialStr(c.auto.roll)}` : ''}
                       </p>
                     )}
                   </li>
@@ -659,10 +673,34 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                     {!preview && (
                       <span className={cn('pk-sum__tag', `pk-sum__tag--${tag}`)}>{tag === 'dupe' ? `+${c.shards} shards` : TAG_LABEL[tag]}</span>
                     )}
+                    {c.auto && (
+                      <span className="pk-auto-hit">
+                        <Signature className="h-3.5 w-3.5" aria-hidden="true" /> Autograph
+                      </span>
+                    )}
                   </li>
                 );
               })}
             </ol>
+            {autos.length > 0 && (
+              <section className="pk-autos" aria-label="Autographs in this pack">
+                <p className="inline-flex items-center gap-2 font-display text-xl font-extrabold uppercase italic text-gold">
+                  <Signature className="h-5 w-5" aria-hidden="true" /> Autograph{autos.length === 1 ? '' : 's'} pulled
+                </p>
+                <ul>
+                  {autos.map((c) => (
+                    <li key={c.auto!.id}>
+                      <AutographCanvas snap={c.auto!.snap} roll={c.auto!.roll} cacheKey={c.auto!.id} />
+                      <span className="text-xs text-muted-foreground">
+                        <span className="font-semibold text-foreground">{parallelOf(c.auto!.roll.parallel).label}</span> · {serialStr(c.auto!.roll)} ·{' '}
+                        <span className="font-mono text-gold">{fmtMult(autographValue(c.auto!.roll).total)}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-xs text-muted-foreground">Added to Autographs in your Collection, on top of the card itself.</p>
+              </section>
+            )}
             {!preview && (
               <p className="pk-sum__shards">
                 <Hammer className="h-4 w-4 text-sky-300" aria-hidden="true" />

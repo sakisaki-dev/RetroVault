@@ -19,6 +19,9 @@ import { FACE_LEGEND } from '@/components/collection/cardStats';
 import VariantBadges from '@/components/collection/VariantBadges';
 import ShardWorkshop from '@/components/collection/ShardWorkshop';
 import DailyDraw from '@/components/collection/DailyDraw';
+import AutographsSection from '@/components/collection/autograph/AutographsSection';
+import { autographOddsLine } from '@/components/collection/autograph/AutographDetails';
+import { useAutographFreezer } from '@/components/collection/autograph/freeze';
 import { VARIANT_MULTIPLIER } from '@/utils/cardMarket';
 import { matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
 import { editionAccent } from '@/utils/edition';
@@ -180,6 +183,12 @@ const RulesPopover = () => (
         about 1 in {oneIn(Math.max(...PACK_ORDER.map((t) => ODDS[t].rarestLegendaryHolo)))} even from the best pack. A player can own every
         variant and they stack in the binder. Market value × variant: {VARIANTS.map((v) => `${v.short} ×${VARIANT_MULTIPLIER[v.key]}`).join(', ')}.
       </p>
+      <p className="mt-3 font-semibold">Autographs</p>
+      <p className="mt-0.5 text-muted-foreground">
+        Any card can come signed, on top of the card itself: {autographOddsLine()} cards (never from the Legends Exchange). The parallel (Sticker /99,
+        On-card /50, Inscribed /25, Patch /10, Cut 1/1 for Hall of Famers), pen and ink, inscription, serial and a rare throwback design set its value:
+        the card&apos;s price × 2.7 (a black ballpoint sticker) up to × 91 (a Hall of Famer&apos;s inscribed throwback 1/1 cut).
+      </p>
       <p className="mt-3 font-semibold">Earn packs</p>
       <ul className="mt-1 space-y-0.5 text-muted-foreground">
         {EARNING_RULES.map((r) => (
@@ -269,6 +278,8 @@ const CollectionTab = () => {
   const { cards, byKey, tierPool, loaded } = useCardPool();
   const { state, cards: owned, fresh } = useCollection();
   const { content } = useLeagueContent();
+  // Autographs freeze the pulled player's career details as of the pull
+  const { freeze } = useAutographFreezer(byKey);
 
   const [tier, setTier] = useState<Tier | 'all'>('all');
   const [finish, setFinish] = useState<Finish | 'all'>('all');
@@ -540,13 +551,15 @@ const CollectionTab = () => {
         </section>
       )}
 
+      {loaded && <AutographsSection autos={state.autos} />}
+
       {/* Market */}
       {loaded && cards.length > 0 && (
         <section aria-labelledby="col-market" className="scroll-mt-20">
           <h2 id="col-market" className="section-title">
             Market
           </h2>
-          <MarketView byKey={byKey} owned={owned} onOpen={(info, list) => setDetail({ info, list })} />
+          <MarketView byKey={byKey} owned={owned} autos={state.autos} onOpen={(info, list) => setDetail({ info, list })} />
         </section>
       )}
 
@@ -705,7 +718,7 @@ const CollectionTab = () => {
       <PackOpening
         type={opening}
         onClose={() => setOpening(null)}
-        onTear={(t) => openPack(t, tierPool)}
+        onTear={(t) => openPack(t, tierPool, freeze)}
         describe={describe}
         total={cards.length}
         remaining={opening ? packCount(state, opening) : 0}

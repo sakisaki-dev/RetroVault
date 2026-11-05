@@ -25,6 +25,9 @@ import { TIERS, tierFor, type Finish, type Tier, type Variant } from '@/config/c
  * Locker stall ×2.5 (the Retro Bowl sprite ×5 went with the sprite art). A card that rolled an alternate uniform (8% of cards for clubs that have
  * one, see art/sprite/uniforms.ts) is worth ALT_VALUE_BONUS (×1.1) more. A card's price is value × finish × variant
  * (× the alternate bonus; an era kit, 2% of cards, ERA_VALUE_BONUS ×1.15) (cardPrice).
+ * An AUTOGRAPH is priced on top of the card: value × its multiplier (parallel × pen and ink × inscription × serial ×
+ * throwback, config/autographs.ts autographValue), from ×2.7 for a black ballpoint sticker to ×91 for a
+ * nickname-inscribed throwback 1/1 cut (autographPrice).
  *
  * HISTORY: data/y80/market_history.json (built into public/data/market.json) is a list of snapshots of every
  * collectible league player's { ovr, skill, legacy, value }. `npm run rebuild` appends one whenever any player's
@@ -73,6 +76,9 @@ export const finishValue = (value: number, finish: Finish) => Math.round(value *
 /** Price of one card: base value × finish × art variant (× ALT_VALUE_BONUS when it rolled an alternate uniform). */
 export const cardPrice = (value: number, finish: Finish, variant: Variant, alt: boolean | 'alt' | 'era' | 'home' = false) =>
   Math.round(value * FINISH_MULTIPLIER[finish] * VARIANT_MULTIPLIER[variant] * (alt === 'era' ? ERA_VALUE_BONUS : alt && alt !== 'home' ? ALT_VALUE_BONUS : 1));
+
+/** Price of an autograph: the player's base card value × the autograph's multiplier (config/autographs.ts). */
+export const autographPrice = (value: number, mult: number) => Math.round(value * mult);
 
 // ---------- Snapshots ----------
 
@@ -215,14 +221,19 @@ export interface Holding {
   variant: Variant;
   /** Wears an alternate uniform (true / 'alt') or a famous era kit ('era'): uniforms.ts uniformKind */
   alt?: boolean | 'alt' | 'era' | 'home';
+  /** An autograph: priced as the base card × this multiplier instead (autographPrice) */
+  mult?: number;
 }
+
+/** A holding's price at one base value. */
+export const holdingPrice = (value: number, h: Holding) => (h.mult != null ? autographPrice(value, h.mult) : cardPrice(value, h.finish, h.variant, h.alt));
 
 /** Portfolio value per snapshot: each owned (player, variant) at its best finish (cards not yet listed count 0). */
 export const portfolioSeries = (history: MarketHistory, owned: Holding[]) =>
   history.map((s) => ({
     label: s.label,
     date: s.date,
-    value: owned.reduce((sum, h) => sum + (s.players[h.key] ? cardPrice(s.players[h.key].value, h.finish, h.variant, h.alt) : 0), 0),
+    value: owned.reduce((sum, h) => sum + (s.players[h.key] ? holdingPrice(s.players[h.key].value, h) : 0), 0),
   }));
 
 /** "+12.4%" / "−3.0%" / "0.0%" */

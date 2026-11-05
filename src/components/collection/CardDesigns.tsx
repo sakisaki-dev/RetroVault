@@ -69,8 +69,8 @@ const CardDesigns = ({
               {onArtLab && (
                 <>
                   {" "}
-                  To browse every variant × finish on any player, plus poses,
-                  helmets, uniforms and faces, open the{" "}
+                  To play sample pack openings and walkouts, see any player's
+                  card designs or roll him an autograph, open the{" "}
                   <button
                     type="button"
                     onClick={onArtLab}
