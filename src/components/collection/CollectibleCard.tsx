@@ -316,6 +316,11 @@ const CollectibleCard = ({
     ? `${player.name}, ${pinned ? 'your display card, ' : ''}${variant ? `${variantLabel(variant)} variant, ` : ''}${tierLabel(tier)} tier, ${finishLabel(finish)} finish, ${ovr != null ? `OVR ${ovr}, ` : ''}${posName}${team ? `, ${team.name}` : ''}${number != null ? `, number ${number}` : ''}${setLabel ? `, ${setLabel}` : ''}${mark ? `, ${mark}` : ''}${onOpen ? '. Open card' : ''}`
     : `Locked ${tierLabel(tier)} card, ${posName}${hint ? `. ${hint}` : ''}`;
 
+  // The Autograph variant is the whole card (owner: "i want that art to be the card … it deserves to be the full
+  // card"): the signed autograph fills the face edge to edge; no OVR, number, name bar, stats or tier pip on top.
+  // Only the rim, foil, holo, light and glare (and Legendary sparks) stay, so its finish and tier still read.
+  const fullAuto = owned && variant === 'auto' && art == null && !photo;
+
   const face = (
     <>
       {owned && !large && (
@@ -325,6 +330,12 @@ const CollectibleCard = ({
       )}
       <span className="fut__shape" aria-hidden="true">
       <span className="fut__face">
+        {fullAuto ? (
+          <span className="fut__art fut__art--auto">
+            <VariantArt variant="auto" player={player} number={number} finish={finish} autograph={autograph} />
+          </span>
+        ) : (
+        <>
         <span className="fut__pattern" />
         <span className={cn('fut__art', art == null && photo && 'fut__art--photo')}>
           {art != null ? (
@@ -371,6 +382,8 @@ const CollectibleCard = ({
             {variant && <span className="fut__vtag">· {variantShort(variant)}</span>}
           </span>
         )}
+        </>
+        )}
         {owned && finish !== 'base' && <span className="fut__foil" />}
         {owned && finish === 'holo' && <span className="fut__holo" />}
         {owned && <span className="fut__light" />}
@@ -399,7 +412,7 @@ const CollectibleCard = ({
 
   const extras = (
     <>
-      {owned && tier === 'legendary' && (
+      {owned && tier === 'legendary' && !fullAuto && (
         <span className="fut__ribbon" aria-hidden="true">
           {realLegend ? 'NFL Legend' : 'Legend'}
         </span>

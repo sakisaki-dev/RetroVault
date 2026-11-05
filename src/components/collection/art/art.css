@@ -35,8 +35,37 @@
   overflow: hidden;
 }
 
-/* Autograph variant: the signed autograph card itself, standing in the art window like a slabbed insert (full
-   height, no fade, no team glow behind it) */
+/* Autograph variant as the full card (CollectibleCard fullAuto): a rounded rectangle instead of the shield, because
+   the autograph has its own header and name bar edge to edge; the art fills the whole face under the finish layers */
+.fut--v-auto {
+  --fut-clip: inset(0 round 5.5%);
+}
+.fut__art.fut__art--auto {
+  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  display: block;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.fut__art--auto::before {
+  display: none;
+}
+.fut__art--auto > .ra--auto {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  box-shadow: none;
+}
+.fut__art--auto > .ra--auto > canvas {
+  object-fit: cover;
+  aspect-ratio: auto;
+  border-radius: 0;
+}
+
+/* Autograph variant inset in a standard frame (custom art previews): the signed card standing in the art window */
 .fut__art:has(> .ra--auto) {
   -webkit-mask-image: none;
   mask-image: none;
