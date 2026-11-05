@@ -113,16 +113,39 @@ const sigFont = (family: string) => `${family}, cursive`;
 
 // ---------- Ink ----------
 
-const inkFill = (ctx: Ctx, ink: string, x0: number, y0: number, x1: number, y1: number, team: string): Fill => {
+/** Relative luminance of a #rrggbb colour (WCAG). */
+const relLum = (hex: string) => {
+  const h = hex.replace('#', '');
+  if (h.length !== 6) return 0.2;
+  const v = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+};
+const contrast = (a: number, b: number) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+/** Darkens a #rrggbb colour until its luminance is at most `target`. */
+const darkenTo = (hex: string, target: number) => {
+  let rgb = [0, 2, 4].map((i) => parseInt(hex.replace('#', '').slice(i, i + 2), 16));
+  for (let k = 0; k < 24 && relLum(`#${rgb.map((v) => v.toString(16).padStart(2, '0')).join('')}`) > target; k++) rgb = rgb.map((v) => Math.round(v * 0.88));
+  return `#${rgb.map((v) => v.toString(16).padStart(2, '0')).join('')}`;
+};
+/** Light paper (a sticker, the cut) or light card art behind the signature */
+const LIGHT_BG = 0.55;
+
+const inkFill = (ctx: Ctx, ink: string, x0: number, y0: number, x1: number, y1: number, team: string, bg = 0.1): Fill => {
   if (ink === 'gold' || ink === 'silver') {
     const g = ctx.createLinearGradient(x0, y0, x1, y1);
-    const stops = ink === 'gold' ? ['#fff1b8', '#ffc83d', '#b8740f', '#ffe08a', '#9a5b07'] : ['#ffffff', '#c9ced8', '#7f8796', '#eef1f6', '#6c7380'];
+    // On white paper a paint pen reads as the deeper, burnished metal; on dark card art, the bright one
+    const stops = bg > LIGHT_BG
+      ? ink === 'gold' ? ['#c9902a', '#9a6208', '#6e4304', '#b97f17', '#5c3802'] : ['#7d8596', '#565d6c', '#3a404d', '#6d7585', '#30353f']
+      : ink === 'gold' ? ['#fff1b8', '#ffc83d', '#b8740f', '#ffe08a', '#9a5b07'] : ['#ffffff', '#c9ced8', '#7f8796', '#eef1f6', '#6c7380'];
     stops.forEach((c, i) => g.addColorStop(i / (stops.length - 1), c));
     return g;
   }
-  if (ink === 'team') return team;
+  if (ink === 'team') return bg > LIGHT_BG ? darkenTo(team, 0.12) : team;
   return ink;
 };
+/** Approximate luminance of an ink as it will be drawn (metallic inks by their mid tone). */
+const inkLum = (ink: string, team: string, bg: number) =>
+  ink === 'gold' ? (bg > LIGHT_BG ? 0.16 : 0.5) : ink === 'silver' ? (bg > LIGHT_BG ? 0.11 : 0.6) : relLum(ink === 'team' ? (bg > LIGHT_BG ? darkenTo(team, 0.12) : team) : ink);
 
 // ---------- Signature ----------
 
@@ -133,6 +156,8 @@ export interface SigPull {
   team: string;
   seed: number;
   inscription?: string;
+  /** Relative luminance (0–1) of what the signature is written on: a sticker, the cut paper, or the card art under it */
+  bg?: number;
 }
 
 /**
@@ -157,7 +182,8 @@ export function drawSignature(out: Ctx, name: string, cx: number, cy: number, w:
   let px = Math.max(30, w / Math.max(5, name.length * 0.42)) * hand.size * sizeJ;
   const L = canvas(out.canvas.width, out.canvas.height);
   const c = L.getContext('2d')!;
-  const color = inkFill(c, pull.ink, cx - w / 2, cy - px, cx + w / 2, cy + px, pull.team);
+  const bg = pull.bg ?? 0.1;
+  const color = inkFill(c, pull.ink, cx - w / 2, cy - px, cx + w / 2, cy + px, pull.team, bg);
   c.setTransform(K, 0, 0, K, cx * K, cy * K);
   c.transform(1, 0, -Math.tan(slant) * 0.55, 1, 0, 0);
   c.fillStyle = color;
@@ -365,6 +391,19 @@ export function drawSignature(out: Ctx, name: string, cx: number, cy: number, w:
     c.restore();
   }
 
+  // Contrast: when the ink and what it's written on are too close, a soft halo in the opposite tone goes under the
+  // strokes first (a dark halo for a light ink on light art, a light one for a dark ink on dark art)
+  const ratio = contrast(inkLum(pull.ink, pull.team, bg), bg);
+  if (ratio < 3.2) {
+    const inkIsLight = inkLum(pull.ink, pull.team, bg) > bg;
+    out.save();
+    out.setTransform(1, 0, 0, 1, 0, 0);
+    out.shadowColor = inkIsLight ? 'rgba(0,0,0,0.85)' : 'rgba(255,255,255,0.9)';
+    out.shadowBlur = (ratio < 1.8 ? 7 : 5) * K;
+    out.globalAlpha = 0.9;
+    for (let i = 0; i < (ratio < 1.8 ? 3 : 2); i++) out.drawImage(L, 0, 0);
+    out.restore();
+  }
   // Composite with the pen's character
   out.save();
   out.setTransform(1, 0, 0, 1, 0, 0);
@@ -390,6 +429,24 @@ export function drawSignature(out: Ctx, name: string, cx: number, cy: number, w:
     out.restore();
   }
   return { px };
+}
+
+/** Average relative luminance of a region of the card drawn so far (logical units), sampled on a coarse grid. */
+function artLuminance(ctx: Ctx, x: number, y: number, w: number, h: number) {
+  try {
+    const px = Math.max(1, Math.round(w * K)), py = Math.max(1, Math.round(h * K));
+    const data = ctx.getImageData(Math.round(x * K), Math.round(y * K), px, py).data;
+    let sum = 0, n = 0;
+    const step = Math.max(4, Math.floor((px * py) / 1500)) * 4;
+    for (let i = 0; i < data.length; i += step) {
+      const v = [data[i], data[i + 1], data[i + 2]].map((c) => c / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+      sum += 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+      n++;
+    }
+    return n ? sum / n : 0.1;
+  } catch {
+    return 0.1;
+  }
 }
 
 // ---------- Card backgrounds, one per era ----------
@@ -1073,7 +1130,7 @@ export function renderLayers(p: AutographSnapshot, roll: AutographRoll, pw: numb
     ctx.stroke();
     ctx.restore();
     clip = { x: cx - lw / 2, y: y - lh / 2, w: lw, h: lh };
-    drawSignature(sctx, p.name, cx, y + 6, lw * 0.86, pull);
+    drawSignature(sctx, p.name, cx, y + 6, lw * 0.86, { ...pull, bg: 0.94 });
   } else if (roll.parallel === 'cut') {
     const sw = W * 0.78;
     const sh = 170;
@@ -1106,7 +1163,7 @@ export function renderLayers(p: AutographSnapshot, roll: AutographRoll, pw: numb
     for (let i = 0; i < 9; i++) ctx.fillRect(sx, sy + 26 + i * 15, sw, 1);
     ctx.restore();
     clip = { x: sx, y: sy, w: sw, h: sh };
-    drawSignature(sctx, p.name, cx, cy + 10, sw * 0.88, { ...pull, pen: PENS.nib, ink: '#0e1430' });
+    drawSignature(sctx, p.name, cx, cy + 10, sw * 0.88, { ...pull, pen: PENS.nib, ink: '#0e1430', bg: 0.82 });
     ctx.save();
     ctx.fillStyle = foil;
     ctx.font = `800 20px ${DISPLAY}`;
@@ -1115,7 +1172,8 @@ export function renderLayers(p: AutographSnapshot, roll: AutographRoll, pw: numb
     ctx.restore();
   } else {
     clip = { x: 0, y: H * HEADER_BOTTOM + 6, w: W, h: H * (NAME_TOP - HEADER_BOTTOM) - 12 };
-    drawSignature(sctx, p.name, cx, cy, W * 0.86, pull);
+    // Signed straight on the card: measure the art under the signature so the ink and halo can answer it
+    drawSignature(sctx, p.name, cx, cy, W * 0.86, { ...pull, bg: artLuminance(ctx, cx - W * 0.4, cy - 70, W * 0.8, 140) });
   }
   ctx.restore();
   // rim along the shield (the collectible frame adds its own tier / finish rim outside this)
