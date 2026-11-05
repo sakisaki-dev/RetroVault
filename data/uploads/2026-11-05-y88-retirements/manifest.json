@@ -1,0 +1,540 @@
+{
+ "id": "2026-11-05-y88-retirements",
+ "created": "2026-11-05",
+ "title": "52 players retired or out of the league after Y87; Xavier Mosley Y88 card (owner-typed); Macleone, Ward Jr and Perkins speeches to the past tense",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "Macleone's, Ward Jr's and Perkins's speeches said they were still playing; all three retired",
+   "trigger": "Owner statement in notes.md"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Alexx Sanchez/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jason Macleone/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Forrest Everett/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/JR Bashaam/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Micky Celek/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Oliver Rankin/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Pharaoh Mintze/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Rod Kuechly/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Tyron Colvin/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Craig Whitney/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Damien Stout/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Deven Fox/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Juawan Lance/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Shawn Milne/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Sony Driskel/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Tyson Nassib/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Zay Louis/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/D.C Paradis/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Le'Veon Richard/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Cooper Dean/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Daviyon Paye/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dontae Trawick/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dorance Hinton/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jawill Perkins/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Laurent Akins/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ray Holland/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Shawn Skule/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Teez Givens/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Brian Baker/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Deshaun Muse/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Joshuah Egbule/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Romeo Rodgers/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Tyrone Baugh/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Abraham Ward Jr/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dan Mosley/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Deante Elder/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dee Irvin/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Forrest Isom/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Germain Coulter/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Karl Deane/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kolton Moreau/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Rashaad Bolton/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Rob Lowe/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Taron Hayes/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Akeem Trask/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Connor Goff/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Darrel Longa/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Deone Orzech/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Esezi Parsons/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jake Gano/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Lloyd Queen/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Willie Doles/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"everyone is retired or out of the league\" (no Y88 card; asked about every active player without one)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Xavier Mosley",
+   "value": {
+    "g": 37,
+    "ratt": 330,
+    "ryds": 2889,
+    "rtd": 60,
+    "fum": 23,
+    "rec": 0,
+    "recyds": 0,
+    "rectd": 0
+   },
+   "source": "owner",
+   "reason": "Owner-typed Y88 career line: games 37, att 330, yds 2889, avg 8.8 (2889/330 = 8.75), lng 54, tds 60, fum 23, all rushing; receiving 0s",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Jason Macleone",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y80",
+    "text": "One look at Scary Jerry and you understood the name.\n\nJason Macleone was imposing before he ever threw a pass, and then he threw 9,970 of them. He completed 67 percent for 73,799 yards and 771 touchdowns, with just 128 interceptions across 331 games. He took 86 sacks and never lost a fumble. When he did tuck it and run, he made it count: 71 rushing touchdowns.\n\nHis defining day came in Y78, when he quarterbacked the Vikings past the Broncos 33-27 in Super Bowl CXXXVII. Two rings, three MVPs and a Super Bowl MVP in all, and he finished his career in Seattle, where every start added to the case.\n\nThe league's line of great quarterbacks runs from Lamar through Gooden, Waller, Baylon, Brandson and the Wilson brothers. It runs through him. Scary Jerry, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Speech refresh: he retired after Y87; moved to the past tense",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Abraham Ward Jr",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y82",
+    "text": "Eleven tackles a game, every game, for 236 games.\n\nAbraham Ward Jr played in the Green Bay secondary, and his stat line reads like a linebacker's. He made 2,653 tackles and picked off 33 passes along the way. He was never credited with a sack or a forced fumble. He did not rush the passer and he did not strip the ball. He found the ball carrier and put him on the ground, snap after snap, season after season.\n\nThe Packers made him a champion in Y79, when they beat the Chiefs 44-6 in Super Bowl CXXXVIII, and the league named him Defensive Player of the Year. One ring and one award can look like a small haul for a career this long. The tackles tell the rest of the story.\n\nHe crossed into the Hall in Y82 and kept adding to the total until he retired. Abraham Ward Jr, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Speech refresh: he retired after Y87; moved to the past tense",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Jawill Perkins",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7500: Inaugural class",
+    "text": "Few linemen have ever been busier on a snap-for-snap basis than Jawill Perkins.\n\nHe played 139 games and was credited with 304 blocks, a shade under two and a quarter every time he lined up. Among the league's linemen only Calais Ham blocked at a higher rate. He never piled up the games of the iron men up front. He made the games he played count.\n\nHe has four rings to show for it, without a single MVP or Player of the Year award, because that is how the position works. The credit goes to the quarterback who stays clean and the back who finds the lane. Perkins is the reason the lane was there. Seattle wears him on its banner.\n\nFour rings, 304 blocks, and one of the best rates the position has seen. Jawill Perkins, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Speech refresh: he retired after Y87; moved to the past tense",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}

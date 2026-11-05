@@ -770,6 +770,16 @@
     "stats": 6
    },
    "changed": 6
+  },
+  {
+   "id": "2026-11-05-y88-retirements",
+   "dir": "data/uploads/2026-11-05-y88-retirements",
+   "applied_at": "2026-11-05T11:08:54-08:00",
+   "mutations": {
+    "stats": 53,
+    "speech": 3
+   },
+   "changed": 60
   }
  ]
 }

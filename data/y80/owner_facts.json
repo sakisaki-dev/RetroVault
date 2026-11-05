@@ -2,14 +2,21 @@
  "_about": "Owner-confirmed facts (data entry, never analysis). Written only by scripts/apply_upload.py from an upload manifest (data/uploads/*/manifest.json). players.<name>: team = club of record when the sheet says CUR/UNK or is out of date; team_history = earlier clubs; retired_with = the club on the game's Player HOF screen; status = Active/Retired when the sheet has no row; tag = the owner's own one-liner; card = player-card fields (team, former_team, legacy_team, note); career = what the owner said about the career path (order of clubs, on = [team, season] he was there, longest = the club he spent most seasons with, stints = exact [team, from, to], next_team = traded after the last season, says = the owner's words); real_nfl = real NFL games / rings / club before the save (imported players). active_rosters = the game's current team screens. season_rosters.<year> = who played for each club that season (games gained between screenshot sets).",
  "current_club": "Eagles",
  "players": {
+  "Abraham Ward Jr": {
+   "status": "Retired"
+  },
   "Akeem Trask": {
-   "team": "Packers"
+   "team": "Packers",
+   "status": "Retired"
   },
   "Akiem Bouye": {
    "retired_with": "Chargers"
   },
   "Akiem Brock": {
    "team": "Eagles"
+  },
+  "Alexx Sanchez": {
+   "status": "Retired"
   },
   "Alohi Godwin": {
    "retired_with": "Seahawks"
@@ -120,6 +127,9 @@
   "Brennan Higgins": {
    "retired_with": "Commanders"
   },
+  "Brian Baker": {
+   "status": "Retired"
+  },
   "Bryant Zappe": {
    "team": "Eagles"
   },
@@ -180,13 +190,27 @@
   "Chazz McCray": {
    "team": "Buccaneers"
   },
+  "Connor Goff": {
+   "status": "Retired"
+  },
+  "Cooper Dean": {
+   "status": "Retired"
+  },
   "Corey Ivey": {
    "status": "Retired"
   },
+  "Craig Whitney": {
+   "status": "Retired"
+  },
   "D.C Paradis": {
-   "team": "Broncos"
+   "team": "Broncos",
+   "status": "Retired"
+  },
+  "Damien Stout": {
+   "status": "Retired"
   },
   "Dan Mosley": {
+   "status": "Retired",
    "career": {
     "order": [
      "Lions"
@@ -215,11 +239,21 @@
   "Danny Diggs": {
    "team": "Jaguars"
   },
+  "Darrel Longa": {
+   "status": "Retired"
+  },
+  "Daviyon Paye": {
+   "status": "Retired"
+  },
   "Deante Elder": {
+   "status": "Retired",
    "signature_team": "Seahawks"
   },
   "Dedrick Gould": {
    "retired_with": "Ravens"
+  },
+  "Dee Irvin": {
+   "status": "Retired"
   },
   "Dennis Baylon": {
    "retired_with": "Chargers"
@@ -227,11 +261,26 @@
   "Denzel Hayes": {
    "retired_with": "Bears"
   },
+  "Deone Orzech": {
+   "status": "Retired"
+  },
   "Deonte Sutton": {
+   "status": "Retired"
+  },
+  "Deshaun Muse": {
    "status": "Retired"
   },
   "Deshone Bello": {
    "team": "Falcons"
+  },
+  "Deven Fox": {
+   "status": "Retired"
+  },
+  "Dontae Trawick": {
+   "status": "Retired"
+  },
+  "Dorance Hinton": {
+   "status": "Retired"
   },
   "Drake Maye": {
    "real_nfl": {
@@ -284,8 +333,18 @@
     "says": "The Falcons' tight end in Y83."
    }
   },
+  "Esezi Parsons": {
+   "status": "Retired"
+  },
   "Forrest Everett": {
+   "status": "Retired",
    "signature_team": "Broncos"
+  },
+  "Forrest Isom": {
+   "status": "Retired"
+  },
+  "Germain Coulter": {
+   "status": "Retired"
   },
   "Gerrit Ogbah": {
    "team": "Eagles"
@@ -328,6 +387,9 @@
   "Isaiah Karras": {
    "team": "Patriots"
   },
+  "JR Bashaam": {
+   "status": "Retired"
+  },
   "Jackson Wardell Kline": {
    "retired_with": "Dolphins",
    "signature_team": "Giants"
@@ -339,6 +401,9 @@
     "rings": 0,
     "club": "Lions"
    }
+  },
+  "Jake Gano": {
+   "status": "Retired"
   },
   "Jakeem Friend": {
    "team_history": [
@@ -390,6 +455,7 @@
   "Jason Macleone": {
    "team": "Seahawks",
    "retired_with": "Seahawks",
+   "status": "Retired",
    "tag": "QB of the Vikings' Y78 title (CXXXVII); now with the Seahawks",
    "card": {
     "former_team": "Vikings",
@@ -411,6 +477,7 @@
    "signature_team": "Seahawks"
   },
   "Jawill Perkins": {
+   "status": "Retired",
    "signature_team": "Seahawks"
   },
   "Jayden Daniels": {
@@ -437,6 +504,12 @@
   },
   "Jimmy Tillery": {
    "team": "Jets"
+  },
+  "Joshuah Egbule": {
+   "status": "Retired"
+  },
+  "Juawan Lance": {
+   "status": "Retired"
   },
   "Juwann Gilman": {
    "team": "Cardinals",
@@ -468,6 +541,9 @@
     "says": "Went with the coach from the Jets to the Falcons after Y82, then traded on to the Bears before playing a game for the Falcons."
    }
   },
+  "Karl Deane": {
+   "status": "Retired"
+  },
   "Kaulani Rahman": {
    "team": "Eagles"
   },
@@ -479,6 +555,9 @@
   },
   "Kirk Lenoir": {
    "team": "Jaguars",
+   "status": "Retired"
+  },
+  "Kolton Moreau": {
    "status": "Retired"
   },
   "Kyric McQuay": {
@@ -500,6 +579,12 @@
     "club": "Ravens"
    },
    "signature_team": "Ravens"
+  },
+  "Laurent Akins": {
+   "status": "Retired"
+  },
+  "Le'Veon Richard": {
+   "status": "Retired"
   },
   "Levante Hopkins": {
    "team": "Titans",
@@ -529,6 +614,9 @@
   },
   "Linval Laulile": {
    "team": "Steelers"
+  },
+  "Lloyd Queen": {
+   "status": "Retired"
   },
   "Lukas Russell": {
    "retired_with": "Seahawks",
@@ -610,6 +698,9 @@
     "says": "Ravens first, then the Giants; retired injured as a Titan."
    }
   },
+  "Micky Celek": {
+   "status": "Retired"
+  },
   "Nick Bolton": {
    "retired_with": "Vikings",
    "real_nfl": {
@@ -636,6 +727,9 @@
     "says": "Traded from the Jets to the Seahawks for Alvin Tufele after Y80."
    }
   },
+  "Oliver Rankin": {
+   "status": "Retired"
+  },
   "Orlando Larienne": {
    "team": "Falcons"
   },
@@ -659,6 +753,9 @@
     "says": "On the Falcons' line in Y83, then traded to the Seahawks."
    }
   },
+  "Pharaoh Mintze": {
+   "status": "Retired"
+  },
   "Pharoah Hunter": {
    "retired_with": "Seahawks"
   },
@@ -667,6 +764,12 @@
   },
   "Preston Gore": {
    "team": "Texans"
+  },
+  "Rashaad Bolton": {
+   "status": "Retired"
+  },
+  "Ray Holland": {
+   "status": "Retired"
   },
   "Ray Waller": {
    "retired_with": "Buccaneers",
@@ -677,11 +780,20 @@
     "says": "Ray Waller never played for the Colts."
    }
   },
+  "Rob Lowe": {
+   "status": "Retired"
+  },
   "Robert Boone": {
    "retired_with": "Vikings"
   },
+  "Rod Kuechly": {
+   "status": "Retired"
+  },
   "Rodger Samuel": {
    "team": "Packers"
+  },
+  "Romeo Rodgers": {
+   "status": "Retired"
   },
   "Rondale Ikarras": {
    "retired_with": "Jets",
@@ -746,6 +858,7 @@
   },
   "Shawn Milne": {
    "team": "Giants",
+   "status": "Retired",
    "career": {
     "order": [
      "Buccaneers",
@@ -764,6 +877,9 @@
     ],
     "says": "Came to the Falcons from the Buccaneers in the trade that sent Shareef London to Tampa Bay before Y84, won the Y84 title there, then was traded to the Giants at the start of Y85."
    }
+  },
+  "Shawn Skule": {
+   "status": "Retired"
   },
   "Sherman Brandson": {
    "team_history": [
@@ -792,11 +908,15 @@
   "Siran Spector": {
    "team": "Texans"
   },
+  "Sony Driskel": {
+   "status": "Retired"
+  },
   "Spencer Daniels": {
    "team": "Jaguars",
    "status": "Retired"
   },
   "Taron Hayes": {
+   "status": "Retired",
    "career": {
     "never": [
      "Jets",
@@ -804,6 +924,9 @@
     ],
     "says": "Taron Hayes never played for the Jets or the Titans."
    }
+  },
+  "Teez Givens": {
+   "status": "Retired"
   },
   "Terron Stidham": {
    "team": "Ravens"
@@ -876,7 +999,14 @@
   "Tyrion Kline": {
    "signature_team": "Chargers"
   },
+  "Tyron Colvin": {
+   "status": "Retired"
+  },
+  "Tyrone Baugh": {
+   "status": "Retired"
+  },
   "Tyson Nassib": {
+   "status": "Retired",
    "signature_team": "Dolphins"
   },
   "Vic Cannon": {
@@ -905,8 +1035,14 @@
   "Wayne Wilson": {
    "retired_with": "Bills"
   },
+  "Willie Doles": {
+   "status": "Retired"
+  },
   "Xavier Mosley": {
    "team": "Raiders"
+  },
+  "Zay Louis": {
+   "status": "Retired"
   }
  },
  "active_rosters": {

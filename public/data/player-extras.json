@@ -454,14 +454,6 @@
    "New York Jets",
    "Philadelphia Eagles"
   ],
-  "Tyron Colvin": [
-   "New York Jets",
-   "Tennessee Titans"
-  ],
-  "Tyson Nassib": [
-   "Miami Dolphins",
-   "New York Jets"
-  ],
   "Isaiah Karras": [
    "New England Patriots",
    "Seattle Seahawks"
@@ -2810,8 +2802,8 @@
    "stints": [
     {
      "team": "Seahawks",
-     "from": 80,
-     "to": 88,
+     "from": 75,
+     "to": 82,
      "rings": []
     }
    ],
@@ -2924,13 +2916,13 @@
    "stints": [
     {
      "team": "Cowboys",
-     "from": 75,
-     "to": 88,
+     "from": 69,
+     "to": 82,
      "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "No rings. On the Y80 Cowboys roster."
+   "confidence": "likely",
+   "evidence": "No rings. On the Y80 Cowboys roster. Exact seasons are approximate."
   },
   "Jarred Beasley": {
    "stints": [
@@ -2948,8 +2940,8 @@
    "stints": [
     {
      "team": "Titans",
-     "from": 70,
-     "to": 88,
+     "from": 69,
+     "to": 82,
      "rings": [
       70,
       71,
@@ -3168,13 +3160,13 @@
    "stints": [
     {
      "team": "Lions",
-     "from": 74,
-     "to": 88,
+     "from": 69,
+     "to": 82,
      "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "No rings. Owner: “Dan Mosley was only a Lion.”"
+   "confidence": "likely",
+   "evidence": "No rings. Owner: “Dan Mosley was only a Lion.” Exact seasons are approximate."
   },
   "Blair Iupati": {
    "stints": [
@@ -3219,8 +3211,8 @@
    "stints": [
     {
      "team": "Seahawks",
-     "from": 79,
-     "to": 88,
+     "from": 74,
+     "to": 82,
      "rings": []
     }
    ],
@@ -3231,13 +3223,13 @@
    "stints": [
     {
      "team": "Chiefs",
-     "from": 77,
-     "to": 88,
+     "from": 69,
+     "to": 81,
      "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "No rings. Owner: “Taron Hayes never played for the Jets or the Titans.”"
+   "confidence": "likely",
+   "evidence": "No rings. Owner: “Taron Hayes never played for the Jets or the Titans.” Exact seasons are approximate."
   },
   "Darrel Longa": {
    "stints": [
@@ -3310,36 +3302,16 @@
   "Tyron Colvin": {
    "stints": [
     {
-     "team": "Jets",
-     "from": 80,
-     "to": 80,
-     "rings": [
-      80
-     ]
-    },
-    {
      "team": "Titans",
-     "from": 81,
-     "to": 88,
-     "rings": []
+     "from": 73,
+     "to": 81,
+     "rings": [
+      74
+     ]
     }
    ],
-   "confidence": "ambiguous",
-   "evidence": "1 ring = Jets Y80. His known clubs (Titans) can't account for every ring, so the best fit adds a stop: Jets Y80, Titans Y81-88.",
-   "alternatives": [
-    [
-     {
-      "team": "Falcons",
-      "from": 80,
-      "to": 83
-     },
-     {
-      "team": "Titans",
-      "from": 84,
-      "to": 88
-     }
-    ]
-   ]
+   "confidence": "strong",
+   "evidence": "1 ring = Titans Y74. The only window that fits."
   },
   "Rysen Nauta": {
    "stints": [
@@ -3409,15 +3381,15 @@
    "stints": [
     {
      "team": "Packers",
-     "from": 75,
-     "to": 88,
+     "from": 69,
+     "to": 81,
      "rings": [
       79
      ]
     }
    ],
-   "confidence": "strong",
-   "evidence": "1 ring = Packers Y79. The only window that fits."
+   "confidence": "likely",
+   "evidence": "1 ring = Packers Y79. Exact seasons are approximate."
   },
   "Pyke T. Lowe": {
    "stints": [
@@ -3438,7 +3410,7 @@
     {
      "team": "Vikings",
      "from": 69,
-     "to": 88,
+     "to": 82,
      "rings": [
       69,
       78
@@ -3451,36 +3423,16 @@
   "Tyson Nassib": {
    "stints": [
     {
-     "team": "Jets",
-     "from": 80,
-     "to": 80,
-     "rings": [
-      80
-     ]
-    },
-    {
      "team": "Dolphins",
-     "from": 81,
-     "to": 88,
-     "rings": []
+     "from": 59,
+     "to": 66,
+     "rings": [
+      59
+     ]
     }
    ],
-   "confidence": "ambiguous",
-   "evidence": "1 ring = Jets Y80. His known clubs (Dolphins) can't account for every ring, so the best fit adds a stop: Jets Y80, Dolphins Y81-88.",
-   "alternatives": [
-    [
-     {
-      "team": "Falcons",
-      "from": 80,
-      "to": 83
-     },
-     {
-      "team": "Dolphins",
-      "from": 84,
-      "to": 88
-     }
-    ]
-   ]
+   "confidence": "likely",
+   "evidence": "1 ring = Dolphins Y59. Exact seasons are approximate."
   },
   "Isaiah Karras": {
    "stints": [
@@ -3504,13 +3456,13 @@
    "stints": [
     {
      "team": "Lions",
-     "from": 79,
-     "to": 88,
+     "from": 70,
+     "to": 80,
      "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "No rings."
+   "confidence": "likely",
+   "evidence": "No rings. Exact seasons are approximate."
   },
   "Siran Spector": {
    "stints": [
@@ -3755,15 +3707,15 @@
    "stints": [
     {
      "team": "Broncos",
-     "from": 65,
-     "to": 88,
+     "from": 48,
+     "to": 65,
      "rings": [
       65
      ]
     }
    ],
-   "confidence": "strong",
-   "evidence": "1 ring = Broncos Y65. The only window that fits."
+   "confidence": "likely",
+   "evidence": "1 ring = Broncos Y65. Exact seasons are approximate."
   },
   "Brandon Jaclyde": {
    "stints": [
@@ -3944,7 +3896,7 @@
    "stints": [
     {
      "team": "Buccaneers",
-     "from": 83,
+     "from": 82,
      "to": 83,
      "rings": []
     },
@@ -3959,7 +3911,7 @@
     {
      "team": "Giants",
      "from": 85,
-     "to": 88,
+     "to": 87,
      "rings": []
     }
    ],
@@ -4210,7 +4162,7 @@
    "stints": [
     {
      "team": "Raiders",
-     "from": 88,
+     "from": 87,
      "to": 88,
      "rings": []
     }
@@ -4316,15 +4268,15 @@
    "stints": [
     {
      "team": "Packers",
-     "from": 74,
-     "to": 88,
+     "from": 69,
+     "to": 84,
      "rings": [
       79
      ]
     }
    ],
-   "confidence": "strong",
-   "evidence": "1 ring = Packers Y79. The only window that fits."
+   "confidence": "likely",
+   "evidence": "1 ring = Packers Y79. Exact seasons are approximate."
   },
   "Tim Sweeney": {
    "stints": [
@@ -4603,7 +4555,7 @@
   "Davon Normus": "Denver Broncos",
   "Deante Elder": "Seattle Seahawks",
   "Dedrick Gould": "Tampa Bay Buccaneers",
-  "Dee Irvin": "Cincinnati Bengals",
+  "Dee Irvin": "Baltimore Ravens",
   "Dennis Baylon": "Buffalo Bills",
   "Denzel Hayes": "Baltimore Ravens",
   "Deone Orzech": "Dallas Cowboys",
@@ -4718,7 +4670,7 @@
   "Sean Irving": "Las Vegas Raiders",
   "Shaikal Beebee": "Baltimore Ravens",
   "Shareef London": "Tampa Bay Buccaneers",
-  "Shawn Milne": "New York Giants",
+  "Shawn Milne": "Atlanta Falcons",
   "Shawn Skule": "Detroit Lions",
   "Shemar Wood": "Tampa Bay Buccaneers",
   "Sherman Brandson": "New York Giants",
