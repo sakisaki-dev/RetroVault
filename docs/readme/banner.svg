@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="380" viewBox="0 0 1280 380" role="img" aria-labelledby="t d">
+  <title id="t">Retro Vault</title>
+  <desc id="d">Pixel-art banner: a green football field under a navy night sky with the words Retro Vault, League Hub.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#090d1a"/>
+      <stop offset="1" stop-color="#1a2137"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe08a"/>
+      <stop offset=".45" stop-color="#ffc83d"/>
+      <stop offset="1" stop-color="#b8740f"/>
+    </linearGradient>
+    <linearGradient id="field" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2fb36a"/>
+      <stop offset="1" stop-color="#1b7a45"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe08a"/>
+      <stop offset="1" stop-color="#ffb21f"/>
+    </linearGradient>
+    <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="2" fill="#ffffff" opacity=".035"/>
+    </pattern>
+    <clipPath id="card"><rect x="8" y="8" width="1264" height="364" rx="26"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#card)">
+    <rect width="1280" height="380" fill="url(#sky)"/>
+    <!-- stadium lights -->
+    <g fill="#ffe08a">
+      <rect x="96" y="40" width="6" height="6"/><rect x="132" y="70" width="4" height="4" opacity=".7"/>
+      <rect x="240" y="28" width="4" height="4" opacity=".6"/><rect x="1010" y="36" width="6" height="6"/>
+      <rect x="1100" y="78" width="4" height="4" opacity=".7"/><rect x="1180" y="30" width="4" height="4" opacity=".6"/>
+      <rect x="860" y="22" width="4" height="4" opacity=".5"/><rect x="420" y="18" width="4" height="4" opacity=".5"/>
+    </g>
+    <!-- pixel stars: red white blue, like the game's headers -->
+    <g transform="translate(70 168)">
+      <path d="M12 0h4v6h6v4h-4v4h2v6h-4v-4h-4v4H8v-6h2v-4H6V6h6z" fill="#e63946"/>
+      <path d="M40 0h4v6h6v4h-4v4h2v6h-4v-4h-4v4h-4v-6h2v-4h-4V6h6z" fill="#f4f1de"/>
+      <path d="M68 0h4v6h6v4h-4v4h2v6h-4v-4h-4v4h-4v-6h2v-4h-4V6h6z" fill="#4361ee"/>
+    </g>
+    <g transform="translate(1124 168)">
+      <path d="M12 0h4v6h6v4h-4v4h2v6h-4v-4h-4v4H8v-6h2v-4H6V6h6z" fill="#4361ee"/>
+      <path d="M40 0h4v6h6v4h-4v4h2v6h-4v-4h-4v4h-4v-6h2v-4h-4V6h6z" fill="#f4f1de"/>
+      <path d="M68 0h4v6h6v4h-4v4h2v6h-4v-4h-4v4h-4v-6h2v-4h-4V6h6z" fill="#e63946"/>
+    </g>
+
+    <!-- the field -->
+    <rect y="262" width="1280" height="118" fill="url(#field)"/>
+    <g fill="#ffffff" opacity=".22">
+      <rect x="0" y="262" width="1280" height="3"/>
+      <rect x="128" y="262" width="3" height="118"/><rect x="256" y="262" width="3" height="118"/>
+      <rect x="384" y="262" width="3" height="118"/><rect x="512" y="262" width="3" height="118"/>
+      <rect x="640" y="262" width="4" height="118" opacity="1.6"/><rect x="768" y="262" width="3" height="118"/>
+      <rect x="896" y="262" width="3" height="118"/><rect x="1024" y="262" width="3" height="118"/>
+      <rect x="1152" y="262" width="3" height="118"/>
+    </g>
+    <g fill="#ffffff" opacity=".35" font-family="Menlo, Consolas, monospace" font-size="18" font-weight="700">
+      <text x="118" y="300">10</text><text x="246" y="300">20</text><text x="374" y="300">30</text>
+      <text x="502" y="300">40</text><text x="630" y="300">50</text><text x="758" y="300">40</text>
+      <text x="886" y="300">30</text><text x="1014" y="300">20</text><text x="1142" y="300">10</text>
+    </g>
+    <!-- pixel football on the 50 -->
+    <g transform="translate(606 316)">
+      <path d="M12 0h44v4h8v4h6v6h4v8h-4v6h-6v4h-8v4H12v-4H4v-4h-6v-6h-4v-8h4V8h6V4h8z" fill="#8a4b22"/>
+      <path d="M12 4h44v4H12z" fill="#a8622f"/>
+      <g fill="#f4f1de"><rect x="18" y="16" width="32" height="4"/><rect x="22" y="12" width="4" height="12"/>
+        <rect x="30" y="12" width="4" height="12"/><rect x="38" y="12" width="4" height="12"/></g>
+    </g>
+
+    <!-- wordmark -->
+    <g font-family="Impact, 'Haettenschweiler', 'Arial Narrow Bold', 'Arial Black', sans-serif" font-style="italic"
+       font-weight="900" text-anchor="middle">
+      <text x="646" y="196" font-size="150" fill="#05070f" opacity=".7">RETRO VAULT</text>
+      <text x="640" y="190" font-size="150"><tspan fill="#f4f1de">RETRO </tspan><tspan fill="url(#gold)">VAULT</tspan></text>
+    </g>
+    <text x="640" y="236" text-anchor="middle" font-family="Menlo, Consolas, monospace" font-size="20" font-weight="700"
+          letter-spacing="7" fill="#9aa6c8">LEAGUE HUB · ONE RETRO BOWL SAVE · EVERY SEASON · EVERY LEGEND</text>
+
+    <rect width="1280" height="380" fill="url(#scan)"/>
+  </g>
+  <rect x="8" y="8" width="1264" height="364" rx="26" fill="none" stroke="url(#rim)" stroke-width="6"/>
+</svg>
