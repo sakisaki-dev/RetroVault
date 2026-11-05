@@ -13,7 +13,22 @@ export interface TeamLogoProps {
   decorative?: boolean;
   /** Eager-load above-the-fold logos */
   priority?: boolean;
+  /**
+   * A faint light disc behind the mark (plus a hairline outline for clubs with a dark primary), for logos sitting on
+   * dark rows (leaderboards, tables) where navy or dark green marks would otherwise vanish. See .logo-backed in index.css.
+   */
+  backed?: boolean;
 }
+
+/** Lightness (%) of an "H S% L%" colour string; 50 when it can't be read. */
+const lightnessOf = (hsl?: string) => {
+  const m = hsl?.match(/(\d+(?:\.\d+)?)%\s*$/);
+  return m ? Number(m[1]) : 50;
+};
+/** Clubs whose primary colour is this dark or darker also get the hairline outline. */
+export const DARK_PRIMARY_L = 36;
+export const logoBackingClass = (team?: NFLTeam | null) =>
+  cn('logo-backed', team && lightnessOf(team.primaryColor) <= DARK_PRIMARY_L && 'logo-backed--dark');
 
 export const resolveTeam = (team?: string | NFLTeam | null): NFLTeam | null =>
   !team ? null : typeof team === 'string' ? findNFLTeam(team) : team;
@@ -32,7 +47,7 @@ const initials = (raw: string) =>
  * Official team logo (hotlinked from ESPN's CDN via NFL_TEAMS), with a fixed box so layout never shifts.
  * Falls back to a team-colored monogram if the image fails or the team is unknown.
  */
-const TeamLogo = ({ team, size = 32, className, decorative = false, priority = false }: TeamLogoProps) => {
+const TeamLogo = ({ team, size = 32, className, decorative = false, priority = false, backed = false }: TeamLogoProps) => {
   const resolved = resolveTeam(team);
   const [failed, setFailed] = useState(false);
 
@@ -79,7 +94,7 @@ const TeamLogo = ({ team, size = 32, className, decorative = false, priority = f
       referrerPolicy="no-referrer"
       draggable={false}
       onError={() => setFailed(true)}
-      className={cn('shrink-0 object-contain select-none', className)}
+      className={cn('shrink-0 object-contain select-none', backed && logoBackingClass(resolved), className)}
       style={box}
     />
   );

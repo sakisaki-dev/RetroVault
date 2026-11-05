@@ -190,6 +190,34 @@ button.fut__card:focus-visible {
     radial-gradient(circle at 70% 25%, hsl(0 0% 100% / 0.35), transparent 55%);
 }
 
+/* The card face of a Prizm colour parallel (CollectibleCard .fut__par, under the art and text): a refractor wash and
+   diagonal shimmer stripes in the parallel's colour, so the colour reads on any club's face (even Red on a red club) */
+.fut--p-red { --par: #e2363f; --par-hi: #ffc2c5; }
+.fut--p-blue { --par: #2f7be6; --par-hi: #cfe3ff; }
+.fut--p-green { --par: #1fae5a; --par-hi: #c5f5d9; }
+.fut--p-gold { --par: #f0b93a; --par-hi: #fff6d6; }
+.fut--p-black { --par: #050609; --par-hi: #d9dde6; }
+.fut__par {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      115deg,
+      transparent 0 2.4cqw,
+      color-mix(in srgb, var(--par) 70%, transparent) 2.4cqw 3.4cqw,
+      color-mix(in srgb, var(--par-hi) 45%, transparent) 3.4cqw 3.8cqw,
+      transparent 3.8cqw 6cqw
+    ),
+    radial-gradient(ellipse 70% 55% at 62% 30%, color-mix(in srgb, var(--par-hi) 30%, transparent), transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, var(--par) 55%, transparent), color-mix(in srgb, var(--par) 15%, transparent) 55%, color-mix(in srgb, var(--par) 50%, transparent));
+}
+.fut--p-black .fut__par {
+  background:
+    repeating-linear-gradient(115deg, transparent 0 2.4cqw, rgb(217 221 230 / 0.16) 2.4cqw 2.9cqw, transparent 2.9cqw 6cqw),
+    linear-gradient(180deg, rgb(5 6 9 / 0.78), rgb(5 6 9 / 0.55) 55%, rgb(5 6 9 / 0.82));
+}
+
 /* Art: photo or team-coloured silhouette, right of the meta column */
 .fut__art {
   position: absolute;
@@ -1010,8 +1038,9 @@ button.fut__card:focus-visible {
    * content-visibility clips paint to the item, so pad it (and pull it back) to leave room for the hover lift and the
    * shaped glow; the padding lets the pointer through, so it never steals hover from a neighbour
    */
-  margin: -28px;
-  padding: 28px;
+  /* 24px sideways, not 28: the Collection page's side padding is 24px, so edge tiles never push the page wider (1284px at 1280) */
+  margin: -28px -24px;
+  padding: 28px 24px;
   pointer-events: none;
   content-visibility: auto;
   contain-intrinsic-size: auto 252px;

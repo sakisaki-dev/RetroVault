@@ -9,6 +9,7 @@ import PlayerCardLayer from '../player/PlayerCardLayer';
 import { useNewSlot } from '@/utils/slot';
 import { warmPlayerCard } from '../player/warmPlayerCard';
 import TeamBadge from '../brand/TeamBadge';
+import TeamLogo, { resolveTeam } from '../brand/TeamLogo';
 import { calculateLeaders } from '@/utils/csvParser';
 import { playerKey } from '@/config/ovr';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
@@ -31,12 +32,14 @@ export interface MetricColumn {
   label: string;
   tip: string;
   format: 'number' | 'decimal';
+  /** Part of the default "Key" column set (the rest show with "All columns") */
+  essential?: boolean;
 }
 
 export const METRIC_COLUMNS: MetricColumn[] = [
   { key: 'trueTalent', label: 'Talent', tip: 'True Talent: production-based rating for the career', format: 'number' },
   { key: 'dominance', label: 'Dom', tip: 'Dominance: talent plus award points (rings, MVPs, POY, SB MVP)', format: 'number' },
-  { key: 'careerLegacy', label: 'Legacy', tip: 'Career Legacy: talent, dominance and longevity combined', format: 'number' },
+  { key: 'careerLegacy', label: 'Legacy', tip: 'Career Legacy: talent, dominance and longevity combined', format: 'number', essential: true },
   { key: 'tpg', label: 'TPG', tip: 'Talent per game, adjusted for career length', format: 'decimal' },
 ];
 
@@ -97,7 +100,7 @@ const SortHeader = ({
         <button
           type="button"
           onClick={() => onToggle(k)}
-          className={cn('inline-flex items-center gap-1 uppercase tracking-wider hover:text-foreground', active && 'text-gold')}
+          className={cn('tap-40 inline-flex items-center gap-1 uppercase tracking-wider hover:text-foreground', active && 'text-gold')}
         >
           {label}
           <Icon className={cn('h-3 w-3', !active && 'opacity-40')} aria-hidden="true" />
@@ -122,6 +125,9 @@ function PlayerStatTable<T extends Player>({
   const cardSlot = useNewSlot<Player | null>(null);
   const setSelectedPlayer = cardSlot.set;
   const [sort, setSort] = useState<SortState>(null);
+  // Key columns by default (career line, Legacy, OVR, Skill); "All columns" adds awards, Talent, Dom and TPG
+  const [allCols, setAllCols] = useState(false);
+  const metricCols = allCols ? METRIC_COLUMNS : METRIC_COLUMNS.filter((m) => m.essential);
   const ovrMap = useOfficialOvr();
   const skillMap = useSkillRatings();
   const ratingOf = (key: string, p: Player) =>
@@ -170,7 +176,28 @@ function PlayerStatTable<T extends Player>({
           <PositionBadge position={position} />
           <h3 className="font-display text-xl font-bold uppercase tracking-wide">{title}</h3>
           <span className="font-pixel text-[10px] text-muted-foreground">{filteredPlayers.length} PLAYERS</span>
-          {headerActions && <div className="ml-auto">{headerActions}</div>}
+          <div className="ml-auto flex items-center gap-2">
+            {headerActions}
+            <div role="group" aria-label="Columns" className="flex gap-1 rounded-lg bg-secondary/50 p-1">
+              {[
+                { on: false, label: 'Key' },
+                { on: true, label: 'All columns' },
+              ].map((o) => (
+                <button
+                  key={o.label}
+                  type="button"
+                  aria-pressed={allCols === o.on}
+                  onClick={() => setAllCols(o.on)}
+                  className={cn(
+                    'tap-40 rounded-md px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
+                    allCols === o.on ? 'bg-gold text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
+                  )}
+                >
+                  {o.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
         <div className="relative overflow-x-auto overscroll-x-contain">
           <table className="stats-table text-[13px]">
@@ -184,8 +211,8 @@ function PlayerStatTable<T extends Player>({
                 {columns.map((c) => (
                   <SortHeader key={c.key} k={c.key} label={c.label} tip={c.tip} sort={sort} onToggle={toggleSort} />
                 ))}
-                <th scope="col">Awards</th>
-                {METRIC_COLUMNS.map((m) => (
+                {allCols && <th scope="col">Awards</th>}
+                {metricCols.map((m) => (
                   <SortHeader key={m.key} k={m.key} label={m.label} tip={m.tip} sort={sort} onToggle={toggleSort} />
                 ))}
                 <SortHeader k="ovr" label="OVR" tip="Official overall (62–99): career production and awards, ranked within the position" sort={sort} onToggle={toggleSort} />
@@ -209,8 +236,15 @@ function PlayerStatTable<T extends Player>({
                     >
                       <PlayerNameCell compact player={player} onSelect={() => setSelectedPlayer({ ...player, team } as Player)} />
                     </td>
+                    {/* One team cue (the logo, beside the row's colour bar); the club's name is its alt text and tooltip */}
                     <td>
-                      <TeamBadge team={team} size="sm" />
+                      {resolveTeam(team) ? (
+                        <span className="inline-flex" title={resolveTeam(team)!.fullName}>
+                          <TeamLogo team={team} size={22} backed />
+                        </span>
+                      ) : (
+                        <TeamBadge team={team} size="sm" />
+                      )}
                     </td>
                     {columns.map((c) => (
                       <td key={c.key} className="num">
@@ -221,7 +255,7 @@ function PlayerStatTable<T extends Player>({
                         />
                       </td>
                     ))}
-                    <td>
+                    {allCols && <td>
                       <AwardsCell
                         rings={player.rings}
                         mvp={player.mvp}
@@ -231,8 +265,8 @@ function PlayerStatTable<T extends Player>({
                         isDefense={isDefense}
                         className="flex-nowrap gap-0.5"
                       />
-                    </td>
-                    {METRIC_COLUMNS.map((m) => (
+                    </td>}
+                    {metricCols.map((m) => (
                       <td key={m.key} className="num">
                         <TierMetric
                           value={player[m.key]}

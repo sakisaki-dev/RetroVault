@@ -1,4 +1,7 @@
 import { useMemo } from 'react';
+import { isHallOfFamer } from '@/config/stats';
+import { shapeTakeaway } from '../takeaways';
+import SectionIntro from '../SectionIntro';
 import { PieChart } from 'lucide-react';
 import type { LeagueData, Player } from '@/types/player';
 import { leaguePlayers } from '@/config/advanced';
@@ -18,7 +21,9 @@ const LeagueShape = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Playe
           <PieChart className="h-5 w-5 text-gold" aria-hidden="true" />
           League Shape
         </h2>
-        <p className="text-sm text-muted-foreground">Where the talent sits: every player on one axis, the Hall of Fame by position, and the franchises behind it.</p>
+        <SectionIntro id="league-shape" takeaway={shapeTakeaway(players, isHallOfFamer)}>
+          Where the talent sits: every player on one axis, the Hall of Fame by position, and the franchises behind it.
+        </SectionIntro>
       </div>
       <DistributionSwarm players={players} ovrMap={ovrMap} onSelect={onSelect} />
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">

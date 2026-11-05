@@ -1,10 +1,13 @@
 import { useMemo, useState } from 'react';
+import { labTakeaway } from '../takeaways';
+import SectionIntro from '../SectionIntro';
 import { FlaskConical, SlidersHorizontal } from 'lucide-react';
 import type { LeagueData, Player, Position } from '@/types/player';
 import { METRIC_BY_ID, POSITIONS, buildContext, evaluateMetric, leaguePlayers, type AdvContext, type AdvMetric } from '@/config/advanced';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import TeamLogo from '../../brand/TeamLogo';
 import Chips from './Chips';
+import FitName from '../FitName';
 import MetricLabel from './MetricLabel';
 import MetricLeaderboard from './MetricLeaderboard';
 import PlusHeatTable from './PlusHeatTable';
@@ -51,8 +54,8 @@ const InsightTile = ({ insight, onSelect }: { insight: Insight; onSelect: Select
       onClick={() => onSelect(insight.player)}
       className="flex min-w-0 items-center gap-1.5 rounded text-left text-sm font-semibold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
     >
-      {insight.player.team && <TeamLogo team={insight.player.team} size={18} decorative />}
-      <span className="truncate">{insight.player.name}</span>
+      {insight.player.team && <TeamLogo team={insight.player.team} size={18} decorative backed />}
+      <span className="truncate"><FitName name={insight.player.name} /></span>
       <span className="shrink-0 font-pixel text-[9px] text-muted-foreground">{insight.player.position}</span>
     </button>
     <span className="mt-auto pt-1 text-[11px] text-muted-foreground">{insight.caption}</span>
@@ -84,6 +87,8 @@ const AnalyticsLab = ({ data, onSelect }: { data: LeagueData; onSelect: Select }
     [players, ctx],
   );
 
+  const takeaway = useMemo(() => labTakeaway(players, ctx, insights.map((i) => i.metric)), [players, ctx, insights]);
+
   if (players.length === 0) return null;
 
   return (
@@ -93,10 +98,10 @@ const AnalyticsLab = ({ data, onSelect }: { data: LeagueData; onSelect: Select }
           <FlaskConical className="h-5 w-5 text-gold" aria-hidden="true" />
           Analytics Lab
         </h2>
-        <p className="text-sm text-muted-foreground">
-          Rate stats, value over replacement and position-relative indexes, all from career totals. Hover or focus any underlined metric for
+        <SectionIntro id="analytics" takeaway={takeaway}>
+          Rate stats, value over replacement and position-relative indexes, all from career totals. Tap or hover any underlined metric for
           its formula and minimum sample.
-        </p>
+        </SectionIntro>
         <div className="flex flex-wrap items-center gap-2 pt-1">
           <button
             type="button"

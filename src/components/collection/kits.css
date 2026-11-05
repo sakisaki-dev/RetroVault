@@ -1,0 +1,252 @@
+/*
+ * Kit chase (per-pull uniforms): the ALT KIT / THROWBACK stamps in the pack reveal, the summary line, the walkout's
+ * THROWBACK beat, and the kit picker in the card detail. Alternates wear a cool steel stamp, era kits a warm
+ * vintage one (cream on brown, like an old jersey tag).
+ */
+
+/* Pack reveal: the stamp at the bottom of a flipped card (never with the Autograph marker: autographs wear home) */
+.pk-kit-hit {
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  z-index: 3;
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  width: max-content;
+  max-width: calc(100% + 16px);
+  padding: 3px 8px 4px;
+  border-radius: 6px;
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.5);
+  animation: pk-stamp 0.45s cubic-bezier(0.2, 1.6, 0.4, 1) calc(var(--flip-ms, 620ms) * 0.95) both;
+}
+.pk-kit-hit b {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pk-kit-hit__label {
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.pk-kit-hit--alt {
+  background: linear-gradient(135deg, #dfe7f1, #9fb0c4);
+  color: #0b1020;
+}
+.pk-kit-hit--era {
+  background: linear-gradient(135deg, #f6e7c1, #d9b779);
+  color: #3a2410;
+  box-shadow: 0 0 0 2px #3a2410, 0 4px 14px hsl(35 80% 50% / 0.45);
+}
+.pk-tag--kit {
+  top: 8%;
+  right: -6px;
+  padding: 4px 9px;
+  border: 2px solid #d9b779;
+  border-radius: 6px;
+  background: hsl(228 47% 7% / 0.85);
+  color: #f6e7c1;
+  rotate: 8deg;
+}
+.pk-sum__tag--kit { color: #f0d9a4; }
+.pk-sum__kit {
+  display: block;
+  margin-top: 2px;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.25;
+  color: hsl(var(--muted-foreground));
+}
+.pk-sum__kit--era { color: #f0d9a4; }
+.pk-sum__kit--alt { color: #c3cfdd; }
+
+/* Walkout: the kit stamp under the card; an era kit gets its own THROWBACK beat (a warm flash and a bigger stamp) */
+.wk__kit {
+  position: absolute;
+  left: 50%;
+  bottom: -4%;
+  z-index: 6;
+  max-width: 96%;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+  pointer-events: none;
+  animation: wk-kit 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) both;
+}
+.wk__kit--alt {
+  background: linear-gradient(135deg, #dfe7f1, #9fb0c4);
+  color: #0b1020;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.55);
+}
+.wk__kit--era {
+  background: linear-gradient(135deg, #f6e7c1, #d9b779);
+  color: #3a2410;
+  box-shadow: 0 0 0 3px #3a2410, 0 0 0 5px #f6e7c1, 0 10px 30px hsl(35 90% 50% / 0.55);
+}
+@keyframes wk-kit {
+  0% { opacity: 0; transform: translateX(-50%) scale(2.4); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+.wk__kit-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 55%, hsl(38 90% 70% / 0.45), transparent 62%);
+  animation: wk-kit-glow 1.2s ease-out both;
+}
+@keyframes wk-kit-glow {
+  0% { opacity: 0; }
+  25% { opacity: 1; }
+  100% { opacity: 0.35; }
+}
+@media (max-width: 480px) {
+  .wk__kit { font-size: 15px; padding: 5px 10px; }
+}
+.wk--rm .wk__kit { animation: wk-fade 0.35s ease-out both; }
+.wk--rm .wk__kit-glow { display: none; }
+
+/* Card detail: the kit picker */
+.cd-kits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cd-kit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(var(--panel) / 0.7);
+  color: hsl(var(--muted-foreground));
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+.cd-kit:hover { color: hsl(var(--foreground)); }
+.cd-kit[aria-pressed='true'] {
+  border-color: hsl(var(--gold));
+  background: hsl(var(--gold) / 0.15);
+  color: hsl(var(--gold));
+}
+.cd-kit__swatch {
+  width: 12px;
+  height: 12px;
+  flex: none;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35);
+}
+.cd-kit__kind {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pk-kit-hit,
+  .wk__kit,
+  .wk__kit-glow {
+    animation: none !important;
+  }
+}
+
+/*
+ * Prizm colour parallels: the PRIZM <COLOUR> /<run> stamp in the pack reveal (above a kit stamp when the card has both),
+ * the summary line, the walkout stamp and the PRIZM beat's glow (Gold and Black only), and the parallel picker in the
+ * card detail. Each stamp wears its parallel's colour.
+ */
+.pk-par-hit {
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  z-index: 3;
+  width: max-content;
+  max-width: calc(100% + 16px);
+  padding: 3px 8px;
+  border-radius: 6px;
+  transform: translateX(-50%);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-align: center;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.5);
+  animation: pk-stamp 0.45s cubic-bezier(0.2, 1.6, 0.4, 1) calc(var(--flip-ms, 620ms) * 0.95) both;
+}
+.pk-par-hit--stacked { bottom: 30px; }
+.pk-par-hit--red, .wk__prizm--red { background: linear-gradient(135deg, #ff8b91, #c4202a); color: #fff; }
+.pk-par-hit--blue, .wk__prizm--blue { background: linear-gradient(135deg, #8ebfff, #1f5fc4); color: #fff; }
+.pk-par-hit--green, .wk__prizm--green { background: linear-gradient(135deg, #8ee8b5, #138a45); color: #04220f; }
+.pk-par-hit--gold, .wk__prizm--gold { background: linear-gradient(135deg, #fff0b3, #d99a1e); color: #3a2604; box-shadow: 0 0 0 2px #3a2604, 0 4px 14px hsl(42 90% 55% / 0.5); }
+.pk-par-hit--black, .wk__prizm--black { background: linear-gradient(135deg, #3a3f4a, #050608); color: #e8ebf2; box-shadow: 0 0 0 2px #cfd4de, 0 4px 14px rgb(0 0 0 / 0.6); }
+.pk-sum__par--red { color: #ff9ea3; }
+.pk-sum__par--blue { color: #a6ccff; }
+.pk-sum__par--green { color: #9aeabd; }
+.pk-sum__par--gold { color: #f6d77a; }
+.pk-sum__par--black { color: #e8ebf2; }
+
+.wk__prizm {
+  position: absolute;
+  left: 50%;
+  bottom: -4%;
+  z-index: 6;
+  max-width: 96%;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: wk-kit 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) both;
+}
+.wk__prizm small { font-size: 0.7em; opacity: 0.85; }
+.wk__prizm--stacked { bottom: calc(-4% + 44px); }
+.wk__prizm-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  animation: wk-kit-glow 1.2s ease-out both;
+}
+.wk__prizm-glow--gold { background: radial-gradient(ellipse at 50% 55%, hsl(44 95% 62% / 0.5), transparent 62%); }
+.wk__prizm-glow--black { background: radial-gradient(ellipse at 50% 55%, hsl(220 15% 85% / 0.35), rgb(0 0 0 / 0.4) 70%); }
+@media (max-width: 480px) {
+  .wk__prizm { font-size: 15px; padding: 5px 10px; }
+  .wk__prizm--stacked { bottom: calc(-4% + 38px); }
+}
+.wk--rm .wk__prizm { animation: wk-fade 0.35s ease-out both; }
+.wk--rm .wk__prizm-glow { display: none; }
+.cd-kit__swatch--par { border-radius: 50%; }
+@media (prefers-reduced-motion: reduce) {
+  .pk-par-hit,
+  .wk__prizm,
+  .wk__prizm-glow {
+    animation: none !important;
+  }
+}

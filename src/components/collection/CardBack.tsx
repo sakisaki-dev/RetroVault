@@ -12,8 +12,8 @@ import { useLeagueContent } from '@/utils/leagueContent';
 import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 import { buildCareerArc, stintYears } from '@/components/player/arcData';
 import { careerTotals } from '@/components/player/statLines';
-import { variantLabel, type Finish, type Tier, type Variant } from '@/utils/collection';
-import { uniformFor, uniformLabel } from './art/sprite/uniforms';
+import { prizmInfo, prizmSerial, variantLabel, type Finish, type PrizmCopy, type Tier, type Variant } from '@/utils/collection';
+import { kitUniform, uniformLabel } from './art/sprite/uniforms';
 import type { CardInfo } from './useCardPool';
 
 /** "Art: 70s Topps". */
@@ -29,13 +29,17 @@ interface CardBackProps {
   variant?: Variant;
   /** Finish on the front (with the variant, decides the uniform roll) */
   finish?: Finish;
+  /** The kit the front wears (a stored kit id); omitted = the old fixed roll */
+  kit?: string;
+  /** Prizm number: the colour parallel the front shows */
+  prizm?: PrizmCopy;
 }
 
 /**
  * The back of a card in the large view: career totals, awards, skill-grade bars (league players), a mini career
  * arc (franchise stops with years and rings, from the same builder as the player page) and the set number.
  */
-const CardBack = ({ info, tier, total, variant, finish }: CardBackProps) => {
+const CardBack = ({ info, tier, total, variant, finish, kit, prizm }: CardBackProps) => {
   const { getAllPlayers } = useLeague();
   const extras = usePlayerExtras();
   const { content } = useLeagueContent();
@@ -67,7 +71,7 @@ const CardBack = ({ info, tier, total, variant, finish }: CardBackProps) => {
     .filter((a) => a.n > 0);
   const team = findNFLTeam(p.team);
   // Only alternates get a line ("Uniform: Bucs Creamsicle", "Uniform: 1985 Bears (era)"); the home uniform is the standard
-  const uniform = variant ? uniformFor(p, variant, finish) : null;
+  const uniform = variant && variant !== 'auto' ? kitUniform(p, kit, variant, finish) : null;
 
   return (
     <div className={cn('cb', `cb--${tier}`)}>
@@ -86,6 +90,11 @@ const CardBack = ({ info, tier, total, variant, finish }: CardBackProps) => {
       </div>
       {variant && <p className="cb__art">{artNote(variant)}</p>}
       {uniform && uniform.id !== 'home' && <p className="cb__art">Uniform: {uniformLabel(uniform)}</p>}
+      {variant === 'number' && prizm && (
+        <p className="cb__art">
+          Parallel: Prizm {prizmInfo(prizm.c).label}, numbered {prizmSerial(prizm)}
+        </p>
+      )}
 
       <h4 className="cb__h">Career</h4>
       <dl className="cb__stats">

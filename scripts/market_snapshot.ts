@@ -13,6 +13,9 @@
  * Every point also carries `grade` (overall skill letter) and `s` (career totals for milestones), which the content
  * build diffs between snapshots for the "What changed" headlines; older git snapshots get both from git once. `s`
  * stays in data/y80/market_history.json only (public/data/market.json leaves it out).
+ *
+ * Both files store changes only (src/utils/marketHistory.ts: a full keyframe every 10 snapshots plus the first and
+ * the latest, deltas between); expandMarket() / scripts/market_history.py load() give back the full snapshots.
  */
 import { execFileSync } from 'child_process';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
@@ -20,6 +23,7 @@ import { parseCSV } from '@/utils/csvParser';
 import { normalizeLeague } from '@/config/stats';
 import type { Player, Position } from '@/types/player';
 import { samePlayers, snapshotPlayers, type MarketHistory, type MarketSnapshot } from '@/utils/cardMarket';
+import { compactMarket, expandMarket, type StoredMarket } from '@/utils/marketHistory';
 
 const HISTORY = 'data/y80/market_history.json';
 const OUT = 'public/data/market.json';
@@ -151,8 +155,9 @@ const main = () => {
     console.log('Backfilling market history from git…');
     history = backfill();
   } else if (existsSync(HISTORY)) {
-    const parsed: unknown = JSON.parse(readFileSync(HISTORY, 'utf8'));
-    history = Array.isArray(parsed) ? (parsed as Snap[]) : [];
+    // Either layout reads: the delta format (src/utils/marketHistory.ts), or an old full-snapshot array (converted
+    // to the delta format by the write below, with every snapshot's content and id unchanged)
+    history = expandMarket(JSON.parse(readFileSync(HISTORY, 'utf8'))) as Snap[];
   }
 
   const read = (p: string) => (existsSync(p) ? readFileSync(p, 'utf8') : null);
@@ -167,22 +172,27 @@ const main = () => {
   const upload = lastUpload(read('data/y80/mutations_log.json'));
   const added = append(history, { id, label, date: iso, ...(season ? { season } : {}), ...(upload ? { upload } : {}), players } as Snap);
 
-  // One line per player, so a data update reads as a small diff
-  const json = (h: MarketHistory) =>
-    `[\n${h
-      .map(({ players: ps, ...meta }) => {
+  // Changes only (src/utils/marketHistory.ts): keyframes every KEYFRAME_EVERY snapshots plus the first and the latest,
+  // deltas between. One line per player row, so a data update reads as a small diff.
+  const rows = (m: Record<string, unknown>) =>
+    Object.entries(m).map(([k, v]) => `  ${JSON.stringify(k)}: ${JSON.stringify(v)}`).join(',\n');
+  const json = (m: StoredMarket) =>
+    `{"format":${m.format},"keyframeEvery":${m.keyframeEvery},"snapshots":[\n${m.snapshots
+      .map(({ players: ps, delta, ...meta }) => {
         const head = JSON.stringify(meta).slice(0, -1);
-        const rows = Object.entries(ps).map(([k, v]) => `  ${JSON.stringify(k)}: ${JSON.stringify(v)}`);
-        return ` ${head},"players":{\n${rows.join(',\n')}\n }}`;
+        if (ps) return ` ${head},"players":{\n${rows(ps)}\n }}`;
+        const { set, ...restDelta } = delta ?? {};
+        const rest = Object.entries(restDelta).map(([k, v]) => `,${JSON.stringify(k)}:${JSON.stringify(v)}`).join('');
+        return ` ${head},"delta":{"set":{${set ? `\n${rows(set)}\n ` : ''}}${rest}}}`;
       })
-      .join(',\n')}\n]\n`;
-  writeFileSync(HISTORY, json(history));
-  // The site never reads the milestone totals: keep market.json lean
+      .join(',\n')}\n]}\n`;
+  writeFileSync(HISTORY, json(compactMarket(history)));
+  // The site never reads the milestone totals: keep market.json lean (its own deltas, over the lean points)
   const lean = history.map((h) => ({
     ...h,
     players: Object.fromEntries(Object.entries(h.players).map(([k, { s: _s, ...v }]) => [k, v])),
   }));
-  writeFileSync(OUT, JSON.stringify(lean));
+  writeFileSync(OUT, JSON.stringify(compactMarket(lean)));
   console.log(
     `Market: ${history.length} snapshot${history.length === 1 ? '' : 's'}, ${Object.keys(players).length} cards` +
       (added ? ` (added "${label}")` : ' (no OVR / skill / legacy changes; nothing added)'),

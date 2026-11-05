@@ -2,7 +2,16 @@ import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'r
 import { ArrowRight, BookOpen, ChevronRight, Clock, CornerDownRight, Lightbulb, Newspaper, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
-import { matchPlayerByName, type SeasonStory, type StoryArticle, type StoryKind, type StoryStat } from '@/utils/leagueContent';
+import {
+  matchPlayerByName,
+  storyEntryOf,
+  useSeasonStory,
+  type SeasonStory,
+  type SeasonStoryIndexEntry,
+  type StoryArticle,
+  type StoryKind,
+  type StoryStat,
+} from '@/utils/leagueContent';
 import { getTeamColors } from '@/utils/teamColors';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import './story.css';
@@ -15,6 +24,10 @@ import './story.css';
  * the full article, its figures and their sources. Earlier seasons stay browsable through the season switcher.
  *
  * openSeasonStory(id) opens an article from anywhere (the Arcade ticker uses it after switching to the Timeline).
+ *
+ * content.json carries only the story index (seasonStoryIndex); each season's full story is its own file, loaded when
+ * that season is shown (useSeasonStory). A deep link finds its season in the index, switches to it, and the reading
+ * sheet opens once the season's file is in. "Continued from" and "Read next" links read their headlines from the index.
  */
 
 export const KIND_LABEL: Record<StoryKind, string> = {
@@ -48,12 +61,11 @@ export const openSeasonStory = (id: string) => {
   window.dispatchEvent(new CustomEvent(OPEN_EVENT, { detail: id }));
 };
 
-const findArticle = (stories: SeasonStory[], id: string) => {
-  for (const s of stories) {
-    const a = s.articles.find((x) => x.id === id);
-    if (a) return { story: s, article: a };
-  }
-  return null;
+/** An article's season and index row (id, kind, headline), from the story index */
+const findRef = (index: SeasonStoryIndexEntry[], id: string) => {
+  const entry = storyEntryOf(index, id);
+  const article = entry?.articles.find((x) => x.id === id);
+  return entry && article ? { season: entry.season, article } : null;
 };
 
 /** The figure to blow up on a card: the first stat */
@@ -115,7 +127,7 @@ const StatCallouts = ({ stats, max }: { stats: StoryStat[]; max?: number }) => {
 
 interface ReaderProps {
   open: { story: SeasonStory; article: StoryArticle } | null;
-  stories: SeasonStory[];
+  index: SeasonStoryIndexEntry[];
   players: Player[];
   onPlayer: (p: Player) => void;
   onOpen: (id: string) => void;
@@ -123,10 +135,10 @@ interface ReaderProps {
 }
 
 /** The reading sheet: the full article with comfortable typography, its figures, chips and links */
-const Reader = ({ open, stories, players, onPlayer, onOpen, onClose }: ReaderProps) => {
+const Reader = ({ open, index, players, onPlayer, onOpen, onClose }: ReaderProps) => {
   const a = open?.article;
   const season = open?.story.season;
-  const related = (a?.related ?? []).map((id) => findArticle(stories, id)).filter((x): x is NonNullable<typeof x> => !!x);
+  const related = (a?.related ?? []).map((id) => findRef(index, id)).filter((x): x is NonNullable<typeof x> => !!x);
   const quick = a?.kind === 'quickhits';
   return (
     <Dialog open={!!open} onOpenChange={(o) => !o && onClose()}>
@@ -135,14 +147,15 @@ const Reader = ({ open, stories, players, onPlayer, onOpen, onClose }: ReaderPro
         style={teamVars(a?.teams[0])}
       >
         {a && season && (
-          <article className="ss-reader__inner" aria-labelledby="ss-reader-title">
+          // Radix labels the dialog with its own DialogTitle id (an id of our own here would hide the title from its check)
+          <article className="ss-reader__inner">
             <div className="ss-reader__band" aria-hidden="true" />
             <header className="ss-reader__head">
               <p className="ss-reader__kicker">
                 <KindLabel kind={a.kind} />
                 <span>The {season} Season</span>
               </p>
-              <DialogTitle id="ss-reader-title" className="ss-reader__title">
+              <DialogTitle className="ss-reader__title">
                 {a.headline}
               </DialogTitle>
               <DialogDescription className="ss-reader__dek">{a.dek}</DialogDescription>
@@ -153,11 +166,11 @@ const Reader = ({ open, stories, players, onPlayer, onOpen, onClose }: ReaderPro
               </p>
             </header>
             {related
-              .filter((r) => r.story.season !== season)
+              .filter((r) => r.season !== season)
               .map((r) => (
                 <button key={r.article.id} type="button" className="ss-continued" onClick={() => onOpen(r.article.id)}>
                   <CornerDownRight className="h-4 w-4" aria-hidden="true" />
-                  Continued from {r.story.season}: <b>{r.article.headline}</b>
+                  Continued from {r.season}: <b>{r.article.headline}</b>
                 </button>
               ))}
             {!quick && <StatCallouts stats={a.stats} max={4} />}
@@ -187,11 +200,11 @@ const Reader = ({ open, stories, players, onPlayer, onOpen, onClose }: ReaderPro
                 )}
               </section>
             )}
-            {related.filter((r) => r.story.season === season).length > 0 && (
+            {related.filter((r) => r.season === season).length > 0 && (
               <section className="ss-reader__tags" aria-label="Related stories">
                 <h3 className="ss-reader__h">Read next</h3>
                 {related
-                  .filter((r) => r.story.season === season)
+                  .filter((r) => r.season === season)
                   .map((r) => (
                     <button key={r.article.id} type="button" className="ss-next" onClick={() => onOpen(r.article.id)}>
                       <KindLabel kind={r.article.kind} />
@@ -223,7 +236,8 @@ const Reader = ({ open, stories, players, onPlayer, onOpen, onClose }: ReaderPro
 };
 
 interface DeskProps {
-  stories: SeasonStory[];
+  /** content.json's story index (oldest first); each season's full story loads when it is shown */
+  index: SeasonStoryIndexEntry[];
   players: Player[];
   onPlayer: (p: Player) => void;
   /** Controlled season ("Y88"), shared with the Timeline's Season games; uncontrolled when left out */
@@ -232,8 +246,8 @@ interface DeskProps {
 }
 
 /** The Timeline news desk for one season at a time (latest first), with the season switcher */
-export const SeasonStoryDesk = ({ stories, players, onPlayer, season: controlled, onSeason }: DeskProps) => {
-  const seasons = useMemo(() => [...stories].reverse(), [stories]);
+export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, onSeason }: DeskProps) => {
+  const seasons = useMemo(() => [...index].reverse(), [index]);
   const [ownSeason, setOwnSeason] = useState<string | null>(null);
   const seasonId = controlled !== undefined ? controlled : ownSeason;
   const setSeasonId = useCallback(
@@ -243,18 +257,21 @@ export const SeasonStoryDesk = ({ stories, players, onPlayer, season: controlled
     },
     [onSeason],
   );
-  const story = seasons.find((s) => s.season === seasonId) ?? seasons[0];
+  const entry = seasons.find((s) => s.season === seasonId) ?? seasons[0];
+  const { story, loading } = useSeasonStory(entry);
   const [openId, setOpenId] = useState<string | null>(null);
-  const open = openId ? findArticle(stories, openId) : null;
+  // a deep link waits here until its season's file is in
+  const openArticleRow = openId && story ? story.articles.find((x) => x.id === openId) : undefined;
+  const open = story && openArticleRow ? { story, article: openArticleRow } : null;
 
   const openArticle = useCallback(
     (id: string) => {
-      const hit = findArticle(stories, id);
+      const hit = storyEntryOf(index, id);
       if (!hit) return;
-      setSeasonId(hit.story.season);
+      setSeasonId(hit.season);
       setOpenId(id);
     },
-    [stories, setSeasonId],
+    [index, setSeasonId],
   );
 
   // Requests from elsewhere (the Arcade ticker): one made before this mounted, and any made while it is mounted
@@ -272,7 +289,44 @@ export const SeasonStoryDesk = ({ stories, players, onPlayer, season: controlled
     return () => window.removeEventListener(OPEN_EVENT, on);
   }, [openArticle]);
 
-  if (!story) return null;
+  if (!entry) return null;
+  const switcher = (
+    <div className="ss-seasons" role="group" aria-label="Season">
+      {seasons.map((s) => (
+        <button key={s.season} type="button" className="ss-season" aria-pressed={s.season === entry.season} onClick={() => setSeasonId(s.season)}>
+          {s.season}
+        </button>
+      ))}
+    </div>
+  );
+  if (!story) {
+    // the season's file is loading (or failed): the masthead from the index, then a placeholder
+    return (
+      <section id="season-story" className="ss scroll-mt-24" aria-labelledby="ss-title" aria-busy={loading || undefined}>
+        <header className="ss-mast">
+          <div className="ss-mast__text">
+            <p className="ss-mast__kicker">
+              <BookOpen className="h-3.5 w-3.5" aria-hidden="true" /> Season Story · {BYLINE}
+            </p>
+            <h2 id="ss-title" className="ss-mast__title">
+              The {entry.season} Season
+            </h2>
+            {entry.tagline && <p className="ss-mast__tagline">{entry.tagline}</p>}
+          </div>
+          {switcher}
+        </header>
+        <p className="ss-loading" role="status">
+          {loading ? (
+            <>
+              <span className="ss-loading__dot" aria-hidden="true" /> Loading the {entry.season} stories ({entry.articleCount})…
+            </>
+          ) : (
+            `The ${entry.season} stories could not be loaded. Try again in a moment.`
+          )}
+        </p>
+      </section>
+    );
+  }
   const lead = story.articles.find((a) => a.kind === 'lead');
   const hits = story.articles.find((a) => a.kind === 'quickhits');
   const feed = story.articles.filter((a) => a !== lead && a !== hits);
@@ -289,19 +343,7 @@ export const SeasonStoryDesk = ({ stories, players, onPlayer, season: controlled
           </h2>
           {story.tagline && <p className="ss-mast__tagline">{story.tagline}</p>}
         </div>
-        <div className="ss-seasons" role="group" aria-label="Season">
-          {seasons.map((s) => (
-            <button
-              key={s.season}
-              type="button"
-              className="ss-season"
-              aria-pressed={s.season === story.season}
-              onClick={() => setSeasonId(s.season)}
-            >
-              {s.season}
-            </button>
-          ))}
-        </div>
+        {switcher}
       </header>
 
       {lead && (
@@ -361,7 +403,7 @@ export const SeasonStoryDesk = ({ stories, players, onPlayer, season: controlled
       <ul className="ss-feed" aria-label={`${story.season} stories`}>
         {feed.map((a, i) => {
           const c = callout(a);
-          const prior = a.related.map((id) => findArticle(stories, id)).find((r) => r && r.story.season !== story.season);
+          const prior = a.related.map((id) => findRef(index, id)).find((r) => r && r.season !== story.season);
           return (
             <li key={a.id} className="ss-card stagger-in" style={{ ...teamVars(a.teams[0]), '--i': i + 1 } as CSSProperties}>
               <button type="button" className="ss-cover" onClick={() => setOpenId(a.id)} aria-label={`Read: ${a.headline}`} />
@@ -375,7 +417,7 @@ export const SeasonStoryDesk = ({ stories, players, onPlayer, season: controlled
               )}
               {prior && (
                 <button type="button" className="ss-continued ss-continued--card" onClick={() => openArticle(prior.article.id)}>
-                  <CornerDownRight className="h-4 w-4" aria-hidden="true" /> Continued from {prior.story.season}
+                  <CornerDownRight className="h-4 w-4" aria-hidden="true" /> Continued from {prior.season}
                 </button>
               )}
               <div className="ss-card__foot">
@@ -387,7 +429,7 @@ export const SeasonStoryDesk = ({ stories, players, onPlayer, season: controlled
         })}
       </ul>
 
-      <Reader open={open} stories={stories} players={players} onPlayer={onPlayer} onOpen={openArticle} onClose={() => setOpenId(null)} />
+      <Reader open={open} index={index} players={players} onPlayer={onPlayer} onOpen={openArticle} onClose={() => setOpenId(null)} />
     </section>
   );
 };

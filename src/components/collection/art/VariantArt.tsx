@@ -1,9 +1,9 @@
 import type { ComponentType } from 'react';
 import type { GamePlayer } from '@/config/ovr';
-import type { Variant } from '@/config/cardTiers';
+import type { PrizmCopy, Variant } from '@/config/cardTiers';
 import type { OwnedAuto } from '@/utils/collection';
 import { paletteFor, type ArtProps } from './shared';
-import { uniformFor } from './sprite/uniforms';
+import { kitUniform } from './sprite/uniforms';
 import NumberArt from './NumberArt';
 import JerseyArt from './JerseyArt';
 import VintageArt from './VintageArt';
@@ -24,10 +24,14 @@ interface VariantArtProps {
   variant: Variant;
   player: GamePlayer;
   number?: number | null;
-  /** The card's finish (with the variant, decides the uniform roll) */
+  /** The card's finish (with the variant, decides the old fixed uniform roll when no kit is given) */
   finish?: string;
+  /** The kit to wear (a stored kit id); omitted = uniformFor's fixed roll (galleries, samples) */
+  kit?: string;
   /** Autograph variant: the autograph to show (a pull), or 'sample' (galleries); unset = his best owned one, else a sample */
   autograph?: AutographChoice;
+  /** Prizm number: the colour parallel to show (missing = plain) */
+  prizm?: PrizmCopy;
 }
 
 const isFinish = (f: string | undefined): f is OwnedAuto['finish'] => f === 'base' || f === 'silver' || f === 'gold' || f === 'holo';
@@ -43,11 +47,11 @@ const AutoArt = ({ player, number, finish, autograph }: Omit<VariantArtProps, 'v
 };
 
 /** A card's art for its variant, in the player's team palette. */
-const VariantArt = ({ variant, player, number, finish, autograph }: VariantArtProps) => {
+const VariantArt = ({ variant, player, number, finish, kit, autograph, prizm }: VariantArtProps) => {
   if (variant === 'auto') return <AutoArt player={player} number={number} finish={finish} autograph={autograph} />;
   const Art = VARIANT_ART[variant];
-  const uniform = uniformFor(player, variant, finish);
-  return <Art player={player} number={number} pal={paletteFor(player, uniform)} uniform={uniform} />;
+  const uniform = kitUniform(player, kit, variant, finish);
+  return <Art player={player} number={number} pal={paletteFor(player, uniform)} uniform={uniform} prizm={variant === 'number' ? prizm : undefined} />;
 };
 
 export default VariantArt;

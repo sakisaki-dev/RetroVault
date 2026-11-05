@@ -972,3 +972,64 @@ details[open] > :not(summary) {
     font-size: 12px;
   }
 }
+
+/* Team logos on dark rows (TeamLogo `backed`): a faint light disc behind the mark, and a hairline light outline for
+   clubs with a dark primary (Jets, Giants, Patriots…) so the mark doesn't vanish on navy. Same box, no layout shift. */
+.logo-backed {
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, hsl(0 0% 100% / 0.13), hsl(0 0% 100% / 0.05) 72%, transparent 100%);
+}
+.logo-backed--dark {
+  filter: drop-shadow(0 0 0.75px hsl(0 0% 100% / 0.7)) drop-shadow(0 0 2px hsl(0 0% 100% / 0.14));
+}
+
+/* Stats tab: the site header and the Stats sub-nav slide away while scrolling down and come back on any scroll up
+   (Header.tsx sets html[data-chrome='hidden']). Sticky bars that sit under them (.chrome-follow, e.g. the Players chip
+   row and the Head-to-Head scoreboard) see --site-header-h as 0 meanwhile, so their own `top` drops to the page top
+   when they are stuck (and nothing moves when they aren't). */
+.chrome-hide,
+.chrome-hide-bar {
+  transition: transform var(--dur-3, 220ms) ease;
+}
+.chrome-follow {
+  transition: top var(--dur-3, 220ms) ease;
+}
+html[data-chrome='hidden'] .chrome-hide {
+  transform: translateY(-100%);
+}
+html[data-chrome='hidden'] .chrome-hide-bar {
+  transform: translateY(calc(-100% - var(--site-header-h, 0px)));
+}
+html[data-chrome='hidden'] .chrome-follow {
+  --site-header-h: 0px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .chrome-hide,
+  .chrome-hide-bar,
+  .chrome-follow {
+    transition: none;
+  }
+}
+
+/* Stats pages on phones: a 10px floor for the pixel-font captions and chart labels, and 40px tap targets for the
+   pills, chips and sort buttons marked .tap-40 (desktop keeps its compact sizes). */
+@media (max-width: 640px) {
+  .rv-stats .text-\[6px\],
+  .rv-stats .text-\[7px\],
+  .rv-stats .text-\[8px\],
+  .rv-stats .text-\[9px\],
+  .rv-stats .text-\[9\.5px\],
+  .rv-stats svg text[font-size='6'],
+  .rv-stats svg text[font-size='7'],
+  .rv-stats svg text[font-size='8'],
+  .rv-stats svg text[font-size='9'],
+  .rv-stats svg text[font-size='9.5'],
+  .rv-stats .arc-arrival,
+  .rv-stats .ppb__ovr > span {
+    font-size: 10px;
+  }
+  .rv-stats .tap-40,
+  .rv-stats .tap-40-all button {
+    min-height: 40px;
+  }
+}

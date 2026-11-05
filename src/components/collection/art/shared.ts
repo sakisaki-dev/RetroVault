@@ -1,5 +1,6 @@
 import type { GamePlayer } from '@/config/ovr';
 import { findNFLTeam } from '@/utils/nflTeams';
+import type { PrizmCopy } from '@/config/cardTiers';
 import type { Uniform } from './sprite/uniforms';
 
 /** Every art style takes the same props: the player, his jersey number and a palette built from his team colours. */
@@ -9,6 +10,8 @@ export interface ArtProps {
   pal: Palette;
   /** Uniform the card shows (home unless it rolled an alternate) */
   uniform?: Uniform;
+  /** Prizm number only: the colour parallel it shows (missing = plain Prizm in team colours) */
+  prizm?: PrizmCopy;
 }
 
 export interface Palette {

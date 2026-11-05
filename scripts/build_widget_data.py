@@ -38,11 +38,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 import build_league_content as B  # noqa: E402  (data and helpers only; its main() does not run on import)
+import market_history  # noqa: E402
 
 PUB = ROOT / "public" / "data"
 OUT = PUB / "widget.json"
 CONTENT = json.loads((PUB / "league" / "content.json").read_text())
-MARKET = json.loads((PUB / "market.json").read_text())
+MARKET = market_history.load(PUB / "market.json")  # full snapshots (the file stores changes only)
 EXTRAS = json.loads((PUB / "player-extras.json").read_text())
 LOG = json.loads((B.SRC / "mutations_log.json").read_text()).get("applied", [])
 
@@ -561,7 +562,9 @@ def headline_team(h: dict) -> str | None:
 
 # ---------------------------------------------------------------------------
 def main():
-    story = (CONTENT.get("seasonStories") or [None])[-1]
+    # the latest season's full story, from its own file (content.json keeps only the index)
+    latest = (CONTENT.get("seasonStoryIndex") or [None])[-1]
+    story = B.load_season_story(latest["season"]) if latest else None
     stories = [{"id": a["id"], "kind": a["kind"], "headline": a["headline"], "dek": a.get("dek", ""),
                 "team": (a.get("teams") or [None])[0]}
                for a in (story or {}).get("articles", []) if a["kind"] not in ("quickhits", "didyouknow")]

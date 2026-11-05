@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { Coins } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { FINISHES, VARIANTS, finishLabel, useCollection, variantLabel, type Finish, type Variant } from '@/utils/collection';
-import { FINISH_MULTIPLIER, VARIANT_MULTIPLIER, autographPrice, cardPrice, fmtCoins, pctChange, priceSeries } from '@/utils/cardMarket';
+import { FINISHES, VARIANTS, finishLabel, prizmInfo, prizmSerial, useCollection, variantLabel, type Finish, type PrizmCopy, type Variant } from '@/utils/collection';
+import { FINISH_MULTIPLIER, VARIANT_MULTIPLIER, autographPrice, fmtParallelMult, cardPrice, fmtCoins, pctChange, priceSeries } from '@/utils/cardMarket';
 import { AUTOGRAPH_MEAN_MULT, autographValue, fmtMult } from '@/config/autographs';
 import { bestAuto } from '../autograph/sample';
 import { useMarket } from '@/utils/useMarket';
-import { uniformKind } from '../art/sprite/uniforms';
+import { kindOf, kitUniform } from '../art/sprite/uniforms';
 import PriceChart from './PriceChart';
 import ChangeBadge from './ChangeBadge';
 import './market.css';
@@ -21,15 +21,19 @@ interface CardValueProps {
   variant: Variant;
   /** The owner's best finish in this variant, marked in the finish table */
   ownedFinish?: Finish;
-  /** The card's player: an alternate-uniform roll (per variant × finish) adds ALT_VALUE_BONUS */
+  /** The card's player: with `kit`, the kit's market bonus (ALT_VALUE_BONUS / ERA_VALUE_BONUS) */
   player?: { name: string; team?: string };
+  /** The kit the card wears (a stored kit id), priced at `variant` × `finish`; the other finishes in the table are priced at home */
+  kit?: string;
+  /** Prizm number: the colour parallel the card shows, priced at `variant` × `finish` like the kit */
+  prizm?: PrizmCopy;
 }
 
 /**
  * Market block for the card detail: value at this finish with its change since the last update, the price over
  * every data snapshot, OVR and skill history, and every finish's value. Self-contained (loads market.json).
  */
-const CardValue = ({ cardKey, name, finish, variant, ownedFinish, player }: CardValueProps) => {
+const CardValue = ({ cardKey, name, finish, variant, ownedFinish, player, kit, prizm }: CardValueProps) => {
   const history = useMarket();
   const { state } = useCollection();
   // The Autograph: his best owned autograph at each finish is priced by its own roll; with none, the mean multiplier
@@ -43,7 +47,10 @@ const CardValue = ({ cardKey, name, finish, variant, ownedFinish, player }: Card
   };
   const price = (value: number, f: Finish, v: Variant) => {
     const m = v === 'auto' ? autoMult(f) : null;
-    return m != null ? autographPrice(value, m, f) : cardPrice(value, f, v, player ? uniformKind(player, v, f) : false);
+    // The kit worn prices only the card on show; other finishes / arts in the table are priced in the home kit
+    const onShow = f === finish && v === variant;
+    const worn = player && kit && onShow ? kindOf(kitUniform(player, kit, v, f)) : 'home';
+    return m != null ? autographPrice(value, m, f) : cardPrice(value, f, v, worn, onShow ? prizm : undefined);
   };
   // Column header: the art's multiplier (an Autograph shows his own roll's, else the mean)
   const variantMult = (v: Variant) => {
@@ -73,6 +80,7 @@ const CardValue = ({ cardKey, name, finish, variant, ownedFinish, player }: Card
       <div className="mk-card__head">
         <p className="cd__label">
           Market value · {variantLabel(variant)} · {finishLabel(finish)}
+          {variant === 'number' && prizm ? ` · ${prizmInfo(prizm.c).label} ${prizmSerial(prizm)} ${fmtParallelMult(prizm)}` : ''}
         </p>
         <p className="mk-card__price">
           <Coins className="h-5 w-5 text-gold" aria-hidden="true" />

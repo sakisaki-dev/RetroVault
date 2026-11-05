@@ -45,7 +45,7 @@ const ChartFrame = ({ title, description, icon, controls, chart, table, footer, 
           type="button"
           aria-pressed={asTable}
           onClick={() => setAsTable((v) => !v)}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-line bg-night/60 px-2 py-1 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          className="tap-40 inline-flex shrink-0 items-center gap-1.5 rounded-md border border-line bg-night/60 px-2 py-1 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
         >
           {asTable ? <BarChart3 className="h-3.5 w-3.5" aria-hidden="true" /> : <Table2 className="h-3.5 w-3.5" aria-hidden="true" />}
           {asTable ? 'Chart' : 'Table'}

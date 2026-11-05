@@ -1,5 +1,14 @@
 import { TIERS, type Finish, type PackCard, type Tier, type Variant } from '@/utils/collection';
 import type { CardInfo } from './useCardPool';
+import { kitsOf } from './art/sprite/uniforms';
+
+/** Showcase kits: the Rare wears his club's first alternate and the first Epic its era kit, when the club has one. */
+const sampleKit = (slot: string, team: string | undefined): string => {
+  const { alts, era } = kitsOf(team);
+  if (slot === 'rare') return alts[0]?.id ?? 'home';
+  if (slot === 'epic') return era?.id ?? alts[0]?.id ?? 'home';
+  return 'home';
+};
 
 /** Preferred faces for the Legendary row (owner's picks), then the best by OVR. */
 const LEGENDARY_PICKS = ['Sherman Brandson', 'God Johnson'];
@@ -33,7 +42,8 @@ export const designRows = (cards: CardInfo[]): DesignRow[] => {
  * Sample pack for the preview opening (Card designs). Shows every reveal: a Common and a Rare flip in about a
  * second, two Epics walk out, and the Legendary closes the pack with a full Legendary walkout, the hidden-holo twist
  * and the AUTOGRAPH beat: every art variant shows once, the Legendary is the Autograph (PackOpening gives it a sample
- * roll). It is shown in an Elite pack, so nothing on the pack hints at the holo.
+ * roll). The Rare wears an alternate kit and the first Epic a throwback (sampleKit), so the kit stamps and the
+ * THROWBACK beat show too, and the Common (the Prizm) is a Blue /99 parallel, so its stamp shows. It is shown in an Elite pack, so nothing on the pack hints at the holo.
  */
 export const samplePack = (rows: DesignRow[], cards: CardInfo[] = []): PackCard[] => {
   const finishes: Record<string, Finish> = { common: 'base', rare: 'silver', epic: 'gold', epic2: 'silver', legendary: 'holo' };
@@ -52,9 +62,14 @@ export const samplePack = (rows: DesignRow[], cards: CardInfo[] = []): PackCard[
       tier: r.tier,
       finish: finishes[r.key],
       variant: variants[r.key],
+      kit: sampleKit(r.key, r.info.player.team),
+      // The Common is the Prizm: it shows a colour parallel's stamp (Blue has no walkout beat, so it still flips fast)
+      ...(r.key === 'common' ? { prizm: { c: 'blue' as const, n: 27 } } : {}),
       slot: 'regular' as const,
       isNew: true,
       newVariant: false,
+      newKit: false,
+      newParallel: false,
       upgrade: false,
       duplicate: false,
       shards: 0,

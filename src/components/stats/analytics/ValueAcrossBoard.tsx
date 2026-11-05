@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import FitName from '../FitName';
 import { Scale } from 'lucide-react';
 import type { Player } from '@/types/player';
 import { cn } from '@/lib/utils';
@@ -68,8 +69,8 @@ const ValueAcrossBoard = ({ players, onSelect }: { players: Player[]; onSelect: 
                   onClick={() => onSelect(r.player)}
                   className="flex w-full min-w-0 items-center gap-1.5 rounded text-left font-semibold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                 >
-                  {r.player.team ? <TeamLogo team={r.player.team} size={18} decorative /> : <span className="w-[18px]" aria-hidden="true" />}
-                  <span className="truncate">{r.player.name}</span>
+                  {r.player.team ? <TeamLogo team={r.player.team} size={18} decorative backed /> : <span className="w-[18px]" aria-hidden="true" />}
+                  <span className="truncate"><FitName name={r.player.name} /></span>
                   <span className="shrink-0 font-pixel text-[9px] text-muted-foreground">{r.player.position}</span>
                 </button>
               </td>

@@ -53,6 +53,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "data" / "y80"
 CONTENT = ROOT / "public" / "data" / "league" / "content.json"
+sys.path.insert(0, str(ROOT / "scripts"))
+import market_history  # noqa: E402
 
 KINDS = {"lead", "feature", "trade", "rise", "fall", "rivalry", "chase", "milestone", "wherenow", "quickhits"}
 BOUNDS = {"lead": (180, 350)}
@@ -72,7 +74,7 @@ class Data:
         self.names = {p["n"] for p in self.players.values()}
         self.nicks = {str(p["nick"]).lower() for p in self.players.values() if p.get("nick")}
         self.teams = set(_read(SRC / "teams.json", {}))
-        self.market = {s["id"]: s for s in _read(SRC / "market_history.json", [])}
+        self.market = {s["id"]: s for s in market_history.load(SRC / "market_history.json")}
         self.sbs = {s["year"]: s for s in _read(SRC / "super_bowls.json", [])}
         self.coach = _read(SRC / "coach.json", {"seasons": []})
         self.records = {r["record"]: r for r in _read(SRC / "records.json", {"records": []})["records"]}

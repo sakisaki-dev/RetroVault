@@ -70,7 +70,7 @@ const Row = ({ place, row, me, extras, onOpen }: { place: number | null; row: Pe
         <span className={cn('w-8 shrink-0 font-pixel text-[9px] uppercase tabular-nums', place === 1 ? 'text-gold' : 'text-muted-foreground')} title={place == null ? 'Not in the qualifier pool' : undefined}>
           {place == null ? 'NQ' : ordinal(place)}
         </span>
-        {team ? <TeamLogo team={team} size={22} decorative /> : <span className="h-[22px] w-[22px] shrink-0" aria-hidden="true" />}
+        {team ? <TeamLogo team={team} size={22} decorative backed /> : <span className="h-[22px] w-[22px] shrink-0" aria-hidden="true" />}
         <span className="min-w-0 flex-1 truncate text-sm font-semibold text-chalk">{row.player.name}</span>
         <span className="shrink-0 rounded bg-panel-2 px-1 py-px font-pixel text-[8px] text-muted-foreground">{row.player.position}</span>
         <span className="w-14 shrink-0 text-right font-mono text-xs tabular-nums text-chalk">{row.display}</span>

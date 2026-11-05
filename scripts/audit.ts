@@ -12,6 +12,7 @@ import { parseCSV } from '@/utils/csvParser';
 import { normalizeLeague, isHallOfFamer } from '@/config/stats';
 import { findNFLTeam, NFL_TEAMS } from '@/utils/nflTeams';
 import type { Player } from '@/types/player';
+import { MARKET_FORMAT, expandMarket } from '@/utils/marketHistory';
 
 const read = (p: string) => JSON.parse(readFileSync(p, 'utf8'));
 const data = parseCSV(readFileSync('public/data/initial-data.csv', 'utf8')) as unknown as Record<string, Player[]>;
@@ -262,6 +263,30 @@ speechSet.forEach((text, who) => {
     errors.push(`Story check failed to run (python3 scripts/story_check.py --audit): ${(e as Error).message.split('\n')[0]}`);
   }
 }
+// Season story files (public/data/league/stories/<Y>.json): content.json keeps only an index; every index entry has
+// its file, every file has its entry, and each file is the story in data/y80/stories.json as the index describes it
+{
+  const stories = (existsSync('data/y80/stories.json') ? read('data/y80/stories.json').seasons : {}) ?? {};
+  const dir = 'public/data/league/stories';
+  const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.json')) : [];
+  const index = (content.seasonStoryIndex ?? []) as { season: string; file: string; articleCount: number; lead?: { id: string }; articles: { id: string }[] }[];
+  if (content.seasonStories) errors.push('content.json still embeds seasonStories (the stories live in public/data/league/stories/; rebuild)');
+  index.forEach((e) => {
+    const path = `public/data/league/${e.file}`;
+    if (e.file !== `stories/${e.season}.json`) errors.push(`Story index ${e.season} points at ${e.file}, not stories/${e.season}.json`);
+    if (!existsSync(path)) return errors.push(`Story index ${e.season} has no file ${path} (rebuild)`);
+    const s = read(path);
+    if (s.season !== e.season) errors.push(`${path} is the story for ${s.season}, not ${e.season}`);
+    if ((s.articles ?? []).length !== e.articleCount || JSON.stringify((s.articles ?? []).map((a: { id: string }) => a.id)) !== JSON.stringify(e.articles.map((a) => a.id)))
+      errors.push(`${path} articles differ from the content.json index (rebuild)`);
+    if (e.lead?.id && !(s.articles ?? []).some((a: { id: string; kind: string }) => a.id === e.lead!.id && a.kind === 'lead')) errors.push(`Story index ${e.season} lead ${e.lead.id} is not the file's lead`);
+    if (!stories[e.season]) errors.push(`Story index has ${e.season}, which data/y80/stories.json does not`);
+    else if (JSON.stringify(stories[e.season].articles) !== JSON.stringify(s.articles) || JSON.stringify(stories[e.season].didYouKnow ?? []) !== JSON.stringify(s.didYouKnow ?? []))
+      errors.push(`${path} differs from data/y80/stories.json (rebuild)`);
+  });
+  files.forEach((f) => !index.some((e) => e.file === `stories/${f}`) && errors.push(`${dir}/${f} has no entry in content.json seasonStoryIndex (rebuild)`));
+  Object.keys(stories).forEach((y) => !index.some((e) => e.season === y) && errors.push(`Story for ${y} is missing from the content.json story index (rebuild)`));
+}
 const actual = new Map<string, string>();
 const collect = (path: string, v: unknown) => {
   if (v && typeof v === 'object' && !Array.isArray(v)) Object.entries(v).forEach(([k, x]) => collect(`${path}/${k}`, x));
@@ -291,6 +316,22 @@ if (existsSync('data/y80/schedules.json')) {
     if (!g) errors.push(`schedule.json has no ${y} (npm run rebuild runs scripts/schedule_content.py)`);
     else if ((g.coachGames ?? []).filter((x) => !x.playoff).length !== (s.weeks ?? []).length)
       errors.push(`schedule.json ${y}: the coach's game log doesn't have one row per week`);
+  }
+}
+// Market history (changes only, utils/marketHistory.ts): both files expand, the latest snapshot is a full keyframe,
+// and the site's market.json is the history minus the milestone totals, snapshot for snapshot
+{
+  const files = ['data/y80/market_history.json', 'public/data/market.json'] as const;
+  const [hist, site] = files.map((f) => {
+    if (!existsSync(f)) return null;
+    const raw = read(f);
+    if (!raw || Array.isArray(raw) || raw.format !== MARKET_FORMAT) errors.push(`${f} is not in the changes-only format ${MARKET_FORMAT} (npm run market rewrites it)`);
+    else if (raw.snapshots?.length && !raw.snapshots.at(-1).players) errors.push(`${f}: the latest snapshot is not stored in full`);
+    return expandMarket(raw);
+  });
+  if (hist && site) {
+    const lean = hist.map((h) => ({ ...h, players: Object.fromEntries(Object.entries(h.players).map(([k, { s: _s, ...v }]) => [k, v])) }));
+    if (JSON.stringify(lean) !== JSON.stringify(site)) errors.push('public/data/market.json does not match data/y80/market_history.json (npm run market)');
   }
 }
 if (!existsSync('public/data/widget.json')) errors.push('public/data/widget.json is missing (npm run rebuild writes it)');

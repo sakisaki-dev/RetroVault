@@ -31,6 +31,8 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "data" / "y80"
 CONTENT = ROOT / "public" / "data" / "league" / "content.json"
 UPLOADS = ROOT / "data" / "uploads"
+sys.path.insert(0, str(ROOT / "scripts"))
+import market_history  # noqa: E402
 
 
 def read(path: Path, default=None):
@@ -43,7 +45,7 @@ def state() -> dict:
     coach = read(SRC / "coach.json", {"seasons": []})
     sbs = read(SRC / "super_bowls.json", [])
     content = read(CONTENT, {})
-    market = read(SRC / "market_history.json", [])
+    market = market_history.load(SRC / "market_history.json")
     return {
         "players": players,
         "coach_last": max((s["year"] for s in coach["seasons"]), default=0),
@@ -130,13 +132,13 @@ def summary(bundle_id: str, before: dict, after: dict, rebuild_out: str, roll: l
     needed = [l for l in rebuild_out.splitlines() if l.startswith("SPEECH NEEDED")]
     for l in needed:
         print(f"  {l}")
-    stories = read(CONTENT, {}).get("seasonStories", [])
+    stories = read(CONTENT, {}).get("seasonStoryIndex", [])
     story_needed = [l for l in rebuild_out.splitlines() if l.startswith("STORY NEEDED")]
-    listed = ", ".join(f"{s['season']} ({len(s['articles'])} articles)" for s in stories)
+    listed = ", ".join(f"{s['season']} ({s['articleCount']} articles)" for s in stories)
     print(f"Season stories: {listed or 'none'}")
     for l in story_needed:
         print(f"  {l}")
-    market = read(SRC / "market_history.json", [])
+    market = market_history.load(SRC / "market_history.json")
     if after["snapshots"] > before["snapshots"] and len(market) >= 2:
         prev, cur = market[-2]["players"], market[-1]["players"]
         moves = []

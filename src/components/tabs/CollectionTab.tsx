@@ -17,13 +17,14 @@ import MarketView from '@/components/collection/market/MarketView';
 import { byTierDesc, useCardPool, type CardInfo } from '@/components/collection/useCardPool';
 import { FACE_LEGEND } from '@/components/collection/cardStats';
 import VariantBadges from '@/components/collection/VariantBadges';
+import { KIT_SOURCE, displayWithKit } from '@/components/collection/kits';
 import ShardWorkshop from '@/components/collection/ShardWorkshop';
 import DailyDraw from '@/components/collection/DailyDraw';
 import AutographsSection from '@/components/collection/autograph/AutographsSection';
 import { autographOddsLine } from '@/components/collection/autograph/AutographDetails';
 import { PARALLELS } from '@/config/autographs';
 import { useAutographFreezer } from '@/components/collection/autograph/freeze';
-import { VARIANT_MULTIPLIER } from '@/utils/cardMarket';
+import { ALT_VALUE_BONUS, ERA_VALUE_BONUS, PARALLEL_MULTIPLIER, SERIAL_ONE_BONUS, VARIANT_MULTIPLIER } from '@/utils/cardMarket';
 import { matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
 import { editionAccent } from '@/utils/edition';
 import { isHallOfFamer } from '@/config/stats';
@@ -38,6 +39,10 @@ import {
   PACK_SHARDS,
   EARNING_RULES,
   FINISHES,
+  KIT_ODDS,
+  PRIZM_ODDS,
+  PRIZM_PARALLELS,
+  prizmAnyChance,
   giftSummary,
   PACKS,
   PACK_ORDER,
@@ -45,7 +50,6 @@ import {
   TIERS,
   VARIANTS,
   cardKey,
-  displayOf,
   expectedShardsPerPack,
   finishRank,
   openPack,
@@ -168,6 +172,26 @@ const RulesPopover = () => (
               ))}
             </tr>
           ))}
+          <tr className="border-t border-line text-left">
+            <th scope="rowgroup" colSpan={PACK_ORDER.length + 1} className="pt-2 font-sans text-[11px] font-semibold">
+              Kit
+            </th>
+          </tr>
+          {(
+            [
+              ['alt', 'Alt kit'],
+              ['era', 'Throwback'],
+            ] as const
+          ).map(([k, label]) => (
+            <tr key={k} className="border-t border-line/40 text-right">
+              <th scope="row" className="py-0.5 text-left font-sans font-semibold">
+                {label}
+              </th>
+              {PACK_ORDER.map((p) => (
+                <td key={p}>{fmtOdds(ODDS[p].kits[k])}</td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
       <ul className="mt-3 space-y-1 text-muted-foreground">
@@ -186,6 +210,22 @@ const RulesPopover = () => (
         variant and they stack in the binder. Market value × variant:{' '}
         {VARIANTS.filter((v) => v.key !== 'auto').map((v) => `${v.short} ×${VARIANT_MULTIPLIER[v.key]}`).join(', ')}; an Autograph by its own roll.
       </p>
+      <p className="mt-3 font-semibold">Kits</p>
+      <p className="mt-0.5 text-muted-foreground">
+        Every card but the Autograph also rolls its kit: the home uniform, one of his club&apos;s modern alternates ({PACK_ORDER.map((t) => `${PACK_SHORT[t]} ${fmtOdds(KIT_ODDS[t].alt)}`).join(', ')}
+        ) or its famous era kit, a throwback ({PACK_ORDER.map((t) => `${PACK_SHORT[t]} ${fmtOdds(KIT_ODDS[t].era)}`).join(', ')}; Legends Exchange{' '}
+        {fmtOdds(KIT_ODDS.exchange.alt)} and {fmtOdds(KIT_ODDS.exchange.era)}). A club without an era kit or alternates wears home instead. The table counts
+        clubs with both. A throwback on a Holo or a Legendary is about 1 card in {oneIn(ODDS.holo.kits.eraHoloOrLegendary)} from Holo Showcase packs. A kit you don&apos;t own yet in that art and finish is a New kit, not a duplicate; the same kit again is a duplicate. Market value
+        × kit: alternate ×{ALT_VALUE_BONUS}, throwback ×{ERA_VALUE_BONUS}. Open a card to pick which kit it shows.
+      </p>
+      <p className="mt-3 font-semibold">Prizm parallels</p>
+      <p className="mt-0.5 text-muted-foreground">
+        Every Prizm card also rolls a colour parallel, numbered out of its run: about 1 Prizm in {oneIn(prizmAnyChance('standard'))} from Standard packs, 1 in{' '}
+        {oneIn(prizmAnyChance('holo'))} from Holo Showcase. Per Prizm card, Standard to Holo Showcase:{' '}
+        {PRIZM_PARALLELS.map((p) => `${p.label} ${p.run === 1 ? '1/1' : `/${p.run}`} ${fmtOdds(PRIZM_ODDS.standard[p.key])} to ${fmtOdds(PRIZM_ODDS.holo[p.key])}`).join(', ')}. A colour you
+        don&apos;t own yet in that finish is a New parallel, not a duplicate. Market value × parallel:{' '}
+        {PRIZM_PARALLELS.map((p) => `${p.label} ×${PARALLEL_MULTIPLIER[p.key]}`).join(', ')}; serial 1 of a numbered run ×{SERIAL_ONE_BONUS} more.
+      </p>
       <p className="mt-3 font-semibold">Autographs</p>
       <p className="mt-0.5 text-muted-foreground">
         The Autograph art is a signed card: {autographOddsLine()} cards. Each one also rolls its parallel ({PARALLELS.map((p) => `${p.label.replace(/ auto( 1\/1)?$/, '')} ${p.serial === 1 ? '1/1' : `/${p.serial}`} ${p.w}%`).join(', ')};
@@ -202,8 +242,8 @@ const RulesPopover = () => (
         ))}
       </ul>
       <p className="mt-3 text-muted-foreground">
-        Shards: every pack opened gives {PACK_ORDER.map((t) => `${PACK_SHORT[t]} ${PACK_SHARDS[t]}`).join(', ')}; duplicates (same player, variant
-        and finish) give {FINISHES.map((f) => `${f.label} ${DUPLICATE_SHARDS[f.key]}`).join(', ')}, × {TIERS.slice(1).map((t) => `${t.label} ${DUPLICATE_TIER_MULTIPLIER[t.key]}`).join(', ')}.
+        Shards: every pack opened gives {PACK_ORDER.map((t) => `${PACK_SHORT[t]} ${PACK_SHARDS[t]}`).join(', ')}; duplicates (same player, variant,
+        finish and kit) give {FINISHES.map((f) => `${f.label} ${DUPLICATE_SHARDS[f.key]}`).join(', ')}, × {TIERS.slice(1).map((t) => `${t.label} ${DUPLICATE_TIER_MULTIPLIER[t.key]}`).join(', ')}.
         Claim a chosen player&apos;s Base card for {TIERS.map((t) => `${t.label} ${CLAIM_COST[t.key].toLocaleString()}`).join(', ')} shards (a Legend claim
         for a Legendary). Upgrading one finish costs {CRAFT_COST.silver}/{CRAFT_COST.gold}/{CRAFT_COST.holo.toLocaleString()} (Silver/Gold/Holo), ×{' '}
         {TIERS.slice(1).map((t) => `${t.label} ${CRAFT_TIER_MULTIPLIER[t.key]}`).join(', ')} and × art ({VARIANTS.filter((v) => isCraftable(v.key) && CRAFT_VARIANT_MULTIPLIER[v.key] !== 1).map((v) => `${v.short} ${CRAFT_VARIANT_MULTIPLIER[v.key]}`).join(', ')}). Open any card to claim or upgrade it (any art but the Autograph).
@@ -420,10 +460,10 @@ const CollectionTab = () => {
   const openCard = (c: CardInfo, list: CardInfo[], from?: DOMRect) => setDetail({ info: c, list, from });
   const binderOwned = useMemo(() => shown.filter((c) => !!owned[c.key]), [shown, owned]);
   const describe = (pc: { player: Player }) => byKey.get(`${pc.player.position}:${pc.player.name}`)!;
-  // What a card shows by default: the display choice when still owned, else auto
-  const shown_ = (k: string) => {
-    const d = displayOf(owned[k], state.display?.[k]);
-    return { variant: d.variant, finish: d.finish, pinned: d.pinned };
+  // What a card shows by default: the display choice when still owned, else auto (with the best kit owned there)
+  const shown_ = (c: CardInfo) => {
+    const d = displayWithKit(owned[c.key], state.display?.[c.key], c.player);
+    return { variant: d.variant, finish: d.finish, pinned: d.pinned, kit: d.kit, prizm: d.prizm };
   };
   // Shard estimate for "about N packs to go": a Standard pack against this binder
   const poolKeys = useMemo(
@@ -540,7 +580,7 @@ const CollectionTab = () => {
                   live={owned[c.key].best === 'holo' || c.tier === 'legendary'}
                   player={c.player}
                   tier={c.tier}
-                  {...shown_(c.key)}
+                  {...shown_(c)}
                   ovr={c.ovr}
                   number={c.number}
                   stats={c.stats}
@@ -685,7 +725,7 @@ const CollectionTab = () => {
             {shown.map((c) => {
               const entry = owned[c.key];
               // One tile per player: his display choice, else his rarest variant owned at that variant's best finish
-              const d = entry ? displayOf(entry, state.display?.[c.key]) : undefined;
+              const d = entry ? displayWithKit(entry, state.display?.[c.key], c.player) : undefined;
               return (
                 <li key={c.key} className={cn('fut-tile', fresh?.has(c.key) && 'fut-tile--fresh')}>
                   <CollectibleCard
@@ -693,6 +733,8 @@ const CollectionTab = () => {
                     tier={c.tier}
                     finish={d?.finish ?? 'base'}
                     variant={d?.variant}
+                    kit={d?.kit}
+                    prizm={d?.prizm}
                     pinned={d?.pinned}
                     owned={!!entry}
                     ovr={c.ovr}
@@ -722,7 +764,7 @@ const CollectionTab = () => {
       <PackOpening
         type={opening}
         onClose={() => setOpening(null)}
-        onTear={(t) => openPack(t, tierPool, freeze)}
+        onTear={(t) => openPack(t, tierPool, freeze, KIT_SOURCE)}
         describe={describe}
         total={cards.length}
         remaining={opening ? packCount(state, opening) : 0}

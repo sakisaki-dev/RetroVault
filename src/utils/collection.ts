@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react';
 import { toast } from 'sonner';
 import type { Player } from '@/types/player';
 import { playerKey } from '@/config/ovr';
-import { FINISHES, LEGACY_VARIANT, TIERS, VARIANTS, finishRank, isVariant, tierRank, type Finish, type Tier, type Variant } from '@/config/cardTiers';
+import { FINISHES, LEGACY_VARIANT, PRIZM_PARALLELS, TIERS, VARIANTS, finishRank, isPrizmParallel, isVariant, prizmInfo, tierRank, type Finish, type PrizmCopy, type PrizmParallel, type Tier, type Variant } from '@/config/cardTiers';
 import { parseRoll, parseSnapshot, rollAutograph, type AutographRoll, type AutographSnapshot } from '@/config/autographs';
 
 export * from '@/config/cardTiers';
@@ -19,7 +19,7 @@ export * from '@/config/cardTiers';
  * rarest; PackSpec.variants). A player can own every variant, each at its own best finish, so they stack:
  * OwnedCard.variants holds one entry per variant owned, and OwnedCard.best / counts / first / last summarise them.
  * Saves from before variants are migrated on load: every owned card becomes the Team jersey variant.
- * Shards (every pack opened, more from duplicates of the same player, variant and finish) are the deliberate path:
+ * Shards (every pack opened, more from duplicates of the same player, variant, finish and kit) are the deliberate path:
  * claim a chosen player's Base card (claimCard; a "Legend claim" for a Legendary), then craft it up a finish at a time
  * (craftUpgrade; costs scale by tier and art variant). The owner can pin which variant × finish a player's card
  * displays (setDisplay / displayOf; CollectionState.display), else it shows the rarest variant at its best finish.
@@ -27,6 +27,11 @@ export * from '@/config/cardTiers';
  * also rolls its autograph (parallel, pen and ink, inscription, serial, throwback; src/config/autographs.ts), stored as
  * its own item in CollectionState.autos with a snapshot of the player frozen at the pull, while variants.auto counts
  * the finish like any other variant. Autographs are pulled only: never claimed or crafted with shards.
+ * Every other pull also rolls its KIT (home, a modern alternate or the club's era kit; KIT_ODDS), and each variant ×
+ * finish remembers the kits owned (VariantCard.kits): a pull in a kit not owned yet is a "New kit", not a duplicate.
+ * Every Prizm number pull also rolls its colour PARALLEL (plain most of the time, else Red /199 … Black 1/1 with a
+ * serial; PRIZM_ODDS), and each Prizm finish remembers every parallel copy owned (VariantCard.prizm): a colour not owned
+ * yet in that finish is a "New parallel", not a duplicate.
  *
  * State is per browser, in localStorage under STORAGE_KEY; every write fires CHANGE_EVENT so open
  * views update live. v1 (STORAGE_KEY_V1, one fixed rarity per player, cards granted directly by
@@ -41,6 +46,42 @@ export const CHANGE_EVENT = 'retroVault:collection';
 // ---------- Packs and odds ----------
 
 export type PackType = 'standard' | 'premium' | 'elite' | 'perfect' | 'holo' | 'exchange';
+/**
+ * Kit odds per card, by pack (owner: "considering throwbacks and diff eras are in it would be nice to be a small but
+ * substantial chase"). Every pulled card but the Autograph rolls once: `era` is the chance of the club's famous era
+ * kit (a throwback, art/sprite/uniforms.ts ERAS), `alt` of one of its modern alternates (picked evenly), the rest home.
+ * A club without an era kit or without alternates gives that share to home, so no card rolls a kit its club lacks.
+ * Rolled after the variant (rollKit); the market prices the kit worn (ALT_VALUE_BONUS / ERA_VALUE_BONUS).
+ */
+export const KIT_ODDS: Record<'standard' | 'premium' | 'elite' | 'perfect' | 'holo' | 'exchange', { alt: number; era: number }> = {
+  standard: { alt: 0.08, era: 0.025 },
+  premium: { alt: 0.09, era: 0.03 },
+  elite: { alt: 0.1, era: 0.035 },
+  perfect: { alt: 0.12, era: 0.045 },
+  holo: { alt: 0.12, era: 0.045 },
+  exchange: { alt: 0.1, era: 0.04 },
+};
+
+/**
+ * Prizm colour parallel odds per Prizm number card, by pack (owner: "add Prizm colour parallels (e.g. Red /199, Blue
+ * /99, Green /49, Gold /10, Black 1/1)"). Every pulled Prizm card rolls once after its kit (rollPrizm): each colour has
+ * its own chance, rarer than the one before, and the rest stay plain Prizm. A parallel lands on about 1 Prizm in 7 from
+ * Standard packs and 1 in 5.4 from Holo Showcase / Perfect Season; a Black 1/1 on about 1 in 5,000 Prizm cards
+ * (Standard) to 1 in 2,500 (the chase packs). A parallel carries a serial out of its run (1…199, a Black always 1/1),
+ * stored with the card (VariantCard.prizm); the market prices it by PARALLEL_MULTIPLIER (src/utils/cardMarket.ts).
+ * scripts/simulate_packs.ts prints the odds per pack.
+ */
+export const PRIZM_ODDS: Record<'standard' | 'premium' | 'elite' | 'perfect' | 'holo' | 'exchange', Record<PrizmParallel, number>> = {
+  standard: { red: 0.08, blue: 0.04, green: 0.018, gold: 0.0045, black: 0.0002 },
+  premium: { red: 0.085, blue: 0.045, green: 0.021, gold: 0.0055, black: 0.00025 },
+  elite: { red: 0.09, blue: 0.05, green: 0.024, gold: 0.0065, black: 0.0003 },
+  perfect: { red: 0.095, blue: 0.055, green: 0.027, gold: 0.008, black: 0.0004 },
+  holo: { red: 0.095, blue: 0.055, green: 0.027, gold: 0.008, black: 0.0004 },
+  exchange: { red: 0.09, blue: 0.05, green: 0.024, gold: 0.0065, black: 0.0003 },
+};
+/** Chance a Prizm number card from this pack is any parallel. */
+export const prizmAnyChance = (type: PackType) => PRIZM_PARALLELS.reduce((a, p) => a + PRIZM_ODDS[type][p.key], 0);
+
 /** Packs games and gifts can award. The Legends Exchange pack is only ever created by exchangeLegends. */
 export type EarnablePack = Exclude<PackType, 'exchange'>;
 /** Packs stored as a plain count (Perfect Season and Legends Exchange packs are stored one by one). */
@@ -92,7 +133,7 @@ export const VARIANT_STACK: Partial<Record<Variant, { tier: Weights<Tier>; finis
 
 /** Extra multipliers for one exact variant × tier × finish, on top of VARIANT_STACK (the chase cards). */
 export const VARIANT_COMBO: { variant: Variant; tier: Tier; finish: Finish; factor: number }[] = [
-  { variant: 'auto', tier: 'legendary', finish: 'holo', factor: 0.02 },
+  { variant: 'auto', tier: 'legendary', finish: 'holo', factor: 0.15 },
 ];
 
 /** Variant odds for one card of a pack, given the tier and finish it already rolled. */
@@ -234,7 +275,7 @@ export const PERFECT_CHASE_FALLBACK_FINISH: Weights<Finish> = { base: 0, silver:
 // ---------- Shards: duplicates in, claims and finish upgrades out ----------
 
 /**
- * Shards from a duplicate (same player, variant and finish already owned), by finish, × DUPLICATE_TIER_MULTIPLIER.
+ * Shards from a duplicate (same player, variant, finish and kit already owned), by finish, × DUPLICATE_TIER_MULTIPLIER.
  * The pool is small (about 130 players), so duplicates come quickly; they fund the deliberate path: claim a chosen
  * player's card, then upgrade it a finish at a time. Pacing for an active player (scripts/simulate_packs.ts): a
  * Legend claim in about a week, Gold on a chosen card in about two, Holo only after several weeks.
@@ -295,6 +336,16 @@ export interface VariantCard {
   /** First pull and latest pull (ms since epoch) */
   first: number;
   last: number;
+  /**
+   * Kits owned per finish: kit id ('home', an alternate's or era kit's id from art/sprite/uniforms.ts, or LEGACY_KIT
+   * for cards from before per-pull kits, which wear the old fixed roll) → copies. Missing for the Autograph.
+   */
+  kits?: Partial<Record<Finish, Record<string, number>>>;
+  /**
+   * Prizm number only: every colour parallel copy owned per finish, in pull order (colour + serial). Copies a finish
+   * holds beyond these are plain Prizm, so saves from before parallels (no field) load as all plain.
+   */
+  prizm?: Partial<Record<Finish, PrizmCopy[]>>;
 }
 
 /** Everything owned of one player: one entry per art variant, plus a summary across them. */
@@ -344,10 +395,11 @@ export const ownsCombo = (card: OwnedCard | undefined, variant: Variant, finish:
 
 /**
  * What a player's card shows by default (binder tile, Best pulls, the detail): the owner's display choice when he
- * still owns it (`pinned`), otherwise auto, the rarest variant owned at its best finish.
+ * still owns it (`pinned`), otherwise auto, the rarest variant owned at its best finish. The kit it wears is picked by
+ * displayWithKit (src/components/collection/kits.ts), which knows the uniforms.
  */
 export const displayOf = (card: OwnedCard | undefined, choice?: DisplayChoice): { variant: Variant; finish: Finish; pinned: boolean } => {
-  if (choice && ownsCombo(card, choice.variant, choice.finish)) return { ...choice, pinned: true };
+  if (choice && ownsCombo(card, choice.variant, choice.finish)) return { variant: choice.variant, finish: choice.finish, pinned: true };
   const variant = bestVariant(card);
   return { variant, finish: card?.variants[variant]?.best ?? 'base', pinned: false };
 };
@@ -435,6 +487,10 @@ export interface CollectionState {
 export interface DisplayChoice {
   variant: Variant;
   finish: Finish;
+  /** The kit to wear (a stored kit id); missing = the best owned for that variant × finish */
+  kit?: string;
+  /** Prizm number: the parallel to show ('plain' or a colour owned there); missing = the best owned */
+  parallel?: PrizmParallel | 'plain';
 }
 
 export type CollectionChange =
@@ -475,7 +531,60 @@ const parseVariant = (x: unknown): VariantCard | null => {
     if (n) counts[key] = n;
   });
   if (!counts[e.best]) counts[e.best] = 1;
-  return { best: e.best, counts, first: num(e.first), last: num(e.last) };
+  const prizm = parsePrizm(e.prizm, counts);
+  return { best: e.best, counts, first: num(e.first), last: num(e.last), kits: parseKits(e.kits, counts), ...(prizm ? { prizm } : {}) };
+};
+
+/** Prizm parallel copies per finish, validated: known colours, serials within the run, never more than the copies owned. */
+const parsePrizm = (x: unknown, counts: Partial<Record<Finish, number>>): VariantCard['prizm'] => {
+  if (!x || typeof x !== 'object' || Array.isArray(x)) return undefined;
+  const out: NonNullable<VariantCard['prizm']> = {};
+  FINISHES.forEach(({ key: f }) => {
+    const r = (x as Record<string, unknown>)[f];
+    if (!counts[f] || !Array.isArray(r)) return;
+    const list = r
+      .filter((p): p is PrizmCopy => !!p && typeof p === 'object' && isPrizmParallel((p as PrizmCopy).c) && Number.isInteger((p as PrizmCopy).n))
+      .filter((p) => p.n >= 1 && p.n <= prizmInfo(p.c).run)
+      .map(({ c, n }) => ({ c, n }))
+      .slice(0, counts[f]);
+    if (list.length) out[f] = list;
+  });
+  return Object.keys(out).length ? out : undefined;
+};
+
+const KIT_RE = /^[a-z0-9-]{1,40}$/;
+/**
+ * Kits per finish, validated. Every finish owned keeps at least its copies' worth of kits: a finish with no (valid)
+ * kits, as in every save from before per-pull kits, owns LEGACY_KIT (the kit the old fixed roll gives it, so it keeps
+ * its look), and copies the kits don't account for are LEGACY_KIT too.
+ */
+const parseKits = (x: unknown, counts: Partial<Record<Finish, number>>): VariantCard['kits'] => {
+  const raw = x && typeof x === 'object' && !Array.isArray(x) ? (x as Record<string, unknown>) : {};
+  const out: NonNullable<VariantCard['kits']> = {};
+  FINISHES.forEach(({ key: f }) => {
+    const have = counts[f];
+    if (!have) return;
+    const r = raw[f] && typeof raw[f] === 'object' && !Array.isArray(raw[f]) ? (raw[f] as Record<string, unknown>) : {};
+    const kits: Record<string, number> = {};
+    Object.entries(r).forEach(([id, n]) => {
+      const c = num(n);
+      if (c && KIT_RE.test(id)) kits[id] = c;
+    });
+    const missing = have - Object.values(kits).reduce((a, b) => a + b, 0);
+    if (missing > 0) kits[LEGACY_KIT] = (kits[LEGACY_KIT] ?? 0) + missing;
+    out[f] = kits;
+  });
+  return out;
+};
+/** Kits of two entries for one variant, summed per finish and kit. */
+const mergeKits = (a: VariantCard['kits'], b: VariantCard['kits']): VariantCard['kits'] => {
+  const out: NonNullable<VariantCard['kits']> = {};
+  FINISHES.forEach(({ key: f }) => {
+    const m: Record<string, number> = { ...a?.[f] };
+    Object.entries(b?.[f] ?? {}).forEach(([id, n]) => (m[id] = (m[id] ?? 0) + n));
+    if (Object.keys(m).length) out[f] = m;
+  });
+  return out;
 };
 
 /** Variant key of the removed Retro Bowl sprite art; stored entries migrate to the Locker stall on load. */
@@ -493,6 +602,10 @@ const mergeVariant = (a: VariantCard, b: VariantCard): VariantCard => {
     counts,
     first: firsts.length ? Math.min(...firsts) : 0,
     last: Math.max(a.last, b.last),
+    kits: mergeKits(a.kits, b.kits),
+    ...(a.prizm || b.prizm
+      ? { prizm: Object.fromEntries(FINISHES.map(({ key: f }) => [f, [...(a.prizm?.[f] ?? []), ...(b.prizm?.[f] ?? [])]]).filter(([, l]) => l.length)) }
+      : {}),
   };
 };
 
@@ -539,6 +652,10 @@ const parse = (raw: string | null): CollectionState | null => {
       });
       // Saves from before variants (or with no valid variant): the whole card becomes the Team jersey variant
       if (!Object.keys(variants).length) variants[LEGACY_VARIANT] = parseVariant(e)!;
+      // The Autograph's art is the signed card: it has no kits
+      if (variants.auto) delete variants.auto.kits;
+      // Parallels are Prizm number only
+      VARIANTS.forEach(({ key }) => key !== 'number' && variants[key] && delete variants[key]!.prizm);
       s.cards[k] = summarise(variants, marks);
     });
     COUNTED_PACKS.forEach((t) => (s.packs[t] = num(d.packs?.[t])));
@@ -569,7 +686,13 @@ const parse = (raw: string | null): CollectionState | null => {
     const display: Record<string, DisplayChoice> = {};
     Object.entries(rawDisplay).forEach(([k, v]) => {
       const c = v as Partial<DisplayChoice> | null;
-      if (KEY_RE.test(k) && c && isVariant(c.variant) && isFinish(c.finish)) display[k] = { variant: c.variant, finish: c.finish };
+      if (KEY_RE.test(k) && c && isVariant(c.variant) && isFinish(c.finish))
+        display[k] = {
+          variant: c.variant,
+          finish: c.finish,
+          ...(typeof c.kit === 'string' && KIT_RE.test(c.kit) ? { kit: c.kit } : {}),
+          ...(c.variant === 'number' && (c.parallel === 'plain' || isPrizmParallel(c.parallel)) ? { parallel: c.parallel } : {}),
+        };
     });
     if (Object.keys(display).length) s.display = display;
     s.autos = (Array.isArray(d.autos) ? d.autos : []).flatMap((a): OwnedAuto[] => {
@@ -769,6 +892,91 @@ export const redeemGift = (id: string): 'granted' | 'already' | 'unknown' => {
 
 export type Rng = () => number;
 
+/**
+ * Where kits come from. The uniform tables live with the card art (src/components/collection/art/sprite/uniforms.ts,
+ * wired up as KIT_SOURCE in src/components/collection/kits.ts) and are passed in by the pack code, so this module (in
+ * the main bundle: every game awards packs) never loads them.
+ */
+export interface KitSource {
+  /** A club's kit ids: its modern alternates (0–2) and its era kit (if any) */
+  of: (team: string | undefined) => { alts: string[]; era?: string };
+  /** The kit id the old fixed roll gives a card (what LEGACY_KIT stands for on it) */
+  legacy: (player: Player, variant: Variant, finish: Finish) => string;
+}
+/**
+ * Stored kit id of a card the binder had before per-pull kits: it wears the old fixed roll (uniforms.ts uniformFor for
+ * that player × variant × finish), so nothing owned changes look.
+ */
+export const LEGACY_KIT = 'legacy';
+
+/**
+ * Rolls one card's kit for a pack (KIT_ODDS): one roll r, r < era → the club's era kit, era ≤ r < era + alt → one of
+ * its alternates (evenly), else home; a share the club has no kit for stays home. The Autograph always wears home.
+ */
+export const rollKit = (type: PackType, club: { alts: string[]; era?: string }, variant: Variant, rng: Rng = Math.random): string => {
+  if (variant === 'auto') return 'home';
+  const o = KIT_ODDS[type];
+  const r = rng();
+  if (r < o.era) return club.era ?? 'home';
+  if (r < o.era + o.alt) return club.alts.length ? club.alts[Math.floor(rng() * club.alts.length)] : 'home';
+  return 'home';
+};
+
+/** Per-card chance (non-Autograph pulls) of one exact kit of this club from a pack: home, an alternate or the era kit. */
+export const kitChance = (type: PackType, club: { alts: string[]; era?: string }, kit: string): number => {
+  const o = KIT_ODDS[type];
+  if (club.era && kit === club.era) return o.era;
+  if (club.alts.includes(kit)) return o.alt / club.alts.length;
+  return kit === 'home' ? 1 - (club.era ? o.era : 0) - (club.alts.length ? o.alt : 0) : 0;
+};
+
+/**
+ * Rolls one Prizm number card's colour parallel for a pack (PRIZM_ODDS): one roll r against the colours rarest first,
+ * then a serial out of the colour's run (a Black is 1/1). Null (plain Prizm) for every other variant and most Prizms.
+ */
+export const rollPrizm = (type: PackType, variant: Variant, rng: Rng = Math.random): PrizmCopy | null => {
+  if (variant !== 'number') return null;
+  const o = PRIZM_ODDS[type];
+  let r = rng();
+  for (const p of [...PRIZM_PARALLELS].reverse()) {
+    if (r < o[p.key]) return { c: p.key, n: p.run === 1 ? 1 : 1 + Math.floor(rng() * p.run) };
+    r -= o[p.key];
+  }
+  return null;
+};
+
+/**
+ * Prizm parallels owned in one Prizm finish: each colour owned (rarest first, with its serials in pull order), then
+ * 'plain' when copies there aren't all parallels. Empty for other variants and combos not owned.
+ */
+export const ownedParallels = (card: OwnedCard | undefined, variant: Variant, finish: Finish): { c: PrizmParallel | 'plain'; serials: number[]; count: number }[] => {
+  const v = card?.variants[variant];
+  if (!v || variant !== 'number' || !ownsCombo(card, variant, finish)) return [];
+  const list = v.prizm?.[finish] ?? [];
+  const out = [...PRIZM_PARALLELS]
+    .reverse()
+    .map((p) => {
+      const serials = list.filter((x) => x.c === p.key).map((x) => x.n);
+      return { c: p.key as PrizmParallel | 'plain', serials, count: serials.length };
+    })
+    .filter((x) => x.count > 0);
+  const plain = Math.max(0, (v.counts[finish] ?? 1) - list.length);
+  if (plain) out.push({ c: 'plain', serials: [], count: plain });
+  return out;
+};
+
+/**
+ * The parallel a Prizm card shows: the pinned one when it is still owned there ('plain' = plain Prizm), else the best
+ * owned (rarest colour, its lowest serial). Undefined = plain (and for every other variant).
+ */
+export const shownParallel = (card: OwnedCard | undefined, variant: Variant, finish: Finish, pin?: PrizmParallel | 'plain'): PrizmCopy | undefined => {
+  const owned = ownedParallels(card, variant, finish);
+  const hit = (pin && owned.find((o) => o.c === pin)) || owned[0];
+  return !hit || hit.c === 'plain' ? undefined : { c: hit.c, n: Math.min(...hit.serials) };
+};
+/** The best parallel owned in one Prizm finish (shownParallel without a pin). */
+export const bestParallel = (card: OwnedCard | undefined, variant: Variant, finish: Finish) => shownParallel(card, variant, finish);
+
 const pick = <K extends string>(weights: Partial<Record<K, number>>, rng: Rng, allowed?: (k: K) => boolean): K | null => {
   const items = (Object.entries(weights) as [K, number][]).filter(([k, w]) => w > 0 && (!allowed || allowed(k)));
   const total = items.reduce((s, [, w]) => s + w, 0);
@@ -820,8 +1028,12 @@ export interface RolledCard {
   player: Player;
   tier: Tier;
   finish: Finish;
-  /** Art variant (rolled last) */
+  /** Art variant (rolled after the finish) */
   variant: Variant;
+  /** Kit id (rolled after the variant, rollKit): 'home', an alternate's id or the era kit's id; always 'home' on the Autograph */
+  kit: string;
+  /** Prizm number: its colour parallel and serial (rolled last, rollPrizm); missing = plain (and every other variant) */
+  prizm?: PrizmCopy;
   /** Which slot rule produced it (for the reveal) */
   slot: 'regular' | 'guarantee' | 'chase';
 }
@@ -838,9 +1050,10 @@ export const groupByTier = <P,>(pool: P[], tierOf: (p: P) => Tier): Record<Tier,
 /**
  * Rolls a pack without touching storage (the odds simulation calls this directly). Each slot rolls a
  * tier (empty tiers drop out), a random player of that tier (no repeats within a pack while the tier
- * has others), then a finish. Guarantees apply to the last slot only when still unmet.
+ * has others), then a finish, an art variant and (with a kit source) a kit. Guarantees apply to the last slot only when
+ * still unmet. Without `kits` every card is home (and the rolls before it are unchanged).
  */
-export const rollPack = (type: EarnablePack, pool: TierPool, rng: Rng = Math.random): RolledCard[] => {
+export const rollPack = (type: EarnablePack, pool: TierPool, rng: Rng = Math.random, kits?: KitSource): RolledCard[] => {
   const spec = PACKS[type];
   const has = (t: Tier) => pool[t].length > 0;
   const taken = new Set<string>();
@@ -854,10 +1067,13 @@ export const rollPack = (type: EarnablePack, pool: TierPool, rng: Rng = Math.ran
     taken.add(cardKey(p));
     return p;
   };
-  // Order of rolls per card: tier → player → finish (already rolled by the caller) → variant
+  // Order of rolls per card: tier → player → finish (already rolled by the caller) → variant → kit → Prizm parallel
   const push = (tier: Tier, finish: Finish, slot: RolledCard['slot']) => {
     const player = playerOf(tier);
-    out.push({ player, tier, finish, variant: pick(variantWeights(type, tier, finish), rng) ?? LEGACY_VARIANT, slot });
+    const variant = pick(variantWeights(type, tier, finish), rng) ?? LEGACY_VARIANT;
+    const kit = kits ? rollKit(type, kits.of(player.team), variant, rng) : 'home';
+    const prizm = rollPrizm(type, variant, rng);
+    out.push({ player, tier, finish, variant, kit, ...(prizm ? { prizm } : {}), slot });
   };
   const regular = () => {
     const tier = pick(spec.tiers, rng, has);
@@ -915,7 +1131,11 @@ export interface PackCard extends RolledCard {
   newVariant: boolean;
   /** Better than the best finish owned before in this variant */
   upgrade: boolean;
-  /** Same player, variant and finish already owned: converted to shards */
+  /** Same player, variant and finish owned, but not in this kit: a new kit, not a duplicate */
+  newKit: boolean;
+  /** Same player, Prizm finish owned, but not in this colour parallel: a new parallel, not a duplicate */
+  newParallel: boolean;
+  /** Same player, variant, finish, kit and parallel already owned: converted to shards */
   duplicate: boolean;
   shards: number;
   /** Provenance (Perfect Season packs) */
@@ -932,10 +1152,10 @@ export type AutographFreezer = (player: Player) => AutographSnapshot | null;
  * such pack is stored or the pool is empty. A card that rolls the Autograph variant is signed: its autograph is rolled
  * and frozen by `freeze` and added to `autos` (no freezer, or a player it can't describe: the card is a Locker stall).
  */
-export const openPack = (type: PackType, pool: TierPool, freeze?: AutographFreezer): PackCard[] | null => {
+export const openPack = (type: PackType, pool: TierPool, freeze?: AutographFreezer, kits?: KitSource): PackCard[] | null => {
   const s = readCollection();
   if (packCount(s, type) <= 0) return null;
-  const rolled = type === 'exchange' ? exchangeCards(s.exchange[0], pool) : rollPack(type, pool);
+  const rolled = type === 'exchange' ? exchangeCards(s.exchange[0], pool, Math.random, kits) : rollPack(type, pool, Math.random, kits);
   if (!rolled.length) return null;
   const perfect = type === 'perfect' && !s.perfect[0]?.gift ? s.perfect[0] : undefined;
   const cards = { ...s.cards };
@@ -946,11 +1166,25 @@ export const openPack = (type: PackType, pool: TierPool, freeze?: AutographFreez
     // The Autograph variant signs the card: freeze his career as of now and roll the autograph. A player the freezer
     // can't describe (or no freezer) falls back to the next rarest art, so the variant never exists without its autograph.
     const snap = rc.variant === 'auto' && freeze ? freeze(rc.player) : null;
-    const c: RolledCard = rc.variant === 'auto' && !snap ? { ...rc, variant: 'locker' } : rc;
+    const c: RolledCard = rc.variant === 'auto' && !snap ? { ...rc, variant: 'locker', kit: kits ? rollKit(type, kits.of(rc.player.team), 'locker') : 'home' } : rc;
     const k = cardKey(c.player);
     const prev = cards[k];
     const pv = prev?.variants[c.variant];
-    const duplicate = !!pv?.counts[c.finish];
+    const owned = !!pv?.counts[c.finish];
+    // Kits of this finish so far, the legacy sentinel resolved to the kit it stands for (this pull knows the player)
+    const kitsHad: Record<string, number> = {};
+    Object.entries(pv?.kits?.[c.finish] ?? {}).forEach(([id, n]) => {
+      const real = id === LEGACY_KIT && kits ? kits.legacy(c.player, c.variant, c.finish) : id;
+      kitsHad[real] = (kitsHad[real] ?? 0) + n;
+    });
+    if (owned && !Object.keys(kitsHad).length) kitsHad[kits ? kits.legacy(c.player, c.variant, c.finish) : LEGACY_KIT] = pv!.counts[c.finish]!;
+    const kitOwned = c.variant === 'auto' ? owned : !!kitsHad[c.kit];
+    // A parallel colour counts as owned once any copy of it is in this finish; a plain Prizm once the finish is owned
+    const prizmHad = pv?.prizm?.[c.finish] ?? [];
+    const parallelOwned = !c.prizm || prizmHad.some((x) => x.c === c.prizm!.c);
+    const duplicate = owned && kitOwned && parallelOwned;
+    const newKit = owned && !kitOwned;
+    const newParallel = owned && !parallelOwned;
     const gain = duplicate ? duplicateShards(c.finish, c.tier) : 0;
     shards += gain;
     const upgrade = !!pv && finishRank(c.finish) > finishRank(pv.best);
@@ -960,6 +1194,8 @@ export const openPack = (type: PackType, pool: TierPool, freeze?: AutographFreez
       counts: { ...pv?.counts, [c.finish]: (pv?.counts[c.finish] ?? 0) + 1 },
       first: pv?.first || now,
       last: now,
+      ...(c.variant === 'auto' ? {} : { kits: { ...pv?.kits, [c.finish]: { ...kitsHad, [c.kit]: (kitsHad[c.kit] ?? 0) + 1 } } }),
+      ...(c.prizm ? { prizm: { ...pv?.prizm, [c.finish]: [...prizmHad, { c: c.prizm.c, n: c.prizm.n }] } } : pv?.prizm ? { prizm: pv.prizm } : {}),
     };
     cards[k] = summarise({ ...prev?.variants, [c.variant]: entry }, marks);
     const auto: OwnedAuto | undefined = snap
@@ -974,7 +1210,7 @@ export const openPack = (type: PackType, pool: TierPool, freeze?: AutographFreez
         }
       : undefined;
     if (auto) autos.push(auto);
-    return { ...c, isNew: !prev, newVariant: !!prev && !pv, upgrade, duplicate, shards: gain, mark: perfect?.label, ...(auto ? { auto } : {}) };
+    return { ...c, isNew: !prev, newVariant: !!prev && !pv, upgrade, newKit, newParallel, duplicate, shards: gain, mark: perfect?.label, ...(auto ? { auto } : {}) };
   });
   const next: CollectionState = {
     ...s,
@@ -995,7 +1231,7 @@ export const openPack = (type: PackType, pool: TierPool, freeze?: AutographFreez
 // ---------- Legends Exchange (one-time migration: NFL legends are no longer collectible) ----------
 
 /** Cards of a stored Legends Exchange pack, resolved against the current pool (a player gone from it is replaced in his tier). */
-const exchangeCards = (pack: ExchangePack | undefined, pool: TierPool, rng: Rng = Math.random): RolledCard[] => {
+const exchangeCards = (pack: ExchangePack | undefined, pool: TierPool, rng: Rng = Math.random, kits?: KitSource): RolledCard[] => {
   if (!pack) return [];
   const where = new Map<string, { player: Player; tier: Tier }>();
   TIERS.forEach(({ key: tier }) => pool[tier].forEach((player) => where.set(cardKey(player), { player, tier })));
@@ -1005,12 +1241,17 @@ const exchangeCards = (pack: ExchangePack | undefined, pool: TierPool, rng: Rng 
       const hit = where.get(c.key);
       // Rolled now, like any pull (the stored plan fixes only player, tier and finish)
       const variant = pick(variantWeights('exchange', c.tier, c.finish), rng) ?? LEGACY_VARIANT;
-      if (hit) return { player: hit.player, tier: hit.tier, finish: c.finish, variant, slot: 'chase' };
+      const extras = (team: string | undefined): Pick<RolledCard, 'kit' | 'prizm'> => {
+        const kit = kits ? rollKit('exchange', kits.of(team), variant, rng) : 'home';
+        const prizm = rollPrizm('exchange', variant, rng);
+        return { kit, ...(prizm ? { prizm } : {}) };
+      };
+      if (hit) return { player: hit.player, tier: hit.tier, finish: c.finish, variant, ...extras(hit.player.team), slot: 'chase' };
       const list = pool[c.tier].filter((p) => !taken.has(cardKey(p)));
       const player = list[Math.floor(rng() * list.length)];
       if (!player) return null;
       taken.add(cardKey(player));
-      return { player, tier: c.tier, finish: c.finish, variant, slot: 'chase' };
+      return { player, tier: c.tier, finish: c.finish, variant, ...extras(player.team), slot: 'chase' };
     })
     .filter((c): c is RolledCard => !!c)
     .sort((a, b) => tierRank(a.tier) - tierRank(b.tier) || finishRank(a.finish) - finishRank(b.finish));
@@ -1090,7 +1331,15 @@ export const craftUpgrade = (p: Pick<Player, 'name' | 'position'>, tier: Tier, v
   if (!card || !v || !to) return null;
   const cost = craftCost(to, tier, variant);
   if (s.shards < cost) return null;
-  const entry: VariantCard = { ...v, best: to, counts: { ...v.counts, [to]: (v.counts[to] ?? 0) + 1 }, last: Date.now() };
+  // A crafted copy wears the home kit (kits are pulled, never crafted)
+  const had = v.kits?.[to] ?? (v.counts[to] ? { [LEGACY_KIT]: v.counts[to]! } : {});
+  const entry: VariantCard = {
+    ...v,
+    best: to,
+    counts: { ...v.counts, [to]: (v.counts[to] ?? 0) + 1 },
+    last: Date.now(),
+    kits: { ...v.kits, [to]: { ...had, home: (had.home ?? 0) + 1 } },
+  };
   write(
     { ...s, shards: s.shards - cost, cards: { ...s.cards, [k]: summarise({ ...card.variants, [variant]: entry }, card.marks) } },
     { kind: 'crafted', key: k, finish: to, variant },
@@ -1104,7 +1353,13 @@ export const setDisplay = (p: Pick<Player, 'name' | 'position'>, choice: Display
   const k = cardKey(p);
   if (choice && !ownsCombo(s.cards[k], choice.variant, choice.finish)) return false;
   const display = { ...s.display };
-  if (choice) display[k] = { variant: choice.variant, finish: choice.finish };
+  if (choice)
+    display[k] = {
+      variant: choice.variant,
+      finish: choice.finish,
+      ...(choice.kit ? { kit: choice.kit } : {}),
+      ...(choice.variant === 'number' && choice.parallel ? { parallel: choice.parallel } : {}),
+    };
   else delete display[k];
   const next: CollectionState = { ...s };
   if (Object.keys(display).length) next.display = display;
@@ -1125,7 +1380,8 @@ export const claimCard = (p: Pick<Player, 'name' | 'position'>, tier: Tier): Var
   const cost = claimCost(tier);
   if (!variant || s.shards < cost) return null;
   const now = Date.now();
-  const entry: VariantCard = { best: 'base', counts: { base: 1 }, first: now, last: now };
+  // Claimed cards wear the home kit (kits are pulled, never bought)
+  const entry: VariantCard = { best: 'base', counts: { base: 1 }, first: now, last: now, kits: { base: { home: 1 } } };
   write(
     { ...s, shards: s.shards - cost, cards: { ...s.cards, [k]: summarise({ ...card?.variants, [variant]: entry }, card?.marks) } },
     { kind: 'claimed', key: k, variant },
@@ -1149,12 +1405,33 @@ export const expectedShardsPerPack = (type: EarnablePack, cards: Record<string, 
       if (!j[t][f]) return;
       const pv = norm(variantWeights(type, t, f));
       VARIANTS.forEach(({ key: v }) => {
-        const have = keys.reduce((n, k) => n + (cards[k]?.variants[v]?.counts[f] ? 1 : 0), 0);
+        const have = keys.reduce((n, k) => n + dupeChance(type, cards[k]?.variants[v], v, f), 0);
         perCard += j[t][f] * pv(v) * (have / keys.length) * duplicateShards(f, t);
       });
     });
   });
   return perCard * PACKS[type].size + PACK_SHARDS[type];
+};
+
+/**
+ * Chance a pull of this variant × finish duplicates a kit already owned (an estimate: it doesn't know the card's
+ * club, so it assumes the club has every kind of kit and up to two alternates). The Autograph has no kits.
+ */
+const dupeChance = (type: PackType, vc: VariantCard | undefined, v: Variant, f: Finish): number => {
+  if (!vc?.counts[f]) return 0;
+  if (v === 'auto') return 1;
+  const o = KIT_ODDS[type];
+  const ids = Object.keys(vc.kits?.[f] ?? { [LEGACY_KIT]: 1 });
+  const alts = ids.filter((id) => id !== 'home' && id !== LEGACY_KIT && !id.startsWith('era')).length;
+  // A Prizm duplicate also needs the parallel it rolls owned there (plain always is, once the finish is)
+  const owned = new Set((vc.prizm?.[f] ?? []).map((x) => x.c));
+  const par = v === 'number' ? 1 - prizmAnyChance(type) + PRIZM_PARALLELS.reduce((a, p) => a + (owned.has(p.key) ? PRIZM_ODDS[type][p.key] : 0), 0) : 1;
+  return (
+    ((ids.includes('home') || ids.includes(LEGACY_KIT) ? 1 - o.alt - o.era : 0) +
+      (ids.some((id) => id.startsWith('era')) ? o.era : 0) +
+      o.alt * Math.min(1, alts / 2)) *
+    par
+  );
 };
 
 /** "about 12 Standard packs to go" (null when the shards are already there). */
@@ -1252,6 +1529,13 @@ export interface OddsSummary {
   rarestHolo: number;
   /** Per card: the rarest art × Holo × Legendary, the rarest card there is */
   rarestLegendaryHolo: number;
+  /**
+   * Per card, for a club with both kinds of kit: a modern alternate, an era kit (both KIT_ODDS on every card but the
+   * Autograph), and an era kit on a Holo or a Legendary-tier card.
+   */
+  kits: { alt: number; era: number; eraHoloOrLegendary: number };
+  /** Per card: each Prizm colour parallel (the Prizm share × PRIZM_ODDS), and any parallel */
+  parallels: Record<PrizmParallel, number> & { any: number };
 }
 /** Per-card odds for a pack type: by tier, by finish, and Legendary-tier Holo. */
 export const packOdds = (type: EarnablePack): OddsSummary => {
@@ -1269,7 +1553,26 @@ export const packOdds = (type: EarnablePack): OddsSummary => {
   const rarestHoloAt = (t: Tier) => j[t].holo * norm(variantWeights(type, t, 'holo'))(rarest);
   const rarestHolo = TIERS.reduce((a, { key: t }) => a + rarestHoloAt(t), 0);
   const rarestLegendaryHolo = rarestHoloAt('legendary');
-  return { tiers, finishes, variants, legendaryHolo: j.legendary.holo, rarestHolo, rarestLegendaryHolo };
+  const o = KIT_ODDS[type];
+  const kitted = 1 - variants.auto;
+  const eraHoloOrLegendary = TIERS.reduce(
+    (a, { key: t }) =>
+      a + FINISHES.reduce((b, { key: f }) => b + (t === 'legendary' || f === 'holo' ? j[t][f] * (1 - norm(variantWeights(type, t, f))('auto')) * o.era : 0), 0),
+    0,
+  );
+  return {
+    tiers,
+    finishes,
+    variants,
+    legendaryHolo: j.legendary.holo,
+    rarestHolo,
+    rarestLegendaryHolo,
+    kits: { alt: kitted * o.alt, era: kitted * o.era, eraHoloOrLegendary },
+    parallels: {
+      ...(Object.fromEntries(PRIZM_PARALLELS.map((p) => [p.key, variants.number * PRIZM_ODDS[type][p.key]])) as Record<PrizmParallel, number>),
+      any: variants.number * prizmAnyChance(type),
+    },
+  };
 };
 
 // ---------- React ----------

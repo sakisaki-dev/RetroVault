@@ -185,10 +185,11 @@ const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, onPrefetch
   );
 
   return (
-    <div ref={rootRef} style={{ ['--stats-bar-h' as string]: `${offset.bar}px` }}>
+    <div ref={rootRef} className="rv-stats" style={{ ['--stats-bar-h' as string]: `${offset.bar}px` }}>
       <div
         ref={barRef}
-        className="sticky z-40 border-b border-line/70 bg-night/90 backdrop-blur-md supports-[backdrop-filter]:bg-night/75"
+        data-chrome-bar
+        className="chrome-hide-bar sticky z-40 border-b border-line/70 bg-night/90 backdrop-blur-md supports-[backdrop-filter]:bg-night/75"
         style={{ top: 'var(--site-header-h, 0px)' }}
       >
         <div className="container flex items-center gap-3 py-1.5">

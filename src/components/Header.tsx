@@ -67,6 +67,48 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
     return () => ro.disconnect();
   }, []);
 
+  // Stats tab: slide the header (and the Stats sub-nav, see StatsHub) away while scrolling down, back on any scroll up.
+  // CSS does the motion (.chrome-hide in index.css; instant under reduced motion). Keyboard focus inside the bars, the
+  // top of the page and a locked body (an open dialog) always bring them back.
+  useEffect(() => {
+    const root = document.documentElement;
+    const show = () => delete root.dataset.chrome;
+    if (activeTab !== 'career') {
+      show();
+      return;
+    }
+    let lastY = window.scrollY;
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const y = window.scrollY;
+      const dy = y - lastY;
+      const headerH = headerRef.current?.offsetHeight ?? 64;
+      const locked = document.body.hasAttribute('data-scroll-locked') || getComputedStyle(document.body).overflow === 'hidden';
+      if (y <= headerH * 2 || locked) show();
+      else if (dy > 8) {
+        // Keep the bars while keyboard focus is inside one of them
+        const focusIn = document.activeElement?.closest('[data-site-header], [data-chrome-bar]');
+        if (!focusIn) root.dataset.chrome = 'hidden';
+      } else if (dy < -8) show();
+      if (Math.abs(dy) > 8 || y <= headerH * 2) lastY = y;
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(check);
+    };
+    const onFocus = (e: FocusEvent) => {
+      if ((e.target as Element | null)?.closest?.('[data-site-header], [data-chrome-bar]')) show();
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('focusin', onFocus);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('focusin', onFocus);
+      if (raf) cancelAnimationFrame(raf);
+      show();
+    };
+  }, [activeTab]);
+
   const board = useMemo(() => {
     const players = getAllPlayers();
     const teams = new Set<string>();
@@ -132,7 +174,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
     : [];
 
   return (
-    <header ref={headerRef} className="sticky top-0 z-50 border-b border-line/70 bg-night/90 backdrop-blur-md supports-[backdrop-filter]:bg-night/80">
+    <header ref={headerRef} data-site-header className="chrome-hide sticky top-0 z-50 border-b border-line/70 bg-night/90 backdrop-blur-md supports-[backdrop-filter]:bg-night/80">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[60] focus:rounded focus:bg-gold focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary-foreground"

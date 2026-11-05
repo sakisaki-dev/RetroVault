@@ -6,19 +6,28 @@ import { sfx } from '@/utils/sfx';
 import {
   FINISHES,
   PACKS,
+  PRIZM_ODDS,
+  PRIZM_PARALLELS,
   SHELF_ORDER,
   TIERS,
   VARIANTS,
   finishLabel,
   groupByTier,
+  kitChance,
   packOdds,
+  prizmAnyChance,
+  prizmStamp,
+  rollKit,
   rollPack,
+  rollPrizm,
   tierLabel,
   variantLabel,
   variantWeights,
   type Finish,
   type PackCard,
   type PackType,
+  type PrizmCopy,
+  type PrizmParallel,
   type RolledCard,
   type Tier,
   type TierPool,
@@ -33,7 +42,8 @@ import type { CardInfo } from '../../useCardPool';
 import { walkoutBeats, skipStep, type WkBeat } from '../../walkoutBeats';
 import JerseyArt from '../JerseyArt';
 import { paletteFor } from '../shared';
-import { allAlternates, allEraKits, homeUniform, uniformFor, uniformLabel, type Uniform } from '../sprite/uniforms';
+import { kitName, kitsOf, type Uniform } from '../sprite/uniforms';
+import { KIT_SOURCE, clubKits } from '../../kits';
 import { Chips, Lazy } from './LabParts';
 import AutographPreview from '../../autograph/AutographPreview';
 
@@ -56,6 +66,16 @@ export interface LabTab {
 const CARD_RATIO = '100 / 142';
 const STANDARD = packOdds('standard');
 const pct = (x: number) => `${(x * 100).toFixed(x < 0.1 ? 1 : 0)}%`;
+/** Kit odds: one decimal, trailing zero dropped ("2.5%", "4%", "88.5%"). */
+const kitPct = (x: number) => `${Number((x * 100).toFixed(1))}%`;
+
+/** Parallel odds: one in N for the rare ones ("0.02% (1 in 5,000)"), else a percentage. */
+const oddsPct = (x: number) => (x < 0.01 ? `${Number((x * 100).toFixed(3))}% (1 in ${Math.round(1 / x).toLocaleString('en-US')})` : kitPct(x));
+/** A sample serial for the lab: his jersey number when it fits the run, else 1 (a Black is always 1/1). */
+const sampleSerial = (c: PrizmParallel, number: number | null | undefined) => {
+  const run = PRIZM_PARALLELS.find((p) => p.key === c)!.run;
+  return number && number >= 1 && number <= run ? number : 1;
+};
 
 /** Same rule as the pack dialog: performance mode or the OS setting means the short versions. */
 const reducedMotion = () => {
@@ -67,7 +87,7 @@ const reducedMotion = () => {
 };
 
 /** A card as the pack dialog wants it. Preview mode hides the NEW / duplicate tags, so the flags don't matter. */
-const asPackCard = (c: RolledCard): PackCard => ({ ...c, isNew: true, newVariant: false, upgrade: false, duplicate: false, shards: 0 });
+const asPackCard = (c: RolledCard): PackCard => ({ ...c, isNew: true, newVariant: false, upgrade: false, newKit: false, newParallel: false, duplicate: false, shards: 0 });
 
 const weighted = <K extends string>(w: Record<K, number>): K => {
   const items = Object.entries(w) as [K, number][];
@@ -90,14 +110,17 @@ const EXCHANGE_PLAN: [Tier, Finish][] = [
 
 /** A throwaway pack of `type` at its real odds (rollPack never touches storage). */
 const rollSample = (type: PackType, pool: TierPool): PackCard[] => {
-  if (type !== 'exchange') return rollPack(type, pool).map(asPackCard);
+  if (type !== 'exchange') return rollPack(type, pool, Math.random, KIT_SOURCE).map(asPackCard);
   const taken = new Set<string>();
   return EXCHANGE_PLAN.flatMap(([tier, finish]) => {
     const list = pool[tier].filter((p) => !taken.has(`${p.position}:${p.name}`));
     const player = list[Math.floor(Math.random() * list.length)];
     if (!player) return [];
     taken.add(`${player.position}:${player.name}`);
-    return [asPackCard({ player, tier, finish, variant: weighted(variantWeights('exchange', tier, finish)), slot: 'chase' })];
+    const variant = weighted(variantWeights('exchange', tier, finish));
+    const kit = rollKit('exchange', clubKits(player.team), variant);
+    const prizm = rollPrizm('exchange', variant);
+    return [asPackCard({ player, tier, finish, variant, kit, ...(prizm ? { prizm } : {}), slot: 'chase' })];
   });
 };
 
@@ -178,11 +201,17 @@ export const WalkoutTab = memo(({ pick, total }: LabTabProps) => {
   const [tier, setTier] = useState<Tier>('legendary');
   const [finish, setFinish] = useState<Finish>('holo');
   const [variant, setVariant] = useState<Variant>('jersey');
+  const [kit, setKit] = useState('home');
+  const [par, setPar] = useState<PrizmParallel | 'plain'>('plain');
   const [run, setRun] = useState<Run | null>(null);
   const [played, setPlayed] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
+  const clubKits = useMemo(() => {
+    const k = kitsOf(pick.player.team);
+    return [k.home, ...k.alts, ...(k.era ? [k.era] : [])];
+  }, [pick.player.team]);
   // A new choice stops the one playing
-  useEffect(() => setRun(null), [tier, finish, variant]);
+  useEffect(() => setRun(null), [tier, finish, variant, kit, par]);
   // Each beat holds for its own time, then the next starts (a tap advances early), as in the pack dialog
   useEffect(() => {
     const ms = run?.beats[run.step]?.ms ?? 0;
@@ -191,7 +220,8 @@ export const WalkoutTab = memo(({ pick, total }: LabTabProps) => {
     return () => window.clearTimeout(id);
   }, [run]);
   const play = () => {
-    const card = asPackCard({ player: pick.player, tier, finish, variant, slot: 'regular' });
+    const prizm: PrizmCopy | undefined = variant === 'number' && par !== 'plain' ? { c: par, n: sampleSerial(par, pick.number) } : undefined;
+    const card = asPackCard({ player: pick.player, tier, finish, variant, kit: variant === 'auto' ? 'home' : kit, ...(prizm ? { prizm } : {}), slot: 'regular' });
     sfx('walkout');
     setPlayed(true);
     const reduced = reducedMotion();
@@ -205,6 +235,17 @@ export const WalkoutTab = memo(({ pick, total }: LabTabProps) => {
       <Chips<Tier> label="Tier" value={tier} options={TIERS.map((t) => ({ key: t.key, label: t.label }))} onChange={setTier} />
       <Chips<Finish> label="Finish" value={finish} options={FINISHES.map((f) => ({ key: f.key, label: f.label }))} onChange={setFinish} />
       <Chips<Variant> label="Art" value={variant} options={VARIANTS.map((v) => ({ key: v.key, label: v.label }))} onChange={setVariant} />
+      {clubKits.length > 1 && variant !== 'auto' && (
+        <Chips<string> label="Kit" value={kit} options={clubKits.map((u) => ({ key: u.id, label: u.era ? `${u.label} (throwback)` : kitName(u) }))} onChange={setKit} />
+      )}
+      {variant === 'number' && (
+        <Chips<PrizmParallel | 'plain'>
+          label="Parallel"
+          value={par}
+          options={[{ key: 'plain', label: 'Plain' }, ...PRIZM_PARALLELS.map((p) => ({ key: p.key, label: `${p.label} ${p.run === 1 ? '1/1' : `/${p.run}`}` }))]}
+          onChange={setPar}
+        />
+      )}
       <div className="lab-play">
         <button type="button" className="lab-play__btn" onClick={play}>
           {played ? <RotateCcw className="h-4 w-4" aria-hidden="true" /> : <Play className="h-4 w-4" aria-hidden="true" />}
@@ -217,6 +258,8 @@ export const WalkoutTab = memo(({ pick, total }: LabTabProps) => {
               ? 'Every Legendary walks out.'
               : variant === 'auto'
                 ? 'Every Autograph walks out.'
+                : variant === 'number' && (par === 'gold' || par === 'black')
+                  ? `Every ${par === 'gold' ? 'Gold /10' : 'Black 1/1'} Prizm walks out, with its PRIZM beat.`
                 : 'In a pack this one walks out only as a decoy (about one card in five).'}
           {variant === 'auto' && finish === 'holo' ? ' Then the AUTOGRAPH beat signs it.' : variant === 'auto' && tier === 'legendary' ? ' The AUTOGRAPH beat signs it last.' : ''}
         </span>
@@ -252,7 +295,7 @@ WalkoutTab.displayName = 'WalkoutTab';
 /** Team jersey art in a given uniform. */
 const jerseyArt = (info: CardInfo, uniform: Uniform) => <JerseyArt player={info.player} number={info.number} pal={paletteFor(info.player, uniform)} uniform={uniform} />;
 
-const LabCard = ({ info, finish, variant, total, uniform }: { info: CardInfo; finish: Finish; variant: Variant; total: number; uniform?: Uniform }) => (
+const LabCard = ({ info, finish, variant, total, uniform, prizm }: { info: CardInfo; finish: Finish; variant: Variant; total: number; uniform?: Uniform; prizm?: PrizmCopy }) => (
   <Lazy ratio={CARD_RATIO}>
     <CollectibleCard
       owned
@@ -260,6 +303,7 @@ const LabCard = ({ info, finish, variant, total, uniform }: { info: CardInfo; fi
       tier={info.tier}
       finish={finish}
       variant={variant}
+      prizm={prizm}
       autograph="sample"
       ovr={info.ovr}
       number={info.number}
@@ -274,14 +318,13 @@ const LabCard = ({ info, finish, variant, total, uniform }: { info: CardInfo; fi
 export const DesignsTab = memo(({ pick, total }: LabTabProps) => {
   const [finish, setFinish] = useState<Finish>('base');
   const [kits, setKits] = useState(false);
+  const [pars, setPars] = useState(false);
   const team = findNFLTeam(pick.player.team);
-  const uniforms = useMemo(
-    () =>
-      team
-        ? [homeUniform(team.name), ...allAlternates().filter((a) => a.team === team.id).map((a) => a.u), ...allEraKits().filter((a) => a.team === team.id).map((a) => a.u)]
-        : [],
-    [team],
-  );
+  const uniforms = useMemo(() => {
+    if (!team) return [];
+    const k = kitsOf(team.name);
+    return [k.home, ...k.alts, ...(k.era ? [k.era] : [])];
+  }, [team]);
   return (
     <section aria-label="Card designs" className="lab-sec">
       <Chips<Finish> label="Finish" value={finish} options={FINISHES.map((f) => ({ key: f.key, label: f.label }))} onChange={setFinish} />
@@ -294,12 +337,42 @@ export const DesignsTab = memo(({ pick, total }: LabTabProps) => {
               <b>{v.label}</b>
               <span>
                 {pct(STANDARD.variants[v.key])} of Standard pulls ·{' '}
-                {v.key === 'auto' ? 'a sample roll (each pull rolls its own parallel, ink and serial)' : uniformLabel(uniformFor(pick.player, v.key, finish))}
+                {v.key === 'auto'
+                  ? 'a sample roll (each pull rolls its own parallel, ink and serial)'
+                  : v.key === 'number'
+                    ? `home kit, plain here; each pull rolls its own kit, and a colour parallel on ${pct(prizmAnyChance('standard'))} of Standard Prizms`
+                    : 'home kit here; each pull rolls its own kit'}
               </span>
             </p>
           </li>
         ))}
       </ul>
+      <div className="lab-kits">
+        <button type="button" className="lab-chip" aria-expanded={pars} onClick={() => setPars((k) => !k)}>
+          {pars ? 'Hide' : 'Show'} Prizm parallels ({PRIZM_PARALLELS.length})
+        </button>
+        {pars && (
+          <>
+            <p className="lab-note">
+              Every Prizm number pull also rolls a colour parallel (most stay plain), numbered out of its run. Chance per Prizm card, Standard pack to Holo
+              Showcase; any parallel {kitPct(prizmAnyChance('standard'))} to {kitPct(prizmAnyChance('holo'))}.
+            </p>
+            <ul className="lab-cards" aria-label="Prizm parallels">
+              {PRIZM_PARALLELS.map((p) => (
+                <li key={p.key}>
+                  <LabCard info={pick} finish={finish} variant="number" total={total} prizm={{ c: p.key, n: sampleSerial(p.key, pick.number) }} />
+                  <p className="lab-cap">
+                    <span className="lab-tag">{prizmStamp(p.key)}</span>
+                    <span>
+                      {oddsPct(PRIZM_ODDS.standard[p.key])} Standard · {oddsPct(PRIZM_ODDS.holo[p.key])} Holo Showcase
+                    </span>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
       {team && uniforms.length > 0 && (
         <div className="lab-kits">
           <button type="button" className="lab-chip" aria-expanded={kits} onClick={() => setKits((k) => !k)}>
@@ -308,13 +381,20 @@ export const DesignsTab = memo(({ pick, total }: LabTabProps) => {
           </button>
           {kits && (
             <>
-              <p className="lab-note">The home uniform, then the alternates a card rolls about 8% of the time, on the Team jersey art.</p>
+              <p className="lab-note">
+                Every pull but the Autograph rolls its kit: the home uniform, a modern alternate or the club&apos;s era kit (a throwback). Chance per card,
+                Standard pack to Holo Showcase, on the Team jersey art.
+              </p>
               <ul className="lab-cards" aria-label={`${team.name} uniforms`}>
-                {uniforms.map((u, i) => (
+                {uniforms.map((u) => (
                   <li key={u.id}>
                     <LabCard info={pick} finish="base" variant="jersey" total={total} uniform={u} />
                     <p className="lab-cap">
-                      <b>{i === 0 ? 'Home' : uniformLabel(u)}</b>
+                      {u.id !== 'home' && <span className="lab-tag">{u.era ? 'Throwback' : 'Alt kit'}</span>}
+                      <b>{kitName(u)}</b>
+                      <span>
+                        {kitPct(kitChance('standard', clubKits(team.name), u.id))} Standard · {kitPct(kitChance('holo', clubKits(team.name), u.id))} Holo Showcase
+                      </span>
                     </p>
                   </li>
                 ))}
@@ -339,8 +419,8 @@ const AutographsTab = ({ pick, league }: LabTabProps) => <AutographPreview cards
 
 export const LAB_TABS: LabTab[] = [
   { key: 'packs', label: 'Pack opening', hint: 'Pick a pack and open a sample of it: the real tear, tell, flips and walkouts.', Tab: PacksTab },
-  { key: 'walkout', label: 'Walkout', hint: 'His walkout at any tier, finish and art, one at a time.', Tab: WalkoutTab },
-  { key: 'designs', label: 'Card designs', hint: "His card in each of the five art variants at one finish (the Autograph a sample roll), and his club's uniforms.", Tab: DesignsTab },
+  { key: 'walkout', label: 'Walkout', hint: 'His walkout at any tier, finish, art and kit, one at a time.', Tab: WalkoutTab },
+  { key: 'designs', label: 'Card designs', hint: "His card in each of the five art variants at one finish (the Autograph a sample roll), the Prizm parallels, and his club's uniforms.", Tab: DesignsTab },
   { key: 'autographs', label: 'Autographs', hint: 'His autograph as a pack would roll it: roll again for another parallel, pen, era and serial.', Tab: AutographsTab },
 ];
 // The heavy grids (Combinations: 4 variants × 4 finishes; Uniforms: all 32 clubs) were replaced by these (owner:

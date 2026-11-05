@@ -1,4 +1,5 @@
 import { Star } from 'lucide-react';
+import FitName from '../FitName';
 import type { Player } from '@/types/player';
 import { isHallOfFamer } from '@/config/stats';
 import { GRADE_SCALE } from '@/config/skillGrades';
@@ -34,11 +35,11 @@ const TierChip = ({ e, onSelect }: { e: TierEntry; onSelect: (p: Player) => void
       >
         {e.player.team && (
           <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-sm bg-white/90">
-            <TeamLogo team={e.player.team} size={16} decorative />
+            <TeamLogo team={e.player.team} size={16} decorative backed />
           </span>
         )}
         {hof && <Star className="h-3 w-3 shrink-0 fill-current" aria-hidden="true" />}
-        <span className="truncate">{e.player.name}</span>
+        <span className="truncate"><FitName name={e.player.name} /></span>
         <span className="shrink-0 font-mono tabular-nums opacity-80">{e.value}</span>
       </button>
     </li>

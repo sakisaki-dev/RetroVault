@@ -167,7 +167,8 @@ const QuadrantLabel = ({
   const lh = style.fontSize + 2;
   const y0 = fromTop ? y : y - (lines.length - 1) * lh;
   return (
-    <text x={x} y={y0} textAnchor={anchor} {...style}>
+    // Drawn above the dots with a halo in the chart's surface colour (paint-order: stroke first), so a dot never hides it
+    <text x={x} y={y0} textAnchor={anchor} {...style} stroke={VIZ.surface} strokeWidth={4} strokeLinejoin="round" strokeOpacity={0.92} paintOrder="stroke">
       {lines.map((l, i) => (
         <tspan key={i} x={x} dy={i ? lh : 0}>
           {l}
@@ -336,7 +337,7 @@ const ClusterChooser = ({
               onClick={() => onPick(pt)}
               className="flex w-full min-w-0 items-center gap-2 rounded px-2 py-1.5 text-left text-xs hover:bg-panel-2 focus-visible:bg-panel-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
-              {pt.player.team ? <TeamLogo team={pt.player.team} size={18} decorative /> : <span className="w-[18px]" />}
+              {pt.player.team ? <TeamLogo team={pt.player.team} size={18} decorative backed /> : <span className="w-[18px]" />}
               <span className="min-w-0 flex-1">
                 <span className="flex items-center gap-1 truncate font-semibold text-foreground">
                   {pt.player.name}
@@ -716,6 +717,7 @@ const LandscapeScatter = ({
   const raised = [hover, picked !== hover ? picked : null].map((k) => (k ? screenByKey.get(k) : undefined)).filter((x): x is Screen => !!x);
 
   const q = spec.quadrants;
+  const yTitle = `${spec.yLabel}${spec.logY ? ' (log)' : ''} ${spec.yInvert ? '(lower is better) ' : ''}→`;
   const qStyle = { fill: GOLD, fillOpacity: 0.8, fontSize: narrow ? 10 : 12, fontWeight: 800, letterSpacing: 1 } as const;
   const fmtTick = (t: number) => fmtShort(t);
 
@@ -753,9 +755,17 @@ const LandscapeScatter = ({
                 {spec.xLabel}
                 {spec.logX ? ' (log)' : ''} →
               </text>
-              <text transform={`translate(13 ${(plot[1] + plot[3]) / 2}) rotate(-90)`} textAnchor="middle" fontSize={12} fontWeight={700} fill={VIZ.ink} className="font-display uppercase">
-                {spec.yLabel}
-                {spec.logY ? ' (log)' : ''} {spec.yInvert ? '(lower is better) ' : ''}→
+              <text
+                transform={`translate(14 ${(plot[1] + plot[3]) / 2}) rotate(-90)`}
+                textAnchor="middle"
+                fontSize={12}
+                fontWeight={700}
+                fill={VIZ.ink}
+                className="font-display uppercase"
+                // Never longer than the plot is tall (a long label on a short phone chart squeezes instead of running off)
+                {...(yTitle.length * 7.4 > plot[3] - plot[1] ? { textLength: Math.max(40, plot[3] - plot[1]), lengthAdjust: 'spacingAndGlyphs' } : {})}
+              >
+                {yTitle}
               </text>
 
               {!spec.noSplits && (
@@ -776,11 +786,6 @@ const LandscapeScatter = ({
                       {spec.xSplit.label}
                     </text>
                   )}
-                  {/* Quadrant names in the corners (wrapped to half the plot width so they never collide) */}
-                  <QuadrantLabel text={q.tr} x={plot[2] - 6} y={plot[1] + 14} anchor="end" fromTop maxW={(plot[2] - plot[0]) / 2 - 10} style={qStyle} />
-                  <QuadrantLabel text={q.tl} x={plot[0] + 6} y={plot[1] + 14} anchor="start" fromTop maxW={(plot[2] - plot[0]) / 2 - 10} style={qStyle} />
-                  <QuadrantLabel text={q.br} x={plot[2] - 6} y={plot[3] - (spec.xSplit ? 20 : 8)} anchor="end" fromTop={false} maxW={(plot[2] - plot[0]) / 2 - 10} style={qStyle} />
-                  <QuadrantLabel text={q.bl} x={plot[0] + 6} y={plot[3] - 8} anchor="start" fromTop={false} maxW={(plot[2] - plot[0]) / 2 - 10} style={qStyle} />
                 </>
               )}
               {spec.diagonal && (
@@ -827,6 +832,15 @@ const LandscapeScatter = ({
                 </g>
               ))}
             </g>
+            {/* Quadrant names in the corners (wrapped to half the plot width so they never collide), above the dots */}
+            {!spec.noSplits && (
+              <g pointerEvents="none" aria-hidden="true">
+                <QuadrantLabel text={q.tr} x={plot[2] - 6} y={plot[1] + 14} anchor="end" fromTop maxW={(plot[2] - plot[0]) / 2 - 10} style={qStyle} />
+                <QuadrantLabel text={q.tl} x={plot[0] + 6} y={plot[1] + 14} anchor="start" fromTop maxW={(plot[2] - plot[0]) / 2 - 10} style={qStyle} />
+                <QuadrantLabel text={q.br} x={plot[2] - 6} y={plot[3] - (spec.xSplit ? 20 : 8)} anchor="end" fromTop={false} maxW={(plot[2] - plot[0]) / 2 - 10} style={qStyle} />
+                <QuadrantLabel text={q.bl} x={plot[0] + 6} y={plot[3] - 8} anchor="start" fromTop={false} maxW={(plot[2] - plot[0]) / 2 - 10} style={qStyle} />
+              </g>
+            )}
 
             {/* Hovered / picked point raised on top and enlarged */}
             <g aria-hidden="true" pointerEvents="none" clipPath={clip}>
@@ -906,7 +920,7 @@ const LandscapeScatter = ({
       {hovered && geo && !chooser && (
         <ChartTip x={geo.X(hovered.x)} y={geo.Y(hovered.y)} width={width}>
           <p className="flex items-center gap-1.5 font-semibold text-foreground">
-            {hovered.player.team && <TeamLogo team={hovered.player.team} size={16} decorative />}
+            {hovered.player.team && <TeamLogo team={hovered.player.team} size={16} decorative backed />}
             {hovered.player.name} <span className="text-muted-foreground">· {hovered.player.position}</span>
             {hovered.nfl && <span className="rounded-sm bg-flag/80 px-1 font-pixel text-[7px] text-night">NFL</span>}
           </p>

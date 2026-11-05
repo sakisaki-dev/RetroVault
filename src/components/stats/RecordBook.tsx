@@ -1,7 +1,10 @@
 import { Crown, Gauge } from 'lucide-react';
+import { efficiencyTakeaway, recordsTakeaway } from './takeaways';
+import SectionIntro from './SectionIntro';
 import type { Player } from '@/types/player';
 import { cn } from '@/lib/utils';
 import { formatDecimal } from '@/utils/metricColors';
+import FitName from './FitName';
 import TeamLogo from '../brand/TeamLogo';
 import CountUp from '../brand/CountUp';
 import { GROUP_META, type PaceEntry, type RecordBoardData } from './records';
@@ -38,7 +41,7 @@ const RecordChip = ({ data, index, onSelect }: { data: RecordBoardData; index: n
         </span>
         <CountUp value={top.value} decimals={data.decimals} className="font-display text-2xl font-extrabold leading-none text-chalk sm:text-3xl" />
         <span className="flex min-w-0 items-center gap-1.5">
-          {top.player.team && <TeamLogo team={top.player.team} size={16} decorative />}
+          {top.player.team && <TeamLogo team={top.player.team} size={16} decorative backed />}
           <span className="line-clamp-2 text-xs font-semibold leading-tight text-secondary-foreground">{top.player.name}</span>
         </span>
         {margin && (
@@ -59,10 +62,10 @@ export const RecordStrip = ({ headline, onSelect }: { headline: RecordBoardData[
       <Crown className="h-5 w-5 text-gold" aria-hidden="true" />
       Record Book
     </h2>
-    <p className="text-sm text-muted-foreground">
+    <SectionIntro id="record-book" takeaway={recordsTakeaway(headline)}>
       The headline career records. Under each: the top five on a strip from #5 to the record, the gold diamond is the holder and the
       gold bar his lead over #2.
-    </p>
+    </SectionIntro>
     <ul className="flex flex-wrap gap-2 sm:gap-3" style={gridVars(headline.length, { base: 2, sm: 3, lg: 5, xl: 9 })}>
       {headline.map((b, i) => (
         <RecordChip key={b.id} data={b} index={i} onSelect={onSelect} />
@@ -91,8 +94,8 @@ const LeaderTile = ({ data, onSelect }: { data: RecordBoardData; onSelect: Selec
           {fmt(top.value, data.decimals)}
         </span>
         <span className="flex min-w-0 items-center gap-1.5">
-          {top.player.team && <TeamLogo team={top.player.team} size={18} decorative />}
-          <span className="truncate text-sm font-semibold text-foreground">{top.player.name}</span>
+          {top.player.team && <TeamLogo team={top.player.team} size={18} decorative backed />}
+          <span className="truncate text-sm font-semibold text-foreground"><FitName name={top.player.name} /></span>
         </span>
         {margin && (
           <span className="mt-auto block space-y-0.5 pt-1.5">
@@ -128,10 +131,10 @@ const RecordBook = ({ leaders, pace, onSelect }: RecordBookProps) => {
             <Gauge className="h-5 w-5 text-gold" aria-hidden="true" />
             Efficiency Leaders
           </h2>
-          <p className="text-sm text-muted-foreground">
+          <SectionIntro id="efficiency" takeaway={efficiencyTakeaway(leaders)}>
             Quality over quantity. Rate stats only count players with a full sample. The strip under each mark shows the top five, with the
             leader's margin over #2 in gold.
-          </p>
+          </SectionIntro>
           <ul className="flex flex-wrap gap-3" style={gridVars(leaders.length, { base: 2, sm: 3, lg: 5 })}>
             {leaders.map((b) => (
               <LeaderTile key={b.id} data={b} onSelect={onSelect} />

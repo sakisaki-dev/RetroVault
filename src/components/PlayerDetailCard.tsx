@@ -213,9 +213,19 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   const familyTies = getFamilyTies(extras, player.name);
 
   // Banner identity (colours, logo, jersey): an active player wears his current team; a retired one his signature
-  // team, where he was best known. For a retired player the latest club is still named in the ID strip when it differs.
+  // team, where he was best known. A retired player's ID strip says what each club is when they differ: "Best known
+  // with" (the signature team, shown big), "Retired with" (his last stop, from the game's Hall of Fame screen, the same
+  // club the career arc ends on) and "Club of record" (the league sheet's team, which jersey numbers and the rafters use).
   const team = findNFLTeam(signatureTeamOf(extras, player));
   const latestTeam = findNFLTeam(player.team);
+  const retiredWith = findNFLTeam(typeof card?.retired_team === 'string' ? card.retired_team : undefined);
+  const isRetired = player.status === 'Retired';
+  const otherClubs = isRetired && team
+    ? [
+        retiredWith && retiredWith.id !== team.id ? { label: 'Retired with', club: retiredWith } : null,
+        latestTeam && latestTeam.id !== team.id && latestTeam.id !== retiredWith?.id ? { label: 'Club of record', club: latestTeam } : null,
+      ].filter((x): x is { label: string; club: NonNullable<typeof team> } => !!x)
+    : [];
   const theme = teamThemeVars(team);
   const jerseyNumber = numberFor(player);
   const ovr = overallRating(player, officialOvr);
@@ -372,13 +382,16 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
                   <TeamLogo team={team} size={26} decorative />
                 </span>
                 <span className="leading-tight">
+                  {otherClubs.length > 0 && <span className="block text-[11px] font-normal text-muted-foreground">Best known with</span>}
                   {team.fullName}
                   <span className="block text-[11px] font-normal text-muted-foreground">
                     {team.conference} {team.division}
                   </span>
-                  {player.status === 'Retired' && latestTeam && latestTeam.id !== team.id && (
-                    <span className="block text-[11px] font-normal text-muted-foreground">Latest club: {latestTeam.name}</span>
-                  )}
+                  {otherClubs.map((o) => (
+                    <span key={o.label} className="block text-[11px] font-normal text-muted-foreground">
+                      {o.label}: {o.club.name}
+                    </span>
+                  ))}
                 </span>
               </span>
             ) : player.team ? (

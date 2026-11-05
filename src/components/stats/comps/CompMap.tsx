@@ -291,7 +291,7 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
         }}
       >
         <span className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
-          {hover.player.team && <TeamLogo team={hover.player.team} size={18} decorative />}
+          {hover.player.team && <TeamLogo team={hover.player.team} size={18} decorative backed />}
           {hover.player.name}
           {isHallOfFamer(hover.player) && <span className="font-pixel text-[8px] text-gold">HOF</span>}
         </span>

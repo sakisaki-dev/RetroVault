@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import { landscapeTakeaway } from '../takeaways';
+import SectionIntro from '../SectionIntro';
 import { GalleryHorizontalEnd } from 'lucide-react';
 import type { LeagueData, Player, Position } from '@/types/player';
 import { POSITIONS, buildContext, leaguePlayers } from '@/config/advanced';
@@ -112,7 +114,10 @@ const LeagueGallery = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Pla
           <GalleryHorizontalEnd className="h-5 w-5 text-gold" aria-hidden="true" />
           League Landscape
         </h2>
-        <p className="text-sm text-muted-foreground">Position-by-position graphics: a tier list, every rate stat as a strip, and a family map of play styles. Pick a position, then a graphic. For any other comparison, open the Graph Builder in the Lab.</p>
+        <SectionIntro id="landscape" takeaway={landscapeTakeaway(tiers, position, tierBy === 'skill' ? 'skill rating' : 'official OVR')}>
+          Position-by-position graphics: a tier list, every rate stat as a strip, and a family map of play styles. Pick a position, then a graphic. For any other
+          comparison, open the Graph Builder in the Lab.
+        </SectionIntro>
       </div>
 
       <div className="glass-card flex flex-col gap-2 px-3 py-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4">
@@ -182,7 +187,7 @@ const LeagueGallery = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Pla
         <ChartFrame
           poster
           title={`${position} family map`}
-          description={`Every league ${name.toLowerCase()} placed by play-style shape (what he leans on, with his overall level taken out; closer = plays more alike), with shaded zones for the ${position} families: rule-based clusters of those shapes, named from each family's average shape. Hover a zone or legend entry to highlight it; click one to list its members.`}
+          description={`Every league ${name.toLowerCase()} placed by play-style shape (what he leans on, with his overall level taken out; closer = plays more alike), with shaded zones for the ${position} families: rule-based clusters of those shapes, named from each family's average shape. Tap or hover a zone or legend entry to highlight it; tap one to list its members.`}
           chart={<FamilyMap players={players} position={position} />}
           table={<FamilyTable players={players} position={position} onSelect={onSelect} />}
         />

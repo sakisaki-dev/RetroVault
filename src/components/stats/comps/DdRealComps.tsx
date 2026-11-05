@@ -43,7 +43,7 @@ const CompRow = ({ comp, ovr, onSelect }: { comp: Comp; ovr?: number; onSelect: 
         {p.photo?.url ? (
           <img src={p.photo.url} alt="" className="h-9 w-9 shrink-0 rounded-full object-cover object-top ring-1 ring-line" loading="lazy" />
         ) : (
-          <TeamLogo team={p.team} size={30} decorative />
+          <TeamLogo team={p.team} size={30} decorative backed />
         )}
         <span className="min-w-0 flex-1">
           <span className="flex items-center gap-1.5">

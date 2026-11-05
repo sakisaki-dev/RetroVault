@@ -5,10 +5,12 @@ import { cn } from '@/lib/utils';
 import TeamLogo from '@/components/brand/TeamLogo';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { POSITION_NAMES } from '@/utils/playerMeta';
-import { tierLabel, variantLabel, type PackCard } from '@/utils/collection';
+import { prizmInfo, prizmSerial, prizmStamp, tierLabel, variantLabel, type PackCard } from '@/utils/collection';
 import CollectibleCard, { PlayerJersey } from './CollectibleCard';
 import type { CardInfo } from './useCardPool';
-import { AUTO_WRITE_DELAY_MS, AUTO_WRITE_MS, type WkBeat, type WkStage } from './walkoutBeats';
+import { AUTO_WRITE_DELAY_MS, AUTO_WRITE_MS, isPrizmChase, type WkBeat, type WkStage } from './walkoutBeats';
+import { kitStamp, kitUniform } from './art/sprite/uniforms';
+import './kits.css';
 import AutographCanvas from './autograph/AutographCanvas';
 import { useAutographFor } from './autograph/sample';
 import { autographValue, fmtMult, inkRowOf, parallelOf, serialStr } from '@/config/autographs';
@@ -116,7 +118,9 @@ interface WalkoutProps {
  * A holo looks like a normal walkout of its tier until after the flip; then the twist: white flash, prismatic
  * shockwave, the card shatters and reforms as holo, prism confetti, a HOLO stamp, a screen shake and a slow 360°.
  * A card that carries an autograph ends on its own beat: AUTOGRAPH, then the autograph card with his signature writing
- * itself left to right (drawn whole with reduced motion).
+ * itself left to right (drawn whole with reduced motion). A non-home kit shows its stamp under the card once it has
+ * flipped (ALT KIT · <label>); an era kit holds it back for its own THROWBACK beat after the flip and any twist. A
+ * Prizm colour parallel shows its stamp the same way (PRIZM RED /199); a Gold or Black holds it for its PRIZM beat.
  */
 const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, onSkip, onDone, onRevealAll }: WalkoutProps) => {
   const team = findNFLTeam(info.player.team);
@@ -133,6 +137,13 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
   const sampled = useAutographFor(info, card.finish, card.auto ?? 'sample');
   const auto = card.variant === 'auto' ? sampled : undefined;
   const signed = !!auto && reached('auto');
+  const uniform = card.variant === 'auto' ? null : kitUniform(info.player, card.kit, card.variant, card.finish);
+  const stamp = uniform ? kitStamp(uniform) : null;
+  const throwback = !!uniform?.era;
+  const kitShown = !!stamp && reached('flip') && (!throwback || reached('kit')) && (!holo || twisted || isFinal);
+  const par = card.variant === 'number' ? card.prizm : undefined;
+  const parChase = isPrizmChase(card);
+  const parShown = !!par && reached('flip') && (!parChase || reached('prizm')) && (!holo || twisted || isFinal);
   const doneRef = useRef<HTMLButtonElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   // Focus the stage (so Space / Enter reach Skip next), then Continue once it is over
@@ -287,6 +298,8 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
                     tier={card.tier}
                     finish={holo && !twisted ? 'base' : card.finish}
                     variant={card.variant}
+                    kit={card.kit}
+                    prizm={par}
                     autograph={auto}
                     ovr={info.ovr}
                     number={info.number}
@@ -323,15 +336,28 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
                 <Sparkles className="h-5 w-5" /> Holo
               </span>
             )}
+            {kitShown && (
+              <span className={cn('wk__kit', throwback ? 'wk__kit--era' : 'wk__kit--alt')} aria-hidden="true">
+                {stamp}
+              </span>
+            )}
+            {par && parShown && (
+              <span className={cn('wk__prizm', `wk__prizm--${par.c}`, kitShown && 'wk__prizm--stacked')} aria-hidden="true">
+                {prizmStamp(par.c)}
+                {prizmInfo(par.c).run > 1 && <small> {prizmSerial(par)}</small>}
+              </span>
+            )}
           </div>
         )}
+        {!reduced && stage === 'kit' && <span className="wk__kit-glow" aria-hidden="true" />}
+        {!reduced && stage === 'prizm' && par && <span className={cn('wk__prizm-glow', `wk__prizm-glow--${par.c}`)} aria-hidden="true" />}
         {twisted && !reduced && <span className="wk__white" aria-hidden="true" />}
-        {!reduced && (stage === 'flip' || stage === 'auto') && <span key={stage} className="wk__flash" aria-hidden="true" />}
+        {!reduced && (stage === 'flip' || stage === 'kit' || stage === 'prizm' || stage === 'auto') && <span key={stage} className="wk__flash" aria-hidden="true" />}
       </div>
 
       <p className="sr-only" role="status">
         {reached('flip')
-          ? `${tierLabel(card.tier)}! ${info.player.name}, ${variantLabel(card.variant)}${twisted ? '. Twist: it is a Holo!' : ''}${signed && auto ? `. And an autograph: ${parallelOf(auto.roll.parallel).label} ${serialStr(auto.roll)}!` : ''}`
+          ? `${tierLabel(card.tier)}! ${info.player.name}, ${variantLabel(card.variant)}${twisted ? '. Twist: it is a Holo!' : ''}${kitShown && uniform ? (throwback ? `. Throwback kit: ${uniform.label}!` : `. Alternate kit: ${uniform.label}`) : ''}${parShown && par ? `. Prizm ${prizmInfo(par.c).label} parallel, ${prizmSerial(par)}${parChase ? '!' : ''}` : ''}${signed && auto ? `. And an autograph: ${parallelOf(auto.roll.parallel).label} ${serialStr(auto.roll)}!` : ''}`
           : `${tierLabel(card.tier)} walkout`}
       </p>
 

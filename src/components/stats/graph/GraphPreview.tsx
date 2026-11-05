@@ -60,7 +60,7 @@ const GraphPreview = ({
     >
       <div className="gp-banner" style={{ ['--gp-team' as string]: color }} data-swipe-handle>
         <span className="gp-grab" aria-hidden="true" />
-        {p.team && <TeamLogo team={p.team} size={34} decorative />}
+        {p.team && <TeamLogo team={p.team} size={34} decorative backed />}
         <div className="min-w-0 flex-1">
           <p className="truncate font-display text-xl font-extrabold uppercase italic leading-tight text-chalk">{p.name}</p>
           <p className="truncate text-xs text-white/80">

@@ -314,11 +314,11 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
       />
 
       {/* Mobile: sticky section chips */}
-      <div className="dd-chips sticky z-20 -mx-4 border-y border-line/60 bg-background/90 px-4 py-1.5 backdrop-blur lg:hidden">{nav}</div>
+      <div className="dd-chips chrome-follow sticky z-20 -mx-4 border-y border-line/60 bg-background/90 px-4 py-1.5 backdrop-blur lg:hidden">{nav}</div>
 
       <div className="grid gap-6 lg:grid-cols-[12.5rem_minmax(0,1fr)]">
         <aside className="hidden lg:block">
-          <div className="dd-sticky sticky space-y-3">
+          <div className="dd-sticky chrome-follow sticky space-y-3">
             <p className="font-pixel text-[9px] uppercase text-gold">Scouting report</p>
             {nav}
           </div>
@@ -395,8 +395,8 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
                   </p>
                   <p className="mt-1.5">
                     Families: places every {player.position} by play-style shape instead (his style percentiles with his overall level taken out, so how he plays, not how good
-                    he is) and shades a zone for each {player.position} family: k-means clusters of those shapes, named by rule from a fixed label table. Hover a zone or legend entry to
-                    highlight it; click one to list its members. Same families as the League Landscape family map.
+                    he is) and shades a zone for each {player.position} family: k-means clusters of those shapes, named by rule from a fixed label table. Tap or hover a zone or legend entry to
+                    highlight it; tap one to list its members. Same families as the League Landscape family map.
                   </p>
                 </details>
               </div>

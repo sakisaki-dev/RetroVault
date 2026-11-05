@@ -40,7 +40,7 @@ const TimelineTab = () => {
   const [pickedSeason, setPickedSeason] = useState<string | null>(null);
   const shownSeason = useMemo(() => {
     if (pickedSeason) return pickedSeason;
-    const stories = content?.seasonStories ?? [];
+    const stories = content?.seasonStoryIndex ?? [];
     if (stories.length) return stories[stories.length - 1].season;
     const y = latestSeasonYear(content);
     return y ? `Y${y}` : null;
@@ -161,7 +161,7 @@ const TimelineTab = () => {
       <TimelineNews
         headlines={content.headlines}
         info={content.headlinesInfo}
-        stories={content.seasonStories}
+        stories={content.seasonStoryIndex}
         onPlayer={setSelectedPlayer}
         season={shownSeason}
         onSeason={setPickedSeason}

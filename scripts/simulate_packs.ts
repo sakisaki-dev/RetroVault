@@ -2,7 +2,9 @@
  * Pack odds simulation: opens N packs of every type (and one big Legends Exchange) against a synthetic pool and
  * prints the variant × finish × tier distribution, plus how many cards it takes to see the rarest art (the Autograph)
  * Holo Legendary, and the Autograph variant's rate per card and per pack (with the parallels they roll and the
- * Autograph × Holo × Legendary odds). Touches no real data (localStorage is an in-memory stub).
+ * Autograph × Holo × Legendary odds), then the kit chase per pack (alternate, era kit, and an era kit on a Holo or a
+ * Legendary; KIT_ODDS), then the Prizm colour parallels per pack (PRIZM_ODDS). Touches no real data (localStorage is an
+ * in-memory stub).
  *
  *   npm run -s sim:packs            # 10,000 packs per type
  *   npm run -s sim:packs -- 50000   # more
@@ -20,13 +22,19 @@ const store = new Map<string, string>();
 import type { Player } from '@/types/player';
 import {
   FINISHES,
+  KIT_ODDS,
   PACK_ORDER,
+  PRIZM_ODDS,
+  PRIZM_PARALLELS,
+  prizmAnyChance,
+  rollPrizm,
   STORAGE_KEY,
   TIERS,
   VARIANTS,
   exchangeLegends,
   openPack,
   packOdds,
+  rollKit,
   rollPack,
   type Finish,
   type RetiredLegend,
@@ -36,6 +44,7 @@ import {
 } from '@/utils/collection';
 
 const N = Number(process.argv[2]) || 10000;
+import { PACKS as C_PACKS } from '@/utils/collection';
 
 // Deterministic RNG (mulberry32) so two runs print the same numbers
 const rngOf = (seed: number) => () => {
@@ -52,6 +61,7 @@ TIERS.forEach(({ key }, ti) => {
   for (let i = 0; i < 60; i++) pool[key].push({ name: `${key} ${i}`, position: POS[(i + ti) % POS.length] } as unknown as Player);
 });
 
+const PACKS_SIZE = (t: (typeof PACK_ORDER)[number]) => C_PACKS[t].size;
 const pct = (n: number, d: number) => (d ? `${((100 * n) / d).toFixed(2)}%` : '-');
 /** The rarest art variant (the Autograph, at the retired sprite's odds): its Holo × Legendary is the chase card. */
 const RAREST = VARIANTS[VARIANTS.length - 1];
@@ -138,6 +148,115 @@ console.log('signer     ' + PARALLELS.map((p) => `${p.id} /${p.serial}`.padStart
 });
 console.log(`table weights: ${PARALLELS.map((p) => `${p.label} ${p.w}`).join(', ')} (a cut needs a Hall of Famer, an Inscribed something to inscribe; else On-card)`);
 
+// Kits: every pull but the Autograph rolls home, an alternate or the club's era kit (KIT_ODDS). The pool here wears
+// real clubs: Steelers (2 alternates + era kit) and Bears (1 + era) have both kinds; the Jets (2 alternates, no era
+// kit) check that a club never rolls a kit it lacks (its era share stays home).
+import { kitsOf } from '@/components/collection/art/sprite/uniforms';
+import { KIT_SOURCE, clubKits } from '@/components/collection/kits';
+const KIT_CLUBS = ['Steelers', 'Bears', 'Jets'];
+const kitPool: TierPool = { common: [], rare: [], epic: [], legendary: [] };
+TIERS.forEach(({ key }, ti) => {
+  for (let i = 0; i < 60; i++) kitPool[key].push({ name: `${key} kit ${i}`, position: POS[(i + ti) % POS.length], team: KIT_CLUBS[i % KIT_CLUBS.length] } as unknown as Player);
+});
+const kindOfKit = (team: string | undefined, kit: string) => {
+  const k = kitsOf(team);
+  return k.era?.id === kit ? 'era' : k.alts.some((u) => u.id === kit) ? 'alt' : 'home';
+};
+console.log(`
+=== Kits: ${N.toLocaleString('en-US')} packs per type (clubs with both kinds: Steelers, Bears; no era kit: Jets) ===`);
+console.log('pack        table alt/era    alt per card (sim / exact)   era per card (sim / exact)   era on Holo or Legendary (sim / exact)   Jets era   1 throwback per');
+PACK_ORDER.forEach((type, i) => {
+  const rng = rngOf(6000 + i);
+  let both = 0;
+  let alt = 0;
+  let era = 0;
+  let eraChase = 0;
+  let jetsEra = 0;
+  for (let n = 0; n < N; n++)
+    rollPack(type, kitPool, rng, KIT_SOURCE).forEach((c) => {
+      const team = (c.player as { team?: string }).team;
+      const kind = kindOfKit(team, c.kit);
+      if (team === 'Jets') {
+        if (kind === 'era') jetsEra++;
+        return;
+      }
+      both++;
+      if (kind === 'alt') alt++;
+      if (kind === 'era') {
+        era++;
+        if (c.finish === 'holo' || c.tier === 'legendary') eraChase++;
+      }
+    });
+  const o = packOdds(type);
+  const size = PACKS_SIZE(type);
+  console.log(
+    `${type.padEnd(10)}  ${`${(100 * KIT_ODDS[type].alt).toFixed(1)}% / ${(100 * KIT_ODDS[type].era).toFixed(1)}%`.padEnd(15)}  ` +
+      `${`${pct(alt, both)} / ${(100 * o.kits.alt).toFixed(2)}%`.padEnd(27)}  ${`${pct(era, both)} / ${(100 * o.kits.era).toFixed(2)}%`.padEnd(27)}  ` +
+      `${`${pct(eraChase, both)} / ${(100 * o.kits.eraHoloOrLegendary).toFixed(3)}% (1 in ${Math.round(1 / o.kits.eraHoloOrLegendary).toLocaleString('en-US')})`.padEnd(39)}  ${String(jetsEra).padStart(8)}   ` +
+      `${(1 / (o.kits.era * size)).toFixed(1)} packs`,
+  );
+});
+{
+  // The Legends Exchange rolls its kits at open time like any pull (exchange odds), checked here per non-Autograph card
+  const rng = rngOf(6100);
+  let alt = 0;
+  let era = 0;
+  for (let n = 0; n < N * 5; n++) {
+    const kind = kindOfKit('Steelers', rollKit('exchange', clubKits('Steelers'), 'number', rng));
+    if (kind === 'alt') alt++;
+    if (kind === 'era') era++;
+  }
+  console.log(`exchange    ${`${(100 * KIT_ODDS.exchange.alt).toFixed(1)}% / ${(100 * KIT_ODDS.exchange.era).toFixed(1)}%`.padEnd(15)}  alt ${pct(alt, N * 5)}, era ${pct(era, N * 5)} per non-Autograph card (sim)`);
+}
+
+// Prizm colour parallels: every Prizm number pull rolls one (PRIZM_ODDS; most stay plain). Per card through real packs
+// (the Prizm share × any parallel), then each colour per Prizm card from rollPrizm alone (100× the draws, so the
+// Black 1/1 rate settles), each beside its exact value.
+console.log(`
+=== Prizm parallels: ${N.toLocaleString('en-US')} packs per type, colours from ${(N * 100).toLocaleString('en-US')} Prizm rolls ===`);
+console.log(
+  'pack        any per card (sim / exact)   any per Prizm (sim / exact)   ' +
+    PRIZM_PARALLELS.map((p) => `${p.label} ${p.run === 1 ? '1/1' : `/${p.run}`} per Prizm`.padEnd(30)).join('') +
+    'packs per parallel',
+);
+PACK_ORDER.forEach((type, i) => {
+  const rng = rngOf(6500 + i);
+  let cards = 0;
+  let prizms = 0;
+  let pars = 0;
+  for (let n = 0; n < N; n++)
+    rollPack(type, pool, rng).forEach((c) => {
+      cards++;
+      if (c.variant === 'number') prizms++;
+      if (c.prizm) pars++;
+    });
+  const r2 = rngOf(6600 + i);
+  const hits: Record<string, number> = {};
+  const serialOk = { ok: true };
+  for (let n = 0; n < N * 100; n++) {
+    const p = rollPrizm(type, 'number', r2);
+    if (!p) continue;
+    hits[p.c] = (hits[p.c] ?? 0) + 1;
+    const run = PRIZM_PARALLELS.find((x) => x.key === p.c)!.run;
+    if (p.n < 1 || p.n > run || !Number.isInteger(p.n)) serialOk.ok = false;
+  }
+  const o = packOdds(type);
+  console.log(
+    `${type.padEnd(10)}  ${`${pct(pars, cards)} / ${(100 * o.parallels.any).toFixed(2)}%`.padEnd(27)}  ${`${pct(pars, prizms)} / ${(100 * prizmAnyChance(type)).toFixed(2)}%`.padEnd(28)}  ` +
+      PRIZM_PARALLELS.map((p) => {
+        const x = PRIZM_ODDS[type][p.key];
+        return `${pct(hits[p.key] ?? 0, N * 100)} / ${(100 * x).toFixed(x < 0.001 ? 3 : 2)}% (1 in ${Math.round(1 / x).toLocaleString('en-US')})`.padEnd(30);
+      }).join('') +
+      `${(1 / (o.parallels.any * PACKS_SIZE(type))).toFixed(1)}${serialOk.ok ? '' : '  SERIAL OUT OF RUN'}`,
+  );
+});
+{
+  const rng = rngOf(6700);
+  let n = 0;
+  for (let k = 0; k < N * 20; k++) if (rollPrizm('exchange', 'number', rng)) n++;
+  console.log(`exchange    any per Prizm ${pct(n, N * 20)} / ${(100 * prizmAnyChance('exchange')).toFixed(2)}% (sim / exact)`);
+}
+
 // Legends Exchange: one exchange of N legend cards (Epic/Legendary, mixed finishes), opened through the real store
 const legends = new Map<string, RetiredLegend>();
 const seeded: Record<string, { best: Finish; counts: Partial<Record<Finish, number>>; first: number; last: number }> = {};
@@ -162,7 +281,10 @@ import * as fs from 'node:fs';
 import * as C from '@/utils/collection';
 import { tierFor } from '@/config/cardTiers';
 
-const snaps = JSON.parse(fs.readFileSync('public/data/market.json', 'utf8')) as { players: Record<string, { ovr: number | null; legacy: number }> }[];
+import { expandMarket } from '@/utils/marketHistory';
+
+// market.json is stored as changes only (keyframes plus deltas, format 2): expand it to full snapshots
+const snaps = expandMarket(JSON.parse(fs.readFileSync('public/data/market.json', 'utf8')));
 const realPool: TierPool = { common: [], rare: [], epic: [], legendary: [] };
 const ovrOf = new Map<string, number | null>();
 Object.entries(snaps[snaps.length - 1].players).forEach(([k, v]) => {
@@ -233,8 +355,10 @@ PROFILES.forEach((prof, pi) => {
           owned.set(k, pv);
           const fs_ = pv.get(c.variant) ?? new Set<string>();
           pv.set(c.variant, fs_);
-          if (fs_.has(c.finish)) income += typeof X.duplicateShards === 'function' ? (X.duplicateShards as (f: string, t: Tier) => number)(c.finish, c.tier) : C.DUPLICATE_SHARDS[c.finish];
-          fs_.add(c.finish);
+          // A duplicate is the same finish in the same kit and Prizm parallel (a new kit or parallel pays no shards)
+          const fk = `${c.finish}|${c.kit ?? 'home'}|${c.prizm?.c ?? 'plain'}`;
+          if (fs_.has(fk)) income += typeof X.duplicateShards === 'function' ? (X.duplicateShards as (f: string, t: Tier) => number)(c.finish, c.tier) : C.DUPLICATE_SHARDS[c.finish];
+          fs_.add(fk);
           cardsTotal++;
           if (c.finish === 'holo') {
             holoPulls++;

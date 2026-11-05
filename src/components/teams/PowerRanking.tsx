@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { cn } from '@/lib/utils';
+import SectionIntro from '../stats/SectionIntro';
 import { liftForDarkBg } from '@/utils/teamColors';
 import TeamLogo from '../brand/TeamLogo';
 import { POWER_WEIGHTS, type FranchiseRecord, type TeamSummary } from './teamStats';
@@ -58,6 +59,15 @@ const PowerRanking = ({ teams, records, onOpen, highlight, onHighlight, lastSeas
         .sort((a, b) => b.v - a.v || (records.get(a.t.key)?.powerRank ?? 99) - (records.get(b.t.key)?.powerRank ?? 99)),
     [teams, records, metric],
   );
+  // Rule-built lead line: the No. 1 club on this metric and its margin over No. 2
+  const takeaway = (() => {
+    const [first, second] = rows;
+    if (!first || first.v <= 0) return null;
+    const rec = records.get(first.t.key);
+    const name = first.t.team?.name ?? first.t.label;
+    if (metric === 'power' && rec) return `The ${name} run the league all-time: ${rec.titles} title${rec.titles === 1 ? '' : 's'} and ${rec.hof.length} Hall of Famer${rec.hof.length === 1 ? '' : 's'}, power ${fmt(first.v, metric)}${second ? ` to ${fmt(second.v, metric)} for the ${second.t.team?.name ?? second.t.label}` : ''}.`;
+    return `The ${name} lead on ${meta.unit} with ${fmt(first.v, metric)}${second ? `, ahead of the ${second.t.team?.name ?? second.t.label} (${fmt(second.v, metric)})` : ''}.`;
+  })();
   const max = Math.max(1, ...rows.map((r) => r.v));
   // Best OVR bars start near the worst value so the differences show
   const floor = metric === 'ovr' ? Math.max(0, Math.min(...rows.filter((r) => r.v > 0).map((r) => r.v)) - 8) : 0;
@@ -67,7 +77,7 @@ const PowerRanking = ({ teams, records, onOpen, highlight, onHighlight, lastSeas
     <section className="glass-card p-4 sm:p-5 min-w-0" aria-labelledby="power-heading">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0">
-          <p className="font-pixel text-[9px] uppercase text-gold">Franchise power ranking</p>
+          <p className="font-pixel text-[9px] uppercase text-gold">All-time power</p>
           <h2 id="power-heading" className="font-display text-2xl sm:text-3xl font-extrabold italic uppercase leading-none">
             Who runs the league
           </h2>
@@ -80,7 +90,7 @@ const PowerRanking = ({ teams, records, onOpen, highlight, onHighlight, lastSeas
               aria-pressed={metric === m.key}
               onClick={() => setMetric(m.key)}
               className={cn(
-                'shrink-0 rounded-md px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
+                'tap-40 shrink-0 rounded-md px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
                 metric === m.key ? 'bg-gold text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
               )}
             >
@@ -89,11 +99,11 @@ const PowerRanking = ({ teams, records, onOpen, highlight, onHighlight, lastSeas
           ))}
         </div>
       </div>
-      <p className="mt-2 text-xs text-muted-foreground">
+      <SectionIntro id="power" className="mt-2" takeaway={takeaway}>
         {metric === 'power'
-          ? `Power blends Super Bowl titles (${POWER_WEIGHTS.titles * 100}%), all-time Hall of Famers (${POWER_WEIGHTS.hof * 100}%), combined Career Legacy of everyone who played there (${POWER_WEIGHTS.legacy * 100}%) and the best player's OVR (${POWER_WEIGHTS.ovr * 100}%), each scaled to the top franchise.`
+          ? `All-time power (not one season: the season power ranking from the weekly scores is under Advanced team stats) blends Super Bowl titles (${POWER_WEIGHTS.titles * 100}%), all-time Hall of Famers (${POWER_WEIGHTS.hof * 100}%), combined Career Legacy of everyone who played there (${POWER_WEIGHTS.legacy * 100}%) and the best player's OVR (${POWER_WEIGHTS.ovr * 100}%), each scaled to the top franchise.`
           : `Ranked by ${meta.unit}${metric === 'titles' ? ` (Y1–${lastSeason || 'now'}, any coach)` : metric === 'ovr' ? '' : ', counting everyone who ever played there'}.`}
-      </p>
+      </SectionIntro>
 
       <ol className="mt-4 space-y-1.5" aria-label={`Franchises by ${meta.unit}`}>
         {shown.map(({ t, v }, i) => {
@@ -116,7 +126,7 @@ const PowerRanking = ({ teams, records, onOpen, highlight, onHighlight, lastSeas
                 )}
               >
                 <span className={cn('font-pixel text-[10px] tabular-nums', i < 3 ? 'text-gold' : 'text-muted-foreground')}>{i + 1}</span>
-                <TeamLogo team={t.team ?? t.label} size={28} decorative />
+                <TeamLogo team={t.team ?? t.label} size={28} decorative backed />
                 <span className="min-w-0">
                   <span className="block truncate font-display text-sm font-bold uppercase leading-tight group-hover:text-gold">
                     {t.team?.name ?? t.label}

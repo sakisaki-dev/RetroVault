@@ -15,6 +15,7 @@ import { useGamePool, useOfficialOvr } from '@/utils/useOfficialOvr';
 import PlayerSearchSelect from '../PlayerSearchSelect';
 import ProPlayerBanner from '../brand/ProPlayerBanner';
 import CountUp from '../brand/CountUp';
+import FitName from './FitName';
 import TeamLogo from '../brand/TeamLogo';
 import MetricLabel from './analytics/MetricLabel';
 import { VIZ, fmtNum } from './analytics/viz';
@@ -237,18 +238,31 @@ const LegacyBars = ({ p1, p2, m }: { p1: Player; p2: Player; m: Matchup }) => {
   );
 };
 
+/**
+ * Plain-words read of a similarity score, by threshold (calm on purpose: two players of one position share a lot of
+ * shape, so even a high score means alike, not identical).
+ */
+const SIMILARITY_SCALE: { min: number; label: string }[] = [
+  { min: 90, label: 'Similar style' },
+  { min: 75, label: 'Shared traits' },
+  { min: 55, label: 'Some overlap' },
+  { min: 35, label: 'Different styles' },
+  { min: -Infinity, label: 'Very different styles' },
+];
+const similarityVerdict = (v: number) => SIMILARITY_SCALE.find((s) => v >= s.min)!.label;
+
 /** Headline "plays like" banner: style similarity (shape of their per-game profile) big, level + style as the secondary read. */
 const SimilarityBlock = ({ p1, p2, m }: { p1: Player; p2: Player; m: Matchup }) => {
   if (m.similarity == null) return null;
   const style = m.styleSimilarity;
   const headline = style ?? m.similarity;
-  const verdict = headline >= 85 ? 'Near clones' : headline >= 70 ? 'Very similar' : headline >= 50 ? 'Some overlap' : headline >= 25 ? 'Different styles' : 'Opposites';
+  const verdict = similarityVerdict(headline);
   return (
     <section aria-label="How alike they play" className="border-b border-line bg-gradient-to-b from-gold/10 to-transparent px-3 py-4 sm:px-6 sm:py-5">
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-2 text-center sm:flex-row sm:gap-6 sm:text-left">
         <div className="flex shrink-0 flex-col items-center">
           <span className="font-pixel text-[10px] uppercase text-gold" title={SIMILARITY_DEFINITIONS.style}>
-            {style != null ? 'Plays like' : SIMILARITY_LABELS.level}
+            {style != null ? 'Style match' : SIMILARITY_LABELS.level}
           </span>
           <span className="font-display text-6xl font-extrabold italic leading-none tabular-nums text-chalk sm:text-7xl">
             <CountUp value={Math.round(headline)} />
@@ -352,14 +366,14 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
   return (
     <section id="head-to-head" aria-labelledby="h2h-title" className="scroll-mt-20 space-y-4">
       <div className="space-y-1">
-        <p className="font-pixel text-[10px] uppercase text-gold">Featured matchup</p>
+        {m && <p className="font-pixel text-[10px] uppercase text-gold">Featured matchup</p>}
         <h2 id="h2h-title" className="flex items-center gap-2 font-display text-4xl font-extrabold italic uppercase leading-none sm:text-5xl">
           <Swords className="h-7 w-7 text-gold sm:h-8 sm:w-8" aria-hidden="true" />
           Head-to-<span className="text-gold">Head</span>
         </h2>
         <p className="max-w-2xl text-sm text-muted-foreground">
           Any two league players, every stat that applies to both. Advanced metrics show the + index (100 = position average) and the percentile within
-          the position; hover or focus an underlined metric for its definition.
+          the position; tap or hover an underlined metric for its definition.
         </p>
         <label className="mt-2 inline-flex cursor-pointer items-center gap-2 rounded-full border border-line bg-night/60 px-3 py-1.5 text-xs font-semibold">
           <input
@@ -397,13 +411,15 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
         <div className="glass-card overflow-clip">
           {/* Scoreboard: pinned under the site header while scrolling the rows, so each side stays labelled */}
           <div
-            className="scoreboard-strip sticky z-30 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 border-b border-line bg-night/95 px-3 py-2.5 backdrop-blur-md sm:px-6"
+            className="scoreboard-strip chrome-follow sticky z-30 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 border-b border-line bg-night/95 px-3 py-2.5 backdrop-blur-md sm:px-6"
             style={{ top: 'var(--site-header-h, 0px)' }}
           >
             <span className="flex min-w-0 items-center justify-end gap-2">
-              <span className="truncate text-right font-display text-sm font-bold uppercase sm:text-xl">{p1.name}</span>
+              <span className="truncate text-right font-display text-sm font-bold uppercase sm:text-xl" title={p1.name}>
+                <FitName name={p1.name} />
+              </span>
               <span className="hidden font-pixel text-[9px] text-muted-foreground sm:inline">{p1.position}</span>
-              <TeamLogo team={p1.team} size={22} decorative />
+              <TeamLogo team={p1.team} size={22} decorative backed />
             </span>
             <div className="flex items-center gap-2 rounded bg-black px-3 py-1.5 font-display text-3xl font-extrabold tabular-nums sm:text-4xl" aria-live="polite" aria-atomic="true">
               <span className="sr-only">Categories won: {p1.name}</span>
@@ -419,9 +435,11 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
               </span>
             </div>
             <span className="flex min-w-0 items-center gap-2">
-              <TeamLogo team={p2.team} size={22} decorative />
+              <TeamLogo team={p2.team} size={22} decorative backed />
               <span className="hidden font-pixel text-[9px] text-muted-foreground sm:inline">{p2.position}</span>
-              <span className="truncate font-display text-sm font-bold uppercase sm:text-xl">{p2.name}</span>
+              <span className="truncate font-display text-sm font-bold uppercase sm:text-xl" title={p2.name}>
+                <FitName name={p2.name} />
+              </span>
             </span>
           </div>
           <div className="flex flex-col items-center gap-1.5 border-b border-line px-3 py-2 text-center text-sm">

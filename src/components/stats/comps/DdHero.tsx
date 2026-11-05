@@ -126,7 +126,7 @@ const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, on
           <ul className="flex flex-wrap items-center gap-1.5" aria-label="Franchise history">
             {franchises.map((f, i) => (
               <li key={`${f}-${i}`} className="inline-flex items-center gap-1 rounded-full border border-line bg-panel px-2 py-0.5 text-xs">
-                <TeamLogo team={f} size={16} decorative />
+                <TeamLogo team={f} size={16} decorative backed />
                 <span>{findNFLTeam(f)?.name ?? f}</span>
               </li>
             ))}

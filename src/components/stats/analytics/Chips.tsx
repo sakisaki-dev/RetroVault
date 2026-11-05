@@ -32,7 +32,7 @@ const Chips = <T extends string>({
           title={o.title}
           onClick={() => onChange(o.value)}
           className={cn(
-            'min-h-[32px] rounded px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
+            'tap-40 min-h-[32px] rounded px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
             on ? 'bg-gold text-night' : 'bg-night/60 text-muted-foreground hover:bg-panel-2 hover:text-foreground',
           )}

@@ -177,7 +177,7 @@ export const LEAGUE_DEFS: Record<string, MetricDef> = {
   trueTalent: {
     label: 'True Talent',
     short: 'TT',
-    definition: 'Career production from the per-position sheet formula, rescaled per position so all positions share one scale. Hover the value for the raw sheet number.',
+    definition: 'Career production from the per-position sheet formula, rescaled per position so all positions share one scale. Tap or hover the value for the raw sheet number.',
     minLabel: ALL,
   },
   dominance: {

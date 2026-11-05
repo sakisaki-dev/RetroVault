@@ -129,8 +129,8 @@ accessories, build, height, pose, eyes, signature). Custom sprite images and car
 - **Standardisation rule:** everything is standard unless specified. Players with no `sprites.json` entry all get the
   same generic character (standard face and body) and vary only by stable rolls seeded by name (hair style, hair
   colour, facial hair, eye colour; loosely matched to the skin tone), the skin toggle (Player editor → Sprite skin tone,
-  stored with the player edits; "Auto" = the neutral default), the pose roll, the uniform roll (home, rarely an
-  alternate) and the number. Only players with a `sprites.json` entry (locked looks from portraits, owner requests)
+  stored with the player edits; "Auto" = the neutral default), the pose roll, the uniform (the kit the pull rolled, see
+  Kits below; the old fixed roll for cards owned before per-pull kits and for galleries) and the number. Only players with a `sprites.json` entry (locked looks from portraits, owner requests)
   deviate: build, signature pose, face, and any hair, facial-hair, eye or `eyeColor` field they set (locked fields win
   field by field; the rolls fill the rest). Only describe league players
   with cards; skip real-NFL players who just share a surname.
@@ -233,6 +233,13 @@ audit re-checks the stored stories: a figure that no longer matches the data aft
 like speech numbers), and a story that differs from its applied manifest is an error. The Timeline's "What changed"
 area shows it (`src/components/news/SeasonStory.tsx`: masthead, lead hero, feed, quick hits, reading sheet, season
 switcher), with the rule-based headlines as "The Wire" above it; the Arcade ticker links to the lead.
+**One file per season:** `build_league_content.py` writes each season's full story to
+`public/data/league/stories/<Y>.json` and keeps only `seasonStoryIndex` in content.json (season, tagline, upload,
+file, article and Did you know counts, the lead's id and headline, every article's id, kind and headline). The site
+loads a season's file when it is shown (`loadSeasonStory` / `useSeasonStory` in `src/utils/leagueContent.ts`,
+memoized per season, with a loading placeholder); a deep link (`openSeasonStory(id)`) finds its season in the index
+and opens once that file is in. `build_widget_data.py` and `update.py` read the files too. The audit errors when an
+index entry has no file, a file has no entry, or a file differs from `data/y80/stories.json`.
 
 ### 7. Commit and push
 
@@ -389,13 +396,13 @@ current data is a no-op.
   the retired Retro Bowl sprite's place with exactly its odds and stacking (owner: "aren't they just a replacement for
   the sprite cards with many more variants and rarities?"; "keep the sprites old odds with the diff rarities within the
   autographs having their own rarities"): base weight Standard 3.5, Premium 4, Elite 5, Holo Showcase / Perfect Season
-  6.5 (`VARIANT_ODDS`), × tier {1, .65, .45, .15} and × finish {1, .65, .5, .5} (`VARIANT_STACK`), × 0.02 more for a
+  6.5 (`VARIANT_ODDS`), × tier {1, .65, .45, .15} and × finish {1, .65, .5, .5} (`VARIANT_STACK`), × 0.15 more for a
   Legendary Holo (`VARIANT_COMBO`). About 1 card in 33 from Standard packs; an Autograph Holo Legendary about 1 in
-  900,000 cards from the best packs and 1 in 1.6 billion from Standard (`npm run -s sim:packs`). A pull that rolls it
+  120,000 cards from the best packs and 1 in 210 million from Standard (`npm run -s sim:packs`). A pull that rolls it
   is signed: `openPack` freezes his snapshot and rolls the autograph, stored as its own item in `autos` (with the
   finish it was pulled at), while `cards[key].variants.auto` counts the finish like any variant (binder tiles, variant
   badges, the variant count, display choice, Best pulls). Pulled only: no shard claim or finish upgrade
-  (`isCraftable`); duplicates still give shards. Saved sprite cards still load as Locker stalls; autographs from the
+  (`isCraftable`); duplicates still give shards; no kit roll (the signed card is the art). Saved sprite cards still load as Locker stalls; autographs from the
   old separate hit get a Base `variants.auto` on load (`migrateAutos`). The hand is fixed by the name (36 Google
   signature fonts × 6 forms, slant, flourish…; fonts load lazily on the first draw); each pull rolls its parallel
   (`PARALLELS` weights: Sticker /99 50 ×3, On-card /50 27 ×5, Inscribed /25 13 ×6, Patch /10 8 ×10, Cut 1/1 2 ×40 for
@@ -411,9 +418,47 @@ current data is a no-op.
   card renders only from it; no stat line, record ribbon or stat wall on its face. Designs by the era his career
   centres on (Leather Y1–25, Broadcast Y26–50, Prizm Y51–70, Night Game Y71–82, Current Y83+; the midpoint of his
   `playerNotes` era). `AutographPreview` rolls samples without touching the collection.
+- **Kits** (per-pull uniforms; owner: "considering throwbacks and diff eras are in it would be nice to be a small but
+  substantial chase"): every pulled card but the Autograph rolls its kit after the variant (`rollKit`, `KIT_ODDS` in
+  `src/utils/collection.ts`): one of his card club's modern alternates (picked evenly) Standard 8%, Premium 9%, Elite
+  10%, Holo Showcase / Perfect Season 12%, Legends Exchange 10%; the club's famous era kit (a throwback, "1985 Bears")
+  2.5%, 3%, 3.5%, 4.5%, 4%; else home. A club without an era kit or alternates gives that share to home. The tables
+  live in `src/components/collection/art/sprite/uniforms.ts` (`ALTS`, `ERAS`; `kitsOf`, `kitUniform`). Owned cards
+  store kits per variant × finish (`VariantCard.kits`: finish → kit id → copies); saves from before per-pull kits load
+  as `LEGACY_KIT`, which resolves to the old fixed roll (`uniformFor`), so nothing owned changed look. A pull of an
+  owned variant × finish in a kit not owned yet is a "New kit" (no shards); the same kit again is a duplicate (shards
+  as before). Claims and crafted finishes wear home. The binder tile and the detail wear the best kit owned there
+  (era > alternate > home) unless the display choice (`DisplayChoice.kit`) picks another; the card detail lists the
+  kits owned and switches between them. The pack reveal stamps ALT KIT · <label> / THROWBACK · <label>, a throwback
+  walks out with a short THROWBACK beat (`walkoutBeats.ts`), and the summary counts them. Galleries and samples keep
+  `uniformFor`. `npm run -s sim:packs` prints the kit odds per pack.
+- **Prizm parallels** (owner: "add Prizm colour parallels (e.g. Red /199, Blue /99, Green /49, Gold /10, Black 1/1)"):
+  every pulled Prizm number card rolls a colour parallel after its kit (`rollPrizm`, `PRIZM_ODDS` in
+  `src/utils/collection.ts`; colours and runs in `PRIZM_PARALLELS`, `src/config/cardTiers.ts`): plain most of the time,
+  else Red /199, Blue /99, Green /49, Gold /10 or Black 1/1, each rarer than the last (Standard per Prizm 8%, 4%, 1.8%,
+  0.45%, 0.02%: a parallel on about 1 Prizm in 7, Black about 1 in 5,000; up to 9.5%, 5.5%, 2.7%, 0.8%, 0.04% in Holo
+  Showcase / Perfect Season), with a serial out of its run. Owned Prizm cards keep every parallel copy per finish
+  (`VariantCard.prizm`: finish → [{c, n}]); copies beyond it are plain, so older saves load unchanged. A colour not owned
+  yet in that finish is a "New parallel" (no shards). The art (`NumberArt`) turns its rays, halftone and outline to the
+  colour and stamps the serial ("27/99") in the art's top-right corner. The binder tile and the detail show the rarest
+  parallel owned unless `DisplayChoice.parallel` picks another ('plain' or a colour); the detail lists the parallels
+  owned with their serials. The reveal stamps PRIZM RED /199 etc., Gold and Black walk out with a short PRIZM beat
+  (`walkoutBeats.ts`). `npm run -s sim:packs` prints the parallel odds; the Art lab's Card designs tab shows them.
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
-  `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. The value formula lives in
-  `src/utils/cardMarket.ts`. Never hand-edit either file; rebuild and commit both.
+  `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. **Both files store changes
+  only** (format 2, `src/utils/marketHistory.ts`): the first, the latest and every 10th snapshot are full keyframes
+  (`players`), the rest a `delta` on the snapshot before (`set` changed fields, `unset` dropped fields, `removed`
+  players, `at` / `order` for the player order). Never read them as plain JSON: TS goes through `expandMarket()`
+  (`useMarket`, `market_snapshot.ts`, `audit.ts`), Python through `scripts/market_history.py` `load()` (build_league_data,
+  build_league_content, build_widget_data, story_check, update); both give back exactly the full snapshots, and
+  `compactMarket()` refuses to write a form that doesn't expand back. Snapshot ids (story citations) are unchanged.
+  The audit errors when either file isn't in that format, the latest isn't full, or market.json isn't the history
+  minus `s`. The value formula lives in
+  `src/utils/cardMarket.ts`. A card's price is value × finish × variant × its kit × its Prizm parallel: an alternate
+  `ALT_VALUE_BONUS` ×1.2, an era kit `ERA_VALUE_BONUS` ×1.4 (the kit it wears; the portfolio uses the best kit owned per
+  variant); a parallel `PARALLEL_MULTIPLIER` Red ×1.3, Blue ×1.6, Green ×2, Gold ×3.5, Black ×8, serial 1 of a numbered
+  run `SERIAL_ONE_BONUS` ×1.15 more (the portfolio uses the best parallel owned at that finish). Never
+  hand-edit either file; rebuild and commit both.
 
 ## Code notes
 

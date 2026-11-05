@@ -94,7 +94,7 @@ const LeaderRadar = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Playe
                     className="flex w-full items-center gap-2 rounded-md border border-line bg-night/50 px-2 py-1.5 text-left hover:border-gold/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                   >
                     <Swatch color={l.color} dashed={!!DASH[i]} />
-                    {l.player.team && <TeamLogo team={l.player.team} size={18} decorative />}
+                    {l.player.team && <TeamLogo team={l.player.team} size={18} decorative backed />}
                     <span className="min-w-0 flex-1 truncate text-sm font-semibold">{l.player.name}</span>
                     <span className="shrink-0 font-mono text-xs tabular-nums text-muted-foreground">{fmtNum(l.player.careerLegacy, 0)} CL</span>
                   </button>
@@ -119,7 +119,7 @@ const LeaderRadar = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Playe
                   </ul>
                 </>
               ) : (
-                <p className="text-muted-foreground">Hover, tap or focus an axis label to compare the three on that trait.</p>
+                <p className="text-muted-foreground">Tap or hover an axis label to compare the three on that trait.</p>
               )}
             </div>
           </div>

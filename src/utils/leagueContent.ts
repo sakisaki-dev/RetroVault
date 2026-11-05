@@ -21,9 +21,12 @@
  *   "headlines":     [{ kind, text, players[] (names), teams[], weight }] ranked, heaviest first ("What changed")
  *   "headlinesInfo": { scope: "This update" | "Last update", upload?, since?, label? }
  *   "speeches":      { "<player name>": "Hall of Fame induction speech (plain text; blank line = new paragraph)" },
- *   "seasonStories": [{ season: "Y82", tagline, upload?, articles: [{ id, kind, headline, dek, body[], players[], teams[],
- *                      stats[{ label, value, source }], related[] }], didYouKnow: [{ id, text, players[], stats[] }] }]
- *                      the Season Story (AI-authored, data/y80/stories.json)
+ *   "seasonStoryIndex": [{ season: "Y82", tagline, upload?, file: "stories/Y82.json", articleCount, didYouKnowCount,
+ *                      lead?{ id, headline }, articles: [{ id, kind, headline }] }]
+ *                      the Season Story (AI-authored, data/y80/stories.json): only an index here; each season's full
+ *                      story is public/data/league/stories/<Y>.json, { season, tagline, upload?, articles: [{ id, kind,
+ *                      headline, dek, body[], players[], teams[], stats[{ label, value, source }], related[] }],
+ *                      didYouKnow: [{ id, text, players[], stats[] }] }, loaded on demand (loadSeasonStory / useSeasonStory)
  *   "coach":         { name, age, stars, morale, gamesPlayed, simGames, record{}, bests{}, superBowlRecord[], seasons[{ year, team, abbr, w, l, t, finish }], currentStint?{ team, abbr, from } }
  * }
  * `coach` is optional (from data/y80/coach.json, the staff screen); bad fields are dropped one by one.
@@ -221,8 +224,11 @@ export interface LeagueContent {
   /** "What changed": rule-based news from the latest update's data diff, heaviest first */
   headlines?: Headline[];
   headlinesInfo?: HeadlinesInfo;
-  /** Season Story: a news package per completed season, oldest first (data/y80/stories.json, written by story.set) */
-  seasonStories?: SeasonStory[];
+  /**
+   * Season Story index: one entry per completed season with a story, oldest first (data/y80/stories.json, written by
+   * story.set). The full story is its own file, loaded on demand (loadSeasonStory / useSeasonStory).
+   */
+  seasonStoryIndex?: SeasonStoryIndexEntry[];
 }
 
 export const STORY_KINDS = ['lead', 'feature', 'trade', 'rise', 'fall', 'rivalry', 'chase', 'milestone', 'wherenow', 'quickhits'] as const;
@@ -263,6 +269,20 @@ export interface SeasonStory {
   upload?: string;
   articles: StoryArticle[];
   didYouKnow: DidYouKnow[];
+}
+
+/** content.json's entry for one season's story (the full story is loaded on demand from `file`) */
+export interface SeasonStoryIndexEntry {
+  season: string;
+  tagline: string;
+  upload?: string;
+  /** Path under data/league/ ("stories/Y82.json") */
+  file: string;
+  articleCount: number;
+  didYouKnowCount: number;
+  lead?: { id: string; headline: string };
+  /** Every article's id, kind and headline: deep links find their season, "Continued from" shows the headline */
+  articles: { id: string; kind: StoryKind; headline: string }[];
 }
 
 export const HEADLINE_KINDS = ['superbowl', 'hof', 'record', 'trade', 'new-player', 'award', 'milestone', 'grade', 'market', 'chase'] as const;
@@ -588,44 +608,35 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
       label: str(h.label),
     };
   }
-  const stories = compact(
-    arr(input.seasonStories).map((r) => {
+  const storyIndex = compact(
+    arr(input.seasonStoryIndex).map((r): SeasonStoryIndexEntry | null => {
       const season = str(r.season);
+      if (!season || !/^Y\d+$/.test(season)) return null;
       const articles = compact(
         arr(r.articles).map((a) => {
           const id = str(a.id);
           const kind = str(a.kind) as StoryKind | undefined;
           const headline = str(a.headline);
-          if (!id || !headline || !kind || !(STORY_KINDS as readonly string[]).includes(kind)) return null;
-          const stats = compact(
-            arr(a.stats).map((x) => {
-              const label = str(x.label);
-              const value = typeof x.value === 'number' ? String(x.value) : str(x.value);
-              return label && value ? { label, value, source: str(x.source) ?? '' } : null;
-            }),
-          );
-          return { id, kind, headline, dek: str(a.dek) ?? '', body: strArr(a.body), players: strArr(a.players), teams: strArr(a.teams), stats, related: strArr(a.related) };
+          return id && headline && kind && (STORY_KINDS as readonly string[]).includes(kind) ? { id, kind, headline } : null;
         }),
       );
-      const statsOf = (v: unknown) =>
-        compact(
-          arr(v).map((x) => {
-            const label = str(x.label);
-            const value = typeof x.value === 'number' ? String(x.value) : str(x.value);
-            return label && value ? { label, value, source: str(x.source) ?? '' } : null;
-          }),
-        );
-      const didYouKnow = compact(
-        arr(r.didYouKnow).map((x) => {
-          const id = str(x.id);
-          const text = str(x.text);
-          return id && text ? { id, text, players: strArr(x.players), stats: statsOf(x.stats) } : null;
-        }),
-      );
-      return season && articles.length ? { season, tagline: str(r.tagline) ?? '', upload: str(r.upload), articles, didYouKnow } : null;
+      const leadId = isObj(r.lead) ? str(r.lead.id) : undefined;
+      const leadHeadline = isObj(r.lead) ? str(r.lead.headline) : undefined;
+      const file = str(r.file);
+      return {
+        season,
+        tagline: str(r.tagline) ?? '',
+        upload: str(r.upload),
+        // only a season file under stories/ (never an arbitrary path)
+        file: file && /^stories\/Y\d+\.json$/.test(file) ? file : `stories/${season}.json`,
+        articleCount: num(r.articleCount) ?? articles.length,
+        didYouKnowCount: num(r.didYouKnowCount) ?? 0,
+        lead: leadId && leadHeadline ? { id: leadId, headline: leadHeadline } : undefined,
+        articles,
+      };
     }),
   );
-  if (stories.length) content.seasonStories = stories;
+  if (storyIndex.length) content.seasonStoryIndex = storyIndex;
   if (Array.isArray(input.hofClasses)) {
     const classes = input.hofClasses
       .map((c) => (isObj(c) && str(c.label) && Array.isArray(c.keys) ? { label: str(c.label)!, keys: c.keys.filter((k): k is string => typeof k === 'string') } : null))
@@ -704,6 +715,93 @@ export const useLeagueContent = () => {
   }, []);
 
   return state;
+};
+
+// ---------------------------------------------------------------------------
+// Season stories (one file per season, loaded on demand)
+// ---------------------------------------------------------------------------
+
+const storyStats = (v: unknown): StoryStat[] =>
+  compact(
+    arr(v).map((x) => {
+      const label = str(x.label);
+      const value = typeof x.value === 'number' ? String(x.value) : str(x.value);
+      return label && value ? { label, value, source: str(x.source) ?? '' } : null;
+    }),
+  );
+
+/** One season's story file (public/data/league/stories/<Y>.json); null when it has no season or no articles. */
+export const normalizeSeasonStory = (r: unknown): SeasonStory | null => {
+  if (!isObj(r)) return null;
+  const season = str(r.season);
+  const articles = compact(
+    arr(r.articles).map((a): StoryArticle | null => {
+      const id = str(a.id);
+      const kind = str(a.kind) as StoryKind | undefined;
+      const headline = str(a.headline);
+      if (!id || !headline || !kind || !(STORY_KINDS as readonly string[]).includes(kind)) return null;
+      return { id, kind, headline, dek: str(a.dek) ?? '', body: strArr(a.body), players: strArr(a.players), teams: strArr(a.teams), stats: storyStats(a.stats), related: strArr(a.related) };
+    }),
+  );
+  const didYouKnow = compact(
+    arr(r.didYouKnow).map((x) => {
+      const id = str(x.id);
+      const text = str(x.text);
+      return id && text ? { id, text, players: strArr(x.players), stats: storyStats(x.stats) } : null;
+    }),
+  );
+  return season && articles.length ? { season, tagline: str(r.tagline) ?? '', upload: str(r.upload), articles, didYouKnow } : null;
+};
+
+/** Requests per story file, so each season is fetched once per page load */
+const storyRequests = new Map<string, Promise<SeasonStory | null>>();
+/** Seasons already in, for a first render with no loading frame */
+const storiesLoaded = new Map<string, SeasonStory | null>();
+
+/** Fetches one season's full story (memoized per file; no-cache revalidates a rebuilt file). Never throws; null if missing. */
+export const loadSeasonStory = (entry: Pick<SeasonStoryIndexEntry, 'season' | 'file'>): Promise<SeasonStory | null> => {
+  const key = entry.file;
+  let req = storyRequests.get(key);
+  if (!req) {
+    req = fetch(`${import.meta.env.BASE_URL}data/league/${entry.file}`, { cache: 'no-cache' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        const s = normalizeSeasonStory(json);
+        return s && s.season === entry.season ? s : null;
+      })
+      .catch(() => null)
+      .then((s) => {
+        storiesLoaded.set(key, s);
+        // a failed load may be retried on the next request
+        if (!s) storyRequests.delete(key);
+        return s;
+      });
+    storyRequests.set(key, req);
+  }
+  return req;
+};
+
+/** The index entry that holds an article id (a deep link's season) */
+export const storyEntryOf = (index: SeasonStoryIndexEntry[] | undefined, articleId: string) =>
+  index?.find((e) => e.articles.some((a) => a.id === articleId));
+
+/** One season's full story: `loading` until its file is in; `story` null when it failed or there is none. */
+export const useSeasonStory = (entry: SeasonStoryIndexEntry | null | undefined) => {
+  const key = entry?.file;
+  const cached = key ? storiesLoaded.get(key) : undefined;
+  const [state, setState] = useState<{ key?: string; story: SeasonStory | null }>({ key: cached !== undefined ? key : undefined, story: cached ?? null });
+  useEffect(() => {
+    if (!entry) return;
+    let alive = true;
+    loadSeasonStory(entry).then((story) => alive && setState({ key: entry.file, story }));
+    return () => {
+      alive = false;
+    };
+  }, [entry]);
+  // a state left from another season (just switched) never shows: it reads as loading until this season's file is in
+  const ready = !!key && (state.key === key || storiesLoaded.has(key));
+  const story = ready ? (state.key === key ? state.story : storiesLoaded.get(key!) ?? null) : null;
+  return { story, loading: !!entry && !ready };
 };
 
 // ---------------------------------------------------------------------------

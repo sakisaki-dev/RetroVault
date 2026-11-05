@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import { gemsTakeaway } from './takeaways';
+import SectionIntro from './SectionIntro';
 import { Gem, TrendingUp } from 'lucide-react';
 import type { LeagueData, Player } from '@/types/player';
 import { cn } from '@/lib/utils';
@@ -97,10 +99,10 @@ const HiddenGems = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Player
             <Gem className="h-5 w-5 text-gold" aria-hidden="true" />
             Hidden Gems
           </h2>
-          <p className="max-w-2xl text-sm text-muted-foreground">
+          <SectionIntro id="hidden-gems" takeaway={gemsTakeaway(gems[mode], mode === 'rising' ? `under ${RISING_MAX_GAMES} games play far above their overall` : `with ${RISING_MAX_GAMES}+ games are underrated by their overall`)}>
             Low overall, sky-high skill rating. The overall rewards long careers and trophies; the skill rating grades every game he plays against
             his position.
-          </p>
+          </SectionIntro>
         </div>
         <div role="tablist" aria-label="Hidden gems view" className="flex gap-1 rounded-lg border border-line bg-night/60 p-1">
           {MODES.map((m) => (
@@ -111,7 +113,7 @@ const HiddenGems = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Player
               aria-selected={mode === m.id}
               onClick={() => setMode(m.id)}
               className={cn(
-                'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 font-display text-sm font-bold uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
+                'tap-40 inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 font-display text-sm font-bold uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
                 mode === m.id ? 'bg-gold text-black' : 'text-muted-foreground hover:text-foreground',
               )}
             >
@@ -138,7 +140,7 @@ const HiddenGems = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Player
                   className="group flex w-full items-center gap-3 rounded-lg border border-line bg-night/40 px-3 py-2.5 text-left transition-colors hover:border-gold/60 hover:bg-panel-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                 >
                   <span className="w-5 shrink-0 text-center font-display text-lg font-extrabold italic text-muted-foreground">{i + 1}</span>
-                  <TeamLogo team={g.player.team} size={28} decorative />
+                  <TeamLogo team={g.player.team} size={28} decorative backed />
                   <span className="min-w-0 flex-1">
                     <span className="flex min-w-0 items-center gap-2">
                       <span className="truncate font-semibold group-hover:text-gold">{g.player.name}</span>

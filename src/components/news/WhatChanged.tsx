@@ -18,7 +18,7 @@ import {
 import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
 import { useLeague } from '@/context/LeagueContext';
-import { matchPlayerByName, useLeagueContent, type Edition, type Headline, type HeadlinesInfo, type HeadlineKind, type PlayerNote, type SeasonStory } from '@/utils/leagueContent';
+import { matchPlayerByName, useLeagueContent, type Edition, type Headline, type HeadlinesInfo, type HeadlineKind, type PlayerNote, type SeasonStoryIndexEntry } from '@/utils/leagueContent';
 import { editionShuffle } from '@/utils/edition';
 import { getTeamColors } from '@/utils/teamColors';
 import { useHubRoute } from '@/components/stats/hub/hashRoute';
@@ -113,13 +113,13 @@ export const HeadlineTicker = ({
   onPlayer: (p: Player) => void;
   onMore?: () => void;
   title?: string;
-  /** The latest Season Story: its lead is linked above the ticker */
-  story?: SeasonStory;
+  /** The latest Season Story's index entry: its lead is linked above the ticker (no need to load the story file) */
+  story?: SeasonStoryIndexEntry;
   onStory?: (id: string) => void;
 }) => {
   const items = headlines.slice(0, 10);
   if (!items.length) return null;
-  const lead = story?.articles.find((a) => a.kind === 'lead');
+  const lead = story?.lead;
   const find = (h: Headline) => (h.players[0] ? matchPlayerByName(h.players[0], players) : undefined);
   const track = (copy: boolean) => (
     <ul className={cn('wc-ticker__track', copy && 'wc-ticker__track--dup')} aria-hidden={copy || undefined}>
@@ -288,7 +288,7 @@ export const HomeNews = () => {
           // the list sits under the Timeline masthead; wait for the lazy tab to mount
           window.setTimeout(() => document.getElementById('what-changed')?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' }), 400);
         }}
-        story={content.seasonStories?.at(-1)}
+        story={content.seasonStoryIndex?.at(-1)}
         onStory={(id) => {
           // the Timeline's story desk opens it when it mounts (or right away if it already is)
           openSeasonStory(id);
@@ -316,7 +316,8 @@ export const TimelineNews = ({
 }: {
   headlines?: Headline[];
   info?: HeadlinesInfo;
-  stories?: SeasonStory[];
+  /** content.json's Season Story index; each season's stories load when shown */
+  stories?: SeasonStoryIndexEntry[];
   onPlayer: (p: Player) => void;
   /** The Timeline's shared season (Season Story and Season games show the same one) */
   season?: string | null;
@@ -327,7 +328,7 @@ export const TimelineNews = ({
   return (
     <div id="what-changed" className="wc-news scroll-mt-24">
       <HeadlineTicker headlines={headlines ?? []} info={info} players={players} onPlayer={onPlayer} title="The Wire" />
-      <SeasonStoryDesk stories={stories} players={players} onPlayer={onPlayer} season={season} onSeason={onSeason} />
+      <SeasonStoryDesk index={stories} players={players} onPlayer={onPlayer} season={season} onSeason={onSeason} />
       {!!headlines?.length && (
         <details className="wc-wire-all">
           <summary>All wire items ({headlines.length})</summary>

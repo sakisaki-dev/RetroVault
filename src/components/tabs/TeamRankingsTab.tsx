@@ -51,7 +51,7 @@ const Segmented = <T extends string>({
           aria-pressed={value === o.key}
           onClick={() => onChange(o.key)}
           className={cn(
-            'shrink-0 rounded-md px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
+            'shrink-0 rounded-md px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors max-sm:min-h-10',
             value === o.key ? 'bg-gold text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
           )}
         >
@@ -227,20 +227,16 @@ const TeamRankingsTab = () => {
         )}
       </section>
 
-      {/* Unassigned bucket */}
+      {/* Players with no club in the league sheet (free agents) */}
       {unassigned.length > 0 && (
         <section className="glass-card p-4 sm:p-5" aria-labelledby="unassigned-heading">
           <div className="flex flex-wrap items-center gap-2">
             <UserX className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
             <h2 id="unassigned-heading" className="font-display text-2xl font-bold uppercase">
-              Unassigned
+              Free agents
             </h2>
             <span className="lamp">Players <b>{unassigned.length}</b></span>
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">
-            These players have no team in your sheet. Open a player and use <span className="text-foreground">Edit</span> to set their
-            team in the player edit dialog.
-          </p>
           <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {[...unassigned]
               .sort((a, b) => (b.careerLegacy || 0) - (a.careerLegacy || 0))

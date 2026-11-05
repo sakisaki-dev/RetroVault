@@ -29,7 +29,7 @@ const ChaseRow = ({ row, max, onSelect }: { row: Row; max: number; onSelect: Sel
     <li className="space-y-1.5 border-t border-line/40 pt-3 first:border-t-0 first:pt-0">
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
         <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5">
-          {p.team && <TeamLogo team={p.team} size={20} decorative />}
+          {p.team && <TeamLogo team={p.team} size={20} decorative backed />}
           <button type="button" onClick={() => onSelect(p)} className="truncate rounded font-display text-base font-bold uppercase hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
             {p.name}
           </button>

@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import { tablesTakeaway } from './takeaways';
+import SectionIntro from './SectionIntro';
 import { Search, Table2, UserPlus } from 'lucide-react';
 import type { LeagueData, Player, Position } from '@/types/player';
 import { Button } from '@/components/ui/button';
@@ -79,7 +81,10 @@ const StatTables = ({ data }: { data: LeagueData }) => {
         <Table2 className="h-5 w-5 text-gold" aria-hidden="true" />
         Full Stat Tables
       </h2>
-      <p className="text-sm text-muted-foreground">Every player&rsquo;s career line. Sort any column, or select a player for the full card.</p>
+      <SectionIntro id="tables" takeaway={tablesTakeaway(tabs.map((t) => ({ label: t.label, count: (data[t.key] as Player[]).filter((p) => !p.isRealLegend).length })))}>
+        Every player&rsquo;s career line. Sort any column, or select a player for the full card. The Key columns show the career line, Legacy, OVR
+        and Skill; All columns adds awards, True Talent, Dominance and talent per game.
+      </SectionIntro>
 
       <PlayerEditDialog
         player={null}
@@ -120,7 +125,7 @@ const StatTables = ({ data }: { data: LeagueData }) => {
                 key={t.pos}
                 value={t.pos}
                 title={t.label}
-                className="gap-1.5 font-display text-base font-bold uppercase tracking-wide data-[state=active]:bg-gold data-[state=active]:text-primary-foreground"
+                className="tap-40 gap-1.5 font-display text-base font-bold uppercase tracking-wide data-[state=active]:bg-gold data-[state=active]:text-primary-foreground"
               >
                 {t.pos}
                 {filtering && (

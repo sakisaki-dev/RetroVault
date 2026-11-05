@@ -9,7 +9,20 @@ export const graphSummary = (m: GraphModel) => {
   const league = m.points.filter((p) => !p.nfl).length;
   const nfl = m.points.length - league;
   const parts = [`${league} league players${nfl ? ` plus ${nfl} real NFL players (unranked, not in the medians)` : ''}`];
-  if (!m.spec.noSplits) parts.push(quadrantCounts(m.points, m.spec).map((c) => `${c.name} ${c.n}`).join(', '));
+  if (!m.spec.noSplits) {
+    // One readable line instead of four raw counts: the biggest corner, then the top-right ("best") corner if different
+    const counts = quadrantCounts(m.points, m.spec);
+    const [best] = counts;
+    const top = [...counts].sort((a, c) => c.n - a.n)[0];
+    if (top && top.n > 0) {
+      const q = (name: string) => `“${name}”`;
+      parts.push(
+        top.name === best.name
+          ? `The biggest group is ${q(top.name)}, ${top.n} of ${league}`
+          : `The biggest group is ${q(top.name)}, ${top.n} of ${league}; ${best.n} reach ${q(best.name)}`,
+      );
+    }
+  }
   const fit = trendFit(m.points, m.spec);
   if (m.spec.trend && fit) parts.push(`r = ${fit.r.toFixed(2)}, a ${describeR(fit.r)}`);
   return `${parts.join('. ')}.`;

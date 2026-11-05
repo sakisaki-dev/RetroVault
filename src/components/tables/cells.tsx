@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import FitName from '../stats/FitName';
 import { Crown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
@@ -125,7 +126,10 @@ export const PlayerNameCell = ({
       }}
     >
       <span className="flex items-baseline gap-1.5 min-w-0 max-w-full">
-        <span className="font-semibold text-foreground truncate hover:text-gold">{player.name}</span>
+        {/* Phones: a long name shows surname-first ("S. Brandson"), so the truncation can't cut the surname */}
+        <span className="font-semibold text-foreground truncate hover:text-gold">
+          <FitName name={player.name} />
+        </span>
         <span className="shrink-0 font-display text-xs font-bold italic tabular-nums text-muted-foreground">
           <span aria-hidden="true">#{number}</span>
           <span className="sr-only">, number {number}</span>

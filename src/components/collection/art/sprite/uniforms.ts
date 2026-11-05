@@ -1,5 +1,6 @@
 import { findNFLTeam } from '@/utils/nflTeams';
 import { ALT_VALUE_BONUS, ERA_VALUE_BONUS } from '@/utils/cardMarket';
+import { LEGACY_KIT } from '@/utils/collection';
 import { seedOf } from '../shared';
 import { HELMETS, type Helmet } from './helmets';
 
@@ -9,8 +10,10 @@ import { HELMETS, type Helmet } from './helmets';
  * every art style: the sprite (render.ts), and the Jersey, Jersey back, Locker and Topps art (JerseyGarment,
  * JerseyBackArt, LockerArt, VintageArt, teamStyle.ts).
  *
- * Standardisation rule: every card wears the team's HOME uniform, except a small, stable share (ALT_CHANCE, decided
- * per player × variant × finish) that rolls one of the club's ALTERNATES (at most two, all real, well-known sets).
+ * Kits are a per-pull chase: every pulled card (but the Autograph) rolls home, one of the club's ALTERNATES (at most
+ * two, all real, well-known sets) or its famous ERA kit, at the pack's odds (KIT_ODDS in src/utils/collection.ts), and
+ * the binder remembers each kit owned per variant × finish (kitUniform resolves a stored kit id). uniformFor is the
+ * old fixed roll: cards owned before per-pull kits keep the kit it gives them, and galleries and samples use it.
  *
  * Widths of stripes are in half sprite pixels (the sprite's fine grid), so a 3-band Bills stripe is 1.5 px wide.
  */
@@ -278,7 +281,10 @@ const ERAS: Record<string, Alt> = {
   raiders: { id: 'era1970s', label: '1970s Raiders', jersey: K, trim: '#c4c8cc', sleeve: 'none', collar: K, number: '#c4c8cc', numberOutline: W, pants: SILVER, pantsStripes: [K, W, K], socks: K, sockStripes: ['#c4c8cc'], cleats: K },
 };
 
-/** Share of cards that roll a non-home uniform (for clubs that have one). Clubs with an era kit split it: */
+/**
+ * The old fixed roll (uniformFor, before per-pull kits): share of cards that wear a non-home uniform (for clubs that
+ * have one). Clubs with an era kit split it: … Kept unchanged so cards owned from then keep their look.
+ */
 export const ALT_CHANCE = 0.08;
 /** … ERA_CHANCE for the era kit, the rest (6%) for the modern alternates. */
 export const ERA_CHANCE = 0.02;
@@ -345,12 +351,48 @@ export const uniformFor = (player: { name: string; team?: string }, variant?: st
   return home;
 };
 
-/** Which kind of kit this card (player × variant × finish) wears. */
+/** Kit kind of a uniform: home, a modern alternate, or a famous era kit. */
+export type KitKind = 'home' | 'alt' | 'era';
+export const kindOf = (u: Uniform): KitKind => (u.era ? 'era' : u.id === 'home' ? 'home' : 'alt');
+/** Kit rank for "best kit owned": era > alternate > home. */
+export const KIT_RANK: Record<KitKind, number> = { home: 0, alt: 1, era: 2 };
+
+/** A club's kits: its home uniform, modern alternates (0–2) and era kit (if any). */
+export const kitsOf = (team: string | undefined): { home: Uniform; alts: Uniform[]; era?: Uniform } => {
+  const t = findNFLTeam(team);
+  return { home: homeUniform(team), alts: (t && ALTERNATES[t.id]) || [], era: t ? ERA_KITS[t.id] : undefined };
+};
+
+/** Stored kit id of a card from before per-pull kits (src/utils/collection.ts): it resolves to the old fixed roll. */
+export { LEGACY_KIT };
+
+/**
+ * The uniform a stored kit id stands for on this player's card team: 'home', one of his club's alternates or its era
+ * kit by id, LEGACY_KIT (the old fixed roll). An id his club doesn't have (the card's team changed since the pull)
+ * falls back by kind: an era id to the club's era kit, any other to its first alternate, else home.
+ */
+export const kitUniform = (player: { name: string; team?: string }, kit: string | undefined, variant?: string, finish?: string): Uniform => {
+  if (!kit || kit === LEGACY_KIT) return uniformFor(player, variant, finish);
+  const { home, alts, era } = kitsOf(player.team);
+  if (kit === 'home') return home;
+  if (era && era.id === kit) return era;
+  const alt = alts.find((u) => u.id === kit);
+  if (alt) return alt;
+  if (kit.startsWith('era')) return era ?? home;
+  return alts[0] ?? home;
+};
+
+/** Reveal stamp for a non-home kit: "ALT KIT · Bucs Creamsicle", "THROWBACK · 1985 Bears" (null for home). */
+export const kitStamp = (u: Uniform): string | null => (u.era ? `THROWBACK · ${u.label}` : u.id === 'home' ? null : `ALT KIT · ${u.label}`);
+/** Short kit name for lists: "Home", "Bucs Creamsicle", "1985 Bears (era)". */
+export const kitName = (u: Uniform) => (u.id === 'home' ? 'Home' : uniformLabel(u));
+
+/** Which kind of kit this card (player × variant × finish) wears under the old fixed roll. */
 export const uniformKind = (player: { name: string; team?: string }, variant?: string, finish?: string): 'home' | 'alt' | 'era' => {
   const u = uniformFor(player, variant, finish);
   return u.era ? 'era' : u.id === 'home' ? 'home' : 'alt';
 };
-/** True when this card rolled a non-home uniform (alternate or era kit). */
+/** True when this card rolled a non-home uniform (alternate or era kit) under the old fixed roll. */
 export const isAlternate = (player: { name: string; team?: string }, variant?: string, finish?: string) => uniformKind(player, variant, finish) !== 'home';
 /** Card-back label: "Bucs Creamsicle", "1985 Bears (era)". */
 export const uniformLabel = (u: Uniform) => (u.era ? `${u.label} (era)` : u.label);

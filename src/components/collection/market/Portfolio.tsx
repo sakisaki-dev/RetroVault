@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import { Briefcase, PackageOpen } from 'lucide-react';
-import { TIERS, VARIANTS, finishLabel, ownedVariants, tierLabel, variantShort, type Finish, type OwnedAuto, type OwnedCard, type Tier, type Variant } from '@/utils/collection';
+import { TIERS, VARIANTS, bestParallel, finishLabel, ownedVariants, prizmInfo, prizmSerial, tierLabel, variantShort, type Finish, type OwnedAuto, type OwnedCard, type Tier, type Variant } from '@/utils/collection';
+import { bestKit } from '../kits';
 import { fmtCoins, holdingPrice, pctChange, portfolioSeries, valueAt, type Holding as Owned, type MarketHistory } from '@/utils/cardMarket';
 import { autographValue, parallelOf, serialStr } from '@/config/autographs';
 import type { CardInfo } from '../useCardPool';
-import { uniformKind } from '../art/sprite/uniforms';
 import PriceChart from './PriceChart';
 import ChangeBadge from './ChangeBadge';
 
@@ -32,6 +32,8 @@ interface Holding {
   gain: number | null;
   /** An autograph holding: its parallel and serial, e.g. "Sticker auto 07/99" */
   auto?: string;
+  /** A Prizm parallel holding: "Prizm Gold 7/10" */
+  par?: string;
 }
 
 interface PortfolioProps {
@@ -73,7 +75,7 @@ const HoldingLine = ({ h, label, onOpen }: { h: Holding; label: string; onOpen: 
     <span className="mk-hold__label">{label}</span>
     <span className="mk-hold__name">{h.info.player.name}</span>
     <span className="mk-hold__meta">
-      {h.auto ?? `${variantShort(h.variant)} · ${finishLabel(h.finish)}`} · {fmtCoins(h.now)}
+      {h.auto ?? `${h.par ?? variantShort(h.variant)} · ${finishLabel(h.finish)}`} · {fmtCoins(h.now)}
     </span>
     <ChangeBadge change={h.gain} label="since pulled" />
   </button>
@@ -95,7 +97,16 @@ const Portfolio = ({ history, owned, autos = [], byKey, period, sinceLabel, onOp
         ownedVariants(c).filter((variant) => variant !== 'auto').map((variant) => {
           const finish = c.variants[variant]!.best;
           const player = byKey.get(key)?.player;
-          return { key, variant, finish, alt: player ? uniformKind(player, variant, finish) : false, since: c.variants[variant]!.first };
+          // Priced in the best kit owned at that finish (era > alternate > home), and a Prizm at its best parallel there
+          const prizm = bestParallel(c, variant, finish);
+          return {
+            key,
+            variant,
+            finish,
+            alt: player ? (bestKit(c, player, variant, finish)?.kind ?? 'home') : false,
+            ...(prizm ? { prizm } : {}),
+            since: c.variants[variant]!.first,
+          };
         }),
       ),
       ...autos.map((a) => ({
@@ -119,7 +130,7 @@ const Portfolio = ({ history, owned, autos = [], byKey, period, sinceLabel, onOp
         const now = holdingPrice(p.value, h);
         const base = valueAt(history, h.key, h.since || Date.now());
         const paid = base != null ? holdingPrice(base, h) : null;
-        return [{ info, finish: h.finish, variant: h.variant, now, paid, gain: pctChange(now, paid), ...(h.auto ? { auto: h.auto } : {}) }];
+        return [{ info, finish: h.finish, variant: h.variant, now, paid, gain: pctChange(now, paid), ...(h.auto ? { auto: h.auto } : {}), ...(h.prizm ? { par: `Prizm ${prizmInfo(h.prizm.c).label} ${prizmSerial(h.prizm)}` } : {}) }];
       }),
     [items, byKey, latest, history],
   );

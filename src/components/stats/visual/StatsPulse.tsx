@@ -114,7 +114,7 @@ const StatsPulse = ({ data, book, onSelect }: { data: LeagueData; book: RecordBo
           suffix="%"
           sub={
             <button type="button" onClick={() => onSelect(chase.player)} className="inline-flex max-w-full items-center gap-1.5 rounded font-semibold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
-              {chase.player.team && <TeamLogo team={chase.player.team} size={16} decorative />}
+              {chase.player.team && <TeamLogo team={chase.player.team} size={16} decorative backed />}
               <span className="truncate">{chase.player.name}</span>
             </button>
           }

@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import {
   FINISHES,
   VARIANTS,
-  displayOf,
+  bestParallel,
   finishLabel,
   ownsCombo,
   tierLabel,
@@ -14,9 +14,11 @@ import {
   type DisplayChoice,
   type Finish,
   type OwnedCard,
+  type PrizmCopy,
   type Variant,
 } from '@/utils/collection';
 import CollectibleCard from './CollectibleCard';
+import { bestKit, displayWithKit } from './kits';
 import CardBack from './CardBack';
 import { useFlipFaces } from './useFlipFaces';
 import { FINISH_ICON, FINISH_TEXT } from './rarityIcons';
@@ -358,11 +360,14 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
   }, [open, n, center, list]);
 
   // ---------- Selected variant × finish per card ----------
-  const comboOf = (c: CardInfo) => {
+  // The kit: the display card's when it is that combo, else the best owned there (era > alternate > home)
+  // The Prizm parallel the same way: the display card's, else the best owned in that finish
+  const comboOf = (c: CardInfo): { variant: Variant; finish: Finish; kit?: string; prizm?: PrizmCopy } => {
     const pick = picks[c.key];
-    if (pick && ownsCombo(owned[c.key], pick.variant, pick.finish)) return pick;
-    const d = displayOf(owned[c.key], display?.[c.key]);
-    return { variant: d.variant, finish: d.finish };
+    const d = displayWithKit(owned[c.key], display?.[c.key], c.player);
+    if (pick && ownsCombo(owned[c.key], pick.variant, pick.finish) && (pick.variant !== d.variant || pick.finish !== d.finish))
+      return { ...pick, kit: bestKit(owned[c.key], c.player, pick.variant, pick.finish)?.id, prizm: bestParallel(owned[c.key], pick.variant, pick.finish) };
+    return { variant: d.variant, finish: d.finish, kit: d.kit, prizm: d.prizm };
   };
 
   const details = useCallback(() => {
@@ -626,6 +631,8 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
                         tier={c.tier}
                         finish={k.finish}
                         variant={k.variant}
+                        kit={k.kit}
+                        prizm={k.prizm}
                         ovr={c.ovr}
                         number={c.number}
                         stats={c.stats}
@@ -636,7 +643,7 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
                     </div>
                     {active && (
                       <div className="cd__face cd__face--back" aria-hidden={!flipped}>
-                        {backMounted && <CardBack info={c} tier={c.tier} total={total} variant={k.variant} finish={k.finish} />}
+                        {backMounted && <CardBack info={c} tier={c.tier} total={total} variant={k.variant} finish={k.finish} kit={k.kit} prizm={k.prizm} />}
                       </div>
                     )}
                   </div>

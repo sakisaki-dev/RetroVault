@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { cn } from '@/lib/utils';
+import { logoBackingClass } from '@/components/brand/TeamLogo';
 
 interface TeamLogoProps {
   team?: string | null;
   className?: string;
   /** Decorative logos sit next to a visible team name. */
   decorative?: boolean;
+  /** Faint light backing for logos on dark rows (see brand/TeamLogo `backed`). */
+  backed?: boolean;
 }
 
 /** Team logo with a colored monogram fallback (offline / unknown team). */
-const TeamLogo = ({ team, className, decorative = false }: TeamLogoProps) => {
+const TeamLogo = ({ team, className, decorative = false, backed = false }: TeamLogoProps) => {
   const nfl = findNFLTeam(team ?? undefined);
   const [failed, setFailed] = useState(false);
   const label = nfl?.fullName ?? team ?? 'Unknown team';
@@ -39,7 +42,7 @@ const TeamLogo = ({ team, className, decorative = false }: TeamLogoProps) => {
       loading="lazy"
       decoding="async"
       onError={() => setFailed(true)}
-      className={cn('object-contain', className)}
+      className={cn('object-contain', backed && logoBackingClass(nfl), className)}
     />
   );
 };

@@ -38,6 +38,7 @@ SRC = ROOT / "data" / "y80"
 OUT = ROOT / "public" / "data" / "league" / "content.json"
 sys.path.insert(0, str(ROOT / "scripts"))
 import owner_facts as F  # noqa: E402
+import market_history  # noqa: E402
 
 HOF_THRESHOLD = 7500  # src/config/stats.ts HOF_THRESHOLD (the bar from Y85; 7,000 before)
 HOF_FLOOR = 7300  # src/config/stats.ts HOF_FLOOR
@@ -105,7 +106,7 @@ OWN = {(t, y) for y, t in OWNER.items()}  # (team, year) the owner coached
 RECORDS = load("records.json")["records"]
 STINTS = load("stints.json")
 EXTRAS = load("screenshot_extras.json")
-MARKET = load("market_history.json")
+MARKET = market_history.load(SRC / "market_history.json")  # full snapshots (the file stores changes only)
 SPEECHES = {n: s["text"] for n, s in sorted(load("speeches.json")["speeches"].items())}
 JOURNAL = load("journal.json").get("notes", []) if (SRC / "journal.json").exists() else []
 # Season Story (AI-authored, owner-approved; written only by story.set): passed through verbatim
@@ -1145,6 +1146,50 @@ def build_headlines() -> tuple[list[dict], dict]:
     return news, info
 
 
+STORIES_DIR = OUT.parent / "stories"
+
+
+def story_file(season: str) -> str:
+    """A season story's path under public/data/league/ (the index's `file`)."""
+    return f"stories/{season}.json"
+
+
+def season_story(y: str, s: dict) -> dict:
+    """One season's full story as the site reads it (src/utils/leagueContent.ts loadSeasonStory)."""
+    return {"season": y, "tagline": s["tagline"], "upload": s.get("upload"), "articles": s["articles"],
+            "didYouKnow": s.get("didYouKnow", [])}
+
+
+def story_index(story: dict) -> dict:
+    """The content.json entry for a season story: enough for the Arcade ticker, the Timeline masthead and season
+    switcher, and deep links (which season holds an article id, and its headline for "Continued from")."""
+    lead = next((a for a in story["articles"] if a["kind"] == "lead"), None)
+    return {"season": story["season"], "tagline": story["tagline"], "upload": story["upload"],
+            "file": story_file(story["season"]), "articleCount": len(story["articles"]),
+            "didYouKnowCount": len(story["didYouKnow"]),
+            "lead": {"id": lead["id"], "headline": lead["headline"]} if lead else None,
+            "articles": [{"id": a["id"], "kind": a["kind"], "headline": a["headline"]} for a in story["articles"]]}
+
+
+def write_season_stories(stories: list[dict]):
+    """public/data/league/stories/<Y>.json, one per season; files for seasons with no story any more are removed."""
+    STORIES_DIR.mkdir(parents=True, exist_ok=True)
+    keep = set()
+    for s in stories:
+        path = OUT.parent / story_file(s["season"])
+        keep.add(path.name)
+        path.write_text(json.dumps(s, ensure_ascii=False, indent=1) + "\n")
+    for old in STORIES_DIR.glob("*.json"):
+        if old.name not in keep:
+            old.unlink()
+
+
+def load_season_story(season: str) -> dict | None:
+    """A season's full story from public/data/league/stories/ (for build_widget_data.py and update.py)."""
+    path = OUT.parent / story_file(season)
+    return json.loads(path.read_text()) if path.exists() else None
+
+
 def main():
     eras = build_eras()
     rivalries = build_rivalries(eras)
@@ -1170,6 +1215,7 @@ def main():
 
     classes = hof_classes()
     headlines, headlines_info = build_headlines()
+    season_stories = [season_story(y, s) for y, s in sorted(STORIES.items(), key=lambda kv: int(kv[0].lstrip("Y")))]
     content = {
         "version": 1,
         "season": SEASON,
@@ -1199,13 +1245,13 @@ def main():
         "coach": COACH,
         "journal": [note_ref(n) for n in JOURNAL],
         "speeches": SPEECHES,
-        # Season Story: news packages per completed season (data/y80/stories.json, story.set), oldest first
-        "seasonStories": [{"season": y, "tagline": s["tagline"], "upload": s.get("upload"), "articles": s["articles"],
-                           "didYouKnow": s.get("didYouKnow", [])}
-                    for y, s in sorted(STORIES.items(), key=lambda kv: int(kv[0].lstrip("Y")))],
+        # Season Story: news packages per completed season (data/y80/stories.json, story.set), oldest first. Only an
+        # index here; each season's full story is its own file, public/data/league/stories/<Y>.json, loaded on demand
+        "seasonStoryIndex": [story_index(s) for s in season_stories],
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(content, ensure_ascii=False, indent=1) + "\n")
+    write_season_stories(season_stories)
     print(f"Wrote {OUT.relative_to(ROOT)}: {len(eras)} eras, {len(super_bowls)} Super Bowls, {len(storylines)} storylines, "
           f"{len(rivalries)} rivalries, {len(lineages)} lineages, {len(snubs)} snubs, {len(classes)} HOF classes, "
           f"{len(headlines)} headlines ({headlines_info.get('scope', 'none')})")

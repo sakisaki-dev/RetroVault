@@ -3,8 +3,10 @@ import { ArrowDown, ArrowUp, ArrowUpDown, CalendarRange, Dice5, Gauge, Home, Lin
 import { cn } from '@/lib/utils';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { useCurrentClub } from '@/utils/club';
+import { reducedMotion } from '@/utils/motion';
 import { scheduleSeasons, useSchedule, type ScheduleSeason, type TableRow, type TeamSeasonRow } from '@/utils/schedule';
 import TeamLogo from '../timeline/TeamLogo';
+import SectionIntro from '../stats/SectionIntro';
 
 /**
  * Stats → Teams: advanced team stats from the weekly league scores (public/data/league/schedule.json, built by
@@ -22,7 +24,10 @@ const signed = (n: number, digits = 0) => {
   return n > 0 ? `+${s}` : n < 0 ? `−${s}` : digits ? (0).toFixed(digits) : '0';
 };
 const rate = (n: number) => n.toFixed(3).replace(/^(-?)0/, '$1');
-const signedRate = (n: number) => (n > 0 ? '+' : n < 0 ? '−' : '') + rate(Math.abs(n));
+/** A win % gap as percentage points: 0.542 → "+54". */
+const signedPts = (n: number) => signed(Math.round(n * 100));
+/** A win % as a whole percent: 0.62 → "62%". */
+const pct = (n: number) => `${Math.round(n * 100)}%`;
 const seasonNum = (s: string) => Number(s.replace(/\D/g, '')) || 0;
 const dash = '—';
 
@@ -53,10 +58,10 @@ const useWidth = <T extends HTMLElement>(fallback: number) => {
   return [ref, width] as const;
 };
 
-const ClubName = ({ team, className, logo = 'h-5 w-5' }: { team: string; className?: string; logo?: string }) => (
+const ClubName = ({ team, className, logo = 'h-5 w-5', bar = true }: { team: string; className?: string; logo?: string; bar?: boolean }) => (
   <span className={cn('flex min-w-0 items-center gap-2', className)}>
-    <span aria-hidden className="h-5 w-1 flex-shrink-0 rounded-full" style={{ background: teamColor(team) }} />
-    <TeamLogo team={team} decorative className={cn(logo, 'flex-shrink-0')} />
+    {bar && <span aria-hidden className="h-5 w-1 flex-shrink-0 rounded-full" style={{ background: teamColor(team) }} />}
+    <TeamLogo team={team} decorative backed className={cn(logo, 'flex-shrink-0')} />
     <span className="truncate">{team}</span>
   </span>
 );
@@ -95,7 +100,7 @@ interface Column {
 }
 
 const COLUMNS: Column[] = [
-  { key: 'power', label: '#', title: 'Power rank', compact: true, asc: true, value: (r) => r.power, cell: (r) => <span className="font-display font-bold">{r.power}</span> },
+  { key: 'power', label: '#', title: 'Season power rank (from this season\'s weekly scores)', compact: true, asc: true, value: (r) => r.power, cell: (r) => <span className="font-display font-bold">{r.power}</span> },
   { key: 'team', label: 'Club', compact: true, asc: true, value: (r) => r.team, cell: () => null, align: 'left' },
   { key: 'record', label: 'W-L-T', title: 'Record', compact: true, value: (r) => r.pct, cell: (r) => <span className="font-semibold">{`${r.w}-${r.l}-${r.t}`}</span> },
   {
@@ -125,7 +130,7 @@ const COLUMNS: Column[] = [
   {
     key: 'marginSd',
     label: 'SD',
-    title: 'Consistency: standard deviation of game margins (lower is steadier)',
+    title: 'Consistency: how much game margins vary, in points (standard deviation; lower is steadier)',
     compact: false,
     asc: true,
     value: (r) => r.marginSd ?? null,
@@ -134,10 +139,10 @@ const COLUMNS: Column[] = [
   {
     key: 'homeEdge',
     label: 'Home',
-    title: 'Home edge: home win % minus away win %',
+    title: 'Home edge: home win % minus away win %, in percentage points',
     compact: false,
     value: (r) => r.homeEdge ?? null,
-    cell: (r) => (r.homeEdge != null ? <span className={signTone(r.homeEdge)}>{signedRate(r.homeEdge)}</span> : dash),
+    cell: (r) => (r.homeEdge != null ? <span className={signTone(r.homeEdge)}>{signedPts(r.homeEdge)}</span> : dash),
   },
   {
     key: 'oneScore',
@@ -159,11 +164,24 @@ const COLUMNS: Column[] = [
   },
 ];
 
+/** Plain-words key under the table, one entry per visible column that needs one. */
+const LEGEND: Partial<Record<SortKey, string>> = {
+  power: '# = this season\'s power rank from the weekly scores',
+  expWins: 'xW = expected wins from points scored and allowed',
+  luck: 'Luck = wins above (+) or below (−) xW',
+  adjMargin: 'Adj = points per game after the schedule',
+  marginSd: 'SD = how much game margins vary, in points (lower is steadier)',
+  homeEdge: 'Home = home win % minus away win %, in points (+54 = 54 points better at home)',
+  oneScore: '1-Score = record in games decided by 8 or fewer',
+};
+
 const thBase = 'px-1.5 py-2 font-semibold sm:px-2';
 const tdBase = 'px-1.5 py-1.5 tabular-nums whitespace-nowrap sm:px-2';
 const alignClass = (a: Column['align']) => (a === 'left' ? 'text-left' : a === 'center' ? 'text-center' : 'text-right');
 
-const SeasonPicker = ({ seasons, value, onChange }: { seasons: ScheduleSeason[]; value: string; onChange: (s: string) => void }) => (
+/** Season pills; nothing to pick (one season) = not shown. */
+const SeasonPicker = ({ seasons, value, onChange }: { seasons: ScheduleSeason[]; value: string; onChange: (s: string) => void }) =>
+  seasons.length < 2 ? null : (
   <div role="group" aria-label="Season" className="flex min-w-0 items-center gap-2">
     <span className="font-pixel text-[9px] uppercase text-muted-foreground shrink-0">Season</span>
     <div className="flex min-w-0 gap-1 overflow-x-auto scrollbar-none rounded-lg bg-secondary/50 p-1">
@@ -174,7 +192,7 @@ const SeasonPicker = ({ seasons, value, onChange }: { seasons: ScheduleSeason[];
           aria-pressed={value === s.season}
           onClick={() => onChange(s.season)}
           className={cn(
-            'shrink-0 rounded-md px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
+            'tap-40 shrink-0 rounded-md px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
             value === s.season ? 'bg-gold text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
           )}
         >
@@ -185,7 +203,7 @@ const SeasonPicker = ({ seasons, value, onChange }: { seasons: ScheduleSeason[];
   </div>
 );
 
-const AdvancedTable = ({ season, compact, onTrack }: { season: ScheduleSeason; compact: boolean; onTrack: (team: string) => void }) => {
+const AdvancedTable = ({ season, compact, onTrack }: { season: ScheduleSeason; compact: boolean; onTrack?: (team: string) => void }) => {
   const [sort, setSort] = useState<{ key: SortKey; asc: boolean }>({ key: 'power', asc: true });
   const columns = compact ? COLUMNS.filter((c) => c.compact) : COLUMNS;
   const rows = useMemo(() => {
@@ -203,8 +221,9 @@ const AdvancedTable = ({ season, compact, onTrack }: { season: ScheduleSeason; c
   const sortBy = (c: Column) => setSort((s) => (s.key === c.key ? { key: c.key, asc: !s.asc } : { key: c.key, asc: !!c.asc }));
 
   return (
+    <div className="space-y-2">
     <div className="max-h-[34rem] overflow-auto rounded-lg border border-border/40">
-      <table className={cn('w-full text-sm', compact ? 'min-w-[340px]' : 'min-w-[760px]')}>
+      <table className={cn('w-full text-sm', compact ? 'min-w-0' : 'min-w-[760px]')}>
         <caption className="sr-only">
           Advanced team stats, {season.season}. Sorted by {COLUMNS.find((c) => c.key === sort.key)?.title ?? sort.key}, {sort.asc ? 'ascending' : 'descending'}.
         </caption>
@@ -218,20 +237,21 @@ const AdvancedTable = ({ season, compact, onTrack }: { season: ScheduleSeason; c
                   key={c.key}
                   scope="col"
                   aria-sort={active ? (sort.asc ? 'ascending' : 'descending') : 'none'}
-                  className={cn(thBase, alignClass(c.align), c.key === 'team' && 'sticky left-0 z-10 bg-card sm:static')}
+                  className={cn(thBase, 'whitespace-nowrap max-sm:py-0', compact && 'max-sm:px-1', alignClass(c.align), c.key === 'team' && 'sticky left-0 z-10 bg-card sm:static')}
                 >
                   <button
                     type="button"
                     onClick={() => sortBy(c)}
                     title={c.title}
                     className={cn(
-                      'inline-flex items-center gap-1 uppercase tracking-wider hover:text-foreground',
+                      'tap-40 inline-flex items-center gap-1 whitespace-nowrap uppercase tracking-wider hover:text-foreground',
                       active && 'text-gold',
                       c.align !== 'left' && c.align !== 'center' && 'flex-row-reverse',
                     )}
                   >
                     {c.title ? <abbr title={c.title} className="no-underline">{c.label}</abbr> : c.label}
-                    <Icon className="h-3 w-3 opacity-70" aria-hidden />
+                    {/* Phones show only the active column's arrow, so the Key set fits */}
+                    <Icon className={cn('h-3 w-3 opacity-70', !active && 'max-sm:hidden')} aria-hidden />
                   </button>
                 </th>
               );
@@ -250,25 +270,32 @@ const AdvancedTable = ({ season, compact, onTrack }: { season: ScheduleSeason; c
                       scope="row"
                       className={cn(
                         'sticky left-0 bg-card px-2 py-1.5 text-left font-medium sm:static sm:bg-transparent sm:shadow-none',
+                        compact && 'max-sm:px-1',
                         coach && 'shadow-[inset_0_0_0_999px_hsl(var(--primary)/0.15)]',
                       )}
                     >
-                      <button
-                        type="button"
-                        onClick={() => onTrack(r.team)}
-                        title={`Show ${r.team} progression`}
-                        className="flex max-w-[9.5rem] items-center gap-1.5 text-left hover:text-gold sm:max-w-none"
-                      >
-                        <ClubName team={r.team} />
-                        {coach && (
-                          <span className="hidden rounded bg-primary/25 px-1 text-[9px] font-bold uppercase tracking-wider text-foreground sm:inline">
-                            Coached<span className="sr-only"> club</span>
-                          </span>
-                        )}
-                      </button>
+                      {onTrack ? (
+                        <button
+                          type="button"
+                          onClick={() => onTrack(r.team)}
+                          title={`Show ${r.team} progression`}
+                          className={cn('flex items-center gap-1.5 text-left hover:text-gold sm:max-w-none', compact ? 'max-w-[7.5rem]' : 'max-w-[9.5rem]')}
+                        >
+                          <ClubName team={r.team} bar={!compact} />
+                          {coach && (
+                            <span className="hidden rounded bg-primary/25 px-1 text-[9px] font-bold uppercase tracking-wider text-foreground sm:inline">
+                              Coached<span className="sr-only"> club</span>
+                            </span>
+                          )}
+                        </button>
+                      ) : (
+                        <span className={cn('flex sm:max-w-none', compact ? 'max-w-[7.5rem]' : 'max-w-[9.5rem]')}>
+                          <ClubName team={r.team} bar={!compact} />
+                        </span>
+                      )}
                     </th>
                   ) : (
-                    <td key={c.key} className={cn(tdBase, alignClass(c.align), c.key === 'power' && 'w-8')}>
+                    <td key={c.key} className={cn(tdBase, compact && 'max-sm:px-1', alignClass(c.align), c.key === 'power' && 'w-8')}>
                       {c.cell(r)}
                     </td>
                   ),
@@ -278,6 +305,14 @@ const AdvancedTable = ({ season, compact, onTrack }: { season: ScheduleSeason; c
           })}
         </tbody>
       </table>
+    </div>
+    <p className="text-xs text-muted-foreground">
+      {columns
+        .map((c) => LEGEND[c.key])
+        .filter(Boolean)
+        .join(' · ')}
+      .
+    </p>
     </div>
   );
 };
@@ -317,7 +352,7 @@ const buildInsights = (season: ScheduleSeason): Insight[] => {
     icon: Dice5,
     value: `${signed(r.luck!, 1)} W`,
     tone: signTone(r.luck),
-    detail: `${r.record} against ${r.expWins?.toFixed(1) ?? dash} expected wins`,
+    detail: `${r.record} against ${r.expWins?.toFixed(1) ?? dash} expected wins (from points scored and allowed)`,
   }));
   add(pick(rows, (r) => r.luck, 'min'), (r) => ({
     id: 'unluckiest',
@@ -331,41 +366,41 @@ const buildInsights = (season: ScheduleSeason): Insight[] => {
     id: 'steadiest',
     label: 'Most consistent',
     icon: Gauge,
-    value: `±${r.marginSd!.toFixed(1)}`,
+    value: `±${r.marginSd!.toFixed(1)} pts`,
     tone: '',
-    detail: `Game margins spread ${r.marginSd!.toFixed(1)} points (standard deviation)`,
+    detail: `Game margins vary ±${r.marginSd!.toFixed(1)} points from game to game (standard deviation), the league's steadiest`,
   }));
   add(pick(rows, (r) => r.marginSd, 'max'), (r) => ({
     id: 'volatile',
     label: 'Most volatile',
     icon: Waves,
-    value: `±${r.marginSd!.toFixed(1)}`,
+    value: `±${r.marginSd!.toFixed(1)} pts`,
     tone: '',
-    detail: `Game margins spread ${r.marginSd!.toFixed(1)} points (standard deviation)`,
+    detail: `Game margins vary ±${r.marginSd!.toFixed(1)} points from game to game (standard deviation), the league's widest swings`,
   }));
   add(pick(rows, (r) => r.homeEdge, 'max'), (r) => ({
     id: 'home',
     label: 'Biggest home edge',
     icon: Home,
-    value: signedRate(r.homeEdge!),
+    value: `${signedPts(r.homeEdge!)} pts`,
     tone: signTone(r.homeEdge),
-    detail: `${r.home ?? dash} at home, ${r.away ?? dash} away (win % gap)`,
+    detail: `${r.home ?? dash} at home, ${r.away ?? dash} away: home win % ${Math.abs(Math.round(r.homeEdge! * 100))} points ${r.homeEdge! >= 0 ? 'higher' : 'lower'}`,
   }));
   add(pick(rows, (r) => r.adjMargin, 'max'), (r) => ({
     id: 'adj',
     label: 'Best adjusted margin',
     icon: Scale,
-    value: signed(r.adjMargin!, 1),
+    value: `${signed(r.adjMargin!, 1)} pts`,
     tone: signTone(r.adjMargin),
-    detail: `Points per game after the schedule; raw ${signed(r.ppg - r.papg, 1)}`,
+    detail: `Points per game better than opponents after adjusting for the schedule; raw ${signed(r.ppg - r.papg, 1)}`,
   }));
   add(pick(rows, (r) => r.sos, 'max'), (r) => ({
     id: 'sos',
     label: 'Strongest schedule',
     icon: Shield,
-    value: rate(r.sos),
+    value: pct(r.sos),
     tone: '',
-    detail: `Opponents' average final win %, went ${r.record}`,
+    detail: `Opponents won ${pct(r.sos)} of their games on average; went ${r.record}`,
   }));
   return out;
 };
@@ -375,10 +410,14 @@ const InsightCards = ({ season }: { season: ScheduleSeason }) => {
   if (!insights.length) return null;
   return (
     <ul className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4" aria-label={`Season insights, ${season.season}`}>
-      {insights.map((i) => (
+      {insights.map((i, n) => (
         <li
           key={i.id}
-          className="relative overflow-hidden rounded-xl border border-border/50 bg-secondary/25 p-3"
+          // An odd count: the last card spans two columns, so neither the 2-up nor the 4-up grid leaves an orphan
+          className={cn(
+            'relative overflow-hidden rounded-xl border border-border/50 bg-secondary/25 p-3',
+            insights.length % 2 === 1 && n === insights.length - 1 && 'col-span-2',
+          )}
           style={{ boxShadow: `inset 3px 0 0 ${teamColor(i.row.team)}` }}
         >
           <TeamLogo team={i.row.team} decorative className="pointer-events-none absolute -right-3 -top-3 h-20 w-20 opacity-10" />
@@ -610,7 +649,7 @@ const LeagueChart = ({ progression, clubs, team, onTeam }: { progression: Record
               type="button"
               aria-pressed={metric === m.key}
               onClick={() => setMetric(m.key)}
-              className={cn('rounded px-2.5 py-1 font-semibold', metric === m.key ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground')}
+              className={cn('tap-40 rounded px-2.5 py-1 font-semibold', metric === m.key ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground')}
             >
               {m.label}
             </button>
@@ -675,7 +714,7 @@ const LeagueChart = ({ progression, clubs, team, onTeam }: { progression: Record
       <p className="text-xs text-muted-foreground">
         {seasons.length === 1
           ? `One season of weekly scores so far (${seasons[0]}), so every club is a single point. Lines appear as more seasons are uploaded; skipped seasons show as dashed stretches.`
-          : 'Hover or tap a line to bring a club forward; tap to track it below. Dashed stretches skip seasons without weekly scores.'}
+          : 'Tap or hover a line to bring a club forward; tap to track it below. Dashed stretches skip seasons without weekly scores.'}
       </p>
     </div>
   );
@@ -694,7 +733,7 @@ const Progression = ({ progression, clubs, team, onTeam }: { progression: Record
     <div className="glass-card space-y-4 p-3 sm:p-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex min-w-0 items-center gap-3">
-          <TeamLogo team={team} decorative className="h-10 w-10 flex-shrink-0" />
+          <TeamLogo team={team} decorative className="h-10 w-10 flex-shrink-0" backed />
           <div className="min-w-0">
             <p className="font-display text-xl font-bold uppercase leading-tight">{team}</p>
             <p className="text-xs text-muted-foreground">
@@ -835,6 +874,15 @@ const Movers = ({ progression, season, seasonsWithData, onTrack }: { progression
 
 /* ---------------- Section ---------------- */
 
+/** Lead line for the section, by rule: the season's No. 1 and the club that beat its points the most. */
+const advancedTakeaway = (season: ScheduleSeason): string | null => {
+  const top = [...season.table].sort((a, b) => a.power - b.power)[0];
+  if (!top) return null;
+  const lucky = pick(season.table, (r) => r.luck, 'max');
+  const luck = lucky && lucky.luck != null && lucky.luck >= 0.5 ? ` The ${lucky.team} won ${lucky.luck.toFixed(1)} more games than their points scored and allowed predict.` : '';
+  return `The ${top.team} top the ${season.season} power ranking at ${top.w}-${top.l}-${top.t}.${luck}`;
+};
+
 const prefersCompact = () => !!(typeof window !== 'undefined' && window.matchMedia?.('(max-width: 639px)').matches);
 
 const TeamAdvanced = () => {
@@ -864,9 +912,11 @@ const TeamAdvanced = () => {
   const progression = schedule.progression ?? {};
   const defaultTeam = [currentClub, seasons[0].coachTeam, Object.keys(progression).sort()[0]].find((t) => t && progression[t]) ?? null;
   const team = tracked && progression[tracked] ? tracked : defaultTeam;
+  // Progression and risers / fallers need two seasons of weekly scores; until then one line stands in for them
+  const multi = seasons.length >= 2;
   const track = (t: string) => {
     setTracked(t);
-    progressionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    progressionRef.current?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
   };
 
   return (
@@ -874,15 +924,15 @@ const TeamAdvanced = () => {
       <section aria-labelledby="advanced-heading" className="space-y-4">
         <div className="flex flex-col gap-1">
           <h2 id="advanced-heading" className="section-title text-2xl">
-            Advanced team stats
-            <span className="font-pixel text-[9px] text-muted-foreground">{season.season}</span>
+            {season.season} power &amp; advanced stats
           </h2>
-          <p className="max-w-2xl text-sm text-muted-foreground">
-            From the weekly league scores: Pythagorean expected wins (points scored and allowed), luck (wins above or below them), margin adjusted for the
-            schedule, consistency of game margins and the home edge. Pick a club to follow its progression.
-          </p>
+          <SectionIntro id="team-advanced" takeaway={advancedTakeaway(season)}>
+            From the weekly league scores: the season power ranking (the # column; a different thing from All-time power above), Pythagorean expected
+            wins (points scored and allowed), luck (wins above or below them), margin adjusted for the schedule, consistency of game margins and the
+            home edge.{multi ? ' Pick a club to follow its progression.' : ''}
+          </SectionIntro>
         </div>
-        <div className="glass-card flex flex-col gap-2.5 p-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className={cn('glass-card flex flex-col gap-2.5 p-3 sm:flex-row sm:items-center', multi ? 'sm:justify-between' : 'sm:justify-end')}>
           <SeasonPicker seasons={seasons} value={season.season} onChange={setPicked} />
           <div role="group" aria-label="Columns" className="flex items-center gap-2">
             <span className="font-pixel text-[9px] uppercase text-muted-foreground">Columns</span>
@@ -897,7 +947,7 @@ const TeamAdvanced = () => {
                   aria-pressed={compact === o.key}
                   onClick={() => setCompact(o.key)}
                   className={cn(
-                    'rounded-md px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
+                    'tap-40 rounded-md px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
                     compact === o.key ? 'bg-gold text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
                   )}
                 >
@@ -909,7 +959,7 @@ const TeamAdvanced = () => {
         </div>
 
         <InsightCards season={season} />
-        <AdvancedTable season={season} compact={compact} onTrack={track} />
+        <AdvancedTable season={season} compact={compact} onTrack={multi ? track : undefined} />
       </section>
 
       <section ref={progressionRef} aria-labelledby="progression-heading" className="scroll-mt-20 space-y-4">
@@ -920,15 +970,23 @@ const TeamAdvanced = () => {
             {seasons.length} season{seasons.length === 1 ? '' : 's'}
           </span>
         </h2>
-        {team ? (
-          <Progression progression={progression} clubs={season.table.length || 32} team={team} onTeam={setTracked} />
+        {!multi ? (
+          <p className="glass-card p-4 text-sm text-muted-foreground">
+            Each club's season-by-season charts and the risers and fallers appear once a second season of weekly scores is uploaded (only {season.season} so far).
+          </p>
         ) : (
-          <p className="glass-card p-4 text-sm text-muted-foreground">No club has a season of weekly scores yet.</p>
+          <>
+            {team ? (
+              <Progression progression={progression} clubs={season.table.length || 32} team={team} onTeam={setTracked} />
+            ) : (
+              <p className="glass-card p-4 text-sm text-muted-foreground">No club has a season of weekly scores yet.</p>
+            )}
+            <h3 className="flex items-center gap-2 font-display text-lg font-bold uppercase tracking-wide text-gold">
+              <TrendingUp className="h-4 w-4" aria-hidden /> Risers and fallers
+            </h3>
+            <Movers progression={progression} season={season.season} seasonsWithData={seasons.length} onTrack={track} />
+          </>
         )}
-        <h3 className="flex items-center gap-2 font-display text-lg font-bold uppercase tracking-wide text-gold">
-          <TrendingUp className="h-4 w-4" aria-hidden /> Risers and fallers
-        </h3>
-        <Movers progression={progression} season={season.season} seasonsWithData={seasons.length} onTrack={track} />
       </section>
     </>
   );

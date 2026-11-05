@@ -12,7 +12,7 @@ const chip =
 const PickChip = ({ p, onChoose }: { p: Player; onChoose: (key: string) => void }) => (
   <li>
     <button type="button" className={chip} onClick={() => onChoose(keyOf(p))}>
-      {p.team && <TeamLogo team={p.team} size={18} decorative />}
+      {p.team && <TeamLogo team={p.team} size={18} decorative backed />}
       {p.name}
       <span className="font-pixel text-[8px] text-muted-foreground">{p.position}</span>
     </button>

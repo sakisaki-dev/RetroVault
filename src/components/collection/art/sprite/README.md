@@ -172,9 +172,13 @@ One table drives every art style: the sprite (`render.ts`), and the Jersey, Jers
 (`JerseyGarment` / `UniformSleeves`, `JerseyBackArt`, `LockerArt`, `VintageArt`, and `teamStyle.ts`, which is now
 derived from it). Home sets for all 32 clubs; 39 real modern alternates, at most two per club (Color Rush sets,
 throwbacks, alternates such as Indiana Nights, Winter Warrior, H-Town Blue, Orange Crush); and 15 famous **era kits**
-(`ERAS`, at most one per club, `era: true`, labelled by era with no player names: "1985 Bears"). The roll is 8% in
-all: for a club with both kinds, 2% (`ERA_CHANCE`) era kit and 6% alternates (split evenly); a club with only
-alternates keeps the full 8%. An alternate's helmet change goes through `helmet` (shell / stripe / mask only:
+(`ERAS`, at most one per club, `era: true`, labelled by era with no player names: "1985 Bears"). Kits are a
+**per-pull chase**: every pulled card but the Autograph rolls home, an alternate (picked evenly) or the era kit at its
+pack's odds (`KIT_ODDS` in `src/utils/collection.ts`: alternates 8% Standard to 12% Holo Showcase / Perfect Season,
+era kits 2.5% to 4.5%; a club without a kind gives that share to home), and the binder stores each kit owned per
+variant × finish (`VariantCard.kits`, resolved by `kitUniform`). The old fixed roll, `uniformFor` (8% in all: for a
+club with both kinds, 2% `ERA_CHANCE` era kit and 6% alternates), is kept for cards owned before per-pull kits
+(stored as `LEGACY_KIT`, so they keep their look) and for galleries and samples. An alternate's helmet change goes through `helmet` (shell / stripe / mask only:
 period logos such as the Broncos' old "D" or the Titans of New York shield are not drawn; the current decal is
 dropped when the shell changes).
 
@@ -188,13 +192,17 @@ interface Uniform { id; label; jersey; trim; sleeve: 'stripes2' | 'stripes3' | '
   numberOutline2? /* 'double': second colour */; pantsStripes?: string[] /* half-px columns */;
   sockStripes?: string[] /* half-px rows */ }
 homeUniform(team): Uniform                         // cached; clubs outside the table get team colours
-uniformFor(player, variant?, finish?): Uniform     // ALT_CHANCE (8%) of an alternate, stable per player × variant × finish
-uniformKind(player, variant?, finish?): 'home' | 'alt' | 'era'   // market bonus
-isAlternate(player, variant?, finish?): boolean    // any non-home kit
+uniformFor(player, variant?, finish?): Uniform     // the old fixed roll: ALT_CHANCE (8%), stable per player × variant × finish
+uniformKind(player, variant?, finish?): 'home' | 'alt' | 'era'   // kind under the old fixed roll
+isAlternate(player, variant?, finish?): boolean    // any non-home kit under the old fixed roll
+kitsOf(team): { home, alts, era? }                 // a club's kits (what rollKit can roll)
+kitUniform(player, kitId, variant?, finish?)       // a stored kit id → Uniform ('home', alt / era id, LEGACY_KIT = uniformFor)
+kindOf(u) / KIT_RANK                               // 'home' | 'alt' | 'era'; best kit = era > alt > home
+kitStamp(u) / kitName(u)                           // "THROWBACK · 1985 Bears", "ALT KIT · Bucs Creamsicle"; "Home" / label
 uniformLabel(u): string                            // card back "Uniform: <label>" ("1985 Bears (era)")
 helmetWith(baseHelmet, uniform): Helmet            // alternates may swap the shell / stripe / mask
 sleeveBands(u) / pantsBands(u) / sockBands(u)      // resolved stripe lists for any uniform (legacy kinds included)
-ALT_VALUE_BONUS ×1.1, ERA_VALUE_BONUS ×1.15 (defined in src/utils/cardMarket.ts; cardPrice(value, finish, variant, kind))
+ALT_VALUE_BONUS ×1.2, ERA_VALUE_BONUS ×1.4 (defined in src/utils/cardMarket.ts; cardPrice(value, finish, variant, kind))
 allHomes(), allAlternates(), allEraKits()           // Art lab Uniforms tab (filters: All 32 / With alternates / Era kits)
 ```
 

@@ -79,6 +79,31 @@
 .ss-season[aria-pressed='true'] { background: var(--ss-chalk); border-color: var(--ss-chalk); color: var(--ss-bg); }
 .ss-season:focus-visible { outline: 3px solid var(--ss-gold); outline-offset: 2px; }
 
+/* A season's stories load on demand (one file per season): a calm placeholder where the lead will be */
+.ss-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 160px;
+  margin: 0;
+  padding: 18px;
+  border: 1px dashed var(--ss-line);
+  border-radius: 14px;
+  background: var(--ss-panel);
+  color: var(--ss-muted);
+  font-size: 14px;
+}
+.ss-loading__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--ss-gold);
+  animation: ss-pulse 1s ease-in-out infinite alternate;
+}
+@keyframes ss-pulse { from { opacity: 0.25; } to { opacity: 1; } }
+[data-perf='lite'] .ss-loading__dot { animation: none; }
+@media (prefers-reduced-motion: reduce) { .ss-loading__dot { animation: none; } }
+
 /* ---------- Shared bits ---------- */
 .ss-kind {
   display: inline-block;

@@ -244,7 +244,7 @@ const DistributionSwarm = ({ players, ovrMap, onSelect }: { players: Player[]; o
           {hover && hoverRow && (
             <ChartTip x={hover.cx} y={hoverRow.top + hoverRow.height / 2 + hover.dy} width={width}>
               <p className="flex items-center gap-1.5 font-semibold text-foreground">
-                {hover.player.team && <TeamLogo team={hover.player.team} size={16} decorative />}
+                {hover.player.team && <TeamLogo team={hover.player.team} size={16} decorative backed />}
                 {hover.player.name} <span className="text-muted-foreground">· {hover.player.position}</span>
               </p>
               <p className="mt-0.5 font-mono tabular-nums text-secondary-foreground">

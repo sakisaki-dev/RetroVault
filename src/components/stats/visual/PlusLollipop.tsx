@@ -1,4 +1,5 @@
 import type { Player } from '@/types/player';
+import FitName from '../FitName';
 import type { MetricBoard, MetricRow } from '@/config/advanced';
 
 type Row = MetricRow & { nfl?: boolean };
@@ -52,8 +53,8 @@ const LollipopRow = ({ r, board, scale, onSelect }: { r: Row; board: MetricBoard
           {r.nfl ? <span className="rounded-sm bg-flag/80 px-0.5 text-[6px] text-night">NFL</span> : r.rank}
         </span>
         <span className="flex min-w-0 items-center gap-1.5" aria-hidden="true">
-          {r.player.team ? <TeamLogo team={r.player.team} size={16} decorative /> : <span className="w-4" />}
-          <span className="truncate text-xs font-semibold sm:text-sm">{r.player.name}</span>
+          {r.player.team ? <TeamLogo team={r.player.team} size={16} decorative backed /> : <span className="w-4" />}
+          <span className="truncate text-xs font-semibold sm:text-sm"><FitName name={r.player.name} /></span>
         </span>
         <span className="relative h-full" aria-hidden="true">
           <span className="absolute inset-y-0 w-px border-l border-dashed" style={{ left: `${x(scale.ref)}%`, borderColor: VIZ.muted }} />

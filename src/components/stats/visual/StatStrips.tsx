@@ -173,7 +173,7 @@ const StatStrips = ({ players, ctx, position, onSelect }: { players: Player[]; c
       {hover && (
         <ChartTip x={hover.d.cx} y={offsets[strips.indexOf(hover.strip)] + 24 + hover.strip.mid + hover.d.dy} width={width}>
           <p className="flex items-center gap-1.5 font-semibold text-foreground">
-            {hover.d.row.player.team && <TeamLogo team={hover.d.row.player.team} size={16} decorative />}
+            {hover.d.row.player.team && <TeamLogo team={hover.d.row.player.team} size={16} decorative backed />}
             {hover.d.row.player.name}
           </p>
           <p className="mt-0.5 font-mono tabular-nums text-secondary-foreground">

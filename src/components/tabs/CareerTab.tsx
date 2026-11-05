@@ -81,12 +81,17 @@ const CareerTab = () => {
   const phone = usePhone();
   const spied = useSpy(phone && sub === 'players');
   const jumpRow = useRef<HTMLDivElement | null>(null);
-  // Keep the section in view centred in the chip row
+  // Keep the section in view centred in the chip row; above the first section (nothing in view) the row goes back to its start
   useEffect(() => {
-    if (!spied) return;
-    const chip = jumpRow.current?.querySelector<HTMLElement>(`[data-jump="${spied}"]`);
     const row = jumpRow.current;
-    if (chip && row) row.scrollTo({ left: chip.offsetLeft - row.clientWidth / 2 + chip.offsetWidth / 2, behavior: reducedMotion() ? 'auto' : 'smooth' });
+    if (!row) return;
+    const behavior: ScrollBehavior = reducedMotion() ? 'auto' : 'smooth';
+    if (!spied) {
+      row.scrollTo({ left: 0, behavior });
+      return;
+    }
+    const chip = row.querySelector<HTMLElement>(`[data-jump="${spied}"]`);
+    if (chip) row.scrollTo({ left: Math.max(0, chip.offsetLeft - row.clientWidth / 2 + chip.offsetWidth / 2), behavior });
   }, [spied]);
 
   const book = useMemo(() => buildRecordBook(careerData, 10), [careerData]);
@@ -162,7 +167,7 @@ const CareerTab = () => {
 
           {/* Phones: the page's sections as a sticky, finger-scrolled chip row that follows the scroll */}
           {phone && (
-            <nav aria-label="On this page" className="sticky z-30 -mx-4 !mt-4 border-b border-line/70 bg-night py-2" style={{ top: 'var(--site-header-h, 0px)' }}>
+            <nav aria-label="On this page" className="chrome-follow sticky z-30 -mx-4 !mt-4 border-b border-line/70 bg-night py-2" style={{ top: 'var(--site-header-h, 0px)' }}>
               <div ref={jumpRow} className="flex gap-1.5 overflow-x-auto px-4 scrollbar-none">
                 {JUMPS.map((j) => (
                   <a
@@ -176,7 +181,7 @@ const CareerTab = () => {
                       if (route.section === j.id) document.getElementById(j.id)?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' });
                     }}
                     className={cn(
-                      'inline-flex h-9 shrink-0 items-center rounded-full border px-3.5 text-sm font-semibold transition-colors',
+                      'inline-flex h-10 shrink-0 items-center rounded-full border px-3.5 text-sm font-semibold transition-colors',
                       spied === j.id ? 'border-gold bg-gold text-night' : 'border-line bg-night/60 text-secondary-foreground',
                     )}
                   >

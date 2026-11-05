@@ -2,7 +2,7 @@ import type { Player } from '@/types/player';
 import { HOF_THRESHOLD, LEGACY_TIERS } from '@/config/stats';
 import { officialOvrMap, playerKey } from '@/config/ovr';
 import { playerSkillGrades } from '@/config/skillGrades';
-import { TIERS, tierFor, type Finish, type Tier, type Variant } from '@/config/cardTiers';
+import { TIERS, tierFor, type Finish, type PrizmCopy, type PrizmParallel, type Tier, type Variant } from '@/config/cardTiers';
 import { AUTOGRAPH_MEAN_MULT } from '@/config/autographs';
 
 /**
@@ -23,18 +23,26 @@ import { AUTOGRAPH_MEAN_MULT } from '@/config/autographs';
  * into the Hall of Fame adds another 25%. A thin tier is worth more than a crowded one.
  * Finish multipliers (FINISH_MULTIPLIER): Base ×1, Silver ×1.5, Gold ×2.5, Holo ×6.
  * Art variant multipliers (VARIANT_MULTIPLIER), on top: Prizm number ×1, Team jersey ×1.2, 70s Topps ×1.8,
- * Locker stall ×2.5, Autograph ×1 (it is priced by its own roll instead, below). A card that rolled an alternate uniform
- * (8% of cards for clubs that have one, see art/sprite/uniforms.ts) is worth ALT_VALUE_BONUS (×1.1) more. A card's
- * price is value × finish × variant (× the alternate bonus; an era kit, 2% of cards, ERA_VALUE_BONUS ×1.15) (cardPrice).
+ * Locker stall ×2.5, Autograph ×1 (it is priced by its own roll instead, below). KITS are a per-pull chase (KIT_ODDS in
+ * src/utils/collection.ts: a modern alternate on 8–12% of pulls, the club's era kit on 2.5–4.5%, by pack): a card
+ * wearing an alternate is worth ALT_VALUE_BONUS (×1.2) more, one in its era kit (a throwback) ERA_VALUE_BONUS (×1.4).
+ * A card's price is value × finish × variant × the bonus of the kit it actually wears (cardPrice); the portfolio
+ * prices each variant at its best finish in the best kit owned there.
+ * PRIZM PARALLELS (Prizm number only; PRIZM_ODDS in src/utils/collection.ts: about 1 Prizm in 7 from Standard packs)
+ * multiply on top (PARALLEL_MULTIPLIER): Red /199 ×1.3, Blue /99 ×1.6, Green /49 ×2, Gold /10 ×3.5, Black 1/1 ×8, and a
+ * numbered parallel's first serial (1/199, 1/99…) another SERIAL_ONE_BONUS ×1.15. So a card's price is
+ * value × finish × variant × kit × parallel; the portfolio takes the best parallel owned at that finish.
  * An AUTOGRAPH (the Autograph variant) is value × finish × its own multiplier (parallel × pen and ink × inscription ×
  * serial × throwback, config/autographs.ts autographValue), from ×2.7 for a black ballpoint sticker to ×91 for a
  * nickname-inscribed throwback 1/1 cut (autographPrice). Each owned autograph is its own holding, so nothing counts
  * twice; an Autograph card with no roll behind it (not owned, a gallery sample) is priced at the mean multiplier
  * (AUTOGRAPH_MEAN_MULT, about ×7.4 with every parallel open).
  *
- * HISTORY: data/y80/market_history.json (built into public/data/market.json) is a list of snapshots of every
- * collectible league player's { ovr, skill, legacy, value }. `npm run rebuild` appends one whenever any player's
- * OVR, skill or legacy changed, so prices move only when the data does. Nothing here is hand-maintained.
+ * HISTORY: data/y80/market_history.json (built into public/data/market.json) holds a snapshot of every collectible
+ * league player's { ovr, skill, legacy, value } per update, stored as changes only: full keyframes (the first, every
+ * Nth and the latest) plus deltas between them (src/utils/marketHistory.ts, expandMarket / compactMarket).
+ * `npm run rebuild` adds one whenever any player's OVR, skill or legacy changed, so prices move only when the data
+ * does. Nothing here is hand-maintained.
  */
 
 export const OVR_FLOOR = 25;
@@ -45,10 +53,19 @@ export const HOF_MULTIPLIER = 1.25;
 const HOF_PREMIUM_LEGACY = 7000;
 export const FINISH_MULTIPLIER: Record<Finish, number> = { base: 1, silver: 1.5, gold: 2.5, holo: 6 };
 export const VARIANT_MULTIPLIER: Record<Variant, number> = { number: 1, jersey: 1.2, topps: 1.8, locker: 2.5, auto: 1 };
-/** Market bonus for a card wearing an alternate uniform (re-exported by art/sprite/uniforms.ts) */
-export const ALT_VALUE_BONUS = 1.1;
-/** Market bonus for a card wearing a famous era kit (rarer: 2% of cards for clubs that have one) */
-export const ERA_VALUE_BONUS = 1.15;
+/** Market bonus for a card wearing a modern alternate kit (8–12% of pulls by pack; re-exported by art/sprite/uniforms.ts) */
+export const ALT_VALUE_BONUS = 1.2;
+/** Market bonus for a card wearing his club's famous era kit, a throwback (rarer: 2.5–4.5% of pulls by pack) */
+export const ERA_VALUE_BONUS = 1.4;
+/** Prizm parallel multipliers (Prizm number cards; plain Prizm ×1) */
+export const PARALLEL_MULTIPLIER: Record<PrizmParallel, number> = { red: 1.3, blue: 1.6, green: 2, gold: 3.5, black: 8 };
+/** A numbered parallel's serial 1 (1/199 … 1/10) is worth this much more; a Black 1/1 is priced by its colour alone */
+export const SERIAL_ONE_BONUS = 1.15;
+/** Market multiplier of a Prizm parallel copy (1 for a plain Prizm, `undefined`). */
+export const parallelMultiplier = (p: PrizmCopy | undefined | null): number =>
+  !p ? 1 : PARALLEL_MULTIPLIER[p.c] * (p.n === 1 && p.c !== 'black' ? SERIAL_ONE_BONUS : 1);
+/** "×3.5", "×1.5 (serial 1)" */
+export const fmtParallelMult = (p: PrizmCopy) => `×${Number(parallelMultiplier(p).toFixed(2))}`;
 const LEGACY_REF = LEGACY_TIERS[0].min; // 10000, the Legendary legacy tier
 const LEGACY_CAP = 1.5 * LEGACY_REF;
 
@@ -77,13 +94,18 @@ export const cardValue = ({ ovr, skill, legacy, tier, tierCount, poolSize }: Val
 
 export const finishValue = (value: number, finish: Finish) => Math.round(value * FINISH_MULTIPLIER[finish]);
 /**
- * Price of one card: base value × finish × art variant (× ALT_VALUE_BONUS when it rolled an alternate uniform). An
+ * Price of one card: base value × finish × art variant × its kit (ALT_VALUE_BONUS for an alternate, ERA_VALUE_BONUS for
+ * an era kit, `alt` = the kind of the kit it wears: kindOf / OwnedKit.kind) × its Prizm parallel (parallelMultiplier;
+ * Prizm number cards only). An
  * Autograph card with no roll behind it is priced at the mean autograph multiplier (an owned one: autographPrice).
  */
-export const cardPrice = (value: number, finish: Finish, variant: Variant, alt: boolean | 'alt' | 'era' | 'home' = false) =>
+export const cardPrice = (value: number, finish: Finish, variant: Variant, alt: boolean | 'alt' | 'era' | 'home' = false, prizm?: PrizmCopy | null) =>
   variant === 'auto'
     ? autographPrice(value, AUTOGRAPH_MEAN_MULT, finish)
-    : Math.round(value * FINISH_MULTIPLIER[finish] * VARIANT_MULTIPLIER[variant] * (alt === 'era' ? ERA_VALUE_BONUS : alt && alt !== 'home' ? ALT_VALUE_BONUS : 1));
+    : Math.round(
+        value * FINISH_MULTIPLIER[finish] * VARIANT_MULTIPLIER[variant] * (alt === 'era' ? ERA_VALUE_BONUS : alt && alt !== 'home' ? ALT_VALUE_BONUS : 1) *
+          (variant === 'number' ? parallelMultiplier(prizm) : 1),
+      );
 
 /** Price of an autograph: the player's base card value × the finish it was pulled at × its multiplier (config/autographs.ts). */
 export function autographPrice(value: number, mult: number, finish: Finish = 'base') {
@@ -229,14 +251,16 @@ export interface Holding {
   key: string;
   finish: Finish;
   variant: Variant;
-  /** Wears an alternate uniform (true / 'alt') or a famous era kit ('era'): uniforms.ts uniformKind */
+  /** Kit worn: an alternate (true / 'alt') or a famous era kit ('era'); for owned cards the best kit owned (collection.ts bestKit) */
   alt?: boolean | 'alt' | 'era' | 'home';
   /** An autograph: priced as the base card × its finish × this multiplier instead (autographPrice) */
   mult?: number;
+  /** Prizm number: the best parallel owned at this finish (collection.ts bestParallel); missing = plain */
+  prizm?: PrizmCopy;
 }
 
 /** A holding's price at one base value. */
-export const holdingPrice = (value: number, h: Holding) => (h.mult != null ? autographPrice(value, h.mult, h.finish) : cardPrice(value, h.finish, h.variant, h.alt));
+export const holdingPrice = (value: number, h: Holding) => (h.mult != null ? autographPrice(value, h.mult, h.finish) : cardPrice(value, h.finish, h.variant, h.alt, h.prizm));
 
 /** Portfolio value per snapshot: each owned (player, variant) at its best finish (cards not yet listed count 0). */
 export const portfolioSeries = (history: MarketHistory, owned: Holding[]) =>

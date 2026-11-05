@@ -670,7 +670,7 @@ const GraphBuilder = ({
             />
           )}
           <p className="flex items-center justify-between gap-2 text-[11px] text-muted-foreground">
-            <span>Hover or tap near a dot; overlapping dots open a chooser.</span>
+            <span>Tap or hover near a dot; overlapping dots open a chooser.</span>
             <span className="flex items-center gap-1.5 font-pixel text-[8px] uppercase tracking-wider text-muted-foreground/80" aria-hidden="true">
               <span className="inline-block h-1.5 w-1.5 rotate-45 bg-gold" />
               Retro Vault
@@ -679,7 +679,7 @@ const GraphBuilder = ({
         </section>
 
         {/* Controls */}
-        <aside aria-label="Chart controls" className="glass-card space-y-3 p-3 sm:p-4 lg:sticky lg:top-[calc(var(--site-header-h,0px)+1rem)] lg:max-h-[calc(100vh-var(--site-header-h,0px)-2rem)] lg:overflow-y-auto">
+        <aside aria-label="Chart controls" className="chrome-follow glass-card space-y-3 p-3 sm:p-4 lg:sticky lg:top-[calc(var(--site-header-h,0px)+1rem)] lg:max-h-[calc(100vh-var(--site-header-h,0px)-2rem)] lg:overflow-y-auto">
           <StatPicker id={`${uid}-x`} label="X axis (across)" value={config.x} onChange={(x) => setAxis({ x })} pairWith={yPositions} />
           <button
             type="button"

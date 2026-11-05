@@ -6,7 +6,7 @@ import TeamLogo from '@/components/brand/TeamLogo';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import { findNFLTeam } from '@/utils/nflTeams';
 import type { GamePlayer } from '@/config/ovr';
-import { finishLabel, tierLabel, variantLabel, variantShort, type Finish, type Tier, type Variant } from '@/utils/collection';
+import { finishLabel, prizmInfo, prizmSerial, tierLabel, variantLabel, variantShort, type Finish, type PrizmCopy, type Tier, type Variant } from '@/utils/collection';
 import type { AutographChoice } from './autograph/sample';
 import VariantArt from './art/VariantArt';
 import type { FaceStat } from './cardStats';
@@ -125,6 +125,10 @@ export interface CollectibleCardProps {
   variant?: Variant;
   /** Autograph variant: the autograph it shows (a pull), or 'sample' (galleries); omitted = his best owned one, else a sample */
   autograph?: AutographChoice;
+  /** Kit the art wears (a stored kit id: 'home', an alternate's or era kit's id); omitted = the old fixed roll (uniformFor) */
+  kit?: string;
+  /** Prizm number: the colour parallel it shows (colour + serial); omitted = plain Prizm */
+  prizm?: PrizmCopy;
   owned: boolean;
   ovr?: number | null;
   number?: number | null;
@@ -170,6 +174,8 @@ const CollectibleCard = ({
   finish,
   variant,
   autograph,
+  kit,
+  prizm,
   owned,
   ovr,
   number,
@@ -203,6 +209,8 @@ const CollectibleCard = ({
   const FinishIcon = FINISH_ICON[finish];
   const TierIcon = TIER_ICON[tier];
   const surname = surnameOf(player.name);
+  // A Prizm colour parallel only shows on the Prizm number art
+  const par = owned && variant === 'number' && prizm ? prizm : undefined;
   // Idle animation (owner: subtle, super rare cards only): Holo finish or Legendary tier
   const idle = owned && (finish === 'holo' || tier === 'legendary');
   useEffect(() => {
@@ -313,7 +321,7 @@ const CollectibleCard = ({
 
   const setLabel = setNo != null && setTotal ? `card ${setNo} of ${setTotal}` : null;
   const label = owned
-    ? `${player.name}, ${pinned ? 'your display card, ' : ''}${variant ? `${variantLabel(variant)} variant, ` : ''}${tierLabel(tier)} tier, ${finishLabel(finish)} finish, ${ovr != null ? `OVR ${ovr}, ` : ''}${posName}${team ? `, ${team.name}` : ''}${number != null ? `, number ${number}` : ''}${setLabel ? `, ${setLabel}` : ''}${mark ? `, ${mark}` : ''}${onOpen ? '. Open card' : ''}`
+    ? `${player.name}, ${pinned ? 'your display card, ' : ''}${variant ? `${variantLabel(variant)} variant, ` : ''}${par ? `${prizmInfo(par.c).label} parallel ${prizmSerial(par)}, ` : ''}${tierLabel(tier)} tier, ${finishLabel(finish)} finish, ${ovr != null ? `OVR ${ovr}, ` : ''}${posName}${team ? `, ${team.name}` : ''}${number != null ? `, number ${number}` : ''}${setLabel ? `, ${setLabel}` : ''}${mark ? `, ${mark}` : ''}${onOpen ? '. Open card' : ''}`
     : `Locked ${tierLabel(tier)} card, ${posName}${hint ? `. ${hint}` : ''}`;
 
   // The Autograph variant is the whole card (owner: "i want that art to be the card … it deserves to be the full
@@ -337,13 +345,15 @@ const CollectibleCard = ({
         ) : (
         <>
         <span className="fut__pattern" />
+        {/* Prizm colour parallel: a refractor wash and shimmer stripes in its colour across the face, under the art */}
+        {par && <span className="fut__par" />}
         <span className={cn('fut__art', art == null && photo && 'fut__art--photo')}>
           {art != null ? (
             art
           ) : photo ? (
             <img src={photo.url} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" draggable={false} />
           ) : owned && variant ? (
-            <VariantArt variant={variant} player={player} number={number} finish={finish} autograph={autograph} />
+            <VariantArt variant={variant} player={player} number={number} finish={finish} kit={kit} autograph={autograph} prizm={par} />
           ) : (
             <PlayerJersey number={owned ? number : null} id={jerseyId} />
           )}
@@ -379,7 +389,7 @@ const CollectibleCard = ({
           <span className="fut__pip">
             <TierIcon />
             {tierLabel(tier)}
-            {variant && <span className="fut__vtag">· {variantShort(variant)}</span>}
+            {variant && <span className="fut__vtag">· {par ? `${variantShort(variant)} ${prizmInfo(par.c).label}` : variantShort(variant)}</span>}
           </span>
         )}
         </>
@@ -440,7 +450,7 @@ const CollectibleCard = ({
       ref={ref}
       className={cn(
         'fut',
-        owned ? [`fut--${tier}`, `fut--f-${finish}`, variant && `fut--v-${variant}`] : 'fut--locked',
+        owned ? [`fut--${tier}`, `fut--f-${finish}`, variant && `fut--v-${variant}`, par && `fut--p-${par.c}`] : 'fut--locked',
         realLegend && owned && 'fut--nfl',
         large && 'fut--lg',
         live && 'fut--live',

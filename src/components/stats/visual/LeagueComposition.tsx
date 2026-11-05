@@ -38,6 +38,9 @@ const BANDS: { key: Band; label: string }[] = [
   { key: 'none', label: `Not in the Hall (< ${fmtNum(HOF_THRESHOLD, 0)})` },
 ];
 
+/** A segment shows its count only when it covers at least this share of the longest bar (about 25px on a phone). */
+const LABEL_SHARE = 0.09;
+
 const bandOf = (p: Player): Band => getLegacyTier(p.careerLegacy)?.key ?? 'none';
 
 interface TierRow {
@@ -58,14 +61,16 @@ const TierBar = ({ row, max }: { row: TierRow; max: number }) => {
         {BANDS.map(({ key, label }) => {
           const n = row.counts[key];
           if (!n) return null;
+          // Numbers only on segments wide enough to hold them; thin ones keep the count in the tooltip, the legend totals and the table view
+          const wide = n / max >= LABEL_SHARE;
           return (
             <span
               key={key}
               title={`${label}: ${n}${row.names[key].length && key !== 'none' ? ` (${row.names[key].join(', ')})` : ''}`}
-              className="flex h-full min-w-[4px] items-center justify-center overflow-hidden rounded-[3px] font-mono text-[10px] font-bold tabular-nums"
+              className="flex h-full min-w-[4px] items-center justify-center overflow-hidden rounded-[3px] font-mono text-xs font-bold tabular-nums"
               style={{ flexGrow: n, flexBasis: 0, background: BAND_FILL[key], color: BAND_INK[key] }}
             >
-              {n}
+              {wide ? n : null}
             </span>
           );
         })}
@@ -101,6 +106,7 @@ export const HofTiers = ({ players }: { players: Player[] }) => {
   );
   const max = Math.max(...rows.map((r) => r.total), 1);
   const hof = players.filter(isHallOfFamer).length;
+  const bandTotals = BANDS.map((b) => rows.reduce((sum, r) => sum + r.counts[b.key], 0));
 
   return (
     <ChartFrame
@@ -110,7 +116,7 @@ export const HofTiers = ({ players }: { players: Player[] }) => {
       controls={
         <Legend
           label="Legacy tiers"
-          items={BANDS.map((b) => ({ key: b.key, label: b.label, swatch: <span aria-hidden="true" className="h-2.5 w-3.5 rounded-sm" style={{ background: BAND_FILL[b.key] }} /> }))}
+          items={BANDS.map((b, i) => ({ key: b.key, label: `${b.label}: ${bandTotals[i]}`, swatch: <span aria-hidden="true" className="h-2.5 w-3.5 rounded-sm" style={{ background: BAND_FILL[b.key] }} /> }))}
         />
       }
       chart={
@@ -178,7 +184,7 @@ const TeamBar = ({ row, metric, max }: { row: TeamRow; metric: TeamMetric; max: 
   const v = row[metric];
   return (
     <li className="grid grid-cols-[1.5rem_minmax(0,7.5rem)_minmax(0,1fr)_2rem] items-center gap-2 sm:grid-cols-[1.5rem_minmax(0,9rem)_minmax(0,1fr)_2.5rem]">
-      <TeamLogo team={row.name} size={22} decorative />
+      <TeamLogo team={row.name} size={22} decorative backed />
       <span className="truncate text-sm font-semibold">{row.name}</span>
       <span className="block h-3 rounded-sm bg-night/70" aria-hidden="true">
         <span

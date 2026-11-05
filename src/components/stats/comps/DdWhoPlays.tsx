@@ -96,7 +96,7 @@ const DdWhoPlays = ({ player, model, mode, onMode, comps, topSets, overlay, onOv
           )}
         >
           <span className={cn('font-display text-lg font-extrabold tabular-nums', on ? 'text-gold' : 'text-muted-foreground')}>{i + 1}</span>
-          {c.player.team ? <TeamLogo team={c.player.team} size={24} decorative /> : <span className="w-6" />}
+          {c.player.team ? <TeamLogo team={c.player.team} size={24} decorative backed /> : <span className="w-6" />}
           <span className="flex min-w-0 flex-col">
             <span className="flex min-w-0 items-center gap-1">
               <span className="truncate text-sm font-semibold">{c.player.name}</span>
@@ -249,7 +249,7 @@ const DdWhoPlays = ({ player, model, mode, onMode, comps, topSets, overlay, onOv
             )}
           </div>
         ) : (
-          <p className="text-sm text-muted-foreground">Hover, tap or focus an axis label to see the actual numbers behind it.</p>
+          <p className="text-sm text-muted-foreground">Tap or hover an axis label to see the actual numbers behind it.</p>
         )}
       </div>
     </div>
@@ -296,7 +296,7 @@ const DdWhoPlays = ({ player, model, mode, onMode, comps, topSets, overlay, onOv
                       className="hover-lift flex h-full w-full flex-col gap-1 rounded-lg border border-line bg-panel p-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                     >
                       <span className="flex min-w-0 items-center gap-1.5">
-                        {c.player.team && <TeamLogo team={c.player.team} size={18} decorative />}
+                        {c.player.team && <TeamLogo team={c.player.team} size={18} decorative backed />}
                         <span className="truncate text-sm font-semibold">{c.player.name}</span>
                       </span>
                       <span className="flex items-baseline justify-between gap-2">

@@ -17,8 +17,10 @@ import {
   craftCost,
   craftUpgrade,
   isCraftable,
-  displayOf,
+  ownedParallels,
   ownsCombo,
+  prizmInfo,
+  prizmSerial,
   packsToGo,
   setDisplay,
   type DisplayChoice,
@@ -28,6 +30,8 @@ import {
   variantLabel,
   type Finish,
   type OwnedCard,
+  type PrizmCopy,
+  type PrizmParallel,
   type Tier,
   type Variant,
 } from '@/utils/collection';
@@ -37,6 +41,9 @@ import { useFlipFaces } from './useFlipFaces';
 import CardValue from './market/CardValue';
 import { FINISH_ICON, FINISH_TEXT } from './rarityIcons';
 import type { CardInfo } from './useCardPool';
+import { kitName } from './art/sprite/uniforms';
+import { displayWithKit, ownedKits } from './kits';
+import './kits.css';
 
 export interface CardDetailTarget {
   info: CardInfo;
@@ -116,6 +123,8 @@ interface Outgoing {
   tier: Tier;
   variant: Variant;
   finish: Finish;
+  kit?: string;
+  prizm?: PrizmCopy;
   dir: Dir;
   /** Where it was when it left (px): a swipe hands over the finger's offset, a click mid-slide the slide's */
   fromX: number;
@@ -178,6 +187,8 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
   const [flipped, setFlipped] = useState(false);
   const [view, setView] = useState<Finish | null>(null);
   const [viewVariant, setViewVariant] = useState<Variant | null>(null);
+  const [viewKit, setViewKit] = useState<string | null>(null);
+  const [viewPar, setViewPar] = useState<PrizmParallel | 'plain' | null>(null);
   const [upgrading, setUpgrading] = useState(false);
   const [out, setOut] = useState<Outgoing | null>(null);
   const [phase, setPhase] = useState<'open' | 'closing' | 'closed'>('open');
@@ -186,7 +197,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
   const { face, backMounted } = useFlipFaces(flipped, key);
   const tier = target?.tier ?? info?.tier ?? 'common';
   // Opens on the target's variant / finish (Card designs), else the owner's display choice, else auto
-  const shown = target?.preview ? null : displayOf(entry, display);
+  const shown = target?.preview ? null : displayWithKit(entry, display, info?.player ?? { name: '' });
   const variant: Variant = viewVariant ?? target?.variant ?? (target?.preview ? 'jersey' : shown!.variant);
   const vEntry = entry?.variants[variant];
   const hasVariant = (v: Variant) => !!target?.preview || !!entry?.variants[v];
@@ -198,7 +209,19 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
   const cost = to && info ? craftCost(to, info.tier, variant) : 0;
   const claimV = !target?.preview && info ? claimVariant(entry) : null;
   const claimPrice = info ? claimCost(info.tier) : 0;
-  const isDisplay = !!shown?.pinned && shown.variant === variant && shown.finish === finish;
+  // Kits owned in this variant × finish (best first); the one worn: picked here, else the display card's, else the best
+  const kits = !target?.preview && info ? ownedKits(entry, info.player, variant, finish) : [];
+  const kit =
+    kits.find((k) => k.id === viewKit)?.id ?? (shown && shown.variant === variant && shown.finish === finish ? kits.find((k) => k.id === shown.kit)?.id : undefined) ?? kits[0]?.id;
+  const worn = kits.find((k) => k.id === kit);
+  // Prizm parallels owned in this finish (rarest first, then plain); the one shown: picked here, else the display card's, else the best
+  const pars = !target?.preview ? ownedParallels(entry, variant, finish) : [];
+  const shownPar = shown && shown.variant === variant && shown.finish === finish ? (shown.prizm?.c ?? 'plain') : undefined;
+  const parKey = pars.find((x) => x.c === viewPar)?.c ?? pars.find((x) => x.c === shownPar)?.c ?? pars[0]?.c;
+  const parHit = pars.find((x) => x.c === parKey);
+  const prizm: PrizmCopy | undefined = parHit && parHit.c !== 'plain' ? { c: parHit.c, n: Math.min(...parHit.serials) } : undefined;
+  const isDisplay =
+    !!shown?.pinned && shown.variant === variant && shown.finish === finish && (!kit || shown.kit === kit) && (!parKey || shownPar === parKey);
   const canPin = !target?.preview && ownsCombo(entry, variant, finish);
   const team = info ? findNFLTeam(info.player.team) : null;
 
@@ -212,6 +235,8 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
     setFlipped(false);
     setView(null);
     setViewVariant(null);
+    setViewKit(null);
+    setViewPar(null);
     setMsg('');
     setUpgrading(false);
   }, [key]);
@@ -359,7 +384,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
     if (!toInfo || !onNavigate || !info || phase !== 'open') return;
     if (motionOk()) {
       const x = fromX || currentX(flyEl.current);
-      setOut({ id: ++outSeq.current, info, tier, variant, finish, dir, fromX: x });
+      setOut({ id: ++outSeq.current, info, tier, variant, finish, kit, prizm, dir, fromX: x });
       navIn.current = { dir, fromX: 0 };
       sideRef.current?.animate?.(
         [
@@ -565,6 +590,8 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
     const done = craftUpgrade(info.player, info.tier, variant);
     if (done) {
       setView(done);
+      setViewKit(null);
+      setViewPar(null);
       setFlipped(false);
       setUpgrading(motionOk());
       setMsg(`Upgraded to ${finishLabel(done)}!`);
@@ -577,6 +604,8 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
     if (v) {
       setViewVariant(v);
       setView('base');
+      setViewKit(null);
+      setViewPar(null);
       setFlipped(false);
       setMsg(`Claimed the ${variantLabel(v)} card!`);
     } else setMsg('Not enough shards.');
@@ -584,8 +613,12 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
 
   const pin = (on: boolean) => {
     if (!info) return;
-    if (on ? setDisplay(info.player, { variant, finish }) : setDisplay(info.player, null))
-      setMsg(on ? `${variantLabel(variant)} ${finishLabel(finish)} is now his display card.` : 'Display set back to auto (rarest art, best finish).');
+    if (on ? setDisplay(info.player, { variant, finish, ...(kit ? { kit } : {}), ...(parKey ? { parallel: parKey } : {}) }) : setDisplay(info.player, null))
+      setMsg(
+        on
+          ? `${variantLabel(variant)} ${finishLabel(finish)}${worn && worn.kind !== 'home' ? ` (${kitName(worn.uniform)})` : ''}${prizm ? ` (${prizmInfo(prizm.c).label} ${prizmSerial(prizm)})` : ''} is now his display card.`
+          : 'Display set back to auto (rarest art, best finish, best kit, best parallel).',
+      );
   };
 
   const onKey = (e: KeyboardEvent) => {
@@ -668,6 +701,8 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                         tier={out.tier}
                         finish={out.finish}
                         variant={out.variant}
+                        kit={out.kit}
+                        prizm={out.prizm}
                         ovr={out.info.ovr}
                         number={out.info.number}
                         stats={out.info.stats}
@@ -689,6 +724,8 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                           tier={tier}
                           finish={finish}
                           variant={variant}
+                          kit={kit}
+                          prizm={prizm}
                           autograph={target?.preview ? 'sample' : undefined}
                           ovr={info.ovr}
                           number={info.number}
@@ -707,7 +744,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                         )}
                       </div>
                       <div className="cd__face cd__face--back" aria-hidden={!flipped}>
-                        {backMounted && <CardBack info={info} tier={tier} total={total} variant={variant} finish={finish} />}
+                        {backMounted && <CardBack info={info} tier={tier} total={total} variant={variant} finish={finish} kit={kit} prizm={prizm} />}
                       </div>
                     </div>
                   </div>
@@ -740,7 +777,9 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                   </p>
                   <DialogTitle className="font-display text-4xl uppercase italic leading-none">{info.player.name}</DialogTitle>
                   <DialogDescription className="mt-1.5">
-                    {variantLabel(variant)} · {finishLabel(finish)} · {POSITION_NAMES[info.player.position] ?? info.player.position} · {info.cardTeam} · OVR {info.ovr ?? '–'}
+                    {variantLabel(variant)} · {finishLabel(finish)}
+                    {worn && worn.kind !== 'home' ? ` · ${kitName(worn.uniform)}` : ''}
+                    {prizm ? ` · ${prizmInfo(prizm.c).label} ${prizmSerial(prizm)}` : ''} · {POSITION_NAMES[info.player.position] ?? info.player.position} · {info.cardTeam} · OVR {info.ovr ?? '–'}
                   </DialogDescription>
                 </div>
 
@@ -760,6 +799,8 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                             onClick={() => {
                               setViewVariant(v.key);
                               setView(null);
+                              setViewKit(null);
+                              setViewPar(null);
                               setFlipped(false);
                             }}
                             disabled={!has}
@@ -790,6 +831,8 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                             className={cn('cd-chip', `cd-chip--${f.key}`, finish === f.key && 'is-on')}
                             onClick={() => {
                               setView(f.key);
+                              setViewKit(null);
+                              setViewPar(null);
                               setFlipped(false);
                             }}
                             disabled={!has}
@@ -806,6 +849,67 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                   </ul>
                 </div>
 
+                {kits.length > 0 && (
+                  <div>
+                    <p className="cd__label" id="cd-kits">
+                      Your kits · {variantLabel(variant)} {finishLabel(finish)} · {kits.length}
+                    </p>
+                    <ul className="cd-kits" aria-labelledby="cd-kits">
+                      {kits.map((k) => (
+                        <li key={k.id}>
+                          <button
+                            type="button"
+                            className="cd-kit"
+                            aria-pressed={k.id === kit}
+                            onClick={() => {
+                              setViewKit(k.id);
+                              setFlipped(false);
+                            }}
+                            title={`Show the ${kitName(k.uniform)} kit`}
+                          >
+                            <i className="cd-kit__swatch" style={{ background: k.uniform.jersey }} aria-hidden="true" />
+                            {k.kind !== 'home' && <span className="cd-kit__kind">{k.kind === 'era' ? 'Throwback' : 'Alt'}</span>}
+                            {kitName(k.uniform)}
+                            {k.count > 1 && <span className="font-mono text-muted-foreground">×{k.count}</span>}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {pars.some((x) => x.c !== 'plain') && (
+                  <div>
+                    <p className="cd__label" id="cd-pars">
+                      Your parallels · {variantLabel(variant)} {finishLabel(finish)} · {pars.filter((x) => x.c !== 'plain').length}
+                    </p>
+                    <ul className="cd-kits" aria-labelledby="cd-pars">
+                      {pars.map((x) => {
+                        const pi = x.c === 'plain' ? null : prizmInfo(x.c);
+                        const serials = pi ? x.serials.map((n) => `${n}/${pi.run}`).join(', ') : '';
+                        return (
+                          <li key={x.c}>
+                            <button
+                              type="button"
+                              className="cd-kit"
+                              aria-pressed={x.c === parKey}
+                              onClick={() => {
+                                setViewPar(x.c);
+                                setFlipped(false);
+                              }}
+                              title={pi ? `Show the ${pi.label} parallel (${serials})` : 'Show the plain Prizm'}
+                            >
+                              <i className="cd-kit__swatch cd-kit__swatch--par" style={{ background: pi?.color ?? 'linear-gradient(135deg, #cfd4de, #7d8696)' }} aria-hidden="true" />
+                              {pi ? pi.label : 'Plain'}
+                              {pi ? <span className="font-mono text-muted-foreground">{serials}</span> : x.count > 1 && <span className="font-mono text-muted-foreground">×{x.count}</span>}
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
+
                 {canPin && (
                   <div className="flex flex-wrap items-center gap-2">
                     <button
@@ -814,7 +918,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                       onClick={() => pin(true)}
                       aria-pressed={isDisplay}
                       disabled={isDisplay}
-                      title="Show this variant and finish on his binder tile and when his card opens"
+                      title="Show this variant, finish and kit on his binder tile and when his card opens"
                     >
                       <Pin className="h-4 w-4" aria-hidden="true" />
                       {isDisplay ? 'Display card' : 'Set as display'}
@@ -876,7 +980,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                 {!target?.preview &&
                   (panelReady ? (
                     <div ref={marketRef} className={cn('contents', panelLate && 'cd-market--late')}>
-                      <CardValue cardKey={info.key} name={info.player.name} finish={finish} variant={variant} ownedFinish={vEntry?.best} player={info.player} />
+                      <CardValue cardKey={info.key} name={info.player.name} finish={finish} variant={variant} ownedFinish={vEntry?.best} player={info.player} kit={kit} prizm={prizm} />
                     </div>
                   ) : (
                     <div className="cd-market-ph" style={{ minHeight: marketHeights.get(info.key) ?? marketHeights.get('') ?? 480 }} aria-hidden="true" />

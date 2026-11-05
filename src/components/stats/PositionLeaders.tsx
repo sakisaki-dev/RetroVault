@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { leadersTakeaway } from './takeaways';
+import SectionIntro from './SectionIntro';
 import { Crown, ListOrdered } from 'lucide-react';
 import type { LeagueData, Player } from '@/types/player';
 import { cn } from '@/lib/utils';
 import { formatDecimal } from '@/utils/metricColors';
 import PositionBadge from '../PositionBadge';
 import TeamLogo from '../brand/TeamLogo';
+import FitName from './FitName';
 import { GROUP_META, GROUP_ORDER, boardsForGroup, keyOf, type GroupKey, type RecordBoardData } from './records';
 import { GRID_ITEM, gridVars } from './grid';
 import { teamMark } from './visual/chartKit';
@@ -37,8 +40,8 @@ const RaceRow = ({ board, rank, value, player, max, onSelect }: { board: RecordB
           <span className={cn('w-4 shrink-0 text-center font-pixel text-[10px]', leader ? 'text-gold' : 'text-muted-foreground')} aria-hidden="true">
             {rank + 1}
           </span>
-          {player.team ? <TeamLogo team={player.team} size={18} decorative /> : <span className="w-[18px]" aria-hidden="true" />}
-          <span className="min-w-0 flex-1 truncate text-sm font-semibold text-foreground">{player.name}</span>
+          {player.team ? <TeamLogo team={player.team} size={18} decorative backed /> : <span className="w-[18px]" aria-hidden="true" />}
+          <span className="min-w-0 flex-1 truncate text-sm font-semibold text-foreground"><FitName name={player.name} /></span>
           {board.mixed && <PositionBadge position={player.position} className="min-w-[2rem] px-1.5 py-0.5 text-[10px]" />}
           <span className={cn('inline-flex shrink-0 items-center gap-1 font-mono text-sm font-bold tabular-nums', leader ? 'text-gold' : 'text-chalk')}>
             {leader && <Crown className="h-3 w-3" aria-hidden="true" />}
@@ -108,7 +111,7 @@ const GroupCard = ({ group, boards, onSelect }: { group: GroupKey; boards: Recor
                     title={b.title}
                     onClick={() => setActiveId(b.id)}
                     className={cn(
-                      'min-h-[28px] rounded px-2 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
+                      'tap-40 min-h-[28px] rounded px-2 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
                       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
                       on ? 'text-night' : 'bg-night/60 text-muted-foreground hover:text-foreground',
                     )}
@@ -148,9 +151,9 @@ const PositionLeaders = ({ boards, data, onSelect }: { boards: Map<string, Recor
         <ListOrdered className="h-5 w-5 text-gold" aria-hidden="true" />
         Leaders by Position
       </h2>
-      <p className="text-sm text-muted-foreground">
+      <SectionIntro id="leaders" takeaway={leadersTakeaway(groups.flatMap((x) => x.items))}>
         Top ten all-time at every position. Bars are scaled to the leader and coloured by team; switch the stat and watch the board re-rank.
-      </p>
+      </SectionIntro>
       <ul className="flex flex-wrap gap-3" style={gridVars(groups.length, { base: 1, sm: 2, lg: 2, xl: 4 })}>
         {groups.map(({ g, items }) => (
           <GroupCard key={g} group={g} boards={items} onSelect={onSelect} />

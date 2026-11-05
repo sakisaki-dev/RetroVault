@@ -41,6 +41,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from owner_facts import (  # noqa: E402
     ACTIVE_ROSTERS, CARD_NOTES, CURRENT_CLUB, RETIRED_WITH, SIGNATURE_TEAM, STATUS_FIXES, TEAM_FIXES, TEAM_HISTORY,
 )
+import market_history  # noqa: E402
 
 
 def g(p, k):
@@ -237,8 +238,7 @@ def inducted_keys() -> set[str]:
     """Every POS:Name whose Career Legacy reached the bar of its season in some market snapshot (a removed member:
     only the 7,500 bar). Written as the sheet's Inducted column; the site's isHallOfFamer() keeps them while they
     hold HOF_FLOOR."""
-    path = SRC / "market_history.json"
-    snaps = json.loads(path.read_text()) if path.exists() else []
+    snaps = market_history.load(SRC / "market_history.json")
     removed = removed_from_hof()
     return {k for s in snaps for k, v in s["players"].items() if v.get("legacy", 0) >= hof_bar(s)
             and (hof_bar(s) >= 7500 or k.split(":", 1)[1] not in removed)}

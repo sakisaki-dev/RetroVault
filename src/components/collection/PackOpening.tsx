@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/compone
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { sfx } from '@/utils/sfx';
-import { PACKS, PACK_SHARDS, beginReveal, endReveal, finishLabel, finishRank, tierLabel, tierRank, variantLabel, type Finish, type PackCard, type PackType, type Tier } from '@/utils/collection';
+import { PACKS, PACK_SHARDS, beginReveal, endReveal, finishLabel, finishRank, prizmInfo, prizmSerial, prizmStamp, tierLabel, tierRank, variantLabel, type Finish, type PackCard, type PackType, type Tier } from '@/utils/collection';
 import CollectibleCard from './CollectibleCard';
 import Walkout from './Walkout';
 import { bestLast, needsWalkout, skipStep, walkoutBeats, type WkBeat } from './walkoutBeats';
@@ -14,6 +14,8 @@ import AutographCanvas from './autograph/AutographCanvas';
 import { autographValue, fmtMult, identity, parallelOf, serialStr } from '@/config/autographs';
 import { loadAutographFonts } from './autograph/fonts';
 import { useSampleAutos } from './autograph/sample';
+import { kitStamp, kitUniform, type Uniform } from './art/sprite/uniforms';
+import './kits.css';
 
 const reducedMotion = () => {
   try {
@@ -69,9 +71,24 @@ interface PackOpeningProps {
   preview?: boolean;
 }
 
-/** What the reveal stamps on a card: NEW (new player), NEW ART (new variant), UPGRADE (better finish), or a dupe. */
-const tagOf = (c: PackCard): 'new' | 'art' | 'up' | 'dupe' | 'finish' => (c.isNew ? 'new' : c.newVariant ? 'art' : c.upgrade ? 'up' : c.duplicate ? 'dupe' : 'finish');
-const TAG_LABEL = { new: 'New', art: 'New art', up: 'Upgrade', dupe: 'Duplicate', finish: 'New finish' } as const;
+/**
+ * What the reveal stamps on a card: NEW (new player), NEW ART (new variant), UPGRADE (better finish), NEW KIT (that
+ * variant × finish owned, but not in this kit: it joins the binder, no shards), NEW PARALLEL (that Prizm finish owned,
+ * but not in this colour parallel: no shards either), or a dupe.
+ */
+const tagOf = (c: PackCard): 'new' | 'art' | 'up' | 'kit' | 'par' | 'dupe' | 'finish' =>
+  c.isNew ? 'new' : c.newVariant ? 'art' : c.upgrade ? 'up' : c.newKit ? 'kit' : c.newParallel ? 'par' : c.duplicate ? 'dupe' : 'finish';
+const TAG_LABEL = { new: 'New', art: 'New art', up: 'Upgrade', kit: 'New kit', par: 'New parallel', dupe: 'Duplicate', finish: 'New finish' } as const;
+
+/** The Prizm colour parallel a pulled card shows (Prizm number only). */
+const parOf = (c: PackCard) => (c.variant === 'number' ? c.prizm : undefined);
+
+/** The non-home kit a pulled card wears (null for home and the Autograph). */
+const kitOf = (c: PackCard, info: CardInfo): Uniform | null => {
+  if (c.variant === 'auto' || !c.kit || c.kit === 'home') return null;
+  const u = kitUniform(info.player, c.kit, c.variant, c.finish);
+  return u.id === 'home' ? null : u;
+};
 
 const packTitle = (t: PackType) => PACKS[t].label.replace(/ Pack$/, '');
 
@@ -142,7 +159,9 @@ const SPARKLES = Array.from({ length: 12 }, (_, i) => [10 + ((i * 41) % 80), 18 
  * Enter or a swipe) flips the next one with a light pop in its finish and a bounce, the best card last and slowest.
  * Legendary and Holo cards, every card that carries an autograph (revealed last, with its own AUTOGRAPH beat), and about
  * one decoy in five get the walkout instead. A duplicate's shards fly to the
- * counter; new cards get a NEW stamp, new art a NEW ART ribbon. The summary shows the pack in a grid with the best
+ * counter; new cards get a NEW stamp, new art a NEW ART ribbon, a kit not owned yet a NEW KIT stamp. A non-home kit
+ * shows its own stamp under the card (ALT KIT · <label>, THROWBACK · <label>); throwbacks walk out with a THROWBACK beat.
+ * A Prizm colour parallel gets its stamp too (PRIZM RED /199 …); a Gold /10 or Black 1/1 walks out with a PRIZM beat. The summary shows the pack in a grid with the best
  * pull highlighted. "Open all" (or Esc) skips to the summary at any time. Reduced motion / performance mode: straight
  * to the summary (the cards fade in), with a short walkout first for a Legendary or Holo. Animations are transform /
  * opacity only. Presentation only: odds and stored cards are untouched.
@@ -441,12 +460,22 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
   const holos = pack.filter((c) => c.finish === 'holo').length;
   const legends = pack.filter((c) => c.tier === 'legendary').length;
   const autos = pack.filter((c) => c.auto);
+  const kits = pack.map((c) => kitOf(c, describe(c)));
+  const throwbacks = kits.filter((u) => u?.era).length;
+  const altKits = kits.filter((u) => u && !u.era).length;
+  const parallels = pack.filter((c) => parOf(c)).length;
+  const kitParts = () => [
+    ...(throwbacks ? [`${throwbacks} throwback kit${throwbacks === 1 ? '' : 's'}`] : []),
+    ...(altKits ? [`${altKits} alt kit${altKits === 1 ? '' : 's'}`] : []),
+    ...(parallels ? [`${parallels} Prizm parallel${parallels === 1 ? '' : 's'}`] : []),
+  ];
   const summaryLine = () => {
-    if (preview) return 'Preview only. Nothing was added to your binder.';
+    if (preview) return ['Preview only. Nothing was added to your binder.', ...kitParts()].join(' · ');
     const parts = [`${fresh} new`];
     if (autos.length) parts.push(`${autos.length} autograph${autos.length === 1 ? '' : 's'}`);
     if (legends) parts.push(`${legends} Legendary`);
     if (holos) parts.push(`${holos} Holo`);
+    parts.push(...kitParts());
     return parts.join(' · ');
   };
   const description =
@@ -597,6 +626,8 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                           tier={c.tier}
                           finish={c.finish}
                           variant={shown ? c.variant : undefined}
+                          kit={c.kit}
+                          prizm={parOf(c)}
                           autograph={c.auto}
                           ovr={info.ovr}
                           number={info.number}
@@ -639,9 +670,22 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                         <Signature className="h-3.5 w-3.5" /> Autograph
                       </span>
                     )}
+                    {shown && kits[i] && (
+                      <span className={cn('pk-kit-hit', kits[i]!.era ? 'pk-kit-hit--era' : 'pk-kit-hit--alt')} aria-hidden="true">
+                        <b>{kits[i]!.era ? 'Throwback' : 'Alt kit'}</b>
+                        <span className="pk-kit-hit__label">{kits[i]!.label}</span>
+                      </span>
+                    )}
+                    {shown && parOf(c) && (
+                      <span className={cn('pk-par-hit', `pk-par-hit--${parOf(c)!.c}`, kits[i] && 'pk-par-hit--stacked')} aria-hidden="true">
+                        {prizmStamp(parOf(c)!.c)}
+                      </span>
+                    )}
                     {shown && (
                       <p className="sr-only" role="status">
-                        {info.player.name}, {variantLabel(c.variant)} variant, {tierLabel(c.tier)} tier, {finishLabel(c.finish)} finish, OVR {info.ovr ?? 'unknown'}
+                        {info.player.name}, {variantLabel(c.variant)} variant, {tierLabel(c.tier)} tier, {finishLabel(c.finish)} finish
+                        {kits[i] ? `, ${kits[i]!.era ? 'throwback' : 'alternate'} kit ${kits[i]!.label}` : ''}
+                        {parOf(c) ? `, Prizm ${prizmInfo(parOf(c)!.c).label} parallel ${prizmSerial(parOf(c)!)}` : ''}, OVR {info.ovr ?? 'unknown'}
                         {preview ? '' : `, ${TAG_LABEL[tag]}${c.duplicate ? `, plus ${c.shards} shards` : ''}`}
                         {c.auto ? `, with an autograph: ${parallelOf(c.auto.roll.parallel).label} ${serialStr(c.auto.roll)}` : ''}
                       </p>
@@ -659,6 +703,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
               {[...pack].reverse().map((c, k) => {
                 const info = describe(c);
                 const tag = tagOf(c);
+                const kit = kits[pack.length - 1 - k];
                 return (
                   <li key={`${info.key}-${k}`} className={cn('pk-sum__card', k === 0 && 'pk-sum__card--best')} style={{ '--k': k } as CSSProperties}>
                     {k === 0 && <span className="pk-sum__best">Best pull</span>}
@@ -668,6 +713,8 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                       tier={c.tier}
                       finish={c.finish}
                       variant={c.variant}
+                      kit={c.kit}
+                      prizm={parOf(c)}
                       autograph={c.auto}
                       ovr={info.ovr}
                       number={info.number}
@@ -678,6 +725,13 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                     />
                     {!preview && (
                       <span className={cn('pk-sum__tag', `pk-sum__tag--${tag}`)}>{tag === 'dupe' ? `+${c.shards} shards` : TAG_LABEL[tag]}</span>
+                    )}
+                    {kit && <span className={cn('pk-sum__kit', kit.era ? 'pk-sum__kit--era' : 'pk-sum__kit--alt')}>{kitStamp(kit)}</span>}
+                    {parOf(c) && (
+                      <span className={cn('pk-sum__kit', 'pk-sum__par', `pk-sum__par--${parOf(c)!.c}`)}>
+                        {prizmStamp(parOf(c)!.c)}
+                        {prizmInfo(parOf(c)!.c).run > 1 ? ` · ${prizmSerial(parOf(c)!)}` : ''}
+                      </span>
                     )}
                     {c.auto && (
                       <span className="pk-auto-hit">
