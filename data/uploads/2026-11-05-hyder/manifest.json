@@ -1,0 +1,11 @@
+{
+ "id": "2026-11-05-hyder",
+ "created": "2026-11-05",
+ "title": "Khaleke Hyder is a Jaguar",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {"lane": "stats", "op": "fact.set", "target": "players/Khaleke Hyder/team", "value": "Jaguars", "source": "owner",
+   "reason": "Owner: \"hyder is on the jags\" (new Y88 card)", "trigger": "Owner statement in notes.md"}
+ ]
+}

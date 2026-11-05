@@ -3999,5 +3999,17 @@
   ],
   "confidence": "strong",
   "evidence": "No rings."
+ },
+ "Khaleke Hyder": {
+  "stints": [
+   {
+    "team": "Jaguars",
+    "from": 79,
+    "to": 88,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
  }
 }

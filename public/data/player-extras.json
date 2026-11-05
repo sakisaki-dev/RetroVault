@@ -4503,6 +4503,18 @@
    ],
    "confidence": "strong",
    "evidence": "No rings."
+  },
+  "Khaleke Hyder": {
+   "stints": [
+    {
+     "team": "Jaguars",
+     "from": 79,
+     "to": 88,
+     "rings": []
+    }
+   ],
+   "confidence": "strong",
+   "evidence": "No rings."
   }
  },
  "signatureTeams": {
@@ -4615,6 +4627,7 @@
   "Keesean Candy": "Los Angeles Chargers",
   "Keion Orzech": "Dallas Cowboys",
   "Kenyon Shaheed": "Philadelphia Eagles",
+  "Khaleke Hyder": "Jacksonville Jaguars",
   "Kirk Lenoir": "Jacksonville Jaguars",
   "Kitt Inman": "Tampa Bay Buccaneers",
   "Kolton Moreau": "Tampa Bay Buccaneers",

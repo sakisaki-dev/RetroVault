@@ -780,6 +780,15 @@
     "speech": 3
    },
    "changed": 60
+  },
+  {
+   "id": "2026-11-05-hyder",
+   "dir": "data/uploads/2026-11-05-hyder",
+   "applied_at": "2026-11-05T11:10:34-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
   }
  ]
 }
