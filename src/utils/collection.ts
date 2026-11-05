@@ -14,7 +14,7 @@ export * from '@/config/cardTiers';
  * Exchange pack (exchangeLegends). Games never hand out a specific card: they award reward PACKS through
  * awardPack(), and every card comes from opening one on the Collection tab. A pull is two rolls: which player
  * (weighted by the player's TIER, src/config/cardTiers.ts, so better players are rarer), then which finish (Holo
- * rarest, and rarer still for top tiers), then which art VARIANT (Prizm number most common, Retro Bowl sprite
+ * rarest, and rarer still for top tiers), then which art VARIANT (Prizm number most common, Locker stall
  * rarest; PackSpec.variants). A player can own every variant, each at its own best finish, so they stack:
  * OwnedCard.variants holds one entry per variant owned, and OwnedCard.best / counts / first / last summarise them.
  * Saves from before variants are migrated on load: every owned card becomes the Team jersey variant.
@@ -58,35 +58,31 @@ export interface PackSpec {
 }
 
 /**
- * Base variant odds (what a Common Base card rolls): Prizm most common, then Jersey, Topps, Locker, Sprite rarest.
- * Standard is the baseline (sprite 3.5%); better packs lean rarer, never above 2× it.
+ * Base variant odds (what a Common Base card rolls; relative weights, normalized per roll): Prizm most common, then
+ * Jersey, Topps, Locker rarest. Standard is the baseline; better packs lean rarer. (The Retro Bowl sprite art was
+ * removed; owner: "Remove the sprite card from the game".)
  */
 const VARIANT_ODDS = {
-  standard: { number: 44, jersey: 29, topps: 15, locker: 8.5, sprite: 3.5 },
-  premium: { number: 40, jersey: 29, topps: 17, locker: 10, sprite: 4 },
-  elite: { number: 36, jersey: 28, topps: 19, locker: 12, sprite: 5 },
-  chase: { number: 32, jersey: 28, topps: 20, locker: 13.5, sprite: 6.5 },
+  standard: { number: 44, jersey: 29, topps: 15, locker: 8.5 },
+  premium: { number: 40, jersey: 29, topps: 17, locker: 10 },
+  elite: { number: 36, jersey: 28, topps: 19, locker: 12 },
+  chase: { number: 32, jersey: 28, topps: 20, locker: 13.5 },
 } satisfies Record<string, Weights<Variant>>;
 
 /**
  * Rarity layers stack: the rarer arts get rarer still on better players and finishes. A variant's base weight is
  * multiplied by its factor for the card's tier and for its finish (Prizm and Jersey stay ×1, so they soak up the
- * rest), then by any VARIANT_COMBO penalty that matches the exact card. The sprite's per-axis factors are gentle, so
- * a sprite Holo (Common to Epic) is a rare thrill rather than impossible; the combo penalty is what keeps
- * Sprite × Holo × Legendary near-unattainable, about 1 card in 900,000 even from the best packs (Perfect Season,
- * Holo Showcase) and over a billion from Standard (scripts/simulate_packs.ts). The market prices it the same way
- * (value × finish × variant, src/utils/cardMarket.ts), so rarer layers stay worth more.
+ * rest), then by any VARIANT_COMBO penalty that matches the exact card. Locker × Holo × Legendary is the rarest
+ * card there is (scripts/simulate_packs.ts prints its odds). The market prices it the same way (value × finish ×
+ * variant, src/utils/cardMarket.ts), so rarer layers stay worth more.
  */
 export const VARIANT_STACK: Partial<Record<Variant, { tier: Weights<Tier>; finish: Weights<Finish> }>> = {
   topps: { tier: { common: 1, rare: 0.9, epic: 0.8, legendary: 0.7 }, finish: { base: 1, silver: 0.9, gold: 0.8, holo: 0.7 } },
   locker: { tier: { common: 1, rare: 0.85, epic: 0.7, legendary: 0.55 }, finish: { base: 1, silver: 0.85, gold: 0.7, holo: 0.55 } },
-  sprite: { tier: { common: 1, rare: 0.65, epic: 0.45, legendary: 0.15 }, finish: { base: 1, silver: 0.65, gold: 0.5, holo: 0.5 } },
 };
 
-/** Extra multipliers for one exact variant × tier × finish, on top of VARIANT_STACK (the chase cards). */
-export const VARIANT_COMBO: { variant: Variant; tier: Tier; finish: Finish; factor: number }[] = [
-  { variant: 'sprite', tier: 'legendary', finish: 'holo', factor: 0.02 },
-];
+/** Extra multipliers for one exact variant × tier × finish, on top of VARIANT_STACK (the chase cards; none since the sprite went). */
+export const VARIANT_COMBO: { variant: Variant; tier: Tier; finish: Finish; factor: number }[] = [];
 
 /** Variant odds for one card of a pack, given the tier and finish it already rolled. */
 export const variantWeights = (type: PackType, tier: Tier, finish: Finish): Weights<Variant> => {
@@ -238,10 +234,10 @@ export const PACK_SHARDS: Record<PackType, number> = { standard: 10, premium: 20
 export const DUPLICATE_TIER_MULTIPLIER: Weights<Tier> = { common: 1, rare: 1.5, epic: 2, legendary: 3 };
 export const duplicateShards = (finish: Finish, tier: Tier) => Math.round(DUPLICATE_SHARDS[finish] * DUPLICATE_TIER_MULTIPLIER[tier]);
 
-/** Shards to craft a card up to the next finish, × the tier and the art variant multipliers (sprite upgrades cost most). */
+/** Shards to craft a card up to the next finish, × the tier and the art variant multipliers (Locker upgrades cost most). */
 export const CRAFT_COST: Record<Exclude<Finish, 'base'>, number> = { silver: 80, gold: 360, holo: 2000 };
 export const CRAFT_TIER_MULTIPLIER: Weights<Tier> = { common: 1, rare: 1.5, epic: 2, legendary: 3 };
-export const CRAFT_VARIANT_MULTIPLIER: Weights<Variant> = { number: 1, jersey: 1, topps: 1.25, locker: 1.5, sprite: 2 };
+export const CRAFT_VARIANT_MULTIPLIER: Weights<Variant> = { number: 1, jersey: 1, topps: 1.25, locker: 1.5 };
 
 export const craftCost = (to: Exclude<Finish, 'base'>, tier: Tier, variant: Variant = 'number') =>
   Math.round(CRAFT_COST[to] * CRAFT_TIER_MULTIPLIER[tier] * CRAFT_VARIANT_MULTIPLIER[variant]);
@@ -249,7 +245,7 @@ export const nextFinish = (f: Finish): Exclude<Finish, 'base'> | null => (f === 
 
 /**
  * Claim: shards buy a chosen player's Base card (a "Legend claim" for a Legendary player), in the most common art
- * variant he is still missing (CLAIM_VARIANTS order; never the sprite, which stays a pull).
+ * variant he is still missing (CLAIM_VARIANTS order).
  */
 export const CLAIM_COST: Weights<Tier> = { common: 150, rare: 300, epic: 600, legendary: 1000 };
 export const CLAIM_VARIANTS: Variant[] = ['number', 'jersey', 'topps', 'locker'];
@@ -394,6 +390,8 @@ export interface CollectionState {
   noticeSeen?: boolean;
   /** Gift links already redeemed on this browser (GIFTS ids) */
   gifts?: string[];
+  /** Local day ("2026-11-05") of the last daily draw (claimDaily); missing = never drawn */
+  daily?: string;
   /**
    * Display choice per player ("POS:Name" → variant + finish): what his binder tile, Best pulls and the detail show.
    * Missing (the default) means auto: the rarest variant owned at its best finish. A choice no longer owned falls
@@ -447,6 +445,24 @@ const parseVariant = (x: unknown): VariantCard | null => {
   return { best: e.best, counts, first: num(e.first), last: num(e.last) };
 };
 
+/** Variant key of the removed Retro Bowl sprite art; stored entries migrate to the Locker stall on load. */
+const RETIRED_SPRITE = 'sprite';
+/** Two entries for one variant: counts per finish summed, the better best finish, the earliest first, the latest last. */
+const mergeVariant = (a: VariantCard, b: VariantCard): VariantCard => {
+  const counts: Partial<Record<Finish, number>> = {};
+  FINISHES.forEach(({ key }) => {
+    const n = (a.counts[key] ?? 0) + (b.counts[key] ?? 0);
+    if (n) counts[key] = n;
+  });
+  const firsts = [a.first, b.first].filter((t) => t > 0);
+  return {
+    best: finishRank(b.best) > finishRank(a.best) ? b.best : a.best,
+    counts,
+    first: firsts.length ? Math.min(...firsts) : 0,
+    last: Math.max(a.last, b.last),
+  };
+};
+
 const parse = (raw: string | null): CollectionState | null => {
   if (!raw) return null;
   try {
@@ -463,7 +479,10 @@ const parse = (raw: string | null): CollectionState | null => {
       const raw = e.variants && typeof e.variants === 'object' && !Array.isArray(e.variants) ? e.variants : null;
       if (raw) Object.entries(raw).forEach(([vk, vc]) => {
         const c = parseVariant(vc);
-        if (isVariant(vk) && c) variants[vk] = c;
+        if (!c) return;
+        if (isVariant(vk)) variants[vk] = variants[vk] ? mergeVariant(variants[vk]!, c) : c;
+        // The retired Retro Bowl sprite art: its cards become the Locker stall (the next rarest art)
+        else if (vk === RETIRED_SPRITE) variants.locker = variants.locker ? mergeVariant(variants.locker, c) : c;
       });
       // Saves from before variants (or with no valid variant): the whole card becomes the Team jersey variant
       if (!Object.keys(variants).length) variants[LEGACY_VARIANT] = parseVariant(e)!;
@@ -492,6 +511,7 @@ const parse = (raw: string | null): CollectionState | null => {
     s.noticeSeen = !!d.noticeSeen;
     const gifts = Array.isArray(d.gifts) ? d.gifts.filter((g): g is string => typeof g === 'string') : [];
     if (gifts.length) s.gifts = gifts;
+    if (typeof d.daily === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d.daily)) s.daily = d.daily;
     const rawDisplay = d.display && typeof d.display === 'object' && !Array.isArray(d.display) ? d.display : {};
     const display: Record<string, DisplayChoice> = {};
     Object.entries(rawDisplay).forEach(([k, v]) => {
@@ -697,6 +717,41 @@ const pick = <K extends string>(weights: Partial<Record<K, number>>, rng: Rng, a
     if (r < 0) return k;
   }
   return items[items.length - 1][0];
+};
+
+// ---------- Daily draw ----------
+
+/**
+ * One free pack a day (owner: "1 random draw a day … common packs are very common rares etc etc so that I don't have
+ * to only rely on the games"). The draw rolls the pack TYPE: Standard very common, Premium uncommon, Elite rare,
+ * Holo Showcase very rare (about 1 day in 200). Perfect Season packs stay 18–0 only. Resets at local midnight.
+ */
+export const DAILY_ODDS: Weights<Exclude<EarnablePack, 'perfect'>> = { standard: 78, premium: 17, elite: 4.5, holo: 0.5 };
+
+/** Local calendar day, "2026-11-05". */
+export const dayKey = (d: Date = new Date()) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+/** True when today's draw hasn't been taken on this device. */
+export const dailyReady = (s: CollectionState, now: Date = new Date()) => s.daily !== dayKey(now);
+
+/** Milliseconds until the next draw unlocks (local midnight). */
+export const msUntilDaily = (now: Date = new Date()) => {
+  const next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  return next.getTime() - now.getTime();
+};
+
+/** Takes today's draw: adds one rolled pack to the shelf and returns its type, or null if already drawn today. */
+export const claimDaily = (rng: Rng = Math.random): Exclude<EarnablePack, 'perfect'> | null => {
+  const s = readCollection();
+  if (!dailyReady(s)) return null;
+  const type = pick(DAILY_ODDS, rng) ?? 'standard';
+  const at = Date.now();
+  write(
+    { ...s, daily: dayKey(), packs: { ...s.packs, [type]: s.packs[type] + 1 }, earned: [{ type, reason: 'Daily draw', at }, ...s.earned].slice(0, EARNED_CAP) },
+    { kind: 'earned', type, reason: 'Daily draw' },
+  );
+  return type;
 };
 
 export interface RolledCard {
@@ -1107,10 +1162,10 @@ export interface OddsSummary {
   /** Per card, averaged over the tier × finish it rolls (VARIANT_STACK) */
   variants: Record<Variant, number>;
   legendaryHolo: number;
-  /** Per card: Retro Bowl sprite × Holo at any tier */
-  spriteHolo: number;
-  /** Per card: Retro Bowl sprite × Holo × Legendary, the rarest card there is */
-  spriteLegendaryHolo: number;
+  /** Per card: the rarest art (Locker stall) × Holo at any tier */
+  rarestHolo: number;
+  /** Per card: the rarest art × Holo × Legendary, the rarest card there is */
+  rarestLegendaryHolo: number;
 }
 /** Per-card odds for a pack type: by tier, by finish, and Legendary-tier Holo. */
 export const packOdds = (type: EarnablePack): OddsSummary => {
@@ -1124,10 +1179,11 @@ export const packOdds = (type: EarnablePack): OddsSummary => {
       VARIANTS.forEach(({ key: v }) => (variants[v] += j[t][f] * pv(v)));
     }),
   );
-  const spriteHoloAt = (t: Tier) => j[t].holo * norm(variantWeights(type, t, 'holo'))('sprite');
-  const spriteHolo = TIERS.reduce((a, { key: t }) => a + spriteHoloAt(t), 0);
-  const spriteLegendaryHolo = spriteHoloAt('legendary');
-  return { tiers, finishes, variants, legendaryHolo: j.legendary.holo, spriteHolo, spriteLegendaryHolo };
+  const rarest = VARIANTS[VARIANTS.length - 1].key;
+  const rarestHoloAt = (t: Tier) => j[t].holo * norm(variantWeights(type, t, 'holo'))(rarest);
+  const rarestHolo = TIERS.reduce((a, { key: t }) => a + rarestHoloAt(t), 0);
+  const rarestLegendaryHolo = rarestHoloAt('legendary');
+  return { tiers, finishes, variants, legendaryHolo: j.legendary.holo, rarestHolo, rarestLegendaryHolo };
 };
 
 // ---------- React ----------
@@ -1211,7 +1267,7 @@ const readView = (): CollectionState => {
   const snap = revealSnapshot;
   if (!snap) return live;
   if (viewCache && viewCache.live === live && viewCache.snap === snap) return viewCache.view;
-  const view: CollectionState = { ...snap, packs: live.packs, perfect: live.perfect, exchange: live.exchange, opened: live.opened, earned: live.earned, gifts: live.gifts };
+  const view: CollectionState = { ...snap, packs: live.packs, perfect: live.perfect, exchange: live.exchange, opened: live.opened, earned: live.earned, gifts: live.gifts, daily: live.daily };
   viewCache = { live, snap, view };
   return view;
 };

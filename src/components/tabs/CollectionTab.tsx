@@ -18,6 +18,7 @@ import { byTierDesc, useCardPool, type CardInfo } from '@/components/collection/
 import { FACE_LEGEND } from '@/components/collection/cardStats';
 import VariantBadges from '@/components/collection/VariantBadges';
 import ShardWorkshop from '@/components/collection/ShardWorkshop';
+import DailyDraw from '@/components/collection/DailyDraw';
 import { VARIANT_MULTIPLIER } from '@/utils/cardMarket';
 import { matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
 import { editionAccent } from '@/utils/edition';
@@ -172,11 +173,11 @@ const RulesPopover = () => (
         ))}
       </ul>
       <p className="mt-3 text-muted-foreground">
-        Every card rolls tier, then player, then finish, then art variant ({VARIANTS.map((v) => v.label).join(', ')}; the sprite is rarest). From
+        Every card rolls tier, then player, then finish, then art variant ({VARIANTS.map((v) => v.label).join(', ')}; the Locker stall is rarest). From
         Standard packs a Holo is about 1 card in {oneIn(ODDS.standard.finishes.holo)}, a Gold 1 in {oneIn(ODDS.standard.finishes.gold)} and a
         Legendary player 1 in {oneIn(ODDS.standard.tiers.legendary)}. The rarities stack: the rarer arts get rarer still on better players and
-        finishes. A Retro Bowl sprite Holo is about 1 card in {oneIn(ODDS.holo.spriteHolo)} from Holo Showcase packs, and a sprite Holo Legendary
-        about 1 in {oneIn(Math.max(...PACK_ORDER.map((t) => ODDS[t].spriteLegendaryHolo)))} even from the best pack. A player can own every
+        finishes. A Locker stall Holo is about 1 card in {oneIn(ODDS.holo.rarestHolo)} from Holo Showcase packs, and a Locker Holo Legendary
+        about 1 in {oneIn(Math.max(...PACK_ORDER.map((t) => ODDS[t].rarestLegendaryHolo)))} even from the best pack. A player can own every
         variant and they stack in the binder. Market value × variant: {VARIANTS.map((v) => `${v.short} ×${VARIANT_MULTIPLIER[v.key]}`).join(', ')}.
       </p>
       <p className="mt-3 font-semibold">Earn packs</p>
@@ -473,7 +474,8 @@ const CollectionTab = () => {
           </div>
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 space-y-3">
+          <DailyDraw state={state} disabled={!loaded} />
           {shelf.length ? (
             <ul className="col-shelf" aria-label="Unopened packs">
               {shelf.map((t) => {
@@ -502,7 +504,7 @@ const CollectionTab = () => {
               })}
             </ul>
           ) : (
-            <p className="text-sm text-muted-foreground">No packs. Win them in the Arcade.</p>
+            <p className="text-sm text-muted-foreground">No packs. Win them in the Arcade, or take the daily draw.</p>
           )}
         </div>
       </section>

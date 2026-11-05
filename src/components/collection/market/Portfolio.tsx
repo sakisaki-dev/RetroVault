@@ -14,7 +14,7 @@ const TIER_FILL: Record<Tier, string> = { common: 'hsl(22 45% 48%)', rare: 'hsl(
 const POS_FILL = POS_ORDER.map((_, i) => `hsl(199 ${60 + i * 3}% ${78 - i * 7}%)`);
 
 /** Variant allocation colours: one warm-to-violet ramp, rarest darkest. */
-const VARIANT_FILL: Record<Variant, string> = { number: 'hsl(43 70% 72%)', jersey: 'hsl(30 70% 60%)', topps: 'hsl(12 60% 52%)', locker: 'hsl(330 45% 45%)', sprite: 'hsl(280 55% 40%)' };
+const VARIANT_FILL: Record<Variant, string> = { number: 'hsl(43 70% 72%)', jersey: 'hsl(30 70% 60%)', topps: 'hsl(12 60% 52%)', locker: 'hsl(330 45% 45%)' };
 
 interface Holding {
   info: CardInfo;

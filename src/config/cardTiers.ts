@@ -47,16 +47,16 @@ export const finishRank = (f: Finish) => FINISHES.findIndex((x) => x.key === f);
 
 /**
  * Art VARIANT (which card art): a third rarity layer on top of tier and finish. Every pull rolls one; a player
- * can own every variant × finish, and they stack. Lowest (most common) to highest.
+ * can own every variant × finish, and they stack. Lowest (most common) to highest. The Retro Bowl sprite art was
+ * removed (owner: "Remove the sprite card from the game"); saved sprite cards load as Locker stall cards.
  */
-export type Variant = 'number' | 'jersey' | 'topps' | 'locker' | 'sprite';
+export type Variant = 'number' | 'jersey' | 'topps' | 'locker';
 
 export const VARIANTS: { key: Variant; label: string; short: string }[] = [
   { key: 'number', label: 'Prizm number', short: 'Prizm' },
   { key: 'jersey', label: 'Team jersey', short: 'Jersey' },
   { key: 'topps', label: '70s Topps', short: 'Topps' },
   { key: 'locker', label: 'Locker stall', short: 'Locker' },
-  { key: 'sprite', label: 'Retro Bowl sprite', short: 'Sprite' },
 ];
 export const variantLabel = (v: Variant) => VARIANTS.find((x) => x.key === v)!.label;
 export const variantShort = (v: Variant) => VARIANTS.find((x) => x.key === v)!.short;

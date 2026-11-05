@@ -1,7 +1,13 @@
 # Retro Bowl sprite modules
 
-The "Retro Bowl sprite" card art (and the stand-ins, helmet props and Art lab strips) is built by five modules plus a
-shared grid. `../PixelSprite.tsx` is the React wrapper; nothing else should import the modules' internals.
+> **Retired card art.** The Retro Bowl sprite card variant was removed from the card game (owner: "Remove the sprite
+> card from the game"), and with it the React wrapper `../PixelSprite.tsx`, its bitmap cache and the Art lab's
+> Poses / Helmets / Faces tabs. The modules stay: `uniforms.ts` and `helmets.ts` feed the Jersey, Locker and Topps
+> art and the card faces, `faces.ts` backs the Player editor's skin picker, and `npm run check:sprites` still checks
+> the engine. The notes below describe the engine as it was.
+
+The "Retro Bowl sprite" card art (and the stand-ins, helmet props and Art lab strips) was built by five modules plus a
+shared grid. `../PixelSprite.tsx` was the React wrapper (now removed).
 
 ```
 grid.ts      types, constants, drawing primitives            (no imports)

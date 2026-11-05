@@ -13,18 +13,11 @@ import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 import { buildCareerArc, stintYears } from '@/components/player/arcData';
 import { careerTotals } from '@/components/player/statLines';
 import { variantLabel, type Finish, type Tier, type Variant } from '@/utils/collection';
-import { lookFor, useSpriteTable } from './art/sprite/faces';
-import { poseKeyFor, poseLabel } from './art/sprite/poses';
 import { uniformFor, uniformLabel } from './art/sprite/uniforms';
 import type { CardInfo } from './useCardPool';
 
-/** "Pose: Rollout throw" for sprite cards (plus "Custom look" when sprites.json locks his look), else "Art: 70s Topps". */
-const artNote = (variant: Variant, info: CardInfo, table: ReturnType<typeof useSpriteTable>) => {
-  if (variant !== 'sprite') return `Art: ${variantLabel(variant)}`;
-  const look = lookFor(info.player, table);
-  const pose = poseLabel(poseKeyFor(info.player.name, info.player.position, look.pose));
-  return `Pose: ${pose}${look.locked ? ' · Custom look' : ''}`;
-};
+/** "Art: 70s Topps". */
+const artNote = (variant: Variant) => `Art: ${variantLabel(variant)}`;
 
 const fmt = (v: number | null, decimals = 0) => (v == null || !Number.isFinite(v) ? '–' : formatDecimal(v, decimals));
 
@@ -32,7 +25,7 @@ interface CardBackProps {
   info: CardInfo;
   tier: Tier;
   total: number;
-  /** Art variant on the front (names the art / the sprite pose on the back) */
+  /** Art variant on the front (names the art on the back) */
   variant?: Variant;
   /** Finish on the front (with the variant, decides the uniform roll) */
   finish?: Finish;
@@ -43,7 +36,6 @@ interface CardBackProps {
  * arc (franchise stops with years and rings, from the same builder as the player page) and the set number.
  */
 const CardBack = ({ info, tier, total, variant, finish }: CardBackProps) => {
-  const table = useSpriteTable();
   const { getAllPlayers } = useLeague();
   const extras = usePlayerExtras();
   const { content } = useLeagueContent();
@@ -92,7 +84,7 @@ const CardBack = ({ info, tier, total, variant, finish }: CardBackProps) => {
           <small>/{total}</small>
         </span>
       </div>
-      {variant && <p className="cb__art">{artNote(variant, info, table)}</p>}
+      {variant && <p className="cb__art">{artNote(variant)}</p>}
       {uniform && uniform.id !== 'home' && <p className="cb__art">Uniform: {uniformLabel(uniform)}</p>}
 
       <h4 className="cb__h">Career</h4>

@@ -1,6 +1,6 @@
 /**
  * Pack odds simulation: opens N packs of every type (and one big Legends Exchange) against a synthetic pool and
- * prints the variant × finish × tier distribution, plus how many cards it takes to see a Retro Bowl sprite Holo
+ * prints the variant × finish × tier distribution, plus how many cards it takes to see the rarest art (Locker stall) Holo
  * Legendary. Touches no real data (localStorage is an in-memory stub).
  *
  *   npm run -s sim:packs            # 10,000 packs per type
@@ -52,6 +52,8 @@ TIERS.forEach(({ key }, ti) => {
 });
 
 const pct = (n: number, d: number) => (d ? `${((100 * n) / d).toFixed(2)}%` : '-');
+/** The rarest art variant (Locker stall since the sprite was removed): its Holo × Legendary is the chase card. */
+const RAREST = VARIANTS[VARIANTS.length - 1];
 const oneIn = (n: number, d: number) => (n ? `1 in ${Math.round(d / n).toLocaleString('en-US')}` : `none in ${d.toLocaleString('en-US')}`);
 
 const report = (title: string, cards: RolledCard[], packs: number) => {
@@ -67,10 +69,10 @@ const report = (title: string, cards: RolledCard[], packs: number) => {
     const sub = cards.filter((c) => c.finish === f);
     console.log(`${label.padEnd(10)}` + VARIANTS.map((v) => pct(sub.filter((c) => c.variant === v.key).length, sub.length).padStart(8)).join('') + `   (${pct(sub.length, total)} of cards)`);
   });
-  const slh = cards.filter((c) => c.variant === 'sprite' && c.finish === 'holo' && c.tier === 'legendary').length;
+  const rlh = cards.filter((c) => c.variant === RAREST.key && c.finish === 'holo' && c.tier === 'legendary').length;
   const lh = cards.filter((c) => c.finish === 'holo' && c.tier === 'legendary').length;
-  const sprites = cards.filter((c) => c.variant === 'sprite').length;
-  console.log(`sprites ${oneIn(sprites, total)} cards; Legendary Holo ${oneIn(lh, total)} cards; Sprite Holo Legendary: ${slh} seen, ${oneIn(slh, total)} cards`);
+  const rarest = cards.filter((c) => c.variant === RAREST.key).length;
+  console.log(`${RAREST.short} ${oneIn(rarest, total)} cards; Legendary Holo ${oneIn(lh, total)} cards; ${RAREST.short} Holo Legendary: ${rlh} seen, ${oneIn(rlh, total)} cards`);
 };
 
 PACK_ORDER.forEach((type, i) => {
@@ -81,8 +83,8 @@ PACK_ORDER.forEach((type, i) => {
   const o = packOdds(type);
   const size = cards.length / N;
   console.log(
-    `exact: Sprite Holo Legendary 1 in ${Math.round(1 / o.spriteLegendaryHolo).toLocaleString('en-US')} cards ` +
-      `(1 in ${Math.round(1 / (o.spriteLegendaryHolo * size)).toLocaleString('en-US')} packs); variants ` +
+    `exact: ${RAREST.short} Holo Legendary 1 in ${Math.round(1 / o.rarestLegendaryHolo).toLocaleString('en-US')} cards ` +
+      `(1 in ${Math.round(1 / (o.rarestLegendaryHolo * size)).toLocaleString('en-US')} packs); variants ` +
       VARIANTS.map((v) => `${v.short} ${(100 * o.variants[v.key]).toFixed(2)}%`).join(', '),
   );
 });

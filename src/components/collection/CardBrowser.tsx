@@ -16,7 +16,6 @@ import {
   type OwnedCard,
   type Variant,
 } from '@/utils/collection';
-import { useSpriteTable, lookFor } from './art/sprite/faces';
 import CollectibleCard from './CollectibleCard';
 import CardBack from './CardBack';
 import { useFlipFaces } from './useFlipFaces';
@@ -32,8 +31,8 @@ import { dur, ease } from '@/utils/motion';
  * neighbour to go to it. Variant dots under the card cycle the player's owned variant × finish combos (the display
  * choice first). Keys: ← → step, Space flips, Enter opens the details, Esc closes.
  *
- * Only five cards are mounted (the current one ± 2), so the next card's sprite bitmap is already built when it slides
- * in; custom sprite images and photos a few cards further out are fetched ahead. Every frame of motion writes only
+ * Only five cards are mounted (the current one ± 2), so the next card's art is already built when it slides
+ * in; legend photos a few cards further out are fetched ahead. Every frame of motion writes only
  * `transform` / `opacity` on those five slots. Performance mode: no 3D turn or scale (a flat slide); reduced motion:
  * no slide either, the new card fades in.
  *
@@ -57,7 +56,7 @@ interface CardBrowserProps {
 
 const SESSION_KEY = 'retroVault:browseKey';
 const WINDOW = 2; // cards mounted either side of the current one
-const PRELOAD = 4; // custom sprite images / photos fetched this far ahead
+const PRELOAD = 4; // legend photos fetched this far ahead
 const TAP_MS = 450;
 const LOCK_PX = 8;
 const CLOSE_PX = 120;
@@ -102,7 +101,6 @@ const combosOf = (entry: OwnedCard | undefined) =>
 
 const CardBrowser = ({ open, list, owned, display, total, covered = false, focusKey, onClose, onDetails }: CardBrowserProps) => {
   const n = list.length;
-  const table = useSpriteTable();
   // Current card (integer): decides which five are mounted. The float position lives in posRef.
   const [center, setCenter] = useState(0);
   const [flipped, setFlipped] = useState(false);
@@ -342,15 +340,13 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
     return () => window.removeEventListener('resize', measure);
   }, [open, place]);
 
-  // ---------- Preload custom sprite images and photos a few cards out ----------
+  // ---------- Preload legend photos a few cards out ----------
   useEffect(() => {
     if (!open || !n) return;
     const urls: string[] = [];
     for (let i = center - PRELOAD; i <= center + PRELOAD; i++) {
       const c = list[i];
       if (!c) continue;
-      const look = lookFor(c.player, table);
-      if (look.image) urls.push(`${import.meta.env.BASE_URL}data/sprites/${look.image}`);
       const photo = (c.player as { photo?: { url?: string } }).photo?.url;
       if (c.player.isRealLegend && photo) urls.push(photo);
     }
@@ -359,7 +355,7 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
       img.decoding = 'async';
       img.src = u;
     });
-  }, [open, n, center, list, table]);
+  }, [open, n, center, list]);
 
   // ---------- Selected variant × finish per card ----------
   const comboOf = (c: CardInfo) => {

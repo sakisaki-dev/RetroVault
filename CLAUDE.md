@@ -19,7 +19,7 @@ section for what changed, make a story about the previous year … I want it in 
 | **Data entry** (facts) | Career lines, awards, Super Bowls, coach seasons, weekly league scores and standings, record board, teams/trades/rosters, nicknames, owner-confirmed history ("one Titans season", "mainly a Seahawk"), card notes, the owner's own tags, sprite looks | `data/y80/players.json`, `super_bowls.json`, `coach.json`, `schedules.json`, `records.json`, `owner_facts.json`, `screenshot_extras.json`, `sprites.json` |
 | **Owner prose** (verbatim) | Season notes about rivalries, disputes, drama, in the owner's words | `data/y80/journal.json` |
 | **Generated** (rules over the data) | Eras, storylines, rivalries, lineages, snubs, outsiders, record chases, iron men, one-team legends, open questions, player tags and eras, Hall of Fame classes, career stints and their evidence text, market prices | `scripts/*.py`, `scripts/market_snapshot.ts` → `public/data/` |
-| **AI-authored** (only these three) | Hall of Fame induction speeches; card art styles and custom sprites (Art lab); the Season Story (news articles about each completed season) | `data/y80/speeches.json`; `src/components/collection/art/**`, `public/data/sprites/`; `data/y80/stories.json` |
+| **AI-authored** (only these three) | Hall of Fame induction speeches; card art styles and custom sprites (Art lab; custom sprites retired with the sprite card, see step 2); the Season Story (news articles about each completed season) | `data/y80/speeches.json`; `src/components/collection/art/**`, `public/data/sprites/`; `data/y80/stories.json` |
 
 Never hand-write analysis: no era write-ups, storylines, rivalry blurbs, player tags or per-player stint judgments.
 If something reads like analysis, it must come out of a rule in `scripts/build_league_content.py` or
@@ -59,7 +59,7 @@ other row is a deterministic rule that `npm run update` / `npm run rebuild` runs
 | # | Step | AI or rule | Trigger | How / where |
 |---|---|---|---|---|
 | 1 | Read the screenshots (career cards, Super Bowl list, staff screen, record board, rosters, HOF pages) | **AI** (`transcribe`) | New images in the upload | `player.set`, `superbowl.set`, `coach.season` / `coach.set`, `record.set`, `fact.set active_rosters/…` |
-| 2 | Describe new portraits as sprite looks | **AI** (`portrait→look`) | The upload has portraits | `sprite.set` |
+| 2 | ~~Describe new portraits as sprite looks~~ **Retired** (sprite cards removed, see step 2 below) | ~~**AI** (`portrait→look`)~~ | ~~The upload has portraits~~ | ~~`sprite.set`~~ |
 | 3 | Owner notes → journal entries with tags | **AI** (`tag notes`, text copied verbatim) | `notes.md` present | `journal.add` |
 | 4 | Owner-stated facts: teams, trades, club switch, retirements, nicknames, card notes, signature teams, `career.never` | Data entry (owner's words) | Owner says it | `fact.set` / `fact.remove` / `player.set {nick}`; ask for teams of new players (`UNK`) |
 | 5 | Career stints and their evidence text | Rule | Every rebuild | `infer_stints.py` |
@@ -71,7 +71,7 @@ other row is a deterministic rule that `npm run update` / `npm run rebuild` runs
 | 11 | Hall of Fame speech for each new member | **AI** (`speech`) | Rebuild prints `SPEECH NEEDED` | `speech.set` (step 5) |
 | 12 | Season Story: news articles plus written "Did you know" facts for the completed season | **AI** (`story`) | Rebuild prints `STORY NEEDED: Y<n>` | `story.set` (step 6); professional voice, no "owner", only true facts |
 | 13 | Refresh speeches or stories whose numbers went stale | **AI** (same lanes) | Audit warns that a cited number no longer matches | `speech.set` / `story.set` |
-| 14 | Card art styles, custom sprites | **AI** (`art`) | Only when the owner asks | Art lab, `sprite.image`, `card.design` |
+| 14 | Card art styles (custom sprites retired with the sprite card) | **AI** (`art`) | Only when the owner asks | Art lab, `card.design` (~~`sprite.image`~~) |
 | 15 | Checks: audit (0 errors), typecheck, sprite check, build | Rule | `npm run update` | `audit.ts`, `check_sprites.ts` |
 | 16 | Publish: commit and push (Pages redeploys), rebuild the LAN preview (`npm run build`), the widget picks up `widget.json` (and its own code) within about 2 hours | Rule | After the checks pass | Step 7 |
 
@@ -113,7 +113,14 @@ list must not add or remove anyone. Stale lines in `screenshot_extras.json` (e.g
 (target `POS:Old Name`, value the new name; it renames the player everywhere but the stories), then a `story.set`
 rewrite of every season story that names him, in a follow-up bundle.
 
-### 2. Looks (AI step `portrait→look`; trigger: the upload has portraits)
+### 2. Looks (AI step `portrait→look`; trigger: the upload has portraits), retired
+
+**Retired:** the Retro Bowl sprite card variant was removed from the card game (owner: "Remove the sprite card from
+the game, it's been a hassle to design the characters and they don't look good either"). Packs no longer roll it,
+saved sprite cards load as Locker stall cards, and the Art lab's Poses, Helmets and Faces tabs are gone. Don't
+describe portraits or write `sprite.set` / `sprite.image` mutations any more. `data/y80/sprites.json`,
+`public/data/sprites.json`, the sprite modules (`art/sprite/`: uniforms and helmets still feed the other card art)
+and `check:sprites` stay in place. The rest of this section is kept as history.
 
 Describe portraits as sprite fields (`sprite.set`, the `data/y80/sprites.json` format: skin, hair, facial,
 accessories, build, height, pose, eyes, signature). Custom sprite images and card-design requests (`sprite.image`,

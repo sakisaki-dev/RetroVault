@@ -7,7 +7,6 @@ import NumberArt from './NumberArt';
 import JerseyArt from './JerseyArt';
 import VintageArt from './VintageArt';
 import LockerArt from './LockerArt';
-import PixelSpriteArt from './PixelSprite';
 import './art.css';
 
 /** The art style behind each card variant (the Art lab shows these plus the styles that never made it into packs). */
@@ -16,7 +15,6 @@ const VARIANT_ART: Record<Variant, ComponentType<ArtProps>> = {
   jersey: JerseyArt,
   topps: VintageArt,
   locker: LockerArt,
-  sprite: PixelSpriteArt,
 };
 
 interface VariantArtProps {

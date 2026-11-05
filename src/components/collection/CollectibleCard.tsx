@@ -120,7 +120,7 @@ export interface CollectibleCardProps {
   tier: Tier;
   /** Finish (Base, Silver, Gold, Holo): the treatment on top; ignored while locked */
   finish: Finish;
-  /** Art variant (Prizm number … Retro Bowl sprite); omitted = the plain baseline jersey */
+  /** Art variant (Prizm number … Locker stall); omitted = the plain baseline jersey */
   variant?: Variant;
   owned: boolean;
   ovr?: number | null;

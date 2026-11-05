@@ -407,7 +407,7 @@ button.fut__card:focus-visible {
   white-space: nowrap;
   opacity: 0.85;
 }
-/* "Legendary · Sprite" is the longest label: a touch smaller so it clears the point */
+/* "Legendary · Locker" is the longest label: a touch smaller so it clears the point */
 .fut--legendary .fut__pip {
   bottom: 5.4%;
   font-size: 2.7cqw;
@@ -2618,6 +2618,53 @@ button.fut__card:focus-visible {
 .col-gem--epic { --gem: linear-gradient(135deg, #b48cf0, #3a1668); }
 .col-gem--legendary { --gem: linear-gradient(135deg, #f08a3a 20%, #0b0807 60%, #f08a3a); }
 
+/* Daily draw: one free pack a day (DailyDraw.tsx) */
+.col-daily {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding: 12px 14px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 14px;
+  background: hsl(var(--card) / 0.6);
+}
+.col-daily--ready {
+  border-color: hsl(var(--ed, 45 100% 62%) / 0.55);
+  background: linear-gradient(120deg, hsl(var(--ed, 45 100% 62%) / 0.14), hsl(var(--card) / 0.6) 60%);
+}
+.col-daily__icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--muted) / 0.5);
+}
+.col-daily--ready .col-daily__icon {
+  color: #ffc83d;
+  background: rgb(255 200 61 / 0.14);
+}
+.col-daily__btn {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #090d1a;
+  background: #ffc83d;
+}
+.col-daily__btn:disabled {
+  cursor: default;
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--muted) / 0.6);
+}
+.col-daily__btn:not(:disabled):hover {
+  filter: brightness(1.06);
+}
 .col-shelf {
   display: flex;
   gap: 16px;

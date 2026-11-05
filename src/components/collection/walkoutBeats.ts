@@ -5,7 +5,7 @@ import { finishRank, tierRank, variantRank, type PackCard, type Tier } from '@/u
  * starts on its own (tap advances early). The holo twist is appended only for holo cards, after the flip, so
  * everything before it looks exactly like a normal walkout of that tier.
  */
-export type WkStage = 'tunnel' | 'flares' | 'sweep' | 'logo' | 'pos' | 'ovr' | 'walk' | 'flip' | 'pixel' | 'twist' | 'final';
+export type WkStage = 'tunnel' | 'flares' | 'sweep' | 'logo' | 'pos' | 'ovr' | 'walk' | 'flip' | 'twist' | 'final';
 
 export interface WkBeat {
   stage: WkStage;
@@ -41,8 +41,6 @@ const BUILD: Record<'epic' | 'legendary', [WkStage, number][]> = {
 /** Flip hold: the card sits face up (still looking non-holo) for one beat before a holo twist. */
 const FLIP_MS = 900;
 const FLIP_HOLD_HOLO_MS = 1100;
-/** Sprite pulls: an 8-bit beat after the flip (pixel flash, scanlines, an "8-BIT" stamp). */
-export const PIXEL_MS = 2200;
 /** Twist: flash, shockwave, shatter, stamp, shake and the slow 360° spin. */
 export const TWIST_MS: Record<'normal' | 'legendary', number> = { normal: 3200, legendary: 3800 };
 
@@ -66,24 +64,21 @@ const buildFor = (tier: Tier) => BUILD[tier === 'legendary' ? 'legendary' : 'epi
 export const walkoutBeats = (c: PackCard, reduced: boolean): WkBeat[] => {
   const holo = c.finish === 'holo';
   const twist: WkBeat[] = holo ? [{ stage: 'twist', ms: reduced ? 900 : TWIST_MS[c.tier === 'legendary' ? 'legendary' : 'normal'] }] : [];
-  // The variant shows only once the card is face up; a sprite then gets its own 8-bit beat
-  const pixel: WkBeat[] = c.variant === 'sprite' ? [{ stage: 'pixel', ms: reduced ? 900 : PIXEL_MS }] : [];
-  if (reduced) return [{ stage: 'flip', ms: holo ? 1200 : 600 }, ...pixel, ...twist, { stage: 'final', ms: 0 }];
+  if (reduced) return [{ stage: 'flip', ms: holo ? 1200 : 600 }, ...twist, { stage: 'final', ms: 0 }];
   return [
     ...buildFor(c.tier).map(([stage, ms]) => ({ stage, ms })),
     { stage: 'flip', ms: holo ? FLIP_HOLD_HOLO_MS : FLIP_MS },
-    ...pixel,
     ...twist,
     { stage: 'final', ms: 0 },
   ];
 };
 
 /**
- * Step that Skip jumps to from `step`: the next special beat still ahead (a sprite's 8-bit beat, a holo's twist), so
- * the reveal stays last; with none left, final.
+ * Step that Skip jumps to from `step`: the special beat still ahead (a holo's twist), so the reveal
+ * stays last; with none left, final.
  */
 export const skipStep = (beats: WkBeat[], step: number) => {
-  const t = beats.findIndex((b, i) => i > step && (b.stage === 'pixel' || b.stage === 'twist'));
+  const t = beats.findIndex((b, i) => i > step && b.stage === 'twist');
   return t >= 0 ? t : beats.length - 1;
 };
 

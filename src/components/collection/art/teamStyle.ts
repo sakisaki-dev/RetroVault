@@ -4,7 +4,7 @@ import { HELMETS } from './sprite/helmets';
 import { helmetWith, homeUniform, type Uniform } from './sprite/uniforms';
 
 /**
- * Per-team uniform summary for the card art (jersey, sprite, locker, Topps). Derived from sprite/uniforms.ts (the
+ * Per-team uniform summary for the card art (jersey, locker, Topps). Derived from sprite/uniforms.ts (the
  * home uniform, or the card's alternate) and sprite/helmets.ts; only the collar cut is kept here.
  *
  *   accent       third colour (outline of the numbers, stripe edges)

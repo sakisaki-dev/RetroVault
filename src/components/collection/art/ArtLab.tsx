@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/compone
 import { cn } from '@/lib/utils';
 import type { CardInfo } from '../useCardPool';
 import { PlayerPicker, PreviewPane } from './lab/LabParts';
-import { CombosTab, FacesTab, HelmetsTab, PosesTab, UniformsTab } from './lab/LabTabs';
+import { CombosTab, UniformsTab } from './lab/LabTabs';
 import { LabRootContext, select } from './lab/labStore';
 import './art.css';
 
@@ -21,12 +21,10 @@ interface TabProps {
 }
 
 const TABS: { key: string; label: string; hint: string; Tab: ComponentType<TabProps> }[] = [
-  { key: 'combos', label: 'Combinations', hint: 'The five art variants pulled from packs × the four finishes, on one player. Switch the tier frame above.', Tab: CombosTab },
-  { key: 'poses', label: 'Poses', hint: 'Every sprite pose by position, with its name and key (lock one with "pose" in sprites.json).', Tab: PosesTab },
-  { key: 'helmets', label: 'Helmets', hint: 'All 32 helmets: front, three-quarter and side.', Tab: HelmetsTab },
-  { key: 'uniforms', label: 'Uniforms', hint: "Each club's home uniform, then its alternates (a card rolls one about 8% of the time).", Tab: UniformsTab },
-  { key: 'faces', label: 'Faces', hint: 'Locked looks from the game portraits, and the generic character in each skin tone.', Tab: FacesTab },
+  { key: 'combos', label: 'Combinations', hint: 'The four art variants pulled from packs × the four finishes, on one player. Switch the tier frame above.', Tab: CombosTab },
+  { key: 'uniforms', label: 'Uniforms', hint: "Each club's home uniform, then its alternates (a card rolls one about 8% of the time), on the Team jersey art.", Tab: UniformsTab },
 ];
+// The sprite tabs (Poses, Helmets, Faces) went with the Retro Bowl sprite card (owner: "Remove the sprite card from the game")
 
 const DEFAULT_PLAYER = 'Sherman Brandson';
 /** Programmatic focus without the keyboard focus ring (browsers that ignore focusVisible fall back to :focus-visible rules) */
@@ -34,7 +32,7 @@ const QUIET_FOCUS = { preventScroll: true, focusVisible: false } as FocusOptions
 
 /**
  * Art lab (read-only explorer): pick a league player, then browse his card as every variant × finish (with a tier
- * toggle), every pose, all 32 helmets, every uniform and every face. Click (or Enter on) any cell to see it large in
+ * toggle) and every uniform. Click (or Enter on) any cell to see it large in
  * the preview pane with a zoom slider. Only the open tab renders, and cells mount as they scroll into view.
  */
 const ArtLab = ({ open, onClose, cards, total }: ArtLabProps) => {
@@ -63,7 +61,7 @@ const ArtLab = ({ open, onClose, cards, total }: ArtLabProps) => {
             <DialogTitle className="font-display text-2xl uppercase italic">
               Art <span className="text-gold">lab</span>
             </DialogTitle>
-            <DialogDescription className="lab__desc">Every variant, finish, pose, helmet, uniform and face. Preview only; nothing is added.</DialogDescription>
+            <DialogDescription className="lab__desc">Every variant, finish and uniform. Preview only; nothing is added.</DialogDescription>
           </div>
           <PlayerPicker players={league} value={pick} onPick={onPick} />
         </div>

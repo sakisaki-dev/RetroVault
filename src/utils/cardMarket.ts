@@ -22,7 +22,7 @@ import { TIERS, tierFor, type Finish, type Tier, type Variant } from '@/config/c
  * into the Hall of Fame adds another 25%. A thin tier is worth more than a crowded one.
  * Finish multipliers (FINISH_MULTIPLIER): Base ×1, Silver ×1.5, Gold ×2.5, Holo ×6.
  * Art variant multipliers (VARIANT_MULTIPLIER), on top: Prizm number ×1, Team jersey ×1.2, 70s Topps ×1.8,
- * Locker stall ×2.5, Retro Bowl sprite ×5. A card that rolled an alternate uniform (8% of cards for clubs that have
+ * Locker stall ×2.5 (the Retro Bowl sprite ×5 went with the sprite art). A card that rolled an alternate uniform (8% of cards for clubs that have
  * one, see art/sprite/uniforms.ts) is worth ALT_VALUE_BONUS (×1.1) more. A card's price is value × finish × variant
  * (× the alternate bonus; an era kit, 2% of cards, ERA_VALUE_BONUS ×1.15) (cardPrice).
  *
@@ -38,7 +38,7 @@ export const HOF_MULTIPLIER = 1.25;
 /** Career Legacy that earns the Hall of Fame price premium: the original 7,000 line, kept when the induction bar rose so card prices did not jump. */
 const HOF_PREMIUM_LEGACY = 7000;
 export const FINISH_MULTIPLIER: Record<Finish, number> = { base: 1, silver: 1.5, gold: 2.5, holo: 6 };
-export const VARIANT_MULTIPLIER: Record<Variant, number> = { number: 1, jersey: 1.2, topps: 1.8, locker: 2.5, sprite: 5 };
+export const VARIANT_MULTIPLIER: Record<Variant, number> = { number: 1, jersey: 1.2, topps: 1.8, locker: 2.5 };
 /** Market bonus for a card wearing an alternate uniform (re-exported by art/sprite/uniforms.ts) */
 export const ALT_VALUE_BONUS = 1.1;
 /** Market bonus for a card wearing a famous era kit (rarer: 2% of cards for clubs that have one) */

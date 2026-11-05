@@ -430,13 +430,11 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
   const fresh = pack.filter((c) => c.isNew).length;
   const holos = pack.filter((c) => c.finish === 'holo').length;
   const legends = pack.filter((c) => c.tier === 'legendary').length;
-  const sprites = pack.filter((c) => c.variant === 'sprite').length;
   const summaryLine = () => {
     if (preview) return 'Preview only. Nothing was added to your binder.';
     const parts = [`${fresh} new`];
     if (legends) parts.push(`${legends} Legendary`);
     if (holos) parts.push(`${holos} Holo`);
-    if (sprites) parts.push(`${sprites} Sprite`);
     return parts.join(' · ');
   };
   const description =
@@ -575,7 +573,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                   <li
                     key={`${info.key}-${i}`}
                     ref={(el) => (cardEls.current[i] = el)}
-                    className={cn('pk-flip', `pk-flip--${c.tier}`, `pk-flip--f-${c.finish}`, shown && 'pk-flip--open', isBest && 'pk-flip--best', c.variant === 'sprite' && shown && 'pk-flip--sprite')}
+                    className={cn('pk-flip', `pk-flip--${c.tier}`, `pk-flip--f-${c.finish}`, shown && 'pk-flip--open', isBest && 'pk-flip--best')}
                     style={{ '--i': i, '--off': i - (pack.length - 1) / 2 } as CSSProperties}
                   >
                     <div className="pk-flip__inner">

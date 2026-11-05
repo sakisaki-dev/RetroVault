@@ -15,8 +15,8 @@ import { HubRouteContext, useHashRoute } from '@/components/stats/hub/hashRoute'
 import { Helmet } from 'react-helmet-async';
 import { decodeProgress, importProgress } from '@/utils/deviceSync';
 
-// Every tab is its own chunk, loaded the first time it is opened (the Collection one carries the card art, the
-// sprite engine and pack opening; the Art lab and Card designs split off again inside it).
+// Every tab is its own chunk, loaded the first time it is opened (the Collection one carries the card art and
+// pack opening; the Art lab and Card designs split off again inside it).
 const CareerTab = lazy(() => import('@/components/tabs/CareerTab'));
 const HallOfFameTab = lazy(() => import('@/components/tabs/HallOfFameTab'));
 const GamesTab = lazy(() => import('@/components/tabs/GamesTab'));
