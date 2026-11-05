@@ -716,6 +716,24 @@
     "speech": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-04-eagles-trades",
+   "dir": "data/uploads/2026-11-04-eagles-trades",
+   "applied_at": "2026-11-04T22:04:43-08:00",
+   "mutations": {
+    "stats": 3
+   },
+   "changed": 3
+  },
+  {
+   "id": "2026-11-04-adam-heath",
+   "dir": "data/uploads/2026-11-04-adam-heath",
+   "applied_at": "2026-11-04T22:05:18-08:00",
+   "mutations": {
+    "stats": 2
+   },
+   "changed": 2
   }
  ]
 }

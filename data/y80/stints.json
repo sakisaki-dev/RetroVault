@@ -2959,23 +2959,35 @@
  "Siran Spector": {
   "stints": [
    {
-    "team": "Falcons",
-    "from": 80,
-    "to": 83,
+    "team": "Jets",
+    "from": 81,
+    "to": 84,
     "rings": [
-     83
+     82
     ]
    },
    {
-    "team": "Eagles",
-    "from": 84,
+    "team": "Texans",
+    "from": 85,
     "to": 87,
     "rings": []
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "1 ring = Falcons Y83. His known clubs (Eagles) can't account for every ring, so the best fit adds a stop: Falcons Y80-83, Eagles Y84-87.",
+  "evidence": "1 ring = Jets Y82. His known clubs (Texans) can't account for every ring, so the best fit adds a stop: Jets Y81-84, Texans Y85-87.",
   "alternatives": [
+   [
+    {
+     "team": "Falcons",
+     "from": 81,
+     "to": 83
+    },
+    {
+     "team": "Texans",
+     "from": 84,
+     "to": 87
+    }
+   ],
    [
     {
      "team": "Jets",
@@ -2983,20 +2995,8 @@
      "to": 81
     },
     {
-     "team": "Eagles",
+     "team": "Texans",
      "from": 82,
-     "to": 87
-    }
-   ],
-   [
-    {
-     "team": "Jets",
-     "from": 81,
-     "to": 83
-    },
-    {
-     "team": "Eagles",
-     "from": 84,
      "to": 87
     }
    ]
@@ -3068,6 +3068,12 @@
  "Vyncint Heath": {
   "stints": [
    {
+    "team": "Eagles",
+    "from": 81,
+    "to": 81,
+    "rings": []
+   },
+   {
     "team": "Jets",
     "from": 82,
     "to": 82,
@@ -3088,18 +3094,24 @@
     ]
    }
   ],
-  "confidence": "confirmed",
-  "evidence": "6 rings = Jets Y82; Falcons Y83, Y84, Y85, Y86, Y87. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “Traded from the Jets to the Falcons in a multi-team trade before Y83.”"
+  "confidence": "strong",
+  "evidence": "6 rings = Jets Y82; Falcons Y83, Y84, Y85, Y86, Y87. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “Traded from the Jets to the Falcons in a multi-team trade before Y83.” The only window that fits."
  },
  "Dwayne Skura": {
   "stints": [
    {
     "team": "Jets",
     "from": 81,
-    "to": 87,
+    "to": 85,
     "rings": [
      82
     ]
+   },
+   {
+    "team": "Eagles",
+    "from": 86,
+    "to": 87,
+    "rings": []
    }
   ],
   "confidence": "strong",
@@ -3503,23 +3515,17 @@
   "stints": [
    {
     "team": "Falcons",
-    "from": 84,
-    "to": 86,
-    "rings": [
-     84,
-     85,
-     86
-    ]
-   },
-   {
-    "team": "Eagles",
-    "from": 87,
+    "from": 85,
     "to": 87,
-    "rings": []
+    "rings": [
+     85,
+     86,
+     87
+    ]
    }
   ],
-  "confidence": "ambiguous",
-  "evidence": "3 rings = Falcons Y84, Y85, Y86. His known clubs (Eagles) can't account for every ring, so the best fit adds a stop: Falcons Y84-86, Eagles Y87."
+  "confidence": "strong",
+  "evidence": "3 rings = Falcons Y85, Y86, Y87. The only window that fits."
  },
  "Kahzin Heath": {
   "stints": [
@@ -3732,8 +3738,8 @@
  "Gerrit Ogbah": {
   "stints": [
    {
-    "team": "Texans",
-    "from": 86,
+    "team": "Eagles",
+    "from": 85,
     "to": 87,
     "rings": []
    }

@@ -1,0 +1,36 @@
+{
+ "id": "2026-11-04-eagles-trades",
+ "created": "2026-11-04",
+ "title": "Y88 trades: Ogbah to the Eagles for Spector (to the Texans); Dwayne Skura to the Eagles",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Gerrit Ogbah/team",
+   "value": "Eagles",
+   "source": "owner",
+   "reason": "Owner: \"siran spector got traded for ogbah, heath got traded for apollo, dwayne skura got traded to the eagles\" (traded to the Eagles, from the Texans, for Siran Spector)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Siran Spector/team",
+   "value": "Texans",
+   "source": "owner",
+   "reason": "Owner: \"siran spector got traded for ogbah, heath got traded for apollo, dwayne skura got traded to the eagles\" (traded to the Texans for Gerrit Ogbah)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dwayne Skura/team",
+   "value": "Eagles",
+   "source": "owner",
+   "reason": "Owner: \"siran spector got traded for ogbah, heath got traded for apollo, dwayne skura got traded to the eagles\" (traded to the Eagles, from the Jets)",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}

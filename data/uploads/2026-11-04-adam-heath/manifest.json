@@ -1,0 +1,27 @@
+{
+ "id": "2026-11-04-adam-heath",
+ "created": "2026-11-04",
+ "title": "Y88 trade: Apollo Adam (Eagles) to the Falcons for Vyncint Heath",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Apollo Adam/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: \"apollo adam was on the eagles, he got traded for vyncent heath on the falcons\" (was on the Eagles; traded to the Falcons for Vyncint Heath)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Vyncint Heath/team",
+   "value": "Eagles",
+   "source": "owner",
+   "reason": "Owner: \"apollo adam was on the eagles, he got traded for vyncent heath on the falcons\" (traded to the Eagles, from the Falcons, for Apollo Adam)",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}

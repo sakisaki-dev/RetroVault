@@ -41,7 +41,7 @@
    "team": "Packers"
   },
   "Apollo Adam": {
-   "team": "Eagles"
+   "team": "Falcons"
   },
   "Aqib McClain": {
    "team": "49ers"
@@ -244,6 +244,9 @@
   "Dustin Milton": {
    "team": "Patriots"
   },
+  "Dwayne Skura": {
+   "team": "Eagles"
+  },
   "Dylan Hyatt": {
    "retired_with": "Jets",
    "status": "Retired",
@@ -270,7 +273,7 @@
    "signature_team": "Broncos"
   },
   "Gerrit Ogbah": {
-   "team": "Texans"
+   "team": "Eagles"
   },
   "God Johnson": {
    "retired_with": "Vikings"
@@ -760,7 +763,7 @@
    }
   },
   "Siran Spector": {
-   "team": "Eagles"
+   "team": "Texans"
   },
   "Spencer Daniels": {
    "team": "Jaguars",
@@ -854,7 +857,7 @@
    "status": "Retired"
   },
   "Vyncint Heath": {
-   "team": "Falcons",
+   "team": "Eagles",
    "career": {
     "order": [
      "Jets",
