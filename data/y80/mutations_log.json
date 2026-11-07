@@ -863,6 +863,15 @@
     "stats": 3
    },
    "changed": 9
+  },
+  {
+   "id": "2026-11-07-y89-eagles-roster",
+   "dir": "data/uploads/2026-11-07-y89-eagles-roster",
+   "applied_at": "2026-11-07T13:05:37-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
   }
  ]
 }

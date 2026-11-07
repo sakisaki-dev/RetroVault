@@ -1,0 +1,29 @@
+{
+ "id": "2026-11-07-y89-eagles-roster",
+ "created": "2026-11-07",
+ "title": "Y89 Eagles roster (10): Dotson and Zuber in for McPhee and Roberts",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "active_rosters/Eagles",
+   "value": [
+    "Akiem Brock",
+    "Bones Crawford",
+    "Bryant Zappe",
+    "Dwayne Skura",
+    "Gerrit Ogbah",
+    "Kaulani Rahman",
+    "Kenyon Shaheed",
+    "Koa Zuber",
+    "Snoop Dotson",
+    "Vyncint Heath"
+   ],
+   "source": "owner",
+   "reason": "Owner: \"the eagles roster was crawford, ogbah, shaheeed, rahman, heath, brock, dotson, zuberm skura and zappe\" (Y89; no roster screen in the upload)",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}
