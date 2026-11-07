@@ -798,6 +798,71 @@
     "stats": 8
    },
    "changed": 6
+  },
+  {
+   "id": "2026-11-07-y89",
+   "dir": "data/uploads/2026-11-07-y89",
+   "applied_at": "2026-11-07T12:41:15-08:00",
+   "mutations": {
+    "stats": 85
+   },
+   "changed": 528
+  },
+  {
+   "id": "2026-11-07-y89-teams",
+   "dir": "data/uploads/2026-11-07-y89-teams",
+   "applied_at": "2026-11-07T12:44:04-08:00",
+   "mutations": {
+    "stats": 16,
+    "speech": 1
+   },
+   "changed": 17
+  },
+  {
+   "id": "2026-11-07-y89-teams2",
+   "dir": "data/uploads/2026-11-07-y89-teams2",
+   "applied_at": "2026-11-07T12:45:45-08:00",
+   "mutations": {
+    "stats": 4,
+    "speech": 4
+   },
+   "changed": 8
+  },
+  {
+   "id": "2026-11-07-y89-roberts",
+   "dir": "data/uploads/2026-11-07-y89-roberts",
+   "applied_at": "2026-11-07T12:54:26-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-07-story-refresh",
+   "dir": "data/uploads/2026-11-07-story-refresh",
+   "applied_at": "2026-11-07T12:55:27-08:00",
+   "mutations": {
+    "story": 2
+   },
+   "changed": 2
+  },
+  {
+   "id": "2026-11-07-story-y89",
+   "dir": "data/uploads/2026-11-07-story-y89",
+   "applied_at": "2026-11-07T12:56:00-08:00",
+   "mutations": {
+    "story": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-07-y89-extra",
+   "dir": "data/uploads/2026-11-07-y89-extra",
+   "applied_at": "2026-11-07T13:00:36-08:00",
+   "mutations": {
+    "stats": 3
+   },
+   "changed": 9
   }
  ]
 }

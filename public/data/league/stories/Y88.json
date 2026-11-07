@@ -1,7 +1,7 @@
 {
  "season": "Y88",
  "tagline": "Skura's first season in Philadelphia ends with Super Bowl CXLVII, a record debut for Bones Crawford, a third OPOY for Vyncint Heath and two new Hall of Famers.",
- "upload": "2026-11-05-story-y88",
+ "upload": "2026-11-07-story-refresh",
  "articles": [
   {
    "id": "y88-eagles-title",
@@ -11,7 +11,7 @@
    "body": [
     "A new city, a new roster and the same ending. Dorren Skura left Atlanta after five straight championships, took over the Philadelphia Eagles, and won again. The Eagles finished the regular season 14-2-1, beat the Falcons and the Packers at home in the playoffs, and handled the Denver Broncos 40-22 in Super Bowl CXLVII.",
     "It is the Eagles' first title since Y4, when they also beat Denver, 36-28. In between, Philadelphia lost five Super Bowls, the last of them a 46-8 defeat by Skura's own Jets in Y82. The coach who handed the Eagles that loss has now delivered the parade.",
-    "The quarterback was a newcomer. Bones Crawford, on his first card, completed 369 of 435 passes for 5,922 yards and 69 touchdowns, then was named Super Bowl MVP. His favorite targets were two receivers built for volume. Vyncint Heath, acquired from Atlanta, caught 140 passes for 2,204 yards and 28 touchdowns and won his third Offensive Player of the Year award. Kaulani Rahman, another new card, added 2,247 yards on 124 catches.",
+    "The quarterback was a newcomer. Bones Crawford, on his first card, threw for 5,922 yards and 69 touchdowns, then was named Super Bowl MVP. His favorite targets were two receivers built for volume. Vyncint Heath, acquired from Atlanta, caught 140 passes for 2,204 yards and 28 touchdowns and won his third Offensive Player of the Year award. Kaulani Rahman, another new card, added 2,247 yards on 124 catches.",
     "The road ran straight through Skura's old house. Atlanta, still led by Ryland Maxwell, reached the playoffs and met the Eagles in Philadelphia, and the Eagles ended the Falcons' title run there. Green Bay, with Most Valuable Player Solomon Toohill, fell the same way a round later.",
     "Two losses, one tie and a championship in the first year of a rebuild is a remarkable debut. For Skura it is something more familiar: one more season that ended with a trophy, this time in a third city."
    ],
@@ -51,24 +51,14 @@
      "source": "super_bowls.json Y82 score"
     },
     {
-     "label": "Crawford completions",
-     "value": "369",
-     "source": "players.json QB:Bones Crawford cmp"
-    },
-    {
-     "label": "Crawford attempts",
-     "value": "435",
-     "source": "players.json QB:Bones Crawford att"
-    },
-    {
      "label": "Crawford passing yards",
      "value": "5,922",
-     "source": "players.json QB:Bones Crawford yds"
+     "source": "market_history.json snap-202611051056 QB:Bones Crawford s.yds"
     },
     {
      "label": "Crawford TD passes",
      "value": "69",
-     "source": "players.json QB:Bones Crawford td"
+     "source": "market_history.json snap-202611051056 QB:Bones Crawford s.td"
     },
     {
      "label": "Heath catches (Y88)",
@@ -88,12 +78,12 @@
     {
      "label": "Rahman yards",
      "value": "2,247",
-     "source": "players.json WR:Kaulani Rahman yds"
+     "source": "market_history.json snap-202611051056 WR:Kaulani Rahman s.yds"
     },
     {
      "label": "Rahman catches",
      "value": "124",
-     "source": "players.json WR:Kaulani Rahman rec"
+     "source": "market_history.json snap-202611051056 WR:Kaulani Rahman s.rec"
     }
    ],
    "related": [
@@ -106,8 +96,8 @@
    "headline": "Bones Crawford Arrives With 69 Touchdown Passes and a Super Bowl MVP",
    "dek": "The Eagles quarterback put up one of the great debut cards in league history: 5,922 yards in 20 games.",
    "body": [
-    "Few quarterbacks on a card have opened a career like Bones Crawford. In his first 20 games he threw for 5,922 yards and 69 touchdowns, completing 369 of his 435 attempts, and he capped the season as the Super Bowl MVP in Philadelphia's win over Denver.",
-    "The profile is aggressive. Crawford averaged 16.0 yards per completion, a quarterback who throws downfield and trusts his receivers to win the ball, and the cost was 26 interceptions. On an offense with Vyncint Heath and Kaulani Rahman, that bargain paid off week after week.",
+    "Few quarterbacks on a card have opened a career like Bones Crawford. In his first 20 games he threw for 5,922 yards and 69 touchdowns, and he capped the season as the Super Bowl MVP in Philadelphia's win over Denver.",
+    "The profile is aggressive. Crawford averaged 296 passing yards and more than three touchdown passes a game, a quarterback who attacks downfield and trusts his receivers to win the ball, and the cost was 26 interceptions. On an offense with Vyncint Heath and Kaulani Rahman, that bargain paid off week after week.",
     "The market has not caught up yet. His card opens at an overall of 62, because overall rewards a long career, but his skill grade is already an S. If the next seasons look anything like this one, that overall will not stay low for long."
    ],
    "players": [
@@ -123,42 +113,32 @@
     {
      "label": "Crawford TD passes",
      "value": "69",
-     "source": "players.json QB:Bones Crawford td"
+     "source": "market_history.json snap-202611051056 QB:Bones Crawford s.td"
     },
     {
      "label": "Crawford games",
      "value": "20",
-     "source": "players.json QB:Bones Crawford g"
+     "source": "market_history.json snap-202611051056 QB:Bones Crawford s.g"
     },
     {
      "label": "Crawford passing yards",
      "value": "5,922",
-     "source": "players.json QB:Bones Crawford yds"
-    },
-    {
-     "label": "Crawford completions",
-     "value": "369",
-     "source": "players.json QB:Bones Crawford cmp"
-    },
-    {
-     "label": "Crawford attempts",
-     "value": "435",
-     "source": "players.json QB:Bones Crawford att"
-    },
-    {
-     "label": "Yards per completion",
-     "value": "16.0",
-     "source": "players.json QB:Bones Crawford yds/cmp"
+     "source": "market_history.json snap-202611051056 QB:Bones Crawford s.yds"
     },
     {
      "label": "Interceptions",
      "value": "26",
-     "source": "players.json QB:Bones Crawford int"
+     "source": "market_history.json snap-202611051056 QB:Bones Crawford s.int"
     },
     {
      "label": "Overall",
      "value": "62",
      "source": "market_history.json snap-202611051056 QB:Bones Crawford ovr"
+    },
+    {
+     "label": "Passing yards per game",
+     "value": "296",
+     "source": "market_history.json snap-202611051056 QB:Bones Crawford s.yds/s.g"
     }
    ],
    "related": []
@@ -200,12 +180,12 @@
     {
      "label": "Heath OPOY awards",
      "value": "3",
-     "source": "players.json WR:Vyncint Heath opoy"
+     "source": "market_history.json snap-202611051056 WR:Vyncint Heath s.opoy"
     },
     {
      "label": "Heath rings",
      "value": "7",
-     "source": "players.json WR:Vyncint Heath rings"
+     "source": "market_history.json snap-202611051056 WR:Vyncint Heath s.rings"
     },
     {
      "label": "Heath overall before",
@@ -225,7 +205,7 @@
     {
      "label": "Adam OPOY awards",
      "value": "2",
-     "source": "players.json WR:Apollo Adam opoy"
+     "source": "market_history.json snap-202611051056 WR:Apollo Adam s.opoy"
     },
     {
      "label": "Adam catches (Y88)",
@@ -330,7 +310,7 @@
     {
      "label": "Crawford passing yards",
      "value": "5,922",
-     "source": "players.json QB:Bones Crawford yds"
+     "source": "market_history.json snap-202611051056 QB:Bones Crawford s.yds"
     },
     {
      "label": "Ogbah games (Y88)",
@@ -473,12 +453,12 @@
    "id": "y88-hof",
    "kind": "milestone",
    "headline": "McClain and Orzech: Two One-Club Linemen Enter the Hall",
-   "dek": "The 49ers and Cowboys defensive linemen both crossed Career Legacy 7,500, and McClain sits one tackle from a record.",
+   "dek": "The 49ers and Cowboys defensive linemen both crossed Career Legacy 7,500, and McClain finished the season one tackle from a record.",
    "body": [
     "The Y88 Hall of Fame class belongs to the trenches. Aqib McClain of the 49ers and Keion Orzech of the Cowboys, two defensive linemen who have spent their whole careers with one club, both pushed their Career Legacy past 7,500.",
-    "McClain is the more remarkable case. He has 1,363 career tackles, one fewer than Lloyd Queen's 1,364, the most by any defensive lineman on a card, and he has made them at a faster pace. He added 97 tackles this season, and his card's value more than doubled, up 113%.",
-    "Orzech came into the league as Rookie of the Year and has made 1,296 tackles in 271 games. His signature is unusual for a lineman: 6 career interceptions, more than any of the great tacklers at his position.",
-    "Neither has a ring. Both now have a place in the Hall."
+    "McClain is the more remarkable case. He finished Y88 with 1,363 career tackles, one fewer than Lloyd Queen's 1,364, the most by any defensive lineman on a card, and he had made them at a faster pace. He added 97 tackles this season, and his card's value more than doubled, up 113%.",
+    "Orzech came into the league as Rookie of the Year and by the end of Y88 had made 1,296 tackles in 271 games. His signature is unusual for a lineman: 6 career interceptions, more than any of the great tacklers at his position.",
+    "Neither had won a ring. Both now have a place in the Hall."
    ],
    "players": [
     "Aqib McClain",
@@ -498,17 +478,17 @@
     {
      "label": "McClain career tackles",
      "value": "1,363",
-     "source": "players.json DL:Aqib McClain tkl"
+     "source": "market_history.json snap-202611051056 DL:Aqib McClain s.tkl"
     },
     {
      "label": "Queen career tackles",
      "value": "1,364",
-     "source": "players.json DL:Lloyd Queen tkl"
+     "source": "market_history.json snap-202611051056 DL:Lloyd Queen s.tkl"
     },
     {
      "label": "Tackles behind Queen",
      "value": "1",
-     "source": "players.json DL:Lloyd Queen tkl minus players.json DL:Aqib McClain tkl"
+     "source": "market_history.json snap-202611051056 DL:Lloyd Queen s.tkl minus market_history.json snap-202611051056 DL:Aqib McClain s.tkl"
     },
     {
      "label": "McClain tackles (Y88)",
@@ -523,17 +503,17 @@
     {
      "label": "Orzech career tackles",
      "value": "1,296",
-     "source": "players.json DL:Keion Orzech tkl"
+     "source": "market_history.json snap-202611051056 DL:Keion Orzech s.tkl"
     },
     {
      "label": "Orzech games",
      "value": "271",
-     "source": "players.json DL:Keion Orzech g"
+     "source": "market_history.json snap-202611051056 DL:Keion Orzech s.g"
     },
     {
      "label": "Orzech interceptions",
      "value": "6",
-     "source": "players.json DL:Keion Orzech int"
+     "source": "market_history.json snap-202611051056 DL:Keion Orzech s.int"
     }
    ],
    "related": []
@@ -542,10 +522,10 @@
    "id": "y88-diggs",
    "kind": "chase",
    "headline": "Diggs Passes 20,000 Yards and Takes the Rushing Touchdown Lead",
-   "dek": "The Jaguars back now has more rushing touchdowns than anyone on a card and is closing on Ikarras for yards.",
+   "dek": "The Jaguars back moved past Trequan Jensen for the most rushing touchdowns on a card and closed in on Ikarras for yards.",
    "body": [
     "Danny Diggs has been chasing names for years. In Y88 he caught one of them. The Jaguars back scored 22 rushing touchdowns, which lifted his career total to 393 and past Trequan Jensen's 388, the most by any back on a card.",
-    "He also ran for 1,139 yards and went past 20,000 career rushing yards. Only Rondale Ikarras, \"The Prodigal Son\", has more, with 23,178, and Diggs is now 2,853 yards behind him. At his recent pace that is two to three more full seasons, so the chase is real but not close.",
+    "He also ran for 1,139 yards and went past 20,000 career rushing yards. Only Rondale Ikarras, \"The Prodigal Son\", had more, with 23,178, and Diggs ended Y88 2,853 yards behind him. At his recent pace that is two to three more full seasons, so the chase is real but not close.",
     "Diggs has done it without a ring or an individual award. His card's overall rose to 95. For a player still waiting on a title, the record book is becoming the trophy case."
    ],
    "players": [
@@ -565,12 +545,12 @@
     {
      "label": "Diggs career rushing TDs",
      "value": "393",
-     "source": "players.json RB:Danny Diggs rtd"
+     "source": "market_history.json snap-202611051056 RB:Danny Diggs s.rtd"
     },
     {
      "label": "Jensen career rushing TDs",
      "value": "388",
-     "source": "players.json RB:Trequan Jensen rtd"
+     "source": "market_history.json snap-202611051056 RB:Trequan Jensen s.rtd"
     },
     {
      "label": "Diggs rushing yards (Y88)",
@@ -585,12 +565,12 @@
     {
      "label": "Ikarras career rushing yards",
      "value": "23,178",
-     "source": "players.json RB:Rondale Ikarras ryds"
+     "source": "market_history.json snap-202611051056 RB:Rondale Ikarras s.ryds"
     },
     {
      "label": "Diggs behind Ikarras",
      "value": "2,853",
-     "source": "players.json RB:Rondale Ikarras ryds minus players.json RB:Danny Diggs ryds"
+     "source": "market_history.json snap-202611051056 RB:Rondale Ikarras s.ryds minus market_history.json snap-202611051056 RB:Danny Diggs s.ryds"
     },
     {
      "label": "Diggs overall",
@@ -606,9 +586,9 @@
    "headline": "A Champion Built on New Cards",
    "dek": "Rahman, Shaheed and Brock joined Crawford as first-time cards on the title team, and Cairo Colbert arrived with a long career already behind him.",
    "body": [
-    "Philadelphia won with a roster full of unfamiliar names. Beyond Bones Crawford, the Eagles fielded three more players on their first cards. Kaulani Rahman caught 124 passes for 2,247 yards. Kenyon Shaheed, a tight end, caught 63 for 967 yards and 14 touchdowns in 18 of the Eagles' 20 games, so he missed time; injury may have been a factor. Akiem Brock made 60 blocks in 20 games, 3.0 a game, the best rate of any lineman on a card.",
+    "Philadelphia won with a roster full of unfamiliar names. Beyond Bones Crawford, the Eagles fielded three more players on their first cards. Kaulani Rahman caught 124 passes for 2,247 yards. Kenyon Shaheed, a tight end, caught 63 for 967 yards and 14 touchdowns in 18 of the Eagles' 20 games, so he missed time; injury may have been a factor. Akiem Brock made 60 blocks in 20 games, 3.0 a game, at the time the best career rate of any lineman on a card.",
     "All of them won a ring in their first season, and Brock's skill grade opens at an S.",
-    "The pool also gained a veteran it had never tracked. Cairo Colbert arrives with 228 games, 16,993 rushing yards and 288 rushing touchdowns, a career long enough that his first card already carries an overall of 85. Tight ends Rodger Samuel and Treyvon Scott, linebacker Khaleke Hyder and defensive lineman Deshone Bello also joined the market with long careers behind them."
+    "The pool also gained a veteran it had never tracked. Cairo Colbert arrived with 228 games, 16,993 rushing yards and 288 rushing touchdowns, a career long enough that his first card already carries an overall of 85. Tight ends Rodger Samuel and Treyvon Scott, linebacker Khaleke Hyder and defensive lineman Deshone Bello also joined the market with long careers behind them."
    ],
    "players": [
     "Bones Crawford",
@@ -628,32 +608,32 @@
     {
      "label": "Rahman catches",
      "value": "124",
-     "source": "players.json WR:Kaulani Rahman rec"
+     "source": "market_history.json snap-202611051056 WR:Kaulani Rahman s.rec"
     },
     {
      "label": "Rahman yards",
      "value": "2,247",
-     "source": "players.json WR:Kaulani Rahman yds"
+     "source": "market_history.json snap-202611051056 WR:Kaulani Rahman s.yds"
     },
     {
      "label": "Shaheed catches",
      "value": "63",
-     "source": "players.json TE:Kenyon Shaheed rec"
+     "source": "market_history.json snap-202611051056 TE:Kenyon Shaheed s.rec"
     },
     {
      "label": "Shaheed yards",
      "value": "967",
-     "source": "players.json TE:Kenyon Shaheed yds"
+     "source": "market_history.json snap-202611051056 TE:Kenyon Shaheed s.yds"
     },
     {
      "label": "Shaheed TDs",
      "value": "14",
-     "source": "players.json TE:Kenyon Shaheed td"
+     "source": "market_history.json snap-202611051056 TE:Kenyon Shaheed s.td"
     },
     {
      "label": "Shaheed games",
      "value": "18",
-     "source": "players.json TE:Kenyon Shaheed g"
+     "source": "market_history.json snap-202611051056 TE:Kenyon Shaheed s.g"
     },
     {
      "label": "Eagles games (Y88)",
@@ -663,32 +643,32 @@
     {
      "label": "Brock blocks",
      "value": "60",
-     "source": "players.json OL:Akiem Brock blk"
+     "source": "market_history.json snap-202611051056 OL:Akiem Brock s.blk"
     },
     {
      "label": "Brock games",
      "value": "20",
-     "source": "players.json OL:Akiem Brock g"
+     "source": "market_history.json snap-202611051056 OL:Akiem Brock s.g"
     },
     {
      "label": "Brock blocks per game",
      "value": "3.0",
-     "source": "players.json OL:Akiem Brock blk/g"
+     "source": "market_history.json snap-202611051056 OL:Akiem Brock s.blk/s.g"
     },
     {
      "label": "Colbert games",
      "value": "228",
-     "source": "players.json RB:Cairo Colbert g"
+     "source": "market_history.json snap-202611051056 RB:Cairo Colbert s.g"
     },
     {
      "label": "Colbert rushing yards",
      "value": "16,993",
-     "source": "players.json RB:Cairo Colbert ryds"
+     "source": "market_history.json snap-202611051056 RB:Cairo Colbert s.ryds"
     },
     {
      "label": "Colbert rushing TDs",
      "value": "288",
-     "source": "players.json RB:Cairo Colbert rtd"
+     "source": "market_history.json snap-202611051056 RB:Cairo Colbert s.rtd"
     },
     {
      "label": "Colbert overall",
@@ -708,7 +688,7 @@
    "body": [
     "Kahzin Heath threw for 3,870 yards and 30 touchdowns in 21 games and took the Broncos to Super Bowl CXLVII.",
     "Ty Lock of the Giants threw 38 touchdown passes and only 1 interception.",
-    "Kalif Suh of the Jets added 3 sacks and now has 24, and his card's overall rose from 87 to 90.",
+    "Kalif Suh of the Jets added 3 sacks to reach 24, and his card's overall rose from 87 to 90.",
     "Linval Laulile of the Steelers intercepted 5 passes, and his card's value rose 219%.",
     "Trequan Roberts won his third ring with the Eagles but appeared in 17 of their 20 games, missing time that may have included an injury.",
     "Dwayne Skura made 169 tackles in his first Eagles season and collected his second ring.",
@@ -765,7 +745,7 @@
     {
      "label": "Suh career sacks",
      "value": "24",
-     "source": "players.json LB:Kalif Suh sck"
+     "source": "market_history.json snap-202611051056 LB:Kalif Suh s.sck"
     },
     {
      "label": "Suh overall before",
@@ -790,7 +770,7 @@
     {
      "label": "Roberts rings",
      "value": "3",
-     "source": "players.json DB:Trequan Roberts rings"
+     "source": "market_history.json snap-202611051056 DB:Trequan Roberts s.rings"
     },
     {
      "label": "Roberts games (Y88)",
@@ -810,7 +790,7 @@
     {
      "label": "Skura rings",
      "value": "2",
-     "source": "players.json DB:Dwayne Skura rings"
+     "source": "market_history.json snap-202611051056 DB:Dwayne Skura s.rings"
     },
     {
      "label": "McCray tackles (Y88)",
@@ -842,23 +822,23 @@
     {
      "label": "TD passes",
      "value": "69",
-     "source": "players.json QB:Bones Crawford td"
+     "source": "market_history.json snap-202611051056 QB:Bones Crawford s.td"
     },
     {
      "label": "Games",
      "value": "20",
-     "source": "players.json QB:Bones Crawford g"
+     "source": "market_history.json snap-202611051056 QB:Bones Crawford s.g"
     },
     {
      "label": "TDs per game",
      "value": "3",
-     "source": "players.json QB:Bones Crawford td/g"
+     "source": "market_history.json snap-202611051056 QB:Bones Crawford s.td/s.g"
     }
    ]
   },
   {
    "id": "y88-dyk-brock",
-   "text": "Akiem Brock averaged 3.0 blocks a game in his first 20 games, the best rate of any lineman on a card.",
+   "text": "Akiem Brock averaged 3.0 blocks a game in his first 20 games, at the time the best career rate of any lineman on a card.",
    "players": [
     "Akiem Brock"
    ],
@@ -866,18 +846,18 @@
     {
      "label": "Blocks per game",
      "value": "3.0",
-     "source": "players.json OL:Akiem Brock blk/g"
+     "source": "market_history.json snap-202611051056 OL:Akiem Brock s.blk/s.g"
     },
     {
      "label": "Games",
      "value": "20",
-     "source": "players.json OL:Akiem Brock g"
+     "source": "market_history.json snap-202611051056 OL:Akiem Brock s.g"
     }
    ]
   },
   {
    "id": "y88-dyk-mcclain",
-   "text": "Aqib McClain has 1,363 career tackles, one behind Lloyd Queen for the most by a defensive lineman.",
+   "text": "Aqib McClain finished Y88 with 1,363 career tackles, one behind Lloyd Queen for the most by a defensive lineman.",
    "players": [
     "Aqib McClain",
     "Lloyd Queen"
@@ -886,7 +866,7 @@
     {
      "label": "McClain tackles",
      "value": "1,363",
-     "source": "players.json DL:Aqib McClain tkl"
+     "source": "market_history.json snap-202611051056 DL:Aqib McClain s.tkl"
     }
    ]
   },

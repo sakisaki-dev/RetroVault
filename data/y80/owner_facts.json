@@ -21,6 +21,9 @@
   "Alohi Godwin": {
    "retired_with": "Seahawks"
   },
+  "Alton Yeldon": {
+   "team": "Seahawks"
+  },
   "Alvin Tufele": {
    "team_history": [
     "Seahawks"
@@ -47,6 +50,9 @@
   "Andrew Biegel": {
    "team": "Texans"
   },
+  "Angelo Jensen": {
+   "team": "Rams"
+  },
   "Angelo Moton": {
    "team": "Packers"
   },
@@ -57,7 +63,8 @@
    "team": "49ers"
   },
   "Asante Biadasz": {
-   "team": "Cardinals"
+   "team": "Cardinals",
+   "status": "Retired"
   },
   "Avonte Gooden": {
    "tag": "QB of the Commanders four-peat (Y16–19)",
@@ -239,6 +246,9 @@
   "Danny Diggs": {
    "team": "Jaguars"
   },
+  "Daren Teamer": {
+   "team": "Bills"
+  },
   "Darrel Longa": {
    "status": "Retired"
   },
@@ -291,6 +301,7 @@
   },
   "Drake Wise": {
    "team": "Ravens",
+   "status": "Retired",
    "career": {
     "order": [
      "Giants",
@@ -318,6 +329,9 @@
     "says": "Let walk by the Jets after Y81, then left the NFL (retired); last club the Jets."
    }
   },
+  "Earl Boehm": {
+   "team": "Bills"
+  },
   "Eric Raimann": {
    "status": "Retired",
    "career": {
@@ -343,6 +357,9 @@
   "Forrest Isom": {
    "status": "Retired"
   },
+  "George Donkor": {
+   "team": "Raiders"
+  },
   "Germain Coulter": {
    "status": "Retired"
   },
@@ -353,10 +370,11 @@
    "retired_with": "Vikings"
   },
   "Grunky Felton": {
-   "team": "49ers"
+   "team": "49ers",
+   "status": "Retired"
   },
   "Hamp McPhee": {
-   "team": "Eagles"
+   "team": "Ravens"
   },
   "Hamsfa Boltt": {
    "team": "FA",
@@ -513,6 +531,9 @@
   "Juawan Lance": {
    "status": "Retired"
   },
+  "Juju Ngakoue": {
+   "team": "Bills"
+  },
   "Juwann Gilman": {
    "team": "Cardinals",
    "status": "Retired"
@@ -523,6 +544,9 @@
   },
   "Kahzin Heath": {
    "team": "Broncos"
+  },
+  "Kana'i Camper": {
+   "team": "Buccaneers"
   },
   "Kane Van Oxley": {
    "team": "Bears",
@@ -549,8 +573,12 @@
   "Kaulani Rahman": {
    "team": "Eagles"
   },
+  "Keaton Toney": {
+   "team": "Buccaneers"
+  },
   "Keion Orzech": {
-   "team": "Cowboys"
+   "team": "Cowboys",
+   "status": "Retired"
   },
   "Kenyon Shaheed": {
    "team": "Eagles"
@@ -561,6 +589,9 @@
   "Kirk Lenoir": {
    "team": "Jaguars",
    "status": "Retired"
+  },
+  "Koa Zuber": {
+   "team": "Eagles"
   },
   "Kolton Moreau": {
    "status": "Retired"
@@ -617,6 +648,9 @@
    },
    "signature_team": "Titans"
   },
+  "Lewis Pettis": {
+   "team": "Cowboys"
+  },
   "Linval Laulile": {
    "team": "Steelers"
   },
@@ -668,6 +702,9 @@
     "says": "One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons; traded back to the Jets after Y82 for Kane Van Oxley, Ryland Maxwell and Chance Woodrum."
    }
   },
+  "Martin Ward": {
+   "team": "Raiders"
+  },
   "Marvell Rodgers": {
    "team": "Titans"
   },
@@ -713,6 +750,9 @@
     "rings": 2,
     "club": "Chiefs"
    }
+  },
+  "Niles Swoopes": {
+   "team": "Jaguars"
   },
   "Obinna Leary": {
    "team_history": [
@@ -769,6 +809,12 @@
   },
   "Preston Gore": {
    "team": "Texans"
+  },
+  "Pyke T. Lowe": {
+   "status": "Retired"
+  },
+  "Raphael Mosely": {
+   "team": "Rams"
   },
   "Rashaad Bolton": {
    "status": "Retired"
@@ -918,6 +964,9 @@
   "Siran Spector": {
    "team": "Texans"
   },
+  "Snoop Dotson": {
+   "team": "Eagles"
+  },
   "Sony Driskel": {
    "status": "Retired"
   },
@@ -967,7 +1016,7 @@
    }
   },
   "Trequan Roberts": {
-   "team": "Eagles"
+   "team": "Saints"
   },
   "Treyvon Scott": {
    "team": "Packers"
@@ -1005,6 +1054,9 @@
     ],
     "says": "Traded from the Jets to the Giants in a multi-team trade before Y83."
    }
+  },
+  "Tyreek Devalve": {
+   "team": "Buccaneers"
   },
   "Tyrion Kline": {
    "signature_team": "Chargers"

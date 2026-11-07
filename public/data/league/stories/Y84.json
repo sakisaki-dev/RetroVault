@@ -1,7 +1,7 @@
 {
  "season": "Y84",
  "tagline": "A record season on the ground, a second straight title in Atlanta won with key pieces missing time, and two new names in the Hall of Fame.",
- "upload": "2026-10-28-story-y84-v4",
+ "upload": "2026-11-07-story-refresh",
  "articles": [
   {
    "id": "y84-repeat",
@@ -13,7 +13,7 @@
     "This one was won on the ground. Ryland Maxwell ran for 2,272 yards and 27 touchdowns, the best rushing season the record board has ever shown, and finished the job as Super Bowl MVP. He played all 20 games of the run and now owns 4 rings in 97 career games.",
     "The passing game belonged to a newcomer. Orlando Larienne, in his first season, threw for 3,485 yards and 41 touchdowns and left with a ring. He appeared in only 15 of the 20 games, and a team that also saw Vyncint Heath miss time still found a way. Heath, the receiver they call \"Starscream\", caught 119 passes for 2,209 yards anyway and won a second Offensive Player of the Year award.",
     "Up front, Calais Ham made 49 blocks in his first season and has a ring to show for it. Shawn Milne, who came from Tampa Bay in the trade that sent Shareef London the other way, won the first of his career, and Chance Woodrum now has 5.",
-    "Up the coast, the old club had a milestone of its own. Malakai Sawyer ran for 1,551 yards for the Jets and crossed into the Hall of Fame, and in Los Angeles the Rams' Von Horsted joined him in the same class. Two old warhorses went in. The Falcons kept winning."
+    "Up the coast, the old club had a milestone of its own. Malakai Sawyer ran for 1,551 yards for the Jets and crossed into the Hall of Fame, the only member of its Y84 class. In Los Angeles, the Rams' Von Horsted crossed the same line, though he has since fallen out of the Hall. The Falcons kept winning."
    ],
    "players": [
     "Ryland Maxwell",
@@ -382,12 +382,12 @@
   {
    "id": "y84-hall-class",
    "kind": "milestone",
-   "headline": "Two for the Hall: Sawyer and Horsted",
-   "dek": "A back who keeps running for the Jets and a Rams safety who never left Los Angeles both crossed Career Legacy 7,000.",
+   "headline": "Sawyer Stands Alone in the Y84 Hall Class",
+   "dek": "A back who keeps running for the Jets crossed Career Legacy 7,000. A Rams safety who never left Los Angeles crossed it too, but his place did not last.",
    "body": [
-    "The Y84 class has 2 members, and they could hardly be more different. Malakai Sawyer, in his second season back with the Jets, ran for 1,551 yards and 31 touchdowns in 19 games, passed 15,000 career rushing yards and reached a Career Legacy of 7,101. He has 16,436 rushing yards and 299 rushing touchdowns in 243 games, 2 rings and 2 Offensive Player of the Year awards.",
-    "Von Horsted got there one tackle at a time. A Ram since Y70 and nothing else, he played all 17 games, made 231 tackles, 13.6 a game, and intercepted 2 passes. That lifted his career to 2,658 tackles and 33 interceptions in 254 games and his Career Legacy from 6,833 to 7,345. His card's value rose from 3,118 to 4,806.",
-    "Sawyer's résumé is rings and records. Horsted's is a Defensive Player of the Year award and a body of work built entirely in one uniform. Neither has stopped."
+    "The Y84 class has 1 member, and it is Malakai Sawyer. Sawyer, in his second season back with the Jets, ran for 1,551 yards and 31 touchdowns in 19 games, passed 15,000 career rushing yards and reached a Career Legacy of 7,101. He ended Y84 with 16,436 rushing yards and 299 rushing touchdowns in 243 games, 2 rings and 2 Offensive Player of the Year awards.",
+    "Von Horsted got there too, one tackle at a time. A Ram since Y70 and nothing else, he played all 17 games, made 231 tackles, 13.6 a game, and intercepted 2 passes. That lifted his career to 2,658 tackles and 33 interceptions in 254 games and his Career Legacy from 6,833 to 7,345. His card's value rose from 3,118 to 4,806. His Career Legacy has since slipped below the mark the Hall asks its earlier members to hold, and he is no longer part of the class.",
+    "Sawyer's résumé is rings and records. Horsted's is a Defensive Player of the Year award and a body of work built entirely in one uniform. Only one of them is still in the Hall."
    ],
    "players": [
     "Malakai Sawyer",
@@ -400,7 +400,7 @@
    "stats": [
     {
      "label": "Y84 Hall of Fame class",
-     "value": "2",
+     "value": "1",
      "source": "content.json hofClasses/[label=Y84]/keys/#"
     },
     {

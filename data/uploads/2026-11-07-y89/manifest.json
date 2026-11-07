@@ -1,0 +1,4307 @@
+{
+ "id": "2026-11-07-y89",
+ "created": "2026-11-07",
+ "title": "Y89: Eagles 14-2-1, win Super Bowl CXLVIII 44-14 over the Bengals (Skura 64th); 75 cards; weekly scores",
+ "images": [
+  {
+   "file": "images/IMG_6992.PNG",
+   "shows": "QB Bones Crawford career card (Passing)"
+  },
+  {
+   "file": "images/IMG_6993.PNG",
+   "shows": "QB Bones Crawford career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6994.PNG",
+   "shows": "RB Gerrit Ogbah career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6995.PNG",
+   "shows": "RB Gerrit Ogbah career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_6996.PNG",
+   "shows": "TE Kenyon Shaheed career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6997.PNG",
+   "shows": "WR Kaulani Rahman career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6998.PNG",
+   "shows": "WR Vyncint Heath career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_6999.PNG",
+   "shows": "OL Akiem Brock career card (Blocking)"
+  },
+  {
+   "file": "images/IMG_7001.PNG",
+   "shows": "LB Snoop Dotson career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7002.PNG",
+   "shows": "DB Dwayne Skura career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7003.PNG",
+   "shows": "DB Koa Zuber career card (Defense), stars beside name"
+  },
+  {
+   "file": "images/IMG_7004.PNG",
+   "shows": "DB Bryant Zappe career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7005.PNG",
+   "shows": "QB Brandon Jaclyde career card (Passing)"
+  },
+  {
+   "file": "images/IMG_7006.PNG",
+   "shows": "QB Brandon Jaclyde career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7007.PNG",
+   "shows": "QB Dustin Milton career card (Passing)"
+  },
+  {
+   "file": "images/IMG_7008.PNG",
+   "shows": "QB Dustin Milton career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7009.PNG",
+   "shows": "RB Isaiah Karras career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7010.PNG",
+   "shows": "RB Isaiah Karras career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7011.PNG",
+   "shows": "QB Jimmy Tillery career card (Passing)"
+  },
+  {
+   "file": "images/IMG_7012.PNG",
+   "shows": "QB Jimmy Tillery career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7013.PNG",
+   "shows": "DL Deshone Bello career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7014.PNG",
+   "shows": "LB Kalif Suh career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7015.PNG",
+   "shows": "DB Kyron Atwell career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7016.PNG",
+   "shows": "WR Bud Matthew career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7017.PNG",
+   "shows": "QB Kahzin Heath career card (Passing)"
+  },
+  {
+   "file": "images/IMG_7018.PNG",
+   "shows": "QB Kahzin Heath career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7019.PNG",
+   "shows": "WR Martin Ward career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7020.PNG",
+   "shows": "TE George Donkor career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7021.PNG",
+   "shows": "RB Xavier Mosley career card (Rushing), name partly covered by the iOS volume overlay"
+  },
+  {
+   "file": "images/IMG_7022.PNG",
+   "shows": "RB Xavier Mosley career card (Rushing), duplicate of IMG_7021 without the overlay"
+  },
+  {
+   "file": "images/IMG_7023.PNG",
+   "shows": "RB Xavier Mosley career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7024.PNG",
+   "shows": "WR Tristan Tart career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7025.PNG",
+   "shows": "DB Terron Stidham career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7026.PNG",
+   "shows": "LB Hamp McPhee career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7027.PNG",
+   "shows": "TE Rodger Samuel career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7028.PNG",
+   "shows": "TE Treyvon Scott career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7029.PNG",
+   "shows": "RB Phil Ekuale career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7030.PNG",
+   "shows": "RB Phil Ekuale career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7031.PNG",
+   "shows": "DB Linval Laulile career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7032.PNG",
+   "shows": "OL Andrew Biegel career card (Blocking)"
+  },
+  {
+   "file": "images/IMG_7033.PNG",
+   "shows": "RB Siran Spector career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7034.PNG",
+   "shows": "RB Siran Spector career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7035.PNG",
+   "shows": "TE Preston Gore career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7036.PNG",
+   "shows": "QB Tim Sweeney career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7037.PNG",
+   "shows": "QB Tim Sweeney career card (Passing)"
+  },
+  {
+   "file": "images/IMG_7038.PNG",
+   "shows": "RB Cairo Colbert career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7039.PNG",
+   "shows": "RB Cairo Colbert career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7040.PNG",
+   "shows": "RB Danny Diggs career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7041.PNG",
+   "shows": "RB Danny Diggs career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7042.PNG",
+   "shows": "LB Khaleke Hyder career card"
+  },
+  {
+   "file": "images/IMG_7043.PNG",
+   "shows": "WR Niles Swoopes career card"
+  },
+  {
+   "file": "images/IMG_7044.PNG",
+   "shows": "QB Rysen Nauta career card (Passing)"
+  },
+  {
+   "file": "images/IMG_7045.PNG",
+   "shows": "QB Rysen Nauta career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7046.PNG",
+   "shows": "WR Jarred Beasley career card"
+  },
+  {
+   "file": "images/IMG_7047.PNG",
+   "shows": "DB Marvell Rodgers player profile / attributes screen (no stats)"
+  },
+  {
+   "file": "images/IMG_7048.PNG",
+   "shows": "DB Marvell Rodgers career card"
+  },
+  {
+   "file": "images/IMG_7049.PNG",
+   "shows": "QB Jarrell Cann career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7050.PNG",
+   "shows": "QB Jarrell Cann career card (Passing)"
+  },
+  {
+   "file": "images/IMG_7051.PNG",
+   "shows": "DB Lewis Pettis career card"
+  },
+  {
+   "file": "images/IMG_7052.PNG",
+   "shows": "QB Ty Lock career card (Passing)"
+  },
+  {
+   "file": "images/IMG_7053.PNG",
+   "shows": "QB Ty Lock career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7054.PNG",
+   "shows": "DB Trysten Floyd career card"
+  },
+  {
+   "file": "images/IMG_7055.PNG",
+   "shows": "LB Bryson Lucas career card"
+  },
+  {
+   "file": "images/IMG_7056.PNG",
+   "shows": "QB Camaron Knight career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7057.PNG",
+   "shows": "QB Camaron Knight career card (Passing)"
+  },
+  {
+   "file": "images/IMG_7058.PNG",
+   "shows": "RB Tim Wright career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7059.PNG",
+   "shows": "RB Tim Wright career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7060.PNG",
+   "shows": "DB Raphael Mosely career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7061.PNG",
+   "shows": "LB Angelo Jensen career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7062.PNG",
+   "shows": "DL Aqib McClain career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7063.PNG",
+   "shows": "RB Alton Yeldon career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7064.PNG",
+   "shows": "RB Alton Yeldon career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7065.PNG",
+   "shows": "OL Perrion Randall career card (Blocking)"
+  },
+  {
+   "file": "images/IMG_7066.PNG",
+   "shows": "WR Obinna Leary career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7067.PNG",
+   "shows": "WR Kane Van Oxley career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7068.PNG",
+   "shows": "DB Travon Swaim career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7069.PNG",
+   "shows": "DB Jamon Brooker career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7070.PNG",
+   "shows": "QB Solomon Toohill career card (Passing)"
+  },
+  {
+   "file": "images/IMG_7071.PNG",
+   "shows": "QB Solomon Toohill career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7072.PNG",
+   "shows": "QB Orlando Larienne career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7073.PNG",
+   "shows": "QB Orlando Larienne career card (Passing)"
+  },
+  {
+   "file": "images/IMG_7074.PNG",
+   "shows": "RB Ryland Maxwell career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7075.PNG",
+   "shows": "RB Ryland Maxwell career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7076.PNG",
+   "shows": "TE Marc Saine II career card"
+  },
+  {
+   "file": "images/IMG_7077.PNG",
+   "shows": "WR Apollo Adam career card"
+  },
+  {
+   "file": "images/IMG_7078.PNG",
+   "shows": "OL Calais Ham career card"
+  },
+  {
+   "file": "images/IMG_7079.PNG",
+   "shows": "DL Keaton Toney career card (rookie)"
+  },
+  {
+   "file": "images/IMG_7080.PNG",
+   "shows": "LB Simeon Otton career card"
+  },
+  {
+   "file": "images/IMG_7081.PNG",
+   "shows": "DB Ian Clapp career card"
+  },
+  {
+   "file": "images/IMG_7082.PNG",
+   "shows": "DB Chance Woodrum career card"
+  },
+  {
+   "file": "images/IMG_7083.PNG",
+   "shows": "DB Tramon Holton career card"
+  },
+  {
+   "file": "images/IMG_7084.PNG",
+   "shows": "DB Trequan Roberts career card"
+  },
+  {
+   "file": "images/IMG_7085.PNG",
+   "shows": "DB Chazz McCray career card"
+  },
+  {
+   "file": "images/IMG_7086.PNG",
+   "shows": "LB Kana'i Camper career card"
+  },
+  {
+   "file": "images/IMG_7087.PNG",
+   "shows": "WR Shareef London career card"
+  },
+  {
+   "file": "images/IMG_7088.PNG",
+   "shows": "RB Tyreek Devalve career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7089.PNG",
+   "shows": "RB Tyreek Devalve career card (Receiving)"
+  },
+  {
+   "file": "images/IMG_7090.PNG",
+   "shows": "LB Earl Boehm career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7091.PNG",
+   "shows": "DB Daren Teamer career card (Defense)"
+  },
+  {
+   "file": "images/IMG_7092.PNG",
+   "shows": "QB Juju Ngakoue career card (Passing)"
+  },
+  {
+   "file": "images/IMG_7093.PNG",
+   "shows": "QB Juju Ngakoue career card (Rushing)"
+  },
+  {
+   "file": "images/IMG_7094.PNG",
+   "shows": "Staff screen after Y89"
+  },
+  {
+   "file": "images/IMG_7095.PNG",
+   "shows": "LEAGUE schedule, week 1 scores"
+  },
+  {
+   "file": "images/IMG_7096.PNG",
+   "shows": "LEAGUE schedule, week 2 scores"
+  },
+  {
+   "file": "images/IMG_7097.PNG",
+   "shows": "LEAGUE schedule, week 3 scores"
+  },
+  {
+   "file": "images/IMG_7098.PNG",
+   "shows": "LEAGUE schedule, week 4 scores"
+  },
+  {
+   "file": "images/IMG_7099.PNG",
+   "shows": "LEAGUE schedule, week 5 scores"
+  },
+  {
+   "file": "images/IMG_7100.PNG",
+   "shows": "LEAGUE schedule, week 6 scores"
+  },
+  {
+   "file": "images/IMG_7101.PNG",
+   "shows": "LEAGUE schedule, week 7 scores"
+  },
+  {
+   "file": "images/IMG_7102.PNG",
+   "shows": "LEAGUE schedule, week 8 scores"
+  },
+  {
+   "file": "images/IMG_7103.PNG",
+   "shows": "LEAGUE schedule, week 9 scores"
+  },
+  {
+   "file": "images/IMG_7104.PNG",
+   "shows": "LEAGUE schedule, week 10 scores"
+  },
+  {
+   "file": "images/IMG_7105.PNG",
+   "shows": "LEAGUE schedule, week 11 scores (Y89)"
+  },
+  {
+   "file": "images/IMG_7106.PNG",
+   "shows": "LEAGUE schedule, week 12 scores (Y89)"
+  },
+  {
+   "file": "images/IMG_7107.PNG",
+   "shows": "LEAGUE schedule, week 13 scores (Y89)"
+  },
+  {
+   "file": "images/IMG_7108.PNG",
+   "shows": "LEAGUE schedule, week 14 scores (Y89)"
+  },
+  {
+   "file": "images/IMG_7109.PNG",
+   "shows": "LEAGUE schedule, week 15 scores (Y89)"
+  },
+  {
+   "file": "images/IMG_7110.PNG",
+   "shows": "LEAGUE schedule, week 16 scores (Y89)"
+  },
+  {
+   "file": "images/IMG_7111.PNG",
+   "shows": "LEAGUE schedule, week 17 scores (Y89)"
+  },
+  {
+   "file": "images/IMG_7112.PNG",
+   "shows": "LEAGUE schedule, week 18 scores (Y89)"
+  },
+  {
+   "file": "images/IMG_7113.PNG",
+   "shows": "Season review: Eagles (Dorren Skura) Y89 PS, 14-2-1, Super Bowl win over CIN"
+  },
+  {
+   "file": "images/IMG_7114.PNG",
+   "shows": "Y89 playoff bracket, PHI Super Bowl champion over CIN"
+  },
+  {
+   "file": "images/IMG_7115.PNG",
+   "shows": "AFC standings Y89 (final)"
+  },
+  {
+   "file": "images/IMG_7116.PNG",
+   "shows": "NFC standings Y89 (final)"
+  }
+ ],
+ "ai_steps": [
+  {
+   "step": "transcribe",
+   "reason": "Images need reading",
+   "trigger": "New images in the upload"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Bryant Zappe",
+   "value": {
+    "g": 40,
+    "tkl": 303,
+    "int": 2,
+    "sck": 0,
+    "ff": 0,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7004.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Chance Woodrum",
+   "value": {
+    "g": 265,
+    "tkl": 1635,
+    "int": 20,
+    "sck": 0,
+    "ff": 3,
+    "rings": 8,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_7082.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Chazz McCray",
+   "value": {
+    "g": 191,
+    "tkl": 2179,
+    "int": 24,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 1,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7085.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Daren Teamer",
+   "value": {
+    "g": 246,
+    "tkl": 2740,
+    "int": 42,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 1,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7091.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Dwayne Skura",
+   "value": {
+    "g": 156,
+    "tkl": 937,
+    "int": 11,
+    "sck": 0,
+    "ff": 0,
+    "rings": 3,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7002.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Ian Clapp",
+   "value": {
+    "g": 75,
+    "tkl": 415,
+    "int": 3,
+    "sck": 0,
+    "ff": 0,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7081.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Jamon Brooker",
+   "value": {
+    "g": 116,
+    "tkl": 1273,
+    "int": 23,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 1,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7069.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Koa Zuber",
+   "value": {
+    "g": 20,
+    "tkl": 150,
+    "int": 0,
+    "sck": 0,
+    "ff": 0,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7003.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Kyron Atwell",
+   "value": {
+    "g": 181,
+    "tkl": 2023,
+    "int": 29,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 1,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7015.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Lewis Pettis",
+   "value": {
+    "g": 161,
+    "tkl": 1737,
+    "int": 16,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7051.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Linval Laulile",
+   "value": {
+    "g": 183,
+    "tkl": 1956,
+    "int": 23,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 1,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7031.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Marvell Rodgers",
+   "value": {
+    "g": 224,
+    "tkl": 2691,
+    "int": 24,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7047.PNG",
+   "reason": "Career panel and award row (merged with IMG_7048.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Raphael Mosely",
+   "value": {
+    "g": 92,
+    "tkl": 991,
+    "int": 15,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 1,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7060.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Terron Stidham",
+   "value": {
+    "g": 264,
+    "tkl": 2934,
+    "int": 31,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7025.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Tramon Holton",
+   "value": {
+    "g": 56,
+    "tkl": 245,
+    "int": 4,
+    "sck": 0,
+    "ff": 0,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7083.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Travon Swaim",
+   "value": {
+    "g": 141,
+    "tkl": 1592,
+    "int": 15,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7068.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Trequan Roberts",
+   "value": {
+    "g": 188,
+    "tkl": 1115,
+    "int": 10,
+    "sck": 0,
+    "ff": 0,
+    "rings": 3,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7084.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Trysten Floyd",
+   "value": {
+    "g": 132,
+    "tkl": 242,
+    "int": 3,
+    "sck": 0,
+    "ff": 3,
+    "rings": 3,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7054.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Aqib McClain",
+   "value": {
+    "g": 274,
+    "tkl": 1446,
+    "int": 2,
+    "sck": 9,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7062.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Deshone Bello",
+   "value": {
+    "g": 148,
+    "tkl": 731,
+    "int": 1,
+    "sck": 14,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7013.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Keaton Toney",
+   "value": {
+    "g": 17,
+    "tkl": 86,
+    "int": 0,
+    "sck": 1,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7079.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Angelo Jensen",
+   "value": {
+    "g": 128,
+    "tkl": 417,
+    "int": 0,
+    "sck": 2,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7061.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Bryson Lucas",
+   "value": {
+    "g": 141,
+    "tkl": 527,
+    "int": 0,
+    "sck": 5,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7055.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Earl Boehm",
+   "value": {
+    "g": 124,
+    "tkl": 451,
+    "int": 0,
+    "sck": 5,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7090.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Hamp McPhee",
+   "value": {
+    "g": 56,
+    "tkl": 99,
+    "int": 0,
+    "sck": 1,
+    "ff": 0,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7026.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Kalif Suh",
+   "value": {
+    "g": 263,
+    "tkl": 841,
+    "int": 17,
+    "sck": 24,
+    "ff": 10,
+    "rings": 3,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7014.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Kana'i Camper",
+   "value": {
+    "g": 248,
+    "tkl": 930,
+    "int": 0,
+    "sck": 16,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7086.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Khaleke Hyder",
+   "value": {
+    "g": 191,
+    "tkl": 695,
+    "int": 0,
+    "sck": 10,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7042.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Simeon Otton",
+   "value": {
+    "g": 138,
+    "tkl": 588,
+    "int": 6,
+    "sck": 13,
+    "ff": 5,
+    "rings": 5,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7080.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Snoop Dotson",
+   "value": {
+    "g": 20,
+    "tkl": 59,
+    "int": 3,
+    "sck": 1,
+    "ff": 1,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7001.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Akiem Brock",
+   "value": {
+    "g": 40,
+    "blk": 107,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6999.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Andrew Biegel",
+   "value": {
+    "g": 151,
+    "blk": 167,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7032.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Calais Ham",
+   "value": {
+    "g": 117,
+    "blk": 262,
+    "rings": 4,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7078.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Perrion Randall",
+   "value": {
+    "g": 126,
+    "blk": 184,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7065.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Bones Crawford",
+   "value": {
+    "g": 40,
+    "att": 853,
+    "cmp": 734,
+    "yds": 12224,
+    "td": 141,
+    "int": 53,
+    "sck": 25,
+    "ratt": 80,
+    "ryds": 296,
+    "rtd": 17,
+    "rings": 2,
+    "mvp": 1,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_6992.PNG",
+   "reason": "Career panel and award row (merged with IMG_6993.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Brandon Jaclyde",
+   "value": {
+    "g": 126,
+    "att": 3797,
+    "cmp": 2429,
+    "yds": 23352,
+    "td": 239,
+    "int": 43,
+    "sck": 19,
+    "ratt": 80,
+    "ryds": 482,
+    "rtd": 27,
+    "rings": 1,
+    "mvp": 1,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7005.PNG",
+   "reason": "Career panel and award row (merged with IMG_7006.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Camaron Knight",
+   "value": {
+    "g": 314,
+    "att": 10465,
+    "cmp": 6328,
+    "yds": 53892,
+    "td": 469,
+    "int": 48,
+    "sck": 60,
+    "ratt": 204,
+    "ryds": 1373,
+    "rtd": 74,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_7056.PNG",
+   "reason": "Career panel and award row (merged with IMG_7057.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Dustin Milton",
+   "value": {
+    "g": 231,
+    "att": 7563,
+    "cmp": 4465,
+    "yds": 39256,
+    "td": 397,
+    "int": 41,
+    "sck": 39,
+    "ratt": 186,
+    "ryds": 1188,
+    "rtd": 66,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_7007.PNG",
+   "reason": "Career panel and award row (merged with IMG_7008.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Jarrell Cann",
+   "value": {
+    "g": 271,
+    "att": 8730,
+    "cmp": 5562,
+    "yds": 51967,
+    "td": 462,
+    "int": 47,
+    "sck": 48,
+    "ratt": 237,
+    "ryds": 1767,
+    "rtd": 89,
+    "rings": 0,
+    "mvp": 1,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7049.PNG",
+   "reason": "Career panel and award row (merged with IMG_7050.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Jimmy Tillery",
+   "value": {
+    "g": 109,
+    "att": 3662,
+    "cmp": 2251,
+    "yds": 20243,
+    "td": 188,
+    "int": 22,
+    "sck": 19,
+    "ratt": 75,
+    "ryds": 464,
+    "rtd": 28,
+    "rings": 0,
+    "mvp": 1,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7011.PNG",
+   "reason": "Career panel and award row (merged with IMG_7012.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Juju Ngakoue",
+   "value": {
+    "g": 193,
+    "att": 6381,
+    "cmp": 3891,
+    "yds": 35024,
+    "td": 341,
+    "int": 31,
+    "sck": 29,
+    "ratt": 178,
+    "ryds": 1063,
+    "rtd": 61,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7092.PNG",
+   "reason": "Career panel and award row (merged with IMG_7093.PNG); new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Kahzin Heath",
+   "value": {
+    "g": 310,
+    "att": 10254,
+    "cmp": 6306,
+    "yds": 54788,
+    "td": 526,
+    "int": 51,
+    "sck": 48,
+    "ratt": 213,
+    "ryds": 1480,
+    "rtd": 79,
+    "rings": 0,
+    "mvp": 1,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7017.PNG",
+   "reason": "Career panel and award row (merged with IMG_7018.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Orlando Larienne",
+   "value": {
+    "g": 110,
+    "att": 2210,
+    "cmp": 1622,
+    "yds": 22954,
+    "td": 260,
+    "int": 57,
+    "sck": 26,
+    "ratt": 108,
+    "ryds": 469,
+    "rtd": 30,
+    "rings": 4,
+    "mvp": 1,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7072.PNG",
+   "reason": "Career panel and award row (merged with IMG_7073.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Rysen Nauta",
+   "value": {
+    "g": 170,
+    "att": 5989,
+    "cmp": 3544,
+    "yds": 27977,
+    "td": 258,
+    "int": 30,
+    "sck": 30,
+    "ratt": 130,
+    "ryds": 875,
+    "rtd": 49,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7044.PNG",
+   "reason": "Career panel and award row (merged with IMG_7045.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Solomon Toohill",
+   "value": {
+    "g": 229,
+    "att": 7570,
+    "cmp": 4797,
+    "yds": 43858,
+    "td": 422,
+    "int": 38,
+    "sck": 38,
+    "ratt": 200,
+    "ryds": 1436,
+    "rtd": 68,
+    "rings": 1,
+    "mvp": 2,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7070.PNG",
+   "reason": "Career panel and award row (merged with IMG_7071.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Tim Sweeney",
+   "value": {
+    "g": 114,
+    "att": 3739,
+    "cmp": 2284,
+    "yds": 19400,
+    "td": 185,
+    "int": 24,
+    "sck": 19,
+    "ratt": 96,
+    "ryds": 653,
+    "rtd": 38,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7036.PNG",
+   "reason": "Career panel and award row (merged with IMG_7037.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Ty Lock",
+   "value": {
+    "g": 220,
+    "att": 6088,
+    "cmp": 4154,
+    "yds": 47134,
+    "td": 456,
+    "int": 114,
+    "sck": 49,
+    "ratt": 297,
+    "ryds": 1637,
+    "rtd": 71,
+    "rings": 2,
+    "mvp": 2,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_7052.PNG",
+   "reason": "Career panel and award row (merged with IMG_7053.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Alton Yeldon",
+   "value": {
+    "g": 17,
+    "ratt": 165,
+    "ryds": 971,
+    "rtd": 12,
+    "fum": 14,
+    "rec": 0,
+    "recyds": 0,
+    "rectd": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7063.PNG",
+   "reason": "Career panel and award row (merged with IMG_7064.PNG); new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Cairo Colbert",
+   "value": {
+    "g": 245,
+    "ratt": 2443,
+    "ryds": 18363,
+    "rtd": 314,
+    "fum": 224,
+    "rec": 4,
+    "recyds": 75,
+    "rectd": 3,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7038.PNG",
+   "reason": "Career panel and award row (merged with IMG_7039.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Danny Diggs",
+   "value": {
+    "g": 298,
+    "ratt": 3010,
+    "ryds": 21421,
+    "rtd": 408,
+    "fum": 239,
+    "rec": 8,
+    "recyds": 133,
+    "rectd": 1,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7040.PNG",
+   "reason": "Career panel and award row (merged with IMG_7041.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Gerrit Ogbah",
+   "value": {
+    "g": 80,
+    "ratt": 605,
+    "ryds": 4834,
+    "rtd": 75,
+    "fum": 28,
+    "rec": 51,
+    "recyds": 384,
+    "rectd": 8,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6994.PNG",
+   "reason": "Career panel and award row (merged with IMG_6995.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Isaiah Karras",
+   "value": {
+    "g": 232,
+    "ratt": 2198,
+    "ryds": 16572,
+    "rtd": 295,
+    "fum": 190,
+    "rec": 11,
+    "recyds": 153,
+    "rectd": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7009.PNG",
+   "reason": "Career panel and award row (merged with IMG_7010.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Phil Ekuale",
+   "value": {
+    "g": 128,
+    "ratt": 1249,
+    "ryds": 10255,
+    "rtd": 168,
+    "fum": 112,
+    "rec": 2,
+    "recyds": 21,
+    "rectd": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7029.PNG",
+   "reason": "Career panel and award row (merged with IMG_7030.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Ryland Maxwell",
+   "value": {
+    "g": 192,
+    "ratt": 2368,
+    "ryds": 17716,
+    "rtd": 253,
+    "fum": 55,
+    "rec": 117,
+    "recyds": 892,
+    "rectd": 32,
+    "rings": 7,
+    "mvp": 0,
+    "opoy": 2,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 3
+   },
+   "source": "image:images/IMG_7074.PNG",
+   "reason": "Career panel and award row (merged with IMG_7075.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Siran Spector",
+   "value": {
+    "g": 167,
+    "ratt": 1533,
+    "ryds": 12542,
+    "rtd": 260,
+    "fum": 116,
+    "rec": 22,
+    "recyds": 193,
+    "rectd": 4,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7033.PNG",
+   "reason": "Career panel and award row (merged with IMG_7034.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Tim Wright",
+   "value": {
+    "g": 221,
+    "ratt": 2079,
+    "ryds": 16736,
+    "rtd": 325,
+    "fum": 145,
+    "rec": 9,
+    "recyds": 125,
+    "rectd": 1,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7058.PNG",
+   "reason": "Career panel and award row (merged with IMG_7059.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Tyreek Devalve",
+   "value": {
+    "g": 136,
+    "ratt": 1300,
+    "ryds": 9798,
+    "rtd": 177,
+    "fum": 107,
+    "rec": 5,
+    "recyds": 91,
+    "rectd": 1,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7088.PNG",
+   "reason": "Career panel and award row (merged with IMG_7089.PNG); new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Xavier Mosley",
+   "value": {
+    "g": 55,
+    "ratt": 505,
+    "ryds": 4235,
+    "rtd": 78,
+    "fum": 36,
+    "rec": 0,
+    "recyds": 0,
+    "rectd": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7021.PNG",
+   "reason": "Career panel and award row (merged with IMG_7022.PNG, IMG_7023.PNG)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:George Donkor",
+   "value": {
+    "g": 74,
+    "rec": 286,
+    "yds": 2219,
+    "td": 23,
+    "fum": 18,
+    "lng": 70,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7020.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Kenyon Shaheed",
+   "value": {
+    "g": 38,
+    "rec": 137,
+    "yds": 2108,
+    "td": 33,
+    "fum": 0,
+    "lng": 47,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6996.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Marc Saine II",
+   "value": {
+    "g": 77,
+    "rec": 217,
+    "yds": 2262,
+    "td": 24,
+    "fum": 6,
+    "lng": 63,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7076.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Preston Gore",
+   "value": {
+    "g": 114,
+    "rec": 487,
+    "yds": 3028,
+    "td": 25,
+    "fum": 21,
+    "lng": 66,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7035.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Rodger Samuel",
+   "value": {
+    "g": 166,
+    "rec": 742,
+    "yds": 3968,
+    "td": 30,
+    "fum": 29,
+    "lng": 68,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7027.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Treyvon Scott",
+   "value": {
+    "g": 148,
+    "rec": 677,
+    "yds": 3528,
+    "td": 26,
+    "fum": 32,
+    "lng": 62,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7028.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Apollo Adam",
+   "value": {
+    "g": 94,
+    "rec": 425,
+    "yds": 7218,
+    "td": 84,
+    "fum": 8,
+    "lng": 75,
+    "rings": 3,
+    "mvp": 0,
+    "opoy": 2,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_7077.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Bud Matthew",
+   "value": {
+    "g": 181,
+    "rec": 597,
+    "yds": 5874,
+    "td": 86,
+    "fum": 18,
+    "lng": 64,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7016.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Jarred Beasley",
+   "value": {
+    "g": 243,
+    "rec": 908,
+    "yds": 8717,
+    "td": 121,
+    "fum": 30,
+    "lng": 73,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 1,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7046.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Kane Van Oxley",
+   "value": {
+    "g": 246,
+    "rec": 1291,
+    "yds": 19230,
+    "td": 193,
+    "fum": 25,
+    "lng": 68,
+    "rings": 3,
+    "mvp": 1,
+    "opoy": 3,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 1
+   },
+   "source": "image:images/IMG_7067.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Kaulani Rahman",
+   "value": {
+    "g": 40,
+    "rec": 269,
+    "yds": 4882,
+    "td": 37,
+    "fum": 1,
+    "lng": 45,
+    "rings": 2,
+    "mvp": 0,
+    "opoy": 1,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_6997.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Martin Ward",
+   "value": {
+    "g": 112,
+    "rec": 388,
+    "yds": 3342,
+    "td": 48,
+    "fum": 16,
+    "lng": 67,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7019.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Niles Swoopes",
+   "value": {
+    "g": 246,
+    "rec": 776,
+    "yds": 6790,
+    "td": 101,
+    "fum": 35,
+    "lng": 68,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0,
+    "team": "UNK"
+   },
+   "source": "image:images/IMG_7043.PNG",
+   "reason": "Career panel and award row; new card. Team unknown (UNK): ask the owner",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Obinna Leary",
+   "value": {
+    "g": 194,
+    "rec": 768,
+    "yds": 8294,
+    "td": 95,
+    "fum": 26,
+    "lng": 65,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7066.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Shareef London",
+   "value": {
+    "g": 208,
+    "rec": 823,
+    "yds": 8813,
+    "td": 93,
+    "fum": 32,
+    "lng": 73,
+    "rings": 1,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7087.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Tristan Tart",
+   "value": {
+    "g": 245,
+    "rec": 908,
+    "yds": 7945,
+    "td": 108,
+    "fum": 45,
+    "lng": 71,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "image:images/IMG_7024.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Vyncint Heath",
+   "value": {
+    "g": 153,
+    "rec": 891,
+    "yds": 16483,
+    "td": 180,
+    "fum": 6,
+    "lng": 66,
+    "rings": 8,
+    "mvp": 0,
+    "opoy": 3,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 2
+   },
+   "source": "image:images/IMG_6998.PNG",
+   "reason": "Career panel and award row",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "schedule.set",
+   "target": "Y89",
+   "value": {
+    "team": "Eagles",
+    "abbr": "PHI",
+    "weeks": [
+     {
+      "week": 1,
+      "games": [
+       {
+        "away": "MIA",
+        "away_score": 29,
+        "home": "WAS",
+        "home_score": 27
+       },
+       {
+        "away": "NYJ",
+        "away_score": 37,
+        "home": "BUF",
+        "home_score": 17
+       },
+       {
+        "away": "DEN",
+        "away_score": 36,
+        "home": "TEN",
+        "home_score": 26
+       },
+       {
+        "away": "KC",
+        "away_score": 19,
+        "home": "NE",
+        "home_score": 36
+       },
+       {
+        "away": "LAC",
+        "away_score": 29,
+        "home": "IND",
+        "home_score": 13
+       },
+       {
+        "away": "BAL",
+        "away_score": 17,
+        "home": "CLE",
+        "home_score": 37
+       },
+       {
+        "away": "HOU",
+        "away_score": 43,
+        "home": "DET",
+        "home_score": 37
+       },
+       {
+        "away": "JAX",
+        "away_score": 23,
+        "home": "MIN",
+        "home_score": 54
+       },
+       {
+        "away": "ARI",
+        "away_score": 44,
+        "home": "TB",
+        "home_score": 33
+       },
+       {
+        "away": "LAR",
+        "away_score": 38,
+        "home": "PIT",
+        "home_score": 29
+       },
+       {
+        "away": "SF",
+        "away_score": 24,
+        "home": "CIN",
+        "home_score": 27
+       },
+       {
+        "away": "CHI",
+        "away_score": 14,
+        "home": "PHI",
+        "home_score": 38
+       },
+       {
+        "away": "GB",
+        "away_score": 37,
+        "home": "NYG",
+        "home_score": 28
+       },
+       {
+        "away": "ATL",
+        "away_score": 20,
+        "home": "DAL",
+        "home_score": 27
+       },
+       {
+        "away": "CAR",
+        "away_score": 27,
+        "home": "LV",
+        "home_score": 17
+       },
+       {
+        "away": "NO",
+        "away_score": 30,
+        "home": "SEA",
+        "home_score": 36
+       }
+      ]
+     },
+     {
+      "week": 2,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 37,
+        "home": "MIA",
+        "home_score": 40
+       },
+       {
+        "away": "NE",
+        "away_score": 23,
+        "home": "NYJ",
+        "home_score": 59
+       },
+       {
+        "away": "LV",
+        "away_score": 38,
+        "home": "NO",
+        "home_score": 23
+       },
+       {
+        "away": "CIN",
+        "away_score": 32,
+        "home": "LAR",
+        "home_score": 37
+       },
+       {
+        "away": "CLE",
+        "away_score": 26,
+        "home": "DEN",
+        "home_score": 44
+       },
+       {
+        "away": "IND",
+        "away_score": 23,
+        "home": "KC",
+        "home_score": 24
+       },
+       {
+        "away": "JAX",
+        "away_score": 22,
+        "home": "BAL",
+        "home_score": 30
+       },
+       {
+        "away": "TEN",
+        "away_score": 17,
+        "home": "LAC",
+        "home_score": 36
+       },
+       {
+        "away": "DAL",
+        "away_score": 37,
+        "home": "WAS",
+        "home_score": 39
+       },
+       {
+        "away": "PHI",
+        "away_score": 32,
+        "home": "NYG",
+        "home_score": 24
+       },
+       {
+        "away": "ARI",
+        "away_score": 32,
+        "home": "CHI",
+        "home_score": 24
+       },
+       {
+        "away": "SEA",
+        "away_score": 9,
+        "home": "PIT",
+        "home_score": 33
+       },
+       {
+        "away": "GB",
+        "away_score": 35,
+        "home": "HOU",
+        "home_score": 24
+       },
+       {
+        "away": "MIN",
+        "away_score": 38,
+        "home": "DET",
+        "home_score": 37
+       },
+       {
+        "away": "CAR",
+        "away_score": 29,
+        "home": "SF",
+        "home_score": 26
+       },
+       {
+        "away": "TB",
+        "away_score": 37,
+        "home": "ATL",
+        "home_score": 30
+       }
+      ]
+     },
+     {
+      "week": 3,
+      "games": [
+       {
+        "away": "MIA",
+        "away_score": 50,
+        "home": "JAX",
+        "home_score": 33
+       },
+       {
+        "away": "NYJ",
+        "away_score": 38,
+        "home": "IND",
+        "home_score": 10
+       },
+       {
+        "away": "LAC",
+        "away_score": 27,
+        "home": "TB",
+        "home_score": 48
+       },
+       {
+        "away": "LV",
+        "away_score": 32,
+        "home": "KC",
+        "home_score": 17
+       },
+       {
+        "away": "PIT",
+        "away_score": 30,
+        "home": "CIN",
+        "home_score": 33
+       },
+       {
+        "away": "HOU",
+        "away_score": 28,
+        "home": "TEN",
+        "home_score": 17
+       },
+       {
+        "away": "DAL",
+        "away_score": 32,
+        "home": "BUF",
+        "home_score": 46
+       },
+       {
+        "away": "NYG",
+        "away_score": 41,
+        "home": "SEA",
+        "home_score": 16
+       },
+       {
+        "away": "PHI",
+        "away_score": 32,
+        "home": "MIN",
+        "home_score": 17
+       },
+       {
+        "away": "WAS",
+        "away_score": 46,
+        "home": "CLE",
+        "home_score": 44
+       },
+       {
+        "away": "LAR",
+        "away_score": 30,
+        "home": "CAR",
+        "home_score": 33
+       },
+       {
+        "away": "SF",
+        "away_score": 20,
+        "home": "BAL",
+        "home_score": 42
+       },
+       {
+        "away": "CHI",
+        "away_score": 31,
+        "home": "GB",
+        "home_score": 57
+       },
+       {
+        "away": "DET",
+        "away_score": 48,
+        "home": "NE",
+        "home_score": 29
+       },
+       {
+        "away": "ATL",
+        "away_score": 44,
+        "home": "ARI",
+        "home_score": 41
+       },
+       {
+        "away": "NO",
+        "away_score": 24,
+        "home": "DEN",
+        "home_score": 33
+       }
+      ]
+     },
+     {
+      "week": 4,
+      "games": [
+       {
+        "away": "DEN",
+        "away_score": 43,
+        "home": "CAR",
+        "home_score": 29
+       },
+       {
+        "away": "KC",
+        "away_score": 16,
+        "home": "ATL",
+        "home_score": 23
+       },
+       {
+        "away": "LAC",
+        "away_score": 32,
+        "home": "JAX",
+        "home_score": 41
+       },
+       {
+        "away": "BAL",
+        "away_score": 31,
+        "home": "LV",
+        "home_score": 33
+       },
+       {
+        "away": "CIN",
+        "away_score": 19,
+        "home": "MIA",
+        "home_score": 29
+       },
+       {
+        "away": "CLE",
+        "away_score": 48,
+        "home": "NE",
+        "home_score": 27
+       },
+       {
+        "away": "PIT",
+        "away_score": 30,
+        "home": "NYJ",
+        "home_score": 24
+       },
+       {
+        "away": "IND",
+        "away_score": 15,
+        "home": "HOU",
+        "home_score": 37
+       },
+       {
+        "away": "TEN",
+        "away_score": 47,
+        "home": "CHI",
+        "home_score": 16
+       },
+       {
+        "away": "NYG",
+        "away_score": 24,
+        "home": "BUF",
+        "home_score": 37
+       },
+       {
+        "away": "WAS",
+        "away_score": 24,
+        "home": "GB",
+        "home_score": 26
+       },
+       {
+        "away": "LAR",
+        "away_score": 28,
+        "home": "ARI",
+        "home_score": 23
+       },
+       {
+        "away": "SF",
+        "away_score": 47,
+        "home": "SEA",
+        "home_score": 34
+       },
+       {
+        "away": "DET",
+        "away_score": 24,
+        "home": "PHI",
+        "home_score": 32
+       },
+       {
+        "away": "MIN",
+        "away_score": 48,
+        "home": "DAL",
+        "home_score": 34
+       },
+       {
+        "away": "TB",
+        "away_score": 26,
+        "home": "NO",
+        "home_score": 48
+       }
+      ]
+     },
+     {
+      "week": 5,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 37,
+        "home": "CLE",
+        "home_score": 10
+       },
+       {
+        "away": "MIA",
+        "away_score": 10,
+        "home": "PHI",
+        "home_score": 40
+       },
+       {
+        "away": "NE",
+        "away_score": 33,
+        "home": "TEN",
+        "home_score": 37
+       },
+       {
+        "away": "NYJ",
+        "away_score": 20,
+        "home": "NYG",
+        "home_score": 43
+       },
+       {
+        "away": "DEN",
+        "away_score": 25,
+        "home": "HOU",
+        "home_score": 37
+       },
+       {
+        "away": "CIN",
+        "away_score": 50,
+        "home": "BAL",
+        "home_score": 24
+       },
+       {
+        "away": "PIT",
+        "away_score": 16,
+        "home": "LAC",
+        "home_score": 40
+       },
+       {
+        "away": "JAX",
+        "away_score": 34,
+        "home": "KC",
+        "home_score": 30
+       },
+       {
+        "away": "DAL",
+        "away_score": 22,
+        "home": "DET",
+        "home_score": 20
+       },
+       {
+        "away": "ARI",
+        "away_score": 43,
+        "home": "SF",
+        "home_score": 30
+       },
+       {
+        "away": "SEA",
+        "away_score": 25,
+        "home": "LAR",
+        "home_score": 40
+       },
+       {
+        "away": "CHI",
+        "away_score": 40,
+        "home": "WAS",
+        "home_score": 51
+       },
+       {
+        "away": "MIN",
+        "away_score": 19,
+        "home": "GB",
+        "home_score": 54
+       },
+       {
+        "away": "ATL",
+        "away_score": 26,
+        "home": "LV",
+        "home_score": 31
+       },
+       {
+        "away": "NO",
+        "away_score": 13,
+        "home": "IND",
+        "home_score": 17
+       },
+       {
+        "away": "TB",
+        "away_score": 27,
+        "home": "CAR",
+        "home_score": 30
+       }
+      ]
+     },
+     {
+      "week": 6,
+      "games": [
+       {
+        "away": "NE",
+        "away_score": 20,
+        "home": "CIN",
+        "home_score": 46
+       },
+       {
+        "away": "NYJ",
+        "away_score": 24,
+        "home": "BAL",
+        "home_score": 33
+       },
+       {
+        "away": "LV",
+        "away_score": 39,
+        "home": "TB",
+        "home_score": 20
+       },
+       {
+        "away": "CLE",
+        "away_score": 6,
+        "home": "PIT",
+        "home_score": 23
+       },
+       {
+        "away": "HOU",
+        "away_score": 30,
+        "home": "LAC",
+        "home_score": 25
+       },
+       {
+        "away": "IND",
+        "away_score": 31,
+        "home": "JAX",
+        "home_score": 29
+       },
+       {
+        "away": "TEN",
+        "away_score": 9,
+        "home": "DET",
+        "home_score": 30
+       },
+       {
+        "away": "NYG",
+        "away_score": 40,
+        "home": "CHI",
+        "home_score": 32
+       },
+       {
+        "away": "LAR",
+        "away_score": 46,
+        "home": "KC",
+        "home_score": 25
+       },
+       {
+        "away": "SF",
+        "away_score": 20,
+        "home": "DEN",
+        "home_score": 34
+       },
+       {
+        "away": "SEA",
+        "away_score": 13,
+        "home": "MIN",
+        "home_score": 38
+       },
+       {
+        "away": "GB",
+        "away_score": 38,
+        "home": "BUF",
+        "home_score": 23
+       },
+       {
+        "away": "ATL",
+        "away_score": 35,
+        "home": "NO",
+        "home_score": 32
+       },
+       {
+        "away": "CAR",
+        "away_score": 36,
+        "home": "WAS",
+        "home_score": 19
+       }
+      ]
+     },
+     {
+      "week": 7,
+      "games": [
+       {
+        "away": "MIA",
+        "away_score": 40,
+        "home": "BUF",
+        "home_score": 41
+       },
+       {
+        "away": "LV",
+        "away_score": 37,
+        "home": "LAC",
+        "home_score": 34
+       },
+       {
+        "away": "CLE",
+        "away_score": 33,
+        "home": "SF",
+        "home_score": 30
+       },
+       {
+        "away": "PIT",
+        "away_score": 27,
+        "home": "ARI",
+        "home_score": 16
+       },
+       {
+        "away": "JAX",
+        "away_score": 10,
+        "home": "DEN",
+        "home_score": 20
+       },
+       {
+        "away": "TEN",
+        "away_score": 40,
+        "home": "CIN",
+        "home_score": 44
+       },
+       {
+        "away": "DAL",
+        "away_score": 45,
+        "home": "LAR",
+        "home_score": 34
+       },
+       {
+        "away": "PHI",
+        "away_score": 32,
+        "home": "NYJ",
+        "home_score": 27
+       },
+       {
+        "away": "WAS",
+        "away_score": 24,
+        "home": "MIN",
+        "home_score": 13
+       },
+       {
+        "away": "CHI",
+        "away_score": 51,
+        "home": "IND",
+        "home_score": 39
+       },
+       {
+        "away": "DET",
+        "away_score": 30,
+        "home": "ATL",
+        "home_score": 17
+       },
+       {
+        "away": "NO",
+        "away_score": 31,
+        "home": "NYG",
+        "home_score": 41
+       },
+       {
+        "away": "TB",
+        "away_score": 13,
+        "home": "SEA",
+        "home_score": 32
+       }
+      ]
+     },
+     {
+      "week": 8,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 19,
+        "home": "HOU",
+        "home_score": 30
+       },
+       {
+        "away": "NYJ",
+        "away_score": 44,
+        "home": "NE",
+        "home_score": 37
+       },
+       {
+        "away": "KC",
+        "away_score": 19,
+        "home": "DEN",
+        "home_score": 36
+       },
+       {
+        "away": "LV",
+        "away_score": 23,
+        "home": "MIA",
+        "home_score": 47
+       },
+       {
+        "away": "BAL",
+        "away_score": 20,
+        "home": "LAR",
+        "home_score": 48
+       },
+       {
+        "away": "CIN",
+        "away_score": 40,
+        "home": "PIT",
+        "home_score": 15
+       },
+       {
+        "away": "NYG",
+        "away_score": 20,
+        "home": "DAL",
+        "home_score": 26
+       },
+       {
+        "away": "WAS",
+        "away_score": 33,
+        "home": "PHI",
+        "home_score": 30
+       },
+       {
+        "away": "ARI",
+        "away_score": 32,
+        "home": "NO",
+        "home_score": 27
+       },
+       {
+        "away": "SEA",
+        "away_score": 28,
+        "home": "CLE",
+        "home_score": 16
+       },
+       {
+        "away": "CHI",
+        "away_score": 45,
+        "home": "TB",
+        "home_score": 16
+       },
+       {
+        "away": "DET",
+        "away_score": 27,
+        "home": "JAX",
+        "home_score": 19
+       },
+       {
+        "away": "GB",
+        "away_score": 37,
+        "home": "CAR",
+        "home_score": 19
+       },
+       {
+        "away": "MIN",
+        "away_score": 36,
+        "home": "TEN",
+        "home_score": 34
+       },
+       {
+        "away": "ATL",
+        "away_score": 47,
+        "home": "SF",
+        "home_score": 43
+       }
+      ]
+     },
+     {
+      "week": 9,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 54,
+        "home": "WAS",
+        "home_score": 14
+       },
+       {
+        "away": "MIA",
+        "away_score": 29,
+        "home": "PIT",
+        "home_score": 34
+       },
+       {
+        "away": "NE",
+        "away_score": 27,
+        "home": "BAL",
+        "home_score": 20
+       },
+       {
+        "away": "DEN",
+        "away_score": 46,
+        "home": "LV",
+        "home_score": 26
+       },
+       {
+        "away": "CIN",
+        "away_score": 34,
+        "home": "SEA",
+        "home_score": 34
+       },
+       {
+        "away": "CLE",
+        "away_score": 25,
+        "home": "NYJ",
+        "home_score": 37
+       },
+       {
+        "away": "HOU",
+        "away_score": 55,
+        "home": "CHI",
+        "home_score": 23
+       },
+       {
+        "away": "IND",
+        "away_score": 19,
+        "home": "MIN",
+        "home_score": 26
+       },
+       {
+        "away": "JAX",
+        "away_score": 32,
+        "home": "GB",
+        "home_score": 42
+       },
+       {
+        "away": "PHI",
+        "away_score": 40,
+        "home": "DAL",
+        "home_score": 40
+       },
+       {
+        "away": "SF",
+        "away_score": 30,
+        "home": "ARI",
+        "home_score": 44
+       },
+       {
+        "away": "ATL",
+        "away_score": 31,
+        "home": "TEN",
+        "home_score": 51
+       },
+       {
+        "away": "CAR",
+        "away_score": 33,
+        "home": "LAC",
+        "home_score": 36
+       },
+       {
+        "away": "NO",
+        "away_score": 32,
+        "home": "KC",
+        "home_score": 40
+       }
+      ]
+     },
+     {
+      "week": 10,
+      "games": [
+       {
+        "away": "NE",
+        "away_score": 26,
+        "home": "MIA",
+        "home_score": 41
+       },
+       {
+        "away": "DEN",
+        "away_score": 16,
+        "home": "BUF",
+        "home_score": 33
+       },
+       {
+        "away": "LAC",
+        "away_score": 26,
+        "home": "NYJ",
+        "home_score": 29
+       },
+       {
+        "away": "BAL",
+        "away_score": 43,
+        "home": "PIT",
+        "home_score": 27
+       },
+       {
+        "away": "TEN",
+        "away_score": 13,
+        "home": "IND",
+        "home_score": 44
+       },
+       {
+        "away": "DAL",
+        "away_score": 44,
+        "home": "CIN",
+        "home_score": 10
+       },
+       {
+        "away": "NYG",
+        "away_score": 33,
+        "home": "DET",
+        "home_score": 13
+       },
+       {
+        "away": "PHI",
+        "away_score": 38,
+        "home": "GB",
+        "home_score": 36
+       },
+       {
+        "away": "WAS",
+        "away_score": 20,
+        "home": "SF",
+        "home_score": 26
+       },
+       {
+        "away": "LAR",
+        "away_score": 16,
+        "home": "ATL",
+        "home_score": 34
+       },
+       {
+        "away": "SEA",
+        "away_score": 30,
+        "home": "ARI",
+        "home_score": 16
+       },
+       {
+        "away": "CHI",
+        "away_score": 40,
+        "home": "JAX",
+        "home_score": 29
+       },
+       {
+        "away": "CAR",
+        "away_score": 25,
+        "home": "HOU",
+        "home_score": 27
+       },
+       {
+        "away": "TB",
+        "away_score": 20,
+        "home": "KC",
+        "home_score": 40
+       }
+      ]
+     },
+     {
+      "week": 11,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 16,
+        "home": "PHI",
+        "home_score": 40
+       },
+       {
+        "away": "NYJ",
+        "away_score": 41,
+        "home": "MIA",
+        "home_score": 41
+       },
+       {
+        "away": "KC",
+        "away_score": 31,
+        "home": "HOU",
+        "home_score": 32
+       },
+       {
+        "away": "LAC",
+        "away_score": 24,
+        "home": "NO",
+        "home_score": 21
+       },
+       {
+        "away": "LV",
+        "away_score": 30,
+        "home": "IND",
+        "home_score": 27
+       },
+       {
+        "away": "CLE",
+        "away_score": 19,
+        "home": "CIN",
+        "home_score": 23
+       },
+       {
+        "away": "PIT",
+        "away_score": 27,
+        "home": "NE",
+        "home_score": 20
+       },
+       {
+        "away": "DAL",
+        "away_score": 34,
+        "home": "CHI",
+        "home_score": 12
+       },
+       {
+        "away": "ARI",
+        "away_score": 27,
+        "home": "BAL",
+        "home_score": 33
+       },
+       {
+        "away": "SF",
+        "away_score": 34,
+        "home": "LAR",
+        "home_score": 37
+       },
+       {
+        "away": "DET",
+        "away_score": 12,
+        "home": "WAS",
+        "home_score": 25
+       },
+       {
+        "away": "GB",
+        "away_score": 29,
+        "home": "TEN",
+        "home_score": 20
+       },
+       {
+        "away": "MIN",
+        "away_score": 23,
+        "home": "NYG",
+        "home_score": 40
+       },
+       {
+        "away": "ATL",
+        "away_score": 30,
+        "home": "CAR",
+        "home_score": 34
+       },
+       {
+        "away": "TB",
+        "away_score": 27,
+        "home": "DEN",
+        "home_score": 30
+       }
+      ]
+     },
+     {
+      "week": 12,
+      "games": [
+       {
+        "away": "MIA",
+        "away_score": 40,
+        "home": "CLE",
+        "home_score": 43
+       },
+       {
+        "away": "NE",
+        "away_score": 25,
+        "home": "DAL",
+        "home_score": 41
+       },
+       {
+        "away": "DEN",
+        "away_score": 27,
+        "home": "LAC",
+        "home_score": 33
+       },
+       {
+        "away": "KC",
+        "away_score": 29,
+        "home": "LV",
+        "home_score": 12
+       },
+       {
+        "away": "CIN",
+        "away_score": 30,
+        "home": "BUF",
+        "home_score": 40
+       },
+       {
+        "away": "HOU",
+        "away_score": 40,
+        "home": "JAX",
+        "home_score": 13
+       },
+       {
+        "away": "IND",
+        "away_score": 24,
+        "home": "GB",
+        "home_score": 28
+       },
+       {
+        "away": "NYG",
+        "away_score": 30,
+        "home": "PIT",
+        "home_score": 37
+       },
+       {
+        "away": "PHI",
+        "away_score": 30,
+        "home": "BAL",
+        "home_score": 17
+       },
+       {
+        "away": "WAS",
+        "away_score": 23,
+        "home": "NYJ",
+        "home_score": 27
+       },
+       {
+        "away": "LAR",
+        "away_score": 30,
+        "home": "DET",
+        "home_score": 44
+       },
+       {
+        "away": "SEA",
+        "away_score": 16,
+        "home": "ATL",
+        "home_score": 26
+       },
+       {
+        "away": "CHI",
+        "away_score": 23,
+        "home": "MIN",
+        "home_score": 38
+       },
+       {
+        "away": "CAR",
+        "away_score": 20,
+        "home": "ARI",
+        "home_score": 52
+       },
+       {
+        "away": "NO",
+        "away_score": 32,
+        "home": "TB",
+        "home_score": 41
+       }
+      ]
+     },
+     {
+      "week": 13,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 39,
+        "home": "NE",
+        "home_score": 22
+       },
+       {
+        "away": "LAC",
+        "away_score": 29,
+        "home": "KC",
+        "home_score": 24
+       },
+       {
+        "away": "BAL",
+        "away_score": 41,
+        "home": "SEA",
+        "home_score": 36
+       },
+       {
+        "away": "PIT",
+        "away_score": 23,
+        "home": "CLE",
+        "home_score": 26
+       },
+       {
+        "away": "HOU",
+        "away_score": 14,
+        "home": "LV",
+        "home_score": 15
+       },
+       {
+        "away": "JAX",
+        "away_score": 17,
+        "home": "TEN",
+        "home_score": 41
+       },
+       {
+        "away": "NYG",
+        "away_score": 21,
+        "home": "PHI",
+        "home_score": 22
+       },
+       {
+        "away": "ARI",
+        "away_score": 15,
+        "home": "LAR",
+        "home_score": 47
+       },
+       {
+        "away": "SF",
+        "away_score": 28,
+        "home": "NO",
+        "home_score": 38
+       },
+       {
+        "away": "CHI",
+        "away_score": 22,
+        "home": "MIA",
+        "home_score": 30
+       },
+       {
+        "away": "DET",
+        "away_score": 41,
+        "home": "IND",
+        "home_score": 44
+       },
+       {
+        "away": "GB",
+        "away_score": 23,
+        "home": "DAL",
+        "home_score": 33
+       },
+       {
+        "away": "MIN",
+        "away_score": 29,
+        "home": "NYJ",
+        "home_score": 16
+       },
+       {
+        "away": "CAR",
+        "away_score": 41,
+        "home": "TB",
+        "home_score": 29
+       }
+      ]
+     },
+     {
+      "week": 14,
+      "games": [
+       {
+        "away": "NE",
+        "away_score": 20,
+        "home": "NYG",
+        "home_score": 34
+       },
+       {
+        "away": "KC",
+        "away_score": 15,
+        "home": "CAR",
+        "home_score": 38
+       },
+       {
+        "away": "LAC",
+        "away_score": 34,
+        "home": "DEN",
+        "home_score": 31
+       },
+       {
+        "away": "BAL",
+        "away_score": 30,
+        "home": "CIN",
+        "home_score": 21
+       },
+       {
+        "away": "IND",
+        "away_score": 44,
+        "home": "TEN",
+        "home_score": 48
+       },
+       {
+        "away": "DAL",
+        "away_score": 24,
+        "home": "MIA",
+        "home_score": 26
+       },
+       {
+        "away": "PHI",
+        "away_score": 30,
+        "home": "WAS",
+        "home_score": 20
+       },
+       {
+        "away": "ARI",
+        "away_score": 30,
+        "home": "LV",
+        "home_score": 41
+       },
+       {
+        "away": "LAR",
+        "away_score": 47,
+        "home": "CLE",
+        "home_score": 39
+       },
+       {
+        "away": "SEA",
+        "away_score": 41,
+        "home": "SF",
+        "home_score": 31
+       },
+       {
+        "away": "GB",
+        "away_score": 43,
+        "home": "DET",
+        "home_score": 36
+       },
+       {
+        "away": "MIN",
+        "away_score": 7,
+        "home": "HOU",
+        "home_score": 47
+       },
+       {
+        "away": "NO",
+        "away_score": 30,
+        "home": "ATL",
+        "home_score": 35
+       },
+       {
+        "away": "TB",
+        "away_score": 47,
+        "home": "JAX",
+        "home_score": 23
+       }
+      ]
+     },
+     {
+      "week": 15,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 36,
+        "home": "PIT",
+        "home_score": 24
+       },
+       {
+        "away": "MIA",
+        "away_score": 38,
+        "home": "NYJ",
+        "home_score": 16
+       },
+       {
+        "away": "LV",
+        "away_score": 26,
+        "home": "JAX",
+        "home_score": 48
+       },
+       {
+        "away": "CIN",
+        "away_score": 51,
+        "home": "KC",
+        "home_score": 47
+       },
+       {
+        "away": "CLE",
+        "away_score": 37,
+        "home": "BAL",
+        "home_score": 35
+       },
+       {
+        "away": "IND",
+        "away_score": 43,
+        "home": "DEN",
+        "home_score": 51
+       },
+       {
+        "away": "TEN",
+        "away_score": 17,
+        "home": "HOU",
+        "home_score": 37
+       },
+       {
+        "away": "DAL",
+        "away_score": 57,
+        "home": "NYG",
+        "home_score": 27
+       },
+       {
+        "away": "PHI",
+        "away_score": 30,
+        "home": "ARI",
+        "home_score": 15
+       },
+       {
+        "away": "WAS",
+        "away_score": 40,
+        "home": "NE",
+        "home_score": 24
+       },
+       {
+        "away": "LAR",
+        "away_score": 25,
+        "home": "SEA",
+        "home_score": 23
+       },
+       {
+        "away": "SF",
+        "away_score": 61,
+        "home": "TB",
+        "home_score": 31
+       },
+       {
+        "away": "DET",
+        "away_score": 26,
+        "home": "CHI",
+        "home_score": 13
+       },
+       {
+        "away": "GB",
+        "away_score": 19,
+        "home": "MIN",
+        "home_score": 55
+       },
+       {
+        "away": "ATL",
+        "away_score": 32,
+        "home": "LAC",
+        "home_score": 28
+       },
+       {
+        "away": "CAR",
+        "away_score": 27,
+        "home": "NO",
+        "home_score": 17
+       }
+      ]
+     },
+     {
+      "week": 16,
+      "games": [
+       {
+        "away": "NE",
+        "away_score": 23,
+        "home": "BUF",
+        "home_score": 40
+       },
+       {
+        "away": "NYJ",
+        "away_score": 22,
+        "home": "DAL",
+        "home_score": 40
+       },
+       {
+        "away": "DEN",
+        "away_score": 27,
+        "home": "ATL",
+        "home_score": 17
+       },
+       {
+        "away": "KC",
+        "away_score": 41,
+        "home": "TEN",
+        "home_score": 34
+       },
+       {
+        "away": "LAC",
+        "away_score": 47,
+        "home": "LV",
+        "home_score": 15
+       },
+       {
+        "away": "BAL",
+        "away_score": 29,
+        "home": "MIA",
+        "home_score": 51
+       },
+       {
+        "away": "PIT",
+        "away_score": 43,
+        "home": "SF",
+        "home_score": 24
+       },
+       {
+        "away": "HOU",
+        "away_score": 42,
+        "home": "CLE",
+        "home_score": 20
+       },
+       {
+        "away": "JAX",
+        "away_score": 26,
+        "home": "IND",
+        "home_score": 40
+       },
+       {
+        "away": "NYG",
+        "away_score": 50,
+        "home": "WAS",
+        "home_score": 33
+       },
+       {
+        "away": "ARI",
+        "away_score": 51,
+        "home": "CIN",
+        "home_score": 62
+       },
+       {
+        "away": "SEA",
+        "away_score": 34,
+        "home": "CAR",
+        "home_score": 30
+       },
+       {
+        "away": "DET",
+        "away_score": 42,
+        "home": "GB",
+        "home_score": 44
+       },
+       {
+        "away": "MIN",
+        "away_score": 21,
+        "home": "CHI",
+        "home_score": 13
+       },
+       {
+        "away": "NO",
+        "away_score": 31,
+        "home": "LAR",
+        "home_score": 17
+       },
+       {
+        "away": "TB",
+        "away_score": 46,
+        "home": "PHI",
+        "home_score": 30
+       }
+      ]
+     },
+     {
+      "week": 17,
+      "games": [
+       {
+        "away": "NYJ",
+        "away_score": 23,
+        "home": "CIN",
+        "home_score": 19
+       },
+       {
+        "away": "DEN",
+        "away_score": 27,
+        "home": "KC",
+        "home_score": 17
+       },
+       {
+        "away": "BAL",
+        "away_score": 37,
+        "home": "BUF",
+        "home_score": 46
+       },
+       {
+        "away": "CLE",
+        "away_score": 16,
+        "home": "ARI",
+        "home_score": 36
+       },
+       {
+        "away": "IND",
+        "away_score": 27,
+        "home": "PIT",
+        "home_score": 61
+       },
+       {
+        "away": "JAX",
+        "away_score": 27,
+        "home": "HOU",
+        "home_score": 39
+       },
+       {
+        "away": "TEN",
+        "away_score": 29,
+        "home": "LV",
+        "home_score": 34
+       },
+       {
+        "away": "NYG",
+        "away_score": 17,
+        "home": "MIA",
+        "home_score": 37
+       },
+       {
+        "away": "PHI",
+        "away_score": 32,
+        "home": "NE",
+        "home_score": 3
+       },
+       {
+        "away": "WAS",
+        "away_score": 22,
+        "home": "DAL",
+        "home_score": 35
+       },
+       {
+        "away": "SF",
+        "away_score": 33,
+        "home": "GB",
+        "home_score": 48
+       },
+       {
+        "away": "SEA",
+        "away_score": 37,
+        "home": "LAC",
+        "home_score": 20
+       },
+       {
+        "away": "CHI",
+        "away_score": 16,
+        "home": "DET",
+        "home_score": 53
+       },
+       {
+        "away": "MIN",
+        "away_score": 39,
+        "home": "NO",
+        "home_score": 25
+       },
+       {
+        "away": "CAR",
+        "away_score": 23,
+        "home": "ATL",
+        "home_score": 29
+       },
+       {
+        "away": "TB",
+        "away_score": 20,
+        "home": "LAR",
+        "home_score": 37
+       }
+      ]
+     },
+     {
+      "week": 18,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 48,
+        "home": "NYJ",
+        "home_score": 30
+       },
+       {
+        "away": "MIA",
+        "away_score": 58,
+        "home": "NE",
+        "home_score": 10
+       },
+       {
+        "away": "KC",
+        "away_score": 30,
+        "home": "LAC",
+        "home_score": 30
+       },
+       {
+        "away": "LV",
+        "away_score": 30,
+        "home": "DEN",
+        "home_score": 33
+       },
+       {
+        "away": "CIN",
+        "away_score": 30,
+        "home": "CLE",
+        "home_score": 26
+       },
+       {
+        "away": "PIT",
+        "away_score": 28,
+        "home": "BAL",
+        "home_score": 20
+       },
+       {
+        "away": "HOU",
+        "away_score": 51,
+        "home": "IND",
+        "home_score": 27
+       },
+       {
+        "away": "TEN",
+        "away_score": 26,
+        "home": "JAX",
+        "home_score": 26
+       },
+       {
+        "away": "DAL",
+        "away_score": 29,
+        "home": "PHI",
+        "home_score": 32
+       },
+       {
+        "away": "WAS",
+        "away_score": 19,
+        "home": "NYG",
+        "home_score": 23
+       },
+       {
+        "away": "ARI",
+        "away_score": 20,
+        "home": "SEA",
+        "home_score": 27
+       },
+       {
+        "away": "LAR",
+        "away_score": 20,
+        "home": "SF",
+        "home_score": 26
+       },
+       {
+        "away": "DET",
+        "away_score": 19,
+        "home": "MIN",
+        "home_score": 22
+       },
+       {
+        "away": "GB",
+        "away_score": 26,
+        "home": "CHI",
+        "home_score": 20
+       },
+       {
+        "away": "ATL",
+        "away_score": 34,
+        "home": "TB",
+        "home_score": 51
+       },
+       {
+        "away": "NO",
+        "away_score": 23,
+        "home": "CAR",
+        "home_score": 33
+       }
+      ]
+     }
+    ],
+    "standings": {
+     "AFC East": [
+      {
+       "team": "Dolphins",
+       "w": 12,
+       "l": 4,
+       "t": 1
+      },
+      {
+       "team": "Bills",
+       "w": 12,
+       "l": 5,
+       "t": 0
+      },
+      {
+       "team": "Jets",
+       "w": 8,
+       "l": 8,
+       "t": 1
+      },
+      {
+       "team": "Patriots",
+       "w": 2,
+       "l": 15,
+       "t": 0
+      }
+     ],
+     "AFC West": [
+      {
+       "team": "Broncos",
+       "w": 13,
+       "l": 4,
+       "t": 0
+      },
+      {
+       "team": "Raiders",
+       "w": 10,
+       "l": 7,
+       "t": 0
+      },
+      {
+       "team": "Chargers",
+       "w": 9,
+       "l": 7,
+       "t": 1
+      },
+      {
+       "team": "Chiefs",
+       "w": 5,
+       "l": 11,
+       "t": 1
+      }
+     ],
+     "AFC North": [
+      {
+       "team": "Bengals",
+       "w": 10,
+       "l": 6,
+       "t": 1
+      },
+      {
+       "team": "Steelers",
+       "w": 10,
+       "l": 7,
+       "t": 0
+      },
+      {
+       "team": "Ravens",
+       "w": 7,
+       "l": 10,
+       "t": 0
+      },
+      {
+       "team": "Browns",
+       "w": 6,
+       "l": 11,
+       "t": 0
+      }
+     ],
+     "AFC South": [
+      {
+       "team": "Texans",
+       "w": 15,
+       "l": 2,
+       "t": 0
+      },
+      {
+       "team": "Titans",
+       "w": 5,
+       "l": 11,
+       "t": 1
+      },
+      {
+       "team": "Colts",
+       "w": 5,
+       "l": 12,
+       "t": 0
+      },
+      {
+       "team": "Jaguars",
+       "w": 3,
+       "l": 13,
+       "t": 1
+      }
+     ],
+     "NFC East": [
+      {
+       "team": "Eagles",
+       "w": 14,
+       "l": 2,
+       "t": 1
+      },
+      {
+       "team": "Cowboys",
+       "w": 11,
+       "l": 5,
+       "t": 1
+      },
+      {
+       "team": "Giants",
+       "w": 9,
+       "l": 8,
+       "t": 0
+      },
+      {
+       "team": "Commanders",
+       "w": 7,
+       "l": 10,
+       "t": 0
+      }
+     ],
+     "NFC West": [
+      {
+       "team": "Rams",
+       "w": 11,
+       "l": 6,
+       "t": 0
+      },
+      {
+       "team": "Seahawks",
+       "w": 8,
+       "l": 8,
+       "t": 1
+      },
+      {
+       "team": "Cardinals",
+       "w": 7,
+       "l": 10,
+       "t": 0
+      },
+      {
+       "team": "49ers",
+       "w": 4,
+       "l": 13,
+       "t": 0
+      }
+     ],
+     "NFC North": [
+      {
+       "team": "Packers",
+       "w": 14,
+       "l": 3,
+       "t": 0
+      },
+      {
+       "team": "Vikings",
+       "w": 12,
+       "l": 5,
+       "t": 0
+      },
+      {
+       "team": "Lions",
+       "w": 7,
+       "l": 10,
+       "t": 0
+      },
+      {
+       "team": "Bears",
+       "w": 3,
+       "l": 14,
+       "t": 0
+      }
+     ],
+     "NFC South": [
+      {
+       "team": "Panthers",
+       "w": 10,
+       "l": 7,
+       "t": 0
+      },
+      {
+       "team": "Falcons",
+       "w": 9,
+       "l": 8,
+       "t": 0
+      },
+      {
+       "team": "Buccaneers",
+       "w": 6,
+       "l": 11,
+       "t": 0
+      },
+      {
+       "team": "Saints",
+       "w": 3,
+       "l": 14,
+       "t": 0
+      }
+     ]
+    },
+    "coachOpponents": [],
+    "coachPlayoffs": [
+     {
+      "round": "PO",
+      "week": 27,
+      "opp": "CAR",
+      "home": true,
+      "for": 46,
+      "against": 24
+     },
+     {
+      "round": "PO",
+      "week": 30,
+      "opp": "LAR",
+      "home": true,
+      "for": 32,
+      "against": 28
+     },
+     {
+      "round": "RB",
+      "week": 31,
+      "opp": "CIN",
+      "home": true,
+      "for": 44,
+      "against": 14
+     }
+    ],
+    "opponentTotals": {
+     "off": 78.5,
+     "def": 76.0
+    }
+   },
+   "source": "image:images/IMG_7095.PNG",
+   "reason": "LEAGUE schedule weeks 1-18 (IMG_7095-7112), AFC/NFC standings (IMG_7115-7116), season review playoffs (IMG_7113); no season summary screen this year, so opponents' O/D ratings are not recorded",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.season",
+   "target": "89",
+   "value": {
+    "team": "Eagles",
+    "abbr": "PHI",
+    "w": 14,
+    "l": 2,
+    "t": 1,
+    "finish": "Champions"
+   },
+   "source": "image:images/IMG_7094.PNG",
+   "reason": "Staff screen, Your history: 89 PHI 14-2-1 Champions; season review record 14-2-1",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "superbowl.set",
+   "target": "Y89",
+   "value": {
+    "number": 148,
+    "roman": "CXLVIII",
+    "winner": "Eagles",
+    "score": "44-14",
+    "loser": "Bengals",
+    "your_result": "won",
+    "your_team": "Eagles"
+   },
+   "source": "image:images/IMG_7113.PNG",
+   "reason": "Season review: SB CIN 14-44 (Eagles home); bracket IMG_7114 PHI champion over CIN; staff screen D.Skura 64 titles; Super Bowl CXLVII was Y88",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "superBowlRecord",
+   "value": [
+    {
+     "coach": "D.Skura",
+     "titles": 64
+    },
+    {
+     "coach": "NE (2000-2023)",
+     "titles": 6
+    },
+    {
+     "coach": "PIT (1969-1991)",
+     "titles": 4
+    },
+    {
+     "coach": "SF (1979-1988)",
+     "titles": 3
+    },
+    {
+     "coach": "WAS (1981-1992)",
+     "titles": 3
+    }
+   ],
+   "source": "image:images/IMG_7094.PNG",
+   "reason": "Staff screen Super Bowl record: D.Skura 64",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "gamesPlayed",
+   "value": 1771,
+   "source": "image:images/IMG_7094.PNG",
+   "reason": "Staff screen: games played 1771 (1751 + 20 Y89 games: 17 regular + 3 playoff)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "simGames",
+   "value": 17,
+   "source": "image:images/IMG_7094.PNG",
+   "reason": "Staff screen: sim games 17 (1%), unchanged",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "age",
+   "value": 124,
+   "source": "image:images/IMG_7094.PNG",
+   "reason": "Staff screen: age 124",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "morale",
+   "value": "Great",
+   "source": "image:images/IMG_7094.PNG",
+   "reason": "Staff screen: morale Great",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "record",
+   "value": {
+    "fullSeasons": 88,
+    "regular": "1283-222-8",
+    "regularWinPct": 0.851,
+    "playoff": "235-23",
+    "playoffWinPct": 0.911,
+    "playoffsReached": "87/89",
+    "seasonsNoSimGames": 75
+   },
+   "source": "image:images/IMG_7094.PNG",
+   "reason": "Staff screen, Your record: 88 full seasons, regular 1283-222-8 (.851), playoffs 235-23 (.911), playoffs reached 87/89; seasons with no sim games 74 -> 75 (sim games unchanged at 17, so none in Y89)",
+   "trigger": "New images in the upload"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.set",
+   "target": "source",
+   "value": "Retro Bowl staff screen (IMG_7094, Y89 complete)",
+   "source": "image:images/IMG_7094.PNG",
+   "reason": "New staff screen; bests stay as last seen",
+   "trigger": "New images in the upload"
+  }
+ ]
+}

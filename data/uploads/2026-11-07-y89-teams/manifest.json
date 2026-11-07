@@ -1,0 +1,162 @@
+{
+ "id": "2026-11-07-y89-teams",
+ "created": "2026-11-07",
+ "title": "Y89 teams and retirements: Wise, Lowe, Felton, Orzech retired; McPhee Ravens; Zuber and Dotson Eagles; Devalve, Toney, Camper Buccaneers; Ward and Donkor Raiders; Swoopes Jaguars; Pettis Cowboys; Jensen and Mosely Rams; Von Horsted out of the Hall of Fame",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Drake Wise/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"drake wise has retired\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Pyke T. Lowe/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"so has pyke t lowe\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Grunky Felton/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"grunky felton retired\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Keion Orzech/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"so did keion orzech\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Hamp McPhee/team",
+   "value": "Ravens",
+   "source": "owner",
+   "reason": "Owner: \"hamp mcphee is a raven now\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Koa Zuber/team",
+   "value": "Eagles",
+   "source": "owner",
+   "reason": "Owner: \"koa zuber is on the eagles\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Tyreek Devalve/team",
+   "value": "Buccaneers",
+   "source": "owner",
+   "reason": "Owner: \"tyreek devalve is on the bucs\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Snoop Dotson/team",
+   "value": "Eagles",
+   "source": "owner",
+   "reason": "Owner: \"snoop dotson is on the eagles\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Martin Ward/team",
+   "value": "Raiders",
+   "source": "owner",
+   "reason": "Owner: \"martin ward is on the raiders\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Niles Swoopes/team",
+   "value": "Jaguars",
+   "source": "owner",
+   "reason": "Owner: \"niles swoopes on the jags\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Keaton Toney/team",
+   "value": "Buccaneers",
+   "source": "owner",
+   "reason": "Owner: \"keaton toney on the bucs\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/George Donkor/team",
+   "value": "Raiders",
+   "source": "owner",
+   "reason": "Owner: \"donkor on the raiders\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Lewis Pettis/team",
+   "value": "Cowboys",
+   "source": "owner",
+   "reason": "Owner: \"pettis is on the cowboys\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Angelo Jensen/team",
+   "value": "Rams",
+   "source": "owner",
+   "reason": "Owner: \"angelo jensen on the rams\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Raphael Mosely/team",
+   "value": "Rams",
+   "source": "owner",
+   "reason": "Owner: \"raphael mosely as well on th rams\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kana'i Camper/team",
+   "value": "Buccaneers",
+   "source": "owner",
+   "reason": "Owner: \"camper on the bucs\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Von Horsted",
+   "value": null,
+   "source": "owner",
+   "reason": "No longer a Hall of Famer: Career Legacy 7,235 at the Y89 snapshot, under the 7,300 floor members must hold (HOF_FLOOR); a removed member stays out until he reaches 7,500. Owner rule: \"yes but also reomove the ones lower than this that have been back and forth or borderline 7K\"",
+   "trigger": "Rebuild after the Y89 update: audit error, speech for a player who is not a Hall of Famer"
+  }
+ ]
+}

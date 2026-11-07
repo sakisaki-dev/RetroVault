@@ -1,0 +1,1084 @@
+{
+ "season": "Y89",
+ "tagline": "Skura's Eagles repeat with Super Bowl CXLVIII, Bones Crawford wins MVP, Siran Spector runs for 42 touchdowns and Daren Teamer enters the Hall of Fame.",
+ "upload": "2026-11-07-story-y89",
+ "articles": [
+  {
+   "id": "y89-eagles-repeat",
+   "kind": "lead",
+   "headline": "Back to Back: Skura's Eagles Win Super Bowl CXLVIII",
+   "dek": "Philadelphia went 14-2-1 again, won three playoff games at home and beat the Bengals 44-14 for Dorren Skura's 64th title.",
+   "body": [
+    "The second season in Philadelphia looked a lot like the first, and that is the highest compliment available. The Eagles finished 14-2-1 for the second straight year, earned a bye through the wild card round and then won three home games in a row: 46-24 over the Panthers, 32-28 over the Rams and 44-14 over the Cincinnati Bengals in Super Bowl CXLVIII.",
+    "The title is the 64th of Skura's career. Cincinnati arrived as a 10-6-1 club that had survived the AFC bracket, and it never found a foothold. The Rams game was the only real scare of the postseason, a four-point margin in a conference final that Los Angeles kept close to the end.",
+    "On the road, Philadelphia was untouchable. The Eagles went 8-0-1 away from home, the only blemish a 40-40 shootout in Dallas. Both defeats came at home: 33-30 to Washington, a loss that ended a 14-game winning streak stretching back into Y88, and 46-30 to Tampa Bay, the biggest upset of the season by record.",
+    "The stars were the same names that carried the first title, only better. Bones Crawford threw for 6,302 yards and 72 touchdowns and was named Most Valuable Player. Kaulani Rahman caught 145 passes for 2,635 yards and won Offensive Player of the Year. Vyncint Heath caught 28 touchdown passes and was the Super Bowl MVP for the second time in his career.",
+    "Two seasons in Philadelphia have produced two parades. The rest of the league is running out of ways to describe Skura, and running out of time to catch him."
+   ],
+   "players": [
+    "Bones Crawford",
+    "Kaulani Rahman",
+    "Vyncint Heath"
+   ],
+   "teams": [
+    "Eagles",
+    "Bengals",
+    "Panthers",
+    "Rams",
+    "Cowboys",
+    "Commanders",
+    "Buccaneers"
+   ],
+   "stats": [
+    {
+     "label": "Super Bowl CXLVIII",
+     "value": "44-14",
+     "source": "super_bowls.json Y89 score"
+    },
+    {
+     "label": "Eagles regular season",
+     "value": "14-2-1",
+     "source": "coach.json Y89 record"
+    },
+    {
+     "label": "Skura's titles",
+     "value": "64",
+     "source": "coach.json superBowlRecord/0/titles"
+    },
+    {
+     "label": "Divisional round vs Panthers",
+     "value": "46-24",
+     "source": "schedule.json seasons/Y89/coachGames/[week=27]/score"
+    },
+    {
+     "label": "Conference final vs Rams",
+     "value": "32-28",
+     "source": "schedule.json seasons/Y89/coachGames/[week=30]/score"
+    },
+    {
+     "label": "Bengals regular season",
+     "value": "10-6-1",
+     "source": "schedule.json seasons/Y89/table/[abbr=CIN]/record"
+    },
+    {
+     "label": "Eagles on the road",
+     "value": "8-0-1",
+     "source": "schedule.json seasons/Y89/coachDetail/away"
+    },
+    {
+     "label": "Tie at Dallas",
+     "value": "40-40",
+     "source": "schedule.json seasons/Y89/coachGames/[week=9]/score"
+    },
+    {
+     "label": "Loss to Washington",
+     "value": "33-30",
+     "source": "schedule.json seasons/Y89/coachGames/[week=8]/score"
+    },
+    {
+     "label": "Winning streak ended",
+     "value": "14",
+     "source": "schedule.json records/[id=coach-win-streak]/value"
+    },
+    {
+     "label": "Loss to Tampa Bay",
+     "value": "46-30",
+     "source": "schedule.json seasons/Y89/coachGames/[week=16]/score"
+    },
+    {
+     "label": "Crawford passing yards (Y89)",
+     "value": "6,302",
+     "source": "market_history.json snap-202611051109..snap-202611071241 QB:Bones Crawford s.yds"
+    },
+    {
+     "label": "Crawford TD passes (Y89)",
+     "value": "72",
+     "source": "market_history.json snap-202611051109..snap-202611071241 QB:Bones Crawford s.td"
+    },
+    {
+     "label": "Rahman catches (Y89)",
+     "value": "145",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Kaulani Rahman s.rec"
+    },
+    {
+     "label": "Rahman yards (Y89)",
+     "value": "2,635",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Kaulani Rahman s.yds"
+    },
+    {
+     "label": "Heath TDs (Y89)",
+     "value": "28",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Vyncint Heath s.td"
+    },
+    {
+     "label": "Heath Super Bowl MVPs",
+     "value": "2",
+     "source": "players.json WR:Vyncint Heath sbmvp"
+    }
+   ],
+   "related": [
+    "y88-eagles-title"
+   ]
+  },
+  {
+   "id": "y89-crawford-mvp",
+   "kind": "rise",
+   "headline": "Bones Crawford Follows a Record Debut With an MVP Season",
+   "dek": "The Eagles quarterback threw for 6,302 yards and 72 touchdowns in his second season and has 141 touchdown passes in 40 games.",
+   "body": [
+    "A year ago the question about Bones Crawford was whether a debut like his could be repeated. He answered it by improving. In 20 games he threw for 6,302 yards and 72 touchdowns, up from 5,922 and 69, and the league named him its Most Valuable Player.",
+    "His style has not changed. Crawford still attacks down the field, averaging 16.7 yards per completion across his career, and he still accepts the risk that comes with it: 27 interceptions this season. With receivers who win the ball in the air, that bargain has now paid off twice.",
+    "Kaulani Rahman made the case that the quarterback had help. The second-year receiver caught 145 passes for 2,635 yards and 22 touchdowns, won Offensive Player of the Year and saw his card's value rise 122%.",
+    "Crawford's card moves more slowly. Its overall rose from 62 to 64, because overall rewards a long career, but his skill grade remains an S, and through 40 games he owns 141 touchdown passes and two rings."
+   ],
+   "players": [
+    "Bones Crawford",
+    "Kaulani Rahman"
+   ],
+   "teams": [
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "Crawford passing yards (Y89)",
+     "value": "6,302",
+     "source": "market_history.json snap-202611051109..snap-202611071241 QB:Bones Crawford s.yds"
+    },
+    {
+     "label": "Crawford TD passes (Y89)",
+     "value": "72",
+     "source": "market_history.json snap-202611051109..snap-202611071241 QB:Bones Crawford s.td"
+    },
+    {
+     "label": "Crawford career TD passes",
+     "value": "141",
+     "source": "players.json QB:Bones Crawford td"
+    },
+    {
+     "label": "Crawford career games",
+     "value": "40",
+     "source": "players.json QB:Bones Crawford g"
+    },
+    {
+     "label": "Crawford games (Y89)",
+     "value": "20",
+     "source": "market_history.json snap-202611051109..snap-202611071241 QB:Bones Crawford s.g"
+    },
+    {
+     "label": "Crawford passing yards (Y88)",
+     "value": "5,922",
+     "source": "market_history.json snap-202611051109 QB:Bones Crawford s.yds"
+    },
+    {
+     "label": "Crawford TD passes (Y88)",
+     "value": "69",
+     "source": "market_history.json snap-202611051109 QB:Bones Crawford s.td"
+    },
+    {
+     "label": "Career yards per completion",
+     "value": "16.7",
+     "source": "players.json QB:Bones Crawford yds/cmp"
+    },
+    {
+     "label": "Crawford interceptions (Y89)",
+     "value": "27",
+     "source": "market_history.json snap-202611051109..snap-202611071241 QB:Bones Crawford s.int"
+    },
+    {
+     "label": "Rahman catches (Y89)",
+     "value": "145",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Kaulani Rahman s.rec"
+    },
+    {
+     "label": "Rahman yards (Y89)",
+     "value": "2,635",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Kaulani Rahman s.yds"
+    },
+    {
+     "label": "Rahman TDs (Y89)",
+     "value": "22",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Kaulani Rahman s.td"
+    },
+    {
+     "label": "Rahman value change",
+     "value": "122%",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Kaulani Rahman value%"
+    },
+    {
+     "label": "Crawford overall before",
+     "value": "62",
+     "source": "market_history.json snap-202611051109 QB:Bones Crawford ovr"
+    },
+    {
+     "label": "Crawford overall after",
+     "value": "64",
+     "source": "market_history.json snap-202611071241 QB:Bones Crawford ovr"
+    }
+   ],
+   "related": [
+    "y88-crawford"
+   ]
+  },
+  {
+   "id": "y89-heath-adam",
+   "kind": "trade",
+   "headline": "Heath for Adam, Year Two: An Eighth Ring and a Second Super Bowl MVP",
+   "dek": "Vyncint Heath caught 28 touchdown passes for the champions. In Atlanta, Apollo Adam's numbers fell and the Falcons missed the playoffs.",
+   "body": [
+    "The trade that sent Apollo Adam from Philadelphia to Atlanta and brought Vyncint Heath, \"Starscream\", the other way now has a second chapter, and it reads much like the first.",
+    "Heath caught 123 passes for 2,414 yards and 28 touchdowns, was named Super Bowl MVP for the second time and collected his eighth ring. He did it in 18 of the Eagles' 20 games, so he missed 2; injury may have played a part, though rest or a lighter load late in the year are possible too. His card's overall rose from 90 to 93, his skill grade reached an S and its value climbed 67%.",
+    "Adam's second Falcons season went the other way. He caught 58 passes for 393 yards and 4 touchdowns in 17 games, a long way from the 1,123 yards of his first year in Atlanta, and the Falcons finished 9-8 and out of the playoffs. His skill grade slipped from an A to an A minus, though the card's value still rose 18%.",
+    "Two seasons in, Philadelphia holds two titles and the clear edge in the deal. Atlanta is still waiting for the version of Adam that won two Offensive Player of the Year awards."
+   ],
+   "players": [
+    "Vyncint Heath",
+    "Apollo Adam"
+   ],
+   "teams": [
+    "Eagles",
+    "Falcons"
+   ],
+   "stats": [
+    {
+     "label": "Heath TDs (Y89)",
+     "value": "28",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Vyncint Heath s.td"
+    },
+    {
+     "label": "Heath catches (Y89)",
+     "value": "123",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Vyncint Heath s.rec"
+    },
+    {
+     "label": "Heath yards (Y89)",
+     "value": "2,414",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Vyncint Heath s.yds"
+    },
+    {
+     "label": "Heath Super Bowl MVPs",
+     "value": "2",
+     "source": "players.json WR:Vyncint Heath sbmvp"
+    },
+    {
+     "label": "Heath rings",
+     "value": "8",
+     "source": "players.json WR:Vyncint Heath rings"
+    },
+    {
+     "label": "Heath games (Y89)",
+     "value": "18",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Vyncint Heath s.g"
+    },
+    {
+     "label": "Eagles games (Y89)",
+     "value": "20",
+     "source": "market_history.json snap-202611051109..snap-202611071241 QB:Bones Crawford s.g"
+    },
+    {
+     "label": "Games missed",
+     "value": "2",
+     "source": "market_history.json snap-202611051109..snap-202611071241 QB:Bones Crawford s.g minus market_history.json snap-202611051109..snap-202611071241 WR:Vyncint Heath s.g"
+    },
+    {
+     "label": "Heath overall before",
+     "value": "90",
+     "source": "market_history.json snap-202611051109 WR:Vyncint Heath ovr"
+    },
+    {
+     "label": "Heath overall after",
+     "value": "93",
+     "source": "market_history.json snap-202611071241 WR:Vyncint Heath ovr"
+    },
+    {
+     "label": "Heath value change",
+     "value": "67%",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Vyncint Heath value%"
+    },
+    {
+     "label": "Adam catches (Y89)",
+     "value": "58",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Apollo Adam s.rec"
+    },
+    {
+     "label": "Adam yards (Y89)",
+     "value": "393",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Apollo Adam s.yds"
+    },
+    {
+     "label": "Adam TDs (Y89)",
+     "value": "4",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Apollo Adam s.td"
+    },
+    {
+     "label": "Adam games (Y89)",
+     "value": "17",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Apollo Adam s.g"
+    },
+    {
+     "label": "Adam yards (Y88)",
+     "value": "1,123",
+     "source": "market_history.json snap-202611041446..snap-202611051056 WR:Apollo Adam s.yds"
+    },
+    {
+     "label": "Falcons record",
+     "value": "9-8",
+     "source": "schedule.json seasons/Y89/table/[abbr=ATL]/record"
+    },
+    {
+     "label": "Adam value change",
+     "value": "18%",
+     "source": "market_history.json snap-202611051109..snap-202611071241 WR:Apollo Adam value%"
+    },
+    {
+     "label": "Adam OPOY awards",
+     "value": "2",
+     "source": "players.json WR:Apollo Adam opoy"
+    }
+   ],
+   "related": [
+    "y88-heath-adam"
+   ]
+  },
+  {
+   "id": "y89-texans-spector",
+   "kind": "rise",
+   "headline": "Spector Runs for 42 Touchdowns as Houston Tops the Power Rankings",
+   "dek": "The Texans went 15-2 behind the league's stingiest defense and a historic season from Siran Spector. They still did not reach the Super Bowl.",
+   "body": [
+    "Houston was the best regular-season team in the league by almost every measure. The Texans went 15-2, allowed 378 points, the fewest of any club, posted the best point differential and finished first in the power rankings, one place ahead of the champion Eagles.",
+    "Siran Spector was the engine. A year after the trade that sent him from Philadelphia to Houston for Gerrit Ogbah, he ran for 1,628 yards and 42 touchdowns in 19 games, more than two scores a game. That is more than the 39 Ryland Maxwell scored in Y85, the best season on the record board of Skura's clubs. Spector's skill grade rose to an A and his card's value more than doubled, up 117%.",
+    "Ogbah, for his part, has a second ring. He ran for 662 yards and 7 touchdowns and caught 21 passes for the champions.",
+    "The playoffs were less kind to Houston. The AFC place in Super Bowl CXLVIII went to Cincinnati, a 10-6-1 team, and the Texans were left with the best record in football and nothing to show for it. For a club built this well, the regular season was a statement. The postseason is unfinished business."
+   ],
+   "players": [
+    "Siran Spector",
+    "Gerrit Ogbah",
+    "Ryland Maxwell"
+   ],
+   "teams": [
+    "Texans",
+    "Eagles",
+    "Bengals"
+   ],
+   "stats": [
+    {
+     "label": "Spector rushing TDs (Y89)",
+     "value": "42",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Siran Spector s.rtd"
+    },
+    {
+     "label": "Texans regular season",
+     "value": "15-2",
+     "source": "schedule.json seasons/Y89/table/[abbr=HOU]/record"
+    },
+    {
+     "label": "Texans points allowed",
+     "value": "378",
+     "source": "schedule.json seasons/Y89/table/[abbr=HOU]/pa"
+    },
+    {
+     "label": "Texans power ranking",
+     "value": "1",
+     "source": "schedule.json seasons/Y89/table/[abbr=HOU]/power"
+    },
+    {
+     "label": "Spector rushing yards (Y89)",
+     "value": "1,628",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Siran Spector s.ryds"
+    },
+    {
+     "label": "Spector games (Y89)",
+     "value": "19",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Siran Spector s.g"
+    },
+    {
+     "label": "Most rushing TDs, season (Skura's clubs)",
+     "value": "39",
+     "source": "records.json Most rushing TDs, season mark"
+    },
+    {
+     "label": "Spector value change",
+     "value": "117%",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Siran Spector value%"
+    },
+    {
+     "label": "Ogbah rushing yards (Y89)",
+     "value": "662",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Gerrit Ogbah s.ryds"
+    },
+    {
+     "label": "Ogbah rushing TDs (Y89)",
+     "value": "7",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Gerrit Ogbah s.rtd"
+    },
+    {
+     "label": "Ogbah catches (Y89)",
+     "value": "21",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Gerrit Ogbah s.rec"
+    },
+    {
+     "label": "Bengals regular season",
+     "value": "10-6-1",
+     "source": "schedule.json seasons/Y89/table/[abbr=CIN]/record"
+    }
+   ],
+   "related": [
+    "y88-ogbah-spector"
+   ]
+  },
+  {
+   "id": "y89-commanders",
+   "kind": "rivalry",
+   "headline": "Washington, the Neighbor Philadelphia Cannot Shake",
+   "dek": "The Commanders ended a 14-game winning streak and are the only club to beat Skura's Eagles twice.",
+   "body": [
+    "Every great team has a fixture it dreads, and for these Eagles it is Washington. The Commanders finished 7-10, a losing team by any measure, and still came to Philadelphia in week 8 and won 33-30. The defeat ended a 14-game winning streak that had begun in week 14 of Y88, the longest run in the weekly scores.",
+    "Across two seasons the series stands at 1-2-1, the tie a 40-40 game in Washington in Y88. The Eagles did win the rematch this year, 30-20 on the road, but no other club has beaten them twice, and the Giants and Cowboys, the rest of the division, have not beaten them at all.",
+    "The other home loss had less history behind it and more shock. Tampa Bay, a 6-11 team, won 46-30 in Philadelphia in week 16, the biggest upset of the season by record and the most points the Eagles allowed all year. Two home defeats to two losing teams, set against a perfect road sheet: Philadelphia went 8-0-1 away."
+   ],
+   "players": [],
+   "teams": [
+    "Commanders",
+    "Eagles",
+    "Buccaneers",
+    "Giants",
+    "Cowboys"
+   ],
+   "stats": [
+    {
+     "label": "Series record (weekly scores)",
+     "value": "1-2-1",
+     "source": "schedule.json headToHead/Commanders/record"
+    },
+    {
+     "label": "Winning streak ended",
+     "value": "14",
+     "source": "schedule.json records/[id=coach-win-streak]/value"
+    },
+    {
+     "label": "Streak began (week, Y88)",
+     "value": "14",
+     "source": "schedule.json records/[id=coach-win-streak]/from/week"
+    },
+    {
+     "label": "Commanders record",
+     "value": "7-10",
+     "source": "schedule.json seasons/Y89/table/[abbr=WAS]/record"
+    },
+    {
+     "label": "Week of the loss",
+     "value": "8",
+     "source": "schedule.json seasons/Y89/coachGames/[score=33-30]/week"
+    },
+    {
+     "label": "Loss to Washington",
+     "value": "33-30",
+     "source": "schedule.json seasons/Y89/coachGames/[week=8]/score"
+    },
+    {
+     "label": "Tie at Washington (Y88)",
+     "value": "40-40",
+     "source": "schedule.json seasons/Y88/coachGames/[week=13]/score"
+    },
+    {
+     "label": "Win at Washington",
+     "value": "30-20",
+     "source": "schedule.json seasons/Y89/coachGames/[week=14]/score"
+    },
+    {
+     "label": "Buccaneers record",
+     "value": "6-11",
+     "source": "schedule.json seasons/Y89/table/[abbr=TB]/record"
+    },
+    {
+     "label": "Loss to Tampa Bay",
+     "value": "46-30",
+     "source": "schedule.json seasons/Y89/coachGames/[week=16]/score"
+    },
+    {
+     "label": "Week of the upset",
+     "value": "16",
+     "source": "schedule.json seasons/Y89/upset/week"
+    },
+    {
+     "label": "Eagles on the road",
+     "value": "8-0-1",
+     "source": "schedule.json seasons/Y89/coachDetail/away"
+    }
+   ],
+   "related": []
+  },
+  {
+   "id": "y89-hof",
+   "kind": "milestone",
+   "headline": "Teamer Enters the Hall, McClain Takes the Tackle Mark, Horsted Drops Out",
+   "dek": "The Bills defensive back is the only new member of the Y89 class. Aqib McClain passed Lloyd Queen, and Von Horsted fell below the line.",
+   "body": [
+    "The Hall of Fame's Y89 class has one name. Daren Teamer, the Bills defensive back, arrived on his first card with a Career Legacy of 8,176 and an overall of 97. He has made 2,740 tackles and intercepted 42 passes in 246 games, a little more than 11 tackles every time he takes the field, and he has a Defensive Player of the Year award. His season ended in the wild card round at Cincinnati, and he is still waiting on a first ring.",
+    "Aqib McClain, inducted a year ago, finished the chase he was one tackle short of. The 49ers lineman made 83 tackles in Y89 and now has 1,446, the most by any defensive lineman on a card, ahead of Lloyd Queen's 1,364. Keion Orzech, his classmate, retired this offseason with 1,296.",
+    "One member left. Von Horsted, the former Rams defensive back, saw his Career Legacy slip from 7,358 to 7,235, under the floor that members must hold, and he is no longer in the Hall."
+   ],
+   "players": [
+    "Daren Teamer",
+    "Aqib McClain",
+    "Lloyd Queen",
+    "Keion Orzech",
+    "Von Horsted"
+   ],
+   "teams": [
+    "Bills",
+    "49ers",
+    "Cowboys",
+    "Rams",
+    "Bengals"
+   ],
+   "stats": [
+    {
+     "label": "Teamer Career Legacy",
+     "value": "8,176",
+     "source": "market_history.json snap-202611071241 DB:Daren Teamer legacy"
+    },
+    {
+     "label": "Teamer overall",
+     "value": "97",
+     "source": "market_history.json snap-202611071241 DB:Daren Teamer ovr"
+    },
+    {
+     "label": "Teamer career tackles",
+     "value": "2,740",
+     "source": "players.json DB:Daren Teamer tkl"
+    },
+    {
+     "label": "Teamer interceptions",
+     "value": "42",
+     "source": "players.json DB:Daren Teamer int"
+    },
+    {
+     "label": "Teamer games",
+     "value": "246",
+     "source": "players.json DB:Daren Teamer g"
+    },
+    {
+     "label": "Teamer tackles per game",
+     "value": "11",
+     "source": "players.json DB:Daren Teamer tkl/g"
+    },
+    {
+     "label": "McClain tackles (Y89)",
+     "value": "83",
+     "source": "market_history.json snap-202611051109..snap-202611071241 DL:Aqib McClain s.tkl"
+    },
+    {
+     "label": "McClain career tackles",
+     "value": "1,446",
+     "source": "players.json DL:Aqib McClain tkl"
+    },
+    {
+     "label": "Queen career tackles",
+     "value": "1,364",
+     "source": "players.json DL:Lloyd Queen tkl"
+    },
+    {
+     "label": "Orzech career tackles",
+     "value": "1,296",
+     "source": "players.json DL:Keion Orzech tkl"
+    },
+    {
+     "label": "Horsted Career Legacy before",
+     "value": "7,358",
+     "source": "market_history.json snap-202611051109 DB:Von Horsted legacy"
+    },
+    {
+     "label": "Horsted Career Legacy after",
+     "value": "7,235",
+     "source": "market_history.json snap-202611071241 DB:Von Horsted legacy"
+    }
+   ],
+   "related": [
+    "y88-hof"
+   ]
+  },
+  {
+   "id": "y89-diggs",
+   "kind": "chase",
+   "headline": "Diggs Reaches 400 Rushing Touchdowns as Two More Backs Pass 300",
+   "dek": "The Jaguars back pushed his career record to 408 and is 1,757 yards from Rondale Ikarras. Tim Wright and Cairo Colbert joined the 300 club.",
+   "body": [
+    "Danny Diggs keeps adding to a record that is already his. The Jaguars back scored 15 rushing touchdowns in Y89, passing 400 for his career and reaching 408, the most by any back on a card. He ran for 1,096 yards for a Jacksonville team that finished 3-13-1.",
+    "The other chase is still open. Rondale Ikarras, \"The Prodigal Son\", holds the career rushing mark with 23,178 yards, and Diggs, at 21,421, is now 1,757 behind. At his pace over the past two seasons that is a little under two more years of work.",
+    "Behind him, two backs crossed 300 career rushing touchdowns. Tim Wright of the Rams ran for 1,596 yards and 28 scores in 20 games, reached 325 and carried Los Angeles to the conference final in Philadelphia, which the Eagles won 32-28. Cairo Colbert of the Saints added 26 and reached 314. Wright is now the nearest active back to Diggs, 83 behind, and his card's value doubled, up 102%."
+   ],
+   "players": [
+    "Danny Diggs",
+    "Rondale Ikarras",
+    "Tim Wright",
+    "Cairo Colbert"
+   ],
+   "teams": [
+    "Jaguars",
+    "Rams",
+    "Saints",
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "Diggs career rushing TDs",
+     "value": "408",
+     "source": "players.json RB:Danny Diggs rtd"
+    },
+    {
+     "label": "Career rushing TDs passed",
+     "value": "400",
+     "source": "crossed: market_history.json snap-202611051109..snap-202611071241 RB:Danny Diggs s.rtd"
+    },
+    {
+     "label": "Diggs rushing TDs (Y89)",
+     "value": "15",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Danny Diggs s.rtd"
+    },
+    {
+     "label": "Diggs rushing yards (Y89)",
+     "value": "1,096",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Danny Diggs s.ryds"
+    },
+    {
+     "label": "Jaguars record",
+     "value": "3-13-1",
+     "source": "schedule.json seasons/Y89/table/[abbr=JAX]/record"
+    },
+    {
+     "label": "Ikarras career rushing yards",
+     "value": "23,178",
+     "source": "players.json RB:Rondale Ikarras ryds"
+    },
+    {
+     "label": "Diggs career rushing yards",
+     "value": "21,421",
+     "source": "players.json RB:Danny Diggs ryds"
+    },
+    {
+     "label": "Diggs behind Ikarras",
+     "value": "1,757",
+     "source": "players.json RB:Rondale Ikarras ryds minus players.json RB:Danny Diggs ryds"
+    },
+    {
+     "label": "Wright career rushing TDs passed",
+     "value": "300",
+     "source": "crossed: market_history.json snap-202611051109..snap-202611071241 RB:Tim Wright s.rtd"
+    },
+    {
+     "label": "Wright rushing yards (Y89)",
+     "value": "1,596",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Tim Wright s.ryds"
+    },
+    {
+     "label": "Wright rushing TDs (Y89)",
+     "value": "28",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Tim Wright s.rtd"
+    },
+    {
+     "label": "Wright games (Y89)",
+     "value": "20",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Tim Wright s.g"
+    },
+    {
+     "label": "Wright career rushing TDs",
+     "value": "325",
+     "source": "players.json RB:Tim Wright rtd"
+    },
+    {
+     "label": "Conference final",
+     "value": "32-28",
+     "source": "schedule.json seasons/Y89/coachGames/[week=30]/score"
+    },
+    {
+     "label": "Colbert rushing TDs (Y89)",
+     "value": "26",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Cairo Colbert s.rtd"
+    },
+    {
+     "label": "Colbert career rushing TDs",
+     "value": "314",
+     "source": "players.json RB:Cairo Colbert rtd"
+    },
+    {
+     "label": "Wright behind Diggs",
+     "value": "83",
+     "source": "players.json RB:Danny Diggs rtd minus players.json RB:Tim Wright rtd"
+    },
+    {
+     "label": "Wright value change",
+     "value": "102%",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Tim Wright value%"
+    }
+   ],
+   "related": [
+    "y88-diggs"
+   ]
+  },
+  {
+   "id": "y89-retirements",
+   "kind": "wherenow",
+   "headline": "Wise, Lowe, Felton and Orzech Call It a Career",
+   "dek": "Two quarterbacks with two MVP awards apiece lead the retirements, alongside two long-serving defenders.",
+   "body": [
+    "Drake Wise leaves with 64,703 passing yards and 641 touchdown passes in 347 games, plus two Most Valuable Player awards. His path was one of the stranger ones in the league. He began with the Giants, was traded to the Falcons after Y82 and was sent on to the Ravens before he ever played a game in Atlanta. He finished his career in Baltimore, still without a ring.",
+    "Pyke T. Lowe, the Vikings quarterback, retires with 43,523 yards, 452 touchdown passes, two MVP awards of his own and the only ring among the four.",
+    "On defense, Grunky Felton of the 49ers played 274 games at linebacker and made 1,047 tackles. Keion Orzech, the Cowboys lineman who entered the Hall of Fame a year ago, retires with 1,296 tackles and 6 interceptions, third among defensive linemen on a card in tackles, behind Aqib McClain and Lloyd Queen.",
+    "Neither defender won a title. Both leave numbers that will sit near the top of their position for a long time."
+   ],
+   "players": [
+    "Drake Wise",
+    "Pyke T. Lowe",
+    "Grunky Felton",
+    "Keion Orzech",
+    "Aqib McClain",
+    "Lloyd Queen"
+   ],
+   "teams": [
+    "Giants",
+    "Falcons",
+    "Ravens",
+    "Vikings",
+    "49ers",
+    "Cowboys"
+   ],
+   "stats": [
+    {
+     "label": "Wise passing yards",
+     "value": "64,703",
+     "source": "players.json QB:Drake Wise yds"
+    },
+    {
+     "label": "Wise TD passes",
+     "value": "641",
+     "source": "players.json QB:Drake Wise td"
+    },
+    {
+     "label": "Wise games",
+     "value": "347",
+     "source": "players.json QB:Drake Wise g"
+    },
+    {
+     "label": "Wise MVP awards",
+     "value": "2",
+     "source": "players.json QB:Drake Wise mvp"
+    },
+    {
+     "label": "Lowe passing yards",
+     "value": "43,523",
+     "source": "players.json QB:Pyke T. Lowe yds"
+    },
+    {
+     "label": "Lowe TD passes",
+     "value": "452",
+     "source": "players.json QB:Pyke T. Lowe td"
+    },
+    {
+     "label": "Lowe MVP awards",
+     "value": "2",
+     "source": "players.json QB:Pyke T. Lowe mvp"
+    },
+    {
+     "label": "Lowe rings",
+     "value": "1",
+     "source": "players.json QB:Pyke T. Lowe rings"
+    },
+    {
+     "label": "Felton games",
+     "value": "274",
+     "source": "players.json LB:Grunky Felton g"
+    },
+    {
+     "label": "Felton tackles",
+     "value": "1,047",
+     "source": "players.json LB:Grunky Felton tkl"
+    },
+    {
+     "label": "Orzech tackles",
+     "value": "1,296",
+     "source": "players.json DL:Keion Orzech tkl"
+    },
+    {
+     "label": "Orzech interceptions",
+     "value": "6",
+     "source": "players.json DL:Keion Orzech int"
+    }
+   ],
+   "related": []
+  },
+  {
+   "id": "y89-quick-hits",
+   "kind": "quickhits",
+   "headline": "Quick Hits",
+   "dek": "Around the league in Y89.",
+   "body": [
+    "Kenyon Shaheed caught 74 passes for 1,141 yards and 19 touchdowns for the champions, and his card's value rose 172%.",
+    "Rookies Koa Zuber and Snoop Dotson both played all 20 Eagles games; Zuber made 150 tackles and Dotson intercepted 3 passes.",
+    "The Eagles defense changed shape: Hamp McPhee moved on to the Ravens, and Trequan Roberts, a three-time champion, was traded to the Saints.",
+    "Phil Ekuale of the Steelers ran for 1,897 yards and 33 touchdowns, and his card's value rose 208%.",
+    "Kahzin Heath of the Broncos played his 300th game and threw 40 touchdown passes.",
+    "Marvell Rodgers of the Titans passed 2,500 career tackles and now has 2,691.",
+    "Kalif Suh of the Jets made 65 tackles, and his card's overall climbed from 90 to 93.",
+    "Kana'i Camper of the Buccaneers and Juju Ngakoue of the Bills joined the market with Career Legacies of 5,062 and 4,991."
+   ],
+   "players": [
+    "Kenyon Shaheed",
+    "Koa Zuber",
+    "Snoop Dotson",
+    "Hamp McPhee",
+    "Trequan Roberts",
+    "Phil Ekuale",
+    "Kahzin Heath",
+    "Marvell Rodgers",
+    "Kalif Suh",
+    "Kana'i Camper",
+    "Juju Ngakoue"
+   ],
+   "teams": [
+    "Eagles",
+    "Ravens",
+    "Saints",
+    "Steelers",
+    "Broncos",
+    "Titans",
+    "Jets",
+    "Buccaneers",
+    "Bills"
+   ],
+   "stats": [
+    {
+     "label": "Shaheed catches (Y89)",
+     "value": "74",
+     "source": "market_history.json snap-202611051109..snap-202611071241 TE:Kenyon Shaheed s.rec"
+    },
+    {
+     "label": "Shaheed yards (Y89)",
+     "value": "1,141",
+     "source": "market_history.json snap-202611051109..snap-202611071241 TE:Kenyon Shaheed s.yds"
+    },
+    {
+     "label": "Shaheed TDs (Y89)",
+     "value": "19",
+     "source": "market_history.json snap-202611051109..snap-202611071241 TE:Kenyon Shaheed s.td"
+    },
+    {
+     "label": "Shaheed value change",
+     "value": "172%",
+     "source": "market_history.json snap-202611051109..snap-202611071241 TE:Kenyon Shaheed value%"
+    },
+    {
+     "label": "Zuber games",
+     "value": "20",
+     "source": "players.json DB:Koa Zuber g"
+    },
+    {
+     "label": "Zuber tackles",
+     "value": "150",
+     "source": "players.json DB:Koa Zuber tkl"
+    },
+    {
+     "label": "Dotson interceptions",
+     "value": "3",
+     "source": "players.json LB:Snoop Dotson int"
+    },
+    {
+     "label": "Ekuale rushing yards (Y89)",
+     "value": "1,897",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Phil Ekuale s.ryds"
+    },
+    {
+     "label": "Ekuale rushing TDs (Y89)",
+     "value": "33",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Phil Ekuale s.rtd"
+    },
+    {
+     "label": "Ekuale value change",
+     "value": "208%",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Phil Ekuale value%"
+    },
+    {
+     "label": "K. Heath games passed",
+     "value": "300",
+     "source": "crossed: market_history.json snap-202611051109..snap-202611071241 QB:Kahzin Heath s.g"
+    },
+    {
+     "label": "K. Heath TD passes (Y89)",
+     "value": "40",
+     "source": "market_history.json snap-202611051109..snap-202611071241 QB:Kahzin Heath s.td"
+    },
+    {
+     "label": "Rodgers career tackles passed",
+     "value": "2,500",
+     "source": "crossed: market_history.json snap-202611051109..snap-202611071241 DB:Marvell Rodgers s.tkl"
+    },
+    {
+     "label": "Rodgers career tackles",
+     "value": "2,691",
+     "source": "players.json DB:Marvell Rodgers tkl"
+    },
+    {
+     "label": "Suh tackles (Y89)",
+     "value": "65",
+     "source": "market_history.json snap-202611051109..snap-202611071241 LB:Kalif Suh s.tkl"
+    },
+    {
+     "label": "Suh overall before",
+     "value": "90",
+     "source": "market_history.json snap-202611051109 LB:Kalif Suh ovr"
+    },
+    {
+     "label": "Suh overall after",
+     "value": "93",
+     "source": "market_history.json snap-202611071241 LB:Kalif Suh ovr"
+    },
+    {
+     "label": "Camper Career Legacy",
+     "value": "5,062",
+     "source": "market_history.json snap-202611071241 LB:Kana'i Camper legacy"
+    },
+    {
+     "label": "Ngakoue Career Legacy",
+     "value": "4,991",
+     "source": "market_history.json snap-202611071241 QB:Juju Ngakoue legacy"
+    }
+   ],
+   "related": []
+  }
+ ],
+ "didYouKnow": [
+  {
+   "id": "y89-dyk-road",
+   "text": "The Eagles went 8-0-1 on the road in Y89. Both of their losses came at home.",
+   "players": [],
+   "teams": [
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "Road record",
+     "value": "8-0-1",
+     "source": "schedule.json seasons/Y89/coachDetail/away"
+    }
+   ]
+  },
+  {
+   "id": "y89-dyk-spector",
+   "text": "Siran Spector scored 42 rushing touchdowns in 19 games for Houston, 2.2 a game.",
+   "players": [
+    "Siran Spector"
+   ],
+   "teams": [
+    "Texans"
+   ],
+   "stats": [
+    {
+     "label": "Rushing TDs (Y89)",
+     "value": "42",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Siran Spector s.rtd"
+    },
+    {
+     "label": "Games (Y89)",
+     "value": "19",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Siran Spector s.g"
+    },
+    {
+     "label": "TDs per game",
+     "value": "2.2",
+     "source": "market_history.json snap-202611051109..snap-202611071241 RB:Siran Spector s.rtd/s.g"
+    }
+   ]
+  },
+  {
+   "id": "y89-dyk-bengals",
+   "text": "Skura has met the Bengals in 4 Super Bowls and won all 4, most recently 44-14 in Y89.",
+   "players": [],
+   "teams": [
+    "Bengals"
+   ],
+   "stats": [
+    {
+     "label": "Super Bowl wins over Cincinnati",
+     "value": "4",
+     "source": "content.json rivalries/[id=rival-bengals]/record/won"
+    },
+    {
+     "label": "Super Bowl CXLVIII",
+     "value": "44-14",
+     "source": "super_bowls.json Y89 score"
+    }
+   ]
+  },
+  {
+   "id": "y89-dyk-zuber",
+   "text": "Koa Zuber made 150 tackles in the first 20 games of his career, 7.5 a game.",
+   "players": [
+    "Koa Zuber"
+   ],
+   "teams": [
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "Tackles",
+     "value": "150",
+     "source": "players.json DB:Koa Zuber tkl"
+    },
+    {
+     "label": "Games",
+     "value": "20",
+     "source": "players.json DB:Koa Zuber g"
+    },
+    {
+     "label": "Tackles per game",
+     "value": "7.5",
+     "source": "players.json DB:Koa Zuber tkl/g"
+    }
+   ]
+  },
+  {
+   "id": "y89-dyk-ties",
+   "text": "The Eagles have played two 40-40 games in two seasons: at Washington in Y88 and at Dallas in Y89.",
+   "players": [],
+   "teams": [
+    "Eagles",
+    "Commanders",
+    "Cowboys"
+   ],
+   "stats": [
+    {
+     "label": "Y88 at Washington",
+     "value": "40-40",
+     "source": "schedule.json seasons/Y88/coachGames/[week=13]/score"
+    },
+    {
+     "label": "Y89 at Dallas",
+     "value": "40-40",
+     "source": "schedule.json seasons/Y89/coachGames/[week=9]/score"
+    }
+   ]
+  },
+  {
+   "id": "y89-dyk-crawford",
+   "text": "Bones Crawford has thrown 141 touchdown passes in the first 40 games of his career.",
+   "players": [
+    "Bones Crawford"
+   ],
+   "teams": [
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "TD passes",
+     "value": "141",
+     "source": "players.json QB:Bones Crawford td"
+    },
+    {
+     "label": "Games",
+     "value": "40",
+     "source": "players.json QB:Bones Crawford g"
+    }
+   ]
+  }
+ ]
+}
