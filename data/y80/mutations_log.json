@@ -872,6 +872,15 @@
     "stats": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-07-season-rosters-88-89",
+   "dir": "data/uploads/2026-11-07-season-rosters-88-89",
+   "applied_at": "2026-11-07T13:16:41-08:00",
+   "mutations": {
+    "stats": 2
+   },
+   "changed": 2
   }
  ]
 }

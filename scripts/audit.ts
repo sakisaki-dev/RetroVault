@@ -106,12 +106,14 @@ Object.entries(extras.cards ?? {}).forEach(([who, card]) => {
 // 3b. Clubs the owner says a player never played for (owner_facts career.never) must not appear in his stints, his
 // speech or his card note, even as an opponent; a single-club order with no trade ("only a Lion") pins every stint
 type CareerFact = { never?: string[]; order?: string[]; next_team?: string };
-const ownerPlayers = (read('data/y80/owner_facts.json').players ?? {}) as Record<string, { career?: CareerFact }>;
+const ownerPlayers = (read('data/y80/owner_facts.json').players ?? {}) as Record<string, { career?: CareerFact; team?: string }>;
 for (const [who, f] of Object.entries(ownerPlayers)) {
   const never = new Set((f.career?.never ?? []).map((t) => findNFLTeam(t)?.id).filter(Boolean));
   const stintTeams = (extras.stints?.[who]?.stints ?? []).map((s: { team: string }) => s.team as string);
   stintTeams.filter((t: string) => never.has(findNFLTeam(t)?.id)).forEach((t: string) => errors.push(`Stints for ${who} include the ${t}; the owner says he never played for them`));
-  const only = f.career?.order?.length === 1 && !f.career.next_team ? findNFLTeam(f.career.order[0])?.id : undefined;
+  // a later owner team fact for another club (traded on after the order was given) lifts the single-club pin
+  const movedOn = !!f.team && !!findNFLTeam(f.team) && findNFLTeam(f.team)?.id !== findNFLTeam(f.career?.order?.[0] ?? '')?.id;
+  const only = f.career?.order?.length === 1 && !f.career.next_team && !movedOn ? findNFLTeam(f.career.order[0])?.id : undefined;
   if (only) stintTeams.filter((t: string) => findNFLTeam(t)?.id !== only).forEach((t: string) => errors.push(`Stints for ${who} include the ${t}; the owner says he only played for the ${f.career!.order![0]}`));
   if (!never.size) continue;
   const texts: [string, unknown][] = [['Speech', speeches[who]], ['Card note', extras.cards?.[who]?.note]];

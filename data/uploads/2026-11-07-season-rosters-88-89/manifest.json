@@ -1,0 +1,60 @@
+{
+ "id": "2026-11-07-season-rosters-88-89",
+ "created": "2026-11-07",
+ "title": "Eagles Y88 and Y89 season rosters (stint anchors)",
+ "images": [
+  {
+   "file": "images/IMG_6985.PNG",
+   "shows": "Eagles roster (10/10), end of Y88 (in bundle 2026-11-05-y88)"
+  }
+ ],
+ "ai_steps": [
+  {
+   "step": "transcribe",
+   "reason": "The Y88 Eagles roster screen (IMG_6985) was read in bundle 2026-11-05-y88; its names are reused as the Y88 season roster",
+   "trigger": "Stint solver placed Vyncint Heath on the Eagles in Y76"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/88/Eagles",
+   "value": [
+    "Akiem Brock",
+    "Bones Crawford",
+    "Bryant Zappe",
+    "Dwayne Skura",
+    "Gerrit Ogbah",
+    "Hamp McPhee",
+    "Kaulani Rahman",
+    "Kenyon Shaheed",
+    "Trequan Roberts",
+    "Vyncint Heath"
+   ],
+   "source": "image:images/IMG_6985.PNG",
+   "reason": "Eagles roster screen (10/10) at the end of Y88 (bundle 2026-11-05-y88), kept as the Y88 season roster so stints can anchor on it",
+   "trigger": "Stint solver placed Vyncint Heath on the Eagles in Y76; the Y88 and Y89 Eagles rosters were only stored as the current roster"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "season_rosters/89/Eagles",
+   "value": [
+    "Akiem Brock",
+    "Bones Crawford",
+    "Bryant Zappe",
+    "Dwayne Skura",
+    "Gerrit Ogbah",
+    "Kaulani Rahman",
+    "Kenyon Shaheed",
+    "Koa Zuber",
+    "Snoop Dotson",
+    "Vyncint Heath"
+   ],
+   "source": "owner",
+   "reason": "Owner: \"the eagles roster was crawford, ogbah, shaheeed, rahman, heath, brock, dotson, zuberm skura and zappe\" (Y89; bundle 2026-11-07-y89-eagles-roster), kept as the Y89 season roster",
+   "trigger": "Stint solver placed Vyncint Heath on the Eagles in Y76; the Y88 and Y89 Eagles rosters were only stored as the current roster"
+  }
+ ]
+}

@@ -377,6 +377,11 @@ def main():
         f = franchise_facts(p, teams, cards, career)
         era = parse_era(p.get("era"))
         status = F.STATUS_FIXES.get(name) or ("Retired" if name in F.RETIRED_WITH else None) or sheet.get(name, {}).get("st") or "Active"
+        if status == "Active" and f["main"] and f["order"] and f["main"] not in f["order"] and not f["next"] and f["main"] not in f["never"]:
+            # the owner's order of clubs predates a later move (e.g. traded on after it was given): an active player's
+            # current club is his latest stop, so it goes on the end of the chain rather than anywhere before it
+            f["order"] = [*f["order"], f["main"]]
+            f["known"].add(f["main"])
         real = F.REAL_NFL.get(name)
         target = {"games": (p.get("g") or 0) - (real["games"] if real else 0),
                   "rings": (p.get("rings") or 0) - (real["rings"] if real else 0)}

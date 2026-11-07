@@ -2776,23 +2776,30 @@
   "stints": [
    {
     "team": "Jets",
-    "from": 77,
+    "from": 79,
     "to": 86,
     "rings": [
-     77,
      80,
      82
     ]
    },
    {
-    "team": "Saints",
+    "team": "Eagles",
     "from": 87,
+    "to": 88,
+    "rings": [
+     88
+    ]
+   },
+   {
+    "team": "Saints",
+    "from": 89,
     "to": 89,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Jets roster. On the Y84 Jets roster. The only window that fits."
+  "evidence": "3 rings = Jets Y80, Y82; Eagles Y88. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Jets roster. On the Y84 Jets roster. On the Y88 Eagles roster. The only window that fits."
  },
  "Tyron Colvin": {
   "stints": [
@@ -3083,25 +3090,17 @@
  "Vyncint Heath": {
   "stints": [
    {
-    "team": "Eagles",
-    "from": 76,
-    "to": 76,
-    "rings": []
-   },
-   {
     "team": "Jets",
-    "from": 77,
+    "from": 82,
     "to": 82,
     "rings": [
-     77,
-     80,
      82
     ]
    },
    {
     "team": "Falcons",
     "from": 83,
-    "to": 89,
+    "to": 87,
     "rings": [
      83,
      84,
@@ -3109,10 +3108,19 @@
      86,
      87
     ]
+   },
+   {
+    "team": "Eagles",
+    "from": 88,
+    "to": 89,
+    "rings": [
+     88,
+     89
+    ]
    }
   ],
-  "confidence": "strong",
-  "evidence": "8 rings = Jets Y77, Y80, Y82; Falcons Y83, Y84, Y85, Y86, Y87. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “Traded from the Jets to the Falcons in a multi-team trade before Y83.” The only window that fits."
+  "confidence": "confirmed",
+  "evidence": "8 rings = Jets Y82; Falcons Y83, Y84, Y85, Y86, Y87; Eagles Y88, Y89. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y88 Eagles roster. On the Y89 Eagles roster. Owner: “Traded from the Jets to the Falcons in a multi-team trade before Y83.”"
  },
  "Dwayne Skura": {
   "stints": [
@@ -3134,8 +3142,8 @@
     ]
    }
   ],
-  "confidence": "likely",
-  "evidence": "3 rings = Jets Y82; Eagles Y88, Y89. On the Y82 Jets roster. On the Y83 Jets roster. On the Y84 Jets roster. Exact seasons are approximate."
+  "confidence": "strong",
+  "evidence": "3 rings = Jets Y82; Eagles Y88, Y89. On the Y82 Jets roster. On the Y83 Jets roster. On the Y84 Jets roster. On the Y88 Eagles roster. On the Y89 Eagles roster. The only window that fits."
  },
  "Spencer Daniels": {
   "stints": [
@@ -3317,6 +3325,28 @@
   ],
   "confidence": "confirmed",
   "evidence": "5 rings = Falcons Y83, Y84, Y85, Y86, Y87. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
+ },
+ "Trysten Floyd": {
+  "stints": [
+   {
+    "team": "Falcons",
+    "from": 83,
+    "to": 85,
+    "rings": [
+     83,
+     84,
+     85
+    ]
+   },
+   {
+    "team": "Commanders",
+    "from": 86,
+    "to": 89,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "3 rings = Falcons Y83, Y84, Y85. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.” The only window that fits."
  },
  "Bud Matthew": {
   "stints": [
@@ -3814,7 +3844,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Eagles Y88, Y89. The only window that fits."
+  "evidence": "2 rings = Eagles Y88, Y89. On the Y88 Eagles roster. On the Y89 Eagles roster. The only window that fits."
  },
  "Preston Gore": {
   "stints": [
@@ -3853,7 +3883,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Eagles Y88, Y89. The only window that fits."
+  "evidence": "2 rings = Eagles Y88, Y89. On the Y88 Eagles roster. On the Y89 Eagles roster. The only window that fits."
  },
  "Kenyon Shaheed": {
   "stints": [
@@ -3868,7 +3898,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Eagles Y88, Y89. The only window that fits."
+  "evidence": "2 rings = Eagles Y88, Y89. On the Y88 Eagles roster. On the Y89 Eagles roster. The only window that fits."
  },
  "Kaulani Rahman": {
   "stints": [
@@ -3883,7 +3913,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Eagles Y88, Y89. The only window that fits."
+  "evidence": "2 rings = Eagles Y88, Y89. On the Y88 Eagles roster. On the Y89 Eagles roster. The only window that fits."
  },
  "Akiem Brock": {
   "stints": [
@@ -3898,53 +3928,27 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Eagles Y88, Y89. The only window that fits."
+  "evidence": "2 rings = Eagles Y88, Y89. On the Y88 Eagles roster. On the Y89 Eagles roster. The only window that fits."
  },
  "Hamp McPhee": {
   "stints": [
    {
-    "team": "Falcons",
+    "team": "Eagles",
     "from": 87,
-    "to": 87,
+    "to": 88,
     "rings": [
-     87
+     88
     ]
    },
    {
     "team": "Ravens",
-    "from": 88,
+    "from": 89,
     "to": 89,
     "rings": []
    }
   ],
-  "confidence": "ambiguous",
-  "evidence": "1 ring = Falcons Y87. His known clubs (Ravens) can't account for every ring, so the best fit adds a stop: Falcons Y87, Ravens Y88-89.",
-  "alternatives": [
-   [
-    {
-     "team": "Eagles",
-     "from": 87,
-     "to": 88
-    },
-    {
-     "team": "Ravens",
-     "from": 89,
-     "to": 89
-    }
-   ],
-   [
-    {
-     "team": "Falcons",
-     "from": 86,
-     "to": 86
-    },
-    {
-     "team": "Ravens",
-     "from": 87,
-     "to": 89
-    }
-   ]
-  ]
+  "confidence": "strong",
+  "evidence": "1 ring = Eagles Y88. On the Y88 Eagles roster. The only window that fits."
  },
  "Bryant Zappe": {
   "stints": [
@@ -3959,7 +3963,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Eagles Y88, Y89. The only window that fits."
+  "evidence": "2 rings = Eagles Y88, Y89. On the Y88 Eagles roster. On the Y89 Eagles roster. The only window that fits."
  },
  "Deshone Bello": {
   "stints": [
@@ -4089,7 +4093,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Eagles Y89. The only window that fits."
+  "evidence": "1 ring = Eagles Y89. On the Y89 Eagles roster. The only window that fits."
  },
  "Lewis Pettis": {
   "stints": [
@@ -4175,7 +4179,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Eagles Y89. The only window that fits."
+  "evidence": "1 ring = Eagles Y89. On the Y89 Eagles roster. The only window that fits."
  },
  "Juju Ngakoue": {
   "stints": [
