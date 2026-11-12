@@ -190,7 +190,8 @@
      ]
     ],
     "says": "Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets."
-   }
+   },
+   "signature_team": "Falcons"
   },
   "Charlie John": {
    "retired_with": "Bills"
@@ -405,7 +406,8 @@
      ]
     ],
     "says": "QB and Super Bowl MVP of the Titans' Y74 title; now with the Commanders."
-   }
+   },
+   "signature_team": "Commanders"
   },
   "Ian Finney": {
    "retired_with": "Buccaneers"
@@ -944,7 +946,8 @@
      ]
     ],
     "says": "Came to the Falcons from the Buccaneers in the trade that sent Shareef London to Tampa Bay before Y84, won the Y84 title there, then was traded to the Giants at the start of Y85."
-   }
+   },
+   "signature_team": "Falcons"
   },
   "Shawn Skule": {
    "status": "Retired"

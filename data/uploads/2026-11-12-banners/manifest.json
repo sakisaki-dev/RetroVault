@@ -1,0 +1,35 @@
+{
+ "id": "2026-11-12-banners",
+ "created": "2026-11-12",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Hamsfa Boltt/signature_team",
+   "value": "Commanders",
+   "source": "owner",
+   "reason": "Owner: \"Commanders\" (asked where Hamsfa Boltt is best known)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Shawn Milne/signature_team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: \"Falcons\" (asked where Shawn Milne is best known)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Chance Woodrum/signature_team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: \"Falcons\" (asked where Chance Woodrum is best known)",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}
