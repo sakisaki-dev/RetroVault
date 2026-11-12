@@ -1,19 +1,19 @@
 {
- "source": "Retro Bowl staff screen (IMG_7094, Y89 complete)",
+ "source": "Retro Bowl staff screen (IMG_7225, Y90 complete)",
  "name": "Dorren Skura",
- "age": 124,
+ "age": 125,
  "stars": 5,
- "morale": "Great",
- "gamesPlayed": 1771,
+ "morale": "Exceptional",
+ "gamesPlayed": 1791,
  "simGames": 17,
  "record": {
-  "fullSeasons": 88,
-  "regular": "1283-222-8",
-  "regularWinPct": 0.851,
-  "playoff": "235-23",
-  "playoffWinPct": 0.911,
-  "playoffsReached": "87/89",
-  "seasonsNoSimGames": 75
+  "fullSeasons": 89,
+  "regular": "1297-225-8",
+  "regularWinPct": 0.85,
+  "playoff": "237-24",
+  "playoffWinPct": 0.908,
+  "playoffsReached": "88/90",
+  "seasonsNoSimGames": 76
  },
  "bests": {
   "mostPoints": "MIN 38-54 CAR",
@@ -844,6 +844,15 @@
    "l": 2,
    "t": 1,
    "finish": "Champions"
+  },
+  {
+   "year": 90,
+   "team": "Eagles",
+   "abbr": "PHI",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "finish": "NFC Champs"
   }
  ],
  "currentStint": {
