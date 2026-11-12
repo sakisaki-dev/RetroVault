@@ -1,0 +1,3 @@
+{"id": "2026-11-12-dr-bones", "created": "2026-11-12", "images": [], "ai_steps": [],
+ "mutations": [{"lane": "stats", "op": "player.set", "target": "QB:Bones Crawford", "value": {"nick": "Dr. Bones"},
+  "source": "owner", "reason": "Owner: \"Dr.Bones works\" (nickname for Bones Crawford)", "trigger": "Owner statement in notes.md"}]}

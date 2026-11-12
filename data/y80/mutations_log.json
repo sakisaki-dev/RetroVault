@@ -990,6 +990,15 @@
     "stats": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-12-dr-bones",
+   "dir": "data/uploads/2026-11-12-dr-bones",
+   "applied_at": "2026-11-12T15:54:02-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
   }
  ]
 }
