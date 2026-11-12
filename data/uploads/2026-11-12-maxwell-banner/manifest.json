@@ -1,0 +1,4 @@
+{"id": "2026-11-12-maxwell-banner", "created": "2026-11-12", "images": [], "ai_steps": [],
+ "mutations": [{"lane": "stats", "op": "fact.set", "target": "players/Ryland Maxwell/signature_team", "value": "Falcons",
+  "source": "owner", "reason": "Owner: \"for maxwell that's def falcons\" (where he is best known; takes effect when he retires, while active he wears the Eagles)",
+  "trigger": "Owner statement in notes.md"}]}

@@ -927,6 +927,15 @@
     "stats": 7
    },
    "changed": 7
+  },
+  {
+   "id": "2026-11-12-maxwell-banner",
+   "dir": "data/uploads/2026-11-12-maxwell-banner",
+   "applied_at": "2026-11-12T15:25:10-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
   }
  ]
 }
