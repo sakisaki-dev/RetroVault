@@ -1,0 +1,19 @@
+{
+ "id": "2026-11-12-heatwave",
+ "created": "2026-11-12",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Vyncint Heath",
+   "value": {
+    "nick": "Heatwave"
+   },
+   "source": "owner",
+   "reason": "Owner: \"vyncent heath's nickname is also heatwave not starscream\"",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}

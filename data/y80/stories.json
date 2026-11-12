@@ -2,9 +2,9 @@
  "_about": "Season Story: the third AI-authored lane (owner-approved). One news package per completed season, written only by a story.set upload mutation; facts only from the data, every number cited in stats[] with its source (scripts/story_check.py). Never hand-edit.",
  "seasons": {
   "Y82": {
-   "reason": "Season Story for Y82 (refresh: Y82 card figures cited from the Y82 market snapshot so later updates do not stale them; the CXLI score is now known)",
-   "trigger": "Season Y82 completed (coach.season 82); STORY NEEDED: Y82",
-   "upload": "2026-10-28-story-y84",
+   "reason": "Correction: Vyncint Heath's nickname is Heatwave, not Starscream",
+   "trigger": "Owner correction of a nickname the story quotes",
+   "upload": "2026-11-12-heatwave-stories",
    "tagline": "One more title in green, then the coach walked out the door and the league traded everything that wasn't nailed down.",
    "articles": [
     {
@@ -368,11 +368,11 @@
     {
      "id": "y82-ox-and-starscream",
      "kind": "rise",
-     "headline": "The Ox and Starscream",
+     "headline": "The Ox and Heatwave",
      "dek": "Kane Van Oxley played his way into the S tier. Vyncint Heath played his way onto the map in 17 games.",
      "body": [
       "Van Oxley's Y82 was a highlight reel in numbers: 2,496 yards on 145 catches, 17.2 a catch, with 39 touchdowns. That is a touchdown on more than a quarter of his receptions. They call him “The Ox” for the strength that breaks tackles and holds up blocks, and no player Skura has coached has recovered more fumbles. The market caught on this year: his value went from 716 to 1,515, up 111.6%. He now carries 14,921 career yards, 147 touchdowns and 3 rings to Chicago, a Falcon for a moment and a Bear for real.",
-      "Heath was the surprise. In his first 17 games he caught 85 passes for 1,592 yards, 18.7 a catch, won Offensive Player of the Year and a ring, and debuted with a skill grade of A−. They call him “Starscream”. The multi-team trades sent him to Atlanta, so he still plays for the coach who watched him break out, now beside Maxwell and Woodrum."
+      "Heath was the surprise. In his first 17 games he caught 85 passes for 1,592 yards, 18.7 a catch, won Offensive Player of the Year and a ring, and debuted with a skill grade of A−. They call him “Heatwave”. The multi-team trades sent him to Atlanta, so he still plays for the coach who watched him break out, now beside Maxwell and Woodrum."
      ],
      "players": [
       "Kane Van Oxley",
@@ -1197,9 +1197,9 @@
    ]
   },
   "Y83": {
-   "reason": "Season Story for Y83 (revised: Stout, Friend and Jensen retired after Y83; their final lines were never captured)",
-   "trigger": "Season Y83 completed (coach.season 83)",
-   "upload": "2026-10-28-story-y83-v3",
+   "reason": "Correction: Vyncint Heath's nickname is Heatwave, not Starscream",
+   "trigger": "Owner correction of a nickname the story quotes",
+   "upload": "2026-11-12-heatwave-stories",
    "tagline": "A new club, a new quarterback, a new receiver in full flight, and the old champions waiting in the final.",
    "articles": [
     {
@@ -1209,7 +1209,7 @@
      "dek": "The Falcons went 12-5, ran the table in the playoffs and beat the Jets 40-25 in Super Bowl CXLII. Dorren Skura's first season in red ended against the club he left.",
      "body": [
       "Nobody gave the Falcons a bye. They finished 12-5, played their way in through the first weekend of the playoffs and did not lose again, finishing 40-25 over the New York Jets in Super Bowl CXLII. It was another title for Dorren Skura, won in his first season with a new club, against the champions he had coached a year earlier.",
-      "The offense belonged to people who were not in Atlanta a year before. Brandon Jaclyde, in his first 21 games in the league, threw for 5,199 yards and 56 touchdowns and was named Most Valuable Player. Vyncint Heath, the receiver they call \"Starscream\", turned a trade into the best season of his young career: 137 catches, 2,504 yards, 34 touchdowns and the Super Bowl MVP. Ryland Maxwell ran for 1,919 yards and 25 scores and won Offensive Player of the Year.",
+      "The offense belonged to people who were not in Atlanta a year before. Brandon Jaclyde, in his first 21 games in the league, threw for 5,199 yards and 56 touchdowns and was named Most Valuable Player. Vyncint Heath, the receiver they call \"Heatwave\", turned a trade into the best season of his young career: 137 catches, 2,504 yards, 34 touchdowns and the Super Bowl MVP. Ryland Maxwell ran for 1,919 yards and 25 scores and won Offensive Player of the Year.",
       "The defense was new too. Simeon Otton was Rookie of the Year at linebacker, Jashaun Fleming worked the line, and Trysten Floyd joined Chance Woodrum in the secondary. Woodrum, one of the three champions who followed the coach south, now owns 4 rings.",
       "On the other sideline stood the club Skura built. Malakai Sawyer and Jaylen Conklin carried the Jets back to the final, and lost to Skura on Super Bowl Sunday, as New York has every time the two have met in the final.",
       "The celebration did not last long. Before the second season in Atlanta began, Shareef London went to Tampa Bay for Shawn Milne, Jaclyde was traded to the Dolphins and Perrion Randall to the Seahawks. The champions are already a different team."
@@ -1364,10 +1364,10 @@
     {
      "id": "y83-starscream",
      "kind": "rise",
-     "headline": "Starscream Takes Flight",
+     "headline": "Heatwave Takes Flight",
      "dek": "Vyncint Heath caught 137 passes for 2,504 yards and 34 touchdowns, then took the Super Bowl MVP. His skill grade climbed to A+.",
      "body": [
-      "Last season \"Starscream\" was a promising rookie with 85 catches on a loaded Jets roster. This season he was the reason defensive coordinators lost sleep.",
+      "Last season \"Heatwave\" was a promising rookie with 85 catches on a loaded Jets roster. This season he was the reason defensive coordinators lost sleep.",
       "Heath played all 21 Falcons games and caught 137 passes for 2,504 yards and 34 touchdowns. That is 18.3 yards a catch on a season's worth of volume, and a touchdown on roughly one of every four receptions. When the Falcons needed one more play in Super Bowl CXLII, it went his way, and so did the game's MVP award.",
       "Two seasons in, he has 2 rings, an Offensive Player of the Year award and a Super Bowl MVP. The skill grades moved him from A- to A+, and his card value jumped 262 percent. The ceiling is not in sight yet."
      ],
@@ -2301,9 +2301,9 @@
    ]
   },
   "Y84": {
-   "reason": "Refresh: cited numbers went stale after Y89",
-   "trigger": "Season Y84 completed (coach.season 84)",
-   "upload": "2026-11-07-story-refresh",
+   "reason": "Correction: Vyncint Heath's nickname is Heatwave, not Starscream",
+   "trigger": "Owner correction of a nickname the story quotes",
+   "upload": "2026-11-12-heatwave-stories",
    "tagline": "A record season on the ground, a second straight title in Atlanta won with key pieces missing time, and two new names in the Hall of Fame.",
    "articles": [
     {
@@ -2314,7 +2314,7 @@
      "body": [
       "The Falcons are champions again. Atlanta finished the regular season 13-3-1, survived a four-point final against the Denver Broncos, 32-28 in Super Bowl CXLIII, and gave Dorren Skura a third straight title: one with the Jets, now two with the Falcons. A roster that was torn apart and rebuilt after the first ring simply did it again.",
       "This one was won on the ground. Ryland Maxwell ran for 2,272 yards and 27 touchdowns, the best rushing season the record board has ever shown, and finished the job as Super Bowl MVP. He played all 20 games of the run and now owns 4 rings in 97 career games.",
-      "The passing game belonged to a newcomer. Orlando Larienne, in his first season, threw for 3,485 yards and 41 touchdowns and left with a ring. He appeared in only 15 of the 20 games, and a team that also saw Vyncint Heath miss time still found a way. Heath, the receiver they call \"Starscream\", caught 119 passes for 2,209 yards anyway and won a second Offensive Player of the Year award.",
+      "The passing game belonged to a newcomer. Orlando Larienne, in his first season, threw for 3,485 yards and 41 touchdowns and left with a ring. He appeared in only 15 of the 20 games, and a team that also saw Vyncint Heath miss time still found a way. Heath, the receiver they call \"Heatwave\", caught 119 passes for 2,209 yards anyway and won a second Offensive Player of the Year award.",
       "Up front, Calais Ham made 49 blocks in his first season and has a ring to show for it. Shawn Milne, who came from Tampa Bay in the trade that sent Shareef London the other way, won the first of his career, and Chance Woodrum now has 5.",
       "Up the coast, the old club had a milestone of its own. Malakai Sawyer ran for 1,551 yards for the Jets and crossed into the Hall of Fame, the only member of its Y84 class. In Los Angeles, the Rams' Von Horsted crossed the same line, though he has since fallen out of the Hall. The Falcons kept winning."
      ],
@@ -3711,9 +3711,9 @@
    ]
   },
   "Y85": {
-   "reason": "Re-cite after the Y87 update: the Bengals rivalry dropped out of content.json's generated rivalries, so the y85-bengals stat 'Super Bowl meetings won' (content.json rivalries/[id=rival-bengals]/record/won) no longer resolves; no stable source counts Super Bowl wins over one club, so the dek was reworded without the count and the stat dropped",
-   "trigger": "Audit: rivalry dropped out of content.json after the Y87 update (2026-11-04-y87)",
-   "upload": "2026-11-04-story-y85-v6",
+   "reason": "Correction: Vyncint Heath's nickname is Heatwave, not Starscream",
+   "trigger": "Owner correction of a nickname the story quotes",
+   "upload": "2026-11-12-heatwave-stories",
    "tagline": "A fourth straight title for Dorren Skura, three records for Ryland Maxwell and a rookie Super Bowl MVP in Atlanta.",
    "articles": [
     {
@@ -3725,7 +3725,7 @@
       "The Falcons are champions for a third straight season, and Dorren Skura has now won four titles in a row across two clubs. Atlanta went 15-2 in the regular season, beat the Cincinnati Bengals in Super Bowl CXLIV and added another championship to Skura's career.",
       "It was the most complete season of the run. The 15-2 mark was the club's best since Skura arrived, two wins better than last year's 13-3-1, and Atlanta played 20 games in all on the way to the trophy.",
       "Ryland Maxwell was the engine again. He ran for 2,617 yards and 39 touchdowns, breaking his own single-season rushing mark and the rushing touchdown record on the same board, and added the best rushing game it has ever recorded, 237 yards. He won his second Offensive Player of the Year award and his fifth ring.",
-      "The new piece was a rookie. Apollo Adam caught 85 passes for 1,654 yards and 18 touchdowns in his first season and was named Super Bowl MVP. Orlando Larienne, who missed time a year ago, played in all 20 games and threw 51 touchdown passes. Vyncint Heath, the receiver they call \"Starscream\", added 2,059 yards.",
+      "The new piece was a rookie. Apollo Adam caught 85 passes for 1,654 yards and 18 touchdowns in his first season and was named Super Bowl MVP. Orlando Larienne, who missed time a year ago, played in all 20 games and threw 51 touchdown passes. Vyncint Heath, the receiver they call \"Heatwave\", added 2,059 yards.",
       "Around the league, the Jets' Jimmy Tillery was named Most Valuable Player and Seattle's Deonte Sutton took Defensive Player of the Year. In Atlanta, the only question left is how long this can last."
      ],
      "players": [
@@ -4793,9 +4793,9 @@
    ]
   },
   "Y86": {
-   "reason": "Season Story for Y86",
-   "trigger": "Season Y86 completed (coach.season 86)",
-   "upload": "2026-10-30-story-y86",
+   "reason": "Correction: Vyncint Heath's nickname is Heatwave, not Starscream",
+   "trigger": "Owner correction of a nickname the story quotes",
+   "upload": "2026-11-12-heatwave-stories",
    "tagline": "A fourth straight title in Atlanta, a first MVP for Orlando Larienne and a new career tackle leader in San Francisco.",
    "articles": [
     {
@@ -4806,7 +4806,7 @@
      "body": [
       "The Falcons are champions for a fourth straight season, and Dorren Skura has now won five titles in a row across two clubs. Atlanta finished the regular season 13-4, a step back from last year's 15-2, then beat the Chicago Bears, the Philadelphia Eagles and the Los Angeles Rams before taking apart the Houston Texans, 48-13, in Super Bowl CXLV.",
       "This was the season Orlando Larienne took over the league. The quarterback threw for 4,821 yards and 50 touchdowns and was named Most Valuable Player for the first time. He did it while appearing in 19 of Atlanta's 21 games, missing 2, and Ryland Maxwell sat out the same number. Injury may have played a part for both, as may a long season's wear on the two players the offense leans on most. Neither looked slowed when it counted. Maxwell ran for 2,150 yards and 35 touchdowns and was named Super Bowl MVP for the second time in his career.",
-      "The passing game had a second engine. Apollo Adam, last year's Super Bowl MVP as a rookie, played every game, caught 114 passes for 2,200 yards and 22 touchdowns and was named Offensive Player of the Year. Vyncint Heath, the receiver they call \"Starscream\", added 2,027 yards and passed 10,000 for his career.",
+      "The passing game had a second engine. Apollo Adam, last year's Super Bowl MVP as a rookie, played every game, caught 114 passes for 2,200 yards and 22 touchdowns and was named Offensive Player of the Year. Vyncint Heath, the receiver they call \"Heatwave\", added 2,027 yards and passed 10,000 for his career.",
       "The rings kept stacking up. Chance Woodrum collected his seventh, Maxwell his sixth. Around the league, Kalif Suh of the Jets crossed into the Hall of Fame and K'Lavon Settle of the 49ers took over the career tackle lead. In Atlanta, four banners in four seasons have turned a new club into the standard everyone else is measured against."
      ],
      "players": [
@@ -5096,7 +5096,7 @@
      "body": [
       "A year after he was named Super Bowl MVP as a rookie, Apollo Adam became the centerpiece of the league's most dangerous passing game. He caught 114 passes for 2,200 yards and 22 touchdowns, 19.3 yards a catch, and was named Offensive Player of the Year. Unlike last season, when he missed time, he was on the field for every one of Atlanta's 21 games.",
       "Through 39 career games he has 199 catches, 3,854 yards, 40 touchdowns and 2 rings. His card's overall rose from 62 to 68 and its grade from A to A+.",
-      "The veteran beside him had a milestone of his own. Vyncint Heath, \"Starscream\", caught 105 passes for 2,027 yards and 15 touchdowns, passing 10,000 career receiving yards and 100 receiving touchdowns in the same season. He now has 10,391 yards, 102 touchdowns and 5 rings. Defenses that rolled coverage toward one of them paid for it with the other."
+      "The veteran beside him had a milestone of his own. Vyncint Heath, \"Heatwave\", caught 105 passes for 2,027 yards and 15 touchdowns, passing 10,000 career receiving yards and 100 receiving touchdowns in the same season. He now has 10,391 yards, 102 touchdowns and 5 rings. Defenses that rolled coverage toward one of them paid for it with the other."
      ],
      "players": [
       "Apollo Adam",
@@ -5963,9 +5963,9 @@
    ]
   },
   "Y87": {
-   "reason": "Season Story for Y87",
-   "trigger": "Season Y87 completed (coach.season 87)",
-   "upload": "2026-11-04-story-y87",
+   "reason": "Correction: Vyncint Heath's nickname is Heatwave, not Starscream",
+   "trigger": "Owner correction of a nickname the story quotes",
+   "upload": "2026-11-12-heatwave-stories",
    "tagline": "A perfect 17-0 season in Atlanta, a fifth straight Falcons title, a new rushing record for Ryland Maxwell and two new Hall of Famers.",
    "articles": [
     {
@@ -6403,7 +6403,7 @@
      "dek": "Apollo Adam caught 97 passes for 1,848 yards and 20 touchdowns; Vyncint Heath scored 22 times despite missing 3 games.",
      "body": [
       "Apollo Adam spent his third season proving the second was no accident. The receiver caught 97 passes for 1,848 yards and 20 touchdowns, 19.1 yards a catch, played all 20 games and was named Offensive Player of the Year for the second year running. Through 59 career games he has 296 catches, 5,702 yards, 60 touchdowns and 3 rings, and his card's overall rose from 68 to 75.",
-      "Vyncint Heath, \"Starscream\", was the touchdown maker of the pair. He caught 76 passes for 1,474 yards and 22 touchdowns, a score every 3.5 catches, while appearing in 17 of Atlanta's 20 games. He missed 3; injury may have played a part, as may the wear of a long career. When he was on the field, defenses had no answer for him near the goal line.",
+      "Vyncint Heath, \"Heatwave\", was the touchdown maker of the pair. He caught 76 passes for 1,474 yards and 22 touchdowns, a score every 3.5 catches, while appearing in 17 of Atlanta's 20 games. He missed 3; injury may have played a part, as may the wear of a long career. When he was on the field, defenses had no answer for him near the goal line.",
       "Heath won his sixth ring and now has 11,865 career receiving yards and 124 touchdowns."
      ],
      "players": [
@@ -7355,9 +7355,9 @@
    ]
   },
   "Y88": {
-   "reason": "Refresh: cited numbers went stale after Y89",
-   "trigger": "Season Y88 completed (coach.season 88)",
-   "upload": "2026-11-07-story-refresh",
+   "reason": "Correction: Vyncint Heath's nickname is Heatwave, not Starscream",
+   "trigger": "Owner correction of a nickname the story quotes",
+   "upload": "2026-11-12-heatwave-stories",
    "tagline": "Skura's first season in Philadelphia ends with Super Bowl CXLVII, a record debut for Bones Crawford, a third OPOY for Vyncint Heath and two new Hall of Famers.",
    "articles": [
     {
@@ -7506,7 +7506,7 @@
      "headline": "Heath for Adam: The Receiver Swap That Shaped the Season",
      "dek": "Philadelphia sent Apollo Adam to Atlanta for Vyncint Heath, and Heath answered with a third Offensive Player of the Year award.",
      "body": [
-      "The biggest trade of the offseason sent one star receiver each way between Skura's old club and his new one. Apollo Adam, the two-time Offensive Player of the Year, went from Philadelphia to Atlanta. Vyncint Heath, \"Starscream\", came the other way.",
+      "The biggest trade of the offseason sent one star receiver each way between Skura's old club and his new one. Apollo Adam, the two-time Offensive Player of the Year, went from Philadelphia to Atlanta. Vyncint Heath, \"Heatwave\", came the other way.",
       "Heath made the deal look lopsided. He caught 140 passes for 2,204 yards and 28 touchdowns, won his third Offensive Player of the Year award and added his seventh ring. His card's overall climbed from 86 to 90, and its value rose 115%.",
       "Adam was good, not great, in his first Atlanta season. He caught 71 passes for 1,123 yards and 20 touchdowns, and he appeared in 18 of the Falcons' 19 games, so he missed time; a knock may have played a part, as may a new offense. His card's value still rose 73%, and the market clearly expects the best of his career to be ahead of him. The Eagles took the win in the playoff meeting, but this trade will be judged over several seasons, not one."
      ],
@@ -8247,9 +8247,9 @@
    ]
   },
   "Y89": {
-   "reason": "Refresh: cited numbers went stale after Y90",
-   "trigger": "Season Y89 completed (coach.season 89)",
-   "upload": "2026-11-12-refresh-y90",
+   "reason": "Correction: Vyncint Heath's nickname is Heatwave, not Starscream",
+   "trigger": "Owner correction of a nickname the story quotes",
+   "upload": "2026-11-12-heatwave-stories",
    "tagline": "Skura's Eagles repeat with Super Bowl CXLVIII, Bones Crawford wins MVP, Siran Spector runs for 42 touchdowns and Daren Teamer enters the Hall of Fame.",
    "articles": [
     {
@@ -8474,7 +8474,7 @@
      "headline": "Heath for Adam, Year Two: An Eighth Ring and a Second Super Bowl MVP",
      "dek": "Vyncint Heath caught 28 touchdown passes for the champions. In Atlanta, Apollo Adam's numbers fell and the Falcons missed the playoffs.",
      "body": [
-      "The trade that sent Apollo Adam from Philadelphia to Atlanta and brought Vyncint Heath, \"Starscream\", the other way now has a second chapter, and it reads much like the first.",
+      "The trade that sent Apollo Adam from Philadelphia to Atlanta and brought Vyncint Heath, \"Heatwave\", the other way now has a second chapter, and it reads much like the first.",
       "Heath caught 123 passes for 2,414 yards and 28 touchdowns, was named Super Bowl MVP for the second time and collected his eighth ring. He did it in 18 of the Eagles' 20 games, so he missed 2; injury may have played a part, though rest or a lighter load late in the year are possible too. His card's overall rose from 90 to 93, his skill grade reached an S and its value climbed 67%.",
       "Adam's second Falcons season went the other way. He caught 58 passes for 393 yards and 4 touchdowns in 17 games, a long way from the 1,123 yards of his first year in Atlanta, and the Falcons finished 9-8 and out of the playoffs. His skill grade slipped from an A to an A minus, though the card's value still rose 18%.",
       "Two seasons in, Philadelphia holds two titles and the clear edge in the deal. Atlanta is still waiting for the version of Adam that won two Offensive Player of the Year awards."
@@ -9332,9 +9332,9 @@
    ]
   },
   "Y90": {
-   "reason": "Season Y90 completed",
-   "trigger": "Season Y90 completed (coach.season 90)",
-   "upload": "2026-11-12-story-y90",
+   "reason": "Correction: Vyncint Heath's nickname is Heatwave, not Starscream",
+   "trigger": "Owner correction of a nickname the story quotes",
+   "upload": "2026-11-12-heatwave-stories",
    "tagline": "The Texans end Skura's title run in Super Bowl CXLIX, Bones Crawford repeats as MVP, Calvin Wingo II arrives and Danny Diggs retires as a Broncos back takes his record.",
    "articles": [
     {
@@ -10112,7 +10112,7 @@
      "headline": "Heath, Diggs, Teamer and Seven More Walk Away",
      "dek": "Ten veterans are retired, among them a two-time Super Bowl MVP, the career interceptions leader and an eight-ring defensive back.",
      "body": [
-      "Vyncint Heath, \"Starscream\", leaves at the top. He won 8 rings, 3 Offensive Player of the Year awards and 2 Super Bowl MVPs, the second in his last game, and caught 891 passes for 16,483 yards and 180 touchdowns in 153 games.",
+      "Vyncint Heath, \"Heatwave\", leaves at the top. He won 8 rings, 3 Offensive Player of the Year awards and 2 Super Bowl MVPs, the second in his last game, and caught 891 passes for 16,483 yards and 180 touchdowns in 153 games.",
       "Daren Teamer, last year's only Hall of Fame inductee, retires with 2,740 tackles and 42 interceptions, the most on any card, and still no ring. Danny Diggs and Cairo Colbert, two backs who spent years near the top of the rushing tables, retire with 408 and 314 rushing touchdowns.",
       "Hamsfa Boltt quarterbacked the Titans to Super Bowl CXXXIII in Y74 and was its MVP, and he finishes with 48,211 passing yards. Chance Woodrum, who followed Skura from the Jets to the Falcons, retires with 8 rings and 1,635 tackles.",
       "Shawn Milne, Jarred Beasley, Tristan Tart and Niles Swoopes complete the list. None of the ten played a game in Y90."

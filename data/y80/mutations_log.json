@@ -945,6 +945,24 @@
     "stats": 3
    },
    "changed": 3
+  },
+  {
+   "id": "2026-11-12-heatwave",
+   "dir": "data/uploads/2026-11-12-heatwave",
+   "applied_at": "2026-11-12T15:46:19-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-12-heatwave-stories",
+   "dir": "data/uploads/2026-11-12-heatwave-stories",
+   "applied_at": "2026-11-12T15:46:37-08:00",
+   "mutations": {
+    "story": 9
+   },
+   "changed": 9
   }
  ]
 }
