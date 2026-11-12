@@ -1,0 +1,41 @@
+{
+ "id": "2026-11-12-nicknames-legends",
+ "created": "2026-11-12",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Wayne Wilson",
+   "value": {
+    "nick": "The Mailman"
+   },
+   "source": "owner",
+   "reason": "Owner: \"YES, JWK works for jackson wardell kline imitating JFK etc etc\" (approving the pasted suggestions)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Michael Wilson",
+   "value": {
+    "nick": "Air Wilson"
+   },
+   "source": "owner",
+   "reason": "Owner: \"YES, JWK works for jackson wardell kline imitating JFK etc etc\" (approving the pasted suggestions)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Jackson Wardell Kline",
+   "value": {
+    "nick": "JWK"
+   },
+   "source": "owner",
+   "reason": "Owner: \"YES, JWK works for jackson wardell kline imitating JFK etc etc\" (approving the pasted suggestions)",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}

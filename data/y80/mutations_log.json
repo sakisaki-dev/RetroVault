@@ -972,6 +972,15 @@
     "stats": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-12-nicknames-legends",
+   "dir": "data/uploads/2026-11-12-nicknames-legends",
+   "applied_at": "2026-11-12T15:50:48-08:00",
+   "mutations": {
+    "stats": 3
+   },
+   "changed": 3
   }
  ]
 }

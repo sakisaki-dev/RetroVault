@@ -91,7 +91,8 @@
   "ovr": 98,
   "att": 12454,
   "cmp": 8331,
-  "int": 212
+  "int": 212,
+  "nick": "The Mailman"
  },
  {
   "n": "Marcel Mathieu",
@@ -782,7 +783,8 @@
   "td": 289,
   "fum": 13,
   "rec": 1668,
-  "lng": 65
+  "lng": 65,
+  "nick": "JWK"
  },
  {
   "n": "Tyrion Kline",
@@ -1850,7 +1852,8 @@
   "sck": 66,
   "ratt": 101,
   "ryds": 413,
-  "rtd": 36
+  "rtd": 36,
+  "nick": "Air Wilson"
  },
  {
   "n": "Jason Macleone",

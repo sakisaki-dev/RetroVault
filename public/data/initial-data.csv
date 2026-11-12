@@ -5,7 +5,7 @@ Name,Status,Team,Games,Att,Cmp,Pass Yds,Pass TD,INT,Sacks,Att,Rush Yds,Rush TD,R
 Sherman Brandson,Retired,Tampa Bay Buccaneers,315,7560,6400,91463,1150,198,50,203,780,56,10,8,0,4,1,1277.71,,,,General Sherman,Y
 Amani Bryant,Retired,Denver Broncos,416,13029,8179,79121,763,62,58,361,2292,124,0,1,0,0,0,1126.37,,,,,Y
 Dennis Baylon,Retired,Buffalo Bills,253,6802,5146,69448,779,134,54,347,1976,81,7,3,0,4,0,1074.8,,,,The Iron Island,Y
-Wayne Wilson,Retired,Los Angeles Chargers,431,12454,8331,90450,913,212,73,324,1811,88,4,5,0,1,0,997.77,,,,,Y
+Wayne Wilson,Retired,Los Angeles Chargers,431,12454,8331,90450,913,212,73,324,1811,88,4,5,0,1,0,997.77,,,,The Mailman,Y
 Drake Wise,Retired,Baltimore Ravens,347,10883,6955,64703,641,62,64,294,1900,105,0,2,0,0,0,978.99,,,,,
 Kyric McQuay,Retired,Indianapolis Colts,313,10099,6048,53797,562,43,50,269,1997,107,2,0,0,2,0,968.03,,,,Baby Manning,
 Lamar Jackson,Retired,Baltimore Ravens,345,9885,6617,71958,682,141,66,1276,7939,95,2,4,0,0,0,952.94,,,,Him.,Y
@@ -17,7 +17,7 @@ Ray Waller,Retired,Tampa Bay Buccaneers,278,7388,5510,70128,749,214,57,160,856,4
 Jarrell Cann,Active,Dallas Cowboys,288,9269,5898,55109,496,48,49,254,1893,95,0,1,0,0,0,895.67,,,,,
 Pete Peters,Active,Tampa Bay Buccaneers,320,10405,6453,57167,527,51,59,260,2033,96,0,0,0,0,0,892.98,,,,,
 Jayden Daniels,Retired,Washington Commanders,335,10699,6800,65468,673,106,52,421,2396,89,3,0,0,1,1,889.43,,,,,
-Michael Wilson,Retired,New York Giants,214,6168,4456,58992,690,161,66,101,413,36,6,6,0,0,0,879.49,,,,,Y
+Michael Wilson,Retired,New York Giants,214,6168,4456,58992,690,161,66,101,413,36,6,6,0,0,0,879.49,,,,Air Wilson,Y
 Kahzin Heath,Active,Denver Broncos,327,10883,6671,57295,545,54,51,225,1533,83,0,1,0,0,1,863.77,,,,,
 Tajae Westry,Active,Las Vegas Raiders,354,12186,7292,60882,594,67,48,232,1524,91,0,0,0,0,0,862.23,,,,,
 Kirk Lenoir,Retired,Jacksonville Jaguars,403,13337,7713,61937,600,74,62,306,1891,106,0,0,0,0,0,857.45,,,,,
@@ -120,7 +120,7 @@ WR
 Name,Status,Team,Games,Rec,Rec Yds,TDs,Fumbles,Longest,Rings,MVP,OPOY,SBMVP,ROTY,True Talent,Dominance,Career Legacy,TPG,Nicknames,Inducted
 God Johnson,Retired,Minnesota Vikings,234,2081,36005,378,3,72,10,1,2,5,0,1466.67,,,,,Y
 Ian Finney,Retired,Tampa Bay Buccaneers,250,1902,32980,292,9,76,9,1,5,3,0,1283.75,,,,The Infinity Man,Y
-Jackson Wardell Kline,Retired,New York Giants,237,1668,28331,289,13,65,8,1,6,1,0,1144.34,,,,,Y
+Jackson Wardell Kline,Retired,New York Giants,237,1668,28331,289,13,65,8,1,6,1,0,1144.34,,,,JWK,Y
 Cairo Asanjh,Retired,Seattle Seahawks,250,1642,27508,280,9,67,9,3,2,2,0,1124.22,,,,The Prophecy,Y
 Lukas Russell,Retired,Seattle Seahawks,271,1675,24547,265,15,73,8,1,4,0,1,1066.98,,,,Running Man,Y
 Pharoah Hunter,Retired,Minnesota Vikings,233,1523,23261,260,18,70,4,0,4,2,1,995.29,,,,,Y
