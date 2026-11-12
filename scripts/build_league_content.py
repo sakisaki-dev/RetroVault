@@ -1015,8 +1015,14 @@ def pair_headlines(prev: dict | None, cur: dict | None, bundles: list[dict]) -> 
         mt = re.match(r"players/(.+)/team$", m["target"])
         if m["op"] == "fact.set" and mt and isinstance(m["value"], str) and m["value"] not in ("UNK", "CUR"):
             was = before.get(mt.group(1))
-            if was in ("UNK", "CUR") or was == m["value"] or not re.search(r"\btrad", m.get("reason", ""), re.I):
-                continue  # first placement, same club, or a correction the owner didn't describe as a trade
+            if was in ("UNK", "CUR") or was == m["value"]:
+                continue  # first placement or the same club
+            if m["value"] == "FA":
+                if was and was != "FA":  # released: a free agent has no club, so the headline wears the one he left
+                    add("trade", f"Released: {short(mt.group(1))} leaves the {was} as a free agent", 80, players=[mt.group(1)], teams=[was])
+                continue
+            if not re.search(r"\btrad", m.get("reason", ""), re.I):
+                continue  # a correction the owner didn't describe as a trade
             add("trade", f"Traded: {short(mt.group(1))} to the {m['value']}", 80, players=[mt.group(1)], teams=[m["value"]])
 
     if prev and cur:

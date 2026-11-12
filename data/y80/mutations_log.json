@@ -918,6 +918,15 @@
     "story": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-12-y91-moves",
+   "dir": "data/uploads/2026-11-12-y91-moves",
+   "applied_at": "2026-11-12T15:21:36-08:00",
+   "mutations": {
+    "stats": 7
+   },
+   "changed": 7
   }
  ]
 }

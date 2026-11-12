@@ -391,6 +391,12 @@ def main():
         roster_years = [(y, r[name]) for y, r in F.SEASON_ROSTERS.items() if name in r]
         anchors = sorted({*[(t, y) for t, y, _ in rec_anchors], *owner_on, *[(short(t, teams), y) for y, t in roster_years],
                           *[(t, y) for t, a, b in exact for y in range(a, b + 1)]}, key=lambda a: (a[1], a[0]))
+        if f["main"] and f["order"] and f["main"] not in f["order"] and not f["next"] and f["main"] not in f["never"] \
+                and max((y for t, y in anchors if t == f["main"]), default=0) > max((y for t, y in anchors if t in f["order"]), default=0):
+            # the same rule for a retired player: his club of record, anchored (a season roster, the record board) after
+            # every club in the owner's order, was his last stop (Heath: Jets, Falcons, then the Y88-89 Eagles)
+            f["order"] = [*f["order"], f["main"]]
+            f["known"].add(f["main"])
         target["anchors"] = anchors
         target["exact"] = exact
         if career.get("longest"):

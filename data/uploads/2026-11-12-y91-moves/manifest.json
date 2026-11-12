@@ -1,0 +1,92 @@
+{
+ "id": "2026-11-12-y91-moves",
+ "created": "2026-11-12",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Gerrit Ogbah/team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: \"we let go of shaheed and traded ogbah for maxwell\" (traded to the Falcons for Ryland Maxwell)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Gerrit Ogbah/career/next_team",
+   "value": "Falcons",
+   "source": "owner",
+   "reason": "Owner: \"we let go of shaheed and traded ogbah for maxwell\" (traded after Y90, before playing for the Falcons)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ryland Maxwell/team",
+   "value": "Eagles",
+   "source": "owner",
+   "reason": "Owner: \"we let go of shaheed and traded ogbah for maxwell\" (traded to the Eagles for Gerrit Ogbah)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ryland Maxwell/career/next_team",
+   "value": "Eagles",
+   "source": "owner",
+   "reason": "Owner: \"we let go of shaheed and traded ogbah for maxwell\" (traded after Y90, before playing for the Eagles)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kenyon Shaheed/team",
+   "value": "FA",
+   "source": "owner",
+   "reason": "Owner: \"we let go of shaheed and traded ogbah for maxwell\" (released by the Eagles: a free agent)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "active_rosters/Eagles",
+   "value": [
+    "Akiem Brock",
+    "Bones Crawford",
+    "Bryant Zappe",
+    "Calvin Wingo II",
+    "Dwayne Skura",
+    "Kaulani Rahman",
+    "Koa Zuber",
+    "Ryland Maxwell",
+    "Snoop Dotson"
+   ],
+   "source": "owner",
+   "reason": "Owner: \"we let go of shaheed and traded ogbah for maxwell\" (Ogbah and Shaheed out, Maxwell in)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "active_rosters/Falcons",
+   "value": [
+    "Apollo Adam",
+    "Calais Ham",
+    "Gerrit Ogbah",
+    "Ian Clapp",
+    "Keaton Toney",
+    "Marc Saine II",
+    "Orlando Larienne",
+    "Ryan Pepper",
+    "Simeon Otton",
+    "Tramon Holton"
+   ],
+   "source": "owner",
+   "reason": "Owner: \"we let go of shaheed and traded ogbah for maxwell\" (Maxwell out, Ogbah in)",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}

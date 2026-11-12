@@ -2558,10 +2558,16 @@
      86,
      87
     ]
+   },
+   {
+    "team": "Eagles",
+    "from": 91,
+    "to": 91,
+    "rings": []
    }
   ],
   "confidence": "confirmed",
-  "evidence": "7 rings = Jets Y80, Y82; Falcons Y83, Y84, Y85, Y86, Y87. Record board (your club's games only): Y85 best rushing game (Falcons); Y85 most rushing tds, season (Falcons); Y87 best rushing season (Falcons). On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Falcons roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
+  "evidence": "7 rings = Jets Y80, Y82; Falcons Y83, Y84, Y85, Y86, Y87. Record board (your club's games only): Y85 best rushing game (Falcons); Y85 most rushing tds, season (Falcons); Y87 best rushing season (Falcons). On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Falcons roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.” Traded to the Eagles after Y90."
  },
  "Ty Lock": {
   "stints": [
@@ -3089,6 +3095,41 @@
   ],
   "confidence": "strong",
   "evidence": "No rings. On the Y90 Buccaneers roster."
+ },
+ "Vyncint Heath": {
+  "stints": [
+   {
+    "team": "Jets",
+    "from": 82,
+    "to": 82,
+    "rings": [
+     82
+    ]
+   },
+   {
+    "team": "Falcons",
+    "from": 83,
+    "to": 87,
+    "rings": [
+     83,
+     84,
+     85,
+     86,
+     87
+    ]
+   },
+   {
+    "team": "Eagles",
+    "from": 88,
+    "to": 89,
+    "rings": [
+     88,
+     89
+    ]
+   }
+  ],
+  "confidence": "confirmed",
+  "evidence": "8 rings = Jets Y82; Falcons Y83, Y84, Y85, Y86, Y87; Eagles Y88, Y89. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y88 Eagles roster. On the Y89 Eagles roster. Owner: “Traded from the Jets to the Falcons in a multi-team trade before Y83.”"
  },
  "Dwayne Skura": {
   "stints": [
@@ -3812,10 +3853,16 @@
      88,
      89
     ]
+   },
+   {
+    "team": "Falcons",
+    "from": 91,
+    "to": 91,
+    "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Eagles Y88, Y89. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. The only window that fits."
+  "evidence": "2 rings = Eagles Y88, Y89. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. The only window that fits. Traded to the Falcons after Y90."
  },
  "Preston Gore": {
   "stints": [

@@ -367,7 +367,10 @@
    "status": "Retired"
   },
   "Gerrit Ogbah": {
-   "team": "Eagles"
+   "team": "Falcons",
+   "career": {
+    "next_team": "Falcons"
+   }
   },
   "God Johnson": {
    "retired_with": "Vikings"
@@ -587,7 +590,7 @@
    "status": "Retired"
   },
   "Kenyon Shaheed": {
-   "team": "Eagles"
+   "team": "FA"
   },
   "Khaleke Hyder": {
    "team": "Jaguars"
@@ -871,7 +874,7 @@
    "signature_team": "Ravens"
   },
   "Ryland Maxwell": {
-   "team": "Falcons",
+   "team": "Eagles",
    "career": {
     "order": [
      "Jets",
@@ -883,7 +886,8 @@
       83
      ]
     ],
-    "says": "Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets."
+    "says": "Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.",
+    "next_team": "Eagles"
    }
   },
   "Sauce Gardner": {
@@ -1291,21 +1295,20 @@
    "Bryant Zappe",
    "Calvin Wingo II",
    "Dwayne Skura",
-   "Gerrit Ogbah",
    "Kaulani Rahman",
-   "Kenyon Shaheed",
    "Koa Zuber",
+   "Ryland Maxwell",
    "Snoop Dotson"
   ],
   "Falcons": [
    "Apollo Adam",
    "Calais Ham",
+   "Gerrit Ogbah",
    "Ian Clapp",
    "Keaton Toney",
    "Marc Saine II",
    "Orlando Larienne",
    "Ryan Pepper",
-   "Ryland Maxwell",
    "Simeon Otton",
    "Tramon Holton"
   ],
