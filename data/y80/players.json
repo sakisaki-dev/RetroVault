@@ -6723,7 +6723,10 @@
   "opoy": 0,
   "dpoy": 0,
   "roty": 0,
-  "sbmvp": 0
+  "sbmvp": 0,
+  "rec": 0,
+  "recyds": 0,
+  "rectd": 0
  },
  {
   "n": "Daelin Virgin",
@@ -6851,7 +6854,10 @@
   "opoy": 0,
   "dpoy": 0,
   "roty": 0,
-  "sbmvp": 0
+  "sbmvp": 0,
+  "rec": 0,
+  "recyds": 0,
+  "rectd": 0
  },
  {
   "n": "Anree Wren",
@@ -7333,7 +7339,10 @@
   "opoy": 0,
   "dpoy": 0,
   "roty": 0,
-  "sbmvp": 0
+  "sbmvp": 0,
+  "rec": 0,
+  "recyds": 0,
+  "rectd": 0
  },
  {
   "n": "Khalid Glasgow",

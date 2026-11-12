@@ -157,7 +157,8 @@
    "signature_team": "Seahawks"
   },
   "Cairo Colbert": {
-   "team": "Saints"
+   "team": "Saints",
+   "status": "Retired"
   },
   "Calais Ham": {
    "team": "Falcons"
@@ -176,7 +177,7 @@
   },
   "Chance Woodrum": {
    "team": "Falcons",
-   "status": "Active",
+   "status": "Retired",
    "career": {
     "order": [
      "Jets",
@@ -244,10 +245,12 @@
    }
   },
   "Danny Diggs": {
-   "team": "Jaguars"
+   "team": "Jaguars",
+   "status": "Retired"
   },
   "Daren Teamer": {
-   "team": "Bills"
+   "team": "Bills",
+   "status": "Retired"
   },
   "Darrel Longa": {
    "status": "Retired"
@@ -382,7 +385,7 @@
     "Titans",
     "Commanders"
    ],
-   "status": "Active",
+   "status": "Retired",
    "card": {
     "former_team": "Titans",
     "note": "Quarterbacked the Titans to their most recent title, Super Bowl CXXXIII (Y74), and was named SB MVP; now with the Commanders"
@@ -453,6 +456,9 @@
   },
   "Jamon Brooker": {
    "team": "Packers"
+  },
+  "Jarred Beasley": {
+   "status": "Retired"
   },
   "Jarrell Cann": {
    "team": "Cowboys"
@@ -752,7 +758,8 @@
    }
   },
   "Niles Swoopes": {
-   "team": "Jaguars"
+   "team": "Jaguars",
+   "status": "Retired"
   },
   "Obinna Leary": {
    "team_history": [
@@ -914,7 +921,7 @@
     "Falcons",
     "Giants"
    ],
-   "status": "Active",
+   "status": "Retired",
    "career": {
     "order": [
      "Buccaneers",
@@ -1022,7 +1029,8 @@
    "team": "Steelers"
   },
   "Tristan Tart": {
-   "team": "Ravens"
+   "team": "Ravens",
+   "status": "Retired"
   },
   "Trysten Floyd": {
    "team": "Commanders",
@@ -1080,6 +1088,7 @@
   },
   "Vyncint Heath": {
    "team": "Eagles",
+   "status": "Retired",
    "career": {
     "order": [
      "Jets",

@@ -1,7 +1,7 @@
 {
  "season": "Y89",
  "tagline": "Skura's Eagles repeat with Super Bowl CXLVIII, Bones Crawford wins MVP, Siran Spector runs for 42 touchdowns and Daren Teamer enters the Hall of Fame.",
- "upload": "2026-11-07-story-y89",
+ "upload": "2026-11-12-refresh-y90",
  "articles": [
   {
    "id": "y89-eagles-repeat",
@@ -113,7 +113,7 @@
     {
      "label": "Heath Super Bowl MVPs",
      "value": "2",
-     "source": "players.json WR:Vyncint Heath sbmvp"
+     "source": "market_history.json snap-202611071241 WR:Vyncint Heath s.sbmvp"
     }
    ],
    "related": [
@@ -127,7 +127,7 @@
    "dek": "The Eagles quarterback threw for 6,302 yards and 72 touchdowns in his second season and has 141 touchdown passes in 40 games.",
    "body": [
     "A year ago the question about Bones Crawford was whether a debut like his could be repeated. He answered it by improving. In 20 games he threw for 6,302 yards and 72 touchdowns, up from 5,922 and 69, and the league named him its Most Valuable Player.",
-    "His style has not changed. Crawford still attacks down the field, averaging 16.7 yards per completion across his career, and he still accepts the risk that comes with it: 27 interceptions this season. With receivers who win the ball in the air, that bargain has now paid off twice.",
+    "His style has not changed. Crawford still attacks down the field, averaging 16.8 yards per completion across his career, and he still accepts the risk that comes with it: 27 interceptions this season. With receivers who win the ball in the air, that bargain has now paid off twice.",
     "Kaulani Rahman made the case that the quarterback had help. The second-year receiver caught 145 passes for 2,635 yards and 22 touchdowns, won Offensive Player of the Year and saw his card's value rise 122%.",
     "Crawford's card moves more slowly. Its overall rose from 62 to 64, because overall rewards a long career, but his skill grade remains an S, and through 40 games he owns 141 touchdown passes and two rings."
    ],
@@ -152,12 +152,12 @@
     {
      "label": "Crawford career TD passes",
      "value": "141",
-     "source": "players.json QB:Bones Crawford td"
+     "source": "market_history.json snap-202611071241 QB:Bones Crawford s.td"
     },
     {
      "label": "Crawford career games",
      "value": "40",
-     "source": "players.json QB:Bones Crawford g"
+     "source": "market_history.json snap-202611071241 QB:Bones Crawford s.g"
     },
     {
      "label": "Crawford games (Y89)",
@@ -176,7 +176,7 @@
     },
     {
      "label": "Career yards per completion",
-     "value": "16.7",
+     "value": "16.8",
      "source": "players.json QB:Bones Crawford yds/cmp"
     },
     {
@@ -257,12 +257,12 @@
     {
      "label": "Heath Super Bowl MVPs",
      "value": "2",
-     "source": "players.json WR:Vyncint Heath sbmvp"
+     "source": "market_history.json snap-202611071241 WR:Vyncint Heath s.sbmvp"
     },
     {
      "label": "Heath rings",
      "value": "8",
-     "source": "players.json WR:Vyncint Heath rings"
+     "source": "market_history.json snap-202611071241 WR:Vyncint Heath s.rings"
     },
     {
      "label": "Heath games (Y89)",
@@ -332,7 +332,7 @@
     {
      "label": "Adam OPOY awards",
      "value": "2",
-     "source": "players.json WR:Apollo Adam opoy"
+     "source": "market_history.json snap-202611071241 WR:Apollo Adam s.opoy"
     }
    ],
    "related": [
@@ -433,7 +433,7 @@
    "dek": "The Commanders ended a 14-game winning streak and are the only club to beat Skura's Eagles twice.",
    "body": [
     "Every great team has a fixture it dreads, and for these Eagles it is Washington. The Commanders finished 7-10, a losing team by any measure, and still came to Philadelphia in week 8 and won 33-30. The defeat ended a 14-game winning streak that had begun in week 14 of Y88, the longest run in the weekly scores.",
-    "Across two seasons the series stands at 1-2-1, the tie a 40-40 game in Washington in Y88. The Eagles did win the rematch this year, 30-20 on the road, but no other club has beaten them twice, and the Giants and Cowboys, the rest of the division, have not beaten them at all.",
+    "Across two seasons the Eagles have one win, two losses and a tie against Washington, the tie a 40-40 game in Washington in Y88. The Eagles did win the rematch this year, 30-20 on the road, but no other club has beaten them twice, and the Giants and Cowboys, the rest of the division, have not beaten them at all.",
     "The other home loss had less history behind it and more shock. Tampa Bay, a 6-11 team, won 46-30 in Philadelphia in week 16, the biggest upset of the season by record and the most points the Eagles allowed all year. Two home defeats to two losing teams, set against a perfect road sheet: Philadelphia went 8-0-1 away."
    ],
    "players": [],
@@ -446,9 +446,9 @@
    ],
    "stats": [
     {
-     "label": "Series record (weekly scores)",
-     "value": "1-2-1",
-     "source": "schedule.json headToHead/Commanders/record"
+     "label": "Loss to Washington (Y88)",
+     "value": "29-24",
+     "source": "schedule.json seasons/Y88/coachGames/[week=4]/score"
     },
     {
      "label": "Winning streak ended",
@@ -546,22 +546,22 @@
     {
      "label": "Teamer career tackles",
      "value": "2,740",
-     "source": "players.json DB:Daren Teamer tkl"
+     "source": "market_history.json snap-202611071241 DB:Daren Teamer s.tkl"
     },
     {
      "label": "Teamer interceptions",
      "value": "42",
-     "source": "players.json DB:Daren Teamer int"
+     "source": "market_history.json snap-202611071241 DB:Daren Teamer s.int"
     },
     {
      "label": "Teamer games",
      "value": "246",
-     "source": "players.json DB:Daren Teamer g"
+     "source": "market_history.json snap-202611071241 DB:Daren Teamer s.g"
     },
     {
      "label": "Teamer tackles per game",
      "value": "11",
-     "source": "players.json DB:Daren Teamer tkl/g"
+     "source": "market_history.json snap-202611071241 DB:Daren Teamer s.tkl/s.g"
     },
     {
      "label": "McClain tackles (Y89)",
@@ -571,17 +571,17 @@
     {
      "label": "McClain career tackles",
      "value": "1,446",
-     "source": "players.json DL:Aqib McClain tkl"
+     "source": "market_history.json snap-202611071241 DL:Aqib McClain s.tkl"
     },
     {
      "label": "Queen career tackles",
      "value": "1,364",
-     "source": "players.json DL:Lloyd Queen tkl"
+     "source": "market_history.json snap-202611071241 DL:Lloyd Queen s.tkl"
     },
     {
      "label": "Orzech career tackles",
      "value": "1,296",
-     "source": "players.json DL:Keion Orzech tkl"
+     "source": "market_history.json snap-202611071241 DL:Keion Orzech s.tkl"
     },
     {
      "label": "Horsted Career Legacy before",
@@ -624,7 +624,7 @@
     {
      "label": "Diggs career rushing TDs",
      "value": "408",
-     "source": "players.json RB:Danny Diggs rtd"
+     "source": "market_history.json snap-202611071241 RB:Danny Diggs s.rtd"
     },
     {
      "label": "Career rushing TDs passed",
@@ -649,17 +649,17 @@
     {
      "label": "Ikarras career rushing yards",
      "value": "23,178",
-     "source": "players.json RB:Rondale Ikarras ryds"
+     "source": "market_history.json snap-202611071241 RB:Rondale Ikarras s.ryds"
     },
     {
      "label": "Diggs career rushing yards",
      "value": "21,421",
-     "source": "players.json RB:Danny Diggs ryds"
+     "source": "market_history.json snap-202611071241 RB:Danny Diggs s.ryds"
     },
     {
      "label": "Diggs behind Ikarras",
      "value": "1,757",
-     "source": "players.json RB:Rondale Ikarras ryds minus players.json RB:Danny Diggs ryds"
+     "source": "market_history.json snap-202611071241 RB:Rondale Ikarras s.ryds minus market_history.json snap-202611071241 RB:Danny Diggs s.ryds"
     },
     {
      "label": "Wright career rushing TDs passed",
@@ -684,7 +684,7 @@
     {
      "label": "Wright career rushing TDs",
      "value": "325",
-     "source": "players.json RB:Tim Wright rtd"
+     "source": "market_history.json snap-202611071241 RB:Tim Wright s.rtd"
     },
     {
      "label": "Conference final",
@@ -699,12 +699,12 @@
     {
      "label": "Colbert career rushing TDs",
      "value": "314",
-     "source": "players.json RB:Cairo Colbert rtd"
+     "source": "market_history.json snap-202611071241 RB:Cairo Colbert s.rtd"
     },
     {
      "label": "Wright behind Diggs",
      "value": "83",
-     "source": "players.json RB:Danny Diggs rtd minus players.json RB:Tim Wright rtd"
+     "source": "market_history.json snap-202611071241 RB:Danny Diggs s.rtd minus market_history.json snap-202611071241 RB:Tim Wright s.rtd"
     },
     {
      "label": "Wright value change",
@@ -747,62 +747,62 @@
     {
      "label": "Wise passing yards",
      "value": "64,703",
-     "source": "players.json QB:Drake Wise yds"
+     "source": "market_history.json snap-202611071241 QB:Drake Wise s.yds"
     },
     {
      "label": "Wise TD passes",
      "value": "641",
-     "source": "players.json QB:Drake Wise td"
+     "source": "market_history.json snap-202611071241 QB:Drake Wise s.td"
     },
     {
      "label": "Wise games",
      "value": "347",
-     "source": "players.json QB:Drake Wise g"
+     "source": "market_history.json snap-202611071241 QB:Drake Wise s.g"
     },
     {
      "label": "Wise MVP awards",
      "value": "2",
-     "source": "players.json QB:Drake Wise mvp"
+     "source": "market_history.json snap-202611071241 QB:Drake Wise s.mvp"
     },
     {
      "label": "Lowe passing yards",
      "value": "43,523",
-     "source": "players.json QB:Pyke T. Lowe yds"
+     "source": "market_history.json snap-202611071241 QB:Pyke T. Lowe s.yds"
     },
     {
      "label": "Lowe TD passes",
      "value": "452",
-     "source": "players.json QB:Pyke T. Lowe td"
+     "source": "market_history.json snap-202611071241 QB:Pyke T. Lowe s.td"
     },
     {
      "label": "Lowe MVP awards",
      "value": "2",
-     "source": "players.json QB:Pyke T. Lowe mvp"
+     "source": "market_history.json snap-202611071241 QB:Pyke T. Lowe s.mvp"
     },
     {
      "label": "Lowe rings",
      "value": "1",
-     "source": "players.json QB:Pyke T. Lowe rings"
+     "source": "market_history.json snap-202611071241 QB:Pyke T. Lowe s.rings"
     },
     {
      "label": "Felton games",
      "value": "274",
-     "source": "players.json LB:Grunky Felton g"
+     "source": "market_history.json snap-202611071241 LB:Grunky Felton s.g"
     },
     {
      "label": "Felton tackles",
      "value": "1,047",
-     "source": "players.json LB:Grunky Felton tkl"
+     "source": "market_history.json snap-202611071241 LB:Grunky Felton s.tkl"
     },
     {
      "label": "Orzech tackles",
      "value": "1,296",
-     "source": "players.json DL:Keion Orzech tkl"
+     "source": "market_history.json snap-202611071241 DL:Keion Orzech s.tkl"
     },
     {
      "label": "Orzech interceptions",
      "value": "6",
-     "source": "players.json DL:Keion Orzech int"
+     "source": "market_history.json snap-202611071241 DL:Keion Orzech s.int"
     }
    ],
    "related": []
@@ -870,17 +870,17 @@
     {
      "label": "Zuber games",
      "value": "20",
-     "source": "players.json DB:Koa Zuber g"
+     "source": "market_history.json snap-202611071241 DB:Koa Zuber s.g"
     },
     {
      "label": "Zuber tackles",
      "value": "150",
-     "source": "players.json DB:Koa Zuber tkl"
+     "source": "market_history.json snap-202611071241 DB:Koa Zuber s.tkl"
     },
     {
      "label": "Dotson interceptions",
      "value": "3",
-     "source": "players.json LB:Snoop Dotson int"
+     "source": "market_history.json snap-202611071241 LB:Snoop Dotson s.int"
     },
     {
      "label": "Ekuale rushing yards (Y89)",
@@ -915,7 +915,7 @@
     {
      "label": "Rodgers career tackles",
      "value": "2,691",
-     "source": "players.json DB:Marvell Rodgers tkl"
+     "source": "market_history.json snap-202611071241 DB:Marvell Rodgers s.tkl"
     },
     {
      "label": "Suh tackles (Y89)",
@@ -1022,17 +1022,17 @@
     {
      "label": "Tackles",
      "value": "150",
-     "source": "players.json DB:Koa Zuber tkl"
+     "source": "market_history.json snap-202611071241 DB:Koa Zuber s.tkl"
     },
     {
      "label": "Games",
      "value": "20",
-     "source": "players.json DB:Koa Zuber g"
+     "source": "market_history.json snap-202611071241 DB:Koa Zuber s.g"
     },
     {
      "label": "Tackles per game",
      "value": "7.5",
-     "source": "players.json DB:Koa Zuber tkl/g"
+     "source": "market_history.json snap-202611071241 DB:Koa Zuber s.tkl/s.g"
     }
    ]
   },
@@ -1071,12 +1071,12 @@
     {
      "label": "TD passes",
      "value": "141",
-     "source": "players.json QB:Bones Crawford td"
+     "source": "market_history.json snap-202611071241 QB:Bones Crawford s.td"
     },
     {
      "label": "Games",
      "value": "40",
-     "source": "players.json QB:Bones Crawford g"
+     "source": "market_history.json snap-202611071241 QB:Bones Crawford s.g"
     }
    ]
   }

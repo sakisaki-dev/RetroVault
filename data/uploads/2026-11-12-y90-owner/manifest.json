@@ -1,0 +1,137 @@
+{
+ "id": "2026-11-12-y90-owner",
+ "created": "2026-11-12",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Hamsfa Boltt/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"retired\" (on no Y90 roster; asked retired or free agent)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Danny Diggs/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"retired\" (on no Y90 roster; asked retired or free agent)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Cairo Colbert/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"retired\" (on no Y90 roster; asked retired or free agent)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Vyncint Heath/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"retired\" (on no Y90 roster; asked retired or free agent)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jarred Beasley/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"retired\" (on no Y90 roster; asked retired or free agent)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Tristan Tart/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"retired\" (on no Y90 roster; asked retired or free agent)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Niles Swoopes/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"retired\" (on no Y90 roster; asked retired or free agent)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Shawn Milne/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"retired\" (on no Y90 roster; asked retired or free agent)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Daren Teamer/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"retired\" (on no Y90 roster; asked retired or free agent)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Chance Woodrum/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"retired\" (on no Y90 roster; asked retired or free agent)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Alohi Devey",
+   "value": {
+    "rec": 0,
+    "recyds": 0,
+    "rectd": 0
+   },
+   "source": "owner",
+   "reason": "Owner: \"assume 0\" (the Receiving tab was not shown in the Y90 recording)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Lukas Agnew",
+   "value": {
+    "rec": 0,
+    "recyds": 0,
+    "rectd": 0
+   },
+   "source": "owner",
+   "reason": "Owner: \"assume 0\" (the Receiving tab was not shown in the Y90 recording)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Camryn Kongbo",
+   "value": {
+    "rec": 0,
+    "recyds": 0,
+    "rectd": 0
+   },
+   "source": "owner",
+   "reason": "Owner: \"assume 0\" (the Receiving tab was not shown in the Y90 recording)",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}

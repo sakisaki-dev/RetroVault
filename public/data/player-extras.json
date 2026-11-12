@@ -469,11 +469,6 @@
    "Chicago Bears",
    "Tampa Bay Buccaneers"
   ],
-  "Vyncint Heath": [
-   "Atlanta Falcons",
-   "New York Jets",
-   "Philadelphia Eagles"
-  ],
   "Dwayne Skura": [
    "New York Jets",
    "Philadelphia Eagles"
@@ -2683,9 +2678,10 @@
    "stints": [
     {
      "team": "Jets",
-     "from": 77,
+     "from": 73,
      "to": 82,
      "rings": [
+      75,
       77,
       80,
       82
@@ -2694,18 +2690,17 @@
     {
      "team": "Falcons",
      "from": 83,
-     "to": 90,
+     "to": 86,
      "rings": [
       83,
       84,
       85,
-      86,
-      87
+      86
      ]
     }
    ],
    "confidence": "confirmed",
-   "evidence": "8 rings = Jets Y77, Y80, Y82; Falcons Y83, Y84, Y85, Y86, Y87. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
+   "evidence": "8 rings = Jets Y75, Y77, Y80, Y82; Falcons Y83, Y84, Y85, Y86. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
   },
   "Jamir Crane": {
    "stints": [
@@ -2884,7 +2879,7 @@
    "stints": [
     {
      "team": "Titans",
-     "from": 74,
+     "from": 73,
      "to": 77,
      "rings": [
       74
@@ -2893,7 +2888,7 @@
     {
      "team": "Commanders",
      "from": 78,
-     "to": 90,
+     "to": 87,
      "rings": []
     }
    ],
@@ -2934,8 +2929,8 @@
    "stints": [
     {
      "team": "Titans",
-     "from": 77,
-     "to": 90,
+     "from": 75,
+     "to": 88,
      "rings": []
     }
    ],
@@ -3540,13 +3535,14 @@
    "stints": [
     {
      "team": "Ravens",
-     "from": 77,
-     "to": 90,
+     "from": 50,
+     "to": 64,
      "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "No rings."
+   "confidence": "likely",
+   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 245-game window is a placeholder in seasons his club won nothing.",
+   "approx": true
   },
   "Kirk Lenoir": {
    "stints": [
@@ -3598,41 +3594,6 @@
    ],
    "confidence": "strong",
    "evidence": "No rings. On the Y90 Buccaneers roster."
-  },
-  "Vyncint Heath": {
-   "stints": [
-    {
-     "team": "Jets",
-     "from": 82,
-     "to": 82,
-     "rings": [
-      82
-     ]
-    },
-    {
-     "team": "Falcons",
-     "from": 83,
-     "to": 87,
-     "rings": [
-      83,
-      84,
-      85,
-      86,
-      87
-     ]
-    },
-    {
-     "team": "Eagles",
-     "from": 88,
-     "to": 90,
-     "rings": [
-      88,
-      89
-     ]
-    }
-   ],
-   "confidence": "confirmed",
-   "evidence": "8 rings = Jets Y82; Falcons Y83, Y84, Y85, Y86, Y87; Eagles Y88, Y89. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y88 Eagles roster. On the Y89 Eagles roster. Owner: “Traded from the Jets to the Falcons in a multi-team trade before Y83.”"
   },
   "Dwayne Skura": {
    "stints": [
@@ -3920,13 +3881,14 @@
    "stints": [
     {
      "team": "Jaguars",
-     "from": 73,
-     "to": 90,
+     "from": 32,
+     "to": 49,
      "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "No rings."
+   "confidence": "likely",
+   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 298-game window is a placeholder in seasons his club won nothing.",
+   "approx": true
   },
   "Orlando Larienne": {
    "stints": [
@@ -3949,7 +3911,7 @@
    "stints": [
     {
      "team": "Buccaneers",
-     "from": 83,
+     "from": 82,
      "to": 83,
      "rings": []
     },
@@ -3964,7 +3926,7 @@
     {
      "team": "Giants",
      "from": 85,
-     "to": 90,
+     "to": 87,
      "rings": []
     }
    ],
@@ -4523,13 +4485,14 @@
    "stints": [
     {
      "team": "Saints",
-     "from": 77,
-     "to": 90,
+     "from": 52,
+     "to": 66,
      "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "No rings."
+   "confidence": "likely",
+   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 245-game window is a placeholder in seasons his club won nothing.",
+   "approx": true
   },
   "Khaleke Hyder": {
    "stints": [
@@ -4547,13 +4510,14 @@
    "stints": [
     {
      "team": "Bills",
-     "from": 77,
-     "to": 90,
+     "from": 59,
+     "to": 72,
      "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "No rings."
+   "confidence": "likely",
+   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 246-game window is a placeholder in seasons his club won nothing.",
+   "approx": true
   },
   "Koa Zuber": {
    "stints": [
@@ -4719,13 +4683,14 @@
    "stints": [
     {
      "team": "Jaguars",
-     "from": 77,
-     "to": 90,
+     "from": 39,
+     "to": 52,
      "rings": []
     }
    ],
-   "confidence": "strong",
-   "evidence": "No rings."
+   "confidence": "likely",
+   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 246-game window is a placeholder in seasons his club won nothing.",
+   "approx": true
   },
   "Dalvin Moehrig": {
    "stints": [
@@ -7464,7 +7429,7 @@
   "Ceedee Hollins": "Washington Commanders",
   "Cethan Payne": "Carolina Panthers",
   "Cethan Qualls": "Baltimore Ravens",
-  "Chance Woodrum": "Atlanta Falcons",
+  "Chance Woodrum": "New York Jets",
   "Charlie John": "Buffalo Bills",
   "Chazz McCray": "Tampa Bay Buccaneers",
   "Chuck Ertz": "Indianapolis Colts",
