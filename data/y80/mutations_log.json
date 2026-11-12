@@ -963,6 +963,15 @@
     "story": 9
    },
    "changed": 9
+  },
+  {
+   "id": "2026-11-12-mad-max",
+   "dir": "data/uploads/2026-11-12-mad-max",
+   "applied_at": "2026-11-12T15:48:06-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
   }
  ]
 }

@@ -1,0 +1,3 @@
+{"id": "2026-11-12-mad-max", "created": "2026-11-12", "images": [], "ai_steps": [],
+ "mutations": [{"lane": "stats", "op": "player.set", "target": "RB:Ryland Maxwell", "value": {"nick": "Mad Max"},
+  "source": "owner", "reason": "Owner: \"go with mad max\" (nickname for Ryland Maxwell)", "trigger": "Owner statement in notes.md"}]}
