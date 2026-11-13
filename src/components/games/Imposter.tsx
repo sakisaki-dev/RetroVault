@@ -1,41 +1,33 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { awardPack } from '@/utils/collection';
-import ProPlayerBanner from '@/components/brand/ProPlayerBanner';
 import PlayerDetailCard from '@/components/PlayerDetailCard';
 import { isHallOfFamer } from '@/config/stats';
 import { cn } from '@/lib/utils';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { useLeagueContent } from '@/utils/leagueContent';
-import { findNFLTeam } from '@/utils/nflTeams';
 import { usePlayerExtras } from '@/utils/playerExtras';
-import { ArcadeButton, Confetti, Lamp, LampRow } from './ArcadeUI';
-import { POSITION_NAMES, isLegend, loadGameStat, playerKey, saveGameStat, type GamePlayer } from './gameUtils';
+import { ArcadeButton, Confetti, CountUp } from './ArcadeUI';
+import { POSITION_NAMES, isLegend, legendLabel, loadGameStat, playerKey, saveGameStat, type GamePlayer } from './gameUtils';
 import { buildTraits, levelFor, makeImposterRound, type ImposterRound } from './imposterTraits';
-import { bannerTeamOf } from '@/utils/playerExtras';
+import { Hud, HudStat, Pips, prefersReducedMotion, teamLook, useRevealClock } from './rosterKit';
+import HowToStrip from './HowToStrip';
+import './imposter.css';
 
 const BEST_KEY = 'imposter:best';
 const LEVEL_NAMES = { 1: 'Rookie', 2: 'Pro', 3: 'All-Pro' } as const;
 const RECENT_FAMILIES = 3;
+/** Streak where the next level starts (see levelFor) */
+const NEXT_LEVEL_AT = { 1: 5, 2: 12 } as const;
 
-const useCompact = () => {
-  const query = '(max-width: 639px)';
-  const [compact, setCompact] = useState(() => typeof window !== 'undefined' && !!window.matchMedia?.(query).matches);
-  useEffect(() => {
-    const mq = window.matchMedia?.(query);
-    if (!mq) return;
-    const on = () => setCompact(mq.matches);
-    on();
-    mq.addEventListener('change', on);
-    return () => mq.removeEventListener('change', on);
-  }, []);
-  return compact;
+const splitName = (name: string) => {
+  const i = name.lastIndexOf(' ');
+  return i > 0 ? [name.slice(0, i), name.slice(i + 1)] : ['', name];
 };
 
 const Imposter = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<string, number> }) => {
   const { content } = useLeagueContent();
   const extras = usePlayerExtras();
   const { numberFor } = useJerseyNumbers();
-  const compact = useCompact();
 
   const traits = useMemo(() => buildTraits({ players, content, extras }), [players, content, extras]);
 
@@ -43,9 +35,14 @@ const Imposter = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<str
   const [best, setBest] = useState(() => loadGameStat(BEST_KEY));
   const [confetti, setConfetti] = useState<number | false>(false);
   const [pick, setPick] = useState<string | null>(null);
+  // Suspect under the spotlight before the accusation is made
+  const [suspect, setSuspect] = useState<string | null>(null);
   // Scouting: open any card's full stats page before (or after) picking
   const [scouting, setScouting] = useState<GamePlayer | null>(null);
+  const [caseNo, setCaseNo] = useState(1);
   const recent = useRef<string[]>([]);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const verdictRef = useRef<HTMLDivElement>(null);
 
   const deal = useCallback(
     (level: 1 | 2 | 3) => {
@@ -65,6 +62,7 @@ const Imposter = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<str
     firstPool.current = players;
     setStreak(0);
     setPick(null);
+    setSuspect(null);
     setRound(deal(1));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [players]);
@@ -77,10 +75,20 @@ const Imposter = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<str
 
   const correct = pick != null && round != null && pick === round.imposterKey;
 
-  const choose = useCallback(
+  // Reveal order: the five who fit light up one by one, the imposter is unmasked last
+  const order = useMemo(() => {
+    if (!round) return [] as string[];
+    const keys = round.cards.map(playerKey);
+    return [...keys.filter((k) => k !== round.imposterKey), round.imposterKey];
+  }, [round]);
+  const reveal = useRevealClock(!!pick, order.length, 260, 350, round?.id);
+  const shownAt = (key: string) => !!pick && order.indexOf(key) < reveal.step;
+
+  const accuse = useCallback(
     (key: string) => {
       if (!round || pick) return;
       setPick(key);
+      setSuspect(key);
       if (key === round.imposterKey) {
         const next = streak + 1;
         if (next % 3 === 0) awardPack('standard', `Imposter, ${next} in a row`, { once: round });
@@ -95,14 +103,24 @@ const Imposter = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<str
     [round, pick, streak, best],
   );
 
+  /** First tap puts a suspect under the spotlight, a second tap on the same card accuses him. */
+  const tap = (key: string) => {
+    if (pick) return;
+    if (suspect === key) accuse(key);
+    else setSuspect(key);
+  };
+
   const nextRound = () => {
     const nextStreak = correct ? streak : 0;
     if (!correct) setStreak(0);
     setPick(null);
+    setSuspect(null);
+    setCaseNo((n) => n + 1);
     setRound(deal(levelFor(nextStreak)));
+    stageRef.current?.scrollIntoView({ block: 'start', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
   };
 
-  // Number keys 1–6 pick a card
+  // Number keys 1-6 put a card under the spotlight, Enter accuses
   useEffect(() => {
     if (!round || pick) return;
     const onKey = (e: KeyboardEvent) => {
@@ -112,160 +130,193 @@ const Imposter = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<str
       const i = Number(e.key) - 1;
       if (Number.isInteger(i) && i >= 0 && i < round.cards.length) {
         e.preventDefault();
-        choose(playerKey(round.cards[i]));
+        setSuspect(playerKey(round.cards[i]));
+      } else if (e.key === 'Enter' && suspect && el?.tagName !== 'BUTTON') {
+        e.preventDefault();
+        accuse(suspect);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [round, pick, choose]);
+  }, [round, pick, suspect, accuse]);
 
-  if (!round) return <p className="empty">Not enough players to play yet.</p>;
+  useEffect(() => {
+    if (reveal.done && pick) verdictRef.current?.scrollIntoView({ block: 'nearest', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+  }, [reveal.done, pick]);
+
+  if (!round) return <p className="arc-empty">Not enough players to play yet.</p>;
 
   const level = levelFor(streak);
   const { trait, cards, imposterKey } = round;
-
-  const ringFor = (key: string): CSSProperties['boxShadow'] => {
-    if (!pick) return '0 0 0 2px var(--line)';
-    if (key === imposterKey && pick === key) return '0 0 0 3px var(--turf), 0 0 34px #27b36acc';
-    if (key === imposterKey) return '0 0 0 3px var(--gold), 0 0 30px #ffc83d88';
-    if (key === pick) return '0 0 0 3px var(--flag)';
-    return '0 0 0 2px var(--line)';
-  };
+  const imposter = cards.find((p) => playerKey(p) === imposterKey)!;
+  const accused = pick ? cards.find((p) => playerKey(p) === pick) : null;
+  const suspectPlayer = suspect ? cards.find((p) => playerKey(p) === suspect) : null;
+  const toLevel = level < 3 ? NEXT_LEVEL_AT[level as 1 | 2] - streak : 0;
+  const toPack = 3 - (streak % 3);
 
   return (
-    <div>
+    <div className="imp">
       <Confetti fire={confetti} />
-      <LampRow className="mb-4">
-        <Lamp label="Streak" value={streak} live flicker={streak > 0 && !pick} />
-        <Lamp label="Best" value={best} />
-        <Lamp label="Difficulty" value={`${level} · ${LEVEL_NAMES[level]}`} />
-      </LampRow>
+      <HowToStrip
+        id="imposter"
+        steps={[
+          <>Six suspects. Five of them share a hidden trait: a stat, an award, a club, an era.</>,
+          <>
+            Tap a card to put him under the light, then tap again (or press <b>Accuse</b>) to name the imposter.
+          </>,
+          <>Scout any card for his full career first. Every 3 in a row earns a pack, and the cases get harder.</>,
+        ]}
+        keys="Keys 1 to 6 pick a suspect, Enter accuses"
+      />
 
-      <h3 className="question">
-        Find the <b>imposter</b>
-      </h3>
-      <p className="hint" style={{ textAlign: 'center', margin: '-8px 0 16px' }}>
-        Five of these players share a hidden trait. One doesn't. <span className="hidden sm:inline">Press 1–6 or click a card.</span>
-      </p>
+      <div className="imp-stage" ref={stageRef}>
+        <Hud>
+          <HudStat label="Streak" value={streak} live />
+          <HudStat label="Best" value={best} />
+          <HudStat label={toLevel > 0 ? `Level · next in ${toLevel}` : 'Level · top'} value={LEVEL_NAMES[level]} />
+          <span className="rk-hud-stat accent grow">
+            <i>Pack in {toPack}</i>
+            <Pips total={3} done={streak % 3} label={`${toPack} more in a row for a pack`} />
+          </span>
+        </Hud>
 
-      <ol
-        key={round.id}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4"
-        style={{ listStyle: 'none', margin: 0, padding: 0 }}
-        aria-label="Players"
-      >
-        {cards.map((p, i) => {
-          const key = playerKey(p);
-          const team = findNFLTeam(bannerTeamOf(p));
-          const isImposter = key === imposterKey;
-          const picked = key === pick;
-          const dim = !!pick && !isImposter && !picked;
-          const legend = isLegend(p);
-          const tag = pick && isImposter ? (picked ? 'Busted' : 'Imposter') : null;
-          return (
-            <li key={key} className={cn('rise', picked && !isImposter && 'shake')} style={{ animationDelay: `${i * 45}ms`, minWidth: 0 }}>
-              <button
-                type="button"
-                onClick={() => choose(key)}
-                disabled={!!pick}
-                aria-label={`${i + 1}: ${p.name}, ${POSITION_NAMES[p.position]}${team ? `, ${team.fullName}` : ''}. Pick as the imposter`}
-                style={{
-                  display: 'block',
-                  width: '100%',
-                  padding: 0,
-                  border: 0,
-                  background: 'transparent',
-                  textAlign: 'left',
-                  borderRadius: 12,
-                  overflow: 'hidden',
-                  boxShadow: ringFor(key),
-                  opacity: dim ? 0.72 : 1,
-                  cursor: pick ? 'default' : 'pointer',
-                  transition: 'box-shadow 0.25s, opacity 0.25s',
-                }}
+        <header className={cn('imp-case', pick && (correct ? 'won' : 'lost'))}>
+          <span className="imp-case-no">
+            Case #{caseNo} · Level {trait.difficulty}
+          </span>
+          {!pick ? (
+            <h3 className="imp-case-q">
+              Five share a hidden trait. <b>One is the imposter.</b>
+            </h3>
+          ) : (
+            <h3 className="imp-case-q revealed" aria-live="polite">
+              <span>The hidden trait</span>
+              {trait.label}
+            </h3>
+          )}
+        </header>
+
+        <ol className={cn('imp-lineup', pick && 'is-revealed', suspect && !pick && 'has-suspect')} aria-label="Suspects">
+          {cards.map((p, i) => {
+            const key = playerKey(p);
+            const look = teamLook(p);
+            const [first, last] = splitName(p.name);
+            const isImp = key === imposterKey;
+            const shown = shownAt(key);
+            const legend = isLegend(p);
+            const ovr = ovrMap?.get(key);
+            return (
+              <li
+                key={`${round.id}-${key}`}
+                className={cn('imp-suspect', suspect === key && 'lit', shown && (isImp ? 'is-imp' : 'is-fit'), pick === key && 'accused')}
+                style={{ ...look.vars, animationDelay: `${i * 70}ms` }}
               >
-                <ProPlayerBanner
-                  name={p.name}
-                  position={p.position}
-                  team={bannerTeamOf(p)}
-                  number={numberFor(p)}
-                  size={compact ? 'compact' : 'card'}
-                  // Nothing that could hint at the trait (OVR, HOF edge, photo, legend tag) until the reveal
-                  ovr={pick ? ovrMap?.get(key) ?? null : null}
-                  hallOfFamer={!!pick && !legend && isHallOfFamer(p)}
-                  photoUrl={pick && legend ? p.photo?.url ?? null : null}
-                  interactive={!pick}
-                  topRight={
-                    tag ? (
-                      <span className="lamp" style={{ color: picked ? 'var(--turf)' : 'var(--gold)' }}>
-                        {tag}
-                      </span>
-                    ) : undefined
-                  }
-                />
-              </button>
-              <button
-                type="button"
-                className="chip"
-                onClick={() => setScouting(p)}
-                aria-label={`Scout ${p.name}: open full career stats`}
-                style={{ marginTop: 6, width: '100%', justifyContent: 'center' }}
-              >
-                Scout stats
-              </button>
-              {pick && (
-                <div
-                  className={cn('verdict-pill', isImposter ? 'bad' : 'good')}
-                  style={{ marginTop: 6, textAlign: 'left', textTransform: 'none', fontFamily: 'var(--f-body)', fontSize: 13 }}
+                <button
+                  type="button"
+                  className="imp-card"
+                  onClick={() => tap(key)}
+                  disabled={!!pick}
+                  aria-pressed={!pick ? suspect === key : undefined}
+                  aria-label={`${i + 1}: ${p.name}, ${POSITION_NAMES[p.position]}, ${look.name}. ${suspect === key ? 'Tap again to accuse' : 'Put under the light'}`}
                 >
-                  <b className="px" style={{ textTransform: 'uppercase', fontSize: 10, marginRight: 6 }}>
-                    {isImposter ? '✗ Imposter' : '✓ Fits'}
-                  </b>
-                  {trait.explain(p)}
-                </div>
-              )}
-            </li>
-          );
-        })}
-      </ol>
+                  <span className="imp-placard" aria-hidden="true">
+                    {i + 1}
+                  </span>
+                  {look.team && <img className="imp-logo" src={look.team.logoUrl} alt="" aria-hidden="true" loading="lazy" />}
+                  <span className="imp-num" aria-hidden="true">
+                    {numberFor(p)}
+                  </span>
+                  <span className="imp-name">
+                    <small>{first}</small>
+                    <span>{last}</span>
+                  </span>
+                  <span className="imp-meta">
+                    <b>{p.position}</b> {look.abbr}
+                    {pick && ovr != null && <em className="imp-ovr">{ovr}</em>}
+                    {pick && legend && <em className="imp-tag">{legendLabel(p)}</em>}
+                    {pick && !legend && isHallOfFamer(p) && <em className="imp-tag hof">HOF</em>}
+                  </span>
+                  {shown && (
+                    <span className={cn('imp-stamp', isImp ? 'bad' : 'good')} aria-hidden="true">
+                      {isImp ? 'Imposter' : 'Fits'}
+                    </span>
+                  )}
+                  {suspect === key && !pick && (
+                    <span className="imp-accuse-hint" aria-hidden="true">
+                      Tap again to accuse
+                    </span>
+                  )}
+                </button>
+                <button type="button" className="imp-scout" onClick={() => setScouting(p)} aria-label={`Scout ${p.name}: open full career stats`}>
+                  <ScoutIcon />
+                </button>
+                {pick && (
+                  <p className={cn('imp-evidence', shown && 'on', isImp ? 'bad' : 'good')}>
+                    <span className="sr-only">{isImp ? 'Imposter: ' : 'Fits: '}</span>
+                    {shown ? trait.explain(p) : '...'}
+                  </p>
+                )}
+              </li>
+            );
+          })}
+        </ol>
 
-      {pick && (
-        <section className="result" role="status" aria-live="polite" style={{ display: 'block' }}>
-          <div className={cn('disp pop', correct ? 'turf' : 'flag')} style={{ fontSize: 34 }}>
-            {correct ? 'Busted! You found the imposter' : `Fooled! Streak ended at ${streak}`}
+        {!pick ? (
+          <div className="imp-action">
+            <button
+              type="button"
+              className={cn('imp-accuse', suspectPlayer && 'ready')}
+              disabled={!suspectPlayer}
+              onClick={() => suspect && accuse(suspect)}
+              style={suspectPlayer ? teamLook(suspectPlayer).vars : undefined}
+            >
+              {suspectPlayer ? (
+                <>
+                  Accuse <span className="imp-accuse-name">{suspectPlayer.name}</span>
+                </>
+              ) : (
+                'Pick a suspect'
+              )}
+            </button>
           </div>
-          <div className="px muted" style={{ fontSize: 11, marginTop: 12, textTransform: 'uppercase' }}>
-            The hidden trait · Level {trait.difficulty}
+        ) : (
+          <div ref={verdictRef} className={cn('imp-verdict', correct ? 'won' : 'lost', reveal.done && 'on')} role="status" aria-live="polite">
+            <div className="imp-verdict-head">
+              <span className="imp-verdict-big">{correct ? 'Busted!' : 'Fooled!'}</span>
+              <span className="imp-verdict-streak">
+                {correct ? (
+                  <>
+                    Streak <CountUp value={streak} duration={450} />
+                    {streak % 3 === 0 ? ' · pack earned' : ` · ${toPack} to a pack`}
+                  </>
+                ) : (
+                  `Streak ended at ${streak}`
+                )}
+              </span>
+            </div>
+            <p className="imp-verdict-line">
+              <b style={teamLook(imposter).vars}>{imposter.name}</b> was the imposter: {trait.explain(imposter)}.
+            </p>
+            {!correct && accused && (
+              <p className="imp-verdict-line muted">
+                You accused <b style={teamLook(accused).vars}>{accused.name}</b>, but he fits: {trait.explain(accused)}.
+              </p>
+            )}
+            <ArcadeButton tone="go" wide onClick={nextRound} autoFocus>
+              {correct ? 'Next case' : 'New case'}
+            </ArcadeButton>
           </div>
-          <div className="verdict" style={{ marginTop: 2 }}>
-            {trait.label}
-          </div>
-          <ul style={{ listStyle: 'none', margin: '12px 0 16px', padding: 0, display: 'grid', gap: 4 }}>
-            {cards.map((p) => {
-              const key = playerKey(p);
-              const isImposter = key === imposterKey;
-              return (
-                <li key={key} style={{ display: 'flex', gap: 8, alignItems: 'baseline', minWidth: 0 }}>
-                  <span className={cn('px', isImposter ? 'flag' : 'turf')} style={{ fontSize: 11, flex: 'none', width: 16 }} aria-hidden="true">
-                    {isImposter ? '✗' : '✓'}
-                  </span>
-                  <span style={{ minWidth: 0 }}>
-                    <b>{p.name}</b>
-                    <span className="sr-only">{isImposter ? ' (imposter)' : ' (fits)'}</span>
-                    <span className="muted">: {trait.explain(p)}</span>
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-          <ArcadeButton tone="go" onClick={nextRound} autoFocus>
-            Next round
-          </ArcadeButton>
-        </section>
-      )}
+        )}
+      </div>
       <PlayerDetailCard player={scouting} onClose={() => setScouting(null)} />
     </div>
   );
 };
+
+const ScoutIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" shapeRendering="crispEdges">
+    <path fill="currentColor" d="M5 1h5v1h1v1h1v5h-1v1h-1v1H5V9H4V8H3V3h1V2h1zm0 2v4h1v1h3V7h1V3H9V2H6v1zM11 10h1v1h1v1h1v1h1v2h-2v-1h-1v-1h-1v-1h-1v-1h1z" />
+  </svg>
+);
 
 export default Imposter;

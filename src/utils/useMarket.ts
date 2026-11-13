@@ -26,7 +26,8 @@ export const loadMarket = (): Promise<MarketHistory> => {
 export const useMarket = (): MarketHistory | null => {
   const [history, setHistory] = useState<MarketHistory | null>(loaded);
   useEffect(() => {
-    if (loaded) return;
+    // Loaded between this render and the effect (another view fetched it): take it now
+    if (loaded) return void setHistory(loaded);
     let alive = true;
     loadMarket().then((h) => alive && setHistory(h));
     return () => {

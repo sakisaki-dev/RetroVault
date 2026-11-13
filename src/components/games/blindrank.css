@@ -1,0 +1,72 @@
+/* Blind Rank: the card on the clock beside a five-rung ladder. */
+.arcade .br-stage { scroll-margin-top: 110px; }
+.arcade .br-table { display: grid; gap: 14px; }
+.arcade .br-left { position: relative; z-index: 2; min-width: 0; }
+@media (min-width: 860px) {
+  .arcade .br-table { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; gap: 22px; }
+  .arcade .br-left { position: sticky; top: 120px; }
+}
+
+.arcade .br .rk-deck-face { touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; }
+.arcade .br .is-dragging .rk-deck-face { cursor: grabbing; z-index: 30; box-shadow: 0 24px 50px #000c, 0 0 0 3px var(--gold); transition: none; }
+.arcade .br .rk-deck-face { transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.arcade .br-next { margin: 8px 2px 0; font-family: var(--f-pixel); font-size: 10px; color: var(--muted); text-transform: uppercase; }
+
+/* Ladder */
+.arcade .br-ladder { list-style: none; margin: 0; padding: 10px; display: grid; gap: 7px; border-radius: 14px; background: linear-gradient(180deg, #ffc83d14, transparent 30%, transparent 70%, #ff4f6110), #0a0f1f; box-shadow: inset 0 0 0 2px #1b2440, 0 10px 30px #0006; counter-reset: rung; }
+.arcade .br-end { display: flex; align-items: center; gap: 8px; font-family: var(--f-pixel); font-size: 9px; text-transform: uppercase; color: var(--muted); padding: 0 2px; }
+.arcade .br-end::after { content: ''; flex: 1; height: 2px; background: linear-gradient(90deg, #2b3760, transparent); }
+.arcade .br-end.top { color: var(--gold); }
+
+.arcade .br-slot {
+  position: relative; width: 100%; min-height: 62px; display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 10px; padding: 0 14px 0 0;
+  border: 2px dashed #34406b; border-radius: 10px; background: repeating-linear-gradient(135deg, #0f1529 0 10px, #111830 10px 20px); color: var(--muted); text-align: left;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+.arcade .br-slot-no { font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: 32px; line-height: 1; text-align: center; color: var(--gold); opacity: 0.85; }
+.arcade .br-slot-cta { font-family: var(--f-pixel); font-size: 11px; text-transform: uppercase; }
+.arcade .br-slot-arrow { font-size: 12px; color: var(--gold); opacity: 0; transform: translateX(6px); transition: opacity 0.15s, transform 0.15s; }
+.arcade .br-slot:hover, .arcade .br-slot:focus-visible, .arcade .br-slot.over { border-style: solid; border-color: var(--gold); background: linear-gradient(90deg, #ffc83d26, #1a2240); color: var(--chalk); transform: translateX(-3px); box-shadow: 0 0 18px #ffc83d33; }
+.arcade .br-slot:hover .br-slot-arrow, .arcade .br-slot:focus-visible .br-slot-arrow, .arcade .br-slot.over .br-slot-arrow { opacity: 1; transform: none; }
+.arcade .br-slot.armed { border-color: #ffc83d88; }
+.arcade .br-slot.over { transform: scale(1.03); }
+.arcade .br-slot:active { transform: scale(0.98); }
+
+/* Reveal */
+.arcade .br .rk-slab.br-flip { grid-template-columns: 46px minmax(0, 1fr) auto auto; animation: br-flip 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes br-flip { 0% { transform: perspective(700px) rotateX(80deg); filter: brightness(2); } 100% { transform: none; filter: none; } }
+.arcade .br-pts { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 54px; align-self: stretch; margin: -6px -10px -6px 0; padding: 0 6px; font-family: var(--f-pixel); font-size: 9px; text-transform: uppercase; background: #000b; color: var(--flag); }
+.arcade .br-pts b { font-family: var(--f-display); font-weight: 800; font-size: 26px; line-height: 1; }
+.arcade .br-pts.good { color: var(--turf); background: #062814; }
+.arcade .br-pts.near { color: var(--sky); background: #06202c; }
+.arcade .br-pts.bad { background: #2a0810; }
+
+.arcade .br-score .rk-score-verdict { color: var(--chalk); }
+.arcade .br-truth { grid-column: 1 / -1; margin-top: 12px; padding-top: 12px; border-top: 1px solid #2b3760; }
+.arcade .br-truth-h { display: block; font-family: var(--f-pixel); font-size: 9px; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+.arcade .br-truth ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 6px; }
+.arcade .br-truth li { display: flex; align-items: center; gap: 6px; min-width: 0; padding: 5px 8px; border-radius: 6px; background: #0b1020; box-shadow: inset 3px 0 0 var(--c1), inset 0 0 0 1px #2b3760; opacity: 0.25; transition: opacity 0.3s; }
+.arcade .br-truth li.on { opacity: 1; }
+.arcade .br-truth li b { font-family: var(--f-display); font-style: italic; font-size: 16px; color: var(--gold); }
+.arcade .br-truth li span { flex: 1; min-width: 0; font-family: var(--f-display); font-weight: 800; font-size: 15px; text-transform: uppercase; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.arcade .br-truth li em { font-style: normal; font-family: var(--f-display); font-weight: 800; font-size: 15px; color: var(--chalk); }
+
+/* Phone: the card and all five rungs fit one screen */
+@media (max-width: 600px) {
+  .arcade .br .rk-deck-face { min-height: 0; padding: 10px 12px; gap: 3px; }
+  .arcade .br .rk-deck-eyebrow { position: absolute; right: 10px; bottom: 10px; padding: 4px 6px; font-size: 9px; }
+  .arcade .br .rk-deck-name { font-size: 34px; margin-top: 2px; }
+  .arcade .br .rk-deck-logo { width: 62px; height: 62px; top: 6px; }
+  .arcade .br .rk-deck-num { font-size: 92px; bottom: -10px; right: 70px; }
+  .arcade .br .rk-deck-grip { display: none; }
+  .arcade .br .rk-deck-stats > div { padding: 5px 7px 6px; }
+  .arcade .br .rk-deck-stats dd { font-size: 19px; }
+  .arcade .br-next { display: none; }
+  .arcade .br-ladder { padding: 8px; gap: 5px; }
+  .arcade .br-slot, .arcade .br .rk-slab { min-height: 52px; }
+  .arcade .br .rk-slab-no, .arcade .br-slot-no { font-size: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .arcade .br .rk-slab.br-flip { animation: none; }
+  .arcade .br-slot, .arcade .br .rk-deck-face { transition: none; }
+}

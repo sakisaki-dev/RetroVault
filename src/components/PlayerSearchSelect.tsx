@@ -1,5 +1,6 @@
 import { useMemo, useState, type CSSProperties } from 'react';
 import { ChevronsUpDown, Search } from 'lucide-react';
+import InLeague from '@/components/InLeague';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
@@ -79,6 +80,7 @@ const MiniBanner = ({ player, number, ovr, compact = false }: { player: Player; 
       <span className="flex min-w-0 flex-1 flex-col items-start text-left leading-none">
         <span className="flex min-w-0 items-baseline gap-1.5">
           {first && <span className="shrink-0 font-pixel text-[8px] uppercase text-muted-foreground">{first}</span>}
+          <InLeague player={player} label={!compact} />
           {player.nickname && !compact && <span className="truncate text-[10px] italic text-muted-foreground">"{player.nickname}"</span>}
         </span>
         <span className={cn('max-w-full truncate text-left font-display font-extrabold uppercase italic tracking-wide text-foreground', compact ? 'text-base' : 'mt-0.5 text-lg')}>{last}</span>

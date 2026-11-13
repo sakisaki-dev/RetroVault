@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ButtonHTMLAttributes, type ReactNode } from 'react';
+import { forwardRef, useEffect, useRef, useState, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import type { NFLTeam } from '@/utils/nflTeams';
 
@@ -20,16 +20,13 @@ export const LampRow = ({ children, className }: { children: ReactNode; classNam
 
 type BtnTone = 'go' | 'green' | 'red' | 'sky' | 'ghost' | 'plain';
 
-/** Chunky arcade button (0 4px 0 shadow). */
-export const ArcadeButton = ({
-  tone = 'plain',
-  wide = false,
-  className,
-  type = 'button',
-  ...rest
-}: ButtonHTMLAttributes<HTMLButtonElement> & { tone?: BtnTone; wide?: boolean }) => (
-  <button type={type} className={cn('btn', tone !== 'plain' && tone, wide && 'wide', className)} {...rest} />
+/** Chunky arcade button (0 4px 0 shadow). Forwards its ref to the <button>. */
+export const ArcadeButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement> & { tone?: BtnTone; wide?: boolean }>(
+  ({ tone = 'plain', wide = false, className, type = 'button', ...rest }, ref) => (
+    <button ref={ref} type={type} className={cn('btn', tone !== 'plain' && tone, wide && 'wide', className)} {...rest} />
+  ),
 );
+ArcadeButton.displayName = 'ArcadeButton';
 
 interface ChipOption<T extends string> {
   value: T;
@@ -109,7 +106,7 @@ export const ResultPanel = ({ score, verdict, detail, action }: { score: ReactNo
     <div>
       <div className="big">{score}</div>
       <div className="verdict">{verdict}</div>
-      {detail && <div className="hint">{detail}</div>}
+      {detail && <div className="arc-hint">{detail}</div>}
     </div>
     {action}
   </div>

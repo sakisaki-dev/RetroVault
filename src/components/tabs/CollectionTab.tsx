@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { useNewSlot, useSlot, type Slot } from '@/utils/slot';
 import { toast } from 'sonner';
-import { GalleryHorizontal, Hammer, Info, LayoutGrid, Lock } from 'lucide-react';
+import { Coins, GalleryHorizontal, Hammer, Info, LayoutGrid, Lock } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
 import { cn } from '@/lib/utils';
 import { reducedMotion, useStagger } from '@/utils/motion';
@@ -20,6 +20,9 @@ import VariantBadges from '@/components/collection/VariantBadges';
 import { KIT_SOURCE, displayWithKit } from '@/components/collection/kits';
 import ShardWorkshop from '@/components/collection/ShardWorkshop';
 import DailyDraw from '@/components/collection/DailyDraw';
+import Exchange from '@/components/collection/economy/Exchange';
+import SellDuplicates from '@/components/collection/economy/SellDuplicates';
+import { activeCosmetic } from '@/utils/economy';
 import AutographsSection from '@/components/collection/autograph/AutographsSection';
 import { autographOddsLine } from '@/components/collection/autograph/AutographDetails';
 import { PARALLELS } from '@/config/autographs';
@@ -341,6 +344,7 @@ const CollectionTab = () => {
   const [artLab, setArtLab] = useState(false);
   // Swipe browser over the binder's filter (its focus lives in CollectionOverlays)
   const [browsing, setBrowsing] = useState(false);
+  const [sellingDupes, setSellingDupes] = useState(false);
   // Once opened, the lazy dialogs stay mounted so they close with their animation and reopen instantly
   const [designsSeen, setDesignsSeen] = useState(false);
   const [artLabSeen, setArtLabSeen] = useState(false);
@@ -474,6 +478,8 @@ const CollectionTab = () => {
 
   // Per-edition accent on the hero and pack shelf (utils/edition.ts): changes after an update, same for everyone
   const accent = editionAccent(content?.edition);
+  // Binder skin unlocked by a portfolio milestone (utils/economy.ts), when switched on
+  const binderSkin = activeCosmetic(state, 'binder');
 
   return (
     <div className="container space-y-6 px-4 py-5 sm:px-6 sm:py-8">
@@ -522,6 +528,15 @@ const CollectionTab = () => {
                 <Hammer className="h-3.5 w-3.5 text-sky-300" aria-hidden="true" />
                 <span className="font-mono text-foreground">{state.shards.toLocaleString()}</span> shards
               </span>
+              <button
+                type="button"
+                onClick={() => document.getElementById('col-exchange')?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' })}
+                className="inline-flex items-center gap-1 hover:text-foreground"
+                aria-label={`${state.coins.toLocaleString()} coins: open the Exchange`}
+              >
+                <Coins className="h-3.5 w-3.5 text-gold" aria-hidden="true" />
+                <span className="font-mono text-foreground">{state.coins.toLocaleString()}</span> coins
+              </button>
               <button type="button" onClick={() => setDesigns(true)} className="inline-flex items-center gap-1 font-semibold text-gold hover:underline">
                 <LayoutGrid className="h-3.5 w-3.5" aria-hidden="true" /> Card designs
               </button>
@@ -559,7 +574,7 @@ const CollectionTab = () => {
               })}
             </ul>
           ) : (
-            <p className="text-sm text-muted-foreground">No packs. Win them in the Arcade, or take the daily draw.</p>
+            <p className="text-sm text-muted-foreground">No packs. Win them in the Arcade, take the daily draw or buy one in the Exchange.</p>
           )}
         </div>
       </section>
@@ -615,6 +630,19 @@ const CollectionTab = () => {
         </section>
       )}
 
+      {loaded && cards.length > 0 && (
+        <Exchange
+          cards={cards}
+          byKey={byKey}
+          tierPool={tierPool}
+          state={state}
+          content={content}
+          freeze={freeze}
+          onOpenPack={(t) => setOpening(t)}
+          onOpenCard={(c) => openCard(c, [c])}
+        />
+      )}
+
       {/* Sets */}
       {sets.length > 0 && ownedCount > 0 && (
         <section aria-labelledby="col-sets">
@@ -647,8 +675,8 @@ const CollectionTab = () => {
       )}
 
       {/* Binder */}
-      <section aria-labelledby="col-binder" className="space-y-3">
-        <div className="flex items-baseline gap-3">
+      <section aria-labelledby="col-binder" className={cn('space-y-3', binderSkin && `ec-skin ec-skin--${binderSkin}`)}>
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
           <h2 id="col-binder" className="section-title">
             Binder
           </h2>
@@ -664,6 +692,12 @@ const CollectionTab = () => {
             >
               <GalleryHorizontal className="h-4 w-4" aria-hidden="true" />
               Swipe
+            </button>
+          )}
+          {loaded && ownedCount > 0 && (
+            <button type="button" className="col-swipe-btn ec-dupes-btn" onClick={() => setSellingDupes(true)} aria-label="Sell duplicate cards to the market">
+              <Coins className="h-4 w-4" aria-hidden="true" />
+              Sell duplicates
             </button>
           )}
         </div>
@@ -777,7 +811,9 @@ const CollectionTab = () => {
         total={cards.length}
         remaining={opening ? packCount(state, opening) : 0}
         provenance={state.perfect[0]?.label}
+        theme={activeCosmetic(state, 'pack')}
       />
+      <SellDuplicates open={sellingDupes} onClose={() => setSellingDupes(false)} byKey={byKey} state={state} />
       <PackOpening
         preview
         type={preview ? 'elite' : null}

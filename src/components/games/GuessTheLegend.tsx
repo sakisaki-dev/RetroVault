@@ -1,14 +1,19 @@
 import { useCallback, useMemo, useRef, useState, type ReactNode } from 'react';
 import { awardPack } from '@/utils/collection';
+import InLeague from '@/components/InLeague';
 import PlayerSearchSelect from '@/components/PlayerSearchSelect';
 import type { Player } from '@/types/player';
 import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
 import { cn } from '@/lib/utils';
 import { playerSkillGrades } from '@/config/skillGrades';
 import GameBanner from './GameBanner';
-import { ArcadeButton, Confetti, Lamp, LampRow, TeamLogo } from './ArcadeUI';
+import { ArcadeButton, Confetti, CountUp, Lamp, TeamLogo } from './ArcadeUI';
+import HowToStrip from './HowToStrip';
+import { getTeamTextColor } from '@/utils/teamColors';
+import './guessTheLegend.css';
 import { bannerTeamOf } from '@/utils/playerExtras';
 import {
+  MYSTERY_STYLE,
   STAT_KEYS,
   fmt,
   getStatLine,
@@ -19,8 +24,13 @@ import {
   playerKey,
   randomItem,
   saveGameStat,
+  teamStyle,
+  teamVars,
   type GamePlayer,
 } from './gameUtils';
+
+/** A player's club colour, lifted to read on the dark arcade. */
+const teamInk = (p: Player) => getTeamTextColor(bannerTeamOf(p)) ?? 'var(--chalk)';
 
 const MAX_GUESSES = 6;
 /** Points for solving on guess n (1-based): 5, 4, 3, 2, 1, then 0 when every clue was needed. */
@@ -276,108 +286,254 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
     setSelection('');
   };
 
-  return (
-    <div className="two-col">
-      <Confetti fire={confetti} />
-      <div className="flex flex-col gap-3 min-w-0">
-        {clues.map((clue, i) => {
-          const open = i < revealed;
-          return (
-            <section key={clue.title} className={cn('clue', !open && 'locked', open && i === revealed - 1 && !finished && 'slide-in')}>
-              <h4>
-                <span aria-hidden="true">{open ? '◆' : '■'}</span>
-                Clue {i + 1}: {clue.title}
-                {!open && <span className="sr-only">(locked)</span>}
-              </h4>
-              <dl className={cn('stats', !open && 'blur')} aria-hidden={!open}>
-                {/* Locked clues render a uniform placeholder: blurred real content leaked its shape (stat count = position) */}
-                {open
-                  ? clue.content
-                  : [0, 1, 2, 3].map((k) => <ClueStat key={k} label="Locked" value="■■■" />)}
-              </dl>
-            </section>
-          );
-        })}
-      </div>
+  const points = solved ? pointsFor(guesses.length) : 0;
+  const worth = pointsFor(guesses.length + 1);
+  const lastGuess = guesses.length ? guesses[guesses.length - 1] : null;
+  // Newest clue first, so the one a miss just unlocked sits right under the guess bar
+  const openClues = clues.map((c, i) => ({ c, i })).filter(({ i }) => i < revealed).reverse();
+  const lockedCount = clues.length - revealed;
+  const answerInk = teamInk(answer);
 
-      <aside className="side">
-        <div className={cn('card', misses > 0 && !finished && 'shake')} key={`banner-${misses}-${finished}`}>
-          <GameBanner
-            player={answer as GamePlayer}
-            sealed={!finished}
-            ovr={finished ? ovrOf(answer) : null}
-            reveal={finished}
-           
-            className={finished ? 'flip-y' : undefined}
-          />
+  const guessRow = (g: Player, latest = false) => {
+    const correct = playerKey(g) === playerKey(answer);
+    const gTeam = findNFLTeam(bannerTeamOf(g));
+    const aTeam = findNFLTeam(bannerTeamOf(answer));
+    return (
+      <li key={playerKey(g)} className={cn('gl-row', correct && 'solved', latest && 'latest')}>
+        <div className="gl-row-name">
+          <span aria-hidden="true" className={cn('gl-row-mark', correct ? 'turf' : 'flag')}>
+            {correct ? '✓' : '✗'}
+          </span>
+          <TeamLogo team={gTeam} className="gl-row-logo" />
+          <span className="gl-row-nm" style={{ color: teamInk(g) }}>
+            {g.name}
+          </span>
+          <InLeague player={g} label={false} />
         </div>
-        <div className="panel flex flex-col gap-3">
-          <LampRow>
-            <Lamp label={finished ? 'Final' : `Guess ${Math.min(guesses.length + 1, MAX_GUESSES)} of ${MAX_GUESSES}`} live flicker={!finished} />
-            {!finished && <Lamp label="Worth" value={`${pointsFor(guesses.length + 1)} pts`} />}
-            <Lamp label="Score" value={score} />
-            <Lamp label="Streak" value={streak} />
-            <Lamp label="Best" value={best} />
-          </LampRow>
+        <div className="glog-tiles">
+          {/* Position and team feedback stay hidden until their clues unlock, so one wrong guess can't give them away */}
+          <Tile label="Pos" value={g.position} state={revealed >= POSITION_CLUE ? (g.position === answer.position ? 'match' : 'wrong') : 'hidden'} />
+          <Tile label="Team" value={gTeam?.abbreviation ?? '-'} state={revealed >= TEAM_CLUE ? teamTile(gTeam, aTeam) : 'hidden'} />
+          <Tile label="OVR" value={ovrOf(g)} state={numberTile(ovrOf(g), ovrOf(answer))} />
+          <Tile label="Rings" value={g.rings} state={numberTile(g.rings, answer.rings)} />
+        </div>
+      </li>
+    );
+  };
 
-          {!finished ? (
-            <>
-              <PlayerSearchSelect players={players} value={selection} onValueChange={setSelection} placeholder="Who is it?" />
-              <ArcadeButton tone="go" wide disabled={!selection} onClick={() => submitGuess(selection)}>
-                Submit guess
-              </ArcadeButton>
-            </>
-          ) : (
-            <div className={cn('verdict-pill', solved ? 'good' : 'bad')} role="status">
-              {solved
-                ? pointsFor(guesses.length) > 0
-                  ? `Got it in ${guesses.length}! +${pointsFor(guesses.length)} pts · It's ${answer.name}`
-                  : `It's ${answer.name}, but every clue was needed: 0 pts`
-                : `Out of guesses. It was ${answer.name}`}
+  return (
+    <div className="gl">
+      <Confetti fire={confetti} />
+      <HowToStrip
+        id="legend"
+        steps={[
+          <>A mystery player hides behind the card. Clue 1 is open.</>,
+          <>Search a name and press Guess. Every miss unlocks the next clue and the prize drops by a point.</>,
+          <>Name him early: 5 points on clue 1, nothing if every clue was needed.</>,
+        ]}
+      />
+
+      <div className="gl-grid">
+        <section className="gl-stage" aria-label="Mystery player">
+          <div className="gl-stats">
+            <Lamp label="Score" value={score} />
+            <Lamp label="Streak" value={streak} flicker={streak > 0 && !finished} />
+            <Lamp label="Best" value={best} />
+          </div>
+
+          {finished ? (
+            <div className="gl-revealed" key={`r-${playerKey(answer)}`}>
+              <GameBanner player={answer as GamePlayer} ovr={ovrOf(answer)} reveal className="flip-y" />
             </div>
+          ) : (
+            <MysteryCard
+              key={`m-${playerKey(answer)}`}
+              answer={answer}
+              revealed={revealed}
+              ovr={ovrOf(answer)}
+              shake={misses}
+            />
           )}
 
-          <ArcadeButton tone={finished ? 'go' : 'ghost'} wide onClick={newPuzzle} autoFocus={finished}>
-            {finished ? 'Next legend' : 'Skip'}
-          </ArcadeButton>
-        </div>
+          <ol className="gl-meter" aria-label={`Clue ${revealed} of ${clues.length} open`}>
+            {clues.map((c, i) => (
+              <li
+                key={c.title}
+                className={cn(i < revealed && 'on', i === revealed - 1 && !finished && 'now', solved && i === guesses.length - 1 && 'hit')}
+                title={`Clue ${i + 1}: ${c.title}`}
+              >
+                <span className="gl-meter-pts" aria-hidden="true">
+                  {pointsFor(i + 1)}
+                </span>
+              </li>
+            ))}
+          </ol>
+
+          {!finished ? (
+            <div className="gl-guess">
+              <div className="gl-guess-k" id="gl-guess-label">
+                <span>
+                  Guess <b>{guesses.length + 1}</b> of {MAX_GUESSES}
+                </span>
+                <span className={cn('gl-worth', worth <= 1 && 'low')} aria-live="polite">
+                  Worth <b>{worth}</b> {worth === 1 ? 'pt' : 'pts'}
+                </span>
+              </div>
+              <div className="gl-guess-row">
+                <div className="gl-guess-pick">
+                  <PlayerSearchSelect players={players} value={selection} onValueChange={setSelection} placeholder="Who is it?" ariaLabel="Your guess" />
+                </div>
+                <ArcadeButton tone="go" disabled={!selection} onClick={() => submitGuess(selection)}>
+                  Guess
+                </ArcadeButton>
+              </div>
+              {lastGuess && (
+                <div className="gl-last" key={`last-${guesses.length}`} role="status">
+                  <p className="gl-last-k">
+                    Not him. <b>Clue {revealed}</b> is open below.
+                  </p>
+                  <ol className="gl-rows">{guessRow(lastGuess, true)}</ol>
+                </div>
+              )}
+              <button type="button" className="gl-skip" onClick={newPuzzle}>
+                Skip this legend
+              </button>
+            </div>
+          ) : (
+            <div className={cn('gl-result', solved && points > 0 ? 'good' : 'bad')} role="status">
+              <div className="gl-result-pts num">
+                {points > 0 ? (
+                  <>
+                    +<CountUp value={points} />
+                  </>
+                ) : (
+                  '0'
+                )}
+                <small>{points === 1 ? 'pt' : 'pts'}</small>
+              </div>
+              <div className="gl-result-line">
+                {solved ? (points > 0 ? `Named on clue ${guesses.length} of ${MAX_GUESSES}` : 'Named, but every clue was needed') : 'Out of guesses'}
+              </div>
+              <div className="gl-result-name">
+                {solved ? 'It is ' : 'It was '}
+                <b style={{ color: answerInk }}>{answer.name}</b> <InLeague player={answer} />
+              </div>
+              <div className="gl-result-streak px">
+                {points > 0 ? `Streak ${streak}${streak > 0 && streak === best ? ' · best ever' : ''}` : 'Streak reset'}
+              </div>
+              <ArcadeButton tone="go" wide onClick={newPuzzle} autoFocus>
+                Next legend
+              </ArcadeButton>
+            </div>
+          )}
+        </section>
+
+        <section className="gl-clues" aria-label="Clues">
+          <h3 className="gl-h">
+            Clues <span>{finished ? 'all open' : `${revealed} of ${clues.length} open`}</span>
+          </h3>
+          <ol className="gl-clue-list">
+            {openClues.map(({ c, i }) => {
+              const fresh = i === revealed - 1 && !finished;
+              return (
+                <li key={c.title} className={cn('gl-clue', fresh && 'fresh')}>
+                  <h4>
+                    <span className="gl-clue-no" aria-hidden="true">
+                      {i + 1}
+                    </span>
+                    <span className="gl-clue-t">
+                      <span className="sr-only">Clue {i + 1}: </span>
+                      {c.title}
+                    </span>
+                    {fresh && guesses.length > 0 && <span className="gl-new">New</span>}
+                  </h4>
+                  <dl className="stats">{c.content}</dl>
+                </li>
+              );
+            })}
+          </ol>
+          {lockedCount > 0 && (
+            <ol className="gl-locked" aria-label="Locked clues" start={revealed + 1}>
+              {clues.slice(revealed).map((c, k) => (
+                <li key={c.title}>
+                  <span className="gl-lock" aria-hidden="true" />
+                  <span>
+                    Clue {revealed + k + 1} · {c.title}
+                  </span>
+                  <span className="gl-locked-k">after miss {revealed + k}</span>
+                </li>
+              ))}
+            </ol>
+          )}
+        </section>
 
         {guesses.length > 0 && (
-          <div className="panel">
-            <h3>Your guesses</h3>
-            <p className="hint gkey">
-              Each row is one of your guesses, compared with the mystery player: <b className="turf">green</b> = match,{' '}
-              <b className="sky">blue</b> = same division, <b className="gold">yellow</b> = same conference,{' '}
-              <b className="flag">red</b> = wrong position (position and team feedback unlock with clues 5 and 6), <b className="orange">orange Higher ▲ / Lower ▼</b> = the mystery player's OVR or rings
-              are higher or lower. Gray = no match.
-            </p>
-            <ol className="glog">
-              {guesses.map((g) => {
-                const correct = playerKey(g) === playerKey(answer);
-                const gTeam = findNFLTeam(bannerTeamOf(g));
-                const aTeam = findNFLTeam(bannerTeamOf(answer));
-                return (
-                  <li key={playerKey(g)} className={cn('glog-row slide-in', correct && 'solved')}>
-                    <div className="glog-name">
-                      <span aria-hidden="true" className={correct ? 'turf' : 'flag'}>
-                        {correct ? '✓' : '✗'}
-                      </span>{' '}
-                      {g.name}
-                    </div>
-                    <div className="glog-tiles">
-                      {/* Position and team feedback stay hidden until their clues unlock, so one wrong guess can't give them away */}
-                      <Tile label="Pos" value={g.position} state={revealed >= POSITION_CLUE ? (g.position === answer.position ? 'match' : 'wrong') : 'hidden'} />
-                      <Tile label="Team" value={gTeam?.abbreviation ?? '—'} state={revealed >= TEAM_CLUE ? teamTile(gTeam, aTeam) : 'hidden'} />
-                      <Tile label="OVR" value={ovrOf(g)} state={numberTile(ovrOf(g), ovrOf(answer))} />
-                      <Tile label="Rings" value={g.rings} state={numberTile(g.rings, answer.rings)} />
-                    </div>
-                  </li>
-                );
-              })}
-            </ol>
-          </div>
+          <section className="gl-log" aria-label="Your guesses">
+            <h3 className="gl-h">
+              Your guesses <span>{guesses.length}</span>
+            </h3>
+            <ol className="gl-rows">{guesses.map((g) => guessRow(g))}</ol>
+            <details className="gl-key">
+              <summary>How to read the tiles</summary>
+              <p>
+                Each tile compares your guess with the mystery player. <b className="turf">Green</b> is a match, <b className="sky">blue</b> the same
+                division, <b className="gold">yellow</b> the same conference, <b className="flag">red</b> a different position, and{' '}
+                <b className="orange">Higher ▲ / Lower ▼</b> says where his OVR or rings sit. Position and team tiles open with clues 5 and 6.
+              </p>
+            </details>
+          </section>
         )}
-      </aside>
+      </div>
+    </div>
+  );
+};
+
+/** Football-player silhouette (helmet and shoulder pads) for the sealed card. */
+const Silhouette = () => (
+  <svg className="gl-sil" viewBox="0 0 160 150" aria-hidden="true">
+    <path
+      d="M80 10c-27 0-46 18-46 42 0 12 4 22 11 29l-3 9C20 95 8 106 4 124l-4 26h160l-4-26c-4-18-16-29-38-34l-3-9c7-7 11-17 11-29 0-24-19-42-46-42z"
+      fill="currentColor"
+    />
+    <path d="M104 52h22M104 64h20M112 46v28" stroke="#0006" strokeWidth="5" strokeLinecap="round" fill="none" />
+  </svg>
+);
+
+/** The sealed card: a silhouette that takes on what the clues reveal (OVR from clue 1, position at 5, club colours and initials at 6). */
+const MysteryCard = ({ answer, revealed, ovr, shake }: { answer: Player; revealed: number; ovr: number; shake: number }) => {
+  const teamKnown = revealed >= TEAM_CLUE;
+  const posKnown = revealed >= POSITION_CLUE;
+  const style = teamKnown ? teamStyle(bannerTeamOf(answer)) : MYSTERY_STYLE;
+  const initials = answer.name
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => `${w[0]}.`)
+    .join(' ');
+  return (
+    <div
+      className={cn('gl-card', teamKnown && 'tinted', shake > 0 && 'shake')}
+      key={`card-${shake}`}
+      style={teamVars(style)}
+      role="img"
+      aria-label={`Mystery player card. OVR ${ovr}${posKnown ? `, ${answer.position}` : ''}${teamKnown ? `, ${style.team?.name ?? 'unknown club'}, initials ${initials}` : ''}.`}
+    >
+      <span className="gl-card-rays" aria-hidden="true" />
+      {teamKnown && <TeamLogo team={style.team} className="gl-card-logo" />}
+      <Silhouette />
+      <span className="gl-card-q" aria-hidden="true">
+        ?
+      </span>
+      <div className="gl-card-ovr" aria-hidden="true">
+        <b className="num">{ovr}</b>
+        <span>OVR</span>
+      </div>
+      <div className={cn('gl-card-pos', posKnown && 'on')} aria-hidden="true">
+        {posKnown ? answer.position : '??'}
+      </div>
+      <div className="gl-card-plate" aria-hidden="true">
+        <span>{teamKnown ? style.team?.name ?? 'Mystery player' : 'Mystery player'}</span>
+        <b>{teamKnown ? initials : '? ? ?'}</b>
+      </div>
     </div>
   );
 };

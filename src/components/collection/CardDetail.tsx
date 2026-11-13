@@ -48,6 +48,8 @@ import type { OwnedAuto } from '@/utils/collection';
 import { useMarket } from '@/utils/useMarket';
 import { isSampleAuto, useAutographFor } from './autograph/sample';
 import AutographDetails from './autograph/AutographDetails';
+import SellPanel from './economy/SellPanel';
+import { displayOf, readCollection } from '@/utils/collection';
 
 export interface CardDetailTarget {
   info: CardInfo;
@@ -1010,6 +1012,31 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                   ) : (
                     <div className="cd-market-ph" style={{ minHeight: marketHeights.get(info.key) ?? marketHeights.get('') ?? 480 }} aria-hidden="true" />
                   ))}
+
+                {!target?.preview && panelReady && entry && ownsCombo(entry, variant, finish) && (
+                  <SellPanel
+                    info={info}
+                    entry={entry}
+                    variant={variant}
+                    finish={finish}
+                    kit={kit}
+                    kitKind={worn?.kind ?? 'home'}
+                    kitLabel={worn ? kitName(worn.uniform) : undefined}
+                    prizm={prizm}
+                    auto={target?.auto?.key === info.key ? target.auto : undefined}
+                    onSold={(gone) => {
+                      setViewKit(null);
+                      setViewPar(null);
+                      if (gone === 'player') close();
+                      else if (gone === 'combo') {
+                        // Back to what his card shows now
+                        const d = displayOf(readCollection().cards[info.key], readCollection().display?.[info.key]);
+                        setViewVariant(d.variant);
+                        setView(d.finish);
+                      }
+                    }}
+                  />
+                )}
 
                 {onPlayer && (
                   <button type="button" onClick={() => onPlayer(info)} className="cd-btn">

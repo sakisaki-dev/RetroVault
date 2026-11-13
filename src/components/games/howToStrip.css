@@ -1,0 +1,37 @@
+/* The Arcade's one how-to strip (HowToStrip.tsx), used by every game (scoped under .arcade). */
+.arcade .howto {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 0 0 16px; padding: 10px 12px;
+  border-radius: 10px; background: linear-gradient(100deg, color-mix(in srgb, var(--ht) 14%, var(--panel-3)), var(--panel-3) 70%);
+  box-shadow: inset 3px 0 0 var(--ht), 0 0 0 1px var(--line);
+  animation: howto-in 0.35s ease both;
+}
+.arcade .howto ol { flex: 1 1 280px; display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0; padding: 0; list-style: none; }
+.arcade .howto li { display: flex; align-items: flex-start; gap: 8px; flex: 1 1 200px; font-size: 14px; line-height: 1.35; color: var(--chalk); }
+.arcade .howto li > b {
+  flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 4px; background: #000;
+  color: var(--ht); font: 400 11px var(--f-pixel); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ht) 60%, transparent);
+}
+.arcade .howto-keys { flex: 1 0 100%; order: 3; margin: 0; font: 400 10px var(--f-pixel); color: var(--muted); text-transform: uppercase; }
+@media (hover: none) { .arcade .howto-keys { display: none; } }
+.arcade .howto li strong, .arcade .howto li span b { color: var(--chalk); font-weight: 700; }
+.arcade .howto-close {
+  flex: none; min-height: 40px; padding: 6px 14px; border: 0; border-radius: 6px; background: transparent; color: var(--chalk);
+  font: 800 15px var(--f-display); text-transform: uppercase; box-shadow: 0 0 0 2px var(--line);
+}
+.arcade .howto-close:hover { box-shadow: 0 0 0 2px var(--ht); }
+.arcade .howto-min { display: flex; justify-content: flex-end; margin: -6px 0 8px; }
+.arcade .howto-reopen {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 4px 10px; border: 0; border-radius: 999px;
+  background: transparent; color: var(--muted); font: 400 10px var(--f-pixel); text-transform: uppercase;
+}
+.arcade .howto-reopen span { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--panel-2); color: var(--gold); }
+.arcade .howto-reopen:hover { color: var(--chalk); }
+@media (prefers-reduced-motion: reduce) { .arcade .howto { animation: none; } }
+@keyframes howto-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@media (max-width: 599px) {
+  .arcade .howto { gap: 8px; padding: 8px 10px; }
+  .arcade .howto ol { gap: 6px; }
+  .arcade .howto li { font-size: 13px; flex-basis: 100%; }
+  .arcade .howto li > b { width: 20px; height: 20px; font-size: 10px; }
+  .arcade .howto-close { min-height: 36px; padding: 4px 12px; font-size: 14px; margin-left: auto; }
+}

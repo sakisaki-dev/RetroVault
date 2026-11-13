@@ -1,0 +1,119 @@
+/* Higher or Lower: a head-to-head stage, two club cards, a rolling reveal and a stamped verdict. */
+
+.arcade .hl { max-width: 860px; margin: 0 auto; }
+
+/* ---------- HUD ---------- */
+.arcade .hl-hud { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; margin-bottom: 10px; padding: 6px 14px; border-radius: 12px; border: 3px solid #000; background: radial-gradient(120% 140% at 50% -40%, #1a2c55 0, #070b18 60%); box-shadow: 0 0 0 2px var(--line); }
+.arcade .hl-hud .k { display: block; font-family: var(--f-pixel); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.arcade .hl-streak .v { display: inline-block; font-family: var(--f-pixel); font-size: 24px; line-height: 1.1; color: var(--gold); text-shadow: 0 0 12px #ffc83d66; }
+.arcade .hl-streak .v.bump { animation: hl-bump 0.45s cubic-bezier(.2,.9,.3,1.4); }
+@keyframes hl-bump { 0% { transform: scale(1.7); color: #fff; } 100% { transform: none; } }
+.arcade .hl-streak.best { text-align: right; }
+.arcade .hl-streak.best .v { color: var(--chalk); text-shadow: none; }
+.arcade .hl-meter { text-align: center; }
+.arcade .hl-meter-bar { display: inline-flex; gap: 4px; margin-top: 5px; }
+.arcade .hl-meter-bar i { width: 22px; height: 10px; border-radius: 2px; background: #1a2036; box-shadow: inset 0 0 0 1px #000; }
+.arcade .hl-meter-bar i.on { background: linear-gradient(180deg, #ffe08a, var(--gold)); box-shadow: 0 0 8px #ffc83d88; }
+@media (min-width: 640px) { .arcade .hl-meter-bar i { width: 34px; } }
+
+/* ---------- Arena ---------- */
+.arcade .hl-arena { position: relative; padding: 10px 10px 14px; border-radius: 16px; border: 3px solid #000; background: radial-gradient(90% 60% at 50% 0%, #ffffff14 0, transparent 70%), repeating-linear-gradient(90deg, transparent 0 47px, #ffffff08 47px 49px), linear-gradient(180deg, #0f6b3c, #08371f); box-shadow: 0 0 0 2px #1e3b2a, 0 20px 44px #000a; overflow: hidden; }
+@media (min-width: 640px) { .arcade .hl-arena { padding: 20px 22px 22px; } }
+.arcade .hl-cat { display: flex; flex-direction: column; align-items: center; margin: 0 auto 6px; animation: hl-drop 0.35s cubic-bezier(.2,.9,.3,1.2) both; }
+.arcade .hl-cat-k { font-family: var(--f-pixel); font-size: 10px; color: #c9f5da; text-transform: uppercase; letter-spacing: 0.1em; }
+.arcade .hl-cat-v { margin-top: 2px; padding: 4px 16px 3px; border-radius: 6px; background: #000; color: var(--gold); font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: 30px; line-height: 1; text-transform: uppercase; box-shadow: 0 0 0 2px var(--gold), 0 0 22px #ffc83d55; }
+@keyframes hl-drop { from { opacity: 0; transform: translateY(-12px) scale(0.9); } }
+.arcade .hl-q { margin: 8px auto 10px; max-width: 34ch; text-align: center; font-family: var(--f-display); font-weight: 600; font-size: 19px; line-height: 1.15; color: #e7fff0; text-shadow: 0 2px 0 #0007; }
+.arcade .hl-q b { font-weight: 800; text-transform: uppercase; }
+@media (min-width: 640px) { .arcade .hl-q { font-size: 24px; } }
+
+.arcade .hl-stage { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 0 minmax(0, 1fr); gap: 6px; align-items: stretch; }
+@media (min-width: 640px) { .arcade .hl-stage { gap: 28px; } }
+
+.arcade .hl-fighter { display: flex; flex-direction: column; min-width: 0; border-radius: 12px; overflow: hidden; background: #070b18; box-shadow: 0 0 0 3px #000, 0 10px 24px #0009; transition: transform 0.35s, box-shadow 0.35s, filter 0.35s; animation: hl-in-l 0.4s cubic-bezier(.2,.9,.3,1.1) both; }
+.arcade .hl-fighter.mystery { animation-name: hl-in-r; animation-delay: 0.08s; }
+@keyframes hl-in-l { from { opacity: 0; transform: translateX(-24px); } }
+@keyframes hl-in-r { from { opacity: 0; transform: translateX(24px); } }
+.arcade .hl-fighter.win { box-shadow: 0 0 0 3px var(--gold), 0 0 30px #ffc83d77, 0 10px 24px #0009; transform: translateY(-4px); }
+.arcade .hl-fighter.lose { filter: saturate(0.5) brightness(0.72); }
+
+.arcade .hl-card { position: relative; aspect-ratio: 16 / 11; overflow: hidden; padding: 8px; display: flex; flex-direction: column; justify-content: flex-end; color: #fff; background: linear-gradient(150deg, var(--c1) 0 55%, color-mix(in srgb, var(--c1) 50%, #000) 100%); }
+.arcade .hl-card::before { content: ''; position: absolute; top: -20%; bottom: -20%; right: 22%; width: 9%; background: var(--c2); transform: skewX(-18deg); }
+.arcade .hl-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, #000b 100%), repeating-linear-gradient(0deg, transparent 0 3px, #0000000d 3px 4px); pointer-events: none; }
+.arcade .hl-card-logo { position: absolute; left: -8%; top: -10%; width: 72%; height: 80%; object-fit: contain; opacity: 0.32; }
+.arcade .hl-card-num { position: absolute; right: 6px; top: 0; font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: clamp(48px, 15vw, 110px); line-height: 1; color: transparent; -webkit-text-stroke: 2px var(--c2); opacity: 0.85; }
+.arcade .hl-card-tags { position: absolute; left: 8px; top: 8px; z-index: 2; display: flex; flex-wrap: wrap; gap: 4px; }
+.arcade .hl-pos, .arcade .hl-ovr, .arcade .hl-legend { font-family: var(--f-pixel); font-size: 10px; padding: 3px 5px; border-radius: 3px; background: #000; color: var(--gold); }
+.arcade .hl-ovr { background: var(--chalk); color: #000; animation: hl-drop 0.3s ease both; }
+.arcade .hl-legend { color: #5cc8ff; }
+.arcade .hl-card-name { position: relative; z-index: 1; display: flex; flex-direction: column; font-family: var(--f-display); font-weight: 800; text-transform: uppercase; line-height: 0.95; text-shadow: 2px 2px 0 #000, 0 0 10px #0008; min-width: 0; }
+.arcade .hl-card-name .first { font-size: 12px; font-weight: 600; opacity: 0.92; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arcade .hl-card-name .last { font-size: clamp(20px, 6.2vw, 38px); overflow-wrap: anywhere; }
+.arcade .hl-card-club { position: relative; z-index: 1; margin-top: 3px; font-family: var(--f-pixel); font-size: 9px; color: #ffffffcc; }
+@media (min-width: 640px) { .arcade .hl-card { padding: 12px; } .arcade .hl-card-name .first { font-size: 15px; } .arcade .hl-card-club { font-size: 10px; } .arcade .hl-pos, .arcade .hl-ovr, .arcade .hl-legend { font-size: 11px; } }
+
+.arcade .hl-plate { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 6px 10px; background: linear-gradient(180deg, #0c1328, #050813); box-shadow: inset 0 3px 0 var(--c1); }
+.arcade .hl-plate-k { font-family: var(--f-pixel); font-size: 9px; color: var(--muted); text-transform: uppercase; }
+.arcade .hl-plate-v { font-family: var(--f-display); font-weight: 800; font-size: clamp(34px, 10vw, 62px); line-height: 1; color: var(--gold); text-shadow: 0 0 16px #ffc83d55; font-variant-numeric: tabular-nums; }
+.arcade .hl-plate-v.sealed { display: inline-flex; gap: 4px; color: var(--muted); text-shadow: none; }
+.arcade .hl-plate-v.sealed i { display: grid; place-items: center; width: clamp(26px, 7vw, 44px); height: clamp(34px, 10vw, 58px); border-radius: 5px; background: #000; box-shadow: inset 0 0 0 2px var(--line); font-style: normal; font-family: var(--f-pixel); font-size: clamp(18px, 5vw, 28px); color: #6f7ca6; animation: hl-blink 1.6s steps(1, end) infinite; }
+.arcade .hl-plate-v.sealed i:nth-child(2) { animation-delay: 0.2s; }
+.arcade .hl-plate-v.sealed i:nth-child(3) { animation-delay: 0.4s; }
+@keyframes hl-blink { 50% { color: var(--gold); box-shadow: inset 0 0 0 2px #ffc83d66; } }
+.arcade .hl-plate-games { font-size: 12px; color: var(--muted); }
+.arcade .hl-fighter.mystery .hl-plate-v:not(.sealed) { animation: hl-roll 0.18s steps(2) 6; }
+@keyframes hl-roll { 50% { transform: translateY(-3px); filter: brightness(1.6); } }
+
+.arcade .hl-vs { position: relative; z-index: 3; align-self: end; margin-bottom: 26px; width: 0; }
+.arcade .hl-vs span { position: absolute; left: 0; bottom: 0; transform: translateX(-50%); display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffe08a, var(--gold) 45%, #8a6400); box-shadow: 0 0 0 3px #000, 0 0 24px #ffc83d88; }
+.arcade .hl-vs span { font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: 20px; color: #1a1300; }
+.arcade .hl-vs.rolling span { animation: hl-spin 0.5s linear infinite; }
+.arcade .hl-vs.done { animation: none; opacity: 0; transition: opacity 0.2s; }
+@keyframes hl-spin { to { transform: translateX(-50%) rotate(360deg); } }
+@media (min-width: 640px) { .arcade .hl-vs { margin-bottom: 18px; } .arcade .hl-vs span { width: 68px; height: 68px; font-size: 30px; } }
+
+.arcade .hl-stamp { position: absolute; left: 50%; top: 26%; z-index: 4; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 18px; border-radius: 8px; background: #050813ee; border: 4px solid currentColor; transform: translate(-50%, -50%) rotate(-6deg); animation: hl-stamp 0.35s cubic-bezier(.2,.9,.3,1.3) both; white-space: nowrap; }
+.arcade .hl-stamp.good { color: var(--turf); box-shadow: 0 0 30px #27b36a77; }
+.arcade .hl-stamp.bad { color: var(--flag); box-shadow: 0 0 30px #ff4f6177; }
+.arcade .hl-stamp b { font-family: var(--f-display); font-weight: 800; font-size: 38px; line-height: 1; text-transform: uppercase; }
+.arcade .hl-stamp span { font-family: var(--f-pixel); font-size: 9px; color: var(--chalk); text-transform: uppercase; }
+@keyframes hl-stamp { 0% { transform: translate(-50%, -50%) rotate(-6deg) scale(2.2); opacity: 0; } 100% { transform: translate(-50%, -50%) rotate(-6deg); opacity: 1; } }
+@media (min-width: 640px) { .arcade .hl-stamp b { font-size: 52px; } .arcade .hl-stamp span { font-size: 11px; } }
+
+/* ---------- Calls ---------- */
+.arcade .hl-calls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+.arcade .hl-calls .btn { grid-column: 1 / -1; min-height: 58px; font-size: 22px; }
+.arcade .hl-call { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 64px; border: 0; border-radius: 10px; font-family: var(--f-display); font-weight: 800; font-size: 26px; text-transform: uppercase; letter-spacing: 0.03em; transition: transform 0.08s, box-shadow 0.08s, filter 0.15s; }
+.arcade .hl-call .arrow { font-size: 18px; }
+.arcade .hl-call.more { background: linear-gradient(180deg, #3fd486, var(--turf)); color: #03140a; box-shadow: 0 5px 0 #0c4a28, 0 0 0 3px #000; }
+.arcade .hl-call.fewer { background: linear-gradient(180deg, #ff7a88, var(--flag)); color: #250006; box-shadow: 0 5px 0 #8a1020, 0 0 0 3px #000; }
+.arcade button.hl-call:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.arcade button.hl-call:active { transform: translateY(4px); box-shadow: 0 1px 0 #000, 0 0 0 3px #000; }
+.arcade .hl-call:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.arcade .hl-calls.locked { grid-template-columns: 1fr; }
+.arcade .hl-call.picked { animation: arc-flicker 0.8s infinite steps(1, end); font-size: 22px; }
+
+/* ---------- Run over ---------- */
+.arcade .hl-over { margin-top: 16px; display: flex; flex-direction: column; gap: 14px; padding: 18px; border-radius: 14px; border: 3px solid #000; background: radial-gradient(120% 120% at 0% 0%, #3a1220 0, #0a1022 60%); box-shadow: 0 0 0 2px var(--line), 0 18px 40px #0008; animation: arc-rise 0.45s ease both; }
+.arcade .hl-over-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+.arcade .hl-over-k { display: block; font-family: var(--f-pixel); font-size: 11px; color: var(--flag); text-transform: uppercase; }
+.arcade .hl-over-v { display: inline-block; font-family: var(--f-display); font-weight: 800; font-size: 76px; line-height: 0.9; color: var(--chalk); margin-right: 8px; }
+.arcade .hl-over-sub { font-family: var(--f-display); font-weight: 700; font-style: italic; font-size: 20px; color: var(--gold); text-transform: uppercase; }
+.arcade .hl-over-best { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; font-family: var(--f-pixel); font-size: 11px; color: var(--muted); text-transform: uppercase; }
+.arcade .hl-newbest { padding: 3px 7px; border-radius: 3px; background: var(--turf); color: #03140a; animation: arc-flicker 1.4s infinite steps(1, end); }
+.arcade .hl-over-pack { color: var(--gold); }
+.arcade .hl-run { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.arcade .hl-run li { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 6px; background: #050813; animation: arc-rise 0.35s ease both; font-size: 14px; color: var(--muted); }
+.arcade .hl-run-cat { flex: none; min-width: 74px; font-family: var(--f-pixel); font-size: 9px; color: var(--gold); text-transform: uppercase; }
+.arcade .hl-run-names { min-width: 0; }
+.arcade .hl-run-names b { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: 16px; }
+.arcade .hl-run-names i { font-style: normal; margin: 0 6px; color: var(--turf); font-weight: 700; }
+
+@media (prefers-reduced-motion: reduce) {
+  .arcade .hl *, .arcade .hl *::before, .arcade .hl *::after { animation: none !important; transition: none !important; }
+  .arcade .hl-stamp { transform: translate(-50%, -50%) rotate(-6deg); }
+}
+@media (min-width: 640px) {
+  .arcade .hl-stage, .arcade .hl-calls { max-width: 660px; margin-left: auto; margin-right: auto; }
+  .arcade .hl-card { aspect-ratio: 16 / 10; }
+}

@@ -1,8 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { awardPack } from '@/utils/collection';
-import { StatBlock } from './ArcadeParts';
-import GameBanner, { BoardCard } from './GameBanner';
-import { ArcadeButton, ChipGroup, Confetti, CountUp, Dots, Lamp, LampRow, ResultPanel } from './ArcadeUI';
+import { cn } from '@/lib/utils';
+import { ArcadeButton, ChipGroup, Confetti, CountUp } from './ArcadeUI';
 import {
   STAT_KEYS,
   dealDistinct,
@@ -14,9 +13,13 @@ import {
   type GamePlayer,
   type PosFilter,
 } from './gameUtils';
+import { DeckCard, Hud, HudStat, Land, Pips, Slab, launchFrom, usePointerDrag, useRevealClock } from './rosterKit';
+import HowToStrip from './HowToStrip';
+import './keepcut.css';
 
 const SIZE = 6;
 const KEEP = 3;
+const SWIPE = 80;
 const POS_OPTIONS: PosFilter[] = ['ANY', 'QB', 'RB', 'WR', 'TE', 'DB', 'DEF'];
 
 type Choice = 'keep' | 'cut';
@@ -33,7 +36,7 @@ interface Round {
 const verdictFor = (got: number) =>
   got === 3 ? 'Front office material.' : got === 2 ? 'One bad call.' : got === 1 ? 'You cut a future Hall of Famer.' : 'Fired before training camp.';
 
-/** Keep 3, Cut 3 — blind: six players arrive one at a time and each call is final. */
+/** Keep 3, Cut 3: blind, six players arrive one at a time and each call is final. */
 const KeepCut = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map<string, number> }) => {
   const key = useMemo(() => rankKey(ovrMap), [ovrMap]);
 
@@ -48,19 +51,27 @@ const KeepCut = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map<strin
   const [round, setRound] = useState<Round | null>(() => deal(firstPlayable()));
   const [totals, setTotals] = useState(() => ({ correct: loadGameStat(STAT_KEYS.kcCorrect), rounds: loadGameStat(STAT_KEYS.kcRounds) }));
   const [confetti, setConfetti] = useState<number | false>(false);
+  const [nope, setNope] = useState<Choice | null>(null);
+  const faceRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const scoreRef = useRef<HTMLDivElement>(null);
+  const played = useRef(false);
 
-  if (!round) return <p className="empty">Not enough players to deal six yet.</p>;
+  const reveal = useRevealClock(!!round?.done, SIZE, 360, 250, round?.players);
 
-  const sorted = round.done ? [...round.players].sort((a, b) => key(b) - key(a)) : null;
-  const rankOf = (p: GamePlayer) => (sorted ? sorted.indexOf(p) + 1 : 0);
-  const got = sorted ? round.players.filter((p, i) => round.choice[i] === 'keep' && rankOf(p) <= KEEP).length : 0;
-  const keeps = round.choice.filter((c) => c === 'keep').length;
-  const cuts = round.choice.filter((c) => c === 'cut').length;
-  const current = round.players[round.idx];
-  const ovrOf = (p: GamePlayer) => ovrMap.get(playerKey(p)) ?? 62;
+  const keeps = round ? round.choice.filter((c) => c === 'keep').length : 0;
+  const cuts = round ? round.choice.filter((c) => c === 'cut').length : 0;
+  const full = (c: Choice) => (c === 'keep' ? keeps >= KEEP : cuts >= SIZE - KEEP);
 
-  const decide = (c: Choice) => {
-    if (round.done) return;
+  const decide = (c: Choice, from?: Element | null) => {
+    if (!round || round.done) return;
+    if (full(c)) {
+      setNope(c);
+      window.setTimeout(() => setNope(null), 450);
+      return;
+    }
+    launchFrom(from ?? faceRef.current);
+    played.current = true;
     const choice = [...round.choice, c];
     const idx = round.idx + 1;
     if (idx < SIZE) {
@@ -76,132 +87,228 @@ const KeepCut = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map<strin
     saveGameStat(STAT_KEYS.kcCorrect, next.correct);
     saveGameStat(STAT_KEYS.kcRounds, next.rounds);
     if (score === KEEP) setConfetti(Date.now());
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const restart = (p: PosFilter) => setRound(deal(canPlay(p) ? p : firstPlayable()));
-  const posOptions = POS_OPTIONS.map((p) => ({ value: p, label: p === 'ANY' ? 'Any pos' : p, disabled: !canPlay(p) }));
+  const { drag, handlers } = usePointerDrag((target, dx, _dy, el) => {
+    if (target === 'kc-keep' || target === 'kc-cut') decide(target === 'kc-keep' ? 'keep' : 'cut', el);
+    else if (dx > SWIPE) decide('keep', el);
+    else if (dx < -SWIPE) decide('cut', el);
+  }, !round?.done);
 
-  const bin = (type: Choice) => {
+  // K / right arrow keeps, C / left arrow cuts
+  useEffect(() => {
+    if (!round || round.done) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target as HTMLElement | null;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      const k = e.key.toLowerCase();
+      if (k === 'k' || k === 'arrowright') {
+        e.preventDefault();
+        decide('keep');
+      } else if (k === 'c' || k === 'arrowleft') {
+        e.preventDefault();
+        decide('cut');
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  });
+
+  useEffect(() => {
+    if (!round) return;
+    if (round.done) scoreRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    else if (round.idx === 0 && played.current) stageRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [round?.done, round?.players]);
+
+  if (!round) return <p className="arc-empty">Not enough players to deal six yet.</p>;
+
+  const sorted = round.done ? [...round.players].sort((a, b) => key(b) - key(a)) : null;
+  const rankOf = (p: GamePlayer) => (sorted ? sorted.indexOf(p) + 1 : 0);
+  const got = sorted ? round.players.filter((p, i) => round.choice[i] === 'keep' && rankOf(p) <= KEEP).length : 0;
+  const current = round.players[round.idx];
+  const ovrOf = (p: GamePlayer) => ovrMap.get(playerKey(p)) ?? 62;
+  const choiceOf = (p: GamePlayer) => round.choice[round.players.indexOf(p)];
+
+  const restart = (p: PosFilter) => setRound(deal(canPlay(p) ? p : firstPlayable()));
+  const posOptions = POS_OPTIONS.map((p) => ({ value: p, label: p === 'ANY' ? 'Any' : p, disabled: !canPlay(p) }));
+
+  // Swipe feedback: how far the card leans toward keep (+) or cut (-)
+  const lean = drag.active ? Math.max(-1, Math.min(1, drag.dx / (SWIPE * 1.4))) : 0;
+  const hot: Choice | null = drag.over === 'kc-keep' || lean >= 0.57 ? 'keep' : drag.over === 'kc-cut' || lean <= -0.57 ? 'cut' : null;
+
+  const upsets = sorted
+    ? sorted.flatMap((p, i) => {
+        const c = choiceOf(p);
+        if (c === 'cut' && i === 0) return [`You cut the #1, ${p.name}`];
+        if (c === 'cut' && i < KEEP) return [`You cut a top-3 career, ${p.name}`];
+        if (c === 'keep' && i === SIZE - 1) return [`You kept the worst of six, ${p.name}`];
+        return [];
+      })
+    : [];
+
+  const pile = (type: Choice) => {
     const ids = round.choice.map((c, i) => (c === type ? i : -1)).filter((i) => i >= 0);
-    return [0, 1, 2].map((j) => {
-      const i = ids[j];
-      if (i == null) {
-        return (
-          <div key={j} className="b5">
-            <span className="no" aria-hidden="true">
-              {type === 'keep' ? 'K' : 'C'}
-            </span>
-            <span className="cta">{type === 'keep' ? 'Open keep slot' : 'Open cut slot'}</span>
-          </div>
-        );
-      }
-      const p = round.players[i];
-      if (!round.done) {
-        return <BoardCard key={j} player={p} no={type === 'keep' ? 'K' : 'C'} className={i === round.idx - 1 ? 'anim-pop' : undefined} />;
-      }
-      const r = rankOf(p);
-      const right = type === 'keep' ? r <= KEEP : r > KEEP;
-      const upset =
-        type === 'cut' && r === 1
-          ? 'Upset · you cut the #1'
-          : type === 'cut' && r <= KEEP
-            ? 'Upset · cut a top-3 career'
-            : type === 'keep' && r === SIZE
-              ? 'Upset · kept the worst of six'
-              : '';
-      return (
-        <BoardCard key={j} player={p} no={type === 'keep' ? 'K' : 'C'} ovr={ovrOf(p)} reveal className="anim-flip" delay={j * 0.25 + (type === 'cut' ? 0.75 : 0)}>
-          <span className={`res ${right ? 'p2' : 'p0'}`}>
-            True #{r} of {SIZE} · {right ? 'Right' : 'Wrong'}
-          </span>
-          {upset && <span className="res p1">{upset}</span>}
-        </BoardCard>
-      );
-    });
+    const left = type === 'keep' ? KEEP - keeps : SIZE - KEEP - cuts;
+    const isHot = hot === type;
+    return (
+      <section
+        className={cn('kc-pile', type, isHot && 'hot', nope === type && 'nope', left === 0 && 'full')}
+        data-drop={`kc-${type}`}
+        aria-label={`${type === 'keep' ? 'Kept' : 'Cut'}: ${ids.length} of 3`}
+      >
+        <header>
+          <h3>{type === 'keep' ? 'Keep' : 'Cut'}</h3>
+          <span>{left === 0 ? 'Full' : `${left} left`}</span>
+        </header>
+        <ol>
+          {[0, 1, 2].map((j) => {
+            const i = ids[j];
+            if (i == null)
+              return (
+                <li key={j} className="kc-empty" aria-hidden="true">
+                  <span>{type === 'keep' ? '✓' : '✕'}</span>
+                </li>
+              );
+            return (
+              <li key={j}>
+                <Land active={i === round.idx - 1 || (round.done && i === SIZE - 1)}>
+                  <Slab player={round.players[i]} stats={1} />
+                </Land>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+    );
   };
 
   return (
-    <div>
+    <div className="kc">
       <Confetti fire={confetti} />
-      <div className="controls">
+      <HowToStrip
+        id="kc"
+        steps={[
+          <>Six players come out one at a time. Three make the roster.</>,
+          <>
+            Keep the three with the highest OVR. Swipe the card right or tap <b>Keep</b>, swipe left or tap <b>Cut</b>.
+          </>,
+          <>Every call is final and you never see who is next. Each pile holds three.</>,
+        ]}
+        keys="Keys: K or right arrow keeps, C or left arrow cuts"
+      />
+      <div className="rk-deal">
+        <span>Deal</span>
         <ChipGroup label="Position" value={round.pos} options={posOptions} onChange={restart} />
-        <LampRow>
-          <Lamp label={round.done ? `${got}/3 correct` : `Player ${round.idx + 1} of ${SIZE}`} live flicker={!round.done} />
-          <Lamp label="Lifetime" value={totals.rounds ? `${totals.correct}/${totals.rounds * KEEP}` : '—'} />
-        </LampRow>
       </div>
-      <p className="hint" style={{ margin: '0 0 12px' }}>
-        Six players, one at a time. Keep the three highest OVRs.
-      </p>
 
-      {!round.done ? (
-        <div key={playerKey(current)}>
-          {/* Name and team are part of the puzzle; OVR, photo and the NFL Legend tag stay sealed until the reveal */}
-          <GameBanner player={current} size="hero" nameAs="h3" eyebrow={`Player ${round.idx + 1} of ${SIZE} · ${current.position}`} className="anim-stage" />
-          <StatBlock player={current} big countUp className="anim-rise" />
-          <div className="kc-decide">
-            <ArcadeButton tone="green" disabled={keeps >= KEEP} onClick={() => decide('keep')} aria-label={`Keep ${current.name}`}>
-              {keeps >= KEEP ? 'Keep slots full' : `Keep · ${KEEP - keeps} left`}
-            </ArcadeButton>
-            <ArcadeButton tone="red" disabled={cuts >= SIZE - KEEP} onClick={() => decide('cut')} aria-label={`Cut ${current.name}`}>
-              {cuts >= SIZE - KEEP ? 'Cut slots full' : `Cut · ${SIZE - KEEP - cuts} left`}
-            </ArcadeButton>
-          </div>
-          <div className="progress5">
-            <Dots total={SIZE} current={round.idx} />
-            <span>{SIZE - 1 - round.idx} still to come · you can't see who's next</span>
-          </div>
-        </div>
-      ) : (
-        <>
-          <ResultPanel
-            score={
-              <>
-                <CountUp value={got} />
-                /3
-              </>
-            }
-            verdict={verdictFor(got)}
-            detail={`Lifetime: ${totals.correct}/${totals.rounds * KEEP} correct keeps`}
-            action={
-              <ArcadeButton tone="go" onClick={() => restart(round.pos)} autoFocus>
-                New six
-              </ArcadeButton>
-            }
-          />
-          <h3 className="round-title" style={{ marginTop: 22 }}>
-            The <span>true</span> order
-          </h3>
-          <ol className="board6">
-            {sorted!.map((p, i) => (
-              <li key={playerKey(p)}>
-                <BoardCard
-                  player={p}
-                  no={i + 1}
-                  ovr={ovrOf(p)}
-                  reveal
-                  className="anim-deal"
-                  delay={1.6 + i * 0.12}
-                  meta={`OVR ${ovrOf(p)} · ${p.position} · ${
-                    round.choice[round.players.indexOf(p)] === 'keep' ? 'You kept' : 'You cut'
-                  }`}
+      <div className="kc-stage" ref={stageRef}>
+        <Hud>
+          <HudStat label={round.done ? 'Roster' : 'On the clock'} value={round.done ? `${got}/3 right` : `${round.idx + 1} of ${SIZE}`} live />
+          <span className="rk-hud-stat accent grow">
+            <i>Calls</i>
+            <Pips
+              total={SIZE}
+              done={round.choice.length}
+              tones={round.choice.map((c, i) =>
+                sorted ? ((c === 'keep') === rankOf(round.players[i]) <= KEEP ? 'good' : 'bad') : c === 'keep' ? 'good' : 'bad',
+              )}
+              label={sorted ? `${round.choice.filter((c, i) => (c === 'keep') === rankOf(round.players[i]) <= KEEP).length} of ${SIZE} calls right` : `${round.choice.length} of ${SIZE} calls made`}
+            />
+          </span>
+          <HudStat label="Lifetime" value={totals.rounds ? `${totals.correct}/${totals.rounds * KEEP}` : '-'} />
+        </Hud>
+
+        {!round.done ? (
+          <div className="kc-table">
+            {pile('cut')}
+            <div className="kc-center">
+              <div key={playerKey(current)} className="rk-enter kc-deckwrap">
+                <DeckCard
+                  player={current}
+                  eyebrow={`Player ${round.idx + 1} of ${SIZE}`}
+                  grip={<>◀ Swipe to cut · swipe to keep ▶</>}
+                  className={cn(drag.active && 'is-dragging', hot && `lean-${hot}`)}
+                  dragProps={{
+                    ref: faceRef,
+                    ...handlers,
+                    style: drag.active ? { transform: `translate(${drag.dx}px, ${drag.dy * 0.25}px) rotate(${lean * 8}deg)` } : undefined,
+                  }}
+                  dragWhole
+                  overlay={
+                    <>
+                      <span className="kc-stamp keep" style={{ opacity: Math.max(0, lean) }} aria-hidden="true">
+                        Keep
+                      </span>
+                      <span className="kc-stamp cut" style={{ opacity: Math.max(0, -lean) }} aria-hidden="true">
+                        Cut
+                      </span>
+                    </>
+                  }
                 />
-              </li>
-            ))}
-          </ol>
-        </>
-      )}
-
-      <div className="kc-bins">
-        <div>
-          <h3 className="bin-h keep">Kept</h3>
-          <div className="bin3">{bin('keep')}</div>
-        </div>
-        <div>
-          <h3 className="bin-h cut">Cut</h3>
-          <div className="bin3">{bin('cut')}</div>
-        </div>
+              </div>
+              <div className="kc-decide2">
+                <button type="button" className="kc-btn cut" disabled={full('cut')} onClick={() => decide('cut')} aria-label={`Cut ${current.name}`} aria-keyshortcuts="C ArrowLeft">
+                  <span aria-hidden="true">✕</span> Cut
+                  <small>{full('cut') ? 'Full' : `${SIZE - KEEP - cuts} left`}</small>
+                </button>
+                <button type="button" className="kc-btn keep" disabled={full('keep')} onClick={() => decide('keep')} aria-label={`Keep ${current.name}`} aria-keyshortcuts="K ArrowRight">
+                  Keep <span aria-hidden="true">✓</span>
+                  <small>{full('keep') ? 'Full' : `${KEEP - keeps} left`}</small>
+                </button>
+              </div>
+              {(full('keep') || full('cut')) && (
+                <p className="kc-forced" role="status">
+                  {full('keep') ? 'Keep pile is full. The rest get cut.' : 'Cut pile is full. The rest stay.'}
+                </p>
+              )}
+            </div>
+            {pile('keep')}
+          </div>
+        ) : (
+          <div className="kc-result">
+            <div ref={scoreRef} className="rk-score kc-score" role="status">
+              <div className="rk-score-big">
+                {reveal.done ? <CountUp value={got} duration={500} /> : sorted!.slice(0, Math.min(reveal.step, KEEP)).filter((p) => choiceOf(p) === 'keep').length}
+                <small>/3</small>
+              </div>
+              <div className={cn('rk-score-verdict', got === 3 ? 'turf' : got === 0 ? 'flag' : '')}>{reveal.done ? verdictFor(got) : 'Checking the cut line'}</div>
+              <div className="rk-score-detail">
+                {upsets.length && reveal.done ? upsets.join(' · ') : `Lifetime ${totals.correct}/${totals.rounds * KEEP} correct keeps`}
+              </div>
+              <div className="rk-score-actions">
+                <ArcadeButton tone="go" onClick={() => restart(round.pos)} autoFocus>
+                  Deal a new six
+                </ArcadeButton>
+              </div>
+            </div>
+            <ol className="kc-ladder" aria-label="True order by OVR">
+              {sorted!.map((p, i) => {
+                const shown = i < reveal.step;
+                const c = choiceOf(p);
+                const right = c === 'keep' ? i < KEEP : i >= KEEP;
+                return (
+                  <li key={playerKey(p)} className={cn(i === KEEP && 'after-line', i === KEEP && reveal.step >= KEEP && 'line-on')}>
+                    {i === KEEP && (
+                      <span className="kc-line" aria-hidden="true">
+                        <b>Cut line</b>
+                      </span>
+                    )}
+                    <Slab player={p} rank={i + 1} reveal={shown} ovr={ovrOf(p)} tone={shown ? (right ? 'good' : 'bad') : null} className={cn(shown && 'kc-in')}>
+                      {shown && (
+                        <span className={cn('kc-call', right ? 'good' : 'bad')}>
+                          <b>{c === 'keep' ? 'Kept' : 'Cut'}</b>
+                          {right ? '✓ Right' : '✕ Wrong'}
+                        </span>
+                      )}
+                    </Slab>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        )}
       </div>
     </div>
   );

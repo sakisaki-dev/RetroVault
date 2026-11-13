@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { awardPack } from '@/utils/collection';
 import { cn } from '@/lib/utils';
 import type { Position } from '@/types/player';
@@ -7,6 +7,9 @@ import { formLine, latestScheduleSeason, useSchedule, type Schedule } from '@/ut
 import { StatBlock } from './ArcadeParts';
 import GameBanner from './GameBanner';
 import { ArcadeButton, ChipGroup, Confetti, CountUp, Lamp, TeamLogo } from './ArcadeUI';
+import { getTeamTextColor } from '@/utils/teamColors';
+import HowToStrip from './HowToStrip';
+import './perfectSeason.css';
 import {
   POSITION_NAMES,
   STAT_KEYS,
@@ -22,6 +25,8 @@ import {
   saveGameStat,
   isLegend,
   shuffle,
+  teamStyle,
+  teamVars,
   type GamePlayer,
 } from './gameUtils';
 
@@ -356,7 +361,12 @@ const advance = (s: Season): Season => {
 // ---------- Component ----------
 
 const reducedMotion = () => !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-const toTop = () => window.scrollTo({ top: 0, behavior: reducedMotion() ? 'auto' : 'smooth' });
+/** Scroll to the game's title bar (not the page top: on a phone the arcade header would push the stage off screen). */
+const toTop = () => {
+  const el = document.getElementById('arcade-game-title');
+  const top = el ? Math.max(0, el.getBoundingClientRect().top + window.scrollY - 76) : 0;
+  window.scrollTo({ top, behavior: reducedMotion() ? 'auto' : 'smooth' });
+};
 
 type Phase = 'draft' | 'roster' | 'season' | 'reveal';
 
@@ -438,10 +448,13 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
 
   // Shot clock: runs while a draft round is open, pauses for the pick animation, auto-drafts on expiry.
   const [clockLeft, setClockLeft] = useState(SHOT_CLOCK_SECS * 1000);
+  // The first round's clock waits while the how-to strip is open, so reading it never costs a pick
+  const [howtoOpen, setHowtoOpen] = useState(false);
+  const clockHeld = howtoOpen && draft.round === 0;
   useEffect(() => {
     const total = SHOT_CLOCK_SECS * 1000;
     setClockLeft(total);
-    if (phase !== 'draft' || draft.chosen != null || draft.options.length === 0) return;
+    if (phase !== 'draft' || draft.chosen != null || draft.options.length === 0 || clockHeld) return;
     const start = performance.now() + CLOCK_GRACE_MS;
     const id = window.setInterval(() => {
       const left = Math.max(0, Math.min(total, total - (performance.now() - start)));
@@ -452,7 +465,7 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
       }
     }, 100);
     return () => window.clearInterval(id);
-  }, [phase, draft.round, draft.options, draft.chosen, level, ovrMap]);
+  }, [phase, draft.round, draft.options, draft.chosen, level, ovrMap, clockHeld]);
 
   // Season clock: 520ms a week, 900ms in the playoffs, 60ms when simming to the end, 700ms before kickoff.
   useEffect(() => {
@@ -488,6 +501,14 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
     if (phase === 'reveal' && season?.over === 'champ' && season.l === 0 && flipped === draft.picks.length) setConfetti(Date.now());
   }, [phase, flipped, season, draft.picks.length]);
 
+  // Kickoff: bring the scoreboard into view (the arcade header sits above it on a phone)
+  const boardRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (phase !== 'season') return;
+    const id = window.setTimeout(() => boardRef.current?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' }), 50);
+    return () => window.clearTimeout(id);
+  }, [phase]);
+
   const startReveal = () => {
     if (season?.over === 'champ' && season.l === 0) awardPack('perfect', '18–0 perfect season', { once: season, label: `18–0 · ${teamById(season.me).name} · ${new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}` });
     else if (season?.over && season.games.some((g) => g.po && g.res === 'W')) awardPack('premium', `18–0 game, playoff win at ${season.w}–${season.l}`, { once: season });
@@ -497,7 +518,7 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
     toTop();
   };
 
-  if (plan.length < 3) return <p className="empty">Not enough positions filled to draft a team yet.</p>;
+  if (plan.length < 3) return <p className="arc-empty">Not enough positions filled to draft a team yet.</p>;
 
   const pickProspect = (i: number) => {
     if (draft.chosen != null) return;
@@ -511,7 +532,6 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
     setNewBest(false);
     setSeason(newSeason(teamOvr, franchise, form));
     setPhase('season');
-    toTop();
   };
 
   const redraft = () => {
@@ -522,7 +542,7 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
     toTop();
   };
 
-  const bestLabel = best.w >= 0 ? `${best.w}–${best.l}` : '—';
+  const bestLabel = best.w >= 0 ? `${best.w}–${best.l}` : 'none yet';
 
   /** Nine roster cards: sealed ProPlayerBanners that flip to the real player (with photo for legends) once opened. */
   const roster = (openCount: number) => (
@@ -562,15 +582,27 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
     const urgent = !picked && secs <= 5;
     return (
       <div>
+        {draft.round === 0 && !picked && (
+          <HowToStrip
+            id="perfect"
+            steps={[
+              <>Each round, draft one of three sealed prospects from his scouting report. You have {SHOT_CLOCK_SECS} seconds or the clock picks.</>,
+              <>Choose a franchise and watch the season play out: 14 games, then four playoff rounds.</>,
+              <>Only after the final whistle do you learn who you drafted. Go 18-0 for a Perfect Season pack.</>,
+            ]}
+            closeLabel="Got it, start the clock"
+            onOpenChange={setHowtoOpen}
+          />
+        )}
         <div className="draft-head">
           <Lamp label={picked ? `Round ${draft.round + 1} · pick is in` : `Round ${draft.round + 1}/${draft.plan.length} · on the clock`} live flicker={!picked} />
           <div
-            className={cn('shotclock', urgent && 'urgent', picked && 'paused')}
+            className={cn('shotclock', urgent && 'urgent', (picked || clockHeld) && 'paused')}
             role="timer"
-            aria-label={picked ? 'Shot clock stopped' : `Shot clock: ${secs} seconds left`}
+            aria-label={picked ? 'Shot clock stopped' : clockHeld ? 'Shot clock waits until How to play is closed' : `Shot clock: ${secs} seconds left`}
           >
             <span className="sc-k" aria-hidden="true">
-              Shot clock
+              {clockHeld ? 'Clock waits' : 'Shot clock'}
             </span>
             <b className="sc-v num" aria-hidden="true">
               {picked ? '--' : `0:${String(secs).padStart(2, '0')}`}
@@ -606,11 +638,10 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
         )}
         <h3 className="round-title anim-stage" key={`t-${draft.round}`}>
           Round {draft.round + 1}: <span>{POSITION_NAMES[pos]}</span>
-          {level !== 'rookie' && <span className="hint" style={{ marginLeft: 10, fontSize: 14 }}>· {DIFFICULTY[level].label}</span>}
+          {level !== 'rookie' && <span className="arc-hint" style={{ marginLeft: 10, fontSize: 14 }}>· {DIFFICULTY[level].label}</span>}
         </h3>
-        <p className="hint" style={{ margin: '0 0 14px' }}>
-          {DIFFICULTY[level].blurb} {SHOT_CLOCK_SECS} seconds a pick, or the clock picks for you. You won't learn who you picked until the season
-          is over.
+        <p className="arc-hint" style={{ margin: '0 0 14px' }}>
+          {DIFFICULTY[level].blurb} {SHOT_CLOCK_SECS} seconds a pick.
         </p>
 
         <div className="draft-grid cases" key={`r-${draft.round}`}>
@@ -677,18 +708,19 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
   // ---------- Roster (sealed) ----------
   if (phase === 'roster' || !season) {
     const fTeam = teamById(franchise);
+    const fStyle = teamStyle(fTeam.fullName);
     return (
-      <div>
-        <Lamp label="Roster sealed" flicker />
-        <p className="odds anim-rise" style={{ margin: '12px 0 14px' }}>
-          Nine picks are in. Their names, teams and ratings stay hidden until your season ends.
-        </p>
-        {roster(0)}
-        <div className="result anim-rise">
-          <div className="picker">
-            <TeamLogo team={fTeam} className="logo" />
-            <label htmlFor="franchise">Franchise</label>
-            <select id="franchise" value={franchise} onChange={(e) => setFranchise(e.target.value)}>
+      <div className="ps2">
+        <section className="ps-franchise anim-rise" style={teamVars(fStyle)} aria-labelledby="ps-fr-title">
+          <TeamLogo team={fTeam} className="ps-fr-logo" />
+          <div className="ps-fr-body">
+            <span className="ps-fr-k" id="ps-fr-title">
+              Nine picks are in · choose your franchise
+            </span>
+            <label htmlFor="franchise" className="sr-only">
+              Franchise
+            </label>
+            <select id="franchise" className="ps-fr-select" value={franchise} onChange={(e) => setFranchise(e.target.value)}>
               {CONFERENCES.map((c) =>
                 DIVISIONS.map((d) => (
                   <optgroup key={`${c}-${d}`} label={`${c} ${d}`}>
@@ -701,18 +733,37 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
                 )),
               )}
             </select>
-            <span className="hint">
+            <span className="ps-fr-meta">
               {fTeam.conference} {fTeam.division}
-              {form[fTeam.id] && ` · ${form[fTeam.id].label}`}
+              {form[fTeam.id] && ` · last season ${form[fTeam.id].label}`}
             </span>
           </div>
-          <ArcadeButton tone="green" onClick={kickOff}>
-            Kick off the season
+          <ArcadeButton tone="green" wide onClick={kickOff} className="ps-kick">
+            Kick off the season ▶
           </ArcadeButton>
-        </div>
-        <p className="hint" style={{ marginTop: 12 }}>
-          Fourteen games: six against your division, four against the rest of your conference, four against the other conference. Seven teams
-          per conference make the playoffs, and every seed plays the Wild Card round.
+        </section>
+
+        <h3 className="ps-h">
+          Your sealed roster <span>names, clubs and ratings hidden until the final whistle</span>
+        </h3>
+        <ol className="ps-lockers" aria-label="Your sealed roster">
+          {draft.picks.map((x, i) => (
+            <li key={playerKey(x.p)} className="anim-deal" style={{ animationDelay: `${i * 0.05}s` }} aria-label={`${POSITION_NAMES[x.slot]}, ${x.label}, sealed`}>
+              <span className="ps-lk-pos" aria-hidden="true">
+                {x.slot}
+              </span>
+              <span className="ps-lk-q" aria-hidden="true">
+                ?
+              </span>
+              <span className="ps-lk-tag" aria-hidden="true">
+                {x.short}
+              </span>
+            </li>
+          ))}
+        </ol>
+        <p className="arc-hint ps-fine">
+          Fourteen games: six against your division, four against the rest of your conference, four against the other conference. Seven teams per
+          conference make the playoffs, and every seed plays the Wild Card round.
         </p>
       </div>
     );
@@ -740,6 +791,21 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
           <div className={cn('banner-msg mx-auto mt-3', outcomeClass(season))} style={{ maxWidth: 720 }} role="status">
             {msg}
           </div>
+          <ol className="ps-recap" aria-label="Season recap">
+            {season.games.map((g, i) => [
+              i === REG_SEASON && <li key="br" className="ps-recap-br" aria-hidden="true" />,
+              <li
+                key={`${g.label}-${g.t}`}
+                className={cn(g.res === 'W' ? 'is-w' : g.res === 'L' ? 'is-l' : 'is-out', g.label === 'Super Bowl' && 'is-sb')}
+                title={`${g.label}: ${g.res && g.sc ? `${g.res} ${g.sc[0]}-${g.sc[1]} vs ${teamById(g.t).name}` : 'not played'}`}
+              >
+                <span aria-hidden="true">{g.res ?? ''}</span>
+                <span className="sr-only">
+                  {g.label}: {g.res === 'W' ? 'win' : g.res === 'L' ? 'loss' : 'not played'}
+                </span>
+              </li>,
+            ])}
+          </ol>
         </div>
         <section className="unmask">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -771,7 +837,7 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
           )}
         </section>
         <div className="result">
-          <div className="hint">Best season: {bestLabel}. Back to the draft room?</div>
+          <div className="arc-hint">Best season: {bestLabel}. Back to the draft room?</div>
           <ArcadeButton tone="go" onClick={redraft} autoFocus={allUp}>
             Draft a new team
           </ArcadeButton>
@@ -789,101 +855,187 @@ const PerfectSeason = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map
           .map((t) => ({ t, ...(t.id === season.me ? { w: season.w - playoffW, l: season.l - playoffL } : season.rec[t.id]) }))
           .sort((a, b) => b.w - a.w)
       : null;
+  const mStyle = teamStyle(M.fullName);
+  const last = season.i > 0 ? season.games[season.i - 1] : null;
+  const next = !season.over ? season.games[season.i] : null;
+  const firstLoss = season.games.findIndex((g) => g.res === 'L');
+  const stage = (g: Game | null | undefined) => (!g ? '' : g.po ? g.label : `Week ${season.games.indexOf(g) + 1} of ${REG_SEASON}`);
+  const where = (g: Game) => (g.label === 'Super Bowl' ? 'vs' : g.home ? 'vs' : '@');
+  const regular = season.games.slice(0, REG_SEASON);
+  const playoffs = season.games.slice(REG_SEASON);
+  const PO_SHORT: Record<string, string> = { 'Wild Card': 'WC', Divisional: 'DIV', 'Super Bowl': 'SB' };
+
+  const tile = (g: Game, i: number) => {
+    const T = teamById(g.t);
+    const f = season.form[g.t];
+    const played = g.res != null;
+    const sb = g.label === 'Super Bowl';
+    const label = g.po ? PO_SHORT[g.label] ?? 'CONF' : `${i + 1}`;
+    return (
+      <li
+        key={`${g.label}-${g.t}`}
+        className={cn('ps-tile', played ? (g.res === 'W' ? 'is-w' : 'is-l') : 'is-pend', i === season.i - 1 && 'is-just', i === season.i && !season.over && 'is-next', g.po && 'is-po', sb && 'is-sb')}
+        style={teamVars(teamStyle(T.fullName))}
+        title={!played && season.over ? `${g.label}: not reached` : `${g.label} ${where(g)} ${T.name}, rating ${Math.round(g.r)}${f ? ` (${f.label})` : ''}`}
+      >
+        <span className="sr-only">
+          {g.label} {where(g) === '@' ? 'at' : 'versus'} {T.name}
+          {g.div ? ', division game' : ''}: {played && g.sc ? `${g.res === 'W' ? 'won' : 'lost'} ${g.sc[0]} to ${g.sc[1]}` : season.over ? 'not reached' : 'not played yet'}.
+        </span>
+        <span className="ps-tile-wk" aria-hidden="true">
+          {label}
+          {g.div && <i className="ps-tile-div" />}
+        </span>
+        {!played && season.over ? <span className="ps-tile-q">-</span> : <TeamLogo team={T} className="ps-tile-logo" />}
+        <span className="ps-tile-res" aria-hidden="true">
+          {played && g.sc ? (
+            <>
+              <b>{g.res}</b> {g.sc[0]}-{g.sc[1]}
+            </>
+          ) : season.over ? (
+            'Not reached'
+          ) : (
+            <>
+              {where(g)} {T.abbreviation}
+            </>
+          )}
+        </span>
+      </li>
+    );
+  };
 
   return (
-    <div className="two-col">
-      <ol className="sched" aria-label="Schedule">
-        {season.games.map((g, i) => {
-          const T = teamById(g.t);
-          const sb = g.label === 'Super Bowl';
-          const f = season.form[g.t];
-          return (
-            <li key={`${g.label}-${g.t}`}>
-              {i === REG_SEASON && (
-                <div className="sep">
-                  — Playoffs · {M.conference} seed {season.seed} —
-                </div>
-              )}
-              <div className={cn('game', g.res ? (g.res === 'W' ? 'w' : 'l') : 'pend', i === season.i - 1 && 'just', g.po && 'po', sb && 'sb')}>
-                <span className="wk">{g.label}</span>
-                <span className="opp">
-                  <TeamLogo team={T} />
-                  <span className="nm">
-                    {sb || g.home ? 'vs ' : '@ '}
-                    {g.po && !sb && g.seed ? <span className="seed">({g.seed}) </span> : null}
-                    {T.name}
-                  </span>
-                  {g.div && <span className="divtag">DIV</span>}
-                  <span className="rtg" title={f ? `Team rating, blended with ${f.label}` : 'Team rating'}>
-                    {Math.round(g.r)}
-                  </span>
-                  {f && <span className="form">{f.label}</span>}
-                </span>
-                <span className="sc">{g.res && g.sc ? `${g.res} ${g.sc[0]}–${g.sc[1]}` : '—'}</span>
-              </div>
-            </li>
-          );
-        })}
-      </ol>
-
-      <aside className="side">
-        <div className="recbox">
-          <TeamLogo team={M} />
-          <div className="s">{M.fullName}</div>
-          <div className={cn('r num', season.i > 0 && 'bump')} key={season.i} aria-live="polite">
-            {season.w}–{season.l}
+    <div className="ps2">
+      <div className="ps-top">
+      <section ref={boardRef} className="ps-board" style={teamVars(mStyle)} aria-label="Scoreboard">
+        <TeamLogo team={M} className="ps-board-logo" />
+        <div className="ps-board-main">
+          <span className="ps-board-team">{M.fullName}</span>
+          <div className={cn('ps-board-rec num', season.i > 0 && 'bump')} key={season.i} aria-live="polite" aria-label={`Record ${season.w} and ${season.l}`}>
+            <span className="w">{season.w}</span>
+            <span className="dash">-</span>
+            <span className="l">{season.l}</span>
           </div>
-          <div className="s">
-            Team OVR {season.over ? season.ovr : '??'}
-            {!season.over && best.w >= 0 && ` · Best ${bestLabel}`}
-            {season.over && newBest && ' · New best'}
-          </div>
+          <span className="ps-board-stage">
+            {season.over ? 'Final' : season.i === 0 ? 'Kickoff' : stage(next)}
+            {' · '}Team OVR {season.over ? season.ovr : '??'}
+          </span>
         </div>
-        {msg && (
-          <div className={cn('banner-msg', outcomeClass(season))} role="status">
-            {msg}
+        <div className={cn('ps-watch', firstLoss < 0 ? (season.over === 'champ' ? 'done' : 'alive') : 'dead')} role="status">
+          {firstLoss < 0 ? (season.over === 'champ' ? 'Perfect season' : 'Still perfect') : `Perfect run over · ${season.games[firstLoss].label}`}
+        </div>
+      </section>
+
+      <div className="ps-live-wrap">
+        {last && last.sc ? (
+          <div className={cn('ps-live', last.res === 'W' ? 'is-w' : 'is-l', last.label === 'Super Bowl' && 'is-sb')} key={`live-${season.i}`} aria-hidden="true">
+            <span className="ps-live-k">{last.po ? last.label : last.label.replace('Wk', 'Week')} · Final</span>
+            <div className="ps-live-row">
+              <div className="ps-live-side" style={teamVars(mStyle)}>
+                <TeamLogo team={M} className="ps-live-logo" />
+                <span>{M.abbreviation}</span>
+              </div>
+              <div className="ps-live-score num">
+                <b className={cn(last.res === 'W' && 'win')}>{last.sc[0]}</b>
+                <i>-</i>
+                <b className={cn(last.res === 'L' && 'win')}>{last.sc[1]}</b>
+              </div>
+              <div className="ps-live-side" style={teamVars(teamStyle(teamById(last.t).fullName))}>
+                <TeamLogo team={teamById(last.t)} className="ps-live-logo" />
+                <span>{teamById(last.t).abbreviation}</span>
+              </div>
+            </div>
+            <span className={cn('ps-live-stamp', last.res === 'W' ? 'w' : 'l')}>{last.res === 'W' ? 'Win' : 'Loss'}</span>
+          </div>
+        ) : (
+          <div className="ps-live is-pre" aria-hidden="true">
+            <span className="ps-live-k">Kickoff</span>
+            <div className="ps-live-kick">Season starts...</div>
           </div>
         )}
-        {standings && (
-          <div className="standings">
-            <h3>
-              {M.conference} {M.division} · Final
-            </h3>
-            <table>
-              <tbody>
-                {standings.map((r) => {
-                  const sd = season.seeds ? season.seeds.indexOf(r.t.id) + 1 : 0;
-                  return (
-                    <tr key={r.t.id} className={r.t.id === season.me ? 'me' : undefined}>
-                      <td>
-                        {r.t.name}
-                        {sd > 0 && <span className="seed"> ({sd})</span>}
-                      </td>
-                      <td>
-                        {r.w}–{r.l}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+        {next && (
+          <p className="ps-next">
+            <span>Next</span> {next.po ? next.label : next.label.replace('Wk', 'Week')} {where(next)}{' '}
+            <b style={{ color: getTeamTextColor(teamById(next.t).fullName) ?? undefined }}>{teamById(next.t).name}</b> · rating {Math.round(next.r)}
+            {season.form[next.t] && <span className="ps-next-form"> · {season.form[next.t].label}</span>}
+          </p>
         )}
+      </div>
+
+      </div>
+
+      {msg && (
+        <div className={cn('banner-msg', outcomeClass(season))} role="status">
+          {msg}
+        </div>
+      )}
+
+      <section aria-label="Schedule" className="ps-sched">
+        <h3 className="ps-h">
+          Regular season <span>{season.i >= REG_SEASON ? `${season.w - playoffW}-${season.l - playoffL}` : `${Math.min(season.i, REG_SEASON)} of ${REG_SEASON} played`}</span>
+        </h3>
+        <ol className="ps-tiles">{regular.map((g, i) => tile(g, i))}</ol>
+        <h3 className="ps-h">
+          Playoffs <span>{season.seed ? `${M.conference} seed ${season.seed}` : season.over === 'missed' ? 'missed' : 'top 7 seeds per conference'}</span>
+        </h3>
+        {playoffs.length ? (
+          <ol className="ps-tiles po">{playoffs.map((g, k) => tile(g, REG_SEASON + k))}</ol>
+        ) : (
+          <ol className="ps-tiles po ghost" aria-hidden="true">
+            {['WC', 'DIV', 'CONF', 'SB'].map((k) => (
+              <li key={k} className={cn('ps-tile is-pend is-po', k === 'SB' && 'is-sb')}>
+                <span className="ps-tile-wk">{k}</span>
+                <span className="ps-tile-q">?</span>
+                <span className="ps-tile-res">{season.over ? 'Missed' : 'TBD'}</span>
+              </li>
+            ))}
+          </ol>
+        )}
+      </section>
+
+      <div className="ps-controls">
         {season.over ? (
-          <ArcadeButton tone="go" onClick={startReveal} autoFocus>
+          <ArcadeButton tone="go" wide onClick={startReveal} autoFocus>
             Unmask your roster
           </ArcadeButton>
         ) : (
-          <ArcadeButton onClick={() => setFast(true)} disabled={fast}>
-            Sim to the end
+          <ArcadeButton wide onClick={() => setFast(true)} disabled={fast}>
+            {fast ? 'Simming...' : 'Sim to the end ⏩'}
           </ArcadeButton>
         )}
-        <p className="hint" style={{ margin: 0 }}>
-          The number after each opponent is its team rating
-          {Object.keys(season.form).length > 0 && `, ${Math.round(FORM_WEIGHT * 100)}% from its real form in the latest weekly scores`}. Playoff
-          opponents rate at least 85. Your roster stays sealed until the final whistle.
-        </p>
-      </aside>
+      </div>
+
+      {standings && (
+        <div className="standings ps-standings">
+          <h3>
+            {M.conference} {M.division} · Final
+          </h3>
+          <table>
+            <tbody>
+              {standings.map((r) => {
+                const sd = season.seeds ? season.seeds.indexOf(r.t.id) + 1 : 0;
+                return (
+                  <tr key={r.t.id} className={r.t.id === season.me ? 'me' : undefined}>
+                    <td>
+                      <TeamLogo team={r.t} className="ps-st-logo" />
+                      {r.t.name}
+                      {sd > 0 && <span className="seed"> ({sd})</span>}
+                    </td>
+                    <td>
+                      {r.w}-{r.l}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <p className="arc-hint ps-fine">
+        The Next line shows each opponent's rating{Object.keys(season.form).length > 0 && `, ${Math.round(FORM_WEIGHT * 100)}% from its real form in the latest weekly scores`}. Gold dots mark division games.
+        Playoff opponents rate at least 85. Best season: {bestLabel}.
+      </p>
     </div>
   );
 };

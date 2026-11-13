@@ -1,0 +1,144 @@
+/* Guess the Legend: sealed card stage, clue dossier (newest first), compact guess log. Scoped under .arcade .gl. */
+.arcade .gl-grid { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'stage' 'clues' 'log'; }
+@media (min-width: 900px) {
+  .arcade .gl-grid { grid-template-columns: minmax(340px, 400px) minmax(0, 1fr); grid-template-areas: 'stage clues' 'log clues'; align-items: start; gap: 18px 22px; }
+}
+.arcade .gl-stage { grid-area: stage; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.arcade .gl-clues { grid-area: clues; min-width: 0; }
+.arcade .gl-log { grid-area: log; min-width: 0; }
+.arcade .gl-stats { display: flex; flex-wrap: wrap; gap: 6px; }
+.arcade .gl-h { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin: 0 0 10px; font: 400 11px var(--f-pixel); color: var(--gold); text-transform: uppercase; }
+.arcade .gl-h span { color: var(--muted); font-size: 10px; }
+
+/* ---------- Sealed card ---------- */
+.arcade .gl-card {
+  position: relative; overflow: hidden; isolation: isolate; height: 196px; border-radius: 14px;
+  background:
+    radial-gradient(120% 90% at 78% 30%, color-mix(in srgb, var(--c2) 45%, transparent), transparent 60%),
+    linear-gradient(135deg, color-mix(in srgb, var(--c1) 85%, #000) 0%, #070a14 100%);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--c2) 70%, #000), 0 0 0 4px #000, 0 14px 30px #0009, inset 0 1px 0 #ffffff22;
+  transition: background 0.6s ease, box-shadow 0.6s ease;
+}
+.arcade .gl-card.tinted { box-shadow: 0 0 0 2px var(--c2), 0 0 0 4px #000, 0 0 34px color-mix(in srgb, var(--c1) 55%, transparent), 0 14px 30px #0009, inset 0 1px 0 #ffffff33; }
+.arcade .gl-card-rays {
+  position: absolute; inset: -40%; z-index: -1; opacity: 0.35;
+  background: repeating-conic-gradient(from 0deg at 70% 50%, #ffffff10 0 6deg, transparent 6deg 18deg);
+  animation: gl-spin 40s linear infinite;
+}
+.arcade .gl-card::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, #ffffff1c 45%, transparent 60%); background-size: 250% 100%;
+  animation: gl-sheen 4.5s ease-in-out infinite;
+}
+.arcade .gl-sil { position: absolute; right: 6%; bottom: 0; height: 88%; width: auto; color: #000; opacity: 0.82; filter: drop-shadow(0 0 1px color-mix(in srgb, var(--c2) 80%, #fff)) drop-shadow(0 0 18px color-mix(in srgb, var(--c2) 40%, transparent)); }
+.arcade .gl-card-q { position: absolute; right: calc(6% + 46px); top: 30%; font: 800 64px/1 var(--f-display); color: var(--gold); text-shadow: 0 0 18px #ffc83d88; animation: gl-pulse 2.4s ease-in-out infinite; }
+.arcade .gl-card.tinted .gl-card-q { display: none; }
+.arcade .gl-card-logo { position: absolute; right: calc(6% + 26px); top: 26%; width: 82px; height: 82px; object-fit: contain; filter: drop-shadow(0 4px 8px #000a); animation: gl-pop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1.3) both; }
+.arcade .gl-card-ovr {
+  position: absolute; left: 14px; top: 14px; display: flex; flex-direction: column; align-items: center; min-width: 54px; padding: 6px 6px 8px;
+  background: linear-gradient(180deg, #000d, #000a); border-radius: 6px 6px 50% 50% / 6px 6px 22% 22%; box-shadow: inset 0 0 0 2px var(--gold), 0 6px 14px #0008;
+}
+.arcade .gl-card-ovr b { font: 800 32px/1 var(--f-display); color: var(--gold); }
+.arcade .gl-card-ovr span { font: 400 8px var(--f-pixel); color: var(--chalk); letter-spacing: 0.1em; }
+.arcade .gl-card-pos {
+  position: absolute; left: 78px; top: 18px; padding: 4px 8px; border-radius: 4px; background: #0009; color: var(--muted);
+  font: 400 12px var(--f-pixel); box-shadow: inset 0 0 0 1px #ffffff22;
+}
+.arcade .gl-card-pos.on { background: var(--gold); color: #1a1300; animation: gl-pop 0.45s cubic-bezier(0.2, 0.8, 0.2, 1.3) both; }
+.arcade .gl-card-plate {
+  position: absolute; left: 0; bottom: 0; right: 0; display: flex; flex-direction: column; gap: 2px; padding: 10px 16px 12px;
+  background: linear-gradient(90deg, #000e 0%, #000a 55%, transparent 100%); border-top: 3px solid var(--c2);
+}
+.arcade .gl-card:not(.tinted) .gl-card-plate { border-top-color: var(--gold); }
+.arcade .gl-card-plate span { font: 400 10px var(--f-pixel); color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.arcade .gl-card-plate b { font: 800 italic 30px/1 var(--f-display); color: var(--gold); letter-spacing: 0.08em; text-transform: uppercase; }
+.arcade .gl-card.tinted .gl-card-plate b { color: #fff; }
+.arcade .gl-revealed { border-radius: 14px; box-shadow: 0 0 0 3px var(--gold), 0 0 38px #ffc83d55; }
+
+/* ---------- Clue meter (prize ladder) ---------- */
+.arcade .gl-meter { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 5px; margin: 0; padding: 0; list-style: none; }
+.arcade .gl-meter li { position: relative; height: 26px; border-radius: 4px; background: #000; box-shadow: inset 0 0 0 1px var(--line); display: grid; place-items: center; }
+.arcade .gl-meter li.on { background: linear-gradient(180deg, #2a3360, #171e38); box-shadow: inset 0 0 0 1px #4b5a92; }
+.arcade .gl-meter li.now { background: linear-gradient(180deg, #ffd96b, #e0a400); box-shadow: 0 0 14px #ffc83d88; }
+.arcade .gl-meter li.hit { background: linear-gradient(180deg, #4ee093, #1d8c51); box-shadow: 0 0 14px #27b36a99; }
+.arcade .gl-meter-pts { font: 400 10px var(--f-pixel); color: var(--muted); }
+.arcade .gl-meter li.now .gl-meter-pts, .arcade .gl-meter li.hit .gl-meter-pts { color: #111; }
+.arcade .gl-meter li.on:not(.now):not(.hit) .gl-meter-pts { color: #7f8bb5; text-decoration: line-through; }
+
+/* ---------- Guess bar ---------- */
+.arcade .gl-guess { display: flex; flex-direction: column; gap: 10px; padding: 12px; border-radius: 12px; background: var(--panel); box-shadow: 0 0 0 2px var(--line); }
+.arcade .gl-guess-k { display: flex; justify-content: space-between; align-items: center; gap: 8px; font: 400 11px var(--f-pixel); text-transform: uppercase; color: var(--muted); }
+.arcade .gl-guess-k b { color: var(--chalk); font-weight: 400; }
+.arcade .gl-worth { color: var(--gold); }
+.arcade .gl-worth b { color: var(--gold); font-size: 14px; }
+.arcade .gl-worth.low, .arcade .gl-worth.low b { color: var(--flag); }
+.arcade .gl-guess-row { display: flex; gap: 8px; align-items: stretch; }
+.arcade .gl-guess-pick { flex: 1 1 auto; min-width: 0; }
+.arcade .gl-guess-row .btn { flex: none; min-width: 92px; }
+.arcade .gl-skip { align-self: center; min-height: 36px; padding: 4px 10px; border: 0; background: transparent; color: var(--muted); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+.arcade .gl-skip:hover { color: var(--chalk); }
+.arcade .gl-last { padding: 10px; border-radius: 8px; background: color-mix(in srgb, var(--flag) 10%, #05080f); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--flag) 40%, transparent); animation: gl-drop 0.35s ease both; }
+.arcade .gl-last-k { margin: 0 0 6px; font-size: 13px; color: var(--muted); }
+.arcade .gl-last-k b { color: var(--gold); }
+.arcade .gl-last .gl-row { border: 0; padding: 0; }
+
+/* ---------- Result ---------- */
+.arcade .gl-result { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 16px; border-radius: 12px; text-align: center; background: var(--panel); box-shadow: 0 0 0 2px var(--line); animation: gl-pop 0.45s ease both; }
+.arcade .gl-result.good { background: radial-gradient(120% 100% at 50% 0%, #1d5a3a, var(--panel) 70%); box-shadow: 0 0 0 2px var(--turf), 0 0 30px #27b36a44; }
+.arcade .gl-result.bad { background: radial-gradient(120% 100% at 50% 0%, #4a1520, var(--panel) 70%); box-shadow: 0 0 0 2px #8a2030; }
+.arcade .gl-result-pts { font: 800 64px/0.95 var(--f-display); color: var(--gold); text-shadow: 0 0 24px #ffc83d66; }
+.arcade .gl-result.bad .gl-result-pts { color: var(--chalk); text-shadow: none; }
+.arcade .gl-result-pts small { font-size: 22px; margin-left: 4px; color: var(--muted); }
+.arcade .gl-result-line { font: 400 11px var(--f-pixel); text-transform: uppercase; color: var(--chalk); }
+.arcade .gl-result-name { font-size: 16px; color: var(--muted); }
+.arcade .gl-result-name b { font: 800 italic 24px var(--f-display); text-transform: uppercase; }
+.arcade .gl-result-streak { font-size: 10px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+
+/* ---------- Clues ---------- */
+.arcade .gl-clue-list { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.arcade .gl-clue { padding: 12px; border-radius: 12px; background: linear-gradient(180deg, var(--panel-2), var(--panel)); box-shadow: 0 0 0 2px var(--line); }
+.arcade .gl-clue.fresh { box-shadow: 0 0 0 2px var(--gold), 0 0 26px #ffc83d33; animation: gl-drop 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.arcade .gl-clue h4 { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font: 400 11px var(--f-pixel); text-transform: uppercase; color: var(--chalk); }
+.arcade .gl-clue-no { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 5px; background: #000; color: var(--gold); box-shadow: inset 0 0 0 1px #ffc83d66; }
+.arcade .gl-clue.fresh .gl-clue-no { background: var(--gold); color: #1a1300; }
+.arcade .gl-clue-t { flex: 1 1 auto; min-width: 0; }
+.arcade .gl-new { padding: 3px 6px; border-radius: 3px; background: var(--flag); color: #fff; font-size: 9px; animation: gl-pulse 1.4s ease-in-out infinite; }
+.arcade .gl-clue .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 6px; margin: 0; }
+.arcade .gl-clue .stat { background: #05080fcc; border-radius: 6px; padding: 7px 9px; box-shadow: inset 0 0 0 1px #ffffff0d; }
+.arcade .gl-clue .stat .k { font: 400 9px var(--f-pixel); text-transform: uppercase; color: var(--muted); }
+.arcade .gl-clue .stat .v { margin: 2px 0 0; font: 800 24px/1.05 var(--f-display); color: var(--chalk); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.arcade .gl-locked { display: flex; flex-direction: column; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
+.arcade .gl-locked li { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 6px 12px; border-radius: 8px; background: repeating-linear-gradient(135deg, #0b1020 0 8px, #0e1428 8px 16px); box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); font-size: 14px; }
+.arcade .gl-locked-k { margin-left: auto; font: 400 9px var(--f-pixel); text-transform: uppercase; white-space: nowrap; }
+.arcade .gl-lock { flex: none; position: relative; width: 12px; height: 10px; margin-top: 5px; border-radius: 2px; background: #59658f; }
+.arcade .gl-lock::before { content: ''; position: absolute; left: 2px; top: -7px; width: 8px; height: 8px; border: 2px solid #59658f; border-bottom: 0; border-radius: 5px 5px 0 0; box-sizing: border-box; }
+
+/* ---------- Guess log ---------- */
+.arcade .gl-rows { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.arcade .gl-log { padding: 12px; border-radius: 12px; background: var(--panel); box-shadow: 0 0 0 2px var(--line); }
+.arcade .gl-row { padding-top: 8px; border-top: 1px solid var(--line); }
+.arcade .gl-log .gl-row:first-child { border-top: 0; padding-top: 0; }
+.arcade .gl-row-name { display: flex; align-items: center; gap: 6px; min-width: 0; margin-bottom: 6px; }
+.arcade .gl-row-mark { font-weight: 800; }
+.arcade .gl-row-logo { width: 20px; height: 20px; object-fit: contain; flex: none; }
+.arcade .gl-row-nm { font: 800 italic 18px/1.1 var(--f-display); text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.arcade .gl-row.solved .gl-row-nm { text-shadow: 0 0 12px #27b36a; }
+.arcade .gl .gtile { padding: 4px 2px; border-radius: 6px; }
+.arcade .gl .gtile-v { font-size: 18px; }
+.arcade .gl .gtile-n { font-size: 9.5px; line-height: 1.15; }
+.arcade .gl-row.latest .gtile { animation: gl-flipin 0.45s ease both; }
+.arcade .gl-row.latest .gtile:nth-child(2) { animation-delay: 0.08s; }
+.arcade .gl-row.latest .gtile:nth-child(3) { animation-delay: 0.16s; }
+.arcade .gl-row.latest .gtile:nth-child(4) { animation-delay: 0.24s; }
+.arcade .gl-key { margin-top: 10px; font-size: 13px; color: var(--muted); }
+.arcade .gl-key summary { cursor: pointer; min-height: 32px; display: flex; align-items: center; font: 400 10px var(--f-pixel); text-transform: uppercase; }
+.arcade .gl-key p { margin: 4px 0 0; }
+.arcade .gl .orange { color: var(--orange); }
+
+@keyframes gl-spin { to { transform: rotate(360deg); } }
+@keyframes gl-sheen { 0%, 60% { background-position: 150% 0; } 100% { background-position: -100% 0; } }
+@keyframes gl-pulse { 50% { opacity: 0.55; } }
+@keyframes gl-pop { 0% { transform: scale(0.6); opacity: 0; } 70% { transform: scale(1.08); opacity: 1; } 100% { transform: none; } }
+@keyframes gl-drop { from { transform: translateY(-10px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes gl-flipin { from { transform: perspective(400px) rotateX(90deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.arcade .gl-clue .stat .v { white-space: nowrap; overflow: visible; text-overflow: clip; }

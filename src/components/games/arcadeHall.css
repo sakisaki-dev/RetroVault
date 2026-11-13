@@ -1,0 +1,272 @@
+/* The Arcade landing as an arcade hall (GamesTab.tsx): a lit marquee, the Game of the day cabinet, the press box
+   (HomeNews) and a row of cabinets with their art on CRT screens and a score plate. Plus the in-game title bar.
+   Scoped under .arcade; motion stops under prefers-reduced-motion (arcade.css). */
+
+/* ---------- Marquee ---------- */
+.arcade .hall-marquee {
+  position: relative; isolation: isolate; overflow: hidden; margin-top: 16px; border-radius: 18px; padding: 22px 18px 16px;
+  background:
+    radial-gradient(70% 120% at 50% -40%, #ffc83d40, transparent 62%),
+    radial-gradient(55% 90% at 0% 110%, #b48cff2e, transparent 70%),
+    radial-gradient(55% 90% at 100% 110%, #5ce0c62a, transparent 70%),
+    linear-gradient(180deg, #1b1438, #0b0f22 80%);
+  box-shadow: 0 0 0 2px #000, 0 0 0 4px #ffc83d4d, 0 24px 50px #0009, inset 0 1px 0 #ffffff22;
+}
+/* marquee bulbs along the top and bottom edges, chasing */
+.arcade .hall-marquee::before,
+.arcade .hall-marquee::after {
+  content: ''; position: absolute; left: 12px; right: 12px; height: 8px; pointer-events: none; z-index: 1;
+  background: radial-gradient(circle, #ffe8a3 0 1.8px, #ffc83d55 2.4px, transparent 3.4px) 0 50% / 16px 8px repeat-x;
+  animation: hall-chase 1.4s steps(2, end) infinite;
+}
+.arcade .hall-marquee::before { top: 5px; }
+.arcade .hall-marquee::after { bottom: 5px; animation-direction: reverse; opacity: 0.6; }
+@keyframes hall-chase { to { background-position: 16px 50%; } }
+/* stage light rays from above */
+.arcade .hall-rays {
+  position: absolute; inset: -40% -10% 0; z-index: -1; pointer-events: none; opacity: 0.55;
+  background: repeating-conic-gradient(from 180deg at 50% 0%, #ffc83d1f 0deg 4deg, transparent 4deg 13deg);
+  -webkit-mask-image: radial-gradient(70% 80% at 50% 0%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(70% 80% at 50% 0%, #000 0%, transparent 75%);
+  animation: hall-sway 9s ease-in-out infinite alternate;
+}
+@keyframes hall-sway { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+.arcade .hall-marquee-in { position: relative; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 24px; }
+.arcade .hall-title { margin: 0; display: flex; flex-direction: column; line-height: 1; }
+.arcade .hall-kicker { font-family: var(--f-pixel); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #ffe8a3; text-shadow: 0 0 8px #ffc83d88; }
+.arcade .hall-word {
+  font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: clamp(52px, 14vw, 104px); line-height: 0.88;
+  letter-spacing: 0.01em; text-transform: uppercase; padding-right: 0.08em;
+  background: linear-gradient(180deg, #fffaf0 0%, #ffe28a 38%, #ffc83d 55%, #c9871a 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 3px 0 #000) drop-shadow(0 0 22px #ffc83d55);
+}
+.arcade .hall-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.arcade .hall-progress { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.arcade .hall-progress-k { font-family: var(--f-pixel); font-size: 10px; text-transform: uppercase; color: var(--muted); }
+.arcade .hall-progress-k b { color: var(--gold); font-weight: 400; font-size: 13px; }
+.arcade .hall-pips { display: flex; gap: 4px; }
+.arcade .hall-pips i { width: 18px; height: 8px; border-radius: 2px; background: #1b2440; box-shadow: inset 0 0 0 1px #2b3760; }
+.arcade .hall-pips i.on { background: var(--mc); box-shadow: 0 0 8px var(--mc), inset 0 1px 0 #ffffff66; }
+.arcade .hall-switches { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.arcade .hall-switches .toggle { min-height: 36px; }
+.arcade .hall-toggle-n { font-weight: 400; color: var(--gold); }
+@media (max-width: 599px) {
+  .arcade .hall-marquee { padding: 20px 14px 14px; }
+  .arcade .hall-marquee-in { align-items: flex-start; }
+  .arcade .hall-meta, .arcade .hall-progress { align-items: flex-start; }
+  .arcade .hall-meta { width: 100%; }
+  .arcade .hall-switches { justify-content: flex-start; }
+  .arcade .hall-pips i { width: 14px; }
+}
+
+/* ---------- Game of the day + press box ---------- */
+.arcade .hall-top { display: grid; gap: 16px; margin-top: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1000px) {
+  .arcade .hall-top { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: stretch; gap: 20px; }
+  /* beside the press box the Game of the day stands tall: screen on top, the pitch and Play below */
+  .arcade .hall-top .hall-feature { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(260px, 1fr) auto; }
+  .arcade .hall-top .hall-feature-screen { margin: 12px 12px 0; }
+  .arcade .hall-top .hall-feature-body { padding: 18px 22px 22px; }
+  .arcade .hall-top .hall-feature-art { zoom: 1.6; }
+}
+
+.arcade .hall-feature {
+  position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr); border-radius: 18px;
+  background: radial-gradient(120% 90% at 30% 0%, color-mix(in srgb, var(--mc) 32%, #141b30), #0b1020 72%);
+  box-shadow: 0 0 0 2px #000, 0 0 0 4px color-mix(in srgb, var(--mc) 55%, transparent), 0 22px 50px #000a, 0 0 70px color-mix(in srgb, var(--mc) 20%, transparent);
+}
+@media (min-width: 640px) { .arcade .hall-feature { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); align-items: stretch; } }
+.arcade .hall-feature-screen {
+  position: relative; overflow: hidden; display: grid; place-items: center; min-height: 172px; margin: 12px 12px 0; border-radius: 12px;
+  background: radial-gradient(110% 100% at 50% 0%, color-mix(in srgb, var(--mc) 34%, #0b1020), #05070d 78%);
+  box-shadow: inset 0 0 0 2px #000, inset 0 0 40px #000c, 0 0 0 3px color-mix(in srgb, var(--mc) 35%, #10162b);
+}
+@media (min-width: 640px) { .arcade .hall-feature-screen { margin: 12px 0 12px 12px; min-height: 220px; } }
+.arcade .hall-feature-screen::before,
+.arcade .cab-screen::before { /* scanlines */
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent 0 2px, #0000002e 2px 3px);
+}
+.arcade .hall-feature-screen::after,
+.arcade .cab-screen::after { /* glass glare */
+  content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(155deg, #ffffff1f 0%, #ffffff08 32%, transparent 46%), radial-gradient(120% 70% at 50% 120%, color-mix(in srgb, var(--mc) 22%, transparent), transparent 60%);
+}
+.arcade .hall-feature-art { position: relative; z-index: 1; width: max-content; zoom: 1.05; }
+@media (min-width: 640px) { .arcade .hall-feature-art { zoom: 1.15; } }
+.arcade .hall-feature-body { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px 18px; min-width: 0; }
+@media (min-width: 640px) { .arcade .hall-feature-body { padding: 20px 20px 20px 18px; justify-content: center; } }
+.arcade .hall-tag { display: inline-flex; align-items: center; gap: 8px; margin: 0; font-family: var(--f-pixel); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
+.arcade .hall-tag-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px var(--gold); animation: hall-pulse 1.6s ease-in-out infinite; }
+@keyframes hall-pulse { 50% { opacity: 0.35; transform: scale(0.8); } }
+.arcade .hall-feature h2 {
+  margin: 0; font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: clamp(34px, 8vw, 54px); line-height: 0.92; text-transform: uppercase;
+  color: #fff; text-shadow: 0 3px 0 #000, 0 0 24px color-mix(in srgb, var(--mc) 55%, transparent);
+}
+.arcade .hall-feature-rule { margin: 0; color: #cbd4f1; font-size: 15px; line-height: 1.45; max-width: 52ch; }
+.arcade .hall-feature-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 4px; }
+.arcade .hall-play { min-height: 52px; padding: 12px 24px; font-size: 22px; box-shadow: 0 5px 0 #8a6400, 0 0 26px #ffc83d55; }
+.arcade .hall-play span { font-size: 18px; transition: transform 0.2s; }
+.arcade .hall-play:hover span { transform: translateX(3px); }
+.arcade .hall-score,
+.arcade .cab-score {
+  display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 6px; background: #000;
+  box-shadow: inset 0 0 10px #ffc83d22, 0 0 0 1px #262f4f;
+}
+.arcade .hall-score { flex-direction: column; align-items: flex-start; gap: 3px; min-height: 52px; justify-content: center; }
+.arcade .hall-score i,
+.arcade .cab-score i { font-style: normal; font-family: var(--f-pixel); font-size: 9px; color: var(--muted); text-transform: uppercase; white-space: nowrap; }
+.arcade .hall-score b,
+.arcade .cab-score b { font-family: var(--f-pixel); font-weight: 400; color: var(--gold); text-shadow: 0 0 8px #ffc83d77; white-space: nowrap; }
+.arcade .hall-score b { font-size: 18px; }
+.arcade .hall-score b.new,
+.arcade .cab-score b.new { color: var(--mc); text-shadow: 0 0 8px color-mix(in srgb, var(--mc) 60%, transparent); }
+.arcade .hall-resume {
+  display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px; border: 0; border-radius: 10px; text-align: left;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--mc) 20%, #0b1020), #0b1020 80%); box-shadow: inset 3px 0 0 var(--mc), inset 0 0 0 1px #ffffff14;
+}
+.arcade .hall-resume:hover { background: linear-gradient(90deg, color-mix(in srgb, var(--mc) 30%, #0b1020), #0b1020 80%); }
+.arcade .hall-resume-k { font-family: var(--f-pixel); font-size: 9px; text-transform: uppercase; color: var(--muted); }
+.arcade .hall-resume-t { flex: 1; min-width: 0; font-family: var(--f-display); font-weight: 800; font-size: 18px; text-transform: uppercase; color: var(--chalk); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.arcade .hall-resume > span:last-child { color: var(--mc); }
+
+/* The press box: HomeNews (news.css) framed as a hall panel. Hidden when it has nothing to show. */
+.arcade .hall-news {
+  min-width: 0; padding: 12px; border-radius: 18px;
+  background: linear-gradient(180deg, #121a33, #0a0f20); box-shadow: 0 0 0 2px #000, 0 0 0 4px var(--line), 0 18px 40px #0008;
+}
+.arcade .hall-news:not(:has(.wc-home)) { display: none; }
+.arcade .hall-news .wc-home { margin-top: 0; gap: 12px; }
+.arcade .hall-news .wc-strip { border-color: #000; background: #070b18; box-shadow: inset 0 0 0 1px #ffffff12; }
+.arcade .hall-news .wc-spot__title { margin-bottom: 6px; }
+@media (max-width: 639px) {
+  /* phones: the Spotlight is a swipeable row so the cabinets stay close */
+  .arcade .hall-news .wc-spot__grid {
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 82%; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 2px;
+  }
+  .arcade .hall-news .wc-spot__grid::-webkit-scrollbar { display: none; }
+  .arcade .hall-news .wc-spot__grid > li { scroll-snap-align: start; }
+  .arcade .hall-news .wc-spot__card { height: 100%; }
+}
+@media (min-width: 1000px) {
+  .arcade .hall-news .wc-spot__grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .arcade .hall-news .wc-spot__card { padding: 9px 12px 9px 16px; gap: 2px; }
+  .arcade .hall-news .wc-spot__name { font-size: 20px; }
+}
+
+/* ---------- Cabinets ---------- */
+.arcade .hall-cabs-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin: 28px 0 16px; }
+.arcade .hall-cabs-head h2 { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: clamp(28px, 4.4vw, 42px); line-height: 1; text-transform: uppercase; }
+.arcade .hall-cabs-head p { margin: 0; color: var(--muted); font-size: 14px; max-width: 60ch; }
+.arcade .hall-cabs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; }
+@media (min-width: 1000px) { .arcade .hall-cabs { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 26px 18px; } }
+.arcade .hall-cabs > li { position: relative; isolation: isolate; display: flex; min-width: 0; animation: hall-cab-in 0.5s var(--ease-out, ease) both; animation-delay: calc(var(--i) * 45ms); }
+@keyframes hall-cab-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+.arcade .cab {
+  position: relative; width: 100%; display: flex; flex-direction: column; text-align: left; border: 0; padding: 0 0 10px;
+  border-radius: 16px 16px 10px 10px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--mc) 20%, #161d36) 0%, #10162b 42%, #0b1020 100%);
+  box-shadow: 0 0 0 2px #000, inset 0 0 0 1px color-mix(in srgb, var(--mc) 32%, transparent), inset 0 1px 0 #ffffff1a, 0 14px 26px #0009;
+  transition: transform 0.25s var(--ease-out, ease), box-shadow 0.25s;
+}
+/* coloured floor light under each cabinet */
+.arcade .cab::after {
+  content: ''; position: absolute; left: 8%; right: 8%; bottom: -12px; height: 18px; z-index: -1; pointer-events: none; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--mc) 55%, transparent), transparent); filter: blur(4px); opacity: 0.45; transition: opacity 0.25s;
+}
+.arcade .cab:hover,
+.arcade .cab:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 0 0 2px #000, 0 0 0 4px var(--mc), inset 0 1px 0 #ffffff1a, 0 20px 34px #000a, 0 0 34px color-mix(in srgb, var(--mc) 30%, transparent);
+}
+.arcade .cab:hover::after,
+.arcade .cab:focus-visible::after { opacity: 1; }
+.arcade .cab:active { transform: translateY(-1px) scale(0.985); }
+.arcade .cab:focus-visible { outline-offset: 5px; }
+
+.arcade .cab-marquee {
+  position: relative; overflow: hidden; display: flex; align-items: center; gap: 8px; min-height: 54px; margin: 6px 6px 0; padding: 9px 10px;
+  border-radius: 11px 11px 4px 4px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--mc) 55%, #05070d), color-mix(in srgb, var(--mc) 22%, #05070d));
+  box-shadow: inset 0 0 0 1px #ffffff26, inset 0 -2px 0 #0008, 0 0 16px color-mix(in srgb, var(--mc) 28%, transparent);
+}
+.arcade .cab-marquee::after { /* a sheen that sweeps on hover */
+  content: ''; position: absolute; top: 0; bottom: 0; left: -60%; width: 50%; pointer-events: none;
+  background: linear-gradient(100deg, transparent, #ffffff40, transparent); transform: skewX(-18deg); opacity: 0;
+}
+.arcade .cab:hover .cab-marquee::after { animation: hall-sheen 0.7s ease; }
+@keyframes hall-sheen { 0% { left: -60%; opacity: 1; } 100% { left: 120%; opacity: 1; } }
+.arcade .cab-no {
+  flex: none; font-family: var(--f-pixel); font-size: 9px; color: var(--mc); background: #000; padding: 3px 5px; border-radius: 3px;
+  box-shadow: inset 0 0 6px color-mix(in srgb, var(--mc) 40%, transparent);
+}
+.arcade .cab-title {
+  min-width: 0; font-family: var(--f-display); font-weight: 800; font-size: 18px; line-height: 0.95; text-transform: uppercase; color: #fff;
+  text-shadow: 0 2px 0 #000, 0 0 12px color-mix(in srgb, var(--mc) 70%, transparent); overflow-wrap: anywhere;
+}
+.arcade .cab-screen {
+  position: relative; overflow: hidden; display: grid; place-items: center; height: 116px; margin: 6px 10px 0; border-radius: 10px;
+  background: radial-gradient(120% 100% at 50% 0%, color-mix(in srgb, var(--mc) 30%, #0b1020), #05070d 78%);
+  box-shadow: inset 0 0 0 2px #000, inset 0 0 26px #000c, 0 0 0 2px color-mix(in srgb, var(--mc) 28%, #1b2440);
+}
+.arcade .cab-art { position: relative; z-index: 1; display: grid; place-items: center; width: max-content; zoom: 0.66; transition: transform 0.3s var(--ease-out, ease); }
+.arcade .cab:hover .cab-art { transform: scale(1.06); }
+.arcade .cab-deck { flex: 1; display: flex; flex-direction: column; gap: 8px; padding: 10px 12px 0; min-width: 0; }
+.arcade .cab-pitch { font-size: 13px; line-height: 1.3; color: #c3cbe6; }
+.arcade .cab-score { margin-top: auto; justify-content: space-between; flex-wrap: wrap; gap: 2px 6px; padding: 5px 8px; }
+.arcade .cab-score b { font-size: 12px; }
+.arcade .cab-today {
+  position: absolute; top: -9px; right: 10px; z-index: 4; padding: 3px 7px; border-radius: 4px;
+  font-family: var(--f-pixel); font-size: 9px; text-transform: uppercase; color: #1a1300; background: var(--gold);
+  box-shadow: 0 2px 0 #000, 0 0 12px #ffc83d88;
+}
+@media (min-width: 1000px) {
+  .arcade .cab-screen { height: 148px; }
+  .arcade .cab-art { zoom: 0.8; }
+  .arcade .cab-title { font-size: 20px; }
+}
+
+/* The art sizes itself for a max-content box here: give the percentage-sized pieces a width, and trim the layout
+   box of the Guess the Legend banner (scaled down with a transform in arcade.css) to what it draws */
+.arcade :is(.cab-art, .hall-feature-art) .ma-rank { width: 190px; }
+.arcade :is(.cab-art, .hall-feature-art) .ma-legend { margin: -34px -57px; }
+
+/* The art's own hover motion (arcade.css .ma-*) plays on a hovered cabinet or the Game of the day */
+.arcade .cab-art *,
+.arcade .hall-feature-art * { transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s; }
+
+/* ---------- Screen switches ---------- */
+.arcade .hall > * { animation: hall-rise 0.45s var(--ease-out, ease) both; }
+.arcade .hall > :nth-child(2) { animation-delay: 60ms; }
+.arcade .hall > :nth-child(3) { animation-delay: 120ms; }
+@keyframes hall-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.arcade .hall-game { animation: hall-game-in 0.4s var(--ease-out, ease) both; }
+@keyframes hall-game-in { from { opacity: 0; transform: translateY(14px) scale(0.99); } to { opacity: 1; transform: none; } }
+
+/* ---------- In-game title bar ---------- */
+.arcade .gamebar {
+  position: relative; overflow: hidden; display: flex; align-items: center; gap: 12px; margin: 16px 0 14px; padding: 8px 14px 8px 8px; border-radius: 14px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--mc) 28%, #10162b), #0b1020 75%);
+  box-shadow: 0 0 0 2px #000, inset 0 0 0 1px color-mix(in srgb, var(--mc) 40%, transparent), 0 10px 24px #0007;
+}
+.arcade .gamebar::after { /* the cabinet's light passing over as the game opens */
+  content: ''; position: absolute; top: 0; bottom: 0; width: 40%; left: -45%; pointer-events: none;
+  background: linear-gradient(100deg, transparent, color-mix(in srgb, var(--mc) 35%, transparent), transparent);
+  animation: hall-bar-sweep 0.9s 0.1s ease-out both;
+}
+@keyframes hall-bar-sweep { to { left: 110%; } }
+.arcade .gamebar-back { flex: none; min-height: 44px; }
+.arcade .gamebar h2 { margin: 0; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.arcade .gamebar-no { font-family: var(--f-pixel); font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mc); }
+.arcade .gamebar-t {
+  font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: clamp(24px, 5vw, 40px); line-height: 0.95; text-transform: uppercase;
+  color: #fff; text-shadow: 0 2px 0 #000, 0 0 18px color-mix(in srgb, var(--mc) 45%, transparent);
+}
+@media (max-width: 420px) { .arcade .gamebar-back-t { display: none; } .arcade .gamebar-back { min-width: 44px; padding: 7px 10px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .arcade .hall-rays { transform: none; }
+  .arcade .gamebar::after { display: none; }
+}

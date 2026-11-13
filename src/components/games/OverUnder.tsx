@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState, type CSSProperties } from 'react';
 import { cn } from '@/lib/utils';
+import InLeague from '@/components/InLeague';
 import { awardPack } from '@/utils/collection';
-import GameBanner from './GameBanner';
-import { ArcadeButton, Confetti, CountUp, Lamp, LampRow } from './ArcadeUI';
-import { loadGameStat, playerKey, saveGameStat, type GamePlayer } from './gameUtils';
+import { Confetti, CountUp } from './ArcadeUI';
+import { isLegend, legendLabel, loadGameStat, playerKey, saveGameStat, type GamePlayer } from './gameUtils';
 import {
   JITTER,
   LEVEL_NAMES,
@@ -25,27 +25,14 @@ import {
   type OUSide,
   type Settlement,
 } from './overUnderLines';
+import { ClubLogo, playerClub, splitName, useReducedMotion } from './stageKit';
+import HowToStrip from './HowToStrip';
+import './overUnder.css';
 
 const BANK_KEY = 'ou:bank';
 const BEST_KEY = 'ou:best';
-const REVEAL_MS = 1100;
+const REVEAL_MS = 1300;
 const UNIT_OPTIONS = [1, 2, 3] as const;
-
-const reducedMotion = () => typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-
-const useCompact = () => {
-  const query = '(max-width: 639px)';
-  const [compact, setCompact] = useState(() => typeof window !== 'undefined' && !!window.matchMedia?.(query).matches);
-  useEffect(() => {
-    const mq = window.matchMedia?.(query);
-    if (!mq) return;
-    const on = () => setCompact(mq.matches);
-    on();
-    mq.addEventListener('change', on);
-    return () => mq.removeEventListener('change', on);
-  }, []);
-  return compact;
-};
 
 const cents = (x: number) => Math.round(x * 100) / 100;
 const loadBank = () => {
@@ -54,6 +41,10 @@ const loadBank = () => {
 };
 const freshPicks = (): OUPick[] => Array.from({ length: SLIP_SIZE }, () => ({ side: null, units: 1 }));
 const bankText = (u: number) => `${u.toLocaleString('en-US', { maximumFractionDigits: 2 })}u`;
+/** "Career passing yards" / "Overall rating": the market in words, never "Career Career Legacy". */
+const marketName = (phrase: string) => phrase.charAt(0).toUpperCase() + phrase.slice(1);
+/** Streak needed for the next, tighter set of lines (levelFor in overUnderLines). */
+const NEXT_LEVEL_AT: Record<OULevel, number | null> = { 1: 5, 2: 10, 3: 20, 4: null };
 
 type Phase = 'pick' | 'reveal' | 'done';
 
@@ -61,71 +52,37 @@ interface Bet {
   settlement: Settlement;
   bankBefore: number;
   bankAfter: number;
+  streakBefore: number;
   streakAfter: number;
   parlay: boolean;
 }
 
-/** Scoped board styles (sportsbook look inside the arcade scoreboard theme). */
-const CSS = `
-.arcade .ou-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 264px), 1fr)); }
-.arcade .ou-ticket { background: var(--panel-3); border-radius: 10px; overflow: hidden; box-shadow: 0 0 0 2px var(--line); display: flex; flex-direction: column; min-width: 0; transition: box-shadow 0.25s; }
-.arcade .ou-ticket.won { box-shadow: 0 0 0 3px var(--turf), 0 0 26px #27b36a55; }
-.arcade .ou-ticket.lost { box-shadow: 0 0 0 3px var(--flag); }
-.arcade .ou-ticket .gb .ppb, .arcade .ou-ticket .gb .ppb__field { border-radius: 0; }
-.arcade .ou-body { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 10px; flex: 1; background: repeating-linear-gradient(0deg, transparent 0 3px, #ffffff04 3px 4px), #06080f; }
-.arcade .ou-market { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; border-bottom: 1px dashed #2b3760; padding-bottom: 8px; }
-.arcade .ou-mk { font-family: var(--f-pixel); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
-.arcade .ou-mk b { color: var(--chalk); font-weight: 400; }
-.arcade .ou-line { font-family: var(--f-pixel); font-size: 22px; color: var(--gold); text-shadow: 0 0 10px #ffc83d55; white-space: nowrap; }
-.arcade .ou-fs { border: 0; margin: 0; padding: 0; min-width: 0; }
-.arcade .ou-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.arcade .ou-opt { position: relative; display: block; min-width: 0; }
-.arcade .ou-opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
-.arcade .ou-opt input:disabled { cursor: default; }
-.arcade .ou-face { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 6px; min-height: 64px; justify-content: center; border-radius: 6px; background: #0d1326; box-shadow: inset 0 0 0 2px var(--line); text-align: center; transition: background 0.12s, box-shadow 0.12s, color 0.12s; }
-.arcade .ou-face-k { font-family: var(--f-display); font-weight: 800; font-size: 17px; text-transform: uppercase; line-height: 1; }
-.arcade .ou-face-l { font-size: 13px; color: var(--muted); }
-.arcade .ou-odds { font-family: var(--f-pixel); font-size: 12px; }
-.arcade .ou-opt.over .ou-odds { color: var(--turf); }
-.arcade .ou-opt.under .ou-odds { color: var(--flag); }
-.arcade .ou-opt input:not(:disabled):hover + .ou-face { box-shadow: inset 0 0 0 2px var(--muted); }
-.arcade .ou-opt input:focus-visible + .ou-face, .arcade .ou-unit input:focus-visible + span { outline: 3px solid var(--gold); outline-offset: 2px; }
-.arcade .ou-opt.over input:checked + .ou-face { background: var(--turf); color: #03140a; box-shadow: 0 3px 0 #0c4a28; }
-.arcade .ou-opt.under input:checked + .ou-face { background: var(--flag); color: #250006; box-shadow: 0 3px 0 #8a1020; }
-.arcade .ou-opt input:checked + .ou-face .ou-face-l, .arcade .ou-opt input:checked + .ou-face .ou-odds { color: inherit; }
-.arcade .ou-opt.hit .ou-face { box-shadow: inset 0 0 0 2px var(--gold), 0 0 16px #ffc83d66; }
-.arcade .ou-opt.dim .ou-face { opacity: 0.45; }
-.arcade .ou-units { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.arcade .ou-units legend { float: left; margin-right: 4px; font-family: var(--f-pixel); font-size: 10px; color: var(--muted); text-transform: uppercase; padding: 0; }
-.arcade .ou-unit { position: relative; display: inline-block; }
-.arcade .ou-unit input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
-.arcade .ou-unit input:disabled { cursor: not-allowed; }
-.arcade .ou-unit span { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 32px; padding: 0 10px; border-radius: 999px; font-family: var(--f-pixel); font-size: 11px; background: #11182e; color: var(--muted); box-shadow: inset 0 0 0 2px var(--line); }
-.arcade .ou-unit input:checked + span { background: var(--gold); color: #1a1300; box-shadow: 0 0 0 2px #000, 0 0 0 4px #ffc83d55; }
-.arcade .ou-unit input:disabled:not(:checked) + span { opacity: 0.35; }
-.arcade .ou-final { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 8px 10px; border-radius: 6px; background: #000; box-shadow: inset 0 0 10px #ffc83d22; }
-.arcade .ou-actual { font-family: var(--f-pixel); font-size: 22px; color: var(--chalk); display: inline-block; animation: ou-tick 0.5s cubic-bezier(.2,.9,.3,1.2) both; }
-.arcade .ou-pending { font-family: var(--f-pixel); font-size: 12px; color: var(--muted); padding: 8px 10px; border-radius: 6px; background: #000; text-transform: uppercase; }
-.arcade .ou-pending.live { color: var(--gold); animation: arc-flicker 1.2s infinite steps(1, end); }
-.arcade .ou-slip { margin-top: 16px; padding: 14px 16px; border-radius: 10px; border: 3px solid #000; background: #06080f; box-shadow: 0 0 0 2px var(--line); display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; justify-content: space-between; position: sticky; bottom: 8px; z-index: 5; }
-.arcade .ou-slip-k { font-family: var(--f-pixel); font-size: 10px; color: var(--muted); text-transform: uppercase; display: block; }
-.arcade .ou-slip-v { font-family: var(--f-pixel); font-size: 18px; color: var(--chalk); }
-.arcade .ou-slip-v.win { color: var(--turf); }
-.arcade .ou-slip-stats { display: flex; gap: 18px; flex-wrap: wrap; }
-.arcade .ou-slip-act { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-.arcade .ou-net { font-family: var(--f-display); font-weight: 800; font-size: 40px; line-height: 1; }
-@keyframes ou-tick { 0% { transform: perspective(500px) rotateX(-90deg); filter: brightness(2.2); } 100% { transform: none; filter: none; } }
-@media (max-width: 639px) {
-  .arcade .ou-slip { bottom: 0; border-radius: 10px 10px 0 0; margin-left: -4px; margin-right: -4px; }
-  .arcade .ou-line { font-size: 19px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .arcade .ou-actual, .arcade .ou-pending.live, .arcade .ou-ticket, .arcade .ou-face { animation: none !important; transition: none !important; }
-}
-`;
+/**
+ * Where the final landed against the line: a bar with the line at the centre and the final on a
+ * scale of ±1.5× the line's distance to it (so near misses look near).
+ */
+const LineMeter = ({ prop, hit }: { prop: OUProp; hit: boolean }) => {
+  const gap = prop.actual - prop.line;
+  const span = Math.max(Math.abs(gap) * 1.6, prop.line * 0.02, 1);
+  const pos = 50 + Math.max(-46, Math.min(46, (gap / span) * 50));
+  return (
+    <div className={cn('ou2-meter', hit ? 'hit' : 'miss')} aria-hidden="true">
+      <span className="ou2-meter-track">
+        <span className="ou2-meter-fill" style={{ left: `${Math.min(50, pos)}%`, width: `${Math.abs(pos - 50)}%` }} />
+        <span className="ou2-meter-line" />
+        <span className="ou2-meter-dot" style={{ left: `${pos}%` }} />
+      </span>
+      <span className="ou2-meter-k">
+        <span>Under</span>
+        <span>Line {formatLine(prop.line)}</span>
+        <span>Over</span>
+      </span>
+    </div>
+  );
+};
 
 const OverUnder = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<string, number> }) => {
-  const compact = useCompact();
+  const reduced = useReducedMotion();
   const uid = useId();
 
   const [streak, setStreak] = useState(0);
@@ -134,6 +91,9 @@ const OverUnder = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<st
   const [parlay, setParlay] = useState(false);
   const [confetti, setConfetti] = useState<number | false>(false);
   const recent = useRef<Set<string>>(new Set());
+  const ticketRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const resultRef = useRef<HTMLDivElement>(null);
+  const nextBtn = useRef<HTMLButtonElement>(null);
 
   const deal = useCallback(
     (level: OULevel) => {
@@ -193,12 +153,28 @@ const OverUnder = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<st
       else if (bet.settlement.net > 0) awardPack('standard', 'Over / Under slip in profit', { once: bet });
       return;
     }
-    const t = window.setTimeout(() => setShown((n) => n + 1), shown === 0 ? 350 : REVEAL_MS);
+    const t = window.setTimeout(() => setShown((n) => n + 1), shown === 0 ? 450 : REVEAL_MS);
     return () => window.clearTimeout(t);
   }, [phase, shown, bet]);
 
+  // Follow the reveal down the board (a phone shows one or two tickets at a time).
+  useEffect(() => {
+    if (phase !== 'reveal' || shown === 0) return;
+    const el = ticketRefs.current[shown - 1];
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    if (r.top < 70 || r.bottom > window.innerHeight - 120) el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
+  }, [shown, phase, reduced]);
+
+  useEffect(() => {
+    if (phase !== 'done') return;
+    resultRef.current?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'nearest' });
+    nextBtn.current?.focus({ preventScroll: true });
+  }, [phase, reduced]);
+
   const stake = picks.reduce((s, p) => s + p.units, 0);
-  const ready = picks.every((p) => p.side != null);
+  const picked = picks.filter((p) => p.side).length;
+  const ready = picked === SLIP_SIZE;
   const busted = phase === 'pick' && bank < SLIP_SIZE;
 
   const setSide = (i: number, side: OUSide) => {
@@ -223,14 +199,9 @@ const OverUnder = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<st
       setBest(bankAfter);
     }
     setBank(bankAfter);
-    setBet({ settlement, bankBefore: bank, bankAfter, streakAfter: s, parlay });
-    if (reducedMotion()) {
-      setShown(SLIP_SIZE);
-      setPhase('reveal');
-    } else {
-      setShown(0);
-      setPhase('reveal');
-    }
+    setBet({ settlement, bankBefore: bank, bankAfter, streakBefore: streak, streakAfter: s, parlay });
+    setShown(reduced ? SLIP_SIZE : 0);
+    setPhase('reveal');
   };
 
   const reload = () => {
@@ -240,144 +211,211 @@ const OverUnder = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<st
     newSlip(1);
   };
 
-  if (!slip) return <p className="empty">Not enough players to open the board yet.</p>;
+  if (!slip) return <p className="arc-empty">Not enough players to open the board yet.</p>;
 
-  const level = levelFor(phase === 'done' && bet ? bet.streakAfter : streak);
+  const liveStreak = phase === 'done' && bet ? bet.streakAfter : streak;
+  const level = levelFor(liveStreak);
   const [jLo, jHi] = JITTER[level];
+  const nextAt = NEXT_LEVEL_AT[level];
   const revealedNet = bet ? bet.settlement.legNet.slice(0, shown).reduce((s, x) => s + x, 0) : 0;
   const shownBank = phase === 'pick' || !bet ? bank : phase === 'done' ? bet.bankAfter : cents(bet.bankBefore + revealedNet);
   const maxWin = parlay ? stake * PARLAY_MULTIPLIER : cents(picks.reduce((s, p) => s + straightWin(p.units), 0));
   const lastShown = shown > 0 && bet ? slip[shown - 1] : null;
+  const hitsSoFar = bet ? bet.settlement.hits.slice(0, shown).filter(Boolean).length : 0;
+  const allHit = !!bet && bet.settlement.hits.every(Boolean);
 
   return (
-    <div className="ou">
-      <style>{CSS}</style>
+    <div className="ou2">
       <Confetti fire={confetti} />
-      <LampRow className="mb-4">
-        <Lamp label="Bankroll" value={bankText(shownBank)} flicker={phase === 'reveal'} />
-        <Lamp label="Best" value={best >= 0 ? bankText(best) : '—'} />
-        <Lamp label="Streak" value={phase === 'done' && bet ? bet.streakAfter : streak} />
-        <Lamp label="Lines" value={`${LEVEL_NAMES[level]} ±${Math.round(jLo * 100)}–${Math.round(jHi * 100)}%`} />
-      </LampRow>
+      <HowToStrip
+        id="ou"
+        accent="var(--turf)"
+        steps={[
+          <>
+            Each line is a player's <strong>career number</strong>, shaded a few percent off. Tap <strong>Over</strong> or <strong>Under</strong>.
+          </>,
+          <>
+            Stake <strong>1 to 3 units</strong> a line. At {ODDS}, 1u wins {straightWin(1)}u. Or go <strong>Parlay</strong>: all five must hit, pays {PARLAY_MULTIPLIER}×.
+          </>,
+          <>
+            Lock the slip and watch it settle. Right picks build a streak and the book <strong>tightens its lines</strong>.
+          </>,
+        ]}
+      />
 
-      <h3 className="question">
-        Beat the <b>book</b>
-      </h3>
-      <p className="hint" style={{ textAlign: 'center', margin: '-8px 0 16px' }}>
-        Five career props. Take the over or the under, stake 1–3 units on each, then lock the slip. Lines tighten as your streak grows.
-      </p>
+      <header className="ou2-book" aria-label="Sportsbook">
+        <div className="ou2-brand">
+          <span className="ou2-brand-k">Retro Vault</span>
+          <span className="ou2-brand-v">Sportsbook</span>
+        </div>
+        <div className="ou2-bank">
+          <span className="k">Bankroll</span>
+          <span className={cn('v num', phase === 'reveal' && 'live', phase === 'done' && bet && (bet.settlement.net >= 0 ? 'up' : 'down'))}>{bankText(shownBank)}</span>
+        </div>
+        <div className="ou2-book-stats">
+          <span>
+            <span className="k">Best</span>
+            <span className="v num">{best >= 0 ? bankText(best) : '-'}</span>
+          </span>
+          <span>
+            <span className="k">Streak</span>
+            <span className="v num">{liveStreak}</span>
+          </span>
+          <span className="ou2-level" title={`Lines sit ${Math.round(jLo * 100)} to ${Math.round(jHi * 100)}% off the true number`}>
+            <span className="k">Lines</span>
+            <span className="v">
+              {LEVEL_NAMES[level]} <small>±{Math.round(jLo * 100)}-{Math.round(jHi * 100)}%</small>
+            </span>
+            {nextAt != null && (
+              <span className="ou2-level-bar" aria-label={`${nextAt - liveStreak} more right picks for ${LEVEL_NAMES[(level + 1) as OULevel]} lines`}>
+                <i style={{ width: `${Math.min(100, (liveStreak / nextAt) * 100)}%` }} />
+              </span>
+            )}
+          </span>
+        </div>
+      </header>
 
       {busted ? (
-        <section className="result" role="status" style={{ display: 'block', textAlign: 'center' }}>
-          <div className="disp flag" style={{ fontSize: 34 }}>
-            Busted
-          </div>
-          <p className="hint" style={{ margin: '8px 0 14px' }}>
-            Your bankroll is down to {bankText(bank)}, not enough for a five-leg slip. Your best of {best >= 0 ? bankText(best) : bankText(START_BANK)} stays on the
-            board.
+        <section className="ou2-busted" role="status">
+          <span className="ou2-busted-k">Busted</span>
+          <p>
+            The bankroll is down to {bankText(bank)}, not enough for a five-line slip. The best of {best >= 0 ? bankText(best) : bankText(START_BANK)} stays on the board.
           </p>
-          <ArcadeButton tone="go" onClick={reload} autoFocus>
+          <button type="button" className="btn go" onClick={reload} autoFocus>
             Reload {START_BANK}u
-          </ArcadeButton>
+          </button>
         </section>
       ) : (
-        <>
-          <ol className="ou-grid" key={slipNo} aria-label="Props">
+        <div className={cn('ou2-layout', phase)}>
+          <ol className="ou2-lines" key={slipNo} aria-label="Lines">
             {slip.map((prop, i) => {
               const pick = picks[i];
               const isShown = !!bet && i < shown;
+              const settling = phase === 'reveal' && i === shown;
               const hit = isShown && bet.settlement.hits[i];
               const name = `${uid}-${slipNo}-${i}`;
               const winningSide: OUSide = prop.actual > prop.line ? 'over' : 'under';
               const legNet = bet?.settlement.legNet[i] ?? 0;
+              const look = playerClub(prop.player);
+              const { first, last } = splitName(prop.player.name);
+              const ovr = isShown ? ovrMap?.get(playerKey(prop.player)) ?? null : null;
               return (
                 <li
                   key={prop.id}
-                  className={cn('ou-ticket rise', isShown && (hit ? 'won' : 'lost'), isShown && !hit && 'shake')}
-                  style={{ animationDelay: phase === 'pick' ? `${i * 50}ms` : undefined }}
+                  ref={(el) => (ticketRefs.current[i] = el)}
+                  className={cn('ou2-ticket', pick.side && 'picked', isShown && (hit ? 'won' : 'lost'), settling && 'settling')}
+                  style={{ ...look.vars, animationDelay: phase === 'pick' ? `${i * 60}ms` : undefined } as CSSProperties}
                 >
-                  <GameBanner
-                    player={prop.player}
-                    size={compact ? 'compact' : 'card'}
-                    reveal={isShown}
-                    ovr={isShown ? ovrMap?.get(playerKey(prop.player)) ?? null : null}
-                  />
-                  <div className="ou-body">
-                    <div className="ou-market">
-                      <span className="ou-mk">
-                        Career <b>{prop.stat.label}</b>
+                  <div className="ou2-who">
+                    <span className="ou2-badge">
+                      <ClubLogo look={look} />
+                    </span>
+                    <span className="ou2-name">
+                      {first && (
+                        <span className="first">
+                          {first} <InLeague player={prop.player} label={false} />
+                        </span>
+                      )}
+                      <span className="last" style={{ color: look.ink }}>
+                        {last}
                       </span>
-                      <span className="ou-line num" aria-label={`Line ${formatLine(prop.line)}`}>
-                        {formatLine(prop.line)}
+                    </span>
+                    <span className="ou2-tags">
+                      <span className="ou2-pos">{prop.player.position}</span>
+                      {ovr != null && <span className="ou2-ovr">{ovr} OVR</span>}
+                      {isShown && isLegend(prop.player) && <span className="ou2-legend">{legendLabel(prop.player)}</span>}
+                    </span>
+                    <span className="ou2-no" aria-hidden="true">
+                      {i + 1}
+                    </span>
+                  </div>
+
+                  <div className="ou2-market">
+                    <span className="ou2-mk">{marketName(prop.stat.phrase)}</span>
+                    <span className="ou2-line num">
+                      <small>O/U</small>
+                      {formatLine(prop.line)}
+                    </span>
+                  </div>
+
+                  <fieldset className="ou2-fs ou2-sides" disabled={phase !== 'pick'}>
+                    <legend className="sr-only">
+                      {prop.player.name}, {prop.stat.phrase}: over or under {formatLine(prop.line)}
+                    </legend>
+                    {(['over', 'under'] as const).map((side) => (
+                      <label
+                        key={side}
+                        className={cn('ou2-opt', side, isShown && side === winningSide && 'right', isShown && side !== winningSide && pick.side !== side && 'dim')}
+                      >
+                        <input
+                          type="radio"
+                          name={`${name}-side`}
+                          value={side}
+                          checked={pick.side === side}
+                          onChange={() => setSide(i, side)}
+                          aria-label={`${side === 'over' ? 'Over' : 'Under'} ${formatLine(prop.line)} ${prop.stat.phrase}, odds ${ODDS}`}
+                        />
+                        <span className="ou2-face" aria-hidden="true">
+                          <span className="ou2-face-k">
+                            {side === 'over' ? '▲' : '▼'} {side === 'over' ? 'Over' : 'Under'}
+                          </span>
+                          <span className="ou2-odds num">{ODDS}</span>
+                        </span>
+                      </label>
+                    ))}
+                  </fieldset>
+
+                  {!bet ? (
+                    <fieldset className="ou2-fs ou2-units" disabled={phase !== 'pick'}>
+                      <legend>Stake</legend>
+                      <span className="ou2-unit-row">
+                        {UNIT_OPTIONS.map((u) => (
+                          <label key={u} className="ou2-unit">
+                            <input
+                              type="radio"
+                              name={`${name}-units`}
+                              value={u}
+                              checked={pick.units === u}
+                              disabled={u !== pick.units && stake - pick.units + u > bank}
+                              onChange={() => setUnits(i, u)}
+                              aria-label={`${u} unit${u > 1 ? 's' : ''} on ${prop.player.name}`}
+                            />
+                            <span aria-hidden="true">{u}u</span>
+                          </label>
+                        ))}
+                      </span>
+                      {!parlay && <span className="ou2-towin num">wins +{straightWin(pick.units)}u</span>}
+                    </fieldset>
+                  ) : isShown ? (
+                    <div className="ou2-final">
+                      <div className="ou2-final-top">
+                        <span>
+                          <span className="ou2-k">Final</span>
+                          <span className="ou2-actual num">
+                            {reduced ? (
+                              formatActual(prop.actual, prop.stat)
+                            ) : (
+                              <CountUp value={prop.actual} decimals={prop.actual % 1 ? 2 : 0} format={(n) => formatActual(n, prop.stat)} duration={REVEAL_MS - 400} />
+                            )}
+                          </span>
+                        </span>
+                        <span className={cn('ou2-stamp', hit ? 'good' : 'bad')}>
+                          {hit ? 'Win' : 'Loss'}
+                          {!bet.parlay && <small>{formatUnits(legNet)}</small>}
+                        </span>
+                      </div>
+                      <LineMeter prop={prop} hit={!!hit} />
+                    </div>
+                  ) : (
+                    <div className={cn('ou2-pending', settling && 'live')} aria-hidden="true">
+                      {settling ? 'Settling' : 'Pending'}
+                      <span className="ou2-dots">
+                        <i />
+                        <i />
+                        <i />
                       </span>
                     </div>
-
-                    <fieldset className="ou-fs ou-sides" role="radiogroup" disabled={phase !== 'pick'}>
-                      <legend className="sr-only">
-                        {prop.player.name}, {prop.stat.phrase}: over or under {formatLine(prop.line)}
-                      </legend>
-                      {(['over', 'under'] as const).map((side) => (
-                        <label
-                          key={side}
-                          className={cn('ou-opt', side, isShown && side === winningSide && 'hit', isShown && side !== winningSide && pick.side !== side && 'dim')}
-                        >
-                          <input
-                            type="radio"
-                            name={`${name}-side`}
-                            value={side}
-                            checked={pick.side === side}
-                            onChange={() => setSide(i, side)}
-                            aria-label={`${side === 'over' ? 'Over' : 'Under'} ${formatLine(prop.line)} ${prop.stat.phrase}, odds ${ODDS}`}
-                          />
-                          <span className="ou-face" aria-hidden="true">
-                            <span className="ou-face-k">{side === 'over' ? 'Over' : 'Under'}</span>
-                            <span className="ou-face-l num">
-                              {side === 'over' ? 'O' : 'U'} {formatLine(prop.line)}
-                            </span>
-                            <span className="ou-odds num">{ODDS}</span>
-                          </span>
-                        </label>
-                      ))}
-                    </fieldset>
-
-                    <fieldset className="ou-fs ou-units" role="radiogroup" disabled={phase !== 'pick'}>
-                      <legend>Units</legend>
-                      {UNIT_OPTIONS.map((u) => (
-                        <label key={u} className="ou-unit">
-                          <input
-                            type="radio"
-                            name={`${name}-units`}
-                            value={u}
-                            checked={pick.units === u}
-                            disabled={phase !== 'pick' || (u !== pick.units && stake - pick.units + u > bank)}
-                            onChange={() => setUnits(i, u)}
-                            aria-label={`${u} unit${u > 1 ? 's' : ''} on ${prop.player.name}`}
-                          />
-                          <span aria-hidden="true">{u}u</span>
-                        </label>
-                      ))}
-                    </fieldset>
-
-                    {bet &&
-                      (isShown ? (
-                        <div className="ou-final">
-                          <span>
-                            <span className="ou-slip-k">Final</span>
-                            <span className="ou-actual num">
-                              <CountUp value={prop.actual} decimals={prop.actual % 1 ? 2 : 0} format={(n) => formatActual(n, prop.stat)} duration={REVEAL_MS - 250} />
-                            </span>
-                          </span>
-                          <span className={cn('verdict-pill', hit ? 'good' : 'bad')}>
-                            {winningSide === 'over' ? 'Over' : 'Under'} · {hit ? 'Win' : 'Loss'}
-                            {!bet.parlay && ` ${formatUnits(legNet)}`}
-                          </span>
-                        </div>
-                      ) : (
-                        <div className={cn('ou-pending', i === shown && phase === 'reveal' && 'live')} aria-hidden="true">
-                          {i === shown && phase === 'reveal' ? 'Settling…' : 'Pending'}
-                        </div>
-                      ))}
-                  </div>
+                  )}
                 </li>
               );
             })}
@@ -392,77 +430,112 @@ const OverUnder = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<st
               : ''}
           </p>
 
-          <section className="ou-slip" aria-label="Bet slip">
-            {phase === 'pick' ? (
+          <aside className={cn('ou2-slip', phase)} aria-label="Bet slip" ref={resultRef}>
+            {phase === 'pick' && (
               <>
-                <div className="ou-slip-stats">
-                  <span>
-                    <span className="ou-slip-k">Picks</span>
-                    <span className="ou-slip-v num">
-                      {picks.filter((p) => p.side).length}/{SLIP_SIZE}
-                    </span>
-                  </span>
-                  <span>
-                    <span className="ou-slip-k">Stake</span>
-                    <span className="ou-slip-v num">{stake}u</span>
-                  </span>
-                  <span>
-                    <span className="ou-slip-k">{parlay ? `Parlay pays ${PARLAY_MULTIPLIER}×` : 'To win'}</span>
-                    <span className="ou-slip-v win num">+{bankText(maxWin)}</span>
-                  </span>
+                <div className="ou2-slip-head">
+                  <span className="ou2-slip-title">Bet slip</span>
+                  <div className="ou2-mode" role="radiogroup" aria-label="Bet type">
+                    {[false, true].map((p) => (
+                      <button key={String(p)} type="button" role="radio" aria-checked={parlay === p} className={cn(parlay === p && 'on')} onClick={() => setParlay(p)}>
+                        {p ? `Parlay ${PARLAY_MULTIPLIER}×` : 'Straight'}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <div className="ou-slip-act">
-                  <button
-                    type="button"
-                    role="switch"
-                    aria-checked={parlay}
-                    className="toggle"
-                    onClick={() => setParlay((v) => !v)}
-                    title={`Parlay: all ${SLIP_SIZE} must hit; pays ${PARLAY_MULTIPLIER}× your total stake`}
-                  >
-                    <span className="track" aria-hidden="true" />
-                    Parlay
-                  </button>
-                  <ArcadeButton tone="go" onClick={placeBet} disabled={!ready || stake > bank}>
-                    {ready ? 'Lock slip' : `Pick ${SLIP_SIZE - picks.filter((p) => p.side).length} more`}
-                  </ArcadeButton>
-                </div>
-              </>
-            ) : bet ? (
-              <>
-                <div className="ou-slip-stats">
-                  <span>
-                    <span className="ou-slip-k">{bet.parlay ? 'Parlay' : 'Straight'} · {bet.settlement.hits.slice(0, shown).filter(Boolean).length}/{shown} hit</span>
-                    {phase === 'done' ? (
-                      <span className={cn('ou-net num pop', bet.settlement.net >= 0 ? 'turf' : 'flag')} role="status">
-                        {formatUnits(bet.settlement.net)}
+                <ul className="ou2-slip-legs" aria-label="Your picks">
+                  {slip.map((prop, i) => (
+                    <li key={prop.id} className={cn(picks[i].side ?? 'empty')}>
+                      <span className="nm" style={{ color: playerClub(prop.player).ink }}>
+                        {splitName(prop.player.name).last}
                       </span>
-                    ) : (
-                      <span className="ou-slip-v num">{bet.parlay ? 'Riding…' : formatUnits(cents(revealedNet))}</span>
-                    )}
+                      <span className="sd">{picks[i].side ? `${picks[i].side === 'over' ? 'O' : 'U'} ${formatLine(prop.line)}` : 'Pick a side'}</span>
+                      <span className="u num">{picks[i].units}u</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="ou2-slip-pips" aria-hidden="true">
+                  {picks.map((p, i) => (
+                    <i key={i} className={p.side ?? ''} />
+                  ))}
+                </div>
+                <div className="ou2-slip-sum">
+                  <span>
+                    <span className="ou2-k">Stake</span>
+                    <span className="v num">{stake}u</span>
                   </span>
-                  {phase === 'done' && (
-                    <span>
-                      <span className="ou-slip-k">Bankroll</span>
-                      <span className="ou-slip-v num">{bankText(bet.bankAfter)}</span>
-                    </span>
-                  )}
+                  <span>
+                    <span className="ou2-k">{parlay ? 'Parlay pays' : 'Max win'}</span>
+                    <span className="v win num">+{bankText(maxWin)}</span>
+                  </span>
                 </div>
-                <div className="ou-slip-act">
-                  {phase === 'reveal' ? (
-                    <ArcadeButton tone="ghost" onClick={() => setShown(SLIP_SIZE)}>
-                      Skip
-                    </ArcadeButton>
-                  ) : (
-                    <ArcadeButton tone="go" onClick={() => newSlip(levelFor(bet.streakAfter))} autoFocus>
-                      Next slip
-                    </ArcadeButton>
-                  )}
-                </div>
+                <button type="button" className="btn go wide ou2-lock" onClick={placeBet} disabled={!ready || stake > bank}>
+                  {ready ? `Lock slip · ${stake}u` : `Pick ${SLIP_SIZE - picked} more`}
+                </button>
               </>
-            ) : null}
-          </section>
-        </>
+            )}
+            {phase === 'reveal' && bet && (
+              <div className="ou2-slip-live">
+                <span>
+                  <span className="ou2-k">
+                    {bet.parlay ? 'Parlay' : 'Straight'} · {hitsSoFar}/{shown} hit
+                  </span>
+                  <span className={cn('v num', !bet.parlay && (revealedNet >= 0 ? 'up' : 'down'))}>{bet.parlay ? (hitsSoFar === shown ? 'Alive' : 'Busted') : formatUnits(cents(revealedNet))}</span>
+                </span>
+                <button type="button" className="btn ghost" onClick={() => setShown(SLIP_SIZE)}>
+                  Skip
+                </button>
+              </div>
+            )}
+            {phase === 'done' && bet && (
+              <div className={cn('ou2-result', bet.settlement.net >= 0 ? 'up' : 'down', allHit && 'sweep')} role="status">
+                <span className="ou2-k">{allHit ? (bet.parlay ? 'Parlay cashed' : 'Clean sweep') : bet.settlement.net >= 0 ? 'Slip in profit' : 'The book wins this one'}</span>
+                <span className="ou2-net num">
+                  {bet.settlement.net >= 0 ? '+' : '−'}
+                  {reduced ? (
+                    Math.abs(bet.settlement.net).toLocaleString('en-US', { maximumFractionDigits: 2 })
+                  ) : (
+                    <CountUp value={Math.abs(bet.settlement.net)} decimals={bet.settlement.net % 1 ? 2 : 0} duration={800} />
+                  )}
+                  u
+                </span>
+                <div className="ou2-hits" aria-label={`${bet.settlement.hits.filter(Boolean).length} of ${SLIP_SIZE} hit`}>
+                  {bet.settlement.hits.map((h, i) => (
+                    <i key={i} className={h ? 'h' : 'm'} />
+                  ))}
+                </div>
+                <dl className="ou2-result-rows">
+                  <div>
+                    <dt>Bankroll</dt>
+                    <dd className="num">
+                      {bankText(bet.bankBefore)} → <b>{bankText(bet.bankAfter)}</b>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Streak</dt>
+                    <dd className="num">
+                      {bet.streakAfter}
+                      {allHit ? ` (+${SLIP_SIZE})` : ' (a miss reset it)'}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Next lines</dt>
+                    <dd>
+                      {LEVEL_NAMES[level]}
+                      {levelFor(bet.streakBefore) !== level && <b className="ou2-lvlup"> {level > levelFor(bet.streakBefore) ? 'Tighter' : 'Looser'}</b>}
+                    </dd>
+                  </div>
+                </dl>
+                <p className="ou2-reward">
+                  {bet.parlay && allHit ? 'Premium pack earned' : bet.settlement.net > 0 ? 'Standard pack earned' : 'Finish in profit to earn a pack'}
+                </p>
+                <button type="button" ref={nextBtn} className="btn go wide" onClick={() => newSlip(levelFor(bet.streakAfter))}>
+                  Next slip
+                </button>
+              </div>
+            )}
+          </aside>
+        </div>
       )}
     </div>
   );

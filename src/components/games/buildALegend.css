@@ -1,0 +1,419 @@
+/* Build-a-Legend: one stage (the reel) and one board (your creation). Scoped under .arcade .bal. */
+
+.arcade .bal {
+  --bal-purple: #e0a3ff;
+  --bal-glass: #05070d;
+  scroll-margin-top: 8px;
+  display: grid;
+  gap: 14px;
+}
+.arcade .bal-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+
+/* ---------- HUD ---------- */
+.arcade .bal-hud { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.arcade .bal-hud .lamp { font-size: 10px; padding: 5px 8px; }
+
+/* ---------- Coach line: the one next action ---------- */
+.arcade .bal-coach {
+  display: flex; align-items: center; gap: 10px; margin: 0; min-height: 44px; padding: 8px 12px; border-radius: 10px;
+  background: linear-gradient(90deg, #ffc83d1f, #ffc83d05 70%); box-shadow: inset 3px 0 0 var(--gold), inset 0 0 0 1px #ffc83d26;
+  font-size: 14px; line-height: 1.3; color: var(--chalk);
+}
+.arcade .bal-coach .step { flex: none; font-family: var(--f-pixel); font-size: 10px; color: #1a1300; background: var(--gold); border-radius: 3px; padding: 3px 6px; text-transform: uppercase; }
+.arcade .bal-coach b { font-weight: 700; }
+.arcade .bal-coach.go { animation: bal-coach-in 0.35s ease both; }
+@keyframes bal-coach-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Layout ---------- */
+.arcade .bal-play { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1000px) {
+  .arcade .bal-play { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: start; gap: 22px; }
+  .arcade .bal-stagecol { position: sticky; top: 84px; display: grid; gap: 14px; }
+}
+.arcade .bal-stagecol { min-width: 0; display: grid; gap: 12px; }
+
+/* ---------- Slot cabinet: club reel, player reel, lever ---------- */
+@property --pull { syntax: '<number>'; inherits: true; initial-value: 0; }
+.arcade .bal-cab {
+  --row: 50px; --club-w: 76px; --trim: #c99a2e;
+  position: relative; display: grid; gap: 10px; padding: 14px 12px 12px;
+  grid-template-columns: minmax(0, 1fr); grid-template-areas: 'sign' 'reels' 'deck';
+  border-radius: 24px 24px 16px 16px;
+  background:
+    linear-gradient(180deg, #ffffff1a, transparent 18%),
+    repeating-linear-gradient(90deg, transparent 0 22px, #ffffff06 22px 24px),
+    radial-gradient(120% 80% at 50% 0%, #563597, #1d1340 58%, #0d0a1f);
+  box-shadow: 0 0 0 3px #000, 0 0 0 6px var(--trim), 0 0 0 8px #000, 0 24px 50px #000c, 0 0 90px #e0a3ff30;
+}
+/* Marquee bulbs around the cabinet: two offset rows that alternate (chase) while spinning and flash on landing */
+.arcade .bal-bulbs { position: absolute; inset: 3px; border-radius: 21px 21px 13px 13px; pointer-events: none; }
+.arcade .bal-bulbs::before, .arcade .bal-bulbs::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background:
+    radial-gradient(circle, var(--bulb) 0 1.8px, transparent 2.8px) 0 0 / 16px 8px repeat-x,
+    radial-gradient(circle, var(--bulb) 0 1.8px, transparent 2.8px) 0 100% / 16px 8px repeat-x,
+    radial-gradient(circle, var(--bulb) 0 1.8px, transparent 2.8px) 0 0 / 8px 16px repeat-y,
+    radial-gradient(circle, var(--bulb) 0 1.8px, transparent 2.8px) 100% 0 / 8px 16px repeat-y;
+}
+.arcade .bal-bulbs::before { --bulb: #ffe7a0; opacity: 0.6; }
+.arcade .bal-bulbs::after { --bulb: #ffb0f0; opacity: 0.18; background-position: 8px 0, 8px 100%, 0 8px, 100% 8px; }
+.arcade .bal-cab.spinning .bal-bulbs::before { animation: bal-chase 0.26s steps(1, end) infinite; }
+.arcade .bal-cab.spinning .bal-bulbs::after { animation: bal-chase 0.26s steps(1, end) infinite reverse; }
+@keyframes bal-chase { 0% { opacity: 1; filter: drop-shadow(0 0 4px #ffe7a0); } 50% { opacity: 0.15; filter: none; } }
+.arcade .bal-cab.landed .bal-bulbs::before, .arcade .bal-cab.landed .bal-bulbs::after { animation: bal-flashall 0.9s steps(1, end) both; }
+@keyframes bal-flashall { 0%, 34%, 68% { opacity: 1; filter: drop-shadow(0 0 6px #fff3c4); } 17%, 51%, 85% { opacity: 0.1; } 100% { opacity: 0.6; filter: none; } }
+
+.arcade .bal-sign { grid-area: sign; position: relative; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
+.arcade .bal-sign > span { font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: 20px; line-height: 1; text-transform: uppercase; color: var(--gold); text-shadow: 0 0 10px #ffc83d88, 2px 2px 0 #000; white-space: nowrap; }
+.arcade .bal-sign > b { font-family: var(--f-pixel); font-weight: 400; font-size: 10px; text-transform: uppercase; color: var(--gold); background: #000; padding: 5px 8px; border-radius: 4px; box-shadow: inset 0 0 8px #ffc83d33, 0 0 0 1px #333; white-space: nowrap; animation: bal-coach-in 0.3s ease both; }
+.arcade .bal-cab.spinning .bal-sign > b { color: #fff3c4; animation: bal-flicker 0.6s steps(1, end) infinite; }
+
+/* Reel bay: ivory drums behind glass */
+.arcade .bal-reels { grid-area: reels; position: relative; min-width: 0; display: grid; grid-template-columns: var(--club-w) minmax(0, 1fr); gap: 8px; padding: 8px; border-radius: 14px; background: #05070d; box-shadow: inset 0 0 0 2px #000, inset 0 0 0 4px #c99a2e88, inset 0 0 26px #000; }
+.arcade .bal-reel { position: relative; min-width: 0; height: calc(var(--row) * 3); overflow: hidden; border-radius: 10px; background: linear-gradient(90deg, #b9b3a3, #f4efe2 28%, #fffaf0 55%, #d9d2c0 85%, #a8a293); box-shadow: inset 0 0 0 2px #000; }
+.arcade .bal-reel::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(#000e 0%, #0007 20%, transparent 38%, transparent 62%, #0007 80%, #000e 100%); }
+.arcade .bal-reel.spun { animation: bal-thud 0.36s cubic-bezier(0.3, 1.6, 0.5, 1) var(--dur) forwards; }
+@keyframes bal-thud { 0% { transform: none; } 30% { transform: translateY(5px) scaleY(0.985); } 100% { transform: none; } }
+.arcade .bal-reel.spun::before { content: ''; position: absolute; left: 0; right: 0; top: var(--row); height: var(--row); z-index: 3; background: #fff; opacity: 0; pointer-events: none; animation: bal-hit 0.55s ease-out var(--dur) forwards; }
+@keyframes bal-hit { 0% { opacity: 0.85; } 100% { opacity: 0; } }
+.arcade .bal-reel .bal-strip { position: relative; z-index: 1; padding-top: var(--row); transform: translateY(var(--end)); will-change: transform; }
+.arcade .bal-reel .bal-strip.go { animation: bal-roll var(--dur) cubic-bezier(0.12, 0.62, 0.22, 1.035) both, bal-blur var(--dur) ease-out both; }
+@keyframes bal-roll { from { transform: translateY(0); } to { transform: translateY(var(--end)); } }
+@keyframes bal-blur { 0% { filter: blur(0); } 10% { filter: blur(4px); } 70% { filter: blur(2px); } 100% { filter: blur(0); } }
+.arcade .bal-reel-tag { position: absolute; top: 4px; left: 5px; z-index: 4; font-family: var(--f-pixel); font-size: 8px; text-transform: uppercase; color: #fff; background: #000b; padding: 1px 4px; border-radius: 3px; }
+
+.arcade .bal-clubcell { height: var(--row); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; color: #171a26; }
+.arcade .bal-clubcell img { width: calc(var(--row) * 0.64); height: calc(var(--row) * 0.64); object-fit: contain; filter: drop-shadow(0 2px 0 #0003); }
+.arcade .bal-clubcell b { font-family: var(--f-display); font-weight: 800; font-size: calc(var(--row) * 0.4); }
+.arcade .bal-clubcell span { font-family: var(--f-pixel); font-size: 8px; line-height: 1; }
+.arcade .bal-clubcell.idle { font-family: var(--f-display); font-weight: 800; font-size: calc(var(--row) * 0.6); color: #0004; }
+.arcade .bal-namecell { height: var(--row); display: flex; align-items: center; padding: 4px 6px; }
+.arcade .bal-namecell span {
+  width: 100%; height: calc(var(--row) - 10px); display: flex; align-items: center; padding: 0 10px; border-radius: 6px; overflow: hidden;
+  background: linear-gradient(110deg, var(--c1) 0 72%, var(--c2) 72% 76%, var(--c1) 76%); color: var(--tx); box-shadow: inset 0 -3px 0 #0004, 0 0 0 1px #0006;
+  font-family: var(--f-display); font-weight: 800; font-size: calc(var(--row) * 0.36); text-transform: uppercase; white-space: nowrap; text-overflow: ellipsis;
+}
+.arcade .bal-namecell.idle { justify-content: center; font-family: var(--f-pixel); font-size: 11px; color: #0007; text-transform: uppercase; }
+
+.arcade .bal-payline { position: absolute; left: 3px; right: 3px; top: calc(8px + var(--row)); height: var(--row); z-index: 5; border-radius: 8px; pointer-events: none; box-shadow: 0 0 0 2px var(--gold), 0 0 18px #ffc83d66; }
+.arcade .bal-payline::before, .arcade .bal-payline::after { content: ''; position: absolute; top: 50%; transform: translateY(-50%); border-top: 8px solid transparent; border-bottom: 8px solid transparent; }
+.arcade .bal-payline::before { left: -3px; border-left: 9px solid var(--gold); }
+.arcade .bal-payline::after { right: -3px; border-right: 9px solid var(--gold); }
+.arcade .bal-cab.spinning .bal-payline { animation: bal-tickflash 0.14s steps(2, end) infinite; }
+@keyframes bal-tickflash { 50% { box-shadow: 0 0 0 2px #fff3c4, 0 0 30px #ffc83daa; } }
+.arcade .bal-cab.landed .bal-payline { box-shadow: 0 0 0 3px var(--gold), 0 0 28px #ffc83daa; }
+
+/* Landed: the player reel's payline row becomes his nameplate */
+.arcade .bal-plate {
+  position: absolute; left: 3px; right: 3px; top: var(--row); height: var(--row); z-index: 3; border-radius: 8px; overflow: hidden;
+  display: flex; align-items: center; gap: 8px; padding: 0 10px;
+  background: linear-gradient(110deg, var(--c1) 0 64%, var(--c2) 64% 68%, var(--c1) 68%); color: var(--tx);
+  box-shadow: 0 0 0 2px #000; animation: bal-plate 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.arcade .bal-plate::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, #ffffff55 45%, transparent 60%); transform: translateX(-120%); animation: bal-sheen 0.9s 0.15s ease-out both; pointer-events: none; }
+@keyframes bal-plate { 0% { opacity: 0; transform: scale(1.06); filter: brightness(2.2); } 35% { opacity: 1; } 100% { opacity: 1; transform: none; filter: none; } }
+@keyframes bal-sheen { to { transform: translateX(120%); } }
+.arcade .bal-plate img { width: calc(var(--row) * 0.66); height: calc(var(--row) * 0.66); flex: none; object-fit: contain; filter: drop-shadow(0 2px 0 #0006); }
+.arcade .bal-plate .nm { min-width: 0; flex: 1; display: grid; gap: 2px; line-height: 1; }
+.arcade .bal-plate .nm > span { display: flex; align-items: center; gap: 6px; font-family: var(--f-pixel); font-size: 9px; text-transform: uppercase; white-space: nowrap; }
+.arcade .bal-plate .nm > b { font-family: var(--f-display); font-weight: 800; font-size: calc(var(--row) * 0.4); text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arcade .bal-plate .num { flex: none; font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: calc(var(--row) * 0.4); opacity: 0.9; }
+
+/* The lever (tablet and up; phones use the Spin button) */
+.arcade .bal-lever { display: none; }
+.arcade .bal-lever-slot { position: absolute; left: 50%; top: 50%; width: 22px; height: 48px; margin: -24px 0 0 -11px; border-radius: 7px; background: linear-gradient(90deg, #1b1b22, #5b5b66, #1b1b22); box-shadow: inset 0 0 0 2px #000, 0 0 0 2px var(--trim), 0 4px 0 #000; }
+.arcade .bal-lever-arm { --len: 92px; position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+.arcade .bal-lever-arm.yank { animation: bal-yank 0.75s cubic-bezier(0.3, 0.7, 0.3, 1) both; }
+@keyframes bal-yank { 0% { --pull: 0; } 30% { --pull: 1; } 55% { --pull: 0.9; } 100% { --pull: 0; } }
+.arcade .bal-lever-arm .rod { position: absolute; left: -5px; bottom: 0; width: 10px; height: var(--len); border-radius: 5px; transform-origin: 50% 100%; transform: scaleY(calc(1 - 2 * var(--pull))); background: linear-gradient(90deg, #7c8199, #f1f3fb, #7c8199); box-shadow: 0 0 0 1px #000; }
+.arcade .bal-lever-arm .knob { position: absolute; left: -18px; width: 36px; height: 36px; border-radius: 50%; top: calc(-1 * var(--len) - 18px + 2 * var(--len) * var(--pull)); background: radial-gradient(circle at 35% 30%, #ffb3b9, var(--flag) 55%, #8a1020); box-shadow: 0 0 16px #ff4f6188, 0 4px 0 #000, inset 0 -3px 0 #0004; transition: box-shadow 0.15s; }
+.arcade .bal-lever:hover:not(:disabled) .knob { box-shadow: 0 0 26px #ff4f61cc, 0 4px 0 #000, inset 0 -3px 0 #0004; }
+.arcade .bal-lever:not(:disabled) { cursor: grab; }
+.arcade .bal-lever.dragging { cursor: grabbing; }
+.arcade .bal-lever:disabled .knob { filter: saturate(0.3) brightness(0.7); }
+.arcade .bal-lever:disabled { cursor: default; }
+
+/* Control deck */
+.arcade .bal-deck { grid-area: deck; display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 8px; }
+.arcade .bal-btn {
+  min-width: 0; min-height: 54px; padding: 6px 8px; border: 0; border-radius: 12px; display: grid; place-content: center; justify-items: center; gap: 3px;
+  font-family: var(--f-display); font-weight: 800; font-size: 18px; line-height: 1; text-transform: uppercase; transition: transform 0.1s, filter 0.15s, box-shadow 0.1s;
+}
+.arcade .bal-btn > span { white-space: nowrap; }
+.arcade .bal-btn small { font-family: var(--f-pixel); font-size: 8px; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.arcade .bal-btn.spin { font-size: 24px; background: radial-gradient(120% 140% at 35% 20%, #ffeaa8, var(--gold) 45%, #b8860b); color: #1a1300; box-shadow: 0 0 0 3px #000, 0 5px 0 3px #000, 0 0 22px #ffc83d66; }
+.arcade .bal-btn.spin.ready { animation: bal-breathe 1.6s ease-in-out infinite; }
+@keyframes bal-breathe { 50% { box-shadow: 0 0 0 3px #000, 0 5px 0 3px #000, 0 0 40px #ffc83dcc; } }
+.arcade .bal-btn.respin { background: radial-gradient(120% 140% at 35% 20%, #f3d6ff, var(--bal-purple) 45%, #8a4fb0); color: #1b0826; box-shadow: 0 0 0 3px #000, 0 4px 0 3px #000; }
+.arcade .bal-btn.respin.team { background: radial-gradient(120% 140% at 35% 20%, #d4fff4, #5ce0c6 45%, #23927e); color: #04201a; }
+.arcade .bal-btn:hover:not(:disabled) { filter: brightness(1.08); }
+.arcade .bal-btn:active:not(:disabled) { transform: translateY(3px); }
+.arcade .bal-btn:disabled { cursor: default; filter: saturate(0.25) brightness(0.55); animation: none; }
+.arcade .bal-btn:focus-visible { outline: 3px solid var(--chalk); outline-offset: 3px; }
+
+@media (min-width: 600px) {
+  .arcade .bal-cab { --row: 66px; --club-w: 110px; padding: 18px 16px 16px; gap: 12px; }
+  .arcade .bal-sign > span { font-size: 26px; }
+  .arcade .bal-btn { min-height: 64px; font-size: 20px; }
+  .arcade .bal-btn.spin { font-size: 30px; }
+}
+@media (min-width: 760px) {
+  .arcade .bal-cab { grid-template-columns: minmax(0, 1fr) 60px; grid-template-areas: 'sign sign' 'reels lever' 'deck deck'; padding-right: 10px; }
+  .arcade .bal-lever { display: block; position: relative; width: 60px; border: 0; padding: 0; background: transparent; touch-action: none; grid-area: lever; }
+}
+@media (min-width: 1000px) {
+  .arcade .bal-cab { --row: 84px; --club-w: 128px; padding: 20px 14px 18px 20px; }
+  .arcade .bal-lever-arm { --len: 108px; }
+  .arcade .bal-sign > span { font-size: 30px; }
+  .arcade .bal-sign > b { font-size: 11px; }
+  .arcade .bal-btn { min-height: 74px; font-size: 22px; }
+  .arcade .bal-btn.spin { font-size: 36px; }
+  .arcade .bal-btn small { font-size: 9px; }
+}
+
+/* Mystery: sealed numbers */
+.arcade .bal-grade--sealed { background: repeating-linear-gradient(135deg, #4a5170 0 5px, #3c4262 5px 10px) !important; color: #cdd3ea; box-shadow: inset 0 -3px 0 #0003, 0 0 0 2px #000; }
+.arcade .bal-tile.steal.blind { background: linear-gradient(135deg, color-mix(in srgb, var(--c1) 55%, #2a2f45) 0%, color-mix(in srgb, var(--c1) 30%, #1b2035) 70%); }
+.arcade .bal-tile.blind .val b, .arcade .bal-tile.filled.sealed .val b { font-family: var(--f-pixel); font-weight: 400; font-size: 11px; text-transform: uppercase; opacity: 0.8; }
+.arcade .bal-meter.sealed { background: repeating-linear-gradient(90deg, #ffffff26 0 4px, transparent 4px 8px); }
+.arcade .bal-ovr.sealed .n { color: var(--muted); }
+@media (max-width: 599px) { .arcade .bal-hud--draft { display: none; } }
+
+/* ---------- The board: your creation ---------- */
+.arcade .bal-board {
+  position: relative; min-width: 0; padding: 12px; border-radius: 16px;
+  background: linear-gradient(180deg, #1b2440, #0d1326 60%); box-shadow: 0 0 0 2px #000, 0 0 0 4px var(--line), 0 16px 36px #0009;
+}
+.arcade .bal-board::before { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: repeating-linear-gradient(115deg, transparent 0 22px, #ffffff06 22px 25px); }
+.arcade .bal-board-head { position: relative; display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.arcade .bal-board-title { min-width: 0; flex: 1; }
+.arcade .bal-board-title .k { font-family: var(--f-pixel); font-size: 10px; color: var(--muted); text-transform: uppercase; }
+.arcade .bal-board-title h3 { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: 22px; line-height: 1.05; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arcade .bal-pips { display: flex; gap: 3px; margin-top: 4px; }
+.arcade .bal-pips i { width: 12px; height: 5px; border-radius: 1px; background: #ffffff1c; transition: background 0.3s; }
+.arcade .bal-pips i.on { background: var(--gold); box-shadow: 0 0 6px #ffc83d88; }
+
+/* OVR medallion */
+.arcade .bal-ovr {
+  --g: #3a466e; flex: none; display: grid; grid-template-columns: auto auto; align-items: center; gap: 8px; padding: 6px 8px 6px 12px; border-radius: 12px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--g) 32%, #0b1020), #05070d); box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--g) 70%, #000), 0 0 18px color-mix(in srgb, var(--g) 30%, transparent);
+  transition: box-shadow 0.4s, background 0.4s;
+}
+.arcade .bal-ovr .n { font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: 36px; line-height: 0.9; font-variant-numeric: tabular-nums; text-shadow: 2px 2px 0 #000; }
+.arcade .bal-ovr .n small { display: block; font-family: var(--f-pixel); font-style: normal; font-weight: 400; font-size: 8px; color: var(--muted); text-shadow: none; text-align: center; }
+.arcade .bal-ovr.bump { animation: bal-bump 0.45s ease; }
+@keyframes bal-bump { 40% { transform: scale(1.08); } }
+
+/* Grade chips */
+.arcade .bal-grade { display: inline-grid; place-items: center; border-radius: 6px; color: #0b1020; font-family: var(--f-display); font-weight: 800; line-height: 1; box-shadow: inset 0 -3px 0 #0003, 0 0 0 2px #000; font-variant-numeric: tabular-nums; }
+.arcade .bal-grade--sm { min-width: 28px; height: 22px; padding: 0 5px; font-size: 15px; border-radius: 4px; vertical-align: middle; }
+.arcade .bal-grade--md { min-width: 40px; height: 32px; padding: 0 6px; font-size: 21px; }
+.arcade .bal-grade--lg { min-width: 52px; height: 42px; padding: 0 8px; font-size: 28px; }
+.arcade .bal-grade--s { background: linear-gradient(120deg, #fff3b0, #ffd84a 30%, #ff9de2 55%, #8fe3ff 75%, #ffd84a) !important; background-size: 220% 100% !important; box-shadow: inset 0 -3px 0 #0003, 0 0 0 2px #000, 0 0 14px #ffd84acc; animation: bal-holo 2.4s linear infinite; }
+@keyframes bal-holo { from { background-position: 0% 0; } to { background-position: 220% 0; } }
+
+/* Slots */
+.arcade .bal-slots { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 700px) and (max-width: 999px) { .arcade .bal-slots { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.arcade .bal-slots > li { min-width: 0; }
+.arcade .bal-tile {
+  --c1: #232c48; --c2: #3a466e; --tx: #f1f4ff; --ink: var(--chalk);
+  position: relative; width: 100%; min-height: 84px; height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: 4px; padding: 8px 9px 9px; border: 0; border-radius: 10px; text-align: left; overflow: hidden;
+  background: #0a0f1e; box-shadow: inset 0 0 0 1.5px #ffffff1a; color: var(--chalk); transition: transform 0.15s, box-shadow 0.15s, background 0.25s;
+}
+.arcade .bal-tile-top { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.arcade .bal-tile-top .key { flex: none; font-family: var(--f-pixel); font-size: 9px; background: #000; color: var(--gold); padding: 2px 4px; border-radius: 3px; }
+.arcade .bal-tile-top .nm { min-width: 0; flex: 1; font-family: var(--f-display); font-weight: 800; font-size: 16px; line-height: 1.05; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arcade .bal-tile-mid { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.arcade .bal-tile-mid .val { min-width: 0; display: grid; line-height: 1.1; }
+.arcade .bal-tile-mid .val b { font-family: var(--f-display); font-weight: 700; font-size: 18px; font-variant-numeric: tabular-nums; }
+.arcade .bal-tile-mid .val span { font-family: var(--f-pixel); font-size: 9px; color: var(--muted); text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arcade .bal-tile-foot { display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0; font-size: 12px; }
+.arcade .bal-tile-foot .from { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ink); font-weight: 700; }
+.arcade .bal-tile-foot .his { flex: none; font-family: var(--f-pixel); font-size: 9px; color: var(--muted); text-transform: uppercase; display: inline-flex; align-items: center; gap: 4px; }
+.arcade .bal-meter { height: 4px; border-radius: 2px; background: #ffffff14; overflow: hidden; }
+.arcade .bal-meter b { display: block; height: 100%; border-radius: 2px; transform-origin: 0 50%; animation: bal-fill 0.6s ease-out both; }
+@keyframes bal-fill { from { transform: scaleX(0); } }
+
+/* empty slot, nothing landed */
+.arcade .bal-tile.empty { background: repeating-linear-gradient(135deg, #0a0f1e 0 8px, #0d1326 8px 16px); box-shadow: inset 0 0 0 1.5px #ffffff1a; }
+.arcade .bal-tile.empty .q { font-family: var(--f-display); font-weight: 800; font-size: 26px; color: #ffffff26; line-height: 1; }
+/* filled slot: your trait, with the club it came from */
+.arcade .bal-tile.filled { background: linear-gradient(135deg, color-mix(in srgb, var(--c1) 26%, #0b1020) 0%, #0a0f1e 70%); box-shadow: inset 0 0 0 1.5px #ffc83d55, inset 4px 0 0 var(--c1); }
+.arcade .bal-tile.filled.dim { opacity: 0.62; }
+/* open slot while a player is on the payline: lit in his colours, tap to steal */
+.arcade .bal-tile.steal { cursor: pointer; color: var(--tx); background: linear-gradient(135deg, color-mix(in srgb, var(--c1) 82%, #000) 0%, color-mix(in srgb, var(--c1) 55%, #0b1020) 62%, color-mix(in srgb, var(--c2) 45%, #0b1020) 100%); box-shadow: 0 0 0 2px #000, inset 0 0 0 1.5px color-mix(in srgb, var(--c2) 70%, #fff 10%), 0 4px 0 #000; animation: bal-light 0.45s cubic-bezier(0.2, 0.8, 0.2, 1.2) both; animation-delay: calc(var(--i) * 45ms); }
+.arcade .bal-tile.steal .bal-tile-mid .val span, .arcade .bal-tile.steal .bal-tile-foot .his { color: color-mix(in srgb, var(--tx) 78%, transparent); }
+.arcade .bal-tile.steal::after { content: 'Steal'; position: absolute; right: 8px; bottom: 8px; font-family: var(--f-pixel); font-size: 9px; text-transform: uppercase; color: #1a1300; background: var(--gold); padding: 3px 5px; border-radius: 3px; box-shadow: 0 2px 0 #000; }
+.arcade .bal-tile.steal:hover, .arcade .bal-tile.steal:focus-visible { transform: translateY(-3px); box-shadow: 0 0 0 2px #000, inset 0 0 0 2px var(--gold), 0 7px 0 #000, 0 0 22px #ffc83d55; }
+.arcade .bal-tile.steal:active { transform: translateY(1px); }
+@keyframes bal-light { from { opacity: 0.3; transform: scale(0.94); filter: brightness(1.8); } to { opacity: 1; transform: none; filter: none; } }
+.arcade .bal-tile.nodata { opacity: 0.45; cursor: not-allowed; }
+.arcade .bal-tile:disabled { cursor: default; }
+/* the slot you just locked */
+.arcade .bal-tile.slam { animation: bal-slam 0.55s cubic-bezier(0.2, 0.8, 0.2, 1.3) both; }
+.arcade .bal-tile.slam::before { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 3px var(--gold), 0 0 0 0 #ffc83daa; animation: bal-ring 0.8s ease-out both; pointer-events: none; }
+@keyframes bal-slam { 0% { transform: scale(1.14); filter: brightness(2); } 60% { transform: scale(0.97); } 100% { transform: none; filter: none; } }
+@keyframes bal-ring { 0% { opacity: 1; } 100% { opacity: 0; box-shadow: inset 0 0 0 3px var(--gold), 0 0 0 14px #ffc83d00; } }
+/* final board on the result screen */
+.arcade .bal-tile.final { animation: bal-deal 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: calc(var(--i) * 70ms); }
+@keyframes bal-deal { from { opacity: 0; transform: translateY(14px) rotate(-2deg); } to { opacity: 1; transform: none; } }
+
+.arcade .bal-board-foot { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; }
+.arcade .bal-peek { min-width: 0; flex: 1; font-size: 13px; color: var(--muted); }
+.arcade .bal-peek b { font-weight: 700; }
+.arcade .bal-link { min-height: 40px; padding: 0 10px; border: 0; border-radius: 8px; background: transparent; box-shadow: inset 0 0 0 1.5px var(--line); font-family: var(--f-pixel); font-size: 10px; color: var(--muted); text-transform: uppercase; }
+.arcade .bal-link:hover:not(:disabled) { color: var(--chalk); box-shadow: inset 0 0 0 1.5px var(--muted); }
+.arcade .bal-link[aria-pressed='true'] { color: var(--sky); box-shadow: inset 0 0 0 1.5px var(--sky); }
+.arcade .bal-link:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---------- Setup ---------- */
+.arcade .bal-setup { display: grid; gap: 16px; max-width: 980px; margin: 0 auto; width: 100%; }
+.arcade .bal-hero {
+  position: relative; overflow: hidden; padding: 18px 16px; border-radius: 16px; text-align: center;
+  background: radial-gradient(80% 120% at 50% 0%, #3a2f6e, #120f26 75%); box-shadow: 0 0 0 3px #000, 0 0 0 5px #e0a3ff44, 0 16px 36px #0009;
+}
+.arcade .bal-hero::before { content: ''; position: absolute; inset: -50%; background: repeating-conic-gradient(from 0deg at 50% 50%, #ffc83d10 0 6deg, transparent 6deg 18deg); animation: bal-rays 40s linear infinite; pointer-events: none; }
+@keyframes bal-rays { to { transform: rotate(360deg); } }
+.arcade .bal-hero > * { position: relative; }
+.arcade .bal-hero .k { font-family: var(--f-pixel); font-size: 10px; color: var(--bal-purple); text-transform: uppercase; }
+.arcade .bal-hero h3 { margin: 6px 0 4px; font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: clamp(34px, 9vw, 60px); line-height: 0.95; text-transform: uppercase; text-shadow: 3px 3px 0 #000; }
+.arcade .bal-hero h3 span { color: var(--gold); }
+.arcade .bal-hero p { margin: 0 auto; max-width: 52ch; color: #cfd7f5; font-size: 14px; }
+.arcade .bal-steps { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(3, minmax(0, 1fr)); text-align: left; }
+.arcade .bal-steps li { min-width: 0; padding: 10px 8px; border-radius: 10px; background: #05070dcc; box-shadow: inset 0 0 0 1px #ffffff14; }
+.arcade .bal-steps .n { font-family: var(--f-pixel); font-size: 9px; color: var(--gold); }
+.arcade .bal-steps b { display: block; font-family: var(--f-display); font-weight: 800; font-size: 20px; line-height: 1; text-transform: uppercase; margin: 2px 0 4px; }
+.arcade .bal-steps p { font-size: 12px; line-height: 1.3; color: var(--muted); margin: 0; }
+.arcade .bal-pick { display: grid; gap: 8px; }
+.arcade .bal-pick > .k { font-family: var(--f-pixel); font-size: 10px; color: var(--muted); text-transform: uppercase; }
+.arcade .bal-positions { display: grid; gap: 8px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (min-width: 700px) { .arcade .bal-positions { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
+.arcade .bal-pos {
+  min-height: 64px; padding: 8px 4px; border: 0; border-radius: 10px; display: grid; place-content: center; justify-items: center; gap: 2px;
+  background: #0d1326; box-shadow: inset 0 0 0 1.5px var(--line), 0 3px 0 #000; transition: transform 0.12s, box-shadow 0.15s, background 0.15s;
+}
+.arcade .bal-pos b { font-family: var(--f-display); font-weight: 800; font-size: 24px; line-height: 1; }
+.arcade .bal-pos span { font-family: var(--f-pixel); font-size: 8px; color: var(--muted); text-transform: uppercase; }
+.arcade .bal-pos:hover:not(:disabled) { transform: translateY(-2px); box-shadow: inset 0 0 0 1.5px var(--muted), 0 5px 0 #000; }
+.arcade .bal-pos[aria-pressed='true'] { background: linear-gradient(180deg, #ffd864, #e0a520); color: #1a1300; box-shadow: inset 0 0 0 2px #000, 0 3px 0 #000, 0 0 18px #ffc83d66; }
+.arcade .bal-pos[aria-pressed='true'] span { color: #3a2a00; }
+.arcade .bal-pos:disabled { opacity: 0.35; cursor: not-allowed; }
+.arcade .bal-modes { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.arcade .bal-mode { min-height: 56px; padding: 8px 12px; border: 0; border-radius: 10px; text-align: left; background: #0d1326; box-shadow: inset 0 0 0 1.5px var(--line); display: grid; gap: 2px; }
+.arcade .bal-mode b { font-family: var(--f-display); font-weight: 800; font-size: 18px; text-transform: uppercase; line-height: 1; }
+.arcade .bal-mode span { font-size: 12px; color: var(--muted); }
+.arcade .bal-mode[aria-pressed='true'] { background: linear-gradient(135deg, #2a2350, #141b30); box-shadow: inset 0 0 0 2px var(--bal-purple), 0 0 16px #e0a3ff33; }
+.arcade .bal-start { display: flex; justify-content: center; }
+.arcade .bal-start .btn { min-width: 240px; min-height: 56px; font-size: 22px; }
+
+/* ---------- Reveal ---------- */
+.arcade .bal-reveal { display: grid; gap: 18px; }
+.arcade .bal-scanbox { display: grid; justify-items: center; gap: 10px; padding: 18px 12px; border-radius: 16px; background: radial-gradient(100% 120% at 50% 0%, #2a2350, #0b1020 70%); box-shadow: 0 0 0 3px #000, 0 0 0 5px #e0a3ff33; text-align: center; }
+.arcade .bal-kicker { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(20px, 5vw, 30px); text-transform: uppercase; color: var(--chalk); }
+.arcade .bal-kicker:focus { outline: none; }
+.arcade .bal-scan { min-height: 1.3em; font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 7vw, 40px); text-transform: uppercase; color: var(--sky); text-shadow: 0 0 14px #5cc8ff66; }
+.arcade .bal-skip { min-height: 40px; }
+
+.arcade .bal-payoff { position: relative; display: grid; gap: 14px; justify-items: center; padding: 18px 12px 16px; border-radius: 18px; overflow: hidden; background: radial-gradient(90% 70% at 50% 30%, color-mix(in srgb, var(--c1) 45%, #0b1020), #0b1020 75%); box-shadow: 0 0 0 3px #000, 0 0 0 5px color-mix(in srgb, var(--c1) 60%, #2b3760); }
+.arcade .bal-payoff::before { content: ''; position: absolute; inset: -60%; background: repeating-conic-gradient(from 0deg at 50% 50%, #ffffff0d 0 5deg, transparent 5deg 15deg); animation: bal-rays 30s linear infinite; pointer-events: none; }
+.arcade .bal-payoff.clone::before { background: repeating-conic-gradient(from 0deg at 50% 50%, #ffc83d24 0 5deg, transparent 5deg 15deg); }
+.arcade .bal-payoff > * { position: relative; }
+.arcade .bal-payoff-card { width: min(420px, 100%); }
+.arcade .bal-payoff-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px 18px; }
+.arcade .bal-gauge { position: relative; width: 132px; height: 132px; flex: none; }
+.arcade .bal-gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.arcade .bal-gauge .track { fill: none; stroke: #ffffff17; stroke-width: 10; }
+.arcade .bal-gauge .bar { fill: none; stroke: var(--gold); stroke-width: 10; stroke-linecap: round; filter: drop-shadow(0 0 6px #ffc83d88); transition: stroke-dashoffset 1s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.arcade .bal-gauge .in { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.arcade .bal-gauge .in b { font-family: var(--f-display); font-weight: 800; font-size: 40px; line-height: 0.9; color: var(--gold); font-variant-numeric: tabular-nums; text-shadow: 2px 2px 0 #000; }
+.arcade .bal-gauge .in span { font-family: var(--f-pixel); font-size: 9px; color: var(--muted); text-transform: uppercase; }
+.arcade .bal-verdicts { display: grid; gap: 8px; justify-items: start; }
+.arcade .bal-pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--f-pixel); font-size: 11px; text-transform: uppercase; padding: 7px 10px; border-radius: 4px; background: #000c; color: var(--chalk); box-shadow: inset 0 0 0 1px #ffffff22; animation: arc-pop 0.35s ease both; }
+.arcade .bal-pill.v { color: var(--turf); font-size: 13px; }
+.arcade .bal-pill.gold { color: var(--gold); background: #2a1f00; box-shadow: inset 0 0 0 1px #ffc83d66; }
+.arcade .bal-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.arcade .bal-actions .btn { min-height: 48px; }
+
+.arcade .bal-grid2 { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .arcade .bal-grid2 { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: start; } }
+.arcade .bal-col { display: grid; gap: 14px; min-width: 0; align-content: start; }
+.arcade .bal-panel { padding: 14px; border-radius: 12px; background: var(--panel); box-shadow: 0 0 0 2px var(--line); min-width: 0; }
+.arcade .bal-panel h4 { margin: 0 0 4px; font-family: var(--f-display); font-weight: 800; font-size: 20px; text-transform: uppercase; }
+.arcade .bal-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--chalk); margin: 4px 0 12px; }
+.arcade .bal-legend span { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+.arcade .bal-legend i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.arcade .bal-chart { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.arcade .bal-row { position: relative; display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 2px 10px; align-items: center; padding: 6px 4px; border-radius: 6px; }
+.arcade .bal-row:hover, .arcade .bal-row:focus-visible, .arcade .bal-row.on { background: #ffffff0a; }
+.arcade .bal-row-k { font-family: var(--f-pixel); font-size: 9px; color: var(--muted); text-transform: uppercase; line-height: 1.3; }
+.arcade .bal-track { position: relative; height: 20px; }
+.arcade .bal-track::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: #ffffff1f; }
+.arcade .bal-track .mid { position: absolute; left: 50%; top: 2px; bottom: 2px; width: 1px; background: #ffffff1f; }
+.arcade .bal-track .lnk { position: absolute; top: calc(50% - 1px); height: 2px; background: #ffffff55; }
+.arcade .bal-dot { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; box-shadow: 0 0 0 2px var(--panel); }
+.arcade .bal-row-v { grid-column: 2; display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.arcade .bal-row-v b { color: var(--chalk); font-weight: 600; }
+.arcade .bal-tip { position: absolute; z-index: 5; right: 4px; bottom: calc(100% - 2px); max-width: min(320px, 92%); padding: 6px 8px; border-radius: 6px; background: #05070d; box-shadow: 0 0 0 1px var(--line), 0 8px 18px #000a; font-size: 12px; line-height: 1.35; color: var(--chalk); pointer-events: none; }
+.arcade .bal-axis { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 10px; padding: 0 4px; font-family: var(--f-pixel); font-size: 9px; color: var(--muted); text-transform: uppercase; }
+.arcade .bal-axis div { display: flex; justify-content: space-between; }
+.arcade .bal-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+.arcade .bal-table th, .arcade .bal-table td { padding: 5px 6px; border-bottom: 1px solid #ffffff14; text-align: right; font-variant-numeric: tabular-nums; }
+.arcade .bal-table th:first-child, .arcade .bal-table td:first-child { text-align: left; }
+.arcade .bal-table td:last-child, .arcade .bal-table th:last-child { text-align: left; color: var(--muted); }
+.arcade .bal-details summary { cursor: pointer; min-height: 40px; display: flex; align-items: center; font-family: var(--f-pixel); font-size: 11px; color: var(--sky); text-transform: uppercase; margin-top: 8px; }
+.arcade .bal-fact { padding: 12px; border-radius: 10px; background: #05070d; box-shadow: inset 0 0 0 1px #ffffff14; }
+.arcade .bal-fact .k { font-family: var(--f-pixel); font-size: 10px; color: var(--muted); text-transform: uppercase; }
+.arcade .bal-fact .v { display: flex; align-items: center; gap: 10px; font-family: var(--f-display); font-weight: 800; font-size: 24px; line-height: 1.05; text-transform: uppercase; }
+.arcade .bal-fact p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+.arcade .bal-runners { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.arcade .bal-sub { font-family: var(--f-pixel); font-size: 10px; color: var(--muted); text-transform: uppercase; margin: 0 0 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .arcade .bal *, .arcade .bal *::before, .arcade .bal *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---------- Compact pass: all eight slots and the reel fit one phone screen ---------- */
+.arcade .bal-tile { padding: 7px 8px 8px; gap: 3px; }
+.arcade .bal-tile .bal-grade--lg { min-width: 44px; height: 34px; font-size: 23px; }
+.arcade .bal-tile .bal-grade--md { min-width: 36px; height: 28px; font-size: 18px; }
+.arcade .bal-tile.steal .bal-tile-top { padding-right: 46px; }
+.arcade .bal-tile.steal::after { top: 7px; bottom: auto; }
+.arcade .bal-tile.empty .bal-tile-mid { min-height: 28px; }
+@media (min-width: 600px) {
+  .arcade .bal-tile { padding: 9px 10px 10px; gap: 5px; }
+  .arcade .bal-tile .bal-grade--lg { min-width: 52px; height: 40px; font-size: 27px; }
+}
+@media (max-width: 599px) { .arcade .bal-hud .lamp.opt { display: none; } }
+/* Desktop: the landed player's card under the reel (phones get the nameplate only, to keep the board in view) */
+.arcade .bal-landcard { display: none; }
+@media (min-width: 1000px) {
+  .arcade .bal-landcard { display: block; width: min(440px, 100%); justify-self: center; animation: bal-emerge 0.5s cubic-bezier(0.2, 0.8, 0.2, 1.15) both; transform-origin: 50% 0; }
+}
+@keyframes bal-emerge { from { opacity: 0; transform: translateY(-40px) scale(0.7); } to { opacity: 1; transform: none; } }
+@media (max-width: 599px) {
+  .arcade .bal-tile.steal::after { content: '+'; width: 20px; height: 20px; padding: 0; display: grid; place-items: center; font-size: 13px; top: 7px; right: 7px; }
+  .arcade .bal-tile.steal .bal-tile-top { padding-right: 24px; }
+  .arcade .bal-tile-top .nm { font-size: 15px; }
+}
+@media (max-width: 599px) { .arcade .bal-payoff-card { width: min(300px, 100%); } .arcade .bal-payoff { gap: 10px; padding-top: 14px; } }
+@keyframes bal-flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+@media (max-width: 599px) {
+  .arcade .bal-cab { --row: 44px; --club-w: 70px; padding: 12px 10px 10px; gap: 8px; }
+  .arcade .bal-sign > span { font-size: 17px; }
+  .arcade .bal-btn { min-height: 48px; font-size: 16px; }
+  .arcade .bal-btn.spin { font-size: 22px; }
+  .arcade .bal-coach .wide { display: none; }
+}
+/* Desktop: the cabinet is the star; give it the wider column */
+@media (min-width: 1000px) {
+  .arcade .bal-play { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
+  .arcade .bal-cab { --row: 96px; --club-w: 150px; grid-template-columns: minmax(0, 1fr) 76px; }
+  .arcade .bal-lever { width: 76px; }
+  .arcade .bal-lever-arm { --len: 124px; }
+  .arcade .bal-lever-arm .knob { left: -23px; width: 46px; height: 46px; top: calc(-1 * var(--len) - 23px + 2 * var(--len) * var(--pull)); }
+  .arcade .bal-lever-arm .rod { left: -6px; width: 12px; }
+  .arcade .bal-lever-slot { width: 28px; height: 60px; margin: -30px 0 0 -14px; }
+  .arcade .bal-sign > span { font-size: 36px; }
+  .arcade .bal-landcard { width: min(380px, 100%); }
+}

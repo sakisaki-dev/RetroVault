@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import PlayerSearchSelect from '@/components/PlayerSearchSelect';
+import InLeague from '@/components/InLeague';
 import { cn } from '@/lib/utils';
 import { awardPack } from '@/utils/collection';
 import { useLeagueContent } from '@/utils/leagueContent';
-import { usePlayerExtras } from '@/utils/playerExtras';
-import { ArcadeButton, Confetti, Lamp, LampRow } from './ArcadeUI';
+import { bannerTeamOf, usePlayerExtras } from '@/utils/playerExtras';
+import { ArcadeButton, Confetti, CountUp, TeamLogo } from './ArcadeUI';
+import HowToStrip from './HowToStrip';
+import { getTeamTextColor } from '@/utils/teamColors';
+import './sixDegrees.css';
 import GameBanner from './GameBanner';
-import { loadGameStat, playerKey, saveGameStat, type GamePlayer } from './gameUtils';
+import { loadGameStat, playerKey, saveGameStat, teamStyle, teamVars, type GamePlayer } from './gameUtils';
 import {
   buildSixDegreesGraph,
   edgeBetween,
@@ -36,50 +40,12 @@ const KIND_COLOR: Record<LinkKind, string> = {
 
 const KIND_NAME: Record<LinkKind, string> = { team: 'Team', era: 'Era', family: 'Family', lineage: 'Lineage' };
 
-// Scoped to .arcade; the arcade's global reduced-motion rule switches the animations off.
-const CSS = `
-.arcade .sd-ends { display: grid; grid-template-columns: 1fr; gap: 10px; }
-@media (min-width: 640px) { .arcade .sd-ends { grid-template-columns: 1fr 1fr; gap: 16px; } }
-.arcade .sd-chain { list-style: none; margin: 18px auto 0; padding: 0; max-width: 560px; }
-.arcade .sd-node { min-width: 0; }
-.arcade .sd-node.tail .gb { box-shadow: 0 0 0 3px var(--gold), 0 0 26px #ffc83d55; border-radius: 12px; }
-.arcade .sd-node.goal .gb { box-shadow: 0 0 0 3px var(--turf), 0 0 30px #27b36a88; border-radius: 12px; }
-.arcade .sd-link { position: relative; display: flex; align-items: center; justify-content: center; min-height: 54px; padding: 8px 0; }
-.arcade .sd-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; margin-left: -2px; border-radius: 2px;
-  background: linear-gradient(var(--lc, var(--gold)), color-mix(in srgb, var(--lc, var(--gold)) 50%, #000));
-  box-shadow: 0 0 10px color-mix(in srgb, var(--lc, var(--gold)) 60%, transparent);
-  transform-origin: top; animation: sd-draw 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-.arcade .sd-link.pending .sd-line { background: repeating-linear-gradient(var(--line) 0 6px, transparent 6px 12px); box-shadow: none; animation: none; }
-.arcade .sd-chip { position: relative; z-index: 1; max-width: min(100%, 460px); display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px;
-  padding: 5px 10px; border-radius: 999px; background: #05080f; box-shadow: 0 0 0 2px var(--lc, var(--gold)); color: var(--chalk);
-  font-size: 13px; line-height: 1.25; text-align: center; animation: arc-pop 0.35s ease 0.2s both; }
-.arcade .sd-chip b { font-family: var(--f-pixel); font-weight: 400; font-size: 10px; text-transform: uppercase; color: var(--lc, var(--gold)); }
-.arcade .sd-picker { margin-top: 4px; padding: 14px; border-radius: 10px; background: var(--panel-2); box-shadow: 0 0 0 2px var(--line); display: grid; gap: 10px; }
-.arcade .sd-picker .sd-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.arcade .sd-picker .sd-actions .btn { flex: 1 1 auto; }
-.arcade .sd-msg { font-size: 14px; }
-.arcade .sd-path { list-style: none; margin: 12px 0 16px; padding: 0; display: grid; gap: 6px; }
-.arcade .sd-path li { display: grid; gap: 2px; }
-.arcade .sd-goal-dim { opacity: 0.8; }
-@keyframes sd-draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-`;
+type Trend = 'closer' | 'level' | 'further';
 
-const useCompact = () => {
-  const query = '(max-width: 639px)';
-  const [compact, setCompact] = useState(() => typeof window !== 'undefined' && !!window.matchMedia?.(query).matches);
-  useEffect(() => {
-    const mq = window.matchMedia?.(query);
-    if (!mq) return;
-    const on = () => setCompact(mq.matches);
-    on();
-    mq.addEventListener('change', on);
-    return () => mq.removeEventListener('change', on);
-  }, []);
-  return compact;
-};
+const TREND_TEXT: Record<Trend, string> = { closer: '▲ Closer', level: '◆ Sideways', further: '▼ Further' };
 
-/** Link line with the reason chip(s) between two chain nodes. */
-const LinkLine = ({ edge, pending, label }: { edge?: SixDegEdge | null; pending?: boolean; label?: string }) => {
+/** Link line with the reason chip(s) between two chain nodes, plus whether the link moved the chain toward the target. */
+const LinkLine = ({ edge, pending, label, trend }: { edge?: SixDegEdge | null; pending?: boolean; label?: string; trend?: Trend | null }) => {
   const kind = edge?.facts[0]?.kind;
   const color = kind ? KIND_COLOR[kind] : undefined;
   return (
@@ -89,12 +55,39 @@ const LinkLine = ({ edge, pending, label }: { edge?: SixDegEdge | null; pending?
         <span className="sd-chip">
           <b>{[...new Set(edge.facts.map((f) => KIND_NAME[f.kind]))].join(' + ')}</b>
           <span>{edge.reason}</span>
+          {trend && <i className={cn('sd-trend', trend)}>{TREND_TEXT[trend]}</i>}
         </span>
       ) : label ? (
-        <span className="sd-chip px muted" style={{ fontSize: 10, boxShadow: '0 0 0 2px var(--line)', textTransform: 'uppercase' }}>
-          {label}
-        </span>
+        <span className="sd-chip sd-chip-pending">{label}</span>
       ) : null}
+    </div>
+  );
+};
+
+const nameParts = (name: string) => {
+  const i = name.indexOf(' ');
+  return i < 0 ? { first: '', last: name } : { first: name.slice(0, i), last: name.slice(i + 1) };
+};
+
+/** A player as a route token in his club colours (best-known club): logo, name, position and OVR. */
+const Token = ({ p, label, ovr, tone, className }: { p: GamePlayer; label: string; ovr: number | null; tone?: 'start' | 'goal'; className?: string }) => {
+  const st = teamStyle(bannerTeamOf(p));
+  const { first, last } = nameParts(p.name);
+  return (
+    <div className={cn('sd-tok', tone, className)} style={teamVars(st)}>
+      <TeamLogo team={st.team} className="sd-tok-logo" />
+      <span className="sd-tok-k">{label}</span>
+      {first && <span className="sd-tok-first">{first}</span>}
+      <b className="sd-tok-last">{last}</b>
+      <span className="sd-tok-meta">
+        <InLeague player={p} label={false} /> {p.position}
+        {ovr != null && (
+          <>
+            {' '}
+            · <b>{ovr}</b> OVR
+          </>
+        )}
+      </span>
     </div>
   );
 };
@@ -102,7 +95,6 @@ const LinkLine = ({ edge, pending, label }: { edge?: SixDegEdge | null; pending?
 const SixDegrees = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<string, number> }) => {
   const { content } = useLeagueContent();
   const extras = usePlayerExtras();
-  const compact = useCompact();
 
   const graph = useMemo(() => buildSixDegreesGraph({ players, content, extras }), [players, content, extras]);
   const pickable = useMemo(() => [...graph.nodes].sort((a, b) => a.name.localeCompare(b.name)), [graph]);
@@ -228,7 +220,16 @@ const SixDegrees = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<s
 
   const nextPuzzle = () => startPuzzle(deal(streak));
 
-  if (!puzzle) return <p className="empty">Not enough linked league players to build a puzzle yet.</p>;
+  // Bring the scorecard into view when the round ends (it sits under the chain)
+  const resultRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (status === 'play') return;
+    const reduce = !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const id = window.setTimeout(() => resultRef.current?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }), reduce ? 0 : 450);
+    return () => window.clearTimeout(id);
+  }, [status]);
+
+  if (!puzzle) return <p className="arc-empty">Not enough linked league players to build a puzzle yet.</p>;
 
   const start = graph.byKey.get(puzzle.start)!;
   const target = graph.byKey.get(puzzle.target)!;
@@ -239,37 +240,59 @@ const SixDegrees = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<s
   const ovrOf = (p: GamePlayer) => ovrMap?.get(playerKey(p)) ?? null;
   const reachedTarget = chain[chain.length - 1] === puzzle.target;
 
+  const distOf = (key: string) => puzzle.distToTarget.get(key) ?? Infinity;
+  const trendOf = (from: string, to: string): Trend => (distOf(to) < distOf(from) ? 'closer' : distOf(to) > distOf(from) ? 'further' : 'level');
+  // Stroke card: one pip per stroke up to par (more when over par); links and hints are told apart
+  const pips = Array.from({ length: Math.max(par, total) }, (_, i) => (i < strokes ? 'pip-link' : i < total ? 'pip-hint' : 'pip-open'));
+  const linksLeft = maxLinks - (chain.length - 1);
+
   return (
-    <div>
-      <style>{CSS}</style>
+    <div className="sd">
       <Confetti fire={confetti} />
-      <LampRow className="mb-4">
-        <Lamp label="Streak" value={streak} live flicker={streak > 0 && !done} />
-        <Lamp label="Best" value={best} />
-        <Lamp label="Par" value={par} />
-        <Lamp label="Strokes" value={total} live />
-        <Lamp label="Hints" value={hints} />
-      </LampRow>
+      <HowToStrip
+        id="sixdeg"
+        accent="var(--sky)"
+        steps={[
+          <>Build a chain from the start player to the target, one linked player at a time.</>,
+          <>Players link through a shared club, era, family or lineage. Each chip tells you why.</>,
+          <>Every link and every hint is a stroke. Finish at or under par to keep the streak.</>,
+        ]}
+      />
 
-      <h3 className="question">
-        Link <b>{start.name}</b> to <b>{target.name}</b>
-      </h3>
-      <p className="hint" style={{ textAlign: 'center', margin: '-8px 0 16px' }}>
-        Shortest chain: {puzzle.shortest} links. Every link is a stroke and every hint costs one. Par is {par}.
-      </p>
-
-      <div className="sd-ends" key={puzzle.id}>
-        <GameBanner player={start} size={compact ? 'compact' : 'card'} ovr={ovrOf(start)} reveal eyebrow="Start" className="rise" />
-        <GameBanner
-          player={target}
-          size={compact ? 'compact' : 'card'}
-          ovr={ovrOf(target)}
-          reveal
-          eyebrow="Target"
-          className="rise"
-          style={{ animationDelay: '80ms' }}
-        />
-      </div>
+      <section className="sd-route" aria-label={`Link ${start.name} to ${target.name}`} key={puzzle.id}>
+        <div className="sd-route-ends">
+          <Token p={start} label="Start" ovr={ovrOf(start)} tone="start" className="rise" />
+          <span className="sd-route-arrow" aria-hidden="true">
+            <i />
+            <b>{puzzle.shortest}</b>
+            <span>links</span>
+          </span>
+          <Token p={target} label="Target" ovr={ovrOf(target)} tone="goal" className="rise" />
+        </div>
+        <div className="sd-card">
+          <div className="sd-card-k">
+            <span>
+              Par <b>{par}</b>
+            </span>
+            <span>
+              Strokes <b className={cn(total > par && 'flag')}>{total}</b>
+            </span>
+            <span>
+              Streak <b>{streak}</b>
+            </span>
+            <span>
+              Best <b>{best}</b>
+            </span>
+          </div>
+          <ol className="sd-pips" aria-label={`${total} of par ${par} strokes used${hints ? `, ${hints} on hints` : ''}`}>
+            {pips.map((k, i) => (
+              <li key={i} className={cn(k, i >= par && 'over')} aria-hidden="true">
+                {k === 'pip-hint' ? 'H' : ''}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
 
       <ol className="sd-chain" aria-label="Your chain">
         {chain.map((key, i) => {
@@ -279,57 +302,59 @@ const SixDegrees = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<s
           const isTail = i === chain.length - 1;
           return (
             <li key={key} className={cn('sd-node rise', isTail && !done && 'tail', key === puzzle.target && 'goal')}>
-              {edge && <LinkLine edge={edge} />}
+              {edge && <LinkLine edge={edge} trend={key === puzzle.target ? null : trendOf(chain[i - 1], key)} />}
               <span className="sr-only">
                 Step {i}: {p.name}
                 {edge ? `, linked by ${edge.reason}` : ', start'}
               </span>
-              <GameBanner player={p} size="compact" ovr={ovrOf(p)} reveal eyebrow={i === 0 ? 'Start' : `Link ${i}`} />
+              <GameBanner player={p} size="compact" ovr={ovrOf(p)} reveal eyebrow={i === 0 ? 'Start' : key === puzzle.target ? 'Target reached' : `Link ${i}`} />
             </li>
           );
         })}
 
         {!done && (
           <li className="sd-node">
-            <LinkLine pending label={`Link ${chain.length} of ${maxLinks} max`} />
+            <LinkLine pending label={`Link ${chain.length} · ${linksLeft} left`} />
             <div key={error?.n ?? 0} className={cn('sd-picker', error && 'shake')}>
-              <label className="px muted" style={{ fontSize: 11, textTransform: 'uppercase' }} id="sd-next-label">
-                Who links to {name(tail)}?
+              <label className="sd-picker-k" id="sd-next-label">
+                Who links to <b style={{ color: getTeamTextColor(bannerTeamOf(graph.byKey.get(tail)!)) ?? undefined }}>{name(tail)}</b>?
               </label>
-              <PlayerSearchSelect
-                players={pickable}
-                value={selection}
-                onValueChange={setSelection}
-                placeholder="Pick the next player..."
-                ariaLabel={`Next player linked to ${name(tail)}`}
-              />
+              <div className="sd-picker-row">
+                <div className="sd-picker-pick">
+                  <PlayerSearchSelect
+                    players={pickable}
+                    value={selection}
+                    onValueChange={setSelection}
+                    placeholder="Pick the next player..."
+                    ariaLabel={`Next player linked to ${name(tail)}`}
+                  />
+                </div>
+                <ArcadeButton tone="go" disabled={!selection} onClick={() => tryLink(selection)}>
+                  Link
+                </ArcadeButton>
+              </div>
               {error && (
-                <p className="sd-msg flag" role="alert" style={{ margin: 0 }}>
+                <p className="sd-msg flag" role="alert">
                   ✗ {error.msg}
                 </p>
               )}
               {hint && (
-                <p className="sd-msg" style={{ margin: 0 }}>
-                  <span className="px gold" style={{ fontSize: 10, textTransform: 'uppercase', marginRight: 6 }}>
-                    Hint
-                  </span>
+                <p className="sd-msg sd-hint">
+                  <span>Hint</span>
                   <b>{name(hint.key)}</b>
                   <span className="muted"> · {hint.edge.reason}</span>
                 </p>
               )}
               <div className="sd-actions">
-                <ArcadeButton tone="go" disabled={!selection} onClick={() => tryLink(selection)}>
-                  Link player
-                </ArcadeButton>
-                <ArcadeButton tone="sky" onClick={showHint} disabled={!hintOptions.length} title="Reveal a player one step closer (+1 stroke)">
-                  Hint +1
-                </ArcadeButton>
-                <ArcadeButton tone="ghost" onClick={undo} disabled={chain.length <= 1}>
+                <button type="button" className="sd-act act-hint" onClick={showHint} disabled={!hintOptions.length} title="Reveal a player one step closer (+1 stroke)">
+                  Hint <small>+1</small>
+                </button>
+                <button type="button" className="sd-act" onClick={undo} disabled={chain.length <= 1}>
                   Undo
-                </ArcadeButton>
-                <ArcadeButton tone="red" onClick={giveUp}>
+                </button>
+                <button type="button" className="sd-act quit" onClick={giveUp}>
                   Give up
-                </ArcadeButton>
+                </button>
               </div>
             </div>
           </li>
@@ -348,56 +373,50 @@ const SixDegrees = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<s
       </p>
 
       {done && (
-        <section className="result" role="status" aria-live="polite" style={{ display: 'block' }}>
+        <section ref={resultRef} className={cn('sd-result', status === 'won' && score ? `t-${score.tone}` : 't-flag')} role="status" aria-live="polite">
           {status === 'won' && score ? (
             <>
-              <div className={cn('disp pop', score.tone)} style={{ fontSize: 40 }}>
-                {score.label}!
+              <div className="sd-result-k px">Hole out</div>
+              <div className="sd-result-label">{score.label}!</div>
+              <div className="sd-result-n num">
+                <CountUp value={total} /> <span>{total === 1 ? 'stroke' : 'strokes'} · par {par}</span>
               </div>
-              <div className="verdict" style={{ marginTop: 6 }}>
-                {total} {total === 1 ? 'stroke' : 'strokes'} on a par {par}
-                {hints ? ` (${hints} ${hints === 1 ? 'hint' : 'hints'})` : ''}
-                {total <= par ? ` · streak ${streak}` : ' · streak reset'}
+              <div className="sd-result-sub">
+                {hints ? `${hints} ${hints === 1 ? 'hint' : 'hints'} · ` : ''}
+                {total <= par ? `Streak ${streak}` : 'Over par, streak reset'}
               </div>
             </>
           ) : (
             <>
-              <div className="disp pop flag" style={{ fontSize: 34 }}>
-                {status === 'out' ? `Out of links (${maxLinks} max)` : 'Gave up'}
-              </div>
-              <div className="verdict" style={{ marginTop: 6 }}>
-                Streak reset
-              </div>
+              <div className="sd-result-k px">No finish</div>
+              <div className="sd-result-label">{status === 'out' ? 'Out of links' : 'Gave up'}</div>
+              <div className="sd-result-sub">{status === 'out' ? `${maxLinks} links is the limit · streak reset` : 'Streak reset'}</div>
             </>
           )}
           {solution && (
             <>
-              <div className="px muted" style={{ fontSize: 11, marginTop: 14, textTransform: 'uppercase' }}>
+              <div className="sd-result-k px sd-sol-k">
                 {status === 'won' && chain.length - 1 === puzzle.shortest ? 'You found a shortest chain. Another one:' : `A shortest chain · ${puzzle.shortest} links`}
               </div>
-              <ol className="sd-path">
+              <ol className="sd-sol">
                 {solution.map((key, i) => {
+                  const p = graph.byKey.get(key);
                   const edge = i > 0 ? edgeBetween(graph, solution[i - 1], key) : null;
                   return (
                     <li key={key}>
                       {edge && (
-                        <span className="muted" style={{ fontSize: 13, paddingLeft: 22 }}>
-                          ↓ {edge.reason}
+                        <span className="sd-sol-why" style={{ '--lc': KIND_COLOR[edge.facts[0].kind] } as CSSProperties}>
+                          <em>{edge.reason}</em>
                         </span>
                       )}
-                      <span>
-                        <span className="px gold" style={{ fontSize: 11, display: 'inline-block', width: 22 }} aria-hidden="true">
-                          {i}
-                        </span>
-                        <b>{name(key)}</b>
-                      </span>
+                      {p && <Token p={p} label={i === 0 ? 'Start' : i === solution.length - 1 ? 'Target' : `Link ${i}`} ovr={ovrOf(p)} />}
                     </li>
                   );
                 })}
               </ol>
             </>
           )}
-          <ArcadeButton tone="go" onClick={nextPuzzle} autoFocus>
+          <ArcadeButton tone="go" wide onClick={nextPuzzle} autoFocus>
             Next puzzle
           </ArcadeButton>
         </section>

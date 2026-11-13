@@ -100,36 +100,3 @@ const GameBanner = ({
 };
 
 export default GameBanner;
-
-/** Board slot (Blind Rank, Keep 3/Cut 3): a banner with the slot marker and an optional result strip. */
-export const BoardCard = ({
-  player,
-  no,
-  ovr,
-  reveal = false,
-  meta,
-  children,
-  className,
-  delay,
-}: {
-  player: GamePlayer;
-  no: ReactNode;
-  ovr?: number | null;
-  reveal?: boolean;
-  meta?: ReactNode;
-  children?: ReactNode;
-  className?: string;
-  delay?: number;
-}) => (
-  <div className={cn('b5p', className)} style={{ animationDelay: delay != null ? `${delay}s` : undefined }}>
-    <GameBanner player={player} ovr={ovr} reveal={reveal} />
-    {/* Slot marker sits in the strip, not on the banner, so a revealed legend's photo credit never covers it */}
-    <div className="b5p-foot">
-      <span className="b5p-no" aria-hidden="true">
-        {no}
-      </span>
-      {meta && <span className="b5p-meta">{meta}</span>}
-      {children}
-    </div>
-  </div>
-);

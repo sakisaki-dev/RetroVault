@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { Clock, Radar, Search, Sparkles, Star } from 'lucide-react';
+import InLeague from '@/components/InLeague';
 import type { Player, Position } from '@/types/player';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
@@ -89,6 +90,7 @@ const ResultRow = ({ player, number, ovr, grade }: { player: Player; number: num
           {first && <span className="qs-sub truncate font-pixel text-[9px] uppercase">{first}</span>}
           {hof && <Star className="qs-star h-3 w-3 shrink-0 fill-current" aria-label="Hall of Famer" />}
           {player.isRealLegend && <span className="qs-nfl shrink-0 rounded px-1 py-px font-pixel text-[8px]">NFL</span>}
+          <InLeague player={player} />
         </span>
         <span className="qs-name mt-1 max-w-full truncate font-display text-xl font-extrabold uppercase italic tracking-wide">{last}</span>
         {player.nickname && <span className="qs-sub mt-0.5 max-w-full truncate text-[11px] italic">"{player.nickname}"</span>}

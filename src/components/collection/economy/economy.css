@@ -1,0 +1,626 @@
+/*
+ * Collection economy (src/utils/economy.ts): the Exchange section (shop, sets, trade-up, bounties, milestones), the sell
+ * panel in the card detail, the bulk sale dialog, binder skins and pack-opening themes. Navy panels, gold for coins,
+ * pixel kickers, team colours on sets. Motion only behind prefers-reduced-motion: no-preference.
+ */
+
+.ec {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid hsl(var(--line));
+  border-top: 2px solid hsl(var(--gold) / 0.5);
+  background:
+    radial-gradient(ellipse at 100% 0%, hsl(var(--gold) / 0.12), transparent 45%),
+    radial-gradient(ellipse at 0% 100%, hsl(var(--sky) / 0.07), transparent 50%),
+    linear-gradient(165deg, hsl(226 40% 12%), hsl(228 47% 7%));
+  padding: 16px;
+}
+@media (min-width: 640px) {
+  .ec { padding: 24px; }
+}
+.ec__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+}
+.ec-kicker {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Coin balance: a gold coin stack */
+.ec-balance {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 4px 14px 4px 6px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--gold) / 0.45);
+  background: linear-gradient(180deg, hsl(43 60% 14% / 0.8), hsl(228 47% 6% / 0.85));
+  box-shadow: inset 0 1px 0 hsl(48 100% 80% / 0.15), 0 6px 20px -10px hsl(43 100% 50% / 0.6);
+}
+.ec-coin {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: #4a3204;
+  background: radial-gradient(circle at 35% 30%, #fff3b8, #f2c14a 45%, #a8781b);
+  box-shadow: inset 0 0 0 2px hsl(43 90% 40% / 0.6), 0 2px 0 #6e4d0c;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+}
+.ec-coin::after {
+  content: '';
+  width: 56%;
+  height: 56%;
+  border-radius: 50%;
+  border: 1.5px solid hsl(40 85% 32% / 0.55);
+}
+.ec-coin--sm { width: 18px; height: 18px; font-size: 8px; box-shadow: inset 0 0 0 1.5px hsl(43 90% 40% / 0.6), 0 1px 0 #6e4d0c; }
+.ec-balance__n {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ec-balance__n.is-bump { animation: ec-bump 0.5s var(--ease-spring); }
+}
+@keyframes ec-bump {
+  0% { transform: scale(1); color: hsl(var(--gold)); }
+  40% { transform: scale(1.18); color: hsl(var(--gold)); }
+  100% { transform: scale(1); }
+}
+
+/* Tabs: a scoreboard strip, scrolls sideways on a phone */
+.ec-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 14px -16px 0;
+  padding: 0 16px 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ec-tabs::-webkit-scrollbar { display: none; }
+@media (min-width: 640px) {
+  .ec-tabs { margin: 16px 0 0; padding: 0; flex-wrap: wrap; }
+}
+.ec-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(228 47% 6% / 0.6);
+  font-size: 13px;
+  font-weight: 700;
+  color: hsl(var(--muted-foreground));
+  transition: color var(--dur-2) ease, border-color var(--dur-2) ease, background var(--dur-2) ease;
+}
+.ec-tab:hover { color: hsl(var(--chalk)); }
+.ec-tab[aria-selected='true'] {
+  color: hsl(var(--chalk));
+  border-color: hsl(var(--gold) / 0.7);
+  background: linear-gradient(180deg, hsl(43 70% 20% / 0.55), hsl(228 47% 6% / 0.7));
+  box-shadow: inset 0 -2px 0 hsl(var(--gold));
+}
+.ec-tab__dot {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: hsl(var(--gold));
+  color: hsl(var(--primary-foreground));
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 18px;
+  text-align: center;
+}
+.ec-panel { margin-top: 16px; }
+
+/* Buttons */
+.ec-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  white-space: nowrap;
+  transition: transform var(--dur-2) var(--ease-spring), filter var(--dur-2) ease, border-color var(--dur-2) ease;
+}
+.ec-btn:active:not(:disabled) { transform: scale(0.97); }
+.ec-btn:disabled { cursor: not-allowed; filter: grayscale(0.8) brightness(0.65); }
+.ec-btn--gold {
+  color: #2a1c02;
+  background: linear-gradient(135deg, #a8781b, #fff0a8 45%, #e2b549);
+  box-shadow: 0 8px 22px -10px hsl(45 100% 50% / 0.8), inset 0 0 0 1px hsl(50 100% 90% / 0.6);
+}
+.ec-btn--gold:hover:not(:disabled) { filter: brightness(1.07); }
+.ec-btn--sell {
+  color: hsl(var(--chalk));
+  border: 1px solid hsl(var(--gold) / 0.6);
+  background: hsl(43 60% 14% / 0.6);
+}
+.ec-btn--sell:hover { border-color: hsl(var(--gold)); }
+.ec-btn--danger {
+  color: #fff;
+  background: linear-gradient(180deg, hsl(354 80% 52%), hsl(354 75% 40%));
+  box-shadow: inset 0 0 0 1px hsl(354 100% 80% / 0.4);
+}
+.ec-btn--ghost {
+  border: 1px solid hsl(var(--line));
+  background: hsl(228 47% 6% / 0.6);
+  color: hsl(var(--chalk));
+}
+.ec-btn--ghost:hover { border-color: hsl(0 0% 100% / 0.4); }
+.ec-btn--sm { min-height: 36px; padding: 0 12px; font-size: 13px; border-radius: 10px; }
+
+/* Sell panel (card detail) */
+.ec-sell {
+  border-radius: 14px;
+  border: 1px solid hsl(var(--gold) / 0.3);
+  background: linear-gradient(160deg, hsl(43 50% 12% / 0.45), hsl(228 47% 6% / 0.6));
+  padding: 12px 14px;
+}
+.ec-sell.is-confirm { border-color: hsl(var(--flag) / 0.6); }
+.ec-sell__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  margin-bottom: 4px;
+}
+.ec-sell__pay { display: inline-flex; align-items: center; gap: 6px; }
+.ec-confirm {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid hsl(var(--flag) / 0.55);
+  background: hsl(354 70% 20% / 0.35);
+}
+
+/* Shop */
+.ec-shop {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+@media (min-width: 900px) {
+  .ec-shop { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+}
+.ec-shop__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 10px 12px;
+  border-radius: 16px;
+  border: 1px solid hsl(var(--line));
+  background:
+    radial-gradient(ellipse at 50% 0%, hsl(var(--gold) / 0.1), transparent 60%),
+    hsl(228 47% 6% / 0.55);
+  text-align: center;
+}
+.ec-shop__item .pk-pack {
+  width: 92px;
+  height: 132px;
+  border-radius: 8px;
+  pointer-events: none;
+  animation: none;
+  transform: rotateY(-14deg) rotateX(4deg);
+  transition: transform var(--dur-3) var(--ease-spring);
+}
+.ec-shop__item:hover .pk-pack { transform: rotateY(0) translateY(-4px) scale(1.04); }
+.ec-shop__item .pk-pack__title { font-size: 15px; }
+.ec-shop__item .pk-pack__title--big { font-size: 26px; }
+.ec-shop__item .pk-pack__sub { font-size: 7px; }
+.ec-shop__item .pk-pack__label { gap: 3px; padding: 12px 6px; }
+.ec-shop__item .pk-pack__crimp { height: 9px; }
+.ec-shop__item .pk-pack__tear { top: 20px; }
+.ec-shop__price {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.ec-shop__item .ec-btn { width: 100%; }
+
+/* Sets */
+.ec-filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.ec-sets {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+@media (min-width: 700px) {
+  .ec-sets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1100px) {
+  .ec-sets { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.ec-set {
+  --t1: var(--gold);
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid hsl(var(--line));
+  background:
+    linear-gradient(100deg, hsl(var(--t1) / 0.22), transparent 55%),
+    hsl(228 47% 6% / 0.65);
+  padding: 12px 12px 12px 16px;
+}
+.ec-set::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: linear-gradient(180deg, hsl(var(--t1)), hsl(var(--t2, var(--t1))));
+}
+.ec-set.is-ready {
+  border-color: hsl(var(--gold) / 0.8);
+  box-shadow: 0 0 0 1px hsl(var(--gold) / 0.5), 0 10px 30px -14px hsl(var(--gold) / 0.8);
+}
+.ec-set.is-claimed { opacity: 0.78; }
+.ec-set__logo {
+  position: absolute;
+  right: -14px;
+  top: -10px;
+  opacity: 0.13;
+  pointer-events: none;
+}
+.ec-set__title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+.ec-bar {
+  display: block;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: hsl(0 0% 0% / 0.45);
+}
+.ec-bar > i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, hsl(var(--gold) / 0.7), hsl(var(--gold)));
+  transition: width var(--dur-4) var(--ease-out);
+}
+.ec-reward {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--gold) / 0.35);
+  background: hsl(0 0% 0% / 0.3);
+  font-size: 11px;
+  font-weight: 700;
+}
+.ec-members { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.ec-member {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 28px;
+  padding: 0 8px;
+  border-radius: 8px;
+  border: 1px solid hsl(var(--line));
+  font-size: 11px;
+  font-weight: 600;
+  color: hsl(var(--muted-foreground));
+}
+.ec-member.is-owned { color: hsl(var(--chalk)); border-color: hsl(var(--turf) / 0.55); }
+.ec-member i { width: 6px; height: 6px; border-radius: 50%; background: hsl(var(--line)); }
+.ec-member.is-owned i { background: hsl(var(--turf)); }
+.ec-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 1.5px solid hsl(var(--turf) / 0.8);
+  color: hsl(var(--turf));
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+}
+
+/* Copy rows (trade-up, bounties, bulk sale) */
+.ec-copies { display: grid; gap: 6px; }
+.ec-copy {
+  --t1: var(--line);
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  padding: 6px 10px 6px 14px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(228 47% 6% / 0.6);
+  text-align: left;
+  transition: border-color var(--dur-2) ease, background var(--dur-2) ease;
+}
+.ec-copy::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: hsl(var(--t1));
+}
+.ec-copy:hover { border-color: hsl(0 0% 100% / 0.3); }
+.ec-copy[aria-pressed='true'] {
+  border-color: hsl(var(--gold));
+  background: linear-gradient(90deg, hsl(43 60% 16% / 0.6), hsl(228 47% 6% / 0.6));
+}
+.ec-check {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1.5px solid hsl(var(--line));
+  color: transparent;
+}
+.ec-copy[aria-pressed='true'] .ec-check { border-color: hsl(var(--gold)); background: hsl(var(--gold)); color: hsl(var(--primary-foreground)); }
+.ec-copy__name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; font-size: 14px; }
+.ec-copy__tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.ec-copy__meta { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; color: hsl(var(--muted-foreground)); }
+.ec-copy__price { text-align: right; font-family: var(--font-mono); font-size: 12px; font-variant-numeric: tabular-nums; }
+.ec-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+}
+.ec-badge--spare { background: hsl(var(--turf) / 0.18); color: hsl(var(--turf)); }
+.ec-badge--last { background: hsl(var(--flag) / 0.18); color: hsl(var(--flag)); }
+.ec-badge--tier-common { background: hsl(22 45% 48% / 0.2); color: hsl(22 60% 66%); }
+.ec-badge--tier-rare { background: hsl(208 45% 55% / 0.2); color: hsl(208 70% 72%); }
+.ec-badge--tier-epic { background: hsl(268 60% 62% / 0.2); color: hsl(268 80% 78%); }
+.ec-badge--tier-legendary { background: hsl(22 90% 55% / 0.2); color: hsl(28 100% 66%); }
+.ec-warn {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid hsl(var(--flag) / 0.55);
+  background: hsl(354 70% 20% / 0.3);
+  font-size: 13px;
+}
+
+/* Trade-up: five slots feeding one card */
+.ec-slots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ec-slot {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 54px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1.5px dashed hsl(var(--line));
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: hsl(var(--muted-foreground));
+}
+.ec-slot.is-full {
+  border-style: solid;
+  border-color: hsl(var(--t1, var(--gold)));
+  background: linear-gradient(160deg, hsl(var(--t1, var(--gold)) / 0.4), hsl(228 47% 6%));
+  color: hsl(var(--chalk));
+}
+.ec-slot--out {
+  width: 50px;
+  height: 66px;
+  border-style: solid;
+  border-color: hsl(var(--gold) / 0.7);
+  background: radial-gradient(circle at 50% 30%, hsl(var(--gold) / 0.35), hsl(228 47% 6%));
+  color: hsl(var(--gold));
+}
+.ec-result {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid hsl(var(--gold) / 0.5);
+  background: radial-gradient(ellipse at 50% 20%, hsl(var(--gold) / 0.18), transparent 60%), hsl(228 47% 5% / 0.7);
+}
+.ec-result__card { width: min(210px, 62vw); }
+
+/* Bounties: wanted posters */
+.ec-bounties { display: grid; gap: 10px; }
+@media (min-width: 900px) {
+  .ec-bounties { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.ec-bounty {
+  position: relative;
+  border-radius: 14px;
+  border: 1px solid hsl(38 50% 45% / 0.55);
+  background:
+    repeating-linear-gradient(0deg, hsl(0 0% 100% / 0.02) 0 2px, transparent 2px 4px),
+    linear-gradient(170deg, hsl(36 35% 16%), hsl(228 47% 7%) 70%);
+  padding: 12px 14px;
+}
+.ec-bounty.is-done { border-color: hsl(var(--turf) / 0.6); }
+.ec-bounty__wanted {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: hsl(38 80% 62%);
+}
+.ec-bounty__title { margin-top: 4px; font-family: var(--font-display); font-size: 21px; font-weight: 800; line-height: 1.05; }
+
+/* Milestones: a ladder */
+.ec-ladder { display: grid; gap: 8px; }
+.ec-rung {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(228 47% 6% / 0.6);
+}
+.ec-rung.is-open { border-color: hsl(var(--gold) / 0.55); }
+.ec-swatch {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  border: 1px solid hsl(0 0% 100% / 0.15);
+  overflow: hidden;
+}
+.ec-rung:not(.is-open) .ec-swatch { filter: saturate(0.35) brightness(0.6); }
+.ec-swatch--turf { background: repeating-linear-gradient(90deg, hsl(140 45% 26%) 0 9px, hsl(140 40% 21%) 9px 18px); box-shadow: inset 0 0 0 2px hsl(0 0% 100% / 0.4); }
+.ec-swatch--gold-leaf { background: linear-gradient(135deg, #a8781b, #fff0a8 30%, hsl(226 45% 14%) 31%, hsl(226 45% 10%)); }
+.ec-swatch--marble { background: radial-gradient(ellipse at 30% 30%, #ffffff, #e7e3dc 40%, #cfc8bb), linear-gradient(120deg, transparent 45%, hsl(30 10% 60% / 0.5) 48%, transparent 52%); background-blend-mode: multiply; }
+.ec-swatch--floodlights { background: radial-gradient(circle at 25% 15%, #fff 0 3px, transparent 4px), radial-gradient(circle at 75% 15%, #fff 0 3px, transparent 4px), conic-gradient(from 160deg at 25% 15%, transparent, hsl(55 100% 90% / 0.5) 10deg, transparent 20deg), linear-gradient(180deg, hsl(228 50% 10%), hsl(147 50% 18%)); }
+.ec-swatch--gold-rush { background: radial-gradient(circle at 20% 30%, #ffe680 0 2px, transparent 3px), radial-gradient(circle at 60% 60%, #ffe680 0 2px, transparent 3px), radial-gradient(circle at 80% 20%, #fff2b0 0 1.5px, transparent 2.5px), linear-gradient(160deg, #5a3b05, #c99a2e 50%, #3b2603); }
+.ec-meter {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  background: hsl(0 0% 0% / 0.45);
+  overflow: hidden;
+}
+.ec-meter > i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, hsl(var(--gold) / 0.6), hsl(var(--gold)));
+}
+
+/* Recent coins */
+.ec-log { margin-top: 16px; border-top: 1px solid hsl(var(--line) / 0.6); padding-top: 10px; }
+.ec-log summary { cursor: pointer; list-style: none; }
+.ec-log summary::-webkit-details-marker { display: none; }
+.ec-log li { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; font-size: 12px; border-bottom: 1px solid hsl(var(--line) / 0.3); }
+
+/* ---------- Binder skins (portfolio milestones) ---------- */
+.ec-skin {
+  border-radius: 20px;
+  padding: 14px;
+  margin-inline: -4px;
+}
+@media (min-width: 640px) {
+  .ec-skin { padding: 20px; margin-inline: 0; }
+}
+.ec-skin--turf {
+  background:
+    repeating-linear-gradient(90deg, hsl(0 0% 100% / 0.07) 0 2px, transparent 2px 25%),
+    repeating-linear-gradient(0deg, hsl(140 42% 17%) 0 44px, hsl(140 38% 14%) 44px 88px);
+  box-shadow: inset 0 0 0 3px hsl(0 0% 100% / 0.12), inset 0 0 60px hsl(0 0% 0% / 0.35);
+}
+.ec-skin--gold-leaf {
+  background:
+    radial-gradient(ellipse at 50% 0%, hsl(43 80% 50% / 0.12), transparent 60%),
+    repeating-linear-gradient(45deg, hsl(0 0% 100% / 0.015) 0 3px, transparent 3px 7px),
+    linear-gradient(180deg, hsl(226 45% 12%), hsl(228 50% 7%));
+  border: 2px solid transparent;
+  border-image: linear-gradient(135deg, #a8781b, #fff0a8 35%, #e2b549 60%, #7a5410) 1;
+  box-shadow: inset 0 0 40px hsl(0 0% 0% / 0.5);
+}
+.ec-skin--marble {
+  background:
+    linear-gradient(115deg, transparent 40%, hsl(30 10% 55% / 0.18) 42%, transparent 46%),
+    linear-gradient(35deg, transparent 60%, hsl(30 10% 50% / 0.14) 61%, transparent 64%),
+    radial-gradient(ellipse at 30% 20%, #f7f4ee, #e3ddd2 55%, #cdc5b6);
+  box-shadow: inset 0 0 0 3px #b8925a, inset 0 0 0 5px #f0d9a8;
+}
+/* The binder header (title and count) sits on the marble itself: dark ink there; chips and tiles keep their own panels */
+.ec-skin--marble > div:first-child > .section-title,
+.ec-skin--marble > div:first-child > span { color: #2b2418; }
+
+/* ---------- Pack-opening themes (portfolio milestones), on .pk-dialog ---------- */
+.pk-theme--floodlights {
+  background:
+    conic-gradient(from 150deg at 8% -4%, transparent, hsl(55 100% 92% / 0.16) 12deg, transparent 26deg),
+    conic-gradient(from 184deg at 92% -4%, transparent, hsl(55 100% 92% / 0.16) 12deg, transparent 26deg),
+    radial-gradient(ellipse at 50% 120%, hsl(147 60% 22% / 0.7), transparent 60%),
+    hsl(var(--night)) !important;
+}
+.pk-theme--gold-rush {
+  background:
+    radial-gradient(ellipse at 50% -10%, hsl(43 100% 55% / 0.3), transparent 55%),
+    radial-gradient(circle at 12% 30%, hsl(48 100% 75% / 0.5) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 82% 22%, hsl(48 100% 75% / 0.5) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 64% 70%, hsl(48 100% 75% / 0.4) 0 1.5px, transparent 2.5px),
+    linear-gradient(180deg, hsl(36 45% 12%), hsl(var(--night)) 70%) !important;
+  border-color: hsl(var(--gold) / 0.6) !important;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pk-theme--gold-rush::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle, hsl(48 100% 70% / 0.8) 0 1.5px, transparent 2px) 0 0 / 90px 120px,
+      radial-gradient(circle, hsl(40 100% 60% / 0.6) 0 1px, transparent 1.5px) 40px 30px / 70px 100px;
+    animation: ec-gold-fall 9s linear infinite;
+    opacity: 0.55;
+  }
+  @keyframes ec-gold-fall {
+    from { background-position: 0 0, 40px 30px; }
+    to { background-position: 0 600px, 40px 830px; }
+  }
+}
+
+.ec-pop { animation: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .ec-pop { animation: ec-pop 0.6s var(--ease-spring) both; }
+  @keyframes ec-pop {
+    0% { opacity: 0; transform: translateY(18px) scale(0.85); }
+    100% { opacity: 1; transform: none; }
+  }
+}
+
+/* Binder header: "Sell duplicates" sits right after "Swipe" (both pushed right as a pair) */
+.col-swipe-btn + .ec-dupes-btn { margin-left: 0; }
+@media (min-width: 900px) {
+  .ec-copies { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ec-bounty .ec-copies { grid-template-columns: minmax(0, 1fr); }
+}
+.ec-skin--marble .col-swipe-btn { background: #2b2418; border-color: #b8925a; color: #f2d58a; }
+.ec-skin--marble .col-swipe-btn:hover { background: #3d3324; }

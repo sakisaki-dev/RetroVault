@@ -69,6 +69,8 @@ interface PackOpeningProps {
   provenance?: string;
   /** Preview mode (Card designs): labelled as a preview, nothing is added */
   preview?: boolean;
+  /** Pack-opening theme unlocked by a portfolio milestone (utils/economy.ts MILESTONES): adds pk-theme--<id> */
+  theme?: string;
 }
 
 /**
@@ -166,7 +168,7 @@ const SPARKLES = Array.from({ length: 12 }, (_, i) => [10 + ((i * 41) % 80), 18 
  * to the summary (the cards fade in), with a short walkout first for a Legendary or Holo. Animations are transform /
  * opacity only. Presentation only: odds and stored cards are untouched.
  */
-const PackOpening = ({ type, onClose, onTear, describe, total, remaining, provenance, preview = false }: PackOpeningProps) => {
+const PackOpening = ({ type, onClose, onTear, describe, total, remaining, provenance, preview = false, theme }: PackOpeningProps) => {
   const [phase, setPhase] = useState<Phase>('sealed');
   const { attach: attachSamples } = useSampleAutos();
   const [pack, setPack] = useState<PackCard[]>([]);
@@ -502,6 +504,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
           walk ? 'h-[100dvh] max-h-[100dvh] max-w-none overflow-hidden border-0 sm:rounded-none' : 'max-h-[calc(var(--safe-h)-1rem)] min-h-[min(620px,calc(var(--safe-h)-1rem))] max-w-5xl overflow-y-auto overflow-x-hidden',
           `pk-dialog--${t}`,
           `pk-phase--${phase}`,
+          theme && `pk-theme--${theme}`,
           reduced && 'pk-rm',
         )}
         onKeyDown={onKey}

@@ -8,6 +8,7 @@ import {
   type CompFeature,
 } from '@/config/advanced';
 import { isLegend } from './gameUtils';
+import { bannerTeamOf } from '@/utils/playerExtras';
 import { overallFor, positionBaseline, type Overall } from '@/config/skillGrades';
 
 // Grading lives in config/skillGrades.ts (shared with the Player Deep Dive); re-exported for the game.
@@ -62,6 +63,58 @@ export const spin = (pool: Player[], position: Position, slots: (Slot | null)[],
   return cand.length ? cand[Math.floor(rand() * cand.length)] : null;
 };
 
+
+/** The club a spin lands on for a player: the club he is shown with everywhere (his banner team). */
+export const clubOf = (p: Player): string => bannerTeamOf(p) || 'Free agents';
+
+const usefulFor = (position: Position, slots: (Slot | null)[]) => {
+  const feats = compFeatures(position);
+  return (p: Player) => feats.some((f, i) => !slots[i] && Number.isFinite(f.get(p)));
+};
+
+/**
+ * Two-reel spin: first a club (any club with at least one eligible player: not landed on yet this game, with data
+ * for an open slot), then one of that club's eligible players. Same pool and the same "not seen yet" history as
+ * spin(); once everyone has come up, every useful player is eligible again.
+ */
+export const spinClub = (
+  pool: Player[],
+  position: Position,
+  slots: (Slot | null)[],
+  seen: Set<Player>,
+  rand: () => number = Math.random,
+): { club: string; player: Player } | null => {
+  const useful = usefulFor(position, slots);
+  let cand = pool.filter((p) => !seen.has(p) && useful(p));
+  if (!cand.length) cand = pool.filter(useful);
+  if (!cand.length) return null;
+  // The club reel is weighted by how many eligible players each club has (the same as drawing the player and showing
+  // his club), so every player is as likely as before the club reel; a uniform club draw over-picked thin clubs
+  const player = cand[Math.floor(rand() * cand.length)];
+  return { club: clubOf(player), player };
+};
+
+/** Team respin candidates: the club's other players at the position with data for an open slot. */
+export const clubAlternatives = (pool: Player[], position: Position, slots: (Slot | null)[], club: string, current: Player) => {
+  const useful = usefulFor(position, slots);
+  return pool.filter((p) => p !== current && clubOf(p) === club && useful(p));
+};
+
+/** Team respin: keep the club, reroll the player (players not landed on yet first). */
+export const spinInClub = (
+  pool: Player[],
+  position: Position,
+  slots: (Slot | null)[],
+  seen: Set<Player>,
+  club: string,
+  current: Player,
+  rand: () => number = Math.random,
+): Player | null => {
+  const alts = clubAlternatives(pool, position, slots, club, current);
+  const fresh = alts.filter((p) => !seen.has(p));
+  const cand = fresh.length ? fresh : alts;
+  return cand.length ? cand[Math.floor(rand() * cand.length)] : null;
+};
 
 export interface BuildResult {
   position: Position;

@@ -1,0 +1,111 @@
+/* Who's the Imposter?: a police lineup of six team-coloured suspects, a spotlight, and an unmasking. */
+.arcade .imp-stage { scroll-margin-top: 110px; }
+
+/* Case file header */
+.arcade .imp-case { position: relative; margin: 0 0 10px; padding: 12px 14px; border-radius: 12px; background: linear-gradient(100deg, #2a1d05, #141b30 55%); box-shadow: inset 0 0 0 2px #4a3a12, 0 8px 20px #0006; }
+.arcade .imp-case.won { background: linear-gradient(100deg, #0b3a22, #141b30 60%); box-shadow: inset 0 0 0 2px var(--turf), 0 0 24px #27b36a33; }
+.arcade .imp-case.lost { background: linear-gradient(100deg, #3d0d15, #141b30 60%); box-shadow: inset 0 0 0 2px var(--flag), 0 0 24px #ff4f6133; }
+.arcade .imp-case-no { display: block; font-family: var(--f-pixel); font-size: 10px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+.arcade .imp-case-q { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(20px, 5.4vw, 28px); line-height: 1.08; color: var(--chalk); text-wrap: balance; }
+.arcade .imp-case-q b { color: #ff6fa8; font-weight: 800; text-transform: uppercase; }
+.arcade .imp-case-q.revealed { color: var(--gold); font-weight: 800; animation: imp-type 0.5s ease both; }
+.arcade .imp-case-q.revealed span { display: block; font-family: var(--f-pixel); font-weight: 400; font-size: 10px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+@keyframes imp-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* The lineup wall: height-chart lines and a light from above */
+.arcade .imp-lineup {
+  list-style: none; margin: 0; padding: 14px 10px 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; border-radius: 14px;
+  background:
+    radial-gradient(70% 60% at 50% -10%, #fff4cf22, transparent 70%),
+    repeating-linear-gradient(180deg, transparent 0 27px, #ffffff10 27px 28px),
+    linear-gradient(#1a2038, #0b0f1e);
+  box-shadow: inset 0 0 0 2px #232c48, 0 14px 30px #0008;
+}
+@media (min-width: 640px) { .arcade .imp-lineup { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding: 18px 14px 16px; } }
+@media (min-width: 1180px) { .arcade .imp-lineup { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+
+.arcade .imp-suspect { position: relative; min-width: 0; display: flex; flex-direction: column; gap: 6px; animation: imp-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes imp-in { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.arcade .imp-card {
+  position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; gap: 3px; width: 100%; min-height: 172px; padding: 10px; border: 0; border-radius: 12px; text-align: left; color: #fff;
+  background:
+    linear-gradient(180deg, transparent 38%, #000c 86%),
+    linear-gradient(118deg, transparent 0 58%, var(--c2) 58% 62%, transparent 62%),
+    radial-gradient(110% 80% at 50% 0%, #ffffff33, transparent 60%),
+    linear-gradient(170deg, var(--c1), color-mix(in srgb, var(--c1) 50%, #05070f));
+  box-shadow: 0 0 0 2px #000, inset 0 1px 0 #ffffff33, 0 8px 18px #0008;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s, filter 0.25s, opacity 0.25s;
+}
+@media (min-width: 640px) { .arcade .imp-card { min-height: 220px; padding: 12px; } }
+.arcade .imp-card::before { content: ''; position: absolute; z-index: -1; inset: 0; background: repeating-linear-gradient(0deg, #0000 0 3px, #0000001a 3px 4px); }
+.arcade .imp-card:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 0 0 2px #000, 0 0 0 4px #ffffff55, 0 14px 26px #000a; }
+.arcade .imp-card:disabled { cursor: default; opacity: 1; }
+.arcade .imp-placard { position: absolute; left: 8px; top: 8px; display: grid; place-items: center; min-width: 26px; height: 26px; padding: 0 6px; border-radius: 4px; background: #000; color: var(--gold); font-family: var(--f-pixel); font-size: 13px; box-shadow: 0 0 0 1px #ffffff33; }
+.arcade .imp-logo { position: absolute; z-index: -1; right: -14px; top: 30px; width: 96px; height: 96px; object-fit: contain; opacity: 0.9; filter: drop-shadow(2px 3px 0 #0006); }
+.arcade .imp-num { position: absolute; z-index: -1; left: 6px; top: 30px; font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: 76px; line-height: 1; color: transparent; -webkit-text-stroke: 2px color-mix(in srgb, var(--c2) 75%, #fff); opacity: 0.6; }
+@media (min-width: 640px) { .arcade .imp-num { font-size: 96px; } .arcade .imp-logo { width: 120px; height: 120px; } }
+.arcade .imp-name { display: flex; flex-direction: column; min-width: 0; }
+.arcade .imp-name small { font-family: var(--f-pixel); font-size: 9px; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arcade .imp-name > span { font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: clamp(21px, 6vw, 27px); line-height: 0.92; text-transform: uppercase; text-shadow: 2px 2px 0 #000a; overflow-wrap: anywhere; }
+.arcade .imp-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; font-family: var(--f-pixel); font-size: 9px; text-transform: uppercase; }
+.arcade .imp-meta b { font-weight: 400; background: #000b; padding: 3px 5px; border-radius: 3px; }
+.arcade .imp-ovr { font-style: normal; font-family: var(--f-display); font-weight: 800; font-size: 15px; line-height: 1; color: #1a1300; background: linear-gradient(160deg, #ffe08a, #ffc83d 50%, #c58b00); padding: 2px 5px; border-radius: 4px; }
+.arcade .imp-tag { font-style: normal; color: var(--sky); background: #000b; padding: 3px 5px; border-radius: 3px; }
+.arcade .imp-tag.hof { color: var(--gold); }
+
+.arcade .imp-scout { position: absolute; z-index: 4; right: 6px; top: 6px; display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 8px; background: #000a; color: #fff; box-shadow: 0 0 0 1px #ffffff40; transition: background 0.15s, color 0.15s; }
+.arcade .imp-scout:hover { background: #000; color: var(--gold); }
+
+/* Spotlight on a suspect */
+.arcade .imp-lineup.has-suspect .imp-suspect:not(.lit) .imp-card { filter: brightness(0.62) saturate(0.8); }
+.arcade .imp-suspect.lit .imp-card { transform: translateY(-6px) scale(1.02); box-shadow: 0 0 0 2px #000, 0 0 0 5px #ff6fa8, 0 0 34px #ff6fa877, 0 18px 30px #000a; }
+.arcade .imp-suspect.lit::before { content: ''; position: absolute; z-index: -1; left: -10%; right: -10%; top: -40px; height: 90%; background: radial-gradient(50% 70% at 50% 0%, #fff4cf40, transparent 70%); pointer-events: none; }
+.arcade .imp-accuse-hint { position: absolute; left: 0; right: 0; top: 40%; text-align: center; font-family: var(--f-pixel); font-size: 10px; text-transform: uppercase; color: #fff; text-shadow: 0 0 6px #000, 0 0 2px #000; animation: rk-pulse 0.9s ease-in-out infinite alternate; }
+
+/* Accuse bar */
+.arcade .imp-action { position: sticky; bottom: calc(76px + env(safe-area-inset-bottom, 0px)); z-index: 5; margin-top: 12px; }
+@media (min-width: 900px) { .arcade .imp-action { position: static; } }
+.arcade .imp-accuse { width: 100%; min-height: 58px; padding: 10px 16px; border: 0; border-radius: 12px; font-family: var(--f-display); font-weight: 800; font-size: clamp(22px, 6vw, 28px); text-transform: uppercase; line-height: 1; color: var(--muted); background: #141b30; box-shadow: 0 0 0 2px #2b3760, 0 10px 24px #000a; transition: transform 0.1s, filter 0.15s; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.arcade .imp-accuse.ready { color: #fff; background: linear-gradient(#ff8bbb, #ff6fa8 50%, #e2508c); box-shadow: 0 5px 0 #8a2052, 0 12px 26px #000a, inset 0 2px 0 #ffffff55; text-shadow: 2px 2px 0 #0006; }
+.arcade .imp-accuse.ready:hover { filter: brightness(1.08); }
+.arcade .imp-accuse.ready:active { transform: translateY(3px); box-shadow: 0 2px 0 #8a2052; }
+.arcade .imp-accuse:disabled { cursor: default; }
+.arcade .imp-accuse-name { font-style: italic; }
+
+/* Reveal */
+.arcade .imp-lineup.is-revealed .imp-suspect.is-fit .imp-card { filter: saturate(0.55) brightness(0.8); box-shadow: 0 0 0 2px #000, 0 0 0 4px var(--turf); }
+.arcade .imp-lineup.is-revealed .imp-suspect.is-imp .imp-card { transform: translateY(-6px) scale(1.04); box-shadow: 0 0 0 2px #000, 0 0 0 5px var(--flag), 0 0 40px #ff4f6199, 0 18px 30px #000a; animation: imp-unmask 0.6s ease both; }
+@keyframes imp-unmask { 0% { filter: brightness(3) saturate(0); } 100% { filter: none; } }
+.arcade .imp-stamp { position: absolute; z-index: 3; left: 50%; top: 34%; font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: clamp(22px, 6vw, 30px); line-height: 1; text-transform: uppercase; padding: 3px 10px; border: 3px solid currentColor; border-radius: 6px; background: #000d; transform: translate(-50%, -50%) rotate(-10deg); animation: imp-stamp 0.32s cubic-bezier(0.3, 1.5, 0.5, 1) both; }
+.arcade .imp-stamp.good { color: var(--turf); font-size: 18px; border-width: 2px; }
+.arcade .imp-stamp.bad { color: var(--flag); }
+@keyframes imp-stamp { from { transform: translate(-50%, -50%) rotate(-10deg) scale(2.4); opacity: 0; } to { transform: translate(-50%, -50%) rotate(-10deg) scale(1); opacity: 1; } }
+.arcade .imp-suspect.accused::after { content: 'Your pick'; position: absolute; z-index: 5; left: 42px; top: 12px; font-family: var(--f-pixel); font-size: 9px; text-transform: uppercase; color: #1a1300; background: var(--gold); padding: 3px 6px; border-radius: 3px; }
+.arcade .imp-lineup.is-revealed .imp-suspect.accused.is-fit .imp-card { filter: none; box-shadow: 0 0 0 2px #000, 0 0 0 4px var(--gold), 0 0 22px #ffc83d55; }
+.arcade .imp-evidence { margin: 0; min-height: 34px; padding: 6px 8px; border-radius: 8px; font-size: 13px; line-height: 1.25; color: var(--muted); background: #0d1326; box-shadow: inset 0 0 0 1px #2b3760; transition: background 0.25s, color 0.25s; }
+.arcade .imp-evidence.on.good { background: #0b2a1a; color: #b8f0cf; box-shadow: inset 3px 0 0 var(--turf); }
+.arcade .imp-evidence.on.bad { background: #36101a; color: #ffd0d6; box-shadow: inset 3px 0 0 var(--flag); font-weight: 600; }
+
+/* Verdict */
+.arcade .imp-verdict { scroll-margin-bottom: 96px; margin-top: 14px; padding: 16px; border-radius: 14px; background: linear-gradient(#141b30, #0d1326); box-shadow: 0 0 0 2px #000, 0 0 0 4px #2b3760, 0 14px 30px #0008; display: grid; gap: 10px; opacity: 0.35; transition: opacity 0.3s; }
+.arcade .imp-verdict.on { opacity: 1; }
+.arcade .imp-verdict.won { box-shadow: 0 0 0 2px #000, 0 0 0 4px var(--turf), 0 0 30px #27b36a33; }
+.arcade .imp-verdict.lost { box-shadow: 0 0 0 2px #000, 0 0 0 4px var(--flag), 0 0 30px #ff4f6133; }
+.arcade .imp-verdict-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
+.arcade .imp-verdict-big { font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: clamp(40px, 12vw, 60px); line-height: 0.9; text-transform: uppercase; text-shadow: 3px 3px 0 #000; }
+.arcade .imp-verdict.won .imp-verdict-big { color: var(--turf); }
+.arcade .imp-verdict.lost .imp-verdict-big { color: var(--flag); }
+.arcade .imp-verdict.on .imp-verdict-big { animation: arc-pop 0.4s ease; }
+.arcade .imp-verdict-streak { font-family: var(--f-pixel); font-size: 11px; text-transform: uppercase; color: var(--gold); }
+.arcade .imp-verdict-line { margin: 0; font-size: 15px; line-height: 1.4; color: var(--chalk); }
+.arcade .imp-verdict-line.muted { color: var(--muted); }
+.arcade .imp-verdict-line b { color: var(--ink); font-family: var(--f-display); font-weight: 800; font-size: 17px; text-transform: uppercase; }
+
+@media (prefers-reduced-motion: reduce) {
+  .arcade .imp-suspect, .arcade .imp-case-q.revealed, .arcade .imp-stamp, .arcade .imp-accuse-hint, .arcade .imp-verdict.on .imp-verdict-big,
+  .arcade .imp-lineup.is-revealed .imp-suspect.is-imp .imp-card { animation: none !important; }
+  .arcade .imp-card, .arcade .imp-verdict, .arcade .imp-evidence { transition: none; }
+  .arcade .imp-suspect.lit .imp-card, .arcade .imp-lineup.is-revealed .imp-suspect.is-imp .imp-card, .arcade .imp-card:hover:not(:disabled) { transform: none; }
+}
+@media (min-width: 900px) { .arcade .imp-verdict .btn { justify-self: start; width: auto; min-width: 280px; } }

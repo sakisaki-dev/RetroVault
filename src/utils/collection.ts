@@ -482,7 +482,30 @@ export interface CollectionState {
   display?: Record<string, DisplayChoice>;
   /** Owned autographs, in pull order (older saves have none) */
   autos: OwnedAuto[];
+  /**
+   * Coins: the trading currency (src/utils/economy.ts). Earned by selling cards to the market, set bonuses and bounties;
+   * spent in the pack shop. Older saves load with 0.
+   */
+  coins: number;
+  /** Latest coin movements, newest first (capped at COIN_LOG_CAP) */
+  coinLog?: CoinEntry[];
+  /** Set ids whose one-time completion bonus was claimed (economy.ts collectionSets) */
+  setsClaimed?: string[];
+  /** Bounties turned in this edition: the edition seed they belong to and the bounty ids done (reset on a new edition) */
+  bounties?: { seed: number; done: string[] };
+  /** Portfolio milestone ids reached (economy.ts MILESTONES); once unlocked, always unlocked */
+  unlocks?: string[];
+  /** Cosmetics switched on (ids from unlocked milestones); missing = the classic look */
+  cosmetics?: { binder?: string; pack?: string };
 }
+
+/** One coin movement: amount (+ earned, − spent) and what it was for. */
+export interface CoinEntry {
+  at: number;
+  amount: number;
+  text: string;
+}
+export const COIN_LOG_CAP = 40;
 
 export interface DisplayChoice {
   variant: Variant;
@@ -511,6 +534,7 @@ const fresh = (): CollectionState => ({
   opened: { standard: 0, premium: 0, elite: 0, perfect: 0, holo: 0, exchange: 0 },
   earned: [],
   autos: [],
+  coins: 0,
 });
 const EMPTY: CollectionState = fresh();
 let memory: CollectionState | null = null;
@@ -704,6 +728,26 @@ const parse = (raw: string | null): CollectionState | null => {
       return [{ id: e.id, key: e.key, pulledAt: num(e.pulledAt), pack: isPack(e.pack) ? e.pack : 'standard', finish: isFinish(e.finish) ? e.finish : 'base', roll, snap }];
     });
     migrateAutos(s);
+    // Economy (all optional on disk: older saves load with no coins, nothing claimed, nothing unlocked)
+    s.coins = num(d.coins);
+    const log = (Array.isArray(d.coinLog) ? d.coinLog : []).filter(
+      (e): e is CoinEntry => !!e && typeof e === 'object' && typeof e.text === 'string' && typeof e.amount === 'number' && Number.isFinite(e.amount),
+    );
+    if (log.length) s.coinLog = log.slice(0, COIN_LOG_CAP).map(({ at, amount, text }) => ({ at: num(at), amount: Math.round(amount), text }));
+    const strs = (x: unknown) => (Array.isArray(x) ? [...new Set(x.filter((v): v is string => typeof v === 'string' && v.length > 0 && v.length < 120))] : []);
+    const sets = strs(d.setsClaimed);
+    if (sets.length) s.setsClaimed = sets;
+    const b = d.bounties as { seed?: unknown; done?: unknown } | undefined;
+    if (b && typeof b === 'object' && typeof b.seed === 'number' && Number.isFinite(b.seed)) s.bounties = { seed: b.seed, done: strs(b.done) };
+    const unlocks = strs(d.unlocks);
+    if (unlocks.length) s.unlocks = unlocks;
+    const cos = d.cosmetics as { binder?: unknown; pack?: unknown } | undefined;
+    if (cos && typeof cos === 'object') {
+      const c: NonNullable<CollectionState['cosmetics']> = {};
+      if (typeof cos.binder === 'string' && KIT_RE.test(cos.binder)) c.binder = cos.binder;
+      if (typeof cos.pack === 'string' && KIT_RE.test(cos.pack)) c.pack = cos.pack;
+      if (c.binder || c.pack) s.cosmetics = c;
+    }
     return s;
   } catch {
     return null;
@@ -742,6 +786,7 @@ export const readCollection = (): CollectionState => {
   return memory;
 };
 
+/** Every write: memory, storage, then CHANGE_EVENT (src/utils/economy.ts writes through commitCollection). */
 const write = (next: CollectionState, change: CollectionChange) => {
   memory = next;
   persist(next);
@@ -751,6 +796,9 @@ const write = (next: CollectionState, change: CollectionChange) => {
     // Non-browser environment
   }
 };
+
+/** The one save path for modules outside this file (the economy): same as every write here, fires CHANGE_EVENT. */
+export const commitCollection = (next: CollectionState, change: CollectionChange = { kind: 'other' }) => write(next, change);
 
 export const cardKey = (p: Pick<Player, 'name' | 'position'>) => playerKey(p);
 export const isOwned = (p: Pick<Player, 'name' | 'position'>, state = readCollection()) => !!state.cards[cardKey(p)];
@@ -977,7 +1025,7 @@ export const shownParallel = (card: OwnedCard | undefined, variant: Variant, fin
 /** The best parallel owned in one Prizm finish (shownParallel without a pin). */
 export const bestParallel = (card: OwnedCard | undefined, variant: Variant, finish: Finish) => shownParallel(card, variant, finish);
 
-const pick = <K extends string>(weights: Partial<Record<K, number>>, rng: Rng, allowed?: (k: K) => boolean): K | null => {
+export const pick = <K extends string>(weights: Partial<Record<K, number>>, rng: Rng, allowed?: (k: K) => boolean): K | null => {
   const items = (Object.entries(weights) as [K, number][]).filter(([k, w]) => w > 0 && (!allowed || allowed(k)));
   const total = items.reduce((s, [, w]) => s + w, 0);
   if (total <= 0) return null;
@@ -1163,54 +1211,10 @@ export const openPack = (type: PackType, pool: TierPool, freeze?: AutographFreez
   let shards = s.shards + PACK_SHARDS[type];
   const autos: OwnedAuto[] = [];
   const out: PackCard[] = rolled.map((rc, i) => {
-    // The Autograph variant signs the card: freeze his career as of now and roll the autograph. A player the freezer
-    // can't describe (or no freezer) falls back to the next rarest art, so the variant never exists without its autograph.
-    const snap = rc.variant === 'auto' && freeze ? freeze(rc.player) : null;
-    const c: RolledCard = rc.variant === 'auto' && !snap ? { ...rc, variant: 'locker', kit: kits ? rollKit(type, kits.of(rc.player.team), 'locker') : 'home' } : rc;
-    const k = cardKey(c.player);
-    const prev = cards[k];
-    const pv = prev?.variants[c.variant];
-    const owned = !!pv?.counts[c.finish];
-    // Kits of this finish so far, the legacy sentinel resolved to the kit it stands for (this pull knows the player)
-    const kitsHad: Record<string, number> = {};
-    Object.entries(pv?.kits?.[c.finish] ?? {}).forEach(([id, n]) => {
-      const real = id === LEGACY_KIT && kits ? kits.legacy(c.player, c.variant, c.finish) : id;
-      kitsHad[real] = (kitsHad[real] ?? 0) + n;
-    });
-    if (owned && !Object.keys(kitsHad).length) kitsHad[kits ? kits.legacy(c.player, c.variant, c.finish) : LEGACY_KIT] = pv!.counts[c.finish]!;
-    const kitOwned = c.variant === 'auto' ? owned : !!kitsHad[c.kit];
-    // A parallel colour counts as owned once any copy of it is in this finish; a plain Prizm once the finish is owned
-    const prizmHad = pv?.prizm?.[c.finish] ?? [];
-    const parallelOwned = !c.prizm || prizmHad.some((x) => x.c === c.prizm!.c);
-    const duplicate = owned && kitOwned && parallelOwned;
-    const newKit = owned && !kitOwned;
-    const newParallel = owned && !parallelOwned;
-    const gain = duplicate ? duplicateShards(c.finish, c.tier) : 0;
-    shards += gain;
-    const upgrade = !!pv && finishRank(c.finish) > finishRank(pv.best);
-    const marks = perfect ? [...new Set([...(prev?.marks ?? []), perfect.label])] : prev?.marks;
-    const entry: VariantCard = {
-      best: pv && finishRank(pv.best) >= finishRank(c.finish) ? pv.best : c.finish,
-      counts: { ...pv?.counts, [c.finish]: (pv?.counts[c.finish] ?? 0) + 1 },
-      first: pv?.first || now,
-      last: now,
-      ...(c.variant === 'auto' ? {} : { kits: { ...pv?.kits, [c.finish]: { ...kitsHad, [c.kit]: (kitsHad[c.kit] ?? 0) + 1 } } }),
-      ...(c.prizm ? { prizm: { ...pv?.prizm, [c.finish]: [...prizmHad, { c: c.prizm.c, n: c.prizm.n }] } } : pv?.prizm ? { prizm: pv.prizm } : {}),
-    };
-    cards[k] = summarise({ ...prev?.variants, [c.variant]: entry }, marks);
-    const auto: OwnedAuto | undefined = snap
-      ? {
-          id: `au-${now.toString(36)}-${i}-${Math.random().toString(36).slice(2, 8)}`,
-          key: k,
-          pulledAt: now,
-          pack: type,
-          finish: c.finish,
-          roll: rollAutograph(snap, Math.floor(Math.random() * 2 ** 32)),
-          snap,
-        }
-      : undefined;
-    if (auto) autos.push(auto);
-    return { ...c, isNew: !prev, newVariant: !!prev && !pv, upgrade, newKit, newParallel, duplicate, shards: gain, mark: perfect?.label, ...(auto ? { auto } : {}) };
+    const pc = applyPull(cards, rc, { type, now, index: i, freeze, kits, mark: perfect?.label });
+    shards += pc.shards;
+    if (pc.auto) autos.push(pc.auto);
+    return pc;
   });
   const next: CollectionState = {
     ...s,
@@ -1226,6 +1230,66 @@ export const openPack = (type: PackType, pool: TierPool, freeze?: AutographFreez
   };
   write(next, { kind: 'opened', type });
   return out;
+};
+
+/**
+ * Adds one rolled card to `cards` (a copy the caller owns; mutated) exactly as a pack pull does: the Autograph signs
+ * it (or falls back to a Locker stall), kits and Prizm parallels are recorded, a duplicate is worth shards. Returns the
+ * PackCard (with its autograph, which the caller adds to `autos`, and its duplicate shards, which the caller credits).
+ * openPack and the economy's trade-up (src/utils/economy.ts) both pull through here.
+ */
+export const applyPull = (
+  cards: Record<string, OwnedCard>,
+  rc: RolledCard,
+  opts: { type: PackType; now: number; index: number; freeze?: AutographFreezer; kits?: KitSource; mark?: string },
+): PackCard => {
+  const { type, now, index: i, freeze, kits, mark } = opts;
+  // The Autograph variant signs the card: freeze his career as of now and roll the autograph. A player the freezer
+  // can't describe (or no freezer) falls back to the next rarest art, so the variant never exists without its autograph.
+  const snap = rc.variant === 'auto' && freeze ? freeze(rc.player) : null;
+  const c: RolledCard = rc.variant === 'auto' && !snap ? { ...rc, variant: 'locker', kit: kits ? rollKit(type, kits.of(rc.player.team), 'locker') : 'home' } : rc;
+  const k = cardKey(c.player);
+  const prev = cards[k];
+  const pv = prev?.variants[c.variant];
+  const owned = !!pv?.counts[c.finish];
+  // Kits of this finish so far, the legacy sentinel resolved to the kit it stands for (this pull knows the player)
+  const kitsHad: Record<string, number> = {};
+  Object.entries(pv?.kits?.[c.finish] ?? {}).forEach(([id, n]) => {
+    const real = id === LEGACY_KIT && kits ? kits.legacy(c.player, c.variant, c.finish) : id;
+    kitsHad[real] = (kitsHad[real] ?? 0) + n;
+  });
+  if (owned && !Object.keys(kitsHad).length) kitsHad[kits ? kits.legacy(c.player, c.variant, c.finish) : LEGACY_KIT] = pv!.counts[c.finish]!;
+  const kitOwned = c.variant === 'auto' ? owned : !!kitsHad[c.kit];
+  // A parallel colour counts as owned once any copy of it is in this finish; a plain Prizm once the finish is owned
+  const prizmHad = pv?.prizm?.[c.finish] ?? [];
+  const parallelOwned = !c.prizm || prizmHad.some((x) => x.c === c.prizm!.c);
+  const duplicate = owned && kitOwned && parallelOwned;
+  const newKit = owned && !kitOwned;
+  const newParallel = owned && !parallelOwned;
+  const gain = duplicate ? duplicateShards(c.finish, c.tier) : 0;
+  const upgrade = !!pv && finishRank(c.finish) > finishRank(pv.best);
+  const marks = mark ? [...new Set([...(prev?.marks ?? []), mark])] : prev?.marks;
+  const entry: VariantCard = {
+    best: pv && finishRank(pv.best) >= finishRank(c.finish) ? pv.best : c.finish,
+    counts: { ...pv?.counts, [c.finish]: (pv?.counts[c.finish] ?? 0) + 1 },
+    first: pv?.first || now,
+    last: now,
+    ...(c.variant === 'auto' ? {} : { kits: { ...pv?.kits, [c.finish]: { ...kitsHad, [c.kit]: (kitsHad[c.kit] ?? 0) + 1 } } }),
+    ...(c.prizm ? { prizm: { ...pv?.prizm, [c.finish]: [...prizmHad, { c: c.prizm.c, n: c.prizm.n }] } } : pv?.prizm ? { prizm: pv.prizm } : {}),
+  };
+  cards[k] = summarise({ ...prev?.variants, [c.variant]: entry }, marks);
+  const auto: OwnedAuto | undefined = snap
+    ? {
+        id: `au-${now.toString(36)}-${i}-${Math.random().toString(36).slice(2, 8)}`,
+        key: k,
+        pulledAt: now,
+        pack: type,
+        finish: c.finish,
+        roll: rollAutograph(snap, Math.floor(Math.random() * 2 ** 32)),
+        snap,
+      }
+    : undefined;
+  return { ...c, isNew: !prev, newVariant: !!prev && !pv, upgrade, newKit, newParallel, duplicate, shards: gain, mark, ...(auto ? { auto } : {}) };
 };
 
 // ---------- Legends Exchange (one-time migration: NFL legends are no longer collectible) ----------

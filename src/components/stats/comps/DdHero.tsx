@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight, IdCard, Shuffle } from 'lucide-react';
 import type { Player } from '@/types/player';
+import InLeague from '@/components/InLeague';
 import { getLegacyTier, isHallOfFamer } from '@/config/stats';
 import { SIM_MIN_GAMES } from '@/config/advanced';
 import type { Family } from '@/config/families';
@@ -101,6 +102,7 @@ const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, on
       </button>
 
       <div className="flex flex-wrap items-center gap-1.5">
+        <InLeague player={player} />
         {tier ? (
           <span className="lamp">
             HOF <b>{tier.label}</b>

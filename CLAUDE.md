@@ -346,7 +346,10 @@ current data is a no-op.
   `current_club` in `owner_facts.json`. Code never hard-codes
   the club: it reads `currentClub()` / `useCurrentClub()` (`src/utils/club.ts`); the audit errors if the two disagree.
 - Real NFL legends appear only in the games, never in league stats or the Collection (cards are league players only).
-- Active/Retired status is internal only; never show it in the UI.
+- Active players show an **Active** tag (owner: "add in a little in the league rn indicator for the players that are",
+  "An active tag"): `InLeague` / `isInLeague` in `src/components/InLeague.tsx`, active on a club only (no free agents,
+  no real NFL legends), in search rows, the player picker, the Deep Dive and game cards; never on a collectible card's
+  face (cards are timeless) and never as a game clue. Retired is still never shown.
 - Single-season stats are intentionally not tracked.
 
 ## How the generated parts work
@@ -536,6 +539,41 @@ current data is a no-op.
   parallel owned unless `DisplayChoice.parallel` picks another ('plain' or a colour); the detail lists the parallels
   owned with their serials. The reveal stamps PRIZM RED /199 etc., Gold and Black walk out with a short PRIZM beat
   (`walkoutBeats.ts`). `npm run -s sim:packs` prints the parallel odds; the Art lab's Card designs tab shows them.
+- **Collection economy** (owner approved all six parts; `src/utils/economy.ts` rules and writes, UI in
+  `src/components/collection/economy/`): coins become the trading currency; shards stay exactly as they were (claims and
+  finish upgrades). `CollectionState` gains `coins` (older saves load with 0), `coinLog` (newest first, 40 kept),
+  `setsClaimed`, `bounties` ({seed, done}), `unlocks` and `cosmetics`; every write goes through `commitCollection` (the
+  one save path, fires CHANGE_EVENT). Copies are enumerated by `copies.ts` (kits and Prizm parallels are stored apart, so
+  copies pair best kit with rarest parallel; copy 0 of a variant × finish is the one a binder shows). Six parts:
+  **Sell** (`SELL_RATE` 0.4 of the copy's market price: `cardPrice` with the kit worn and its parallel, an autograph by
+  `autographPrice`): in the card detail under the value panel the copy on show sells, one tap for a duplicate, a confirm
+  for the last copy of a variant × finish and a stronger one for a player's only card (he leaves the binder, the
+  detail closes); "Sell duplicates" in the binder header sells every copy beyond the best of each variant × finish,
+  total shown first, keeping by default one of each kit and Prizm colour and every autograph. **Pack shop**
+  (`SHOP_PRICES` Standard 3,500, Premium 7,500, Elite 20,000, Holo Showcase 35,000; Perfect Season and Legends Exchange
+  stay earned): calibrated with `expectedPackPrice` (per-tier mean base value × the pack's tier/finish/art/kit/parallel
+  odds × the market multipliers; Y92 means Common 61, Rare 731, Epic 4,645, Legendary 30,506 give a market value per pack
+  of 3,502 / 7,397 / 20,290 / 32,963), so a pack sells back for about 40% of its price (38–41%; a 40,000-pack
+  simulation agrees, medians far lower, about 8% of packs sell back above their price); the shop shows the live
+  average sell-back. **Sets** (`collectionSets`, from the data at runtime): every club's active roster (players with
+  cards), every Super Bowl the coach won (that club's ring holders that season from the stints, at least
+  `SET_MIN_MEMBERS` 2 with cards) and every Hall of Fame class (content.json `hofClasses`); owning every member's card
+  (any art or finish) unlocks a one-time bonus (`setReward`: `SET_COIN_SHARE` 0.5 × the members' base values, at least
+  300, plus a pack by size: up to 3 Standard, 6 Premium, 10 Elite, more Holo Showcase; a Hall of Fame class one step
+  better); ids `club:<Club>`, `sb:<year>`, `hof:<label>`. **Trade-up** (`TRADE_UP_COUNT` 5 copies of Common, Rare or
+  Epic for one random player of the next tier, finish/art/kit/parallel rolled at `TRADE_UP_PACK` Premium odds through
+  `applyPull`, the pack pull path; a duplicate still pays shards): spares are picked first, and taking a last copy or
+  an only card is spelled out and needs a second tap. **Bounties** (`editionBounties`): 3 or 4 per edition, the templates
+  shuffled and their details drawn from the edition seed (never Math.random): a club at Silver/Gold or better, a 5%+
+  riser, a Prizm parallel (or Blue or rarer), an art of a position, an alternate or throwback kit, a Rare/Epic-or-better
+  player at Gold/Silver or better, an Epic or Legendary at a position; a turned-in copy pays the flat reward plus
+  `BOUNTY_PRICE_SHARE` 0.75 of its price, once per bounty per edition (`bounties.seed` resets the board on an update).
+  **Milestones** (`MILESTONES`, portfolio value as the Portfolio panel counts it): 250K Turf binder, 1M Floodlights
+  packs, 3M Gold leaf binder, 10M Gold rush packs, 30M Hall of Fame marble (every player's card once at Base is worth
+  about 1M, every art at Base about 13M); `checkMilestones` records them for good, and an unlocked skin or pack theme
+  is switched on in the Milestones tab (`setCosmetic`; `ec-skin--<id>` on the binder, `pk-theme--<id>` on the pack
+  dialog). The Exchange section (Shop, Sets, Trade-up, Bounties, Milestones tabs, recent coins) sits under the Market;
+  the coin balance shows in the Collection header beside the shards.
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
   `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. **Both files store changes
   only** (format 2, `src/utils/marketHistory.ts`): the first, the latest and every 10th snapshot are full keyframes

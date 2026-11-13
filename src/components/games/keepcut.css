@@ -1,0 +1,86 @@
+/* Keep 3, Cut 3: one card on the clock between a red cut pile and a green keep pile. */
+.arcade .kc-stage { scroll-margin-top: 110px; }
+.arcade .kc-table { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: 'center center' 'cut keep'; }
+.arcade .kc-center { grid-area: center; min-width: 0; }
+.arcade .kc-pile.cut { grid-area: cut; }
+.arcade .kc-pile.keep { grid-area: keep; }
+@media (min-width: 900px) {
+  .arcade .kc-table { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, 1fr); grid-template-areas: 'cut center keep'; align-items: start; gap: 18px; }
+}
+
+/* The card */
+.arcade .kc .rk-deck.drag-card { touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s; }
+.arcade .kc .rk-deck.is-dragging { cursor: grabbing; z-index: 30; transition: box-shadow 0.2s; }
+.arcade .kc .rk-deck.lean-keep { box-shadow: 0 0 0 3px #000, 0 0 0 6px var(--turf), 0 0 40px #27b36a88; }
+.arcade .kc .rk-deck.lean-cut { box-shadow: 0 0 0 3px #000, 0 0 0 6px var(--flag), 0 0 40px #ff4f6188; }
+.arcade .kc-stamp { position: absolute; z-index: 4; top: 18px; font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: 34px; line-height: 1; text-transform: uppercase; padding: 2px 12px; border: 4px solid currentColor; border-radius: 8px; background: #000c; pointer-events: none; }
+.arcade .kc-stamp.keep { left: 14px; color: var(--turf); transform: rotate(-12deg); }
+.arcade .kc-stamp.cut { right: 14px; color: var(--flag); transform: rotate(12deg); }
+.arcade .kc-forced { margin: 8px 0 0; text-align: center; font-family: var(--f-pixel); font-size: 10px; color: var(--gold); text-transform: uppercase; }
+
+/* Buttons: cut left, keep right, same side as the swipe */
+.arcade .kc-decide2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.arcade .kc-btn { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0 8px; min-height: 64px; padding: 8px; border: 0; border-radius: 12px; font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: clamp(26px, 7vw, 34px); line-height: 1; text-transform: uppercase; transition: transform 0.08s, filter 0.15s; }
+.arcade .kc-btn small { flex-basis: 100%; text-align: center; font-family: var(--f-pixel); font-style: normal; font-weight: 400; font-size: 10px; opacity: 0.85; margin-top: 3px; }
+.arcade .kc-btn.keep { background: linear-gradient(#3fd486, #27b36a 55%, #1d9657); color: #03140a; box-shadow: 0 5px 0 #0c4a28, inset 0 2px 0 #ffffff55; }
+.arcade .kc-btn.cut { background: linear-gradient(#ff7584, #ff4f61 55%, #e23a4c); color: #250006; box-shadow: 0 5px 0 #8a1020, inset 0 2px 0 #ffffff55; }
+.arcade .kc-btn:hover:not(:disabled) { filter: brightness(1.08); }
+.arcade .kc-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 2px 0 #0008; }
+.arcade .kc-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* Piles */
+.arcade .kc-pile { min-width: 0; padding: 10px; border-radius: 14px; transition: box-shadow 0.15s, transform 0.15s, background 0.15s; }
+.arcade .kc-pile.keep { background: linear-gradient(180deg, #27b36a26, #0a0f1f 60%); box-shadow: inset 0 0 0 2px #1d5a3a; }
+.arcade .kc-pile.cut { background: linear-gradient(180deg, #ff4f6122, #0a0f1f 60%); box-shadow: inset 0 0 0 2px #5a1d28; }
+.arcade .kc-pile.keep.hot { box-shadow: inset 0 0 0 3px var(--turf), 0 0 30px #27b36a55; transform: scale(1.02); }
+.arcade .kc-pile.cut.hot { box-shadow: inset 0 0 0 3px var(--flag), 0 0 30px #ff4f6155; transform: scale(1.02); }
+.arcade .kc-pile.nope { animation: arc-shake 0.4s ease; }
+.arcade .kc-pile header { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; margin-bottom: 8px; }
+.arcade .kc-pile h3 { margin: 0; font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: 26px; line-height: 1; text-transform: uppercase; }
+.arcade .kc-pile.keep h3 { color: var(--turf); }
+.arcade .kc-pile.cut h3 { color: var(--flag); }
+.arcade .kc-pile header span { font-family: var(--f-pixel); font-size: 10px; color: var(--muted); text-transform: uppercase; }
+.arcade .kc-pile.full header span { color: var(--gold); }
+.arcade .kc-pile ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.arcade .kc-empty { display: grid; place-items: center; min-height: 54px; border-radius: 10px; border: 2px dashed #2b3760; background: #0d1326; font-size: 18px; color: #2f3b63; }
+.arcade .kc-pile.keep .kc-empty { border-color: #1d5a3a; }
+.arcade .kc-pile.cut .kc-empty { border-color: #5a1d28; }
+/* Narrow pile cards: number block shrinks, one stat */
+.arcade .kc-pile .rk-slab { grid-template-columns: 34px minmax(0, 1fr) auto; gap: 7px; min-height: 54px; padding-right: 7px; background: linear-gradient(100deg, transparent 0 34px, color-mix(in srgb, var(--c1) 45%, #0b1020) 34px, color-mix(in srgb, var(--c1) 16%, #0d1326) 75%, #0d1326), var(--c1); }
+.arcade .kc-pile .rk-slab::after { left: 34px; width: 3px; }
+.arcade .kc-pile .rk-slab-no small { font-size: 12px; }
+.arcade .kc-pile .rk-slab-last { font-size: 17px; }
+.arcade .kc-pile .rk-slab-line { font-size: 12px; }
+.arcade .kc-pile .rk-ovr { display: none; }
+.arcade .kc-pile .rk-slab-logo { right: 6px; width: 56px; height: 56px; }
+@media (max-width: 420px) {
+  .arcade .kc-pile { padding: 8px; }
+  .arcade .kc-pile .rk-pos b { display: none; }
+  .arcade .kc .rk-deck-face { min-height: 128px; padding: 12px 14px; }
+  .arcade .kc .rk-deck-logo { width: 72px; height: 72px; }
+  .arcade .kc .rk-deck-num { font-size: 104px; }
+}
+
+/* Result: the true order with the cut line */
+.arcade .kc-result { display: grid; gap: 14px; }
+@media (min-width: 900px) { .arcade .kc-result { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; gap: 22px; } }
+.arcade .kc-score .rk-score-verdict.turf { color: var(--turf); }
+.arcade .kc-score .rk-score-verdict.flag { color: var(--flag); }
+.arcade .kc-ladder { list-style: none; margin: 0; padding: 10px; display: grid; gap: 7px; border-radius: 14px; background: linear-gradient(180deg, #27b36a1a, transparent 45%, transparent 55%, #ff4f6114), #0a0f1f; box-shadow: inset 0 0 0 2px #1b2440; }
+.arcade .kc-ladder li { position: relative; }
+.arcade .kc-ladder li.after-line { margin-top: 22px; }
+.arcade .kc-line { position: absolute; left: 0; right: 0; top: -18px; display: flex; align-items: center; justify-content: center; height: 14px; opacity: 0; transform: scaleX(0.2); transition: opacity 0.3s, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.arcade .kc-line::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; border-top: 3px dashed var(--gold); }
+.arcade .kc-line b { position: relative; font-family: var(--f-pixel); font-weight: 400; font-size: 10px; text-transform: uppercase; color: #1a1300; background: var(--gold); padding: 2px 8px; border-radius: 3px; }
+.arcade .kc-ladder li.line-on .kc-line { opacity: 1; transform: none; }
+.arcade .kc-ladder .rk-slab.kc-in { grid-template-columns: 46px minmax(0, 1fr) auto auto; animation: kc-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes kc-in { from { transform: translateX(-20px); opacity: 0.2; filter: brightness(1.8); } to { transform: none; opacity: 1; filter: none; } }
+.arcade .kc-call { display: flex; flex-direction: column; align-items: center; justify-content: center; align-self: stretch; min-width: 62px; margin: -6px -10px -6px 0; padding: 0 6px; font-family: var(--f-pixel); font-size: 9px; text-transform: uppercase; }
+.arcade .kc-call b { font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: 20px; line-height: 1; }
+.arcade .kc-call.good { background: #062814; color: var(--turf); }
+.arcade .kc-call.bad { background: #2a0810; color: var(--flag); }
+
+@media (prefers-reduced-motion: reduce) {
+  .arcade .kc .rk-deck.drag-card, .arcade .kc-pile, .arcade .kc-line { transition: none; }
+  .arcade .kc-pile.nope, .arcade .kc-ladder .rk-slab.kc-in { animation: none; }
+}
