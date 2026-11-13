@@ -3,7 +3,6 @@ import { ArrowRight, BookOpen, ChevronRight, Clock, CornerDownRight, Newspaper, 
 import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
 import {
-  matchPlayerByName,
   storyEntryOf,
   useSeasonStory,
   type SeasonStory,
@@ -16,17 +15,19 @@ import { getTeamColors } from '@/utils/teamColors';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { DidYouKnowDeck } from './DidYouKnow';
 import { HotTakesDesk } from './HotTakes';
+import { ClubChips } from './ClubChips';
 import './story.css';
 
 /**
  * Season Story: the AI-authored news package for each completed season (data/y80/stories.json, written only by a
  * story.set upload; scripts/story_check.py checks every figure against the data). Shown on the Timeline in the
- * "What changed" area as a sports-media feed: a season masthead, the lead story as a hero card, a feed of
- * features (kind label, headline, dek, a stat callout, player chips), a Quick hits rail, and a reading sheet with
- * the full article, its figures and their sources. Earlier seasons stay browsable through the season switcher.
+ * "What changed" area as a sports front page: a newspaper-flag masthead with the season switcher, the lead story as a
+ * hero (its first figure as the big "photo" number in club colours), Top stories (the next three) as a compact list,
+ * the Did you know rail (DidYouKnow.tsx), More stories in a two-column list, and Quick hits as a numbered brief list.
+ * From 1024px the lead sits beside Top stories and Did you know and Quick hits form the sidebar. Story items carry
+ * one small stat badge; the reading sheet holds the full article, its figures and their sources.
  *
- * Below the feed: the season's Did you know deck (DidYouKnow.tsx) and its Hot Takes (HotTakes.tsx, the fourth AI lane),
- * both following the season switcher.
+ * Below the front page: the season's Hot Takes (HotTakes.tsx, the fourth AI lane), following the season switcher.
  *
  * openSeasonStory(id) opens an article from anywhere (the Arcade ticker uses it after switching to the Timeline).
  *
@@ -76,43 +77,6 @@ const findRef = (index: SeasonStoryIndexEntry[], id: string) => {
 /** The figure to blow up on a card: the first stat */
 const callout = (a: StoryArticle): StoryStat | undefined => a.stats[0];
 
-interface ChipProps {
-  names: string[];
-  players: Player[];
-  onPlayer: (p: Player) => void;
-  max?: number;
-}
-
-const PlayerChips = ({ names, players, onPlayer, max }: ChipProps) => {
-  const shown = max ? names.slice(0, max) : names;
-  const more = names.length - shown.length;
-  if (!names.length) return null;
-  return (
-    <ul className="ss-chips" aria-label="Players in this story">
-      {shown.map((n) => {
-        const p = matchPlayerByName(n, players);
-        return (
-          <li key={n}>
-            {p ? (
-              <button type="button" className="ss-chip" onClick={() => onPlayer(p)} aria-label={`Open ${p.name}'s card`}>
-                <span className="ss-chip__pos">{p.position}</span>
-                {p.name}
-              </button>
-            ) : (
-              <span className="ss-chip ss-chip--plain">{n}</span>
-            )}
-          </li>
-        );
-      })}
-      {more > 0 && (
-        <li>
-          <span className="ss-chip ss-chip--plain">+{more}</span>
-        </li>
-      )}
-    </ul>
-  );
-};
-
 const KindLabel = ({ kind }: { kind: StoryKind }) => <span className={cn('ss-kind', `ss-kind--${kind}`)}>{KIND_LABEL[kind]}</span>;
 
 const StatCallouts = ({ stats, max }: { stats: StoryStat[]; max?: number }) => {
@@ -127,6 +91,57 @@ const StatCallouts = ({ stats, max }: { stats: StoryStat[]; max?: number }) => {
         </div>
       ))}
     </dl>
+  );
+};
+
+/** Small inline stat badges (value + label; the source on hover) */
+const StatBadges = ({ stats }: { stats: StoryStat[] }) =>
+  stats.length ? (
+    <ul className="ss-badges" aria-label="Key figures">
+      {stats.map((s) => (
+        <li key={s.label} className="ss-badge" title={s.source ? `Source: ${s.source}` : undefined}>
+          <b>{s.value}</b> <span>{s.label}</span>
+        </li>
+      ))}
+    </ul>
+  ) : null;
+
+interface ItemProps {
+  a: StoryArticle;
+  i: number;
+  season: string;
+  index: SeasonStoryIndexEntry[];
+  players: Player[];
+  onPlayer: (p: Player) => void;
+  onRead: (id: string) => void;
+  onOpen: (id: string) => void;
+}
+
+/** One story in the front page's lists: kind and read time, headline, dek, one stat badge, chips */
+const StoryItem = ({ a, i, season, index, players, onPlayer, onRead, onOpen }: ItemProps) => {
+  const c = callout(a);
+  const prior = a.related.map((id) => findRef(index, id)).find((r) => r && r.season !== season);
+  return (
+    <li className="ss-item stagger-in" style={{ ...teamVars(a.teams[0]), '--i': i } as CSSProperties}>
+      <button type="button" className="ss-cover" onClick={() => onRead(a.id)} aria-label={`Read: ${a.headline}`} />
+      <p className="ss-item__meta">
+        <KindLabel kind={a.kind} />
+        <span className="ss-item__time">{readTime(a)}</span>
+      </p>
+      <h4 className="ss-item__title">{a.headline}</h4>
+      <p className="ss-item__dek">{a.dek}</p>
+      {c && <StatBadges stats={[c]} />}
+      {(a.players.length > 0 || prior) && (
+        <div className="ss-item__foot">
+          <ClubChips names={a.players} players={players} onPlayer={onPlayer} max={2} label="Players in this story" />
+          {prior && (
+            <button type="button" className="ss-continued ss-continued--inline" onClick={() => onOpen(prior.article.id)}>
+              <CornerDownRight className="h-3.5 w-3.5" aria-hidden="true" /> Continued from {prior.season}
+            </button>
+          )}
+        </div>
+      )}
+    </li>
   );
 };
 
@@ -193,7 +208,7 @@ const Reader = ({ open, index, players, onPlayer, onOpen, onClose }: ReaderProps
             {(a.players.length > 0 || a.teams.length > 0) && (
               <section className="ss-reader__tags" aria-label="In this story">
                 <h3 className="ss-reader__h">In this story</h3>
-                <PlayerChips names={a.players} players={players} onPlayer={onPlayer} />
+                <ClubChips names={a.players} players={players} onPlayer={onPlayer} label="Players in this story" />
                 {a.teams.length > 0 && (
                   <ul className="ss-teams" aria-label="Teams">
                     {a.teams.map((t) => (
@@ -336,6 +351,9 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
   const lead = story.articles.find((a) => a.kind === 'lead');
   const hits = story.articles.find((a) => a.kind === 'quickhits');
   const feed = story.articles.filter((a) => a !== lead && a !== hits);
+  const top = feed.slice(0, 3);
+  const more = feed.slice(3);
+  const itemProps = { season: story.season, index, players, onPlayer, onRead: setOpenId, onOpen: openArticle };
 
   return (
     <section id="season-story" className="ss scroll-mt-24" aria-labelledby="ss-title">
@@ -352,74 +370,88 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
         {switcher}
       </header>
 
-      {lead && (
-        <article className="ss-lead stagger-in" style={{ ...teamVars(lead.teams[0]), '--i': 0 } as CSSProperties}>
-          <button type="button" className="ss-cover" onClick={() => setOpenId(lead.id)} aria-label={`Read: ${lead.headline}`} />
-          <div className="ss-lead__text">
-            <KindLabel kind="lead" />
-            <h3 className="ss-lead__title">{lead.headline}</h3>
-            <p className="ss-lead__dek">{lead.dek}</p>
-            <p className="ss-byline">
-              <Newspaper className="h-3.5 w-3.5" aria-hidden="true" /> {BYLINE}
-              <span aria-hidden="true">·</span>
-              <Clock className="h-3.5 w-3.5" aria-hidden="true" /> {readTime(lead)}
-            </p>
-            <span className="ss-read" aria-hidden="true">
-              Read the story <ChevronRight className="h-4 w-4" />
-            </span>
-          </div>
-          <StatCallouts stats={lead.stats} max={3} />
-        </article>
-      )}
-
-      {hits && (
-        <section className="ss-hits" aria-labelledby="ss-hits-title">
-          <h3 id="ss-hits-title" className="ss-hits__title">
-            <Zap className="h-4 w-4" aria-hidden="true" /> Quick hits
-          </h3>
-          <ol className="ss-hits__rail">
-            {hits.body.map((line, i) => (
-              <li key={line} className="ss-hit">
-                <span className="ss-hit__n" aria-hidden="true">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <span>{line}</span>
-              </li>
-            ))}
-          </ol>
-        </section>
-      )}
-
-      <DidYouKnowDeck key={story.season} facts={story.didYouKnow} season={story.season} players={players} onPlayer={onPlayer} />
-
-      <ul className="ss-feed" aria-label={`${story.season} stories`}>
-        {feed.map((a, i) => {
-          const c = callout(a);
-          const prior = a.related.map((id) => findRef(index, id)).find((r) => r && r.season !== story.season);
-          return (
-            <li key={a.id} className="ss-card stagger-in" style={{ ...teamVars(a.teams[0]), '--i': i + 1 } as CSSProperties}>
-              <button type="button" className="ss-cover" onClick={() => setOpenId(a.id)} aria-label={`Read: ${a.headline}`} />
-              <KindLabel kind={a.kind} />
-              <h3 className="ss-card__title">{a.headline}</h3>
-              <p className="ss-card__dek">{a.dek}</p>
-              {c && (
-                <p className="ss-card__stat">
-                  <b>{c.value}</b> <span>{c.label}</span>
+      <div className="ss-front">
+        {lead && (
+          <article className="ss-lead stagger-in" style={{ ...teamVars(lead.teams[0]), '--i': 0 } as CSSProperties}>
+            <button type="button" className="ss-cover" onClick={() => setOpenId(lead.id)} aria-label={`Read: ${lead.headline}`} />
+            {lead.stats[0] && (
+              <div className="ss-lead__art" title={lead.stats[0].source ? `Source: ${lead.stats[0].source}` : undefined}>
+                {lead.teams[0] && (
+                  <span className="ss-lead__mark" aria-hidden="true">
+                    {lead.teams[0]}
+                  </span>
+                )}
+                <p className="ss-lead__big">
+                  <b>{lead.stats[0].value}</b>
+                  <span>{lead.stats[0].label}</span>
                 </p>
-              )}
-              {prior && (
-                <button type="button" className="ss-continued ss-continued--card" onClick={() => openArticle(prior.article.id)}>
-                  <CornerDownRight className="h-4 w-4" aria-hidden="true" /> Continued from {prior.season}
-                </button>
-              )}
-              <div className="ss-card__foot">
-                <PlayerChips names={a.players} players={players} onPlayer={onPlayer} max={3} />
-                <span className="ss-card__time">{readTime(a)}</span>
               </div>
-            </li>
-          );
-        })}
-      </ul>
+            )}
+            <div className="ss-lead__text">
+              <KindLabel kind="lead" />
+              <h3 className="ss-lead__title">{lead.headline}</h3>
+              <p className="ss-lead__dek">{lead.dek}</p>
+              <StatBadges stats={lead.stats.slice(1, 3)} />
+              <p className="ss-byline">
+                <Newspaper className="h-3.5 w-3.5" aria-hidden="true" /> {BYLINE}
+                <span aria-hidden="true">·</span>
+                <Clock className="h-3.5 w-3.5" aria-hidden="true" /> {readTime(lead)}
+                <span className="ss-read" aria-hidden="true">
+                  Read the story <ChevronRight className="h-4 w-4" />
+                </span>
+              </p>
+            </div>
+          </article>
+        )}
+
+        {top.length > 0 && (
+          <section className="ss-top" aria-labelledby="ss-top-title">
+            <h3 id="ss-top-title" className="ss-rubric">
+              Top stories
+            </h3>
+            <ul className="ss-list ss-list--top">
+              {top.map((a, i) => (
+                <StoryItem key={a.id} a={a} i={i + 1} {...itemProps} />
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <div className="ss-dyk">
+          <DidYouKnowDeck key={story.season} facts={story.didYouKnow} season={story.season} players={players} onPlayer={onPlayer} />
+        </div>
+
+        {more.length > 0 && (
+          <section className="ss-more" aria-labelledby="ss-more-title">
+            <h3 id="ss-more-title" className="ss-rubric">
+              More from {story.season}
+            </h3>
+            <ul className="ss-list ss-list--more">
+              {more.map((a, i) => (
+                <StoryItem key={a.id} a={a} i={i + 4} {...itemProps} />
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {hits && (
+          <section className="ss-hits" aria-labelledby="ss-hits-title">
+            <h3 id="ss-hits-title" className="ss-rubric ss-rubric--gold">
+              <Zap className="h-3.5 w-3.5" aria-hidden="true" /> Quick hits
+            </h3>
+            <ol className="ss-hits__list">
+              {hits.body.map((line, i) => (
+                <li key={line} className="ss-hit">
+                  <span className="ss-hit__n" aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+      </div>
 
       <HotTakesDesk season={story.season} players={players} onPlayer={onPlayer} />
 

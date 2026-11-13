@@ -1,4 +1,4 @@
-/* Season Story (SeasonStory.tsx): a sports-media feed on the Timeline. Mobile-first; dark like the rest of the site. */
+/* Season Story (SeasonStory.tsx): a sports front page on the Timeline. Mobile-first; dark like the rest of the site. */
 .ss,
 .ss-reader {
   --ss-bg: #0b1122;
@@ -18,29 +18,29 @@
 }
 .ss {
   display: grid;
-  gap: 14px;
+  gap: 18px;
   min-width: 0;
   color: var(--ss-chalk);
 }
 
-/* ---------- Masthead ---------- */
+/* ---------- Masthead: a newspaper flag (kicker, title, tagline; the season switcher on the right) ---------- */
 .ss-mast {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 10px 16px;
-  padding-bottom: 10px;
-  border-bottom: 3px solid var(--ss-chalk);
+  gap: 8px 16px;
+  padding-bottom: 8px;
+  border-bottom: 3px double var(--ss-chalk);
 }
-.ss-mast__text { min-width: 0; }
+.ss-mast__text { min-width: 0; flex: 1 1 320px; }
 .ss-mast__kicker {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   margin: 0;
   font-family: 'Silkscreen', 'Courier New', monospace;
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 0.04em;
   color: var(--ss-gold);
   text-transform: uppercase;
@@ -48,34 +48,35 @@
 .ss-mast__title {
   margin: 2px 0 0;
   font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-  font-size: clamp(34px, 9vw, 56px);
+  font-size: clamp(26px, 6.5vw, 38px);
   font-weight: 800;
-  line-height: 0.95;
+  line-height: 1;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
 }
 .ss-mast__tagline {
-  max-width: 62ch;
-  margin: 6px 0 0;
-  font-size: 15px;
-  line-height: 1.4;
+  max-width: 70ch;
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  line-height: 1.45;
   color: var(--ss-muted);
 }
-.ss-seasons { display: flex; flex-wrap: wrap; gap: 6px; }
+.ss-seasons { display: flex; flex-wrap: wrap; gap: 4px; }
 .ss-season {
-  min-width: 56px;
-  min-height: 44px;
-  padding: 0 14px;
+  min-width: 48px;
+  min-height: 36px;
+  padding: 0 10px;
   border: 1px solid var(--ss-line);
   border-radius: 999px;
   background: var(--ss-panel);
   color: var(--ss-muted);
   font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
 }
+.ss-season:hover { border-color: var(--ss-gold); color: var(--ss-chalk); }
 .ss-season[aria-pressed='true'] { background: var(--ss-chalk); border-color: var(--ss-chalk); color: var(--ss-bg); }
 .ss-season:focus-visible { outline: 3px solid var(--ss-gold); outline-offset: 2px; }
 
@@ -88,7 +89,7 @@
   margin: 0;
   padding: 18px;
   border: 1px dashed var(--ss-line);
-  border-radius: 14px;
+  border-radius: 12px;
   background: var(--ss-panel);
   color: var(--ss-muted);
   font-size: 14px;
@@ -105,20 +106,21 @@
 @media (prefers-reduced-motion: reduce) { .ss-loading__dot { animation: none; } }
 
 /* ---------- Shared bits ---------- */
+/* Kind: a small coloured section label with a pixel square, like a news site's rubric */
 .ss-kind {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   align-self: flex-start;
-  padding: 3px 8px;
-  border-radius: 3px;
-  background: var(--ss-k, var(--ss-chalk));
-  color: #0b1122;
+  color: var(--ss-k, var(--ss-chalk));
   font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   line-height: 1.2;
   text-transform: uppercase;
 }
+.ss-kind::before { content: ''; width: 6px; height: 6px; background: currentColor; flex-shrink: 0; }
 .ss-kind--lead { --ss-k: var(--ss-gold); }
 .ss-kind--trade { --ss-k: var(--ss-sky); }
 .ss-kind--rise { --ss-k: var(--ss-turf); }
@@ -127,6 +129,7 @@
 .ss-kind--chase,
 .ss-kind--milestone { --ss-k: var(--ss-gold); }
 .ss-kind--wherenow { --ss-k: var(--ss-violet); }
+.ss-kind--feature { --ss-k: #c9d3f5; }
 .ss-byline {
   display: flex;
   flex-wrap: wrap;
@@ -136,7 +139,24 @@
   font-size: 12px;
   color: var(--ss-muted);
 }
-/* A full-card button under the content: the card reads as one tap target while chips stay their own buttons */
+/* Section rubric: small caps label over a rule (Top stories, More, Quick hits) */
+.ss-rubric {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--ss-chalk);
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ss-chalk);
+}
+.ss-rubric--gold { color: var(--ss-gold); border-bottom-color: var(--ss-gold); }
+
+/* A full-item button under the content: the story reads as one tap target while chips stay their own buttons */
 .ss-cover {
   position: absolute;
   inset: 0;
@@ -149,37 +169,37 @@
 }
 .ss-cover:focus-visible { outline: 3px solid var(--ss-gold); outline-offset: 2px; }
 .ss-lead > :not(.ss-cover),
-.ss-card > :not(.ss-cover) { position: relative; z-index: 1; pointer-events: none; }
-.ss-lead .ss-chips,
-.ss-card .ss-chips,
-.ss-card .ss-continued { pointer-events: auto; }
+.ss-item > :not(.ss-cover) { position: relative; z-index: 1; pointer-events: none; }
+.ss-item .cc-chips,
+.ss-item .ss-continued { pointer-events: auto; }
 
-.ss-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
-.ss-chip {
+/* Inline stat badges: a number with its label, small (the lead's big number is the only big one) */
+.ss-badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; min-width: 0; }
+.ss-badge {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   gap: 6px;
-  min-height: 44px;
-  padding: 0 12px;
-  border: 1px solid var(--ss-line);
-  border-radius: 999px;
-  background: var(--ss-bg);
+  max-width: 100%;
+  padding: 3px 8px;
+  border: 1px solid color-mix(in srgb, var(--tc) 40%, var(--ss-line));
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--tc) 10%, var(--ss-bg));
+  font-size: 11.5px;
+  line-height: 1.3;
+  color: var(--ss-muted);
+}
+.ss-badge b {
+  flex-shrink: 0;
+  font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
   color: var(--ss-chalk);
-  font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
 }
-button.ss-chip { cursor: pointer; transition: border-color var(--dur-2) var(--ease-out), background-color var(--dur-2) var(--ease-out); }
-button.ss-chip:hover { border-color: var(--ss-gold); background: var(--ss-panel-2); }
-button.ss-chip:focus-visible { outline: 3px solid var(--ss-gold); outline-offset: 2px; }
-.ss-chip--plain { color: var(--ss-muted); }
-.ss-chip__pos {
-  font-family: 'Silkscreen', 'Courier New', monospace;
-  font-size: 10px;
-  color: var(--ss-gold);
-}
+.ss-badge span { min-width: 0; }
 
-/* Even rows, never a lone tile: 2 across on phones (3 when there are 3), up to 4 across from 640px */
+/* The reading sheet's stat strip */
 .ss-callouts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -193,11 +213,11 @@ button.ss-chip:focus-visible { outline: 3px solid var(--ss-gold); outline-offset
 .ss-callouts[data-n='1'] { grid-template-columns: minmax(0, 1fr); }
 .ss-callouts[data-n='3'] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (min-width: 640px) { .ss-callouts[data-n='4'] { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.ss-callout { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; background: var(--ss-panel); min-width: 0; }
+.ss-callout { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; background: var(--ss-panel); min-width: 0; }
 .ss-callout__value {
   margin: 0;
   font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 800;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -219,158 +239,211 @@ button.ss-chip:focus-visible { outline: 3px solid var(--ss-gold); outline-offset
   text-align: left;
   cursor: pointer;
 }
-.ss-continued--card { align-self: flex-start; }
+.ss-continued:hover { border-color: var(--ss-sky); }
+.ss-continued:focus-visible { outline: 3px solid var(--ss-gold); outline-offset: 2px; }
+.ss-continued--inline {
+  min-height: 28px;
+  padding: 0 4px;
+  border: 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+.ss-continued--inline:hover { text-decoration: underline; }
+
+/* ---------- Front page grid ----------
+   Phone: lead, top stories, Did you know rail, more stories, quick hits (Hot Takes follow the grid).
+   From 1024px: the lead (2 columns) beside the top stories, then more stories beside a sidebar of Did you know and
+   quick hits. */
+.ss-front {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: 'lead' 'top' 'dyk' 'more' 'hits';
+  gap: 20px;
+  min-width: 0;
+}
+.ss-lead { grid-area: lead; }
+.ss-top { grid-area: top; }
+.ss-dyk { grid-area: dyk; min-width: 0; }
+.ss-more { grid-area: more; }
+.ss-hits { grid-area: hits; }
+.ss-top,
+.ss-more,
+.ss-hits { display: flex; flex-direction: column; gap: 0; min-width: 0; }
+@media (min-width: 1024px) {
+  .ss-front {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(280px, 0.85fr);
+    grid-template-areas:
+      'lead lead top'
+      'more more dyk'
+      'hits hits dyk';
+    grid-template-rows: auto auto 1fr;
+    gap: 24px 28px;
+    align-items: start;
+  }
+  .ss-dyk { grid-row: 2 / span 2; padding-left: 20px; border-left: 1px solid var(--ss-line); align-self: stretch; }
+  .ss-lead { align-self: stretch; }
+  .ss-lead__art { flex: 1; }
+  .ss-top { padding-left: 20px; border-left: 1px solid var(--ss-line); align-self: stretch; }
+}
 
 /* ---------- Lead hero ---------- */
 .ss-lead {
   position: relative;
-  display: grid;
-  gap: 14px;
-  padding: 18px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   border: 1px solid var(--ss-line);
   border-radius: 12px;
-  background:
-    linear-gradient(160deg, color-mix(in srgb, var(--tc) 55%, #0b1122) 0%, color-mix(in srgb, var(--tc) 22%, #0b1122) 45%, var(--ss-bg) 100%);
-  box-shadow: inset 0 4px 0 var(--tc2);
+  background: var(--ss-panel);
   overflow: hidden;
-  transition: border-color var(--dur-2) var(--ease-out), translate var(--dur-2) var(--ease-out);
+  transition: border-color var(--dur-2) var(--ease-out);
 }
 .ss-lead:hover { border-color: var(--ss-gold); }
-.ss-lead__text { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.ss-lead__title {
-  margin: 2px 0 0;
+/* The "photo": a field in the club's colours (yard lines, scanlines, the club name as a watermark) carrying the big figure */
+.ss-lead__art {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 150px;
+  padding: 14px 16px;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(0deg, rgb(0 0 0 / 0.16) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), rgb(255 255 255 / 0.1) calc(10% - 1px) 10%),
+    radial-gradient(120% 140% at 85% 0%, color-mix(in srgb, var(--tc2) 55%, transparent), transparent 60%),
+    linear-gradient(160deg, color-mix(in srgb, var(--tc) 85%, #0b1122), color-mix(in srgb, var(--tc) 35%, #0b1122) 70%, #0b1122);
+  box-shadow: inset 0 -40px 40px -20px rgb(5 9 22 / 0.7);
+}
+.ss-lead__mark {
+  position: absolute;
+  top: 6px;
+  right: -6px;
   font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-  font-size: clamp(34px, 10vw, 64px);
+  font-size: clamp(64px, 20vw, 150px);
   font-weight: 800;
-  line-height: 0.92;
+  line-height: 0.85;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.08);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.ss-lead__big { position: relative; display: flex; flex-direction: column; gap: 4px; margin: 0; }
+.ss-lead__big b {
+  font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  font-size: clamp(56px, 16vw, 104px);
+  font-weight: 800;
+  line-height: 0.85;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  text-shadow: 3px 3px 0 rgb(5 9 22 / 0.55);
+}
+.ss-lead__big span {
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.85);
+}
+.ss-lead__text { display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 14px 16px 16px; border-top: 3px solid var(--tc2); }
+.ss-lead__title {
+  margin: 0;
+  font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  font-size: clamp(26px, 7.4vw, 42px);
+  font-weight: 800;
+  line-height: 0.98;
   text-transform: uppercase;
   text-wrap: balance;
   overflow-wrap: anywhere;
 }
-.ss-lead__dek { margin: 0; max-width: 60ch; font-size: 16px; line-height: 1.45; color: #dfe5ff; }
+.ss-lead__dek { margin: 0; max-width: 62ch; font-size: 15px; line-height: 1.45; color: #dfe5ff; }
 .ss-read {
   display: inline-flex;
   align-items: center;
   gap: 2px;
-  margin-top: 2px;
-  font-size: 14px;
+  margin-left: auto;
+  font-size: 13px;
   font-weight: 700;
   color: var(--ss-gold);
 }
-.ss-lead .ss-callouts { background: rgb(255 255 255 / 0.12); border-color: rgb(255 255 255 / 0.12); }
-.ss-lead .ss-callout { background: rgb(5 9 22 / 0.55); }
-@media (min-width: 900px) {
-  .ss-lead { grid-template-columns: minmax(0, 1.6fr) minmax(240px, 1fr); align-items: end; padding: 28px; }
-  .ss-lead .ss-callouts { grid-template-columns: 1fr; }
-  .ss-lead .ss-callout__value { font-size: 40px; }
-}
-
-/* ---------- Quick hits rail ---------- */
-.ss-hits {
-  min-width: 0;
-  border-top: 1px solid var(--ss-line);
-  border-bottom: 1px solid var(--ss-line);
-  padding: 10px 0;
-}
-.ss-hits__title {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin: 0 0 8px;
-  font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-  font-size: 18px;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--ss-gold);
-}
-.ss-hits__rail {
-  display: flex;
-  gap: 10px;
-  margin: 0;
-  padding: 0 0 6px;
-  list-style: none;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-}
-.ss-hit {
-  display: flex;
-  gap: 10px;
-  flex: 0 0 min(78vw, 300px);
-  scroll-snap-align: start;
-  padding: 12px;
-  border: 1px solid var(--ss-line);
-  border-radius: 10px;
-  background: var(--ss-panel);
-  font-size: 14px;
-  line-height: 1.4;
-}
-.ss-hit__n {
-  font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-  font-size: 22px;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--ss-gold);
-}
 @media (min-width: 1024px) {
-  .ss-hits__rail { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); overflow: visible; }
+  .ss-lead__art { min-height: 220px; padding: 18px 22px 20px; }
+  .ss-lead__big b { font-size: clamp(88px, 8vw, 120px); }
+  .ss-lead__big span { font-size: 11px; }
+  .ss-lead__mark { font-size: clamp(150px, 15vw, 220px); }
+  .ss-lead__text { padding: 16px 22px 18px; }
 }
 
-/* ---------- Feed ---------- */
-.ss-feed {
-  display: grid;
-  gap: 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-@media (min-width: 640px) { .ss-feed { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1100px) { .ss-feed { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.ss-card {
+/* ---------- Story lists (top stories, more stories) ---------- */
+.ss-list { display: grid; margin: 0; padding: 0; list-style: none; min-width: 0; }
+.ss-item {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
   min-width: 0;
-  padding: 14px 14px 12px 18px;
-  border: 1px solid var(--ss-line);
-  border-radius: 10px;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--tc) 18%, var(--ss-panel)), var(--ss-panel) 55%);
-  overflow: hidden;
-  transition: border-color var(--dur-2) var(--ease-out);
+  padding: 12px 0 14px;
+  border-bottom: 1px solid var(--ss-line);
 }
-.ss-card::before {
-  content: '';
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 5px;
-  background: linear-gradient(180deg, var(--tc), var(--tc2));
-}
-.ss-card:hover { border-color: var(--ss-gold); }
-.ss-card__title {
+/* a short club-colour rule on top of each story */
+.ss-item::before { content: ''; position: absolute; top: -1px; left: 0; width: 28px; height: 3px; background: var(--tc); z-index: 1; }
+.ss-list > .ss-item:last-child { border-bottom: 0; }
+.ss-item:hover .ss-item__title { color: var(--ss-gold); }
+.ss-item__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 0; }
+.ss-item__time { font-size: 11px; color: var(--ss-muted); }
+.ss-item__title {
   margin: 0;
   font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-  font-size: 26px;
+  font-size: 20px;
   font-weight: 800;
-  line-height: 1;
+  line-height: 1.05;
   text-transform: uppercase;
   text-wrap: balance;
   overflow-wrap: anywhere;
+  transition: color var(--dur-2) var(--ease-out);
 }
-.ss-card__dek { margin: 0; font-size: 14px; line-height: 1.45; color: #d5dcf5; }
-.ss-card__stat { display: flex; align-items: baseline; gap: 8px; margin: 2px 0 0; min-width: 0; }
-.ss-card__stat b {
+.ss-item__dek { margin: 0; font-size: 13.5px; line-height: 1.45; color: #c9d1ee; }
+.ss-item .ss-badges { margin-top: 2px; }
+.ss-item__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 4px; min-width: 0; }
+@media (min-width: 640px) {
+  .ss-list--more { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  .ss-list--more > .ss-item:nth-last-child(2):nth-child(odd) { border-bottom: 0; }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .ss-list--top { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 20px; }
+  .ss-list--top > .ss-item { border-bottom: 0; }
+}
+@media (min-width: 1024px) {
+  .ss-list--top .ss-item__title { font-size: 19px; }
+  /* the narrow column beside the lead stays a tight headline list; the reading sheet carries the chips and links */
+  .ss-list--top .ss-item__foot { display: none; }
+  .ss-list--more .ss-item__title { font-size: 21px; }
+}
+
+/* ---------- Quick hits: a numbered brief list ---------- */
+.ss-hits__list { display: grid; margin: 0; padding: 0; list-style: none; }
+.ss-hit {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--ss-line);
+  font-size: 13px;
+  line-height: 1.45;
+  color: #d5dcf5;
+}
+.ss-hit:last-child { border-bottom: 0; }
+.ss-hit__n {
+  flex-shrink: 0;
+  min-width: 18px;
   font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-  font-size: 34px;
+  font-size: 15px;
   font-weight: 800;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-  color: var(--ss-chalk);
+  line-height: 1.2;
+  color: var(--ss-gold);
 }
-.ss-card__stat span { font-size: 12px; color: var(--ss-muted); min-width: 0; }
-.ss-card__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; }
-.ss-card__time { font-size: 12px; color: var(--ss-muted); }
+@media (min-width: 640px) {
+  .ss-hits__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  .ss-hit:nth-last-child(2):nth-child(odd) { border-bottom: 0; }
+}
 
 /* ---------- Reading sheet ---------- */
 .ss-reader { background: var(--ss-bg); color: var(--ss-chalk); border-color: var(--ss-line); }
@@ -392,21 +465,21 @@ button.ss-chip:focus-visible { outline: 3px solid var(--ss-gold); outline-offset
 .ss-reader__title {
   margin: 0;
   font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-  font-size: clamp(32px, 8vw, 48px);
+  font-size: clamp(28px, 7vw, 40px);
   font-weight: 800;
-  line-height: 0.95;
+  line-height: 0.98;
   letter-spacing: normal;
   text-transform: uppercase;
   text-wrap: balance;
 }
-.ss-reader__dek { margin: 0; font-size: 18px; line-height: 1.45; color: #dfe5ff; }
+.ss-reader__dek { margin: 0; font-size: 17px; line-height: 1.45; color: #dfe5ff; }
 .ss-reader__body { display: flex; flex-direction: column; gap: 1em; max-width: 64ch; }
-.ss-reader__body p { margin: 0; font-size: 17px; line-height: 1.7; color: #e8ecfb; }
+.ss-reader__body p { margin: 0; font-size: 16.5px; line-height: 1.7; color: #e8ecfb; }
 .ss-reader__body p:first-child::first-letter {
   float: left;
   margin: 4px 8px 0 0;
   font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-  font-size: 58px;
+  font-size: 52px;
   font-weight: 800;
   line-height: 0.8;
   color: var(--ss-gold);
@@ -456,14 +529,12 @@ button.ss-chip:focus-visible { outline: 3px solid var(--ss-gold); outline-offset
 
 /* Lite mode / reduced motion: no hover transitions (the stagger-in entrance collapses through the motion tokens) */
 [data-perf='lite'] .ss-lead,
-[data-perf='lite'] .ss-card,
-[data-perf='lite'] .ss-season,
-[data-perf='lite'] button.ss-chip { transition: none; }
+[data-perf='lite'] .ss-item__title,
+[data-perf='lite'] .ss-season { transition: none; }
 @media (prefers-reduced-motion: reduce) {
   .ss-lead,
-  .ss-card,
-  .ss-season,
-  button.ss-chip { transition: none; }
+  .ss-item__title,
+  .ss-season { transition: none; }
 }
 
 /* Arcade landing: the "Season Story" link above the ticker */

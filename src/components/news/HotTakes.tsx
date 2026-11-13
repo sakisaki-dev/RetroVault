@@ -13,9 +13,9 @@ import './takes.css';
  * for the season its switcher shows; a season without takes falls back to the latest season that has them.
  * public/data/league/takes.json (every season, newest first) loads once, on demand (useHotTakes).
  *
- * A take card: the heat meter (1-3 pixel flames), the take as the big line, the dek, the first figure as a big number
- * (its source on hover or tap), player chips in club colours, and the argument (body and every figure with its
- * source) behind a toggle.
+ * Laid out as an opinion column: each take is a numbered entry with a small heat meter (1-3 pixel flames), the take as
+ * its headline, the dek, the first figure as an inline number (its source on hover or tap), player chips in club
+ * colours, and the argument (body and every figure with its source) behind a toggle.
  */
 
 const HEAT_LABEL: Record<TakeHeat, string> = { 1: 'Warm', 2: 'Hot', 3: 'Scorching' };
@@ -28,7 +28,7 @@ const FLAME_PX = pixels(FLAME);
 const CORE_PX = pixels(CORE);
 
 const PixelFlame = ({ lit }: { lit: boolean }) => (
-  <svg className="ht-flame" data-lit={lit || undefined} viewBox="0 0 7 9" width="14" height="18" shapeRendering="crispEdges" aria-hidden="true">
+  <svg className="ht-flame" data-lit={lit || undefined} viewBox="0 0 7 9" width="9" height="12" shapeRendering="crispEdges" aria-hidden="true">
     {FLAME_PX.map(([x, y]) => (
       <rect key={`f${x}-${y}`} x={x} y={y} width="1" height="1" className="ht-flame__outer" />
     ))}
@@ -57,30 +57,32 @@ const TakeCard = ({ take, players, onPlayer, index }: { take: HotTake; players: 
   const bodyId = useId();
   const lead = take.stats[0];
   return (
-    <li className="ht-card stagger-in" data-heat={take.heat} style={{ ...teamVars(take.teams[0]), '--i': index } as CSSProperties}>
-      <div className="ht-card__top">
+    <li className="ht-item stagger-in" data-heat={take.heat} style={{ ...teamVars(take.teams[0]), '--i': index } as CSSProperties}>
+      <span className="ht-item__n" aria-hidden="true">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+      <div className="ht-item__main">
         <HeatMeter heat={take.heat} />
-        <span className="ht-card__n" aria-hidden="true">
-          {String(index + 1).padStart(2, '0')}
-        </span>
-      </div>
-      <h4 className="ht-card__title">{take.headline}</h4>
-      <p className="ht-card__dek">{take.dek}</p>
-      {lead && <SourcedFigure stat={lead} className="ht-card__fig" />}
-      <ClubChips names={take.players} teams={take.teams} players={players} onPlayer={onPlayer} max={3} label="Players in this take" />
-      <button type="button" className="ht-toggle" aria-expanded={open} aria-controls={bodyId} onClick={() => setOpen((o) => !o)}>
-        {open ? 'Hide the argument' : 'Read the argument'}
-        <ChevronDown className="h-4 w-4" aria-hidden="true" />
-      </button>
-      {open && (
-        <div id={bodyId} className="ht-card__body">
-          {take.body.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
-          {take.players.length > 3 && <ClubChips names={take.players.slice(3)} players={players} onPlayer={onPlayer} label="More players" />}
-          <SourceList stats={take.stats} />
+        <h4 className="ht-item__title">{take.headline}</h4>
+        <p className="ht-item__dek">{take.dek}</p>
+        <div className="ht-item__foot">
+          {lead && <SourcedFigure stat={lead} className="ht-item__fig" />}
+          <ClubChips names={take.players} teams={take.teams} players={players} onPlayer={onPlayer} max={3} label="Players in this take" />
         </div>
-      )}
+        <button type="button" className="ht-toggle" aria-expanded={open} aria-controls={bodyId} onClick={() => setOpen((o) => !o)}>
+          {open ? 'Hide the argument' : 'Read the argument'}
+          <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
+        </button>
+        {open && (
+          <div id={bodyId} className="ht-item__body">
+            {take.body.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+            {take.players.length > 3 && <ClubChips names={take.players.slice(3)} players={players} onPlayer={onPlayer} label="More players" />}
+            <SourceList stats={take.stats} />
+          </div>
+        )}
+      </div>
     </li>
   );
 };
