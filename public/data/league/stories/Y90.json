@@ -1,7 +1,7 @@
 {
  "season": "Y90",
  "tagline": "The Texans end Skura's title run in Super Bowl CXLIX, Bones Crawford repeats as MVP, Calvin Wingo II arrives and Danny Diggs retires as a Broncos back takes his record.",
- "upload": "2026-11-12-stories-last3",
+ "upload": "2026-11-13-stories-last3",
  "articles": [
   {
    "id": "y90-texans-end-run",
@@ -119,9 +119,7 @@
      "source": "market_history.json snap-202611071301..snap-202611121506 WR:Kaulani Rahman s.yds"
     }
    ],
-   "related": [
-    "y89-eagles-repeat"
-   ]
+   "related": []
   },
   {
    "id": "y90-spector-ring",
@@ -132,7 +130,7 @@
     "Before Y88, Philadelphia sent Siran Spector to Houston and brought Gerrit Ogbah the other way. The Eagles won the first two titles that followed. The third went to Spector.",
     "He ran for 1,474 yards and 29 touchdowns in 20 games, every game Houston played, and finished the year with the second ring of his career and 289 rushing scores. The Texans were complete around him. Tim Sweeney threw for 3,494 yards and 36 touchdowns with only 4 interceptions, Preston Gore caught 96 passes, and the defense allowed 381 points, second only to the Eagles. Houston's only regular-season loss came in week 3, 40-30 at Minnesota.",
     "Ogbah, for his part, had his best season in Philadelphia. He ran for 1,137 yards and 14 touchdowns and caught 23 passes, 9 of them for scores, in all 20 games. It was not enough in the final.",
-    "The Super Bowl series between Skura and Houston now stands at 3-1. Houston lost two of those finals to Skura's Falcons, in Y86 and Y87. This time the trophy went to Texas, and the back Philadelphia let go was holding it."
+    "Skura still held the upper hand in his Super Bowl meetings with Houston. Houston had lost two of those finals to Skura's Falcons, in Y86 and Y87. This time the trophy went to Texas, and the back Philadelphia let go was holding it."
    ],
    "players": [
     "Siran Spector",
@@ -231,21 +229,9 @@
      "label": "Ogbah games (Y90)",
      "value": "20",
      "source": "market_history.json snap-202611071301..snap-202611121506 RB:Gerrit Ogbah s.g"
-    },
-    {
-     "label": "Skura Super Bowl wins over Houston",
-     "value": "3",
-     "source": "content.json rivalries/[id=rival-texans]/record/won"
-    },
-    {
-     "label": "Skura Super Bowl losses to Houston",
-     "value": "1",
-     "source": "content.json rivalries/[id=rival-texans]/record/lost"
     }
    ],
-   "related": [
-    "y89-texans-spector"
-   ]
+   "related": []
   },
   {
    "id": "y90-crawford-rahman",
@@ -352,9 +338,7 @@
      "source": "market_history.json snap-202611071301..snap-202611121506 WR:Kaulani Rahman value%"
     }
    ],
-   "related": [
-    "y89-crawford-mvp"
-   ]
+   "related": []
   },
   {
    "id": "y90-wingo-rookie",
@@ -403,11 +387,6 @@
      "source": "market_history.json snap-202611121506 WR:Calvin Wingo II s.yds/s.rec"
     },
     {
-     "label": "Wingo Rookie of the Year",
-     "value": "1",
-     "source": "players.json WR:Calvin Wingo II roty"
-    },
-    {
      "label": "Wingo skill grade",
      "value": "A+",
      "source": "market_history.json snap-202611121506 WR:Calvin Wingo II grade"
@@ -433,9 +412,7 @@
      "source": "market_history.json snap-202611121506 WR:Calvin Wingo II ovr"
     }
    ],
-   "related": [
-    "y89-heath-adam"
-   ]
+   "related": []
   },
   {
    "id": "y90-road-losses",
@@ -536,9 +513,7 @@
      "source": "schedule.json seasons/Y90/coachGames/[week=27]/score"
     }
    ],
-   "related": [
-    "y89-commanders"
-   ]
+   "related": []
   },
   {
    "id": "y90-rushing-record",
@@ -662,9 +637,7 @@
      "source": "market_history.json snap-202611121506 RB:Isaiah Karras s.rtd"
     }
    ],
-   "related": [
-    "y89-diggs"
-   ]
+   "related": []
   },
   {
    "id": "y90-hof-watch",
@@ -709,7 +682,7 @@
     {
      "label": "Stidham career tackles",
      "value": "3,132",
-     "source": "players.json DB:Terron Stidham tkl"
+     "source": "market_history.json snap-202611121506 DB:Terron Stidham s.tkl"
     },
     {
      "label": "Stidham Career Legacy",
@@ -724,7 +697,7 @@
     {
      "label": "Stidham behind Settle",
      "value": "53",
-     "source": "players.json DB:K'Lavon Settle tkl minus players.json DB:Terron Stidham tkl"
+     "source": "market_history.json snap-202611121506 DB:K'Lavon Settle s.tkl minus market_history.json snap-202611121506 DB:Terron Stidham s.tkl"
     },
     {
      "label": "Hobbs Career Legacy",
@@ -734,12 +707,12 @@
     {
      "label": "Hobbs interceptions",
      "value": "39",
-     "source": "players.json DB:Damar Hobbs int"
+     "source": "market_history.json snap-202611121506 DB:Damar Hobbs s.int"
     },
     {
      "label": "Hobbs behind Teamer",
      "value": "3",
-     "source": "players.json DB:Daren Teamer int minus players.json DB:Damar Hobbs int"
+     "source": "market_history.json snap-202611121506 DB:Daren Teamer s.int minus market_history.json snap-202611121506 DB:Damar Hobbs s.int"
     },
     {
      "label": "Fuller Career Legacy",
@@ -752,9 +725,7 @@
      "source": "market_history.json snap-202611121506 DL:Tanner Tuttle legacy"
     }
    ],
-   "related": [
-    "y89-hof"
-   ]
+   "related": []
   },
   {
    "id": "y90-retirements",
@@ -792,77 +763,75 @@
     {
      "label": "Heath rings",
      "value": "8",
-     "source": "players.json WR:Vyncint Heath rings"
+     "source": "market_history.json snap-202611121506 WR:Vyncint Heath s.rings"
     },
     {
      "label": "Heath OPOY awards",
      "value": "3",
-     "source": "players.json WR:Vyncint Heath opoy"
+     "source": "market_history.json snap-202611121506 WR:Vyncint Heath s.opoy"
     },
     {
      "label": "Heath Super Bowl MVPs",
      "value": "2",
-     "source": "players.json WR:Vyncint Heath sbmvp"
+     "source": "market_history.json snap-202611121506 WR:Vyncint Heath s.sbmvp"
     },
     {
      "label": "Heath catches",
      "value": "891",
-     "source": "players.json WR:Vyncint Heath rec"
+     "source": "market_history.json snap-202611121506 WR:Vyncint Heath s.rec"
     },
     {
      "label": "Heath yards",
      "value": "16,483",
-     "source": "players.json WR:Vyncint Heath yds"
+     "source": "market_history.json snap-202611121506 WR:Vyncint Heath s.yds"
     },
     {
      "label": "Heath TDs",
      "value": "180",
-     "source": "players.json WR:Vyncint Heath td"
+     "source": "market_history.json snap-202611121506 WR:Vyncint Heath s.td"
     },
     {
      "label": "Heath games",
      "value": "153",
-     "source": "players.json WR:Vyncint Heath g"
+     "source": "market_history.json snap-202611121506 WR:Vyncint Heath s.g"
     },
     {
      "label": "Teamer tackles",
      "value": "2,740",
-     "source": "players.json DB:Daren Teamer tkl"
+     "source": "market_history.json snap-202611121506 DB:Daren Teamer s.tkl"
     },
     {
      "label": "Teamer interceptions",
      "value": "42",
-     "source": "players.json DB:Daren Teamer int"
+     "source": "market_history.json snap-202611121506 DB:Daren Teamer s.int"
     },
     {
      "label": "Diggs rushing TDs",
      "value": "408",
-     "source": "players.json RB:Danny Diggs rtd"
+     "source": "market_history.json snap-202611121506 RB:Danny Diggs s.rtd"
     },
     {
      "label": "Colbert rushing TDs",
      "value": "314",
-     "source": "players.json RB:Cairo Colbert rtd"
+     "source": "market_history.json snap-202611121506 RB:Cairo Colbert s.rtd"
     },
     {
      "label": "Boltt passing yards",
      "value": "48,211",
-     "source": "players.json QB:Hamsfa Boltt yds"
+     "source": "market_history.json snap-202611121506 QB:Hamsfa Boltt s.yds"
     },
     {
      "label": "Woodrum rings",
      "value": "8",
-     "source": "players.json DB:Chance Woodrum rings"
+     "source": "market_history.json snap-202611121506 DB:Chance Woodrum s.rings"
     },
     {
      "label": "Woodrum tackles",
      "value": "1,635",
-     "source": "players.json DB:Chance Woodrum tkl"
+     "source": "market_history.json snap-202611121506 DB:Chance Woodrum s.tkl"
     }
    ],
-   "related": [
-    "y89-retirements"
-   ]
+   "related": []
   },
   {
    "id": "y90-quick-hits",
@@ -872,7 +841,7 @@
    "body": [
     "Jamon Brooker of the Packers made 210 tackles and won his second Defensive Player of the Year award; Green Bay's season ended 24-21 in Philadelphia.",
     "Jacksonville went 2-15 and still produced the upset of the year, 47-43 at Buffalo, a 13-4 team.",
-    "Buffalo beat Tennessee 61-58 in week 7, 119 points, the most combined in the weekly scores; Carolina's 65 at Atlanta is the most by one club.",
+    "Buffalo beat Tennessee 61-58 in week 7, 119 points, the most combined of the season; Carolina's 65 at Atlanta was the most by one club this season.",
     "Xavier Mosley of the Raiders ran for 1,691 yards and 30 touchdowns, and Angelo Moton of the Packers also scored 30.",
     "New colors at season's end: Keaton Toney with the Falcons after Tampa Bay, Kyron Atwell and Deshone Bello with the Jets after Atlanta, Rodger Samuel and Treyvon Scott with the Steelers after Green Bay.",
     "Atwell made 212 tackles in 17 games; Raphael Mosely of the Rams made 213 in 19.",
@@ -914,7 +883,7 @@
     {
      "label": "Brooker DPOY awards",
      "value": "2",
-     "source": "players.json DB:Jamon Brooker dpoy"
+     "source": "market_history.json snap-202611121506 DB:Jamon Brooker s.dpoy"
     },
     {
      "label": "Conference final",
@@ -949,12 +918,12 @@
     {
      "label": "Most combined points",
      "value": "119",
-     "source": "schedule.json records/[id=most-combined]/value"
+     "source": "schedule.json seasons/Y90/shootout/total"
     },
     {
      "label": "Most points by one club",
      "value": "65",
-     "source": "schedule.json records/[id=most-points]/value"
+     "source": "schedule.json seasons/Y90/games/257/awayScore"
     },
     {
      "label": "Mosley rushing yards (Y90)",

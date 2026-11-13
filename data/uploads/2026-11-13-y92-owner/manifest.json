@@ -1,0 +1,170 @@
+{
+ "id": "2026-11-13-y92-owner",
+ "created": "2026-11-13",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Cordell Bulaga/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Damarri Melvin/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dare Talib/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Derek Amadi/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Fred Kmet/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Gus Langley/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kahzin Heath/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kalif Suh/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Keelan Blair/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Mykal Mosby/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Pete Peters/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Quenton Fuller/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Thomas Gano/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Yasir Gray/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Andrew Dwight/team",
+   "value": "FA",
+   "source": "owner",
+   "reason": "Owner: \"Both free agents\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Russ Bello/team",
+   "value": "FA",
+   "source": "owner",
+   "reason": "Owner: \"Both free agents\" (on no Y92 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kaulani Rahman/team",
+   "value": "Rams",
+   "source": "owner",
+   "reason": "Owner: \"Both traded\" (traded by the Eagles to the Rams before Y92; on the Y92 Rams roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Dwayne Skura/team",
+   "value": "Colts",
+   "source": "owner",
+   "reason": "Owner: \"Both traded\" (traded by the Eagles to the Colts before Y92; on the Y92 Colts roster)",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}

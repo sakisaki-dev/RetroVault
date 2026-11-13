@@ -81,6 +81,12 @@ other row is a deterministic rule that `npm run update` / `npm run rebuild` runs
 | 16 | Checks: audit (0 errors), typecheck, sprite check, build | Rule | `npm run update` | `audit.ts`, `check_sprites.ts` |
 | 17 | Publish: commit and push (Pages redeploys), rebuild the LAN preview (`npm run build`), the widget picks up `widget.json` (and its own code) within about 2 hours | Rule | After the checks pass | Step 7 |
 
+**Players missing from a full-league recording are retired** (owner: "if a player does not show up in the screen
+recording assume that they have retired"): when an upload covers every club's roster, anyone active before who is on no
+roster gets `fact.set players/<name>/status "Retired"` (source "owner", reason quoting this rule) in the same or a
+follow-up bundle, with no question asked. The owner's own word overrides it (a release is `team "FA"`, a trade is
+`team "<club>"`), and a club change seen on the rosters is recorded from the roster screen as usual.
+
 After an update, ask the owner about anything left open: new players' teams, a misread the audit flagged, open stint
 questions in content.json.
 

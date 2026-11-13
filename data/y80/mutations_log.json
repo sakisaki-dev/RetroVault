@@ -1126,6 +1126,70 @@
     "stats": 4
    },
    "changed": 4
+  },
+  {
+   "id": "2026-11-13-y92",
+   "dir": "data/uploads/2026-11-13-y92",
+   "applied_at": "2026-11-13T09:28:52-08:00",
+   "mutations": {
+    "stats": 365
+   },
+   "changed": 1532
+  },
+  {
+   "id": "2026-11-13-y92-owner",
+   "dir": "data/uploads/2026-11-13-y92-owner",
+   "applied_at": "2026-11-13T09:30:29-08:00",
+   "mutations": {
+    "stats": 18
+   },
+   "changed": 16
+  },
+  {
+   "id": "2026-11-13-refresh-y92",
+   "dir": "data/uploads/2026-11-13-refresh-y92",
+   "applied_at": "2026-11-13T09:34:40-08:00",
+   "mutations": {
+    "story": 2,
+    "takes": 2
+   },
+   "changed": 4
+  },
+  {
+   "id": "2026-11-13-speeches-y92",
+   "dir": "data/uploads/2026-11-13-speeches-y92",
+   "applied_at": "2026-11-13T09:34:50-08:00",
+   "mutations": {
+    "speech": 7
+   },
+   "changed": 7
+  },
+  {
+   "id": "2026-11-13-story-y92",
+   "dir": "data/uploads/2026-11-13-story-y92",
+   "applied_at": "2026-11-13T09:38:15-08:00",
+   "mutations": {
+    "story": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-13-takes-y92",
+   "dir": "data/uploads/2026-11-13-takes-y92",
+   "applied_at": "2026-11-13T09:38:25-08:00",
+   "mutations": {
+    "takes": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-13-stories-last3",
+   "dir": "data/uploads/2026-11-13-stories-last3",
+   "applied_at": "2026-11-13T09:38:37-08:00",
+   "mutations": {
+    "story": 2
+   },
+   "changed": 2
   }
  ]
 }
