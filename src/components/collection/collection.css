@@ -422,7 +422,9 @@ button.fut__card:focus-visible {
 /* Finish pip, above the point */
 .fut__pip {
   position: absolute;
-  bottom: 4.5%;
+  /* Above the angled point: the clip narrows below 91% of the height (about 31% wide at 95.5%), so a label sitting
+     lower lost its ends ("Common · Jersey"); at 7.6% from the bottom the whole line has about 64% of the width */
+  bottom: 7.6%;
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
@@ -435,9 +437,8 @@ button.fut__card:focus-visible {
   white-space: nowrap;
   opacity: 0.85;
 }
-/* "Legendary · Locker" is the longest label: a touch smaller so it clears the point */
+/* "Legendary · Locker" is the longest label: a touch smaller */
 .fut--legendary .fut__pip {
-  bottom: 5.4%;
   font-size: 2.7cqw;
 }
 .fut__pip svg {

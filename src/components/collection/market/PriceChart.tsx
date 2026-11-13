@@ -154,8 +154,11 @@ const PriceChart = ({ points, title, format = (v) => v.toLocaleString('en-US'), 
           <span>{points[n - 1].label}</span>
         </figcaption>
       )}
+      {/* sr-only goes on a wrapper: a table ignores its 1px height, and its hidden rows ran on below the content (the
+          card window scrolled ~400px of empty navy past its team background) */}
       {!mini && (
-        <table className="sr-only">
+        <div className="sr-only">
+        <table>
           <caption>{title}</caption>
           <thead>
             <tr>
@@ -174,6 +177,7 @@ const PriceChart = ({ points, title, format = (v) => v.toLocaleString('en-US'), 
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </figure>
   );
