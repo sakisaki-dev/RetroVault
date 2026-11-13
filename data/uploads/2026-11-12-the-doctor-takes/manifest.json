@@ -1,0 +1,672 @@
+{
+ "id": "2026-11-12-the-doctor-takes",
+ "created": "2026-11-12",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "takes",
+   "reason": "Use the new nickname",
+   "trigger": "Owner renamed a nickname a take uses"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "takes",
+   "op": "takes.set",
+   "target": "Y90",
+   "value": {
+    "reason": "Bones Crawford's nickname is now The Doctor",
+    "trigger": "Owner renamed the nickname (bundle 2026-11-12-the-doctor)",
+    "intro": "The Y90 season is in the books, and the numbers have opinions. Every figure below comes straight from the league data. The arguments are ours to defend.",
+    "takes": [
+     {
+      "id": "y90-take-skura-not-maxwell",
+      "heat": 3,
+      "headline": "The Falcons Dynasty Belonged to Dorren Skura, and Ryland Maxwell's Numbers Prove It",
+      "dek": "Three seasons in Atlanta with Skura, three without him: the same back, two different careers.",
+      "body": [
+       "From Y85 through Y87, with Skura on the Atlanta sideline, Ryland \"Mad Max\" Maxwell ran for 2,617, 2,150 and 2,669 yards. The Falcons won the title all three years. Then Skura left for Philadelphia. Maxwell stayed, and his next three seasons came in at 1,403, 1,172 and 1,223 yards.",
+       "Shorter seasons explain only part of it. Without the long playoff runs, Maxwell played 17 games in each of the last two years after 20 in Y87. Per game he fell from 133 rushing yards in Y87 to 72 in Y90. The Falcons fell with him, to 9-8, while Skura won two more titles in Philadelphia. Systems travel. Running backs, it turns out, do not."
+      ],
+      "players": [
+       "Ryland Maxwell"
+      ],
+      "teams": [
+       "Falcons",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Maxwell rushing yards, Y87 (with Skura)",
+        "value": "2,669",
+        "source": "market_history.json snap-202610300346..snap-202611041058 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Maxwell rushing yards, Y85 (with Skura)",
+        "value": "2,617",
+        "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Maxwell rushing yards, Y86 (with Skura)",
+        "value": "2,150",
+        "source": "market_history.json snap-202610281922..snap-202610300346 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Maxwell rushing yards, Y88 (without Skura)",
+        "value": "1,403",
+        "source": "market_history.json snap-202611041446..snap-202611051056 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Maxwell rushing yards, Y89",
+        "value": "1,172",
+        "source": "market_history.json snap-202611051109..snap-202611071241 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Maxwell rushing yards, Y90",
+        "value": "1,223",
+        "source": "market_history.json snap-202611071301..snap-202611121506 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Maxwell games, Y89",
+        "value": "17",
+        "source": "market_history.json snap-202611051109..snap-202611071241 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Maxwell games, Y90",
+        "value": "17",
+        "source": "market_history.json snap-202611071301..snap-202611121506 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Maxwell games, Y87",
+        "value": "20",
+        "source": "market_history.json snap-202610300346..snap-202611041058 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Falcons record, Y90",
+        "value": "9-8",
+        "source": "schedule.json seasons/Y90/table/[abbr=ATL]/record"
+       },
+       {
+        "label": "Maxwell rushing yards per game, Y87",
+        "value": "133",
+        "source": "market_history.json snap-202610300346..snap-202611041058 RB:Ryland Maxwell s.ryds/s.g"
+       },
+       {
+        "label": "Maxwell rushing yards per game, Y90",
+        "value": "72",
+        "source": "market_history.json snap-202611071301..snap-202611121506 RB:Ryland Maxwell s.ryds/s.g"
+       }
+      ]
+     },
+     {
+      "id": "y90-take-crawford-brandson",
+      "heat": 3,
+      "headline": "Game for Game, Bones Crawford Is Already Out-Throwing Sherman Brandson",
+      "dek": "The record holder owns the totals. The Eagles quarterback owns the rates, everything except the interceptions.",
+      "body": [
+       "Sherman Brandson's 91,463 passing yards and 1,150 touchdown passes are not going anywhere. Measure the two quarterbacks by the game, though, and the order flips. Bones Crawford has thrown for 297 yards per game to Brandson's 290, and completed 86 percent of his passes to Brandson's 85. He has two MVP awards and two rings in his first 59 games.",
+       "The case against him is real, and it is one number: 1.29 interceptions per game, double Brandson's 0.63. The Doctor does not need to throw more. He needs to throw fewer to the other team. Fix that, and this stops being a hot take."
+      ],
+      "players": [
+       "Bones Crawford",
+       "Sherman Brandson"
+      ],
+      "teams": [
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Crawford passing yards per game",
+        "value": "297",
+        "source": "players.json QB:Bones Crawford yds/g"
+       },
+       {
+        "label": "Brandson passing yards per game",
+        "value": "290",
+        "source": "players.json QB:Sherman Brandson yds/g"
+       },
+       {
+        "label": "Crawford completion rate",
+        "value": "86%",
+        "source": "players.json QB:Bones Crawford cmp/att%"
+       },
+       {
+        "label": "Brandson completion rate",
+        "value": "85%",
+        "source": "players.json QB:Sherman Brandson cmp/att%"
+       },
+       {
+        "label": "Brandson career passing yards",
+        "value": "91,463",
+        "source": "players.json QB:Sherman Brandson yds"
+       },
+       {
+        "label": "Brandson career TD passes",
+        "value": "1,150",
+        "source": "players.json QB:Sherman Brandson td"
+       },
+       {
+        "label": "Crawford games",
+        "value": "59",
+        "source": "players.json QB:Bones Crawford g"
+       },
+       {
+        "label": "Crawford interceptions per game",
+        "value": "1.29",
+        "source": "players.json QB:Bones Crawford int/g"
+       },
+       {
+        "label": "Brandson interceptions per game",
+        "value": "0.63",
+        "source": "players.json QB:Sherman Brandson int/g"
+       }
+      ]
+     },
+     {
+      "id": "y90-take-houston-luck",
+      "heat": 2,
+      "headline": "Philadelphia Was the Better Team in Y90; Houston Was the Luckier One",
+      "dek": "The Eagles allowed fewer points and won by more. The Texans won every close game they played.",
+      "body": [
+       "Houston's 16-1 season is real, and so is the 32-22 win in Super Bowl CXLIX. But the Eagles allowed 360 points to Houston's 381 and finished with a point differential of 203 to Houston's 196. On points scored and allowed, the Texans project to about 12.4 wins. They won 16, and they went 5-0 in one-score games.",
+       "Close games are where luck lives, and luck does not carry over from one season to the next. Philadelphia's margins are the better bet to last into Y91."
+      ],
+      "players": [],
+      "teams": [
+       "Eagles",
+       "Texans"
+      ],
+      "stats": [
+       {
+        "label": "Texans expected wins (points for and against)",
+        "value": "12.4",
+        "source": "schedule.json seasons/Y90/table/[abbr=HOU]/expWins"
+       },
+       {
+        "label": "Texans record",
+        "value": "16-1",
+        "source": "schedule.json seasons/Y90/table/[abbr=HOU]/record"
+       },
+       {
+        "label": "Super Bowl CXLIX",
+        "value": "32-22",
+        "source": "super_bowls.json Y90 score"
+       },
+       {
+        "label": "Eagles points allowed",
+        "value": "360",
+        "source": "schedule.json seasons/Y90/table/[abbr=PHI]/pa"
+       },
+       {
+        "label": "Texans points allowed",
+        "value": "381",
+        "source": "schedule.json seasons/Y90/table/[abbr=HOU]/pa"
+       },
+       {
+        "label": "Eagles point differential",
+        "value": "203",
+        "source": "schedule.json seasons/Y90/table/[abbr=PHI]/diff"
+       },
+       {
+        "label": "Texans point differential",
+        "value": "196",
+        "source": "schedule.json seasons/Y90/table/[abbr=HOU]/diff"
+       },
+       {
+        "label": "Texans in one-score games",
+        "value": "5-0",
+        "source": "schedule.json seasons/Y90/table/[abbr=HOU]/oneScore"
+       }
+      ]
+     },
+     {
+      "id": "y90-take-texans-no-stars",
+      "heat": 1,
+      "headline": "Houston Won a Title Without a Single S-Grade Card, and the League Should Copy It",
+      "dek": "The champions' best-graded player is an A. The balance around him did the rest.",
+      "body": [
+       "Siran Spector is the best-graded Texan on the market, at A. Tim Sweeney grades C and Preston Gore B. No one on the roster carries an S, and Houston went 16-1 anyway.",
+       "Look at how it happened. Sweeney threw 36 touchdown passes against 4 interceptions. Spector ran for 29 touchdowns. The defense allowed 381 points, second only to Philadelphia. Nobody had to be the best player in the league because nobody gave the game away. Every front office chasing one superstar card should study the club that won without one."
+      ],
+      "players": [
+       "Siran Spector",
+       "Tim Sweeney",
+       "Preston Gore"
+      ],
+      "teams": [
+       "Texans"
+      ],
+      "stats": [
+       {
+        "label": "Texans record",
+        "value": "16-1",
+        "source": "schedule.json seasons/Y90/table/[abbr=HOU]/record"
+       },
+       {
+        "label": "Spector skill grade",
+        "value": "A",
+        "source": "market_history.json snap-202611121506 RB:Siran Spector grade"
+       },
+       {
+        "label": "Sweeney skill grade",
+        "value": "C",
+        "source": "market_history.json snap-202611121506 QB:Tim Sweeney grade"
+       },
+       {
+        "label": "Gore skill grade",
+        "value": "B",
+        "source": "market_history.json snap-202611121506 TE:Preston Gore grade"
+       },
+       {
+        "label": "Sweeney TD passes (Y90)",
+        "value": "36",
+        "source": "market_history.json snap-202611071301..snap-202611121506 QB:Tim Sweeney s.td"
+       },
+       {
+        "label": "Sweeney interceptions (Y90)",
+        "value": "4",
+        "source": "market_history.json snap-202611071301..snap-202611121506 QB:Tim Sweeney s.int"
+       },
+       {
+        "label": "Spector rushing TDs (Y90)",
+        "value": "29",
+        "source": "market_history.json snap-202611071301..snap-202611121506 RB:Siran Spector s.rtd"
+       },
+       {
+        "label": "Texans points allowed",
+        "value": "381",
+        "source": "schedule.json seasons/Y90/table/[abbr=HOU]/pa"
+       }
+      ]
+     },
+     {
+      "id": "y90-take-mccoy-compiler",
+      "heat": 2,
+      "headline": "Lane McCoy's Touchdown Total Is a Compiler's Number, Not a Legend's",
+      "dek": "Two other backs built nearly the same career, and the three of them share one ring.",
+      "body": [
+       "Lane McCoy has 21,940 rushing yards and 409 rushing touchdowns, more touchdowns than any running back in the league. It sounds like greatness until the neighbors show up. Danny Diggs finished with 21,421 yards and 408 touchdowns. Trequan Jensen finished with 21,690 yards and 388.",
+       "Same volume, same shape, and between the three of them, one Super Bowl ring, Jensen's with Green Bay in Y79. McCoy's Broncos went 3-14 this season. Longevity is a skill, and McCoy has plenty of it. It is not the same thing as being the best."
+      ],
+      "players": [
+       "Lane McCoy",
+       "Danny Diggs",
+       "Trequan Jensen"
+      ],
+      "teams": [
+       "Broncos",
+       "Jaguars",
+       "Packers"
+      ],
+      "stats": [
+       {
+        "label": "McCoy career rushing TDs",
+        "value": "409",
+        "source": "players.json RB:Lane McCoy rtd"
+       },
+       {
+        "label": "McCoy career rushing yards",
+        "value": "21,940",
+        "source": "players.json RB:Lane McCoy ryds"
+       },
+       {
+        "label": "Diggs career rushing yards",
+        "value": "21,421",
+        "source": "players.json RB:Danny Diggs ryds"
+       },
+       {
+        "label": "Diggs career rushing TDs",
+        "value": "408",
+        "source": "players.json RB:Danny Diggs rtd"
+       },
+       {
+        "label": "Jensen career rushing yards",
+        "value": "21,690",
+        "source": "players.json RB:Trequan Jensen ryds"
+       },
+       {
+        "label": "Jensen career rushing TDs",
+        "value": "388",
+        "source": "players.json RB:Trequan Jensen rtd"
+       },
+       {
+        "label": "Broncos record, Y90",
+        "value": "3-14",
+        "source": "schedule.json seasons/Y90/table/[abbr=DEN]/record"
+       }
+      ]
+     },
+     {
+      "id": "y90-take-lamar-overrated",
+      "heat": 3,
+      "headline": "Lamar Jackson Is the Most Overrated Legend in the League",
+      "dek": "The rushing yards are historic. The touchdown production is not.",
+      "body": [
+       "No quarterback has run like Lamar Jackson. His 7,939 rushing yards are more than three times the 2,396 of Jayden Daniels, the next quarterback on the list. That is the highlight reel, and it is why the reputation is so big.",
+       "Count his touchdowns, passing and rushing together, and Jackson produced 2.25 per game over 345 games. Sherman Brandson threw 3.65 touchdown passes per game before a single run is added. Dennis Baylon totaled 3.40 per game and Ray Waller 2.84. Jackson has 2 rings and no Super Bowl MVP. The runs were real. The scoreboard puts him a tier below."
+      ],
+      "players": [
+       "Lamar Jackson",
+       "Jayden Daniels",
+       "Sherman Brandson",
+       "Dennis Baylon",
+       "Ray Waller"
+      ],
+      "teams": [
+       "Ravens"
+      ],
+      "stats": [
+       {
+        "label": "Jackson total TDs per game",
+        "value": "2.25",
+        "source": "players.json QB:Lamar Jackson td+rtd/g"
+       },
+       {
+        "label": "Jackson rushing yards",
+        "value": "7,939",
+        "source": "players.json QB:Lamar Jackson ryds"
+       },
+       {
+        "label": "Daniels rushing yards",
+        "value": "2,396",
+        "source": "players.json QB:Jayden Daniels ryds"
+       },
+       {
+        "label": "Jackson games",
+        "value": "345",
+        "source": "players.json QB:Lamar Jackson g"
+       },
+       {
+        "label": "Brandson TD passes per game",
+        "value": "3.65",
+        "source": "players.json QB:Sherman Brandson td/g"
+       },
+       {
+        "label": "Baylon total TDs per game",
+        "value": "3.40",
+        "source": "players.json QB:Dennis Baylon td+rtd/g"
+       },
+       {
+        "label": "Waller total TDs per game",
+        "value": "2.84",
+        "source": "players.json QB:Ray Waller td+rtd/g"
+       },
+       {
+        "label": "Jackson rings",
+        "value": "2",
+        "source": "players.json QB:Lamar Jackson rings"
+       }
+      ]
+     },
+     {
+      "id": "y90-take-shaheed",
+      "heat": 2,
+      "headline": "Releasing Kenyon Shaheed Was the Right Call",
+      "dek": "Philadelphia let its tight end go with his card at its peak, right after his quietest season.",
+      "body": [
+       "Philadelphia released Kenyon Shaheed after Y90, and the timing was right. His card had never looked better: his rating jumped from 69 to 85 over the season. The production went the other way. He caught 56 passes for 782 yards in Y90, down from 74 catches and 1,141 yards in Y89.",
+       "This passing game runs through its receivers. Kaulani Rahman gained 2,495 yards and Calvin Wingo II 2,218, each well over twice what Shaheed gave the Eagles. A tight end priced on an 85 rating was a luxury this offense did not need."
+      ],
+      "players": [
+       "Kenyon Shaheed",
+       "Kaulani Rahman",
+       "Calvin Wingo II"
+      ],
+      "teams": [
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Shaheed OVR after Y90",
+        "value": "85",
+        "source": "market_history.json snap-202611121506 TE:Kenyon Shaheed ovr"
+       },
+       {
+        "label": "Shaheed OVR after Y89",
+        "value": "69",
+        "source": "market_history.json snap-202611071301 TE:Kenyon Shaheed ovr"
+       },
+       {
+        "label": "Shaheed catches (Y90)",
+        "value": "56",
+        "source": "market_history.json snap-202611071301..snap-202611121506 TE:Kenyon Shaheed s.rec"
+       },
+       {
+        "label": "Shaheed receiving yards (Y90)",
+        "value": "782",
+        "source": "market_history.json snap-202611071301..snap-202611121506 TE:Kenyon Shaheed s.yds"
+       },
+       {
+        "label": "Shaheed catches (Y89)",
+        "value": "74",
+        "source": "market_history.json snap-202611051109..snap-202611071241 TE:Kenyon Shaheed s.rec"
+       },
+       {
+        "label": "Shaheed receiving yards (Y89)",
+        "value": "1,141",
+        "source": "market_history.json snap-202611051109..snap-202611071241 TE:Kenyon Shaheed s.yds"
+       },
+       {
+        "label": "Rahman receiving yards (Y90)",
+        "value": "2,495",
+        "source": "market_history.json snap-202611071301..snap-202611121506 WR:Kaulani Rahman s.yds"
+       },
+       {
+        "label": "Wingo receiving yards (Y90)",
+        "value": "2,218",
+        "source": "players.json WR:Calvin Wingo II yds"
+       }
+      ]
+     },
+     {
+      "id": "y90-take-god-johnson",
+      "heat": 2,
+      "headline": "God Johnson, Not Sherman Brandson, Is the Most Dominant Player the League Has Seen",
+      "dek": "Brandson leads the next quarterback by a sliver. Johnson leads the next receiver by a mile.",
+      "body": [
+       "Brandson's 91,463 passing yards lead Wayne Wilson's 90,450 by 1,013, and Wilson needed 431 games to get there. God Johnson's 36,005 receiving yards lead Ian Finney's 32,980 by 3,025, at a position that gains far fewer yards to begin with. In touchdowns it is 378 for Johnson and 292 for Finney, a gap of 86, and Johnson did it in 234 games to Finney's 250.",
+       "He also holds the receiving season record on the board, 4,247 yards in Y62. Brandson is the greatest quarterback. Johnson is further ahead of everyone else."
+      ],
+      "players": [
+       "God Johnson",
+       "Sherman Brandson",
+       "Wayne Wilson",
+       "Ian Finney"
+      ],
+      "teams": [
+       "Vikings",
+       "Buccaneers"
+      ],
+      "stats": [
+       {
+        "label": "Johnson's receiving-yards lead",
+        "value": "3,025",
+        "source": "players.json WR:God Johnson yds minus players.json WR:Ian Finney yds"
+       },
+       {
+        "label": "Brandson career passing yards",
+        "value": "91,463",
+        "source": "players.json QB:Sherman Brandson yds"
+       },
+       {
+        "label": "Wilson career passing yards",
+        "value": "90,450",
+        "source": "players.json QB:Wayne Wilson yds"
+       },
+       {
+        "label": "Brandson's passing-yards lead",
+        "value": "1,013",
+        "source": "players.json QB:Sherman Brandson yds minus players.json QB:Wayne Wilson yds"
+       },
+       {
+        "label": "Wilson games",
+        "value": "431",
+        "source": "players.json QB:Wayne Wilson g"
+       },
+       {
+        "label": "Johnson career receiving yards",
+        "value": "36,005",
+        "source": "players.json WR:God Johnson yds"
+       },
+       {
+        "label": "Finney career receiving yards",
+        "value": "32,980",
+        "source": "players.json WR:Ian Finney yds"
+       },
+       {
+        "label": "Johnson receiving TDs",
+        "value": "378",
+        "source": "players.json WR:God Johnson td"
+       },
+       {
+        "label": "Finney receiving TDs",
+        "value": "292",
+        "source": "players.json WR:Ian Finney td"
+       },
+       {
+        "label": "Johnson's TD lead",
+        "value": "86",
+        "source": "players.json WR:God Johnson td minus players.json WR:Ian Finney td"
+       },
+       {
+        "label": "Johnson games",
+        "value": "234",
+        "source": "players.json WR:God Johnson g"
+       },
+       {
+        "label": "Finney games",
+        "value": "250",
+        "source": "players.json WR:Ian Finney g"
+       },
+       {
+        "label": "Best receiving season",
+        "value": "4,247 yds",
+        "source": "records.json Best receiving season mark"
+       }
+      ]
+     },
+     {
+      "id": "y90-take-waller-overrated",
+      "heat": 2,
+      "headline": "Ray Waller's Interceptions Should Keep Him Out of the Greatest-Quarterback Debate",
+      "dek": "Nobody has thrown more of them, and every passer with more career yards protects the ball better.",
+      "body": [
+       "Ray Waller has 70,128 passing yards, 749 touchdown passes and 5 rings. He also has 214 interceptions, the most of any quarterback in the league and 2 more than Wayne Wilson, who needed 431 games to Waller's 278.",
+       "His ratio of touchdowns to interceptions is 3.5. Sherman Brandson's is 5.81 and Jason Macleone's 6.02. Every quarterback with more career passing yards than Waller has a better ratio. The comebacks made the nickname. The turnovers made them necessary."
+      ],
+      "players": [
+       "Ray Waller",
+       "Wayne Wilson",
+       "Sherman Brandson",
+       "Jason Macleone"
+      ],
+      "teams": [
+       "Buccaneers"
+      ],
+      "stats": [
+       {
+        "label": "Waller interceptions",
+        "value": "214",
+        "source": "players.json QB:Ray Waller int"
+       },
+       {
+        "label": "Waller passing yards",
+        "value": "70,128",
+        "source": "players.json QB:Ray Waller yds"
+       },
+       {
+        "label": "Waller TD passes",
+        "value": "749",
+        "source": "players.json QB:Ray Waller td"
+       },
+       {
+        "label": "Waller rings",
+        "value": "5",
+        "source": "players.json QB:Ray Waller rings"
+       },
+       {
+        "label": "More than Wilson",
+        "value": "2",
+        "source": "players.json QB:Ray Waller int minus players.json QB:Wayne Wilson int"
+       },
+       {
+        "label": "Wilson games",
+        "value": "431",
+        "source": "players.json QB:Wayne Wilson g"
+       },
+       {
+        "label": "Waller games",
+        "value": "278",
+        "source": "players.json QB:Ray Waller g"
+       },
+       {
+        "label": "Waller TD-to-INT ratio",
+        "value": "3.5",
+        "source": "players.json QB:Ray Waller td/int"
+       },
+       {
+        "label": "Brandson TD-to-INT ratio",
+        "value": "5.81",
+        "source": "players.json QB:Sherman Brandson td/int"
+       },
+       {
+        "label": "Macleone TD-to-INT ratio",
+        "value": "6.02",
+        "source": "players.json QB:Jason Macleone td/int"
+       }
+      ]
+     },
+     {
+      "id": "y90-take-baylon-record",
+      "heat": 1,
+      "headline": "Dennis Baylon's 7,452-Yard Season Will Never Be Broken",
+      "dek": "Not by Brandson, and not by the best young passer Skura has had in years.",
+      "body": [
+       "Dennis Baylon threw for 7,452 yards for Skura's Bills in Y33, and the record board has not moved since. Not even Sherman Brandson, whose 94 touchdown passes in Y55 sit on the same board, got past it.",
+       "Bones Crawford is the best young passer Skura has had in years. He opened his career with 5,922 yards in Y88 and still finished 1,530 short. His Y90 brought 5,327. The game has changed around the record, and nobody is getting there."
+      ],
+      "players": [
+       "Dennis Baylon",
+       "Bones Crawford",
+       "Sherman Brandson"
+      ],
+      "teams": [
+       "Bills",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Best passing season",
+        "value": "7,452 yds",
+        "source": "records.json Best passing season mark"
+       },
+       {
+        "label": "Most TD passes, season",
+        "value": "94",
+        "source": "records.json Most TD passes, season mark"
+       },
+       {
+        "label": "Crawford passing yards, Y88",
+        "value": "5,922",
+        "source": "market_history.json snap-202611051109 QB:Bones Crawford s.yds"
+       },
+       {
+        "label": "Short of the record",
+        "value": "1,530",
+        "source": "records.json Best passing season mark minus market_history.json snap-202611051109 QB:Bones Crawford s.yds"
+       },
+       {
+        "label": "Crawford passing yards, Y90",
+        "value": "5,327",
+        "source": "market_history.json snap-202611071301..snap-202611121506 QB:Bones Crawford s.yds"
+       }
+      ]
+     }
+    ]
+   },
+   "source": "data:hot_takes.json,players.json",
+   "reason": "Nickname change: Dr. Bones becomes The Doctor",
+   "trigger": "Owner renamed the nickname (bundle 2026-11-12-the-doctor)"
+  }
+ ]
+}
