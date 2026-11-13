@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import type { Player } from '@/types/player';
 import { legacyMix } from '@/config/advanced';
-import { HOF_THRESHOLD, LEGACY_TIERS, getLegacyTier } from '@/config/stats';
+import { getLegacyTier, isHallOfFamer } from '@/config/stats';
+import { hofClassLabel, hofStandingOf, useHallOfFame } from '@/utils/hallOfFame';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { useLeagueContent } from '@/utils/leagueContent';
@@ -21,9 +22,6 @@ export interface PosStat {
   decimals: number;
   pct: number | null;
 }
-
-/** 16-game seasons, as the record-pace tracker uses. */
-const SEASON_GAMES = 16;
 
 /** Career arc, legacy composition, talent numbers vs the position, and Hall of Fame status / pace. */
 const DdCareer = ({ player, posStats }: { player: Player; posStats: PosStat[] }) => {
@@ -47,13 +45,13 @@ const DdCareer = ({ player, posStats }: { player: Player; posStats: PosStat[] })
   ];
   const total = Math.max(mix.total, 1);
 
-  // Hall of Fame status: next tier, or distance + pace to the 7,000 line.
-  const perGame = player.games > 0 ? player.careerLegacy / player.games : 0;
-  const nextTier = [...LEGACY_TIERS].reverse().find((t) => t.min > player.careerLegacy);
-  const target = tier ? nextTier?.min : HOF_THRESHOLD;
-  const remaining = target != null ? target - player.careerLegacy : 0;
-  const gamesNeeded = perGame > 0 ? Math.ceil(remaining / perGame) : Infinity;
-  const progress = Math.min(100, (player.careerLegacy / ((target ?? player.careerLegacy) || 1)) * 100);
+  // Hall of Fame status (scripts/hall_of_fame.py): member, ballot, near miss or the active watch list, as score vs the bar
+  const { data: hof } = useHallOfFame();
+  const bar = hof?.bar ?? 65;
+  const standing = hofStandingOf(hof, `${player.position}:${player.name}`);
+  const inHall = standing?.kind === 'member' || isHallOfFamer(player);
+  const score = standing?.entry.score ?? null;
+  const progress = score == null ? 0 : inHall ? score : Math.min(100, (score / bar) * 100);
 
   return (
     <div className="grid gap-3 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
@@ -68,33 +66,46 @@ const DdCareer = ({ player, posStats }: { player: Player; posStats: PosStat[] })
         <div className="glass-card space-y-2 p-3 sm:p-4">
           <h3 className="flex items-baseline justify-between font-display text-base font-bold uppercase tracking-wide">
             Hall of Fame
-            <span className="font-mono text-xs font-normal normal-case text-muted-foreground">{fmtNum(player.careerLegacy, 0)} legacy</span>
+            <span className="font-mono text-xs font-normal normal-case text-muted-foreground">{score != null ? `Score ${score} · ` : ''}{fmtNum(player.careerLegacy, 0)} legacy</span>
           </h3>
-          {tier ? (
+          {standing?.kind === 'member' ? (
             <p className="text-sm">
-              <b className="text-gold">Inducted · {tier.label} tier.</b>{' '}
-              {nextTier ? (
-                <span className="text-muted-foreground">
-                  {fmtNum(remaining, 0)} from {nextTier.label}
-                  {player.status === 'Active' && Number.isFinite(gamesNeeded) ? ` (~${gamesNeeded} games, ${Math.max(1, Math.round(gamesNeeded / SEASON_GAMES))} seasons at his rate)` : ''}.
-                </span>
-              ) : (
-                <span className="text-muted-foreground">The top tier there is.</span>
-              )}
-            </p>
-          ) : (
-            <p className="text-sm">
-              <b>{fmtNum(remaining, 0)}</b> Career Legacy short of the Hall ({fmtNum(HOF_THRESHOLD, 0)}).{' '}
+              <b className="text-gold">
+                Inducted · {hofClassLabel(standing.entry.class)}
+                {standing.entry.firstBallot ? ' · First ballot' : standing.entry.veteran ? ' · Veteran' : ''}.
+              </b>{' '}
               <span className="text-muted-foreground">
-                {player.status === 'Retired'
-                  ? 'Retired, so the case is closed.'
-                  : Number.isFinite(gamesNeeded)
-                    ? `At ${fmtNum(perGame, 1)} per game: ~${gamesNeeded} more games (${Math.max(1, Math.round(gamesNeeded / SEASON_GAMES))} seasons).`
-                    : 'No pace yet.'}
+                Hall of Fame Score {standing.entry.score} of 100 (bar {bar}), {ordinal(standing.entry.rank)} {player.position} by Career Legacy when he retired.
               </span>
             </p>
+          ) : inHall ? (
+            <p className="text-sm">
+              <b className="text-gold">Inducted.</b>
+            </p>
+          ) : standing?.kind === 'ballot' ? (
+            <p className="text-sm">
+              <b>On the ballot: score {standing.entry.score}</b> (bar {bar}).{' '}
+              <span className="text-muted-foreground">Over the bar, waiting for a place in a class (at most {hof?.cap ?? 3} a year).</span>
+            </p>
+          ) : standing?.kind === 'near' ? (
+            <p className="text-sm">
+              <b>Score {standing.entry.score}</b>, {bar - standing.entry.score} short of the bar ({bar}).{' '}
+              <span className="text-muted-foreground">His case froze in {standing.entry.frozenSeason}, so it is closed.</span>
+            </p>
+          ) : standing?.kind === 'watch' ? (
+            <p className="text-sm">
+              <b>Hall of Fame Score today {standing.entry.score}</b> (bar {bar}).{' '}
+              <span className="text-muted-foreground">
+                {standing.entry.score >= bar ? 'On track: ' : `${bar - standing.entry.score} to go. `}
+                eligible when he retires.
+              </span>
+            </p>
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              Not on the Hall of Fame ballot or watch list (a score of {bar - 15}+ against the bar of {bar}).
+            </p>
           )}
-          <DdBar pct={progress} color="hsl(43 100% 62%)" label={tier ? 'Progress to the next tier' : 'Progress to the Hall of Fame'} />
+          <DdBar pct={progress} color="hsl(43 100% 62%)" label={inHall ? 'Hall of Fame Score out of 100' : `Hall of Fame Score against the bar of ${bar}`} />
         </div>
 
         <div className="glass-card space-y-2 p-3 sm:p-4">

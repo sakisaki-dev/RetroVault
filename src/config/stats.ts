@@ -139,10 +139,10 @@ export const LEGACY_TIERS = [
 
 export type LegacyTierKey = (typeof LEGACY_TIERS)[number]['key'];
 
-/** In the Hall at today's bar, or inducted earlier (`inducted`: reached the bar of its season in some market snapshot)
- * and still at or above HOF_FLOOR, so a member whose Career Legacy dips a little keeps his place. */
-export const isHallOfFamer = (p: { careerLegacy: number; inducted?: boolean }) =>
-  p.careerLegacy >= HOF_THRESHOLD || (!!p.inducted && p.careerLegacy >= HOF_FLOOR);
+/** In the Hall of Fame: voted in by the rule-based ballot (scripts/hall_of_fame.py, public/data/league/halloffame.json:
+ * retired players only, a frozen Hall of Fame Score at or over the bar, at most 3 a class). `inducted` is the league
+ * sheet's Inducted column, written from that ballot; once in, always in. Career Legacy no longer decides it. */
+export const isHallOfFamer = (p: { careerLegacy: number; inducted?: boolean }) => !!p.inducted;
 
 export const getLegacyTier = (careerLegacy: number) =>
   LEGACY_TIERS.find((t) => careerLegacy >= t.min) ?? null;

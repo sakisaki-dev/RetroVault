@@ -184,7 +184,7 @@ still match the data. Read the warnings.
 
 Only when the rebuild finds a new Hall of Famer with no speech, or the owner corrects one.
 Write it as a `speech.set` mutation (lane `speech`, target the player's name, value `{"reason": "New Hall of Famer",
-"trigger": "First crossed Career Legacy 7500: <class>", "text": "..."}`, with the `speech` AI step logged) and apply
+"trigger": "Voted into the Hall of Fame: <class>", "text": "..."}`, with the `speech` AI step logged) and apply
 the bundle; apply-upload checks the length, the em dash and the closing line, and the audit fails if the speech later
 differs from the manifest. Never let the generic template in `src/components/ceremony/speech.ts` show. Match the
 existing speeches: a one-line hook, then 2–3 short paragraphs, closing "…, welcome to the Hall of Fame."; about
@@ -387,13 +387,28 @@ current data is a no-op.
   `src/utils/leagueContent.ts` on the site). Never hard-code "Y80" or 80 as "now"; a rollover is just new
   `coach.season` + `superbowl.set` mutations. `career.never` (owner: clubs a player never played for) keeps the stint
   solver and the audit away from those clubs.
-- **Hall of Fame** (owner): the bar is Career Legacy 7,500 from Y85 on (7,000 through Y84). Members inducted earlier stay
-  while they hold 7,300 (`HOF_FLOOR`); the borderline 7,000 members under it were removed with their speeches
-  (`speech.remove`). A removed member stays out for good (owner: Kyric McQuay, "keep him out"): his old-bar crossings
-  no longer count (`removed_from_hof()` in `build_league_data.py` / `build_league_content.py`), so only reaching
-  7,500 puts him back. `isHallOfFamer()` in `src/config/stats.ts`, `is_hall_of_famer()` in `build_league_content.py`.
-- **Hall of Fame classes**: who first reached the bar of the season at each market snapshot (and is still in), labelled by the snapshot's
-  season; the first snapshot's members are the "Inaugural class".
+- **Hall of Fame** (owner, Y92 rework: "about 20–25, bar 65", "retired only", "ring of honor yes", "every member is now
+  treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for clubs"):
+  `scripts/hall_of_fame.py` → `public/data/league/halloffame.json`, run by `npm run rebuild` before the content builder.
+  Only retired players are eligible. Each player's case is frozen the season he last played (the end-of-season market
+  snapshot where his games last went up; a lone rise between the first two recorded seasons is an import correction,
+  not a season; one retired before he was recorded freezes at his first snapshot), so later uploads never move a retired
+  player in or out. **Hall of Fame Score** 0–100 from that snapshot: standing at his position (his Career Legacy rank
+  among every player at his position then: 1st 60, 2nd 54, 3rd 49 … 10th 27, then 2 fewer a place) + honours (30 per
+  MVP, 18 per OPOY/DPOY, 12 per SB MVP, 4 per ring, capped at 40, × 0.6) + 15 per league career record he held. The
+  **ballot**: each season, eligible retirees at 65 or more go in, highest score first, at most 3 a class (the inaugural
+  class uncapped); the rest wait ("years on ballot"). First year eligible = First Ballot; one added to the data after he
+  retired is a Veteran. Once in, always in (no floor). Owner override: `fact.set players/<name>/hof "in" | "out"`.
+  Active players are "Future Hall of Famers" (`watch`, their case today). `isHallOfFamer()` reads the league sheet's
+  Inducted column, written from the ballot (`build_league_data.inducted_keys`); `is_hall_of_famer()` and the classes in
+  the content builder read the same module, so the whole site, the audit and the widget follow one list.
+  **Rings of Honor** (`ringOfHonor`): each club honours its Hall of Famers (`retired_by` clubs, else where he is best
+  known) and the retirees best known there with a frozen Career Legacy of 6,000+ or 3+ rings with the club.
+  Career Legacy itself is still re-scaled on every upload (position normalization, §2.2 of docs/STATS_REFERENCE.md); the
+  frozen snapshot is what keeps the Hall stable.
+- **Hall of Fame classes**: the ballot's classes, "Inaugural class" then "Y<n>"; a class's new members need speeches
+  (`SPEECH NEEDED: <name> was voted into the Hall of Fame`). A speech for someone not in the Hall is an audit error:
+  remove it with `speech.remove` (the text stays in the bundle's history and can be restored when he is voted in).
 - **"What changed" headlines** (`build_headlines()` in `build_league_content.py` → `content.json` `headlines`
   `[{kind, text, players, teams, weight}]` + `headlinesInfo`): templated news, ranked by weight (ties by kind, then
   text; at most 2 per player). Inputs: the last two market snapshots (each point carries `grade` and the career totals

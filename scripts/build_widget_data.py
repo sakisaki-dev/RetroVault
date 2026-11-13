@@ -516,16 +516,16 @@ def short_unit(label: str, n: int) -> str:
 
 
 def hof_watch() -> list[dict]:
-    """Active players closest under the Hall of Fame line (Career Legacy 7,000), best first."""
-    pool = sorted(((v["legacy"], k) for k, v in LATEST.items()
-                   if k in ACTIVE and not B.is_hall_of_famer(k) and 0 < v["legacy"] < B.HOF_THRESHOLD),
-                  key=lambda x: (-x[0], x[1]))
+    """Future Hall of Famers: active players whose Hall of Fame Score today (scripts/hall_of_fame.py, eligible once
+    they retire) is closest to the bar or over it, best first. toGo / pct are in score points against the bar."""
+    import hall_of_fame
+    bar = hall_of_fame.BAR
     out = []
-    for lg, k in pool[:HOF_WATCH]:
-        name = k.split(":", 1)[1]
-        out.append({"player": k, "last": B.surname(name), "pos": k.split(":")[0], "legacy": int(round(lg)),
-                    "toGo": int(B.HOF_THRESHOLD - round(lg)), "pct": round(lg / B.HOF_THRESHOLD * 100, 1),
-                    "team": banner_team(name)})
+    for c in hall_of_fame.data()["watch"][:HOF_WATCH]:
+        k, name = c["key"], c["name"]
+        out.append({"player": k, "last": B.surname(name), "pos": c["pos"], "legacy": int(round(LATEST.get(k, {}).get("legacy", 0))),
+                    "score": c["score"], "bar": bar, "toGo": max(0, bar - c["score"]),
+                    "pct": round(min(c["score"], bar) / bar * 100, 1), "team": banner_team(name)})
     return out
 
 

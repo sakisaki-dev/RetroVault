@@ -116,8 +116,8 @@ A value at or above the threshold gets that tier; anything under Average is Belo
 | TPG | 5 | 4.5 | 4 | 3 | 2 |
 
 ### 3.2 Hall of Fame (`HOF_THRESHOLD`, `LEGACY_TIERS` in `src/config/stats.ts`)
-- Induction: Career Legacy ≥ **7500** from Y85 on (**7000** through Y84). Active players are included. Career Legacy here is the **normalized** value (§2.2).
-- Membership (`isHallOfFamer`): Career Legacy ≥ `HOF_THRESHOLD` (7500), or inducted earlier and still ≥ `HOF_FLOOR` (**7300**). "Inducted" (the sheet's `Inducted` column, from `market_history.json`) means the player reached the bar of its season in some market snapshot. The floor removed the borderline 7,000 members (owner): those who dipped back under 7,000 or sat just above it. A removed member (`speech.remove`) stays out: his old-bar crossings no longer count, so only reaching 7,500 again re-inducts him.
+- Induction (Y92 rework, owner): a rule-based ballot over **retired** players, not a Career Legacy line. Each case is frozen the season he last played; Hall of Fame Score = standing at his position (Career Legacy rank then, up to 60) + honours (up to 24) + 15 per league career record held; 65 or more goes in, at most 3 a class, permanent. Full rule: `scripts/hall_of_fame.py` and CLAUDE.md.
+- Membership (`isHallOfFamer`): the league sheet's `Inducted` column, written from that ballot (`public/data/league/halloffame.json`). The Career Legacy tiers below (`LEGACY_TIERS`, `HOF_THRESHOLD`, `HOF_FLOOR`) only label Career Legacy now; they no longer decide membership.
 - Tiers:
   - Legendary ≥ 10000
   - Elite ≥ 8500

@@ -817,7 +817,8 @@ function panelHof(p, data, size) {
     row.addSpacer(5);
     nameText(row, x.last, x.team);
     row.addSpacer();
-    label(row, `${fmt(x.toGo || 0)} to go`, mono(9), C.muted, 1);
+    // Hall of Fame Score against the bar (eligible once he retires); an older feed carried Career Legacy points
+    label(row, x.score != null ? (x.toGo > 0 ? `${fmt(x.toGo)} pts to go` : `score ${x.score} · on track`) : `${fmt(x.toGo || 0)} to go`, mono(9), C.muted, 1);
     p.addSpacer(3);
     const bar = p.addImage(barImage(inner, x.pct || 0, teamInk(x.team)));
     bar.imageSize = new Size(inner, 3.5);
@@ -998,7 +999,7 @@ function glanceLines(data) {
   const out = [];
   arr(data.milestones).forEach((x) => out.push(`${x.last}: ${fmt(x.toGo)} ${x.unit} to ${fmt(x.target)}`));
   arr(data.chases).forEach((x) => out.push(`${x.last}: ${fmt(x.toGo)} ${x.unit} from the record`));
-  arr(data.hofWatch).forEach((x) => out.push(`${x.last}: ${fmt(x.toGo)} pts to the Hall`));
+  arr(data.hofWatch).forEach((x) => out.push(x.toGo > 0 ? `${x.last}: ${fmt(x.toGo)} pts to the Hall` : `${x.last}: Hall of Fame bound`));
   return out;
 }
 // Inline: the champion on even days, a countdown on odd days; the top headline when either is missing

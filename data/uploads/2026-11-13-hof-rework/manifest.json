@@ -1,0 +1,207 @@
+{
+ "id": "2026-11-13-hof-rework",
+ "created": "2026-11-13",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "A speech for the new member",
+   "trigger": "Hall of Fame rework"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Abraham Ward Jr",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Akiem Bouye",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Akiem Brock",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Amani Bryant",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Aqib McClain",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Calais Ham",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Damar Hobbs",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Dan Mosley",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Jason Macleone",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Jawill Perkins",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Juwann Gilman",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Keion Orzech",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Kyric McQuay",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Kyron Atwell",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Lamar Jackson",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Lloyd Queen",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Pharoah Hunter",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Quenton Fuller",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Ryland Maxwell",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.remove",
+   "target": "Terron Stidham",
+   "value": null,
+   "source": "owner",
+   "reason": "Owner: \"every member is now treated as completely new if they fit they fit whether its the hall of fame or the ring of honor for lubs\" (not voted in under the new rule: retired players only, a Hall of Fame Score of 65; the text stays in this bundle's history)",
+   "trigger": "Hall of Fame rework"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Taron Hayes",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "Voted in under the new Hall of Fame rule: Inaugural class, Hall of Fame Score 67",
+    "text": "Eleven tackles a game, for 213 games, and two Defensive Player of the Year awards.\n\nTaron Hayes played in the Kansas City secondary and played it like a linebacker. He made 2,418 tackles in his career, more than eleven every time he took the field, and he still found 30 interceptions along the way, one about every seven games. He was never credited with a sack or a forced fumble. He did his work in the open field, one ball carrier at a time.\n\nThe league named him Defensive Player of the Year twice. He never won a ring, and the Chiefs never needed to ask where he was on a Sunday. Among every defensive back the league has recorded, only three had a bigger career when he retired.\n\nTaron Hayes, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "Hall of Fame rework: a new member needs a speech",
+   "trigger": "Hall of Fame rework"
+  }
+ ]
+}

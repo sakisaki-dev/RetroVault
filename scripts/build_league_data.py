@@ -215,34 +215,11 @@ def franchise_history(players, teams, cards, stints=None):
     return out
 
 
-def hof_bar(snapshot) -> int:
-    """The induction bar in force at a market snapshot (owner): 7,000 through Y84, 7,500 from Y85
-    (src/config/stats.ts HOF_THRESHOLD; build_league_content.hof_bar)."""
-    m = re.match(r"Y(\d+)", snapshot.get("season") or snapshot.get("label", ""))
-    return 7500 if m and int(m.group(1)) >= 85 else 7000
-
-
-def removed_from_hof() -> set[str]:
-    """Names whose Hall of Fame speech an applied bundle removed (speech.remove: the borderline 7,000 members, owner).
-    Their old-bar crossings no longer count; only reaching the 7,500 bar puts them back."""
-    log_path = SRC / "mutations_log.json"
-    applied = json.loads(log_path.read_text()).get("applied", []) if log_path.exists() else []
-    out = set()
-    for e in applied:
-        path = ROOT / e.get("dir", f"data/uploads/{e['id']}") / "manifest.json"
-        if path.exists():
-            out |= {m["target"] for m in json.loads(path.read_text()).get("mutations", []) if m.get("op") == "speech.remove"}
-    return out
-
-
 def inducted_keys() -> set[str]:
-    """Every POS:Name whose Career Legacy reached the bar of its season in some market snapshot (a removed member:
-    only the 7,500 bar). Written as the sheet's Inducted column; the site's isHallOfFamer() keeps them while they
-    hold HOF_FLOOR."""
-    snaps = market_history.load(SRC / "market_history.json")
-    removed = removed_from_hof()
-    return {k for s in snaps for k, v in s["players"].items() if v.get("legacy", 0) >= hof_bar(s)
-            and (hof_bar(s) >= 7500 or k.split(":", 1)[1] not in removed)}
+    """The Hall of Fame (scripts/hall_of_fame.py: retired players whose frozen score made a ballot), written as the
+    sheet's Inducted column; the site's isHallOfFamer() reads it."""
+    import hall_of_fame
+    return set(hall_of_fame.members())
 
 
 def player_status(p, sheet_row=None) -> str:

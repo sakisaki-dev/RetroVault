@@ -11,21 +11,24 @@ interface RetiredRaftersProps {
   /** "POS:Name" or name -> years text, when known */
   yearsFor?: (r: RetiredNumber) => string | undefined;
   onSelect?: (r: RetiredNumber) => void;
+  /** Heading text (default "Retired numbers") and its id, for more than one set of rafters on a page */
+  title?: string;
+  headingId?: string;
 }
 
 const NEUTRAL_PRIMARY = '226 33% 30%';
 const NEUTRAL_SECONDARY = '43 100% 62%';
 
 /** Hanging banners for a franchise's retired numbers, like the ones in an arena's rafters. */
-const RetiredRafters = ({ team, retired, yearsFor, onSelect }: RetiredRaftersProps) => {
+const RetiredRafters = ({ team, retired, yearsFor, onSelect, title = 'Retired numbers', headingId = 'retired-numbers' }: RetiredRaftersProps) => {
   const primary = team?.primaryColor ?? NEUTRAL_PRIMARY;
   const secondary = team && team.secondaryColor !== team.primaryColor ? team.secondaryColor : team ? '0 0% 100%' : NEUTRAL_SECONDARY;
   const fg = getReadableTextOn(primary);
 
   return (
-    <section aria-labelledby="retired-numbers" className="relative">
-      <h3 id="retired-numbers" className="section-title text-base mb-2">
-        Retired numbers
+    <section aria-labelledby={headingId} className="relative">
+      <h3 id={headingId} className="section-title text-base mb-2">
+        {title}
         <span className="font-pixel text-[9px] text-muted-foreground">{retired.length}</span>
       </h3>
       {retired.length === 0 ? (

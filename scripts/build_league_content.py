@@ -39,6 +39,7 @@ SRC = ROOT / "data" / "y80"
 OUT = ROOT / "public" / "data" / "league" / "content.json"
 sys.path.insert(0, str(ROOT / "scripts"))
 import owner_facts as F  # noqa: E402
+import hall_of_fame  # noqa: E402
 import market_history  # noqa: E402
 
 HOF_THRESHOLD = 7500  # src/config/stats.ts HOF_THRESHOLD (the bar from Y85; 7,000 before)
@@ -802,60 +803,24 @@ def snapshot_season(s) -> str | None:
     return m.group(1) if m else None
 
 
-def hof_bar(s) -> int:
-    """The induction bar in force at a market snapshot (owner): 7,000 through Y84, 7,500 from Y85."""
-    m = re.match(r"Y(\d+)", snapshot_season(s) or "")
-    return HOF_THRESHOLD if m and int(m.group(1)) >= 85 else 7000
-
-
-def removed_from_hof() -> set[str]:
-    """Names whose Hall of Fame speech an applied bundle removed (speech.remove: the borderline 7,000 members, owner).
-    Their old-bar crossings no longer count; only reaching the 7,500 bar puts them back."""
-    log_path = SRC / "mutations_log.json"
-    applied = json.loads(log_path.read_text()).get("applied", []) if log_path.exists() else []
-    out = set()
-    for e in applied:
-        path = ROOT / e.get("dir", f"data/uploads/{e['id']}") / "manifest.json"
-        if path.exists():
-            out |= {m["target"] for m in json.loads(path.read_text()).get("mutations", []) if m.get("op") == "speech.remove"}
-    return out
-
-
-REMOVED_FROM_HOF = removed_from_hof()
-
-
-def inducted(upto: int | None = None) -> set[str]:
-    """Players who reached the bar of its season in a snapshot (MARKET[:upto]); a removed member counts only at
-    the 7,500 bar."""
-    return {k for s in MARKET[:upto] for k, v in s["players"].items() if v.get("legacy", 0) >= hof_bar(s)
-            and (hof_bar(s) >= HOF_THRESHOLD or k.split(":", 1)[1] not in REMOVED_FROM_HOF)}
-
-
 def is_hall_of_famer(k: str) -> bool:
-    """src/config/stats.ts isHallOfFamer: today's bar, or inducted earlier and still at or above HOF_FLOOR."""
-    lg = LATEST.get(k, {}).get("legacy", 0)
-    return lg >= HOF_THRESHOLD or (k in inducted() and lg >= HOF_FLOOR)
+    """The rule-based Hall of Fame (scripts/hall_of_fame.py): retired players whose frozen score made a ballot."""
+    return hall_of_fame.is_member(k)
 
 
 def hof_classes():
-    if not MARKET:
-        return []
-    current = {k for k in LATEST if is_hall_of_famer(k)}
-    seen: set[str] = set()
-    classes: list[dict] = []
-    for i, s in enumerate(MARKET):
-        crossed = sorted((k for k, v in s["players"].items() if v.get("legacy", 0) >= hof_bar(s) and k not in seen),
-                         key=lambda k: (-MARKET[-1]["players"].get(k, {}).get("legacy", 0), k))
-        seen.update(crossed)
-        keys = [k for k in crossed if k in current]
-        if not keys:
-            continue
-        label = "Inaugural class" if i == 0 else (snapshot_season(s) or s["label"])
-        if classes and classes[-1]["label"] == label:
-            classes[-1]["keys"] += keys
-        else:
-            classes.append({"label": label, "keys": keys, "snapshot": s["id"]})
-    return classes
+    """The ballot's classes (scripts/hall_of_fame.py), labelled like before: "Inaugural class", then "Y<n>"."""
+    snap_of = {}
+    for s in MARKET:
+        if snapshot_season(s):
+            snap_of[snapshot_season(s)] = s["id"]  # the season's last snapshot
+    mem = hall_of_fame.members()
+    out = []
+    for c in hall_of_fame.data()["classes"]:
+        keys = sorted((k for k, m in mem.items() if m["classSeason"] == c["season"]), key=lambda k: (-mem[k]["score"], k))
+        label = "Inaugural class" if c["label"] == "Inaugural class" else c["season"]
+        out.append({"label": label, "keys": keys, "snapshot": snap_of.get(c["season"], "")})
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -1031,10 +996,11 @@ def pair_headlines(prev: dict | None, cur: dict | None, bundles: list[dict]) -> 
     if prev and cur:
         name_of = {k: k.split(":", 1)[1] for k in b}
         # New Hall of Famers: reached the bar of the season for the first time in this pair and still in
-        before_b = inducted(next((i for i, s in enumerate(MARKET) if s["id"] == cur["id"]), len(MARKET)))
-        for k in sorted(b, key=lambda k: (-b[k]["legacy"], k)):
-            if b[k]["legacy"] >= hof_bar(cur) and k not in before_b and is_hall_of_famer(k):
-                add("hof", f"New Hall of Famer: {name_of[k]}", 90, players=[name_of[k]])
+        season = snapshot_season(cur)
+        for k, m in sorted(hall_of_fame.members().items(), key=lambda kv: (-kv[1]["score"], kv[0])):
+            if season and m["classSeason"] == season and season != hall_of_fame.data()["classes"][0]["season"]:
+                add("hof", f"New Hall of Famer: {name_of.get(k, k.split(':', 1)[1])}"
+                    + (" (first ballot)" if m["firstBallot"] else ""), 90, players=[k.split(":", 1)[1]])
         # New players
         new = sorted((k for k in b if k not in a), key=lambda k: (-b[k]["legacy"], k))
         for k in new[:4]:
@@ -1303,7 +1269,7 @@ def main():
     for c in classes:
         missing = [k.split(":", 1)[1] for k in c["keys"] if k.split(":", 1)[1] not in SPEECHES]
         for n in missing:
-            print(f"SPEECH NEEDED: {n} first crossed Career Legacy {HOF_THRESHOLD} ({c['label']}, snapshot {c['snapshot']}). "
+            print(f"SPEECH NEEDED: {n} was voted into the Hall of Fame ({c['label']}). "
                   "Write it as a speech.set mutation in an upload bundle (CLAUDE.md, step 5).")
     for n in sorted(set(SPEECHES) - hof):
         print(f"warn: speech for {n}, who is not in the Hall of Fame")

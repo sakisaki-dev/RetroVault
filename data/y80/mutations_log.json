@@ -1190,6 +1190,15 @@
     "story": 2
    },
    "changed": 2
+  },
+  {
+   "id": "2026-11-13-hof-rework",
+   "dir": "data/uploads/2026-11-13-hof-rework",
+   "applied_at": "2026-11-13T10:05:28-08:00",
+   "mutations": {
+    "speech": 21
+   },
+   "changed": 21
   }
  ]
 }

@@ -393,7 +393,9 @@ else {
       if (!Array.isArray(wj[k])) { errors.push(`widget.json ${k} is not a list`); continue; }
       (wj[k] as { player?: string; toGo?: number; last?: string }[]).forEach((x) => {
         if (!x.player || !cards[x.player]) errors.push(`widget.json ${k} names ${x.player} without a card`);
-        if (!(typeof x.toGo === 'number' && x.toGo > 0) || !x.last) errors.push(`widget.json ${k} item is incomplete: ${JSON.stringify(x).slice(0, 80)}`);
+        // a future Hall of Famer already over the bar has 0 to go (he goes in when he retires)
+        const done = k === 'hofWatch' && typeof x.toGo === 'number' && x.toGo === 0;
+        if (!(typeof x.toGo === 'number' && (x.toGo > 0 || done)) || !x.last) errors.push(`widget.json ${k} item is incomplete: ${JSON.stringify(x).slice(0, 80)}`);
       });
     }
     // Team colours: every item that names a player carries his club, and every club is one of the 32 (the widget's
