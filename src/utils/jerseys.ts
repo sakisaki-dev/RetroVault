@@ -4,6 +4,7 @@ import { useLeague } from '@/context/LeagueContext';
 import { isHallOfFamer } from '@/config/stats';
 import { JERSEY_OVERRIDES, LEGEND_NUMBERS, RETIRED_OVERRIDES, type RetiredNumberEntry } from '@/config/jerseys';
 import { findNFLTeam, getNFLTeamById } from './nflTeams';
+import { legacyTeamOf, usePlayerExtras, type IndexedExtras } from './playerExtras';
 
 /**
  * Jersey numbers.
@@ -139,6 +140,17 @@ const matchesEntry = (p: JerseyPlayer, e: RetiredNumberEntry) =>
   !!e.name &&
   (e.name === jerseyKey(p) || (e.name.trim().toLowerCase() === p.name.trim().toLowerCase() && (!e.position || e.position === p.position)));
 
+/**
+ * A Hall of Famer's number belongs to the club he is best known for, not the one he plays for now or finished with
+ * (owner: Maxwell's number is the Falcons', not the Eagles'): he is numbered, and his number retired, in that club's pool.
+ */
+export const withHomeClubs = <P extends JerseyPlayer>(players: P[], extras: IndexedExtras): P[] =>
+  players.map((p) => {
+    if (p.isRealLegend || !isHallOfFamer({ careerLegacy: p.careerLegacy ?? 0, inducted: p.inducted })) return p;
+    const home = legacyTeamOf(extras, p);
+    return home && home !== p.team ? { ...p, team: home } : p;
+  });
+
 /** Full assignment + retirements for a set of league players. Pure. */
 export const buildJerseyIndex = (players: JerseyPlayer[]): JerseyIndex => {
   const numbers = new Map<string, number>();
@@ -250,7 +262,7 @@ export const getRetiredNumbers = (team: string | null | undefined, players: Jers
 };
 
 // One shared index per league load, so every table cell can call the hook cheaply.
-let cached: { source: unknown; version: number; index: JerseyIndex } | null = null;
+let cached: { source: unknown; version: number; extras: IndexedExtras; index: JerseyIndex } | null = null;
 
 /**
  * Jersey numbers for the current league. Recomputes when the league data changes.
@@ -262,13 +274,14 @@ let cached: { source: unknown; version: number; index: JerseyIndex } | null = nu
  */
 export const useJerseyNumbers = () => {
   const { getAllPlayers, dataVersion } = useLeague();
+  const extras = usePlayerExtras();
 
   const index = useMemo(() => {
-    if (cached && cached.source === getAllPlayers && cached.version === dataVersion) return cached.index;
-    const built = buildJerseyIndex(getAllPlayers());
-    cached = { source: getAllPlayers, version: dataVersion, index: built };
+    if (cached && cached.source === getAllPlayers && cached.version === dataVersion && cached.extras === extras) return cached.index;
+    const built = buildJerseyIndex(withHomeClubs(getAllPlayers(), extras));
+    cached = { source: getAllPlayers, version: dataVersion, extras, index: built };
     return built;
-  }, [getAllPlayers, dataVersion]);
+  }, [getAllPlayers, dataVersion, extras]);
 
   const numberFor = useCallback(
     (p: Pick<Player, 'name' | 'position'> & { isRealLegend?: boolean }): number =>

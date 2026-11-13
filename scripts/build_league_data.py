@@ -251,7 +251,7 @@ def player_status(p, sheet_row=None) -> str:
             or ("Retired" if p["n"] in RETIRED_WITH else None) or (sheet_row or {}).get("st")) or "Active"
 
 
-def signature_teams(players, teams, stints, sheet=None):
+def signature_teams(players, teams, stints, sheet=None, legacy=False):
     """The club each league player's card and banners wear: the jersey, helmet and colours.
 
     Owner rule: "for the banners if its a current team always change to whatever their current team is, the banner
@@ -261,6 +261,9 @@ def signature_teams(players, teams, stints, sheet=None):
     legacy_team, "mainly a Seahawk"), else the stint with the most rings, then the most seasons, then the earliest
     (stints carry no per-stint awards, so awards can't break a tie); no stints = his club of record. Values are
     full franchise names, like the league CSV's team.
+
+    legacy=True gives where every player is best known, active or not (the retired rule for everyone): the club that
+    retires a Hall of Famer's number (owner: Maxwell's number belongs to the Falcons, not the Eagles he plays for now).
     """
     def full(key):
         key = (key or "").split(" (")[0].strip()
@@ -275,7 +278,7 @@ def signature_teams(players, teams, stints, sheet=None):
         team_key = TEAM_FIXES.get(name, p.get("team", ""))
         current = full(CURRENT_CLUB if team_key == "CUR" else team_key)
         owner = SIGNATURE_TEAM.get(name) or CARD_NOTES.get(name, {}).get("legacy_team")
-        if current and player_status(p, (sheet or {}).get((name, p["pos"]))) == "Active":
+        if not legacy and current and player_status(p, (sheet or {}).get((name, p["pos"]))) == "Active":
             team = current  # still playing: the banner follows him to his current club
         elif full(owner):
             team = full(owner)
@@ -316,6 +319,11 @@ def write_player_extras():
     sheet = {(r["n"], r["pos"]): r for r in json.loads((SRC / "spreadsheet_parsed.json").read_text())}
     out["signatureTeams"] = signature_teams(json.loads((SRC / "players.json").read_text()),
                                             json.loads((SRC / "teams.json").read_text()), stints, sheet)
+    # where each player is best known even while he plays (only where it differs from his banner): the club that
+    # retires a Hall of Famer's number
+    best = signature_teams(json.loads((SRC / "players.json").read_text()),
+                           json.loads((SRC / "teams.json").read_text()), stints, sheet, legacy=True)
+    out["legacyTeams"] = {n: t for n, t in best.items() if out["signatureTeams"].get(n) != t}
     PLAYER_EXTRAS_OUT.write_text(json.dumps(out, indent=1, ensure_ascii=False))
     print(f"wrote {PLAYER_EXTRAS_OUT.relative_to(ROOT)}: real-NFL splits for {len(out['realNflCareer'])} players")
 
