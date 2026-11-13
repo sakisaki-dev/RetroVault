@@ -440,10 +440,11 @@ current data is a no-op.
   tracked then). The club's own record stands in the league list (the league mark is never below it; ties go to the
   club). Single games, long plays, kicking and returns aren't in the data, so those rows keep the club mark only. Real
   NFL legends are left out. Each mark carries its club (the coach's club that year for club records, the player's stint
-  club that season, else his banner club) and the holder's full name. The Stats → Players page shows it as the Record
-  Board (`src/components/stats/RecordBoard.tsx`, `recordboard.css`): compact tiles in the holder's club colours (the mark
-  and name in the club's text colour, a club-tinted panel), a red "Beaten" tag, a gauge of the club mark (or the next
-  challenger) against the record, the top three on tap; Career/Season and Beaten-only filters.
+  club that season, else his banner club) and the holder's full name. The Stats → Players Record Book shows it
+  (`src/components/stats/RecordBook.tsx`, `clubRecords.ts`): the Career tab's headline chips get a club line under each
+  (gold "Club best" when the club's record still leads the league, red "Club" with its mark when the league has beaten
+  it), and the Season tab shows the season records as the same chips (holder in club colours, the gap to #2, the club
+  line).
 - **Weekly scores** (`scripts/schedule_content.py` → `public/data/league/schedule.json`, run by `npm run rebuild` before the content builder): from `schedules.json` (schedule.set) it builds, per season, the coach's game log (opponent records and O/D stars from the season summary, playoff rounds from the season review), a 32-club table with points for/against, differential, strength of schedule (average final win % of the clubs played) and a power score (100 × win % + 1.5 × differential per game + 40 × (SOS − 0.5), regular season only), the upset (the worst final record beating the best), blowout and shootout; across seasons the coach's head-to-head record with every club and game records (biggest margin, most combined points, most points, longest winning streak). Rivalries carry the head-to-head `games`, and a club met twice or more without a winning record becomes a rivalry; a `schedule.set` brings Wire headlines (power No. 1, upset, best defense, blowout); the widget gets `game` facts; stories may cite `schedule.json <path>` / `schedules.json <path>`. The Timeline shows the game log, power rankings, standings and records; the Games tab blends in each club's latest-season form. The audit errors when a schedule.set season is missing from schedule.json.
 - **Autographs** (`src/config/autographs.ts` rules, `src/components/collection/autograph/` canvas, `autos` in
   `src/utils/collection.ts`): the fifth and rarest art variant, `auto` ("Autograph", `src/config/cardTiers.ts`), in
