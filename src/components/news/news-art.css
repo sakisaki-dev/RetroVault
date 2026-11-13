@@ -1,0 +1,204 @@
+/* Club art for the news desk (clubArt.tsx): story thumbnails, hero logos, player banner rows, and the reading
+   sheet's feature-page header, box score and "Continued from" card. Colours come from --tc / --tc2 (teamVars). */
+
+/* ---------- Story thumbnail: a little "photo" in the club's colours with its logo ---------- */
+.nz-thumb {
+  --tc: #2b3760;
+  --tc2: #182039;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: 8px;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(0deg, rgb(0 0 0 / 0.14) 0 1px, transparent 1px 3px),
+    radial-gradient(circle at 50% 50%, rgb(235 240 255 / 0.5) 0 30%, rgb(235 240 255 / 0.14) 48%, transparent 64%),
+    linear-gradient(160deg, color-mix(in srgb, var(--tc) 85%, #0b1122), color-mix(in srgb, var(--tc) 40%, #0b1122) 75%);
+  box-shadow: inset 0 -3px 0 var(--tc2);
+}
+.nz-thumb img,
+.nz-thumb > span[role],
+.nz-thumb__half > * { filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.45)); }
+.nz-thumb--pair { width: 104px; padding: 0; }
+.nz-thumb__half {
+  display: grid;
+  place-items: center;
+  flex: 1;
+  align-self: stretch;
+  background:
+    radial-gradient(circle at 50% 50%, rgb(235 240 255 / 0.45) 0 30%, rgb(235 240 255 / 0.12) 50%, transparent 66%),
+    linear-gradient(160deg, color-mix(in srgb, var(--tc) 85%, #0b1122), color-mix(in srgb, var(--tc) 40%, #0b1122) 80%);
+  box-shadow: inset 0 -3px 0 var(--tc2);
+}
+.nz-thumb__mid {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--ss-gold, #ffc83d);
+  border-radius: 999px;
+  background: #0b1122;
+  color: var(--ss-gold, #ffc83d);
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 8px;
+}
+
+/* ---------- Hero logos (the lead's art and the reading sheet's header) ---------- */
+.nz-hero-art {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 12px 16px;
+  pointer-events: none;
+}
+.nz-hero-art__logo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--nz-logo, clamp(104px, 30vw, 210px));
+  aspect-ratio: 1;
+}
+/* lit: a soft light behind the mark and a glow in the club's second colour */
+.nz-hero-art__logo::before {
+  content: '';
+  position: absolute;
+  inset: -12%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgb(255 255 255 / 0.26), color-mix(in srgb, var(--tc2, #fff) 22%, transparent) 45%, transparent 70%);
+}
+.nz-hero-art__logo > * {
+  position: relative;
+  width: 100% !important;
+  height: 100% !important;
+  font-size: clamp(20px, 6vw, 48px) !important;
+  filter: drop-shadow(0 6px 12px rgb(0 0 0 / 0.5));
+}
+.nz-hero-art--pair { --nz-logo: clamp(72px, 19vw, 160px); }
+.nz-hero-art__mid {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--ss-gold, #ffc83d);
+  border-radius: 999px;
+  background: rgb(5 9 22 / 0.85);
+  color: var(--ss-gold, #ffc83d);
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 11px;
+  z-index: 1;
+}
+/* beside top-aligned logos, the VS / swap mark sits level with their centres */
+.ss-lead__art .nz-hero-art__mid { margin-top: calc(var(--nz-logo) / 2 - 17px); }
+@media (min-width: 640px) { .ss-lead__art .nz-hero-art__mid { margin-top: 0; } }
+/* The lead: the figure bottom-left, the logos to the right (on a phone the logos sit at the top) */
+.ss-lead__art .nz-hero-art { align-items: flex-start; }
+@media (min-width: 640px) { .ss-lead__art .nz-hero-art { align-items: center; padding-right: 24px; } }
+@media (min-width: 1024px) {
+  .ss-lead__art .nz-hero-art { --nz-logo: 230px; }
+  .ss-lead__art .nz-hero-art--pair { --nz-logo: 170px; gap: 12px; }
+}
+
+/* ---------- Player banners (ProPlayerBanner compact) ---------- */
+.nz-banners { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; min-width: 0; }
+.nz-banners > li { min-width: 0; }
+.nz-banner {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0.5rem;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+.nz-banner:focus-visible { outline: 3px solid var(--ss-gold, #ffc83d); outline-offset: 2px; }
+.nz-banners--lead { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); margin-top: 2px; }
+@media (max-width: 639px) { .nz-banners--lead > li:nth-child(n + 3) { display: none; } }
+.ss-lead .nz-banners { pointer-events: auto; }
+
+/* ---------- Reading sheet (FeatureSheet.tsx, feature.css) ---------- */
+/* "Continued from": a linked card for the earlier story */
+.nz-prev {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 10px 14px;
+  border: 1px solid var(--ss-line, #2b3760);
+  border-left: 3px solid var(--ss-sky, #5cc8ff);
+  border-radius: 10px;
+  background: var(--ss-panel, #131a2e);
+  color: var(--ss-chalk, #f3f5ff);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--dur-2) var(--ease-out);
+}
+.nz-prev:hover { border-color: var(--ss-sky, #5cc8ff); }
+.nz-prev:focus-visible { outline: 3px solid var(--ss-gold, #ffc83d); outline-offset: 2px; }
+.nz-prev__icon { flex-shrink: 0; color: var(--ss-sky, #5cc8ff); }
+.nz-prev__text { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.nz-prev__kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: var(--ss-sky, #5cc8ff); }
+.nz-prev__title {
+  font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+/* Box score: the article's figures as a scoreboard */
+.nz-box { border: 1px solid var(--ss-line, #2b3760); border-radius: 10px; overflow: hidden; background: var(--ss-panel, #131a2e); }
+.nz-box__h {
+  margin: 0;
+  padding: 6px 12px;
+  border-bottom: 2px solid var(--ss-gold, #ffc83d);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--tc) 55%, #0b1122), #0b1122);
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.nz-box__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  background: var(--ss-line, #2b3760);
+}
+.nz-box__grid[data-n='1'] { grid-template-columns: minmax(0, 1fr); }
+.nz-box__grid[data-n='3'] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (min-width: 640px) {
+  .nz-box__grid[data-n='4'] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .nz-box__grid[data-n='5'],
+  .nz-box__grid[data-n='6'] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.nz-box__cell { display: flex; flex-direction: column; gap: 3px; min-width: 0; padding: 10px 12px; background: var(--ss-panel, #131a2e); cursor: help; }
+.nz-box__value {
+  margin: 0;
+  font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--ss-chalk, #f3f5ff);
+}
+.nz-box__label { font-size: 11px; line-height: 1.3; color: var(--ss-muted, #9aa7cc); }
+
+[data-perf='lite'] .nz-prev { transition: none; }
+@media (prefers-reduced-motion: reduce) { .nz-prev { transition: none; } }

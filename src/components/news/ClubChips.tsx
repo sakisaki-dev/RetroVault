@@ -2,11 +2,13 @@ import type { CSSProperties } from 'react';
 import type { Player } from '@/types/player';
 import { matchPlayerByName } from '@/utils/leagueContent';
 import { getTeamColors, getTeamTextColor } from '@/utils/teamColors';
+import { bannerTeamOf } from '@/utils/playerExtras';
+import TeamLogo from '@/components/brand/TeamLogo';
 
 /**
- * Player and team chips that wear their club's colours (Hot Takes, Did you know): the name in the club's text colour
- * (lifted to stay readable on the dark panels) with a club-colour edge. A known player opens his card; an unknown
- * name or a team is a plain chip.
+ * Player and team chips that wear their club's colours and a small logo (Season Story, Hot Takes, Did you know): the
+ * name in the club's text colour (lifted to stay readable on the dark panels) with a club-colour edge. A player wears
+ * his best-known club (bannerTeamOf). A known player opens his card; an unknown name is a plain chip.
  */
 
 /** A club's colours as CSS vars: --cc (edge), --cc-ink (readable text) */
@@ -39,7 +41,8 @@ export const ClubChips = ({ names, teams = [], players, onPlayer, max, label = '
         return (
           <li key={n}>
             {p ? (
-              <button type="button" className="cc-chip" style={clubVars(p.team)} onClick={() => onPlayer(p)} aria-label={`Open ${p.name}'s card`}>
+              <button type="button" className="cc-chip" style={clubVars(bannerTeamOf(p))} onClick={() => onPlayer(p)} aria-label={`Open ${p.name}'s card`}>
+                {bannerTeamOf(p) && <TeamLogo team={bannerTeamOf(p)} size={14} decorative className="cc-chip__logo" />}
                 <span className="cc-chip__pos">{p.position}</span>
                 <span className="cc-chip__name">{p.name}</span>
               </button>
@@ -57,6 +60,7 @@ export const ClubChips = ({ names, teams = [], players, onPlayer, max, label = '
       {clubChips.map((t) => (
         <li key={t}>
           <span className="cc-chip cc-chip--team" style={clubVars(t)}>
+            <TeamLogo team={t} size={14} decorative className="cc-chip__logo" />
             <span className="cc-chip__name">{t}</span>
           </span>
         </li>

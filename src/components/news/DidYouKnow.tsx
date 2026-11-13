@@ -4,7 +4,7 @@ import { reducedMotion } from '@/utils/motion';
 import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
 import type { DidYouKnow } from '@/utils/leagueContent';
-import { getTeamColors } from '@/utils/teamColors';
+import { mainClubOf, teamVars } from './clubArt';
 import { ClubChips } from './ClubChips';
 import { SourcedFigure } from './SourcedFigure';
 import './takes.css';
@@ -17,11 +17,6 @@ import './takes.css';
  * Phone and tablet: a horizontal rail (swipe, or previous / next with a "Fact 2 of 7" counter); from 1024px it is the
  * front page's sidebar, a plain list of the first five with All facts for the rest. Shuffle reorders the deck (presentation only; nothing is stored).
  */
-
-const teamVars = (team?: string): CSSProperties | undefined => {
-  const c = getTeamColors(team);
-  return c ? ({ '--tc': `hsl(${c.primary})`, '--tc2': `hsl(${c.secondary})` } as CSSProperties) : undefined;
-};
 
 const shuffled = (n: number, keepFirst: number): number[] => {
   const order = Array.from({ length: n }, (_, i) => i);
@@ -106,7 +101,7 @@ export const DidYouKnowDeck = ({ facts, season, players, onPlayer }: Props) => {
           const f = facts[i];
           const lead = f.stats[0];
           return (
-            <li key={f.id} className="dyk-item" data-current={n === at || undefined} style={teamVars(f.teams[0])}>
+            <li key={f.id} className="dyk-item" data-current={n === at || undefined} style={teamVars(mainClubOf(f, players))}>
               {lead ? <SourcedFigure stat={lead} className="dyk-item__fig" /> : <Lightbulb className="dyk-item__icon h-4 w-4" aria-hidden="true" />}
               <p className="dyk-item__text">{f.text}</p>
               <ClubChips names={f.players} teams={f.teams} players={players} onPlayer={onPlayer} max={2} label="In this fact" />
