@@ -5,88 +5,108 @@
  "records": [
   {
    "record": "Longest passing play",
+   "short": "Longest passing play",
    "club": {
     "mark": "77 yds",
     "value": 77.0,
     "holder": "QB S. Brandson → WR D. Haley",
-    "year": "Y46"
+    "year": "Y46",
+    "team": "Ravens"
    },
    "scope": "other",
    "league": null
   },
   {
    "record": "Longest rushing play",
+   "short": "Longest rushing play",
    "club": {
     "mark": "65 yds",
     "value": 65.0,
     "holder": "QB J. Macleone → RB M. Sawyer",
-    "year": "Y75"
+    "year": "Y75",
+    "name": "Malakai Sawyer",
+    "team": "Seahawks"
    },
    "scope": "other",
    "league": null
   },
   {
    "record": "Longest passing TD",
+   "short": "Longest passing TD",
    "club": {
     "mark": "77 yds",
     "value": 77.0,
     "holder": "QB S. Brandson → WR D. Haley",
-    "year": "Y46"
+    "year": "Y46",
+    "team": "Ravens"
    },
    "scope": "other",
    "league": null
   },
   {
    "record": "Longest rushing TD",
+   "short": "Longest rushing TD",
    "club": {
     "mark": "58 yds",
     "value": 58.0,
     "holder": "QB S. Brandson → RB D. Hayes",
-    "year": "Y50"
+    "year": "Y50",
+    "name": "Denzel Hayes",
+    "team": "Ravens"
    },
    "scope": "other",
    "league": null
   },
   {
    "record": "Longest pass (air)",
+   "short": "Longest pass (air)",
    "club": {
     "mark": "30 yds",
     "value": 30.0,
     "holder": "QB J. Vaalhaal → WR M. Earl III",
-    "year": "Y59"
+    "year": "Y59",
+    "team": "Dolphins"
    },
    "scope": "other",
    "league": null
   },
   {
    "record": "Longest field goal",
+   "short": "Longest field goal",
    "club": {
     "mark": "54 yds",
     "value": 54.0,
     "holder": "K Z. Griffen",
-    "year": "Y7"
+    "year": "Y7",
+    "team": "Dolphins"
    },
    "scope": "other",
    "league": null
   },
   {
    "record": "Best passing game",
+   "short": "Best passing game",
    "club": {
     "mark": "513 yds",
     "value": 513.0,
     "holder": "QB R. Waller",
-    "year": "Y26"
+    "year": "Y26",
+    "name": "Ray Waller",
+    "team": "Buccaneers"
    },
    "scope": "game",
    "league": null
   },
   {
    "record": "Best passing season",
+   "short": "Pass yds",
    "club": {
     "mark": "7,452 yds",
     "value": 7452.0,
     "holder": "QB D. Baylon",
-    "year": "Y33"
+    "year": "Y33",
+    "name": "Dennis Baylon",
+    "team": "Bills"
    },
    "scope": "season",
    "league": {
@@ -98,6 +118,8 @@
       "mark": "7,452 yds",
       "player": "QB D. Baylon",
       "club": true,
+      "name": "Dennis Baylon",
+      "team": "Bills",
       "season": "Y33"
      },
      {
@@ -105,6 +127,7 @@
       "mark": "6,302 yds",
       "player": "Bones Crawford",
       "pos": "QB",
+      "team": "Eagles",
       "season": "Y89"
      },
      {
@@ -112,6 +135,7 @@
       "mark": "5,327 yds",
       "player": "Bones Crawford",
       "pos": "QB",
+      "team": "Eagles",
       "season": "Y90"
      }
     ],
@@ -122,11 +146,14 @@
   },
   {
    "record": "Best passing career",
+   "short": "Pass yds",
    "club": {
     "mark": "91,463 yds",
     "value": 91463.0,
     "holder": "QB S. Brandson",
-    "year": "Y62"
+    "year": "Y62",
+    "name": "Sherman Brandson",
+    "team": "Vikings"
    },
    "scope": "career",
    "league": {
@@ -137,19 +164,23 @@
       "value": 91463,
       "mark": "91,463 yds",
       "player": "QB S. Brandson",
-      "club": true
+      "club": true,
+      "name": "Sherman Brandson",
+      "team": "Vikings"
      },
      {
       "value": 90450,
       "mark": "90,450 yds",
       "player": "Wayne Wilson",
-      "pos": "QB"
+      "pos": "QB",
+      "team": "Los Angeles Chargers"
      },
      {
       "value": 79121,
       "mark": "79,121 yds",
       "player": "Amani Bryant",
-      "pos": "QB"
+      "pos": "QB",
+      "team": "Denver Broncos"
      }
     ],
     "basis": "career cards",
@@ -159,22 +190,28 @@
   },
   {
    "record": "Best receiving game",
+   "short": "Best receiving game",
    "club": {
     "mark": "288 yds",
     "value": 288.0,
     "holder": "WR P. Hunter",
-    "year": "Y68"
+    "year": "Y68",
+    "name": "Pharoah Hunter",
+    "team": "Vikings"
    },
    "scope": "game",
    "league": null
   },
   {
    "record": "Best receiving season",
+   "short": "Rec yds",
    "club": {
     "mark": "4,247 yds",
     "value": 4247.0,
     "holder": "WR M. Earl III (now God Johnson)",
-    "year": "Y62"
+    "year": "Y62",
+    "name": "God Johnson",
+    "team": "Vikings"
    },
    "scope": "season",
    "league": {
@@ -186,6 +223,8 @@
       "mark": "4,247 yds",
       "player": "WR M. Earl III (now God Johnson)",
       "club": true,
+      "name": "God Johnson",
+      "team": "Vikings",
       "season": "Y62"
      },
      {
@@ -193,6 +232,7 @@
       "mark": "2,635 yds",
       "player": "Kaulani Rahman",
       "pos": "WR",
+      "team": "Eagles",
       "season": "Y89"
      },
      {
@@ -200,6 +240,7 @@
       "mark": "2,504 yds",
       "player": "Vyncint Heath",
       "pos": "WR",
+      "team": "Falcons",
       "season": "Y83"
      }
     ],
@@ -210,11 +251,14 @@
   },
   {
    "record": "Best receiving career",
+   "short": "Rec yds",
    "club": {
     "mark": "36,005 yds",
     "value": 36005.0,
     "holder": "WR G. Johnson",
-    "year": "Y67"
+    "year": "Y67",
+    "name": "God Johnson",
+    "team": "Vikings"
    },
    "scope": "career",
    "league": {
@@ -225,19 +269,23 @@
       "value": 36005,
       "mark": "36,005 yds",
       "player": "WR G. Johnson",
-      "club": true
+      "club": true,
+      "name": "God Johnson",
+      "team": "Vikings"
      },
      {
       "value": 32980,
       "mark": "32,980 yds",
       "player": "Ian Finney",
-      "pos": "WR"
+      "pos": "WR",
+      "team": "Tampa Bay Buccaneers"
      },
      {
       "value": 28331,
       "mark": "28,331 yds",
       "player": "Jackson Wardell Kline",
-      "pos": "WR"
+      "pos": "WR",
+      "team": "New York Giants"
      }
     ],
     "basis": "career cards",
@@ -247,22 +295,28 @@
   },
   {
    "record": "Best rushing game",
+   "short": "Best rushing game",
    "club": {
     "mark": "237 yds",
     "value": 237.0,
     "holder": "RB R. Maxwell",
-    "year": "Y85"
+    "year": "Y85",
+    "name": "Ryland Maxwell",
+    "team": "Falcons"
    },
    "scope": "game",
    "league": null
   },
   {
    "record": "Best rushing season",
+   "short": "Rush yds",
    "club": {
     "mark": "2,670 yds",
     "value": 2670.0,
     "holder": "RB R. Maxwell",
-    "year": "Y87"
+    "year": "Y87",
+    "name": "Ryland Maxwell",
+    "team": "Falcons"
    },
    "scope": "season",
    "league": {
@@ -274,6 +328,8 @@
       "mark": "2,670 yds",
       "player": "RB R. Maxwell",
       "club": true,
+      "name": "Ryland Maxwell",
+      "team": "Falcons",
       "season": "Y87"
      },
      {
@@ -281,6 +337,7 @@
       "mark": "2,617 yds",
       "player": "Ryland Maxwell",
       "pos": "RB",
+      "team": "Falcons",
       "season": "Y85"
      },
      {
@@ -288,6 +345,7 @@
       "mark": "2,272 yds",
       "player": "Ryland Maxwell",
       "pos": "RB",
+      "team": "Falcons",
       "season": "Y84"
      }
     ],
@@ -298,11 +356,14 @@
   },
   {
    "record": "Best rushing career",
+   "short": "Rush yds",
    "club": {
     "mark": "18,867 yds",
     "value": 18867.0,
     "holder": "RB R. Ikarras",
-    "year": "Y47"
+    "year": "Y47",
+    "name": "Rondale Ikarras",
+    "team": "Ravens"
    },
    "scope": "career",
    "league": {
@@ -313,19 +374,22 @@
       "value": 23178,
       "mark": "23,178 yds",
       "player": "Rondale Ikarras",
-      "pos": "RB"
+      "pos": "RB",
+      "team": "Baltimore Ravens"
      },
      {
       "value": 21940,
       "mark": "21,940 yds",
       "player": "Lane McCoy",
-      "pos": "RB"
+      "pos": "RB",
+      "team": "Denver Broncos"
      },
      {
       "value": 21690,
       "mark": "21,690 yds",
       "player": "Trequan Jensen",
-      "pos": "RB"
+      "pos": "RB",
+      "team": "Green Bay Packers"
      }
     ],
     "basis": "career cards",
@@ -335,22 +399,28 @@
   },
   {
    "record": "Most TD passes, game",
+   "short": "Most TD passes, game",
    "club": {
     "mark": "9",
     "value": 9.0,
     "holder": "QB S. Brandson",
-    "year": "Y55"
+    "year": "Y55",
+    "name": "Sherman Brandson",
+    "team": "Giants"
    },
    "scope": "game",
    "league": null
   },
   {
    "record": "Most TD passes, season",
+   "short": "Pass TDs",
    "club": {
     "mark": "94",
     "value": 94.0,
     "holder": "QB S. Brandson",
-    "year": "Y55"
+    "year": "Y55",
+    "name": "Sherman Brandson",
+    "team": "Giants"
    },
    "scope": "season",
    "league": {
@@ -362,6 +432,8 @@
       "mark": "94",
       "player": "QB S. Brandson",
       "club": true,
+      "name": "Sherman Brandson",
+      "team": "Giants",
       "season": "Y55"
      },
      {
@@ -369,6 +441,7 @@
       "mark": "72",
       "player": "Bones Crawford",
       "pos": "QB",
+      "team": "Eagles",
       "season": "Y89"
      },
      {
@@ -376,6 +449,7 @@
       "mark": "61",
       "player": "Bones Crawford",
       "pos": "QB",
+      "team": "Eagles",
       "season": "Y90"
      }
     ],
@@ -386,11 +460,14 @@
   },
   {
    "record": "Most TD passes, career",
+   "short": "Pass TDs",
    "club": {
     "mark": "1,150",
     "value": 1150.0,
     "holder": "QB S. Brandson",
-    "year": "Y62"
+    "year": "Y62",
+    "name": "Sherman Brandson",
+    "team": "Vikings"
    },
    "scope": "career",
    "league": {
@@ -401,19 +478,23 @@
       "value": 1150,
       "mark": "1,150",
       "player": "QB S. Brandson",
-      "club": true
+      "club": true,
+      "name": "Sherman Brandson",
+      "team": "Vikings"
      },
      {
       "value": 913,
       "mark": "913",
       "player": "Wayne Wilson",
-      "pos": "QB"
+      "pos": "QB",
+      "team": "Los Angeles Chargers"
      },
      {
       "value": 779,
       "mark": "779",
       "player": "Dennis Baylon",
-      "pos": "QB"
+      "pos": "QB",
+      "team": "Buffalo Bills"
      }
     ],
     "basis": "career cards",
@@ -423,22 +504,28 @@
   },
   {
    "record": "Most TD receptions, game",
+   "short": "Most TD receptions, game",
    "club": {
     "mark": "6",
     "value": 6.0,
     "holder": "WR I. Finney",
-    "year": "Y23"
+    "year": "Y23",
+    "name": "Ian Finney",
+    "team": "Buccaneers"
    },
    "scope": "game",
    "league": null
   },
   {
    "record": "Most TD receptions, season",
+   "short": "Rec TDs",
    "club": {
     "mark": "49",
     "value": 49.0,
     "holder": "WR G. Johnson",
-    "year": "Y63"
+    "year": "Y63",
+    "name": "God Johnson",
+    "team": "Vikings"
    },
    "scope": "season",
    "league": {
@@ -450,6 +537,8 @@
       "mark": "49",
       "player": "WR G. Johnson",
       "club": true,
+      "name": "God Johnson",
+      "team": "Vikings",
       "season": "Y63"
      },
      {
@@ -457,6 +546,7 @@
       "mark": "39",
       "player": "Kane Van Oxley",
       "pos": "WR",
+      "team": "Jets",
       "season": "Y82"
      },
      {
@@ -464,6 +554,7 @@
       "mark": "34",
       "player": "Vyncint Heath",
       "pos": "WR",
+      "team": "Falcons",
       "season": "Y83"
      }
     ],
@@ -474,11 +565,14 @@
   },
   {
    "record": "Most TD receptions, career",
+   "short": "Rec TDs",
    "club": {
     "mark": "378",
     "value": 378.0,
     "holder": "WR G. Johnson",
-    "year": "Y67"
+    "year": "Y67",
+    "name": "God Johnson",
+    "team": "Vikings"
    },
    "scope": "career",
    "league": {
@@ -489,19 +583,23 @@
       "value": 378,
       "mark": "378",
       "player": "WR G. Johnson",
-      "club": true
+      "club": true,
+      "name": "God Johnson",
+      "team": "Vikings"
      },
      {
       "value": 292,
       "mark": "292",
       "player": "Ian Finney",
-      "pos": "WR"
+      "pos": "WR",
+      "team": "Tampa Bay Buccaneers"
      },
      {
       "value": 289,
       "mark": "289",
       "player": "Jackson Wardell Kline",
-      "pos": "WR"
+      "pos": "WR",
+      "team": "New York Giants"
      }
     ],
     "basis": "career cards",
@@ -511,22 +609,28 @@
   },
   {
    "record": "Most rushing TDs, game",
+   "short": "Most rushing TDs, game",
    "club": {
     "mark": "5",
     "value": 5.0,
     "holder": "RB R. Ikarras",
-    "year": "Y40"
+    "year": "Y40",
+    "name": "Rondale Ikarras",
+    "team": "Chargers"
    },
    "scope": "game",
    "league": null
   },
   {
    "record": "Most rushing TDs, season",
+   "short": "Rush TDs",
    "club": {
     "mark": "39",
     "value": 39.0,
     "holder": "RB R. Maxwell",
-    "year": "Y85"
+    "year": "Y85",
+    "name": "Ryland Maxwell",
+    "team": "Falcons"
    },
    "scope": "season",
    "league": {
@@ -538,6 +642,7 @@
       "mark": "42",
       "player": "Siran Spector",
       "pos": "RB",
+      "team": "Texans",
       "season": "Y89"
      },
      {
@@ -545,6 +650,7 @@
       "mark": "41",
       "player": "Siran Spector",
       "pos": "RB",
+      "team": "Falcons",
       "season": "Y83"
      },
      {
@@ -552,6 +658,8 @@
       "mark": "39",
       "player": "RB R. Maxwell",
       "club": true,
+      "name": "Ryland Maxwell",
+      "team": "Falcons",
       "season": "Y85"
      }
     ],
@@ -562,11 +670,13 @@
   },
   {
    "record": "Most rushing TDs, career",
+   "short": "Rush TDs",
    "club": {
     "mark": "318",
     "value": 318.0,
     "holder": "RB J. Bolden",
-    "year": "Y71"
+    "year": "Y71",
+    "team": "Titans"
    },
    "scope": "career",
    "league": {
@@ -577,19 +687,22 @@
       "value": 409,
       "mark": "409",
       "player": "Lane McCoy",
-      "pos": "RB"
+      "pos": "RB",
+      "team": "Denver Broncos"
      },
      {
       "value": 408,
       "mark": "408",
       "player": "Danny Diggs",
-      "pos": "RB"
+      "pos": "RB",
+      "team": "Jacksonville Jaguars"
      },
      {
       "value": 388,
       "mark": "388",
       "player": "Trequan Jensen",
-      "pos": "RB"
+      "pos": "RB",
+      "team": "Green Bay Packers"
      }
     ],
     "basis": "career cards",
@@ -599,88 +712,104 @@
   },
   {
    "record": "Most FG yards, game",
+   "short": "Most FG yards, game",
    "club": {
     "mark": "54 yds",
     "value": 54.0,
     "holder": "K Z. Griffen",
-    "year": "Y7"
+    "year": "Y7",
+    "team": "Dolphins"
    },
    "scope": "game",
    "league": null
   },
   {
    "record": "Most FG yards, season",
+   "short": "FG yards",
    "club": {
     "mark": "238 yds",
     "value": 238.0,
     "holder": "K Z. Griffen",
-    "year": "Y7"
+    "year": "Y7",
+    "team": "Dolphins"
    },
    "scope": "other",
    "league": null
   },
   {
    "record": "Most FG yards, career",
+   "short": "FG yards",
    "club": {
     "mark": "16,224 yds",
     "value": 16224.0,
     "holder": "K E. McPherson",
-    "year": "Y15"
+    "year": "Y15",
+    "team": "Chargers"
    },
    "scope": "other",
    "league": null
   },
   {
    "record": "Most field goals, game",
+   "short": "Most field goals, game",
    "club": {
     "mark": "1",
     "value": 1.0,
     "holder": "K B. Dalman",
-    "year": "Y2"
+    "year": "Y2",
+    "team": "Vikings"
    },
    "scope": "game",
    "league": null
   },
   {
    "record": "Most field goals, season",
+   "short": "field goals",
    "club": {
     "mark": "6",
     "value": 6.0,
     "holder": "K Z. Griffen",
-    "year": "Y7"
+    "year": "Y7",
+    "team": "Dolphins"
    },
    "scope": "other",
    "league": null
   },
   {
    "record": "Most field goals, career",
+   "short": "field goals",
    "club": {
     "mark": "702",
     "value": 702.0,
     "holder": "K E. McPherson",
-    "year": "Y15"
+    "year": "Y15",
+    "team": "Chargers"
    },
    "scope": "other",
    "league": null
   },
   {
    "record": "Most tackles, game",
+   "short": "Most tackles, game",
    "club": {
     "mark": "17",
     "value": 17.0,
     "holder": "LB Z. Franklin",
-    "year": "Y5"
+    "year": "Y5",
+    "team": "Dolphins"
    },
    "scope": "game",
    "league": null
   },
   {
    "record": "Most tackles, season",
+   "short": "Tackles",
    "club": {
     "mark": "177",
     "value": 177.0,
     "holder": "DB D. Batson",
-    "year": "Y50"
+    "year": "Y50",
+    "team": "Ravens"
    },
    "scope": "season",
    "league": {
@@ -692,6 +821,7 @@
       "mark": "259",
       "player": "Jamon Brooker",
       "pos": "DB",
+      "team": "Packers",
       "season": "Y88"
      },
      {
@@ -699,6 +829,7 @@
       "mark": "238",
       "player": "Deonte Sutton",
       "pos": "DB",
+      "team": "Seattle Seahawks",
       "season": "Y83"
      },
      {
@@ -706,6 +837,7 @@
       "mark": "238",
       "player": "K'Lavon Settle",
       "pos": "DB",
+      "team": "San Francisco 49ers",
       "season": "Y83"
      }
     ],
@@ -716,11 +848,13 @@
   },
   {
    "record": "Most tackles, career",
+   "short": "Tackles",
    "club": {
     "mark": "2,441",
     "value": 2441.0,
     "holder": "DB R. Mosby",
-    "year": "Y22"
+    "year": "Y22",
+    "team": "Buccaneers"
    },
    "scope": "career",
    "league": {
@@ -731,19 +865,22 @@
       "value": 3185,
       "mark": "3,185",
       "player": "K'Lavon Settle",
-      "pos": "DB"
+      "pos": "DB",
+      "team": "San Francisco 49ers"
      },
      {
       "value": 3132,
       "mark": "3,132",
       "player": "Terron Stidham",
-      "pos": "DB"
+      "pos": "DB",
+      "team": "Baltimore Ravens"
      },
      {
       "value": 2873,
       "mark": "2,873",
       "player": "Marvell Rodgers",
-      "pos": "DB"
+      "pos": "DB",
+      "team": "Tennessee Titans"
      }
     ],
     "basis": "career cards",
@@ -753,22 +890,26 @@
   },
   {
    "record": "Most sacks, game",
+   "short": "Most sacks, game",
    "club": {
     "mark": "2",
     "value": 2.0,
     "holder": "DL L. Palardy",
-    "year": "Y11"
+    "year": "Y11",
+    "team": "Chargers"
    },
    "scope": "game",
    "league": null
   },
   {
    "record": "Most sacks, season",
+   "short": "Sacks",
    "club": {
     "mark": "9",
     "value": 9.0,
     "holder": "DL A. Leavitt",
-    "year": "Y23"
+    "year": "Y23",
+    "team": "Buccaneers"
    },
    "scope": "season",
    "league": {
@@ -780,6 +921,7 @@
       "mark": "9",
       "player": "DL A. Leavitt",
       "club": true,
+      "team": "Buccaneers",
       "season": "Y23"
      },
      {
@@ -787,6 +929,7 @@
       "mark": "4",
       "player": "Kalif Suh",
       "pos": "LB",
+      "team": "Jets",
       "season": "Y81"
      },
      {
@@ -794,6 +937,7 @@
       "mark": "4",
       "player": "Simeon Otton",
       "pos": "LB",
+      "team": "Falcons",
       "season": "Y86"
      }
     ],
@@ -804,11 +948,13 @@
   },
   {
    "record": "Most sacks, career",
+   "short": "Sacks",
    "club": {
     "mark": "112",
     "value": 112.0,
     "holder": "LB T. Watt",
-    "year": "Y6"
+    "year": "Y6",
+    "team": "Dolphins"
    },
    "scope": "career",
    "league": {
@@ -819,19 +965,22 @@
       "value": 112,
       "mark": "112",
       "player": "LB T. Watt",
-      "club": true
+      "club": true,
+      "team": "Dolphins"
      },
      {
       "value": 24,
       "mark": "24",
       "player": "Kalif Suh",
-      "pos": "LB"
+      "pos": "LB",
+      "team": "New York Jets"
      },
      {
       "value": 22,
       "mark": "22",
       "player": "Bilal Tolbert",
-      "pos": "LB"
+      "pos": "LB",
+      "team": "Los Angeles Chargers"
      }
     ],
     "basis": "career cards",
@@ -841,22 +990,27 @@
   },
   {
    "record": "Most interceptions, game",
+   "short": "Most interceptions, game",
    "club": {
     "mark": "2",
     "value": 2.0,
     "holder": "LB D. Campbell",
-    "year": "Y2"
+    "year": "Y2",
+    "team": "Vikings"
    },
    "scope": "game",
    "league": null
   },
   {
    "record": "Most interceptions, season",
+   "short": "INTs",
    "club": {
     "mark": "7",
     "value": 7.0,
     "holder": "DB G. Coulter",
-    "year": "Y26"
+    "year": "Y26",
+    "name": "Germain Coulter",
+    "team": "Buccaneers"
    },
    "scope": "season",
    "league": {
@@ -868,6 +1022,7 @@
       "mark": "8",
       "player": "Lewis Pettis",
       "pos": "DB",
+      "team": "Cowboys",
       "season": "Y90"
      },
      {
@@ -875,6 +1030,8 @@
       "mark": "7",
       "player": "DB G. Coulter",
       "club": true,
+      "name": "Germain Coulter",
+      "team": "Buccaneers",
       "season": "Y26"
      },
      {
@@ -882,6 +1039,7 @@
       "mark": "7",
       "player": "Jamon Brooker",
       "pos": "DB",
+      "team": "Packers",
       "season": "Y87"
      }
     ],
@@ -892,11 +1050,13 @@
   },
   {
    "record": "Most interceptions, career",
+   "short": "INTs",
    "club": {
     "mark": "37",
     "value": 37.0,
     "holder": "DB C. Lowery",
-    "year": "Y20"
+    "year": "Y20",
+    "team": "Buccaneers"
    },
    "scope": "career",
    "league": {
@@ -907,19 +1067,22 @@
       "value": 42,
       "mark": "42",
       "player": "Daren Teamer",
-      "pos": "DB"
+      "pos": "DB",
+      "team": "Buffalo Bills"
      },
      {
       "value": 40,
       "mark": "40",
       "player": "Jayon Queen",
-      "pos": "DB"
+      "pos": "DB",
+      "team": "New York Jets"
      },
      {
       "value": 39,
       "mark": "39",
       "player": "Damar Hobbs",
-      "pos": "DB"
+      "pos": "DB",
+      "team": "New England Patriots"
      }
     ],
     "basis": "career cards",
@@ -929,22 +1092,27 @@
   },
   {
    "record": "Most forced fumbles, game",
+   "short": "Most forced fumbles, game",
    "club": {
     "mark": "2",
     "value": 2.0,
     "holder": "LB T. Baugh",
-    "year": "Y29"
+    "year": "Y29",
+    "name": "Tyrone Baugh",
+    "team": "Bills"
    },
    "scope": "game",
    "league": null
   },
   {
    "record": "Most forced fumbles, season",
+   "short": "Forced fumbles",
    "club": {
     "mark": "4",
     "value": 4.0,
     "holder": "DL A. Succop",
-    "year": "Y3"
+    "year": "Y3",
+    "team": "Vikings"
    },
    "scope": "season",
    "league": {
@@ -956,6 +1124,7 @@
       "mark": "4",
       "player": "DL A. Succop",
       "club": true,
+      "team": "Vikings",
       "season": "Y3"
      },
      {
@@ -963,6 +1132,7 @@
       "mark": "4",
       "player": "Kalif Suh",
       "pos": "LB",
+      "team": "Jets",
       "season": "Y82"
      },
      {
@@ -970,6 +1140,7 @@
       "mark": "4",
       "player": "Simeon Otton",
       "pos": "LB",
+      "team": "Falcons",
       "season": "Y87"
      }
     ],
@@ -980,11 +1151,14 @@
   },
   {
    "record": "Most forced fumbles, career",
+   "short": "Forced fumbles",
    "club": {
     "mark": "12",
     "value": 12.0,
     "holder": "LB T. Baugh",
-    "year": "Y36"
+    "year": "Y36",
+    "name": "Tyrone Baugh",
+    "team": "Seahawks"
    },
    "scope": "career",
    "league": {
@@ -995,19 +1169,23 @@
       "value": 12,
       "mark": "12",
       "player": "LB T. Baugh",
-      "club": true
+      "club": true,
+      "name": "Tyrone Baugh",
+      "team": "Seahawks"
      },
      {
       "value": 10,
       "mark": "10",
       "player": "Kalif Suh",
-      "pos": "LB"
+      "pos": "LB",
+      "team": "New York Jets"
      },
      {
       "value": 8,
       "mark": "8",
       "player": "Bilal Tolbert",
-      "pos": "LB"
+      "pos": "LB",
+      "team": "Los Angeles Chargers"
      }
     ],
     "basis": "career cards",
@@ -1017,44 +1195,53 @@
   },
   {
    "record": "Longest kick return",
+   "short": "Longest kick return",
    "club": {
     "mark": "33 yds",
     "value": 33.0,
     "holder": "DB B. Branch",
-    "year": "Y4"
+    "year": "Y4",
+    "team": "Vikings"
    },
    "scope": "other",
    "league": null
   },
   {
    "record": "Most return yards, game",
+   "short": "Most return yards, game",
    "club": {
     "mark": "169 yds",
     "value": 169.0,
     "holder": "DB B. Branch",
-    "year": "Y4"
+    "year": "Y4",
+    "team": "Vikings"
    },
    "scope": "game",
    "league": null
   },
   {
    "record": "Most return yards, season",
+   "short": "return yards",
    "club": {
     "mark": "1,574 yds",
     "value": 1574.0,
     "holder": "DB B. Baker",
-    "year": "Y1"
+    "year": "Y1",
+    "team": "Vikings"
    },
    "scope": "other",
    "league": null
   },
   {
    "record": "Most return yards, career",
+   "short": "return yards",
    "club": {
     "mark": "5,778 yds",
     "value": 5778.0,
     "holder": "WR C. Lamb",
-    "year": "Y7"
+    "year": "Y7",
+    "name": "CeeDee Lamb",
+    "team": "Dolphins"
    },
    "scope": "other",
    "league": null
