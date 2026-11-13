@@ -397,13 +397,19 @@ def main():
             # every club in the owner's order, was his last stop (Heath: Jets, Falcons, then the Y88-89 Eagles)
             f["order"] = [*f["order"], f["main"]]
             f["known"].add(f["main"])
+        if f["next"] and any(t == f["next"] for t, _ in anchors):
+            # traded after an earlier season, and a later season roster now has him there: an ordinary last stop
+            f["order"] = [*f["order"], f["next"]]
+            f["known"].add(f["next"])
+            f["main"], f["next"] = f["next"], None
         target["anchors"] = anchors
         target["exact"] = exact
         if career.get("longest"):
             target["longest"] = short(career["longest"], teams)  # owner: "mainly a Seahawk"
         if real:
             target["start"] = (1, 1)
-        if any(y == LAST for _, y in anchors) or (status == "Active" and name not in sheet):
+        if any(y == LAST for _, y in anchors) or (status == "Active" and name not in sheet and F.TEAM_FIXES.get(name) != "FA"):
+            # (a free agent is not playing: his career may end before the last season)
             # on a roster in the last season, or added after the sheet and not retired in the game: still playing
             target["end"] = (LAST, LAST)
         seqs = candidate_seqs(f, anchors)

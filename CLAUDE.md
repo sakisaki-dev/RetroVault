@@ -184,6 +184,11 @@ existing speeches: a one-line hook, then 2–3 short paragraphs, closing "…, w
 
 ### 6. Season story (AI step `story`; trigger: the rebuild prints `STORY NEEDED: Y<n>`)
 
+Only the latest three seasons keep a story (owner: "the stories we don't need all of them anymore, only keep the last
+3"). When a new season's story goes in, remove the oldest with `story.remove` (target the season, value null, source
+"owner") in the same or a follow-up bundle, and trim any `related` links that pointed into it (a `story.set` of the
+seasons that kept them). The builder deletes the removed season's file.
+
 When a season completes (a new `coach.season` row) and `data/y80/stories.json` has no story for it, the rebuild prints
 `STORY NEEDED`. Write a news package about that season in a bundle `data/uploads/<date>-story-y<n>/` with one
 `story.set` mutation: lane `story`, target the season (`"Y82"`), source `"data:<files read>"`, the `story` AI step

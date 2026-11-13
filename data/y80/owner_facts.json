@@ -60,7 +60,8 @@
    "team": "Falcons"
   },
   "Aqib McClain": {
-   "team": "49ers"
+   "team": "49ers",
+   "status": "Retired"
   },
   "Asante Biadasz": {
    "team": "Cardinals",
@@ -137,8 +138,11 @@
   "Brian Baker": {
    "status": "Retired"
   },
+  "Bruno Beavers": {
+   "status": "Retired"
+  },
   "Bryant Zappe": {
-   "team": "Eagles"
+   "team": "FA"
   },
   "Bryson Lucas": {
    "team": "Commanders"
@@ -413,7 +417,8 @@
    "retired_with": "Buccaneers"
   },
   "Isaiah Karras": {
-   "team": "Patriots"
+   "team": "Patriots",
+   "status": "Retired"
   },
   "JR Bashaam": {
    "status": "Retired"
@@ -459,8 +464,14 @@
     "says": "Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring). Played Y83 and retired after it; final-season (Y83) stats were not captured, so the career stays at its Y82 totals."
    }
   },
+  "Jamil Warner": {
+   "status": "Retired"
+  },
   "Jamon Brooker": {
    "team": "Packers"
+  },
+  "Jaron Dareus": {
+   "status": "Retired"
   },
   "Jarred Beasley": {
    "status": "Retired"
@@ -557,10 +568,12 @@
    "team": "Broncos"
   },
   "Kana'i Camper": {
-   "team": "Buccaneers"
+   "team": "Buccaneers",
+   "status": "Retired"
   },
   "Kane Van Oxley": {
    "team": "Bears",
+   "status": "Retired",
    "card": {
     "note": "\"The Ox\", for how strong he is: he breaks tackles and blocks well. Has recovered more fumbles than anyone the owner has ever played with."
    },
@@ -717,7 +730,8 @@
    "team": "Raiders"
   },
   "Marvell Rodgers": {
-   "team": "Titans"
+   "team": "Titans",
+   "status": "Retired"
   },
   "Mason Taylor": {
    "retired_with": "Dolphins",
@@ -842,6 +856,9 @@
     ],
     "says": "Ray Waller never played for the Colts."
    }
+  },
+  "Riley Roche": {
+   "status": "Retired"
   },
   "Rob Lowe": {
    "status": "Retired"
@@ -989,6 +1006,12 @@
    "team": "Jaguars",
    "status": "Retired"
   },
+  "Tajae Westry": {
+   "status": "Retired"
+  },
+  "Tanner Tuttle": {
+   "status": "Retired"
+  },
   "Taron Hayes": {
    "status": "Retired",
    "career": {
@@ -999,11 +1022,15 @@
     "says": "Taron Hayes never played for the Jets or the Titans."
    }
   },
+  "Tavon Lemieux": {
+   "status": "Retired"
+  },
   "Teez Givens": {
    "status": "Retired"
   },
   "Terron Stidham": {
-   "team": "Ravens"
+   "team": "Ravens",
+   "status": "Retired"
   },
   "Tim Sweeney": {
    "team": "Texans"
@@ -1122,37 +1149,40 @@
   },
   "Zay Louis": {
    "status": "Retired"
+  },
+  "Zech Vernon": {
+   "status": "Retired"
   }
  },
  "active_rosters": {
   "49ers": [
    "Aldrick Coyle",
    "Andrew Pitts",
-   "Aqib McClain",
    "Dalvin Moehrig",
+   "J.C. Howland",
    "Jojo McCown",
    "Martez Hill",
+   "P.J. Jerry",
    "Tay Tenuta",
    "Teagan Banjo",
-   "Yosuah Lewan",
-   "Zech Vernon"
+   "Yosuah Lewan"
   ],
   "Bears": [
    "Caleb Neal",
+   "Corn Tabor",
    "Dezmon Tavai",
    "George Nnadi",
    "Irv Kelce",
    "Jace Ray",
-   "Kane Van Oxley",
    "Krys Pickens",
    "Mack Skule",
    "Taron Pinnock",
    "Ty Gurman"
   ],
   "Bengals": [
-   "Bruno Beavers",
    "Dare Talib",
    "Grover Calitro",
+   "JD Pircher",
    "Jontre Owens",
    "Kwon Dawkins",
    "Lamont Duck",
@@ -1199,10 +1229,10 @@
   ],
   "Buccaneers": [
    "Bradlee Philips",
+   "Cal Gowan",
    "Chazz McCray",
    "Dallin Santoso",
    "Juwann Pulley",
-   "Kana'i Camper",
    "Morgan Saltes",
    "Pete Peters",
    "Ronnie Hardy",
@@ -1210,6 +1240,7 @@
    "Tyreek Devalve"
   ],
   "Cardinals": [
+   "Alton Hopkins",
    "Camaron Knight",
    "David Worton",
    "Derek Amadi",
@@ -1218,8 +1249,7 @@
    "Keelan Blair",
    "Morris Samia",
    "Neal Johnson",
-   "Nydair Funk",
-   "Tanner Tuttle"
+   "Nydair Funk"
   ],
   "Chargers": [
    "Arthur Onwenu",
@@ -1258,11 +1288,11 @@
    "Terrell Shipley"
   ],
   "Commanders": [
+   "Alijah Santos",
    "Braxton Pennel",
    "Bryson Lucas",
    "Ceedee Hollins",
    "Cordrea Clark",
-   "Jamil Warner",
    "Josh Brooks",
    "Kai Toure",
    "River Diggs",
@@ -1296,11 +1326,12 @@
   "Eagles": [
    "Akiem Brock",
    "Bones Crawford",
-   "Bryant Zappe",
    "Calvin Wingo II",
    "Dwayne Skura",
+   "Jacob Proise",
    "Kaulani Rahman",
    "Koa Zuber",
+   "Quincy Booker",
    "Ryland Maxwell",
    "Snoop Dotson"
   ],
@@ -1321,8 +1352,8 @@
    "Caleb Linsley",
    "Dalton Mauro",
    "George Core",
-   "Jaron Dareus",
    "KC Hyder",
+   "Niles Canaday",
    "Pharoah Orzech",
    "Tramon Bouye",
    "Trystan Doctson",
@@ -1393,11 +1424,11 @@
    "Damar Hobbs",
    "Devaroe Oyelola",
    "Dustin Milton",
-   "Isaiah Karras",
    "J.R. Homer",
    "Jamison Stueber",
    "Khalen Swoopes",
    "Rashawn Cook",
+   "Sam Swaim",
    "Wayne Blair"
   ],
   "Raiders": [
@@ -1407,8 +1438,8 @@
    "Kyler Falah",
    "Martin Ward",
    "Myquon Renfrow",
-   "Tajae Westry",
    "Terence Awuzie",
+   "Trae Corral",
    "Trey Gabbert",
    "Xavier Mosley"
   ],
@@ -1421,7 +1452,7 @@
    "Kevon Pitts",
    "Makai Merritt",
    "Raphael Mosely",
-   "Riley Roche",
+   "Russ Bello",
    "Tim Wright"
   ],
   "Ravens": [
@@ -1430,10 +1461,10 @@
    "Cethan Qualls",
    "Clinton Maher",
    "Hamp McPhee",
+   "Isaiah Pinkney",
    "Malcom McCloud",
    "Nazair Lacey",
    "Terrel Ragas",
-   "Terron Stidham",
    "Zane Correa"
   ],
   "Saints": [
@@ -1452,13 +1483,13 @@
    "Alton Yeldon",
    "Cethan Onwenu",
    "Davion Leo",
+   "Dyami Watson",
    "Fred Kmet",
    "Hakeem Ervin",
    "Jaelon Bennett",
    "Julian Goedert",
    "Obinna Leary",
-   "Perrion Randall",
-   "Tavon Lemieux"
+   "Perrion Randall"
   ],
   "Steelers": [
    "Dede Saltes",
@@ -1485,11 +1516,11 @@
    "Tristan Suggs"
   ],
   "Titans": [
+   "Dax Kolone",
    "Eli Kenney",
    "Jacobi Badgley",
    "Jamel Wilkins",
    "Laken Linder",
-   "Marvell Rodgers",
    "Olamide Conway",
    "Olamide Poe",
    "Rysen Nauta",
@@ -2034,6 +2065,392 @@
     "Jamel Wilkins",
     "Laken Linder",
     "Marvell Rodgers",
+    "Olamide Conway",
+    "Olamide Poe",
+    "Rysen Nauta",
+    "Tom Egbule",
+    "Trayvon Fulton"
+   ],
+   "Vikings": [
+    "Dakota Paye",
+    "Darian Milne",
+    "Isaiah Bitonio",
+    "Jordon Toilolo",
+    "Joshuah Gore",
+    "Koda Koroma",
+    "Kylin Peters",
+    "Oli Alaka",
+    "Rasheem Ingold",
+    "Tre' Haack"
+   ]
+  },
+  "91": {
+   "49ers": [
+    "Aldrick Coyle",
+    "Andrew Pitts",
+    "Dalvin Moehrig",
+    "J.C. Howland",
+    "Jojo McCown",
+    "Martez Hill",
+    "P.J. Jerry",
+    "Tay Tenuta",
+    "Teagan Banjo",
+    "Yosuah Lewan"
+   ],
+   "Bears": [
+    "Caleb Neal",
+    "Corn Tabor",
+    "Dezmon Tavai",
+    "George Nnadi",
+    "Irv Kelce",
+    "Jace Ray",
+    "Krys Pickens",
+    "Mack Skule",
+    "Taron Pinnock",
+    "Ty Gurman"
+   ],
+   "Bengals": [
+    "Dare Talib",
+    "Grover Calitro",
+    "JD Pircher",
+    "Jontre Owens",
+    "Kwon Dawkins",
+    "Lamont Duck",
+    "Nathan Tangelo",
+    "Nydair Sample",
+    "Rashard Gunter",
+    "Segun Tiuli"
+   ],
+   "Bills": [
+    "Abraham Jack",
+    "Dekoda Walton",
+    "Earl Boehm",
+    "Jamell Langley",
+    "Juju Ngakoue",
+    "Lecitus Hayden",
+    "Mykal Shaw",
+    "Rakeem Hoecht",
+    "Tracy Merritt",
+    "Victor Pascal"
+   ],
+   "Broncos": [
+    "Akayleb Samia",
+    "Dayo Prince",
+    "Deonte Farrell",
+    "Grant Terrell",
+    "Gus Langley",
+    "Hakeem Peppers",
+    "J.C. Jordan",
+    "Kahzin Heath",
+    "Lane McCoy",
+    "Mark Sieler"
+   ],
+   "Browns": [
+    "Anthony Orzech",
+    "Clark Borom",
+    "Jamie McGrone",
+    "Lamont Edoga",
+    "Levante Banner",
+    "Mike Bouye",
+    "Randall Obada",
+    "Thomas Sweezy",
+    "Trayone Burford",
+    "Tyree Irwin"
+   ],
+   "Buccaneers": [
+    "Bradlee Philips",
+    "Cal Gowan",
+    "Chazz McCray",
+    "Dallin Santoso",
+    "Juwann Pulley",
+    "Morgan Saltes",
+    "Pete Peters",
+    "Ronnie Hardy",
+    "Shareef London",
+    "Tyreek Devalve"
+   ],
+   "Cardinals": [
+    "Alton Hopkins",
+    "Camaron Knight",
+    "David Worton",
+    "Derek Amadi",
+    "Divine Gilmore",
+    "Earnest Prosise",
+    "Keelan Blair",
+    "Morris Samia",
+    "Neal Johnson",
+    "Nydair Funk"
+   ],
+   "Chargers": [
+    "Arthur Onwenu",
+    "Donald Spencer",
+    "Odell Hainsey",
+    "Quatro Pierre",
+    "Quenton Fuller",
+    "Rashaan Massie",
+    "Terrel Brandel",
+    "Tyquan Vasey",
+    "Ulysees Sutton",
+    "Vyncint Fort"
+   ],
+   "Chiefs": [
+    "Gary Asafo",
+    "Grady Cox",
+    "Gus Howland",
+    "Kolton Cole",
+    "Maurice Vigil",
+    "Mykal Mosby",
+    "Nazair Ball",
+    "Roc Dunkle",
+    "Shaquem Goedert",
+    "Vonn Kennedy"
+   ],
+   "Colts": [
+    "Andrew Dwight",
+    "Chuck Ertz",
+    "Clive Perry",
+    "Cullen Laird",
+    "Damarri Melvin",
+    "Korey Friend",
+    "Le'Veon Ogbah",
+    "Quatro Wilds",
+    "River Kuechly",
+    "Terrell Shipley"
+   ],
+   "Commanders": [
+    "Alijah Santos",
+    "Braxton Pennel",
+    "Bryson Lucas",
+    "Ceedee Hollins",
+    "Cordrea Clark",
+    "Josh Brooks",
+    "Kai Toure",
+    "River Diggs",
+    "Trysten Floyd",
+    "Victor Brandel"
+   ],
+   "Cowboys": [
+    "Camryn Kongbo",
+    "Daelin Virgin",
+    "Isaiah Schnell",
+    "Jarrell Cann",
+    "Jeffrey Wilson",
+    "Lewis Pettis",
+    "Samson McKeon",
+    "Spencer Ladler",
+    "Taco Coulter",
+    "Terence Colvin"
+   ],
+   "Dolphins": [
+    "Anree Wren",
+    "Brandon Jaclyde",
+    "Eli Danna",
+    "Lenny Baun",
+    "Lukas Agnew",
+    "Netane Jacobs",
+    "Raymond Marlowe",
+    "Rudy Ward Jr",
+    "Terez Poe",
+    "Thomas Gano"
+   ],
+   "Eagles": [
+    "Akiem Brock",
+    "Bones Crawford",
+    "Calvin Wingo II",
+    "Dwayne Skura",
+    "Jacob Proise",
+    "Kaulani Rahman",
+    "Koa Zuber",
+    "Quincy Booker",
+    "Ryland Maxwell",
+    "Snoop Dotson"
+   ],
+   "Falcons": [
+    "Apollo Adam",
+    "Calais Ham",
+    "Gerrit Ogbah",
+    "Ian Clapp",
+    "Keaton Toney",
+    "Marc Saine II",
+    "Orlando Larienne",
+    "Ryan Pepper",
+    "Simeon Otton",
+    "Tramon Holton"
+   ],
+   "Giants": [
+    "Brett Sweat",
+    "Caleb Linsley",
+    "Dalton Mauro",
+    "George Core",
+    "KC Hyder",
+    "Niles Canaday",
+    "Pharoah Orzech",
+    "Tramon Bouye",
+    "Trystan Doctson",
+    "Ty Lock"
+   ],
+   "Jaguars": [
+    "Anree Cohen",
+    "DJ Long",
+    "Daelin Norton",
+    "Jabari Payne",
+    "Jamar Dallas",
+    "Kalif Risner",
+    "Khaleke Hyder",
+    "Koa Togiai",
+    "Parker Hampton",
+    "Tress Pettis"
+   ],
+   "Jets": [
+    "Bud Matthew",
+    "Deane Lucas",
+    "Denzel Brady",
+    "Deshone Bello",
+    "Essang Remmers",
+    "Jay Bradham",
+    "Jimmy Tillery",
+    "Kalif Suh",
+    "Keesean Rashed",
+    "Kyron Atwell"
+   ],
+   "Lions": [
+    "Alohi Devey",
+    "Davion Means",
+    "Dieter Gant",
+    "Khalid Glasgow",
+    "Kiondre Hageman",
+    "Margus Leglue",
+    "Samori Toney",
+    "Travon Swaim",
+    "Tyquan Hunter",
+    "Verone Koch"
+   ],
+   "Packers": [
+    "Angelo Moton",
+    "Chuba McBride",
+    "Cordale Sweezy",
+    "Eno Brunson",
+    "Hamp Devey",
+    "Jamon Brooker",
+    "Kenneth Leo",
+    "Solomon Toohill",
+    "Taywan Orzech",
+    "Thayer Lenoir"
+   ],
+   "Panthers": [
+    "Amon-Ra Ford",
+    "Brayden Golden",
+    "Cethan Payne",
+    "Jalen Barber",
+    "Jalyn Kush",
+    "Jay-Tee Dafney",
+    "Kerryon Vea",
+    "Tee Holtz",
+    "Tevin Fox",
+    "Yasir Gray"
+   ],
+   "Patriots": [
+    "Carson Odeleye",
+    "Damar Hobbs",
+    "Devaroe Oyelola",
+    "Dustin Milton",
+    "J.R. Homer",
+    "Jamison Stueber",
+    "Khalen Swoopes",
+    "Rashawn Cook",
+    "Sam Swaim",
+    "Wayne Blair"
+   ],
+   "Raiders": [
+    "A.T. Hoyer",
+    "Cordell Bulaga",
+    "George Donkor",
+    "Kyler Falah",
+    "Martin Ward",
+    "Myquon Renfrow",
+    "Terence Awuzie",
+    "Trae Corral",
+    "Trey Gabbert",
+    "Xavier Mosley"
+   ],
+   "Rams": [
+    "Andy Kmet",
+    "Angelo Jensen",
+    "Cassius McCrane",
+    "Devonte Kerr",
+    "Javon Trask",
+    "Kevon Pitts",
+    "Makai Merritt",
+    "Raphael Mosely",
+    "Russ Bello",
+    "Tim Wright"
+   ],
+   "Ravens": [
+    "Brendan Parham",
+    "Bryant Cronk",
+    "Cethan Qualls",
+    "Clinton Maher",
+    "Hamp McPhee",
+    "Isaiah Pinkney",
+    "Malcom McCloud",
+    "Nazair Lacey",
+    "Terrel Ragas",
+    "Zane Correa"
+   ],
+   "Saints": [
+    "Blake Kirksey",
+    "Jarvis Daniels",
+    "Javien Hull",
+    "Jermar Reiff",
+    "Kelvin Core",
+    "Nick Hilton",
+    "Raymond Clark",
+    "Riley Grigsby",
+    "Storm Shelvin",
+    "Trequan Roberts"
+   ],
+   "Seahawks": [
+    "Alton Yeldon",
+    "Cethan Onwenu",
+    "Davion Leo",
+    "Dyami Watson",
+    "Fred Kmet",
+    "Hakeem Ervin",
+    "Jaelon Bennett",
+    "Julian Goedert",
+    "Obinna Leary",
+    "Perrion Randall"
+   ],
+   "Steelers": [
+    "Dede Saltes",
+    "Linval Laulile",
+    "Nasir Perine",
+    "Phil Ekuale",
+    "Richard Ferentz",
+    "Rodger Samuel",
+    "Ryquell Penn",
+    "Stephon Dunkle",
+    "Treylon Dogbe",
+    "Treyvon Scott"
+   ],
+   "Texans": [
+    "Andrew Biegel",
+    "DQ Watts",
+    "Daylon Fries",
+    "Dymonte Hageman",
+    "Giovani Schaub",
+    "Gunner Okwara",
+    "Preston Gore",
+    "Siran Spector",
+    "Tim Sweeney",
+    "Tristan Suggs"
+   ],
+   "Titans": [
+    "Dax Kolone",
+    "Eli Kenney",
+    "Jacobi Badgley",
+    "Jamel Wilkins",
+    "Laken Linder",
     "Olamide Conway",
     "Olamide Poe",
     "Rysen Nauta",

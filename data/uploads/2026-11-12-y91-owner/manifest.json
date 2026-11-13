@@ -1,0 +1,143 @@
+{
+ "id": "2026-11-12-y91-owner",
+ "created": "2026-11-12",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Aqib McClain/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Bruno Beavers/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Isaiah Karras/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jamil Warner/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jaron Dareus/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kana'i Camper/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kane Van Oxley/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Marvell Rodgers/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Riley Roche/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Tajae Westry/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Tanner Tuttle/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Tavon Lemieux/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Terron Stidham/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Zech Vernon/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner: \"All retired\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Bryant Zappe/team",
+   "value": "FA",
+   "source": "owner",
+   "reason": "Owner: \"Released (free agent)\" (on no Y91 roster)",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}

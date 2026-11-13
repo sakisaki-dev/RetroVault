@@ -240,6 +240,7 @@ for (const { id } of log) {
     else if (mu.op === 'speech.set') speechSet.set(String(mu.target), String((mu.value as { text?: string })?.text ?? ''));
     else if (mu.op === 'speech.remove') speechSet.delete(String(mu.target));
     else if (mu.op === 'story.set') storySet.set(String(mu.target), { ...(mu.value as object), upload: id });
+    else if (mu.op === 'story.remove') storySet.delete(String(mu.target));
     else if (mu.op === 'takes.set') takesSet.set(String(mu.target), { ...(mu.value as object), upload: id });
   }
 }

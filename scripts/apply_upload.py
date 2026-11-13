@@ -54,6 +54,8 @@ Lanes and ops (deterministic; nothing is inferred here):
   story  story.set      target "Y82"                 value {reason, trigger, tagline, articles[], didYouKnow[]?}: writes (or rewrites)
                                                     the season's story in data/y80/stories.json. Needs the 'story'
                                                     AI step; scripts/story_check.py checks the CLAUDE.md story rules
+         story.remove   target "Y82"                 value null: deletes a season's story (the owner keeps only the
+                                                    latest seasons' stories on the site)
                                                     (lengths, no em dashes, tags exist, every number cited in stats[]
                                                     and matching its source, quotes only from the owner's journal)
   takes  takes.set      target "Y90"                 value {reason, trigger, intro?, takes[]}: writes (or rewrites) the
@@ -112,7 +114,7 @@ LANE_OPS = {
     "looks": {"sprite.set", "sprite.image", "card.design"},
     "notes": {"journal.add"},
     "speech": {"speech.set", "speech.remove"},
-    "story": {"story.set"},
+    "story": {"story.set", "story.remove"},
     "takes": {"takes.set"},
 }
 # AI step that must be logged when a lane's mutations come from images / owner prose
@@ -180,7 +182,7 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
             errs.append(f"{where}: source must be 'owner' or 'image:<file>'" + (" or 'data:<files>'" if lane in ("story", "takes") else ""))
         elif kind == "image" and src[6:] not in images:
             errs.append(f"{where}: {src} is not listed in images")
-        need = None if op == "speech.remove" else NEEDS_STEP.get((lane, kind))  # a deletion writes no AI text
+        need = None if op in ("speech.remove", "story.remove") else NEEDS_STEP.get((lane, kind))  # a deletion writes no AI text
         if need and need not in done and not (lane == "notes" and not (m.get("value") or {}).get("players") and not (m.get("value") or {}).get("teams")):
             errs.append(f"{where}: needs the {need!r} AI step logged in ai_steps")
         if op == "journal.add":
@@ -442,6 +444,9 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
         elif op == "speech.remove":
             if data["speeches"].get("speeches", {}).pop(target, None) is not None:
                 changes.append(f"speech {target} removed")
+        elif op == "story.remove":
+            if data["stories"].get("seasons", {}).pop(target, None) is not None:
+                changes.append(f"story {target} removed")
         elif op == "story.set":
             seasons = data["stories"].setdefault("seasons", {})
             rec = {"reason": value["reason"], "trigger": value["trigger"], "upload": manifest["id"],

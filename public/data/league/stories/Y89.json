@@ -1,16 +1,16 @@
 {
  "season": "Y89",
  "tagline": "Skura's Eagles repeat with Super Bowl CXLVIII, Bones Crawford wins MVP, Siran Spector runs for 42 touchdowns and Daren Teamer enters the Hall of Fame.",
- "upload": "2026-11-12-injury-stories",
+ "upload": "2026-11-12-stories-last3",
  "articles": [
   {
    "id": "y89-eagles-repeat",
    "kind": "lead",
    "headline": "Back to Back: Skura's Eagles Win Super Bowl CXLVIII",
-   "dek": "Philadelphia went 14-2-1 again, won three playoff games at home and beat the Bengals 44-14 for Dorren Skura's 64th title.",
+   "dek": "Philadelphia went 14-2-1 again, won three playoff games at home and beat the Bengals 44-14 for another Dorren Skura title.",
    "body": [
     "The second season in Philadelphia looked a lot like the first, and that is the highest compliment available. The Eagles finished 14-2-1 for the second straight year, earned a bye through the wild card round and then won three home games in a row: 46-24 over the Panthers, 32-28 over the Rams and 44-14 over the Cincinnati Bengals in Super Bowl CXLVIII.",
-    "The title is the 64th of Skura's career. Cincinnati arrived as a 10-6-1 club that had survived the AFC bracket, and it never found a foothold. The Rams game was the only real scare of the postseason, a four-point margin in a conference final that Los Angeles kept close to the end.",
+    "The title adds to the longest championship list any coach in the league has. Cincinnati arrived as a 10-6-1 club that had survived the AFC bracket, and it never found a foothold. The Rams game was the only real scare of the postseason, a four-point margin in a conference final that Los Angeles kept close to the end.",
     "On the road, Philadelphia was untouchable. The Eagles went 8-0-1 away from home, the only blemish a 40-40 shootout in Dallas. Both defeats came at home: 33-30 to Washington, a loss that ended a 14-game winning streak stretching back into Y88, and 46-30 to Tampa Bay, the biggest upset of the season by record.",
     "The stars were the same names that carried the first title, only better. Bones Crawford threw for 6,302 yards and 72 touchdowns and was named Most Valuable Player. Kaulani Rahman caught 145 passes for 2,635 yards and won Offensive Player of the Year. Vyncint Heath caught 28 touchdown passes and was the Super Bowl MVP for the second time in his career.",
     "Two seasons in Philadelphia have produced two parades. The rest of the league is running out of ways to describe Skura, and running out of time to catch him."
@@ -39,11 +39,6 @@
      "label": "Eagles regular season",
      "value": "14-2-1",
      "source": "coach.json Y89 record"
-    },
-    {
-     "label": "Skura's titles",
-     "value": "64",
-     "source": "coach.json superBowlRecord/0/titles"
     },
     {
      "label": "Divisional round vs Panthers",
@@ -116,9 +111,7 @@
      "source": "market_history.json snap-202611071241 WR:Vyncint Heath s.sbmvp"
     }
    ],
-   "related": [
-    "y88-eagles-title"
-   ]
+   "related": []
   },
   {
    "id": "y89-crawford-mvp",
@@ -127,7 +120,7 @@
    "dek": "The Eagles quarterback threw for 6,302 yards and 72 touchdowns in his second season and has 141 touchdown passes in 40 games.",
    "body": [
     "A year ago the question about Bones Crawford was whether a debut like his could be repeated. He answered it by improving. In 20 games he threw for 6,302 yards and 72 touchdowns, up from 5,922 and 69, and the league named him its Most Valuable Player.",
-    "His style has not changed. Crawford still attacks down the field, averaging 16.8 yards per completion across his career, and he still accepts the risk that comes with it: 27 interceptions this season. With receivers who win the ball in the air, that bargain has now paid off twice.",
+    "His style has not changed. Crawford still attacks down the field, averaging 306 passing yards a game across his career, and he still accepts the risk that comes with it: 27 interceptions this season. With receivers who win the ball in the air, that bargain has now paid off twice.",
     "Kaulani Rahman made the case that the quarterback had help. The second-year receiver caught 145 passes for 2,635 yards and 22 touchdowns, won Offensive Player of the Year and saw his card's value rise 122%.",
     "Crawford's card moves more slowly. Its overall rose from 62 to 64, because overall rewards a long career, but his skill grade remains an S, and through 40 games he owns 141 touchdown passes and two rings."
    ],
@@ -175,14 +168,14 @@
      "source": "market_history.json snap-202611051109 QB:Bones Crawford s.td"
     },
     {
-     "label": "Career yards per completion",
-     "value": "16.8",
-     "source": "players.json QB:Bones Crawford yds/cmp"
-    },
-    {
      "label": "Crawford interceptions (Y89)",
      "value": "27",
      "source": "market_history.json snap-202611051109..snap-202611071241 QB:Bones Crawford s.int"
+    },
+    {
+     "label": "Career passing yards per game",
+     "value": "306",
+     "source": "market_history.json snap-202611071301 QB:Bones Crawford s.yds/s.g"
     },
     {
      "label": "Rahman catches (Y89)",
@@ -215,9 +208,7 @@
      "source": "market_history.json snap-202611071241 QB:Bones Crawford ovr"
     }
    ],
-   "related": [
-    "y88-crawford"
-   ]
+   "related": []
   },
   {
    "id": "y89-heath-adam",
@@ -335,9 +326,7 @@
      "source": "market_history.json snap-202611071241 WR:Apollo Adam s.opoy"
     }
    ],
-   "related": [
-    "y88-heath-adam"
-   ]
+   "related": []
   },
   {
    "id": "y89-texans-spector",
@@ -422,9 +411,7 @@
      "source": "schedule.json seasons/Y89/table/[abbr=CIN]/record"
     }
    ],
-   "related": [
-    "y88-ogbah-spector"
-   ]
+   "related": []
   },
   {
    "id": "y89-commanders",
@@ -594,9 +581,7 @@
      "source": "market_history.json snap-202611071241 DB:Von Horsted legacy"
     }
    ],
-   "related": [
-    "y88-hof"
-   ]
+   "related": []
   },
   {
    "id": "y89-diggs",
@@ -712,9 +697,7 @@
      "source": "market_history.json snap-202611051109..snap-202611071241 RB:Tim Wright value%"
     }
    ],
-   "related": [
-    "y88-diggs"
-   ]
+   "related": []
   },
   {
    "id": "y89-retirements",

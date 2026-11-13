@@ -73,7 +73,7 @@
   "stints": [
    {
     "team": "Browns",
-    "from": 40,
+    "from": 41,
     "to": 58,
     "rings": []
    }
@@ -99,8 +99,8 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 50,
-    "to": 70,
+    "from": 51,
+    "to": 69,
     "rings": []
    }
   ],
@@ -112,8 +112,8 @@
   "stints": [
    {
     "team": "Broncos",
-    "from": 9,
-    "to": 34,
+    "from": 10,
+    "to": 33,
     "rings": []
    }
   ],
@@ -377,14 +377,14 @@
    {
     "team": "Broncos",
     "from": 35,
-    "to": 46,
+    "to": 47,
     "rings": [
      39
     ]
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "4 rings = Bills Y31, Y32, Y33; Broncos Y39. His known clubs (Broncos) can't account for every ring, so the best fit adds a stop: Bills Y31-34, Broncos Y35-46.",
+  "evidence": "4 rings = Bills Y31, Y32, Y33; Broncos Y39. His known clubs (Broncos) can't account for every ring, so the best fit adds a stop: Bills Y31-34, Broncos Y35-47.",
   "alternatives": [
    [
     {
@@ -428,8 +428,8 @@
   "stints": [
    {
     "team": "Chargers",
-    "from": 52,
-    "to": 58,
+    "from": 53,
+    "to": 59,
     "rings": []
    }
   ],
@@ -455,8 +455,8 @@
   "stints": [
    {
     "team": "Broncos",
-    "from": 30,
-    "to": 38,
+    "from": 40,
+    "to": 48,
     "rings": []
    }
   ],
@@ -559,8 +559,8 @@
   "stints": [
    {
     "team": "Seahawks",
-    "from": 44,
-    "to": 49,
+    "from": 45,
+    "to": 50,
     "rings": []
    }
   ],
@@ -573,7 +573,7 @@
    {
     "team": "49ers",
     "from": 39,
-    "to": 52,
+    "to": 53,
     "rings": []
    }
   ],
@@ -858,7 +858,7 @@
    {
     "team": "Chargers",
     "from": 57,
-    "to": 65,
+    "to": 66,
     "rings": []
    }
   ],
@@ -871,7 +871,7 @@
    {
     "team": "Bengals",
     "from": 46,
-    "to": 56,
+    "to": 57,
     "rings": []
    }
   ],
@@ -1011,7 +1011,7 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 51,
+    "from": 52,
     "to": 66,
     "rings": []
    }
@@ -1024,7 +1024,7 @@
   "stints": [
    {
     "team": "49ers",
-    "from": 39,
+    "from": 40,
     "to": 51,
     "rings": []
    }
@@ -1037,7 +1037,7 @@
   "stints": [
    {
     "team": "Raiders",
-    "from": 37,
+    "from": 38,
     "to": 54,
     "rings": []
    }
@@ -1128,7 +1128,7 @@
    {
     "team": "Commanders",
     "from": 16,
-    "to": 26,
+    "to": 27,
     "rings": [
      16,
      17,
@@ -1138,13 +1138,13 @@
    },
    {
     "team": "Packers",
-    "from": 27,
-    "to": 32,
+    "from": 28,
+    "to": 31,
     "rings": []
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "4 rings = Commanders Y16, Y17, Y18, Y19. His known clubs (Packers) can't account for every ring, so the best fit adds a stop: Commanders Y16-26, Packers Y27-32.",
+  "evidence": "4 rings = Commanders Y16, Y17, Y18, Y19. His known clubs (Packers) can't account for every ring, so the best fit adds a stop: Commanders Y16-27, Packers Y28-31.",
   "alternatives": [
    [
     {
@@ -1233,8 +1233,8 @@
   "stints": [
    {
     "team": "Cardinals",
-    "from": 40,
-    "to": 45,
+    "from": 41,
+    "to": 46,
     "rings": []
    }
   ],
@@ -1267,7 +1267,7 @@
    {
     "team": "Raiders",
     "from": 39,
-    "to": 52,
+    "to": 53,
     "rings": []
    }
   ],
@@ -1279,8 +1279,8 @@
   "stints": [
    {
     "team": "Packers",
-    "from": 38,
-    "to": 45,
+    "from": 39,
+    "to": 46,
     "rings": []
    }
   ],
@@ -1292,8 +1292,8 @@
   "stints": [
    {
     "team": "Packers",
-    "from": 38,
-    "to": 45,
+    "from": 39,
+    "to": 46,
     "rings": []
    }
   ],
@@ -1398,8 +1398,8 @@
   "stints": [
    {
     "team": "Patriots",
-    "from": 40,
-    "to": 45,
+    "from": 41,
+    "to": 46,
     "rings": []
    }
   ],
@@ -1411,8 +1411,8 @@
   "stints": [
    {
     "team": "Giants",
-    "from": 34,
-    "to": 44,
+    "from": 35,
+    "to": 45,
     "rings": []
    }
   ],
@@ -1438,8 +1438,8 @@
   "stints": [
    {
     "team": "Titans",
-    "from": 26,
-    "to": 37,
+    "from": 27,
+    "to": 38,
     "rings": []
    }
   ],
@@ -1467,7 +1467,7 @@
    {
     "team": "Broncos",
     "from": 23,
-    "to": 37,
+    "to": 38,
     "rings": []
    }
   ],
@@ -1600,7 +1600,7 @@
    {
     "team": "Raiders",
     "from": 40,
-    "to": 51,
+    "to": 52,
     "rings": []
    }
   ],
@@ -1753,8 +1753,8 @@
   "stints": [
    {
     "team": "Saints",
-    "from": 52,
-    "to": 66,
+    "from": 53,
+    "to": 67,
     "rings": []
    }
   ],
@@ -1766,7 +1766,7 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 40,
+    "from": 41,
     "to": 42,
     "rings": [
      41,
@@ -1783,7 +1783,7 @@
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "3 rings = Ravens Y41, Y42; Bengals Y45. His known clubs (Bengals) can't account for every ring, so the best fit adds a stop: Ravens Y40-42, Bengals Y43-51.",
+  "evidence": "3 rings = Ravens Y41, Y42; Bengals Y45. His known clubs (Bengals) can't account for every ring, so the best fit adds a stop: Ravens Y41-42, Bengals Y43-51.",
   "alternatives": [
    [
     {
@@ -1827,7 +1827,7 @@
   "stints": [
    {
     "team": "Buccaneers",
-    "from": 57,
+    "from": 58,
     "to": 74,
     "rings": []
    }
@@ -1840,8 +1840,8 @@
   "stints": [
    {
     "team": "Giants",
-    "from": 37,
-    "to": 44,
+    "from": 38,
+    "to": 45,
     "rings": []
    }
   ],
@@ -1853,7 +1853,7 @@
   "stints": [
    {
     "team": "Titans",
-    "from": 27,
+    "from": 28,
     "to": 40,
     "rings": []
    }
@@ -1866,8 +1866,8 @@
   "stints": [
    {
     "team": "Jaguars",
-    "from": 43,
-    "to": 48,
+    "from": 44,
+    "to": 49,
     "rings": []
    }
   ],
@@ -1879,8 +1879,8 @@
   "stints": [
    {
     "team": "Cowboys",
-    "from": 43,
-    "to": 45,
+    "from": 44,
+    "to": 46,
     "rings": []
    }
   ],
@@ -2507,12 +2507,12 @@
    {
     "team": "Seahawks",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "confirmed",
-  "evidence": "1 ring = Jets Y80. On the Y80 Jets roster. On the Y81 Seahawks roster. On the Y82 Seahawks roster. On the Y90 Seahawks roster. Owner: “Traded from the Jets to the Seahawks for Alvin Tufele after Y80.”"
+  "evidence": "1 ring = Jets Y80. On the Y80 Jets roster. On the Y81 Seahawks roster. On the Y82 Seahawks roster. On the Y90 Seahawks roster. On the Y91 Seahawks roster. Owner: “Traded from the Jets to the Seahawks for Alvin Tufele after Y80.”"
  },
  "Kane Van Oxley": {
   "stints": [
@@ -2563,11 +2563,13 @@
     "team": "Eagles",
     "from": 91,
     "to": 91,
-    "rings": []
+    "rings": [
+     91
+    ]
    }
   ],
   "confidence": "confirmed",
-  "evidence": "7 rings = Jets Y80, Y82; Falcons Y83, Y84, Y85, Y86, Y87. Record board (your club's games only): Y85 best rushing game (Falcons); Y85 most rushing tds, season (Falcons); Y87 best rushing season (Falcons). On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Falcons roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.” Traded to the Eagles after Y90."
+  "evidence": "8 rings = Jets Y80, Y82; Falcons Y83, Y84, Y85, Y86, Y87; Eagles Y91. Record board (your club's games only): Y85 best rushing game (Falcons); Y85 most rushing tds, season (Falcons); Y87 best rushing season (Falcons). On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Falcons roster. On the Y91 Eagles roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
  },
  "Ty Lock": {
   "stints": [
@@ -2583,12 +2585,12 @@
    {
     "team": "Giants",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "confirmed",
-  "evidence": "2 rings = Jets Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y90 Giants roster. Owner: “Traded from the Jets to the Giants in a multi-team trade before Y83.”"
+  "evidence": "2 rings = Jets Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y90 Giants roster. On the Y91 Giants roster. Owner: “Traded from the Jets to the Giants in a multi-team trade before Y83.”"
  },
  "Dylan Hyatt": {
   "stints": [
@@ -2647,7 +2649,7 @@
    {
     "team": "Jets",
     "from": 76,
-    "to": 90,
+    "to": 91,
     "rings": [
      77,
      80,
@@ -2656,7 +2658,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Jets roster. On the Y84 Jets roster. On the Y90 Jets roster. The only window that fits."
+  "evidence": "3 rings = Jets Y77, Y80, Y82. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Jets roster. On the Y84 Jets roster. On the Y90 Jets roster. On the Y91 Jets roster. The only window that fits."
  },
  "Dan Mosley": {
   "stints": [
@@ -2782,8 +2784,8 @@
   "stints": [
    {
     "team": "Jets",
-    "from": 79,
-    "to": 86,
+    "from": 80,
+    "to": 84,
     "rings": [
      80,
      82
@@ -2791,7 +2793,7 @@
    },
    {
     "team": "Eagles",
-    "from": 87,
+    "from": 85,
     "to": 88,
     "rings": [
      88
@@ -2800,12 +2802,12 @@
    {
     "team": "Saints",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Jets Y80, Y82; Eagles Y88. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Jets roster. On the Y84 Jets roster. On the Y88 Eagles roster. On the Y90 Saints roster. The only window that fits."
+  "evidence": "3 rings = Jets Y80, Y82; Eagles Y88. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Jets roster. On the Y84 Jets roster. On the Y88 Eagles roster. On the Y90 Saints roster. On the Y91 Saints roster. The only window that fits."
  },
  "Tyron Colvin": {
   "stints": [
@@ -2826,24 +2828,24 @@
    {
     "team": "Titans",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Titans roster."
+  "evidence": "No rings. On the Y90 Titans roster. On the Y91 Titans roster."
  },
  "Tim Wright": {
   "stints": [
    {
     "team": "Rams",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Rams roster."
+  "evidence": "No rings. On the Y90 Rams roster. On the Y91 Rams roster."
  },
  "Von Horsted": {
   "stints": [
@@ -2862,14 +2864,14 @@
    {
     "team": "Packers",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": [
      79
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Packers Y79. On the Y90 Packers roster. The only window that fits."
+  "evidence": "1 ring = Packers Y79. On the Y90 Packers roster. On the Y91 Packers roster. The only window that fits."
  },
  "Trequan Jensen": {
   "stints": [
@@ -2975,24 +2977,24 @@
  "Siran Spector": {
   "stints": [
    {
-    "team": "Falcons",
+    "team": "Jets",
     "from": 81,
-    "to": 83,
+    "to": 82,
     "rings": [
-     83
+     82
     ]
    },
    {
     "team": "Texans",
-    "from": 84,
-    "to": 90,
+    "from": 83,
+    "to": 91,
     "rings": [
      90
     ]
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "2 rings = Falcons Y83; Texans Y90. On the Y90 Texans roster. His known clubs (Texans) can't account for every ring, so the best fit adds a stop: Falcons Y81-83, Texans Y84-90.",
+  "evidence": "2 rings = Jets Y82; Texans Y90. On the Y90 Texans roster. On the Y91 Texans roster. His known clubs (Texans) can't account for every ring, so the best fit adds a stop: Jets Y81-82, Texans Y83-91.",
   "alternatives": [
    [
     {
@@ -3003,7 +3005,19 @@
     {
      "team": "Texans",
      "from": 89,
-     "to": 90
+     "to": 91
+    }
+   ],
+   [
+    {
+     "team": "Falcons",
+     "from": 80,
+     "to": 83
+    },
+    {
+     "team": "Texans",
+     "from": 84,
+     "to": 91
     }
    ],
    [
@@ -3015,19 +3029,7 @@
     {
      "team": "Texans",
      "from": 81,
-     "to": 90
-    }
-   ],
-   [
-    {
-     "team": "Jets",
-     "from": 81,
-     "to": 83
-    },
-    {
-     "team": "Texans",
-     "from": 84,
-     "to": 90
+     "to": 91
     }
    ]
   ]
@@ -3036,7 +3038,7 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 50,
+    "from": 51,
     "to": 64,
     "rings": []
    }
@@ -3049,7 +3051,7 @@
   "stints": [
    {
     "team": "Jaguars",
-    "from": 34,
+    "from": 35,
     "to": 57,
     "rings": []
    }
@@ -3077,24 +3079,24 @@
    {
     "team": "Buccaneers",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. On the Y90 Buccaneers roster. Owner: “Traded from the Bears to the Falcons in a multi-team trade before Y83, won the Y83 title there, then traded to the Buccaneers for Shawn Milne.” The only window that fits."
+  "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. On the Y90 Buccaneers roster. On the Y91 Buccaneers roster. Owner: “Traded from the Bears to the Falcons in a multi-team trade before Y83, won the Y83 title there, then traded to the Buccaneers for Shawn Milne.” The only window that fits."
  },
  "Chazz McCray": {
   "stints": [
    {
     "team": "Buccaneers",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Buccaneers roster."
+  "evidence": "No rings. On the Y90 Buccaneers roster. On the Y91 Buccaneers roster."
  },
  "Vyncint Heath": {
   "stints": [
@@ -3144,21 +3146,22 @@
    {
     "team": "Eagles",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": [
      88,
-     89
+     89,
+     91
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Jets Y82; Eagles Y88, Y89. On the Y82 Jets roster. On the Y83 Jets roster. On the Y84 Jets roster. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. The only window that fits."
+  "evidence": "4 rings = Jets Y82; Eagles Y88, Y89, Y91. On the Y82 Jets roster. On the Y83 Jets roster. On the Y84 Jets roster. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. The only window that fits."
  },
  "Spencer Daniels": {
   "stints": [
    {
     "team": "Jaguars",
-    "from": 44,
+    "from": 45,
     "to": 58,
     "rings": []
    }
@@ -3172,7 +3175,7 @@
    {
     "team": "Cowboys",
     "from": 30,
-    "to": 45,
+    "to": 46,
     "rings": []
    }
   ],
@@ -3185,7 +3188,7 @@
    {
     "team": "49ers",
     "from": 74,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
@@ -3197,7 +3200,7 @@
    {
     "team": "49ers",
     "from": 38,
-    "to": 53,
+    "to": 54,
     "rings": []
    }
   ],
@@ -3209,7 +3212,7 @@
   "stints": [
    {
     "team": "49ers",
-    "from": 38,
+    "from": 39,
     "to": 53,
     "rings": []
    }
@@ -3222,7 +3225,7 @@
   "stints": [
    {
     "team": "Panthers",
-    "from": 38,
+    "from": 39,
     "to": 53,
     "rings": []
    }
@@ -3249,7 +3252,7 @@
   "stints": [
    {
     "team": "Falcons",
-    "from": 83,
+    "from": 82,
     "to": 83,
     "rings": [
      83
@@ -3258,12 +3261,12 @@
    {
     "team": "Dolphins",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "confirmed",
-  "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. On the Y90 Dolphins roster. Owner: “The Falcons' quarterback in Y83, then traded to the Dolphins.”"
+  "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. On the Y90 Dolphins roster. On the Y91 Dolphins roster. Owner: “The Falcons' quarterback in Y83, then traded to the Dolphins.”"
  },
  "Eric Raimann": {
   "stints": [
@@ -3294,12 +3297,12 @@
    {
     "team": "Seahawks",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "confirmed",
-  "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. On the Y90 Seahawks roster. Owner: “On the Falcons' line in Y83, then traded to the Seahawks.”"
+  "evidence": "1 ring = Falcons Y83. On the Y83 Falcons roster. On the Y90 Seahawks roster. On the Y91 Seahawks roster. Owner: “On the Falcons' line in Y83, then traded to the Seahawks.”"
  },
  "Jashaun Fleming": {
   "stints": [
@@ -3322,7 +3325,7 @@
    {
     "team": "Falcons",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": [
      83,
      84,
@@ -3333,7 +3336,7 @@
    }
   ],
   "confidence": "confirmed",
-  "evidence": "5 rings = Falcons Y83, Y84, Y85, Y86, Y87. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Falcons roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
+  "evidence": "5 rings = Falcons Y83, Y84, Y85, Y86, Y87. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Falcons roster. On the Y91 Falcons roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
  },
  "Trysten Floyd": {
   "stints": [
@@ -3350,74 +3353,30 @@
    {
     "team": "Commanders",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "confirmed",
-  "evidence": "3 rings = Falcons Y83, Y84, Y85. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Commanders roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
+  "evidence": "3 rings = Falcons Y83, Y84, Y85. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Commanders roster. On the Y91 Commanders roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
  },
  "Bud Matthew": {
   "stints": [
    {
-    "team": "Eagles",
-    "from": 79,
-    "to": 82,
-    "rings": []
-   },
-   {
     "team": "Jets",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
-  "confidence": "ambiguous",
-  "evidence": "No rings. On the Y84 Jets roster. On the Y90 Jets roster. His known clubs (Jets) can't account for every ring, so the best fit adds a stop: Eagles Y79-82, Jets Y83-90.",
-  "alternatives": [
-   [
-    {
-     "team": "Bengals",
-     "from": 79,
-     "to": 82
-    },
-    {
-     "team": "Jets",
-     "from": 83,
-     "to": 90
-    }
-   ],
-   [
-    {
-     "team": "Bills",
-     "from": 79,
-     "to": 82
-    },
-    {
-     "team": "Jets",
-     "from": 83,
-     "to": 90
-    }
-   ],
-   [
-    {
-     "team": "Broncos",
-     "from": 79,
-     "to": 82
-    },
-    {
-     "team": "Jets",
-     "from": 83,
-     "to": 90
-    }
-   ]
-  ]
+  "confidence": "strong",
+  "evidence": "No rings. On the Y84 Jets roster. On the Y90 Jets roster. On the Y91 Jets roster."
  },
  "Danny Diggs": {
   "stints": [
    {
     "team": "Jaguars",
-    "from": 32,
+    "from": 33,
     "to": 49,
     "rings": []
    }
@@ -3431,7 +3390,7 @@
    {
     "team": "Falcons",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": [
      84,
      85,
@@ -3441,7 +3400,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "4 rings = Falcons Y84, Y85, Y86, Y87. On the Y90 Falcons roster. The only window that fits."
+  "evidence": "4 rings = Falcons Y84, Y85, Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. The only window that fits."
  },
  "Shawn Milne": {
   "stints": [
@@ -3474,7 +3433,7 @@
    {
     "team": "Falcons",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": [
      84,
      85,
@@ -3484,14 +3443,14 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "4 rings = Falcons Y84, Y85, Y86, Y87. On the Y90 Falcons roster. The only window that fits."
+  "evidence": "4 rings = Falcons Y84, Y85, Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. The only window that fits."
  },
  "Marvell Rodgers": {
   "stints": [
    {
     "team": "Titans",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
@@ -3503,43 +3462,43 @@
    {
     "team": "Lions",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Lions roster."
+  "evidence": "No rings. On the Y90 Lions roster. On the Y91 Lions roster."
  },
  "Angelo Moton": {
   "stints": [
    {
     "team": "Packers",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Packers roster."
+  "evidence": "No rings. On the Y90 Packers roster. On the Y91 Packers roster."
  },
  "Jimmy Tillery": {
   "stints": [
    {
     "team": "Jets",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jets roster."
+  "evidence": "No rings. On the Y90 Jets roster. On the Y91 Jets roster."
  },
  "Vic Cannon": {
   "stints": [
    {
     "team": "Chargers",
     "from": 54,
-    "to": 73,
+    "to": 74,
     "rings": []
    }
   ],
@@ -3552,7 +3511,7 @@
    {
     "team": "Ravens",
     "from": 75,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
@@ -3564,21 +3523,21 @@
    {
     "team": "Patriots",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": [
      81
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Patriots Y81. On the Y90 Patriots roster. The only window that fits."
+  "evidence": "1 ring = Patriots Y81. On the Y90 Patriots roster. On the Y91 Patriots roster. The only window that fits."
  },
  "Apollo Adam": {
   "stints": [
    {
     "team": "Falcons",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": [
      85,
      86,
@@ -3587,45 +3546,45 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Falcons Y85, Y86, Y87. On the Y90 Falcons roster. The only window that fits."
+  "evidence": "3 rings = Falcons Y85, Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. The only window that fits."
  },
  "Kahzin Heath": {
   "stints": [
    {
     "team": "Broncos",
     "from": 72,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Broncos roster."
+  "evidence": "No rings. On the Y90 Broncos roster. On the Y91 Broncos roster."
  },
  "Linval Laulile": {
   "stints": [
    {
     "team": "Steelers",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Steelers roster."
+  "evidence": "No rings. On the Y90 Steelers roster. On the Y91 Steelers roster."
  },
  "Camaron Knight": {
   "stints": [
    {
     "team": "Cardinals",
-    "from": 72,
-    "to": 90,
+    "from": 71,
+    "to": 91,
     "rings": [
      73
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Cardinals Y73. On the Y90 Cardinals roster. The only window that fits."
+  "evidence": "1 ring = Cardinals Y73. On the Y90 Cardinals roster. On the Y91 Cardinals roster. The only window that fits."
  },
  "Juwann Gilman": {
   "stints": [
@@ -3646,7 +3605,7 @@
    {
     "team": "Falcons",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": [
      86,
      87
@@ -3654,14 +3613,14 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Falcons Y86, Y87. On the Y90 Falcons roster. The only window that fits."
+  "evidence": "2 rings = Falcons Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. The only window that fits."
  },
  "Ian Clapp": {
   "stints": [
    {
     "team": "Falcons",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": [
      86,
      87
@@ -3669,137 +3628,93 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Falcons Y86, Y87. On the Y90 Falcons roster. The only window that fits."
+  "evidence": "2 rings = Falcons Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. The only window that fits."
  },
  "Bryson Lucas": {
   "stints": [
    {
     "team": "Commanders",
-    "from": 81,
-    "to": 90,
+    "from": 82,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Commanders roster."
+  "evidence": "No rings. On the Y90 Commanders roster. On the Y91 Commanders roster."
  },
  "Jamon Brooker": {
   "stints": [
    {
     "team": "Packers",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Packers roster."
+  "evidence": "No rings. On the Y90 Packers roster. On the Y91 Packers roster."
  },
  "Tramon Holton": {
   "stints": [
    {
     "team": "Falcons",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": [
      87
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Falcons Y87. On the Y90 Falcons roster. The only window that fits."
+  "evidence": "1 ring = Falcons Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. The only window that fits."
  },
  "Xavier Mosley": {
   "stints": [
    {
     "team": "Raiders",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Raiders roster."
+  "evidence": "No rings. On the Y90 Raiders roster. On the Y91 Raiders roster."
  },
  "Phil Ekuale": {
   "stints": [
    {
     "team": "Steelers",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Steelers roster."
+  "evidence": "No rings. On the Y90 Steelers roster. On the Y91 Steelers roster."
  },
  "Kyron Atwell": {
   "stints": [
    {
-    "team": "Dolphins",
-    "from": 79,
-    "to": 86,
-    "rings": []
-   },
-   {
     "team": "Jets",
-    "from": 87,
-    "to": 90,
+    "from": 83,
+    "to": 91,
     "rings": []
    }
   ],
-  "confidence": "ambiguous",
-  "evidence": "No rings. On the Y90 Jets roster. His known clubs (Jets) can't account for every ring, so the best fit adds a stop: Dolphins Y79-86, Jets Y87-90.",
-  "alternatives": [
-   [
-    {
-     "team": "Bengals",
-     "from": 79,
-     "to": 82
-    },
-    {
-     "team": "Jets",
-     "from": 83,
-     "to": 90
-    }
-   ],
-   [
-    {
-     "team": "Bills",
-     "from": 79,
-     "to": 82
-    },
-    {
-     "team": "Jets",
-     "from": 83,
-     "to": 90
-    }
-   ],
-   [
-    {
-     "team": "Broncos",
-     "from": 79,
-     "to": 82
-    },
-    {
-     "team": "Jets",
-     "from": 83,
-     "to": 90
-    }
-   ]
-  ]
+  "confidence": "strong",
+  "evidence": "No rings. On the Y90 Jets roster. On the Y91 Jets roster."
  },
  "Jarrell Cann": {
   "stints": [
    {
     "team": "Cowboys",
     "from": 74,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cowboys roster."
+  "evidence": "No rings. On the Y90 Cowboys roster. On the Y91 Cowboys roster."
  },
  "Asante Biadasz": {
   "stints": [
@@ -3819,7 +3734,7 @@
   "stints": [
    {
     "team": "Packers",
-    "from": 70,
+    "from": 71,
     "to": 85,
     "rings": [
      79
@@ -3834,14 +3749,14 @@
    {
     "team": "Texans",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": [
      90
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. The only window that fits."
+  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. On the Y91 Texans roster. The only window that fits."
  },
  "Gerrit Ogbah": {
   "stints": [
@@ -3862,50 +3777,51 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Eagles Y88, Y89. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. The only window that fits. Traded to the Falcons after Y90."
+  "evidence": "2 rings = Eagles Y88, Y89. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Falcons roster. The only window that fits."
  },
  "Preston Gore": {
   "stints": [
    {
     "team": "Texans",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": [
      90
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. The only window that fits."
+  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. On the Y91 Texans roster. The only window that fits."
  },
  "Andrew Biegel": {
   "stints": [
    {
     "team": "Texans",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": [
      90
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. The only window that fits."
+  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. On the Y91 Texans roster. The only window that fits."
  },
  "Bones Crawford": {
   "stints": [
    {
     "team": "Eagles",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": [
      88,
-     89
+     89,
+     91
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Eagles Y88, Y89. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. The only window that fits."
+  "evidence": "3 rings = Eagles Y88, Y89, Y91. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. The only window that fits."
  },
  "Kenyon Shaheed": {
   "stints": [
@@ -3927,30 +3843,32 @@
    {
     "team": "Eagles",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": [
      88,
-     89
+     89,
+     91
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Eagles Y88, Y89. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. The only window that fits."
+  "evidence": "3 rings = Eagles Y88, Y89, Y91. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. The only window that fits."
  },
  "Akiem Brock": {
   "stints": [
    {
     "team": "Eagles",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": [
      88,
-     89
+     89,
+     91
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Eagles Y88, Y89. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. The only window that fits."
+  "evidence": "3 rings = Eagles Y88, Y89, Y91. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. The only window that fits."
  },
  "Hamp McPhee": {
   "stints": [
@@ -3965,12 +3883,12 @@
    {
     "team": "Ravens",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Eagles Y88. On the Y88 Eagles roster. On the Y90 Ravens roster. The only window that fits."
+  "evidence": "1 ring = Eagles Y88. On the Y88 Eagles roster. On the Y90 Ravens roster. On the Y91 Ravens roster. The only window that fits."
  },
  "Bryant Zappe": {
   "stints": [
@@ -3992,42 +3910,42 @@
    {
     "team": "Jets",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jets roster."
+  "evidence": "No rings. On the Y90 Jets roster. On the Y91 Jets roster."
  },
  "Rodger Samuel": {
   "stints": [
    {
     "team": "Steelers",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Steelers roster."
+  "evidence": "No rings. On the Y90 Steelers roster. On the Y91 Steelers roster."
  },
  "Treyvon Scott": {
   "stints": [
    {
     "team": "Steelers",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Steelers roster."
+  "evidence": "No rings. On the Y90 Steelers roster. On the Y91 Steelers roster."
  },
  "Cairo Colbert": {
   "stints": [
    {
     "team": "Saints",
-    "from": 52,
+    "from": 53,
     "to": 66,
     "rings": []
    }
@@ -4041,19 +3959,19 @@
    {
     "team": "Jaguars",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jaguars roster."
+  "evidence": "No rings. On the Y90 Jaguars roster. On the Y91 Jaguars roster."
  },
  "Daren Teamer": {
   "stints": [
    {
     "team": "Bills",
     "from": 59,
-    "to": 72,
+    "to": 73,
     "rings": []
    }
   ],
@@ -4066,81 +3984,82 @@
    {
     "team": "Eagles",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": [
-     89
+     89,
+     91
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Eagles Y89. On the Y89 Eagles roster. On the Y90 Eagles roster. The only window that fits."
+  "evidence": "2 rings = Eagles Y89, Y91. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. The only window that fits."
  },
  "Lewis Pettis": {
   "stints": [
    {
     "team": "Cowboys",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cowboys roster."
+  "evidence": "No rings. On the Y90 Cowboys roster. On the Y91 Cowboys roster."
  },
  "Raphael Mosely": {
   "stints": [
    {
     "team": "Rams",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Rams roster."
+  "evidence": "No rings. On the Y90 Rams roster. On the Y91 Rams roster."
  },
  "Keaton Toney": {
   "stints": [
    {
     "team": "Falcons",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Falcons roster."
+  "evidence": "No rings. On the Y90 Falcons roster. On the Y91 Falcons roster."
  },
  "Angelo Jensen": {
   "stints": [
    {
     "team": "Rams",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Rams roster."
+  "evidence": "No rings. On the Y90 Rams roster. On the Y91 Rams roster."
  },
  "Earl Boehm": {
   "stints": [
    {
     "team": "Bills",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bills roster."
+  "evidence": "No rings. On the Y90 Bills roster. On the Y91 Bills roster."
  },
  "Kana'i Camper": {
   "stints": [
    {
     "team": "Buccaneers",
-    "from": 75,
-    "to": 90,
+    "from": 76,
+    "to": 91,
     "rings": []
    }
   ],
@@ -4152,81 +4071,82 @@
    {
     "team": "Eagles",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": [
-     89
+     89,
+     91
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Eagles Y89. On the Y89 Eagles roster. On the Y90 Eagles roster. The only window that fits."
+  "evidence": "2 rings = Eagles Y89, Y91. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. The only window that fits."
  },
  "Juju Ngakoue": {
   "stints": [
    {
     "team": "Bills",
     "from": 78,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bills roster."
+  "evidence": "No rings. On the Y90 Bills roster. On the Y91 Bills roster."
  },
  "Alton Yeldon": {
   "stints": [
    {
     "team": "Seahawks",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Seahawks roster."
+  "evidence": "No rings. On the Y90 Seahawks roster. On the Y91 Seahawks roster."
  },
  "Tyreek Devalve": {
   "stints": [
    {
     "team": "Buccaneers",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Buccaneers roster."
+  "evidence": "No rings. On the Y90 Buccaneers roster. On the Y91 Buccaneers roster."
  },
  "George Donkor": {
   "stints": [
    {
     "team": "Raiders",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Raiders roster."
+  "evidence": "No rings. On the Y90 Raiders roster. On the Y91 Raiders roster."
  },
  "Martin Ward": {
   "stints": [
    {
     "team": "Raiders",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Raiders roster."
+  "evidence": "No rings. On the Y90 Raiders roster. On the Y91 Raiders roster."
  },
  "Niles Swoopes": {
   "stints": [
    {
     "team": "Jaguars",
     "from": 39,
-    "to": 52,
+    "to": 53,
     "rings": []
    }
   ],
@@ -4239,55 +4159,55 @@
    {
     "team": "49ers",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 49ers roster."
+  "evidence": "No rings. On the Y90 49ers roster. On the Y91 49ers roster."
  },
  "Aldrick Coyle": {
   "stints": [
    {
     "team": "49ers",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 49ers roster."
+  "evidence": "No rings. On the Y90 49ers roster. On the Y91 49ers roster."
  },
  "Tay Tenuta": {
   "stints": [
    {
     "team": "49ers",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 49ers roster."
+  "evidence": "No rings. On the Y90 49ers roster. On the Y91 49ers roster."
  },
  "Jojo McCown": {
   "stints": [
    {
     "team": "49ers",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 49ers roster."
+  "evidence": "No rings. On the Y90 49ers roster. On the Y91 49ers roster."
  },
  "Zech Vernon": {
   "stints": [
    {
     "team": "49ers",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
@@ -4299,175 +4219,175 @@
    {
     "team": "49ers",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 49ers roster."
+  "evidence": "No rings. On the Y90 49ers roster. On the Y91 49ers roster."
  },
  "Teagan Banjo": {
   "stints": [
    {
     "team": "49ers",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 49ers roster."
+  "evidence": "No rings. On the Y90 49ers roster. On the Y91 49ers roster."
  },
  "Yosuah Lewan": {
   "stints": [
    {
     "team": "49ers",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 49ers roster."
+  "evidence": "No rings. On the Y90 49ers roster. On the Y91 49ers roster."
  },
  "Mack Skule": {
   "stints": [
    {
     "team": "Bears",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bears roster."
+  "evidence": "No rings. On the Y90 Bears roster. On the Y91 Bears roster."
  },
  "Jace Ray": {
   "stints": [
    {
     "team": "Bears",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bears roster."
+  "evidence": "No rings. On the Y90 Bears roster. On the Y91 Bears roster."
  },
  "Krys Pickens": {
   "stints": [
    {
     "team": "Bears",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bears roster."
+  "evidence": "No rings. On the Y90 Bears roster. On the Y91 Bears roster."
  },
  "Taron Pinnock": {
   "stints": [
    {
     "team": "Bears",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bears roster."
+  "evidence": "No rings. On the Y90 Bears roster. On the Y91 Bears roster."
  },
  "Irv Kelce": {
   "stints": [
    {
     "team": "Bears",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bears roster."
+  "evidence": "No rings. On the Y90 Bears roster. On the Y91 Bears roster."
  },
  "Ty Gurman": {
   "stints": [
    {
     "team": "Bears",
     "from": 90,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bears roster."
+  "evidence": "No rings. On the Y90 Bears roster. On the Y91 Bears roster."
  },
  "Dezmon Tavai": {
   "stints": [
    {
     "team": "Bears",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bears roster."
+  "evidence": "No rings. On the Y90 Bears roster. On the Y91 Bears roster."
  },
  "George Nnadi": {
   "stints": [
    {
     "team": "Bears",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bears roster."
+  "evidence": "No rings. On the Y90 Bears roster. On the Y91 Bears roster."
  },
  "Jontre Owens": {
   "stints": [
    {
     "team": "Bengals",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bengals roster."
+  "evidence": "No rings. On the Y90 Bengals roster. On the Y91 Bengals roster."
  },
  "Nathan Tangelo": {
   "stints": [
    {
     "team": "Bengals",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bengals roster."
+  "evidence": "No rings. On the Y90 Bengals roster. On the Y91 Bengals roster."
  },
  "Kwon Dawkins": {
   "stints": [
    {
     "team": "Bengals",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bengals roster."
+  "evidence": "No rings. On the Y90 Bengals roster. On the Y91 Bengals roster."
  },
  "Bruno Beavers": {
   "stints": [
    {
     "team": "Bengals",
     "from": 74,
-    "to": 90,
+    "to": 91,
     "rings": [
      76
     ]
@@ -4481,429 +4401,429 @@
    {
     "team": "Bengals",
     "from": 69,
-    "to": 90,
+    "to": 91,
     "rings": [
      76
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Bengals Y76. On the Y90 Bengals roster. The only window that fits."
+  "evidence": "1 ring = Bengals Y76. On the Y90 Bengals roster. On the Y91 Bengals roster. The only window that fits."
  },
  "Grover Calitro": {
   "stints": [
    {
     "team": "Bengals",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bengals roster."
+  "evidence": "No rings. On the Y90 Bengals roster. On the Y91 Bengals roster."
  },
  "Dare Talib": {
   "stints": [
    {
     "team": "Bengals",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bengals roster."
+  "evidence": "No rings. On the Y90 Bengals roster. On the Y91 Bengals roster."
  },
  "Rashard Gunter": {
   "stints": [
    {
     "team": "Bengals",
     "from": 90,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bengals roster."
+  "evidence": "No rings. On the Y90 Bengals roster. On the Y91 Bengals roster."
  },
  "Lamont Duck": {
   "stints": [
    {
     "team": "Bengals",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bengals roster."
+  "evidence": "No rings. On the Y90 Bengals roster. On the Y91 Bengals roster."
  },
  "Abraham Jack": {
   "stints": [
    {
     "team": "Bills",
     "from": 90,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bills roster."
+  "evidence": "No rings. On the Y90 Bills roster. On the Y91 Bills roster."
  },
  "Mykal Shaw": {
   "stints": [
    {
     "team": "Bills",
     "from": 78,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bills roster."
+  "evidence": "No rings. On the Y90 Bills roster. On the Y91 Bills roster."
  },
  "Victor Pascal": {
   "stints": [
    {
     "team": "Bills",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bills roster."
+  "evidence": "No rings. On the Y90 Bills roster. On the Y91 Bills roster."
  },
  "Dekoda Walton": {
   "stints": [
    {
     "team": "Bills",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bills roster."
+  "evidence": "No rings. On the Y90 Bills roster. On the Y91 Bills roster."
  },
  "Jamell Langley": {
   "stints": [
    {
     "team": "Bills",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bills roster."
+  "evidence": "No rings. On the Y90 Bills roster. On the Y91 Bills roster."
  },
  "Tracy Merritt": {
   "stints": [
    {
     "team": "Bills",
     "from": 78,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bills roster."
+  "evidence": "No rings. On the Y90 Bills roster. On the Y91 Bills roster."
  },
  "Lecitus Hayden": {
   "stints": [
    {
     "team": "Bills",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Bills roster."
+  "evidence": "No rings. On the Y90 Bills roster. On the Y91 Bills roster."
  },
  "Akayleb Samia": {
   "stints": [
    {
     "team": "Broncos",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Broncos roster."
+  "evidence": "No rings. On the Y90 Broncos roster. On the Y91 Broncos roster."
  },
  "Deonte Farrell": {
   "stints": [
    {
     "team": "Broncos",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Broncos roster."
+  "evidence": "No rings. On the Y90 Broncos roster. On the Y91 Broncos roster."
  },
  "Mark Sieler": {
   "stints": [
    {
     "team": "Broncos",
-    "from": 81,
-    "to": 90,
+    "from": 82,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Broncos roster."
+  "evidence": "No rings. On the Y90 Broncos roster. On the Y91 Broncos roster."
  },
  "Hakeem Peppers": {
   "stints": [
    {
     "team": "Broncos",
-    "from": 79,
-    "to": 90,
+    "from": 80,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Broncos roster."
+  "evidence": "No rings. On the Y90 Broncos roster. On the Y91 Broncos roster."
  },
  "Lane McCoy": {
   "stints": [
    {
     "team": "Broncos",
     "from": 74,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Broncos roster."
+  "evidence": "No rings. On the Y90 Broncos roster. On the Y91 Broncos roster."
  },
  "Gus Langley": {
   "stints": [
    {
     "team": "Broncos",
-    "from": 77,
-    "to": 90,
+    "from": 78,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Broncos roster."
+  "evidence": "No rings. On the Y90 Broncos roster. On the Y91 Broncos roster."
  },
  "J.C. Jordan": {
   "stints": [
    {
     "team": "Broncos",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Broncos roster."
+  "evidence": "No rings. On the Y90 Broncos roster. On the Y91 Broncos roster."
  },
  "Dayo Prince": {
   "stints": [
    {
     "team": "Broncos",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Broncos roster."
+  "evidence": "No rings. On the Y90 Broncos roster. On the Y91 Broncos roster."
  },
  "Lamont Edoga": {
   "stints": [
    {
     "team": "Browns",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Browns roster."
+  "evidence": "No rings. On the Y90 Browns roster. On the Y91 Browns roster."
  },
  "Levante Banner": {
   "stints": [
    {
     "team": "Browns",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Browns roster."
+  "evidence": "No rings. On the Y90 Browns roster. On the Y91 Browns roster."
  },
  "Trayone Burford": {
   "stints": [
    {
     "team": "Browns",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Browns roster."
+  "evidence": "No rings. On the Y90 Browns roster. On the Y91 Browns roster."
  },
  "Anthony Orzech": {
   "stints": [
    {
     "team": "Browns",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Browns roster."
+  "evidence": "No rings. On the Y90 Browns roster. On the Y91 Browns roster."
  },
  "Mike Bouye": {
   "stints": [
    {
     "team": "Browns",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Browns roster."
+  "evidence": "No rings. On the Y90 Browns roster. On the Y91 Browns roster."
  },
  "Thomas Sweezy": {
   "stints": [
    {
     "team": "Browns",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Browns roster."
+  "evidence": "No rings. On the Y90 Browns roster. On the Y91 Browns roster."
  },
  "Jamie McGrone": {
   "stints": [
    {
     "team": "Browns",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Browns roster."
+  "evidence": "No rings. On the Y90 Browns roster. On the Y91 Browns roster."
  },
  "Tyree Irwin": {
   "stints": [
    {
     "team": "Browns",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Browns roster."
+  "evidence": "No rings. On the Y90 Browns roster. On the Y91 Browns roster."
  },
  "Clark Borom": {
   "stints": [
    {
     "team": "Browns",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Browns roster."
+  "evidence": "No rings. On the Y90 Browns roster. On the Y91 Browns roster."
  },
  "Dallin Santoso": {
   "stints": [
    {
     "team": "Buccaneers",
     "from": 78,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Buccaneers roster."
+  "evidence": "No rings. On the Y90 Buccaneers roster. On the Y91 Buccaneers roster."
  },
  "Bradlee Philips": {
   "stints": [
    {
     "team": "Buccaneers",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Buccaneers roster."
+  "evidence": "No rings. On the Y90 Buccaneers roster. On the Y91 Buccaneers roster."
  },
  "Pete Peters": {
   "stints": [
    {
     "team": "Buccaneers",
     "from": 72,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Buccaneers roster."
+  "evidence": "No rings. On the Y90 Buccaneers roster. On the Y91 Buccaneers roster."
  },
  "Morgan Saltes": {
   "stints": [
    {
     "team": "Buccaneers",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Buccaneers roster."
+  "evidence": "No rings. On the Y90 Buccaneers roster. On the Y91 Buccaneers roster."
  },
  "Ronnie Hardy": {
   "stints": [
    {
     "team": "Buccaneers",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Buccaneers roster."
+  "evidence": "No rings. On the Y90 Buccaneers roster. On the Y91 Buccaneers roster."
  },
  "Neal Johnson": {
   "stints": [
    {
     "team": "Cardinals",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cardinals roster."
+  "evidence": "No rings. On the Y90 Cardinals roster. On the Y91 Cardinals roster."
  },
  "Tanner Tuttle": {
   "stints": [
    {
     "team": "Cardinals",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
@@ -4915,439 +4835,439 @@
    {
     "team": "Cardinals",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cardinals roster."
+  "evidence": "No rings. On the Y90 Cardinals roster. On the Y91 Cardinals roster."
  },
  "Nydair Funk": {
   "stints": [
    {
     "team": "Cardinals",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cardinals roster."
+  "evidence": "No rings. On the Y90 Cardinals roster. On the Y91 Cardinals roster."
  },
  "Keelan Blair": {
   "stints": [
    {
     "team": "Cardinals",
     "from": 78,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cardinals roster."
+  "evidence": "No rings. On the Y90 Cardinals roster. On the Y91 Cardinals roster."
  },
  "Derek Amadi": {
   "stints": [
    {
     "team": "Cardinals",
     "from": 78,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cardinals roster."
+  "evidence": "No rings. On the Y90 Cardinals roster. On the Y91 Cardinals roster."
  },
  "Earnest Prosise": {
   "stints": [
    {
     "team": "Cardinals",
     "from": 90,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cardinals roster."
+  "evidence": "No rings. On the Y90 Cardinals roster. On the Y91 Cardinals roster."
  },
  "Morris Samia": {
   "stints": [
    {
     "team": "Cardinals",
     "from": 90,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cardinals roster."
+  "evidence": "No rings. On the Y90 Cardinals roster. On the Y91 Cardinals roster."
  },
  "Odell Hainsey": {
   "stints": [
    {
     "team": "Chargers",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chargers roster."
+  "evidence": "No rings. On the Y90 Chargers roster. On the Y91 Chargers roster."
  },
  "Quenton Fuller": {
   "stints": [
    {
     "team": "Chargers",
     "from": 76,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chargers roster."
+  "evidence": "No rings. On the Y90 Chargers roster. On the Y91 Chargers roster."
  },
  "Terrel Brandel": {
   "stints": [
    {
     "team": "Chargers",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chargers roster."
+  "evidence": "No rings. On the Y90 Chargers roster. On the Y91 Chargers roster."
  },
  "Vyncint Fort": {
   "stints": [
    {
     "team": "Chargers",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chargers roster."
+  "evidence": "No rings. On the Y90 Chargers roster. On the Y91 Chargers roster."
  },
  "Arthur Onwenu": {
   "stints": [
    {
     "team": "Chargers",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chargers roster."
+  "evidence": "No rings. On the Y90 Chargers roster. On the Y91 Chargers roster."
  },
  "Quatro Pierre": {
   "stints": [
    {
     "team": "Chargers",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chargers roster."
+  "evidence": "No rings. On the Y90 Chargers roster. On the Y91 Chargers roster."
  },
  "Donald Spencer": {
   "stints": [
    {
     "team": "Chargers",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chargers roster."
+  "evidence": "No rings. On the Y90 Chargers roster. On the Y91 Chargers roster."
  },
  "Tyquan Vasey": {
   "stints": [
    {
     "team": "Chargers",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chargers roster."
+  "evidence": "No rings. On the Y90 Chargers roster. On the Y91 Chargers roster."
  },
  "Ulysees Sutton": {
   "stints": [
    {
     "team": "Chargers",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chargers roster."
+  "evidence": "No rings. On the Y90 Chargers roster. On the Y91 Chargers roster."
  },
  "Kolton Cole": {
   "stints": [
    {
     "team": "Chiefs",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chiefs roster."
+  "evidence": "No rings. On the Y90 Chiefs roster. On the Y91 Chiefs roster."
  },
  "Gus Howland": {
   "stints": [
    {
     "team": "Chiefs",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chiefs roster."
+  "evidence": "No rings. On the Y90 Chiefs roster. On the Y91 Chiefs roster."
  },
  "Mykal Mosby": {
   "stints": [
    {
     "team": "Chiefs",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chiefs roster."
+  "evidence": "No rings. On the Y90 Chiefs roster. On the Y91 Chiefs roster."
  },
  "Shaquem Goedert": {
   "stints": [
    {
     "team": "Chiefs",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chiefs roster."
+  "evidence": "No rings. On the Y90 Chiefs roster. On the Y91 Chiefs roster."
  },
  "Roc Dunkle": {
   "stints": [
    {
     "team": "Chiefs",
     "from": 90,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chiefs roster."
+  "evidence": "No rings. On the Y90 Chiefs roster. On the Y91 Chiefs roster."
  },
  "Maurice Vigil": {
   "stints": [
    {
     "team": "Chiefs",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chiefs roster."
+  "evidence": "No rings. On the Y90 Chiefs roster. On the Y91 Chiefs roster."
  },
  "Grady Cox": {
   "stints": [
    {
     "team": "Chiefs",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chiefs roster."
+  "evidence": "No rings. On the Y90 Chiefs roster. On the Y91 Chiefs roster."
  },
  "Vonn Kennedy": {
   "stints": [
    {
     "team": "Chiefs",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chiefs roster."
+  "evidence": "No rings. On the Y90 Chiefs roster. On the Y91 Chiefs roster."
  },
  "Gary Asafo": {
   "stints": [
    {
     "team": "Chiefs",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Chiefs roster."
+  "evidence": "No rings. On the Y90 Chiefs roster. On the Y91 Chiefs roster."
  },
  "Andrew Dwight": {
   "stints": [
    {
     "team": "Colts",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Colts roster."
+  "evidence": "No rings. On the Y90 Colts roster. On the Y91 Colts roster."
  },
  "Chuck Ertz": {
   "stints": [
    {
     "team": "Colts",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Colts roster."
+  "evidence": "No rings. On the Y90 Colts roster. On the Y91 Colts roster."
  },
  "Quatro Wilds": {
   "stints": [
    {
     "team": "Colts",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Colts roster."
+  "evidence": "No rings. On the Y90 Colts roster. On the Y91 Colts roster."
  },
  "Cullen Laird": {
   "stints": [
    {
     "team": "Colts",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Colts roster."
+  "evidence": "No rings. On the Y90 Colts roster. On the Y91 Colts roster."
  },
  "Korey Friend": {
   "stints": [
    {
     "team": "Colts",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Colts roster."
+  "evidence": "No rings. On the Y90 Colts roster. On the Y91 Colts roster."
  },
  "River Kuechly": {
   "stints": [
    {
     "team": "Colts",
     "from": 90,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Colts roster."
+  "evidence": "No rings. On the Y90 Colts roster. On the Y91 Colts roster."
  },
  "Damarri Melvin": {
   "stints": [
    {
     "team": "Colts",
-    "from": 78,
-    "to": 90,
+    "from": 77,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Colts roster."
+  "evidence": "No rings. On the Y90 Colts roster. On the Y91 Colts roster."
  },
  "Terrell Shipley": {
   "stints": [
    {
     "team": "Colts",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Colts roster."
+  "evidence": "No rings. On the Y90 Colts roster. On the Y91 Colts roster."
  },
  "Le'Veon Ogbah": {
   "stints": [
    {
     "team": "Colts",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Colts roster."
+  "evidence": "No rings. On the Y90 Colts roster. On the Y91 Colts roster."
  },
  "Braxton Pennel": {
   "stints": [
    {
     "team": "Commanders",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Commanders roster."
+  "evidence": "No rings. On the Y90 Commanders roster. On the Y91 Commanders roster."
  },
  "Victor Brandel": {
   "stints": [
    {
     "team": "Commanders",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Commanders roster."
+  "evidence": "No rings. On the Y90 Commanders roster. On the Y91 Commanders roster."
  },
  "Josh Brooks": {
   "stints": [
    {
     "team": "Commanders",
     "from": 75,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Commanders roster."
+  "evidence": "No rings. On the Y90 Commanders roster. On the Y91 Commanders roster."
  },
  "Jamil Warner": {
   "stints": [
    {
     "team": "Commanders",
     "from": 76,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
@@ -5359,295 +5279,297 @@
    {
     "team": "Commanders",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Commanders roster."
+  "evidence": "No rings. On the Y90 Commanders roster. On the Y91 Commanders roster."
  },
  "Cordrea Clark": {
   "stints": [
    {
     "team": "Commanders",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Commanders roster."
+  "evidence": "No rings. On the Y90 Commanders roster. On the Y91 Commanders roster."
  },
  "Kai Toure": {
   "stints": [
    {
     "team": "Commanders",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Commanders roster."
+  "evidence": "No rings. On the Y90 Commanders roster. On the Y91 Commanders roster."
  },
  "Isaiah Schnell": {
   "stints": [
    {
     "team": "Cowboys",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cowboys roster."
+  "evidence": "No rings. On the Y90 Cowboys roster. On the Y91 Cowboys roster."
  },
  "Samson McKeon": {
   "stints": [
    {
     "team": "Cowboys",
     "from": 78,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cowboys roster."
+  "evidence": "No rings. On the Y90 Cowboys roster. On the Y91 Cowboys roster."
  },
  "Jeffrey Wilson": {
   "stints": [
    {
     "team": "Cowboys",
     "from": 76,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cowboys roster."
+  "evidence": "No rings. On the Y90 Cowboys roster. On the Y91 Cowboys roster."
  },
  "Camryn Kongbo": {
   "stints": [
    {
     "team": "Cowboys",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cowboys roster."
+  "evidence": "No rings. On the Y90 Cowboys roster. On the Y91 Cowboys roster."
  },
  "Daelin Virgin": {
   "stints": [
    {
     "team": "Cowboys",
     "from": 90,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cowboys roster."
+  "evidence": "No rings. On the Y90 Cowboys roster. On the Y91 Cowboys roster."
  },
  "Spencer Ladler": {
   "stints": [
    {
     "team": "Cowboys",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cowboys roster."
+  "evidence": "No rings. On the Y90 Cowboys roster. On the Y91 Cowboys roster."
  },
  "Taco Coulter": {
   "stints": [
    {
     "team": "Cowboys",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Cowboys roster."
+  "evidence": "No rings. On the Y90 Cowboys roster. On the Y91 Cowboys roster."
  },
  "Lenny Baun": {
   "stints": [
    {
     "team": "Dolphins",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Dolphins roster."
+  "evidence": "No rings. On the Y90 Dolphins roster. On the Y91 Dolphins roster."
  },
  "Thomas Gano": {
   "stints": [
    {
     "team": "Dolphins",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Dolphins roster."
+  "evidence": "No rings. On the Y90 Dolphins roster. On the Y91 Dolphins roster."
  },
  "Rudy Ward Jr": {
   "stints": [
    {
     "team": "Dolphins",
-    "from": 85,
-    "to": 90,
+    "from": 84,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Dolphins roster."
+  "evidence": "No rings. On the Y90 Dolphins roster. On the Y91 Dolphins roster."
  },
  "Terez Poe": {
   "stints": [
    {
     "team": "Dolphins",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Dolphins roster."
+  "evidence": "No rings. On the Y90 Dolphins roster. On the Y91 Dolphins roster."
  },
  "Lukas Agnew": {
   "stints": [
    {
     "team": "Dolphins",
-    "from": 86,
-    "to": 90,
+    "from": 85,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Dolphins roster."
+  "evidence": "No rings. On the Y90 Dolphins roster. On the Y91 Dolphins roster."
  },
  "Anree Wren": {
   "stints": [
    {
     "team": "Dolphins",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Dolphins roster."
+  "evidence": "No rings. On the Y90 Dolphins roster. On the Y91 Dolphins roster."
  },
  "Eli Danna": {
   "stints": [
    {
     "team": "Dolphins",
-    "from": 85,
-    "to": 90,
+    "from": 84,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Dolphins roster."
+  "evidence": "No rings. On the Y90 Dolphins roster. On the Y91 Dolphins roster."
  },
  "Netane Jacobs": {
   "stints": [
    {
     "team": "Dolphins",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Dolphins roster."
+  "evidence": "No rings. On the Y90 Dolphins roster. On the Y91 Dolphins roster."
  },
  "Calvin Wingo II": {
   "stints": [
    {
     "team": "Eagles",
     "from": 90,
-    "to": 90,
-    "rings": []
+    "to": 91,
+    "rings": [
+     91
+    ]
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Eagles roster."
+  "evidence": "1 ring = Eagles Y91. On the Y90 Eagles roster. On the Y91 Eagles roster. The only window that fits."
  },
  "Pharoah Orzech": {
   "stints": [
    {
     "team": "Giants",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Giants roster."
+  "evidence": "No rings. On the Y90 Giants roster. On the Y91 Giants roster."
  },
  "Trystan Doctson": {
   "stints": [
    {
     "team": "Giants",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Giants roster."
+  "evidence": "No rings. On the Y90 Giants roster. On the Y91 Giants roster."
  },
  "Dalton Mauro": {
   "stints": [
    {
     "team": "Giants",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Giants roster."
+  "evidence": "No rings. On the Y90 Giants roster. On the Y91 Giants roster."
  },
  "KC Hyder": {
   "stints": [
    {
     "team": "Giants",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Giants roster."
+  "evidence": "No rings. On the Y90 Giants roster. On the Y91 Giants roster."
  },
  "Caleb Linsley": {
   "stints": [
    {
     "team": "Giants",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Giants roster."
+  "evidence": "No rings. On the Y90 Giants roster. On the Y91 Giants roster."
  },
  "Jaron Dareus": {
   "stints": [
    {
     "team": "Giants",
     "from": 76,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
@@ -5659,591 +5581,591 @@
    {
     "team": "Giants",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Giants roster."
+  "evidence": "No rings. On the Y90 Giants roster. On the Y91 Giants roster."
  },
  "Brett Sweat": {
   "stints": [
    {
     "team": "Giants",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Giants roster."
+  "evidence": "No rings. On the Y90 Giants roster. On the Y91 Giants roster."
  },
  "Tress Pettis": {
   "stints": [
    {
     "team": "Jaguars",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jaguars roster."
+  "evidence": "No rings. On the Y90 Jaguars roster. On the Y91 Jaguars roster."
  },
  "Jabari Payne": {
   "stints": [
    {
     "team": "Jaguars",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jaguars roster."
+  "evidence": "No rings. On the Y90 Jaguars roster. On the Y91 Jaguars roster."
  },
  "Koa Togiai": {
   "stints": [
    {
     "team": "Jaguars",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jaguars roster."
+  "evidence": "No rings. On the Y90 Jaguars roster. On the Y91 Jaguars roster."
  },
  "Kalif Risner": {
   "stints": [
    {
     "team": "Jaguars",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jaguars roster."
+  "evidence": "No rings. On the Y90 Jaguars roster. On the Y91 Jaguars roster."
  },
  "DJ Long": {
   "stints": [
    {
     "team": "Jaguars",
     "from": 90,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jaguars roster."
+  "evidence": "No rings. On the Y90 Jaguars roster. On the Y91 Jaguars roster."
  },
  "Jamar Dallas": {
   "stints": [
    {
     "team": "Jaguars",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jaguars roster."
+  "evidence": "No rings. On the Y90 Jaguars roster. On the Y91 Jaguars roster."
  },
  "Parker Hampton": {
   "stints": [
    {
     "team": "Jaguars",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jaguars roster."
+  "evidence": "No rings. On the Y90 Jaguars roster. On the Y91 Jaguars roster."
  },
  "Daelin Norton": {
   "stints": [
    {
     "team": "Jaguars",
     "from": 90,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jaguars roster."
+  "evidence": "No rings. On the Y90 Jaguars roster. On the Y91 Jaguars roster."
  },
  "Deane Lucas": {
   "stints": [
    {
     "team": "Jets",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jets roster."
+  "evidence": "No rings. On the Y90 Jets roster. On the Y91 Jets roster."
  },
  "Denzel Brady": {
   "stints": [
    {
     "team": "Jets",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jets roster."
+  "evidence": "No rings. On the Y90 Jets roster. On the Y91 Jets roster."
  },
  "Essang Remmers": {
   "stints": [
    {
     "team": "Jets",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jets roster."
+  "evidence": "No rings. On the Y90 Jets roster. On the Y91 Jets roster."
  },
  "Keesean Rashed": {
   "stints": [
    {
     "team": "Jets",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Jets roster."
+  "evidence": "No rings. On the Y90 Jets roster. On the Y91 Jets roster."
  },
  "Tyquan Hunter": {
   "stints": [
    {
     "team": "Lions",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Lions roster."
+  "evidence": "No rings. On the Y90 Lions roster. On the Y91 Lions roster."
  },
  "Davion Means": {
   "stints": [
    {
     "team": "Lions",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Lions roster."
+  "evidence": "No rings. On the Y90 Lions roster. On the Y91 Lions roster."
  },
  "Kiondre Hageman": {
   "stints": [
    {
     "team": "Lions",
     "from": 76,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Lions roster."
+  "evidence": "No rings. On the Y90 Lions roster. On the Y91 Lions roster."
  },
  "Margus Leglue": {
   "stints": [
    {
     "team": "Lions",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Lions roster."
+  "evidence": "No rings. On the Y90 Lions roster. On the Y91 Lions roster."
  },
  "Alohi Devey": {
   "stints": [
    {
     "team": "Lions",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Lions roster."
+  "evidence": "No rings. On the Y90 Lions roster. On the Y91 Lions roster."
  },
  "Khalid Glasgow": {
   "stints": [
    {
     "team": "Lions",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Lions roster."
+  "evidence": "No rings. On the Y90 Lions roster. On the Y91 Lions roster."
  },
  "Samori Toney": {
   "stints": [
    {
     "team": "Lions",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Lions roster."
+  "evidence": "No rings. On the Y90 Lions roster. On the Y91 Lions roster."
  },
  "Verone Koch": {
   "stints": [
    {
     "team": "Lions",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Lions roster."
+  "evidence": "No rings. On the Y90 Lions roster. On the Y91 Lions roster."
  },
  "Eno Brunson": {
   "stints": [
    {
     "team": "Packers",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Packers roster."
+  "evidence": "No rings. On the Y90 Packers roster. On the Y91 Packers roster."
  },
  "Kenneth Leo": {
   "stints": [
    {
     "team": "Packers",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Packers roster."
+  "evidence": "No rings. On the Y90 Packers roster. On the Y91 Packers roster."
  },
  "Taywan Orzech": {
   "stints": [
    {
     "team": "Packers",
     "from": 78,
-    "to": 90,
+    "to": 91,
     "rings": [
      79
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Packers Y79. On the Y90 Packers roster. The only window that fits."
+  "evidence": "1 ring = Packers Y79. On the Y90 Packers roster. On the Y91 Packers roster. The only window that fits."
  },
  "Cordale Sweezy": {
   "stints": [
    {
     "team": "Packers",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Packers roster."
+  "evidence": "No rings. On the Y90 Packers roster. On the Y91 Packers roster."
  },
  "Thayer Lenoir": {
   "stints": [
    {
     "team": "Packers",
     "from": 87,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Packers roster."
+  "evidence": "No rings. On the Y90 Packers roster. On the Y91 Packers roster."
  },
  "Hamp Devey": {
   "stints": [
    {
     "team": "Packers",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Packers roster."
+  "evidence": "No rings. On the Y90 Packers roster. On the Y91 Packers roster."
  },
  "Jalyn Kush": {
   "stints": [
    {
     "team": "Panthers",
-    "from": 83,
-    "to": 90,
+    "from": 82,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Panthers roster."
+  "evidence": "No rings. On the Y90 Panthers roster. On the Y91 Panthers roster."
  },
  "Jalen Barber": {
   "stints": [
    {
     "team": "Panthers",
-    "from": 85,
-    "to": 90,
+    "from": 84,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Panthers roster."
+  "evidence": "No rings. On the Y90 Panthers roster. On the Y91 Panthers roster."
  },
  "Brayden Golden": {
   "stints": [
    {
     "team": "Panthers",
-    "from": 84,
-    "to": 90,
+    "from": 83,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Panthers roster."
+  "evidence": "No rings. On the Y90 Panthers roster. On the Y91 Panthers roster."
  },
  "Cethan Payne": {
   "stints": [
    {
     "team": "Panthers",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Panthers roster."
+  "evidence": "No rings. On the Y90 Panthers roster. On the Y91 Panthers roster."
  },
  "Tevin Fox": {
   "stints": [
    {
     "team": "Panthers",
     "from": 70,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Panthers roster."
+  "evidence": "No rings. On the Y90 Panthers roster. On the Y91 Panthers roster."
  },
  "Jay-Tee Dafney": {
   "stints": [
    {
     "team": "Panthers",
-    "from": 85,
-    "to": 90,
+    "from": 84,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Panthers roster."
+  "evidence": "No rings. On the Y90 Panthers roster. On the Y91 Panthers roster."
  },
  "Amon-Ra Ford": {
   "stints": [
    {
     "team": "Panthers",
-    "from": 84,
-    "to": 90,
+    "from": 83,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Panthers roster."
+  "evidence": "No rings. On the Y90 Panthers roster. On the Y91 Panthers roster."
  },
  "Tee Holtz": {
   "stints": [
    {
     "team": "Panthers",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Panthers roster."
+  "evidence": "No rings. On the Y90 Panthers roster. On the Y91 Panthers roster."
  },
  "Yasir Gray": {
   "stints": [
    {
     "team": "Panthers",
-    "from": 78,
-    "to": 90,
+    "from": 77,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Panthers roster."
+  "evidence": "No rings. On the Y90 Panthers roster. On the Y91 Panthers roster."
  },
  "Damar Hobbs": {
   "stints": [
    {
     "team": "Patriots",
     "from": 78,
-    "to": 90,
+    "to": 91,
     "rings": [
      81
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Patriots Y81. On the Y90 Patriots roster. The only window that fits."
+  "evidence": "1 ring = Patriots Y81. On the Y90 Patriots roster. On the Y91 Patriots roster. The only window that fits."
  },
  "J.R. Homer": {
   "stints": [
    {
     "team": "Patriots",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Patriots roster."
+  "evidence": "No rings. On the Y90 Patriots roster. On the Y91 Patriots roster."
  },
  "Khalen Swoopes": {
   "stints": [
    {
     "team": "Patriots",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Patriots roster."
+  "evidence": "No rings. On the Y90 Patriots roster. On the Y91 Patriots roster."
  },
  "Wayne Blair": {
   "stints": [
    {
     "team": "Patriots",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Patriots roster."
+  "evidence": "No rings. On the Y90 Patriots roster. On the Y91 Patriots roster."
  },
  "Carson Odeleye": {
   "stints": [
    {
     "team": "Patriots",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": [
      81
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Patriots Y81. On the Y90 Patriots roster. The only window that fits."
+  "evidence": "1 ring = Patriots Y81. On the Y90 Patriots roster. On the Y91 Patriots roster. The only window that fits."
  },
  "Rashawn Cook": {
   "stints": [
    {
     "team": "Patriots",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": [
      81
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Patriots Y81. On the Y90 Patriots roster. The only window that fits."
+  "evidence": "1 ring = Patriots Y81. On the Y90 Patriots roster. On the Y91 Patriots roster. The only window that fits."
  },
  "Jamison Stueber": {
   "stints": [
    {
     "team": "Patriots",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Patriots roster."
+  "evidence": "No rings. On the Y90 Patriots roster. On the Y91 Patriots roster."
  },
  "A.T. Hoyer": {
   "stints": [
    {
     "team": "Raiders",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Raiders roster."
+  "evidence": "No rings. On the Y90 Raiders roster. On the Y91 Raiders roster."
  },
  "Cordell Bulaga": {
   "stints": [
    {
     "team": "Raiders",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Raiders roster."
+  "evidence": "No rings. On the Y90 Raiders roster. On the Y91 Raiders roster."
  },
  "Kyler Falah": {
   "stints": [
    {
     "team": "Raiders",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Raiders roster."
+  "evidence": "No rings. On the Y90 Raiders roster. On the Y91 Raiders roster."
  },
  "Trey Gabbert": {
   "stints": [
    {
     "team": "Raiders",
-    "from": 88,
-    "to": 90,
+    "from": 87,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Raiders roster."
+  "evidence": "No rings. On the Y90 Raiders roster. On the Y91 Raiders roster."
  },
  "Tajae Westry": {
   "stints": [
    {
     "team": "Raiders",
     "from": 70,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
@@ -6255,79 +6177,79 @@
    {
     "team": "Raiders",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Raiders roster."
+  "evidence": "No rings. On the Y90 Raiders roster. On the Y91 Raiders roster."
  },
  "Devonte Kerr": {
   "stints": [
    {
     "team": "Rams",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Rams roster."
+  "evidence": "No rings. On the Y90 Rams roster. On the Y91 Rams roster."
  },
  "Javon Trask": {
   "stints": [
    {
     "team": "Rams",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Rams roster."
+  "evidence": "No rings. On the Y90 Rams roster. On the Y91 Rams roster."
  },
  "Makai Merritt": {
   "stints": [
    {
     "team": "Rams",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Rams roster."
+  "evidence": "No rings. On the Y90 Rams roster. On the Y91 Rams roster."
  },
  "Cassius McCrane": {
   "stints": [
    {
     "team": "Rams",
-    "from": 89,
-    "to": 90,
+    "from": 88,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Rams roster."
+  "evidence": "No rings. On the Y90 Rams roster. On the Y91 Rams roster."
  },
  "Kevon Pitts": {
   "stints": [
    {
     "team": "Rams",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Rams roster."
+  "evidence": "No rings. On the Y90 Rams roster. On the Y91 Rams roster."
  },
  "Riley Roche": {
   "stints": [
    {
     "team": "Rams",
     "from": 76,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
@@ -6339,199 +6261,199 @@
    {
     "team": "Ravens",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Ravens roster."
+  "evidence": "No rings. On the Y90 Ravens roster. On the Y91 Ravens roster."
  },
  "Cethan Qualls": {
   "stints": [
    {
     "team": "Ravens",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Ravens roster."
+  "evidence": "No rings. On the Y90 Ravens roster. On the Y91 Ravens roster."
  },
  "Bryant Cronk": {
   "stints": [
    {
     "team": "Ravens",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Ravens roster."
+  "evidence": "No rings. On the Y90 Ravens roster. On the Y91 Ravens roster."
  },
  "Brendan Parham": {
   "stints": [
    {
     "team": "Ravens",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Ravens roster."
+  "evidence": "No rings. On the Y90 Ravens roster. On the Y91 Ravens roster."
  },
  "Malcom McCloud": {
   "stints": [
    {
     "team": "Ravens",
     "from": 78,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Ravens roster."
+  "evidence": "No rings. On the Y90 Ravens roster. On the Y91 Ravens roster."
  },
  "Nazair Lacey": {
   "stints": [
    {
     "team": "Ravens",
     "from": 90,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Ravens roster."
+  "evidence": "No rings. On the Y90 Ravens roster. On the Y91 Ravens roster."
  },
  "Zane Correa": {
   "stints": [
    {
     "team": "Ravens",
     "from": 90,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Ravens roster."
+  "evidence": "No rings. On the Y90 Ravens roster. On the Y91 Ravens roster."
  },
  "Blake Kirksey": {
   "stints": [
    {
     "team": "Saints",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Saints roster."
+  "evidence": "No rings. On the Y90 Saints roster. On the Y91 Saints roster."
  },
  "Storm Shelvin": {
   "stints": [
    {
     "team": "Saints",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Saints roster."
+  "evidence": "No rings. On the Y90 Saints roster. On the Y91 Saints roster."
  },
  "Jermar Reiff": {
   "stints": [
    {
     "team": "Saints",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Saints roster."
+  "evidence": "No rings. On the Y90 Saints roster. On the Y91 Saints roster."
  },
  "Riley Grigsby": {
   "stints": [
    {
     "team": "Saints",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Saints roster."
+  "evidence": "No rings. On the Y90 Saints roster. On the Y91 Saints roster."
  },
  "Kelvin Core": {
   "stints": [
    {
     "team": "Saints",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Saints roster."
+  "evidence": "No rings. On the Y90 Saints roster. On the Y91 Saints roster."
  },
  "Jarvis Daniels": {
   "stints": [
    {
     "team": "Saints",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Saints roster."
+  "evidence": "No rings. On the Y90 Saints roster. On the Y91 Saints roster."
  },
  "Nick Hilton": {
   "stints": [
    {
     "team": "Saints",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Saints roster."
+  "evidence": "No rings. On the Y90 Saints roster. On the Y91 Saints roster."
  },
  "Javien Hull": {
   "stints": [
    {
     "team": "Saints",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Saints roster."
+  "evidence": "No rings. On the Y90 Saints roster. On the Y91 Saints roster."
  },
  "Davion Leo": {
   "stints": [
    {
     "team": "Seahawks",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Seahawks roster."
+  "evidence": "No rings. On the Y90 Seahawks roster. On the Y91 Seahawks roster."
  },
  "Tavon Lemieux": {
   "stints": [
    {
     "team": "Seahawks",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
@@ -6543,371 +6465,567 @@
    {
     "team": "Seahawks",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Seahawks roster."
+  "evidence": "No rings. On the Y90 Seahawks roster. On the Y91 Seahawks roster."
  },
  "Julian Goedert": {
   "stints": [
    {
     "team": "Seahawks",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Seahawks roster."
+  "evidence": "No rings. On the Y90 Seahawks roster. On the Y91 Seahawks roster."
  },
  "Fred Kmet": {
   "stints": [
    {
     "team": "Seahawks",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Seahawks roster."
+  "evidence": "No rings. On the Y90 Seahawks roster. On the Y91 Seahawks roster."
  },
  "Jaelon Bennett": {
   "stints": [
    {
     "team": "Seahawks",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Seahawks roster."
+  "evidence": "No rings. On the Y90 Seahawks roster. On the Y91 Seahawks roster."
  },
  "Richard Ferentz": {
   "stints": [
    {
     "team": "Steelers",
     "from": 81,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Steelers roster."
+  "evidence": "No rings. On the Y90 Steelers roster. On the Y91 Steelers roster."
  },
  "Treylon Dogbe": {
   "stints": [
    {
     "team": "Steelers",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Steelers roster."
+  "evidence": "No rings. On the Y90 Steelers roster. On the Y91 Steelers roster."
  },
  "Ryquell Penn": {
   "stints": [
    {
     "team": "Steelers",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Steelers roster."
+  "evidence": "No rings. On the Y90 Steelers roster. On the Y91 Steelers roster."
  },
  "Nasir Perine": {
   "stints": [
    {
     "team": "Steelers",
-    "from": 87,
-    "to": 90,
+    "from": 86,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Steelers roster."
+  "evidence": "No rings. On the Y90 Steelers roster. On the Y91 Steelers roster."
  },
  "Stephon Dunkle": {
   "stints": [
    {
     "team": "Steelers",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Steelers roster."
+  "evidence": "No rings. On the Y90 Steelers roster. On the Y91 Steelers roster."
  },
  "DQ Watts": {
   "stints": [
    {
     "team": "Texans",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": [
      90
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. The only window that fits."
+  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. On the Y91 Texans roster. The only window that fits."
  },
  "Dymonte Hageman": {
   "stints": [
    {
     "team": "Texans",
     "from": 85,
-    "to": 90,
+    "to": 91,
     "rings": [
      90
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. The only window that fits."
+  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. On the Y91 Texans roster. The only window that fits."
  },
  "Gunner Okwara": {
   "stints": [
    {
     "team": "Texans",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": [
      90
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. The only window that fits."
+  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. On the Y91 Texans roster. The only window that fits."
  },
  "Daylon Fries": {
   "stints": [
    {
     "team": "Texans",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": [
      90
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. The only window that fits."
+  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. On the Y91 Texans roster. The only window that fits."
  },
  "Tristan Suggs": {
   "stints": [
    {
     "team": "Texans",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": [
      90
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. The only window that fits."
+  "evidence": "1 ring = Texans Y90. On the Y90 Texans roster. On the Y91 Texans roster. The only window that fits."
  },
  "Olamide Conway": {
   "stints": [
    {
     "team": "Titans",
     "from": 88,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Titans roster."
+  "evidence": "No rings. On the Y90 Titans roster. On the Y91 Titans roster."
  },
  "Tom Egbule": {
   "stints": [
    {
     "team": "Titans",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Titans roster."
+  "evidence": "No rings. On the Y90 Titans roster. On the Y91 Titans roster."
  },
  "Laken Linder": {
   "stints": [
    {
     "team": "Titans",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Titans roster."
+  "evidence": "No rings. On the Y90 Titans roster. On the Y91 Titans roster."
  },
  "Eli Kenney": {
   "stints": [
    {
     "team": "Titans",
     "from": 82,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Titans roster."
+  "evidence": "No rings. On the Y90 Titans roster. On the Y91 Titans roster."
  },
  "Jamel Wilkins": {
   "stints": [
    {
     "team": "Titans",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Titans roster."
+  "evidence": "No rings. On the Y90 Titans roster. On the Y91 Titans roster."
  },
  "Trayvon Fulton": {
   "stints": [
    {
     "team": "Titans",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Titans roster."
+  "evidence": "No rings. On the Y90 Titans roster. On the Y91 Titans roster."
  },
  "Olamide Poe": {
   "stints": [
    {
     "team": "Titans",
     "from": 90,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Titans roster."
+  "evidence": "No rings. On the Y90 Titans roster. On the Y91 Titans roster."
  },
  "Oli Alaka": {
   "stints": [
    {
     "team": "Vikings",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Vikings roster."
+  "evidence": "No rings. On the Y90 Vikings roster. On the Y91 Vikings roster."
  },
  "Tre' Haack": {
   "stints": [
    {
     "team": "Vikings",
     "from": 86,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Vikings roster."
+  "evidence": "No rings. On the Y90 Vikings roster. On the Y91 Vikings roster."
  },
  "Joshuah Gore": {
   "stints": [
    {
     "team": "Vikings",
     "from": 77,
-    "to": 90,
+    "to": 91,
     "rings": [
      78
     ]
    }
   ],
   "confidence": "strong",
-  "evidence": "1 ring = Vikings Y78. On the Y90 Vikings roster. The only window that fits."
+  "evidence": "1 ring = Vikings Y78. On the Y90 Vikings roster. On the Y91 Vikings roster. The only window that fits."
  },
  "Jordon Toilolo": {
   "stints": [
    {
     "team": "Vikings",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Vikings roster."
+  "evidence": "No rings. On the Y90 Vikings roster. On the Y91 Vikings roster."
  },
  "Koda Koroma": {
   "stints": [
    {
     "team": "Vikings",
     "from": 89,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Vikings roster."
+  "evidence": "No rings. On the Y90 Vikings roster. On the Y91 Vikings roster."
  },
  "Rasheem Ingold": {
   "stints": [
    {
     "team": "Vikings",
     "from": 79,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Vikings roster."
+  "evidence": "No rings. On the Y90 Vikings roster. On the Y91 Vikings roster."
  },
  "Dakota Paye": {
   "stints": [
    {
     "team": "Vikings",
     "from": 84,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Vikings roster."
+  "evidence": "No rings. On the Y90 Vikings roster. On the Y91 Vikings roster."
  },
  "Kylin Peters": {
   "stints": [
    {
     "team": "Vikings",
     "from": 80,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Vikings roster."
+  "evidence": "No rings. On the Y90 Vikings roster. On the Y91 Vikings roster."
  },
  "Darian Milne": {
   "stints": [
    {
     "team": "Vikings",
     "from": 83,
-    "to": 90,
+    "to": 91,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "No rings. On the Y90 Vikings roster."
+  "evidence": "No rings. On the Y90 Vikings roster. On the Y91 Vikings roster."
+ },
+ "P.J. Jerry": {
+  "stints": [
+   {
+    "team": "49ers",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 49ers roster."
+ },
+ "J.C. Howland": {
+  "stints": [
+   {
+    "team": "49ers",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 49ers roster."
+ },
+ "Corn Tabor": {
+  "stints": [
+   {
+    "team": "Bears",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 Bears roster."
+ },
+ "JD Pircher": {
+  "stints": [
+   {
+    "team": "Bengals",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 Bengals roster."
+ },
+ "Cal Gowan": {
+  "stints": [
+   {
+    "team": "Buccaneers",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 Buccaneers roster."
+ },
+ "Alton Hopkins": {
+  "stints": [
+   {
+    "team": "Cardinals",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 Cardinals roster."
+ },
+ "Alijah Santos": {
+  "stints": [
+   {
+    "team": "Commanders",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 Commanders roster."
+ },
+ "Quincy Booker": {
+  "stints": [
+   {
+    "team": "Eagles",
+    "from": 91,
+    "to": 91,
+    "rings": [
+     91
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Eagles Y91. On the Y91 Eagles roster. The only window that fits."
+ },
+ "Jacob Proise": {
+  "stints": [
+   {
+    "team": "Eagles",
+    "from": 91,
+    "to": 91,
+    "rings": [
+     91
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Eagles Y91. On the Y91 Eagles roster. The only window that fits."
+ },
+ "Niles Canaday": {
+  "stints": [
+   {
+    "team": "Giants",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 Giants roster."
+ },
+ "Sam Swaim": {
+  "stints": [
+   {
+    "team": "Patriots",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 Patriots roster."
+ },
+ "Trae Corral": {
+  "stints": [
+   {
+    "team": "Raiders",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 Raiders roster."
+ },
+ "Russ Bello": {
+  "stints": [
+   {
+    "team": "Rams",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 Rams roster."
+ },
+ "Isaiah Pinkney": {
+  "stints": [
+   {
+    "team": "Ravens",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 Ravens roster."
+ },
+ "Dyami Watson": {
+  "stints": [
+   {
+    "team": "Seahawks",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 Seahawks roster."
+ },
+ "Dax Kolone": {
+  "stints": [
+   {
+    "team": "Titans",
+    "from": 91,
+    "to": 91,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings. On the Y91 Titans roster."
  }
 }

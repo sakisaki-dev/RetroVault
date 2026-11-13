@@ -1,0 +1,786 @@
+{
+ "id": "2026-11-12-takes-y91",
+ "created": "2026-11-12",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "takes",
+   "reason": "Write the Y91 Hot Takes",
+   "trigger": "Rebuild printed TAKES NEEDED: Y91"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "takes",
+   "op": "takes.set",
+   "target": "Y91",
+   "value": {
+    "reason": "Hot Takes for the completed Y91 season",
+    "trigger": "Season Y91 completed (coach.season 91)",
+    "intro": "Y91 crowned the Eagles again, sent four new names into the Hall and pushed one out. The arguments below are ours to defend; every figure comes straight from the league data.",
+    "takes": [
+     {
+      "id": "y91-take-doctor-mvp",
+      "heat": 3,
+      "headline": "Bones Crawford Won MVP in the Weakest Season of His Career",
+      "dek": "Fewest yards, fewest touchdowns, two missed games, and a trophy anyway. His receivers carried the load.",
+      "body": [
+       "The Doctor threw for 5,010 yards and 59 touchdowns in Y91. Those are the lowest totals of his four seasons, well down from 6,302 yards and 72 touchdowns in Y89. Injury cost him 2 of the Eagles' 20 games. He won the MVP anyway.",
+       "Follow the yards. Calvin Wingo II caught 2,570 of them with 30 touchdowns and took the Super Bowl MVP. Kaulani Rahman added 1,893 more. The one real step forward belongs to Crawford himself: 18 interceptions, his fewest yet, after 23 in Y90. Credit him for listening. But an MVP for the weakest year of a quarterback's career is an award for the team's record, and Wingo had the better claim to it."
+      ],
+      "players": [
+       "Bones Crawford",
+       "Calvin Wingo II",
+       "Kaulani Rahman"
+      ],
+      "teams": [
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Crawford passing yards, Y91",
+        "value": "5,010",
+        "source": "market_history.json snap-202611121506..snap-202611121857 QB:Bones Crawford s.yds"
+       },
+       {
+        "label": "Crawford TD passes, Y91",
+        "value": "59",
+        "source": "market_history.json snap-202611121506..snap-202611121857 QB:Bones Crawford s.td"
+       },
+       {
+        "label": "Crawford passing yards, Y89",
+        "value": "6,302",
+        "source": "market_history.json snap-202611051109..snap-202611071241 QB:Bones Crawford s.yds"
+       },
+       {
+        "label": "Crawford TD passes, Y89",
+        "value": "72",
+        "source": "market_history.json snap-202611051109..snap-202611071241 QB:Bones Crawford s.td"
+       },
+       {
+        "label": "Eagles games, Y91 (Wingo's full count)",
+        "value": "20",
+        "source": "market_history.json snap-202611121506..snap-202611121857 WR:Calvin Wingo II s.g"
+       },
+       {
+        "label": "Games Crawford missed through injury",
+        "value": "2",
+        "source": "market_history.json snap-202611121506..snap-202611121857 WR:Calvin Wingo II s.g minus market_history.json snap-202611121506..snap-202611121857 QB:Bones Crawford s.g"
+       },
+       {
+        "label": "Wingo receiving yards, Y91",
+        "value": "2,570",
+        "source": "market_history.json snap-202611121506..snap-202611121857 WR:Calvin Wingo II s.yds"
+       },
+       {
+        "label": "Wingo receiving TDs, Y91",
+        "value": "30",
+        "source": "market_history.json snap-202611121506..snap-202611121857 WR:Calvin Wingo II s.td"
+       },
+       {
+        "label": "Rahman receiving yards, Y91",
+        "value": "1,893",
+        "source": "market_history.json snap-202611121506..snap-202611121857 WR:Kaulani Rahman s.yds"
+       },
+       {
+        "label": "Crawford interceptions, Y91",
+        "value": "18",
+        "source": "market_history.json snap-202611121506..snap-202611121857 QB:Bones Crawford s.int"
+       },
+       {
+        "label": "Crawford interceptions, Y90",
+        "value": "23",
+        "source": "market_history.json snap-202611071301..snap-202611121506 QB:Bones Crawford s.int"
+       }
+      ]
+     },
+     {
+      "id": "y91-take-corral-westry",
+      "heat": 3,
+      "headline": "Trae Corral's One Season Is Already Worth More Than Tajae Westry's Whole Career",
+      "dek": "Career Legacy has the rookie ahead of a quarterback who played 354 games. For once, the number is right.",
+      "body": [
+       "Tajae Westry retired with 60,882 passing yards and 594 touchdown passes across 354 games, every one of them, as far as the books show, for the Raiders. He retired without a ring or an MVP award, and without ever taking the franchise to a Super Bowl.",
+       "His successor needed one year. Trae Corral sits at a Career Legacy of 6,180 after 21 games; Westry finished at 6,081. Corral won Rookie of the Year and took the Raiders to Super Bowl CL, the first Super Bowl trip in club history. They lost it 38-23 to Philadelphia, and it still beats anything the previous regime produced. Volume is not greatness. Westry is the proof, and Corral is the correction."
+      ],
+      "players": [
+       "Trae Corral",
+       "Tajae Westry"
+      ],
+      "teams": [
+       "Raiders",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Corral Career Legacy after one season",
+        "value": "6,180",
+        "source": "market_history.json snap-202611121857 QB:Trae Corral legacy"
+       },
+       {
+        "label": "Westry passing yards",
+        "value": "60,882",
+        "source": "players.json QB:Tajae Westry yds"
+       },
+       {
+        "label": "Westry TD passes",
+        "value": "594",
+        "source": "players.json QB:Tajae Westry td"
+       },
+       {
+        "label": "Westry games",
+        "value": "354",
+        "source": "players.json QB:Tajae Westry g"
+       },
+       {
+        "label": "Corral games",
+        "value": "21",
+        "source": "players.json QB:Trae Corral g"
+       },
+       {
+        "label": "Westry Career Legacy",
+        "value": "6,081",
+        "source": "market_history.json snap-202611121857 QB:Tajae Westry legacy"
+       },
+       {
+        "label": "Super Bowl CL score",
+        "value": "38-23",
+        "source": "super_bowls.json Y91 score"
+       }
+      ]
+     },
+     {
+      "id": "y91-take-fuller-orzech",
+      "heat": 3,
+      "headline": "Quenton Fuller and Keion Orzech Had the Same Career. Only One Is a Hall of Famer.",
+      "dek": "Fuller rose into the Hall by playing Y91. Orzech fell out of it without playing at all.",
+      "body": [
+       "Line them up. Fuller: 280 games, 1,355 tackles, 15 sacks, no rings. Orzech: 271 games, 1,296 tackles, 13 sacks, no rings. Two durable defensive linemen who never won anything, separated by about one season of work.",
+       "Fuller's Career Legacy climbed to 7,669 this year and carried him into the Hall. Orzech has not played since Y88. He slid 36 points to 7,283 anyway and dropped below the floor that keeps earlier inductees in. A Hall of Fame that can expel a retired player because the league moved around him is not measuring careers. It is measuring the weather. Either both of these men belong, or neither does."
+      ],
+      "players": [
+       "Quenton Fuller",
+       "Keion Orzech"
+      ],
+      "teams": [
+       "Chargers",
+       "Cowboys"
+      ],
+      "stats": [
+       {
+        "label": "Fuller Career Legacy",
+        "value": "7,669",
+        "source": "market_history.json snap-202611121857 DL:Quenton Fuller legacy"
+       },
+       {
+        "label": "Fuller games",
+        "value": "280",
+        "source": "players.json DL:Quenton Fuller g"
+       },
+       {
+        "label": "Fuller tackles",
+        "value": "1,355",
+        "source": "players.json DL:Quenton Fuller tkl"
+       },
+       {
+        "label": "Fuller sacks",
+        "value": "15",
+        "source": "players.json DL:Quenton Fuller sck"
+       },
+       {
+        "label": "Orzech games",
+        "value": "271",
+        "source": "players.json DL:Keion Orzech g"
+       },
+       {
+        "label": "Orzech tackles",
+        "value": "1,296",
+        "source": "players.json DL:Keion Orzech tkl"
+       },
+       {
+        "label": "Orzech sacks",
+        "value": "13",
+        "source": "players.json DL:Keion Orzech sck"
+       },
+       {
+        "label": "Orzech Career Legacy change, Y91",
+        "value": "-36",
+        "source": "market_history.json snap-202611121506..snap-202611121857 DL:Keion Orzech legacy"
+       },
+       {
+        "label": "Orzech Career Legacy",
+        "value": "7,283",
+        "source": "market_history.json snap-202611121857 DL:Keion Orzech legacy"
+       }
+      ]
+     },
+     {
+      "id": "y91-take-brock-best-ever",
+      "heat": 3,
+      "headline": "Akiem Brock Is Already the Best Offensive Lineman the League Has Ever Seen",
+      "dek": "More blocks per game than any lineman in the books, and a Y91 that more than doubled the next-best season.",
+      "body": [
+       "Hall of Famers Calais Ham, Jakeem Friend and Jawill Perkins averaged between 2.0 and 2.2 blocks a game over their careers. Akiem Brock is at 2.9 after 80 games, and Y91 made even that look modest: 68 blocks in 20 games. The next-best lineman in the league, Cordale Sweezy, had 32.",
+       "Brock went into the Hall this year with 3 rings in four seasons. Linemen do not win MVP awards, and he will not need one. When the best protector the league has produced is the one keeping The Doctor upright, the passing totals in Philadelphia start to explain themselves."
+      ],
+      "players": [
+       "Akiem Brock",
+       "Calais Ham",
+       "Jakeem Friend",
+       "Jawill Perkins",
+       "Cordale Sweezy",
+       "Bones Crawford"
+      ],
+      "teams": [
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Brock blocks per game, career",
+        "value": "2.9",
+        "source": "players.json OL:Akiem Brock blk/g"
+       },
+       {
+        "label": "Ham blocks per game",
+        "value": "2.0",
+        "source": "players.json OL:Calais Ham blk/g"
+       },
+       {
+        "label": "Friend blocks per game",
+        "value": "2.1",
+        "source": "players.json OL:Jakeem Friend blk/g"
+       },
+       {
+        "label": "Perkins blocks per game",
+        "value": "2.2",
+        "source": "players.json OL:Jawill Perkins blk/g"
+       },
+       {
+        "label": "Brock games",
+        "value": "80",
+        "source": "players.json OL:Akiem Brock g"
+       },
+       {
+        "label": "Brock blocks, Y91",
+        "value": "68",
+        "source": "market_history.json snap-202611121506..snap-202611121857 OL:Akiem Brock s.blk"
+       },
+       {
+        "label": "Brock games, Y91",
+        "value": "20",
+        "source": "market_history.json snap-202611121506..snap-202611121857 OL:Akiem Brock s.g"
+       },
+       {
+        "label": "Sweezy blocks, Y91 (next best)",
+        "value": "32",
+        "source": "market_history.json snap-202611121506..snap-202611121857 OL:Cordale Sweezy s.blk"
+       },
+       {
+        "label": "Brock rings",
+        "value": "3",
+        "source": "players.json OL:Akiem Brock rings"
+       }
+      ]
+     },
+     {
+      "id": "y91-take-maxwell-never-washed",
+      "heat": 2,
+      "headline": "Ryland Maxwell Was Never Washed. He Just Needed Dorren Skura Again.",
+      "dek": "Back in Skura's backfield, Mad Max ran like his old self again, and he did it in 16 games.",
+      "body": [
+       "By Y90, Ryland \"Mad Max\" Maxwell was averaging 72 rushing yards a game in Atlanta, and it looked like the end. One trade later, back under Skura in Philadelphia, he ran for 1,778 yards and 25 touchdowns at 111 yards a game and won Offensive Player of the Year.",
+       "He did it in 16 games. The Eagles played 20, and injury cost him the other 4. The decline was never in his legs. It was in the system around him, and that system has a name.",
+       "The trade had no loser, either. Gerrit Ogbah ran for 1,477 yards and 30 touchdowns in Atlanta, and the Falcons went 11-6. The only people who lost were the ones who called Maxwell finished."
+      ],
+      "players": [
+       "Ryland Maxwell",
+       "Gerrit Ogbah"
+      ],
+      "teams": [
+       "Eagles",
+       "Falcons"
+      ],
+      "stats": [
+       {
+        "label": "Maxwell rushing yards per game, Y91",
+        "value": "111",
+        "source": "market_history.json snap-202611121506..snap-202611121857 RB:Ryland Maxwell s.ryds/s.g"
+       },
+       {
+        "label": "Maxwell rushing yards per game, Y90",
+        "value": "72",
+        "source": "market_history.json snap-202611071301..snap-202611121506 RB:Ryland Maxwell s.ryds/s.g"
+       },
+       {
+        "label": "Maxwell rushing yards, Y91",
+        "value": "1,778",
+        "source": "market_history.json snap-202611121506..snap-202611121857 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Maxwell rushing TDs, Y91",
+        "value": "25",
+        "source": "market_history.json snap-202611121506..snap-202611121857 RB:Ryland Maxwell s.rtd"
+       },
+       {
+        "label": "Maxwell games, Y91",
+        "value": "16",
+        "source": "market_history.json snap-202611121506..snap-202611121857 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Eagles games, Y91 (Wingo's full count)",
+        "value": "20",
+        "source": "market_history.json snap-202611121506..snap-202611121857 WR:Calvin Wingo II s.g"
+       },
+       {
+        "label": "Games Maxwell missed through injury",
+        "value": "4",
+        "source": "market_history.json snap-202611121506..snap-202611121857 WR:Calvin Wingo II s.g minus market_history.json snap-202611121506..snap-202611121857 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Ogbah rushing yards, Y91",
+        "value": "1,477",
+        "source": "market_history.json snap-202611121506..snap-202611121857 RB:Gerrit Ogbah s.ryds"
+       },
+       {
+        "label": "Ogbah rushing TDs, Y91",
+        "value": "30",
+        "source": "market_history.json snap-202611121506..snap-202611121857 RB:Gerrit Ogbah s.rtd"
+       },
+       {
+        "label": "Falcons record, Y91",
+        "value": "11-6",
+        "source": "schedule.json seasons/Y91/table/[abbr=ATL]/record"
+       }
+      ]
+     },
+     {
+      "id": "y91-take-corral-anti-doctor",
+      "heat": 2,
+      "headline": "Trae Corral Is Not the Next Doctor. He Is the Anti-Doctor, and That Is Better.",
+      "dek": "One interception in 636 rookie attempts. No quarterback in the books has protected the ball like that.",
+      "body": [
+       "The comparison writes itself and gets it backwards. Bones Crawford throws for 293 yards a game and has thrown 94 interceptions in 77 games. Trae Corral threw for 4,234 yards and 33 touchdowns over 21 games, about 202 a game, with 1 interception on 636 attempts. That is the lowest interception rate of any quarterback in the league's books.",
+       "Corral completed 69 percent of his passes for 9.6 yards a completion, against Crawford's 17.0. He does not beat teams over the top. He refuses to lose to them, and that took an 11-6 Raiders team with 9.8 expected wins all the way to the Super Bowl. Crawford's game needs the best roster in football. Corral's travels anywhere."
+      ],
+      "players": [
+       "Trae Corral",
+       "Bones Crawford"
+      ],
+      "teams": [
+       "Raiders",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Corral interceptions",
+        "value": "1",
+        "source": "players.json QB:Trae Corral int"
+       },
+       {
+        "label": "Corral pass attempts",
+        "value": "636",
+        "source": "players.json QB:Trae Corral att"
+       },
+       {
+        "label": "Crawford passing yards per game",
+        "value": "293",
+        "source": "players.json QB:Bones Crawford yds/g"
+       },
+       {
+        "label": "Crawford interceptions",
+        "value": "94",
+        "source": "players.json QB:Bones Crawford int"
+       },
+       {
+        "label": "Crawford games",
+        "value": "77",
+        "source": "players.json QB:Bones Crawford g"
+       },
+       {
+        "label": "Corral passing yards",
+        "value": "4,234",
+        "source": "players.json QB:Trae Corral yds"
+       },
+       {
+        "label": "Corral TD passes",
+        "value": "33",
+        "source": "players.json QB:Trae Corral td"
+       },
+       {
+        "label": "Corral games",
+        "value": "21",
+        "source": "players.json QB:Trae Corral g"
+       },
+       {
+        "label": "Corral passing yards per game",
+        "value": "202",
+        "source": "players.json QB:Trae Corral yds/g"
+       },
+       {
+        "label": "Corral completion rate",
+        "value": "69%",
+        "source": "players.json QB:Trae Corral cmp/att%"
+       },
+       {
+        "label": "Corral yards per completion",
+        "value": "9.6",
+        "source": "players.json QB:Trae Corral yds/cmp"
+       },
+       {
+        "label": "Crawford yards per completion",
+        "value": "17.0",
+        "source": "players.json QB:Bones Crawford yds/cmp"
+       },
+       {
+        "label": "Raiders record, Y91",
+        "value": "11-6",
+        "source": "schedule.json seasons/Y91/table/[abbr=LV]/record"
+       },
+       {
+        "label": "Raiders expected wins, Y91",
+        "value": "9.8",
+        "source": "schedule.json seasons/Y91/table/[abbr=LV]/expWins"
+       }
+      ]
+     },
+     {
+      "id": "y91-take-same-eagles",
+      "heat": 2,
+      "headline": "The Y91 Eagles Were No Better Than the Y90 Team That Lost. February Was Just Kinder.",
+      "dek": "Nearly identical point differentials and expected wins. One Super Bowl simply went the other way.",
+      "body": [
+       "Philadelphia outscored opponents by 203 points in Y90 and by 222 in Y91. Expected wins put the two teams at 12.6 and 12.7. That is the same team. The gap in the standings was luck: the Y91 Eagles won 15 games, 2.3 more than their scoring said they should, and went 4-1 in one-score games.",
+       "This is a defense of the Y90 club, not a knock on Skura. Losing Super Bowl CXLIX 32-22 to Houston was not a failure of construction. It was one bad night against a team riding its own luck. The Y91 Eagles even lost at home to the 4-13 Bears, the upset of the season. Great teams lose those and win the title anyway, which is all Y91 really added."
+      ],
+      "players": [],
+      "teams": [
+       "Eagles",
+       "Texans",
+       "Bears"
+      ],
+      "stats": [
+       {
+        "label": "Eagles point differential, Y91",
+        "value": "+222",
+        "source": "schedule.json seasons/Y91/table/[abbr=PHI]/diff"
+       },
+       {
+        "label": "Eagles point differential, Y90",
+        "value": "+203",
+        "source": "schedule.json seasons/Y90/table/[abbr=PHI]/diff"
+       },
+       {
+        "label": "Eagles expected wins, Y90",
+        "value": "12.6",
+        "source": "schedule.json seasons/Y90/table/[abbr=PHI]/expWins"
+       },
+       {
+        "label": "Eagles expected wins, Y91",
+        "value": "12.7",
+        "source": "schedule.json seasons/Y91/table/[abbr=PHI]/expWins"
+       },
+       {
+        "label": "Eagles wins, Y91",
+        "value": "15",
+        "source": "coach.json Y91 w"
+       },
+       {
+        "label": "Eagles luck, Y91 (wins above expected)",
+        "value": "2.3",
+        "source": "schedule.json seasons/Y91/table/[abbr=PHI]/luck"
+       },
+       {
+        "label": "Eagles in one-score games, Y91",
+        "value": "4-1",
+        "source": "schedule.json seasons/Y91/table/[abbr=PHI]/oneScore"
+       },
+       {
+        "label": "Super Bowl CXLIX score",
+        "value": "32-22",
+        "source": "super_bowls.json Y90 score"
+       },
+       {
+        "label": "Bears record, Y91",
+        "value": "4-13",
+        "source": "schedule.json seasons/Y91/upset/winnerRecord"
+       }
+      ]
+     },
+     {
+      "id": "y91-take-texans-mirage",
+      "heat": 2,
+      "headline": "Houston's Title Season Was a Mirage, and the Y91 Hangover Proved It",
+      "dek": "From first in the power rankings to 26th in one year. The coin flips stopped landing.",
+      "body": [
+       "Last year this column called Houston the luckier team. Y91 settled the argument. The Texans went 16-1 in Y90 on scoring that projected 12.4 wins, 3.6 short of what they collected, and they won all 5 of their one-score games on the way to the title.",
+       "Then the bounces evened out. Houston went 6-11 in Y91, was outscored by 80 points, finished 26th in the power rankings and lost its last five games. Champions regress; that is normal. Falling from first to 26th is not regression. It is the bill arriving for a season that was never as good as its record."
+      ],
+      "players": [],
+      "teams": [
+       "Texans"
+      ],
+      "stats": [
+       {
+        "label": "Texans power ranking, Y91",
+        "value": "26",
+        "source": "schedule.json seasons/Y91/table/[abbr=HOU]/power"
+       },
+       {
+        "label": "Texans record, Y90",
+        "value": "16-1",
+        "source": "schedule.json seasons/Y90/table/[abbr=HOU]/record"
+       },
+       {
+        "label": "Texans expected wins, Y90",
+        "value": "12.4",
+        "source": "schedule.json seasons/Y90/table/[abbr=HOU]/expWins"
+       },
+       {
+        "label": "Texans luck, Y90",
+        "value": "3.6",
+        "source": "schedule.json seasons/Y90/table/[abbr=HOU]/luck"
+       },
+       {
+        "label": "Texans in one-score games, Y90",
+        "value": "5-0",
+        "source": "schedule.json seasons/Y90/table/[abbr=HOU]/oneScore"
+       },
+       {
+        "label": "Texans record, Y91",
+        "value": "6-11",
+        "source": "schedule.json seasons/Y91/table/[abbr=HOU]/record"
+       },
+       {
+        "label": "Texans point differential, Y91",
+        "value": "-80",
+        "source": "schedule.json seasons/Y91/table/[abbr=HOU]/diff"
+       },
+       {
+        "label": "Texans last five, Y91",
+        "value": "LLLLL",
+        "source": "schedule.json seasons/Y91/table/[abbr=HOU]/last5"
+       }
+      ]
+     },
+     {
+      "id": "y91-take-stidham-overdue",
+      "heat": 2,
+      "headline": "Terron Stidham Was a Hall of Famer Long Before the Numbers Admitted It",
+      "dek": "Second in career tackles, and he crossed the bar in a season he never played.",
+      "body": [
+       "Terron Stidham retired with 3,132 tackles, 53 behind K'Lavon Settle for the most in league history, plus 34 interceptions over 282 games. When he finished his last season in Y90, his Career Legacy stood at 7,470, short of the bar. He did not play a down in Y91. His Legacy rose 52 points to 7,522 anyway, and in he went.",
+       "Nothing about Stidham changed. The league around him did, the same drift that pushed Keion Orzech out this year. The induction is right. The timing is absurd. A defensive back with the second-biggest tackle total ever should not need a year of retirement and a recalculation to get through the door."
+      ],
+      "players": [
+       "Terron Stidham",
+       "K'Lavon Settle",
+       "Keion Orzech"
+      ],
+      "teams": [
+       "Ravens"
+      ],
+      "stats": [
+       {
+        "label": "Stidham career tackles",
+        "value": "3,132",
+        "source": "players.json DB:Terron Stidham tkl"
+       },
+       {
+        "label": "Tackles behind Settle's career mark",
+        "value": "53",
+        "source": "players.json DB:K'Lavon Settle tkl minus players.json DB:Terron Stidham tkl"
+       },
+       {
+        "label": "Stidham interceptions",
+        "value": "34",
+        "source": "players.json DB:Terron Stidham int"
+       },
+       {
+        "label": "Stidham games",
+        "value": "282",
+        "source": "players.json DB:Terron Stidham g"
+       },
+       {
+        "label": "Stidham Career Legacy after Y90",
+        "value": "7,470",
+        "source": "market_history.json snap-202611121506 DB:Terron Stidham legacy"
+       },
+       {
+        "label": "Stidham Career Legacy change, Y91",
+        "value": "+52",
+        "source": "market_history.json snap-202611121506..snap-202611121857 DB:Terron Stidham legacy"
+       },
+       {
+        "label": "Stidham Career Legacy",
+        "value": "7,522",
+        "source": "market_history.json snap-202611121857 DB:Terron Stidham legacy"
+       }
+      ]
+     },
+     {
+      "id": "y91-take-mccoy-fumbles",
+      "heat": 2,
+      "headline": "Lane McCoy Will Break the Rushing Record With Three Times the Fumbles of the Man He Passes",
+      "dek": "Ninety yards from Rondale Ikarras, and more fumbles than any running back the league has recorded.",
+      "body": [
+       "Lane McCoy needs 90 yards to pass Rondale Ikarras. Credit the durability: 307 games and 23,088 yards. Then read the other column. McCoy has fumbled 259 times, more than any running back in the books. Ikarras fumbled 83 times on his way to 23,178 yards, won 9 rings and was Super Bowl MVP 5 times. McCoy has no rings and no awards.",
+       "Per game, they are the same back: McCoy averages 75 yards, Ikarras averaged 76. Same production, triple the giveaways, none of the hardware. And the record may not stay with him long. Ryland Maxwell sits 2,371 yards behind McCoy with a career average of 92 a game. McCoy is about to take the record. Maxwell is built to take it from him."
+      ],
+      "players": [
+       "Lane McCoy",
+       "Rondale Ikarras",
+       "Ryland Maxwell"
+      ],
+      "teams": [
+       "Broncos"
+      ],
+      "stats": [
+       {
+        "label": "Yards McCoy needs to pass Ikarras",
+        "value": "90",
+        "source": "players.json RB:Rondale Ikarras ryds minus players.json RB:Lane McCoy ryds"
+       },
+       {
+        "label": "McCoy games",
+        "value": "307",
+        "source": "players.json RB:Lane McCoy g"
+       },
+       {
+        "label": "McCoy rushing yards",
+        "value": "23,088",
+        "source": "players.json RB:Lane McCoy ryds"
+       },
+       {
+        "label": "McCoy fumbles",
+        "value": "259",
+        "source": "players.json RB:Lane McCoy fum"
+       },
+       {
+        "label": "Ikarras fumbles",
+        "value": "83",
+        "source": "players.json RB:Rondale Ikarras fum"
+       },
+       {
+        "label": "Ikarras rushing yards",
+        "value": "23,178",
+        "source": "players.json RB:Rondale Ikarras ryds"
+       },
+       {
+        "label": "Ikarras rings",
+        "value": "9",
+        "source": "players.json RB:Rondale Ikarras rings"
+       },
+       {
+        "label": "Ikarras Super Bowl MVPs",
+        "value": "5",
+        "source": "players.json RB:Rondale Ikarras sbmvp"
+       },
+       {
+        "label": "McCoy rushing yards per game",
+        "value": "75",
+        "source": "players.json RB:Lane McCoy ryds/g"
+       },
+       {
+        "label": "Ikarras rushing yards per game",
+        "value": "76",
+        "source": "players.json RB:Rondale Ikarras ryds/g"
+       },
+       {
+        "label": "Maxwell behind McCoy",
+        "value": "2,371",
+        "source": "players.json RB:Lane McCoy ryds minus players.json RB:Ryland Maxwell ryds"
+       },
+       {
+        "label": "Maxwell rushing yards per game",
+        "value": "92",
+        "source": "players.json RB:Ryland Maxwell ryds/g"
+       }
+      ]
+     },
+     {
+      "id": "y91-take-coin-flips",
+      "heat": 1,
+      "headline": "Minnesota's 13-4 Was Built on Coin Flips. San Francisco's 4-12-1 Was Built on Bad Ones.",
+      "dek": "One-score games pulled the two clubs further apart than their scoring ever did.",
+      "body": [
+       "The Vikings went 7-1 in one-score games and finished 13-4, second in the power rankings. Their scoring said 10.1 wins. That 2.9-win gap was the biggest stroke of luck in the league. The 49ers went 2-10-1 in one-score games and finished 4-12-1 with the scoring of a 7.6-win team, 3.1 wins worse than they played, the unluckiest season anywhere.",
+       "Bet on both reversing in Y92. Minnesota's point differential of 90 trailed Carolina's 98 and the Rams' 101, and both of those clubs also went 13-4. San Francisco was outscored by 49, which is bad, but not that bad."
+      ],
+      "players": [],
+      "teams": [
+       "Vikings",
+       "49ers",
+       "Panthers",
+       "Rams"
+      ],
+      "stats": [
+       {
+        "label": "Vikings luck, Y91 (wins above expected)",
+        "value": "2.9",
+        "source": "schedule.json seasons/Y91/table/[abbr=MIN]/luck"
+       },
+       {
+        "label": "Vikings in one-score games",
+        "value": "7-1",
+        "source": "schedule.json seasons/Y91/table/[abbr=MIN]/oneScore"
+       },
+       {
+        "label": "Vikings record",
+        "value": "13-4",
+        "source": "schedule.json seasons/Y91/table/[abbr=MIN]/record"
+       },
+       {
+        "label": "Vikings expected wins",
+        "value": "10.1",
+        "source": "schedule.json seasons/Y91/table/[abbr=MIN]/expWins"
+       },
+       {
+        "label": "49ers in one-score games",
+        "value": "2-10-1",
+        "source": "schedule.json seasons/Y91/table/[abbr=SF]/oneScore"
+       },
+       {
+        "label": "49ers record",
+        "value": "4-12-1",
+        "source": "schedule.json seasons/Y91/table/[abbr=SF]/record"
+       },
+       {
+        "label": "49ers expected wins",
+        "value": "7.6",
+        "source": "schedule.json seasons/Y91/table/[abbr=SF]/expWins"
+       },
+       {
+        "label": "49ers luck",
+        "value": "-3.1",
+        "source": "schedule.json seasons/Y91/table/[abbr=SF]/luck"
+       },
+       {
+        "label": "Vikings point differential",
+        "value": "+90",
+        "source": "schedule.json seasons/Y91/table/[abbr=MIN]/diff"
+       },
+       {
+        "label": "Panthers point differential",
+        "value": "+98",
+        "source": "schedule.json seasons/Y91/table/[abbr=CAR]/diff"
+       },
+       {
+        "label": "Rams point differential",
+        "value": "+101",
+        "source": "schedule.json seasons/Y91/table/[abbr=LAR]/diff"
+       },
+       {
+        "label": "49ers point differential",
+        "value": "-49",
+        "source": "schedule.json seasons/Y91/table/[abbr=SF]/diff"
+       }
+      ]
+     }
+    ]
+   },
+   "source": "data:players.json,market_history.json,super_bowls.json,coach.json,owner_facts.json,stints.json,records.json,schedule.json,content.json,hot_takes.json",
+   "reason": "Columnist opinions about the completed Y91 season",
+   "trigger": "Season Y91 completed (coach.season 91)"
+  }
+ ]
+}
