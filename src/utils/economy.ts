@@ -75,15 +75,15 @@ export const SHOP_PACKS: CountedPack[] = ['standard', 'premium', 'elite', 'holo'
 export const SHOP_PRICES: Record<CountedPack, number> = { standard: 3500, premium: 7500, elite: 20000, holo: 35000 };
 
 /** Trade-up: this many copies of one tier buy one card of the next tier, rolled at this pack's odds. */
-export const TRADE_UP_COUNT = 5;
+export const TRADE_UP_COUNT = 8; // balance pass 2026-11-13: at 5 a trade-up then a sale paid 2 to 5 times selling the inputs
 export const TRADE_UP_PACK: EarnablePack = 'premium';
 export const nextTier = (t: Tier): Tier | null => TIERS[tierRank(t) + 1]?.key ?? null;
 
 /** Bounties: a turned-in copy pays the bounty's flat reward plus this share of its market price (selling pays SELL_RATE). */
-export const BOUNTY_PRICE_SHARE = 0.75;
+export const BOUNTY_PRICE_SHARE = 0.4; // balance pass: the same as selling, so the flat reward is the bounty's premium
 
 /** Set bonuses: coins = this share of the members' base card values (at least SET_MIN_COINS), plus a pack by size. */
-export const SET_COIN_SHARE = 0.5;
+export const SET_COIN_SHARE = 0.15; // balance pass: at 0.5 the 99 sets paid 1.96M, about half a regular player's coins in a year
 export const SET_MIN_COINS = 300;
 /** Smallest champion team that counts as a set (fewer ring holders with cards: no set). */
 export const SET_MIN_MEMBERS = 2;
@@ -538,13 +538,17 @@ export interface Milestone {
   cosmetic: Cosmetic;
 }
 
-/** Calibrated against the expected portfolio value of packs opened (CLAUDE.md "Collection economy"). */
+/**
+ * Calibrated against the expected portfolio value of packs opened (CLAUDE.md "Collection economy"). Balance pass
+ * 2026-11-13 (a year of simulated play): 50K, 250K, 1M, 4M, 12M, so a regular player unlocks the first within a week
+ * and 4M around day 170, and the last takes a dedicated player most of a year. Ids are kept, so unlocks stay unlocked.
+ */
 export const MILESTONES: Milestone[] = [
-  { id: 'm-250k', at: 250_000, cosmetic: { id: 'turf', kind: 'binder', label: 'Turf binder', blurb: 'Mown stripes and chalk yard lines behind your binder.' } },
-  { id: 'm-1m', at: 1_000_000, cosmetic: { id: 'floodlights', kind: 'pack', label: 'Floodlights packs', blurb: 'Packs open under stadium light towers.' } },
-  { id: 'm-3m', at: 3_000_000, cosmetic: { id: 'gold-leaf', kind: 'binder', label: 'Gold leaf binder', blurb: 'Deep navy leather with gilded edges.' } },
-  { id: 'm-10m', at: 10_000_000, cosmetic: { id: 'gold-rush', kind: 'pack', label: 'Gold rush packs', blurb: 'Packs open in a shower of gold foil.' } },
-  { id: 'm-30m', at: 30_000_000, cosmetic: { id: 'marble', kind: 'binder', label: 'Hall of Fame marble', blurb: 'White marble and brass, like the Hall itself.' } },
+  { id: 'm-250k', at: 50_000, cosmetic: { id: 'turf', kind: 'binder', label: 'Turf binder', blurb: 'Mown stripes and chalk yard lines behind your binder.' } },
+  { id: 'm-1m', at: 250_000, cosmetic: { id: 'floodlights', kind: 'pack', label: 'Floodlights packs', blurb: 'Packs open under stadium light towers.' } },
+  { id: 'm-3m', at: 1_000_000, cosmetic: { id: 'gold-leaf', kind: 'binder', label: 'Gold leaf binder', blurb: 'Deep navy leather with gilded edges.' } },
+  { id: 'm-10m', at: 4_000_000, cosmetic: { id: 'gold-rush', kind: 'pack', label: 'Gold rush packs', blurb: 'Packs open in a shower of gold foil.' } },
+  { id: 'm-30m', at: 12_000_000, cosmetic: { id: 'marble', kind: 'binder', label: 'Hall of Fame marble', blurb: 'White marble and brass, like the Hall itself.' } },
 ];
 
 /** Records every milestone the portfolio value has reached (never removes one). Returns the ones new now. */

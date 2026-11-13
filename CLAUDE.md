@@ -558,21 +558,24 @@ current data is a no-op.
   average sell-back. **Sets** (`collectionSets`, from the data at runtime): every club's active roster (players with
   cards), every Super Bowl the coach won (that club's ring holders that season from the stints, at least
   `SET_MIN_MEMBERS` 2 with cards) and every Hall of Fame class (content.json `hofClasses`); owning every member's card
-  (any art or finish) unlocks a one-time bonus (`setReward`: `SET_COIN_SHARE` 0.5 × the members' base values, at least
+  (any art or finish) unlocks a one-time bonus (`setReward`: `SET_COIN_SHARE` 0.15 × the members' base values, at least
   300, plus a pack by size: up to 3 Standard, 6 Premium, 10 Elite, more Holo Showcase; a Hall of Fame class one step
-  better); ids `club:<Club>`, `sb:<year>`, `hof:<label>`. **Trade-up** (`TRADE_UP_COUNT` 5 copies of Common, Rare or
+  better); ids `club:<Club>`, `sb:<year>`, `hof:<label>`. **Trade-up** (`TRADE_UP_COUNT` 8 copies of Common, Rare or
   Epic for one random player of the next tier, finish/art/kit/parallel rolled at `TRADE_UP_PACK` Premium odds through
   `applyPull`, the pack pull path; a duplicate still pays shards): spares are picked first, and taking a last copy or
   an only card is spelled out and needs a second tap. **Bounties** (`editionBounties`): 3 or 4 per edition, the templates
   shuffled and their details drawn from the edition seed (never Math.random): a club at Silver/Gold or better, a 5%+
   riser, a Prizm parallel (or Blue or rarer), an art of a position, an alternate or throwback kit, a Rare/Epic-or-better
   player at Gold/Silver or better, an Epic or Legendary at a position; a turned-in copy pays the flat reward plus
-  `BOUNTY_PRICE_SHARE` 0.75 of its price, once per bounty per edition (`bounties.seed` resets the board on an update).
-  **Milestones** (`MILESTONES`, portfolio value as the Portfolio panel counts it): 250K Turf binder, 1M Floodlights
-  packs, 3M Gold leaf binder, 10M Gold rush packs, 30M Hall of Fame marble (every player's card once at Base is worth
+  `BOUNTY_PRICE_SHARE` 0.4 of its price (the same as selling, so the flat reward is the premium), once per bounty per edition (`bounties.seed` resets the board on an update).
+  **Milestones** (`MILESTONES`, portfolio value as the Portfolio panel counts it): 50K Turf binder, 250K Floodlights
+  packs, 1M Gold leaf binder, 4M Gold rush packs, 12M Hall of Fame marble (every player's card once at Base is worth
   about 1M, every art at Base about 13M); `checkMilestones` records them for good, and an unlocked skin or pack theme
   is switched on in the Milestones tab (`setCosmetic`; `ec-skin--<id>` on the binder, `pk-theme--<id>` on the pack
-  dialog). The Exchange section (Shop, Sets, Trade-up, Bounties, Milestones tabs, recent coins) sits under the Market;
+  dialog). **Balance pass** (2026-11-13, a year of simulated play for casual, regular and grinder profiles): trade-up was
+  5 for 1 (a trade-up then a sale paid 2 to 5 times selling the inputs), sets paid 0.5 (1.96M in all, about half a
+  regular player's coins), bounties 0.75 and milestones 250K to 30M (the top two out of reach in a year); now 8, 0.15,
+  0.4 and 50K to 12M. Packs were already a sink (37–40% back). The Exchange section (Shop, Sets, Trade-up, Bounties, Milestones tabs, recent coins) sits under the Market;
   the coin balance shows in the Collection header beside the shards.
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
   `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. **Both files store changes

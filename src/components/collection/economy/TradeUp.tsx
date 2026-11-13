@@ -49,7 +49,7 @@ const autoPick = (cands: OwnedCopy[]): string[] => {
 };
 
 /**
- * Trade-up: five copies of one tier in, one random card of the next tier out (rolled like a Premium pack slot: finish,
+ * Trade-up: TRADE_UP_COUNT (8) copies of one tier in, one random card of the next tier out (rolled like a Premium pack slot: finish,
  * art, kit and parallel). Spares are picked first; any pick that takes a card's last copy, or a player's only card,
  * is spelled out before the trade.
  */
