@@ -1,0 +1,55 @@
+{
+ "id": "2026-11-12-retired-numbers",
+ "created": "2026-11-12",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Sherman Brandson/retired_by",
+   "value": [
+    "Giants",
+    "Buccaneers"
+   ],
+   "source": "owner",
+   "reason": "Owner: \"sherm and michael can be retired for both, pacheco retired jersey with the packers and jakeem friend both with the jets and seahawks\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Michael Wilson/retired_by",
+   "value": [
+    "Ravens",
+    "Giants"
+   ],
+   "source": "owner",
+   "reason": "Owner: \"sherm and michael can be retired for both, pacheco retired jersey with the packers and jakeem friend both with the jets and seahawks\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Tyler Pacheco/retired_by",
+   "value": [
+    "Packers"
+   ],
+   "source": "owner",
+   "reason": "Owner: \"sherm and michael can be retired for both, pacheco retired jersey with the packers and jakeem friend both with the jets and seahawks\"",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jakeem Friend/retired_by",
+   "value": [
+    "Seahawks",
+    "Jets"
+   ],
+   "source": "owner",
+   "reason": "Owner: \"sherm and michael can be retired for both, pacheco retired jersey with the packers and jakeem friend both with the jets and seahawks\"",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}

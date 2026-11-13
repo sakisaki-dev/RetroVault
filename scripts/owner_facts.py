@@ -35,6 +35,8 @@ TAGS: dict[str, str] = _field("tag")
 CAREER: dict[str, dict] = _field("career")
 # The club a player is best known for (card / banner identity); overrides the stint rule in build_league_data.py
 SIGNATURE_TEAM: dict[str, str] = _field("signature_team")
+# owner: the clubs that retired a Hall of Famer's number ("sherm and michael can be retired for both"); the first numbers him
+RETIRED_BY: dict[str, list[str]] = _field("retired_by")
 REAL_NFL: dict[str, dict] = _field("real_nfl")
 ACTIVE_ROSTERS: dict[str, str] = {n: t for t, names in sorted(FACTS.get("active_rosters", {}).items()) for n in names}
 # {year: {name: team}}

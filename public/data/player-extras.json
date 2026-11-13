@@ -8004,5 +8004,22 @@
   "Trequan Roberts": "New York Jets",
   "Trysten Floyd": "Atlanta Falcons",
   "Ty Lock": "New York Jets"
+ },
+ "retiredBy": {
+  "Jakeem Friend": [
+   "Seattle Seahawks",
+   "New York Jets"
+  ],
+  "Michael Wilson": [
+   "Baltimore Ravens",
+   "New York Giants"
+  ],
+  "Sherman Brandson": [
+   "New York Giants",
+   "Tampa Bay Buccaneers"
+  ],
+  "Tyler Pacheco": [
+   "Green Bay Packers"
+  ]
  }
 }

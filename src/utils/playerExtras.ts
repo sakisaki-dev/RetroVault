@@ -52,9 +52,11 @@ export interface PlayerExtras {
    * best years): the club that retires a Hall of Famer's number. Absent = his banner club.
    */
   legacyTeams?: Record<string, string>;
+  /** player name -> the clubs that retired his number (owner), the first numbering him; absent = his best-known club */
+  retiredBy?: Record<string, string[]>;
 }
 
-const EMPTY: PlayerExtras = { realNflCareer: {}, cards: {}, formerNames: {}, family: {}, franchises: {}, stints: {}, signatureTeams: {}, legacyTeams: {} };
+const EMPTY: PlayerExtras = { realNflCareer: {}, cards: {}, formerNames: {}, family: {}, franchises: {}, stints: {}, signatureTeams: {}, legacyTeams: {}, retiredBy: {} };
 
 /** Name key that ignores case, extra spaces and curly vs straight apostrophes/quotes. */
 export const normalizeName = (name: string) =>
@@ -95,6 +97,7 @@ export interface IndexedExtras {
   stints: Record<string, PlayerStints>;
   signatureTeams: Record<string, string>;
   legacyTeams: Record<string, string>;
+  retiredBy: Record<string, string[]>;
 }
 
 const CONFIDENCE = new Set<StintConfidence>(['confirmed', 'strong', 'likely', 'ambiguous']);
@@ -128,6 +131,9 @@ const toIndexed = (raw: Partial<PlayerExtras>): IndexedExtras => ({
   stints: normalizeStints(raw.stints),
   signatureTeams: Object.fromEntries(Object.entries(reindex<unknown>(raw.signatureTeams)).filter((e): e is [string, string] => typeof e[1] === 'string')),
   legacyTeams: Object.fromEntries(Object.entries(reindex<unknown>(raw.legacyTeams)).filter((e): e is [string, string] => typeof e[1] === 'string')),
+  retiredBy: Object.fromEntries(
+    Object.entries(reindex<unknown>(raw.retiredBy)).filter((e): e is [string, string[]] => Array.isArray(e[1]) && e[1].every((t) => typeof t === 'string') && e[1].length > 0),
+  ),
 });
 
 const EMPTY_INDEXED = toIndexed(EMPTY);
@@ -179,6 +185,10 @@ export const signatureTeamOf = (extras: IndexedExtras, player: { name: string; t
 /** Where a player is best known even while he plays (the club that retires a Hall of Famer's number); else his banner. */
 export const legacyTeamOf = (extras: IndexedExtras, player: { name: string; team?: string; isRealLegend?: boolean }): string =>
   (!player.isRealLegend && extras.legacyTeams[normalizeName(player.name)]) || signatureTeamOf(extras, player);
+
+/** Every club that retires a Hall of Famer's number: the owner's list, else his best-known club alone. */
+export const retiringClubsOf = (extras: IndexedExtras, player: { name: string; team?: string; isRealLegend?: boolean }): string[] =>
+  (!player.isRealLegend && extras.retiredBy[normalizeName(player.name)]) || [legacyTeamOf(extras, player)].filter(Boolean);
 
 /** The player dressed in his signature team (same object when it already matches), for card and banner art. */
 export const withSignatureTeam = <P extends { name: string; team?: string; isRealLegend?: boolean }>(extras: IndexedExtras, player: P): P => {

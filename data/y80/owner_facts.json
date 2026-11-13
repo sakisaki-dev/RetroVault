@@ -462,7 +462,11 @@
      ]
     ],
     "says": "Mainly a Seahawk; a Jet only for Y79 and Y80 (the Y80 ring). Played Y83 and retired after it; final-season (Y83) stats were not captured, so the career stays at its Y82 totals."
-   }
+   },
+   "retired_by": [
+    "Seahawks",
+    "Jets"
+   ]
   },
   "Jamil Warner": {
    "status": "Retired"
@@ -763,7 +767,11 @@
      "Titans"
     ],
     "says": "Ravens first, then the Giants; retired injured as a Titan."
-   }
+   },
+   "retired_by": [
+    "Ravens",
+    "Giants"
+   ]
   },
   "Micky Celek": {
    "status": "Retired"
@@ -977,6 +985,10 @@
    "career": {
     "says": "A Giants legend."
    },
+   "retired_by": [
+    "Giants",
+    "Buccaneers"
+   ],
    "signature_team": "Giants"
   },
   "Simeon Otton": {
@@ -1097,6 +1109,11 @@
     ],
     "says": "Traded from the Jets to the Giants in a multi-team trade before Y83."
    }
+  },
+  "Tyler Pacheco": {
+   "retired_by": [
+    "Packers"
+   ]
   },
   "Tyreek Devalve": {
    "team": "Buccaneers"

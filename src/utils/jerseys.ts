@@ -4,7 +4,7 @@ import { useLeague } from '@/context/LeagueContext';
 import { isHallOfFamer } from '@/config/stats';
 import { JERSEY_OVERRIDES, LEGEND_NUMBERS, RETIRED_OVERRIDES, type RetiredNumberEntry } from '@/config/jerseys';
 import { findNFLTeam, getNFLTeamById } from './nflTeams';
-import { legacyTeamOf, usePlayerExtras, type IndexedExtras } from './playerExtras';
+import { retiringClubsOf, usePlayerExtras, type IndexedExtras } from './playerExtras';
 
 /**
  * Jersey numbers.
@@ -40,6 +40,8 @@ export interface RetiredNumber {
   /** "POS:Name" of the honored league player, when there is one */
   playerKey?: string;
   source: 'hof' | 'config';
+  /** Also retired here for a Hall of Famer another club numbers (owner: retired by more than one club) */
+  alsoRetired?: boolean;
 }
 
 export interface JerseyIndex {
@@ -144,15 +146,50 @@ const matchesEntry = (p: JerseyPlayer, e: RetiredNumberEntry) =>
  * A Hall of Famer's number belongs to the club he is best known for, not the one he plays for now or finished with
  * (owner: Maxwell's number is the Falcons', not the Eagles'): he is numbered, and his number retired, in that club's pool.
  */
-export const withHomeClubs = <P extends JerseyPlayer>(players: P[], extras: IndexedExtras): P[] =>
-  players.map((p) => {
+export const withHomeClubs = <P extends JerseyPlayer>(players: P[], extras: IndexedExtras): { players: P[]; also: Map<string, string[]> } => {
+  const also = new Map<string, string[]>();
+  const out = players.map((p) => {
     if (p.isRealLegend || !isHallOfFamer({ careerLegacy: p.careerLegacy ?? 0, inducted: p.inducted })) return p;
-    const home = legacyTeamOf(extras, p);
+    const [home, ...more] = retiringClubsOf(extras, p);
+    if (more.length) also.set(jerseyKey(p), more); // owner: retired by more than one club
     return home && home !== p.team ? { ...p, team: home } : p;
   });
+  return { players: out, also };
+};
+
+/** A number another club retired for a Hall of Famer it doesn't number (retired by more than one club). */
+type Reserved = Map<string, Map<number, { name: string; position: Position; playerKey: string }>>;
+
+/**
+ * The jersey index when some Hall of Famers' numbers are retired by more than one club: each extra club holds his
+ * number (nobody there gets it) and hangs it in its rafters. Reserving a number can move another player's number,
+ * so repeat until nothing changes.
+ */
+export const buildJerseyIndexWithAlso = (players: JerseyPlayer[], also: Map<string, string[]>): JerseyIndex => {
+  let reserved: Reserved = new Map();
+  let index = buildJerseyIndex(players, reserved);
+  for (let pass = 0; pass < 4 && also.size; pass++) {
+    const next: Reserved = new Map();
+    players.forEach((p) => {
+      const key = jerseyKey(p);
+      const n = index.numbers.get(key);
+      if (n === undefined) return;
+      (also.get(key) ?? []).forEach((club) => {
+        const k = franchiseKey(club);
+        if (!next.has(k)) next.set(k, new Map());
+        next.get(k)!.set(n, { name: p.name, position: p.position, playerKey: key });
+      });
+    });
+    const same = JSON.stringify([...next].map(([k, m]) => [k, [...m.keys()]])) === JSON.stringify([...reserved].map(([k, m]) => [k, [...m.keys()]]));
+    reserved = next;
+    if (same && pass > 0) break;
+    index = buildJerseyIndex(players, reserved);
+  }
+  return index;
+};
 
 /** Full assignment + retirements for a set of league players. Pure. */
-export const buildJerseyIndex = (players: JerseyPlayer[]): JerseyIndex => {
+export const buildJerseyIndex = (players: JerseyPlayer[], reserved: Reserved = new Map()): JerseyIndex => {
   const numbers = new Map<string, number>();
   const retired = new Map<string, RetiredNumber[]>();
   const retiredByPlayer = new Map<string, RetiredNumber>();
@@ -168,8 +205,11 @@ export const buildJerseyIndex = (players: JerseyPlayer[]): JerseyIndex => {
     const k = franchiseKey(p.team);
     pools.set(k, [...(pools.get(k) ?? []), p]);
   });
-  // Teams that only appear in RETIRED_OVERRIDES still get their rafters.
+  // Teams that only appear in RETIRED_OVERRIDES (or only retire another club's player) still get their rafters.
   config.forEach((_, k) => {
+    if (!pools.has(k)) pools.set(k, []);
+  });
+  reserved.forEach((_, k) => {
     if (!pools.has(k)) pools.set(k, []);
   });
 
@@ -204,6 +244,13 @@ export const buildJerseyIndex = (players: JerseyPlayer[]): JerseyIndex => {
         playerKey: holder ? holderKey : undefined,
         source: 'config',
       });
+    });
+
+    // 1b. Numbers this club retired for a Hall of Famer another club numbers (owner: retired by more than one club).
+    reserved.get(teamKey)?.forEach((r, n) => {
+      if (taken.has(n)) return;
+      taken.set(n, `retired:${r.playerKey}`);
+      teamRetired.push({ number: n, name: r.name, position: r.position, teamKey, teamLabel: label, playerKey: r.playerKey, source: 'hof', alsoRetired: true });
     });
 
     // 2. Everyone else, by priority.
@@ -245,7 +292,10 @@ export const buildJerseyIndex = (players: JerseyPlayer[]): JerseyIndex => {
     if (isFranchise && teamRetired.length) {
       teamRetired.sort((a, b) => a.number - b.number);
       retired.set(teamKey, teamRetired);
-      teamRetired.forEach((r) => r.playerKey && retiredByPlayer.set(r.playerKey, r));
+      teamRetired.forEach((r) => {
+        // a player's own retirement is his numbering club's; another club's tribute never replaces it
+        if (r.playerKey && !(r.alsoRetired && retiredByPlayer.has(r.playerKey))) retiredByPlayer.set(r.playerKey, r);
+      });
     }
   });
 
@@ -278,7 +328,8 @@ export const useJerseyNumbers = () => {
 
   const index = useMemo(() => {
     if (cached && cached.source === getAllPlayers && cached.version === dataVersion && cached.extras === extras) return cached.index;
-    const built = buildJerseyIndex(withHomeClubs(getAllPlayers(), extras));
+    const homes = withHomeClubs(getAllPlayers(), extras);
+    const built = buildJerseyIndexWithAlso(homes.players, homes.also);
     cached = { source: getAllPlayers, version: dataVersion, extras, index: built };
     return built;
   }, [getAllPlayers, dataVersion, extras]);

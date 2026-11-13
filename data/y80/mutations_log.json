@@ -1117,6 +1117,15 @@
     "story": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-12-retired-numbers",
+   "dir": "data/uploads/2026-11-12-retired-numbers",
+   "applied_at": "2026-11-12T19:30:04-08:00",
+   "mutations": {
+    "stats": 4
+   },
+   "changed": 4
   }
  ]
 }

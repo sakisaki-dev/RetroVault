@@ -364,7 +364,11 @@ current data is a no-op.
   **Retired numbers** (owner: Maxwell's number belongs to the Falcons, "run this check for everyone else"): a Hall of
   Famer's number is retired by the club he is best known for, active or not: the retired rule above applied to everyone
   (`legacyTeams` in player-extras.json where it differs from the banner, `legacyTeamOf`; `withHomeClubs` in
-  `src/utils/jerseys.ts` numbers him in that club's pool).
+  `src/utils/jerseys.ts` numbers him in that club's pool). The owner can name the clubs outright, more than one when both retired it:
+  `fact.set players/<name>/retired_by ["Giants", "Buccaneers"]` (owner: "sherm and michael can be retired for both,
+  pacheco retired jersey with the packers and jakeem friend both with the jets and seahawks"); the first club numbers
+  him, every other one hangs the same number and never issues it (`retiredBy`, `retiringClubsOf`,
+  `buildJerseyIndexWithAlso`).
 - **Eras**: the owner's coaching stints (`coach.json`), split at 3+ title-less seasons between titles and merged when
   a stint won fewer than 3 titles (the current stint always stands alone); named "<Team> dynasty" (5+ titles),
   "<Team> run" (3–4) or "<Team> years". Key players: best Career Legacy whose stints overlap the era on the owner's club.

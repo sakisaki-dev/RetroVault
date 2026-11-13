@@ -39,7 +39,8 @@ import sys  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from owner_facts import (  # noqa: E402
-    ACTIVE_ROSTERS, CARD_NOTES, CURRENT_CLUB, RETIRED_WITH, SIGNATURE_TEAM, STATUS_FIXES, TEAM_FIXES, TEAM_HISTORY,
+    ACTIVE_ROSTERS, CARD_NOTES, CURRENT_CLUB, RETIRED_BY, RETIRED_WITH, SIGNATURE_TEAM, STATUS_FIXES, TEAM_FIXES,
+    TEAM_HISTORY,
 )
 import market_history  # noqa: E402
 
@@ -324,6 +325,12 @@ def write_player_extras():
     best = signature_teams(json.loads((SRC / "players.json").read_text()),
                            json.loads((SRC / "teams.json").read_text()), stints, sheet, legacy=True)
     out["legacyTeams"] = {n: t for n, t in best.items() if out["signatureTeams"].get(n) != t}
+    # owner: the clubs that retired his number, when one club isn't enough (or the best-known club isn't it)
+    teams_all = json.loads((SRC / "teams.json").read_text())
+    def club(key):
+        t = teams_all.get(key) or next((v for v in teams_all.values() if v.get("name") == key), None)
+        return t["name"] if t and t.get("conference") else None
+    out["retiredBy"] = {n: [c for c in (club(t) for t in ts) if c] for n, ts in sorted(RETIRED_BY.items())}
     PLAYER_EXTRAS_OUT.write_text(json.dumps(out, indent=1, ensure_ascii=False))
     print(f"wrote {PLAYER_EXTRAS_OUT.relative_to(ROOT)}: real-NFL splits for {len(out['realNflCareer'])} players")
 
