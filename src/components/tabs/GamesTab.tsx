@@ -187,6 +187,39 @@ const ScorePlate = ({ rec, className }: { rec: Best | null; className: string })
   </span>
 );
 
+/**
+ * The Game of the day art, scaled to fill its CRT screen: the mode art is drawn at a fixed size, so measure it at
+ * scale 1 and zoom it to the screen (about 78% of the width, 70% of the height), re-measured on resize.
+ */
+const FitArt = ({ children }: { children: ReactNode }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [fit, setFit] = useState(1.15);
+  useEffect(() => {
+    const art = ref.current;
+    const screen = art?.parentElement;
+    if (!art || !screen) return;
+    const measure = () => {
+      const prev = art.style.zoom;
+      art.style.zoom = '1';
+      const w = art.offsetWidth;
+      const h = art.offsetHeight;
+      art.style.zoom = prev;
+      if (!w || !h) return;
+      const next = Math.min((screen.clientWidth * 0.78) / w, (screen.clientHeight * 0.7) / h, 3.2);
+      setFit(Math.max(1, Math.round(next * 100) / 100));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(screen);
+    return () => ro.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className="hall-feature-art" style={{ zoom: fit }}>
+      {children}
+    </div>
+  );
+};
+
 const GamesTab = () => {
   const [includeLegends, setIncludeLegends] = useState(() => loadGameStat(STAT_KEYS.includeLegends, 1) !== 0);
   const { players, league, legends, ovrMap, legendsLoaded, dataVersion } = useGamePlayers(includeLegends);
@@ -303,9 +336,14 @@ const GamesTab = () => {
             <div className="hall-top">
               <article className="hall-feature" style={mcVars(featured)} aria-labelledby="hall-feature-title">
                 <div className="hall-feature-screen" aria-hidden="true">
-                  <div className="hall-feature-art">
+                  <span className="hall-attract-floor" />
+                  <span className="hall-attract-sweep" />
+                  <FitArt>
                     <ModeArt id={featured.id} />
-                  </div>
+                  </FitArt>
+                  <span className="hall-attract-k">
+                    Attract mode<i>Press start</i>
+                  </span>
                 </div>
                 <div className="hall-feature-body">
                   <p className="hall-tag">

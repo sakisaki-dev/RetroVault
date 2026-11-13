@@ -67,7 +67,6 @@
   .arcade .hall-top .hall-feature { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(260px, 1fr) auto; }
   .arcade .hall-top .hall-feature-screen { margin: 12px 12px 0; }
   .arcade .hall-top .hall-feature-body { padding: 18px 22px 22px; }
-  .arcade .hall-top .hall-feature-art { zoom: 1.6; }
 }
 
 .arcade .hall-feature {
@@ -92,8 +91,38 @@
   content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none; border-radius: inherit;
   background: linear-gradient(155deg, #ffffff1f 0%, #ffffff08 32%, transparent 46%), radial-gradient(120% 70% at 50% 120%, color-mix(in srgb, var(--mc) 22%, transparent), transparent 60%);
 }
-.arcade .hall-feature-art { position: relative; z-index: 1; width: max-content; zoom: 1.05; }
-@media (min-width: 640px) { .arcade .hall-feature-art { zoom: 1.15; } }
+.arcade .hall-feature-art { position: relative; z-index: 1; width: max-content; animation: hall-art-bob 4.5s ease-in-out infinite; filter: drop-shadow(0 18px 24px #000c) drop-shadow(0 0 28px color-mix(in srgb, var(--mc) 35%, transparent)); }
+@keyframes hall-art-bob { 50% { translate: 0 -6px; } }
+/* Attract mode: a perspective floor in the game's colour, a light sweep, and a blinking PRESS START, so the art stands
+   on a stage instead of floating in an empty screen */
+.arcade .hall-feature-screen { min-height: 230px; }
+@media (min-width: 640px) { .arcade .hall-feature-screen { min-height: 300px; } }
+@media (min-width: 1000px) { .arcade .hall-top .hall-feature-screen { min-height: 360px; } }
+.arcade .hall-attract-floor {
+  position: absolute; left: -30%; right: -30%; bottom: -10%; height: 48%; z-index: 0; pointer-events: none;
+  background:
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--mc) 55%, transparent) 0 2px, transparent 2px 48px),
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--mc) 45%, transparent) 0 2px, transparent 2px 30px);
+  transform: perspective(260px) rotateX(58deg); transform-origin: 50% 100%;
+  -webkit-mask: linear-gradient(to top, #000 10%, transparent 92%); mask: linear-gradient(to top, #000 10%, transparent 92%);
+  opacity: 0.55; animation: hall-floor 2.4s linear infinite;
+}
+@keyframes hall-floor { to { background-position: 0 0, 0 30px; } }
+.arcade .hall-attract-sweep {
+  position: absolute; inset: -20% -40%; z-index: 0; pointer-events: none;
+  background: conic-gradient(from 200deg at 50% 0%, transparent 0deg, color-mix(in srgb, var(--mc) 30%, transparent) 14deg, transparent 30deg);
+  animation: hall-sweep 7s ease-in-out infinite alternate;
+}
+@keyframes hall-sweep { from { transform: rotate(-16deg); } to { transform: rotate(16deg); } }
+.arcade .hall-attract-k {
+  position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 4; display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--f-pixel); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: color-mix(in srgb, var(--mc) 55%, #cfd7f5);
+}
+.arcade .hall-attract-k i { font-style: normal; color: var(--gold); text-shadow: 0 0 8px var(--gold); animation: hall-blink 1.1s steps(2, jump-none) infinite; }
+@keyframes hall-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .arcade .hall-feature-art, .arcade .hall-attract-floor, .arcade .hall-attract-sweep, .arcade .hall-attract-k i { animation: none; }
+}
 .arcade .hall-feature-body { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px 18px; min-width: 0; }
 @media (min-width: 640px) { .arcade .hall-feature-body { padding: 20px 20px 20px 18px; justify-content: center; } }
 .arcade .hall-tag { display: inline-flex; align-items: center; gap: 8px; margin: 0; font-family: var(--f-pixel); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
@@ -231,7 +260,7 @@
 /* The art sizes itself for a max-content box here: give the percentage-sized pieces a width, and trim the layout
    box of the Guess the Legend banner (scaled down with a transform in arcade.css) to what it draws */
 .arcade :is(.cab-art, .hall-feature-art) .ma-rank { width: 190px; }
-.arcade :is(.cab-art, .hall-feature-art) .ma-legend { margin: -34px -57px; }
+.arcade .cab-art .ma-legend { margin: -34px -57px; }
 
 /* The art's own hover motion (arcade.css .ma-*) plays on a hovered cabinet or the Game of the day */
 .arcade .cab-art *,
