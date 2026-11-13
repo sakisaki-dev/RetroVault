@@ -7,6 +7,7 @@ import { findNFLTeam } from '@/utils/nflTeams';
 import GameBanner from './GameBanner';
 import { ArcadeButton, ChipGroup, Confetti, CountUp } from './ArcadeUI';
 import { MYSTERY_STYLE, POSITION_NAMES, loadGameStat, playerKey, saveGameStat, shuffle, teamStyle, type GamePlayer } from './gameUtils';
+import { bannerTeamOf } from '@/utils/playerExtras';
 import {
   BUILD_POSITIONS,
   CLONE_THRESHOLD,
@@ -438,8 +439,8 @@ const SlotMachine = ({
   const strip = spinState?.strip ?? [];
   const landed = !!spinState?.landed && !spinning;
   const target = spinState?.target ?? null;
-  const st = target && !mystery ? teamStyle(target.team) : MYSTERY_STYLE;
-  const logo = target && !mystery ? findNFLTeam(target.team)?.logoUrl : null;
+  const st = target && !mystery ? teamStyle(bannerTeamOf(target)) : MYSTERY_STYLE;
+  const logo = target && !mystery ? findNFLTeam(bannerTeamOf(target))?.logoUrl : null;
   return (
     <div className={cn('bal-machine', spinning && 'spinning', landed && 'landed')}>
       <div className="bal-window" aria-hidden="true">
@@ -450,7 +451,7 @@ const SlotMachine = ({
         >
           {strip.length ? (
             strip.map((p, i) => {
-              const l = mystery ? null : findNFLTeam(p.team)?.logoUrl;
+              const l = mystery ? null : findNFLTeam(bannerTeamOf(p))?.logoUrl;
               return (
                 <div key={i} className="bal-reelrow">
                   {l && <img src={l} alt="" />}

@@ -11,6 +11,7 @@ import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import { POSITION_NAMES } from '@/utils/playerMeta';
+import { bannerTeamOf } from '@/utils/playerExtras';
 
 interface PlayerSearchSelectProps {
   players: Player[];
@@ -83,7 +84,7 @@ const MiniBanner = ({ player, number, ovr, compact = false }: { player: Player; 
         <span className={cn('max-w-full truncate text-left font-display font-extrabold uppercase italic tracking-wide text-foreground', compact ? 'text-base' : 'mt-0.5 text-lg')}>{last}</span>
       </span>
       <span className="ml-auto flex shrink-0 items-center gap-2">
-        {player.team ? <TeamLogo team={player.team} size={compact ? 20 : 24} decorative /> : <span className="text-[10px] italic text-muted-foreground">FA</span>}
+        {bannerTeamOf(player) ? <TeamLogo team={bannerTeamOf(player)} size={compact ? 20 : 24} decorative /> : <span className="text-[10px] italic text-muted-foreground">FA</span>}
         {ovr != null && (
           <span className="flex min-w-[2.1rem] flex-col items-center rounded border border-[color:var(--pss-1)] bg-black/50 px-1 py-0.5">
             <span className="font-display text-sm font-extrabold leading-none tabular-nums text-chalk">{ovr}</span>
@@ -145,7 +146,7 @@ const PlayerSearchSelect = ({
           style={
             selectedPlayer
               ? {
-                  ...bannerVars(selectedPlayer.team),
+                  ...bannerVars(bannerTeamOf(selectedPlayer)),
                   boxShadow: 'inset 3px 0 0 var(--pss-1), inset 0 0 0 1px color-mix(in srgb, var(--pss-1) 45%, transparent)',
                   background: 'linear-gradient(100deg, color-mix(in srgb, var(--pss-1) 30%, transparent), transparent 70%)',
                 }
@@ -216,12 +217,12 @@ const PlayerSearchSelect = ({
                     <CommandItem
                       key={key}
                       keywords={[player.name]}
-                      value={`${player.name} ${player.nickname ?? ''} ${extras.formerNames[normalizeName(player.name)] ?? ''} ${player.position} ${player.team || 'no team'} ${key}`}
+                      value={`${player.name} ${player.nickname ?? ''} ${extras.formerNames[normalizeName(player.name)] ?? ''} ${player.position} ${bannerTeamOf(player)} ${player.team || 'no team'} ${key}`}
                       onSelect={() => {
                         onValueChange(isSelected ? '' : key);
                         setOpen(false);
                       }}
-                      aria-label={`${player.name}${player.team ? `, ${player.team}` : ''}, number ${numberFor(player)}`}
+                      aria-label={`${player.name}${bannerTeamOf(player) ? `, ${bannerTeamOf(player)}` : ''}, number ${numberFor(player)}`}
                       className={cn(
                         'my-1 cursor-pointer overflow-hidden rounded-md px-2 py-1.5 text-foreground transition-[box-shadow,transform] motion-safe:data-[selected=true]:translate-x-0.5',
                         'data-[selected=true]:bg-transparent data-[selected=true]:text-foreground',
@@ -230,7 +231,7 @@ const PlayerSearchSelect = ({
                         isSelected && 'shadow-[inset_3px_0_0_var(--pss-1),inset_0_0_0_2px_hsl(var(--gold)/0.7)]',
                       )}
                       style={{
-                        ...bannerVars(player.team),
+                        ...bannerVars(bannerTeamOf(player)),
                         background: 'linear-gradient(100deg, color-mix(in srgb, var(--pss-1) 28%, transparent), color-mix(in srgb, var(--pss-1) 6%, transparent) 55%, transparent 80%)',
                       }}
                     >

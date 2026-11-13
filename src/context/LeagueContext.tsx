@@ -3,6 +3,7 @@ import type { LeagueData, Player } from '@/types/player';
 import { parseCSV } from '@/utils/csvParser';
 import { getPlayerEdits, type PlayerEdit } from '@/utils/indexedDB';
 import { normalizeLeague } from '@/config/stats';
+import { loadPlayerExtras, signatureTeamOf } from '@/utils/playerExtras';
 
 interface LeagueContextType {
   /** League players with position-normalized metrics. Excludes real-life legends. */
@@ -171,7 +172,18 @@ export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [dataVersion, setDataVersion] = useState(0);
 
   const applyLeague = useCallback(async (csv: string) => {
-    const result = normalizeAndSplit(await mergePlayerEdits(parseCSV(csv)));
+    const [merged, extras] = await Promise.all([mergePlayerEdits(parseCSV(csv)), loadPlayerExtras().catch(() => null)]);
+    const result = normalizeAndSplit(merged);
+    // Every player carries the club he is known for (bannerTeamOf): one place, so search and the games agree with
+    // the cards and banners (Ikarras is a Raven, not the Jet he finished as)
+    if (extras) {
+      POSITION_KEYS.forEach((k) => {
+        (result.careerData[k] as Player[]) = (result.careerData[k] as Player[]).map((p) => {
+          const banner = signatureTeamOf(extras, p);
+          return banner && banner !== p.team ? { ...p, bannerTeam: banner } : p;
+        });
+      });
+    }
     setCareerData(result.careerData);
     setLegends(result.legends);
   }, []);

@@ -182,6 +182,7 @@ export const buildSixDegreesGraph = ({ players, content, extras }: SixDegInput):
   };
   nodes.forEach((p) => {
     join(p, p.team);
+    join(p, p.bannerTeam);
     join(p, notesFor.get(playerKey(p))?.team);
     const card = extras.cards[extrasKey(p.name)];
     if (card) {

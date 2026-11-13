@@ -364,7 +364,8 @@ current data is a no-op.
   once he retires). **Free agents** (owner: "free agent"): `fact.set players/<name>/team "FA"` with status `Active`; the league sheet leaves the club blank (the site's "Free agents" fallback), the banner follows the retired rule (where he was best known), and the audit accepts both. **Retired** players: owner fact `players/<name>/signature_team`, else the card's `legacy_team`,
   else the stint with the most rings, then most seasons, then earliest; no stints = current team. Stats, rosters,
   filters, jersey numbers and market keys keep the current team (`signatureTeamOf` / `withSignatureTeam` in
-  `src/utils/playerExtras.ts`); the player card's "Latest club" line shows for retired players only. Audit errors
+  `src/utils/playerExtras.ts`); every player also carries it as `bannerTeam` from the league load (`bannerTeamOf`), which
+  search, the games, logos and colours read (owner: "change this to be a constant state since we use that regularly"); the player card's "Latest club" line shows for retired players only. Audit errors
   when an active player's banner isn't his current team, and warns when a retired player's is a club he has no stint
   with.
   **Retired numbers** (owner: Maxwell's number belongs to the Falcons, "run this check for everyone else"): a Hall of

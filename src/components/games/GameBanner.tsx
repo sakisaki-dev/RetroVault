@@ -4,6 +4,7 @@ import { isHallOfFamer } from '@/config/stats';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import ProPlayerBanner, { type ProPlayerBannerSize } from '../brand/ProPlayerBanner';
 import { isLegend, legendLabel, type GamePlayer } from './gameUtils';
+import { bannerTeamOf } from '@/utils/playerExtras';
 
 /** "Author · License" for a legend's Commons photo, or null when there is nothing to credit. */
 const photoCreditOf = (p: GamePlayer): string | null => {
@@ -80,7 +81,7 @@ const GameBanner = ({
         name={player.name}
         nickname={player.nickname}
         position={player.position}
-        team={player.team}
+        team={bannerTeamOf(player)}
         number={numberFor(player)}
         size={size}
         ovr={ovr}

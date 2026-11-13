@@ -4,6 +4,7 @@ import { findNFLTeam, NFL_TEAMS } from '@/utils/nflTeams';
 import { getAllChampions, matchPlayerByName, type LeagueContent } from '@/utils/leagueContent';
 import { normalizeName as extrasKey, type IndexedExtras } from '@/utils/playerExtras';
 import { fmt, isDefender, isLegend, legendLabel, playerKey, sample, shuffle, type GamePlayer } from './gameUtils';
+import { bannerTeamOf } from '@/utils/playerExtras';
 
 /**
  * Trait library for "Who's the Imposter?". Each trait splits its eligible players into fits (test true)
@@ -373,7 +374,7 @@ export const buildTraits = ({ players, content, extras }: TraitContext): Imposte
   );
 
   // ----- Franchise / conference / division -----
-  const teamOf = (p: Player) => findNFLTeam(p.team);
+  const teamOf = (p: Player) => findNFLTeam(bannerTeamOf(p)); // the club he is known for
   const withTeam = (p: Player) => !!teamOf(p);
   const teamCounts = new Map<string, number>();
   players.forEach((p) => {

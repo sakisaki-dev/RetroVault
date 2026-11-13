@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import GameBanner from './GameBanner';
 import { ArcadeButton, Confetti, Lamp, LampRow } from './ArcadeUI';
 import { STAT_KEYS, isDefender, isLegend, loadGameStat, playerKey, type GamePlayer, randomItem, saveGameStat, shuffle, teamStyle, teamVars } from './gameUtils';
+import { bannerTeamOf } from '@/utils/playerExtras';
 
 const MAX_GUESSES = 9;
 
@@ -149,7 +150,7 @@ const CellPicker = ({
   const results = useMemo(() => {
     if (!q.trim()) return [];
     return players
-      .map((p) => ({ p, s: matchPlayer(`${p.name} ${p.nickname ?? ''} ${p.position} ${p.team ?? ''}`, q, [p.name]) }))
+      .map((p) => ({ p, s: matchPlayer(`${p.name} ${p.nickname ?? ''} ${p.position} ${bannerTeamOf(p)} ${p.team ?? ''}`, q, [p.name]) }))
       .filter((x) => x.s > 0)
       .sort((a, b) => b.s - a.s || a.p.name.localeCompare(b.p.name))
       .slice(0, 6)

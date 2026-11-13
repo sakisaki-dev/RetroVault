@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { playerSkillGrades } from '@/config/skillGrades';
 import GameBanner from './GameBanner';
 import { ArcadeButton, Confetti, Lamp, LampRow, TeamLogo } from './ArcadeUI';
+import { bannerTeamOf } from '@/utils/playerExtras';
 import {
   STAT_KEYS,
   fmt,
@@ -51,7 +52,7 @@ const buildClues = (p: Player, rating: number, league: Player[]): Clue[] => {
     .filter(Boolean)
     .map((w) => `${w[0]}.`)
     .join(' ');
-  const team = findNFLTeam(p.team);
+  const team = findNFLTeam(bannerTeamOf(p));
   const grades = playerSkillGrades(league, p)
     .traits.filter((t) => t.grade && Number.isFinite(t.percentile))
     .sort((a, b) => b.percentile - a.percentile)
@@ -115,7 +116,7 @@ const buildClues = (p: Player, rating: number, league: Player[]): Clue[] => {
             value={
               <span className="flex items-center gap-1.5">
                 <TeamLogo team={team} className="w-6 h-6 object-contain" />
-                <span className="truncate">{team?.name ?? (p.team || 'Unlisted')}</span>
+                <span className="truncate">{team?.name ?? (bannerTeamOf(p) || 'Unlisted')}</span>
               </span>
             }
           />
@@ -353,8 +354,8 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
             <ol className="glog">
               {guesses.map((g) => {
                 const correct = playerKey(g) === playerKey(answer);
-                const gTeam = findNFLTeam(g.team);
-                const aTeam = findNFLTeam(answer.team);
+                const gTeam = findNFLTeam(bannerTeamOf(g));
+                const aTeam = findNFLTeam(bannerTeamOf(answer));
                 return (
                   <li key={playerKey(g)} className={cn('glog-row slide-in', correct && 'solved')}>
                     <div className="glog-name">

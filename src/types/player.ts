@@ -7,6 +7,10 @@ export interface BasePlayer {
   age?: string;
   /** Team name as provided in the sheet */
   team?: string;
+  /** The club he is known for: his current club while he plays, where he was best known once retired (player-extras
+   * signatureTeams; filled in when the league loads). Search, games, banners and logos show this; stats, rosters,
+   * filters and jersey pools keep `team`. Read it with bannerTeamOf(). */
+  bannerTeam?: string;
   status: Status;
   games: number;
   rings: number;

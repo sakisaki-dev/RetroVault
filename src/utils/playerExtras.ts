@@ -182,6 +182,9 @@ export const getStints = (extras: IndexedExtras, playerName: string): PlayerStin
 export const signatureTeamOf = (extras: IndexedExtras, player: { name: string; team?: string; isRealLegend?: boolean }): string =>
   (!player.isRealLegend && extras.signatureTeams[normalizeName(player.name)]) || player.team || '';
 
+/** The club to show a player in (search, games, logos, colours): `bannerTeam` from the league load, else his team. */
+export const bannerTeamOf = (p: { team?: string; bannerTeam?: string }): string => p.bannerTeam || p.team || '';
+
 /** Where a player is best known even while he plays (the club that retires a Hall of Famer's number); else his banner. */
 export const legacyTeamOf = (extras: IndexedExtras, player: { name: string; team?: string; isRealLegend?: boolean }): string =>
   (!player.isRealLegend && extras.legacyTeams[normalizeName(player.name)]) || signatureTeamOf(extras, player);

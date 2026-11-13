@@ -19,6 +19,7 @@ import TeamLogo from './brand/TeamLogo';
 import { matchPlayer } from './PlayerSearchSelect';
 import { openInCompFinder } from './stats/comps/compFinderLink';
 import './quickSearch.css';
+import { bannerTeamOf } from '@/utils/playerExtras';
 
 /** Fired by the header's search button (and anything else) to open the quick search. */
 export const QUICK_SEARCH_EVENT = 'retrovault:quick-search';
@@ -71,9 +72,9 @@ const ResultRow = ({ player, number, ovr, grade }: { player: Player; number: num
   const hof = !player.isRealLegend && isHallOfFamer(player);
   return (
     <span className="relative flex min-w-0 flex-1 items-center gap-3 overflow-hidden py-1.5 pl-1.5 pr-2">
-      {player.team && (
+      {bannerTeamOf(player) && (
         <span className="qs-watermark pointer-events-none absolute -right-2 top-1/2 -translate-y-1/2" aria-hidden="true">
-          <TeamLogo team={player.team} size={64} decorative />
+          <TeamLogo team={bannerTeamOf(player)} size={64} decorative />
         </span>
       )}
       <span
@@ -159,7 +160,7 @@ const QuickPlayerSearch = () => {
   const searchText = useMemo(() => {
     const m = new Map<string, Player>();
     [...league, ...legends].forEach((p) => {
-      const text = `${p.name} ${p.nickname ?? ''} ${extras.formerNames[normalizeName(p.name)] ?? ''} ${p.position} ${p.team || ''} ${findNFLTeam(p.team)?.fullName ?? ''} ${playerKey(p)}`;
+      const text = `${p.name} ${p.nickname ?? ''} ${extras.formerNames[normalizeName(p.name)] ?? ''} ${p.position} ${bannerTeamOf(p)} ${p.team || ''} ${findNFLTeam(bannerTeamOf(p))?.fullName ?? ''} ${playerKey(p)}`;
       m.set(text, p);
     });
     return m;
@@ -274,7 +275,7 @@ const QuickPlayerSearch = () => {
                           onSelect={() => choose(p)}
                           onPointerDown={() => warmPlayerCard(p)}
                           className="qs-item my-1 cursor-pointer overflow-hidden rounded-lg p-0"
-                          style={teamVars(p.team)}
+                          style={teamVars(bannerTeamOf(p))}
                         >
                           <ResultRow player={p} number={numberFor(p)} ovr={ovrMap.get(key)} grade={skills.get(key)?.grade} />
                         </CommandItem>

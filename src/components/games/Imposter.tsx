@@ -11,6 +11,7 @@ import { usePlayerExtras } from '@/utils/playerExtras';
 import { ArcadeButton, Confetti, Lamp, LampRow } from './ArcadeUI';
 import { POSITION_NAMES, isLegend, loadGameStat, playerKey, saveGameStat, type GamePlayer } from './gameUtils';
 import { buildTraits, levelFor, makeImposterRound, type ImposterRound } from './imposterTraits';
+import { bannerTeamOf } from '@/utils/playerExtras';
 
 const BEST_KEY = 'imposter:best';
 const LEVEL_NAMES = { 1: 'Rookie', 2: 'Pro', 3: 'All-Pro' } as const;
@@ -155,7 +156,7 @@ const Imposter = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<str
       >
         {cards.map((p, i) => {
           const key = playerKey(p);
-          const team = findNFLTeam(p.team);
+          const team = findNFLTeam(bannerTeamOf(p));
           const isImposter = key === imposterKey;
           const picked = key === pick;
           const dim = !!pick && !isImposter && !picked;
@@ -186,7 +187,7 @@ const Imposter = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<str
                 <ProPlayerBanner
                   name={p.name}
                   position={p.position}
-                  team={p.team}
+                  team={bannerTeamOf(p)}
                   number={numberFor(p)}
                   size={compact ? 'compact' : 'card'}
                   // Nothing that could hint at the trait (OVR, HOF edge, photo, legend tag) until the reveal
