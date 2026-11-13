@@ -103,6 +103,8 @@ the award row (RINGS, MVP, OPOY, DPOY, ROTY, SBMVP). players.json keys:
 - OL: `g blk`
 - LB/DB/DL: `g tkl int sck ff`
 - awards: `rings mvp opoy dpoy roty sbmvp`
+  (`roty` counts both Rookie of the Year awards, Offensive and Defensive; owner: "OROY and DROY exist". Write it as
+  Offensive Rookie of the Year for an offensive player, Defensive for a defender.)
 
 Read the pixel digits carefully and cross-check: rushing/receiving `Avg` = yards ÷ attempts (or catches); **QB
 passing `Avg` = yards ÷ completions**; `Cmp (x%)` = cmp ÷ att. A QB or RB often spans two screenshots; merge them

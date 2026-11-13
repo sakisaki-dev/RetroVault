@@ -1108,6 +1108,15 @@
     "story": 9
    },
    "changed": 9
+  },
+  {
+   "id": "2026-11-12-roy-y91",
+   "dir": "data/uploads/2026-11-12-roy-y91",
+   "applied_at": "2026-11-12T19:13:35-08:00",
+   "mutations": {
+    "story": 1
+   },
+   "changed": 1
   }
  ]
 }
