@@ -5,8 +5,8 @@ import { normalizeName, type IndexedExtras } from '@/utils/playerExtras';
 import { findNFLTeam } from '@/utils/nflTeams';
 import TeamLogo from '../brand/TeamLogo';
 import { splitPlayerName } from '../brand/ProPlayerBanner.utils';
-import { BallotBadge, ScoreMedal } from './hofParts';
-import { POSITIONS, clubColors, clubFill, yearsOf } from './hofUtils';
+import { FrameCrest, HallHeading, MedalCoin } from './hofParts';
+import { POSITIONS, clubFill, tierClass, tierOf, yearsOf } from './hofUtils';
 import { cn } from '@/lib/utils';
 
 export interface GalleryItem {
@@ -16,6 +16,7 @@ export interface GalleryItem {
   number: number | null;
   /** classes index (0 = inaugural), for the class sort */
   classOrder: number;
+  nickname?: string;
 }
 
 type SortKey = 'score' | 'class' | 'name';
@@ -31,43 +32,46 @@ const chip = (on: boolean) =>
     on ? 'border-gold bg-gold/15 text-gold' : 'border-line bg-card text-muted-foreground hover:text-chalk',
   );
 
-const GalleryTile = memo(function GalleryTile({ item, years, onOpen }: { item: GalleryItem; years: string | null; onOpen: (key: string) => void }) {
+const GalleryTile = memo(function GalleryTile({ item, years, index, onOpen }: { item: GalleryItem; years: string | null; index: number; onOpen: (key: string) => void }) {
   const { member, club, number } = item;
   const { first, last } = splitPlayerName(member.name);
   const team = findNFLTeam(club);
-  const c = clubColors(team);
+  const tier = tierOf(member.score);
   return (
     <button
       type="button"
       onClick={() => onOpen(member.key)}
       aria-label={`${member.name}, ${member.pos}${team ? `, ${team.fullName}` : ''}, Hall of Fame Score ${member.score}${member.firstBallot ? ', first ballot' : member.veteran ? ', veteran' : ''}. Open plaque`}
-      className="group relative flex h-[132px] w-full flex-col justify-end overflow-hidden rounded-lg border border-gold/45 p-2.5 text-left text-white shadow-card transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-      style={clubFill(team)}
+      className={cn('hof-bust', tierClass(member.score))}
+      style={{ ['--i' as string]: index }}
     >
-      {/* club stripe and watermarks */}
-      <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1" style={{ background: `hsl(${c.secondary})` }} />
-      <span aria-hidden="true" className="pointer-events-none absolute -right-1 top-1 font-display text-[64px] font-extrabold italic leading-none tabular-nums opacity-20">
-        {number ?? ''}
-      </span>
-      <span aria-hidden="true" className="pointer-events-none absolute left-2 top-2.5 opacity-90">
-        <TeamLogo team={team ?? club} size={22} decorative backed />
-      </span>
-      <ScoreMedal score={member.score} size="sm" className="absolute right-2 top-2.5" />
-
-      <span className="relative block truncate text-[11px] font-semibold leading-tight opacity-85">{first}</span>
-      <span className="relative block truncate font-display text-[22px] font-extrabold uppercase italic leading-[1.05]" style={{ textShadow: '2px 2px 0 hsl(228 60% 3% / 0.6)' }}>
-        {last}
-      </span>
-      <span className="relative mt-1 flex items-center gap-1.5">
-        <span className="font-pixel text-[9px] uppercase leading-none">
-          {member.pos}
-          {number != null ? ` · #${number}` : ''}
+      <FrameCrest score={member.score} />
+      <span className="hof-face flex flex-col justify-end p-2.5 pb-2" style={clubFill(team)}>
+        {tier === 'diamond' && <span aria-hidden="true" className="hof-foil" />}
+        <span aria-hidden="true" className="hof-deboss">
+          {number ?? ''}
         </span>
-        {years && <span className="truncate text-[10px] font-semibold leading-none opacity-80">{years}</span>}
+        {(member.firstBallot || member.veteran) && (
+          <span aria-hidden="true" className={cn('hof-sash', !member.firstBallot && 'hof-sash--silver')}>
+            {member.firstBallot ? 'First ballot' : 'Veteran'}
+          </span>
+        )}
+        <MedalCoin score={member.score} size={32} className="!absolute right-2 top-2.5" />
+
+        <span className="block truncate text-[11px] font-semibold leading-tight text-white/85" style={{ textShadow: '0 1px 2px hsl(228 60% 3% / 0.8)' }}>
+          {first}
+        </span>
+        <span className="hof-metal-text block truncate pr-0.5 font-display text-[23px] font-extrabold uppercase italic leading-[1.05]">{last}</span>
+        <span className="mt-1 flex items-center gap-1.5 border-t pt-1" style={{ borderColor: 'hsl(var(--hof-glow) / 0.3)' }}>
+          <TeamLogo team={team ?? club} size={15} decorative backed />
+          <span className="font-pixel text-[9px] uppercase leading-none">
+            {member.pos}
+            {number != null ? ` · #${number}` : ''}
+          </span>
+          {years && <span className="ml-auto truncate text-[10px] font-semibold leading-none text-white/75">{years}</span>}
+        </span>
+        <span aria-hidden="true" className="hof-sheen" />
       </span>
-      {(member.firstBallot || member.veteran) && (
-        <BallotBadge firstBallot={member.firstBallot} veteran={member.veteran} className="absolute right-2 top-[3.05rem]" />
-      )}
     </button>
   );
 });
@@ -112,12 +116,7 @@ const HofGallery = ({
   return (
     <section aria-labelledby="hof-gallery-title" className="mb-10">
       <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
-        <div>
-          <p className="font-pixel text-[10px] uppercase tracking-widest text-gold/90">The gallery</p>
-          <h2 id="hof-gallery-title" className="font-display text-2xl font-extrabold uppercase italic text-chalk sm:text-3xl">
-            Every bust
-          </h2>
-        </div>
+        <HallHeading id="hof-gallery-title" kicker="The gallery" title="Every bust" className="mb-0" />
         <p className="text-sm text-muted-foreground" aria-live="polite">
           {shown.length} of {items.length}
           {classLabel ? ` · ${classLabel}` : ''}
@@ -176,10 +175,10 @@ const HofGallery = ({
       </div>
 
       {shown.length ? (
-        <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 xl:grid-cols-5">
+        <ul className="grid grid-cols-2 gap-x-2.5 gap-y-4 pt-1 sm:grid-cols-3 sm:gap-x-3 sm:gap-y-5 lg:grid-cols-4 xl:grid-cols-5">
           {shown.map((item, i) => (
-            <li key={item.member.key} className="stagger-in min-w-0" style={{ ['--i' as string]: Math.min(i, 20) }}>
-              <GalleryTile item={item} years={yearsOf(extras.stints[normalizeName(item.member.name)])} onOpen={onOpen} />
+            <li key={item.member.key} className="hof-reveal min-w-0" style={{ ['--i' as string]: Math.min(i, 20) }}>
+              <GalleryTile item={item} index={i % 9} years={yearsOf(extras.stints[normalizeName(item.member.name)])} onOpen={onOpen} />
             </li>
           ))}
         </ul>

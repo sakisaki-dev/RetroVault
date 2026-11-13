@@ -10,11 +10,43 @@ import { usePhone } from '@/hooks/usePhone';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 import RetiredRafters from '../teams/RetiredRafters';
 import TeamLogo from '../brand/TeamLogo';
-import { BallotBadge, ScoreMedal } from './hofParts';
+import { Laurel, RibbonBanner } from './hofParts';
 import { POS_NAMES, careerLine, clubColors, fmt, ordinal, yearsOf } from './hofUtils';
 
 const PLAQUE_INK = 'hsl(43 70% 84%)';
-const PLAQUE_MUTED = 'hsl(40 35% 66%)';
+const PLAQUE_MUTED = 'hsl(40 38% 68%)';
+
+/** The score as an embossed bronze seal with a scalloped edge. */
+const ScoreSeal = ({ score }: { score: number }) => {
+  const pts = Array.from({ length: 48 }, (_, i) => {
+    const a = (i / 48) * Math.PI * 2;
+    const r = i % 2 ? 26 : 29;
+    return `${(30 + r * Math.cos(a)).toFixed(2)},${(30 + r * Math.sin(a)).toFixed(2)}`;
+  }).join(' ');
+  return (
+    <span className="relative grid h-[60px] w-[60px] place-items-center" role="img" aria-label={`Hall of Fame Score ${score} of 100`}>
+      <svg viewBox="0 0 60 60" width={60} height={60} className="absolute inset-0" aria-hidden="true">
+        <defs>
+          <radialGradient id="hof-seal" cx="0.35" cy="0.3" r="0.8">
+            <stop offset="0" stopColor="#fff3cf" />
+            <stop offset="0.45" stopColor="#e2a85a" />
+            <stop offset="1" stopColor="#7a4319" />
+          </radialGradient>
+        </defs>
+        <polygon points={pts} fill="url(#hof-seal)" stroke="#4e2a10" strokeWidth="1" />
+        <circle cx="30" cy="30" r="20.5" fill="none" stroke="#5a3012" strokeOpacity="0.7" strokeWidth="1.2" />
+        <circle cx="30" cy="30" r="19" fill="none" stroke="#fff1cf" strokeOpacity="0.45" strokeWidth="0.8" />
+      </svg>
+      <span
+        aria-hidden="true"
+        className="relative font-display text-[26px] font-extrabold italic leading-none tabular-nums"
+        style={{ color: '#3a1d08', textShadow: '0 1px 0 hsl(40 100% 88% / 0.7), 0 -1px 0 hsl(28 60% 10% / 0.5)' }}
+      >
+        {score}
+      </span>
+    </span>
+  );
+};
 
 const ScorePart = ({ label, value, max, note }: { label: string; value: number; max: number; note: string }) => (
   <div>
@@ -116,56 +148,52 @@ const HofPlaque = ({
           // Clear of the close button and the grab handle (the dialog bar sits over the sheet's top padding)
           <div className="space-y-5 pt-12">
             {/* The plaque */}
-            <article
-              className="relative overflow-hidden rounded-xl p-[3px]"
-              style={{ background: 'linear-gradient(145deg, hsl(45 100% 74%), hsl(36 85% 38%) 40%, hsl(43 95% 60%) 70%, hsl(30 80% 30%))' }}
-            >
-              <div
-                className="relative rounded-[10px] px-4 pb-5 pt-4 sm:px-6"
-                style={{
-                  background: 'radial-gradient(120% 80% at 50% 0%, hsl(34 42% 26%), hsl(30 40% 14%) 60%, hsl(28 40% 9%))',
-                  boxShadow: 'inset 0 0 0 1px hsl(43 80% 60% / 0.35), inset 0 2px 18px hsl(28 60% 3% / 0.7)',
-                }}
-              >
-                <div className="flex items-start gap-3">
-                  <div className="min-w-0 flex-1">
-                    <p className="font-pixel text-[9px] uppercase tracking-widest" style={{ color: PLAQUE_MUTED }}>
-                      Hall of Fame · {hofClassLabel(member.class)}
+            <article className="hof-plaque">
+              <div className="hof-plaque__field px-4 pb-5 pt-4 sm:px-6">
+                <span aria-hidden="true" className="hof-rivet left-2 top-2" />
+                <span aria-hidden="true" className="hof-rivet right-2 top-2" />
+                <span aria-hidden="true" className="hof-rivet bottom-2 left-2" />
+                <span aria-hidden="true" className="hof-rivet bottom-2 right-2" />
+
+                {/* Crest: the score as an embossed seal inside a laurel wreath */}
+                <div className="relative mx-auto grid h-[104px] w-[104px] place-items-center">
+                  <Laurel size={104} color="hsl(40 75% 58%)" className="absolute inset-0 drop-shadow-[0_1px_0_hsl(28_60%_3%)]" />
+                  <ScoreSeal score={member.score} />
+                </div>
+
+                <div className="mt-1 text-center">
+                  <p className="hof-plaque-engrave font-pixel text-[9px] uppercase tracking-[0.25em]">
+                    Hall of Fame · {hofClassLabel(member.class)}
+                  </p>
+                  <SheetTitle
+                    ref={titleRef}
+                    tabIndex={-1}
+                    className="hof-plaque-name mt-2 text-transparent font-display text-[34px] font-extrabold uppercase leading-none tracking-wide focus:outline-none sm:text-5xl"
+                  >
+                    {member.name}
+                  </SheetTitle>
+                  {nickname && (
+                    <p className="mt-1 font-display text-lg italic" style={{ color: 'hsl(43 100% 66%)', textShadow: '0 1px 0 hsl(28 60% 3%)' }}>
+                      &ldquo;{nickname}&rdquo;
                     </p>
-                    <SheetTitle
-                      ref={titleRef}
-                      tabIndex={-1}
-                      className="mt-1 font-display text-3xl font-extrabold uppercase leading-none tracking-wide focus:outline-none sm:text-4xl"
-                      style={{ color: PLAQUE_INK, textShadow: '0 1px 0 hsl(28 60% 4%), 0 -1px 0 hsl(45 100% 80% / 0.25)' }}
-                    >
-                      {member.name}
-                    </SheetTitle>
-                    {nickname && (
-                      <p className="mt-1 font-display text-lg italic" style={{ color: 'hsl(43 100% 66%)' }}>
-                        &ldquo;{nickname}&rdquo;
-                      </p>
-                    )}
-                    <SheetDescription className="mt-1 text-sm" style={{ color: PLAQUE_MUTED }}>
-                        {POS_NAMES[member.pos] ?? member.pos}
-                        {number != null ? ` · #${number}` : ''}
-                        {team ? ` · ${team.fullName}` : ''}
-                        {yearsOf(stints) ? ` · ${yearsOf(stints)}` : ''}
-                      </SheetDescription>
-                    <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                      <BallotBadge firstBallot={member.firstBallot} veteran={member.veteran} />
+                  )}
+                  <div className="hof-plaque-rule mx-auto mt-2 max-w-[260px]" aria-hidden="true" />
+                  <SheetDescription className="hof-plaque-engrave mt-2 text-sm" style={{ color: PLAQUE_MUTED }}>
+                    {POS_NAMES[member.pos] ?? member.pos}
+                    {number != null ? ` · #${number}` : ''}
+                    {team ? ` · ${team.fullName}` : ''}
+                    {yearsOf(stints) ? ` · ${yearsOf(stints)}` : ''}
+                  </SheetDescription>
+                  {(member.firstBallot || member.veteran || member.yearsOnBallot > 1) && (
+                    <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+                      <RibbonBanner firstBallot={member.firstBallot} veteran={member.veteran} />
                       {member.yearsOnBallot > 1 && (
-                        <span className="text-xs" style={{ color: PLAQUE_MUTED }}>
+                        <span className="hof-plaque-engrave text-xs">
                           {member.yearsOnBallot} years on the ballot
                         </span>
                       )}
                     </div>
-                  </div>
-                  <div className="flex flex-col items-center gap-1">
-                    <ScoreMedal score={member.score} size="lg" />
-                    <span className="font-pixel text-[8px] uppercase" style={{ color: PLAQUE_MUTED }}>
-                      Score
-                    </span>
-                  </div>
+                  )}
                 </div>
 
                 {/* Clubs as a stint timeline */}
@@ -207,7 +235,7 @@ const HofPlaque = ({
                 {player && (
                   <dl className="mt-4 grid grid-cols-3 gap-1.5 sm:grid-cols-5">
                     {careerLine(player).map((s) => (
-                      <div key={s.label} className="flex flex-col-reverse rounded-md px-2 py-1.5 text-center" style={{ background: 'hsl(28 40% 6% / 0.55)' }}>
+                      <div key={s.label} className="flex flex-col-reverse rounded-md px-2 py-1.5 text-center" style={{ background: 'hsl(28 40% 6% / 0.55)', boxShadow: 'inset 0 2px 4px hsl(28 60% 2% / 0.7), 0 1px 0 hsl(40 70% 70% / 0.12)' }}>
                         <dt className="font-pixel text-[8px] uppercase" style={{ color: PLAQUE_MUTED }}>
                           {s.label}
                         </dt>
@@ -293,7 +321,7 @@ const HofPlaque = ({
             </div>
 
             {paragraphs.length > 0 && (
-              <section aria-labelledby="hof-speech-title" className="rounded-xl border border-line bg-card p-4">
+              <section aria-labelledby="hof-speech-title" className="rounded-xl border border-amber-500/30 bg-card p-4">
                 <h3 id="hof-speech-title" className="font-pixel text-[10px] uppercase tracking-widest text-gold">
                   Induction speech
                 </h3>

@@ -1,7 +1,7 @@
 import type { HofCase } from '@/utils/hallOfFame';
 import { findNFLTeam } from '@/utils/nflTeams';
 import TeamLogo from '../brand/TeamLogo';
-import { ScoreGauge } from './hofParts';
+import { HallHeading, ScoreGauge } from './hofParts';
 import { clubColors } from './hofUtils';
 
 export interface BallotRow {
@@ -29,14 +29,14 @@ const Row = ({ row, bar, note }: { row: BallotRow; bar: number; note: string }) 
           </span>
         </span>
         <span className="shrink-0 text-right">
-          <span className={`block font-display text-2xl font-extrabold italic leading-none tabular-nums ${over ? 'text-gold' : 'text-chalk'}`}>{entry.score}</span>
+          <span className={`block pr-0.5 font-display text-2xl font-extrabold italic leading-none tabular-nums ${over ? 'hof-metal-text' : 'text-chalk'}`}>{entry.score}</span>
           <span className="block font-pixel text-[8px] uppercase text-muted-foreground">{over ? 'Over the bar' : `${bar - entry.score} short`}</span>
         </span>
       </span>
       <ScoreGauge score={entry.score} bar={bar} label={`${entry.name}: Hall of Fame Score ${entry.score}, bar ${bar}`} className="mt-2" />
     </>
   );
-  const cls = 'block w-full rounded-lg border border-line bg-card p-3 text-left';
+  const cls = `hof-rail ${over ? 'hof-rail--over border-amber-500/35' : 'border-line'} block w-full rounded-lg border bg-card py-3 pl-4 pr-3 text-left`;
   return row.onOpen ? (
     <button type="button" onClick={row.onOpen} className={`${cls} transition-colors hover:border-gold/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold`} aria-label={`${entry.name}, score ${entry.score} against the bar of ${bar}. ${note}. Open player card`}>
       {body}
@@ -46,21 +46,11 @@ const Row = ({ row, bar, note }: { row: BallotRow; bar: number; note: string }) 
   );
 };
 
-const Heading = ({ id, kicker, title, sub }: { id: string; kicker: string; title: string; sub: string }) => (
-  <div className="mb-3">
-    <p className="font-pixel text-[10px] uppercase tracking-widest text-gold/90">{kicker}</p>
-    <h2 id={id} className="font-display text-2xl font-extrabold uppercase italic text-chalk sm:text-3xl">
-      {title}
-    </h2>
-    <p className="text-sm text-muted-foreground">{sub}</p>
-  </div>
-);
-
 /** The Ballot (eligible retirees waiting and near misses), then Future Hall of Famers (the active watch list). */
 const HofBallot = ({ ballot, near, watch, bar, cap, season }: { ballot: BallotRow[]; near: BallotRow[]; watch: BallotRow[]; bar: number; cap: number; season?: string }) => (
   <div className="mb-10 grid gap-8 lg:grid-cols-2">
     <section aria-labelledby="hof-ballot-title">
-      <Heading
+      <HallHeading
         id="hof-ballot-title"
         kicker={season ? `The ballot · ${season}` : 'The ballot'}
         title="Waiting at the door"
@@ -97,7 +87,7 @@ const HofBallot = ({ ballot, near, watch, bar, cap, season }: { ballot: BallotRo
     </section>
 
     <section aria-labelledby="hof-future-title">
-      <Heading id="hof-future-title" kicker="The watch" title="Future Hall of Famers" sub={`Their Hall of Fame Score today. Eligible when they retire; ${bar} and over is on track.`} />
+      <HallHeading id="hof-future-title" kicker="The watch" title="Future Hall of Famers" sub={`Their Hall of Fame Score today. Eligible when they retire; ${bar} and over is on track.`} />
       {watch.length ? (
         <ul className="space-y-2">
           {watch.map((r) => (

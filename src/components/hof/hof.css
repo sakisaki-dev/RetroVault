@@ -1,0 +1,767 @@
+/*
+ * The Hall of Fame's enshrinement look: metallic frames by Hall of Fame Score tier, foil sheens, the marble hall
+ * header, the curtain reveal of the newest class, Legends' Row plinths and the bronze plaque.
+ * Motion is transform / opacity only and stops entirely under prefers-reduced-motion.
+ */
+
+/* ---------- Tier palettes (diamond 95-100, gold 80-94, bronze below 80) ---------- */
+.hof-tier-diamond {
+  --hof-frame: linear-gradient(135deg, #f6f9ff 0%, #a9c6ff 18%, #f1d9ff 34%, #c2f3ea 50%, #ffffff 64%, #b7c8ee 80%, #8395bd 100%);
+  --hof-name: linear-gradient(180deg, #ffffff 0%, #e6efff 45%, #a9bce4 100%);
+  --hof-coin: radial-gradient(circle at 32% 28%, #ffffff, #dfe9ff 38%, #9fb2da 72%, #6c7fa8 100%);
+  --hof-coin-edge: #5f7097;
+  --hof-coin-ink: #1a2440;
+  --hof-ribbon-a: #9cc4ff;
+  --hof-ribbon-b: #f2f6ff;
+  --hof-glow: 210 100% 85%;
+}
+.hof-tier-gold {
+  --hof-frame: linear-gradient(135deg, #fff1b8 0%, #e3a92b 22%, #fff3c2 42%, #c88a17 62%, #ffe08a 80%, #8f5d0c 100%);
+  --hof-name: linear-gradient(180deg, #fff6cf 0%, #ffd965 48%, #d39a24 100%);
+  --hof-coin: radial-gradient(circle at 32% 28%, #fff4c4, #ffd45a 42%, #c98a1c 78%, #8a5a0e 100%);
+  --hof-coin-edge: #7a4f0b;
+  --hof-coin-ink: #2a1a02;
+  --hof-ribbon-a: #f2b632;
+  --hof-ribbon-b: #fff0b5;
+  --hof-glow: 43 100% 62%;
+}
+.hof-tier-bronze {
+  --hof-frame: linear-gradient(135deg, #f6cfa6 0%, #a8653b 24%, #f0bb8c 44%, #7f4524 64%, #dd9a6a 82%, #5c3018 100%);
+  --hof-name: linear-gradient(180deg, #ffe9d4 0%, #f0b98b 50%, #c27a46 100%);
+  --hof-coin: radial-gradient(circle at 32% 28%, #ffe0c2, #e3a06c 42%, #9c5a30 78%, #5e3118 100%);
+  --hof-coin-edge: #4f2812;
+  --hof-coin-ink: #2a1206;
+  --hof-ribbon-a: #c9773f;
+  --hof-ribbon-b: #f3c8a0;
+  --hof-glow: 25 80% 60%;
+}
+
+/* Metallic gradient text (a raised, polished letter) */
+.hof-metal-text {
+  background: var(--hof-name, linear-gradient(180deg, #fff6cf 0%, #ffd965 48%, #d39a24 100%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 0 hsl(228 60% 3% / 0.75));
+}
+
+/* ---------- Score coin with ribbon tails ---------- */
+.hof-coin {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.hof-coin__disc {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  background: var(--hof-coin);
+  box-shadow:
+    inset 0 0 0 2px var(--hof-coin-edge),
+    inset 0 0 0 4px hsl(0 0% 100% / 0.28),
+    inset 0 -3px 6px hsl(0 0% 0% / 0.3),
+    0 3px 6px hsl(228 60% 3% / 0.55);
+  color: var(--hof-coin-ink);
+  text-shadow: 0 1px 0 hsl(0 0% 100% / 0.45);
+}
+.hof-coin__tails {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+/* ---------- Gallery: the enshrined card ---------- */
+.hof-bust {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 164px;
+  padding: 3px;
+  border-radius: 12px;
+  background: var(--hof-frame);
+  box-shadow: 0 6px 14px hsl(228 60% 2% / 0.5);
+  text-align: left;
+  color: #fff;
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.hof-bust:focus-visible {
+  outline: 2px solid hsl(var(--gold));
+  outline-offset: 3px;
+}
+@media (hover: hover) {
+  .hof-bust:hover {
+    transform: translateY(-3px);
+  }
+}
+.hof-bust:active {
+  transform: scale(var(--press-scale));
+}
+
+.hof-face {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 9px;
+}
+/* stadium light from above, a faint star field and a dark vignette */
+.hof-face::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(90% 60% at 50% -12%, hsl(48 100% 92% / 0.32), transparent 62%),
+    radial-gradient(1.2px 1.2px at 14% 22%, hsl(0 0% 100% / 0.7), transparent 100%),
+    radial-gradient(1px 1px at 33% 9%, hsl(0 0% 100% / 0.55), transparent 100%),
+    radial-gradient(1.4px 1.4px at 71% 16%, hsl(0 0% 100% / 0.6), transparent 100%),
+    radial-gradient(1px 1px at 86% 34%, hsl(0 0% 100% / 0.45), transparent 100%),
+    radial-gradient(1px 1px at 52% 28%, hsl(0 0% 100% / 0.4), transparent 100%),
+    radial-gradient(1.2px 1.2px at 24% 40%, hsl(0 0% 100% / 0.35), transparent 100%),
+    radial-gradient(130% 100% at 50% 35%, transparent 50%, hsl(228 60% 3% / 0.65) 100%);
+}
+/* the inner mat line */
+.hof-face::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px hsl(var(--hof-glow) / 0.35);
+}
+.hof-face > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* prismatic foil on the diamond tier */
+.hof-foil {
+  position: absolute !important;
+  inset: 0;
+  z-index: 0 !important;
+  pointer-events: none;
+  opacity: 0.22;
+  mix-blend-mode: screen;
+  background: linear-gradient(
+    125deg,
+    transparent 10%,
+    hsl(190 100% 70%) 28%,
+    hsl(280 100% 78%) 40%,
+    hsl(50 100% 75%) 52%,
+    hsl(150 100% 70%) 64%,
+    transparent 85%
+  );
+}
+
+/* the jersey number, debossed */
+.hof-deboss {
+  position: absolute !important;
+  left: 50%;
+  top: 36%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 86px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: hsl(228 60% 3% / 0.26);
+  text-shadow:
+    0 1px 0 hsl(0 0% 100% / 0.16),
+    0 -1px 0 hsl(228 60% 3% / 0.35);
+  pointer-events: none;
+}
+
+/* the foil sheen: a slow pass on hover / focus, a gentle periodic pass on touch screens */
+.hof-sheen {
+  position: absolute !important;
+  inset: 0;
+  z-index: 4 !important;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.hof-sheen::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  bottom: -10%;
+  left: -75%;
+  width: 55%;
+  transform: translateX(0) skewX(-18deg);
+  background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.08) 30%, hsl(0 0% 100% / 0.38) 50%, hsl(0 0% 100% / 0.08) 70%, transparent);
+}
+.hof-tier-diamond .hof-sheen::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(190 100% 80% / 0.18) 25%,
+    hsl(0 0% 100% / 0.5) 45%,
+    hsl(300 100% 85% / 0.25) 60%,
+    hsl(50 100% 80% / 0.15) 75%,
+    transparent
+  );
+}
+@keyframes hof-sheen-pass {
+  from {
+    transform: translateX(0) skewX(-18deg);
+  }
+  to {
+    transform: translateX(380%) skewX(-18deg);
+  }
+}
+@keyframes hof-sheen-idle {
+  0%,
+  84% {
+    transform: translateX(0) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(380%) skewX(-18deg);
+  }
+}
+@media (hover: hover) {
+  .hof-bust:hover .hof-sheen::before,
+  .hof-bust:focus-visible .hof-sheen::before,
+  .hof-legend:hover .hof-sheen::before,
+  .hof-legend:focus-visible .hof-sheen::before {
+    animation: hof-sheen-pass 1.15s var(--ease-out) 1;
+  }
+}
+@media (hover: none) {
+  .hof-bust .hof-sheen::before,
+  .hof-legend .hof-sheen::before {
+    animation: hof-sheen-idle 10s ease-in-out infinite;
+    animation-delay: calc(var(--i, 0) * 0.7s + 1.5s);
+  }
+}
+
+/* the crest on the frame's top edge */
+.hof-crest {
+  position: absolute;
+  left: 50%;
+  top: -7px;
+  z-index: 6;
+  width: 34px;
+  height: 16px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  filter: drop-shadow(0 1px 1px hsl(228 60% 3% / 0.7));
+}
+
+/* FIRST BALLOT / VETERAN sash across the top-left corner */
+.hof-sash {
+  position: absolute !important;
+  z-index: 5 !important;
+  left: -34px;
+  top: 15px;
+  width: 124px;
+  padding: 3px 0 2px;
+  transform: rotate(-45deg);
+  text-align: center;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: hsl(var(--night));
+  background: linear-gradient(180deg, #fff3c2, #f1bd3c 55%, #b47b12);
+  box-shadow:
+    0 2px 4px hsl(228 60% 3% / 0.55),
+    inset 0 1px 0 hsl(0 0% 100% / 0.6),
+    inset 0 -1px 0 hsl(30 80% 20% / 0.5);
+}
+.hof-sash--silver {
+  background: linear-gradient(180deg, #ffffff, #cfd6e4 55%, #8691a8);
+}
+
+/* enshrine-in reveal */
+@keyframes hof-enshrine {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.hof-reveal {
+  animation: hof-enshrine 520ms var(--ease-out) backwards;
+  animation-delay: calc(min(var(--i, 0), 16) * 45ms);
+}
+
+/* ---------- Legends' Row ---------- */
+.hof-legend {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 268px;
+  padding: 4px;
+  border-radius: 16px;
+  background: var(--hof-frame);
+  box-shadow:
+    0 0 28px hsl(var(--hof-glow) / 0.22),
+    0 10px 24px hsl(228 60% 2% / 0.55);
+  text-align: center;
+  color: #fff;
+  transition: transform var(--dur-3) var(--ease-out);
+}
+@media (hover: hover) {
+  .hof-legend:hover {
+    transform: translateY(-4px);
+  }
+}
+.hof-legend:focus-visible {
+  outline: 2px solid hsl(var(--gold));
+  outline-offset: 3px;
+}
+.hof-legend .hof-face {
+  border-radius: 12px;
+}
+.hof-legend .hof-deboss {
+  top: 38%;
+  transform: translate(-50%, -50%);
+  font-size: 150px;
+  color: hsl(228 60% 3% / 0.22);
+}
+/* the spotlight cone from above */
+.hof-spot {
+  position: absolute !important;
+  inset: 0;
+  z-index: 0 !important;
+  pointer-events: none;
+  clip-path: polygon(40% 0, 60% 0, 92% 100%, 8% 100%);
+  background: linear-gradient(180deg, hsl(48 100% 92% / 0.34), hsl(48 100% 85% / 0.1) 55%, transparent 80%);
+}
+/* the plinth */
+.hof-plinth {
+  position: absolute !important;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 7px 10px 8px;
+  background:
+    linear-gradient(180deg, hsl(var(--hof-glow) / 0.65), hsl(var(--hof-glow) / 0.65) 2px, transparent 2px),
+    radial-gradient(60% 140% at 22% 0%, hsl(225 25% 30% / 0.6), transparent 70%),
+    linear-gradient(115deg, transparent 38%, hsl(0 0% 100% / 0.06) 40%, transparent 43%),
+    linear-gradient(180deg, hsl(226 30% 17%), hsl(228 40% 8%));
+  box-shadow: 0 -6px 14px hsl(228 60% 3% / 0.55);
+}
+.hof-plinth::before {
+  content: '';
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: -9px;
+  height: 9px;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(180deg, hsl(226 24% 30%), hsl(226 30% 18%));
+  box-shadow:
+    inset 0 1px 0 hsl(var(--hof-glow) / 0.75),
+    0 -2px 8px hsl(228 60% 3% / 0.4);
+}
+.hof-engrave {
+  color: hsl(40 35% 72%);
+  text-shadow:
+    0 1px 0 hsl(228 60% 2% / 0.9),
+    0 -1px 0 hsl(0 0% 100% / 0.08);
+}
+
+/* ---------- The hall header ---------- */
+.hof-hall {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 16px;
+  border: 1px solid hsl(43 80% 55% / 0.45);
+  background:
+    linear-gradient(118deg, transparent 30%, hsl(43 70% 70% / 0.06) 31%, transparent 33%),
+    linear-gradient(62deg, transparent 55%, hsl(0 0% 100% / 0.05) 56%, transparent 58.5%),
+    linear-gradient(150deg, transparent 70%, hsl(43 70% 70% / 0.05) 71%, transparent 72.5%),
+    radial-gradient(70% 90% at 80% 110%, hsl(226 30% 20% / 0.8), transparent 70%),
+    radial-gradient(60% 70% at 10% 0%, hsl(226 25% 22% / 0.7), transparent 70%),
+    linear-gradient(180deg, hsl(228 40% 10%), hsl(228 47% 6%));
+  box-shadow: inset 0 1px 0 hsl(43 100% 80% / 0.2), 0 12px 32px hsl(228 60% 2% / 0.5);
+}
+/* gold light rays behind the title */
+.hof-rays {
+  position: absolute;
+  inset: -40% -10% 0;
+  z-index: -1;
+  pointer-events: none;
+  background: repeating-conic-gradient(from 180deg at 50% 18%, hsl(45 100% 70% / 0.16) 0deg 2.5deg, transparent 2.5deg 11deg);
+  -webkit-mask-image: radial-gradient(55% 60% at 50% 22%, #000 0%, transparent 100%);
+  mask-image: radial-gradient(55% 60% at 50% 22%, #000 0%, transparent 100%);
+  animation: hof-breathe 7s ease-in-out infinite;
+}
+@keyframes hof-breathe {
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+/* the arch */
+.hof-arch {
+  position: absolute;
+  left: 50%;
+  top: 12px;
+  z-index: -1;
+  width: min(78%, 520px);
+  height: 150%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  border: 1.5px solid hsl(43 90% 62% / 0.35);
+  border-bottom: 0;
+  border-radius: 9999px 9999px 0 0;
+  box-shadow:
+    inset 0 0 0 6px hsl(43 90% 62% / 0.05),
+    inset 0 0 0 7px hsl(43 90% 62% / 0.18);
+}
+/* fluted columns */
+.hof-column {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  width: 22px;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, hsl(43 60% 70% / 0.55) 0 6px, hsl(226 20% 34%) 6px 9px, transparent 9px calc(100% - 9px), hsl(226 20% 34%) calc(100% - 9px) calc(100% - 6px), hsl(43 60% 70% / 0.55) calc(100% - 6px)),
+    repeating-linear-gradient(90deg, hsl(226 18% 34%) 0 3px, hsl(226 22% 22%) 3px 5px, hsl(226 18% 30%) 5px 7px);
+  box-shadow: inset 0 0 8px hsl(228 60% 3% / 0.6);
+  opacity: 0.85;
+}
+.hof-column--l {
+  left: 10px;
+}
+.hof-column--r {
+  right: 10px;
+}
+@media (min-width: 640px) {
+  .hof-column {
+    width: 34px;
+  }
+  .hof-column--l {
+    left: 18px;
+  }
+  .hof-column--r {
+    right: 18px;
+  }
+}
+/* the marble step the class tags stand on */
+.hof-floor {
+  position: relative;
+  background:
+    linear-gradient(180deg, hsl(43 80% 62% / 0.55), hsl(43 80% 62% / 0.55) 1px, hsl(228 60% 3% / 0.6) 1px, transparent 4px),
+    linear-gradient(100deg, transparent 40%, hsl(0 0% 100% / 0.04) 42%, transparent 46%),
+    linear-gradient(180deg, hsl(226 26% 15%), hsl(228 40% 8%));
+  box-shadow: 0 -10px 20px hsl(228 60% 3% / 0.35);
+}
+.hof-inscription {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: hsl(40 45% 70%);
+  text-shadow:
+    0 1px 0 hsl(228 60% 2%),
+    0 -1px 0 hsl(43 100% 85% / 0.18);
+}
+
+/* brass class tags */
+.hof-tag {
+  position: relative;
+  display: flex;
+  min-height: 42px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 4px 10px 4px 22px;
+  border-radius: 6px;
+  text-align: left;
+  color: hsl(30 60% 12%);
+  background: linear-gradient(180deg, #d9b56a, #a7782c 55%, #7d5618);
+  box-shadow:
+    inset 0 1px 0 hsl(45 100% 85% / 0.55),
+    inset 0 -1px 0 hsl(30 70% 12% / 0.5),
+    0 2px 4px hsl(228 60% 2% / 0.5);
+  text-shadow: 0 1px 0 hsl(45 100% 82% / 0.45);
+  opacity: 0.8;
+  transition:
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-out);
+}
+/* the tag's hole */
+.hof-tag::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
+  border-radius: 9999px;
+  background: hsl(228 47% 7%);
+  box-shadow:
+    inset 0 1px 1px hsl(0 0% 0% / 0.8),
+    0 1px 0 hsl(45 100% 85% / 0.5);
+}
+.hof-tag:hover {
+  opacity: 1;
+}
+.hof-tag[aria-pressed='true'] {
+  opacity: 1;
+  background: linear-gradient(180deg, #fff3c2, #f1bd3c 50%, #b47b12);
+  box-shadow:
+    inset 0 1px 0 hsl(0 0% 100% / 0.7),
+    inset 0 -1px 0 hsl(30 70% 12% / 0.5),
+    0 0 0 2px hsl(var(--gold) / 0.35),
+    0 0 18px hsl(var(--gold) / 0.45);
+}
+.hof-tag:focus-visible {
+  outline: 2px solid hsl(var(--gold));
+  outline-offset: 2px;
+}
+
+/* ---------- Newest class: curtains, spotlight, confetti ---------- */
+.hof-debut {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 16px;
+  border: 1px solid hsl(43 80% 55% / 0.45);
+  background:
+    radial-gradient(60% 90% at 50% -20%, hsl(48 100% 85% / 0.22), transparent 70%),
+    linear-gradient(180deg, hsl(228 40% 11%), hsl(228 47% 6%));
+  padding-left: calc(max(22px, 6%) + 10px);
+  padding-right: calc(max(22px, 6%) + 10px);
+}
+.hof-curtain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: max(22px, 6%);
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, hsl(43 90% 60%) 0 3px, transparent 3px),
+    repeating-linear-gradient(90deg, hsl(350 55% 16%) 0 4px, hsl(350 58% 26%) 7px, hsl(350 55% 16%) 11px);
+  box-shadow: 0 0 18px hsl(228 60% 2% / 0.7);
+  animation: hof-curtain-open 1.6s cubic-bezier(0.7, 0, 0.2, 1) 0.25s backwards;
+}
+.hof-curtain::after {
+  /* gold fringe on the inner edge */
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: repeating-linear-gradient(180deg, hsl(43 95% 62%) 0 3px, hsl(36 80% 38%) 3px 5px);
+}
+.hof-curtain--l {
+  left: 0;
+  transform-origin: left center;
+}
+.hof-curtain--l::after {
+  right: 0;
+}
+.hof-curtain--r {
+  right: 0;
+  transform-origin: right center;
+}
+.hof-curtain--r::after {
+  left: 0;
+}
+@keyframes hof-curtain-open {
+  from {
+    transform: scaleX(9);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.hof-debut__spot {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, hsl(48 100% 90% / 0.2), transparent 75%);
+}
+.hof-confetti {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+}
+.hof-confetti i {
+  position: absolute;
+  top: -12px;
+  width: 5px;
+  height: 9px;
+  border-radius: 1px;
+  opacity: 0;
+  animation: hof-confetti-fall 2.8s cubic-bezier(0.3, 0.6, 0.5, 1) forwards;
+}
+@keyframes hof-confetti-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  8% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dx, 0), 300px, 0) rotate(var(--r, 540deg));
+  }
+}
+
+/* the big ribbon banner (FIRST BALLOT / VETERAN) */
+.hof-banner {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 16px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--night));
+  background: linear-gradient(180deg, #fff3c2, #f1bd3c 55%, #b47b12);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 50%, 100% 100%, 0 100%, 8px 50%);
+  text-shadow: 0 1px 0 hsl(45 100% 85% / 0.6);
+}
+.hof-banner--silver {
+  background: linear-gradient(180deg, #ffffff, #cfd6e4 55%, #8691a8);
+}
+
+/* ---------- The bronze plaque ---------- */
+.hof-plaque {
+  position: relative;
+  padding: 7px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #f6d9a8 0%, #a8652f 18%, #e8b678 36%, #6b3a17 56%, #d39a5d 76%, #4e2a10 100%);
+  box-shadow:
+    0 12px 28px hsl(228 60% 2% / 0.6),
+    inset 0 1px 0 hsl(40 100% 90% / 0.6);
+}
+.hof-plaque__field {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.12 0 0 0 0 0.05 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(120% 70% at 50% 0%, hsl(34 45% 27%), hsl(30 42% 15%) 58%, hsl(28 42% 9%));
+  box-shadow:
+    inset 0 0 0 1px hsl(30 70% 10%),
+    inset 0 0 0 3px hsl(38 70% 55% / 0.45),
+    inset 0 0 0 4px hsl(30 70% 10% / 0.8),
+    inset 0 3px 22px hsl(28 60% 3% / 0.75);
+}
+.hof-rivet {
+  position: absolute;
+  z-index: 2;
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 30%, #fff1cf, #c8893f 45%, #5a2f10 100%);
+  box-shadow: 0 1px 1px hsl(28 60% 3% / 0.8);
+}
+.hof-plaque-engrave {
+  color: hsl(40 38% 68%);
+  text-shadow:
+    0 -1px 0 hsl(28 60% 3% / 0.85),
+    0 1px 0 hsl(40 70% 70% / 0.14);
+}
+.hof-plaque-name {
+  background: linear-gradient(180deg, #fff5d6 0%, #f5cf7a 45%, #c58b3c 75%, #f2c97a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 0 hsl(28 60% 3% / 0.9));
+}
+.hof-plaque-rule {
+  height: 6px;
+  background:
+    linear-gradient(90deg, transparent, hsl(40 70% 60% / 0.55) 20%, hsl(40 70% 60% / 0.55) 80%, transparent) center 1px / 100% 1px no-repeat,
+    linear-gradient(90deg, transparent, hsl(28 60% 3% / 0.7) 20%, hsl(28 60% 3% / 0.7) 80%, transparent) center 2px / 100% 1px no-repeat;
+}
+
+/* ---------- Lighter touches: section ornaments, brass rails, honour rings ---------- */
+.hof-ornament {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 220px;
+  margin-top: 6px;
+}
+.hof-ornament::before,
+.hof-ornament::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, hsl(var(--gold) / 0.7), hsl(var(--gold) / 0));
+}
+.hof-ornament::before {
+  flex: 0 0 32px;
+  background: hsl(var(--gold) / 0.7);
+}
+.hof-rail {
+  position: relative;
+  overflow: hidden;
+}
+.hof-rail::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #f6dc8f, #a87b2a 50%, #e0b452);
+}
+.hof-rail--over::before {
+  width: 4px;
+  box-shadow: 0 0 10px hsl(var(--gold) / 0.6);
+}
+.hof-honour-ribbon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, #fff1b8, #e3a92b 50%, #8f5d0c);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hof-reveal,
+  .hof-rays,
+  .hof-curtain,
+  .hof-sheen::before,
+  .hof-bust .hof-sheen::before,
+  .hof-legend .hof-sheen::before,
+  .hof-bust:hover .hof-sheen::before,
+  .hof-legend:hover .hof-sheen::before {
+    animation: none !important;
+  }
+  .hof-confetti {
+    display: none;
+  }
+  .hof-bust,
+  .hof-legend {
+    transition: none;
+  }
+}

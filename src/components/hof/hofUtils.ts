@@ -4,6 +4,12 @@ import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
 import { liftForDarkBg } from '@/utils/teamColors';
 import type { PlayerStints } from '@/utils/playerExtras';
 
+export type HofTier = 'diamond' | 'gold' | 'bronze';
+
+/** The frame finish for a Hall of Fame Score: diamond 95-100, gold 80-94, bronze below (hof.css .hof-tier-*). */
+export const tierOf = (score: number): HofTier => (score >= 95 ? 'diamond' : score >= 80 ? 'gold' : 'bronze');
+export const tierClass = (score: number) => `hof-tier-${tierOf(score)}`;
+
 const NEUTRAL = { primary: '226 33% 30%', secondary: '43 100% 62%' };
 
 /** A club's primary / secondary HSL triplets (navy and gold for an unknown club). */
@@ -68,4 +74,13 @@ export const ordinal = (n: number) => {
   const r = Math.round(n);
   const s = r % 100 >= 11 && r % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][r % 10] ?? 'th';
   return `${r}${s}`;
+};
+
+/** 27 -> "XXVII", for the hall's inscription. */
+export const roman = (n: number) => {
+  const table: [number, string][] = [[1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'], [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']];
+  let r = Math.max(0, Math.round(n));
+  let out = '';
+  for (const [v, s] of table) while (r >= v) { out += s; r -= v; }
+  return out;
 };
