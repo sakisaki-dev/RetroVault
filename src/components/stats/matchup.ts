@@ -189,7 +189,7 @@ export const LEAGUE_DEFS: Record<string, MetricDef> = {
   careerLegacy: {
     label: 'Career Legacy',
     short: 'CL',
-    definition: `4 × True Talent + 4 × Dominance + 2 × games. Hall of Fame induction at ${HOF_THRESHOLD.toLocaleString('en-US')}.`,
+    definition: `4 × True Talent + 4 × Dominance + 2 × games. The Hall of Fame is a separate ballot over retired players.`,
     minLabel: ALL,
   },
   tpg: {

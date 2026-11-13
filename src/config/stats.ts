@@ -126,15 +126,16 @@ export const normalizeLeague = <T extends NormalizablePlayer>(players: T[]): T[]
 // ---------- Hall of Fame / legacy tiers ----------
 
 /** Induction bar (owner): Career Legacy 7,000 through Y84, 7,500 from Y85 on. */
+/** Career Legacy band edges (the "Great" tier and the lowest band). These no longer decide the Hall of Fame, which
+ * is a ballot over retired players (scripts/hall_of_fame.py); the names stay for the charts and tiers that use them. */
 export const HOF_THRESHOLD = 7500;
-/** Members inducted at the old 7,000 bar stay only while they hold this; the borderline ones under it were removed (owner). */
 export const HOF_FLOOR = 7300;
 
 export const LEGACY_TIERS = [
   { key: 'legendary', label: 'LEGENDARY', min: 10000 },
   { key: 'elite', label: 'ELITE', min: 8500 },
   { key: 'great', label: 'GREAT', min: 7500 },
-  { key: 'inductee', label: 'INDUCTEE', min: HOF_FLOOR },
+  { key: 'inductee', label: 'VERY GOOD', min: HOF_FLOOR }, // key kept for saved data; no longer a Hall of Fame tier
 ] as const;
 
 export type LegacyTierKey = (typeof LEGACY_TIERS)[number]['key'];

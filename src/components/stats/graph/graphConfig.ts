@@ -347,4 +347,4 @@ export const buildGraph = (c: GraphConfig, players: Player[], legends: Player[],
   return { xs, ys, ss, points, spec, positions, shown, nflMissing: { n: nflMissingN, stats: [...missing] } };
 };
 
-export const HOF_LABEL = `Hall of Fame (${HOF_THRESHOLD.toLocaleString('en-US')}+ Career Legacy)`;
+export const HOF_LABEL = 'Hall of Fame (voted in)';

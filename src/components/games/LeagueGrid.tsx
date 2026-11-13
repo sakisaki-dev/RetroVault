@@ -30,7 +30,7 @@ const COLUMN_CRITERIA: Criterion[] = [
   { id: 'sbmvp', label: 'Super Bowl MVP', test: (p) => p.sbmvp >= 1 },
   { id: 'roty', label: 'Rookie of the Year', test: (p) => p.roty >= 1 },
   // League-only metrics: real NFL legends never qualify for these.
-  { id: 'hof', label: `Hall of Famer (${HOF_THRESHOLD / 1000}k+)`, test: (p) => !isLegend(p) && isHallOfFamer(p) },
+  { id: 'hof', label: 'Hall of Famer', test: (p) => !isLegend(p) && isHallOfFamer(p) },
   { id: 'mvp2', label: '2+ MVPs', test: (p) => p.mvp >= 2 },
   { id: 'ringmvp', label: 'Ring + MVP', test: (p) => p.rings >= 1 && p.mvp >= 1 },
   { id: 'games250', label: '250+ Games', test: (p) => p.games >= 250 },

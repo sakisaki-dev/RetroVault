@@ -96,7 +96,7 @@ const StatsPulse = ({ data, book, onSelect }: { data: LeagueData; book: RecordBo
       <Card
         title="Hall of Famers"
         value={hof}
-        sub={`${players.length ? Math.round((hof / players.length) * 100) : 0}% of the league · ${fmtNum(HOF_THRESHOLD, 0)}+ legacy`}
+        sub={`${players.length ? Math.round((hof / players.length) * 100) : 0}% of the league · voted in`}
         chart={<MiniColumns cols={legacyBins} />}
         summary={`Career Legacy histogram in 1,000-point bins, Hall of Fame bins in gold: ${legacyBins.map((b) => `${b.label} ${b.value}`).join(', ')}.`}
       />

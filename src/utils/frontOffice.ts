@@ -611,7 +611,7 @@ export const readArcadeBests = (): ArcadeBests => ({
 });
 
 /**
- * Hall of Famers you coached: Hall of Fame legacy (careerLegacy ≥ HOF_THRESHOLD), at least one ring,
+ * Hall of Famers you coached: voted into the Hall of Fame (isHallOfFamer), at least one ring,
  * not a real-life legend, and either named as a key player in one of your eras or finishing their
  * career with a franchise you ran.
  */
@@ -873,7 +873,7 @@ export const buildAchievements = (
       icon: 'hall',
       title: 'Hall of Fame factory',
       description: 'Coach five Hall of Famers.',
-      rule: `Players with ${HOF_THRESHOLD.toLocaleString()}+ career legacy and at least one ring who are named key players in one of your eras or finished their career with a franchise you ran. Real-life legends excluded.`,
+      rule: `Hall of Famers (voted in by the Hall of Fame ballot) with at least one ring who are named key players in one of your eras or finished their career with a franchise you ran. Real-life legends excluded.`,
       unlocked: hofs.length >= 5,
       detail: hofs.length ? `${hofs.length} coached: ${names(hofs)}` : 'None yet',
       progress: clamp01(hofs.length / 5),

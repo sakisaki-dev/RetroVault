@@ -148,7 +148,7 @@ const DistributionSwarm = ({ players, ovrMap, onSelect }: { players: Player[]; o
   const lines =
     metric === 'legacy'
       ? [
-          { v: HOF_THRESHOLD, label: `HOF ${fmtShort(HOF_THRESHOLD)}`, strong: true },
+          { v: HOF_THRESHOLD, label: `Great ${fmtShort(HOF_THRESHOLD)}`, strong: true },
           ...LEGACY_TIERS.filter((t) => t.min > HOF_THRESHOLD && t.min <= base.domain[1]).map((t) => ({ v: t.min, label: '', strong: false })),
         ]
       : [];
@@ -162,7 +162,7 @@ const DistributionSwarm = ({ players, ovrMap, onSelect }: { players: Player[]; o
     <ChartFrame
       title="How the league is spread"
       icon={<SwarmIcon className="h-4 w-4 text-gold" aria-hidden="true" />}
-      description={`Every league player as a dot, one row per position, by ${m.label}. Gold diamonds are the ${hofCount} Hall of Famers (Career Legacy ${fmtShort(HOF_THRESHOLD)}+)${metric === 'legacy' ? '; the gold line is the Hall of Fame bar and the faint lines the Great, Elite and Legendary tiers' : '; the tick in each row is the position median'}.`}
+      description={`Every league player as a dot, one row per position, by ${m.label}. Gold diamonds are the ${hofCount} Hall of Famers (voted in by the ballot)${metric === 'legacy' ? '; the gold line is the Great tier and the faint lines the Elite and Legendary tiers' : '; the tick in each row is the position median'}.`}
       controls={
         <div className="flex flex-wrap items-center justify-between gap-2">
           <Chips label="Distribution metric" value={metric} onChange={setMetric} options={METRICS.map((x0) => ({ value: x0.id, label: x0.short, title: x0.label }))} />

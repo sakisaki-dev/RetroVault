@@ -424,13 +424,13 @@ export const buildTraits = ({ players, content, extras }: TraitContext): Imposte
   traits.push({
     id: 'hof',
     family: 'legacy',
-    label: `All five are Hall of Famers (${fmt(HOF_THRESHOLD)}+ Career Legacy)`,
+    label: 'All five are Hall of Famers',
     difficulty: 2,
     eligible: (p) => !isLegend(p) && p.careerLegacy > 0,
     test: (p) => isHallOfFamer(p),
     explain: (p) =>
-      isHallOfFamer(p) ? `Hall of Famer, Legacy ${fmt(p.careerLegacy)}` : `Legacy ${fmt(p.careerLegacy)} (needs ${fmt(HOF_THRESHOLD)})`,
-    miss: (p) => (HOF_THRESHOLD - p.careerLegacy) / HOF_THRESHOLD,
+      isHallOfFamer(p) ? `Hall of Famer, Legacy ${fmt(p.careerLegacy)}` : `Not in the Hall of Fame, Legacy ${fmt(p.careerLegacy)}`,
+    miss: (p) => Math.max(0, HOF_THRESHOLD - p.careerLegacy) / HOF_THRESHOLD, // how far off, by Career Legacy (the Hall itself is a ballot)
   });
 
   const realCareer = (p: Player) => extras.realNflCareer[extrasKey(p.name)];

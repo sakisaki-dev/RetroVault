@@ -2685,10 +2685,9 @@
    "stints": [
     {
      "team": "Jets",
-     "from": 73,
+     "from": 76,
      "to": 82,
      "rings": [
-      75,
       77,
       80,
       82
@@ -2697,17 +2696,18 @@
     {
      "team": "Falcons",
      "from": 83,
-     "to": 86,
+     "to": 89,
      "rings": [
       83,
       84,
       85,
-      86
+      86,
+      87
      ]
     }
    ],
    "confidence": "confirmed",
-   "evidence": "8 rings = Jets Y75, Y77, Y80, Y82; Falcons Y83, Y84, Y85, Y86. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
+   "evidence": "8 rings = Jets Y77, Y80, Y82; Falcons Y83, Y84, Y85, Y86, Y87. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
   },
   "Jamir Crane": {
    "stints": [
@@ -2906,14 +2906,14 @@
    "stints": [
     {
      "team": "Giants",
-     "from": 67,
-     "to": 80,
+     "from": 69,
+     "to": 81,
      "rings": []
     },
     {
      "team": "Ravens",
-     "from": 81,
-     "to": 86,
+     "from": 82,
+     "to": 88,
      "rings": []
     }
    ],
@@ -2929,15 +2929,15 @@
      "rings": []
     }
    ],
-   "confidence": "likely",
-   "evidence": "No rings. On the Y80 Cowboys roster. Exact seasons are approximate."
+   "confidence": "strong",
+   "evidence": "No rings. On the Y80 Cowboys roster."
   },
   "Jarred Beasley": {
    "stints": [
     {
      "team": "Titans",
-     "from": 75,
-     "to": 88,
+     "from": 76,
+     "to": 89,
      "rings": []
     }
    ],
@@ -2965,13 +2965,13 @@
    "stints": [
     {
      "team": "Ravens",
-     "from": 68,
-     "to": 83,
+     "from": 69,
+     "to": 85,
      "rings": []
     }
    ],
-   "confidence": "likely",
-   "evidence": "No rings. On the Y80 Ravens roster. Exact seasons are approximate."
+   "confidence": "strong",
+   "evidence": "No rings. On the Y80 Ravens roster."
   },
   "Dan Stout": {
    "stints": [
@@ -3162,7 +3162,7 @@
     {
      "team": "Jets",
      "from": 76,
-     "to": 92,
+     "to": 91,
      "rings": [
       77,
       80,
@@ -3216,8 +3216,8 @@
    "stints": [
     {
      "team": "Seahawks",
-     "from": 71,
-     "to": 82,
+     "from": 74,
+     "to": 85,
      "rings": []
     }
    ],
@@ -3253,7 +3253,7 @@
     {
      "team": "Titans",
      "from": 75,
-     "to": 88,
+     "to": 87,
      "rings": []
     }
    ],
@@ -3364,13 +3364,13 @@
    "stints": [
     {
      "team": "Rams",
-     "from": 68,
-     "to": 82,
+     "from": 70,
+     "to": 84,
      "rings": []
     }
    ],
-   "confidence": "likely",
-   "evidence": "No rings. Exact seasons are approximate."
+   "confidence": "strong",
+   "evidence": "No rings."
   },
   "Solomon Toohill": {
    "stints": [
@@ -3405,21 +3405,21 @@
     {
      "team": "Packers",
      "from": 69,
-     "to": 81,
+     "to": 82,
      "rings": [
       79
      ]
     }
    ],
-   "confidence": "likely",
-   "evidence": "1 ring = Packers Y79. Exact seasons are approximate."
+   "confidence": "strong",
+   "evidence": "1 ring = Packers Y79. The only window that fits."
   },
   "Pyke T. Lowe": {
    "stints": [
     {
      "team": "Vikings",
-     "from": 70,
-     "to": 84,
+     "from": 74,
+     "to": 88,
      "rings": [
       78
      ]
@@ -3479,13 +3479,13 @@
    "stints": [
     {
      "team": "Lions",
-     "from": 70,
-     "to": 80,
+     "from": 78,
+     "to": 87,
      "rings": []
     }
    ],
-   "confidence": "likely",
-   "evidence": "No rings. Exact seasons are approximate."
+   "confidence": "strong",
+   "evidence": "No rings."
   },
   "Siran Spector": {
    "stints": [
@@ -3551,27 +3551,25 @@
    "stints": [
     {
      "team": "Ravens",
-     "from": 51,
-     "to": 65,
+     "from": 76,
+     "to": 89,
      "rings": []
     }
    ],
-   "confidence": "likely",
-   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 245-game window is a placeholder in seasons his club won nothing.",
-   "approx": true
+   "confidence": "strong",
+   "evidence": "No rings."
   },
   "Kirk Lenoir": {
    "stints": [
     {
      "team": "Jaguars",
-     "from": 35,
-     "to": 58,
+     "from": 63,
+     "to": 86,
      "rings": []
     }
    ],
-   "confidence": "likely",
-   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 403-game window is a placeholder in seasons his club won nothing.",
-   "approx": true
+   "confidence": "strong",
+   "evidence": "No rings."
   },
   "Shareef London": {
    "stints": [
@@ -3680,34 +3678,32 @@
    "stints": [
     {
      "team": "Jaguars",
-     "from": 45,
-     "to": 58,
+     "from": 72,
+     "to": 86,
      "rings": []
     }
    ],
-   "confidence": "likely",
-   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 247-game window is a placeholder in seasons his club won nothing.",
-   "approx": true
+   "confidence": "strong",
+   "evidence": "No rings."
   },
   "Keion Orzech": {
    "stints": [
     {
      "team": "Cowboys",
-     "from": 31,
-     "to": 46,
+     "from": 73,
+     "to": 88,
      "rings": []
     }
    ],
-   "confidence": "likely",
-   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 271-game window is a placeholder in seasons his club won nothing.",
-   "approx": true
+   "confidence": "strong",
+   "evidence": "No rings."
   },
   "Aqib McClain": {
    "stints": [
     {
      "team": "49ers",
-     "from": 75,
-     "to": 91,
+     "from": 74,
+     "to": 90,
      "rings": []
     }
    ],
@@ -3718,54 +3714,51 @@
    "stints": [
     {
      "team": "49ers",
-     "from": 39,
-     "to": 54,
+     "from": 73,
+     "to": 88,
      "rings": []
     }
    ],
-   "confidence": "likely",
-   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 274-game window is a placeholder in seasons his club won nothing.",
-   "approx": true
+   "confidence": "strong",
+   "evidence": "No rings."
   },
   "K'Lavon Settle": {
    "stints": [
     {
      "team": "49ers",
-     "from": 39,
-     "to": 54,
+     "from": 73,
+     "to": 87,
      "rings": []
     }
    ],
-   "confidence": "likely",
-   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 255-game window is a placeholder in seasons his club won nothing.",
-   "approx": true
+   "confidence": "strong",
+   "evidence": "No rings."
   },
   "Matthew Waynes": {
    "stints": [
     {
      "team": "Panthers",
-     "from": 39,
-     "to": 54,
+     "from": 70,
+     "to": 84,
      "rings": []
     }
    ],
-   "confidence": "likely",
-   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 258-game window is a placeholder in seasons his club won nothing.",
-   "approx": true
+   "confidence": "strong",
+   "evidence": "No rings."
   },
   "D.C Paradis": {
    "stints": [
     {
      "team": "Broncos",
-     "from": 48,
-     "to": 65,
+     "from": 65,
+     "to": 87,
      "rings": [
       65
      ]
     }
    ],
-   "confidence": "likely",
-   "evidence": "1 ring = Broncos Y65. Exact seasons are approximate."
+   "confidence": "strong",
+   "evidence": "1 ring = Broncos Y65. The only window that fits."
   },
   "Brandon Jaclyde": {
    "stints": [
@@ -3895,14 +3888,13 @@
    "stints": [
     {
      "team": "Jaguars",
-     "from": 33,
-     "to": 50,
+     "from": 72,
+     "to": 89,
      "rings": []
     }
    ],
-   "confidence": "likely",
-   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 298-game window is a placeholder in seasons his club won nothing.",
-   "approx": true
+   "confidence": "strong",
+   "evidence": "No rings."
   },
   "Orlando Larienne": {
    "stints": [
@@ -3968,8 +3960,8 @@
    "stints": [
     {
      "team": "Titans",
-     "from": 78,
-     "to": 91,
+     "from": 77,
+     "to": 90,
      "rings": []
     }
    ],
@@ -4029,8 +4021,8 @@
    "stints": [
     {
      "team": "Ravens",
-     "from": 76,
-     "to": 91,
+     "from": 75,
+     "to": 90,
      "rings": []
     }
    ],
@@ -4072,7 +4064,7 @@
     {
      "team": "Broncos",
      "from": 72,
-     "to": 92,
+     "to": 91,
      "rings": []
     }
    ],
@@ -4239,15 +4231,15 @@
    "stints": [
     {
      "team": "Cardinals",
-     "from": 65,
-     "to": 81,
+     "from": 72,
+     "to": 88,
      "rings": [
       73
      ]
     }
    ],
-   "confidence": "likely",
-   "evidence": "1 ring = Cardinals Y73. Exact seasons are approximate."
+   "confidence": "strong",
+   "evidence": "1 ring = Cardinals Y73. The only window that fits."
   },
   "Akeem Trask": {
    "stints": [
@@ -4472,14 +4464,13 @@
    "stints": [
     {
      "team": "Saints",
-     "from": 53,
-     "to": 67,
+     "from": 76,
+     "to": 89,
      "rings": []
     }
    ],
-   "confidence": "likely",
-   "evidence": "No rings. Exact seasons are approximate. No rings, record or owner date places him; the 245-game window is a placeholder in seasons his club won nothing.",
-   "approx": true
+   "confidence": "strong",
+   "evidence": "No rings."
   },
   "Khaleke Hyder": {
    "stints": [
@@ -4586,8 +4577,8 @@
    "stints": [
     {
      "team": "Buccaneers",
-     "from": 76,
-     "to": 91,
+     "from": 75,
+     "to": 90,
      "rings": []
     }
    ],
@@ -4956,7 +4947,7 @@
     {
      "team": "Bengals",
      "from": 77,
-     "to": 92,
+     "to": 91,
      "rings": []
     }
    ],
@@ -5304,7 +5295,7 @@
     {
      "team": "Buccaneers",
      "from": 72,
-     "to": 92,
+     "to": 91,
      "rings": []
     }
    ],
@@ -5388,7 +5379,7 @@
     {
      "team": "Cardinals",
      "from": 78,
-     "to": 92,
+     "to": 91,
      "rings": []
     }
    ],
@@ -5400,7 +5391,7 @@
     {
      "team": "Cardinals",
      "from": 78,
-     "to": 92,
+     "to": 91,
      "rings": []
     }
    ],
@@ -5448,7 +5439,7 @@
     {
      "team": "Chargers",
      "from": 76,
-     "to": 92,
+     "to": 91,
      "rings": []
     }
    ],
@@ -5568,7 +5559,7 @@
     {
      "team": "Chiefs",
      "from": 77,
-     "to": 92,
+     "to": 91,
      "rings": []
     }
    ],
@@ -5651,8 +5642,8 @@
    "stints": [
     {
      "team": "Colts",
-     "from": 86,
-     "to": 92,
+     "from": 85,
+     "to": 91,
      "rings": []
     }
    ],
@@ -5723,8 +5714,8 @@
    "stints": [
     {
      "team": "Colts",
-     "from": 78,
-     "to": 92,
+     "from": 77,
+     "to": 91,
      "rings": []
     }
    ],
@@ -5939,8 +5930,8 @@
    "stints": [
     {
      "team": "Dolphins",
-     "from": 78,
-     "to": 92,
+     "from": 77,
+     "to": 91,
      "rings": []
     }
    ],
@@ -6544,8 +6535,8 @@
    "stints": [
     {
      "team": "Panthers",
-     "from": 78,
-     "to": 92,
+     "from": 77,
+     "to": 91,
      "rings": []
     }
    ],
@@ -6659,7 +6650,7 @@
     {
      "team": "Raiders",
      "from": 77,
-     "to": 92,
+     "to": 91,
      "rings": []
     }
    ],
@@ -7019,7 +7010,7 @@
     {
      "team": "Seahawks",
      "from": 77,
-     "to": 92,
+     "to": 91,
      "rings": []
     }
    ],

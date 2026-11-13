@@ -3435,7 +3435,7 @@
    "name": "Abraham Ward Jr",
    "team": "Packers",
    "position": "DB",
-   "era": "Titans run"
+   "era": "Jets run"
   },
   {
    "name": "Pyke T. Lowe",
@@ -3465,13 +3465,25 @@
    "name": "Shawn Skule",
    "team": "Lions",
    "position": "OL",
-   "era": "Titans run"
+   "era": "Jets run"
   },
   {
    "name": "Siran Spector",
    "team": "Texans",
    "position": "RB",
    "era": "Falcons dynasty"
+  },
+  {
+   "name": "Tristan Tart",
+   "team": "Ravens",
+   "position": "WR",
+   "era": "Jets run"
+  },
+  {
+   "name": "Kirk Lenoir",
+   "team": "Jaguars",
+   "position": "QB",
+   "era": "Vikings dynasty"
   },
   {
    "name": "Shareef London",
@@ -3500,22 +3512,47 @@
    "era": "Eagles run"
   },
   {
+   "name": "Spencer Daniels",
+   "team": "Jaguars",
+   "position": "TE",
+   "era": "Jets run"
+  },
+  {
+   "name": "Keion Orzech",
+   "team": "Cowboys",
+   "position": "DL",
+   "era": "Jets run"
+  },
+  {
    "name": "Aqib McClain",
    "team": "49ers",
    "position": "DL",
    "era": "Jets run"
   },
   {
+   "name": "Grunky Felton",
+   "team": "49ers",
+   "position": "LB",
+   "era": "Jets run"
+  },
+  {
    "name": "K'Lavon Settle",
    "team": "49ers",
    "position": "DB",
+   "era": "Jets run",
    "tag": "League record: career tackles"
+  },
+  {
+   "name": "Matthew Waynes",
+   "team": "Panthers",
+   "position": "RB",
+   "era": "Jets run"
   },
   {
    "name": "D.C Paradis",
    "team": "Broncos",
    "position": "TE",
-   "era": "Ravens dynasty"
+   "era": "Jets run"
   },
   {
    "name": "Brandon Jaclyde",
@@ -3558,6 +3595,12 @@
    "team": "Jets",
    "position": "WR",
    "era": "Falcons dynasty"
+  },
+  {
+   "name": "Danny Diggs",
+   "team": "Jaguars",
+   "position": "RB",
+   "era": "Jets run"
   },
   {
    "name": "Orlando Larienne",
@@ -3702,7 +3745,7 @@
    "name": "Asante Biadasz",
    "team": "Cardinals",
    "position": "OL",
-   "era": "Titans run"
+   "era": "Jets run"
   },
   {
    "name": "Akeem Trask",
@@ -3789,6 +3832,12 @@
    "team": "Steelers",
    "position": "TE",
    "era": "Falcons dynasty"
+  },
+  {
+   "name": "Cairo Colbert",
+   "team": "Saints",
+   "position": "RB",
+   "era": "Jets run"
   },
   {
    "name": "Khaleke Hyder",

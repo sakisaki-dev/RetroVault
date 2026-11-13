@@ -35,7 +35,7 @@ const BAND_INK: Record<Band, string> = {
 };
 const BANDS: { key: Band; label: string }[] = [
   ...LEGACY_TIERS.map((t) => ({ key: t.key as Band, label: `${t.label[0]}${t.label.slice(1).toLowerCase()} (${fmtNum(t.min, 0)}+)` })),
-  { key: 'none', label: `Not in the Hall (< ${fmtNum(HOF_THRESHOLD, 0)})` },
+  { key: 'none', label: `Under ${fmtNum(LEGACY_TIERS[LEGACY_TIERS.length - 1].min, 0)}` },
 ];
 
 /** A segment shows its count only when it covers at least this share of the longest bar (about 25px on a phone). */
@@ -110,9 +110,9 @@ export const HofTiers = ({ players }: { players: Player[] }) => {
 
   return (
     <ChartFrame
-      title="Hall of Fame by position"
+      title="Career Legacy by position"
       icon={<Layers3 className="h-4 w-4 text-gold" aria-hidden="true" />}
-      description={`Each bar is one position's players, split by legacy tier: ${hof} of ${players.length} league players are in the Hall (Career Legacy ${fmtNum(HOF_THRESHOLD, 0)}+). Bar length = players at the position; the right column is Hall of Famers / players.`}
+      description={`Each bar is one position's players, split by Career Legacy tier; ${hof} of ${players.length} league players are Hall of Famers (voted in by the ballot). Bar length = players at the position; the right column is Hall of Famers / players.`}
       controls={
         <Legend
           label="Legacy tiers"

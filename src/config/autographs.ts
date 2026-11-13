@@ -228,7 +228,7 @@ export const PRESTIGE: Record<PrestigeTier, { label: string; level: number }> = 
   rising: { label: 'Rising', level: 1 },
   none: { label: '', level: 0 },
 };
-/** Career Legacy tier: Legendary ≥ 10,000, Elite ≥ 8,500, Great ≥ 7,500, Hall of Famer ≥ 7,300 (members only), Rising = 60 games or fewer with an S or A grade. */
+/** Career Legacy tier: Legendary ≥ 10,000, Elite ≥ 8,500, Great ≥ 7,500, Hall of Famer (members, voted in by the ballot), Rising = 60 games or fewer with an S or A grade. */
 export const prestigeOf = (legacy: number, hof: boolean, games: number, grade: string | null): PrestigeTier => {
   if (legacy >= 10000) return 'legendary';
   if (legacy >= 8500) return 'elite';

@@ -330,7 +330,7 @@ export const marketNews = (history: MarketHistory, limit = 8): MarketNews[] => {
       const name = nameOf(key);
       const base = { key, label, at: i, change };
       if (b.legacy < LEGENDARY_LEGACY && p.legacy >= LEGENDARY_LEGACY) items.push({ ...base, kind: 'legendary', text: `${name} reaches Legendary legacy` });
-      else if (b.legacy < HOF_THRESHOLD && p.legacy >= HOF_THRESHOLD) items.push({ ...base, kind: 'hof', text: `${name} enters the Hall of Fame` });
+      else if (b.legacy < HOF_THRESHOLD && p.legacy >= HOF_THRESHOLD) items.push({ ...base, kind: 'hof', text: `${name} passes ${HOF_THRESHOLD.toLocaleString('en-US')} Career Legacy` });
       else if (Math.abs(p.ovr - b.ovr) >= 3) items.push({ ...base, kind: 'ovr', text: `${name} OVR ${b.ovr} → ${p.ovr}` });
       else if (p.legacy - b.legacy >= 500) items.push({ ...base, kind: 'career', text: `${name}'s career line grows (+${fmtCoins(p.legacy - b.legacy)} legacy)` });
       else if (Math.abs(change) >= 0.3) items.push({ ...base, kind: 'move', text: `${name} ${change > 0 ? 'surges' : 'slides'}` });

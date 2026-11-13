@@ -47,6 +47,32 @@ COACH = {s["year"]: s for s in json.loads((SRC / "coach.json").read_text())["sea
 LAST = max(COACH)
 WIN = {y: s["winner"] for y, s in SB.items()}
 LOSE = {y: s["loser"] for y, s in SB.items()}
+
+
+def played_seasons() -> dict[str, tuple[int, int, bool]]:
+    """name -> (first, last, stopped): the seasons his games went up between two end-of-season market snapshots
+    (seasons he surely played), and whether he was still recorded later with no more games (his career ended there). A lone rise between the first two recorded seasons is the first import being corrected (God Johnson
+    216 -> 234 long after he retired), not a season played."""
+    import market_history
+    snaps = market_history.load(SRC / "market_history.json")
+    snaps = snaps["snapshots"] if isinstance(snaps, dict) else snaps
+    ends = {}
+    for s in snaps:
+        m = re.match(r"Y(\d+)", str(s.get("season") or ""))
+        if m:
+            ends[int(m.group(1))] = s["players"]
+    seasons = sorted(ends)
+    out = {}
+    for k in {k for y in seasons for k in ends[y]}:
+        name = k.split(":", 1)[1]
+        played = [y for i, y in enumerate(seasons[1:], 1) if k in ends[y] and k in ends[seasons[i - 1]]
+                  and ((ends[y][k].get("s") or {}).get("g") or 0) > ((ends[seasons[i - 1]][k].get("s") or {}).get("g") or 0)]
+        if played and not (len(played) == 1 and played[0] == seasons[1]):
+            out[name] = (played[0], played[-1], any(y > played[-1] and k in ends[y] for y in seasons))
+    return out
+
+
+PLAYED = played_seasons()
 OWNER = {y: s["team"] for y, s in COACH.items()}
 PLAYOFF = {"Champions": 3.6, "AFC Champs": 3.0, "NFC Champs": 3.0, "Champ Rnd": 2.4, "Divisional": 1.5, "Wild Card": 1.0}
 
@@ -413,7 +439,20 @@ def main():
             # on a roster in the last season, or added after the sheet and not retired in the game: still playing
             target["end"] = (LAST, LAST)
         seqs = candidate_seqs(f, anchors)
+        loose = dict(target)
+        if name in PLAYED:
+            # seasons the market snapshots show him playing: his career covers them
+            first, last, stopped = PLAYED[name]
+            s0, s1 = target.get("start", (1, LAST))
+            e0, e1 = target.get("end", (1, LAST))
+            if stopped:
+                e1 = min(e1, last)  # recorded after with no more games: his last season
+            if s0 <= first and max(e0, last) <= e1:
+                target["start"], target["end"] = (s0, min(s1, first)), (max(e0, last), e1)
         sols = solve(target, era, seqs) if seqs else []
+        if not sols and seqs and target != loose:
+            target = loose  # the evidence can't be met with his known clubs and rings: fall back
+            sols = solve(target, era, seqs)
         conf, top = classify(sols)
         extra = False
         if not sols and seqs:

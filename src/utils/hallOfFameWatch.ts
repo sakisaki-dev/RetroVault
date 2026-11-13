@@ -3,7 +3,7 @@
  *
  * Remembers which players were already Hall of Famers (localStorage 'retroVault:hofSeen') and which
  * retired numbers were already hanging in the rafters ('retroVault:ringSeen'). When league data
- * changes and someone new crosses HOF_THRESHOLD (or a franchise newly retires a number), a ceremony
+ * changes and someone new is voted into the Hall of Fame (isHallOfFamer; or a franchise newly retires a number), a ceremony
  * is queued and the class is recorded ('retroVault:hofClasses') for the Hall of Fame tab.
  *
  * First run (nothing stored yet): the current state is stored silently, so an existing league does
