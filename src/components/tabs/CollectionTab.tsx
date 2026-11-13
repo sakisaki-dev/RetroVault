@@ -595,7 +595,15 @@ const CollectionTab = () => {
         </section>
       )}
 
-      {loaded && <AutographsSection autos={state.autos} />}
+      {loaded && (
+        <AutographsSection
+          autos={state.autos}
+          onOpen={(a, from) => {
+            const info = byKey.get(a.key);
+            if (info) setDetail({ info, variant: 'auto', finish: a.finish, auto: a, from });
+          }}
+        />
+      )}
 
       {/* Market */}
       {loaded && cards.length > 0 && (

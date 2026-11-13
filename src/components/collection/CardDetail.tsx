@@ -44,6 +44,10 @@ import type { CardInfo } from './useCardPool';
 import { kitName } from './art/sprite/uniforms';
 import { displayWithKit, ownedKits } from './kits';
 import './kits.css';
+import type { OwnedAuto } from '@/utils/collection';
+import { useMarket } from '@/utils/useMarket';
+import { isSampleAuto, useAutographFor } from './autograph/sample';
+import AutographDetails from './autograph/AutographDetails';
 
 export interface CardDetailTarget {
   info: CardInfo;
@@ -59,7 +63,24 @@ export interface CardDetailTarget {
   from?: DOMRect;
   /** Cards to step through with the arrows / ← → (the grid it was opened from) */
   list?: CardInfo[];
+  /** An owned autograph opened from the Autographs binder: the Autograph art shows this one (else his best) */
+  auto?: OwnedAuto;
 }
+
+/** The roll behind the Autograph shown (the one opened, else his best owned at this finish): parallel, serial, ink,
+ * inscription, value and pull, under the card like any card's details. A sample (none owned) shows nothing. */
+const AutographPanel = ({ info, finish, chosen }: { info: CardInfo; finish: Finish; chosen?: OwnedAuto }) => {
+  const auto = useAutographFor({ player: info.player, number: info.number ?? 0 }, finish, chosen);
+  const history = useMarket();
+  if (isSampleAuto(auto)) return null;
+  const value = history ? (history[history.length - 1]?.players[info.key]?.value ?? null) : undefined;
+  return (
+    <div>
+      <p className="cd__label">This autograph</p>
+      <AutographDetails snap={auto.snap} roll={auto.roll} value={value} pulledAt={auto.pulledAt} pack={auto.pack} finish={auto.finish} />
+    </div>
+  );
+};
 
 interface CardDetailProps {
   target: CardDetailTarget | null;
@@ -726,7 +747,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                           variant={variant}
                           kit={kit}
                           prizm={prizm}
-                          autograph={target?.preview ? 'sample' : undefined}
+                          autograph={target?.preview ? 'sample' : variant === 'auto' && target?.auto?.key === info.key && target.auto.finish === finish ? target.auto : undefined}
                           ovr={info.ovr}
                           number={info.number}
                           stats={info.stats}
@@ -782,6 +803,10 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                     {prizm ? ` · ${prizmInfo(prizm.c).label} ${prizmSerial(prizm)}` : ''} · {POSITION_NAMES[info.player.position] ?? info.player.position} · {info.cardTeam} · OVR {info.ovr ?? '–'}
                   </DialogDescription>
                 </div>
+
+                {variant === 'auto' && !target?.preview && (
+                  <AutographPanel info={info} finish={finish} chosen={target?.auto?.key === info.key ? target.auto : undefined} />
+                )}
 
                 <div>
                   <p className="cd__label" id="cd-variants">
