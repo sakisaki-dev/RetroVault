@@ -999,6 +999,24 @@
     "stats": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-12-takes-y90",
+   "dir": "data/uploads/2026-11-12-takes-y90",
+   "applied_at": "2026-11-12T16:11:26-08:00",
+   "mutations": {
+    "takes": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-12-takes-y90-v2",
+   "dir": "data/uploads/2026-11-12-takes-y90-v2",
+   "applied_at": "2026-11-12T16:20:04-08:00",
+   "mutations": {
+    "takes": 1
+   },
+   "changed": 1
   }
  ]
 }

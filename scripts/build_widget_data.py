@@ -7,6 +7,8 @@ passed through: the latest Season Story's articles and "Did you know" facts (sto
 Hall of Fame speech (speech.set).
 
 * stories           the latest Season Story's articles (no quick hits): kind, headline, dek, lead team, id
+* takes             the latest season's Hot Takes (takes.set, public/data/league/takes.json): id, headline, heat, team
+                    (a rotating pool; checked by scripts/story_check.py, so never "you" / "your")
 * didYouKnow        the story's facts plus rule-generated ones: rate leaders (with a minimum sample per position),
                     small-sample standouts, league and active career leaders, oddities (most rings without an MVP...),
                     iron men, one-team legends, up-and-comers (high OVR or grade, few games), active players closing
@@ -569,6 +571,14 @@ def main():
                 "team": (a.get("teams") or [None])[0]}
                for a in (story or {}).get("articles", []) if a["kind"] not in ("quickhits", "didyouknow")]
 
+    # the latest season's Hot Takes (public/data/league/takes.json is newest first)
+    takes_path = PUB / "league" / "takes.json"
+    takes_season = (json.loads(takes_path.read_text()).get("seasons") or [None])[0] if takes_path.exists() else None
+    takes = [{k: v for k, v in {"id": t["id"], "headline": t["headline"], "heat": t["heat"],
+                                "team": nick((t.get("teams") or [None])[0])
+                                or (banner_team(t["players"][0]) if t.get("players") else None)}.items() if v}
+             for t in (takes_season or {}).get("takes", [])]
+
     rate_facts()
     total_facts()
     oddity_facts()
@@ -628,6 +638,8 @@ def main():
         "storySeason": story["season"] if story else None,
         "storyTagline": story.get("tagline") if story else None,
         "stories": stories,
+        "takesSeason": takes_season["season"] if takes_season else None,
+        "takes": takes,
         "didYouKnow": facts,
         "vault": vault_items,
         "movers": [{"key": k, "last": B.surname(k.split(":", 1)[1]), "pct": d, "team": banner_team(k.split(":", 1)[1])}

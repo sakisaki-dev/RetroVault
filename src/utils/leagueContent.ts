@@ -27,6 +27,11 @@
  *                      story is public/data/league/stories/<Y>.json, { season, tagline, upload?, articles: [{ id, kind,
  *                      headline, dek, body[], players[], teams[], stats[{ label, value, source }], related[] }],
  *                      didYouKnow: [{ id, text, players[], stats[] }] }, loaded on demand (loadSeasonStory / useSeasonStory)
+ *   "hotTakesIndex": [{ season: "Y90", upload?, file: "takes.json", count, takes: [{ id, heat, headline }] }] newest first:
+ *                      Hot Takes (AI-authored, data/y80/hot_takes.json, takes.set); the takes themselves are one file,
+ *                      public/data/league/takes.json, { seasons: [{ season, upload?, intro?, takes: [{ id, heat (1-3),
+ *                      headline, dek, body[], players[], teams[], stats[{ label, value, source }] }] }] } (newest first),
+ *                      loaded on demand (loadHotTakes / useHotTakes)
  *   "coach":         { name, age, stars, morale, gamesPlayed, simGames, record{}, bests{}, superBowlRecord[], seasons[{ year, team, abbr, w, l, t, finish }], currentStint?{ team, abbr, from } }
  * }
  * `coach` is optional (from data/y80/coach.json, the staff screen); bad fields are dropped one by one.
@@ -229,6 +234,8 @@ export interface LeagueContent {
    * story.set). The full story is its own file, loaded on demand (loadSeasonStory / useSeasonStory).
    */
   seasonStoryIndex?: SeasonStoryIndexEntry[];
+  /** Hot Takes index, newest first (data/y80/hot_takes.json, takes.set); the takes load on demand (useHotTakes) */
+  hotTakesIndex?: HotTakesIndexEntry[];
 }
 
 export const STORY_KINDS = ['lead', 'feature', 'trade', 'rise', 'fall', 'rivalry', 'chase', 'milestone', 'wherenow', 'quickhits'] as const;
@@ -260,7 +267,43 @@ export interface DidYouKnow {
   id: string;
   text: string;
   players: string[];
+  teams: string[];
   stats: StoryStat[];
+}
+
+/** How hot a take runs: 1 warm, 2 hot, 3 scorching */
+export type TakeHeat = 1 | 2 | 3;
+
+/** One Hot Take (data/y80/hot_takes.json, written by takes.set; scripts/story_check.py checks every figure) */
+export interface HotTake {
+  id: string;
+  heat: TakeHeat;
+  /** The take itself, one line */
+  headline: string;
+  /** One-line summary of the evidence */
+  dek: string;
+  body: string[];
+  players: string[];
+  teams: string[];
+  /** The first is the card's big number */
+  stats: StoryStat[];
+}
+
+export interface HotTakesSeason {
+  season: string;
+  upload?: string;
+  intro?: string;
+  takes: HotTake[];
+}
+
+/** content.json's entry for one season's takes (the takes load from `file`) */
+export interface HotTakesIndexEntry {
+  season: string;
+  upload?: string;
+  /** Path under data/league/ ("takes.json") */
+  file: string;
+  count: number;
+  takes: { id: string; heat: TakeHeat; headline: string }[];
 }
 
 export interface SeasonStory {
@@ -637,6 +680,22 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
     }),
   );
   if (storyIndex.length) content.seasonStoryIndex = storyIndex;
+  const takesIndex = compact(
+    arr(input.hotTakesIndex).map((r): HotTakesIndexEntry | null => {
+      const season = str(r.season);
+      if (!season || !/^Y\d+$/.test(season)) return null;
+      const takes = compact(
+        arr(r.takes).map((t) => {
+          const id = str(t.id);
+          const headline = str(t.headline);
+          const heat = takeHeat(t.heat);
+          return id && headline && heat ? { id, heat, headline } : null;
+        }),
+      );
+      return { season, upload: str(r.upload), file: 'takes.json', count: num(r.count) ?? takes.length, takes };
+    }),
+  );
+  if (takesIndex.length) content.hotTakesIndex = takesIndex;
   if (Array.isArray(input.hofClasses)) {
     const classes = input.hofClasses
       .map((c) => (isObj(c) && str(c.label) && Array.isArray(c.keys) ? { label: str(c.label)!, keys: c.keys.filter((k): k is string => typeof k === 'string') } : null))
@@ -747,7 +806,7 @@ export const normalizeSeasonStory = (r: unknown): SeasonStory | null => {
     arr(r.didYouKnow).map((x) => {
       const id = str(x.id);
       const text = str(x.text);
-      return id && text ? { id, text, players: strArr(x.players), stats: storyStats(x.stats) } : null;
+      return id && text ? { id, text, players: strArr(x.players), teams: strArr(x.teams), stats: storyStats(x.stats) } : null;
     }),
   );
   return season && articles.length ? { season, tagline: str(r.tagline) ?? '', upload: str(r.upload), articles, didYouKnow } : null;
@@ -802,6 +861,65 @@ export const useSeasonStory = (entry: SeasonStoryIndexEntry | null | undefined) 
   const ready = !!key && (state.key === key || storiesLoaded.has(key));
   const story = ready ? (state.key === key ? state.story : storiesLoaded.get(key!) ?? null) : null;
   return { story, loading: !!entry && !ready };
+};
+
+// ---------------------------------------------------------------------------
+// Hot Takes (one file, every season, newest first; loaded on demand)
+// ---------------------------------------------------------------------------
+
+const takeHeat = (v: unknown): TakeHeat | undefined => (v === 1 || v === 2 || v === 3 ? v : undefined);
+
+/** public/data/league/takes.json; seasons without a usable take are dropped */
+export const normalizeHotTakes = (r: unknown): HotTakesSeason[] =>
+  compact(
+    arr(isObj(r) ? r.seasons : undefined).map((s): HotTakesSeason | null => {
+      const season = str(s.season);
+      const takes = compact(
+        arr(s.takes).map((t): HotTake | null => {
+          const id = str(t.id);
+          const headline = str(t.headline);
+          const heat = takeHeat(t.heat);
+          if (!id || !headline || !heat) return null;
+          return { id, heat, headline, dek: str(t.dek) ?? '', body: strArr(t.body), players: strArr(t.players), teams: strArr(t.teams), stats: storyStats(t.stats) };
+        }),
+      );
+      return season && /^Y\d+$/.test(season) && takes.length ? { season, upload: str(s.upload), intro: str(s.intro), takes } : null;
+    }),
+  ).sort((a, b) => Number(b.season.slice(1)) - Number(a.season.slice(1)));
+
+let takesRequest: Promise<HotTakesSeason[] | null> | null = null;
+let takesLoaded: HotTakesSeason[] | null | undefined;
+
+/** Fetches every season's Hot Takes once per page load (no-cache revalidates a rebuilt file). Never throws; null on failure. */
+export const loadHotTakes = (): Promise<HotTakesSeason[] | null> => {
+  if (!takesRequest) {
+    takesRequest = fetch(`${import.meta.env.BASE_URL}data/league/takes.json`, { cache: 'no-cache' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => (json ? normalizeHotTakes(json) : null))
+      .catch(() => null)
+      .then((t) => {
+        takesLoaded = t;
+        // a failed load may be retried on the next request
+        if (!t) takesRequest = null;
+        return t;
+      });
+  }
+  return takesRequest;
+};
+
+/** Every season's Hot Takes (newest first): `loading` until the file is in; `seasons` empty when it failed or there are none. */
+export const useHotTakes = (enabled = true) => {
+  const [seasons, setSeasons] = useState<HotTakesSeason[] | null | undefined>(takesLoaded);
+  useEffect(() => {
+    if (!enabled || takesLoaded !== undefined) return;
+    let alive = true;
+    loadHotTakes().then((t) => alive && setSeasons(t));
+    return () => {
+      alive = false;
+    };
+  }, [enabled]);
+  const value = seasons ?? takesLoaded;
+  return { seasons: value ?? [], loading: enabled && value === undefined, failed: value === null };
 };
 
 // ---------------------------------------------------------------------------

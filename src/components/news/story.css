@@ -497,6 +497,4 @@ button.ss-chip:focus-visible { outline: 3px solid var(--ss-gold); outline-offset
 }
 .wc-story-link__text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
 
-/* ---------- Did you know rail ---------- */
-.ss-dyk .ss-hits__title { color: var(--ss-sky); }
-.ss-hit--dyk { flex-direction: column; justify-content: flex-start; gap: 12px; border-color: color-mix(in srgb, var(--ss-sky) 35%, var(--ss-line)); }
+/* Did you know and Hot Takes: takes.css */

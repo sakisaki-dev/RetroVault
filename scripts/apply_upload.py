@@ -15,9 +15,10 @@ manifest.json
   created    YYYY-MM-DD
   images     [{file, path?, shows?}] or groups [{group, path?, files: [...], shows?}]
   ai_steps   [{step, reason, trigger, ...}]: the AI work done to produce the mutations. Allowed steps only:
-             transcribe | portrait→look | tag notes | speech | art | story
+             transcribe | portrait→look | tag notes | speech | art | story | takes
   mutations  [{lane, op, target, value, source, reason, trigger}]
-             source: "owner" or "image:<file or group in images>" (the story lane also takes "data:<files read>")
+             source: "owner" or "image:<file or group in images>" (the story and takes lanes also take
+             "data:<files read>")
 
 Lanes and ops (deterministic; nothing is inferred here):
   stats  player.set     target "POS:Name"           value {players.json fields}; creates the player if new.
@@ -55,6 +56,12 @@ Lanes and ops (deterministic; nothing is inferred here):
                                                     AI step; scripts/story_check.py checks the CLAUDE.md story rules
                                                     (lengths, no em dashes, tags exist, every number cited in stats[]
                                                     and matching its source, quotes only from the owner's journal)
+  takes  takes.set      target "Y90"                 value {reason, trigger, intro?, takes[]}: writes (or rewrites) the
+                                                    season's Hot Takes in data/y80/hot_takes.json. Needs the 'takes' AI
+                                                    step; scripts/story_check.py check_takes holds each take to the
+                                                    story rules (every number cited and matching its source, no em
+                                                    dashes, quotes only nicknames, no owner or second person), body
+                                                    60-180 words, heat 1-3, ids y90-take-<slug> unique everywhere
 """
 from __future__ import annotations
 
@@ -82,6 +89,7 @@ FILES = {
     "speeches": SRC / "speeches.json",
     "extras": SRC / "screenshot_extras.json",
     "stories": SRC / "stories.json",
+    "takes": SRC / "hot_takes.json",
     "schedules": SRC / "schedules.json",
 }
 MARKET = SRC / "market_history.json"  # written by market_snapshot.ts in its own compact layout; renamed as text
@@ -90,10 +98,14 @@ STORIES_ABOUT = ("Season Story: the third AI-authored lane (owner-approved). One
                  "written only by a story.set upload mutation; facts only from the data, every number cited in stats[] "
                  "with its source (scripts/story_check.py). Never hand-edit.")
 
+TAKES_ABOUT = ("Hot Takes: the fourth AI-authored lane (owner-approved 2026-11-12, \"New AI lane\"). Columnist opinions "
+               "per completed season, written only by a takes.set upload mutation; every figure cited in stats[] with its "
+               "source and checked like the Season Story (scripts/story_check.py check_takes). Never hand-edit.")
+
 SCHEDULES_ABOUT = ("Week-by-week league scores, final standings and the coach's opponents per season, transcribed from "
                    "the game's LEAGUE schedule, standings and season summary screens (schedule.set). Facts only; never hand-edit.")
 
-AI_STEPS = {"transcribe", "portrait→look", "tag notes", "speech", "art", "story"}
+AI_STEPS = {"transcribe", "portrait→look", "tag notes", "speech", "art", "story", "takes"}
 LANE_OPS = {
     "stats": {"player.set", "player.rename", "fact.set", "fact.add", "fact.remove", "superbowl.set", "coach.season", "coach.set",
               "record.set", "baseline", "extras.set", "schedule.set"},
@@ -101,11 +113,13 @@ LANE_OPS = {
     "notes": {"journal.add"},
     "speech": {"speech.set", "speech.remove"},
     "story": {"story.set"},
+    "takes": {"takes.set"},
 }
 # AI step that must be logged when a lane's mutations come from images / owner prose
 NEEDS_STEP = {("stats", "image"): "transcribe", ("looks", "image"): "portrait→look", ("notes", "owner"): "tag notes",
               ("speech", "owner"): "speech", ("speech", "image"): "speech",
-              ("story", "data"): "story", ("story", "owner"): "story", ("story", "image"): "story"}
+              ("story", "data"): "story", ("story", "owner"): "story", ("story", "image"): "story",
+              ("takes", "data"): "takes", ("takes", "owner"): "takes", ("takes", "image"): "takes"}
 CAREER_KEYS = {"g", "att", "cmp", "yds", "td", "int", "sck", "ratt", "ryds", "rtd", "fum", "rec", "recyds", "rectd",
                "blk", "tkl", "ff", "rings", "mvp", "opoy", "dpoy", "roty", "sbmvp"}
 FACT_ORDER = ["team", "team_history", "retired_with", "status", "tag", "card", "card_design", "career", "real_nfl"]
@@ -161,9 +175,9 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
         if op not in LANE_OPS.get(lane, set()):
             errs.append(f"{where}: op {op!r} is not in lane {lane!r}")
         kind = "image" if src.startswith("image:") else "owner" if src == "owner" else \
-            "data" if src.startswith("data:") and lane == "story" else None
+            "data" if src.startswith("data:") and lane in ("story", "takes") else None
         if kind is None:
-            errs.append(f"{where}: source must be 'owner' or 'image:<file>'" + (" or 'data:<files>'" if lane == "story" else ""))
+            errs.append(f"{where}: source must be 'owner' or 'image:<file>'" + (" or 'data:<files>'" if lane in ("story", "takes") else ""))
         elif kind == "image" and src[6:] not in images:
             errs.append(f"{where}: {src} is not listed in images")
         need = None if op == "speech.remove" else NEEDS_STEP.get((lane, kind))  # a deletion writes no AI text
@@ -183,6 +197,10 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
             # at apply time a stats value that no longer matches its source is an error, not a stale warning
             story_errs, story_stale = story_check.check_season(story_check.Data(), str(m.get("target", "")), m.get("value"))
             errs += [f"{where}: {e}" for e in story_errs + story_stale]
+        if op == "takes.set":
+            # the same: every figure must match its source when the takes are published
+            take_errs, take_stale = story_check.check_takes(story_check.Data(), str(m.get("target", "")), m.get("value"))
+            errs += [f"{where}: {e}" for e in take_errs + take_stale]
     return errs
 
 
@@ -285,6 +303,8 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
         data["journal"] = {"notes": []}
     if data["stories"] is None:
         data["stories"] = {"_about": STORIES_ABOUT, "seasons": {}}
+    if data["takes"] is None:
+        data["takes"] = {"_about": TAKES_ABOUT, "seasons": {}}
     if data["schedules"] is None:
         data["schedules"] = {"_about": SCHEDULES_ABOUT, "seasons": {}}
     changes = []
@@ -432,6 +452,16 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
                 seasons[target] = rec
                 data["stories"]["seasons"] = dict(sorted(seasons.items(), key=lambda kv: int(kv[0].lstrip("Y"))))
                 changes.append(f"story {target} ({len(value['articles'])} articles)")
+        elif op == "takes.set":
+            seasons = data["takes"].setdefault("seasons", {})
+            rec = {"reason": value["reason"], "trigger": value["trigger"], "upload": manifest["id"]}
+            if value.get("intro"):
+                rec["intro"] = value["intro"]
+            rec["takes"] = value["takes"]
+            if seasons.get(target) != rec:
+                seasons[target] = rec
+                data["takes"]["seasons"] = dict(sorted(seasons.items(), key=lambda kv: int(kv[0].lstrip("Y"))))
+                changes.append(f"hot takes {target} ({len(value['takes'])} takes)")
         elif op == "extras.set":
             section, _, key = target.partition("/")
             entries = data["extras"][section]

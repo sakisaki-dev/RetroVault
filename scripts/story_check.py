@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
-"""Season Story checks: the third AI-authored lane (data/y80/stories.json, written only by a `story.set` upload mutation).
+"""Season Story and Hot Takes checks: the third and fourth AI-authored lanes (data/y80/stories.json, written only by a
+`story.set` upload mutation; data/y80/hot_takes.json, written only by `takes.set`).
 
-Used by scripts/apply_upload.py (validation before a story.set applies) and by scripts/audit.ts (which runs
-`python3 scripts/story_check.py --audit` and reads the JSON it prints).
+Used by scripts/apply_upload.py (validation before a story.set / takes.set applies) and by scripts/audit.ts (which runs
+`python3 scripts/story_check.py --audit` and `--audit-takes` and reads the JSON they print).
+
+Hot takes (check_takes): {reason, trigger, intro?, takes[]}, each take {id "y90-take-<slug>", headline (the take, one
+line, at most 20 words), dek, body [1-3 paragraphs, 60-180 words], heat 1|2|3, players, teams, stats}; checked with the
+same article rules below (every number cited and matching its source, tags, quotes, voice, no em dashes).
 
 A season story is {reason, trigger, tagline, articles[], didYouKnow[]?}; didYouKnow items are short standalone facts
 (statistical outliers, up-and-comers, oddities) {id, text, players: [names], stats: [{label, value, source}]}, at most
@@ -23,7 +28,8 @@ Rules checked here (CLAUDE.md "Season story"):
 
 SOURCES (the `source` of a stats[] entry; the value is compared after dropping commas, "+", "%" and spaces;
 numbers are compared at the precision written, so "17.2" matches 17.21):
-  players.json <POS:Name> <key>                    career total on the card; <a>/<b> is a rate (yds/rec)
+  players.json <POS:Name> <key>                    career total on the card; <a>/<b> is a rate (yds/rec), <a>+<b> a
+                                                    sum (td+rtd/g), a trailing % a percentage (cmp/att%)
   market_history.json <snap> <POS:Name> <field>    a market snapshot (field: ovr skill legacy value grade s.<key>;
                                                     s.<a>/s.<b> is a career rate as of that snapshot)
   market_history.json <snapA>..<snapB> <POS:Name> <field>
@@ -38,7 +44,8 @@ numbers are compared at the precision written, so "17.2" matches 17.21):
                                                     head-to-head, e.g. "schedule.json seasons/Y88/coachGames/[week=13]/for"
                                                     or "seasons/Y88/table/[abbr=PHI]/pf"), schedules.json (raw weekly
                                                     scores); list items by index or [key=value]; # = list length
-  <source> minus <source>                           a gap between two figures (yards to the record)
+  <source> minus <source>                           a gap between two figures (yards to the record; a record-board
+                                                    mark such as "7,452 yds" counts by its number)
   crossed: market_history.json <snapA>..<snapB> <POS:Name> <field>
                                                     a round milestone passed between two snapshots: the stated
                                                     value must be above the first figure and at most the second
@@ -61,6 +68,11 @@ BOUNDS = {"lead": (180, 350)}
 FEATURE_BOUNDS = (90, 220)
 QUICK_HITS = (4, 8)
 QUICK_HIT_MAX_WORDS = 40
+# Hot takes (the fourth AI lane, data/y80/hot_takes.json): each take is held to the article rules, body 60-180 words
+TAKE_BOUNDS = (60, 180)
+TAKE_COUNT = (3, 12)
+TAKE_HEADLINE_MAX_WORDS = 20
+HEAT = {1, 2, 3}
 EM_DASH = "—"
 
 
@@ -87,6 +99,7 @@ class Data:
             "schedules.json": SRC / "schedules.json",
         }
         self.stories = (_read(SRC / "stories.json", {}) or {}).get("seasons", {})
+        self.takes = (_read(SRC / "hot_takes.json", {}) or {}).get("seasons", {})
 
 
 # ---------------------------------------------------------------------------
@@ -117,13 +130,30 @@ def walk(obj, path: str):
 
 
 def ratio(get, expr: str):
+    """<a>/<b> is a rate; <a>+<b> sums keys (td+rtd/g: total touchdowns per game); a trailing % makes a rate a
+    percentage (cmp/att% = completion rate)."""
+    pct = expr.endswith("%")
+    expr = expr.rstrip("%")
+
+    def total(e):
+        return sum(get(k) for k in e.split("+"))
     if "/" in expr:
         a, b = expr.split("/", 1)
-        num, den = get(a), get(b)
+        num, den = total(a), total(b)
         if not den:
             raise Unresolved(f"{b} is 0")
-        return num / den
-    return get(expr)
+        return num / den * (100 if pct else 1)
+    return total(expr) * (100 if pct else 1)
+
+
+def as_number(v):
+    """A figure for arithmetic: numbers as they are, record-board marks like "7,452 yds" by their leading number."""
+    if isinstance(v, (int, float)):
+        return v
+    m = re.match(r"\s*(-?[\d,]+(?:\.\d+)?)", str(v))
+    if not m:
+        raise Unresolved(f"{v!r} is not a number")
+    return float(m.group(1).replace(",", ""))
 
 
 def market_field(snap: dict, key: str, field: str):
@@ -140,7 +170,7 @@ def market_field(snap: dict, key: str, field: str):
 def resolve(d: Data, source: str):
     if " minus " in source:
         a, b = source.split(" minus ", 1)
-        return resolve(d, a) - resolve(d, b)
+        return as_number(resolve(d, a)) - as_number(resolve(d, b))
     file, _, rest = source.strip().partition(" ")
     rest = rest.strip()
     if not rest:
@@ -252,8 +282,9 @@ def numbers_in(text: str) -> list[str]:
     return out
 
 
-def check_article(d: Data, a: dict, known_ids: set[str]) -> tuple[list[str], list[str]]:
-    """(errors, stale): stale = a stats value that no longer matches its source."""
+def check_article(d: Data, a: dict, known_ids: set[str], bounds: tuple[int, int] | None = None) -> tuple[list[str], list[str]]:
+    """(errors, stale): stale = a stats value that no longer matches its source. `bounds` overrides the body length
+    (hot takes: TAKE_BOUNDS)."""
     errs: list[str] = []
     stale: list[str] = []
     aid = a.get("id") or "?"
@@ -275,7 +306,7 @@ def check_article(d: Data, a: dict, known_ids: set[str]) -> tuple[list[str], lis
             if "\n" in line or words(line) > QUICK_HIT_MAX_WORDS:
                 errs.append(f"{aid}: quick hit is not a one-liner: {line[:50]}...")
     else:
-        lo, hi = BOUNDS.get(kind, FEATURE_BOUNDS)
+        lo, hi = bounds or BOUNDS.get(kind, FEATURE_BOUNDS)
         n = sum(words(p) for p in body)
         if not lo <= n <= hi:
             errs.append(f"{aid}: body is {n} words ({lo}-{hi} for a {kind})")
@@ -382,6 +413,73 @@ def check_season(d: Data, season: str, value) -> tuple[list[str], list[str]]:
     return errs, stale
 
 
+def check_takes(d: Data, season: str, value) -> tuple[list[str], list[str]]:
+    """Hot takes for one season (takes.set): {reason, trigger, intro?, takes[]}; each take is
+    {id, headline, dek, body[], heat 1-3, players[], teams[], stats[]} and passes the article rules (numbers cited and
+    matching their sources, tags exist, no em dashes, quotes only nicknames, no owner or second person), body 60-180
+    words. Ids look like y90-take-<slug>, are unique across every season's takes and never reuse a story or
+    did-you-know id. The intro (optional) carries no figures."""
+    if not isinstance(value, dict):
+        return [f"{season}: value must be {{reason, trigger, intro?, takes}}"], []
+    errs = [f"{season}: needs a {k}" for k in ("reason", "trigger") if not value.get(k)]
+    if not re.fullmatch(r"Y\d+", season):
+        errs.append(f"target {season!r} must be a season like Y90")
+    intro = value.get("intro")
+    if intro is not None:
+        if not isinstance(intro, str) or not intro.strip():
+            errs.append(f"{season}: intro must be text")
+        else:
+            if EM_DASH in intro:
+                errs.append(f"{season}: em dash in the intro")
+            if FORBIDDEN.search(intro):
+                errs.append(f"{season}: the intro mentions the owner or uses the second person")
+            if numbers_in(intro):
+                errs.append(f"{season}: the intro has figures ({', '.join(numbers_in(intro))}); put them in a take with its stats[]")
+            if words(intro) > 60:
+                errs.append(f"{season}: the intro is {words(intro)} words (max 60)")
+            for q in QUOTE.findall(intro):
+                if q.strip().lower().rstrip(".,") not in d.nicks:
+                    errs.append(f"{season}: quoted text {q[:50]!r} in the intro is not a nickname")
+    takes = value.get("takes")
+    if not isinstance(takes, list) or not takes:
+        return errs + [f"{season}: no takes"], []
+    if not TAKE_COUNT[0] <= len(takes) <= TAKE_COUNT[1]:
+        errs.append(f"{season}: {len(takes)} takes ({TAKE_COUNT[0]}-{TAKE_COUNT[1]})")
+    ids = [t.get("id") for t in takes if isinstance(t, dict)]
+    if len(set(ids)) != len(ids):
+        errs.append(f"{season}: take ids repeat")
+    prefix = f"{season.lower()}-take-"
+    other_takes = {t.get("id") for y, s in d.takes.items() if y != season for t in s.get("takes", [])}
+    story_ids = {a.get("id") for s in d.stories.values() for a in [*s.get("articles", []), *s.get("didYouKnow", [])]}
+    stale: list[str] = []
+    for t in takes:
+        if not isinstance(t, dict):
+            errs.append(f"{season}: a take must be an object")
+            continue
+        tid = t.get("id") or "?"
+        if not str(tid).startswith(prefix) or len(str(tid)) <= len(prefix):
+            errs.append(f"{season} {tid}: take ids look like {prefix}<slug>")
+        if tid in other_takes:
+            errs.append(f"{season} {tid}: the id is already a take in another season")
+        if tid in story_ids:
+            errs.append(f"{season} {tid}: the id is already a Season Story article or did-you-know")
+        if t.get("heat") not in HEAT or isinstance(t.get("heat"), bool):
+            errs.append(f"{season} {tid}: heat must be 1, 2 or 3 (has {t.get('heat')!r})")
+        if words(str(t.get("headline") or "")) > TAKE_HEADLINE_MAX_WORDS:
+            errs.append(f"{season} {tid}: the headline is the take in one punchy line (max {TAKE_HEADLINE_MAX_WORDS} words)")
+        extra = set(t) - {"id", "headline", "dek", "body", "heat", "players", "teams", "stats"}
+        if extra:
+            errs.append(f"{season} {tid}: unknown fields {', '.join(sorted(extra))}")
+        if not t.get("stats"):
+            errs.append(f"{season} {tid}: a take needs at least one figure in stats[] (its first is the card's big number)")
+        e, st = check_article(d, {"id": tid, "kind": "feature", "headline": t.get("headline"), "dek": t.get("dek"),
+                                  "body": t.get("body"), "players": t.get("players", []), "teams": t.get("teams", []),
+                                  "stats": t.get("stats", []), "related": []}, set(), bounds=TAKE_BOUNDS)
+        errs += [f"{season} {x}" for x in e]
+        stale += [f"{season} {x}" for x in st]
+    return errs, stale
+
+
 def audit() -> dict:
     d = Data()
     errors, warnings = [], []
@@ -392,8 +490,20 @@ def audit() -> dict:
     return {"errors": errors, "warnings": warnings, "seasons": sorted(d.stories)}
 
 
+def audit_takes() -> dict:
+    d = Data()
+    errors, warnings = [], []
+    for season, value in sorted(d.takes.items()):
+        e, s = check_takes(d, season, value)
+        errors += e
+        warnings += [f"Hot take {x} (stale after a later update? correct it with a new takes.set)" for x in s]
+    return {"errors": errors, "warnings": warnings, "seasons": sorted(d.takes)}
+
+
 if __name__ == "__main__":
-    if "--audit" in sys.argv:
+    if "--audit-takes" in sys.argv:
+        print(json.dumps(audit_takes()))
+    elif "--audit" in sys.argv:
         print(json.dumps(audit()))
     else:
         sys.exit(__doc__)

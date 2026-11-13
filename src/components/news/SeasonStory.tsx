@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react';
-import { ArrowRight, BookOpen, ChevronRight, Clock, CornerDownRight, Lightbulb, Newspaper, Zap } from 'lucide-react';
+import { ArrowRight, BookOpen, ChevronRight, Clock, CornerDownRight, Newspaper, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
 import {
@@ -14,6 +14,8 @@ import {
 } from '@/utils/leagueContent';
 import { getTeamColors } from '@/utils/teamColors';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
+import { DidYouKnowDeck } from './DidYouKnow';
+import { HotTakesDesk } from './HotTakes';
 import './story.css';
 
 /**
@@ -22,6 +24,9 @@ import './story.css';
  * "What changed" area as a sports-media feed: a season masthead, the lead story as a hero card, a feed of
  * features (kind label, headline, dek, a stat callout, player chips), a Quick hits rail, and a reading sheet with
  * the full article, its figures and their sources. Earlier seasons stay browsable through the season switcher.
+ *
+ * Below the feed: the season's Did you know deck (DidYouKnow.tsx) and its Hot Takes (HotTakes.tsx, the fourth AI lane),
+ * both following the season switcher.
  *
  * openSeasonStory(id) opens an article from anywhere (the Arcade ticker uses it after switching to the Timeline).
  *
@@ -324,6 +329,7 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
             `The ${entry.season} stories could not be loaded. Try again in a moment.`
           )}
         </p>
+        <HotTakesDesk season={entry.season} players={players} onPlayer={onPlayer} />
       </section>
     );
   }
@@ -384,21 +390,7 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
         </section>
       )}
 
-      {story.didYouKnow.length > 0 && (
-        <section className="ss-hits ss-dyk" aria-labelledby="ss-dyk-title">
-          <h3 id="ss-dyk-title" className="ss-hits__title">
-            <Lightbulb className="h-4 w-4" aria-hidden="true" /> Did you know
-          </h3>
-          <ul className="ss-hits__rail">
-            {story.didYouKnow.map((x) => (
-              <li key={x.id} className="ss-hit ss-hit--dyk" title={x.stats.map((s) => `${s.value}: ${s.source}`).join('\n')}>
-                <span>{x.text}</span>
-                <PlayerChips names={x.players} players={players} onPlayer={onPlayer} max={2} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      <DidYouKnowDeck key={story.season} facts={story.didYouKnow} season={story.season} players={players} onPlayer={onPlayer} />
 
       <ul className="ss-feed" aria-label={`${story.season} stories`}>
         {feed.map((a, i) => {
@@ -428,6 +420,8 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
           );
         })}
       </ul>
+
+      <HotTakesDesk season={story.season} players={players} onPlayer={onPlayer} />
 
       <Reader open={open} index={index} players={players} onPlayer={onPlayer} onOpen={openArticle} onClose={() => setOpenId(null)} />
     </section>

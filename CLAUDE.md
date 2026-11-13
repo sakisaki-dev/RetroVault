@@ -14,17 +14,20 @@ The owner later approved a third AI lane, the Season Story: "option 1 give me th
 articles in a news format or whatever you think is best I'm giving u creative liberty" (asked for as "for the timeline
 section for what changed, make a story about the previous year … I want it in a news format").
 
+On 2026-11-12 the owner approved a fourth AI lane, **Hot Takes** (chose "New AI lane"): columnist opinions about each
+completed season, written like the Season Story and checked by the same fact-checker, every number cited.
+
 | Kind | What | Where |
 |---|---|---|
 | **Data entry** (facts) | Career lines, awards, Super Bowls, coach seasons, weekly league scores and standings, record board, teams/trades/rosters, nicknames, owner-confirmed history ("one Titans season", "mainly a Seahawk"), card notes, the owner's own tags, sprite looks | `data/y80/players.json`, `super_bowls.json`, `coach.json`, `schedules.json`, `records.json`, `owner_facts.json`, `screenshot_extras.json`, `sprites.json` |
 | **Owner prose** (verbatim) | Season notes about rivalries, disputes, drama, in the owner's words | `data/y80/journal.json` |
 | **Generated** (rules over the data) | Eras, storylines, rivalries, lineages, snubs, outsiders, record chases, iron men, one-team legends, open questions, player tags and eras, Hall of Fame classes, career stints and their evidence text, market prices | `scripts/*.py`, `scripts/market_snapshot.ts` → `public/data/` |
-| **AI-authored** (only these three) | Hall of Fame induction speeches; card art styles and custom sprites (Art lab; custom sprites retired with the sprite card, see step 2); the Season Story (news articles about each completed season) | `data/y80/speeches.json`; `src/components/collection/art/**`, `public/data/sprites/`; `data/y80/stories.json` |
+| **AI-authored** (only these four) | Hall of Fame induction speeches; card art styles and custom sprites (Art lab; custom sprites retired with the sprite card, see step 2); the Season Story (news articles about each completed season); Hot Takes (columnist opinions about each completed season) | `data/y80/speeches.json`; `src/components/collection/art/**`, `public/data/sprites/`; `data/y80/stories.json`; `data/y80/hot_takes.json` |
 
 Never hand-write analysis: no era write-ups, storylines, rivalry blurbs, player tags or per-player stint judgments.
 If something reads like analysis, it must come out of a rule in `scripts/build_league_content.py` or
-`scripts/infer_stints.py`. **Phone sessions write only facts (through an upload manifest), speeches and season
-stories.**
+`scripts/infer_stints.py`. **Phone sessions write only facts (through an upload manifest), speeches, season
+stories and hot takes.**
 
 ## Single source of truth
 
@@ -44,12 +47,14 @@ deterministic: two runs give byte-identical output.
    validates and applies the bundle, rebuilds everything (stints, league data, market snapshot, eras, storylines,
    HOF classes, edition, audit), checks a season rollover, typechecks, runs `check:sprites` and `npm run build`, then
    prints a summary (players added or updated, players needing teams, records, new Hall of Famers, SPEECH NEEDED,
-   STORY NEEDED, market movers, open questions, the new edition) and stops. It never commits.
+   STORY NEEDED, TAKES NEEDED, market movers, open questions, the new edition) and stops. It never commits.
 2. If it printed `SPEECH NEEDED`, write the speech (step 5) as a `speech.set` mutation in a follow-up bundle and run
    `npm run update` on that bundle.
 3. If it printed `STORY NEEDED: Y<n>` (a season completed with no story), write the Season Story (step 6) as a
    `story.set` mutation in a follow-up bundle and run `npm run update` on that bundle.
-4. Commit and push with the commands it prints (step 7).
+4. If it printed `TAKES NEEDED: Y<n>` (a season completed with no hot takes), write the Hot Takes (step 6b) as a
+   `takes.set` mutation in a follow-up bundle and run `npm run update` on that bundle.
+5. Commit and push with the commands it prints (step 7).
 
 ### Season update plan: what is AI and what is a rule
 
@@ -67,13 +72,14 @@ other row is a deterministic rule that `npm run update` / `npm run rebuild` runs
 | 7 | Market snapshot (OVR, skill, Career Legacy, value, grade, totals) | Rule | Any rating changed | `market_snapshot.ts` → `market_history.json` |
 | 8 | Eras, storylines, rivalries, lineages, snubs, record chases, open questions, HOF classes, headlines ("The Wire"), edition seed | Rule | Every rebuild | `build_league_content.py` |
 | 9 | Skill grades, player families (map zones), similarity, Deep Dive boards | Rule (computed in the app) | Data changes | `src/config/skillGrades.ts`, `families.ts`, `advanced.ts` |
-| 10 | Widget feed: the latest story's articles, its written facts plus rule-generated "Did you know" facts, "From the Vault" history cards, movers, headlines, HOF watch, record chases, milestone countdowns, the champion, banner cards | Rule | Every rebuild | `build_widget_data.py` → `public/data/widget.json` |
+| 10 | Widget feed: the latest story's articles, the latest hot takes' headlines, its written facts plus rule-generated "Did you know" facts, "From the Vault" history cards, movers, headlines, HOF watch, record chases, milestone countdowns, the champion, banner cards | Rule | Every rebuild | `build_widget_data.py` → `public/data/widget.json` |
 | 11 | Hall of Fame speech for each new member | **AI** (`speech`) | Rebuild prints `SPEECH NEEDED` | `speech.set` (step 5) |
 | 12 | Season Story: news articles plus written "Did you know" facts for the completed season | **AI** (`story`) | Rebuild prints `STORY NEEDED: Y<n>` | `story.set` (step 6); professional voice, no "owner", only true facts |
-| 13 | Refresh speeches or stories whose numbers went stale | **AI** (same lanes) | Audit warns that a cited number no longer matches | `speech.set` / `story.set` |
-| 14 | Card art styles (custom sprites retired with the sprite card) | **AI** (`art`) | Only when the owner asks | Art lab, `card.design` (~~`sprite.image`~~) |
-| 15 | Checks: audit (0 errors), typecheck, sprite check, build | Rule | `npm run update` | `audit.ts`, `check_sprites.ts` |
-| 16 | Publish: commit and push (Pages redeploys), rebuild the LAN preview (`npm run build`), the widget picks up `widget.json` (and its own code) within about 2 hours | Rule | After the checks pass | Step 7 |
+| 13 | Hot Takes: columnist opinions about the completed season, every figure cited | **AI** (`takes`) | Rebuild prints `TAKES NEEDED: Y<n>` | `takes.set` (step 6b); provocative but only true facts, no "owner", no "you" |
+| 14 | Refresh speeches, stories or hot takes whose numbers went stale | **AI** (same lanes) | Audit warns that a cited number no longer matches | `speech.set` / `story.set` / `takes.set` |
+| 15 | Card art styles (custom sprites retired with the sprite card) | **AI** (`art`) | Only when the owner asks | Art lab, `card.design` (~~`sprite.image`~~) |
+| 16 | Checks: audit (0 errors), typecheck, sprite check, build | Rule | `npm run update` | `audit.ts`, `check_sprites.ts` |
+| 17 | Publish: commit and push (Pages redeploys), rebuild the LAN preview (`npm run build`), the widget picks up `widget.json` (and its own code) within about 2 hours | Rule | After the checks pass | Step 7 |
 
 After an update, ask the owner about anything left open: new players' teams, a misread the audit flagged, open stint
 questions in content.json.
@@ -241,6 +247,42 @@ memoized per season, with a loading placeholder); a deep link (`openSeasonStory(
 and opens once that file is in. `build_widget_data.py` and `update.py` read the files too. The audit errors when an
 index entry has no file, a file has no entry, or a file differs from `data/y80/stories.json`.
 
+### 6b. Hot takes (AI step `takes`; trigger: the rebuild prints `TAKES NEEDED: Y<n>`)
+
+The fourth AI lane (owner, 2026-11-12: "New AI lane"). When a season completes and `data/y80/hot_takes.json` has no
+takes for it, the rebuild prints `TAKES NEEDED`. Write them in a bundle `data/uploads/<date>-takes-y<n>/` with one
+`takes.set` mutation: lane `takes`, target the season (`"Y90"`), source `"data:<files read>"`, the `takes` AI step
+logged, value `{reason, trigger: "Season Y<n> completed (coach.season <n>)", intro?, takes}`. A rewrite (a correction,
+stale numbers) is another `takes.set` for the same season. The first set is `data/uploads/2026-11-12-takes-y90/`.
+
+A take: `{id ("y90-take-<slug>"), headline (the take itself, one punchy line, at most 20 words), dek (one line on the
+evidence), body: [1-3 paragraphs, 60-180 words], heat: 1 | 2 | 3 (warm, hot, scorching), players: [names], teams:
+[names], stats: [{label, value, source}]}`. About 8-11 takes a season. `intro` is one or two lines with no figures.
+The first `stats[]` entry is the card's big number. Ids are unique across every season's takes and never reuse a story
+article or Did you know id.
+
+Write it as a sports columnist: provocative, opinionated, willing to rank and to call players overrated, but every
+fact true to the data. The Season Story rules apply word for word (`scripts/story_check.py check_takes` runs
+`check_article` on each take): every number in the headline, dek or body is in its `stats[]` with a source that
+resolves and matches, no em dashes, nothing in quotation marks but a nickname, no "owner", no second person, the coach
+is Dorren Skura, no invented injuries, contracts or quotes. A take the data can't back is dropped or rephrased, never
+stretched (ages aren't in the data; the record board counts the coach's club only). Rates must resolve too:
+`players.json QB:Ty Lock yds/g`, sums `td+rtd/g`, percentages `cmp/att%`, season rates
+`market_history.json <snapA>..<snapB> <POS:Name> s.ryds/s.g`; a record-board mark counts by its number in a gap
+(`records.json Best passing season mark minus …`).
+
+apply-upload refuses the bundle on any failure. The audit holds `hot_takes.json` to its last applied `takes.set` (a
+difference is an error), re-checks every figure (a stale one is a warning), and checks the site's copy:
+`build_league_content.py` writes every season to `public/data/league/takes.json` (newest first) and a `hotTakesIndex`
+(season, upload, count, each take's id, heat and headline) to content.json; `build_widget_data.py` puts the latest
+season's take headlines in widget.json (`takes`, with `takesSeason`). The Timeline shows them under the Season Story
+(`src/components/news/HotTakes.tsx`, loaded once by `useHotTakes` in `src/utils/leagueContent.ts`), for the season
+the story's switcher shows (falling back to the latest season with takes): heat meter (pixel flames), the take, the
+dek, the first figure as a big number (source on hover or tap), player chips in club colours, and the argument with
+every figure and its source behind a toggle. The story's Did you know facts sit above the feed as their own deck
+(`src/components/news/DidYouKnow.tsx`: one card at a time with previous, next, shuffle and All facts on a phone; a grid
+from 768px).
+
 ### 7. Commit and push
 
 Commit to `retrovault-v2` with a message listing who was added or updated (include the bundle). The site redeploys
@@ -348,7 +390,7 @@ current data is a no-op.
   hero / pack shelf accent (`EDITION_ACCENTS`). Never for player identity (looks, card art, poses, uniforms).
 - **Widget feed** (`scripts/build_widget_data.py` → `public/data/widget.json`, about 67 KB): the only file the
   Scriptable iPhone widget (`public/widgets/retro-vault-widget.js`) reads, from raw GitHub, then Pages, then its cache.
-  Templates only, numbers straight from the data: `stories` (the latest Season Story's articles, no quick hits),
+  Templates only, numbers straight from the data: `stories` (the latest Season Story's articles, no quick hits), `takes` (the latest season's Hot Takes: id, headline, heat, team; data only, the widget script doesn't draw them yet),
   `didYouKnow` (the story's written facts, then rule facts up to 100: record chases, active players closing on a
   `MILESTONES` step, up-and-comers with an S/A grade or OVR 85+ in 60 games or fewer, oddities such as most rings
   without an MVP, one-team legends, small-sample standouts, rate leaders per position with a minimum sample, career
@@ -390,6 +432,16 @@ current data is a no-op.
   stale (season or edition differs from content.json), names a player without a card (facts, vault, fallback, HOF
   watch, chases, milestones) or an item without a `team` (or with a club outside the 32), has an incomplete countdown, a champion from another season, or "you/your" outside a
   Hall of Fame speech hook.
+- **League records** (`scripts/league_records.py` → `public/data/league/records.json`, run by `npm run rebuild` after the
+  weekly scores; owner: "have the record book hold mine and the total as well in the DB"): every record on the in-game
+  board (`records.json`, the coach's club only) beside the same record across the whole league. Career marks come from
+  every career card; season marks from each player's season, the change in his totals between consecutive end-of-season
+  market snapshots (one season = 10-21 games; so they start at the first snapshot season and only cover the players
+  tracked then). The club's own record stands in the league list (the league mark is never below it; ties go to the
+  club). Single games, long plays, kicking and returns aren't in the data, so those rows keep the club mark only. Real
+  NFL legends are left out. The Stats → Players page shows it as the Record Board (`src/components/stats/RecordBoard.tsx`):
+  club mark, league mark and the next two, "Beaten league-wide" or "League record", Career/Season and Beaten/Still the
+  club filters.
 - **Weekly scores** (`scripts/schedule_content.py` → `public/data/league/schedule.json`, run by `npm run rebuild` before the content builder): from `schedules.json` (schedule.set) it builds, per season, the coach's game log (opponent records and O/D stars from the season summary, playoff rounds from the season review), a 32-club table with points for/against, differential, strength of schedule (average final win % of the clubs played) and a power score (100 × win % + 1.5 × differential per game + 40 × (SOS − 0.5), regular season only), the upset (the worst final record beating the best), blowout and shootout; across seasons the coach's head-to-head record with every club and game records (biggest margin, most combined points, most points, longest winning streak). Rivalries carry the head-to-head `games`, and a club met twice or more without a winning record becomes a rivalry; a `schedule.set` brings Wire headlines (power No. 1, upset, best defense, blowout); the widget gets `game` facts; stories may cite `schedule.json <path>` / `schedules.json <path>`. The Timeline shows the game log, power rankings, standings and records; the Games tab blends in each club's latest-season form. The audit errors when a schedule.set season is missing from schedule.json.
 - **Autographs** (`src/config/autographs.ts` rules, `src/components/collection/autograph/` canvas, `autos` in
   `src/utils/collection.ts`): the fifth and rarest art variant, `auto` ("Autograph", `src/config/cardTiers.ts`), in

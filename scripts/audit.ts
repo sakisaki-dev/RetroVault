@@ -199,7 +199,7 @@ Object.keys(speeches).forEach((who) => {
 // 9. Upload pipeline: manifests are well formed, and owner text traces back to an applied manifest
 type Mutation = { lane?: string; op?: string; target?: string; value?: unknown; source?: string; reason?: string; trigger?: string };
 type Manifest = { id: string; ai_steps?: { step?: string; reason?: string; trigger?: string }[]; mutations?: Mutation[] };
-const AI_STEPS = new Set(['transcribe', 'portrait→look', 'tag notes', 'speech', 'art', 'story']);
+const AI_STEPS = new Set(['transcribe', 'portrait→look', 'tag notes', 'speech', 'art', 'story', 'takes']);
 const manifests = new Map<string, Manifest>();
 if (existsSync('data/uploads')) {
   for (const dir of readdirSync('data/uploads').sort()) {
@@ -226,6 +226,7 @@ const TEXT_KEYS = new Set(['nick', 'tag', 'note', 'says', 'card_design', 'text']
 const expected = new Map<string, string>();
 const speechSet = new Map<string, string>();
 const storySet = new Map<string, unknown>();
+const takesSet = new Map<string, unknown>();
 const setLeaves = (path: string, v: unknown) => {
   if (v && typeof v === 'object' && !Array.isArray(v)) Object.entries(v).forEach(([k, x]) => setLeaves(`${path}/${k}`, x));
   else if (typeof v === 'string' && TEXT_KEYS.has(path.split('/').pop()!)) expected.set(path, v);
@@ -239,6 +240,7 @@ for (const { id } of log) {
     else if (mu.op === 'speech.set') speechSet.set(String(mu.target), String((mu.value as { text?: string })?.text ?? ''));
     else if (mu.op === 'speech.remove') speechSet.delete(String(mu.target));
     else if (mu.op === 'story.set') storySet.set(String(mu.target), { ...(mu.value as object), upload: id });
+    else if (mu.op === 'takes.set') takesSet.set(String(mu.target), { ...(mu.value as object), upload: id });
   }
 }
 // Speeches rewritten through an upload (speech.set) must still read exactly as the last applied manifest wrote them
@@ -288,6 +290,39 @@ speechSet.forEach((text, who) => {
   });
   files.forEach((f) => !index.some((e) => e.file === `stories/${f}`) && errors.push(`${dir}/${f} has no entry in content.json seasonStoryIndex (rebuild)`));
   Object.keys(stories).forEach((y) => !index.some((e) => e.season === y) && errors.push(`Story for ${y} is missing from the content.json story index (rebuild)`));
+}
+// Hot Takes (the fourth AI-authored lane) get the same treatment: data/y80/hot_takes.json reads exactly as the last
+// applied takes.set wrote each season, every take passes the story rules (scripts/story_check.py --audit-takes; a
+// figure that no longer matches is a stale warning), and the site's copy (public/data/league/takes.json, newest first)
+// and the content.json index agree with it
+{
+  const takes = ((existsSync('data/y80/hot_takes.json') ? read('data/y80/hot_takes.json').seasons : {}) ?? {}) as Record<string, { upload?: string; intro?: string; takes: { id: string; heat: number; headline: string }[] }>;
+  const canon = (v: unknown) => JSON.stringify(v, (_k, x) => (x && typeof x === 'object' && !Array.isArray(x) ? Object.fromEntries(Object.entries(x).sort(([a], [b]) => a.localeCompare(b))) : x));
+  takesSet.forEach((value, season) => {
+    if (!takes[season]) warnings.push(`Hot takes for ${season} were set by an upload but are missing from the data now`);
+    else if (canon(takes[season]) !== canon(value)) errors.push(`Hot takes for ${season} differ from the last applied upload manifest (edit them through takes.set)`);
+  });
+  Object.keys(takes).forEach((season) => !takesSet.has(season) && errors.push(`Hot takes for ${season} are not set by any applied upload manifest`));
+  try {
+    const out = JSON.parse(execFileSync('python3', ['scripts/story_check.py', '--audit-takes'], { encoding: 'utf8' })) as { errors: string[]; warnings: string[] };
+    out.errors.forEach((e) => errors.push(`Hot takes ${e}`));
+    out.warnings.forEach((w) => warnings.push(w));
+  } catch (e) {
+    errors.push(`Hot takes check failed to run (python3 scripts/story_check.py --audit-takes): ${(e as Error).message.split('\n')[0]}`);
+  }
+  const seasons = Object.keys(takes).sort((a, b) => Number(b.slice(1)) - Number(a.slice(1)));
+  const expectedFile = seasons.map((y) => ({ season: y, upload: takes[y].upload, ...(takes[y].intro ? { intro: takes[y].intro } : {}), takes: takes[y].takes }));
+  const path = 'public/data/league/takes.json';
+  if (!seasons.length) {
+    if (existsSync(path)) errors.push(`${path} exists but data/y80/hot_takes.json has no takes (rebuild)`);
+  } else if (!existsSync(path)) errors.push(`${path} is missing (npm run rebuild writes it)`);
+  else if (canon(read(path).seasons) !== canon(expectedFile)) errors.push(`${path} differs from data/y80/hot_takes.json (rebuild)`);
+  const index = (content.hotTakesIndex ?? []) as { season: string; count: number; takes: { id: string }[] }[];
+  if (JSON.stringify(index.map((e) => e.season)) !== JSON.stringify(seasons)) errors.push('content.json hotTakesIndex seasons differ from data/y80/hot_takes.json (rebuild)');
+  index.forEach((e) => {
+    const t = takes[e.season]?.takes ?? [];
+    if (e.count !== t.length || JSON.stringify(e.takes.map((x) => x.id)) !== JSON.stringify(t.map((x) => x.id))) errors.push(`content.json hotTakesIndex ${e.season} differs from its takes (rebuild)`);
+  });
 }
 const actual = new Map<string, string>();
 const collect = (path: string, v: unknown) => {
@@ -362,11 +397,15 @@ else {
     }
     // Team colours: every item that names a player carries his club, and every club is one of the 32 (the widget's
     // colour table and logo map cover exactly those)
-    const lists = ['didYouKnow', 'vault', 'movers', 'hofWatch', 'chases', 'milestones', 'headlines'];
+    const lists = ['didYouKnow', 'vault', 'movers', 'hofWatch', 'chases', 'milestones', 'headlines', 'takes'];
     lists.forEach((k) => (wj[k] ?? []).forEach((x: { player?: string; key?: string; team?: string }) => {
       if ((x.player || x.key) && !x.team) errors.push(`widget.json ${k} item for ${x.player || x.key} has no team (names wear team colours)`);
       if (x.team && !NFL_TEAMS.some((t) => t.name === x.team)) errors.push(`widget.json ${k} team "${x.team}" is not one of the 32 clubs`);
     }));
+    const takesIdx = (content.hotTakesIndex ?? []) as { season: string; count: number }[];
+    if (takesIdx.length && (wj.takesSeason !== takesIdx[0].season || (wj.takes ?? []).length !== takesIdx[0].count))
+      errors.push(`widget.json takes are not the latest Hot Takes (${takesIdx[0].season}; rebuild)`);
+    (wj.takes ?? []).forEach((t: { headline?: string }) => /\b(your|you)\b/i.test(t.headline ?? '') && errors.push(`widget.json take says "you/your": ${t.headline}`));
     if (wj.champion && wj.champion.season !== content.season) errors.push(`widget.json champion is for ${wj.champion.season}, not ${content.season}`);
     // Widget cards name the coach ("Skura's Ravens"), never "you" / "your" (speech hooks are quoted verbatim)
     items.forEach((it) => {

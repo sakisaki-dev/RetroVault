@@ -6,6 +6,7 @@ import PlayerCardLayer from '../player/PlayerCardLayer';
 import { useNewSlot } from '@/utils/slot';
 import CountUp from '../brand/CountUp';
 import RecordBook, { RecordStrip } from '../stats/RecordBook';
+import RecordBoard from '../stats/RecordBoard';
 import PositionLeaders from '../stats/PositionLeaders';
 import StatTables from '../stats/StatTables';
 import StatsPulse from '../stats/visual/StatsPulse';
@@ -23,6 +24,7 @@ import { cn } from '@/lib/utils';
  */
 const JUMPS = [
   { id: 'record-book', label: 'Records' },
+  { id: 'record-board', label: 'Record Board' },
   { id: 'analytics', label: 'Advanced' },
   { id: 'landscape', label: 'Landscape' },
   { id: 'hidden-gems', label: 'Hidden Gems' },
@@ -195,6 +197,8 @@ const CareerTab = () => {
           <StatsPulse data={careerData} book={book} onSelect={setSelectedPlayer} />
 
           {headline.length > 0 && <RecordStrip headline={headline} onSelect={setSelectedPlayer} />}
+
+          <RecordBoard players={players} onSelect={setSelectedPlayer} />
 
           {/* Analytics Lab, Landscape, Hidden Gems, League Shape: their own chunk (stats/hub/lazyViews) */}
           <Suspense fallback={<ViewLoading label="advanced stats" tall={false} />}>

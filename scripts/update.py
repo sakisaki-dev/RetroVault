@@ -16,6 +16,7 @@ Steps (each stops the run on failure; nothing is committed or pushed):
   5. checks          tsc --noEmit, check:sprites, vite build
   6. summary         players added / updated, players needing teams, records, new Hall of Famers and SPEECH NEEDED,
                      STORY NEEDED (a completed season with no Season Story), the season stories present,
+                     TAKES NEEDED (a completed season with no Hot Takes), the hot takes present,
                      market movers, the "What changed" headlines (content.json), open questions, the new edition;
                      then the commit and push commands to run
 """
@@ -137,6 +138,12 @@ def summary(bundle_id: str, before: dict, after: dict, rebuild_out: str, roll: l
     listed = ", ".join(f"{s['season']} ({s['articleCount']} articles)" for s in stories)
     print(f"Season stories: {listed or 'none'}")
     for l in story_needed:
+        print(f"  {l}")
+    takes = read(CONTENT, {}).get("hotTakesIndex", [])
+    takes_needed = [l for l in rebuild_out.splitlines() if l.startswith("TAKES NEEDED")]
+    listed = ", ".join(f"{t['season']} ({t['count']} takes)" for t in takes)
+    print(f"Hot takes: {listed or 'none'}")
+    for l in takes_needed:
         print(f"  {l}")
     market = market_history.load(SRC / "market_history.json")
     if after["snapshots"] > before["snapshots"] and len(market) >= 2:
