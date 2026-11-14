@@ -1,9 +1,9 @@
 {
  "_about": "Live state of the current season read from the game's own save (scripts/save_read.py --state), written only by a save.state upload mutation: ages, ratings and ceilings, contracts, injuries, the season so far per player (Retro Vault keys), club records, the coach's game log, the club's settings, coordinators (staff) and lifetime counters (achievements). Replaced whole by each save.state. Facts only; never hand-edit.",
- "id": "Y93w16",
- "upload": "2026-11-13-save-y93w16-fo",
+ "id": "Y93w32",
+ "upload": "2026-11-14-save-y93w32",
  "season": 93,
- "week": 16,
+ "week": 32,
  "club": "Eagles",
  "settings": {
   "facilities": {
@@ -15,13 +15,13 @@
   "salary_cap_base": 150,
   "fans": 100,
   "coach_rating": 20,
-  "credits": 43,
+  "credits": 66,
   "draft_picks": [
    1,
    1,
    1
   ],
-  "games_coached": 1845,
+  "games_coached": 1851,
   "difficulty": 4,
   "training": {
    "offense": 2,
@@ -57,14 +57,14 @@
   }
  ],
  "counters": {
-  "ACH_WIN1": 1584,
+  "ACH_WIN1": 1590,
   "ACH_SEASON1": 91,
-  "ACH_WINNING_SEASON": 91,
-  "ACH_UNBEATEN_SEASON": 11,
-  "ACH_WIN_DIVISION": 83,
+  "ACH_WINNING_SEASON": 92,
+  "ACH_UNBEATEN_SEASON": 12,
+  "ACH_WIN_DIVISION": 84,
   "ACH_WIN_AFC": 34,
-  "ACH_WIN_NFC": 39,
-  "ACH_WIN_RETROBOWL1": 66,
+  "ACH_WIN_NFC": 40,
+  "ACH_WIN_RETROBOWL1": 67,
   "ACH_TEAMS2": 17,
   "ACH_TRADEIN": 160,
   "ACH_TRADEOUT": 287,
@@ -89,15 +89,15 @@
   "ACH_GAME_PASS_400": 177,
   "ACH_GAME_PASS_500": 2,
   "ACH_GAME_COMPLETE_100": 167,
-  "ACH_GAME_RUSH_150": 48,
-  "ACH_TD_QB": 299,
+  "ACH_GAME_RUSH_150": 53,
+  "ACH_TD_QB": 301,
   "ACH_WIN_NOSTARQB": 26
  },
  "clubs": {
   "Bills": {
    "abbr": "BUF",
-   "w": 9,
-   "l": 5,
+   "w": 11,
+   "l": 6,
    "t": 0,
    "off": 9,
    "def": 10,
@@ -107,8 +107,8 @@
   },
   "Dolphins": {
    "abbr": "MIA",
-   "w": 6,
-   "l": 8,
+   "w": 8,
+   "l": 9,
    "t": 0,
    "off": 5,
    "def": 8,
@@ -118,9 +118,9 @@
   },
   "Patriots": {
    "abbr": "NE",
-   "w": 2,
-   "l": 12,
-   "t": 0,
+   "w": 3,
+   "l": 13,
+   "t": 1,
    "off": 5,
    "def": 6,
    "rainfall": 49,
@@ -130,8 +130,8 @@
   "Jets": {
    "abbr": "NYJ",
    "w": 5,
-   "l": 8,
-   "t": 1,
+   "l": 10,
+   "t": 2,
    "off": 6,
    "def": 3,
    "rainfall": 47,
@@ -140,7 +140,7 @@
   },
   "Broncos": {
    "abbr": "DEN",
-   "w": 3,
+   "w": 6,
    "l": 10,
    "t": 1,
    "off": 6,
@@ -151,8 +151,8 @@
   },
   "Chiefs": {
    "abbr": "KC",
-   "w": 9,
-   "l": 5,
+   "w": 10,
+   "l": 7,
    "t": 0,
    "off": 8,
    "def": 9,
@@ -163,7 +163,7 @@
   "Chargers": {
    "abbr": "LAC",
    "w": 8,
-   "l": 6,
+   "l": 9,
    "t": 0,
    "off": 8,
    "def": 8,
@@ -173,7 +173,7 @@
   },
   "Raiders": {
    "abbr": "LV",
-   "w": 11,
+   "w": 14,
    "l": 3,
    "t": 0,
    "off": 9,
@@ -184,8 +184,8 @@
   },
   "Ravens": {
    "abbr": "BAL",
-   "w": 7,
-   "l": 7,
+   "w": 9,
+   "l": 8,
    "t": 0,
    "off": 4,
    "def": 4,
@@ -195,8 +195,8 @@
   },
   "Bengals": {
    "abbr": "CIN",
-   "w": 12,
-   "l": 2,
+   "w": 14,
+   "l": 3,
    "t": 0,
    "off": 9,
    "def": 6,
@@ -207,7 +207,7 @@
   "Browns": {
    "abbr": "CLE",
    "w": 7,
-   "l": 7,
+   "l": 10,
    "t": 0,
    "off": 3,
    "def": 9,
@@ -217,7 +217,7 @@
   },
   "Steelers": {
    "abbr": "PIT",
-   "w": 8,
+   "w": 11,
    "l": 6,
    "t": 0,
    "off": 8,
@@ -228,8 +228,8 @@
   },
   "Texans": {
    "abbr": "HOU",
-   "w": 12,
-   "l": 2,
+   "w": 13,
+   "l": 4,
    "t": 0,
    "off": 8,
    "def": 10,
@@ -239,8 +239,8 @@
   },
   "Colts": {
    "abbr": "IND",
-   "w": 9,
-   "l": 5,
+   "w": 11,
+   "l": 6,
    "t": 0,
    "off": 7,
    "def": 7,
@@ -251,7 +251,7 @@
   "Jaguars": {
    "abbr": "JAX",
    "w": 6,
-   "l": 8,
+   "l": 11,
    "t": 0,
    "off": 8,
    "def": 2,
@@ -261,8 +261,8 @@
   },
   "Titans": {
    "abbr": "TEN",
-   "w": 3,
-   "l": 11,
+   "w": 4,
+   "l": 13,
    "t": 0,
    "off": 5,
    "def": 2,
@@ -273,7 +273,7 @@
   "Cowboys": {
    "abbr": "DAL",
    "w": 3,
-   "l": 11,
+   "l": 14,
    "t": 0,
    "off": 4,
    "def": 5,
@@ -283,8 +283,8 @@
   },
   "Giants": {
    "abbr": "NYG",
-   "w": 9,
-   "l": 5,
+   "w": 11,
+   "l": 6,
    "t": 0,
    "off": 9,
    "def": 7,
@@ -294,7 +294,7 @@
   },
   "Eagles": {
    "abbr": "PHI",
-   "w": 14,
+   "w": 17,
    "l": 0,
    "t": 0,
    "off": 10,
@@ -305,8 +305,8 @@
   },
   "Commanders": {
    "abbr": "WAS",
-   "w": 8,
-   "l": 6,
+   "w": 10,
+   "l": 7,
    "t": 0,
    "off": 9,
    "def": 9,
@@ -316,8 +316,8 @@
   },
   "Cardinals": {
    "abbr": "ARI",
-   "w": 3,
-   "l": 11,
+   "w": 4,
+   "l": 13,
    "t": 0,
    "off": 5,
    "def": 2,
@@ -327,8 +327,8 @@
   },
   "Rams": {
    "abbr": "LAR",
-   "w": 8,
-   "l": 6,
+   "w": 10,
+   "l": 7,
    "t": 0,
    "off": 9,
    "def": 5,
@@ -338,8 +338,8 @@
   },
   "49ers": {
    "abbr": "SF",
-   "w": 6,
-   "l": 8,
+   "w": 8,
+   "l": 9,
    "t": 0,
    "off": 9,
    "def": 3,
@@ -349,8 +349,8 @@
   },
   "Seahawks": {
    "abbr": "SEA",
-   "w": 6,
-   "l": 8,
+   "w": 7,
+   "l": 10,
    "t": 0,
    "off": 6,
    "def": 5,
@@ -361,7 +361,7 @@
   "Bears": {
    "abbr": "CHI",
    "w": 5,
-   "l": 9,
+   "l": 12,
    "t": 0,
    "off": 6,
    "def": 7,
@@ -371,8 +371,8 @@
   },
   "Lions": {
    "abbr": "DET",
-   "w": 9,
-   "l": 5,
+   "w": 11,
+   "l": 6,
    "t": 0,
    "off": 2,
    "def": 6,
@@ -382,8 +382,8 @@
   },
   "Packers": {
    "abbr": "GB",
-   "w": 7,
-   "l": 7,
+   "w": 9,
+   "l": 8,
    "t": 0,
    "off": 8,
    "def": 9,
@@ -393,8 +393,8 @@
   },
   "Vikings": {
    "abbr": "MIN",
-   "w": 8,
-   "l": 6,
+   "w": 10,
+   "l": 7,
    "t": 0,
    "off": 6,
    "def": 4,
@@ -404,8 +404,8 @@
   },
   "Falcons": {
    "abbr": "ATL",
-   "w": 6,
-   "l": 8,
+   "w": 8,
+   "l": 9,
    "t": 0,
    "off": 8,
    "def": 9,
@@ -415,7 +415,7 @@
   },
   "Panthers": {
    "abbr": "CAR",
-   "w": 6,
+   "w": 9,
    "l": 8,
    "t": 0,
    "off": 9,
@@ -427,7 +427,7 @@
   "Saints": {
    "abbr": "NO",
    "w": 3,
-   "l": 11,
+   "l": 14,
    "t": 0,
    "off": 7,
    "def": 2,
@@ -438,7 +438,7 @@
   "Buccaneers": {
    "abbr": "TB",
    "w": 5,
-   "l": 9,
+   "l": 12,
    "t": 0,
    "off": 5,
    "def": 8,
@@ -563,17 +563,26 @@
   {
    "week": 16,
    "opp": "LAR",
-   "home": false
+   "home": false,
+   "for": 28,
+   "against": 21,
+   "result": "W"
   },
   {
    "week": 17,
    "opp": "TB",
-   "home": true
+   "home": true,
+   "for": 40,
+   "against": 20,
+   "result": "W"
   },
   {
    "week": 18,
    "opp": "NYG",
-   "home": false
+   "home": false,
+   "for": 24,
+   "against": 23,
+   "result": "W"
   }
  ],
  "coachHistory": [
@@ -1584,6 +1593,17 @@
    "abbr": "PHI",
    "w": 15,
    "l": 2,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 93,
+   "team": "Eagles",
+   "abbr": "PHI",
+   "w": 17,
+   "l": 0,
    "t": 0,
    "pw": 3,
    "pl": 0,
@@ -3162,242 +3182,338 @@
   {
    "week": 16,
    "home": "Jets",
-   "away": "Patriots"
+   "away": "Patriots",
+   "hs": 26,
+   "as": 26
   },
   {
    "week": 16,
    "home": "Chiefs",
-   "away": "Chargers"
+   "away": "Chargers",
+   "hs": 44,
+   "as": 37
   },
   {
    "week": 16,
    "home": "Raiders",
-   "away": "Dolphins"
+   "away": "Dolphins",
+   "hs": 29,
+   "as": 23
   },
   {
    "week": 16,
    "home": "Ravens",
-   "away": "Browns"
+   "away": "Browns",
+   "hs": 47,
+   "as": 29
   },
   {
    "week": 16,
    "home": "Bengals",
-   "away": "Texans"
+   "away": "Texans",
+   "hs": 26,
+   "as": 18
   },
   {
    "week": 16,
    "home": "Colts",
-   "away": "Cardinals"
+   "away": "Cardinals",
+   "hs": 31,
+   "as": 19
   },
   {
    "week": 16,
    "home": "Jaguars",
-   "away": "Broncos"
+   "away": "Broncos",
+   "hs": 21,
+   "as": 45
   },
   {
    "week": 16,
    "home": "Cowboys",
-   "away": "Bills"
+   "away": "Bills",
+   "hs": 30,
+   "as": 38
   },
   {
    "week": 16,
    "home": "Giants",
-   "away": "Seahawks"
+   "away": "Seahawks",
+   "hs": 47,
+   "as": 3
   },
   {
    "week": 16,
    "home": "Rams",
-   "away": "Eagles"
+   "away": "Eagles",
+   "hs": 21,
+   "as": 28
   },
   {
    "week": 16,
    "home": "49ers",
-   "away": "Titans"
+   "away": "Titans",
+   "hs": 49,
+   "as": 44
   },
   {
    "week": 16,
    "home": "Bears",
-   "away": "Steelers"
+   "away": "Steelers",
+   "hs": 22,
+   "as": 30
   },
   {
    "week": 16,
    "home": "Packers",
-   "away": "Commanders"
+   "away": "Commanders",
+   "hs": 27,
+   "as": 34
   },
   {
    "week": 16,
    "home": "Vikings",
-   "away": "Lions"
+   "away": "Lions",
+   "hs": 51,
+   "as": 26
   },
   {
    "week": 16,
    "home": "Falcons",
-   "away": "Buccaneers"
+   "away": "Buccaneers",
+   "hs": 38,
+   "as": 20
   },
   {
    "week": 16,
    "home": "Saints",
-   "away": "Panthers"
+   "away": "Panthers",
+   "hs": 12,
+   "as": 25
   },
   {
    "week": 17,
    "home": "Dolphins",
-   "away": "Bills"
+   "away": "Bills",
+   "hs": 31,
+   "as": 22
   },
   {
    "week": 17,
    "home": "Patriots",
-   "away": "Seahawks"
+   "away": "Seahawks",
+   "hs": 20,
+   "as": 12
   },
   {
    "week": 17,
    "home": "Jets",
-   "away": "Raiders"
+   "away": "Raiders",
+   "hs": 31,
+   "as": 41
   },
   {
    "week": 17,
    "home": "Broncos",
-   "away": "Chargers"
+   "away": "Chargers",
+   "hs": 58,
+   "as": 51
   },
   {
    "week": 17,
    "home": "Ravens",
-   "away": "Texans"
+   "away": "Texans",
+   "hs": 37,
+   "as": 23
   },
   {
    "week": 17,
    "home": "Bengals",
-   "away": "Lions"
+   "away": "Lions",
+   "hs": 20,
+   "as": 46
   },
   {
    "week": 17,
    "home": "Browns",
-   "away": "Packers"
+   "away": "Packers",
+   "hs": 30,
+   "as": 38
   },
   {
    "week": 17,
    "home": "Colts",
-   "away": "Steelers"
+   "away": "Steelers",
+   "hs": 19,
+   "as": 27
   },
   {
    "week": 17,
    "home": "Titans",
-   "away": "Chiefs"
+   "away": "Chiefs",
+   "hs": 48,
+   "as": 16
   },
   {
    "week": 17,
    "home": "Cowboys",
-   "away": "Giants"
+   "away": "Giants",
+   "hs": 32,
+   "as": 40
   },
   {
    "week": 17,
    "home": "Eagles",
-   "away": "Buccaneers"
+   "away": "Buccaneers",
+   "hs": 40,
+   "as": 20
   },
   {
    "week": 17,
    "home": "Cardinals",
-   "away": "Jaguars"
+   "away": "Jaguars",
+   "hs": 41,
+   "as": 16
   },
   {
    "week": 17,
    "home": "Rams",
-   "away": "Commanders"
+   "away": "Commanders",
+   "hs": 44,
+   "as": 37
   },
   {
    "week": 17,
    "home": "Bears",
-   "away": "Vikings"
+   "away": "Vikings",
+   "hs": 20,
+   "as": 27
   },
   {
    "week": 17,
    "home": "Panthers",
-   "away": "Falcons"
+   "away": "Falcons",
+   "hs": 41,
+   "as": 13
   },
   {
    "week": 17,
    "home": "Saints",
-   "away": "49ers"
+   "away": "49ers",
+   "hs": 24,
+   "as": 34
   },
   {
    "week": 18,
    "home": "Bills",
-   "away": "Jets"
+   "away": "Jets",
+   "hs": 48,
+   "as": 26
   },
   {
    "week": 18,
    "home": "Patriots",
-   "away": "Dolphins"
+   "away": "Dolphins",
+   "hs": 10,
+   "as": 16
   },
   {
    "week": 18,
    "home": "Chiefs",
-   "away": "Broncos"
+   "away": "Broncos",
+   "hs": 23,
+   "as": 33
   },
   {
    "week": 18,
    "home": "Chargers",
-   "away": "Raiders"
+   "away": "Raiders",
+   "hs": 20,
+   "as": 37
   },
   {
    "week": 18,
    "home": "Browns",
-   "away": "Bengals"
+   "away": "Bengals",
+   "hs": 20,
+   "as": 37
   },
   {
    "week": 18,
    "home": "Steelers",
-   "away": "Ravens"
+   "away": "Ravens",
+   "hs": 26,
+   "as": 17
   },
   {
    "week": 18,
    "home": "Texans",
-   "away": "Titans"
+   "away": "Titans",
+   "hs": 31,
+   "as": 24
   },
   {
    "week": 18,
    "home": "Jaguars",
-   "away": "Colts"
+   "away": "Colts",
+   "hs": 27,
+   "as": 38
   },
   {
    "week": 18,
    "home": "Giants",
-   "away": "Eagles"
+   "away": "Eagles",
+   "hs": 23,
+   "as": 24
   },
   {
    "week": 18,
    "home": "Commanders",
-   "away": "Cowboys"
+   "away": "Cowboys",
+   "hs": 32,
+   "as": 29
   },
   {
    "week": 18,
    "home": "49ers",
-   "away": "Rams"
+   "away": "Rams",
+   "hs": 24,
+   "as": 27
   },
   {
    "week": 18,
    "home": "Seahawks",
-   "away": "Cardinals"
+   "away": "Cardinals",
+   "hs": 52,
+   "as": 26
   },
   {
    "week": 18,
    "home": "Lions",
-   "away": "Vikings"
+   "away": "Vikings",
+   "hs": 37,
+   "as": 35
   },
   {
    "week": 18,
    "home": "Packers",
-   "away": "Bears"
+   "away": "Bears",
+   "hs": 40,
+   "as": 30
   },
   {
    "week": 18,
    "home": "Falcons",
-   "away": "Saints"
+   "away": "Saints",
+   "hs": 66,
+   "as": 30
   },
   {
    "week": 18,
    "home": "Buccaneers",
-   "away": "Panthers"
+   "away": "Panthers",
+   "hs": 13,
+   "as": 21
   }
  ],
  "players": {
@@ -3419,8 +3535,8 @@
    "xp_level": 1,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 141,
+    "g": 18,
+    "tkl": 182,
     "int": 3
    }
   },
@@ -3442,8 +3558,8 @@
    "xp_level": 4,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 145,
+    "g": 18,
+    "tkl": 189,
     "int": 4
    }
   },
@@ -3465,8 +3581,8 @@
    "xp_level": 2,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 192,
+    "g": 17,
+    "tkl": 222,
     "int": 1
    }
   },
@@ -3488,9 +3604,9 @@
    "xp_level": 2,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 150,
-    "int": 2
+    "g": 19,
+    "tkl": 225,
+    "int": 5
    }
   },
   "DB:Dalvin Moehrig": {
@@ -3511,8 +3627,8 @@
    "xp_level": 2,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 134
+    "g": 17,
+    "tkl": 161
    }
   },
   "DB:Davion Leo": {
@@ -3533,7 +3649,7 @@
    "xp_level": 1,
    "spos": "S",
    "season": {
-    "g": 14
+    "g": 17
    }
   },
   "DB:Dax Kolone": {
@@ -3554,9 +3670,9 @@
    "xp_level": 1,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 176,
-    "int": 2
+    "g": 17,
+    "tkl": 210,
+    "int": 3
    }
   },
   "DB:Dwayne Skura": {
@@ -3578,8 +3694,8 @@
    "spos": "CB",
    "signed_year": 92,
    "season": {
-    "g": 14,
-    "tkl": 154,
+    "g": 18,
+    "tkl": 216,
     "int": 2
    }
   },
@@ -3601,7 +3717,7 @@
    "xp_level": 4,
    "spos": "S",
    "season": {
-    "g": 14
+    "g": 17
    }
   },
   "DB:Ian Clapp": {
@@ -3623,8 +3739,8 @@
    "spos": "CB",
    "signed_year": 86,
    "season": {
-    "g": 14,
-    "tkl": 85
+    "g": 17,
+    "tkl": 101
    }
   },
   "DB:Isaiah Pinkney": {
@@ -3645,8 +3761,8 @@
    "xp_level": 1,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 133,
+    "g": 17,
+    "tkl": 179,
     "int": 4
    }
   },
@@ -3668,7 +3784,7 @@
    "xp_level": 2,
    "spos": "S",
    "season": {
-    "g": 14
+    "g": 18
    }
   },
   "DB:Jamon Brooker": {
@@ -3689,9 +3805,9 @@
    "xp_level": 3,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 162,
-    "int": 3
+    "g": 17,
+    "tkl": 205,
+    "int": 4
    }
   },
   "DB:Jontre Owens": {
@@ -3712,7 +3828,51 @@
    "xp_level": 2,
    "spos": "S",
    "season": {
-    "g": 14
+    "g": 18
+   }
+  },
+  "DB:K.J. Brewer": {
+   "team": "Buccaneers",
+   "age": 21,
+   "speed": 4,
+   "strength": 1,
+   "skill": 2,
+   "stamina": 4,
+   "max_speed": 6,
+   "max_strength": 2,
+   "max_skill": 6,
+   "max_stamina": 4,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 4,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "CB",
+   "season": {
+    "g": 17,
+    "tkl": 215,
+    "int": 4
+   }
+  },
+  "DB:Kalen Bowser": {
+   "team": "Patriots",
+   "age": 21,
+   "speed": 3,
+   "strength": 2,
+   "skill": 5,
+   "stamina": 8,
+   "max_speed": 7,
+   "max_strength": 2,
+   "max_skill": 8,
+   "max_stamina": 10,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 7,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "S",
+   "season": {
+    "g": 17
    }
   },
   "DB:Keesean Hand": {
@@ -3734,10 +3894,31 @@
    "spos": "CB",
    "signed_year": 92,
    "season": {
-    "g": 14,
-    "tkl": 78,
-    "int": 1,
-    "ff": 1
+    "g": 20,
+    "tkl": 121,
+    "int": 3,
+    "ff": 2
+   }
+  },
+  "DB:Ketner Tauaefa": {
+   "team": "Commanders",
+   "age": 28,
+   "speed": 5,
+   "strength": 4,
+   "skill": 5,
+   "stamina": 1,
+   "max_speed": 9,
+   "max_strength": 4,
+   "max_skill": 8,
+   "max_stamina": 7,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 7,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "S",
+   "season": {
+    "g": 2
    }
   },
   "DB:Koa Zuber": {
@@ -3759,9 +3940,9 @@
    "spos": "CB",
    "signed_year": 92,
    "season": {
-    "g": 14,
-    "tkl": 93,
-    "int": 3
+    "g": 20,
+    "tkl": 142,
+    "int": 6
    }
   },
   "DB:Kolton Cole": {
@@ -3782,7 +3963,7 @@
    "xp_level": 3,
    "spos": "S",
    "season": {
-    "g": 14,
+    "g": 20,
     "tkl": 3
    }
   },
@@ -3790,7 +3971,7 @@
    "team": "Jets",
    "age": 34,
    "speed": 7,
-   "strength": 4,
+   "strength": 5,
    "skill": 6,
    "stamina": 2,
    "max_speed": 7,
@@ -3801,18 +3982,18 @@
    "contract": 1,
    "salary": 8,
    "delay_retirement": 0,
-   "xp_level": 3,
+   "xp_level": 4,
    "spos": "CB",
    "signed_year": 88,
    "season": {
-    "g": 14,
-    "tkl": 147
+    "g": 17,
+    "tkl": 199
    }
   },
   "DB:Lamont Edoga": {
    "team": "Browns",
    "age": 31,
-   "speed": 4,
+   "speed": 5,
    "strength": 1,
    "skill": 2,
    "stamina": 5,
@@ -3824,11 +4005,11 @@
    "contract": 2,
    "salary": 8,
    "delay_retirement": 0,
-   "xp_level": 1,
+   "xp_level": 2,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 136,
+    "g": 17,
+    "tkl": 184,
     "int": 2
    }
   },
@@ -3850,15 +4031,15 @@
    "xp_level": 1,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 156,
+    "g": 17,
+    "tkl": 196,
     "int": 4
    }
   },
   "DB:Lewis Pettis": {
    "team": "Cowboys",
    "age": 33,
-   "speed": 5,
+   "speed": 6,
    "strength": 1,
    "skill": 4,
    "stamina": 1,
@@ -3870,11 +4051,11 @@
    "contract": 1,
    "salary": 5,
    "delay_retirement": 0,
-   "xp_level": 1,
+   "xp_level": 2,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 172,
+    "g": 17,
+    "tkl": 208,
     "int": 2
    }
   },
@@ -3896,8 +4077,9 @@
    "xp_level": 2,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 187
+    "g": 21,
+    "tkl": 231,
+    "int": 1
    }
   },
   "DB:Mack Skule": {
@@ -3918,9 +4100,9 @@
    "xp_level": 1,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 186,
-    "int": 1
+    "g": 17,
+    "tkl": 225,
+    "int": 2
    }
   },
   "DB:Neal Johnson": {
@@ -3941,8 +4123,8 @@
    "xp_level": 1,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 162
+    "g": 17,
+    "tkl": 194
    }
   },
   "DB:Odell Hainsey": {
@@ -3951,7 +4133,7 @@
    "speed": 7,
    "strength": 4,
    "skill": 6,
-   "stamina": 2,
+   "stamina": 3,
    "max_speed": 9,
    "max_strength": 5,
    "max_skill": 7,
@@ -3960,11 +4142,11 @@
    "contract": 1,
    "salary": 8,
    "delay_retirement": 0,
-   "xp_level": 2,
+   "xp_level": 3,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 156,
+    "g": 17,
+    "tkl": 183,
     "int": 4
    }
   },
@@ -3986,8 +4168,8 @@
    "xp_level": 5,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 181,
+    "g": 19,
+    "tkl": 228,
     "int": 3
    }
   },
@@ -4009,8 +4191,8 @@
    "xp_level": 1,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 186,
+    "g": 20,
+    "tkl": 208,
     "int": 1
    }
   },
@@ -4018,7 +4200,7 @@
    "team": "Eagles",
    "age": 23,
    "speed": 6,
-   "strength": 4,
+   "strength": 5,
    "skill": 7,
    "stamina": 9,
    "max_speed": 9,
@@ -4029,12 +4211,12 @@
    "contract": 2,
    "salary": 18,
    "delay_retirement": 0,
-   "xp_level": 6,
+   "xp_level": 7,
    "spos": "S",
    "signed_year": 93,
    "season": {
-    "g": 14,
-    "tkl": 58,
+    "g": 20,
+    "tkl": 86,
     "ff": 2
    }
   },
@@ -4056,9 +4238,9 @@
    "xp_level": 4,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 191,
-    "int": 1
+    "g": 18,
+    "tkl": 222,
+    "int": 2
    }
   },
   "DB:Tramon Holton": {
@@ -4080,8 +4262,8 @@
    "spos": "CB",
    "signed_year": 87,
    "season": {
-    "g": 14,
-    "tkl": 71,
+    "g": 17,
+    "tkl": 88,
     "int": 1
    }
   },
@@ -4103,8 +4285,8 @@
    "xp_level": 7,
    "spos": "CB",
    "season": {
-    "g": 14,
-    "tkl": 172,
+    "g": 18,
+    "tkl": 210,
     "int": 3
    }
   },
@@ -4127,8 +4309,8 @@
    "spos": "CB",
    "signed_year": 88,
    "season": {
-    "g": 14,
-    "tkl": 200,
+    "g": 17,
+    "tkl": 241,
     "int": 1
    }
   },
@@ -4150,7 +4332,7 @@
    "xp_level": 2,
    "spos": "S",
    "season": {
-    "g": 14
+    "g": 17
    }
   },
   "DB:Trysten Floyd": {
@@ -4172,7 +4354,7 @@
    "spos": "S",
    "signed_year": 85,
    "season": {
-    "g": 14,
+    "g": 19,
     "tkl": 1
    }
   },
@@ -4194,8 +4376,8 @@
    "xp_level": 3,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 75,
+    "g": 17,
+    "tkl": 84,
     "int": 1
    }
   },
@@ -4203,7 +4385,7 @@
    "team": "Colts",
    "age": 22,
    "speed": 1,
-   "strength": 4,
+   "strength": 5,
    "skill": 1,
    "stamina": 2,
    "max_speed": 3,
@@ -4214,11 +4396,11 @@
    "contract": 1,
    "salary": 4,
    "delay_retirement": 0,
-   "xp_level": 1,
+   "xp_level": 2,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 65,
+    "g": 18,
+    "tkl": 92,
     "sck": 1
    }
   },
@@ -4240,8 +4422,9 @@
    "xp_level": 5,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 78
+    "g": 17,
+    "tkl": 95,
+    "sck": 1
    }
   },
   "DL:Bobby Grigsby": {
@@ -4262,8 +4445,8 @@
    "xp_level": 1,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 63,
+    "g": 17,
+    "tkl": 70,
     "sck": 1
    }
   },
@@ -4285,9 +4468,9 @@
    "xp_level": 2,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 70,
-    "sck": 1
+    "g": 19,
+    "tkl": 88,
+    "sck": 2
    }
   },
   "DL:Clinton Maher": {
@@ -4308,8 +4491,8 @@
    "xp_level": 1,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 45,
+    "g": 17,
+    "tkl": 67,
     "sck": 1
    }
   },
@@ -4331,8 +4514,8 @@
    "xp_level": 6,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 76
+    "g": 17,
+    "tkl": 94
    }
   },
   "DL:Deonte Farrell": {
@@ -4353,9 +4536,9 @@
    "xp_level": 3,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 85,
-    "sck": 2
+    "g": 17,
+    "tkl": 97,
+    "sck": 3
    }
   },
   "DL:Deshone Bello": {
@@ -4376,9 +4559,9 @@
    "xp_level": 3,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 68,
-    "sck": 2
+    "g": 17,
+    "tkl": 82,
+    "sck": 3
    }
   },
   "DL:Devonte Kerr": {
@@ -4399,8 +4582,8 @@
    "xp_level": 1,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 72
+    "g": 18,
+    "tkl": 91
    }
   },
   "DL:Dillon Tyson": {
@@ -4421,8 +4604,8 @@
    "xp_level": 1,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 53
+    "g": 18,
+    "tkl": 76
    }
   },
   "DL:Dyami Watson": {
@@ -4443,8 +4626,8 @@
    "xp_level": 1,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 59,
+    "g": 17,
+    "tkl": 73,
     "int": 1
    }
   },
@@ -4466,8 +4649,8 @@
    "xp_level": 1,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 65
+    "g": 19,
+    "tkl": 91
    }
   },
   "DL:Gus Howland": {
@@ -4488,8 +4671,8 @@
    "xp_level": 2,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 64,
+    "g": 20,
+    "tkl": 82,
     "sck": 1
    }
   },
@@ -4511,8 +4694,8 @@
    "xp_level": 1,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 85,
+    "g": 17,
+    "tkl": 96,
     "int": 1,
     "sck": 2
    }
@@ -4535,8 +4718,8 @@
    "xp_level": 2,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 73,
+    "g": 17,
+    "tkl": 95,
     "sck": 1
    }
   },
@@ -4558,8 +4741,8 @@
    "xp_level": 1,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 71
+    "g": 17,
+    "tkl": 93
    }
   },
   "DL:Jace Ray": {
@@ -4567,7 +4750,7 @@
    "age": 28,
    "speed": 1,
    "strength": 1,
-   "skill": 7,
+   "skill": 8,
    "stamina": 5,
    "max_speed": 4,
    "max_strength": 5,
@@ -4577,11 +4760,11 @@
    "contract": 2,
    "salary": 12,
    "delay_retirement": 0,
-   "xp_level": 3,
+   "xp_level": 4,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 75,
+    "g": 17,
+    "tkl": 92,
     "sck": 2
    }
   },
@@ -4603,8 +4786,8 @@
    "xp_level": 2,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 61
+    "g": 18,
+    "tkl": 88
    }
   },
   "DL:Keaton Toney": {
@@ -4625,8 +4808,8 @@
    "xp_level": 3,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 79,
+    "g": 17,
+    "tkl": 91,
     "sck": 1
    }
   },
@@ -4648,8 +4831,8 @@
    "xp_level": 2,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 54
+    "g": 17,
+    "tkl": 72
    }
   },
   "DL:Levante Banner": {
@@ -4670,8 +4853,8 @@
    "xp_level": 6,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 62
+    "g": 17,
+    "tkl": 85
    }
   },
   "DL:Mykal Shaw": {
@@ -4692,8 +4875,8 @@
    "xp_level": 2,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 70,
+    "g": 18,
+    "tkl": 90,
     "int": 1
    }
   },
@@ -4715,8 +4898,8 @@
    "xp_level": 1,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 60,
+    "g": 18,
+    "tkl": 87,
     "int": 1,
     "sck": 1
    }
@@ -4739,8 +4922,8 @@
    "xp_level": 3,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 76,
+    "g": 17,
+    "tkl": 86,
     "sck": 2
    }
   },
@@ -4748,7 +4931,7 @@
    "team": "49ers",
    "age": 23,
    "speed": 4,
-   "strength": 9,
+   "strength": 10,
    "skill": 4,
    "stamina": 3,
    "max_speed": 5,
@@ -4759,11 +4942,11 @@
    "contract": 2,
    "salary": 18,
    "delay_retirement": 0,
-   "xp_level": 2,
+   "xp_level": 3,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 49
+    "g": 17,
+    "tkl": 58
    }
   },
   "DL:Richard Ferentz": {
@@ -4784,8 +4967,8 @@
    "xp_level": 3,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 86,
+    "g": 21,
+    "tkl": 112,
     "int": 2
    }
   },
@@ -4807,8 +4990,8 @@
    "xp_level": 3,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 69,
+    "g": 19,
+    "tkl": 99,
     "sck": 1
    }
   },
@@ -4830,8 +5013,8 @@
    "xp_level": 1,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 84,
+    "g": 20,
+    "tkl": 108,
     "sck": 1
    }
   },
@@ -4853,8 +5036,8 @@
    "xp_level": 7,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 77,
+    "g": 18,
+    "tkl": 87,
     "int": 1,
     "sck": 1
    }
@@ -4877,8 +5060,8 @@
    "xp_level": 1,
    "spos": "DL",
    "season": {
-    "g": 14,
-    "tkl": 75
+    "g": 17,
+    "tkl": 88
    }
   },
   "LB:Aldrick Coyle": {
@@ -4899,8 +5082,8 @@
    "xp_level": 1,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 45
+    "g": 17,
+    "tkl": 52
    }
   },
   "LB:Alontae Agnew": {
@@ -4921,8 +5104,9 @@
    "xp_level": 1,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 40
+    "g": 20,
+    "tkl": 57,
+    "sck": 2
    }
   },
   "LB:Angelo Jensen": {
@@ -4943,8 +5127,8 @@
    "xp_level": 3,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 55,
+    "g": 18,
+    "tkl": 71,
     "sck": 1
    }
   },
@@ -4966,8 +5150,8 @@
    "xp_level": 2,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 43
+    "g": 18,
+    "tkl": 55
    }
   },
   "LB:Bryson Lucas": {
@@ -4988,8 +5172,8 @@
    "xp_level": 6,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 55,
+    "g": 19,
+    "tkl": 78,
     "sck": 1
    }
   },
@@ -5011,8 +5195,8 @@
    "xp_level": 1,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 58
+    "g": 17,
+    "tkl": 68
    }
   },
   "LB:Chuck Ertz": {
@@ -5033,8 +5217,30 @@
    "xp_level": 2,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 36
+    "g": 18,
+    "tkl": 44
+   }
+  },
+  "LB:Cyril Boozler": {
+   "team": "Jaguars",
+   "age": 21,
+   "speed": 3,
+   "strength": 2,
+   "skill": 4,
+   "stamina": 2,
+   "max_speed": 7,
+   "max_strength": 7,
+   "max_skill": 4,
+   "max_stamina": 7,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 5,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "LB",
+   "season": {
+    "g": 17,
+    "tkl": 60
    }
   },
   "LB:Dalton Mauro": {
@@ -5055,8 +5261,31 @@
    "xp_level": 2,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 29
+    "g": 20,
+    "tkl": 40
+   }
+  },
+  "LB:Danny Crosby": {
+   "team": "Vikings",
+   "age": 21,
+   "speed": 2,
+   "strength": 1,
+   "skill": 6,
+   "stamina": 5,
+   "max_speed": 4,
+   "max_strength": 3,
+   "max_skill": 8,
+   "max_stamina": 7,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 6,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "LB",
+   "season": {
+    "g": 19,
+    "tkl": 77,
+    "sck": 1
    }
   },
   "LB:Davion Means": {
@@ -5077,15 +5306,15 @@
    "xp_level": 3,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 55,
+    "g": 18,
+    "tkl": 66,
     "sck": 2
    }
   },
   "LB:Drake Kaskey": {
    "team": "Jets",
    "age": 22,
-   "speed": 2,
+   "speed": 3,
    "strength": 4,
    "skill": 3,
    "stamina": 10,
@@ -5097,11 +5326,11 @@
    "contract": 1,
    "salary": 8,
    "delay_retirement": 0,
-   "xp_level": 2,
+   "xp_level": 3,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 52,
+    "g": 17,
+    "tkl": 68,
     "sck": 2
    }
   },
@@ -5110,7 +5339,7 @@
    "age": 31,
    "speed": 5,
    "strength": 6,
-   "skill": 5,
+   "skill": 7,
    "stamina": 9,
    "max_speed": 5,
    "max_strength": 8,
@@ -5120,11 +5349,11 @@
    "contract": 2,
    "salary": 22,
    "delay_retirement": 0,
-   "xp_level": 4,
+   "xp_level": 6,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 48,
+    "g": 18,
+    "tkl": 59,
     "sck": 1
    }
   },
@@ -5146,8 +5375,9 @@
    "xp_level": 4,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 38
+    "g": 19,
+    "tkl": 58,
+    "sck": 1
    }
   },
   "LB:Hakeem Ervin": {
@@ -5168,8 +5398,8 @@
    "xp_level": 2,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 38,
+    "g": 17,
+    "tkl": 52,
     "sck": 1
    }
   },
@@ -5192,8 +5422,30 @@
    "spos": "LB",
    "signed_year": 89,
    "season": {
-    "g": 14,
-    "tkl": 30
+    "g": 17,
+    "tkl": 38
+   }
+  },
+  "LB:Jeff Mixon": {
+   "team": "Bears",
+   "age": 21,
+   "speed": 6,
+   "strength": 8,
+   "skill": 2,
+   "stamina": 5,
+   "max_speed": 7,
+   "max_strength": 8,
+   "max_skill": 5,
+   "max_stamina": 5,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 10,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "LB",
+   "season": {
+    "g": 17,
+    "tkl": 70
    }
   },
   "LB:KC Hyder": {
@@ -5214,8 +5466,8 @@
    "xp_level": 1,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 21
+    "g": 20,
+    "tkl": 31
    }
   },
   "LB:Khalen Swoopes": {
@@ -5236,8 +5488,8 @@
    "xp_level": 3,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 46
+    "g": 17,
+    "tkl": 61
    }
   },
   "LB:Kwon Dawkins": {
@@ -5258,8 +5510,8 @@
    "xp_level": 1,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 50,
+    "g": 18,
+    "tkl": 62,
     "sck": 1
    }
   },
@@ -5281,8 +5533,9 @@
    "xp_level": 2,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 44
+    "g": 18,
+    "tkl": 56,
+    "sck": 1
    }
   },
   "LB:Mark Sieler": {
@@ -5303,8 +5556,8 @@
    "xp_level": 6,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 61
+    "g": 17,
+    "tkl": 71
    }
   },
   "LB:Quatro Wilds": {
@@ -5325,8 +5578,8 @@
    "xp_level": 1,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 20
+    "g": 18,
+    "tkl": 28
    }
   },
   "LB:Rudy Ward Jr": {
@@ -5347,8 +5600,8 @@
    "xp_level": 2,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 39
+    "g": 17,
+    "tkl": 59
    }
   },
   "LB:Samson McKeon": {
@@ -5369,9 +5622,31 @@
    "xp_level": 5,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 51,
+    "g": 17,
+    "tkl": 58,
     "sck": 1
+   }
+  },
+  "LB:Shawn Rigg": {
+   "team": "Cardinals",
+   "age": 21,
+   "speed": 3,
+   "strength": 3,
+   "skill": 1,
+   "stamina": 1,
+   "max_speed": 3,
+   "max_strength": 5,
+   "max_skill": 5,
+   "max_stamina": 5,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 3,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "LB",
+   "season": {
+    "g": 17,
+    "tkl": 57
    }
   },
   "LB:Simeon Otton": {
@@ -5393,8 +5668,8 @@
    "spos": "LB",
    "signed_year": 87,
    "season": {
-    "g": 14,
-    "tkl": 39
+    "g": 17,
+    "tkl": 52
    }
   },
   "LB:Snoop Dotson": {
@@ -5416,10 +5691,10 @@
    "spos": "LB",
    "signed_year": 92,
    "season": {
-    "g": 14,
-    "tkl": 51,
+    "g": 20,
+    "tkl": 71,
     "int": 2,
-    "sck": 1
+    "sck": 2
    }
   },
   "LB:Storm Shelvin": {
@@ -5440,8 +5715,8 @@
    "xp_level": 2,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 55
+    "g": 17,
+    "tkl": 65
    }
   },
   "LB:Taywan Orzech": {
@@ -5462,8 +5737,8 @@
    "xp_level": 2,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 39
+    "g": 17,
+    "tkl": 51
    }
   },
   "LB:Terrel Brandel": {
@@ -5484,8 +5759,8 @@
    "xp_level": 2,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 56
+    "g": 17,
+    "tkl": 62
    }
   },
   "LB:Tom Egbule": {
@@ -5506,9 +5781,9 @@
    "xp_level": 2,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 66,
-    "sck": 1
+    "g": 17,
+    "tkl": 75,
+    "sck": 2
    }
   },
   "LB:Trayone Burford": {
@@ -5529,8 +5804,8 @@
    "xp_level": 3,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 37,
+    "g": 17,
+    "tkl": 44,
     "sck": 2
    }
   },
@@ -5552,8 +5827,9 @@
    "xp_level": 1,
    "spos": "LB",
    "season": {
-    "g": 14,
-    "tkl": 57
+    "g": 21,
+    "tkl": 66,
+    "sck": 1
    }
   },
   "OL:Akiem Brock": {
@@ -5575,8 +5851,8 @@
    "spos": "OL",
    "signed_year": 93,
    "season": {
-    "g": 14,
-    "blk": 29
+    "g": 20,
+    "blk": 51
    }
   },
   "OL:Andrew Biegel": {
@@ -5597,8 +5873,8 @@
    "xp_level": 6,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 19
+    "g": 19,
+    "blk": 23
    }
   },
   "OL:Anthony Orzech": {
@@ -5619,8 +5895,8 @@
    "xp_level": 4,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 17
+    "g": 17,
+    "blk": 19
    }
   },
   "OL:Bradlee Philips": {
@@ -5641,8 +5917,8 @@
    "xp_level": 2,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 12
+    "g": 17,
+    "blk": 25
    }
   },
   "OL:Calais Ham": {
@@ -5664,8 +5940,8 @@
    "spos": "OL",
    "signed_year": 86,
    "season": {
-    "g": 14,
-    "blk": 11
+    "g": 17,
+    "blk": 15
    }
   },
   "OL:Caleb Linsley": {
@@ -5686,8 +5962,8 @@
    "xp_level": 3,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 34
+    "g": 20,
+    "blk": 49
    }
   },
   "OL:Cethan Payne": {
@@ -5708,8 +5984,8 @@
    "xp_level": 1,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 14
+    "g": 18,
+    "blk": 21
    }
   },
   "OL:Cethan Qualls": {
@@ -5730,8 +6006,8 @@
    "xp_level": 1,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 13
+    "g": 17,
+    "blk": 16
    }
   },
   "OL:Cordale Sweezy": {
@@ -5752,8 +6028,8 @@
    "xp_level": 1,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 17
+    "g": 17,
+    "blk": 22
    }
   },
   "OL:Cullen Laird": {
@@ -5774,8 +6050,8 @@
    "xp_level": 4,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 15
+    "g": 18,
+    "blk": 18
    }
   },
   "OL:Deane Lucas": {
@@ -5796,8 +6072,8 @@
    "xp_level": 3,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 11
+    "g": 17,
+    "blk": 13
    }
   },
   "OL:Hakeem Peppers": {
@@ -5818,8 +6094,30 @@
    "xp_level": 4,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 16
+    "g": 17,
+    "blk": 21
+   }
+  },
+  "OL:Horace Addison": {
+   "team": "Cowboys",
+   "age": 21,
+   "speed": 3,
+   "strength": 5,
+   "skill": 5,
+   "stamina": 2,
+   "max_speed": 4,
+   "max_strength": 9,
+   "max_skill": 8,
+   "max_stamina": 8,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 6,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "OL",
+   "season": {
+    "g": 17,
+    "blk": 28
    }
   },
   "OL:JD Pircher": {
@@ -5840,8 +6138,8 @@
    "xp_level": 2,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 16
+    "g": 18,
+    "blk": 25
    }
   },
   "OL:Javon Trask": {
@@ -5862,8 +6160,8 @@
    "xp_level": 4,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 6
+    "g": 18,
+    "blk": 18
    }
   },
   "OL:Jermar Reiff": {
@@ -5884,8 +6182,8 @@
    "xp_level": 3,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 18
+    "g": 17,
+    "blk": 21
    }
   },
   "OL:Jordon Toilolo": {
@@ -5906,8 +6204,8 @@
    "xp_level": 1,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 15
+    "g": 19,
+    "blk": 25
    }
   },
   "OL:Kiondre Hageman": {
@@ -5928,8 +6226,8 @@
    "xp_level": 3,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 29
+    "g": 18,
+    "blk": 31
    }
   },
   "OL:Koa Togiai": {
@@ -5950,8 +6248,8 @@
    "xp_level": 1,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 12
+    "g": 17,
+    "blk": 16
    }
   },
   "OL:Laken Linder": {
@@ -5972,8 +6270,8 @@
    "xp_level": 3,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 11
+    "g": 17,
+    "blk": 14
    }
   },
   "OL:Nydair Funk": {
@@ -5994,8 +6292,8 @@
    "xp_level": 2,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 21
+    "g": 17,
+    "blk": 23
    }
   },
   "OL:Perrion Randall": {
@@ -6017,8 +6315,8 @@
    "spos": "OL",
    "signed_year": 83,
    "season": {
-    "g": 14,
-    "blk": 22
+    "g": 17,
+    "blk": 26
    }
   },
   "OL:Shaquem Goedert": {
@@ -6039,8 +6337,8 @@
    "xp_level": 3,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 17
+    "g": 20,
+    "blk": 20
    }
   },
   "OL:Taron Pinnock": {
@@ -6061,8 +6359,8 @@
    "xp_level": 2,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 9
+    "g": 17,
+    "blk": 14
    }
   },
   "OL:Tay Tenuta": {
@@ -6083,8 +6381,8 @@
    "xp_level": 2,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 22
+    "g": 17,
+    "blk": 24
    }
   },
   "OL:Terez Poe": {
@@ -6105,8 +6403,8 @@
    "xp_level": 5,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 29
+    "g": 17,
+    "blk": 33
    }
   },
   "OL:Trey Gabbert": {
@@ -6127,8 +6425,8 @@
    "xp_level": 1,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 14
+    "g": 18,
+    "blk": 19
    }
   },
   "OL:Victor Brandel": {
@@ -6149,8 +6447,8 @@
    "xp_level": 4,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 28
+    "g": 19,
+    "blk": 30
    }
   },
   "OL:Victor Pascal": {
@@ -6171,8 +6469,8 @@
    "xp_level": 5,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 13
+    "g": 18,
+    "blk": 19
    }
   },
   "OL:Vyncint Fort": {
@@ -6193,8 +6491,8 @@
    "xp_level": 2,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 18
+    "g": 17,
+    "blk": 20
    }
   },
   "OL:Wayne Blair": {
@@ -6215,8 +6513,38 @@
    "xp_level": 1,
    "spos": "OL",
    "season": {
-    "g": 14,
-    "blk": 16
+    "g": 17,
+    "blk": 19
+   }
+  },
+  "QB:Alshon Lazard": {
+   "team": "Bengals",
+   "age": 21,
+   "speed": 1,
+   "strength": 4,
+   "skill": 5,
+   "stamina": 7,
+   "max_speed": 5,
+   "max_strength": 9,
+   "max_skill": 9,
+   "max_stamina": 9,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 15,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "QB",
+   "season": {
+    "g": 18,
+    "att": 582,
+    "cmp": 350,
+    "yds": 3561,
+    "td": 39,
+    "int": 4,
+    "sck": 3,
+    "ratt": 27,
+    "ryds": 134,
+    "rtd": 10
    }
   },
   "QB:Arthur Onwenu": {
@@ -6237,12 +6565,12 @@
    "xp_level": 1,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 485,
-    "cmp": 289,
-    "yds": 2774,
-    "td": 27,
-    "sck": 1,
+    "g": 17,
+    "att": 584,
+    "cmp": 340,
+    "yds": 3217,
+    "td": 32,
+    "sck": 2,
     "ratt": 14,
     "ryds": 90,
     "rtd": 5
@@ -6267,16 +6595,16 @@
    "spos": "QB",
    "signed_year": 91,
    "season": {
-    "g": 14,
-    "att": 227,
-    "cmp": 206,
-    "yds": 3669,
-    "td": 49,
-    "int": 5,
-    "sck": 3,
-    "ratt": 20,
-    "ryds": 69,
-    "rtd": 2
+    "g": 20,
+    "att": 317,
+    "cmp": 281,
+    "yds": 4935,
+    "td": 64,
+    "int": 11,
+    "sck": 6,
+    "ratt": 24,
+    "ryds": 88,
+    "rtd": 4
    }
   },
   "QB:Brandon Jaclyde": {
@@ -6298,11 +6626,11 @@
    "spos": "QB",
    "signed_year": 83,
    "season": {
-    "g": 14,
-    "att": 421,
-    "cmp": 240,
-    "yds": 2080,
-    "td": 25,
+    "g": 17,
+    "att": 545,
+    "cmp": 318,
+    "yds": 2566,
+    "td": 29,
     "int": 2,
     "sck": 1,
     "ratt": 15,
@@ -6328,16 +6656,16 @@
    "xp_level": 1,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 387,
-    "cmp": 238,
-    "yds": 1944,
-    "td": 18,
+    "g": 17,
+    "att": 475,
+    "cmp": 283,
+    "yds": 2315,
+    "td": 20,
     "int": 4,
-    "sck": 2,
-    "ratt": 8,
-    "ryds": 43,
-    "rtd": 3
+    "sck": 3,
+    "ratt": 16,
+    "ryds": 116,
+    "rtd": 6
    }
   },
   "QB:Dustin Milton": {
@@ -6358,13 +6686,13 @@
    "xp_level": 4,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 470,
-    "cmp": 264,
-    "yds": 1976,
-    "td": 19,
+    "g": 17,
+    "att": 584,
+    "cmp": 323,
+    "yds": 2398,
+    "td": 20,
     "int": 1,
-    "sck": 5,
+    "sck": 6,
     "ratt": 12,
     "ryds": 124,
     "rtd": 5
@@ -6388,12 +6716,12 @@
    "xp_level": 3,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 523,
-    "cmp": 307,
-    "yds": 2597,
-    "td": 29,
-    "int": 2,
+    "g": 17,
+    "att": 617,
+    "cmp": 363,
+    "yds": 3053,
+    "td": 31,
+    "int": 3,
     "sck": 3,
     "ratt": 10,
     "ryds": 73,
@@ -6418,16 +6746,16 @@
    "xp_level": 1,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 476,
-    "cmp": 290,
-    "yds": 2137,
-    "td": 13,
+    "g": 17,
+    "att": 588,
+    "cmp": 351,
+    "yds": 2687,
+    "td": 15,
     "int": 3,
     "sck": 3,
-    "ratt": 10,
-    "ryds": 71,
-    "rtd": 5
+    "ratt": 16,
+    "ryds": 114,
+    "rtd": 6
    }
   },
   "QB:Jarrell Cann": {
@@ -6448,16 +6776,16 @@
    "xp_level": 2,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 522,
-    "cmp": 303,
-    "yds": 2278,
-    "td": 18,
+    "g": 17,
+    "att": 597,
+    "cmp": 357,
+    "yds": 2532,
+    "td": 19,
     "int": 2,
-    "sck": 5,
-    "ratt": 12,
-    "ryds": 108,
-    "rtd": 1
+    "sck": 6,
+    "ratt": 15,
+    "ryds": 126,
+    "rtd": 2
    }
   },
   "QB:Jimmy Tillery": {
@@ -6478,16 +6806,16 @@
    "xp_level": 1,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 455,
-    "cmp": 264,
-    "yds": 2299,
-    "td": 19,
+    "g": 17,
+    "att": 551,
+    "cmp": 317,
+    "yds": 2642,
+    "td": 20,
     "int": 4,
-    "sck": 4,
-    "ratt": 15,
-    "ryds": 87,
-    "rtd": 5
+    "sck": 5,
+    "ratt": 18,
+    "ryds": 100,
+    "rtd": 6
    }
   },
   "QB:Jojo McCown": {
@@ -6508,16 +6836,16 @@
    "xp_level": 5,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 427,
-    "cmp": 253,
-    "yds": 2615,
-    "td": 25,
-    "int": 2,
-    "sck": 1,
-    "ratt": 9,
-    "ryds": 52,
-    "rtd": 3
+    "g": 17,
+    "att": 518,
+    "cmp": 321,
+    "yds": 3177,
+    "td": 31,
+    "int": 4,
+    "sck": 2,
+    "ratt": 12,
+    "ryds": 67,
+    "rtd": 4
    }
   },
   "QB:Josh Brooks": {
@@ -6539,15 +6867,15 @@
    "spos": "QB",
    "signed_year": 88,
    "season": {
-    "g": 14,
-    "att": 449,
-    "cmp": 297,
-    "yds": 3185,
-    "td": 35,
-    "sck": 2,
-    "ratt": 18,
-    "ryds": 112,
-    "rtd": 3
+    "g": 19,
+    "att": 603,
+    "cmp": 399,
+    "yds": 4061,
+    "td": 43,
+    "sck": 3,
+    "ratt": 24,
+    "ryds": 142,
+    "rtd": 5
    }
   },
   "QB:Juju Ngakoue": {
@@ -6568,16 +6896,16 @@
    "xp_level": 5,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 404,
-    "cmp": 252,
-    "yds": 2629,
-    "td": 27,
+    "g": 18,
+    "att": 541,
+    "cmp": 349,
+    "yds": 3581,
+    "td": 39,
     "int": 5,
     "sck": 2,
-    "ratt": 6,
-    "ryds": 81,
-    "rtd": 1
+    "ratt": 9,
+    "ryds": 87,
+    "rtd": 2
    }
   },
   "QB:Julian Goedert": {
@@ -6598,11 +6926,11 @@
    "xp_level": 2,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 431,
-    "cmp": 263,
-    "yds": 2301,
-    "td": 26,
+    "g": 17,
+    "att": 554,
+    "cmp": 330,
+    "yds": 2845,
+    "td": 31,
     "int": 1,
     "sck": 1,
     "ratt": 2,
@@ -6628,12 +6956,12 @@
    "xp_level": 3,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 458,
-    "cmp": 284,
-    "yds": 2464,
-    "td": 22,
-    "int": 2,
+    "g": 17,
+    "att": 599,
+    "cmp": 379,
+    "yds": 3203,
+    "td": 28,
+    "int": 3,
     "sck": 2,
     "ratt": 6,
     "ryds": 50,
@@ -6658,16 +6986,16 @@
    "xp_level": 2,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 494,
-    "cmp": 302,
-    "yds": 2269,
-    "td": 21,
+    "g": 19,
+    "att": 666,
+    "cmp": 410,
+    "yds": 3375,
+    "td": 32,
     "int": 3,
     "sck": 5,
-    "ratt": 7,
-    "ryds": 46,
-    "rtd": 3
+    "ratt": 15,
+    "ryds": 132,
+    "rtd": 7
    }
   },
   "QB:Korey Friend": {
@@ -6688,16 +7016,46 @@
    "xp_level": 2,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 471,
-    "cmp": 287,
-    "yds": 2311,
-    "td": 26,
-    "int": 3,
-    "sck": 1,
+    "g": 18,
+    "att": 640,
+    "cmp": 393,
+    "yds": 3241,
+    "td": 36,
+    "int": 4,
+    "sck": 2,
     "ratt": 5,
     "ryds": 23,
     "rtd": 2
+   }
+  },
+  "QB:Lukas Samuels": {
+   "team": "Cardinals",
+   "age": 21,
+   "speed": 2,
+   "strength": 2,
+   "skill": 7,
+   "stamina": 5,
+   "max_speed": 2,
+   "max_strength": 6,
+   "max_skill": 10,
+   "max_stamina": 6,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 12,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "QB",
+   "season": {
+    "g": 17,
+    "att": 578,
+    "cmp": 336,
+    "yds": 2572,
+    "td": 25,
+    "int": 2,
+    "sck": 2,
+    "ratt": 2,
+    "ryds": 6,
+    "rtd": 1
    }
   },
   "QB:Makai Merritt": {
@@ -6718,16 +7076,16 @@
    "xp_level": 1,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 498,
-    "cmp": 308,
-    "yds": 2774,
-    "td": 23,
+    "g": 18,
+    "att": 623,
+    "cmp": 383,
+    "yds": 3660,
+    "td": 29,
     "int": 3,
     "sck": 3,
-    "ratt": 10,
-    "ryds": 44,
-    "rtd": 4
+    "ratt": 18,
+    "ryds": 96,
+    "rtd": 6
    }
   },
   "QB:Margus Leglue": {
@@ -6748,11 +7106,11 @@
    "xp_level": 5,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 482,
-    "cmp": 277,
-    "yds": 2456,
-    "td": 28,
+    "g": 18,
+    "att": 583,
+    "cmp": 324,
+    "yds": 3025,
+    "td": 35,
     "int": 1,
     "sck": 6,
     "ratt": 6,
@@ -6778,15 +7136,15 @@
    "xp_level": 2,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 434,
-    "cmp": 244,
-    "yds": 1604,
-    "td": 17,
+    "g": 17,
+    "att": 553,
+    "cmp": 310,
+    "yds": 1942,
+    "td": 19,
     "sck": 6,
-    "ratt": 14,
-    "ryds": 72,
-    "rtd": 6
+    "ratt": 18,
+    "ryds": 88,
+    "rtd": 8
    }
   },
   "QB:Orlando Larienne": {
@@ -6808,16 +7166,16 @@
    "spos": "QB",
    "signed_year": 87,
    "season": {
-    "g": 14,
-    "att": 486,
-    "cmp": 300,
-    "yds": 2672,
-    "td": 29,
-    "int": 1,
+    "g": 17,
+    "att": 604,
+    "cmp": 382,
+    "yds": 3404,
+    "td": 38,
+    "int": 2,
     "sck": 3,
-    "ratt": 3,
-    "ryds": 10,
-    "rtd": 1
+    "ratt": 5,
+    "ryds": 36,
+    "rtd": 2
    }
   },
   "QB:Riley Grigsby": {
@@ -6838,13 +7196,13 @@
    "xp_level": 2,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 554,
-    "cmp": 317,
-    "yds": 2885,
-    "td": 27,
-    "int": 6,
-    "sck": 1
+    "g": 17,
+    "att": 681,
+    "cmp": 394,
+    "yds": 3457,
+    "td": 30,
+    "int": 7,
+    "sck": 2
    }
   },
   "QB:Roc Dunkle": {
@@ -6865,16 +7223,16 @@
    "xp_level": 2,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 407,
-    "cmp": 240,
-    "yds": 2230,
-    "td": 20,
+    "g": 20,
+    "att": 587,
+    "cmp": 354,
+    "yds": 3191,
+    "td": 33,
     "int": 2,
-    "sck": 2,
-    "ratt": 17,
-    "ryds": 154,
-    "rtd": 7
+    "sck": 5,
+    "ratt": 19,
+    "ryds": 164,
+    "rtd": 8
    }
   },
   "QB:Ryquell Penn": {
@@ -6895,16 +7253,16 @@
    "xp_level": 2,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 459,
-    "cmp": 281,
-    "yds": 2536,
-    "td": 20,
-    "int": 3,
-    "sck": 1,
-    "ratt": 8,
-    "ryds": 42,
-    "rtd": 3
+    "g": 21,
+    "att": 633,
+    "cmp": 381,
+    "yds": 3558,
+    "td": 31,
+    "int": 6,
+    "sck": 4,
+    "ratt": 10,
+    "ryds": 59,
+    "rtd": 4
    }
   },
   "QB:Rysen Nauta": {
@@ -6925,16 +7283,16 @@
    "xp_level": 5,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 513,
-    "cmp": 290,
-    "yds": 2200,
-    "td": 26,
+    "g": 17,
+    "att": 631,
+    "cmp": 348,
+    "yds": 2792,
+    "td": 34,
     "int": 2,
-    "sck": 4,
-    "ratt": 6,
-    "ryds": 28,
-    "rtd": 3
+    "sck": 5,
+    "ratt": 12,
+    "ryds": 52,
+    "rtd": 5
    }
   },
   "QB:Sione Garland": {
@@ -6955,13 +7313,13 @@
    "xp_level": 1,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 522,
-    "cmp": 309,
-    "yds": 2145,
-    "td": 17,
+    "g": 17,
+    "att": 609,
+    "cmp": 362,
+    "yds": 2653,
+    "td": 26,
     "int": 4,
-    "sck": 4,
+    "sck": 6,
     "ratt": 15,
     "ryds": 86,
     "rtd": 6
@@ -6985,16 +7343,16 @@
    "xp_level": 3,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 485,
-    "cmp": 309,
-    "yds": 2151,
-    "td": 19,
+    "g": 17,
+    "att": 588,
+    "cmp": 378,
+    "yds": 2750,
+    "td": 24,
     "int": 2,
     "sck": 1,
-    "ratt": 14,
-    "ryds": 151,
-    "rtd": 7
+    "ratt": 20,
+    "ryds": 181,
+    "rtd": 9
    }
   },
   "QB:Tevin Fox": {
@@ -7015,15 +7373,15 @@
    "xp_level": 6,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 433,
-    "cmp": 271,
-    "yds": 2357,
-    "td": 21,
+    "g": 18,
+    "att": 602,
+    "cmp": 368,
+    "yds": 3358,
+    "td": 31,
     "sck": 1,
-    "ratt": 12,
-    "ryds": 65,
-    "rtd": 5
+    "ratt": 18,
+    "ryds": 118,
+    "rtd": 7
    }
   },
   "QB:Tim Sweeney": {
@@ -7044,12 +7402,13 @@
    "xp_level": 4,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 387,
-    "cmp": 262,
-    "yds": 2440,
-    "td": 37,
-    "int": 3,
+    "g": 19,
+    "att": 556,
+    "cmp": 367,
+    "yds": 3337,
+    "td": 45,
+    "int": 4,
+    "sck": 1,
     "ratt": 13,
     "ryds": 60,
     "rtd": 5
@@ -7073,15 +7432,16 @@
    "xp_level": 1,
    "spos": "QB",
    "season": {
-    "g": 14,
-    "att": 403,
-    "cmp": 253,
-    "yds": 2337,
-    "td": 22,
+    "g": 18,
+    "att": 528,
+    "cmp": 340,
+    "yds": 2981,
+    "td": 28,
     "int": 1,
-    "ratt": 8,
-    "ryds": 41,
-    "rtd": 3
+    "sck": 1,
+    "ratt": 10,
+    "ryds": 49,
+    "rtd": 4
    }
   },
   "QB:Ty Lock": {
@@ -7103,16 +7463,16 @@
    "spos": "QB",
    "signed_year": 83,
    "season": {
-    "g": 14,
-    "att": 466,
-    "cmp": 305,
-    "yds": 2624,
-    "td": 19,
+    "g": 20,
+    "att": 596,
+    "cmp": 383,
+    "yds": 3550,
+    "td": 26,
     "int": 3,
     "sck": 1,
-    "ratt": 23,
-    "ryds": 139,
-    "rtd": 8
+    "ratt": 30,
+    "ryds": 212,
+    "rtd": 9
    }
   },
   "RB:Alijah Santos": {
@@ -7133,11 +7493,11 @@
    "xp_level": 1,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 131,
-    "ryds": 1107,
-    "rtd": 24,
-    "fum": 9,
+    "g": 19,
+    "ratt": 182,
+    "ryds": 1521,
+    "rtd": 33,
+    "fum": 13,
     "rec": 2,
     "recyds": 25
    }
@@ -7160,11 +7520,11 @@
    "xp_level": 1,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 127,
-    "ryds": 853,
-    "rtd": 15,
-    "fum": 12,
+    "g": 18,
+    "ratt": 157,
+    "ryds": 1132,
+    "rtd": 21,
+    "fum": 13,
     "rec": 4,
     "recyds": 36
    }
@@ -7187,11 +7547,11 @@
    "xp_level": 5,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 133,
-    "ryds": 1032,
-    "rtd": 22,
-    "fum": 15
+    "g": 17,
+    "ratt": 169,
+    "ryds": 1219,
+    "rtd": 24,
+    "fum": 17
    }
   },
   "RB:Angelo Moton": {
@@ -7212,11 +7572,11 @@
    "xp_level": 2,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 158,
-    "ryds": 1193,
-    "rtd": 24,
-    "fum": 16
+    "g": 17,
+    "ratt": 188,
+    "ryds": 1447,
+    "rtd": 29,
+    "fum": 19
    }
   },
   "RB:Brendan Parham": {
@@ -7237,17 +7597,17 @@
    "xp_level": 1,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 134,
-    "ryds": 917,
-    "rtd": 26,
-    "fum": 9
+    "g": 17,
+    "ratt": 159,
+    "ryds": 1147,
+    "rtd": 32,
+    "fum": 10
    }
   },
   "RB:Camryn Kongbo": {
    "team": "Cowboys",
    "age": 27,
-   "speed": 7,
+   "speed": 8,
    "strength": 8,
    "skill": 1,
    "stamina": 3,
@@ -7259,14 +7619,14 @@
    "contract": 1,
    "salary": 18,
    "delay_retirement": 0,
-   "xp_level": 2,
+   "xp_level": 3,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 148,
-    "ryds": 1045,
-    "rtd": 18,
-    "fum": 14
+    "g": 17,
+    "ratt": 179,
+    "ryds": 1284,
+    "rtd": 24,
+    "fum": 17
    }
   },
   "RB:DJ Long": {
@@ -7287,11 +7647,38 @@
    "xp_level": 1,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 141,
-    "ryds": 1154,
-    "rtd": 23,
-    "fum": 10
+    "g": 17,
+    "ratt": 175,
+    "ryds": 1377,
+    "rtd": 24,
+    "fum": 14
+   }
+  },
+  "RB:Dee Maher": {
+   "team": "Vikings",
+   "age": 21,
+   "speed": 7,
+   "strength": 7,
+   "skill": 5,
+   "stamina": 3,
+   "max_speed": 9,
+   "max_strength": 9,
+   "max_skill": 6,
+   "max_stamina": 5,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 11,
+   "delay_retirement": 0,
+   "xp_level": 3,
+   "spos": "RB",
+   "season": {
+    "g": 19,
+    "ratt": 195,
+    "ryds": 1406,
+    "rtd": 27,
+    "fum": 21,
+    "rec": 2,
+    "recyds": 23
    }
   },
   "RB:Dekoda Walton": {
@@ -7312,11 +7699,11 @@
    "xp_level": 1,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 110,
-    "ryds": 986,
-    "rtd": 18,
-    "fum": 4,
+    "g": 18,
+    "ratt": 145,
+    "ryds": 1250,
+    "rtd": 21,
+    "fum": 8,
     "rec": 1,
     "recyds": 26
    }
@@ -7339,11 +7726,11 @@
    "xp_level": 2,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 137,
-    "ryds": 900,
-    "rtd": 14,
-    "fum": 10,
+    "g": 17,
+    "ratt": 169,
+    "ryds": 1145,
+    "rtd": 20,
+    "fum": 11,
     "rec": 1,
     "recyds": 30
    }
@@ -7366,11 +7753,11 @@
    "xp_level": 6,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 140,
-    "ryds": 958,
-    "rtd": 16,
-    "fum": 17
+    "g": 17,
+    "ratt": 170,
+    "ryds": 1182,
+    "rtd": 20,
+    "fum": 21
    }
   },
   "RB:Gerrit Ogbah": {
@@ -7388,15 +7775,15 @@
    "contract": 1,
    "salary": 27,
    "delay_retirement": 0,
-   "xp_level": 7,
+   "xp_level": 8,
    "spos": "RB",
    "signed_year": 91,
    "season": {
-    "g": 14,
-    "ratt": 128,
-    "ryds": 961,
-    "rtd": 15,
-    "fum": 13
+    "g": 17,
+    "ratt": 160,
+    "ryds": 1205,
+    "rtd": 20,
+    "fum": 17
    }
   },
   "RB:Grover Calitro": {
@@ -7417,11 +7804,11 @@
    "xp_level": 4,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 114,
-    "ryds": 998,
-    "rtd": 19,
-    "fum": 10
+    "g": 18,
+    "ratt": 157,
+    "ryds": 1313,
+    "rtd": 22,
+    "fum": 13
    }
   },
   "RB:J.C. Howland": {
@@ -7442,11 +7829,11 @@
    "xp_level": 1,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 127,
-    "ryds": 1214,
-    "rtd": 25,
-    "fum": 9,
+    "g": 17,
+    "ratt": 156,
+    "ryds": 1485,
+    "rtd": 32,
+    "fum": 10,
     "rec": 1,
     "recyds": 24,
     "rectd": 1
@@ -7470,11 +7857,11 @@
    "xp_level": 1,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 133,
-    "ryds": 1106,
-    "rtd": 20,
-    "fum": 11
+    "g": 18,
+    "ratt": 177,
+    "ryds": 1402,
+    "rtd": 23,
+    "fum": 19
    }
   },
   "RB:Kelvin Core": {
@@ -7495,11 +7882,36 @@
    "xp_level": 3,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 141,
-    "ryds": 1085,
-    "rtd": 19,
-    "fum": 11
+    "g": 17,
+    "ratt": 179,
+    "ryds": 1319,
+    "rtd": 23,
+    "fum": 14
+   }
+  },
+  "RB:Kitt Perine": {
+   "team": "Rams",
+   "age": 21,
+   "speed": 5,
+   "strength": 1,
+   "skill": 1,
+   "stamina": 1,
+   "max_speed": 6,
+   "max_strength": 1,
+   "max_skill": 1,
+   "max_stamina": 3,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 4,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "RB",
+   "season": {
+    "g": 18,
+    "ratt": 176,
+    "ryds": 1502,
+    "rtd": 23,
+    "fum": 19
    }
   },
   "RB:Lukas Agnew": {
@@ -7520,13 +7932,38 @@
    "xp_level": 3,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 138,
-    "ryds": 1039,
-    "rtd": 17,
-    "fum": 7,
+    "g": 17,
+    "ratt": 167,
+    "ryds": 1282,
+    "rtd": 19,
+    "fum": 9,
     "rec": 2,
     "recyds": 30
+   }
+  },
+  "RB:Margus Deaton": {
+   "team": "Broncos",
+   "age": 21,
+   "speed": 1,
+   "strength": 1,
+   "skill": 2,
+   "stamina": 4,
+   "max_speed": 2,
+   "max_strength": 1,
+   "max_skill": 4,
+   "max_stamina": 6,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 4,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "RB",
+   "season": {
+    "g": 17,
+    "ratt": 169,
+    "ryds": 1155,
+    "rtd": 24,
+    "fum": 12
    }
   },
   "RB:Maurice Vigil": {
@@ -7547,11 +7984,11 @@
    "xp_level": 4,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 119,
-    "ryds": 1058,
-    "rtd": 20,
-    "fum": 12,
+    "g": 20,
+    "ratt": 168,
+    "ryds": 1528,
+    "rtd": 29,
+    "fum": 17,
     "rec": 3,
     "recyds": 47
    }
@@ -7574,13 +8011,13 @@
    "xp_level": 1,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 148,
-    "ryds": 1306,
-    "rtd": 24,
-    "fum": 19,
-    "rec": 1,
-    "recyds": 27
+    "g": 20,
+    "ratt": 202,
+    "ryds": 1898,
+    "rtd": 40,
+    "fum": 21,
+    "rec": 3,
+    "recyds": 54
    }
   },
   "RB:Phil Ekuale": {
@@ -7601,17 +8038,17 @@
    "xp_level": 1,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 145,
-    "ryds": 1092,
-    "rtd": 21,
-    "fum": 15
+    "g": 21,
+    "ratt": 216,
+    "ryds": 1657,
+    "rtd": 34,
+    "fum": 20
    }
   },
   "RB:Quatro Pierre": {
    "team": "Chargers",
    "age": 31,
-   "speed": 9,
+   "speed": 10,
    "strength": 7,
    "skill": 3,
    "stamina": 1,
@@ -7623,14 +8060,14 @@
    "contract": 2,
    "salary": 15,
    "delay_retirement": 0,
-   "xp_level": 3,
+   "xp_level": 4,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 131,
-    "ryds": 950,
-    "rtd": 11,
-    "fum": 18
+    "g": 17,
+    "ratt": 164,
+    "ryds": 1189,
+    "rtd": 18,
+    "fum": 20
    }
   },
   "RB:River Kuechly": {
@@ -7651,11 +8088,11 @@
    "xp_level": 1,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 139,
-    "ryds": 1156,
-    "rtd": 25,
-    "fum": 14
+    "g": 18,
+    "ratt": 184,
+    "ryds": 1448,
+    "rtd": 28,
+    "fum": 16
    }
   },
   "RB:Roderic Trawick": {
@@ -7676,11 +8113,11 @@
    "xp_level": 2,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 148,
-    "ryds": 975,
-    "rtd": 18,
-    "fum": 13
+    "g": 17,
+    "ratt": 174,
+    "ryds": 1140,
+    "rtd": 21,
+    "fum": 15
    }
   },
   "RB:Ryland Maxwell": {
@@ -7702,14 +8139,14 @@
    "spos": "RB",
    "signed_year": 93,
    "season": {
-    "g": 14,
-    "ratt": 135,
-    "ryds": 1228,
-    "rtd": 17,
-    "fum": 2,
-    "rec": 10,
-    "recyds": 79,
-    "rectd": 5
+    "g": 20,
+    "ratt": 225,
+    "ryds": 2145,
+    "rtd": 26,
+    "fum": 3,
+    "rec": 23,
+    "recyds": 154,
+    "rectd": 10
    }
   },
   "RB:Sam Swaim": {
@@ -7730,11 +8167,11 @@
    "xp_level": 2,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 139,
-    "ryds": 908,
-    "rtd": 15,
-    "fum": 8
+    "g": 17,
+    "ratt": 176,
+    "ryds": 1156,
+    "rtd": 20,
+    "fum": 10
    }
   },
   "RB:Siran Spector": {
@@ -7756,11 +8193,11 @@
    "spos": "RB",
    "signed_year": 88,
    "season": {
-    "g": 14,
-    "ratt": 117,
-    "ryds": 880,
-    "rtd": 20,
-    "fum": 7
+    "g": 19,
+    "ratt": 165,
+    "ryds": 1283,
+    "rtd": 24,
+    "fum": 9
    }
   },
   "RB:Thomas Sweezy": {
@@ -7781,11 +8218,11 @@
    "xp_level": 4,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 135,
-    "ryds": 826,
-    "rtd": 23,
-    "fum": 13
+    "g": 17,
+    "ratt": 171,
+    "ryds": 1015,
+    "rtd": 27,
+    "fum": 17
    }
   },
   "RB:Ty Gurman": {
@@ -7806,11 +8243,11 @@
    "xp_level": 1,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 127,
-    "ryds": 826,
-    "rtd": 10,
-    "fum": 16
+    "g": 17,
+    "ratt": 159,
+    "ryds": 1044,
+    "rtd": 15,
+    "fum": 18
    }
   },
   "RB:Tyreek Devalve": {
@@ -7831,11 +8268,14 @@
    "xp_level": 2,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 143,
-    "ryds": 1121,
-    "rtd": 21,
-    "fum": 12
+    "g": 17,
+    "ratt": 171,
+    "ryds": 1364,
+    "rtd": 24,
+    "fum": 15,
+    "rec": 7,
+    "recyds": 80,
+    "rectd": 1
    }
   },
   "RB:Xavier Mosley": {
@@ -7856,11 +8296,11 @@
    "xp_level": 3,
    "spos": "RB",
    "season": {
-    "g": 14,
-    "ratt": 135,
-    "ryds": 1150,
-    "rtd": 26,
-    "fum": 7
+    "g": 18,
+    "ratt": 179,
+    "ryds": 1507,
+    "rtd": 34,
+    "fum": 10
    }
   },
   "TE:Amon-Ra Ford": {
@@ -7881,11 +8321,11 @@
    "xp_level": 1,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 49,
-    "yds": 279,
-    "td": 2,
-    "fum": 2
+    "g": 18,
+    "rec": 62,
+    "yds": 404,
+    "td": 4,
+    "fum": 3
    }
   },
   "TE:Andrew Pitts": {
@@ -7906,11 +8346,11 @@
    "xp_level": 3,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 44,
-    "yds": 195,
+    "g": 17,
+    "rec": 63,
+    "yds": 263,
     "td": 1,
-    "fum": 3
+    "fum": 4
    }
   },
   "TE:Anree Wren": {
@@ -7931,11 +8371,36 @@
    "xp_level": 4,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 62,
-    "yds": 440,
-    "td": 3,
-    "fum": 6
+    "g": 17,
+    "rec": 94,
+    "yds": 577,
+    "td": 4,
+    "fum": 9
+   }
+  },
+  "TE:Bunchy Barron": {
+   "team": "Commanders",
+   "age": 21,
+   "speed": 5,
+   "strength": 1,
+   "skill": 5,
+   "stamina": 7,
+   "max_speed": 7,
+   "max_strength": 5,
+   "max_skill": 8,
+   "max_stamina": 10,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 8,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "TE",
+   "season": {
+    "g": 19,
+    "rec": 106,
+    "yds": 494,
+    "td": 4,
+    "fum": 5
    }
   },
   "TE:Carson Odeleye": {
@@ -7956,9 +8421,9 @@
    "xp_level": 1,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 57,
-    "yds": 327,
+    "g": 17,
+    "rec": 75,
+    "yds": 402,
     "td": 1,
     "fum": 3
    }
@@ -7981,10 +8446,10 @@
    "xp_level": 1,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 85,
-    "yds": 489,
-    "td": 3,
+    "g": 18,
+    "rec": 101,
+    "yds": 720,
+    "td": 7,
     "fum": 3
    }
   },
@@ -8006,10 +8471,10 @@
    "xp_level": 4,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 79,
-    "yds": 631,
-    "td": 8,
+    "g": 19,
+    "rec": 100,
+    "yds": 754,
+    "td": 10,
     "fum": 3
    }
   },
@@ -8031,9 +8496,9 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 55,
-    "yds": 242,
+    "g": 17,
+    "rec": 65,
+    "yds": 273,
     "td": 1,
     "fum": 4
    }
@@ -8056,9 +8521,9 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 54,
-    "yds": 399,
+    "g": 17,
+    "rec": 70,
+    "yds": 486,
     "td": 5,
     "fum": 2
    }
@@ -8081,11 +8546,11 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 39,
-    "yds": 287,
-    "td": 3,
-    "fum": 1
+    "g": 19,
+    "rec": 66,
+    "yds": 438,
+    "td": 4,
+    "fum": 3
    }
   },
   "TE:Daylon Fries": {
@@ -8106,18 +8571,18 @@
    "xp_level": 3,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 68,
-    "yds": 531,
+    "g": 19,
+    "rec": 94,
+    "yds": 633,
     "td": 8,
-    "fum": 4
+    "fum": 6
    }
   },
   "TE:Dezmon Tavai": {
    "team": "Bears",
    "age": 26,
    "speed": 2,
-   "strength": 5,
+   "strength": 6,
    "skill": 2,
    "stamina": 5,
    "max_speed": 6,
@@ -8128,14 +8593,14 @@
    "contract": 1,
    "salary": 11,
    "delay_retirement": 0,
-   "xp_level": 1,
+   "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 65,
-    "yds": 379,
+    "g": 17,
+    "rec": 81,
+    "yds": 452,
     "td": 3,
-    "fum": 5
+    "fum": 7
    }
   },
   "TE:Donald Spencer": {
@@ -8157,11 +8622,11 @@
    "spos": "TE",
    "signed_year": 83,
    "season": {
-    "g": 14,
-    "rec": 74,
-    "yds": 509,
+    "g": 17,
+    "rec": 94,
+    "yds": 586,
     "td": 6,
-    "fum": 6
+    "fum": 9
    }
   },
   "TE:Donell Quinn": {
@@ -8182,9 +8647,9 @@
    "xp_level": 1,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 66,
-    "yds": 387,
+    "g": 17,
+    "rec": 74,
+    "yds": 419,
     "td": 2,
     "fum": 4
    }
@@ -8207,9 +8672,9 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 59,
-    "yds": 338,
+    "g": 17,
+    "rec": 80,
+    "yds": 411,
     "td": 1,
     "fum": 5
    }
@@ -8232,11 +8697,11 @@
    "xp_level": 3,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 74,
-    "yds": 468,
+    "g": 17,
+    "rec": 89,
+    "yds": 561,
     "td": 4,
-    "fum": 6
+    "fum": 8
    }
   },
   "TE:Essang Remmers": {
@@ -8257,10 +8722,10 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 38,
-    "yds": 173,
-    "fum": 5
+    "g": 17,
+    "rec": 42,
+    "yds": 205,
+    "fum": 6
    }
   },
   "TE:George Donkor": {
@@ -8281,11 +8746,11 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 31,
-    "yds": 170,
-    "td": 1,
-    "fum": 4
+    "g": 18,
+    "rec": 46,
+    "yds": 239,
+    "td": 2,
+    "fum": 6
    }
   },
   "TE:George Nnadi": {
@@ -8306,11 +8771,11 @@
    "xp_level": 5,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 78,
-    "yds": 433,
-    "td": 4,
-    "fum": 9
+    "g": 17,
+    "rec": 92,
+    "yds": 550,
+    "td": 5,
+    "fum": 11
    }
   },
   "TE:Grady Cox": {
@@ -8331,11 +8796,11 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 68,
-    "yds": 329,
+    "g": 20,
+    "rec": 94,
+    "yds": 421,
     "td": 1,
-    "fum": 4
+    "fum": 7
    }
   },
   "TE:J.C. Jordan": {
@@ -8356,11 +8821,11 @@
    "xp_level": 1,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 60,
-    "yds": 417,
-    "td": 4,
-    "fum": 3
+    "g": 17,
+    "rec": 68,
+    "yds": 519,
+    "td": 6,
+    "fum": 4
    }
   },
   "TE:Jacob Proise": {
@@ -8382,10 +8847,10 @@
    "spos": "TE",
    "signed_year": 91,
    "season": {
-    "g": 14,
-    "rec": 35,
-    "yds": 639,
-    "td": 4
+    "g": 20,
+    "rec": 46,
+    "yds": 837,
+    "td": 6
    }
   },
   "TE:Jaelon Bennett": {
@@ -8406,10 +8871,10 @@
    "xp_level": 4,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 44,
-    "yds": 332,
-    "td": 4,
+    "g": 17,
+    "rec": 66,
+    "yds": 510,
+    "td": 5,
     "fum": 2
    }
   },
@@ -8431,11 +8896,11 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 69,
-    "yds": 460,
+    "g": 17,
+    "rec": 93,
+    "yds": 543,
     "td": 4,
-    "fum": 4
+    "fum": 6
    }
   },
   "TE:Jamel Wilkins": {
@@ -8456,9 +8921,9 @@
    "xp_level": 4,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 62,
-    "yds": 405,
+    "g": 17,
+    "rec": 73,
+    "yds": 452,
     "td": 4,
     "fum": 5
    }
@@ -8481,10 +8946,10 @@
    "xp_level": 1,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 49,
-    "yds": 291,
-    "td": 2,
+    "g": 18,
+    "rec": 50,
+    "yds": 321,
+    "td": 3,
     "fum": 3
    }
   },
@@ -8506,11 +8971,11 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 61,
-    "yds": 320,
+    "g": 17,
+    "rec": 84,
+    "yds": 405,
     "td": 3,
-    "fum": 4
+    "fum": 5
    }
   },
   "TE:Jarvis Daniels": {
@@ -8531,9 +8996,9 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 79,
-    "yds": 443,
+    "g": 17,
+    "rec": 90,
+    "yds": 482,
     "td": 4,
     "fum": 4
    }
@@ -8556,10 +9021,10 @@
    "xp_level": 1,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 53,
-    "yds": 394,
-    "td": 5,
+    "g": 18,
+    "rec": 67,
+    "yds": 476,
+    "td": 6,
     "fum": 1
    }
   },
@@ -8581,11 +9046,11 @@
    "xp_level": 4,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 56,
-    "yds": 315,
+    "g": 17,
+    "rec": 69,
+    "yds": 368,
     "td": 1,
-    "fum": 1
+    "fum": 3
    }
   },
   "TE:Kevon Pitts": {
@@ -8606,11 +9071,11 @@
    "xp_level": 1,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 70,
-    "yds": 335,
+    "g": 18,
+    "rec": 86,
+    "yds": 394,
     "td": 2,
-    "fum": 3
+    "fum": 4
    }
   },
   "TE:Khalid Glasgow": {
@@ -8631,11 +9096,11 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 70,
-    "yds": 540,
+    "g": 18,
+    "rec": 83,
+    "yds": 603,
     "td": 7,
-    "fum": 8
+    "fum": 10
    }
   },
   "TE:Kylin Peters": {
@@ -8656,11 +9121,11 @@
    "xp_level": 4,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 56,
-    "yds": 251,
+    "g": 19,
+    "rec": 79,
+    "yds": 338,
     "td": 1,
-    "fum": 1
+    "fum": 2
    }
   },
   "TE:Marc Saine II": {
@@ -8682,11 +9147,11 @@
    "spos": "TE",
    "signed_year": 86,
    "season": {
-    "g": 14,
-    "rec": 44,
-    "yds": 402,
-    "td": 3,
-    "fum": 4
+    "g": 17,
+    "rec": 65,
+    "yds": 500,
+    "td": 4,
+    "fum": 5
    }
   },
   "TE:Morgan Saltes": {
@@ -8707,11 +9172,11 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 60,
-    "yds": 282,
+    "g": 17,
+    "rec": 66,
+    "yds": 309,
     "td": 1,
-    "fum": 5
+    "fum": 6
    }
   },
   "TE:Myquon Renfrow": {
@@ -8732,17 +9197,42 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 61,
-    "yds": 387,
+    "g": 18,
+    "rec": 91,
+    "yds": 506,
     "td": 4,
-    "fum": 4
+    "fum": 8
+   }
+  },
+  "TE:Nazair Amerson": {
+   "team": "Bills",
+   "age": 21,
+   "speed": 4,
+   "strength": 4,
+   "skill": 5,
+   "stamina": 8,
+   "max_speed": 7,
+   "max_strength": 6,
+   "max_skill": 6,
+   "max_stamina": 10,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 10,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "TE",
+   "season": {
+    "g": 18,
+    "rec": 82,
+    "yds": 443,
+    "td": 6,
+    "fum": 5
    }
   },
   "TE:Nazair Lacey": {
    "team": "Ravens",
    "age": 24,
-   "speed": 6,
+   "speed": 7,
    "strength": 4,
    "skill": 4,
    "stamina": 4,
@@ -8754,14 +9244,14 @@
    "contract": 2,
    "salary": 14,
    "delay_retirement": 0,
-   "xp_level": 1,
+   "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 50,
-    "yds": 257,
+    "g": 17,
+    "rec": 58,
+    "yds": 280,
     "td": 1,
-    "fum": 2
+    "fum": 3
    }
   },
   "TE:Nick Hilton": {
@@ -8782,10 +9272,10 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 58,
-    "yds": 452,
-    "td": 4,
+    "g": 17,
+    "rec": 77,
+    "yds": 635,
+    "td": 6,
     "fum": 2
    }
   },
@@ -8807,11 +9297,11 @@
    "xp_level": 3,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 54,
-    "yds": 278,
-    "td": 1,
-    "fum": 3
+    "g": 17,
+    "rec": 82,
+    "yds": 437,
+    "td": 3,
+    "fum": 5
    }
   },
   "TE:Preston Gore": {
@@ -8832,11 +9322,11 @@
    "xp_level": 1,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 30,
-    "yds": 203,
-    "td": 3,
-    "fum": 2
+    "g": 19,
+    "rec": 47,
+    "yds": 368,
+    "td": 5,
+    "fum": 4
    }
   },
   "TE:Quay Jansen": {
@@ -8857,11 +9347,11 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 59,
-    "yds": 304,
+    "g": 17,
+    "rec": 74,
+    "yds": 353,
     "td": 2,
-    "fum": 8
+    "fum": 10
    }
   },
   "TE:Rashard Gunter": {
@@ -8882,11 +9372,11 @@
    "xp_level": 1,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 78,
-    "yds": 449,
-    "td": 4,
-    "fum": 3
+    "g": 18,
+    "rec": 115,
+    "yds": 638,
+    "td": 5,
+    "fum": 5
    }
   },
   "TE:Rashawn Cook": {
@@ -8907,10 +9397,10 @@
    "xp_level": 3,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 48,
-    "yds": 340,
-    "td": 4,
+    "g": 17,
+    "rec": 57,
+    "yds": 431,
+    "td": 5,
     "fum": 1
    }
   },
@@ -8932,11 +9422,11 @@
    "xp_level": 5,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 70,
-    "yds": 411,
-    "td": 4,
-    "fum": 6
+    "g": 21,
+    "rec": 92,
+    "yds": 573,
+    "td": 6,
+    "fum": 7
    }
   },
   "TE:Ronnie Hardy": {
@@ -8957,11 +9447,11 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 59,
-    "yds": 301,
-    "td": 2,
-    "fum": 8
+    "g": 17,
+    "rec": 70,
+    "yds": 448,
+    "td": 3,
+    "fum": 9
    }
   },
   "TE:Samori Toney": {
@@ -8982,9 +9472,9 @@
    "xp_level": 3,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 83,
-    "yds": 534,
+    "g": 18,
+    "rec": 92,
+    "yds": 581,
     "td": 7,
     "fum": 5
    }
@@ -9007,11 +9497,11 @@
    "xp_level": 5,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 95,
-    "yds": 434,
+    "g": 17,
+    "rec": 118,
+    "yds": 517,
     "td": 2,
-    "fum": 4
+    "fum": 7
    }
   },
   "TE:Teagan Banjo": {
@@ -9032,10 +9522,10 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 39,
-    "yds": 205,
-    "td": 2,
+    "g": 17,
+    "rec": 55,
+    "yds": 330,
+    "td": 4,
     "fum": 3
    }
   },
@@ -9057,11 +9547,11 @@
    "xp_level": 1,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 64,
-    "yds": 290,
-    "td": 1,
-    "fum": 2
+    "g": 18,
+    "rec": 99,
+    "yds": 557,
+    "td": 3,
+    "fum": 4
    }
   },
   "TE:Terrell Shipley": {
@@ -9082,9 +9572,9 @@
    "xp_level": 4,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 84,
-    "yds": 368,
+    "g": 18,
+    "rec": 92,
+    "yds": 413,
     "td": 1,
     "fum": 4
    }
@@ -9107,11 +9597,36 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 69,
-    "yds": 286,
+    "g": 17,
+    "rec": 101,
+    "yds": 444,
+    "td": 4,
+    "fum": 10
+   }
+  },
+  "TE:Tracy Karras": {
+   "team": "Ravens",
+   "age": 21,
+   "speed": 4,
+   "strength": 2,
+   "skill": 5,
+   "stamina": 10,
+   "max_speed": 6,
+   "max_strength": 6,
+   "max_skill": 6,
+   "max_stamina": 10,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 10,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "TE",
+   "season": {
+    "g": 17,
+    "rec": 68,
+    "yds": 390,
     "td": 3,
-    "fum": 9
+    "fum": 3
    }
   },
   "TE:Tramon Bouye": {
@@ -9132,10 +9647,10 @@
    "xp_level": 1,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 90,
-    "yds": 395,
-    "td": 2,
+    "g": 20,
+    "rec": 106,
+    "yds": 707,
+    "td": 5,
     "fum": 8
    }
   },
@@ -9157,9 +9672,9 @@
    "xp_level": 4,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 57,
-    "yds": 435,
+    "g": 17,
+    "rec": 67,
+    "yds": 476,
     "td": 5,
     "fum": 7
    }
@@ -9182,11 +9697,11 @@
    "xp_level": 3,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 62,
-    "yds": 321,
-    "td": 2,
-    "fum": 7
+    "g": 21,
+    "rec": 92,
+    "yds": 603,
+    "td": 5,
+    "fum": 9
    }
   },
   "TE:Tyquan Vasey": {
@@ -9207,11 +9722,11 @@
    "xp_level": 2,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 60,
-    "yds": 278,
+    "g": 17,
+    "rec": 72,
+    "yds": 339,
     "td": 2,
-    "fum": 4
+    "fum": 6
    }
   },
   "TE:Tyree Irwin": {
@@ -9232,11 +9747,11 @@
    "xp_level": 3,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 71,
-    "yds": 366,
-    "td": 2,
-    "fum": 7
+    "g": 17,
+    "rec": 82,
+    "yds": 443,
+    "td": 3,
+    "fum": 8
    }
   },
   "TE:Vonn Kennedy": {
@@ -9257,11 +9772,11 @@
    "xp_level": 6,
    "spos": "TE",
    "season": {
-    "g": 14,
-    "rec": 27,
-    "yds": 254,
-    "td": 2,
-    "fum": 2
+    "g": 20,
+    "rec": 37,
+    "yds": 345,
+    "td": 4,
+    "fum": 3
    }
   },
   "WR:Apollo Adam": {
@@ -9283,9 +9798,9 @@
    "spos": "WR",
    "signed_year": 88,
    "season": {
-    "g": 14,
-    "rec": 64,
-    "yds": 359,
+    "g": 17,
+    "rec": 78,
+    "yds": 410,
     "td": 5,
     "fum": 5
    }
@@ -9295,7 +9810,7 @@
    "age": 33,
    "speed": 10,
    "strength": 6,
-   "skill": 3,
+   "skill": 4,
    "stamina": 1,
    "max_speed": 10,
    "max_strength": 6,
@@ -9305,21 +9820,21 @@
    "contract": 1,
    "salary": 13,
    "delay_retirement": 0,
-   "xp_level": 2,
+   "xp_level": 3,
    "spos": "WR",
    "signed_year": 88,
    "season": {
-    "g": 14,
-    "rec": 56,
-    "yds": 567,
-    "td": 4,
+    "g": 20,
+    "rec": 79,
+    "yds": 944,
+    "td": 8,
     "fum": 3
    }
   },
   "WR:Bud Matthew": {
    "team": "Jets",
    "age": 34,
-   "speed": 8,
+   "speed": 9,
    "strength": 2,
    "skill": 6,
    "stamina": 4,
@@ -9331,14 +9846,14 @@
    "contract": 1,
    "salary": 11,
    "delay_retirement": 0,
-   "xp_level": 5,
+   "xp_level": 6,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 54,
-    "yds": 492,
+    "g": 17,
+    "rec": 57,
+    "yds": 519,
     "td": 6,
-    "fum": 2
+    "fum": 3
    }
   },
   "WR:Calvin Wingo II": {
@@ -9360,10 +9875,10 @@
    "spos": "WR",
    "signed_year": 92,
    "season": {
-    "g": 14,
-    "rec": 80,
-    "yds": 1513,
-    "td": 14
+    "g": 20,
+    "rec": 104,
+    "yds": 1976,
+    "td": 19
    }
   },
   "WR:Clark Borom": {
@@ -9384,10 +9899,11 @@
    "xp_level": 1,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 24,
-    "yds": 123,
-    "td": 1
+    "g": 17,
+    "rec": 32,
+    "yds": 158,
+    "td": 1,
+    "fum": 1
    }
   },
   "WR:Corn Tabor": {
@@ -9408,10 +9924,10 @@
    "xp_level": 1,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 55,
-    "yds": 546,
-    "td": 10,
+    "g": 17,
+    "rec": 65,
+    "yds": 631,
+    "td": 11,
     "fum": 1
    }
   },
@@ -9433,11 +9949,11 @@
    "xp_level": 3,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 39,
-    "yds": 338,
+    "g": 17,
+    "rec": 59,
+    "yds": 413,
     "td": 5,
-    "fum": 4
+    "fum": 5
    }
   },
   "WR:Darian Milne": {
@@ -9458,11 +9974,11 @@
    "xp_level": 4,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 68,
-    "yds": 411,
-    "td": 6,
-    "fum": 3
+    "g": 19,
+    "rec": 89,
+    "yds": 761,
+    "td": 10,
+    "fum": 4
    }
   },
   "WR:Gary Asafo": {
@@ -9483,10 +9999,10 @@
    "xp_level": 5,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 38,
-    "yds": 362,
-    "td": 6,
+    "g": 20,
+    "rec": 55,
+    "yds": 484,
+    "td": 8,
     "fum": 2
    }
   },
@@ -9508,10 +10024,10 @@
    "xp_level": 3,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 35,
-    "yds": 237,
-    "td": 4,
+    "g": 17,
+    "rec": 36,
+    "yds": 252,
+    "td": 5,
     "fum": 3
    }
   },
@@ -9533,11 +10049,11 @@
    "xp_level": 2,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 54,
-    "yds": 397,
+    "g": 17,
+    "rec": 58,
+    "yds": 411,
     "td": 1,
-    "fum": 1
+    "fum": 2
    }
   },
   "WR:Javien Hull": {
@@ -9558,9 +10074,9 @@
    "xp_level": 4,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 32,
-    "yds": 370,
+    "g": 17,
+    "rec": 49,
+    "yds": 422,
     "td": 5
    }
   },
@@ -9582,10 +10098,10 @@
    "xp_level": 1,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 47,
-    "yds": 722,
-    "td": 9,
+    "g": 19,
+    "rec": 53,
+    "yds": 832,
+    "td": 11,
     "fum": 2
    }
   },
@@ -9604,15 +10120,15 @@
    "contract": 3,
    "salary": 33,
    "delay_retirement": 0,
-   "xp_level": 10,
+   "xp_level": 11,
    "spos": "WR",
    "signed_year": 91,
    "season": {
-    "g": 14,
-    "rec": 39,
-    "yds": 250,
-    "td": 3,
-    "fum": 1
+    "g": 18,
+    "rec": 71,
+    "yds": 620,
+    "td": 5,
+    "fum": 2
    }
   },
   "WR:Keenan Viennes": {
@@ -9634,10 +10150,10 @@
    "spos": "WR",
    "signed_year": 92,
    "season": {
-    "g": 14,
-    "rec": 80,
-    "yds": 1458,
-    "td": 26,
+    "g": 20,
+    "rec": 107,
+    "yds": 2006,
+    "td": 29,
     "fum": 1
    }
   },
@@ -9659,11 +10175,11 @@
    "xp_level": 2,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 41,
-    "yds": 498,
-    "td": 9,
-    "fum": 1
+    "g": 18,
+    "rec": 60,
+    "yds": 643,
+    "td": 12,
+    "fum": 2
    }
   },
   "WR:Le'Veon Ogbah": {
@@ -9684,11 +10200,11 @@
    "xp_level": 6,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 60,
-    "yds": 418,
-    "td": 8,
-    "fum": 1
+    "g": 18,
+    "rec": 104,
+    "yds": 634,
+    "td": 11,
+    "fum": 4
    }
   },
   "WR:Lecitus Hayden": {
@@ -9709,11 +10225,11 @@
    "xp_level": 1,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 59,
-    "yds": 613,
-    "td": 10,
-    "fum": 1
+    "g": 18,
+    "rec": 85,
+    "yds": 827,
+    "td": 13,
+    "fum": 2
    }
   },
   "WR:Martin Ward": {
@@ -9734,10 +10250,10 @@
    "xp_level": 3,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 42,
-    "yds": 252,
-    "td": 3,
+    "g": 18,
+    "rec": 53,
+    "yds": 322,
+    "td": 4,
     "fum": 1
    }
   },
@@ -9759,11 +10275,11 @@
    "xp_level": 2,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 68,
-    "yds": 609,
-    "td": 7,
-    "fum": 7
+    "g": 17,
+    "rec": 87,
+    "yds": 728,
+    "td": 9,
+    "fum": 9
    }
   },
   "WR:Nasir Perine": {
@@ -9784,10 +10300,10 @@
    "xp_level": 1,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 27,
-    "yds": 412,
-    "td": 6,
+    "g": 21,
+    "rec": 40,
+    "yds": 621,
+    "td": 8,
     "fum": 3
    }
   },
@@ -9809,11 +10325,11 @@
    "xp_level": 4,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 30,
-    "yds": 405,
-    "td": 8,
-    "fum": 2
+    "g": 17,
+    "rec": 37,
+    "yds": 454,
+    "td": 9,
+    "fum": 3
    }
   },
   "WR:Olamide Poe": {
@@ -9834,11 +10350,36 @@
    "xp_level": 2,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 42,
-    "yds": 247,
-    "td": 2,
-    "fum": 6
+    "g": 17,
+    "rec": 49,
+    "yds": 325,
+    "td": 4,
+    "fum": 7
+   }
+  },
+  "WR:Russ Hilton": {
+   "team": "Broncos",
+   "age": 21,
+   "speed": 4,
+   "strength": 2,
+   "skill": 6,
+   "stamina": 6,
+   "max_speed": 4,
+   "max_strength": 3,
+   "max_skill": 10,
+   "max_stamina": 6,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 10,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "WR",
+   "season": {
+    "g": 17,
+    "rec": 92,
+    "yds": 478,
+    "td": 4,
+    "fum": 5
    }
   },
   "WR:Shareef London": {
@@ -9860,11 +10401,11 @@
    "spos": "WR",
    "signed_year": 83,
    "season": {
-    "g": 14,
-    "rec": 60,
-    "yds": 398,
+    "g": 17,
+    "rec": 76,
+    "yds": 519,
     "td": 5,
-    "fum": 2
+    "fum": 4
    }
   },
   "WR:Stephon Dunkle": {
@@ -9885,10 +10426,10 @@
    "xp_level": 2,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 70,
-    "yds": 502,
-    "td": 7,
+    "g": 21,
+    "rec": 82,
+    "yds": 605,
+    "td": 9,
     "fum": 2
    }
   },
@@ -9910,573 +10451,10 @@
    "xp_level": 2,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 59,
-    "yds": 560,
-    "td": 4,
-    "fum": 2
-   }
-  },
-  "WR:Teven Charles": {
-   "team": "Panthers",
-   "age": 22,
-   "speed": 8,
-   "strength": 2,
-   "skill": 6,
-   "stamina": 2,
-   "max_speed": 10,
-   "max_strength": 5,
-   "max_skill": 7,
-   "max_stamina": 4,
-   "injury_week": 0,
-   "contract": 1,
-   "salary": 10,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "WR",
-   "season": {
-    "g": 14,
-    "rec": 57,
-    "yds": 436,
-    "td": 7,
-    "fum": 2
-   }
-  },
-  "WR:Tristan Suggs": {
-   "team": "Texans",
-   "age": 31,
-   "speed": 6,
-   "strength": 4,
-   "skill": 5,
-   "stamina": 5,
-   "max_speed": 10,
-   "max_strength": 4,
-   "max_skill": 8,
-   "max_stamina": 8,
-   "injury_week": 0,
-   "contract": 3,
-   "salary": 17,
-   "delay_retirement": 0,
-   "xp_level": 3,
-   "spos": "WR",
-   "season": {
-    "g": 14,
-    "rec": 68,
-    "yds": 618,
-    "td": 12,
-    "fum": 1
-   }
-  },
-  "WR:Ulysees Sutton": {
-   "team": "Chargers",
-   "age": 31,
-   "speed": 6,
-   "strength": 6,
-   "skill": 8,
-   "stamina": 4,
-   "max_speed": 8,
-   "max_strength": 6,
-   "max_skill": 8,
-   "max_stamina": 4,
-   "injury_week": 0,
-   "contract": 3,
-   "salary": 20,
-   "delay_retirement": 0,
-   "xp_level": 3,
-   "spos": "WR",
-   "season": {
-    "g": 14,
-    "rec": 61,
-    "yds": 432,
+    "g": 17,
+    "rec": 60,
+    "yds": 579,
     "td": 5,
-    "fum": 4
-   }
-  },
-  "WR:Verone Koch": {
-   "team": "Lions",
-   "age": 28,
-   "speed": 5,
-   "strength": 1,
-   "skill": 1,
-   "stamina": 1,
-   "max_speed": 5,
-   "max_strength": 3,
-   "max_skill": 5,
-   "max_stamina": 4,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 7,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "WR",
-   "season": {
-    "g": 14,
-    "rec": 59,
-    "yds": 515,
-    "td": 6,
-    "fum": 4
-   }
-  },
-  "WR:Yosuah Lewan": {
-   "team": "49ers",
-   "age": 27,
-   "speed": 4,
-   "strength": 3,
-   "skill": 1,
-   "stamina": 1,
-   "max_speed": 5,
-   "max_strength": 6,
-   "max_skill": 1,
-   "max_stamina": 3,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 7,
-   "delay_retirement": 0,
-   "xp_level": 2,
-   "spos": "WR",
-   "season": {
-    "g": 14,
-    "rec": 52,
-    "yds": 707,
-    "td": 8,
-    "fum": 4
-   }
-  },
-  "WR:Zane Correa": {
-   "team": "Ravens",
-   "age": 24,
-   "speed": 4,
-   "strength": 2,
-   "skill": 1,
-   "stamina": 5,
-   "max_speed": 5,
-   "max_strength": 3,
-   "max_skill": 3,
-   "max_stamina": 8,
-   "injury_week": 0,
-   "contract": 1,
-   "salary": 13,
-   "delay_retirement": 0,
-   "xp_level": 2,
-   "spos": "WR",
-   "season": {
-    "g": 14,
-    "rec": 26,
-    "yds": 332,
-    "td": 6,
-    "fum": 2
-   }
-  }
- },
- "newPlayers": {
-  "DB:K.J. Brewer": {
-   "team": "Buccaneers",
-   "age": 21,
-   "speed": 4,
-   "strength": 1,
-   "skill": 2,
-   "stamina": 4,
-   "max_speed": 6,
-   "max_strength": 2,
-   "max_skill": 6,
-   "max_stamina": 4,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 4,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "CB",
-   "season": {
-    "g": 14,
-    "tkl": 181,
-    "int": 3
-   }
-  },
-  "DB:Kalen Bowser": {
-   "team": "Patriots",
-   "age": 21,
-   "speed": 3,
-   "strength": 2,
-   "skill": 5,
-   "stamina": 8,
-   "max_speed": 7,
-   "max_strength": 2,
-   "max_skill": 8,
-   "max_stamina": 10,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 7,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "S",
-   "season": {
-    "g": 14
-   }
-  },
-  "DB:Ketner Tauaefa": {
-   "team": "Commanders",
-   "age": 28,
-   "speed": 5,
-   "strength": 4,
-   "skill": 5,
-   "stamina": 1,
-   "max_speed": 9,
-   "max_strength": 4,
-   "max_skill": 8,
-   "max_stamina": 7,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 7,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "S",
-   "season": {
-    "g": 2
-   }
-  },
-  "LB:Cyril Boozler": {
-   "team": "Jaguars",
-   "age": 21,
-   "speed": 3,
-   "strength": 2,
-   "skill": 4,
-   "stamina": 2,
-   "max_speed": 7,
-   "max_strength": 7,
-   "max_skill": 4,
-   "max_stamina": 7,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 5,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "LB",
-   "season": {
-    "g": 14,
-    "tkl": 45
-   }
-  },
-  "LB:Danny Crosby": {
-   "team": "Vikings",
-   "age": 21,
-   "speed": 2,
-   "strength": 1,
-   "skill": 6,
-   "stamina": 5,
-   "max_speed": 4,
-   "max_strength": 3,
-   "max_skill": 8,
-   "max_stamina": 7,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 6,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "LB",
-   "season": {
-    "g": 14,
-    "tkl": 54,
-    "sck": 1
-   }
-  },
-  "LB:Jeff Mixon": {
-   "team": "Bears",
-   "age": 21,
-   "speed": 6,
-   "strength": 8,
-   "skill": 2,
-   "stamina": 5,
-   "max_speed": 7,
-   "max_strength": 8,
-   "max_skill": 5,
-   "max_stamina": 5,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 10,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "LB",
-   "season": {
-    "g": 14,
-    "tkl": 62
-   }
-  },
-  "LB:Shawn Rigg": {
-   "team": "Cardinals",
-   "age": 21,
-   "speed": 3,
-   "strength": 3,
-   "skill": 1,
-   "stamina": 1,
-   "max_speed": 3,
-   "max_strength": 5,
-   "max_skill": 5,
-   "max_stamina": 5,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 3,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "LB",
-   "season": {
-    "g": 14,
-    "tkl": 49
-   }
-  },
-  "OL:Horace Addison": {
-   "team": "Cowboys",
-   "age": 21,
-   "speed": 3,
-   "strength": 5,
-   "skill": 5,
-   "stamina": 2,
-   "max_speed": 4,
-   "max_strength": 9,
-   "max_skill": 8,
-   "max_stamina": 8,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 6,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "OL",
-   "season": {
-    "g": 14,
-    "blk": 25
-   }
-  },
-  "QB:Alshon Lazard": {
-   "team": "Bengals",
-   "age": 21,
-   "speed": 1,
-   "strength": 4,
-   "skill": 5,
-   "stamina": 7,
-   "max_speed": 5,
-   "max_strength": 9,
-   "max_skill": 9,
-   "max_stamina": 9,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 15,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "QB",
-   "season": {
-    "g": 14,
-    "att": 408,
-    "cmp": 254,
-    "yds": 2685,
-    "td": 31,
-    "int": 3,
-    "sck": 3,
-    "ratt": 27,
-    "ryds": 134,
-    "rtd": 10
-   }
-  },
-  "QB:Lukas Samuels": {
-   "team": "Cardinals",
-   "age": 21,
-   "speed": 2,
-   "strength": 2,
-   "skill": 7,
-   "stamina": 5,
-   "max_speed": 2,
-   "max_strength": 6,
-   "max_skill": 10,
-   "max_stamina": 6,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 12,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "QB",
-   "season": {
-    "g": 14,
-    "att": 479,
-    "cmp": 276,
-    "yds": 2112,
-    "td": 20,
-    "int": 2,
-    "sck": 2,
-    "ratt": 2,
-    "ryds": 6,
-    "rtd": 1
-   }
-  },
-  "RB:Dee Maher": {
-   "team": "Vikings",
-   "age": 21,
-   "speed": 6,
-   "strength": 7,
-   "skill": 5,
-   "stamina": 3,
-   "max_speed": 9,
-   "max_strength": 9,
-   "max_skill": 6,
-   "max_stamina": 5,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 11,
-   "delay_retirement": 0,
-   "xp_level": 2,
-   "spos": "RB",
-   "season": {
-    "g": 14,
-    "ratt": 142,
-    "ryds": 993,
-    "rtd": 21,
-    "fum": 13
-   }
-  },
-  "RB:Kitt Perine": {
-   "team": "Rams",
-   "age": 21,
-   "speed": 5,
-   "strength": 1,
-   "skill": 1,
-   "stamina": 1,
-   "max_speed": 6,
-   "max_strength": 1,
-   "max_skill": 1,
-   "max_stamina": 3,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 4,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "RB",
-   "season": {
-    "g": 14,
-    "ratt": 136,
-    "ryds": 1128,
-    "rtd": 16,
-    "fum": 14
-   }
-  },
-  "RB:Margus Deaton": {
-   "team": "Broncos",
-   "age": 21,
-   "speed": 1,
-   "strength": 1,
-   "skill": 2,
-   "stamina": 4,
-   "max_speed": 2,
-   "max_strength": 1,
-   "max_skill": 4,
-   "max_stamina": 6,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 4,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "RB",
-   "season": {
-    "g": 14,
-    "ratt": 145,
-    "ryds": 975,
-    "rtd": 17,
-    "fum": 12
-   }
-  },
-  "TE:Bunchy Barron": {
-   "team": "Commanders",
-   "age": 21,
-   "speed": 5,
-   "strength": 1,
-   "skill": 5,
-   "stamina": 7,
-   "max_speed": 7,
-   "max_strength": 5,
-   "max_skill": 8,
-   "max_stamina": 10,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 8,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "TE",
-   "season": {
-    "g": 14,
-    "rec": 71,
-    "yds": 371,
-    "td": 3,
-    "fum": 3
-   }
-  },
-  "TE:Nazair Amerson": {
-   "team": "Bills",
-   "age": 21,
-   "speed": 4,
-   "strength": 4,
-   "skill": 5,
-   "stamina": 8,
-   "max_speed": 7,
-   "max_strength": 6,
-   "max_skill": 6,
-   "max_stamina": 10,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 10,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "TE",
-   "season": {
-    "g": 14,
-    "rec": 46,
-    "yds": 308,
-    "td": 5,
-    "fum": 3
-   }
-  },
-  "TE:Tracy Karras": {
-   "team": "Ravens",
-   "age": 21,
-   "speed": 4,
-   "strength": 2,
-   "skill": 5,
-   "stamina": 10,
-   "max_speed": 6,
-   "max_strength": 6,
-   "max_skill": 6,
-   "max_stamina": 10,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 10,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "TE",
-   "season": {
-    "g": 14,
-    "rec": 57,
-    "yds": 337,
-    "td": 3,
-    "fum": 2
-   }
-  },
-  "WR:Russ Hilton": {
-   "team": "Broncos",
-   "age": 21,
-   "speed": 4,
-   "strength": 2,
-   "skill": 6,
-   "stamina": 6,
-   "max_speed": 4,
-   "max_strength": 3,
-   "max_skill": 10,
-   "max_stamina": 6,
-   "injury_week": 0,
-   "contract": 2,
-   "salary": 10,
-   "delay_retirement": 0,
-   "xp_level": 1,
-   "spos": "WR",
-   "season": {
-    "g": 14,
-    "rec": 75,
-    "yds": 409,
-    "td": 4,
     "fum": 2
    }
   },
@@ -10498,12 +10476,163 @@
    "xp_level": 1,
    "spos": "WR",
    "season": {
-    "g": 14,
-    "rec": 80,
-    "yds": 745,
-    "td": 8,
+    "g": 17,
+    "rec": 93,
+    "yds": 881,
+    "td": 11,
+    "fum": 6
+   }
+  },
+  "WR:Teven Charles": {
+   "team": "Panthers",
+   "age": 22,
+   "speed": 8,
+   "strength": 2,
+   "skill": 6,
+   "stamina": 2,
+   "max_speed": 10,
+   "max_strength": 5,
+   "max_skill": 7,
+   "max_stamina": 4,
+   "injury_week": 0,
+   "contract": 1,
+   "salary": 10,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "WR",
+   "season": {
+    "g": 18,
+    "rec": 83,
+    "yds": 623,
+    "td": 10,
+    "fum": 3
+   }
+  },
+  "WR:Tristan Suggs": {
+   "team": "Texans",
+   "age": 31,
+   "speed": 6,
+   "strength": 4,
+   "skill": 5,
+   "stamina": 5,
+   "max_speed": 10,
+   "max_strength": 4,
+   "max_skill": 8,
+   "max_stamina": 8,
+   "injury_week": 0,
+   "contract": 3,
+   "salary": 17,
+   "delay_retirement": 0,
+   "xp_level": 3,
+   "spos": "WR",
+   "season": {
+    "g": 19,
+    "rec": 91,
+    "yds": 767,
+    "td": 14,
+    "fum": 3
+   }
+  },
+  "WR:Ulysees Sutton": {
+   "team": "Chargers",
+   "age": 31,
+   "speed": 6,
+   "strength": 6,
+   "skill": 8,
+   "stamina": 4,
+   "max_speed": 8,
+   "max_strength": 6,
+   "max_skill": 8,
+   "max_stamina": 4,
+   "injury_week": 0,
+   "contract": 3,
+   "salary": 20,
+   "delay_retirement": 0,
+   "xp_level": 3,
+   "spos": "WR",
+   "season": {
+    "g": 17,
+    "rec": 67,
+    "yds": 564,
+    "td": 9,
     "fum": 5
    }
+  },
+  "WR:Verone Koch": {
+   "team": "Lions",
+   "age": 28,
+   "speed": 5,
+   "strength": 1,
+   "skill": 1,
+   "stamina": 1,
+   "max_speed": 5,
+   "max_strength": 3,
+   "max_skill": 5,
+   "max_stamina": 4,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 7,
+   "delay_retirement": 0,
+   "xp_level": 1,
+   "spos": "WR",
+   "season": {
+    "g": 18,
+    "rec": 66,
+    "yds": 608,
+    "td": 7,
+    "fum": 4
+   }
+  },
+  "WR:Yosuah Lewan": {
+   "team": "49ers",
+   "age": 27,
+   "speed": 4,
+   "strength": 3,
+   "skill": 1,
+   "stamina": 1,
+   "max_speed": 5,
+   "max_strength": 6,
+   "max_skill": 1,
+   "max_stamina": 3,
+   "injury_week": 0,
+   "contract": 2,
+   "salary": 7,
+   "delay_retirement": 0,
+   "xp_level": 2,
+   "spos": "WR",
+   "season": {
+    "g": 17,
+    "rec": 62,
+    "yds": 767,
+    "td": 9,
+    "fum": 4
+   }
+  },
+  "WR:Zane Correa": {
+   "team": "Ravens",
+   "age": 24,
+   "speed": 4,
+   "strength": 2,
+   "skill": 1,
+   "stamina": 5,
+   "max_speed": 5,
+   "max_strength": 3,
+   "max_skill": 3,
+   "max_stamina": 8,
+   "injury_week": 0,
+   "contract": 1,
+   "salary": 13,
+   "delay_retirement": 0,
+   "xp_level": 2,
+   "spos": "WR",
+   "season": {
+    "g": 17,
+    "rec": 32,
+    "yds": 377,
+    "td": 6,
+    "fum": 3
+   }
   }
- }
+ },
+ "newPlayers": {}
 }

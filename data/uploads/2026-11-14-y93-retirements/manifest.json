@@ -1,0 +1,235 @@
+{
+  "id": "2026-11-14-y93-retirements",
+  "created": "2026-11-14",
+  "save": {
+    "file": "rb_nfl_savedata_4.json",
+    "path": "data/saves/2026-11-14/nfl/Documents/rb_nfl_savedata_4.json",
+    "sha256": "dae9256887af0677daf6365bd8194e5af84b70c6ea096e385c044d44442e89da",
+    "season": 93,
+    "week": 32,
+    "complete": true
+  },
+  "images": [],
+  "ai_steps": [],
+  "mutations": [
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Nydair Sample/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Camaron Knight/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Lane McCoy/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Tim Wright/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Rasheem Ingold/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Obinna Leary/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Dayo Prince/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Russ Bello/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Kenyon Shaheed/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Tracy Merritt/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Malcom McCloud/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Cordrea Clark/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Jeffrey Wilson/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Joshuah Gore/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Khaleke Hyder/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Krys Pickens/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Divine Gilmore/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Damar Hobbs/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Chazz McCray/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Andrew Dwight/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Bryant Zappe/status",
+      "value": "Retired",
+      "source": "owner",
+      "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y93 week-32 save, which covers the whole league)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    },
+    {
+      "lane": "stats",
+      "op": "coach.set",
+      "target": "superBowlRecord",
+      "value": [
+        {
+          "coach": "D.Skura",
+          "titles": 67
+        },
+        {
+          "coach": "NE (2000-2023)",
+          "titles": 6
+        },
+        {
+          "coach": "PIT (1969-1991)",
+          "titles": 4
+        },
+        {
+          "coach": "SF (1979-1988)",
+          "titles": 3
+        },
+        {
+          "coach": "WAS (1981-1992)",
+          "titles": 3
+        }
+      ],
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Super Bowl CLII win makes 67 titles (save counter ACH_WIN_RETROBOWL1 = 67)",
+      "trigger": "Season-complete save import 2026-11-14-save-y93"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
  "season": "Y91",
  "tagline": "The Eagles win Super Bowl CL over rookie Trae Corral's Raiders, Ryland Maxwell comes home, Bones Crawford takes a third MVP and four players enter the Hall of Fame.",
- "upload": "2026-11-13-refresh-y92",
+ "upload": "2026-11-14-story-y93",
  "articles": [
   {
    "id": "y91-eagles-cl",
@@ -118,9 +118,7 @@
      "source": "market_history.json snap-202611121506..snap-202611121857 WR:Calvin Wingo II s.yds"
     }
    ],
-   "related": [
-    "y90-texans-end-run"
-   ]
+   "related": []
   },
   {
    "id": "y91-maxwell-returns",
@@ -211,9 +209,7 @@
      "source": "schedule.json seasons/Y91/table/[abbr=ATL]/record"
     }
    ],
-   "related": [
-    "y90-spector-ring"
-   ]
+   "related": []
   },
   {
    "id": "y91-crawford-wingo",
@@ -345,10 +341,7 @@
      "source": "market_history.json snap-202611121506..snap-202611121857 WR:Kaulani Rahman s.td"
     }
    ],
-   "related": [
-    "y90-crawford-rahman",
-    "y90-wingo-rookie"
-   ]
+   "related": []
   },
   {
    "id": "y91-corral-raiders",
@@ -527,9 +520,7 @@
      "source": "market_history.json snap-202611121506..snap-202611121857 QB:Tim Sweeney s.td"
     }
    ],
-   "related": [
-    "y90-texans-end-run"
-   ]
+   "related": []
   },
   {
    "id": "y91-road-home",
@@ -614,9 +605,7 @@
      "source": "schedule.json seasons/Y91/table/[abbr=WAS]/power"
     }
    ],
-   "related": [
-    "y90-road-losses"
-   ]
+   "related": []
   },
   {
    "id": "y91-mccoy-90",
@@ -745,9 +734,7 @@
      "source": "market_history.json snap-202611121857 DB:K'Lavon Settle s.tkl"
     }
    ],
-   "related": [
-    "y90-rushing-record"
-   ]
+   "related": []
   },
   {
    "id": "y91-hof-class",
@@ -853,9 +840,7 @@
      "source": "market_history.json snap-202611121857 DL:Keion Orzech legacy"
     }
    ],
-   "related": [
-    "y90-hof-watch"
-   ]
+   "related": []
   },
   {
    "id": "y91-retirements",
@@ -954,9 +939,7 @@
      "source": "market_history.json snap-202611121857 DB:Bryant Zappe s.rings"
     }
    ],
-   "related": [
-    "y90-retirements"
-   ]
+   "related": []
   },
   {
    "id": "y91-quick-hits",

@@ -1,0 +1,6406 @@
+{
+ "id": "2026-11-14-save-y93",
+ "created": "2026-11-14",
+ "save": {
+  "file": "rb_nfl_savedata_4.json",
+  "path": "data/saves/2026-11-14/nfl/Documents/rb_nfl_savedata_4.json",
+  "sha256": "dae9256887af0677daf6365bd8194e5af84b70c6ea096e385c044d44442e89da",
+  "season": 93,
+  "week": 32,
+  "complete": true
+ },
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:A.T. Hoyer",
+   "value": {
+    "g": 205,
+    "tkl": 2244,
+    "int": 30
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Abraham Jack",
+   "value": {
+    "g": 74,
+    "tkl": 781,
+    "int": 10
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Akayleb Samia",
+   "value": {
+    "g": 162,
+    "tkl": 1978,
+    "int": 28
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:DQ Watts",
+   "value": {
+    "g": 93,
+    "tkl": 1103,
+    "int": 13,
+    "dpoy": 1
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Dalvin Moehrig",
+   "value": {
+    "g": 104,
+    "tkl": 1168
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Davion Leo",
+   "value": {
+    "g": 140
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Dax Kolone",
+   "value": {
+    "g": 51,
+    "tkl": 608,
+    "int": 5
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Dwayne Skura",
+   "value": {
+    "g": 228,
+    "tkl": 1595,
+    "int": 21
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Eno Brunson",
+   "value": {
+    "g": 134
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Ian Clapp",
+   "value": {
+    "g": 144,
+    "tkl": 799
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Isaiah Pinkney",
+   "value": {
+    "g": 51,
+    "tkl": 572,
+    "int": 6
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Jalyn Kush",
+   "value": {
+    "g": 196
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Jamon Brooker",
+   "value": {
+    "g": 191,
+    "tkl": 2097,
+    "int": 35
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Jontre Owens",
+   "value": {
+    "g": 259
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Keesean Hand",
+   "value": {
+    "g": 37,
+    "tkl": 256,
+    "int": 5,
+    "ff": 4,
+    "rings": 2
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Koa Zuber",
+   "value": {
+    "g": 100,
+    "tkl": 683,
+    "int": 16,
+    "rings": 4
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Kolton Cole",
+   "value": {
+    "g": 193,
+    "tkl": 4
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Kyron Atwell",
+   "value": {
+    "g": 250,
+    "tkl": 2853
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Lamont Edoga",
+   "value": {
+    "g": 188,
+    "tkl": 2288,
+    "int": 26
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Lenny Baun",
+   "value": {
+    "g": 89,
+    "tkl": 981,
+    "int": 12
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Lewis Pettis",
+   "value": {
+    "g": 229,
+    "tkl": 2432,
+    "int": 30
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Linval Laulile",
+   "value": {
+    "g": 257,
+    "tkl": 2765,
+    "int": 29
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Mack Skule",
+   "value": {
+    "g": 121,
+    "tkl": 1458,
+    "int": 14
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Neal Johnson",
+   "value": {
+    "g": 119,
+    "tkl": 1301
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Odell Hainsey",
+   "value": {
+    "g": 260,
+    "tkl": 2989,
+    "int": 41
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Oli Alaka",
+   "value": {
+    "g": 246,
+    "tkl": 2851,
+    "int": 38
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Pharoah Orzech",
+   "value": {
+    "g": 239,
+    "tkl": 2495,
+    "int": 28
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Quincy Booker",
+   "value": {
+    "g": 60,
+    "tkl": 274,
+    "ff": 4,
+    "rings": 3
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Raphael Mosely",
+   "value": {
+    "g": 167,
+    "tkl": 1784,
+    "int": 21
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Tramon Holton",
+   "value": {
+    "g": 125,
+    "tkl": 647,
+    "int": 7
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Travon Swaim",
+   "value": {
+    "g": 210,
+    "tkl": 2425,
+    "int": 29
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Trequan Roberts",
+   "value": {
+    "g": 256,
+    "tkl": 1949,
+    "int": 13
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Tress Pettis",
+   "value": {
+    "g": 187
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Trysten Floyd",
+   "value": {
+    "g": 203,
+    "tkl": 251
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Alton Hopkins",
+   "value": {
+    "g": 51,
+    "tkl": 237,
+    "int": 1
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Amik Barnes",
+   "value": {
+    "g": 39,
+    "tkl": 206,
+    "sck": 2
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Blake Kirksey",
+   "value": {
+    "g": 136,
+    "tkl": 649,
+    "sck": 8
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Bobby Grigsby",
+   "value": {
+    "g": 34,
+    "tkl": 150,
+    "sck": 2
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Braxton Pennel",
+   "value": {
+    "g": 142,
+    "tkl": 746,
+    "sck": 11
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Clinton Maher",
+   "value": {
+    "g": 225,
+    "tkl": 1066,
+    "sck": 9
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Dallin Santoso",
+   "value": {
+    "g": 278,
+    "tkl": 1355
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Deonte Farrell",
+   "value": {
+    "g": 128,
+    "tkl": 657,
+    "sck": 5
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Deshone Bello",
+   "value": {
+    "g": 217,
+    "tkl": 1064,
+    "sck": 23
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Devonte Kerr",
+   "value": {
+    "g": 184,
+    "tkl": 910
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Dillon Tyson",
+   "value": {
+    "g": 36,
+    "tkl": 163
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Dyami Watson",
+   "value": {
+    "g": 54,
+    "tkl": 266,
+    "int": 1
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Dymonte Hageman",
+   "value": {
+    "g": 152,
+    "tkl": 726
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Gus Howland",
+   "value": {
+    "g": 108,
+    "tkl": 501,
+    "sck": 4
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Isaiah Schnell",
+   "value": {
+    "g": 86,
+    "tkl": 422,
+    "int": 2,
+    "sck": 3
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:J.R. Homer",
+   "value": {
+    "g": 85,
+    "tkl": 476,
+    "sck": 3
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Jabari Payne",
+   "value": {
+    "g": 119,
+    "tkl": 594
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Jace Ray",
+   "value": {
+    "g": 137,
+    "tkl": 725,
+    "sck": 5
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Jalen Barber",
+   "value": {
+    "g": 162,
+    "tkl": 846
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Keaton Toney",
+   "value": {
+    "g": 86,
+    "tkl": 433,
+    "sck": 4
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Kenneth Leo",
+   "value": {
+    "g": 114,
+    "tkl": 579
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Levante Banner",
+   "value": {
+    "g": 239,
+    "tkl": 1206
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Mykal Shaw",
+   "value": {
+    "g": 267,
+    "tkl": 1313,
+    "int": 3
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Nathan Tangelo",
+   "value": {
+    "g": 147,
+    "tkl": 682,
+    "int": 3,
+    "sck": 6
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Olamide Conway",
+   "value": {
+    "g": 102,
+    "tkl": 503,
+    "sck": 6
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:P.J. Jerry",
+   "value": {
+    "g": 51,
+    "tkl": 226
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Richard Ferentz",
+   "value": {
+    "g": 219,
+    "tkl": 1091,
+    "int": 3
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Tre' Haack",
+   "value": {
+    "g": 142,
+    "tkl": 733,
+    "sck": 8
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Trystan Doctson",
+   "value": {
+    "g": 110,
+    "tkl": 529,
+    "sck": 8
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Tyquan Hunter",
+   "value": {
+    "g": 261,
+    "tkl": 1276,
+    "int": 5,
+    "sck": 11
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DL:Zayne Ajayi",
+   "value": {
+    "g": 34,
+    "tkl": 164
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Aldrick Coyle",
+   "value": {
+    "g": 85,
+    "tkl": 284
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Alontae Agnew",
+   "value": {
+    "g": 39,
+    "tkl": 129,
+    "sck": 2
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Angelo Jensen",
+   "value": {
+    "g": 203,
+    "tkl": 691,
+    "sck": 5
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Brayden Golden",
+   "value": {
+    "g": 179,
+    "tkl": 605
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Bryson Lucas",
+   "value": {
+    "g": 212,
+    "tkl": 781,
+    "sck": 6
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Cal Gowan",
+   "value": {
+    "g": 51,
+    "tkl": 177
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Chuck Ertz",
+   "value": {
+    "g": 143,
+    "tkl": 297
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Dalton Mauro",
+   "value": {
+    "g": 110,
+    "tkl": 197
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Davion Means",
+   "value": {
+    "g": 174,
+    "tkl": 626,
+    "sck": 8
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Drake Kaskey",
+   "value": {
+    "g": 34,
+    "tkl": 133,
+    "sck": 2
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Earl Boehm",
+   "value": {
+    "g": 198,
+    "tkl": 677,
+    "sck": 9
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Gunner Okwara",
+   "value": {
+    "g": 242,
+    "tkl": 820,
+    "sck": 10
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Hakeem Ervin",
+   "value": {
+    "g": 176,
+    "tkl": 623,
+    "sck": 7
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Hamp McPhee",
+   "value": {
+    "g": 125,
+    "tkl": 318
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:KC Hyder",
+   "value": {
+    "g": 257,
+    "tkl": 633
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Khalen Swoopes",
+   "value": {
+    "g": 193,
+    "tkl": 701
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Kwon Dawkins",
+   "value": {
+    "g": 168,
+    "tkl": 520,
+    "sck": 7
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Kyler Falah",
+   "value": {
+    "g": 94,
+    "tkl": 346,
+    "sck": 4
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Mark Sieler",
+   "value": {
+    "g": 217,
+    "tkl": 765
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Quatro Wilds",
+   "value": {
+    "g": 160,
+    "tkl": 299
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Rudy Ward Jr",
+   "value": {
+    "g": 159,
+    "tkl": 529
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Samson McKeon",
+   "value": {
+    "g": 265,
+    "tkl": 847,
+    "sck": 11
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Simeon Otton",
+   "value": {
+    "g": 207,
+    "tkl": 828
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Snoop Dotson",
+   "value": {
+    "g": 98,
+    "tkl": 374,
+    "int": 9,
+    "sck": 12,
+    "rings": 4
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Storm Shelvin",
+   "value": {
+    "g": 153,
+    "tkl": 565
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Taywan Orzech",
+   "value": {
+    "g": 286,
+    "tkl": 969
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Terrel Brandel",
+   "value": {
+    "g": 220,
+    "tkl": 723
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Tom Egbule",
+   "value": {
+    "g": 238,
+    "tkl": 930,
+    "sck": 9
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Trayone Burford",
+   "value": {
+    "g": 120,
+    "tkl": 440,
+    "sck": 6
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Treylon Dogbe",
+   "value": {
+    "g": 240,
+    "tkl": 779,
+    "sck": 9
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Akiem Brock",
+   "value": {
+    "g": 120,
+    "blk": 344,
+    "rings": 5
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Andrew Biegel",
+   "value": {
+    "g": 225,
+    "blk": 250
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Anthony Orzech",
+   "value": {
+    "g": 239,
+    "blk": 287
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Bradlee Philips",
+   "value": {
+    "g": 153,
+    "blk": 189
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Calais Ham",
+   "value": {
+    "g": 186,
+    "blk": 346
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Caleb Linsley",
+   "value": {
+    "g": 110,
+    "blk": 195
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Cethan Payne",
+   "value": {
+    "g": 144,
+    "blk": 170
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Cethan Qualls",
+   "value": {
+    "g": 191,
+    "blk": 235
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Cordale Sweezy",
+   "value": {
+    "g": 153,
+    "blk": 206
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Cullen Laird",
+   "value": {
+    "g": 160,
+    "blk": 195
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Deane Lucas",
+   "value": {
+    "g": 178,
+    "blk": 195
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Hakeem Peppers",
+   "value": {
+    "g": 252,
+    "blk": 301
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:JD Pircher",
+   "value": {
+    "g": 52,
+    "blk": 62
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Javon Trask",
+   "value": {
+    "g": 239,
+    "blk": 296
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Jermar Reiff",
+   "value": {
+    "g": 221,
+    "blk": 264
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Jordon Toilolo",
+   "value": {
+    "g": 91,
+    "blk": 124
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Kiondre Hageman",
+   "value": {
+    "g": 313,
+    "blk": 420
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Koa Togiai",
+   "value": {
+    "g": 85,
+    "blk": 95
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Laken Linder",
+   "value": {
+    "g": 187,
+    "blk": 213
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Nydair Funk",
+   "value": {
+    "g": 85,
+    "blk": 98
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Perrion Randall",
+   "value": {
+    "g": 197,
+    "blk": 295
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Shaquem Goedert",
+   "value": {
+    "g": 159,
+    "blk": 167
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Taron Pinnock",
+   "value": {
+    "g": 188,
+    "blk": 228
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Tay Tenuta",
+   "value": {
+    "g": 121,
+    "blk": 153
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Terez Poe",
+   "value": {
+    "g": 212,
+    "blk": 264
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Trey Gabbert",
+   "value": {
+    "g": 112,
+    "blk": 127
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Victor Brandel",
+   "value": {
+    "g": 176,
+    "blk": 250
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Victor Pascal",
+   "value": {
+    "g": 250,
+    "blk": 325
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Vyncint Fort",
+   "value": {
+    "g": 89,
+    "blk": 98
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Wayne Blair",
+   "value": {
+    "g": 85,
+    "blk": 86
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Arthur Onwenu",
+   "value": {
+    "g": 158,
+    "att": 5207,
+    "cmp": 3073,
+    "yds": 26412,
+    "td": 278,
+    "sck": 29,
+    "ratt": 106,
+    "ryds": 641,
+    "rtd": 39
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Bones Crawford",
+   "value": {
+    "g": 113,
+    "att": 2097,
+    "cmp": 1808,
+    "yds": 31053,
+    "td": 374,
+    "int": 122,
+    "sck": 61,
+    "ratt": 151,
+    "ryds": 530,
+    "rtd": 34,
+    "rings": 5,
+    "mvp": 4
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Brandon Jaclyde",
+   "value": {
+    "g": 197,
+    "att": 6190,
+    "cmp": 3795,
+    "yds": 34884,
+    "td": 357,
+    "int": 52,
+    "sck": 33,
+    "ratt": 109,
+    "ryds": 619,
+    "rtd": 39
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Bryant Cronk",
+   "value": {
+    "g": 86,
+    "att": 2661,
+    "cmp": 1637,
+    "yds": 13660,
+    "td": 118,
+    "int": 18,
+    "sck": 14,
+    "ratt": 81,
+    "ryds": 568,
+    "rtd": 33
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Dustin Milton",
+   "value": {
+    "g": 299,
+    "att": 10023,
+    "cmp": 5835,
+    "yds": 47969,
+    "td": 485,
+    "int": 46,
+    "sck": 50,
+    "ratt": 231,
+    "ryds": 1443,
+    "rtd": 83
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Irv Kelce",
+   "value": {
+    "g": 188,
+    "att": 6552,
+    "cmp": 3834,
+    "yds": 29350,
+    "td": 275,
+    "int": 31,
+    "sck": 41,
+    "ratt": 139,
+    "ryds": 1037,
+    "rtd": 48
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Ja'Marr Chark",
+   "value": {
+    "g": 34,
+    "att": 1201,
+    "cmp": 719,
+    "yds": 5306,
+    "td": 40,
+    "int": 7,
+    "sck": 5,
+    "ratt": 22,
+    "ryds": 140,
+    "rtd": 8
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Jarrell Cann",
+   "value": {
+    "g": 339,
+    "att": 10958,
+    "cmp": 6907,
+    "yds": 63001,
+    "td": 569,
+    "int": 54,
+    "sck": 62,
+    "ratt": 294,
+    "ryds": 2174,
+    "rtd": 105
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Jimmy Tillery",
+   "value": {
+    "g": 178,
+    "att": 5944,
+    "cmp": 3555,
+    "yds": 30285,
+    "td": 278,
+    "int": 31,
+    "sck": 36,
+    "ratt": 125,
+    "ryds": 744,
+    "rtd": 47
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Jojo McCown",
+   "value": {
+    "g": 206,
+    "att": 7017,
+    "cmp": 4239,
+    "yds": 35620,
+    "td": 321,
+    "int": 40,
+    "sck": 42,
+    "ratt": 145,
+    "ryds": 854,
+    "rtd": 55
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Josh Brooks",
+   "value": {
+    "g": 332,
+    "att": 10776,
+    "cmp": 6907,
+    "yds": 62239,
+    "td": 558,
+    "sck": 54,
+    "ratt": 289,
+    "ryds": 1980,
+    "rtd": 101
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Juju Ngakoue",
+   "value": {
+    "g": 267,
+    "att": 8657,
+    "cmp": 5365,
+    "yds": 48942,
+    "td": 476,
+    "int": 45,
+    "sck": 41,
+    "ratt": 217,
+    "ryds": 1332,
+    "rtd": 73
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Julian Goedert",
+   "value": {
+    "g": 193,
+    "att": 6570,
+    "cmp": 3918,
+    "yds": 31738,
+    "td": 321,
+    "int": 37,
+    "sck": 23,
+    "ratt": 136,
+    "ryds": 769,
+    "rtd": 50
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Kalif Risner",
+   "value": {
+    "g": 119,
+    "att": 3979,
+    "cmp": 2389,
+    "yds": 20133,
+    "td": 179,
+    "int": 12,
+    "sck": 20,
+    "ratt": 89,
+    "ryds": 729,
+    "rtd": 35
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Koda Koroma",
+   "value": {
+    "g": 91,
+    "att": 3065,
+    "cmp": 1846,
+    "yds": 16942,
+    "td": 163,
+    "int": 13,
+    "sck": 21,
+    "ratt": 66,
+    "ryds": 456,
+    "rtd": 26
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Korey Friend",
+   "value": {
+    "g": 303,
+    "att": 10291,
+    "cmp": 6404,
+    "yds": 53462,
+    "td": 473,
+    "int": 59,
+    "sck": 39,
+    "ratt": 221,
+    "ryds": 1287,
+    "rtd": 82
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Makai Merritt",
+   "value": {
+    "g": 184,
+    "att": 5885,
+    "cmp": 3685,
+    "yds": 34014,
+    "td": 313,
+    "int": 32,
+    "sck": 28,
+    "ratt": 174,
+    "ryds": 1117,
+    "rtd": 58
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Margus Leglue",
+   "value": {
+    "g": 227,
+    "att": 7600,
+    "cmp": 4627,
+    "yds": 40683,
+    "td": 370,
+    "int": 35,
+    "sck": 43,
+    "ratt": 118,
+    "ryds": 664,
+    "rtd": 45
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Mike Bouye",
+   "value": {
+    "g": 154,
+    "att": 5227,
+    "cmp": 2837,
+    "yds": 19043,
+    "td": 190,
+    "sck": 35,
+    "ratt": 127,
+    "ryds": 707,
+    "rtd": 50
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Orlando Larienne",
+   "value": {
+    "g": 179,
+    "att": 4507,
+    "cmp": 3036,
+    "yds": 35847,
+    "td": 390,
+    "int": 71,
+    "sck": 36,
+    "ratt": 141,
+    "ryds": 669,
+    "rtd": 42
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Riley Grigsby",
+   "value": {
+    "g": 289,
+    "att": 9911,
+    "cmp": 5893,
+    "yds": 46169,
+    "td": 409,
+    "int": 51,
+    "sck": 65
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Roc Dunkle",
+   "value": {
+    "g": 74,
+    "att": 2547,
+    "cmp": 1629,
+    "yds": 13501,
+    "td": 129,
+    "int": 7,
+    "sck": 12,
+    "ratt": 61,
+    "ryds": 445,
+    "rtd": 25
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Ryquell Penn",
+   "value": {
+    "g": 183,
+    "att": 5937,
+    "cmp": 3728,
+    "yds": 33020,
+    "td": 290,
+    "int": 37,
+    "sck": 28,
+    "ratt": 165,
+    "ryds": 1177,
+    "rtd": 64
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Rysen Nauta",
+   "value": {
+    "g": 238,
+    "att": 8327,
+    "cmp": 4883,
+    "yds": 38700,
+    "td": 368,
+    "int": 47,
+    "sck": 44,
+    "ratt": 177,
+    "ryds": 1160,
+    "rtd": 66
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Sione Garland",
+   "value": {
+    "g": 36,
+    "att": 1281,
+    "cmp": 748,
+    "yds": 6004,
+    "td": 66,
+    "int": 5,
+    "sck": 8,
+    "ratt": 35,
+    "ryds": 239,
+    "rtd": 14
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Solomon Toohill",
+   "value": {
+    "g": 304,
+    "att": 9941,
+    "cmp": 6307,
+    "yds": 57152,
+    "td": 550,
+    "int": 45,
+    "sck": 51,
+    "ratt": 259,
+    "ryds": 1864,
+    "rtd": 91
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Tevin Fox",
+   "value": {
+    "g": 403,
+    "att": 13430,
+    "cmp": 8253,
+    "yds": 69973,
+    "td": 618,
+    "sck": 68,
+    "ratt": 277,
+    "ryds": 1787,
+    "rtd": 100
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Tim Sweeney",
+   "value": {
+    "g": 188,
+    "att": 6098,
+    "cmp": 3755,
+    "yds": 32321,
+    "td": 317,
+    "int": 38,
+    "sck": 31,
+    "ratt": 130,
+    "ryds": 828,
+    "rtd": 50
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Trae Corral",
+   "value": {
+    "g": 57,
+    "att": 1737,
+    "cmp": 1172,
+    "yds": 10374,
+    "td": 87,
+    "int": 7,
+    "sck": 10,
+    "ratt": 36,
+    "ryds": 240,
+    "rtd": 13
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Ty Lock",
+   "value": {
+    "g": 295,
+    "att": 8392,
+    "cmp": 5612,
+    "yds": 61641,
+    "td": 574,
+    "int": 127,
+    "sck": 64,
+    "ratt": 384,
+    "ryds": 2249,
+    "rtd": 96
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Alijah Santos",
+   "value": {
+    "g": 53,
+    "ratt": 528,
+    "ryds": 4332,
+    "rtd": 84,
+    "fum": 40,
+    "rec": 7,
+    "recyds": 124
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Alohi Devey",
+   "value": {
+    "g": 86,
+    "ratt": 816,
+    "ryds": 6192,
+    "rtd": 112,
+    "fum": 79,
+    "rec": 5,
+    "recyds": 63
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Alton Yeldon",
+   "value": {
+    "g": 88,
+    "ratt": 863,
+    "ryds": 6078,
+    "rtd": 122,
+    "fum": 61
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Angelo Moton",
+   "value": {
+    "g": 191,
+    "ratt": 1850,
+    "ryds": 15199,
+    "rtd": 274,
+    "fum": 164
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Brendan Parham",
+   "value": {
+    "g": 138,
+    "ratt": 1324,
+    "ryds": 10556,
+    "rtd": 210,
+    "fum": 119
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Camryn Kongbo",
+   "value": {
+    "g": 123,
+    "ratt": 1206,
+    "ryds": 9570,
+    "rtd": 166,
+    "fum": 102
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:DJ Long",
+   "value": {
+    "g": 68,
+    "ratt": 663,
+    "ryds": 5205,
+    "rtd": 88,
+    "fum": 51
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Dekoda Walton",
+   "value": {
+    "g": 198,
+    "ratt": 1826,
+    "ryds": 14948,
+    "rtd": 289,
+    "fum": 161,
+    "rec": 6,
+    "recyds": 109
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Denzel Brady",
+   "value": {
+    "g": 103,
+    "ratt": 998,
+    "ryds": 7028,
+    "rtd": 130,
+    "fum": 77,
+    "rec": 6,
+    "recyds": 90
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Eli Kenney",
+   "value": {
+    "g": 204,
+    "ratt": 2035,
+    "ryds": 14416,
+    "rtd": 262,
+    "fum": 180
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Gerrit Ogbah",
+   "value": {
+    "g": 152,
+    "ratt": 1271,
+    "ryds": 9980,
+    "rtd": 171,
+    "fum": 81
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Grover Calitro",
+   "value": {
+    "g": 129,
+    "ratt": 1162,
+    "ryds": 9276,
+    "rtd": 156,
+    "fum": 109
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:J.C. Howland",
+   "value": {
+    "g": 51,
+    "ratt": 508,
+    "ryds": 3826,
+    "rtd": 79,
+    "fum": 36,
+    "rec": 1,
+    "recyds": 24,
+    "rectd": 1
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Jay-Tee Dafney",
+   "value": {
+    "g": 162,
+    "ratt": 1566,
+    "ryds": 13005,
+    "rtd": 215,
+    "fum": 119
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Kelvin Core",
+   "value": {
+    "g": 221,
+    "ratt": 2146,
+    "ryds": 15485,
+    "rtd": 260,
+    "fum": 171
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Lukas Agnew",
+   "value": {
+    "g": 142,
+    "ratt": 1350,
+    "ryds": 10685,
+    "rtd": 204,
+    "fum": 113,
+    "rec": 2,
+    "recyds": 30
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Maurice Vigil",
+   "value": {
+    "g": 210,
+    "ratt": 2069,
+    "ryds": 17010,
+    "rtd": 287,
+    "fum": 179,
+    "rec": 5,
+    "recyds": 76
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Niles Canaday",
+   "value": {
+    "g": 57,
+    "ratt": 526,
+    "ryds": 4636,
+    "rtd": 88,
+    "fum": 44,
+    "rec": 7,
+    "recyds": 144
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Phil Ekuale",
+   "value": {
+    "g": 202,
+    "ratt": 1959,
+    "ryds": 15816,
+    "rtd": 274,
+    "fum": 174
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Quatro Pierre",
+   "value": {
+    "g": 192,
+    "ratt": 1854,
+    "ryds": 12993,
+    "rtd": 255,
+    "fum": 153
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:River Kuechly",
+   "value": {
+    "g": 75,
+    "ratt": 760,
+    "ryds": 6292,
+    "rtd": 115,
+    "fum": 62
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Roderic Trawick",
+   "value": {
+    "g": 34,
+    "ratt": 352,
+    "ryds": 2595,
+    "rtd": 50,
+    "fum": 28
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Ryland Maxwell",
+   "value": {
+    "g": 265,
+    "ratt": 3185,
+    "ryds": 25701,
+    "rtd": 355,
+    "fum": 74,
+    "rec": 182,
+    "recyds": 1323,
+    "rectd": 61,
+    "rings": 10,
+    "sbmvp": 5
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Sam Swaim",
+   "value": {
+    "g": 51,
+    "ratt": 556,
+    "ryds": 3349,
+    "rtd": 71,
+    "fum": 43
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Siran Spector",
+   "value": {
+    "g": 241,
+    "ratt": 2273,
+    "ryds": 18466,
+    "rtd": 373,
+    "fum": 175
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Thomas Sweezy",
+   "value": {
+    "g": 154,
+    "ratt": 1547,
+    "ryds": 9641,
+    "rtd": 220,
+    "fum": 120
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Ty Gurman",
+   "value": {
+    "g": 68,
+    "ratt": 673,
+    "ryds": 4369,
+    "rtd": 74,
+    "fum": 63
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Tyreek Devalve",
+   "value": {
+    "g": 204,
+    "ratt": 1954,
+    "ryds": 14478,
+    "rtd": 254,
+    "fum": 171,
+    "rec": 23,
+    "recyds": 319,
+    "rectd": 2
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Xavier Mosley",
+   "value": {
+    "g": 131,
+    "ratt": 1246,
+    "ryds": 10726,
+    "rtd": 201,
+    "fum": 92
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Amon-Ra Ford",
+   "value": {
+    "g": 179,
+    "rec": 785,
+    "yds": 4705,
+    "td": 36,
+    "fum": 46
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Andrew Pitts",
+   "value": {
+    "g": 240,
+    "rec": 1023,
+    "yds": 5342,
+    "td": 30,
+    "fum": 49
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Anree Wren",
+   "value": {
+    "g": 249,
+    "rec": 991,
+    "yds": 5987,
+    "td": 45,
+    "fum": 65
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Carson Odeleye",
+   "value": {
+    "g": 265,
+    "rec": 1217,
+    "yds": 7200,
+    "td": 56,
+    "fum": 75
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Cassius McCrane",
+   "value": {
+    "g": 95,
+    "rec": 449,
+    "yds": 2777,
+    "td": 25,
+    "fum": 27
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Ceedee Hollins",
+   "value": {
+    "g": 263,
+    "rec": 1267,
+    "yds": 7428,
+    "td": 60,
+    "fum": 76
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:DQ Diggs",
+   "value": {
+    "g": 37,
+    "rec": 162,
+    "yds": 798,
+    "td": 4,
+    "fum": 10
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Daelin Virgin",
+   "value": {
+    "g": 68,
+    "rec": 302,
+    "yds": 1793,
+    "td": 16,
+    "fum": 16
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Dakota Paye",
+   "value": {
+    "g": 165,
+    "rec": 688,
+    "yds": 4318,
+    "td": 42,
+    "fum": 32
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Daylon Fries",
+   "value": {
+    "g": 93,
+    "rec": 386,
+    "yds": 2197,
+    "td": 19,
+    "fum": 24
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Dezmon Tavai",
+   "value": {
+    "g": 102,
+    "rec": 458,
+    "yds": 2710,
+    "td": 18,
+    "fum": 38
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Donald Spencer",
+   "value": {
+    "g": 192,
+    "rec": 869,
+    "yds": 5242,
+    "td": 48,
+    "fum": 52
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Donell Quinn",
+   "value": {
+    "g": 36,
+    "rec": 172,
+    "yds": 908,
+    "td": 3,
+    "fum": 14
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Earnest Prosise",
+   "value": {
+    "g": 68,
+    "rec": 327,
+    "yds": 2036,
+    "td": 18,
+    "fum": 22
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Eli Danna",
+   "value": {
+    "g": 159,
+    "rec": 691,
+    "yds": 4001,
+    "td": 35,
+    "fum": 42
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Essang Remmers",
+   "value": {
+    "g": 122,
+    "rec": 553,
+    "yds": 3044,
+    "fum": 33
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:George Donkor",
+   "value": {
+    "g": 150,
+    "rec": 606,
+    "yds": 3833,
+    "td": 34,
+    "fum": 45
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:George Nnadi",
+   "value": {
+    "g": 239,
+    "rec": 1119,
+    "yds": 6073,
+    "td": 34,
+    "fum": 68
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Grady Cox",
+   "value": {
+    "g": 159,
+    "rec": 817,
+    "yds": 4780,
+    "td": 38,
+    "fum": 40
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:J.C. Jordan",
+   "value": {
+    "g": 110,
+    "rec": 529,
+    "yds": 3343,
+    "td": 32,
+    "fum": 31
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Jacob Proise",
+   "value": {
+    "g": 59,
+    "rec": 147,
+    "yds": 2396,
+    "td": 27,
+    "rings": 3
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Jaelon Bennett",
+   "value": {
+    "g": 211,
+    "rec": 920,
+    "yds": 5376,
+    "td": 42,
+    "fum": 45
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Jamar Dallas",
+   "value": {
+    "g": 119,
+    "rec": 584,
+    "yds": 3188,
+    "td": 18,
+    "fum": 34
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Jamel Wilkins",
+   "value": {
+    "g": 187,
+    "rec": 912,
+    "yds": 4875,
+    "td": 31,
+    "fum": 48
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Jamell Langley",
+   "value": {
+    "g": 110,
+    "rec": 441,
+    "yds": 2625,
+    "td": 27,
+    "fum": 23
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Jamie McGrone",
+   "value": {
+    "g": 171,
+    "rec": 831,
+    "yds": 4269,
+    "td": 16,
+    "fum": 59
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Jarvis Daniels",
+   "value": {
+    "g": 159,
+    "rec": 749,
+    "yds": 4247,
+    "td": 32,
+    "fum": 47
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Josey Vander",
+   "value": {
+    "g": 35,
+    "rec": 164,
+    "yds": 1052,
+    "td": 10,
+    "fum": 2
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Keesean Rashed",
+   "value": {
+    "g": 86,
+    "rec": 306,
+    "yds": 1890,
+    "td": 15,
+    "fum": 17
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Kevon Pitts",
+   "value": {
+    "g": 131,
+    "rec": 591,
+    "yds": 3382,
+    "td": 22,
+    "fum": 34
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Khalid Glasgow",
+   "value": {
+    "g": 174,
+    "rec": 713,
+    "yds": 4222,
+    "td": 37,
+    "fum": 47
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Kylin Peters",
+   "value": {
+    "g": 246,
+    "rec": 1015,
+    "yds": 5808,
+    "td": 44,
+    "fum": 62
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Marc Saine II",
+   "value": {
+    "g": 146,
+    "rec": 508,
+    "yds": 4136,
+    "td": 38,
+    "fum": 23
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Morgan Saltes",
+   "value": {
+    "g": 170,
+    "rec": 760,
+    "yds": 4293,
+    "td": 29,
+    "fum": 38
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Myquon Renfrow",
+   "value": {
+    "g": 240,
+    "rec": 1065,
+    "yds": 6149,
+    "td": 54,
+    "fum": 55
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Nazair Lacey",
+   "value": {
+    "g": 69,
+    "rec": 308,
+    "yds": 1739,
+    "td": 11,
+    "fum": 13
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Nick Hilton",
+   "value": {
+    "g": 153,
+    "rec": 707,
+    "yds": 4091,
+    "td": 25,
+    "fum": 33
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Parker Hampton",
+   "value": {
+    "g": 225,
+    "rec": 1054,
+    "yds": 5967,
+    "td": 39,
+    "fum": 61
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Preston Gore",
+   "value": {
+    "g": 188,
+    "rec": 796,
+    "yds": 5048,
+    "td": 43,
+    "fum": 39
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Quay Jansen",
+   "value": {
+    "g": 34,
+    "rec": 161,
+    "yds": 826,
+    "td": 6,
+    "fum": 12
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Rashard Gunter",
+   "value": {
+    "g": 69,
+    "rec": 346,
+    "yds": 1868,
+    "td": 15,
+    "fum": 18
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Rashawn Cook",
+   "value": {
+    "g": 265,
+    "rec": 1150,
+    "yds": 6615,
+    "td": 54,
+    "fum": 66
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Rodger Samuel",
+   "value": {
+    "g": 240,
+    "rec": 1052,
+    "yds": 5929,
+    "td": 47,
+    "fum": 46
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Ronnie Hardy",
+   "value": {
+    "g": 102,
+    "rec": 512,
+    "yds": 2995,
+    "td": 20,
+    "fum": 36
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Samori Toney",
+   "value": {
+    "g": 104,
+    "rec": 506,
+    "yds": 2849,
+    "td": 22,
+    "fum": 36
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Spencer Ladler",
+   "value": {
+    "g": 175,
+    "rec": 758,
+    "yds": 4480,
+    "td": 35,
+    "fum": 39
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Teagan Banjo",
+   "value": {
+    "g": 189,
+    "rec": 843,
+    "yds": 4816,
+    "td": 40,
+    "fum": 41
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Tee Holtz",
+   "value": {
+    "g": 216,
+    "rec": 948,
+    "yds": 5284,
+    "td": 34,
+    "fum": 38
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Terrell Shipley",
+   "value": {
+    "g": 213,
+    "rec": 1034,
+    "yds": 5291,
+    "td": 35,
+    "fum": 51
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Thayer Lenoir",
+   "value": {
+    "g": 114,
+    "rec": 567,
+    "yds": 3321,
+    "td": 23,
+    "fum": 32
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Tramon Bouye",
+   "value": {
+    "g": 128,
+    "rec": 573,
+    "yds": 3723,
+    "td": 25,
+    "fum": 32
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Trayvon Fulton",
+   "value": {
+    "g": 85,
+    "rec": 365,
+    "yds": 1967,
+    "td": 10,
+    "fum": 24
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Treyvon Scott",
+   "value": {
+    "g": 222,
+    "rec": 1060,
+    "yds": 5578,
+    "td": 38,
+    "fum": 58
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Tyquan Vasey",
+   "value": {
+    "g": 209,
+    "rec": 1034,
+    "yds": 5382,
+    "td": 35,
+    "fum": 54
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Tyree Irwin",
+   "value": {
+    "g": 137,
+    "rec": 515,
+    "yds": 2842,
+    "td": 21,
+    "fum": 40
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Vonn Kennedy",
+   "value": {
+    "g": 228,
+    "rec": 968,
+    "yds": 5193,
+    "td": 43,
+    "fum": 49
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Apollo Adam",
+   "value": {
+    "g": 163,
+    "rec": 689,
+    "yds": 9133,
+    "td": 109,
+    "fum": 24
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Brett Sweat",
+   "value": {
+    "g": 244,
+    "rec": 985,
+    "yds": 9799,
+    "td": 100,
+    "fum": 50
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Bud Matthew",
+   "value": {
+    "g": 250,
+    "rec": 847,
+    "yds": 7688,
+    "td": 107,
+    "fum": 28
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Calvin Wingo II",
+   "value": {
+    "g": 80,
+    "rec": 459,
+    "yds": 8528,
+    "td": 87,
+    "rings": 3
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Clark Borom",
+   "value": {
+    "g": 222,
+    "rec": 698,
+    "yds": 5677,
+    "td": 79,
+    "fum": 39
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Corn Tabor",
+   "value": {
+    "g": 51,
+    "rec": 184,
+    "yds": 1640,
+    "td": 21,
+    "fum": 7
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Daelin Norton",
+   "value": {
+    "g": 68,
+    "rec": 221,
+    "yds": 2010,
+    "td": 25,
+    "fum": 11
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Darian Milne",
+   "value": {
+    "g": 193,
+    "rec": 761,
+    "yds": 6695,
+    "td": 93,
+    "fum": 39
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Gary Asafo",
+   "value": {
+    "g": 246,
+    "rec": 855,
+    "yds": 7214,
+    "td": 106,
+    "fum": 33
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Hamp Devey",
+   "value": {
+    "g": 246,
+    "rec": 911,
+    "yds": 9060,
+    "td": 130,
+    "fum": 36
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Jamison Stueber",
+   "value": {
+    "g": 138,
+    "rec": 456,
+    "yds": 3905,
+    "td": 53,
+    "fum": 20
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Javien Hull",
+   "value": {
+    "g": 204,
+    "rec": 760,
+    "yds": 6926,
+    "td": 83
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Kai Toure",
+   "value": {
+    "g": 106,
+    "rec": 392,
+    "yds": 4636,
+    "td": 54,
+    "fum": 14
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Kaulani Rahman",
+   "value": {
+    "g": 116,
+    "rec": 625,
+    "yds": 10527,
+    "td": 91,
+    "fum": 7
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Keenan Viennes",
+   "value": {
+    "g": 40,
+    "rec": 198,
+    "yds": 3763,
+    "td": 48,
+    "fum": 2,
+    "rings": 2,
+    "opoy": 1
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Lamont Duck",
+   "value": {
+    "g": 239,
+    "rec": 932,
+    "yds": 8602,
+    "td": 122,
+    "fum": 43
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Le'Veon Ogbah",
+   "value": {
+    "g": 233,
+    "rec": 939,
+    "yds": 7473,
+    "td": 104,
+    "fum": 42
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Lecitus Hayden",
+   "value": {
+    "g": 147,
+    "rec": 528,
+    "yds": 5047,
+    "td": 73,
+    "fum": 16
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Martin Ward",
+   "value": {
+    "g": 188,
+    "rec": 616,
+    "yds": 5218,
+    "td": 70,
+    "fum": 26
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Morris Samia",
+   "value": {
+    "g": 68,
+    "rec": 268,
+    "yds": 2298,
+    "td": 32,
+    "fum": 13
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Nasir Perine",
+   "value": {
+    "g": 129,
+    "rec": 391,
+    "yds": 4205,
+    "td": 62,
+    "fum": 17
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Netane Jacobs",
+   "value": {
+    "g": 212,
+    "rec": 842,
+    "yds": 7392,
+    "td": 103,
+    "fum": 38
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Olamide Poe",
+   "value": {
+    "g": 68,
+    "rec": 222,
+    "yds": 1683,
+    "td": 19,
+    "fum": 15
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Shareef London",
+   "value": {
+    "g": 276,
+    "rec": 1065,
+    "yds": 10838,
+    "td": 116,
+    "fum": 43
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Stephon Dunkle",
+   "value": {
+    "g": 93,
+    "rec": 383,
+    "yds": 2804,
+    "td": 33,
+    "fum": 18
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Taco Coulter",
+   "value": {
+    "g": 121,
+    "rec": 403,
+    "yds": 4524,
+    "td": 57,
+    "fum": 13
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Teven Charles",
+   "value": {
+    "g": 37,
+    "rec": 145,
+    "yds": 1175,
+    "td": 18,
+    "fum": 7
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Tristan Suggs",
+   "value": {
+    "g": 206,
+    "rec": 693,
+    "yds": 6538,
+    "td": 95,
+    "fum": 27
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Ulysees Sutton",
+   "value": {
+    "g": 192,
+    "rec": 639,
+    "yds": 5295,
+    "td": 78,
+    "fum": 26
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Verone Koch",
+   "value": {
+    "g": 138,
+    "rec": 512,
+    "yds": 4271,
+    "td": 47,
+    "fum": 26
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Yosuah Lewan",
+   "value": {
+    "g": 121,
+    "rec": 411,
+    "yds": 3754,
+    "td": 50,
+    "fum": 19
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Zane Correa",
+   "value": {
+    "g": 69,
+    "rec": 186,
+    "yds": 1497,
+    "td": 21,
+    "fum": 11
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career line from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:K.J. Brewer",
+   "value": {
+    "team": "Buccaneers",
+    "g": 17,
+    "tkl": 215,
+    "int": 4,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Kalen Bowser",
+   "value": {
+    "team": "Patriots",
+    "g": 17,
+    "tkl": 0,
+    "int": 0,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "DB:Ketner Tauaefa",
+   "value": {
+    "team": "Commanders",
+    "g": 2,
+    "tkl": 0,
+    "int": 0,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Cyril Boozler",
+   "value": {
+    "team": "Jaguars",
+    "g": 17,
+    "tkl": 60,
+    "int": 0,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Danny Crosby",
+   "value": {
+    "team": "Vikings",
+    "g": 19,
+    "tkl": 77,
+    "int": 0,
+    "sck": 1,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Jeff Mixon",
+   "value": {
+    "team": "Bears",
+    "g": 17,
+    "tkl": 70,
+    "int": 0,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "LB:Shawn Rigg",
+   "value": {
+    "team": "Cardinals",
+    "g": 17,
+    "tkl": 57,
+    "int": 0,
+    "sck": 0,
+    "ff": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "OL:Horace Addison",
+   "value": {
+    "team": "Cowboys",
+    "g": 17,
+    "blk": 28,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Alshon Lazard",
+   "value": {
+    "team": "Bengals",
+    "g": 18,
+    "att": 582,
+    "cmp": 350,
+    "yds": 3561,
+    "td": 39,
+    "int": 4,
+    "sck": 3,
+    "ratt": 27,
+    "ryds": 134,
+    "rtd": 10,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 1,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "QB:Lukas Samuels",
+   "value": {
+    "team": "Cardinals",
+    "g": 17,
+    "att": 578,
+    "cmp": 336,
+    "yds": 2572,
+    "td": 25,
+    "int": 2,
+    "sck": 2,
+    "ratt": 2,
+    "ryds": 6,
+    "rtd": 1,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Dee Maher",
+   "value": {
+    "team": "Vikings",
+    "g": 19,
+    "ratt": 195,
+    "ryds": 1406,
+    "rtd": 27,
+    "fum": 21,
+    "rec": 2,
+    "recyds": 23,
+    "rectd": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Kitt Perine",
+   "value": {
+    "team": "Rams",
+    "g": 18,
+    "ratt": 176,
+    "ryds": 1502,
+    "rtd": 23,
+    "fum": 19,
+    "rec": 0,
+    "recyds": 0,
+    "rectd": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "RB:Margus Deaton",
+   "value": {
+    "team": "Broncos",
+    "g": 17,
+    "ratt": 169,
+    "ryds": 1155,
+    "rtd": 24,
+    "fum": 12,
+    "rec": 0,
+    "recyds": 0,
+    "rectd": 0,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Bunchy Barron",
+   "value": {
+    "team": "Commanders",
+    "g": 19,
+    "rec": 106,
+    "yds": 494,
+    "td": 4,
+    "fum": 5,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Nazair Amerson",
+   "value": {
+    "team": "Bills",
+    "g": 18,
+    "rec": 82,
+    "yds": 443,
+    "td": 6,
+    "fum": 5,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "TE:Tracy Karras",
+   "value": {
+    "team": "Ravens",
+    "g": 17,
+    "rec": 68,
+    "yds": 390,
+    "td": 3,
+    "fum": 3,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Russ Hilton",
+   "value": {
+    "team": "Broncos",
+    "g": 17,
+    "rec": 92,
+    "yds": 478,
+    "td": 4,
+    "fum": 5,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "player.set",
+   "target": "WR:Taylor Bane",
+   "value": {
+    "team": "Seahawks",
+    "g": 17,
+    "rec": 93,
+    "yds": 881,
+    "td": 11,
+    "fum": 6,
+    "rings": 0,
+    "mvp": 0,
+    "opoy": 0,
+    "dpoy": 0,
+    "roty": 0,
+    "sbmvp": 0
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "New player from the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "superbowl.set",
+   "target": "Y93",
+   "value": {
+    "number": 152,
+    "roman": "CLII",
+    "winner": "Eagles",
+    "score": "30-17",
+    "loser": "Steelers",
+    "your_result": "won",
+    "your_team": "Eagles"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Super Bowl history in the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "coach.season",
+   "target": "93",
+   "value": {
+    "team": "Eagles",
+    "abbr": "PHI",
+    "w": 17,
+    "l": 0,
+    "t": 0,
+    "finish": "Champions"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "The coach's season history in the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Best rushing career",
+   "value": {
+    "mark": "25,701 yds",
+    "holder": "RB R. Maxwell",
+    "year": "Y93",
+    "exact": 25701.46
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board in the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Most rushing TDs, career",
+   "value": {
+    "mark": "355",
+    "holder": "RB R. Maxwell",
+    "year": "Y93"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board in the save",
+   "trigger": "Season Y93 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "schedule.set",
+   "target": "Y93",
+   "value": {
+    "team": "Eagles",
+    "abbr": "PHI",
+    "weeks": [
+     {
+      "week": 1,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 39,
+        "home": "LV",
+        "home_score": 30
+       },
+       {
+        "away": "MIA",
+        "away_score": 16,
+        "home": "CLE",
+        "home_score": 58
+       },
+       {
+        "away": "NE",
+        "away_score": 37,
+        "home": "KC",
+        "home_score": 48
+       },
+       {
+        "away": "DEN",
+        "away_score": 22,
+        "home": "CAR",
+        "home_score": 23
+       },
+       {
+        "away": "LAC",
+        "away_score": 36,
+        "home": "TB",
+        "home_score": 16
+       },
+       {
+        "away": "CIN",
+        "away_score": 30,
+        "home": "MIN",
+        "home_score": 25
+       },
+       {
+        "away": "PIT",
+        "away_score": 30,
+        "home": "BAL",
+        "home_score": 36
+       },
+       {
+        "away": "HOU",
+        "away_score": 53,
+        "home": "JAX",
+        "home_score": 42
+       },
+       {
+        "away": "DAL",
+        "away_score": 9,
+        "home": "CHI",
+        "home_score": 35
+       },
+       {
+        "away": "NYG",
+        "away_score": 36,
+        "home": "NYJ",
+        "home_score": 26
+       },
+       {
+        "away": "PHI",
+        "away_score": 38,
+        "home": "SEA",
+        "home_score": 23,
+        "weather": 1
+       },
+       {
+        "away": "ARI",
+        "away_score": 30,
+        "home": "WAS",
+        "home_score": 63
+       },
+       {
+        "away": "LAR",
+        "away_score": 23,
+        "home": "TEN",
+        "home_score": 13
+       },
+       {
+        "away": "SF",
+        "away_score": 23,
+        "home": "IND",
+        "home_score": 43
+       },
+       {
+        "away": "ATL",
+        "away_score": 31,
+        "home": "GB",
+        "home_score": 19
+       },
+       {
+        "away": "NO",
+        "away_score": 31,
+        "home": "DET",
+        "home_score": 33
+       }
+      ]
+     },
+     {
+      "week": 2,
+      "games": [
+       {
+        "away": "NYJ",
+        "away_score": 25,
+        "home": "PHI",
+        "home_score": 40
+       },
+       {
+        "away": "KC",
+        "away_score": 41,
+        "home": "MIA",
+        "home_score": 19
+       },
+       {
+        "away": "LAC",
+        "away_score": 17,
+        "home": "HOU",
+        "home_score": 53
+       },
+       {
+        "away": "LV",
+        "away_score": 37,
+        "home": "NE",
+        "home_score": 27
+       },
+       {
+        "away": "BAL",
+        "away_score": 24,
+        "home": "CIN",
+        "home_score": 40
+       },
+       {
+        "away": "CLE",
+        "away_score": 19,
+        "home": "PIT",
+        "home_score": 37
+       },
+       {
+        "away": "IND",
+        "away_score": 35,
+        "home": "LAR",
+        "home_score": 34
+       },
+       {
+        "away": "JAX",
+        "away_score": 20,
+        "home": "BUF",
+        "home_score": 45
+       },
+       {
+        "away": "NYG",
+        "away_score": 34,
+        "home": "SF",
+        "home_score": 41
+       },
+       {
+        "away": "WAS",
+        "away_score": 41,
+        "home": "DAL",
+        "home_score": 22
+       },
+       {
+        "away": "ARI",
+        "away_score": 29,
+        "home": "ATL",
+        "home_score": 45
+       },
+       {
+        "away": "SEA",
+        "away_score": 43,
+        "home": "TEN",
+        "home_score": 33
+       },
+       {
+        "away": "CHI",
+        "away_score": 37,
+        "home": "MIN",
+        "home_score": 34
+       },
+       {
+        "away": "GB",
+        "away_score": 30,
+        "home": "DET",
+        "home_score": 29
+       },
+       {
+        "away": "NO",
+        "away_score": 17,
+        "home": "DEN",
+        "home_score": 41
+       },
+       {
+        "away": "TB",
+        "away_score": 28,
+        "home": "CAR",
+        "home_score": 48
+       }
+      ]
+     },
+     {
+      "week": 3,
+      "games": [
+       {
+        "away": "NE",
+        "away_score": 17,
+        "home": "WAS",
+        "home_score": 29
+       },
+       {
+        "away": "NYJ",
+        "away_score": 12,
+        "home": "MIA",
+        "home_score": 30
+       },
+       {
+        "away": "DEN",
+        "away_score": 7,
+        "home": "LV",
+        "home_score": 26
+       },
+       {
+        "away": "CIN",
+        "away_score": 48,
+        "home": "LAC",
+        "home_score": 25
+       },
+       {
+        "away": "PIT",
+        "away_score": 13,
+        "home": "KC",
+        "home_score": 41
+       },
+       {
+        "away": "TEN",
+        "away_score": 33,
+        "home": "IND",
+        "home_score": 34
+       },
+       {
+        "away": "DAL",
+        "away_score": 48,
+        "home": "ARI",
+        "home_score": 36
+       },
+       {
+        "away": "PHI",
+        "away_score": 28,
+        "home": "BUF",
+        "home_score": 14
+       },
+       {
+        "away": "LAR",
+        "away_score": 29,
+        "home": "NYG",
+        "home_score": 26
+       },
+       {
+        "away": "SF",
+        "away_score": 28,
+        "home": "HOU",
+        "home_score": 34
+       },
+       {
+        "away": "CHI",
+        "away_score": 31,
+        "home": "BAL",
+        "home_score": 44
+       },
+       {
+        "away": "DET",
+        "away_score": 7,
+        "home": "SEA",
+        "home_score": 45
+       },
+       {
+        "away": "GB",
+        "away_score": 30,
+        "home": "TB",
+        "home_score": 19
+       },
+       {
+        "away": "MIN",
+        "away_score": 20,
+        "home": "JAX",
+        "home_score": 43
+       },
+       {
+        "away": "ATL",
+        "away_score": 43,
+        "home": "NO",
+        "home_score": 36
+       },
+       {
+        "away": "CAR",
+        "away_score": 36,
+        "home": "CLE",
+        "home_score": 51
+       }
+      ]
+     },
+     {
+      "week": 4,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 21,
+        "home": "NYG",
+        "home_score": 30
+       },
+       {
+        "away": "MIA",
+        "away_score": 23,
+        "home": "DAL",
+        "home_score": 28
+       },
+       {
+        "away": "NE",
+        "away_score": 25,
+        "home": "LAC",
+        "home_score": 32
+       },
+       {
+        "away": "KC",
+        "away_score": 32,
+        "home": "DEN",
+        "home_score": 27
+       },
+       {
+        "away": "LV",
+        "away_score": 30,
+        "home": "ATL",
+        "home_score": 22
+       },
+       {
+        "away": "HOU",
+        "away_score": 30,
+        "home": "NYJ",
+        "home_score": 20
+       },
+       {
+        "away": "IND",
+        "away_score": 34,
+        "home": "CIN",
+        "home_score": 40
+       },
+       {
+        "away": "JAX",
+        "away_score": 37,
+        "home": "CLE",
+        "home_score": 43
+       },
+       {
+        "away": "TEN",
+        "away_score": 31,
+        "home": "PIT",
+        "home_score": 30
+       },
+       {
+        "away": "WAS",
+        "away_score": 22,
+        "home": "PHI",
+        "home_score": 48
+       },
+       {
+        "away": "LAR",
+        "away_score": 48,
+        "home": "ARI",
+        "home_score": 33
+       },
+       {
+        "away": "SF",
+        "away_score": 28,
+        "home": "SEA",
+        "home_score": 37
+       },
+       {
+        "away": "DET",
+        "away_score": 20,
+        "home": "BAL",
+        "home_score": 43
+       },
+       {
+        "away": "MIN",
+        "away_score": 53,
+        "home": "NO",
+        "home_score": 40
+       },
+       {
+        "away": "CAR",
+        "away_score": 23,
+        "home": "GB",
+        "home_score": 26
+       },
+       {
+        "away": "TB",
+        "away_score": 31,
+        "home": "CHI",
+        "home_score": 36
+       }
+      ]
+     },
+     {
+      "week": 5,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 41,
+        "home": "DEN",
+        "home_score": 34
+       },
+       {
+        "away": "LAC",
+        "away_score": 20,
+        "home": "MIA",
+        "home_score": 41
+       },
+       {
+        "away": "BAL",
+        "away_score": 46,
+        "home": "JAX",
+        "home_score": 33
+       },
+       {
+        "away": "CIN",
+        "away_score": 19,
+        "home": "GB",
+        "home_score": 41
+       },
+       {
+        "away": "CLE",
+        "away_score": 27,
+        "home": "LV",
+        "home_score": 31
+       },
+       {
+        "away": "PIT",
+        "away_score": 31,
+        "home": "DET",
+        "home_score": 38
+       },
+       {
+        "away": "IND",
+        "away_score": 27,
+        "home": "HOU",
+        "home_score": 40
+       },
+       {
+        "away": "TEN",
+        "away_score": 34,
+        "home": "NE",
+        "home_score": 27
+       },
+       {
+        "away": "DAL",
+        "away_score": 10,
+        "home": "NYJ",
+        "home_score": 24
+       },
+       {
+        "away": "PHI",
+        "away_score": 32,
+        "home": "KC",
+        "home_score": 21
+       },
+       {
+        "away": "WAS",
+        "away_score": 38,
+        "home": "NYG",
+        "home_score": 40
+       },
+       {
+        "away": "ARI",
+        "away_score": 33,
+        "home": "SF",
+        "home_score": 23
+       },
+       {
+        "away": "SEA",
+        "away_score": 19,
+        "home": "LAR",
+        "home_score": 27
+       },
+       {
+        "away": "CHI",
+        "away_score": 27,
+        "home": "CAR",
+        "home_score": 44
+       },
+       {
+        "away": "ATL",
+        "away_score": 17,
+        "home": "MIN",
+        "home_score": 44
+       },
+       {
+        "away": "TB",
+        "away_score": 30,
+        "home": "NO",
+        "home_score": 50
+       }
+      ]
+     },
+     {
+      "week": 6,
+      "games": [
+       {
+        "away": "NYJ",
+        "away_score": 17,
+        "home": "WAS",
+        "home_score": 55
+       },
+       {
+        "away": "DEN",
+        "away_score": 24,
+        "home": "NE",
+        "home_score": 40
+       },
+       {
+        "away": "KC",
+        "away_score": 23,
+        "home": "LAC",
+        "home_score": 39
+       },
+       {
+        "away": "LV",
+        "away_score": 57,
+        "home": "CAR",
+        "home_score": 34
+       },
+       {
+        "away": "CLE",
+        "away_score": 32,
+        "home": "IND",
+        "home_score": 24
+       },
+       {
+        "away": "PIT",
+        "away_score": 34,
+        "home": "HOU",
+        "home_score": 24
+       },
+       {
+        "away": "JAX",
+        "away_score": 30,
+        "home": "TEN",
+        "home_score": 25
+       },
+       {
+        "away": "DAL",
+        "away_score": 16,
+        "home": "PHI",
+        "home_score": 30,
+        "weather": 1
+       },
+       {
+        "away": "NYG",
+        "away_score": 17,
+        "home": "MIN",
+        "home_score": 41
+       },
+       {
+        "away": "LAR",
+        "away_score": 26,
+        "home": "MIA",
+        "home_score": 34
+       },
+       {
+        "away": "SF",
+        "away_score": 50,
+        "home": "BUF",
+        "home_score": 32
+       },
+       {
+        "away": "SEA",
+        "away_score": 48,
+        "home": "TB",
+        "home_score": 30
+       },
+       {
+        "away": "DET",
+        "away_score": 38,
+        "home": "ATL",
+        "home_score": 26
+       },
+       {
+        "away": "NO",
+        "away_score": 23,
+        "home": "BAL",
+        "home_score": 44
+       }
+      ]
+     },
+     {
+      "week": 7,
+      "games": [
+       {
+        "away": "NYJ",
+        "away_score": 36,
+        "home": "NE",
+        "home_score": 22
+       },
+       {
+        "away": "LAC",
+        "away_score": 31,
+        "home": "BUF",
+        "home_score": 36
+       },
+       {
+        "away": "LV",
+        "away_score": 44,
+        "home": "IND",
+        "home_score": 34
+       },
+       {
+        "away": "CIN",
+        "away_score": 53,
+        "home": "BAL",
+        "home_score": 30
+       },
+       {
+        "away": "JAX",
+        "away_score": 33,
+        "home": "SF",
+        "home_score": 40
+       },
+       {
+        "away": "TEN",
+        "away_score": 33,
+        "home": "ARI",
+        "home_score": 44
+       },
+       {
+        "away": "PHI",
+        "away_score": 46,
+        "home": "DET",
+        "home_score": 29
+       },
+       {
+        "away": "WAS",
+        "away_score": 30,
+        "home": "SEA",
+        "home_score": 26
+       },
+       {
+        "away": "CHI",
+        "away_score": 33,
+        "home": "LAR",
+        "home_score": 40
+       },
+       {
+        "away": "GB",
+        "away_score": 30,
+        "home": "PIT",
+        "home_score": 37
+       },
+       {
+        "away": "MIN",
+        "away_score": 13,
+        "home": "TB",
+        "home_score": 26
+       },
+       {
+        "away": "ATL",
+        "away_score": 16,
+        "home": "KC",
+        "home_score": 30
+       },
+       {
+        "away": "CAR",
+        "away_score": 19,
+        "home": "DAL",
+        "home_score": 27
+       }
+      ]
+     },
+     {
+      "week": 8,
+      "games": [
+       {
+        "away": "MIA",
+        "away_score": 24,
+        "home": "BUF",
+        "home_score": 34
+       },
+       {
+        "away": "NYJ",
+        "away_score": 10,
+        "home": "CIN",
+        "home_score": 49
+       },
+       {
+        "away": "BAL",
+        "away_score": 29,
+        "home": "DEN",
+        "home_score": 32
+       },
+       {
+        "away": "PIT",
+        "away_score": 36,
+        "home": "CLE",
+        "home_score": 27
+       },
+       {
+        "away": "HOU",
+        "away_score": 23,
+        "home": "LAR",
+        "home_score": 12
+       },
+       {
+        "away": "IND",
+        "away_score": 37,
+        "home": "TEN",
+        "home_score": 20
+       },
+       {
+        "away": "DAL",
+        "away_score": 20,
+        "home": "SF",
+        "home_score": 48
+       },
+       {
+        "away": "ARI",
+        "away_score": 22,
+        "home": "PHI",
+        "home_score": 32
+       },
+       {
+        "away": "SEA",
+        "away_score": 23,
+        "home": "JAX",
+        "home_score": 30
+       },
+       {
+        "away": "DET",
+        "away_score": 24,
+        "home": "CHI",
+        "home_score": 15
+       },
+       {
+        "away": "MIN",
+        "away_score": 24,
+        "home": "GB",
+        "home_score": 10
+       },
+       {
+        "away": "ATL",
+        "away_score": 40,
+        "home": "WAS",
+        "home_score": 43
+       },
+       {
+        "away": "CAR",
+        "away_score": 16,
+        "home": "LAC",
+        "home_score": 27
+       },
+       {
+        "away": "NO",
+        "away_score": 31,
+        "home": "NYG",
+        "home_score": 39
+       },
+       {
+        "away": "TB",
+        "away_score": 20,
+        "home": "LV",
+        "home_score": 37
+       }
+      ]
+     },
+     {
+      "week": 9,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 30,
+        "home": "NYJ",
+        "home_score": 23
+       },
+       {
+        "away": "DEN",
+        "away_score": 27,
+        "home": "ATL",
+        "home_score": 30
+       },
+       {
+        "away": "KC",
+        "away_score": 26,
+        "home": "TB",
+        "home_score": 33
+       },
+       {
+        "away": "LAC",
+        "away_score": 17,
+        "home": "NO",
+        "home_score": 47
+       },
+       {
+        "away": "BAL",
+        "away_score": 10,
+        "home": "MIN",
+        "home_score": 13
+       },
+       {
+        "away": "CIN",
+        "away_score": 40,
+        "home": "TEN",
+        "home_score": 37
+       },
+       {
+        "away": "CLE",
+        "away_score": 13,
+        "home": "HOU",
+        "home_score": 40
+       },
+       {
+        "away": "IND",
+        "away_score": 34,
+        "home": "SEA",
+        "home_score": 26
+       },
+       {
+        "away": "JAX",
+        "away_score": 20,
+        "home": "PIT",
+        "home_score": 30
+       },
+       {
+        "away": "DAL",
+        "away_score": 33,
+        "home": "LV",
+        "home_score": 38
+       },
+       {
+        "away": "NYG",
+        "away_score": 36,
+        "home": "NE",
+        "home_score": 33
+       },
+       {
+        "away": "PHI",
+        "away_score": 32,
+        "home": "MIA",
+        "home_score": 28
+       },
+       {
+        "away": "SF",
+        "away_score": 47,
+        "home": "ARI",
+        "home_score": 13
+       },
+       {
+        "away": "GB",
+        "away_score": 40,
+        "home": "CHI",
+        "home_score": 22
+       }
+      ]
+     },
+     {
+      "week": 10,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 25,
+        "home": "BAL",
+        "home_score": 38
+       },
+       {
+        "away": "NE",
+        "away_score": 26,
+        "home": "PIT",
+        "home_score": 41
+       },
+       {
+        "away": "LV",
+        "away_score": 15,
+        "home": "KC",
+        "home_score": 30
+       },
+       {
+        "away": "CLE",
+        "away_score": 16,
+        "home": "CIN",
+        "home_score": 13
+       },
+       {
+        "away": "HOU",
+        "away_score": 49,
+        "home": "TEN",
+        "home_score": 37
+       },
+       {
+        "away": "NYG",
+        "away_score": 41,
+        "home": "DEN",
+        "home_score": 40
+       },
+       {
+        "away": "WAS",
+        "away_score": 24,
+        "home": "MIA",
+        "home_score": 46
+       },
+       {
+        "away": "LAR",
+        "away_score": 45,
+        "home": "DAL",
+        "home_score": 30
+       },
+       {
+        "away": "SEA",
+        "away_score": 34,
+        "home": "ARI",
+        "home_score": 31
+       },
+       {
+        "away": "CHI",
+        "away_score": 16,
+        "home": "IND",
+        "home_score": 41
+       },
+       {
+        "away": "DET",
+        "away_score": 36,
+        "home": "CAR",
+        "home_score": 20
+       },
+       {
+        "away": "GB",
+        "away_score": 24,
+        "home": "NO",
+        "home_score": 29
+       },
+       {
+        "away": "MIN",
+        "away_score": 31,
+        "home": "SF",
+        "home_score": 27
+       },
+       {
+        "away": "ATL",
+        "away_score": 31,
+        "home": "LAC",
+        "home_score": 44
+       }
+      ]
+     },
+     {
+      "week": 11,
+      "games": [
+       {
+        "away": "MIA",
+        "away_score": 43,
+        "home": "DEN",
+        "home_score": 17
+       },
+       {
+        "away": "NE",
+        "away_score": 14,
+        "home": "PHI",
+        "home_score": 46,
+        "weather": 1
+       },
+       {
+        "away": "NYJ",
+        "away_score": 51,
+        "home": "KC",
+        "home_score": 24
+       },
+       {
+        "away": "BAL",
+        "away_score": 33,
+        "home": "GB",
+        "home_score": 31
+       },
+       {
+        "away": "PIT",
+        "away_score": 15,
+        "home": "CIN",
+        "home_score": 30
+       },
+       {
+        "away": "JAX",
+        "away_score": 38,
+        "home": "IND",
+        "home_score": 44
+       },
+       {
+        "away": "TEN",
+        "away_score": 34,
+        "home": "CLE",
+        "home_score": 38
+       },
+       {
+        "away": "DAL",
+        "away_score": 23,
+        "home": "NYG",
+        "home_score": 31
+       },
+       {
+        "away": "WAS",
+        "away_score": 36,
+        "home": "BUF",
+        "home_score": 37
+       },
+       {
+        "away": "ARI",
+        "away_score": 19,
+        "home": "HOU",
+        "home_score": 47
+       },
+       {
+        "away": "SF",
+        "away_score": 23,
+        "home": "LAR",
+        "home_score": 31
+       },
+       {
+        "away": "CHI",
+        "away_score": 34,
+        "home": "ATL",
+        "home_score": 37
+       },
+       {
+        "away": "CAR",
+        "away_score": 37,
+        "home": "MIN",
+        "home_score": 44
+       },
+       {
+        "away": "NO",
+        "away_score": 28,
+        "home": "LV",
+        "home_score": 42
+       },
+       {
+        "away": "TB",
+        "away_score": 30,
+        "home": "DET",
+        "home_score": 19
+       }
+      ]
+     },
+     {
+      "week": 12,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 37,
+        "home": "NE",
+        "home_score": 34
+       },
+       {
+        "away": "MIA",
+        "away_score": 20,
+        "home": "NYJ",
+        "home_score": 42
+       },
+       {
+        "away": "DEN",
+        "away_score": 26,
+        "home": "LAC",
+        "home_score": 29
+       },
+       {
+        "away": "KC",
+        "away_score": 41,
+        "home": "NO",
+        "home_score": 24
+       },
+       {
+        "away": "CIN",
+        "away_score": 47,
+        "home": "JAX",
+        "home_score": 16
+       },
+       {
+        "away": "CLE",
+        "away_score": 37,
+        "home": "CHI",
+        "home_score": 44
+       },
+       {
+        "away": "IND",
+        "away_score": 30,
+        "home": "BAL",
+        "home_score": 9
+       },
+       {
+        "away": "NYG",
+        "away_score": 40,
+        "home": "ARI",
+        "home_score": 34
+       },
+       {
+        "away": "PHI",
+        "away_score": 40,
+        "home": "WAS",
+        "home_score": 28
+       },
+       {
+        "away": "LAR",
+        "away_score": 24,
+        "home": "CAR",
+        "home_score": 45
+       },
+       {
+        "away": "SEA",
+        "away_score": 50,
+        "home": "DAL",
+        "home_score": 48
+       },
+       {
+        "away": "DET",
+        "away_score": 27,
+        "home": "TEN",
+        "home_score": 13
+       },
+       {
+        "away": "GB",
+        "away_score": 23,
+        "home": "HOU",
+        "home_score": 50
+       },
+       {
+        "away": "MIN",
+        "away_score": 27,
+        "home": "PIT",
+        "home_score": 34
+       },
+       {
+        "away": "ATL",
+        "away_score": 23,
+        "home": "TB",
+        "home_score": 31
+       }
+      ]
+     },
+     {
+      "week": 13,
+      "games": [
+       {
+        "away": "NE",
+        "away_score": 33,
+        "home": "MIA",
+        "home_score": 58
+       },
+       {
+        "away": "DEN",
+        "away_score": 24,
+        "home": "NYJ",
+        "home_score": 24
+       },
+       {
+        "away": "LAC",
+        "away_score": 40,
+        "home": "LV",
+        "home_score": 41
+       },
+       {
+        "away": "BAL",
+        "away_score": 43,
+        "home": "CLE",
+        "home_score": 54
+       },
+       {
+        "away": "HOU",
+        "away_score": 45,
+        "home": "SEA",
+        "home_score": 23
+       },
+       {
+        "away": "TEN",
+        "away_score": 28,
+        "home": "JAX",
+        "home_score": 40
+       },
+       {
+        "away": "NYG",
+        "away_score": 30,
+        "home": "WAS",
+        "home_score": 34
+       },
+       {
+        "away": "ARI",
+        "away_score": 31,
+        "home": "LAR",
+        "home_score": 19
+       },
+       {
+        "away": "SF",
+        "away_score": 25,
+        "home": "PHI",
+        "home_score": 40,
+        "weather": 1
+       },
+       {
+        "away": "DET",
+        "away_score": 55,
+        "home": "GB",
+        "home_score": 51
+       },
+       {
+        "away": "ATL",
+        "away_score": 34,
+        "home": "CIN",
+        "home_score": 36
+       },
+       {
+        "away": "CAR",
+        "away_score": 47,
+        "home": "KC",
+        "home_score": 26
+       },
+       {
+        "away": "NO",
+        "away_score": 13,
+        "home": "CHI",
+        "home_score": 26
+       },
+       {
+        "away": "TB",
+        "away_score": 20,
+        "home": "PIT",
+        "home_score": 22
+       }
+      ]
+     },
+     {
+      "week": 14,
+      "games": [
+       {
+        "away": "MIA",
+        "away_score": 29,
+        "home": "NYG",
+        "home_score": 32
+       },
+       {
+        "away": "NE",
+        "away_score": 26,
+        "home": "BUF",
+        "home_score": 37
+       },
+       {
+        "away": "KC",
+        "away_score": 27,
+        "home": "LV",
+        "home_score": 19
+       },
+       {
+        "away": "CLE",
+        "away_score": 10,
+        "home": "DET",
+        "home_score": 30
+       },
+       {
+        "away": "HOU",
+        "away_score": 51,
+        "home": "IND",
+        "home_score": 23
+       },
+       {
+        "away": "PHI",
+        "away_score": 48,
+        "home": "DAL",
+        "home_score": 10
+       },
+       {
+        "away": "WAS",
+        "away_score": 23,
+        "home": "LAC",
+        "home_score": 38
+       },
+       {
+        "away": "ARI",
+        "away_score": 16,
+        "home": "NYJ",
+        "home_score": 37
+       },
+       {
+        "away": "LAR",
+        "away_score": 23,
+        "home": "JAX",
+        "home_score": 27
+       },
+       {
+        "away": "SEA",
+        "away_score": 32,
+        "home": "SF",
+        "home_score": 45
+       },
+       {
+        "away": "CHI",
+        "away_score": 31,
+        "home": "CIN",
+        "home_score": 38
+       },
+       {
+        "away": "GB",
+        "away_score": 36,
+        "home": "MIN",
+        "home_score": 19
+       },
+       {
+        "away": "NO",
+        "away_score": 17,
+        "home": "CAR",
+        "home_score": 34
+       },
+       {
+        "away": "TB",
+        "away_score": 29,
+        "home": "DEN",
+        "home_score": 34
+       }
+      ]
+     },
+     {
+      "week": 15,
+      "games": [
+       {
+        "away": "NYJ",
+        "away_score": 22,
+        "home": "LAC",
+        "home_score": 30
+       },
+       {
+        "away": "KC",
+        "away_score": 54,
+        "home": "BUF",
+        "home_score": 23
+       },
+       {
+        "away": "LV",
+        "away_score": 48,
+        "home": "DEN",
+        "home_score": 15
+       },
+       {
+        "away": "BAL",
+        "away_score": 39,
+        "home": "TEN",
+        "home_score": 42
+       },
+       {
+        "away": "CIN",
+        "away_score": 41,
+        "home": "PIT",
+        "home_score": 33
+       },
+       {
+        "away": "IND",
+        "away_score": 29,
+        "home": "MIA",
+        "home_score": 20
+       },
+       {
+        "away": "JAX",
+        "away_score": 37,
+        "home": "HOU",
+        "home_score": 29
+       },
+       {
+        "away": "DAL",
+        "away_score": 23,
+        "home": "NE",
+        "home_score": 34
+       },
+       {
+        "away": "NYG",
+        "away_score": 22,
+        "home": "PHI",
+        "home_score": 30
+       },
+       {
+        "away": "LAR",
+        "away_score": 33,
+        "home": "SEA",
+        "home_score": 30
+       },
+       {
+        "away": "SF",
+        "away_score": 30,
+        "home": "WAS",
+        "home_score": 48
+       },
+       {
+        "away": "CHI",
+        "away_score": 26,
+        "home": "DET",
+        "home_score": 33
+       },
+       {
+        "away": "GB",
+        "away_score": 65,
+        "home": "ARI",
+        "home_score": 13
+       },
+       {
+        "away": "MIN",
+        "away_score": 36,
+        "home": "CLE",
+        "home_score": 25
+       },
+       {
+        "away": "CAR",
+        "away_score": 26,
+        "home": "ATL",
+        "home_score": 30
+       },
+       {
+        "away": "NO",
+        "away_score": 19,
+        "home": "TB",
+        "home_score": 31
+       }
+      ]
+     },
+     {
+      "week": 16,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 38,
+        "home": "DAL",
+        "home_score": 30
+       },
+       {
+        "away": "MIA",
+        "away_score": 23,
+        "home": "LV",
+        "home_score": 29
+       },
+       {
+        "away": "NE",
+        "away_score": 26,
+        "home": "NYJ",
+        "home_score": 26
+       },
+       {
+        "away": "DEN",
+        "away_score": 45,
+        "home": "JAX",
+        "home_score": 21
+       },
+       {
+        "away": "LAC",
+        "away_score": 37,
+        "home": "KC",
+        "home_score": 44
+       },
+       {
+        "away": "CLE",
+        "away_score": 29,
+        "home": "BAL",
+        "home_score": 47
+       },
+       {
+        "away": "PIT",
+        "away_score": 30,
+        "home": "CHI",
+        "home_score": 22
+       },
+       {
+        "away": "HOU",
+        "away_score": 18,
+        "home": "CIN",
+        "home_score": 26
+       },
+       {
+        "away": "TEN",
+        "away_score": 44,
+        "home": "SF",
+        "home_score": 49
+       },
+       {
+        "away": "PHI",
+        "away_score": 28,
+        "home": "LAR",
+        "home_score": 21
+       },
+       {
+        "away": "WAS",
+        "away_score": 34,
+        "home": "GB",
+        "home_score": 27
+       },
+       {
+        "away": "ARI",
+        "away_score": 19,
+        "home": "IND",
+        "home_score": 31
+       },
+       {
+        "away": "SEA",
+        "away_score": 3,
+        "home": "NYG",
+        "home_score": 47
+       },
+       {
+        "away": "DET",
+        "away_score": 26,
+        "home": "MIN",
+        "home_score": 51
+       },
+       {
+        "away": "CAR",
+        "away_score": 25,
+        "home": "NO",
+        "home_score": 12
+       },
+       {
+        "away": "TB",
+        "away_score": 20,
+        "home": "ATL",
+        "home_score": 38
+       }
+      ]
+     },
+     {
+      "week": 17,
+      "games": [
+       {
+        "away": "BUF",
+        "away_score": 22,
+        "home": "MIA",
+        "home_score": 31
+       },
+       {
+        "away": "KC",
+        "away_score": 16,
+        "home": "TEN",
+        "home_score": 48
+       },
+       {
+        "away": "LAC",
+        "away_score": 51,
+        "home": "DEN",
+        "home_score": 58
+       },
+       {
+        "away": "LV",
+        "away_score": 41,
+        "home": "NYJ",
+        "home_score": 31
+       },
+       {
+        "away": "PIT",
+        "away_score": 27,
+        "home": "IND",
+        "home_score": 19
+       },
+       {
+        "away": "HOU",
+        "away_score": 23,
+        "home": "BAL",
+        "home_score": 37
+       },
+       {
+        "away": "JAX",
+        "away_score": 16,
+        "home": "ARI",
+        "home_score": 41
+       },
+       {
+        "away": "NYG",
+        "away_score": 40,
+        "home": "DAL",
+        "home_score": 32
+       },
+       {
+        "away": "WAS",
+        "away_score": 37,
+        "home": "LAR",
+        "home_score": 44
+       },
+       {
+        "away": "SF",
+        "away_score": 34,
+        "home": "NO",
+        "home_score": 24
+       },
+       {
+        "away": "SEA",
+        "away_score": 12,
+        "home": "NE",
+        "home_score": 20
+       },
+       {
+        "away": "DET",
+        "away_score": 46,
+        "home": "CIN",
+        "home_score": 20
+       },
+       {
+        "away": "GB",
+        "away_score": 38,
+        "home": "CLE",
+        "home_score": 30
+       },
+       {
+        "away": "MIN",
+        "away_score": 27,
+        "home": "CHI",
+        "home_score": 20
+       },
+       {
+        "away": "ATL",
+        "away_score": 13,
+        "home": "CAR",
+        "home_score": 41
+       },
+       {
+        "away": "TB",
+        "away_score": 20,
+        "home": "PHI",
+        "home_score": 40,
+        "weather": 1
+       }
+      ]
+     },
+     {
+      "week": 18,
+      "games": [
+       {
+        "away": "MIA",
+        "away_score": 16,
+        "home": "NE",
+        "home_score": 10
+       },
+       {
+        "away": "NYJ",
+        "away_score": 26,
+        "home": "BUF",
+        "home_score": 48
+       },
+       {
+        "away": "DEN",
+        "away_score": 33,
+        "home": "KC",
+        "home_score": 23
+       },
+       {
+        "away": "LV",
+        "away_score": 37,
+        "home": "LAC",
+        "home_score": 20
+       },
+       {
+        "away": "BAL",
+        "away_score": 17,
+        "home": "PIT",
+        "home_score": 26
+       },
+       {
+        "away": "CIN",
+        "away_score": 37,
+        "home": "CLE",
+        "home_score": 20
+       },
+       {
+        "away": "IND",
+        "away_score": 38,
+        "home": "JAX",
+        "home_score": 27
+       },
+       {
+        "away": "TEN",
+        "away_score": 24,
+        "home": "HOU",
+        "home_score": 31
+       },
+       {
+        "away": "DAL",
+        "away_score": 29,
+        "home": "WAS",
+        "home_score": 32
+       },
+       {
+        "away": "PHI",
+        "away_score": 24,
+        "home": "NYG",
+        "home_score": 23,
+        "weather": 1
+       },
+       {
+        "away": "ARI",
+        "away_score": 26,
+        "home": "SEA",
+        "home_score": 52
+       },
+       {
+        "away": "LAR",
+        "away_score": 27,
+        "home": "SF",
+        "home_score": 24
+       },
+       {
+        "away": "CHI",
+        "away_score": 30,
+        "home": "GB",
+        "home_score": 40
+       },
+       {
+        "away": "MIN",
+        "away_score": 35,
+        "home": "DET",
+        "home_score": 37
+       },
+       {
+        "away": "CAR",
+        "away_score": 21,
+        "home": "TB",
+        "home_score": 13
+       },
+       {
+        "away": "NO",
+        "away_score": 30,
+        "home": "ATL",
+        "home_score": 66
+       }
+      ]
+     }
+    ],
+    "standings": {
+     "AFC East": [
+      {
+       "team": "Bills",
+       "w": 11,
+       "l": 6,
+       "t": 0
+      },
+      {
+       "team": "Dolphins",
+       "w": 8,
+       "l": 9,
+       "t": 0
+      },
+      {
+       "team": "Jets",
+       "w": 5,
+       "l": 10,
+       "t": 2
+      },
+      {
+       "team": "Patriots",
+       "w": 3,
+       "l": 13,
+       "t": 1
+      }
+     ],
+     "AFC West": [
+      {
+       "team": "Raiders",
+       "w": 14,
+       "l": 3,
+       "t": 0
+      },
+      {
+       "team": "Chiefs",
+       "w": 10,
+       "l": 7,
+       "t": 0
+      },
+      {
+       "team": "Chargers",
+       "w": 8,
+       "l": 9,
+       "t": 0
+      },
+      {
+       "team": "Broncos",
+       "w": 6,
+       "l": 10,
+       "t": 1
+      }
+     ],
+     "AFC North": [
+      {
+       "team": "Bengals",
+       "w": 14,
+       "l": 3,
+       "t": 0
+      },
+      {
+       "team": "Steelers",
+       "w": 11,
+       "l": 6,
+       "t": 0
+      },
+      {
+       "team": "Ravens",
+       "w": 9,
+       "l": 8,
+       "t": 0
+      },
+      {
+       "team": "Browns",
+       "w": 7,
+       "l": 10,
+       "t": 0
+      }
+     ],
+     "AFC South": [
+      {
+       "team": "Texans",
+       "w": 13,
+       "l": 4,
+       "t": 0
+      },
+      {
+       "team": "Colts",
+       "w": 11,
+       "l": 6,
+       "t": 0
+      },
+      {
+       "team": "Jaguars",
+       "w": 6,
+       "l": 11,
+       "t": 0
+      },
+      {
+       "team": "Titans",
+       "w": 4,
+       "l": 13,
+       "t": 0
+      }
+     ],
+     "NFC East": [
+      {
+       "team": "Eagles",
+       "w": 17,
+       "l": 0,
+       "t": 0
+      },
+      {
+       "team": "Giants",
+       "w": 11,
+       "l": 6,
+       "t": 0
+      },
+      {
+       "team": "Commanders",
+       "w": 10,
+       "l": 7,
+       "t": 0
+      },
+      {
+       "team": "Cowboys",
+       "w": 3,
+       "l": 14,
+       "t": 0
+      }
+     ],
+     "NFC West": [
+      {
+       "team": "Rams",
+       "w": 10,
+       "l": 7,
+       "t": 0
+      },
+      {
+       "team": "49ers",
+       "w": 8,
+       "l": 9,
+       "t": 0
+      },
+      {
+       "team": "Seahawks",
+       "w": 7,
+       "l": 10,
+       "t": 0
+      },
+      {
+       "team": "Cardinals",
+       "w": 4,
+       "l": 13,
+       "t": 0
+      }
+     ],
+     "NFC North": [
+      {
+       "team": "Lions",
+       "w": 11,
+       "l": 6,
+       "t": 0
+      },
+      {
+       "team": "Vikings",
+       "w": 10,
+       "l": 7,
+       "t": 0
+      },
+      {
+       "team": "Packers",
+       "w": 9,
+       "l": 8,
+       "t": 0
+      },
+      {
+       "team": "Bears",
+       "w": 5,
+       "l": 12,
+       "t": 0
+      }
+     ],
+     "NFC South": [
+      {
+       "team": "Panthers",
+       "w": 9,
+       "l": 8,
+       "t": 0
+      },
+      {
+       "team": "Falcons",
+       "w": 8,
+       "l": 9,
+       "t": 0
+      },
+      {
+       "team": "Buccaneers",
+       "w": 5,
+       "l": 12,
+       "t": 0
+      },
+      {
+       "team": "Saints",
+       "w": 3,
+       "l": 14,
+       "t": 0
+      }
+     ]
+    },
+    "coachOpponents": [],
+    "coachPlayoffs": [
+     {
+      "round": "PO",
+      "week": 27,
+      "opp": "MIN",
+      "home": true,
+      "for": 40,
+      "against": 34
+     },
+     {
+      "round": "PO",
+      "week": 30,
+      "opp": "NYG",
+      "home": true,
+      "for": 38,
+      "against": 28
+     },
+     {
+      "round": "PO",
+      "week": 31,
+      "opp": "PIT",
+      "home": true,
+      "for": 30,
+      "against": 17
+     }
+    ]
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "League schedule, scores and standings in the save",
+   "trigger": "Season Y93 complete in the save"
+  }
+ ]
+}

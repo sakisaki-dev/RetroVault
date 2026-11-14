@@ -1,0 +1,826 @@
+{
+ "id": "2026-11-14-takes-y93",
+ "created": "2026-11-14",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "takes",
+   "reason": "Write the Y93 Hot Takes",
+   "trigger": "Rebuild printed TAKES NEEDED: Y93"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "takes",
+   "op": "takes.set",
+   "target": "Y93",
+   "value": {
+    "reason": "Hot Takes for the completed Y93 season",
+    "trigger": "Season Y93 completed (coach.season 93)",
+    "intro": "Y93 gave Philadelphia a perfect season and Ryland Maxwell the rushing record. Perfection hides things, and records flatter. The arguments below are ours to defend; every figure comes straight from the league data.",
+    "takes": [
+     {
+      "id": "y93-take-eagles-luck",
+      "heat": 3,
+      "headline": "Perfect Is Not the Same as Dominant: The 17-0 Eagles Were the League's Luckiest Club",
+      "dek": "Philadelphia's points say 13.3 wins. The schedule was soft and every close game broke its way.",
+      "body": [
+       "Nobody gets to take 17-0 away from Philadelphia, and nobody should pretend the record tells the whole story either. By points scored and allowed, the Eagles played like a 13.3-win team. They won 3.7 games more than that, the biggest gap between expectation and result of any club in the league. They went 4-0 in one-score games. Their schedule rated 0.455; only the Raiders and Panthers drew softer slates.",
+       "Here is the uncomfortable part. The Y92 Eagles, the team that lost twice, outscored opponents by 279. This one managed 259. The perfect team was not the best team Dorren Skura has had in Philadelphia. It was the one the bounces loved, and the next one will not get all of them."
+      ],
+      "players": [],
+      "teams": [
+       "Eagles",
+       "Raiders",
+       "Panthers"
+      ],
+      "stats": [
+       {
+        "label": "Games won above expectation",
+        "value": "3.7",
+        "source": "schedule.json seasons/Y93/table/[abbr=PHI]/luck"
+       },
+       {
+        "label": "Eagles record, Y93",
+        "value": "17-0",
+        "source": "coach.json Y93 record"
+       },
+       {
+        "label": "Expected wins by points",
+        "value": "13.3",
+        "source": "schedule.json seasons/Y93/table/[abbr=PHI]/expWins"
+       },
+       {
+        "label": "One-score games",
+        "value": "4-0",
+        "source": "schedule.json seasons/Y93/table/[abbr=PHI]/oneScore"
+       },
+       {
+        "label": "Strength of schedule",
+        "value": "0.455",
+        "source": "schedule.json seasons/Y93/table/[abbr=PHI]/sos"
+       },
+       {
+        "label": "Point differential, Y92",
+        "value": "279",
+        "source": "schedule.json seasons/Y92/table/[abbr=PHI]/diff"
+       },
+       {
+        "label": "Point differential, Y93",
+        "value": "259",
+        "source": "schedule.json seasons/Y93/table/[abbr=PHI]/diff"
+       }
+      ]
+     },
+     {
+      "id": "y93-take-crawford-over-lock",
+      "heat": 3,
+      "headline": "Bones Crawford Is Already a Better Quarterback Than Ty Lock Ever Was",
+      "dek": "Four MVPs in 113 games against two in 295. The argument is over.",
+      "body": [
+       "Ty Lock has the reputation, the ratings and the longer career. Bones Crawford has everything else. The Doctor won his 4th MVP in Y93 after throwing 64 touchdown passes and 4,936 yards in 20 games. Lock, also in 20 games, threw 26 touchdowns for the Giants.",
+       "This is not one season. Crawford has averaged 3.31 touchdown passes a game across 113 career games. Lock has averaged 1.95 across 295, and has 2 MVPs to show for it. Crawford completed 281 of his 317 attempts this year. Longevity is a virtue, and Lock has it. Greatness is a different thing, and Crawford has more of it already."
+      ],
+      "players": [
+       "Bones Crawford",
+       "Ty Lock"
+      ],
+      "teams": [
+       "Eagles",
+       "Giants"
+      ],
+      "stats": [
+       {
+        "label": "Crawford MVP awards",
+        "value": "4",
+        "source": "players.json QB:Bones Crawford mvp"
+       },
+       {
+        "label": "Crawford career games",
+        "value": "113",
+        "source": "players.json QB:Bones Crawford g"
+       },
+       {
+        "label": "Lock MVP awards",
+        "value": "2",
+        "source": "players.json QB:Ty Lock mvp"
+       },
+       {
+        "label": "Lock career games",
+        "value": "295",
+        "source": "players.json QB:Ty Lock g"
+       },
+       {
+        "label": "Crawford TD passes, Y93",
+        "value": "64",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Bones Crawford s.td"
+       },
+       {
+        "label": "Crawford passing yards, Y93",
+        "value": "4,936",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Bones Crawford s.yds"
+       },
+       {
+        "label": "Crawford games, Y93",
+        "value": "20",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Bones Crawford s.g"
+       },
+       {
+        "label": "Lock games, Y93",
+        "value": "20",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Ty Lock s.g"
+       },
+       {
+        "label": "Lock TD passes, Y93",
+        "value": "26",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Crawford TD passes per game, career",
+        "value": "3.31",
+        "source": "players.json QB:Bones Crawford td/g"
+       },
+       {
+        "label": "Lock TD passes per game, career",
+        "value": "1.95",
+        "source": "players.json QB:Ty Lock td/g"
+       },
+       {
+        "label": "Crawford completions, Y93",
+        "value": "281",
+        "source": "save_state.json players/QB:Bones Crawford/season/cmp"
+       },
+       {
+        "label": "Crawford attempts, Y93",
+        "value": "317",
+        "source": "save_state.json players/QB:Bones Crawford/season/att"
+       }
+      ]
+     },
+     {
+      "id": "y93-take-lock-card",
+      "heat": 3,
+      "headline": "Ty Lock's Card Rose 30% in a Down Season. The Market Is Paying for a Name.",
+      "dek": "His touchdowns fell from 32 to 26 and his price jumped to 4,458. A rookie with 39 sells for 16.",
+      "body": [
+       "Ty Lock threw 26 touchdown passes in Y93, down from 32 a year earlier, and his card went up 30% anyway, to 4,458. That is more than double Bones Crawford's 2,198, and Crawford just threw 64. The game still rates Lock's skill a perfect 10, and the market is pricing that rating, not the production.",
+       "Meanwhile Alshon Lazard threw 39 touchdowns with 4 interceptions as a rookie in Cincinnati, and his card sits at 16. Lock has earned his place in the league's history. Paying a premium for what he did in Y93 is buying a memory. The smart money sells the name and buys the rookie."
+      ],
+      "players": [
+       "Ty Lock",
+       "Bones Crawford",
+       "Alshon Lazard"
+      ],
+      "teams": [
+       "Giants",
+       "Eagles",
+       "Bengals"
+      ],
+      "stats": [
+       {
+        "label": "Lock card value change, Y93",
+        "value": "30%",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Ty Lock value%"
+       },
+       {
+        "label": "Lock TD passes, Y92",
+        "value": "32",
+        "source": "market_history.json snap-202611121857..snap-202611130929 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Lock TD passes, Y93",
+        "value": "26",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Lock card value",
+        "value": "4,458",
+        "source": "market_history.json snap-202611140247 QB:Ty Lock value"
+       },
+       {
+        "label": "Lazard TD passes",
+        "value": "39",
+        "source": "players.json QB:Alshon Lazard td"
+       },
+       {
+        "label": "Lazard card value",
+        "value": "16",
+        "source": "market_history.json snap-202611140247 QB:Alshon Lazard value"
+       },
+       {
+        "label": "Crawford card value",
+        "value": "2,198",
+        "source": "market_history.json snap-202611140247 QB:Bones Crawford value"
+       },
+       {
+        "label": "Crawford TD passes, Y93",
+        "value": "64",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Bones Crawford s.td"
+       },
+       {
+        "label": "Lock skill rating",
+        "value": "10",
+        "source": "save_state.json players/QB:Ty Lock/skill"
+       },
+       {
+        "label": "Lazard interceptions",
+        "value": "4",
+        "source": "players.json QB:Alshon Lazard int"
+       }
+      ]
+     },
+     {
+      "id": "y93-take-brooks-zero",
+      "heat": 2,
+      "headline": "Josh Brooks Threw 603 Passes Without an Interception at 38, and the League Barely Noticed",
+      "dek": "The cleanest season in the league belonged to a quarterback with 558 career touchdowns and no rings.",
+      "body": [
+       "Bones Crawford's 64 touchdowns will get the headlines, and fine. But the most remarkable quarterback season of Y93 happened in Washington. Josh Brooks, 38 years old, threw 603 passes and not one of them was intercepted. He added 43 touchdowns and 4,061 yards in 19 games.",
+       "Brooks now has 558 career touchdown passes and 0 rings. He has spent the last six seasons in the same division as Skura's Eagles, and a 10-7 Commanders club finished third in its own division behind the Eagles and Giants. The league hands out rings to teams. If it handed out a trophy for quarterbacking without mistakes, Brooks would have won it this year by a mile."
+      ],
+      "players": [
+       "Josh Brooks",
+       "Bones Crawford"
+      ],
+      "teams": [
+       "Commanders",
+       "Eagles",
+       "Giants"
+      ],
+      "stats": [
+       {
+        "label": "Brooks interceptions, Y93",
+        "value": "0",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Josh Brooks s.int"
+       },
+       {
+        "label": "Brooks pass attempts, Y93",
+        "value": "603",
+        "source": "save_state.json players/QB:Josh Brooks/season/att"
+       },
+       {
+        "label": "Brooks age",
+        "value": "38",
+        "source": "save_state.json players/QB:Josh Brooks/age"
+       },
+       {
+        "label": "Brooks career TD passes",
+        "value": "558",
+        "source": "players.json QB:Josh Brooks td"
+       },
+       {
+        "label": "Crawford TD passes, Y93",
+        "value": "64",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Bones Crawford s.td"
+       },
+       {
+        "label": "Brooks TD passes, Y93",
+        "value": "43",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Josh Brooks s.td"
+       },
+       {
+        "label": "Brooks passing yards, Y93",
+        "value": "4,061",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Josh Brooks s.yds"
+       },
+       {
+        "label": "Brooks games, Y93",
+        "value": "19",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Josh Brooks s.g"
+       },
+       {
+        "label": "Brooks rings",
+        "value": "0",
+        "source": "players.json QB:Josh Brooks rings"
+       },
+       {
+        "label": "Commanders record, Y93",
+        "value": "10-7",
+        "source": "schedule.json seasons/Y93/table/[abbr=WAS]/record"
+       }
+      ]
+     },
+     {
+      "id": "y93-take-canaday-fumbles",
+      "heat": 2,
+      "headline": "Niles Canaday Scored 40 Touchdowns and Fumbled 21 Times. That Is Not a Star.",
+      "dek": "The Giants back outscored Ryland Maxwell on the ground and fumbled seven times as often.",
+      "body": [
+       "Niles Canaday ran for 1,898 yards and 40 touchdowns in Y93, 14 more rushing scores than Ryland Maxwell. Somebody will call him the next great back. Look closer. Canaday fumbled 21 times on 202 carries. Maxwell fumbled 3 times on 225.",
+       "The game is not fooled either. It rates Canaday's skill at 1, with a ceiling of 3. Touchdowns say as much about where a back gets the ball as about the back. A back who coughs it up that often is a liability wearing a highlight reel, and the first defense that takes his carries away will expose it."
+      ],
+      "players": [
+       "Niles Canaday",
+       "Ryland Maxwell"
+      ],
+      "teams": [
+       "Giants",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Canaday rushing TDs, Y93",
+        "value": "40",
+        "source": "market_history.json snap-202611131841..snap-202611140247 RB:Niles Canaday s.rtd"
+       },
+       {
+        "label": "Canaday fumbles, Y93",
+        "value": "21",
+        "source": "save_state.json players/RB:Niles Canaday/season/fum"
+       },
+       {
+        "label": "Canaday rushing yards, Y93",
+        "value": "1,898",
+        "source": "market_history.json snap-202611131841..snap-202611140247 RB:Niles Canaday s.ryds"
+       },
+       {
+        "label": "Rushing TDs more than Maxwell",
+        "value": "14",
+        "source": "market_history.json snap-202611131841..snap-202611140247 RB:Niles Canaday s.rtd minus market_history.json snap-202611131841..snap-202611140247 RB:Ryland Maxwell s.rtd"
+       },
+       {
+        "label": "Canaday carries, Y93",
+        "value": "202",
+        "source": "save_state.json players/RB:Niles Canaday/season/ratt"
+       },
+       {
+        "label": "Maxwell fumbles, Y93",
+        "value": "3",
+        "source": "save_state.json players/RB:Ryland Maxwell/season/fum"
+       },
+       {
+        "label": "Maxwell carries, Y93",
+        "value": "225",
+        "source": "save_state.json players/RB:Ryland Maxwell/season/ratt"
+       },
+       {
+        "label": "Canaday skill rating",
+        "value": "1",
+        "source": "save_state.json players/RB:Niles Canaday/skill"
+       },
+       {
+        "label": "Canaday skill ceiling",
+        "value": "3",
+        "source": "save_state.json players/RB:Niles Canaday/max_skill"
+       }
+      ]
+     },
+     {
+      "id": "y93-take-roberts-saints",
+      "heat": 2,
+      "headline": "The Best Defender in Y93 Played for the 3-14 Saints, and His Card Costs 614",
+      "dek": "Trequan Roberts made 241 tackles in 17 games. The Defensive Player of the Year made 225 in 19.",
+      "body": [
+       "DQ Watts won Defensive Player of the Year for Houston, and the award formula, which leans hard on interceptions, explains why: Watts picked off 5 passes to Trequan Roberts' 1. That is the whole case. Roberts made 241 tackles in 17 games, 14.2 a game. Watts made 225 in 19, 11.8 a game.",
+       "Roberts did it for a Saints team that went 3-14, and the market treats him accordingly at 614. Odell Hainsey's card sells for 7,788 after a season of 183 tackles in 17 games. One of these defenders carried a collapsing team every week. The other carries a reputation. Only one of them is priced like a star."
+      ],
+      "players": [
+       "Trequan Roberts",
+       "DQ Watts",
+       "Odell Hainsey"
+      ],
+      "teams": [
+       "Saints",
+       "Texans",
+       "Chargers"
+      ],
+      "stats": [
+       {
+        "label": "Roberts tackles, Y93",
+        "value": "241",
+        "source": "market_history.json snap-202611131841..snap-202611140247 DB:Trequan Roberts s.tkl"
+       },
+       {
+        "label": "Saints record, Y93",
+        "value": "3-14",
+        "source": "schedule.json seasons/Y93/table/[abbr=NO]/record"
+       },
+       {
+        "label": "Roberts card value",
+        "value": "614",
+        "source": "market_history.json snap-202611140247 DB:Trequan Roberts value"
+       },
+       {
+        "label": "Roberts games, Y93",
+        "value": "17",
+        "source": "market_history.json snap-202611131841..snap-202611140247 DB:Trequan Roberts s.g"
+       },
+       {
+        "label": "Watts tackles, Y93",
+        "value": "225",
+        "source": "market_history.json snap-202611131841..snap-202611140247 DB:DQ Watts s.tkl"
+       },
+       {
+        "label": "Watts games, Y93",
+        "value": "19",
+        "source": "market_history.json snap-202611131841..snap-202611140247 DB:DQ Watts s.g"
+       },
+       {
+        "label": "Watts interceptions, Y93",
+        "value": "5",
+        "source": "market_history.json snap-202611131841..snap-202611140247 DB:DQ Watts s.int"
+       },
+       {
+        "label": "Roberts interceptions, Y93",
+        "value": "1",
+        "source": "market_history.json snap-202611131841..snap-202611140247 DB:Trequan Roberts s.int"
+       },
+       {
+        "label": "Roberts tackles per game, Y93",
+        "value": "14.2",
+        "source": "market_history.json snap-202611131841..snap-202611140247 DB:Trequan Roberts s.tkl/s.g"
+       },
+       {
+        "label": "Watts tackles per game, Y93",
+        "value": "11.8",
+        "source": "market_history.json snap-202611131841..snap-202611140247 DB:DQ Watts s.tkl/s.g"
+       },
+       {
+        "label": "Hainsey card value",
+        "value": "7,788",
+        "source": "market_history.json snap-202611140247 DB:Odell Hainsey value"
+       },
+       {
+        "label": "Hainsey tackles, Y93",
+        "value": "183",
+        "source": "market_history.json snap-202611131841..snap-202611140247 DB:Odell Hainsey s.tkl"
+       },
+       {
+        "label": "Hainsey games, Y93",
+        "value": "17",
+        "source": "market_history.json snap-202611131841..snap-202611140247 DB:Odell Hainsey s.g"
+       }
+      ]
+     },
+     {
+      "id": "y93-take-viennes-market",
+      "heat": 2,
+      "headline": "Keenan Viennes Is the Offensive Player of the Year and His Card Still Costs 49",
+      "dek": "He out-gained and out-scored Calvin Wingo II, whose card sells for 667. The market is a season behind.",
+      "body": [
+       "Keenan Viennes caught 107 passes for 2,007 yards and 29 touchdowns and won Offensive Player of the Year. His own teammate Calvin Wingo II caught 104 for 1,976 and 19. Viennes beat him in every column that matters. Wingo's card is 667. Viennes' card is 49.",
+       "The gap is a ratings story. The market reads an overall of 73 for Viennes against 86 for Wingo, and Viennes has only 40 career games behind him. The game itself rates his speed and skill at 10 apiece, the top of the scale. Buy him now. In two seasons nobody will believe he was ever this cheap."
+      ],
+      "players": [
+       "Keenan Viennes",
+       "Calvin Wingo II"
+      ],
+      "teams": [
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Viennes card value",
+        "value": "49",
+        "source": "market_history.json snap-202611140247 WR:Keenan Viennes value"
+       },
+       {
+        "label": "Wingo card value",
+        "value": "667",
+        "source": "market_history.json snap-202611140247 WR:Calvin Wingo II value"
+       },
+       {
+        "label": "Viennes catches, Y93",
+        "value": "107",
+        "source": "market_history.json snap-202611131841..snap-202611140247 WR:Keenan Viennes s.rec"
+       },
+       {
+        "label": "Viennes receiving yards, Y93",
+        "value": "2,007",
+        "source": "market_history.json snap-202611131841..snap-202611140247 WR:Keenan Viennes s.yds"
+       },
+       {
+        "label": "Viennes receiving TDs, Y93",
+        "value": "29",
+        "source": "market_history.json snap-202611131841..snap-202611140247 WR:Keenan Viennes s.td"
+       },
+       {
+        "label": "Wingo catches, Y93",
+        "value": "104",
+        "source": "market_history.json snap-202611131841..snap-202611140247 WR:Calvin Wingo II s.rec"
+       },
+       {
+        "label": "Wingo receiving yards, Y93",
+        "value": "1,976",
+        "source": "market_history.json snap-202611131841..snap-202611140247 WR:Calvin Wingo II s.yds"
+       },
+       {
+        "label": "Wingo receiving TDs, Y93",
+        "value": "19",
+        "source": "market_history.json snap-202611131841..snap-202611140247 WR:Calvin Wingo II s.td"
+       },
+       {
+        "label": "Viennes OVR",
+        "value": "73",
+        "source": "market_history.json snap-202611140247 WR:Keenan Viennes ovr"
+       },
+       {
+        "label": "Wingo OVR",
+        "value": "86",
+        "source": "market_history.json snap-202611140247 WR:Calvin Wingo II ovr"
+       },
+       {
+        "label": "Viennes career games",
+        "value": "40",
+        "source": "players.json WR:Keenan Viennes g"
+       },
+       {
+        "label": "Viennes speed rating",
+        "value": "10",
+        "source": "save_state.json players/WR:Keenan Viennes/speed"
+       },
+       {
+        "label": "Viennes skill rating",
+        "value": "10",
+        "source": "save_state.json players/WR:Keenan Viennes/skill"
+       }
+      ]
+     },
+     {
+      "id": "y93-take-lazard-top-five",
+      "heat": 1,
+      "headline": "Alshon Lazard Is Already a Top Five Quarterback, and He Is Nowhere Near His Ceiling",
+      "dek": "Only three passers threw more touchdowns than the Rookie of the Year. The game says he has room to grow.",
+      "body": [
+       "Alshon Lazard threw 39 touchdown passes and 4 interceptions in 18 games for a Bengals club that went 14-3, and he won Rookie of the Year. Only Bones Crawford, Tim Sweeney and Josh Brooks threw more touchdowns. Juju Ngakoue matched him at 39, and Ngakoue is 35. Lazard is 21.",
+       "The ratings make the case stronger. The game puts Lazard's skill at 5 today with a ceiling of 9. He is producing like a veteran on a rating with years of growth left in it. Cincinnati has its quarterback for the next decade, and the rest of the conference should be worried."
+      ],
+      "players": [
+       "Alshon Lazard",
+       "Bones Crawford",
+       "Tim Sweeney",
+       "Josh Brooks",
+       "Juju Ngakoue"
+      ],
+      "teams": [
+       "Bengals"
+      ],
+      "stats": [
+       {
+        "label": "Lazard TD passes",
+        "value": "39",
+        "source": "players.json QB:Alshon Lazard td"
+       },
+       {
+        "label": "Lazard interceptions",
+        "value": "4",
+        "source": "players.json QB:Alshon Lazard int"
+       },
+       {
+        "label": "Lazard games",
+        "value": "18",
+        "source": "players.json QB:Alshon Lazard g"
+       },
+       {
+        "label": "Bengals record, Y93",
+        "value": "14-3",
+        "source": "schedule.json seasons/Y93/table/[abbr=CIN]/record"
+       },
+       {
+        "label": "Ngakoue TD passes, Y93",
+        "value": "39",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Juju Ngakoue s.td"
+       },
+       {
+        "label": "Ngakoue age",
+        "value": "35",
+        "source": "save_state.json players/QB:Juju Ngakoue/age"
+       },
+       {
+        "label": "Lazard age",
+        "value": "21",
+        "source": "save_state.json players/QB:Alshon Lazard/age"
+       },
+       {
+        "label": "Lazard skill rating",
+        "value": "5",
+        "source": "save_state.json players/QB:Alshon Lazard/skill"
+       },
+       {
+        "label": "Lazard skill ceiling",
+        "value": "9",
+        "source": "save_state.json players/QB:Alshon Lazard/max_skill"
+       }
+      ]
+     },
+     {
+      "id": "y93-take-maxwell-decline",
+      "heat": 2,
+      "headline": "Ryland Maxwell Took the Career Rushing Record in the Season His Decline Began",
+      "dek": "He ran for 694 fewer yards than in Y92. He will finish third on the all-time Career Legacy list, not first.",
+      "body": [
+       "Ryland Maxwell owns the career rushing record at 25,701 yards and won his 5th Super Bowl MVP. Celebrate it. Then look at the line. Mad Max ran for 2,145 yards in 20 games, 694 fewer than his record 2,839 in Y92. That is 107 yards a game, down from 142. His rushing touchdowns fell from 32 to 26.",
+       "He is 33. His Career Legacy of 11,965 ranks third all time, 590 behind God Johnson and 1,426 behind Sherman Brandson. He gained 964 this season. One more year like this catches Johnson. Brandson is out of reach, and the greatest-ever debate ends with a running back in third place."
+      ],
+      "players": [
+       "Ryland Maxwell",
+       "God Johnson",
+       "Sherman Brandson"
+      ],
+      "teams": [
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Fewer rushing yards than Y92",
+        "value": "694",
+        "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell s.ryds minus market_history.json snap-202611131841..snap-202611140247 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Career rushing yards",
+        "value": "25,701",
+        "source": "players.json RB:Ryland Maxwell ryds"
+       },
+       {
+        "label": "Super Bowl MVPs",
+        "value": "5",
+        "source": "players.json RB:Ryland Maxwell sbmvp"
+       },
+       {
+        "label": "Rushing yards, Y93",
+        "value": "2,145",
+        "source": "market_history.json snap-202611131841..snap-202611140247 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Games, Y93",
+        "value": "20",
+        "source": "market_history.json snap-202611131841..snap-202611140247 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Rushing yards, Y92",
+        "value": "2,839",
+        "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Rushing yards per game, Y93",
+        "value": "107",
+        "source": "market_history.json snap-202611131841..snap-202611140247 RB:Ryland Maxwell s.ryds/s.g"
+       },
+       {
+        "label": "Rushing yards per game, Y92",
+        "value": "142",
+        "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell s.ryds/s.g"
+       },
+       {
+        "label": "Rushing TDs, Y92",
+        "value": "32",
+        "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell s.rtd"
+       },
+       {
+        "label": "Rushing TDs, Y93",
+        "value": "26",
+        "source": "market_history.json snap-202611131841..snap-202611140247 RB:Ryland Maxwell s.rtd"
+       },
+       {
+        "label": "Age",
+        "value": "33",
+        "source": "save_state.json players/RB:Ryland Maxwell/age"
+       },
+       {
+        "label": "Career Legacy",
+        "value": "11,965",
+        "source": "market_history.json snap-202611140247 RB:Ryland Maxwell legacy"
+       },
+       {
+        "label": "Behind God Johnson",
+        "value": "590",
+        "source": "market_history.json snap-202611140247 WR:God Johnson legacy minus market_history.json snap-202611140247 RB:Ryland Maxwell legacy"
+       },
+       {
+        "label": "Behind Sherman Brandson",
+        "value": "1,426",
+        "source": "market_history.json snap-202611140247 QB:Sherman Brandson legacy minus market_history.json snap-202611140247 RB:Ryland Maxwell legacy"
+       },
+       {
+        "label": "Career Legacy gained, Y93",
+        "value": "964",
+        "source": "market_history.json snap-202611131841..snap-202611140247 RB:Ryland Maxwell legacy"
+       }
+      ]
+     },
+     {
+      "id": "y93-take-raiders-empty",
+      "heat": 1,
+      "headline": "The Raiders' 14-3 Was the Emptiest Record in Football",
+      "dek": "Las Vegas played the softest schedule in the league and still won about three games more than its points earned.",
+      "body": [
+       "The Raiders and Bengals both finished 14-3, and only one of them earned it. Cincinnati's opponents rated 0.502, an average slate. Las Vegas drew a 0.427 schedule, the softest of all 32 clubs. By points scored and allowed the Raiders were an 11.2-win team, and they beat that by 2.8 games, a margin only the Eagles topped.",
+       "Houston went 13-4 and outscored opponents by 198, far more than the Raiders' 145. That is the AFC's best team by the numbers. When the Raiders meet a schedule with teeth, the record will look like what it was: good, lucky and soft."
+      ],
+      "players": [],
+      "teams": [
+       "Raiders",
+       "Bengals",
+       "Texans",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Raiders strength of schedule",
+        "value": "0.427",
+        "source": "schedule.json seasons/Y93/table/[abbr=LV]/sos"
+       },
+       {
+        "label": "Raiders record, Y93",
+        "value": "14-3",
+        "source": "schedule.json seasons/Y93/table/[abbr=LV]/record"
+       },
+       {
+        "label": "Bengals strength of schedule",
+        "value": "0.502",
+        "source": "schedule.json seasons/Y93/table/[abbr=CIN]/sos"
+       },
+       {
+        "label": "Clubs in the league",
+        "value": "32",
+        "source": "schedule.json seasons/Y93/table/#"
+       },
+       {
+        "label": "Raiders expected wins",
+        "value": "11.2",
+        "source": "schedule.json seasons/Y93/table/[abbr=LV]/expWins"
+       },
+       {
+        "label": "Raiders wins above expectation",
+        "value": "2.8",
+        "source": "schedule.json seasons/Y93/table/[abbr=LV]/luck"
+       },
+       {
+        "label": "Texans record, Y93",
+        "value": "13-4",
+        "source": "schedule.json seasons/Y93/table/[abbr=HOU]/record"
+       },
+       {
+        "label": "Texans point differential",
+        "value": "198",
+        "source": "schedule.json seasons/Y93/table/[abbr=HOU]/diff"
+       },
+       {
+        "label": "Raiders point differential",
+        "value": "145",
+        "source": "schedule.json seasons/Y93/table/[abbr=LV]/diff"
+       }
+      ]
+     },
+     {
+      "id": "y93-take-steelers-fraud",
+      "heat": 2,
+      "headline": "Pittsburgh Reached the Super Bowl Without Winning Its Own Division",
+      "dek": "The Steelers finished behind Cincinnati, lost to a 4-13 Titans team and ranked No. 7 in power.",
+      "body": [
+       "The Steelers went 11-6, finished second in the AFC North behind the Bengals, and lost 31-30 at home to a Titans team that won 4 games all year. They outscored opponents by 38 across the regular season. The power table ranked them No. 7, behind four AFC clubs.",
+       "Then they won when it counted, and credit to them for that. But Super Bowl CLII was never really a contest of equals. Philadelphia won 30-17 against a club whose points said 9.3 wins. The AFC sent the team that got hot, not its best one."
+      ],
+      "players": [],
+      "teams": [
+       "Steelers",
+       "Bengals",
+       "Titans",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Steelers power rank, Y93",
+        "value": "7",
+        "source": "schedule.json seasons/Y93/table/[abbr=PIT]/power"
+       },
+       {
+        "label": "Titans record, Y93",
+        "value": "4-13",
+        "source": "schedule.json seasons/Y93/table/[abbr=TEN]/record"
+       },
+       {
+        "label": "Steelers record, Y93",
+        "value": "11-6",
+        "source": "schedule.json seasons/Y93/table/[abbr=PIT]/record"
+       },
+       {
+        "label": "Upset score",
+        "value": "31-30",
+        "source": "schedule.json seasons/Y93/upset/score"
+       },
+       {
+        "label": "Steelers point differential",
+        "value": "38",
+        "source": "schedule.json seasons/Y93/table/[abbr=PIT]/diff"
+       },
+       {
+        "label": "Super Bowl score",
+        "value": "30-17",
+        "source": "super_bowls.json Y93 score"
+       },
+       {
+        "label": "Steelers expected wins",
+        "value": "9.3",
+        "source": "schedule.json seasons/Y93/table/[abbr=PIT]/expWins"
+       }
+      ]
+     }
+    ]
+   },
+   "source": "data:players.json,market_history.json,save_state.json,schedule.json,super_bowls.json,coach.json,owner_facts.json,content.json",
+   "reason": "Hot Takes for the completed Y93 season",
+   "trigger": "Season Y93 completed (coach.season 93)"
+  }
+ ]
+}

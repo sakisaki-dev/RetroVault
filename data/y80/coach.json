@@ -24,7 +24,7 @@
  "superBowlRecord": [
   {
    "coach": "D.Skura",
-   "titles": 66
+   "titles": 67
   },
   {
    "coach": "NE (2000-2023)",
@@ -869,6 +869,15 @@
    "abbr": "PHI",
    "w": 15,
    "l": 2,
+   "t": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 93,
+   "team": "Eagles",
+   "abbr": "PHI",
+   "w": 17,
+   "l": 0,
    "t": 0,
    "finish": "Champions"
   }

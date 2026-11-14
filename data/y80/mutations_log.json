@@ -1280,6 +1280,72 @@
     "stats": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-14-save-y93",
+   "dir": "data/uploads/2026-11-14-save-y93",
+   "applied_at": "2026-11-14T02:47:18-08:00",
+   "mutations": {
+    "stats": 295
+   },
+   "changed": 1491
+  },
+  {
+   "id": "2026-11-14-save-y93w32",
+   "dir": "data/uploads/2026-11-14-save-y93w32",
+   "applied_at": "2026-11-14T02:48:06-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-14-refresh-y92",
+   "dir": "data/uploads/2026-11-14-refresh-y92",
+   "applied_at": "2026-11-14T02:51:38-08:00",
+   "mutations": {
+    "story": 1,
+    "takes": 1
+   },
+   "changed": 2
+  },
+  {
+   "id": "2026-11-14-takes-y93",
+   "dir": "data/uploads/2026-11-14-takes-y93",
+   "applied_at": "2026-11-14T02:54:33-08:00",
+   "mutations": {
+    "takes": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-14-story-y93",
+   "dir": "data/uploads/2026-11-14-story-y93",
+   "applied_at": "2026-11-14T02:57:33-08:00",
+   "mutations": {
+    "story": 3
+   },
+   "changed": 3
+  },
+  {
+   "id": "2026-11-14-y93-retirements",
+   "dir": "data/uploads/2026-11-14-y93-retirements",
+   "applied_at": "2026-11-14T02:58:18-08:00",
+   "mutations": {
+    "stats": 22
+   },
+   "changed": 22
+  },
+  {
+   "id": "2026-11-14-hof-y93",
+   "dir": "data/uploads/2026-11-14-hof-y93",
+   "applied_at": "2026-11-14T03:01:06-08:00",
+   "mutations": {
+    "speech": 2,
+    "story": 1,
+    "takes": 1
+   },
+   "changed": 4
   }
  ]
 }

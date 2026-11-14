@@ -51,7 +51,8 @@
    "team": "Texans"
   },
   "Andrew Dwight": {
-   "team": "FA"
+   "team": "FA",
+   "status": "Retired"
   },
   "Angelo Jensen": {
    "team": "Rams"
@@ -145,7 +146,8 @@
    "status": "Retired"
   },
   "Bryant Zappe": {
-   "team": "FA"
+   "team": "FA",
+   "status": "Retired"
   },
   "Bryson Lucas": {
    "team": "Commanders"
@@ -171,7 +173,8 @@
    "team": "Falcons"
   },
   "Camaron Knight": {
-   "team": "Cardinals"
+   "team": "Cardinals",
+   "status": "Retired"
   },
   "CeeDee Lamb": {
    "retired_with": "Dolphins",
@@ -204,7 +207,8 @@
    "retired_with": "Bills"
   },
   "Chazz McCray": {
-   "team": "Buccaneers"
+   "team": "Buccaneers",
+   "status": "Retired"
   },
   "Connor Goff": {
    "status": "Retired"
@@ -215,6 +219,9 @@
   "Cordell Bulaga": {
    "status": "Retired"
   },
+  "Cordrea Clark": {
+   "status": "Retired"
+  },
   "Corey Ivey": {
    "status": "Retired"
   },
@@ -223,6 +230,9 @@
   },
   "D.C Paradis": {
    "team": "Broncos",
+   "status": "Retired"
+  },
+  "Damar Hobbs": {
    "status": "Retired"
   },
   "Damarri Melvin": {
@@ -275,6 +285,9 @@
   "Daviyon Paye": {
    "status": "Retired"
   },
+  "Dayo Prince": {
+   "status": "Retired"
+  },
   "Deante Elder": {
    "status": "Retired",
    "signature_team": "Seahawks"
@@ -307,6 +320,9 @@
    "team": "Jets"
   },
   "Deven Fox": {
+   "status": "Retired"
+  },
+  "Divine Gilmore": {
    "status": "Retired"
   },
   "Dontae Trawick": {
@@ -588,10 +604,16 @@
     "club": "Bengals"
    }
   },
+  "Jeffrey Wilson": {
+   "status": "Retired"
+  },
   "Jimmy Tillery": {
    "team": "Jets"
   },
   "Joshuah Egbule": {
+   "status": "Retired"
+  },
+  "Joshuah Gore": {
    "status": "Retired"
   },
   "Juawan Lance": {
@@ -656,10 +678,12 @@
    "status": "Retired"
   },
   "Kenyon Shaheed": {
-   "team": "FA"
+   "team": "FA",
+   "status": "Retired"
   },
   "Khaleke Hyder": {
-   "team": "Jaguars"
+   "team": "Jaguars",
+   "status": "Retired"
   },
   "Kirk Lenoir": {
    "team": "Jaguars",
@@ -669,6 +693,9 @@
    "team": "Eagles"
   },
   "Kolton Moreau": {
+   "status": "Retired"
+  },
+  "Krys Pickens": {
    "status": "Retired"
   },
   "Kyric McQuay": {
@@ -690,6 +717,9 @@
     "club": "Ravens"
    },
    "signature_team": "Ravens"
+  },
+  "Lane McCoy": {
+   "status": "Retired"
   },
   "Laurent Akins": {
    "status": "Retired"
@@ -777,6 +807,9 @@
     "says": "One Titans season (the Y72 title, Rookie of the Year); never retired: with the Jets since Y76 (the Y77 title), then in Y79 went to the Falcons; traded back to the Jets after Y82 for Kane Van Oxley, Ryland Maxwell and Chance Woodrum."
    }
   },
+  "Malcom McCloud": {
+   "status": "Retired"
+  },
   "Martin Ward": {
    "team": "Raiders"
   },
@@ -838,10 +871,14 @@
    "team": "Jaguars",
    "status": "Retired"
   },
+  "Nydair Sample": {
+   "status": "Retired"
+  },
   "Obinna Leary": {
    "team_history": [
     "Jets"
    ],
+   "status": "Retired",
    "career": {
     "order": [
      "Jets",
@@ -909,6 +946,9 @@
   "Rashaad Bolton": {
    "status": "Retired"
   },
+  "Rasheem Ingold": {
+   "status": "Retired"
+  },
   "Ray Holland": {
    "status": "Retired"
   },
@@ -957,7 +997,8 @@
    "signature_team": "Ravens"
   },
   "Russ Bello": {
-   "team": "FA"
+   "team": "FA",
+   "status": "Retired"
   },
   "Ryland Maxwell": {
    "team": "Eagles",
@@ -1108,6 +1149,12 @@
   },
   "Tim Sweeney": {
    "team": "Texans"
+  },
+  "Tim Wright": {
+   "status": "Retired"
+  },
+  "Tracy Merritt": {
+   "status": "Retired"
   },
   "Tramon Holton": {
    "team": "Falcons"

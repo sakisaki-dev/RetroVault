@@ -1,16 +1,16 @@
 {
  "season": "Y92",
  "tagline": "The Eagles repeat with Super Bowl CLI over Dwayne Skura's Colts, Lane McCoy and Ryland Maxwell both pass Rondale Ikarras, and Kyron Atwell enters the Hall of Fame.",
- "upload": "2026-11-13-story-y92",
+ "upload": "2026-11-14-hof-y93",
  "articles": [
   {
    "id": "y92-eagles-cli",
    "kind": "lead",
    "headline": "Back to Back: Eagles Beat the Colts in Super Bowl CLI",
-   "dek": "Philadelphia went 15-2, won its last 15 games and beat Indianapolis 30-21 on the Colts' own field for Dorren Skura's 66th title.",
+   "dek": "Philadelphia went 15-2, won every game after week 5 and beat Indianapolis 30-21 on the Colts' own field for Dorren Skura's second title in a row.",
    "body": [
-    "Dorren Skura's Eagles are champions again. Philadelphia beat the Colts 30-21 in Super Bowl CLI, the 151st edition of the game, played in Indianapolis, and kept the trophy it took back from Houston a year ago. Skura now owns 66 titles. No other coach on the board has more than 6.",
-    "It did not start that way. The Eagles lost two of their first five games, both on the road and both by three points or fewer: 35-32 at Chicago and 33-32 at Jacksonville. Then the losing stopped. Philadelphia won every game after that, 12 in the regular season and 3 more in the playoffs, a 15-game streak that is the longest by Skura's club in the weekly scores on file.",
+    "Dorren Skura's Eagles are champions again. Philadelphia beat the Colts 30-21 in Super Bowl CLI, the 151st edition of the game, played in Indianapolis, and kept the trophy it took back from Houston a year ago. Skura's lead on the coaches' title board grew again; no other coach on it has more than 6.",
+    "It did not start that way. The Eagles lost two of their first five games, both on the road and both by three points or fewer: 35-32 at Chicago and 33-32 at Jacksonville. Then the losing stopped. Philadelphia won every game after that, 12 in the regular season and 3 more in the playoffs, and the run was still alive when the season ended.",
     "Over the full season nobody was close. The Eagles scored 652 points, the most in the league, allowed 373, the fewest, and finished first in the power rankings with a point differential of 279. They went 9-0 at home, a year after going 9-0 on the road.",
     "The playoffs asked more of the offense than a year ago. Green Bay scored 36 in the divisional round and lost 44-36. Seattle scored 34 in the conference final and lost 46-34. In the Super Bowl the Eagles met a Colts team they had beaten 40-10 in week 14, and they won again.",
     "Ryland Maxwell, \"Mad Max\", was named Super Bowl MVP at the end of a season in which he ran for 2,839 yards. Calvin Wingo II was Offensive Player of the Year. On the other sideline stood Dwayne Skura, a champion in Philadelphia a year earlier, traded to Indianapolis before the season and named Defensive Player of the Year. He had to watch his old team lift the trophy again."
@@ -39,16 +39,6 @@
      "label": "Eagles regular season",
      "value": "15-2",
      "source": "coach.json Y92 record"
-    },
-    {
-     "label": "Winning streak",
-     "value": "15",
-     "source": "schedule.json records/[id=coach-win-streak]/value"
-    },
-    {
-     "label": "Skura's titles",
-     "value": "66",
-     "source": "coach.json superBowlRecord/0/titles"
     },
     {
      "label": "Super Bowl number",
@@ -129,6 +119,11 @@
      "label": "Maxwell rushing yards (Y92)",
      "value": "2,839",
      "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Last loss, week",
+     "value": "5",
+     "source": "schedule.json seasons/Y92/coachGames/[week=5]/week"
     }
    ],
    "related": [
@@ -139,7 +134,7 @@
    "id": "y92-mccoy-record",
    "kind": "milestone",
    "headline": "Lane McCoy Passes Ikarras, and Maxwell Follows Him",
-   "dek": "McCoy now holds the career rushing record at 24,507 yards. Ryland Maxwell ran past Rondale Ikarras's 23,178 in the same season and is 951 yards behind.",
+   "dek": "McCoy ended Y92 holding the career rushing record at 24,507 yards. Ryland Maxwell ran past Rondale Ikarras's 23,178 in the same season and finished it 951 yards behind.",
    "body": [
     "Rondale Ikarras's career rushing record fell early in Y92, and by the end of the season it had been passed twice. Lane McCoy of the Broncos began the year 90 yards behind Ikarras, \"The Prodigal Son\", and ran for 1,419 yards and 29 touchdowns in 19 games. He finishes with 24,507 career yards, 1,329 clear of the old mark of 23,178, and his touchdown record now stands at 458. In 326 games he still has no ring.",
     "The second back past Ikarras came from Philadelphia. Ryland Maxwell ran for 2,839 yards, the most in any season on file, and closed the year at 23,556, 378 beyond Ikarras and 951 behind McCoy. A year ago that gap would have looked permanent. After this season it looks like a race.",
@@ -159,17 +154,17 @@
     {
      "label": "McCoy career rushing yards",
      "value": "24,507",
-     "source": "players.json RB:Lane McCoy ryds"
+     "source": "market_history.json snap-202611130929 RB:Lane McCoy s.ryds"
     },
     {
      "label": "Ikarras career rushing yards",
      "value": "23,178",
-     "source": "players.json RB:Rondale Ikarras ryds"
+     "source": "market_history.json snap-202611130929 RB:Rondale Ikarras s.ryds"
     },
     {
      "label": "Maxwell behind McCoy",
      "value": "951",
-     "source": "players.json RB:Lane McCoy ryds minus players.json RB:Ryland Maxwell ryds"
+     "source": "market_history.json snap-202611130929 RB:Lane McCoy s.ryds minus market_history.json snap-202611130929 RB:Ryland Maxwell s.ryds"
     },
     {
      "label": "Yards needed at the start of Y92",
@@ -194,7 +189,7 @@
     {
      "label": "Past the old mark",
      "value": "1,329",
-     "source": "players.json RB:Lane McCoy ryds minus players.json RB:Rondale Ikarras ryds"
+     "source": "market_history.json snap-202611130929 RB:Lane McCoy s.ryds minus market_history.json snap-202611130929 RB:Rondale Ikarras s.ryds"
     },
     {
      "label": "McCoy career rushing TDs",
@@ -219,12 +214,12 @@
     {
      "label": "Maxwell career rushing yards",
      "value": "23,556",
-     "source": "players.json RB:Ryland Maxwell ryds"
+     "source": "market_history.json snap-202611130929 RB:Ryland Maxwell s.ryds"
     },
     {
      "label": "Maxwell past Ikarras",
      "value": "378",
-     "source": "players.json RB:Ryland Maxwell ryds minus players.json RB:Rondale Ikarras ryds"
+     "source": "market_history.json snap-202611130929 RB:Ryland Maxwell s.ryds minus market_history.json snap-202611130929 RB:Rondale Ikarras s.ryds"
     },
     {
      "label": "Broncos record",
@@ -289,7 +284,7 @@
     {
      "label": "Rings",
      "value": "9",
-     "source": "players.json RB:Ryland Maxwell rings"
+     "source": "market_history.json snap-202611130929 RB:Ryland Maxwell s.rings"
     },
     {
      "label": "Card value change",
@@ -430,12 +425,12 @@
     {
      "label": "Viennes catches",
      "value": "91",
-     "source": "players.json WR:Keenan Viennes rec"
+     "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.rec"
     },
     {
      "label": "Viennes receiving yards",
      "value": "1,756",
-     "source": "players.json WR:Keenan Viennes yds"
+     "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.yds"
     }
    ],
    "related": []
@@ -471,72 +466,72 @@
     {
      "label": "Viennes receiving yards",
      "value": "1,756",
-     "source": "players.json WR:Keenan Viennes yds"
+     "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.yds"
     },
     {
      "label": "Garland TD passes",
      "value": "40",
-     "source": "players.json QB:Sione Garland td"
+     "source": "market_history.json snap-202611130929 QB:Sione Garland s.td"
     },
     {
      "label": "Garland interceptions",
      "value": "1",
-     "source": "players.json QB:Sione Garland int"
+     "source": "market_history.json snap-202611130929 QB:Sione Garland s.int"
     },
     {
      "label": "Viennes catches",
      "value": "91",
-     "source": "players.json WR:Keenan Viennes rec"
+     "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.rec"
     },
     {
      "label": "Viennes TD catches",
      "value": "19",
-     "source": "players.json WR:Keenan Viennes td"
+     "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.td"
     },
     {
      "label": "Viennes games",
      "value": "20",
-     "source": "players.json WR:Keenan Viennes g"
+     "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.g"
     },
     {
      "label": "Yards per catch",
      "value": "19.3",
-     "source": "players.json WR:Keenan Viennes yds/rec"
+     "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.yds/rec"
     },
     {
      "label": "Hand tackles",
      "value": "135",
-     "source": "players.json DB:Keesean Hand tkl"
+     "source": "market_history.json snap-202611130929 DB:Keesean Hand s.tkl"
     },
     {
      "label": "Hand interceptions",
      "value": "2",
-     "source": "players.json DB:Keesean Hand int"
+     "source": "market_history.json snap-202611130929 DB:Keesean Hand s.int"
     },
     {
      "label": "Hand forced fumbles",
      "value": "2",
-     "source": "players.json DB:Keesean Hand ff"
+     "source": "market_history.json snap-202611130929 DB:Keesean Hand s.ff"
     },
     {
      "label": "Hand games",
      "value": "17",
-     "source": "players.json DB:Keesean Hand g"
+     "source": "market_history.json snap-202611130929 DB:Keesean Hand s.g"
     },
     {
      "label": "Games missed",
      "value": "3",
-     "source": "market_history.json snap-202611121857..snap-202611130929 WR:Calvin Wingo II s.g minus players.json DB:Keesean Hand g"
+     "source": "market_history.json snap-202611121857..snap-202611130929 WR:Calvin Wingo II s.g minus market_history.json snap-202611130929 DB:Keesean Hand s.g"
     },
     {
      "label": "Garland passing yards",
      "value": "3,351",
-     "source": "players.json QB:Sione Garland yds"
+     "source": "market_history.json snap-202611130929 QB:Sione Garland s.yds"
     },
     {
      "label": "Garland games",
      "value": "19",
-     "source": "players.json QB:Sione Garland g"
+     "source": "market_history.json snap-202611130929 QB:Sione Garland s.g"
     },
     {
      "label": "Broncos record",
@@ -546,7 +541,7 @@
     {
      "label": "Chark TD passes",
      "value": "25",
-     "source": "players.json QB:Ja'Marr Chark td"
+     "source": "market_history.json snap-202611130929 QB:Ja'Marr Chark s.td"
     },
     {
      "label": "Buccaneers record",
@@ -561,37 +556,37 @@
     {
      "label": "Charles catches",
      "value": "62",
-     "source": "players.json WR:Teven Charles rec"
+     "source": "market_history.json snap-202611130929 WR:Teven Charles s.rec"
     },
     {
      "label": "Charles receiving yards",
      "value": "552",
-     "source": "players.json WR:Teven Charles yds"
+     "source": "market_history.json snap-202611130929 WR:Teven Charles s.yds"
     },
     {
      "label": "Charles TD catches",
      "value": "8",
-     "source": "players.json WR:Teven Charles td"
+     "source": "market_history.json snap-202611130929 WR:Teven Charles s.td"
     },
     {
      "label": "Barnes tackles",
      "value": "114",
-     "source": "players.json DL:Amik Barnes tkl"
+     "source": "market_history.json snap-202611130929 DL:Amik Barnes s.tkl"
     },
     {
      "label": "Trawick rushing yards",
      "value": "1,455",
-     "source": "players.json RB:Roderic Trawick ryds"
+     "source": "market_history.json snap-202611130929 RB:Roderic Trawick s.ryds"
     },
     {
      "label": "Trawick rushing TDs",
      "value": "29",
-     "source": "players.json RB:Roderic Trawick rtd"
+     "source": "market_history.json snap-202611130929 RB:Roderic Trawick s.rtd"
     },
     {
      "label": "Trawick games",
      "value": "17",
-     "source": "players.json RB:Roderic Trawick g"
+     "source": "market_history.json snap-202611130929 RB:Roderic Trawick s.g"
     }
    ],
    "related": []
@@ -665,22 +660,22 @@
     {
      "label": "Wingo career games",
      "value": "60",
-     "source": "players.json WR:Calvin Wingo II g"
+     "source": "market_history.json snap-202611130929 WR:Calvin Wingo II s.g"
     },
     {
      "label": "Wingo career catches",
      "value": "355",
-     "source": "players.json WR:Calvin Wingo II rec"
+     "source": "market_history.json snap-202611130929 WR:Calvin Wingo II s.rec"
     },
     {
      "label": "Wingo career receiving yards",
      "value": "6,552",
-     "source": "players.json WR:Calvin Wingo II yds"
+     "source": "market_history.json snap-202611130929 WR:Calvin Wingo II s.yds"
     },
     {
      "label": "Wingo career TD catches",
      "value": "68",
-     "source": "players.json WR:Calvin Wingo II td"
+     "source": "market_history.json snap-202611130929 WR:Calvin Wingo II s.td"
     },
     {
      "label": "Crawford passing yards (Y92)",
@@ -794,7 +789,7 @@
     {
      "label": "Atwell career tackles",
      "value": "2,654",
-     "source": "players.json DB:Kyron Atwell tkl"
+     "source": "market_history.json snap-202611130929 DB:Kyron Atwell s.tkl"
     },
     {
      "label": "Atwell career interceptions",
@@ -875,11 +870,11 @@
    "id": "y92-rivals",
    "kind": "rivalry",
    "headline": "Chicago Again, Jacksonville by a Point, and a Sweep of Washington",
-   "dek": "The Eagles lost only twice, 35-32 at Chicago and 33-32 at Jacksonville. They swept the Commanders and are 10-0 against the Giants since Y88.",
+   "dek": "The Eagles lost only twice, 35-32 at Chicago and 33-32 at Jacksonville. They swept the Commanders and still had not lost to the Giants since Y88.",
    "body": [
     "For the second year running the Bears beat Philadelphia when almost nobody else could. Chicago finished 5-11-1 and 25th in the power rankings, and in week 3 it won 35-32, the upset of the year for the second straight season. The series since Y88 is now level at 2-2.",
     "Two weeks later Jacksonville won 33-32, a one-point game on the road. The Jaguars finished 8-9. It was the narrowest defeat of the Eagles' season.",
-    "The Commanders, who had split the series three seasons in a row, got no split this time. Philadelphia won 32-16 at home in the opener and 38-26 in Washington in week 8, and now leads the series since Y88 5-4-1. The Giants came closest to an upset of their own: they lost 38-37 in Philadelphia in week 9 and 40-22 at home in the final week. Skura's Eagles are 10-0 against New York since Y88."
+    "The Commanders, who had split the series three seasons in a row, got no split this time. Philadelphia won 32-16 at home in the opener and 38-26 in Washington in week 8, its first sweep of Washington since Y88. The Giants came closest to an upset of their own: they lost 38-37 in Philadelphia in week 9 and 40-22 at home in the final week. Skura's Eagles closed the year without a loss to New York in any meeting since Y88."
    ],
    "players": [],
    "teams": [
@@ -899,16 +894,6 @@
      "label": "Loss at Jacksonville",
      "value": "33-32",
      "source": "schedule.json seasons/Y92/coachGames/[week=5]/score"
-    },
-    {
-     "label": "Wins vs Giants since Y88",
-     "value": "10",
-     "source": "schedule.json headToHead/Giants/w"
-    },
-    {
-     "label": "Losses vs Giants since Y88",
-     "value": "0",
-     "source": "schedule.json headToHead/Giants/l"
     },
     {
      "label": "Bears record",
@@ -949,11 +934,6 @@
      "label": "Washington game, week",
      "value": "8",
      "source": "schedule.json seasons/Y92/coachGames/[week=8]/week"
-    },
-    {
-     "label": "Series with the Commanders since Y88",
-     "value": "5-4-1",
-     "source": "content.json rivalries/[id=rival-commanders]/games/record"
     },
     {
      "label": "Win over the Giants",
@@ -1228,13 +1208,13 @@
     {
      "label": "TD passes",
      "value": "40",
-     "source": "players.json QB:Sione Garland td"
+     "source": "market_history.json snap-202611130929 QB:Sione Garland s.td"
     }
    ]
   },
   {
    "id": "y92-dyk-giants",
-   "text": "Since Y88 the Eagles have played the Giants 10 times and won all 10.",
+   "text": "The Eagles beat the Giants 38-37 and 40-22 in Y92 and closed the season without a loss to New York in any meeting since Y88.",
    "players": [],
    "teams": [
     "Eagles",
@@ -1242,9 +1222,14 @@
    ],
    "stats": [
     {
-     "label": "Wins vs Giants",
-     "value": "10",
-     "source": "schedule.json headToHead/Giants/w"
+     "label": "Win over the Giants, week 9",
+     "value": "38-37",
+     "source": "schedule.json seasons/Y92/coachGames/[week=9]/score"
+    },
+    {
+     "label": "At the Giants, week 18",
+     "value": "40-22",
+     "source": "schedule.json seasons/Y92/coachGames/[week=18]/score"
     }
    ]
   },
@@ -1280,12 +1265,12 @@
     {
      "label": "Rings",
      "value": "9",
-     "source": "players.json RB:Ryland Maxwell rings"
+     "source": "market_history.json snap-202611130929 RB:Ryland Maxwell s.rings"
     },
     {
      "label": "Super Bowl MVPs",
      "value": "4",
-     "source": "players.json RB:Ryland Maxwell sbmvp"
+     "source": "market_history.json snap-202611130929 RB:Ryland Maxwell s.sbmvp"
     }
    ]
   },
@@ -1323,7 +1308,7 @@
     {
      "label": "Rushing TDs",
      "value": "29",
-     "source": "players.json RB:Roderic Trawick rtd"
+     "source": "market_history.json snap-202611130929 RB:Roderic Trawick s.rtd"
     },
     {
      "label": "Catches",
