@@ -595,6 +595,8 @@ current data is a no-op.
 
 ## Code notes
 
+- How the game itself works (read from its code: player record, aging, retirement ages, season ratings and awards,
+  assets and mods): `docs/GAME_MECHANICS.md`. Stories and takes may use it to explain; site rules stay our own.
 - Formulas and metric definitions: `docs/STATS_REFERENCE.md`, `src/config/stats.ts`, `src/config/advanced.ts`
   (similarity), `src/config/skillGrades.ts` (S–F grades), `src/config/ovr.ts` (official OVR).
 - Fetch data with `${import.meta.env.BASE_URL}data/...`, never `/data/...`, because Pages serves the site under `/RetroVault/`.
