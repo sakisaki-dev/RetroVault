@@ -210,19 +210,10 @@ const CoachHeader = ({ resume, franchiseCount, stintCount, coach, facts = null }
               )}
             </div>
             {coach?.name ? <FixedName name={coach.name} /> : <CoachName />}
-            {coach && (coach.stars != null || coach.age != null || coach.morale) && (
+            {/* Owner: no age or morale on the coach (the game's coach age runs past 100; morale is never shown) */}
+            {coach && (coach.stars != null || coach.gamesPlayed != null) && (
               <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
                 {coach.stars != null && <Stars value={coach.stars} />}
-                {coach.age != null && (
-                  <span>
-                    Age <b className="font-display text-base text-foreground">{coach.age}</b>
-                  </span>
-                )}
-                {coach.morale && (
-                  <span>
-                    Morale <b className="font-display text-base text-foreground">{coach.morale}</b>
-                  </span>
-                )}
                 {coach.gamesPlayed != null && (
                   <span>
                     <b className="font-display text-base text-foreground">{coach.gamesPlayed.toLocaleString()}</b> games
