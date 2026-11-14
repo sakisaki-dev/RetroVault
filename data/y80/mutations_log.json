@@ -1235,6 +1235,15 @@
     "stats": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-13-save-y93w16-cap",
+   "dir": "data/uploads/2026-11-13-save-y93w16-cap",
+   "applied_at": "2026-11-13T18:51:49-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
   }
  ]
 }

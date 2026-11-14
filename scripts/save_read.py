@@ -7,7 +7,7 @@ upload bundle are committed.
 
     npm run -s save:check                       # reconciliation report: RV careers vs the save (no writes)
     python3 scripts/save_read.py --check        # the same
-    python3 scripts/save_read.py --state        # LIVE mode: write data/uploads/<date>-save-y<n>w<week>/manifest.json
+    python3 scripts/save_read.py --state        # LIVE mode: write data/uploads/<date>-save-y<n>w<week>/manifest.json (--tag X adds -X)
                                                 #   (one save.state mutation: ages, ratings, contracts, the season so
                                                 #   far, club records, the coach's game log); then npm run update on it
     python3 scripts/save_read.py --complete     # SEASON-COMPLETE mode: write data/uploads/<date>-save-y<n>/manifest.json
@@ -365,7 +365,8 @@ def live_value(save: Save) -> dict:
         "club": save.club(save.my_team),
         "settings": {"facilities": {"rehab": num(st.get("facility_rehab", 0)), "stadium": num(st.get("facility_stadium", 0)),
                                     "training": num(st.get("facility_training", 0))},
-                     "salary_cap": num(st.get("salary_cap", 0)), "fans": num(st.get("fans", 0)),
+                     "salary_cap": num(st.get("salary_cap", 0)) + num(st.get("boost_salary_cap", 0)),  # the cap in force: base + the boost the game adds
+                     "salary_cap_base": num(st.get("salary_cap", 0)), "fans": num(st.get("fans", 0)),
                      "coach_rating": num(st.get("coach_rating", 0))},
         "clubs": clubs,
         "coachGames": coach_games(save),
@@ -386,8 +387,8 @@ def manifest_head(save: Save, bundle_id: str, date: str) -> dict:
             "ai_steps": [], "mutations": []}
 
 
-def build_state(save: Save, date: str) -> dict:
-    bid = f"{date}-save-y{save.year}w{save.week}"
+def build_state(save: Save, date: str, tag: str | None = None) -> dict:
+    bid = f"{date}-save-y{save.year}w{save.week}" + (f"-{tag}" if tag else "")  # --tag: a second import of the same week (a fix)
     m = manifest_head(save, bid, date)
     m["mutations"].append({
         "lane": "stats", "op": "save.state", "target": save.id, "value": live_value(save),
@@ -542,7 +543,7 @@ def main():
     save = Save(find_save(int(opt("--slot")) if opt("--slot") else None, opt("--save")))
     date = opt("--date") or dt.date.today().isoformat()
     if "--state" in args:
-        d = write_bundle(build_state(save, date))
+        d = write_bundle(build_state(save, date, opt("--tag")))
         print(f"wrote {d.relative_to(ROOT)}/manifest.json; next: npm run update -- {d.relative_to(ROOT)}")
     elif "--complete" in args:
         m, notes = build_complete(save, date, int(opt("--season")) if opt("--season") else None)

@@ -1,7 +1,7 @@
 {
  "_about": "Live state of the current season read from the game's own save (scripts/save_read.py --state), written only by a save.state upload mutation: ages, ratings and ceilings, contracts, injuries, the season so far per player (Retro Vault keys), club records and the coach's game log. Replaced whole by each save.state. Facts only; never hand-edit.",
  "id": "Y93w16",
- "upload": "2026-11-13-save-y93w16",
+ "upload": "2026-11-13-save-y93w16-cap",
  "season": 93,
  "week": 16,
  "club": "Eagles",
@@ -11,7 +11,8 @@
    "stadium": 6,
    "training": 3
   },
-  "salary_cap": 150,
+  "salary_cap": 275,
+  "salary_cap_base": 150,
   "fans": 100,
   "coach_rating": 20
  },
