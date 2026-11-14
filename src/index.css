@@ -593,7 +593,8 @@
 /*
  * Phones and touch screens: calmer motion (owner: "no need to be super quick and snappy"). About 1.5x longer, a
  * smooth deceleration with no spring overshoot, slightly longer rises for views, no scale pop. Dialogs and sheets
- * open over ~480 ms with the backdrop on the same clock and glide away over ~360 ms. Mirrored in src/utils/motion.ts
+ * open over ~420 ms with the backdrop on the same clock and glide away over ~320-340 ms (the iOS sheet curve spends
+ * its last ~150 ms of a longer run barely moving, which read as lag). Mirrored in src/utils/motion.ts
  * (MOBILE_MOTION). Lite mode and reduced motion below still win.
  */
 @media (pointer: coarse), (max-width: 640px) {
@@ -603,10 +604,10 @@
     --dur-3: 360ms;
     --dur-4: 480ms;
     --dur-view: 320ms;
-    --dur-open: 480ms;
-    --dur-close: 360ms;
-    --dur-sheet-open: 500ms;
-    --dur-sheet-close: 380ms;
+    --dur-open: 420ms;
+    --dur-close: 320ms;
+    --dur-sheet-open: 420ms;
+    --dur-sheet-close: 340ms;
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     /* The iOS sheet curve: a long, soft landing with no overshoot */
     --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);

@@ -28,9 +28,22 @@
   text-shadow: 0 1px 0 rgb(255 255 255 / 0.35);
 }
 .dd-grade--s {
+  position: relative;
   box-shadow:
     0 0 0 2px hsl(43 100% 62% / 0.9),
     0 0 18px 2px hsl(43 100% 62% / 0.55);
+}
+/* The glow breathes on the compositor: a peak-glow layer fades in and out (animating box-shadow repainted every frame) */
+.dd-grade--s::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    0 0 0 2px hsl(43 100% 62%),
+    0 0 28px 6px hsl(43 100% 62% / 0.5);
+  opacity: 0;
   animation: dd-glow 2.4s ease-in-out infinite;
 }
 .dd-card--s {
@@ -39,9 +52,7 @@
 }
 @keyframes dd-glow {
   50% {
-    box-shadow:
-      0 0 0 2px hsl(43 100% 62%),
-      0 0 28px 6px hsl(43 100% 62% / 0.7);
+    opacity: 1;
   }
 }
 
@@ -67,7 +78,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .dd-enter,
-  .dd-grade--s {
+  .dd-grade--s::after {
     animation: none;
   }
   .dd-bar > span {

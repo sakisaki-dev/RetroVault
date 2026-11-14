@@ -38,9 +38,14 @@ const useSpy = (on: boolean) => {
   useEffect(() => {
     if (!on) return;
     let raf = 0;
+    // Read once (and on resize), not every scroll frame: a style read per frame forces a recalc mid-scroll
+    let line = 0;
+    const measure = () => {
+      line = (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0) + 110;
+    };
+    measure();
     const check = () => {
       raf = 0;
-      const line = (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0) + 110;
       // The section whose top most recently passed the line (measured, so a layout change can't desync the chips)
       let cur: string | null = null;
       let best = -Infinity;
@@ -58,12 +63,62 @@ const useSpy = (on: boolean) => {
     };
     check();
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', measure, { passive: true });
     return () => {
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', measure);
       if (raf) cancelAnimationFrame(raf);
     };
   }, [on]);
   return id;
+};
+
+/**
+ * Phones: the page's sections as a sticky, finger-scrolled chip row that follows the scroll. The scroll spy's state
+ * lives here, so a new section in view re-renders only this row, never the whole Stats page behind it.
+ */
+const PhoneJumpChips = ({ current, onJump }: { current?: string; onJump: (id: string) => void }) => {
+  const spied = useSpy(true);
+  const jumpRow = useRef<HTMLDivElement | null>(null);
+  // Keep the section in view centred in the chip row; above the first section (nothing in view) the row goes back to its start
+  useEffect(() => {
+    const row = jumpRow.current;
+    if (!row) return;
+    const behavior: ScrollBehavior = reducedMotion() ? 'auto' : 'smooth';
+    if (!spied) {
+      row.scrollTo({ left: 0, behavior });
+      return;
+    }
+    const chip = row.querySelector<HTMLElement>(`[data-jump="${spied}"]`);
+    if (chip) row.scrollTo({ left: Math.max(0, chip.offsetLeft - row.clientWidth / 2 + chip.offsetWidth / 2), behavior });
+  }, [spied]);
+  return (
+    <nav aria-label="On this page" className="chrome-follow sticky z-30 -mx-4 !mt-4 border-b border-line/70 bg-night py-2" style={{ top: 'var(--site-header-h, 0px)' }}>
+      <div ref={jumpRow} className="flex gap-1.5 overflow-x-auto px-4 scrollbar-none">
+        {JUMPS.map((j) => (
+          <a
+            key={j.id}
+            data-jump={j.id}
+            href={buildHash({ tab: 'career', sub: 'players', section: j.id })}
+            aria-current={spied === j.id ? 'location' : undefined}
+            onClick={(e) => {
+              e.preventDefault();
+              onJump(j.id);
+              if (current === j.id) document.getElementById(j.id)?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' });
+            }}
+            // No colour transition: the highlight follows the scroll, and a colour fade per section change repainted the
+            // page mid-scroll
+            className={cn(
+              'inline-flex h-10 shrink-0 items-center rounded-full border px-3.5 text-sm font-semibold',
+              spied === j.id ? 'border-gold bg-gold text-night' : 'border-line bg-night/60 text-secondary-foreground',
+            )}
+          >
+            {j.label}
+          </a>
+        ))}
+      </div>
+    </nav>
+  );
 };
 
 /**
@@ -79,20 +134,6 @@ const CareerTab = () => {
   const setSelectedPlayer = cardSlot.set;
   const sub: StatsSub = route.sub ?? 'players';
   const phone = usePhone();
-  const spied = useSpy(phone && sub === 'players');
-  const jumpRow = useRef<HTMLDivElement | null>(null);
-  // Keep the section in view centred in the chip row; above the first section (nothing in view) the row goes back to its start
-  useEffect(() => {
-    const row = jumpRow.current;
-    if (!row) return;
-    const behavior: ScrollBehavior = reducedMotion() ? 'auto' : 'smooth';
-    if (!spied) {
-      row.scrollTo({ left: 0, behavior });
-      return;
-    }
-    const chip = row.querySelector<HTMLElement>(`[data-jump="${spied}"]`);
-    if (chip) row.scrollTo({ left: Math.max(0, chip.offsetLeft - row.clientWidth / 2 + chip.offsetWidth / 2), behavior });
-  }, [spied]);
 
   const book = useMemo(() => buildRecordBook(careerData, 10), [careerData]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -167,29 +208,10 @@ const CareerTab = () => {
 
           {/* Phones: the page's sections as a sticky, finger-scrolled chip row that follows the scroll */}
           {phone && (
-            <nav aria-label="On this page" className="chrome-follow sticky z-30 -mx-4 !mt-4 border-b border-line/70 bg-night py-2" style={{ top: 'var(--site-header-h, 0px)' }}>
-              <div ref={jumpRow} className="flex gap-1.5 overflow-x-auto px-4 scrollbar-none">
-                {JUMPS.map((j) => (
-                  <a
-                    key={j.id}
-                    data-jump={j.id}
-                    href={buildHash({ tab: 'career', sub: 'players', section: j.id })}
-                    aria-current={spied === j.id ? 'location' : undefined}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate({ tab: 'career', sub: 'players', section: j.id }, { replace: true });
-                      if (route.section === j.id) document.getElementById(j.id)?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' });
-                    }}
-                    className={cn(
-                      'inline-flex h-10 shrink-0 items-center rounded-full border px-3.5 text-sm font-semibold transition-colors',
-                      spied === j.id ? 'border-gold bg-gold text-night' : 'border-line bg-night/60 text-secondary-foreground',
-                    )}
-                  >
-                    {j.label}
-                  </a>
-                ))}
-              </div>
-            </nav>
+            <PhoneJumpChips
+              current={route.section}
+              onJump={(id) => navigate({ tab: 'career', sub: 'players', section: id }, { replace: true })}
+            />
           )}
 
           <StatsPulse data={careerData} book={book} onSelect={setSelectedPlayer} />

@@ -12,6 +12,7 @@ import {
 } from '@/config/advanced';
 import { leagueScore, playerKey } from '@/config/ovr';
 import type { Overall } from '@/config/skillGrades';
+import { fmtFixed } from '@/utils/numberFormat';
 
 /**
  * Graph Builder stat catalogue: every stat that can go on an axis, with its label, definition, direction and
@@ -193,7 +194,7 @@ export const GRAPH_STATS: GraphStat[] = [...TOTALS, ...featureStats(), ...metric
 export const STAT_BY_ID = new Map(GRAPH_STATS.map((s) => [s.id, s]));
 
 export const fmtStat = (s: GraphStat, v: number) =>
-  `${v.toLocaleString('en-US', { minimumFractionDigits: s.decimals, maximumFractionDigits: s.decimals })}${s.suffix ?? ''}`;
+  `${fmtFixed(v, s.decimals)}${s.suffix ?? ''}`;
 
 /** Board cache factory for GraphDeps.board (league players only, as evaluateMetric always is). */
 export const boardCache = (players: Player[], ctx: AdvContext) => {

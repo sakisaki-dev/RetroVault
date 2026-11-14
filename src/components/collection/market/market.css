@@ -125,8 +125,10 @@
 @media (min-width: 768px) { .mk-head { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); } }
 .mk-head__left { display: grid; gap: 0.3rem; min-width: 0; }
 .mk-open { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mk-up); }
-.mk-open__dot { width: 0.5rem; height: 0.5rem; border-radius: 999px; background: currentColor; box-shadow: 0 0 0 0 currentColor; animation: mk-pulse 2s ease-out infinite; }
-@keyframes mk-pulse { 0% { box-shadow: 0 0 0 0 hsl(149 70% 58% / 0.6); } 100% { box-shadow: 0 0 0 8px hsl(149 70% 58% / 0); } }
+.mk-open__dot { position: relative; width: 0.5rem; height: 0.5rem; border-radius: 999px; background: currentColor; }
+/* The ring grows on the compositor (scale + opacity), not by repainting a box-shadow every frame: 0.5rem + 2 × 8px */
+.mk-open__dot::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: hsl(149 70% 58% / 0.6); opacity: 0; animation: mk-pulse 2s ease-out infinite; }
+@keyframes mk-pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
 .mk-head__sym { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; color: hsl(var(--gold)); }
 .mk-head__desc { margin-left: 0.35rem; font-family: var(--font-sans); font-weight: 400; color: hsl(var(--muted-foreground)); }
 .mk-head__num { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
@@ -341,7 +343,7 @@
 .mk-alloc__legend i { width: 0.55rem; height: 0.55rem; border-radius: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .mk-open__dot { animation: none; }
+  .mk-open__dot::after { animation: none; }
   .mk-ticker { overflow-x: auto; mask-image: none; }
   .mk-ticker__track { animation: none; }
   .mk-ticker__track--dup { display: none; }

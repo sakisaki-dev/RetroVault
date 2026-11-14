@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { fmtFixed } from '@/utils/numberFormat';
 
 /**
  * Chart palette for the Analytics Lab (dark site, surface ≈ #111627). Validated with the dataviz
@@ -42,7 +43,7 @@ export const usePrefersReducedMotion = () => {
 };
 
 export const fmtNum = (v: number, decimals: number) =>
-  (Number.isFinite(v) ? v : 0).toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  fmtFixed(Number.isFinite(v) ? v : 0, decimals);
 
 export const fmtPlus = (v: number | null) => (v == null ? '—' : String(Math.round(v)));
 

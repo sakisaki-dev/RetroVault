@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
  *   dur.fast           120 ms   180 ms   presses, small fades, exits of small things
  *   dur.base           200 ms   300 ms   popovers, colour/indicator changes, dialog exits
  *   dur.slow           280 ms   360 ms   view changes (tab / sub-tab), list items, dialog entrances on desktop
- *   dur.xslow          360 ms   480 ms   sheets and phone dialogs sliding up
+ *   dur.xslow          360 ms   420 ms   sheets and phone dialogs sliding up
  *
  * "Phone / touch" is MOBILE_MOTION (a coarse pointer or a viewport up to 640 px), the same media query that
  * redefines the CSS tokens in src/index.css. The values are read live, so rotating a tablet or resizing a window
@@ -33,7 +33,7 @@ export const isMobileMotion = (): boolean => {
 };
 
 const DUR_DESKTOP = { fast: 120, base: 200, slow: 280, xslow: 360 };
-const DUR_MOBILE = { fast: 180, base: 300, slow: 360, xslow: 480 };
+const DUR_MOBILE = { fast: 180, base: 300, slow: 360, xslow: 420 };
 const pickDur = (k: keyof typeof DUR_DESKTOP) => (isMobileMotion() ? DUR_MOBILE : DUR_DESKTOP)[k];
 export const dur = {
   get fast() {
@@ -104,7 +104,7 @@ export const useStagger = (ready = true): string => {
  * release the element eases back with a Web Animation, so the press never fights an element's own transition-property
  * (transition-colors and friends stay as they are). Anything clickable counts: buttons, links, role=button/tab/option,
  * summaries and labels that wrap an input. Skipped: disabled controls, big surfaces (over 45% of the viewport, e.g. a
- * full-screen card), drag handles and [data-no-press]. A finger that starts scrolling releases the press.
+ * full-screen card), drag handles and [data-no-press]. A finger that starts scrolling drops the press instantly.
  */
 const PRESSABLE_BASE = 'button, a[href], [role="button"], [role="tab"], [role="option"], [role="menuitem"], summary, .rv-press';
 const hasSupported = () => {
@@ -159,14 +159,17 @@ export const installPressFeedback = () => {
     y = e.clientY;
     n.dataset.pressed = '';
   };
+  // A finger that starts scrolling drops the press at once, as iOS does: easing it back would animate (and repaint)
+  // under the scroll's first frames
   const onMove = (e: PointerEvent) => {
-    if (el && Math.hypot(e.clientX - x, e.clientY - y) > 10) release(true);
+    if (el && Math.hypot(e.clientX - x, e.clientY - y) > 10) release(false);
   };
 
   window.addEventListener('pointerdown', onDown, { passive: true, capture: true });
   window.addEventListener('pointermove', onMove, { passive: true, capture: true });
   window.addEventListener('pointerup', () => release(true), { passive: true, capture: true });
-  window.addEventListener('pointercancel', () => release(true), { passive: true, capture: true });
+  // The browser cancels the pointer when it takes the gesture over for scrolling
+  window.addEventListener('pointercancel', () => release(false), { passive: true, capture: true });
   window.addEventListener('blur', () => release(false));
   // iOS only applies :active (and fires pointer events promptly) when a touch listener exists
   document.addEventListener('touchstart', () => undefined, { passive: true });

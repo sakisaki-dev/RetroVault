@@ -1,4 +1,5 @@
 import type { Player, Position } from '@/types/player';
+import { fmtFixed } from '@/utils/numberFormat';
 import { METRIC_BY_ID, SIM_MIN_GAMES, compFeatures, similarityBaseline, type CompFeature } from './advanced';
 
 /**
@@ -28,9 +29,7 @@ export const skillTraits = (pos: Position): SkillTrait[] => compFeatures(pos).ma
 
 /** Display string for a raw feature value. */
 export const fmtFeature = (f: CompFeature, v: number) =>
-  Number.isFinite(v)
-    ? `${((f.scale ?? 1) * v).toLocaleString('en-US', { minimumFractionDigits: f.decimals, maximumFractionDigits: f.decimals })}${f.suffix ?? ''}`
-    : '—';
+  Number.isFinite(v) ? `${fmtFixed((f.scale ?? 1) * v, f.decimals)}${f.suffix ?? ''}` : '—';
 
 /** Percentile (0–100, share of qualified players at or below) of a raw value among the position baseline. */
 export const percentileOf = (sortedVals: number[], v: number) => {
@@ -77,7 +76,9 @@ const SAME_AS_METRIC: Partial<Record<Position, Record<string, string>>> = {
  * The qualifier pool per feature id, with its label. Traits that match an Advanced board use that board's
  * qualifiers; the rest use league players at the position with ≥ SIM_MIN_GAMES games (similarityBaseline).
  */
-export const traitPools = (players: Player[], position: Position): Map<string, { pool: Player[]; label: string }> => {
+export const traitPools = (players: Player[], position: Position): Map<string, { pool: Player[]; label: string }> =>
+  memoByPlayers(poolCache, players, position, () => buildTraitPools(players, position));
+const buildTraitPools = (players: Player[], position: Position): Map<string, { pool: Player[]; label: string }> => {
   const base = similarityBaseline(players, position);
   const atPos = players.filter((p) => p.position === position && !p.isRealLegend);
   return new Map(
@@ -89,9 +90,27 @@ export const traitPools = (players: Player[], position: Position): Map<string, {
 };
 
 /** Sorted baseline values per feature id, over each trait's qualifier pool (traitPools). */
-export const positionBaseline = (players: Player[], position: Position): Map<string, number[]> => {
-  const pools = traitPools(players, position);
-  return new Map(compFeatures(position).map((f) => [f.id, (pools.get(f.id)?.pool ?? []).map(f.get).filter(Number.isFinite).sort((a, b) => a - b)]));
+export const positionBaseline = (players: Player[], position: Position): Map<string, number[]> =>
+  memoByPlayers(baselineCache, players, position, () => {
+    const pools = traitPools(players, position);
+    return new Map(compFeatures(position).map((f) => [f.id, (pools.get(f.id)?.pool ?? []).map(f.get).filter(Number.isFinite).sort((a, b) => a - b)]));
+  });
+
+/*
+ * Pools and baselines depend only on the league array and the position, but grading every player asks for them once
+ * per player (O(n²) over the league: about 1.5 s at 4x CPU throttle for the Stats page skill ratings). They are cached per
+ * array (a WeakMap, so a reloaded or edited league, which is a new array, starts afresh and the old one is collected).
+ * Callers treat the results as read-only.
+ */
+type PosCache<T> = WeakMap<readonly Player[], Map<Position, T>>;
+const poolCache: PosCache<Map<string, { pool: Player[]; label: string }>> = new WeakMap();
+const baselineCache: PosCache<Map<string, number[]>> = new WeakMap();
+const memoByPlayers = <T,>(cache: PosCache<T>, players: Player[], position: Position, build: () => T): T => {
+  let byPos = cache.get(players);
+  if (!byPos) cache.set(players, (byPos = new Map()));
+  let v = byPos.get(position);
+  if (v === undefined) byPos.set(position, (v = build()));
+  return v;
 };
 
 // ---------- Letter grades ----------

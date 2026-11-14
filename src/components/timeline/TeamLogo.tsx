@@ -39,7 +39,11 @@ const TeamLogo = ({ team, className, decorative = false, backed = false }: TeamL
     <img
       src={nfl.logoUrl}
       alt={decorative ? '' : label}
-      loading="lazy"
+      // ESPN's logos are 500 x 500: the attributes give the box its square shape before the file arrives, so a logo
+      // loading never re-lays out the table around it. Loaded with the page, not lazily mid-scroll (each lazy load
+      // repainted the page under the finger); the 32 files come from the HTTP cache after the first page.
+      width={500}
+      height={500}
       decoding="async"
       onError={() => setFailed(true)}
       className={cn('object-contain', backed && logoBackingClass(nfl), className)}

@@ -33,8 +33,8 @@ export const afterPaint = (cb: () => void, fallbackMs = 120): (() => void) => {
   };
 };
 
-/** How long heavy content waits while a dialog / sheet opens (phones open over ~480-500 ms, desktop ~280 ms) */
-const PHONE_OPEN_HOLD_MS = 380;
+/** How long heavy content waits while a dialog / sheet opens (phones open over ~420 ms, desktop ~280 ms) */
+const PHONE_OPEN_HOLD_MS = 340;
 const DESKTOP_OPEN_HOLD_MS = 220;
 
 /**

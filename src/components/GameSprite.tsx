@@ -9,7 +9,7 @@ import { REGULAR_POSE, faceFor, nflSpriteFor, useGameSprites, type BodyPose, typ
 /**
  * Retro Bowl's own sprite for a player (the owner's private sprites, src/utils/gameSprites.ts). Renders nothing when
  * this machine has none (the public site), so callers can drop it in anywhere; useGameSprites() lets them choose a
- * fallback. Pixel-crisp (integer scales, image-rendering: pixelated), lazy, reduced-motion safe.
+ * fallback. Pixel-crisp (integer scales, image-rendering: pixelated), reduced-motion safe.
  *
  * Source, in order: the kit the owner's NFL save drew for his club; the save's neutral kit painted into the club's
  * colours (gameKitPaint.ts); for a league player the save doesn't have, one of the game's own look templates (a
@@ -106,6 +106,10 @@ const useProcessed = (src: string | undefined, paint: string | undefined, rows: 
   return out && out.key === key ? out.url : null;
 };
 
+/*
+ * Sprite images are not lazy: each is a small file or an already-processed data URL in a fixed box, and a lazy one
+ * arriving mid-scroll repainted the page under the finger.
+ */
 const px = (extra?: CSSProperties): CSSProperties => ({ imageRendering: 'pixelated', ...extra });
 
 const GameSprite = (props: GameSpriteProps) => {
@@ -170,7 +174,6 @@ const GameSprite = (props: GameSpriteProps) => {
             <img
               src={src}
               alt=""
-              loading="lazy"
               decoding="async"
               draggable={false}
               className="absolute max-w-none"
@@ -187,7 +190,6 @@ const GameSprite = (props: GameSpriteProps) => {
           <img
             src={src}
             alt=""
-            loading="lazy"
             decoding="async"
             draggable={false}
             className="absolute max-w-none"

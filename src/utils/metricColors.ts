@@ -7,6 +7,7 @@
 // Career Legacy boundaries come from the Hall of Fame tiers so both views agree.
 
 import { HOF_THRESHOLD, LEGACY_TIERS, type LegacyTierKey } from '@/config/stats';
+import { fmtFixed } from '@/utils/numberFormat';
 
 export type MetricTier = 'belowAvg' | 'average' | 'veryGood' | 'elite' | 'goat' | 'legendary';
 
@@ -89,4 +90,4 @@ export const formatNumber = (num: number): string => (Number.isFinite(num) ? num
 
 /** Fixed decimals with thousands separators. */
 export const formatDecimal = (num: number, places: number = 2): string =>
-  (Number.isFinite(num) ? num : 0).toLocaleString('en-US', { minimumFractionDigits: places, maximumFractionDigits: places });
+  fmtFixed(Number.isFinite(num) ? num : 0, places);

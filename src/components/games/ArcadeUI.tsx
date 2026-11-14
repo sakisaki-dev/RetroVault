@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useRef, useState, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import type { NFLTeam } from '@/utils/nflTeams';
+import { fmtFixed } from '@/utils/numberFormat';
 
 const t1 = (n: number, d: number) => (d ? Number(n.toFixed(d)) : n);
 
@@ -79,7 +80,7 @@ export const CountUp = ({
   format?: (n: number) => string;
 }) => {
   const dur = duration ?? 650 + Math.min(500, String(Math.round(value)).length * 80);
-  const show = format ?? ((n: number) => n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix);
+  const show = format ?? ((n: number) => fmtFixed(n, decimals) + suffix);
   const [shown, setShown] = useState(() => (reducedMotion() ? value : 0));
   useEffect(() => {
     if (reducedMotion()) {

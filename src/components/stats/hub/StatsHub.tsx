@@ -52,7 +52,8 @@ const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, onPrefetch
   useLayoutEffect(() => {
     const root = document.documentElement;
     const measure = () => {
-      const header = px(getComputedStyle(root).getPropertyValue('--site-header-h'));
+      // Header.tsx sets the variable inline on <html>: read it there (a computed-style read forces a full style recalc)
+      const header = px(root.style.getPropertyValue('--site-header-h'));
       const bar = barRef.current?.offsetHeight ?? 0;
       setOffset((o) => (o.header === header && o.bar === bar ? o : { header, bar }));
     };

@@ -56,12 +56,16 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
   const season = useLeagueContent().content?.season;
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const headerRef = useRef<HTMLElement | null>(null);
+  const headerH = useRef(0);
 
   // Publish the sticky header's live height so other sticky bars can sit right below it.
   useEffect(() => {
     const el = headerRef.current;
     if (!el || typeof ResizeObserver === 'undefined') return;
-    const set = () => document.documentElement.style.setProperty('--site-header-h', `${el.offsetHeight}px`);
+    const set = () => {
+      headerH.current = el.offsetHeight;
+      document.documentElement.style.setProperty('--site-header-h', `${el.offsetHeight}px`);
+    };
     set();
     const ro = new ResizeObserver(set);
     ro.observe(el);
@@ -73,7 +77,9 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
   // top of the page and a locked body (an open dialog) always bring them back.
   useEffect(() => {
     const root = document.documentElement;
-    const show = () => delete root.dataset.chrome;
+    const show = () => {
+      if (root.dataset.chrome) delete root.dataset.chrome;
+    };
     if (activeTab !== 'career') {
       show();
       return;
@@ -84,15 +90,16 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
       raf = 0;
       const y = window.scrollY;
       const dy = y - lastY;
-      const headerH = headerRef.current?.offsetHeight ?? 64;
-      const locked = document.body.hasAttribute('data-scroll-locked') || getComputedStyle(document.body).overflow === 'hidden';
-      if (y <= headerH * 2 || locked) show();
+      // Cached height and an inline-style check: no style or layout read per scroll frame
+      const h = headerH.current || 64;
+      const locked = document.body.hasAttribute('data-scroll-locked') || document.body.style.overflow === 'hidden';
+      if (y <= h * 2 || locked) show();
       else if (dy > 8) {
         // Keep the bars while keyboard focus is inside one of them
         const focusIn = document.activeElement?.closest('[data-site-header], [data-chrome-bar]');
-        if (!focusIn) root.dataset.chrome = 'hidden';
+        if (!focusIn && root.dataset.chrome !== 'hidden') root.dataset.chrome = 'hidden';
       } else if (dy < -8) show();
-      if (Math.abs(dy) > 8 || y <= headerH * 2) lastY = y;
+      if (Math.abs(dy) > 8 || y <= h * 2) lastY = y;
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(check);

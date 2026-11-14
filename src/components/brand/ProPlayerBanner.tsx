@@ -9,6 +9,7 @@ import TeamLogo, { resolveTeam } from './TeamLogo';
 import GameSprite from '../GameSprite';
 import { statureScale, useGameSprites } from '@/utils/gameSprites';
 import { splitPlayerName } from './ProPlayerBanner.utils';
+import { useOnScreenFlag } from '@/hooks/useOnScreenFlag';
 import './ProPlayerBanner.css';
 
 export type ProPlayerBannerSize = 'hero' | 'card' | 'compact';
@@ -101,6 +102,8 @@ const ProPlayerBanner = ({
   useEffect(() => setPhotoFailed(false), [photoUrl]);
   const showPhoto = !sealed && !!photoUrl && !photoFailed;
   const hof = hallOfFamer && !sealed;
+  // The Hall of Fame sheen loops only while the banner is on screen (ProPlayerBanner.css, [data-vis])
+  const visRef = useOnScreenFlag<HTMLDivElement>(hof);
   const hasNumber = !sealed && number != null;
 
   const { first, last } = sealed ? { first: 'Mystery player', last: '? ? ?' } : splitPlayerName(name);
@@ -255,7 +258,7 @@ const ProPlayerBanner = ({
 
   if (size === 'compact') {
     return (
-      <div className={root} style={vars}>
+      <div ref={visRef} className={root} style={vars}>
         <div className="ppb__field">
           {decor}
           <div className="ppb__content">
@@ -279,7 +282,7 @@ const ProPlayerBanner = ({
   }
 
   return (
-    <div className={root} style={vars}>
+    <div ref={visRef} className={root} style={vars}>
       <div className="ppb__field">
         {decor}
         <div className="ppb__content">
