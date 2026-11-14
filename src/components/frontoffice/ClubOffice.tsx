@@ -3,6 +3,8 @@ import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { usePhone } from '@/hooks/usePhone';
+import CoachSprite from '@/components/CoachSprite';
+import { useHasCoachSprite } from '@/utils/gameSprites';
 import {
   COUNTER_GROUPS,
   DIFFICULTY,
@@ -101,11 +103,13 @@ const StaffCard = ({ c, s, season, team }: { c: OfficeStaff; s: Strength; season
   const { ink, dark } = inkOf(team);
   const last = staffFinalSeason(season, c);
   const need = Math.max(1, Math.ceil((s.rating - 0.5) / s.factor - s.stars));
+  // Retro Bowl's own sprite of him in the club's polo (private sprites), else the pixel-art coach
+  const sprite = useHasCoachSprite(c.name);
   return (
     <article className="fo-staffcard" aria-label={`${c.role === 'OC' ? 'Offensive' : 'Defensive'} coordinator ${c.name}`}>
       <div className="flex gap-2.5">
-        <span className="fo-staffcard__figure" aria-hidden="true">
-          <Coach ink={ink} dark={dark} px={3} />
+        <span className={cn('fo-staffcard__figure', sprite && 'has-sprite')} aria-hidden="true">
+          {sprite ? <CoachSprite who={c.name} team={team} size="m" /> : <Coach ink={ink} dark={dark} px={3} />}
         </span>
         <div className="min-w-0 flex-1">
           <p className="fo-label">{c.role === 'OC' ? 'Offensive coord.' : 'Defensive coord.'}</p>
@@ -331,14 +335,29 @@ const GROUP_ICON: Record<string, { icon: PixelIconId; color: string }> = {
   Facilities: { icon: 'facilities', color: 'hsl(354 100% 70%)' },
 };
 
-const Counters = ({ state }: { state: OfficeState }) => {
+/**
+ * Club-neutral on purpose (owner): the counters cover the coach's whole career, every club he ran, so the desk wears
+ * no club's logo or colours: the coach's own figure in his white polo (or a gold trophy), gold on navy, and his
+ * surname on the pennants.
+ */
+const Counters = ({ state, coachName }: { state: OfficeState; coachName?: string }) => {
   const counters = state.counters ?? {};
-  const team = findNFLTeam(state.club);
+  const sprite = useHasCoachSprite('head');
+  const mark = (coachName?.trim().split(/\s+/).pop() || 'Career').toUpperCase();
   const rafters = RAFTERS.filter((r) => counters[r.tag] != null);
   const shown = new Set([...rafters.map((r) => r.tag), 'ACH_DOINK']);
   return (
     <Desk
-      team={state.club}
+      team={null}
+      icon={
+        sprite ? (
+          <span className="fo-desk__coach" aria-hidden="true">
+            <CoachSprite who="head" team={null} kind="bust" size="m" />
+          </span>
+        ) : (
+          <PixelIcon id="results" color={GOLD} px={2} />
+        )
+      }
       id="fo-counters"
       title="Franchise counters"
       chip={<Lamp>Lifetime</Lamp>}
@@ -350,7 +369,7 @@ const Counters = ({ state }: { state: OfficeState }) => {
         <ul className="fo-rafters__row">
           {rafters.map((r) => (
             <li key={r.tag} className="fo-pennant" title={COUNTER_GROUPS.flatMap((g) => g.items).find((i) => i.tag === r.tag)?.note}>
-              <span className="fo-pennant__abbr">{team?.abbreviation ?? ''}</span>
+              <span className="fo-pennant__abbr">{mark}</span>
               <span className="fo-pennant__n">{fmt(counters[r.tag])}</span>
               <span className="fo-pennant__bar" aria-hidden="true" />
               <span className="fo-pennant__label">{r.label}</span>
@@ -399,9 +418,11 @@ const Counters = ({ state }: { state: OfficeState }) => {
 interface ClubOfficeProps {
   players: Player[];
   onPlayerSelect: (p: Player) => void;
+  /** The head coach's name (coach.json), for the club-neutral counters */
+  coachName?: string;
 }
 
-const ClubOffice = ({ players, onPlayerSelect }: ClubOfficeProps) => {
+const ClubOffice = ({ players, onPlayerSelect, coachName }: ClubOfficeProps) => {
   const state = useOfficeState();
   const rows = useMemo(() => (state ? capRows(state) : []), [state]);
   const byKey = useMemo(() => new Map(players.map((p) => [`${p.position}:${p.name}`, p])), [players]);
@@ -425,7 +446,7 @@ const ClubOffice = ({ players, onPlayerSelect }: ClubOfficeProps) => {
         <FrontDesk state={state} />
       </div>
       <Facilities state={state} />
-      {state.counters && Object.keys(state.counters).length > 0 && <Counters state={state} />}
+      {state.counters && Object.keys(state.counters).length > 0 && <Counters state={state} coachName={coachName} />}
     </section>
   );
 };

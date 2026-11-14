@@ -11,6 +11,7 @@ import {
 import { cn } from '@/lib/utils';
 import MiniMarkdown from './MiniMarkdown';
 import TeamLogo from './TeamLogo';
+import CoachSprite from '@/components/CoachSprite';
 import ClubStrip from '@/components/brand/ClubStrip';
 import { bannerTeamOf } from '@/utils/playerExtras';
 import { MarkerGlyph, markerKind } from './SuperBowlMarker';
@@ -71,6 +72,8 @@ const EraDetail = ({ id, placed, content, model, players, onPlayerSelect, onClos
       <div className="relative space-y-6 p-4 sm:p-6">
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
+          {/* the coach in the era's main club's polo, standing at the header's right (private sprites, 640px up) */}
+          {dominantTeam && <CoachSprite who="head" team={dominantTeam} size="m" className="pointer-events-none !absolute right-20 top-0 max-sm:!hidden" />}
           <div className="min-w-0">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Y{era.startYear}–{era.endYear}
@@ -105,6 +108,8 @@ const EraDetail = ({ id, placed, content, model, players, onPlayerSelect, onClos
               className="flex items-center gap-2 rounded-lg border border-border/40 bg-background/50 py-1.5 pl-1.5 pr-3"
               style={{ borderLeft: `3px solid hsl(${teamHsl(team) ?? '220 10% 40%'})` }}
             >
+              {/* the coach in this club's polo, as the game draws him (private sprites; nothing without them) */}
+              <CoachSprite who="head" team={team} kind="bust" size="s" className="-my-1.5 -mr-1" />
               <TeamLogo team={team} decorative className="h-7 w-7" />
               <div className="leading-tight">
                 <p className="text-sm font-semibold">{team}</p>

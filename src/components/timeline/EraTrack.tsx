@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import TeamLogo from './TeamLogo';
+import CoachSprite from '@/components/CoachSprite';
 import { MarkerButton } from './SuperBowlMarker';
 import { useRovingFocus } from './useRovingFocus';
 import { describeSuperBowl, eraForYear, type PlacedEra, type TimelineModel, type YearSlot } from './timelineModel';
@@ -278,7 +279,9 @@ const EraCard = ({
                 {record.won}–{record.lost} in Super Bowls · {era.yourTeams.join(', ')}
               </span>
             </span>
-            <span className="flex flex-shrink-0 -space-x-1.5">
+            <span className="flex flex-shrink-0 items-end -space-x-1.5">
+              {/* the coach in the era's main club's polo (private sprites; nothing without them) */}
+              {(dominantTeam ?? era.yourTeams[0]) && <CoachSprite who="head" team={dominantTeam ?? era.yourTeams[0]} size="s" className="-my-3 !-mr-3" />}
               {era.yourTeams.slice(0, 3).map((t) => (
                 <TeamLogo key={t} team={t} decorative className="h-7 w-7 rounded-full bg-black/30 p-0.5" />
               ))}

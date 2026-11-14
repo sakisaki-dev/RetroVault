@@ -131,9 +131,33 @@ const reshape = (src: Uint32Array, w: number, h: number, cx: number, foot: numbe
   return cur;
 };
 
+/**
+ * A coach's or coordinator's polo (gameSprites.ts coachSpriteFor): the game draws a club polo as his white neutral
+ * sprite multiplied by one club colour on his outfit pixels (`mask`: 64 rows of 16 hex digits, bit 63 - x = column x;
+ * scripts/private_nfl_sprites.py checked the rule over every staff file in the save). In place.
+ */
+const paintPolo = (px: Uint8ClampedArray, w: number, h: number, color: string, mask: string[]) => {
+  const [r, g, b] = rgbOf(color);
+  for (let y = 0; y < Math.min(h, mask.length); y++) {
+    const row = (mask[y] || '').padStart(16, '0');
+    const hi = parseInt(row.slice(0, 8), 16) || 0;
+    const lo = parseInt(row.slice(8), 16) || 0;
+    if (!hi && !lo) continue;
+    for (let x = 0; x < Math.min(w, 64); x++) {
+      if (!((x < 32 ? hi >>> (31 - x) : lo >>> (63 - x)) & 1)) continue;
+      const i = (y * w + x) * 4;
+      px[i] = (r * px[i]) / 255;
+      px[i + 1] = (g * px[i + 1]) / 255;
+      px[i + 2] = (b * px[i + 2]) / 255;
+    }
+  }
+};
+
 export interface SpriteJob {
   /** Paint the neutral kit into this club's home kit */
   paint?: string;
+  /** Paint a coach's white polo: a CSS colour and his outfit mask (paintPolo) */
+  polo?: { color: string; mask: string[] };
   /** Rows added (+) / removed (-) and columns a side (bodyTypes.ts BodyRoll) */
   rows?: number;
   cols?: number;
@@ -153,8 +177,8 @@ const CACHE_MAX = 600;
 export const processSprite = (src: string, job: SpriteJob = {}): Promise<string> => {
   const rows = job.rows ?? 0;
   const cols = job.cols ?? 0;
-  if (!job.paint && !rows && !cols) return Promise.resolve(src);
-  const key = `${src}|${job.paint ?? ''}|${rows},${cols}`;
+  if (!job.paint && !job.polo && !rows && !cols) return Promise.resolve(src);
+  const key = `${src}|${job.paint ?? ''}|${job.polo?.color ?? ''}|${rows},${cols}`;
   const hit = cache.get(key);
   if (hit) return hit;
   const job2 = loadImage(src).then((img) => {
@@ -166,6 +190,7 @@ export const processSprite = (src: string, job: SpriteJob = {}): Promise<string>
     ctx.drawImage(img, 0, 0);
     const data = ctx.getImageData(0, 0, w, h);
     if (job.paint) paintPixels(data.data, w, h, job.paint);
+    if (job.polo) paintPolo(data.data, w, h, job.polo.color, job.polo.mask);
     if (rows || cols) {
       const shaped = reshape(new Uint32Array(data.data.buffer), w, h, job.cx ?? 31.5, job.foot ?? 58, rows, cols);
       data.data.set(new Uint8ClampedArray(shaped.buffer));

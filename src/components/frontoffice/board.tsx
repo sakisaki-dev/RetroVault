@@ -12,8 +12,21 @@ import { getReadableTextOn } from '@/utils/teamColors';
 
 const split = (triplet: string) => triplet.split(' ').map((x) => parseFloat(x));
 
+/**
+ * Club-neutral colours (team null: the coach's whole career, every club): the site's navy with gold, the coach's own
+ * colours rather than any club's.
+ */
+const NEUTRAL_VARS = {
+  ['--fo-team' as string]: '43 100% 55%',
+  ['--cb-primary' as string]: 'hsl(226 45% 16%)',
+  ['--cb-edge' as string]: 'hsl(43 100% 58%)',
+  ['--cb-ink' as string]: 'hsl(43 100% 66%)',
+  ['--cb-fg' as string]: 'hsl(43 100% 88%)',
+} as CSSProperties;
+
 /** The club's colours as CSS variables: --fo-team (primary triplet), --cb-primary, --cb-edge, --cb-ink (light), --cb-fg. */
-export const boardVars = (team: string): CSSProperties => {
+export const boardVars = (team: string | null): CSSProperties => {
+  if (team === null) return NEUTRAL_VARS;
   const t = findNFLTeam(team);
   const primary = t?.primaryColor ?? '226 38% 27%';
   const [h, s, l] = split(primary);
@@ -33,9 +46,10 @@ export const inkOf = (team: string) => {
   return { primary: `hsl(${p})`, ink: `hsl(${h} ${Math.min(s, 80)}% ${Math.max(l, 62)}%)`, dark: `hsl(${h} ${s}% ${Math.min(l, 20)}%)` };
 };
 
-/** A cabinet-style shelf panel. */
+/** A cabinet-style shelf panel. `team` null = club-neutral (gold on navy, `icon` in the logo's place). */
 export const Desk = ({
   team,
+  icon,
   title,
   chip,
   caption,
@@ -44,7 +58,8 @@ export const Desk = ({
   bodyClassName,
   id,
 }: {
-  team: string;
+  team: string | null;
+  icon?: ReactNode;
   title: ReactNode;
   chip?: ReactNode;
   caption?: ReactNode;
@@ -53,9 +68,9 @@ export const Desk = ({
   bodyClassName?: string;
   id?: string;
 }) => (
-  <section className={cn('fo-desk', className)} style={boardVars(team)} aria-labelledby={id}>
+  <section className={cn('fo-desk', team === null && 'is-neutral', className)} style={boardVars(team)} aria-labelledby={id}>
     <div className="fo-desk__head">
-      <TeamLogo team={findNFLTeam(team) ?? team} size={28} decorative />
+      {icon ?? (team !== null && <TeamLogo team={findNFLTeam(team) ?? team} size={28} decorative />)}
       <h3 id={id} className="fo-desk__title">
         {title}
       </h3>

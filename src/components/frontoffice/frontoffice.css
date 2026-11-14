@@ -1363,3 +1363,81 @@ button.fo-cap__th:hover, .fo-cap__th.is-on { color: hsl(var(--gold)); }
   .fo-doink { margin: 0.3rem 0 0.2rem 0.2rem; }
   .fo-cap__cell[data-label='Stars'] > span { flex-wrap: wrap; }
 }
+
+/* ---------- Coach stand (CoachStand.tsx): Retro Bowl's own coach sprite on the banners' pedestal ----------
+   A club-colour plinth with its secondary rim (--stand-a / --stand-b triplets), gold when club-neutral. The sprite box
+   keeps 5 units under his feet; the negative margin stands him on the plinth's top face. */
+.fo-stand {
+  --stand-a: var(--gold);
+  --stand-b: 45 100% 82%;
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+.fo-stand__fig { position: relative; z-index: 1; }
+.fo-stand--s .fo-stand__fig { margin-bottom: -9px; }
+.fo-stand--m .fo-stand__fig { margin-bottom: -17px; }
+.fo-stand--l .fo-stand__fig { margin-bottom: -25px; }
+.fo-stand__plinth {
+  position: relative;
+  display: block;
+  border-radius: 50%;
+  background:
+    radial-gradient(70% 90% at 50% 25%, hsl(0 0% 100% / 0.22), transparent 70%),
+    linear-gradient(180deg, hsl(var(--stand-a)), color-mix(in srgb, hsl(var(--stand-a)) 55%, black));
+  box-shadow:
+    0 0 0 2px hsl(var(--stand-b)),
+    0 4px 0 2px color-mix(in srgb, hsl(var(--stand-b)) 55%, black),
+    0 10px 18px hsl(228 60% 3% / 0.6);
+}
+.fo-stand--s .fo-stand__plinth { width: 3.4rem; height: 0.85rem; }
+.fo-stand--m .fo-stand__plinth { width: 6.4rem; height: 1.45rem; box-shadow: 0 0 0 3px hsl(var(--stand-b)), 0 5px 0 3px color-mix(in srgb, hsl(var(--stand-b)) 55%, black), 0 12px 20px hsl(228 60% 3% / 0.6); }
+.fo-stand--l .fo-stand__plinth { width: 9.5rem; height: 2rem; box-shadow: 0 0 0 3px hsl(var(--stand-b)), 0 6px 0 3px color-mix(in srgb, hsl(var(--stand-b)) 55%, black), 0 14px 22px hsl(228 60% 3% / 0.65); }
+.fo-stand.is-neutral .fo-stand__plinth {
+  background:
+    radial-gradient(70% 90% at 50% 25%, hsl(0 0% 100% / 0.35), transparent 70%),
+    linear-gradient(180deg, hsl(45 95% 58%), hsl(36 85% 30%));
+}
+.fo-stand__mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scaleY(0.5);
+  line-height: 0;
+  opacity: 0.9;
+}
+/* The header's stand: beside the paragraph from 768px; on a phone in the top-right corner, the name block making room */
+@media (max-width: 767px) {
+  .fo-hero__stand { position: absolute; top: 0.6rem; right: 0.9rem; }
+  .fo-hero:has(.fo-hero__stand) .fo-hero__who > :not(.fo-plate) { padding-right: 7.5rem; }
+}
+/* A coordinator's own game sprite (CoachSprite) instead of the pixel-art coach: the box trims the sprite's empty top
+   rows and keeps the turf strip under his feet (5 units of box below them). */
+.fo-staffcard__figure.has-sprite { width: 5.6rem; overflow: hidden; padding-top: 0; background: linear-gradient(180deg, transparent 86%, hsl(147 67% 16%) 86%), radial-gradient(80% 60% at 50% 35%, hsl(var(--fo-team) / 0.35), transparent 70%), hsl(226 45% 10%); }
+.fo-staffcard__figure.has-sprite .coach-sprite { margin: -0.9rem -1.3rem -6px; }
+@media (min-width: 640px) {
+  .fo-staffcard__figure.has-sprite { width: 6.4rem; }
+  .fo-staffcard__figure.has-sprite .coach-sprite { margin: -0.9rem -0.8rem -6px; }
+}
+
+/* The club-neutral counters desk: the coach's own bust in a gold ring in the logo's place */
+.fo-desk__coach {
+  display: inline-flex;
+  flex-shrink: 0;
+  overflow: hidden;
+  width: 2.6rem;
+  height: 2.6rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, hsl(226 40% 24%), hsl(228 47% 8%));
+  box-shadow: 0 0 0 2px hsl(43 100% 58%);
+}
+.fo-desk__coach .coach-sprite { flex-shrink: 0; margin-top: 6px; }
+.fo-desk.is-neutral { background: linear-gradient(135deg, hsl(43 100% 55% / 0.09) 0%, transparent 40%), hsl(228 45% 8% / 0.9); }
+.fo-desk.is-neutral .fo-desk__rule { background: linear-gradient(180deg, hsl(43 100% 55% / 0.55), hsl(43 90% 40% / 0.2) 45%, hsl(228 47% 4%)); }
+.fo-stint__coach { margin: -12px -6px -2px -8px; }
+.fo-stint__coach.fo-stand--m { margin: -22px -10px -4px -14px; }

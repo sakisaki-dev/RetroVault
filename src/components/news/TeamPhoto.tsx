@@ -2,7 +2,10 @@ import { useMemo, type CSSProperties } from 'react';
 import type { Player } from '@/types/player';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { getReadableTextOn } from '@/utils/teamColors';
-import { useGameSprites } from '@/utils/gameSprites';
+import { useGameSprites, useHasCoachSprite } from '@/utils/gameSprites';
+import { useLeagueContent } from '@/utils/leagueContent';
+import { usePhone } from '@/hooks/usePhone';
+import CoachSprite from '../CoachSprite';
 import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 import GameSprite from '../GameSprite';
 import TeamLogo from '../brand/TeamLogo';
@@ -11,7 +14,8 @@ import TeamLogo from '../brand/TeamLogo';
  * The champions' team photo on a Season Story lead (the owner's private Retro Bowl sprites; nothing on the public
  * site): every league player whose career stints give him a ring with the winning club that season (the stint rule's
  * ring holders), in the club's kit, two rows deep. The star stands front and centre in the celebrate pose: the first
- * player the lead story names who is in the photo (the data keeps no per-season Super Bowl MVP).
+ * player the lead story names who is in the photo (the data keeps no per-season Super Bowl MVP). When the champions were
+ * the coach's club that season (coach.json), Dorren Skura stands on the sideline at the right in their polo.
  */
 interface Props {
   /** "Y92" */
@@ -27,6 +31,11 @@ const TeamPhoto = ({ season, winner, players, featured }: Props) => {
   const extras = usePlayerExtras();
   const year = Number(season.replace(/\D/g, ''));
   const team = findNFLTeam(winner);
+  const coach = useLeagueContent().content?.coach;
+  const coachSprite = useHasCoachSprite('head');
+  const coachClub = coach?.seasons.find((r) => r.year === year)?.team;
+  const phone = usePhone(); // a phone's photo has no sideline: the front row fills it
+  const withCoach = coachSprite && !phone && !!team && findNFLTeam(coachClub)?.id === team.id;
 
   const roster = useMemo(() => {
     if (!team || !year) return [];
@@ -67,9 +76,16 @@ const TeamPhoto = ({ season, winner, players, featured }: Props) => {
             <GameSprite key={p.name} player={p} team={team.name} kind="figure" size="m" />
           ))}
         </div>
+        {withCoach && <CoachSprite who="head" team={team.name} size="m" className="tp-coach" />}
       </div>
       <figcaption className="tp-cap">
         Front and centre: <b>{star.name}</b> · {roster.length} ring holders
+        {withCoach && coach?.name && (
+          <>
+            {' '}
+            · on the sideline, head coach <b>{coach.name}</b>
+          </>
+        )}
       </figcaption>
     </figure>
   );

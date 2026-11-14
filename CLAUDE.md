@@ -401,10 +401,13 @@ source names that file).
   stacked into cards under 768px; two rule tags per player, **fair salary** (the game's salary formula, stars × position
   pay × 3 × age factor, against his salary: within max(1, 10% of the price) "Fair deal", else "Underpaid" / "Overpaid"
   with the gap; an expiring deal shows its re-price a year older) and **trade value** (the pick the game offers when the
-  coach trades him: 1st at 8+ half-stars, 2nd at 4+, else 3rd); the coordinators with their team-strength sum
+  coach trades him: 1st at 8+ half-stars, 2nd at 4+, else 3rd); the coordinators (each drawn as his own game sprite in
+  the club's polo, see Coach sprites below; the pixel-art coach without them) with their team-strength sum
   (0.225 / 0.25 × (key players' stars + coordinator)) and final season (staff max age 65); facilities with the season-end
   decline risk (stadium and training 1 in 3, rehab 2 in 3, none once upgraded that season or at level 1) and the credits
-  to protect each; fans, coach rating, credits, draft picks, games coached, difficulty; the franchise counters. Formulas:
+  to protect each; fans, coach rating, credits, draft picks, games coached, difficulty; the franchise counters, club-neutral
+  on purpose (owner: they cover the coach's whole career, every club): no club logo or colours, gold on navy, the coach's
+  bust in his white polo in the logo's place, his surname on the pennants (`Desk team={null}` in `board.tsx`). Formulas:
   docs/SAVE_INVENTORY.md 7.1–7.3, 7.7, 7.8.
 - **Season-complete mode** (after a season's Super Bowl): `python3 scripts/save_read.py --complete` writes an ordinary
   bundle `data/uploads/<date>-save-y<n>/manifest.json`: `player.set` career lines (only fields that changed, Retro
@@ -748,6 +751,21 @@ source names that file).
   game sprite, head and shoulders in the card's two inks (club deep and cream) with a halftone sheen, in the kit the pull
   rolled (`VintageArt.tsx`, `art/useToppsPortrait.ts`, `src/utils/toppsPortrait.ts`), so the card stays timeless; the
   public build keeps the helmet silhouette.
+  **Coach sprites** (`scripts/private_nfl_sprites.py` `coach_sprites`, index.json `coaches`; refresh only them with
+  `--coaches`): the head coach (`settings.myface_uid`, Dorren Skura 901081) and every coordinator in `coaches.pool` (the
+  club's OC and DC, teamid = his club, and those on the market, teamid -1) are 64 × 64 standing figures in a club polo
+  (`<uid>_<club>.png`) plus a white neutral (`<uid>_900.png`), with their own faces, glasses and beards. The game's polo
+  is the neutral multiplied by one club colour on his outfit pixels, so the index keeps per club the `polo` colour and per
+  coach the outfit `mask`, and a club he has no file for is painted exactly as the game would (`coachSpriteFor` in
+  `gameSprites.ts`, `paintPolo` in `gameKitPaint.ts`). `src/components/CoachSprite.tsx` (`who` 'head' or a coordinator's
+  name, `team`, figure / bust, s / m / l: GameSprite's size system and gate; `team={null}` = the white neutral, club-
+  neutral) draws them; `frontoffice/CoachStand.tsx` stands one on the banners' plinth. Skura's files cover the Bills,
+  Dolphins, Broncos (never coached), Ravens, Titans, Giants, Eagles, Commanders, Vikings and Buccaneers; the Chargers,
+  Seahawks, Jets and Falcons are painted. **Where:** the Front Office coach header (on a plinth in the current club's
+  polo), the Club office coordinators and the counters' bust, every Franchise history stint (his polo for that club),
+  the Timeline era cards and era detail (the era's club, and each franchise chip), the Season scoreboard header, and the
+  Season Story team photo (on the sideline when the champions were his club that season; not on a phone). Never on
+  Collection cards.
   `vite.config.ts` defines `__PRIVATE_SPRITES__` whenever the folder is in the checkout (the Pages build included) and
   drops any copy from a build without it, which then shows the classic art. After regenerating the sprites on the
   Mac, commit the folder with the update (`git add public/private-sprites`). The raw save (`data/saves/`) stays

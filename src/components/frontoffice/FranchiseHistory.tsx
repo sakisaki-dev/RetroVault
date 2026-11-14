@@ -1,10 +1,12 @@
 import ProPlayerBanner from '@/components/brand/ProPlayerBanner';
 import TeamLogo from '@/components/brand/TeamLogo';
 import { isHallOfFamer } from '@/config/stats';
+import { usePhone } from '@/hooks/usePhone';
 import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { FEATURED_PER_STINT, fmtPct, seasonRecord, yourScore, type Stint } from '@/utils/frontOffice';
+import CoachStand from './CoachStand';
 import { FinishTag } from './SeasonLog';
 import { staggerStyle, teamVars, yearSpan } from './shared';
 
@@ -17,6 +19,7 @@ interface FranchiseHistoryProps {
 
 const FranchiseHistory = ({ stints, onPlayerSelect, numberFor }: FranchiseHistoryProps) => {
   const real = stints.some((s) => s.record);
+  const phone = usePhone();
 
   return (
     <section aria-labelledby="fo-history" className="space-y-3">
@@ -39,7 +42,15 @@ const FranchiseHistory = ({ stints, onPlayerSelect, numberFor }: FranchiseHistor
           return (
             <li key={s.id} className="fo-stint stagger-in" style={{ ...teamVars(s.team), ...staggerStyle(i) }}>
               <div className="flex min-w-0 items-center gap-3">
-                <TeamLogo team={team ?? s.team} size={48} decorative />
+                {/* Skura in this club's polo, as the game draws him (private sprites); the logo alone without them */}
+                <CoachStand
+                  team={team?.name ?? s.team}
+                  size={phone ? 's' : 'm'}
+                  className="fo-stint__coach"
+                  fallback={<TeamLogo team={team ?? s.team} size={48} decorative />}
+                >
+                  <TeamLogo team={team ?? s.team} size={phone ? 26 : 40} decorative />
+                </CoachStand>
                 <div className="min-w-0">
                   <p className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                     <span>{s.current && !s.record ? `Y${s.firstYear}–now` : yearSpan(s.firstYear, s.lastYear)}</span>

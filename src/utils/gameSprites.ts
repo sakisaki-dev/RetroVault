@@ -58,6 +58,32 @@ export interface NflSprites {
   standins?: { uid: string; skin: number; neutral: number[] }[];
   /** file → [centre x of his legs, last row of his feet] in the 64 x 64 frame (scripts/private_nfl_sprites.py) */
   anchors?: Record<string, [number, number]>;
+  /** The head coach and the coordinators (CoachSprite.tsx) */
+  coaches?: NflCoaches;
+}
+
+/**
+ * One coach's sprites (scripts/private_nfl_sprites.py coach_sprites): a standing figure in a club polo per club the
+ * save drew him for, a white neutral one, and the `mask` of his outfit pixels (64 rows of 16 hex digits, bit 63 - x =
+ * column x), so a club he has no file for is painted exactly as the game paints a polo: neutral x club colour.
+ */
+export interface NflCoach {
+  name: string;
+  uid: string;
+  /** Club name → file */
+  kits: Record<string, string>;
+  neutral: string;
+  mask: string[];
+  role?: 'HC' | 'OC' | 'DC';
+  /** The save's club id (-1 = on the market) and its name */
+  teamid?: number;
+  club?: string | null;
+}
+export interface NflCoaches {
+  head: NflCoach | null;
+  staff: NflCoach[];
+  /** Club name → the polo colour the game draws staff in (#rrggbb) */
+  polo: Record<string, string>;
 }
 
 /**
@@ -70,6 +96,13 @@ export interface GameSprites {
   /** The site's locked looks (public data/sprites.json): skin, and height / build for the body (config/bodyTypes.ts) */
   looks?: Record<string, { skin?: unknown; build?: unknown; height?: unknown }> | null;
 }
+
+/**
+ * The size system's shared frame (GameSprite.tsx, CoachSprite.tsx): a bust is the 64 x 64 sprite's head and shoulders,
+ * 32 x 36 from row 6, centred on his centre line; a figure stands with the bottom of his feet on row 59 of its box.
+ */
+export const SPRITE_BUST = { y: 6, w: 32, h: 36 };
+export const SPRITE_BASELINE = 59;
 
 /** Build-time: true when public/private-sprites/ exists in the checkout that builds. */
 const ENABLED = typeof __PRIVATE_SPRITES__ !== 'undefined' && __PRIVATE_SPRITES__;
@@ -273,6 +306,57 @@ const pickNfl = (
   }
   if (neutralPose !== undefined) return { src: nflFile(e.uid, 800, neutralPose), kit: 'neutral', pose: neutralPose };
   return null;
+};
+
+// ---------- Coaches and coordinators ----------
+
+export interface CoachPick {
+  src: string;
+  /** Club name of the polo drawn, or 'neutral' (white) */
+  kit: string;
+  /** Paint the neutral polo: a CSS colour and his outfit mask (gameKitPaint.ts) */
+  polo?: { color: string; mask: string[] };
+  cx: number;
+  foot: number;
+}
+
+const plainName = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z]/gi, '')
+    .toLowerCase();
+
+/**
+ * The head coach (`who` = 'head') or a coordinator (by name) in a club's polo: the file the save drew for that club,
+ * else his white neutral painted in the club's polo colour (the save's own colour for the club; the site's primary
+ * for a club no staff sprite shows), else the neutral as is. `club` unset = a coordinator's own club (the head coach's
+ * club is the caller's to pass); null = the white neutral, club-neutral on purpose. Null when the save has no sprite.
+ */
+export const coachSpriteFor = (nfl: NflSprites | null, who: string, club?: string | null): CoachPick | null => {
+  const c = nfl?.coaches;
+  if (!nfl || !c) return null;
+  const e = who === 'head' ? c.head : c.staff.find((s) => plainName(s.name) === plainName(who));
+  if (!e) return null;
+  const team = club === null ? null : findNFLTeam(club ?? e.club ?? undefined);
+  const same = (k: string) => !!team && findNFLTeam(k)?.id === team.id;
+  const at = (file: string) => {
+    const a = nfl.anchors?.[file];
+    return { src: `${PRIVATE_BASE}nfl/${file}`, cx: a?.[0] ?? 31.5, foot: a?.[1] ?? 58 };
+  };
+  const kitName = Object.keys(e.kits).find(same);
+  if (kitName) return { ...at(e.kits[kitName]), kit: kitName };
+  if (team && e.mask?.length === 64) {
+    const color = c.polo[Object.keys(c.polo).find(same) ?? ''] ?? `hsl(${team.primaryColor})`;
+    return { ...at(e.neutral), kit: team.name, polo: { color, mask: e.mask } };
+  }
+  return { ...at(e.neutral), kit: 'neutral' };
+};
+
+/** True when this machine has a sprite for the head coach ('head') or the named coordinator: callers lay out around him. */
+export const useHasCoachSprite = (who: string): boolean => {
+  const sprites = useGameSprites();
+  return !!coachSpriteFor(sprites?.nfl ?? null, who);
 };
 
 // ---------- Which face ----------

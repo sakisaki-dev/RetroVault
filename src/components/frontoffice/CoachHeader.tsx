@@ -5,6 +5,8 @@ import TeamLogo from '@/components/brand/TeamLogo';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { COACH_NAME_KEY, DEFAULT_COACH_NAME, fmtPct, type CoachFacts, type Resume } from '@/utils/frontOffice';
 import type { CoachInfo } from '@/utils/leagueContent';
+import { usePhone } from '@/hooks/usePhone';
+import CoachStand from './CoachStand';
 import { staggerStyle, teamVars, yearSpan } from './shared';
 
 const readName = () => {
@@ -160,6 +162,7 @@ const CoachHeader = ({ resume, franchiseCount, stintCount, coach, facts = null }
   const club = findNFLTeam(resume.currentClub);
   const clubName = club?.fullName ?? resume.currentClub ?? 'No club';
   const { titleStreak: ts, appearanceStreak: as } = resume;
+  const phone = usePhone();
 
   const lamps = [
     {
@@ -195,7 +198,7 @@ const CoachHeader = ({ resume, franchiseCount, stintCount, coach, facts = null }
       </div>
       <div className="relative space-y-5 p-4 sm:p-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="min-w-0 space-y-3">
+          <div className="fo-hero__who min-w-0 space-y-3">
             <div className="flex flex-wrap items-center gap-2">
               <p className="lamp" aria-hidden="true">
                 The Front Office
@@ -239,12 +242,18 @@ const CoachHeader = ({ resume, franchiseCount, stintCount, coach, facts = null }
               </span>
             </div>
           </div>
-          <p className="max-w-sm text-sm text-muted-foreground md:text-right">
-            {resume.firstYear != null && resume.season != null ? `Y${resume.firstYear}–Y${resume.season}. ` : ''}
-            {coach?.seasons.length
-              ? 'Records come from the staff screen; everything else is computed from the season and Super Bowl history.'
-              : "Every number here is computed from the league's Super Bowl history."}
-          </p>
+          <div className="flex items-end gap-5 max-md:contents">
+            <p className="max-w-sm text-sm text-muted-foreground max-md:order-last md:text-right">
+              {resume.firstYear != null && resume.season != null ? `Y${resume.firstYear}–Y${resume.season}. ` : ''}
+              {coach?.seasons.length
+                ? 'Records come from the staff screen; everything else is computed from the season and Super Bowl history.'
+                : "Every number here is computed from the league's Super Bowl history."}
+            </p>
+            {/* Retro Bowl's own sprite of the coach in his club's polo, on the banners' pedestal (private sprites only) */}
+            <CoachStand team={resume.currentClub ?? null} size={phone ? 'm' : 'l'} className="fo-hero__stand">
+              <TeamLogo team={club ?? resume.currentClub} size={phone ? 40 : 56} decorative />
+            </CoachStand>
+          </div>
         </div>
 
         {strip.length > 0 && (

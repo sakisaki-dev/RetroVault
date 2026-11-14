@@ -4,7 +4,7 @@ import { reducedMotion } from '@/utils/motion';
 import { bannerTeamOf } from '@/utils/playerExtras';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { bodyFor, rolePose } from '@/config/bodyTypes';
-import { REGULAR_POSE, faceFor, nflSpriteFor, useGameSprites, type BodyPose, type FaceSubject, type SpriteAction } from '@/utils/gameSprites';
+import { REGULAR_POSE, SPRITE_BASELINE, SPRITE_BUST, faceFor, nflSpriteFor, useGameSprites, type BodyPose, type FaceSubject, type SpriteAction } from '@/utils/gameSprites';
 
 /**
  * Retro Bowl's own sprite for a player (the owner's private sprites, src/utils/gameSprites.ts). Renders nothing when
@@ -64,13 +64,13 @@ const LEGACY_ACTION: Partial<Record<BodyPose, SpriteAction>> = { celebrate: 'cel
 const sizeOf = (n: number | undefined): SpriteSize | undefined => (n === undefined ? undefined : n <= 1 ? 's' : n === 2 ? 'm' : 'l');
 
 /** The NFL sprite's head and shoulders: 32 x 36 from row 6, centred on his centre line (the body spans y 8-58). */
-const BUST = { y: 6, w: 32, h: 36 };
+const BUST = SPRITE_BUST;
 /**
  * Every figure is centred on its own centre line (the middle of his legs: index anchors for the NFL sprites, measured
  * per frame for the regular ones), not on its canvas, and stands with the bottom of his feet on row BASELINE of the
  * 64-unit box, so every sprite sits centred in its slot at every size.
  */
-const BASELINE = 59;
+const BASELINE = SPRITE_BASELINE;
 
 const useTicker = (on: boolean, fps: number) => {
   const [tick, setTick] = useState(0);

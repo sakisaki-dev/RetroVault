@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import type { CoachGame, CoachGameBrief, ScheduleSeason } from '@/utils/schedule';
 import TeamLogo from '@/components/timeline/TeamLogo';
+import CoachSprite from '@/components/CoachSprite';
 import {
   BOARD_BG,
   BoardTile,
@@ -124,6 +125,8 @@ export const SeasonScoreboard = ({ season, status, badge }: { season: ScheduleSe
       <div className="relative space-y-4 p-3 sm:p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
+            {/* the coach on the touchline in that season's club polo (private sprites; nothing without them) */}
+            <CoachSprite who="head" team={season.coachTeam} size="s" className="-my-4 -ml-3 -mr-5" />
             <TeamLogo team={season.coachTeam} decorative className="h-12 w-12 flex-shrink-0 drop-shadow-lg sm:h-14 sm:w-14" />
             <div className="min-w-0">
               <p className="font-pixel text-[9px] uppercase tracking-widest text-[hsl(var(--gold))]">
