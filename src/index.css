@@ -157,6 +157,24 @@
     overflow-x: clip;
   }
 
+  /* Taps fire at once and a quick double tap on a control never zooms the page (pinch zoom still works) */
+  a,
+  button,
+  summary,
+  label,
+  select,
+  [role='button'],
+  [role='tab'],
+  [role='link'] {
+    touch-action: manipulation;
+  }
+  /* Sideways rails (chip rows, tab strips, carousels) keep their overscroll: reaching the end never swipes the browser
+     back a page */
+  .overflow-x-auto,
+  .overflow-x-scroll {
+    overscroll-behavior-x: contain;
+  }
+
   /*
    * Viewport heights that respect the phone toolbars and the notch: --dvh is the visible height (100vh on old
    * browsers), --safe-h subtracts the safe areas. Dialogs size with max-h-[calc(var(--safe-h)-…)].
@@ -601,23 +619,7 @@
   }
 }
 
-/* Performance mode and reduced motion: short fades only (no slides, staggers or press scaling) */
-[data-perf='lite'] {
-  --dur-view: 120ms;
-  --dur-open: 120ms;
-  --dur-close: 120ms;
-  --dur-sheet-open: 120ms;
-  --dur-sheet-close: 120ms;
-  --rise-view: 0px;
-  --ease-close: var(--ease-out);
-  --dur-2: 120ms;
-  --dur-3: 120ms;
-  --dur-4: 120ms;
-  --stagger: 0ms;
-  --rise: 0px;
-  --press-scale: 1;
-  --ease-spring: var(--ease-out);
-}
+/* Reduced motion: short fades only (no slides, staggers or press scaling). Performance mode keeps motion. */
 @media (prefers-reduced-motion: reduce) {
   :root {
     --dur-2: 120ms;
@@ -808,6 +810,55 @@ details[open] > :not(summary) {
     translate: 0 72px;
   }
 }
+/*
+ * Phone bottom sheet (DialogContent phoneSheet): anchored to the bottom edge, full width, rounded top corners, the grab
+ * handle on top. It rises from below the screen on the iOS sheet curve while the backdrop fades on the same clock, and
+ * slides back down to close. A drag on it follows the finger (useSwipeToDismiss). Transform and opacity only.
+ */
+@media (max-width: 640px) {
+  html .dlg--psheet {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: none;
+    width: 100%;
+    max-width: none;
+    max-height: calc(var(--dvh, 100dvh) - max(12px, env(safe-area-inset-top, 0px)) - 8px);
+    border-radius: 18px 18px 0 0;
+    border-bottom-width: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  /* The grabber pill sits in the top 12 px, clear of controls drawn in the header's top corner */
+  html .dlg--psheet .dlg-grab {
+    height: 12px;
+    align-items: end;
+  }
+  html .dlg--psheet.dlg-anim[data-state='open'] {
+    animation: rv-psheet-in var(--dur-sheet-open) var(--ease-spring);
+  }
+  html .dlg--psheet.dlg-anim[data-state='closed']:not([data-swiped]) {
+    animation: rv-psheet-out var(--dur-sheet-close) var(--ease-close) forwards;
+  }
+}
+@keyframes rv-psheet-in {
+  from {
+    translate: 0 100%;
+  }
+}
+@keyframes rv-psheet-out {
+  to {
+    translate: 0 100%;
+  }
+}
+@media (max-width: 640px) and (prefers-reduced-motion: reduce) {
+  html .dlg--psheet.dlg-anim[data-state] {
+    animation-name: rv-fade-in;
+  }
+  html .dlg--psheet.dlg-anim[data-state='closed'] {
+    animation-name: rv-fade-out;
+  }
+}
 /* Sheets slide in from their edge */
 .sheet-anim[data-state='open'] {
   animation: rv-sheet-in var(--dur-sheet-open) var(--ease-spring);
@@ -842,14 +893,16 @@ details[open] > :not(summary) {
 .sheet-anim[data-state='closed'][data-swiped] {
   animation: rv-fade-out var(--dur-1) linear forwards;
 }
-/* Lite / reduced motion: dialogs and sheets fade */
-[data-perf='lite'] .dlg-anim[data-state],
-[data-perf='lite'] .sheet-anim[data-state] {
-  animation-name: rv-fade-in;
-}
-[data-perf='lite'] .dlg-anim[data-state='closed'],
-[data-perf='lite'] .sheet-anim[data-state='closed'] {
-  animation-name: rv-fade-out;
+/* Reduced motion: dialogs and sheets fade */
+@media (prefers-reduced-motion: reduce) {
+  html .dlg-anim[data-state],
+  html .sheet-anim[data-state] {
+    animation-name: rv-fade-in;
+  }
+  html .dlg-anim[data-state='closed'],
+  html .sheet-anim[data-state='closed'] {
+    animation-name: rv-fade-out;
+  }
 }
 
 /* Popovers, selects and tooltips: a small grow from the trigger */

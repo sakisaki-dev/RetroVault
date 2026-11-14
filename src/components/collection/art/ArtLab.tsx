@@ -36,6 +36,7 @@ const ArtLab = ({ open, onClose, cards, total }: ArtLabProps) => {
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent
+        phoneSheet
         // Focus the active tab, not the search box (no phone keyboard popping up on open)
         onOpenAutoFocus={(e) => {
           e.preventDefault();

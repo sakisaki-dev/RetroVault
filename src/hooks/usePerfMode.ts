@@ -6,8 +6,10 @@ import './perf.css';
  * shimmer and glare, backdrop blur, drop-shadow filters, the market ticker, and shortens walkouts to a quick reveal.
  * CSS reads `data-perf="lite"` on <html> (src/hooks/perf.css); JS effects call isLite().
  *
- * "auto" (the default) is on when the viewer prefers reduced motion or the device looks low-end
- * (4 cores or fewer, or 4 GB of memory or less).
+ * "auto" (the default) is on when the viewer prefers reduced motion or the device reports 2 GB of memory or less
+ * (Chrome on low-end Android). It no longer counts CPU cores: iOS Safari reports a capped core count, which put every
+ * iPhone in performance mode. Motion (transform / opacity: dialogs, sheets, swipes, view changes) never depends on
+ * this mode, only on prefers-reduced-motion (utils/motion.ts).
  */
 export type PerfSetting = 'auto' | 'on' | 'off';
 
@@ -32,7 +34,7 @@ export const suggestLite = (): boolean => {
     /* no matchMedia */
   }
   const nav = navigator as Navigator & { deviceMemory?: number };
-  return (nav.hardwareConcurrency > 0 && nav.hardwareConcurrency <= 4) || (nav.deviceMemory != null && nav.deviceMemory <= 4);
+  return nav.deviceMemory != null && nav.deviceMemory <= 2;
 };
 
 let setting: PerfSetting = typeof window === 'undefined' ? 'auto' : read();

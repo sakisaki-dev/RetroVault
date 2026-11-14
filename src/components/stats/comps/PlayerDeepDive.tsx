@@ -149,7 +149,11 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
     () =>
       onCompFinderRequest(() => {
         const key = takeCompFinderRequest();
-        if (key) choose(key);
+        if (!key) return;
+        // Opened from elsewhere (a player card, search): the new player's page starts at its top at once, no travel
+        choose(key, { scroll: false });
+        const top = topRef.current;
+        if (top && top.getBoundingClientRect().top < 0) top.scrollIntoView({ behavior: 'instant' as ScrollBehavior, block: 'start' });
       }),
     [choose],
   );

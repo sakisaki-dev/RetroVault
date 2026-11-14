@@ -40,6 +40,12 @@ interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof Dialo
    * rule: a sibling `:has()` makes every modal open restyle the whole page (Radix inserts focus guards into <body>).
    */
   overlayClassName?: string;
+  /**
+   * On phones (up to 640 px) the dialog becomes a bottom sheet: full width, anchored to the bottom edge with rounded
+   * top corners and the grab handle, sliding up from below and back down to close (index.css, .dlg--psheet). For big,
+   * content-heavy dialogs (the player card); small confirmations stay centred.
+   */
+  phoneSheet?: boolean;
 }
 
 /*
@@ -87,7 +93,7 @@ export const useModalChrome = <T extends HTMLElement>(ref: React.ForwardedRef<T>
 };
 
 const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
-  ({ className, children, swipeToClose = true, hideClose = false, swipeHandoff = false, overlayClassName, ...props }, ref) => {
+  ({ className, children, swipeToClose = true, hideClose = false, swipeHandoff = false, overlayClassName, phoneSheet = false, ...props }, ref) => {
     const { overlayRef, contentRef, bar } = useModalChrome(ref, swipeToClose, hideClose, swipeHandoff);
     return (
       <DialogPortal>
@@ -98,6 +104,7 @@ const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.C
             // Motion: .dlg-anim in index.css (spring rise on open, quicker fade-and-drop on close; a slide-up on phones)
             "dlg dlg-anim fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg sm:rounded-lg",
             className,
+            phoneSheet && "dlg--psheet",
           )}
           {...props}
         >

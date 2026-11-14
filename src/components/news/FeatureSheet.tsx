@@ -108,6 +108,7 @@ export const FeatureSheet = ({ piece, onClose, prev, next, players, onPlayer }: 
     <Dialog open={!!p} onOpenChange={(o) => !o && onClose()}>
       <DialogContent
         ref={scroller}
+        phoneSheet
         onKeyDown={onKey}
         // open at the top with the sheet itself focused (not the first banner, which would scroll a phone down);
         // Tab still starts at the first control and the arrow keys work at once

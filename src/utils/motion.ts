@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { isLite } from '@/hooks/usePerfMode';
 
 /*
  * Shared motion system. The CSS custom properties in src/index.css (--dur-*, --ease-*, --stagger, --rise) are the
@@ -16,8 +15,9 @@ import { isLite } from '@/hooks/usePerfMode';
  * redefines the CSS tokens in src/index.css. The values are read live, so rotating a tablet or resizing a window
  * switches between the two sets.
  *
- * Performance mode (data-perf="lite") and prefers-reduced-motion collapse everything to short fades: no slides, no
- * staggers, no press scaling (src/index.css redefines the tokens; `reducedMotion()` tells JS).
+ * Only prefers-reduced-motion collapses everything to short fades: no slides, no staggers, no press scaling
+ * (src/index.css redefines the tokens; `reducedMotion()` tells JS). Performance mode (data-perf="lite") drops costly
+ * paint effects (blur, filters, shimmer, tilt) but keeps transform / opacity motion, which is cheap on any phone.
  */
 export const MOBILE_MOTION = '(pointer: coarse), (max-width: 640px)';
 
@@ -74,7 +74,6 @@ export const STAGGER_CAP = 12;
 export const STAGGER_CAP_MOBILE = 6;
 
 export const reducedMotion = (): boolean => {
-  if (isLite()) return true;
   try {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   } catch {

@@ -261,6 +261,7 @@ const PlayerEditDialog = ({ player, isNewPlayer = false, onClose, onSave, onDele
   return (
     <Dialog open={!!player || isNewPlayer} onOpenChange={(open) => !open && !busy && onClose()}>
       <DialogContent
+        phoneSheet
         className="flex max-h-[calc(var(--safe-h)-1rem)] w-[calc(100vw-1rem)] max-w-4xl flex-col gap-0 overflow-hidden border-line bg-card p-0"
         onPointerDownOutside={(e) => e.preventDefault()}
         // A form with unsaved edits: close only on purpose (X, Cancel, Escape)

@@ -1,6 +1,5 @@
 import { flushSync } from 'react-dom';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
-import { isLite } from '@/hooks/usePerfMode';
 import { useDeferredStage } from '@/hooks/useDeferredStage';
 import { ChevronLeft, ChevronRight, Crown, Hammer, Pin, PinOff, RotateCcw, UserRound } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
@@ -101,7 +100,7 @@ interface CardDetailProps {
 
 const motionOk = () => {
   try {
-    return !isLite() && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   } catch {
     return false;
   }
@@ -135,6 +134,9 @@ const EXIT_MS = 250;
 const EXIT_PANEL_MS = 120;
 const EXIT_FADE_MS = 120;
 const EXIT_EASE = 'cubic-bezier(0.2, 0.8, 0.2, 1)';
+/** Touches starting this close to the screen's left or right edge are left to the system back gesture */
+const EDGE_PX = 20;
+
 /** Horizontal swipe: past this distance (or a flick) it steps to the next card. */
 const SWIPE_STEP = 64;
 const SWIPE_FLICK = 0.5; // px per ms
@@ -443,6 +445,8 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
       state = 'off';
       if (e.touches.length !== 1) return;
       if ((e.target as HTMLElement).closest('button:not(.fut__card), input, select, [data-no-swipe]')) return;
+      // A touch from the screen's edge belongs to the system (iOS / Android back swipe), never to the card
+      if (e.touches[0].clientX < EDGE_PX || e.touches[0].clientX > window.innerWidth - EDGE_PX) return;
       sx = lastX = e.touches[0].clientX;
       sy = e.touches[0].clientY;
       lastT = e.timeStamp;

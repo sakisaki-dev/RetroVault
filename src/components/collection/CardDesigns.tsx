@@ -58,7 +58,7 @@ const CardDesigns = ({
   const rows = useMemo(() => designRows(cards), [cards]);
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-h-[calc(var(--safe-h)-1rem)] max-w-5xl overflow-y-auto border-line bg-night p-3 sm:p-6">
+      <DialogContent phoneSheet className="max-h-[calc(var(--safe-h)-1rem)] max-w-5xl overflow-y-auto border-line bg-night p-3 sm:p-6">
         <div className="flex flex-wrap items-end gap-3 pr-12">
           <div className="min-w-0 flex-1">
             <DialogTitle className="font-display text-2xl uppercase italic">

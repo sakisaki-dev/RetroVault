@@ -1,6 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState, type ComponentType } from 'react';
 import { Play, RotateCcw, Shirt } from 'lucide-react';
-import { isLite } from '@/hooks/usePerfMode';
 import { cn } from '@/lib/utils';
 import { sfx } from '@/utils/sfx';
 import {
@@ -80,7 +79,7 @@ const sampleSerial = (c: PrizmParallel, number: number | null | undefined) => {
 /** Same rule as the pack dialog: performance mode or the OS setting means the short versions. */
 const reducedMotion = () => {
   try {
-    return isLite() || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   } catch {
     return false;
   }

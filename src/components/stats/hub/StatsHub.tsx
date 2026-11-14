@@ -6,7 +6,7 @@ import PlayerSearchSelect from '../../PlayerSearchSelect';
 import { openInCompFinder } from '../comps/compFinderLink';
 import { usePrefersReducedMotion } from '../analytics/viz';
 import { keyOf } from '../records';
-import { buildHash, useHubRoute, type StatsSub } from './hashRoute';
+import { buildHash, lastNavKind, useHubRoute, type StatsSub } from './hashRoute';
 
 const SUB_TABS: { id: StatsSub; label: string; short: string; Icon: typeof Users; blurb: string }[] = [
   { id: 'players', label: 'Players', short: 'Players', Icon: Users, blurb: 'Records, full stat tables, advanced analytics and leaders' },
@@ -78,15 +78,24 @@ const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, onPrefetch
     };
   }, [total]);
 
-  // Sub-tab switch: bring the top of the new panel into view (if we had scrolled past it); sections scroll to themselves.
+  // Sub-tab switch: the new panel opens at its top, in the same commit that shows it (no visible scroll travel), if we
+  // had scrolled past it. Back / Forward leave the scroll to the router, which restores where the page was left
+  // (hashRoute). Sections scroll to themselves (below).
+  const first = useRef(true);
+  useLayoutEffect(() => {
+    if (first.current || section || lastNavKind() === 'pop') return;
+    const top = (rootRef.current?.getBoundingClientRect().top ?? 0) + window.scrollY - offset.header;
+    if (window.scrollY > top + 4) window.scrollTo({ top: Math.max(0, top), behavior: 'instant' as ScrollBehavior });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sub, section]);
+
   // Parts of a sub-tab load lazily (lazyViews.tsx), so a section may not exist yet, or may move when a chunk above it
   // lands: wait for it, then keep it aligned while the panel settles (until the user scrolls, or about 3 s).
-  const first = useRef(true);
   useEffect(() => {
     const behavior: ScrollBehavior = reduced ? 'auto' : 'smooth';
     const cleanups: (() => void)[] = [];
     const id = window.requestAnimationFrame(() => {
-      if (section) {
+      if (section && lastNavKind() !== 'pop') {
         const root = rootRef.current;
         let settled = false;
         const align = (b: ScrollBehavior) => document.getElementById(section)?.scrollIntoView({ behavior: b, block: 'start' });
@@ -120,9 +129,6 @@ const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, onPrefetch
         });
         return;
       }
-      if (first.current) return;
-      const top = (rootRef.current?.getBoundingClientRect().top ?? 0) + window.scrollY - offset.header;
-      if (window.scrollY > top + 4) window.scrollTo({ top, behavior });
     });
     first.current = false;
     return () => {

@@ -46,7 +46,7 @@ const SellDuplicates = ({ open, onClose, byKey, state }: SellDuplicatesProps) =>
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-h-[calc(var(--safe-h)-1rem)] max-w-xl overflow-y-auto border-line bg-night p-4 sm:p-6">
+      <DialogContent phoneSheet className="max-h-[calc(var(--safe-h)-1rem)] max-w-xl overflow-y-auto border-line bg-night p-4 sm:p-6">
         <p className="ec-kicker">Sell to the market · {Math.round(SELL_RATE * 100)}% of value</p>
         <DialogTitle className="font-display text-3xl uppercase italic">Sell duplicates</DialogTitle>
         <DialogDescription>Every copy beyond the best one of each art and finish. Your best copy of each always stays.</DialogDescription>

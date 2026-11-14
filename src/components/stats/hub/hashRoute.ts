@@ -1,4 +1,4 @@
-import { createContext, startTransition, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, startTransition, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 /**
  * Tiny hash router for the single-page hub. The URL hash mirrors the visible page so tabs are linkable
@@ -104,6 +104,31 @@ export const buildHash = (r: Route): string => {
 
 const sameRoute = (a: Route, b: Route) => buildHash(a) === buildHash(b);
 
+/*
+ * Scroll position per page, like a native app: a page you go to opens at its top, at once (no visible scroll travel);
+ * Back and Forward put each page back where you left it. The browser's own restoration is off (it restores before
+ * a lazy page has its height, then the page jumps). Each history entry carries an id in history.state ({ rv }), and
+ * the scroll position is saved under it when you leave.
+ */
+type NavKind = 'push' | 'pop' | 'replace' | 'init';
+let navKind: NavKind = 'init';
+/** How the latest route change came about (views use it: a sub-tab change from Back must not scroll itself). */
+export const lastNavKind = () => navKind;
+const saved = new Map<number, number>();
+let entrySeq = 0;
+const entryId = (): number => {
+  const st = window.history.state as { rv?: number } | null;
+  if (st && typeof st.rv === 'number') {
+    entrySeq = Math.max(entrySeq, st.rv);
+    return st.rv;
+  }
+  const id = ++entrySeq;
+  window.history.replaceState({ ...(st ?? {}), rv: id }, '');
+  return id;
+};
+/** Jump with no smooth travel, whatever the stylesheet says */
+const jump = (y: number) => window.scrollTo({ top: y, left: 0, behavior: 'instant' as ScrollBehavior });
+
 /**
  * The current route, kept in sync with the URL hash. `navigate` pushes a history entry (or replaces with
  * `{ replace: true }`). Re-navigating to the Stats tab without a sub-tab returns to the last one used.
@@ -112,6 +137,10 @@ const sameRoute = (a: Route, b: Route) => buildHash(a) === buildHash(b);
  * lazy chunk loads, so a fast switch never flashes a skeleton and a slow one never blocks the tap. `target` is the
  * route being switched to, updated at once, for the nav highlights. Replacements (a view syncing its own state to the
  * URL) apply at once.
+ *
+ * Scroll: a new top-level page starts at its top, set in the same commit that shows it (before the paint); within the
+ * Stats tab the hub keeps its own rule (StatsHub: back to the panel's top). Back / Forward restore the saved position,
+ * following a lazy page as it grows until it is tall enough (or the reader scrolls).
  */
 export const useHashRoute = (defaultTab = 'games') => {
   const lastSub = useRef<StatsSub>('players');
@@ -127,6 +156,9 @@ export const useHashRoute = (defaultTab = 'games') => {
   if (route.sub) lastSub.current = route.sub;
   // The latest route asked for (ahead of `route` while a transition is pending)
   const targetRef = useRef(route);
+  // The history entry on screen, and what to do with the scroll once the next route commits
+  const current = useRef(0);
+  const pendingScroll = useRef<{ kind: 'top' | 'restore'; y: number } | null>(null);
   const show = useCallback((next: Route, urgent = false) => {
     targetRef.current = next;
     setTarget(next);
@@ -135,11 +167,33 @@ export const useHashRoute = (defaultTab = 'games') => {
   }, []);
 
   useEffect(() => {
+    try {
+      window.history.scrollRestoration = 'manual';
+    } catch {
+      /* not supported */
+    }
+    current.current = entryId();
+  }, []);
+
+  useEffect(() => {
     const sync = () => {
+      // popstate and hashchange both fire for one Back: only the first one counts
+      const id = entryId();
+      const entered = id !== current.current;
+      if (entered) {
+        saved.set(current.current, window.scrollY);
+        current.current = id;
+      }
       const r = parseHash(window.location.hash);
-      if (!r) return; // plain anchor: stay where we are
+      if (!r) return; // plain anchor: stay where we are (the browser jumps to it)
       const next = r.tab === 'career' && !r.sub ? { ...r, sub: lastSub.current } : r;
-      if (!sameRoute(next, targetRef.current)) show(next);
+      if (sameRoute(next, targetRef.current)) return;
+      if (entered) {
+        const y = saved.get(id);
+        navKind = 'pop';
+        pendingScroll.current = y != null ? { kind: 'restore', y } : { kind: 'top', y: 0 };
+      }
+      show(next);
     };
     window.addEventListener('popstate', sync);
     window.addEventListener('hashchange', sync);
@@ -152,14 +206,52 @@ export const useHashRoute = (defaultTab = 'games') => {
   const navigate = useCallback((to: Route, opts?: { replace?: boolean }) => {
     const next: Route = to.tab === 'career' && !to.sub ? { ...to, sub: lastSub.current } : to;
     const hash = buildHash(next);
+    const changed = !sameRoute(next, targetRef.current);
     if (hash !== window.location.hash) {
       if (opts?.replace) window.history.replaceState(window.history.state, '', hash);
-      else window.history.pushState(null, '', hash);
+      else {
+        saved.set(current.current, window.scrollY);
+        const id = ++entrySeq;
+        window.history.pushState({ rv: id }, '', hash);
+        current.current = id;
+      }
     }
     if (next.sub) lastSub.current = next.sub;
+    if (changed) {
+      navKind = opts?.replace ? 'replace' : 'push';
+      // A new top-level page opens at its top (sections and Stats sub-tabs place themselves)
+      pendingScroll.current = !opts?.replace && next.tab !== targetRef.current.tab ? { kind: 'top', y: 0 } : null;
+    }
     // Replacements keep a view's own state in the URL (a chart, the Deep Dive player, a section): those stay urgent
-    if (!sameRoute(next, targetRef.current)) show(next, !!opts?.replace);
+    if (changed) show(next, !!opts?.replace);
   }, [show]);
+
+  // Apply the scroll in the commit that shows the new route, before it paints
+  const routeHash = buildHash(route);
+  useLayoutEffect(() => {
+    const want = pendingScroll.current;
+    if (!want || buildHash(targetRef.current) !== routeHash) return;
+    pendingScroll.current = null;
+    jump(want.y);
+    if (want.kind !== 'restore' || Math.abs(window.scrollY - want.y) < 2) return;
+    // The page is still short (lazy parts loading): follow it as it grows, until it fits, the reader scrolls, or 2 s
+    let done = false;
+    const stop = () => {
+      if (done) return;
+      done = true;
+      ro?.disconnect();
+      window.clearTimeout(timer);
+      ['wheel', 'touchstart', 'keydown'].forEach((t) => window.removeEventListener(t, stop));
+    };
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => {
+      jump(want.y);
+      if (Math.abs(window.scrollY - want.y) < 2) stop();
+    }) : null;
+    ro?.observe(document.body);
+    const timer = window.setTimeout(stop, 2000);
+    ['wheel', 'touchstart', 'keydown'].forEach((t) => window.addEventListener(t, stop, { passive: true }));
+    return stop;
+  }, [routeHash]);
 
   return { route, target, navigate };
 };

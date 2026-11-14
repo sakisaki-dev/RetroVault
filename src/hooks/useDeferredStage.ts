@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { isMobileMotion, reducedMotion } from '@/utils/motion';
 
 /*
  * Shell-first rendering for dialogs. The tap's own task should only build what the first frame shows (the frame, the
@@ -32,6 +33,10 @@ export const afterPaint = (cb: () => void, fallbackMs = 120): (() => void) => {
   };
 };
 
+/** How long heavy content waits while a dialog / sheet opens (phones open over ~480-500 ms, desktop ~280 ms) */
+const PHONE_OPEN_HOLD_MS = 380;
+const DESKTOP_OPEN_HOLD_MS = 220;
+
 /**
  * 0 on the render where `active` turns true (and on a first mount that is already active), then 1, 2, … one per
  * painted frame, up to `stages`. Stays where it is while inactive. `finish()` jumps to the last stage at once, before
@@ -52,7 +57,20 @@ export const useDeferredStage = (active: boolean, stages = 1): { stage: number; 
   }
   useEffect(() => {
     if (!active || stage >= stages) return;
-    return afterPaint(() => setStage((s) => Math.min(stages, Math.max(s, stage + 1))));
+    const next = () => setStage((s) => Math.min(stages, Math.max(s, stage + 1)));
+    // The first heavy render waits until the opening has nearly landed (its last stretch barely moves), so a long
+    // render never lands mid-animation and costs the opening its frames
+    if (stage === 0 && !reducedMotion()) {
+      let cancel = () => {};
+      const timer = window.setTimeout(() => {
+        cancel = afterPaint(next);
+      }, isMobileMotion() ? PHONE_OPEN_HOLD_MS : DESKTOP_OPEN_HOLD_MS);
+      return () => {
+        window.clearTimeout(timer);
+        cancel();
+      };
+    }
+    return afterPaint(next);
   }, [active, stage, stages]);
   return {
     stage,

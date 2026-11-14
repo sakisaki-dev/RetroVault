@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent, type TouchEvent as ReactTouchEvent } from 'react';
-import { isLite } from '@/hooks/usePerfMode';
 import { Hammer, Repeat, Signature, Sparkles, Trophy } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -19,7 +18,7 @@ import './kits.css';
 
 const reducedMotion = () => {
   try {
-    return isLite() || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   } catch {
     return false;
   }

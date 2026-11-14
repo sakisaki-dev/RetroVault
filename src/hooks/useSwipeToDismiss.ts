@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState, type MutableRefObject, type Ref } from 'react';
-import { isLite } from './usePerfMode';
 import { dur, ease, isMobileMotion } from '@/utils/motion';
 
 /*
@@ -9,7 +8,7 @@ import { dur, ease, isMobileMotion } from '@/utils/motion';
  * scroller between the finger and the element is already at its top. Otherwise the drag is ordinary scrolling.
  * Sideways drags (matrix and chip rows), range sliders and text fields are left alone. The element follows the finger
  * (the `translate` property, so it composes with any centring transform) and the backdrop fades with it; past a
- * distance or a flick it glides out at the finger's speed (at least 300 ms on phones), otherwise it glides back. In performance mode or with reduced motion nothing
+ * distance or a flick it glides out at the finger's speed (at least 300 ms on phones), otherwise it glides back. With reduced motion nothing
  * moves, but a long enough drag still closes it.
  *
  * Nested roots (a sheet inside a dialog) each mark themselves data-swipe-root; a drag belongs to the innermost one.
@@ -31,11 +30,12 @@ const CLOSE_FRACTION = 0.28; // of the element's visible height
 const CLOSE_MAX = 160; // px: never require more than this
 const FLICK = 0.55; // px per ms
 
+// Motion follows the OS setting only: performance mode drops costly paint effects, never transform / opacity motion
 const reducedMotion = () => {
   try {
-    return isLite() || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   } catch {
-    return isLite();
+    return false;
   }
 };
 
@@ -62,6 +62,7 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
     let state: 'idle' | 'pending' | 'drag' | 'off' = 'idle';
     let still = false;
     let height = 1;
+    let handle = false;
 
     const bd = () => opts.current.backdrop?.() ?? null;
     // animate: false follows the finger; 'back' glides home; [ms, curve] slides out over that many ms on a curve whose
@@ -112,6 +113,7 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
       if (target.closest('[data-swipe-root]') !== el) return;
       if (target.closest('input, textarea, select, [contenteditable="true"], [data-no-swipe]')) return;
       const onHandle = !!target.closest('[data-swipe-handle]');
+      handle = onHandle;
       if (!onHandle) {
         for (let n: HTMLElement | null = target; n; n = n.parentElement) {
           if (scrolledDown(n)) return;
@@ -137,7 +139,8 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
       if (state === 'pending') {
         // Decide on the first move: iOS ignores preventDefault once a scroll has begun. Sideways or upward is not ours
         // (scrolling, a chip row, the matrix).
-        if (dy <= 0 || Math.abs(dx) > dy) {
+        // (On the grab handle an upward pull is ours too: it stretches a little and springs back.)
+        if (Math.abs(dx) > Math.abs(dy) || (dy <= 0 && !handle)) {
           state = 'off';
           return;
         }
@@ -148,7 +151,8 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
       if (now > lastT) vel = 0.7 * ((t.clientY - lastY) / (now - lastT)) + 0.3 * vel;
       lastY = t.clientY;
       lastT = now;
-      if (!still) set(Math.max(0, dy), false);
+      // Down: follows the finger 1:1. Up (handle only): rubber-banded, at most about 24 px
+      if (!still) set(dy >= 0 ? dy : -24 * (1 - 1 / (1 + -dy / 60)), false);
     };
 
     const onEnd = () => {
