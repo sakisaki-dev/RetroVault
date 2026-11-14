@@ -13,6 +13,11 @@ build never has that folder, so the public site is unchanged; the dev server and
 
 --coaches refreshes only the coach and staff sprites and index.coaches (the players' files stay as they are).
 
+Additive: the game keeps sprites only for players in its current save, so each run keeps every player, legend and
+stand-in entry (and its files) an earlier save gave, refreshes the ones this save matches (new kits and poses join the
+old ones), adds new players, and never removes a player's sprites because the save no longer has him. A uid shared by
+different-looking players is still skipped, but an existing entry for that player stays.
+
 Sprites in the game: faces_img/<uid>_<kit>[_p2.._p5].png, 64 x 64 full-body players drawn in real kits with their
 numbers; <kit> is a club uid (000-031, the save's teams.list) or 800, a neutral white kit; no suffix = pose 1.
 
@@ -58,6 +63,22 @@ def anchor(path: Path) -> list[float]:
     foot = max(y for _, y in solid)
     legs = [x for x, y in solid if y >= foot - 9]
     return [round((min(legs) + max(legs) + 1) / 2, 1), foot]
+
+
+def sprite_name(uid: str, kit: int, pose: int) -> str:
+    return f"{uid}_{kit:03d}{'' if pose == 1 else f'_p{pose}'}.png"
+
+
+CLUB_UIDS: dict[str, int] = {}  # club name -> the save's club uid (set by main)
+
+
+def entry_files(e: dict) -> list[str]:
+    """The files a players / legends index entry names."""
+    out = [sprite_name(e["uid"], 800, p) for p in e.get("neutral", [])]
+    for club, poses in e.get("kits", {}).items():
+        if club in CLUB_UIDS:
+            out += [sprite_name(e["uid"], CLUB_UIDS[club], p) for p in poses]
+    return out
 
 
 STAFF_ROLE = {100: "HC", **save_read.STAFF_ROLE}  # coaches.pool position codes: 100 head coach, 101 DC, 102 OC
@@ -156,6 +177,7 @@ def main() -> None:
     docs = slot.parent
     save = save_read.Save(slot)
     clubs = {uid: t["name"] for uid, t in save.teams.items()}
+    CLUB_UIDS.update({name: uid for uid, name in clubs.items()})
     # Players are matched the importer's way (normalised name + position; a name found once at another position in
     # the same stat group). uids repeat in the pool: the game's generated players (900xxx) are drawn from a look
     # template, and the players sharing one have the same skin and skin colour (100 of 104 groups in the Y93 save), so
@@ -173,23 +195,39 @@ def main() -> None:
         if m:
             sprites[m.group(1)].append((int(m.group(2)), int(m.group(3) or 1), f.name))
 
-    if coaches_only:
-        index = json.loads((OUT / "index.json").read_text())
+    old_index = json.loads((OUT / "index.json").read_text()) if (OUT / "index.json").exists() else {}
+    OUT.mkdir(parents=True, exist_ok=True)
+    anchors: dict[str, list[float]] = old_index.get("anchors", {})
+    files_before = sum(1 for _ in OUT.glob("*.png"))
+
+    def refresh_coaches(index: dict) -> dict:
+        """Replace the last run's coach and staff files with this save's. A file a player, legend or stand-in entry also
+        names is kept (uids can collide across the pool)."""
+        keep: set[str] = set()
+        for group in ("players", "legends"):
+            for e in index.get(group, {}).values():
+                keep |= set(entry_files(e))
+        for e in index.get("standins", []):
+            keep |= {sprite_name(e["uid"], 800, pose) for pose in e.get("neutral", [])}
         old = index.get("coaches") or {}
         for c in [old.get("head") or {}, *old.get("staff", [])]:  # the last run's coach files go first
             for name in [*c.get("kits", {}).values(), c.get("neutral")]:
-                if name:
+                if name and name not in keep:
                     (OUT / name).unlink(missing_ok=True)
-                    index.get("anchors", {}).pop(name, None)
-        index["coaches"] = coach_sprites(save, sprites, clubs, img_dir, index.setdefault("anchors", {}))
-        (OUT / "index.json").write_text(json.dumps(index, indent=1, ensure_ascii=False) + "\n")
-        report_coaches(index["coaches"])
+                    anchors.pop(name, None)
+        return coach_sprites(save, sprites, clubs, img_dir, anchors)
+
+    if coaches_only:
+        old_index["anchors"] = anchors
+        old_index["coaches"] = refresh_coaches(old_index)
+        (OUT / "index.json").write_text(json.dumps(old_index, indent=1, ensure_ascii=False) + "\n")
+        report_coaches(old_index["coaches"])
         return
 
-    if OUT.exists():
-        shutil.rmtree(OUT)
-    OUT.mkdir(parents=True)
-    anchors: dict[str, list[float]] = {}
+    # Additive (owner, 2026-11-14): the game keeps sprites only for players in its current save, so a newer save lacks
+    # most retirees. A run never removes a player's files or index entry: it keeps every entry the save no longer has,
+    # refreshes the ones it matches (new kits and poses join the ones already there) and adds new players.
+    club_uid = {name: uid for uid, name in clubs.items()}
 
     def copy(uid: str) -> dict:
         kits: dict[str, list[int]] = defaultdict(list)
@@ -205,22 +243,46 @@ def main() -> None:
             anchors[name] = anchor(OUT / name)
         return {"uid": uid, "kits": dict(kits), "neutral": neutral}
 
-    players: dict[str, dict] = {}
-    unmatched: list[str] = [save_read.rv_key(r) for r in missing]
+    def merged(old: dict | None, new: dict) -> dict:
+        """This save's entry for a player, plus every kit and pose an earlier save drew for the same uid (their files
+        stay on disk). A different uid (the matcher picked another pool player) takes the new entry; the old files stay."""
+        if not old or old.get("uid") != new["uid"]:
+            return new
+        kits = {c: sorted({*old.get("kits", {}).get(c, []), *new["kits"].get(c, [])})
+                for c in sorted({*old.get("kits", {}), *new["kits"]}, key=lambda c: (club_uid.get(c, 999), c))}
+        return {"uid": new["uid"], "kits": kits, "neutral": sorted({*old.get("neutral", []), *new["neutral"]})}
+
+    stats: dict[str, int] = defaultdict(int)
+    players: dict[str, dict] = dict(old_index.get("players", {}))
+    old_players = set(players)
+    seen: set[str] = set()
     ambiguous: list[str] = []
+    no_sprite: list[str] = []
     for r, pick in pairs:
         key = save_read.rv_key(r)
         if len(looks_by_uid[pick["uid"]]) > 1:
             ambiguous.append(key)
+            stats["ambiguous kept" if key in players else "ambiguous"] += 1
             continue
         if not sprites.get(pick["uid"]):
-            unmatched.append(key + " (no sprite)")
+            no_sprite.append(key)
             continue
-        players[key] = copy(pick["uid"])
+        seen.add(key)
+        old = players.get(key)
+        if old and old.get("assigned"):  # a real match always replaces an assigned look
+            old = None
+            stats["assignment replaced"] += 1
+        elif old and old.get("uid") != pick["uid"]:
+            stats["uid changed"] += 1
+        players[key] = merged(old, copy(pick["uid"]))
+        stats["refreshed" if old else "added"] += 1
+    stats["kept"] = sum(1 for k in old_players - seen if not players[k].get("assigned"))
+    stats["assigned kept"] = sum(1 for k in old_players - seen if players[k].get("assigned"))
+    players = dict(sorted(players.items()))
 
     # Real NFL legends (public/data/legends.json): the arcade games only, never league stats or the Collection. The
     # NFL edition's real players (is_real_crew, uids 1xxxxx, never shared) may have left the current pool, so every
-    # save file in the folder (backups too) is searched for them by name and position.
+    # save file in the folder (backups too) is searched for them by name and position. Additive like the players.
     legend_rows = json.loads((ROOT / "public" / "data" / "legends.json").read_text())
     want = {(save_read.norm(r["name"]), r["position"]): f'{r["position"]}:{r["name"]}' for r in legend_rows}
     legend_uid: dict[str, str] = {}
@@ -236,14 +298,18 @@ def main() -> None:
             key = want.get((save_read.norm(f'{q.get("fname", "")} {q.get("lname", "")}'), pos))
             if key and str(q["uid"]) in sprites:
                 legend_uid.setdefault(key, str(q["uid"]))
-    legends = {key: copy(uid) for key, uid in sorted(legend_uid.items())}
+    legends: dict[str, dict] = dict(old_index.get("legends", {}))
+    for key, uid in sorted(legend_uid.items()):
+        legends[key] = merged(legends.get(key), copy(uid))
+    legends = dict(sorted(legends.items()))
 
     # Stand-ins: league players the save doesn't have (older retirees) still wear the save's style. The game itself draws
     # all its generated players from about a hundred look templates (the 900xxx uids, shared by several players each),
     # so a stand-in is one of those templates: never a real NFL player, never a uid shared by different-looking players,
     # with all five neutral poses and the game's skin group (0 dark, 1 mix, 2 light) so the site can pick one matching
-    # the player's skin, and paint the kit.
-    standins: list[dict] = []
+    # the player's skin, and paint the kit. Earlier saves' templates stay (their files are kept).
+    standins: dict[str, dict] = {e["uid"]: e for e in old_index.get("standins", [])}
+    standins_before = len(standins)
     skin_of = {q["uid"]: int(float(q["raw"].get("skin", 0))) for q in save.players if not q["raw"].get("is_real_crew")}
     for uid in sorted(skin_of):
         if not uid.startswith("9") or len(looks_by_uid[uid]) != 1:
@@ -252,41 +318,121 @@ def main() -> None:
         if poses != [1, 2, 3, 4, 5]:
             continue
         for kit, pose, name in sprites[uid]:
-            if kit == 800 and name not in anchors:
+            if kit == 800:
                 shutil.copy2(img_dir / name, OUT / name)
                 anchors[name] = anchor(OUT / name)
-        standins.append({"uid": uid, "skin": skin_of[uid], "neutral": poses})
+        standins[uid] = {"uid": uid, "skin": skin_of[uid], "neutral": poses}
 
-    coaches = coach_sprites(save, sprites, clubs, img_dir, anchors)
+    # Assigned looks (owner, 2026-11-14: every league player with a card gets a sprite): a player with no entry yet (not
+    # in the save, an ambiguous uid, no sprite) is given a look from the pool: the game's generic templates (the
+    # stand-ins) and the real NFL players' sprites in the save (is_real_crew with all five neutral poses; never a
+    # legends.json player, who keeps his own look in the games). Painted into his club kit on the site like any neutral.
+    # The pick fits his skin: the save's skin group and col_skin where his record exists, else his sprites.json skin, else
+    # anything; the save has no hair or facial-hair fields, so those can't be matched. Among the fitting looks the order
+    # is stable, seeded by "POS:Name" (FNV-1a of key|uid, highest first), and the first look nobody at his position or on
+    # his club already wears wins (then one free at his position, then the first). Marked "assigned" with its pool, so a
+    # real match always replaces it (above) and the owner can override it; once given, it is kept like any entry.
+    rows = {save_read.rv_key(r): r for r, _ in pairs} | {save_read.rv_key(r): r for r in missing}
+    record = {save_read.rv_key(r): pick["raw"] for r, pick in pairs}
+    legend_uids = {e["uid"] for e in legends.values()} | set(legend_uid.values())
+    pool: list[dict] = [{"uid": u, "skin": x["skin"], "col": next(iter(looks_by_uid[u]))[1], "pool": "generic"}
+                        for u, x in sorted(standins.items()) if looks_by_uid.get(u)]
+    for q in save.players:
+        raw = q["raw"]
+        if not raw.get("is_real_crew") or q["uid"] in legend_uids or len(looks_by_uid[q["uid"]]) != 1:
+            continue
+        if sorted(p for k, p, _ in sprites.get(q["uid"], []) if k == 800) == [1, 2, 3, 4, 5]:
+            pool.append({"uid": q["uid"], "skin": int(float(raw.get("skin", 0))),
+                         "col": int(float(raw.get("col_skin", -1))), "pool": "real"})
+    pool = list({x["uid"]: x for x in pool}.values())
+    look_skin = {name: v.get("skin") for name, v in
+                 json.loads((ROOT / "data" / "y80" / "sprites.json").read_text()).get("players", {}).items()}
+    tone_groups = {"pale": [2], "light": [2], "tan": [2, 1], "medium": [1, 0], "brown": [0], "deep": [0]}
 
+    def fnv(text: str) -> int:
+        h = 0x811C9DC5
+        for b in text.encode():
+            h = ((h ^ b) * 0x01000193) & 0xFFFFFFFF
+        return h
+
+    used_pos: dict[str, set[str]] = defaultdict(set)
+    used_club: dict[str, set[str]] = defaultdict(set)
+    for key, e in players.items():
+        used_pos[key.split(":")[0]].add(e["uid"])
+        if key in rows:
+            used_club[rows[key].get("team") or ""].add(e["uid"])
+    assigned_now = {"generic": 0, "real": 0}
+    for key in sorted(k for k in rows if k not in players):
+        if not pool:
+            break
+        raw, pos, club = record.get(key), key.split(":")[0], rows[key].get("team") or ""
+        if raw:
+            skin, col = int(float(raw.get("skin", -1))), int(float(raw.get("col_skin", -1)))
+            fits = [x for x in pool if x["skin"] == skin and x["col"] == col] or [x for x in pool if x["skin"] == skin]
+        else:
+            groups = tone_groups.get(look_skin.get(rows[key]["n"]) or "")
+            fits = [x for x in pool if x["skin"] in groups] if groups else []
+        ranked = sorted(fits or pool, key=lambda x: fnv(f"{key}|{x['uid']}"), reverse=True)
+        x = next((x for x in ranked if x["uid"] not in used_pos[pos] and x["uid"] not in used_club[club]),
+                 next((x for x in ranked if x["uid"] not in used_pos[pos]), ranked[0]))
+        for kit, pose, name in sprites[x["uid"]]:
+            if kit == 800:
+                shutil.copy2(img_dir / name, OUT / name)
+                anchors[name] = anchor(OUT / name)
+        players[key] = {"uid": x["uid"], "kits": {}, "neutral": [1, 2, 3, 4, 5], "assigned": True, "pool": x["pool"]}
+        used_pos[pos].add(x["uid"])
+        used_club[club].add(x["uid"])
+        assigned_now[x["pool"]] += 1
+    players = dict(sorted(players.items()))
+
+    years = set(old_index.get("saveYears", []))
+    if old_index.get("save", {}).get("year") is not None:
+        years.add(old_index["save"]["year"])
+    years.add(save.year)
     index = {
         "about": "The owner's NFL Retro Bowl player and coach sprites (New Star Games, NFL/NFLPA marks), copied by "
-                 "scripts/private_nfl_sprites.py. Committed by the owner's choice (2026-11-14).",
+                 "scripts/private_nfl_sprites.py. Committed by the owner's choice (2026-11-14). Additive: a run keeps "
+                 "every player an earlier save matched.",
         "size": [64, 64],
         "file": "{uid}_{kit:03d}{suffix}.png (kit = club uid, 800 neutral; suffix '' for pose 1, else _p<pose>)",
         "clubs": {name: uid for uid, name in sorted(clubs.items())},
         "save": {"slot": slot.name, "year": save.year, "myteam": clubs.get(save.my_team)},
+        "saveYears": sorted(years),
         "players": players,
         "legends": legends,
-        "standins": standins,
-        "coaches": coaches,
+        "standins": [standins[u] for u in sorted(standins)],
+        "coaches": old_index.get("coaches") or {},
         "anchors": anchors,
-        "unmatched": unmatched,
-        "ambiguous": ambiguous,
+        "unmatched": [],
+        "ambiguous": [],
     }
+    index["coaches"] = refresh_coaches(index)
+    index["anchors"] = dict(sorted(anchors.items()))
+    rv_keys = sorted({save_read.rv_key(r) for r, _ in pairs} | {save_read.rv_key(r) for r in missing})
+    index["unmatched"] = [k for k in rv_keys if k not in players]
+    index["ambiguous"] = [k for k in ambiguous if k not in players]
     (OUT / "index.json").write_text(json.dumps(index, indent=1, ensure_ascii=False) + "\n")
-    files = sum(1 for _ in OUT.glob("*.png"))
-    print(f"{slot.name}: year {save.year}, {len(save.players)} save players")
-    print(f"sprites for {len(players)} of {len(pairs) + len(missing)} Retro Vault players ({files} files) -> "
+
+    files_after = sum(1 for _ in OUT.glob("*.png"))
+    print(f"{slot.name}: year {save.year}, {len(save.players)} save players; {len(pairs)} Retro Vault players matched")
+    print(f"players: {len(old_players)} before -> {len(players)} after: kept {stats['kept']} (not in this save), "
+          f"refreshed {stats['refreshed']} ({stats['uid changed']} with a new uid), added {stats['added']}, "
+          f"skipped as ambiguous {stats['ambiguous'] + stats['ambiguous kept']} "
+          f"({stats['ambiguous kept']} of them kept from an earlier save)")
+    print(f"assigned looks: {stats['assigned kept']} kept, {sum(assigned_now.values())} new (generic templates "
+          f"{assigned_now['generic']}, real NFL players {assigned_now['real']}); {stats['assignment replaced']} "
+          f"replaced by a real match; {sum(1 for e in players.values() if e.get('assigned'))} in all, from a pool of "
+          f"{sum(x['pool'] == 'generic' for x in pool)} generic + {sum(x['pool'] == 'real' for x in pool)} real looks")
+    print(f"files: {files_before} before -> {files_after} after ({files_after - files_before:+d}) in "
           f"{OUT.relative_to(ROOT)}")
     print(f"real NFL legends for the games ({len(legends)}): " + ", ".join(legends))
-    print(f"stand-in looks for players the save lacks: {len(standins)} "
-          f"(dark {sum(x['skin'] == 0 for x in standins)}, mix {sum(x['skin'] == 1 for x in standins)}, "
-          f"light {sum(x['skin'] == 2 for x in standins)})")
-    report_coaches(coaches)
-    print(f"ambiguous uid, regular-game fallback ({len(ambiguous)}): " + ", ".join(ambiguous))
-    print(f"not in the save ({len(unmatched)}): " + ", ".join(unmatched))
-
+    print(f"stand-in looks: {standins_before} before -> {len(standins)} after")
+    report_coaches(index["coaches"])
+    print(f"ambiguous uid with no earlier sprite, regular-game fallback ({len(index['ambiguous'])}): "
+          + ", ".join(index["ambiguous"]))
+    if no_sprite:
+        print(f"matched but the save has no sprite ({len(no_sprite)}): " + ", ".join(no_sprite))
+    print(f"no sprite at all ({len(index['unmatched'])} Retro Vault players)")
 
 if __name__ == "__main__":
     main()

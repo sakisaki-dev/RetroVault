@@ -47,6 +47,10 @@ export interface NflSpriteEntry {
   kits: Record<string, number[]>;
   /** Poses in the neutral white kit (800) */
   neutral: number[];
+  /** An assigned look (no true match in any save): a generic template or a real NFL player's sprite, picked by skin and
+   * seeded by POS:Name (scripts/private_nfl_sprites.py); drawn like any neutral, painted into his club kit */
+  assigned?: boolean;
+  pool?: 'generic' | 'real';
 }
 export interface NflSprites {
   size: [number, number];

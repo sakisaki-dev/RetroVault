@@ -716,7 +716,15 @@ source names that file).
   shared by look-alikes, the game's generated templates, is used) and copies every kit and pose of the matched players'
   64 × 64 sprites, the real NFL legends' (arcade games only), and the game's ~100 generated look templates as stand-ins,
   with `nfl/index.json` (players, legends, standins, clubs, and `anchors`: each file's centre line and feet row).
-  `python3 scripts/private_sprites.py` cuts the regular game's sheets, the last fallback. **Order for a player:** the
+  **Additive: never removes a player's sprites** (the game keeps sprites only for players in its current save): a run
+  keeps every entry and file an earlier save gave, refreshes the players this save matches (new kits and poses join
+  the old) and adds new ones; an ambiguous uid is skipped but an existing entry stays. **Assigned looks** (owner: every
+  league player with a card gets a sprite): a player still without an entry gets a look from the pool (the generic
+  templates and the real NFL players' sprites in the save, never a legends.json player), fitting his skin (save
+  `skin`/`col_skin`, else his sprites.json skin; the save has no hair fields), FNV-1a seeded by `POS:Name`, preferring
+  one nobody at his position or on his club wears; stored as `"assigned": true, "pool": "generic" | "real"`, painted
+  into his club kit, kept on later runs, and always replaced by a real match. It prints kept / refreshed / added /
+  skipped as ambiguous / assigned. `python3 scripts/private_sprites.py` cuts the regular game's sheets, the last fallback. **Order for a player:** the
   kit the save drew for his banner club (his current club if he has none) → the save's neutral white kit painted into
   that club's home kit (`src/utils/gameKitPaint.ts`: the neutral kit is one fixed body template, `#bfbfbf` cloth,
   `#8f8f8f` shading, `#fbfffd` trim, rows 27-40 jersey, 41-51 pants, 52-55 socks; skin, shoes, gloves and ball kept)
