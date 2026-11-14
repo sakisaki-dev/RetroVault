@@ -14,6 +14,8 @@ export default defineConfig(({ mode }) => ({
   // GitHub Pages serves the site from /RetroVault/; the deploy workflow sets BASE_PATH. Local dev stays at /.
   base: process.env.BASE_PATH || "/",
   define: { __PRIVATE_SPRITES__: JSON.stringify(PRIVATE_SPRITES) },
+  // Source maps beside the bundles (not linked from them), so a crash screen's minified stack can be mapped back
+  build: { sourcemap: "hidden" },
   server: {
     host: "::",
     port: 8080,
