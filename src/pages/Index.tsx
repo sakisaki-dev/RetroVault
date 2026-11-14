@@ -117,7 +117,7 @@ const IndexContent = () => {
         </HubRouteContext.Provider>
 
         <PullToSearch />
-        <BottomNav activeTab={target.tab} onTabChange={(tab) => navigate({ tab })} />
+        <BottomNav activeTab={target.tab} onTabChange={(tab) => navigate({ tab })} onRoute={(to) => navigate(to)} />
         <CeremonyHost />
         <QuickPlayerSearch />
         <CardUnlockToasts />

@@ -943,7 +943,7 @@ details[open] > :not(summary) {
     padding-bottom: var(--bottom-nav-h, 0px);
   }
   [data-sonner-toaster][data-y-position='bottom'] {
-    bottom: calc(var(--bottom-nav-h, 0px) + 10px) !important;
+    bottom: calc(var(--bnav-dock, 0px) + 10px) !important;
   }
 }
 .bnav {
@@ -955,6 +955,27 @@ details[open] > :not(summary) {
   border-top: 1px solid hsl(var(--line) / 0.8);
   background: hsl(var(--night));
   box-shadow: 0 -8px 24px hsl(228 60% 2% / 0.45);
+  transition: translate var(--dur-3) var(--ease-out);
+}
+/* The bar tucks away while scrolling down and returns on any scroll up (Header.tsx sets html[data-chrome]: 'hidden' on
+   the Stats tab, where the header goes too, 'down' elsewhere). Never mid-gesture. */
+html[data-chrome] .bnav:not([data-gesture]) {
+  translate: 0 calc(100% + 2px);
+  transition-timing-function: var(--ease-close);
+}
+/* Fixed things docked on the bar follow it down (the body keeps its padding: no layout shift while it moves) */
+:root {
+  --bnav-dock: var(--bottom-nav-h, 0px);
+}
+html[data-chrome] {
+  --bnav-dock: 0px;
+}
+.bnav ul {
+  /* The bar takes the finger's slide itself (BottomNav gestures): no panning, no long-press callout or selection */
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .bnav__item {
   position: relative;
@@ -972,6 +993,7 @@ details[open] > :not(summary) {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   transition: color var(--dur-2) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
 }
 .bnav__item::before {
   content: '';
@@ -991,6 +1013,253 @@ details[open] > :not(summary) {
 }
 .bnav__item[data-on='true']::before {
   scale: 1 1;
+}
+.bnav__puck,
+.bnav__label {
+  position: relative;
+  display: grid;
+  place-items: center;
+  /* A crisp pop on every change of the tab under the finger (iOS has no vibration to give) */
+  transition:
+    translate 170ms cubic-bezier(0.3, 1.7, 0.5, 1),
+    scale 170ms cubic-bezier(0.3, 1.7, 0.5, 1),
+    background-color 120ms linear,
+    box-shadow 120ms linear,
+    color 120ms linear;
+}
+.bnav__puck {
+  width: 40px;
+  height: 28px;
+  border-radius: 9px;
+}
+.bnav__label {
+  padding: 1px 6px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+/* Mid-slide: the other tabs dim, the one under the finger lifts clear of it in a gold puck with its label on a plate */
+.bnav[data-gesture] .bnav__item:not([data-hover]) {
+  color: hsl(var(--muted-foreground) / 0.7);
+}
+.bnav__item[data-hover] {
+  color: hsl(var(--night));
+  z-index: 1;
+}
+/* The tab whose menu is up stays lit while the finger is over the menu */
+.bnav[data-gesture] .bnav__item[data-anchor]:not([data-hover]) {
+  color: hsl(var(--gold));
+}
+.bnav__item[data-anchor]:not([data-hover]) .bnav__puck {
+  background: hsl(var(--gold) / 0.14);
+  box-shadow: inset 0 0 0 1px hsl(var(--gold) / 0.55);
+}
+.bnav__item[data-hover] .bnav__puck {
+  translate: 0 -22px;
+  scale: 1.22;
+  background: hsl(var(--gold));
+  box-shadow:
+    0 0 0 2px #000,
+    0 0 0 3.5px hsl(var(--gold) / 0.55),
+    0 10px 18px hsl(228 60% 2% / 0.7),
+    0 0 26px hsl(var(--gold) / 0.45);
+}
+.bnav__item[data-hover] .bnav__label {
+  translate: 0 -16px;
+  scale: 1.08;
+  background: hsl(228 45% 6%);
+  color: hsl(var(--gold));
+  box-shadow: 0 0 0 1px hsl(var(--gold) / 0.6);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bnav,
+  .bnav__puck,
+  .bnav__label {
+    transition-duration: 0ms;
+  }
+  .bnav__item[data-hover] .bnav__puck,
+  .bnav__item[data-hover] .bnav__label {
+    translate: none;
+    scale: none;
+  }
+}
+
+/* The slide / hold menus over the bar (BottomNav): an arcade marquee in the club's colours (--mc, --mc2) */
+.bnav-pop {
+  position: fixed;
+  z-index: 49;
+  padding: 10px 8px 8px;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--mc) 30%, #161d36) 0%, #10162b 46%, #0b1020 100%);
+  box-shadow:
+    0 0 0 2px #000,
+    inset 0 0 0 1px color-mix(in srgb, var(--mc) 45%, transparent),
+    inset 0 1px 0 #ffffff1f,
+    0 18px 40px #000c,
+    0 0 40px color-mix(in srgb, var(--mc) 22%, transparent);
+  transform-origin: var(--bn-caret) calc(100% + 12px);
+  animation: rv-bnav-pop 220ms cubic-bezier(0.3, 1.45, 0.5, 1) both;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+/* Club stripe along the top edge */
+.bnav-pop::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 14px;
+  right: 14px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(90deg, var(--mc), var(--mc2));
+}
+/* The caret pointing at its tab */
+.bnav-pop::after {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  left: var(--bn-caret);
+  width: 14px;
+  height: 14px;
+  translate: -50% 0;
+  rotate: 45deg;
+  background: #0b1020;
+  box-shadow: 2px 2px 0 0 #000;
+}
+@keyframes rv-bnav-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.86);
+  }
+}
+.bnav-pop__kicker {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 6px 8px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  line-height: 1;
+  text-transform: uppercase;
+  color: hsl(var(--gold));
+  text-shadow: 0 0 8px hsl(var(--gold) / 0.45);
+}
+.bnav-pop__hint {
+  font-size: 8px;
+  color: hsl(var(--muted-foreground));
+  text-shadow: none;
+}
+.bnav-pop__list {
+  display: grid;
+  gap: 4px;
+}
+.bnav-pop__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 10px 0 6px;
+  border-radius: 9px;
+  background: hsl(228 45% 5% / 0.55);
+  box-shadow: inset 0 0 0 1px hsl(var(--line) / 0.7);
+  color: hsl(var(--chalk, 0 0% 96%));
+  animation: rv-bnav-item 240ms cubic-bezier(0.3, 1.35, 0.5, 1) both;
+  animation-delay: calc(var(--i) * 22ms);
+  transition:
+    translate 160ms cubic-bezier(0.3, 1.7, 0.5, 1),
+    scale 160ms cubic-bezier(0.3, 1.7, 0.5, 1),
+    background-color 100ms linear,
+    color 100ms linear,
+    box-shadow 100ms linear;
+}
+@keyframes rv-bnav-item {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+.bnav-pop__icon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 7px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--mc) 55%, #05070d), color-mix(in srgb, var(--mc) 22%, #05070d));
+  box-shadow: inset 0 0 0 1px #ffffff26, inset 0 -2px 0 #0008;
+  color: hsl(var(--gold));
+}
+.bnav-pop__label {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.bnav-pop__item[data-on] {
+  box-shadow: inset 0 0 0 1px hsl(var(--gold) / 0.6);
+}
+.bnav-pop__item[data-hover] {
+  translate: 2px -1px;
+  scale: 1.03;
+  background: hsl(var(--gold));
+  color: hsl(var(--night));
+  box-shadow:
+    0 0 0 2px #000,
+    0 8px 18px #000a,
+    0 0 22px hsl(var(--gold) / 0.45);
+}
+.bnav-pop__item[data-hover] .bnav-pop__icon {
+  background: hsl(228 45% 6%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bnav-pop,
+  .bnav-pop__item {
+    animation-duration: 1ms;
+    animation-delay: 0ms;
+    transition-duration: 0ms;
+  }
+  .bnav-pop__item[data-hover] {
+    translate: none;
+    scale: none;
+  }
+}
+
+/* Swipe right to go back (usePageSwipeBack): the marker that slides in behind the page */
+.swipe-back-hint {
+  position: fixed;
+  top: 50%;
+  left: 10px;
+  z-index: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+  padding: 0 14px 0 8px;
+  border-radius: 999px;
+  background: hsl(228 45% 6%);
+  box-shadow:
+    0 0 0 2px #000,
+    inset 0 0 0 1px hsl(var(--line));
+  color: hsl(var(--muted-foreground));
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  transition: background-color 120ms linear, color 120ms linear, box-shadow 120ms linear;
+}
+.swipe-back-hint[data-ready='true'] {
+  background: hsl(var(--gold));
+  color: hsl(var(--night));
+  box-shadow:
+    0 0 0 2px #000,
+    0 0 24px hsl(var(--gold) / 0.45);
 }
 
 /* Pull down to search (PullToSearch.tsx): the pill slides out from under the header with the finger */
@@ -1031,7 +1300,7 @@ details[open] > :not(summary) {
 .pts-hint {
   position: fixed;
   /* Above the bottom bar, so it never covers a sticky sub-nav */
-  bottom: calc(var(--bottom-nav-h, 0px) + 12px);
+  bottom: calc(var(--bnav-dock, 0px) + 12px);
   left: 50%;
   z-index: 44;
   display: inline-flex;

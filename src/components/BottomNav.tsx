@@ -1,13 +1,53 @@
-import { useEffect, useRef, useState } from 'react';
-import { BarChart3, CalendarRange, Radio, Crown, Gamepad2, Gauge, Layers, Briefcase, MoreHorizontal, Users } from 'lucide-react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent as RPointerEvent } from 'react';
+import {
+  ArrowLeftRight,
+  BarChart3,
+  BookOpen,
+  Building2,
+  CalendarRange,
+  ChartScatter,
+  Crown,
+  Gamepad2,
+  Gauge,
+  Gem,
+  Hourglass,
+  Landmark,
+  Layers,
+  Briefcase,
+  MoreHorizontal,
+  Package,
+  Radar,
+  Radio,
+  Shield,
+  Sparkles,
+  Star,
+  Swords,
+  TrendingUp,
+  Users,
+  type LucideIcon,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { setPerfSetting, suggestLite, usePerfMode, type PerfSetting } from '@/hooks/usePerfMode';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
+import type { Route, StatsSub } from '@/components/stats/hub/hashRoute';
+import { useCurrentClub } from '@/utils/club';
+import { findNFLTeam } from '@/utils/nflTeams';
+import { reducedMotion } from '@/utils/motion';
 
 /*
  * Phone navigation (below 640px; the top nav takes over from there): a fixed bottom tab bar with the four main
  * tabs and a "More" sheet for Season, Team Lab, Timeline, Front Office and the performance-mode switch. It publishes its
  * height as --bottom-nav-h so the page, toasts and docked sheets clear it (index.css).
+ *
+ * Gestures (touch or pen; a mouse or keyboard gets the plain buttons):
+ * - Press and slide across the bar: the tab under the finger lifts (.bnav__item[data-hover]); release switches to it.
+ * - Slide onto More: its menu pops up above the bar while the finger is down; slide up onto an item and release.
+ * - Hold a tab HOLD_MS: that tab's sections pop up above it (Stats sub-tabs, Collection and Hall of Fame sections).
+ * - Release anywhere else cancels. A plain tap is an ordinary click (the button's own handler), as before.
+ * The pointer is captured once a slide or hold begins; every rectangle is measured once (the tabs at the press, a
+ * menu's items when it opens), so a move only compares numbers and sets state when the target under the finger
+ * changes. The menus are a pointer shortcut (aria-hidden): keyboard and VoiceOver keep the tabs, the More sheet and
+ * each page's own section links.
  */
 const MAIN = [
   { value: 'games', label: 'Arcade', Icon: Gamepad2 },
@@ -21,6 +61,62 @@ const MORE = [
   { value: 'timeline', label: 'Timeline', blurb: 'Eras, storylines and what changed', Icon: CalendarRange },
   { value: 'office', label: 'Front Office', blurb: "The coach's record, seasons and rivals", Icon: Briefcase },
 ] as const;
+
+interface Section {
+  id: string;
+  label: string;
+  Icon: LucideIcon;
+  /** Stats sub-tab to open */
+  sub?: StatsSub;
+  /** Element id to scroll to on the tab's page */
+  anchor?: string;
+}
+/** Hold-a-tab sections (the Arcade has no fixed sections: its games are one page) */
+const SECTIONS: Record<string, { title: string; items: Section[] }> = {
+  career: {
+    title: 'Stats',
+    items: [
+      { id: 'players', label: 'Players', Icon: Users, sub: 'players' },
+      { id: 'teams', label: 'Teams', Icon: Building2, sub: 'teams' },
+      { id: 'graphs', label: 'Graphs', Icon: ChartScatter, sub: 'graphs' },
+      { id: 'h2h', label: 'Head-to-Head', Icon: Swords, sub: 'h2h' },
+      { id: 'deepdive', label: 'Deep Dive', Icon: Radar, sub: 'deepdive' },
+      { id: 'clock', label: 'The Clock', Icon: Hourglass, sub: 'clock' },
+    ],
+  },
+  collection: {
+    title: 'Collection',
+    items: [
+      { id: 'packs', label: 'Packs', Icon: Package, anchor: 'col-title' },
+      { id: 'best', label: 'Best pulls', Icon: Sparkles, anchor: 'col-best' },
+      { id: 'market', label: 'Market', Icon: TrendingUp, anchor: 'col-market' },
+      { id: 'exchange', label: 'Exchange', Icon: ArrowLeftRight, anchor: 'col-exchange' },
+      { id: 'binder', label: 'Binder', Icon: BookOpen, anchor: 'col-binder' },
+    ],
+  },
+  hof: {
+    title: 'Hall of Fame',
+    items: [
+      { id: 'class', label: 'Newest class', Icon: Star, anchor: 'hof-class-title' },
+      { id: 'legends', label: "Legends' Row", Icon: Crown, anchor: 'hof-legends-title' },
+      { id: 'gallery', label: 'Every bust', Icon: Landmark, anchor: 'hof-gallery-title' },
+      { id: 'ballot', label: 'The ballot', Icon: Gem, anchor: 'hof-ballot-title' },
+      { id: 'future', label: 'Future HOF', Icon: TrendingUp, anchor: 'hof-future-title' },
+      { id: 'rings', label: 'Rings of Honor', Icon: Shield, anchor: 'hof-rings-title' },
+    ],
+  },
+};
+
+const HOLD_MS = 450;
+/** Space between a menu and the bar (px); index.css .bnav-pop uses the same */
+const MENU_GAP = 12;
+/** Movement before a press becomes a slide (px) */
+const SLOP = 10;
+
+type Menu = { kind: 'more' } | { kind: 'sections'; tab: string };
+/** A menu on screen: which, and the centre of its tab (px), where it is anchored */
+type Shown = Menu & { cx: number };
+type Rect = { l: number; r: number; t: number; b: number };
 
 const PerfRow = () => {
   const { setting, lite } = usePerfMode();
@@ -56,10 +152,33 @@ const PerfRow = () => {
   );
 };
 
-const BottomNav = ({ activeTab, onTabChange }: { activeTab: string; onTabChange: (tab: string) => void }) => {
+/** Scroll to a section once its page has rendered it (a tab switch renders as a transition, lazily) */
+const scrollToSection = (id: string) => {
+  const t0 = performance.now();
+  const tick = () => {
+    const el = document.getElementById(id);
+    if (!el) {
+      if (performance.now() - t0 < 4000) requestAnimationFrame(tick);
+      return;
+    }
+    // One read: where it is, less the sticky header
+    const header = parseFloat(document.documentElement.style.getPropertyValue('--site-header-h')) || 56;
+    const y = el.getBoundingClientRect().top + window.scrollY - header - 12;
+    window.scrollTo({ top: Math.max(0, y), behavior: reducedMotion() ? 'auto' : 'smooth' });
+  };
+  requestAnimationFrame(tick);
+};
+
+const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onTabChange: (tab: string) => void; onRoute?: (to: Route) => void }) => {
   const ref = useRef<HTMLElement | null>(null);
+  const listRef = useRef<HTMLUListElement | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
   const [more, setMore] = useState(false);
+  // Gesture state the bar draws: what is under the finger, and which menu is up
+  const [hover, setHover] = useState<string | null>(null);
+  const [menu, setMenu] = useState<Shown | null>(null);
   const inMore = MORE.find((m) => m.value === activeTab);
+  const club = findNFLTeam(useCurrentClub());
 
   // Publish the bar's height (0 when hidden above the phone breakpoint)
   useEffect(() => {
@@ -82,17 +201,234 @@ const BottomNav = ({ activeTab, onTabChange }: { activeTab: string; onTabChange:
     else onTabChange(tab);
   };
 
+  const goSection = (tab: string, s: Section) => {
+    if (s.sub) {
+      if (onRoute) onRoute({ tab: 'career', sub: s.sub });
+      else onTabChange(tab);
+      return;
+    }
+    if (tab !== activeTab) onTabChange(tab);
+    if (s.anchor) scrollToSection(s.anchor);
+  };
+
+  // ---------- Gestures ----------
+  const g = useRef({
+    id: -1,
+    sx: 0,
+    sy: 0,
+    sliding: false,
+    tabs: [] as Rect[],
+    barTop: 0,
+    items: [] as { id: string; r: Rect }[],
+    hover: null as string | null,
+    menu: null as Menu | null,
+    hold: 0,
+    suppressClick: false,
+  });
+  const tabIds = [...MAIN.map((m) => m.value), 'more'] as string[];
+
+  const setHoverIf = (h: string | null) => {
+    if (g.current.hover === h) return;
+    g.current.hover = h;
+    setHover(h);
+  };
+  const openMenu = (m: Menu | null) => {
+    const cur = g.current.menu;
+    if (cur === m || (cur && m && cur.kind === m.kind && (cur.kind === 'more' || (m.kind === 'sections' && cur.tab === m.tab)))) return;
+    g.current.menu = m;
+    g.current.items = [];
+    const r = m ? g.current.tabs[m.kind === 'more' ? tabIds.length - 1 : tabIds.indexOf(m.tab)] : undefined;
+    setMenu(m ? { ...m, cx: r ? (r.l + r.r) / 2 : window.innerWidth / 2 } : null);
+  };
+  const clearHold = () => {
+    if (g.current.hold) window.clearTimeout(g.current.hold);
+    g.current.hold = 0;
+  };
+  const capture = () => {
+    const ul = listRef.current;
+    try {
+      if (ul && g.current.id >= 0 && !ul.hasPointerCapture(g.current.id)) ul.setPointerCapture(g.current.id);
+    } catch {
+      /* the pointer is gone */
+    }
+  };
+  // Holding still on a tab with sections (or on More) pops its menu
+  const armHold = (tab: string | null) => {
+    clearHold();
+    if (!tab || (!SECTIONS[tab] && tab !== 'more')) return;
+    g.current.hold = window.setTimeout(() => {
+      g.current.hold = 0;
+      g.current.sliding = true;
+      capture();
+      setHoverIf(`tab:${tab}`);
+      openMenu(tab === 'more' ? { kind: 'more' } : { kind: 'sections', tab });
+    }, HOLD_MS);
+  };
+  const reset = () => {
+    clearHold();
+    g.current.id = -1;
+    g.current.sliding = false;
+    setHoverIf(null);
+    openMenu(null);
+  };
+
+  // A menu's items are measured once, when it has rendered: from layout offsets (its pop-in scale must not skew them),
+  // the box being fixed MENU_GAP above the bar
+  useLayoutEffect(() => {
+    if (!menu) return;
+    const box = menuRef.current;
+    if (!box) return;
+    const top = g.current.barTop - MENU_GAP - box.offsetHeight;
+    const l = box.offsetLeft - 10;
+    const r = box.offsetLeft + box.offsetWidth + 10;
+    g.current.items = Array.from(box.querySelectorAll<HTMLElement>('[data-target]')).map((el) => {
+      let y = el.offsetTop;
+      for (let p = el.offsetParent as HTMLElement | null; p && p !== box; p = p.offsetParent as HTMLElement | null) y += p.offsetTop;
+      return { id: el.dataset.target!, r: { l, r, t: top + y - 2, b: top + y + el.offsetHeight + 2 } };
+    });
+  }, [menu]);
+
+  const hitTest = (x: number, y: number): string | null => {
+    const s = g.current;
+    for (const it of s.items) if (x >= it.r.l && x <= it.r.r && y >= it.r.t && y <= it.r.b) return it.id;
+    if (y >= s.barTop - 6) {
+      const i = s.tabs.findIndex((r) => x >= r.l && x < r.r);
+      if (i >= 0) return `tab:${tabIds[i]}`;
+    }
+    return null;
+  };
+
+  const onPointerDown = (e: RPointerEvent<HTMLUListElement>) => {
+    if (e.pointerType === 'mouse' || !e.isPrimary || e.button !== 0) return;
+    const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-tab]');
+    if (!btn) return;
+    const s = g.current;
+    s.id = e.pointerId;
+    s.sx = e.clientX;
+    s.sy = e.clientY;
+    s.sliding = false;
+    s.suppressClick = false;
+    // One measure per press
+    const lis = Array.from(listRef.current?.children ?? []) as HTMLElement[];
+    s.tabs = lis.map((li) => {
+      const r = li.getBoundingClientRect();
+      return { l: r.left, r: r.right, t: r.top, b: r.bottom };
+    });
+    s.barTop = s.tabs[0]?.t ?? window.innerHeight - 60;
+    armHold(btn.dataset.tab!);
+  };
+
+  const onPointerMove = (e: RPointerEvent<HTMLUListElement>) => {
+    const s = g.current;
+    if (e.pointerId !== s.id) return;
+    if (!s.sliding) {
+      if (Math.hypot(e.clientX - s.sx, e.clientY - s.sy) < SLOP) return;
+      s.sliding = true;
+      capture();
+    }
+    const h = hitTest(e.clientX, e.clientY);
+    if (h === s.hover) return;
+    if (h?.startsWith('tab:')) {
+      const tab = h.slice(4);
+      if (tab === 'more') {
+        clearHold();
+        openMenu({ kind: 'more' });
+      } else {
+        // A different tab: its menu (if any) needs its own hold
+        if (s.menu && !(s.menu.kind === 'sections' && s.menu.tab === tab)) openMenu(null);
+        armHold(tab);
+      }
+    } else if (!h) clearHold();
+    setHoverIf(h);
+  };
+
+  const onPointerUp = (e: RPointerEvent<HTMLUListElement>) => {
+    const s = g.current;
+    if (e.pointerId !== s.id) return;
+    clearHold();
+    if (!s.sliding) {
+      // A plain tap: the button's own click does the rest
+      s.id = -1;
+      return;
+    }
+    s.suppressClick = true;
+    window.setTimeout(() => {
+      s.suppressClick = false;
+    }, 0);
+    const h = hitTest(e.clientX, e.clientY);
+    const m = s.menu;
+    reset();
+    if (!h) return;
+    const [kind, a, b] = h.split(':');
+    if (kind === 'tab') {
+      if (a === 'more') setMore(true);
+      else go(a);
+    } else if (kind === 'more') go(a);
+    else if (kind === 'sec' && m?.kind === 'sections') {
+      const sec = SECTIONS[a]?.items.find((x) => x.id === b);
+      if (sec) goSection(a, sec);
+    }
+  };
+
+  const onClickGuard = (fn: () => void) => () => {
+    if (g.current.suppressClick) return;
+    fn();
+  };
+
+  useEffect(() => () => clearHold(), []);
+
+  // The menu: over its tab (sections) or the More tab, kept inside the screen
+  const MENU_W = 228;
+  const vw = typeof window === 'undefined' ? 390 : window.innerWidth;
+  const menuLeft = menu ? Math.min(vw - MENU_W - 10, Math.max(10, menu.cx - MENU_W / 2)) : 10;
+  const caretX = menu ? menu.cx - menuLeft : MENU_W / 2;
+  const items =
+    menu?.kind === 'more'
+      ? MORE.map((m) => ({ target: `more:${m.value}`, label: m.label, Icon: m.Icon, on: activeTab === m.value }))
+      : menu?.kind === 'sections'
+        ? SECTIONS[menu.tab].items.map((s) => ({ target: `sec:${menu.tab}:${s.id}`, label: s.label, Icon: s.Icon, on: false }))
+        : [];
+  const menuTitle = menu?.kind === 'more' ? 'More' : menu ? SECTIONS[menu.tab].title : '';
+  const menuVars = {
+    left: menuLeft,
+    width: MENU_W,
+    bottom: `calc(var(--bottom-nav-h, 0px) + ${MENU_GAP}px)`,
+    '--bn-caret': `${caretX}px`,
+    '--mc': club ? `hsl(${club.primaryColor})` : 'hsl(var(--gold))',
+    '--mc2': club ? `hsl(${club.secondaryColor})` : 'hsl(var(--gold))',
+  } as CSSProperties;
+
   return (
     <>
-      <nav ref={ref} aria-label="Primary" className="bnav sm:hidden">
-        <ul className="grid grid-cols-5">
+      <nav ref={ref} aria-label="Primary" className="bnav sm:hidden" data-gesture={hover ? 'true' : undefined}>
+        <ul
+          ref={listRef}
+          className="grid grid-cols-5"
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={reset}
+          onContextMenu={(e) => e.preventDefault()}
+        >
           {MAIN.map(({ value, label, Icon, ...rest }) => {
             const on = activeTab === value;
             return (
               <li key={value}>
-                <button type="button" onClick={() => go(value)} aria-current={on ? 'page' : undefined} aria-label={label} className="bnav__item" data-on={on}>
-                  <Icon className="h-[22px] w-[22px]" aria-hidden="true" />
-                  <span>{'short' in rest ? rest.short : label}</span>
+                <button
+                  type="button"
+                  data-tab={value}
+                  onClick={onClickGuard(() => go(value))}
+                  aria-current={on ? 'page' : undefined}
+                  aria-label={label}
+                  className="bnav__item"
+                  data-on={on}
+                  data-hover={hover === `tab:${value}` || undefined}
+                  data-anchor={(menu?.kind === 'sections' && menu.tab === value) || undefined}
+                >
+                  <span className="bnav__puck" aria-hidden="true">
+                    <Icon className="h-[22px] w-[22px]" />
+                  </span>
+                  <span className="bnav__label">{'short' in rest ? rest.short : label}</span>
                 </button>
               </li>
             );
@@ -100,19 +436,51 @@ const BottomNav = ({ activeTab, onTabChange }: { activeTab: string; onTabChange:
           <li>
             <button
               type="button"
-              onClick={() => setMore(true)}
+              data-tab="more"
+              onClick={onClickGuard(() => setMore(true))}
               aria-haspopup="dialog"
               aria-expanded={more}
               aria-current={inMore ? 'page' : undefined}
               className="bnav__item"
               data-on={!!inMore}
+              data-hover={hover === 'tab:more' || undefined}
+              data-anchor={menu?.kind === 'more' || undefined}
             >
-              {inMore ? <inMore.Icon className="h-[22px] w-[22px]" aria-hidden="true" /> : <MoreHorizontal className="h-[22px] w-[22px]" aria-hidden="true" />}
-              <span>{inMore ? inMore.label.replace('Front Office', 'Office') : 'More'}</span>
+              <span className="bnav__puck" aria-hidden="true">
+                {inMore ? <inMore.Icon className="h-[22px] w-[22px]" /> : <MoreHorizontal className="h-[22px] w-[22px]" />}
+              </span>
+              <span className="bnav__label">{inMore ? inMore.label.replace('Front Office', 'Office') : 'More'}</span>
             </button>
           </li>
         </ul>
       </nav>
+
+      {menu && (
+        <div ref={menuRef} className="bnav-pop sm:hidden" style={menuVars} aria-hidden="true" data-reduced={reducedMotion() || undefined}>
+          <p className="bnav-pop__kicker">
+            <span>{menuTitle}</span>
+            <span className="bnav-pop__hint">{menu.kind === 'more' ? 'Slide up' : 'Jump to'}</span>
+          </p>
+          <ul className="bnav-pop__list">
+            {items.map(({ target, label, Icon, on }, i) => (
+              <li
+                key={target}
+                data-target={target}
+                className="bnav-pop__item"
+                data-hover={hover === target || undefined}
+                data-on={on || undefined}
+                style={{ '--i': items.length - 1 - i } as CSSProperties}
+              >
+                <span className="bnav-pop__icon">
+                  <Icon className="h-[18px] w-[18px]" />
+                </span>
+                <span className="bnav-pop__label">{label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <Sheet open={more} onOpenChange={setMore}>
         <SheetContent
           side="bottom"

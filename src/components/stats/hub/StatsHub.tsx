@@ -7,6 +7,8 @@ import { openInCompFinder } from '../comps/compFinderLink';
 import { usePrefersReducedMotion } from '../analytics/viz';
 import { keyOf } from '../records';
 import { buildHash, lastNavKind, useHubRoute, type StatsSub } from './hashRoute';
+import { EDGE_PX, scrollsSideways } from '@/hooks/useSwipeToDismiss';
+import { dur, ease, reducedMotion } from '@/utils/motion';
 
 const SUB_TABS: { id: StatsSub; label: string; short: string; Icon: typeof Users; blurb: string }[] = [
   { id: 'players', label: 'Players', short: 'Players', Icon: Users, blurb: 'Records, full stat tables, advanced analytics and leaders' },
@@ -139,9 +141,91 @@ const StatsHub = ({ sub, section, onSubChange, players, onOpenPlayer, onPrefetch
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sub, section]);
 
+  /*
+   * Touch: swipe the sub-nav strip sideways to step to the neighbouring sub-tab (left = next, right = previous). The
+   * strip leans with the finger (a third of the drag, transform only) and springs back; past STEP px or a flick it
+   * switches. Not when the strip itself scrolls sideways, and never from the screen's edges (the system's Back swipe).
+   */
+  const stripRef = useRef<HTMLUListElement | null>(null);
+  const subRef = useRef({ lit, onSubChange });
+  subRef.current = { lit, onSubChange };
+  useEffect(() => {
+    const ul = stripRef.current;
+    const bar = barRef.current;
+    if (!ul || !bar) return;
+    const STEP = 56;
+    let sx = 0;
+    let sy = 0;
+    let lastX = 0;
+    let lastT = 0;
+    let vel = 0;
+    let state: 'idle' | 'pending' | 'drag' = 'idle';
+    const still = () => reducedMotion();
+    const onStart = (e: TouchEvent) => {
+      state = 'idle';
+      if (e.touches.length !== 1) return;
+      const t = e.touches[0];
+      if (t.clientX < EDGE_PX || t.clientX > window.innerWidth - EDGE_PX) return;
+      if (!ul.contains(e.target as Node) || scrollsSideways(ul)) return;
+      sx = lastX = t.clientX;
+      sy = t.clientY;
+      lastT = e.timeStamp;
+      vel = 0;
+      state = 'pending';
+    };
+    const onMove = (e: TouchEvent) => {
+      if (state === 'idle') return;
+      const t = e.touches[0];
+      if (!t) return;
+      const dx = t.clientX - sx;
+      const dy = t.clientY - sy;
+      if (state === 'pending') {
+        if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+        if (Math.abs(dx) <= Math.abs(dy)) {
+          state = 'idle';
+          return;
+        }
+        state = 'drag';
+      }
+      if (e.cancelable) e.preventDefault();
+      if (e.timeStamp > lastT) vel = 0.7 * ((t.clientX - lastX) / (e.timeStamp - lastT)) + 0.3 * vel;
+      lastX = t.clientX;
+      lastT = e.timeStamp;
+      if (!still()) {
+        ul.style.transition = 'none';
+        ul.style.translate = `${Math.round(dx / 3)}px 0`;
+      }
+    };
+    const onEnd = () => {
+      if (state !== 'drag') {
+        state = 'idle';
+        return;
+      }
+      state = 'idle';
+      const dx = lastX - sx;
+      ul.style.transition = `translate ${dur.slow}ms ${ease.spring}`;
+      ul.style.translate = '';
+      if (Math.abs(dx) < STEP && !(Math.abs(vel) > 0.5 && Math.abs(dx) > 24)) return;
+      const { lit: cur, onSubChange: change } = subRef.current;
+      const i = SUB_TABS.findIndex((t) => t.id === cur);
+      const to = SUB_TABS[i + (dx < 0 ? 1 : -1)];
+      if (to) change(to.id);
+    };
+    bar.addEventListener('touchstart', onStart, { passive: true });
+    bar.addEventListener('touchmove', onMove, { passive: false });
+    bar.addEventListener('touchend', onEnd);
+    bar.addEventListener('touchcancel', onEnd);
+    return () => {
+      bar.removeEventListener('touchstart', onStart);
+      bar.removeEventListener('touchmove', onMove);
+      bar.removeEventListener('touchend', onEnd);
+      bar.removeEventListener('touchcancel', onEnd);
+    };
+  }, []);
+
   const tabs = (
     <nav aria-label="Stats sections" className="min-w-0 flex-1">
-      <ul className="flex items-stretch gap-1 overflow-x-auto scrollbar-none max-sm:gap-0.5">
+      <ul ref={stripRef} className="flex items-stretch gap-1 overflow-x-auto scrollbar-none max-sm:gap-0.5">
         {SUB_TABS.map(({ id, label, short, Icon, blurb }) => {
           const active = id === lit;
           return (

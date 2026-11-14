@@ -683,6 +683,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
         style={vars}
         overlayClassName={phase === 'closed' ? 'cd-overlay--exited' : undefined}
         swipeHandoff
+        swipeRight
         onKeyDown={onKey}
         onCloseAutoFocus={(e) => {
           // Hand focus back to the tile without scrolling the page (iOS jumps otherwise)
@@ -707,7 +708,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
             </div>
 
             <div className="cd__body">
-              <div className="cd__stage" ref={setStageEl}>
+              <div className="cd__stage" ref={setStageEl} data-no-swipe-x>
                 <button
                   type="button"
                   className="cd__nav cd__nav--prev"

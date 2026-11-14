@@ -12,13 +12,24 @@ import { dur, ease, isMobileMotion } from '@/utils/motion';
  * moves, but a long enough drag still closes it.
  *
  * Nested roots (a sheet inside a dialog) each mark themselves data-swipe-root; a drag belongs to the innermost one.
+ *
+ * `right` adds swipe right to close (phones' full-screen cards and pages): a sideways drag to the right that starts
+ * more than EDGE_PX in from the left edge (the strip nearer the edge is the system's own Back swipe), not on a sideways
+ * scroller or a [data-no-swipe-x] area (a card carousel with its own swipe), moves the element sideways with the finger
+ * and the backdrop fading behind it; past a third of its width or a flick it leaves to the right, else it springs back.
  */
 
 export interface SwipeOptions {
   onDismiss: () => void;
   enabled?: boolean;
+  /** Swipe down to close (default true) */
+  down?: boolean;
+  /** Swipe right to close (default false) */
+  right?: boolean;
   /** Element to fade with the drag (a backdrop) */
   backdrop?: () => HTMLElement | null;
+  /** Element to bring in with the drag (what lies behind a page: a "Back to …" hint) */
+  reveal?: () => HTMLElement | null;
   /**
    * Hand the release straight to onDismiss, leaving the element where the finger left it (the caller runs its own
    * exit from there) instead of sliding it the rest of the way out first
@@ -29,6 +40,10 @@ export interface SwipeOptions {
 const CLOSE_FRACTION = 0.28; // of the element's visible height
 const CLOSE_MAX = 160; // px: never require more than this
 const FLICK = 0.55; // px per ms
+/** Touches this close to the left edge belong to the system's Back swipe */
+export const EDGE_PX = 24;
+const CLOSE_FRACTION_X = 0.33; // of the element's width
+const CLOSE_MAX_X = 150;
 
 // Motion follows the OS setting only: performance mode drops costly paint effects, never transform / opacity motion
 const reducedMotion = () => {
@@ -39,6 +54,13 @@ const reducedMotion = () => {
   }
 };
 
+/** Can this element scroll sideways? (read once, at the touch's start) */
+export const scrollsSideways = (el: HTMLElement) => {
+  if (el.scrollWidth <= el.clientWidth + 1) return false;
+  const ox = getComputedStyle(el).overflowX;
+  return ox === 'auto' || ox === 'scroll' || ox === 'overlay';
+};
+
 /** Can this element scroll vertically (and is it scrolled down from the top)? */
 const scrolledDown = (el: HTMLElement) => {
   if (el.scrollTop <= 0) return false;
@@ -46,10 +68,10 @@ const scrolledDown = (el: HTMLElement) => {
   return oy === 'auto' || oy === 'scroll' || oy === 'overlay';
 };
 
-export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = true, backdrop, handoff = false }: SwipeOptions) => {
+export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = true, down = true, right = false, backdrop, reveal, handoff = false }: SwipeOptions) => {
   const [el, setEl] = useState<T | null>(null);
-  const opts = useRef({ onDismiss, backdrop, handoff });
-  opts.current = { onDismiss, backdrop, handoff };
+  const opts = useRef({ onDismiss, backdrop, reveal, handoff });
+  opts.current = { onDismiss, backdrop, reveal, handoff };
 
   useEffect(() => {
     if (!el || !enabled) return;
@@ -59,22 +81,39 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
     let lastY = 0;
     let lastT = 0;
     let vel = 0;
+    let lastX = 0;
+    let velX = 0;
     let state: 'idle' | 'pending' | 'drag' | 'off' = 'idle';
     let still = false;
     let height = 1;
+    let width = 1;
     let handle = false;
+    // The drag's axis, fixed on its first move; which axes this touch may take (decided at its start)
+    let axis: 'y' | 'x' = 'y';
+    let canY = false;
+    let canX = false;
 
     const bd = () => opts.current.backdrop?.() ?? null;
     // animate: false follows the finger; 'back' glides home; [ms, curve] slides out over that many ms on a curve whose
     // opening slope matches the finger's speed (see slideOut). The backdrop fades on the same clock.
-    const set = (dy: number, animate: false | 'back' | [number, string]) => {
+    const set = (d: number, animate: false | 'back' | [number, string]) => {
       const [ms, curve] = animate === false ? [0, ''] : animate === 'back' ? [dur.slow, ease.spring] : animate;
       el.style.transition = animate === false ? 'none' : `translate ${ms}ms ${curve}`;
-      el.style.translate = dy ? `0 ${dy}px` : '';
+      el.style.translate = d ? (axis === 'x' ? `${d}px 0` : `0 ${d}px`) : '';
       const b = bd();
       if (b) {
+        const size = axis === 'x' ? width : height;
         b.style.transition = animate === false ? 'none' : `opacity ${ms}ms ${curve}`;
-        b.style.opacity = dy ? String(Math.max(animate === false ? 0.15 : 0, 1 - dy / (height * 0.9))) : '';
+        b.style.opacity = d ? String(Math.max(animate === false ? 0.15 : 0, 1 - d / (size * 0.9))) : '';
+      }
+      const rv = opts.current.reveal?.();
+      if (rv) {
+        const size = axis === 'x' ? width : height;
+        const k = Math.min(1, Math.max(0, d) / (size * 0.33));
+        rv.style.transition = animate === false ? 'none' : `opacity ${ms}ms ${curve}, translate ${ms}ms ${curve}`;
+        rv.style.opacity = d > 0 ? String(k) : '';
+        rv.style.translate = d > 0 ? `${Math.round(-28 * (1 - k))}px 0` : '';
+        rv.dataset.ready = String(k >= 1);
       }
     };
     /*
@@ -98,6 +137,13 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
       el.style.transition = '';
       el.style.translate = '';
       delete el.dataset.swiped;
+      const rv = opts.current.reveal?.();
+      if (rv) {
+        rv.style.transition = '';
+        rv.style.opacity = '';
+        rv.style.translate = '';
+        delete rv.dataset.ready;
+      }
       const b = bd();
       if (b) {
         b.style.transition = '';
@@ -112,20 +158,39 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
       // The innermost swipe root owns the gesture
       if (target.closest('[data-swipe-root]') !== el) return;
       if (target.closest('input, textarea, select, [contenteditable="true"], [data-no-swipe]')) return;
+      const t = e.touches[0];
       const onHandle = !!target.closest('[data-swipe-handle]');
       handle = onHandle;
-      if (!onHandle) {
+      canY = down;
+      if (canY && !onHandle) {
         for (let n: HTMLElement | null = target; n; n = n.parentElement) {
-          if (scrolledDown(n)) return;
+          if (scrolledDown(n)) {
+            canY = false;
+            break;
+          }
           if (n === el) break;
         }
       }
-      const t = e.touches[0];
-      startX = t.clientX;
+      canX = right && t.clientX > EDGE_PX && !target.closest('[data-no-swipe-x], input[type="range"]');
+      if (canX) {
+        for (let n: HTMLElement | null = target; n; n = n.parentElement) {
+          // A sideways scroller, or a surface that takes its own drags (a zoomed map sets touch-action: none inline)
+          if (n.style.touchAction === 'none' || scrollsSideways(n)) {
+            canX = false;
+            break;
+          }
+          if (n === el) break;
+        }
+      }
+      if (!canY && !canX) return;
+      startX = lastX = t.clientX;
       startY = lastY = t.clientY;
       lastT = e.timeStamp;
       vel = 0;
-      height = Math.min(el.getBoundingClientRect().height, window.innerHeight) || 1;
+      velX = 0;
+      const r = el.getBoundingClientRect();
+      height = Math.min(r.height, window.innerHeight) || 1;
+      width = Math.min(r.width, window.innerWidth) || 1;
       still = reducedMotion();
       state = 'pending';
     };
@@ -137,22 +202,38 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
       const dx = t.clientX - startX;
       const dy = t.clientY - startY;
       if (state === 'pending') {
-        // Decide on the first move: iOS ignores preventDefault once a scroll has begun. Sideways or upward is not ours
-        // (scrolling, a chip row, the matrix).
+        // Decide on the first move: iOS ignores preventDefault once a scroll has begun. Upward is not ours
+        // (scrolling), nor is sideways unless swipe right is on and it heads right (a chip row, the matrix).
         // (On the grab handle an upward pull is ours too: it stretches a little and springs back.)
-        if (Math.abs(dx) > Math.abs(dy) || (dy <= 0 && !handle)) {
-          state = 'off';
-          return;
+        if (Math.abs(dx) > Math.abs(dy)) {
+          if (!canX || dx <= 0) {
+            state = 'off';
+            return;
+          }
+          axis = 'x';
+        } else {
+          if (!canY || (dy <= 0 && !handle)) {
+            state = 'off';
+            return;
+          }
+          axis = 'y';
         }
         state = 'drag';
       }
       if (e.cancelable) e.preventDefault();
       const now = e.timeStamp;
-      if (now > lastT) vel = 0.7 * ((t.clientY - lastY) / (now - lastT)) + 0.3 * vel;
+      if (now > lastT) {
+        vel = 0.7 * ((t.clientY - lastY) / (now - lastT)) + 0.3 * vel;
+        velX = 0.7 * ((t.clientX - lastX) / (now - lastT)) + 0.3 * velX;
+      }
       lastY = t.clientY;
+      lastX = t.clientX;
       lastT = now;
+      if (still) return;
+      // Right: follows the finger 1:1, a little resistance back past the start
+      if (axis === 'x') set(dx >= 0 ? dx : -12 * (1 - 1 / (1 + -dx / 60)), false);
       // Down: follows the finger 1:1. Up (handle only): rubber-banded, at most about 24 px
-      if (!still) set(dy >= 0 ? dy : -24 * (1 - 1 / (1 + -dy / 60)), false);
+      else set(dy >= 0 ? dy : -24 * (1 - 1 / (1 + -dy / 60)), false);
     };
 
     const onEnd = () => {
@@ -161,8 +242,13 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
         return;
       }
       state = 'idle';
-      const dy = lastY - startY;
-      const close = dy > Math.min(CLOSE_MAX, height * CLOSE_FRACTION) || (vel > FLICK && dy > 30);
+      const x = axis === 'x';
+      const dy = x ? lastX - startX : lastY - startY;
+      const v = x ? velX : vel;
+      const size = x ? width : height;
+      const close = x
+        ? dy > Math.min(CLOSE_MAX_X, width * CLOSE_FRACTION_X) || (v > FLICK && dy > 30)
+        : dy > Math.min(CLOSE_MAX, height * CLOSE_FRACTION) || (v > FLICK && dy > 30);
       if (!close) {
         if (still) reset();
         else set(0, 'back');
@@ -182,9 +268,9 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
         return;
       }
       // Slide the rest of the way out at the finger's speed, then close (the dialog's exit fades it from there)
-      const rest = height + 40 - dy;
-      const [ms, curve] = slideOut(rest, Math.max(vel, 0));
-      set(height + 40, [ms, curve]);
+      const rest = size + 40 - dy;
+      const [ms, curve] = slideOut(rest, Math.max(v, 0));
+      set(size + 40, [ms, curve]);
       window.setTimeout(() => {
         opts.current.onDismiss();
         // The element may stay mounted (a sheet that only hides): put it back once it's gone
@@ -204,7 +290,7 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
       el.removeEventListener('touchcancel', onEnd);
       reset();
     };
-  }, [el, enabled]);
+  }, [el, enabled, down, right]);
 
   return useCallback((node: T | null) => setEl(node), []);
 };

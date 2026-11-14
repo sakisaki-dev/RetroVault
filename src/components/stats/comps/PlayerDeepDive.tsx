@@ -33,6 +33,9 @@ import DdRealComps, { realCompSets, uniqueRealComps } from './DdRealComps';
 import { DdSection } from './ddParts';
 import { MIN_RADAR_AXES, buildPositionModel, buildSimilarityMap, type PositionModel, type SimilarityMap } from './compModel';
 import { onCompFinderRequest, openInHeadToHead, takeCompFinderRequest } from './compFinderLink';
+import { canGoBackInApp } from '../hub/hashRoute';
+import { usePageSwipeBack } from '@/hooks/usePageSwipeBack';
+import { mergeRefs } from '@/hooks/useSwipeToDismiss';
 import './deepDive.css';
 
 type Select = (p: Player) => void;
@@ -241,14 +244,21 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
     if (pick) choose(keyOf(pick));
   };
 
+  // Phones: swipe right goes back (to the page that opened the Deep Dive, or the Players page on a cold deep link)
+  const { ref: swipeRef, hint: swipeHint } = usePageSwipeBack<HTMLDivElement>({ tab: 'career', sub: 'players' }, canGoBackInApp() ? 'Back' : 'Players');
+  const rootRef = useMemo(() => mergeRefs<HTMLDivElement>(topRef, swipeRef), [swipeRef]);
+
   if (!sorted.length) {
     return <p className="glass-card p-6 text-center text-muted-foreground">No league players to scout yet.</p>;
   }
   if (!player || !model) {
     return (
-      <div ref={topRef} id="deep-dive" className="scroll-mt-28 py-4 sm:py-8">
-        <DdEmpty options={sorted} onChoose={(k) => choose(k, { scroll: false })} onRandom={random} />
-      </div>
+      <>
+        {swipeHint}
+        <div ref={rootRef} id="deep-dive" className="scroll-mt-28 py-4 sm:py-8">
+          <DdEmpty options={sorted} onChoose={(k) => choose(k, { scroll: false })} onRandom={random} />
+        </div>
+      </>
     );
   }
 
@@ -296,7 +306,9 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
   );
 
   return (
-    <div ref={topRef} className="scroll-mt-28 space-y-5" id="deep-dive">
+    <>
+    {swipeHint}
+    <div ref={rootRef} className="scroll-mt-28 space-y-5" id="deep-dive">
       <DdHero
         key={`hero-${keyOf(player)}`}
         player={player}
@@ -434,6 +446,7 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
         </div>
       </div>
     </div>
+    </>
   );
 };
 

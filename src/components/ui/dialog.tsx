@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { mergeRefs, useSwipeToDismiss } from "@/hooks/useSwipeToDismiss";
+import { pushOverlay } from "@/utils/overlayHistory";
 
 const Dialog = DialogPrimitive.Root;
 
@@ -46,6 +47,11 @@ interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof Dialo
    * content-heavy dialogs (the player card); small confirmations stay centred.
    */
   phoneSheet?: boolean;
+  /**
+   * Phones: also swipe right to close (a full-screen card or page-like dialog). The panel follows the finger and the
+   * page shows behind it; drags from the left 24 px (the system's own Back swipe) and on sideways scrollers are left alone.
+   */
+  swipeRight?: boolean;
 }
 
 /*
@@ -56,18 +62,51 @@ interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof Dialo
  * Shared by DialogContent and SheetContent.
  */
 // eslint-disable-next-line react-refresh/only-export-components
-export const useModalChrome = <T extends HTMLElement>(ref: React.ForwardedRef<T>, swipeToClose: boolean, hideClose = false, swipeHandoff = false) => {
+export const useModalChrome = <T extends HTMLElement>(
+  ref: React.ForwardedRef<T>,
+  swipeToClose: boolean,
+  hideClose = false,
+  swipeHandoff = false,
+  swipeRight = false,
+) => {
   const overlayRef = React.useRef<HTMLDivElement>(null);
   const closeRef = React.useRef<HTMLButtonElement>(null);
   const barRef = React.useRef<HTMLDivElement>(null);
   const swipeRef = useSwipeToDismiss<T>({
     onDismiss: () => closeRef.current?.click(),
-    enabled: swipeToClose,
+    enabled: swipeToClose || swipeRight,
+    down: swipeToClose,
+    right: swipeRight,
     backdrop: () => overlayRef.current,
     handoff: swipeHandoff,
   });
   const nodeRef = React.useRef<T | null>(null);
-  const contentRef = React.useMemo(() => mergeRefs<T>(ref, swipeRef, nodeRef), [ref, swipeRef]);
+  const [node, setNode] = React.useState<T | null>(null);
+  const contentRef = React.useMemo(() => mergeRefs<T>(ref, swipeRef, nodeRef, setNode), [ref, swipeRef]);
+  /*
+   * Phones: an open dialog or sheet is a history entry (utils/overlayHistory), so the system Back (Safari's edge swipe,
+   * Android Back) closes it. It counts as open while Radix says data-state="open": the entry is let go the moment the
+   * close starts (X, tap outside, Escape, swipe), not when the exit animation ends, and taken again if it reopens.
+   */
+  React.useEffect(() => {
+    if (!node) return;
+    let release: (() => void) | null = null;
+    const sync = () => {
+      const open = node.getAttribute("data-state") !== "closed";
+      if (open && !release) release = pushOverlay(() => closeRef.current?.click());
+      else if (!open && release) {
+        release();
+        release = null;
+      }
+    };
+    sync();
+    const mo = new MutationObserver(sync);
+    mo.observe(node, { attributes: true, attributeFilter: ["data-state"] });
+    return () => {
+      mo.disconnect();
+      release?.();
+    };
+  }, [node]);
   React.useLayoutEffect(() => {
     const bar = barRef.current;
     const box = bar?.parentElement;
@@ -93,8 +132,8 @@ export const useModalChrome = <T extends HTMLElement>(ref: React.ForwardedRef<T>
 };
 
 const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
-  ({ className, children, swipeToClose = true, hideClose = false, swipeHandoff = false, overlayClassName, phoneSheet = false, ...props }, ref) => {
-    const { overlayRef, contentRef, bar } = useModalChrome(ref, swipeToClose, hideClose, swipeHandoff);
+  ({ className, children, swipeToClose = true, hideClose = false, swipeHandoff = false, overlayClassName, phoneSheet = false, swipeRight = false, ...props }, ref) => {
+    const { overlayRef, contentRef, bar } = useModalChrome(ref, swipeToClose, hideClose, swipeHandoff, swipeRight);
     return (
       <DialogPortal>
         <DialogOverlay ref={overlayRef} className={overlayClassName} />

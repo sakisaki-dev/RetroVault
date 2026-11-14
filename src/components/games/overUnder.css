@@ -127,7 +127,7 @@
 /* .arcade clips overflow, which breaks sticky, so a phone gets a fixed bar above the bottom nav */
 @media (max-width: 899px) {
   .arcade .ou2-layout.pick, .arcade .ou2-layout.reveal { padding-bottom: 150px; }
-  .arcade .ou2-slip.pick, .arcade .ou2-slip.reveal { position: fixed; left: 8px; right: 8px; bottom: calc(var(--bottom-nav-h, 0px) + 8px); padding: 10px 12px; gap: 8px; box-shadow: 0 0 0 2px var(--line), 0 -10px 30px #000c; animation: arc-rise 0.3s ease both; }
+  .arcade .ou2-slip.pick, .arcade .ou2-slip.reveal { position: fixed; left: 8px; right: 8px; bottom: calc(var(--bnav-dock, 0px) + 8px); padding: 10px 12px; gap: 8px; box-shadow: 0 0 0 2px var(--line), 0 -10px 30px #000c; animation: arc-rise 0.3s ease both; }
   .arcade .ou2-slip.pick { display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'head head' 'pips pips' 'sum lock'; align-items: center; }
   .arcade .ou2-slip.pick .ou2-slip-head { grid-area: head; }
   .arcade .ou2-slip.pick .ou2-slip-pips { grid-area: pips; }
