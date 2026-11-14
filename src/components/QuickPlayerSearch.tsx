@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { flushSync } from 'react-dom';
 import { Clock, Radar, Search, Sparkles, Star } from 'lucide-react';
 import InLeague from '@/components/InLeague';
 import type { Player, Position } from '@/types/player';
@@ -21,6 +22,9 @@ import TeamLogo from './brand/TeamLogo';
 import GameSprite from './GameSprite';
 import { matchPlayer } from './PlayerSearchSelect';
 import { openInCompFinder } from './stats/comps/compFinderLink';
+import { isPhone, usePhone } from '@/hooks/usePhone';
+import { pushRecent, readRecent } from '@/utils/playerSearch';
+import PlayerSearchSheet, { type SheetGroup } from './search/PlayerSearchSheet';
 import './quickSearch.css';
 import { bannerTeamOf } from '@/utils/playerExtras';
 
@@ -28,24 +32,7 @@ import { bannerTeamOf } from '@/utils/playerExtras';
 export const QUICK_SEARCH_EVENT = 'retrovault:quick-search';
 export const openQuickSearch = () => window.dispatchEvent(new Event(QUICK_SEARCH_EVENT));
 
-const RECENT_KEY = 'retroVault:search:recent';
 const POSITIONS: Position[] = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
-
-const readRecent = (): string[] => {
-  try {
-    const v: unknown = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
-    return Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string').slice(0, 6) : [];
-  } catch {
-    return [];
-  }
-};
-const pushRecent = (key: string) => {
-  try {
-    localStorage.setItem(RECENT_KEY, JSON.stringify([key, ...readRecent().filter((k) => k !== key)].slice(0, 6)));
-  } catch {
-    /* storage unavailable */
-  }
-};
 
 /** True when the key press happens inside something the user is typing in. */
 const typingTarget = (t: EventTarget | null) =>
@@ -163,11 +150,82 @@ const ResultRow = ({ player, number, ovr, grade }: { player: Player; number: num
 };
 
 /**
+ * ⌘K / Ctrl+K, "/" and the open event. On a phone the open is flushed inside the tap, so the sheet's input is focused
+ * within the user's gesture and iOS raises the keyboard with it.
+ */
+const useOpenTriggers = (setOpen: (fn: (o: boolean) => boolean) => void) => {
+  useEffect(() => {
+    const show = () => {
+      if (isPhone()) flushSync(() => setOpen(() => true));
+      else setOpen(() => true);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setOpen((o) => !o);
+      } else if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey && !typingTarget(e.target)) {
+        e.preventDefault();
+        show();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    window.addEventListener(QUICK_SEARCH_EVENT, show);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener(QUICK_SEARCH_EVENT, show);
+    };
+  }, [setOpen]);
+};
+
+/**
+ * Phones: the full-screen search sheet (search/PlayerSearchSheet.tsx). A pick opens his card; press and hold a row for
+ * the quick look (Deep Dive, Head-to-Head...).
+ */
+const QuickSearchPhone = () => {
+  const currentClub = useCurrentClub();
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<Player | null>(null);
+  const { league, legends, ovrMap } = useGamePool();
+  useOpenTriggers(setOpen);
+  const pool = useMemo(() => [...league, ...legends], [league, legends]);
+  const suggestions = useMemo((): SheetGroup[] => {
+    const ovrOf = (p: Player) => ovrMap.get(playerKey(p)) ?? 0;
+    const clubId = findNFLTeam(currentClub)?.id;
+    const club = clubId ? league.filter((p) => findNFLTeam(p.team)?.id === clubId && p.status !== 'Retired').sort((a, b) => ovrOf(b) - ovrOf(a)) : [];
+    const hof = league.filter((p) => isHallOfFamer(p)).sort((a, b) => b.careerLegacy - a.careerLegacy).slice(0, 8);
+    return [
+      { id: 'club', label: `${findNFLTeam(currentClub)?.name ?? currentClub ?? 'Club'} roster`, players: club },
+      { id: 'hof', label: 'Hall of Fame', players: hof },
+    ];
+  }, [league, ovrMap, currentClub]);
+  return (
+    <>
+      <PlayerSearchSheet
+        open={open}
+        onClose={() => setOpen(false)}
+        players={pool}
+        ovrMap={ovrMap}
+        onPick={(p) => {
+          setOpen(false);
+          setSelected(p);
+        }}
+        suggestions={suggestions}
+        footer={`${league.length} league · ${legends.length} NFL players`}
+      />
+      <PlayerDetailCard player={selected} onClose={() => setSelected(null)} />
+    </>
+  );
+};
+
+/** Desktop and tablets: the ⌘K dialog. Phones get the full-screen sheet. */
+const QuickPlayerSearch = () => (usePhone() ? <QuickSearchPhone /> : <QuickSearchDialog />);
+
+/**
  * Site-wide player lookup ("scouting terminal"): ⌘K / Ctrl+K or "/" from any page (⌘T belongs to the browser),
  * or the header's search button. Enter opens his card (league cards link to the Deep Dive); Shift+Enter goes
  * straight to the Deep Dive.
  */
-const QuickPlayerSearch = () => {
+const QuickSearchDialog = () => {
   const sprites = useGameSprites();
   // The owner's current club, from the data (coach.json), never hard-coded
   const currentClub = useCurrentClub();
@@ -182,24 +240,7 @@ const QuickPlayerSearch = () => {
   const skills = useSkillRatings();
   const extras = usePlayerExtras();
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        setOpen((o) => !o);
-      } else if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey && !typingTarget(e.target)) {
-        e.preventDefault();
-        setOpen(true);
-      }
-    };
-    const onOpen = () => setOpen(true);
-    window.addEventListener('keydown', onKey);
-    window.addEventListener(QUICK_SEARCH_EVENT, onOpen);
-    return () => {
-      window.removeEventListener('keydown', onKey);
-      window.removeEventListener(QUICK_SEARCH_EVENT, onOpen);
-    };
-  }, []);
+  useOpenTriggers(setOpen);
 
   useEffect(() => {
     if (open) setRecent(readRecent());

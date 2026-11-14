@@ -343,7 +343,8 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
       const req = takeHeadToHeadRequest();
       if (!req) return;
       setK1(req.a);
-      setK2(req.b);
+      // An empty b (prefillHeadToHead) keeps the other slot, unless it held this same player
+      setK2((cur) => req.b || (cur === req.a ? '' : cur));
     };
     apply();
     return onHeadToHeadRequest(apply);

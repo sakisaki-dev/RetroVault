@@ -4,6 +4,7 @@ import { findNFLTeam } from '@/utils/nflTeams';
 import { getReadableTextOn } from '@/utils/teamColors';
 import GameSprite from '../GameSprite';
 import './rosterField.css';
+import { peekProps } from '@/components/peek/peekProps';
 
 /**
  * The roster as a formation (the owner's private Retro Bowl sprites; TeamSheet shows it only when this Mac has them):
@@ -77,6 +78,7 @@ const RosterField = ({ players, team, numberFor, onOpen }: Props) => {
             className="rf-spot"
             style={{ left: `${x}%`, top: `${y}%` }}
             onClick={() => onOpen(p)}
+            {...peekProps(p)}
             aria-label={`${p.name}, ${p.position}, number ${numberFor(p) ?? ''}. Open player`}
           >
             <GameSprite player={p} team={team} kind="figure" size="m" />

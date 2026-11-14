@@ -17,6 +17,7 @@ import RetiredRafters from './RetiredRafters';
 import StadiumWeather from './StadiumWeather';
 import TitlesTimeline from './TitlesTimeline';
 import PositionRadar from './PositionRadar';
+import { peekProps } from '@/components/peek/peekProps';
 import {
   POSITION_LABELS,
   franchiseLeaders,
@@ -133,7 +134,8 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
   return (
     <>
       <Sheet open={!!summary} onOpenChange={(open) => !open && onClose()}>
-        <SheetContent side="right" className="w-full sm:max-w-3xl p-0 overflow-y-auto overflow-x-hidden border-l border-line">
+        {/* data-peek-ok: press and hold a player here for the quick look (components/peek) */}
+        <SheetContent side="right" data-peek-ok className="w-full sm:max-w-3xl p-0 overflow-y-auto overflow-x-hidden border-l border-line">
           {summary && (
             <>
               {/* Hero */}
@@ -290,6 +292,7 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
                               <button
                                 type="button"
                                 onClick={() => setSelectedPlayer(l.player)}
+                                {...peekProps(l.player)}
                                 className="flex w-full min-w-0 items-center gap-3 rounded-lg border border-border bg-secondary/30 p-2.5 text-left hover:border-line"
                                 aria-label={`Number ${i + 1} franchise icon: ${l.player.name}, ${l.player.position}, ${Math.round(l.player.careerLegacy || 0).toLocaleString()} Career Legacy. Open player`}
                               >
@@ -478,6 +481,7 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
                                   <button
                                     type="button"
                                     onClick={() => setSelectedPlayer(player)}
+                                    {...peekProps(player)}
                                     className={cn(
                                       'min-w-0 flex-1 truncate text-left hover:text-gold',
                                       i === 0 ? 'font-display text-lg font-bold uppercase leading-tight' : 'text-sm',

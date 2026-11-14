@@ -1,4 +1,5 @@
 import { useMemo, useState, type CSSProperties } from 'react';
+import { flushSync } from 'react-dom';
 import { ChevronsUpDown, Search } from 'lucide-react';
 import InLeague from '@/components/InLeague';
 import { cn } from '@/lib/utils';
@@ -13,6 +14,8 @@ import { useJerseyNumbers } from '@/utils/jerseys';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import { bannerTeamOf } from '@/utils/playerExtras';
+import { usePhone } from '@/hooks/usePhone';
+import PlayerSearchSheet, { type SheetGroup } from './search/PlayerSearchSheet';
 
 interface PlayerSearchSelectProps {
   players: Player[];
@@ -101,6 +104,10 @@ const MiniBanner = ({ player, number, ovr, compact = false }: { player: Player; 
 /**
  * Searchable player picker (name, nickname, position or team). Results are grouped by position under small
  * position tags, each player drawn as a mini banner in his team colours with his jersey number.
+ *
+ * Phones: the trigger opens the full-screen search sheet instead (search/PlayerSearchSheet.tsx), opened inside the
+ * tap so the keyboard comes up with it; a pick runs this picker's own onValueChange. In guessing games (showOvr off)
+ * the sheet shows no OVR, no Active tag, no suggestions and no quick look: nothing that would give an answer away.
  */
 const PlayerSearchSelect = ({
   players,
@@ -129,6 +136,72 @@ const PlayerSearchSelect = ({
     }));
   }, [players, ovrMap]);
   const shown = pos === 'ALL' ? groups : groups.filter((g) => g.pos === pos);
+  const phone = usePhone();
+  const suggestions = useMemo((): SheetGroup[] | undefined => {
+    if (!phone || !showOvr) return undefined;
+    const ovrOf = (p: Player) => ovrMap.get(playerKey(p)) ?? 0;
+    return [{ id: 'top', label: 'Top rated', players: [...players].sort((a, b) => ovrOf(b) - ovrOf(a)).slice(0, 12) }];
+  }, [phone, showOvr, players, ovrMap]);
+
+  const trigger = (
+    <Button
+      variant="outline"
+      role="combobox"
+      aria-expanded={open}
+      aria-haspopup={phone ? 'dialog' : undefined}
+      aria-label={ariaLabel ? `${ariaLabel}${selectedPlayer ? `: ${selectedPlayer.name}` : ''}` : undefined}
+      className="h-12 w-full justify-between gap-2 border-line bg-night/60 px-2.5 hover:bg-panel-2"
+      onClick={phone ? () => flushSync(() => setOpen(true)) : undefined}
+      style={
+        selectedPlayer
+          ? {
+              ...bannerVars(bannerTeamOf(selectedPlayer)),
+              boxShadow: 'inset 3px 0 0 var(--pss-1), inset 0 0 0 1px color-mix(in srgb, var(--pss-1) 45%, transparent)',
+              background: 'linear-gradient(100deg, color-mix(in srgb, var(--pss-1) 30%, transparent), transparent 70%)',
+            }
+          : undefined
+      }
+    >
+      {selectedPlayer ? (
+        <MiniBanner
+          player={selectedPlayer}
+          number={numberFor(selectedPlayer)}
+          ovr={showOvr ? ovrMap.get(playerKey(selectedPlayer)) : undefined}
+          compact
+        />
+      ) : (
+        <span className="flex items-center gap-2 text-muted-foreground">
+          <Search className="h-4 w-4" aria-hidden="true" />
+          {placeholder}
+        </span>
+      )}
+      <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" aria-hidden="true" />
+    </Button>
+  );
+
+  if (phone)
+    return (
+      <>
+        {trigger}
+        <PlayerSearchSheet
+          open={open}
+          onClose={() => setOpen(false)}
+          players={players}
+          ovrMap={ovrMap}
+          onPick={(p) => {
+            setOpen(false);
+            onValueChange(playerKey(p));
+          }}
+          title={ariaLabel ?? 'Pick a player'}
+          word="Pick"
+          showOvr={showOvr}
+          showActive={showOvr}
+          peek={showOvr}
+          suggestions={suggestions}
+          selectedKey={value || undefined}
+        />
+      </>
+    );
 
   return (
     <Popover
@@ -139,37 +212,7 @@ const PlayerSearchSelect = ({
       }}
     >
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          aria-label={ariaLabel ? `${ariaLabel}${selectedPlayer ? `: ${selectedPlayer.name}` : ''}` : undefined}
-          className="h-12 w-full justify-between gap-2 border-line bg-night/60 px-2.5 hover:bg-panel-2"
-          style={
-            selectedPlayer
-              ? {
-                  ...bannerVars(bannerTeamOf(selectedPlayer)),
-                  boxShadow: 'inset 3px 0 0 var(--pss-1), inset 0 0 0 1px color-mix(in srgb, var(--pss-1) 45%, transparent)',
-                  background: 'linear-gradient(100deg, color-mix(in srgb, var(--pss-1) 30%, transparent), transparent 70%)',
-                }
-              : undefined
-          }
-        >
-          {selectedPlayer ? (
-            <MiniBanner
-              player={selectedPlayer}
-              number={numberFor(selectedPlayer)}
-              ovr={showOvr ? ovrMap.get(playerKey(selectedPlayer)) : undefined}
-              compact
-            />
-          ) : (
-            <span className="flex items-center gap-2 text-muted-foreground">
-              <Search className="h-4 w-4" aria-hidden="true" />
-              {placeholder}
-            </span>
-          )}
-          <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" aria-hidden="true" />
-        </Button>
+        {trigger}
       </PopoverTrigger>
       {/* Fixed list height + above the sticky header (z-50): the popover no longer flips or hides while typing. */}
       <PopoverContent

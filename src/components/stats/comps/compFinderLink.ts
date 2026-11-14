@@ -50,6 +50,15 @@ export const openInHeadToHead = (a: Pick<Player, 'position' | 'name'>, b: Pick<P
   window.dispatchEvent(new CustomEvent(HEAD_TO_HEAD_EVENT, { detail: pendingH2H }));
 };
 
+/**
+ * Head-to-Head with one side filled in (the quick look's "Head-to-Head"): `a` is this player, `b` stays empty, so the
+ * view keeps whoever is in its other slot (unless it is him).
+ */
+export const prefillHeadToHead = (a: Pick<Player, 'position' | 'name'>) => {
+  pendingH2H = { a: keyFor(a), b: '' };
+  window.dispatchEvent(new CustomEvent(HEAD_TO_HEAD_EVENT, { detail: pendingH2H }));
+};
+
 export const takeHeadToHeadRequest = () => {
   const r = pendingH2H;
   pendingH2H = null;

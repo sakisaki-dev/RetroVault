@@ -26,6 +26,8 @@ export interface ClubStripProps {
   onClick?: () => void;
   /** Accessible name for the button (default: the visible text) */
   ariaLabel?: string;
+  /** "POS:Name" when the strip is a player: press and hold opens his quick look (components/peek) */
+  playerKey?: string;
   title?: string;
   className?: string;
 }
@@ -40,7 +42,7 @@ export const stripVars = (team: string): CSSProperties => {
   };
 };
 
-const ClubStrip = ({ team, label, tag, size = 'md', onClick, ariaLabel, title, className }: ClubStripProps) => {
+const ClubStrip = ({ team, label, tag, size = 'md', onClick, ariaLabel, title, className, playerKey }: ClubStripProps) => {
   const body = (
     <>
       <span className="club-strip__logo" aria-hidden>
@@ -52,11 +54,11 @@ const ClubStrip = ({ team, label, tag, size = 'md', onClick, ariaLabel, title, c
   );
   const cls = cn('club-strip', `club-strip--${size}`, className);
   return onClick ? (
-    <button type="button" className={cls} style={stripVars(team)} onClick={onClick} aria-label={ariaLabel} title={title}>
+    <button type="button" className={cls} style={stripVars(team)} onClick={onClick} aria-label={ariaLabel} title={title} data-player-key={playerKey}>
       {body}
     </button>
   ) : (
-    <span className={cls} style={stripVars(team)} title={title}>
+    <span className={cls} style={stripVars(team)} title={title} data-player-key={playerKey}>
       {body}
     </span>
   );
@@ -88,6 +90,7 @@ export const PlayerStrip = ({
     className={className}
     onClick={card ? () => openInCompFinder({ position, name } as Pick<Player, 'position' | 'name'> as Player) : undefined}
     ariaLabel={card ? `${name}, ${position}, ${team}: open in the Deep Dive` : undefined}
+    playerKey={card ? `${position}:${name}` : undefined}
   />
 );
 

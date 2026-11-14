@@ -12,6 +12,7 @@ import { GROUP_META, GROUP_ORDER, boardsForGroup, keyOf, type GroupKey, type Rec
 import { GRID_ITEM, gridVars } from './grid';
 import { teamMark } from './visual/chartKit';
 import LeaderRadar from './visual/LeaderRadar';
+import { peekProps } from '@/components/peek/peekProps';
 
 type Select = (p: Player) => void;
 
@@ -30,6 +31,7 @@ const RaceRow = ({ board, rank, value, player, max, onSelect }: { board: RecordB
       <button
         type="button"
         onClick={() => onSelect(player)}
+        {...peekProps(player)}
         aria-label={`Rank ${rank + 1}: ${player.name}${player.team ? `, ${player.team}` : ''}, ${formatDecimal(value, board.decimals)} ${board.title}. Open player`}
         className={cn(
           'flex h-full w-full flex-col justify-center gap-1 rounded-md px-1.5 text-left transition-colors hover:bg-panel-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',

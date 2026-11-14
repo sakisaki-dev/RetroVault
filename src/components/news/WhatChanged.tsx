@@ -28,6 +28,7 @@ import PositionBadge from '@/components/PositionBadge';
 import './news.css';
 import { reducedMotion } from '@/utils/motion';
 import { SeasonStoryDesk, openSeasonStory } from './SeasonStory';
+import { peekProps } from '@/components/peek/peekProps';
 
 /**
  * "What changed": the generated headlines in content.json (scripts/build_league_content.py build_headlines(), rules
@@ -84,6 +85,7 @@ const HeadlineItem = ({ h, player, onPlayer, copy, className }: HeadlineButtonPr
       type="button"
       className={cls}
       onClick={() => onPlayer(player)}
+      {...peekProps(player)}
       tabIndex={copy ? -1 : undefined}
       aria-label={copy ? undefined : `${h.text}. Open ${player.name}'s card`}
     >
@@ -248,6 +250,7 @@ export const Spotlight = ({
                 className="wc-spot__card"
                 style={c ? ({ '--tc': `hsl(${c.primary})`, '--tc2': `hsl(${c.secondary})` } as CSSProperties) : undefined}
                 onClick={() => onPlayer(p)}
+                {...peekProps(p)}
                 aria-label={`Open ${p.name}'s card`}
               >
                 <GameSprite player={p} kind="figure" size="m" className="wc-spot__sprite" />

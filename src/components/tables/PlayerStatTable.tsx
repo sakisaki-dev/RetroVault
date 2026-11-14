@@ -16,6 +16,7 @@ import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import { useSkillRatings } from '@/utils/useSkillRatings';
 import { getTeamColors } from '@/utils/teamColors';
 import { HeaderTip, LeaderStat, PlayerNameCell, TierMetric } from './cells';
+import { peekProps } from '@/components/peek/peekProps';
 
 export interface StatColumn<T> {
   key: string;
@@ -227,6 +228,7 @@ function PlayerStatTable<T extends Player>({
                   <tr
                     key={`${player.name}-${player.position}`}
                     className="cursor-pointer"
+                    {...peekProps(player)}
                     onPointerDown={() => warmPlayerCard({ ...player, team })}
                     onClick={() => setSelectedPlayer({ ...player, team } as Player)}
                   >
