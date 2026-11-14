@@ -705,7 +705,9 @@ source names that file).
 - **Private game sprites** (owner's choice, 2026-11-13: show Retro Bowl's real sprites for immersion, but only on this
   Mac; the art is New Star Games', the NFL edition's carries NFL/NFLPA marks; later: "feel free to take creative liberty
   and use them where u see fit in the games and across the website", then sprites v2: bigger, centred, one style). They
-  live only in `public/private-sprites/` (git-ignored, never committed, never deployed). **Source:** the owner's save
+  live in `public/private-sprites/`, **committed and deployed** (owner, 2026-11-14: "i'd rather take the small risk …
+  quite literally no connection to the outside world other than just me going through MY OWN data"; the repo and the
+  Pages site are public, so the art is publicly reachable and stays in git history). **Source:** the owner's save
   (`scripts/pull_save.py` → `data/saves/`), then `python3 scripts/private_nfl_sprites.py`: it matches players with
   `scripts/save_read.py`'s matcher (a pool uid shared by different-looking players is ambiguous and skipped; one
   shared by look-alikes, the game's generated templates, is used) and copies every kit and pose of the matched players'
@@ -746,10 +748,10 @@ source names that file).
   game sprite, head and shoulders in the card's two inks (club deep and cream) with a halftone sheen, in the kit the pull
   rolled (`VintageArt.tsx`, `art/useToppsPortrait.ts`, `src/utils/toppsPortrait.ts`), so the card stays timeless; the
   public build keeps the helmet silhouette.
-  `vite.config.ts` defines `__PRIVATE_SPRITES__` only when the folder exists on the building machine and never in
-  GitHub Actions (and drops any copy from a build without it), so the Pages build never fetches anything and looks
-  exactly as without it; the dev server and the LAN preview (`npm run build` here) show the sprites. Never move, copy,
-  inline or base64 any of it into a tracked file.
+  `vite.config.ts` defines `__PRIVATE_SPRITES__` whenever the folder is in the checkout (the Pages build included) and
+  drops any copy from a build without it, which then shows the classic art. After regenerating the sprites on the
+  Mac, commit the folder with the update (`git add public/private-sprites`). The raw save (`data/saves/`) stays
+  private and git-ignored.
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
   `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. **Both files store changes
   only** (format 2, `src/utils/marketHistory.ts`): the first, the latest and every 10th snapshot are full keyframes

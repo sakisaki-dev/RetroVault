@@ -4,10 +4,10 @@ import path from "path";
 import fs from "fs";
 import { componentTagger } from "lovable-tagger";
 
-// Retro Bowl's own sprites (scripts/private_nfl_sprites.py, scripts/private_sprites.py) live only on the owner's Mac
-// in public/private-sprites/ (git-ignored). The site fetches them only when this machine has them; never in CI, so the
-// Pages build never asks.
-const PRIVATE_SPRITES = !process.env.GITHUB_ACTIONS && fs.existsSync(path.resolve(__dirname, "public/private-sprites"));
+// Retro Bowl's own sprites (scripts/private_nfl_sprites.py, scripts/private_sprites.py) in public/private-sprites/,
+// committed and deployed by the owner's choice (2026-11-14). The site fetches them whenever the folder is there, the
+// Pages build included; a checkout without it builds the classic art.
+const PRIVATE_SPRITES = fs.existsSync(path.resolve(__dirname, "public/private-sprites"));
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({

@@ -3,10 +3,10 @@ import type * as SpriteArt from './gameSpriteArt';
 import { findNFLTeam } from './nflTeams';
 
 /**
- * Retro Bowl's own player sprites (New Star Games' art; the NFL edition's NFL and NFLPA marks), PRIVATE: they exist
- * only on the owner's Mac in public/private-sprites/ (git-ignored). The GitHub Pages build never has that folder, so
- * `__PRIVATE_SPRITES__` (vite.config.ts) is false there and nothing is ever fetched: the public site looks exactly as
- * it would without this module. Two sources, in order:
+ * Retro Bowl's own player sprites (New Star Games' art; the NFL edition's NFL and NFLPA marks) in
+ * public/private-sprites/, committed and deployed by the owner's choice (2026-11-14). A build without that folder has
+ * `__PRIVATE_SPRITES__` (vite.config.ts) false and fetches nothing: the site then looks exactly as it would without
+ * this module. Two sources, in order:
  *   1. nfl/: the owner's own NFL Retro Bowl players from his save (scripts/pull_save.py, then
  *      scripts/private_nfl_sprites.py), 64 x 64 full-body sprites already drawn in real kits, several poses.
  *   2. the regular game's sheets (scripts/private_sprites.py): portraits, on-field poses and the helmet in placeholder
@@ -71,7 +71,7 @@ export interface GameSprites {
   looks?: Record<string, { skin?: unknown; build?: unknown; height?: unknown }> | null;
 }
 
-/** Build-time: true only when public/private-sprites/ exists on the machine that builds (never CI). */
+/** Build-time: true when public/private-sprites/ exists in the checkout that builds. */
 const ENABLED = typeof __PRIVATE_SPRITES__ !== 'undefined' && __PRIVATE_SPRITES__;
 export const PRIVATE_BASE = `${import.meta.env.BASE_URL}private-sprites/`;
 
