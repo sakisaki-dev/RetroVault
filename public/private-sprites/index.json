@@ -1,0 +1,98 @@
+{
+ "about": "Retro Bowl's own sprites (New Star Games), cut by scripts/private_sprites.py. Private: git-ignored, never on the public site.",
+ "faces": {
+  "file": "faces.png",
+  "w": 32,
+  "h": 36,
+  "sheets": [
+   "spr_dark_001",
+   "spr_dark_002",
+   "spr_dark_003",
+   "spr_dark_004",
+   "spr_dark_005",
+   "spr_dark_006",
+   "spr_dark_007",
+   "spr_dark_008",
+   "spr_light_001",
+   "spr_light_002",
+   "spr_light_003",
+   "spr_mix_001"
+  ],
+  "perSheet": 8,
+  "keys": {
+   "shirt": "#00ff00",
+   "trim": "#ff00ff",
+   "stripe": "#ff0000"
+  }
+ },
+ "bodies": {
+  "file": "bodies.png",
+  "cell": [
+   32,
+   26
+  ],
+  "poses": {
+   "stand": {
+    "row": 0,
+    "frames": 3
+   },
+   "run": {
+    "row": 1,
+    "frames": 6
+   },
+   "celebrate": {
+    "row": 2,
+    "frames": 2
+   },
+   "jump": {
+    "row": 3,
+    "frames": 3
+   },
+   "dive": {
+    "row": 4,
+    "frames": 3
+   },
+   "stiffarm": {
+    "row": 5,
+    "frames": 6
+   },
+   "qb_throw": {
+    "row": 6,
+    "frames": 1
+   }
+  },
+  "keys": {
+   "helmet": [
+    "#ff0000"
+   ],
+   "jersey": [
+    "#0000ff",
+    "#8080ff",
+    "#000080"
+   ],
+   "pants": [
+    "#ff00ff",
+    "#800080"
+   ],
+   "socks": [
+    "#ffff00"
+   ],
+   "skin": [
+    "#00ff00",
+    "#008000",
+    "#007f00"
+   ]
+  }
+ },
+ "helmet": {
+  "file": "helmet.png",
+  "w": 60,
+  "h": 60,
+  "frames": 2,
+  "keys": {
+   "shell": "#ff0000",
+   "stripe": "#00ff00",
+   "stripe2": "#ff00ff"
+  }
+ }
+}
