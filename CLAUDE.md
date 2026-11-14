@@ -19,7 +19,7 @@ completed season, written like the Season Story and checked by the same fact-che
 
 | Kind | What | Where |
 |---|---|---|
-| **Data entry** (facts) | Career lines, awards, Super Bowls, coach seasons, weekly league scores and standings, record board, teams/trades/rosters, nicknames, owner-confirmed history ("one Titans season", "mainly a Seahawk"), card notes, the owner's own tags, sprite looks | `data/y80/players.json`, `super_bowls.json`, `coach.json`, `schedules.json`, `records.json`, `owner_facts.json`, `screenshot_extras.json`, `sprites.json` |
+| **Data entry** (facts) | Career lines, awards, Super Bowls, coach seasons, weekly league scores and standings, record board, teams/trades/rosters, nicknames, owner-confirmed history ("one Titans season", "mainly a Seahawk"), card notes, the owner's own tags, sprite looks; the live state read from the game's save (see Save import) | `data/y80/players.json`, `super_bowls.json`, `coach.json`, `schedules.json`, `records.json`, `owner_facts.json`, `screenshot_extras.json`, `sprites.json`, `save_state.json` |
 | **Owner prose** (verbatim) | Season notes about rivalries, disputes, drama, in the owner's words | `data/y80/journal.json` |
 | **Generated** (rules over the data) | Eras, storylines, rivalries, lineages, snubs, outsiders, record chases, iron men, one-team legends, open questions, player tags and eras, Hall of Fame classes, career stints and their evidence text, market prices | `scripts/*.py`, `scripts/market_snapshot.ts` → `public/data/` |
 | **AI-authored** (only these four) | Hall of Fame induction speeches; card art styles and custom sprites (Art lab; custom sprites retired with the sprite card, see step 2); the Season Story (news articles about each completed season); Hot Takes (columnist opinions about each completed season) | `data/y80/speeches.json`; `src/components/collection/art/**`, `public/data/sprites/`; `data/y80/stories.json`; `data/y80/hot_takes.json` |
@@ -35,7 +35,8 @@ The site loads only the bundled files in `public/data/`, which `npm run rebuild`
 hand-edit generated files, and never edit `data/y80/` directly: every change goes through an upload bundle.
 
 `npm run rebuild` runs, in order: `infer_stints.py` (career stints) → `build_league_data.py` (league CSV, extras,
-legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `build_league_content.py`
+legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `schedule_content.py` → `league_records.py` →
+`hall_of_fame.py` → `save_state.py` (`public/data/league/save_state.json`) → `build_league_content.py`
 (`public/data/league/content.json`) → `build_widget_data.py` (`public/data/widget.json`) → `audit.ts`. It is
 deterministic: two runs give byte-identical output.
 
@@ -338,6 +339,56 @@ The first bundle, `data/uploads/2026-10-19-y80-initial/`, is the backfilled reco
 pipeline existed (IMG_6141–6205, the coaching screen recording, owner facts given in chat). Applying it to the
 current data is a no-op.
 
+## Save import (the game's own save replaces screen recordings)
+
+The owner's NFL Retro Bowl save comes off the iPhone with `scripts/pull_save.py` into `data/saves/<date>/nfl/Documents/`
+(**git-ignored, private: never commit or push the raw save**; only the data files derived from it through an upload
+bundle are committed, like screenshots). `scripts/save_read.py` reads the newest pull, picks the slot with the highest
+`settings.year` (or `--slot N`, or `--save <file>`), normalises it and matches its players to `players.json` by
+normalised name (accents folded, apostrophes dropped, the site's `normalizeName`) and position (save codes 8 CB and 9 S
+are both DB; a name found once at another position in the same stat group also matches; uids repeat in the pool, so
+never key on them). The verified stat mapping, the "playing" rule and the rounding rule are in `docs/GAME_MECHANICS.md`
+"Save format". Reading a save is **data entry, not an AI step**: no `ai_steps`, every mutation's source is
+`save:<file>` and the manifest carries `save` {file, path, sha256, season, week, complete} (apply-upload checks the
+source names that file).
+
+- `npm run -s save:check` (`save_read.py --check`): reconciliation report, no writes. Matched count, every field where
+  Retro Vault's career differs from the save's (career before this season for players still playing, the career as it
+  stands for the rest), players new in the save, Retro Vault players the game has dropped (long retired), Retro Vault
+  actives not playing in the save, club differences.
+- **Live mode** (mid-season, any time): `python3 scripts/save_read.py --state` writes
+  `data/uploads/<date>-save-y<n>w<week>/manifest.json` with one `save.state` mutation (lane `stats`, target
+  `Y<season>w<week>`, source `save:<file>`), then `npm run update -- <bundle>`. apply-upload writes the value whole to
+  `data/y80/save_state.json` (each save.state replaces the last): per player keyed by Retro Vault key (`POS:Name`,
+  playing players only) the club, age, the four ratings and their ceilings (`max_*`), `injury_week`, `contract`
+  (1 to 3, likely years left; not checked against a screen), `salary`, `delay_retirement`, `xp_level` and the season so far in Retro Vault keys; `newPlayers` (playing
+  in the save, not yet in Retro Vault; kickers and punters left out, Retro Vault has none); per club W-L-T now and the
+  offense / defense ratings; settings (facilities, salary cap, fans, coach rating); the coach's game log
+  (`coachGames`: week, opponent, home, score, result; unplayed weeks have no score). **Never in it** (owner decisions):
+  attitude / morale, height and weight (bio is age only), the game's own `hof` / `hof_candidate`. apply-upload refuses
+  any of those keys, a player key not in `players.json`, a club outside the 32 or a target that doesn't match the value.
+  `scripts/save_state.py` (run by `npm run rebuild`) exports it to `public/data/league/save_state.json` (compact,
+  minus `_about`); the audit errors when the data file differs from the last applied save.state, the site copy differs
+  from it, a player key isn't in players.json, or a banned key appears. Nothing in the site reads it yet (UI later).
+- **Season-complete mode** (after a season's Super Bowl): `python3 scripts/save_read.py --complete` writes an ordinary
+  bundle `data/uploads/<date>-save-y<n>/manifest.json`: `player.set` career lines (only fields that changed, Retro
+  Vault keys), new players with their club from the save (never `UNK`; at least one game), `superbowl.set` for any
+  season missing or different (from `history_bowls`: Y = year − start_year, number Y + 59, the loser's TLA turned into
+  the club name, `your_result` from `human` 1 won / −1 lost / 0 not in it), `coach.season` from `history`, `record.set`
+  from the record board when the mark or the year differs (holder "QB S. Brandson → WR D. Haley"; marks set after the
+  season wait), `fact.set players/<name>/status "Retired"` for Retro Vault actives no longer playing, and
+  `fact.set players/<name>/team` for club changes. A player whose save total is **below** Retro Vault's is held back
+  whole and printed for a human (apply-upload refuses drops). Review the printout, then `npm run update -- <bundle>`;
+  speeches, stories and takes follow as usual. `--complete --check` is the dry run (builds the bundle in memory and
+  prints it; nothing written). The season is the save's latest completed one: its own year once `history` has a row for
+  it, else the year before (careers then = save career − save season for players still playing).
+- **Save over transcriptions** (owner, 2026-11-13: "take the save data over the ones i have"): where the save and
+  Retro Vault disagree for completed seasons, the save wins. `data/uploads/2026-11-13-save-reconcile/` set the 19
+  mismatched (all retired) players' full career lines and awards to the save's `sta_c`, using the existing
+  `"_allow_decrease": true` re-check mark where the save is lower (reason quoting the owner), filled the Y67 and Y85
+  Super Bowls (`"note": null` in a superbowl.set drops a row's stale note) and added the two record-board marks Retro
+  Vault lacked. Never import a mid-season career total into players.json: the live state covers the season in progress.
+
 ## Owner facts (confirmed; don't "correct" them)
 
 - The current club is the **Eagles** (from Y88; owner: "in this new season i've moved to the eagles"). Before that the
@@ -577,6 +628,29 @@ current data is a no-op.
   regular player's coins), bounties 0.75 and milestones 250K to 30M (the top two out of reach in a year); now 8, 0.15,
   0.4 and 50K to 12M. Packs were already a sink (37–40% back). The Exchange section (Shop, Sets, Trade-up, Bounties, Milestones tabs, recent coins) sits under the Market;
   the coin balance shows in the Collection header beside the shards.
+- **Private game sprites** (owner's choice, 2026-11-13: show Retro Bowl's real sprites for immersion, but only on this
+  Mac; the art is New Star Games', the NFL edition's carries NFL/NFLPA marks; later: "feel free to take creative liberty
+  and use them where u see fit in the games and across the website"). They live only in `public/private-sprites/`
+  (git-ignored, never committed, never deployed). Two sources: **primary** `nfl/`, the owner's own NFL Retro Bowl
+  players from his save (`scripts/pull_save.py` pulls it into `data/saves/`, then `python3
+  scripts/private_nfl_sprites.py` matches players with `scripts/save_read.py`'s matcher and copies only the matched
+  players' 64 × 64 full-body sprites, every kit and pose, with `nfl/index.json`; pool uids repeat, and a uid shared by
+  players with different skins is ambiguous and falls back, while one shared by look-alikes (the game's generated look
+  templates) is used); **fallback** the regular
+  game's sheets (`python3 scripts/private_sprites.py`: 96 portraits, 7 on-field poses, the helmet, in placeholder key
+  colours recoloured to a club's kit from `uniforms.ts`; the face is `faceFor()`, a stable pick seeded by position:name
+  within the sheets matching his skin, or an exact `gameFace` {skin, faceX, faceY} once the save import provides one).
+  A player wears his banner club's kit, else his current club's, else the save's neutral white kit (800), else the
+  recolour, else nothing. Code: `src/utils/gameSprites.ts` (loader, `useGameSprites`, `faceFor`, `nflSpriteFor`),
+  `src/utils/gameSpriteArt.ts` (recolour, loaded only when the sheets exist), `src/components/GameSprite.tsx` (kinds
+  face / figure / body / helmet; integer scales, pixelated, lazy; pose cycling only where asked and never under reduced
+  motion). Shown in every `ProPlayerBanner` by default (its `figure`; null for real NFL legends): Deep Dive hero, player
+  card, Team pages (legends, roster), Hall of Fame tab, H2H, ceremony, news, games' banners; plus the Hall of Fame busts
+  and Legends' Row, header search rows, the Arcade Spotlight, Higher or Lower cards and the roster-game slabs and deck
+  cards (`rosterKit.tsx`). Never on Collection card faces. `vite.config.ts` defines `__PRIVATE_SPRITES__` only when the
+  folder exists on the building machine and never in GitHub Actions, so the Pages build never fetches anything and
+  looks exactly as without it; the dev server and the LAN preview (`npm run build` here) show the sprites. Never move,
+  copy, inline or base64 any of it into a tracked file.
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
   `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. **Both files store changes
   only** (format 2, `src/utils/marketHistory.ts`): the first, the latest and every 10th snapshot are full keyframes

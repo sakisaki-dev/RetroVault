@@ -103,3 +103,7 @@
 @media (prefers-reduced-motion: reduce) {
   .arcade .rk-pip.now, .arcade .rk-deck-face::after, .arcade .rk-landed > *, .arcade .rk-enter, .arcade .rk-stamp { animation: none !important; }
 }
+
+/* The owner's private Retro Bowl sprites (GameSprite; this Mac only, nothing on the public site) */
+.arcade .rk-slab-sprite { position: absolute !important; z-index: -1; right: 58px; bottom: 0; }
+.arcade .rk-deck-sprite { position: absolute !important; z-index: 0; right: 22px; bottom: 0; filter: drop-shadow(3px 4px 0 #0006); }

@@ -33,6 +33,7 @@ import { FamilyChips, PlayerCardPanel, RealCareerPanel } from './player/ExtrasPa
 import { buildCareerArc } from './player/arcData';
 import { careerRates, careerTotals, headlineStats, type StatItem } from './player/statLines';
 import { teamThemeVars } from './player/teamTheme';
+import GameSprite from './GameSprite';
 import { useLegendPhoto } from './player/useLegendPhoto';
 import { useDeferredStage } from '@/hooks/useDeferredStage';
 import './player/playerCard.css';
@@ -315,6 +316,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
             photoCredit={photo ? [photo.author, photo.license].filter(Boolean).join(' · ') || 'Wikimedia Commons' : null}
             photoHref={photo?.page}
             topRight={<span className="w-20 shrink-0 sm:w-24" aria-hidden="true" />}
+            figure={player.isRealLegend ? undefined : <GameSprite player={player} team={team?.name ?? player.team} kind="figure" scale={4} nflScale={2} />}
             className="rounded-none [&_.ppb\_\_field]:rounded-none"
           />
           <DialogDescription className="sr-only">

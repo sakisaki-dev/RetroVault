@@ -61,11 +61,12 @@
    "record": "Longest pass (air)",
    "short": "Longest pass (air)",
    "club": {
-    "mark": "30 yds",
-    "value": 30.0,
-    "holder": "QB J. Vaalhaal → WR M. Earl III",
-    "year": "Y59",
-    "team": "Dolphins"
+    "mark": "31 yds",
+    "value": 31.0,
+    "holder": "QB B. Crawford → WR K. Rahman",
+    "year": "Y90",
+    "name": "Kaulani Rahman",
+    "team": "Eagles"
    },
    "scope": "other",
    "league": null
@@ -311,12 +312,12 @@
    "record": "Best rushing season",
    "short": "Rush yds",
    "club": {
-    "mark": "2,670 yds",
-    "value": 2670.0,
+    "mark": "2,839 yds",
+    "value": 2839.0,
     "holder": "RB R. Maxwell",
-    "year": "Y87",
+    "year": "Y92",
     "name": "Ryland Maxwell",
-    "team": "Falcons"
+    "team": "Eagles"
    },
    "scope": "season",
    "league": {
@@ -326,17 +327,17 @@
      {
       "value": 2839,
       "mark": "2,839 yds",
-      "player": "Ryland Maxwell",
-      "pos": "RB",
+      "player": "RB R. Maxwell",
+      "club": true,
+      "name": "Ryland Maxwell",
       "team": "Eagles",
       "season": "Y92"
      },
      {
-      "value": 2670,
-      "mark": "2,670 yds",
-      "player": "RB R. Maxwell",
-      "club": true,
-      "name": "Ryland Maxwell",
+      "value": 2669,
+      "mark": "2,669 yds",
+      "player": "Ryland Maxwell",
+      "pos": "RB",
       "team": "Falcons",
       "season": "Y87"
      },
@@ -350,9 +351,9 @@
      }
     ],
     "basis": "seasons Y80-Y92 (players tracked then)",
-    "clubHolds": false
+    "clubHolds": true
    },
-   "broken": true
+   "broken": false
   },
   {
    "record": "Best rushing career",

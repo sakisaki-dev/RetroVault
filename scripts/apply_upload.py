@@ -18,7 +18,10 @@ manifest.json
              transcribe | portrait→look | tag notes | speech | art | story | takes
   mutations  [{lane, op, target, value, source, reason, trigger}]
              source: "owner" or "image:<file or group in images>" (the story and takes lanes also take
-             "data:<files read>")
+             "data:<files read>"; the stats lane also takes "save:<file>", the game's own save, see save)
+  save       {file, path, sha256, season, week, complete}: present when the bundle was read from the game's save by
+             scripts/save_read.py; every "save:<file>" source must name this file. Reading a save is data entry, not
+             an AI step (no ai_steps needed)
 
 Lanes and ops (deterministic; nothing is inferred here):
   stats  player.set     target "POS:Name"           value {players.json fields}; creates the player if new.
@@ -31,11 +34,19 @@ Lanes and ops (deterministic; nothing is inferred here):
          fact.add       target path to a list        value: item(s) appended if missing
          fact.remove    target path                  value: list item to drop, or null to delete the key
          superbowl.set  target "Y80"                 value {number, roman, winner, score, loser, your_result, your_team}
+                                                    ("note": null removes the row's note once the gap it described is filled)
          coach.season   target "80"                  value {team, abbr, w, l, t, finish}
          coach.set      target "<field>"             value: coach.json field (record, bests, age…; currentStint
                                                     {team, abbr, from} = a club switch before the new club plays)
          record.set     target "<record name>"       value {mark, holder, year}
          baseline       target "<data file>"         value {sha256}: marks the file state a history starts from
+         save.state     target "Y93w16"              value {season, week, club, settings, clubs, coachGames, players,
+                                                    newPlayers}: the LIVE state read from the game's save (ages,
+                                                    ratings and ceilings, contracts, injuries, the season so far, club
+                                                    records, the coach's game log), written whole to
+                                                    data/y80/save_state.json. Source "save:<file>" only; players keyed
+                                                    by Retro Vault key (POS:Name); never morale, height/weight or the
+                                                    game's Hall of Fame flags
          extras.set     target "<section>/<key>"     value: the new entry in data/y80/screenshot_extras.json, or null to
                                                     delete it. <section> must be an existing section (season_lines,
                                                     player_cards, family, ...); the key can't be empty
@@ -93,6 +104,7 @@ FILES = {
     "stories": SRC / "stories.json",
     "takes": SRC / "hot_takes.json",
     "schedules": SRC / "schedules.json",
+    "save_state": SRC / "save_state.json",
 }
 MARKET = SRC / "market_history.json"  # written by market_snapshot.ts in its own compact layout; renamed as text
 SPRITE_IMAGES = ROOT / "public" / "data" / "sprites"
@@ -104,13 +116,20 @@ TAKES_ABOUT = ("Hot Takes: the fourth AI-authored lane (owner-approved 2026-11-1
                "per completed season, written only by a takes.set upload mutation; every figure cited in stats[] with its "
                "source and checked like the Season Story (scripts/story_check.py check_takes). Never hand-edit.")
 
+SAVE_STATE_ABOUT = ("Live state of the current season read from the game's own save (scripts/save_read.py --state), written "
+                    "only by a save.state upload mutation: ages, ratings and ceilings, contracts, injuries, the season so "
+                    "far per player (Retro Vault keys), club records and the coach's game log. Replaced whole by each "
+                    "save.state. Facts only; never hand-edit.")
+SAVE_FORBIDDEN = {"attitude", "morale", "height", "weight", "hof", "hof_candidate"}  # owner: no morale, bio is age only,
+# never the game's Hall of Fame
+
 SCHEDULES_ABOUT = ("Week-by-week league scores, final standings and the coach's opponents per season, transcribed from "
                    "the game's LEAGUE schedule, standings and season summary screens (schedule.set). Facts only; never hand-edit.")
 
 AI_STEPS = {"transcribe", "portrait→look", "tag notes", "speech", "art", "story", "takes"}
 LANE_OPS = {
     "stats": {"player.set", "player.rename", "fact.set", "fact.add", "fact.remove", "superbowl.set", "coach.season", "coach.set",
-              "record.set", "baseline", "extras.set", "schedule.set"},
+              "record.set", "baseline", "extras.set", "schedule.set", "save.state"},
     "looks": {"sprite.set", "sprite.image", "card.design"},
     "notes": {"journal.add"},
     "speech": {"speech.set", "speech.remove"},
@@ -177,11 +196,19 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
         if op not in LANE_OPS.get(lane, set()):
             errs.append(f"{where}: op {op!r} is not in lane {lane!r}")
         kind = "image" if src.startswith("image:") else "owner" if src == "owner" else \
-            "data" if src.startswith("data:") and lane in ("story", "takes") else None
+            "data" if src.startswith("data:") and lane in ("story", "takes") else \
+            "save" if src.startswith("save:") and lane == "stats" else None
         if kind is None:
-            errs.append(f"{where}: source must be 'owner' or 'image:<file>'" + (" or 'data:<files>'" if lane in ("story", "takes") else ""))
+            errs.append(f"{where}: source must be 'owner' or 'image:<file>'" + (" or 'data:<files>'" if lane in ("story", "takes") else "")
+                        + (" or 'save:<file>'" if lane == "stats" else ""))
         elif kind == "image" and src[6:] not in images:
             errs.append(f"{where}: {src} is not listed in images")
+        elif kind == "save" and src[5:] != (manifest.get("save") or {}).get("file"):
+            errs.append(f"{where}: {src} is not the manifest's save file ({(manifest.get('save') or {}).get('file')})")
+        if op == "save.state":
+            if kind != "save":
+                errs.append(f"{where}: save.state needs source 'save:<file>' (it is read from the game's save)")
+            errs += [f"{where}: {e}" for e in save_state_errors(str(m.get("target", "")), m.get("value"), manifest)]
         need = None if op in ("speech.remove", "story.remove") else NEEDS_STEP.get((lane, kind))  # a deletion writes no AI text
         if need and need not in done and not (lane == "notes" and not (m.get("value") or {}).get("players") and not (m.get("value") or {}).get("teams")):
             errs.append(f"{where}: needs the {need!r} AI step logged in ai_steps")
@@ -203,6 +230,43 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
             # the same: every figure must match its source when the takes are published
             take_errs, take_stale = story_check.check_takes(story_check.Data(), str(m.get("target", "")), m.get("value"))
             errs += [f"{where}: {e}" for e in take_errs + take_stale]
+    return errs
+
+
+def save_state_errors(target: str, value, manifest: dict) -> list[str]:
+    """The live state: target "Y<season>w<week>" matching the value, players keyed by existing Retro Vault keys (or
+    players this bundle adds), clubs from the 32, nothing the owner ruled out (morale, height/weight, the game's HOF)."""
+    import re
+    if not isinstance(value, dict):
+        return ["value must be an object"]
+    errs = []
+    if not re.fullmatch(r"Y\d+w\d+", target) or target != f"Y{value.get('season')}w{value.get('week')}":
+        errs.append(f'target must be "Y<season>w<week>" matching the value (Y{value.get("season")}w{value.get("week")})')
+
+    def walk(v, path):
+        if isinstance(v, dict):
+            for k, x in v.items():
+                if k in SAVE_FORBIDDEN:
+                    errs.append(f"{path}/{k}: not allowed in the live state (owner: no morale, bio is age only, never "
+                                "the game's Hall of Fame)")
+                walk(x, f"{path}/{k}")
+        elif isinstance(v, list):
+            for i, x in enumerate(v):
+                walk(x, f"{path}/{i}")
+    walk(value, "value")
+    rows = json.loads(FILES["players"].read_text())
+    keys = {f'{r["pos"]}:{r["n"]}' for r in rows} | {m.get("target") for m in manifest.get("mutations", []) if m.get("op") == "player.set"}
+    unknown = [k for k in (value.get("players") or {}) if k not in keys]
+    if unknown:
+        errs.append(f"players not in players.json: {', '.join(unknown[:8])}" + (" ..." if len(unknown) > 8 else ""))
+    clubs = set(json.loads((SRC / "teams.json").read_text()))
+    bad = [c for c in (value.get("clubs") or {}) if c not in clubs]
+    bad += [p.get("team") for p in [*(value.get("players") or {}).values(), *(value.get("newPlayers") or {}).values()]
+            if p.get("team") not in clubs]
+    if bad:
+        errs.append(f"clubs outside the 32: {', '.join(map(str, sorted(set(map(str, bad)))))}")
+    if len(value.get("clubs") or {}) != 32:
+        errs.append(f"clubs lists {len(value.get('clubs') or {})} clubs, not 32")
     return errs
 
 
@@ -381,7 +445,10 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
                 sbs.append(row)
                 sbs.sort(key=lambda s: int(s["year"].lstrip("Y")))
             for k, v in value.items():
-                if k not in row or row[k] != v:  # a new key set to null (your_team) still lands
+                if k == "note" and v is None:  # "note": null drops a stale note (e.g. "score not captured")
+                    if row.pop("note", None) is not None:
+                        changes.append(f"Super Bowl {target}.note removed")
+                elif k not in row or row[k] != v:  # a new key set to null (your_team) still lands
                     row[k] = v
                     changes.append(f"Super Bowl {target}.{k} = {v!r}")
         elif op == "coach.season":
@@ -406,6 +473,12 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
                 seasons_sorted = dict(sorted(seasons.items(), key=lambda kv: int(kv[0].lstrip("Y"))))
                 data["schedules"]["seasons"] = seasons_sorted
                 changes.append(f"schedule {target}: {len(value.get('weeks', []))} weeks")
+        elif op == "save.state":
+            rec = {"_about": SAVE_STATE_ABOUT, "id": target, "upload": manifest["id"], **value}
+            if data["save_state"] != rec:
+                data["save_state"] = rec
+                changes.append(f"save state {target}: {len(value.get('players', {}))} players, "
+                               f"{len(value.get('newPlayers', {}))} not yet in Retro Vault")
         elif op == "record.set":
             recs = data["records"]["records"]
             row = next((r for r in recs if r["record"] == target), None)

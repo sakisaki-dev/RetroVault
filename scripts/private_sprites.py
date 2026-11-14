@@ -13,7 +13,8 @@ Without a path it downloads the web build's three files from the fan repo jaxson
 
 Output (public/private-sprites/):
 - faces.png: the 96 portraits (12 sheets x 8 faces: dark 1-8, light 1-3, mix 1), one row per sheet, 32 x 36 each.
-  Key colours: #00ff00 shirt, #ff00ff collar and trim (recoloured to a club's kit on the site).
+  Key colours: #00ff00 shirt (and caps), #ff00ff collar and trim, #ff0000 shoulder stripes (recoloured to a club's
+  kit on the site).
 - bodies.png: on-field poses (stand, run, celebrate, jump, dive, stiff arm, QB throw), one row per pose, frames left to
   right on a 32 x 26 grid with feet on a shared baseline. Keys: #ff0000 helmet, #0000ff / #8080ff / #000080 jersey,
   #ff00ff / #800080 pants and stripe, #ffff00 socks, #00ff00 / #008000 / #007f00 skin.
@@ -89,7 +90,7 @@ def main() -> None:
     index: dict = {"about": "Retro Bowl's own sprites (New Star Games), cut by scripts/private_sprites.py. Private: "
                             "git-ignored, never on the public site.",
                    "faces": {"file": "faces.png", "w": 32, "h": 36, "sheets": FACE_SHEETS, "perSheet": 8,
-                             "keys": {"shirt": "#00ff00", "trim": "#ff00ff"}},
+                             "keys": {"shirt": "#00ff00", "trim": "#ff00ff", "stripe": "#ff0000"}},
                    "bodies": {"file": "bodies.png", "cell": list(CELL), "poses": {},
                               "keys": {"helmet": ["#ff0000"], "jersey": ["#0000ff", "#8080ff", "#000080"],
                                        "pants": ["#ff00ff", "#800080"], "socks": ["#ffff00"],
@@ -110,8 +111,9 @@ def main() -> None:
         s = spr[name]
         for c, i in enumerate(s["frames"]):
             f = frame(i)
-            # align every pose on its origin: origin (ox, oy) goes to the cell's centre-bottom
-            bodies.paste(f, (c * CELL[0] + CELL[0] // 2 - s["ox"], r * CELL[1] + CELL[1] - 2 - s["oy"]), f)
+            # every frame is cut at its sprite's full size (the poses' origins are 0, 0, top-left): centre it in the
+            # cell and stand its bottom edge on the cell's bottom, the shared baseline
+            bodies.paste(f, (c * CELL[0] + (CELL[0] - f.width) // 2, r * CELL[1] + CELL[1] - f.height), f)
         index["bodies"]["poses"][name.removeprefix("spr_")] = {"row": r, "frames": len(s["frames"])}
     bodies.save(OUT / "bodies.png")
 

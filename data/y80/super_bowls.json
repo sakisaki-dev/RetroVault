@@ -664,11 +664,10 @@
   "roman": "CXXVI",
   "year": "Y67",
   "winner": "Vikings",
-  "score": null,
-  "loser": null,
+  "score": "40-24",
+  "loser": "Steelers",
   "your_result": "won",
-  "your_team": "Vikings",
-  "note": "Winner from the coach history (17-0 season); opponent and score not captured"
+  "your_team": "Vikings"
  },
  {
   "number": 127,
@@ -846,11 +845,10 @@
   "number": 144,
   "roman": "CXLIV",
   "winner": "Falcons",
-  "score": null,
+  "score": "30-20",
   "loser": "Bengals",
   "your_result": "won",
-  "your_team": "Falcons",
-  "note": "Final from the playoff bracket (ATL over CIN); score not captured"
+  "your_team": "Falcons"
  },
  {
   "year": "Y86",

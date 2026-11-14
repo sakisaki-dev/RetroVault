@@ -8,6 +8,7 @@ import { splitPlayerName } from '../brand/ProPlayerBanner.utils';
 import { FrameCrest, HallHeading, MedalCoin } from './hofParts';
 import { POSITIONS, clubFill, tierClass, tierOf, yearsOf } from './hofUtils';
 import { cn } from '@/lib/utils';
+import GameSprite from '../GameSprite';
 
 export interface GalleryItem {
   member: HofMember;
@@ -57,6 +58,13 @@ const GalleryTile = memo(function GalleryTile({ item, years, index, onOpen }: { 
           </span>
         )}
         <MedalCoin score={member.score} size={32} className="!absolute right-2 top-2.5" />
+        <GameSprite
+          player={{ name: member.name, position: member.pos, team: item.player?.team, spriteSkin: item.player?.spriteSkin }}
+          team={club}
+          kind="face"
+          scale={2}
+          className="hof-sprite !absolute left-1/2 top-1.5 -translate-x-1/2"
+        />
 
         <span className="block truncate text-[11px] font-semibold leading-tight text-white/85" style={{ textShadow: '0 1px 2px hsl(228 60% 3% / 0.8)' }}>
           {first}

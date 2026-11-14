@@ -14,7 +14,8 @@ Every player is one GameMaker map (77 fields in the sample save) with: name, pos
 contract, salary, credit cost, signed year, team, **injury_week**, **resting**, **scouted**, appearance (skin, face),
 the current game's, the season's and the career's stat lines, and, once won, **mvp, opoy, dpoy, roty, rings, hof**.
 
-**Position codes:** 1 QB, 2 RB, 3 TE, 4 WR, 5 OL, 6 DL, 7 LB, 8 DB, 10 K, 11 P; staff 100 to 102.
+**Position codes:** 1 QB, 2 RB, 3 TE, 4 WR, 5 OL, 6 DL, 7 LB, 8 DB, 10 K, 11 P; staff 100 to 102. (The NFL edition splits
+the secondary: 8 CB, 9 S; see Save format.)
 
 ## Hidden ratings
 
@@ -164,6 +165,80 @@ Median bar 183. **An MVP season for an RB here:** 1,800 rushing and 400 receivin
   speed every frame).
 - **Ownership:** all of this art and code is New Star Games' (the NFL edition adds NFL and NFLPA licensed marks).
   Fine to study locally; never ship it on Retro Vault's public site, whose sprites and card art are its own.
+
+## Save format (NFL Retro Bowl, read by scripts/save_read.py)
+
+Verified on the owner's save pulled 2026-11-13 (`data/saves/2026-11-13/nfl/Documents/`, git-ignored), slot 4: Y93 week
+16, the Eagles (`myteam_id` 18), 1,434 players in the pool.
+
+**Files.** `rb_nfl_savedata_<slot>.json` is one career (slots 4, 5, 6 here: Y93, Y20, Y1); `backup_*` are the game's
+own copies, `_info_<slot>` a 99-byte summary (`year`, `week`, `myteam_id`), `_ffl_*` another mode. Each save is plain
+JSON (GameMaker maps: every number is a float). Top level: `players.pool`, `teams.list`, `history.list`,
+`history_bowls.list`, `records.list`, `schedule.list`, `playoffs.list`, `settings`, plus news, badges, achievements,
+coaches and leaderboard caches.
+
+**Settings.** `year` is the season (93 = Y93), `week` the next week to play (16 = weeks 1 to 15 played), `start_year`
+2025 (calendar years in the save are `start_year + Y`), `myteam_id`, `salary_cap`, `fans`, `coach_rating`,
+`facility_rehab` / `_stadium` / `_training`, coach and staff names.
+
+**Players.** `fname`, `lname`, `position`, `teamid`, `age`, `speed` / `strength` / `skill` / `stamina` and their
+`max_*` ceilings, `condition`, `attitude` (morale), `contract` (1 to 3), `salary`, `injury_week`, `delay_retirement`,
+`xp`, `xp_level`, `xp_dev`, `skill_points`, `number`, `dob`, `rookie_year`, `teamid_orig`, `team_leave_reason`
+(`retired`, `cut` or empty), `hof` / `hof_candidate`, appearance, and four stat blocks: `sta_c` career, `sta_s` season,
+`sta_g` last game, `sta_r` the imported real-life 2024 line (`year` 2024). Facts that matter for reading it:
+
+- **Position codes in the NFL edition:** 1 QB, 2 RB, 3 TE, 4 WR, 5 OL, 6 DL, 7 LB, **8 CB, 9 S** (the safeties: Hamlin,
+  Poyer, Peppers are 9), 10 K. Retro Vault's DB covers 8 and 9; it has no kickers.
+- **`uid` is not unique** (1,118 distinct over 1,434 players: generated players reuse ids). Match on name + position.
+- **Who is playing:** `teamid >= 0` and `age <= max age + delay_retirement`, max age 40 for QB/K/P and 35 for everyone
+  else. 321 players are playing (about 10 a club, 31 of them kickers). `teamid -1` (54) is the free agent / draft pool;
+  `teamid -4` (408) are the imported real NFL players long gone (ages 110 to 128); a retiree **keeps the `teamid` of
+  his last club** and keeps ageing.
+- **`sta_s` is not reset for players who stop playing:** a retiree's `sta_s` is still his last season (Sherman
+  Brandson, retired, still shows 6 games), so his career is `sta_c` as it stands. For a player still playing, the
+  career through the last completed season is `sta_c − sta_s`.
+
+**Stat mapping** (Retro Vault career key = save path in `sta_c` / `sta_s`). The game reuses fields by position:
+
+| Position | Mapping |
+|---|---|
+| QB | g `games`, att `att.no`, cmp `cmp.no`, yds `pass.yds`, td `td`, int `int.by`, sck `sack.by` (sacks taken), ratt `rush.att`, ryds `rush.yds`, rtd `rush.td` |
+| RB | g `games`, ratt `rush.att`, ryds `rush.yds`, rtd `rush.td`, fum `fum`, rec `att.no` (catches), recyds `pass.yds`, rectd `td` |
+| WR, TE | g `games`, rec `att.no`, yds `pass.yds`, td `td`, fum `fum` |
+| OL | g `games`, blk `tck` |
+| LB, DB, DL | g `games`, tkl `tck`, int `int.by`, sck `sack.by`, ff **`fum`** |
+| all | rings, mvp, opoy, dpoy, roty, sbmvp: the same names in `sta_c` (career only; `sta_s` has none) |
+
+- A defender's `fum` is what Retro Vault calls ff (the card's fumble column: recoveries, "nobody recovered more fumbles
+  than Van Oxley"). The save's own `ff` is only non-zero in the imported 2024 real-life lines (Fred Warner 16, Von
+  Miller 30); the game never adds to it.
+- The `rec` block (`rec.no`, `rec.yds`) stays 0 for league players; receiving lives in `att.no` / `pass.yds` / `td`.
+- Longest plays (`*.lng`) are career maxima, not sums: `sta_c − sta_s` doesn't give an earlier season's value.
+- **Rounding:** yards are floats; the game shows them **rounded half to even** (Python `round()`). Over the matched
+  players 28 fractional totals only match rounding (none only flooring), and the one exact half, Maurice Vigil's
+  15,482.5 rushing yards, shows as 15,482.
+
+**Check against Retro Vault** (`npm run -s save:check`, Y92 careers vs the save in Y93 week 16): 319 of 471 league
+players matched (the other 152 are long retired: the game drops them from the pool); 300 agree on every field and 3,634
+of 3,693 fields agree. Every one of the 19 that differ is retired, and most are the imported real-life players (Lamar
+Jackson, Ja'Marr Chase, CeeDee Lamb, Jahmyr Gibbs, Breece Hall, Drake Maye, Jayden Daniels) or veterans whose last
+transcription predates their last seasons (Alexx Sanchez, Aubrey Jewell, Shemar Wood, Rob Lowe, Jakeem Friend, Wayne
+Wilson), plus a few single awards (God Johnson and Alohi Godwin one more OPOY each, Pharoah Hunter and Aubrey Jewell
+no ROTY in the save). 18 playing players are new (17 Y93 rookies and Ketner Tauaefa); 31 kickers aren't tracked.
+Super Bowls and coach seasons agree for all 92 seasons except two the screens never captured (Y67 and Y85 scores,
+the Y67 opponent), which the save fills in; the record board adds two marks Retro Vault missed (Longest pass (air) 31
+yds, Rahman Y90; Best rushing season 2,839 yds, Maxwell Y92).
+
+**Other lists.** `history.list`: the coach's seasons (`year` as Y, club `name` / `tla`, regular-season `wins` /
+`losses` / `ties`, playoff `wins_po` / `losses_po`, `finish` exactly as Retro Vault's coach.json). `history_bowls.list`:
+every Super Bowl (`year` = start_year + Y, `winner` club name, `loser` TLA, `result` "30-21", `human` 1 won, −1 lost, 0
+not in it). `records.list`: the 50-row record board (46 player records, `tag` ui_*, float `stat`, `stat_text` "y" for
+yards, `qbname` the holder or the passer, `playername` the receiver or runner on a play record, `team`, `year`; plus 4
+coach records with `coachstat` 1: most points, biggest win and loss, most TDs). `schedule.list`: the current season
+only, 272 games (18 weeks, byes), `home_team` / `away_team` club uids, scores (−1 unplayed), `human_result` win / loss
+/ unplayed for the coach's games; its `year` field is not the season (9 for every row). `teams.list`: 32 clubs (uid 0
+to 31) with `name`, `longname`, `tla`, colours, conference and division, `offense` / `defense` ratings and this
+season's `wins` / `losses` / `ties`. `playoffs.list` is empty mid-season.
 
 ## Using this in Retro Vault
 

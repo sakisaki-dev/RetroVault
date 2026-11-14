@@ -21,6 +21,7 @@ import {
 } from './gameUtils';
 import { ClubLogo, playerClub, splitName, useReducedMotion } from './stageKit';
 import HowToStrip from './HowToStrip';
+import GameSprite from '../GameSprite';
 import './higherLower.css';
 
 interface Round {
@@ -95,6 +96,7 @@ const Fighter = ({
         <span className="hl-card-num" aria-hidden="true">
           {numberFor(player as GamePlayer)}
         </span>
+        {!legend && <GameSprite player={player} kind="figure" animate={revealed && !!winner} scale={2} nflScale={2} className="hl-card-sprite" />}
         <div className="hl-card-tags">
           <span className="hl-pos">{player.position}</span>
           <InLeague player={player} />

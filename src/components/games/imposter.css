@@ -109,3 +109,7 @@
   .arcade .imp-suspect.lit .imp-card, .arcade .imp-lineup.is-revealed .imp-suspect.is-imp .imp-card, .arcade .imp-card:hover:not(:disabled) { transform: none; }
 }
 @media (min-width: 900px) { .arcade .imp-verdict .btn { justify-self: start; width: auto; min-width: 280px; } }
+
+/* The owner's private Retro Bowl sprite (GameSprite; this Mac only): the suspect stands at the right of his card */
+.arcade .imp-sprite { position: absolute; right: 0; bottom: 0; z-index: 1; pointer-events: none; filter: drop-shadow(3px 4px 0 #0007); }
+.arcade .imp-card:has(.imp-sprite) :is(.imp-name, .imp-meta) { position: relative; z-index: 2; }

@@ -1,0 +1,27 @@
+{
+ "id": "2026-11-13-speech-friend",
+ "created": "2026-11-13",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "Refresh the figures the save corrected",
+   "trigger": "Audit: Jakeem Friend's speech cites 252 games; the data now has 273 (save reconciliation)"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Jakeem Friend",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "First crossed Career Legacy 7000: Y80",
+    "text": "Linemen do not win trophies. Jakeem Friend won seven rings instead.\n\nFor most of his career he was a Seattle Seahawk, a fixture up front through the Modern era. He played 273 games and was credited with 557 blocks, two a game, every game, without a single MVP or Player of the Year award to show for it. That is how the job works. The reward is a quarterback who gets up clean and a running back who finds the hole where it was supposed to be.\n\nThe last four seasons have come in New York, with the Jets from Y79 to Y82, and two of those rings were won there. The jersey changed. The job did not, and Seattle still has first claim on him.\n\nSeven rings, 557 blocks, and almost no headlines. Jakeem Friend, Seahawks legend, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "The save reconciliation corrected his career to 273 games and 557 blocks (owner: \"take the save data over the ones i have\")",
+   "trigger": "Audit stale-figure warning"
+  }
+ ]
+}

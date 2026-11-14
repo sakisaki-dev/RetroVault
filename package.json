@@ -9,14 +9,15 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "rebuild": "python3 scripts/infer_stints.py && python3 scripts/build_league_data.py && npm run -s market && python3 scripts/schedule_content.py && python3 scripts/league_records.py && python3 scripts/hall_of_fame.py && python3 scripts/build_league_content.py && python3 scripts/build_widget_data.py && npm run -s audit",
+    "rebuild": "python3 scripts/infer_stints.py && python3 scripts/build_league_data.py && npm run -s market && python3 scripts/schedule_content.py && python3 scripts/league_records.py && python3 scripts/hall_of_fame.py && python3 scripts/save_state.py && python3 scripts/build_league_content.py && python3 scripts/build_widget_data.py && npm run -s audit",
     "apply-upload": "python3 scripts/apply_upload.py",
     "update": "python3 scripts/update.py",
     "market": "esbuild scripts/market_snapshot.ts --bundle --platform=node --alias:@=./src --outfile=node_modules/.tmp/market.cjs --log-level=error && node node_modules/.tmp/market.cjs",
     "audit": "esbuild scripts/audit.ts --bundle --platform=node --alias:@=./src --outfile=node_modules/.tmp/audit.cjs --log-level=error && node node_modules/.tmp/audit.cjs",
     "sim:packs": "esbuild scripts/simulate_packs.ts --bundle --platform=node --alias:@=./src --outfile=node_modules/.tmp/sim_packs.cjs --log-level=error && node node_modules/.tmp/sim_packs.cjs",
     "check:sprites": "esbuild scripts/check_sprites.ts --bundle --platform=node --alias:@=./src --outfile=node_modules/.tmp/check_sprites.cjs --log-level=error && node node_modules/.tmp/check_sprites.cjs",
-    "ledger": "python3 scripts/screenshot_ledger.py"
+    "ledger": "python3 scripts/screenshot_ledger.py",
+    "save:check": "python3 scripts/save_read.py --check"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.14",

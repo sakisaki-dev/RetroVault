@@ -6,6 +6,7 @@ import { getReadableTextOn } from '@/utils/teamColors';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import type { Position } from '@/types/player';
 import TeamLogo, { resolveTeam } from './TeamLogo';
+import GameSprite from '../GameSprite';
 import { splitPlayerName } from './ProPlayerBanner.utils';
 import './ProPlayerBanner.css';
 
@@ -43,6 +44,12 @@ export interface ProPlayerBannerProps {
   nameAs?: ElementType;
   /** Extra content rendered at the top right of hero/card (e.g. badges) */
   topRight?: ReactNode;
+  /**
+   * Pixel figure standing on the nameplate's top edge (compact: a small bust in the row), above the number and logo.
+   * Default: the player's private Retro Bowl sprite (GameSprite), which renders nothing on the public site, so the
+   * banner stays exactly as it was there. Pass a node to choose the look, or null for none (real NFL legends).
+   */
+  figure?: ReactNode;
   /** Adds the hover sheen; use when the banner sits inside a button or link */
   interactive?: boolean;
   className?: string;
@@ -76,6 +83,7 @@ const ProPlayerBanner = ({
   photoHref,
   nameAs: NameTag = 'span',
   topRight,
+  figure: figureProp,
   interactive = false,
   className,
 }: ProPlayerBannerProps) => {
@@ -170,6 +178,23 @@ const ProPlayerBanner = ({
     </>
   );
 
+  const teamName = resolved?.name ?? (typeof team === 'string' ? team : undefined);
+  const figure =
+    figureProp !== undefined ? (
+      figureProp
+    ) : size === 'compact' ? (
+      <GameSprite player={{ name, position }} team={teamName} kind="face" scale={1} />
+    ) : (
+      <GameSprite player={{ name, position }} team={teamName} kind="figure" scale={size === 'hero' ? 4 : 3} nflScale={2} />
+    );
+  // Stands on the nameplate's top edge (inside the plate, so it sits right whatever the plate's height)
+  const figureLayer =
+    figure && !sealed && !showPhoto ? (
+      <span className="ppb__figure" aria-hidden="true">
+        {figure}
+      </span>
+    ) : null;
+
   const nameBlock = (
     <span className="ppb__names">
       <NameTag className="m-0 p-0" style={{ color: 'inherit', font: 'inherit' }}>
@@ -206,6 +231,7 @@ const ProPlayerBanner = ({
             <span className="ppb__numplate" aria-hidden="true">
               {sealed ? '?' : hasNumber ? number : position}
             </span>
+            {figureLayer}
             <span className="ppb__row">
               {nameBlock}
               {ovrBadge}
@@ -249,6 +275,7 @@ const ProPlayerBanner = ({
             {topRight}
           </div>
           <div className="ppb__plate">
+            {figureLayer}
             {nameBlock}
             <span className="ppb__side">
               {chip}

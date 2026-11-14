@@ -227,6 +227,7 @@ const expected = new Map<string, string>();
 const speechSet = new Map<string, string>();
 const storySet = new Map<string, unknown>();
 const takesSet = new Map<string, unknown>();
+let saveState: { id: string; upload: string; value: Record<string, unknown> } | null = null;
 const setLeaves = (path: string, v: unknown) => {
   if (v && typeof v === 'object' && !Array.isArray(v)) Object.entries(v).forEach(([k, x]) => setLeaves(`${path}/${k}`, x));
   else if (typeof v === 'string' && TEXT_KEYS.has(path.split('/').pop()!)) expected.set(path, v);
@@ -242,6 +243,7 @@ for (const { id } of log) {
     else if (mu.op === 'story.set') storySet.set(String(mu.target), { ...(mu.value as object), upload: id });
     else if (mu.op === 'story.remove') storySet.delete(String(mu.target));
     else if (mu.op === 'takes.set') takesSet.set(String(mu.target), { ...(mu.value as object), upload: id });
+    else if (mu.op === 'save.state') saveState = { id: String(mu.target), upload: id, value: mu.value as Record<string, unknown> };
   }
 }
 // Speeches rewritten through an upload (speech.set) must still read exactly as the last applied manifest wrote them
@@ -355,6 +357,26 @@ if (existsSync('data/y80/schedules.json')) {
     else if ((g.coachGames ?? []).filter((x) => !x.playoff).length !== (s.weeks ?? []).length)
       errors.push(`schedule.json ${y}: the coach's game log doesn't have one row per week`);
   }
+}
+// Live state from the game's save (save.state, scripts/save_read.py): data/y80/save_state.json is exactly the last
+// applied save.state, the site's copy (public/data/league/save_state.json, scripts/save_state.py) matches it, every
+// player key is a league player, and nothing the owner ruled out (morale, height/weight, the game's Hall of Fame) is in it
+{
+  const canon = (v: unknown) => JSON.stringify(v, (_k, x) => (x && typeof x === 'object' && !Array.isArray(x) ? Object.fromEntries(Object.entries(x).sort(([a], [b]) => a.localeCompare(b))) : x));
+  const file = 'data/y80/save_state.json';
+  const site = 'public/data/league/save_state.json';
+  const ss = saveState as { id: string; upload: string; value: Record<string, unknown> } | null;
+  if (existsSync(file)) {
+    const { _about: _a, ...stored } = read(file) as Record<string, unknown>;
+    if (!ss) errors.push(`${file} is not set by any applied save.state upload (edit data only through npm run apply-upload)`);
+    else if (canon(stored) !== canon({ id: ss.id, upload: ss.upload, ...ss.value })) errors.push(`${file} differs from the last applied save.state (${ss.upload})`);
+    if (!existsSync(site)) errors.push(`${site} is missing (npm run rebuild runs scripts/save_state.py)`);
+    else if (canon(read(site)) !== canon(stored)) errors.push(`${site} does not match ${file} (rebuild)`);
+    const keys = new Set((read('data/y80/players.json') as { n: string; pos: string }[]).map((p) => `${p.pos}:${p.n}`));
+    Object.keys((stored.players ?? {}) as object).forEach((k) => !keys.has(k) && errors.push(`${file} names ${k}, who is not in players.json`));
+    const banned = /"(attitude|morale|height|weight|hof|hof_candidate)":/.exec(JSON.stringify(stored));
+    if (banned) errors.push(`${file} carries "${banned[1]}" (owner: no morale meters, bio is age only, never the game's Hall of Fame)`);
+  } else if (ss) warnings.push(`save.state ${ss.id} was applied but ${file} is missing`);
 }
 // Market history (changes only, utils/marketHistory.ts): both files expand, the latest snapshot is a full keyframe,
 // and the site's market.json is the history minus the milestone totals, snapshot for snapshot

@@ -117,3 +117,7 @@
   .arcade .hl-stage, .arcade .hl-calls { max-width: 660px; margin-left: auto; margin-right: auto; }
   .arcade .hl-card { aspect-ratio: 16 / 10; }
 }
+
+/* The owner's private Retro Bowl sprite (GameSprite; this Mac only): the player stands at the right of his card */
+.arcade .hl-card-sprite { position: absolute; z-index: 1; right: 2%; bottom: -6px; filter: drop-shadow(3px 4px 0 #0007); }
+.arcade .hl-card:has(.hl-card-sprite) :is(.hl-card-name, .hl-card-club) { z-index: 2; }

@@ -81,7 +81,7 @@
    ],
    "rings": 10,
    "mvp": 1,
-   "opoy": 2,
+   "opoy": 3,
    "dpoy": 0,
    "sbmvp": 5,
    "games": 234,
@@ -339,8 +339,8 @@
    "key": "OL:Jakeem Friend",
    "name": "Jakeem Friend",
    "pos": "OL",
-   "frozenSeason": "Y82",
-   "careerLegacy": 11384,
+   "frozenSeason": "Y92",
+   "careerLegacy": 9723,
    "rank": 1,
    "score": 77,
    "parts": {
@@ -354,9 +354,9 @@
    "opoy": 0,
    "dpoy": 0,
    "sbmvp": 0,
-   "games": 252,
-   "class": "Y83",
-   "classSeason": "Y83",
+   "games": 273,
+   "class": "Y92",
+   "classSeason": "Y92",
    "firstBallot": true,
    "veteran": false,
    "yearsOnBallot": 1
@@ -760,13 +760,6 @@
    ]
   },
   {
-   "season": "Y83",
-   "label": "Class of Y83",
-   "members": [
-    "Jakeem Friend"
-   ]
-  },
-  {
    "season": "Y88",
    "label": "Class of Y88",
    "members": [
@@ -785,7 +778,8 @@
    "season": "Y92",
    "label": "Class of Y92",
    "members": [
-    "Kalif Suh"
+    "Kalif Suh",
+    "Jakeem Friend"
    ]
   }
  ],
@@ -853,6 +847,27 @@
    "dpoy": 0,
    "sbmvp": 1,
    "games": 184
+  },
+  {
+   "key": "DB:Rob Lowe",
+   "name": "Rob Lowe",
+   "pos": "DB",
+   "frozenSeason": "Y92",
+   "careerLegacy": 8008,
+   "rank": 4,
+   "score": 62,
+   "parts": {
+    "standing": 45,
+    "honours": 17,
+    "records": 0
+   },
+   "records": [],
+   "rings": 7,
+   "mvp": 0,
+   "opoy": 0,
+   "dpoy": 0,
+   "sbmvp": 0,
+   "games": 289
   },
   {
    "key": "OL:Cooper Dean",
@@ -939,27 +954,6 @@
    "dpoy": 0,
    "sbmvp": 0,
    "games": 345
-  },
-  {
-   "key": "WR:Pharoah Hunter",
-   "name": "Pharoah Hunter",
-   "pos": "WR",
-   "frozenSeason": "Y79",
-   "careerLegacy": 6216,
-   "rank": 7,
-   "score": 60,
-   "parts": {
-    "standing": 36,
-    "honours": 24,
-    "records": 0
-   },
-   "records": [],
-   "rings": 4,
-   "mvp": 0,
-   "opoy": 4,
-   "dpoy": 0,
-   "sbmvp": 2,
-   "games": 233
   }
  ],
  "watch": [
@@ -1039,7 +1033,7 @@
    "name": "Akiem Brock",
    "pos": "OL",
    "frozenSeason": "Y92",
-   "careerLegacy": 8958,
+   "careerLegacy": 8960,
    "rank": 2,
    "score": 64,
    "parts": {
@@ -1057,33 +1051,11 @@
    "projected": true
   },
   {
-   "key": "DB:Kyron Atwell",
-   "name": "Kyron Atwell",
-   "pos": "DB",
-   "frozenSeason": "Y92",
-   "careerLegacy": 7780,
-   "rank": 4,
-   "score": 56,
-   "parts": {
-    "standing": 45,
-    "honours": 11,
-    "records": 0
-   },
-   "records": [],
-   "rings": 0,
-   "mvp": 0,
-   "opoy": 0,
-   "dpoy": 1,
-   "sbmvp": 0,
-   "games": 233,
-   "projected": true
-  },
-  {
    "key": "OL:Calais Ham",
    "name": "Calais Ham",
    "pos": "OL",
    "frozenSeason": "Y92",
-   "careerLegacy": 7668,
+   "careerLegacy": 7670,
    "rank": 4,
    "score": 55,
    "parts": {
@@ -1120,6 +1092,28 @@
    "dpoy": 0,
    "sbmvp": 0,
    "games": 190,
+   "projected": true
+  },
+  {
+   "key": "DB:Kyron Atwell",
+   "name": "Kyron Atwell",
+   "pos": "DB",
+   "frozenSeason": "Y92",
+   "careerLegacy": 7779,
+   "rank": 5,
+   "score": 53,
+   "parts": {
+    "standing": 42,
+    "honours": 11,
+    "records": 0
+   },
+   "records": [],
+   "rings": 0,
+   "mvp": 0,
+   "opoy": 0,
+   "dpoy": 1,
+   "sbmvp": 0,
+   "games": 233,
    "projected": true
   }
  ],
@@ -1182,21 +1176,21 @@
     "frozenSeason": "Y79"
    },
    {
+    "name": "Rob Lowe",
+    "pos": "DB",
+    "careerLegacy": 8008,
+    "score": 62,
+    "hof": false,
+    "why": "7 rings with the club",
+    "frozenSeason": "Y92"
+   },
+   {
     "name": "Reuben Kilian",
     "pos": "WR",
     "careerLegacy": 5909,
     "score": 57,
     "hof": false,
     "why": "5 rings with the club",
-    "frozenSeason": "Y79"
-   },
-   {
-    "name": "Rob Lowe",
-    "pos": "DB",
-    "careerLegacy": 4721,
-    "score": 42,
-    "hof": false,
-    "why": "7 rings with the club",
     "frozenSeason": "Y79"
    },
    {
@@ -1406,6 +1400,15 @@
     "frozenSeason": "Y79"
    },
    {
+    "name": "Aubrey Jewell",
+    "pos": "QB",
+    "careerLegacy": 6201,
+    "score": 24,
+    "hof": false,
+    "why": "Career Legacy",
+    "frozenSeason": "Y92"
+   },
+   {
     "name": "Taywan Tuttle",
     "pos": "DB",
     "careerLegacy": 3074,
@@ -1606,11 +1609,11 @@
    {
     "name": "Jakeem Friend",
     "pos": "OL",
-    "careerLegacy": 11384,
+    "careerLegacy": 9723,
     "score": 77,
     "hof": true,
     "why": "Hall of Famer",
-    "frozenSeason": "Y82"
+    "frozenSeason": "Y92"
    },
    {
     "name": "Kalif Suh",
@@ -1816,11 +1819,11 @@
    {
     "name": "Jakeem Friend",
     "pos": "OL",
-    "careerLegacy": 11384,
+    "careerLegacy": 9723,
     "score": 77,
     "hof": true,
     "why": "Hall of Famer",
-    "frozenSeason": "Y82"
+    "frozenSeason": "Y92"
    },
    {
     "name": "Cairo Asanjh",
@@ -1897,6 +1900,15 @@
     "frozenSeason": "Y79"
    },
    {
+    "name": "Alexx Sanchez",
+    "pos": "QB",
+    "careerLegacy": 7430,
+    "score": 51,
+    "hof": false,
+    "why": "5 rings with the club",
+    "frozenSeason": "Y92"
+   },
+   {
     "name": "Darrel Longa",
     "pos": "DL",
     "careerLegacy": 6703,
@@ -1904,15 +1916,6 @@
     "hof": false,
     "why": "Career Legacy",
     "frozenSeason": "Y87"
-   },
-   {
-    "name": "Alexx Sanchez",
-    "pos": "QB",
-    "careerLegacy": 6320,
-    "score": 49,
-    "hof": false,
-    "why": "4 rings with the club",
-    "frozenSeason": "Y79"
    },
    {
     "name": "Marvell Rodgers",

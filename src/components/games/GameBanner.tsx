@@ -94,6 +94,7 @@ const GameBanner = ({
         topRight={topRight}
         nameAs={nameAs}
         interactive={interactive}
+        figure={legend ? null : undefined}
       />
     </div>
   );

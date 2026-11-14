@@ -1199,6 +1199,42 @@
     "speech": 21
    },
    "changed": 21
+  },
+  {
+   "id": "2026-11-13-save-y93w16",
+   "dir": "data/uploads/2026-11-13-save-y93w16",
+   "applied_at": "2026-11-13T18:36:42-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-13-save-reconcile",
+   "dir": "data/uploads/2026-11-13-save-reconcile",
+   "applied_at": "2026-11-13T18:41:13-08:00",
+   "mutations": {
+    "stats": 23
+   },
+   "changed": 69
+  },
+  {
+   "id": "2026-11-13-speech-friend",
+   "dir": "data/uploads/2026-11-13-speech-friend",
+   "applied_at": "2026-11-13T18:42:39-08:00",
+   "mutations": {
+    "speech": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-13-god-johnson",
+   "dir": "data/uploads/2026-11-13-god-johnson",
+   "applied_at": "2026-11-13T18:44:02-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
   }
  ]
 }

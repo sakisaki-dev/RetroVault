@@ -125,8 +125,8 @@
   "stints": [
    {
     "team": "Chargers",
-    "from": 35,
-    "to": 43,
+    "from": 32,
+    "to": 47,
     "rings": [
      40
     ]
@@ -139,9 +139,10 @@
   "stints": [
    {
     "team": "Titans",
-    "from": 67,
-    "to": 78,
+    "from": 53,
+    "to": 74,
     "rings": [
+     53,
      70,
      71,
      72,
@@ -149,8 +150,8 @@
     ]
    }
   ],
-  "confidence": "likely",
-  "evidence": "4 rings = Titans Y70, Y71, Y72, Y74. Exact seasons are approximate."
+  "confidence": "strong",
+  "evidence": "5 rings = Titans Y53, Y70, Y71, Y72, Y74. The only window that fits."
  },
  "Sherman Brandson": {
   "stints": [
@@ -650,20 +651,16 @@
  "Breece Hall": {
   "stints": [
    {
-    "team": "Jets",
-    "from": 1,
-    "to": 15,
-    "rings": []
-   },
-   {
     "team": "Chargers",
-    "from": 16,
-    "to": 16,
-    "rings": []
+    "from": 1,
+    "to": 10,
+    "rings": [
+     10
+    ]
    }
   ],
-  "confidence": "ambiguous",
-  "evidence": "No rings. His known clubs (Chargers) can't account for every ring, so the best fit adds a stop: Jets Y1-15, Chargers Y16. Imported real-NFL player: in the league from Y1, ~244 save games after his 57 real ones."
+  "confidence": "strong",
+  "evidence": "1 ring = Chargers Y10. The only window that fits. Imported real-NFL player: in the league from Y1, ~193 save games after his 57 real ones."
  },
  "Ian Finney": {
   "stints": [
@@ -744,8 +741,8 @@
     ]
    }
   ],
-  "confidence": "likely",
-  "evidence": "10 rings = Dolphins Y58, Y59; Vikings Y61, Y62, Y63, Y64, Y66, Y67, Y68, Y69. Record board (your club's games only): Y59 longest pass (air) (Dolphins); Y62 best receiving season (Vikings); Y63 most td receptions, season (Vikings); Y67 best receiving career (Vikings); Y67 most td receptions, career (Vikings). Exact seasons are approximate."
+  "confidence": "confirmed",
+  "evidence": "10 rings = Dolphins Y58, Y59; Vikings Y61, Y62, Y63, Y64, Y66, Y67, Y68, Y69. Record board (your club's games only): Y62 best receiving season (Vikings); Y63 most td receptions, season (Vikings); Y67 best receiving career (Vikings); Y67 most td receptions, career (Vikings). Owner: “Dolphins Y58-60, then Vikings Y61-69 (owner's answer to the open question).”"
  },
  "Jackson Wardell Kline": {
   "stints": [
@@ -1305,7 +1302,7 @@
   "stints": [
    {
     "team": "Buccaneers",
-    "from": 10,
+    "from": 8,
     "to": 22,
     "rings": [
      20,
@@ -1668,8 +1665,8 @@
   "stints": [
    {
     "team": "Bills",
-    "from": 27,
-    "to": 34,
+    "from": 24,
+    "to": 38,
     "rings": [
      27,
      28,
@@ -1681,8 +1678,8 @@
     ]
    }
   ],
-  "confidence": "strong",
-  "evidence": "7 rings = Bills Y27, Y28, Y29, Y30, Y31, Y32, Y33. The only window that fits."
+  "confidence": "likely",
+  "evidence": "7 rings = Bills Y27, Y28, Y29, Y30, Y31, Y32, Y33. Exact seasons are approximate."
  },
  "Deante Elder": {
   "stints": [
@@ -2570,7 +2567,7 @@
    }
   ],
   "confidence": "confirmed",
-  "evidence": "9 rings = Jets Y80, Y82; Falcons Y83, Y84, Y85, Y86, Y87; Eagles Y91, Y92. Record board (your club's games only): Y85 best rushing game (Falcons); Y85 most rushing tds, season (Falcons); Y87 best rushing season (Falcons). On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Falcons roster. On the Y91 Eagles roster. On the Y92 Eagles roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
+  "evidence": "9 rings = Jets Y80, Y82; Falcons Y83, Y84, Y85, Y86, Y87; Eagles Y91, Y92. Record board (your club's games only): Y85 best rushing game (Falcons); Y85 most rushing tds, season (Falcons); Y92 best rushing season (Eagles). On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Falcons roster. On the Y91 Eagles roster. On the Y92 Eagles roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
  },
  "Ty Lock": {
   "stints": [
@@ -3821,7 +3818,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "4 rings = Eagles Y88, Y89, Y91, Y92. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Eagles roster. The only window that fits."
+  "evidence": "4 rings = Eagles Y88, Y89, Y91, Y92. Record board (your club's games only): Y90 longest pass (air) (Eagles). On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Eagles roster. The only window that fits."
  },
  "Kenyon Shaheed": {
   "stints": [
@@ -3858,7 +3855,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Eagles Y88, Y89, Y91. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Rams roster. The only window that fits."
+  "evidence": "3 rings = Eagles Y88, Y89, Y91. Record board (your club's games only): Y90 longest pass (air) (Eagles). On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Rams roster. The only window that fits."
  },
  "Akiem Brock": {
   "stints": [

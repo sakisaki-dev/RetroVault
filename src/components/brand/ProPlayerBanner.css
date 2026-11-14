@@ -439,3 +439,20 @@ a.ppb__credit:hover, a.ppb__credit:focus-visible { color: #fff; background: hsl(
 .ppb--sealed .ppb__plate { border-top-color: hsl(var(--gold)); box-shadow: inset 6px 0 0 hsl(var(--gold)); }
 .ppb--sealed .ppb__last { letter-spacing: 0.08em; color: hsl(var(--gold)); }
 .ppb--sealed .ppb__chip-pos { background: hsl(var(--gold)); color: hsl(43 100% 7%); }
+
+/* Pixel figure (private Retro Bowl sprite, GameSprite): stands on the nameplate's top edge, at the right */
+.ppb__figure {
+  position: absolute;
+  right: 5%;
+  bottom: 100%;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 10px hsl(228 60% 3% / 0.55));
+}
+.ppb--hero .ppb__figure { right: 8%; }
+.ppb--card .ppb__figure { right: 0.75rem; }
+/* compact rows: a small bust at the right end, its shoulders on the row's bottom edge */
+.ppb--compact .ppb__content { position: relative; }
+.ppb--compact .ppb__figure { right: 30%; bottom: 0; filter: none; }

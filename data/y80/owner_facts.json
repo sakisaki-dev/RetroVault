@@ -396,7 +396,26 @@
    }
   },
   "God Johnson": {
-   "retired_with": "Vikings"
+   "retired_with": "Vikings",
+   "career": {
+    "order": [
+     "Dolphins",
+     "Vikings"
+    ],
+    "stints": [
+     [
+      "Dolphins",
+      58,
+      60
+     ],
+     [
+      "Vikings",
+      61,
+      69
+     ]
+    ],
+    "says": "Dolphins Y58-60, then Vikings Y61-69 (owner's answer to the open question)."
+   }
   },
   "Grunky Felton": {
    "team": "49ers",

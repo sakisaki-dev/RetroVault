@@ -765,3 +765,8 @@
     transition: none;
   }
 }
+
+/* The owner's private Retro Bowl bust (GameSprite; this Mac only): a bronze-lit statue over the debossed number */
+.hof-sprite {
+  filter: drop-shadow(0 4px 6px hsl(228 60% 3% / 0.6));
+}

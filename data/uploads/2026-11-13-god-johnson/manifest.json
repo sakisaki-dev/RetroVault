@@ -1,0 +1,35 @@
+{
+ "id": "2026-11-13-god-johnson",
+ "created": "2026-11-13",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/God Johnson/career",
+   "value": {
+    "order": [
+     "Dolphins",
+     "Vikings"
+    ],
+    "stints": [
+     [
+      "Dolphins",
+      58,
+      60
+     ],
+     [
+      "Vikings",
+      61,
+      69
+     ]
+    ],
+    "says": "Dolphins Y58-60, then Vikings Y61-69 (owner's answer to the open question)."
+   },
+   "source": "owner",
+   "reason": "Owner answered the open question (Dolphins Y58-60, Vikings Y61-69, or Dolphins Y57-58, Vikings Y59-69?): \"A\"",
+   "trigger": "Open question in content.json after the save reconciliation"
+  }
+ ]
+}

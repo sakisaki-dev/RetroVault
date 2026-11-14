@@ -11,6 +11,7 @@ import { normalizeName, signatureTeamOf, usePlayerExtras } from '@/utils/playerE
 import PlayerSearchSelect from '../../PlayerSearchSelect';
 import ProPlayerBanner from '../../brand/ProPlayerBanner';
 import TeamLogo from '../../brand/TeamLogo';
+import GameSprite from '../../GameSprite';
 import { keyOf } from '../records';
 import { SmallSampleChip } from './ddParts';
 
@@ -37,7 +38,8 @@ const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, on
   const { numberFor, retiredInfo } = useJerseyNumbers();
   const extras = usePlayerExtras();
   // The banner wears his signature team (where he was best known); the franchise chips list them all
-  const team = findNFLTeam(signatureTeamOf(extras, player));
+  const club = signatureTeamOf(extras, player);
+  const team = findNFLTeam(club);
   const tier = getLegacyTier(player.careerLegacy);
   const known = extras.franchises[normalizeName(player.name)] ?? [];
   const franchises = known.length ? known : player.team ? [player.team] : [];
@@ -98,6 +100,7 @@ const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, on
           eyebrow={`${POSITION_NAMES[player.position]} · Scouting report`}
           nameAs="h1"
           interactive
+          figure={<GameSprite player={player} team={club} kind="figure" withBody={wide} animate scale={wide ? 4 : 3} nflScale={wide ? 3 : 2} />}
         />
       </button>
 

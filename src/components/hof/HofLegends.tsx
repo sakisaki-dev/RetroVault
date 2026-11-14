@@ -7,6 +7,8 @@ import type { GalleryItem } from './HofGallery';
 import { FrameCrest, HallHeading, MedalCoin } from './hofParts';
 import { POS_NAMES, clubFill, tierClass, tierOf } from './hofUtils';
 import { cn } from '@/lib/utils';
+import GameSprite from '../GameSprite';
+import { useGameSprites } from '@/utils/gameSprites';
 
 /** Legends' Row: everyone with a perfect 100, else the top three by score, on lit plinths. */
 const HofLegends = ({ items, onOpen }: { items: GalleryItem[]; onOpen: (key: string) => void }) => {
@@ -15,6 +17,8 @@ const HofLegends = ({ items, onOpen }: { items: GalleryItem[]; onOpen: (key: str
     const perfect = sorted.filter((i) => i.member.score >= 100);
     return perfect.length >= 3 ? perfect : sorted.slice(0, 3);
   }, [items]);
+  // The private Retro Bowl bust (this Mac only) takes the space above the name; without it the layout is unchanged
+  const sprites = useGameSprites();
   if (!legends.length) return null;
   const perfect = legends.every((l) => l.member.score >= 100);
 
@@ -52,7 +56,17 @@ const HofLegends = ({ items, onOpen }: { items: GalleryItem[]; onOpen: (key: str
                   </span>
                   <MedalCoin score={member.score} size={44} className="!absolute right-3 top-3" />
 
-                  <span className="mt-[62px] block max-w-full truncate px-4 text-sm font-semibold uppercase tracking-[0.2em] text-white/85" style={{ textShadow: '0 1px 3px hsl(228 60% 3% / 0.9)' }}>
+                  {sprites && (
+                    <GameSprite
+                      player={{ name: member.name, position: member.pos, team: item.player?.team, spriteSkin: item.player?.spriteSkin }}
+                      team={club}
+                      kind="face"
+                      scale={2}
+                      className="hof-sprite mt-3 block"
+                    />
+                  )}
+                  <span className={cn(sprites ? 'mt-0' : 'mt-[62px]', 'block')} />
+                  <span className="block max-w-full truncate px-4 text-sm font-semibold uppercase tracking-[0.2em] text-white/85" style={{ textShadow: '0 1px 3px hsl(228 60% 3% / 0.9)' }}>
                     {first}
                   </span>
                   <span className="hof-metal-text block max-w-full truncate px-4 font-display text-[44px] font-extrabold uppercase italic leading-[0.95]">

@@ -17,6 +17,7 @@ import { useCurrentClub } from '@/utils/club';
 import PlayerDetailCard from './PlayerDetailCard';
 import { warmPlayerCard } from './player/warmPlayerCard';
 import TeamLogo from './brand/TeamLogo';
+import GameSprite from './GameSprite';
 import { matchPlayer } from './PlayerSearchSelect';
 import { openInCompFinder } from './stats/comps/compFinderLink';
 import './quickSearch.css';
@@ -78,6 +79,7 @@ const ResultRow = ({ player, number, ovr, grade }: { player: Player; number: num
           <TeamLogo team={bannerTeamOf(player)} size={64} decorative />
         </span>
       )}
+      {!player.isRealLegend && <GameSprite player={player} kind="face" scale={1} className="relative -my-1.5 -mr-2 shrink-0 self-end" />}
       <span
         aria-hidden="true"
         className="qs-plate relative flex h-10 w-12 shrink-0 items-center justify-center font-display text-xl font-extrabold italic tabular-nums [clip-path:polygon(14%_0,100%_0,86%_100%,0_100%)]"
