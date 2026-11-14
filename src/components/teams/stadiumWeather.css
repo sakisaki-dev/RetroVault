@@ -1,0 +1,107 @@
+/* Stadium weather panel on the franchise sheet (StadiumWeather.tsx) */
+.swx-roof {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 3px;
+  padding: 3px 6px;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: hsl(var(--secondary));
+  color: hsl(var(--muted-foreground));
+  border: 1px solid hsl(var(--border));
+}
+.swx-roof--on {
+  color: hsl(var(--gold));
+  border-color: hsl(var(--gold) / 0.5);
+}
+.swx-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+.swx-cell {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-radius: 8px;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--secondary) / 0.3);
+  padding: 8px;
+  border-top: 2px solid var(--swx-accent, hsl(var(--line)));
+}
+.swx-k {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.swx-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+.swx-row b {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 1;
+  min-width: 3ch;
+  text-align: right;
+  color: hsl(var(--chalk));
+}
+.swx-ic {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+.swx-ic--rain {
+  color: hsl(var(--sky));
+}
+.swx-ic--snow {
+  color: hsl(228 100% 92%);
+}
+.swx-bar {
+  position: relative;
+  flex: 1;
+  min-width: 12px;
+  height: 6px;
+  border-radius: 1px;
+  background: hsl(var(--night));
+  box-shadow: inset 0 0 0 1px hsl(var(--line) / 0.6);
+  overflow: hidden;
+}
+.swx-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  /* pixel steps, like the arcade meters */
+  background-image: linear-gradient(90deg, transparent 0 3px, hsl(var(--night) / 0.55) 3px 4px);
+  background-size: 4px 100%;
+}
+.swx-fill--rain {
+  background-color: hsl(var(--sky));
+}
+.swx-fill--snow {
+  background-color: hsl(228 100% 92%);
+}
+.swx-note {
+  margin-top: 8px;
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+}
+@media (max-width: 420px) {
+  .swx-row b {
+    font-size: 13px;
+  }
+  .swx-cell {
+    padding: 7px 6px;
+  }
+}

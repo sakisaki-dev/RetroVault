@@ -7,6 +7,7 @@ import { POSITION_NAMES } from '@/utils/playerMeta';
 import type { Position } from '@/types/player';
 import TeamLogo, { resolveTeam } from './TeamLogo';
 import GameSprite from '../GameSprite';
+import { statureScale, useGameSprites } from '@/utils/gameSprites';
 import { splitPlayerName } from './ProPlayerBanner.utils';
 import './ProPlayerBanner.css';
 
@@ -50,6 +51,8 @@ export interface ProPlayerBannerProps {
    * banner stays exactly as it was there. Pass a node to choose the look, or null for none (real NFL legends).
    */
   figure?: ReactNode;
+  /** Career numbers shown beside the pedestal (hero, only when the sprite stands there), e.g. careerLine(p) */
+  stats?: { label: string; value: string | number }[];
   /** Adds the hover sheen; use when the banner sits inside a button or link */
   interactive?: boolean;
   className?: string;
@@ -84,6 +87,7 @@ const ProPlayerBanner = ({
   nameAs: NameTag = 'span',
   topRight,
   figure: figureProp,
+  stats,
   interactive = false,
   className,
 }: ProPlayerBannerProps) => {
@@ -92,6 +96,7 @@ const ProPlayerBanner = ({
   // Same-color secondaries (Browns) still need a visible accent
   const secondary =
     resolved && resolved.secondaryColor !== resolved.primaryColor ? resolved.secondaryColor : resolved ? '0 0% 100%' : NEUTRAL_SECONDARY;
+  const stature = statureScale(useGameSprites(), name);
   const [photoFailed, setPhotoFailed] = useState(false);
   useEffect(() => setPhotoFailed(false), [photoUrl]);
   const showPhoto = !sealed && !!photoUrl && !photoFailed;
@@ -182,16 +187,42 @@ const ProPlayerBanner = ({
   const figure =
     figureProp !== undefined ? (
       figureProp
-    ) : size === 'compact' ? (
-      <GameSprite player={{ name, position }} team={teamName} kind="face" scale={1} />
     ) : (
-      <GameSprite player={{ name, position }} team={teamName} kind="figure" scale={size === 'hero' ? 4 : 3} nflScale={2} />
+      <GameSprite player={{ name, position }} team={teamName} kind="figure" size={size === 'hero' ? 'l' : 'm'} />
     );
-  // Stands on the nameplate's top edge (inside the plate, so it sits right whatever the plate's height)
+  // Compact rows: the figure stands in the row. Hero and card: the centre pedestal (owner's pick, 2026-11-13), the
+  // player on a club-colour plinth with his logo set in it, the giant number behind him. The pedestal layout only
+  // switches on when a sprite actually renders (CSS :has(.game-sprite)), so the public build keeps the classic banner.
   const figureLayer =
     figure && !sealed && !showPhoto ? (
       <span className="ppb__figure" aria-hidden="true">
         {figure}
+      </span>
+    ) : null;
+  const stage =
+    figure && !sealed && !showPhoto ? (
+      <span className="ppb__stage" aria-hidden="true">
+        <span className="ppb__stage-fig" style={stature !== 1 ? ({ '--ppb-stature': stature } as CSSProperties) : undefined}>
+          {figure}
+        </span>
+        <span className="ppb__pedestal">
+          {resolved && (
+            <span className="ppb__pedestal-logo">
+              <TeamLogo team={resolved} size={size === 'hero' ? 48 : 30} decorative />
+            </span>
+          )}
+        </span>
+      </span>
+    ) : null;
+  const statBlock =
+    stats && stats.length > 0 && !sealed ? (
+      <span className="ppb__stats" aria-hidden="true">
+        {stats.map((st) => (
+          <span key={st.label} className="ppb__stat">
+            <b>{typeof st.value === 'number' ? Math.round(st.value).toLocaleString('en-US') : st.value}</b>
+            <span>{st.label}</span>
+          </span>
+        ))}
       </span>
     ) : null;
 
@@ -252,6 +283,7 @@ const ProPlayerBanner = ({
       <div className="ppb__field">
         {decor}
         <div className="ppb__content">
+          {stage}
           <div className="ppb__top flex items-start gap-3">
             {ovrBadge}
             <div className="min-w-0 flex-1 space-y-1.5">
@@ -275,9 +307,9 @@ const ProPlayerBanner = ({
             {topRight}
           </div>
           <div className="ppb__plate">
-            {figureLayer}
             {nameBlock}
             <span className="ppb__side">
+              {statBlock}
               {chip}
             </span>
           </div>

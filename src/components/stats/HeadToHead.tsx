@@ -90,6 +90,7 @@ const HeroCard = ({
             retiredBy={retiredInfo(player)?.teamLabel ?? null}
             eyebrow={`${POSITION_NAMES[player.position]}${team ? ` · ${team.conference} ${team.division}` : ''}`}
             interactive
+            figure={player.isRealLegend ? null : undefined}
           />
         </button>
       ) : (

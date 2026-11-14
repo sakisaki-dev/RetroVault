@@ -118,6 +118,16 @@
   .arcade .hl-card { aspect-ratio: 16 / 10; }
 }
 
-/* The owner's private Retro Bowl sprite (GameSprite; this Mac only): the player stands at the right of his card */
-.arcade .hl-card-sprite { position: absolute; z-index: 1; right: 2%; bottom: -6px; filter: drop-shadow(3px 4px 0 #0007); }
+/* Sprite-first fighter card (the owner's private Retro Bowl sprites, this Mac only): the player is the card, centred on
+   a floor shadow above his name; the outlined number shrinks behind him, the logo to a corner mark. */
+.arcade .hl-card-sprite { position: absolute; z-index: 1; left: 50%; bottom: 52px; transform: translateX(-50%); filter: drop-shadow(3px 4px 0 #0007); }
+.arcade .hl-card:has(.hl-card-sprite) { aspect-ratio: auto; min-height: 236px; }
+.arcade .hl-card:has(.hl-card-sprite)::after {
+  background:
+    radial-gradient(34% 5% at 50% calc(100% - 56px), #000b, transparent 100%),
+    linear-gradient(180deg, transparent 62%, #000c 88%);
+}
+.arcade .hl-card:has(.hl-card-sprite) .hl-card-num { left: 50%; right: auto; top: 26px; transform: translateX(-50%); font-size: clamp(64px, 18vw, 120px); opacity: 0.35; }
+.arcade .hl-card:has(.hl-card-sprite) .hl-card-logo { left: auto; right: 8px; top: 8px; width: 30px; height: 30px; opacity: 1; z-index: 2; }
 .arcade .hl-card:has(.hl-card-sprite) :is(.hl-card-name, .hl-card-club) { z-index: 2; }
+@media (min-width: 640px) { .arcade .hl-card:has(.hl-card-sprite) { min-height: 280px; } }

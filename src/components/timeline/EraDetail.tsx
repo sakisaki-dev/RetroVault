@@ -11,6 +11,8 @@ import {
 import { cn } from '@/lib/utils';
 import MiniMarkdown from './MiniMarkdown';
 import TeamLogo from './TeamLogo';
+import ClubStrip from '@/components/brand/ClubStrip';
+import { bannerTeamOf } from '@/utils/playerExtras';
 import { MarkerGlyph, markerKind } from './SuperBowlMarker';
 import { teamHsl, type PlacedEra, type TimelineModel } from './timelineModel';
 
@@ -171,7 +173,7 @@ const EraDetail = ({ id, placed, content, model, players, onPlayerSelect, onClos
                         className="group flex w-full items-center justify-between gap-2 rounded-md px-2 py-1.5 text-left hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       >
                         <span className="min-w-0">
-                          <span className="font-medium text-primary underline-offset-2 group-hover:underline">{display}</span>
+                          <ClubStrip team={bannerTeamOf(player)} label={display} size="sm" className="group-hover:-translate-y-px group-hover:brightness-110 motion-reduce:group-hover:translate-y-0" />
                           {qualifier && <span className="text-xs text-muted-foreground"> ({qualifier})</span>}
                           {note?.tag && <span className="block truncate text-[11px] text-muted-foreground">{note.tag}</span>}
                         </span>

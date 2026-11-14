@@ -35,7 +35,7 @@
 .arcade .lg2-row-logo { width: 38px; height: 38px; object-fit: contain; filter: drop-shadow(0 2px 0 #0009); }
 .arcade .lg2-row-pos { font-family: var(--f-pixel); font-size: 18px; color: var(--gold); }
 .arcade .lg2-row-name .full { display: none; }
-.arcade .lg2-row-name { position: relative; z-index: 1; }
+.arcade .lg2-row-name { position: relative; z-index: 1; min-width: 0; max-width: 100%; }
 .arcade .lg2-row-name .short { font-family: var(--f-pixel); font-weight: 400; font-size: 10px; padding: 2px 4px; border-radius: 3px; background: #05070d; color: #fff; box-shadow: 0 0 0 1px #ffffff40, 0 2px 0 #000; }
 /* Phones: the tile is narrow, so the diagonal club stripe would run through the abbreviation (a black stripe hid
    "PIT"). Below 640px the stripe becomes a band along the bottom edge and the label sits on its own rimmed plate. */
@@ -45,7 +45,8 @@
 @media (min-width: 640px) {
   .arcade .lg2-row { flex-direction: row; justify-content: flex-start; gap: 8px; padding: 8px 10px; text-align: left; }
   .arcade .lg2-row-logo { width: 46px; height: 46px; flex: none; }
-  .arcade .lg2-row-name .full { display: block; font-size: 17px; text-shadow: 2px 2px 0 #0007; }
+  /* long club names (Washington Commanders) wrap between words and never run off the row */
+  .arcade .lg2-row-name .full { display: block; font-size: clamp(13px, 1.25vw, 17px); line-height: 1.05; text-wrap: balance; overflow-wrap: normal; word-break: keep-all; text-shadow: 2px 2px 0 #0007; }
   .arcade .lg2-row-name .short { display: none; }
 }
 

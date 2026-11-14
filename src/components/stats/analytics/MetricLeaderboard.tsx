@@ -173,7 +173,7 @@ const MetricLeaderboard = ({ players, ctx, position, extras = [], onSelect }: Pr
             type="button"
             aria-expanded={expanded}
             onClick={() => setExpanded((v) => !v)}
-            className="rounded font-semibold text-gold underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            className="link-chip text-gold"
           >
             {expanded ? `Show top ${SHOWN}` : `Show all ${merged.length}`}
           </button>

@@ -75,8 +75,11 @@
 .arcade .gl-guess-row { display: flex; gap: 8px; align-items: stretch; }
 .arcade .gl-guess-pick { flex: 1 1 auto; min-width: 0; }
 .arcade .gl-guess-row .btn { flex: none; min-width: 92px; }
-.arcade .gl-skip { align-self: center; min-height: 36px; padding: 4px 10px; border: 0; background: transparent; color: var(--muted); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
-.arcade .gl-skip:hover { color: var(--chalk); }
+.arcade .gl-skip { align-self: center; min-height: 36px; padding: 4px 10px; border: 0; background: transparent; color: var(--muted); font-size: 13px; }
+/* no underline (owner rule): a quiet pill that brightens on hover */
+.arcade .gl-skip { border-radius: 999px; box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 35%, transparent); }
+.arcade .gl-skip:hover { color: var(--chalk); background: color-mix(in srgb, currentColor 10%, transparent); }
+.arcade .gl-skip:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .arcade .gl-last { padding: 10px; border-radius: 8px; background: color-mix(in srgb, var(--flag) 10%, #05080f); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--flag) 40%, transparent); animation: gl-drop 0.35s ease both; }
 .arcade .gl-last-k { margin: 0 0 6px; font-size: 13px; color: var(--muted); }
 .arcade .gl-last-k b { color: var(--gold); }

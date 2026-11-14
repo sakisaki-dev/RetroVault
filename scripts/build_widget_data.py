@@ -22,6 +22,12 @@ Hall of Fame speech (speech.set).
 * hofWatch          active players closest to the Hall of Fame line (Career Legacy 7,000): points to go, share
 * chases            the closest active chases of all-time career records: have, mark, share, amount to go
 * milestones        active players closest to a round career number (the MILESTONES steps): amount to go
+* retirements       live save only: players in their final season (seasonsLeft 0: age 34, or 39 for a QB, plus any
+                    delays) or one season from it, best Career Legacy first (content.json mechanics.clock)
+* ceilings          live save only: young players' star rating in the game now and the ceiling their max ratings allow
+                    (content.json mechanics.ceilings): stars, ceiling, room
+* didYouKnow also carries the game-mechanics rule facts (content.json ruleFacts, kind "rule"): defensive credit,
+                    the injury model, draft quality, the upset index, final seasons and star ceilings
 * champion          the latest season's Super Bowl (lock screen: "Y82 · Jets won CXLI")
 * coach             the coach's surname: history cards say "Skura's Ravens", never "your"
 
@@ -49,7 +55,7 @@ MARKET = market_history.load(PUB / "market.json")  # full snapshots (the file st
 EXTRAS = json.loads((PUB / "player-extras.json").read_text())
 LOG = json.loads((B.SRC / "mutations_log.json").read_text()).get("applied", [])
 
-MAX_FACTS = 100
+MAX_FACTS = 120
 MARKET_MIN_VALUE = B.MARKET_MIN_VALUE
 g, fmt, plural, join, short = B.g, B.fmt, B.plural, B.join, B.short
 
@@ -441,6 +447,20 @@ def schedule_facts():
                 ", the longest run in the weekly scores.", r["team"])
 
 
+def rule_facts():
+    """Game-mechanics facts (build_league_content.mechanics -> content.json ruleFacts): templates over the data and
+    the game's own rules (docs/GAME_MECHANICS.md, docs/SAVE_INVENTORY.md 7.4, 7.5, 7.9, 7.10)."""
+    for f in CONTENT.get("ruleFacts") or []:
+        k = f.get("player")
+        name = k.split(":", 1)[1] if k else None
+        if k and k not in KEY.values():
+            continue  # no card
+        if name:
+            fact(f["id"], "rule", f["text"], name)
+        else:
+            FACTS.append({"id": f["id"], "kind": "rule", "text": f["text"], "player": None, "team": nick(f.get("team"))})
+
+
 def story_facts(story) -> list[dict]:
     out = []
     for f in (story or {}).get("didYouKnow", []):
@@ -548,6 +568,28 @@ def milestones() -> list[dict]:
     return out
 
 
+def retirements() -> list[dict]:
+    """Final-season countdowns from the live save (content.json mechanics.clock): seasonsLeft 0 is the final season."""
+    out = []
+    for x in ((CONTENT.get("mechanics") or {}).get("clock") or {}).get("players", []):
+        if x["player"] not in KEY.values() or not banner_team(x["name"]):
+            continue
+        out.append({"player": x["player"], "last": B.surname(x["name"]), "pos": x["pos"], "age": x["age"],
+                    "seasonsLeft": x["seasonsLeft"], "team": banner_team(x["name"])})
+    return out[:6]
+
+
+def ceilings() -> list[dict]:
+    """Stars now -> ceiling for young players from the live save (content.json mechanics.ceilings)."""
+    out = []
+    for x in ((CONTENT.get("mechanics") or {}).get("ceilings") or {}).get("players", []):
+        if x["player"] not in KEY.values() or not banner_team(x["name"]):
+            continue
+        out.append({"player": x["player"], "last": B.surname(x["name"]), "pos": x["pos"], "age": x["age"],
+                    "stars": x["stars"], "ceiling": x["ceiling"], "room": x["room"], "team": banner_team(x["name"])})
+    return out[:6]
+
+
 def champion() -> dict | None:
     sb = next((x for x in reversed(CONTENT["superBowls"]) if f"Y{x['year']}" == CONTENT["season"]), None)
     if not sb:
@@ -588,8 +630,9 @@ def main():
     milestone_facts()
     chase_facts()
     schedule_facts()
+    rule_facts()
     seen, facts = set(), []
-    order = ["chase", "milestone", "game", "rising", "oddity", "oneteam", "sample", "leader", "record", "iron"]
+    order = ["chase", "milestone", "rule", "game", "rising", "oddity", "oneteam", "sample", "leader", "record", "iron"]
     ranked = sorted(FACTS, key=lambda f: order.index(f["kind"]))  # stable: keeps each rule's own order
     for f in [*story_facts(story), *ranked]:
         if f["id"] in seen or not f["text"]:
@@ -612,8 +655,10 @@ def main():
                      key=lambda k: (-score(k), -LATEST[k]["legacy"], k))[:14]
 
     watch, chase_list, close = hof_watch(), chases(), milestones()
+    clock, rise = retirements(), ceilings()
+    clock_season = ((CONTENT.get("mechanics") or {}).get("clock") or {}).get("season")
     named = ({f["player"] for f in facts if f.get("player")} | {v["player"] for v in vault_items if v.get("player")}
-             | set(notable) | {x["player"] for x in [*watch, *chase_list, *close]})
+             | set(notable) | {x["player"] for x in [*watch, *chase_list, *close, *clock, *rise]})
     cards = {}
     for k in sorted(named):
         m = LATEST.get(k)
@@ -650,6 +695,9 @@ def main():
         "hofWatch": watch,
         "chases": chase_list,
         "milestones": close,
+        "liveSeason": clock_season,
+        "retirements": clock or None,
+        "ceilings": rise or None,
         "champion": champion(),
         "coach": COACH,
         "cards": cards,
@@ -659,7 +707,7 @@ def main():
     print(f"Wrote {OUT.relative_to(ROOT)}: {len(stories)} articles, {len(facts)} facts "
           f"({sum(f['kind'] == 'story' for f in facts)} from the story), {len(vault_items)} vault cards, "
           f"{len(cards)} player cards, {len(watch)} on HOF watch, {len(chase_list)} record chases, "
-          f"{len(close)} milestone countdowns, {OUT.stat().st_size / 1024:.1f} KB")
+          f"{len(close)} milestone countdowns, {len(clock)} final-season and {len(rise)} ceiling countdowns, {OUT.stat().st_size / 1024:.1f} KB")
 
 
 if __name__ == "__main__":

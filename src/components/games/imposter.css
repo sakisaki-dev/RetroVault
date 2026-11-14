@@ -110,6 +110,19 @@
 }
 @media (min-width: 900px) { .arcade .imp-verdict .btn { justify-self: start; width: auto; min-width: 280px; } }
 
-/* The owner's private Retro Bowl sprite (GameSprite; this Mac only): the suspect stands at the right of his card */
-.arcade .imp-sprite { position: absolute; right: 0; bottom: 0; z-index: 1; pointer-events: none; filter: drop-shadow(3px 4px 0 #0007); }
+/* Sprite-first suspect card (the owner's private Retro Bowl sprites, this Mac only): the suspect is the card, centred
+   on a floor shadow above his name plate; the outlined number shrinks behind him, the logo to a corner mark. */
+.arcade .imp-sprite { position: absolute; z-index: 0; left: 50%; bottom: 58px; transform: translateX(-50%); pointer-events: none; filter: drop-shadow(3px 4px 0 #0007); }
+.arcade .imp-card:has(.imp-sprite) {
+  min-height: 270px;
+  background:
+    radial-gradient(34% 5% at 50% calc(100% - 62px), #000b, transparent 100%),
+    linear-gradient(180deg, transparent 62%, #000d 84%),
+    linear-gradient(118deg, transparent 0 58%, var(--c2) 58% 62%, transparent 62%),
+    radial-gradient(70% 55% at 50% 30%, color-mix(in srgb, var(--c2) 35%, #ffffff33), transparent 70%),
+    linear-gradient(170deg, var(--c1), color-mix(in srgb, var(--c1) 50%, #05070f));
+}
+@media (min-width: 640px) { .arcade .imp-card:has(.imp-sprite) { min-height: 290px; } }
+.arcade .imp-card:has(.imp-sprite) .imp-num { left: 50%; top: 22px; transform: translateX(-50%); font-size: 112px; opacity: 0.32; }
+.arcade .imp-card:has(.imp-sprite) .imp-logo { right: auto; left: 40px; top: 8px; width: 26px; height: 26px; z-index: 1; }
 .arcade .imp-card:has(.imp-sprite) :is(.imp-name, .imp-meta) { position: relative; z-index: 2; }

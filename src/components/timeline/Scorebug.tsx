@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import TeamLogo from './TeamLogo';
 import type { YearSlot } from './timelineModel';
@@ -13,10 +14,15 @@ interface ScorebugProps {
   slot: YearSlot | null;
   eraName?: string;
   season?: string;
+  /** The caller's own readout for the year (middle) and badge, in place of the Super Bowl (the Season page's playoffs) */
+  custom?: (slot: YearSlot) => { middle: ReactNode; badge?: { text: string; cls: string } };
+  /** Text before anything is hovered */
+  hint?: string;
 }
 
 /** Broadcast-style readout for the hovered / focused Super Bowl. Announced politely to screen readers. */
-const Scorebug = ({ slot, eraName, season }: ScorebugProps) => {
+const Scorebug = ({ slot, eraName, season, custom, hint }: ScorebugProps) => {
+  const own = slot && custom ? custom(slot) : null;
   const sb = slot?.sb ?? null;
   const [wScore, lScore] = (sb?.score ?? '').split(/[-–]/).map((s) => s.trim());
   const badge = sb ? RESULT_BADGE[sb.yourResult] ?? RESULT_BADGE['not in it'] : null;
@@ -29,7 +35,13 @@ const Scorebug = ({ slot, eraName, season }: ScorebugProps) => {
       className="flex min-h-[64px] flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-border/40 bg-background/60 px-3 py-2 sm:px-4"
     >
       {!slot ? (
-        <p className="text-sm text-muted-foreground">Hover, focus or tap a year to see its Super Bowl.</p>
+        <p className="text-sm text-muted-foreground">{hint ?? 'Hover, focus or tap a year to see its Super Bowl.'}</p>
+      ) : own ? (
+        <>
+          <span className="font-display text-2xl font-bold tabular-nums">Y{slot.year}</span>
+          <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-0.5 text-sm sm:gap-x-3">{own.middle}</div>
+          {own.badge && <span className={cn('rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider', own.badge.cls)}>{own.badge.text}</span>}
+        </>
       ) : (
         <>
           <div className="flex items-baseline gap-2">

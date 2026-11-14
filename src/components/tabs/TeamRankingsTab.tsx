@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Building2, UserX } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
@@ -26,6 +26,7 @@ import {
   type TeamSummary,
 } from '../teams/teamStats';
 import { usePlayerExtras } from '@/utils/playerExtras';
+import { useHubRoute } from '../stats/hub/hashRoute';
 
 type ConferenceFilter = 'all' | 'AFC' | 'NFC';
 type DivisionFilter = 'all' | (typeof DIVISIONS)[number];
@@ -120,6 +121,14 @@ const TeamRankingsTab = () => {
   }, [visible, sortKey]);
 
   const openSummary = teams.find((t) => t.key === openKey) ?? null;
+  // A club strip elsewhere (the Season page) links here as #stats/teams?p=<club>: open that club's sheet once
+  const { route } = useHubRoute();
+  const wanted = route.sub === 'teams' ? route.p : undefined;
+  useEffect(() => {
+    if (!wanted) return;
+    const hit = teams.find((t) => t.team?.name === wanted || t.label === wanted);
+    if (hit) setOpenKey(hit.key);
+  }, [wanted, teams]);
   const totals = useMemo(
     () => ({
       yourTitles: superBowls.filter((sb) => sb.yourResult === 'won').length,

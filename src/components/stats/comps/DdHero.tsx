@@ -11,6 +11,7 @@ import { normalizeName, signatureTeamOf, usePlayerExtras } from '@/utils/playerE
 import PlayerSearchSelect from '../../PlayerSearchSelect';
 import ProPlayerBanner from '../../brand/ProPlayerBanner';
 import TeamLogo from '../../brand/TeamLogo';
+import { bannerStats } from '../../hof/hofUtils';
 import GameSprite from '../../GameSprite';
 import { keyOf } from '../records';
 import { SmallSampleChip } from './ddParts';
@@ -100,7 +101,8 @@ const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, on
           eyebrow={`${POSITION_NAMES[player.position]} · Scouting report`}
           nameAs="h1"
           interactive
-          figure={<GameSprite player={player} team={club} kind="figure" withBody={wide} animate scale={wide ? 4 : 3} nflScale={wide ? 3 : 2} />}
+          figure={<GameSprite player={player} team={club} kind="figure" size={wide ? 'l' : 'm'} showKit />}
+          stats={bannerStats(player)}
         />
       </button>
 

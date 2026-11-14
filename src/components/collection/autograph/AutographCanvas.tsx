@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import { identity, type AutographRoll, type AutographSnapshot } from '@/config/autographs';
 import { autographFontsReady, loadAutographFonts } from './fonts';
 import { compose, renderAutograph, renderLayers, CARD_H, CARD_W } from './render';
+import { useAutographFigure } from './figure';
 import './autograph.css';
 
 interface AutographCanvasProps {
@@ -38,6 +39,10 @@ const AutographCanvas = ({ snap, roll, cacheKey, write = false, writeDelayMs = 0
   const [width, setWidth] = useState(0);
   const family = identity(snap.name).hand.font;
   const [fontsOk, setFontsOk] = useState(() => autographFontsReady(family));
+  // his sprite (private builds only; 'none' on the public site): wait for it so the card draws once
+  const figState = useAutographFigure(snap);
+  const fig = figState.status === 'ready' ? figState.figure : null;
+  const figReady = figState.status !== 'loading';
 
   // On screen (or close to it), and its displayed width
   useEffect(() => {
@@ -70,7 +75,7 @@ const AutographCanvas = ({ snap, roll, cacheKey, write = false, writeDelayMs = 0
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || !visible || !fontsOk || width <= 0) return;
+    if (!el || !visible || !fontsOk || !figReady || width <= 0) return;
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     // Bucket the width so small resizes reuse the cached render
     const pw = Math.max(60, Math.ceil((width * dpr) / 20) * 20);
@@ -82,13 +87,13 @@ const AutographCanvas = ({ snap, roll, cacheKey, write = false, writeDelayMs = 0
     const ctx = el.getContext('2d');
     if (!ctx) return;
     if (!write || reducedMotion()) {
-      const card = renderAutograph(snap, roll, pw, cacheKey);
+      const card = renderAutograph(snap, roll, pw, cacheKey, fig);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, pw, ph);
       ctx.drawImage(card, 0, 0);
       return;
     }
-    const layers = renderLayers(snap, roll, pw);
+    const layers = renderLayers(snap, roll, pw, fig);
     compose(ctx, layers, 0);
     let raf = 0;
     const t0 = performance.now() + writeDelayMs;
@@ -99,7 +104,7 @@ const AutographCanvas = ({ snap, roll, cacheKey, write = false, writeDelayMs = 0
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
-  }, [visible, fontsOk, width, snap, roll, cacheKey, write, writeDelayMs, writeMs]);
+  }, [visible, fontsOk, figReady, fig, width, snap, roll, cacheKey, write, writeDelayMs, writeMs]);
 
   return (
     <canvas

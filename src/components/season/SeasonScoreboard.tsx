@@ -2,7 +2,7 @@ import { Crown, Home, Plane, Scale, Star, Swords, Target, TrendingDown, Trending
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import type { CoachGame, CoachGameBrief, ScheduleSeason } from '@/utils/schedule';
-import TeamLogo from './TeamLogo';
+import TeamLogo from '@/components/timeline/TeamLogo';
 import {
   BOARD_BG,
   BoardTile,
@@ -41,6 +41,8 @@ const ResultsRibbon = ({ season }: { season: ScheduleSeason }) => {
   const cells = [...results].filter(isResult).map((r, i) => ({ r, g: played[i] as CoachGame | undefined }));
   if (!cells.length) return null;
   const firstPlayoff = cells.findIndex((c) => c.g?.playoff);
+  // A season in progress: its weeks still to play, hollow
+  const ahead = season.coachGames.filter((g) => !g.result && g.opp);
   return (
     <div className="relative">
       <p className="mb-1 font-pixel text-[9px] uppercase tracking-widest text-muted-foreground">Results ribbon</p>
@@ -81,6 +83,15 @@ const ResultsRibbon = ({ season }: { season: ScheduleSeason }) => {
             </li>
           );
         })}
+        {ahead.map((g) => (
+          <li key={`up-${g.week}`} title={`${roundLabel(g)}: ${g.site === 'away' ? 'at' : 'versus'} ${g.opp}, to play`} className="flex min-w-0 flex-1 flex-col items-center gap-1">
+            <span className="sr-only">{`${roundLabel(g)}: ${g.site === 'away' ? 'at' : 'versus'} ${g.opp}, to play`}</span>
+            <span aria-hidden className="flex h-7 w-full rounded-[3px] border border-dashed border-[hsl(var(--gold)/0.55)] bg-black/30" />
+            <span aria-hidden className="max-w-full overflow-hidden font-pixel text-[7px] leading-none text-muted-foreground sm:text-[8px]">
+              {g.week}
+            </span>
+          </li>
+        ))}
       </ol>
     </div>
   );
@@ -88,7 +99,8 @@ const ResultsRibbon = ({ season }: { season: ScheduleSeason }) => {
 
 /* ---------------- Scoreboard ---------------- */
 
-export const SeasonScoreboard = ({ season }: { season: ScheduleSeason }) => {
+/** `status` replaces "Final" for a season in progress ("Live · Week 16 of 18"); `badge` adds a pill beside the champions one. */
+export const SeasonScoreboard = ({ season, status, badge }: { season: ScheduleSeason; status?: string; badge?: ReactNode }) => {
   const r = season.coachRecord;
   const d = season.coachDetail;
   const playoffGames = season.coachGames.filter((g) => g.playoff && g.result);
@@ -98,8 +110,8 @@ export const SeasonScoreboard = ({ season }: { season: ScheduleSeason }) => {
     { label: 'Pts for', value: r.pf },
     { label: 'Pts against', value: r.pa },
     { label: 'Diff', value: signed(r.diff) },
-    { label: 'Playoffs', value: r.playoffs || '—' },
-    { label: 'Power rank', value: `#${r.power}` },
+    ...(status ? [] : [{ label: 'Playoffs', value: r.playoffs || '—' }]),
+    ...(Number.isFinite(r.power) ? [{ label: 'Power rank', value: `#${r.power}` }] : []),
     ...(d ? [{ label: 'Win streak', value: d.longestWinStreak ?? '—' }] : []),
   ];
   return (
@@ -115,7 +127,7 @@ export const SeasonScoreboard = ({ season }: { season: ScheduleSeason }) => {
             <TeamLogo team={season.coachTeam} decorative className="h-12 w-12 flex-shrink-0 drop-shadow-lg sm:h-14 sm:w-14" />
             <div className="min-w-0">
               <p className="font-pixel text-[9px] uppercase tracking-widest text-[hsl(var(--gold))]">
-                {season.season} · Final{champions ? ' · Champions' : ''}
+                {season.season} · {status ?? 'Final'}{champions ? ' · Champions' : ''}
               </p>
               <h3 className="truncate font-display text-2xl font-bold uppercase leading-tight tracking-wide sm:text-3xl">
                 {season.coachTeam}
@@ -130,13 +142,18 @@ export const SeasonScoreboard = ({ season }: { season: ScheduleSeason }) => {
           </div>
         </div>
 
+        {badge && (
+          <p className="inline-flex items-center gap-1.5 rounded border border-[hsl(var(--gold)/0.6)] bg-[hsl(var(--gold)/0.12)] px-2 py-1 font-pixel text-[9px] uppercase tracking-widest text-[hsl(var(--gold))]">
+            {badge}
+          </p>
+        )}
         {champions && (
           <p className="inline-flex items-center gap-1.5 rounded border border-[hsl(var(--gold)/0.6)] bg-[hsl(var(--gold)/0.12)] px-2 py-1 font-pixel text-[9px] uppercase tracking-widest text-[hsl(var(--gold))]">
             <Crown className="h-3 w-3" aria-hidden /> Super Bowl champions
           </p>
         )}
 
-        <dl className="grid grid-cols-3 gap-1.5 sm:grid-cols-6">
+        <dl className={cn('grid gap-1.5', lamps.length > 4 ? 'grid-cols-3 sm:grid-cols-6' : 'grid-cols-2 sm:grid-cols-4')}>
           {lamps.map((s) => (
             <div key={s.label} className="min-w-0 rounded-md border border-[hsl(var(--line)/0.6)] bg-black/40 px-2 py-1.5">
               <dt className="truncate font-pixel text-[8px] uppercase tracking-wider text-muted-foreground sm:text-[9px]">{s.label}</dt>

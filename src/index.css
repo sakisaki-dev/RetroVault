@@ -377,6 +377,54 @@
   .upload-zone.dragging {
     @apply border-primary bg-primary/10;
   }
+
+  /*
+   * Text links: never underlined (owner: "we don't do underlines we always do a little banner strip"). Names are
+   * ClubStrip / PlayerStrip (components/brand/ClubStrip.tsx); every other text link ("Read more", "See all", a
+   * disclosure) is this small pill in its own text colour with a chevron that nudges on hover, a lift, and the gold
+   * focus ring. On a <summary> the chevron turns down while open. `link-chip--bare` drops the chevron.
+   */
+  .link-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in srgb, currentColor 32%, transparent);
+    background: color-mix(in srgb, currentColor 8%, transparent);
+    font-weight: 600;
+    line-height: 1.25;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1) var(--ease-out),
+      border-color var(--dur-1) var(--ease-out),
+      transform var(--dur-1) var(--ease-out);
+  }
+  .link-chip::after {
+    content: '\203A';
+    font-weight: 700;
+    line-height: 1;
+    transition: transform var(--dur-1) var(--ease-out);
+  }
+  .link-chip--bare::after { content: none; }
+  .link-chip:hover {
+    background: color-mix(in srgb, currentColor 16%, transparent);
+    border-color: color-mix(in srgb, currentColor 60%, transparent);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+  .link-chip:hover::after { transform: translateX(2px); }
+  .link-chip:focus-visible { outline: 2px solid hsl(var(--gold)); outline-offset: 2px; }
+  summary.link-chip { list-style: none; }
+  summary.link-chip::-webkit-details-marker { display: none; }
+  details[open] > summary.link-chip::after { transform: rotate(90deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .link-chip,
+    .link-chip::after { transition: none; }
+    .link-chip:hover { transform: none; }
+    .link-chip:hover::after { transform: none; }
+  }
 }
 
 /*

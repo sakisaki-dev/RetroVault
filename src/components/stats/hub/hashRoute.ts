@@ -4,7 +4,7 @@ import { createContext, startTransition, useCallback, useContext, useEffect, use
  * Tiny hash router for the single-page hub. The URL hash mirrors the visible page so tabs are linkable
  * and the back button works:
  *
- *   #games                       top-level tab (games, stats, hof, collection, timeline, office)
+ *   #games                       top-level tab (games, stats, season, hof, collection, timeline, office)
  *   #stats/teams                 Stats sub-tab (players, teams, graphs, h2h, deepdive)
  *   #stats/players/leaders       ...plus a section id to scroll to inside the sub-tab
  *   #stats/deepdive?p=QB:Name    Player Deep Dive with a player preselected
@@ -16,13 +16,13 @@ import { createContext, startTransition, useCallback, useContext, useEffect, use
  * Unknown hashes are ignored (the current page stays), so plain in-page anchors keep working.
  */
 
-export const STATS_SUBS = ['players', 'teams', 'graphs', 'h2h', 'deepdive'] as const;
+export const STATS_SUBS = ['players', 'teams', 'graphs', 'h2h', 'deepdive', 'clock'] as const;
 export type StatsSub = (typeof STATS_SUBS)[number];
 
 /** Internal tab ids (as used by Header / Index) → hash names. */
 const TAB_TO_HASH: Record<string, string> = { career: 'stats' };
 const HASH_TO_TAB: Record<string, string> = { stats: 'career', arcade: 'games' };
-const KNOWN_TABS = new Set(['games', 'career', 'lab', 'hof', 'collection', 'timeline', 'office']);
+const KNOWN_TABS = new Set(['games', 'career', 'season', 'lab', 'hof', 'collection', 'timeline', 'office']);
 
 /** Legacy section anchors from the old one-page Stats layout → where they live now. */
 const LEGACY_SECTIONS: Record<string, { sub: StatsSub; section?: string }> = {

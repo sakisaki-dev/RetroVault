@@ -6,12 +6,15 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '
 import PlayerDetailCard from '../PlayerDetailCard';
 import TeamLogo from '../brand/TeamLogo';
 import ProPlayerBanner from '../brand/ProPlayerBanner';
+import RosterField from './RosterField';
+import { useGameSprites } from '@/utils/gameSprites';
 import { getReadableTextOn, liftForDarkBg } from '@/utils/teamColors';
 import { useJerseyNumbers, type RetiredNumber } from '@/utils/jerseys';
 import { latestSeasonYear, matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
 import type { CoachedSummary } from '@/utils/frontOffice';
 import { isHallOfFamer } from '@/config/stats';
 import RetiredRafters from './RetiredRafters';
+import StadiumWeather from './StadiumWeather';
 import TitlesTimeline from './TitlesTimeline';
 import PositionRadar from './PositionRadar';
 import {
@@ -74,6 +77,8 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
   const teamName = t?.name ?? summary?.label ?? '';
 
   // Current roster: active players only (status is internal and never shown)
+  const sprites = useGameSprites();
+  const [rosterView, setRosterView] = useState<'field' | 'list'>('field');
   const roster = useMemo(() => (summary ? groupByPosition(summary.players.filter((p) => p.status !== 'Retired')) : []), [summary]);
   const rosterCount = roster.reduce((s, g) => s + g.players.length, 0);
 
@@ -273,6 +278,7 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
                         />
                       </section>
                     )}
+                    <StadiumWeather teamName={t?.name ?? summary.label} accent={accent} />
                     {legends.length > 0 && (
                       <section aria-labelledby="franchise-icons">
                         <h3 id="franchise-icons" className="section-title text-base mb-2">
@@ -383,7 +389,32 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
                   </section>
                 )}
 
+                {tab === 'roster' && roster.length > 0 && sprites && (
+                  // The private Retro Bowl sprites (this Mac only): the roster as a formation, the list a tap away
+                  <div className="flex justify-end">
+                    <div className="inline-flex rounded-full border border-line bg-card p-0.5" role="group" aria-label="Roster view">
+                      {(['field', 'list'] as const).map((v) => (
+                        <button
+                          key={v}
+                          type="button"
+                          aria-pressed={rosterView === v}
+                          onClick={() => setRosterView(v)}
+                          className={cn(
+                            'min-h-[32px] rounded-full px-3 text-sm font-semibold capitalize focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
+                            rosterView === v ? 'bg-gold text-night' : 'text-muted-foreground hover:text-chalk',
+                          )}
+                        >
+                          {v === 'field' ? 'Field' : 'List'}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {tab === 'roster' && roster.length > 0 && sprites && rosterView === 'field' && (
+                  <RosterField players={roster.flatMap((g) => g.players)} team={t?.name ?? summary.label} numberFor={numberFor} onOpen={setSelectedPlayer} />
+                )}
                 {tab === 'roster' &&
+                  (!sprites || rosterView === 'list') &&
                   (roster.length === 0 ? (
                     <p className="text-sm text-muted-foreground">Nobody from the league is on the {teamName} roster right now.</p>
                   ) : (

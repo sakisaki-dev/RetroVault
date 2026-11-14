@@ -116,7 +116,13 @@ button.wc-item:focus-visible {
   font-weight: 600;
   cursor: pointer;
 }
-.wc-strip__more:hover { text-decoration: underline; }
+/* no underline (owner rule): a soft pill fills in and the chevron nudges on hover */
+.wc-strip__more { border-radius: 999px; transition: background-color 120ms ease-out; }
+.wc-strip__more svg { transition: transform 120ms ease-out; }
+.wc-strip__more:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+.wc-strip__more:hover svg { transform: translateX(2px); }
+.wc-strip__more:focus-visible { outline: 3px solid #ffc83d; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .wc-strip__more, .wc-strip__more svg { transition: none; } .wc-strip__more:hover svg { transform: none; } }
 .wc-ticker {
   display: flex;
   overflow: hidden;
@@ -260,5 +266,15 @@ button.wc-item:focus-visible {
 .wc-wire-all[open] > summary { margin-bottom: 8px; }
 
 /* The owner's private Retro Bowl bust (GameSprite; this Mac only): top right of a Spotlight card */
-.wc-spot__card:has(.wc-spot__sprite) { padding-right: 52px; }
-.wc-spot__sprite { position: absolute !important; right: 10px; bottom: 6px; }
+/* The sprite gets its own column, so the text wraps before it and never runs under him (every page's padding aside) */
+.wc-spot__card:has(.wc-spot__sprite) {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 76px;
+  grid-auto-rows: min-content;
+  column-gap: 10px;
+  align-content: start;
+  min-height: 118px;
+  overflow: hidden;
+}
+.wc-spot__card:has(.wc-spot__sprite) > :not(.wc-spot__sprite) { grid-column: 1; min-width: 0; }
+.wc-spot__sprite { grid-column: 2; grid-row: 1 / span 4; align-self: end; justify-self: center; margin: -16px -26px -18px; }

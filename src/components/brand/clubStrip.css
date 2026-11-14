@@ -1,0 +1,70 @@
+/*
+ * ClubStrip (ClubStrip.tsx): a name as a small club banner strip, the site's click affordance for names (never an
+ * underline). The club's primary is the strip, its secondary the leading edge, the real logo in a dark socket, text in
+ * the readable ink for the primary. Interactive strips brighten and lift on hover and show the gold focus ring.
+ */
+.club-strip {
+  --cs-bg: hsl(var(--muted));
+  --cs-edge: hsl(var(--line));
+  --cs-fg: hsl(var(--chalk));
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-width: 0;
+  height: 26px;
+  padding: 0 9px 0 3px;
+  border-radius: 6px;
+  vertical-align: middle;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--cs-fg);
+  background:
+    linear-gradient(180deg, hsl(0 0% 100% / 0.14), transparent 55%),
+    linear-gradient(90deg, var(--cs-bg) 60%, color-mix(in srgb, var(--cs-bg) 70%, #000));
+  box-shadow: inset 3px 0 0 var(--cs-edge), inset 0 0 0 1px hsl(0 0% 0% / 0.25), 0 1px 2px hsl(228 60% 2% / 0.45);
+  transition: transform var(--dur-1, 120ms) var(--ease-out), filter var(--dur-1, 120ms) var(--ease-out);
+}
+.club-strip--sm { height: 22px; font-size: 0.8125rem; gap: 5px; padding-right: 7px; }
+.club-strip__logo {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-left: 3px;
+  border-radius: 4px;
+  background: hsl(228 55% 5% / 0.55);
+}
+.club-strip--sm .club-strip__logo { width: 17px; height: 17px; }
+.club-strip__logo img,
+.club-strip__logo > span { width: 15px; height: 15px; }
+.club-strip--sm .club-strip__logo img,
+.club-strip--sm .club-strip__logo > span { width: 13px; height: 13px; }
+.club-strip__text { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.club-strip__tag {
+  flex-shrink: 0;
+  padding: 2px 3px;
+  border-radius: 3px;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cs-fg);
+  background: hsl(0 0% 0% / 0.3);
+}
+button.club-strip { cursor: pointer; }
+button.club-strip:hover,
+a.club-strip:hover { filter: brightness(1.14); transform: translateY(-1px); text-decoration: none; }
+button.club-strip:active { transform: scale(var(--press-scale, 0.97)); }
+.club-strip:focus-visible { outline: 2px solid hsl(var(--gold)); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .club-strip { transition: none; }
+  button.club-strip:hover { transform: none; }
+}

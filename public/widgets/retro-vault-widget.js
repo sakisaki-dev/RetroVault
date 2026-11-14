@@ -16,7 +16,9 @@
 //   spotlight  twice a day (midnight, noon), alternating Did you know / From the Vault; each pool is shuffled with the
 //              edition seed, so an item returns only after the whole pool has shown and the order changes with updates
 //   panels     even days (and the 2 days after an update): MARKET + THE WIRE; odd days: HOF WATCH + RECORD CHASE,
-//              every other odd day MILESTONES in place of RECORD CHASE
+//              every other odd day a countdown panel in place of RECORD CHASE, turning through MILESTONES, FINAL
+//              SEASON (live save: players at the last age the game lets them play) and ROOM TO GROW (live save: young
+//              players' star rating now and their ceiling); a panel with no data falls back to the next one
 //   refresh    every 2 hours at most (so updates arrive quickly) and always at the next midnight or noon
 // Tap: the widget's Parameter field (long-press > Edit Widget > Parameter). Empty = open the site. A Shortcut's name
 // = run that Shortcut (shortcuts://run-shortcut?name=...). A URL (http..., or anything with ://) = open it as is.
@@ -247,10 +249,15 @@ function pickPanels(data) {
   const has = {
     market: true, wire: arr(data.headlines).length > 0, hof: arr(data.hofWatch).length > 0,
     chase: arr(data.chases).length > 0, miles: arr(data.milestones).length > 0,
+    clock: arr(data.retirements).length > 0, rise: arr(data.ceilings).length > 0,
   };
-  let plan = isBreaking(data) || TODAY % 2 === 0 ? ['market', 'wire'] : ['hof', mod(TODAY, 4) === 1 ? 'chase' : 'miles'];
-  const backup = { market: 'market', wire: 'market', hof: 'market', chase: 'miles', miles: 'chase' };
-  plan = plan.map((p) => (has[p] ? p : has[backup[p]] ? backup[p] : p === 'wire' || p === 'chase' || p === 'miles' ? 'wire' : 'market'));
+  // The countdown slot turns through milestones, final seasons and star ceilings (the first one with data)
+  const turn = ['miles', 'clock', 'rise'];
+  const t0 = mod(Math.floor(TODAY / 4), turn.length);
+  const count = turn.map((_, i) => turn[(t0 + i) % turn.length]).find((k) => has[k]) || 'miles';
+  let plan = isBreaking(data) || TODAY % 2 === 0 ? ['market', 'wire'] : ['hof', mod(TODAY, 4) === 1 ? 'chase' : count];
+  const backup = { market: 'market', wire: 'market', hof: 'market', chase: 'miles', miles: 'chase', clock: 'chase', rise: 'chase' };
+  plan = plan.map((p) => (has[p] ? p : has[backup[p]] ? backup[p] : ['wire', 'chase', 'miles', 'clock', 'rise'].includes(p) ? 'wire' : 'market'));
   if (plan[1] === plan[0]) plan[1] = has.wire && plan[0] !== 'wire' ? 'wire' : 'market';
   if (plan[1] === plan[0]) plan = ['market', 'wire'];
   return plan;
@@ -280,6 +287,8 @@ const ICONS = {
   ticker: ['...gggg', '.....gg', '....g.g', 'g..g...', '.gg....', '.......', 'ddddddd'],
   radio: ['.g...g.', 'g..g..g', '.g.g.g.', '...g...', '..d.d..', '..d.d..', '.d...d.'],
   stopwatch: ['..ggg..', '...g...', '.ddddd.', 'd..g..d', 'd..gg.d', 'd.....d', '.ddddd.'],
+  hourglass: ['ggggggg', '.d...d.', '..ddd..', '...g...', '..d.d..', '.dgggd.', 'ggggggg'],
+  climb: ['...g...', '..ggg..', '.g.g.g.', '...g...', '...d...', '.d.d.d.', 'ddddddd'],
   pillar: ['...g...', '.ggggg.', 'ggggggg', '.d.d.d.', '.d.d.d.', '.d.d.d.', 'ggggggg'],
   bulb: ['..ggg..', '.g...g.', '.g.g.g.', '.g.g.g.', '..ggg..', '..ddd..', '...d...'],
   flag: ['gggggg.', 'g.g.g..', 'gg.g.g.', 'g.g.g..', 'd......', 'd......', 'd......'],
@@ -857,9 +866,46 @@ function panelMiles(p, data, size) {
   });
   p.addSpacer();
 }
+// Live-save countdowns. Stars are the game's own rating (half-stars allowed): "3.5", "5"
+const starText = (n) => (Math.round(n * 2) % 2 ? (Math.round(n * 2) / 2).toFixed(1) : String(Math.round(n)));
+const leftText = (x) => (x.seasonsLeft > 0 ? `${x.seasonsLeft + 1} seasons left` : 'final season');
+function panelClock(p, data, size) {
+  p.url = tap(SITE + '#season');
+  const all = arr(data.retirements);
+  const n = Math.min(all.length, rowsFor(size.height, 27));
+  const start = all.length ? mod(Math.floor(TODAY / 4), all.length) : 0;
+  Array.from({ length: n }, (_, i) => all[(start + i) % all.length]).forEach((x, i) => {
+    if (i) p.addSpacer(5);
+    nameText(p, x.last, x.team);
+    const sub = label(p, `${x.pos || ''} · age ${x.age || '?'} · ${leftText(x)}`, mono(9), C.muted, 1);
+    sub.minimumScaleFactor = 0.8;
+  });
+  p.addSpacer();
+}
+function panelRise(p, data, size) {
+  p.url = tap(SITE + '#season');
+  const inner = size.width - 20;
+  arr(data.ceilings).slice(0, rowsFor(size.height, 32)).forEach((x, i) => {
+    if (i) p.addSpacer(6);
+    const row = p.addStack();
+    row.centerAlignContent();
+    nameText(row, x.last, x.team);
+    row.addSpacer();
+    label(row, `${starText(x.stars || 0)}→${starText(x.ceiling || 0)}★`, mono(10), C.chalk, 1);
+    p.addSpacer(3);
+    // the bar is the star rating now as a share of the ceiling
+    const bar = p.addImage(barImage(inner, x.ceiling ? Math.round((x.stars / x.ceiling) * 100) : 0, teamInk(x.team)));
+    bar.imageSize = new Size(inner, 3.5);
+    p.addSpacer(2);
+    const sub = label(p, `${x.pos || ''} · age ${x.age || '?'} · ${starText(x.room || 0)} to grow`, body(8.5), C.muted, 1);
+    sub.minimumScaleFactor = 0.8;
+  });
+  p.addSpacer();
+}
 const PANELS = {
   market: ['MARKET', 'ticker', panelMarket], wire: ['THE WIRE', 'radio', panelWire], hof: ['HOF WATCH', 'pillar', panelHof],
   chase: ['RECORD CHASE', 'stopwatch', panelChase], miles: ['MILESTONES', 'flag', panelMiles],
+  clock: ['FINAL SEASON', 'hourglass', panelClock], rise: ['ROOM TO GROW', 'climb', panelRise],
 };
 
 // ---------- layouts ----------
@@ -994,9 +1040,11 @@ async function small(data) {
 
 // ---------- lock screen ----------
 // A one-line countdown: "Van Oxley: 79 rec yds to 15,000", "Jensen: 1,488 rush yds from the record",
-// "Horsted: 372 pts to the Hall"
+// "Horsted: 372 pts to the Hall", "Final season: Atwell", "Pircher: 3.5→5★ ceiling"
 function glanceLines(data) {
   const out = [];
+  arr(data.retirements).filter((x) => x.seasonsLeft === 0).slice(0, 3).forEach((x) => out.push(`Final season: ${x.last}`));
+  arr(data.ceilings).slice(0, 3).forEach((x) => out.push(`${x.last}: ${starText(x.stars || 0)}→${starText(x.ceiling || 0)}★ ceiling`));
   arr(data.milestones).forEach((x) => out.push(`${x.last}: ${fmt(x.toGo)} ${x.unit} to ${fmt(x.target)}`));
   arr(data.chases).forEach((x) => out.push(`${x.last}: ${fmt(x.toGo)} ${x.unit} from the record`));
   arr(data.hofWatch).forEach((x) => out.push(x.toGo > 0 ? `${x.last}: ${fmt(x.toGo)} pts to the Hall` : `${x.last}: Hall of Fame bound`));

@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { BarChart3, CalendarRange, Crown, Gamepad2, Gauge, Layers, Briefcase, MoreHorizontal, Users } from 'lucide-react';
+import { BarChart3, CalendarRange, Radio, Crown, Gamepad2, Gauge, Layers, Briefcase, MoreHorizontal, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { setPerfSetting, suggestLite, usePerfMode, type PerfSetting } from '@/hooks/usePerfMode';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 
 /*
  * Phone navigation (below 640px; the top nav takes over from there): a fixed bottom tab bar with the four main
- * tabs and a "More" sheet for Team Lab, Timeline, Front Office and the performance-mode switch. It publishes its
+ * tabs and a "More" sheet for Season, Team Lab, Timeline, Front Office and the performance-mode switch. It publishes its
  * height as --bottom-nav-h so the page, toasts and docked sheets clear it (index.css).
  */
 const MAIN = [
@@ -16,6 +16,7 @@ const MAIN = [
   { value: 'hof', label: 'Hall of Fame', short: 'HOF', Icon: Crown },
 ] as const;
 const MORE = [
+  { value: 'season', label: 'Season', blurb: 'Live standings, leaders and the award race', Icon: Radio },
   { value: 'lab', label: 'Team Lab', blurb: 'Build a lineup and get a scouting report', Icon: Users },
   { value: 'timeline', label: 'Timeline', blurb: 'Eras, storylines and what changed', Icon: CalendarRange },
   { value: 'office', label: 'Front Office', blurb: "The coach's record, seasons and rivals", Icon: Briefcase },
@@ -119,7 +120,7 @@ const BottomNav = ({ activeTab, onTabChange }: { activeTab: string; onTabChange:
           className="rounded-t-2xl border-line bg-popover px-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-6"
         >
           <SheetTitle className="flex min-h-[44px] items-center pr-14 font-display text-xl font-extrabold uppercase italic">More</SheetTitle>
-          <SheetDescription className="sr-only">Team Lab, Timeline, Front Office and settings</SheetDescription>
+          <SheetDescription className="sr-only">Season, Team Lab, Timeline, Front Office and settings</SheetDescription>
           <ul className="mt-2 space-y-2">
             {MORE.map(({ value, label, blurb, Icon }) => (
               <li key={value}>

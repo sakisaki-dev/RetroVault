@@ -420,9 +420,20 @@ else {
         if (!(typeof x.toGo === 'number' && (x.toGo > 0 || done)) || !x.last) errors.push(`widget.json ${k} item is incomplete: ${JSON.stringify(x).slice(0, 80)}`);
       });
     }
+    // Live-save countdowns (optional): final seasons and star ceilings, each a card player with his numbers
+    for (const k of ['retirements', 'ceilings']) {
+      if (wj[k] === undefined) continue;
+      if (!Array.isArray(wj[k])) { errors.push(`widget.json ${k} is not a list`); continue; }
+      (wj[k] as { player?: string; last?: string; seasonsLeft?: number; stars?: number; ceiling?: number }[]).forEach((x) => {
+        if (!x.player || !cards[x.player]) errors.push(`widget.json ${k} names ${x.player} without a card`);
+        const ok = k === 'retirements' ? typeof x.seasonsLeft === 'number' && x.seasonsLeft >= 0
+          : typeof x.stars === 'number' && typeof x.ceiling === 'number' && x.ceiling > x.stars;
+        if (!ok || !x.last) errors.push(`widget.json ${k} item is incomplete: ${JSON.stringify(x).slice(0, 80)}`);
+      });
+    }
     // Team colours: every item that names a player carries his club, and every club is one of the 32 (the widget's
     // colour table and logo map cover exactly those)
-    const lists = ['didYouKnow', 'vault', 'movers', 'hofWatch', 'chases', 'milestones', 'headlines', 'takes'];
+    const lists = ['didYouKnow', 'vault', 'movers', 'hofWatch', 'chases', 'milestones', 'retirements', 'ceilings', 'headlines', 'takes'];
     lists.forEach((k) => (wj[k] ?? []).forEach((x: { player?: string; key?: string; team?: string }) => {
       if ((x.player || x.key) && !x.team) errors.push(`widget.json ${k} item for ${x.player || x.key} has no team (names wear team colours)`);
       if (x.team && !NFL_TEAMS.some((t) => t.name === x.team)) errors.push(`widget.json ${k} team "${x.team}" is not one of the 32 clubs`);

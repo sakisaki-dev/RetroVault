@@ -15,11 +15,15 @@ upload bundle are committed.
                                                 #   coach.season, record.set, retirements, club changes)
     python3 scripts/save_read.py --complete --check [--season 92]
                                                 # dry run: build the bundle in memory and diff it against data/y80
+                                                #   (--complete also writes the league schedule.set when the save still
+                                                #   holds that season's schedule: pulled after its Super Bowl, before
+                                                #   the new season; --tag X adds -X to the bundle id)
     options: --slot N (default: the slot with the highest settings.year), --save <path to a save .json>,
              --date YYYY-MM-DD (bundle date, default today)
 
 Save format, stat mapping and rounding: docs/GAME_MECHANICS.md "Save format". In short:
-  * a player is playing when teamid >= 0 and age <= max age (40 QB/K/P, else 35) + delay_retirement;
+  * a player is playing when teamid >= 0 and age < max age (40 QB/K/P, else 35) + delay_retirement: ages go up at
+    each season's end, so the final season is played at max age - 1 (34, or 39 for QB/K/P) and nobody plays at 35/40;
   * sta_c is the career, sta_s the season so far; a player who is not playing keeps his LAST season in sta_s, so his
     career is sta_c as it stands. For a playing player the career before this season is sta_c - sta_s;
   * yards are floats: the game shows them rounded half to even (Python round()).
@@ -188,7 +192,8 @@ class Save:
 
     def _player(self, i: int, p: dict) -> dict:
         pos = POS.get(int(p["position"]), str(int(p["position"])))
-        playing = p["teamid"] >= 0 and p["age"] <= MAX_AGE.get(pos, 35) + p.get("delay_retirement", 0)
+        # final season at max age - 1: he turns max age at the season's end and goes (nobody plays at 35, or 40 for QB/K/P)
+        playing = p["teamid"] >= 0 and p["age"] < MAX_AGE.get(pos, 35) + p.get("delay_retirement", 0)
         name = f'{p["fname"]} {p["lname"]}'.strip()
         c, s = p["sta_c"], p["sta_s"]
         # a player who isn't playing keeps his last season in sta_s: his career is sta_c as it stands
@@ -342,6 +347,72 @@ def coach_games(save: Save) -> list[dict]:
     return games
 
 
+# ---- Front Office dashboard (src/components/frontoffice/ClubOffice.tsx): club state, staff, lifetime counters ----
+SAVE_POS = {1: "QB", 2: "RB", 3: "TE", 4: "WR", 5: "OL", 6: "DL", 7: "LB", 8: "CB", 9: "S", 10: "K", 11: "P"}
+STAFF_ROLE = {102: "OC", 101: "DC"}  # coaches.pool position codes (100 = the head coach)
+# achievements.list counters kept for the site: lifetime franchise counts whose meaning the data confirms or that are
+# plain tallies (ACH_WIN1 = every win, regular season and playoffs; ACH_UNBEATEN_SEASON matches the 11 unbeaten
+# regular seasons in history.list). Left out: morale (ACH_MORALE100, owner rule), College-only tags, and the
+# threshold counters that don't read as counts (ACH_WIN5..100, ACH_CAREER_TD*, ACH_BACKTOBACK, ACH_TD_PASS50 ...).
+COUNTER_TAGS = ("ACH_WIN1", "ACH_SEASON1", "ACH_WINNING_SEASON", "ACH_UNBEATEN_SEASON", "ACH_WIN_DIVISION",
+                "ACH_WIN_AFC", "ACH_WIN_NFC", "ACH_WIN_RETROBOWL1", "ACH_TEAMS2",
+                "ACH_TRADEIN", "ACH_TRADEOUT", "ACH_DRAFT", "ACH_FREEAGENT", "ACH_FREEAGENT5", "ACH_CUT",
+                "ACH_HIRE_OF", "ACH_HIRE_DF", "ACH_HIRE_OF5", "ACH_HIRE_DF5",
+                "ACH_UPGRADE_STADIUM", "ACH_UPGRADE_TRAINING", "ACH_UPGRADE_REHAB",
+                "ACH_MAX_STADIUM", "ACH_MAX_TRAINING", "ACH_MAX_REHAB",
+                "ACH_SHUTOUT", "ACH_SCORE50", "ACH_DOINK", "ACH_FIELDGOAL50", "ACH_GAME_PASS_400", "ACH_GAME_PASS_500",
+                "ACH_GAME_COMPLETE_100", "ACH_GAME_RUSH_150", "ACH_TD_QB", "ACH_WIN_NOSTARQB")
+
+
+def _raw(save: Save) -> dict:
+    """The whole save file (the Save class keeps only what the importers need)."""
+    return json.loads(save.path.read_text())
+
+
+def front_office(save: Save) -> dict:
+    """settings extras for the Front Office: credits, next draft's picks per round, games coached, difficulty, training
+    regimes, roster size and the week each facility was upgraded this season (0 = not yet: it may decline at season end)."""
+    st = save.settings
+    return {"credits": num(st.get("coach_credit", 0)),
+            "draft_picks": [num(st.get(f"draft_picks_{r}", 0)) for r in range(3)],
+            "games_coached": num(st.get("matchcount", 0)),
+            "difficulty": num(st.get("op_difficulty", 0)),
+            "training": {"offense": num(st.get("training_reg_of", 0)), "defense": num(st.get("training_reg_df", 0))},
+            "roster_cap": num(st.get("roster_cap", 0)),
+            "facilities_upgraded": {k: num(st.get(f"facility_upgraded_{k}", 0)) for k in ("rehab", "stadium", "training")}}
+
+
+def staff(save: Save) -> list[dict]:
+    """The coach's coordinators (coaches.pool on his club): role, name, rating 1-10 (half-stars), age, contract years
+    left, trait code (0 none), level and any retirement delay. Staff max age is 65 (+ delays)."""
+    out = []
+    for c in _raw(save)["coaches"]["pool"]:
+        role = STAFF_ROLE.get(int(c.get("position", 0)))
+        if role and int(c.get("teamid", -1)) == save.my_team:
+            out.append({"role": role, "name": f'{c["fname"]} {c["lname"]}'.strip(), "rating": num(c.get("rating", 0)),
+                        "age": num(c.get("age", 0)), "contract": num(c.get("contract", 0)), "trait": num(c.get("trait", 0)),
+                        "xp_level": num(c.get("xp_level", 0)), "delay_retirement": num(c.get("delay_retirement", 0))})
+    return sorted(out, key=lambda c: c["role"], reverse=True)  # OC first
+
+
+def counters(save: Save) -> dict:
+    """Lifetime franchise counters from achievements.list (COUNTER_TAGS), as {tag: count}."""
+    got = {a["tag"]: a.get("achieved", 0) for a in _raw(save).get("achievements", {}).get("list", [])}
+    return {t: num(float(got[t])) for t in COUNTER_TAGS if t in got}
+
+
+def league_games(save: Save) -> list[dict]:
+    """Every league game of the season in the schedule: week, home and away club names, and the score once played."""
+    out = []
+    for g in sorted(save.schedule, key=lambda g: (g["week"], int(g["home_team"]))):
+        row = {"week": int(g["week"]), "home": save.teams[int(g["home_team"])]["name"],
+               "away": save.teams[int(g["away_team"])]["name"]}
+        if g["home_score"] >= 0 and g["away_score"] >= 0:
+            row.update({"hs": int(g["home_score"]), "as": int(g["away_score"])})
+        out.append(row)
+    return out
+
+
 def live_value(save: Save) -> dict:
     rv = rv_players()
     pairs, _, extra = match(save, rv)
@@ -350,6 +421,10 @@ def live_value(save: Save) -> dict:
         raw = p["raw"]
         out = {"team": p["club"]}
         out.update({k: num(raw.get(k, 0)) for k in LIVE_FIELDS})
+        # the game's own position (CB and S apart: they differ in pay, docs/SAVE_INVENTORY.md 7.2)
+        out["spos"] = SAVE_POS.get(int(raw["position"]), p["pos"])
+        if raw.get("signed_year", 0) > 0:  # the season the coach last signed, re-signed or traded for him (0 = never)
+            out["signed_year"] = num(raw["signed_year"])
         out["season"] = {k: v for k, v in (p["season"] or {}).items() if v or k == "g"}
         return out
 
@@ -357,8 +432,16 @@ def live_value(save: Save) -> dict:
     new = {f'{p["pos"]}:{p["name"]}': fields(p) for p in sorted(extra, key=lambda p: (p["pos"], p["name"]))
            if p["playing"] and p["pos"] in GROUP}
     clubs = {t["name"]: {"abbr": t["tla"], "w": num(t["wins"]), "l": num(t["losses"]), "t": num(t["ties"]),
-                         "off": num(t["offense"]), "def": num(t["defense"])}
+                         "off": num(t["offense"]), "def": num(t["defense"]),
+                         # weather at the club's stadium: the game's rainfall / snowfall figures and its roof code
+                         # (0 open air; 1 and 2 covered)
+                         "rainfall": num(t.get("rainfall", 0)), "snowfall": num(t.get("snowfall", 0)),
+                         "roof": num(t.get("roof", 0))}
              for _, t in sorted(save.teams.items())}
+    # the coach's seasons with their playoff record (history.list; regular season W-L-T, playoff wins / losses, finish)
+    history = [{"year": int(h["year"]), "team": h["name"], "abbr": h["tla"], "w": num(h["wins"]), "l": num(h["losses"]),
+                "t": num(h["ties"]), "pw": num(h.get("wins_po", 0)), "pl": num(h.get("losses_po", 0)), "finish": h.get("finish", "")}
+               for h in sorted(save.history, key=lambda h: int(h["year"]))]
     st = save.settings
     return {
         "season": save.year, "week": save.week,
@@ -367,9 +450,14 @@ def live_value(save: Save) -> dict:
                                     "training": num(st.get("facility_training", 0))},
                      "salary_cap": num(st.get("salary_cap", 0)) + num(st.get("boost_salary_cap", 0)),  # the cap in force: base + the boost the game adds
                      "salary_cap_base": num(st.get("salary_cap", 0)), "fans": num(st.get("fans", 0)),
-                     "coach_rating": num(st.get("coach_rating", 0))},
+                     "coach_rating": num(st.get("coach_rating", 0)),
+                     **front_office(save)},
+        "staff": staff(save),
+        "counters": counters(save),
         "clubs": clubs,
         "coachGames": coach_games(save),
+        "coachHistory": history,
+        "leagueGames": league_games(save),
         "players": players,
         "newPlayers": new,
     }
@@ -410,12 +498,31 @@ def roman(n: int) -> str:
     return out
 
 
+def board_name(s: str) -> str:
+    """The board's "QB S.Brandson" as Retro Vault writes it: "QB S. Brandson"."""
+    return re.sub(r"^(\S+) (\S)\.\s*", r"\1 \2. ", s)
+
+
 def record_holder(r: dict) -> str:
-    def name(s):
-        return re.sub(r"^(\S+) (\S)\.\s*", r"\1 \2. ", s)
     if r.get("playername") not in (None, "", "0"):
-        return f"{name(r['qbname'])} → {name(r['playername'])}"
-    return name(r["qbname"])
+        return f"{board_name(r['qbname'])} → {board_name(r['playername'])}"
+    return board_name(r["qbname"])
+
+
+def record_detail(save: Save, r: dict) -> dict:
+    """What the board knows beyond mark, holder and year: for a single game or a play, the week (weeks after
+    settings.last_week_regular are playoff games) and the opponent's club; for a play, the QB on the field (qbname
+    when the row also names a receiver or runner); and the exact mark when the save stores a fraction (2 decimals)."""
+    d = {}
+    if r.get("opponent") not in (None, "", "0"):
+        d["week"] = num(r["week"])
+        d["opponent"] = save.tla.get(r["opponent"], r["opponent"])
+    if r.get("playername") not in (None, "", "0") and str(r.get("qbname", "")).startswith("QB "):
+        d["qb"] = board_name(r["qbname"])
+    v = float(r["stat"])
+    if not v.is_integer():
+        d["exact"] = round(v, 2)
+    return d
 
 
 def record_mark(r: dict) -> str:
@@ -509,10 +616,124 @@ def build_complete(save: Save, date: str, season: int | None = None) -> tuple[di
             notes.append(f"record {name}: {record_mark(r)} by {record_holder(r)} is from Y{y} (after Y{season}); not set")
             continue
         val = {"mark": record_mark(r), "holder": record_holder(r), "year": f"Y{y}"}
+        detail = record_detail(save, r)
         old = recs.get(name)
         if old is None or old.get("mark") != val["mark"] or old.get("year") != val["year"]:
-            add("record.set", name, val, "Record board in the save")
+            add("record.set", name, {**val, **detail}, "Record board in the save")
+        elif any(old.get(k) != v for k, v in detail.items()):
+            # same mark: add the week, opponent, QB and exact mark, never touching the holder text (it may carry a note)
+            add("record.set", name, detail, "Record board detail in the save (week, opponent, QB, exact mark)")
+    # The league schedule: the save keeps only the season it is in, so it is the completed season's only once that
+    # season's history row exists (after the Super Bowl, before the year rolls over)
+    if season == save.year and save.season_done:
+        val, sched_notes = league_schedule(save, season)
+        notes += sched_notes
+        old = json.loads((SRC / "schedules.json").read_text()).get("seasons", {}).get(f"Y{season}") \
+            if (SRC / "schedules.json").exists() else None
+        if old is not None:
+            # facts only the screens had (the season summary's opponent ratings, playoff games the save lacks) stay
+            for k in ("coachOpponents", "opponentTotals"):
+                if old.get(k) and not val.get(k):
+                    val[k] = old[k]
+            if old.get("coachPlayoffs") and not val.get("coachPlayoffs"):
+                val["coachPlayoffs"] = old["coachPlayoffs"]
+            diffs = schedule_diff(old, val)
+            notes += [f"schedule Y{season} differs from schedules.json: {d}" for d in diffs]
+        if old != val:
+            add("schedule.set", f"Y{season}", val, "League schedule, scores and standings in the save")
+    else:
+        notes.append(f"schedule Y{season}: not in this save (schedule.list holds Y{save.year}"
+                     f"{'' if save.season_done else f', in progress at week {save.week}'}; a save pulled after the "
+                     f"Y{season} Super Bowl and before the new season carries it)")
     return m, notes
+
+
+def league_schedule(save: Save, season: int) -> tuple[dict, list[str]]:
+    """schedule.set value for the season in the save, in the shape screenshot uploads produce: every played league
+    game by week (away / home club abbreviations and scores; "weather": 1 on the games the game flagged), the final
+    standings by division from teams.list (W-L-T as the game keeps them, so apply-upload's check against the scores
+    is a real cross-check; ties in a division in team-list order, which is how the game's standings screen lists them,
+    checked against the Y88-Y92 screens), the coach's club and his playoff games from playoffs.list when it holds
+    them. The season summary's opponent ratings (coachOpponents) are screen-only."""
+    raw = json.loads(save.path.read_text())
+    notes = []
+    abbr = {uid: t["tla"] for uid, t in save.teams.items()}
+    weeks: dict[int, list] = {}
+    unplayed = 0
+    for g in save.schedule:
+        sa, sh = g.get("away_score", -1), g.get("home_score", -1)
+        if sa < 0 or sh < 0:
+            unplayed += 1
+            continue
+        game = {"away": abbr[int(g["away_team"])], "away_score": num(sa), "home": abbr[int(g["home_team"])],
+                "home_score": num(sh)}
+        if int(g.get("weather", 0) or 0):
+            game["weather"] = 1
+        weeks.setdefault(int(g["week"]), []).append(game)
+    if unplayed:
+        notes.append(f"schedule Y{season}: {unplayed} games unplayed in the save")
+    st = save.settings
+    conf = {0: st.get("name_conf1", "AFC"), 1: st.get("name_conf2", "NFC")}
+    standings: dict[str, list] = {}
+    for uid in sorted(save.teams):
+        t = save.teams[uid]
+        div = f'{conf[int(t["conference"])]} {str(st.get(f"name_div{int(t["division"]) + 1}", "")).title()}'
+        standings.setdefault(div, []).append((uid, t))
+    order = [f"{c} {d}" for c in (conf[0], conf[1]) for d in ("East", "West", "North", "South")]
+    out_st = {}
+    for div in sorted(standings, key=lambda d: order.index(d) if d in order else 99):
+        rows = sorted(standings[div], key=lambda x: (-(x[1]["wins"] + 0.5 * x[1]["ties"]), x[0]))  # stable by uid
+        out_st[div] = [{"team": t["name"], "w": num(t["wins"]), "l": num(t["losses"]), "t": num(t["ties"])} for _, t in rows]
+    me = abbr[save.my_team]
+    hist = next((h for h in save.history if int(h["year"]) == season), {})
+    playoffs = []
+    for g in (raw.get("playoffs") or {}).get("list", []) or []:
+        if not isinstance(g, dict) or not {"away_team", "home_team", "away_score", "home_score"} <= set(g):
+            continue
+        a, h = abbr.get(int(g["away_team"])), abbr.get(int(g["home_team"]))
+        if me not in (a, h) or g["away_score"] < 0 or g["home_score"] < 0:
+            continue
+        home = h == me
+        playoffs.append({"round": "PO", "week": num(g.get("week", 0)), "opp": a if home else h, "home": home,
+                         "for": num(g["home_score"] if home else g["away_score"]),
+                         "against": num(g["away_score"] if home else g["home_score"])})
+    want = num(hist.get("wins_po", 0)) + num(hist.get("losses_po", 0))
+    if len(playoffs) != want:
+        notes.append(f"schedule Y{season}: the coach played {want} playoff games (history.list) but playoffs.list gives "
+                     f"{len(playoffs)}; coachPlayoffs needs the season review screen")
+    return {"team": hist.get("name") or save.club(save.my_team), "abbr": hist.get("tla") or me,
+            "weeks": [{"week": w, "games": weeks[w]} for w in sorted(weeks)], "standings": out_st,
+            "coachOpponents": [], "coachPlayoffs": playoffs if len(playoffs) == want else []}, notes
+
+
+def schedule_diff(old: dict, new: dict) -> list[str]:
+    """Every difference between a stored schedule.set season and the save's: games (by week and pairing, the
+    "weather" flag aside), scores, standings rows and division order, the coach's club and playoff games."""
+    out = []
+    for k in ("team", "abbr"):
+        if old.get(k) != new.get(k):
+            out.append(f"{k} {old.get(k)!r} -> {new.get(k)!r}")
+    ow = {w["week"]: w["games"] for w in old.get("weeks", [])}
+    nw = {w["week"]: w["games"] for w in new.get("weeks", [])}
+    for w in sorted(set(ow) | set(nw)):
+        key = lambda g: (g["away"], g["home"])
+        og = {key(g): (g["away_score"], g["home_score"]) for g in ow.get(w, [])}
+        ng = {key(g): (g["away_score"], g["home_score"]) for g in nw.get(w, [])}
+        for k in sorted(set(og) - set(ng)):
+            out.append(f"week {w}: {k[0]} at {k[1]} {og[k][0]}-{og[k][1]} only in schedules.json")
+        for k in sorted(set(ng) - set(og)):
+            out.append(f"week {w}: {k[0]} at {k[1]} {ng[k][0]}-{ng[k][1]} only in the save")
+        for k in sorted(set(og) & set(ng)):
+            if og[k] != ng[k]:
+                out.append(f"week {w}: {k[0]} at {k[1]} {og[k][0]}-{og[k][1]} -> {ng[k][0]}-{ng[k][1]}")
+    for div in sorted(set(old.get("standings", {})) | set(new.get("standings", {}))):
+        o, n = old.get("standings", {}).get(div, []), new.get("standings", {}).get(div, [])
+        if o != n:
+            fmt = lambda rows: ", ".join(f'{r["team"]} {r["w"]}-{r["l"]}-{r["t"]}' for r in rows)
+            out.append(f"standings {div}: [{fmt(o)}] -> [{fmt(n)}]")
+    if old.get("coachPlayoffs") != new.get("coachPlayoffs"):
+        out.append(f"coachPlayoffs {json.dumps(old.get('coachPlayoffs'))} -> {json.dumps(new.get('coachPlayoffs'))}")
+    return out
 
 
 def dry_run(save: Save, m: dict, notes: list[str]):
@@ -547,6 +768,8 @@ def main():
         print(f"wrote {d.relative_to(ROOT)}/manifest.json; next: npm run update -- {d.relative_to(ROOT)}")
     elif "--complete" in args:
         m, notes = build_complete(save, date, int(opt("--season")) if opt("--season") else None)
+        if opt("--tag"):  # a second bundle for the same season (e.g. -records): its own id, applied once like any
+            m["id"] += f"-{opt('--tag')}"
         if "--check" in args:
             dry_run(save, m, notes)
         else:

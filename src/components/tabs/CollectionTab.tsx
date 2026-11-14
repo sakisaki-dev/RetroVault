@@ -537,7 +537,7 @@ const CollectionTab = () => {
                 <Coins className="h-3.5 w-3.5 text-gold" aria-hidden="true" />
                 <span className="font-mono text-foreground">{state.coins.toLocaleString()}</span> coins
               </button>
-              <button type="button" onClick={() => setDesigns(true)} className="inline-flex items-center gap-1 font-semibold text-gold hover:underline">
+              <button type="button" onClick={() => setDesigns(true)} className="link-chip text-gold">
                 <LayoutGrid className="h-3.5 w-3.5" aria-hidden="true" /> Card designs
               </button>
             </div>

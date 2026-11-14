@@ -1,0 +1,227 @@
+/*
+ * The Season page's own pieces (src/components/tabs/SeasonTab.tsx). The backbone (scoreboard, splits, game log, by the
+ * numbers, league table, notable games, records) keeps the Tailwind look it had on the Timeline; this file only styles
+ * the live season's additions in that idiom: the on-air strip and perfect-season watch, the weather chip, the award race
+ * track, the leader podiums, the playoff grid and head-to-head, and the Timeline's link card. Classes are prefixed sz-.
+ * Motion is transform / opacity only and stops under prefers-reduced-motion and performance mode.
+ */
+
+.season {
+  --sz-line: hsl(var(--line) / 0.55);
+}
+
+/* ---------- Sprites and their public-build tokens ---------- */
+/* GameSprite figures are 64-unit boxes (s 64, m 128, l 192 px) with the feet on row 59: the box is centred on its
+   slot (a wider box overflows both sides evenly) and pulled down so the feet stand on the slot's floor. */
+.season .sz-fig { display: flex; justify-content: center; align-items: flex-end; flex-shrink: 0; }
+.season .sz-fig > .game-sprite { filter: drop-shadow(0 3px 2px hsl(0 0% 0% / 0.55)); }
+.season .sz-fig--s { height: 64px; }
+.season .sz-fig--m { height: 128px; }
+.season .sz-fig--l { height: 192px; }
+.season .sz-fig--s:has(> .game-sprite) { margin-bottom: -5px; }
+.season .sz-fig--m:has(> .game-sprite) { margin-bottom: -10px; }
+.season .sz-fig--l:has(> .game-sprite) { margin-bottom: -15px; }
+.season .sz-token {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 12px 12px 7px 7px;
+  background: linear-gradient(160deg, var(--a) 0 58%, var(--b) 58% 66%, var(--a) 66%);
+  box-shadow: inset 0 0 0 2px hsl(0 0% 0% / 0.35), inset 0 2px 0 hsl(0 0% 100% / 0.25), 0 3px 6px hsl(0 0% 0% / 0.5);
+}
+.season .sz-fig--s .sz-token { width: 34px; height: 40px; }
+.season .sz-fig--m .sz-token { width: 60px; height: 70px; }
+.season .sz-fig--l .sz-token { width: 84px; height: 98px; }
+.season .sz-token__pos { font-family: var(--font-pixel); font-size: 9px; color: #fff; text-shadow: 0 1px 0 #000, 0 0 3px #000; }
+.season .sz-fig--m .sz-token__pos { font-size: 13px; }
+.season .sz-fig--l .sz-token__pos { font-size: 17px; }
+.season .sz-token__crown { position: absolute; top: -15px; width: 18px; height: 18px; color: hsl(var(--gold)); filter: drop-shadow(0 0 4px hsl(var(--gold) / 0.7)); }
+.season .sz-token.is-crowned { box-shadow: inset 0 0 0 2px hsl(var(--gold)), 0 0 12px hsl(var(--gold) / 0.5); }
+
+/* ---------- Award race ---------- */
+.season .sz-track {
+  position: relative;
+  padding: 4px 0 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), hsl(0 0% 100% / 0.08) calc(10% - 1px) 10%),
+    linear-gradient(180deg, hsl(147 50% 16%), hsl(147 55% 10%));
+  box-shadow: inset 0 0 0 1px hsl(147 40% 25%), inset 0 10px 30px hsl(0 0% 0% / 0.35);
+}
+.season .sz-track__finish {
+  position: absolute;
+  top: 0;
+  bottom: 16px;
+  right: 30px;
+  width: 8px;
+  background: repeating-conic-gradient(#fff 0 25%, #111 0 50%) 0 0 / 8px 8px;
+  opacity: 0.7;
+}
+.season .sz-lane { position: relative; display: flex; align-items: stretch; height: 66px; border-bottom: 1px solid hsl(0 0% 100% / 0.12); }
+.season .sz-lane__n { flex-shrink: 0; width: 22px; align-self: center; text-align: center; font-family: var(--font-pixel); font-size: 10px; color: hsl(0 0% 100% / 0.55); }
+.season .sz-lane__run { position: relative; flex: 1; margin-right: 30px; }
+.season .sz-lane__trail {
+  position: absolute;
+  left: 0;
+  bottom: 9px;
+  height: 4px;
+  width: calc(var(--x) * (100% - 64px) + 32px);
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--club) 80%, #fff 10%));
+  opacity: 0.8;
+  transform-origin: left;
+  animation: sz-grow 700ms var(--ease-out) backwards;
+}
+@keyframes sz-grow { from { transform: scaleX(0); } }
+.season .sz-lane__who { position: absolute; left: calc(var(--x) * (100% - 64px)); bottom: 6px; width: 64px; display: flex; justify-content: center; }
+.season .sz-lane__gap {
+  position: absolute;
+  left: 52px;
+  top: 2px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  white-space: nowrap;
+  color: hsl(var(--chalk));
+  background: hsl(0 0% 0% / 0.65);
+}
+.season .sz-lane.is-lead .sz-lane__gap { left: auto; right: 52px; color: hsl(var(--night)); background: hsl(var(--gold)); }
+.season .sz-track__scale {
+  position: absolute;
+  left: 22px;
+  right: 30px;
+  bottom: 3px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: hsl(0 0% 100% / 0.6);
+}
+
+.season .sz-rbar { position: relative; display: flex; height: 7px; margin: 6px 0 5px; border-radius: 3px; overflow: hidden; background: hsl(0 0% 100% / 0.06); }
+.season .sz-rbar i { display: block; height: 100%; background: var(--t); }
+.season .sz-rbar b { position: absolute; top: 0; bottom: 0; background: repeating-linear-gradient(135deg, hsl(357 80% 62%) 0 3px, hsl(357 80% 30%) 3px 6px); }
+.season .t-sky { --t: hsl(199 100% 62%); }
+.season .t-gold { --t: hsl(43 100% 60%); }
+.season .t-turf { --t: hsl(149 64% 48%); }
+.season .t-violet { --t: hsl(268 85% 72%); }
+.season .t-flag { --t: hsl(357 80% 66%); }
+.season .sz-parts { display: flex; flex-wrap: wrap; gap: 4px 6px; }
+.season .sz-parts li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  color: hsl(var(--secondary-foreground));
+  background: color-mix(in srgb, var(--t) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t) 35%, transparent);
+}
+.season .sz-parts b { color: var(--t); font-variant-numeric: tabular-nums; }
+.season .sz-parts em { font-style: normal; color: hsl(var(--muted-foreground)); }
+
+/* League leaders #2-#5: compact banner rows with the 1x sprite (64 px box), so the row is a row, not a stage */
+.season .sz-leader-row .ppb--compact:has(.ppb__figure .game-sprite) .ppb__field,
+.season .sz-leader-row .ppb--compact:has(.ppb__figure .game-sprite) .ppb__content { min-height: 3.6rem; }
+.season .sz-leader-row .ppb--compact .ppb__figure { flex-basis: 2.6rem; margin-bottom: -5px; }
+
+/* ---------- Playoff history ---------- */
+.season .sz-po__grid { display: flex; flex-direction: column; gap: 4px; }
+.season .sz-po__row { display: flex; align-items: center; gap: 8px; }
+.season .sz-po__dec { flex-shrink: 0; width: 34px; font-family: var(--font-pixel); font-size: 9px; color: hsl(var(--muted-foreground)); }
+.season .sz-po__cells { flex: 1; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 3px; max-width: 520px; }
+.season .sz-po__cell {
+  display: grid;
+  place-items: center;
+  height: 26px;
+  border-radius: 4px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: hsl(var(--muted-foreground));
+  background: hsl(0 0% 0% / 0.4);
+  box-shadow: inset 0 -3px 0 var(--club), inset 0 0 0 1px var(--sz-line);
+}
+.season .sz-po__cell.is-title { color: #2a1a02; font-size: 11px; background: linear-gradient(180deg, #ffe08a, #d39a24); }
+.season .sz-po__cell.is-super-bowl { color: hsl(var(--chalk)); background: hsl(43 60% 35%); }
+.season .sz-po__cell.is-conference { color: hsl(var(--chalk)); background: hsl(199 60% 32%); }
+.season .sz-po__cell.is-divisional { color: hsl(var(--chalk)); background: hsl(250 35% 38%); }
+.season .sz-po__cell.is-first { color: hsl(var(--chalk)); background: hsl(226 30% 24%); }
+.season .sz-po__legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 11px; color: hsl(var(--muted-foreground)); }
+.season .sz-po__legend li { display: inline-flex; align-items: center; gap: 5px; }
+.season .sz-po__swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; background: hsl(0 0% 0% / 0.45); box-shadow: inset 0 0 0 1px var(--sz-line); }
+.season .sz-po__swatch.is-title { background: linear-gradient(180deg, #ffe08a, #d39a24); }
+.season .sz-po__swatch.is-super-bowl { background: hsl(43 60% 35%); }
+.season .sz-po__swatch.is-conference { background: hsl(199 60% 32%); }
+.season .sz-po__swatch.is-divisional { background: hsl(250 35% 38%); }
+.season .sz-po__swatch.is-first { background: hsl(226 30% 24%); }
+.season .sz-po__swatch.is-club { box-shadow: inset 0 -3px 0 hsl(var(--gold)), inset 0 0 0 1px var(--sz-line); }
+
+/* The playoff history's per-club record (the round-1 design): club-colour gradient rows, a gold total */
+.season .sz-po { display: flex; flex-direction: column; gap: 12px; }
+.season .sz-po__cell:focus-visible { outline: 2px solid hsl(var(--gold)); outline-offset: 1px; }
+.season .sz-po__scroll { overflow: auto; border-radius: 10px; box-shadow: inset 0 0 0 1px hsl(var(--line) / 0.7); }
+.season .sz-t { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; font-variant-numeric: tabular-nums; }
+.season .sz-t th,
+.season .sz-t td { padding: 6px 6px; text-align: right; white-space: nowrap; }
+.season .sz-t thead th {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  border-bottom: 1px solid hsl(var(--line) / 0.7);
+}
+.season .sz-t .sz-t__club { text-align: left; width: 100%; max-width: 0; }
+.season .sz-t__row td,
+.season .sz-t__row th { border-bottom: 1px solid hsl(var(--line) / 0.3); }
+.season .sz-t__row { background: linear-gradient(90deg, color-mix(in srgb, var(--club) 12%, transparent), transparent 45%); }
+.season .sz-t__row > :first-child { box-shadow: inset 3px 0 0 var(--club); }
+.season .sz-gold { color: hsl(var(--gold)); font-weight: 700; }
+.season .sz-t__total th,
+.season .sz-t__total td { font-weight: 800; border-top: 1px solid hsl(var(--gold) / 0.5); color: hsl(var(--gold)); }
+
+/* ---------- Motion off ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .season .sz-lane__trail { animation: none; }
+}
+:root[data-perf='lite'] .season .sz-lane__trail { animation: none; }
+
+/* ---------- Timeline link card (TimelineTab) ---------- */
+.season-link {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  text-align: left;
+  color: hsl(var(--chalk));
+  border: 1px solid hsl(var(--gold) / 0.35);
+  background:
+    radial-gradient(70% 140% at 100% 0%, color-mix(in srgb, var(--club, hsl(var(--gold))) 40%, transparent), transparent 65%),
+    hsl(228 55% 5%);
+  transition: transform var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+}
+.season-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(hsl(0 0% 100% / 0.06) 0.8px, transparent 1.2px);
+  background-size: 4px 4px;
+}
+@media (hover: hover) {
+  .season-link:hover { transform: translateY(-2px); border-color: hsl(var(--gold) / 0.7); }
+}
+.season-link:focus-visible { outline: 2px solid hsl(var(--gold)); outline-offset: 3px; }
+.season-link__logo { flex-shrink: 0; width: 48px; height: 48px; filter: drop-shadow(0 3px 8px #000a); }
+.season-link__k { font-family: var(--font-pixel); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: hsl(var(--gold)); }
+.season-link__t { font-family: var(--font-display); font-size: 20px; font-weight: 800; text-transform: uppercase; line-height: 1.05; }
+.season-link__d { font-size: 13px; color: hsl(var(--muted-foreground)); }
+.season-link__go { flex-shrink: 0; margin-left: auto; color: hsl(var(--gold)); }

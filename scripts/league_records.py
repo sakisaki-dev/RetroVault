@@ -140,6 +140,9 @@ def main() -> None:
         row = {"record": r["record"], "short": short_label(r["record"]),
                "club": {"mark": r["mark"], "value": club_mark, "holder": r["holder"], "year": r["year"],
                         **({"name": club_name(r["holder"])} if club_name(r["holder"]) else {}),
+                        # the save's board detail (record.set from save_read.py): a game's week and opponent, the QB on
+                        # a play, the exact mark
+                        **{k: r[k] for k in ("week", "opponent", "qb", "exact") if r.get(k) is not None},
                         **({"team": coach[cy]} if cy in coach else {})},
                "scope": rule[0] if rule else ("game" if "game" in r["record"].lower() else "other"), "league": None}
         if rule:

@@ -38,12 +38,16 @@ Lanes and ops (deterministic; nothing is inferred here):
          coach.season   target "80"                  value {team, abbr, w, l, t, finish}
          coach.set      target "<field>"             value: coach.json field (record, bests, age…; currentStint
                                                     {team, abbr, from} = a club switch before the new club plays)
-         record.set     target "<record name>"       value {mark, holder, year}
+         record.set     target "<record name>"       value {mark, holder, year} plus, from a save, {week, opponent,
+                                                    qb, exact}: a game or play's week and opposing club, the QB on a
+                                                    play, the exact mark (2 decimals); a partial value merges
          baseline       target "<data file>"         value {sha256}: marks the file state a history starts from
-         save.state     target "Y93w16"              value {season, week, club, settings, clubs, coachGames, players,
-                                                    newPlayers}: the LIVE state read from the game's save (ages,
-                                                    ratings and ceilings, contracts, injuries, the season so far, club
-                                                    records, the coach's game log), written whole to
+         save.state     target "Y93w16"              value {season, week, club, settings, staff, counters, clubs,
+                                                    coachGames, coachHistory, leagueGames, players, newPlayers}: the LIVE state read
+                                                    from the game's save (ages, ratings and ceilings, contracts, salary,
+                                                    signed_year, injuries, the season so far, club records, the coach's
+                                                    game log; the Front Office's club state, coordinators and lifetime
+                                                    counters), written whole to
                                                     data/y80/save_state.json. Source "save:<file>" only; players keyed
                                                     by Retro Vault key (POS:Name); never morale, height/weight or the
                                                     game's Hall of Fame flags
@@ -118,7 +122,8 @@ TAKES_ABOUT = ("Hot Takes: the fourth AI-authored lane (owner-approved 2026-11-1
 
 SAVE_STATE_ABOUT = ("Live state of the current season read from the game's own save (scripts/save_read.py --state), written "
                     "only by a save.state upload mutation: ages, ratings and ceilings, contracts, injuries, the season so "
-                    "far per player (Retro Vault keys), club records and the coach's game log. Replaced whole by each "
+                    "far per player (Retro Vault keys), club records, the coach's game log, the club's settings, "
+                    "coordinators (staff) and lifetime counters (achievements). Replaced whole by each "
                     "save.state. Facts only; never hand-edit.")
 SAVE_FORBIDDEN = {"attitude", "morale", "height", "weight", "hof", "hof_candidate"}  # owner: no morale, bio is age only,
 # never the game's Hall of Fame

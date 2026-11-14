@@ -68,6 +68,12 @@ export const careerLine = (p: Player): { label: string; value: number }[] => {
   }
 };
 
+/** Three numbers for the player banner's centre-pedestal panel: his position's two headline totals and his rings. */
+export const bannerStats = (p: Player): { label: string; value: number }[] => [
+  ...careerLine(p).filter((s) => s.label !== 'INT' || p.position !== 'QB').slice(0, 2),
+  { label: p.rings === 1 ? 'Ring' : 'Rings', value: p.rings ?? 0 },
+];
+
 export const fmt = (n: number) => Math.round(n).toLocaleString('en-US');
 
 export const ordinal = (n: number) => {

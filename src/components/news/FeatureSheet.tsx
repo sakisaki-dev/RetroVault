@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/compone
 import TeamLogo from '@/components/brand/TeamLogo';
 import { ClubChips } from './ClubChips';
 import { HeroLogos, PlayerBanners, teamVars } from './clubArt';
+import ArticleArt, { type SceneInput } from './ArticleArt';
 import './feature.css';
 
 /**
@@ -43,6 +44,8 @@ export interface SheetPiece {
   players: string[];
   teams: string[];
   hero: SheetHero;
+  /** The sprite scene for the header (private sprites only; the club art otherwise) */
+  scene?: SceneInput;
   /** Cards above the body (Continued from) and below it (Read next) */
   before?: ReactNode;
   after?: ReactNode;
@@ -124,7 +127,11 @@ export const FeatureSheet = ({ piece, onClose, prev, next, players, onPlayer }: 
             <header className={cn('fs-head', p.hero.mode !== 'one' && 'fs-head--pair')}>
               <span className="fs-head__sweep" aria-hidden="true" />
               <div className="fs-head__art">
-                <HeroLogos teams={p.hero.teams} mode={p.hero.mode} />
+                {p.scene ? (
+                  <ArticleArt variant="hero" {...p.scene} league={players} className="fs-head__scene" fallback={<HeroLogos teams={p.hero.teams} mode={p.hero.mode} />} />
+                ) : (
+                  <HeroLogos teams={p.hero.teams} mode={p.hero.mode} />
+                )}
                 {lead && (
                   <p className="fs-head__fig" title={lead.source ? `Source: ${lead.source}` : undefined}>
                     <b>{lead.value}</b>

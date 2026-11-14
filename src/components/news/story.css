@@ -248,7 +248,9 @@
   font-size: 12px;
   font-weight: 600;
 }
-.ss-continued--inline:hover { text-decoration: underline; }
+.ss-continued--inline { border-radius: 999px; transition: background-color 120ms ease-out; }
+/* no underline (owner rule): the inline link fills in as a pill on hover */
+.ss-continued--inline:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
 
 /* ---------- Front page grid ----------
    Phone: lead, top stories, Did you know rail, more stories, quick hits (Hot Takes follow the grid).
@@ -556,3 +558,44 @@
 .wc-story-link__text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
 
 /* Did you know and Hot Takes: takes.css */
+
+/* Champions' team photo on the lead (TeamPhoto; the owner's private Retro Bowl sprites, this Mac only) */
+.tp { position: relative; z-index: 2; margin: 12px 0 0; pointer-events: none; }
+.tp-stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  padding: 30px 8px 0;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--tp-c1) 70%, #05070f) 0 58%, transparent 58%),
+    repeating-linear-gradient(90deg, #2f8f3a 0 12px, #2a8034 12px 24px);
+  box-shadow: 0 0 0 2px #000, inset 0 0 0 1px hsl(0 0% 100% / 0.15);
+}
+.tp-banner {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-family: var(--font-pixel, monospace);
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--tp-c2);
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  box-shadow: 0 0 0 1px #000;
+}
+.tp-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; }
+.tp-row .game-sprite { margin: -16px -38px -10px; }
+.tp-row--back { margin-bottom: -76px; filter: brightness(0.86); }
+.tp-row--front { position: relative; }
+.tp-row--front .tp-star { margin: -24px -52px -15px; z-index: 1; }
+.tp-cap { margin-top: 6px; font-size: 11px; color: hsl(var(--muted-foreground)); }
+.tp-cap b { color: hsl(var(--foreground)); }

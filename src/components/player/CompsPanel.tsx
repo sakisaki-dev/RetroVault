@@ -35,7 +35,7 @@ const CompsPanel = ({ player, players, numberFor, onSelect, onNavigate }: Props)
             openInCompFinder(player);
             onNavigate?.();
           }}
-          className="inline-flex shrink-0 items-center gap-1 rounded text-xs font-semibold text-[color:var(--tc-accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tc-accent)]"
+          className="link-chip shrink-0 text-xs text-[color:var(--tc-accent)]"
         >
           <Radar className="h-3.5 w-3.5" aria-hidden="true" />
           Open Deep Dive

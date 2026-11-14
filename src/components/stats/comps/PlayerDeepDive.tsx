@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Activity, ChartScatter, Gauge, Medal, Milestone, Users } from 'lucide-react';
+import { Activity, CalendarClock, ChartScatter, Gauge, Medal, Milestone, Users } from 'lucide-react';
 import type { LeagueData, Player, Position } from '@/types/player';
 import {
   POSITIONS,
@@ -24,6 +24,7 @@ import { buildShapeMap } from '../visual/shapeMap';
 import DdAdvanced from './DdAdvanced';
 import DdCareer, { type PosStat } from './DdCareer';
 import DdEmpty from './DdEmpty';
+import DdClock from '../../clock/DdClock';
 import DdHero from './DdHero';
 import DdRecords from './DdRecords';
 import DdSkills from './DdSkills';
@@ -57,6 +58,7 @@ const SECTIONS = [
   { id: 'dd-map', label: 'Neighbourhood', short: 'Map', icon: ChartScatter },
   { id: 'dd-advanced', label: 'Advanced profile', short: 'Advanced', icon: Activity },
   { id: 'dd-career', label: 'Career & legacy', short: 'Career', icon: Milestone },
+  { id: 'dd-clock', label: 'Age & clock', short: 'Age', icon: CalendarClock },
   { id: 'dd-records', label: 'Records & awards', short: 'Records', icon: Medal },
 ] as const;
 
@@ -417,7 +419,12 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
             <DdCareer player={player} posStats={posStats} />
           </DdSection>
 
-          <DdSection id="dd-records" index={5} title="Records & awards" icon={Medal}>
+          {/* Age & clock from the live save (src/components/clock/DdClock.tsx) */}
+          <DdSection id="dd-clock" index={5} title="Age & clock" icon={CalendarClock} kicker="His age, retirement clock, growth chance and ratings against his ceilings, from the live save. The game's own rules.">
+            <DdClock player={player} players={players} />
+          </DdSection>
+
+          <DdSection id="dd-records" index={6} title="Records & awards" icon={Medal}>
             <DdRecords player={player} book={book} ovr={ovr} onOpenPlayer={(p) => choose(keyOf(p))} />
           </DdSection>
         </div>

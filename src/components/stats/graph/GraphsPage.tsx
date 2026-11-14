@@ -8,6 +8,7 @@ import GraphBuilder from './GraphBuilder';
 import { DEFAULT_CONFIG, configToParams, paramsToConfig, useSavedPresets, type GraphConfig } from './graphConfig';
 import { clearHandoff, lastGraph, paramsKey, peekHandoff, useRecentGraphs } from './graphPrefs';
 import { useGraphDeps } from './useGraphDeps';
+import LeagueAgeCurves from '../../clock/AgeCurves';
 
 /**
  * Stats → Graphs (#stats/graphs?gx=…&gy=…): the Graph Builder full page. The URL always mirrors the chart, so
@@ -36,7 +37,7 @@ const GraphsPage = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Player
     if (linkedKey === key) {
       synced.current = key;
       // An old-style link (#stats/players?gx=…) settles on its canonical #stats/graphs form.
-      navigate({ tab: 'career', sub: 'graphs', q: configToParams(config) }, { replace: true });
+      navigate({ tab: 'career', sub: 'graphs', section: route.section, q: configToParams(config) }, { replace: true });
       return;
     }
     if (linked && synced.current === key) {
@@ -47,7 +48,7 @@ const GraphsPage = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Player
       return;
     }
     synced.current = key;
-    navigate({ tab: 'career', sub: 'graphs', q: configToParams(config) }, { replace: true });
+    navigate({ tab: 'career', sub: 'graphs', section: route.section, q: configToParams(config) }, { replace: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, linkedKey]);
 
@@ -84,6 +85,8 @@ const GraphsPage = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Player
         recent={recent}
         shareLink={shareLink}
       />
+      {/* Age curves from the live save (src/components/clock/AgeCurves.tsx), #stats/graphs/age-curves */}
+      <LeagueAgeCurves players={players} onSelect={onSelect} />
     </div>
   );
 };

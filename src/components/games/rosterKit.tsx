@@ -125,7 +125,7 @@ export const Slab = ({
         {rank ?? <small>#{numberFor(player)}</small>}
       </span>
       <Logo team={look.team} className="rk-slab-logo" />
-      {!legend && <GameSprite player={player} team={look.team?.name} kind="face" scale={1} className="rk-slab-sprite" />}
+      <GameSprite player={player} team={look.team?.name} legend={legend} kind="figure" size="m" className="rk-slab-sprite" />
       <span className="rk-slab-id">
         <span className="rk-slab-first">
           {first}
@@ -209,7 +209,7 @@ export const DeckCard = ({
           {numberFor(player)}
         </span>
         <Logo team={look.team} className="rk-deck-logo" />
-        {!isLegend(player) && <GameSprite player={player} team={look.team?.name} kind="figure" animate scale={3} nflScale={2} className="rk-deck-sprite" />}
+        <GameSprite player={player} team={look.team?.name} legend={isLegend(player)} kind="figure" size="l" className="rk-deck-sprite" />
         <span className="rk-deck-eyebrow">{eyebrow}</span>
         <h3 className="rk-deck-name">
           <span>{first}</span>

@@ -113,7 +113,7 @@ const Achievements = ({ items }: { items: Achievement[] }) => {
                     </span>
                   )}
                   <details className="text-xs text-muted-foreground">
-                    <summary className="inline-flex rounded font-semibold text-sky hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                    <summary className="link-chip text-sky">
                       How it's computed
                     </summary>
                     <p className="mt-1 leading-relaxed">{a.rule}</p>

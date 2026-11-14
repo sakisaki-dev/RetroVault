@@ -8,7 +8,7 @@ import { FrameCrest, HallHeading, MedalCoin } from './hofParts';
 import { POS_NAMES, clubFill, tierClass, tierOf } from './hofUtils';
 import { cn } from '@/lib/utils';
 import GameSprite from '../GameSprite';
-import { useGameSprites } from '@/utils/gameSprites';
+import { statureScale, useGameSprites } from '@/utils/gameSprites';
 
 /** Legends' Row: everyone with a perfect 100, else the top three by score, on lit plinths. */
 const HofLegends = ({ items, onOpen }: { items: GalleryItem[]; onOpen: (key: string) => void }) => {
@@ -57,13 +57,17 @@ const HofLegends = ({ items, onOpen }: { items: GalleryItem[]; onOpen: (key: str
                   <MedalCoin score={member.score} size={44} className="!absolute right-3 top-3" />
 
                   {sprites && (
-                    <GameSprite
-                      player={{ name: member.name, position: member.pos, team: item.player?.team, spriteSkin: item.player?.spriteSkin }}
-                      team={club}
-                      kind="face"
-                      scale={2}
-                      className="hof-sprite mt-3 block"
-                    />
+                    <span className="hof-legend__stage" aria-hidden="true" style={{ ['--hof-club' as string]: team ? `hsl(${team.primaryColor})` : 'hsl(var(--gold))' }}>
+                      <span className="hof-stage__floor" />
+                      <GameSprite
+                        player={{ name: member.name, position: member.pos, team: item.player?.team, spriteSkin: item.player?.spriteSkin }}
+                        team={club}
+                        kind="figure"
+                        size="l"
+                        className="hof-sprite"
+                        style={statureScale(sprites, member.name) !== 1 ? { transform: `scale(${4 / 3})`, transformOrigin: '50% calc(100% - 15px)' } : undefined}
+                      />
+                    </span>
                   )}
                   <span className={cn(sprites ? 'mt-0' : 'mt-[62px]', 'block')} />
                   <span className="block max-w-full truncate px-4 text-sm font-semibold uppercase tracking-[0.2em] text-white/85" style={{ textShadow: '0 1px 3px hsl(228 60% 3% / 0.9)' }}>

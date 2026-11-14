@@ -2,11 +2,11 @@ import type { ReactNode } from 'react';
 import { Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { findNFLTeam } from '@/utils/nflTeams';
-import TeamLogo from './TeamLogo';
-import { teamHsl } from './timelineModel';
+import TeamLogo from '@/components/timeline/TeamLogo';
+import { teamHsl } from '@/components/timeline/timelineModel';
 
 /**
- * Shared pieces of the Timeline's "Season games" section (SeasonGames.tsx, SeasonScoreboard.tsx,
+ * Shared pieces of the Season page's past-season views (SeasonTab.tsx, SeasonScoreboard.tsx,
  * SeasonByNumbers.tsx): club colours, result chips and the scoreboard-style tiles. Presentation only.
  */
 
@@ -156,7 +156,8 @@ export const ScoreSide = ({
   align = 'left',
 }: {
   team: string;
-  score: number;
+  /** Left out for a game not played yet */
+  score?: number;
   won: boolean | null;
   align?: 'left' | 'right';
 }) => (
@@ -178,7 +179,7 @@ export const ScoreSide = ({
         won === false ? 'text-foreground/60' : won ? lampText : 'text-foreground',
       )}
     >
-      {score}
+      {score ?? '–'}
     </span>
   </div>
 );

@@ -163,7 +163,43 @@ export interface SpriteImage {
   src: string;
   w: number;
   h: number;
+  /** Where the figure stands: the middle of his legs (x) and the last row of his feet, in sprite pixels */
+  cx?: number;
+  foot?: number;
 }
+
+const anchorCache = new Map<string, { cx: number; foot: number }>();
+/** The figure's centre line and baseline in one sheet cell: the legs and shoes (the bottom 6 solid rows), so an arm or
+ *  the ball doesn't pull it sideways (gameSprites.ts centres every sprite on it). */
+const anchorOf = (img: HTMLImageElement, sx: number, sy: number, w: number, h: number) => {
+  const key = `${img.src}|${sx},${sy}`;
+  const hit = anchorCache.get(key);
+  if (hit) return hit;
+  let out = { cx: w / 2, foot: h - 1 };
+  const c = document.createElement('canvas');
+  c.width = w;
+  c.height = h;
+  const ctx = c.getContext('2d', { willReadFrequently: true });
+  if (ctx) {
+    ctx.drawImage(img, sx, sy, w, h, 0, 0, w, h);
+    const px = ctx.getImageData(0, 0, w, h).data;
+    let foot = -1;
+    for (let y = h - 1; y >= 0 && foot < 0; y--) for (let x = 0; x < w; x++) if (px[(y * w + x) * 4 + 3] > 200) foot = y;
+    if (foot >= 0) {
+      let lo = w;
+      let hi = -1;
+      for (let y = Math.max(0, foot - 5); y <= foot; y++)
+        for (let x = 0; x < w; x++)
+          if (px[(y * w + x) * 4 + 3] > 200) {
+            lo = Math.min(lo, x);
+            hi = Math.max(hi, x);
+          }
+      if (hi >= lo) out = { cx: (lo + hi + 1) / 2, foot };
+    }
+  }
+  anchorCache.set(key, out);
+  return out;
+};
 
 /** A player's portrait (bust) in his club's shirt. */
 export const facePortrait = (s: RegularSprites, face: GameFace, team: string): SpriteImage => {
@@ -183,6 +219,7 @@ export const bodyFrames = (s: RegularSprites, face: GameFace, team: string, pose
     src: recolor(s.bodies, i * w, p.row * h, w, h, pal, `body|${pose}|${i}|${team}|${skin[0]}`),
     w,
     h,
+    ...anchorOf(s.bodies, i * w, p.row * h, w, h),
   }));
 };
 

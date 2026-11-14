@@ -43,7 +43,10 @@ numbers are compared at the precision written, so "17.2" matches 17.21):
                                                     teams.json, schedule.json (public/data/league: game logs, tables,
                                                     head-to-head, e.g. "schedule.json seasons/Y88/coachGames/[week=13]/for"
                                                     or "seasons/Y88/table/[abbr=PHI]/pf"), schedules.json (raw weekly
-                                                    scores); list items by index or [key=value]; # = list length
+                                                    scores), save_state.json (data/y80: the live save, e.g.
+                                                    "save_state.json players/RB:Ryland Maxwell/age" or
+                                                    "clubs/Eagles/w"); list items by index or [key=value]; # = list
+                                                    length. content.json mechanics/... holds the rule facts' numbers
   <source> minus <source>                           a gap between two figures (yards to the record; a record-board
                                                     mark such as "7,452 yds" counts by its number)
   crossed: market_history.json <snapA>..<snapB> <POS:Name> <field>
@@ -97,6 +100,7 @@ class Data:
             "content.json": CONTENT,
             "schedule.json": ROOT / "public" / "data" / "league" / "schedule.json",
             "schedules.json": SRC / "schedules.json",
+            "save_state.json": SRC / "save_state.json",
         }
         self.stories = (_read(SRC / "stories.json", {}) or {}).get("seasons", {})
         self.takes = (_read(SRC / "hot_takes.json", {}) or {}).get("seasons", {})
@@ -282,6 +286,56 @@ def numbers_in(text: str) -> list[str]:
     return out
 
 
+ART_SCENES = {"vs", "turf", "weather", "podium", "spotlight", "lineup"}
+ART_WEATHER = {"snow", "rain", "dome", "clear"}
+# The site draws a club's sky from these (src/components/news/ArticleArt.tsx skyOf): a roof is a dome, else snowfall
+# 50+ snows and rainfall 55+ rains. A hint claiming weather must agree with that club's stadium in the save.
+SNOW_AT, RAIN_AT = 50, 55
+
+
+def check_art(d: Data, a: dict) -> list[str]:
+    """The optional `art` hint on a story article or a hot take: {scene, players, teams, weather}. Every name a card
+    player, every club one of the 32, and weather true to the club's stadium in the save (save_state.json clubs)."""
+    art = a.get("art")
+    aid = a.get("id") or "?"
+    if art is None:
+        return []
+    if not isinstance(art, dict):
+        return [f"{aid}: art must be an object {{scene, players, teams, weather}}"]
+    errs = []
+    extra = set(art) - {"scene", "players", "teams", "weather"}
+    if extra:
+        errs.append(f"{aid}: art has unknown keys {sorted(extra)}")
+    if "scene" in art and art["scene"] not in ART_SCENES:
+        errs.append(f"{aid}: art scene {art['scene']!r} is not one of {', '.join(sorted(ART_SCENES))}")
+    for p in art.get("players", []) or []:
+        if p not in d.names:
+            errs.append(f"{aid}: art player {p!r} is not a card player in players.json")
+    for t in art.get("teams", []) or []:
+        if t not in d.teams:
+            errs.append(f"{aid}: art team {t!r} is not one of the 32 clubs")
+    w = art.get("weather")
+    if w is not None:
+        if w not in ART_WEATHER:
+            errs.append(f"{aid}: art weather {w!r} is not one of {', '.join(sorted(ART_WEATHER))}")
+        elif w != "clear":
+            club = (art.get("teams") or a.get("teams") or [None])[0]
+            if not club:
+                names = art.get("players") or a.get("players") or []
+                club = next((p.get("team") for p in d.players.values() if names and p["n"] == names[0]), None)
+            stadium = ((_read(d.files["save_state.json"], {}) or {}).get("clubs") or {}).get(club or "", {})
+            if "rainfall" not in stadium:
+                errs.append(f"{aid}: art weather {w!r} needs a club whose stadium the save records (got {club!r})")
+            else:
+                roof = (stadium.get("roof") or 0) > 0
+                ok = {"dome": roof, "snow": not roof and (stadium.get("snowfall") or 0) >= SNOW_AT,
+                      "rain": not roof and (stadium.get("rainfall") or 0) >= RAIN_AT}[w]
+                if not ok:
+                    errs.append(f"{aid}: art weather {w!r} doesn't match the {club} stadium in the save "
+                                f"(roof {stadium.get('roof', 0)}, snowfall {stadium.get('snowfall')}, rainfall {stadium.get('rainfall')})")
+    return errs
+
+
 def check_article(d: Data, a: dict, known_ids: set[str], bounds: tuple[int, int] | None = None) -> tuple[list[str], list[str]]:
     """(errors, stale): stale = a stats value that no longer matches its source. `bounds` overrides the body length
     (hot takes: TAKE_BOUNDS)."""
@@ -319,6 +373,7 @@ def check_article(d: Data, a: dict, known_ids: set[str], bounds: tuple[int, int]
     for t in a.get("teams", []):
         if t not in d.teams:
             errs.append(f"{aid}: team {t!r} is not in teams.json")
+    errs.extend(check_art(d, a))
     for r in a.get("related", []):
         if r not in known_ids:
             errs.append(f"{aid}: related id {r!r} is not an earlier article")

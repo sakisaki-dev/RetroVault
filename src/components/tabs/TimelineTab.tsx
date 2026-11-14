@@ -11,7 +11,7 @@ import Scorebug from '@/components/timeline/Scorebug';
 import FranchiseTitlesTable from '@/components/timeline/FranchiseTitlesTable';
 import CoverageControl from '@/components/timeline/CoverageControl';
 import Storylines from '@/components/timeline/Storylines';
-import SeasonGames from '@/components/timeline/SeasonGames';
+import SeasonLink from '@/components/season/SeasonLink';
 import { TimelineNews } from '@/components/news/WhatChanged';
 import { MarkerGlyph, type MarkerKind } from '@/components/timeline/SuperBowlMarker';
 
@@ -167,7 +167,7 @@ const TimelineTab = () => {
         onSeason={setPickedSeason}
       />
 
-      <SeasonGames season={shownSeason} onSeason={setPickedSeason} />
+      <SeasonLink />
 
       {/* Timeline */}
       <section aria-labelledby="timeline-heading" className="space-y-3 rounded-xl border border-border/40 bg-card p-3 sm:p-4">

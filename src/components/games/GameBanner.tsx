@@ -2,6 +2,7 @@ import type { CSSProperties, ElementType, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { isHallOfFamer } from '@/config/stats';
 import { useJerseyNumbers } from '@/utils/jerseys';
+import GameSprite from '../GameSprite';
 import ProPlayerBanner, { type ProPlayerBannerSize } from '../brand/ProPlayerBanner';
 import { isLegend, legendLabel, type GamePlayer } from './gameUtils';
 import { bannerTeamOf } from '@/utils/playerExtras';
@@ -94,7 +95,12 @@ const GameBanner = ({
         topRight={topRight}
         nameAs={nameAs}
         interactive={interactive}
-        figure={legend ? null : undefined}
+        // Real NFL legends wear their save sprite here (the arcade only); league players get the banner's default
+        figure={
+          legend ? (
+            <GameSprite player={player} team={bannerTeamOf(player)} legend kind="figure" size={size === 'hero' ? 'l' : 'm'} />
+          ) : undefined
+        }
       />
     </div>
   );

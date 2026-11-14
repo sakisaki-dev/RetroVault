@@ -250,7 +250,7 @@ export const Spotlight = ({
                 onClick={() => onPlayer(p)}
                 aria-label={`Open ${p.name}'s card`}
               >
-                <GameSprite player={p} kind="face" scale={1} className="wc-spot__sprite" />
+                <GameSprite player={p} kind="figure" size="m" className="wc-spot__sprite" />
                 <span className="wc-spot__top">
                   <PositionBadge position={p.position} />
                   <span className="wc-spot__team">{p.team || 'Free agent'}</span>

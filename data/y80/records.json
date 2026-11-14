@@ -5,85 +5,119 @@
    "record": "Longest passing play",
    "mark": "77 yds",
    "holder": "QB S. Brandson → WR D. Haley",
-   "year": "Y46"
+   "year": "Y46",
+   "week": 3,
+   "opponent": "Browns",
+   "qb": "QB S. Brandson"
   },
   {
    "record": "Longest rushing play",
    "mark": "65 yds",
    "holder": "QB J. Macleone → RB M. Sawyer",
-   "year": "Y75"
+   "year": "Y75",
+   "week": 17,
+   "opponent": "Bears",
+   "qb": "QB J. Macleone",
+   "exact": 65.1
   },
   {
    "record": "Longest passing TD",
    "mark": "77 yds",
    "holder": "QB S. Brandson → WR D. Haley",
-   "year": "Y46"
+   "year": "Y46",
+   "week": 3,
+   "opponent": "Browns",
+   "qb": "QB S. Brandson"
   },
   {
    "record": "Longest rushing TD",
    "mark": "58 yds",
    "holder": "QB S. Brandson → RB D. Hayes",
-   "year": "Y50"
+   "year": "Y50",
+   "week": 4,
+   "opponent": "Dolphins",
+   "qb": "QB S. Brandson",
+   "exact": 57.89
   },
   {
    "record": "Longest pass (air)",
    "mark": "31 yds",
    "holder": "QB B. Crawford → WR K. Rahman",
-   "year": "Y90"
+   "year": "Y90",
+   "week": 13,
+   "opponent": "Ravens",
+   "qb": "QB B. Crawford",
+   "exact": 31.06
   },
   {
    "record": "Longest field goal",
    "mark": "54 yds",
    "holder": "K Z. Griffen",
-   "year": "Y7"
+   "year": "Y7",
+   "week": 8,
+   "opponent": "Bills"
   },
   {
    "record": "Best passing game",
    "mark": "513 yds",
    "holder": "QB R. Waller",
-   "year": "Y26"
+   "year": "Y26",
+   "week": 3,
+   "opponent": "Commanders",
+   "exact": 513.21
   },
   {
    "record": "Best passing season",
    "mark": "7,452 yds",
    "holder": "QB D. Baylon",
-   "year": "Y33"
+   "year": "Y33",
+   "exact": 7451.62
   },
   {
    "record": "Best passing career",
    "mark": "91,463 yds",
    "holder": "QB S. Brandson",
-   "year": "Y62"
+   "year": "Y62",
+   "exact": 91462.58
   },
   {
    "record": "Best receiving game",
    "mark": "288 yds",
    "holder": "WR P. Hunter",
-   "year": "Y68"
+   "year": "Y68",
+   "week": 8,
+   "opponent": "Packers",
+   "exact": 287.53
   },
   {
    "record": "Best receiving season",
    "mark": "4,247 yds",
    "holder": "WR M. Earl III (now God Johnson)",
-   "year": "Y62"
+   "year": "Y62",
+   "exact": 4247.4
   },
   {
    "record": "Best receiving career",
    "mark": "36,005 yds",
    "holder": "WR G. Johnson",
-   "year": "Y67"
+   "year": "Y67",
+   "exact": 36005.28
   },
   {
    "record": "Best rushing game",
    "mark": "237 yds",
    "holder": "RB R. Maxwell",
-   "year": "Y85"
+   "year": "Y85",
+   "week": 17,
+   "opponent": "Bills",
+   "exact": 237.14
   },
   {
    "record": "Best rushing season",
    "mark": "2,839 yds",
    "holder": "RB R. Maxwell",
-   "year": "Y92"
+   "year": "Y92",
+   "exact": 2839.47
   },
   {
    "record": "Best rushing career",
@@ -95,7 +129,9 @@
    "record": "Most TD passes, game",
    "mark": "9",
    "holder": "QB S. Brandson",
-   "year": "Y55"
+   "year": "Y55",
+   "week": 31,
+   "opponent": "Chiefs"
   },
   {
    "record": "Most TD passes, season",
@@ -113,7 +149,9 @@
    "record": "Most TD receptions, game",
    "mark": "6",
    "holder": "WR I. Finney",
-   "year": "Y23"
+   "year": "Y23",
+   "week": 2,
+   "opponent": "Saints"
   },
   {
    "record": "Most TD receptions, season",
@@ -131,7 +169,9 @@
    "record": "Most rushing TDs, game",
    "mark": "5",
    "holder": "RB R. Ikarras",
-   "year": "Y40"
+   "year": "Y40",
+   "week": 2,
+   "opponent": "Bills"
   },
   {
    "record": "Most rushing TDs, season",
@@ -149,7 +189,9 @@
    "record": "Most FG yards, game",
    "mark": "54 yds",
    "holder": "K Z. Griffen",
-   "year": "Y7"
+   "year": "Y7",
+   "week": 8,
+   "opponent": "Bills"
   },
   {
    "record": "Most FG yards, season",
@@ -167,7 +209,9 @@
    "record": "Most field goals, game",
    "mark": "1",
    "holder": "K B. Dalman",
-   "year": "Y2"
+   "year": "Y2",
+   "week": 7,
+   "opponent": "Bills"
   },
   {
    "record": "Most field goals, season",
@@ -185,7 +229,9 @@
    "record": "Most tackles, game",
    "mark": "17",
    "holder": "LB Z. Franklin",
-   "year": "Y5"
+   "year": "Y5",
+   "week": 1,
+   "opponent": "Patriots"
   },
   {
    "record": "Most tackles, season",
@@ -203,7 +249,9 @@
    "record": "Most sacks, game",
    "mark": "2",
    "holder": "DL L. Palardy",
-   "year": "Y11"
+   "year": "Y11",
+   "week": 4,
+   "opponent": "Bills"
   },
   {
    "record": "Most sacks, season",
@@ -221,7 +269,9 @@
    "record": "Most interceptions, game",
    "mark": "2",
    "holder": "LB D. Campbell",
-   "year": "Y2"
+   "year": "Y2",
+   "week": 22,
+   "opponent": "Lions"
   },
   {
    "record": "Most interceptions, season",
@@ -239,7 +289,9 @@
    "record": "Most forced fumbles, game",
    "mark": "2",
    "holder": "LB T. Baugh",
-   "year": "Y29"
+   "year": "Y29",
+   "week": 9,
+   "opponent": "Chiefs"
   },
   {
    "record": "Most forced fumbles, season",
@@ -257,19 +309,26 @@
    "record": "Longest kick return",
    "mark": "33 yds",
    "holder": "DB B. Branch",
-   "year": "Y4"
+   "year": "Y4",
+   "week": 5,
+   "opponent": "Patriots",
+   "exact": 33.15
   },
   {
    "record": "Most return yards, game",
    "mark": "169 yds",
    "holder": "DB B. Branch",
-   "year": "Y4"
+   "year": "Y4",
+   "week": 5,
+   "opponent": "Patriots",
+   "exact": 169.05
   },
   {
    "record": "Most return yards, season",
    "mark": "1,574 yds",
    "holder": "DB B. Baker",
-   "year": "Y1"
+   "year": "Y1",
+   "exact": 1573.55
   },
   {
    "record": "Most return yards, career",

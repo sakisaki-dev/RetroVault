@@ -75,8 +75,8 @@ other row is a deterministic rule that `npm run update` / `npm run rebuild` runs
 | 9 | Skill grades, player families (map zones), similarity, Deep Dive boards | Rule (computed in the app) | Data changes | `src/config/skillGrades.ts`, `families.ts`, `advanced.ts` |
 | 10 | Widget feed: the latest story's articles, the latest hot takes' headlines, its written facts plus rule-generated "Did you know" facts, "From the Vault" history cards, movers, headlines, HOF watch, record chases, milestone countdowns, the champion, banner cards | Rule | Every rebuild | `build_widget_data.py` → `public/data/widget.json` |
 | 11 | Hall of Fame speech for each new member | **AI** (`speech`) | Rebuild prints `SPEECH NEEDED` | `speech.set` (step 5) |
-| 12 | Season Story: news articles plus written "Did you know" facts for the completed season | **AI** (`story`) | Rebuild prints `STORY NEEDED: Y<n>` | `story.set` (step 6); professional voice, no "owner", only true facts |
-| 13 | Hot Takes: columnist opinions about the completed season, every figure cited | **AI** (`takes`) | Rebuild prints `TAKES NEEDED: Y<n>` | `takes.set` (step 6b); provocative but only true facts, no "owner", no "you" |
+| 12 | Season Story: news articles plus written "Did you know" facts for the completed season | **AI** (`story`) | Rebuild prints `STORY NEEDED: Y<n>` | `story.set` (step 6); professional voice, no "owner", only true facts; optional `art` scene per article |
+| 13 | Hot Takes: columnist opinions about the completed season, every figure cited | **AI** (`takes`) | Rebuild prints `TAKES NEEDED: Y<n>` | `takes.set` (step 6b); provocative but only true facts, no "owner", no "you"; optional `art` scene per take |
 | 14 | Refresh speeches, stories or hot takes whose numbers went stale | **AI** (same lanes) | Audit warns that a cited number no longer matches | `speech.set` / `story.set` / `takes.set` |
 | 15 | Card art styles (custom sprites retired with the sprite card) | **AI** (`art`) | Only when the owner asks | Art lab, `card.design` (~~`sprite.image`~~) |
 | 16 | Checks: audit (0 errors), typecheck, sprite check, build | Rule | `npm run update` | `audit.ts`, `check_sprites.ts` |
@@ -244,7 +244,26 @@ could feel Lock's relief in New York", what a trade means for a franchise or a r
   rate), `market_history.json <snap> <POS:Name> <field>` or `<snapA>..<snapB>` for the change on a season's card
   (`s.yds`, `ovr`, `value%`, `s.yds/s.rec`), `super_bowls.json Y82 <field>`, `coach.json Y82 record` /
   `coach.json superBowlRecord/0/titles`, `records.json <record> mark`, `content.json rivalries/[id=rival-eagles]/record/won`,
-  `<a> minus <b>` for a gap, `crossed: market_history.json <A>..<B> <POS:Name> <field>` for a round milestone passed.
+  `<a> minus <b>` for a gap, `crossed: market_history.json <A>..<B> <POS:Name> <field>` for a round milestone passed,
+  `save_state.json <path>` for the live save (`players/RB:Ryland Maxwell/age`, `clubs/Eagles/w`; current season only)
+  and `content.json mechanics/<path>` for the game-mechanics numbers.
+- **Game mechanics** (stories and hot takes alike): writers may explain with the rule facts in content.json
+  (`ruleFacts`, numbers in `mechanics`: defensive credit, the injury model, draft quality, the upset index, final
+  seasons, star ceilings; see "Game-mechanics rule facts" below) and `docs/GAME_MECHANICS.md`, citing every figure
+  from `mechanics/...` or `save_state.json`. A rule explains, it never invents: no named injury, no claim the data
+  contradicts (defensive linemen do have interceptions here).
+
+**Art** (owner: "use the sprites in the news articles when we talk about them, feel free to create graphics with VS
+or the turf weather snow etc, full creative liberty with the new sprites"): every article is drawn as a sprite scene
+(`src/components/news/ArticleArt.tsx`; the private build only, the public build keeps its club art). A rule picks it
+from the kind, players and teams; an article may set an optional `art` hint, `{"scene": "vs" | "turf" | "weather" |
+"podium" | "lineup" | "spotlight", "players": [names], "teams": [clubs], "weather": "snow" | "rain" | "dome" |
+"clear"}`. Pick **vs** for two clubs or two players squared up (the lead's final, a rivalry, a trade), **turf** for one
+player's story (rise, milestone, feature; a chase stiff-arms, a fall is drawn in grey), **weather** when the club's
+stadium is the point (a snow game in Buffalo), **podium** for a top three, **lineup** for where-are-they-now or quick
+hits. Leave it out when the rule's choice is right. Every name must be a card player, every club one of the 32, and
+weather must match the club's stadium in the save (snowfall 50+, rainfall 55+, a roof is a dome); story_check refuses
+anything else.
 
 apply-upload runs `scripts/story_check.py` on the mutation (lengths, em dashes, tags exist, every stats value matches
 its source, every number in the text is cited, no "owner" or second person, only nicknames in quotes) and refuses the
@@ -284,6 +303,9 @@ stretched (ages aren't in the data; the record board counts the coach's club onl
 `players.json QB:Ty Lock yds/g`, sums `td+rtd/g`, percentages `cmp/att%`, season rates
 `market_history.json <snapA>..<snapB> <POS:Name> s.ryds/s.g`; a record-board mark counts by its number in a gap
 (`records.json Best passing season mark minus …`).
+
+**Art**: a take is drawn as the player under a spotlight tinted by its heat; the optional `art` hint (step 6) may pick
+another scene (a vs for a two-man argument), under the same checks.
 
 apply-upload refuses the bundle on any failure. The audit holds `hot_takes.json` to its last applied `takes.set` (a
 difference is an error), re-checks every figure (a stale one is a warning), and checks the site's copy:
@@ -361,23 +383,46 @@ source names that file).
   `Y<season>w<week>`, source `save:<file>`), then `npm run update -- <bundle>`. apply-upload writes the value whole to
   `data/y80/save_state.json` (each save.state replaces the last): per player keyed by Retro Vault key (`POS:Name`,
   playing players only) the club, age, the four ratings and their ceilings (`max_*`), `injury_week`, `contract`
-  (1 to 3, likely years left; not checked against a screen), `salary`, `delay_retirement`, `xp_level` and the season so far in Retro Vault keys; `newPlayers` (playing
+  (1 to 3, likely years left; not checked against a screen), `salary`, `delay_retirement`, `xp_level`, `spos` (the game's own position: CB and S apart, they differ in pay), `signed_year` (only when set: the season the coach last signed, re-signed or traded for him; a re-signing resets it) and the season so far in Retro Vault keys; `newPlayers` (playing
   in the save, not yet in Retro Vault; kickers and punters left out, Retro Vault has none); per club W-L-T now and the
-  offense / defense ratings; settings (facilities, salary cap, fans, coach rating); the coach's game log
+  offense / defense ratings and its stadium weather (`rainfall`, `snowfall`, `roof`: 0 open air, 1 and 2 covered); the
+  coach's seasons with their playoff record (`coachHistory`: year, club, W-L-T, playoff `pw` / `pl`, finish); every league game of the season (`leagueGames`: week, home, away, `hs` / `as` once played); settings (facilities, `salary_cap` in force = base + boost and `salary_cap_base`, fans, coach rating, `credits`, `draft_picks` per round, `games_coached`, `difficulty` 1–4, `training` regimes 1–3, `roster_cap`, `facilities_upgraded`: the week each was upgraded this season, 0 = not yet); `staff` (the club's OC and DC: role, name, rating 1–10, age, contract, trait, level, retirement delay); `counters` (lifetime tallies from the save's `achievements`, `COUNTER_TAGS` in save_read.py: trades in/out, draftees, free agents, cuts, coordinators hired, wins, unbeaten seasons, titles, shutouts, 50-point games, doinks, facility upgrades…; morale and the threshold counters left out); the coach's game log
   (`coachGames`: week, opponent, home, score, result; unplayed weeks have no score). **Never in it** (owner decisions):
   attitude / morale, height and weight (bio is age only), the game's own `hof` / `hof_candidate`. apply-upload refuses
   any of those keys, a player key not in `players.json`, a club outside the 32 or a target that doesn't match the value.
   `scripts/save_state.py` (run by `npm run rebuild`) exports it to `public/data/league/save_state.json` (compact,
   minus `_about`); the audit errors when the data file differs from the last applied save.state, the site copy differs
-  from it, a player key isn't in players.json, or a banned key appears. Nothing in the site reads it yet (UI later).
+  from it, a player key isn't in players.json, or a banned key appears. `save_state.py` also builds `public/data/league/live_season.json` from `leagueGames` with `schedule_content.py`'s own `season_content` (the live 32-club table, power, SOS, form, notable games). The Season page reads both (`src/utils/seasonLive.ts`). Each club sheet (Stats → Teams, `teams/StadiumWeather.tsx`) shows its
+  stadium's weather odds by the game's rule (`src/utils/stadiumWeather.ts`: rain, then snow from week 12 and in home
+  playoff games; a roof plays dry).
+  The Front Office's **Club office** reads it too (`src/utils/clubOffice.ts` rules, `src/components/frontoffice/ClubOffice.tsx`
+  and `CapSheet.tsx`, under the coach header): the cap sheet (every key player on the coach's club: salary, contract years,
+  age and final season, stars now → ceiling, "Signed Y<n>", payroll against the cap with the room left), sortable and
+  stacked into cards under 768px; two rule tags per player, **fair salary** (the game's salary formula, stars × position
+  pay × 3 × age factor, against his salary: within max(1, 10% of the price) "Fair deal", else "Underpaid" / "Overpaid"
+  with the gap; an expiring deal shows its re-price a year older) and **trade value** (the pick the game offers when the
+  coach trades him: 1st at 8+ half-stars, 2nd at 4+, else 3rd); the coordinators with their team-strength sum
+  (0.225 / 0.25 × (key players' stars + coordinator)) and final season (staff max age 65); facilities with the season-end
+  decline risk (stadium and training 1 in 3, rehab 2 in 3, none once upgraded that season or at level 1) and the credits
+  to protect each; fans, coach rating, credits, draft picks, games coached, difficulty; the franchise counters. Formulas:
+  docs/SAVE_INVENTORY.md 7.1–7.3, 7.7, 7.8.
 - **Season-complete mode** (after a season's Super Bowl): `python3 scripts/save_read.py --complete` writes an ordinary
   bundle `data/uploads/<date>-save-y<n>/manifest.json`: `player.set` career lines (only fields that changed, Retro
   Vault keys), new players with their club from the save (never `UNK`; at least one game), `superbowl.set` for any
   season missing or different (from `history_bowls`: Y = year − start_year, number Y + 59, the loser's TLA turned into
   the club name, `your_result` from `human` 1 won / −1 lost / 0 not in it), `coach.season` from `history`, `record.set`
   from the record board when the mark or the year differs (holder "QB S. Brandson → WR D. Haley"; marks set after the
-  season wait), `fact.set players/<name>/status "Retired"` for Retro Vault actives no longer playing, and
-  `fact.set players/<name>/team` for club changes. A player whose save total is **below** Retro Vault's is held back
+  season wait), plus the board's detail `week`, `opponent` (club name), `qb` (a play's QB) and `exact` (2 decimals) on
+  game and play rows (a detail-only record.set carries just those keys and makes no headline; the Record Book's Game
+  tab shows "Set in week 17 against the Bills", weeks after 18 as playoff games; first applied by
+  `2026-11-13-save-y92-records`), `schedule.set` for the season from the save's `schedule.list` (every played game,
+  standings by division from `teams.list` W-L-T, ties in team-list order as the standings screen lists them,
+  `"weather": 1` on flagged games, the coach's playoff games when `playoffs.list` holds them; screen-only
+  `coachOpponents` / `opponentTotals` / `coachPlayoffs` already stored are kept, and every difference from a stored
+  season is printed). The save keeps only the season it is in, so the schedule is written only from a pull made after
+  that season's Super Bowl and before the new season starts; otherwise it prints why. Then `fact.set
+  players/<name>/status "Retired"` for Retro Vault actives no longer playing, and
+  `fact.set players/<name>/team` for club changes. `--tag X` adds `-X` to the bundle id. A player whose save total is **below** Retro Vault's is held back
   whole and printed for a human (apply-upload refuses drops). Review the printout, then `npm run update -- <bundle>`;
   speeches, stories and takes follow as usual. `--complete --check` is the dry run (builds the bundle in memory and
   prints it; nothing written). The season is the save's latest completed one: its own year once `history` has a row for
@@ -482,15 +527,18 @@ source names that file).
 - **Widget feed** (`scripts/build_widget_data.py` → `public/data/widget.json`, about 67 KB): the only file the
   Scriptable iPhone widget (`public/widgets/retro-vault-widget.js`) reads, from raw GitHub, then Pages, then its cache.
   Templates only, numbers straight from the data: `stories` (the latest Season Story's articles, no quick hits), `takes` (the latest season's Hot Takes: id, headline, heat, team; data only, the widget script doesn't draw them yet),
-  `didYouKnow` (the story's written facts, then rule facts up to 100: record chases, active players closing on a
+  `didYouKnow` (the story's written facts, then rule facts up to 120: record chases, active players closing on a
   `MILESTONES` step, up-and-comers with an S/A grade or OVR 85+ in 60 games or fewer, oddities such as most rings
   without an MVP, one-team legends, small-sample standouts, rate leaders per position with a minimum sample, career
-  leaders and the active leader, iron men; every rate names its stat, e.g. "scores a touchdown on 27.3% of his
+  leaders and the active leader, iron men, the game-mechanics `ruleFacts` (kind `rule`, ranked after milestones); every rate names its stat, e.g. "scores a touchdown on 27.3% of his
   catches", via `UNIT`), `vault` (every Super Bowl with the owner's wins flagged, the record board credited to the
   owner's club that year, each Hall of Famer with his speech's first line, class and Career Legacy, the generated
   storylines), `movers` (top 2 risers and top faller, base value ≥ 50), the top 4 `headlines`, `spotlightFallback`,
   `hofWatch` (top 5 active non-members under Career Legacy 7,500: points to go, share), `chases` (the closest active
   record chases: have, mark, share, amount to go), `milestones` (top 6 countdowns to a round career number),
+  `retirements` and `ceilings` (live save only, with `liveSeason`: top 6 players in their final season, `seasonsLeft`
+  0, or one from it; top 6 young players' game stars now → ceiling), drawn in the countdown slot (MILESTONES, FINAL
+  SEASON, ROOM TO GROW in turn) and on the lock screen ("Final season: Atwell", "Pircher: 3.5→5★ ceiling"),
   `champion` (the latest season's Super Bowl), `coach` (surname), `cards` (banner team, OVR, grade, Career Legacy,
   value change for every player named) and `latestUpdateAt` (last applied upload). Widget text never says "you" or
   "your": history cards name the coach ("Skura's Ravens won it", "Set on Skura's Ravens in Y46") and storylines are
@@ -536,7 +584,19 @@ source names that file).
   (gold "Club best" when the club's record still leads the league, red "Club" with its mark when the league has beaten
   it), and the Season tab shows the season records as the same chips (holder in club colours, the gap to #2, the club
   line).
-- **Weekly scores** (`scripts/schedule_content.py` → `public/data/league/schedule.json`, run by `npm run rebuild` before the content builder): from `schedules.json` (schedule.set) it builds, per season, the coach's game log (opponent records and O/D stars from the season summary, playoff rounds from the season review), a 32-club table with points for/against, differential, strength of schedule (average final win % of the clubs played) and a power score (100 × win % + 1.5 × differential per game + 40 × (SOS − 0.5), regular season only), the upset (the worst final record beating the best), blowout and shootout; across seasons the coach's head-to-head record with every club and game records (biggest margin, most combined points, most points, longest winning streak). Rivalries carry the head-to-head `games`, and a club met twice or more without a winning record becomes a rivalry; a `schedule.set` brings Wire headlines (power No. 1, upset, best defense, blowout); the widget gets `game` facts; stories may cite `schedule.json <path>` / `schedules.json <path>`. The Timeline shows the game log, power rankings, standings and records; the Games tab blends in each club's latest-season form. The audit errors when a schedule.set season is missing from schedule.json.
+- **Game-mechanics rule facts** (`mechanics()` in `build_league_content.py` → content.json `mechanics` + `ruleFacts`
+  `[{id, topic, text, player?, team}]`; the widget adds them to `didYouKnow` as kind `rule`): templates over the data
+  and the game's own rules (`docs/SAVE_INVENTORY.md` 7.4, 7.5, 7.9, 7.10). **Defensive credit**: DPOYs by position,
+  interceptions and sacks per group, the career tackle leaders without a DPOY. **Injury model**: one new injury a game,
+  three out at once, the rehab cap on weeks out, only the coach's club rolls (with the live save's games-played count
+  per club). **Draft quality**: the next class's best stars `round(8.5 − 3 × win %)` half-stars from the coach's last
+  record, how many seasons capped it at 3 stars, and the live season's course. **Upset index**: each league game's
+  favourite chance `1 − 0.5 / (round(gap / 4) + 1)` (gap = offense + defense, +1 home) for games between clubs whose
+  ratings the season summary shows (the coach's opponents, `coachOpponents`; Y88–Y89 so far), favourites' wins against
+  the expectation and the biggest upsets. **From the live save** (only while `save_state.json`'s season is still in
+  progress): the retirement clock (final season at 34, or 39 for a QB, plus delays) and the game's star rating now →
+  ceiling (`round(10 × ratings / position max)` half-stars) for players 24 or younger with a star or more of room.
+- **Weekly scores** (`scripts/schedule_content.py` → `public/data/league/schedule.json`, run by `npm run rebuild` before the content builder): from `schedules.json` (schedule.set) it builds, per season, the coach's game log (opponent records and O/D stars from the season summary, playoff rounds from the season review), a 32-club table with points for/against, differential, strength of schedule (average final win % of the clubs played) and a power score (100 × win % + 1.5 × differential per game + 40 × (SOS − 0.5), regular season only), the upset (the worst final record beating the best), blowout and shootout; across seasons the coach's head-to-head record with every club and game records (biggest margin, most combined points, most points, longest winning streak). Rivalries carry the head-to-head `games`, and a club met twice or more without a winning record becomes a rivalry; a `schedule.set` brings Wire headlines (power No. 1, upset, best defense, blowout); the widget gets `game` facts; stories may cite `schedule.json <path>` / `schedules.json <path>`. The Season page (`#season`, `src/components/tabs/SeasonTab.tsx`, `src/components/season/`) shows them: a season switcher with the current season live from `save_state.json` (`src/utils/seasonLive.ts`: broadcast header, award race by the game's season rating, league leaders, live standings, game log, injury report) and every past season from schedule.json (scoreboard, one standings table with points, differential, SOS and power, the game log, by the numbers, notable games), plus the all-time head-to-head and game records; the Timeline keeps only a link card to it (`SeasonLink.tsx`); the Games tab blends in each club's latest-season form. The audit errors when a schedule.set season is missing from schedule.json.
 - **Autographs** (`src/config/autographs.ts` rules, `src/components/collection/autograph/` canvas, `autos` in
   `src/utils/collection.ts`): the fifth and rarest art variant, `auto` ("Autograph", `src/config/cardTiers.ts`), in
   the retired Retro Bowl sprite's place with exactly its odds and stacking (owner: "aren't they just a replacement for
@@ -564,6 +624,20 @@ source names that file).
   card renders only from it; no stat line, record ribbon or stat wall on its face. Designs by the era his career
   centres on (Leather Y1–25, Broadcast Y26–50, Prizm Y51–70, Night Game Y71–82, Current Y83+; the midpoint of his
   `playerNotes` era). `AutographPreview` rolls samples without touching the collection.
+  **Fit:** every signature (any font, form, slant, flourish, inscription) is measured from its own ink at a fixed
+  scale and scaled down and nudged until it sits inside its sticker, patch label, cut or the card's art area with a
+  margin (`drawSignature` box; cached, so tile and hero match); card type (name plate, kicker, serial, seal, nickname
+  watermark) shrinks to fit (`fitText`) and is ellipsized only at its minimum size.
+  **Figure designs** (owner approved, 2026-11-13; private-sprite builds only, the public build keeps the plain art):
+  his GameSprite sprite in his snapshot club's home kit (`figure.ts`), per parallel: On-card full figure on the era
+  scene's horizon with a floor shadow, signed across him; Sticker the figure with a clear glossy label over his lower
+  legs; Inscribed the on-card design plus a gold paint-pen inscription; Patch a big head-and-shoulders portrait with a
+  framed jersey swatch at lower left, the signature running from it; Cut the figure in sepia with a framed torn-edge
+  aged-paper clipping in broad-nib navy. The foil star sits low in the shield's point (`STAR_AT`).
+  **Readability rule:** the luminance under the fitted ink is read from the rendered card; an ink below 1.7:1 against
+  it is drawn in a contrasting pen (dark or white; metallic paint pens keep their metal), and one still below 3:1
+  (or 2:1 against its darkest / lightest patch) gets a thin keyline in the opposite tone; strokes are never thinner
+  than 0.7 device px. Only the drawn colour changes: the rolled pen, ink and value never do.
 - **Kits** (per-pull uniforms; owner: "considering throwbacks and diff eras are in it would be nice to be a small but
   substantial chase"): every pulled card but the Autograph rolls its kit after the variant (`rollKit`, `KIT_ODDS` in
   `src/utils/collection.ts`): one of his card club's modern alternates (picked evenly) Standard 8%, Premium 9%, Elite
@@ -630,27 +704,52 @@ source names that file).
   the coin balance shows in the Collection header beside the shards.
 - **Private game sprites** (owner's choice, 2026-11-13: show Retro Bowl's real sprites for immersion, but only on this
   Mac; the art is New Star Games', the NFL edition's carries NFL/NFLPA marks; later: "feel free to take creative liberty
-  and use them where u see fit in the games and across the website"). They live only in `public/private-sprites/`
-  (git-ignored, never committed, never deployed). Two sources: **primary** `nfl/`, the owner's own NFL Retro Bowl
-  players from his save (`scripts/pull_save.py` pulls it into `data/saves/`, then `python3
-  scripts/private_nfl_sprites.py` matches players with `scripts/save_read.py`'s matcher and copies only the matched
-  players' 64 × 64 full-body sprites, every kit and pose, with `nfl/index.json`; pool uids repeat, and a uid shared by
-  players with different skins is ambiguous and falls back, while one shared by look-alikes (the game's generated look
-  templates) is used); **fallback** the regular
-  game's sheets (`python3 scripts/private_sprites.py`: 96 portraits, 7 on-field poses, the helmet, in placeholder key
-  colours recoloured to a club's kit from `uniforms.ts`; the face is `faceFor()`, a stable pick seeded by position:name
-  within the sheets matching his skin, or an exact `gameFace` {skin, faceX, faceY} once the save import provides one).
-  A player wears his banner club's kit, else his current club's, else the save's neutral white kit (800), else the
-  recolour, else nothing. Code: `src/utils/gameSprites.ts` (loader, `useGameSprites`, `faceFor`, `nflSpriteFor`),
-  `src/utils/gameSpriteArt.ts` (recolour, loaded only when the sheets exist), `src/components/GameSprite.tsx` (kinds
-  face / figure / body / helmet; integer scales, pixelated, lazy; pose cycling only where asked and never under reduced
-  motion). Shown in every `ProPlayerBanner` by default (its `figure`; null for real NFL legends): Deep Dive hero, player
-  card, Team pages (legends, roster), Hall of Fame tab, H2H, ceremony, news, games' banners; plus the Hall of Fame busts
-  and Legends' Row, header search rows, the Arcade Spotlight, Higher or Lower cards and the roster-game slabs and deck
-  cards (`rosterKit.tsx`). Never on Collection card faces. `vite.config.ts` defines `__PRIVATE_SPRITES__` only when the
-  folder exists on the building machine and never in GitHub Actions, so the Pages build never fetches anything and
-  looks exactly as without it; the dev server and the LAN preview (`npm run build` here) show the sprites. Never move,
-  copy, inline or base64 any of it into a tracked file.
+  and use them where u see fit in the games and across the website", then sprites v2: bigger, centred, one style). They
+  live only in `public/private-sprites/` (git-ignored, never committed, never deployed). **Source:** the owner's save
+  (`scripts/pull_save.py` → `data/saves/`), then `python3 scripts/private_nfl_sprites.py`: it matches players with
+  `scripts/save_read.py`'s matcher (a pool uid shared by different-looking players is ambiguous and skipped; one
+  shared by look-alikes, the game's generated templates, is used) and copies every kit and pose of the matched players'
+  64 × 64 sprites, the real NFL legends' (arcade games only), and the game's ~100 generated look templates as stand-ins,
+  with `nfl/index.json` (players, legends, standins, clubs, and `anchors`: each file's centre line and feet row).
+  `python3 scripts/private_sprites.py` cuts the regular game's sheets, the last fallback. **Order for a player:** the
+  kit the save drew for his banner club (his current club if he has none) → the save's neutral white kit painted into
+  that club's home kit (`src/utils/gameKitPaint.ts`: the neutral kit is one fixed body template, `#bfbfbf` cloth,
+  `#8f8f8f` shading, `#fbfffd` trim, rows 27-40 jersey, 41-51 pants, 52-55 socks; skin, shoes, gloves and ball kept)
+  → for a player the save lacks, a stand-in template (seeded by position:name, matching his skin where known), painted
+  the same way → the regular game's sprite recoloured (`gameSpriteArt.ts`) only when the save's sprites are absent →
+  nothing. Nobody shows white unless he has no club (a small "Away" tag where `showKit` is on). **One style, one size
+  system** (`src/components/GameSprite.tsx`): `figure` (the whole player, a 64-unit box) or `bust` (32 × 36, head and
+  shoulders), sizes s / m / l = 1×, 2×, 3× (64, 128, 192 px figures); every sprite is centred on its own centre line and
+  stands on a shared baseline (row 59), never on its canvas. s: search rows; m: banners, cards, game cards, list rows,
+  the formation and team photo; l: Deep Dive hero, player card stage, Hall of Fame busts and Legends' Row, hero banners,
+  the photo's star. **Poses carry meaning** (`action`; the save's poses: 1 standing, 2 ball at his side, 3 arm raised,
+  4 ball tucked, 5 spinning the ball): idle (his role's pose: QB 2, RB/WR/TE 4, everyone else 1); celebrate 3 (a
+  correct answer, a Hall of Fame induction, the champions' star); stiffarm 4 (a club record the league broke, Record
+  Book); run 4 (transitions); nothing cycles at random, reduced motion is static. **Body types** (owner: "a per
+  position randomizer with chances on how big they are … small chances that we have a tall RB"):
+  `src/config/bodyTypes.ts` rolls height (short/normal/tall) and build (lean/normal/broad) once per `POS:Name` from
+  per-position odds (OL/DL tall and broad, RB short and stocky, WR tall and lean, DB lean, ~5–8% outliers), at most
+  2 rows and 1 column a side (subtle on purpose); a sprites.json look that sets `height`/`build` (Sherman Brandson) is
+  never reshaped: he is drawn exactly as the game has him (owner: "sherm looks nothing like his avatar now … just
+  scale him a bit as before"), and his banner `statureScale` is his only size-up. `processSprite` in `gameKitPaint.ts` applies it pixel for pixel to every save
+  source (club kits, painted neutrals, stand-ins): whole rows repeated or dropped in the thigh, chest and sock bands,
+  one column a side mirrored about the centre line (head untouched, feet row and centre line fixed, so anchors hold),
+  cached per file × club × body. **Where:** every `ProPlayerBanner` by default (its `figure`; hero and card sizes stand him in the centre on a club-colour pedestal with the giant number behind, name panel left, the hero's career numbers right (`stats`, `bannerStats()`), switched on by CSS `:has(.game-sprite)` so the public build keeps the classic banner; null for real NFL legends
+  outside the games), the player card's own stage (a turf strip in its own column under the Deep Dive and close
+  buttons), the Deep Dive hero, the team page roster as a formation (`teams/RosterField.tsx`, Field / List toggle),
+  the Season Story lead's champions' team photo (`news/TeamPhoto.tsx`: that season's ring holders with the club, the
+  lead story's first-named winner front and centre; the data keeps no per-season Super Bowl MVP), Hall of Fame busts
+  and Legends' Row, Record Book chips (stiff arm where the league broke the club record), news article scenes
+  (`news/ArticleArt.tsx`, step 6), header search, the Arcade Spotlight, Higher or Lower, Imposter,
+  the roster games (`rosterKit.tsx`) and game banners (real NFL legends there too). Never on Collection card faces, with
+  one exception (owner, 2026-11-13: "perfect for the topps"): the 70s Topps variant prints the player's portrait from his
+  game sprite, head and shoulders in the card's two inks (club deep and cream) with a halftone sheen, in the kit the pull
+  rolled (`VintageArt.tsx`, `art/useToppsPortrait.ts`, `src/utils/toppsPortrait.ts`), so the card stays timeless; the
+  public build keeps the helmet silhouette.
+  `vite.config.ts` defines `__PRIVATE_SPRITES__` only when the folder exists on the building machine and never in
+  GitHub Actions (and drops any copy from a build without it), so the Pages build never fetches anything and looks
+  exactly as without it; the dev server and the LAN preview (`npm run build` here) show the sprites. Never move, copy,
+  inline or base64 any of it into a tracked file.
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
   `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. **Both files store changes
   only** (format 2, `src/utils/marketHistory.ts`): the first, the latest and every 10th snapshot are full keyframes

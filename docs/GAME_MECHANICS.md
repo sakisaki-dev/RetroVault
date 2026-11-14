@@ -40,7 +40,10 @@ and a slow sure-handed one play differently at the same OVR), his condition and 
 
 ## Retirement
 
-- A player retires once he is **older than his max age: 40 for QBs and kickers, 35 for everyone else** (staff 65).
+- A player retires when he **reaches his max age: 40 for QBs and kickers, 35 for everyone else** (staff 65). Ages go
+  up at each season's end, so his **final season is played at 34 (39 for QBs and kickers)**: he turns 35 (40) as it
+  ends and goes. Nobody plays a game at 35 or 40 (the save: 29 non-QBs on clubs at 34, none at 35; QBs and kickers
+  run to 39, none at 40). The Clock's `clockModel.ts` holds this one-year step as `LAST_SEASON_OFFSET`.
 - A player meeting can **delay retirement**: each delay adds a year to his max age and sets his contract to at least
   two years.
 - Re-signing within three years of the max age gives a one-year contract.
@@ -103,7 +106,7 @@ can be the third- or fourth-best player while the real runner-up gets nothing.
 
 - **Every DPOY is a DB** (20 of 20). DBs get the interceptions and lots of tackles; winners average about 10.5
   tackles a game, double everyone else. The top career tacklers (Settle, Stidham, Hobbs) have none.
-- **QBs last about five seasons longer**, matching the 40 against 35 retirement age: Wayne Wilson 431 games, against
+- **QBs last about five seasons longer**, matching the 40 against 35 max age (final seasons at 39 and 34): Wayne Wilson 431 games, against
   McCoy 326 (RB), Godwin 324 (WR), Suh 298 (LB), Stidham 282 (DB).
 - **Tight ends have the lowest yardage bar** (2,025 yards caps them, against 2,625 for an RB and 3,150 for a WR); none
   has won MVP only because none gets the targets.
@@ -147,7 +150,7 @@ Median bar 183. **An MVP season for an RB here:** 1,800 rushing and 400 receivin
 - **DPOY:** interceptions, sacks and forced fumbles are worth 6 tackles each; DBs win it.
 - **Build around 22 to 26:** players improve almost every year early and rarely after 30; from 31 stamina and speed
   or strength drop every year, so a star is worth most in a trade around 30.
-- **Retirement:** after 35 (QBs and kickers after 40); each "delay retirement" meeting buys a year.
+- **Retirement:** the final season is played at 34 (QBs and kickers at 39); each "delay retirement" meeting buys a year.
 - **Morale:** don't play anyone under about 40 condition (costs 15 morale); at 45 or below he won't re-sign.
 
 ## Assets, sprites and mods
@@ -190,8 +193,8 @@ coaches and leaderboard caches.
 - **Position codes in the NFL edition:** 1 QB, 2 RB, 3 TE, 4 WR, 5 OL, 6 DL, 7 LB, **8 CB, 9 S** (the safeties: Hamlin,
   Poyer, Peppers are 9), 10 K. Retro Vault's DB covers 8 and 9; it has no kickers.
 - **`uid` is not unique** (1,118 distinct over 1,434 players: generated players reuse ids). Match on name + position.
-- **Who is playing:** `teamid >= 0` and `age <= max age + delay_retirement`, max age 40 for QB/K/P and 35 for everyone
-  else. 321 players are playing (about 10 a club, 31 of them kickers). `teamid -1` (54) is the free agent / draft pool;
+- **Who is playing:** `teamid >= 0` and `age < max age + delay_retirement` (the final season is at max age − 1), max
+  age 40 for QB/K/P and 35 for everyone else. 321 players are playing (about 10 a club, 31 of them kickers). `teamid -1` (54) is the free agent / draft pool;
   `teamid -4` (408) are the imported real NFL players long gone (ages 110 to 128); a retiree **keeps the `teamid` of
   his last club** and keeps ageing.
 - **`sta_s` is not reset for players who stop playing:** a retiree's `sta_s` is still his last season (Sherman

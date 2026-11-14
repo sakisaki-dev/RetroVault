@@ -35,6 +35,27 @@
   overflow: hidden;
 }
 
+/* Topps printed portrait (private-sprite builds, VintageArt PortraitArt): a smaller panel, the whole rounded card
+   stock showing (no fade), centred between the OVR column (it ends at 28%) and the right rim (97.4%), and in the
+   height above the name band (58.5%). 58% of the card wide at the art's 100 x 116 is 47.4% of its height. */
+.fut__art:has(> .ra--vintage-pp) {
+  top: 6.5%;
+  left: 33.7%;
+  right: 8.3%;
+  height: auto;
+  aspect-ratio: 100 / 116;
+  display: block;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.ra.ra--vintage-pp {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  overflow: visible;
+  filter: drop-shadow(0 0.8cqw 1.2cqw hsl(0 0% 0% / 0.4));
+}
+
 /* Autograph variant as the full card (CollectibleCard fullAuto): the autograph is drawn in the same shield with its
    text inside the shield's safe area (render.ts), so it fills the face under the finish layers without cropping */
 .fut__art.fut__art--auto {

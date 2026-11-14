@@ -21,6 +21,7 @@ const CareerTab = lazy(() => import('@/components/tabs/CareerTab'));
 const HallOfFameTab = lazy(() => import('@/components/tabs/HallOfFameTab'));
 const GamesTab = lazy(() => import('@/components/tabs/GamesTab'));
 const TimelineTab = lazy(() => import('@/components/tabs/TimelineTab'));
+const SeasonTab = lazy(() => import('@/components/tabs/SeasonTab'));
 const FrontOfficeTab = lazy(() => import('@/components/tabs/FrontOfficeTab'));
 const CollectionTab = lazy(() => import('@/components/tabs/CollectionTab'));
 const TeamLabTab = lazy(() => import('@/components/teamlab/TeamLabTab'));
@@ -106,6 +107,7 @@ const IndexContent = () => {
                 {activeTab === 'lab' && <TeamLabTab />}
                 {activeTab === 'hof' && <HallOfFameTab />}
                 {activeTab === 'collection' && <CollectionTab />}
+                {activeTab === 'season' && <SeasonTab />}
                 {activeTab === 'timeline' && <TimelineTab />}
                 {activeTab === 'office' && <FrontOfficeTab />}
                 {activeTab === 'games' && <GamesTab />}

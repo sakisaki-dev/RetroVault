@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Building2, ChartScatter, Radar, Swords, Users } from 'lucide-react';
+import { Building2, ChartScatter, Hourglass, Radar, Swords, Users } from 'lucide-react';
 import type { Player } from '@/types/player';
 import { cn } from '@/lib/utils';
 import PlayerSearchSelect from '../../PlayerSearchSelect';
@@ -14,6 +14,7 @@ const SUB_TABS: { id: StatsSub; label: string; short: string; Icon: typeof Users
   { id: 'graphs', label: 'Graphs', short: 'Graphs', Icon: ChartScatter, blurb: 'Graph Builder: any stat against any stat' },
   { id: 'h2h', label: 'Head-to-Head', short: 'H2H', Icon: Swords, blurb: 'Any two players, every stat' },
   { id: 'deepdive', label: 'Deep Dive', short: 'Dive', Icon: Radar, blurb: 'One player, every angle: style, comps and more' },
+  { id: 'clock', label: 'The Clock', short: 'Clock', Icon: Hourglass, blurb: 'Farewell Tour, prospects and age curves from the live save' },
 ];
 
 interface Props {

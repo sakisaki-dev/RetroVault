@@ -102,6 +102,8 @@ const TB = '#d50a0a', PEWTER = '#5b5752', TB_ORANGE = '#ff7900';
 const ARI = '#97233f';
 const SF = '#aa0000', SF_GOLD = '#b3995d';
 const SEA = '#002244', SEA_GREEN = '#69be28', WOLF = '#a5acaf';
+const SEA_ROYAL = '#003087', SEA_KELLY = '#00843d'; // the 1976-2001 colours (Seahawks 1990 Throwback)
+const KELLY = '#046a38'; // Eagles Kelly Green
 const LAR = '#003594', LAR_GOLD = '#ffd100';
 
 /**
@@ -170,13 +172,15 @@ const ALTS: Record<string, Alt[]> = {
   ],
   seahawks: [
     { id: 'action', label: 'Seahawks Action Green', jersey: SEA_GREEN, trim: SEA, sleeve: 'stripes2', bands: [[SEA, 1], [WOLF, 1]], shoulder: SEA, collar: SEA, number: SEA, numberOutline: W, pants: SEA_GREEN, pantsStripes: [SEA, SEA], socks: SEA_GREEN, sockStripes: [SEA], cleats: WC },
-    { id: 'throwback', label: 'Seahawks 1990 Throwback', jersey: '#2b4b8c', trim: SEA_GREEN, sleeve: 'stripes2', bands: [[W, 1], [SEA_GREEN, 1], [W, 1]], collar: W, number: W, numberOutline: SEA_GREEN, pants: SILVER, pantsStripes: ['#2b4b8c', SEA_GREEN, '#2b4b8c'], socks: '#2b4b8c', sockStripes: [W, SEA_GREEN, W], cleats: K, helmet: { shell: SILVER, stripe: 'triple', stripes: ['#2b4b8c', W], mask: '#2b4b8c' } },
+    // Royal blue and the old kelly-type Seahawks green (not today's action green), as the game's own kit table has them
+    { id: 'throwback', label: 'Seahawks 1990 Throwback', jersey: SEA_ROYAL, trim: SEA_KELLY, sleeve: 'stripes2', bands: [[W, 1], [SEA_KELLY, 1], [W, 1]], collar: W, number: W, numberOutline: SEA_KELLY, pants: SILVER, pantsStripes: [SEA_ROYAL, SEA_KELLY, SEA_ROYAL], socks: SEA_ROYAL, sockStripes: [W, SEA_KELLY, W], cleats: K, helmet: { shell: SILVER, stripe: 'triple', stripes: [SEA_ROYAL, W], mask: SEA_ROYAL } },
   ],
   rams: [
     { id: 'throwback', label: 'Rams Royal & Gold Throwback', jersey: LAR, trim: LAR_GOLD, sleeve: 'stripes2', bands: [[LAR_GOLD, 1], [W, 1], [LAR_GOLD, 1]], collar: LAR_GOLD, number: LAR_GOLD, numberOutline: W, pants: LAR_GOLD, pantsStripes: [LAR, W, LAR], socks: LAR, sockStripes: [LAR_GOLD, W], cleats: K, helmet: { shell: LAR, stripe: 'none', stripes: [LAR_GOLD, W], mask: LAR_GOLD } },
   ],
   eagles: [
-    { id: 'kelly', label: 'Eagles Kelly Green', jersey: '#4c9a2a', trim: W, sleeve: 'stripes2', bands: [[W, 1], [null, 1], [W, 1]], collar: W, number: W, numberOutline: SILVER, pants: W, pantsStripes: ['#4c9a2a', '#4c9a2a'], socks: '#4c9a2a', sockStripes: [W, W], cleats: WC, helmet: { shell: '#4c9a2a', mask: SILVER } },
+    // Kelly green (a deep green, not lime) with silver pants, as the game's own kit table has it
+    { id: 'kelly', label: 'Eagles Kelly Green', jersey: KELLY, trim: W, sleeve: 'stripes2', bands: [[W, 1], [null, 1], [W, 1]], collar: W, number: W, numberOutline: SILVER, pants: SILVER, pantsStripes: [KELLY, KELLY], socks: KELLY, sockStripes: [W, W], cleats: WC, helmet: { shell: KELLY, mask: SILVER } },
     { id: 'black', label: 'Eagles Black Alternate', jersey: '#101214', trim: SILVER, sleeve: 'stripes2', bands: [[PHI, 1], [SILVER, 1], [W, 1]], collar: PHI, number: W, numberOutline: PHI, pants: '#101214', pantsStripes: [PHI, SILVER], socks: '#101214', sockStripes: [PHI], cleats: K, helmet: { shell: '#101214', mask: K } },
   ],
   steelers: [

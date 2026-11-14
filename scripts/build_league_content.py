@@ -967,7 +967,8 @@ def pair_headlines(prev: dict | None, cur: dict | None, bundles: list[dict]) -> 
                 teams=[b_["winner"], b_["loser"]])
 
     # Records: record.set mutations, plus marks dated in a rolled-over season
-    rec_names = {m["target"] for m in muts if m["op"] == "record.set"}
+    # (a record.set without a mark only adds the save's detail, week, opponent, QB, exact mark: no news)
+    rec_names = {m["target"] for m in muts if m["op"] == "record.set" and "mark" in (m.get("value") or {})}
     for r in RECORDS:
         y = int(r["year"].lstrip("Y")) if r["year"].lstrip("Y").isdigit() else None
         if r["record"] in rec_names or (y in years):
@@ -1195,6 +1196,289 @@ def write_hot_takes(seasons: list[dict]):
         TAKES_OUT.unlink()
 
 
+# ---------------------------------------------------------------------------
+# Game mechanics: rule facts (docs/GAME_MECHANICS.md, docs/SAVE_INVENTORY.md §7). Templates over the data and the
+# game's own rules (read from its code), never prose; numbers straight from players.json, coach.json, schedules.json
+# and the live save (save_state.json, only while its season is still in progress).
+# ---------------------------------------------------------------------------
+SAVE_STATE = load("save_state.json") if (SRC / "save_state.json").exists() else {}
+LIVE = SAVE_STATE if SAVE_STATE.get("season", 0) > LAST else {}  # a finished season's save is history, not live
+_PX_PATH = ROOT / "public" / "data" / "player-extras.json"
+BANNER = (json.loads(_PX_PATH.read_text()).get("signatureTeams", {}) if _PX_PATH.exists() else {})
+POS_MAX = {"QB": 37, "RB": 34, "TE": 33, "WR": 34, "OL": 35, "DL": 35, "LB": 33, "DB": 33}  # the game's star scale
+RATINGS = ("speed", "strength", "skill", "stamina")
+POS_GROUP = {"QB": "quarterback", "RB": "running back", "WR": "receiver", "TE": "tight end", "OL": "offensive lineman",
+             "DL": "defensive lineman", "LB": "linebacker", "DB": "defensive back"}
+YOUNG_AGE = 24  # stars now -> ceiling for players this age or younger
+
+
+def half_stars(r: dict, pos: str, ceiling: bool = False) -> int:
+    """The game's star rating in half-stars (1-10): round(10 x the four ratings / the position's maximum)."""
+    total = sum(r.get(("max_" if ceiling else "") + k, 0) for k in RATINGS)
+    return max(1, min(10, round(10 * total / POS_MAX[pos])))
+
+
+def star_text(h: int) -> str:
+    return str(h // 2) if h % 2 == 0 else f"{h / 2:.1f}"
+
+
+def pct_text(x: float) -> str:
+    v = round(x * 100, 1)
+    return f"{v:g}"
+
+
+def final_age(pos: str, delay: int = 0) -> int:
+    """The last age a player plays: max age 40 (QB) or 35, plus delays, minus one (ages go up at season end)."""
+    return (40 if pos == "QB" else 35) + delay - 1
+
+
+def retirement_clock() -> list[dict]:
+    """Live save: players in their final season (seasonsLeft 0) or with one more to come, best Career Legacy first."""
+    out = []
+    for k, v in (LIVE.get("players") or {}).items():
+        pos, name = k.split(":", 1)
+        if pos not in POS_MAX or "age" not in v:
+            continue
+        left = final_age(pos, v.get("delay_retirement", 0)) - v["age"]
+        if 0 <= left <= 1:
+            out.append({"player": k, "name": name, "pos": pos, "age": v["age"], "seasonsLeft": left,
+                        "team": v.get("team"), "legacy": int(round(LEGACY.get(name, 0)))})
+    out.sort(key=lambda x: (x["seasonsLeft"], -x["legacy"], x["player"]))
+    return out
+
+
+def star_ceilings() -> list[dict]:
+    """Live save: young players (YOUNG_AGE or under) with at least a star of room between the game's star rating now
+    and the one their ceilings allow; highest ceiling first, then the most room."""
+    out = []
+    for k, v in (LIVE.get("players") or {}).items():
+        pos, name = k.split(":", 1)
+        if pos not in POS_MAX or v.get("age", 99) > YOUNG_AGE:
+            continue
+        now, top = half_stars(v, pos), half_stars(v, pos, ceiling=True)
+        if top - now >= 2:
+            out.append({"player": k, "name": name, "pos": pos, "age": v["age"], "stars": now / 2, "ceiling": top / 2,
+                        "room": (top - now) / 2, "team": v.get("team"), "legacy": int(round(LEGACY.get(name, 0)))})
+    out.sort(key=lambda x: (-x["ceiling"], -x["room"], -x["legacy"], x["player"]))
+    return out
+
+
+def defense_numbers() -> dict:
+    out = {}
+    for pos in ("DB", "LB", "DL"):
+        pool = [p for p in LEAGUE if p["pos"] == pos]
+        out[pos] = {"players": len(pool), "games": sum(int(g(p, "g")) for p in pool),
+                    "int": sum(int(g(p, "int")) for p in pool), "sck": int(round(sum(g(p, "sck") for p in pool))),
+                    "tkl": sum(int(g(p, "tkl")) for p in pool), "dpoy": sum(int(g(p, "dpoy")) for p in pool)}
+    return out
+
+
+def draft_cap(w: int, l: int, t: int) -> int:
+    """Best possible stars (half-stars) for prospects 5-50 of the next class: round(lerp(8.5, 5.5, win %))."""
+    games = w + l + t
+    return round(8.5 - 3 * (w / games)) if games else 8
+
+
+def draft_numbers() -> dict:
+    seasons = SEASONS
+    last = seasons[-1] if seasons else None
+    if not last:
+        return {}
+    now = (COACH.get("currentStint") or {}).get("team")
+    nxt = [x["team"] for x in seasons[1:]] + [now]  # the club each season's draft class went to
+    counted = [s for i, s in enumerate(seasons) if i and nxt[i] == s["team"]]  # Y1's class is fixed; a move re-rates
+    capped = [s for s in counted if draft_cap(s["w"], s["l"], s["t"]) <= 6]
+    out = {"season": f"Y{last['year']}", "team": last["team"], "w": last["w"], "l": last["l"], "t": last["t"],
+           "pct": round(last["w"] / max(1, last["w"] + last["l"] + last["t"]), 3),
+           "capHalfStars": draft_cap(last["w"], last["l"], last["t"]), "seasonsCounted": len(counted),
+           "seasonsCappedAt3": len(capped)}
+    club = (LIVE.get("clubs") or {}).get(LIVE.get("club") or "")
+    if club and club["w"] + club["l"] + club["t"]:
+        out["live"] = {"season": f"Y{LIVE['season']}", "week": LIVE.get("week"), "team": LIVE["club"],
+                       "w": club["w"], "l": club["l"], "t": club["t"],
+                       "capHalfStars": draft_cap(club["w"], club["l"], club["t"])}
+    return out
+
+
+def injury_numbers() -> dict:
+    if not LIVE:
+        return {}
+    clubs, me = LIVE.get("clubs") or {}, LIVE.get("club")
+    mine = other = mine_full = other_full = 0
+    for v in (LIVE.get("players") or {}).values():
+        c = clubs.get(v.get("team"))
+        if not c:
+            continue
+        full = (v.get("season") or {}).get("g", 0) >= c["w"] + c["l"] + c["t"]
+        if v["team"] == me:
+            mine, mine_full = mine + 1, mine_full + full
+        else:
+            other, other_full = other + 1, other_full + full
+    rehab = ((LIVE.get("settings") or {}).get("facilities") or {}).get("rehab")
+    return {"season": f"Y{LIVE['season']}", "throughWeek": (LIVE.get("week") or 1) - 1, "team": me,
+            "teamPlayers": mine, "teamFull": mine_full, "otherPlayers": other, "otherFull": other_full,
+            "injuredNow": sum(1 for v in (LIVE.get("players") or {}).values() if (v.get("injury_week") or 0) > 0),
+            "rehab": rehab, "maxWeeksOut": (10 - rehab // 2) if rehab is not None else None}
+
+
+def upset_numbers() -> dict:
+    """Upset index: each league game's expected result from the game's strength ladder (offense + defense, +1 at
+    home; the favourite wins about 1 - 0.5 / (round(gap / 4) + 1)). Ratings are known for the clubs the coach met
+    (the season summary, schedule.set coachOpponents, shown halved), so a game is measured when both clubs are rated;
+    the coach's own games are left out (every opponent plays him at full strength)."""
+    raw = load("schedules.json").get("seasons", {}) if (SRC / "schedules.json").exists() else {}
+    names = {t["abbr"]: name for name, t in load("teams.json").items()}
+    out = {}
+    for y, s in sorted(raw.items(), key=lambda kv: int(kv[0].lstrip("Y"))):
+        rate = {}
+        for o in s.get("coachOpponents") or []:
+            rate.setdefault(o["opp"], 2 * (o["off"] + o["def"]))
+        if len(rate) < 2:
+            continue
+        games, fav_wins, expected, upsets = 0, 0, 0.0, []
+        for w in s.get("weeks", []):
+            for gm in w.get("games", []):
+                a, h = gm["away"], gm["home"]
+                if s.get("abbr") in (a, h) or a not in rate or h not in rate:
+                    continue
+                if gm.get("home_score") is None or gm.get("away_score") is None or gm["home_score"] == gm["away_score"]:
+                    continue
+                sa, sh = rate[a], rate[h] + 1
+                if sa == sh:
+                    continue
+                gap = abs(sh - sa)
+                p = 1 - 0.5 / (round(gap / 4) + 1)
+                fav = h if sh > sa else a
+                win = h if gm["home_score"] > gm["away_score"] else a
+                games += 1
+                expected += p
+                if win == fav:
+                    fav_wins += 1
+                else:
+                    lose = a if win == h else h
+                    ws, ls = max(gm["home_score"], gm["away_score"]), min(gm["home_score"], gm["away_score"])
+                    upsets.append({"week": w["week"], "winner": names.get(win, win), "loser": names.get(lose, lose),
+                                   "score": f"{ws}-{ls}", "home": names.get(h, h), "gap": round(gap, 1),
+                                   "chance": round((1 - p) * 100, 1)})
+        if not games:
+            continue
+        upsets.sort(key=lambda u: (u["chance"], -u["gap"], u["week"], u["winner"]))
+        out[y] = {"ratedClubs": len(rate), "games": games, "favouriteWins": fav_wins,
+                  "expectedFavouriteWins": round(expected, 1), "biggest": upsets[:3]}
+    return out
+
+
+def mechanics() -> tuple[dict, list[dict]]:
+    """content.json `mechanics` (the numbers) and `ruleFacts` (templated sentences, each with its player key or club)."""
+    facts: list[dict] = []
+    coach = (COACH.get("name") or "the coach").split()[-1]
+
+    def add(fid, topic, text, player=None, team=None):
+        name = player.split(":", 1)[1] if player else None
+        club = team or (BANNER.get(name) if name else None)
+        facts.append({k: v for k, v in {"id": fid, "topic": topic, "text": text, "player": player,
+                                        "team": club.split()[-1] if club else None}.items() if v})
+
+    def of(part: int, whole: int) -> str:
+        return f"all {fmt(whole)}" if part == whole else f"{fmt(part)} of the {fmt(whole)}"
+
+    # Defensive credit (7.10): a pass-play stop is an interception for a DB, a sack for a lineman
+    d = defense_numbers()
+    db, dl = d["DB"], d["DL"]
+    winners = sorted([p for p in LEAGUE if g(p, "dpoy")], key=lambda p: (-g(p, "dpoy"), -legacy(p["n"]), p["n"]))
+    total_dpoy = sum(x["dpoy"] for x in d.values())
+    if winners and total_dpoy and db["dpoy"] == total_dpoy:
+        top = winners[0]
+        add("rule-dpoy-db", "defense",
+            f"All {total_dpoy} Defensive Player of the Year awards on league cards belong to defensive backs. The game "
+            "credits a corner or safety's stop on a pass play as an interception, and the award rating counts each "
+            f"interception as much as 6 tackles. {top['n']} leads with {plural(int(g(top, 'dpoy')), 'award')}.",
+            f"DB:{top['n']}")
+    if db["int"] and dl["int"] and dl["games"]:
+        lead = sorted([p for p in LEAGUE if p["pos"] == "DL"], key=lambda p: (-g(p, "int"), p["n"]))[0]
+        add("rule-dl-int", "defense",
+            f"Defensive linemen have {fmt(dl['int'])} career interceptions in {fmt(dl['games'])} games, one every "
+            f"{round(dl['games'] / dl['int'])} games; defensive backs pick one off every "
+            f"{dl and round(db['games'] / db['int'], 1)} games. The game scores a lineman's stop on a pass play as a "
+            f"sack: linemen have {fmt(dl['sck'])} sacks, defensive backs {fmt(db['sck'])}.", f"DL:{lead['n']}")
+    tacklers = sorted([p for p in LEAGUE if p["pos"] in ("DB", "LB", "DL")], key=lambda p: (-g(p, "tkl"), p["n"]))[:3]
+    if len(tacklers) == 3 and not any(g(p, "dpoy") for p in tacklers):
+        add("rule-tackles-no-dpoy", "defense",
+            f"The league's three career tackle leaders, {join([f'{p['n']} ({fmt(int(g(p, 'tkl')))})' for p in tacklers])}, "
+            "have no Defensive Player of the Year award between them: the award rating gives half a point a tackle and "
+            "3 points an interception, sack or forced fumble.", f"{tacklers[0]['pos']}:{tacklers[0]['n']}")
+
+    # Injury model (7.5): only the coach's club rolls, one a game, three at once
+    inj = injury_numbers()
+    cap = (f" With rehab facilities at {inj['rehab']}, the squad's injuries can add up to at most "
+           f"{plural(inj['maxWeeksOut'], 'week')} out at a time.") if inj.get("rehab") is not None else ""
+    if inj:
+        add("rule-injuries", "injuries",
+            f"Retro Bowl rolls injuries only for the coach's own club: at most one new injury a game and at most three "
+            f"players out at once.{cap} Through {inj['season']} week {inj['throughWeek']}, {of(inj['otherFull'], inj['otherPlayers'])} tracked players on the other clubs have played every one of their club's "
+            f"games.", team=inj["team"])
+        if inj["teamPlayers"]:
+            add("rule-injuries-club", "injuries",
+                f"{coach}'s {inj['team']} are the one club the game can injure. Through {inj['season']} week "
+                f"{inj['throughWeek']}, " + (f"all {fmt(inj['teamPlayers'])}" if inj["teamFull"] == inj["teamPlayers"] else f"{fmt(inj['teamFull'])} of the {fmt(inj['teamPlayers'])}") + " of their tracked players "
+                "have played every game, and " + ("nobody is injured now." if not inj["injuredNow"] else
+                f"{plural(inj['injuredNow'], 'player is', 'players are')} injured now."),
+                team=inj["team"])
+
+    # Draft quality (7.4): the better the season, the weaker the next class
+    dr = draft_numbers()
+    if dr:
+        rec = f"{dr['w']}-{dr['l']}" + (f"-{dr['t']}" if dr["t"] else "")
+        nxt = f"Y{int(dr['season'][1:]) + 1}"
+        add("rule-draft", "draft",
+            f"Retro Bowl caps each draft class by the coach's last record. After {coach}'s {dr['team']} went {rec} in "
+            f"{dr['season']} ({pct_text(dr['pct'])}%), prospects 5 to 50 of the {nxt} class could rate at most "
+            f"{star_text(dr['capHalfStars'])} stars; a .500 season allows 3.5.", team=dr["team"])
+        if dr["seasonsCounted"]:
+            add("rule-draft-history", "draft",
+                f"Winning shrinks the draft: in {dr['seasonsCappedAt3']} of {coach}'s {dr['seasonsCounted']} seasons "
+                "that fed a draft at the same club, his record capped the next class at 3 stars or less.",
+                team=dr["team"])
+        lv = dr.get("live")
+        if lv:
+            lrec = f"{lv['w']}-{lv['l']}" + (f"-{lv['t']}" if lv["t"] else "")
+            add("rule-draft-live", "draft",
+                f"At {lrec} so far in {lv['season']}, {coach}'s {lv['team']} have the Y{int(lv['season'][1:]) + 1} "
+                f"class on course for a cap of {star_text(lv['capHalfStars'])} stars outside the top 4 prospects.",
+                team=lv["team"])
+
+    # Upset index (7.9): the strength ladder's expected result for each measured league game
+    ups = upset_numbers()
+    for y, u in ups.items():
+        if not u["biggest"]:
+            continue
+        b = u["biggest"][0]
+        add(f"rule-upset-{y.lower()}", "upsets",
+            f"Biggest measured upset of {y}: the {b['winner']} beat the {b['loser']} {b['score']} in week {b['week']}, "
+            f"a {b['chance']:g}% chance by the game's strength ladder. Favourites won {u['favouriteWins']} of "
+            f"{u['games']} league games between rated clubs; the ladder expected {round(u['expectedFavouriteWins'])}.",
+            team=b["winner"])
+
+    # Retirement clock and star ceilings (live save only)
+    clock, ceilings = retirement_clock(), star_ceilings()
+    season = f"Y{LIVE['season']}" if LIVE else None
+    for x in [c for c in clock if c["seasonsLeft"] == 0][:3]:
+        own = x["team"] == LIVE.get("club")
+        add(f"rule-final-{slug(x['name'])}", "clock",
+            f"{x['name']} is {x['age']}, the last age the game lets a {POS_GROUP[x['pos']]} play: {season} is his final "
+            "season" + (f" unless {coach} delays his retirement." if own else "."), x["player"])
+    for x in ceilings[:3]:
+        add(f"rule-ceiling-{slug(x['name'])}", "ceiling",
+            f"{x['name']} ({x['pos']}, age {x['age']}) carries a {star_text(int(x['stars'] * 2))}-star rating in the "
+            f"game with a {star_text(int(x['ceiling'] * 2))}-star ceiling: {star_text(int(x['room'] * 2))} "
+            f"{'star' if x['room'] == 1 else 'stars'} of room to grow.", x["player"])
+
+    numbers = {"defense": d, "injuries": inj, "draft": dr, "upsets": ups,
+               "clock": {"season": season, "players": clock[:12]} if LIVE else {},
+               "ceilings": {"season": season, "maxAge": YOUNG_AGE, "players": ceilings[:12]} if LIVE else {}}
+    return {k: v for k, v in numbers.items() if v}, facts
+
+
 def main():
     eras = build_eras()
     rivalries = build_rivalries(eras)
@@ -1222,6 +1506,7 @@ def main():
     headlines, headlines_info = build_headlines()
     season_stories = [season_story(y, s) for y, s in sorted(STORIES.items(), key=lambda kv: int(kv[0].lstrip("Y")))]
     takes = hot_takes()
+    mech_numbers, rule_facts = mechanics()
     content = {
         "version": 1,
         "season": SEASON,
@@ -1257,6 +1542,11 @@ def main():
         # Hot Takes: columnist opinions per completed season (data/y80/hot_takes.json, takes.set), newest first. Only
         # an index here; the takes themselves are public/data/league/takes.json, loaded on demand
         "hotTakesIndex": takes_index(takes),
+        # Game mechanics as rule facts (docs/GAME_MECHANICS.md, docs/SAVE_INVENTORY.md 7.4, 7.5, 7.9, 7.10): the
+        # numbers (defense, injuries, draft, upsets, and from the live save the retirement clock and star ceilings)
+        # and templated sentences for Did you know (scripts/build_widget_data.py); stories cite content.json mechanics/...
+        "mechanics": mech_numbers,
+        "ruleFacts": rule_facts,
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(content, ensure_ascii=False, indent=1) + "\n")

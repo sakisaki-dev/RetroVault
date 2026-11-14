@@ -2,6 +2,7 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState, type CSSPrope
 import { createPortal } from 'react-dom';
 import { ChevronRight, FastForward, Medal, Sparkles, Star, Trophy, X } from 'lucide-react';
 import type { Player } from '@/types/player';
+import GameSprite from '../GameSprite';
 import ProPlayerBanner from '@/components/brand/ProPlayerBanner';
 import CountUp from '@/components/brand/CountUp';
 import { resolveTeam } from '@/components/brand/TeamLogo';
@@ -131,6 +132,7 @@ const InducteeStage = ({ inductee, statsLive, titleId }: { inductee: CeremonyInd
             retiredBy={retired?.teamLabel ?? null}
             eyebrow={`${POSITION_NAMES[player.position]}${team ? ` · ${team.fullName}` : player.team ? ` · ${player.team}` : ''}`}
             nameAs="h3"
+            figure={<GameSprite player={player} team={player.team} kind="figure" size="l" action="celebrate" />}
           />
         </div>
 

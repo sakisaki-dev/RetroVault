@@ -19,6 +19,7 @@ interface HeaderProps {
 export const NAV_TABS = [
   { value: 'games', label: 'Arcade' },
   { value: 'career', label: 'Stats' },
+  { value: 'season', label: 'Season' },
   { value: 'lab', label: 'Team Lab' },
   { value: 'hof', label: 'Hall of Fame' },
   { value: 'collection', label: 'Collection' },
@@ -44,8 +45,8 @@ const PerfToggle = () => {
       )}
     >
       <Gauge className="h-4 w-4" aria-hidden="true" />
-      <span className="hidden xl:inline">{lite ? 'Lite' : 'Full'}</span>
-      {setting === 'auto' && <span className="hidden font-mono text-[10px] xl:inline">auto</span>}
+      <span className="hidden min-[1440px]:inline">{lite ? 'Lite' : 'Full'}</span>
+      {setting === 'auto' && <span className="hidden font-mono text-[10px] min-[1440px]:inline">auto</span>}
     </button>
   );
 };
@@ -186,7 +187,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
       <div className="h-[3px] bg-gradient-to-r from-gold via-gold/70 to-turf" aria-hidden="true" />
 
       <div className="container">
-        <div className="flex items-center gap-3 sm:gap-4 lg:gap-8 h-14 lg:h-16">
+        <div className="flex items-center gap-3 sm:gap-4 lg:gap-5 min-[1440px]:gap-8 h-14 lg:h-16">
           <button
             type="button"
             onClick={() => onTabChange('career')}
@@ -206,8 +207,8 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
             className="ml-auto inline-flex shrink-0 items-center gap-2 rounded-md border border-line bg-night/60 px-2.5 py-1.5 text-sm max-sm:h-11 max-sm:w-11 max-sm:justify-center max-sm:px-0 text-muted-foreground transition-colors hover:border-gold/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold lg:ml-0"
           >
             <Search className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden xl:inline">Player</span>
-            <kbd className="hidden rounded border border-line px-1 font-mono text-[10px] sm:inline">⌘K</kbd>
+            <span className="hidden min-[1440px]:inline">Player</span>
+            <kbd className="hidden rounded border border-line px-1 font-mono text-[10px] sm:inline lg:hidden min-[1440px]:inline">⌘K</kbd>
           </button>
 
           {/* Phones: in the bottom bar's More sheet */}

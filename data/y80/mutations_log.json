@@ -1244,6 +1244,42 @@
     "stats": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-13-save-y93w16-playoffs-weather",
+   "dir": "data/uploads/2026-11-13-save-y93w16-playoffs-weather",
+   "applied_at": "2026-11-13T19:04:24-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-13-save-y92-records",
+   "dir": "data/uploads/2026-11-13-save-y92-records",
+   "applied_at": "2026-11-13T20:10:14-08:00",
+   "mutations": {
+    "stats": 26
+   },
+   "changed": 59
+  },
+  {
+   "id": "2026-11-13-save-y93w16-league",
+   "dir": "data/uploads/2026-11-13-save-y93w16-league",
+   "applied_at": "2026-11-13T20:10:25-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-13-save-y93w16-fo",
+   "dir": "data/uploads/2026-11-13-save-y93w16-fo",
+   "applied_at": "2026-11-13T20:12:54-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
   }
  ]
 }

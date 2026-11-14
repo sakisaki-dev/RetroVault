@@ -87,8 +87,8 @@ To read the code: replace every `_xx` token with its name from `_aF2`, then map 
 | Season clock | `year` 93, `week` 16, `start_year` 2025, `last_week_regular` 18, `first_week_playoffs` 19, `start_of_season`, `stage`, `draft_round` 4 (draft done), `draft_info_done`, `year_stagger` 6 | Calendar year = `start_year + year`. Weeks 19+ are playoffs | Used |
 | Club | `myteam_id` 18, `favourite_team_id` 0, `fname`/`lname` (the coach), `fname_coach`/`lname_coach` (a second, unused name pair), `myface_uid` | The coach's club and face | Used |
 | Difficulty | `op_difficulty` 4 (Extreme), `suppress_difficulty` −5 (dynamic-difficulty memory: +1 per loss), `op_matchlength` 0 | See 7.8 | Context |
-| Money | `salary_cap` 150, **`boost_salary_cap` 125**, `cap_breach_flag` 1, `roster_cap` 10, `coach_credit` 43, `purchased_credit`, `season_credits_purchased`, `qb_salary` | **The real cap is 150 + 125 = 275** (five commissioner boosts of +25). Payroll is 269 | `save.state` stores 150 only: fix (section 9) |
-| Franchise | `facility_stadium` 6, `facility_training` 3, `facility_rehab` 10, `facility_upgraded_*` (this season's upgrade flags; rehab 12), `fans` 100, `coach_rating` 20 (the maximum), `relationship_boss` 50 (no code reads it) | See 7.6, 7.7, 7.11 | Levels used; rest unused |
+| Money | `salary_cap` 150, **`boost_salary_cap` 125**, `cap_breach_flag` 1, `roster_cap` 10, `coach_credit` 43, `purchased_credit`, `season_credits_purchased`, `qb_salary` | **The real cap is 150 + 125 = 275** (five commissioner boosts of +25). Payroll is **254**: the ten playing key players (an earlier count of 269 included Vyncint Heath, retired but still carrying the Eagles' `teamid`) | In `save.state` (`salary_cap` 275, `salary_cap_base`, `credits`, `draft_picks`, `roster_cap`) |
+| Franchise | `facility_stadium` 6, `facility_training` 3, `facility_rehab` 10, `facility_upgraded_*` (the **week** of this season's upgrade, 0 = none; rehab 12; one upgrade a week), `fans` 100, `coach_rating` 20 (the maximum), `relationship_boss` 50 (no code reads it) | See 7.6, 7.7, 7.11 | Levels used; rest unused |
 | Training | `training_reg_of` 2, `training_reg_df` 2 | 1 light, 2 normal, 3 hard (7.5, 7.6) | Unused |
 | Draft | `draft_picks_0/1/2` 1 each | Picks per round next draft | Unused |
 | Counters | `matchcount` 1,845 (games coached), `gamestarts` 17, `tip_count` 19 | | Unused |
@@ -110,7 +110,7 @@ now (ages 115–131, many still carrying a club id, 408 with `teamid` −4); 54 
 | Ratings | `speed`, `strength`, `skill`, `stamina` (1–10) and `max_*` | Stars and potential are computed from these (7.1) | In `save.state` |
 | Progress | `xp`, `xp_level`, `xp_gain`, `skill_points`, `xp_dev` | Next level at `xp ≥ xp_level × 100`; `xp_dev` multiplies XP (Eagles 0.83–1.47) | `xp_level` only |
 | Condition | `condition` (0–100; **negative = injured, −weeks left**), `injury_week`, `resting` | No playing player is injured now; two retirees retired injured | `injury_week` only |
-| Contract | `salary`, `contract` (years left), `signed_year` (the season the coach signed or traded for him; 0 for AI players), `creditcost`, `intrade_pick`, `outtrade_pick`, `trade_delay`, `potential_trade_team` | Salary formula in 7.2 | Salary, contract |
+| Contract | `salary`, `contract` (years left), `signed_year` (the season the coach signed, re-signed or traded for him; 0 for AI players; in `save.state` when set), `creditcost`, `intrade_pick`, `outtrade_pick`, `trade_delay`, `potential_trade_team` | Salary formula in 7.2 | Salary, contract |
 | Age | `age`, `delay_retirement` (2 players use it) | Max age 40 QB/K, 35 others, + delays | In `save.state` |
 | Stats | `sta_c` (career), `sta_s` (season), **`sta_g` (the last game)**, `sta_r` (the real 2024 career at import, `year: 2024`) | Each block: games, `att`/`cmp` `{no, xp}` (kickers' `xp` = PATs), `pass`/`rush`/`rec`/`kick` `{yds, lng}`, `rush.att/td`, `td`, `int`/`sack` `{by, vs}`, `tck`, `fum`, `ff`, `fgm`, `fga`, `blk`, `ret {att, yds, td, lng}`, awards | `sta_c`, `sta_s` used; **`sta_g` and `lng` unused** |
 | Appearance | `skin`, `col_skin`, `col_cleats`, `pose`, `randnum`, `number` (−4 for every league player), `uniform_record` (custom kit string on 53 AI players) | | None |
@@ -124,8 +124,10 @@ Same record shape as a player. Position **102 = offensive coordinator, 101 = def
 102 for team offense, 101 for defense), 100 = the head coach. `rating` 1–10 (5 stars at 10), `trait` (0 here; the 9
 traits are in 7.11), `age` (staff retire past 65), `contract`, `xp`, `xp_level`.
 
-The Eagles' pair: **OC Von Clement**, rating 10, age 61, 1 year left (four seasons from the staff max age); **DC
-Damiere Kirklin**, rating 10, age 49, 1 year left. Eight more coordinators (all rating 10, ages 36–57) sit on the
+The Eagles' pair: **OC Von Clement**, rating 10, age 61, 1 year left; **DC Damiere Kirklin**, rating 10, age 49, 1 year
+left. Both are in `save.state` (`staff`). The regular game's code ages staff at the season's end and retires them past
+65 (+ delays); the NFL edition retires players on reaching their max age (nobody in slot 4 plays at 35 or 40), so the
+Front Office reads a coordinator's final season the same way: season + (65 + delays − 1 − age), Clement Y96, Kirklin Y108. Eight more coordinators (all rating 10, ages 36–57) sit on the
 market with `teamid` −1.
 
 ### 2.4 `schedule.list` (272 games, this season only)
@@ -238,8 +240,15 @@ starter is 8–10 now; Maxwell is 10 with a 10 ceiling. Retro Vault's OVR (`src/
 ```
 salary = round(stars × POS_PAY × 3 × age_factor)
 POS_PAY    = QB 1.66, RB 1.0, TE 0.9, WR 1.1, OL 0.8, DL 1.0, LB 0.9, CB 0.8, S 0.75, K 0.55
-age_factor = 0.6 at 21 (rookie); ×0.85 within 5 years of max age, 0.75 within 4, 0.65 within 3, 0.55 within 2
+age_factor = 0.6 at exactly 21 (rookie); else, with max = max age + delay_retirement:
+             0.55 if age > max − 2, 0.65 if age > max − 3, 0.75 if age > max − 4, 0.85 if age > max − 5, else 1
+stars      = the half-star rating of 7.1 (1 to 10)
 ```
+
+(Checked in the code, `s_` salary script: the age tests are strict, so "years to max age" under 2, 3, 4, 5. With `≤`
+instead only 186 of 321 match.) The Front Office prices every key player with it and tags his salary: within max(1,
+round(10% of the price)) of it a fair deal, below underpaid, above overpaid (rounded with JavaScript's `Math.round`, as
+the HTML5 runner does).
 
 **Checked:** 238 of 321 playing players (74%) match exactly; the rest were set when their ratings differed (salary is
 fixed at signing). At each season end every player ages, loses a contract year and resets condition to 90–100. An
@@ -250,13 +259,16 @@ agency. An extension meeting costs `stars + salary / 2 + 5 × years left` credit
 ### 7.3 Trades and draft picks
 
 ```
-trade value (round of the pick) = 1 if stars ≥ 8, 2 if stars ≥ 4, else 3
+trade value (round of the pick) = 1 if stars ≥ 8, 2 if stars ≥ 4, else 3     // half-stars; checked: the script that
+                                                                             // prices the coach trading his own player
 offer for an AI player:  value of (stars − 4); a toxic player (morale ≤ 15) costs a 3rd
 AI request for yours:    value of (stars + 4), so any 4-star player fetches a 1st
 requesting club = (week + skill + strength + stamina + speed + age + morale) mod 32, skipping the coach's club
 ```
 
-A weekly random event offers one of the two. No trades after week 8; a player signed this season, over 31 or toxic
+A weekly random event offers one of the two. Trading a player away from the roster screen (checked in the code) is
+refused after week 8 (unless a pick is already set), while he is injured (condition ≤ −1) or toxic, and warns when he was
+signed this season; the pick is this year's or next year's depending on where the draft stands. No trades after week 8; a player signed this season, over 31 or toxic
 can't be requested. `potential_trade_team` (32 players) is the NFL edition's stored version of the requesting club.
 Lifetime counters in `achievements`: 160 trades in, 287 trades out, 119 draftees, 127 free agents, 11 cuts.
 
@@ -308,8 +320,13 @@ Season-end growth and decline are in GAME_MECHANICS. The training facility here 
 
 ### 7.7 Facilities and cap boosts
 
-Upgrading a facility costs `level + 1` credits. **Every season one facility at random drops a level** unless it was
-upgraded that season. Stadium: fans per game (7.11). Training: XP (7.6). Rehab: injury caps and lengths (7.5) and
+Upgrading a facility costs the new level in credits (`level + 1`, capped at level 10, so re-upgrading a maxed one costs
+10 and still counts as this season's upgrade); one upgrade per facility per week (`facility_upgraded_*` holds the week).
+**At each season's end one facility at random may drop a level:** the code rolls `irandom(2)`: 0 stadium, 1 training,
+2 rehab, and a facility drops only if it was not upgraded that season and is above level 1. **Case 1 has no `break`**, so
+the training roll falls through to the rehab check: per season the stadium and training are at risk 1 in 3, rehab 2 in 3
+(and a training roll can cost both). Then every flag resets to 0. The Front Office shows each facility's risk and the
+credits to protect it. Stadium: fans per game (7.11). Training: XP (7.6). Rehab: injury caps and lengths (7.5) and
 weekly recovery. The commissioner raises the cap by 25 per purchase (here five times, 150 → 275).
 
 ### 7.8 Team strength
@@ -317,6 +334,7 @@ weekly recovery. The commissioner raises the cap by 25 per purchase (here five t
 ```
 coach's offense = clamp(round(0.225 × (sum of healthy, non-resting offensive key players' stars + OC rating)), 1, 10)
 coach's defense = clamp(round(0.25  × (sum of defensive key players' stars + DC rating)), 1, 10)
+// Eagles Y93: offense 0.225 × (57 + 10) = 15.1 → 10, defense 0.25 × (38 + 10) = 12.0 → 10 (the Front Office shows both)
 AI club on Extreme: 10 and 10, whatever its listed ratings
 ```
 
@@ -433,18 +451,18 @@ any save figure they use needs a `save_state.json <path>` source first.
 | 3 | **League schedule and standings from the save** (all 272 games, scores, weather flag) in place of screenshot `schedule.set` | Season page (Timeline), power rankings, Games tab | + | Removes the heaviest transcription; adds weather per game |
 | 4 | **Last game box score** (`sta_g`) and week-over-week lines (the backup) | Season page "Last game", widget, The Wire | + | The only per-game data the save keeps |
 | 5 | **Defensive credit rules** (7.10) as rule facts: why DBs win DPOY, why DLs never intercept, what a block is | Did you know, Award Race, Hot Takes context | R | Turns the league's oddities into explained facts |
-| 6 | **Payroll and cap**: salary per player, total 269 of **275** (fix `save.state` to add `boost_salary_cap`), contract years, salary vs the formula's price | Front Office dashboard | S (+ fix) | A real cap sheet; "underpaid" stars are a story |
-| 7 | **Coordinators**: OC Clement and DC Kirklin, ratings, ages, contracts, staff retirement year | Front Office | + | Staff are half of team strength (7.8) |
+| 6 | **Built (Front Office, Club office).** **Payroll and cap**: salary per player, total 254 of **275**, contract years, salary vs the formula's price | Front Office dashboard | S (+ fix) | A real cap sheet; "underpaid" stars are a story |
+| 7 | **Built (Front Office, Club office).** **Coordinators**: OC Clement and DC Kirklin, ratings, ages, contracts, staff retirement year | Front Office | + | Staff are half of team strength (7.8) |
 | 8 | **Per-season playoff record** (`wins_po`-`losses_po`) | Front Office season log, Timeline | + (history) | 243-24 broken down by year |
-| 9 | **Franchise dashboard**: facilities (with the decline rule), fans, coach rating 20/20, credits, Extreme, training regimes, draft picks, games coached 1,845 | Front Office | S + small + | One honest panel of the club's state |
-| 10 | **Franchise counters** from `achievements`: trades in 160 / out 287, draftees 119, free agents 127, unbeaten seasons 11, shutouts 7, 50-point games 12, doinks 14 | Front Office achievements, Did you know | + | Lifetime facts no screenshot shows |
+| 9 | **Built (Front Office, Club office).** **Franchise dashboard**: facilities (with the decline rule), fans, coach rating 20/20, credits, Extreme, training regimes, draft picks, games coached 1,845 | Front Office | S + small + | One honest panel of the club's state |
+| 10 | **Built (Front Office, Club office).** **Franchise counters** from `achievements`: trades in 160 / out 287, draftees 119, free agents 127, unbeaten seasons 11, shutouts 7, 50-point games 12, doinks 14 | Front Office achievements, Did you know | + | Lifetime facts no screenshot shows |
 | 11 | **Draft-quality rule** (7.4): winning shrinks the next class's ceiling | Did you know, Hot Takes, draft-season story | R | Explains why the dynasty restocks by trade |
 | 12 | **Injury model** (7.5): one injury a game at most, three at a time, rehab 10 keeps most to a week, only the coach's club rolls | Hot Takes context, missed-games rule notes | R | Grounds "missed through injury" without naming injuries |
 | 13 | **Development line**: XP progress to the next level and `xp_dev` as a growth rate | Player page (active players) | + | Shows who is still climbing |
 | 14 | **Upset index**: expected win chance from the ladder (7.9) for every league game | Season page power rankings, The Wire upsets | R | Makes "upset" a measured term |
 | 15 | **Weather odds by stadium** and the game's weather flag | Games tab club sheets, Season page game log | + | Small colour, all real |
 | 16 | **Record Book detail**: week, opponent and QB on game records, exact decimals | Record Book chips | + | "Set in week 17 against Buffalo" |
-| 17 | **Acquired in Y<n>** for the coach's signings and trades (`signed_year`) | Player page, Front Office | + | Partial tenure fact |
+| 17 | **Built (Front Office, Club office).** **Acquired in Y<n>** for the coach's signings and trades (`signed_year`; shown as "Signed Y<n>" on the cap sheet, since a re-signing resets it) | Player page, Front Office | + | Partial tenure fact |
 | 18 | **Arcade ideas**: guess the stars, higher-or-lower salary, who retires first | Arcade games | S | Uses facts players won't know |
 | 19 | **Kit check**: compare `uniforms.ts` alternates with `ProTeams_CO` (home, away, alt, color rush) | Collection kits (art review) | College file | Colour accuracy only; no art copied |
 | 20 | Career longest plays (`lng`) | Player page | + | Low: mostly the coach's snaps |

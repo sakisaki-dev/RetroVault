@@ -1,7 +1,7 @@
 {
- "_about": "Live state of the current season read from the game's own save (scripts/save_read.py --state), written only by a save.state upload mutation: ages, ratings and ceilings, contracts, injuries, the season so far per player (Retro Vault keys), club records and the coach's game log. Replaced whole by each save.state. Facts only; never hand-edit.",
+ "_about": "Live state of the current season read from the game's own save (scripts/save_read.py --state), written only by a save.state upload mutation: ages, ratings and ceilings, contracts, injuries, the season so far per player (Retro Vault keys), club records, the coach's game log, the club's settings, coordinators (staff) and lifetime counters (achievements). Replaced whole by each save.state. Facts only; never hand-edit.",
  "id": "Y93w16",
- "upload": "2026-11-13-save-y93w16-cap",
+ "upload": "2026-11-13-save-y93w16-fo",
  "season": 93,
  "week": 16,
  "club": "Eagles",
@@ -14,7 +14,84 @@
   "salary_cap": 275,
   "salary_cap_base": 150,
   "fans": 100,
-  "coach_rating": 20
+  "coach_rating": 20,
+  "credits": 43,
+  "draft_picks": [
+   1,
+   1,
+   1
+  ],
+  "games_coached": 1845,
+  "difficulty": 4,
+  "training": {
+   "offense": 2,
+   "defense": 2
+  },
+  "roster_cap": 10,
+  "facilities_upgraded": {
+   "rehab": 12,
+   "stadium": 0,
+   "training": 0
+  }
+ },
+ "staff": [
+  {
+   "role": "OC",
+   "name": "Von Clement",
+   "rating": 10,
+   "age": 61,
+   "contract": 1,
+   "trait": 0,
+   "xp_level": 10,
+   "delay_retirement": 0
+  },
+  {
+   "role": "DC",
+   "name": "Damiere Kirklin",
+   "rating": 10,
+   "age": 49,
+   "contract": 1,
+   "trait": 0,
+   "xp_level": 10,
+   "delay_retirement": 0
+  }
+ ],
+ "counters": {
+  "ACH_WIN1": 1584,
+  "ACH_SEASON1": 91,
+  "ACH_WINNING_SEASON": 91,
+  "ACH_UNBEATEN_SEASON": 11,
+  "ACH_WIN_DIVISION": 83,
+  "ACH_WIN_AFC": 34,
+  "ACH_WIN_NFC": 39,
+  "ACH_WIN_RETROBOWL1": 66,
+  "ACH_TEAMS2": 17,
+  "ACH_TRADEIN": 160,
+  "ACH_TRADEOUT": 287,
+  "ACH_DRAFT": 119,
+  "ACH_FREEAGENT": 127,
+  "ACH_FREEAGENT5": 41,
+  "ACH_CUT": 11,
+  "ACH_HIRE_OF": 11,
+  "ACH_HIRE_DF": 20,
+  "ACH_HIRE_OF5": 8,
+  "ACH_HIRE_DF5": 16,
+  "ACH_UPGRADE_STADIUM": 114,
+  "ACH_UPGRADE_TRAINING": 107,
+  "ACH_UPGRADE_REHAB": 146,
+  "ACH_MAX_STADIUM": 7,
+  "ACH_MAX_TRAINING": 8,
+  "ACH_MAX_REHAB": 13,
+  "ACH_SHUTOUT": 7,
+  "ACH_SCORE50": 12,
+  "ACH_DOINK": 14,
+  "ACH_FIELDGOAL50": 3,
+  "ACH_GAME_PASS_400": 177,
+  "ACH_GAME_PASS_500": 2,
+  "ACH_GAME_COMPLETE_100": 167,
+  "ACH_GAME_RUSH_150": 48,
+  "ACH_TD_QB": 299,
+  "ACH_WIN_NOSTARQB": 26
  },
  "clubs": {
   "Bills": {
@@ -23,7 +100,10 @@
    "l": 5,
    "t": 0,
    "off": 9,
-   "def": 10
+   "def": 10,
+   "rainfall": 40,
+   "snowfall": 89,
+   "roof": 0
   },
   "Dolphins": {
    "abbr": "MIA",
@@ -31,7 +111,10 @@
    "l": 8,
    "t": 0,
    "off": 5,
-   "def": 8
+   "def": 8,
+   "rainfall": 59,
+   "snowfall": 0,
+   "roof": 0
   },
   "Patriots": {
    "abbr": "NE",
@@ -39,7 +122,10 @@
    "l": 12,
    "t": 0,
    "off": 5,
-   "def": 6
+   "def": 6,
+   "rainfall": 49,
+   "snowfall": 52,
+   "roof": 0
   },
   "Jets": {
    "abbr": "NYJ",
@@ -47,7 +133,10 @@
    "l": 8,
    "t": 1,
    "off": 6,
-   "def": 3
+   "def": 3,
+   "rainfall": 47,
+   "snowfall": 25,
+   "roof": 0
   },
   "Broncos": {
    "abbr": "DEN",
@@ -55,7 +144,10 @@
    "l": 10,
    "t": 1,
    "off": 6,
-   "def": 3
+   "def": 3,
+   "rainfall": 17,
+   "snowfall": 62,
+   "roof": 0
   },
   "Chiefs": {
    "abbr": "KC",
@@ -63,7 +155,10 @@
    "l": 5,
    "t": 0,
    "off": 8,
-   "def": 9
+   "def": 9,
+   "rainfall": 40,
+   "snowfall": 15,
+   "roof": 0
   },
   "Chargers": {
    "abbr": "LAC",
@@ -71,7 +166,10 @@
    "l": 6,
    "t": 0,
    "off": 8,
-   "def": 8
+   "def": 8,
+   "rainfall": 17,
+   "snowfall": 0,
+   "roof": 2
   },
   "Raiders": {
    "abbr": "LV",
@@ -79,7 +177,10 @@
    "l": 3,
    "t": 0,
    "off": 9,
-   "def": 8
+   "def": 8,
+   "rainfall": 5,
+   "snowfall": 0,
+   "roof": 1
   },
   "Ravens": {
    "abbr": "BAL",
@@ -87,7 +188,10 @@
    "l": 7,
    "t": 0,
    "off": 4,
-   "def": 4
+   "def": 4,
+   "rainfall": 45,
+   "snowfall": 19,
+   "roof": 0
   },
   "Bengals": {
    "abbr": "CIN",
@@ -95,7 +199,10 @@
    "l": 2,
    "t": 0,
    "off": 9,
-   "def": 6
+   "def": 6,
+   "rainfall": 42,
+   "snowfall": 14,
+   "roof": 0
   },
   "Browns": {
    "abbr": "CLE",
@@ -103,7 +210,10 @@
    "l": 7,
    "t": 0,
    "off": 3,
-   "def": 9
+   "def": 9,
+   "rainfall": 40,
+   "snowfall": 61,
+   "roof": 0
   },
   "Steelers": {
    "abbr": "PIT",
@@ -111,7 +221,10 @@
    "l": 6,
    "t": 0,
    "off": 8,
-   "def": 5
+   "def": 5,
+   "rainfall": 38,
+   "snowfall": 27,
+   "roof": 0
   },
   "Texans": {
    "abbr": "HOU",
@@ -119,7 +232,10 @@
    "l": 2,
    "t": 0,
    "off": 8,
-   "def": 10
+   "def": 10,
+   "rainfall": 51,
+   "snowfall": 0,
+   "roof": 2
   },
   "Colts": {
    "abbr": "IND",
@@ -127,7 +243,10 @@
    "l": 5,
    "t": 0,
    "off": 7,
-   "def": 7
+   "def": 7,
+   "rainfall": 42,
+   "snowfall": 21,
+   "roof": 1
   },
   "Jaguars": {
    "abbr": "JAX",
@@ -135,7 +254,10 @@
    "l": 8,
    "t": 0,
    "off": 8,
-   "def": 2
+   "def": 2,
+   "rainfall": 50,
+   "snowfall": 0,
+   "roof": 0
   },
   "Titans": {
    "abbr": "TEN",
@@ -143,7 +265,10 @@
    "l": 11,
    "t": 0,
    "off": 5,
-   "def": 2
+   "def": 2,
+   "rainfall": 45,
+   "snowfall": 2,
+   "roof": 0
   },
   "Cowboys": {
    "abbr": "DAL",
@@ -151,7 +276,10 @@
    "l": 11,
    "t": 0,
    "off": 4,
-   "def": 5
+   "def": 5,
+   "rainfall": 39,
+   "snowfall": 1,
+   "roof": 1
   },
   "Giants": {
    "abbr": "NYG",
@@ -159,7 +287,10 @@
    "l": 5,
    "t": 0,
    "off": 9,
-   "def": 7
+   "def": 7,
+   "rainfall": 47,
+   "snowfall": 25,
+   "roof": 0
   },
   "Eagles": {
    "abbr": "PHI",
@@ -167,7 +298,10 @@
    "l": 0,
    "t": 0,
    "off": 10,
-   "def": 10
+   "def": 10,
+   "rainfall": 47,
+   "snowfall": 15,
+   "roof": 0
   },
   "Commanders": {
    "abbr": "WAS",
@@ -175,7 +309,10 @@
    "l": 6,
    "t": 0,
    "off": 9,
-   "def": 9
+   "def": 9,
+   "rainfall": 43,
+   "snowfall": 13,
+   "roof": 0
   },
   "Cardinals": {
    "abbr": "ARI",
@@ -183,7 +320,10 @@
    "l": 11,
    "t": 0,
    "off": 5,
-   "def": 2
+   "def": 2,
+   "rainfall": 9,
+   "snowfall": 0,
+   "roof": 1
   },
   "Rams": {
    "abbr": "LAR",
@@ -191,7 +331,10 @@
    "l": 6,
    "t": 0,
    "off": 9,
-   "def": 5
+   "def": 5,
+   "rainfall": 17,
+   "snowfall": 0,
+   "roof": 2
   },
   "49ers": {
    "abbr": "SF",
@@ -199,7 +342,10 @@
    "l": 8,
    "t": 0,
    "off": 9,
-   "def": 3
+   "def": 3,
+   "rainfall": 24,
+   "snowfall": 0,
+   "roof": 0
   },
   "Seahawks": {
    "abbr": "SEA",
@@ -207,7 +353,10 @@
    "l": 8,
    "t": 0,
    "off": 6,
-   "def": 5
+   "def": 5,
+   "rainfall": 37,
+   "snowfall": 5,
+   "roof": 0
   },
   "Bears": {
    "abbr": "CHI",
@@ -215,7 +364,10 @@
    "l": 9,
    "t": 0,
    "off": 6,
-   "def": 7
+   "def": 7,
+   "rainfall": 38,
+   "snowfall": 35,
+   "roof": 0
   },
   "Lions": {
    "abbr": "DET",
@@ -223,7 +375,10 @@
    "l": 5,
    "t": 0,
    "off": 2,
-   "def": 6
+   "def": 6,
+   "rainfall": 39,
+   "snowfall": 32,
+   "roof": 2
   },
   "Packers": {
    "abbr": "GB",
@@ -231,7 +386,10 @@
    "l": 7,
    "t": 0,
    "off": 8,
-   "def": 9
+   "def": 9,
+   "rainfall": 30,
+   "snowfall": 48,
+   "roof": 0
   },
   "Vikings": {
    "abbr": "MIN",
@@ -239,7 +397,10 @@
    "l": 6,
    "t": 0,
    "off": 6,
-   "def": 4
+   "def": 4,
+   "rainfall": 32,
+   "snowfall": 53,
+   "roof": 2
   },
   "Falcons": {
    "abbr": "ATL",
@@ -247,7 +408,10 @@
    "l": 8,
    "t": 0,
    "off": 8,
-   "def": 9
+   "def": 9,
+   "rainfall": 51,
+   "snowfall": 1,
+   "roof": 1
   },
   "Panthers": {
    "abbr": "CAR",
@@ -255,7 +419,10 @@
    "l": 8,
    "t": 0,
    "off": 9,
-   "def": 6
+   "def": 6,
+   "rainfall": 44,
+   "snowfall": 2,
+   "roof": 0
   },
   "Saints": {
    "abbr": "NO",
@@ -263,7 +430,10 @@
    "l": 11,
    "t": 0,
    "off": 7,
-   "def": 2
+   "def": 2,
+   "rainfall": 63,
+   "snowfall": 0,
+   "roof": 2
   },
   "Buccaneers": {
    "abbr": "TB",
@@ -271,7 +441,10 @@
    "l": 9,
    "t": 0,
    "off": 5,
-   "def": 8
+   "def": 8,
+   "rainfall": 50,
+   "snowfall": 0,
+   "roof": 0
   }
  },
  "coachGames": [
@@ -403,6 +576,2830 @@
    "home": false
   }
  ],
+ "coachHistory": [
+  {
+   "year": 1,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "pw": 2,
+   "pl": 1,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 2,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 11,
+   "l": 6,
+   "t": 0,
+   "pw": 0,
+   "pl": 1,
+   "finish": "Wild Card"
+  },
+  {
+   "year": 3,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 4,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "pw": 2,
+   "pl": 1,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 5,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 9,
+   "l": 8,
+   "t": 0,
+   "pw": 0,
+   "pl": 0,
+   "finish": "AFC EAS 3rd"
+  },
+  {
+   "year": 6,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 7,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 11,
+   "l": 6,
+   "t": 0,
+   "pw": 3,
+   "pl": 1,
+   "finish": "AFC Champs"
+  },
+  {
+   "year": 8,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 9,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 11,
+   "l": 6,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 10,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 11,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 12,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 8,
+   "l": 9,
+   "t": 0,
+   "pw": 0,
+   "pl": 0,
+   "finish": "AFC WES 3rd"
+  },
+  {
+   "year": 13,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 11,
+   "l": 6,
+   "t": 0,
+   "pw": 0,
+   "pl": 1,
+   "finish": "Wild Card"
+  },
+  {
+   "year": 14,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 15,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 16,
+   "team": "Commanders",
+   "abbr": "WAS",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 17,
+   "team": "Commanders",
+   "abbr": "WAS",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 18,
+   "team": "Commanders",
+   "abbr": "WAS",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 19,
+   "team": "Commanders",
+   "abbr": "WAS",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 20,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 21,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 22,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 2,
+   "pl": 1,
+   "finish": "NFC Champs"
+  },
+  {
+   "year": 23,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 24,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 2,
+   "pl": 1,
+   "finish": "NFC Champs"
+  },
+  {
+   "year": 25,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 26,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 15,
+   "l": 1,
+   "t": 1,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 27,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 28,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 29,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 30,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 31,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 32,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 33,
+   "team": "Bills",
+   "abbr": "BUF",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 34,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 1,
+   "pl": 1,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 35,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "pw": 1,
+   "pl": 1,
+   "finish": "Divisional"
+  },
+  {
+   "year": 36,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 37,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 38,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 39,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "pw": 1,
+   "pl": 1,
+   "finish": "Divisional"
+  },
+  {
+   "year": 40,
+   "team": "Chargers",
+   "abbr": "LAC",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 41,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 42,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 43,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 44,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 45,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 0,
+   "pl": 1,
+   "finish": "AFC NOR 1st"
+  },
+  {
+   "year": 46,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 16,
+   "l": 0,
+   "t": 1,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 47,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 0,
+   "pl": 1,
+   "finish": "AFC NOR 1st"
+  },
+  {
+   "year": 48,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 49,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 50,
+   "team": "Ravens",
+   "abbr": "BAL",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "pw": 2,
+   "pl": 1,
+   "finish": "AFC Champs"
+  },
+  {
+   "year": 51,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 52,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 53,
+   "team": "Buccaneers",
+   "abbr": "TB",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "pw": 1,
+   "pl": 1,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 54,
+   "team": "Giants",
+   "abbr": "NYG",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 55,
+   "team": "Giants",
+   "abbr": "NYG",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 56,
+   "team": "Giants",
+   "abbr": "NYG",
+   "w": 14,
+   "l": 2,
+   "t": 1,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 57,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 58,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 59,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 60,
+   "team": "Dolphins",
+   "abbr": "MIA",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 2,
+   "pl": 1,
+   "finish": "AFC Champs"
+  },
+  {
+   "year": 61,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 62,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 63,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 64,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 65,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 0,
+   "pl": 1,
+   "finish": "NFC NOR 1st"
+  },
+  {
+   "year": 66,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 67,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 68,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 69,
+   "team": "Vikings",
+   "abbr": "MIN",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 70,
+   "team": "Titans",
+   "abbr": "TEN",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 71,
+   "team": "Titans",
+   "abbr": "TEN",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 72,
+   "team": "Titans",
+   "abbr": "TEN",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 73,
+   "team": "Titans",
+   "abbr": "TEN",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 1,
+   "pl": 1,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 74,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 14,
+   "l": 2,
+   "t": 1,
+   "pw": 3,
+   "pl": 1,
+   "finish": "NFC Champs"
+  },
+  {
+   "year": 75,
+   "team": "Seahawks",
+   "abbr": "SEA",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "pw": 1,
+   "pl": 1,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 76,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 1,
+   "pl": 1,
+   "finish": "Champ Rnd"
+  },
+  {
+   "year": 77,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 78,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "pw": 0,
+   "pl": 1,
+   "finish": "Wild Card"
+  },
+  {
+   "year": 79,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "pw": 0,
+   "pl": 1,
+   "finish": "Wild Card"
+  },
+  {
+   "year": 80,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 81,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 14,
+   "l": 2,
+   "t": 1,
+   "pw": 0,
+   "pl": 1,
+   "finish": "AFC EAS 1st"
+  },
+  {
+   "year": 82,
+   "team": "Jets",
+   "abbr": "NYJ",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 83,
+   "team": "Falcons",
+   "abbr": "ATL",
+   "w": 12,
+   "l": 5,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 84,
+   "team": "Falcons",
+   "abbr": "ATL",
+   "w": 13,
+   "l": 3,
+   "t": 1,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 85,
+   "team": "Falcons",
+   "abbr": "ATL",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 86,
+   "team": "Falcons",
+   "abbr": "ATL",
+   "w": 13,
+   "l": 4,
+   "t": 0,
+   "pw": 4,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 87,
+   "team": "Falcons",
+   "abbr": "ATL",
+   "w": 17,
+   "l": 0,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 88,
+   "team": "Eagles",
+   "abbr": "PHI",
+   "w": 14,
+   "l": 2,
+   "t": 1,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 89,
+   "team": "Eagles",
+   "abbr": "PHI",
+   "w": 14,
+   "l": 2,
+   "t": 1,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 90,
+   "team": "Eagles",
+   "abbr": "PHI",
+   "w": 14,
+   "l": 3,
+   "t": 0,
+   "pw": 2,
+   "pl": 1,
+   "finish": "NFC Champs"
+  },
+  {
+   "year": 91,
+   "team": "Eagles",
+   "abbr": "PHI",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  },
+  {
+   "year": 92,
+   "team": "Eagles",
+   "abbr": "PHI",
+   "w": 15,
+   "l": 2,
+   "t": 0,
+   "pw": 3,
+   "pl": 0,
+   "finish": "Champions"
+  }
+ ],
+ "leagueGames": [
+  {
+   "week": 1,
+   "home": "Jets",
+   "away": "Giants",
+   "hs": 26,
+   "as": 36
+  },
+  {
+   "week": 1,
+   "home": "Chiefs",
+   "away": "Patriots",
+   "hs": 48,
+   "as": 37
+  },
+  {
+   "week": 1,
+   "home": "Raiders",
+   "away": "Bills",
+   "hs": 30,
+   "as": 39
+  },
+  {
+   "week": 1,
+   "home": "Ravens",
+   "away": "Steelers",
+   "hs": 36,
+   "as": 30
+  },
+  {
+   "week": 1,
+   "home": "Browns",
+   "away": "Dolphins",
+   "hs": 58,
+   "as": 16
+  },
+  {
+   "week": 1,
+   "home": "Colts",
+   "away": "49ers",
+   "hs": 43,
+   "as": 23
+  },
+  {
+   "week": 1,
+   "home": "Jaguars",
+   "away": "Texans",
+   "hs": 42,
+   "as": 53
+  },
+  {
+   "week": 1,
+   "home": "Titans",
+   "away": "Rams",
+   "hs": 13,
+   "as": 23
+  },
+  {
+   "week": 1,
+   "home": "Commanders",
+   "away": "Cardinals",
+   "hs": 63,
+   "as": 30
+  },
+  {
+   "week": 1,
+   "home": "Seahawks",
+   "away": "Eagles",
+   "hs": 23,
+   "as": 38
+  },
+  {
+   "week": 1,
+   "home": "Bears",
+   "away": "Cowboys",
+   "hs": 35,
+   "as": 9
+  },
+  {
+   "week": 1,
+   "home": "Lions",
+   "away": "Saints",
+   "hs": 33,
+   "as": 31
+  },
+  {
+   "week": 1,
+   "home": "Packers",
+   "away": "Falcons",
+   "hs": 19,
+   "as": 31
+  },
+  {
+   "week": 1,
+   "home": "Vikings",
+   "away": "Bengals",
+   "hs": 25,
+   "as": 30
+  },
+  {
+   "week": 1,
+   "home": "Panthers",
+   "away": "Broncos",
+   "hs": 23,
+   "as": 22
+  },
+  {
+   "week": 1,
+   "home": "Buccaneers",
+   "away": "Chargers",
+   "hs": 16,
+   "as": 36
+  },
+  {
+   "week": 2,
+   "home": "Bills",
+   "away": "Jaguars",
+   "hs": 45,
+   "as": 20
+  },
+  {
+   "week": 2,
+   "home": "Dolphins",
+   "away": "Chiefs",
+   "hs": 19,
+   "as": 41
+  },
+  {
+   "week": 2,
+   "home": "Patriots",
+   "away": "Raiders",
+   "hs": 27,
+   "as": 37
+  },
+  {
+   "week": 2,
+   "home": "Broncos",
+   "away": "Saints",
+   "hs": 41,
+   "as": 17
+  },
+  {
+   "week": 2,
+   "home": "Bengals",
+   "away": "Ravens",
+   "hs": 40,
+   "as": 24
+  },
+  {
+   "week": 2,
+   "home": "Steelers",
+   "away": "Browns",
+   "hs": 37,
+   "as": 19
+  },
+  {
+   "week": 2,
+   "home": "Texans",
+   "away": "Chargers",
+   "hs": 53,
+   "as": 17
+  },
+  {
+   "week": 2,
+   "home": "Titans",
+   "away": "Seahawks",
+   "hs": 33,
+   "as": 43
+  },
+  {
+   "week": 2,
+   "home": "Cowboys",
+   "away": "Commanders",
+   "hs": 22,
+   "as": 41
+  },
+  {
+   "week": 2,
+   "home": "Eagles",
+   "away": "Jets",
+   "hs": 40,
+   "as": 25
+  },
+  {
+   "week": 2,
+   "home": "Rams",
+   "away": "Colts",
+   "hs": 34,
+   "as": 35
+  },
+  {
+   "week": 2,
+   "home": "49ers",
+   "away": "Giants",
+   "hs": 41,
+   "as": 34
+  },
+  {
+   "week": 2,
+   "home": "Lions",
+   "away": "Packers",
+   "hs": 29,
+   "as": 30
+  },
+  {
+   "week": 2,
+   "home": "Vikings",
+   "away": "Bears",
+   "hs": 34,
+   "as": 37
+  },
+  {
+   "week": 2,
+   "home": "Falcons",
+   "away": "Cardinals",
+   "hs": 45,
+   "as": 29
+  },
+  {
+   "week": 2,
+   "home": "Panthers",
+   "away": "Buccaneers",
+   "hs": 48,
+   "as": 28
+  },
+  {
+   "week": 3,
+   "home": "Bills",
+   "away": "Eagles",
+   "hs": 14,
+   "as": 28
+  },
+  {
+   "week": 3,
+   "home": "Dolphins",
+   "away": "Jets",
+   "hs": 30,
+   "as": 12
+  },
+  {
+   "week": 3,
+   "home": "Chiefs",
+   "away": "Steelers",
+   "hs": 41,
+   "as": 13
+  },
+  {
+   "week": 3,
+   "home": "Chargers",
+   "away": "Bengals",
+   "hs": 25,
+   "as": 48
+  },
+  {
+   "week": 3,
+   "home": "Raiders",
+   "away": "Broncos",
+   "hs": 26,
+   "as": 7
+  },
+  {
+   "week": 3,
+   "home": "Ravens",
+   "away": "Bears",
+   "hs": 44,
+   "as": 31
+  },
+  {
+   "week": 3,
+   "home": "Browns",
+   "away": "Panthers",
+   "hs": 51,
+   "as": 36
+  },
+  {
+   "week": 3,
+   "home": "Texans",
+   "away": "49ers",
+   "hs": 34,
+   "as": 28
+  },
+  {
+   "week": 3,
+   "home": "Colts",
+   "away": "Titans",
+   "hs": 34,
+   "as": 33
+  },
+  {
+   "week": 3,
+   "home": "Jaguars",
+   "away": "Vikings",
+   "hs": 43,
+   "as": 20
+  },
+  {
+   "week": 3,
+   "home": "Giants",
+   "away": "Rams",
+   "hs": 26,
+   "as": 29
+  },
+  {
+   "week": 3,
+   "home": "Commanders",
+   "away": "Patriots",
+   "hs": 29,
+   "as": 17
+  },
+  {
+   "week": 3,
+   "home": "Cardinals",
+   "away": "Cowboys",
+   "hs": 36,
+   "as": 48
+  },
+  {
+   "week": 3,
+   "home": "Seahawks",
+   "away": "Lions",
+   "hs": 45,
+   "as": 7
+  },
+  {
+   "week": 3,
+   "home": "Saints",
+   "away": "Falcons",
+   "hs": 36,
+   "as": 43
+  },
+  {
+   "week": 3,
+   "home": "Buccaneers",
+   "away": "Packers",
+   "hs": 19,
+   "as": 30
+  },
+  {
+   "week": 4,
+   "home": "Jets",
+   "away": "Texans",
+   "hs": 20,
+   "as": 30
+  },
+  {
+   "week": 4,
+   "home": "Broncos",
+   "away": "Chiefs",
+   "hs": 27,
+   "as": 32
+  },
+  {
+   "week": 4,
+   "home": "Chargers",
+   "away": "Patriots",
+   "hs": 32,
+   "as": 25
+  },
+  {
+   "week": 4,
+   "home": "Ravens",
+   "away": "Lions",
+   "hs": 43,
+   "as": 20
+  },
+  {
+   "week": 4,
+   "home": "Bengals",
+   "away": "Colts",
+   "hs": 40,
+   "as": 34
+  },
+  {
+   "week": 4,
+   "home": "Browns",
+   "away": "Jaguars",
+   "hs": 43,
+   "as": 37
+  },
+  {
+   "week": 4,
+   "home": "Steelers",
+   "away": "Titans",
+   "hs": 30,
+   "as": 31
+  },
+  {
+   "week": 4,
+   "home": "Cowboys",
+   "away": "Dolphins",
+   "hs": 28,
+   "as": 23
+  },
+  {
+   "week": 4,
+   "home": "Giants",
+   "away": "Bills",
+   "hs": 30,
+   "as": 21
+  },
+  {
+   "week": 4,
+   "home": "Eagles",
+   "away": "Commanders",
+   "hs": 48,
+   "as": 22
+  },
+  {
+   "week": 4,
+   "home": "Cardinals",
+   "away": "Rams",
+   "hs": 33,
+   "as": 48
+  },
+  {
+   "week": 4,
+   "home": "Seahawks",
+   "away": "49ers",
+   "hs": 37,
+   "as": 28
+  },
+  {
+   "week": 4,
+   "home": "Bears",
+   "away": "Buccaneers",
+   "hs": 36,
+   "as": 31
+  },
+  {
+   "week": 4,
+   "home": "Packers",
+   "away": "Panthers",
+   "hs": 26,
+   "as": 23
+  },
+  {
+   "week": 4,
+   "home": "Falcons",
+   "away": "Raiders",
+   "hs": 22,
+   "as": 30
+  },
+  {
+   "week": 4,
+   "home": "Saints",
+   "away": "Vikings",
+   "hs": 40,
+   "as": 53
+  },
+  {
+   "week": 5,
+   "home": "Dolphins",
+   "away": "Chargers",
+   "hs": 41,
+   "as": 20
+  },
+  {
+   "week": 5,
+   "home": "Patriots",
+   "away": "Titans",
+   "hs": 27,
+   "as": 34
+  },
+  {
+   "week": 5,
+   "home": "Jets",
+   "away": "Cowboys",
+   "hs": 24,
+   "as": 10
+  },
+  {
+   "week": 5,
+   "home": "Broncos",
+   "away": "Bills",
+   "hs": 34,
+   "as": 41
+  },
+  {
+   "week": 5,
+   "home": "Chiefs",
+   "away": "Eagles",
+   "hs": 21,
+   "as": 32
+  },
+  {
+   "week": 5,
+   "home": "Raiders",
+   "away": "Browns",
+   "hs": 31,
+   "as": 27
+  },
+  {
+   "week": 5,
+   "home": "Texans",
+   "away": "Colts",
+   "hs": 40,
+   "as": 27
+  },
+  {
+   "week": 5,
+   "home": "Jaguars",
+   "away": "Ravens",
+   "hs": 33,
+   "as": 46
+  },
+  {
+   "week": 5,
+   "home": "Giants",
+   "away": "Commanders",
+   "hs": 40,
+   "as": 38
+  },
+  {
+   "week": 5,
+   "home": "Rams",
+   "away": "Seahawks",
+   "hs": 27,
+   "as": 19
+  },
+  {
+   "week": 5,
+   "home": "49ers",
+   "away": "Cardinals",
+   "hs": 23,
+   "as": 33
+  },
+  {
+   "week": 5,
+   "home": "Lions",
+   "away": "Steelers",
+   "hs": 38,
+   "as": 31
+  },
+  {
+   "week": 5,
+   "home": "Packers",
+   "away": "Bengals",
+   "hs": 41,
+   "as": 19
+  },
+  {
+   "week": 5,
+   "home": "Vikings",
+   "away": "Falcons",
+   "hs": 44,
+   "as": 17
+  },
+  {
+   "week": 5,
+   "home": "Panthers",
+   "away": "Bears",
+   "hs": 44,
+   "as": 27
+  },
+  {
+   "week": 5,
+   "home": "Saints",
+   "away": "Buccaneers",
+   "hs": 50,
+   "as": 30
+  },
+  {
+   "week": 6,
+   "home": "Bills",
+   "away": "49ers",
+   "hs": 32,
+   "as": 50
+  },
+  {
+   "week": 6,
+   "home": "Dolphins",
+   "away": "Rams",
+   "hs": 34,
+   "as": 26
+  },
+  {
+   "week": 6,
+   "home": "Patriots",
+   "away": "Broncos",
+   "hs": 40,
+   "as": 24
+  },
+  {
+   "week": 6,
+   "home": "Chargers",
+   "away": "Chiefs",
+   "hs": 39,
+   "as": 23
+  },
+  {
+   "week": 6,
+   "home": "Ravens",
+   "away": "Saints",
+   "hs": 44,
+   "as": 23
+  },
+  {
+   "week": 6,
+   "home": "Texans",
+   "away": "Steelers",
+   "hs": 24,
+   "as": 34
+  },
+  {
+   "week": 6,
+   "home": "Colts",
+   "away": "Browns",
+   "hs": 24,
+   "as": 32
+  },
+  {
+   "week": 6,
+   "home": "Titans",
+   "away": "Jaguars",
+   "hs": 25,
+   "as": 30
+  },
+  {
+   "week": 6,
+   "home": "Eagles",
+   "away": "Cowboys",
+   "hs": 30,
+   "as": 16
+  },
+  {
+   "week": 6,
+   "home": "Commanders",
+   "away": "Jets",
+   "hs": 55,
+   "as": 17
+  },
+  {
+   "week": 6,
+   "home": "Vikings",
+   "away": "Giants",
+   "hs": 41,
+   "as": 17
+  },
+  {
+   "week": 6,
+   "home": "Falcons",
+   "away": "Lions",
+   "hs": 26,
+   "as": 38
+  },
+  {
+   "week": 6,
+   "home": "Panthers",
+   "away": "Raiders",
+   "hs": 34,
+   "as": 57
+  },
+  {
+   "week": 6,
+   "home": "Buccaneers",
+   "away": "Seahawks",
+   "hs": 30,
+   "as": 48
+  },
+  {
+   "week": 7,
+   "home": "Bills",
+   "away": "Chargers",
+   "hs": 36,
+   "as": 31
+  },
+  {
+   "week": 7,
+   "home": "Patriots",
+   "away": "Jets",
+   "hs": 22,
+   "as": 36
+  },
+  {
+   "week": 7,
+   "home": "Chiefs",
+   "away": "Falcons",
+   "hs": 30,
+   "as": 16
+  },
+  {
+   "week": 7,
+   "home": "Ravens",
+   "away": "Bengals",
+   "hs": 30,
+   "as": 53
+  },
+  {
+   "week": 7,
+   "home": "Steelers",
+   "away": "Packers",
+   "hs": 37,
+   "as": 30
+  },
+  {
+   "week": 7,
+   "home": "Colts",
+   "away": "Raiders",
+   "hs": 34,
+   "as": 44
+  },
+  {
+   "week": 7,
+   "home": "Cowboys",
+   "away": "Panthers",
+   "hs": 27,
+   "as": 19
+  },
+  {
+   "week": 7,
+   "home": "Cardinals",
+   "away": "Titans",
+   "hs": 44,
+   "as": 33
+  },
+  {
+   "week": 7,
+   "home": "Rams",
+   "away": "Bears",
+   "hs": 40,
+   "as": 33
+  },
+  {
+   "week": 7,
+   "home": "49ers",
+   "away": "Jaguars",
+   "hs": 40,
+   "as": 33
+  },
+  {
+   "week": 7,
+   "home": "Seahawks",
+   "away": "Commanders",
+   "hs": 26,
+   "as": 30
+  },
+  {
+   "week": 7,
+   "home": "Lions",
+   "away": "Eagles",
+   "hs": 29,
+   "as": 46
+  },
+  {
+   "week": 7,
+   "home": "Buccaneers",
+   "away": "Vikings",
+   "hs": 26,
+   "as": 13
+  },
+  {
+   "week": 8,
+   "home": "Bills",
+   "away": "Dolphins",
+   "hs": 34,
+   "as": 24
+  },
+  {
+   "week": 8,
+   "home": "Broncos",
+   "away": "Ravens",
+   "hs": 32,
+   "as": 29
+  },
+  {
+   "week": 8,
+   "home": "Chargers",
+   "away": "Panthers",
+   "hs": 27,
+   "as": 16
+  },
+  {
+   "week": 8,
+   "home": "Raiders",
+   "away": "Buccaneers",
+   "hs": 37,
+   "as": 20
+  },
+  {
+   "week": 8,
+   "home": "Bengals",
+   "away": "Jets",
+   "hs": 49,
+   "as": 10
+  },
+  {
+   "week": 8,
+   "home": "Browns",
+   "away": "Steelers",
+   "hs": 27,
+   "as": 36
+  },
+  {
+   "week": 8,
+   "home": "Jaguars",
+   "away": "Seahawks",
+   "hs": 30,
+   "as": 23
+  },
+  {
+   "week": 8,
+   "home": "Titans",
+   "away": "Colts",
+   "hs": 20,
+   "as": 37
+  },
+  {
+   "week": 8,
+   "home": "Giants",
+   "away": "Saints",
+   "hs": 39,
+   "as": 31
+  },
+  {
+   "week": 8,
+   "home": "Eagles",
+   "away": "Cardinals",
+   "hs": 32,
+   "as": 22
+  },
+  {
+   "week": 8,
+   "home": "Commanders",
+   "away": "Falcons",
+   "hs": 43,
+   "as": 40
+  },
+  {
+   "week": 8,
+   "home": "Rams",
+   "away": "Texans",
+   "hs": 12,
+   "as": 23
+  },
+  {
+   "week": 8,
+   "home": "49ers",
+   "away": "Cowboys",
+   "hs": 48,
+   "as": 20
+  },
+  {
+   "week": 8,
+   "home": "Bears",
+   "away": "Lions",
+   "hs": 15,
+   "as": 24
+  },
+  {
+   "week": 8,
+   "home": "Packers",
+   "away": "Vikings",
+   "hs": 10,
+   "as": 24
+  },
+  {
+   "week": 9,
+   "home": "Dolphins",
+   "away": "Eagles",
+   "hs": 28,
+   "as": 32
+  },
+  {
+   "week": 9,
+   "home": "Patriots",
+   "away": "Giants",
+   "hs": 33,
+   "as": 36
+  },
+  {
+   "week": 9,
+   "home": "Jets",
+   "away": "Bills",
+   "hs": 23,
+   "as": 30
+  },
+  {
+   "week": 9,
+   "home": "Raiders",
+   "away": "Cowboys",
+   "hs": 38,
+   "as": 33
+  },
+  {
+   "week": 9,
+   "home": "Steelers",
+   "away": "Jaguars",
+   "hs": 30,
+   "as": 20
+  },
+  {
+   "week": 9,
+   "home": "Texans",
+   "away": "Browns",
+   "hs": 40,
+   "as": 13
+  },
+  {
+   "week": 9,
+   "home": "Titans",
+   "away": "Bengals",
+   "hs": 37,
+   "as": 40
+  },
+  {
+   "week": 9,
+   "home": "Cardinals",
+   "away": "49ers",
+   "hs": 13,
+   "as": 47
+  },
+  {
+   "week": 9,
+   "home": "Seahawks",
+   "away": "Colts",
+   "hs": 26,
+   "as": 34
+  },
+  {
+   "week": 9,
+   "home": "Bears",
+   "away": "Packers",
+   "hs": 22,
+   "as": 40
+  },
+  {
+   "week": 9,
+   "home": "Vikings",
+   "away": "Ravens",
+   "hs": 13,
+   "as": 10
+  },
+  {
+   "week": 9,
+   "home": "Falcons",
+   "away": "Broncos",
+   "hs": 30,
+   "as": 27
+  },
+  {
+   "week": 9,
+   "home": "Saints",
+   "away": "Chargers",
+   "hs": 47,
+   "as": 17
+  },
+  {
+   "week": 9,
+   "home": "Buccaneers",
+   "away": "Chiefs",
+   "hs": 33,
+   "as": 26
+  },
+  {
+   "week": 10,
+   "home": "Dolphins",
+   "away": "Commanders",
+   "hs": 46,
+   "as": 24
+  },
+  {
+   "week": 10,
+   "home": "Broncos",
+   "away": "Giants",
+   "hs": 40,
+   "as": 41
+  },
+  {
+   "week": 10,
+   "home": "Chiefs",
+   "away": "Raiders",
+   "hs": 30,
+   "as": 15
+  },
+  {
+   "week": 10,
+   "home": "Chargers",
+   "away": "Falcons",
+   "hs": 44,
+   "as": 31
+  },
+  {
+   "week": 10,
+   "home": "Ravens",
+   "away": "Bills",
+   "hs": 38,
+   "as": 25
+  },
+  {
+   "week": 10,
+   "home": "Bengals",
+   "away": "Browns",
+   "hs": 13,
+   "as": 16
+  },
+  {
+   "week": 10,
+   "home": "Steelers",
+   "away": "Patriots",
+   "hs": 41,
+   "as": 26
+  },
+  {
+   "week": 10,
+   "home": "Colts",
+   "away": "Bears",
+   "hs": 41,
+   "as": 16
+  },
+  {
+   "week": 10,
+   "home": "Titans",
+   "away": "Texans",
+   "hs": 37,
+   "as": 49
+  },
+  {
+   "week": 10,
+   "home": "Cowboys",
+   "away": "Rams",
+   "hs": 30,
+   "as": 45
+  },
+  {
+   "week": 10,
+   "home": "Cardinals",
+   "away": "Seahawks",
+   "hs": 31,
+   "as": 34
+  },
+  {
+   "week": 10,
+   "home": "49ers",
+   "away": "Vikings",
+   "hs": 27,
+   "as": 31
+  },
+  {
+   "week": 10,
+   "home": "Panthers",
+   "away": "Lions",
+   "hs": 20,
+   "as": 36
+  },
+  {
+   "week": 10,
+   "home": "Saints",
+   "away": "Packers",
+   "hs": 29,
+   "as": 24
+  },
+  {
+   "week": 11,
+   "home": "Bills",
+   "away": "Commanders",
+   "hs": 37,
+   "as": 36
+  },
+  {
+   "week": 11,
+   "home": "Broncos",
+   "away": "Dolphins",
+   "hs": 17,
+   "as": 43
+  },
+  {
+   "week": 11,
+   "home": "Chiefs",
+   "away": "Jets",
+   "hs": 24,
+   "as": 51
+  },
+  {
+   "week": 11,
+   "home": "Raiders",
+   "away": "Saints",
+   "hs": 42,
+   "as": 28
+  },
+  {
+   "week": 11,
+   "home": "Bengals",
+   "away": "Steelers",
+   "hs": 30,
+   "as": 15
+  },
+  {
+   "week": 11,
+   "home": "Browns",
+   "away": "Titans",
+   "hs": 38,
+   "as": 34
+  },
+  {
+   "week": 11,
+   "home": "Texans",
+   "away": "Cardinals",
+   "hs": 47,
+   "as": 19
+  },
+  {
+   "week": 11,
+   "home": "Colts",
+   "away": "Jaguars",
+   "hs": 44,
+   "as": 38
+  },
+  {
+   "week": 11,
+   "home": "Giants",
+   "away": "Cowboys",
+   "hs": 31,
+   "as": 23
+  },
+  {
+   "week": 11,
+   "home": "Eagles",
+   "away": "Patriots",
+   "hs": 46,
+   "as": 14
+  },
+  {
+   "week": 11,
+   "home": "Rams",
+   "away": "49ers",
+   "hs": 31,
+   "as": 23
+  },
+  {
+   "week": 11,
+   "home": "Lions",
+   "away": "Buccaneers",
+   "hs": 19,
+   "as": 30
+  },
+  {
+   "week": 11,
+   "home": "Packers",
+   "away": "Ravens",
+   "hs": 31,
+   "as": 33
+  },
+  {
+   "week": 11,
+   "home": "Vikings",
+   "away": "Panthers",
+   "hs": 44,
+   "as": 37
+  },
+  {
+   "week": 11,
+   "home": "Falcons",
+   "away": "Bears",
+   "hs": 37,
+   "as": 34
+  },
+  {
+   "week": 12,
+   "home": "Patriots",
+   "away": "Bills",
+   "hs": 34,
+   "as": 37
+  },
+  {
+   "week": 12,
+   "home": "Jets",
+   "away": "Dolphins",
+   "hs": 42,
+   "as": 20
+  },
+  {
+   "week": 12,
+   "home": "Chargers",
+   "away": "Broncos",
+   "hs": 29,
+   "as": 26
+  },
+  {
+   "week": 12,
+   "home": "Ravens",
+   "away": "Colts",
+   "hs": 9,
+   "as": 30
+  },
+  {
+   "week": 12,
+   "home": "Steelers",
+   "away": "Vikings",
+   "hs": 34,
+   "as": 27
+  },
+  {
+   "week": 12,
+   "home": "Texans",
+   "away": "Packers",
+   "hs": 50,
+   "as": 23
+  },
+  {
+   "week": 12,
+   "home": "Jaguars",
+   "away": "Bengals",
+   "hs": 16,
+   "as": 47
+  },
+  {
+   "week": 12,
+   "home": "Titans",
+   "away": "Lions",
+   "hs": 13,
+   "as": 27
+  },
+  {
+   "week": 12,
+   "home": "Cowboys",
+   "away": "Seahawks",
+   "hs": 48,
+   "as": 50
+  },
+  {
+   "week": 12,
+   "home": "Commanders",
+   "away": "Eagles",
+   "hs": 28,
+   "as": 40
+  },
+  {
+   "week": 12,
+   "home": "Cardinals",
+   "away": "Giants",
+   "hs": 34,
+   "as": 40
+  },
+  {
+   "week": 12,
+   "home": "Bears",
+   "away": "Browns",
+   "hs": 44,
+   "as": 37
+  },
+  {
+   "week": 12,
+   "home": "Panthers",
+   "away": "Rams",
+   "hs": 45,
+   "as": 24
+  },
+  {
+   "week": 12,
+   "home": "Saints",
+   "away": "Chiefs",
+   "hs": 24,
+   "as": 41
+  },
+  {
+   "week": 12,
+   "home": "Buccaneers",
+   "away": "Falcons",
+   "hs": 31,
+   "as": 23
+  },
+  {
+   "week": 13,
+   "home": "Dolphins",
+   "away": "Patriots",
+   "hs": 58,
+   "as": 33
+  },
+  {
+   "week": 13,
+   "home": "Jets",
+   "away": "Broncos",
+   "hs": 24,
+   "as": 24
+  },
+  {
+   "week": 13,
+   "home": "Chiefs",
+   "away": "Panthers",
+   "hs": 26,
+   "as": 47
+  },
+  {
+   "week": 13,
+   "home": "Raiders",
+   "away": "Chargers",
+   "hs": 41,
+   "as": 40
+  },
+  {
+   "week": 13,
+   "home": "Bengals",
+   "away": "Falcons",
+   "hs": 36,
+   "as": 34
+  },
+  {
+   "week": 13,
+   "home": "Browns",
+   "away": "Ravens",
+   "hs": 54,
+   "as": 43
+  },
+  {
+   "week": 13,
+   "home": "Steelers",
+   "away": "Buccaneers",
+   "hs": 22,
+   "as": 20
+  },
+  {
+   "week": 13,
+   "home": "Jaguars",
+   "away": "Titans",
+   "hs": 40,
+   "as": 28
+  },
+  {
+   "week": 13,
+   "home": "Eagles",
+   "away": "49ers",
+   "hs": 40,
+   "as": 25
+  },
+  {
+   "week": 13,
+   "home": "Commanders",
+   "away": "Giants",
+   "hs": 34,
+   "as": 30
+  },
+  {
+   "week": 13,
+   "home": "Rams",
+   "away": "Cardinals",
+   "hs": 19,
+   "as": 31
+  },
+  {
+   "week": 13,
+   "home": "Seahawks",
+   "away": "Texans",
+   "hs": 23,
+   "as": 45
+  },
+  {
+   "week": 13,
+   "home": "Bears",
+   "away": "Saints",
+   "hs": 26,
+   "as": 13
+  },
+  {
+   "week": 13,
+   "home": "Packers",
+   "away": "Lions",
+   "hs": 51,
+   "as": 55
+  },
+  {
+   "week": 14,
+   "home": "Bills",
+   "away": "Patriots",
+   "hs": 37,
+   "as": 26
+  },
+  {
+   "week": 14,
+   "home": "Jets",
+   "away": "Cardinals",
+   "hs": 37,
+   "as": 16
+  },
+  {
+   "week": 14,
+   "home": "Broncos",
+   "away": "Buccaneers",
+   "hs": 34,
+   "as": 29
+  },
+  {
+   "week": 14,
+   "home": "Chargers",
+   "away": "Commanders",
+   "hs": 38,
+   "as": 23
+  },
+  {
+   "week": 14,
+   "home": "Raiders",
+   "away": "Chiefs",
+   "hs": 19,
+   "as": 27
+  },
+  {
+   "week": 14,
+   "home": "Bengals",
+   "away": "Bears",
+   "hs": 38,
+   "as": 31
+  },
+  {
+   "week": 14,
+   "home": "Colts",
+   "away": "Texans",
+   "hs": 23,
+   "as": 51
+  },
+  {
+   "week": 14,
+   "home": "Jaguars",
+   "away": "Rams",
+   "hs": 27,
+   "as": 23
+  },
+  {
+   "week": 14,
+   "home": "Cowboys",
+   "away": "Eagles",
+   "hs": 10,
+   "as": 48
+  },
+  {
+   "week": 14,
+   "home": "Giants",
+   "away": "Dolphins",
+   "hs": 32,
+   "as": 29
+  },
+  {
+   "week": 14,
+   "home": "49ers",
+   "away": "Seahawks",
+   "hs": 45,
+   "as": 32
+  },
+  {
+   "week": 14,
+   "home": "Lions",
+   "away": "Browns",
+   "hs": 30,
+   "as": 10
+  },
+  {
+   "week": 14,
+   "home": "Vikings",
+   "away": "Packers",
+   "hs": 19,
+   "as": 36
+  },
+  {
+   "week": 14,
+   "home": "Panthers",
+   "away": "Saints",
+   "hs": 34,
+   "as": 17
+  },
+  {
+   "week": 15,
+   "home": "Bills",
+   "away": "Chiefs",
+   "hs": 23,
+   "as": 54
+  },
+  {
+   "week": 15,
+   "home": "Dolphins",
+   "away": "Colts",
+   "hs": 20,
+   "as": 29
+  },
+  {
+   "week": 15,
+   "home": "Patriots",
+   "away": "Cowboys",
+   "hs": 34,
+   "as": 23
+  },
+  {
+   "week": 15,
+   "home": "Broncos",
+   "away": "Raiders",
+   "hs": 15,
+   "as": 48
+  },
+  {
+   "week": 15,
+   "home": "Chargers",
+   "away": "Jets",
+   "hs": 30,
+   "as": 22
+  },
+  {
+   "week": 15,
+   "home": "Browns",
+   "away": "Vikings",
+   "hs": 25,
+   "as": 36
+  },
+  {
+   "week": 15,
+   "home": "Steelers",
+   "away": "Bengals",
+   "hs": 33,
+   "as": 41
+  },
+  {
+   "week": 15,
+   "home": "Texans",
+   "away": "Jaguars",
+   "hs": 29,
+   "as": 37
+  },
+  {
+   "week": 15,
+   "home": "Titans",
+   "away": "Ravens",
+   "hs": 42,
+   "as": 39
+  },
+  {
+   "week": 15,
+   "home": "Eagles",
+   "away": "Giants",
+   "hs": 30,
+   "as": 22
+  },
+  {
+   "week": 15,
+   "home": "Commanders",
+   "away": "49ers",
+   "hs": 48,
+   "as": 30
+  },
+  {
+   "week": 15,
+   "home": "Cardinals",
+   "away": "Packers",
+   "hs": 13,
+   "as": 65
+  },
+  {
+   "week": 15,
+   "home": "Seahawks",
+   "away": "Rams",
+   "hs": 30,
+   "as": 33
+  },
+  {
+   "week": 15,
+   "home": "Lions",
+   "away": "Bears",
+   "hs": 33,
+   "as": 26
+  },
+  {
+   "week": 15,
+   "home": "Falcons",
+   "away": "Panthers",
+   "hs": 30,
+   "as": 26
+  },
+  {
+   "week": 15,
+   "home": "Buccaneers",
+   "away": "Saints",
+   "hs": 31,
+   "as": 19
+  },
+  {
+   "week": 16,
+   "home": "Jets",
+   "away": "Patriots"
+  },
+  {
+   "week": 16,
+   "home": "Chiefs",
+   "away": "Chargers"
+  },
+  {
+   "week": 16,
+   "home": "Raiders",
+   "away": "Dolphins"
+  },
+  {
+   "week": 16,
+   "home": "Ravens",
+   "away": "Browns"
+  },
+  {
+   "week": 16,
+   "home": "Bengals",
+   "away": "Texans"
+  },
+  {
+   "week": 16,
+   "home": "Colts",
+   "away": "Cardinals"
+  },
+  {
+   "week": 16,
+   "home": "Jaguars",
+   "away": "Broncos"
+  },
+  {
+   "week": 16,
+   "home": "Cowboys",
+   "away": "Bills"
+  },
+  {
+   "week": 16,
+   "home": "Giants",
+   "away": "Seahawks"
+  },
+  {
+   "week": 16,
+   "home": "Rams",
+   "away": "Eagles"
+  },
+  {
+   "week": 16,
+   "home": "49ers",
+   "away": "Titans"
+  },
+  {
+   "week": 16,
+   "home": "Bears",
+   "away": "Steelers"
+  },
+  {
+   "week": 16,
+   "home": "Packers",
+   "away": "Commanders"
+  },
+  {
+   "week": 16,
+   "home": "Vikings",
+   "away": "Lions"
+  },
+  {
+   "week": 16,
+   "home": "Falcons",
+   "away": "Buccaneers"
+  },
+  {
+   "week": 16,
+   "home": "Saints",
+   "away": "Panthers"
+  },
+  {
+   "week": 17,
+   "home": "Dolphins",
+   "away": "Bills"
+  },
+  {
+   "week": 17,
+   "home": "Patriots",
+   "away": "Seahawks"
+  },
+  {
+   "week": 17,
+   "home": "Jets",
+   "away": "Raiders"
+  },
+  {
+   "week": 17,
+   "home": "Broncos",
+   "away": "Chargers"
+  },
+  {
+   "week": 17,
+   "home": "Ravens",
+   "away": "Texans"
+  },
+  {
+   "week": 17,
+   "home": "Bengals",
+   "away": "Lions"
+  },
+  {
+   "week": 17,
+   "home": "Browns",
+   "away": "Packers"
+  },
+  {
+   "week": 17,
+   "home": "Colts",
+   "away": "Steelers"
+  },
+  {
+   "week": 17,
+   "home": "Titans",
+   "away": "Chiefs"
+  },
+  {
+   "week": 17,
+   "home": "Cowboys",
+   "away": "Giants"
+  },
+  {
+   "week": 17,
+   "home": "Eagles",
+   "away": "Buccaneers"
+  },
+  {
+   "week": 17,
+   "home": "Cardinals",
+   "away": "Jaguars"
+  },
+  {
+   "week": 17,
+   "home": "Rams",
+   "away": "Commanders"
+  },
+  {
+   "week": 17,
+   "home": "Bears",
+   "away": "Vikings"
+  },
+  {
+   "week": 17,
+   "home": "Panthers",
+   "away": "Falcons"
+  },
+  {
+   "week": 17,
+   "home": "Saints",
+   "away": "49ers"
+  },
+  {
+   "week": 18,
+   "home": "Bills",
+   "away": "Jets"
+  },
+  {
+   "week": 18,
+   "home": "Patriots",
+   "away": "Dolphins"
+  },
+  {
+   "week": 18,
+   "home": "Chiefs",
+   "away": "Broncos"
+  },
+  {
+   "week": 18,
+   "home": "Chargers",
+   "away": "Raiders"
+  },
+  {
+   "week": 18,
+   "home": "Browns",
+   "away": "Bengals"
+  },
+  {
+   "week": 18,
+   "home": "Steelers",
+   "away": "Ravens"
+  },
+  {
+   "week": 18,
+   "home": "Texans",
+   "away": "Titans"
+  },
+  {
+   "week": 18,
+   "home": "Jaguars",
+   "away": "Colts"
+  },
+  {
+   "week": 18,
+   "home": "Giants",
+   "away": "Eagles"
+  },
+  {
+   "week": 18,
+   "home": "Commanders",
+   "away": "Cowboys"
+  },
+  {
+   "week": 18,
+   "home": "49ers",
+   "away": "Rams"
+  },
+  {
+   "week": 18,
+   "home": "Seahawks",
+   "away": "Cardinals"
+  },
+  {
+   "week": 18,
+   "home": "Lions",
+   "away": "Vikings"
+  },
+  {
+   "week": 18,
+   "home": "Packers",
+   "away": "Bears"
+  },
+  {
+   "week": 18,
+   "home": "Falcons",
+   "away": "Saints"
+  },
+  {
+   "week": 18,
+   "home": "Buccaneers",
+   "away": "Panthers"
+  }
+ ],
  "players": {
   "DB:A.T. Hoyer": {
    "team": "Raiders",
@@ -420,6 +3417,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 141,
@@ -442,6 +3440,7 @@
    "salary": 17,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 145,
@@ -464,6 +3463,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 192,
@@ -486,6 +3486,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 150,
@@ -508,6 +3509,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 134
@@ -529,6 +3531,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "S",
    "season": {
     "g": 14
    }
@@ -549,6 +3552,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 176,
@@ -571,6 +3575,8 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 10,
+   "spos": "CB",
+   "signed_year": 92,
    "season": {
     "g": 14,
     "tkl": 154,
@@ -593,6 +3599,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "S",
    "season": {
     "g": 14
    }
@@ -613,6 +3620,8 @@
    "salary": 20,
    "delay_retirement": 0,
    "xp_level": 7,
+   "spos": "CB",
+   "signed_year": 86,
    "season": {
     "g": 14,
     "tkl": 85
@@ -634,6 +3643,7 @@
    "salary": 5,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 133,
@@ -656,6 +3666,7 @@
    "salary": 13,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "S",
    "season": {
     "g": 14
    }
@@ -676,6 +3687,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 162,
@@ -698,6 +3710,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "S",
    "season": {
     "g": 14
    }
@@ -718,6 +3731,8 @@
    "salary": 21,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "CB",
+   "signed_year": 92,
    "season": {
     "g": 14,
     "tkl": 78,
@@ -741,6 +3756,8 @@
    "salary": 24,
    "delay_retirement": 0,
    "xp_level": 10,
+   "spos": "CB",
+   "signed_year": 92,
    "season": {
     "g": 14,
     "tkl": 93,
@@ -763,6 +3780,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "S",
    "season": {
     "g": 14,
     "tkl": 3
@@ -784,6 +3802,8 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "CB",
+   "signed_year": 88,
    "season": {
     "g": 14,
     "tkl": 147
@@ -805,6 +3825,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 136,
@@ -827,6 +3848,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 156,
@@ -849,6 +3871,7 @@
    "salary": 5,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 172,
@@ -871,6 +3894,7 @@
    "salary": 5,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 187
@@ -892,6 +3916,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 186,
@@ -914,6 +3939,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 162
@@ -935,6 +3961,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 156,
@@ -957,6 +3984,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 181,
@@ -979,6 +4007,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 186,
@@ -1001,6 +4030,8 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "S",
+   "signed_year": 93,
    "season": {
     "g": 14,
     "tkl": 58,
@@ -1023,6 +4054,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 191,
@@ -1045,6 +4077,8 @@
    "salary": 19,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "CB",
+   "signed_year": 87,
    "season": {
     "g": 14,
     "tkl": 71,
@@ -1067,6 +4101,7 @@
    "salary": 19,
    "delay_retirement": 0,
    "xp_level": 7,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 172,
@@ -1089,6 +4124,8 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 8,
+   "spos": "CB",
+   "signed_year": 88,
    "season": {
     "g": 14,
     "tkl": 200,
@@ -1111,6 +4148,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "S",
    "season": {
     "g": 14
    }
@@ -1131,6 +4169,8 @@
    "salary": 20,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "S",
+   "signed_year": 85,
    "season": {
     "g": 14,
     "tkl": 1
@@ -1152,6 +4192,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 75,
@@ -1174,6 +4215,7 @@
    "salary": 4,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 65,
@@ -1196,6 +4238,7 @@
    "salary": 21,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 78
@@ -1217,6 +4260,7 @@
    "salary": 4,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 63,
@@ -1239,6 +4283,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 70,
@@ -1261,6 +4306,7 @@
    "salary": 5,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 45,
@@ -1283,6 +4329,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 76
@@ -1304,6 +4351,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 85,
@@ -1326,6 +4374,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 68,
@@ -1348,6 +4397,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 72
@@ -1369,6 +4419,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 53
@@ -1390,6 +4441,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 59,
@@ -1412,6 +4464,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 65
@@ -1433,6 +4486,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 64,
@@ -1455,6 +4509,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 85,
@@ -1478,6 +4533,7 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 73,
@@ -1500,6 +4556,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 71
@@ -1521,6 +4578,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 75,
@@ -1543,6 +4601,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 61
@@ -1564,6 +4623,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 79,
@@ -1586,6 +4646,7 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 54
@@ -1607,6 +4668,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 62
@@ -1628,6 +4690,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 70,
@@ -1650,6 +4713,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 60,
@@ -1673,6 +4737,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 76,
@@ -1695,6 +4760,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 49
@@ -1716,6 +4782,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 86,
@@ -1738,6 +4805,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 69,
@@ -1760,6 +4828,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 84,
@@ -1782,6 +4851,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 7,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 77,
@@ -1805,6 +4875,7 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "DL",
    "season": {
     "g": 14,
     "tkl": 75
@@ -1826,6 +4897,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 45
@@ -1847,6 +4919,7 @@
    "salary": 3,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 40
@@ -1868,6 +4941,7 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 55,
@@ -1890,6 +4964,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 43
@@ -1911,6 +4986,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 55,
@@ -1933,6 +5009,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 58
@@ -1954,6 +5031,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 36
@@ -1975,6 +5053,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 29
@@ -1996,6 +5075,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 55,
@@ -2018,6 +5098,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 52,
@@ -2040,6 +5121,7 @@
    "salary": 22,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 48,
@@ -2062,6 +5144,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 38
@@ -2083,6 +5166,7 @@
    "salary": 19,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 38,
@@ -2105,6 +5189,8 @@
    "salary": 19,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "LB",
+   "signed_year": 89,
    "season": {
     "g": 14,
     "tkl": 30
@@ -2126,6 +5212,7 @@
    "salary": 3,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 21
@@ -2147,6 +5234,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 46
@@ -2168,6 +5256,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 50,
@@ -2190,6 +5279,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 44
@@ -2211,6 +5301,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 61
@@ -2232,6 +5323,7 @@
    "salary": 5,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 20
@@ -2253,6 +5345,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 39
@@ -2274,6 +5367,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 51,
@@ -2296,6 +5390,8 @@
    "salary": 24,
    "delay_retirement": 0,
    "xp_level": 8,
+   "spos": "LB",
+   "signed_year": 87,
    "season": {
     "g": 14,
     "tkl": 39
@@ -2317,6 +5413,8 @@
    "salary": 27,
    "delay_retirement": 0,
    "xp_level": 8,
+   "spos": "LB",
+   "signed_year": 92,
    "season": {
     "g": 14,
     "tkl": 51,
@@ -2340,6 +5438,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 55
@@ -2361,6 +5460,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 39
@@ -2382,6 +5482,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 56
@@ -2403,6 +5504,7 @@
    "salary": 4,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 66,
@@ -2425,6 +5527,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 37,
@@ -2447,6 +5550,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 57
@@ -2468,6 +5572,8 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 9,
+   "spos": "OL",
+   "signed_year": 93,
    "season": {
     "g": 14,
     "blk": 29
@@ -2489,6 +5595,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 19
@@ -2510,6 +5617,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 17
@@ -2531,6 +5639,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 12
@@ -2552,6 +5661,8 @@
    "salary": 19,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "OL",
+   "signed_year": 86,
    "season": {
     "g": 14,
     "blk": 11
@@ -2573,6 +5684,7 @@
    "salary": 17,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 34
@@ -2594,6 +5706,7 @@
    "salary": 5,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 14
@@ -2615,6 +5728,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 13
@@ -2636,6 +5750,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 17
@@ -2657,6 +5772,7 @@
    "salary": 17,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 15
@@ -2678,6 +5794,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 11
@@ -2699,6 +5816,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 16
@@ -2720,6 +5838,7 @@
    "salary": 17,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 16
@@ -2741,6 +5860,7 @@
    "salary": 13,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 6
@@ -2762,6 +5882,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 18
@@ -2783,6 +5904,7 @@
    "salary": 5,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 15
@@ -2804,6 +5926,7 @@
    "salary": 5,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 29
@@ -2825,6 +5948,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 12
@@ -2846,6 +5970,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 11
@@ -2867,6 +5992,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 21
@@ -2888,6 +6014,8 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "OL",
+   "signed_year": 83,
    "season": {
     "g": 14,
     "blk": 22
@@ -2909,6 +6037,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 17
@@ -2930,6 +6059,7 @@
    "salary": 19,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 9
@@ -2951,6 +6081,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 22
@@ -2972,6 +6103,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 29
@@ -2993,6 +6125,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 14
@@ -3014,6 +6147,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 28
@@ -3035,6 +6169,7 @@
    "salary": 13,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 13
@@ -3056,6 +6191,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 18
@@ -3077,6 +6213,7 @@
    "salary": 19,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 16
@@ -3098,6 +6235,7 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 485,
@@ -3126,6 +6264,8 @@
    "salary": 45,
    "delay_retirement": 0,
    "xp_level": 10,
+   "spos": "QB",
+   "signed_year": 91,
    "season": {
     "g": 14,
     "att": 227,
@@ -3155,6 +6295,8 @@
    "salary": 40,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "QB",
+   "signed_year": 83,
    "season": {
     "g": 14,
     "att": 421,
@@ -3184,6 +6326,7 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 387,
@@ -3213,6 +6356,7 @@
    "salary": 21,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 470,
@@ -3242,6 +6386,7 @@
    "salary": 35,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 523,
@@ -3271,6 +6416,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 476,
@@ -3300,6 +6446,7 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 522,
@@ -3329,6 +6476,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 455,
@@ -3358,6 +6506,7 @@
    "salary": 20,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 427,
@@ -3387,6 +6536,8 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "QB",
+   "signed_year": 88,
    "season": {
     "g": 14,
     "att": 449,
@@ -3415,6 +6566,7 @@
    "salary": 25,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 404,
@@ -3444,6 +6596,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 431,
@@ -3473,6 +6626,7 @@
    "salary": 25,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 458,
@@ -3502,6 +6656,7 @@
    "salary": 30,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 494,
@@ -3531,6 +6686,7 @@
    "salary": 17,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 471,
@@ -3560,6 +6716,7 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 498,
@@ -3589,6 +6746,7 @@
    "salary": 30,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 482,
@@ -3618,6 +6776,7 @@
    "salary": 20,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 434,
@@ -3646,6 +6805,8 @@
    "salary": 45,
    "delay_retirement": 0,
    "xp_level": 8,
+   "spos": "QB",
+   "signed_year": 87,
    "season": {
     "g": 14,
     "att": 486,
@@ -3675,6 +6836,7 @@
    "salary": 25,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 554,
@@ -3701,6 +6863,7 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 407,
@@ -3730,6 +6893,7 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 459,
@@ -3759,6 +6923,7 @@
    "salary": 35,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 513,
@@ -3788,6 +6953,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 522,
@@ -3817,6 +6983,7 @@
    "salary": 25,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 485,
@@ -3846,6 +7013,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 433,
@@ -3874,6 +7042,7 @@
    "salary": 30,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 387,
@@ -3902,6 +7071,7 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 403,
@@ -3930,6 +7100,8 @@
    "salary": 37,
    "delay_retirement": 0,
    "xp_level": 11,
+   "spos": "QB",
+   "signed_year": 83,
    "season": {
     "g": 14,
     "att": 466,
@@ -3959,6 +7131,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 131,
@@ -3985,6 +7158,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 127,
@@ -4011,6 +7185,7 @@
    "salary": 21,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 133,
@@ -4035,6 +7210,7 @@
    "salary": 24,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 158,
@@ -4059,6 +7235,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 134,
@@ -4083,6 +7260,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 148,
@@ -4107,6 +7285,7 @@
    "salary": 24,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 141,
@@ -4131,6 +7310,7 @@
    "salary": 5,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 110,
@@ -4157,6 +7337,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 137,
@@ -4183,6 +7364,7 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 140,
@@ -4207,6 +7389,8 @@
    "salary": 27,
    "delay_retirement": 0,
    "xp_level": 7,
+   "spos": "RB",
+   "signed_year": 91,
    "season": {
     "g": 14,
     "ratt": 128,
@@ -4231,6 +7415,7 @@
    "salary": 21,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 114,
@@ -4255,6 +7440,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 127,
@@ -4282,6 +7468,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 133,
@@ -4306,6 +7493,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 141,
@@ -4330,6 +7518,7 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 138,
@@ -4356,6 +7545,7 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 119,
@@ -4382,6 +7572,7 @@
    "salary": 6,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 148,
@@ -4408,6 +7599,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 145,
@@ -4432,6 +7624,7 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 131,
@@ -4456,6 +7649,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 139,
@@ -4480,6 +7674,7 @@
    "salary": 13,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 148,
@@ -4504,6 +7699,8 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 17,
+   "spos": "RB",
+   "signed_year": 93,
    "season": {
     "g": 14,
     "ratt": 135,
@@ -4531,6 +7728,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 139,
@@ -4555,6 +7753,8 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "RB",
+   "signed_year": 88,
    "season": {
     "g": 14,
     "ratt": 117,
@@ -4579,6 +7779,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 135,
@@ -4603,6 +7804,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 127,
@@ -4627,6 +7829,7 @@
    "salary": 21,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 143,
@@ -4651,6 +7854,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 135,
@@ -4675,6 +7879,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 49,
@@ -4699,6 +7904,7 @@
    "salary": 4,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 44,
@@ -4723,6 +7929,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 62,
@@ -4747,6 +7954,7 @@
    "salary": 4,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 57,
@@ -4771,6 +7979,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 85,
@@ -4795,6 +8004,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 79,
@@ -4819,6 +8029,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 55,
@@ -4843,6 +8054,7 @@
    "salary": 19,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 54,
@@ -4867,6 +8079,7 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 39,
@@ -4891,6 +8104,7 @@
    "salary": 19,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 68,
@@ -4915,6 +8129,7 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 65,
@@ -4939,6 +8154,8 @@
    "salary": 19,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "TE",
+   "signed_year": 83,
    "season": {
     "g": 14,
     "rec": 74,
@@ -4963,6 +8180,7 @@
    "salary": 5,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 66,
@@ -4987,6 +8205,7 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 59,
@@ -5011,6 +8230,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 74,
@@ -5035,6 +8255,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 38,
@@ -5058,6 +8279,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 31,
@@ -5082,6 +8304,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 78,
@@ -5106,6 +8329,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 68,
@@ -5130,6 +8354,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 60,
@@ -5154,6 +8379,8 @@
    "salary": 24,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "TE",
+   "signed_year": 91,
    "season": {
     "g": 14,
     "rec": 35,
@@ -5177,6 +8404,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 44,
@@ -5201,6 +8429,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 69,
@@ -5225,6 +8454,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 62,
@@ -5249,6 +8479,7 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 49,
@@ -5273,6 +8504,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 61,
@@ -5297,6 +8529,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 79,
@@ -5321,6 +8554,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 53,
@@ -5345,6 +8579,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 56,
@@ -5369,6 +8604,7 @@
    "salary": 5,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 70,
@@ -5393,6 +8629,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 70,
@@ -5417,6 +8654,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 56,
@@ -5441,6 +8679,8 @@
    "salary": 24,
    "delay_retirement": 0,
    "xp_level": 7,
+   "spos": "TE",
+   "signed_year": 86,
    "season": {
     "g": 14,
     "rec": 44,
@@ -5465,6 +8705,7 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 60,
@@ -5489,6 +8730,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 61,
@@ -5513,6 +8755,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 50,
@@ -5537,6 +8780,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 58,
@@ -5561,6 +8805,7 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 54,
@@ -5585,6 +8830,7 @@
    "salary": 22,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 30,
@@ -5609,6 +8855,7 @@
    "salary": 5,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 59,
@@ -5633,6 +8880,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 78,
@@ -5657,6 +8905,7 @@
    "salary": 9,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 48,
@@ -5681,6 +8930,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 70,
@@ -5705,6 +8955,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 59,
@@ -5729,6 +8980,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 83,
@@ -5753,6 +9005,7 @@
    "salary": 19,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 95,
@@ -5777,6 +9030,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 39,
@@ -5801,6 +9055,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 64,
@@ -5825,6 +9080,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 84,
@@ -5849,6 +9105,7 @@
    "salary": 22,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 69,
@@ -5873,6 +9130,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 90,
@@ -5897,6 +9155,7 @@
    "salary": 14,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 57,
@@ -5921,6 +9180,7 @@
    "salary": 18,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 62,
@@ -5945,6 +9205,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 60,
@@ -5969,6 +9230,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 71,
@@ -5993,6 +9255,7 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 27,
@@ -6017,6 +9280,8 @@
    "salary": 25,
    "delay_retirement": 0,
    "xp_level": 8,
+   "spos": "WR",
+   "signed_year": 88,
    "season": {
     "g": 14,
     "rec": 64,
@@ -6041,6 +9306,8 @@
    "salary": 13,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "WR",
+   "signed_year": 88,
    "season": {
     "g": 14,
     "rec": 56,
@@ -6065,6 +9332,7 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 54,
@@ -6089,6 +9357,8 @@
    "salary": 30,
    "delay_retirement": 0,
    "xp_level": 9,
+   "spos": "WR",
+   "signed_year": 92,
    "season": {
     "g": 14,
     "rec": 80,
@@ -6112,6 +9382,7 @@
    "salary": 13,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 24,
@@ -6135,6 +9406,7 @@
    "salary": 13,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 55,
@@ -6159,6 +9431,7 @@
    "salary": 20,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 39,
@@ -6183,6 +9456,7 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 68,
@@ -6207,6 +9481,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 5,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 38,
@@ -6231,6 +9506,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 35,
@@ -6255,6 +9531,7 @@
    "salary": 20,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 54,
@@ -6279,6 +9556,7 @@
    "salary": 20,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 32,
@@ -6302,6 +9580,7 @@
    "salary": 20,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 47,
@@ -6326,6 +9605,8 @@
    "salary": 33,
    "delay_retirement": 0,
    "xp_level": 10,
+   "spos": "WR",
+   "signed_year": 91,
    "season": {
     "g": 14,
     "rec": 39,
@@ -6350,6 +9631,8 @@
    "salary": 29,
    "delay_retirement": 0,
    "xp_level": 8,
+   "spos": "WR",
+   "signed_year": 92,
    "season": {
     "g": 14,
     "rec": 80,
@@ -6374,6 +9657,7 @@
    "salary": 13,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 41,
@@ -6398,6 +9682,7 @@
    "salary": 13,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 60,
@@ -6422,6 +9707,7 @@
    "salary": 13,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 59,
@@ -6446,6 +9732,7 @@
    "salary": 23,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 42,
@@ -6470,6 +9757,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 68,
@@ -6494,6 +9782,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 27,
@@ -6518,6 +9807,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 4,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 30,
@@ -6542,6 +9832,7 @@
    "salary": 13,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 42,
@@ -6566,6 +9857,8 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 6,
+   "spos": "WR",
+   "signed_year": 83,
    "season": {
     "g": 14,
     "rec": 60,
@@ -6590,6 +9883,7 @@
    "salary": 16,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 70,
@@ -6614,6 +9908,7 @@
    "salary": 13,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 59,
@@ -6638,6 +9933,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 57,
@@ -6662,6 +9958,7 @@
    "salary": 17,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 68,
@@ -6686,6 +9983,7 @@
    "salary": 20,
    "delay_retirement": 0,
    "xp_level": 3,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 61,
@@ -6710,6 +10008,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 59,
@@ -6734,6 +10033,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 52,
@@ -6758,6 +10058,7 @@
    "salary": 13,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 26,
@@ -6784,6 +10085,7 @@
    "salary": 4,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "CB",
    "season": {
     "g": 14,
     "tkl": 181,
@@ -6806,6 +10108,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "S",
    "season": {
     "g": 14
    }
@@ -6826,6 +10129,7 @@
    "salary": 7,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "S",
    "season": {
     "g": 2
    }
@@ -6846,6 +10150,7 @@
    "salary": 5,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 45
@@ -6867,6 +10172,7 @@
    "salary": 6,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 54,
@@ -6889,6 +10195,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 62
@@ -6910,6 +10217,7 @@
    "salary": 3,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "LB",
    "season": {
     "g": 14,
     "tkl": 49
@@ -6931,6 +10239,7 @@
    "salary": 6,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "OL",
    "season": {
     "g": 14,
     "blk": 25
@@ -6952,6 +10261,7 @@
    "salary": 15,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 408,
@@ -6981,6 +10291,7 @@
    "salary": 12,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "QB",
    "season": {
     "g": 14,
     "att": 479,
@@ -7010,6 +10321,7 @@
    "salary": 11,
    "delay_retirement": 0,
    "xp_level": 2,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 142,
@@ -7034,6 +10346,7 @@
    "salary": 4,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 136,
@@ -7058,6 +10371,7 @@
    "salary": 4,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "RB",
    "season": {
     "g": 14,
     "ratt": 145,
@@ -7082,6 +10396,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 71,
@@ -7106,6 +10421,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 46,
@@ -7130,6 +10446,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "TE",
    "season": {
     "g": 14,
     "rec": 57,
@@ -7154,6 +10471,7 @@
    "salary": 10,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 75,
@@ -7178,6 +10496,7 @@
    "salary": 8,
    "delay_retirement": 0,
    "xp_level": 1,
+   "spos": "WR",
    "season": {
     "g": 14,
     "rec": 80,

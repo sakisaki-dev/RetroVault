@@ -3,6 +3,8 @@ import { Timer } from 'lucide-react';
 import type { Player } from '@/types/player';
 import PositionBadge from '../../PositionBadge';
 import TeamLogo from '../../brand/TeamLogo';
+import ClubStrip from '../../brand/ClubStrip';
+import { bannerTeamOf } from '@/utils/playerExtras';
 import ChartFrame from '../analytics/ChartFrame';
 import { VIZ, fmtNum } from '../analytics/viz';
 import { MIN, PACE_MAX_SEASONS, keyOf, type PaceEntry } from '../records';
@@ -36,9 +38,12 @@ const ChaseRow = ({ row, max, onSelect }: { row: Row; max: number; onSelect: Sel
           <PositionBadge position={p.position} className="min-w-[2rem] px-1.5 py-0.5 text-[10px]" />
           <span className="text-xs text-muted-foreground">
             chasing <span className="font-semibold text-gold">{pace.recordName}</span> ·{' '}
-            <button type="button" onClick={() => onSelect(pace.recordHolder)} className="rounded font-semibold text-foreground underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
-              {pace.recordHolder.name}
-            </button>
+            <ClubStrip
+              team={bannerTeamOf(pace.recordHolder)}
+              label={pace.recordHolder.name}
+              size="sm"
+              onClick={() => onSelect(pace.recordHolder)}
+            />
           </span>
         </div>
         <span className="lamp shrink-0">

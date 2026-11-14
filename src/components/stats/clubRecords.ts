@@ -9,7 +9,21 @@ export interface ClubRecordRow {
   record: string;
   short: string;
   scope: 'career' | 'season' | 'game' | 'other';
-  club: { mark: string; value: number | null; holder: string; year: string; name?: string; team?: string };
+  club: {
+    mark: string;
+    value: number | null;
+    holder: string;
+    year: string;
+    name?: string;
+    team?: string;
+    /** From the game's save (record.set): a single game's or play's week (after week 18 a playoff game) and opponent */
+    week?: number;
+    opponent?: string;
+    /** The QB on the field for a play record ("QB B. Crawford") */
+    qb?: string;
+    /** The exact mark when the save keeps a fraction (2 decimals) */
+    exact?: number;
+  };
   league: { value: number; mark: string; top: ClubEntry[]; basis: string; clubHolds: boolean } | null;
   broken?: boolean;
 }
@@ -50,3 +64,16 @@ export const SEASON_GROUP = (record: string): 'qb' | 'rb' | 'wr' | 'def' =>
 
 /** "QB S. Brandson" -> the full name when known, else the board's own text without the position. */
 export const entryName = (e: Pick<ClubEntry, 'name' | 'player'>) => e.name ?? e.player.replace(/^[A-Z]{1,2} /, '').replace(/\s*\(now [^)]+\)/, '');
+
+/** The last regular-season week; later weeks on the board are playoff games. */
+export const LAST_REGULAR_WEEK = 18;
+
+/** "Set in week 17 against the Bills" / "Set in a playoff game (week 22) against the Lions", when the board has them. */
+export const setInText = (c: ClubRecordRow['club']): string | null => {
+  if (c.week == null || !c.opponent) return null;
+  const when = c.week > LAST_REGULAR_WEEK ? `a playoff game (week ${c.week})` : `week ${c.week}`;
+  return `Set in ${when} against the ${c.opponent}`;
+};
+
+/** The player on a play record ("QB S. Brandson → WR D. Haley" -> "D. Haley"), else the holder. */
+export const holderName = (c: ClubRecordRow['club']) => c.name ?? entryName({ player: c.holder.split('→').pop()!.trim() });

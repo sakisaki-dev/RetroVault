@@ -227,9 +227,15 @@ const Imposter = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<str
                   <span className="imp-num" aria-hidden="true">
                     {numberFor(p)}
                   </span>
-                  {!legend && (
-                    <GameSprite player={p} team={look.team?.name} kind="figure" animate={!!shown && isImp} scale={2} nflScale={2} className="imp-sprite" />
-                  )}
+                  <GameSprite
+                    player={p}
+                    team={look.team?.name}
+                    legend={legend}
+                    kind="figure"
+                    size="l"
+                    action={shown && isImp && pick === imposterKey ? 'celebrate' : 'idle'}
+                    className="imp-sprite"
+                  />
                   <span className="imp-name">
                     <small>{first}</small>
                     <span>{last}</span>

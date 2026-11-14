@@ -11,6 +11,9 @@
     "value": 77.0,
     "holder": "QB S. Brandson → WR D. Haley",
     "year": "Y46",
+    "week": 3,
+    "opponent": "Browns",
+    "qb": "QB S. Brandson",
     "team": "Ravens"
    },
    "scope": "other",
@@ -25,6 +28,10 @@
     "holder": "QB J. Macleone → RB M. Sawyer",
     "year": "Y75",
     "name": "Malakai Sawyer",
+    "week": 17,
+    "opponent": "Bears",
+    "qb": "QB J. Macleone",
+    "exact": 65.1,
     "team": "Seahawks"
    },
    "scope": "other",
@@ -38,6 +45,9 @@
     "value": 77.0,
     "holder": "QB S. Brandson → WR D. Haley",
     "year": "Y46",
+    "week": 3,
+    "opponent": "Browns",
+    "qb": "QB S. Brandson",
     "team": "Ravens"
    },
    "scope": "other",
@@ -52,6 +62,10 @@
     "holder": "QB S. Brandson → RB D. Hayes",
     "year": "Y50",
     "name": "Denzel Hayes",
+    "week": 4,
+    "opponent": "Dolphins",
+    "qb": "QB S. Brandson",
+    "exact": 57.89,
     "team": "Ravens"
    },
    "scope": "other",
@@ -66,6 +80,10 @@
     "holder": "QB B. Crawford → WR K. Rahman",
     "year": "Y90",
     "name": "Kaulani Rahman",
+    "week": 13,
+    "opponent": "Ravens",
+    "qb": "QB B. Crawford",
+    "exact": 31.06,
     "team": "Eagles"
    },
    "scope": "other",
@@ -79,6 +97,8 @@
     "value": 54.0,
     "holder": "K Z. Griffen",
     "year": "Y7",
+    "week": 8,
+    "opponent": "Bills",
     "team": "Dolphins"
    },
    "scope": "other",
@@ -93,6 +113,9 @@
     "holder": "QB R. Waller",
     "year": "Y26",
     "name": "Ray Waller",
+    "week": 3,
+    "opponent": "Commanders",
+    "exact": 513.21,
     "team": "Buccaneers"
    },
    "scope": "game",
@@ -107,6 +130,7 @@
     "holder": "QB D. Baylon",
     "year": "Y33",
     "name": "Dennis Baylon",
+    "exact": 7451.62,
     "team": "Bills"
    },
    "scope": "season",
@@ -154,6 +178,7 @@
     "holder": "QB S. Brandson",
     "year": "Y62",
     "name": "Sherman Brandson",
+    "exact": 91462.58,
     "team": "Vikings"
    },
    "scope": "career",
@@ -198,6 +223,9 @@
     "holder": "WR P. Hunter",
     "year": "Y68",
     "name": "Pharoah Hunter",
+    "week": 8,
+    "opponent": "Packers",
+    "exact": 287.53,
     "team": "Vikings"
    },
    "scope": "game",
@@ -212,6 +240,7 @@
     "holder": "WR M. Earl III (now God Johnson)",
     "year": "Y62",
     "name": "God Johnson",
+    "exact": 4247.4,
     "team": "Vikings"
    },
    "scope": "season",
@@ -259,6 +288,7 @@
     "holder": "WR G. Johnson",
     "year": "Y67",
     "name": "God Johnson",
+    "exact": 36005.28,
     "team": "Vikings"
    },
    "scope": "career",
@@ -303,6 +333,9 @@
     "holder": "RB R. Maxwell",
     "year": "Y85",
     "name": "Ryland Maxwell",
+    "week": 17,
+    "opponent": "Bills",
+    "exact": 237.14,
     "team": "Falcons"
    },
    "scope": "game",
@@ -317,6 +350,7 @@
     "holder": "RB R. Maxwell",
     "year": "Y92",
     "name": "Ryland Maxwell",
+    "exact": 2839.47,
     "team": "Eagles"
    },
    "scope": "season",
@@ -407,6 +441,8 @@
     "holder": "QB S. Brandson",
     "year": "Y55",
     "name": "Sherman Brandson",
+    "week": 31,
+    "opponent": "Chiefs",
     "team": "Giants"
    },
    "scope": "game",
@@ -512,6 +548,8 @@
     "holder": "WR I. Finney",
     "year": "Y23",
     "name": "Ian Finney",
+    "week": 2,
+    "opponent": "Saints",
     "team": "Buccaneers"
    },
    "scope": "game",
@@ -617,6 +655,8 @@
     "holder": "RB R. Ikarras",
     "year": "Y40",
     "name": "Rondale Ikarras",
+    "week": 2,
+    "opponent": "Bills",
     "team": "Chargers"
    },
    "scope": "game",
@@ -718,6 +758,8 @@
     "value": 54.0,
     "holder": "K Z. Griffen",
     "year": "Y7",
+    "week": 8,
+    "opponent": "Bills",
     "team": "Dolphins"
    },
    "scope": "game",
@@ -757,6 +799,8 @@
     "value": 1.0,
     "holder": "K B. Dalman",
     "year": "Y2",
+    "week": 7,
+    "opponent": "Bills",
     "team": "Vikings"
    },
    "scope": "game",
@@ -796,6 +840,8 @@
     "value": 17.0,
     "holder": "LB Z. Franklin",
     "year": "Y5",
+    "week": 1,
+    "opponent": "Patriots",
     "team": "Dolphins"
    },
    "scope": "game",
@@ -896,6 +942,8 @@
     "value": 2.0,
     "holder": "DL L. Palardy",
     "year": "Y11",
+    "week": 4,
+    "opponent": "Bills",
     "team": "Chargers"
    },
    "scope": "game",
@@ -996,6 +1044,8 @@
     "value": 2.0,
     "holder": "LB D. Campbell",
     "year": "Y2",
+    "week": 22,
+    "opponent": "Lions",
     "team": "Vikings"
    },
    "scope": "game",
@@ -1099,6 +1149,8 @@
     "holder": "LB T. Baugh",
     "year": "Y29",
     "name": "Tyrone Baugh",
+    "week": 9,
+    "opponent": "Chiefs",
     "team": "Bills"
    },
    "scope": "game",
@@ -1201,6 +1253,9 @@
     "value": 33.0,
     "holder": "DB B. Branch",
     "year": "Y4",
+    "week": 5,
+    "opponent": "Patriots",
+    "exact": 33.15,
     "team": "Vikings"
    },
    "scope": "other",
@@ -1214,6 +1269,9 @@
     "value": 169.0,
     "holder": "DB B. Branch",
     "year": "Y4",
+    "week": 5,
+    "opponent": "Patriots",
+    "exact": 169.05,
     "team": "Vikings"
    },
    "scope": "game",
@@ -1227,6 +1285,7 @@
     "value": 1574.0,
     "holder": "DB B. Baker",
     "year": "Y1",
+    "exact": 1573.55,
     "team": "Vikings"
    },
    "scope": "other",

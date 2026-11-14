@@ -11,7 +11,7 @@ import StatTables from '../stats/StatTables';
 import StatsPulse from '../stats/visual/StatsPulse';
 import { HEADLINE_IDS, LEADER_IDS, buildRecordBook, pickBoards } from '../stats/records';
 import StatsHub from '../stats/hub/StatsHub';
-import { GraphsPage, HeadToHead, PlayerDeepDive, PlayersInsights, TeamRankingsTab, ViewLoading, prefetchStatsSub } from '../stats/hub/lazyViews';
+import { ClockPage, GraphsPage, HeadToHead, PlayerDeepDive, PlayersInsights, TeamRankingsTab, ViewLoading, prefetchStatsSub } from '../stats/hub/lazyViews';
 import { buildHash, useHubRoute, type StatsSub } from '../stats/hub/hashRoute';
 import { reducedMotion } from '@/utils/motion';
 import { usePhone } from '@/hooks/usePhone';
@@ -151,7 +151,7 @@ const CareerTab = () => {
                       // Same section clicked twice: the route doesn't change, so scroll directly.
                       if (route.section === j.id) document.getElementById(j.id)?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' });
                     }}
-                    className="font-semibold text-muted-foreground underline-offset-4 hover:text-gold hover:underline"
+                    className="link-chip text-muted-foreground hover:text-gold"
                   >
                     {j.label}
                   </a>
@@ -233,6 +233,9 @@ const CareerTab = () => {
           />
         </div>
       )}
+
+      {/* The Clock (src/components/clock): ages from the live save; the view is the hash's section */}
+      {sub === 'clock' && <ClockPage players={players} onSelect={setSelectedPlayer} />}
       </div>
       </Suspense>
 

@@ -105,5 +105,25 @@
 }
 
 /* The owner's private Retro Bowl sprites (GameSprite; this Mac only, nothing on the public site) */
-.arcade .rk-slab-sprite { position: absolute !important; z-index: -1; right: 58px; bottom: 0; }
-.arcade .rk-deck-sprite { position: absolute !important; z-index: 0; right: 22px; bottom: 0; filter: drop-shadow(3px 4px 0 #0006); }
+/* Slabs: the sprite takes its own column between the slot number and the name, standing on the slab's bottom edge,
+   so no name, stat or chip is ever under him */
+.arcade .rk-slab:has(.rk-slab-sprite) { grid-template-columns: 46px 64px minmax(0, 1fr) auto; min-height: 112px; }
+.arcade .rk-slab-sprite { grid-column: 2; align-self: end; justify-self: center; margin: 0 -32px -16px; }
+.arcade .rk-deck-sprite { position: absolute !important; z-index: -1; left: 50%; bottom: 84px; transform: translateX(-50%); filter: drop-shadow(3px 4px 0 #0006); }
+/* Sprite-first deck card: he stands centred on a floor shadow above the name plate; number and logo shrink behind */
+.arcade .rk-deck-face:has(.rk-deck-sprite) {
+  min-height: 310px;
+  background:
+    radial-gradient(28% 4% at 50% calc(100% - 96px), #000b, transparent 100%),
+    linear-gradient(180deg, transparent 62%, #000c 86%),
+    linear-gradient(115deg, transparent 0 62%, var(--c2) 62% 65%, transparent 65% 68%, color-mix(in srgb, var(--c2) 70%, transparent) 68% 69%, transparent 69%),
+    radial-gradient(120% 120% at 100% 0%, #ffffff30, transparent 55%),
+    linear-gradient(160deg, var(--c1), color-mix(in srgb, var(--c1) 55%, #05070f));
+}
+.arcade .rk-deck-face:has(.rk-deck-sprite) .rk-deck-num { right: auto; left: 50%; bottom: auto; top: 30px; transform: translateX(-50%); font-size: 150px; opacity: 0.35; }
+.arcade .rk-deck-face:has(.rk-deck-sprite) .rk-deck-logo { width: 40px; height: 40px; }
+.arcade .rk-deck-face:has(.rk-deck-sprite) .rk-deck-name { font-size: clamp(28px, 7vw, 40px); max-width: 100%; }
+.arcade .kc-pile .rk-slab:has(.rk-slab-sprite) { grid-template-columns: 34px 64px minmax(0, 1fr) auto; min-height: 112px; }
+.arcade .kc-ladder .rk-slab.kc-in:has(.rk-slab-sprite),
+.arcade .br .rk-slab.br-flip:has(.rk-slab-sprite) { grid-template-columns: 46px 64px minmax(0, 1fr) auto auto; }
+.arcade .br .rk-slab:has(.rk-slab-sprite) { min-height: 112px; }

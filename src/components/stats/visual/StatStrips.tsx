@@ -3,6 +3,8 @@ import type { Player, Position } from '@/types/player';
 import { evaluateMetric, metricsFor, type AdvContext, type MetricBoard, type MetricRow } from '@/config/advanced';
 import { isHallOfFamer } from '@/config/stats';
 import TeamLogo from '../../brand/TeamLogo';
+import ClubStrip from '../../brand/ClubStrip';
+import { bannerTeamOf } from '@/utils/playerExtras';
 import MetricLabel from '../analytics/MetricLabel';
 import { VIZ, fmtNum, fmtPlus, ordinal } from '../analytics/viz';
 import { keyOf } from '../records';
@@ -161,9 +163,13 @@ const StatStrips = ({ players, ctx, position, onSelect }: { players: Player[]; c
               <MetricLabel metric={s.board.metric} className="font-display font-bold uppercase tracking-wide" />
               <span className="font-pixel text-[8px] uppercase text-muted-foreground">
                 {s.board.metric.minLabel} · avg {fmtV(s.board, s.board.mean)} · best:{' '}
-                <button type="button" onClick={() => onSelect(s.board.rows[0].player)} className="normal-case text-gold hover:underline">
-                  {s.board.rows[0].player.name}
-                </button>
+                <ClubStrip
+                  team={bannerTeamOf(s.board.rows[0].player)}
+                  label={s.board.rows[0].player.name}
+                  size="sm"
+                  className="font-sans normal-case"
+                  onClick={() => onSelect(s.board.rows[0].player)}
+                />
               </span>
             </p>
             <StripSvg strip={s} width={width} onSelect={onSelect} onShow={setHover} />

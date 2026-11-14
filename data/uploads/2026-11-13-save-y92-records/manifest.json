@@ -1,0 +1,334 @@
+{
+ "id": "2026-11-13-save-y92-records",
+ "created": "2026-11-13",
+ "save": {
+  "file": "rb_nfl_savedata_4.json",
+  "path": "data/saves/2026-11-13/nfl/Documents/rb_nfl_savedata_4.json",
+  "sha256": "704486d68fca4da7deae764e7ca8bfd40705290e2b3eada42d7dc118317be0e1",
+  "season": 93,
+  "week": 16,
+  "complete": false
+ },
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Longest passing play",
+   "value": {
+    "week": 3,
+    "opponent": "Browns",
+    "qb": "QB S. Brandson"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Longest rushing play",
+   "value": {
+    "week": 17,
+    "opponent": "Bears",
+    "qb": "QB J. Macleone",
+    "exact": 65.1
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Longest passing TD",
+   "value": {
+    "week": 3,
+    "opponent": "Browns",
+    "qb": "QB S. Brandson"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Longest rushing TD",
+   "value": {
+    "week": 4,
+    "opponent": "Dolphins",
+    "qb": "QB S. Brandson",
+    "exact": 57.89
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Longest pass (air)",
+   "value": {
+    "week": 13,
+    "opponent": "Ravens",
+    "qb": "QB B. Crawford",
+    "exact": 31.06
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Longest field goal",
+   "value": {
+    "week": 8,
+    "opponent": "Bills"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Best passing game",
+   "value": {
+    "week": 3,
+    "opponent": "Commanders",
+    "exact": 513.21
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Best passing season",
+   "value": {
+    "exact": 7451.62
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Best passing career",
+   "value": {
+    "exact": 91462.58
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Best receiving game",
+   "value": {
+    "week": 8,
+    "opponent": "Packers",
+    "exact": 287.53
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Best receiving season",
+   "value": {
+    "exact": 4247.4
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Best receiving career",
+   "value": {
+    "exact": 36005.28
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Best rushing game",
+   "value": {
+    "week": 17,
+    "opponent": "Bills",
+    "exact": 237.14
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Best rushing season",
+   "value": {
+    "exact": 2839.47
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Most TD passes, game",
+   "value": {
+    "week": 31,
+    "opponent": "Chiefs"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Most TD receptions, game",
+   "value": {
+    "week": 2,
+    "opponent": "Saints"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Most rushing TDs, game",
+   "value": {
+    "week": 2,
+    "opponent": "Bills"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Most FG yards, game",
+   "value": {
+    "week": 8,
+    "opponent": "Bills"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Most field goals, game",
+   "value": {
+    "week": 7,
+    "opponent": "Bills"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Most tackles, game",
+   "value": {
+    "week": 1,
+    "opponent": "Patriots"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Most sacks, game",
+   "value": {
+    "week": 4,
+    "opponent": "Bills"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Most interceptions, game",
+   "value": {
+    "week": 22,
+    "opponent": "Lions"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Most forced fumbles, game",
+   "value": {
+    "week": 9,
+    "opponent": "Chiefs"
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Longest kick return",
+   "value": {
+    "week": 5,
+    "opponent": "Patriots",
+    "exact": 33.15
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Most return yards, game",
+   "value": {
+    "week": 5,
+    "opponent": "Patriots",
+    "exact": 169.05
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  },
+  {
+   "lane": "stats",
+   "op": "record.set",
+   "target": "Most return yards, season",
+   "value": {
+    "exact": 1573.55
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Record board detail in the save (week, opponent, QB, exact mark)",
+   "trigger": "Season Y92 complete in the save"
+  }
+ ]
+}

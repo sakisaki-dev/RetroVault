@@ -84,3 +84,6 @@
   .arcade .kc .rk-deck.drag-card, .arcade .kc-pile, .arcade .kc-line { transition: none; }
   .arcade .kc-pile.nope, .arcade .kc-ladder .rk-slab.kc-in { animation: none; }
 }
+
+/* Sprite-first deck card on a phone too (the owner's private sprites, this Mac only): room for him to stand */
+.arcade .kc .rk-deck-face:has(.rk-deck-sprite) { min-height: 290px; }

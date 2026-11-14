@@ -9,6 +9,7 @@ import { FrameCrest, HallHeading, MedalCoin } from './hofParts';
 import { POSITIONS, clubFill, tierClass, tierOf, yearsOf } from './hofUtils';
 import { cn } from '@/lib/utils';
 import GameSprite from '../GameSprite';
+import { statureScale, useGameSprites } from '@/utils/gameSprites';
 
 export interface GalleryItem {
   member: HofMember;
@@ -38,46 +39,85 @@ const GalleryTile = memo(function GalleryTile({ item, years, index, onOpen }: { 
   const { first, last } = splitPlayerName(member.name);
   const team = findNFLTeam(club);
   const tier = tierOf(member.score);
+  // Sprite-first bust (the owner's private Retro Bowl sprites, this Mac only): he stands full size under a spotlight in
+  // his club's colour, the outlined number dimmed behind him, name and class on the plate. Without sprites the tile is
+  // the classic bust.
+  const sprites = useGameSprites();
+  const staged = !!sprites;
+  // A huge, tall look (statureScale: Sherman Brandson) stands one whole-pixel step bigger, scaled from his feet
+  const stature = statureScale(sprites, member.name);
+  const label = `${member.name}, ${member.pos}${team ? `, ${team.fullName}` : ''}, Hall of Fame Score ${member.score}${member.firstBallot ? ', first ballot' : member.veteran ? ', veteran' : ''}. Open plaque`;
+  const sash = (member.firstBallot || member.veteran) && (
+    <span aria-hidden="true" className={cn('hof-sash', !member.firstBallot && 'hof-sash--silver')}>
+      {member.firstBallot ? 'First ballot' : 'Veteran'}
+    </span>
+  );
+  const footer = (
+    <span className="mt-1 flex items-center gap-1.5 border-t pt-1" style={{ borderColor: 'hsl(var(--hof-glow) / 0.3)' }}>
+      <TeamLogo team={team ?? club} size={15} decorative backed />
+      <span className="font-pixel text-[9px] uppercase leading-none">
+        {member.pos}
+        {number != null ? ` · #${number}` : ''}
+      </span>
+      {years && <span className="ml-auto truncate text-[10px] font-semibold leading-none text-white/75">{years}</span>}
+    </span>
+  );
+
+  if (staged) {
+    return (
+      <button type="button" onClick={() => onOpen(member.key)} aria-label={label} className={cn('hof-bust hof-bust--stage', tierClass(member.score))} style={{ ['--i' as string]: index }}>
+        <FrameCrest score={member.score} />
+        <span className="hof-face flex flex-col" style={clubFill(team)}>
+          {tier === 'diamond' && <span aria-hidden="true" className="hof-foil" />}
+          <span aria-hidden="true" className="hof-deboss hof-deboss--behind">
+            {number ?? ''}
+          </span>
+          {sash}
+          <span className="!absolute left-2.5 top-2.5">
+            <TeamLogo team={team ?? club} size={22} decorative backed />
+          </span>
+          <MedalCoin score={member.score} size={32} className="!absolute right-2 top-2.5" />
+          <span className="hof-stage" aria-hidden="true" style={{ ['--hof-club' as string]: team ? `hsl(${team.primaryColor})` : 'hsl(var(--gold))' }}>
+            <span className="hof-stage__spot" />
+            <span className="hof-stage__floor" />
+            <GameSprite
+              player={{ name: member.name, position: member.pos, team: item.player?.team, spriteSkin: item.player?.spriteSkin }}
+              team={club}
+              kind="figure"
+              size="l"
+              className="hof-stage__fig"
+              style={stature !== 1 ? { transform: `translateX(-50%) scale(${4 / 3})` } : undefined}
+            />
+          </span>
+          <span className="hof-plate">
+            <span className="block truncate text-[11px] font-semibold leading-tight text-white/85" style={{ textShadow: '0 1px 2px hsl(228 60% 3% / 0.8)' }}>
+              {first}
+            </span>
+            <span className="hof-metal-text block truncate pr-0.5 font-display text-[23px] font-extrabold uppercase italic leading-[1.05]">{last}</span>
+            {footer}
+          </span>
+          <span aria-hidden="true" className="hof-sheen" />
+        </span>
+      </button>
+    );
+  }
+
   return (
-    <button
-      type="button"
-      onClick={() => onOpen(member.key)}
-      aria-label={`${member.name}, ${member.pos}${team ? `, ${team.fullName}` : ''}, Hall of Fame Score ${member.score}${member.firstBallot ? ', first ballot' : member.veteran ? ', veteran' : ''}. Open plaque`}
-      className={cn('hof-bust', tierClass(member.score))}
-      style={{ ['--i' as string]: index }}
-    >
+    <button type="button" onClick={() => onOpen(member.key)} aria-label={label} className={cn('hof-bust', tierClass(member.score))} style={{ ['--i' as string]: index }}>
       <FrameCrest score={member.score} />
       <span className="hof-face flex flex-col justify-end p-2.5 pb-2" style={clubFill(team)}>
         {tier === 'diamond' && <span aria-hidden="true" className="hof-foil" />}
         <span aria-hidden="true" className="hof-deboss">
           {number ?? ''}
         </span>
-        {(member.firstBallot || member.veteran) && (
-          <span aria-hidden="true" className={cn('hof-sash', !member.firstBallot && 'hof-sash--silver')}>
-            {member.firstBallot ? 'First ballot' : 'Veteran'}
-          </span>
-        )}
+        {sash}
         <MedalCoin score={member.score} size={32} className="!absolute right-2 top-2.5" />
-        <GameSprite
-          player={{ name: member.name, position: member.pos, team: item.player?.team, spriteSkin: item.player?.spriteSkin }}
-          team={club}
-          kind="face"
-          scale={2}
-          className="hof-sprite !absolute left-1/2 top-1.5 -translate-x-1/2"
-        />
 
         <span className="block truncate text-[11px] font-semibold leading-tight text-white/85" style={{ textShadow: '0 1px 2px hsl(228 60% 3% / 0.8)' }}>
           {first}
         </span>
         <span className="hof-metal-text block truncate pr-0.5 font-display text-[23px] font-extrabold uppercase italic leading-[1.05]">{last}</span>
-        <span className="mt-1 flex items-center gap-1.5 border-t pt-1" style={{ borderColor: 'hsl(var(--hof-glow) / 0.3)' }}>
-          <TeamLogo team={team ?? club} size={15} decorative backed />
-          <span className="font-pixel text-[9px] uppercase leading-none">
-            {member.pos}
-            {number != null ? ` · #${number}` : ''}
-          </span>
-          {years && <span className="ml-auto truncate text-[10px] font-semibold leading-none text-white/75">{years}</span>}
-        </span>
+        {footer}
         <span aria-hidden="true" className="hof-sheen" />
       </span>
     </button>

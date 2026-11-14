@@ -8,6 +8,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { playerKey } from '@/config/ovr';
 import { isHallOfFamer } from '@/config/stats';
 import { useGamePool } from '@/utils/useOfficialOvr';
+import { useGameSprites } from '@/utils/gameSprites';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { useSkillRatings } from '@/utils/useSkillRatings';
 import { getTeamColors } from '@/utils/teamColors';
@@ -72,14 +73,73 @@ type GradeLike = { grade: string; color: string };
 const ResultRow = ({ player, number, ovr, grade }: { player: Player; number: number; ovr?: number; grade?: GradeLike }) => {
   const { first, last } = splitName(player.name);
   const hof = !player.isRealLegend && isHallOfFamer(player);
-  return (
-    <span className="relative flex min-w-0 flex-1 items-center gap-3 overflow-hidden py-1.5 pl-1.5 pr-2">
-      {bannerTeamOf(player) && (
-        <span className="qs-watermark pointer-events-none absolute -right-2 top-1/2 -translate-y-1/2" aria-hidden="true">
-          <TeamLogo team={bannerTeamOf(player)} size={64} decorative />
+  // Sprite-first row (the owner's private Retro Bowl sprites, this Mac only): his full figure leads the row and pops out
+  // of its top edge; the slanted number plate shrinks beside the name. Without sprites the row is unchanged.
+  const sprites = useGameSprites();
+  const staged = !!sprites && !player.isRealLegend;
+  const club = bannerTeamOf(player);
+  const clubName = findNFLTeam(club)?.name ?? club;
+  const right = (
+    <span className="relative flex shrink-0 items-center gap-2">
+      {grade && (
+        <span className="rounded px-1.5 font-display text-sm font-extrabold text-[#0b1020]" style={{ background: grade.color }} title="Skill grade">
+          {grade.grade}
         </span>
       )}
-      {!player.isRealLegend && <GameSprite player={player} kind="face" scale={1} className="relative -my-1.5 -mr-2 shrink-0 self-end" />}
+      {ovr != null && (
+        <span className="qs-ovr flex min-w-[2.4rem] flex-col items-center rounded-md px-1.5 py-1">
+          <span className="font-display text-lg font-extrabold leading-none tabular-nums">{ovr}</span>
+          <span className="font-pixel text-[6px] uppercase">OVR</span>
+        </span>
+      )}
+    </span>
+  );
+  const watermark = club && (
+    <span className="qs-watermark pointer-events-none absolute -right-2 top-1/2 -translate-y-1/2" aria-hidden="true">
+      <TeamLogo team={club} size={64} decorative />
+    </span>
+  );
+
+  if (staged) {
+    return (
+      <span className="qs-row--sprite relative flex min-w-0 flex-1 items-center gap-2 py-1.5 pl-1 pr-2">
+        <span className="pointer-events-none absolute inset-0 overflow-hidden rounded-lg" aria-hidden="true">
+          {watermark}
+        </span>
+        <span className="qs-figure relative h-12 w-14 shrink-0 self-end" aria-hidden="true">
+          <span className="qs-floor" />
+          <GameSprite player={player} kind="figure" size="s" className="!absolute bottom-[-11px] left-1/2 -translate-x-1/2" />
+        </span>
+        <span className="relative flex min-w-0 flex-1 flex-col items-start text-left leading-none">
+          <span className="flex min-w-0 items-center gap-1.5">
+            <span className="qs-pos rounded px-1 py-px font-pixel text-[8px]">{player.position}</span>
+            <span
+              aria-hidden="true"
+              className="qs-plate inline-flex h-4 shrink-0 items-center px-1.5 font-display text-[11px] font-extrabold italic tabular-nums [clip-path:polygon(14%_0,100%_0,86%_100%,0_100%)]"
+            >
+              #{number}
+            </span>
+            {first && <span className="qs-sub truncate font-pixel text-[9px] uppercase">{first}</span>}
+            {hof && <Star className="qs-star h-3 w-3 shrink-0 fill-current" aria-label="Hall of Famer" />}
+            <InLeague player={player} />
+          </span>
+          <span className="qs-name mt-1 max-w-full truncate font-display text-xl font-extrabold uppercase italic tracking-wide">{last}</span>
+          <span className="qs-sub mt-0.5 flex max-w-full items-center gap-1 truncate text-[11px]">
+            {club && <TeamLogo team={club} size={14} decorative />}
+            <span className="truncate">
+              {clubName}
+              {player.nickname ? <i> · "{player.nickname}"</i> : null}
+            </span>
+          </span>
+        </span>
+        {right}
+      </span>
+    );
+  }
+
+  return (
+    <span className="relative flex min-w-0 flex-1 items-center gap-3 overflow-hidden py-1.5 pl-1.5 pr-2">
+      {watermark}
       <span
         aria-hidden="true"
         className="qs-plate relative flex h-10 w-12 shrink-0 items-center justify-center font-display text-xl font-extrabold italic tabular-nums [clip-path:polygon(14%_0,100%_0,86%_100%,0_100%)]"
@@ -97,19 +157,7 @@ const ResultRow = ({ player, number, ovr, grade }: { player: Player; number: num
         <span className="qs-name mt-1 max-w-full truncate font-display text-xl font-extrabold uppercase italic tracking-wide">{last}</span>
         {player.nickname && <span className="qs-sub mt-0.5 max-w-full truncate text-[11px] italic">"{player.nickname}"</span>}
       </span>
-      <span className="relative flex shrink-0 items-center gap-2">
-        {grade && (
-          <span className="rounded px-1.5 font-display text-sm font-extrabold text-[#0b1020]" style={{ background: grade.color }} title="Skill grade">
-            {grade.grade}
-          </span>
-        )}
-        {ovr != null && (
-          <span className="qs-ovr flex min-w-[2.4rem] flex-col items-center rounded-md px-1.5 py-1">
-            <span className="font-display text-lg font-extrabold leading-none tabular-nums">{ovr}</span>
-            <span className="font-pixel text-[6px] uppercase">OVR</span>
-          </span>
-        )}
-      </span>
+      {right}
     </span>
   );
 };
@@ -120,6 +168,7 @@ const ResultRow = ({ player, number, ovr, grade }: { player: Player; number: num
  * straight to the Deep Dive.
  */
 const QuickPlayerSearch = () => {
+  const sprites = useGameSprites();
   // The owner's current club, from the data (coach.json), never hard-coded
   const currentClub = useCurrentClub();
   const [open, setOpen] = useState(false);
@@ -278,7 +327,7 @@ const QuickPlayerSearch = () => {
                           keywords={[p.name]}
                           onSelect={() => choose(p)}
                           onPointerDown={() => warmPlayerCard(p)}
-                          className="qs-item my-1 cursor-pointer overflow-hidden rounded-lg p-0"
+                          className={cn('qs-item my-1 cursor-pointer rounded-lg p-0', sprites && !p.isRealLegend ? 'mt-3 overflow-visible' : 'overflow-hidden')}
                           style={teamVars(bannerTeamOf(p))}
                         >
                           <ResultRow player={p} number={numberFor(p)} ovr={ovrMap.get(key)} grade={skills.get(key)?.grade} />

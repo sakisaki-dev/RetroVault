@@ -248,6 +248,29 @@ export interface StoryStat {
   source: string;
 }
 
+/**
+ * Optional art for a story article or a hot take (the private sprite scenes, src/components/news/ArticleArt.tsx): the
+ * writer's pick; without it a rule picks from the article's kind, players and clubs. Checked by scripts/story_check.py.
+ */
+export interface ArticleArtHint {
+  scene?: 'vs' | 'turf' | 'weather' | 'podium' | 'spotlight' | 'lineup';
+  players?: string[];
+  teams?: string[];
+  weather?: 'snow' | 'rain' | 'dome' | 'clear';
+}
+
+const ART_SCENES = ['vs', 'turf', 'weather', 'podium', 'spotlight', 'lineup'] as const;
+const ART_WEATHER = ['snow', 'rain', 'dome', 'clear'] as const;
+const artHint = (x: unknown): ArticleArtHint | undefined => {
+  if (!x || typeof x !== 'object') return undefined;
+  const r = x as Record<string, unknown>;
+  const scene = (ART_SCENES as readonly unknown[]).includes(r.scene) ? (r.scene as ArticleArtHint['scene']) : undefined;
+  const weather = (ART_WEATHER as readonly unknown[]).includes(r.weather) ? (r.weather as ArticleArtHint['weather']) : undefined;
+  const list = (v: unknown) => (Array.isArray(v) ? v.filter((n): n is string => typeof n === 'string') : undefined);
+  const out: ArticleArtHint = { scene, weather, players: list(r.players), teams: list(r.teams) };
+  return scene || weather || out.players?.length || out.teams?.length ? out : undefined;
+};
+
 export interface StoryArticle {
   id: string;
   kind: StoryKind;
@@ -260,6 +283,8 @@ export interface StoryArticle {
   stats: StoryStat[];
   /** Ids of earlier articles this one continues */
   related: string[];
+  /** The writer's art pick (optional) */
+  art?: ArticleArtHint;
 }
 
 /** A short standalone fact (an outlier, an up-and-comer, an oddity); the Arcade widget shows one a day */
@@ -287,6 +312,8 @@ export interface HotTake {
   teams: string[];
   /** The first is the card's big number */
   stats: StoryStat[];
+  /** The writer's art pick (optional) */
+  art?: ArticleArtHint;
 }
 
 export interface HotTakesSeason {
@@ -799,7 +826,7 @@ export const normalizeSeasonStory = (r: unknown): SeasonStory | null => {
       const kind = str(a.kind) as StoryKind | undefined;
       const headline = str(a.headline);
       if (!id || !headline || !kind || !(STORY_KINDS as readonly string[]).includes(kind)) return null;
-      return { id, kind, headline, dek: str(a.dek) ?? '', body: strArr(a.body), players: strArr(a.players), teams: strArr(a.teams), stats: storyStats(a.stats), related: strArr(a.related) };
+      return { id, kind, headline, dek: str(a.dek) ?? '', body: strArr(a.body), players: strArr(a.players), teams: strArr(a.teams), stats: storyStats(a.stats), related: strArr(a.related), art: artHint(a.art) };
     }),
   );
   const didYouKnow = compact(
@@ -880,7 +907,7 @@ export const normalizeHotTakes = (r: unknown): HotTakesSeason[] =>
           const headline = str(t.headline);
           const heat = takeHeat(t.heat);
           if (!id || !headline || !heat) return null;
-          return { id, heat, headline, dek: str(t.dek) ?? '', body: strArr(t.body), players: strArr(t.players), teams: strArr(t.teams), stats: storyStats(t.stats) };
+          return { id, heat, headline, dek: str(t.dek) ?? '', body: strArr(t.body), players: strArr(t.players), teams: strArr(t.teams), stats: storyStats(t.stats), art: artHint(t.art) };
         }),
       );
       return season && /^Y\d+$/.test(season) && takes.length ? { season, upload: str(s.upload), intro: str(s.intro), takes } : null;

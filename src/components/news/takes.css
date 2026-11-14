@@ -233,8 +233,19 @@ button.cc-chip:focus-visible { outline: 3px solid var(--x-gold, #ffc83d); outlin
   font-weight: 700;
   cursor: pointer;
 }
-.dyk-more:hover { text-decoration: underline; }
-.dyk-more:focus-visible { outline: 3px solid var(--x-gold); outline-offset: 2px; border-radius: 4px; }
+/* no underline (owner rule): a small pill with a chevron that turns when the list is open */
+.dyk-more {
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, currentColor 32%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  transition: background-color 120ms ease-out, border-color 120ms ease-out;
+}
+.dyk-more::after { content: '\203A'; font-weight: 700; transition: transform 120ms ease-out; }
+.dyk-more[aria-expanded='true']::after { transform: rotate(-90deg); }
+.dyk-more:hover { background: color-mix(in srgb, currentColor 16%, transparent); border-color: color-mix(in srgb, currentColor 60%, transparent); }
+.dyk-more:focus-visible { outline: 3px solid var(--x-gold); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .dyk-more, .dyk-more::after { transition: none; } }
 
 /* ---------- Hot Takes: an opinion column ---------- */
 .ht { display: flex; flex-direction: column; gap: 4px; padding-top: 6px; }
@@ -278,55 +289,100 @@ button.cc-chip:focus-visible { outline: 3px solid var(--x-gold, #ffc83d); outlin
 @media (min-width: 900px) {
   .ht-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; align-items: start; }
 }
+/* An opinion column's row (owner: "condense these a little love the art but remember they're news articles not
+   banners"): kicker (number · heat), headline, a one-line dek, a small stat chip and the players, the art as a
+   thumbnail at the right; about half a banner's height, two columns from 900px like an op-ed page. */
 .ht-item {
   --heat: var(--x-gold);
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) 96px;
   gap: 0 12px;
+  align-items: start;
   min-width: 0;
-  padding: 14px 0 14px 12px;
+  padding: 12px 0 12px 12px;
   border-bottom: 1px solid var(--x-line);
   /* the subject's club: a colour edge and a faint wash */
   box-shadow: inset 3px 0 0 var(--tc);
   background: linear-gradient(90deg, color-mix(in srgb, var(--tc) 12%, transparent), transparent 45%);
 }
-.ht-item__gutter { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.ht-item__logo { filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.5)); }
+@media (min-width: 640px) { .ht-item { grid-template-columns: minmax(0, 1fr) 144px; gap: 0 16px; } }
 .ht-item[data-heat='2'] { --heat: var(--x-orange); }
 .ht-item[data-heat='3'] { --heat: var(--x-flag); }
+.ht-item__kicker { display: flex; align-items: center; gap: 8px; margin: 0; }
 .ht-item__n {
   font-family: var(--font-display, 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif);
-  font-size: 26px;
+  font-size: 17px;
   font-weight: 800;
-  line-height: 0.9;
+  line-height: 1;
   color: color-mix(in srgb, var(--heat) 70%, var(--x-muted));
   font-variant-numeric: tabular-nums;
 }
-.ht-item__main { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.ht-item__n::after { content: '·'; margin-left: 8px; color: var(--x-muted); font-weight: 400; }
+.ht-item__main { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
 .ht-item__title {
   margin: 0;
   transition: color var(--dur-2) var(--ease-out);
   font-family: var(--font-display, 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif);
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1.08;
   text-transform: uppercase;
   text-wrap: balance;
   overflow-wrap: anywhere;
 }
-.ht-item__dek { margin: 0; font-size: 13.5px; line-height: 1.45; color: #c9d1ee; }
-.ht-item__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; min-width: 0; }
-.ht-item__fig .sf__value { color: var(--heat); font-size: 20px; }
+.ht-item__dek {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #c9d1ee;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+@media (min-width: 900px) { .ht-item__dek { -webkit-line-clamp: 1; } }
+.ht-item__foot { display: flex; flex-wrap: nowrap; align-items: center; gap: 6px; min-width: 0; overflow: hidden; }
+.ht-item__foot .cc-chips { flex-wrap: nowrap; overflow: hidden; }
+.ht-item__foot .cc-chips > li { flex-shrink: 1; }
+/* the lead figure as a small inline stat chip in the heat's colour */
+.ht-item__fig { flex-shrink: 0; }
+.ht-item__fig .sf__btn {
+  flex-wrap: nowrap;
+  min-height: 26px;
+  padding: 2px 8px;
+  border: 1px solid color-mix(in srgb, var(--heat) 55%, var(--x-line));
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--heat) 10%, transparent);
+}
+.ht-item__fig .sf__value { color: var(--heat); font-size: 15px; }
+.ht-item__fig .sf__label { font-size: 11px; text-decoration: none; white-space: nowrap; max-width: 12rem; overflow: hidden; text-overflow: ellipsis; }
+/* the thumbnail: his scene (ArticleArt "side") or the club's logo tile */
+.ht-item__art { grid-column: 2; grid-row: 1; align-self: start; }
+.ht-item__tile {
+  display: grid;
+  place-items: center;
+  height: 112px;
+  border-radius: 8px;
+  background: radial-gradient(70% 70% at 50% 40%, color-mix(in srgb, var(--tc) 40%, transparent), transparent 70%), #0b1020;
+  box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 0.08);
+}
+@media (min-width: 640px) { .ht-item__tile { height: 120px; } }
+.ht-item__logo { filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.5)); }
 .ht-read {
   display: inline-flex;
   align-items: center;
   gap: 2px;
   align-self: flex-start;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--x-gold);
 }
-.ht-item:hover .ht-read { text-decoration: underline; }
+/* no underline (owner rule): the cue fills in as a pill and its chevron nudges while the take is hovered */
+.ht-read { margin-left: -6px; padding: 2px 6px; border-radius: 999px; transition: background-color 120ms ease-out; }
+.ht-read svg { transition: transform 120ms ease-out; }
+.ht-item:hover .ht-read { background: color-mix(in srgb, currentColor 14%, transparent); }
+.ht-item:hover .ht-read svg { transform: translateX(2px); }
+@media (prefers-reduced-motion: reduce) { .ht-read, .ht-read svg { transition: none; } .ht-item:hover .ht-read svg { transform: none; } }
 .ht-item:hover .ht-item__title { color: var(--heat); }
 /* the whole take opens the reading sheet (.ss-cover); chips and the sourced figure stay their own buttons */
 .ht-item { position: relative; }
@@ -356,4 +412,9 @@ button.cc-chip:focus-visible { outline: 3px solid var(--x-gold, #ffc83d); outlin
   .dyk-btn,
   button.cc-chip,
   .ht-item__title { transition: none; }
+}
+/* a phone keeps the stat chip and the first player on one line; the rest are a tap away in the argument */
+@media (max-width: 639px) {
+  .ht-item__foot { flex-wrap: wrap; }
+  .ht-item__fig .sf__label { max-width: 9rem; }
 }

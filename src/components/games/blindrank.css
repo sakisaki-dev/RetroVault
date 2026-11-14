@@ -70,3 +70,6 @@
   .arcade .br .rk-slab.br-flip { animation: none; }
   .arcade .br-slot, .arcade .br .rk-deck-face { transition: none; }
 }
+
+/* Sprite-first deck card on a phone too (the owner's private sprites, this Mac only): room for him to stand */
+.arcade .br .rk-deck-face:has(.rk-deck-sprite) { min-height: 290px; }

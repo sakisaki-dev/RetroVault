@@ -12,6 +12,7 @@ const loaders = {
   graphs: () => import('../graph/GraphsPage'),
   h2h: () => import('../HeadToHead'),
   deepdive: () => import('../comps/PlayerDeepDive'),
+  clock: () => import('../../clock/ClockPage'),
 };
 
 export const PlayersInsights = lazy(loaders.insights);
@@ -19,6 +20,7 @@ export const TeamRankingsTab = lazy(loaders.teams);
 export const GraphsPage = lazy(loaders.graphs);
 export const HeadToHead = lazy(loaders.h2h);
 export const PlayerDeepDive = lazy(loaders.deepdive);
+export const ClockPage = lazy(loaders.clock);
 
 const warmed = new Set<string>();
 export const prefetchStatsSub = (sub: StatsSub | 'insights') => {

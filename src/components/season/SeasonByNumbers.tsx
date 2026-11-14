@@ -2,7 +2,7 @@ import { useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'reac
 import { Activity, Equal, Flame, Gauge, Shield, Swords, Target, TrendingDown, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { GameRef, ScheduleSeason, TableRow } from '@/utils/schedule';
-import TeamLogo from './TeamLogo';
+import TeamLogo from '@/components/timeline/TeamLogo';
 import { BOARD_BG, BoardTile, LampGrid, ScoreSide, color, pct, rate, signed } from './seasonGamesUi';
 
 /**

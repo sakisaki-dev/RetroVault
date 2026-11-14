@@ -16,6 +16,8 @@ interface TrackProps {
   onActiveYear: (year: number | null) => void;
   /** Mobile renders the open era's detail inline under its card. */
   renderDetail?: (placed: PlacedEra) => ReactNode;
+  /** Horizontal track: a marker of the caller's own per year (glyph and label) instead of the Super Bowl one */
+  marker?: (slot: YearSlot) => { glyph: ReactNode; label: string };
 }
 
 const eraLabel = (p: PlacedEra) =>
@@ -33,6 +35,7 @@ export const HorizontalTrack = ({
   detailId,
   onSelectEra,
   onActiveYear,
+  marker,
 }: TrackProps) => {
   const { firstYear, lastYear, years, eras, laneCount, gaps } = model;
   const cols = lastYear - firstYear + 1;
@@ -126,7 +129,8 @@ export const HorizontalTrack = ({
               variant="column"
               yearSlot={s}
               active={activeYear === s.year}
-              label={describeSuperBowl(s, season)}
+              label={marker ? marker(s).label : describeSuperBowl(s, season)}
+              glyph={marker?.(s).glyph}
               {...yearNav.itemProps(i)}
               onFocus={() => {
                 yearNav.setIndex(i);

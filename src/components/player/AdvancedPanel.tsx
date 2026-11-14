@@ -231,7 +231,7 @@ const AdvancedPanel = ({ player, players, onSelect }: Props) => {
                           <span>
                             <span className="text-chalk">{ordinal(rb.rank)}</span> of {rb.total} {POS_PLURAL[pos] ?? pos}
                           </span>
-                          <span className="text-[color:var(--tc-accent)] group-hover:underline">Rankings</span>
+                          <span className="link-chip shrink-0 py-0 text-[color:var(--tc-accent)] group-hover:-translate-y-px motion-reduce:group-hover:translate-y-0">Rankings</span>
                         </button>
                       </LeaderboardPeek>
                     </dd>

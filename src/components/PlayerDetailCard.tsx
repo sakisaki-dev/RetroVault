@@ -33,6 +33,7 @@ import { FamilyChips, PlayerCardPanel, RealCareerPanel } from './player/ExtrasPa
 import { buildCareerArc } from './player/arcData';
 import { careerRates, careerTotals, headlineStats, type StatItem } from './player/statLines';
 import { teamThemeVars } from './player/teamTheme';
+import { bannerStats } from './hof/hofUtils';
 import GameSprite from './GameSprite';
 import { useLegendPhoto } from './player/useLegendPhoto';
 import { useDeferredStage } from '@/hooks/useDeferredStage';
@@ -219,6 +220,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   // club the career arc ends on) and "Club of record" (the league sheet's team, which jersey numbers and the rafters use).
   const team = findNFLTeam(signatureTeamOf(extras, player));
   const latestTeam = findNFLTeam(player.team);
+  // The private Retro Bowl sprite (this Mac only) gets its own stage in the header; real NFL legends never have one
   const retiredWith = findNFLTeam(typeof card?.retired_team === 'string' ? card.retired_team : undefined);
   const isRetired = player.status === 'Retired';
   const otherClubs = isRetired && team
@@ -315,8 +317,10 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
             photoUrl={photo?.url}
             photoCredit={photo ? [photo.author, photo.license].filter(Boolean).join(' · ') || 'Wikimedia Commons' : null}
             photoHref={photo?.page}
+            // leaves room for the Deep Dive and close buttons, which sit over the banner's top right
             topRight={<span className="w-20 shrink-0 sm:w-24" aria-hidden="true" />}
-            figure={player.isRealLegend ? undefined : <GameSprite player={player} team={team?.name ?? player.team} kind="figure" scale={4} nflScale={2} />}
+            figure={player.isRealLegend ? null : <GameSprite player={player} team={team?.name ?? player.team} kind="figure" size="l" showKit />}
+            stats={player.isRealLegend ? undefined : bannerStats(player)}
             className="rounded-none [&_.ppb\_\_field]:rounded-none"
           />
           <DialogDescription className="sr-only">

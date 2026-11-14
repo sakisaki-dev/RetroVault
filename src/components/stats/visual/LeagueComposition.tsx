@@ -283,7 +283,7 @@ export const FranchiseBars = ({ players }: { players: Player[] }) => {
             type="button"
             aria-expanded={expanded}
             onClick={() => setExpanded((v) => !v)}
-            className="self-start rounded text-xs font-semibold text-gold underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            className="link-chip self-start text-xs text-gold"
           >
             {expanded ? `Show top ${SHOW}` : `Show all ${sorted.length} teams`}
           </button>

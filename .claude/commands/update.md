@@ -17,6 +17,9 @@ The owner wants an update. Follow CLAUDE.md exactly: the "When the owner says 'u
    - `SPEECH NEEDED` → write the speech (`speech.set`) in a follow-up bundle and run update on it.
    - `STORY NEEDED: Y<n>` → write the Season Story (`story.set`, professional voice, no "owner"/"you", true facts
      with `stats[]` sources, continue threads from last season via `related[]`) in a follow-up bundle; run update.
+     `TAKES NEEDED: Y<n>` → the Hot Takes (`takes.set`) the same way. For each article and take pick its sprite
+     scene with the optional `art` hint ({scene: vs | turf | weather | podium | spotlight | lineup, players, teams,
+     weather}; CLAUDE.md step 6); leave it out where the rule's choice is right.
    - Audit flags stale numbers in a speech or story → refresh it the same way.
    - The audit must end with 0 errors.
 5. New players without a known team stay `"UNK"`: **ask the owner for their teams** (give hints from their last

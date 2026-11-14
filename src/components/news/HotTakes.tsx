@@ -8,6 +8,7 @@ import './news-art.css';
 import { ClubChips } from './ClubChips';
 import { SourcedFigure } from './SourcedFigure';
 import { FeatureSheet, type SheetPiece } from './FeatureSheet';
+import ArticleArt from './ArticleArt';
 import './takes.css';
 
 /**
@@ -58,22 +59,40 @@ const TakeCard = ({ take, players, onPlayer, index, onOpen }: { take: HotTake; p
   return (
     <li className="ht-item stagger-in" data-heat={take.heat} style={{ ...teamVars(club), '--i': index } as CSSProperties}>
       <button type="button" className="ss-cover" onClick={() => onOpen(take.id)} aria-label={`Read the argument: ${take.headline}`} />
-      <span className="ht-item__gutter" aria-hidden="true">
-        <span className="ht-item__n">{String(index + 1).padStart(2, '0')}</span>
-        {club && <TeamLogo team={club} size={30} decorative className="ht-item__logo" />}
-      </span>
       <div className="ht-item__main">
-        <HeatMeter heat={take.heat} />
+        {/* an opinion column's kicker: the number and the heat on one line */}
+        <p className="ht-item__kicker">
+          <span className="ht-item__n">{String(index + 1).padStart(2, '0')}</span>
+          <HeatMeter heat={take.heat} />
+        </p>
         <h4 className="ht-item__title">{take.headline}</h4>
         <p className="ht-item__dek">{take.dek}</p>
         <div className="ht-item__foot">
           {lead && <SourcedFigure stat={lead} className="ht-item__fig" />}
-          <ClubChips names={take.players} teams={take.teams} players={players} onPlayer={onPlayer} max={3} label="Players in this take" />
+          <ClubChips names={take.players} teams={take.teams} players={players} onPlayer={onPlayer} max={1} label="Players in this take" />
         </div>
         <span className="ht-read" aria-hidden="true">
           Read the argument <ChevronRight className="h-3.5 w-3.5" />
         </span>
       </div>
+      {/* the art as a column thumbnail: his scene where the sprites exist, the club's logo tile otherwise */}
+      <ArticleArt
+        variant="side"
+        kind="take"
+        heat={take.heat}
+        players={take.players}
+        teams={take.teams}
+        art={take.art}
+        league={players}
+        className="ht-item__art"
+        fallback={
+          club ? (
+            <span className="ht-item__art ht-item__tile" aria-hidden="true">
+              <TeamLogo team={club} size={56} decorative className="ht-item__logo" />
+            </span>
+          ) : null
+        }
+      />
     </li>
   );
 };
@@ -143,6 +162,7 @@ export const HotTakesDesk = ({ season, players, onPlayer }: Props) => {
           players: openTake.players,
           teams: openTake.teams,
           hero: { teams: [mainClubOf(openTake, players)].filter(Boolean), mode: 'one' },
+          scene: { kind: 'take', heat: openTake.heat, players: openTake.players, teams: openTake.teams, art: openTake.art },
           position: `Take ${openAt + 1} of ${openSeason.takes.length}`,
           sourcesNote: 'Every figure is checked against the league data when the takes are published.',
           className: `fs--take fs--heat-${openTake.heat}`,

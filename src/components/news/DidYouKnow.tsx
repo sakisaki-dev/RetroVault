@@ -7,6 +7,7 @@ import type { DidYouKnow } from '@/utils/leagueContent';
 import { mainClubOf, teamVars } from './clubArt';
 import { ClubChips } from './ClubChips';
 import { SourcedFigure } from './SourcedFigure';
+import ArticleArt from './ArticleArt';
 import './takes.css';
 
 /**
@@ -103,6 +104,7 @@ export const DidYouKnowDeck = ({ facts, season, players, onPlayer }: Props) => {
           return (
             <li key={f.id} className="dyk-item" data-current={n === at || undefined} style={teamVars(mainClubOf(f, players))}>
               {lead ? <SourcedFigure stat={lead} className="dyk-item__fig" /> : <Lightbulb className="dyk-item__icon h-4 w-4" aria-hidden="true" />}
+              <ArticleArt variant="side" kind="fact" players={f.players} teams={f.teams} league={players} className="dyk-item__art" />
               <p className="dyk-item__text">{f.text}</p>
               <ClubChips names={f.players} teams={f.teams} players={players} onPlayer={onPlayer} max={2} label="In this fact" />
             </li>

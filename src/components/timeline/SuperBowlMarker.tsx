@@ -1,4 +1,4 @@
-import { forwardRef, type ButtonHTMLAttributes } from 'react';
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import type { YearSlot } from './timelineModel';
 
@@ -51,11 +51,13 @@ interface MarkerButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
   active?: boolean;
   variant: 'column' | 'chip';
+  /** Column variant: draw this glyph instead of the Super Bowl one (the Season page's playoff markers) */
+  glyph?: ReactNode;
 }
 
 /** One Super Bowl year: a slim column on the desktop track, a labelled chip on mobile. */
 export const MarkerButton = forwardRef<HTMLButtonElement, MarkerButtonProps>(
-  ({ yearSlot: slot, label, active, variant, className, ...rest }, ref) => {
+  ({ yearSlot: slot, label, active, variant, glyph, className, ...rest }, ref) => {
     const kind = markerKind(slot);
 
     if (variant === 'column') {
@@ -72,7 +74,7 @@ export const MarkerButton = forwardRef<HTMLButtonElement, MarkerButtonProps>(
           )}
           {...rest}
         >
-          <MarkerGlyph kind={kind} color={slot.color} className={cn(active && 'scale-125', 'group-hover:scale-125')} />
+          {glyph ?? <MarkerGlyph kind={kind} color={slot.color} className={cn(active && 'scale-125', 'group-hover:scale-125')} />}
         </button>
       );
     }

@@ -4,6 +4,8 @@ import { matchPlayerByName, type Edition, type Storyline } from '@/utils/leagueC
 import { editionShuffle } from '@/utils/edition';
 import { cn } from '@/lib/utils';
 import MiniMarkdown from './MiniMarkdown';
+import ClubStrip from '@/components/brand/ClubStrip';
+import { bannerTeamOf } from '@/utils/playerExtras';
 
 interface StorylinesProps {
   storylines: Storyline[];
@@ -38,13 +40,13 @@ const Storylines = ({ storylines, edition, players, onPlayerSelect }: Storylines
           return (
             <li key={name}>
               {p ? (
-                <button
-                  type="button"
+                <ClubStrip
+                  team={bannerTeamOf(p)}
+                  label={name}
+                  size="sm"
                   onClick={() => onPlayerSelect(p)}
-                  className="rounded-md bg-secondary/50 px-2 py-0.5 text-xs text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  {name}
-                </button>
+                  ariaLabel={`${name}: open player card`}
+                />
               ) : (
                 <span className="rounded-md bg-secondary/50 px-2 py-0.5 text-xs">{name}</span>
               )}

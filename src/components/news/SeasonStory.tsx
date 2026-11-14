@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
 import {
   storyEntryOf,
+  useLeagueContent,
   useSeasonStory,
   type SeasonStory,
   type SeasonStoryIndexEntry,
@@ -17,6 +18,8 @@ import { HotTakesDesk } from './HotTakes';
 import { ClubChips } from './ClubChips';
 import { HeroLogos, PlayerBanners, StoryThumb, firstClubIn, mainClubOf, pairOf, teamVars } from './clubArt';
 import TeamLogo from '@/components/brand/TeamLogo';
+import TeamPhoto from './TeamPhoto';
+import ArticleArt from './ArticleArt';
 import './news-art.css';
 import './story.css';
 
@@ -137,7 +140,7 @@ const StoryItem = ({ a, i, season, index, players, onPlayer, onRead, onOpen }: I
           </p>
           <h4 className="ss-item__title">{a.headline}</h4>
         </div>
-        <StoryThumb kind={a.kind} teams={a.teams} club={club} />
+        <ArticleArt variant="thumb" kind={a.kind} players={a.players} teams={a.teams} art={a.art} league={players} fallback={<StoryThumb kind={a.kind} teams={a.teams} club={club} />} />
       </div>
       <p className="ss-item__dek">{a.dek}</p>
       {c && <StatBadges stats={[c]} />}
@@ -209,6 +212,7 @@ const Reader = ({ open, index, players, onPlayer, onOpen, onClose }: ReaderProps
     players: a.players,
     teams: a.teams,
     hero: heroOf(a, players),
+    scene: { kind: a.kind, players: a.players, teams: a.teams, art: a.art },
     position: `Story ${at + 1} of ${order.length}`,
     sourcesNote: 'Every figure is checked against the league data when the story is published (scripts/story_check.py).',
     before: earlier.length ? (
@@ -276,6 +280,7 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
   );
   const entry = seasons.find((s) => s.season === seasonId) ?? seasons[0];
   const { story, loading } = useSeasonStory(entry);
+  const superBowls = useLeagueContent().content?.superBowls ?? [];
   const [openId, setOpenId] = useState<string | null>(null);
   // a deep link waits here until its season's file is in
   const openArticleRow = openId && story ? story.articles.find((x) => x.id === openId) : undefined;
@@ -350,6 +355,8 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
   const feed = story.articles.filter((a) => a !== lead && a !== hits);
   const top = feed.slice(0, 3);
   const leadHero = lead ? heroOf(lead, players) : null;
+  // The champions' team photo (private sprites only): a lead about the Super Bowl, and the season's winner
+  const champion = lead && leadHero?.mode === 'vs' ? superBowls.find((sb) => `Y${sb.year}` === story.season)?.winner ?? null : null;
   const more = feed.slice(3);
   const itemProps = { season: story.season, index, players, onPlayer, onRead: setOpenId, onOpen: openArticle };
 
@@ -373,7 +380,16 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
           <article className="ss-lead stagger-in" style={{ ...teamVars(leadHero?.teams[0]), '--i': 0 } as CSSProperties}>
             <button type="button" className="ss-cover" onClick={() => setOpenId(lead.id)} aria-label={`Read: ${lead.headline}`} />
             <div className={cn('ss-lead__art', leadHero && leadHero.mode !== 'one' && 'ss-lead__art--pair')} title={lead.stats[0]?.source ? `Source: ${lead.stats[0].source}` : undefined}>
-              {leadHero && <HeroLogos teams={leadHero.teams} mode={leadHero.mode} />}
+              <ArticleArt
+                variant="hero"
+                kind="lead"
+                players={lead.players}
+                teams={lead.teams}
+                art={lead.art}
+                league={players}
+                className="ss-lead__scene"
+                fallback={leadHero && <HeroLogos teams={leadHero.teams} mode={leadHero.mode} />}
+              />
               {lead.stats[0] && (
                 <p className="ss-lead__big">
                   <b>{lead.stats[0].value}</b>
@@ -387,6 +403,7 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
               <p className="ss-lead__dek">{lead.dek}</p>
               <StatBadges stats={lead.stats.slice(1, 3)} />
               <PlayerBanners names={lead.players} players={players} onPlayer={onPlayer} max={3} className="nz-banners--lead" />
+              {champion && <TeamPhoto season={story.season} winner={champion} players={players} featured={lead.players} />}
               <p className="ss-byline">
                 <Newspaper className="h-3.5 w-3.5" aria-hidden="true" /> {BYLINE}
                 <span aria-hidden="true">·</span>

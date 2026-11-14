@@ -74,7 +74,7 @@ const CardDesigns = ({
                   <button
                     type="button"
                     onClick={onArtLab}
-                    className="font-semibold text-gold underline-offset-2 hover:underline"
+                    className="link-chip text-gold"
                   >
                     Art lab
                   </button>
