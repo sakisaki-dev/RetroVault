@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { Activity, BarChart3, Gauge, LayoutDashboard, Milestone, Pencil, Radar, Trophy, Users } from 'lucide-react';
+import { Suspense, lazy, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { Activity, BarChart3, Gauge, Layers, LayoutDashboard, Milestone, Pencil, Radar, Trophy, Users } from 'lucide-react';
 import { openInCompFinder } from './stats/comps/compFinderLink';
 import type { Player } from '@/types/player';
 import { cn } from '@/lib/utils';
@@ -38,6 +38,9 @@ import GameSprite from './GameSprite';
 import { useLegendPhoto } from './player/useLegendPhoto';
 import { useDeferredStage } from '@/hooks/useDeferredStage';
 import './player/playerCard.css';
+
+// The collectible art (card faces, kits, autograph canvas) loads only when the Card designs tab is opened
+const CardDesignsPanel = lazy(() => import('./player/CardDesignsPanel'));
 
 interface PlayerDetailCardProps {
   player: Player | null;
@@ -80,6 +83,7 @@ const TABS = [
   { id: 'advanced', label: 'Advanced', Icon: Gauge },
   { id: 'awards', label: 'Awards', Icon: Trophy },
   { id: 'comps', label: 'Comps', Icon: Users },
+  { id: 'cards', label: 'Card designs', Icon: Layers },
 ] as const;
 type TabId = (typeof TABS)[number]['id'];
 
@@ -414,7 +418,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
         <TabsPrimitive.Root value={tab} onValueChange={(v) => setTab(v as TabId)}>
           <div className="pc-tabs">
             <TabsPrimitive.List className="pc-tablist" aria-label={`${player.name} sections`}>
-              {TABS.map(({ id, label, Icon }) => (
+              {TABS.filter(({ id }) => id !== 'cards' || !player.isRealLegend).map(({ id, label, Icon }) => (
                 <TabsPrimitive.Trigger key={id} value={id} className="pc-tab">
                   <Icon className="h-3.5 w-3.5" aria-hidden="true" />
                   {label}
@@ -624,6 +628,20 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
               <CompsPanel player={player} players={leaguePool} numberFor={numberFor} onSelect={setJumpTo} onNavigate={onClose} />
             </section>
           </TabsPrimitive.Content>
+
+          {/* ---------- Card designs (league players only: real NFL legends are not collectible) ---------- */}
+          {!player.isRealLegend && (
+            <TabsPrimitive.Content value="cards" className="rv-view-in p-4 focus-visible:outline-none sm:p-6">
+              <section aria-labelledby={`${headingId}-cards`}>
+                <SectionTitle icon={Layers} id={`${headingId}-cards`}>
+                  Card designs
+                </SectionTitle>
+                <Suspense fallback={<p className="py-8 text-center text-sm text-muted-foreground">Loading cards…</p>}>
+                  <CardDesignsPanel player={player} />
+                </Suspense>
+              </section>
+            </TabsPrimitive.Content>
+          )}
         </TabsPrimitive.Root>
       </DialogContent>
 

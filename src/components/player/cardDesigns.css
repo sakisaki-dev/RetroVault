@@ -1,0 +1,200 @@
+/* Player card → Card designs tab (CardDesignsPanel.tsx): his collectible in every art. */
+.cdz {
+  --cdz-tier: #b87333;
+}
+.cdz__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.cdz__tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.55rem 0.15rem 0.45rem;
+  border-left: 3px solid var(--cdz-c);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--cdz-c) 30%, transparent), transparent);
+  font-family: var(--font-display, inherit);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cdz-hi);
+}
+.cdz__tier--common {
+  --cdz-c: #b87333;
+  --cdz-hi: #e8a874;
+}
+.cdz__tier--rare {
+  --cdz-c: #5f8bb6;
+  --cdz-hi: #a6c8ea;
+}
+.cdz__tier--epic {
+  --cdz-c: #9a6be0;
+  --cdz-hi: #d0b2ff;
+}
+.cdz__tier--legendary {
+  --cdz-c: #f07a2a;
+  --cdz-hi: #ffc890;
+}
+.cdz__count {
+  font-size: 0.8rem;
+  color: hsl(var(--muted-foreground));
+}
+.cdz__count b {
+  font-family: var(--font-display, inherit);
+  font-size: 1.05rem;
+  color: hsl(var(--chalk, 0 0% 96%));
+}
+.cdz__rare {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: hsl(var(--gold, 43 100% 62%));
+}
+
+/* The row: a sideways scroller with snap points on a phone, five up from 768px */
+.cdz__row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(9.25rem, 42%);
+  gap: 0.75rem;
+  margin: 0 -1rem;
+  padding: 1.1rem 1rem 0.5rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1rem;
+  scrollbar-width: none;
+  list-style: none;
+}
+.cdz__row::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .cdz__row {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin: 0;
+    padding: 1.1rem 0 0.25rem;
+    overflow: visible;
+  }
+}
+.cdz__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.cdz__card {
+  position: relative;
+  container-type: inline-size;
+}
+.cdz__item.is-locked .cdz__card > .fut {
+  filter: grayscale(0.75) brightness(0.55);
+}
+/* The rarest art keeps a gold halo even while locked, so the label points at something you can see */
+.cdz__item.is-rarest .cdz__card {
+  filter: drop-shadow(0 0 0.55rem hsl(43 100% 55% / 0.55));
+}
+.cdz__item.is-rarest.is-locked .cdz__card > .fut {
+  filter: grayscale(0.4) brightness(0.68);
+}
+.cdz__lock {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  translate: -50% -50%;
+  border-radius: 999px;
+  border: 1px solid hsl(0 0% 100% / 0.22);
+  background: hsl(228 40% 8% / 0.78);
+  color: hsl(0 0% 100% / 0.85);
+  pointer-events: none;
+}
+
+/* Rarest: a gold flag over the card and a gold rule under its label */
+.cdz__flag {
+  position: absolute;
+  z-index: 3;
+  top: -0.7rem;
+  left: 50%;
+  translate: -50% 0;
+  padding: 0.1rem 0.6rem;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #ffd978, #e0a92e);
+  box-shadow: 0 2px 6px hsl(0 0% 0% / 0.5);
+  color: #2a1a02;
+  font-family: var(--font-display, inherit);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.cdz__item.is-rarest .cdz__meta {
+  box-shadow: inset 0 2px 0 #f2c14a;
+}
+
+.cdz__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.4rem 0.5rem 0.45rem;
+  border-radius: 4px;
+  background: linear-gradient(180deg, hsl(var(--tc-p, 222 45% 32%) / 0.14), hsl(var(--panel, 228 30% 12%) / 0.7));
+  box-shadow: inset 0 2px 0 var(--tc-accent, hsl(222 45% 50%));
+}
+.cdz__name {
+  font-family: var(--font-display, inherit);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: hsl(var(--chalk, 0 0% 96%));
+}
+.cdz__state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+.cdz__state--base {
+  color: hsl(var(--muted-foreground));
+}
+.cdz__state--silver {
+  color: #e2e8f0;
+}
+.cdz__state--gold {
+  color: hsl(var(--gold, 43 100% 62%));
+}
+.cdz__state--holo {
+  color: #f0abfc;
+}
+.cdz__state--locked {
+  color: hsl(var(--muted-foreground) / 0.85);
+}
+.cdz__odds {
+  font-size: 0.68rem;
+  font-variant-numeric: tabular-nums;
+  color: hsl(var(--muted-foreground));
+}
+.cdz__item.is-rarest .cdz__odds {
+  color: hsl(var(--gold, 43 100% 62%));
+}
+.cdz__note {
+  margin-top: 0.6rem;
+  font-size: 0.7rem;
+  color: hsl(var(--muted-foreground));
+}
