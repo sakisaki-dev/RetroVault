@@ -3,7 +3,8 @@
 
 Run it yourself in Terminal (not inside Claude Code), so nothing but the game's folder ever reaches this project:
 
-    python3 ~/RetroVault/scripts/pull_save.py
+    python3 ~/RetroVault/scripts/pull_save.py            # keeps the backup (default)
+    python3 ~/RetroVault/scripts/pull_save.py --delete   # deletes the backup it watched being made
 
 What it does:
 1. Notes the iPhone backups already on this Mac (it never touches those).
@@ -12,8 +13,9 @@ What it does:
 3. Finds the new backup, reads its index (Manifest.db) and copies out only the Retro Bowl app's files (any app or
    app-group folder whose id contains "retro" or "newstar"), with their real names, into
    ~/RetroVault/data/saves/<date>/ (git-ignored: never pushed).
-4. Checks every copied file against the backup, then deletes that new backup. If anything is off (no game files
-   found, an encrypted backup, a copy that doesn't match) it keeps the backup and says why.
+4. Checks every copied file against the backup. The backup is KEPT (it makes later backups incremental: minutes,
+   not hours). With --delete it deletes the backup it watched being made; if anything is off (no game files found,
+   an encrypted backup, a copy that doesn't match) it always keeps the backup and says why.
 
 Needs Full Disk Access for Terminal (System Settings > Privacy & Security > Full Disk Access > Terminal), because
 macOS protects the backup folder. You can switch it off again afterwards.
@@ -115,7 +117,10 @@ def main() -> None:
     print(f"\n✓ Copied {n} files ({size / 1e6:.1f} MB) from {', '.join(domains)}")
     print(f"  into {out}")
 
-    if deletable:
+    if deletable and "--delete" not in sys.argv:
+        print(f"\nKept the full backup ({bdir.name}): the next backup only sends changes. Delete it any time with --delete")
+        print("or in Finder > your iPhone > Manage Backups.")
+    elif deletable:
         print(f"\nDeleting the full backup ({bdir.name}) in 5 seconds. Press Ctrl-C to keep it.")
         try:
             time.sleep(5)
