@@ -172,6 +172,7 @@ const scrollToSection = (id: string) => {
 const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onTabChange: (tab: string) => void; onRoute?: (to: Route) => void }) => {
   const ref = useRef<HTMLElement | null>(null);
   const listRef = useRef<HTMLUListElement | null>(null);
+  const bubbleRef = useRef<HTMLSpanElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [more, setMore] = useState(false);
   // Gesture state the bar draws: what is under the finger, and which menu is up
@@ -266,6 +267,7 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
   };
   const reset = () => {
     clearHold();
+    if (bubbleRef.current) delete bubbleRef.current.dataset.on;
     g.current.id = -1;
     g.current.sliding = false;
     setHoverIf(null);
@@ -318,6 +320,20 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
     armHold(btn.dataset.tab!);
   };
 
+  // The bubble under the finger: moved straight from pointer events (no React state), shown while sliding along the bar
+  const moveBubble = (x: number, y: number) => {
+    const b = bubbleRef.current;
+    if (!b) return;
+    const onBar = y >= g.current.barTop - 6;
+    if (!onBar) {
+      delete b.dataset.on;
+      return;
+    }
+    const navLeft = ref.current?.getBoundingClientRect().left ?? 0;
+    b.style.transform = `translate3d(${x - navLeft - 32}px, 0, 0) scale(1)`;
+    b.dataset.on = '';
+  };
+
   const onPointerMove = (e: RPointerEvent<HTMLUListElement>) => {
     const s = g.current;
     if (e.pointerId !== s.id) return;
@@ -326,6 +342,7 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
       s.sliding = true;
       capture();
     }
+    moveBubble(e.clientX, e.clientY);
     const h = hitTest(e.clientX, e.clientY);
     if (h === s.hover) return;
     if (h?.startsWith('tab:')) {
@@ -400,7 +417,17 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
 
   return (
     <>
+      {/* While the bar is tucked: a tap at the bottom edge brings it back instead of reaching the page underneath */}
+      <div
+        className="bnav-reveal sm:hidden"
+        aria-hidden="true"
+        onPointerDown={(e) => {
+          e.preventDefault();
+          delete document.documentElement.dataset.chrome;
+        }}
+      />
       <nav ref={ref} aria-label="Primary" className="bnav sm:hidden" data-gesture={hover ? 'true' : undefined}>
+        <span ref={bubbleRef} className="bnav__bubble" aria-hidden="true" />
         <ul
           ref={listRef}
           className="grid grid-cols-5"

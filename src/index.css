@@ -955,13 +955,54 @@ details[open] > :not(summary) {
   border-top: 1px solid hsl(var(--line) / 0.8);
   background: hsl(var(--night));
   box-shadow: 0 -8px 24px hsl(228 60% 2% / 0.45);
-  transition: translate var(--dur-3) var(--ease-out);
+  /* transform, not the `translate` property: iOS Safari left a fixed bar painted in place while its hit area moved
+     away (owner: "it doesn't hide and … clicks what's underneath it"). A composited transform moves both together. */
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  transition: transform var(--dur-3) var(--ease-out);
 }
 /* The bar tucks away while scrolling down and returns on any scroll up (Header.tsx sets html[data-chrome]: 'hidden' on
-   the Stats tab, where the header goes too, 'down' elsewhere). Never mid-gesture. */
+   the Stats tab, where the header goes too, 'down' elsewhere). Never mid-gesture. While it is tucked it takes no
+   touches; a tap on the reveal strip at the bottom edge (.bnav-reveal) brings it back. */
 html[data-chrome] .bnav:not([data-gesture]) {
-  translate: 0 calc(100% + 2px);
+  transform: translate3d(0, calc(100% + 2px), 0);
   transition-timing-function: var(--ease-close);
+  pointer-events: none;
+}
+.bnav-reveal {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 47;
+  height: calc(22px + env(safe-area-inset-bottom, 0px));
+  display: none;
+  -webkit-tap-highlight-color: transparent;
+}
+html[data-chrome] .bnav-reveal {
+  display: block;
+}
+/* The bubble that rides under the finger while it slides along the bar (BottomNav moves it with a transform) */
+.bnav__bubble {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 64px;
+  height: 50px;
+  border-radius: 16px;
+  background: radial-gradient(ellipse at 50% 40%, hsl(var(--gold) / 0.32), hsl(var(--gold) / 0.12) 70%);
+  box-shadow:
+    inset 0 0 0 1.5px hsl(var(--gold) / 0.65),
+    0 0 18px hsl(var(--gold) / 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-100px, 0, 0) scale(0.6);
+  transition:
+    opacity 140ms linear,
+    scale 160ms var(--ease-spring);
+  will-change: transform;
+}
+.bnav__bubble[data-on] {
+  opacity: 1;
 }
 /* Fixed things docked on the bar follow it down (the body keeps its padding: no layout shift while it moves) */
 :root {
