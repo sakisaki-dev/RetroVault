@@ -64,8 +64,8 @@ export const PlayerChip = ({ p, right, className }: { p: PlayerProfile; right?: 
 };
 
 export const Card = ({ title, icon, children, className, action }: { title: ReactNode; icon?: ReactNode; children: ReactNode; className?: string; action?: ReactNode }) => (
-  <section className={cn('glass-card min-w-0 p-4 sm:p-5', className)}>
-    <div className="mb-3 flex flex-wrap items-center gap-2">
+  <section className={cn('glass-card min-w-0 p-3 sm:p-4', className)}>
+    <div className="mb-2 flex flex-wrap items-center gap-2">
       <h3 className="section-title min-w-[10rem] flex-1 text-lg">
         {icon}
         {title}

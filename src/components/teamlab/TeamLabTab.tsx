@@ -1,9 +1,13 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { FlaskConical, Loader2, Plane, Sparkles } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { Loader2, Plane, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useHubRoute } from '@/components/stats/hub/hashRoute';
 import { findNFLTeam } from '@/utils/nflTeams';
+import { bannerTeamOf } from '@/utils/playerExtras';
+import { useOfficeState } from '@/utils/clubOffice';
+import { useLiveSeason } from '@/utils/seasonLive';
 import {
+  ALL_UNITS,
   SLOTS,
   analyzeLineup,
   autoDraft,
@@ -15,31 +19,46 @@ import {
   lineupKeys,
   randomLineup,
   rankAmong,
+  scoreLineup,
   suggestUpgrades,
   teamLineup,
   type Lineup,
   type SlotId,
 } from '@/utils/teamLab';
-import LineupBuilder from './LineupBuilder';
+import { DepthChart, LabToolbar } from './LineupBuilder';
+import { SLOT_NAMES, openSlotPicker } from './labSlots';
 import SavedTeamsPanel from './SavedTeamsPanel';
-import AnalysisPanel from './AnalysisPanel';
+import AnalysisPanel, { type Comparable } from './AnalysisPanel';
 import HeadToHeadPanel from './HeadToHeadPanel';
+import LabHeader from './LabHeader';
+import LabField from './LabField';
+import ScoutingReport from './ScoutingReport';
+import { labLedger } from './labOffice';
+import { useFieldArt, type Turf } from './fieldArt';
+import { useMedia } from './useMedia';
 import { useLegendsToggle, useSavedTeams, useTeamLabContext } from './useTeamLab';
-
-const SLOT_WORD: Record<string, string> = { qb: 'QB', rb: 'RB', wr1: 'WR', wr2: 'WR', te: 'TE', ol: 'OL', d1: 'defender', d2: 'defender', d3: 'defender', d4: 'defender' };
+import './teamlab.css';
 
 /**
- * Team Lab (#lab): build a Retro Bowl lineup (QB, RB, 2 WR, TE, OL + 4 defenders) and get unit grades, an
- * identity, strengths/weaknesses, a game plan, upgrade targets and a head-to-head. The engine is utils/teamLab.
- * The lineup lives in the hash (#lab?t=…) so builds are linkable.
+ * Team Lab (#lab): build a Retro Bowl lineup (QB, RB, 2 WR, TE, OL + 4 defenders) on the game's own field and get a
+ * scouting report: the game's own rules from the live save (team strength, cap, final seasons, ceilings), unit
+ * grades, an identity, strengths/weaknesses, a call sheet, upgrade targets, comparable dynasties and a head-to-head.
+ * The engine is utils/teamLab. The lineup lives in the hash (#lab?t=…) so builds are linkable.
  */
 const TeamLabTab = () => {
   const { route, navigate } = useHubRoute();
   const [includeLegends, setIncludeLegends] = useLegendsToggle();
   const { ctx, legendKeys, presets, club } = useTeamLabContext(includeLegends);
   const saved = useSavedTeams();
+  const office = useOfficeState();
+  const live = useLiveSeason();
   const [lineup, setLineup] = useState<Lineup>(emptyLineup);
+  const [kit, setKit] = useState('');
+  const [turfPick, setTurfPick] = useState<Turf | null>(null);
   const hydrated = useRef(false);
+  const tall = useMedia('(max-width: 639px)');
+  const big = useMedia('(min-width: 1024px)');
+  const huge = useMedia('(min-width: 1280px)');
 
   // Hash → lineup (first load, Back/Forward, pasted links)
   useEffect(() => {
@@ -83,6 +102,28 @@ const TeamLabTab = () => {
   const loadClub = useCallback(() => ctx && club && setLineup(teamLineup(ctx, club)), [ctx, club]);
   const clubName = findNFLTeam(club)?.name ?? (club || 'club');
 
+  // The kits: the club most of the lineup is known for (the current club breaks a tie), unless one is picked
+  const autoKit = useMemo(() => {
+    if (!ctx) return club;
+    const count = new Map<string, number>();
+    lineupKeys(lineup).forEach((k) => {
+      const p = ctx.profiles.get(k);
+      const t = p && !p.isLegend ? findNFLTeam(bannerTeamOf(p.player))?.name : undefined;
+      if (t) count.set(t, (count.get(t) ?? 0) + 1);
+    });
+    const best = Math.max(0, ...count.values());
+    if (!best) return findNFLTeam(club)?.name ?? club;
+    const top = [...count.entries()].filter(([, n]) => n === best).map(([t]) => t);
+    const own = findNFLTeam(club)?.name;
+    return own && top.includes(own) ? own : top.sort()[0];
+  }, [ctx, lineup, club]);
+  const kitClub = kit || autoKit || 'Eagles';
+  const kitTeam = findNFLTeam(kitClub);
+  // Snow on the field when the kit club's open-air stadium sees heavy snow (snowfall 50+), else a day game
+  const stadium = live?.clubs[kitTeam?.name ?? ''];
+  const turf: Turf = turfPick ?? ((stadium?.snowfall ?? 0) >= 50 && !stadium?.roof ? 'snow' : 'day');
+  const art = useFieldArt(kitClub, turf, tall);
+
   const analysis = useMemo(() => (ctx ? analyzeLineup(ctx, lineup) : null), [ctx, lineup]);
   const upgrades = useMemo(() => (ctx && analysis ? suggestUpgrades(ctx, lineup, club) : null), [ctx, analysis, lineup, club]);
   const ranking = useMemo(
@@ -95,6 +136,21 @@ const TeamLabTab = () => {
         : [],
     [ctx, analysis, lineup, saved.teams, presets],
   );
+  // Comparable dynasties: the presets whose unit profile sits closest to this one (mean unit-score gap)
+  const comparables = useMemo<Comparable[]>(() => {
+    if (!ctx || !analysis) return [];
+    return presets
+      .map((p) => {
+        const s = scoreLineup(ctx, p.lineup);
+        if (!s) return null;
+        const gap = ALL_UNITS.reduce((a, u) => a + Math.abs(s.units[u].score - analysis.units[u].score), 0) / ALL_UNITS.length;
+        return { preset: p, match: Math.max(0, 100 - gap), team: s.team };
+      })
+      .filter((x): x is Comparable => !!x)
+      .sort((a, b) => b.match - a.match)
+      .slice(0, 3);
+  }, [ctx, analysis, presets]);
+  const ledger = useMemo(() => (office ? labLedger(office, lineup) : null), [office, lineup]);
 
   if (!ctx) {
     return (
@@ -106,95 +162,124 @@ const TeamLabTab = () => {
 
   const filled = filledCount(lineup);
   const missing = SLOTS.filter((s) => !lineup[s.id]);
+  const rankPos = ranking.findIndex((r) => r.isCurrent) + 1;
+  const vars = {
+    '--lab-c1': kitTeam ? `hsl(${kitTeam.primaryColor})` : 'hsl(var(--turf))',
+    '--lab-c2': kitTeam ? `hsl(${kitTeam.secondaryColor})` : 'hsl(var(--gold))',
+    ...(art.crowd ? { '--lab-crowd': `url("${art.crowd}")` } : {}),
+    ...(art.stands ? { '--lab-standfront': `url("${art.stands}")` } : {}),
+  } as CSSProperties;
+  const loadPreset = (id: string) => {
+    const p = presets.find((x) => x.id === id);
+    if (p) setLineup({ ...p.lineup });
+  };
 
   return (
-    <div className="container min-w-0 py-6">
-      <header className="mb-5">
-        <p className="font-pixel text-[10px] uppercase text-gold">Front office · lab</p>
-        <h1 className="font-display text-4xl font-extrabold uppercase italic tracking-tight text-chalk sm:text-5xl">
-          Team <span className="text-gold">Lab</span>
-        </h1>
-        <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-          Build a lineup in Retro Bowl's roster shape and get a scouting report written for how you play: what to call, when to go for it,
-          and who to trade for.
-        </p>
-      </header>
-
-      <div className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-        <div className="min-w-0 space-y-4">
-          <LineupBuilder
-            ctx={ctx}
-            lineup={lineup}
-            onSlot={setSlot}
+    <div className="lab container min-w-0 py-3 sm:py-4" style={vars}>
+      <div className="lab-stadium">
+        <LabHeader
+          kitClub={kitClub}
+          analysis={isComplete(lineup) ? analysis : null}
+          filled={filled}
+          strength={ledger?.strength ?? null}
+          rated={ledger?.rated ?? 0}
+          rankText={rankPos > 0 && ranking.length > 1 ? `ranked ${rankPos} of ${ranking.length}` : undefined}
+        >
+          <LabToolbar
             presets={presets}
             onClub={loadClub}
             clubName={clubName}
+            filled={filled}
             onAutoDraft={() => setLineup(autoDraft(ctx))}
             onRandom={() => setLineup(randomLineup(ctx, Math.floor(Math.random() * 1e9)))}
-            onPreset={(id) => {
-              const p = presets.find((x) => x.id === id);
-              if (p) setLineup({ ...p.lineup });
-            }}
+            onPreset={loadPreset}
             onClear={() => setLineup(emptyLineup())}
             includeLegends={includeLegends}
             onLegends={setIncludeLegends}
+            kit={kit}
+            autoKit={autoKit}
+            onKit={setKit}
+            turf={turf}
+            onTurf={setTurfPick}
           />
-          <SavedTeamsPanel
+        </LabHeader>
+        <div className={`lab-stands ${art.crowd ? 'lab-stands--art' : 'lab-stands--css'}`} aria-hidden="true">
+          <span className="lab-crowd" />
+          <span className="lab-standfront" />
+        </div>
+        <div className="lab-pitch">
+          <LabField
             ctx={ctx}
             lineup={lineup}
-            teams={saved.teams}
-            onSave={(name) => saved.save(name, lineup)}
-            onLoad={(t) => setLineup(decodeLineup(encodeLineup(t.lineup), (k) => ctx.profiles.has(k)))}
-            onRename={saved.rename}
-            onDelete={saved.remove}
-          />
-        </div>
-
-        <div className="min-w-0 space-y-4">
-          {analysis && isComplete(lineup) ? (
-            <>
-              <AnalysisPanel clubName={clubName} analysis={analysis} upgrades={upgrades} ranking={ranking} onUpgrade={(slot, key) => setSlot(slot as SlotId, key)} />
-              <HeadToHeadPanel ctx={ctx} lineup={lineup} saved={saved.teams} presets={presets} />
-            </>
-          ) : (
-            <section className="glass-card-glow relative overflow-hidden p-6 text-center sm:p-10" aria-labelledby="lab-empty">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(500px_220px_at_50%_0%,hsl(var(--gold)/0.16),transparent_70%)]" aria-hidden="true" />
-              <FlaskConical className="relative mx-auto h-12 w-12 text-gold" aria-hidden="true" />
-              {filled === 0 ? (
-                <>
-                  <h2 id="lab-empty" className="relative mt-3 font-display text-3xl font-extrabold uppercase italic text-chalk">
-                    Scout your own squad
-                  </h2>
-                  <p className="relative mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-                    Load the current {clubName} and get unit grades, your team's identity, a game plan for 4th downs, 2-point tries and the clock,
-                    and the trade targets that would help most.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <h2 id="lab-empty" className="relative mt-3 font-display text-3xl font-extrabold uppercase italic text-chalk">
-                    {10 - filled} slot{10 - filled === 1 ? '' : 's'} to go
-                  </h2>
-                  <p className="relative mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-                    Still need: {missing.map((s) => SLOT_WORD[s.id]).join(', ')}. The report appears when all 10 are filled.
-                  </p>
-                  <div className="relative mx-auto mt-3 h-2 max-w-xs overflow-hidden rounded bg-black/50" aria-hidden="true">
-                    <div className="h-full bg-gold" style={{ width: `${filled * 10}%` }} />
+            kitClub={kitClub}
+            turf={turf}
+            art={art}
+            tall={tall}
+            size={huge ? 'l' : big ? 'm' : 's'}
+            onPick={openSlotPicker}
+            overlay={
+              filled === 0 ? (
+                <div className="lab-cta">
+                  <p className="lab-kicker">Empty field</p>
+                  <p className="lab-cta-title">Scout your own squad</p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    <Button type="button" onClick={loadClub} className="bg-gold font-display text-lg font-extrabold uppercase text-black hover:bg-gold/90">
+                      <Plane className="mr-1.5 h-4 w-4" aria-hidden="true" /> Load my {clubName}
+                    </Button>
+                    <Button type="button" variant="outline" onClick={() => setLineup(autoDraft(ctx))} className="lab-btn text-lg">
+                      <Sparkles className="mr-1.5 h-4 w-4" aria-hidden="true" /> Auto-draft
+                    </Button>
                   </div>
-                </>
-              )}
-              <div className="relative mt-5 flex flex-wrap justify-center gap-2">
-                <Button type="button" size="lg" onClick={loadClub} className="bg-gold font-display text-xl font-extrabold uppercase text-black hover:bg-gold/90">
-                  <Plane className="mr-2 h-5 w-5" aria-hidden="true" /> Load my {clubName}
-                </Button>
-                <Button type="button" size="lg" variant="outline" onClick={() => setLineup(autoDraft(ctx))} className="border-line font-display text-lg font-bold uppercase">
-                  <Sparkles className="mr-2 h-5 w-5" aria-hidden="true" /> Auto-draft best
-                </Button>
-              </div>
-            </section>
-          )}
+                  <p className="lab-cta-note">or tap any spot to pick a player</p>
+                </div>
+              ) : undefined
+            }
+          />
+          <DepthChart ctx={ctx} lineup={lineup} onSlot={setSlot} />
         </div>
       </div>
+
+      {filled > 0 && !isComplete(lineup) && (
+        <div className="lab-togo" role="status">
+          <span className="lab-togo-n">{10 - filled}</span>
+          <span className="min-w-0 flex-1">
+            <b>slot{10 - filled === 1 ? '' : 's'} to go</b>
+            <span className="block truncate text-xs text-muted-foreground">
+              Still need: {missing.map((s) => (s.side === 'defense' ? 'defender' : SLOT_NAMES[s.id].toLowerCase())).join(', ')}
+            </span>
+          </span>
+          <span className="lab-togo-bar" aria-hidden="true">
+            <i style={{ transform: `scaleX(${filled / 10})` }} />
+          </span>
+        </div>
+      )}
+
+      {office && <ScoutingReport ctx={ctx} lineup={lineup} office={office} />}
+
+      {analysis && isComplete(lineup) && (
+        <>
+          <AnalysisPanel
+            clubName={clubName}
+            analysis={analysis}
+            upgrades={upgrades}
+            ranking={ranking}
+            comparables={comparables}
+            onUpgrade={(slot, key) => setSlot(slot as SlotId, key)}
+            onPreset={loadPreset}
+          />
+          <HeadToHeadPanel ctx={ctx} lineup={lineup} saved={saved.teams} presets={presets} kitClub={kitClub} />
+        </>
+      )}
+
+      <SavedTeamsPanel
+        ctx={ctx}
+        lineup={lineup}
+        teams={saved.teams}
+        onSave={(name) => saved.save(name, lineup)}
+        onLoad={(t) => setLineup(decodeLineup(encodeLineup(t.lineup), (k) => ctx.profiles.has(k)))}
+        onRename={saved.rename}
+        onDelete={saved.remove}
+      />
     </div>
   );
 };

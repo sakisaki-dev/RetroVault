@@ -1,4 +1,7 @@
-import { ArrowUpRight, Info, ListOrdered, ShieldAlert, ThumbsUp, TrendingUp } from 'lucide-react';
+import { ArrowUpRight, Info, Landmark, ListOrdered, ShieldAlert, ThumbsUp, TrendingUp } from 'lucide-react';
+import type { CSSProperties } from 'react';
+import TeamLogo from '@/components/brand/TeamLogo';
+import { findNFLTeam } from '@/utils/nflTeams';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,6 +13,7 @@ import {
   UNIT_LABELS,
   UNIT_WEIGHTS,
   ordinal,
+  type Preset,
   type RankRow,
   type Rollup,
   type TeamAnalysis,
@@ -25,16 +29,12 @@ const GROUPS: { title: string; units: UnitId[] }[] = [
   { title: 'Roster', units: ['star'] },
 ];
 
-const RollupTile = ({ label, r, main = false }: { label: string; r: Rollup; main?: boolean }) => (
-  <div className={cn('flex min-w-0 items-center gap-3 rounded-lg bg-black/45 p-3 ring-1', main ? 'ring-gold/60' : 'ring-line/60')}>
-    <GradeChip grade={r.grade} size="lg" label={`${label} grade ${r.grade.grade}`} />
-    <div className="min-w-0">
-      <p className="font-pixel text-[9px] uppercase text-gold">{label}</p>
-      <p className="font-display text-2xl font-extrabold tabular-nums leading-none text-chalk">{Math.round(r.score)}</p>
-      <p className="text-[11px] leading-tight text-muted-foreground">better than {Math.round(r.score)}% of teams</p>
-    </div>
-  </div>
-);
+export interface Comparable {
+  preset: Preset;
+  /** 100 minus the mean gap between the two lineups' unit scores */
+  match: number;
+  team: Rollup;
+}
 
 interface AnalysisPanelProps {
   analysis: TeamAnalysis;
@@ -43,40 +43,20 @@ interface AnalysisPanelProps {
   onUpgrade: (slot: string, key: string) => void;
   /** The owner's current club (from the data) */
   clubName: string;
+  comparables: Comparable[];
+  onPreset: (id: string) => void;
 }
 
-const AnalysisPanel = ({ analysis: a, upgrades, ranking, onUpgrade, clubName }: AnalysisPanelProps) => {
-  const rankPos = ranking.findIndex((r) => r.isCurrent) + 1;
+const AnalysisPanel = ({ analysis: a, upgrades, ranking, onUpgrade, clubName, comparables, onPreset }: AnalysisPanelProps) => {
   return (
-    <div className="min-w-0 space-y-4">
-      {/* Identity banner */}
-      <section aria-labelledby="lab-identity" className="glass-card-glow relative overflow-hidden p-4 sm:p-5">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(600px_200px_at_0%_0%,hsl(var(--gold)/0.18),transparent_70%)]" aria-hidden="true" />
-        <p className="relative font-pixel text-[10px] uppercase text-gold">Team identity</p>
-        <h2 id="lab-identity" className="relative mt-1 font-display text-4xl font-extrabold uppercase italic tracking-tight text-chalk sm:text-5xl glow-text">
-          {a.identity.label}
-        </h2>
-        <p className="relative mt-2 max-w-2xl text-sm text-muted-foreground">{a.identity.why}</p>
-        <div className="relative mt-4 grid grid-cols-1 gap-2 min-[480px]:grid-cols-3">
-          <RollupTile label="Team overall" r={a.team} main />
-          <RollupTile label="Offense" r={a.offense} />
-          <RollupTile label="Defense" r={a.defense} />
-        </div>
-        {rankPos > 0 && ranking.length > 1 && (
-          <p className="relative mt-3 text-xs text-muted-foreground">
-            <span className="lamp mr-2">
-              Rank <b>{rankPos}</b>/{ranking.length}
-            </span>
-            among your saved teams and the dynasty presets.
-          </p>
-        )}
-      </section>
-
+    <div className="lab-analysis">
       {/* Call sheet: the in-game view */}
-      <CallSheet analysis={a} />
+      <div className="lab-span-2 lab-order-2 min-w-0">
+        <CallSheet analysis={a} />
+      </div>
 
       {/* Unit ratings */}
-      <Card title="Unit ratings" icon={<TrendingUp className="h-5 w-5 text-gold" aria-hidden="true" />}>
+      <Card title="Unit ratings" className="lab-order-1" icon={<TrendingUp className="h-5 w-5 text-gold" aria-hidden="true" />}>
         <p className="mb-3 text-xs text-muted-foreground">
           Each score is a percentile against {BENCHMARK_SIZE} random league lineups: 80 means better than 80% of possible teams.
         </p>
@@ -125,7 +105,7 @@ const AnalysisPanel = ({ analysis: a, upgrades, ranking, onUpgrade, clubName }: 
       </Card>
 
       {/* Strengths and weaknesses */}
-      <div className="grid gap-4 xl:grid-cols-2">
+      <div className="lab-order-1 grid min-w-0 content-start gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
         <Card title="Strengths" icon={<ThumbsUp className="h-5 w-5 text-turf" aria-hidden="true" />}>
           <ul className="space-y-2">
             {a.strengths.map((s) => (
@@ -156,7 +136,7 @@ const AnalysisPanel = ({ analysis: a, upgrades, ranking, onUpgrade, clubName }: 
 
       {/* Who to upgrade */}
       {upgrades && (
-        <Card title="Who to upgrade" icon={<ArrowUpRight className="h-5 w-5 text-gold" aria-hidden="true" />}>
+        <Card title="Who to upgrade" className="lab-order-3" icon={<ArrowUpRight className="h-5 w-5 text-gold" aria-hidden="true" />}>
           <p className="mb-2 text-sm text-muted-foreground">
             Weakest slot: <span className="font-semibold text-chalk">{upgrades.current.position} {upgrades.current.name}</span> (skill grade{' '}
             {upgrades.current.grade?.grade ?? '—'}, {ordinal(upgrades.current.overallPct)} percentile at his position).
@@ -190,10 +170,42 @@ const AnalysisPanel = ({ analysis: a, upgrades, ranking, onUpgrade, clubName }: 
       )}
 
       {/* Ranking */}
+      <div className="lab-order-3 grid min-w-0 content-start gap-2">
+      {comparables.length > 0 && (
+        <Card title="Plays like" icon={<Landmark className="h-5 w-5 text-gold" aria-hidden="true" />}>
+          <ul className="lab-comps">
+            {comparables.map((c) => {
+              const t = findNFLTeam(c.preset.team);
+              return (
+                <li key={c.preset.id} className="lab-comp" style={{ '--cc': t ? `hsl(${t.primaryColor})` : 'hsl(var(--line))' } as CSSProperties}>
+                  <span className="lab-comp-logo">{c.preset.team && <TeamLogo team={c.preset.team} size={34} decorative />}</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate font-display text-[15px] font-bold uppercase italic text-chalk">{c.preset.name}</span>
+                    <span className="block text-[11px] text-muted-foreground">
+                      {Math.round(c.match)}% unit match · team {Math.round(c.team.score)}
+                    </span>
+                  </span>
+                  <GradeChip grade={c.team.grade} size="sm" label={`Team grade ${c.team.grade.grade}`} />
+                  <Button type="button" size="sm" variant="outline" className="h-7 border-line px-2 text-xs" onClick={() => onPreset(c.preset.id)}>
+                    Load
+                  </Button>
+                </li>
+              );
+            })}
+          </ul>
+          <p className="mt-1.5 text-[11px] text-muted-foreground">The franchise dynasties whose unit grades sit closest to this build's.</p>
+        </Card>
+      )}
       {ranking.length > 1 && (
         <Card title="Where this build ranks" icon={<ListOrdered className="h-5 w-5 text-gold" aria-hidden="true" />}>
           <ol className="space-y-1">
-            {ranking.map((r, i) => (
+            {ranking.map((r, i) => {
+              // a long table shows the top 3 and the four places either side of this build; the rest sit behind "All"
+              const cur = ranking.findIndex((x) => x.isCurrent);
+              const shown = ranking.length <= 9 || i < 3 || Math.abs(i - cur) <= 3;
+              const gap = !shown && (i === 3 || i === cur + 4);
+              if (!shown) return gap ? <li key={r.id} aria-hidden="true" className="px-2 text-xs leading-none text-muted-foreground">⋯</li> : null;
+              return (
               <li
                 key={r.id}
                 className={cn('flex items-center gap-2 rounded px-2 py-1 text-sm', r.isCurrent ? 'bg-gold/15 ring-1 ring-gold/60' : 'bg-panel-2/40')}
@@ -206,14 +218,30 @@ const AnalysisPanel = ({ analysis: a, upgrades, ranking, onUpgrade, clubName }: 
                 </span>
                 <span className="tabular-nums text-muted-foreground">{r.teamRaw.toFixed(1)}</span>
               </li>
-            ))}
+              );
+            })}
           </ol>
+          {ranking.length > 9 && (
+            <details className="mt-1.5 text-sm">
+              <summary className="cursor-pointer text-xs text-muted-foreground hover:text-chalk">All {ranking.length}</summary>
+              <ol className="mt-1 grid gap-x-3 gap-y-0.5 text-xs sm:grid-cols-2">
+                {ranking.map((r, i) => (
+                  <li key={r.id} className={cn('flex gap-2', r.isCurrent && 'text-gold')}>
+                    <span className="w-5 tabular-nums">{i + 1}</span>
+                    <span className="min-w-0 flex-1 truncate">{r.name}</span>
+                    <span className="tabular-nums text-muted-foreground">{r.teamRaw.toFixed(1)}</span>
+                  </li>
+                ))}
+              </ol>
+            </details>
+          )}
           <p className="mt-2 text-xs text-muted-foreground">Sorted by team rating (weighted unit scores, 0–100).</p>
         </Card>
       )}
+      </div>
 
       {/* Method */}
-      <details className="glass-card group p-4 sm:p-5">
+      <details className="lab-span-2 lab-order-4 glass-card group p-3 sm:p-4">
         <summary className="flex cursor-pointer items-center gap-2 font-display text-lg font-bold uppercase tracking-wide text-chalk">
           <Info className="h-5 w-5 text-gold" aria-hidden="true" /> How this is calculated
         </summary>

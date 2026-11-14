@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SLOTS, headToHead, isComplete, randomLineup, type LabContext, type Lineup, type Matchup, type Preset } from '@/utils/teamLab';
+import TeamLogo from '@/components/brand/TeamLogo';
 import type { SavedTeam } from './useTeamLab';
 import { Card, GradeChip, PlayerChip } from './parts';
 import { NumberPlate, SituationIcon, WhyButton } from './CallSheet';
@@ -13,6 +14,8 @@ interface HeadToHeadPanelProps {
   lineup: Lineup;
   saved: SavedTeam[];
   presets: Preset[];
+  /** The club whose kits this lineup wears (its side of the scoreboard) */
+  kitClub: string;
 }
 
 const MatchupRow = ({ m }: { m: Matchup }) => {
@@ -44,7 +47,7 @@ const MatchupRow = ({ m }: { m: Matchup }) => {
   );
 };
 
-const HeadToHeadPanel = ({ ctx, lineup, saved, presets }: HeadToHeadPanelProps) => {
+const HeadToHeadPanel = ({ ctx, lineup, saved, presets, kitClub }: HeadToHeadPanelProps) => {
   const [choice, setChoice] = useState<string>('');
   const [seed, setSeed] = useState(() => Math.floor(Math.random() * 1e9));
   const options = useMemo(
@@ -60,6 +63,7 @@ const HeadToHeadPanel = ({ ctx, lineup, saved, presets }: HeadToHeadPanelProps) 
     return options.find((o) => o.id === current) ?? { name: 'Random team', lineup: randomLineup(ctx, seed) };
   }, [current, options, ctx, seed]);
   const h2h = useMemo(() => headToHead(ctx, lineup, opp.lineup), [ctx, lineup, opp]);
+  const oppTeam = presets.find((p) => p.id === current)?.team;
 
   return (
     <Card
@@ -106,8 +110,9 @@ const HeadToHeadPanel = ({ ctx, lineup, saved, presets }: HeadToHeadPanelProps) 
       ) : (
         <div className="space-y-4">
           {/* Scoreboard */}
-          <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 rounded-lg bg-black/50 p-3 ring-1 ring-line/60">
+          <div className="lab-vs grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 rounded-lg p-3">
             <div className="flex min-w-0 items-center gap-2">
+              <TeamLogo team={kitClub} size={36} decorative />
               <GradeChip grade={h2h.a.team.grade} size="md" label={`Your team grade ${h2h.a.team.grade.grade}`} />
               <div className="min-w-0">
                 <p className="font-pixel text-[8px] uppercase text-gold">You</p>
@@ -124,6 +129,7 @@ const HeadToHeadPanel = ({ ctx, lineup, saved, presets }: HeadToHeadPanelProps) 
                 <p className="truncate font-display text-base font-bold uppercase text-chalk">{h2h.b.identity.label}</p>
               </div>
               <GradeChip grade={h2h.b.team.grade} size="md" label={`Opponent team grade ${h2h.b.team.grade.grade}`} />
+              {oppTeam && <TeamLogo team={oppTeam} size={36} decorative />}
             </div>
           </div>
           <p className="-mt-2 text-[11px] text-muted-foreground">
