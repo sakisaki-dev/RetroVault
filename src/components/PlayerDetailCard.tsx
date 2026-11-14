@@ -273,6 +273,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
       <DialogContent
         ref={scrollRef}
         phoneSheet
+        swipeRight
         onAnimationEnd={(e) => {
           // The exit is over: drop the held player (Radix unmounts the content on the same event)
           if (!open && e.target === e.currentTarget) {

@@ -1,4 +1,5 @@
 import { createContext, startTransition, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { overlayOnTop } from '@/utils/overlayHistory';
 
 /**
  * Tiny hash router for the single-page hub. The URL hash mirrors the visible page so tabs are linkable
@@ -126,6 +127,13 @@ const entryId = (): number => {
   window.history.replaceState({ ...(st ?? {}), rv: id }, '');
   return id;
 };
+/** The first entry this page load made or found: anything above it is an in-app page Back can return to */
+let firstEntry = 0;
+/** Is there an earlier page of this app in the history (so Back stays in the app)? */
+export const canGoBackInApp = () => {
+  const st = typeof window === 'undefined' ? null : (window.history.state as { rv?: number } | null);
+  return !!st && typeof st.rv === 'number' && firstEntry > 0 && st.rv > firstEntry;
+};
 /** Jump with no smooth travel, whatever the stylesheet says */
 const jump = (y: number) => window.scrollTo({ top: y, left: 0, behavior: 'instant' as ScrollBehavior });
 
@@ -173,6 +181,7 @@ export const useHashRoute = (defaultTab = 'games') => {
       /* not supported */
     }
     current.current = entryId();
+    if (!firstEntry) firstEntry = current.current;
   }, []);
 
   useEffect(() => {
@@ -212,7 +221,10 @@ export const useHashRoute = (defaultTab = 'games') => {
       else {
         saved.set(current.current, window.scrollY);
         const id = ++entrySeq;
-        window.history.pushState({ rv: id }, '', hash);
+        // An open overlay's entry (utils/overlayHistory) is replaced, not stacked on: Back from the new page returns to
+        // the page under the overlay, never to a duplicate of it
+        if (overlayOnTop()) window.history.replaceState({ rv: id }, '', hash);
+        else window.history.pushState({ rv: id }, '', hash);
         current.current = id;
       }
     }

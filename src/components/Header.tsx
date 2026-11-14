@@ -10,6 +10,7 @@ import { useLeagueContent } from '@/utils/leagueContent';
 import BrandMark from '@/components/brand/BrandMark';
 import CountUp from '@/components/brand/CountUp';
 import { reducedMotion } from '@/utils/motion';
+import { usePhone } from '@/hooks/usePhone';
 
 interface HeaderProps {
   activeTab: string;
@@ -73,14 +74,17 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
   }, []);
 
   // Stats tab: slide the header (and the Stats sub-nav, see StatsHub) away while scrolling down, back on any scroll up.
-  // CSS does the motion (.chrome-hide in index.css; instant under reduced motion). Keyboard focus inside the bars, the
-  // top of the page and a locked body (an open dialog) always bring them back.
+  // Phones, every other tab: the same signal as 'down', which tucks only the bottom tab bar (BottomNav, .bnav).
+  // CSS does the motion (.chrome-hide and .bnav in index.css; instant under reduced motion). Keyboard focus inside the
+  // bars, the top of the page and a locked body (an open dialog) always bring them back.
+  const phone = usePhone();
   useEffect(() => {
     const root = document.documentElement;
     const show = () => {
       if (root.dataset.chrome) delete root.dataset.chrome;
     };
-    if (activeTab !== 'career') {
+    const hiddenAs = activeTab === 'career' ? 'hidden' : 'down';
+    if (activeTab !== 'career' && !phone) {
       show();
       return;
     }
@@ -96,8 +100,10 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
       if (y <= h * 2 || locked) show();
       else if (dy > 8) {
         // Keep the bars while keyboard focus is inside one of them
-        const focusIn = document.activeElement?.closest('[data-site-header], [data-chrome-bar]');
-        if (!focusIn && root.dataset.chrome !== 'hidden') root.dataset.chrome = 'hidden';
+        // (The tab bar only for keyboard focus: Android focuses a tapped tab, which must not pin the bar)
+        const a = document.activeElement;
+        const focusIn = a?.closest('[data-site-header], [data-chrome-bar]') || (a?.closest('.bnav') && a.matches(':focus-visible'));
+        if (!focusIn && root.dataset.chrome !== hiddenAs) root.dataset.chrome = hiddenAs;
       } else if (dy < -8) show();
       if (Math.abs(dy) > 8 || y <= h * 2) lastY = y;
     };
@@ -105,7 +111,8 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
       if (!raf) raf = requestAnimationFrame(check);
     };
     const onFocus = (e: FocusEvent) => {
-      if ((e.target as Element | null)?.closest?.('[data-site-header], [data-chrome-bar]')) show();
+      const t = e.target as Element | null;
+      if (t?.closest?.('[data-site-header], [data-chrome-bar]') || (t?.closest?.('.bnav') && t.matches(':focus-visible'))) show();
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     document.addEventListener('focusin', onFocus);
@@ -115,7 +122,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
       if (raf) cancelAnimationFrame(raf);
       show();
     };
-  }, [activeTab]);
+  }, [activeTab, phone]);
 
   const board = useMemo(() => {
     const players = getAllPlayers();
