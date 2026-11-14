@@ -1,0 +1,316 @@
+/*
+ * Quick look (PlayerPeek.tsx). --pk-1 / --pk-2 are the player's club colours, --pk-fg the readable ink on --pk-1.
+ * Motion: transform and opacity only, on the shared tokens; reduced motion fades.
+ */
+
+/* Anything that opens a quick look: no iOS callout or text selection under a finger (desktop keeps selection) */
+[data-player-key] {
+  -webkit-touch-callout: none;
+}
+@media (pointer: coarse) {
+  [data-player-key] {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}
+
+.pk-root {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  /* Above a Radix modal, whose body sets pointer-events: none */
+  pointer-events: auto;
+}
+.pk-backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 80% at 50% 40%, rgb(4 7 18 / 0.55), rgb(4 7 18 / 0.78));
+  animation: pk-fade var(--dur-2) var(--ease-out) both;
+}
+@supports (backdrop-filter: blur(2px)) {
+  html:not([data-perf='lite']) .pk-backdrop {
+    backdrop-filter: blur(3px) saturate(0.85);
+  }
+}
+
+.pk-card {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: min(330px, calc(100vw - 24px));
+  touch-action: none;
+}
+.pk-anim {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transform-origin: var(--pk-ox, 50%) var(--pk-oy, 100%);
+  animation: pk-pop var(--dur-2) var(--ease-spring) both;
+}
+.pk-card--below .pk-anim {
+  flex-direction: column-reverse;
+}
+
+/* Preview + numbers stay together; only their order against the actions flips */
+.pk-head {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Preview: a club-tinted panel with the figure on a floor, the logo as a watermark ---- */
+.pk-preview {
+  position: relative;
+  display: grid;
+  grid-template-columns: 76px 1fr auto;
+  align-items: end;
+  gap: 4px 10px;
+  min-height: 112px;
+  padding: 12px 12px 0 6px;
+  overflow: hidden;
+  border-radius: 14px 14px 0 0;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.1), transparent 40%),
+    linear-gradient(115deg, color-mix(in srgb, var(--pk-1) 88%, black) 0%, color-mix(in srgb, var(--pk-1) 45%, hsl(var(--night))) 62%, hsl(var(--night)) 100%);
+  box-shadow: inset 0 3px 0 var(--pk-2), inset 0 0 0 1px rgb(255 255 255 / 0.08);
+}
+.pk-logo {
+  position: absolute;
+  right: -26px;
+  top: -18px;
+  opacity: 0.14;
+  pointer-events: none;
+}
+.pk-figure {
+  position: relative;
+  align-self: end;
+  width: 76px;
+  height: 100px;
+}
+.pk-figure .game-sprite {
+  position: absolute !important;
+  left: 50%;
+  bottom: -20px;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 4px 2px rgb(0 0 0 / 0.5));
+}
+.pk-floor {
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  width: 64px;
+  height: 10px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.6), transparent);
+}
+.pk-id {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-bottom: 12px;
+  line-height: 1;
+}
+.pk-kicker {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: hsl(var(--gold));
+  text-shadow: 0 1px 0 rgb(0 0 0 / 0.6);
+}
+.pk-first {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgb(255 255 255 / 0.82);
+}
+.pk-last {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: #fff;
+  text-shadow: 0 2px 0 rgb(0 0 0 / 0.45);
+}
+.pk-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 14px;
+  margin-top: 6px;
+}
+.pk-hof,
+.pk-fa {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  text-transform: uppercase;
+}
+.pk-hof { background: hsl(var(--gold) / 0.18); color: hsl(var(--gold)); box-shadow: inset 0 0 0 1px hsl(var(--gold) / 0.5); }
+.pk-fa { background: rgb(0 0 0 / 0.35); color: rgb(255 255 255 / 0.8); }
+.pk-rate {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  align-self: center;
+}
+.pk-ovr {
+  display: flex;
+  min-width: 48px;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px 6px 4px;
+  border-radius: 8px;
+  background: rgb(4 7 18 / 0.6);
+  box-shadow: inset 0 0 0 1.5px hsl(var(--gold) / 0.85), 0 4px 10px -4px rgb(0 0 0 / 0.6);
+}
+.pk-ovr b {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 0.95;
+  color: hsl(var(--chalk));
+  font-variant-numeric: tabular-nums;
+}
+.pk-ovr i {
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  font-style: normal;
+  color: hsl(var(--gold));
+}
+.pk-grade {
+  min-width: 30px;
+  padding: 1px 6px;
+  border-radius: 5px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  color: #0b1020;
+}
+
+/* ---- Career numbers: a scoreboard strip under the preview ---- */
+.pk-stats {
+  position: relative;
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  margin: -8px 0 0;
+  padding: 9px 6px 10px;
+  border-radius: 0 0 14px 14px;
+  background: linear-gradient(180deg, hsl(var(--panel)), hsl(var(--night)));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--pk-1) 70%, transparent), inset 0 0 0 1px hsl(var(--line) / 0.7), 0 18px 40px -12px rgb(0 0 0 / 0.8);
+}
+.pk-stats > div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 2px;
+}
+.pk-stats > div + div { border-left: 1px solid hsl(var(--line) / 0.6); }
+.pk-stats dt {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+.pk-stats dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1;
+  color: hsl(var(--chalk));
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Actions: a 2 x 2 pad; the one under the finger (or hovered) fills gold ---- */
+.pk-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px;
+  border-radius: 14px;
+  background: hsl(var(--panel) / 0.96);
+  box-shadow: inset 0 0 0 1px hsl(var(--line) / 0.8), 0 14px 30px -12px rgb(0 0 0 / 0.75);
+}
+.pk-act {
+  display: flex;
+  min-width: 0;
+  min-height: 48px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: left;
+  color: hsl(var(--chalk));
+  background: linear-gradient(100deg, color-mix(in srgb, var(--pk-1) 30%, hsl(var(--panel-2))), hsl(var(--panel-2)));
+  box-shadow: inset 3px 0 0 var(--pk-1), inset 0 0 0 1px hsl(var(--line) / 0.7);
+  transition: transform var(--dur-1) var(--ease-out), background-color var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.pk-act span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pk-act svg { flex-shrink: 0; color: hsl(var(--gold)); }
+.pk-act[data-hot],
+.pk-act:focus-visible {
+  outline: none;
+  color: #0b1020;
+  background: linear-gradient(180deg, hsl(var(--gold)), hsl(38 95% 52%));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.4), 0 0 18px hsl(var(--gold) / 0.45);
+  transform: scale(1.04);
+}
+.pk-act[data-hot] svg,
+.pk-act:focus-visible svg { color: #0b1020; }
+@media (hover: hover) {
+  .pk-act:hover { background: color-mix(in srgb, hsl(var(--gold)) 22%, hsl(var(--panel-2))); }
+}
+
+@keyframes pk-pop {
+  from { opacity: 0; transform: scale(0.88); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pk-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pk-anim { animation-name: pk-fade; }
+  .pk-act[data-hot],
+  .pk-act:focus-visible { transform: none; }
+}

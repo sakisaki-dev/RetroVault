@@ -40,6 +40,7 @@ const HofLegends = ({ items, onOpen }: { items: GalleryItem[]; onOpen: (key: str
               <button
                 type="button"
                 onClick={() => onOpen(member.key)}
+                data-player-key={member.key}
                 className={cn('hof-legend', tierClass(member.score))}
                 style={{ ['--i' as string]: i }}
                 aria-label={`${member.name}${nickname ? `, ${nickname}` : ''}, ${member.pos}${team ? `, ${team.fullName}` : ''}, Hall of Fame Score ${member.score}, ${hofClassLabel(member.class)}. Open plaque`}

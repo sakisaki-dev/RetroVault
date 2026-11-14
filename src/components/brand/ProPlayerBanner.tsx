@@ -246,6 +246,9 @@ const ProPlayerBanner = ({
     </span>
   );
 
+  // Press and hold for the quick look (components/peek): league players only, never a sealed (mystery) banner
+  const peekKey = sealed || figureProp === null ? undefined : `${position}:${name}`;
+
   const root = cn(
     'ppb',
     `ppb--${size}`,
@@ -258,7 +261,7 @@ const ProPlayerBanner = ({
 
   if (size === 'compact') {
     return (
-      <div ref={visRef} className={root} style={vars}>
+      <div ref={visRef} className={root} style={vars} data-player-key={peekKey}>
         <div className="ppb__field">
           {decor}
           <div className="ppb__content">
@@ -282,7 +285,7 @@ const ProPlayerBanner = ({
   }
 
   return (
-    <div ref={visRef} className={root} style={vars}>
+    <div ref={visRef} className={root} style={vars} data-player-key={peekKey}>
       <div className="ppb__field">
         {decor}
         <div className="ppb__content">

@@ -65,7 +65,7 @@ const GalleryTile = memo(function GalleryTile({ item, years, index, onOpen }: { 
 
   if (staged) {
     return (
-      <button type="button" onClick={() => onOpen(member.key)} aria-label={label} className={cn('hof-bust hof-bust--stage', tierClass(member.score))} style={{ ['--i' as string]: index }}>
+      <button type="button" onClick={() => onOpen(member.key)} data-player-key={member.key} aria-label={label} className={cn('hof-bust hof-bust--stage', tierClass(member.score))} style={{ ['--i' as string]: index }}>
         <FrameCrest score={member.score} />
         <span className="hof-face flex flex-col" style={clubFill(team)}>
           {tier === 'diamond' && <span aria-hidden="true" className="hof-foil" />}
@@ -103,7 +103,7 @@ const GalleryTile = memo(function GalleryTile({ item, years, index, onOpen }: { 
   }
 
   return (
-    <button type="button" onClick={() => onOpen(member.key)} aria-label={label} className={cn('hof-bust', tierClass(member.score))} style={{ ['--i' as string]: index }}>
+    <button type="button" onClick={() => onOpen(member.key)} data-player-key={member.key} aria-label={label} className={cn('hof-bust', tierClass(member.score))} style={{ ['--i' as string]: index }}>
       <FrameCrest score={member.score} />
       <span className="hof-face flex flex-col justify-end p-2.5 pb-2" style={clubFill(team)}>
         {tier === 'diamond' && <span aria-hidden="true" className="hof-foil" />}

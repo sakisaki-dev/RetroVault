@@ -46,6 +46,7 @@ const Storylines = ({ storylines, edition, players, onPlayerSelect }: Storylines
                   size="sm"
                   onClick={() => onPlayerSelect(p)}
                   ariaLabel={`${name}: open player card`}
+                  playerKey={`${p.position}:${p.name}`}
                 />
               ) : (
                 <span className="rounded-md bg-secondary/50 px-2 py-0.5 text-xs">{name}</span>

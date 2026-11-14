@@ -9,6 +9,7 @@ import CardUnlockToasts from '@/components/collection/CardUnlockToasts';
 import LegendExchange from '@/components/collection/LegendExchange';
 import CeremonyHost from '@/components/ceremony/CeremonyHost';
 import QuickPlayerSearch from '@/components/QuickPlayerSearch';
+import PlayerPeekLayer from '@/components/peek/PlayerPeek';
 import { LeagueProvider } from '@/context/LeagueContext';
 import { onCompFinderRequest, onHeadToHeadRequest } from '@/components/stats/comps/compFinderLink';
 import { HubRouteContext, useHashRoute } from '@/components/stats/hub/hashRoute';
@@ -120,6 +121,7 @@ const IndexContent = () => {
         <BottomNav activeTab={target.tab} onTabChange={(tab) => navigate({ tab })} onRoute={(to) => navigate(to)} />
         <CeremonyHost />
         <QuickPlayerSearch />
+        <PlayerPeekLayer />
         <CardUnlockToasts />
         <LegendExchange />
         <footer className="mt-12 border-t border-line/70 bg-night">

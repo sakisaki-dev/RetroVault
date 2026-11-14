@@ -38,7 +38,7 @@ const Row = ({ row, bar, note }: { row: BallotRow; bar: number; note: string }) 
   );
   const cls = `hof-rail ${over ? 'hof-rail--over border-amber-500/35' : 'border-line'} block w-full rounded-lg border bg-card py-3 pl-4 pr-3 text-left`;
   return row.onOpen ? (
-    <button type="button" onClick={row.onOpen} className={`${cls} transition-colors hover:border-gold/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold`} aria-label={`${entry.name}, score ${entry.score} against the bar of ${bar}. ${note}. Open player card`}>
+    <button type="button" onClick={row.onOpen} data-player-key={entry.key} className={`${cls} transition-colors hover:border-gold/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold`} aria-label={`${entry.name}, score ${entry.score} against the bar of ${bar}. ${note}. Open player card`}>
       {body}
     </button>
   ) : (
