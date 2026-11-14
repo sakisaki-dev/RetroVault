@@ -1,0 +1,46 @@
+{
+ "about": "Retro Bowl's own field art (New Star Games), cut by scripts/private_field_art.py for the Team Lab.",
+ "files": {
+  "turf-day.png": [
+   640,
+   237
+  ],
+  "turf-day-tall.png": [
+   237,
+   640
+  ],
+  "turf-night.png": [
+   640,
+   237
+  ],
+  "turf-night-tall.png": [
+   237,
+   640
+  ],
+  "turf-snow.png": [
+   640,
+   237
+  ],
+  "turf-snow-tall.png": [
+   237,
+   640
+  ],
+  "crowd.png": [
+   640,
+   33
+  ],
+  "stands.png": [
+   640,
+   33
+  ]
+ },
+ "field": {
+  "top": 36,
+  "bottom": 199
+ },
+ "keys": {
+  "primary": "#00ff00",
+  "secondary": "#ff00ff",
+  "trim": "#00ffff"
+ }
+}

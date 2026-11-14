@@ -1,3 +1,1052 @@
+/* ============================================================================================================
+ * Team Lab: a stadium (jumbotron, crowd, stand front, the turf with the lineup in formation, the depth chart),
+ * then the broadcast scouting report. Club colours come in as --lab-c1 / --lab-c2 (the kit club). The private
+ * build paints the game's own crowd and turf (--lab-crowd, --lab-standfront, --lf-turf); the classic build draws
+ * them in CSS. Motion is transform / opacity only and stops under prefers-reduced-motion.
+ * ============================================================================================================ */
+
+.lab {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.5rem;
+}
+
+/* ---------- The stadium frame ---------- */
+.lab-stadium {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: hsl(var(--night));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--lab-c1) 55%, #000),
+    0 0 0 3px #000,
+    0 18px 50px -24px color-mix(in srgb, var(--lab-c1) 70%, transparent);
+}
+
+/* Jumbotron */
+.lab-jumbo {
+  position: relative;
+  overflow: hidden;
+  padding: 12px 14px 10px;
+  background:
+    radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--lab-c1) 55%, transparent), transparent 60%),
+    radial-gradient(80% 120% at 100% 100%, color-mix(in srgb, var(--lab-c2) 22%, transparent), transparent 65%),
+    linear-gradient(180deg, hsl(226 45% 9%), hsl(228 47% 6%));
+  border-bottom: 3px solid #000;
+}
+.lab-jumbo::before {
+  /* LED board scanlines */
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(180deg, rgb(255 255 255 / 0.035) 0 1px, transparent 1px 3px);
+}
+.lab-jumbo::after {
+  /* marquee bulbs along the top edge */
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 4px;
+  height: 3px;
+  pointer-events: none;
+  background: radial-gradient(circle, color-mix(in srgb, var(--lab-c2) 70%, #fff) 0 1.2px, transparent 1.8px) 0 0 / 14px 3px repeat-x;
+  opacity: 0.55;
+}
+.lab-jumbo-crest {
+  position: absolute;
+  right: -30px;
+  top: -40px;
+  opacity: 0.09;
+  transform: rotate(-8deg);
+  pointer-events: none;
+}
+.lab-jumbo-main {
+  position: relative;
+  display: grid;
+  gap: 10px;
+}
+@media (min-width: 900px) {
+  .lab-jumbo-main {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+}
+.lab-jumbo-id {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  min-width: 0;
+}
+.lab-jumbo-logo {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  background: radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--lab-c1) 80%, #fff 10%), color-mix(in srgb, var(--lab-c1) 60%, #000));
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--lab-c2) 70%, transparent), 0 0 0 2px #000;
+}
+.lab-kicker {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: hsl(var(--gold));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lab-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+  font-size: clamp(1.9rem, 6vw, 3.1rem);
+  color: hsl(var(--chalk));
+  text-shadow: 0 2px 0 #000, 0 0 24px color-mix(in srgb, var(--lab-c1) 60%, transparent);
+}
+.lab-sub {
+  margin-top: 3px;
+  max-width: 46rem;
+  font-size: 13px;
+  line-height: 1.35;
+  color: hsl(var(--chalk) / 0.75);
+}
+
+/* Scoreboard */
+.lab-scoreboard {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border-radius: 8px;
+  background: #000;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--lab-c1) 50%, #333);
+}
+@media (min-width: 900px) {
+  .lab-scoreboard {
+    grid-template-columns: repeat(4, 6.6rem);
+  }
+}
+.lab-led {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 5px 6px;
+  border-radius: 5px;
+  background: linear-gradient(180deg, hsl(226 40% 10%), hsl(228 47% 5%));
+  min-width: 0;
+}
+.lab-led-k {
+  font-family: var(--font-pixel);
+  font-size: 7.5px;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lab-led-v {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 28px;
+}
+.lab-led-v b {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  font-size: 15px;
+  color: hsl(var(--gold));
+  text-shadow: 0 0 8px hsl(var(--gold) / 0.55);
+}
+.lab-led-pix i {
+  font-style: normal;
+  color: hsl(var(--muted-foreground));
+  margin: 0 2px;
+}
+.lab-led-off {
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  color: hsl(var(--line));
+}
+.lab-led--game {
+  box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--lab-c2) 80%, transparent);
+}
+
+/* Toolbar */
+.lab-toolbar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+.lab-btn {
+  border-color: hsl(var(--line));
+  background: rgb(0 0 0 / 0.45);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+.lab-legends {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+@media (max-width: 639px) {
+  .lab-toolbar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .lab-toolbar > * {
+    width: 100%;
+    min-width: 0 !important;
+  }
+}
+
+/* ---------- Crowd and stand front ---------- */
+.lab-stands {
+  position: relative;
+  display: block;
+}
+.lab-crowd,
+.lab-standfront {
+  display: block;
+  image-rendering: pixelated;
+}
+.lab-stands--art .lab-crowd {
+  height: 50px;
+  background: var(--lab-crowd) 0 0 / auto 100% repeat-x;
+}
+.lab-stands--art .lab-standfront {
+  height: 18px;
+  background: var(--lab-standfront) 0 0 / auto 100% repeat-x;
+  filter: saturate(0.85);
+}
+@media (min-width: 1024px) {
+  .lab-stands--art .lab-crowd {
+    height: 66px;
+  }
+  .lab-stands--art .lab-standfront {
+    height: 22px;
+  }
+}
+/* Classic crowd: rows of heads and shirts in the club's colours */
+.lab-stands--css .lab-crowd {
+  height: 46px;
+  background:
+    radial-gradient(circle at 5px 4px, #d9a066 0 2.4px, transparent 2.6px) 0 0 / 12px 11px,
+    radial-gradient(circle at 11px 9px, #8f563b 0 2.4px, transparent 2.6px) 0 0 / 12px 11px,
+    linear-gradient(90deg, var(--lab-c1) 0 50%, var(--lab-c2) 50% 100%) 0 6px / 24px 11px,
+    #2a2a2a;
+  box-shadow: inset 0 -6px 10px rgb(0 0 0 / 0.5);
+}
+.lab-stands--css .lab-standfront {
+  height: 16px;
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.25) 0 2px, transparent 2px 40px),
+    linear-gradient(180deg, color-mix(in srgb, var(--lab-c1) 70%, #000), color-mix(in srgb, var(--lab-c1) 40%, #000));
+  border-top: 2px solid rgb(255 255 255 / 0.35);
+  border-bottom: 2px solid #000;
+}
+
+/* ---------- Pitch: the field and the depth chart ---------- */
+.lab-pitch {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  background: #0a0f1d;
+}
+@media (min-width: 1024px) {
+  .lab-pitch {
+    grid-template-columns: minmax(0, 1fr) 21.5rem;
+  }
+}
+
+.lab-field {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: #3c7a2a;
+}
+.lab-field--wide {
+  min-height: 380px;
+}
+@media (min-width: 1024px) {
+  .lab-field--wide {
+    min-height: 560px;
+  }
+}
+@media (min-width: 1280px) {
+  .lab-field--wide {
+    min-height: 640px;
+  }
+}
+.lab-field--tall {
+  height: 470px;
+}
+.lab-field--art {
+  background-image: var(--lf-turf);
+  background-size: auto 100%;
+  background-position: center;
+  image-rendering: pixelated;
+}
+.lab-field--tall.lab-field--art {
+  background-size: 100% auto;
+}
+/* Classic turf: mown bands, yard lines, hash marks */
+.lab-field--css {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 calc(10% - 2px), rgb(255 255 255 / 0.55) calc(10% - 2px) 10%),
+    repeating-linear-gradient(90deg, #3f8a2e 0 10%, #377c28 10% 20%);
+}
+.lab-field--css.lab-field--tall {
+  background:
+    repeating-linear-gradient(180deg, transparent 0 calc(10% - 2px), rgb(255 255 255 / 0.55) calc(10% - 2px) 10%),
+    repeating-linear-gradient(180deg, #3f8a2e 0 10%, #377c28 10% 20%);
+}
+.lab-field--css.lab-field--night {
+  filter: brightness(0.82) saturate(0.85);
+}
+.lab-field--css.lab-field--snow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, #fff 0 1px, transparent 1.5px) 0 0 / 9px 11px,
+    radial-gradient(circle, #fff 0 1px, transparent 1.5px) 4px 6px / 13px 9px,
+    rgb(240 248 255 / 0.32);
+}
+.lab-field-lines {
+  position: absolute;
+  inset: 8% 0;
+  border-top: 3px solid rgb(255 255 255 / 0.7);
+  border-bottom: 3px solid rgb(255 255 255 / 0.7);
+  pointer-events: none;
+}
+.lab-field--tall .lab-field-lines {
+  inset: 0 5%;
+  border: 0;
+  border-left: 3px solid rgb(255 255 255 / 0.7);
+  border-right: 3px solid rgb(255 255 255 / 0.7);
+}
+/* Night game on the art turf: the game's own dark frame plus a floodlight pool */
+.lab-field--night::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(70% 90% at 50% 50%, rgb(255 250 220 / 0.12), rgb(0 0 20 / 0.35) 100%);
+}
+.lab-yard {
+  position: absolute;
+  z-index: 0;
+  transform: translate(-50%, 0);
+  font-family: var(--font-pixel);
+  font-size: 20px;
+  line-height: 1;
+  color: rgb(255 255 255 / 0.55);
+  pointer-events: none;
+}
+.lab-field--tall .lab-yard {
+  transform: translate(0, -50%) rotate(90deg);
+  font-size: 15px;
+}
+.lab-field-logo {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  z-index: 0;
+  transform: translate(-50%, -50%);
+  opacity: 0.2;
+  filter: saturate(0.8);
+  pointer-events: none;
+}
+.lab-los {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--lf-c2) 85%, #fff);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.4), 0 0 12px color-mix(in srgb, var(--lf-c2) 60%, transparent);
+}
+.lab-field--wide .lab-los {
+  left: 50%;
+  top: 14%;
+  bottom: 14%;
+  width: 3px;
+}
+.lab-field--tall .lab-los {
+  top: 56%;
+  left: 3%;
+  right: 3%;
+  height: 3px;
+}
+.lab-side {
+  position: absolute;
+  z-index: 1;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: rgb(0 0 0 / 0.55);
+  pointer-events: none;
+}
+.lab-field--wide .lab-side--o {
+  right: calc(50% + 8px);
+  top: 2%;
+}
+.lab-field--wide .lab-side--d {
+  left: calc(50% + 8px);
+  top: 2%;
+}
+.lab-field--art.lab-field--wide .lab-side {
+  /* the game's turf has its sideline crew up there; the line of scrimmage says it */
+  display: none;
+}
+.lab-field--tall .lab-side {
+  display: none;
+}
+
+/* A player's spot: his feet on (left, top) */
+.lab-spot {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -100%);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: transform var(--dur-fast, 120ms) var(--ease-out, ease-out);
+}
+.lab-spot:hover {
+  transform: translate(-50%, calc(-100% - 3px));
+}
+.lab-spot:focus-visible {
+  outline: 2px solid hsl(var(--gold));
+  outline-offset: 2px;
+}
+.lab-fig {
+  position: relative;
+  display: block;
+  line-height: 0;
+  filter: drop-shadow(0 3px 0 rgb(0 0 0 / 0.35));
+}
+.lab-fig::after {
+  /* shadow on the turf */
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  width: 44%;
+  height: 7px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.32);
+  z-index: -1;
+}
+.lab-fig .game-sprite[data-unit='3'] {
+  margin: -33px -45px -15px;
+}
+.lab-fig .game-sprite[data-unit='2'] {
+  margin: -22px -30px -10px;
+}
+.lab-fig .game-sprite[data-unit='1'] {
+  margin: -11px -16px -5px;
+}
+.lab-pixel-player {
+  image-rendering: pixelated;
+}
+.lab-tag {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  max-width: 7.5rem;
+  margin-top: 1px;
+  padding: 1px 3px 1px 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 1.25;
+  text-transform: uppercase;
+  background: var(--tg-c);
+  color: var(--tg-fg);
+  box-shadow: 0 0 0 1px #000, 0 2px 0 rgb(0 0 0 / 0.45);
+}
+.lab-tag b {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  font-size: 7px;
+  opacity: 0.85;
+}
+.lab-tag-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lab-tag-grade {
+  font-style: normal;
+  font-size: 10px;
+  min-width: 15px;
+  padding: 0 2px;
+  border-radius: 2px;
+  text-align: center;
+  color: #0b1020;
+}
+.lab-tag--empty {
+  background: rgb(0 0 0 / 0.6);
+  color: #fff;
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  font-size: 8px;
+  padding: 2px 5px;
+}
+.lab-ghost {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: #fff;
+  border: 2px dashed rgb(255 255 255 / 0.85);
+  background: rgb(0 0 0 / 0.28);
+}
+.lab-ghost svg {
+  width: 18px;
+  height: 18px;
+}
+@media (min-width: 1024px) {
+  .lab-ghost {
+    width: 54px;
+    height: 54px;
+  }
+  .lab-tag {
+    font-size: 14px;
+    max-width: 9rem;
+  }
+}
+@media (max-width: 639px) {
+  .lab-tag {
+    max-width: 5.2rem;
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .lab-spot--empty .lab-ghost {
+    animation: lab-breathe 2.4s ease-in-out infinite;
+  }
+}
+@keyframes lab-breathe {
+  50% {
+    transform: scale(1.08);
+    opacity: 0.75;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lab-spot,
+  .lab-spot:hover {
+    transition: none;
+    transform: translate(-50%, -100%);
+  }
+}
+
+/* Empty field call to action */
+.lab-field-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  pointer-events: none;
+}
+.lab-cta {
+  pointer-events: auto;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  max-width: min(26rem, 100%);
+  padding: 14px 16px;
+  text-align: center;
+  border-radius: 12px;
+  background: rgb(6 9 20 / 0.82);
+  box-shadow: 0 0 0 2px #000, inset 0 0 0 1px color-mix(in srgb, var(--lab-c1) 70%, transparent);
+  backdrop-filter: blur(2px);
+}
+.lab-cta-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: 1.7rem;
+  line-height: 1;
+  color: hsl(var(--chalk));
+}
+.lab-cta-note {
+  font-size: 11px;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Depth chart */
+.lab-depth {
+  border-radius: 0;
+  box-shadow: none;
+  border-top: 3px solid #000;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--lab-c1) 16%, hsl(var(--panel))), hsl(var(--panel)) 40%);
+}
+@media (min-width: 1024px) {
+  .lab-depth {
+    border-top: 0;
+    border-left: 3px solid #000;
+  }
+}
+.lab-rows {
+  display: grid;
+  gap: 3px;
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .lab-rows {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.lab-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.lab-row-pos {
+  flex-shrink: 0;
+  width: 2.1rem;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  text-align: center;
+  color: hsl(var(--gold));
+}
+.lab-row[data-side='defense'] .lab-row-pos {
+  color: hsl(var(--sky));
+}
+.lab-row-end {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 3px;
+}
+.lab-row button[role='combobox'] {
+  height: 2.6rem;
+}
+.lab-group {
+  margin: 6px 0 3px;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+/* ---------- Panels ---------- */
+.lab-panel {
+  position: relative;
+  min-width: 0;
+  padding: 10px;
+  border-radius: 12px;
+  background: hsl(var(--panel));
+  box-shadow: 0 0 0 1px hsl(var(--line) / 0.8);
+}
+.lab-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lab-panel-title {
+  flex: 1;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  color: hsl(var(--chalk));
+}
+
+/* Slots to go */
+.lab-togo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--lab-c1) 30%, hsl(var(--panel))), hsl(var(--panel)));
+  box-shadow: 0 0 0 1px hsl(var(--line));
+}
+.lab-togo-n {
+  font-family: var(--font-pixel);
+  font-size: 22px;
+  color: hsl(var(--gold));
+}
+.lab-togo b {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 15px;
+  color: hsl(var(--chalk));
+}
+.lab-togo-bar {
+  flex: 0 0 30%;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #000;
+}
+.lab-togo-bar i {
+  display: block;
+  height: 100%;
+  background: hsl(var(--gold));
+  transform-origin: left;
+  transition: transform var(--dur-base, 200ms);
+}
+
+/* ---------- Broadcast report ---------- */
+.lab-report {
+  padding: 0;
+  overflow: hidden;
+}
+.lab-broadcast {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  padding: 7px 12px;
+  background:
+    linear-gradient(100deg, var(--lab-c1) 0 38%, color-mix(in srgb, var(--lab-c1) 40%, #000) 38.2%, #070b17 75%);
+  border-bottom: 2px solid color-mix(in srgb, var(--lab-c2) 80%, #000);
+}
+.lab-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: hsl(var(--flag));
+  color: #fff;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+}
+.lab-broadcast-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 1.3rem;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 2px 0 rgb(0 0 0 / 0.6);
+}
+.lab-broadcast-meta {
+  margin-left: auto;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+  color: hsl(var(--chalk) / 0.8);
+}
+.lab-boxes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: hsl(var(--line) / 0.6);
+}
+@media (min-width: 900px) {
+  .lab-boxes {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.lab-box {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  padding: 8px 12px;
+  background: hsl(var(--panel));
+  min-width: 0;
+}
+.lab-k {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+  color: hsl(var(--gold));
+}
+.lab-big {
+  font-family: var(--font-pixel);
+  font-size: 24px;
+  line-height: 1;
+  color: hsl(var(--chalk));
+}
+.lab-big small {
+  font-size: 11px;
+  color: hsl(var(--muted-foreground));
+}
+.lab-note {
+  font-size: 11px;
+  line-height: 1.35;
+  color: hsl(var(--muted-foreground));
+}
+.lab-meter {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 2px;
+}
+.lab-meter i {
+  height: 7px;
+  background: hsl(var(--line) / 0.6);
+}
+.lab-meter i[data-on='1'] {
+  background: hsl(var(--gold));
+}
+.lab-capbar {
+  display: flex;
+  height: 7px;
+  overflow: hidden;
+  background: hsl(var(--line) / 0.6);
+}
+.lab-capbar i {
+  height: 100%;
+  box-shadow: inset -1px 0 0 #000;
+}
+
+/* Ledger: per player, the game's numbers */
+.lab-ledger {
+  display: grid;
+  padding: 4px 8px 6px;
+}
+.lab-ledger-head,
+.lab-ledger-row {
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) 2rem 7.5rem 13rem minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+}
+.lab-ledger-head {
+  font-family: var(--font-pixel);
+  font-size: 7.5px;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  border-bottom: 1px solid hsl(var(--line) / 0.6);
+}
+.lab-ledger-years {
+  display: flex;
+  justify-content: space-between;
+}
+.lab-ledger-row + .lab-ledger-row {
+  border-top: 1px solid hsl(var(--line) / 0.35);
+}
+.lab-strip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  background: linear-gradient(100deg, var(--tg-c) 0 55%, color-mix(in srgb, var(--tg-c) 25%, transparent));
+  color: var(--tg-fg);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.4);
+}
+.lab-strip b {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  font-size: 7px;
+  opacity: 0.85;
+}
+.lab-num {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  color: hsl(var(--chalk));
+  font-weight: 400;
+}
+.lab-room {
+  font-family: var(--font-pixel);
+  font-style: normal;
+  font-size: 8px;
+  color: hsl(var(--turf));
+}
+.lab-pay {
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 10.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.lab-pay--fair {
+  background: hsl(var(--sky) / 0.18);
+  color: hsl(var(--sky));
+}
+.lab-pay--underpaid {
+  background: hsl(var(--turf) / 0.18);
+  color: hsl(var(--turf));
+}
+.lab-pay--overpaid {
+  background: hsl(var(--flag) / 0.18);
+  color: hsl(var(--flag));
+}
+.lab-pick {
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  text-transform: uppercase;
+  background: hsl(var(--gold));
+  color: #000;
+}
+.lab-years {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 16px;
+  background: repeating-linear-gradient(90deg, hsl(var(--line) / 0.35) 0 1px, transparent 1px 8.33%);
+}
+.lab-years i {
+  display: block;
+  height: 8px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(90deg, hsl(var(--turf) / 0.5), hsl(var(--turf)));
+}
+.lab-years i[data-last='1'] {
+  background: hsl(var(--flag));
+}
+.lab-years b {
+  margin-left: 4px;
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  font-size: 8px;
+  color: hsl(var(--chalk));
+  white-space: nowrap;
+}
+@media (max-width: 639px) {
+  .lab-ledger-head {
+    display: none;
+  }
+  .lab-ledger-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 8px;
+    padding: 6px 0;
+  }
+  .lab-ledger-row > :nth-child(2) {
+    justify-self: end;
+  }
+  .lab-ledger-row > :nth-child(2)::before {
+    content: 'Age ';
+    color: hsl(var(--muted-foreground));
+  }
+  .lab-ledger-row > :nth-child(5) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Pixel stars (half-star steps, ceiling ghosted) */
+.lab-stars {
+  display: inline-flex;
+  gap: 1px;
+}
+.lab-star {
+  width: 10px;
+  height: 10px;
+  clip-path: polygon(50% 0, 63% 35%, 100% 38%, 71% 61%, 81% 100%, 50% 78%, 19% 100%, 29% 61%, 0 38%, 37% 35%);
+  background: hsl(var(--line));
+}
+.lab-star[data-room='1'],
+.lab-star[data-room='2'] {
+  background: hsl(var(--turf) / 0.55);
+}
+.lab-star[data-room='1'] {
+  background: linear-gradient(90deg, hsl(var(--turf) / 0.55) 50%, hsl(var(--line)) 50%);
+}
+.lab-star[data-fill='2'] {
+  background: hsl(var(--gold));
+}
+.lab-star[data-fill='1'] {
+  background: linear-gradient(90deg, hsl(var(--gold)) 50%, hsl(var(--turf) / 0.55) 50%);
+}
+.lab-star[data-fill='1'][data-room='0'] {
+  background: linear-gradient(90deg, hsl(var(--gold)) 50%, hsl(var(--line)) 50%);
+}
+
+/* ---------- Analysis grid ---------- */
+.lab-analysis {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+@media (min-width: 1024px) {
+  .lab-analysis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .lab-span-2 {
+    grid-column: 1 / -1;
+  }
+}
+.lab-order-1 {
+  order: 1;
+}
+.lab-order-2 {
+  order: 2;
+}
+.lab-order-3 {
+  order: 3;
+}
+.lab-order-4 {
+  order: 4;
+}
+.lab-analysis .glass-card,
+.lab > .glass-card {
+  box-shadow: inset 0 3px 0 color-mix(in srgb, var(--lab-c1) 75%, transparent);
+}
+.lab-comps {
+  display: grid;
+  gap: 4px;
+}
+.lab-comp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--cc) 40%, transparent), transparent 80%);
+  box-shadow: inset 3px 0 0 var(--cc);
+}
+.lab-comp-logo {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  flex-shrink: 0;
+}
+.lab-vs {
+  background:
+    linear-gradient(100deg, color-mix(in srgb, var(--lab-c1) 45%, #000) 0 40%, #000 50%, rgb(40 40 50) 60%, #05070f 100%);
+  box-shadow: 0 0 0 1px hsl(var(--line) / 0.7);
+}
+
 /* Print / save as PDF: only the call sheet (wristband card), black on white. */
 @media print {
   html,
