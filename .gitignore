@@ -34,3 +34,6 @@ data/uploads/**/*.PNG
 data/uploads/**/*.jpg
 data/uploads/**/*.jpeg
 data/uploads/**/*.heic
+
+# NFL Retro Bowl saves pulled from the phone (scripts/pull_save.py): local only, never pushed
+data/saves/
