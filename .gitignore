@@ -37,3 +37,7 @@ data/uploads/**/*.heic
 
 # NFL Retro Bowl saves pulled from the phone (scripts/pull_save.py): local only, never pushed
 data/saves/
+
+# Retro Bowl's own sprites (New Star Games), cut by scripts/private_sprites.py: private, never pushed or deployed
+public/private-sprites/
+.cache/
