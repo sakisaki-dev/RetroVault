@@ -1,0 +1,36 @@
+{
+  "id": "2026-11-14-y94-gauntlet",
+  "created": "2026-11-14",
+  "images": [],
+  "ai_steps": [
+    {
+      "step": "tag notes",
+      "reason": "Link the owner's notes to players and teams",
+      "trigger": "notes.md present"
+    }
+  ],
+  "mutations": [
+    {
+      "lane": "notes",
+      "op": "journal.add",
+      "target": "y94-maxwell-gauntlet",
+      "value": {
+        "text": "history now made with the first player to win every major award ryland ran the gauntlet as i've been calling ti the first player",
+        "kind": "note",
+        "season": "Y94",
+        "players": [
+          "Ryland Maxwell"
+        ],
+        "teams": [
+          "Eagles"
+        ],
+        "seasons": [
+          94
+        ]
+      },
+      "source": "owner",
+      "reason": "Owner season note",
+      "trigger": "notes.md present"
+    }
+  ]
+}

@@ -40,8 +40,8 @@ const TeamLogo = ({ team, className, decorative = false, backed = false }: TeamL
       src={nfl.logoUrl}
       alt={decorative ? '' : label}
       // ESPN's logos are 500 x 500: the attributes give the box its square shape before the file arrives, so a logo
-      // loading never re-lays out the table around it. Loaded with the page, not lazily mid-scroll (each lazy load
-      // repainted the page under the finger); the 32 files come from the HTTP cache after the first page.
+      // loading never re-lays out the table around it. Lazy, so a long table doesn't queue the network at mount.
+      loading="lazy"
       width={500}
       height={500}
       decoding="async"

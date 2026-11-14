@@ -89,9 +89,8 @@ const TeamLogo = ({ team, size = 32, className, decorative = false, priority = f
       alt={decorative ? '' : `${resolved.fullName} logo`}
       width={size}
       height={size}
-      // Not lazy: the 32 logos repeat everywhere and come from the HTTP cache after the first page, so loading them at
-      // mount costs nothing, while lazy loading landed each one mid-scroll and repainted the page under the finger
-      loading={priority ? 'eager' : undefined}
+      // Lazy: pages render hundreds of logos, and loading every one at mount queued the phone's network behind them
+      loading={priority ? 'eager' : 'lazy'}
       decoding="async"
       referrerPolicy="no-referrer"
       draggable={false}

@@ -1346,6 +1346,70 @@
     "takes": 1
    },
    "changed": 4
+  },
+  {
+   "id": "2026-11-14-save-y94",
+   "dir": "data/uploads/2026-11-14-save-y94",
+   "applied_at": "2026-11-14T11:19:26-08:00",
+   "mutations": {
+    "stats": 295
+   },
+   "changed": 1494
+  },
+  {
+   "id": "2026-11-14-save-y94w32",
+   "dir": "data/uploads/2026-11-14-save-y94w32",
+   "applied_at": "2026-11-14T11:19:50-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-14-y94-retirements",
+   "dir": "data/uploads/2026-11-14-y94-retirements",
+   "applied_at": "2026-11-14T11:19:50-08:00",
+   "mutations": {
+    "stats": 20
+   },
+   "changed": 20
+  },
+  {
+   "id": "2026-11-14-refresh-y93",
+   "dir": "data/uploads/2026-11-14-refresh-y93",
+   "applied_at": "2026-11-14T11:24:59-08:00",
+   "mutations": {
+    "story": 2,
+    "takes": 1
+   },
+   "changed": 3
+  },
+  {
+   "id": "2026-11-14-story-y94",
+   "dir": "data/uploads/2026-11-14-story-y94",
+   "applied_at": "2026-11-14T11:32:28-08:00",
+   "mutations": {
+    "story": 3
+   },
+   "changed": 3
+  },
+  {
+   "id": "2026-11-14-takes-y94",
+   "dir": "data/uploads/2026-11-14-takes-y94",
+   "applied_at": "2026-11-14T11:34:00-08:00",
+   "mutations": {
+    "takes": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-14-y94-gauntlet",
+   "dir": "data/uploads/2026-11-14-y94-gauntlet",
+   "applied_at": "2026-11-14T11:35:04-08:00",
+   "mutations": {
+    "notes": 1
+   },
+   "changed": 1
   }
  ]
 }

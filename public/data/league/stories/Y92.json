@@ -1,7 +1,7 @@
 {
  "season": "Y92",
  "tagline": "The Eagles repeat with Super Bowl CLI over Dwayne Skura's Colts, Lane McCoy and Ryland Maxwell both pass Rondale Ikarras, and Kyron Atwell enters the Hall of Fame.",
- "upload": "2026-11-14-hof-y93",
+ "upload": "2026-11-14-story-y94",
  "articles": [
   {
    "id": "y92-eagles-cli",
@@ -126,9 +126,7 @@
      "source": "schedule.json seasons/Y92/coachGames/[week=5]/week"
     }
    ],
-   "related": [
-    "y91-eagles-cl"
-   ]
+   "related": []
   },
   {
    "id": "y92-mccoy-record",
@@ -227,9 +225,7 @@
      "source": "schedule.json seasons/Y92/table/[abbr=DEN]/record"
     }
    ],
-   "related": [
-    "y91-mccoy-90"
-   ]
+   "related": []
   },
   {
    "id": "y92-mad-max",
@@ -317,9 +313,7 @@
      "source": "market_history.json snap-202611130929 RB:Rondale Ikarras legacy"
     }
    ],
-   "related": [
-    "y91-maxwell-returns"
-   ]
+   "related": []
   },
   {
    "id": "y92-rahman-skura-trades",
@@ -723,9 +717,7 @@
      "source": "market_history.json snap-202611121857..snap-202611130929 TE:Jacob Proise s.td"
     }
    ],
-   "related": [
-    "y91-crawford-wingo"
-   ]
+   "related": []
   },
   {
    "id": "y92-hof",
@@ -862,9 +854,7 @@
      "source": "players.json DB:Damar Hobbs int minus players.json DB:Kyron Atwell int"
     }
    ],
-   "related": [
-    "y91-hof-class"
-   ]
+   "related": []
   },
   {
    "id": "y92-rivals",
@@ -872,7 +862,7 @@
    "headline": "Chicago Again, Jacksonville by a Point, and a Sweep of Washington",
    "dek": "The Eagles lost only twice, 35-32 at Chicago and 33-32 at Jacksonville. They swept the Commanders and still had not lost to the Giants since Y88.",
    "body": [
-    "For the second year running the Bears beat Philadelphia when almost nobody else could. Chicago finished 5-11-1 and 25th in the power rankings, and in week 3 it won 35-32, the upset of the year for the second straight season. The series since Y88 is now level at 2-2.",
+    "For the second year running the Bears beat Philadelphia when almost nobody else could. Chicago finished 5-11-1 and 25th in the power rankings, and in week 3 it won 35-32, the upset of the year for the second straight season. That left the series since Y88 level.",
     "Two weeks later Jacksonville won 33-32, a one-point game on the road. The Jaguars finished 8-9. It was the narrowest defeat of the Eagles' season.",
     "The Commanders, who had split the series three seasons in a row, got no split this time. Philadelphia won 32-16 at home in the opener and 38-26 in Washington in week 8, its first sweep of Washington since Y88. The Giants came closest to an upset of their own: they lost 38-37 in Philadelphia in week 9 and 40-22 at home in the final week. Skura's Eagles closed the year without a loss to New York in any meeting since Y88."
    ],
@@ -911,11 +901,6 @@
      "source": "schedule.json seasons/Y92/upset/week"
     },
     {
-     "label": "Series with the Bears since Y88",
-     "value": "2-2",
-     "source": "content.json rivalries/[id=rival-bears]/games/record"
-    },
-    {
      "label": "Jaguars record",
      "value": "8-9",
      "source": "schedule.json seasons/Y92/table/[abbr=JAX]/record"
@@ -951,9 +936,7 @@
      "source": "schedule.json seasons/Y92/coachGames/[week=18]/score"
     }
    ],
-   "related": [
-    "y91-road-home"
-   ]
+   "related": []
   },
   {
    "id": "y92-retirements",
@@ -1070,9 +1053,7 @@
      "source": "players.json RB:Keelan Blair rtd"
     }
    ],
-   "related": [
-    "y91-retirements"
-   ]
+   "related": []
   },
   {
    "id": "y92-quick-hits",
@@ -1235,24 +1216,13 @@
   },
   {
    "id": "y92-dyk-packers",
-   "text": "The Eagles are 7-0 against the Packers since Y88, four of the wins in the playoffs.",
+   "text": "From Y88 through Y92 the Eagles never lost to the Packers, four of the wins coming in the playoffs.",
    "players": [],
    "teams": [
     "Eagles",
     "Packers"
    ],
-   "stats": [
-    {
-     "label": "Wins vs Packers",
-     "value": "7",
-     "source": "schedule.json headToHead/Packers/w"
-    },
-    {
-     "label": "Losses vs Packers",
-     "value": "0",
-     "source": "schedule.json headToHead/Packers/l"
-    }
-   ]
+   "stats": []
   },
   {
    "id": "y92-dyk-maxwell-rings",
@@ -1276,7 +1246,7 @@
   },
   {
    "id": "y92-dyk-colts-69",
-   "text": "The Colts scored 69 points against the Ravens in week 1, the most by one club in the weekly scores on file.",
+   "text": "The Colts scored 69 points against the Ravens in week 1, the most by one club all season.",
    "players": [],
    "teams": [
     "Colts",
@@ -1286,7 +1256,7 @@
     {
      "label": "Points",
      "value": "69",
-     "source": "schedule.json records/[id=most-points]/value"
+     "source": "schedule.json seasons/Y92/blowout/homeScore"
     },
     {
      "label": "Week",
@@ -1313,7 +1283,7 @@
     {
      "label": "Catches",
      "value": "0",
-     "source": "players.json RB:Roderic Trawick rec"
+     "source": "market_history.json snap-202611131841 RB:Roderic Trawick s.rec"
     }
    ]
   },

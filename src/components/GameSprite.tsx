@@ -107,8 +107,8 @@ const useProcessed = (src: string | undefined, paint: string | undefined, rows: 
 };
 
 /*
- * Sprite images are not lazy: each is a small file or an already-processed data URL in a fixed box, and a lazy one
- * arriving mid-scroll repainted the page under the finger.
+ * Sprite images are lazy: a page like Stats holds hundreds, and loading them all at mount queued the phone's network
+ * (and the next tab's code) behind them.
  */
 const px = (extra?: CSSProperties): CSSProperties => ({ imageRendering: 'pixelated', ...extra });
 
@@ -174,6 +174,7 @@ const GameSprite = (props: GameSpriteProps) => {
             <img
               src={src}
               alt=""
+              loading="lazy"
               decoding="async"
               draggable={false}
               className="absolute max-w-none"
@@ -190,6 +191,7 @@ const GameSprite = (props: GameSpriteProps) => {
           <img
             src={src}
             alt=""
+            loading="lazy"
             decoding="async"
             draggable={false}
             className="absolute max-w-none"

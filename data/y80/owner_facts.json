@@ -60,6 +60,12 @@
   "Angelo Moton": {
    "team": "Packers"
   },
+  "Anree Wren": {
+   "status": "Retired"
+  },
+  "Anthony Orzech": {
+   "status": "Retired"
+  },
   "Apollo Adam": {
    "team": "Falcons"
   },
@@ -232,6 +238,9 @@
    "team": "Broncos",
    "status": "Retired"
   },
+  "Dallin Santoso": {
+   "status": "Retired"
+  },
   "Damar Hobbs": {
    "status": "Retired"
   },
@@ -359,7 +368,8 @@
    "team": "Patriots"
   },
   "Dwayne Skura": {
-   "team": "Colts"
+   "team": "Colts",
+   "status": "Retired"
   },
   "Dylan Hyatt": {
    "retired_with": "Jets",
@@ -438,6 +448,9 @@
    "status": "Retired"
   },
   "Gus Langley": {
+   "status": "Retired"
+  },
+  "Hakeem Peppers": {
    "status": "Retired"
   },
   "Hamp McPhee": {
@@ -630,6 +643,9 @@
    "team": "49ers",
    "status": "Retired"
   },
+  "KC Hyder": {
+   "status": "Retired"
+  },
   "Kahzin Heath": {
    "team": "Broncos",
    "status": "Retired"
@@ -685,6 +701,9 @@
    "team": "Jaguars",
    "status": "Retired"
   },
+  "Kiondre Hageman": {
+   "status": "Retired"
+  },
   "Kirk Lenoir": {
    "team": "Jaguars",
    "status": "Retired"
@@ -696,6 +715,9 @@
    "status": "Retired"
   },
   "Krys Pickens": {
+   "status": "Retired"
+  },
+  "Kylin Peters": {
    "status": "Retired"
   },
   "Kyric McQuay": {
@@ -757,7 +779,8 @@
    "team": "Cowboys"
   },
   "Linval Laulile": {
-   "team": "Steelers"
+   "team": "Steelers",
+   "status": "Retired"
   },
   "Lloyd Queen": {
    "status": "Retired"
@@ -893,6 +916,12 @@
     "says": "Traded from the Jets to the Seahawks for Alvin Tufele after Y80."
    }
   },
+  "Odell Hainsey": {
+   "status": "Retired"
+  },
+  "Oli Alaka": {
+   "status": "Retired"
+  },
   "Oliver Rankin": {
    "status": "Retired"
   },
@@ -944,6 +973,9 @@
    "team": "Rams"
   },
   "Rashaad Bolton": {
+   "status": "Retired"
+  },
+  "Rashawn Cook": {
    "status": "Retired"
   },
   "Rasheem Ingold": {
@@ -1018,6 +1050,9 @@
    },
    "signature_team": "Falcons"
   },
+  "Samson McKeon": {
+   "status": "Retired"
+  },
   "Sauce Gardner": {
    "real_nfl": {
     "games": 57,
@@ -1027,6 +1062,7 @@
   },
   "Shareef London": {
    "team": "Buccaneers",
+   "status": "Retired",
    "career": {
     "order": [
      "Bears",
@@ -1137,11 +1173,17 @@
   "Tavon Lemieux": {
    "status": "Retired"
   },
+  "Taywan Orzech": {
+   "status": "Retired"
+  },
   "Teez Givens": {
    "status": "Retired"
   },
   "Terron Stidham": {
    "team": "Ravens",
+   "status": "Retired"
+  },
+  "Tevin Fox": {
    "status": "Retired"
   },
   "Thomas Gano": {
@@ -1179,7 +1221,8 @@
    }
   },
   "Trequan Roberts": {
-   "team": "Saints"
+   "team": "Saints",
+   "status": "Retired"
   },
   "Treyvon Scott": {
    "team": "Steelers"
@@ -1224,6 +1267,9 @@
     "Packers"
    ]
   },
+  "Tyquan Hunter": {
+   "status": "Retired"
+  },
   "Tyreek Devalve": {
    "team": "Buccaneers"
   },
@@ -1242,6 +1288,9 @@
   },
   "Vic Cannon": {
    "team": "Chargers",
+   "status": "Retired"
+  },
+  "Victor Pascal": {
    "status": "Retired"
   },
   "Von Horsted": {

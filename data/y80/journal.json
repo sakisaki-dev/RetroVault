@@ -205,6 +205,22 @@
    "seasons": [
     83
    ]
+  },
+  {
+   "id": "y94-maxwell-gauntlet",
+   "upload": "2026-11-14-y94-gauntlet",
+   "text": "history now made with the first player to win every major award ryland ran the gauntlet as i've been calling ti the first player",
+   "kind": "note",
+   "season": "Y94",
+   "players": [
+    "Ryland Maxwell"
+   ],
+   "teams": [
+    "Eagles"
+   ],
+   "seasons": [
+    94
+   ]
   }
  ]
 }
