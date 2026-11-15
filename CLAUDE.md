@@ -17,17 +17,21 @@ section for what changed, make a story about the previous year … I want it in 
 On 2026-11-12 the owner approved a fourth AI lane, **Hot Takes** (chose "New AI lane"): columnist opinions about each
 completed season, written like the Season Story and checked by the same fact-checker, every number cited.
 
+On 2026-11-14 the owner approved a fifth AI lane, **Player Tributes** ("both yes" to "Should player tributes become a
+new written article type, checked like the Season Story?"): a long-form feature on one player's whole career, checked
+by the same fact-checker, every number cited.
+
 | Kind | What | Where |
 |---|---|---|
 | **Data entry** (facts) | Career lines, awards, Super Bowls, coach seasons, weekly league scores and standings, record board, teams/trades/rosters, nicknames, owner-confirmed history ("one Titans season", "mainly a Seahawk"), card notes, the owner's own tags, sprite looks; the live state read from the game's save (see Save import) | `data/y80/players.json`, `super_bowls.json`, `coach.json`, `schedules.json`, `records.json`, `owner_facts.json`, `screenshot_extras.json`, `sprites.json`, `save_state.json` |
 | **Owner prose** (verbatim) | Season notes about rivalries, disputes, drama, in the owner's words | `data/y80/journal.json` |
 | **Generated** (rules over the data) | Eras, storylines, rivalries, lineages, snubs, outsiders, record chases, iron men, one-team legends, open questions, player tags and eras, Hall of Fame classes, career stints and their evidence text, market prices | `scripts/*.py`, `scripts/market_snapshot.ts` → `public/data/` |
-| **AI-authored** (only these four) | Hall of Fame induction speeches; card art styles and custom sprites (Art lab; custom sprites retired with the sprite card, see step 2); the Season Story (news articles about each completed season); Hot Takes (columnist opinions about each completed season) | `data/y80/speeches.json`; `src/components/collection/art/**`, `public/data/sprites/`; `data/y80/stories.json`; `data/y80/hot_takes.json` |
+| **AI-authored** (only these five) | Hall of Fame induction speeches; card art styles and custom sprites (Art lab; custom sprites retired with the sprite card, see step 2); the Season Story (news articles about each completed season); Hot Takes (columnist opinions about each completed season); Player Tributes (a long-form feature on one player's career) | `data/y80/speeches.json`; `src/components/collection/art/**`, `public/data/sprites/`; `data/y80/stories.json`; `data/y80/hot_takes.json`; `data/y80/tributes.json` |
 
 Never hand-write analysis: no era write-ups, storylines, rivalry blurbs, player tags or per-player stint judgments.
 If something reads like analysis, it must come out of a rule in `scripts/build_league_content.py` or
 `scripts/infer_stints.py`. **Phone sessions write only facts (through an upload manifest), speeches, season
-stories and hot takes.**
+stories, hot takes and player tributes.**
 
 ## Single source of truth
 
@@ -55,7 +59,10 @@ deterministic: two runs give byte-identical output.
    `story.set` mutation in a follow-up bundle and run `npm run update` on that bundle.
 4. If it printed `TAKES NEEDED: Y<n>` (a season completed with no hot takes), write the Hot Takes (step 6b) as a
    `takes.set` mutation in a follow-up bundle and run `npm run update` on that bundle.
-5. Commit and push with the commands it prints (step 7).
+5. If it printed `TRIBUTE NEEDED: POS:Name` (a qualifying player with no tribute), write the tribute (step 6c) as a
+   `tribute.set` mutation in a follow-up bundle when the owner asks for one or there is time; the list is a queue, not
+   a blocker.
+6. Commit and push with the commands it prints (step 7).
 
 ### Season update plan: what is AI and what is a rule
 
@@ -77,7 +84,8 @@ other row is a deterministic rule that `npm run update` / `npm run rebuild` runs
 | 11 | Hall of Fame speech for each new member | **AI** (`speech`) | Rebuild prints `SPEECH NEEDED` | `speech.set` (step 5) |
 | 12 | Season Story: news articles plus written "Did you know" facts for the completed season | **AI** (`story`) | Rebuild prints `STORY NEEDED: Y<n>` | `story.set` (step 6); professional voice, no "owner", only true facts; optional `art` scene per article |
 | 13 | Hot Takes: columnist opinions about the completed season, every figure cited | **AI** (`takes`) | Rebuild prints `TAKES NEEDED: Y<n>` | `takes.set` (step 6b); provocative but only true facts, no "owner", no "you"; optional `art` scene per take |
-| 14 | Refresh speeches, stories or hot takes whose numbers went stale | **AI** (same lanes) | Audit warns that a cited number no longer matches | `speech.set` / `story.set` / `takes.set` |
+| 13b | Player Tributes: a long-form feature on one qualifying player's career, every figure cited | **AI** (`tribute`) | Rebuild prints `TRIBUTE NEEDED: POS:Name` | `tribute.set` (step 6c); same rules as the story, frozen sources preferred |
+| 14 | Refresh speeches, stories, hot takes or tributes whose numbers went stale | **AI** (same lanes) | Audit warns that a cited number no longer matches | `speech.set` / `story.set` / `takes.set` / `tribute.set` |
 | 15 | Card art styles (custom sprites retired with the sprite card) | **AI** (`art`) | Only when the owner asks | Art lab, `card.design` (~~`sprite.image`~~) |
 | 16 | Checks: audit (0 errors), typecheck, sprite check, build | Rule | `npm run update` | `audit.ts`, `check_sprites.ts` |
 | 17 | Publish: commit and push (Pages redeploys), rebuild the LAN preview (`npm run build`), the widget picks up `widget.json` (and its own code) within about 2 hours | Rule | After the checks pass | Step 7 |
@@ -318,6 +326,58 @@ dek, the first figure as a big number (source on hover or tap), player chips in 
 every figure and its source behind a toggle. The story's Did you know facts sit above the feed as their own deck
 (`src/components/news/DidYouKnow.tsx`: one card at a time with previous, next, shuffle and All facts on a phone; a grid
 from 768px).
+
+### 6c. Player tributes (AI step `tribute`; trigger: the rebuild prints `TRIBUTE NEEDED: POS:Name`)
+
+The fifth AI lane (owner, 2026-11-14: "both yes" to "Should player tributes become a new written article type, checked
+like the Season Story?"). A tribute is a long-form feature about one player's whole journey as far as the data knows it:
+every club (stints), the trades and who went where (owner_facts `career.says`, `team_history`, the trade chains), the
+drama (journal notes that name him, restated as reported fact, never quoted), his rise and fall in the market (OVR,
+grade, card value across the snapshots), records, awards, rivals, Hall of Fame standing and, for an active player, the
+live save (age, final season by the retirement clock). Professional sports-feature voice with interpretation ("was that
+trade a risk? what did the market say at the time").
+
+**Who qualifies** (`tribute_candidates()` in `build_league_content.py`, `tributeCandidates` in content.json): Career
+Legacy at the Hall of Fame bar or a Hall of Famer, AND at least two of: two or more clubs or a trade on record, a
+journal mention, a record (club board or league career mark), named as a rivalry's star, four of the five award kinds
+(ring, MVP, Player of the Year, Super Bowl MVP, Rookie of the Year), an owner career line. 20 players on 2026-11-14.
+Each one without a tribute prints `TRIBUTE NEEDED`.
+
+Write it in a bundle `data/uploads/<date>-tribute-<slug>/` with one `tribute.set` mutation: lane `tribute`, target
+`"POS:Name"`, source `"data:<files read>"`, the `tribute` AI step logged, value `{reason, trigger, nickname?, deck,
+chapters}`. `tribute.remove` (value null) deletes one. A rewrite (a correction, stale numbers) is another `tribute.set`.
+The first is `data/uploads/2026-11-14-tribute-maxwell/`.
+
+- `deck`: one or two lines under the hero, no figures, at most 60 words. `nickname` must be his players.json `nick`.
+- `chapters` (4-14): `{id ("<player-slug>-<slug>", unique across tributes, stories and takes), kind, club?, headline (at
+  most 16 words), dek?, body, players, teams, stats, art?}`. Kinds: `chapter` (a club chapter, at least two; `club` one
+  of his stints; 70-260 words), `trade` (60-220; carries `trade: {after: "Y82", snapshot, later?, sides: [{to, players:
+  ["POS:Name"]}]}`), `market` (30-160; `market: {players: [him, up to two others]}`), `rival` (30-160; `rival: {player}`),
+  `numbers` (15-120; at least 4 stats, which are its tiles), `lastlap` (30-160). At most one market, rival, numbers and
+  last lap.
+- The structured cards carry only keys: the builder fills their figures from the data (each trade side's OVR, grade,
+  card value and games at `snapshot`, games and rings gained by `later`, and whether he played for the club he was
+  traded to; the card value per season from the season-end snapshots from his first stint; the rival's career side by
+  side) under the chapter's `data` in the site file.
+- The Season Story rules apply word for word (`scripts/story_check.py check_tribute` runs `check_article` on every
+  chapter): every number in a headline, dek or body is in that chapter's `stats[]` with a source that resolves and
+  matches, no em dashes, nothing in quotation marks but a nickname, no "owner", no second person, the coach is Dorren
+  Skura, no invented quotes, contracts or injuries, missed games are injuries. Extra sources: `league_records.json
+  <path>` (public/data/league/records.json, the league-wide marks) and `halloffame.json <path>` (the ballot).
+- A tribute spans a career, so prefer frozen sources: a season's change between its two snapshots
+  (`market_history.json <snapA>..<snapB> ...`) or a past season's end-of-season snapshot, not live career totals, where
+  a figure describes the past. Current-career figures are fine but go stale (audit warning) and need a refresh.
+
+apply-upload refuses the bundle on any failure. The audit holds `tributes.json` to its last applied `tribute.set` (a
+difference is an error), re-checks every figure (stale is a warning), and checks the site's copy: one file per tribute,
+`public/data/league/tributes/<pos-name>.json` (the stored text verbatim plus `hero`, `journey` and each card's `data`),
+and a `tributeIndex` in content.json (key, file, nickname, deck, chapter ids, kinds and headlines). The widget ignores
+tributes for now. **Site:** `src/components/tribute/` (`TributeView.tsx`, mounted once through `TributeHost` in
+`pages/Index.tsx`, opened with `openTribute(key)`; `TributeButton` shows only when he has one): a "Tribute" button on the
+player card beside Deep Dive, "Read his tribute" in the Deep Dive hero and on a Hall of Fame plaque. The sheet: a hero
+(his sprite celebrating, the nickname as a watermark, the deck), the journey strip (him in each club's kit, a logo
+without private sprites), the sections in order with every figure and its source behind a toggle; loaded on demand
+(`loadTribute` / `useTribute`), a delayed loader, reduced motion respected.
 
 ### 7. Commit and push
 

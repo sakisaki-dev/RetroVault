@@ -13,6 +13,7 @@ import ProPlayerBanner from '../../brand/ProPlayerBanner';
 import TeamLogo from '../../brand/TeamLogo';
 import { bannerStats } from '../../hof/hofUtils';
 import GameSprite from '../../GameSprite';
+import TributeButton from '../../tribute/TributeButton';
 import { keyOf } from '../records';
 import { SmallSampleChip } from './ddParts';
 
@@ -107,6 +108,8 @@ const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, on
       </button>
 
       <div className="flex flex-wrap items-center gap-1.5">
+        {/* His Player Tribute, when one has been written */}
+        <TributeButton playerKey={keyOf(player)} label="Read his tribute" className="h-8 border border-gold/60 bg-gold/10 px-2.5 text-sm text-gold hover:bg-gold/20" />
         <InLeague player={player} />
         {tier ? (
           <span className="lamp">

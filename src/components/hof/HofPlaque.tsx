@@ -10,6 +10,7 @@ import { usePhone } from '@/hooks/usePhone';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 import RetiredRafters from '../teams/RetiredRafters';
 import TeamLogo from '../brand/TeamLogo';
+import TributeButton from '../tribute/TributeButton';
 import { Laurel, RibbonBanner } from './hofParts';
 import { POS_NAMES, careerLine, clubColors, fmt, ordinal, yearsOf } from './hofUtils';
 
@@ -318,6 +319,12 @@ const HofPlaque = ({
                 <IdCard className="h-4 w-4" aria-hidden="true" />
                 Player card
               </button>
+              {/* His Player Tribute, when one has been written */}
+              <TributeButton
+                playerKey={member.key}
+                label="Read his tribute"
+                className="col-span-2 min-h-[44px] rounded-lg border border-amber-500/50 bg-amber-500/10 px-3 text-gold hover:bg-amber-500/20"
+              />
             </div>
 
             {paragraphs.length > 0 && (
