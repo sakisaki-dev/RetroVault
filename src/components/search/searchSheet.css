@@ -37,6 +37,10 @@
 .ss-root[data-state='closed'] .ss-panel {
   animation: ss-down var(--dur-sheet-close) var(--ease-close) both;
 }
+/* Swiped away: it already left with the finger (useSwipeToDismiss), so no second slide from the top */
+.ss-root[data-state='closed'] .ss-panel[data-swiped] {
+  animation: none;
+}
 
 /* ---- Top: grab bar, kicker + Cancel, field, position chips ---- */
 .ss-top {

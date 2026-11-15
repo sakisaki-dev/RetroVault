@@ -92,6 +92,9 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
     let axis: 'y' | 'x' = 'y';
     let canY = false;
     let canX = false;
+    // Released past the line: the element is on its way out. A caller that turns the hook off as it closes (enabled
+    // follows `open`) must not snap it back home in this effect's cleanup: the exit continues from where it is.
+    let leaving = false;
 
     const bd = () => opts.current.backdrop?.() ?? null;
     // animate: false follows the finger; 'back' glides home; [ms, curve] slides out over that many ms on a curve whose
@@ -134,6 +137,7 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
       return [ms, `cubic-bezier(${x1.toFixed(3)}, ${y1.toFixed(3)}, 0.36, 1)`];
     };
     const reset = () => {
+      leaving = false;
       el.style.transition = '';
       el.style.translate = '';
       delete el.dataset.swiped;
@@ -256,6 +260,7 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
       }
       // Tells the dialog's exit to fade from here rather than replay its own slide (index.css, .dlg-anim)
       el.dataset.swiped = '';
+      leaving = true;
       if (still) {
         reset();
         opts.current.onDismiss();
@@ -288,7 +293,7 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
       el.removeEventListener('touchmove', onMove);
       el.removeEventListener('touchend', onEnd);
       el.removeEventListener('touchcancel', onEnd);
-      reset();
+      if (!leaving) reset();
     };
   }, [el, enabled, down, right]);
 
