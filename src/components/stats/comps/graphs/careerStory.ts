@@ -114,7 +114,7 @@ export const buildCareer = ({
       const id = `${r.short}:${y}`;
       if (!seen.has(id)) {
         seen.add(id);
-        events.push({ year: y, kind: 'record', label: r.short, detail: `Club record ${r.club.mark}` });
+        events.push({ year: y, kind: 'record', label: r.record, detail: `Club record ${r.club.mark}` });
       }
     }
     const top = r.league?.top?.[0];
@@ -123,7 +123,7 @@ export const buildCareer = ({
       const id = `${r.short}:${ly}`;
       if (!seen.has(id)) {
         seen.add(id);
-        events.push({ year: ly, kind: 'record', label: r.short, detail: `League record ${top.mark}` });
+        events.push({ year: ly, kind: 'record', label: r.record, detail: `League record ${top.mark}` });
       }
     }
   });

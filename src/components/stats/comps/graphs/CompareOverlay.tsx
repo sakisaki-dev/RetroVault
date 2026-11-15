@@ -129,9 +129,9 @@ const CompareOverlay = ({
           })}
         </div>
       )}
-      <MetricChips metrics={metrics} value={metric.id} onChange={setMetricId} label="Comparison metric" />
+      <MetricChips metrics={metrics.filter((m) => !m.invert)} value={metric.id} onChange={setMetricId} label="Comparison metric" />
       {xs.length > 1 ? (
-        <MultiLine series={series} xs={xs} xLabel={(x) => `Yr ${x}`} yFmt={(v) => metric.fmt(v)} band={band} ariaLabel={`${player.name} against ${mode === 'avg' ? 'the league average' : mode === 'comp' ? 'a comparable' : 'the top five'} by career year`} selX={career.points[idx]?.careerYear ?? null} />
+        <MultiLine series={series} xs={xs} xLabel={(x) => `Yr ${x}`} yFmt={(v) => metric.fmt(v)} band={band} zero={!['ovr', 'skill'].includes(metric.id)} ariaLabel={`${player.name} against ${mode === 'avg' ? 'the league average' : mode === 'comp' ? 'a comparable' : 'the top five'} by career year`} selX={career.points[idx]?.careerYear ?? null} />
       ) : (
         <p className="cg-note">Not enough seasons with {metric.label.toLowerCase()} to compare.</p>
       )}

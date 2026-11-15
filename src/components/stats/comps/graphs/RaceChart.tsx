@@ -66,7 +66,7 @@ const RaceChart = ({ player, career, league, idx, onIdx }: { player: Player; car
   const holder = data.record && data.record.k !== key ? nameOf(data.record.k) : null;
   const sel = career.points[idx]?.year;
   return (
-    <div className="cg-card glass-card">
+    <div className="cg-card glass-card cg-span">
       <h3>The race</h3>
       <p className="cg-sub">
         Career {b.label.toLowerCase()} at each season end against the all-time top five {g === 'DEF' ? 'defenders' : `${player.position}s`}. He is{' '}

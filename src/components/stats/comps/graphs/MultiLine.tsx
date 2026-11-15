@@ -44,6 +44,7 @@ const MultiLine = memo(
     selX,
     onX,
     height = 230,
+    zero = true,
     ariaLabel,
     footer,
   }: {
@@ -57,6 +58,8 @@ const MultiLine = memo(
     selX?: number | null;
     onX?: (x: number) => void;
     height?: number;
+    /** Start the y axis at 0 (false: fit the data, e.g. OVR 60-99) */
+    zero?: boolean;
     ariaLabel: string;
     footer?: ReactNode;
   }) => {
@@ -65,13 +68,21 @@ const MultiLine = memo(
     const geo = useMemo(() => {
       if (!width || !xs.length) return null;
       const ys = [...series.flatMap((s) => s.points.map((p) => p.y)), ...(band ?? []).flatMap((b) => [b.lo, b.hi]), ...(refLine ? [refLine.y] : [])];
-      const { ticks, domain } = niceTicks(Math.min(0, ...ys), Math.max(1, ...ys), 4);
+      const lo = Math.min(...ys);
+      const { ticks, domain } = niceTicks(zero ? Math.min(0, lo) : lo, Math.max(zero ? 1 : lo + 1, ...ys), 4);
       const x0 = xs[0];
       const x1 = xs[xs.length - 1];
       const sx = linear(x0, x1 === x0 ? x0 + 1 : x1, M.l + 6, width - M.r);
       const sy = linear(domain[0], domain[1], height - M.b, M.t);
-      return { ticks, sx, sy };
-    }, [width, xs, series, band, refLine, height]);
+      // end labels pushed apart so close lines stay readable
+      const ends = series
+        .filter((s) => s.points.length && s.endLabel !== false)
+        .map((s) => ({ key: s.key, y: sy(s.points[s.points.length - 1].y) }))
+        .sort((a, b) => a.y - b.y);
+      for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 11) ends[i].y = ends[i - 1].y + 11;
+      const labelY = new Map(ends.map((e) => [e.key, e.y]));
+      return { ticks, sx, sy, labelY };
+    }, [width, xs, series, band, refLine, height, zero]);
     const step = xs.length > 1 ? Math.max(1, Math.ceil(xs.length / Math.max(2, Math.floor((width - M.l - M.r) / 34)))) : 1;
     const nearest = (clientX: number, el: HTMLElement) => {
       if (!geo) return null;
@@ -106,7 +117,7 @@ const MultiLine = memo(
               </g>
             ))}
             {xs.map((x, i) =>
-              i % step === 0 || i === xs.length - 1 ? (
+              i % step === 0 || (i === xs.length - 1 && i % step >= step / 2) ? (
                 <text key={x} x={geo.sx(x)} y={height - 6} textAnchor="middle" fontSize="10" fill={x === selX ? 'hsl(43 100% 62%)' : VIZ.muted} className="tabular-nums">
                   {xLabel(x)}
                 </text>
@@ -126,7 +137,7 @@ const MultiLine = memo(
             {refLine && (
               <g>
                 <line x1={M.l} x2={width - M.r} y1={geo.sy(refLine.y)} y2={geo.sy(refLine.y)} stroke="hsl(354 90% 65%)" strokeDasharray="6 4" strokeWidth={1.25} />
-                <text x={width - M.r + 4} y={geo.sy(refLine.y) + 3.5} fontSize="9.5" fill="hsl(354 90% 70%)" fontWeight={700}>
+                <text x={M.l + 4} y={geo.sy(refLine.y) - 4} fontSize="9.5" fill="hsl(354 90% 70%)" fontWeight={700}>
                   {refLine.label}
                 </text>
               </g>
@@ -146,7 +157,7 @@ const MultiLine = memo(
                   {s.endLabel !== false && (
                     <text
                       x={geo.sx(s.points[s.points.length - 1].x) + 5}
-                      y={geo.sy(s.points[s.points.length - 1].y) + 3.5}
+                      y={(geo.labelY.get(s.key) ?? geo.sy(s.points[s.points.length - 1].y)) + 3.5}
                       fontSize="10"
                       fontWeight={s.width && s.width > 2 ? 800 : 600}
                       fill={s.color}

@@ -141,7 +141,7 @@ const HeroPlot = memo(({ career, metric, width, height, reduced }: { career: Car
         );
       })}
       {pts.map((p, i) =>
-        i % labelEvery === 0 || i === pts.length - 1 ? (
+        i % labelEvery === 0 || (i === pts.length - 1 && i % labelEvery >= labelEvery / 2) ? (
           <text key={`y${p.year}`} x={x(i)} y={height - 6} textAnchor="middle" fontSize="10" fill={p.status === 'live' ? GOLD : VIZ.muted} className="tabular-nums">
             {colW >= 26 ? yLabel(p.year) : `'${p.year % 100}`}
           </text>

@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { useWidth } from '../../visual/chartKit';
 import HeroPlot, { HERO_M, heroGeom } from './HeroPlot';
 import SeasonPanel from './SeasonPanel';
+import { SparkRows } from './Extras';
 import type { Career } from './careerStory';
 import { clubInk, yLabel, type GraphMetric } from './graphKit';
 
@@ -186,7 +187,7 @@ const CareerHero = ({
               </div>
             )}
             {geom && cy != null && (
-              <div className={cn('cg-dot', reduced && 'cg-cursor--still')} style={{ transform: `translate(${cx}px, ${cy}px)` }} aria-hidden="true">
+              <div className={cn('cg-dot', reduced && 'cg-cursor--still', cx > width - 90 && 'cg-dot--flip')} style={{ transform: `translate(${cx}px, ${cy}px)` }} aria-hidden="true">
                 <span className="cg-dot__val">{metric.fmt(v as number)}</span>
               </div>
             )}
@@ -194,6 +195,7 @@ const CareerHero = ({
           <p className="mt-1 text-[10px] text-muted-foreground">
             Drag across the chart to scrub seasons{wide ? ' (or hover; arrow keys when focused)' : ''}. Hatched: no season line (first record, idle or an import correction). Hollow dot: a short or live season.
           </p>
+          <SparkRows career={career} metrics={metrics} metricId={metric.id} onMetric={onMetric} idx={idx} />
         </div>
         <SeasonPanel player={player} career={career} idx={idx} />
       </div>
