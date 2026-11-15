@@ -39,7 +39,8 @@ The site loads only the bundled files in `public/data/`, which `npm run rebuild`
 hand-edit generated files, and never edit `data/y80/` directly: every change goes through an upload bundle.
 
 `npm run rebuild` runs, in order: `infer_stints.py` (career stints) → `build_league_data.py` (league CSV, extras,
-legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `schedule_content.py` → `league_records.py` →
+legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `schedule_content.py` → `league_records.py` → `career_seasons.py` (`public/data/league/career_seasons.json`: each
+player's card numbers and career totals at every season end, for the Deep Dive's career graphs) →
 `hall_of_fame.py` → `save_state.py` (`public/data/league/save_state.json`) → `build_league_content.py`
 (`public/data/league/content.json`) → `build_widget_data.py` (`public/data/widget.json`) → `audit.ts`. It is
 deterministic: two runs give byte-identical output.
