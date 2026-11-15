@@ -1,0 +1,140 @@
+{
+ "season": "Y25",
+ "club": "Buccaneers",
+ "record": "15-2",
+ "finish": "Champions",
+ "champion": "Buccaneers",
+ "next": "Y26",
+ "cards": [
+  {
+   "id": "y25-cover",
+   "kind": "cover",
+   "club": "Buccaneers",
+   "kicker": "Season Rewind",
+   "title": "Y25 Rewind",
+   "text": "Dorren Skura's 25th season as a head coach, with the Buccaneers: 15-2, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "15-2"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "25",
+     "num": 25
+    }
+   ],
+   "teams": [
+    "Buccaneers"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y25-champion",
+   "kind": "champion",
+   "club": "Buccaneers",
+   "kicker": "Super Bowl LXXXIV",
+   "title": "Buccaneers win it all",
+   "text": "The Buccaneers beat the Broncos 38-16 in Super Bowl LXXXIV, the club's 4th title. Skura's 16 titles and counting.",
+   "figures": [
+    {
+     "label": "Buccaneers",
+     "value": "38",
+     "num": 38
+    },
+    {
+     "label": "Broncos",
+     "value": "16",
+     "num": 16
+    },
+    {
+     "label": "Season record",
+     "value": "15-2"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "4",
+     "num": 4
+    }
+   ],
+   "teams": [
+    "Buccaneers",
+    "Broncos"
+   ],
+   "players": [
+    {
+     "key": "WR:Ian Finney",
+     "name": "Ian Finney",
+     "team": "Buccaneers",
+     "star": true
+    },
+    {
+     "key": "QB:Ray Waller",
+     "name": "Ray Waller",
+     "team": "Buccaneers"
+    },
+    {
+     "key": "DL:Zander Kolar",
+     "name": "Zander Kolar",
+     "team": "Buccaneers"
+    },
+    {
+     "key": "WR:Tyrion Kline",
+     "name": "Tyrion Kline",
+     "team": "Buccaneers"
+    },
+    {
+     "key": "DB:Robert Boone",
+     "name": "Robert Boone",
+     "team": "Buccaneers"
+    },
+    {
+     "key": "LB:Odell Ankou",
+     "name": "Odell Ankou",
+     "team": "Buccaneers"
+    },
+    {
+     "key": "DB:Germain Coulter",
+     "name": "Germain Coulter",
+     "team": "Buccaneers"
+    }
+   ],
+   "ringHolders": 7,
+   "score": "38-16",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y25-outro",
+   "kind": "outro",
+   "club": "Buccaneers",
+   "kicker": "That was Y25",
+   "title": "Next: Y26",
+   "next": "Y26",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "16",
+     "num": 16
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "19",
+     "num": 19
+    }
+   ],
+   "text": "Through Y25, Skura has won 16 of 19 Super Bowls.",
+   "teams": [
+    "Buccaneers"
+   ],
+   "link": {
+    "season": "Y26"
+   },
+   "n": 3
+  }
+ ]
+}

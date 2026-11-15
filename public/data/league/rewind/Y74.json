@@ -1,0 +1,149 @@
+{
+ "season": "Y74",
+ "club": "Seahawks",
+ "record": "14-2-1",
+ "finish": "NFC Champs",
+ "champion": "Titans",
+ "next": "Y75",
+ "cards": [
+  {
+   "id": "y74-cover",
+   "kind": "cover",
+   "club": "Seahawks",
+   "kicker": "Season Rewind",
+   "title": "Y74 Rewind",
+   "text": "Dorren Skura's 74th season as a head coach, with the Seahawks: 14-2-1, NFC Champs.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "14-2-1"
+    },
+    {
+     "label": "Finish",
+     "value": "NFC Champs"
+    },
+    {
+     "label": "Season as coach",
+     "value": "74",
+     "num": 74
+    }
+   ],
+   "teams": [
+    "Seahawks"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y74-champion",
+   "kind": "champion",
+   "club": "Titans",
+   "kicker": "Super Bowl CXXXIII",
+   "title": "Titans win it all",
+   "text": "The Titans beat the Seahawks 39-32 in Super Bowl CXXXIII, the club's 5th title. Skura's Seahawks fell in the final.",
+   "figures": [
+    {
+     "label": "Titans",
+     "value": "39",
+     "num": 39
+    },
+    {
+     "label": "Seahawks",
+     "value": "32",
+     "num": 32
+    },
+    {
+     "label": "Franchise titles",
+     "value": "5",
+     "num": 5
+    }
+   ],
+   "teams": [
+    "Titans",
+    "Seahawks"
+   ],
+   "players": [
+    {
+     "key": "TE:Levante Hopkins",
+     "name": "Levante Hopkins",
+     "team": "Titans",
+     "star": true
+    },
+    {
+     "key": "QB:Alexx Sanchez",
+     "name": "Alexx Sanchez",
+     "team": "Titans"
+    },
+    {
+     "key": "QB:Hamsfa Boltt",
+     "name": "Hamsfa Boltt",
+     "team": "Titans"
+    },
+    {
+     "key": "WR:Juawan Lance",
+     "name": "Juawan Lance",
+     "team": "Titans"
+    },
+    {
+     "key": "RB:Tyron Colvin",
+     "name": "Tyron Colvin",
+     "team": "Titans"
+    }
+   ],
+   "ringHolders": 5,
+   "score": "39-32",
+   "result": "lost",
+   "n": 2
+  },
+  {
+   "id": "y74-farewells",
+   "kind": "farewells",
+   "club": "Titans",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "1 career ended in Y74.",
+   "players": [
+    {
+     "key": "QB:Alexx Sanchez",
+     "name": "Alexx Sanchez",
+     "games": 313,
+     "rings": 5,
+     "legacy": 7527,
+     "team": "Titans"
+    }
+   ],
+   "count": 1,
+   "teams": [
+    "Titans"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y74-outro",
+   "kind": "outro",
+   "club": "Seahawks",
+   "kicker": "That was Y74",
+   "title": "Next: Y75",
+   "next": "Y75",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "54",
+     "num": 54
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "60",
+     "num": 60
+    }
+   ],
+   "text": "Through Y74, Skura has won 54 of 60 Super Bowls.",
+   "teams": [
+    "Seahawks"
+   ],
+   "link": {
+    "season": "Y75"
+   },
+   "n": 4
+  }
+ ]
+}

@@ -1,0 +1,160 @@
+{
+ "season": "Y80",
+ "club": "Jets",
+ "record": "15-2",
+ "finish": "Champions",
+ "champion": "Jets",
+ "next": "Y81",
+ "cards": [
+  {
+   "id": "y80-cover",
+   "kind": "cover",
+   "club": "Jets",
+   "kicker": "Season Rewind",
+   "title": "Y80 Rewind",
+   "text": "Dorren Skura's 80th season as a head coach, with the Jets: 15-2, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "15-2"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "80",
+     "num": 80
+    }
+   ],
+   "teams": [
+    "Jets"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y80-champion",
+   "kind": "champion",
+   "club": "Jets",
+   "kicker": "Super Bowl CXXXIX",
+   "title": "Jets win it all",
+   "text": "The Jets beat the Seahawks 28-26 in Super Bowl CXXXIX, the club's 3rd title. Skura's 56 titles and counting.",
+   "figures": [
+    {
+     "label": "Jets",
+     "value": "28",
+     "num": 28
+    },
+    {
+     "label": "Seahawks",
+     "value": "26",
+     "num": 26
+    },
+    {
+     "label": "Season record",
+     "value": "15-2"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "3",
+     "num": 3
+    }
+   ],
+   "teams": [
+    "Jets",
+    "Seahawks"
+   ],
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Jets",
+     "star": true
+    },
+    {
+     "key": "OL:Jakeem Friend",
+     "name": "Jakeem Friend",
+     "team": "Jets"
+    },
+    {
+     "key": "LB:Kalif Suh",
+     "name": "Kalif Suh",
+     "team": "Jets"
+    },
+    {
+     "key": "QB:Ty Lock",
+     "name": "Ty Lock",
+     "team": "Jets"
+    },
+    {
+     "key": "WR:Kane Van Oxley",
+     "name": "Kane Van Oxley",
+     "team": "Jets"
+    },
+    {
+     "key": "DB:Chance Woodrum",
+     "name": "Chance Woodrum",
+     "team": "Jets"
+    },
+    {
+     "key": "TE:Jaylen Conklin",
+     "name": "Jaylen Conklin",
+     "team": "Jets"
+    },
+    {
+     "key": "RB:Siran Spector",
+     "name": "Siran Spector",
+     "team": "Jets"
+    },
+    {
+     "key": "DB:Dylan Hyatt",
+     "name": "Dylan Hyatt",
+     "team": "Jets"
+    },
+    {
+     "key": "DB:Trequan Roberts",
+     "name": "Trequan Roberts",
+     "team": "Jets"
+    },
+    {
+     "key": "WR:Obinna Leary",
+     "name": "Obinna Leary",
+     "team": "Jets"
+    }
+   ],
+   "ringHolders": 11,
+   "score": "28-26",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y80-outro",
+   "kind": "outro",
+   "club": "Jets",
+   "kicker": "That was Y80",
+   "title": "Next: Y81",
+   "next": "Y81",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "56",
+     "num": 56
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "62",
+     "num": 62
+    }
+   ],
+   "text": "Through Y80, Skura has won 56 of 62 Super Bowls.",
+   "teams": [
+    "Jets"
+   ],
+   "link": {
+    "season": "Y81"
+   },
+   "n": 3
+  }
+ ]
+}

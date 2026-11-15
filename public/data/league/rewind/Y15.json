@@ -1,0 +1,153 @@
+{
+ "season": "Y15",
+ "club": "Chargers",
+ "record": "12-5",
+ "finish": "Champions",
+ "champion": "Chargers",
+ "next": "Y16",
+ "cards": [
+  {
+   "id": "y15-cover",
+   "kind": "cover",
+   "club": "Chargers",
+   "kicker": "Season Rewind",
+   "title": "Y15 Rewind",
+   "text": "Dorren Skura's 15th season as a head coach, with the Chargers: 12-5, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "12-5"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "15",
+     "num": 15
+    }
+   ],
+   "teams": [
+    "Chargers"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y15-champion",
+   "kind": "champion",
+   "club": "Chargers",
+   "kicker": "Super Bowl LXXIV",
+   "title": "Chargers win it all",
+   "text": "The Chargers beat the Vikings 28-21 in Super Bowl LXXIV, the club's 4th title. Skura's 8 titles and counting.",
+   "figures": [
+    {
+     "label": "Chargers",
+     "value": "28",
+     "num": 28
+    },
+    {
+     "label": "Vikings",
+     "value": "21",
+     "num": 21
+    },
+    {
+     "label": "Season record",
+     "value": "12-5"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "4",
+     "num": 4
+    }
+   ],
+   "teams": [
+    "Chargers",
+    "Vikings"
+   ],
+   "players": [
+    {
+     "key": "QB:Wayne Wilson",
+     "name": "Wayne Wilson",
+     "team": "Chargers",
+     "star": true
+    },
+    {
+     "key": "LB:Bilal Tolbert",
+     "name": "Bilal Tolbert",
+     "team": "Chargers"
+    },
+    {
+     "key": "TE:Akiem Bouye",
+     "name": "Akiem Bouye",
+     "team": "Chargers"
+    },
+    {
+     "key": "WR:Keesean Candy",
+     "name": "Keesean Candy",
+     "team": "Chargers"
+    },
+    {
+     "key": "DB:Taywan Tuttle",
+     "name": "Taywan Tuttle",
+     "team": "Chargers"
+    }
+   ],
+   "ringHolders": 5,
+   "score": "28-21",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y15-farewells",
+   "kind": "farewells",
+   "club": "Dolphins",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "1 career ended in Y15.",
+   "players": [
+    {
+     "key": "TE:Mason Taylor",
+     "name": "Mason Taylor",
+     "games": 254,
+     "rings": 3,
+     "legacy": 6631,
+     "team": "Dolphins"
+    }
+   ],
+   "count": 1,
+   "teams": [
+    "Dolphins"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y15-outro",
+   "kind": "outro",
+   "club": "Chargers",
+   "kicker": "That was Y15",
+   "title": "Next: Y16",
+   "next": "Y16",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "8",
+     "num": 8
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "9",
+     "num": 9
+    }
+   ],
+   "text": "Through Y15, Skura has won 8 of 9 Super Bowls.",
+   "teams": [
+    "Chargers"
+   ],
+   "link": {
+    "season": "Y16"
+   },
+   "n": 4
+  }
+ ]
+}

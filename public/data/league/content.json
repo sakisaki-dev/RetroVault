@@ -7655,6 +7655,1369 @@
   "QB:Kyric McQuay",
   "DB:Taron Hayes"
  ],
+ "seasonRewindIndex": [
+  {
+   "season": "Y1",
+   "file": "rewind/Y1.json",
+   "club": "Vikings",
+   "champion": "Bills",
+   "record": "12-5",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y2",
+   "file": "rewind/Y2.json",
+   "club": "Vikings",
+   "champion": "Lions",
+   "record": "11-6",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y3",
+   "file": "rewind/Y3.json",
+   "club": "Vikings",
+   "champion": "Vikings",
+   "record": "12-5",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y4",
+   "file": "rewind/Y4.json",
+   "club": "Vikings",
+   "champion": "Eagles",
+   "record": "13-4",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y5",
+   "file": "rewind/Y5.json",
+   "club": "Dolphins",
+   "champion": "Bills",
+   "record": "9-8",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y6",
+   "file": "rewind/Y6.json",
+   "club": "Dolphins",
+   "champion": "Dolphins",
+   "record": "13-4",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y7",
+   "file": "rewind/Y7.json",
+   "club": "Dolphins",
+   "champion": "Commanders",
+   "record": "11-6",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y8",
+   "file": "rewind/Y8.json",
+   "club": "Dolphins",
+   "champion": "Dolphins",
+   "record": "15-2",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y9",
+   "file": "rewind/Y9.json",
+   "club": "Dolphins",
+   "champion": "Dolphins",
+   "record": "11-6",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y10",
+   "file": "rewind/Y10.json",
+   "club": "Chargers",
+   "champion": "Chargers",
+   "record": "13-4",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y11",
+   "file": "rewind/Y11.json",
+   "club": "Chargers",
+   "champion": "Chargers",
+   "record": "13-4",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y12",
+   "file": "rewind/Y12.json",
+   "club": "Chargers",
+   "champion": "Saints",
+   "record": "8-9",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y13",
+   "file": "rewind/Y13.json",
+   "club": "Chargers",
+   "champion": "Bengals",
+   "record": "11-6",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y14",
+   "file": "rewind/Y14.json",
+   "club": "Chargers",
+   "champion": "Chargers",
+   "record": "14-3",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y15",
+   "file": "rewind/Y15.json",
+   "club": "Chargers",
+   "champion": "Chargers",
+   "record": "12-5",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y16",
+   "file": "rewind/Y16.json",
+   "club": "Commanders",
+   "champion": "Commanders",
+   "record": "12-5",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y17",
+   "file": "rewind/Y17.json",
+   "club": "Commanders",
+   "champion": "Commanders",
+   "record": "16-1",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y18",
+   "file": "rewind/Y18.json",
+   "club": "Commanders",
+   "champion": "Commanders",
+   "record": "13-4",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y19",
+   "file": "rewind/Y19.json",
+   "club": "Commanders",
+   "champion": "Commanders",
+   "record": "14-3",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y20",
+   "file": "rewind/Y20.json",
+   "club": "Buccaneers",
+   "champion": "Buccaneers",
+   "record": "12-5",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y21",
+   "file": "rewind/Y21.json",
+   "club": "Buccaneers",
+   "champion": "Buccaneers",
+   "record": "13-4",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y22",
+   "file": "rewind/Y22.json",
+   "club": "Buccaneers",
+   "champion": "Colts",
+   "record": "16-1",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y23",
+   "file": "rewind/Y23.json",
+   "club": "Buccaneers",
+   "champion": "Buccaneers",
+   "record": "17-0",
+   "count": 5,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y24",
+   "file": "rewind/Y24.json",
+   "club": "Buccaneers",
+   "champion": "Colts",
+   "record": "15-2",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y25",
+   "file": "rewind/Y25.json",
+   "club": "Buccaneers",
+   "champion": "Buccaneers",
+   "record": "15-2",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y26",
+   "file": "rewind/Y26.json",
+   "club": "Buccaneers",
+   "champion": "Buccaneers",
+   "record": "15-1-1",
+   "count": 5,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y27",
+   "file": "rewind/Y27.json",
+   "club": "Bills",
+   "champion": "Bills",
+   "record": "16-1",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y28",
+   "file": "rewind/Y28.json",
+   "club": "Bills",
+   "champion": "Bills",
+   "record": "16-1",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y29",
+   "file": "rewind/Y29.json",
+   "club": "Bills",
+   "champion": "Bills",
+   "record": "17-0",
+   "count": 5,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y30",
+   "file": "rewind/Y30.json",
+   "club": "Bills",
+   "champion": "Bills",
+   "record": "16-1",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y31",
+   "file": "rewind/Y31.json",
+   "club": "Bills",
+   "champion": "Bills",
+   "record": "17-0",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y32",
+   "file": "rewind/Y32.json",
+   "club": "Bills",
+   "champion": "Bills",
+   "record": "17-0",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y33",
+   "file": "rewind/Y33.json",
+   "club": "Bills",
+   "champion": "Bills",
+   "record": "14-3",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y34",
+   "file": "rewind/Y34.json",
+   "club": "Seahawks",
+   "champion": "Chiefs",
+   "record": "15-2",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y35",
+   "file": "rewind/Y35.json",
+   "club": "Seahawks",
+   "champion": "Falcons",
+   "record": "12-5",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y36",
+   "file": "rewind/Y36.json",
+   "club": "Seahawks",
+   "champion": "Seahawks",
+   "record": "15-2",
+   "count": 5,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y37",
+   "file": "rewind/Y37.json",
+   "club": "Seahawks",
+   "champion": "Seahawks",
+   "record": "14-3",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y38",
+   "file": "rewind/Y38.json",
+   "club": "Seahawks",
+   "champion": "Seahawks",
+   "record": "15-2",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y39",
+   "file": "rewind/Y39.json",
+   "club": "Chargers",
+   "champion": "Broncos",
+   "record": "13-4",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y40",
+   "file": "rewind/Y40.json",
+   "club": "Chargers",
+   "champion": "Chargers",
+   "record": "16-1",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y41",
+   "file": "rewind/Y41.json",
+   "club": "Ravens",
+   "champion": "Ravens",
+   "record": "13-4",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y42",
+   "file": "rewind/Y42.json",
+   "club": "Ravens",
+   "champion": "Ravens",
+   "record": "15-2",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y43",
+   "file": "rewind/Y43.json",
+   "club": "Ravens",
+   "champion": "Ravens",
+   "record": "14-3",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y44",
+   "file": "rewind/Y44.json",
+   "club": "Ravens",
+   "champion": "Ravens",
+   "record": "15-2",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y45",
+   "file": "rewind/Y45.json",
+   "club": "Ravens",
+   "champion": "Bengals",
+   "record": "15-2",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y46",
+   "file": "rewind/Y46.json",
+   "club": "Ravens",
+   "champion": "Ravens",
+   "record": "16-0-1",
+   "count": 5,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y47",
+   "file": "rewind/Y47.json",
+   "club": "Ravens",
+   "champion": "Bills",
+   "record": "15-2",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y48",
+   "file": "rewind/Y48.json",
+   "club": "Ravens",
+   "champion": "Ravens",
+   "record": "17-0",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y49",
+   "file": "rewind/Y49.json",
+   "club": "Ravens",
+   "champion": "Ravens",
+   "record": "16-1",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y50",
+   "file": "rewind/Y50.json",
+   "club": "Ravens",
+   "champion": "Saints",
+   "record": "17-0",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y51",
+   "file": "rewind/Y51.json",
+   "club": "Buccaneers",
+   "champion": "Buccaneers",
+   "record": "16-1",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y52",
+   "file": "rewind/Y52.json",
+   "club": "Buccaneers",
+   "champion": "Buccaneers",
+   "record": "16-1",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y53",
+   "file": "rewind/Y53.json",
+   "club": "Buccaneers",
+   "champion": "Titans",
+   "record": "17-0",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y54",
+   "file": "rewind/Y54.json",
+   "club": "Giants",
+   "champion": "Giants",
+   "record": "16-1",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y55",
+   "file": "rewind/Y55.json",
+   "club": "Giants",
+   "champion": "Giants",
+   "record": "16-1",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y56",
+   "file": "rewind/Y56.json",
+   "club": "Giants",
+   "champion": "Giants",
+   "record": "14-2-1",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y57",
+   "file": "rewind/Y57.json",
+   "club": "Dolphins",
+   "champion": "Dolphins",
+   "record": "12-5",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y58",
+   "file": "rewind/Y58.json",
+   "club": "Dolphins",
+   "champion": "Dolphins",
+   "record": "15-2",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y59",
+   "file": "rewind/Y59.json",
+   "club": "Dolphins",
+   "champion": "Dolphins",
+   "record": "16-1",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y60",
+   "file": "rewind/Y60.json",
+   "club": "Dolphins",
+   "champion": "Cowboys",
+   "record": "16-1",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y61",
+   "file": "rewind/Y61.json",
+   "club": "Vikings",
+   "champion": "Vikings",
+   "record": "12-5",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y62",
+   "file": "rewind/Y62.json",
+   "club": "Vikings",
+   "champion": "Vikings",
+   "record": "14-3",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y63",
+   "file": "rewind/Y63.json",
+   "club": "Vikings",
+   "champion": "Vikings",
+   "record": "16-1",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y64",
+   "file": "rewind/Y64.json",
+   "club": "Vikings",
+   "champion": "Vikings",
+   "record": "16-1",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y65",
+   "file": "rewind/Y65.json",
+   "club": "Vikings",
+   "champion": "Broncos",
+   "record": "16-1",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y66",
+   "file": "rewind/Y66.json",
+   "club": "Vikings",
+   "champion": "Vikings",
+   "record": "17-0",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y67",
+   "file": "rewind/Y67.json",
+   "club": "Vikings",
+   "champion": "Vikings",
+   "record": "17-0",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y68",
+   "file": "rewind/Y68.json",
+   "club": "Vikings",
+   "champion": "Vikings",
+   "record": "16-1",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y69",
+   "file": "rewind/Y69.json",
+   "club": "Vikings",
+   "champion": "Vikings",
+   "record": "14-3",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y70",
+   "file": "rewind/Y70.json",
+   "club": "Titans",
+   "champion": "Titans",
+   "record": "13-4",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y71",
+   "file": "rewind/Y71.json",
+   "club": "Titans",
+   "champion": "Titans",
+   "record": "16-1",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y72",
+   "file": "rewind/Y72.json",
+   "club": "Titans",
+   "champion": "Titans",
+   "record": "16-1",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y73",
+   "file": "rewind/Y73.json",
+   "club": "Titans",
+   "champion": "Cardinals",
+   "record": "15-2",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y74",
+   "file": "rewind/Y74.json",
+   "club": "Seahawks",
+   "champion": "Titans",
+   "record": "14-2-1",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y75",
+   "file": "rewind/Y75.json",
+   "club": "Seahawks",
+   "champion": "Jets",
+   "record": "16-1",
+   "count": 5,
+   "kinds": [
+    "cover",
+    "champion",
+    "records",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y76",
+   "file": "rewind/Y76.json",
+   "club": "Jets",
+   "champion": "Bengals",
+   "record": "15-2",
+   "count": 4,
+   "kinds": [
+    "cover",
+    "champion",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y77",
+   "file": "rewind/Y77.json",
+   "club": "Jets",
+   "champion": "Jets",
+   "record": "17-0",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y78",
+   "file": "rewind/Y78.json",
+   "club": "Jets",
+   "champion": "Vikings",
+   "record": "13-4",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y79",
+   "file": "rewind/Y79.json",
+   "club": "Jets",
+   "champion": "Packers",
+   "record": "12-5",
+   "count": 5,
+   "kinds": [
+    "cover",
+    "champion",
+    "hof",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y80",
+   "file": "rewind/Y80.json",
+   "club": "Jets",
+   "champion": "Jets",
+   "record": "15-2",
+   "count": 3,
+   "kinds": [
+    "cover",
+    "champion",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y81",
+   "file": "rewind/Y81.json",
+   "club": "Jets",
+   "champion": "Patriots",
+   "record": "14-2-1",
+   "count": 7,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "milestones",
+    "market",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y82",
+   "file": "rewind/Y82.json",
+   "club": "Jets",
+   "champion": "Jets",
+   "record": "15-2",
+   "count": 7,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "milestones",
+    "market",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y83",
+   "file": "rewind/Y83.json",
+   "club": "Falcons",
+   "champion": "Falcons",
+   "record": "12-5",
+   "count": 7,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "milestones",
+    "market",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y84",
+   "file": "rewind/Y84.json",
+   "club": "Falcons",
+   "champion": "Falcons",
+   "record": "13-3-1",
+   "count": 7,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "milestones",
+    "market",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y85",
+   "file": "rewind/Y85.json",
+   "club": "Falcons",
+   "champion": "Falcons",
+   "record": "15-2",
+   "count": 8,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "records",
+    "milestones",
+    "market",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y86",
+   "file": "rewind/Y86.json",
+   "club": "Falcons",
+   "champion": "Falcons",
+   "record": "13-4",
+   "count": 7,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "milestones",
+    "market",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y87",
+   "file": "rewind/Y87.json",
+   "club": "Falcons",
+   "champion": "Falcons",
+   "record": "17-0",
+   "count": 7,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "milestones",
+    "market",
+    "farewells",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y88",
+   "file": "rewind/Y88.json",
+   "club": "Eagles",
+   "champion": "Eagles",
+   "record": "14-2-1",
+   "count": 9,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "milestones",
+    "market",
+    "hof",
+    "farewells",
+    "power",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y89",
+   "file": "rewind/Y89.json",
+   "club": "Eagles",
+   "champion": "Eagles",
+   "record": "14-2-1",
+   "count": 10,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "records",
+    "milestones",
+    "market",
+    "hof",
+    "farewells",
+    "power",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y90",
+   "file": "rewind/Y90.json",
+   "club": "Eagles",
+   "champion": "Texans",
+   "record": "14-3",
+   "count": 10,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "records",
+    "milestones",
+    "market",
+    "farewells",
+    "power",
+    "take",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y91",
+   "file": "rewind/Y91.json",
+   "club": "Eagles",
+   "champion": "Eagles",
+   "record": "15-2",
+   "count": 10,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "records",
+    "milestones",
+    "market",
+    "farewells",
+    "power",
+    "take",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y92",
+   "file": "rewind/Y92.json",
+   "club": "Eagles",
+   "champion": "Eagles",
+   "record": "15-2",
+   "count": 12,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "records",
+    "milestones",
+    "market",
+    "hof",
+    "farewells",
+    "power",
+    "story",
+    "take",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y93",
+   "file": "rewind/Y93.json",
+   "club": "Eagles",
+   "champion": "Eagles",
+   "record": "17-0",
+   "count": 11,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "milestones",
+    "market",
+    "hof",
+    "farewells",
+    "power",
+    "story",
+    "take",
+    "outro"
+   ]
+  },
+  {
+   "season": "Y94",
+   "file": "rewind/Y94.json",
+   "club": "Eagles",
+   "champion": "Eagles",
+   "record": "15-2",
+   "count": 12,
+   "kinds": [
+    "cover",
+    "champion",
+    "awards",
+    "records",
+    "milestones",
+    "market",
+    "farewells",
+    "power",
+    "tribute",
+    "story",
+    "take",
+    "outro"
+   ]
+  }
+ ],
  "mechanics": {
   "defense": {
    "DB": {

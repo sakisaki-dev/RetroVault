@@ -1,0 +1,122 @@
+{
+ "season": "Y34",
+ "club": "Seahawks",
+ "record": "15-2",
+ "finish": "Champ Rnd",
+ "champion": "Chiefs",
+ "next": "Y35",
+ "cards": [
+  {
+   "id": "y34-cover",
+   "kind": "cover",
+   "club": "Seahawks",
+   "kicker": "Season Rewind",
+   "title": "Y34 Rewind",
+   "text": "Dorren Skura's 34th season as a head coach, with the Seahawks: 15-2, Champ Rnd.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "15-2"
+    },
+    {
+     "label": "Finish",
+     "value": "Champ Rnd"
+    },
+    {
+     "label": "Season as coach",
+     "value": "34",
+     "num": 34
+    }
+   ],
+   "teams": [
+    "Seahawks"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y34-champion",
+   "kind": "champion",
+   "club": "Chiefs",
+   "kicker": "Super Bowl XCIII",
+   "title": "Chiefs win it all",
+   "text": "The Chiefs beat the Rams 54-10 in Super Bowl XCIII, the club's first title.",
+   "figures": [
+    {
+     "label": "Chiefs",
+     "value": "54",
+     "num": 54
+    },
+    {
+     "label": "Rams",
+     "value": "10",
+     "num": 10
+    },
+    {
+     "label": "Franchise titles",
+     "value": "1",
+     "num": 1
+    }
+   ],
+   "teams": [
+    "Chiefs",
+    "Rams"
+   ],
+   "players": [],
+   "ringHolders": 0,
+   "score": "54-10",
+   "result": "not in it",
+   "n": 2
+  },
+  {
+   "id": "y34-farewells",
+   "kind": "farewells",
+   "club": "Buccaneers",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "1 career ended in Y34.",
+   "players": [
+    {
+     "key": "DL:Zander Kolar",
+     "name": "Zander Kolar",
+     "games": 261,
+     "rings": 4,
+     "legacy": 8619,
+     "team": "Buccaneers"
+    }
+   ],
+   "count": 1,
+   "teams": [
+    "Buccaneers"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y34-outro",
+   "kind": "outro",
+   "club": "Seahawks",
+   "kicker": "That was Y34",
+   "title": "Next: Y35",
+   "next": "Y35",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "24",
+     "num": 24
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "27",
+     "num": 27
+    }
+   ],
+   "text": "Through Y34, Skura has won 24 of 27 Super Bowls.",
+   "teams": [
+    "Seahawks"
+   ],
+   "link": {
+    "season": "Y35"
+   },
+   "n": 4
+  }
+ ]
+}

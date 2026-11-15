@@ -1,0 +1,147 @@
+{
+ "season": "Y7",
+ "club": "Dolphins",
+ "record": "11-6",
+ "finish": "AFC Champs",
+ "champion": "Commanders",
+ "next": "Y8",
+ "cards": [
+  {
+   "id": "y7-cover",
+   "kind": "cover",
+   "club": "Dolphins",
+   "kicker": "Season Rewind",
+   "title": "Y7 Rewind",
+   "text": "Dorren Skura's 7th season as a head coach, with the Dolphins: 11-6, AFC Champs.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "11-6"
+    },
+    {
+     "label": "Finish",
+     "value": "AFC Champs"
+    },
+    {
+     "label": "Season as coach",
+     "value": "7",
+     "num": 7
+    }
+   ],
+   "teams": [
+    "Dolphins"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y7-champion",
+   "kind": "champion",
+   "club": "Commanders",
+   "kicker": "Super Bowl LXVI",
+   "title": "Commanders win it all",
+   "text": "The Commanders beat the Dolphins 22-16 in Super Bowl LXVI, the club's first title. Skura's Dolphins fell in the final.",
+   "figures": [
+    {
+     "label": "Commanders",
+     "value": "22",
+     "num": 22
+    },
+    {
+     "label": "Dolphins",
+     "value": "16",
+     "num": 16
+    },
+    {
+     "label": "Franchise titles",
+     "value": "1",
+     "num": 1
+    }
+   ],
+   "teams": [
+    "Commanders",
+    "Dolphins"
+   ],
+   "players": [
+    {
+     "key": "QB:Jayden Daniels",
+     "name": "Jayden Daniels",
+     "team": "Commanders",
+     "star": true
+    },
+    {
+     "key": "OL:Laurent Akins",
+     "name": "Laurent Akins",
+     "team": "Commanders"
+    }
+   ],
+   "ringHolders": 2,
+   "score": "22-16",
+   "result": "lost",
+   "n": 2
+  },
+  {
+   "id": "y7-records",
+   "kind": "records",
+   "club": "Dolphins",
+   "kicker": "Record book",
+   "title": "Record broken",
+   "text": "1 mark fell in Y7.",
+   "rows": [
+    {
+     "label": "Most return yards, career",
+     "mark": "5,778 yds",
+     "scope": "club",
+     "players": [
+      {
+       "key": "WR:CeeDee Lamb",
+       "name": "CeeDee Lamb",
+       "team": "Dolphins"
+      }
+     ],
+     "team": "Dolphins",
+     "num": 5778,
+     "suf": " yds"
+    }
+   ],
+   "players": [
+    {
+     "key": "WR:CeeDee Lamb",
+     "name": "CeeDee Lamb",
+     "team": "Dolphins"
+    }
+   ],
+   "teams": [
+    "Dolphins"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y7-outro",
+   "kind": "outro",
+   "club": "Dolphins",
+   "kicker": "That was Y7",
+   "title": "Next: Y8",
+   "next": "Y8",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "2",
+     "num": 2
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "3",
+     "num": 3
+    }
+   ],
+   "text": "Through Y7, Skura has won 2 of 3 Super Bowls.",
+   "teams": [
+    "Dolphins"
+   ],
+   "link": {
+    "season": "Y8"
+   },
+   "n": 4
+  }
+ ]
+}

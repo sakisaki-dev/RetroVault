@@ -1,0 +1,146 @@
+{
+ "season": "Y57",
+ "club": "Dolphins",
+ "record": "12-5",
+ "finish": "Champions",
+ "champion": "Dolphins",
+ "next": "Y58",
+ "cards": [
+  {
+   "id": "y57-cover",
+   "kind": "cover",
+   "club": "Dolphins",
+   "kicker": "Season Rewind",
+   "title": "Y57 Rewind",
+   "text": "Dorren Skura's 57th season as a head coach, with the Dolphins: 12-5, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "12-5"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "57",
+     "num": 57
+    }
+   ],
+   "teams": [
+    "Dolphins"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y57-champion",
+   "kind": "champion",
+   "club": "Dolphins",
+   "kicker": "Super Bowl CXVI",
+   "title": "Dolphins win it all",
+   "text": "The Dolphins beat the 49ers 36-26 in Super Bowl CXVI, the club's 4th title. Skura's 41 titles and counting.",
+   "figures": [
+    {
+     "label": "Dolphins",
+     "value": "36",
+     "num": 36
+    },
+    {
+     "label": "49ers",
+     "value": "26",
+     "num": 26
+    },
+    {
+     "label": "Season record",
+     "value": "12-5"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "4",
+     "num": 4
+    }
+   ],
+   "teams": [
+    "Dolphins",
+    "49ers"
+   ],
+   "players": [
+    {
+     "key": "QB:Marlowe Hunter",
+     "name": "Marlowe Hunter",
+     "team": "Dolphins",
+     "star": true
+    },
+    {
+     "key": "RB:Rod Kuechly",
+     "name": "Rod Kuechly",
+     "team": "Dolphins"
+    }
+   ],
+   "ringHolders": 2,
+   "score": "36-26",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y57-farewells",
+   "kind": "farewells",
+   "club": "Dolphins",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "2 careers ended in Y57.",
+   "players": [
+    {
+     "key": "QB:Marlowe Hunter",
+     "name": "Marlowe Hunter",
+     "games": 235,
+     "rings": 1,
+     "legacy": 5393,
+     "team": "Dolphins"
+    },
+    {
+     "key": "RB:Rod Kuechly",
+     "name": "Rod Kuechly",
+     "games": 132,
+     "rings": 1,
+     "legacy": 2882,
+     "team": "Dolphins"
+    }
+   ],
+   "count": 2,
+   "teams": [
+    "Dolphins"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y57-outro",
+   "kind": "outro",
+   "club": "Dolphins",
+   "kicker": "That was Y57",
+   "title": "Next: Y58",
+   "next": "Y58",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "41",
+     "num": 41
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "45",
+     "num": 45
+    }
+   ],
+   "text": "Through Y57, Skura has won 41 of 45 Super Bowls.",
+   "teams": [
+    "Dolphins"
+   ],
+   "link": {
+    "season": "Y58"
+   },
+   "n": 4
+  }
+ ]
+}

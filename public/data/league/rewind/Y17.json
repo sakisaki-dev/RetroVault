@@ -1,0 +1,157 @@
+{
+ "season": "Y17",
+ "club": "Commanders",
+ "record": "16-1",
+ "finish": "Champions",
+ "champion": "Commanders",
+ "next": "Y18",
+ "cards": [
+  {
+   "id": "y17-cover",
+   "kind": "cover",
+   "club": "Commanders",
+   "kicker": "Season Rewind",
+   "title": "Y17 Rewind",
+   "text": "Dorren Skura's 17th season as a head coach, with the Commanders: 16-1, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "16-1"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "17",
+     "num": 17
+    }
+   ],
+   "teams": [
+    "Commanders"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y17-champion",
+   "kind": "champion",
+   "club": "Commanders",
+   "kicker": "Super Bowl LXXVI",
+   "title": "Commanders win it all",
+   "text": "The Commanders beat the Titans 40-9 in Super Bowl LXXVI, the club's 3rd title. Skura's 10 titles and counting.",
+   "figures": [
+    {
+     "label": "Commanders",
+     "value": "40",
+     "num": 40
+    },
+    {
+     "label": "Titans",
+     "value": "9",
+     "num": 9
+    },
+    {
+     "label": "Season record",
+     "value": "16-1"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "3",
+     "num": 3
+    }
+   ],
+   "teams": [
+    "Commanders",
+    "Titans"
+   ],
+   "players": [
+    {
+     "key": "WR:Ian Finney",
+     "name": "Ian Finney",
+     "team": "Commanders",
+     "star": true
+    },
+    {
+     "key": "TE:Tyler Pacheco",
+     "name": "Tyler Pacheco",
+     "team": "Commanders"
+    },
+    {
+     "key": "QB:Jayden Daniels",
+     "name": "Jayden Daniels",
+     "team": "Commanders"
+    },
+    {
+     "key": "WR:Brennan Higgins",
+     "name": "Brennan Higgins",
+     "team": "Commanders"
+    }
+   ],
+   "ringHolders": 4,
+   "score": "40-9",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y17-farewells",
+   "kind": "farewells",
+   "club": "Commanders",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "2 careers ended in Y17.",
+   "players": [
+    {
+     "key": "QB:Jayden Daniels",
+     "name": "Jayden Daniels",
+     "games": 335,
+     "rings": 3,
+     "legacy": 7371,
+     "team": "Commanders"
+    },
+    {
+     "key": "QB:Drake Maye",
+     "name": "Drake Maye",
+     "games": 327,
+     "rings": 1,
+     "legacy": 6923,
+     "team": "Vikings"
+    }
+   ],
+   "count": 2,
+   "teams": [
+    "Commanders",
+    "Vikings"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y17-outro",
+   "kind": "outro",
+   "club": "Commanders",
+   "kicker": "That was Y17",
+   "title": "Next: Y18",
+   "next": "Y18",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "10",
+     "num": 10
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "11",
+     "num": 11
+    }
+   ],
+   "text": "Through Y17, Skura has won 10 of 11 Super Bowls.",
+   "teams": [
+    "Commanders"
+   ],
+   "link": {
+    "season": "Y18"
+   },
+   "n": 4
+  }
+ ]
+}

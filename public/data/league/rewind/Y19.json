@@ -1,0 +1,153 @@
+{
+ "season": "Y19",
+ "club": "Commanders",
+ "record": "14-3",
+ "finish": "Champions",
+ "champion": "Commanders",
+ "next": "Y20",
+ "cards": [
+  {
+   "id": "y19-cover",
+   "kind": "cover",
+   "club": "Commanders",
+   "kicker": "Season Rewind",
+   "title": "Y19 Rewind",
+   "text": "Dorren Skura's 19th season as a head coach, with the Commanders: 14-3, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "14-3"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "19",
+     "num": 19
+    }
+   ],
+   "teams": [
+    "Commanders"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y19-champion",
+   "kind": "champion",
+   "club": "Commanders",
+   "kicker": "Super Bowl LXXVIII",
+   "title": "Commanders win it all",
+   "text": "The Commanders beat the Browns 38-24 in Super Bowl LXXVIII, the club's 5th title. Skura's 12 titles and counting.",
+   "figures": [
+    {
+     "label": "Commanders",
+     "value": "38",
+     "num": 38
+    },
+    {
+     "label": "Browns",
+     "value": "24",
+     "num": 24
+    },
+    {
+     "label": "Season record",
+     "value": "14-3"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "5",
+     "num": 5
+    }
+   ],
+   "teams": [
+    "Commanders",
+    "Browns"
+   ],
+   "players": [
+    {
+     "key": "WR:Ian Finney",
+     "name": "Ian Finney",
+     "team": "Commanders",
+     "star": true
+    },
+    {
+     "key": "TE:Tyler Pacheco",
+     "name": "Tyler Pacheco",
+     "team": "Commanders"
+    },
+    {
+     "key": "WR:Brennan Higgins",
+     "name": "Brennan Higgins",
+     "team": "Commanders"
+    },
+    {
+     "key": "OL:Cooper Dean",
+     "name": "Cooper Dean",
+     "team": "Commanders"
+    },
+    {
+     "key": "QB:Avonte Gooden",
+     "name": "Avonte Gooden",
+     "team": "Commanders"
+    }
+   ],
+   "ringHolders": 5,
+   "score": "38-24",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y19-farewells",
+   "kind": "farewells",
+   "club": "Chargers",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "1 career ended in Y19.",
+   "players": [
+    {
+     "key": "LB:Bilal Tolbert",
+     "name": "Bilal Tolbert",
+     "games": 210,
+     "rings": 4,
+     "legacy": 8414,
+     "team": "Chargers"
+    }
+   ],
+   "count": 1,
+   "teams": [
+    "Chargers"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y19-outro",
+   "kind": "outro",
+   "club": "Commanders",
+   "kicker": "That was Y19",
+   "title": "Next: Y20",
+   "next": "Y20",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "12",
+     "num": 12
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "13",
+     "num": 13
+    }
+   ],
+   "text": "Through Y19, Skura has won 12 of 13 Super Bowls.",
+   "teams": [
+    "Commanders"
+   ],
+   "link": {
+    "season": "Y20"
+   },
+   "n": 4
+  }
+ ]
+}

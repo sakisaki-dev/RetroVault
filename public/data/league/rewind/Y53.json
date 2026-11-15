@@ -1,0 +1,134 @@
+{
+ "season": "Y53",
+ "club": "Buccaneers",
+ "record": "17-0",
+ "finish": "Champ Rnd",
+ "champion": "Titans",
+ "next": "Y54",
+ "cards": [
+  {
+   "id": "y53-cover",
+   "kind": "cover",
+   "club": "Buccaneers",
+   "kicker": "Season Rewind",
+   "title": "Y53 Rewind",
+   "text": "Dorren Skura's 53rd season as a head coach, with the Buccaneers: 17-0, Champ Rnd.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "17-0"
+    },
+    {
+     "label": "Finish",
+     "value": "Champ Rnd"
+    },
+    {
+     "label": "Season as coach",
+     "value": "53",
+     "num": 53
+    }
+   ],
+   "teams": [
+    "Buccaneers"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y53-champion",
+   "kind": "champion",
+   "club": "Titans",
+   "kicker": "Super Bowl CXII",
+   "title": "Titans win it all",
+   "text": "The Titans beat the Eagles 36-31 in Super Bowl CXII, the club's first title.",
+   "figures": [
+    {
+     "label": "Titans",
+     "value": "36",
+     "num": 36
+    },
+    {
+     "label": "Eagles",
+     "value": "31",
+     "num": 31
+    },
+    {
+     "label": "Franchise titles",
+     "value": "1",
+     "num": 1
+    }
+   ],
+   "teams": [
+    "Titans",
+    "Eagles"
+   ],
+   "players": [
+    {
+     "key": "QB:Michael Wilson",
+     "name": "Michael Wilson",
+     "team": "Titans",
+     "star": true
+    },
+    {
+     "key": "QB:Alexx Sanchez",
+     "name": "Alexx Sanchez",
+     "team": "Titans"
+    }
+   ],
+   "ringHolders": 2,
+   "score": "36-31",
+   "result": "not in it",
+   "n": 2
+  },
+  {
+   "id": "y53-farewells",
+   "kind": "farewells",
+   "club": "Ravens",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "1 career ended in Y53.",
+   "players": [
+    {
+     "key": "QB:Michael Wilson",
+     "name": "Michael Wilson",
+     "games": 214,
+     "rings": 6,
+     "legacy": 8725,
+     "team": "Ravens"
+    }
+   ],
+   "count": 1,
+   "teams": [
+    "Ravens"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y53-outro",
+   "kind": "outro",
+   "club": "Buccaneers",
+   "kicker": "That was Y53",
+   "title": "Next: Y54",
+   "next": "Y54",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "37",
+     "num": 37
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "41",
+     "num": 41
+    }
+   ],
+   "text": "Through Y53, Skura has won 37 of 41 Super Bowls.",
+   "teams": [
+    "Buccaneers"
+   ],
+   "link": {
+    "season": "Y54"
+   },
+   "n": 4
+  }
+ ]
+}

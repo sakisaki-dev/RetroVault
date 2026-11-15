@@ -1,0 +1,168 @@
+{
+ "season": "Y32",
+ "club": "Bills",
+ "record": "17-0",
+ "finish": "Champions",
+ "champion": "Bills",
+ "next": "Y33",
+ "cards": [
+  {
+   "id": "y32-cover",
+   "kind": "cover",
+   "club": "Bills",
+   "kicker": "Season Rewind",
+   "title": "Y32 Rewind",
+   "text": "Dorren Skura's 32nd season as a head coach, with the Bills: 17-0, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "17-0"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "32",
+     "num": 32
+    }
+   ],
+   "teams": [
+    "Bills"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y32-champion",
+   "kind": "champion",
+   "club": "Bills",
+   "kicker": "Super Bowl XCI",
+   "title": "Bills win it all",
+   "text": "The Bills beat the Commanders 30-14 in Super Bowl XCI, the club's 8th title. Skura's 23 titles and counting.",
+   "figures": [
+    {
+     "label": "Bills",
+     "value": "30",
+     "num": 30
+    },
+    {
+     "label": "Commanders",
+     "value": "14",
+     "num": 14
+    },
+    {
+     "label": "Season record",
+     "value": "17-0"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "8",
+     "num": 8
+    }
+   ],
+   "teams": [
+    "Bills",
+    "Commanders"
+   ],
+   "players": [
+    {
+     "key": "QB:Dennis Baylon",
+     "name": "Dennis Baylon",
+     "team": "Bills",
+     "star": true
+    },
+    {
+     "key": "TE:Charlie John",
+     "name": "Charlie John",
+     "team": "Bills"
+    },
+    {
+     "key": "WR:Lukas Russell",
+     "name": "Lukas Russell",
+     "team": "Bills"
+    },
+    {
+     "key": "LB:Tyrone Baugh",
+     "name": "Tyrone Baugh",
+     "team": "Bills"
+    },
+    {
+     "key": "DB:Rob Lowe",
+     "name": "Rob Lowe",
+     "team": "Bills"
+    },
+    {
+     "key": "RB:Forrest Everett",
+     "name": "Forrest Everett",
+     "team": "Bills"
+    },
+    {
+     "key": "WR:Reuben Kilian",
+     "name": "Reuben Kilian",
+     "team": "Bills"
+    },
+    {
+     "key": "DB:Deante Elder",
+     "name": "Deante Elder",
+     "team": "Bills"
+    }
+   ],
+   "ringHolders": 8,
+   "score": "30-14",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y32-farewells",
+   "kind": "farewells",
+   "club": "Commanders",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "1 career ended in Y32.",
+   "players": [
+    {
+     "key": "TE:Tyler Pacheco",
+     "name": "Tyler Pacheco",
+     "games": 290,
+     "rings": 4,
+     "legacy": 7798,
+     "team": "Commanders"
+    }
+   ],
+   "count": 1,
+   "teams": [
+    "Commanders"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y32-outro",
+   "kind": "outro",
+   "club": "Bills",
+   "kicker": "That was Y32",
+   "title": "Next: Y33",
+   "next": "Y33",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "23",
+     "num": 23
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "26",
+     "num": 26
+    }
+   ],
+   "text": "Through Y32, Skura has won 23 of 26 Super Bowls.",
+   "teams": [
+    "Bills"
+   ],
+   "link": {
+    "season": "Y33"
+   },
+   "n": 4
+  }
+ ]
+}

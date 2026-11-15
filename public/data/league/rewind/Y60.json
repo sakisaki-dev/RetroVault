@@ -1,0 +1,122 @@
+{
+ "season": "Y60",
+ "club": "Dolphins",
+ "record": "16-1",
+ "finish": "AFC Champs",
+ "champion": "Cowboys",
+ "next": "Y61",
+ "cards": [
+  {
+   "id": "y60-cover",
+   "kind": "cover",
+   "club": "Dolphins",
+   "kicker": "Season Rewind",
+   "title": "Y60 Rewind",
+   "text": "Dorren Skura's 60th season as a head coach, with the Dolphins: 16-1, AFC Champs.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "16-1"
+    },
+    {
+     "label": "Finish",
+     "value": "AFC Champs"
+    },
+    {
+     "label": "Season as coach",
+     "value": "60",
+     "num": 60
+    }
+   ],
+   "teams": [
+    "Dolphins"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y60-champion",
+   "kind": "champion",
+   "club": "Cowboys",
+   "kicker": "Super Bowl CXIX",
+   "title": "Cowboys win it all",
+   "text": "The Cowboys beat the Dolphins 28-24 in Super Bowl CXIX, the club's first title. Skura's Dolphins fell in the final.",
+   "figures": [
+    {
+     "label": "Cowboys",
+     "value": "28",
+     "num": 28
+    },
+    {
+     "label": "Dolphins",
+     "value": "24",
+     "num": 24
+    },
+    {
+     "label": "Franchise titles",
+     "value": "1",
+     "num": 1
+    }
+   ],
+   "teams": [
+    "Cowboys",
+    "Dolphins"
+   ],
+   "players": [],
+   "ringHolders": 0,
+   "score": "28-24",
+   "result": "lost",
+   "n": 2
+  },
+  {
+   "id": "y60-farewells",
+   "kind": "farewells",
+   "club": "Ravens",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "1 career ended in Y60.",
+   "players": [
+    {
+     "key": "RB:Denzel Hayes",
+     "name": "Denzel Hayes",
+     "games": 221,
+     "rings": 2,
+     "legacy": 5658,
+     "team": "Ravens"
+    }
+   ],
+   "count": 1,
+   "teams": [
+    "Ravens"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y60-outro",
+   "kind": "outro",
+   "club": "Dolphins",
+   "kicker": "That was Y60",
+   "title": "Next: Y61",
+   "next": "Y61",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "43",
+     "num": 43
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "48",
+     "num": 48
+    }
+   ],
+   "text": "Through Y60, Skura has won 43 of 48 Super Bowls.",
+   "teams": [
+    "Dolphins"
+   ],
+   "link": {
+    "season": "Y61"
+   },
+   "n": 4
+  }
+ ]
+}

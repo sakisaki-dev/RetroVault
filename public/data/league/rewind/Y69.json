@@ -1,0 +1,148 @@
+{
+ "season": "Y69",
+ "club": "Vikings",
+ "record": "14-3",
+ "finish": "Champions",
+ "champion": "Vikings",
+ "next": "Y70",
+ "cards": [
+  {
+   "id": "y69-cover",
+   "kind": "cover",
+   "club": "Vikings",
+   "kicker": "Season Rewind",
+   "title": "Y69 Rewind",
+   "text": "Dorren Skura's 69th season as a head coach, with the Vikings: 14-3, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "14-3"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "69",
+     "num": 69
+    }
+   ],
+   "teams": [
+    "Vikings"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y69-champion",
+   "kind": "champion",
+   "club": "Vikings",
+   "kicker": "Super Bowl CXXVIII",
+   "title": "Vikings win it all",
+   "text": "The Vikings beat the Chiefs 48-18 in Super Bowl CXXVIII, the club's 9th title. Skura's 51 titles and counting.",
+   "figures": [
+    {
+     "label": "Vikings",
+     "value": "48",
+     "num": 48
+    },
+    {
+     "label": "Chiefs",
+     "value": "18",
+     "num": 18
+    },
+    {
+     "label": "Season record",
+     "value": "14-3"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "9",
+     "num": 9
+    }
+   ],
+   "teams": [
+    "Vikings",
+    "Chiefs"
+   ],
+   "players": [
+    {
+     "key": "WR:God Johnson",
+     "name": "God Johnson",
+     "team": "Vikings",
+     "star": true
+    },
+    {
+     "key": "WR:Jackson Wardell Kline",
+     "name": "Jackson Wardell Kline",
+     "team": "Vikings"
+    },
+    {
+     "key": "OL:Jakeem Friend",
+     "name": "Jakeem Friend",
+     "team": "Vikings"
+    },
+    {
+     "key": "WR:Craig Whitney",
+     "name": "Craig Whitney",
+     "team": "Vikings"
+    }
+   ],
+   "ringHolders": 4,
+   "score": "48-18",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y69-farewells",
+   "kind": "farewells",
+   "club": "Vikings",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "1 career ended in Y69.",
+   "players": [
+    {
+     "key": "WR:God Johnson",
+     "name": "God Johnson",
+     "games": 234,
+     "rings": 10,
+     "legacy": 12655,
+     "team": "Vikings"
+    }
+   ],
+   "count": 1,
+   "teams": [
+    "Vikings"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y69-outro",
+   "kind": "outro",
+   "club": "Vikings",
+   "kicker": "That was Y69",
+   "title": "Next: Y70",
+   "next": "Y70",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "51",
+     "num": 51
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "56",
+     "num": 56
+    }
+   ],
+   "text": "Through Y69, Skura has won 51 of 56 Super Bowls.",
+   "teams": [
+    "Vikings"
+   ],
+   "link": {
+    "season": "Y70"
+   },
+   "n": 4
+  }
+ ]
+}

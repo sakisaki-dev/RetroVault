@@ -1,0 +1,146 @@
+{
+ "season": "Y50",
+ "club": "Ravens",
+ "record": "17-0",
+ "finish": "AFC Champs",
+ "champion": "Saints",
+ "next": "Y51",
+ "cards": [
+  {
+   "id": "y50-cover",
+   "kind": "cover",
+   "club": "Ravens",
+   "kicker": "Season Rewind",
+   "title": "Y50 Rewind",
+   "text": "Dorren Skura's 50th season as a head coach, with the Ravens: 17-0, AFC Champs.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "17-0"
+    },
+    {
+     "label": "Finish",
+     "value": "AFC Champs"
+    },
+    {
+     "label": "Season as coach",
+     "value": "50",
+     "num": 50
+    }
+   ],
+   "teams": [
+    "Ravens"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y50-champion",
+   "kind": "champion",
+   "club": "Saints",
+   "kicker": "Super Bowl CIX",
+   "title": "Saints win it all",
+   "text": "The Saints beat the Ravens 36-32 in Super Bowl CIX, the club's 2nd title. Skura's Ravens fell in the final.",
+   "figures": [
+    {
+     "label": "Saints",
+     "value": "36",
+     "num": 36
+    },
+    {
+     "label": "Ravens",
+     "value": "32",
+     "num": 32
+    },
+    {
+     "label": "Franchise titles",
+     "value": "2",
+     "num": 2
+    }
+   ],
+   "teams": [
+    "Saints",
+    "Ravens"
+   ],
+   "players": [],
+   "ringHolders": 0,
+   "score": "36-32",
+   "result": "lost",
+   "n": 2
+  },
+  {
+   "id": "y50-records",
+   "kind": "records",
+   "club": "Ravens",
+   "kicker": "Record book",
+   "title": "Record broken",
+   "text": "1 mark fell in Y50.",
+   "rows": [
+    {
+     "label": "Longest rushing TD",
+     "mark": "58 yds",
+     "scope": "club",
+     "players": [
+      {
+       "key": "QB:Sherman Brandson",
+       "name": "Sherman Brandson",
+       "team": "Ravens"
+      },
+      {
+       "key": "RB:Denzel Hayes",
+       "name": "Denzel Hayes",
+       "team": "Ravens"
+      }
+     ],
+     "team": "Ravens",
+     "note": "week 4 against the Dolphins",
+     "num": 58,
+     "suf": " yds"
+    }
+   ],
+   "players": [
+    {
+     "key": "QB:Sherman Brandson",
+     "name": "Sherman Brandson",
+     "team": "Ravens"
+    },
+    {
+     "key": "RB:Denzel Hayes",
+     "name": "Denzel Hayes",
+     "team": "Ravens"
+    }
+   ],
+   "teams": [
+    "Ravens"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y50-outro",
+   "kind": "outro",
+   "club": "Ravens",
+   "kicker": "That was Y50",
+   "title": "Next: Y51",
+   "next": "Y51",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "35",
+     "num": 35
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "39",
+     "num": 39
+    }
+   ],
+   "text": "Through Y50, Skura has won 35 of 39 Super Bowls.",
+   "teams": [
+    "Ravens"
+   ],
+   "link": {
+    "season": "Y51"
+   },
+   "n": 4
+  }
+ ]
+}

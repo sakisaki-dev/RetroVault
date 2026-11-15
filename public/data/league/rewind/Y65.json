@@ -1,0 +1,106 @@
+{
+ "season": "Y65",
+ "club": "Vikings",
+ "record": "16-1",
+ "finish": "NFC NOR 1st",
+ "champion": "Broncos",
+ "next": "Y66",
+ "cards": [
+  {
+   "id": "y65-cover",
+   "kind": "cover",
+   "club": "Vikings",
+   "kicker": "Season Rewind",
+   "title": "Y65 Rewind",
+   "text": "Dorren Skura's 65th season as a head coach, with the Vikings: 16-1, NFC NOR 1st.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "16-1"
+    },
+    {
+     "label": "Finish",
+     "value": "NFC NOR 1st"
+    },
+    {
+     "label": "Season as coach",
+     "value": "65",
+     "num": 65
+    }
+   ],
+   "teams": [
+    "Vikings"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y65-champion",
+   "kind": "champion",
+   "club": "Broncos",
+   "kicker": "Super Bowl CXXIV",
+   "title": "Broncos win it all",
+   "text": "The Broncos beat the Cowboys 32-29 in Super Bowl CXXIV, the club's 2nd title.",
+   "figures": [
+    {
+     "label": "Broncos",
+     "value": "32",
+     "num": 32
+    },
+    {
+     "label": "Cowboys",
+     "value": "29",
+     "num": 29
+    },
+    {
+     "label": "Franchise titles",
+     "value": "2",
+     "num": 2
+    }
+   ],
+   "teams": [
+    "Broncos",
+    "Cowboys"
+   ],
+   "players": [
+    {
+     "key": "TE:D.C Paradis",
+     "name": "D.C Paradis",
+     "team": "Broncos",
+     "star": true
+    }
+   ],
+   "ringHolders": 1,
+   "score": "32-29",
+   "result": "not in it",
+   "n": 2
+  },
+  {
+   "id": "y65-outro",
+   "kind": "outro",
+   "club": "Vikings",
+   "kicker": "That was Y65",
+   "title": "Next: Y66",
+   "next": "Y66",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "47",
+     "num": 47
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "52",
+     "num": 52
+    }
+   ],
+   "text": "Through Y65, Skura has won 47 of 52 Super Bowls.",
+   "teams": [
+    "Vikings"
+   ],
+   "link": {
+    "season": "Y66"
+   },
+   "n": 3
+  }
+ ]
+}

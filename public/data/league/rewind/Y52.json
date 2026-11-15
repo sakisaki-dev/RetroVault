@@ -1,0 +1,120 @@
+{
+ "season": "Y52",
+ "club": "Buccaneers",
+ "record": "16-1",
+ "finish": "Champions",
+ "champion": "Buccaneers",
+ "next": "Y53",
+ "cards": [
+  {
+   "id": "y52-cover",
+   "kind": "cover",
+   "club": "Buccaneers",
+   "kicker": "Season Rewind",
+   "title": "Y52 Rewind",
+   "text": "Dorren Skura's 52nd season as a head coach, with the Buccaneers: 16-1, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "16-1"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "52",
+     "num": 52
+    }
+   ],
+   "teams": [
+    "Buccaneers"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y52-champion",
+   "kind": "champion",
+   "club": "Buccaneers",
+   "kicker": "Super Bowl CXI",
+   "title": "Buccaneers win it all",
+   "text": "The Buccaneers beat the Ravens 32-25 in Super Bowl CXI, the club's 7th title. Skura's 37 titles and counting.",
+   "figures": [
+    {
+     "label": "Buccaneers",
+     "value": "32",
+     "num": 32
+    },
+    {
+     "label": "Ravens",
+     "value": "25",
+     "num": 25
+    },
+    {
+     "label": "Season record",
+     "value": "16-1"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "7",
+     "num": 7
+    }
+   ],
+   "teams": [
+    "Buccaneers",
+    "Ravens"
+   ],
+   "players": [
+    {
+     "key": "QB:Sherman Brandson",
+     "name": "Sherman Brandson",
+     "team": "Buccaneers",
+     "star": true
+    },
+    {
+     "key": "DB:Kolton Moreau",
+     "name": "Kolton Moreau",
+     "team": "Buccaneers"
+    },
+    {
+     "key": "OL:Daviyon Paye",
+     "name": "Daviyon Paye",
+     "team": "Buccaneers"
+    }
+   ],
+   "ringHolders": 3,
+   "score": "32-25",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y52-outro",
+   "kind": "outro",
+   "club": "Buccaneers",
+   "kicker": "That was Y52",
+   "title": "Next: Y53",
+   "next": "Y53",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "37",
+     "num": 37
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "41",
+     "num": 41
+    }
+   ],
+   "text": "Through Y52, Skura has won 37 of 41 Super Bowls.",
+   "teams": [
+    "Buccaneers"
+   ],
+   "link": {
+    "season": "Y53"
+   },
+   "n": 3
+  }
+ ]
+}

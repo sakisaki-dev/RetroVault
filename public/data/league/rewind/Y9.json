@@ -1,0 +1,115 @@
+{
+ "season": "Y9",
+ "club": "Dolphins",
+ "record": "11-6",
+ "finish": "Champions",
+ "champion": "Dolphins",
+ "next": "Y10",
+ "cards": [
+  {
+   "id": "y9-cover",
+   "kind": "cover",
+   "club": "Dolphins",
+   "kicker": "Season Rewind",
+   "title": "Y9 Rewind",
+   "text": "Dorren Skura's 9th season as a head coach, with the Dolphins: 11-6, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "11-6"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "9",
+     "num": 9
+    }
+   ],
+   "teams": [
+    "Dolphins"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y9-champion",
+   "kind": "champion",
+   "club": "Dolphins",
+   "kicker": "Super Bowl LXVIII",
+   "title": "Dolphins win it all",
+   "text": "The Dolphins beat the Panthers 30-22 in Super Bowl LXVIII, the club's 3rd title. Skura's 4 titles and counting.",
+   "figures": [
+    {
+     "label": "Dolphins",
+     "value": "30",
+     "num": 30
+    },
+    {
+     "label": "Panthers",
+     "value": "22",
+     "num": 22
+    },
+    {
+     "label": "Season record",
+     "value": "11-6"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "3",
+     "num": 3
+    }
+   ],
+   "teams": [
+    "Dolphins",
+    "Panthers"
+   ],
+   "players": [
+    {
+     "key": "RB:Jahmyr Gibbs",
+     "name": "Jahmyr Gibbs",
+     "team": "Dolphins",
+     "star": true
+    },
+    {
+     "key": "TE:Mason Taylor",
+     "name": "Mason Taylor",
+     "team": "Dolphins"
+    }
+   ],
+   "ringHolders": 2,
+   "score": "30-22",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y9-outro",
+   "kind": "outro",
+   "club": "Dolphins",
+   "kicker": "That was Y9",
+   "title": "Next: Y10",
+   "next": "Y10",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "4",
+     "num": 4
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "5",
+     "num": 5
+    }
+   ],
+   "text": "Through Y9, Skura has won 4 of 5 Super Bowls.",
+   "teams": [
+    "Dolphins"
+   ],
+   "link": {
+    "season": "Y10"
+   },
+   "n": 3
+  }
+ ]
+}

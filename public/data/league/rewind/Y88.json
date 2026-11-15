@@ -1,0 +1,453 @@
+{
+ "season": "Y88",
+ "club": "Eagles",
+ "record": "14-2-1",
+ "finish": "Champions",
+ "champion": "Eagles",
+ "next": "Y89",
+ "cards": [
+  {
+   "id": "y88-cover",
+   "kind": "cover",
+   "club": "Eagles",
+   "kicker": "Season Rewind",
+   "title": "Y88 Rewind",
+   "text": "Dorren Skura's 88th season as a head coach, with the Eagles: 14-2-1, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "14-2-1"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "88",
+     "num": 88
+    },
+    {
+     "label": "Point differential",
+     "value": "+80",
+     "num": 80,
+     "pre": "+"
+    }
+   ],
+   "teams": [
+    "Eagles"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y88-champion",
+   "kind": "champion",
+   "club": "Eagles",
+   "kicker": "Super Bowl CXLVII",
+   "title": "Eagles win it all",
+   "text": "The Eagles beat the Broncos 40-22 in Super Bowl CXLVII, the club's 2nd title. Skura's 63 titles and counting.",
+   "figures": [
+    {
+     "label": "Eagles",
+     "value": "40",
+     "num": 40
+    },
+    {
+     "label": "Broncos",
+     "value": "22",
+     "num": 22
+    },
+    {
+     "label": "Season record",
+     "value": "14-2-1"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "2",
+     "num": 2
+    }
+   ],
+   "teams": [
+    "Eagles",
+    "Broncos"
+   ],
+   "players": [
+    {
+     "key": "OL:Akiem Brock",
+     "name": "Akiem Brock",
+     "team": "Eagles",
+     "star": true
+    },
+    {
+     "key": "QB:Bones Crawford",
+     "name": "Bones Crawford",
+     "team": "Eagles"
+    },
+    {
+     "key": "WR:Vyncint Heath",
+     "name": "Vyncint Heath",
+     "team": "Eagles"
+    },
+    {
+     "key": "DB:Dwayne Skura",
+     "name": "Dwayne Skura",
+     "team": "Eagles"
+    },
+    {
+     "key": "TE:Kenyon Shaheed",
+     "name": "Kenyon Shaheed",
+     "team": "Eagles"
+    },
+    {
+     "key": "DB:Trequan Roberts",
+     "name": "Trequan Roberts",
+     "team": "Eagles"
+    },
+    {
+     "key": "RB:Gerrit Ogbah",
+     "name": "Gerrit Ogbah",
+     "team": "Eagles"
+    },
+    {
+     "key": "WR:Kaulani Rahman",
+     "name": "Kaulani Rahman",
+     "team": "Eagles"
+    },
+    {
+     "key": "LB:Hamp McPhee",
+     "name": "Hamp McPhee",
+     "team": "Eagles"
+    },
+    {
+     "key": "DB:Bryant Zappe",
+     "name": "Bryant Zappe",
+     "team": "Eagles"
+    }
+   ],
+   "ringHolders": 10,
+   "score": "40-22",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y88-awards",
+   "kind": "awards",
+   "club": "Packers",
+   "kicker": "The awards",
+   "title": "Hardware",
+   "text": "Y88's winners: Toohill (MVP), Vyncint Heath (OPOY) and Brooker (DPOY).",
+   "players": [
+    {
+     "key": "QB:Solomon Toohill",
+     "name": "Solomon Toohill",
+     "team": "Packers",
+     "award": "MVP",
+     "awardName": "Most Valuable Player",
+     "line": "4,522 pass yds · 43 pass TD · 4 rush TD in 20 games",
+     "figures": [
+      {
+       "label": "pass yds",
+       "value": "4,522",
+       "num": 4522
+      },
+      {
+       "label": "pass TD",
+       "value": "43",
+       "num": 43
+      },
+      {
+       "label": "rush TD",
+       "value": "4",
+       "num": 4
+      }
+     ],
+     "games": 20
+    },
+    {
+     "key": "WR:Vyncint Heath",
+     "name": "Vyncint Heath",
+     "team": "Eagles",
+     "award": "OPOY",
+     "awardName": "Offensive Player of the Year",
+     "line": "140 catches · 2,204 rec yds · 28 TD in 21 games",
+     "figures": [
+      {
+       "label": "catches",
+       "value": "140",
+       "num": 140
+      },
+      {
+       "label": "rec yds",
+       "value": "2,204",
+       "num": 2204
+      },
+      {
+       "label": "TD",
+       "value": "28",
+       "num": 28
+      }
+     ],
+     "games": 21
+    },
+    {
+     "key": "DB:Jamon Brooker",
+     "name": "Jamon Brooker",
+     "team": "Packers",
+     "award": "DPOY",
+     "awardName": "Defensive Player of the Year",
+     "line": "259 tackles · 6 INT in 20 games",
+     "figures": [
+      {
+       "label": "tackles",
+       "value": "259",
+       "num": 259
+      },
+      {
+       "label": "INT",
+       "value": "6",
+       "num": 6
+      }
+     ],
+     "games": 20
+    }
+   ],
+   "teams": [
+    "Eagles",
+    "Packers"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y88-milestones",
+   "kind": "milestones",
+   "club": "Eagles",
+   "kicker": "Milestones",
+   "title": "Round numbers",
+   "text": "Vyncint Heath, 7th ring; Roberts, 3rd ring; Skura, 2nd ring; Toohill, 2nd MVP.",
+   "players": [
+    {
+     "key": "WR:Vyncint Heath",
+     "name": "Vyncint Heath",
+     "team": "Eagles",
+     "label": "7th ring",
+     "num": 7
+    },
+    {
+     "key": "DB:Trequan Roberts",
+     "name": "Trequan Roberts",
+     "team": "Eagles",
+     "label": "3rd ring",
+     "num": 3
+    },
+    {
+     "key": "DB:Dwayne Skura",
+     "name": "Dwayne Skura",
+     "team": "Eagles",
+     "label": "2nd ring",
+     "num": 2
+    },
+    {
+     "key": "QB:Solomon Toohill",
+     "name": "Solomon Toohill",
+     "team": "Packers",
+     "label": "2nd MVP",
+     "num": 2
+    }
+   ],
+   "teams": [
+    "Eagles",
+    "Packers"
+   ],
+   "n": 4
+  },
+  {
+   "id": "y88-market",
+   "kind": "market",
+   "club": "Packers",
+   "kicker": "The market",
+   "title": "Up and down",
+   "text": "Base-card value across Y88: Toohill +345%.",
+   "players": [
+    {
+     "key": "QB:Solomon Toohill",
+     "name": "Solomon Toohill",
+     "team": "Packers",
+     "label": "Riser",
+     "pct": 345,
+     "value": 543,
+     "was": 122,
+     "ovr": 80,
+     "grade": "B"
+    }
+   ],
+   "teams": [
+    "Packers"
+   ],
+   "n": 5
+  },
+  {
+   "id": "y88-hof",
+   "kind": "hof",
+   "club": "Jets",
+   "kicker": "Hall of Fame",
+   "title": "Class of Y88",
+   "text": "2 new members, 2 on the first ballot.",
+   "players": [
+    {
+     "key": "RB:Malakai Sawyer",
+     "name": "Malakai Sawyer",
+     "firstBallot": true,
+     "legacy": 8064,
+     "rings": 2,
+     "team": "Jets"
+    },
+    {
+     "key": "DB:K'Lavon Settle",
+     "name": "K'Lavon Settle",
+     "firstBallot": true,
+     "legacy": 7761,
+     "rings": 0,
+     "team": "49ers"
+    }
+   ],
+   "count": 2,
+   "teams": [
+    "49ers",
+    "Jets"
+   ],
+   "n": 6
+  },
+  {
+   "id": "y88-farewells",
+   "kind": "farewells",
+   "club": "Bills",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "57 careers ended in Y88.",
+   "players": [
+    {
+     "key": "LB:Tyrone Baugh",
+     "name": "Tyrone Baugh",
+     "games": 158,
+     "rings": 7,
+     "legacy": 8395,
+     "team": "Bills"
+    },
+    {
+     "key": "DB:Rob Lowe",
+     "name": "Rob Lowe",
+     "games": 289,
+     "rings": 7,
+     "legacy": 8034,
+     "team": "Bills"
+    },
+    {
+     "key": "QB:Jason Macleone",
+     "name": "Jason Macleone",
+     "games": 331,
+     "rings": 2,
+     "legacy": 7977,
+     "team": "Seahawks"
+    },
+    {
+     "key": "OL:Jawill Perkins",
+     "name": "Jawill Perkins",
+     "games": 139,
+     "rings": 4,
+     "legacy": 7693,
+     "team": "Seahawks"
+    },
+    {
+     "key": "DB:Dan Mosley",
+     "name": "Dan Mosley",
+     "games": 248,
+     "legacy": 7654,
+     "team": "Lions"
+    },
+    {
+     "key": "DL:Lloyd Queen",
+     "name": "Lloyd Queen",
+     "games": 283,
+     "legacy": 7565,
+     "team": "Buccaneers"
+    }
+   ],
+   "count": 57,
+   "teams": [
+    "Bills",
+    "Buccaneers",
+    "Lions",
+    "Seahawks"
+   ],
+   "n": 7
+  },
+  {
+   "id": "y88-power",
+   "kind": "power",
+   "club": "Texans",
+   "kicker": "Power rankings",
+   "title": "The Texans on top",
+   "text": "The Texans finish Y88 No. 1 in the power rankings at 15-2. Upset of the year: the Titans (3-14) beat the Packers (14-3) 48-15 in week 14.",
+   "figures": [
+    {
+     "label": "Power score",
+     "value": "96.0",
+     "num": 96.0,
+     "dec": 1
+    },
+    {
+     "label": "Record",
+     "value": "15-2"
+    },
+    {
+     "label": "Point differential",
+     "value": "+119",
+     "num": 119,
+     "pre": "+"
+    }
+   ],
+   "teams": [
+    "Texans",
+    "Titans",
+    "Packers"
+   ],
+   "upset": {
+    "winner": "Titans",
+    "loser": "Packers",
+    "score": "48-15",
+    "week": 14,
+    "winnerRecord": "3-14",
+    "loserRecord": "14-3"
+   },
+   "n": 8
+  },
+  {
+   "id": "y88-outro",
+   "kind": "outro",
+   "club": "Eagles",
+   "kicker": "That was Y88",
+   "title": "Next: Y89",
+   "next": "Y89",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "63",
+     "num": 63
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "69",
+     "num": 69
+    }
+   ],
+   "text": "Through Y88, Skura has won 63 of 69 Super Bowls.",
+   "teams": [
+    "Eagles"
+   ],
+   "link": {
+    "season": "Y89"
+   },
+   "n": 9
+  }
+ ]
+}

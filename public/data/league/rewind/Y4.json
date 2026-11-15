@@ -1,0 +1,99 @@
+{
+ "season": "Y4",
+ "club": "Vikings",
+ "record": "13-4",
+ "finish": "Champ Rnd",
+ "champion": "Eagles",
+ "next": "Y5",
+ "cards": [
+  {
+   "id": "y4-cover",
+   "kind": "cover",
+   "club": "Vikings",
+   "kicker": "Season Rewind",
+   "title": "Y4 Rewind",
+   "text": "Dorren Skura's 4th season as a head coach, with the Vikings: 13-4, Champ Rnd.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "13-4"
+    },
+    {
+     "label": "Finish",
+     "value": "Champ Rnd"
+    },
+    {
+     "label": "Season as coach",
+     "value": "4",
+     "num": 4
+    }
+   ],
+   "teams": [
+    "Vikings"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y4-champion",
+   "kind": "champion",
+   "club": "Eagles",
+   "kicker": "Super Bowl LXIII",
+   "title": "Eagles win it all",
+   "text": "The Eagles beat the Broncos 36-28 in Super Bowl LXIII, the club's first title.",
+   "figures": [
+    {
+     "label": "Eagles",
+     "value": "36",
+     "num": 36
+    },
+    {
+     "label": "Broncos",
+     "value": "28",
+     "num": 28
+    },
+    {
+     "label": "Franchise titles",
+     "value": "1",
+     "num": 1
+    }
+   ],
+   "teams": [
+    "Eagles",
+    "Broncos"
+   ],
+   "players": [],
+   "ringHolders": 0,
+   "score": "36-28",
+   "result": "not in it",
+   "n": 2
+  },
+  {
+   "id": "y4-outro",
+   "kind": "outro",
+   "club": "Vikings",
+   "kicker": "That was Y4",
+   "title": "Next: Y5",
+   "next": "Y5",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "1",
+     "num": 1
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "1",
+     "num": 1
+    }
+   ],
+   "text": "Through Y4, Skura has won 1 of 1 Super Bowl.",
+   "teams": [
+    "Vikings"
+   ],
+   "link": {
+    "season": "Y5"
+   },
+   "n": 3
+  }
+ ]
+}

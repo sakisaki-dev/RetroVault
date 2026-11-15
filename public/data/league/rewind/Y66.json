@@ -1,0 +1,153 @@
+{
+ "season": "Y66",
+ "club": "Vikings",
+ "record": "17-0",
+ "finish": "Champions",
+ "champion": "Vikings",
+ "next": "Y67",
+ "cards": [
+  {
+   "id": "y66-cover",
+   "kind": "cover",
+   "club": "Vikings",
+   "kicker": "Season Rewind",
+   "title": "Y66 Rewind",
+   "text": "Dorren Skura's 66th season as a head coach, with the Vikings: 17-0, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "17-0"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "66",
+     "num": 66
+    }
+   ],
+   "teams": [
+    "Vikings"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y66-champion",
+   "kind": "champion",
+   "club": "Vikings",
+   "kicker": "Super Bowl CXXV",
+   "title": "Vikings win it all",
+   "text": "The Vikings beat the Chiefs 38-25 in Super Bowl CXXV, the club's 6th title. Skura's 48 titles and counting.",
+   "figures": [
+    {
+     "label": "Vikings",
+     "value": "38",
+     "num": 38
+    },
+    {
+     "label": "Chiefs",
+     "value": "25",
+     "num": 25
+    },
+    {
+     "label": "Season record",
+     "value": "17-0"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "6",
+     "num": 6
+    }
+   ],
+   "teams": [
+    "Vikings",
+    "Chiefs"
+   ],
+   "players": [
+    {
+     "key": "WR:God Johnson",
+     "name": "God Johnson",
+     "team": "Vikings",
+     "star": true
+    },
+    {
+     "key": "TE:Levante Hopkins",
+     "name": "Levante Hopkins",
+     "team": "Vikings"
+    },
+    {
+     "key": "WR:Jackson Wardell Kline",
+     "name": "Jackson Wardell Kline",
+     "team": "Vikings"
+    },
+    {
+     "key": "OL:Jakeem Friend",
+     "name": "Jakeem Friend",
+     "team": "Vikings"
+    },
+    {
+     "key": "WR:Pharoah Hunter",
+     "name": "Pharoah Hunter",
+     "team": "Vikings"
+    }
+   ],
+   "ringHolders": 5,
+   "score": "38-25",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y66-farewells",
+   "kind": "farewells",
+   "club": "Dolphins",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "1 career ended in Y66.",
+   "players": [
+    {
+     "key": "WR:Tyson Nassib",
+     "name": "Tyson Nassib",
+     "games": 148,
+     "rings": 1,
+     "legacy": 2390,
+     "team": "Dolphins"
+    }
+   ],
+   "count": 1,
+   "teams": [
+    "Dolphins"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y66-outro",
+   "kind": "outro",
+   "club": "Vikings",
+   "kicker": "That was Y66",
+   "title": "Next: Y67",
+   "next": "Y67",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "48",
+     "num": 48
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "53",
+     "num": 53
+    }
+   ],
+   "text": "Through Y66, Skura has won 48 of 53 Super Bowls.",
+   "teams": [
+    "Vikings"
+   ],
+   "link": {
+    "season": "Y67"
+   },
+   "n": 4
+  }
+ ]
+}

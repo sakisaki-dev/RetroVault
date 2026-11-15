@@ -1,0 +1,175 @@
+{
+ "season": "Y67",
+ "club": "Vikings",
+ "record": "17-0",
+ "finish": "Champions",
+ "champion": "Vikings",
+ "next": "Y68",
+ "cards": [
+  {
+   "id": "y67-cover",
+   "kind": "cover",
+   "club": "Vikings",
+   "kicker": "Season Rewind",
+   "title": "Y67 Rewind",
+   "text": "Dorren Skura's 67th season as a head coach, with the Vikings: 17-0, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "17-0"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "67",
+     "num": 67
+    }
+   ],
+   "teams": [
+    "Vikings"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y67-champion",
+   "kind": "champion",
+   "club": "Vikings",
+   "kicker": "Super Bowl CXXVI",
+   "title": "Vikings win it all",
+   "text": "The Vikings beat the Steelers 40-24 in Super Bowl CXXVI, the club's 7th title. Skura's 49 titles and counting.",
+   "figures": [
+    {
+     "label": "Vikings",
+     "value": "40",
+     "num": 40
+    },
+    {
+     "label": "Steelers",
+     "value": "24",
+     "num": 24
+    },
+    {
+     "label": "Season record",
+     "value": "17-0"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "7",
+     "num": 7
+    }
+   ],
+   "teams": [
+    "Vikings",
+    "Steelers"
+   ],
+   "players": [
+    {
+     "key": "WR:God Johnson",
+     "name": "God Johnson",
+     "team": "Vikings",
+     "star": true
+    },
+    {
+     "key": "WR:Jackson Wardell Kline",
+     "name": "Jackson Wardell Kline",
+     "team": "Vikings"
+    },
+    {
+     "key": "OL:Jakeem Friend",
+     "name": "Jakeem Friend",
+     "team": "Vikings"
+    },
+    {
+     "key": "WR:Pharoah Hunter",
+     "name": "Pharoah Hunter",
+     "team": "Vikings"
+    }
+   ],
+   "ringHolders": 4,
+   "score": "40-24",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y67-records",
+   "kind": "records",
+   "club": "Vikings",
+   "kicker": "Record book",
+   "title": "Records broken",
+   "text": "2 marks fell in Y67.",
+   "rows": [
+    {
+     "label": "Best receiving career",
+     "mark": "36,005 yds",
+     "scope": "club",
+     "players": [
+      {
+       "key": "WR:God Johnson",
+       "name": "God Johnson",
+       "team": "Vikings"
+      }
+     ],
+     "team": "Vikings",
+     "num": 36005,
+     "suf": " yds"
+    },
+    {
+     "label": "Most TD receptions, career",
+     "mark": "378",
+     "scope": "club",
+     "players": [
+      {
+       "key": "WR:God Johnson",
+       "name": "God Johnson",
+       "team": "Vikings"
+      }
+     ],
+     "team": "Vikings",
+     "num": 378
+    }
+   ],
+   "players": [
+    {
+     "key": "WR:God Johnson",
+     "name": "God Johnson",
+     "team": "Vikings"
+    }
+   ],
+   "teams": [
+    "Vikings"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y67-outro",
+   "kind": "outro",
+   "club": "Vikings",
+   "kicker": "That was Y67",
+   "title": "Next: Y68",
+   "next": "Y68",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "49",
+     "num": 49
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "54",
+     "num": 54
+    }
+   ],
+   "text": "Through Y67, Skura has won 49 of 54 Super Bowls.",
+   "teams": [
+    "Vikings"
+   ],
+   "link": {
+    "season": "Y68"
+   },
+   "n": 4
+  }
+ ]
+}

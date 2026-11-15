@@ -1,0 +1,162 @@
+{
+ "season": "Y14",
+ "club": "Chargers",
+ "record": "14-3",
+ "finish": "Champions",
+ "champion": "Chargers",
+ "next": "Y15",
+ "cards": [
+  {
+   "id": "y14-cover",
+   "kind": "cover",
+   "club": "Chargers",
+   "kicker": "Season Rewind",
+   "title": "Y14 Rewind",
+   "text": "Dorren Skura's 14th season as a head coach, with the Chargers: 14-3, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "14-3"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "14",
+     "num": 14
+    }
+   ],
+   "teams": [
+    "Chargers"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y14-champion",
+   "kind": "champion",
+   "club": "Chargers",
+   "kicker": "Super Bowl LXXIII",
+   "title": "Chargers win it all",
+   "text": "The Chargers beat the Packers 30-17 in Super Bowl LXXIII, the club's 3rd title. Skura's 7 titles and counting.",
+   "figures": [
+    {
+     "label": "Chargers",
+     "value": "30",
+     "num": 30
+    },
+    {
+     "label": "Packers",
+     "value": "17",
+     "num": 17
+    },
+    {
+     "label": "Season record",
+     "value": "14-3"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "3",
+     "num": 3
+    }
+   ],
+   "teams": [
+    "Chargers",
+    "Packers"
+   ],
+   "players": [
+    {
+     "key": "QB:Wayne Wilson",
+     "name": "Wayne Wilson",
+     "team": "Chargers",
+     "star": true
+    },
+    {
+     "key": "LB:Bilal Tolbert",
+     "name": "Bilal Tolbert",
+     "team": "Chargers"
+    },
+    {
+     "key": "TE:Akiem Bouye",
+     "name": "Akiem Bouye",
+     "team": "Chargers"
+    },
+    {
+     "key": "WR:Keesean Candy",
+     "name": "Keesean Candy",
+     "team": "Chargers"
+    },
+    {
+     "key": "DB:Taywan Tuttle",
+     "name": "Taywan Tuttle",
+     "team": "Chargers"
+    }
+   ],
+   "ringHolders": 5,
+   "score": "30-17",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y14-farewells",
+   "kind": "farewells",
+   "club": "Ravens",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "2 careers ended in Y14.",
+   "players": [
+    {
+     "key": "QB:Lamar Jackson",
+     "name": "Lamar Jackson",
+     "games": 345,
+     "rings": 2,
+     "legacy": 8599,
+     "team": "Ravens"
+    },
+    {
+     "key": "RB:Jahmyr Gibbs",
+     "name": "Jahmyr Gibbs",
+     "games": 295,
+     "rings": 4,
+     "legacy": 7802,
+     "team": "Dolphins"
+    }
+   ],
+   "count": 2,
+   "teams": [
+    "Dolphins",
+    "Ravens"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y14-outro",
+   "kind": "outro",
+   "club": "Chargers",
+   "kicker": "That was Y14",
+   "title": "Next: Y15",
+   "next": "Y15",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "7",
+     "num": 7
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "8",
+     "num": 8
+    }
+   ],
+   "text": "Through Y14, Skura has won 7 of 8 Super Bowls.",
+   "teams": [
+    "Chargers"
+   ],
+   "link": {
+    "season": "Y15"
+   },
+   "n": 4
+  }
+ ]
+}

@@ -1,0 +1,420 @@
+{
+ "season": "Y85",
+ "club": "Falcons",
+ "record": "15-2",
+ "finish": "Champions",
+ "champion": "Falcons",
+ "next": "Y86",
+ "cards": [
+  {
+   "id": "y85-cover",
+   "kind": "cover",
+   "club": "Falcons",
+   "kicker": "Season Rewind",
+   "title": "Y85 Rewind",
+   "text": "Dorren Skura's 85th season as a head coach, with the Falcons: 15-2, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "15-2"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "85",
+     "num": 85
+    }
+   ],
+   "teams": [
+    "Falcons"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y85-champion",
+   "kind": "champion",
+   "club": "Falcons",
+   "kicker": "Super Bowl CXLIV",
+   "title": "Falcons win it all",
+   "text": "The Falcons beat the Bengals 30-20 in Super Bowl CXLIV, the club's 4th title. Skura's 60 titles and counting.",
+   "figures": [
+    {
+     "label": "Falcons",
+     "value": "30",
+     "num": 30
+    },
+    {
+     "label": "Bengals",
+     "value": "20",
+     "num": 20
+    },
+    {
+     "label": "Season record",
+     "value": "15-2"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "4",
+     "num": 4
+    }
+   ],
+   "teams": [
+    "Falcons",
+    "Bengals"
+   ],
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Falcons",
+     "star": true
+    },
+    {
+     "key": "OL:Calais Ham",
+     "name": "Calais Ham",
+     "team": "Falcons"
+    },
+    {
+     "key": "LB:Simeon Otton",
+     "name": "Simeon Otton",
+     "team": "Falcons"
+    },
+    {
+     "key": "WR:Vyncint Heath",
+     "name": "Vyncint Heath",
+     "team": "Falcons"
+    },
+    {
+     "key": "DB:Chance Woodrum",
+     "name": "Chance Woodrum",
+     "team": "Falcons"
+    },
+    {
+     "key": "QB:Orlando Larienne",
+     "name": "Orlando Larienne",
+     "team": "Falcons"
+    },
+    {
+     "key": "TE:Eric Raimann",
+     "name": "Eric Raimann",
+     "team": "Falcons"
+    },
+    {
+     "key": "DB:Blair Iupati",
+     "name": "Blair Iupati",
+     "team": "Falcons"
+    },
+    {
+     "key": "WR:Apollo Adam",
+     "name": "Apollo Adam",
+     "team": "Falcons"
+    },
+    {
+     "key": "DL:Jashaun Fleming",
+     "name": "Jashaun Fleming",
+     "team": "Falcons"
+    },
+    {
+     "key": "DB:Trysten Floyd",
+     "name": "Trysten Floyd",
+     "team": "Falcons"
+    }
+   ],
+   "ringHolders": 11,
+   "score": "30-20",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y85-awards",
+   "kind": "awards",
+   "club": "Jets",
+   "kicker": "The awards",
+   "title": "Hardware",
+   "text": "Y85's winners: Tillery (MVP), Maxwell (OPOY) and Deonte Sutton (DPOY).",
+   "players": [
+    {
+     "key": "QB:Jimmy Tillery",
+     "name": "Jimmy Tillery",
+     "team": "Jets",
+     "award": "MVP",
+     "awardName": "Most Valuable Player",
+     "line": "4,183 pass yds · 44 pass TD · 5 rush TD in 19 games",
+     "figures": [
+      {
+       "label": "pass yds",
+       "value": "4,183",
+       "num": 4183
+      },
+      {
+       "label": "pass TD",
+       "value": "44",
+       "num": 44
+      },
+      {
+       "label": "rush TD",
+       "value": "5",
+       "num": 5
+      }
+     ],
+     "games": 19
+    },
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Falcons",
+     "award": "OPOY",
+     "awardName": "Offensive Player of the Year",
+     "line": "2,617 rush yds · 39 rush TD · 1 rec TD in 20 games",
+     "figures": [
+      {
+       "label": "rush yds",
+       "value": "2,617",
+       "num": 2617
+      },
+      {
+       "label": "rush TD",
+       "value": "39",
+       "num": 39
+      },
+      {
+       "label": "rec TD",
+       "value": "1",
+       "num": 1
+      }
+     ],
+     "games": 20
+    },
+    {
+     "key": "DB:Deonte Sutton",
+     "name": "Deonte Sutton",
+     "team": "Seahawks",
+     "award": "DPOY",
+     "awardName": "Defensive Player of the Year",
+     "line": "235 tackles in 19 games",
+     "figures": [
+      {
+       "label": "tackles",
+       "value": "235",
+       "num": 235
+      }
+     ],
+     "games": 19
+    }
+   ],
+   "teams": [
+    "Falcons",
+    "Jets",
+    "Seahawks"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y85-records",
+   "kind": "records",
+   "club": "Falcons",
+   "kicker": "Record book",
+   "title": "Records broken",
+   "text": "2 marks fell in Y85.",
+   "rows": [
+    {
+     "label": "Best rushing game",
+     "mark": "237 yds",
+     "scope": "club",
+     "players": [
+      {
+       "key": "RB:Ryland Maxwell",
+       "name": "Ryland Maxwell",
+       "team": "Falcons"
+      }
+     ],
+     "team": "Falcons",
+     "note": "week 17 against the Bills",
+     "num": 237,
+     "suf": " yds"
+    },
+    {
+     "label": "Most rushing TDs, season",
+     "mark": "39",
+     "scope": "club",
+     "players": [
+      {
+       "key": "RB:Ryland Maxwell",
+       "name": "Ryland Maxwell",
+       "team": "Falcons"
+      }
+     ],
+     "team": "Falcons",
+     "num": 39
+    }
+   ],
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Falcons"
+    }
+   ],
+   "teams": [
+    "Falcons"
+   ],
+   "n": 4
+  },
+  {
+   "id": "y85-milestones",
+   "kind": "milestones",
+   "club": "Falcons",
+   "kicker": "Milestones",
+   "title": "Round numbers",
+   "text": "Woodrum, 6th ring; Maxwell, 5th ring; Vyncint Heath, 4th ring; Raimann, 3rd ring.",
+   "players": [
+    {
+     "key": "DB:Chance Woodrum",
+     "name": "Chance Woodrum",
+     "team": "Falcons",
+     "label": "6th ring",
+     "num": 6
+    },
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Falcons",
+     "label": "5th ring",
+     "num": 5
+    },
+    {
+     "key": "WR:Vyncint Heath",
+     "name": "Vyncint Heath",
+     "team": "Falcons",
+     "label": "4th ring",
+     "num": 4
+    },
+    {
+     "key": "TE:Eric Raimann",
+     "name": "Eric Raimann",
+     "team": "Falcons",
+     "label": "3rd ring",
+     "num": 3
+    }
+   ],
+   "teams": [
+    "Falcons"
+   ],
+   "n": 5
+  },
+  {
+   "id": "y85-market",
+   "kind": "market",
+   "club": "Seahawks",
+   "kicker": "The market",
+   "title": "Up and down",
+   "text": "Base-card value across Y85: Deonte Sutton +380%; Randall −36%.",
+   "players": [
+    {
+     "key": "DB:Deonte Sutton",
+     "name": "Deonte Sutton",
+     "team": "Seahawks",
+     "label": "Riser",
+     "pct": 380,
+     "value": 427,
+     "was": 89,
+     "ovr": 81,
+     "grade": "C"
+    },
+    {
+     "key": "OL:Perrion Randall",
+     "name": "Perrion Randall",
+     "team": "Seahawks",
+     "label": "Faller",
+     "pct": -36,
+     "value": 36,
+     "was": 56,
+     "ovr": 71,
+     "grade": "B+"
+    }
+   ],
+   "teams": [
+    "Seahawks"
+   ],
+   "n": 6
+  },
+  {
+   "id": "y85-farewells",
+   "kind": "farewells",
+   "club": "Ravens",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "4 careers ended in Y85.",
+   "players": [
+    {
+     "key": "RB:Corey Ivey",
+     "name": "Corey Ivey",
+     "games": 283,
+     "legacy": 5527,
+     "team": "Ravens"
+    },
+    {
+     "key": "TE:Eric Raimann",
+     "name": "Eric Raimann",
+     "games": 60,
+     "rings": 3,
+     "legacy": 4949,
+     "team": "Falcons"
+    },
+    {
+     "key": "DB:Deonte Sutton",
+     "name": "Deonte Sutton",
+     "games": 223,
+     "legacy": 4056,
+     "team": "Seahawks"
+    },
+    {
+     "key": "DL:Jashaun Fleming",
+     "name": "Jashaun Fleming",
+     "games": 61,
+     "rings": 3,
+     "legacy": 2536,
+     "team": "Falcons"
+    }
+   ],
+   "count": 4,
+   "teams": [
+    "Falcons",
+    "Ravens",
+    "Seahawks"
+   ],
+   "n": 7
+  },
+  {
+   "id": "y85-outro",
+   "kind": "outro",
+   "club": "Falcons",
+   "kicker": "That was Y85",
+   "title": "Next: Y86",
+   "next": "Y86",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "60",
+     "num": 60
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "66",
+     "num": 66
+    }
+   ],
+   "text": "Through Y85, Skura has won 60 of 66 Super Bowls.",
+   "teams": [
+    "Falcons"
+   ],
+   "link": {
+    "season": "Y86"
+   },
+   "n": 8
+  }
+ ]
+}

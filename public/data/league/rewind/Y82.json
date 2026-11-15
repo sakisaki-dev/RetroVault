@@ -1,0 +1,366 @@
+{
+ "season": "Y82",
+ "club": "Jets",
+ "record": "15-2",
+ "finish": "Champions",
+ "champion": "Jets",
+ "next": "Y83",
+ "cards": [
+  {
+   "id": "y82-cover",
+   "kind": "cover",
+   "club": "Jets",
+   "kicker": "Season Rewind",
+   "title": "Y82 Rewind",
+   "text": "Dorren Skura's 82nd season as a head coach, with the Jets: 15-2, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "15-2"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "82",
+     "num": 82
+    }
+   ],
+   "teams": [
+    "Jets"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y82-champion",
+   "kind": "champion",
+   "club": "Jets",
+   "kicker": "Super Bowl CXLI",
+   "title": "Jets win it all",
+   "text": "The Jets beat the Eagles 46-8 in Super Bowl CXLI, the club's 4th title. Skura's 57 titles and counting.",
+   "figures": [
+    {
+     "label": "Jets",
+     "value": "46",
+     "num": 46
+    },
+    {
+     "label": "Eagles",
+     "value": "8",
+     "num": 8
+    },
+    {
+     "label": "Season record",
+     "value": "15-2"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "4",
+     "num": 4
+    }
+   ],
+   "teams": [
+    "Jets",
+    "Eagles"
+   ],
+   "players": [
+    {
+     "key": "QB:Ty Lock",
+     "name": "Ty Lock",
+     "team": "Jets",
+     "star": true
+    },
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Jets"
+    },
+    {
+     "key": "OL:Jakeem Friend",
+     "name": "Jakeem Friend",
+     "team": "Jets"
+    },
+    {
+     "key": "LB:Kalif Suh",
+     "name": "Kalif Suh",
+     "team": "Jets"
+    },
+    {
+     "key": "WR:Vyncint Heath",
+     "name": "Vyncint Heath",
+     "team": "Jets"
+    },
+    {
+     "key": "WR:Kane Van Oxley",
+     "name": "Kane Van Oxley",
+     "team": "Jets"
+    },
+    {
+     "key": "DB:Chance Woodrum",
+     "name": "Chance Woodrum",
+     "team": "Jets"
+    },
+    {
+     "key": "TE:Jaylen Conklin",
+     "name": "Jaylen Conklin",
+     "team": "Jets"
+    },
+    {
+     "key": "DB:Dwayne Skura",
+     "name": "Dwayne Skura",
+     "team": "Jets"
+    },
+    {
+     "key": "DB:Trequan Roberts",
+     "name": "Trequan Roberts",
+     "team": "Jets"
+    }
+   ],
+   "ringHolders": 10,
+   "score": "46-8",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y82-awards",
+   "kind": "awards",
+   "club": "Jets",
+   "kicker": "The awards",
+   "title": "Hardware",
+   "text": "Y82's winners: Van Oxley (MVP) and Lock (SB MVP).",
+   "players": [
+    {
+     "key": "WR:Kane Van Oxley",
+     "name": "Kane Van Oxley",
+     "team": "Jets",
+     "award": "MVP",
+     "awardName": "Most Valuable Player",
+     "line": "145 catches · 2,496 rec yds · 39 TD in 20 games",
+     "figures": [
+      {
+       "label": "catches",
+       "value": "145",
+       "num": 145
+      },
+      {
+       "label": "rec yds",
+       "value": "2,496",
+       "num": 2496
+      },
+      {
+       "label": "TD",
+       "value": "39",
+       "num": 39
+      }
+     ],
+     "games": 20
+    },
+    {
+     "key": "QB:Ty Lock",
+     "name": "Ty Lock",
+     "team": "Jets",
+     "award": "SB MVP",
+     "awardName": "Super Bowl MVP",
+     "line": "4,909 pass yds · 61 pass TD · 7 rush TD in 20 games",
+     "figures": [
+      {
+       "label": "pass yds",
+       "value": "4,909",
+       "num": 4909
+      },
+      {
+       "label": "pass TD",
+       "value": "61",
+       "num": 61
+      },
+      {
+       "label": "rush TD",
+       "value": "7",
+       "num": 7
+      }
+     ],
+     "games": 20
+    }
+   ],
+   "teams": [
+    "Jets"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y82-milestones",
+   "kind": "milestones",
+   "club": "Jets",
+   "kicker": "Milestones",
+   "title": "Round numbers",
+   "text": "Jakeem Friend, 7th ring; Woodrum, 3rd ring; Kalif Suh, 3rd ring; Van Oxley, 3rd ring.",
+   "players": [
+    {
+     "key": "OL:Jakeem Friend",
+     "name": "Jakeem Friend",
+     "team": "Jets",
+     "label": "7th ring",
+     "num": 7
+    },
+    {
+     "key": "DB:Chance Woodrum",
+     "name": "Chance Woodrum",
+     "team": "Jets",
+     "label": "3rd ring",
+     "num": 3
+    },
+    {
+     "key": "LB:Kalif Suh",
+     "name": "Kalif Suh",
+     "team": "Jets",
+     "label": "3rd ring",
+     "num": 3
+    },
+    {
+     "key": "WR:Kane Van Oxley",
+     "name": "Kane Van Oxley",
+     "team": "Jets",
+     "label": "3rd ring",
+     "num": 3
+    }
+   ],
+   "teams": [
+    "Jets"
+   ],
+   "n": 4
+  },
+  {
+   "id": "y82-market",
+   "kind": "market",
+   "club": "Jets",
+   "kicker": "The market",
+   "title": "Up and down",
+   "text": "Base-card value across Y82: Kalif Suh +149%; Longa −23%.",
+   "players": [
+    {
+     "key": "LB:Kalif Suh",
+     "name": "Kalif Suh",
+     "team": "Jets",
+     "label": "Riser",
+     "pct": 149,
+     "value": 354,
+     "was": 142,
+     "ovr": 79,
+     "grade": "A+"
+    },
+    {
+     "key": "DL:Darrel Longa",
+     "name": "Darrel Longa",
+     "team": "Titans",
+     "label": "Faller",
+     "pct": -23,
+     "value": 79,
+     "was": 102,
+     "ovr": 73,
+     "grade": "C+"
+    }
+   ],
+   "teams": [
+    "Jets",
+    "Titans"
+   ],
+   "n": 5
+  },
+  {
+   "id": "y82-farewells",
+   "kind": "farewells",
+   "club": "Seahawks",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "10 careers ended in Y82.",
+   "players": [
+    {
+     "key": "QB:Jason Macleone",
+     "name": "Jason Macleone",
+     "games": 331,
+     "rings": 2,
+     "legacy": 7977,
+     "team": "Seahawks"
+    },
+    {
+     "key": "DB:Abraham Ward Jr",
+     "name": "Abraham Ward Jr",
+     "games": 236,
+     "rings": 1,
+     "legacy": 7476,
+     "team": "Packers"
+    },
+    {
+     "key": "RB:Trequan Jensen",
+     "name": "Trequan Jensen",
+     "games": 287,
+     "rings": 1,
+     "legacy": 6017,
+     "team": "Packers"
+    },
+    {
+     "key": "QB:Dan Stout",
+     "name": "Dan Stout",
+     "games": 264,
+     "legacy": 5677,
+     "team": "Ravens"
+    },
+    {
+     "key": "DB:Dylan Hyatt",
+     "name": "Dylan Hyatt",
+     "games": 231,
+     "rings": 6,
+     "legacy": 5513,
+     "team": "Jets"
+    },
+    {
+     "key": "WR:Juawan Lance",
+     "name": "Juawan Lance",
+     "games": 261,
+     "rings": 4,
+     "legacy": 5377,
+     "team": "Titans"
+    }
+   ],
+   "count": 10,
+   "teams": [
+    "Jets",
+    "Packers",
+    "Ravens",
+    "Seahawks",
+    "Titans"
+   ],
+   "n": 6
+  },
+  {
+   "id": "y82-outro",
+   "kind": "outro",
+   "club": "Jets",
+   "kicker": "That was Y82",
+   "title": "Next: Y83",
+   "next": "Y83",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "57",
+     "num": 57
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "63",
+     "num": 63
+    }
+   ],
+   "text": "Through Y82, Skura has won 57 of 63 Super Bowls.",
+   "teams": [
+    "Jets"
+   ],
+   "link": {
+    "season": "Y83"
+   },
+   "n": 7
+  }
+ ]
+}

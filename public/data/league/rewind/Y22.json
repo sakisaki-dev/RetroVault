@@ -1,0 +1,134 @@
+{
+ "season": "Y22",
+ "club": "Buccaneers",
+ "record": "16-1",
+ "finish": "NFC Champs",
+ "champion": "Colts",
+ "next": "Y23",
+ "cards": [
+  {
+   "id": "y22-cover",
+   "kind": "cover",
+   "club": "Buccaneers",
+   "kicker": "Season Rewind",
+   "title": "Y22 Rewind",
+   "text": "Dorren Skura's 22nd season as a head coach, with the Buccaneers: 16-1, NFC Champs.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "16-1"
+    },
+    {
+     "label": "Finish",
+     "value": "NFC Champs"
+    },
+    {
+     "label": "Season as coach",
+     "value": "22",
+     "num": 22
+    }
+   ],
+   "teams": [
+    "Buccaneers"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y22-champion",
+   "kind": "champion",
+   "club": "Colts",
+   "kicker": "Super Bowl LXXXI",
+   "title": "Colts win it all",
+   "text": "The Colts beat the Buccaneers 38-32 in Super Bowl LXXXI, the club's first title. Skura's Buccaneers fell in the final.",
+   "figures": [
+    {
+     "label": "Colts",
+     "value": "38",
+     "num": 38
+    },
+    {
+     "label": "Buccaneers",
+     "value": "32",
+     "num": 32
+    },
+    {
+     "label": "Franchise titles",
+     "value": "1",
+     "num": 1
+    }
+   ],
+   "teams": [
+    "Colts",
+    "Buccaneers"
+   ],
+   "players": [
+    {
+     "key": "QB:Kyric McQuay",
+     "name": "Kyric McQuay",
+     "team": "Colts",
+     "star": true
+    },
+    {
+     "key": "RB:Pharaoh Mintze",
+     "name": "Pharaoh Mintze",
+     "team": "Colts"
+    }
+   ],
+   "ringHolders": 2,
+   "score": "38-32",
+   "result": "lost",
+   "n": 2
+  },
+  {
+   "id": "y22-farewells",
+   "kind": "farewells",
+   "club": "Buccaneers",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "1 career ended in Y22.",
+   "players": [
+    {
+     "key": "TE:Shemar Wood",
+     "name": "Shemar Wood",
+     "games": 264,
+     "rings": 2,
+     "legacy": 5761,
+     "team": "Buccaneers"
+    }
+   ],
+   "count": 1,
+   "teams": [
+    "Buccaneers"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y22-outro",
+   "kind": "outro",
+   "club": "Buccaneers",
+   "kicker": "That was Y22",
+   "title": "Next: Y23",
+   "next": "Y23",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "14",
+     "num": 14
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "16",
+     "num": 16
+    }
+   ],
+   "text": "Through Y22, Skura has won 14 of 16 Super Bowls.",
+   "teams": [
+    "Buccaneers"
+   ],
+   "link": {
+    "season": "Y23"
+   },
+   "n": 4
+  }
+ ]
+}

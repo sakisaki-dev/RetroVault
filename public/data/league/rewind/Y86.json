@@ -1,0 +1,373 @@
+{
+ "season": "Y86",
+ "club": "Falcons",
+ "record": "13-4",
+ "finish": "Champions",
+ "champion": "Falcons",
+ "next": "Y87",
+ "cards": [
+  {
+   "id": "y86-cover",
+   "kind": "cover",
+   "club": "Falcons",
+   "kicker": "Season Rewind",
+   "title": "Y86 Rewind",
+   "text": "Dorren Skura's 86th season as a head coach, with the Falcons: 13-4, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "13-4"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "86",
+     "num": 86
+    }
+   ],
+   "teams": [
+    "Falcons"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y86-champion",
+   "kind": "champion",
+   "club": "Falcons",
+   "kicker": "Super Bowl CXLV",
+   "title": "Falcons win it all",
+   "text": "The Falcons beat the Texans 48-13 in Super Bowl CXLV, the club's 5th title. Skura's 61 titles and counting.",
+   "figures": [
+    {
+     "label": "Falcons",
+     "value": "48",
+     "num": 48
+    },
+    {
+     "label": "Texans",
+     "value": "13",
+     "num": 13
+    },
+    {
+     "label": "Season record",
+     "value": "13-4"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "5",
+     "num": 5
+    }
+   ],
+   "teams": [
+    "Falcons",
+    "Texans"
+   ],
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Falcons",
+     "star": true
+    },
+    {
+     "key": "OL:Calais Ham",
+     "name": "Calais Ham",
+     "team": "Falcons"
+    },
+    {
+     "key": "LB:Simeon Otton",
+     "name": "Simeon Otton",
+     "team": "Falcons"
+    },
+    {
+     "key": "WR:Vyncint Heath",
+     "name": "Vyncint Heath",
+     "team": "Falcons"
+    },
+    {
+     "key": "DB:Chance Woodrum",
+     "name": "Chance Woodrum",
+     "team": "Falcons"
+    },
+    {
+     "key": "QB:Orlando Larienne",
+     "name": "Orlando Larienne",
+     "team": "Falcons"
+    },
+    {
+     "key": "DB:Blair Iupati",
+     "name": "Blair Iupati",
+     "team": "Falcons"
+    },
+    {
+     "key": "TE:Marc Saine II",
+     "name": "Marc Saine II",
+     "team": "Falcons"
+    },
+    {
+     "key": "WR:Apollo Adam",
+     "name": "Apollo Adam",
+     "team": "Falcons"
+    },
+    {
+     "key": "DB:Ian Clapp",
+     "name": "Ian Clapp",
+     "team": "Falcons"
+    }
+   ],
+   "ringHolders": 10,
+   "score": "48-13",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y86-awards",
+   "kind": "awards",
+   "club": "Falcons",
+   "kicker": "The awards",
+   "title": "Hardware",
+   "text": "Y86's winners: Larienne (MVP), Adam (OPOY) and Maxwell (SB MVP).",
+   "players": [
+    {
+     "key": "QB:Orlando Larienne",
+     "name": "Orlando Larienne",
+     "team": "Falcons",
+     "award": "MVP",
+     "awardName": "Most Valuable Player",
+     "line": "4,821 pass yds · 50 pass TD · 6 rush TD in 19 games",
+     "figures": [
+      {
+       "label": "pass yds",
+       "value": "4,821",
+       "num": 4821
+      },
+      {
+       "label": "pass TD",
+       "value": "50",
+       "num": 50
+      },
+      {
+       "label": "rush TD",
+       "value": "6",
+       "num": 6
+      }
+     ],
+     "games": 19
+    },
+    {
+     "key": "WR:Apollo Adam",
+     "name": "Apollo Adam",
+     "team": "Falcons",
+     "award": "OPOY",
+     "awardName": "Offensive Player of the Year",
+     "line": "114 catches · 2,200 rec yds · 22 TD in 21 games",
+     "figures": [
+      {
+       "label": "catches",
+       "value": "114",
+       "num": 114
+      },
+      {
+       "label": "rec yds",
+       "value": "2,200",
+       "num": 2200
+      },
+      {
+       "label": "TD",
+       "value": "22",
+       "num": 22
+      }
+     ],
+     "games": 21
+    },
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Falcons",
+     "award": "SB MVP",
+     "awardName": "Super Bowl MVP",
+     "line": "2,150 rush yds · 35 rush TD · 5 rec TD in 19 games",
+     "figures": [
+      {
+       "label": "rush yds",
+       "value": "2,150",
+       "num": 2150
+      },
+      {
+       "label": "rush TD",
+       "value": "35",
+       "num": 35
+      },
+      {
+       "label": "rec TD",
+       "value": "5",
+       "num": 5
+      }
+     ],
+     "games": 19
+    }
+   ],
+   "teams": [
+    "Falcons"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y86-milestones",
+   "kind": "milestones",
+   "club": "Falcons",
+   "kicker": "Milestones",
+   "title": "Round numbers",
+   "text": "Woodrum, 7th ring; Maxwell, 6th ring; Vyncint Heath, 5th ring; Otton, 4th ring.",
+   "players": [
+    {
+     "key": "DB:Chance Woodrum",
+     "name": "Chance Woodrum",
+     "team": "Falcons",
+     "label": "7th ring",
+     "num": 7
+    },
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Falcons",
+     "label": "6th ring",
+     "num": 6
+    },
+    {
+     "key": "WR:Vyncint Heath",
+     "name": "Vyncint Heath",
+     "team": "Falcons",
+     "label": "5th ring",
+     "num": 5
+    },
+    {
+     "key": "LB:Simeon Otton",
+     "name": "Simeon Otton",
+     "team": "Falcons",
+     "label": "4th ring",
+     "num": 4
+    }
+   ],
+   "teams": [
+    "Falcons"
+   ],
+   "n": 4
+  },
+  {
+   "id": "y86-market",
+   "kind": "market",
+   "club": "Falcons",
+   "kicker": "The market",
+   "title": "Up and down",
+   "text": "Base-card value across Y86: Maxwell +441%; Conklin −5%.",
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Falcons",
+     "label": "Riser",
+     "pct": 441,
+     "value": 1520,
+     "was": 281,
+     "ovr": 87,
+     "grade": "A"
+    },
+    {
+     "key": "TE:Jaylen Conklin",
+     "name": "Jaylen Conklin",
+     "team": "Jets",
+     "label": "Faller",
+     "pct": -5,
+     "value": 895,
+     "was": 947,
+     "ovr": 83,
+     "grade": "B+"
+    }
+   ],
+   "teams": [
+    "Falcons",
+    "Jets"
+   ],
+   "n": 5
+  },
+  {
+   "id": "y86-farewells",
+   "kind": "farewells",
+   "club": "Jets",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "4 careers ended in Y86.",
+   "players": [
+    {
+     "key": "TE:Jaylen Conklin",
+     "name": "Jaylen Conklin",
+     "games": 166,
+     "rings": 2,
+     "legacy": 6443,
+     "team": "Jets"
+    },
+    {
+     "key": "QB:Kirk Lenoir",
+     "name": "Kirk Lenoir",
+     "games": 403,
+     "legacy": 6321,
+     "team": "Jaguars"
+    },
+    {
+     "key": "DB:Blair Iupati",
+     "name": "Blair Iupati",
+     "games": 201,
+     "rings": 2,
+     "legacy": 4880,
+     "team": "Falcons"
+    },
+    {
+     "key": "TE:Spencer Daniels",
+     "name": "Spencer Daniels",
+     "games": 247,
+     "legacy": 3373,
+     "team": "Jaguars"
+    }
+   ],
+   "count": 4,
+   "teams": [
+    "Falcons",
+    "Jaguars",
+    "Jets"
+   ],
+   "n": 6
+  },
+  {
+   "id": "y86-outro",
+   "kind": "outro",
+   "club": "Falcons",
+   "kicker": "That was Y86",
+   "title": "Next: Y87",
+   "next": "Y87",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "61",
+     "num": 61
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "67",
+     "num": 67
+    }
+   ],
+   "text": "Through Y86, Skura has won 61 of 67 Super Bowls.",
+   "teams": [
+    "Falcons"
+   ],
+   "link": {
+    "season": "Y87"
+   },
+   "n": 7
+  }
+ ]
+}

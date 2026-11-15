@@ -1,0 +1,158 @@
+{
+ "season": "Y10",
+ "club": "Chargers",
+ "record": "13-4",
+ "finish": "Champions",
+ "champion": "Chargers",
+ "next": "Y11",
+ "cards": [
+  {
+   "id": "y10-cover",
+   "kind": "cover",
+   "club": "Chargers",
+   "kicker": "Season Rewind",
+   "title": "Y10 Rewind",
+   "text": "Dorren Skura's 10th season as a head coach, with the Chargers: 13-4, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "13-4"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "10",
+     "num": 10
+    }
+   ],
+   "teams": [
+    "Chargers"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y10-champion",
+   "kind": "champion",
+   "club": "Chargers",
+   "kicker": "Super Bowl LXIX",
+   "title": "Chargers win it all",
+   "text": "The Chargers beat the Packers 40-20 in Super Bowl LXIX, the club's first title. Skura's 5 titles and counting.",
+   "figures": [
+    {
+     "label": "Chargers",
+     "value": "40",
+     "num": 40
+    },
+    {
+     "label": "Packers",
+     "value": "20",
+     "num": 20
+    },
+    {
+     "label": "Season record",
+     "value": "13-4"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "1",
+     "num": 1
+    }
+   ],
+   "teams": [
+    "Chargers",
+    "Packers"
+   ],
+   "players": [
+    {
+     "key": "QB:Wayne Wilson",
+     "name": "Wayne Wilson",
+     "team": "Chargers",
+     "star": true
+    },
+    {
+     "key": "QB:Lamar Jackson",
+     "name": "Lamar Jackson",
+     "team": "Chargers"
+    },
+    {
+     "key": "LB:Bilal Tolbert",
+     "name": "Bilal Tolbert",
+     "team": "Chargers"
+    },
+    {
+     "key": "TE:Akiem Bouye",
+     "name": "Akiem Bouye",
+     "team": "Chargers"
+    },
+    {
+     "key": "RB:Breece Hall",
+     "name": "Breece Hall",
+     "team": "Chargers"
+    },
+    {
+     "key": "DB:Taywan Tuttle",
+     "name": "Taywan Tuttle",
+     "team": "Chargers"
+    }
+   ],
+   "ringHolders": 6,
+   "score": "40-20",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y10-farewells",
+   "kind": "farewells",
+   "club": "Chargers",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "1 career ended in Y10.",
+   "players": [
+    {
+     "key": "RB:Breece Hall",
+     "name": "Breece Hall",
+     "games": 250,
+     "rings": 1,
+     "legacy": 4856,
+     "team": "Chargers"
+    }
+   ],
+   "count": 1,
+   "teams": [
+    "Chargers"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y10-outro",
+   "kind": "outro",
+   "club": "Chargers",
+   "kicker": "That was Y10",
+   "title": "Next: Y11",
+   "next": "Y11",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "5",
+     "num": 5
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "6",
+     "num": 6
+    }
+   ],
+   "text": "Through Y10, Skura has won 5 of 6 Super Bowls.",
+   "teams": [
+    "Chargers"
+   ],
+   "link": {
+    "season": "Y11"
+   },
+   "n": 4
+  }
+ ]
+}

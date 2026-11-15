@@ -1,0 +1,103 @@
+{
+ "season": "Y56",
+ "club": "Giants",
+ "record": "14-2-1",
+ "finish": "Champions",
+ "champion": "Giants",
+ "next": "Y57",
+ "cards": [
+  {
+   "id": "y56-cover",
+   "kind": "cover",
+   "club": "Giants",
+   "kicker": "Season Rewind",
+   "title": "Y56 Rewind",
+   "text": "Dorren Skura's 56th season as a head coach, with the Giants: 14-2-1, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "14-2-1"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "56",
+     "num": 56
+    }
+   ],
+   "teams": [
+    "Giants"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y56-champion",
+   "kind": "champion",
+   "club": "Giants",
+   "kicker": "Super Bowl CXV",
+   "title": "Giants win it all",
+   "text": "The Giants beat the Bills 38-37 in Super Bowl CXV, the club's 3rd title. Skura's 40 titles and counting.",
+   "figures": [
+    {
+     "label": "Giants",
+     "value": "38",
+     "num": 38
+    },
+    {
+     "label": "Bills",
+     "value": "37",
+     "num": 37
+    },
+    {
+     "label": "Season record",
+     "value": "14-2-1"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "3",
+     "num": 3
+    }
+   ],
+   "teams": [
+    "Giants",
+    "Bills"
+   ],
+   "players": [],
+   "ringHolders": 0,
+   "score": "38-37",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y56-outro",
+   "kind": "outro",
+   "club": "Giants",
+   "kicker": "That was Y56",
+   "title": "Next: Y57",
+   "next": "Y57",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "40",
+     "num": 40
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "44",
+     "num": 44
+    }
+   ],
+   "text": "Through Y56, Skura has won 40 of 44 Super Bowls.",
+   "teams": [
+    "Giants"
+   ],
+   "link": {
+    "season": "Y57"
+   },
+   "n": 3
+  }
+ ]
+}

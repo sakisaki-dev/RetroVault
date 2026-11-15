@@ -1,0 +1,116 @@
+{
+ "season": "Y73",
+ "club": "Titans",
+ "record": "15-2",
+ "finish": "Champ Rnd",
+ "champion": "Cardinals",
+ "next": "Y74",
+ "cards": [
+  {
+   "id": "y73-cover",
+   "kind": "cover",
+   "club": "Titans",
+   "kicker": "Season Rewind",
+   "title": "Y73 Rewind",
+   "text": "Dorren Skura's 73rd season as a head coach, with the Titans: 15-2, Champ Rnd.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "15-2"
+    },
+    {
+     "label": "Finish",
+     "value": "Champ Rnd"
+    },
+    {
+     "label": "Season as coach",
+     "value": "73",
+     "num": 73
+    }
+   ],
+   "teams": [
+    "Titans"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y73-champion",
+   "kind": "champion",
+   "club": "Cardinals",
+   "kicker": "Super Bowl CXXXII",
+   "title": "Cardinals win it all",
+   "text": "The Cardinals beat the Texans 41-40 in Super Bowl CXXXII, the club's first title.",
+   "figures": [
+    {
+     "label": "Cardinals",
+     "value": "41",
+     "num": 41
+    },
+    {
+     "label": "Texans",
+     "value": "40",
+     "num": 40
+    },
+    {
+     "label": "Franchise titles",
+     "value": "1",
+     "num": 1
+    }
+   ],
+   "teams": [
+    "Cardinals",
+    "Texans"
+   ],
+   "players": [
+    {
+     "key": "DB:Juwann Gilman",
+     "name": "Juwann Gilman",
+     "team": "Cardinals",
+     "star": true
+    },
+    {
+     "key": "QB:Camaron Knight",
+     "name": "Camaron Knight",
+     "team": "Cardinals"
+    },
+    {
+     "key": "OL:Asante Biadasz",
+     "name": "Asante Biadasz",
+     "team": "Cardinals"
+    }
+   ],
+   "ringHolders": 3,
+   "score": "41-40",
+   "result": "not in it",
+   "n": 2
+  },
+  {
+   "id": "y73-outro",
+   "kind": "outro",
+   "club": "Titans",
+   "kicker": "That was Y73",
+   "title": "Next: Y74",
+   "next": "Y74",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "54",
+     "num": 54
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "59",
+     "num": 59
+    }
+   ],
+   "text": "Through Y73, Skura has won 54 of 59 Super Bowls.",
+   "teams": [
+    "Titans"
+   ],
+   "link": {
+    "season": "Y74"
+   },
+   "n": 3
+  }
+ ]
+}
