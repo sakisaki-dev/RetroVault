@@ -1,0 +1,934 @@
+{
+ "key": "RB:Ryland Maxwell",
+ "name": "Ryland Maxwell",
+ "pos": "RB",
+ "upload": "2026-11-14-tribute-maxwell",
+ "nickname": "Mad Max",
+ "deck": "He came out of New York as the smallest piece of a trade and became the back every other back is measured against: rings in three cities, the career rushing record and, at last, the Gauntlet.",
+ "hero": {
+  "games": 284,
+  "clubs": 3,
+  "active": true,
+  "careerLegacy": 13107,
+  "rings": 11
+ },
+ "journey": [
+  {
+   "team": "Jets",
+   "from": 80,
+   "to": 82,
+   "rings": [
+    80,
+    82
+   ]
+  },
+  {
+   "team": "Falcons",
+   "from": 83,
+   "to": 90,
+   "rings": [
+    83,
+    84,
+    85,
+    86,
+    87
+   ]
+  },
+  {
+   "team": "Eagles",
+   "from": 91,
+   "to": 94,
+   "rings": [
+    91,
+    92,
+    93,
+    94
+   ]
+  }
+ ],
+ "chapters": [
+  {
+   "id": "ryland-maxwell-jets",
+   "kind": "chapter",
+   "club": "Jets",
+   "headline": "A Ring in New York Before Anyone Knew His Name",
+   "body": [
+    "Ryland Maxwell's first ring came in Y80, when Dorren Skura's Jets went 15-2 and beat the Seahawks 28-26 in Super Bowl CXXXIX. Maxwell was part of it and nowhere near the center of it. His card closed that season rated 62 with a C grade, and the market valued it at 7, the kind of price reserved for depth.",
+    "Y81 brought 1,284 rushing yards and no title. Y82 brought both: 1,430 yards, 17 rushing touchdowns and a second ring after a 46-8 rout of the Eagles in Super Bowl CXLI, a club he would one day call home. Through three seasons in New York he had 3,514 rushing yards in 56 games and an Offensive Rookie of the Year award on the shelf. Useful. Not yet a reason to build a franchise around him."
+   ],
+   "players": [
+    "Ryland Maxwell"
+   ],
+   "teams": [
+    "Jets",
+    "Seahawks",
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "Card value after Y80",
+     "value": "7",
+     "source": "market_history.json snap-202610201709 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "Jets record, Y80",
+     "value": "15-2",
+     "source": "coach.json Y80 record"
+    },
+    {
+     "label": "Super Bowl CXXXIX",
+     "value": "28-26",
+     "source": "super_bowls.json Y80 score"
+    },
+    {
+     "label": "OVR after Y80",
+     "value": "62",
+     "source": "market_history.json snap-202610201709 RB:Ryland Maxwell ovr"
+    },
+    {
+     "label": "Grade after Y80",
+     "value": "C",
+     "source": "market_history.json snap-202610201709 RB:Ryland Maxwell grade"
+    },
+    {
+     "label": "Rushing yards, Y81",
+     "value": "1,284",
+     "source": "market_history.json snap-202610201709..snap-202610220000 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Rushing yards, Y82",
+     "value": "1,430",
+     "source": "market_history.json snap-202610220000..snap-202610262300 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Rushing TDs, Y82",
+     "value": "17",
+     "source": "market_history.json snap-202610220000..snap-202610262300 RB:Ryland Maxwell s.rtd"
+    },
+    {
+     "label": "Super Bowl CXLI",
+     "value": "46-8",
+     "source": "super_bowls.json Y82 score"
+    },
+    {
+     "label": "Rushing yards through Y82",
+     "value": "3,514",
+     "source": "market_history.json snap-202610262300 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Games through Y82",
+     "value": "56",
+     "source": "market_history.json snap-202610262300 RB:Ryland Maxwell s.g"
+    }
+   ]
+  },
+  {
+   "id": "ryland-maxwell-trade",
+   "kind": "trade",
+   "headline": "One Star Out, Three In, and the Smallest Piece Was the Prize",
+   "body": [
+    "When Skura left New York for Atlanta after Y82, the deal that went with him looked lopsided, just not the way it turned out. Malakai Sawyer went back to the Jets as an 89-rated back with a B grade, 203 games and 13,041 career rushing yards, his card priced at 1,755. Coming the other way were Maxwell, rated 65 and valued at 12, Chance Woodrum, a 74-rated defensive back valued at 70, and Kane Van Oxley, \"The Ox\", an S-grade receiver valued at 1,515.",
+    "Was it a risk? By the numbers that winter, Sawyer's card was worth more than a hundred times Maxwell's, and the best asset Atlanta received never played for it: in an offseason of three- and four-team trades across the league, Van Oxley was moved on to the Bears before a single Falcons game. The bet came down to Maxwell and Woodrum. Sawyer played 96 more games and won no more rings. Woodrum won 5 more. Maxwell won 9."
+   ],
+   "players": [
+    "Ryland Maxwell",
+    "Malakai Sawyer",
+    "Chance Woodrum",
+    "Kane Van Oxley"
+   ],
+   "teams": [
+    "Jets",
+    "Falcons",
+    "Bears"
+   ],
+   "stats": [
+    {
+     "label": "Sawyer's card value at the trade",
+     "value": "1,755",
+     "source": "market_history.json snap-202610262300 RB:Malakai Sawyer value"
+    },
+    {
+     "label": "Sawyer OVR",
+     "value": "89",
+     "source": "market_history.json snap-202610262300 RB:Malakai Sawyer ovr"
+    },
+    {
+     "label": "Sawyer grade",
+     "value": "B",
+     "source": "market_history.json snap-202610262300 RB:Malakai Sawyer grade"
+    },
+    {
+     "label": "Sawyer games",
+     "value": "203",
+     "source": "market_history.json snap-202610262300 RB:Malakai Sawyer s.g"
+    },
+    {
+     "label": "Sawyer rushing yards",
+     "value": "13,041",
+     "source": "market_history.json snap-202610262300 RB:Malakai Sawyer s.ryds"
+    },
+    {
+     "label": "Maxwell OVR",
+     "value": "65",
+     "source": "market_history.json snap-202610262300 RB:Ryland Maxwell ovr"
+    },
+    {
+     "label": "Maxwell card value",
+     "value": "12",
+     "source": "market_history.json snap-202610262300 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "Woodrum OVR",
+     "value": "74",
+     "source": "market_history.json snap-202610262300 DB:Chance Woodrum ovr"
+    },
+    {
+     "label": "Woodrum card value",
+     "value": "70",
+     "source": "market_history.json snap-202610262300 DB:Chance Woodrum value"
+    },
+    {
+     "label": "Van Oxley grade",
+     "value": "S",
+     "source": "market_history.json snap-202610262300 WR:Kane Van Oxley grade"
+    },
+    {
+     "label": "Van Oxley card value",
+     "value": "1,515",
+     "source": "market_history.json snap-202610262300 WR:Kane Van Oxley value"
+    },
+    {
+     "label": "Sawyer games after the trade",
+     "value": "96",
+     "source": "market_history.json snap-202610262300..snap-202611141119 RB:Malakai Sawyer s.g"
+    },
+    {
+     "label": "Woodrum rings after the trade",
+     "value": "5",
+     "source": "market_history.json snap-202610262300..snap-202611141119 DB:Chance Woodrum s.rings"
+    },
+    {
+     "label": "Maxwell rings after the trade",
+     "value": "9",
+     "source": "market_history.json snap-202610262300..snap-202611141119 RB:Ryland Maxwell s.rings"
+    }
+   ],
+   "trade": {
+    "after": "Y82",
+    "snapshot": "snap-202610262300",
+    "later": "snap-202611141119",
+    "sides": [
+     {
+      "to": "Jets",
+      "players": [
+       "RB:Malakai Sawyer"
+      ]
+     },
+     {
+      "to": "Falcons",
+      "players": [
+       "RB:Ryland Maxwell",
+       "DB:Chance Woodrum",
+       "WR:Kane Van Oxley"
+      ]
+     }
+    ]
+   },
+   "data": {
+    "after": "Y82",
+    "snapshot": "snap-202610262300",
+    "label": "Y82 · Oct 26, 23:00",
+    "later": "snap-202611141119",
+    "laterLabel": "Y94 · Nov 14, 11:19",
+    "sides": [
+     {
+      "to": "Jets",
+      "players": [
+       {
+        "key": "RB:Malakai Sawyer",
+        "name": "Malakai Sawyer",
+        "pos": "RB",
+        "ovr": 89,
+        "grade": "B",
+        "value": 1755,
+        "games": 203,
+        "after": {
+         "games": 96,
+         "rings": 0
+        },
+        "played": true
+       }
+      ],
+      "value": 1755
+     },
+     {
+      "to": "Falcons",
+      "players": [
+       {
+        "key": "RB:Ryland Maxwell",
+        "name": "Ryland Maxwell",
+        "pos": "RB",
+        "ovr": 65,
+        "grade": "C+",
+        "value": 12,
+        "games": 56,
+        "after": {
+         "games": 228,
+         "rings": 9
+        },
+        "played": true
+       },
+       {
+        "key": "DB:Chance Woodrum",
+        "name": "Chance Woodrum",
+        "pos": "DB",
+        "ovr": 74,
+        "grade": "C",
+        "value": 70,
+        "games": 132,
+        "after": {
+         "games": 133,
+         "rings": 5
+        },
+        "played": true
+       },
+       {
+        "key": "WR:Kane Van Oxley",
+        "name": "Kane Van Oxley",
+        "pos": "WR",
+        "ovr": 89,
+        "grade": "S",
+        "value": 1515,
+        "games": 126,
+        "after": {
+         "games": 137,
+         "rings": 0
+        },
+        "played": false
+       }
+      ],
+      "value": 1597
+     }
+    ]
+   }
+  },
+  {
+   "id": "ryland-maxwell-falcons",
+   "kind": "chapter",
+   "club": "Falcons",
+   "headline": "Five Straight Titles, and the Role Player Disappeared",
+   "body": [
+    "Atlanta won Super Bowl CXLII in Y83, beating the Jets and Sawyer 40-25, and did not stop winning them until Y87. Maxwell was Offensive Player of the Year in that first season, with 1,919 rushing yards and 25 touchdowns on the ground, and Super Bowl MVP the next.",
+    "The ratings followed the rings. He was rated 75 by the end of Y84, an A grade at 87 by Y86 and an S at 96 by Y87. Y85 was the season the league took notice: 2,617 rushing yards, 39 rushing touchdowns, still the season mark on Skura's record board, and a 237-yard game against the Bills, still the best rushing game on it. Another Offensive Player of the Year award came with it. By the end of the run he had 7 rings and 15,141 career rushing yards."
+   ],
+   "players": [
+    "Ryland Maxwell",
+    "Malakai Sawyer"
+   ],
+   "teams": [
+    "Falcons",
+    "Jets",
+    "Bills"
+   ],
+   "stats": [
+    {
+     "label": "Super Bowl CXLII",
+     "value": "40-25",
+     "source": "super_bowls.json Y83 score"
+    },
+    {
+     "label": "Rushing yards, Y83",
+     "value": "1,919",
+     "source": "market_history.json snap-202610262300..snap-202610281027 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Rushing TDs, Y83",
+     "value": "25",
+     "source": "market_history.json snap-202610262300..snap-202610281027 RB:Ryland Maxwell s.rtd"
+    },
+    {
+     "label": "OVR after Y84",
+     "value": "75",
+     "source": "market_history.json snap-202610281616 RB:Ryland Maxwell ovr"
+    },
+    {
+     "label": "Grade after Y86",
+     "value": "A",
+     "source": "market_history.json snap-202610300346 RB:Ryland Maxwell grade"
+    },
+    {
+     "label": "OVR after Y86",
+     "value": "87",
+     "source": "market_history.json snap-202610300346 RB:Ryland Maxwell ovr"
+    },
+    {
+     "label": "Grade after Y87",
+     "value": "S",
+     "source": "market_history.json snap-202611041446 RB:Ryland Maxwell grade"
+    },
+    {
+     "label": "OVR after Y87",
+     "value": "96",
+     "source": "market_history.json snap-202611041446 RB:Ryland Maxwell ovr"
+    },
+    {
+     "label": "Rushing yards, Y85",
+     "value": "2,617",
+     "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Rushing TDs, Y85 (club record)",
+     "value": "39",
+     "source": "records.json Most rushing TDs, season mark"
+    },
+    {
+     "label": "Best rushing game, Y85 (club record)",
+     "value": "237 yds",
+     "source": "records.json Best rushing game mark"
+    },
+    {
+     "label": "Rings after Y87",
+     "value": "7",
+     "source": "market_history.json snap-202611041446 RB:Ryland Maxwell s.rings"
+    },
+    {
+     "label": "Rushing yards after Y87",
+     "value": "15,141",
+     "source": "market_history.json snap-202611041446 RB:Ryland Maxwell s.ryds"
+    }
+   ]
+  },
+  {
+   "id": "ryland-maxwell-left-behind",
+   "kind": "chapter",
+   "club": "Falcons",
+   "headline": "Left Behind in Atlanta",
+   "body": [
+    "Then Skura moved on to Philadelphia for Y88, and Maxwell stayed. The Eagles won Super Bowl CXLVII that season and CXLVIII the next, the coach's titles now arriving without the back who had carried his last five. In Atlanta, Maxwell kept running: 1,403 yards in Y88, 1,172 in Y89 and 1,223 in Y90, without a single catch in the last two of those seasons. No rings came.",
+    "The market did not seem to mind. In Y88, with no title to show for it, his card passed Sawyer's for the first time, 7,837 to 7,820, and by the end of Y90 he was rated 99. The best back in the league was waiting in the wrong city."
+   ],
+   "players": [
+    "Ryland Maxwell",
+    "Malakai Sawyer"
+   ],
+   "teams": [
+    "Falcons",
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "Rushing yards, Y88",
+     "value": "1,403",
+     "source": "market_history.json snap-202611041446..snap-202611051109 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Rushing yards, Y89",
+     "value": "1,172",
+     "source": "market_history.json snap-202611051109..snap-202611071301 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Rushing yards, Y90",
+     "value": "1,223",
+     "source": "market_history.json snap-202611071301..snap-202611121506 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Maxwell card value after Y88",
+     "value": "7,837",
+     "source": "market_history.json snap-202611051109 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "Sawyer card value after Y88",
+     "value": "7,820",
+     "source": "market_history.json snap-202611051109 RB:Malakai Sawyer value"
+    },
+    {
+     "label": "OVR after Y90",
+     "value": "99",
+     "source": "market_history.json snap-202611121506 RB:Ryland Maxwell ovr"
+    }
+   ]
+  },
+  {
+   "id": "ryland-maxwell-market",
+   "kind": "market",
+   "headline": "From 7 to 39,532, a Season Late Every Time",
+   "body": [
+    "The card told the story a season late every time. It was worth 7 at the end of Y80 and 12 on the day of the trade. It reached 112 after Y84, with two Falcons titles already won, and 1,520 after Y86. It first passed Sawyer's in Y88, at 7,837, and more than doubled in Y92 alone, from 12,722 to 29,409, the season he ran for 2,839 yards. After Y94 it stood at 39,532."
+   ],
+   "players": [
+    "Ryland Maxwell",
+    "Malakai Sawyer"
+   ],
+   "teams": [],
+   "stats": [
+    {
+     "label": "Card value after Y94",
+     "value": "39,532",
+     "source": "market_history.json snap-202611141119 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "After Y80",
+     "value": "7",
+     "source": "market_history.json snap-202610201709 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "At the trade, after Y82",
+     "value": "12",
+     "source": "market_history.json snap-202610262300 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "After Y84",
+     "value": "112",
+     "source": "market_history.json snap-202610281616 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "After Y86",
+     "value": "1,520",
+     "source": "market_history.json snap-202610300346 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "After Y88",
+     "value": "7,837",
+     "source": "market_history.json snap-202611051109 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "After Y91",
+     "value": "12,722",
+     "source": "market_history.json snap-202611121857 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "After Y92",
+     "value": "29,409",
+     "source": "market_history.json snap-202611131841 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "Rushing yards, Y92",
+     "value": "2,839",
+     "source": "market_history.json snap-202611121857..snap-202611131841 RB:Ryland Maxwell s.ryds"
+    }
+   ],
+   "market": {
+    "players": [
+     "RB:Ryland Maxwell",
+     "RB:Malakai Sawyer"
+    ]
+   },
+   "data": {
+    "players": [
+     "RB:Ryland Maxwell",
+     "RB:Malakai Sawyer"
+    ],
+    "series": [
+     {
+      "season": "Y80",
+      "snapshot": "snap-202610201709",
+      "ovr": 62,
+      "grade": "C",
+      "values": {
+       "RB:Ryland Maxwell": 7,
+       "RB:Malakai Sawyer": 937
+      }
+     },
+     {
+      "season": "Y81",
+      "snapshot": "snap-202610220000",
+      "ovr": 64,
+      "grade": "C+",
+      "values": {
+       "RB:Ryland Maxwell": 9,
+       "RB:Malakai Sawyer": 1362
+      }
+     },
+     {
+      "season": "Y82",
+      "snapshot": "snap-202610262300",
+      "ovr": 65,
+      "grade": "C+",
+      "values": {
+       "RB:Ryland Maxwell": 12,
+       "RB:Malakai Sawyer": 1755
+      }
+     },
+     {
+      "season": "Y83",
+      "snapshot": "snap-202610281027",
+      "ovr": 67,
+      "grade": "C+",
+      "values": {
+       "RB:Ryland Maxwell": 20,
+       "RB:Malakai Sawyer": 3153
+      }
+     },
+     {
+      "season": "Y84",
+      "snapshot": "snap-202610281616",
+      "ovr": 75,
+      "grade": "B+",
+      "values": {
+       "RB:Ryland Maxwell": 112,
+       "RB:Malakai Sawyer": 5679
+      }
+     },
+     {
+      "season": "Y85",
+      "snapshot": "snap-202610281922",
+      "ovr": 79,
+      "grade": "A−",
+      "values": {
+       "RB:Ryland Maxwell": 281,
+       "RB:Malakai Sawyer": 6378
+      }
+     },
+     {
+      "season": "Y86",
+      "snapshot": "snap-202610300346",
+      "ovr": 87,
+      "grade": "A",
+      "values": {
+       "RB:Ryland Maxwell": 1520,
+       "RB:Malakai Sawyer": 6897
+      }
+     },
+     {
+      "season": "Y87",
+      "snapshot": "snap-202611041446",
+      "ovr": 96,
+      "grade": "S",
+      "values": {
+       "RB:Ryland Maxwell": 6640,
+       "RB:Malakai Sawyer": 7780
+      }
+     },
+     {
+      "season": "Y88",
+      "snapshot": "snap-202611051109",
+      "ovr": 97,
+      "grade": "S",
+      "values": {
+       "RB:Ryland Maxwell": 7837,
+       "RB:Malakai Sawyer": 7820
+      }
+     },
+     {
+      "season": "Y89",
+      "snapshot": "snap-202611071301",
+      "ovr": 97,
+      "grade": "A+",
+      "values": {
+       "RB:Ryland Maxwell": 8482,
+       "RB:Malakai Sawyer": 8238
+      }
+     },
+     {
+      "season": "Y90",
+      "snapshot": "snap-202611121506",
+      "ovr": 99,
+      "grade": "A+",
+      "values": {
+       "RB:Ryland Maxwell": 10882,
+       "RB:Malakai Sawyer": 8544
+      }
+     },
+     {
+      "season": "Y91",
+      "snapshot": "snap-202611121857",
+      "ovr": 99,
+      "grade": "A+",
+      "values": {
+       "RB:Ryland Maxwell": 12722,
+       "RB:Malakai Sawyer": 8472
+      }
+     },
+     {
+      "season": "Y92",
+      "snapshot": "snap-202611131841",
+      "ovr": 99,
+      "grade": "S",
+      "values": {
+       "RB:Ryland Maxwell": 29409,
+       "RB:Malakai Sawyer": 8330
+      }
+     },
+     {
+      "season": "Y93",
+      "snapshot": "snap-202611140247",
+      "ovr": 99,
+      "grade": "S",
+      "values": {
+       "RB:Ryland Maxwell": 33647,
+       "RB:Malakai Sawyer": 8065
+      }
+     },
+     {
+      "season": "Y94",
+      "snapshot": "snap-202611141119",
+      "ovr": 99,
+      "grade": "S",
+      "values": {
+       "RB:Ryland Maxwell": 39532,
+       "RB:Malakai Sawyer": 7875
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "ryland-maxwell-eagles",
+   "kind": "chapter",
+   "club": "Eagles",
+   "headline": "The Reunion, the Record and the Gauntlet",
+   "body": [
+    "In Y91 coach and back were together again in Philadelphia, and the titles came back with them: four seasons, four rings, starting with a 38-23 win over the Raiders in Super Bowl CL. Y92 brought 2,839 rushing yards, the best season on Skura's record board, and in Y93 Maxwell passed Lane McCoy's 24,507 career rushing yards to take the league record. Along the way the Eagles won 49 straight games, a run that only ended in Dallas in Y94.",
+    "Y94 was a season nobody had seen before. Maxwell caught 53 touchdown passes, the most in a season on Skura's board, and was named Most Valuable Player for the first time. It was the one major award he had never won. With it he became the first player to win every one of them: a ring, the MVP, Offensive Player of the Year, Super Bowl MVP and Offensive Rookie of the Year. Ryland Maxwell ran the Gauntlet."
+   ],
+   "players": [
+    "Ryland Maxwell",
+    "Lane McCoy"
+   ],
+   "teams": [
+    "Eagles",
+    "Raiders",
+    "Cowboys"
+   ],
+   "stats": [
+    {
+     "label": "TD receptions, Y94 (club record)",
+     "value": "53",
+     "source": "records.json Most TD receptions, season mark"
+    },
+    {
+     "label": "Super Bowl CL",
+     "value": "38-23",
+     "source": "super_bowls.json Y91 score"
+    },
+    {
+     "label": "Best rushing season (club record)",
+     "value": "2,839 yds",
+     "source": "records.json Best rushing season mark"
+    },
+    {
+     "label": "McCoy career rushing yards",
+     "value": "24,507",
+     "source": "players.json RB:Lane McCoy ryds"
+    },
+    {
+     "label": "Eagles winning streak",
+     "value": "49",
+     "source": "schedule.json records/[id=coach-win-streak]/value"
+    },
+    {
+     "label": "TD receptions, Y94",
+     "value": "53",
+     "source": "market_history.json snap-202611140247..snap-202611141119 RB:Ryland Maxwell s.rectd"
+    },
+    {
+     "label": "MVPs won in Y94",
+     "value": "1",
+     "source": "market_history.json snap-202611140247..snap-202611141119 RB:Ryland Maxwell s.mvp"
+    }
+   ]
+  },
+  {
+   "id": "ryland-maxwell-rival",
+   "kind": "rival",
+   "headline": "Ikarras, the Measuring Stick",
+   "body": [
+    "Every great back gets measured against Rondale Ikarras, \"The Prodigal Son\", the Ravens legend of the Hall of Fame's inaugural class. The comparison now runs Maxwell's way. Ikarras ran for 23,178 yards in 303 games, 76.5 a game; Maxwell has 27,393 in 284, 96.5 a game. Ikarras won 9 rings and 4 Offensive Player of the Year awards, one more than Maxwell, and matched his 5 Super Bowl MVPs. He never won the MVP. Maxwell won it once, and it completed the set."
+   ],
+   "players": [
+    "Rondale Ikarras",
+    "Ryland Maxwell"
+   ],
+   "teams": [
+    "Ravens"
+   ],
+   "stats": [
+    {
+     "label": "Rushing yards a game, Maxwell",
+     "value": "96.5",
+     "source": "market_history.json snap-202611141119 RB:Ryland Maxwell s.ryds/s.g"
+    },
+    {
+     "label": "Ikarras rushing yards",
+     "value": "23,178",
+     "source": "players.json RB:Rondale Ikarras ryds"
+    },
+    {
+     "label": "Ikarras games",
+     "value": "303",
+     "source": "players.json RB:Rondale Ikarras g"
+    },
+    {
+     "label": "Rushing yards a game, Ikarras",
+     "value": "76.5",
+     "source": "players.json RB:Rondale Ikarras ryds/g"
+    },
+    {
+     "label": "Maxwell rushing yards",
+     "value": "27,393",
+     "source": "market_history.json snap-202611141119 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Maxwell games",
+     "value": "284",
+     "source": "market_history.json snap-202611141119 RB:Ryland Maxwell s.g"
+    },
+    {
+     "label": "Ikarras rings",
+     "value": "9",
+     "source": "players.json RB:Rondale Ikarras rings"
+    },
+    {
+     "label": "Ikarras Offensive Player of the Year awards",
+     "value": "4",
+     "source": "players.json RB:Rondale Ikarras opoy"
+    },
+    {
+     "label": "Super Bowl MVPs, each",
+     "value": "5",
+     "source": "players.json RB:Rondale Ikarras sbmvp"
+    }
+   ],
+   "rival": {
+    "player": "RB:Rondale Ikarras"
+   },
+   "data": {
+    "player": "RB:Rondale Ikarras",
+    "name": "Rondale Ikarras",
+    "pos": "RB",
+    "nickname": "The Prodigal Son",
+    "rows": [
+     {
+      "label": "Rush yds a game",
+      "a": 96.5,
+      "b": 76.5,
+      "decimals": 1
+     },
+     {
+      "label": "TDs a game",
+      "a": 1.69,
+      "b": 1.45,
+      "decimals": 2
+     },
+     {
+      "label": "Games",
+      "a": 284,
+      "b": 303,
+      "decimals": 0
+     },
+     {
+      "label": "Rings",
+      "a": 11,
+      "b": 9,
+      "decimals": 0
+     },
+     {
+      "label": "MVPs",
+      "a": 1,
+      "b": 0,
+      "decimals": 0
+     },
+     {
+      "label": "Super Bowl MVPs",
+      "a": 5,
+      "b": 5,
+      "decimals": 0
+     },
+     {
+      "label": "Career Legacy",
+      "a": 13107,
+      "b": 11508,
+      "decimals": 0
+     }
+    ]
+   }
+  },
+  {
+   "id": "ryland-maxwell-numbers",
+   "kind": "numbers",
+   "headline": "The Numbers Through Y94",
+   "body": [
+    "Through Y94: 27,393 rushing yards, 366 rushing touchdowns and 114 more through the air in 284 games, with 11 rings and a Career Legacy of 13,107, second only to Sherman Brandson."
+   ],
+   "players": [
+    "Ryland Maxwell",
+    "Sherman Brandson"
+   ],
+   "teams": [],
+   "stats": [
+    {
+     "label": "Rushing yards",
+     "value": "27,393",
+     "source": "market_history.json snap-202611141119 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Rushing TDs",
+     "value": "366",
+     "source": "market_history.json snap-202611141119 RB:Ryland Maxwell s.rtd"
+    },
+    {
+     "label": "Receiving TDs",
+     "value": "114",
+     "source": "market_history.json snap-202611141119 RB:Ryland Maxwell s.rectd"
+    },
+    {
+     "label": "Rings",
+     "value": "11",
+     "source": "market_history.json snap-202611141119 RB:Ryland Maxwell s.rings"
+    },
+    {
+     "label": "Career Legacy",
+     "value": "13,107",
+     "source": "market_history.json snap-202611141119 RB:Ryland Maxwell legacy"
+    },
+    {
+     "label": "Games",
+     "value": "284",
+     "source": "market_history.json snap-202611141119 RB:Ryland Maxwell s.g"
+    }
+   ]
+  },
+  {
+   "id": "ryland-maxwell-last-lap",
+   "kind": "lastlap",
+   "headline": "One Season Left, 381 Career Legacy From the Top",
+   "body": [
+    "Maxwell is 33, and by the game's retirement clock Y95 is his final season unless Skura delays it. He sits 381 Career Legacy behind Sherman Brandson's 13,488 for first all time, after gaining 1,142 in Y94 alone. The Hall of Fame ballot already scores his case at 99, the highest of any player still active. One more season like the last would settle the only argument left."
+   ],
+   "players": [
+    "Ryland Maxwell",
+    "Sherman Brandson"
+   ],
+   "teams": [
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "Behind Brandson",
+     "value": "381",
+     "source": "market_history.json snap-202611141119 QB:Sherman Brandson legacy minus market_history.json snap-202611141119 RB:Ryland Maxwell legacy"
+    },
+    {
+     "label": "Age",
+     "value": "33",
+     "source": "save_state.json players/RB:Ryland Maxwell/age"
+    },
+    {
+     "label": "Brandson Career Legacy",
+     "value": "13,488",
+     "source": "market_history.json snap-202611141119 QB:Sherman Brandson legacy"
+    },
+    {
+     "label": "Career Legacy gained, Y94",
+     "value": "1,142",
+     "source": "market_history.json snap-202611140247..snap-202611141119 RB:Ryland Maxwell legacy"
+    },
+    {
+     "label": "Hall of Fame score",
+     "value": "99",
+     "source": "halloffame.json watch/[key=RB:Ryland Maxwell]/score"
+    }
+   ]
+  }
+ ]
+}

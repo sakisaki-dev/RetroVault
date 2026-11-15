@@ -15,9 +15,9 @@ manifest.json
   created    YYYY-MM-DD
   images     [{file, path?, shows?}] or groups [{group, path?, files: [...], shows?}]
   ai_steps   [{step, reason, trigger, ...}]: the AI work done to produce the mutations. Allowed steps only:
-             transcribe | portrait→look | tag notes | speech | art | story | takes
+             transcribe | portrait→look | tag notes | speech | art | story | takes | tribute
   mutations  [{lane, op, target, value, source, reason, trigger}]
-             source: "owner" or "image:<file or group in images>" (the story and takes lanes also take
+             source: "owner" or "image:<file or group in images>" (the story, takes and tribute lanes also take
              "data:<files read>"; the stats lane also takes "save:<file>", the game's own save, see save)
   save       {file, path, sha256, season, week, complete}: present when the bundle was read from the game's save by
              scripts/save_read.py; every "save:<file>" source must name this file. Reading a save is data entry, not
@@ -79,6 +79,14 @@ Lanes and ops (deterministic; nothing is inferred here):
                                                     story rules (every number cited and matching its source, no em
                                                     dashes, quotes only nicknames, no owner or second person), body
                                                     60-180 words, heat 1-3, ids y90-take-<slug> unique everywhere
+  tribute tribute.set   target "RB:Ryland Maxwell"   value {reason, trigger, nickname?, deck, chapters[]}: writes (or
+                                                    rewrites) a player's tribute in data/y80/tributes.json, a long-form
+                                                    feature on his whole career. Needs the 'tribute' AI step;
+                                                    scripts/story_check.py check_tribute holds every chapter to the
+                                                    story rules (each figure cited and matching its source, no em
+                                                    dashes, quotes only nicknames, no owner or second person), kinds
+                                                    chapter | trade | market | rival | lastlap | numbers
+          tribute.remove target "RB:Ryland Maxwell"  value null: deletes a player's tribute
 """
 from __future__ import annotations
 
@@ -107,6 +115,7 @@ FILES = {
     "extras": SRC / "screenshot_extras.json",
     "stories": SRC / "stories.json",
     "takes": SRC / "hot_takes.json",
+    "tributes": SRC / "tributes.json",
     "schedules": SRC / "schedules.json",
     "save_state": SRC / "save_state.json",
 }
@@ -120,6 +129,11 @@ TAKES_ABOUT = ("Hot Takes: the fourth AI-authored lane (owner-approved 2026-11-1
                "per completed season, written only by a takes.set upload mutation; every figure cited in stats[] with its "
                "source and checked like the Season Story (scripts/story_check.py check_takes). Never hand-edit.")
 
+TRIBUTES_ABOUT = ("Player Tributes: the fifth AI-authored lane (owner-approved 2026-11-14, \"both yes\"). A long-form "
+                  "feature per player on his whole career, keyed POS:Name, written only by a tribute.set upload mutation; "
+                  "every figure cited in stats[] with its source and checked like the Season Story "
+                  "(scripts/story_check.py check_tribute). Never hand-edit.")
+
 SAVE_STATE_ABOUT = ("Live state of the current season read from the game's own save (scripts/save_read.py --state), written "
                     "only by a save.state upload mutation: ages, ratings and ceilings, contracts, injuries, the season so "
                     "far per player (Retro Vault keys), club records, the coach's game log, the club's settings, "
@@ -131,7 +145,7 @@ SAVE_FORBIDDEN = {"attitude", "morale", "height", "weight", "hof", "hof_candidat
 SCHEDULES_ABOUT = ("Week-by-week league scores, final standings and the coach's opponents per season, transcribed from "
                    "the game's LEAGUE schedule, standings and season summary screens (schedule.set). Facts only; never hand-edit.")
 
-AI_STEPS = {"transcribe", "portrait→look", "tag notes", "speech", "art", "story", "takes"}
+AI_STEPS = {"transcribe", "portrait→look", "tag notes", "speech", "art", "story", "takes", "tribute"}
 LANE_OPS = {
     "stats": {"player.set", "player.rename", "fact.set", "fact.add", "fact.remove", "superbowl.set", "coach.season", "coach.set",
               "record.set", "baseline", "extras.set", "schedule.set", "save.state"},
@@ -140,12 +154,14 @@ LANE_OPS = {
     "speech": {"speech.set", "speech.remove"},
     "story": {"story.set", "story.remove"},
     "takes": {"takes.set"},
+    "tribute": {"tribute.set", "tribute.remove"},
 }
 # AI step that must be logged when a lane's mutations come from images / owner prose
 NEEDS_STEP = {("stats", "image"): "transcribe", ("looks", "image"): "portrait→look", ("notes", "owner"): "tag notes",
               ("speech", "owner"): "speech", ("speech", "image"): "speech",
               ("story", "data"): "story", ("story", "owner"): "story", ("story", "image"): "story",
-              ("takes", "data"): "takes", ("takes", "owner"): "takes", ("takes", "image"): "takes"}
+              ("takes", "data"): "takes", ("takes", "owner"): "takes", ("takes", "image"): "takes",
+              ("tribute", "data"): "tribute", ("tribute", "owner"): "tribute", ("tribute", "image"): "tribute"}
 CAREER_KEYS = {"g", "att", "cmp", "yds", "td", "int", "sck", "ratt", "ryds", "rtd", "fum", "rec", "recyds", "rectd",
                "blk", "tkl", "ff", "rings", "mvp", "opoy", "dpoy", "roty", "sbmvp"}
 FACT_ORDER = ["team", "team_history", "retired_with", "status", "tag", "card", "card_design", "career", "real_nfl"]
@@ -201,10 +217,10 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
         if op not in LANE_OPS.get(lane, set()):
             errs.append(f"{where}: op {op!r} is not in lane {lane!r}")
         kind = "image" if src.startswith("image:") else "owner" if src == "owner" else \
-            "data" if src.startswith("data:") and lane in ("story", "takes") else \
+            "data" if src.startswith("data:") and lane in ("story", "takes", "tribute") else \
             "save" if src.startswith("save:") and lane == "stats" else None
         if kind is None:
-            errs.append(f"{where}: source must be 'owner' or 'image:<file>'" + (" or 'data:<files>'" if lane in ("story", "takes") else "")
+            errs.append(f"{where}: source must be 'owner' or 'image:<file>'" + (" or 'data:<files>'" if lane in ("story", "takes", "tribute") else "")
                         + (" or 'save:<file>'" if lane == "stats" else ""))
         elif kind == "image" and src[6:] not in images:
             errs.append(f"{where}: {src} is not listed in images")
@@ -214,7 +230,7 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
             if kind != "save":
                 errs.append(f"{where}: save.state needs source 'save:<file>' (it is read from the game's save)")
             errs += [f"{where}: {e}" for e in save_state_errors(str(m.get("target", "")), m.get("value"), manifest)]
-        need = None if op in ("speech.remove", "story.remove") else NEEDS_STEP.get((lane, kind))  # a deletion writes no AI text
+        need = None if op in ("speech.remove", "story.remove", "tribute.remove") else NEEDS_STEP.get((lane, kind))  # a deletion writes no AI text
         if need and need not in done and not (lane == "notes" and not (m.get("value") or {}).get("players") and not (m.get("value") or {}).get("teams")):
             errs.append(f"{where}: needs the {need!r} AI step logged in ai_steps")
         if op == "journal.add":
@@ -235,6 +251,12 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
             # the same: every figure must match its source when the takes are published
             take_errs, take_stale = story_check.check_takes(story_check.Data(), str(m.get("target", "")), m.get("value"))
             errs += [f"{where}: {e}" for e in take_errs + take_stale]
+        if op == "tribute.set":
+            # the same: every figure must match its source when the tribute is published
+            tr_errs, tr_stale = story_check.check_tribute(story_check.Data(), str(m.get("target", "")), m.get("value"))
+            errs += [f"{where}: {e}" for e in tr_errs + tr_stale]
+        if op == "tribute.remove" and m.get("value") is not None:
+            errs.append(f"{where}: tribute.remove takes value null")
     return errs
 
 
@@ -376,6 +398,8 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
         data["stories"] = {"_about": STORIES_ABOUT, "seasons": {}}
     if data["takes"] is None:
         data["takes"] = {"_about": TAKES_ABOUT, "seasons": {}}
+    if data["tributes"] is None:
+        data["tributes"] = {"_about": TRIBUTES_ABOUT, "players": {}}
     if data["schedules"] is None:
         data["schedules"] = {"_about": SCHEDULES_ABOUT, "seasons": {}}
     changes = []
@@ -545,6 +569,20 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
                 seasons[target] = rec
                 data["takes"]["seasons"] = dict(sorted(seasons.items(), key=lambda kv: int(kv[0].lstrip("Y"))))
                 changes.append(f"hot takes {target} ({len(value['takes'])} takes)")
+        elif op == "tribute.set":
+            players = data["tributes"].setdefault("players", {})
+            rec = {"reason": value["reason"], "trigger": value["trigger"], "upload": manifest["id"]}
+            if value.get("nickname"):
+                rec["nickname"] = value["nickname"]
+            rec["deck"] = value["deck"]
+            rec["chapters"] = value["chapters"]
+            if players.get(target) != rec:
+                players[target] = rec
+                data["tributes"]["players"] = dict(sorted(players.items()))
+                changes.append(f"tribute {target} ({len(value['chapters'])} chapters)")
+        elif op == "tribute.remove":
+            if data["tributes"].get("players", {}).pop(target, None) is not None:
+                changes.append(f"tribute {target} removed")
         elif op == "extras.set":
             section, _, key = target.partition("/")
             entries = data["extras"][section]

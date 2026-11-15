@@ -1410,6 +1410,15 @@
     "notes": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-14-tribute-maxwell",
+   "dir": "data/uploads/2026-11-14-tribute-maxwell",
+   "applied_at": "2026-11-14T16:26:38-08:00",
+   "mutations": {
+    "tribute": 1
+   },
+   "changed": 1
   }
  ]
 }
