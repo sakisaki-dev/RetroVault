@@ -10,6 +10,7 @@ import type { MarketRow } from './marketRows';
 import Heatmap from './Heatmap';
 import Portfolio from './Portfolio';
 import './market.css';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 type Period = 'last' | 'all';
 
@@ -66,7 +67,7 @@ const MarketView = ({ byKey, owned, autos, onOpen }: MarketViewProps) => {
   const valuable = useMemo(() => [...filtered].sort((a, b) => b.value - a.value).slice(0, LIST), [filtered]);
   const heat = useMemo(() => [...filtered].sort((a, b) => b.value - a.value).slice(0, HEAT), [filtered]);
 
-  if (!history) return <p className="text-sm text-muted-foreground">Loading market…</p>;
+  if (!history) return <PixelLoader label="Market" what="the market" minHeight={360} />;
   const latest = history[history.length - 1];
   if (!latest) return null;
   const prev = history[history.length - 2];

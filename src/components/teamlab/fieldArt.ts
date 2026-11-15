@@ -16,6 +16,8 @@ export interface FieldArt {
   turf: string | null;
   crowd: string | null;
   stands: string | null;
+  /** The first paint is still on its way: the field waits under a loader instead of flashing the CSS turf */
+  pending?: boolean;
 }
 
 const parse = (css: string): [number, number, number] => {
@@ -106,7 +108,7 @@ export const useFieldArt = (club: string, turf: Turf, tall = false): FieldArt =>
     };
   }, [club, turf, tall, key]);
   // keep the last club's art while the next one paints (no flash to the CSS field)
-  return ENABLED ? art : NONE;
+  return ENABLED ? (art.key ? art : { ...art, pending: true }) : NONE;
 };
 
 export const FIELD_ART = ENABLED;

@@ -10,6 +10,7 @@ import ProspectBoard, { type DraftInfo } from './ProspectBoard';
 import { useLeagueContent, type LeagueContent } from '@/utils/leagueContent';
 import type { SaveState } from './saveData';
 import './clock.css';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 /**
  * The Clock (Stats › Clock, #stats/clock/<view>): the league's ages from the owner's live save. Two views: the
@@ -73,9 +74,7 @@ const ClockPage = ({ players, onSelect }: { players: Player[]; onSelect: (p: Pla
 
   if (state === undefined) {
     return (
-      <div role="status" aria-label="Loading the clock" className="rv-fallback container flex min-h-[50vh] items-start justify-center pt-16">
-        <div className="h-8 w-8 animate-spin rounded-full border-[3px] border-gold border-t-transparent" />
-      </div>
+      <PixelLoader label="Clock" what="the clock" minHeight="50vh" className="container justify-start pt-16" />
     );
   }
   if (!state) {
@@ -92,7 +91,7 @@ const ClockPage = ({ players, onSelect }: { players: Player[]; onSelect: (p: Pla
   const prospects = prospectBoard(all).length;
 
   return (
-    <div className="clk container py-3 sm:py-4">
+    <div className="clk rv-load-in container py-3 sm:py-4">
       <header className="clk-band">
         <div className="clk-band__id">
           <h1 className="clk-band__title">

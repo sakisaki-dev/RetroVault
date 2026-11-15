@@ -39,6 +39,7 @@ import TributeButton from './tribute/TributeButton';
 import { useLegendPhoto } from './player/useLegendPhoto';
 import { useDeferredStage } from '@/hooks/useDeferredStage';
 import './player/playerCard.css';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 // The collectible art (card faces, kits, autograph canvas) loads only when the Card designs tab is opened
 const CardDesignsPanel = lazy(() => import('./player/CardDesignsPanel'));
@@ -644,7 +645,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
                 <SectionTitle icon={Layers} id={`${headingId}-cards`}>
                   Card designs
                 </SectionTitle>
-                <Suspense fallback={<p className="py-8 text-center text-sm text-muted-foreground">Loading cards…</p>}>
+                <Suspense fallback={<PixelLoader size="sm" label="Cards" what="cards" minHeight={220} />}>
                   <CardDesignsPanel player={player} />
                 </Suspense>
               </section>

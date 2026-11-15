@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
-import { Trophy } from 'lucide-react';
+import PixelLoader from '@/components/ui/PixelLoader';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
 import PlayerCardLayer from '../player/PlayerCardLayer';
@@ -142,20 +142,11 @@ const CareerTab = () => {
 
   if (!careerData) {
     // The league loads from the bundled data file; this only shows for a moment (or if that file is missing).
-    return (
-      <div className="container py-12 text-center" role="status">
-        <Trophy className="mx-auto mb-4 h-8 w-8 text-gold" aria-hidden="true" />
-        <p className="text-muted-foreground">Loading the league…</p>
-      </div>
-    );
+    return <PixelLoader label="Stats" what="the league" minHeight="70vh" className="container justify-start pt-[18vh]" />;
   }
 
   if (isLoading) {
-    return (
-      <div className="container flex items-center justify-center py-20">
-        <div role="status" aria-label="Loading league data" className="h-12 w-12 animate-spin rounded-full border-4 border-gold border-t-transparent" />
-      </div>
-    );
+    return <PixelLoader label="Stats" what="league data" minHeight="70vh" className="container justify-start pt-[18vh]" />;
   }
 
   const headline = pickBoards(book.boards, HEADLINE_IDS);

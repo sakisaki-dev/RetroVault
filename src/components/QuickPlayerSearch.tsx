@@ -22,6 +22,7 @@ import TeamLogo from './brand/TeamLogo';
 import GameSprite from './GameSprite';
 import { matchPlayer } from './PlayerSearchSelect';
 import { openInCompFinder } from './stats/comps/compFinderLink';
+import { parseHash } from './stats/hub/hashRoute';
 import { isPhone, usePhone } from '@/hooks/usePhone';
 import { pushRecent, readRecent } from '@/utils/playerSearch';
 import PlayerSearchSheet, { type SheetGroup } from './search/PlayerSearchSheet';
@@ -177,6 +178,9 @@ const useOpenTriggers = (setOpen: (fn: (o: boolean) => boolean) => void) => {
   }, [setOpen]);
 };
 
+/** Is the Deep Dive the page on screen? (read from the hash at the moment it matters) */
+const onDeepDive = () => parseHash(window.location.hash)?.sub === 'deepdive';
+
 /**
  * Phones: the full-screen search sheet (search/PlayerSearchSheet.tsx). A pick opens his card; press and hold a row for
  * the quick look (Deep Dive, Head-to-Head...).
@@ -207,8 +211,11 @@ const QuickSearchPhone = () => {
         ovrMap={ovrMap}
         onPick={(p) => {
           setOpen(false);
-          setSelected(p);
+          // On the Deep Dive the pick loads there (as the desktop hub search does); anywhere else his card opens
+          if (onDeepDive() && !p.isRealLegend) openInCompFinder(p);
+          else setSelected(p);
         }}
+        title={open && onDeepDive() ? 'Deep Dive' : undefined}
         suggestions={suggestions}
         footer={`${league.length} league · ${legends.length} NFL players`}
       />

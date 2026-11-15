@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { Loader2, Plane, Sparkles } from 'lucide-react';
+import { Plane, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useHubRoute } from '@/components/stats/hub/hashRoute';
 import { findNFLTeam } from '@/utils/nflTeams';
@@ -38,6 +38,7 @@ import { useFieldArt, type Turf } from './fieldArt';
 import { useMedia } from './useMedia';
 import { useLegendsToggle, useSavedTeams, useTeamLabContext } from './useTeamLab';
 import './teamlab.css';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 /**
  * Team Lab (#lab): build a Retro Bowl lineup (QB, RB, 2 WR, TE, OL + 4 defenders) on the game's own field and get a
@@ -153,11 +154,7 @@ const TeamLabTab = () => {
   const ledger = useMemo(() => (office ? labLedger(office, lineup) : null), [office, lineup]);
 
   if (!ctx) {
-    return (
-      <div className="flex items-center justify-center gap-2 py-24 text-muted-foreground" role="status">
-        <Loader2 className="h-5 w-5 motion-safe:animate-spin" aria-hidden="true" /> Loading the league…
-      </div>
-    );
+    return <PixelLoader label="Team Lab" what="the league" minHeight="60vh" className="container justify-start pt-[14vh]" />;
   }
 
   const filled = filledCount(lineup);
@@ -175,7 +172,7 @@ const TeamLabTab = () => {
   };
 
   return (
-    <div className="lab container min-w-0 py-3 sm:py-4" style={vars}>
+    <div className="lab rv-load-in container min-w-0 py-3 sm:py-4" style={vars}>
       <div className="lab-stadium">
         <LabHeader
           kitClub={kitClub}
@@ -203,7 +200,7 @@ const TeamLabTab = () => {
             onTurf={setTurfPick}
           />
         </LabHeader>
-        <div className={`lab-stands ${art.crowd ? 'lab-stands--art' : 'lab-stands--css'}`} aria-hidden="true">
+        <div className={`lab-stands ${art.crowd ? 'lab-stands--art' : art.pending ? 'lab-stands--pending' : 'lab-stands--css'}`} aria-hidden="true">
           <span className="lab-crowd" />
           <span className="lab-standfront" />
         </div>

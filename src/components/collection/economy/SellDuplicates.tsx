@@ -10,6 +10,7 @@ import { useMarket } from '@/utils/useMarket';
 import type { CardInfo } from '../useCardPool';
 import { allCopies, duplicateCopies } from './copies';
 import './economy.css';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 interface SellDuplicatesProps {
   open: boolean;
@@ -58,7 +59,7 @@ const SellDuplicates = ({ open, onClose, byKey, state }: SellDuplicatesProps) =>
           <Switch checked={keepUnique} onCheckedChange={setKeepUnique} aria-label="Keep one of each kit and Prizm colour" />
         </label>
         {!latest ? (
-          <p className="mt-4 text-sm text-muted-foreground">Loading market prices…</p>
+          <PixelLoader variant="inline" size="sm" label="Prices" what="market prices" className="mt-4" />
         ) : list.length ? (
           <>
             <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-gold/40 bg-gold/10 px-3 py-2">

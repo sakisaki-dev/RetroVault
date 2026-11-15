@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { CalendarRange, Flame, GitBranch, Loader2, Trophy } from 'lucide-react';
+import { CalendarRange, Flame, GitBranch, Trophy } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
 import { latestSeasonYear, useLeagueContent } from '@/utils/leagueContent';
@@ -14,6 +14,7 @@ import Storylines from '@/components/timeline/Storylines';
 import SeasonLink from '@/components/season/SeasonLink';
 import { TimelineNews } from '@/components/news/WhatChanged';
 import { MarkerGlyph, type MarkerKind } from '@/components/timeline/SuperBowlMarker';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 const DETAIL_ID = 'timeline-era-detail';
 const MOBILE_DETAIL_ID = 'timeline-era-detail-mobile';
@@ -72,11 +73,7 @@ const TimelineTab = () => {
   }, [selectedEraId]);
 
   if (loading) {
-    return (
-      <div className="container mx-auto flex items-center justify-center gap-2 px-4 py-24 text-muted-foreground" role="status">
-        <Loader2 className="h-5 w-5 animate-spin" aria-hidden /> Loading league history…
-      </div>
-    );
+    return <PixelLoader label="Timeline" what="league history" minHeight="60vh" className="container justify-start pt-[14vh]" />;
   }
 
   if (!content || !model || (!content.eras.length && !content.superBowls.length)) {
@@ -126,7 +123,7 @@ const TimelineTab = () => {
   ];
 
   return (
-    <div className="container mx-auto space-y-6 px-4 py-6">
+    <div className="rv-load-in container mx-auto space-y-6 px-4 py-6">
       {/* Masthead */}
       <header className="relative overflow-hidden rounded-xl border border-border/30 bg-gradient-to-r from-primary/15 via-background to-[hsl(45_100%_55%/0.12)] p-4 sm:p-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">

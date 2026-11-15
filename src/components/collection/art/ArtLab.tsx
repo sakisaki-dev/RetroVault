@@ -5,6 +5,7 @@ import type { CardInfo } from '../useCardPool';
 import { LabRootContext, PlayerPicker } from './lab/LabParts';
 import { LAB_TABS as TABS } from './lab/LabTabs';
 import './art.css';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 interface ArtLabProps {
   open: boolean;
@@ -91,7 +92,7 @@ const ArtLab = ({ open, onClose, cards, total }: ArtLabProps) => {
               </p>
             )}
             {!pick ? (
-              <p className="py-10 text-center text-sm text-muted-foreground">Loading cards…</p>
+              <PixelLoader label="Cards" what="cards" minHeight={280} />
             ) : (
               <LabRootContext.Provider value={root}>{root && <Tab key={`${tab}|${pick.key}`} pick={pick} league={league} total={total} />}</LabRootContext.Provider>
             )}

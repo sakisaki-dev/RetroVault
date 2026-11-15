@@ -10,6 +10,7 @@ import { SourcedFigure } from './SourcedFigure';
 import { FeatureSheet, type SheetPiece } from './FeatureSheet';
 import ArticleArt from './ArticleArt';
 import './takes.css';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 /**
  * Hot Takes: the fourth AI-authored lane (data/y80/hot_takes.json, written only by a takes.set upload;
@@ -187,9 +188,7 @@ export const HotTakesDesk = ({ season, players, onPlayer }: Props) => {
         )}
       </header>
       {loading ? (
-        <p className="ht-empty" role="status">
-          <span className="ss-loading__dot" aria-hidden="true" /> Heating up the takes…
-        </p>
+        <PixelLoader label="Heating up" what="the hot takes" minHeight={240} />
       ) : !shown ? (
         <p className="ht-empty" role="status">
           The hot takes could not be loaded. Try again in a moment.

@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { BarChart3, History, Loader2, Trophy } from 'lucide-react';
+import { BarChart3, History, Trophy } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
@@ -13,6 +13,7 @@ import { HeadToHeadGrid } from '@/components/season/scheduleParts';
 import PlayoffHistory from '@/components/season/PlayoffHistory';
 import AroundTheLeague from '@/components/season/AroundTheLeague';
 import '@/components/season/season.css';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 /**
  * The Season page. Its backbone is the design that lived on the Timeline as "Season games" (scoreboard, club splits,
@@ -86,11 +87,7 @@ const SeasonTab = () => {
   const [picked, setPicked] = useState<string | null>(null);
 
   if (live === undefined || liveSched === undefined || !schedule) {
-    return (
-      <div className="container mx-auto flex items-center justify-center gap-2 px-4 py-24 text-muted-foreground" role="status">
-        <Loader2 className="h-5 w-5 animate-spin" aria-hidden /> Loading the season…
-      </div>
-    );
+    return <PixelLoader label="Season" what="the season" minHeight="60vh" className="container justify-start pt-[14vh]" />;
   }
 
   const shown = picked && options.includes(picked) ? picked : options[0] ?? null;
@@ -100,7 +97,7 @@ const SeasonTab = () => {
   const span = past.length ? `${past[past.length - 1].season}–${past[0].season}` : '';
 
   return (
-    <div className="season container mx-auto space-y-4 px-4 py-4 sm:py-6">
+    <div className="season rv-load-in container mx-auto space-y-4 px-4 py-4 sm:py-6">
       <section aria-labelledby="season-heading" className="space-y-4 rounded-xl border border-border/40 bg-card p-3 sm:p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>

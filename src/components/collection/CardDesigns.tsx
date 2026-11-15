@@ -17,6 +17,7 @@ import {
 import CollectibleCard from "./CollectibleCard";
 import type { CardInfo } from "./useCardPool";
 import { designRows } from "./designSamples";
+import PixelLoader from '@/components/ui/PixelLoader';
 
 interface CardDesignsProps {
   open: boolean;
@@ -102,9 +103,7 @@ const CardDesigns = ({
           </button>
         </div>
         {!rows.length ? (
-          <p className="py-10 text-center text-sm text-muted-foreground">
-            Loading cards…
-          </p>
+          <PixelLoader label="Cards" what="cards" minHeight={280} />
         ) : (
           <div
             className="dz-grid"
