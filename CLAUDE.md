@@ -228,7 +228,20 @@ records.json, content.json (storylines, rivalries, headlines, record chases, era
 Write it as a professional sports outlet covering a real league (owner: "love the stories but remove my words or
 'the owner', treat it like a professional story"). Creative liberty (owner: "feel free to take creative liberty on how
 the players feel and what it means etc etc"): narrative voice, emotion, stakes and interpretation are welcome ("you
-could feel Lock's relief in New York", what a trade means for a franchise or a rivalry). Hard rules:
+could feel Lock's relief in New York", what a trade means for a franchise or a rivalry). **Immersive, league-wide**
+(owner, 2026-11-14: "make them a bit more immersive when it comes to the articles, some can be critics, show drama
+through trades performances etc, and it doesn't have to be specific to my players, where there is something to write
+about go for it regardless"): this holds for stories, hot takes and tributes alike.
+- Cover the whole league, not only the coach's club: any club's collapse, a rival's dynasty, a breakout on a bad team,
+  a veteran fading elsewhere, a lopsided trade between two other clubs. Aim for a real share of each package away from
+  the coach's club whenever the data has a story there.
+- Some pieces may be critical: a columnist panning a trade, a player who disappeared in a big season, a club that
+  wasted a star. They argue with figures, never with invented facts.
+- Find the drama in the data: trades told as gambles with what each side gave up and how it turned out (the market
+  at the time, games and rings since), slumps and comebacks (season deltas between snapshots), injuries (missed games),
+  rivalries, record chases, a contender's sudden fall in the standings (schedules.json), the end of a career.
+
+Hard rules (unchanged by the above):
 - Every fact, number, team and who-went-where is true to the data: stats, Super Bowls, coach seasons, trades and owner
   facts, the record board, the market, stints, families, skill grades, headlines. Trades are told as the whole chain,
   ending at each player's final club (owner: "oxley went to the bears, there were so many trades").
