@@ -30,8 +30,6 @@ import { cn } from '@/lib/utils';
 import { setPerfSetting, suggestLite, usePerfMode, type PerfSetting } from '@/hooks/usePerfMode';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 import type { Route, StatsSub } from '@/components/stats/hub/hashRoute';
-import { useCurrentClub } from '@/utils/club';
-import { findNFLTeam } from '@/utils/nflTeams';
 import { reducedMotion } from '@/utils/motion';
 
 /*
@@ -55,6 +53,23 @@ const MAIN = [
   { value: 'collection', label: 'Collection', Icon: Layers },
   { value: 'hof', label: 'Hall of Fame', short: 'HOF', Icon: Crown },
 ] as const;
+/**
+ * Each tab's own colour (owner: "everything is green and yellow which is kinda odd so maybe diff colors for each"): the
+ * pill under the current tab, the lifted puck and finger bubble while sliding, and that tab's hold menu wear it. The
+ * More menu's items each wear their own page's colour.
+ */
+const TAB_COLOR: Record<string, string> = {
+  games: '#ff5d6c',
+  career: '#4fb3ff',
+  collection: '#b58cff',
+  hof: '#f1c35c',
+  more: '#3fd0b4',
+  season: '#ff9a3c',
+  lab: '#5fd28a',
+  timeline: '#4fb3ff',
+  office: '#f1c35c',
+};
+const colorOf = (id: string | null | undefined) => (id && TAB_COLOR[id]) || '#f1c35c';
 const MORE = [
   { value: 'season', label: 'Season', blurb: 'Live standings, leaders and the award race', Icon: Radio },
   { value: 'lab', label: 'Team Lab', blurb: 'Build a lineup and get a scouting report', Icon: Users },
@@ -173,13 +188,13 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
   const ref = useRef<HTMLElement | null>(null);
   const listRef = useRef<HTMLUListElement | null>(null);
   const bubbleRef = useRef<HTMLSpanElement | null>(null);
+  const dockRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [more, setMore] = useState(false);
   // Gesture state the bar draws: what is under the finger, and which menu is up
   const [hover, setHover] = useState<string | null>(null);
   const [menu, setMenu] = useState<Shown | null>(null);
   const inMore = MORE.find((m) => m.value === activeTab);
-  const club = findNFLTeam(useCurrentClub());
 
   // Publish the bar's height (0 when hidden above the phone breakpoint)
   useEffect(() => {
@@ -231,6 +246,7 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
   const setHoverIf = (h: string | null) => {
     if (g.current.hover === h) return;
     g.current.hover = h;
+    if (h?.startsWith('tab:')) ref.current?.style.setProperty('--hc', colorOf(h.slice(4)));
     setHover(h);
   };
   const openMenu = (m: Menu | null) => {
@@ -329,7 +345,7 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
       delete b.dataset.on;
       return;
     }
-    const navLeft = ref.current?.getBoundingClientRect().left ?? 0;
+    const navLeft = dockRef.current?.getBoundingClientRect().left ?? 0;
     b.style.transform = `translate3d(${x - navLeft - 32}px, 0, 0) scale(1)`;
     b.dataset.on = '';
   };
@@ -401,9 +417,9 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
   const caretX = menu ? menu.cx - menuLeft : MENU_W / 2;
   const items =
     menu?.kind === 'more'
-      ? MORE.map((m) => ({ target: `more:${m.value}`, label: m.label, Icon: m.Icon, on: activeTab === m.value }))
+      ? MORE.map((m) => ({ target: `more:${m.value}`, label: m.label, Icon: m.Icon, on: activeTab === m.value, color: colorOf(m.value) }))
       : menu?.kind === 'sections'
-        ? SECTIONS[menu.tab].items.map((s) => ({ target: `sec:${menu.tab}:${s.id}`, label: s.label, Icon: s.Icon, on: false }))
+        ? SECTIONS[menu.tab].items.map((s) => ({ target: `sec:${menu.tab}:${s.id}`, label: s.label, Icon: s.Icon, on: false, color: colorOf(menu.tab) }))
         : [];
   const menuTitle = menu?.kind === 'more' ? 'More' : menu ? SECTIONS[menu.tab].title : '';
   const menuVars = {
@@ -411,10 +427,12 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
     width: MENU_W,
     bottom: `calc(var(--bottom-nav-h, 0px) + ${MENU_GAP}px)`,
     '--bn-caret': `${caretX}px`,
-    '--mc': club ? `hsl(${club.primaryColor})` : 'hsl(var(--gold))',
-    '--mc2': club ? `hsl(${club.secondaryColor})` : 'hsl(var(--gold))',
+    '--mc': colorOf(menu?.kind === 'more' ? 'more' : menu?.tab),
+    '--mc2': colorOf(menu?.kind === 'more' ? 'more' : menu?.tab),
   } as CSSProperties;
 
+  const activeIdx = inMore ? MAIN.length : Math.max(0, MAIN.findIndex((m) => m.value === activeTab));
+  const activeColor = colorOf(inMore ? inMore.value : activeTab);
   return (
     <>
       {/* While the bar is tucked: a tap at the bottom edge brings it back instead of reaching the page underneath */}
@@ -427,6 +445,9 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
         }}
       />
       <nav ref={ref} aria-label="Primary" className="bnav sm:hidden" data-gesture={hover ? 'true' : undefined}>
+        {/* The dock: a floating capsule in the widget's gold rim; the pill under the current tab slides between tabs */}
+        <div ref={dockRef} className="bnav__dock" style={{ '--ai': activeIdx, '--ac': activeColor } as CSSProperties}>
+        <span className="bnav__pill" aria-hidden="true" />
         <span ref={bubbleRef} className="bnav__bubble" aria-hidden="true" />
         <ul
           ref={listRef}
@@ -448,6 +469,7 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
                   aria-current={on ? 'page' : undefined}
                   aria-label={label}
                   className="bnav__item"
+                  style={{ '--tc': colorOf(value) } as CSSProperties}
                   data-on={on}
                   data-hover={hover === `tab:${value}` || undefined}
                   data-anchor={(menu?.kind === 'sections' && menu.tab === value) || undefined}
@@ -469,6 +491,7 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
               aria-expanded={more}
               aria-current={inMore ? 'page' : undefined}
               className="bnav__item"
+              style={{ '--tc': colorOf(inMore ? inMore.value : 'more') } as CSSProperties}
               data-on={!!inMore}
               data-hover={hover === 'tab:more' || undefined}
               data-anchor={menu?.kind === 'more' || undefined}
@@ -480,6 +503,7 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
             </button>
           </li>
         </ul>
+        </div>
       </nav>
 
       {menu && (
@@ -489,14 +513,14 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
             <span className="bnav-pop__hint">{menu.kind === 'more' ? 'Slide up' : 'Jump to'}</span>
           </p>
           <ul className="bnav-pop__list">
-            {items.map(({ target, label, Icon, on }, i) => (
+            {items.map(({ target, label, Icon, on, color }, i) => (
               <li
                 key={target}
                 data-target={target}
                 className="bnav-pop__item"
                 data-hover={hover === target || undefined}
                 data-on={on || undefined}
-                style={{ '--i': items.length - 1 - i } as CSSProperties}
+                style={{ '--i': items.length - 1 - i, '--ic': color } as CSSProperties}
               >
                 <span className="bnav-pop__icon">
                   <Icon className="h-[18px] w-[18px]" />
