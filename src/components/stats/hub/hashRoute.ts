@@ -217,8 +217,17 @@ export const useHashRoute = (defaultTab = 'games') => {
     const hash = buildHash(next);
     const changed = !sameRoute(next, targetRef.current);
     if (hash !== window.location.hash) {
-      if (opts?.replace) window.history.replaceState(window.history.state, '', hash);
-      else {
+      if (opts?.replace) {
+        // A replacement made from inside an overlay (a Deep Dive pick in the skill leaderboard sheet or the search
+        // sheet) takes the overlay's entry over: drop its `ov` mark, so the overlay closing does not pop the new route
+        // (owner: picking a player "just reloads the current player")
+        const st = (window.history.state ?? {}) as Record<string, unknown>;
+        if ('ov' in st) {
+          const rest = { ...st };
+          delete rest.ov;
+          window.history.replaceState(rest, '', hash);
+        } else window.history.replaceState(st, '', hash);
+      } else {
         saved.set(current.current, window.scrollY);
         const id = ++entrySeq;
         // An open overlay's entry (utils/overlayHistory) is replaced, not stacked on: Back from the new page returns to
