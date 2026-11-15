@@ -75,7 +75,9 @@ export const useSwipeToDismiss = <T extends HTMLElement>({ onDismiss, enabled = 
 
   useEffect(() => {
     if (!el || !enabled) return;
-    el.dataset.swipeRoot = '';
+    // 'down' when the root takes downward drags (sheets): pull-to-search stays off those; a sideways-only root (the
+    // Deep Dive's swipe back) leaves the pull alone
+    el.dataset.swipeRoot = down ? 'down' : 'x';
     let startX = 0;
     let startY = 0;
     let lastY = 0;

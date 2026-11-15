@@ -18,7 +18,7 @@ const THRESHOLD = 76; // px of (resisted) pull
 const FLICK = 0.6; // px per ms
 const HINT_KEY = 'retroVault:pullSearchUsed';
 const EXCLUDE =
-  'input, textarea, select, [contenteditable="true"], [role="dialog"], [data-swipe-root], [data-no-pull], svg[role="group"], canvas, .fut, .cbw, .gp-sheet, .bnav, [style*="touch-action"]';
+  'input, textarea, select, [contenteditable="true"], [role="dialog"], [data-swipe-root="down"], [data-no-pull], svg[role="group"], canvas, .fut, .cbw, .gp-sheet, .bnav, [style*="touch-action"]';
 
 const used = () => {
   try {
