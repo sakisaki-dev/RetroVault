@@ -486,7 +486,7 @@ const Market = ({ card, players, onPlayer }: CardProps) => (
           <Figure
             p={p}
             players={players}
-            size="m"
+            size="l"
             action={up ? "run" : undefined}
           />
           <span className="rw-mover__pct">

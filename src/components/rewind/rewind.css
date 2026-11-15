@@ -457,6 +457,13 @@ html .rw-dlg .dlg-bar {
   line-height: 1;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  /* A long word ("Champions") shrinks rather than running into the next tile */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: clamp(18px, 6.2cqi, 26px);
+}
+.rw-fig {
+  container-type: inline-size;
 }
 .rw-fig__l {
   font-family: var(--font-pixel);
@@ -835,11 +842,13 @@ html .rw-dlg .dlg-bar {
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   flex: 1;
-  align-content: center;
+  /* The two movers fill the card top to bottom (owner: no empty space) */
+  align-content: stretch;
 }
 .rw-mover {
   display: grid;
   justify-items: center;
+  align-content: space-evenly;
   gap: 6px;
   padding: 10px 8px;
   border-radius: 14px;
@@ -849,6 +858,9 @@ html .rw-dlg .dlg-bar {
 }
 .rw-mover .rw-strip {
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-inline: 0;
 }
 .rw-mover__tag {
   display: flex;
