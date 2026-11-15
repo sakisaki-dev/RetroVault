@@ -1,0 +1,122 @@
+{
+ "season": "Y47",
+ "club": "Ravens",
+ "record": "15-2",
+ "finish": "AFC NOR 1st",
+ "champion": "Bills",
+ "next": "Y48",
+ "cards": [
+  {
+   "id": "y47-cover",
+   "kind": "cover",
+   "club": "Ravens",
+   "kicker": "Season Rewind",
+   "title": "Y47 Rewind",
+   "text": "Dorren Skura's 47th season as a head coach, with the Ravens: 15-2, AFC NOR 1st.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "15-2"
+    },
+    {
+     "label": "Finish",
+     "value": "AFC NOR 1st"
+    },
+    {
+     "label": "Season as coach",
+     "value": "47",
+     "num": 47
+    }
+   ],
+   "teams": [
+    "Ravens"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y47-champion",
+   "kind": "champion",
+   "club": "Bills",
+   "kicker": "Super Bowl CVI",
+   "title": "Bills win it all",
+   "text": "The Bills beat the 49ers 36-24 in Super Bowl CVI, the club's 10th title.",
+   "figures": [
+    {
+     "label": "Bills",
+     "value": "36",
+     "num": 36
+    },
+    {
+     "label": "49ers",
+     "value": "24",
+     "num": 24
+    },
+    {
+     "label": "Franchise titles",
+     "value": "10",
+     "num": 10
+    }
+   ],
+   "teams": [
+    "Bills",
+    "49ers"
+   ],
+   "players": [],
+   "ringHolders": 0,
+   "score": "36-24",
+   "result": "not in it",
+   "n": 2
+  },
+  {
+   "id": "y47-farewells",
+   "kind": "farewells",
+   "club": "Chargers",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "1 career ended in Y47.",
+   "players": [
+    {
+     "key": "QB:Aubrey Jewell",
+     "name": "Aubrey Jewell",
+     "games": 258,
+     "rings": 1,
+     "legacy": 6302,
+     "team": "Chargers"
+    }
+   ],
+   "count": 1,
+   "teams": [
+    "Chargers"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y47-outro",
+   "kind": "outro",
+   "club": "Ravens",
+   "kicker": "That was Y47",
+   "title": "Next: Y48",
+   "next": "Y48",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "33",
+     "num": 33
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "36",
+     "num": 36
+    }
+   ],
+   "text": "Through Y47, Skura has won 33 of 36 Super Bowls.",
+   "teams": [
+    "Ravens"
+   ],
+   "link": {
+    "season": "Y48"
+   },
+   "n": 4
+  }
+ ]
+}

@@ -297,6 +297,54 @@ speechSet.forEach((text, who) => {
   files.forEach((f) => !index.some((e) => e.file === `stories/${f}`) && errors.push(`${dir}/${f} has no entry in content.json seasonStoryIndex (rebuild)`));
   Object.keys(stories).forEach((y) => !index.some((e) => e.season === y) && errors.push(`Story for ${y} is missing from the content.json story index (rebuild)`));
 }
+// Season Rewind (scripts/season_rewind.py, rules only): every index entry has its file and every file its entry; every
+// player a card names has a league card, every club is one of the 32, and a quoted card's link points at a written
+// piece that exists (the story's lead, a take, a tribute)
+{
+  const dir = 'public/data/league/rewind';
+  const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.json')) : [];
+  const index = (content.seasonRewindIndex ?? []) as { season: string; file: string; count: number; kinds: string[] }[];
+  const club = (t: unknown, where: string) => {
+    if (t !== undefined && t !== null && !NFL_TEAMS.some((x) => x.name === t)) errors.push(`${where}: club "${String(t)}" is not one of the 32`);
+  };
+  type RP = { key?: string; name?: string; team?: string; holder?: string };
+  const person = (p: RP, where: string) => {
+    if (!p.name || !byName.has(p.name) || p.key !== `${byName.get(p.name)!.position}:${p.name}`) errors.push(`${where} names ${p.key ?? p.name} without a card`);
+    if (p.holder && !byName.has(p.holder)) errors.push(`${where} names ${p.holder} (a mark's holder) without a card`);
+    club(p.team, where);
+  };
+  const takeIds = new Set(((content.hotTakesIndex ?? []) as { takes: { id: string }[] }[]).flatMap((s) => s.takes.map((t) => t.id)));
+  const leadIds = new Set(((content.seasonStoryIndex ?? []) as { lead?: { id: string } }[]).map((s) => s.lead?.id).filter(Boolean));
+  const tributeKeys = new Set(((content.tributeIndex ?? []) as { key: string }[]).map((t) => t.key));
+  index.forEach((e) => {
+    const path = `public/data/league/${e.file}`;
+    if (e.file !== `rewind/${e.season}.json`) errors.push(`Rewind index ${e.season} points at ${e.file}, not rewind/${e.season}.json`);
+    if (!existsSync(path)) return errors.push(`Rewind index ${e.season} has no file ${path} (rebuild)`);
+    const r = read(path);
+    if (r.season !== e.season) errors.push(`${path} is the rewind for ${r.season}, not ${e.season}`);
+    const cards = (r.cards ?? []) as { id: string; kind: string; club?: string; teams?: string[]; players?: RP[]; rows?: { players?: RP[]; team?: string }[]; upset?: { winner: string; loser: string }; live?: { club: string }; link?: { story?: string; take?: string; tribute?: string } }[];
+    if (cards.length !== e.count || JSON.stringify(cards.map((c) => c.kind)) !== JSON.stringify(e.kinds)) errors.push(`${path} cards differ from the content.json rewind index (rebuild)`);
+    if (cards[0]?.kind !== 'cover' || cards.at(-1)?.kind !== 'outro') errors.push(`${path} must open with its cover and end with its outro`);
+    club(r.club, path);
+    club(r.champion, path);
+    cards.forEach((c) => {
+      const where = `${path} ${c.id}`;
+      club(c.club, where);
+      (c.teams ?? []).forEach((t) => club(t, where));
+      (c.players ?? []).forEach((p) => person(p, where));
+      (c.rows ?? []).forEach((row) => {
+        club(row.team, where);
+        (row.players ?? []).forEach((p) => person(p, where));
+      });
+      if (c.upset) [c.upset.winner, c.upset.loser].forEach((t) => club(t, where));
+      if (c.live) club(c.live.club, where);
+      if (c.link?.story && !leadIds.has(c.link.story)) errors.push(`${where} links story ${c.link.story}, not a Season Story lead`);
+      if (c.link?.take && !takeIds.has(c.link.take)) errors.push(`${where} links take ${c.link.take}, which does not exist`);
+      if (c.link?.tribute && !tributeKeys.has(c.link.tribute)) errors.push(`${where} links tribute ${c.link.tribute}, which is not written`);
+    });
+  });
+  files.forEach((f) => !index.some((e) => e.file === `rewind/${f}`) && errors.push(`${dir}/${f} has no entry in content.json seasonRewindIndex (rebuild)`));
+}
 // Hot Takes (the fourth AI-authored lane) get the same treatment: data/y80/hot_takes.json reads exactly as the last
 // applied takes.set wrote each season, every take passes the story rules (scripts/story_check.py --audit-takes; a
 // figure that no longer matches is a stale warning), and the site's copy (public/data/league/takes.json, newest first)

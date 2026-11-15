@@ -1,0 +1,335 @@
+{
+ "season": "Y84",
+ "club": "Falcons",
+ "record": "13-3-1",
+ "finish": "Champions",
+ "champion": "Falcons",
+ "next": "Y85",
+ "cards": [
+  {
+   "id": "y84-cover",
+   "kind": "cover",
+   "club": "Falcons",
+   "kicker": "Season Rewind",
+   "title": "Y84 Rewind",
+   "text": "Dorren Skura's 84th season as a head coach, with the Falcons: 13-3-1, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "13-3-1"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "84",
+     "num": 84
+    }
+   ],
+   "teams": [
+    "Falcons"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y84-champion",
+   "kind": "champion",
+   "club": "Falcons",
+   "kicker": "Super Bowl CXLIII",
+   "title": "Falcons win it all",
+   "text": "The Falcons beat the Broncos 32-28 in Super Bowl CXLIII, the club's 3rd title. Skura's 59 titles and counting.",
+   "figures": [
+    {
+     "label": "Falcons",
+     "value": "32",
+     "num": 32
+    },
+    {
+     "label": "Broncos",
+     "value": "28",
+     "num": 28
+    },
+    {
+     "label": "Season record",
+     "value": "13-3-1"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "3",
+     "num": 3
+    }
+   ],
+   "teams": [
+    "Falcons",
+    "Broncos"
+   ],
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Falcons",
+     "star": true
+    },
+    {
+     "key": "OL:Calais Ham",
+     "name": "Calais Ham",
+     "team": "Falcons"
+    },
+    {
+     "key": "LB:Simeon Otton",
+     "name": "Simeon Otton",
+     "team": "Falcons"
+    },
+    {
+     "key": "WR:Vyncint Heath",
+     "name": "Vyncint Heath",
+     "team": "Falcons"
+    },
+    {
+     "key": "DB:Chance Woodrum",
+     "name": "Chance Woodrum",
+     "team": "Falcons"
+    },
+    {
+     "key": "QB:Orlando Larienne",
+     "name": "Orlando Larienne",
+     "team": "Falcons"
+    },
+    {
+     "key": "RB:Derrick Myrick",
+     "name": "Derrick Myrick",
+     "team": "Falcons"
+    },
+    {
+     "key": "TE:Eric Raimann",
+     "name": "Eric Raimann",
+     "team": "Falcons"
+    },
+    {
+     "key": "DL:Jashaun Fleming",
+     "name": "Jashaun Fleming",
+     "team": "Falcons"
+    },
+    {
+     "key": "DB:Trysten Floyd",
+     "name": "Trysten Floyd",
+     "team": "Falcons"
+    },
+    {
+     "key": "WR:Shawn Milne",
+     "name": "Shawn Milne",
+     "team": "Falcons"
+    }
+   ],
+   "ringHolders": 11,
+   "score": "32-28",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y84-awards",
+   "kind": "awards",
+   "club": "Falcons",
+   "kicker": "The awards",
+   "title": "Hardware",
+   "text": "Y84's winners: Vyncint Heath (OPOY) and Maxwell (SB MVP).",
+   "players": [
+    {
+     "key": "WR:Vyncint Heath",
+     "name": "Vyncint Heath",
+     "team": "Falcons",
+     "award": "OPOY",
+     "awardName": "Offensive Player of the Year",
+     "line": "119 catches · 2,209 rec yds · 22 TD in 18 games",
+     "figures": [
+      {
+       "label": "catches",
+       "value": "119",
+       "num": 119
+      },
+      {
+       "label": "rec yds",
+       "value": "2,209",
+       "num": 2209
+      },
+      {
+       "label": "TD",
+       "value": "22",
+       "num": 22
+      }
+     ],
+     "games": 18
+    },
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Falcons",
+     "award": "SB MVP",
+     "awardName": "Super Bowl MVP",
+     "line": "2,272 rush yds · 27 rush TD · 4 rec TD in 20 games",
+     "figures": [
+      {
+       "label": "rush yds",
+       "value": "2,272",
+       "num": 2272
+      },
+      {
+       "label": "rush TD",
+       "value": "27",
+       "num": 27
+      },
+      {
+       "label": "rec TD",
+       "value": "4",
+       "num": 4
+      }
+     ],
+     "games": 20
+    }
+   ],
+   "teams": [
+    "Falcons"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y84-milestones",
+   "kind": "milestones",
+   "club": "Falcons",
+   "kicker": "Milestones",
+   "title": "Round numbers",
+   "text": "Woodrum, 5th ring; Maxwell, 4th ring; Vyncint Heath, 3rd ring; Raimann, 2nd ring.",
+   "players": [
+    {
+     "key": "DB:Chance Woodrum",
+     "name": "Chance Woodrum",
+     "team": "Falcons",
+     "label": "5th ring",
+     "num": 5
+    },
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Falcons",
+     "label": "4th ring",
+     "num": 4
+    },
+    {
+     "key": "WR:Vyncint Heath",
+     "name": "Vyncint Heath",
+     "team": "Falcons",
+     "label": "3rd ring",
+     "num": 3
+    },
+    {
+     "key": "TE:Eric Raimann",
+     "name": "Eric Raimann",
+     "team": "Falcons",
+     "label": "2nd ring",
+     "num": 2
+    }
+   ],
+   "teams": [
+    "Falcons"
+   ],
+   "n": 4
+  },
+  {
+   "id": "y84-market",
+   "kind": "market",
+   "club": "Jaguars",
+   "kicker": "The market",
+   "title": "Up and down",
+   "text": "Base-card value across Y84: Danny Diggs +288%; Conklin −5%.",
+   "players": [
+    {
+     "key": "RB:Danny Diggs",
+     "name": "Danny Diggs",
+     "team": "Jaguars",
+     "label": "Riser",
+     "pct": 288,
+     "value": 865,
+     "was": 223,
+     "ovr": 85,
+     "grade": "B−"
+    },
+    {
+     "key": "TE:Jaylen Conklin",
+     "name": "Jaylen Conklin",
+     "team": "Jets",
+     "label": "Faller",
+     "pct": -5,
+     "value": 713,
+     "was": 748,
+     "ovr": 81,
+     "grade": "A"
+    }
+   ],
+   "teams": [
+    "Jaguars",
+    "Jets"
+   ],
+   "n": 5
+  },
+  {
+   "id": "y84-farewells",
+   "kind": "farewells",
+   "club": "Rams",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "2 careers ended in Y84.",
+   "players": [
+    {
+     "key": "DB:Von Horsted",
+     "name": "Von Horsted",
+     "games": 254,
+     "legacy": 7279,
+     "team": "Rams"
+    },
+    {
+     "key": "RB:Matthew Waynes",
+     "name": "Matthew Waynes",
+     "games": 258,
+     "legacy": 4212,
+     "team": "Panthers"
+    }
+   ],
+   "count": 2,
+   "teams": [
+    "Panthers",
+    "Rams"
+   ],
+   "n": 6
+  },
+  {
+   "id": "y84-outro",
+   "kind": "outro",
+   "club": "Falcons",
+   "kicker": "That was Y84",
+   "title": "Next: Y85",
+   "next": "Y85",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "59",
+     "num": 59
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "65",
+     "num": 65
+    }
+   ],
+   "text": "Through Y84, Skura has won 59 of 65 Super Bowls.",
+   "teams": [
+    "Falcons"
+   ],
+   "link": {
+    "season": "Y85"
+   },
+   "n": 7
+  }
+ ]
+}

@@ -81,6 +81,7 @@ other row is a deterministic rule that `npm run update` / `npm run rebuild` runs
 | 8 | Eras, storylines, rivalries, lineages, snubs, record chases, open questions, HOF classes, headlines ("The Wire"), edition seed | Rule | Every rebuild | `build_league_content.py` |
 | 9 | Skill grades, player families (map zones), similarity, Deep Dive boards | Rule (computed in the app) | Data changes | `src/config/skillGrades.ts`, `families.ts`, `advanced.ts` |
 | 10 | Widget feed: the latest story's articles, the latest hot takes (headline, evidence line, heat, players), its written facts plus rule-generated "Did you know" facts, "From the Vault" history cards, movers, headlines, HOF watch, record chases, milestone countdowns, the champion and his title run, the spotlight pool, the champions' photo, the Gauntlet, banner cards; pre-scaled game sprites of the players it draws | Rule | Every rebuild | `build_widget_data.py` → `public/data/widget.json`, `widget_sprites.py` → `public/data/widget-sprites/` |
+| 10b | Season Rewind: a tap-through recap card deck per completed season (cover, champion, awards, records, the Gauntlet / milestones, market, Hall of Fame class, farewells, power No. 1 and upset, tribute pick, the story lead and hottest take quoted, outro) | Rule | Every rebuild | `scripts/season_rewind.py` (called by `build_league_content.py`) → `public/data/league/rewind/<Y>.json` + `seasonRewindIndex` |
 | 11 | Hall of Fame speech for each new member | **AI** (`speech`) | Rebuild prints `SPEECH NEEDED` | `speech.set` (step 5) |
 | 12 | Season Story: news articles plus written "Did you know" facts for the completed season | **AI** (`story`) | Rebuild prints `STORY NEEDED: Y<n>` | `story.set` (step 6); professional voice, no "owner", only true facts; optional `art` scene per article |
 | 13 | Hot Takes: columnist opinions about the completed season, every figure cited | **AI** (`takes`) | Rebuild prints `TAKES NEEDED: Y<n>` | `takes.set` (step 6b); provocative but only true facts, no "owner", no "you"; optional `art` scene per take |
@@ -691,6 +692,40 @@ source names that file).
   stale (season or edition differs from content.json), names a player without a card (facts, vault, fallback, HOF
   watch, chases, milestones) or an item without a `team` (or with a club outside the 32), has an incomplete countdown, a champion from another season, or "you/your" outside a
   Hall of Fame speech hook.
+- **Season Rewind** (owner approved, 2026-11-14: an Instagram-stories-style recap of each season "in the news page";
+  `scripts/season_rewind.py`, called by `build_league_content.py` → `public/data/league/rewind/<Y>.json`, one file per
+  coached season, plus `seasonRewindIndex` {season, file, club, champion, record, count, kinds} in content.json). Rules
+  only, no AI lane: every card's text is a template filled from the data, and the only written words it carries are the
+  season's Season Story lead (headline and dek) and its hottest Hot Take (highest heat, first in order), quoted and
+  linked. Cards in story order, each skipped when its data is missing (older seasons get cover, champion, records,
+  stint-based farewells and outro only; never invented): **cover** (the coach's club, record, finish, his Nth season,
+  point differential from schedule.json), **champion** (the Super Bowl score, the champion's record, its title count,
+  the ring holders by stints.json for the team photo in the winner's kit, the star = that season's Super Bowl MVP among
+  them by market deltas, else the best Career Legacy), **awards** (MVP, OPOY, DPOY, SB MVP: card players whose award
+  count rose between the two season-end snapshots while their games rose, with the season line from the deltas),
+  **records** (club board rows dated that season, league season marks set in it; card-player holders only),
+  **milestones** (the Gauntlet completed that season, else award counts of 2+ and career totals passing a headline
+  `MILESTONES` step), **market** (biggest riser and faller in base value, base 50+, played that season), **hof** (the
+  season's class from halloffame.json), **farewells** (final season by the snapshots or a Retired status fact in the
+  season's bundles; before the snapshots, retired players whose last dated stint ends that season), **power** (power
+  No. 1 and the upset of the year from schedule.json), **tribute** (content.json `tributePlan`'s pick, linked when
+  written), **story**, **take**, **outro** ("Next: Y95"; the coach's titles and Super Bowl trips through the season;
+  the latest season adds the standing record chases and, only while save_state.json's season is the next one in
+  progress, its live record; older seasons link to the next season's rewind). Deterministic (two rebuilds identical).
+  The audit errors when an index entry has no file or a file no entry, the kinds or count differ, a card names a player
+  without a card or a club outside the 32, or a link points at a story lead, take or tribute that doesn't exist.
+  The site: a row of story rings at the top of the Timeline news area (`src/components/rewind/RewindRings.tsx`: one
+  per season, newest first, the champion's logo, gold until seen at its current card count; seen-state in
+  localStorage, try/catch), opening `RewindViewer.tsx` (lazy): a Radix dialog, so the overlay history takes it (the edge
+  swipe and Back close it) and swipe down closes it (useSwipeToDismiss); full screen on a phone, a centred 9:16 frame
+  from 768px; progress segments whose CSS fill (a transform) advances each card after 6 s; tap right / left, hold to
+  pause, swipe left / right between seasons, the arrow keys (Shift for seasons) and Space on a desktop; reduced motion
+  never auto-advances and crossfades. Cards (`RewindCards.tsx`, `rewind.css`): club-colour backgrounds, Barlow
+  Condensed display type and Silkscreen kickers, count-ups, the private sprites (GameSprite in the season's club kit,
+  Skura's CoachSprite in the club polo, the game's turf and crowd painted to the club via `useFieldArt`) with the club
+  logos as the public build's fallback; names are club-colour strips (tap: the player card, hold: the quick look,
+  `data-peek-ok`). Links close the viewer and open the story (`openSeasonStory`), take (`openHotTake`) or tribute
+  (`openTribute`). The Arcade ticker links to the latest rewind (`openSeasonRewind`). Never on Collection card faces.
 - **League records** (`scripts/league_records.py` → `public/data/league/records.json`, run by `npm run rebuild` after the
   weekly scores; owner: "have the record book hold mine and the total as well in the DB"): every record on the in-game
   board (`records.json`, the coach's club only) beside the same record across the whole league. Career marks come from

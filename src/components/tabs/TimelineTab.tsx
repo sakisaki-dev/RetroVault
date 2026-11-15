@@ -160,6 +160,7 @@ const TimelineTab = () => {
         headlines={content.headlines}
         info={content.headlinesInfo}
         stories={content.seasonStoryIndex}
+        rewinds={content.seasonRewindIndex}
         onPlayer={setSelectedPlayer}
         season={shownSeason}
         onSeason={setPickedSeason}

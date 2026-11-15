@@ -35,6 +35,9 @@
  *   "tributeIndex":  [{ key: "RB:Ryland Maxwell", name, file: "tributes/rb-ryland-maxwell.json", upload?, nickname?, deck,
  *                      chapters: [{ id, kind, headline }] }]: Player Tributes (AI-authored, data/y80/tributes.json,
  *                      tribute.set); each tribute is its own file, loaded on demand (loadTribute / useTribute)
+ *   "seasonRewindIndex": [{ season: "Y94", file: "rewind/Y94.json", club, champion?, record, count, kinds[] }] oldest
+ *                      first: Season Rewind (rules only, scripts/season_rewind.py); each season's cards are
+ *                      public/data/league/rewind/<Y>.json, loaded on demand (src/utils/seasonRewind.ts)
  *   "coach":         { name, age, stars, morale, gamesPlayed, simGames, record{}, bests{}, superBowlRecord[], seasons[{ year, team, abbr, w, l, t, finish }], currentStint?{ team, abbr, from } }
  * }
  * `coach` is optional (from data/y80/coach.json, the staff screen); bad fields are dropped one by one.
@@ -241,6 +244,19 @@ export interface LeagueContent {
   hotTakesIndex?: HotTakesIndexEntry[];
   /** Player Tributes index (data/y80/tributes.json, tribute.set); each tribute loads on demand (useTribute) */
   tributeIndex?: TributeIndexEntry[];
+  /** Season Rewind index, oldest first (scripts/season_rewind.py); each season's cards load on demand (useSeasonRewind) */
+  seasonRewindIndex?: SeasonRewindIndexEntry[];
+}
+
+/** One season's Season Rewind in content.json (the cards are public/data/league/rewind/<Y>.json) */
+export interface SeasonRewindIndexEntry {
+  season: string;
+  file: string;
+  club?: string;
+  champion?: string;
+  record?: string;
+  count: number;
+  kinds: string[];
 }
 
 export const STORY_KINDS = ['lead', 'feature', 'trade', 'rise', 'fall', 'rivalry', 'chase', 'milestone', 'wherenow', 'quickhits'] as const;
@@ -829,6 +845,16 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
     }),
   );
   if (tributeIndex.length) content.tributeIndex = tributeIndex;
+  const rewindIndex = compact(
+    arr(input.seasonRewindIndex).map((r): SeasonRewindIndexEntry | null => {
+      const season = str(r.season);
+      const file = str(r.file);
+      // only a season file under rewind/ (never an arbitrary path)
+      if (!season || !/^Y\d+$/.test(season) || !file || file !== `rewind/${season}.json`) return null;
+      return { season, file, club: str(r.club), champion: str(r.champion), record: str(r.record), count: num(r.count) ?? 0, kinds: strArr(r.kinds) };
+    }),
+  );
+  if (rewindIndex.length) content.seasonRewindIndex = rewindIndex;
   if (Array.isArray(input.hofClasses)) {
     const classes = input.hofClasses
       .map((c) => (isObj(c) && str(c.label) && Array.isArray(c.keys) ? { label: str(c.label)!, keys: c.keys.filter((k): k is string => typeof k === 'string') } : null))

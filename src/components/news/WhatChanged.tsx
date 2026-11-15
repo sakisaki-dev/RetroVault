@@ -19,7 +19,9 @@ import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
 import GameSprite from '../GameSprite';
 import { useLeague } from '@/context/LeagueContext';
-import { matchPlayerByName, useLeagueContent, type Edition, type Headline, type HeadlinesInfo, type HeadlineKind, type PlayerNote, type SeasonStoryIndexEntry } from '@/utils/leagueContent';
+import { matchPlayerByName, useLeagueContent, type Edition, type Headline, type HeadlinesInfo, type HeadlineKind, type PlayerNote, type SeasonRewindIndexEntry, type SeasonStoryIndexEntry } from '@/utils/leagueContent';
+import { openSeasonRewind } from '@/utils/seasonRewind';
+import RewindRings from '@/components/rewind/RewindRings';
 import { editionShuffle } from '@/utils/edition';
 import { getTeamColors } from '@/utils/teamColors';
 import { useHubRoute } from '@/components/stats/hub/hashRoute';
@@ -109,6 +111,8 @@ export const HeadlineTicker = ({
   title = 'What changed',
   story,
   onStory,
+  rewind,
+  onRewind,
 }: {
   headlines: Headline[];
   info?: HeadlinesInfo;
@@ -119,6 +123,9 @@ export const HeadlineTicker = ({
   /** The latest Season Story's index entry: its lead is linked above the ticker (no need to load the story file) */
   story?: SeasonStoryIndexEntry;
   onStory?: (id: string) => void;
+  /** The latest Season Rewind (its index entry): a link that opens it on the Timeline */
+  rewind?: SeasonRewindIndexEntry;
+  onRewind?: (season: string) => void;
 }) => {
   const items = headlines.slice(0, 10);
   if (!items.length) return null;
@@ -150,6 +157,15 @@ export const HeadlineTicker = ({
         {track(false)}
         {track(true)}
       </div>
+      {rewind && onRewind && (
+        <button type="button" className="wc-story-link wc-story-link--rewind" onClick={() => onRewind(rewind.season)}>
+          <span className="wc-story-link__kick">Season Rewind</span>
+          <span className="wc-story-link__text">
+            Tap through {rewind.season}: {rewind.champion ? `the ${rewind.champion}' title, ` : ''}the awards, the records and more
+          </span>
+          <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+        </button>
+      )}
       {lead && story && onStory && (
         <button type="button" className="wc-story-link" onClick={() => onStory(lead.id)}>
           <span className="wc-story-link__kick">{story.season} Season Story</span>
@@ -300,6 +316,12 @@ export const HomeNews = () => {
           navigate({ tab: 'timeline' });
           window.setTimeout(() => document.getElementById('season-story')?.scrollIntoView({ block: 'start', behavior: 'auto' }), 400);
         }}
+        rewind={content.seasonRewindIndex?.at(-1)}
+        onRewind={(season) => {
+          // the Timeline's rings open it when they mount (or right away if they already are)
+          openSeasonRewind(season);
+          navigate({ tab: 'timeline' });
+        }}
       />
       <Spotlight picks={picks} headlines={headlines} notes={content.playerNotes} onPlayer={setSelected} />
       <PlayerDetailCard player={selected} onClose={() => setSelected(null)} />
@@ -318,20 +340,31 @@ export const TimelineNews = ({
   onPlayer,
   season,
   onSeason,
+  rewinds,
 }: {
   headlines?: Headline[];
   info?: HeadlinesInfo;
   /** content.json's Season Story index; each season's stories load when shown */
   stories?: SeasonStoryIndexEntry[];
+  /** content.json's Season Rewind index: the story rings at the top */
+  rewinds?: SeasonRewindIndexEntry[];
   onPlayer: (p: Player) => void;
   /** The Timeline's shared season (Season Story and Season games show the same one) */
   season?: string | null;
   onSeason?: (season: string) => void;
 }) => {
   const players = useLeaguePlayers();
-  if (!stories?.length) return <HeadlineList headlines={headlines ?? []} info={info} players={players} onPlayer={onPlayer} />;
+  const rings = rewinds?.length ? <RewindRings index={rewinds} players={players} /> : null;
+  if (!stories?.length)
+    return (
+      <>
+        {rings}
+        <HeadlineList headlines={headlines ?? []} info={info} players={players} onPlayer={onPlayer} />
+      </>
+    );
   return (
     <div id="what-changed" className="wc-news scroll-mt-24">
+      {rings}
       <HeadlineTicker headlines={headlines ?? []} info={info} players={players} onPlayer={onPlayer} title="The Wire" />
       <SeasonStoryDesk index={stories} players={players} onPlayer={onPlayer} season={season} onSeason={onSeason} />
       {!!headlines?.length && (

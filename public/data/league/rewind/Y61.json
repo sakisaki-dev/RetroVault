@@ -1,0 +1,125 @@
+{
+ "season": "Y61",
+ "club": "Vikings",
+ "record": "12-5",
+ "finish": "Champions",
+ "champion": "Vikings",
+ "next": "Y62",
+ "cards": [
+  {
+   "id": "y61-cover",
+   "kind": "cover",
+   "club": "Vikings",
+   "kicker": "Season Rewind",
+   "title": "Y61 Rewind",
+   "text": "Dorren Skura's 61st season as a head coach, with the Vikings: 12-5, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "12-5"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "61",
+     "num": 61
+    }
+   ],
+   "teams": [
+    "Vikings"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y61-champion",
+   "kind": "champion",
+   "club": "Vikings",
+   "kicker": "Super Bowl CXX",
+   "title": "Vikings win it all",
+   "text": "The Vikings beat the Ravens 40-14 in Super Bowl CXX, the club's 2nd title. Skura's 44 titles and counting.",
+   "figures": [
+    {
+     "label": "Vikings",
+     "value": "40",
+     "num": 40
+    },
+    {
+     "label": "Ravens",
+     "value": "14",
+     "num": 14
+    },
+    {
+     "label": "Season record",
+     "value": "12-5"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "2",
+     "num": 2
+    }
+   ],
+   "teams": [
+    "Vikings",
+    "Ravens"
+   ],
+   "players": [
+    {
+     "key": "QB:Sherman Brandson",
+     "name": "Sherman Brandson",
+     "team": "Vikings",
+     "star": true
+    },
+    {
+     "key": "WR:God Johnson",
+     "name": "God Johnson",
+     "team": "Vikings"
+    },
+    {
+     "key": "TE:Levante Hopkins",
+     "name": "Levante Hopkins",
+     "team": "Vikings"
+    },
+    {
+     "key": "WR:Jackson Wardell Kline",
+     "name": "Jackson Wardell Kline",
+     "team": "Vikings"
+    }
+   ],
+   "ringHolders": 4,
+   "score": "40-14",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y61-outro",
+   "kind": "outro",
+   "club": "Vikings",
+   "kicker": "That was Y61",
+   "title": "Next: Y62",
+   "next": "Y62",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "44",
+     "num": 44
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "49",
+     "num": 49
+    }
+   ],
+   "text": "Through Y61, Skura has won 44 of 49 Super Bowls.",
+   "teams": [
+    "Vikings"
+   ],
+   "link": {
+    "season": "Y62"
+   },
+   "n": 3
+  }
+ ]
+}

@@ -1,0 +1,106 @@
+{
+ "season": "Y2",
+ "club": "Vikings",
+ "record": "11-6",
+ "finish": "Wild Card",
+ "champion": "Lions",
+ "next": "Y3",
+ "cards": [
+  {
+   "id": "y2-cover",
+   "kind": "cover",
+   "club": "Vikings",
+   "kicker": "Season Rewind",
+   "title": "Y2 Rewind",
+   "text": "Dorren Skura's 2nd season as a head coach, with the Vikings: 11-6, Wild Card.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "11-6"
+    },
+    {
+     "label": "Finish",
+     "value": "Wild Card"
+    },
+    {
+     "label": "Season as coach",
+     "value": "2",
+     "num": 2
+    }
+   ],
+   "teams": [
+    "Vikings"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y2-champion",
+   "kind": "champion",
+   "club": "Lions",
+   "kicker": "Super Bowl LXI",
+   "title": "Lions win it all",
+   "text": "The Lions beat the Chiefs 44-24 in Super Bowl LXI, the club's first title.",
+   "figures": [
+    {
+     "label": "Lions",
+     "value": "44",
+     "num": 44
+    },
+    {
+     "label": "Chiefs",
+     "value": "24",
+     "num": 24
+    },
+    {
+     "label": "Franchise titles",
+     "value": "1",
+     "num": 1
+    }
+   ],
+   "teams": [
+    "Lions",
+    "Chiefs"
+   ],
+   "players": [
+    {
+     "key": "RB:Jahmyr Gibbs",
+     "name": "Jahmyr Gibbs",
+     "team": "Lions",
+     "star": true
+    }
+   ],
+   "ringHolders": 1,
+   "score": "44-24",
+   "result": "not in it",
+   "n": 2
+  },
+  {
+   "id": "y2-outro",
+   "kind": "outro",
+   "club": "Vikings",
+   "kicker": "That was Y2",
+   "title": "Next: Y3",
+   "next": "Y3",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "0",
+     "num": 0
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "0",
+     "num": 0
+    }
+   ],
+   "text": "Through Y2, Skura has won 0 of 0 Super Bowls.",
+   "teams": [
+    "Vikings"
+   ],
+   "link": {
+    "season": "Y3"
+   },
+   "n": 3
+  }
+ ]
+}

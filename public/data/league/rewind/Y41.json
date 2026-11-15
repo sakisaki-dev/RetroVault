@@ -1,0 +1,147 @@
+{
+ "season": "Y41",
+ "club": "Ravens",
+ "record": "13-4",
+ "finish": "Champions",
+ "champion": "Ravens",
+ "next": "Y42",
+ "cards": [
+  {
+   "id": "y41-cover",
+   "kind": "cover",
+   "club": "Ravens",
+   "kicker": "Season Rewind",
+   "title": "Y41 Rewind",
+   "text": "Dorren Skura's 41st season as a head coach, with the Ravens: 13-4, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "13-4"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "41",
+     "num": 41
+    }
+   ],
+   "teams": [
+    "Ravens"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y41-champion",
+   "kind": "champion",
+   "club": "Ravens",
+   "kicker": "Super Bowl C",
+   "title": "Ravens win it all",
+   "text": "The Ravens beat the Buccaneers 40-28 in Super Bowl C, the club's first title. Skura's 29 titles and counting.",
+   "figures": [
+    {
+     "label": "Ravens",
+     "value": "40",
+     "num": 40
+    },
+    {
+     "label": "Buccaneers",
+     "value": "28",
+     "num": 28
+    },
+    {
+     "label": "Season record",
+     "value": "13-4"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "1",
+     "num": 1
+    }
+   ],
+   "teams": [
+    "Ravens",
+    "Buccaneers"
+   ],
+   "players": [
+    {
+     "key": "WR:Cairo Asanjh",
+     "name": "Cairo Asanjh",
+     "team": "Ravens",
+     "star": true
+    },
+    {
+     "key": "OL:Jawill Perkins",
+     "name": "Jawill Perkins",
+     "team": "Ravens"
+    }
+   ],
+   "ringHolders": 2,
+   "score": "40-28",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y41-farewells",
+   "kind": "farewells",
+   "club": "Seahawks",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "2 careers ended in Y41.",
+   "players": [
+    {
+     "key": "TE:Wes Sione",
+     "name": "Wes Sione",
+     "games": 102,
+     "rings": 3,
+     "legacy": 6415,
+     "team": "Seahawks"
+    },
+    {
+     "key": "WR:Reuben Kilian",
+     "name": "Reuben Kilian",
+     "games": 244,
+     "rings": 5,
+     "legacy": 6364,
+     "team": "Bills"
+    }
+   ],
+   "count": 2,
+   "teams": [
+    "Bills",
+    "Seahawks"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y41-outro",
+   "kind": "outro",
+   "club": "Ravens",
+   "kicker": "That was Y41",
+   "title": "Next: Y42",
+   "next": "Y42",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "29",
+     "num": 29
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "32",
+     "num": 32
+    }
+   ],
+   "text": "Through Y41, Skura has won 29 of 32 Super Bowls.",
+   "teams": [
+    "Ravens"
+   ],
+   "link": {
+    "season": "Y42"
+   },
+   "n": 4
+  }
+ ]
+}

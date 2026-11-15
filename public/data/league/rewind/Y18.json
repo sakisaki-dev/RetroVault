@@ -1,0 +1,125 @@
+{
+ "season": "Y18",
+ "club": "Commanders",
+ "record": "13-4",
+ "finish": "Champions",
+ "champion": "Commanders",
+ "next": "Y19",
+ "cards": [
+  {
+   "id": "y18-cover",
+   "kind": "cover",
+   "club": "Commanders",
+   "kicker": "Season Rewind",
+   "title": "Y18 Rewind",
+   "text": "Dorren Skura's 18th season as a head coach, with the Commanders: 13-4, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "13-4"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "18",
+     "num": 18
+    }
+   ],
+   "teams": [
+    "Commanders"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y18-champion",
+   "kind": "champion",
+   "club": "Commanders",
+   "kicker": "Super Bowl LXXVII",
+   "title": "Commanders win it all",
+   "text": "The Commanders beat the Browns 30-23 in Super Bowl LXXVII, the club's 4th title. Skura's 11 titles and counting.",
+   "figures": [
+    {
+     "label": "Commanders",
+     "value": "30",
+     "num": 30
+    },
+    {
+     "label": "Browns",
+     "value": "23",
+     "num": 23
+    },
+    {
+     "label": "Season record",
+     "value": "13-4"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "4",
+     "num": 4
+    }
+   ],
+   "teams": [
+    "Commanders",
+    "Browns"
+   ],
+   "players": [
+    {
+     "key": "WR:Ian Finney",
+     "name": "Ian Finney",
+     "team": "Commanders",
+     "star": true
+    },
+    {
+     "key": "TE:Tyler Pacheco",
+     "name": "Tyler Pacheco",
+     "team": "Commanders"
+    },
+    {
+     "key": "WR:Brennan Higgins",
+     "name": "Brennan Higgins",
+     "team": "Commanders"
+    },
+    {
+     "key": "QB:Avonte Gooden",
+     "name": "Avonte Gooden",
+     "team": "Commanders"
+    }
+   ],
+   "ringHolders": 4,
+   "score": "30-23",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y18-outro",
+   "kind": "outro",
+   "club": "Commanders",
+   "kicker": "That was Y18",
+   "title": "Next: Y19",
+   "next": "Y19",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "11",
+     "num": 11
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "12",
+     "num": 12
+    }
+   ],
+   "text": "Through Y18, Skura has won 11 of 12 Super Bowls.",
+   "teams": [
+    "Commanders"
+   ],
+   "link": {
+    "season": "Y19"
+   },
+   "n": 3
+  }
+ ]
+}

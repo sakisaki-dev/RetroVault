@@ -1,0 +1,209 @@
+{
+ "season": "Y23",
+ "club": "Buccaneers",
+ "record": "17-0",
+ "finish": "Champions",
+ "champion": "Buccaneers",
+ "next": "Y24",
+ "cards": [
+  {
+   "id": "y23-cover",
+   "kind": "cover",
+   "club": "Buccaneers",
+   "kicker": "Season Rewind",
+   "title": "Y23 Rewind",
+   "text": "Dorren Skura's 23rd season as a head coach, with the Buccaneers: 17-0, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "17-0"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "23",
+     "num": 23
+    }
+   ],
+   "teams": [
+    "Buccaneers"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y23-champion",
+   "kind": "champion",
+   "club": "Buccaneers",
+   "kicker": "Super Bowl LXXXII",
+   "title": "Buccaneers win it all",
+   "text": "The Buccaneers beat the Broncos 46-11 in Super Bowl LXXXII, the club's 3rd title. Skura's 15 titles and counting.",
+   "figures": [
+    {
+     "label": "Buccaneers",
+     "value": "46",
+     "num": 46
+    },
+    {
+     "label": "Broncos",
+     "value": "11",
+     "num": 11
+    },
+    {
+     "label": "Season record",
+     "value": "17-0"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "3",
+     "num": 3
+    }
+   ],
+   "teams": [
+    "Buccaneers",
+    "Broncos"
+   ],
+   "players": [
+    {
+     "key": "WR:Ian Finney",
+     "name": "Ian Finney",
+     "team": "Buccaneers",
+     "star": true
+    },
+    {
+     "key": "QB:Ray Waller",
+     "name": "Ray Waller",
+     "team": "Buccaneers"
+    },
+    {
+     "key": "DL:Zander Kolar",
+     "name": "Zander Kolar",
+     "team": "Buccaneers"
+    },
+    {
+     "key": "TE:Jahan Square",
+     "name": "Jahan Square",
+     "team": "Buccaneers"
+    },
+    {
+     "key": "WR:Tyrion Kline",
+     "name": "Tyrion Kline",
+     "team": "Buccaneers"
+    },
+    {
+     "key": "DB:Robert Boone",
+     "name": "Robert Boone",
+     "team": "Buccaneers"
+    },
+    {
+     "key": "RB:Kitt Inman",
+     "name": "Kitt Inman",
+     "team": "Buccaneers"
+    },
+    {
+     "key": "LB:Odell Ankou",
+     "name": "Odell Ankou",
+     "team": "Buccaneers"
+    },
+    {
+     "key": "DB:Germain Coulter",
+     "name": "Germain Coulter",
+     "team": "Buccaneers"
+    }
+   ],
+   "ringHolders": 9,
+   "score": "46-11",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y23-records",
+   "kind": "records",
+   "club": "Buccaneers",
+   "kicker": "Record book",
+   "title": "Record broken",
+   "text": "1 mark fell in Y23.",
+   "rows": [
+    {
+     "label": "Most TD receptions, game",
+     "mark": "6",
+     "scope": "club",
+     "players": [
+      {
+       "key": "WR:Ian Finney",
+       "name": "Ian Finney",
+       "team": "Buccaneers"
+      }
+     ],
+     "team": "Buccaneers",
+     "note": "week 2 against the Saints",
+     "num": 6
+    }
+   ],
+   "players": [
+    {
+     "key": "WR:Ian Finney",
+     "name": "Ian Finney",
+     "team": "Buccaneers"
+    }
+   ],
+   "teams": [
+    "Buccaneers"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y23-farewells",
+   "kind": "farewells",
+   "club": "Colts",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "1 career ended in Y23.",
+   "players": [
+    {
+     "key": "RB:Pharaoh Mintze",
+     "name": "Pharaoh Mintze",
+     "games": 199,
+     "rings": 1,
+     "legacy": 4307,
+     "team": "Colts"
+    }
+   ],
+   "count": 1,
+   "teams": [
+    "Colts"
+   ],
+   "n": 4
+  },
+  {
+   "id": "y23-outro",
+   "kind": "outro",
+   "club": "Buccaneers",
+   "kicker": "That was Y23",
+   "title": "Next: Y24",
+   "next": "Y24",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "15",
+     "num": 15
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "17",
+     "num": 17
+    }
+   ],
+   "text": "Through Y23, Skura has won 15 of 17 Super Bowls.",
+   "teams": [
+    "Buccaneers"
+   ],
+   "link": {
+    "season": "Y24"
+   },
+   "n": 5
+  }
+ ]
+}
