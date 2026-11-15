@@ -10,6 +10,7 @@ import { useJerseyNumbers } from '@/utils/jerseys';
 import { SLOTS, type LabContext, type Lineup, type PlayerProfile, type SlotId } from '@/utils/teamLab';
 import { FIELD_ART, type FieldArt, type Turf } from './fieldArt';
 import { PixelPlayer } from './labArt';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 /**
  * The lineup standing in formation on the game's turf (private build: Retro Bowl's own field, crowd and sideline crew
@@ -110,13 +111,16 @@ const LabField = ({ ctx, lineup, kitClub, turf, art, tall, size, onPick, overlay
 
   return (
     <div
-      className={`lab-field ${tall ? 'lab-field--tall' : 'lab-field--wide'} ${art.turf ? 'lab-field--art' : 'lab-field--css'} lab-field--${turf}`}
+      className={`lab-field ${tall ? 'lab-field--tall' : 'lab-field--wide'} ${art.turf ? 'lab-field--art' : art.pending ? 'lab-field--pending' : 'lab-field--css'} lab-field--${turf}`}
       style={vars}
       role="group"
       aria-label={`Lineup on the field in ${team?.name ?? 'club'} kits`}
     >
-      {!art.turf && <span className="lab-field-lines" aria-hidden="true" />}
-      {!art.turf &&
+      {/* The painted turf lands under a veil of the base green that fades away (no pop from a plain field) */}
+      {art.turf && <span className="lab-field-veil" aria-hidden="true" />}
+      {art.pending && <PixelLoader size="sm" label="Field" what="the field" className="lab-field-loader" />}
+      {!art.turf && !art.pending && <span className="lab-field-lines" aria-hidden="true" />}
+      {!art.turf && !art.pending &&
         YARDS.map((n, i) =>
           [0, 1].map((side) => (
             <span

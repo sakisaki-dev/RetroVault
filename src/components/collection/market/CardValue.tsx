@@ -10,6 +10,7 @@ import { kindOf, kitUniform } from '../art/sprite/uniforms';
 import PriceChart from './PriceChart';
 import ChangeBadge from './ChangeBadge';
 import './market.css';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 interface CardValueProps {
   /** "POS:Name" */
@@ -59,7 +60,7 @@ const CardValue = ({ cardKey, name, finish, variant, ownedFinish, player, kit, p
     return m != null ? fmtMult(m) : `≈×${AUTOGRAPH_MEAN_MULT.toFixed(1)}`;
   };
   const series = useMemo(() => (history ? priceSeries(history, cardKey) : []), [history, cardKey]);
-  if (!history) return <p className="mk-card__loading">Loading market…</p>;
+  if (!history) return <PixelLoader variant="inline" size="sm" label="Market" what="the market" className="mk-card__loading" />;
   const last = series[series.length - 1];
   if (!last) return null;
   const latest = history[history.length - 1];

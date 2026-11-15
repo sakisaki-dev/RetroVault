@@ -671,6 +671,14 @@
 .rv-fallback {
   animation: rv-fade-in var(--dur-2) var(--ease-out) 150ms backwards;
 }
+/* What lands where a PixelLoader was (ui/PixelLoader.tsx): a short cross-fade in, never a pop */
+.rv-load-in {
+  animation: rv-fade-in var(--dur-2) var(--ease-out) backwards;
+}
+/* A game sprite's image arrives a moment after its box (fetched, then painted to his kit): it fades into the space */
+.game-sprite > img {
+  animation: rv-fade-in var(--dur-2) var(--ease-out) backwards;
+}
 
 /* Lists and grids (useStagger): staggered fade-up on first appearance, capped at 12 items */
 .rv-stagger > * {

@@ -226,6 +226,29 @@
   display: block;
   image-rendering: pixelated;
 }
+/* The crowd waits as a dark stand at its final height, then fades in when the painted art lands */
+.lab-stands--pending,
+.lab-stands--art {
+  background: #1b1c24;
+}
+.lab-stands--pending .lab-crowd {
+  height: 50px;
+}
+.lab-stands--pending .lab-standfront {
+  height: 18px;
+}
+@media (min-width: 1024px) {
+  .lab-stands--pending .lab-crowd {
+    height: 66px;
+  }
+  .lab-stands--pending .lab-standfront {
+    height: 22px;
+  }
+}
+.lab-stands--art .lab-crowd,
+.lab-stands--art .lab-standfront {
+  animation: rv-fade-in var(--dur-3) var(--ease-out) backwards;
+}
 .lab-stands--art .lab-crowd {
   height: 50px;
   background: var(--lab-crowd) 0 0 / auto 100% repeat-x;
@@ -296,6 +319,21 @@
 }
 .lab-field--tall {
   height: 470px;
+}
+/* Field art on its way (fieldArt.ts `pending`): the plain base turf under a small loader */
+.lab-field-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+/* ... then the painted turf, revealed by this veil fading out (once, when the art first lands) */
+.lab-field-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: #3c7a2a;
+  animation: rv-fade-out var(--dur-3) var(--ease-out) forwards;
 }
 .lab-field--art {
   background-image: var(--lf-turf);

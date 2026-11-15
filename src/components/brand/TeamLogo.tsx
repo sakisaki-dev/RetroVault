@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
 import { getReadableTextOn } from '@/utils/teamColors';
+import { fadeInOnLoad } from '@/utils/fadeInOnLoad';
 
 export interface TeamLogoProps {
   /** Team string from player data, or a resolved NFLTeam */
@@ -85,6 +86,7 @@ const TeamLogo = ({ team, size = 32, className, decorative = false, priority = f
 
   return (
     <img
+      ref={fadeInOnLoad}
       src={resolved.logoUrl}
       alt={decorative ? '' : `${resolved.fullName} logo`}
       width={size}

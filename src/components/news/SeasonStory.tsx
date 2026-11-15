@@ -22,6 +22,7 @@ import TeamPhoto from './TeamPhoto';
 import ArticleArt from './ArticleArt';
 import './news-art.css';
 import './story.css';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 /**
  * Season Story: the AI-authored news package for each completed season (data/y80/stories.json, written only by a
@@ -337,15 +338,13 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
           </div>
           {switcher}
         </header>
-        <p className="ss-loading" role="status">
-          {loading ? (
-            <>
-              <span className="ss-loading__dot" aria-hidden="true" /> Loading the {entry.season} stories ({entry.articleCount})…
-            </>
-          ) : (
-            `The ${entry.season} stories could not be loaded. Try again in a moment.`
-          )}
-        </p>
+        {loading ? (
+          <PixelLoader label="Press" what={`the ${entry.season} stories`} minHeight={360} />
+        ) : (
+          <p className="ss-loading" role="status">
+            The {entry.season} stories could not be loaded. Try again in a moment.
+          </p>
+        )}
         <HotTakesDesk season={entry.season} players={players} onPlayer={onPlayer} />
       </section>
     );

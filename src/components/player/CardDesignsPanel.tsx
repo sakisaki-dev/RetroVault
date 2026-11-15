@@ -23,6 +23,7 @@ import { bestKit } from '@/components/collection/kits';
 import { useCardPool } from '@/components/collection/useCardPool';
 import { FINISH_ICON } from '@/components/collection/rarityIcons';
 import './cardDesigns.css';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 const BEST_FINISH: Finish = FINISHES[FINISHES.length - 1].key;
 const share = <K extends string>(w: Record<K, number>, k: K) => w[k] / Object.values<number>(w).reduce((a, b) => a + b, 0);
@@ -90,7 +91,7 @@ const CardDesignsPanel = ({ player }: { player: Player }) => {
     return list.map((r) => ({ ...r, rarest: r.v === rarest.v }));
   }, [info, owned, tierPool]);
 
-  if (!loaded && !cards.length) return <p className="py-8 text-center text-sm text-muted-foreground">Loading cards…</p>;
+  if (!loaded && !cards.length) return <PixelLoader size="sm" label="Cards" what="cards" minHeight={220} />;
   if (!info) return <p className="py-8 text-center text-sm text-muted-foreground">{player.name} has no collectible card.</p>;
 
   const ownedCount = rows.filter((r) => r.owned).length;

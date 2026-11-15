@@ -6,6 +6,7 @@ import { useSaveState } from './saveData';
 import { DECLINE_AGE, ROOKIE_AGE, baseMaxAge, buildClock, growthSeasons, halfStars, improveChance, longClock, starsOf, type ClockPlayer } from './clockModel';
 import { RatingBars, StarRow, clubVars, starText } from './clockParts';
 import './clock.css';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 /**
  * Deep Dive › Age & clock: one player's age from the live save, his retirement clock, his growth chance, ratings now
@@ -82,7 +83,7 @@ const DdClock = ({ player, players }: { player: Player; players: Player[] }) => 
   const state = useSaveState();
   const all = useMemo(() => (state ? buildClock(state, players) : []), [state, players]);
   const me = all.find((c) => c.key === `${player.position}:${player.name}`);
-  if (state === undefined) return <p className="text-sm text-muted-foreground">Loading the save…</p>;
+  if (state === undefined) return <PixelLoader variant="inline" size="sm" label="Save" what="the save" />;
   if (!state || !me) {
     return (
       <p className="clk-empty text-sm">

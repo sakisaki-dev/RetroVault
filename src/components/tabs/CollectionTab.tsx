@@ -67,15 +67,12 @@ import {
   type PackType,
   type Tier,
 } from '@/utils/collection';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 // The Card designs gallery and the Art lab are their own chunks, loaded the first time they open
 const CardDesigns = lazy(() => import('@/components/collection/CardDesigns'));
 const ArtLab = lazy(() => import('@/components/collection/art/ArtLab'));
-const DialogFallback = () => (
-  <div className="fixed inset-0 z-50 grid place-items-center bg-night/70" role="status" aria-label="Loading">
-    <div className="h-10 w-10 animate-spin rounded-full border-4 border-gold border-t-transparent" />
-  </div>
-);
+const DialogFallback = () => <PixelLoader variant="overlay" label="Loading" />;
 
 const POSITIONS: Position[] = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
 type Sort = 'set' | 'ovr' | 'tier' | 'finish' | 'recent';
@@ -758,9 +755,11 @@ const CollectionTab = () => {
           </div>
         </div>
 
-        {!loaded || !cards.length || filtered.length === 0 ? (
+        {!loaded ? (
+          <PixelLoader label="Binder" what="cards" minHeight={420} className="justify-start pt-16" />
+        ) : !cards.length || filtered.length === 0 ? (
           <div className="rounded-xl border border-dashed border-line p-8 text-center text-sm text-muted-foreground" role="status">
-            {!loaded ? 'Loading cards…' : !cards.length ? 'No league data yet.' : 'No cards match.'}
+            {!cards.length ? 'No league data yet.' : 'No cards match.'}
           </div>
         ) : (
           <ul className={cn('fut-grid', gridMotion)} aria-label="Cards">

@@ -16,6 +16,7 @@ import { ArcadeButton, Lamp } from '../games/ArcadeUI';
 import { HomeNews } from '../news/WhatChanged';
 import { STAT_KEYS, loadGameStat, saveGameStat, useGamePlayers, type GamePlayer } from '../games/gameUtils';
 import { fnv1a } from '@/utils/edition';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 type GameId = 'rank' | 'perfect' | 'kc' | 'legend' | 'hol' | 'grid' | 'imposter' | 'sixdeg' | 'ou' | 'build';
 
@@ -445,9 +446,7 @@ const GamesTab = () => {
             {legendsLoaded ? (
               <div key={`${active.id}-${dataVersion}-${includeLegends ? legends.length : 0}`}>{active.render(players, ovrMap)}</div>
             ) : (
-              <p className="arc-hint" role="status">
-                Loading the player pool…
-              </p>
+              <PixelLoader label="Warming up" what="the player pool" minHeight={320} />
             )}
           </section>
         )}

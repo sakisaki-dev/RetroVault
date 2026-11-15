@@ -17,6 +17,7 @@ import RingsOfHonor from '../hof/RingsOfHonor';
 import HofLegends from '../hof/HofLegends';
 import { Laurel, MedalCoin, RibbonBanner } from '../hof/hofParts';
 import { roman } from '../hof/hofUtils';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 const keyOf = (p: Pick<Player, 'name' | 'position'>) => `${p.position}:${p.name}`;
 const shortClass = (label: string, season: string) => (/inaugural/i.test(label) ? 'Inaugural' : season);
@@ -124,9 +125,10 @@ const HallOfFameTab = () => {
   }
 
   if (!hof) {
+    if (loading) return <PixelLoader label="The Hall" what="the Hall of Fame" minHeight="70vh" className="container justify-start pt-[18vh]" />;
     return (
       <div className="container py-16 text-center text-muted-foreground" aria-live="polite">
-        {loading ? 'Opening the Hall…' : 'The Hall of Fame file could not be loaded.'}
+        The Hall of Fame file could not be loaded.
       </div>
     );
   }

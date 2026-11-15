@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Briefcase, Loader2 } from 'lucide-react';
+import { Briefcase } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
 import { useLeagueContent } from '@/utils/leagueContent';
@@ -29,6 +29,7 @@ import Achievements from '@/components/frontoffice/Achievements';
 import RivalsPanel from '@/components/frontoffice/RivalsPanel';
 import ClubOffice from '@/components/frontoffice/ClubOffice';
 import '@/components/frontoffice/frontoffice.css';
+import PixelLoader from '@/components/ui/PixelLoader';
 
 /** Arcade bests live in localStorage; re-read when another tab writes or this window regains focus. */
 const useArcadeBests = (): ArcadeBests => {
@@ -78,11 +79,7 @@ const FrontOfficeTab = () => {
   );
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center gap-2 py-24 text-muted-foreground" role="status">
-        <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" /> Loading the front office…
-      </div>
-    );
+    return <PixelLoader label="Office" what="the front office" minHeight="60vh" className="container justify-start pt-[14vh]" />;
   }
 
   if (!content || !model || !model.resume.appearances) {
@@ -102,7 +99,7 @@ const FrontOfficeTab = () => {
   const franchiseCount = rows.length ? new Set(stints.map((s) => s.team)).size : resume.franchises.length;
 
   return (
-    <div className="container mx-auto space-y-8 px-4 py-6 sm:space-y-10 sm:py-8">
+    <div className="rv-load-in container mx-auto space-y-8 px-4 py-6 sm:space-y-10 sm:py-8">
       <CoachHeader resume={resume} franchiseCount={franchiseCount} stintCount={stints.length} coach={coach} facts={facts} />
       <ClubOffice players={players} onPlayerSelect={setSelected} coachName={coach?.name} />
       <TrophyCabinet shelves={shelves} seasonByYear={rows.length ? seasonByYear : undefined} />
