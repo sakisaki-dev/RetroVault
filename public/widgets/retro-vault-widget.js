@@ -5,21 +5,30 @@
 // (scripts/build_widget_data.py). Every field it reads is optional, so an older cached widget.json still draws.
 //
 // One script, every size (Scriptable picks the layout from config.widgetFamily):
-//   large      story, spotlight, two rotating panels, footer (season · edition · last update)
+//   large      three days in turn (footer: season · edition · last update):
+//                front page  the story over the champions' photo (game sprites), a spotlight strip, MARKET beside
+//                            RECORD CHASE or THE WIRE
+//                spotlight   a hero card (his sprite on a club pedestal, OVR · grade, Career Legacy and rank, his
+//                            headline career number, card value), DID YOU KNOW, a countdown (MILESTONES, else FINAL
+//                            SEASON or ROOM TO GROW from the live save)
+//                hot take    the hottest take with its heat flames, the players it names squared up, the evidence line;
+//                            HALL OF FAME WATCH and FROM THE VAULT
 //   medium     story beside the spotlight
 //   small      the spotlight alone
-//   lock screen (accessoryInline / accessoryCircular / accessoryRectangular): the champion or top headline, a gauge of
-//              the closest record chase, the story headline plus a one-line countdown. Monochrome-friendly.
+//   lock screen (white only, so iOS tints it): inline glances (the champion and his run of titles, record chases,
+//              final seasons, the Gauntlet, milestones, the coach's titles); circular: a record-chase gauge, the
+//              Gauntlet, the coach's titles or the spotlight player's silhouette; rectangular: the story headline, the
+//              record chase with a bar, the spotlight with his silhouette, or From the Vault
 //
-// Rotation (local time; nothing depends on the network between refreshes):
+// Rotation (local time; nothing depends on the network between refreshes). One turn every 3 hours (SLOT: 00, 03, 06,
+// 09, 12, 15, 18, 21), 8 a day:
 //   story      one article a day (midnight); the lead is pinned, tagged BREAKING, for the first 2 days after an update
-//   spotlight  twice a day (midnight, noon), alternating Did you know / From the Vault; each pool is shuffled with the
-//              edition seed, so an item returns only after the whole pool has shown and the order changes with updates
-//   panels     even days (and the 2 days after an update): MARKET + THE WIRE; odd days: HOF WATCH + RECORD CHASE,
-//              every other odd day a countdown panel in place of RECORD CHASE, turning through MILESTONES, FINAL
-//              SEASON (live save: players at the last age the game lets them play) and ROOM TO GROW (live save: young
-//              players' star rating now and their ceiling); a panel with no data falls back to the next one
-//   refresh    every 2 hours at most (so updates arrive quickly) and always at the next midnight or noon
+//   large day  each turn the next of front page / spotlight / hot take, offset by the edition seed; in the 2 days after
+//              an update the front page shows in half the turns (front, spotlight, front, hot take)
+//   pools      the spotlight player, Did you know / From the Vault, the take and the bottom panels each move on a turn;
+//              every pool is shuffled with the edition seed, so an item returns only after the whole pool has shown
+//              and the order changes with updates
+//   refresh    the sooner of 2 hours from now (so updates arrive quickly) and the next 3-hour turn
 // Tap: the widget's Parameter field (long-press > Edit Widget > Parameter). Empty = open the site. A Shortcut's name
 // = run that Shortcut (shortcuts://run-shortcut?name=...). A URL (http..., or anything with ://) = open it as is.
 
@@ -173,12 +182,66 @@ async function teamLogo(team) {
   return null;
 }
 
+// Game sprites (public/data/widget-sprites/, scripts/widget_sprites.py): the site's own Retro Bowl sprites, already
+// blown up 4x with nearest-neighbour pixels, so the widget only ever draws them at whole device pixels. widget.json
+// names each by a path relative to the site ("data/widget-sprites/rb-ryland-maxwell-eagles.png"): fetched from raw
+// GitHub, then Pages, then the cache; a cached copy younger than a day is used without the network. Missing: null,
+// and the layout draws without him.
+const SITE_SOURCES = ['https://raw.githubusercontent.com/sakisaki-dev/RetroVault/retrovault-v2/public/', SITE];
+const SPRITE_FILE_SCALE = 4; // file pixels per game pixel
+const SPRITE_CACHE = {};
+async function sprite(path) {
+  if (!path || typeof path !== 'string') return null;
+  if (path in SPRITE_CACHE) return SPRITE_CACHE[path];
+  const file = fm.joinPath(cacheDir, 'spr-' + path.replace(/[^a-z0-9.-]/gi, '_'));
+  const fresh = (() => {
+    try {
+      return fm.fileExists(file) && NOW.getTime() - fm.modificationDate(file).getTime() < 864e5;
+    } catch (e) {
+      return false;
+    }
+  })();
+  let img = null;
+  if (fresh) {
+    try { img = fm.readImage(file); } catch (e) { img = null; }
+  }
+  for (const base of img ? [] : SITE_SOURCES) {
+    try {
+      const r = new Request(base + path);
+      r.timeoutInterval = 8;
+      const got = await r.loadImage();
+      if (got && got.size && got.size.width >= 64) {
+        img = got;
+        try { fm.writeImage(file, got); } catch (e) { /* cache is best effort */ }
+        break;
+      }
+    } catch (e) {
+      /* next source */
+    }
+  }
+  if (!img && fm.fileExists(file)) {
+    try { img = fm.readImage(file); } catch (e) { img = null; }
+  }
+  return (SPRITE_CACHE[path] = img);
+}
+// Device pixels per game pixel for a wanted size in points (whole device pixels keep the art crisp)
+const spriteK = (ptPerPixel) => Math.max(1, Math.round(ptPerPixel * SCALE));
+const snap = (v) => Math.round(v * SCALE) / SCALE;
+// Draws a sprite with its centre line at x and the bottom of his feet at y (points); k device px per game pixel.
+// Every file shares one anchor: centre line 31.5 (pixel centres, so the edge at 32), feet on row 58 of the 64 frame.
+function drawSprite(dc, img, x, y, k) {
+  if (!img) return;
+  const u = k / SCALE;
+  dc.drawImageInRect(img, new Rect(snap(x - 32 * u), snap(y - 59 * u), 64 * u, 64 * u));
+}
+
 // ---------- time and rotation ----------
 // The league moves once a season, so nothing here depends on the network: the day and half-day decide what shows.
 const NOW = typeof RV_NOW !== 'undefined' && RV_NOW ? new Date(RV_NOW) : new Date(); // RV_NOW: test harness only
 const dayNumber = (d) => Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 864e5);
 const TODAY = dayNumber(NOW);
-const SLOT = TODAY * 2 + (NOW.getHours() >= 12 ? 1 : 0); // midnight and noon
+const SLOT_HOURS = 3;
+const SLOT = TODAY * (24 / SLOT_HOURS) + Math.floor(NOW.getHours() / SLOT_HOURS); // 00, 03, 06 ... 21
 const dateDay = (iso) => {
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || '');
   return m ? Math.floor(Date.UTC(+m[1], +m[2] - 1, +m[3]) / 864e5) : null;
@@ -186,11 +249,10 @@ const dateDay = (iso) => {
 const mod = (a, n) => ((a % n) + n) % n;
 function nextTurn(d) {
   const t = new Date(d.getTime());
-  if (t.getHours() < 12) t.setHours(12, 0, 0, 0);
-  else { t.setDate(t.getDate() + 1); t.setHours(0, 0, 0, 0); }
+  t.setHours((Math.floor(t.getHours() / SLOT_HOURS) + 1) * SLOT_HOURS, 0, 0, 0); // 24 rolls over to tomorrow 00:00
   return t;
 }
-// Refresh within 2 hours (so a pushed update shows up soon) and always at the next rotation boundary
+// Refresh within 2 hours (so a pushed update shows up soon) and always at the next 3-hour turn
 const refreshAt = (d) => new Date(Math.min(d.getTime() + 2 * 36e5, nextTurn(d).getTime()));
 // Deterministic shuffle (mulberry32 seeded by the edition): the same order all season, a new one after each update
 function shuffled(list, seed) {
@@ -233,7 +295,7 @@ function pickSpotlight(data) {
   const seed = (data.edition && data.edition.seed) || 1;
   const facts = shuffled(arr(data.didYouKnow), seed);
   const vault = shuffled(arr(data.vault), seed ^ 0x9e3779b9);
-  // Each pool moves once a day: Did you know in the morning, From the Vault in the afternoon
+  // Each turn alternates Did you know and From the Vault, each pool moving on one item when it comes round
   const turn = Math.floor(SLOT / 2);
   const wantVault = SLOT % 2 === 1;
   const pools = wantVault ? [['vault', vault], ['fact', facts]] : [['fact', facts], ['vault', vault]];
@@ -244,23 +306,34 @@ function pickSpotlight(data) {
   return fb.length ? { kind: 'player', item: { player: fb[mod(TODAY, fb.length)] } } : null;
 }
 
-// Which two bottom panels show today (large). Deterministic by day; news first right after an update.
-function pickPanels(data) {
-  const has = {
-    market: true, wire: arr(data.headlines).length > 0, hof: arr(data.hofWatch).length > 0,
-    chase: arr(data.chases).length > 0, miles: arr(data.milestones).length > 0,
-    clock: arr(data.retirements).length > 0, rise: arr(data.ceilings).length > 0,
-  };
-  // The countdown slot turns through milestones, final seasons and star ceilings (the first one with data)
-  const turn = ['miles', 'clock', 'rise'];
-  const t0 = mod(Math.floor(TODAY / 4), turn.length);
-  const count = turn.map((_, i) => turn[(t0 + i) % turn.length]).find((k) => has[k]) || 'miles';
-  let plan = isBreaking(data) || TODAY % 2 === 0 ? ['market', 'wire'] : ['hof', mod(TODAY, 4) === 1 ? 'chase' : count];
-  const backup = { market: 'market', wire: 'market', hof: 'market', chase: 'miles', miles: 'chase', clock: 'chase', rise: 'chase' };
-  plan = plan.map((p) => (has[p] ? p : has[backup[p]] ? backup[p] : ['wire', 'chase', 'miles', 'clock', 'rise'].includes(p) ? 'wire' : 'market'));
-  if (plan[1] === plan[0]) plan[1] = has.wire && plan[0] !== 'wire' ? 'wire' : 'market';
-  if (plan[1] === plan[0]) plan = ['market', 'wire'];
-  return plan;
+// The large widget's three days: front page (story over the champions' photo, spotlight strip, MARKET + RECORD CHASE
+// or THE WIRE), spotlight day (hero card, DID YOU KNOW, a countdown) and hot take day (the take, HALL OF FAME WATCH,
+// FROM THE VAULT). Each 3-hour turn moves to the next day, offset by the edition seed; in the 2 days after an update
+// (BREAKING) the front page takes every other turn (front, spotlight, front, hot take). A day without data is skipped.
+const LARGE_DAYS = ['front', 'spot', 'take'];
+function pickDay(data) {
+  if (typeof RV_DAY !== 'undefined' && RV_DAY) return RV_DAY; // harness only
+  const has = { front: true, spot: arr(data.spotlights).length > 0, take: arr(data.takes).length > 0 };
+  const seed = (data.edition && data.edition.seed) || 0;
+  const order = isBreaking(data) ? ['front', 'spot', 'front', 'take'] : LARGE_DAYS;
+  const days = order.filter((d) => has[d]);
+  return days[mod(SLOT + (seed % order.length), days.length)];
+}
+// The spotlight pool (risers first, then notable actives), shuffled by edition; `offset` keeps two views apart
+function pickSpot(data, offset = 0) {
+  const pool = shuffled(arr(data.spotlights), ((data.edition && data.edition.seed) || 1) ^ 0x5bd1e995);
+  return pool.length ? pool[mod(SLOT + offset, pool.length)] : null;
+}
+// The hottest takes first (each heat shuffled by edition), one a turn
+function pickTake(data) {
+  const seed = (data.edition && data.edition.seed) || 1;
+  const all = arr(data.takes);
+  const pool = [3, 2, 1].flatMap((h) => shuffled(all.filter((t) => (t.heat || 1) === h), seed ^ h));
+  return pool.length ? pool[mod(SLOT, pool.length)] : null;
+}
+function pickPool(list, seed, turn) {
+  const pool = shuffled(arr(list), seed);
+  return pool.length ? pool[mod(turn, pool.length)] : null;
 }
 
 // ---------- pixel art: 5-row font (after the site's Silkscreen kickers) and 7x7 icons ----------
@@ -857,7 +930,7 @@ function panelMiles(p, data, size) {
   p.url = tap(SITE + '#timeline');
   const all = arr(data.milestones);
   const n = Math.min(all.length, rowsFor(size.height, 27));
-  const start = all.length ? mod(TODAY, all.length) : 0; // a different set each time the panel comes round
+  const start = all.length ? mod(SLOT, all.length) : 0; // a different set each time the panel comes round
   Array.from({ length: n }, (_, i) => all[(start + i) % all.length]).forEach((x, i) => {
     if (i) p.addSpacer(5);
     nameText(p, x.last, x.team);
@@ -873,7 +946,7 @@ function panelClock(p, data, size) {
   p.url = tap(SITE + '#season');
   const all = arr(data.retirements);
   const n = Math.min(all.length, rowsFor(size.height, 27));
-  const start = all.length ? mod(Math.floor(TODAY / 4), all.length) : 0;
+  const start = all.length ? mod(SLOT, all.length) : 0;
   Array.from({ length: n }, (_, i) => all[(start + i) % all.length]).forEach((x, i) => {
     if (i) p.addSpacer(5);
     nameText(p, x.last, x.team);
@@ -937,40 +1010,457 @@ function offline(w) {
 }
 const spotTeamOf = (data, spot) => spot && (spot.item.team || ((data.cards || {})[spot.item.player] || {}).team);
 
+// ---------- large: three days (pickDay) ----------
+const displayI = (s) => new Font('AvenirNextCondensed-HeavyItalic', s);
+const ordinal = (n) => {
+  const t = n % 100 >= 11 && n % 100 <= 13 ? 'TH' : ['TH', 'ST', 'ND', 'RD'][n % 10] || 'TH';
+  return `${n}${t}`;
+};
+const KICK_GOLD = '#c9a14a';
+const sizedStack = (parent, w, h) => {
+  const s = parent.addStack();
+  s.size = new Size(w, h);
+  return s;
+};
+
+// Footer in pixel type: "Y94 · ED 2" left, "UPDATED NOV 14" right
+function pixelFooter(w, data) {
+  const m = /^(Y\d+)\s*·\s*Edition\s*(\d+)/i.exec((data.edition && data.edition.label) || '');
+  const season = (m && m[1]) || data.season || '';
+  const left = [season, m ? 'ED ' + m[2] : null].filter(Boolean).join(' · ');
+  const when = String(data.updatedLabel || '').replace(new RegExp('^' + season + '\\s*·\\s*'), '').split(',')[0].trim();
+  const foot = w.addStack();
+  foot.centerAlignContent();
+  addPixel(foot, [[left, mixHex(HEX.muted, HEX.night, 0.25)]]);
+  foot.addSpacer();
+  if (when) addPixel(foot, [['UPDATED ' + when, mixHex(HEX.muted, HEX.night, 0.25)]]);
+}
+
+// A rounded card filled top to bottom, with a quiet rim (the new days' panels)
+function plainCard(w, h, top, bottom, rim, rimAlpha = 1, r = 12) {
+  const dc = newCtx(w, h);
+  roundedRows(dc, w, h, r, top, bottom);
+  strokeRim(dc, 0.6, 0.6, w - 1.2, h - 1.2, r - 0.3, 1, rim, rimAlpha);
+  return dc;
+}
+// Fades a card's left part toward `hex` (text legibility over art), clipped to the rounded corners
+function fadeLeft(dc, w, h, r, hex, upto, peak) {
+  for (let x = 0; x < upto; x += 1) {
+    const dy = cornerInset(x + 0.5, w, r);
+    dc.setFillColor(rgba(hex, peak * Math.pow(1 - x / upto, 1.3)));
+    dc.fillRect(new Rect(x, dy, 1, h - 2 * dy));
+  }
+}
+
+// ---- A: front page ----
+// The champions' photo: the club's colours, the star celebrating in the middle, two ring holders a step behind
+function photoImage(w, h, team, figs) {
+  const r = 14;
+  const p = teamHex(team)[0];
+  const dc = newCtx(w, h);
+  roundedRows(dc, w, h, r, mixHex(p, '#ffffff', 0.1), mixHex(p, HEX.night, 0.6));
+  glow(dc, w - 70, h, 90, 60, mixHex(p, '#ffffff', 0.45), 0.35);
+  const star = figs.find((f) => f.star);
+  const others = figs.filter((f) => !f.star);
+  const kO = spriteK(1.34), kS = spriteK(1.9);
+  const cx = w - 66, base = h + 2;
+  others.forEach((f, i) => drawSprite(dc, f.img, cx + (i ? 1 : -1) * (14 * kO / SCALE + 12), base - 3, kO));
+  if (star) drawSprite(dc, star.img, cx, base + 2, kS);
+  fadeLeft(dc, w, h, r, mixHex(p, HEX.night, 0.82), w * 0.7, 0.94);
+  strokeRim(dc, 0.6, 0.6, w - 1.2, h - 1.2, r - 0.3, 1, mixHex(p, '#a5acaf', 0.6), 0.6);
+  return dc.getImage();
+}
+// A long headline loses its subtitle after the colon (the dek carries the rest)
+const shortHeadline = (h) => (h.length > 48 && h.includes(': ') ? h.split(': ')[0] : h);
+
+function frontStory(parent, data, art, size, figs) {
+  const team = (data.photo && data.photo.team) || (art && art.team) || (data.champion || {}).winner;
+  const box = sizedStack(parent, size.width, size.height);
+  box.layoutHorizontally();
+  box.topAlignContent();
+  box.setPadding(10, 12, 10, 0);
+  box.url = tap(SITE + '#timeline');
+  box.backgroundImage = photoImage(size.width, size.height, team, figs);
+  const col = box.addStack();
+  col.layoutVertically();
+  col.size = new Size(size.width - 12 - (figs.length ? 112 : 16), size.height - 20);
+  const kick = col.addStack();
+  kick.centerAlignContent();
+  const p = teamHex(team)[0];
+  const soft = mixHex('#ffffff', p, 0.25);
+  if (art && isBreaking(data) && art === arr(data.stories)[0]) {
+    const tag = tagImage('BREAKING');
+    const im = kick.addImage(tag.image);
+    im.imageSize = new Size(tag.w, tag.h);
+    kick.addSpacer(5);
+  }
+  const season = data.storySeason || data.season || '';
+  addPixel(kick, [[art ? `${season} ${art.kind === 'lead' ? 'STORY' : kindLabel(art.kind)}` : `${season} · WHAT CHANGED`, soft]]);
+  col.addSpacer(5);
+  const headline = art ? shortHeadline(art.headline) : (arr(data.headlines)[0] || {}).text || 'No news yet';
+  const hl = label(col, headline.toUpperCase(), display(19), Color.white(), 3);
+  hl.minimumScaleFactor = 0.7;
+  if (art && art.dek) {
+    col.addSpacer(4);
+    const first = (/^(.+?[.!?])\s/.exec(art.dek + ' ') || [null, art.dek])[1];
+    const dk = label(col, first, body(10.5), new Color(soft), headline.length > 40 ? 2 : 3);
+    dk.minimumScaleFactor = 0.85;
+  }
+  col.addSpacer();
+  box.addSpacer();
+}
+
+// Head and shoulders (game rows 6-42, 32 wide), crisp
+function bustImage(img, hpt) {
+  const k = spriteK(hpt / 36);
+  const u = k / SCALE;
+  const dc = newCtx(32 * u, 36 * u);
+  drawSprite(dc, img, 16 * u, 53 * u, k);
+  return { image: dc.getImage(), w: 32 * u, h: 36 * u };
+}
+const statLine = (sp, card) => [sp.pos, card.ovr != null ? `OVR ${card.ovr}` : null,
+  sp.stat ? `${fmt(sp.stat.value)} ${sp.stat.label}` : null].filter(Boolean).join(' · ');
+function changeText(parent, ch, size) {
+  const t = label(parent, ch ? `${ch > 0 ? '+' : '−'}${Math.abs(ch)}%` : '0%', display(size), ch > 0 ? C.up : ch < 0 ? C.flag : C.muted, 1);
+  t.minimumScaleFactor = 0.7;
+  return t;
+}
+
+function spotStrip(parent, data, sp, size, img) {
+  const card = (data.cards || {})[sp.player] || {};
+  const ink = teamInk(sp.team);
+  const box = sizedStack(parent, size.width, size.height);
+  box.layoutHorizontally();
+  box.centerAlignContent();
+  box.backgroundImage = cardImage(size.width, size.height, { stripe: ink, tint: ink, rim: mixHex(ink, HEX.line, 0.55), radius: 12 });
+  box.setPadding(0, 7, 0, 12);
+  box.url = tap(SITE + '#stats/deepdive?p=' + encodeURIComponent(sp.player));
+  if (img) {
+    const b = bustImage(img, size.height - 6);
+    const im = box.addImage(b.image);
+    im.imageSize = new Size(b.w, b.h);
+    box.addSpacer(6);
+  } else box.addSpacer(6);
+  const col = box.addStack();
+  col.layoutVertically();
+  addPixel(col, [['SPOTLIGHT', KICK_GOLD]]);
+  col.addSpacer(2);
+  const row = col.addStack();
+  row.centerAlignContent();
+  const n = label(row, sp.player.split(':').slice(1).join(':'), display(16), new Color(ink), 1);
+  n.minimumScaleFactor = 0.7;
+  row.addSpacer(5);
+  const d = label(row, statLine(sp, card), body(10), C.muted, 1);
+  d.minimumScaleFactor = 0.75;
+  box.addSpacer();
+  changeText(box, card.chg || 0, 15);
+}
+
+// ---- B: spotlight day ----
+function heroImage(w, h, leftW, sp, img) {
+  const r = 14;
+  const p = teamHex(sp.team)[0];
+  const ink = teamInk(sp.team);
+  const dc = newCtx(w, h);
+  roundedRows(dc, w, h, r, mixHex(p, '#ffffff', 0.12), mixHex(p, HEX.night, 0.45));
+  // the stat side: the panel colour, right corners rounded
+  for (let y = 0; y < h; y += 1) {
+    const dx = cornerInset(y + 0.5, h, r);
+    dc.setFillColor(new Color(mixHex(HEX.panel, HEX.panel2, 0.35)));
+    dc.fillRect(new Rect(leftW, y, w - leftW - dx, Math.min(1.4, h - y)));
+  }
+  glow(dc, leftW / 2, h * 0.88, leftW * 0.55, h * 0.3, HEX.gold, 0.32);
+  dc.setFont(displayI(76));
+  dc.setTextColor(rgba('#ffffff', 0.08));
+  dc.setTextAlignedCenter();
+  dc.drawTextInRect(sp.pos || '', new Rect(0, -4, leftW, 90));
+  const k = spriteK(Math.min(2.7, (h - 14) / 53));
+  const u = k / SCALE;
+  dc.setFillColor(rgba('#000000', 0.45));
+  dc.fillEllipse(new Rect(leftW / 2 - 15 * u, h - 8 - 3 * u, 30 * u, 5 * u));
+  drawSprite(dc, img, leftW / 2, h - 7, k);
+  strokeRim(dc, 0.6, 0.6, w - 1.2, h - 1.2, r - 0.3, 1, mixHex(ink, HEX.line, 0.5), 0.8);
+  return dc.getImage();
+}
+function statTile(parent, size, value, color, kicker) {
+  const t = sizedStack(parent, size.width, size.height);
+  t.layoutVertically();
+  t.setPadding(4, 7, 4, 6);
+  t.backgroundColor = new Color(HEX.panel2);
+  t.cornerRadius = 6;
+  const v = label(t, value, display(17), color, 1);
+  v.minimumScaleFactor = 0.6;
+  t.addSpacer();
+  addPixel(t, kicker, { px: PX * 0.85 });
+}
+function heroCard(parent, data, sp, size, img) {
+  const card = (data.cards || {})[sp.player] || {};
+  const name = sp.player.split(':').slice(1).join(':');
+  const leftW = Math.round(size.width * 0.4);
+  const box = sizedStack(parent, size.width, size.height);
+  box.layoutHorizontally();
+  box.url = tap(SITE + '#stats/deepdive?p=' + encodeURIComponent(sp.player));
+  box.backgroundImage = heroImage(size.width, size.height, leftW, sp, img);
+  box.addSpacer(leftW);
+  const col = box.addStack();
+  col.layoutVertically();
+  col.setPadding(10, 11, 10, 10);
+  const innerW = size.width - leftW - 21;
+  const kick = card.nick ? `SPOTLIGHT · ${card.nick}` : 'SPOTLIGHT';
+  addPixel(col, [[textWidth(kick) * PX <= innerW ? kick : 'SPOTLIGHT', KICK_GOLD]]);
+  col.addSpacer(4);
+  const n = label(col, name.toUpperCase(), displayI(23), inkColor(sp.team), 2);
+  n.minimumScaleFactor = 0.6;
+  col.addSpacer();
+  const tw = Math.floor((innerW - 4) / 2), th = Math.min(38, Math.floor((size.height - 20) * 0.27));
+  const rows = [
+    [[card.ovr != null ? `${card.ovr}${card.grade ? ' · ' + card.grade : ''}` : '—', C.chalk, 'OVR · GRADE'],
+      [fmt(card.legacy || 0), new Color(HEX.gold), sp.rank ? `LEGACY · ${ordinal(sp.rank)}` : 'LEGACY']],
+    [[sp.stat ? fmt(sp.stat.value) : String(card.ovr || ''), C.chalk, sp.stat ? `${sp.stat.label}${sp.stat.record ? ' · REC' : ''}` : 'OVR'],
+      [card.chg ? `${card.chg > 0 ? '+' : '−'}${Math.abs(card.chg)}%` : '0%', card.chg > 0 ? C.up : card.chg < 0 ? C.flag : C.muted, 'CARD VALUE']],
+  ];
+  rows.forEach((pair, i) => {
+    if (i) col.addSpacer(4);
+    const row = col.addStack();
+    pair.forEach(([v, c, k], j) => {
+      if (j) row.addSpacer(4);
+      statTile(row, new Size(tw, th), v, c, k);
+    });
+  });
+}
+function factPanel(parent, item, size) {
+  const p = sizedStack(parent, size.width, size.height);
+  p.layoutVertically();
+  p.setPadding(8, 11, 8, 11);
+  p.backgroundImage = cardImage(size.width, size.height, { radius: 12, stripe: item && item.team ? teamInk(item.team) : null });
+  p.url = tap(SITE + '#timeline');
+  addPixel(p, 'DID YOU KNOW', { icon: 'bulb' });
+  p.addSpacer(4);
+  const t = label(p, item ? item.text : 'Nothing new yet.', body(11.5), C.chalk, Math.max(2, Math.floor((size.height - 26) / 14)));
+  t.minimumScaleFactor = 0.8;
+  p.addSpacer();
+}
+// A wide row: the name in club ink, a bar, a number on the right
+function barRow(p, inner, nameW, rightW, x, pct, right, rightColor) {
+  const row = p.addStack();
+  row.centerAlignContent();
+  const ns = row.addStack();
+  ns.size = new Size(nameW, 0);
+  nameText(ns, x.last, x.team, 12);
+  ns.addSpacer();
+  row.addSpacer(6);
+  const bw = inner - nameW - rightW - 12;
+  const bar = row.addImage(barImage(bw, pct, teamInk(x.team), 5));
+  bar.imageSize = new Size(bw, 5);
+  row.addSpacer(6);
+  const rs = row.addStack();
+  rs.size = new Size(rightW, 0);
+  rs.addSpacer();
+  const t = label(rs, right, mono(9.5), rightColor || C.muted, 1);
+  t.minimumScaleFactor = 0.7;
+}
+function panelMilesBars(p, data, size) {
+  p.url = tap(SITE + '#timeline');
+  const all = arr(data.milestones);
+  const n = Math.min(all.length, Math.max(1, Math.floor((size.height - 26) / 20)));
+  const start = all.length ? mod(SLOT, all.length) : 0;
+  Array.from({ length: n }, (_, i) => all[(start + i) % all.length]).forEach((x, i) => {
+    if (i) p.addSpacer(6);
+    barRow(p, size.width - 22, 66, 112, x, x.target ? (x.have / x.target) * 100 : 0,
+      `${fmt(x.toGo || 0)} to ${fmt(x.target || 0)} ${x.unit || ''}`);
+  });
+  p.addSpacer();
+}
+
+// ---- C: hot take day ----
+const HEAT = { 1: 'WARM TAKE', 2: 'HOT TAKE', 3: 'SCORCHING TAKE' };
+// Three pixel flames, as many lit as the take's heat
+function flamesImage(heat) {
+  const f = ['..#..', '.#o#.', '.#o#.', '#oyo#', '#oyo#', '.###.'];
+  const px = PX * 1.15;
+  const dc = newCtx((3 * 5 + 2 * 2) * px, 6 * px);
+  for (let i = 0; i < 3; i++) {
+    const lit = i < (heat || 1);
+    drawGrid(dc, f, i * 7, 0, px, lit ? { '#': '#ff7a2f', o: '#ffb13d', y: '#ffe08a' } : { '#': '#5a3a2c', o: '#4a2f24', y: '#4a2f24' });
+  }
+  return { image: dc.getImage(), w: 19 * px, h: 6 * px };
+}
+// Lines a condensed headline takes in `w` points at `size` (an estimate; the text also shrinks to fit)
+const headLines = (text, w, size, max) => Math.min(max, Math.max(1, Math.ceil(text.length / Math.max(8, w / (size * 0.47)))));
+// The take: flames and the headline on top; below it the two players squared up on the right (as big as the room
+// allows), the evidence line bottom-left
+function takeImage(w, h, top, figs, logo) {
+  const r = 14;
+  const dc = newCtx(w, h);
+  roundedRows(dc, w, h, r, '#2c1b14', '#120c0b');
+  glow(dc, w * 0.72, h, w * 0.42, h * 0.55, '#ff6e28', 0.4);
+  const room = h - top;
+  // a standing figure is up to 46 game pixels from hair to shoes: with the shoes 6 pixels off the bottom edge, the
+  // tallest whole-pixel scale whose head stays under the headline
+  const k = Math.max(1, Math.floor(((room - 2) / 40) * SCALE));
+  const u = k / SCALE;
+  const right = w * 0.72;
+  const feet = h + 6 * u;
+  if (figs.length >= 2) {
+    const gap = 17 * u;
+    figs.slice(0, 2).forEach((f, i) => {
+      dc.setFillColor(rgba('#000000', 0.4));
+      dc.fillEllipse(new Rect(right + (i ? gap : -gap) - 14 * u, h - 3 * u, 28 * u, 5 * u));
+      drawSprite(dc, f.img, right + (i ? gap : -gap), feet, k);
+    });
+    const vs = pixelLabel([['VS', '#ffb13d']], { px: PX * 1.3 });
+    dc.drawImageInRect(vs.image, new Rect(right - vs.w / 2, top + room * 0.55, vs.w, vs.h));
+  } else if (figs.length === 1) {
+    glow(dc, right, h - room * 0.5, 30 * u, room * 0.6, '#ffe08a', 0.18);
+    drawSprite(dc, figs[0].img, right, feet, k);
+  } else if (logo) {
+    const s = Math.min(room - 6, 64);
+    dc.drawImageInRect(logo, new Rect(right - s / 2, h - s - 6, s, s));
+  }
+  strokeRim(dc, 0.6, 0.6, w - 1.2, h - 1.2, r - 0.3, 1, '#ff8c3c', 0.45);
+  return dc.getImage();
+}
+function takeBlock(parent, data, take, size, figs, logo) {
+  const box = sizedStack(parent, size.width, size.height);
+  box.layoutVertically();
+  box.setPadding(8, 12, 8, 12);
+  box.url = tap(SITE + '#timeline');
+  const kick = box.addStack();
+  kick.centerAlignContent();
+  const fl = flamesImage(take.heat);
+  const fi = kick.addImage(fl.image);
+  fi.imageSize = new Size(fl.w, fl.h);
+  kick.addSpacer(6);
+  addPixel(kick, [[`${HEAT[take.heat] || 'HOT TAKE'}${data.takesSeason ? ' · ' + data.takesSeason : ''}`, '#ffc58a']]);
+  box.addSpacer(4);
+  const hlSize = 18;
+  const text = take.headline.toUpperCase();
+  const lines = headLines(text, size.width - 24, hlSize, 3);
+  const hl = label(box, text, display(hlSize), Color.white(), lines);
+  hl.minimumScaleFactor = 0.65;
+  const top = 8 + fl.h + 4 + lines * hlSize * 1.2 + 2;
+  box.backgroundImage = takeImage(size.width, size.height, top, figs, logo);
+  box.addSpacer();
+  if (take.dek) {
+    const row = box.addStack();
+    const col = row.addStack();
+    col.size = new Size((size.width - 24) * (figs.length || logo ? 0.48 : 1), 0);
+    const d = label(col, take.dek, body(10), new Color('#e8c9b0'), 3);
+    d.minimumScaleFactor = 0.8;
+    col.addSpacer();
+    row.addSpacer();
+  }
+}
+function panelHofBars(p, data, size) {
+  p.url = tap(SITE + '#hof');
+  const all = arr(data.hofWatch);
+  const n = Math.min(all.length, 3, Math.max(1, Math.floor((size.height - 24) / 19)));
+  all.slice(0, n).forEach((x, i) => {
+    if (i) p.addSpacer(5);
+    barRow(p, size.width - 22, 74, 46, x, x.pct || 0, x.score != null ? String(x.score) : fmt(x.toGo || 0), new Color(HEX.gold));
+  });
+  p.addSpacer();
+}
+function vaultPanel(parent, item, size) {
+  const p = sizedStack(parent, size.width, size.height);
+  p.layoutVertically();
+  p.setPadding(8, 11, 8, 11);
+  const dc = plainCard(size.width, size.height, '#2a2210', '#171207', HEX.gold, 0.35);
+  p.backgroundImage = dc.getImage();
+  if (!item) return;
+  p.url = tap(SITE + (item.kind === 'hof' ? '#hof' : '#timeline'));
+  addPixel(p, [[['FROM THE VAULT', item.when].filter(Boolean).join(' · '), '#f1c35c']], { icon: vaultIcon(item), iconHex: '#f1c35c', iconDeep: '#a07a2a' });
+  p.addSpacer(4);
+  if (item.title) {
+    const t = label(p, item.title.toUpperCase(), display(14), new Color('#fff3d6'), 1);
+    t.minimumScaleFactor = 0.7;
+    p.addSpacer(1);
+  }
+  const tx = label(p, item.text || '', body(11), new Color('#e9dfc4'), Math.max(1, Math.floor((size.height - 44) / 13.5)));
+  tx.minimumScaleFactor = 0.8;
+  p.addSpacer();
+}
+function widePanel(parent, title, icon, size) {
+  const p = sizedStack(parent, size.width, size.height);
+  p.layoutVertically();
+  p.setPadding(8, 11, 8, 11);
+  p.backgroundImage = cardImage(size.width, size.height, { radius: 12 });
+  addPixel(p, title, { icon });
+  p.addSpacer(6);
+  return p;
+}
+
 async function large(data) {
   const sz = widgetSize('large');
   const w = base(sz, { scan: 60 });
   if (!data) return offline(w);
   const cw = sz.w - 2 * PAD.side;
-  const footH = 11, slack = 8;
-  const avail = sz.h - PAD.top - PAD.bottom - 8 - 8 - footH - slack;
-  const storyH = Math.round(avail * 0.3), spotH = Math.round(avail * 0.33), panelH = avail - storyH - spotH;
-  const art = pickStory(data);
-  const spot = pickSpotlight(data);
-  const spotTeam = spotTeamOf(data, spot);
-  const [storyLogo, spotLogo] = await Promise.all([art ? teamLogo(art.team) : null, spotTeam ? teamLogo(spotTeam) : null]);
+  const gap = 7, footH = 8;
+  const avail = sz.h - PAD.top - PAD.bottom - footH - 3 * gap;
+  const seed = (data.edition && data.edition.seed) || 1;
+  let day = pickDay(data);
+  if ((day === 'spot' && !arr(data.spotlights).length) || (day === 'take' && !arr(data.takes).length)) day = 'front';
 
-  story(w, data, art, new Size(cw, storyH), storyLogo);
-  w.addSpacer(8);
-  if (spot) spotlight(w, spot, data.cards || {}, new Size(cw, spotH), spotLogo);
-  else w.addSpacer(spotH);
-  w.addSpacer(8);
-  const cols = w.addStack();
-  cols.layoutHorizontally();
-  cols.topAlignContent();
-  const pw = Math.floor((cw - 8) / 2);
-  pickPanels(data).forEach((k, i) => {
-    if (i) cols.addSpacer(8);
-    const [title, icon, fill] = PANELS[k];
-    const size = new Size(pw, panelH);
-    fill(panelShell(cols, title, icon, size), data, size, art);
-  });
+  if (day === 'spot') {
+    const sp = pickSpot(data, 1);
+    const heroH = Math.round(avail * 0.5), factH = Math.round(avail * 0.22), countH = avail - heroH - factH;
+    const img = await sprite(sp.sprite);
+    heroCard(w, data, sp, new Size(cw, heroH), img);
+    w.addSpacer(gap);
+    factPanel(w, pickPool(data.didYouKnow, seed, SLOT), new Size(cw, factH));
+    w.addSpacer(gap);
+    const has = { miles: arr(data.milestones).length > 0, clock: arr(data.retirements).length > 0, rise: arr(data.ceilings).length > 0 };
+    const turn = ['miles', 'clock', 'rise'];
+    const t0 = mod(SLOT, turn.length);
+    const k = turn.map((_, i) => turn[(t0 + i) % turn.length]).find((x) => has[x]) || 'hof';
+    const size = new Size(cw, countH);
+    if (k === 'miles') panelMilesBars(widePanel(w, 'MILESTONES', 'flag', size), data, size);
+    else if (k === 'hof') panelHofBars(widePanel(w, 'HALL OF FAME WATCH · ACTIVE', 'pillar', size), data, size);
+    else {
+      const [title, icon, fill] = PANELS[k];
+      fill(widePanel(w, title, icon, size), data, size);
+    }
+  } else if (day === 'take') {
+    const take = pickTake(data);
+    const takeH = Math.round(avail * 0.5), hofH = Math.round(avail * 0.25), vaultH = avail - takeH - hofH;
+    const people = arr(take.players);
+    const imgs = await Promise.all(people.map((x) => sprite(x.sprite)));
+    const figs = people.map((x, i) => ({ img: imgs[i] })).filter((f) => f.img);
+    const logo = figs.length ? null : await teamLogo(take.team);
+    takeBlock(w, data, take, new Size(cw, takeH), figs, logo);
+    w.addSpacer(gap);
+    const hs = new Size(cw, hofH);
+    if (arr(data.hofWatch).length) panelHofBars(widePanel(w, 'HALL OF FAME WATCH · ACTIVE', 'pillar', hs), data, hs);
+    else panelMarket(widePanel(w, 'MARKET', 'ticker', hs), data, hs);
+    w.addSpacer(gap);
+    vaultPanel(w, pickPool(data.vault, seed ^ 0x9e3779b9, SLOT), new Size(cw, vaultH));
+  } else {
+    const art = pickStory(data);
+    const storyH = Math.round(avail * 0.44), stripH = 46, panelH = avail - storyH - stripH;
+    const sp = pickSpot(data);
+    const people = arr(data.photo && data.photo.players);
+    const [spImg, ...imgs] = await Promise.all([sp ? sprite(sp.sprite) : null, ...people.map((x) => sprite(x.sprite))]);
+    const figs = people.map((x, i) => ({ img: imgs[i], star: !!x.star })).filter((f) => f.img);
+    frontStory(w, data, art, new Size(cw, storyH), figs);
+    w.addSpacer(gap);
+    if (sp) spotStrip(w, data, sp, new Size(cw, stripH), spImg);
+    else w.addSpacer(stripH);
+    w.addSpacer(gap);
+    const cols = w.addStack();
+    cols.layoutHorizontally();
+    cols.topAlignContent();
+    const pw = Math.floor((cw - gap) / 2);
+    const right = mod(SLOT, 2) === 0 ? 'wire' : 'chase'; // alternates turn by turn
+    const plan = ['market', right === 'chase' && !arr(data.chases).length ? 'wire' : right === 'wire' && !arr(data.headlines).length ? 'chase' : right];
+    plan.forEach((k, i) => {
+      if (i) cols.addSpacer(gap);
+      const [title, icon, fill] = PANELS[k];
+      const size = new Size(pw, panelH);
+      fill(panelShell(cols, title, icon, size), data, size, art);
+    });
+  }
   w.addSpacer();
-  const foot = w.addStack();
-  foot.centerAlignContent();
-  label(foot, footLine(data), mono(8.5), C.muted, 1);
-  foot.addSpacer();
-  label(foot, 'tap for the full story ›', mono(8.5), C.muted, 1);
+  pixelFooter(w, data);
   return w;
 }
 
@@ -1039,65 +1529,126 @@ async function small(data) {
 }
 
 // ---------- lock screen ----------
-// A one-line countdown: "Van Oxley: 79 rec yds to 15,000", "Jensen: 1,488 rush yds from the record",
-// "Horsted: 372 pts to the Hall", "Final season: Atwell", "Pircher: 3.5→5★ ceiling"
+// White only (iOS tints lock screen widgets to the wallpaper). Everything rotates every 3 hours (SLOT).
+const gauntletPick = (data) => {
+  const g = data.gauntlet;
+  if (!g) return null;
+  const h = arr(g.holders).find((x) => x.active);
+  if (h) return { last: h.last, have: g.of, of: g.of, holder: true, player: h.player };
+  if (g.closest) return { last: g.closest.last, have: g.closest.have, of: g.of, holder: false, player: g.closest.player };
+  return null;
+};
+// One-line glances: "Y94 · Eagles won CLIII, 4 in a row", "Atwell · 126 tackles to the record", "Maxwell · final
+// season Y95", "Maxwell · ran the Gauntlet, 5/5", "Burford · 1 tackle to 500", "Skura · 68 Super Bowl titles"
 function glanceLines(data) {
   const out = [];
-  arr(data.retirements).filter((x) => x.seasonsLeft === 0).slice(0, 3).forEach((x) => out.push(`Final season: ${x.last}`));
-  arr(data.ceilings).slice(0, 3).forEach((x) => out.push(`${x.last}: ${starText(x.stars || 0)}→${starText(x.ceiling || 0)}★ ceiling`));
-  arr(data.milestones).forEach((x) => out.push(`${x.last}: ${fmt(x.toGo)} ${x.unit} to ${fmt(x.target)}`));
-  arr(data.chases).forEach((x) => out.push(`${x.last}: ${fmt(x.toGo)} ${x.unit} from the record`));
-  arr(data.hofWatch).forEach((x) => out.push(x.toGo > 0 ? `${x.last}: ${fmt(x.toGo)} pts to the Hall` : `${x.last}: Hall of Fame bound`));
+  const ch = data.champion;
+  if (ch) out.push(`${ch.season} · ${ch.winner} won ${ch.roman}${ch.run > 1 ? `, ${ch.run} in a row` : ''}`);
+  arr(data.chases).slice(0, 2).forEach((x) => out.push(`${x.last} · ${fmt(x.toGo)} ${x.unit} to the record`));
+  arr(data.retirements).filter((x) => x.seasonsLeft === 0).slice(0, 2)
+    .forEach((x) => out.push(`${x.last} · final season${data.liveSeason ? ' ' + data.liveSeason : ''}`));
+  const g = gauntletPick(data);
+  if (g) out.push(g.holder ? `${g.last} · ran the Gauntlet, ${g.of}/${g.of}` : `${g.last} · ${g.have}/${g.of} of the Gauntlet`);
+  arr(data.milestones).slice(0, 2).forEach((x) => out.push(`${x.last} · ${fmt(x.toGo)} ${x.unit} to ${fmt(x.target)}`));
+  arr(data.ceilings).slice(0, 1).forEach((x) => out.push(`${x.last} · ${starText(x.stars || 0)}→${starText(x.ceiling || 0)}★ ceiling`));
+  if (data.coachTitles && data.coach) out.push(`${data.coach} · ${data.coachTitles} Super Bowl titles`);
+  arr(data.hofWatch).slice(0, 1).forEach((x) => out.push(x.toGo > 0 ? `${x.last} · ${fmt(x.toGo)} pts to the Hall` : `${x.last} · Hall of Fame bound`));
   return out;
 }
-// Inline: the champion on even days, a countdown on odd days; the top headline when either is missing
 function inlineText(data) {
-  const ch = data.champion;
   const lines = glanceLines(data);
+  if (lines.length) return lines[mod(SLOT, lines.length)];
   const h = (arr(data.headlines)[0] || {}).text;
-  if (ch && (TODAY % 2 === 0 || !lines.length)) return `🏈 ${ch.season} · ${ch.winner} won ${ch.roman}`;
-  if (lines.length) return `🏈 ${lines[mod(Math.floor(TODAY / 2), lines.length)]}`;
-  if (h) return `🏈 ${h}`;
-  return `🏈 Retro Vault · ${data.season || ''}`;
+  return h || `Retro Vault · ${data.season || ''}`;
+}
+function ringArc(dc, cx, cy, r, lw, from, to, color) {
+  const p = new Path();
+  const n = Math.max(2, Math.ceil((to - from) * 40));
+  for (let i = 0; i <= n; i++) {
+    const a = -Math.PI / 2 + 2 * Math.PI * (from + ((to - from) * i) / n);
+    const pt = new Point(cx + r * Math.cos(a), cy + r * Math.sin(a));
+    if (i) p.addLine(pt); else p.move(pt);
+  }
+  dc.addPath(p);
+  dc.setStrokeColor(color);
+  dc.setLineWidth(lw);
+  dc.strokePath();
+}
+function ringText(dc, s, big, small, bigSize = 17) {
+  dc.setTextAlignedCenter();
+  dc.setFont(Font.heavyRoundedSystemFont ? Font.heavyRoundedSystemFont(bigSize) : Font.boldSystemFont(bigSize));
+  dc.setTextColor(Color.white());
+  dc.drawTextInRect(big, new Rect(0, s / 2 - bigSize * 0.85, s, bigSize * 1.3));
+  dc.setFont(Font.boldSystemFont(small.length > 7 ? 7 : 8));
+  dc.setTextColor(new Color('#ffffff', 0.8));
+  dc.drawTextInRect(small, new Rect(9, s / 2 + bigSize * 0.38, s - 18, 11));
 }
 function gaugeImage(pct, big, small) {
   const s = 64;
   const dc = newCtx(s, s);
   const r = 27, lw = 5.5, cx = s / 2, cy = s / 2;
-  const arc = (from, to, color) => {
-    const p = new Path();
-    const n = Math.max(2, Math.ceil((to - from) * 40));
-    for (let i = 0; i <= n; i++) {
-      const a = -Math.PI / 2 + 2 * Math.PI * (from + ((to - from) * i) / n);
-      const pt = new Point(cx + r * Math.cos(a), cy + r * Math.sin(a));
-      if (i) p.addLine(pt); else p.move(pt);
-    }
-    dc.addPath(p);
-    dc.setStrokeColor(color);
-    dc.setLineWidth(lw);
-    dc.strokePath();
-  };
-  arc(0, 1, new Color('#ffffff', 0.25));
-  arc(0, Math.max(0.02, Math.min(1, pct / 100)), Color.white());
+  ringArc(dc, cx, cy, r, lw, 0, 1, new Color('#ffffff', 0.25));
+  ringArc(dc, cx, cy, r, lw, 0, Math.max(0.02, Math.min(1, pct / 100)), Color.white());
   // a knob at the end, like the site's progress dots
   const a = -Math.PI / 2 + 2 * Math.PI * Math.min(1, pct / 100);
   dc.setFillColor(Color.white());
   dc.fillEllipse(new Rect(cx + r * Math.cos(a) - lw * 0.75, cy + r * Math.sin(a) - lw * 0.75, lw * 1.5, lw * 1.5));
-  dc.setTextAlignedCenter();
-  dc.setFont(Font.heavyRoundedSystemFont ? Font.heavyRoundedSystemFont(17) : Font.boldSystemFont(17));
-  dc.setTextColor(Color.white());
-  dc.drawTextInRect(big, new Rect(0, 17, s, 22));
-  dc.setFont(Font.boldSystemFont(8));
-  dc.setTextColor(new Color('#ffffff', 0.8));
-  dc.drawTextInRect(small, new Rect(4, 37, s - 8, 11));
+  ringText(dc, s, big, small);
   return dc.getImage();
 }
-function accessory(data) {
+// The Gauntlet: one ring segment per award, lit for each he holds
+function gauntletImage(g) {
+  const s = 64;
+  const dc = newCtx(s, s);
+  const segs = g.of || 5, gapA = 0.035;
+  for (let i = 0; i < segs; i++) {
+    ringArc(dc, s / 2, s / 2, 27, 5.5, i / segs + gapA / 2, (i + 1) / segs - gapA / 2, i < g.have ? Color.white() : new Color('#ffffff', 0.25));
+  }
+  ringText(dc, s, `${g.have}/${g.of}`, 'GAUNTLET', 18);
+  return dc.getImage();
+}
+function titlesImage(n) {
+  const s = 64;
+  const dc = newCtx(s, s);
+  ringArc(dc, s / 2, s / 2, 28, 2, 0, 1, new Color('#ffffff', 0.35));
+  ringText(dc, s, String(n), 'TITLES', 22);
+  return dc.getImage();
+}
+// The spotlight player's head and shoulders as a white silhouette, filling the circle
+function silhouetteCircle(img) {
+  const s = 64;
+  const dc = newCtx(s, s);
+  const k = spriteK(s / 32);
+  const u = k / SCALE;
+  drawSprite(dc, img, s / 2, 4 + 52 * u, k); // the head near the top, cut at the chest
+  return dc.getImage();
+}
+function silhouetteFigure(img, w, h) {
+  const dc = newCtx(w, h);
+  const k = spriteK((h + 8) / 52);
+  drawSprite(dc, img, w / 2, h + 5 * (k / SCALE), k);
+  return dc.getImage();
+}
+function lockKicker(stack, text) {
+  const k = stack.addText(text);
+  k.font = Font.boldSystemFont(10);
+  k.textColor = new Color('#ffffff', 0.7);
+  k.lineLimit = 1;
+  return k;
+}
+
+async function accessory(data) {
   const w = new ListWidget();
   w.refreshAfterDate = refreshAt(NOW);
   w.url = tap(SITE + '#timeline');
+  const pickOpt = (opts) => {
+    const forced = typeof RV_LOCK !== 'undefined' && RV_LOCK; // harness only
+    if (forced && opts.includes(forced)) return forced;
+    return opts.length ? opts[mod(SLOT, opts.length)] : null;
+  };
+  const sp = data ? pickSpot(data) : null;
   if (FAMILY === 'accessoryInline') {
-    const t = w.addText(data ? inlineText(data) : '🏈 Retro Vault');
+    const t = w.addText(data ? inlineText(data) : 'Retro Vault');
     t.lineLimit = 1;
     return w;
   }
@@ -1105,35 +1656,83 @@ function accessory(data) {
     w.addAccessoryWidgetBackground = true;
     w.setPadding(0, 0, 0, 0);
     const c = data && arr(data.chases)[0];
-    const hw = data && arr(data.hofWatch)[0];
-    if (!c && !hw) {
-      // An older widget.json without countdowns: the brand glyph
-      const im = w.addImage(brandGlyph());
-      im.imageSize = new Size(40, 40);
-      im.centerAlignImage();
-      return w;
+    const g = data && gauntletPick(data);
+    const sil = sp && sp.sil ? await sprite(sp.sil) : null;
+    const opts = [c && 'chase', g && 'gauntlet', data && data.coachTitles && 'titles', sil && 'spot'].filter(Boolean);
+    const pick = pickOpt(opts);
+    let image = null;
+    if (pick === 'chase') image = gaugeImage(c.pct, `${c.pct}%`, String(c.last || '').toUpperCase().slice(0, 9));
+    else if (pick === 'gauntlet') {
+      image = gauntletImage(g);
+      w.url = tap(SITE + '#stats/deepdive?p=' + encodeURIComponent(g.player));
+    } else if (pick === 'titles') image = titlesImage(data.coachTitles);
+    else if (pick === 'spot') {
+      image = silhouetteCircle(sil);
+      w.url = tap(SITE + '#stats/deepdive?p=' + encodeURIComponent(sp.player));
     }
-    const [pct, sub] = c ? [c.pct, String(c.last || '').toUpperCase().slice(0, 9)]
-      : [Math.floor(hw.pct), 'HOF ' + String(hw.last || '').toUpperCase().slice(0, 5)];
-    if (!c) w.url = tap(SITE + '#hof');
-    const im = w.addImage(gaugeImage(pct, `${pct}%`, sub));
-    im.imageSize = new Size(64, 64);
+    const hw = data && arr(data.hofWatch)[0];
+    if (!image && hw) {
+      image = gaugeImage(Math.floor(hw.pct), `${Math.floor(hw.pct)}%`, 'HOF ' + String(hw.last || '').toUpperCase().slice(0, 5));
+      w.url = tap(SITE + '#hof');
+    }
+    const im = w.addImage(image || brandGlyph());
+    im.imageSize = image ? new Size(64, 64) : new Size(40, 40);
     im.centerAlignImage();
     return w;
   }
-  // accessoryRectangular: story headline + one countdown line
+  // accessoryRectangular: the story headline, the closest record chase with a bar, the spotlight with his
+  // silhouette, or From the Vault
   w.addAccessoryWidgetBackground = false;
   w.setPadding(2, 4, 2, 4);
   if (!data) return offline(w);
   const art = pickStory(data);
-  const k = w.addText(`🏈 ${data.storySeason || data.season || ''} ${art ? kindLabel(art.kind) : 'RETRO VAULT'}${art && isBreaking(data) && art === arr(data.stories)[0] ? ' · BREAKING' : ''}`);
-  k.font = Font.boldSystemFont(10); k.textColor = new Color('#ffffff', 0.7); k.lineLimit = 1;
-  const h = w.addText(art ? art.headline : (arr(data.headlines)[0] || {}).text || 'Retro Vault');
-  h.font = Font.boldSystemFont(14); h.textColor = Color.white(); h.lineLimit = 2; h.minimumScaleFactor = 0.8;
-  const lines = glanceLines(data);
-  if (lines.length) {
-    const g = w.addText('↳ ' + lines[mod(TODAY, lines.length)]);
-    g.font = Font.mediumSystemFont(11); g.textColor = new Color('#ffffff', 0.85); g.lineLimit = 1; g.minimumScaleFactor = 0.7;
+  const c = arr(data.chases)[0];
+  const sil = sp && sp.sil ? await sprite(sp.sil) : null;
+  const seed = (data.edition && data.edition.seed) || 1;
+  const vault = pickPool(data.vault, seed ^ 0x9e3779b9, SLOT);
+  const opts = [art && 'story', c && 'chase', sil && 'spot', vault && 'vault'].filter(Boolean);
+  const pick = pickOpt(opts) || 'story';
+  if (pick === 'chase') {
+    w.url = tap(SITE + '#stats/deepdive?p=' + encodeURIComponent(c.player));
+    lockKicker(w, 'RECORD CHASE');
+    const h = w.addText(`${c.last} · ${fmt(c.toGo)} to go`);
+    h.font = Font.heavySystemFont(15); h.textColor = Color.white(); h.lineLimit = 1; h.minimumScaleFactor = 0.7;
+    w.addSpacer(3);
+    const dc = newCtx(150, 5);
+    fillRounded(dc, new Rect(0, 0, 150, 5), 2.5, new Color('#ffffff', 0.25));
+    fillRounded(dc, new Rect(0, 0, Math.max(5, 1.5 * (c.pct || 0)), 5), 2.5, Color.white());
+    const bar = w.addImage(dc.getImage());
+    bar.imageSize = new Size(150, 5);
+    w.addSpacer(2);
+    const s = w.addText(`${fmt(c.have)} of ${c.holder}'s ${fmt(c.mark)} ${c.stat || ''}`);
+    s.font = Font.mediumSystemFont(10); s.textColor = new Color('#ffffff', 0.8); s.lineLimit = 1; s.minimumScaleFactor = 0.7;
+  } else if (pick === 'spot') {
+    const card = (data.cards || {})[sp.player] || {};
+    w.setPadding(0, 0, 0, 4);
+    w.url = tap(SITE + '#stats/deepdive?p=' + encodeURIComponent(sp.player));
+    const row = w.addStack();
+    row.centerAlignContent();
+    const im = row.addImage(silhouetteFigure(sil, 50, 70));
+    im.imageSize = new Size(50, 70);
+    row.addSpacer(4);
+    const col = row.addStack();
+    col.layoutVertically();
+    lockKicker(col, 'SPOTLIGHT');
+    const n = col.addText(sp.last.toUpperCase());
+    n.font = Font.heavySystemFont(16); n.textColor = Color.white(); n.lineLimit = 1; n.minimumScaleFactor = 0.6;
+    const l = col.addText([card.ovr != null ? `${card.ovr} OVR` : null, card.legacy ? `${fmt(card.legacy)} CL` : null].filter(Boolean).join(' · '));
+    l.font = Font.mediumSystemFont(11); l.textColor = new Color('#ffffff', 0.85); l.lineLimit = 1; l.minimumScaleFactor = 0.7;
+    row.addSpacer();
+    return w;
+  } else if (pick === 'vault') {
+    w.url = tap(SITE + (vault.kind === 'hof' ? '#hof' : '#timeline'));
+    lockKicker(w, ['FROM THE VAULT', vault.when].filter(Boolean).join(' · '));
+    const t = w.addText(vault.title && vault.kind !== 'hof' ? `${vault.title}: ${vault.text}` : vault.text || '');
+    t.font = Font.mediumSystemFont(12); t.textColor = Color.white(); t.lineLimit = 3; t.minimumScaleFactor = 0.75;
+  } else {
+    lockKicker(w, `${data.storySeason || data.season || ''} ${art ? (art.kind === 'lead' ? 'STORY' : kindLabel(art.kind)) : 'RETRO VAULT'}${art && isBreaking(data) && art === arr(data.stories)[0] ? ' · BREAKING' : ''}`);
+    const h = w.addText(art ? shortHeadline(art.headline) : (arr(data.headlines)[0] || {}).text || 'Retro Vault');
+    h.font = Font.heavySystemFont(15); h.textColor = Color.white(); h.lineLimit = 3; h.minimumScaleFactor = 0.75;
   }
   w.addSpacer();
   return w;
@@ -1141,7 +1740,7 @@ function accessory(data) {
 
 async function build() {
   const data = await load('widget.json');
-  if (String(FAMILY).startsWith('accessory')) return accessory(data);
+  if (String(FAMILY).startsWith('accessory')) return await accessory(data);
   if (FAMILY === 'small') return small(data);
   if (FAMILY === 'medium') return medium(data);
   return large(data);
