@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Activity, CalendarClock, ChartScatter, Gauge, Medal, Milestone, Users } from 'lucide-react';
+import { Activity, CalendarClock, ChartScatter, Gauge, LineChart, Medal, Milestone, Users } from 'lucide-react';
 import type { LeagueData, Player, Position } from '@/types/player';
 import {
   POSITIONS,
@@ -32,7 +32,8 @@ import DdWhoPlays from './DdWhoPlays';
 import DdRealComps, { realCompSets, uniqueRealComps } from './DdRealComps';
 import { DdSection } from './ddParts';
 import { MIN_RADAR_AXES, buildPositionModel, buildSimilarityMap, type PositionModel, type SimilarityMap } from './compModel';
-import { onCompFinderRequest, openInHeadToHead, takeCompFinderRequest } from './compFinderLink';
+import { onCompFinderRequest, openInHeadToHead, takeCompFinderRequest, takeDeepDiveSection } from './compFinderLink';
+import DdGraphsLazy from './graphs/DdGraphsLazy';
 import { canGoBackInApp } from '../hub/hashRoute';
 import { usePageSwipeBack } from '@/hooks/usePageSwipeBack';
 import { mergeRefs } from '@/hooks/useSwipeToDismiss';
@@ -60,6 +61,7 @@ const SECTIONS = [
   { id: 'dd-who', label: 'Who plays like him', short: 'Comps', icon: Users },
   { id: 'dd-map', label: 'Neighbourhood', short: 'Map', icon: ChartScatter },
   { id: 'dd-advanced', label: 'Advanced profile', short: 'Advanced', icon: Activity },
+  { id: 'dd-graphs', label: 'Career graphs', short: 'Graphs', icon: LineChart },
   { id: 'dd-career', label: 'Career & legacy', short: 'Career', icon: Milestone },
   { id: 'dd-clock', label: 'Age & clock', short: 'Age', icon: CalendarClock },
   { id: 'dd-records', label: 'Records & awards', short: 'Records', icon: Medal },
@@ -160,6 +162,18 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
       }),
     [choose],
   );
+
+  // A request to open at a section (the player card's "Career graphs"): scroll there once the player's page is up
+  const [sectionReq, setSectionReq] = useState<string | null>(() => takeDeepDiveSection());
+  useEffect(() => onCompFinderRequest(() => setSectionReq(takeDeepDiveSection())), []);
+  useEffect(() => {
+    if (!sectionReq || !byKey.has(selKey)) return;
+    const t = window.setTimeout(() => {
+      document.getElementById(sectionReq)?.scrollIntoView({ behavior: 'instant' as ScrollBehavior, block: 'start' });
+      setSectionReq(null);
+    }, 120);
+    return () => window.clearTimeout(t);
+  }, [sectionReq, selKey, byKey]);
 
   // ---------- Memoised league / position computations ----------
   const models = useMemo(() => new Map(POSITIONS.map((pos) => [pos, buildPositionModel(players, pos)] as const)), [players]);
@@ -431,16 +445,26 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
             <DdAdvanced player={player} boards={boards} />
           </DdSection>
 
-          <DdSection id="dd-career" index={4} title="Career & legacy" icon={Milestone}>
+          <DdSection
+            id="dd-graphs"
+            index={4}
+            title="Career graphs"
+            icon={LineChart}
+            kicker="Season by season: drag through his career on the timeline, every season's box score, rates and percentiles, the trophy shelf, the race to the record and how he stacks up."
+          >
+            <DdGraphsLazy player={player} players={players} wide={wide} />
+          </DdSection>
+
+          <DdSection id="dd-career" index={5} title="Career & legacy" icon={Milestone}>
             <DdCareer player={player} posStats={posStats} />
           </DdSection>
 
           {/* Age & clock from the live save (src/components/clock/DdClock.tsx) */}
-          <DdSection id="dd-clock" index={5} title="Age & clock" icon={CalendarClock} kicker="His age, retirement clock, growth chance and ratings against his ceilings, from the live save. The game's own rules.">
+          <DdSection id="dd-clock" index={6} title="Age & clock" icon={CalendarClock} kicker="His age, retirement clock, growth chance and ratings against his ceilings, from the live save. The game's own rules.">
             <DdClock player={player} players={players} />
           </DdSection>
 
-          <DdSection id="dd-records" index={6} title="Records & awards" icon={Medal}>
+          <DdSection id="dd-records" index={7} title="Records & awards" icon={Medal}>
             <DdRecords player={player} book={book} ovr={ovr} onOpenPlayer={(p) => choose(keyOf(p))} />
           </DdSection>
         </div>
