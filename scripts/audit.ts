@@ -375,6 +375,14 @@ speechSet.forEach((text, who) => {
     if (JSON.stringify(e.chapters.map((c) => c.id)) !== JSON.stringify(t.chapters.map((c) => c.id))) errors.push(`content.json tributeIndex ${e.key} differs from its chapters (rebuild)`);
   });
   files.forEach((f) => !index.some((e) => e.file === `tributes/${f}`) && errors.push(`${dir}/${f} has no entry in content.json tributeIndex (rebuild)`));
+  // One tribute a season (content.json tributePlan, build_league_content.py tribute_plan): the latest season's pick
+  // waiting to be written is a warning, never an error; a pick named twice is a rule bug
+  type Pick = { season: string; player: string; reason: string; written: boolean };
+  const plan = (content.tributePlan ?? []) as Pick[];
+  const latestPick = plan[plan.length - 1];
+  if (latestPick && latestPick.season === content.season && !tributes[latestPick.player])
+    warnings.push(`Tribute for ${latestPick.season} (${latestPick.player}, ${latestPick.reason}) is not written yet (CLAUDE.md, step 6c)`);
+  if (new Set(plan.map((p) => p.player)).size !== plan.length) errors.push('content.json tributePlan picks a player twice (rebuild)');
 }
 const actual = new Map<string, string>();
 const collect = (path: string, v: unknown) => {

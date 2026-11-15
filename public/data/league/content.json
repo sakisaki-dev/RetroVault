@@ -7602,6 +7602,59 @@
    ]
   }
  ],
+ "tributePlan": [
+  {
+   "season": "Y94",
+   "player": "RB:Ryland Maxwell",
+   "reason": "gauntlet",
+   "detail": "completed the Gauntlet (every major award); Best rushing career (27,393 yds); Most TD receptions, season (53); Most rushing TDs, career (366); won MVP; led the Season Story",
+   "score": 9,
+   "signals": [
+    {
+     "kind": "gauntlet",
+     "weight": 3,
+     "detail": "completed the Gauntlet (every major award)"
+    },
+    {
+     "kind": "record",
+     "weight": 2,
+     "detail": "Best rushing career (27,393 yds); Most TD receptions, season (53); Most rushing TDs, career (366)"
+    },
+    {
+     "kind": "award",
+     "weight": 2,
+     "detail": "won MVP"
+    },
+    {
+     "kind": "story",
+     "weight": 2,
+     "detail": "led the Season Story"
+    }
+   ],
+   "written": true
+  }
+ ],
+ "tributeQueue": [
+  "QB:Sherman Brandson",
+  "WR:God Johnson",
+  "RB:Rondale Ikarras",
+  "TE:Levante Hopkins",
+  "WR:Ian Finney",
+  "QB:Dennis Baylon",
+  "WR:Cairo Asanjh",
+  "WR:Jackson Wardell Kline",
+  "OL:Jakeem Friend",
+  "QB:Wayne Wilson",
+  "WR:Lukas Russell",
+  "QB:Ray Waller",
+  "QB:Michael Wilson",
+  "LB:Tyrone Baugh",
+  "QB:Jason Macleone",
+  "WR:Pharoah Hunter",
+  "RB:Malakai Sawyer",
+  "QB:Kyric McQuay",
+  "DB:Taron Hayes"
+ ],
  "mechanics": {
   "defense": {
    "DB": {

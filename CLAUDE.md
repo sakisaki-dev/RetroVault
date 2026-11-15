@@ -59,9 +59,9 @@ deterministic: two runs give byte-identical output.
    `story.set` mutation in a follow-up bundle and run `npm run update` on that bundle.
 4. If it printed `TAKES NEEDED: Y<n>` (a season completed with no hot takes), write the Hot Takes (step 6b) as a
    `takes.set` mutation in a follow-up bundle and run `npm run update` on that bundle.
-5. If it printed `TRIBUTE NEEDED: POS:Name` (a qualifying player with no tribute), write the tribute (step 6c) as a
-   `tribute.set` mutation in a follow-up bundle when the owner asks for one or there is time; the list is a queue, not
-   a blocker.
+5. If it printed `TRIBUTE NEEDED: Y<n> POS:Name (<reason>…)` (the season's one tribute pick, chosen by the rule in
+   step 6c, has none yet), write the tribute (step 6c) as a `tribute.set` mutation in a follow-up bundle and run
+   `npm run update` on that bundle. The `tribute queue: N players` line is information only.
 6. Commit and push with the commands it prints (step 7).
 
 ### Season update plan: what is AI and what is a rule
@@ -84,7 +84,7 @@ other row is a deterministic rule that `npm run update` / `npm run rebuild` runs
 | 11 | Hall of Fame speech for each new member | **AI** (`speech`) | Rebuild prints `SPEECH NEEDED` | `speech.set` (step 5) |
 | 12 | Season Story: news articles plus written "Did you know" facts for the completed season | **AI** (`story`) | Rebuild prints `STORY NEEDED: Y<n>` | `story.set` (step 6); professional voice, no "owner", only true facts; optional `art` scene per article |
 | 13 | Hot Takes: columnist opinions about the completed season, every figure cited | **AI** (`takes`) | Rebuild prints `TAKES NEEDED: Y<n>` | `takes.set` (step 6b); provocative but only true facts, no "owner", no "you"; optional `art` scene per take |
-| 13b | Player Tributes: a long-form feature on one qualifying player's career, every figure cited | **AI** (`tribute`) | Rebuild prints `TRIBUTE NEEDED: POS:Name` | `tribute.set` (step 6c); same rules as the story, frozen sources preferred |
+| 13b | Player Tributes: one a season, a long-form feature on the player the rule picks for it (relevance that season, else the queue; owner: "pick one per season based on relevance for that season or if there's no one notable pick from the list"), every figure cited | **AI** (`tribute`) | Rebuild prints `TRIBUTE NEEDED: Y<n> POS:Name` | `tribute.set` (step 6c); same rules as the story, frozen sources preferred |
 | 14 | Refresh speeches, stories, hot takes or tributes whose numbers went stale | **AI** (same lanes) | Audit warns that a cited number no longer matches | `speech.set` / `story.set` / `takes.set` / `tribute.set` |
 | 15 | Card art styles (custom sprites retired with the sprite card) | **AI** (`art`) | Only when the owner asks | Art lab, `card.design` (~~`sprite.image`~~) |
 | 16 | Checks: audit (0 errors), typecheck, sprite check, build | Rule | `npm run update` | `audit.ts`, `check_sprites.ts` |
@@ -327,7 +327,7 @@ every figure and its source behind a toggle. The story's Did you know facts sit 
 (`src/components/news/DidYouKnow.tsx`: one card at a time with previous, next, shuffle and All facts on a phone; a grid
 from 768px).
 
-### 6c. Player tributes (AI step `tribute`; trigger: the rebuild prints `TRIBUTE NEEDED: POS:Name`)
+### 6c. Player tributes (AI step `tribute`; trigger: the rebuild prints `TRIBUTE NEEDED: Y<n> POS:Name (<reason>…)`)
 
 The fifth AI lane (owner, 2026-11-14: "both yes" to "Should player tributes become a new written article type, checked
 like the Season Story?"). A tribute is a long-form feature about one player's whole journey as far as the data knows it:
@@ -341,7 +341,30 @@ trade a risk? what did the market say at the time").
 Legacy at the Hall of Fame bar or a Hall of Famer, AND at least two of: two or more clubs or a trade on record, a
 journal mention, a record (club board or league career mark), named as a rivalry's star, four of the five award kinds
 (ring, MVP, Player of the Year, Super Bowl MVP, Rookie of the Year), an owner career line. 20 players on 2026-11-14.
-Each one without a tribute prints `TRIBUTE NEEDED`.
+
+**One tribute per season** (owner, 2026-11-14: "pick one per season based on relevance for that season or if there's no
+one notable pick from the list"). `tribute_plan()` in `build_league_content.py` → `tributePlan` in content.json
+(`[{season, player, reason, detail, score, signals, written}]`, from the first season a tribute was written, Y94):
+each completed season scores every candidate by what happened to him in it (`tribute_signals()`, weights in
+`TRIBUTE_SIGNALS`):
+- `hof` 3: voted into the Hall of Fame that season (its class);
+- `retired` 3: his final season (retired now, games last rose that season) or a Retired status fact in its bundles;
+- `gauntlet` 3: completed the award set that season (ring, MVP, OPOY/DPOY, Rookie of the Year, Super Bowl MVP);
+- `record` 2: a record-board mark dated that season or set by its bundles, or took a league career mark;
+- `award`: MVP 2, OPOY / DPOY / Super Bowl MVP 1 each (career deltas across the season's snapshot pair, only for a
+  player whose games rose);
+- `story`: the Season Story's lead names him first 2, at all 1;
+- `trade` 1: moved off a known club by a team fact in that season's bundles.
+
+A season's bundles are the ones applied after its `coach.season` row (the import opens it; follow-ups stay with it).
+The best score at **3 or more** (`TRIBUTE_NOTABLE`: one big moment or two smaller ones) is the pick; ties by Career
+Legacy, then key. Nobody clears it ("no one notable") → the queue's head: candidates with no tribute and no earlier
+pick, highest Career Legacy first (`tributeQueue`). A player with a tribute is never picked again, and a season whose
+bundles wrote a tribute keeps it as its pick, so later uploads never re-pick a written season (Y94: Ryland Maxwell,
+which the rule also picks: the Gauntlet, records, MVP, the lead). The rebuild prints `TRIBUTE NEEDED: Y<n> POS:Name
+(<reason>: <detail>)` only for the latest completed season's pick when it has no tribute, plus a `Tribute queue: N
+players` line; the audit warns (never errors) while that pick is unwritten. Write the pick; another tribute only when
+the owner asks for one.
 
 Write it in a bundle `data/uploads/<date>-tribute-<slug>/` with one `tribute.set` mutation: lane `tribute`, target
 `"POS:Name"`, source `"data:<files read>"`, the `tribute` AI step logged, value `{reason, trigger, nickname?, deck,
