@@ -10,6 +10,9 @@ import { seasonScore } from './careerModel';
 
 const shortYear = (y: number, narrow: boolean) => (narrow ? `'${y % 100}` : yLabel(y));
 
+/** Box stats whose per-game rate is already a skill-grade trait row (Workhorse = rush yds/G...): not repeated */
+const SAME_AS_TRAIT: Record<string, string> = { yds: 'passYdsG|recYdsG', ryds: 'rushYdsG', recyds: 'recYdsG', rec: 'recG', blk: 'blocksG', tkl: 'tklG', sck: 'sackG', int: 'intG', ff: 'ffG' };
+
 /**
  * Percentile heat strip: seasons across, his skill-grade traits (and the box stats per game) down, each cell his
  * percentile among the position's qualifying seasons that year. Lighter = better. Tap a cell to move the cursor.
@@ -17,7 +20,10 @@ const shortYear = (y: number, narrow: boolean) => (narrow ? `'${y % 100}` : yLab
 export const HeatStrip = ({ player, career, idx, onIdx, wide }: { player: Player; career: Career; idx: number; onIdx: (i: number) => void; wide: boolean }) => {
   const pts = career.points;
   const rates = seasonRates(player.position).filter((r) => pts.some((p) => Number.isFinite(p.pct[r.id])));
-  const box = BOX[groupOf(player.position)].filter((b) => pts.some((p) => Number.isFinite(p.pct[b.key])));
+  const traitIds = new Set(rates.filter((r) => r.trait).map((r) => r.id));
+  const box = BOX[groupOf(player.position)].filter(
+    (b) => pts.some((p) => Number.isFinite(p.pct[b.key])) && !(SAME_AS_TRAIT[b.key] ?? '').split('|').some((t) => traitIds.has(t)),
+  );
   const rows = [
     { id: '__score', label: 'Season score', pct: (i: number) => seasonScore(player.position, pts[i]) ?? undefined, title: 'Mean percentile of his skill-grade traits that season' },
     ...rates.map((r) => ({ id: r.id, label: r.trait ? r.name : r.label, pct: (i: number) => pts[i].pct[r.id], title: r.definition })),

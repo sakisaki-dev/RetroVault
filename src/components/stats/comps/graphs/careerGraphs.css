@@ -566,3 +566,42 @@
   color: hsl(228 100% 97%);
   font-variant-numeric: tabular-nums;
 }
+
+/* Paired cards stretch to the row's height: their tiles grow instead of leaving an empty band */
+.cg-fill {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.cg-fill > .cg-fill__list {
+  flex: 1 1 auto;
+}
+.cg-fill__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.cg-fill__list > li {
+  flex: 1 1 auto;
+  display: flex;
+}
+.cg-fill__list > li > .cg-season {
+  flex: 1;
+}
+.cg-log {
+  gap: 2px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.cg-log__row {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-left: 3px solid;
+  border-radius: 4px;
+  background: hsl(226 40% 12% / 0.7);
+  padding: 2px 6px;
+  min-width: 0;
+}

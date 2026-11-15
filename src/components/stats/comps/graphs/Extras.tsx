@@ -6,15 +6,16 @@ import { GOLD } from '../../visual/chartKit';
 import { VIZ, ordinal } from '../../analytics/viz';
 import type { Career } from './careerStory';
 import { seasonScore } from './careerModel';
-import { BOX, groupOf } from './statDefs';
+import { BOX, groupOf, seasonRates } from './statDefs';
 import { clubInk, shortNum, yLabel, type GraphMetric } from './graphKit';
 
 /**
  * Season-by-season sparklines, one per metric (every box stat and the card numbers): the value at the cursor, his
  * career best, and a tap to chart it on the timeline above.
  */
-export const SparkRows = ({ career, metrics, metricId, onMetric, idx }: { career: Career; metrics: GraphMetric[]; metricId: string; onMetric: (id: string) => void; idx: number }) => {
-  const rows = metrics.filter((m) => m.group !== 'Rate' && m.id !== 'skill');
+export const SparkRows = ({ career, metrics, metricId, onMetric, idx, wide }: { career: Career; metrics: GraphMetric[]; metricId: string; onMetric: (id: string) => void; idx: number; wide: boolean }) => {
+  // a phone gets the card numbers and box stats; a desktop, beside the tall season panel, every rate too
+  const rows = metrics.filter((m) => (wide || m.group !== 'Rate') && m.id !== 'skill');
   const n = career.points.length;
   const W = 120;
   const H = 22;
@@ -79,8 +80,8 @@ export const ClubSplits = ({ player, career }: { player: Player; career: Career 
   return (
     <div className="cg-card glass-card">
       <h3>Splits by club</h3>
-      <p className="cg-sub">His recorded seasons at each stop: totals, per game, rings and the average season score.</p>
-      <div className="space-y-2">
+      <p className="cg-sub">His recorded seasons at each stop (totals, per game, rings, average season score), then every season in order.</p>
+      <div className="cg-fill">
         {rows.map(([club, r]) => {
           const ink = clubInk(club);
           const avg = r.score.length ? r.score.reduce((a, b) => a + b, 0) / r.score.length : null;
@@ -119,6 +120,27 @@ export const ClubSplits = ({ player, career }: { player: Player; career: Career 
             </div>
           );
         })}
+        <p className="font-pixel text-[8px] uppercase text-muted-foreground">Season log</p>
+        <ul className="cg-fill__list cg-log">
+          {career.points.map((p, i) => {
+            if (!p.box) return null;
+            const ink = clubInk(career.clubs[i]);
+            const s = seasonScore(player.position, p);
+            return (
+              <li key={p.year}>
+                <span className="cg-log__row" style={{ borderLeftColor: ink.mark }}>
+                  <span className="w-9 font-display font-bold text-chalk">{yLabel(p.year)}</span>
+                  <span className="w-7 text-muted-foreground">{p.games}G</span>
+                  <span className="min-w-0 flex-1 truncate text-secondary-foreground">{box.map((b) => `${shortNum(p.box![b.key] ?? 0)} ${b.short.toLowerCase()}`).join(' · ')}</span>
+                  <span className="relative h-1.5 w-12 overflow-hidden rounded-sm bg-panel-2" aria-hidden="true">
+                    <span className="absolute inset-y-0 left-0" style={{ width: `${Math.max(3, s ?? 0)}%`, background: s == null ? 'transparent' : `hsl(213 80% ${42 + (s / 100) * 26}%)` }} />
+                  </span>
+                  <span className="w-6 text-right font-mono text-chalk">{s == null ? '—' : Math.round(s)}</span>
+                </span>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
@@ -135,6 +157,13 @@ export const BestSeasons = ({ player, career, onIdx }: { player: Player; career:
   const best = sorted.slice(0, 3);
   const worst = sorted.length > 4 ? sorted.slice(-2).reverse() : [];
   const top10 = scored.filter((r) => r.s >= 90).length;
+  const profile = seasonRates(player.position)
+    .filter((r) => r.trait)
+    .map((r) => {
+      const v = scored.map((s) => s.p.pct[r.id]).filter((x) => Number.isFinite(x));
+      return { id: r.id, name: r.name, n: v.length, avg: v.length ? v.reduce((a, b) => a + b, 0) / v.length : NaN };
+    })
+    .filter((t) => t.n >= 2);
   const Row = ({ r, rank, tone }: { r: (typeof scored)[number]; rank: string; tone: 'best' | 'worst' }) => {
     const ink = clubInk(career.clubs[r.i]);
     return (
@@ -160,8 +189,9 @@ export const BestSeasons = ({ player, career, onIdx }: { player: Player; career:
       <p className="cg-sub">
         Ranked by season score (his trait percentiles that season). {top10} of his {scored.length} full seasons scored 90 or better.
       </p>
+      <div className="cg-fill">
       <p className="font-pixel text-[8px] uppercase text-gold">Peak seasons</p>
-      <ul className="space-y-1">
+      <ul className="cg-fill__list">
         {best.map((r, k) => (
           <Row key={r.p.year} r={r} rank={ordinal(k + 1).replace(/(\d+)/, '$1')} tone="best" />
         ))}
@@ -169,13 +199,30 @@ export const BestSeasons = ({ player, career, onIdx }: { player: Player; career:
       {worst.length > 0 && (
         <>
           <p className="font-pixel text-[8px] uppercase text-muted-foreground">Quietest seasons</p>
-          <ul className="space-y-1">
+          <ul className="cg-fill__list">
             {worst.map((r) => (
               <Row key={r.p.year} r={r} rank="▼" tone="worst" />
             ))}
           </ul>
         </>
       )}
+      {profile.length > 0 && (
+        <>
+          <p className="font-pixel text-[8px] uppercase text-muted-foreground">Career trait profile · average season percentile</p>
+          <ul className="space-y-1">
+            {profile.map((t) => (
+              <li key={t.id} className="flex items-center gap-2 text-[11.5px]" title={`${t.name}: ${Math.round(t.avg)} average percentile over ${t.n} seasons`}>
+                <span className="w-28 shrink-0 truncate font-semibold text-secondary-foreground">{t.name}</span>
+                <span className="relative h-2 flex-1 overflow-hidden rounded-sm bg-panel-2" aria-hidden="true">
+                  <span className="absolute inset-y-0 left-0" style={{ width: `${Math.max(3, t.avg)}%`, background: `hsl(213 80% ${42 + (t.avg / 100) * 26}%)` }} />
+                </span>
+                <span className="w-9 text-right font-mono tabular-nums text-chalk">{ordinal(t.avg)}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      </div>
     </div>
   );
 };

@@ -56,7 +56,9 @@ const DdGraphs = ({ player, players, wide }: { player: Player; players: Player[]
   const [idx, setIdx] = useState(-1);
   const [metricId, setMetricId] = useState('value');
   useEffect(() => setIdx(-1), [player]);
-  const at = career ? (idx < 0 || idx >= career.points.length ? career.points.length - 1 : idx) : 0;
+  // the cursor starts on his latest season with a season line (a retiree's idle seasons after it are still there to scrub)
+  const lastLine = career ? career.points.reduce((k, p, i) => (p.box ? i : k), career.points.length - 1) : 0;
+  const at = career ? (idx < 0 || idx >= career.points.length ? lastLine : idx) : 0;
 
   if (!ready) return <PixelLoader label="Charting" what="the career graphs" minHeight={wide ? 420 : 520} />;
   if (!file) return <p className="glass-card p-4 text-sm text-muted-foreground">The season-by-season file isn&rsquo;t built yet (npm run rebuild writes it).</p>;

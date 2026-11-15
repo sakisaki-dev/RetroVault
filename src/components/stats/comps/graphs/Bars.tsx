@@ -203,6 +203,22 @@ export const PeakChart = ({ player, career, idx, onIdx }: { player: Player; care
         {peak != null ? `; peak ${yLabel(career.points[peak].year)} (${Math.round(bars[peak] as number)})` : ''}
         {prime ? `; prime ${yLabel(prime.from)}–${yLabel(prime.to)} averaged ${Math.round(prime.mean)}` : ''}.
       </p>
+      <dl className="cg-split__stats">
+        {[
+          { k: 'Peak', v: peak != null ? Math.round(bars[peak] as number) : '—', s: peak != null ? yLabel(career.points[peak].year) : '' },
+          { k: 'Prime', v: prime ? Math.round(prime.mean) : '—', s: prime ? `${yLabel(prime.from)}–${prime.to % 100}` : 'under 3 seasons' },
+          { k: '90+ seasons', v: fin.filter(([v]) => v >= 90).length, s: `of ${fin.length}` },
+          { k: 'Games', v: shortNum(career.points[career.points.length - 1].totals.g ?? 0), s: `${seasons} seasons` },
+        ].map((t) => (
+          <div key={t.k}>
+            <dt>{t.k}</dt>
+            <dd>
+              {t.v}
+              <span>{t.s}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
       <BarLine
         career={career}
         bars={bars}
@@ -292,6 +308,26 @@ export const VolumeRate = ({ player, career, idx, onIdx }: { player: Player; car
         {pair.vol} each season against {pair.eff}. Across {eff.length} seasons his {pair.eff} averaged {pair.effFmt(mean)}, varying {Math.round(cv * 100)}% season to season (
         {cv < 0.12 ? 'rock steady' : cv < 0.25 ? 'steady' : 'streaky'}).
       </p>
+      <dl className="cg-split__stats">
+        {(() => {
+          const vols = bars.filter((v): v is number => v != null);
+          const bi = line.reduce<number>((k, v, i) => (v != null && (k < 0 || v > (line[k] as number)) ? i : k), -1);
+          return [
+            { k: `Avg ${pair.eff}`, v: eff.length ? pair.effFmt(mean) : '—', s: `${eff.length} seasons` },
+            { k: 'Best rate', v: bi >= 0 ? pair.effFmt(line[bi] as number) : '—', s: bi >= 0 ? yLabel(career.points[bi].year) : '' },
+            { k: `Total ${pair.vol}`, v: shortNum(vols.reduce((a, b) => a + b, 0)), s: 'recorded seasons' },
+            { k: 'Steadiness', v: `${Math.round(cv * 100)}%`, s: cv < 0.12 ? 'rock steady' : cv < 0.25 ? 'steady' : 'streaky' },
+          ];
+        })().map((t) => (
+          <div key={t.k}>
+            <dt>{t.k}</dt>
+            <dd>
+              {t.v}
+              <span>{t.s}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
       {pairs.length > 1 && (
         <div className="cg-pick" role="radiogroup" aria-label="Volume and rate">
           {pairs.map((p) => (

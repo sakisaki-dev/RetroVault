@@ -134,6 +134,18 @@ const SeasonPanel = ({ player, career, idx }: { player: Player; career: Career; 
         </table>
       )}
 
+      <div className="cg-todate">
+        <p className="font-pixel text-[7px] uppercase text-muted-foreground">Career to the end of {yLabel(p.year)}</p>
+        <dl className="cg-split__stats">
+          {[{ key: 'g', short: 'Games' }, ...BOX[g], { key: 'rings', short: 'Rings' }].map((b) => (
+            <div key={b.key}>
+              <dt>{b.short}</dt>
+              <dd>{shortNum(p.totals[b.key] ?? 0)}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
       {evs.length > 0 && (
         <ul className="cg-evs" aria-label={`${yLabel(p.year)} events`}>
           {evs.map((e, i) => (
