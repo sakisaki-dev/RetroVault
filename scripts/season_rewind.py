@@ -144,7 +144,9 @@ def build(B, tribute_plan: list[dict]) -> tuple[list[dict], list[dict]]:
             line = f"{line} in {B.plural(g, 'game')}" if line else B.plural(g, "game")
         return line, [fig(lab, v) for v, lab in parts[:3]]
 
-    seasons = sorted(r["year"] for r in B.SEASONS)
+    # Only the latest three completed seasons (owner, 2026-11-15: "I don't need it to go back that far, just the past 3
+    # seasons is fine"); older seasons' files are removed on the next build
+    seasons = sorted(r["year"] for r in B.SEASONS)[-3:]
     rewinds = []
     for y in seasons:
         Y = f"Y{y}"

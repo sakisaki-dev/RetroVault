@@ -331,10 +331,13 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
     return ordered;
   };
 
-  /** Flips the next face-down card (or starts its walkout). */
-  const flipNext = () => {
+  /**
+   * Flips a face-down card (or starts its walkout): the one tapped (owner: "it doesn't allow me to pick a card to flip"),
+   * else the next in order (a tap on the stage, Space, a swipe).
+   */
+  const flipNext = (pick?: number) => {
     if (walk) return;
-    const i = open.indexOf(false);
+    const i = pick != null && pick >= 0 && !open[pick] ? pick : open.indexOf(false);
     if (i < 0) {
       setPhase('summary');
       return;
@@ -644,12 +647,12 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                         className="pk-flip__face pk-flip__back"
                         onClick={(e) => {
                           e.stopPropagation();
-                          flipNext();
+                          flipNext(i);
                         }}
                         disabled={shown}
-                        tabIndex={next ? 0 : -1}
+                        tabIndex={shown ? -1 : 0}
                         aria-hidden={shown}
-                        aria-label={next ? `Flip card ${i + 1} of ${pack.length}` : `Card ${i + 1} of ${pack.length}, face down`}
+                        aria-label={`Flip card ${i + 1} of ${pack.length}${next ? ' (next)' : ''}`}
                       >
                         <span className="pk-back__shape">
                           <span className="pk-back__logo">{t === 'perfect' ? '18–0' : 'RV'}</span>
