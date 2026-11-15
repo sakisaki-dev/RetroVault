@@ -8,6 +8,7 @@ import { GIFTS, giftSummary, redeemAutoGifts } from '@/utils/collection';
 import CardUnlockToasts from '@/components/collection/CardUnlockToasts';
 import LegendExchange from '@/components/collection/LegendExchange';
 import CeremonyHost from '@/components/ceremony/CeremonyHost';
+import TributeHost from '@/components/tribute/TributeHost';
 import QuickPlayerSearch from '@/components/QuickPlayerSearch';
 import PlayerPeekLayer from '@/components/peek/PlayerPeek';
 import { LeagueProvider } from '@/context/LeagueContext';
@@ -120,6 +121,7 @@ const IndexContent = () => {
         <PullToSearch />
         <BottomNav activeTab={target.tab} onTabChange={(tab) => navigate({ tab })} onRoute={(to) => navigate(to)} />
         <CeremonyHost />
+        <TributeHost />
         <QuickPlayerSearch />
         <PlayerPeekLayer />
         <CardUnlockToasts />

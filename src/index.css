@@ -987,12 +987,22 @@ html[data-chrome] .bnav-reveal {
   position: relative;
   pointer-events: auto;
   padding: 0 4px;
-  border-radius: 32px;
-  background: linear-gradient(180deg, hsl(228 38% 16% / 0.97), hsl(228 45% 9% / 0.97));
+  border-radius: 38px;
+  /* Liquid glass, night tint (owner: "a little more dark opaque to keep on theme"): mostly navy, a light blur of the
+     page behind, a bright top edge. Performance mode drops the blur for a solid fill (perf.css below). */
+  background: linear-gradient(180deg, rgba(26, 33, 58, 0.8), rgba(10, 14, 28, 0.86));
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
   box-shadow:
-    inset 0 0 0 1px hsl(0 0% 100% / 0.1),
-    inset 0 1px 0 hsl(0 0% 100% / 0.08),
-    0 12px 28px hsl(228 60% 2% / 0.6);
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 10px 30px rgba(0, 0, 0, 0.45);
+}
+[data-perf='lite'] .bnav__dock,
+[data-perf='lite'] .bnav-pop {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: linear-gradient(180deg, #1a213a, #0b0f1d);
 }
 /* The pill under the current tab, sliding between tabs (--ai = its index): a quiet gold tint; colour only shows while
    sliding (owner: "way more subtle, keep the gold accent for the bar") */
@@ -1002,9 +1012,13 @@ html[data-chrome] .bnav-reveal {
   bottom: 6px;
   left: 4px;
   width: calc((100% - 8px) / 5);
-  border-radius: 24px;
-  background: hsl(var(--gold) / 0.12);
-  box-shadow: inset 0 0 0 1px hsl(var(--gold) / 0.45);
+  border-radius: 31px;
+  /* The current tab's accent, barely there (owner: "keep the accent colors but super super subtle"): a soft wash of its
+     colour fading down the glass, a hairline of it, the label lightly tinted */
+  background: linear-gradient(180deg, color-mix(in srgb, var(--ac) 16%, transparent), color-mix(in srgb, var(--ac) 4%, transparent));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 0 0 1px color-mix(in srgb, var(--ac) 30%, transparent);
   transform: translate3d(calc(var(--ai, 0) * 100%), 0, 0);
   transition:
     transform 360ms cubic-bezier(0.3, 1.25, 0.5, 1),
@@ -1014,17 +1028,21 @@ html[data-chrome] .bnav-reveal {
 .bnav[data-gesture] .bnav__pill {
   opacity: 0.35;
 }
-/* The bubble that rides under the finger while it slides along the bar (BottomNav moves it with a transform), in the
-   colour of the tab under it (--hc) */
+/* The lens that rides under the finger while it slides along the bar (BottomNav moves it with a transform): a raised
+   drop of clearer glass over the tab, faintly tinted by it (--hc) */
 .bnav__bubble {
   position: absolute;
-  top: 6px;
+  top: -12px;
+  bottom: -12px;
   left: 0;
-  width: 64px;
-  height: 58px;
-  border-radius: 24px;
-  background: color-mix(in srgb, var(--hc, #f1c35c) 12%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--hc, #f1c35c) 40%, transparent);
+  width: calc((100% - 8px) / 5 + 12px);
+  border-radius: 999px;
+  background: radial-gradient(ellipse at 50% 28%, rgba(255, 255, 255, 0.22), color-mix(in srgb, var(--hc, #f1c35c) 12%, transparent) 62%, color-mix(in srgb, var(--hc, #f1c35c) 6%, transparent));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -2px 6px color-mix(in srgb, var(--hc, #f1c35c) 22%, transparent),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.28),
+    0 12px 24px rgba(0, 0, 0, 0.4);
   opacity: 0;
   pointer-events: none;
   transform: translate3d(-100px, 0, 0) scale(0.6);
@@ -1070,7 +1088,7 @@ html[data-chrome] {
   -webkit-tap-highlight-color: transparent;
 }
 .bnav__item[data-on='true'] {
-  color: hsl(var(--gold));
+  color: color-mix(in srgb, var(--tc) 55%, #fff);
 }
 .bnav__puck,
 .bnav__label {
@@ -1114,17 +1132,15 @@ html[data-chrome] {
 .bnav__item[data-hover] .bnav__puck {
   translate: 0 -22px;
   scale: 1.22;
-  background: color-mix(in srgb, var(--tc) 20%, #141a2e);
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--tc) 50%, transparent),
-    0 10px 18px hsl(228 60% 2% / 0.6);
+  background: transparent;
+  box-shadow: none;
 }
 .bnav__item[data-hover] .bnav__label {
   translate: 0 -16px;
   scale: 1.08;
-  background: hsl(228 45% 6%);
+  background: transparent;
   color: color-mix(in srgb, var(--tc) 70%, #fff);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--tc) 35%, transparent);
+  box-shadow: none;
 }
 @media (prefers-reduced-motion: reduce) {
   .bnav,
@@ -1145,10 +1161,13 @@ html[data-chrome] {
   position: fixed;
   z-index: 49;
   padding: 10px 8px 8px;
-  border-radius: 22px;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--mc) 7%, #161d36) 0%, #10162b 46%, #0b1020 100%);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(26, 33, 58, 0.82), rgba(10, 14, 28, 0.88));
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
   box-shadow:
-    inset 0 0 0 1px hsl(0 0% 100% / 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
     0 18px 40px #000c,
     0 0 30px color-mix(in srgb, var(--mc) 8%, transparent);
   transform-origin: var(--bn-caret) calc(100% + 12px);
@@ -1180,6 +1199,8 @@ html[data-chrome] {
   rotate: 45deg;
   background: #0b1020;
   box-shadow: 2px 2px 0 0 #000;
+  /* Glass menus float free of the dock: no caret */
+  display: none;
 }
 @keyframes rv-bnav-pop {
   from {
@@ -1216,7 +1237,7 @@ html[data-chrome] {
   gap: 10px;
   min-height: 44px;
   padding: 0 10px 0 6px;
-  border-radius: 9px;
+  border-radius: 16px;
   background: hsl(228 45% 5% / 0.55);
   box-shadow: inset 0 0 0 1px hsl(var(--line) / 0.7);
   color: hsl(var(--chalk, 0 0% 96%));

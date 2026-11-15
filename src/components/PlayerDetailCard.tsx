@@ -35,6 +35,7 @@ import { careerRates, careerTotals, headlineStats, type StatItem } from './playe
 import { teamThemeVars } from './player/teamTheme';
 import { bannerStats } from './hof/hofUtils';
 import GameSprite from './GameSprite';
+import TributeButton from './tribute/TributeButton';
 import { useLegendPhoto } from './player/useLegendPhoto';
 import { useDeferredStage } from '@/hooks/useDeferredStage';
 import './player/playerCard.css';
@@ -350,6 +351,13 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
                 <Radar className="h-3.5 w-3.5" aria-hidden="true" />
                 Deep Dive
               </Button>
+            )}
+            {/* His Player Tribute, when one has been written (it opens over the card; closing it comes back here) */}
+            {!player.isRealLegend && (
+              <TributeButton
+                playerKey={`${player.position}:${player.name}`}
+                className="h-8 border border-gold/60 bg-black/55 px-2.5 text-sm text-gold hover:bg-black/70"
+              />
             )}
             <Button
               type="button"

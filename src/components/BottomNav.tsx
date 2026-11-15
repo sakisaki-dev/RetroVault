@@ -346,7 +346,7 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
       return;
     }
     const navLeft = dockRef.current?.getBoundingClientRect().left ?? 0;
-    b.style.transform = `translate3d(${x - navLeft - 32}px, 0, 0) scale(1)`;
+    b.style.transform = `translate3d(${x - navLeft - b.offsetWidth / 2}px, 0, 0) scale(1)`;
     b.dataset.on = '';
   };
 

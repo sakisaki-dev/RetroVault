@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
-"""Season Story and Hot Takes checks: the third and fourth AI-authored lanes (data/y80/stories.json, written only by a
-`story.set` upload mutation; data/y80/hot_takes.json, written only by `takes.set`).
+"""Season Story, Hot Takes and Player Tribute checks: the third, fourth and fifth AI-authored lanes
+(data/y80/stories.json, written only by a `story.set` upload mutation; data/y80/hot_takes.json, written only by
+`takes.set`; data/y80/tributes.json, written only by `tribute.set`).
 
-Used by scripts/apply_upload.py (validation before a story.set / takes.set applies) and by scripts/audit.ts (which runs
-`python3 scripts/story_check.py --audit` and `--audit-takes` and reads the JSON they print).
+Used by scripts/apply_upload.py (validation before a story.set / takes.set / tribute.set applies) and by
+scripts/audit.ts (which runs `python3 scripts/story_check.py --audit`, `--audit-takes` and `--audit-tributes` and reads
+the JSON they print).
+
+Player tributes (check_tribute): target "POS:Name", value {reason, trigger, nickname?, deck, chapters[]}; each chapter
+{id "<player-slug>-<slug>", kind chapter|trade|market|rival|lastlap|numbers, club?, headline, dek?, body[], players,
+teams, stats, art?} plus, by kind, trade {after "Y82", snapshot, later?, sides [{to, players ["POS:Name"]}]}, market
+{players ["POS:Name"]} or rival {player "POS:Name"}; every chapter passes the article rules below.
 
 Hot takes (check_takes): {reason, trigger, intro?, takes[]}, each take {id "y90-take-<slug>", headline (the take, one
 line, at most 20 words), dek, body [1-3 paragraphs, 60-180 words], heat 1|2|3, players, teams, stats}; checked with the
@@ -45,8 +52,12 @@ numbers are compared at the precision written, so "17.2" matches 17.21):
                                                     or "seasons/Y88/table/[abbr=PHI]/pf"), schedules.json (raw weekly
                                                     scores), save_state.json (data/y80: the live save, e.g.
                                                     "save_state.json players/RB:Ryland Maxwell/age" or
-                                                    "clubs/Eagles/w"); list items by index or [key=value]; # = list
-                                                    length. content.json mechanics/... holds the rule facts' numbers
+                                                    "clubs/Eagles/w"), league_records.json (public/data/league/
+                                                    records.json: the league-wide marks, e.g. "league_records.json
+                                                    records/[record=Best rushing career]/league/top/1/value"),
+                                                    halloffame.json (the ballot: members, watch, near); list items by
+                                                    index or [key=value]; # = list length. content.json
+                                                    mechanics/... holds the rule facts' numbers
   <source> minus <source>                           a gap between two figures (yards to the record; a record-board
                                                     mark such as "7,452 yds" counts by its number)
   crossed: market_history.json <snapA>..<snapB> <POS:Name> <field>
@@ -101,9 +112,14 @@ class Data:
             "schedule.json": ROOT / "public" / "data" / "league" / "schedule.json",
             "schedules.json": SRC / "schedules.json",
             "save_state.json": SRC / "save_state.json",
+            # the league-wide record book beside the club board (scripts/league_records.py) and the Hall of Fame ballot
+            "league_records.json": ROOT / "public" / "data" / "league" / "records.json",
+            "halloffame.json": ROOT / "public" / "data" / "league" / "halloffame.json",
         }
         self.stories = (_read(SRC / "stories.json", {}) or {}).get("seasons", {})
         self.takes = (_read(SRC / "hot_takes.json", {}) or {}).get("seasons", {})
+        self.tributes = (_read(SRC / "tributes.json", {}) or {}).get("players", {})
+        self.stints = _read(SRC / "stints.json", {}) or {}
 
 
 # ---------------------------------------------------------------------------
@@ -535,6 +551,176 @@ def check_takes(d: Data, season: str, value) -> tuple[list[str], list[str]]:
     return errs, stale
 
 
+# ---------------------------------------------------------------------------
+# Player tributes (the fifth AI lane, data/y80/tributes.json, written only by tribute.set)
+# ---------------------------------------------------------------------------
+TRIBUTE_KINDS = {"chapter", "trade", "market", "rival", "lastlap", "numbers"}
+TRIBUTE_BOUNDS = {"chapter": (70, 260), "trade": (60, 220), "market": (30, 160), "rival": (30, 160),
+                  "lastlap": (30, 160), "numbers": (15, 120)}
+TRIBUTE_COUNT = (4, 14)
+TRIBUTE_ONCE = {"market", "rival", "lastlap", "numbers"}  # at most one of each
+TRIBUTE_HEADLINE_MAX_WORDS = 16
+TRIBUTE_DECK_MAX_WORDS = 60
+CHAPTER_KEYS = {"id", "kind", "club", "headline", "dek", "body", "players", "teams", "stats", "art", "trade", "market", "rival"}
+
+
+def player_slug(name: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", name.lower().replace("’", "").replace("'", "")).strip("-")
+
+
+def _check_prose(d: Data, text: str, where: str, max_words: int) -> list[str]:
+    """A line with no figures (a tribute's deck): no em dash, no owner or second person, no numbers, quotes only nicknames."""
+    errs = []
+    if EM_DASH in text:
+        errs.append(f"{where}: em dash")
+    if FORBIDDEN.search(text):
+        errs.append(f"{where}: mentions the owner or uses the second person")
+    if numbers_in(text):
+        errs.append(f"{where}: has figures ({', '.join(numbers_in(text))}); put them in a chapter with its stats[]")
+    if words(text) > max_words:
+        errs.append(f"{where}: {words(text)} words (max {max_words})")
+    for q in QUOTE.findall(text):
+        if q.strip().lower().rstrip(".,") not in d.nicks:
+            errs.append(f"{where}: quoted text {q[:50]!r} is not a nickname")
+    return errs
+
+
+def check_tribute(d: Data, key: str, value) -> tuple[list[str], list[str]]:
+    """One player's tribute (tribute.set): a long-form feature about his whole career. Target "POS:Name" (a league
+    card player); value {reason, trigger, nickname?, deck, chapters[]}. The deck (a line or two under the hero) carries
+    no figures. Each chapter passes the article rules (every number cited in its stats[] and matching its source, tags
+    exist, no em dashes, quotes only nicknames, no owner or second person) at its kind's length; the structured fields
+    (trade sides, market players, the rival) name real players and snapshots, and the builder fills their figures from
+    the data (scripts/build_league_content.py tribute_file)."""
+    if not isinstance(value, dict):
+        return [f"{key}: value must be {{reason, trigger, nickname?, deck, chapters}}"], []
+    errs = [f"{key}: needs a {k}" for k in ("reason", "trigger", "deck") if not value.get(k)]
+    p = d.players.get(key)
+    if p is None or p.get("legend"):
+        errs.append(f"target {key!r} must be a league player in players.json (POS:Name)")
+        return errs, []
+    name = p["n"]
+    extra = set(value) - {"reason", "trigger", "nickname", "deck", "chapters"}
+    if extra:
+        errs.append(f"{key}: unknown fields {', '.join(sorted(extra))}")
+    nick = value.get("nickname")
+    if nick is not None and nick != p.get("nick"):
+        errs.append(f"{key}: nickname {nick!r} is not his nickname in players.json ({p.get('nick')!r})")
+    if isinstance(value.get("deck"), str):
+        errs += _check_prose(d, value["deck"], f"{key} deck", TRIBUTE_DECK_MAX_WORDS)
+    chapters = value.get("chapters")
+    if not isinstance(chapters, list) or not chapters:
+        return errs + [f"{key}: no chapters"], []
+    if not TRIBUTE_COUNT[0] <= len(chapters) <= TRIBUTE_COUNT[1]:
+        errs.append(f"{key}: {len(chapters)} chapters ({TRIBUTE_COUNT[0]}-{TRIBUTE_COUNT[1]})")
+    kinds = [c.get("kind") for c in chapters if isinstance(c, dict)]
+    if kinds.count("chapter") < 2:
+        errs.append(f"{key}: needs at least two club chapters (kind chapter)")
+    for k in sorted(TRIBUTE_ONCE):
+        if kinds.count(k) > 1:
+            errs.append(f"{key}: at most one {k} section")
+    ids = [c.get("id") for c in chapters if isinstance(c, dict)]
+    if len(set(ids)) != len(ids):
+        errs.append(f"{key}: chapter ids repeat")
+    prefix = f"{player_slug(name)}-"
+    others = {c.get("id") for k2, t in d.tributes.items() if k2 != key for c in t.get("chapters", [])}
+    others |= {a.get("id") for s in d.stories.values() for a in [*s.get("articles", []), *s.get("didYouKnow", [])]}
+    others |= {t.get("id") for s in d.takes.values() for t in s.get("takes", [])}
+    clubs = {x["team"] for x in (d.stints.get(name) or {}).get("stints", [])}
+    snaps = d.market
+    stale: list[str] = []
+    for c in chapters:
+        if not isinstance(c, dict):
+            errs.append(f"{key}: a chapter must be an object")
+            continue
+        cid = c.get("id") or "?"
+        kind = c.get("kind")
+        where = f"{key} {cid}"
+        if not str(cid).startswith(prefix) or len(str(cid)) <= len(prefix):
+            errs.append(f"{where}: chapter ids look like {prefix}<slug>")
+        if cid in others:
+            errs.append(f"{where}: the id is already used by another tribute, story article, did-you-know or take")
+        if kind not in TRIBUTE_KINDS:
+            errs.append(f"{where}: kind {kind!r} is not one of {', '.join(sorted(TRIBUTE_KINDS))}")
+            continue
+        unknown = set(c) - CHAPTER_KEYS
+        if unknown:
+            errs.append(f"{where}: unknown fields {', '.join(sorted(unknown))}")
+        for k in ("trade", "market", "rival"):
+            if k in c and kind != k:
+                errs.append(f"{where}: only a {k} section carries {k!r}")
+        if kind in ("trade", "market", "rival") and not isinstance(c.get(kind), dict):
+            errs.append(f"{where}: a {kind} section needs its {kind!r} object")
+        club = c.get("club")
+        if club is not None:
+            if club not in d.teams:
+                errs.append(f"{where}: club {club!r} is not one of the 32")
+            elif kind == "chapter" and clubs and club not in clubs:
+                errs.append(f"{where}: club {club!r} is not one of his stints ({', '.join(sorted(clubs))})")
+        if kind == "chapter" and not club:
+            errs.append(f"{where}: a club chapter names its club")
+        if words(str(c.get("headline") or "")) > TRIBUTE_HEADLINE_MAX_WORDS:
+            errs.append(f"{where}: the headline is at most {TRIBUTE_HEADLINE_MAX_WORDS} words")
+        if kind == "numbers" and len(c.get("stats") or []) < 4:
+            errs.append(f"{where}: the numbers section needs at least 4 figures in stats[] (they are its tiles)")
+        if kind in ("trade", "market") and not c.get("stats"):
+            errs.append(f"{where}: a {kind} section needs at least one figure in stats[]")
+
+        def pkey(k, label):
+            if not isinstance(k, str) or k not in d.players or d.players[k].get("legend"):
+                errs.append(f"{where}: {label} {k!r} is not a league player key (POS:Name) in players.json")
+                return False
+            return True
+        if kind == "trade" and isinstance(c.get("trade"), dict):
+            t = c["trade"]
+            bad = set(t) - {"after", "snapshot", "later", "sides"}
+            if bad:
+                errs.append(f"{where}: trade has unknown fields {', '.join(sorted(bad))}")
+            if not re.fullmatch(r"Y\d+", str(t.get("after") or "")):
+                errs.append(f"{where}: trade.after must be the season it followed (Y82)")
+            for sk in ("snapshot", "later"):
+                if sk in t and t[sk] not in snaps:
+                    errs.append(f"{where}: trade.{sk} {t[sk]!r} is not a market snapshot")
+            if "snapshot" not in t:
+                errs.append(f"{where}: trade.snapshot names the market snapshot its values come from")
+            sides = t.get("sides")
+            if not isinstance(sides, list) or len(sides) < 2:
+                errs.append(f"{where}: trade.sides needs two sides [{{to, players}}]")
+            else:
+                for sd in sides:
+                    if not isinstance(sd, dict) or sd.get("to") not in d.teams or not sd.get("players"):
+                        errs.append(f"{where}: a trade side is {{to: <one of the 32>, players: [POS:Name]}}: {sd}")
+                        continue
+                    for k in sd["players"]:
+                        if pkey(k, "trade player") and t.get("snapshot") in snaps and k not in snaps[t["snapshot"]]["players"]:
+                            errs.append(f"{where}: {k} is not in market snapshot {t['snapshot']}")
+                if key not in {k for sd in sides if isinstance(sd, dict) for k in sd.get("players", [])}:
+                    errs.append(f"{where}: the trade must include {key}")
+        if kind == "market" and isinstance(c.get("market"), dict):
+            m = c["market"]
+            if set(m) - {"players"}:
+                errs.append(f"{where}: market has unknown fields {', '.join(sorted(set(m) - {'players'}))}")
+            ps = m.get("players")
+            if not isinstance(ps, list) or not ps or ps[0] != key or len(ps) > 3:
+                errs.append(f"{where}: market.players starts with {key} and adds at most two others")
+            else:
+                for k in ps:
+                    pkey(k, "market player")
+        if kind == "rival" and isinstance(c.get("rival"), dict):
+            r = c["rival"]
+            if set(r) - {"player"}:
+                errs.append(f"{where}: rival has unknown fields {', '.join(sorted(set(r) - {'player'}))}")
+            if pkey(r.get("player"), "rival") and r.get("player") == key:
+                errs.append(f"{where}: the rival is someone else")
+        e, st = check_article(d, {"id": cid, "kind": "feature", "headline": c.get("headline"), "dek": c.get("dek") or "-",
+                                  "body": c.get("body"), "players": c.get("players", []), "teams": c.get("teams", []),
+                                  "stats": c.get("stats", []), "related": [], "art": c.get("art")}, set(),
+                               bounds=TRIBUTE_BOUNDS[kind])
+        errs += [f"{key} {x}" for x in e]
+        stale += [f"{key} {x}" for x in st]
+    return errs, stale
+
+
 def audit() -> dict:
     d = Data()
     errors, warnings = [], []
@@ -555,8 +741,20 @@ def audit_takes() -> dict:
     return {"errors": errors, "warnings": warnings, "seasons": sorted(d.takes)}
 
 
+def audit_tributes() -> dict:
+    d = Data()
+    errors, warnings = [], []
+    for key, value in sorted(d.tributes.items()):
+        e, s = check_tribute(d, key, {k: v for k, v in value.items() if k != "upload"})
+        errors += e
+        warnings += [f"Tribute {x} (stale after a later update? refresh it with a new tribute.set)" for x in s]
+    return {"errors": errors, "warnings": warnings, "players": sorted(d.tributes)}
+
+
 if __name__ == "__main__":
-    if "--audit-takes" in sys.argv:
+    if "--audit-tributes" in sys.argv:
+        print(json.dumps(audit_tributes()))
+    elif "--audit-takes" in sys.argv:
         print(json.dumps(audit_takes()))
     elif "--audit" in sys.argv:
         print(json.dumps(audit()))

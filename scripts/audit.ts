@@ -199,7 +199,7 @@ Object.keys(speeches).forEach((who) => {
 // 9. Upload pipeline: manifests are well formed, and owner text traces back to an applied manifest
 type Mutation = { lane?: string; op?: string; target?: string; value?: unknown; source?: string; reason?: string; trigger?: string };
 type Manifest = { id: string; ai_steps?: { step?: string; reason?: string; trigger?: string }[]; mutations?: Mutation[] };
-const AI_STEPS = new Set(['transcribe', 'portrait→look', 'tag notes', 'speech', 'art', 'story', 'takes']);
+const AI_STEPS = new Set(['transcribe', 'portrait→look', 'tag notes', 'speech', 'art', 'story', 'takes', 'tribute']);
 const manifests = new Map<string, Manifest>();
 if (existsSync('data/uploads')) {
   for (const dir of readdirSync('data/uploads').sort()) {
@@ -227,6 +227,7 @@ const expected = new Map<string, string>();
 const speechSet = new Map<string, string>();
 const storySet = new Map<string, unknown>();
 const takesSet = new Map<string, unknown>();
+const tributeSet = new Map<string, unknown>();
 let saveState: { id: string; upload: string; value: Record<string, unknown> } | null = null;
 const setLeaves = (path: string, v: unknown) => {
   if (v && typeof v === 'object' && !Array.isArray(v)) Object.entries(v).forEach(([k, x]) => setLeaves(`${path}/${k}`, x));
@@ -243,6 +244,8 @@ for (const { id } of log) {
     else if (mu.op === 'story.set') storySet.set(String(mu.target), { ...(mu.value as object), upload: id });
     else if (mu.op === 'story.remove') storySet.delete(String(mu.target));
     else if (mu.op === 'takes.set') takesSet.set(String(mu.target), { ...(mu.value as object), upload: id });
+    else if (mu.op === 'tribute.set') tributeSet.set(String(mu.target), { ...(mu.value as object), upload: id });
+    else if (mu.op === 'tribute.remove') tributeSet.delete(String(mu.target));
     else if (mu.op === 'save.state') saveState = { id: String(mu.target), upload: id, value: mu.value as Record<string, unknown> };
   }
 }
@@ -326,6 +329,52 @@ speechSet.forEach((text, who) => {
     const t = takes[e.season]?.takes ?? [];
     if (e.count !== t.length || JSON.stringify(e.takes.map((x) => x.id)) !== JSON.stringify(t.map((x) => x.id))) errors.push(`content.json hotTakesIndex ${e.season} differs from its takes (rebuild)`);
   });
+}
+// Player Tributes (the fifth AI-authored lane) get the same treatment: data/y80/tributes.json reads exactly as the last
+// applied tribute.set wrote each player's, every chapter passes the story rules (scripts/story_check.py
+// --audit-tributes; a figure that no longer matches is a stale warning), and the site's copy (one file per tribute,
+// public/data/league/tributes/<pos-name>.json, the stored text plus figures filled from the data under each chapter's
+// `data`) and the content.json tributeIndex agree with it
+{
+  type Chapter = { id: string; kind: string; headline: string; data?: unknown };
+  type Tribute = { upload?: string; nickname?: string; deck: string; chapters: Chapter[] };
+  const tributes = ((existsSync('data/y80/tributes.json') ? read('data/y80/tributes.json').players : {}) ?? {}) as Record<string, Tribute>;
+  const canon = (v: unknown) => JSON.stringify(v, (_k, x) => (x && typeof x === 'object' && !Array.isArray(x) ? Object.fromEntries(Object.entries(x).sort(([a], [b]) => a.localeCompare(b))) : x));
+  tributeSet.forEach((value, key) => {
+    if (!tributes[key]) warnings.push(`Tribute for ${key} was set by an upload but is missing from the data now`);
+    else if (canon(tributes[key]) !== canon(value)) errors.push(`Tribute for ${key} differs from the last applied upload manifest (edit it through tribute.set)`);
+  });
+  Object.keys(tributes).forEach((key) => !tributeSet.has(key) && errors.push(`Tribute for ${key} is not set by any applied upload manifest`));
+  try {
+    const out = JSON.parse(execFileSync('python3', ['scripts/story_check.py', '--audit-tributes'], { encoding: 'utf8' })) as { errors: string[]; warnings: string[] };
+    out.errors.forEach((e) => errors.push(`Tribute ${e}`));
+    out.warnings.forEach((w) => warnings.push(w));
+  } catch (e) {
+    errors.push(`Tribute check failed to run (python3 scripts/story_check.py --audit-tributes): ${(e as Error).message.split('\n')[0]}`);
+  }
+  const fileOf = (key: string) => `tributes/${key.toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}.json`;
+  const index = (content.tributeIndex ?? []) as { key: string; file: string; chapters: { id: string }[] }[];
+  const dir = 'public/data/league/tributes';
+  const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.json')) : [];
+  if (JSON.stringify(index.map((e) => e.key)) !== JSON.stringify(Object.keys(tributes).sort())) errors.push('content.json tributeIndex differs from data/y80/tributes.json (rebuild)');
+  index.forEach((e) => {
+    const path = `public/data/league/${e.file}`;
+    if (e.file !== fileOf(e.key)) errors.push(`Tribute index ${e.key} points at ${e.file}, not ${fileOf(e.key)}`);
+    if (!existsSync(path)) return errors.push(`Tribute index ${e.key} has no file ${path} (rebuild)`);
+    const site = read(path) as Tribute & { key: string };
+    const t = tributes[e.key];
+    if (!t) return;
+    const text = (c: Chapter) => {
+      const rest = { ...c };
+      delete rest.data;
+      return rest;
+    };
+    if (site.key !== e.key || site.deck !== t.deck || (site.nickname ?? null) !== (t.nickname ?? null) || site.upload !== t.upload || canon(site.chapters.map(text)) !== canon(t.chapters))
+      errors.push(`${path} differs from data/y80/tributes.json (rebuild)`);
+    site.chapters.forEach((c) => ['trade', 'market', 'rival'].includes(c.kind) && !c.data && errors.push(`${path} ${c.id}: the ${c.kind} card has no figures from the data (rebuild)`));
+    if (JSON.stringify(e.chapters.map((c) => c.id)) !== JSON.stringify(t.chapters.map((c) => c.id))) errors.push(`content.json tributeIndex ${e.key} differs from its chapters (rebuild)`);
+  });
+  files.forEach((f) => !index.some((e) => e.file === `tributes/${f}`) && errors.push(`${dir}/${f} has no entry in content.json tributeIndex (rebuild)`));
 }
 const actual = new Map<string, string>();
 const collect = (path: string, v: unknown) => {

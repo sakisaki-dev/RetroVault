@@ -32,6 +32,9 @@
  *                      public/data/league/takes.json, { seasons: [{ season, upload?, intro?, takes: [{ id, heat (1-3),
  *                      headline, dek, body[], players[], teams[], stats[{ label, value, source }] }] }] } (newest first),
  *                      loaded on demand (loadHotTakes / useHotTakes)
+ *   "tributeIndex":  [{ key: "RB:Ryland Maxwell", name, file: "tributes/rb-ryland-maxwell.json", upload?, nickname?, deck,
+ *                      chapters: [{ id, kind, headline }] }]: Player Tributes (AI-authored, data/y80/tributes.json,
+ *                      tribute.set); each tribute is its own file, loaded on demand (loadTribute / useTribute)
  *   "coach":         { name, age, stars, morale, gamesPlayed, simGames, record{}, bests{}, superBowlRecord[], seasons[{ year, team, abbr, w, l, t, finish }], currentStint?{ team, abbr, from } }
  * }
  * `coach` is optional (from data/y80/coach.json, the staff screen); bad fields are dropped one by one.
@@ -236,6 +239,8 @@ export interface LeagueContent {
   seasonStoryIndex?: SeasonStoryIndexEntry[];
   /** Hot Takes index, newest first (data/y80/hot_takes.json, takes.set); the takes load on demand (useHotTakes) */
   hotTakesIndex?: HotTakesIndexEntry[];
+  /** Player Tributes index (data/y80/tributes.json, tribute.set); each tribute loads on demand (useTribute) */
+  tributeIndex?: TributeIndexEntry[];
 }
 
 export const STORY_KINDS = ['lead', 'feature', 'trade', 'rise', 'fall', 'rivalry', 'chase', 'milestone', 'wherenow', 'quickhits'] as const;
@@ -331,6 +336,88 @@ export interface HotTakesIndexEntry {
   file: string;
   count: number;
   takes: { id: string; heat: TakeHeat; headline: string }[];
+}
+
+// ---------------------------------------------------------------------------
+// Player Tributes (the fifth AI lane): one long-form feature per player, one file each
+// ---------------------------------------------------------------------------
+export const TRIBUTE_KINDS = ['chapter', 'trade', 'market', 'rival', 'lastlap', 'numbers'] as const;
+export type TributeKind = (typeof TRIBUTE_KINDS)[number];
+
+/** content.json's entry for one tribute (the tribute itself loads from `file`) */
+export interface TributeIndexEntry {
+  /** "POS:Name" */
+  key: string;
+  name: string;
+  /** Path under data/league/ ("tributes/rb-ryland-maxwell.json") */
+  file: string;
+  upload?: string;
+  nickname?: string;
+  deck: string;
+  chapters: { id: string; kind: TributeKind; headline: string }[];
+}
+
+/** One player on a trade card, as the market saw him at the trade, and what he did after */
+export interface TributeTradePlayer {
+  key: string;
+  name: string;
+  pos: string;
+  ovr?: number;
+  grade?: string;
+  value?: number;
+  games?: number;
+  after?: { games: number; rings: number };
+  /** False when he was moved on before playing a game for the club he was traded to */
+  played?: boolean;
+}
+export interface TributeTrade {
+  after: string;
+  snapshot: string;
+  label?: string;
+  later?: string;
+  laterLabel?: string;
+  sides: { to: string; players: TributeTradePlayer[]; value: number }[];
+}
+export interface TributeMarket {
+  players: string[];
+  series: { season: string; snapshot: string; ovr?: number; grade?: string; values: Record<string, number> }[];
+}
+export interface TributeRival {
+  player: string;
+  name: string;
+  pos: string;
+  nickname?: string;
+  rows: { label: string; a: number; b: number; decimals: number }[];
+}
+
+export interface TributeChapter {
+  id: string;
+  kind: TributeKind;
+  club?: string;
+  headline: string;
+  dek?: string;
+  body: string[];
+  players: string[];
+  teams: string[];
+  stats: StoryStat[];
+  art?: ArticleArtHint;
+  /** The card's figures, filled from the data by the builder */
+  trade?: TributeTrade;
+  market?: TributeMarket;
+  rival?: TributeRival;
+}
+
+export interface Tribute {
+  key: string;
+  name: string;
+  pos: string;
+  upload?: string;
+  nickname?: string;
+  deck: string;
+  hero: { games: number; clubs: number; active: boolean; careerLegacy: number; rings: number; hallOfFame?: string };
+  /** His clubs in order (stints.json) */
+  journey: { team: string; from: number; to: number; rings: number[] }[];
+  chapters: TributeChapter[];
 }
 
 export interface SeasonStory {
@@ -723,6 +810,25 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
     }),
   );
   if (takesIndex.length) content.hotTakesIndex = takesIndex;
+  const tributeIndex = compact(
+    arr(input.tributeIndex).map((r): TributeIndexEntry | null => {
+      const key = str(r.key);
+      const name = str(r.name);
+      const file = str(r.file);
+      // only a tribute file under tributes/ (never an arbitrary path)
+      if (!key || !name || !file || !/^tributes\/[a-z0-9-]+\.json$/.test(file)) return null;
+      const chapters = compact(
+        arr(r.chapters).map((c) => {
+          const id = str(c.id);
+          const headline = str(c.headline);
+          const kind = str(c.kind) as TributeKind | undefined;
+          return id && headline && kind && (TRIBUTE_KINDS as readonly string[]).includes(kind) ? { id, kind, headline } : null;
+        }),
+      );
+      return { key, name, file, upload: str(r.upload), nickname: str(r.nickname), deck: str(r.deck) ?? '', chapters };
+    }),
+  );
+  if (tributeIndex.length) content.tributeIndex = tributeIndex;
   if (Array.isArray(input.hofClasses)) {
     const classes = input.hofClasses
       .map((c) => (isObj(c) && str(c.label) && Array.isArray(c.keys) ? { label: str(c.label)!, keys: c.keys.filter((k): k is string => typeof k === 'string') } : null))
@@ -947,6 +1053,149 @@ export const useHotTakes = (enabled = true) => {
   }, [enabled]);
   const value = seasons ?? takesLoaded;
   return { seasons: value ?? [], loading: enabled && value === undefined, failed: value === null };
+};
+
+// ---------------------------------------------------------------------------
+// Player Tributes (one file per tribute; loaded on demand)
+// ---------------------------------------------------------------------------
+
+const numOr = (v: unknown, d = 0) => num(v) ?? d;
+
+const tradeOf = (r: unknown): TributeTrade | undefined => {
+  if (!isObj(r)) return undefined;
+  const sides = arr(r.sides).map((sd) => ({
+    to: str(sd.to) ?? '',
+    value: numOr(sd.value),
+    players: compact(
+      arr(sd.players).map((x): TributeTradePlayer | null => {
+        const key = str(x.key);
+        if (!key) return null;
+        const after = isObj(x.after) ? { games: numOr(x.after.games), rings: numOr(x.after.rings) } : undefined;
+        return { key, name: str(x.name) ?? key, pos: str(x.pos) ?? '', ovr: num(x.ovr), grade: str(x.grade), value: num(x.value), games: num(x.games), after, played: typeof x.played === 'boolean' ? x.played : undefined };
+      }),
+    ),
+  }));
+  const after = str(r.after);
+  const snapshot = str(r.snapshot);
+  return after && snapshot && sides.length >= 2 ? { after, snapshot, label: str(r.label), later: str(r.later), laterLabel: str(r.laterLabel), sides } : undefined;
+};
+
+const marketOf = (r: unknown): TributeMarket | undefined => {
+  if (!isObj(r)) return undefined;
+  const series = compact(
+    arr(r.series).map((x) => {
+      const season = str(x.season);
+      if (!season || !isObj(x.values)) return null;
+      const values: Record<string, number> = {};
+      Object.entries(x.values).forEach(([k, v]) => typeof v === 'number' && Number.isFinite(v) && (values[k] = v));
+      return { season, snapshot: str(x.snapshot) ?? '', ovr: num(x.ovr), grade: str(x.grade), values };
+    }),
+  );
+  return series.length ? { players: strArr(r.players), series } : undefined;
+};
+
+const rivalOf = (r: unknown): TributeRival | undefined => {
+  if (!isObj(r)) return undefined;
+  const player = str(r.player);
+  const name = str(r.name);
+  if (!player || !name) return undefined;
+  const rows = compact(arr(r.rows).map((x) => (str(x.label) ? { label: str(x.label)!, a: numOr(x.a), b: numOr(x.b), decimals: numOr(x.decimals) } : null)));
+  return { player, name, pos: str(r.pos) ?? '', nickname: str(r.nickname), rows };
+};
+
+/** One tribute file (public/data/league/tributes/<pos-name>.json); null without a key or chapters */
+export const normalizeTribute = (r: unknown): Tribute | null => {
+  if (!isObj(r)) return null;
+  const key = str(r.key);
+  const name = str(r.name);
+  const chapters = compact(
+    arr(r.chapters).map((c): TributeChapter | null => {
+      const id = str(c.id);
+      const kind = str(c.kind) as TributeKind | undefined;
+      const headline = str(c.headline);
+      if (!id || !headline || !kind || !(TRIBUTE_KINDS as readonly string[]).includes(kind)) return null;
+      return {
+        id,
+        kind,
+        club: str(c.club),
+        headline,
+        dek: str(c.dek),
+        body: strArr(c.body),
+        players: strArr(c.players),
+        teams: strArr(c.teams),
+        stats: storyStats(c.stats),
+        art: artHint(c.art),
+        trade: kind === 'trade' ? tradeOf(c.data) : undefined,
+        market: kind === 'market' ? marketOf(c.data) : undefined,
+        rival: kind === 'rival' ? rivalOf(c.data) : undefined,
+      };
+    }),
+  );
+  if (!key || !name || !chapters.length) return null;
+  const h = isObj(r.hero) ? r.hero : {};
+  const journey = compact(
+    arr(r.journey).map((j) => {
+      const team = str(j.team);
+      return team ? { team, from: numOr(j.from), to: numOr(j.to), rings: Array.isArray(j.rings) ? j.rings.filter((y): y is number => typeof y === 'number') : [] } : null;
+    }),
+  );
+  return {
+    key,
+    name,
+    pos: str(r.pos) ?? key.split(':')[0],
+    upload: str(r.upload),
+    nickname: str(r.nickname),
+    deck: str(r.deck) ?? '',
+    hero: { games: numOr(h.games), clubs: numOr(h.clubs), active: h.active === true, careerLegacy: numOr(h.careerLegacy), rings: numOr(h.rings), hallOfFame: str(h.hallOfFame) },
+    journey,
+    chapters,
+  };
+};
+
+const tributeRequests = new Map<string, Promise<Tribute | null>>();
+const tributesLoaded = new Map<string, Tribute | null>();
+
+/** Fetches one tribute (memoized per file; no-cache revalidates a rebuilt file). Never throws; null if missing. */
+export const loadTribute = (entry: Pick<TributeIndexEntry, 'key' | 'file'>): Promise<Tribute | null> => {
+  let req = tributeRequests.get(entry.file);
+  if (!req) {
+    req = fetch(`${import.meta.env.BASE_URL}data/league/${entry.file}`, { cache: 'no-cache' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        const t = normalizeTribute(json);
+        return t && t.key === entry.key ? t : null;
+      })
+      .catch(() => null)
+      .then((t) => {
+        tributesLoaded.set(entry.file, t);
+        // a failed load may be retried on the next request
+        if (!t) tributeRequests.delete(entry.file);
+        return t;
+      });
+    tributeRequests.set(entry.file, req);
+  }
+  return req;
+};
+
+/** The index entry of a player's tribute ("POS:Name"), if he has one */
+export const tributeEntryOf = (content: LeagueContent | null | undefined, key: string | null | undefined) =>
+  key ? content?.tributeIndex?.find((e) => e.key === key) : undefined;
+
+/** One tribute: `loading` until its file is in; `tribute` null when it failed or there is none. */
+export const useTribute = (entry: TributeIndexEntry | null | undefined) => {
+  const file = entry?.file;
+  const [state, setState] = useState<{ file?: string; tribute: Tribute | null }>(() => ({ file: file && tributesLoaded.has(file) ? file : undefined, tribute: file ? tributesLoaded.get(file) ?? null : null }));
+  useEffect(() => {
+    if (!entry) return;
+    let alive = true;
+    loadTribute(entry).then((tribute) => alive && setState({ file: entry.file, tribute }));
+    return () => {
+      alive = false;
+    };
+  }, [entry]);
+  const ready = !!file && (state.file === file || tributesLoaded.has(file));
+  const tribute = ready ? (state.file === file ? state.tribute : tributesLoaded.get(file!) ?? null) : null;
+  return { tribute, loading: !!entry && !ready };
 };
 
 // ---------------------------------------------------------------------------
