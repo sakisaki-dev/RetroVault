@@ -11,6 +11,7 @@ import { SLOT_BY_ID, filledCount, lineupKeys, type LabContext, type Lineup, type
 import type { Turf } from './fieldArt';
 import { GradeChip } from './parts';
 import { SLOT_NAMES } from './labSlots';
+import { peekProps } from '@/components/peek/peekProps';
 
 const ORDER: SlotId[] = ['qb', 'rb', 'wr1', 'wr2', 'te', 'ol', 'd1', 'd2', 'd3', 'd4'];
 const Slot = ({ ctx, slot, lineup, onSlot }: { ctx: LabContext; slot: SlotId; lineup: Lineup; onSlot: (s: SlotId, k: string) => void }) => {
@@ -24,7 +25,7 @@ const Slot = ({ ctx, slot, lineup, onSlot }: { ctx: LabContext; slot: SlotId; li
   }, [ctx, def, lineup, value]);
   const label = def.side === 'defense' ? (profile ? profile.position : 'DEF') : def.label;
   return (
-    <li id={`lab-slot-${slot}`} className="lab-row" data-side={def.side}>
+    <li id={`lab-slot-${slot}`} className="lab-row" data-side={def.side} {...peekProps(profile?.player)}>
       <span className="lab-row-pos" aria-hidden="true">
         {label}
       </span>

@@ -10,6 +10,7 @@ import Chips from '../analytics/Chips';
 import CompRadar from '../comps/CompRadar';
 import { VIZ, fmtNum, ordinal } from '../analytics/viz';
 import { keyOf } from '../records';
+import { peekProps } from '@/components/peek/peekProps';
 
 const TOP = 3;
 /** Line style per series, matching CompRadar (first solid, the rest dashed), so identity is not colour alone. */
@@ -90,6 +91,7 @@ const LeaderRadar = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Playe
                 <li key={keyOf(l.player)}>
                   <button
                     type="button"
+                    {...peekProps(l.player)}
                     onClick={() => onSelect(l.player)}
                     className="flex w-full items-center gap-2 rounded-md border border-line bg-night/50 px-2 py-1.5 text-left hover:border-gold/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                   >

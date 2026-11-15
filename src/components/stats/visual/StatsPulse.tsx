@@ -9,6 +9,7 @@ import TeamLogo from '../../brand/TeamLogo';
 import { VIZ, fmtNum } from '../analytics/viz';
 import type { RecordBook } from '../records';
 import { GOLD } from './chartKit';
+import { peekProps } from '@/components/peek/peekProps';
 
 const ELITE_OVR = 90;
 
@@ -113,7 +114,7 @@ const StatsPulse = ({ data, book, onSelect }: { data: LeagueData; book: RecordBo
           value={Math.floor(chase.percentToRecord)}
           suffix="%"
           sub={
-            <button type="button" onClick={() => onSelect(chase.player)} className="inline-flex max-w-full items-center gap-1.5 rounded font-semibold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
+            <button type="button" {...peekProps(chase.player)} onClick={() => onSelect(chase.player)} className="inline-flex max-w-full items-center gap-1.5 rounded font-semibold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
               {chase.player.team && <TeamLogo team={chase.player.team} size={16} decorative backed />}
               <span className="truncate">{chase.player.name}</span>
             </button>

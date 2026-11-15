@@ -16,6 +16,7 @@ import ClubStrip from '@/components/brand/ClubStrip';
 import { bannerTeamOf } from '@/utils/playerExtras';
 import { MarkerGlyph, markerKind } from './SuperBowlMarker';
 import { teamHsl, type PlacedEra, type TimelineModel } from './timelineModel';
+import { peekProps } from '@/components/peek/peekProps';
 
 interface EraDetailProps {
   id: string;
@@ -174,6 +175,7 @@ const EraDetail = ({ id, placed, content, model, players, onPlayerSelect, onClos
                     {player ? (
                       <button
                         type="button"
+                        {...peekProps(player)}
                         onClick={() => onPlayerSelect(player)}
                         className="group flex w-full items-center justify-between gap-2 rounded-md px-2 py-1.5 text-left hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       >

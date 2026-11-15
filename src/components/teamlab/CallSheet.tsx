@@ -24,6 +24,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { getTeamColors } from '@/utils/teamColors';
 import type { FourthCall, Impact, PlayerProfile, Situation, TeamAnalysis } from '@/utils/teamLab';
+import { peekProps } from '@/components/peek/peekProps';
 import './teamlab.css';
 
 const SITUATION_ICON: Record<Situation | string, LucideIcon> = {
@@ -236,7 +237,7 @@ const CallSheet = ({ analysis: a }: { analysis: TeamAnalysis }) => {
         </p>
         <ul className="grid grid-cols-2 gap-1.5 xl:grid-cols-4">
           {a.targets.map((t) => (
-            <li key={t.slot} className="min-w-0 rounded-md bg-black/35 p-2 ring-1 ring-line/50">
+            <li key={t.slot} className="min-w-0 rounded-md bg-black/35 p-2 ring-1 ring-line/50" {...peekProps(t.profile.player)}>
               <p className="flex min-w-0 items-center gap-1.5">
                 <NumberPlate p={t.profile} />
                 <span className="min-w-0 flex-1 truncate font-display text-[15px] font-bold uppercase italic text-chalk">{t.profile.name}</span>

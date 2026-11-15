@@ -1,6 +1,7 @@
 import type { Player } from '@/types/player';
 import { liftForDarkBg } from '@/utils/teamColors';
 import type { PositionStrength } from './teamStats';
+import { peekProps } from '@/components/peek/peekProps';
 
 interface PositionRadarProps {
   teamName: string;
@@ -85,7 +86,7 @@ const PositionRadar = ({ teamName, primary, rows, onSelect }: PositionRadarProps
               <td className="py-1 pr-2 font-display font-bold">{r.position}</td>
               <td className="max-w-0 py-1 pr-2">
                 {r.best ? (
-                  <button type="button" onClick={() => onSelect(r.best!)} className="block max-w-full truncate text-left font-medium hover:text-gold">
+                  <button type="button" {...peekProps(r.best)} onClick={() => onSelect(r.best!)} className="block max-w-full truncate text-left font-medium hover:text-gold">
                     {r.best.name}
                   </button>
                 ) : (

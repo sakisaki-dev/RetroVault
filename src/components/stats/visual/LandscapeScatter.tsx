@@ -9,6 +9,7 @@ import { logTicks, quadrantName, splitOf, trendFit, type LPoint, type LandscapeS
 import type { PositionFamilies } from '@/config/families';
 import { FamilyZoneLabels, FamilyZoneLayer } from './FamilyZones';
 import { buildZones } from './zones';
+import { peekProps } from '@/components/peek/peekProps';
 
 /**
  * The shared scatter engine for every landscape and the Graph Builder: team-coloured dots or logos (or a colour
@@ -242,6 +243,7 @@ const PointMark = ({
       data-rk={pt.key}
       aria-label={`${p.name}, ${p.position}${p.team ? `, ${p.team}` : ''}${pt.nfl ? ', real NFL player, not in the league baseline' : hof ? ', Hall of Famer' : ''}: ${pt.xText}, ${pt.yText}${pt.sizeText ? `, ${pt.sizeText}` : ''}. Open player`}
       className="outline-none [&:focus-visible>.ring]:stroke-[hsl(43_100%_62%)]"
+      {...peekProps(p)}
       onClick={() => onSelect(p)}
       onKeyDown={onKey}
       onFocus={() => onShow(pt.key)}
@@ -334,6 +336,7 @@ const ClusterChooser = ({
             <button
               type="button"
               autoFocus={i === 0}
+              {...peekProps(pt.player)}
               onClick={() => onPick(pt)}
               className="flex w-full min-w-0 items-center gap-2 rounded px-2 py-1.5 text-left text-xs hover:bg-panel-2 focus-visible:bg-panel-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >

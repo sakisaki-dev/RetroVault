@@ -8,6 +8,7 @@ import { GOLD } from '../visual/chartKit';
 import { VIZ } from '../analytics/viz';
 import { quadrantName, splitOf, type LPoint } from '../visual/landscape';
 import { POSITION_COLORS, TIER_COLORS, type ColorBy, type GraphModel } from './graphConfig';
+import { peekProps } from '@/components/peek/peekProps';
 
 /** The plot for a graph model (shared by the Lab cards and the Graph Builder). */
 export const GraphPlot = ({
@@ -108,7 +109,7 @@ export const GraphTable = ({ model, onSelect }: { model: GraphModel; onSelect: (
           {rows.map((p) => (
             <tr key={p.key} className="border-t border-line/40">
               <td className="px-2 py-1">
-                <button type="button" onClick={() => onSelect(p.player)} className="text-left font-semibold hover:text-gold">
+                <button type="button" {...peekProps(p.player)} onClick={() => onSelect(p.player)} className="text-left font-semibold hover:text-gold">
                   {p.player.name}
                 </button>
                 <span className="ml-1 text-xs text-muted-foreground">

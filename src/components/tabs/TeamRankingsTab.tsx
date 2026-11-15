@@ -27,6 +27,7 @@ import {
 } from '../teams/teamStats';
 import { usePlayerExtras } from '@/utils/playerExtras';
 import { useHubRoute } from '../stats/hub/hashRoute';
+import { peekProps } from '@/components/peek/peekProps';
 
 type ConferenceFilter = 'all' | 'AFC' | 'NFC';
 type DivisionFilter = 'all' | (typeof DIVISIONS)[number];
@@ -253,6 +254,7 @@ const TeamRankingsTab = () => {
                 <li key={`${p.name}-${p.position}`}>
                   <button
                     type="button"
+                    {...peekProps(p)}
                     onClick={() => setSelectedPlayer(p)}
                     className="flex w-full items-center gap-3 rounded-lg border border-border bg-secondary/30 px-3 py-2 text-left hover:bg-secondary"
                   >

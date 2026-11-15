@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import MetricLabel from './MetricLabel';
 import { VIZ, fmtNum, fmtPlus, plusFill } from './viz';
 import { keyOf } from '../records';
+import { peekProps } from '@/components/peek/peekProps';
 
 interface Props {
   players: Player[];
@@ -129,6 +130,7 @@ const PlusHeatTable = ({ players, ctx, position, extras = [], onSelect }: Props)
                     <th scope="row" className="sticky left-0 z-10 max-w-[9rem] border-t border-line/40 bg-panel px-2 py-1 text-left">
                       <button
                         type="button"
+                        {...peekProps(p)}
                         onClick={() => onSelect(p)}
                         className="block w-full truncate text-left text-xs font-semibold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:text-sm"
                       >
@@ -167,6 +169,7 @@ const PlusHeatTable = ({ players, ctx, position, extras = [], onSelect }: Props)
                   <th scope="row" className="sticky left-0 z-10 max-w-[9rem] border-t border-line/40 bg-panel px-2 py-1 text-left">
                     <button
                       type="button"
+                      {...peekProps(p)}
                       onClick={() => onSelect(p)}
                       className="flex w-full items-center gap-1 truncate text-left text-xs font-semibold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:text-sm"
                     >

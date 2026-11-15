@@ -109,6 +109,8 @@ export const FeatureSheet = ({ piece, onClose, prev, next, players, onPlayer }: 
       <DialogContent
         ref={scroller}
         phoneSheet
+        // press and hold a player chip or sprite in the piece for his quick look (components/peek)
+        data-peek-ok
         onKeyDown={onKey}
         // open at the top with the sheet itself focused (not the first banner, which would scroll a phone down);
         // Tab still starts at the first control and the arrow keys work at once

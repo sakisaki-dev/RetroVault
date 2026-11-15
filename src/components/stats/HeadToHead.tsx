@@ -22,6 +22,7 @@ import { VIZ, fmtNum } from './analytics/viz';
 import { keyOf } from './records';
 import { onHeadToHeadRequest, takeHeadToHeadRequest } from './comps/compFinderLink';
 import { LEAGUE_DEFS, buildMatchup, type Cell, type Matchup, type Row, type Side } from './matchup';
+import { peekProps } from '@/components/peek/peekProps';
 
 type Select = (p: Player) => void;
 
@@ -74,6 +75,7 @@ const HeroCard = ({
       {player ? (
         <button
           type="button"
+          {...peekProps(player)}
           onClick={() => onSelect(player)}
           aria-label={`Open ${player.name}'s player card`}
           className="block w-full rounded-xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
@@ -416,7 +418,7 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
             className="scoreboard-strip chrome-follow sticky z-30 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 border-b border-line bg-night/95 px-3 py-2.5 backdrop-blur-md sm:px-6"
             style={{ top: 'var(--site-header-h, 0px)' }}
           >
-            <span className="flex min-w-0 items-center justify-end gap-2">
+            <span className="flex min-w-0 items-center justify-end gap-2" {...peekProps(p1)}>
               <span className="truncate text-right font-display text-sm font-bold uppercase sm:text-xl" title={p1.name}>
                 <FitName name={p1.name} />
               </span>
@@ -436,7 +438,7 @@ const HeadToHead = ({ data, onSelect }: { data: LeagueData; onSelect: Select }) 
                 <CountUp value={m.score[2]} />
               </span>
             </div>
-            <span className="flex min-w-0 items-center gap-2">
+            <span className="flex min-w-0 items-center gap-2" {...peekProps(p2)}>
               <TeamLogo team={p2.team} size={22} decorative backed />
               <span className="hidden font-pixel text-[9px] text-muted-foreground sm:inline">{p2.position}</span>
               <span className="truncate font-display text-sm font-bold uppercase sm:text-xl" title={p2.name}>

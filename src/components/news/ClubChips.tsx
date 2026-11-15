@@ -4,6 +4,7 @@ import { matchPlayerByName } from '@/utils/leagueContent';
 import { getTeamColors, getTeamTextColor } from '@/utils/teamColors';
 import { bannerTeamOf } from '@/utils/playerExtras';
 import TeamLogo from '@/components/brand/TeamLogo';
+import { peekProps } from '@/components/peek/peekProps';
 
 /**
  * Player and team chips that wear their club's colours and a small logo (Season Story, Hot Takes, Did you know): the
@@ -41,7 +42,7 @@ export const ClubChips = ({ names, teams = [], players, onPlayer, max, label = '
         return (
           <li key={n}>
             {p ? (
-              <button type="button" className="cc-chip" style={clubVars(bannerTeamOf(p))} onClick={() => onPlayer(p)} aria-label={`Open ${p.name}'s card`}>
+              <button type="button" className="cc-chip" style={clubVars(bannerTeamOf(p))} {...peekProps(p)} onClick={() => onPlayer(p)} aria-label={`Open ${p.name}'s card`}>
                 {bannerTeamOf(p) && <TeamLogo team={bannerTeamOf(p)} size={14} decorative className="cc-chip__logo" />}
                 <span className="cc-chip__pos">{p.position}</span>
                 <span className="cc-chip__name">{p.name}</span>

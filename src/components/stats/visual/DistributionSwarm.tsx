@@ -12,6 +12,7 @@ import { VIZ, fmtNum } from '../analytics/viz';
 import { keyOf } from '../records';
 import { GOLD, fmtShort, niceTicks, swarm, useRoving, useWidth } from './chartKit';
 import { ChartTip, Legend } from './chartParts';
+import { peekProps } from '@/components/peek/peekProps';
 
 type MetricId = 'legacy' | 'ovr' | 'tpg';
 
@@ -69,6 +70,7 @@ const DotMark = ({
     data-rk={dot.key}
     aria-label={`${dot.player.name}, ${dot.player.position}${dot.player.team ? `, ${dot.player.team}` : ''}: ${fmtNum(dot.value, decimals)}${dot.hof ? ', Hall of Famer' : ''}. Open player`}
     className="cursor-pointer outline-none [&:focus-visible>.ring]:stroke-[hsl(43_100%_62%)]"
+    {...peekProps(dot.player)}
     onClick={() => onSelect(dot.player)}
     onKeyDown={onKey}
     onMouseEnter={() => onShow(dot)}
@@ -274,7 +276,7 @@ const DistributionSwarm = ({ players, ovrMap, onSelect }: { players: Player[]; o
                   <tr key={d.key} className="border-t border-line/40">
                     <td className="px-2 py-1 text-muted-foreground" title={POSITION_NAMES[r.pos]}>{r.pos}</td>
                     <td className="px-2 py-1">
-                      <button type="button" onClick={() => onSelect(d.player)} className="font-semibold hover:text-gold">
+                      <button type="button" {...peekProps(d.player)} onClick={() => onSelect(d.player)} className="font-semibold hover:text-gold">
                         {d.player.name}
                       </button>
                     </td>

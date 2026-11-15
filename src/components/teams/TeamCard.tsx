@@ -3,6 +3,7 @@ import { getReadableTextOn } from '@/utils/teamColors';
 import TeamLogo from '../brand/TeamLogo';
 import { tenureText, type FranchiseRecord, type TeamSummary } from './teamStats';
 import type { CoachedSummary } from '@/utils/frontOffice';
+import { peekProps } from '@/components/peek/peekProps';
 
 interface TeamCardProps {
   summary: TeamSummary;
@@ -95,7 +96,7 @@ const TeamCard = ({ summary, record, onOpen, coached, onHighlight }: TeamCardPro
 
       <div className="relative mt-auto space-y-1.5 px-3 pb-3 pt-2.5">
         {best && (
-          <p className="flex min-w-0 items-baseline gap-1.5 rounded-md bg-black/30 px-2 py-1 text-xs text-white">
+          <p className="flex min-w-0 items-baseline gap-1.5 rounded-md bg-black/30 px-2 py-1 text-xs text-white" {...peekProps(best)}>
             <span className="font-pixel text-[7px] uppercase text-gold shrink-0">Icon</span>
             <span className="min-w-0 truncate font-semibold">{best.name}</span>
             <span className="shrink-0 opacity-75">

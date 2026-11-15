@@ -1,6 +1,7 @@
 import type { Player } from '@/types/player';
 import FitName from '../FitName';
 import type { MetricBoard, MetricRow } from '@/config/advanced';
+import { peekProps } from '@/components/peek/peekProps';
 
 type Row = MetricRow & { nfl?: boolean };
 import { cn } from '@/lib/utils';
@@ -45,6 +46,7 @@ const LollipopRow = ({ r, board, scale, onSelect }: { r: Row; board: MetricBoard
     <li>
       <button
         type="button"
+        {...peekProps(r.player)}
         onClick={() => onSelect(r.player)}
         aria-label={`${r.nfl ? 'Real NFL, unranked' : `Rank ${r.rank}`}: ${r.player.name}, ${fmtNum(r.value, m.decimals)}${suffix}${r.plus != null ? `, + index ${fmtPlus(r.plus)}` : ''}, ${ordinal(r.pct)} percentile. Open player`}
         className={cn(GRID, 'h-7 w-full rounded px-1 text-left hover:bg-panel-2/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold')}

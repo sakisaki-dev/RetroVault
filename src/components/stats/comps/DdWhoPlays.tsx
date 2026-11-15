@@ -6,6 +6,7 @@ import { isHallOfFamer } from '@/config/stats';
 import { fmtFeature } from '@/config/skillGrades';
 import { cn } from '@/lib/utils';
 import TeamLogo from '../../brand/TeamLogo';
+import { peekProps } from '../../peek/peekProps';
 import Chips from '../analytics/Chips';
 import { VIZ, fmtNum, ordinal } from '../analytics/viz';
 import { keyOf } from '../records';
@@ -85,6 +86,7 @@ const DdWhoPlays = ({ player, model, mode, onMode, comps, topSets, overlay, onOv
         <button
           type="button"
           aria-pressed={!!on}
+          {...peekProps(c.player)}
           onClick={() => {
             onOverlay(okey);
             setKind('comp');
@@ -292,6 +294,7 @@ const DdWhoPlays = ({ player, model, mode, onMode, comps, topSets, overlay, onOv
                     <button
                       type="button"
                       onClick={() => onDive(c.player)}
+                      {...peekProps(c.player)}
                       aria-label={`${c.player.name}, ${m === 'style' ? 'style match' : 'similarity'} ${Math.round(c.similarity)} of 100. Deep dive into him`}
                       className="hover-lift flex h-full w-full flex-col gap-1 rounded-lg border border-line bg-panel p-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                     >

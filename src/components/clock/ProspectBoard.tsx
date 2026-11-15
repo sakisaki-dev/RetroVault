@@ -5,6 +5,7 @@ import { TOP_PICKS_CEILING, draftBands, draftCeiling, growthSeasons, improveChan
 import ClubStrip from '@/components/brand/ClubStrip';
 import TeamLogo from '@/components/brand/TeamLogo';
 import { ClockStage, LampBar, RatingBars, StarRow, clubVars, starText } from './clockParts';
+import { peekProps } from '@/components/peek/peekProps';
 
 /** The coach's record the next draft is built from (ClockPage works it out from coach.json and the save) */
 export interface DraftInfo {
@@ -97,7 +98,7 @@ const Row = ({ c, rank, onSelect }: { c: ClockPlayer; rank: number; onSelect: (p
   return (
     <li>
       {c.player ? (
-        <button type="button" className="clk-bs clk-bs--pro" style={clubVars(c.team)} onClick={() => onSelect(c.player!)} aria-label={`${rank}. ${c.name}, ${c.pos}, ${c.team}, age ${c.age}. Open his card`}>
+        <button type="button" className="clk-bs clk-bs--pro" style={clubVars(c.team)} {...peekProps(c.player)} onClick={() => onSelect(c.player!)} aria-label={`${rank}. ${c.name}, ${c.pos}, ${c.team}, age ${c.age}. Open his card`}>
           {inner}
         </button>
       ) : (

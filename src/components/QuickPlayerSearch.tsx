@@ -25,6 +25,7 @@ import { openInCompFinder } from './stats/comps/compFinderLink';
 import { parseHash } from './stats/hub/hashRoute';
 import { isPhone, usePhone } from '@/hooks/usePhone';
 import { pushRecent, readRecent } from '@/utils/playerSearch';
+import { PEEK_ACTION_EVENT, peekProps } from '@/components/peek/peekProps';
 import PlayerSearchSheet, { type SheetGroup } from './search/PlayerSearchSheet';
 import './quickSearch.css';
 import { bannerTeamOf } from '@/utils/playerExtras';
@@ -242,6 +243,12 @@ const QuickSearchDialog = () => {
   const [pos, setPos] = useState<Position | 'ALL'>('ALL');
   const [active, setActive] = useState('');
   const [recent, setRecent] = useState<string[]>(readRecent);
+  // A quick-look action run from a result (press and hold, or right-click) closes the search, like a pick
+  useEffect(() => {
+    const on = () => setOpen(false);
+    window.addEventListener(PEEK_ACTION_EVENT, on);
+    return () => window.removeEventListener(PEEK_ACTION_EVENT, on);
+  }, []);
   const { league, legends, ovrMap } = useGamePool();
   const { numberFor } = useJerseyNumbers();
   const skills = useSkillRatings();
@@ -306,7 +313,7 @@ const QuickSearchDialog = () => {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="qs-root top-[6%] max-h-[calc(var(--safe-h)-3rem)] w-[calc(100vw-1rem)] max-w-xl translate-y-0 gap-0 overflow-hidden p-0 sm:top-[8%]">
+        <DialogContent data-peek-ok className="qs-root top-[6%] max-h-[calc(var(--safe-h)-3rem)] w-[calc(100vw-1rem)] max-w-xl translate-y-0 gap-0 overflow-hidden p-0 sm:top-[8%]">
           <DialogTitle className="sr-only">Look up a player</DialogTitle>
           <Command
             filter={matchPlayer}
@@ -375,6 +382,7 @@ const QuickSearchDialog = () => {
                           keywords={[p.name]}
                           onSelect={() => choose(p)}
                           onPointerDown={() => warmPlayerCard(p)}
+                          {...peekProps(p)}
                           className={cn('qs-item my-1 cursor-pointer rounded-lg p-0', sprites && !p.isRealLegend ? 'mt-3 overflow-visible' : 'overflow-hidden')}
                           style={teamVars(bannerTeamOf(p))}
                         >
