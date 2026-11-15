@@ -31,6 +31,21 @@ export const openInCompFinder = (p: Pick<Player, 'position' | 'name'>) => {
   window.dispatchEvent(new CustomEvent(COMP_FINDER_EVENT, { detail: { key: pending } }));
 };
 
+let pendingSection: string | null = null;
+
+/** Open the Deep Dive on a player at one of its sections (e.g. 'dd-graphs' from the player card's Advanced tab). */
+export const openDeepDiveAt = (p: Pick<Player, 'position' | 'name'>, section: string) => {
+  pendingSection = section;
+  openInCompFinder(p);
+};
+
+/** Returns and clears the pending section id, if any. */
+export const takeDeepDiveSection = (): string | null => {
+  const s = pendingSection;
+  pendingSection = null;
+  return s;
+};
+
 /** Returns and clears the pending player key, if any. */
 export const takeCompFinderRequest = (): string | null => {
   const key = pending;

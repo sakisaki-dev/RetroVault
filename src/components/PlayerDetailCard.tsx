@@ -29,6 +29,7 @@ import StitchedJersey from './player/StitchedJersey';
 import CareerArc from './player/CareerArc';
 import AdvancedPanel from './player/AdvancedPanel';
 import CompsPanel from './player/CompsPanel';
+import CareerGraphsPreview from './stats/comps/graphs/CareerGraphsPreview';
 import { FamilyChips, PlayerCardPanel, RealCareerPanel } from './player/ExtrasPanels';
 import { buildCareerArc } from './player/arcData';
 import { careerRates, careerTotals, headlineStats, type StatItem } from './player/statLines';
@@ -560,6 +561,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
           <TabsPrimitive.Content value="advanced" className="rv-view-in p-4 focus-visible:outline-none sm:p-6">
             <h3 className="sr-only">Advanced metrics</h3>
             <AdvancedPanel player={player} players={leaguePool} onSelect={setJumpTo} />
+            <CareerGraphsPreview player={player} onNavigate={onClose} />
           </TabsPrimitive.Content>
 
           {/* ---------- Awards ---------- */}
