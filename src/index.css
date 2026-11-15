@@ -982,17 +982,17 @@ html[data-chrome] .bnav:not([data-gesture]) {
 html[data-chrome] .bnav-reveal {
   display: block;
 }
-/* The dock (owner chose "the widget frame as a dock"): a floating capsule with the widget's gold rim */
+/* The dock: a floating capsule with a quiet hairline rim (owner: taller, no gold rim) */
 .bnav__dock {
   position: relative;
   pointer-events: auto;
   padding: 0 4px;
-  border: 2px solid transparent;
-  border-radius: 28px;
-  background:
-    linear-gradient(180deg, hsl(228 38% 16% / 0.97), hsl(228 45% 9% / 0.97)) padding-box,
-    linear-gradient(135deg, #ffd56a, #b9781c 55%, #6e4210) border-box;
-  box-shadow: 0 12px 28px hsl(228 60% 2% / 0.6);
+  border-radius: 32px;
+  background: linear-gradient(180deg, hsl(228 38% 16% / 0.97), hsl(228 45% 9% / 0.97));
+  box-shadow:
+    inset 0 0 0 1px hsl(0 0% 100% / 0.1),
+    inset 0 1px 0 hsl(0 0% 100% / 0.08),
+    0 12px 28px hsl(228 60% 2% / 0.6);
 }
 /* The pill under the current tab, sliding between tabs (--ai = its index): a quiet gold tint; colour only shows while
    sliding (owner: "way more subtle, keep the gold accent for the bar") */
@@ -1002,7 +1002,7 @@ html[data-chrome] .bnav-reveal {
   bottom: 6px;
   left: 4px;
   width: calc((100% - 8px) / 5);
-  border-radius: 20px;
+  border-radius: 24px;
   background: hsl(var(--gold) / 0.12);
   box-shadow: inset 0 0 0 1px hsl(var(--gold) / 0.45);
   transform: translate3d(calc(var(--ai, 0) * 100%), 0, 0);
@@ -1021,8 +1021,8 @@ html[data-chrome] .bnav-reveal {
   top: 6px;
   left: 0;
   width: 64px;
-  height: 46px;
-  border-radius: 20px;
+  height: 58px;
+  border-radius: 24px;
   background: color-mix(in srgb, var(--hc, #f1c35c) 12%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--hc, #f1c35c) 40%, transparent);
   opacity: 0;
@@ -1054,7 +1054,7 @@ html[data-chrome] {
   position: relative;
   display: flex;
   width: 100%;
-  min-height: 58px;
+  min-height: 70px;
   flex-direction: column;
   z-index: 1;
   align-items: center;
@@ -1145,12 +1145,10 @@ html[data-chrome] {
   position: fixed;
   z-index: 49;
   padding: 10px 8px 8px;
-  border: 2px solid transparent;
   border-radius: 22px;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--mc) 7%, #161d36) 0%, #10162b 46%, #0b1020 100%) padding-box,
-    linear-gradient(135deg, #ffd56a, #b9781c 55%, #6e4210) border-box;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--mc) 7%, #161d36) 0%, #10162b 46%, #0b1020 100%);
   box-shadow:
+    inset 0 0 0 1px hsl(0 0% 100% / 0.1),
     0 18px 40px #000c,
     0 0 30px color-mix(in srgb, var(--mc) 8%, transparent);
   transform-origin: var(--bn-caret) calc(100% + 12px);
