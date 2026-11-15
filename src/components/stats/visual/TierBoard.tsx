@@ -5,6 +5,7 @@ import { isHallOfFamer } from '@/config/stats';
 import { GRADE_SCALE } from '@/config/skillGrades';
 import { getReadableTextOn, getTeamColors } from '@/utils/teamColors';
 import TeamLogo from '../../brand/TeamLogo';
+import { peekProps } from '@/components/peek/peekProps';
 
 export interface TierEntry {
   player: Player;
@@ -28,6 +29,7 @@ const TierChip = ({ e, onSelect }: { e: TierEntry; onSelect: (p: Player) => void
     <li>
       <button
         type="button"
+        {...peekProps(e.player)}
         onClick={() => onSelect(e.player)}
         aria-label={`${e.player.name}${e.player.team ? `, ${e.player.team}` : ''}: ${e.value}${hof ? ', Hall of Famer' : ''}. Open player`}
         className="flex max-w-[13rem] items-center gap-1.5 rounded-md py-1 pl-1 pr-2 text-left text-xs font-bold transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-night"

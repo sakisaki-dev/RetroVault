@@ -10,6 +10,7 @@ import { ChartTip } from '../stats/visual/chartParts';
 import { RATINGS, useSaveState, type Rating } from './saveData';
 import { DECLINE_AGE, DEFENSE, OFFENSE, agePyramid, buildClock, finalAge, improveChance, ratingsByBin, type ClockPlayer } from './clockModel';
 import { RATING_LABEL } from './clockParts';
+import { peekProps } from '@/components/peek/peekProps';
 import './clock.css';
 
 /**
@@ -241,6 +242,7 @@ const StarsScatter = ({ all, onSelect }: { all: ClockPlayer[]; onSelect: (p: Pla
             {placed.map((p) => (
               <circle
                 key={p.c.key}
+                {...peekProps(p.c.player)}
                 cx={p.x}
                 cy={p.y}
                 r={p.c.key === hover ? 6.5 : topKeys.has(p.c.key) ? 5 : 3.6}
@@ -257,6 +259,7 @@ const StarsScatter = ({ all, onSelect }: { all: ClockPlayer[]; onSelect: (p: Pla
               return (
                 <g
                   key={s.c.key}
+                  {...peekProps(s.c.player)}
                   tabIndex={0}
                   role="button"
                   aria-label={`${s.c.name}, ${s.c.pos}, ${s.c.team}, age ${s.c.age}, Career Legacy ${formatNumber(Math.round(s.c.legacy))}. Open his card`}
@@ -318,7 +321,7 @@ const StarsScatter = ({ all, onSelect }: { all: ClockPlayer[]; onSelect: (p: Pla
               .sort((a, b) => b.legacy - a.legacy)
               .slice(0, 25)
               .map((c) => (
-                <tr key={c.key}>
+                <tr key={c.key} {...peekProps(c.player)}>
                   <td>
                     {c.name} ({c.pos})
                   </td>

@@ -7,6 +7,7 @@ import type { CardInfo } from '../useCardPool';
 import PriceChart from './PriceChart';
 import ChangeBadge from './ChangeBadge';
 import { dirOf, type MarketRow } from './marketRows';
+import { peekKeyProps, peekProps } from '@/components/peek/peekProps';
 
 const teamVars = (info: CardInfo) => {
   const t = findNFLTeam(info.player.team);
@@ -63,7 +64,7 @@ export const IndexHeader = ({
 
 const TickerItem = ({ row, onOpen, copy }: { row: MarketRow; onOpen: () => void; copy?: boolean }) => (
   <li>
-    <button type="button" className={cn('mk-tick', `mk-flash--${dirOf(row.change)}`)} onClick={onOpen} tabIndex={copy ? -1 : undefined}>
+    <button type="button" className={cn('mk-tick', `mk-flash--${dirOf(row.change)}`)} {...peekProps(row.info.player)} onClick={onOpen} tabIndex={copy ? -1 : undefined}>
       <span className="mk-tick__pos">{row.info.player.position}</span>
       <span className="mk-tick__name">{row.info.player.name.split(' ').slice(-1)[0].toUpperCase()}</span>
       <span className="tabular-nums">{fmtCoins(row.value)}</span>
@@ -105,7 +106,7 @@ export const NewsChips = ({ news, onOpen }: { news: MarketNews[]; onOpen: (n: Ma
           const Icon = n.kind === 'move' && n.change < 0 ? TrendingDown : NEWS_ICON[n.kind];
           return (
             <li key={`${n.at}-${n.key}`}>
-              <button type="button" className={cn('mk-news__chip', `mk-news__chip--${n.kind}`)} onClick={() => onOpen(n)}>
+              <button type="button" className={cn('mk-news__chip', `mk-news__chip--${n.kind}`)} {...peekKeyProps(n.key)} onClick={() => onOpen(n)}>
                 <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                 <span className="mk-news__text">{n.text}</span>
                 <ChangeBadge change={n.change} />
@@ -124,7 +125,7 @@ export const MoverRow = ({ row, rank, maxAbs, onOpen }: { row: MarketRow; rank: 
   const dir = dirOf(row.change);
   return (
     <li>
-      <button type="button" className={cn('mk-tile', `mk-tile--${dir}`)} style={teamVars(row.info)} onClick={onOpen}>
+      <button type="button" className={cn('mk-tile', `mk-tile--${dir}`)} style={teamVars(row.info)} {...peekProps(row.info.player)} onClick={onOpen}>
         <span className="mk-tile__rank" aria-hidden="true">
           {rank}
         </span>

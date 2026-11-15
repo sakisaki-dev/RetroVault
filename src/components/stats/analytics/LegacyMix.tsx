@@ -8,6 +8,7 @@ import ChartFrame from './ChartFrame';
 import Chips from './Chips';
 import { VIZ, fmtNum } from './viz';
 import { keyOf } from '../records';
+import { peekProps } from '@/components/peek/peekProps';
 
 const TOP = 15;
 
@@ -76,6 +77,7 @@ const LegacyMix = ({ players, onSelect, title = 'Legacy composition', poster = f
                   <TooltipTrigger asChild>
                     <button
                       type="button"
+                      {...peekProps(player)}
                       onClick={() => onSelect(player)}
                       aria-label={`${summary(player, mix)}. Open player`}
                       className="grid w-full grid-cols-[minmax(0,7.5rem)_1fr] items-center gap-2 rounded px-1 py-0.5 text-left hover:bg-panel-2/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:grid-cols-[minmax(0,10rem)_1fr]"
@@ -136,7 +138,7 @@ const LegacyMix = ({ players, onSelect, title = 'Legacy composition', poster = f
               {rows.map(({ player, mix }) => (
                 <tr key={keyOf(player)} className="border-t border-line/40">
                   <th scope="row" className="px-2 py-1 text-left font-semibold">
-                    <button type="button" onClick={() => onSelect(player)} className="hover:text-gold">
+                    <button type="button" {...peekProps(player)} onClick={() => onSelect(player)} className="hover:text-gold">
                       {player.name}
                     </button>
                   </th>

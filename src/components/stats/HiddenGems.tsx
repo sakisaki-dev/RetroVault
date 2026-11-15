@@ -10,6 +10,7 @@ import { playerSkillGrades, type GradeStep } from '@/config/skillGrades';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import PositionBadge from '../PositionBadge';
 import TeamLogo from '../brand/TeamLogo';
+import { peekProps } from '@/components/peek/peekProps';
 
 /** Skill rating at least this high, and at least this many points above the official OVR. */
 const MIN_SKILL = 80;
@@ -135,6 +136,7 @@ const HiddenGems = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Player
               <li key={playerKey(g.player)}>
                 <button
                   type="button"
+                  {...peekProps(g.player)}
                   onClick={() => onSelect(g.player)}
                   aria-label={`${g.player.name}, ${g.player.position}: overall ${g.ovr}, skill rating ${g.skill} (${g.grade.grade}), ${g.gap} points higher. Open card`}
                   className="group flex w-full items-center gap-3 rounded-lg border border-line bg-night/40 px-3 py-2.5 text-left transition-colors hover:border-gold/60 hover:bg-panel-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"

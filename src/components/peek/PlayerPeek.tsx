@@ -40,11 +40,49 @@ import './playerPeek.css';
  * Nothing re-renders per move but the hovered action (its own tiny store); the action rects are read once, when the
  * card is placed. Skipped: inside the arcade's live game (.hall-game: a peek would give answers away), inside other
  * dialogs (the player card is already open there) unless they opt in with data-peek-ok, and under [data-no-peek].
+ *
+ * PEEK-THROUGH. Art that never takes taps (a sprite with pointer-events: none over a story's cover button) marks itself
+ * data-peek-through: when the pressed element has no player of its own, the nearest such mark under the finger within
+ * a few ancestors counts, so the hold finds him while a tap still lands on whatever is underneath.
  */
 
 const HOLD_MS = 450;
 const SLOP = 10;
 const SKIP = '.hall-game, [data-no-peek], input, textarea, select, [contenteditable="true"]';
+/** How many ancestors up a press looks for peek-through art under the finger */
+const THROUGH_DEPTH = 4;
+
+/** (x, y) falls outside what a clipping ancestor (overflow other than visible) shows of the mark, up to `top` */
+const clipped = (m: Element, top: Element, x: number, y: number) => {
+  for (let c = m.parentElement; c && c !== top.parentElement; c = c.parentElement) {
+    if (getComputedStyle(c).overflow === 'visible') continue;
+    const r = c.getBoundingClientRect();
+    if (x < r.left || x > r.right || y < r.top || y > r.bottom) return true;
+  }
+  return false;
+};
+
+/** The peek-through mark under (x, y) nearest the press, in the pressed element's own neighbourhood */
+const throughAt = (n: Element, x: number, y: number): HTMLElement | null => {
+  let a: Element | null = n;
+  for (let i = 0; a && i < THROUGH_DEPTH; a = a.parentElement, i++) {
+    const marks = a.querySelectorAll<HTMLElement>('[data-peek-through][data-player-key]');
+    if (!marks.length) continue;
+    let best: HTMLElement | null = null;
+    let bestD = Infinity;
+    marks.forEach((m) => {
+      const r = m.getBoundingClientRect();
+      if (x < r.left || x > r.right || y < r.top || y > r.bottom || m.closest(SKIP) || clipped(m, a!, x, y)) return;
+      const d = Math.hypot(x - (r.left + r.right) / 2, y - (r.top + r.bottom) / 2);
+      if (d < bestD) {
+        bestD = d;
+        best = m;
+      }
+    });
+    return best;
+  }
+  return null;
+};
 
 // ---------- Store (outside React: the gesture never re-renders anything until the card opens) ----------
 
@@ -157,10 +195,10 @@ const PlayerPeekLayer = () => {
       start = null;
       lost = false;
     };
-    const target = (t: EventTarget | null): { el: HTMLElement; key: string } | null => {
+    const target = (t: EventTarget | null, x: number, y: number): { el: HTMLElement; key: string } | null => {
       const n = t instanceof Element ? t : null;
       if (!n || n.closest(SKIP)) return null;
-      const el = n.closest<HTMLElement>('[data-player-key]');
+      const el = n.closest<HTMLElement>('[data-player-key]') ?? throughAt(n, x, y);
       if (!el) return null;
       const dlg = el.closest('[role="dialog"], [role="alertdialog"]');
       if (dlg && !dlg.closest('[data-peek-ok]')) return null;
@@ -178,7 +216,7 @@ const PlayerPeekLayer = () => {
       swallowClick = false;
       if (peek.get()?.held) return;
       if (e.button !== 0) return;
-      const t = target(e.target);
+      const t = target(e.target, e.clientX, e.clientY);
       if (!t) return;
       cancel();
       start = { x: e.clientX, y: e.clientY, id: e.pointerId, ...t };
@@ -252,7 +290,7 @@ const PlayerPeekLayer = () => {
       e.stopPropagation();
     };
     const onContext = (e: MouseEvent) => {
-      const t = target(e.target);
+      const t = target(e.target, e.clientX, e.clientY);
       if (!t) return;
       e.preventDefault();
       // A touch hold opens through the timer (Android also fires contextmenu then)

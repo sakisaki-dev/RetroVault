@@ -8,6 +8,7 @@ import { formatDecimal } from '@/utils/metricColors';
 import FitName from './FitName';
 import TeamLogo from '../brand/TeamLogo';
 import GameSprite from '../GameSprite';
+import { peekProps } from '../peek/peekProps';
 import { useGameSprites } from '@/utils/gameSprites';
 import CountUp from '../brand/CountUp';
 import { GROUP_META, type PaceEntry, type RecordBoardData } from './records';
@@ -64,6 +65,7 @@ const RecordChip = ({ data, index, onSelect, club }: { data: RecordBoardData; in
       <button
         type="button"
         onClick={() => onSelect(top.player)}
+        {...peekProps(top.player)}
         aria-label={`${data.title} record: ${fmt(top.value, data.decimals)} by ${top.player.name}${margin ? `, ${margin}${second ? ` (${second.player.name})` : ''}` : ''}. Open player`}
         className="hover-lift flex h-full w-full flex-col gap-1 rounded-lg border border-line bg-panel px-3 py-2.5 text-left"
         style={{ boxShadow: `inset 0 2px 0 hsl(${hsl})` }}
@@ -133,7 +135,7 @@ const SeasonChip = ({ row, index, players, onSelect }: { row: ClubRecordRow; ind
   return (
     <li className={cn(GRID_ITEM, 'stagger-in')} style={{ ['--i' as string]: index }}>
       {player ? (
-        <button type="button" onClick={() => onSelect(player)} aria-label={`${row.record}: ${L.mark} by ${name}. Open player`} className={cls} style={{ boxShadow: `inset 0 2px 0 hsl(${hsl})` }}>
+        <button type="button" onClick={() => onSelect(player)} {...peekProps(player)} aria-label={`${row.record}: ${L.mark} by ${name}. Open player`} className={cls} style={{ boxShadow: `inset 0 2px 0 hsl(${hsl})` }}>
           {body}
         </button>
       ) : (
@@ -196,7 +198,7 @@ const GameChip = ({ row, index, players, onSelect }: { row: ClubRecordRow; index
   return (
     <li className={cn(GRID_ITEM, 'stagger-in')} style={{ ['--i' as string]: index }}>
       {player ? (
-        <button type="button" onClick={() => onSelect(player)} aria-label={`${label}. Open player`} className={cls} style={{ boxShadow: `inset 0 2px 0 hsl(${hsl})` }}>
+        <button type="button" onClick={() => onSelect(player)} {...peekProps(player)} aria-label={`${label}. Open player`} className={cls} style={{ boxShadow: `inset 0 2px 0 hsl(${hsl})` }}>
           {body}
         </button>
       ) : (
@@ -291,6 +293,7 @@ const LeaderTile = ({ data, onSelect }: { data: RecordBoardData; onSelect: Selec
       <button
         type="button"
         onClick={() => onSelect(top.player)}
+        {...peekProps(top.player)}
         aria-label={`${data.title}: ${top.player.name}, ${fmt(top.value, data.decimals)}${data.minLabel ? ` (${data.minLabel})` : ''}${margin ? `, ${margin}` : ''}. Open player`}
         className="hover-lift relative flex h-full w-full flex-col gap-1 overflow-hidden rounded-lg border border-line bg-panel p-3 text-left"
       >

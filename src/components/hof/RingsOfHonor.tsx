@@ -5,6 +5,7 @@ import TeamLogo from '../brand/TeamLogo';
 import { HallHeading } from './hofParts';
 import { clubColors, fmt } from './hofUtils';
 import { cn } from '@/lib/utils';
+import { peekKeyProps } from '@/components/peek/peekProps';
 
 /** Rings of Honor: pick a club, see its ring (Hall of Famers first, in gold), in the club's colours. */
 const RingsOfHonor = ({
@@ -100,6 +101,7 @@ const RingsOfHonor = ({
               <li key={`${e.pos}:${e.name}`}>
                 <button
                   type="button"
+                  {...peekKeyProps(`${e.pos}:${e.name}`)}
                   onClick={() => onOpen(e)}
                   className="relative flex min-h-[48px] w-full items-center gap-3 px-3 py-2 text-left hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold sm:px-4"
                   aria-label={`${e.name}, ${e.pos}${e.hof ? ', Hall of Famer' : `, ${e.why}`}, Career Legacy ${fmt(e.careerLegacy)}. Open`}

@@ -42,6 +42,12 @@ export interface GameSpriteProps {
   legend?: boolean;
   /** A small tag when the kit isn't his club's (an unpainted neutral kit, another club's kit) */
   showKit?: boolean;
+  /**
+   * Press and hold the sprite for his quick look (components/peek): it carries his data-player-key and
+   * data-peek-through, so the quick look finds him under the finger while taps still fall through to whatever is under
+   * the sprite (a story's cover, a card). Only where the sprite stands for one league player outside the games.
+   */
+  peek?: boolean;
   className?: string;
   style?: CSSProperties;
   // ---- v1 props, still read (other pages use them): kind 'face' = bust, 'body' = figure; pose → action; scale /
@@ -113,7 +119,7 @@ const useProcessed = (src: string | undefined, paint: string | undefined, rows: 
 const px = (extra?: CSSProperties): CSSProperties => ({ imageRendering: 'pixelated', ...extra });
 
 const GameSprite = (props: GameSpriteProps) => {
-  const { player, team, legend = false, showKit = false, className, style } = props;
+  const { player, team, legend = false, showKit = false, peek = false, className, style } = props;
   const kind = props.kind === 'face' ? 'bust' : props.kind === 'body' || !props.kind ? 'figure' : props.kind;
   const size: SpriteSize = props.size ?? (kind === 'bust' ? sizeOf(props.scale) : sizeOf(props.nflScale ?? props.scale)) ?? 'm';
   const action: SpriteAction = props.action ?? (props.pose ? LEGACY_ACTION[props.pose] ?? 'idle' : 'idle');
@@ -152,7 +158,9 @@ const GameSprite = (props: GameSpriteProps) => {
   }, [sprites, nfl, legend, kind, club, action, name, position, spriteSkin, gameFace]);
 
   const tick = useTicker(regular.length > 1, action === 'run' ? 10 : 6);
+  const peekKey = peek && !legend && position && name ? `${position}:${name}` : undefined;
   const cls = cn('game-sprite pointer-events-none relative inline-block shrink-0 select-none', className);
+  const peekAttrs = peekKey ? { 'data-player-key': peekKey, 'data-peek-through': '' } : {};
 
   const kitTag = (() => {
     if (!showKit || !nfl) return null;
@@ -169,7 +177,7 @@ const GameSprite = (props: GameSpriteProps) => {
     const src = shaped;
     if (kind === 'bust') {
       return (
-        <span aria-hidden="true" className={cn(cls, 'overflow-hidden')} style={{ width: BUST.w * u, height: BUST.h * u, ...style }}>
+        <span aria-hidden="true" {...peekAttrs} className={cn(cls, 'overflow-hidden')} style={{ width: BUST.w * u, height: BUST.h * u, ...style }}>
           {src && (
             <img
               src={src}
@@ -186,7 +194,7 @@ const GameSprite = (props: GameSpriteProps) => {
       );
     }
     return (
-      <span aria-hidden="true" data-unit={u} className={cls} style={{ width: 64 * u, height: 64 * u, ...style }}>
+      <span aria-hidden="true" data-unit={u} {...peekAttrs} className={cls} style={{ width: 64 * u, height: 64 * u, ...style }}>
         {src && (
           <img
             src={src}
@@ -209,7 +217,7 @@ const GameSprite = (props: GameSpriteProps) => {
   if (kind === 'figure') {
     const s = 3 * u;
     return (
-      <span aria-hidden="true" data-unit={u} className={cls} style={{ width: 64 * u, height: 64 * u, ...style }}>
+      <span aria-hidden="true" data-unit={u} {...peekAttrs} className={cls} style={{ width: 64 * u, height: 64 * u, ...style }}>
         <img
           src={img.src}
           alt=""
@@ -221,7 +229,7 @@ const GameSprite = (props: GameSpriteProps) => {
     );
   }
   return (
-    <span aria-hidden="true" className={cls} style={{ width: img.w * u, height: img.h * u, ...style }}>
+    <span aria-hidden="true" {...peekAttrs} className={cls} style={{ width: img.w * u, height: img.h * u, ...style }}>
       <img src={img.src} alt="" draggable={false} className="absolute left-0 top-0 max-w-none" style={px({ width: img.w * u, height: img.h * u })} />
     </span>
   );

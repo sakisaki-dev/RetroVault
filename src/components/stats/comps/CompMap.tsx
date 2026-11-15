@@ -11,6 +11,7 @@ import { keyOf } from '../records';
 import { FamilyPanel, FamilyZoneLabels, FamilyZoneLayer } from '../visual/FamilyZones';
 import { buildZones } from '../visual/zones';
 import { dotColors } from './compColors';
+import { peekProps } from '../../peek/peekProps';
 import type { SimilarityMap } from './compModel';
 
 const GOLD = 'hsl(43 100% 62%)';
@@ -404,6 +405,7 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
             return (
               <g
                 key={p.key}
+                {...peekProps(p.player)}
                 className="fz-dot cursor-pointer outline-none"
                 opacity={famDim ? 0.18 : 1}
                 tabIndex={0}

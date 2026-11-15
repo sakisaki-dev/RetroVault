@@ -9,6 +9,7 @@ import { NFL_TEAMS } from '@/utils/nflTeams';
 import { bannerTeamOf } from '@/utils/playerExtras';
 import { getTeamColors } from '@/utils/teamColors';
 import { useJerseyNumbers } from '@/utils/jerseys';
+import { peekProps } from '@/components/peek/peekProps';
 
 /**
  * Club identity for the news desk (Season Story, Hot Takes, the reading sheet): club colours as CSS vars, the real
@@ -130,7 +131,7 @@ export const PlayerBanners = ({ names, players, onPlayer, max = 3, className, la
     <ul className={cn('nz-banners', className)} aria-label={label}>
       {shown.map((p) => (
         <li key={p.name}>
-          <button type="button" className="nz-banner" onClick={() => onPlayer(p)} aria-label={`Open ${p.name}'s card`}>
+          <button type="button" className="nz-banner" {...peekProps(p)} onClick={() => onPlayer(p)} aria-label={`Open ${p.name}'s card`}>
             <ProPlayerBanner size="compact" name={p.name} position={p.position} team={bannerTeamOf(p)} number={numberFor(p)} interactive />
           </button>
         </li>

@@ -7,6 +7,7 @@ import ProPlayerBanner from '@/components/brand/ProPlayerBanner';
 import { fmtNum } from '@/components/stats/analytics/viz';
 import { openInCompFinder } from '@/components/stats/comps/compFinderLink';
 import { headlineStats } from './statLines';
+import { peekProps } from '@/components/peek/peekProps';
 
 interface Props {
   player: Player;
@@ -92,6 +93,7 @@ const CompsPanel = ({ player, players, numberFor, onSelect, onNavigate }: Props)
                   {/* Stretched button: the whole tile is clickable, but only this element is interactive */}
                   <button
                     type="button"
+                    {...peekProps(c)}
                     onClick={() => onSelect(c)}
                     className="mt-auto inline-flex items-center gap-1 pt-1 text-xs font-semibold text-[color:var(--tc-accent)] after:absolute after:inset-0 after:content-[''] focus-visible:outline-none"
                   >

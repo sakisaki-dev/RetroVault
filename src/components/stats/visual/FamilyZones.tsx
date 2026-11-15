@@ -5,6 +5,7 @@ import { isHallOfFamer } from '@/config/stats';
 import { VIZ } from '../analytics/viz';
 import { placeZoneLabels, type ZoneShape } from './zones';
 import './familyZones.css';
+import { peekProps } from '@/components/peek/peekProps';
 
 /**
  * Family zones, shared by the similarity map (CompMap) and the Graph Builder scatter: the shaded regions (drawn
@@ -212,6 +213,7 @@ export const FamilyPanel = ({
                   type="button"
                   title={pickLabel}
                   className="flex items-center gap-1.5 rounded-full border border-line/70 bg-white/[0.03] px-2 py-0.5 text-xs hover:border-gold/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                  {...peekProps(p)}
                   onClick={() => onPick(p)}
                 >
                   <span className="font-mono text-[10px] text-muted-foreground">{i + 1}</span>

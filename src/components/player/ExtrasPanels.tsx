@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { formatDecimal } from '@/utils/metricColors';
 import type { FamilyTie, PlayerCardExtras, RealNflCareer } from '@/utils/playerExtras';
 import type { Player } from '@/types/player';
+import { peekProps } from '@/components/peek/peekProps';
 
 // Secondary info from player-extras.json; never merged into career totals.
 
@@ -165,6 +166,7 @@ export const FamilyChips = ({
         <button
           key={`${tie.label}:${tie.name}`}
           type="button"
+          {...peekProps(target)}
           onClick={() => onSelect(target)}
           className={cn(
             'rounded-full border border-line bg-panel-2 px-2.5 py-1 hover:border-[color:var(--tc-accent)] hover:text-[color:var(--tc-accent)]',

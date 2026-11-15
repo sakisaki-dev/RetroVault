@@ -31,6 +31,7 @@ import { ALT_VALUE_BONUS, ERA_VALUE_BONUS, PARALLEL_MULTIPLIER, SERIAL_ONE_BONUS
 import { matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
 import { editionAccent } from '@/utils/edition';
 import { isHallOfFamer } from '@/config/stats';
+import { peekProps } from '@/components/peek/peekProps';
 import {
   CLAIM_COST,
   CRAFT_COST,
@@ -589,7 +590,7 @@ const CollectionTab = () => {
           </h2>
           <ul className={cn('col-showcase', gridMotion)}>
             {showcase.map((c) => (
-              <li key={c.key}>
+              <li key={c.key} {...peekProps(c.player)}>
                 <CollectibleCard
                   owned
                   live={owned[c.key].best === 'holo' || c.tier === 'legendary'}
@@ -769,7 +770,7 @@ const CollectionTab = () => {
               // One tile per player: his display choice, else his rarest variant owned at that variant's best finish
               const d = entry ? displayWithKit(entry, state.display?.[c.key], c.player) : undefined;
               return (
-                <li key={c.key} className={cn('fut-tile', fresh?.has(c.key) && 'fut-tile--fresh')}>
+                <li key={c.key} className={cn('fut-tile', fresh?.has(c.key) && 'fut-tile--fresh')} {...peekProps(entry ? c.player : null)}>
                   <CollectibleCard
                     player={c.player}
                     tier={c.tier}

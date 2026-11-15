@@ -10,6 +10,7 @@ import { signatureTeamOf, usePlayerExtras, type IndexedExtras } from '@/utils/pl
 import { fmtNum, ordinal } from '../analytics/viz';
 import { GROUP_META, type RecordBoardData } from '../records';
 import { GradeChip } from './ddParts';
+import { peekProps } from '@/components/peek/peekProps';
 
 /** Rows shown before the divider; the viewed player is appended below it when he sits further down. */
 const TOP = 10;
@@ -63,6 +64,7 @@ const Row = ({ place, row, me, extras, onOpen }: { place: number | null; row: Pe
         data-rbk-row=""
         data-me={me || undefined}
         aria-current={me || undefined}
+        {...peekProps(row.player)}
         onClick={() => onOpen(row.player)}
         style={{ '--rb-1': c ? `hsl(${c.primary})` : 'hsl(var(--line))' } as CSSProperties}
         className="rbk-row flex w-full items-center gap-2 rounded-md py-1 pl-2.5 pr-2 text-left focus-visible:outline-none"

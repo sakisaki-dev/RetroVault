@@ -16,6 +16,7 @@ import TierBoard, { type Tier } from './TierBoard';
 import StatStrips, { StatStripsTable } from './StatStrips';
 import FamilyMap from './FamilyMap';
 import { familiesFor } from '@/config/families';
+import { peekProps } from '@/components/peek/peekProps';
 
 type View = 'tiers' | 'strips' | 'families';
 type TierBy = 'skill' | 'ovr';
@@ -73,7 +74,7 @@ const FamilyTable = ({ players, position, onSelect }: { players: Player[]; posit
                 {f.members.map((p, i) => (
                   <span key={p.name}>
                     {i > 0 && ', '}
-                    <button type="button" onClick={() => onSelect(p)} className="font-semibold hover:text-gold">
+                    <button type="button" {...peekProps(p)} onClick={() => onSelect(p)} className="font-semibold hover:text-gold">
                       {p.name}
                     </button>
                   </span>
@@ -164,7 +165,7 @@ const LeagueGallery = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Pla
                       <tr key={`${t.letter}:${e.player.name}`} className="border-t border-line/40">
                         <td className="px-2 py-1 font-display font-bold">{t.letter}</td>
                         <td className="px-2 py-1">
-                          <button type="button" onClick={() => onSelect(e.player)} className="font-semibold hover:text-gold">
+                          <button type="button" {...peekProps(e.player)} onClick={() => onSelect(e.player)} className="font-semibold hover:text-gold">
                             {e.player.name}
                           </button>
                           <span className="ml-1 text-xs text-muted-foreground">

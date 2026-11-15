@@ -347,6 +347,7 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
                               <li key={`${l.player.position}:${l.player.name}`} className="min-w-0">
                                 <button
                                   type="button"
+                                  {...peekProps(l.player)}
                                   onClick={() => setSelectedPlayer(l.player)}
                                   className="group flex w-full flex-col overflow-hidden rounded-xl border border-border bg-card text-left hover:border-line"
                                   aria-label={`${l.player.name}, ${l.player.position}${l.years ? `, here ${l.years}` : ''}${l.rings.length ? `, ${l.rings.length} ${l.rings.length === 1 ? 'ring' : 'rings'} here` : ''}, ${Math.round(l.player.careerLegacy || 0).toLocaleString()} Career Legacy. Open player`}
@@ -432,6 +433,7 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
                             <li key={`${p.position}:${p.name}`} className="min-w-0">
                               <button
                                 type="button"
+                                {...peekProps(p)}
                                 onClick={() => setSelectedPlayer(p)}
                                 className="flex w-full flex-col overflow-hidden rounded-lg border border-border bg-card text-left hover:border-line"
                                 aria-label={`${p.name}, ${p.position}, number ${numberFor(p)}: ${p.games} games, ${p.rings} ${p.rings === 1 ? 'ring' : 'rings'}, ${Math.round(p.careerLegacy || 0).toLocaleString()} Career Legacy. Open player`}

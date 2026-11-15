@@ -3,6 +3,7 @@ import type { Player } from '@/types/player';
 import { similarAmong, type Comp, type SimilarityMode } from '@/config/advanced';
 import { playerKey } from '@/config/ovr';
 import TeamLogo from '../../brand/TeamLogo';
+import { peekProps } from '@/components/peek/peekProps';
 
 export type RealCompSets = { mode: SimilarityMode; comps: Comp[] }[];
 
@@ -36,6 +37,7 @@ const CompRow = ({ comp, ovr, onSelect }: { comp: Comp; ovr?: number; onSelect: 
     <li>
       <button
         type="button"
+        {...peekProps(p)}
         onClick={() => onSelect(p)}
         aria-label={`${p.name}, real NFL ${p.position}: ${pct}% similar. Open card`}
         className="group flex w-full items-center gap-2.5 rounded-lg border border-line bg-night/40 px-2.5 py-2 text-left transition-colors hover:border-gold/60 hover:bg-panel-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"

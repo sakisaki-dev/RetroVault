@@ -13,6 +13,7 @@ import Chips from './Chips';
 import { fmtNum, fmtPlus, ordinal } from './viz';
 import { keyOf } from '../records';
 import PlusLollipop from '../visual/PlusLollipop';
+import { peekProps } from '@/components/peek/peekProps';
 
 const SHOWN = 12;
 
@@ -132,6 +133,7 @@ const MetricLeaderboard = ({ players, ctx, position, extras = [], onSelect }: Pr
                 <td className="py-1.5">
                   <button
                     type="button"
+                    {...peekProps(r.player)}
                     onClick={() => onSelect(r.player)}
                     className="flex w-full min-w-0 items-center gap-1.5 rounded text-left font-semibold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                   >

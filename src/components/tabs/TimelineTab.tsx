@@ -2,7 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CalendarRange, Flame, GitBranch, Loader2, Trophy } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
-import { latestSeasonYear, useLeagueContent } from '@/utils/leagueContent';
+import { latestSeasonYear, matchPlayerByName, useLeagueContent } from '@/utils/leagueContent';
+import { peekProps } from '@/components/peek/peekProps';
 import PlayerDetailCard from '@/components/PlayerDetailCard';
 import { buildTimelineModel, eraForYear, type PlacedEra } from '@/components/timeline/timelineModel';
 import { HorizontalTrack, VerticalTrack } from '@/components/timeline/EraTrack';
@@ -247,7 +248,7 @@ const TimelineTab = () => {
                         →
                       </span>
                     )}
-                    <span className="rounded-md bg-secondary/50 px-2 py-1">{c}</span>
+                    <span className="rounded-md bg-secondary/50 px-2 py-1" {...peekProps(matchPlayerByName(c, players))}>{c}</span>
                   </li>
                 ))}
               </ol>

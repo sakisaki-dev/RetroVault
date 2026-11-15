@@ -12,6 +12,7 @@ import { useJerseyNumbers } from '@/utils/jerseys';
 import type { AwardRace, LeaderBoard, RatingPart, SeasonEntry, SeasonRating } from '@/utils/seasonLive';
 import { BOARD_BG, LampGrid, color } from './seasonGamesUi';
 import { SectionTitle, Toggle } from './SeasonGames';
+import { peekKeyProps } from '@/components/peek/peekProps';
 
 /**
  * The live season's player sections, slotted into the Season page's backbone (SeasonGames.tsx) in its own idiom:
@@ -35,7 +36,7 @@ export const PlayerFigure = ({ e, player, action, size, crown = false }: { e: Se
   const sprites = useGameSprites();
   if (sprites)
     return (
-      <span className={cn('sz-fig', `sz-fig--${size}`)}>
+      <span className={cn('sz-fig', `sz-fig--${size}`)} {...peekKeyProps(e.carded ? e.key : null)}>
         <GameSprite
           player={{ name: e.name, position: e.pos, team: e.team, bannerTeam: e.team, spriteSkin: player?.spriteSkin }}
           team={e.team}
@@ -47,7 +48,7 @@ export const PlayerFigure = ({ e, player, action, size, crown = false }: { e: Se
     );
   const nfl = findNFLTeam(e.team);
   return (
-    <span className={cn('sz-fig', `sz-fig--${size}`)} aria-hidden>
+    <span className={cn('sz-fig', `sz-fig--${size}`)} aria-hidden {...peekKeyProps(e.carded ? e.key : null)}>
       <span
         className={cn('sz-token', crown && 'is-crowned')}
         style={{ ['--a' as string]: nfl ? `hsl(${nfl.primaryColor})` : 'hsl(var(--muted))', ['--b' as string]: nfl ? `hsl(${nfl.secondaryColor})` : 'hsl(var(--line))' } as CSSProperties}
@@ -174,6 +175,7 @@ export const AwardRaces = ({ races, lookup, weeksPlayed }: { races: AwardRace[];
               {race.rows.map((r, i) => (
                 <li
                   key={r.entry.key}
+                  {...peekKeyProps(r.entry.carded ? r.entry.key : null)}
                   className={cn(
                     'relative flex items-start gap-3 overflow-hidden rounded-lg border px-3 py-2 text-sm',
                     i === 0 ? 'border-[hsl(45_100%_55%/0.55)] bg-[hsl(45_100%_55%/0.07)]' : 'border-border/40 bg-background/40',
@@ -237,6 +239,7 @@ const LeaderCard = ({ board, lookup }: { board: LeaderBoard; lookup: PlayerLooku
     e.carded ? (
       <button
         type="button"
+        {...peekKeyProps(e.key)}
         onClick={() => openDive(e)}
         aria-label={`${e.name}, ${e.pos}, ${e.team}: open in the Deep Dive`}
         className={cn('block w-full rounded-xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--gold))]', className)}
@@ -333,7 +336,7 @@ export const InjuryReport = ({ entries }: { entries: SeasonEntry[] }) => {
       {hurt.length ? (
         <ul className="grid gap-2 md:grid-cols-2 xl:grid-cols-3">
           {hurt.map((e) => (
-            <li key={e.key} className="relative flex min-h-[52px] items-center gap-3 overflow-hidden rounded-lg border border-border/40 bg-background/40 px-3 py-2 text-sm">
+            <li key={e.key} {...peekKeyProps(e.carded ? e.key : null)} className="relative flex min-h-[52px] items-center gap-3 overflow-hidden rounded-lg border border-border/40 bg-background/40 px-3 py-2 text-sm">
               <span aria-hidden className="absolute inset-y-0 left-0 w-1" style={{ background: color(e.team) }} />
               <div className="min-w-0 flex-1">
                 <PlayerName e={e} />

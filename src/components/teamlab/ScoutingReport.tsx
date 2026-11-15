@@ -9,6 +9,7 @@ import { ordinal, type OfficeState } from '@/utils/clubOffice';
 import { SLOTS, type LabContext, type Lineup } from '@/utils/teamLab';
 import { labLedger } from './labOffice';
 import { PixelStars } from './labArt';
+import { peekProps } from '@/components/peek/peekProps';
 
 /**
  * The broadcast half of the scouting report: the lineup through the game's own rules, from the live save. Team
@@ -125,7 +126,7 @@ const ScoutingReport = ({ ctx, lineup, office }: { ctx: LabContext; lineup: Line
             } as CSSProperties;
             const row = r!;
             return (
-              <div key={slot.id} className="lab-ledger-row" role="row">
+              <div key={slot.id} className="lab-ledger-row" role="row" {...peekProps(p!.player)}>
                 <span role="cell" className="lab-strip" style={strip}>
                   <TeamLogo team={club} size={16} decorative />
                   <b>{row.spos}</b>

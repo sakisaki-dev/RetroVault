@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { fmtCoins } from '@/utils/cardMarket';
 import { squarify } from './treemap';
 import { changeText, dirOf, type MarketRow } from './marketRows';
+import { peekProps } from '@/components/peek/peekProps';
 
 const POS_ORDER = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
 const GAP = 2;
@@ -62,6 +63,7 @@ const Heatmap = ({ rows, onOpen }: { rows: MarketRow[]; onOpen: (r: MarketRow) =
                 style={{ left: t.x + 1, top: t.y + 1, width: Math.max(0, t.w - 2), height: Math.max(0, t.h - 2), ...fill(r.change) }}
                 aria-label={label}
                 title={label}
+                {...peekProps(r.info.player)}
                 onClick={() => onOpen(r)}
               >
                 <span className="mk-heat__name">{r.info.player.name.split(' ').slice(-1)[0]}</span>

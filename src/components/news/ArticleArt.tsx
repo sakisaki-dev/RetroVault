@@ -156,11 +156,11 @@ const ArticleArt = ({ league, variant = 'card', className, fallback = null, ...i
           <TeamLogo team={r.clubs[1] ?? b?.club} size={variant === 'hero' ? 120 : 64} decorative className="na-logo" />
         </span>
         <span className="na-turfline" aria-hidden="true" />
-        <span className="na-slot na-slot--a">{a && <GameSprite player={a.p} team={a.club} kind="figure" size={size} action={input.kind === 'lead' ? 'celebrate' : 'idle'} />}</span>
+        <span className="na-slot na-slot--a">{a && <GameSprite peek player={a.p} team={a.club} kind="figure" size={size} action={input.kind === 'lead' ? 'celebrate' : 'idle'} />}</span>
         <span className="na-vs" aria-hidden="true">
           VS
         </span>
-        <span className="na-slot na-slot--b">{b && <GameSprite player={b.p} team={b.club} kind="figure" size={size} />}</span>
+        <span className="na-slot na-slot--b">{b && <GameSprite peek player={b.p} team={b.club} kind="figure" size={size} />}</span>
       </div>
     );
   }
@@ -173,7 +173,7 @@ const ArticleArt = ({ league, variant = 'card', className, fallback = null, ...i
         <div className="na-row">
           {order.map((c, i) => (
             <span key={c.p.name} className={cn('na-slot', r.scene === 'podium' && `na-step na-step--${order.length === 3 ? [2, 1, 3][i] : i + 1}`)}>
-              <GameSprite player={c.p} team={c.club} kind="figure" size={small} action={r.scene === 'podium' && c === r.cast[0] ? 'celebrate' : 'idle'} />
+              <GameSprite peek player={c.p} team={c.club} kind="figure" size={small} action={r.scene === 'podium' && c === r.cast[0] ? 'celebrate' : 'idle'} />
             </span>
           ))}
         </div>
@@ -189,7 +189,7 @@ const ArticleArt = ({ league, variant = 'card', className, fallback = null, ...i
       <TeamLogo team={c.club} size={variant === 'hero' ? 44 : variant === 'side' ? 22 : 28} decorative className="na-corner" />
       <Sky sky={r.sky} />
       <span className="na-slot na-slot--solo">
-        <GameSprite player={c.p} team={c.club} kind="figure" size={size} action={r.action} />
+        <GameSprite peek player={c.p} team={c.club} kind="figure" size={size} action={r.action} />
       </span>
     </div>
   );

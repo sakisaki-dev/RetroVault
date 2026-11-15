@@ -10,6 +10,7 @@ import { useJerseyNumbers } from '@/utils/jerseys';
 import { SLOTS, type LabContext, type Lineup, type PlayerProfile, type SlotId } from '@/utils/teamLab';
 import { FIELD_ART, type FieldArt, type Turf } from './fieldArt';
 import { PixelPlayer } from './labArt';
+import { peekProps } from '@/components/peek/peekProps';
 
 /**
  * The lineup standing in formation on the game's turf (private build: Retro Bowl's own field, crowd and sideline crew
@@ -165,6 +166,7 @@ const LabField = ({ ctx, lineup, kitClub, turf, art, tall, size, onPick, overlay
             type="button"
             className="lab-spot"
             style={style}
+            {...peekProps(p.player)}
             onClick={() => onPick(s.id)}
             aria-label={`${p.position} ${p.name}, grade ${p.grade?.grade ?? 'none'}. Change ${s.side === 'defense' ? 'this defender' : s.label}`}
           >

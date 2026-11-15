@@ -8,6 +8,7 @@ import { usePhone } from '@/hooks/usePhone';
 import CoachSprite from '../CoachSprite';
 import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 import GameSprite from '../GameSprite';
+import { peekProps } from '../peek/peekProps';
 import TeamLogo from '../brand/TeamLogo';
 
 /**
@@ -64,22 +65,22 @@ const TeamPhoto = ({ season, winner, players, featured }: Props) => {
         </span>
         <div className="tp-row tp-row--back" aria-hidden="true">
           {back.map((p) => (
-            <GameSprite key={p.name} player={p} team={team.name} kind="figure" size="m" />
+            <GameSprite key={p.name} player={p} team={team.name} kind="figure" size="m" peek />
           ))}
         </div>
         <div className="tp-row tp-row--front" aria-hidden="true">
           {front.slice(0, mid).map((p) => (
-            <GameSprite key={p.name} player={p} team={team.name} kind="figure" size="m" />
+            <GameSprite key={p.name} player={p} team={team.name} kind="figure" size="m" peek />
           ))}
-          <GameSprite player={star} team={team.name} kind="figure" size="l" action="celebrate" className="tp-star" />
+          <GameSprite player={star} team={team.name} kind="figure" size="l" action="celebrate" className="tp-star" peek />
           {front.slice(mid).map((p) => (
-            <GameSprite key={p.name} player={p} team={team.name} kind="figure" size="m" />
+            <GameSprite key={p.name} player={p} team={team.name} kind="figure" size="m" peek />
           ))}
         </div>
         {withCoach && <CoachSprite who="head" team={team.name} size="m" className="tp-coach" />}
       </div>
       <figcaption className="tp-cap">
-        Front and centre: <b>{star.name}</b> · {roster.length} ring holders
+        Front and centre: <b {...peekProps(star)} data-peek-through>{star.name}</b> · {roster.length} ring holders
         {withCoach && coach?.name && (
           <>
             {' '}

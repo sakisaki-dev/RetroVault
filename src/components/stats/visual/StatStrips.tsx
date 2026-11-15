@@ -10,6 +10,7 @@ import { VIZ, fmtNum, fmtPlus, ordinal } from '../analytics/viz';
 import { keyOf } from '../records';
 import { GOLD, niceTicks, swarm, teamMark, useWidth } from './chartKit';
 import { ChartTip } from './chartParts';
+import { peekProps } from '@/components/peek/peekProps';
 
 const R = 5;
 const PAD_X = 10;
@@ -90,6 +91,7 @@ const StripDotMark = ({
       tabIndex={0}
       aria-label={`${p.name}${p.team ? `, ${p.team}` : ''}: ${fmtV(strip.board, d.row.value)} ${strip.board.metric.short}, rank ${d.row.rank} of ${strip.board.rows.length}${hof ? ', Hall of Famer' : ''}. Open player`}
       className="cursor-pointer outline-none [&:focus-visible>.ring]:stroke-[hsl(43_100%_62%)]"
+      {...peekProps(p)}
       onClick={() => onSelect(p)}
       onKeyDown={onKey}
       onMouseEnter={() => onShow({ d, strip })}
@@ -168,6 +170,7 @@ const StatStrips = ({ players, ctx, position, onSelect }: { players: Player[]; c
                   label={s.board.rows[0].player.name}
                   size="sm"
                   className="font-sans normal-case"
+                  {...peekProps(s.board.rows[0].player)}
                   onClick={() => onSelect(s.board.rows[0].player)}
                 />
               </span>
@@ -217,7 +220,7 @@ export const StatStripsTable = ({ players, ctx, position, onSelect }: { players:
               <tr key={keyOf(r.player)} className="border-t border-line/40">
                 <td className="w-6 py-0.5 font-pixel text-[9px] text-muted-foreground">{r.rank}</td>
                 <td className="py-0.5">
-                  <button type="button" onClick={() => onSelect(r.player)} className="font-semibold hover:text-gold">
+                  <button type="button" {...peekProps(r.player)} onClick={() => onSelect(r.player)} className="font-semibold hover:text-gold">
                     {r.player.name}
                   </button>
                 </td>

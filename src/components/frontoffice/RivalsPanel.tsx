@@ -5,6 +5,15 @@ import type { HeadToHead } from '@/utils/schedule';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { rivalryGames, yourScore, type Nemesis, type Resume, type YourGame } from '@/utils/frontOffice';
 import { staggerStyle, teamVars } from './shared';
+import { useLeague } from '@/context/LeagueContext';
+import { matchPlayerByName } from '@/utils/leagueContent';
+import { peekProps } from '@/components/peek/peekProps';
+
+/** A rival player's name: press and hold for his quick look */
+const RivalName = ({ name }: { name: string }) => {
+  const { getAllPlayers } = useLeague();
+  return <span {...peekProps(matchPlayerByName(name, getAllPlayers()))}>{name}</span>;
+};
 
 const GameLine = ({ g }: { g: YourGame }) => (
   <li className="flex items-center gap-2 rounded-md bg-black/40 px-2.5 py-1.5 text-sm">
@@ -82,7 +91,7 @@ const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => (
                       Featured rivalry{kicker ? ` · ${kicker}` : ''}
                     </p>
                     <h3 id={`fo-rival-${r.id}`} className="font-display text-2xl uppercase leading-tight">
-                      {r.rival === r.team ? (team?.fullName ?? r.rival) : r.rival}
+                      {r.rival === r.team ? (team?.fullName ?? r.rival) : <RivalName name={r.rival} />}
                       {team && r.rival !== r.team && <span className="text-muted-foreground">'s {team.name}</span>}
                     </h3>
                   </div>

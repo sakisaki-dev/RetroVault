@@ -8,6 +8,7 @@ import { useGameSprites } from '@/utils/gameSprites';
 import { usePhone } from '@/hooks/usePhone';
 import type { CapRow, OfficeState } from '@/utils/clubOffice';
 import { Desk, Lamp, PickToken } from './board';
+import { peekProps } from '../peek/peekProps';
 
 /** Half-stars (1 to 10) as five stars. */
 export const Stars = ({ half, className }: { half: number; className?: string }) => {
@@ -151,7 +152,7 @@ const CapSheet = ({ state, rows, playerFor, onPlayerSelect }: CapSheetProps) => 
             const player = playerFor(r);
             return (
               <li key={r.key} style={{ flexGrow: r.p.salary }} title={`${r.name}, ${r.spos}: ${r.p.salary}`}>
-                <button type="button" className="fo-payroll__who" onClick={() => player && onPlayerSelect(player)} disabled={!player} aria-label={`${r.name}, salary ${r.p.salary}. Open player card`}>
+                <button type="button" className="fo-payroll__who" {...peekProps(player)} onClick={() => player && onPlayerSelect(player)} disabled={!player} aria-label={`${r.name}, salary ${r.p.salary}. Open player card`}>
                   <span className="fo-payroll__bust">
                     <Bust player={player} r={r} team={state.club} size={phone ? 's' : 'm'} />
                   </span>
@@ -200,7 +201,7 @@ const CapSheet = ({ state, rows, playerFor, onPlayerSelect }: CapSheetProps) => 
           const player = playerFor(r);
           const grow = r.ceiling - r.stars;
           return (
-            <div key={r.key} className="fo-cap__row" role="row">
+            <div key={r.key} className="fo-cap__row" role="row" {...peekProps(player)}>
               <div role="cell" className="fo-cap__who">
                 <span className="fo-cap__face" aria-hidden="true">
                   <Bust player={player} r={r} team={state.club} size="s" />

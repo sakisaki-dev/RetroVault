@@ -9,6 +9,7 @@ import { FEATURED_PER_STINT, fmtPct, seasonRecord, yourScore, type Stint } from 
 import CoachStand from './CoachStand';
 import { FinishTag } from './SeasonLog';
 import { staggerStyle, teamVars, yearSpan } from './shared';
+import { peekProps } from '@/components/peek/peekProps';
 
 interface FranchiseHistoryProps {
   stints: Stint[];
@@ -120,6 +121,7 @@ const FranchiseHistory = ({ stints, onPlayerSelect, numberFor }: FranchiseHistor
                         <li key={k.raw}>
                           <button
                             type="button"
+                            {...peekProps(k.player)}
                             onClick={() => onPlayerSelect(k.player!)}
                             className="block w-full rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             aria-label={`${k.player.name}, ${k.player.position}. Open player card`}
@@ -144,10 +146,12 @@ const FranchiseHistory = ({ stints, onPlayerSelect, numberFor }: FranchiseHistor
                     {more > 0 && (
                       <li className="text-[11px] text-muted-foreground sm:col-span-2">
                         +{more} more {s.keySource === 'stints' ? (s.current ? 'on the roster' : 'from this stint') : `from ${s.eras.length === 1 ? 'this era' : 'these eras'}`}:{' '}
-                        {s.keyPlayers
-                          .slice(FEATURED_PER_STINT, FEATURED_PER_STINT + 3)
-                          .map((k) => k.player?.name ?? k.display)
-                          .join(', ')}
+                        {s.keyPlayers.slice(FEATURED_PER_STINT, FEATURED_PER_STINT + 3).map((k, i) => (
+                          <span key={k.raw}>
+                            {i > 0 && ', '}
+                            <span {...peekProps(k.player)}>{k.player?.name ?? k.display}</span>
+                          </span>
+                        ))}
                         {more > 3 ? '…' : ''}
                       </li>
                     )}

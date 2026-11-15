@@ -4,6 +4,7 @@ import { getReadableTextOn } from '@/utils/teamColors';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import type { Position } from '@/types/player';
 import { splitPlayerName } from '../brand/ProPlayerBanner.utils';
+import { peekKeyProps } from '@/components/peek/peekProps';
 
 interface RetiredRaftersProps {
   team: NFLTeam | null;
@@ -89,7 +90,7 @@ const RetiredRafters = ({ team, retired, yearsFor, onSelect, title = 'Retired nu
               return (
                 <li key={`${r.number}-${r.name}`} className="relative shrink-0" title={label}>
                   {onSelect && r.playerKey ? (
-                    <button type="button" onClick={() => onSelect(r)} className="relative block rounded hover:brightness-110" aria-label={`${label}. Open player`}>
+                    <button type="button" {...peekKeyProps(r.playerKey)} onClick={() => onSelect(r)} className="relative block rounded hover:brightness-110" aria-label={`${label}. Open player`}>
                       {body}
                     </button>
                   ) : (

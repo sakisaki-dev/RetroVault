@@ -22,6 +22,7 @@ import { useHubRoute } from '../hub/hashRoute';
 import LegacyMix from './LegacyMix';
 import { fmtNum } from './viz';
 import { GRID_ITEM, gridVars } from '../grid';
+import { peekProps } from '@/components/peek/peekProps';
 
 type Select = (p: Player) => void;
 
@@ -51,6 +52,7 @@ const InsightTile = ({ insight, onSelect }: { insight: Insight; onSelect: Select
     </span>
     <button
       type="button"
+      {...peekProps(insight.player)}
       onClick={() => onSelect(insight.player)}
       className="flex min-w-0 items-center gap-1.5 rounded text-left text-sm font-semibold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
     >

@@ -4,6 +4,7 @@ import type { Player } from '@/types/player';
 import PositionBadge from '../../PositionBadge';
 import TeamLogo from '../../brand/TeamLogo';
 import ClubStrip from '../../brand/ClubStrip';
+import { peekProps } from '../../peek/peekProps';
 import { bannerTeamOf } from '@/utils/playerExtras';
 import ChartFrame from '../analytics/ChartFrame';
 import { VIZ, fmtNum } from '../analytics/viz';
@@ -32,7 +33,7 @@ const ChaseRow = ({ row, max, onSelect }: { row: Row; max: number; onSelect: Sel
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
         <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5">
           {p.team && <TeamLogo team={p.team} size={20} decorative backed />}
-          <button type="button" onClick={() => onSelect(p)} className="truncate rounded font-display text-base font-bold uppercase hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
+          <button type="button" onClick={() => onSelect(p)} {...peekProps(p)} className="truncate rounded font-display text-base font-bold uppercase hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
             {p.name}
           </button>
           <PositionBadge position={p.position} className="min-w-[2rem] px-1.5 py-0.5 text-[10px]" />
@@ -43,6 +44,7 @@ const ChaseRow = ({ row, max, onSelect }: { row: Row; max: number; onSelect: Sel
               label={pace.recordHolder.name}
               size="sm"
               onClick={() => onSelect(pace.recordHolder)}
+              playerKey={peekProps(pace.recordHolder)['data-player-key']}
             />
           </span>
         </div>
@@ -136,7 +138,7 @@ const ChaseChart = ({ pace, onSelect, title = 'Chasing history', intro }: { pace
             </thead>
             <tbody>
               {rows.map(({ pace: p, cur }) => (
-                <tr key={`${keyOf(p.player)}:${p.recordName}`} className="border-t border-line/40">
+                <tr key={`${keyOf(p.player)}:${p.recordName}`} className="border-t border-line/40" {...peekProps(p.player)}>
                   <td className="px-2 py-1">
                     <button type="button" onClick={() => onSelect(p.player)} className="font-semibold hover:text-gold">
                       {p.player.name}
