@@ -17,7 +17,8 @@ Steps (each stops the run on failure; nothing is committed or pushed):
   6. summary         players added / updated, players needing teams, records, new Hall of Famers and SPEECH NEEDED,
                      STORY NEEDED (a completed season with no Season Story), the season stories present,
                      TAKES NEEDED (a completed season with no Hot Takes), the hot takes present,
-                     the player tributes present and TRIBUTE NEEDED (a qualifying player with no tribute),
+                     the player tributes present, TRIBUTE NEEDED (the latest season's tribute pick, when unwritten)
+                     and the tribute queue's length,
                      market movers, the "What changed" headlines (content.json), open questions, the new edition;
                      then the commit and push commands to run
 """
@@ -146,12 +147,16 @@ def summary(bundle_id: str, before: dict, after: dict, rebuild_out: str, roll: l
     print(f"Hot takes: {listed or 'none'}")
     for l in takes_needed:
         print(f"  {l}")
-    tributes = read(CONTENT, {}).get("tributeIndex", [])
-    tribute_needed = [l for l in rebuild_out.splitlines() if l.startswith("TRIBUTE NEEDED")]
-    print(f"Player tributes: {', '.join(t['key'] for t in tributes) or 'none'} "
-          f"({len(tribute_needed)} qualifying players have none yet)")
-    for l in tribute_needed:
-        print(f"  {l}")
+    # One tribute a season (content.json tributePlan): TRIBUTE NEEDED only for the latest season's unwritten pick
+    content = read(CONTENT, {})
+    tributes = content.get("tributeIndex", [])
+    plan = {p["season"]: p for p in content.get("tributePlan", [])}
+    picks = ", ".join(y + " " + p["player"] for y, p in plan.items())
+    print(f"Player tributes: {', '.join(t['key'] for t in tributes) or 'none'}" + (f" (picks: {picks})" if picks else ""))
+    for l in rebuild_out.splitlines():
+        if l.startswith("TRIBUTE NEEDED"):
+            print(f"  {l}")
+    print(f"  tribute queue: {len(content.get('tributeQueue', []))} players")
     market = market_history.load(SRC / "market_history.json")
     if after["snapshots"] > before["snapshots"] and len(market) >= 2:
         prev, cur = market[-2]["players"], market[-1]["players"]
