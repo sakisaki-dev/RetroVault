@@ -443,6 +443,24 @@ else {
       errors.push(`widget.json takes are not the latest Hot Takes (${takesIdx[0].season}; rebuild)`);
     (wj.takes ?? []).forEach((t: { headline?: string }) => /\b(your|you)\b/i.test(t.headline ?? '') && errors.push(`widget.json take says "you/your": ${t.headline}`));
     if (wj.champion && wj.champion.season !== content.season) errors.push(`widget.json champion is for ${wj.champion.season}, not ${content.season}`);
+    // The large widget's days and the lock screen: every player named has a card and a club, every sprite is a file
+    // in public/data/widget-sprites/ (scripts/widget_sprites.py), and the photo is the current season's champions
+    type Named = { player?: string; team?: string; sprite?: string; sil?: string };
+    const named: [string, Named][] = [
+      ...((wj.spotlights ?? []) as Named[]).map((x): [string, Named] => ['spotlights', x]),
+      ...((wj.photo?.players ?? []) as Named[]).map((x): [string, Named] => ['photo', x]),
+      ...((wj.takes ?? []) as { players?: Named[] }[]).flatMap((t) => (t.players ?? []).map((x): [string, Named] => ['takes', x])),
+      ...((wj.gauntlet?.holders ?? []) as Named[]).map((x): [string, Named] => ['gauntlet', x]),
+      ...(wj.gauntlet?.closest ? [['gauntlet', wj.gauntlet.closest] as [string, Named]] : []),
+    ];
+    named.forEach(([k, x]) => {
+      if (!x.player || !cards[x.player]) errors.push(`widget.json ${k} names ${x.player} without a card`);
+      for (const f of [x.sprite, x.sil]) {
+        if (f && !(f.startsWith('data/widget-sprites/') && existsSync(`public/${f}`))) errors.push(`widget.json ${k} sprite ${f} is not a file (rebuild)`);
+      }
+      if (k !== 'photo' && x.team && !NFL_TEAMS.some((t) => t.name === x.team)) errors.push(`widget.json ${k} team "${x.team}" is not one of the 32 clubs`);
+    });
+    if (wj.photo && wj.photo.season !== content.season && wj.photo.season !== wj.storySeason) errors.push(`widget.json photo is for ${wj.photo.season}, not the story's season`);
     // Widget cards name the coach ("Skura's Ravens"), never "you" / "your" (speech hooks are quoted verbatim)
     items.forEach((it) => {
       if ((it as { kind?: string }).kind === 'hof') return;

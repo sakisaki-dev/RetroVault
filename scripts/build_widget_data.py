@@ -7,7 +7,8 @@ passed through: the latest Season Story's articles and "Did you know" facts (sto
 Hall of Fame speech (speech.set).
 
 * stories           the latest Season Story's articles (no quick hits): kind, headline, dek, lead team, id
-* takes             the latest season's Hot Takes (takes.set, public/data/league/takes.json): id, headline, heat, team
+* takes             the latest season's Hot Takes (takes.set, public/data/league/takes.json): id, headline, dek (the
+                    evidence line), heat, team
                     (a rotating pool; checked by scripts/story_check.py, so never "you" / "your")
 * didYouKnow        the story's facts plus rule-generated ones: rate leaders (with a minimum sample per position),
                     small-sample standouts, league and active career leaders, oddities (most rings without an MVP...),
@@ -28,8 +29,22 @@ Hall of Fame speech (speech.set).
                     (content.json mechanics.ceilings): stars, ceiling, room
 * didYouKnow also carries the game-mechanics rule facts (content.json ruleFacts, kind "rule"): defensive credit,
                     the injury model, draft quality, the upset index, final seasons and star ceilings
-* champion          the latest season's Super Bowl (lock screen: "Y82 · Jets won CXLI")
+* champion          the latest season's Super Bowl and the winner's run of straight titles ending there (`run`;
+                    lock screen: "Y94 · Eagles won CLIII, 4 in a row")
 * coach             the coach's surname: history cards say "Skura's Ravens", never "your"
+* coachTitles       the coach's Super Bowl titles (super_bowls.json wins; the circular lock screen's TITLES)
+* spotlights        the large widget's spotlight pool (front page strip, spotlight day hero, lock screen silhouette):
+                    the market's risers, then the notable actives; per player his Career Legacy rank, his position's
+                    headline career number (record: he holds the league mark), his sprite and silhouette
+* photo             the champions' photo over the front page story: the Season Story's champion, its ring holders that
+                    season (stints), the first the lead names celebrating in the middle, the next two by Career Legacy
+* takes[].players   up to two card players a take names, with sprites (the second mirrored, so they face each other)
+* gauntlet          the full set of awards a player can win on his side of the ball (a ring, MVP, OPOY or DPOY,
+                    Rookie of the Year, Super Bowl MVP): every holder, and the active player closest to it
+
+Sprites: scripts/widget_sprites.py writes pre-scaled nearest-neighbour PNGs (and white silhouettes) of exactly the
+players above to public/data/widget-sprites/, painted into the kit the site's GameSprite would draw; every "sprite" /
+"sil" field is a URL relative to the site, left out when the player has no sprite (the widget then draws without one).
 
 The widget rotates through didYouKnow and vault with a shuffle seeded by edition.seed (scripts/build_league_content.py),
 so the order changes with every update but never between two rebuilds.
@@ -47,6 +62,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 import build_league_content as B  # noqa: E402  (data and helpers only; its main() does not run on import)
 import market_history  # noqa: E402
+import widget_sprites  # noqa: E402
 
 PUB = ROOT / "public" / "data"
 OUT = PUB / "widget.json"
@@ -595,13 +611,133 @@ def champion() -> dict | None:
     if not sb:
         return None
     return {k: v for k, v in {"season": CONTENT["season"], "roman": sb["roman"], "winner": sb["winner"],
-                              "loser": sb.get("loser"), "owner": sb["yourResult"] == "won"}.items() if v is not None}
+                              "loser": sb.get("loser"), "owner": sb["yourResult"] == "won",
+                              "run": title_run(sb["winner"], CONTENT["season"])}.items() if v is not None}
 
 
 def headline_team(h: dict) -> str | None:
     """The club a headline's bullet wears: its first player's banner team, else its first team."""
     names = [n for n in h.get("players") or [] if n in KEY]
     return banner_team(names[0]) if names else nick((h.get("teams") or [None])[0])
+
+
+# ---------------------------------------------------------------------------
+# The large widget's days and the lock screen: spotlight pool, champions' photo, take figures, the Gauntlet
+# ---------------------------------------------------------------------------
+SPRITES = widget_sprites.SpriteSet()
+# A position's headline career number on the spotlight card: (stat key, short label, CAREER_MARKS label)
+HEADLINE_STAT = {"QB": ("yds", "pass yds", "career passing yards"), "RB": ("ryds", "rush yds", "career rushing yards"),
+                 "WR": ("yds", "rec yds", "career receiving yards"), "TE": ("yds", "rec yds", "career receiving yards"),
+                 "OL": ("blk", "blocks", "career blocks"), "LB": ("tkl", "tackles", "career tackles"),
+                 "DB": ("tkl", "tackles", "career tackles"), "DL": ("tkl", "tackles", "career tackles")}
+SPOTLIGHTS = 8
+
+
+def legacy_rank(k: str) -> int | None:
+    """His place by Career Legacy among every league card (1 = the best)."""
+    order = [kk for kk, _ in sorted(((kk, v["legacy"]) for kk, v in LATEST.items() if kk in KEY.values()),
+                                    key=lambda x: (-x[1], x[0]))]
+    return order.index(k) + 1 if k in order else None
+
+
+def spotlights(movers: list[tuple], notable: list[str]) -> list[dict]:
+    """The spotlight pool: the market's risers first (the front page strip shows the value change), then the notable
+    actives; each with his Career Legacy rank, his position's headline career number and his sprite."""
+    out, seen = [], set()
+    for k in [k for d, k in movers if d > 0] + notable:
+        if k in seen or k not in LATEST or k not in KEY.values() or len(out) >= SPOTLIGHTS:
+            continue
+        seen.add(k)
+        pos, name = k.split(":", 1)
+        team, p = banner_team(name), B.BY_NAME.get(name)
+        if not team or not p:
+            continue
+        x = {"player": k, "last": B.surname(name), "pos": pos, "team": team, "rank": legacy_rank(k)}
+        stat = HEADLINE_STAT.get(pos)
+        if stat and g(p, stat[0]) > 0:
+            _, poss, get = next(m for m in B.CAREER_MARKS if m[0] == stat[2])
+            top = max(get(q) for q in B.LEAGUE if poss is None or q["pos"] in poss)
+            x["stat"] = {"value": g(p, stat[0]), "label": stat[1], **({"record": True} if get(p) >= top else {})}
+        x["sprite"] = SPRITES.want(k, team)
+        x["sil"] = SPRITES.want(k, team, variant="sil")
+        out.append(x)
+    return out
+
+
+def photo(story: dict | None, champ: dict | None) -> dict | None:
+    """The champions' photo (the site's TeamPhoto rule): ring holders with the winner that season by their stints, the
+    first the lead story names front and centre celebrating, the next two by Career Legacy beside him."""
+    if not story or not champ or champ.get("season") != story.get("season"):
+        return None
+    year = int(str(story["season"]).lstrip("Y"))
+    winner = champ["winner"]
+    roster = [p for p in B.LEAGUE if any(nick(s["team"]) == winner and year in s.get("rings", [])
+                                          for s in (B.STINTS.get(p["n"]) or {}).get("stints", []))]
+    roster.sort(key=lambda p: (-B.legacy(p["n"]), p["n"]))
+    if not roster:
+        return None
+    lead = next((a for a in story.get("articles", []) if a["kind"] == "lead"), None)
+    featured = [n for n in (lead or {}).get("players", []) if any(p["n"] == n for p in roster)]
+    star = next(p for p in roster if p["n"] == featured[0]) if featured else roster[0]
+    people = []
+    for p in [star, *[q for q in roster if q is not star][:2]]:
+        k = KEY[p["n"]]
+        people.append({"player": k, "last": B.surname(p["n"]), **({"star": True} if p is star else {}),
+                       "sprite": SPRITES.want(k, winner, "celebrate" if p is star else "idle")})
+    return {"season": story["season"], "team": winner, "roman": champ.get("roman"), "players": people}
+
+
+def take_players(t: dict) -> list[dict]:
+    """Up to two card players a take names (banner club colours), the second mirrored so the two face each other."""
+    out = []
+    for name in t.get("players") or []:
+        team = banner_team(name)
+        if name not in KEY or not team or len(out) >= 2:
+            continue
+        k = KEY[name]
+        out.append({"player": k, "last": B.surname(name), "team": team,
+                    "sprite": SPRITES.want(k, team, variant="left" if out else "")})
+    return out
+
+
+GAUNTLET = ["rings", "mvp", "poy", "roty", "sbmvp"]
+
+
+def gauntlet() -> dict | None:
+    """The full set: a ring, an MVP, Player of the Year on his side of the ball (OPOY, or DPOY for a defender), Rookie
+    of the Year and Super Bowl MVP. Every holder (best Career Legacy first) and the active player closest to it."""
+    def held(p):
+        dfn = p["pos"] in B.DEFENSE
+        vals = {"rings": g(p, "rings"), "mvp": g(p, "mvp"), "poy": g(p, "dpoy" if dfn else "opoy"),
+                "roty": g(p, "roty"), "sbmvp": g(p, "sbmvp")}
+        return [a for a in GAUNTLET if vals[a] > 0]
+
+    def label(a, p):
+        return {"rings": "Ring", "mvp": "MVP", "poy": "DPOY" if p["pos"] in B.DEFENSE else "OPOY", "roty": "ROTY",
+                "sbmvp": "SB MVP"}[a]
+    rows = [(p, held(p)) for p in B.LEAGUE if banner_team(p["n"])]
+    holders = sorted([p for p, h in rows if len(h) == len(GAUNTLET)], key=lambda p: (-B.legacy(p["n"]), p["n"]))
+    chasers = sorted([(p, h) for p, h in rows if active(p) and 0 < len(h) < len(GAUNTLET)],
+                     key=lambda x: (-len(x[1]), -B.legacy(x[0]["n"]), x[0]["n"]))
+    if not holders and not chasers:
+        return None
+    out = {"of": len(GAUNTLET),
+           "holders": [{"player": KEY[p["n"]], "last": B.surname(p["n"]), "team": banner_team(p["n"]),
+                        **({"active": True} if active(p) else {})} for p in holders]}
+    if chasers:
+        p, h = chasers[0]
+        out["closest"] = {"player": KEY[p["n"]], "last": B.surname(p["n"]), "team": banner_team(p["n"]), "have": len(h),
+                          "missing": [label(a, p) for a in GAUNTLET if a not in h]}
+    return out
+
+
+def title_run(winner: str, season: str) -> int:
+    """Straight Super Bowl titles for this club ending with this season."""
+    by_year = {s["year"]: s["winner"] for s in CONTENT["superBowls"]}
+    y, n = int(season.lstrip("Y")), 0
+    while by_year.get(y) == winner:
+        n, y = n + 1, y - 1
+    return n
 
 
 # ---------------------------------------------------------------------------
@@ -616,9 +752,10 @@ def main():
     # the latest season's Hot Takes (public/data/league/takes.json is newest first)
     takes_path = PUB / "league" / "takes.json"
     takes_season = (json.loads(takes_path.read_text()).get("seasons") or [None])[0] if takes_path.exists() else None
-    takes = [{k: v for k, v in {"id": t["id"], "headline": t["headline"], "heat": t["heat"],
+    takes = [{k: v for k, v in {"id": t["id"], "headline": t["headline"], "dek": t.get("dek"), "heat": t["heat"],
                                 "team": nick((t.get("teams") or [None])[0])
-                                or (banner_team(t["players"][0]) if t.get("players") else None)}.items() if v}
+                                or (banner_team(t["players"][0]) if t.get("players") else None),
+                                "players": take_players(t)}.items() if v}
              for t in (takes_season or {}).get("takes", [])]
 
     rate_facts()
@@ -657,8 +794,20 @@ def main():
     watch, chase_list, close = hof_watch(), chases(), milestones()
     clock, rise = retirements(), ceilings()
     clock_season = ((CONTENT.get("mechanics") or {}).get("clock") or {}).get("season")
+    champ = champion()
+    spots, team_photo, full_set = spotlights(movers, notable), photo(story, champ), gauntlet()
     named = ({f["player"] for f in facts if f.get("player")} | {v["player"] for v in vault_items if v.get("player")}
-             | set(notable) | {x["player"] for x in [*watch, *chase_list, *close, *clock, *rise]})
+             | set(notable) | {x["player"] for x in [*watch, *chase_list, *close, *clock, *rise, *spots]}
+             | {x["player"] for t in takes for x in t.get("players", [])}
+             | {x["player"] for x in (team_photo or {}).get("players", [])}
+             | {x["player"] for x in [*(full_set or {}).get("holders", []), (full_set or {}).get("closest") or {}]
+                if x.get("player")})
+    # Sprites: written now; a player the site has no sprite for loses the field (the widget draws without one)
+    drawn = SPRITES.write()
+    for x in [*spots, *[y for t in takes for y in t.get("players", [])], *(team_photo or {}).get("players", [])]:
+        for f in ("sprite", "sil"):
+            if f in x and not drawn.get(x[f]):
+                del x[f]
     cards = {}
     for k in sorted(named):
         m = LATEST.get(k)
@@ -698,8 +847,12 @@ def main():
         "liveSeason": clock_season,
         "retirements": clock or None,
         "ceilings": rise or None,
-        "champion": champion(),
+        "champion": champ,
         "coach": COACH,
+        "coachTitles": len(B.WON),
+        "spotlights": spots,
+        "photo": team_photo,
+        "gauntlet": full_set,
         "cards": cards,
     }
     data = {k: v for k, v in data.items() if v is not None}
@@ -708,6 +861,8 @@ def main():
           f"({sum(f['kind'] == 'story' for f in facts)} from the story), {len(vault_items)} vault cards, "
           f"{len(cards)} player cards, {len(watch)} on HOF watch, {len(chase_list)} record chases, "
           f"{len(close)} milestone countdowns, {len(clock)} final-season and {len(rise)} ceiling countdowns, {OUT.stat().st_size / 1024:.1f} KB")
+    n, size = widget_sprites.SpriteSet.stats()
+    print(f"Wrote {widget_sprites.OUT.relative_to(ROOT)}: {n} sprites, {size / 1024:.1f} KB")
 
 
 if __name__ == "__main__":

@@ -25,8 +25,30 @@ const SHOES_TOP = 56;
 
 type RGB = [number, number, number];
 
+/** A CSS colour (#rgb, #rrggbb, rgb(), hsl() with space or comma separators) without a canvas: Node scripts. */
+const parseCss = (c: string): RGB | null => {
+  const s = c.trim().toLowerCase();
+  const hex = /^#([0-9a-f]{3}|[0-9a-f]{6})$/.exec(s);
+  if (hex) {
+    const h = hex[1].length === 3 ? [...hex[1]].map((x) => x + x).join('') : hex[1];
+    const n = parseInt(h, 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  }
+  const nums = (s.match(/-?[\d.]+/g) ?? []).map(Number);
+  if (s.startsWith('rgb') && nums.length >= 3) return [nums[0], nums[1], nums[2]].map(Math.round) as RGB;
+  if (s.startsWith('hsl') && nums.length >= 3) {
+    const [h, sat, l] = [nums[0], nums[1] / 100, nums[2] / 100];
+    const k = (n: number) => (n + h / 30) % 12;
+    const a = sat * Math.min(l, 1 - l);
+    const f = (n: number) => l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1));
+    return [f(0), f(8), f(4)].map((v) => Math.round(v * 255)) as RGB;
+  }
+  return null;
+};
+
 let probe: CanvasRenderingContext2D | null = null;
 const rgbOf = (c: string): RGB => {
+  if (typeof document === 'undefined') return parseCss(c) ?? [128, 128, 128];
   probe ??= document.createElement('canvas').getContext('2d');
   if (!probe) return [128, 128, 128];
   probe.fillStyle = '#808080';
@@ -42,7 +64,12 @@ const rgbOf = (c: string): RGB => {
 const shade = ([r, g, b]: RGB, f: number): RGB =>
   (f >= 0 ? [r + (255 - r) * f, g + (255 - g) * f, b + (255 - b) * f] : [r * (1 + f), g * (1 + f), b * (1 + f)]).map(Math.round) as RGB;
 
-const paletteFor = (team: string) => {
+/**
+ * A club's neutral-kit palette: per band (jersey, pants, socks) the three neutral colours (as 0xRRGGBB) and the RGB
+ * each becomes. Exported for scripts/kit_palettes.ts, which hands it to the widget's sprite builder
+ * (scripts/widget_sprites.py), so the widget paints exactly like the site.
+ */
+export const paletteFor = (team: string) => {
   const u = homeUniform(team);
   const jersey = rgbOf(u.jersey);
   const pants = rgbOf(u.pants);

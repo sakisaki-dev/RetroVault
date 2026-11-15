@@ -73,7 +73,7 @@ other row is a deterministic rule that `npm run update` / `npm run rebuild` runs
 | 7 | Market snapshot (OVR, skill, Career Legacy, value, grade, totals) | Rule | Any rating changed | `market_snapshot.ts` → `market_history.json` |
 | 8 | Eras, storylines, rivalries, lineages, snubs, record chases, open questions, HOF classes, headlines ("The Wire"), edition seed | Rule | Every rebuild | `build_league_content.py` |
 | 9 | Skill grades, player families (map zones), similarity, Deep Dive boards | Rule (computed in the app) | Data changes | `src/config/skillGrades.ts`, `families.ts`, `advanced.ts` |
-| 10 | Widget feed: the latest story's articles, the latest hot takes' headlines, its written facts plus rule-generated "Did you know" facts, "From the Vault" history cards, movers, headlines, HOF watch, record chases, milestone countdowns, the champion, banner cards | Rule | Every rebuild | `build_widget_data.py` → `public/data/widget.json` |
+| 10 | Widget feed: the latest story's articles, the latest hot takes (headline, evidence line, heat, players), its written facts plus rule-generated "Did you know" facts, "From the Vault" history cards, movers, headlines, HOF watch, record chases, milestone countdowns, the champion and his title run, the spotlight pool, the champions' photo, the Gauntlet, banner cards; pre-scaled game sprites of the players it draws | Rule | Every rebuild | `build_widget_data.py` → `public/data/widget.json`, `widget_sprites.py` → `public/data/widget-sprites/` |
 | 11 | Hall of Fame speech for each new member | **AI** (`speech`) | Rebuild prints `SPEECH NEEDED` | `speech.set` (step 5) |
 | 12 | Season Story: news articles plus written "Did you know" facts for the completed season | **AI** (`story`) | Rebuild prints `STORY NEEDED: Y<n>` | `story.set` (step 6); professional voice, no "owner", only true facts; optional `art` scene per article |
 | 13 | Hot Takes: columnist opinions about the completed season, every figure cited | **AI** (`takes`) | Rebuild prints `TAKES NEEDED: Y<n>` | `takes.set` (step 6b); provocative but only true facts, no "owner", no "you"; optional `art` scene per take |
@@ -527,9 +527,9 @@ source names that file).
   only for rotating presentation: Front Office featured stint players and rivals order, Timeline storyline order, the
   landing Spotlight (up to 2 headline players, then top Career Legacy, shuffled per edition) and the Collection
   hero / pack shelf accent (`EDITION_ACCENTS`). Never for player identity (looks, card art, poses, uniforms).
-- **Widget feed** (`scripts/build_widget_data.py` → `public/data/widget.json`, about 67 KB): the only file the
+- **Widget feed** (`scripts/build_widget_data.py` → `public/data/widget.json`, about 78 KB): the only data file the
   Scriptable iPhone widget (`public/widgets/retro-vault-widget.js`) reads, from raw GitHub, then Pages, then its cache.
-  Templates only, numbers straight from the data: `stories` (the latest Season Story's articles, no quick hits), `takes` (the latest season's Hot Takes: id, headline, heat, team; data only, the widget script doesn't draw them yet),
+  Templates only, numbers straight from the data: `stories` (the latest Season Story's articles, no quick hits), `takes` (the latest season's Hot Takes: id, headline, dek, heat, team and `players`, up to two card players it names with sprites, the second mirrored so they face each other),
   `didYouKnow` (the story's written facts, then rule facts up to 120: record chases, active players closing on a
   `MILESTONES` step, up-and-comers with an S/A grade or OVR 85+ in 60 games or fewer, oddities such as most rings
   without an MVP, one-team legends, small-sample standouts, rate leaders per position with a minimum sample, career
@@ -541,24 +541,58 @@ source names that file).
   record chases: have, mark, share, amount to go), `milestones` (top 6 countdowns to a round career number),
   `retirements` and `ceilings` (live save only, with `liveSeason`: top 6 players in their final season, `seasonsLeft`
   0, or one from it; top 6 young players' game stars now → ceiling), drawn in the countdown slot (MILESTONES, FINAL
-  SEASON, ROOM TO GROW in turn) and on the lock screen ("Final season: Atwell", "Pircher: 3.5→5★ ceiling"),
-  `champion` (the latest season's Super Bowl), `coach` (surname), `cards` (banner team, OVR, grade, Career Legacy,
-  value change for every player named) and `latestUpdateAt` (last applied upload). Widget text never says "you" or
+  SEASON, ROOM TO GROW in turn) and on the lock screen ("Atwell · final season Y95", "Pircher · 3.5→5★ ceiling"),
+  `champion` (the latest season's Super Bowl and `run`, the winner's straight titles ending there), `coach` (surname),
+  `coachTitles` (the coach's Super Bowl wins), `spotlights` (the spotlight pool: the market's risers, then the notable
+  actives, up to 8; per player his Career Legacy `rank`, his position's headline career number `stat` {value, label,
+  record when he holds the league mark}, `sprite` and `sil`), `photo` (the champions' photo: the story season's
+  champion, its ring holders that season by their stints, the first the lead names `star` and celebrating, the next
+  two by Career Legacy, each in the champion's kit), `gauntlet` (the full set a player can win on his side of the
+  ball: a ring, MVP, OPOY or DPOY, Rookie of the Year, Super Bowl MVP; every `holders` entry and the `closest` active
+  player with what he lacks), `cards` (banner team, OVR, grade, Career Legacy, value change for every player named)
+  and `latestUpdateAt` (last applied upload).
+  **Widget sprites** (`scripts/widget_sprites.py`, called by the builder; `public/data/widget-sprites/`, committed:
+  about 30 PNGs, 45 KB): Scriptable scales images smoothly, which blurs pixel art, so the players the widget draws
+  (spotlights with a white silhouette each for the lock screen, the photo, the takes' players) get the site's own
+  Retro Bowl sprite pre-scaled 4× with nearest-neighbour pixels, normalised to one anchor (centre line 31.5, feet on
+  row 58 of the 64 frame). Same source and rules as GameSprite: `scripts/widget_sprite_picks.ts` runs the site's
+  `nflSpriteFor` (club kit, else the neutral kit painted, stand-ins, assigned looks, his role's pose; celebrate for the
+  photo's star), `bodyFor` and `gameKitPaint.ts` `paletteFor` on `public/private-sprites/nfl/index.json`; the pixel
+  paint and reshape are ports of gameKitPaint.ts. Files no longer named are deleted; output is byte-identical between
+  rebuilds. widget.json names each by a path relative to the site (`data/widget-sprites/<pos-name-club>.png`); the
+  widget fetches it from raw GitHub's `public/`, then Pages, then its cache (a copy younger than a day skips the
+  network), and draws it in a DrawContext at whole device pixels per game pixel (`drawSprite`, `spriteK`). A missing
+  sprite (field left out, fetch failed) draws the same layout without him. The audit errors when a named sprite isn't
+  a file or a named player has no card. Widget text never says "you" or
   "your": history cards name the coach ("Skura's Ravens won it", "Set on Skura's Ravens in Y46") and storylines are
   rewritten to the third person (`third_person()`); headlines are title-cased with OVR/MVP/II kept (`title_case()`).
-  **One script, every size** (`config.widgetFamily`): large (header, story, spotlight, two rotating panels, footer),
-  medium (story beside the spotlight), small (spotlight only), lock screen inline (even days "🏈 Y82 · Jets won
-  CXLI", odd days a countdown), circular (gauge of the closest record chase, its % and surname, drawn with
-  DrawContext) and rectangular (story headline plus a one-line countdown); lock screen layouts are white-only so they
-  tint. **Rotation**: one story a day (the lead pinned and tagged BREAKING for 2 days after an update), a spotlight
-  that changes at midnight and noon, alternating Did you know and From the Vault, each pool shuffled by
-  `edition.seed` (nothing repeats until the pool is spent); bottom panels on even days and the 2 days after an
-  update MARKET + THE WIRE, on odd days HOF WATCH + RECORD CHASE (every other odd day MILESTONES instead).
-  `refreshAfterDate` is the sooner of 2 hours from now and the next noon/midnight, so a pushed update reaches the
-  widget within about 2 hours while the rotation still turns only at noon and midnight. **Look** (the site's tokens from
+  **One script, every size** (`config.widgetFamily`): **large** in three days (owner-approved mockups, 2026-11-14):
+  A *front page* (the story over the champions' photo with BREAKING, a spotlight strip with his bust, name in club ink,
+  stat line and value change, MARKET beside RECORD CHASE or THE WIRE in turn), B *spotlight* (a hero card: his sprite
+  on a club-colour pedestal with a shadow and a faint position watermark, beside OVR · grade, Career Legacy and rank,
+  his headline career number, card value; DID YOU KNOW; a countdown with bars: MILESTONES, or FINAL SEASON / ROOM TO
+  GROW from the live save), C *hot take* (tightened: heat flames and the headline on top, the two players it names
+  squared up on the right as large as fits under the headline, the evidence line bottom-left; one player under a
+  spotlight, none = the club's logo; HALL OF FAME WATCH with three bars; FROM THE VAULT); every day ends with the pixel
+  footer "Y94 · ED 154" / "UPDATED NOV 14". **medium** (story beside the spotlight) and **small** (spotlight only) as
+  before. Lock screen, white-only so it tints: inline glances ("Y94 · Eagles won CLIII, 4 in a row", "Atwell · 126
+  tackles to the record", "Maxwell · final season Y95", "Maxwell · ran the Gauntlet, 5/5", milestones, "Skura · 68
+  Super Bowl titles"), circular (the record-chase gauge, the Gauntlet as five ring segments, the coach's titles, or the
+  spotlight player's white silhouette) and rectangular (the story headline, the record chase with a bar, the spotlight
+  with his silhouette, or From the Vault). **Rotation** (owner: "a little bit more than only twice a day"): one turn
+  every 3 hours (`SLOT`: 00, 03, 06 … 21 local, 8 a day). Each turn moves the large day to the next of A / B / C
+  (offset by `edition.seed`), and the spotlight player, Did you know / From the Vault, the take, the countdown and the
+  bottom panels move on, each pool shuffled by `edition.seed` (nothing repeats until the pool is spent); the lock
+  screen options turn with it. One story a day; in the 2 days after an update the lead is pinned and tagged BREAKING
+  and the front page takes every other turn (A, B, A, C). `refreshAfterDate` is the sooner of 2 hours from now and the
+  next 3-hour turn, so a pushed update reaches the widget within about 2 hours.
+  **Harness** (`node scripts/widget_harness.mjs [outDir]`): stubs Scriptable's API, serves Request from `public/`, runs
+  the script for every view (large × 3 days, medium, small, inline, circular and rectangular in each rotation, offline,
+  no sprites), dumps each tree and renders the script's own output to HTML (DrawContext calls as SVG) for a headless
+  Chrome screenshot; any exception fails it. **Look** (the site's tokens from
   `src/index.css`, calm on purpose): the background is a DrawContext image (navy gradient, faint scanlines at the top)
   whose one gold element is the signature gold gradient rim (bright gold top-left to deep amber bottom-right). No header
-  banner: the story comes first and the footer carries "Y82 · ED 34 · <last update>". Content padding (`PAD`) keeps
+  banner: the story comes first and the pixel footer carries "Y94 · ED 154" and "UPDATED NOV 14". Content padding (`PAD`) keeps
   everything at least 10 pt inside the rim. Cards and panels are fixed-size stacks with their own background image
   (panel fill clipped to the rounded shape, a quiet `--line` rim, a faint team tint and rim, team stripe and dimmed
   logo watermark on player cards). Kickers are muted pixel text from a 5-row glyph table (after Silkscreen) with 7×7
