@@ -7,6 +7,7 @@ import {
   useState,
   type CSSProperties,
 } from "react";
+import { openRivalryFile } from "@/utils/rivalryFiles";
 import { History } from "lucide-react";
 import type { Player } from "@/types/player";
 import type { SeasonRewindIndexEntry } from "@/utils/leagueContent";
@@ -85,6 +86,8 @@ const RewindRings = ({ index, players }: Props) => {
       openHotTake(l.take);
     } else if (l.tribute) {
       openTribute(l.tribute);
+    } else if (l.rivalry) {
+      openRivalryFile(l.rivalry);
     }
   }, []);
 

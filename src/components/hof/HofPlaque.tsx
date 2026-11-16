@@ -349,6 +349,7 @@ const HofPlaque = ({
                 retired={r.list}
                 title={`Retired by the ${r.label}`}
                 headingId={`hof-rafters-${r.teamKey}`}
+                compact
               />
             ))}
           </div>

@@ -30,6 +30,7 @@ import PositionBadge from '@/components/PositionBadge';
 import './news.css';
 import { reducedMotion } from '@/utils/motion';
 import { SeasonStoryDesk, openSeasonStory } from './SeasonStory';
+import RivalryFilesRow from '@/components/rivalry/RivalryFilesRow';
 import { peekProps } from '@/components/peek/peekProps';
 
 /**
@@ -367,6 +368,7 @@ export const TimelineNews = ({
       {rings}
       <HeadlineTicker headlines={headlines ?? []} info={info} players={players} onPlayer={onPlayer} title="The Wire" />
       <SeasonStoryDesk index={stories} players={players} onPlayer={onPlayer} season={season} onSeason={onSeason} />
+      <RivalryFilesRow />
       {!!headlines?.length && (
         <details className="wc-wire-all">
           <summary>All wire items ({headlines.length})</summary>

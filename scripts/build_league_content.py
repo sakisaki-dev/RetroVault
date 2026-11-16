@@ -586,9 +586,10 @@ def build_rivalries(eras):
         })
     # Weekly scores: a club the coach's teams met at least twice in games and never had the better of (wins at most
     # losses plus ties) is a rivalry too, even with no Super Bowl between them
+    # A lasting rivalry (rivalry_status: a home-and-away series that keeps going) is one too, whatever the record
     have = {r["team"] for r in out}
     for opp, h in SCHEDULE["headToHead"].items():
-        if opp in have or h["games"] < 2 or h["w"] > h["l"] + h["t"]:
+        if opp in have or ((h["games"] < 2 or h["w"] > h["l"] + h["t"]) and not rivalry_status(h)):
             continue
         seasons = sorted({m["season"] for m in h["meetings"]}, key=lambda y: int(y.lstrip("Y")))
         lines = [f"{m['season']} {m['round'].lower()} {m['result']} {m['for']}-{m['against']}" for m in h["meetings"]]
@@ -603,11 +604,256 @@ def build_rivalries(eras):
             "games": h,
             "source": "weekly scores",
         })
+    # Each rivalry with a rivalry file (build_rivalry_files) says so: lasting, or lapsed (Past rivalries)
+    for r in out:
+        h = SCHEDULE["headToHead"].get(r["team"])
+        st = rivalry_status(h) if h and r["team"] in TEAMS_JSON else None
+        if st:
+            r["file"] = f"rivalry-{slug(r['team'])}"
+            r["lasting"] = st == "lasting"
     return out
 
 
 def note_ref(n):
     return {k: n[k] for k in ("id", "text", "season", "kind", "players", "teams") if n.get(k) is not None}
+
+
+# ---------------------------------------------------------------------------
+# Rivalry files: the lasting rivalries in the weekly scores, each as a rule-built file (no AI prose)
+# ---------------------------------------------------------------------------
+# Owner: "for the rivalry add it as a story if it comes to that, often rivals don't stay for long but if they do we can
+# keep the story". A lasting rivalry is a club the coach has met at least RIVALRY_MIN_GAMES times, twice or more in at
+# least RIVALRY_SERIES_SEASONS seasons (a home-and-away series, like a division rival, not a club met now and then), with a
+# meeting in the latest completed season or the one before it. One that once qualified but has no meeting in the last
+# RIVALRY_RECENT completed seasons has lapsed: its file leaves the row and stays reachable under Past rivalries.
+RIVALRY_FILES: list[dict] = []  # set by main() (season_rewind reads it)
+RIVALRY_MIN_GAMES = 6
+RIVALRY_SERIES_SEASONS = 3
+RIVALRY_RECENT = 2
+RIVALRY_PAPERS = 3  # Season Story articles in a file's "In the papers"
+RIVALRY_TAKES = 2  # Hot Takes there
+TEAMS_JSON = load("teams.json")
+NUM_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
+             "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"]
+
+
+def num_word(n: int) -> str:
+    return NUM_WORDS[n] if 0 <= n < len(NUM_WORDS) else f"{n:,}"
+
+
+def club_city(club: str) -> str:
+    """"Dallas" from "Dallas Cowboys" (teams.json), else the club name."""
+    full = TEAMS_JSON.get(club, {}).get("name", "")
+    return full[: -len(club)].strip() if full.endswith(club) and len(full) > len(club) else club
+
+
+def _sn(season: str) -> int:
+    return int(season.lstrip("Y"))
+
+
+def series_meetings(h: dict, upto: int | None = None) -> list[dict]:
+    """A head-to-head's meetings in order (season, then week), through season `upto`."""
+    ms = sorted(h["meetings"], key=lambda m: (_sn(m["season"]), m["week"]))
+    return [m for m in ms if upto is None or _sn(m["season"]) <= upto]
+
+
+def rivalry_status(h: dict, upto: int | None = None) -> str | None:
+    """"lasting", "lapsed" or None (never a lasting rivalry), judged as of season `upto` (default the latest)."""
+    upto = LAST if upto is None else upto
+    ms = series_meetings(h, upto)
+    per: dict[str, int] = {}
+    for m in ms:
+        per[m["season"]] = per.get(m["season"], 0) + 1
+    if len(ms) < RIVALRY_MIN_GAMES or sum(1 for v in per.values() if v >= 2) < RIVALRY_SERIES_SEASONS:
+        return None
+    return "lasting" if any(_sn(m["season"]) > upto - RIVALRY_RECENT for m in ms) else "lapsed"
+
+
+def meeting_when(m: dict, short: bool = False) -> str:
+    """"Y90 week 17", "the Y93 conference round", "the Y93 Super Bowl" ("week 17" / "the conference round" short)."""
+    r = m.get("round") or f"Week {m['week']}"
+    if r.startswith("Week"):
+        return r.lower() if short else f"{m['season']} {r.lower()}"
+    label = "Super Bowl" if r == "Super Bowl" else f"{r.lower()} round"
+    return f"the {label}" if short else f"the {m['season']} {label}"
+
+
+def score_text(m: dict) -> str:
+    """The winner's score first ("35-32"); a tie as it stands."""
+    a, b = m["for"], m["against"]
+    return f"{max(a, b)}-{min(a, b)}"
+
+
+def _streak_end_game() -> tuple[str, int] | None:
+    """(season, week) of the coach's first game after his longest winning streak (schedule.json records), if played."""
+    rec = next((r for r in SCHEDULE.get("records", []) if r.get("id") == "coach-win-streak"), None)
+    if not rec or not rec.get("to"):
+        return None
+    games = [(s, g["week"]) for s in sorted(SCHEDULE["seasons"], key=_sn) for g in SCHEDULE["seasons"][s].get("coachGames", [])]
+    to = (rec["to"]["season"], rec["to"]["week"])
+    i = games.index(to) if to in games else -1
+    return games[i + 1] if 0 <= i < len(games) - 1 else None
+
+
+def series_streaks(ms: list[dict]) -> dict[str, list[dict]]:
+    """The longest run of wins ("W") and of losses ("L") in the series; ties break a run. Earliest run on a tie."""
+    best: dict[str, list[dict]] = {"W": [], "L": []}
+    run: list[dict] = []
+    for m in ms:
+        if m["result"] == "T":
+            run = []
+            continue
+        run = run + [m] if run and run[-1]["result"] == m["result"] else [m]
+        if len(run) > len(best[m["result"]]):
+            best[m["result"]] = list(run)
+    return best
+
+
+def rivalry_season_line(club: str, h: dict, season: str) -> list[dict] | None:
+    """The bullet for one season of the series: who won its meetings, where, and a streak a meeting ended."""
+    ms = series_meetings(h)
+    these = [m for m in ms if m["season"] == season]
+    if not these:
+        return None
+    before = [m for m in ms if _sn(m["season"]) < _sn(season)]
+    coach = these[-1]["coachTeam"]
+    ended = _streak_end_game()
+    rival_city, coach_city = club_city(club), club_city(coach)
+    clauses = []
+    for m in these:
+        host = coach_city if m.get("site") == "home" else rival_city if m.get("site") == "away" else None
+        where = f" in {host}" if host else ""
+        if m["result"] == "T":
+            c = f"a {m['for']}-{m['against']} tie{where} in {meeting_when(m, True)}"
+        else:
+            c = f"{score_text(m)}{where} in {meeting_when(m, True)}"
+        if ended and (m["season"], m["week"]) == ended and m["result"] != "W":
+            streak = next(r for r in SCHEDULE["records"] if r.get("id") == "coach-win-streak")
+            c += f" to end the {m['coachTeam']}' {streak['games']}-game winning streak"
+        clauses.append(c)
+    w = sum(m["result"] == "W" for m in these)
+    l = sum(m["result"] == "L" for m in these)
+    n = len(these)
+    if l == n:
+        lead = f"{rival_city} struck back in {season}:" if before and before[-1]["result"] == "W" else f"{rival_city} took {season}:"
+        tone = "rival"
+    elif w == n:
+        lead = f"{coach_city} {'swept' if n > 1 else 'took'} {season}:"
+        tone = "coach"
+    elif w != l:
+        lead, tone = (f"{coach_city} took {season}:", "coach") if w > l else (f"{rival_city} took {season}:", "rival")
+    else:
+        lead, tone = f"Split in {season}:", "gold"
+    said = clauses[0] if n == 1 else ", ".join(clauses[:-1]) + ", then " + clauses[-1]
+    return [{"b": lead, "tone": tone}, {"t": f" {said}."}]
+
+
+def rivalry_file(club: str, h: dict, status: str) -> dict:
+    ms = series_meetings(h)
+    coach = ms[-1]["coachTeam"]
+    seasons = sorted({m["season"] for m in ms}, key=_sn)
+    pf, pa = sum(m["for"] for m in ms), sum(m["against"] for m in ms)
+    big = sorted(ms, key=lambda m: (-abs(m["for"] - m["against"]), _sn(m["season"]), m["week"]))[0]
+    streaks = series_streaks(ms)
+    side = "W" if len(streaks["W"]) >= len(streaks["L"]) else "L"
+    run = streaks[side]
+    runner = coach if side == "W" else club
+
+    def meet(m):
+        out = {k: m[k] for k in ("season", "week", "round", "site", "coachTeam", "for", "against", "result")}
+        if not (m.get("round") or "Week").startswith("Week"):
+            out["playoff"] = True
+        if m is big:
+            out["biggest"] = True
+        return out
+
+    def star(team: str) -> dict | None:
+        cands = [p for p in LEAGUE if team_of(p) == team and is_status_active(p["n"])]
+        if not cands:
+            return None
+        p = sorted(cands, key=lambda p: (-legacy(p["n"]), p["n"]))[0]
+        return {"key": f'{p["pos"]}:{p["n"]}', "name": p["n"], "pos": p["pos"], "team": team, "legacy": legacy(p["n"])}
+
+    story: list[list[dict]] = []
+    if len(run) >= 3:
+        avg = round(sum(abs(m["for"] - m["against"]) for m in run) / len(run))
+        line = [{"b": f"{num_word(len(run)).capitalize()} straight", "tone": "coach" if side == "W" else "rival"},
+                {"t": f" for the {runner}, from {meeting_when(run[0])} to {meeting_when(run[-1])}, by {avg} points a game."}]
+        if not h["l"] and not h["t"]:
+            line.append({"t": f" The {club} have never beaten the {coach}."})
+        elif not h["w"] and not h["t"]:
+            line.append({"t": f" The {coach} have never beaten the {club}."})
+        story.append(line)
+    latest = rivalry_season_line(club, h, seasons[-1])
+    if latest and not (len(run) == len(ms)):  # a series that is one long streak is told by the streak line
+        story.append(latest)
+    winner = coach if big["result"] == "W" else club
+    line = [{"b": "Biggest margin:", "tone": "gold"}, {"t": f" {score_text(big)} for the {winner} in {big['season']}."}]
+    ties = [m for m in ms if m["result"] == "T"]
+    if ties:
+        line += [{"b": " Strangest:" if len(ties) == 1 else " Ties:", "tone": "gold"},
+                 {"t": " " + join([f"the {m['for']}-{m['against']} tie in {m['season']}" for m in ties]) + "."}]
+    story.append(line)
+    big_games = [f"{meeting_when(m)}, {score_text(m)} {coach if m['result'] == 'W' else club}" if m["result"] != "T"
+                 else f"{meeting_when(m)}, a {m['for']}-{m['against']} tie"
+                 for m in ms if not (m.get("round") or "Week").startswith("Week")]
+    sb = [f"Super Bowl {x['roman']} in Y{x['year']}, {'won' if x['won'] else 'lost'} {x['yourScore'].replace('–', '-')} with the {x['team']}"
+          for x in your_games()
+          if x["opponent"] == club and f"Y{x['year']}" not in seasons]
+    if big_games or sb:
+        story.append([{"b": "On the big stage:", "tone": "gold"}, {"t": " " + "; ".join(big_games + sb) + "."}])
+
+    papers = []
+    for y, s in sorted(STORIES.items(), key=lambda kv: -_sn(kv[0])):
+        for a in s.get("articles", []):
+            if club in a.get("teams", []) and a.get("kind") != "quickhits":
+                papers.append({"type": "story", "id": a["id"], "season": y, "kind": a["kind"], "headline": a["headline"]})
+    papers.sort(key=lambda p: (p["kind"] != "rivalry", p["kind"] != "lead", -_sn(p["season"])))
+    takes = []
+    for y, s in TAKES.items():
+        for t in s.get("takes", []):
+            if club in t.get("teams", []):
+                named = club in t["headline"] or club_city(club) in t["headline"]
+                takes.append({"type": "take", "id": t["id"], "season": y, "heat": t.get("heat", 1), "headline": t["headline"], "_n": named})
+    takes.sort(key=lambda t: (not t["_n"], -_sn(t["season"]), -t["heat"]))
+    for t in takes:
+        t.pop("_n")
+
+    t_info = TEAMS_JSON.get(club, {})
+    return {
+        "id": f"rivalry-{slug(club)}",
+        "team": club,
+        "coachTeam": coach,
+        "status": status,
+        "conference": t_info.get("conference"),
+        "division": t_info.get("division"),
+        "first": seasons[0],
+        "last": seasons[-1],
+        "seasons": len(seasons),
+        "games": len(ms),
+        "record": {"w": h["w"], "l": h["l"], "t": h["t"], "text": h["record"]},
+        "pointsFor": pf,
+        "pointsAgainst": pa,
+        "streak": {"team": runner, "side": "coach" if side == "W" else "rival", "games": len(run),
+                   "from": {"season": run[0]["season"], "week": run[0]["week"]} if run else None,
+                   "to": {"season": run[-1]["season"], "week": run[-1]["week"]} if run else None},
+        "biggest": {"season": big["season"], "week": big["week"], "for": big["for"], "against": big["against"],
+                    "winner": winner},
+        "stars": {k: v for k, v in (("coach", star(coach)), ("rival", star(club))) if v},
+        "meetings": [meet(m) for m in ms],
+        "story": story,
+        "papers": papers[:RIVALRY_PAPERS] + takes[:RIVALRY_TAKES],
+    }
+
+
+def build_rivalry_files() -> list[dict]:
+    """Every lasting rivalry's file, then the lapsed ones (most meetings first, then the club's name)."""
+    out = []
+    for club, h in SCHEDULE.get("headToHead", {}).items():
+        st = rivalry_status(h)
+        if st and club in TEAMS_JSON:
+            out.append(rivalry_file(club, h, st))
+    return sorted(out, key=lambda f: (f["status"] != "lasting", -f["games"], f["team"]))
 
 
 def qb_succession():
@@ -1882,6 +2128,8 @@ def mechanics() -> tuple[dict, list[dict]]:
 def main():
     eras = build_eras()
     rivalries = build_rivalries(eras)
+    global RIVALRY_FILES
+    RIVALRY_FILES = build_rivalry_files()
     lineages = build_lineages()
     snubs = build_snubs()
     outsiders = build_outsiders()
@@ -1923,6 +2171,9 @@ def main():
         "superBowls": super_bowls,
         "storylines": storylines,
         "rivalries": rivalries,
+        # Rivalry files: every lasting rivalry in the weekly scores (rivalry_status), then the lapsed ones, each with the
+        # series, every meeting, the stars, rule-built "story so far" lines and the Season Story / Hot Takes naming it
+        "rivalryFiles": RIVALRY_FILES,
         "lineages": lineages,
         # Weekly scores, summarized (the full game logs and tables are public/data/league/schedule.json)
         "schedule": {"seasons": [{"season": y, "coachTeam": sc["coachTeam"], "record": sc["coachRecord"]["record"],

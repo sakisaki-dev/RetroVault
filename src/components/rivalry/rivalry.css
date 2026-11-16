@@ -1,0 +1,621 @@
+/* Rivalry files (RivalryFileView.tsx, RivalryFilesRow.tsx). Club colours come in as --rf-a (the coach's club) and
+   --rf-b (the rival): the deep fill (HSL triplet), its trim (-2) and a text ink lifted for the dark page (-ink). */
+
+/* ---------- The file ---------- */
+.rf-sheet {
+  background: #0c1121;
+}
+.rf {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+  color: #ece8dc;
+  background: #0c1121;
+}
+
+/* Face-off hero: two halves cut on a diagonal, each club's abbreviation as a giant watermark */
+.rf-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 300px;
+  overflow: hidden;
+}
+@media (min-width: 640px) {
+  .rf-hero {
+    height: 320px;
+  }
+}
+.rf-side {
+  position: relative;
+  min-width: 0;
+}
+.rf-side--l {
+  background: linear-gradient(120deg, hsl(var(--rf-a) / 0.9), hsl(var(--rf-a)) 60%, hsl(var(--rf-a) / 0.55)), #05070f;
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 0 100%);
+}
+.rf-side--r {
+  background: linear-gradient(240deg, hsl(var(--rf-b) / 0.9), hsl(var(--rf-b)) 60%, hsl(var(--rf-b) / 0.55)), #05070f;
+  clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
+}
+.rf-side__abbr {
+  position: absolute;
+  top: 30px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 120px;
+  line-height: 1;
+  color: rgb(255 255 255 / 0.07);
+  pointer-events: none;
+}
+.rf-side--l .rf-side__abbr {
+  left: -8px;
+}
+.rf-side--r .rf-side__abbr {
+  right: -8px;
+}
+.rf-side__figure {
+  position: absolute;
+  bottom: 76px;
+  display: grid;
+  place-items: end center;
+  width: 160px;
+  height: 172px;
+}
+.rf-side--l .rf-side__figure {
+  left: 4px;
+}
+.rf-side--r .rf-side__figure {
+  right: 4px;
+}
+.rf-side__figure::after {
+  /* the floor shadow under whoever stands there */
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 96px;
+  height: 12px;
+  margin-left: -48px;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.4);
+  z-index: 0;
+}
+.rf-side__sprite {
+  position: relative;
+  z-index: 1;
+}
+.rf-side--r .rf-side__sprite {
+  transform: scaleX(-1);
+}
+.rf-side__logo {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 104px;
+  height: 104px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  border: 5px solid hsl(var(--rf-b-2));
+  background: rgb(5 7 15 / 0.35);
+}
+.rf-side--l .rf-side__logo {
+  border-color: hsl(var(--rf-a-2));
+}
+.rf-side__figure:has(.game-sprite) .rf-side__logo {
+  display: none;
+}
+.rf-side__label {
+  position: absolute;
+  z-index: 2;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  max-width: calc(100% - 20px);
+}
+.rf-side--l .rf-side__label {
+  left: 14px;
+  align-items: flex-start;
+}
+.rf-side--r .rf-side__label {
+  right: 14px;
+  align-items: flex-end;
+  text-align: right;
+}
+.rf-side__kicker {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.72);
+}
+.rf-side__club {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 2px 0 rgb(0 0 0 / 0.35);
+}
+.rf-star {
+  max-width: 100%;
+  margin-bottom: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgb(5 7 15 / 0.55);
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rf-star span {
+  color: hsl(var(--gold));
+}
+.rf-star:not(:disabled):hover {
+  background: rgb(5 7 15 / 0.8);
+}
+.rf-badge {
+  position: absolute;
+  left: 50%;
+  top: 18px;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: rgb(5 7 15 / 0.85);
+  border: 1px solid rgb(241 195 92 / 0.5);
+  text-align: center;
+  white-space: nowrap;
+}
+.rf-badge__kicker {
+  display: block;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: #f1c35c;
+  text-transform: uppercase;
+}
+.rf-badge__rec {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 34px;
+  line-height: 1;
+  color: #fff;
+}
+
+/* Numbers */
+.rf-nums {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  padding: 10px 12px 0;
+  margin: 0;
+}
+.rf-num {
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 8px;
+  border-radius: 10px;
+  background: #141a2e;
+  min-width: 0;
+}
+.rf-num dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.1;
+}
+.rf-num dt {
+  font-family: var(--font-pixel);
+  font-size: 6.5px;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: #8d94ad;
+  overflow-wrap: anywhere;
+}
+
+/* Panels */
+.rf-panel {
+  margin: 12px 12px 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #10172a;
+  border: 1px solid rgb(125 134 163 / 0.22);
+}
+.rf-rubric {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #8d94ad;
+}
+.rf-rubric--gold {
+  color: #f1c35c;
+}
+
+/* Every meeting: score tiles in the winner's colours */
+.rf-tiles {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+  font-size: 10px;
+}
+.rf-tile {
+  padding: 5px 0;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  color: rgb(255 255 255 / 0.8);
+}
+.rf-tile b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: #fff;
+  white-space: nowrap;
+}
+.rf-tile--a {
+  background: hsl(var(--rf-a));
+}
+.rf-tile--b {
+  background: hsl(var(--rf-b));
+  border-color: hsl(var(--rf-b-2));
+}
+.rf-tile--t {
+  background: #3a4157;
+}
+.rf-tile--big {
+  box-shadow: inset 0 0 0 1.5px #f1c35c, 0 0 0 1px #f1c35c;
+}
+.rf-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 10px;
+  color: #8d94ad;
+}
+.rf-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.rf-sw {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+.rf-sw--a {
+  background: hsl(var(--rf-a));
+}
+.rf-sw--b {
+  background: hsl(var(--rf-b));
+  box-shadow: inset 0 0 0 1px hsl(var(--rf-b-2));
+}
+.rf-sw--t {
+  background: #3a4157;
+}
+.rf-sw--big {
+  box-shadow: inset 0 0 0 1.5px #f1c35c;
+}
+
+/* The story so far */
+.rf-story {
+  background: linear-gradient(135deg, #1a1430, #10172a);
+  border-color: rgb(241 195 92 / 0.3);
+}
+.rf-story ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #d6d9e4;
+}
+.rf-tone {
+  color: #f1c35c;
+}
+.rf-tone--coach {
+  color: var(--rf-a-ink);
+}
+.rf-tone--rival {
+  color: var(--rf-b-ink);
+}
+
+/* In the papers: each piece a strip in the rival's colours */
+.rf-papers {
+  background: #141a2e;
+}
+.rf-papers ul {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.rf-paper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 8px 32px 8px 12px;
+  border-radius: 10px;
+  border-left: 4px solid hsl(var(--rf-b-2));
+  background: linear-gradient(90deg, hsl(var(--rf-b) / 0.55), hsl(var(--rf-b) / 0.12));
+  text-align: left;
+  color: #fff;
+  transition: filter 0.15s;
+}
+.rf-paper:not(:disabled):hover {
+  filter: brightness(1.15);
+}
+.rf-paper__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: rgb(255 255 255 / 0.75);
+}
+.rf-paper__title {
+  margin-top: 2px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.rf-paper__go {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #f1c35c;
+}
+.rf-heat {
+  display: inline-flex;
+}
+
+/* ---------- Timeline row ---------- */
+.rf-row {
+  margin-top: 1.25rem;
+}
+.rf-row__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 8px;
+}
+.rf-row__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  text-transform: uppercase;
+  color: hsl(var(--chalk));
+}
+.rf-row__title svg {
+  color: hsl(var(--gold));
+}
+.rf-row__sub {
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+}
+.rf-row__list {
+  display: flex;
+  gap: 10px;
+  margin: 0 -16px;
+  padding: 2px 16px 6px;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rf-row__list::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 640px) {
+  .rf-row__list {
+    margin: 0;
+    padding: 2px 0 6px;
+  }
+}
+.rf-row__empty {
+  font-size: 13px;
+  color: hsl(var(--muted-foreground));
+}
+.rf-row__past {
+  margin-top: 8px;
+}
+.rf-row__past summary {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  cursor: pointer;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+.rf-card-wrap {
+  flex: 0 0 auto;
+  width: min(300px, 82vw);
+  scroll-snap-align: start;
+}
+.rf-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgb(125 134 163 / 0.22);
+  background: #10172a;
+  text-align: left;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.rf-card:hover {
+  border-color: rgb(241 195 92 / 0.5);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rf-card:active {
+    transform: scale(0.98);
+  }
+}
+.rf-card--past {
+  filter: saturate(0.55);
+}
+.rf-card__face {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 84px;
+}
+.rf-card__half {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+}
+.rf-card__half--a {
+  background: linear-gradient(120deg, hsl(var(--rf-a) / 0.85), hsl(var(--rf-a)));
+  clip-path: polygon(0 0, 100% 0, 86% 100%, 0 100%);
+}
+.rf-card__half--b {
+  justify-content: flex-end;
+  background: linear-gradient(240deg, hsl(var(--rf-b) / 0.85), hsl(var(--rf-b)));
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+}
+.rf-card__rec {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgb(5 7 15 / 0.85);
+  border: 1px solid rgb(241 195 92 / 0.5);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1;
+  color: #fff;
+  white-space: nowrap;
+}
+.rf-card__rec small {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  font-size: 7px;
+  text-transform: uppercase;
+  color: #f1c35c;
+}
+.rf-card__body {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px 12px;
+}
+.rf-card__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: #fff;
+}
+.rf-card__title i {
+  font-style: normal;
+  color: #f1c35c;
+  font-size: 14px;
+}
+.rf-card__meta {
+  font-size: 12px;
+  color: #8d94ad;
+}
+.rf-card__pips {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+.rf-pip {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+.rf-pip--a {
+  background: hsl(var(--rf-a));
+}
+.rf-pip--b {
+  background: hsl(var(--rf-b));
+  box-shadow: inset 0 0 0 1px hsl(var(--rf-b-2));
+}
+.rf-pip--t {
+  background: #3a4157;
+}
+.rf-card__open {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+  color: #f1c35c;
+}
+
+/* ---------- The strip that opens a file (Front Office, story feed) ---------- */
+.rf-strip {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 10px 6px 8px;
+  border-radius: 12px;
+  border-left: 4px solid hsl(var(--rf-b-2));
+  background: linear-gradient(90deg, hsl(var(--rf-b)), hsl(var(--rf-b) / 0.45));
+  text-align: left;
+  color: #fff;
+  transition: filter 0.15s;
+}
+.rf-strip:hover {
+  filter: brightness(1.15);
+}
+.rf-strip__text {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+.rf-strip__text small {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: none;
+  color: rgb(255 255 255 / 0.78);
+}

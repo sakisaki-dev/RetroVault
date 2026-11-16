@@ -468,6 +468,60 @@
    "n": 8
   },
   {
+   "id": "y93-rivalry",
+   "kind": "rivalry",
+   "club": "Giants",
+   "kicker": "Rivalry file",
+   "title": "Eagles vs Giants",
+   "text": "Philadelphia swept Y93: 30-22 in Philadelphia in week 15, 24-23 in New York in week 18, then 38-28 in Philadelphia in the conference round. The series stands 13-0 for the Eagles after 13 meetings.",
+   "figures": [
+    {
+     "label": "Y93 meetings",
+     "value": "3-0"
+    },
+    {
+     "label": "The series",
+     "value": "13-0"
+    },
+    {
+     "label": "Meetings",
+     "value": "13",
+     "num": 13
+    }
+   ],
+   "meetings": [
+    {
+     "week": 15,
+     "round": "Week 15",
+     "for": 30,
+     "against": 22,
+     "result": "W"
+    },
+    {
+     "week": 18,
+     "round": "Week 18",
+     "for": 24,
+     "against": 23,
+     "result": "W"
+    },
+    {
+     "week": 30,
+     "round": "Conference",
+     "for": 38,
+     "against": 28,
+     "result": "W"
+    }
+   ],
+   "link": {
+    "rivalry": "rivalry-giants"
+   },
+   "teams": [
+    "Eagles",
+    "Giants"
+   ],
+   "n": 9
+  },
+  {
    "id": "y93-story",
    "kind": "story",
    "club": "Eagles",
@@ -501,7 +555,7 @@
     "Giants",
     "Vikings"
    ],
-   "n": 9
+   "n": 10
   },
   {
    "id": "y93-take",
@@ -521,7 +575,7 @@
     "Raiders",
     "Panthers"
    ],
-   "n": 10
+   "n": 11
   },
   {
    "id": "y93-outro",
@@ -549,7 +603,7 @@
    "link": {
     "season": "Y94"
    },
-   "n": 11
+   "n": 12
   }
  ]
 }

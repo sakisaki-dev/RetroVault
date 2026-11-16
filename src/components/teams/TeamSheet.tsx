@@ -14,6 +14,8 @@ import { latestSeasonYear, matchPlayerByName, useLeagueContent } from '@/utils/l
 import type { CoachedSummary } from '@/utils/frontOffice';
 import { isHallOfFamer } from '@/config/stats';
 import RetiredRafters from './RetiredRafters';
+import { useRafters } from '@/utils/rafters';
+import type { RingOfHonorEntry } from '@/utils/hallOfFame';
 import StadiumWeather from './StadiumWeather';
 import TitlesTimeline from './TitlesTimeline';
 import PositionRadar from './PositionRadar';
@@ -103,8 +105,13 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
     },
     [content],
   );
+  const { ringFor, players: leagueByKey } = useRafters();
   const openRetired = (r: RetiredNumber) => {
-    const p = summary?.franchisePlayers.find((x) => `${x.position}:${x.name}` === r.playerKey);
+    const p = summary?.franchisePlayers.find((x) => `${x.position}:${x.name}` === r.playerKey) ?? (r.playerKey ? leagueByKey.get(r.playerKey) : undefined);
+    if (p) setSelectedPlayer(p);
+  };
+  const openRing = (e: RingOfHonorEntry) => {
+    const p = leagueByKey.get(`${e.pos}:${e.name}`);
     if (p) setSelectedPlayer(p);
   };
 
@@ -312,7 +319,7 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
                         </ul>
                       </section>
                     )}
-                    <RetiredRafters team={t} retired={retired} yearsFor={yearsFor} onSelect={openRetired} />
+                    <RetiredRafters team={t} retired={retired} yearsFor={yearsFor} onSelect={openRetired} ring={ringFor(t)} onRing={openRing} />
                     {summary.franchisePlayers.length > 0 && (
                       <section aria-labelledby="position-strength">
                         <h3 id="position-strength" className="section-title text-base mb-1">

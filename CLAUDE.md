@@ -223,6 +223,10 @@ The season value may also carry `didYouKnow: [{id, text, players, stats}]`: shor
 outliers with small samples, rookies posting elite numbers, oddities like most rings without an MVP), at most 40 words
 each, under the same rules; the Timeline shows them as a rail and the Arcade widget shows one a day.
 
+A **lasting rivalry** (content.json `rivalryFiles` with `status: "lasting"`, see "Rivalry files" below) that met the
+coach's club that season deserves a `rivalry`-kind article: tell the series from its file (record, streaks, biggest
+margin), citing `schedule.json headToHead/<Club>/...`.
+
 Research first: players.json, the two market snapshots around the season (career deltas, OVR, grades, values),
 super_bowls.json, coach.json (and `currentStint`), owner_facts (trades, current club, careers), journal.json,
 records.json, content.json (storylines, rivalries, headlines, record chases, eras), stints.json, families.
@@ -576,6 +580,22 @@ source names that file).
   pacheco retired jersey with the packers and jakeem friend both with the jets and seahawks"); the first club numbers
   him, every other one hangs the same number and never issues it (`retiredBy`, `retiringClubsOf`,
   `buildJerseyIndexWithAlso`).
+  **The rafters** (approved mockup Rafters.dc.html): a club's retired numbers are drawn as an arena ceiling
+  (`src/components/teams/RaftersScene.tsx`, `rafters.css`; data from the jersey index through `src/utils/rafters.ts`
+  `useRafters`): steel truss, spotlight cones, a club-colour banner per number with a gold trim (HALL OF FAME, the number,
+  the surname, position and years with that club and "N rings here" from the career stints), hung a little unevenly and
+  swaying only when motion is allowed (never in lite mode), the club's Ring of Honor (halloffame.json `ringOfHonor`) as
+  a band over a crowd silhouette, and a note on how numbers go up (an empty club shows the bare truss and that note).
+  Tap a banner for his card, hold it for the quick look. It replaces the old row in the team sheet's Overview
+  (`RetiredRafters.tsx` is now a wrapper), sits compact in a Hall of Fame plaque, and has its own Hall of Fame section,
+  **The Rafters** (`src/components/hof/HofRafters.tsx`, anchor `hof-rafters-title`, in BottomNav's HOF hold menu), with
+  club chips to walk every club. **The player card's badge** (CardBanner.dc.html, `src/components/teams/RetiredBadge.tsx`):
+  a retired player's hero gets a small banner per club that hangs his number (at most 2), hanging on long wires from the
+  top edge (RETIRED, the number, the club's abbreviation, club colours; it replaces the hero's "Number retired by" tag),
+  and the identity strip gets a club-colour strip, "#N retired by the <Club>" with the other numbers in those rafters and
+  Ring of Honor. Either opens that club's rafters: `openRafters(clubId)` (`src/utils/raftersLink.ts`) closes the card,
+  pages/Index.tsx switches to the Hall of Fame tab and the Rafters section picks the club and scrolls to itself. Never on
+  Collection card faces (cards are timeless).
 - **Eras**: the owner's coaching stints (`coach.json`), split at 3+ title-less seasons between titles and merged when
   a stint won fewer than 3 titles (the current stint always stands alone); named "<Team> dynasty" (5+ titles),
   "<Team> run" (3–4) or "<Team> years". Key players: best Career Legacy whose stints overlap the era on the owner's club.
@@ -766,6 +786,25 @@ source names that file).
   progress): the retirement clock (final season at 34, or 39 for a QB, plus delays) and the game's star rating now →
   ceiling (`round(10 × ratings / position max)` half-stars) for players 24 or younger with a star or more of room.
 - **Weekly scores** (`scripts/schedule_content.py` → `public/data/league/schedule.json`, run by `npm run rebuild` before the content builder): from `schedules.json` (schedule.set) it builds, per season, the coach's game log (opponent records and O/D stars from the season summary, playoff rounds from the season review), a 32-club table with points for/against, differential, strength of schedule (average final win % of the clubs played) and a power score (100 × win % + 1.5 × differential per game + 40 × (SOS − 0.5), regular season only), the upset (the worst final record beating the best), blowout and shootout; across seasons the coach's head-to-head record with every club and game records (biggest margin, most combined points, most points, longest winning streak). Rivalries carry the head-to-head `games`, and a club met twice or more without a winning record becomes a rivalry; a `schedule.set` brings Wire headlines (power No. 1, upset, best defense, blowout); the widget gets `game` facts; stories may cite `schedule.json <path>` / `schedules.json <path>`. The Season page (`#season`, `src/components/tabs/SeasonTab.tsx`, `src/components/season/`) shows them: a season switcher with the current season live from `save_state.json` (`src/utils/seasonLive.ts`: broadcast header, award race by the game's season rating, league leaders, live standings, game log, injury report) and every past season from schedule.json (scoreboard, one standings table with points, differential, SOS and power, the game log, by the numbers, notable games), plus the all-time head-to-head and game records; the Timeline keeps only a link card to it (`SeasonLink.tsx`); the Games tab blends in each club's latest-season form. The audit errors when a schedule.set season is missing from schedule.json.
+- **Rivalry files** (owner: "for the rivalry add it as a story if it comes to that, often rivals don't stay for long but
+  if they do we can keep the story"; approved mockup Rivalry.dc.html): `build_rivalry_files()` in
+  `build_league_content.py` → content.json `rivalryFiles`, rules only. A **lasting rivalry** (`rivalry_status`) is a club
+  the coach has met at least 6 times (`RIVALRY_MIN_GAMES`), twice or more in at least 3 seasons
+  (`RIVALRY_SERIES_SEASONS`: a home-and-away series, not a club met now and then), with a meeting in the latest completed
+  season or the one before (`RIVALRY_RECENT`); Y94: Giants, Commanders, Cowboys. One that qualified but has no meeting
+  in the last two completed seasons is `lapsed`. Each file: both clubs, each side's star (top Career Legacy active on
+  the club), the record, meetings, points for and against, the longest streak (with its span and average margin), every
+  meeting (the biggest margin marked, playoff rounds flagged), templated "story so far" lines (the longest streak, the
+  latest season's meetings and any streak a meeting ended, the biggest margin and ties, playoff and Super Bowl
+  meetings) and "In the papers" (up to 3 Season Story articles naming the club, rivalry articles first, and 2 Hot
+  Takes). The club's entry in `rivalries` gets `file` and `lasting` (a lasting club is added there if missing). The site
+  (`src/utils/rivalryFiles.ts`, `src/components/rivalry/`): the Timeline's **Rivalry files** row under the Season Story
+  (lapsed files fold under Past rivalries), the Front Office rivals panel's strip, a strip on a story feed's rivalry
+  article, and a Season Rewind `rivalry` card (`season_rewind.py`: one lasting rivalry with a notable season, the rival
+  winning a meeting, a playoff meeting or the series' biggest margin) all call `openRivalryFile(id)`, which
+  `RivalryHost` (pages/Index.tsx) answers with the file as a phone sheet (lazy-loaded). The audit errors when a file
+  names a club outside the 32 or a star without a card, its record or points don't add up, its status disagrees with
+  its meetings, a paper doesn't exist, or its rivalry entry doesn't point back at it.
 - **Autographs** (`src/config/autographs.ts` rules, `src/components/collection/autograph/` canvas, `autos` in
   `src/utils/collection.ts`): the fifth and rarest art variant, `auto` ("Autograph", `src/config/cardTiers.ts`), in
   the retired Retro Bowl sprite's place with exactly its odds and stacking (owner: "aren't they just a replacement for

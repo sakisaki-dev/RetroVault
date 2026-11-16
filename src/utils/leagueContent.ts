@@ -127,6 +127,10 @@ export interface Rivalry {
   games?: import('./schedule').HeadToHead;
   /** "weekly scores" when the rivalry comes from the weekly scores rather than Super Bowls */
   source?: string;
+  /** Its rivalry file's id (content.json rivalryFiles), when it is (or was) a lasting rivalry */
+  file?: string;
+  /** Still lasting (false: the file sits under Past rivalries) */
+  lasting?: boolean;
 }
 
 export interface Lineage {
@@ -246,6 +250,8 @@ export interface LeagueContent {
   tributeIndex?: TributeIndexEntry[];
   /** Season Rewind index, oldest first (scripts/season_rewind.py); each season's cards load on demand (useSeasonRewind) */
   seasonRewindIndex?: SeasonRewindIndexEntry[];
+  /** Rivalry files (build_league_content.py build_rivalry_files), raw: read them with rivalryFilesOf (utils/rivalryFiles) */
+  rivalryFiles?: unknown[];
 }
 
 /** One season's Season Rewind in content.json (the cards are public/data/league/rewind/<Y>.json) */
@@ -611,6 +617,10 @@ const normRivalry = (r: Raw, i: number): Rivalry | null => {
       yourTeam: str(m.yourTeam),
       opponent: str(m.opponent),
     })),
+    games: isObj(r.games) && Array.isArray(r.games.meetings) ? (r.games as unknown as Rivalry['games']) : undefined,
+    source: str(r.source),
+    file: str(r.file),
+    lasting: typeof r.lasting === 'boolean' ? r.lasting : undefined,
   };
 };
 
@@ -855,6 +865,8 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
     }),
   );
   if (rewindIndex.length) content.seasonRewindIndex = rewindIndex;
+  // Rivalry files pass through raw; utils/rivalryFiles.ts rivalryFilesOf checks them field by field
+  if (Array.isArray(input.rivalryFiles)) content.rivalryFiles = input.rivalryFiles;
   if (Array.isArray(input.hofClasses)) {
     const classes = input.hofClasses
       .map((c) => (isObj(c) && str(c.label) && Array.isArray(c.keys) ? { label: str(c.label)!, keys: c.keys.filter((k): k is string => typeof k === 'string') } : null))

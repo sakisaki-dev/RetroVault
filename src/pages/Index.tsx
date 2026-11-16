@@ -10,6 +10,8 @@ import CardUnlockToasts from '@/components/collection/CardUnlockToasts';
 import LegendExchange from '@/components/collection/LegendExchange';
 import CeremonyHost from '@/components/ceremony/CeremonyHost';
 import TributeHost from '@/components/tribute/TributeHost';
+import RivalryHost from '@/components/rivalry/RivalryHost';
+import { onRaftersRequest } from '@/utils/raftersLink';
 import QuickPlayerSearch from '@/components/QuickPlayerSearch';
 import PlayerPeekLayer from '@/components/peek/PlayerPeek';
 import { LeagueProvider } from '@/context/LeagueContext';
@@ -81,9 +83,12 @@ const IndexContent = () => {
       navigate({ tab: 'career', sub: 'deepdive', p: key || undefined });
     });
     const offH2H = onHeadToHeadRequest(() => navigate({ tab: 'career', sub: 'h2h' }));
+    // A retired number's strip on the player card opens that club's rafters (Hall of Fame tab, Rafters section)
+    const offRafters = onRaftersRequest(() => navigate({ tab: 'hof' }));
     return () => {
       offDive();
       offH2H();
+      offRafters();
     };
   }, [navigate]);
 
@@ -124,6 +129,7 @@ const IndexContent = () => {
         <AddToHomeScreen />
         <CeremonyHost />
         <TributeHost />
+        <RivalryHost onTimeline={() => navigate({ tab: 'timeline' })} />
         <QuickPlayerSearch />
         <PlayerPeekLayer />
         <CardUnlockToasts />
