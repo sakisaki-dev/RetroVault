@@ -665,8 +665,7 @@ def spotlights(movers: list[tuple], notable: list[str]) -> list[dict]:
 
 
 def champion_roster(year: int, winner: str) -> list[dict]:
-    """The ring holders with the winner that season by their stints, best Career Legacy first (also read by
-    scripts/build_app_icons.py for the launch screens' champions)."""
+    """The ring holders with the winner that season by their stints, best Career Legacy first."""
     roster = [p for p in B.LEAGUE if any(nick(s["team"]) == winner and year in s.get("rings", [])
                                           for s in (B.STINTS.get(p["n"]) or {}).get("stints", []))]
     roster.sort(key=lambda p: (-B.legacy(p["n"]), p["n"]))

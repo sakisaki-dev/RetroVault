@@ -43,7 +43,7 @@ legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `s
 player's card numbers and career totals at every season end, for the Deep Dive's career graphs) →
 `hall_of_fame.py` → `save_state.py` (`public/data/league/save_state.json`) → `build_league_content.py`
 (`public/data/league/content.json`) → `build_widget_data.py` (`public/data/widget.json`) → `build_app_icons.py --splash`
-(the launch screens' champions) → `audit.ts`. It is
+(the launch screens' all-time greats) → `audit.ts`. It is
 deterministic: two runs give byte-identical output.
 
 ## Updating: the upload pipeline (the usual phone request)
@@ -1014,17 +1014,20 @@ pictures".
   and seams, a specular streak and a warm rim light, a soft drop shadow, on the game's day turf
   (`private-sprites/field/turf-day-tall.png`: the 5-yard stripes, a yard line and the hash marks, numbers left out)
   under a vignette; 180/192 at 3x, 512 at 6x, the maskable ones with a smaller ball inside the 40% circle, the favicons
-  (16/32/48) a flat simplified ball. **Launch screens** (owner: "use the game sprites and assets"): a night stadium
-  from `private-sprites/field/` (stands, two crowd tiers, the sideline bench and the near stands recoloured from the
-  game's key colours into the champion's kit colours; the night turf with its yard numbers), floodlight towers with
-  halos and beams, a jumbotron ("<CLUB> / Y<n> CHAMPIONS") and an LED ribbon ("SUPER BOWL <roman> ★ <CLUB>"), the
-  "RETRO VAULT" wordmark (VAULT in gold) and "STATS · CARDS · LEGENDS" on a dark fascia band, and the champions' photo
-  at 2x: the star (widget.json `photo`) in front celebrating, the next ring holders by Career Legacy
-  (`champion_roster` in `build_widget_data.py`) and Dorren Skura (index.json `coaches.head`) behind, in the club's
-  kit through the site's sprite rules (`widget_sprites.site_rules` / `figure`), under confetti. About 240 art pixels
-  across (`int(w / 240 + 0.6)` device pixels each); text and figures stay clear of the status bar and home indicator
-  (`safe_rows`). It reads the latest champion, so `npm run rebuild` runs `build_app_icons.py --splash` after the
-  widget feed and the launch screens follow each new champion (commit them with the update). It writes
+  (16/32/48) a flat simplified ball. **Launch screens** (owner: "use the game sprites and assets", then "keep the logo as the old one for the launch
+  screen make it more colorful and immersive and use the all time greats instead of the eagles players"): the old logo
+  (the gold pixel football with "RV", "RETRO VAULT" with VAULT in gold, "LEAGUE HUB") over a violet night sky with
+  fireworks in the greats' club colours, floodlight towers with coloured halos and beams, an "ALL-TIME GREATS" LED
+  fascia hung with each great's club pennant (abbreviation and colours from `src/utils/nflTeams.ts`), the game's crowd
+  tiers from `private-sprites/field/` recoloured section by section into those clubs, an LED ribbon of their surnames,
+  the night turf under a violet haze, and the **all-time greats by rule** (`Greats`: the best Hall of Famer at each
+  position by Hall of Fame Score, then Career Legacy, from `halloffame.json`, the best of those first, 7 of them), each
+  in his own banner club's kit (`signatureTeams`) through the site's sprite rules (`widget_sprites.site_rules` /
+  `figure`): the greatest front and centre at 3x celebrating under a spotlight with his name on a club-colour strip at
+  the rail, two beside him and four behind at 2x, under multi-club confetti, the near stands with phone lights below.
+  About 300 art pixels across (`int(w / 300 + 0.5)` device pixels each); the logo and names stay clear of the status
+  bar and home indicator (`safe_rows`). It reads the Hall of Fame, so `npm run rebuild` runs `build_app_icons.py
+  --splash` after the widget feed and the launch screens follow new Hall of Famers (commit them with the update). It writes
   `public/apple-touch-icon.png`, `icon-192/512.png`, `icon-maskable-192/512.png`, the favicons and the portrait launch
   screens `public/splash/launch-<w>x<h>.png` for the current iPhone sizes (`SPLASH`); `--icons` / `--splash` build one
   half, `--links` prints the `apple-touch-startup-image` tags that sit in `index.html`. A new iPhone size: add it to

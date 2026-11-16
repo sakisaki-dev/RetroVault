@@ -4,17 +4,20 @@
 * Icon: a shaded pixel football (leather ramp, cream stripes, lace stitches and seams, a floodlight rim light) with a
   soft drop shadow, on Retro Bowl's own day turf (public/private-sprites/field/turf-day-tall.png: the mowed 5-yard
   stripes, a yard line and the hash marks crossing behind) under a gentle vignette. The favicons draw a simpler ball.
-* Splash: a night stadium built from the game's field art (stands, crowd and sideline recoloured in the champion
-  club's colours, the night turf with its yard numbers), two floodlight towers, a jumbotron and an LED ribbon naming
-  the latest Super Bowl champion, the "RETRO VAULT" wordmark on the stadium fascia, and the champions on the field in
-  their kit at 2x (GameSprite figures from public/private-sprites/nfl/: the star in front celebrating, two ring
-  holders beside him, Dorren Skura and one more behind) under falling confetti, the near stands in the dark below.
+* Splash (owner: "keep the logo as the old one for the launch screen make it more colorful and immersive and use the
+  all time greats instead of the eagles players"): the old logo (the gold pixel football with "RV", RETRO VAULT,
+  LEAGUE HUB) over a violet night sky full of fireworks in the greats' club colours, coloured floodlight halos and
+  beams, an "ALL-TIME GREATS" LED fascia hung with each great's club pennant, the game's crowd tiers recoloured section
+  by section into those clubs, an LED ribbon of their surnames, the game's night turf under a violet haze, and the
+  greats themselves (Greats below: the best Hall of Famer at each position, the best of those first) in their own
+  clubs' kits, the greatest front and centre at 3x celebrating under a spotlight with his name on a club-colour strip
+  at the rail, multi-club confetti, the near stands with phone lights below.
 
 Every image is drawn on a grid of whole art pixels and blown up by a whole number with nearest-neighbour, so nothing
-is ever blurry. The champion comes from the data (public/data/widget.json `champion` / `photo`, the ring holders by
-scripts/build_widget_data.py's champion_roster, the kit and pose by the site's own sprite rules through
-scripts/widget_sprites.py), so `npm run rebuild` runs this after the widget feed and the splash follows each new
-champion. Deterministic: two runs give the same bytes.
+is ever blurry. The greats come from the data (public/data/league/halloffame.json, the banner clubs from
+public/data/player-extras.json, club colours and abbreviations from src/utils/nflTeams.ts, the kit and pose by the
+site's own sprite rules through scripts/widget_sprites.py), so `npm run rebuild` runs this and the splash follows the
+Hall of Fame. Deterministic: two runs give the same bytes.
 
 Writes, under public/:
   apple-touch-icon.png (180), icon-192.png, icon-512.png, icon-maskable-192.png, icon-maskable-512.png
@@ -39,7 +42,6 @@ ROOT = Path(__file__).resolve().parent.parent
 PUBLIC = ROOT / "public"
 FIELD = PUBLIC / "private-sprites" / "field"
 NFL = PUBLIC / "private-sprites" / "nfl"
-WIDGET = PUBLIC / "data" / "widget.json"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 RGB = tuple[int, int, int]
@@ -390,314 +392,541 @@ SPLASH = [
 ]
 
 KEY_PRIMARY, KEY_SECONDARY, KEY_TRIM = hexc("00ff00"), hexc("ff00ff"), hexc("00ffff")
-NEUTRAL_MAIN, NEUTRAL_SHADE, NEUTRAL_TRIM = 0xBFBFBF, 0x8F8F8F, 0xFBFFFD
+HOF = PUBLIC / "data" / "league" / "halloffame.json"
+EXTRAS = PUBLIC / "data" / "player-extras.json"
+TEAMS_TS = ROOT / "src" / "utils" / "nflTeams.ts"
+GREATS = 7  # figures on the field: the best Hall of Famer at each position, the best of those first
 
 
-class Champions:
-    """The latest champion and the figures for the photo, from the data and the site's own sprite rules."""
-
-    def __init__(self) -> None:
-        self.team = "Eagles"
-        self.season = ""
-        self.roman = ""
-        self.figures: list[tuple[str, Image.Image]] = []  # (role, 64 x 64 RGBA on the anchor), star first
-        self.coach: Image.Image | None = None
-        self.colours = {"primary": hexc("004c54"), "secondary": hexc("f4f5f7"), "trim": hexc("14161b"),
-                        "shade": hexc("003439")}
-        self.load()
-
-    def load(self) -> None:
-        widget = json.loads(WIDGET.read_text()) if WIDGET.exists() else {}
-        champ = widget.get("champion") or {}
-        if not champ.get("winner"):
-            return
-        self.team, self.season, self.roman = champ["winner"], champ.get("season", ""), champ.get("roman", "")
-        if not (NFL / "index.json").exists():
-            return
-        import build_widget_data as W  # the ring holders (the site's TeamPhoto rule)
-        import widget_sprites as WS  # the site's sprite picks and kit palettes, the GameSprite painter
-
-        year = int(str(self.season).lstrip("Y") or 0)
-        roster = W.champion_roster(year, self.team)
-        photo = widget.get("photo") or {}
-        star_key = next((p["player"] for p in photo.get("players", []) if p.get("star")), None) \
-            if photo.get("season") == self.season else None
-        keys = [W.KEY[p["n"]] for p in roster]
-        if star_key in keys:
-            keys.remove(star_key)
-            keys.insert(0, star_key)
-        keys = keys[:4]
-        jobs = [{"key": k, "club": self.team, "action": "celebrate" if i == 0 else "idle"} for i, k in enumerate(keys)]
-        palettes, picks = WS.site_rules(jobs) if jobs else ({}, [])
-        pal = palettes.get(self.team)
-        if pal:
-            j, p = pal["jersey"], pal["pants"]
-            self.colours = {"primary": tuple(j[str(NEUTRAL_MAIN)]), "shade": tuple(j[str(NEUTRAL_SHADE)]),
-                            "trim": tuple(j[str(NEUTRAL_TRIM)]), "secondary": tuple(p[str(NEUTRAL_MAIN)])}
-        for k, pick in zip(keys, picks):
-            if pick and (NFL / pick["file"]).exists():
-                self.figures.append((k, WS.figure(pick, palettes)))
-        index = json.loads((NFL / "index.json").read_text())
-        head = (index.get("coaches") or {}).get("head") or {}
-        f = (head.get("kits") or {}).get(self.team)
-        if f and (NFL / f).exists():
-            cx, foot = (index.get("anchors") or {}).get(f, [31.5, 58])
-            src = Image.open(NFL / f).convert("RGBA")
-            out = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
-            out.paste(src, (int(round(WS.CX - cx)), int(round(WS.FOOT - foot))))
-            self.coach = out
+# ---- the old logo (the launch screen's mark before the stadium, kept by the owner): a 24 x 16 gold pixel football
+# with "RV" in navy, cream stripes near the tips, a glint, drawn at a whole cell size ----
+BALL_W, BALL_H = 24, 16
+NAVY_INK = (14, 22, 48)
+OLD_CREAM = (255, 246, 222)
+OLD_GOLD_HI = (255, 226, 130)
+OLD_GOLD_LO = (176, 112, 14)
+OLD_GOLD_MID = (232, 167, 30)
 
 
-def recolour(img: Image.Image, cols: dict, light: float = 1.0) -> Image.Image:
-    """The game's key colours (green primary, magenta secondary, cyan trim) into the club's, everything times light."""
-    a = np.array(img.convert("RGBA")).astype(float)
-    rgb = a[..., :3]
-    for key, to in ((KEY_PRIMARY, cols["primary"]), (KEY_SECONDARY, cols["secondary"]), (KEY_TRIM, cols["trim"])):
-        m = np.all(rgb == key, axis=-1)
-        rgb[m] = to
-    rgb *= light
-    a[..., :3] = np.clip(rgb, 0, 255)
-    return Image.fromarray(a.astype(np.uint8), "RGBA")
+def old_mark() -> dict[tuple[int, int], RGB]:
+    """(x, y) -> colour for every painted cell of the old mark (scripts/build_app_icons.py before 2026-11-15)."""
+    cx, half_w, half_h = BALL_W / 2, BALL_W / 2, BALL_H / 2
+    m = [[abs(y + 0.5 - half_h) <= half_h * max(0.0, 1 - ((x + 0.5 - cx) / half_w) ** 2) ** 0.9
+          for x in range(BALL_W)] for y in range(BALL_H)]
+    inside = lambda x, y: 0 <= x < BALL_W and 0 <= y < BALL_H and m[y][x]  # noqa: E731
+    px: dict[tuple[int, int], RGB] = {}
+    for y in range(BALL_H):
+        for x in range(BALL_W):
+            if not m[y][x]:
+                continue
+            if not all(inside(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+                px[(x, y)] = INK
+                continue
+            t = y / (BALL_H - 1)
+            px[(x, y)] = OLD_GOLD_HI if t < 0.25 else GOLD if t < 0.6 else OLD_GOLD_MID if t < 0.8 else OLD_GOLD_LO
+    for sx in (3, BALL_W - 4):
+        for y in range(BALL_H):
+            if (sx, y) in px and px[(sx, y)] != INK:
+                px[(sx, y)] = OLD_CREAM
+    r, v = FONT["R"], FONT["V"]
+    x0, y0 = (BALL_W - (len(r[0]) + 1 + len(v[0]))) // 2, (BALL_H - len(r)) // 2
+    for glyph, gx in ((r, x0), (v, x0 + len(r[0]) + 1)):
+        for yy, line in enumerate(glyph):
+            for xx, c in enumerate(line):
+                if c == "1":
+                    px[(gx + xx, y0 + yy)] = NAVY_INK
+    for x, y in ((6, 2), (7, 2), (8, 2), (5, 3)):
+        if px.get((x, y)) not in (None, INK):
+            px[(x, y)] = (255, 244, 200)
+    return px
+
+
+def hsl(spec: str) -> RGB:
+    import colorsys
+    h, s, l = (float(p.rstrip("%")) for p in spec.split())
+    r, g, b = colorsys.hls_to_rgb(h / 360, l / 100, s / 100)
+    return round(r * 255), round(g * 255), round(b * 255)
+
+
+def club_table() -> dict[str, dict]:
+    """The site's club table (src/utils/nflTeams.ts): abbreviation and brand colours per club name."""
+    out = {}
+    if not TEAMS_TS.exists():
+        return out
+    import re
+    for m in re.finditer(r"name: '([^']+)'.*?abbreviation: '([^']+)'.*?primaryColor: '([^']+)', secondaryColor: '([^']+)'",
+                         TEAMS_TS.read_text()):
+        out[m.group(1)] = {"abbr": m.group(2), "primary": hsl(m.group(3)), "secondary": hsl(m.group(4))}
+    return out
+
+
+def lum(c) -> float:
+    return 0.3 * c[0] + 0.59 * c[1] + 0.11 * c[2]
 
 
 def lift(c: RGB, min_l: int = 70) -> RGB:
     """A club colour bright enough to read on night navy (keeps its hue)."""
-    lum = 0.3 * c[0] + 0.59 * c[1] + 0.11 * c[2]
-    if lum >= min_l:
+    lv = lum(c)
+    if lv >= min_l:
         return c
-    k = min_l / max(lum, 1)
-    out = tuple(min(255, round(v * k + 18)) for v in c)
-    return out  # type: ignore[return-value]
+    k = min_l / max(lv, 1)
+    return tuple(min(255, round(v * k + 18)) for v in c)  # type: ignore[return-value]
 
 
-def add_light(arr: np.ndarray, mask: np.ndarray, colour: RGB, amount: float) -> None:
-    arr[mask] = np.clip(arr[mask] + np.array(colour) * amount, 0, 255)
+class Greats:
+    """The league's all-time greats, by rule: the best Hall of Famer at each position (Hall of Fame Score, then Career
+    Legacy, then key; public/data/league/halloffame.json), the best of those first, GREATS of them. Each wears his
+    banner club's kit (player-extras.json signatureTeams: where he was best known), drawn by the site's own sprite
+    rules (scripts/widget_sprites.py site_rules / figure). The first is the greatest: front and centre, celebrating."""
+
+    def __init__(self) -> None:
+        self.people: list[dict] = []  # {key, name, last, club, abbr, primary, secondary, fig}
+        self.load()
+
+    def load(self) -> None:
+        if not HOF.exists():
+            return
+        hof = json.loads(HOF.read_text())
+        extras = json.loads(EXTRAS.read_text()) if EXTRAS.exists() else {}
+        order = sorted(hof.get("members", []), key=lambda m: (-m["score"], -m["careerLegacy"], m["key"]))
+        best: dict[str, dict] = {}
+        for m in order:
+            best.setdefault(m["pos"], m)
+        picked = sorted(best.values(), key=lambda m: (-m["score"], -m["careerLegacy"], m["key"]))[:GREATS]
+        clubs = club_table()
+        for m in picked:
+            full = (extras.get("signatureTeams") or {}).get(m["name"])
+            club = full.split()[-1] if full else None
+            info = clubs.get(club or "", {})
+            self.people.append({"key": m["key"], "name": m["name"], "last": m["name"].split()[-1].upper(),
+                                "club": club, "abbr": info.get("abbr", ""),
+                                "primary": info.get("primary", hexc("1d2a57")),
+                                "secondary": info.get("secondary", GOLD), "fig": None})
+        if not (NFL / "index.json").exists() or not self.people:
+            return
+        import widget_sprites as WS  # the site's sprite picks and kit palettes, the GameSprite painter
+
+        jobs = [{"key": p["key"], "club": p["club"], "action": "celebrate" if i == 0 else "idle"}
+                for i, p in enumerate(self.people)]
+        palettes, picks = WS.site_rules(jobs)
+        for p, pick in zip(self.people, picks):
+            if pick and (NFL / pick["file"]).exists():
+                p["fig"] = WS.figure(pick, palettes)
 
 
-def splash_art(aw: int, ah: int, top: int, bottom: int, ch: Champions) -> Image.Image:
+def recolour(img: Image.Image, cols: tuple[RGB, RGB, RGB], light: float = 1.0) -> np.ndarray:
+    """The game's key colours (green primary, magenta secondary, cyan trim) into cols, everything times light."""
+    a = np.array(img.convert("RGB")).astype(float)
+    for key, to in zip((KEY_PRIMARY, KEY_SECONDARY, KEY_TRIM), cols):
+        a[np.all(a == key, axis=-1)] = to
+    return a * light
+
+
+def stepped(f: np.ndarray, levels: int, yy: np.ndarray, xx: np.ndarray) -> np.ndarray:
+    """A smooth 0..1 field quantised to whole steps, ordered-dithered at each step's edge (stays pixel art)."""
+    return np.floor(f * levels + BAYER[yy % 4, xx % 4] - 0.5).clip(0, levels) / levels
+
+
+def glow(arr: np.ndarray, cx: float, cy: float, rx: float, ry: float, colour, amount: float, levels: int = 5,
+         rows: tuple[int, int] | None = None) -> None:
+    """Additive stepped light: an elliptical pool of colour, strongest at the centre."""
+    h, w = arr.shape[:2]
+    y0, y1 = rows or (0, h)
+    y0, y1 = max(0, int(cy - ry - 1), y0), min(h, int(cy + ry + 2), y1)
+    x0, x1 = max(0, int(cx - rx - 1)), min(w, int(cx + rx + 2))
+    if y0 >= y1 or x0 >= x1:
+        return
+    yy, xx = np.mgrid[y0:y1, x0:x1]
+    d = np.hypot((xx + 0.5 - cx) / rx, (yy + 0.5 - cy) / ry)
+    f = stepped(np.clip(1 - d, 0, 1) ** 1.5, levels, yy, xx) * amount
+    arr[y0:y1, x0:x1] += f[..., None] * np.array(colour, float)
+
+
+def firework(arr: np.ndarray, rng: random.Random, cx: int, cy: int, r: int, colour: RGB, accent: RGB) -> None:
+    """A pixel burst: a soft bloom, spokes of sparks thinning out, a white-hot core, a few falling embers."""
+    h, w = arr.shape[:2]
+    glow(arr, cx, cy, r * 1.25, r * 1.25, colour, 0.22, 4)
+    spokes = rng.choice((12, 14, 16))
+    turn = rng.random() * math.pi
+    for i in range(spokes):
+        ang = turn + i * 2 * math.pi / spokes
+        reach = r * (0.82 + 0.18 * rng.random())
+        for j in range(3, int(reach) + 1):
+            if j < reach * 0.45 and j % 2:
+                continue  # the inner trail breaks up
+            x, y = round(cx + math.cos(ang) * j), round(cy + math.sin(ang) * j + (j / reach) ** 2 * 2.5)
+            if not (0 <= x < w and 0 <= y < h):
+                continue
+            t = j / reach
+            c = (255, 255, 240) if t > 0.92 else accent if t > 0.78 else colour if t > 0.4 else mix(colour, (0, 0, 0), 0.35)
+            arr[y, x] = c
+        # a spark at the tip with a cross of light
+        x, y = round(cx + math.cos(ang) * reach), round(cy + math.sin(ang) * reach + 2.5)
+        for ox, oy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            if 0 <= x + ox < w and 0 <= y + oy < h:
+                arr[y + oy, x + ox] = np.clip(arr[y + oy, x + ox] * 0.4 + np.array(accent) * 0.75, 0, 255)
+    for ox, oy in ((0, 0), (1, 0), (-1, 0), (0, 1), (0, -1)):
+        if 0 <= cx + ox < w and 0 <= cy + oy < h:
+            arr[cy + oy, cx + ox] = (255, 255, 235)
+    for _ in range(spokes // 2):  # embers drifting down under the burst
+        x, y = cx + rng.randint(-r, r), cy + r + rng.randint(0, r // 2 + 2)
+        if 0 <= x < w and 0 <= y < h:
+            arr[y, x] = mix(accent, (255, 255, 255), 0.3)
+
+
+def draw_text(arr: np.ndarray, s: str, cell: int, x: int, y: int, colour, shadow: RGB | None = INK) -> int:
+    """5 x 7 text at a whole cell size with a one-cell drop shadow; returns its width."""
+    m = text_mask(s, cell)
+    if shadow is not None:
+        draw_mask(arr, m, x + cell, y + cell, shadow)
+    draw_mask(arr, m, x, y, colour)
+    return m.shape[1]
+
+
+def splash_art(aw: int, ah: int, top: int, bottom: int, G: Greats) -> Image.Image:
     """The scene on an aw x ah art grid; top / bottom: the art rows the status bar and home indicator cover."""
-    rng = random.Random(f"{ch.season}{ch.team}{aw}x{ah}")
-    cols = ch.colours
+    rng = random.Random(f"{'|'.join(p['key'] for p in G.people)}{aw}x{ah}")
     arr = np.zeros((ah, aw, 3), float)
     cxm = aw // 2
+    yy_all, xx_all = np.mgrid[0:ah, 0:aw]
+    people = G.people
+    club_cols = [lift(p["primary"], 95) for p in people] or [GOLD]
+    club_acc = [lift(p["secondary"], 120) for p in people] or [GOLD_HI]
+    # left-to-right order on the field (and of the pennants): the greatest in the middle, the rest fanning out
+    n = len(people)
+    short = ah < 480  # iPhone SE: one crowd tier, a smaller logo
+    # the group on the field: (x as a share of the width from the middle, rows up from the front feet, scale); the
+    # greatest front and centre at 3x, the next two beside him, four behind (clear of his raised arm, inside the edges)
+    back, edge = (-26, -6) if short else (-36, -8), min(0.40, (aw / 2 - 33) / aw)
+    layout = [(0, 0, 3), (-0.29, back[1], 2), (0.29, back[1], 2), (-0.20, back[0], 2), (0.20, back[0], 2),
+              (-edge, back[0], 2), (edge, back[0], 2)]
+    slots_order = sorted(range(min(n, len(layout))), key=lambda i: layout[i][0])  # left to right
 
     # ---- the stack, top to bottom ----
-    jumbo_h = 26
-    jumbo_y = top + 3
-    facade_y = jumbo_y + jumbo_h - 6
-    crowd_a = facade_y + 22
-    band_y = crowd_a + 30
-    rc = 4 if aw >= 240 else 3  # RETRO's cell
-    big = rc + 2  # VAULT's
-    r_top = band_y + 5  # the glyph rows: RETRO, VAULT, the tagline
-    v_top = r_top + 7 * rc + 2 + 3
-    tag_y = v_top + 7 * big + 3 + 5
-    band_h = tag_y + 7 + 5 - band_y
-    crowd_b = band_y + band_h - 2
-    ribbon_y = crowd_b + 30
-    feet = ah - bottom - 10
-    fig_h = 94 + 24  # the back row at 2x, feet to the top of the head
-    if feet - fig_h < ribbon_y + 9 + 36 + 8:
-        ribbon_y = crowd_b = band_y + band_h  # short screens (iPhone SE): one crowd tier
+    cb = max(3, round(aw * (0.34 if short else 0.46) / BALL_W))  # the ball's cell
+    tc = max(2, round(aw * 0.62 / text_width("RETRO VAULT")))  # the wordmark's cell
+    tg = 2 if aw >= 270 and not short else 1  # the tagline's cell
+    logo_y = top + (8 if short else 14)
+    ball_h = BALL_H * cb
+    text_y = logo_y + ball_h + 3 * cb
+    tag_y = text_y + 7 * tc + 2 * tc + 1
+    logo_bot = tag_y + 7 * tg
+    board_y = logo_bot + (8 if short else 14)
+    board_h = 7 * tg + 8
+    truss_y = board_y + board_h
+    crowd_a = truss_y + 18
+    crowd_b = crowd_a + 32
+    ribbon_y = crowd_b + (0 if short else 32)
+    crowd_c = None
+    if ah - bottom - 12 - (ribbon_y + 9) > 250:  # a tall screen: a third tier
+        crowd_c, ribbon_y = ribbon_y, ribbon_y + 32
     turf_y = ribbon_y + 9
-    feet = min(feet, turf_y + 192)  # the team stands on the field, above the near sideline
-    near_y = max(feet + 8, turf_y + 222)  # the near stands, in the dark below the field
-    # ---- sky: banded night, stars ----
-    sky_top, sky_bot = hexc("05081a"), hexc("1d2a57")
-    for y in range(ah):
-        t = min(1.0, y / max(1, crowd_a))
-        t = math.floor(t * 7 + BAYER[y % 4][0] * 0.0) / 7
-        arr[y, :] = mix(sky_top, sky_bot, t ** 1.4)
-    for _ in range(aw * crowd_a // 70):
-        x, y = rng.randrange(aw), rng.randrange(max(1, crowd_a))
-        b = rng.choice((90, 140, 200))
-        arr[y, x] = (b, b, min(255, b + 30))
-    # ---- floodlight towers (behind the stands) ----
-    lamp_w, lamp_h = 21, 13
-    towers = [(3, top - 6), (aw - lamp_w - 3, top - 6)]
-    for tx, ty in towers:
-        ty = max(2, ty)
-        # the glow: stepped halo
-        yy, xx = np.mgrid[0:ah, 0:aw]
-        d = np.hypot((xx - (tx + lamp_w / 2)) / 1.0, (yy - (ty + lamp_h / 2)) * 1.25)
-        for r, k in ((44, 0.06), (32, 0.08), (22, 0.12), (15, 0.16)):
-            add_light(arr, d <= r, (255, 236, 190), k)
-        # beams toward the field centre
-        for spread, k in ((10, 0.05), (5, 0.05)):
-            x0, y0 = tx + lamp_w / 2, ty + lamp_h
-            tgt_x, tgt_y = cxm, feet
-            for y in range(int(y0), int(feet)):
-                f = (y - y0) / (tgt_y - y0)
-                mid = x0 + (tgt_x - x0) * f
-                half = 3 + spread * f * 4
-                xs = np.arange(aw)
-                m = np.abs(xs - mid) <= half
-                arr[y, m] = np.clip(arr[y, m] + np.array((255, 240, 205)) * k * (1 - f * 0.6), 0, 255)
-        # the pole
-        px0 = tx + lamp_w // 2 - 1
-        arr[ty + lamp_h:crowd_a + 4, px0:px0 + 3] = hexc("2b3245")
-        arr[ty + lamp_h:crowd_a + 4, px0] = hexc("4a5470")
-        for yb in range(ty + lamp_h + 3, crowd_a, 5):  # lattice rungs
-            arr[yb, px0 - 1:px0 + 4] = hexc("39415a")
-        # the lamp bank: a frame and 5 x 3 lamps
-        arr[ty:ty + lamp_h, tx:tx + lamp_w] = hexc("1a1f2e")
-        arr[ty, tx:tx + lamp_w] = hexc("4a5470")
-        for r in range(3):
-            for c in range(5):
-                lx, ly = tx + 1 + c * 4, ty + 1 + r * 4
-                arr[ly:ly + 3, lx:lx + 3] = hexc("fff4cf")
-                arr[ly, lx] = (255, 255, 255)
-                arr[ly + 2, lx + 2] = hexc("ffd98a")
-    # ---- jumbotron: the champion ----
-    jw = min(aw - 2 * (lamp_w + 10), 104)
-    jx = cxm - jw // 2
-    arr[jumbo_y + jumbo_h:facade_y + 4, jx + 8:jx + 11] = hexc("2b3245")  # legs
-    arr[jumbo_y + jumbo_h:facade_y + 4, jx + jw - 11:jx + jw - 8] = hexc("2b3245")
-    arr[jumbo_y:jumbo_y + jumbo_h, jx:jx + jw] = hexc("10131c")
-    arr[jumbo_y, jx:jx + jw] = hexc("5b6584")
-    arr[jumbo_y + 1:jumbo_y + jumbo_h - 1, jx + 1:jx + jw - 1] = hexc("2a3042")
-    sx0, sy0, sw, sh = jx + 3, jumbo_y + 3, jw - 6, jumbo_h - 6
-    screen = mix(cols["shade"], (0, 0, 0), 0.35)
-    arr[sy0:sy0 + sh, sx0:sx0 + sw] = screen
-    for y in range(sy0, sy0 + sh, 2):  # LED scan rows
-        arr[y, sx0:sx0 + sw] = np.clip(arr[y, sx0:sx0 + sw] * 0.78, 0, 255)
-    team_word = ch.team.upper()
-    l1 = text_mask(team_word, 1)
-    l2 = text_mask(f"{ch.season} CHAMPIONS" if ch.season else "CHAMPIONS", 1)
-    draw_mask(arr, l1, cxm - l1.shape[1] // 2, sy0 + 1, (255, 255, 255))
-    draw_mask(arr, l2, cxm - l2.shape[1] // 2, sy0 + 10, GOLD)
-    # ---- the upper facade (the game's stands art, lit steel) and crowd ----
-    stands = recolour(Image.open(FIELD / "stands.png"), cols)
-    st = np.array(stands.convert("RGB")).astype(float)
-    # blue truss into night steel
-    st = st * np.array([0.22, 0.26, 0.40]) + 6
-    off = (st.shape[1] - aw) // 2
-    arr[facade_y:facade_y + 22] = st[11:33, off:off + aw]
-    crowd_img = recolour(Image.open(FIELD / "crowd.png"), cols, 0.9)
-    cr = np.array(crowd_img.convert("RGB")).astype(float)
+    feet = min(ah - bottom - (6 if short else 12), turf_y + 200)
+    sky_bot = crowd_a
 
-    def crowd_tier(y: int, shift: int, flashes: int) -> None:
-        o = (cr.shape[1] - aw) // 2 + shift
-        arr[y:y + 32] = cr[0:32, o:o + aw]
-        for _ in range(flashes):  # camera flashes
-            fx, fy = rng.randrange(1, aw - 1), y + rng.randrange(1, 31)
+    # ---- sky: a deep night going violet and magenta toward the stadium glow, stars ----
+    stops = [(0.0, hexc("040615")), (0.35, hexc("0f1240")), (0.62, hexc("2a1660")), (0.82, hexc("561a6a")),
+             (1.0, hexc("a0306a"))]
+    for y in range(sky_bot):
+        t = y / max(1, sky_bot - 1)
+        for (t0, c0), (t1, c1) in zip(stops, stops[1:]):
+            if t0 <= t <= t1:
+                u = (t - t0) / (t1 - t0)
+                lo, hi = mix(c0, c1, math.floor(u * 4) / 4), mix(c0, c1, min(1, math.floor(u * 4 + 1) / 4))
+                frac = u * 4 - math.floor(u * 4)
+                for x in range(aw):
+                    arr[y, x] = hi if frac > BAYER[y % 4, x % 4] + 0.25 else lo
+                break
+    for _ in range(aw * sky_bot // 55):
+        x, y = rng.randrange(aw), rng.randrange(max(1, int(sky_bot * 0.7)))
+        b = rng.choice((110, 160, 220, 255))
+        arr[y, x] = (b, b, min(255, b + 25))
+    # ---- fireworks over the stadium, one in each great's colours ----
+    bursts = []
+    for i in range(max(n, 4) + 2):
+        side = -1 if i % 2 == 0 else 1
+        for _ in range(40):
+            r = rng.randint(14, 24) if not short else rng.randint(10, 17)
+            x = cxm + side * rng.randint(int(aw * 0.12), int(aw * 0.44))
+            y = rng.randint(top + 6, max(top + 8, board_y - r // 2))
+            if all(math.hypot(x - bx, y - by) > (r + br) * 0.85 for bx, by, br in bursts):
+                bursts.append((x, y, r))
+                break
+    for i, (x, y, r) in enumerate(bursts):
+        firework(arr, rng, x, y, r, club_cols[i % len(club_cols)], club_acc[i % len(club_acc)])
+    # ---- floodlight towers in the corners: white-hot lamps, coloured halos, beams down onto the field ----
+    lamp_w, lamp_h = 21, 13
+    for side, (tx, tint) in enumerate(((3, hexc("5ad8ff")), (aw - lamp_w - 3, hexc("ff6ad5")))):
+        ty = max(2, top - 4)
+        lx, ly = tx + lamp_w / 2, ty + lamp_h / 2
+        glow(arr, lx, ly, 64, 52, tint, 0.30, 6)
+        glow(arr, lx, ly, 30, 24, (255, 236, 200), 0.45, 5)
+        x0, y0 = lx, ty + lamp_h
+        for y in range(int(y0), feet):
+            f = (y - y0) / max(1, feet - y0)
+            mid = x0 + (cxm + (-1 if side == 0 else 1) * aw * 0.08 - x0) * f
+            half = 2 + 26 * f
+            xs = np.arange(aw)
+            m = np.abs(xs - mid) <= half
+            k = 0.07 * (1 - f * 0.5) * (1 if (y // 2 + side) % 3 else 0.6)
+            arr[y, m] += np.array(mix(tint, (255, 255, 255), 0.55)) * k
+        pole = tx + lamp_w // 2 - 1
+        arr[ty + lamp_h:truss_y, pole:pole + 3] = hexc("232a40")
+        arr[ty + lamp_h:truss_y, pole] = hexc("4a5470")
+        for yb in range(ty + lamp_h + 3, truss_y, 5):
+            arr[yb, pole - 1:pole + 4] = hexc("39415a")
+        arr[ty:ty + lamp_h, tx:tx + lamp_w] = hexc("1a1f2e")
+        arr[ty, tx:tx + lamp_w] = hexc("6a7494")
+        for r_ in range(3):
+            for c in range(5):
+                lx_, ly_ = tx + 1 + c * 4, ty + 1 + r_ * 4
+                arr[ly_:ly_ + 3, lx_:lx_ + 3] = hexc("fff4cf")
+                arr[ly_, lx_] = (255, 255, 255)
+                arr[ly_ + 2, lx_ + 2] = mix(hexc("ffd98a"), tint, 0.3)
+    # ---- the logo's halo: gold light behind the old mark ----
+    glow(arr, cxm, logo_y + ball_h * 0.5, aw * 0.42, ball_h * 1.15, hexc("ffb347"), 0.38, 6)
+    glow(arr, cxm, logo_y + ball_h * 0.5, aw * 0.26, ball_h * 0.75, hexc("ffe7a0"), 0.25, 4)
+
+    # ---- the stadium: the game's truss, crowd tiers in the greats' club colours, section by section ----
+    st = np.array(Image.open(FIELD / "stands.png").convert("RGB")).astype(float)
+    st = st * np.array([0.30, 0.24, 0.46]) + 8  # blue truss into violet night steel
+    off = (st.shape[1] - aw) // 2
+    arr[truss_y:truss_y + 22] = st[11:33, off:off + aw]
+    crowd_src = Image.open(FIELD / "crowd.png")
+    sections = [(p["primary"], p["secondary"], (240, 240, 240)) for p in (people[i] for i in slots_order)] or \
+        [(hexc("1d2a57"), GOLD, CHALK)]
+    tiers = [np.array(recolour(crowd_src, s)) for s in sections]
+
+    def crowd_tier(y: int, shift: int, light: float, flashes: int) -> None:
+        ns = len(tiers)
+        bounds = [round(aw * i / ns) for i in range(ns + 1)]
+        o = (tiers[0].shape[1] - aw) // 2 + shift
+        rows = min(32, ah - y)
+        for i in range(ns):
+            a, b = bounds[i], bounds[i + 1]
+            arr[y:y + rows, a:b] = tiers[i][0:rows, o + a:o + b] * light
+            if i:  # the aisle between sections
+                arr[y:y + rows, a] = hexc("12101e")
+                arr[y + 1:y + rows:3, a] = hexc("3a3550")
+        # the floodlights catch the middle of the tier
+        glow(arr, cxm, y + 14, aw * 0.6, 26, (255, 230, 200), 0.10, 4, rows=(y, y + rows))
+        for _ in range(flashes):
+            fx, fy = rng.randrange(1, aw - 1), y + rng.randrange(1, max(2, rows - 1))
             arr[fy, fx] = (255, 255, 255)
             for ox, oy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-                arr[fy + oy, fx + ox] = np.clip(arr[fy + oy, fx + ox] + 90, 0, 255)
+                if 0 <= fy + oy < ah:
+                    arr[fy + oy, fx + ox] = np.clip(arr[fy + oy, fx + ox] + 110, 0, 255)
 
-    crowd_tier(crowd_a, 0, 4)
-    if crowd_b < ribbon_y:
-        crowd_tier(crowd_b, 17, 5)
-    arr[crowd_a - 1] = hexc("0c0f18")
-    # ---- LED ribbon board under the lower tier ----
-    arr[ribbon_y:ribbon_y + 9] = hexc("07090f")
-    arr[ribbon_y] = hexc("3a4157")
-    arr[ribbon_y + 8] = hexc("1b2030")
-    msg = f"SUPER BOWL {ch.roman} ★ {ch.team.upper()} ★ " if ch.roman else "RETRO VAULT ★ "
-    rib = text_mask(msg * 6, 1)
-    o = (ch.season.__hash__() and 0) + 7
-    for yy in range(7):
-        for xx in range(aw):
-            if rib[yy, (xx + o) % rib.shape[1]]:
-                arr[ribbon_y + 1 + yy, xx] = GOLD if yy < 4 else GOLD_MID
-    # ---- the field: the game's night turf, the bench recoloured ----
-    turf = np.array(recolour(Image.open(FIELD / "turf-night.png"), cols).convert("RGB")).astype(float)
+    crowd_tier(crowd_a, 0, 0.92, 6)
+    if not short:
+        crowd_tier(crowd_b, 17, 1.0, 7)
+    if crowd_c is not None:
+        crowd_tier(crowd_c, 31, 1.06, 8)
+    arr[crowd_a - 1] = hexc("0c0a18")
+    # a light haze from the floodlights over the upper tier
+    glow(arr, cxm, crowd_a + 4, aw * 0.7, 22, hexc("c060ff"), 0.10, 3)
+
+    # ---- the board: ALL-TIME GREATS on an LED fascia, gold rails ----
+    arr[board_y:board_y + board_h] = hexc("080812")
+    arr[board_y] = GOLD
+    arr[board_y + 1] = GOLD_LO
+    arr[board_y + board_h - 1] = GOLD_DEEP
+    arr[board_y + board_h - 2] = GOLD_LO
+    for y in range(board_y + 2, board_y + board_h - 2, 2):  # LED scan rows
+        arr[y, :] = hexc("10101e")
+    msg = "★ ALL-TIME GREATS ★"
+    mw = text_width(msg, tg)
+    draw_text(arr, msg, tg, cxm - mw // 2, board_y + 4, lambda r: GOLD_HI if r < 3 * tg else GOLD if r < 5 * tg else
+              GOLD_MID, shadow=hexc("3a1c00"))
+    glow(arr, cxm, board_y + board_h / 2, mw * 0.6, board_h * 0.9, hexc("ffb020"), 0.10, 3,
+         rows=(board_y + 2, board_y + board_h - 2))
+
+    # ---- the pennants: each great's club banner hanging from the fascia, in field order ----
+    pw = max(18, min(30, (aw - 12) // max(1, n) - 5))
+    ph = 30 if not short else 24
+    gap = (aw - n * pw) / (n + 1)
+    for j, i in enumerate(slots_order):
+        p = people[i]
+        x0 = round(gap + j * (pw + gap))
+        y0 = board_y + board_h
+        prim, sec = p["primary"], p["secondary"]
+        dark = mix(prim, (0, 0, 0), 0.45)
+        for y in range(ph):
+            notch = max(0, y - (ph - pw // 2))  # the swallowtail cut
+            for x in range(pw):
+                cxp = abs(x + 0.5 - pw / 2)
+                if notch and cxp < notch:
+                    continue
+                edge = x in (0, pw - 1) or (notch and cxp < notch + 1) or y == ph - 1
+                c = dark if edge else prim
+                if 2 <= y <= 3 or ph - pw // 2 - 3 <= y <= ph - pw // 2 - 2:
+                    c = sec if not edge else dark
+                fold = 0.82 if x < 2 else 1.08 if x == pw - 3 else 1.0  # the cloth catching light
+                arr[y0 + y, x0 + x] = np.clip(np.array(c, float) * fold, 0, 255)
+        # the hanging rod and the abbreviation
+        arr[y0, x0 - 1:x0 + pw + 1] = hexc("c9a24a")
+        if p["abbr"]:
+            ink = (255, 255, 255) if lum(prim) < 150 else hexc("10131c")
+            am = text_mask(p["abbr"], 1)
+            if am.shape[1] <= pw - 2:
+                draw_mask(arr, am, x0 + (pw - am.shape[1]) // 2 + 1, y0 + 7, mix(dark, (0, 0, 0), 0.5))
+                draw_mask(arr, am, x0 + (pw - am.shape[1]) // 2, y0 + 6, ink)
+        # a star for the greatest
+        if i == 0:
+            sm = text_mask("★", 1)
+            draw_mask(arr, sm, x0 + (pw - sm.shape[1]) // 2, y0 + 16, GOLD)
+
+    # ---- LED ribbon: the greats' surnames, each in his club's colour ----
+    if ribbon_y + 9 <= ah:
+        arr[ribbon_y:ribbon_y + 9] = hexc("07060f")
+        arr[ribbon_y] = hexc("4a3f6a")
+        arr[ribbon_y + 8] = hexc("1b1830")
+        parts = [("HALL OF FAME", GOLD)] + [(p["last"], lift(p["secondary"] if lum(p["primary"]) < 60 else p["primary"], 130))
+                                            for p in people]
+        xx = 3
+        while xx < aw:
+            for word, col in parts:
+                for piece, c in ((word, col), ("★", GOLD_MID)):
+                    m = text_mask(piece, 1)
+                    draw_mask(arr, m, xx, ribbon_y + 1, c)
+                    xx += m.shape[1] + 4
+
+    # ---- the field: the game's night turf, the bench in the greatest's club ----
+    lead = people[0] if people else None
+    bench = (lead["primary"], lead["secondary"], (240, 240, 240)) if lead else (hexc("1d2a57"), GOLD, CHALK)
+    turf = recolour(Image.open(FIELD / "turf-night.png"), bench)
     to = 320 - aw // 2
     rows = min(ah - turf_y, turf.shape[0])
-    arr[turf_y:turf_y + rows] = turf[0:rows, to:to + aw]
+    arr[turf_y:turf_y + rows] = turf[0:rows, to:to + aw] * 1.05
     if turf_y + rows < ah:
         arr[turf_y + rows:] = turf[-1, to:to + aw]
-    # floodlight pool on the field around the team
-    yy, xx = np.mgrid[0:ah, 0:aw]
-    d = np.hypot((xx - cxm) / (aw * 0.55), (yy - (feet - 18)) / 46)
-    for r, k in ((1.0, 0.05), (0.75, 0.06), (0.5, 0.07)):
-        m = (d <= r) & (yy >= turf_y + 36)
-        arr[m] = np.clip(arr[m] * (1 + k) + 4, 0, 255)
-    # ---- the near stands: a padded wall with a gold rail, the crowd below it in silhouette ----
+    # atmospheric haze: the far field lies under a violet mist, clearing toward the camera
+    for y in range(turf_y, min(ah, turf_y + 70)):
+        f = 1 - (y - turf_y) / 70
+        q = stepped(np.full(aw, f * f), 5, np.full(aw, y), np.arange(aw)) * 0.42
+        arr[y] = arr[y] * (1 - q[:, None]) + np.array(hexc("6a4a9a")) * q[:, None]
+
+    # ---- the greats: the greatest front and centre at 3x celebrating, two beside him, four behind ----
+    placed = []
+    for i, p in enumerate(people[:len(layout)]):
+        fx, dy, sc = layout[i]
+        x = cxm + fx * aw
+        y = feet + dy
+        placed.append((i, x, y, sc))
+        # a pool of his club's light on the turf, white for the greatest
+        col = (255, 245, 220) if i == 0 else lift(p["primary"], 110)
+        glow(arr, x, y - 1, 15 * sc, 5 * sc, col, 0.42 if i == 0 else 0.30, 4)
+    # the spotlight on the greatest: a cone from above
+    if placed:
+        _, sx, sy, _ = placed[0]
+        for y in range(turf_y, int(sy)):
+            f = (y - turf_y) / max(1, sy - turf_y)
+            half = 8 + 40 * f
+            m = np.abs(np.arange(aw) - sx) <= half
+            arr[y, m] += np.array((255, 240, 210)) * 0.05 * (0.5 + f * 0.5)
+
+    # ---- confetti: every great's colours and gold, small and far up the field, bigger near the camera ----
+    conf = club_cols + club_acc + [GOLD, GOLD_HI, (255, 255, 255)]
+    lo, hi = crowd_a, feet + 4
+    for _ in range(aw * (hi - lo) // 70):
+        x, y = rng.randrange(aw), rng.randrange(lo, hi)
+        if board_y - 1 <= y <= board_y + board_h or ribbon_y - 1 <= y <= ribbon_y + 9:
+            continue
+        near = (y - lo) / max(1, hi - lo)
+        c = rng.choice(conf)
+        if near > 0.55 and rng.random() < 0.55:
+            cells = rng.choice(([(0, 0), (1, 0), (0, 1), (1, 1)], [(0, 0), (1, 0), (2, 1)], [(0, 0), (1, 1), (1, 2)]))
+        else:
+            cells = rng.choice(([(0, 0)], [(0, 0), (1, 0)], [(0, 0), (0, 1)]))
+        shade = mix(c, (0, 0, 0), 0.35)
+        for j, (ox, oy) in enumerate(cells):
+            if 0 <= x + ox < aw and 0 <= y + oy < ah:
+                arr[y + oy, x + ox] = c if j < 2 else shade
+    for _ in range(aw * 3 // 20):  # fallen confetti on the turf
+        x, y = rng.randrange(aw), rng.randrange(turf_y + 20, min(ah, feet + 8))
+        arr[y, x] = np.array(rng.choice(conf)) * 0.75
+    for _ in range(max(3, aw // 40)):  # streamers curling down
+        x, y = rng.randrange(aw), rng.randrange(lo, max(lo + 1, hi - 30))
+        c = rng.choice(conf)
+        ph_ = rng.random() * 6
+        for j in range(rng.randint(12, 22)):
+            xx_ = round(x + 2.2 * math.sin(ph_ + j * 0.45))
+            if 0 <= xx_ < aw and 0 <= y + j < ah:
+                arr[y + j, xx_] = c if j % 4 else mix(c, (255, 255, 255), 0.4)
+
+    # ---- the near stands below the field: a gold rail and the crowd in silhouette, lit at the rim ----
+    near_y = feet + 9
     if near_y < ah:
         arr[near_y:near_y + 2] = GOLD_LO
         arr[near_y] = GOLD
-        wall = mix(cols["shade"], (0, 0, 0), 0.25)
-        arr[near_y + 2:near_y + 7] = wall
-        arr[near_y + 2] = mix(wall, (255, 255, 255), 0.15)
-        y, k = near_y + 7, 0
+        arr[near_y + 2:near_y + 6] = hexc("140c24")
+        arr[near_y + 2] = hexc("2c1c48")
+        y, t = near_y + 6, 0
         while y < ah:
-            o = (cr.shape[1] - aw) // 2 + 9 + 23 * k
             rows_ = min(32, ah - y)
-            tier = cr[0:rows_, o:o + aw] * (0.42 - 0.08 * k) + np.array(hexc("0b1024")) * 0.35
-            arr[y:y + rows_] = tier
-            y, k = y + 32, k + 1
-    # ---- the title band (stadium fascia over the stands, the crowd dimly through it) ----
-    band = arr[band_y:band_y + band_h]
-    band *= 0.24
-    band += np.array(hexc("0b1024")) * 0.76
-    arr[band_y] = GOLD_LO
-    arr[band_y + 1] = GOLD_DEEP
-    arr[band_y + band_h - 1] = GOLD_LO
-    arr[band_y + band_h - 2] = GOLD_DEEP
-    for x in range(2, aw - 2, 6):  # fascia rivets
-        arr[band_y + 3, x] = hexc("2a3252")
-        arr[band_y + band_h - 4, x] = hexc("2a3252")
-    retro, vault = text_mask("RETRO", rc), text_mask("VAULT", big)
-    # RETRO: chalk with a cool shade, a dark outline
-    face, ext, ring = outlined(retro, 3, 2)
-    rx, ry = cxm - face.shape[1] // 2, r_top - 3
-    draw_mask(arr, ring, rx, ry, INK)
-    draw_mask(arr, ext, rx, ry, hexc("4b5784"))
-    draw_mask(arr, face, rx, ry, lambda r: CHALK if r - 3 < 4 * rc else CHALK_LO)
-    # gold stars either side of RETRO
-    star = text_mask("★", 1)
-    for sx in (rx - 4 - star.shape[1], rx + face.shape[1] + 4):
-        draw_mask(arr, star, sx, r_top + (7 * rc - 7) // 2, GOLD)
-    # VAULT: gold ramp, a deep amber extrusion
-    face, ext, ring = outlined(vault, 4, 3)
-    vx, vy = cxm - face.shape[1] // 2, v_top - 4
-    vh = 7 * big
-    ramp = lambda r: (GOLD_HI if r - 4 < vh * 0.25 else GOLD if r - 4 < vh * 0.55 else GOLD_MID  # noqa: E731
-                      if r - 4 < vh * 0.8 else GOLD_LO)
-    draw_mask(arr, ring, vx, vy, INK)
-    draw_mask(arr, ext, vx, vy, GOLD_DEEP)
-    draw_mask(arr, face, vx, vy, ramp)
-    for i in range(big - 1):  # a glint on the V
-        arr[v_top + 1 + i, vx + 4 + 1 + i] = (255, 255, 240)
-    tag = "STATS · CARDS · LEGENDS"
-    tm = text_mask(tag, 1)
-    draw_mask(arr, tm, cxm - tm.shape[1] // 2, tag_y, MUTED)
-    # ---- confetti in the club's colours and gold ----
-    conf_cols = [lift(cols["primary"], 90), cols["secondary"], GOLD, GOLD_HI, (255, 255, 255), lift(cols["shade"], 80)]
-    for _ in range(aw * (feet - band_y - band_h) // 120):
-        x, y = rng.randrange(aw), rng.randrange(band_y + band_h, feet + 6)
-        if band_y - 1 <= y <= band_y + band_h or ribbon_y - 1 <= y <= ribbon_y + 9:
-            continue
-        c = rng.choice(conf_cols)
-        shape = rng.randrange(4)
-        cells = [(0, 0)] + ([(1, 0)] if shape == 1 else [(0, 1)] if shape == 2 else [(1, 1)] if shape == 3 else [])
-        for ox, oy in cells:
-            if 0 <= x + ox < aw and 0 <= y + oy < ah:
-                arr[y + oy, x + ox] = c
-    for _ in range(aw * max(1, near_y - feet) // 60):  # some on the turf
-        x, y = rng.randrange(aw), rng.randrange(feet - 4, max(feet - 3, min(ah, near_y)))
-        arr[y, x] = np.array(rng.choice(conf_cols)) * 0.7
-    # above the band, a few drifting pieces over the crowd
-    for _ in range(aw // 6):
-        x, y = rng.randrange(aw), rng.randrange(crowd_a, band_y - 1)
-        arr[y, x] = rng.choice(conf_cols)
+            tier = tiers[t % len(tiers)]
+            o = (tier.shape[1] - aw) // 2 + 9 + 23 * t
+            arr[y:y + rows_] = tier[0:rows_, o:o + aw] * (0.55 - 0.1 * t) + np.array(hexc("0b0820")) * 0.35
+            for _ in range(aw // 12):  # phone lights held up
+                fx, fy = rng.randrange(1, aw - 1), y + rng.randrange(0, max(1, rows_ - 1))
+                arr[fy, fx] = (255, 252, 230)
+                arr[fy + 1 if fy + 1 < ah else fy, fx] = (120, 120, 140)
+            y, t = y + 32, t + 1
+
+    # ---- edges: a stepped vignette pulls the eye in ----
+    d = np.hypot((xx_all + 0.5 - aw / 2) / (aw / 2), (yy_all + 0.5 - ah * 0.55) / (ah * 0.62)) / math.sqrt(2)
+    f = stepped(np.clip((d - 0.55) / 0.45, 0, 1) ** 1.5, 6, yy_all, xx_all) * 0.45
+    arr *= (1 - f[..., None])
+
+    # ---- the logo (old mark), the wordmark and tagline, drawn last over everything above the board ----
+    mark = old_mark()
+    bx = cxm - BALL_W * cb // 2
+    sh_y = logo_y + ball_h + cb
+    sw = (BALL_W - 6) * cb
+    arr[sh_y:sh_y + cb, bx + 3 * cb:bx + 3 * cb + sw] *= 0.45
+    arr[sh_y + cb:sh_y + 2 * cb, bx + 5 * cb:bx + 5 * cb + sw - 4 * cb] *= 0.55
+    for (x, y), col in mark.items():
+        arr[logo_y + y * cb:logo_y + (y + 1) * cb, bx + x * cb:bx + (x + 1) * cb] = col
+    word = "RETRO VAULT"
+    ww = text_width(word, tc)
+    wx = cxm - ww // 2
+    r_w = text_width("RETRO ", tc)
+    draw_text(arr, "RETRO", tc, wx, text_y, CHALK)
+    draw_text(arr, "VAULT", tc, wx + r_w, text_y, lambda r: GOLD_HI if r < 2 * tc else GOLD if r < 5 * tc else
+              GOLD_MID)
+    tag = "LEAGUE HUB"
+    draw_text(arr, tag, tg, cxm - text_width(tag, tg) // 2, tag_y, hexc("c9b8ff"), shadow=hexc("120a28"))
+
+    # ---- the greatest's name on a club-colour strip at the rail (clear of the home indicator) ----
+    if people:
+        p = people[0]
+        label = p["name"].upper()
+        lc = tg if text_width(label, tg) + 12 * tg <= aw - 8 else 1
+        lw = text_width(label, lc)
+        ph_ = 7 * lc + 6
+        py = near_y + 5
+        if py + ph_ <= ah - bottom:
+            x0, x1 = cxm - lw // 2 - 4 * lc - 3, cxm + (lw + 1) // 2 + 4 * lc + 3
+            arr[py:py + ph_, x0:x1] = p["primary"]
+            arr[py:py + ph_, x0:x0 + 2] = p["secondary"]
+            arr[py:py + ph_, x1 - 2:x1] = p["secondary"]
+            arr[py, x0:x1] = mix(p["primary"], (255, 255, 255), 0.35)
+            arr[py + ph_ - 1, x0:x1] = mix(p["primary"], (0, 0, 0), 0.5)
+            ink = (255, 255, 255) if lum(p["primary"]) < 150 else hexc("10131c")
+            draw_text(arr, label, lc, cxm - lw // 2, py + 3, ink, shadow=mix(p["primary"], (0, 0, 0), 0.6))
+            sm = text_mask("★", 1)
+            for sx in (x0 - 9, x1 + 3):
+                if 0 <= sx and sx + 5 <= aw:
+                    draw_mask(arr, sm, sx, py + (ph_ - 7) // 2, GOLD)
 
     img = Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8), "RGB")
-
-    # ---- the champions' photo, a step closer (2x): the star in front celebrating, two ring holders beside him,
-    # Dorren Skura and one more behind ----
-    people = [f for _, f in ch.figures[:4]]
-    slots = [(0, 0), (-56, -4), (56, -4), (32, -24)][:len(people)]
-    if ch.coach is not None:
-        people.append(ch.coach)
-        slots.append((-32, -24))
-    for i in sorted(range(len(people)), key=lambda i: slots[i][1]):
-        dx, dy = slots[i]
-        f = people[i]
-        if dx > 0:
-            f = f.transpose(Image.FLIP_LEFT_RIGHT)
-        paste(img, up(f, 2), cxm - 64 + dx, feet - 116 + dy)
+    for i, x, y, sc in sorted(placed, key=lambda t: (t[2], -abs(t[1] - cxm))):
+        f = people[i]["fig"]
+        if f is None:
+            continue
+        if x > cxm + 1:
+            f = f.transpose(Image.FLIP_LEFT_RIGHT)  # the right side faces in
+        paste(img, up(f, sc), round(x - 32 * sc), round(y - 58 * sc))
     return img
 
 
@@ -708,12 +937,12 @@ def safe_rows(h_css: int, dpr: int, s: int) -> tuple[int, int]:
     return math.ceil(top_css * dpr / s), math.ceil(bot_css * dpr / s)
 
 
-def splash(w_css: int, h_css: int, dpr: int, ch: Champions) -> Image.Image:
+def splash(w_css: int, h_css: int, dpr: int, greats: Greats) -> Image.Image:
     w, h = w_css * dpr, h_css * dpr
-    s = max(2, int(w / 240 + 0.6))  # about 240 art pixels across
+    s = max(2, int(w / 300 + 0.5))  # about 300 art pixels across
     aw, ah = math.ceil(w / s), math.ceil(h / s)
     top, bottom = safe_rows(h_css, dpr, s)
-    art = splash_art(aw, ah, top, bottom, ch)
+    art = splash_art(aw, ah, top, bottom, greats)
     big = up(art, s)
     ox, oy = (big.width - w) // 2, 0
     return big.crop((ox, oy, ox + w, oy + h))
@@ -758,10 +987,12 @@ def build_splash() -> None:
     if not (FIELD / "turf-night.png").exists():
         print("Splash screens: skipped (no public/private-sprites/field)")
         return
-    ch = Champions()
-    print(f"Splash screens ({ch.season} {ch.team}, {len(ch.figures)} players{', coach' if ch.coach else ''}):")
+    greats = Greats()
+    names = ", ".join(f"{p['key']} ({p['club']})" for p in greats.people)
+    drawn = sum(1 for p in greats.people if p["fig"] is not None)
+    print(f"Splash screens (all-time greats, {drawn} drawn: {names}):")
     for w, h, dpr in SPLASH:
-        save(splash(w, h, dpr, ch), splash_name(w, h, dpr))
+        save(splash(w, h, dpr, greats), splash_name(w, h, dpr))
 
 
 def main() -> None:
