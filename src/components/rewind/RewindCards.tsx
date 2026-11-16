@@ -588,6 +588,48 @@ const Power = ({ card }: CardProps) => (
   </>
 );
 
+/** A lasting rivalry's notable season: the two clubs squared up, that season's meetings, the series, its file */
+const Rivalry = ({ card, onLink }: CardProps) => {
+  const [a, b] = card.teams;
+  return (
+    <>
+      <div className="rw-upset rw-in" style={{ "--d": 1 } as CSSProperties}>
+        <div className="rw-upset__vs">
+          <span style={clubStyle(a)} className="rw-upset__club">
+            <TeamLogo team={a} size={44} decorative />
+            {a}
+          </span>
+          <b>vs</b>
+          <span style={clubStyle(b)} className="rw-upset__club">
+            <TeamLogo team={b} size={44} decorative />
+            {b}
+          </span>
+        </div>
+      </div>
+      {!!card.meetings?.length && (
+        <ul className="rw-rival rw-in" style={{ "--d": 2 } as CSSProperties}>
+          {card.meetings.map((m) => (
+            <li
+              key={m.week}
+              className={cn("rw-rival__m", m.result === "W" ? "rw-rival__m--a" : m.result === "L" ? "rw-rival__m--b" : "")}
+              style={clubStyle(m.result === "L" ? b : a)}
+            >
+              <b>
+                {m.for}-{m.against}
+              </b>
+              <span>{/^Week/.test(m.round) ? `Week ${m.week}` : m.round}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      <Figs figs={card.figures} className="rw-in" />
+      <LinkButton link={card.link} onLink={onLink}>
+        Open the rivalry file
+      </LinkButton>
+    </>
+  );
+};
+
 const Tribute = ({ card, players, onPlayer, onLink }: CardProps) => {
   const p = card.players?.[0];
   if (!p) return null;
@@ -702,6 +744,7 @@ const BODY: Record<RewindCard["kind"], (p: CardProps) => JSX.Element | null> = {
   hof: (p) => <Busts {...p} hof />,
   farewells: (p) => <Busts {...p} />,
   power: Power,
+  rivalry: Rivalry,
   tribute: Tribute,
   story: Quoted,
   take: Quoted,

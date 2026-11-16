@@ -23,6 +23,8 @@ import ArticleArt from './ArticleArt';
 import './news-art.css';
 import './story.css';
 import PixelLoader from '@/components/ui/PixelLoader';
+import { RivalryFileStrip } from '@/components/rivalry/RivalryFilesRow';
+import { rivalryFilesOf } from '@/utils/rivalryFiles';
 
 /**
  * Season Story: the AI-authored news package for each completed season (data/y80/stories.json, written only by a
@@ -125,9 +127,20 @@ interface ItemProps {
   onOpen: (id: string) => void;
 }
 
+/** A rivalry article about a club with a rivalry file links to the file (the first such club it names) */
+const useRivalryFileOf = (a: StoryArticle) => {
+  const { content } = useLeagueContent();
+  return useMemo(() => {
+    if (a.kind !== 'rivalry') return undefined;
+    const files = rivalryFilesOf(content);
+    return a.teams.map((t) => files.find((f) => f.team === t)).find(Boolean);
+  }, [a, content]);
+};
+
 /** One story in the front page's lists: kind and read time, headline, dek, one stat badge, chips */
 const StoryItem = ({ a, i, season, index, players, onPlayer, onRead, onOpen }: ItemProps) => {
   const c = callout(a);
+  const file = useRivalryFileOf(a);
   const prior = a.related.map((id) => findRef(index, id)).find((r) => r && r.season !== season);
   const club = mainClubOf(a, players);
   return (
@@ -145,8 +158,9 @@ const StoryItem = ({ a, i, season, index, players, onPlayer, onRead, onOpen }: I
       </div>
       <p className="ss-item__dek">{a.dek}</p>
       {c && <StatBadges stats={[c]} />}
-      {(a.players.length > 0 || prior) && (
+      {(a.players.length > 0 || prior || file) && (
         <div className="ss-item__foot">
+          {file && <RivalryFileStrip file={file} label="Open the rivalry file" />}
           <ClubChips names={a.players} players={players} onPlayer={onPlayer} max={2} label="Players in this story" />
           {prior && (
             <button type="button" className="ss-continued ss-continued--inline" onClick={() => onOpen(prior.article.id)}>

@@ -17,6 +17,7 @@ export type RewindKind =
   | "hof"
   | "farewells"
   | "power"
+  | "rivalry"
   | "tribute"
   | "story"
   | "take"
@@ -75,6 +76,8 @@ export interface RewindLink {
   take?: string;
   tribute?: string;
   season?: string;
+  /** A rivalry file (content.json rivalryFiles id) */
+  rivalry?: string;
 }
 
 export interface RewindCard {
@@ -107,6 +110,8 @@ export interface RewindCard {
     loserRecord: string;
   };
   live?: { club: string; week: number; record: string };
+  /** rivalry: the season's meetings (the coach's score first) */
+  meetings?: { week: number; round: string; for: number; against: number; result: "W" | "L" | "T" }[];
 }
 
 export interface SeasonRewind {
@@ -129,6 +134,7 @@ const KINDS: RewindKind[] = [
   "hof",
   "farewells",
   "power",
+  "rivalry",
   "tribute",
   "story",
   "take",

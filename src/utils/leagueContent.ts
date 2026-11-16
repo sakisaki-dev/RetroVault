@@ -127,6 +127,10 @@ export interface Rivalry {
   games?: import('./schedule').HeadToHead;
   /** "weekly scores" when the rivalry comes from the weekly scores rather than Super Bowls */
   source?: string;
+  /** Its rivalry file's id (content.json rivalryFiles), when it is (or was) a lasting rivalry */
+  file?: string;
+  /** Still lasting (false: the file sits under Past rivalries) */
+  lasting?: boolean;
 }
 
 export interface Lineage {
@@ -611,6 +615,10 @@ const normRivalry = (r: Raw, i: number): Rivalry | null => {
       yourTeam: str(m.yourTeam),
       opponent: str(m.opponent),
     })),
+    games: isObj(r.games) && Array.isArray(r.games.meetings) ? (r.games as unknown as Rivalry['games']) : undefined,
+    source: str(r.source),
+    file: str(r.file),
+    lasting: typeof r.lasting === 'boolean' ? r.lasting : undefined,
   };
 };
 

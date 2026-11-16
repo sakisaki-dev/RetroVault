@@ -316,13 +316,14 @@ speechSet.forEach((text, who) => {
   const takeIds = new Set(((content.hotTakesIndex ?? []) as { takes: { id: string }[] }[]).flatMap((s) => s.takes.map((t) => t.id)));
   const leadIds = new Set(((content.seasonStoryIndex ?? []) as { lead?: { id: string } }[]).map((s) => s.lead?.id).filter(Boolean));
   const tributeKeys = new Set(((content.tributeIndex ?? []) as { key: string }[]).map((t) => t.key));
+  const rivalryIds = new Set(((content.rivalryFiles ?? []) as { id: string }[]).map((f) => f.id));
   index.forEach((e) => {
     const path = `public/data/league/${e.file}`;
     if (e.file !== `rewind/${e.season}.json`) errors.push(`Rewind index ${e.season} points at ${e.file}, not rewind/${e.season}.json`);
     if (!existsSync(path)) return errors.push(`Rewind index ${e.season} has no file ${path} (rebuild)`);
     const r = read(path);
     if (r.season !== e.season) errors.push(`${path} is the rewind for ${r.season}, not ${e.season}`);
-    const cards = (r.cards ?? []) as { id: string; kind: string; club?: string; teams?: string[]; players?: RP[]; rows?: { players?: RP[]; team?: string }[]; upset?: { winner: string; loser: string }; live?: { club: string }; link?: { story?: string; take?: string; tribute?: string } }[];
+    const cards = (r.cards ?? []) as { id: string; kind: string; club?: string; teams?: string[]; players?: RP[]; rows?: { players?: RP[]; team?: string }[]; upset?: { winner: string; loser: string }; live?: { club: string }; link?: { story?: string; take?: string; tribute?: string; rivalry?: string } }[];
     if (cards.length !== e.count || JSON.stringify(cards.map((c) => c.kind)) !== JSON.stringify(e.kinds)) errors.push(`${path} cards differ from the content.json rewind index (rebuild)`);
     if (cards[0]?.kind !== 'cover' || cards.at(-1)?.kind !== 'outro') errors.push(`${path} must open with its cover and end with its outro`);
     club(r.club, path);
@@ -341,9 +342,62 @@ speechSet.forEach((text, who) => {
       if (c.link?.story && !leadIds.has(c.link.story)) errors.push(`${where} links story ${c.link.story}, not a Season Story lead`);
       if (c.link?.take && !takeIds.has(c.link.take)) errors.push(`${where} links take ${c.link.take}, which does not exist`);
       if (c.link?.tribute && !tributeKeys.has(c.link.tribute)) errors.push(`${where} links tribute ${c.link.tribute}, which is not written`);
+      if (c.link?.rivalry && !rivalryIds.has(c.link.rivalry)) errors.push(`${where} links rivalry file ${c.link.rivalry}, which does not exist`);
     });
   });
   files.forEach((f) => !index.some((e) => e.file === `rewind/${f}`) && errors.push(`${dir}/${f} has no entry in content.json seasonRewindIndex (rebuild)`));
+}
+// Rivalry files (build_league_content.py build_rivalry_files, rules only): every club is one of the 32, every star a
+// league player with a card on the club he stands for, the series adds up (record, points, meeting count), a lasting
+// file met in one of the last two completed seasons and a lapsed one did not, exactly one meeting is the biggest
+// margin, every paper is a written story or take that names the rival, and each file's rivalry in content.json
+// rivalries points back at it
+{
+  type RF = {
+    id: string; team: string; coachTeam: string; status: string; games: number; last: string;
+    record: { w: number; l: number; t: number };
+    pointsFor: number; pointsAgainst: number;
+    stars?: Record<string, { key: string; name: string; team: string }>;
+    meetings: { season: string; coachTeam: string; for: number; against: number; result: string; biggest?: boolean }[];
+    papers: { type: string; id: string }[];
+  };
+  const files = (content.rivalryFiles ?? []) as RF[];
+  const club = (t: unknown, where: string) => {
+    if (!NFL_TEAMS.some((x) => x.name === t)) errors.push(`${where}: club "${String(t)}" is not one of the 32`);
+  };
+  const lastSeason = Math.max(...((content.coach?.seasons ?? []) as { year: number }[]).map((s) => s.year));
+  const takeIds = new Set(((content.hotTakesIndex ?? []) as { takes: { id: string }[] }[]).flatMap((s) => s.takes.map((t) => t.id)));
+  const articleIds = new Set(((content.seasonStoryIndex ?? []) as { articles: { id: string }[] }[]).flatMap((s) => s.articles.map((a) => a.id)));
+  const seen = new Set<string>();
+  files.forEach((f) => {
+    const where = `content.json rivalryFiles ${f.id}`;
+    if (seen.has(f.id)) errors.push(`${where} appears twice`);
+    seen.add(f.id);
+    club(f.team, where);
+    club(f.coachTeam, where);
+    f.meetings.forEach((m) => club(m.coachTeam, where));
+    Object.entries(f.stars ?? {}).forEach(([side, s]) => {
+      const p = byName.get(s.name);
+      if (!p || `${p.position}:${p.name}` !== s.key) errors.push(`${where} ${side} star ${s.key} has no card`);
+      club(s.team, where);
+    });
+    const count = (r: string) => f.meetings.filter((m) => m.result === r).length;
+    if (f.meetings.length !== f.games || count('W') !== f.record.w || count('L') !== f.record.l || count('T') !== f.record.t)
+      errors.push(`${where}: the record does not add up to its meetings (rebuild)`);
+    if (f.meetings.reduce((s, m) => s + m.for, 0) !== f.pointsFor || f.meetings.reduce((s, m) => s + m.against, 0) !== f.pointsAgainst)
+      errors.push(`${where}: the points do not add up to its meetings (rebuild)`);
+    if (f.meetings.filter((m) => m.biggest).length !== 1) errors.push(`${where}: exactly one meeting must be the biggest margin`);
+    const recent = f.meetings.some((m) => Number(m.season.slice(1)) >= lastSeason - 1);
+    if ((f.status === 'lasting') !== recent) errors.push(`${where}: status ${f.status} but ${recent ? 'met' : 'did not meet'} in the last two completed seasons`);
+    f.papers.forEach((p) => {
+      if (p.type === 'story' ? !articleIds.has(p.id) : !takeIds.has(p.id)) errors.push(`${where} cites ${p.type} ${p.id}, which does not exist`);
+    });
+    const r = ((content.rivalries ?? []) as { team?: string; file?: string }[]).find((x) => x.team === f.team);
+    if (!r || r.file !== f.id) errors.push(`${where}: its club has no rivalry in content.json rivalries pointing at it (rebuild)`);
+  });
+  ((content.rivalries ?? []) as { id: string; file?: string }[]).forEach((r) => {
+    if (r.file && !seen.has(r.file)) errors.push(`content.json rivalry ${r.id} points at rivalry file ${r.file}, which does not exist`);
+  });
 }
 // Hot Takes (the fourth AI-authored lane) get the same treatment: data/y80/hot_takes.json reads exactly as the last
 // applied takes.set wrote each season, every take passes the story rules (scripts/story_check.py --audit-takes; a

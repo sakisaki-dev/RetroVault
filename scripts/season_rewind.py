@@ -21,6 +21,8 @@ Cards, in story order (each is skipped when its data is missing):
   farewells    players whose final season it was (games last rose then, not active now) or retired by a status fact
                in the season's bundles; before the snapshots, retired players whose last dated stint ends that season
   power        the season's power No. 1 and the upset of the year (public/data/league/schedule.json)
+  rivalry      one lasting rivalry (content.json rivalryFiles, lasting as of that season) with a notable season: the
+               rival won a meeting, they met in the playoffs, or the series' biggest margin came then; linked to its file
   tribute      content.json tributePlan's pick for the season (linked when written)
   story        the Season Story lead (written; quoted, linked)
   take         the season's hottest Hot Take (written; quoted, linked)
@@ -401,6 +403,37 @@ def build(B, tribute_plan: list[dict]) -> tuple[list[dict], list[dict]]:
                                  f"({u['loserRecord']}) {u['score']} in week {u['week']}.")
                 card["teams"] = _uniq(card["teams"] + [club(u["winner"]), club(u["loser"])])
             cards.append(card)
+
+        # 9b. one lasting rivalry with a notable season: the rival won a meeting, they met in the playoffs, or the series'
+        # biggest margin came that season (most notable first: rival wins, then a playoff meeting, then the margin)
+        best = None
+        for f in B.RIVALRY_FILES:
+            h = B.SCHEDULE["headToHead"].get(f["team"])
+            if not h or B.rivalry_status(h, y) != "lasting":
+                continue
+            these = [m for m in f["meetings"] if m["season"] == Y]
+            if not these:
+                continue
+            score = (3 * sum(m["result"] != "W" for m in these) + 2 * any(m.get("playoff") for m in these)
+                     + any(m.get("biggest") for m in these))
+            if score and (best is None or score > best[0]):
+                best = (score, f, these)
+        if best:
+            _, f, these = best
+            upto = [m for m in f["meetings"] if int(m["season"].lstrip("Y")) <= y]
+            w, l, t_ = (sum(m["result"] == r for m in upto) for r in ("W", "L", "T"))
+            sw, sl, st = (sum(m["result"] == r for m in these) for r in ("W", "L", "T"))
+            rec_s = f"{sw}-{sl}" + (f"-{st}" if st else "")
+            rec_all = f"{w}-{l}" + (f"-{t_}" if t_ else "")
+            line = "".join(x.get("b", x.get("t", "")) for x in B.rivalry_season_line(f["team"], B.SCHEDULE["headToHead"][f["team"]], Y) or [])
+            coach_t = these[-1]["coachTeam"]
+            cards.append({"id": f"y{y}-rivalry", "kind": "rivalry", "club": club(f["team"]), "kicker": "Rivalry file",
+                          "title": f"{coach_t} vs {f['team']}",
+                          "text": f"{line} The series stands {rec_all} for the {coach_t} after {B.plural(len(upto), 'meeting')}.",
+                          "figures": [fig(f"{Y} meetings", value=rec_s), fig("The series", value=rec_all),
+                                      fig("Meetings", len(upto))],
+                          "meetings": [{k: m[k] for k in ("week", "round", "for", "against", "result")} for m in these],
+                          "link": {"rivalry": f["id"]}, "teams": _uniq([club(coach_t), club(f["team"])])})
 
         # 10. tribute pick
         pk = plan.get(Y)

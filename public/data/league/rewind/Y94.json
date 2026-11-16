@@ -490,6 +490,53 @@
    "n": 8
   },
   {
+   "id": "y94-rivalry",
+   "kind": "rivalry",
+   "club": "Cowboys",
+   "kicker": "Rivalry file",
+   "title": "Eagles vs Cowboys",
+   "text": "Dallas struck back in Y94: 35-32 in Dallas in week 16 to end the Eagles' 49-game winning streak, then 26-24 in Philadelphia in week 18. The series stands 10-3-1 for the Eagles after 14 meetings.",
+   "figures": [
+    {
+     "label": "Y94 meetings",
+     "value": "0-2"
+    },
+    {
+     "label": "The series",
+     "value": "10-3-1"
+    },
+    {
+     "label": "Meetings",
+     "value": "14",
+     "num": 14
+    }
+   ],
+   "meetings": [
+    {
+     "week": 16,
+     "round": "Week 16",
+     "for": 32,
+     "against": 35,
+     "result": "L"
+    },
+    {
+     "week": 18,
+     "round": "Week 18",
+     "for": 24,
+     "against": 26,
+     "result": "L"
+    }
+   ],
+   "link": {
+    "rivalry": "rivalry-cowboys"
+   },
+   "teams": [
+    "Eagles",
+    "Cowboys"
+   ],
+   "n": 9
+  },
+  {
    "id": "y94-tribute",
    "kind": "tribute",
    "club": "Eagles",
@@ -528,7 +575,7 @@
    "teams": [
     "Eagles"
    ],
-   "n": 9
+   "n": 10
   },
   {
    "id": "y94-story",
@@ -566,7 +613,7 @@
     "Packers",
     "Steelers"
    ],
-   "n": 10
+   "n": 11
   },
   {
    "id": "y94-take",
@@ -595,7 +642,7 @@
    "teams": [
     "Eagles"
    ],
-   "n": 11
+   "n": 12
   },
   {
    "id": "y94-outro",
@@ -640,7 +687,7 @@
      "holder": "Kalif Suh"
     }
    ],
-   "n": 12
+   "n": 13
   }
  ]
 }

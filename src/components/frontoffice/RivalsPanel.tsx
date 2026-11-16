@@ -8,6 +8,9 @@ import { staggerStyle, teamVars } from './shared';
 import { useLeague } from '@/context/LeagueContext';
 import { matchPlayerByName } from '@/utils/leagueContent';
 import { peekProps } from '@/components/peek/peekProps';
+import { useLeagueContent } from '@/utils/leagueContent';
+import { rivalryFilesOf } from '@/utils/rivalryFiles';
+import { RivalryFileStrip } from '@/components/rivalry/RivalryFilesRow';
 
 /** A rival player's name: press and hold for his quick look */
 const RivalName = ({ name }: { name: string }) => {
@@ -63,7 +66,11 @@ interface RivalsPanelProps {
   resume: Resume;
 }
 
-const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => (
+const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => {
+  // A lasting rivalry (or a past one) has its own file: its meetings live there, the panel links to it
+  const { content } = useLeagueContent();
+  const files = rivalryFilesOf(content);
+  return (
   <section aria-labelledby="fo-rivals" className="space-y-3">
     <h2 id="fo-rivals" className="section-title">
       Rivals
@@ -73,7 +80,8 @@ const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => (
         <div className="flex flex-col gap-3">
           {rivalries.map((r, i) => {
             const games = rivalryGames(r, resume);
-            const weekly = r.games?.meetings.length ? r.games : null;
+            const file = r.file ? files.find((f) => f.id === r.file) : undefined;
+            const weekly = !file && r.games?.meetings.length ? r.games : null;
             const meetings = weekly ? [...weekly.meetings].sort((a, b) => Number(a.season.slice(1)) - Number(b.season.slice(1)) || a.week - b.week) : [];
             const team = findNFLTeam(r.team);
             const kicker = r.era ?? (r.source === 'weekly scores' ? 'Weekly scores' : '');
@@ -95,7 +103,7 @@ const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => (
                       {team && r.rival !== r.team && <span className="text-muted-foreground">'s {team.name}</span>}
                     </h3>
                   </div>
-                  {(games.length > 0 || weekly) && (
+                  {(games.length > 0 || weekly || file) && (
                     <div className="flex shrink-0 gap-4 text-right">
                       {games.length > 0 && (
                         <div>
@@ -103,16 +111,26 @@ const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => (
                           <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Your SB record</p>
                         </div>
                       )}
-                      {weekly && (
+                      {(weekly || file) && (
                         <div>
-                          <p className={cn('fo-vs leading-none', games.length ? 'text-2xl' : 'text-3xl')}>{h2hRecord(weekly)}</p>
+                          <p className={cn('fo-vs leading-none', games.length ? 'text-2xl' : 'text-3xl')}>{file ? file.record.text.replace(/-/g, '–') : h2hRecord(weekly!)}</p>
                           <p className="text-[10px] uppercase tracking-wider text-muted-foreground">In the weekly scores</p>
                         </div>
                       )}
                     </div>
                   )}
                 </div>
-                <p className="text-sm leading-relaxed text-foreground/85">{r.summary}</p>
+                {file ? (
+                  <>
+                    <p className="text-sm leading-relaxed text-foreground/85">
+                      {file.status === 'lasting' ? 'A lasting rivalry' : 'A past rivalry'}: {file.games} meetings from {file.first} to {file.last},{' '}
+                      {file.record.text} for the {file.coachTeam}, {file.pointsFor}-{file.pointsAgainst} on points.
+                    </p>
+                    <RivalryFileStrip file={file} className="w-full sm:w-auto" />
+                  </>
+                ) : (
+                  <p className="text-sm leading-relaxed text-foreground/85">{r.summary}</p>
+                )}
                 {(r.ownerNotes ?? []).map((n) => (
                   <blockquote key={n.id} className="border-l-2 border-[hsl(var(--fo-team))] pl-3 text-sm italic text-foreground/90">
                     “{n.text}”
@@ -182,6 +200,7 @@ const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => (
       )}
     </div>
   </section>
-);
+  );
+};
 
 export default RivalsPanel;
