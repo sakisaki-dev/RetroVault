@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { reducedMotion, useStagger } from '@/utils/motion';
 import PlayerDetailCard from '@/components/PlayerDetailCard';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { StorageTag } from '@/components/homescreen/AddToHomeScreen';
 import CollectibleCard from '@/components/collection/CollectibleCard';
 import CardDetail, { type CardDetailTarget } from '@/components/collection/CardDetail';
 import CardBrowser from '@/components/collection/CardBrowser';
@@ -535,6 +536,8 @@ const CollectionTab = () => {
                 <Coins className="h-3.5 w-3.5 text-gold" aria-hidden="true" />
                 <span className="font-mono text-foreground">{state.coins.toLocaleString()}</span> coins
               </button>
+              {/* Whether the browser keeps the collection (Home Screen app / persistent storage), utils/homeScreen.ts */}
+              <StorageTag />
               <button type="button" onClick={() => setDesigns(true)} className="link-chip text-gold">
                 <LayoutGrid className="h-3.5 w-3.5" aria-hidden="true" /> Card designs
               </button>

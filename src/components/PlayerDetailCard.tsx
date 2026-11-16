@@ -37,6 +37,9 @@ import { teamThemeVars } from './player/teamTheme';
 import { bannerStats } from './hof/hofUtils';
 import GameSprite from './GameSprite';
 import TributeButton from './tribute/TributeButton';
+import ShareImageButton from './share/ShareImageButton';
+import PlayerSharePoster from './share/PlayerSharePoster';
+import { shareFileName } from '@/utils/shareImage';
 import { useLegendPhoto } from './player/useLegendPhoto';
 import { useDeferredStage } from '@/hooks/useDeferredStage';
 import './player/playerCard.css';
@@ -361,6 +364,17 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
                 className="h-8 border border-gold/60 bg-black/55 px-2.5 text-sm text-gold hover:bg-black/70"
               />
             )}
+            {/* A picture of the card for the share sheet: banner, sprite, OVR, key numbers, rings and awards */}
+            <ShareImageButton
+              look="overlay"
+              className="h-8 min-h-0 max-sm:px-2 max-sm:[&>span]:sr-only"
+              shareKey={`${player.position}:${player.name}:${ovr}:${player.games}:${player.rings}:${team?.id ?? ''}:${jerseyNumber ?? ''}`}
+              fileName={shareFileName(player.name)}
+              title={`${player.name} · Retro Vault`}
+              poster={() => (
+                <PlayerSharePoster player={player} team={team} number={jerseyNumber} ovr={ovr} hallOfFamer={hof} retiredBy={retired?.teamLabel ?? null} />
+              )}
+            />
             <Button
               type="button"
               size="sm"

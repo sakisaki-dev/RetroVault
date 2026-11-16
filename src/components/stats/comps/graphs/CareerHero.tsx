@@ -8,6 +8,11 @@ import SeasonPanel from './SeasonPanel';
 import { SparkRows } from './Extras';
 import type { Career } from './careerStory';
 import { clubInk, yLabel, type GraphMetric } from './graphKit';
+import ShareImageButton from '@/components/share/ShareImageButton';
+import SharePosterFrame from '@/components/share/SharePosterFrame';
+import { shareFileName } from '@/utils/shareImage';
+import { POSITION_NAMES } from '@/utils/playerMeta';
+import { findNFLTeam } from '@/utils/nflTeams';
 
 /** Metric chips, grouped (Card · Season · Rates), in one scrolling row. */
 export const MetricChips = ({ metrics, value, onChange, label }: { metrics: GraphMetric[]; value: string; onChange: (id: string) => void; label: string }) => {
@@ -51,6 +56,53 @@ const clubRuns = (career: Career) => {
   return runs;
 };
 
+/** The club strip over the chart: one segment per stint, logo and name, aligned to the chart's seasons. */
+const ClubStrip = ({ career, colW }: { career: Career; colW: number }) => (
+  <div className="cg-clubs" style={{ paddingLeft: HERO_M.l, paddingRight: HERO_M.r }} aria-label="Clubs by season">
+    {clubRuns(career).map((r) => {
+      const ink = clubInk(r.club);
+      const w = (r.to - r.from + 1) * colW;
+      return (
+        <span key={`${r.club}-${r.from}`} className="cg-clubs__seg" style={{ width: w, borderColor: ink.mark, color: ink.mark }} title={r.club ? `${r.club}: ${yLabel(career.points[r.from].year)}–${yLabel(career.points[r.to].year)}` : 'Retired'}>
+          {ink.team ? <TeamLogo team={ink.team} size={16} decorative /> : null}
+          {w > 64 && <span className="truncate">{r.club ?? 'Retired'}</span>}
+        </span>
+      );
+    })}
+  </div>
+);
+
+const POSTER_W = 640;
+const PLOT_W = POSTER_W - 36;
+const PLOT_H = 300;
+
+/** The career timeline as a picture: his name and club, the metric, the club strip and the chart (no cursor). */
+const TimelinePoster = ({ player, career, metric }: { player: Player; career: Career; metric: GraphMetric }) => {
+  const geom = heroGeom(career, metric, PLOT_W, PLOT_H);
+  const pts = career.points;
+  const team = findNFLTeam(player.bannerTeam ?? player.team);
+  return (
+    <SharePosterFrame width={POSTER_W}>
+      <div className="shr-graph__head">
+        {team && <TeamLogo team={team} size={44} decorative />}
+        <div className="min-w-0">
+          <p className="shr-graph__name">{player.name}</p>
+          <p className="shr-graph__sub">
+            {POSITION_NAMES[player.position] ?? player.position} · Career timeline · {metric.label} · {yLabel(pts[0].year)}–{yLabel(pts[pts.length - 1].year)}
+          </p>
+        </div>
+      </div>
+      <div>
+        <ClubStrip career={career} colW={geom.colW} />
+        <div className="cg-plot" style={{ height: PLOT_H, width: PLOT_W, cursor: 'default' }}>
+          <HeroPlot career={career} metric={metric} width={PLOT_W} height={PLOT_H} reduced />
+        </div>
+      </div>
+      <p className="shr-graph__sub">{metric.definition}</p>
+    </SharePosterFrame>
+  );
+};
+
 /**
  * The career timeline hero: a wide chart of one metric by season over bands in each club's colours (logos above), with
  * ring, award and record glyphs on the seasons they came, and a season cursor: drag a finger across it to scrub
@@ -83,7 +135,6 @@ const CareerHero = ({
   const height = wide ? 300 : 210;
   const n = career.points.length;
   const geom = useMemo(() => (width > 0 ? heroGeom(career, metric, width, height) : null), [career, metric, width, height]);
-  const runs = useMemo(() => clubRuns(career), [career]);
   const box = useRef<HTMLDivElement | null>(null);
   const frame = useRef(0);
   const pending = useRef<number | null>(null);
@@ -139,25 +190,20 @@ const CareerHero = ({
     <div className="cg-hero glass-card">
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         <h3 className="font-display text-base font-bold uppercase tracking-wide">Career timeline</h3>
-        <p className="text-[11px] text-muted-foreground">{metric.definition}</p>
+        <p className="min-w-0 flex-1 text-[11px] text-muted-foreground">{metric.definition}</p>
+        <ShareImageButton
+          className="min-h-[32px] self-center"
+          shareKey={`${player.position}:${player.name}:${metric.id}:${career.points.length}:${career.points[career.points.length - 1]?.year ?? ''}`}
+          fileName={shareFileName(player.name, 'timeline', metric.short)}
+          title={`${player.name} · Career timeline · ${metric.label}`}
+          poster={() => <TimelinePoster player={player} career={career} metric={metric} />}
+        />
       </div>
       <MetricChips metrics={metrics} value={metric.id} onChange={onMetric} label="Timeline metric" />
       <div className="cg-hero__grid">
         <div className="min-w-0">
           {/* club strip: one segment per stint, logo and name, aligned to the chart's seasons */}
-          <div className="cg-clubs" style={{ paddingLeft: HERO_M.l, paddingRight: HERO_M.r }} aria-label="Clubs by season">
-            {geom &&
-              runs.map((r) => {
-                const ink = clubInk(r.club);
-                const w = (r.to - r.from + 1) * geom.colW;
-                return (
-                  <span key={`${r.club}-${r.from}`} className="cg-clubs__seg" style={{ width: w, borderColor: ink.mark, color: ink.mark }} title={r.club ? `${r.club}: ${yLabel(career.points[r.from].year)}–${yLabel(career.points[r.to].year)}` : 'Retired'}>
-                    {ink.team ? <TeamLogo team={ink.team} size={16} decorative /> : null}
-                    {w > 64 && <span className="truncate">{r.club ?? 'Retired'}</span>}
-                  </span>
-                );
-              })}
-          </div>
+          {geom ? <ClubStrip career={career} colW={geom.colW} /> : <div className="cg-clubs" aria-hidden="true" />}
           <div
             ref={(el) => {
               box.current = el;

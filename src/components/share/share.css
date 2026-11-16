@@ -1,0 +1,289 @@
+/*
+ * Share pictures (ShareImageButton.tsx, SharePosterFrame.tsx, src/utils/shareImage.ts).
+ */
+
+/* ---- the button: an icon and a label, no underline, the site's chip look ---- */
+.shr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(var(--night) / 0.6);
+  color: hsl(var(--chalk));
+  font-family: 'Barlow Condensed', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 150ms, background-color 150ms, color 150ms;
+  -webkit-tap-highlight-color: transparent;
+}
+.shr-btn:hover {
+  border-color: hsl(var(--gold) / 0.7);
+  color: hsl(var(--gold));
+}
+.shr-btn:focus-visible {
+  outline: 2px solid hsl(var(--gold));
+  outline-offset: 2px;
+}
+.shr-btn:disabled {
+  cursor: progress;
+  opacity: 0.85;
+}
+.shr-btn__icon {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: hsl(var(--gold));
+}
+/* on art and photos: dark glass, white type */
+.shr-btn--overlay {
+  min-height: 32px;
+  padding: 0 10px;
+  border-color: rgb(255 255 255 / 0.22);
+  background: rgb(0 0 0 / 0.55);
+  color: #fff;
+  font-size: 13px;
+}
+.shr-btn--overlay .shr-btn__icon {
+  color: #fff;
+}
+.shr-btn--icon {
+  width: 40px;
+  min-height: 40px;
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+  color: inherit;
+}
+.shr-btn--icon .shr-btn__icon {
+  width: 20px;
+  height: 20px;
+  color: inherit;
+}
+/* the picture is ready but the tap was used up: one more tap opens the sheet */
+.shr-btn--retry,
+.shr-btn--retry:hover {
+  border-color: hsl(var(--gold));
+  background: hsl(var(--gold));
+  color: hsl(var(--primary-foreground));
+}
+.shr-btn--retry .shr-btn__icon {
+  color: currentColor;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .shr-btn--retry {
+    animation: shr-pulse 1.2s ease-in-out infinite;
+  }
+}
+@keyframes shr-pulse {
+  50% {
+    box-shadow: 0 0 0 5px hsl(var(--gold) / 0.25);
+  }
+}
+
+/* ---- the stage the poster is drawn from: laid out on screen, never seen or touched ---- */
+.shr-stage {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- the poster ---- */
+.shr-poster {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 18px 12px;
+  background:
+    repeating-linear-gradient(rgb(0 0 0 / 0.1) 0 1px, transparent 1px 3px) top / 100% 120px no-repeat,
+    radial-gradient(90% 60% at 50% 0%, hsl(var(--gold) / 0.1), transparent 70%),
+    hsl(var(--night));
+  color: hsl(var(--chalk));
+  font-family: Inter, system-ui, sans-serif;
+  overflow: hidden;
+}
+.shr-poster__body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.shr-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding-top: 8px;
+  border-top: 1px solid hsl(var(--line) / 0.7);
+  font-family: Silkscreen, monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+.shr-foot b {
+  font-weight: 400;
+  color: hsl(var(--gold));
+}
+.shr-foot__icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  image-rendering: pixelated;
+}
+/* bare: the content is the picture; the footer sits over its bottom edge */
+.shr-poster--bare {
+  padding: 0;
+  gap: 0;
+}
+.shr-poster--bare .shr-foot {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 6;
+  padding: 10px 0 14px;
+  border-top: 0;
+  background: linear-gradient(180deg, transparent, rgb(0 0 0 / 0.55));
+  color: rgb(255 255 255 / 0.8);
+}
+
+/* ---- collectible card ---- */
+.shr-card {
+  width: 300px;
+  margin: 0 auto;
+}
+.shr-cap {
+  text-align: center;
+}
+.shr-cap__name {
+  font-family: 'Barlow Condensed', system-ui, sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.shr-cap__line {
+  margin-top: 4px;
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+}
+
+/* ---- player card ---- */
+.shr-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.shr-tile {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid hsl(var(--line) / 0.8);
+  background: hsl(var(--panel) / 0.85);
+}
+.shr-tile dt {
+  font-family: Silkscreen, monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+.shr-tile dd {
+  font-family: 'Barlow Condensed', system-ui, sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.shr-tile--gold dd {
+  color: hsl(var(--gold));
+}
+.shr-awards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.shr-award {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  font-size: 12px;
+  font-weight: 700;
+}
+.shr-award span {
+  color: hsl(var(--chalk));
+}
+.shr-nick {
+  font-family: 'Barlow Condensed', system-ui, sans-serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 700;
+  color: hsl(var(--gold));
+}
+
+/* ---- graph ---- */
+.shr-graph__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.shr-graph__name {
+  font-family: 'Barlow Condensed', system-ui, sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.shr-graph__sub {
+  margin-top: 3px;
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+}
+
+/* ---- Season Rewind: the card as a 9:16 story picture ---- */
+.shr-rw {
+  background: var(--rw-c1, #10162a);
+  color: #fff;
+}
+.shr-rw .rw-card {
+  padding: 66px 20px 58px;
+}
+.shr-rw__bar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: rgb(255 255 255 / 0.9);
+}
+.shr-rw__bar .rw-bar__ring {
+  /* a border, not the bar's box-shadow ring: WebKit draws a rounded box-shadow square inside a picture */
+  box-shadow: none;
+  border: 2px solid #f5b301;
+}
+.shr-rw__bar b {
+  font-family: 'Barlow Condensed', system-ui, sans-serif;
+  font-size: 16px;
+}

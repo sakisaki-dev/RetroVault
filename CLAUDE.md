@@ -960,6 +960,46 @@ source names that file).
   run `SERIAL_ONE_BONUS` ×1.15 more (the portfolio uses the best parallel owned at that finish). Never
   hand-edit either file; rebuild and commit both.
 
+## Home Screen app and share pictures
+
+Owner (2026-11-15): "a proper icon, a splash screen and stopping the 7-day wipe … and give me the option to share
+pictures".
+
+- **Install:** in Safari on the iPhone, Share → Add to Home Screen. It opens standalone (no Safari bars) with the
+  launch screen, and Home Screen web apps are exempt from Safari's 7-day wipe of script-writable storage (the card
+  collection, coins and settings live in localStorage).
+- **Art:** `python3 scripts/build_app_icons.py` draws the pixel icon (a gold football with "RV" on night navy; no game
+  or NFL art) and writes `public/apple-touch-icon.png`, `icon-192/512.png`, `icon-maskable-192/512.png`, the favicons
+  and the portrait launch screens `public/splash/launch-<w>x<h>.png` for the current iPhone sizes (`SPLASH`); `--links`
+  prints the `apple-touch-startup-image` tags that sit in `index.html`. A new iPhone size: add it to `SPLASH`, rerun,
+  paste the links.
+- **Manifest** (`public/manifest.webmanifest`): a static file, so `start_url`, `scope` and `id` are `./`, which resolve
+  against the manifest's own URL (`/RetroVault/` on Pages, `/` locally); never an absolute path.
+- **Standalone layout:** the status bar is `black-translucent`, so the page runs under it: `[data-site-header]` pads by
+  `env(safe-area-inset-top)` (and the side insets), a fixed `body::before` strip holds the status bar area while the
+  header is tucked away, and stuck `.chrome-follow` bars stop under it. The dock, sheets and dialogs already pad by the
+  bottom inset. In a Safari tab the insets are 0.
+- **Storage:** `src/utils/homeScreen.ts` asks for `navigator.storage.persist()` once per load where no prompt shows
+  (the Home Screen app, Safari, Chromium; Firefox only from a tap), and `StorageTag` beside the Collection's coin and
+  shard counters shows "Saved on this device" when it is granted (or in the Home Screen app), "Add to Home Screen" in
+  an iPhone tab. `AddToHomeScreen` (mounted in `src/pages/Index.tsx`) is the gentle guide card for iPhone tabs, at most
+  once a week (`rv:a2hs:shown` in localStorage), dismissible, reopened by the tag.
+- **No service worker:** the site redeploys on every push and a cache-first worker would hide updates. If one is ever
+  added: network-first for HTML and `data/`, cache only Vite's hashed `assets/`.
+- **Share pictures** (`src/components/share/`, `src/utils/shareImage.ts`): `ShareImageButton` renders a poster (inside
+  `SharePosterFrame`: night navy, scanlines, the "RETRO VAULT · Y94" pixel footer with the app icon) in an invisible
+  stage, draws it with html-to-image (pinned 1.11.13, loaded on demand) to a 1080-wide PNG and opens the share sheet
+  (`navigator.share` with the file; a download where files can't be shared). Posters: the collectible card as shown
+  (CardDetail: art, finish, kit, parallel), the player card (`PlayerSharePoster`: banner with sprite, OVR, key numbers,
+  rings, awards), the Season Rewind card on screen (9:16, 1080 × 1920) and the Deep Dive career timeline graph
+  (`CareerHero`'s `TimelinePoster`). iOS opens the sheet only inside the tap, so the picture is made ahead (after the
+  button has been on screen a moment, in an idle slot); a tap before it is ready makes it and, if iOS refuses, the
+  button turns gold, "Tap to share". Before drawing, `capturePoster` finishes every animation, inlines every image as a
+  data URL (ESPN logos through CORS, a club-colour plate with the abbreviation if that fails), writes SVG text fonts
+  inline (html-to-image only copies styles onto HTML elements) and embeds the Latin subsets of the Google Fonts the
+  poster uses (cached per set of families). Never pass html-to-image's `preferredFontFormat`: in WebKit it dropped
+  `src` from some rules, and the pixel font fell back.
+
 ## Code notes
 
 - How the game itself works (read from its code: player record, aging, retirement ages, season ratings and awards,

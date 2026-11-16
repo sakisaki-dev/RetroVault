@@ -27,6 +27,9 @@ import PlayerDetailCard from "@/components/PlayerDetailCard";
 import TeamLogo from "@/components/brand/TeamLogo";
 import { RewindCardView } from "./RewindCards";
 import { clubStyle } from "./rewindStyle";
+import ShareImageButton from "@/components/share/ShareImageButton";
+import SharePosterFrame from "@/components/share/SharePosterFrame";
+import { shareFileName } from "@/utils/shareImage";
 import "./rewind.css";
 
 /**
@@ -74,6 +77,8 @@ const RewindViewer = ({
   const [held, setHeld] = useState(false);
   const [userPaused, setUserPaused] = useState(false);
   const [card, setCard] = useState<Player | null>(null);
+  // the story holds still while a picture of the card is made and shared
+  const [sharing, setSharing] = useState(false);
   const [still] = useState(() => reducedMotion());
   const press = useRef<{
     x: number;
@@ -92,7 +97,7 @@ const RewindViewer = ({
   const cards = rewind?.cards ?? [];
   const n = cards.length;
   const cur = cards[Math.min(idx, Math.max(0, n - 1))];
-  const paused = held || userPaused || !!card || still || !live;
+  const paused = held || userPaused || sharing || !!card || still || !live;
 
   const goSeason = useCallback(
     (d: 1 | -1) => {
@@ -243,6 +248,45 @@ const RewindViewer = ({
                     </span>
                   )}
                 </span>
+              )}
+              {cur && rewind && (
+                // the card on screen as a 9:16 picture (a story-sized image for the share sheet)
+                <ShareImageButton
+                  look="overlay"
+                  className="rw-share"
+                  eager={900}
+                  onActive={setSharing}
+                  shareKey={`${rewind.season}:${cur.id}`}
+                  fileName={shareFileName(rewind.season, "rewind", cur.kind, idx + 1)}
+                  title={`${rewind.season} Rewind · ${cur.title}`}
+                  poster={() => (
+                    <SharePosterFrame
+                      width={405}
+                      aspect={9 / 16}
+                      bare
+                      className="shr-rw"
+                      style={clubStyle(cur.club ?? entry?.club)}
+                    >
+                      <div className="shr-rw__bar">
+                        <span className="rw-bar__ring">
+                          <TeamLogo
+                            team={entry?.champion ?? entry?.club}
+                            size={22}
+                            decorative
+                          />
+                        </span>
+                        <b>{rewind.season}</b> Rewind
+                      </div>
+                      <RewindCardView
+                        card={cur}
+                        season={rewind.season}
+                        players={players}
+                        onPlayer={() => undefined}
+                        onLink={() => undefined}
+                      />
+                    </SharePosterFrame>
+                  )}
+                />
               )}
               <button
                 type="button"

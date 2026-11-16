@@ -48,6 +48,9 @@ import { useMarket } from '@/utils/useMarket';
 import { isSampleAuto, useAutographFor } from './autograph/sample';
 import AutographDetails from './autograph/AutographDetails';
 import SellPanel from './economy/SellPanel';
+import ShareImageButton from '@/components/share/ShareImageButton';
+import SharePosterFrame from '@/components/share/SharePosterFrame';
+import { shareFileName } from '@/utils/shareImage';
 import { displayOf, readCollection } from '@/utils/collection';
 
 export interface CardDetailTarget {
@@ -809,6 +812,43 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                     {worn && worn.kind !== 'home' ? ` · ${kitName(worn.uniform)}` : ''}
                     {prizm ? ` · ${prizmInfo(prizm.c).label} ${prizmSerial(prizm)}` : ''} · {POSITION_NAMES[info.player.position] ?? info.player.position} · {info.cardTeam} · OVR {info.ovr ?? '–'}
                   </DialogDescription>
+                  {/* The card as shown (its art, finish, kit and parallel) as a picture for the share sheet */}
+                  <ShareImageButton
+                    className="mt-3"
+                    shareKey={`${info.key}:${variant}:${finish}:${kit ?? ''}:${prizm ? `${prizm.c}${prizm.n}` : ''}:${variant === 'auto' && target?.auto?.key === info.key ? target.auto.finish : ''}`}
+                    fileName={shareFileName(info.player.name, variantLabel(variant), finishLabel(finish))}
+                    title={`${info.player.name} · ${variantLabel(variant)} · ${finishLabel(finish)}`}
+                    poster={() => (
+                      <SharePosterFrame width={340}>
+                        <div className="shr-card">
+                          <CollectibleCard
+                            owned
+                            large
+                            player={info.player}
+                            tier={tier}
+                            finish={finish}
+                            variant={variant}
+                            kit={kit}
+                            prizm={prizm}
+                            autograph={target?.preview ? 'sample' : variant === 'auto' && target?.auto?.key === info.key && target.auto.finish === finish ? target.auto : undefined}
+                            ovr={info.ovr}
+                            number={info.number}
+                            stats={info.stats}
+                            setNo={info.setNo}
+                            setTotal={total}
+                          />
+                        </div>
+                        <div className="shr-cap">
+                          <p className="shr-cap__name">{info.player.name}</p>
+                          <p className="shr-cap__line">
+                            {tierLabel(tier)} · {variantLabel(variant)} · {finishLabel(finish)}
+                            {worn && worn.kind !== 'home' ? ` · ${kitName(worn.uniform)}` : ''}
+                            {prizm ? ` · ${prizmInfo(prizm.c).label} ${prizmSerial(prizm)}` : ''}
+                          </p>
+                        </div>
+                      </SharePosterFrame>
+                    )}
+                  />
                 </div>
 
                 {variant === 'auto' && !target?.preview && (
