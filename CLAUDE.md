@@ -42,7 +42,8 @@ hand-edit generated files, and never edit `data/y80/` directly: every change goe
 legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `schedule_content.py` → `league_records.py` → `career_seasons.py` (`public/data/league/career_seasons.json`: each
 player's card numbers and career totals at every season end, for the Deep Dive's career graphs) →
 `hall_of_fame.py` → `save_state.py` (`public/data/league/save_state.json`) → `build_league_content.py`
-(`public/data/league/content.json`) → `build_widget_data.py` (`public/data/widget.json`) → `audit.ts`. It is
+(`public/data/league/content.json`) → `build_widget_data.py` (`public/data/widget.json`) → `build_app_icons.py --splash`
+(the launch screens' champions) → `audit.ts`. It is
 deterministic: two runs give byte-identical output.
 
 ## Updating: the upload pipeline (the usual phone request)
@@ -1007,11 +1008,28 @@ pictures".
 - **Install:** in Safari on the iPhone, Share → Add to Home Screen. It opens standalone (no Safari bars) with the
   launch screen, and Home Screen web apps are exempt from Safari's 7-day wipe of script-writable storage (the card
   collection, coins and settings live in localStorage).
-- **Art:** `python3 scripts/build_app_icons.py` draws the pixel icon (a gold football with "RV" on night navy; no game
-  or NFL art) and writes `public/apple-touch-icon.png`, `icon-192/512.png`, `icon-maskable-192/512.png`, the favicons
-  and the portrait launch screens `public/splash/launch-<w>x<h>.png` for the current iPhone sizes (`SPLASH`); `--links`
-  prints the `apple-touch-startup-image` tags that sit in `index.html`. A new iPhone size: add it to `SPLASH`, rerun,
-  paste the links.
+- **Art:** `python3 scripts/build_app_icons.py` draws everything from the game's own art, on whole art pixels blown up
+  by whole steps (nearest neighbour), deterministic. **Icon** (owner: "i liked the old icon … just make it better"): the
+  old brown pixel football on mowed turf, redone: a shaded leather ramp with pebble grain, cream stripes, lace stitches
+  and seams, a specular streak and a warm rim light, a soft drop shadow, on the game's day turf
+  (`private-sprites/field/turf-day-tall.png`: the 5-yard stripes, a yard line and the hash marks, numbers left out)
+  under a vignette; 180/192 at 3x, 512 at 6x, the maskable ones with a smaller ball inside the 40% circle, the favicons
+  (16/32/48) a flat simplified ball. **Launch screens** (owner: "use the game sprites and assets"): a night stadium
+  from `private-sprites/field/` (stands, two crowd tiers, the sideline bench and the near stands recoloured from the
+  game's key colours into the champion's kit colours; the night turf with its yard numbers), floodlight towers with
+  halos and beams, a jumbotron ("<CLUB> / Y<n> CHAMPIONS") and an LED ribbon ("SUPER BOWL <roman> ★ <CLUB>"), the
+  "RETRO VAULT" wordmark (VAULT in gold) and "STATS · CARDS · LEGENDS" on a dark fascia band, and the champions' photo
+  at 2x: the star (widget.json `photo`) in front celebrating, the next ring holders by Career Legacy
+  (`champion_roster` in `build_widget_data.py`) and Dorren Skura (index.json `coaches.head`) behind, in the club's
+  kit through the site's sprite rules (`widget_sprites.site_rules` / `figure`), under confetti. About 240 art pixels
+  across (`int(w / 240 + 0.6)` device pixels each); text and figures stay clear of the status bar and home indicator
+  (`safe_rows`). It reads the latest champion, so `npm run rebuild` runs `build_app_icons.py --splash` after the
+  widget feed and the launch screens follow each new champion (commit them with the update). It writes
+  `public/apple-touch-icon.png`, `icon-192/512.png`, `icon-maskable-192/512.png`, the favicons and the portrait launch
+  screens `public/splash/launch-<w>x<h>.png` for the current iPhone sizes (`SPLASH`); `--icons` / `--splash` build one
+  half, `--links` prints the `apple-touch-startup-image` tags that sit in `index.html`. A new iPhone size: add it to
+  `SPLASH`, rerun, paste the links. iOS caches the icon and the launch screen at Add to Home Screen; re-adding the app
+  picks up new ones.
 - **Manifest** (`public/manifest.webmanifest`): a static file, so `start_url`, `scope` and `id` are `./`, which resolve
   against the manifest's own URL (`/RetroVault/` on Pages, `/` locally); never an absolute path.
 - **Standalone layout:** the status bar is `black-translucent`, so the page runs under it: `[data-site-header]` pads by
