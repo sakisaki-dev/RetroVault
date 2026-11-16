@@ -14,6 +14,7 @@ import HofGallery, { type GalleryItem } from '../hof/HofGallery';
 import HofPlaque from '../hof/HofPlaque';
 import HofBallot, { type BallotRow } from '../hof/HofBallot';
 import RingsOfHonor from '../hof/RingsOfHonor';
+import HofRafters from '../hof/HofRafters';
 import HofLegends from '../hof/HofLegends';
 import { Laurel, MedalCoin, RibbonBanner } from '../hof/hofParts';
 import { roman } from '../hof/hofUtils';
@@ -290,6 +291,16 @@ const HallOfFameTab = () => {
         bar={hof.bar}
         cap={hof.cap}
         season={hof.season}
+      />
+
+      {/* 5b. The Rafters: every club's retired numbers */}
+      <HofRafters
+        defaultClub={currentClub}
+        onOpen={(b) => {
+          if (b.r.playerKey && byKey.has(b.r.playerKey)) setOpenKey(b.r.playerKey);
+          else if (b.player) setCardPlayer(b.player);
+        }}
+        onRing={openRing}
       />
 
       {/* 6. Rings of Honor */}

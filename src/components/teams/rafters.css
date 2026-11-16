@@ -1,0 +1,479 @@
+/* The rafters (RaftersScene.tsx, after Rafters.dc.html): an arena ceiling with a steel truss, spotlight cones and a
+   banner per retired number. --raf-club is the club's primary (HSL triplet), --raf-fg the text on it, --raf-accent the
+   gold (or dark, on a light club colour) for the kickers and the surname. */
+.rafters {
+  position: relative;
+  overflow: hidden;
+  padding-top: 86px;
+  border-radius: 16px;
+  border: 1px solid rgb(125 134 163 / 0.18);
+  background:
+    radial-gradient(ellipse at 50% 0%, hsl(var(--raf-club) / 0.45) 0%, rgb(12 10 24 / 0) 60%),
+    radial-gradient(ellipse at 50% 0%, #2a2140 0%, #0c0a18 55%, #05040b 100%);
+  color: #ece8dc;
+  isolation: isolate;
+}
+.rafters__kicker {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 14px;
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: #e2c46a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rafters__beam,
+.rafters__truss,
+.rafters__rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.rafters__beam {
+  top: 44px;
+  height: 14px;
+  background: linear-gradient(180deg, #3b3a4a, #22212d);
+  box-shadow: 0 2px 0 #000;
+}
+.rafters__truss {
+  top: 58px;
+  height: 22px;
+  background:
+    repeating-linear-gradient(60deg, transparent 0 14px, rgb(80 78 96 / 0.8) 14px 16px),
+    repeating-linear-gradient(-60deg, transparent 0 14px, rgb(80 78 96 / 0.8) 14px 16px);
+}
+.rafters__rail {
+  top: 80px;
+  height: 6px;
+  background: #2d2c39;
+}
+
+/* A row of banners under one truss: centred, sideways scroll when they don't fit */
+.rafters__row {
+  position: relative;
+  display: flex;
+  justify-content: safe center;
+  gap: 18px;
+  margin: 0;
+  padding: 0 20px 22px;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.rafters__row::-webkit-scrollbar {
+  display: none;
+}
+.rafter {
+  position: relative;
+  flex: 0 0 auto;
+  padding-top: var(--wire, 26px);
+}
+.rafter__cone {
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  width: 150px;
+  height: calc(100% + 30px);
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgb(255 236 170 / 0.18), rgb(255 236 170 / 0));
+  clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+.rafter__wire {
+  position: absolute;
+  top: -6px;
+  width: 2px;
+  height: calc(var(--wire, 26px) + 8px);
+  background: #6c6a7c;
+  z-index: 1;
+}
+.rafter__wire--l {
+  left: 12px;
+}
+.rafter__wire--r {
+  right: 12px;
+}
+.rafter__sway {
+  position: relative;
+  display: block;
+  z-index: 2;
+  transform: rotate(var(--tilt, 0deg));
+  transform-origin: 50% 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rafter__sway {
+    animation: rafter-sway var(--dur, 6s) ease-in-out var(--delay, 0s) infinite alternate;
+  }
+}
+[data-perf='lite'] .rafter__sway {
+  animation: none;
+}
+@keyframes rafter-sway {
+  from {
+    transform: rotate(calc(var(--tilt, 0deg) - 0.7deg));
+  }
+  to {
+    transform: rotate(calc(var(--tilt, 0deg) + 0.7deg));
+  }
+}
+.rafter__hit {
+  display: block;
+  border-radius: 4px;
+  text-align: center;
+  filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.45));
+  transition: filter 0.15s;
+}
+button.rafter__hit:hover {
+  filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.45)) brightness(1.1);
+}
+button.rafter__hit:focus-visible {
+  outline: 2px solid #ffc62f;
+  outline-offset: 4px;
+}
+.rafter__cloth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  width: 128px;
+  height: 280px;
+  padding: 16px 8px 0;
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.04) 0 2px, transparent 2px 16px),
+    linear-gradient(180deg, rgb(255 255 255 / 0.1), transparent 45%, rgb(0 0 0 / 0.28)),
+    hsl(var(--raf-club));
+  clip-path: polygon(0 0, 100% 0, 100% 86%, 50% 100%, 0 86%);
+  box-shadow: inset 0 0 0 4px #ffc62f;
+  color: var(--raf-fg);
+}
+@media (min-width: 640px) {
+  .rafter__cloth {
+    width: 134px;
+    height: 300px;
+  }
+}
+.rafter__kick,
+.rafter__rings {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--raf-accent);
+}
+.rafter__num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 96px;
+  line-height: 1;
+  color: var(--raf-fg);
+  text-shadow: 0 4px 0 rgb(0 0 0 / 0.3);
+  font-variant-numeric: tabular-nums;
+}
+@media (min-width: 640px) {
+  .rafter__num {
+    font-size: 108px;
+  }
+}
+.rafter__name {
+  max-width: 100%;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--raf-accent);
+  overflow-wrap: anywhere;
+}
+.rafter__line {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--raf-sub);
+}
+.rafter__rings {
+  margin-top: 8px;
+}
+
+/* An empty ceiling: bare hooks waiting for banners */
+.rafters__bare {
+  display: flex;
+  justify-content: center;
+  gap: 72px;
+  height: 120px;
+}
+.rafters__hook {
+  position: relative;
+  width: 2px;
+  height: 34px;
+  margin-top: -6px;
+  background: #6c6a7c;
+}
+.rafters__hook::after {
+  content: '';
+  position: absolute;
+  left: -5px;
+  bottom: -10px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #6c6a7c;
+  border-top-color: transparent;
+  border-radius: 50%;
+}
+
+/* Ring of Honor facade over the crowd */
+.rafters__ring {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+  margin-top: 18px;
+  border-top: 3px solid #ffc62f;
+  border-bottom: 1px solid #3a2b5c;
+  background: linear-gradient(180deg, #1d1630, #120d20);
+}
+.rafters__ring-k {
+  flex-shrink: 0;
+  padding: 0 12px;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  text-transform: uppercase;
+  color: #ffd86b;
+}
+.rafters__ring-list {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-width: 0;
+  margin: 0;
+  padding: 8px 12px 8px 0;
+  list-style: none;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+.rafters__ring-list::-webkit-scrollbar {
+  display: none;
+}
+.rafters__ring-list li {
+  display: inline-flex;
+  align-items: center;
+}
+.rafters__ring-list button,
+.rafters__ring-list span:not(.rafters__dot) {
+  min-height: 36px;
+  padding: 0 2px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 36px;
+  text-transform: uppercase;
+  color: #e3d6f5;
+}
+.rafters__ring-list button:hover {
+  color: #fff;
+}
+.rafters__ring-list .is-hof {
+  color: #ffd86b;
+}
+.rafters__dot {
+  padding: 0 9px;
+  font-weight: 800;
+  color: #ffc62f;
+}
+.rafters__crowd {
+  display: block;
+  height: 60px;
+  background:
+    radial-gradient(circle at 10px 34px, #0a0814 9px, transparent 10px) 0 0 / 22px 60px,
+    radial-gradient(circle at 21px 44px, #0d0a19 10px, transparent 11px) 0 0 / 22px 60px,
+    #16112a;
+}
+.rafters__note {
+  position: relative;
+  z-index: 2;
+  margin: -10px 12px 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgb(20 26 46 / 0.94);
+  border: 1px solid rgb(255 198 47 / 0.3);
+}
+.rafters__note-k {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+  color: #ffd86b;
+}
+.rafters__note p:last-child {
+  margin-top: 6px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #d6d9e4;
+}
+.rafters--compact {
+  padding-bottom: 0;
+}
+.rafters--compact .rafters__ring {
+  margin-top: 6px;
+}
+
+/* ---------- The player card's retired-number banners (RetiredBadge.tsx, CardBanner.dc.html) ---------- */
+.raf-hangers {
+  position: absolute;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  gap: 8px;
+}
+/* On the player card the banners hang on long wires past the Deep Dive and close buttons, top right */
+.pc-hangers {
+  right: 18px;
+}
+.pc-hangers .raf-hanger__wires {
+  height: 96px; /* clear of the eyebrow and the Hall of Fame tag */
+}
+/* From 640px the hero's career numbers sit top right: the banners hang in the open space between the name and the
+   sprite instead, on short wires */
+@media (min-width: 640px) {
+  .pc-hangers {
+    right: auto;
+    left: 32%;
+  }
+  .pc-hangers .raf-hanger__wires {
+    height: 8px;
+  }
+}
+.raf-hanger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 64px;
+  filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.45));
+}
+.raf-hanger__bar {
+  width: 64px;
+  height: 5px;
+  background: linear-gradient(180deg, #8a8899, #4a4858);
+}
+.raf-hanger__wires {
+  display: flex;
+  gap: 40px;
+  height: 8px;
+}
+.raf-hanger__wires i {
+  width: 2px;
+  background: #8a8899;
+}
+.raf-hanger__cloth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  width: 56px;
+  height: 86px;
+  padding-top: 7px;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.12), transparent 50%, rgb(0 0 0 / 0.25)), hsl(var(--raf-club));
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+  box-shadow: inset 0 0 0 2px #ffc62f;
+  transform-origin: 50% 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .raf-hanger__cloth {
+    animation: rafter-sway 5.5s ease-in-out infinite alternate;
+  }
+}
+[data-perf='lite'] .raf-hanger__cloth {
+  animation: none;
+}
+.raf-hanger:focus-visible {
+  outline: 2px solid #ffc62f;
+  outline-offset: 2px;
+}
+.raf-hanger__k {
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--raf-accent);
+}
+.raf-hanger__n {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 34px;
+  line-height: 1;
+  color: var(--raf-fg);
+}
+
+.raf-strips {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.raf-strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 56px;
+  padding: 8px 12px 8px 8px;
+  border-radius: 12px;
+  border-left: 4px solid #ffc62f;
+  background: linear-gradient(90deg, hsl(var(--raf-club)), hsl(var(--raf-club) / 0.55));
+  text-align: left;
+  color: var(--raf-fg);
+  transition: filter 0.15s;
+}
+.raf-strip:hover {
+  filter: brightness(1.1);
+}
+.raf-strip:focus-visible {
+  outline: 2px solid #ffc62f;
+  outline-offset: 2px;
+}
+.raf-strip__flag {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-start;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 30px;
+  height: 40px;
+  padding-top: 4px;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.15), rgb(0 0 0 / 0.2)), hsl(var(--raf-club));
+  clip-path: polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%);
+  box-shadow: inset 0 0 0 1.5px #ffc62f;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1;
+}
+.raf-strip__text {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+}
+.raf-strip__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.raf-strip__sub {
+  font-size: 11px;
+  opacity: 0.85;
+}
+.raf-strip__go {
+  flex-shrink: 0;
+  color: var(--raf-accent);
+}

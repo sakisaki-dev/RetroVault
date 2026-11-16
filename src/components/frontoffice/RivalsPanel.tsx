@@ -92,7 +92,7 @@ const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => {
                 style={{ ...teamVars(r.team), ...staggerStyle(i) }}
                 aria-labelledby={`fo-rival-${r.id}`}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                   <TeamLogo team={team ?? r.team} size={56} decorative />
                   <div className="min-w-0 flex-1">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -104,7 +104,7 @@ const RivalsPanel = ({ rivalries, nemeses, resume }: RivalsPanelProps) => {
                     </h3>
                   </div>
                   {(games.length > 0 || weekly || file) && (
-                    <div className="flex shrink-0 gap-4 text-right">
+                    <div className="flex w-full shrink-0 gap-4 sm:w-auto sm:text-right">
                       {games.length > 0 && (
                         <div>
                           <p className="fo-vs text-3xl leading-none">{record(games)}</p>

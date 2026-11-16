@@ -250,6 +250,8 @@ export interface LeagueContent {
   tributeIndex?: TributeIndexEntry[];
   /** Season Rewind index, oldest first (scripts/season_rewind.py); each season's cards load on demand (useSeasonRewind) */
   seasonRewindIndex?: SeasonRewindIndexEntry[];
+  /** Rivalry files (build_league_content.py build_rivalry_files), raw: read them with rivalryFilesOf (utils/rivalryFiles) */
+  rivalryFiles?: unknown[];
 }
 
 /** One season's Season Rewind in content.json (the cards are public/data/league/rewind/<Y>.json) */
@@ -863,6 +865,8 @@ export const normalizeLeagueContent = (input: unknown): LeagueContent => {
     }),
   );
   if (rewindIndex.length) content.seasonRewindIndex = rewindIndex;
+  // Rivalry files pass through raw; utils/rivalryFiles.ts rivalryFilesOf checks them field by field
+  if (Array.isArray(input.rivalryFiles)) content.rivalryFiles = input.rivalryFiles;
   if (Array.isArray(input.hofClasses)) {
     const classes = input.hofClasses
       .map((c) => (isObj(c) && str(c.label) && Array.isArray(c.keys) ? { label: str(c.label)!, keys: c.keys.filter((k): k is string => typeof k === 'string') } : null))

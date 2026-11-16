@@ -57,7 +57,7 @@
 }
 .rf-side__figure {
   position: absolute;
-  bottom: 60px;
+  bottom: 76px;
   display: grid;
   place-items: end center;
   width: 160px;
@@ -109,6 +109,7 @@
 }
 .rf-side__label {
   position: absolute;
+  z-index: 2;
   bottom: 12px;
   display: flex;
   flex-direction: column;
@@ -481,6 +482,7 @@
 }
 .rf-card__face {
   position: relative;
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   height: 84px;
@@ -516,6 +518,7 @@
   font-size: 24px;
   line-height: 1;
   color: #fff;
+  white-space: nowrap;
 }
 .rf-card__rec small {
   font-family: var(--font-pixel);
@@ -525,6 +528,8 @@
   color: #f1c35c;
 }
 .rf-card__body {
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 3px;

@@ -41,6 +41,7 @@ import { useLegendPhoto } from './player/useLegendPhoto';
 import { useDeferredStage } from '@/hooks/useDeferredStage';
 import './player/playerCard.css';
 import PixelLoader from '@/components/ui/PixelLoader';
+import { RetiredHangers, RetiredStrip } from './teams/RetiredBadge';
 
 // The collectible art (card faces, kits, autograph canvas) loads only when the Card designs tab is opened
 const CardDesignsPanel = lazy(() => import('./player/CardDesignsPanel'));
@@ -320,7 +321,8 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
             number={jerseyNumber}
             ovr={ovr}
             hallOfFamer={hof}
-            retiredBy={retired?.teamLabel ?? null}
+            // the hanging banner (RetiredHangers below) carries the retired number in the hero
+            retiredBy={null}
             eyebrow={`${posName}${team ? ` · ${team.conference} ${team.division}` : ''}`}
             nameAs={DialogTitle}
             photoUrl={photo?.url}
@@ -332,6 +334,8 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
             stats={player.isRealLegend ? undefined : bannerStats(player)}
             className="rounded-none [&_.ppb\_\_field]:rounded-none"
           />
+          {/* His retired number hangs from the top edge, one banner per club that retired it (tap: their rafters) */}
+          <RetiredHangers player={player} onLeave={onClose} className="pc-hangers" />
           <DialogDescription className="sr-only">
             Career profile for {player.name}
             {player.nickname ? `, known as ${player.nickname}` : ''}: overview, career stats, advanced metrics, awards and similar careers.
@@ -395,7 +399,6 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
               <span className="leading-tight">
                 <span className="block font-pixel text-[9px] uppercase text-muted-foreground">Number</span>
                 <span className="font-display text-lg font-bold text-chalk">#{jerseyNumber}</span>
-                {retired && <span className="ml-1.5 text-[11px] font-bold uppercase tracking-wide text-gold">Retired</span>}
               </span>
             </span>
             {team ? (
@@ -422,6 +425,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
               <span className="text-xs font-semibold text-muted-foreground">No team</span>
             )}
             {formerName && <span className="text-xs text-muted-foreground">Formerly known as {formerName}</span>}
+            <RetiredStrip player={player} onLeave={onClose} className="basis-full sm:basis-auto sm:min-w-[320px] sm:max-w-md" />
           </div>
         </header>
 
