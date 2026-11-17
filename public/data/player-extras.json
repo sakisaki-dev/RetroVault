@@ -275,7 +275,11 @@
  },
  "family": {
   "Jackson Wardell Kline": "son of Tyrion Kline",
-  "Wayne Wilson": "brother of Michael Wilson"
+  "Michael Wilson": "son of Wayne Wilson",
+  "Tress Pettis": "brother of Lewis Pettis",
+  "Justice Pettis": "relative of Lewis Pettis",
+  "KC Hyder": "twin of Khaleke Hyder",
+  "Alton Hopkins": "son of Levante Hopkins"
  },
  "franchises": {
   "Wayne Wilson": [
@@ -9205,8 +9209,7 @@
    "New York Jets"
   ],
   "Michael Wilson": [
-   "Baltimore Ravens",
-   "New York Giants"
+   "Minnesota Vikings"
   ],
   "Rondale Ikarras": [
    "Baltimore Ravens",

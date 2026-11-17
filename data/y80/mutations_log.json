@@ -1563,6 +1563,26 @@
     "tribute": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-17-wilson-father-son",
+   "dir": "data/uploads/2026-11-17-wilson-father-son",
+   "applied_at": "2026-11-17T00:53:26-08:00",
+   "mutations": {
+    "stats": 3,
+    "speech": 1,
+    "tribute": 1
+   },
+   "changed": 5
+  },
+  {
+   "id": "2026-11-17-families",
+   "dir": "data/uploads/2026-11-17-families",
+   "applied_at": "2026-11-17T00:55:12-08:00",
+   "mutations": {
+    "stats": 4
+   },
+   "changed": 4
   }
  ]
 }

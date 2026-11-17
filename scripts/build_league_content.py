@@ -481,7 +481,7 @@ def relation_tags(name: str) -> list[str]:
         if who == name:
             tags.append(f"{kind.capitalize()} of {other}")
         elif other == name:
-            back = {"son": "Father", "father": "Son", "brother": "Brother", "daughter": "Parent"}.get(kind, "Family")
+            back = {"son": "Father", "father": "Son", "brother": "Brother", "twin": "Twin", "daughter": "Parent"}.get(kind, "Family")
             tags.append(f"{back} of {who}")
     for old, new in sorted(EXTRAS.get("name_changes", {}).items()):
         if new == name:
@@ -881,15 +881,29 @@ def build_lineages():
         note = "Starting QB on your club by season (best Career Legacy on the roster, from reconstructed stints): " + \
             "; ".join(f"{n} Y{a}" + (f"–{b}" if b > a else "") for n, a, b in runs) + "."
         out.append({"id": "quarterback", "label": "Quarterback", "chain": chain, "note": note})
+    # one lineage per family (owner: the Pettis brothers and their lineage, the Hyder twins): links that share a player
+    # join up; brothers only = "<Surname> brothers", twins only = "<Surname> twins", anything else "<Surname> family"
+    links = []
     for who, rel in sorted(EXTRAS.get("family", {}).items()):
         m = re.match(r"(\w+) of (.+)$", rel)
-        if not m:
-            continue
-        kind, other = m.groups()
-        chain = [other, who]
-        surname = who.split()[-1]
-        label = f"{surname} brothers" if kind == "brother" else f"{surname} family"
-        out.append({"id": slug(label), "label": label, "chain": chain, "note": f"{who} is the {kind} of {other}."})
+        if m:
+            links.append((who, m.group(1), m.group(2)))
+    groups: list[list[tuple[str, str, str]]] = []
+    for link in links:
+        hit = [gr for gr in groups if {link[0], link[2]} & {x for w, _, o in gr for x in (w, o)}]
+        merged = [link] + [x for gr in hit for x in gr]
+        groups = [gr for gr in groups if gr not in hit] + [merged]
+    for gr in sorted(groups, key=lambda gr: sorted(w for w, _, _ in gr)):
+        chain: list[str] = []
+        for who, kind, other in sorted(gr, key=lambda l: (l[1] not in ("brother", "twin"), l[2], l[0])):  # a generation, then the next
+            for n in (other, who):
+                if n not in chain:
+                    chain.append(n)
+        kinds = {k for _, k, _ in gr}
+        surname = gr[0][0].split()[-1]
+        label = f"{surname} {'brothers' if kinds == {'brother'} else 'twins' if kinds == {'twin'} else 'family'}"
+        note = " ".join(f"{who} is the {kind} of {other}." for who, kind, other in sorted(gr))
+        out.append({"id": slug(label), "label": label, "chain": chain, "note": note})
     return out
 
 

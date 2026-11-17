@@ -1731,15 +1731,6 @@
     "frozenSeason": "Y79"
    },
    {
-    "name": "Michael Wilson",
-    "pos": "QB",
-    "careerLegacy": 8133,
-    "score": 66,
-    "hof": true,
-    "why": "Hall of Famer",
-    "frozenSeason": "Y79"
-   },
-   {
     "name": "Drake Wise",
     "pos": "QB",
     "careerLegacy": 7102,
@@ -1992,15 +1983,6 @@
     "frozenSeason": "Y79"
    },
    {
-    "name": "Michael Wilson",
-    "pos": "QB",
-    "careerLegacy": 8133,
-    "score": 66,
-    "hof": true,
-    "why": "Hall of Famer",
-    "frozenSeason": "Y79"
-   },
-   {
     "name": "Terron Stidham",
     "pos": "DB",
     "careerLegacy": 7470,
@@ -2229,6 +2211,15 @@
     "pos": "LB",
     "careerLegacy": 8320,
     "score": 67,
+    "hof": true,
+    "why": "Hall of Famer",
+    "frozenSeason": "Y79"
+   },
+   {
+    "name": "Michael Wilson",
+    "pos": "QB",
+    "careerLegacy": 8133,
+    "score": 66,
     "hof": true,
     "why": "Hall of Famer",
     "frozenSeason": "Y79"

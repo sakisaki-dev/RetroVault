@@ -236,7 +236,7 @@ export const buildSixDegreesGraph = ({ players, content, extras }: SixDegInput):
     const b = matchNode(m[2], nodes);
     if (!a || !b) return;
     const relation = m[1].toLowerCase();
-    const label = relation === 'brother' || relation === 'sister' ? 'Brothers' : relation === 'son' || relation === 'father' ? 'Father & son' : 'Family';
+    const label = relation === 'twin' ? 'Twins' : relation === 'brother' || relation === 'sister' ? 'Brothers' : relation === 'son' || relation === 'father' ? 'Father & son' : 'Family';
     link(a, b, { kind: 'family', label, text: `Family: ${short(a)} is the ${relation} of ${short(b)}` });
   });
 

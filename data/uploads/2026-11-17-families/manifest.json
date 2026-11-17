@@ -1,0 +1,44 @@
+{
+ "id": "2026-11-17-families",
+ "created": "2026-11-17",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "extras.set",
+   "target": "family/Tress Pettis",
+   "value": "brother of Lewis Pettis",
+   "source": "owner",
+   "reason": "Owner: \"brothers + lineage, hyder twins, orzech idek lwk, hopkins father and son work\" (the Pettis brothers)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "extras.set",
+   "target": "family/Justice Pettis",
+   "value": "relative of Lewis Pettis",
+   "source": "owner",
+   "reason": "Owner: \"brothers + lineage, hyder twins, orzech idek lwk, hopkins father and son work\" (the next Pettis, 11 seasons later: the family's lineage)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "extras.set",
+   "target": "family/KC Hyder",
+   "value": "twin of Khaleke Hyder",
+   "source": "owner",
+   "reason": "Owner: \"brothers + lineage, hyder twins, orzech idek lwk, hopkins father and son work\" (the Hyder twins)",
+   "trigger": "Owner statement in notes.md"
+  },
+  {
+   "lane": "stats",
+   "op": "extras.set",
+   "target": "family/Alton Hopkins",
+   "value": "son of Levante Hopkins",
+   "source": "owner",
+   "reason": "Owner: \"brothers + lineage, hyder twins, orzech idek lwk, hopkins father and son work\" (Hopkins father and son)",
+   "trigger": "Owner statement in notes.md"
+  }
+ ]
+}
