@@ -919,8 +919,10 @@ source names that file).
   turn mounts first, then slides), so no card mounts mid-swipe; the pages are memoized on that settled page. The leather
   cover is `:where(.bk)` so a milestone skin (turf, gold leaf, marble) is the cover, with clear sleeve pages over it.
   The Exchange sits above the Market (owner, 2026-11-17). **Shard workshop** (`ShardWorkshop.tsx`, `shardWorkshop.css`):
-  a forge, the chosen legend's card on an anvil in his club's glow, a shard gauge with the packs to go, Claim, and one
-  swipeable strip of claimable legends (logo, surname, position and OVR, not owned / new art).
+  a forge, the chosen player's card on an anvil in his club's glow, a shard gauge with the packs to go, Claim, and one
+  swipeable strip. Any player can be claimed (owner: "shouldn't we be able to trade for anybody"), priced by tier
+  (`CLAIM_COST` Common 150, Rare 300, Epic 600, Legendary 1,000): tier chips (Legendary first) and a name search fill the
+  strip, best OVR first, 60 at most. The binder's locked pockets stay anonymous (no claim from there).
 - **Collection economy** (owner approved all six parts; `src/utils/economy.ts` rules and writes, UI in
   `src/components/collection/economy/`): coins become the trading currency; shards stay exactly as they were (claims and
   finish upgrades). `CollectionState` gains `coins` (older saves load with 0), `coinLog` (newest first, 40 kept),

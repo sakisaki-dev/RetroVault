@@ -306,3 +306,82 @@
 [data-perf='lite'] .sw__forge.is-ready .sw__claim {
   animation: none;
 }
+
+/* ---------- Claim anybody: search and tier chips over the strip ---------- */
+.sw__pickbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.sw__search {
+  flex: 1 1 160px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 6px 0 10px;
+  border-radius: 10px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(0 0% 0% / 0.3);
+}
+.sw__search:focus-within {
+  border-color: hsl(var(--gold) / 0.7);
+}
+.sw__search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 16px;
+  color: hsl(var(--foreground));
+}
+.sw__search input::-webkit-search-cancel-button {
+  display: none;
+}
+.sw__search button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: hsl(var(--muted-foreground));
+}
+.sw__tiers {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  max-width: 100%;
+}
+.sw__tiers::-webkit-scrollbar {
+  display: none;
+}
+.sw__tier {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(var(--panel) / 0.7);
+  font-size: 12px;
+  font-weight: 700;
+  color: hsl(var(--muted-foreground));
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+.sw__tier.is-on {
+  border-color: hsl(var(--gold));
+  background: hsl(var(--gold) / 0.14);
+  color: hsl(var(--gold));
+}
+.sw__tier-cost {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  font-weight: 500;
+  opacity: 0.75;
+}
