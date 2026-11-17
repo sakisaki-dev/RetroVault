@@ -1,11 +1,22 @@
-import { MonitorPlay } from 'lucide-react';
+import { useState } from 'react';
+import { MapPin, MonitorPlay } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { SAVER_IDLE_CHOICES, setSaverIdle, startScreensaver, useSaverIdle } from '@/utils/screensaver';
+import { SAVER_IDLE_CHOICES, forgetSaverPlace, requestSaverPlace, setSaverIdle, startScreensaver, useSaverIdle, useSaverPlace } from '@/utils/screensaver';
 
 /** Header control (desktop only): start the screensaver now, or pick when it starts by itself */
 const ScreensaverButton = () => {
   const idle = useSaverIdle();
+  const place = useSaverPlace();
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState('');
+  const share = () => {
+    setBusy(true);
+    setErr('');
+    requestSaverPlace()
+      .catch((e: Error) => setErr(e.message))
+      .finally(() => setBusy(false));
+  };
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -46,6 +57,31 @@ const ScreensaverButton = () => {
             </button>
           ))}
         </div>
+        <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Local weather</p>
+        {place ? (
+          <div className="mt-2 flex items-center justify-between gap-2 text-sm">
+            <span className="inline-flex min-w-0 items-center gap-1.5 text-foreground">
+              <MapPin className="h-4 w-4 shrink-0 text-gold" aria-hidden="true" />
+              <span className="truncate">{place.city || 'Your location'}</span>
+            </span>
+            <button type="button" onClick={forgetSaverPlace} className="shrink-0 text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline">
+              Turn off
+            </button>
+          </div>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={share}
+              disabled={busy}
+              className="mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-md border border-line px-3 py-1.5 text-sm text-foreground transition-colors hover:border-gold/60 disabled:opacity-60"
+            >
+              <MapPin className="h-4 w-4" aria-hidden="true" />
+              {busy ? 'Finding you…' : 'Use my location'}
+            </button>
+            <p className="mt-1.5 text-xs text-muted-foreground">{err || 'Shows the weather and your town in the corner. Kept on this device; only rounded coordinates go to the weather service.'}</p>
+          </>
+        )}
       </PopoverContent>
     </Popover>
   );

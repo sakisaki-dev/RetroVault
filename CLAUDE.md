@@ -1174,7 +1174,19 @@ with a crossfade, dealt in turn from shuffled decks (presentation only): **spotl
 hero banner in a night stadium painted to his club, his rank), **card** (one of the best 40 owned cards turning under a
 spotlight), **line-up** (a club's five best by banner club on its turf, the best celebrating in the middle), **Hall of
 Famer** (on a gold pedestal under a light, with his class), **rafters** (a club with two or more retired numbers;
-the how-to note hidden). Slow camera push, sweeping floodlights, gold dust, text that rises in line by line; the clock
+the how-to note hidden, the banners swinging ±3°, the club's colour and logo behind), **duel** (a position's two
+greatest by Career Legacy squared up on a split in their club colours, VS), **champions** (a Super Bowl from
+content.json: the winner's logo in gold rays, the score, confetti in its colours), **the paper** (The Retro Vault Times:
+a season's Story lead, four headlines and its hot takes with heat flames), **record** (a league career or season mark
+from records.json on a dot-matrix board, the holder stiff-arming the field). Stadium scenes are the club's own ground
+from the save's stadium figures (`lookFor`): a covered stadium is a dome (a steel roof with lights), one with snowfall
+50+ is sometimes a snow game, the rest day, dusk or night (each scene's roll); every stadium carries the club's name
+across the sky, pennants on the stand front and its logo at midfield; a Hall of Famer gets his club's drapes, swinging.
+**Weather corner** (owner: "add in a bit of weather, time and location"): top right, the time, the date and, once
+"Use my location" in the menu is pressed (the browser asks once; rounded to 2 decimals, kept on the device as
+`rv:saver:place`, the town from BigDataCloud's reverse geocode), the current weather from Open-Meteo (no key, cached 20
+min as `rv:saver:wx`, °F for a US locale), and the real rain, snow, fog or storm laid lightly over every scene.
+Confetti and snowflakes are single elements with their own place, size, speed and drift (`Particles`). Slow camera push, sweeping floodlights, gold dust, text that rises in line by line; the clock
 and wordmark drift and the whole show dims by a fifth over half an hour, so it can be left on. Full screen and a Wake
 Lock when the browser allows; any key, click, wheel or mouse move past 24 px ends it (the click never reaches the page).
 Reduced motion: still scenes, crossfades only; lite mode drops the dust and grain.

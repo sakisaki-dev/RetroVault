@@ -8,11 +8,16 @@ import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { bannerTeamOf } from '@/utils/playerExtras';
 import { findNFLTeam } from '@/utils/nflTeams';
-import { useGameSprites } from '@/utils/gameSprites';
+import { useGameSprites, type SpriteAction } from '@/utils/gameSprites';
+import { useLeagueContent, type SuperBowlEntry, type SeasonStoryIndexEntry, type HotTakesIndexEntry } from '@/utils/leagueContent';
+import { useClubRecords, entryName, type ClubRecordRow } from '@/components/stats/clubRecords';
 import { useHallOfFame } from '@/utils/hallOfFame';
 import { useRafters } from '@/utils/rafters';
 import { useCollection } from '@/utils/collection';
 import { usePerfMode } from '@/hooks/usePerfMode';
+import { useLiveSeason } from '@/utils/seasonLive';
+import { fetchSaverWeather, useSaverPlace, weatherKind, type SaverWeather } from '@/utils/screensaver';
+import { Flame, Cloud, CloudFog, CloudLightning, CloudRain, CloudSnow, Moon, Sun } from 'lucide-react';
 import { useFieldArt } from '@/components/teamlab/fieldArt';
 import { useCardPool, type CardInfo } from '@/components/collection/useCardPool';
 import { displayWithKit } from '@/components/collection/kits';
@@ -35,11 +40,15 @@ import './screensaver.css';
  */
 
 type Scene =
-  | { kind: 'spotlight'; player: Player }
+  | { kind: 'spotlight'; player: Player; roll: number }
   | { kind: 'card'; card: CardInfo }
-  | { kind: 'lineup'; club: string; players: Player[] }
+  | { kind: 'lineup'; club: string; players: Player[]; roll: number }
   | { kind: 'hof'; player: Player; label: string }
-  | { kind: 'rafters'; club: string };
+  | { kind: 'rafters'; club: string }
+  | { kind: 'duel'; a: Player; b: Player; pos: string }
+  | { kind: 'champs'; bowl: SuperBowlEntry }
+  | { kind: 'paper'; story: SeasonStoryIndexEntry; takes: HotTakesIndexEntry | null }
+  | { kind: 'record'; row: ClubRecordRow; holder: Player };
 
 const SCENE_MS = 14_000;
 const FADE_MS = 1_400;
@@ -57,9 +66,51 @@ const shuffle = <T,>(xs: T[]): T[] => {
 const fmt = (n: number) => Math.round(n).toLocaleString('en-US');
 const clubOf = (p: Player) => findNFLTeam(bannerTeamOf(p));
 
-/** The stadium behind a scene: the game's night stands, crowd and turf painted to the club (CSS fallback without) */
-const Stadium = ({ club, children, className }: { club: string; children: ReactNode; className?: string }) => {
-  const art = useFieldArt(club, 'night');
+/** Falling bits (confetti, snowflakes), each with its own place, size, speed and drift: no visible grid */
+const hash = (n: number) => {
+  const x = Math.sin(n * 12.9898) * 43758.5453;
+  return x - Math.floor(x);
+};
+const Particles = ({ kind, count, colors }: { kind: 'confetti' | 'snow'; count: number; colors: string[] }) => (
+  <span className={`sv-parts sv-parts--${kind}`} aria-hidden="true">
+    {Array.from({ length: count }, (_, i) => (
+      <i
+        key={i}
+        style={
+          {
+            left: `${hash(i + 1) * 100}%`,
+            '--d': `${-hash(i + 7) * 20}s`,
+            '--t': `${(kind === 'snow' ? 14 : 8) + hash(i + 13) * (kind === 'snow' ? 14 : 8)}s`,
+            '--s': `${(kind === 'snow' ? 2 : 5) + hash(i + 29) * (kind === 'snow' ? 4 : 6)}px`,
+            '--x': `${(hash(i + 41) - 0.5) * 160}px`,
+            '--r': `${hash(i + 53) * 720 - 360}deg`,
+            '--c': colors[i % colors.length],
+            opacity: 0.45 + hash(i + 67) * 0.55,
+          } as CSSProperties
+        }
+      />
+    ))}
+  </span>
+);
+
+type Look = 'day' | 'dusk' | 'night' | 'snow' | 'dome';
+
+/**
+ * The club's own ground, from its stadium in the save: a covered stadium is a dome, one where it snows is sometimes
+ * a snow game, the rest a day, dusk or night game (the scene's roll picks)
+ */
+const lookFor = (club: string, roll: number, live: ReturnType<typeof useLiveSeason>): Look => {
+  const c = live?.clubs?.[club];
+  if ((c?.roof ?? 0) > 0) return 'dome';
+  if ((c?.snowfall ?? 0) >= 50 && roll < 0.45) return 'snow';
+  return roll < 0.3 ? 'day' : roll < 0.55 ? 'dusk' : 'night';
+};
+
+/** The stadium behind a scene: the game's stands, crowd and turf painted to the club, its logo at midfield, its pennants */
+const Stadium = ({ club, roll, children, className }: { club: string; roll: number; children: ReactNode; className?: string }) => {
+  const live = useLiveSeason();
+  const look = lookFor(club, roll, live);
+  const art = useFieldArt(club, look === 'day' || look === 'dusk' ? 'day' : look === 'snow' ? 'snow' : 'night');
   const t = findNFLTeam(club);
   const style = {
     ...(t ? { '--sv-1': `hsl(${t.primaryColor})`, '--sv-2': `hsl(${t.secondaryColor})` } : {}),
@@ -68,20 +119,29 @@ const Stadium = ({ club, children, className }: { club: string; children: ReactN
     ...(art.turf ? { '--sv-turf': `url(${art.turf})` } : {}),
   } as CSSProperties;
   return (
-    <div className={`sv-stadium ${art.turf ? 'sv-stadium--art' : ''} ${className ?? ''}`} style={style}>
+    <div className={`sv-stadium sv-stadium--${look} ${art.turf ? 'sv-stadium--art' : ''} ${className ?? ''}`} style={style}>
       <span className="sv-stadium__sky" aria-hidden="true" />
+      <span className="sv-stadium__word" aria-hidden="true">
+        {t?.fullName ?? club}
+      </span>
       <span className="sv-stadium__lights" aria-hidden="true" />
+      <span className="sv-stadium__roof" aria-hidden="true" />
       <span className="sv-stadium__stands" aria-hidden="true" />
+      <span className="sv-stadium__pennants" aria-hidden="true" />
       <span className="sv-stadium__crowd" aria-hidden="true" />
       <span className="sv-stadium__turf" aria-hidden="true" />
+      <span className="sv-stadium__mid" aria-hidden="true">
+        <TeamLogo team={club} size={260} decorative />
+      </span>
       <span className="sv-stadium__wash" aria-hidden="true" />
+      {look === 'snow' && <Particles kind="snow" count={90} colors={['#ffffff']} />}
       {children}
     </div>
   );
 };
 
-const Figure = ({ player, sprites, action = 'idle', scale = 1 }: { player: Player; sprites: boolean; action?: 'idle' | 'celebrate'; scale?: number }) => (
-  <span className="sv-fig" style={{ '--sv-scale': scale } as CSSProperties}>
+const Figure = ({ player, sprites, action = 'idle', scale = 1, mirror = false }: { player: Player; sprites: boolean; action?: SpriteAction; scale?: number; mirror?: boolean }) => (
+  <span className={mirror ? 'sv-fig sv-fig--mirror' : 'sv-fig'} style={{ '--sv-scale': scale } as CSSProperties}>
     <span className="sv-fig__shadow" />
     {sprites ? (
       <GameSprite player={player} kind="figure" size="l" action={action} className="sv-fig__sprite" />
@@ -93,10 +153,10 @@ const Figure = ({ player, sprites, action = 'idle', scale = 1 }: { player: Playe
   </span>
 );
 
-const SpotlightScene = ({ player, rank, number, ovr, sprites }: { player: Player; rank: number; number: number | null; ovr: number | null; sprites: boolean }) => {
+const SpotlightScene = ({ player, roll, rank, number, ovr, sprites }: { player: Player; roll: number; rank: number; number: number | null; ovr: number | null; sprites: boolean }) => {
   const t = clubOf(player);
   return (
-    <Stadium club={t?.name ?? 'Eagles'}>
+    <Stadium club={t?.name ?? 'Eagles'} roll={roll}>
       <div className="sv-spot">
         <p className="sv-kick">Retro Vault · Legends of the league</p>
         <div className="sv-spot__banner">
@@ -168,13 +228,13 @@ const CardScene = ({ card, owned, display }: { card: CardInfo; owned: ReturnType
   );
 };
 
-const LineupScene = ({ club, players, sprites }: { club: string; players: Player[]; sprites: boolean }) => {
+const LineupScene = ({ club, players, roll, sprites }: { club: string; players: Player[]; roll: number; sprites: boolean }) => {
   const t = findNFLTeam(club);
   // the best in the middle, the rest fanning out
   const order: Player[] = [];
   players.forEach((p, i) => (i % 2 ? order.push(p) : order.unshift(p)));
   return (
-    <Stadium club={club}>
+    <Stadium club={club} roll={roll}>
       <div className="sv-line">
         <div className="sv-line__head">
           <TeamLogo team={club} size={92} decorative />
@@ -210,6 +270,16 @@ const HofScene = ({ player, label, sprites }: { player: Player; label: string; s
   return (
     <div className="sv-hall" style={clubStyle(player)}>
       <span className="sv-hall__columns" aria-hidden="true" />
+      {t && (
+        <>
+          <span className="sv-drape sv-drape--l" aria-hidden="true">
+            <TeamLogo team={t.name} size={96} decorative />
+          </span>
+          <span className="sv-drape sv-drape--r" aria-hidden="true">
+            <TeamLogo team={t.name} size={96} decorative />
+          </span>
+        </>
+      )}
       <span className="sv-hall__glow" aria-hidden="true" />
       <div className="sv-hall__stage">
         <Figure player={player} sprites={sprites} action="celebrate" scale={1.9} />
@@ -233,8 +303,12 @@ const HofScene = ({ player, label, sprites }: { player: Player; label: string; s
 const RaftersSceneSlide = ({ club }: { club: string }) => {
   const { bannersFor, ringFor } = useRafters();
   const t = findNFLTeam(club) ?? null;
+  const style = (t ? { '--sv-1': `hsl(${t.primaryColor})`, '--sv-2': `hsl(${t.secondaryColor})` } : {}) as CSSProperties;
   return (
-    <div className="sv-rafters">
+    <div className="sv-rafters" style={style}>
+      <span className="sv-rafters__logo" aria-hidden="true">
+        <TeamLogo team={club} size={520} decorative />
+      </span>
       <div className="sv-rafters__frame">
         <RaftersScene team={t} banners={bannersFor(club)} ring={ringFor(t)} headingId="sv-rafters-title" />
       </div>
@@ -242,14 +316,189 @@ const RaftersSceneSlide = ({ club }: { club: string }) => {
   );
 };
 
-/** One clock in the corner, a minute at a time */
-const Clock = () => {
+/** Two of a position's greatest squared up: the debate, in their kits and their club colours */
+const DuelScene = ({ a, b, pos, sprites }: { a: Player; b: Player; pos: string; sprites: boolean }) => {
+  const side = (p: Player, right: boolean) => {
+    const t = clubOf(p);
+    return (
+      <div className={right ? 'sv-duel__side sv-duel__side--r' : 'sv-duel__side'} style={clubStyle(p)}>
+        <span className="sv-duel__logo" aria-hidden="true">
+          {t && <TeamLogo team={t.name} size={300} decorative />}
+        </span>
+        <Figure player={p} sprites={sprites} scale={1.7} mirror={right} />
+        <div className="sv-duel__card">
+          <h3 className="sv-duel__name">{p.name}</h3>
+          <p className="sv-duel__club">{t?.fullName ?? p.team}</p>
+          <dl className="sv-duel__nums">
+            {[...bannerStats(p), { label: 'Career Legacy', value: Math.round(p.careerLegacy) }].map((x) => (
+              <div key={x.label}>
+                <dd>{fmt(Number(x.value))}</dd>
+                <dt>{x.label}</dt>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    );
+  };
+  return (
+    <div className="sv-duel" style={{ '--a': clubStyle(a)['--cs-1' as keyof CSSProperties], '--b': clubStyle(b)['--cs-1' as keyof CSSProperties] } as CSSProperties}>
+      {side(a, false)}
+      <div className="sv-duel__mid">
+        <p className="sv-kick">The greatest {pos}</p>
+        <span className="sv-duel__vs">VS</span>
+      </div>
+      {side(b, true)}
+    </div>
+  );
+};
+
+/** A Super Bowl: the champion's logo in gold light, the score, confetti in its colours */
+const ChampsScene = ({ bowl }: { bowl: SuperBowlEntry }) => {
+  const w = findNFLTeam(bowl.winner ?? '');
+  const l = findNFLTeam(bowl.loser ?? '');
+  const style = (w ? { '--sv-1': `hsl(${w.primaryColor})`, '--sv-2': `hsl(${w.secondaryColor})` } : {}) as CSSProperties;
+  return (
+    <div className="sv-champs" style={style}>
+      <span className="sv-champs__rays" aria-hidden="true" />
+      <Particles kind="confetti" count={80} colors={[w ? `hsl(${w.primaryColor})` : '#ffc63e', w ? `hsl(${w.secondaryColor})` : '#ffffff', '#ffc63e', '#ffffff']} />
+      <div className="sv-champs__body">
+        <p className="sv-kick">Super Bowl {bowl.roman} · Y{bowl.year}</p>
+        <div className="sv-champs__logo">{w && <TeamLogo team={w.name} size={300} decorative />}</div>
+        <h2 className="sv-title">{w?.fullName ?? bowl.winner}</h2>
+        <p className="sv-champs__score">
+          <b>{bowl.score}</b>
+          {l && (
+            <span>
+              over the <TeamLogo team={l.name} size={34} decorative /> {l.name}
+            </span>
+          )}
+        </p>
+        <p className="sv-sub sv-sub--dim">World champions</p>
+      </div>
+    </div>
+  );
+};
+
+/** The league's paper: a season's story on a front page, its hot takes down the side */
+const PaperScene = ({ story, takes }: { story: SeasonStoryIndexEntry; takes: HotTakesIndexEntry | null }) => {
+  const rest = story.articles.filter((a) => a.id !== story.lead?.id && a.kind !== 'quickhits').slice(0, 4);
+  return (
+    <div className="sv-paper">
+      <div className="sv-paper__sheet">
+        <header className="sv-paper__mast">
+          <span>Season {story.season}</span>
+          <h2>The Retro Vault Times</h2>
+          <span>League edition</span>
+        </header>
+        <p className="sv-paper__tag">{story.tagline}</p>
+        <div className="sv-paper__grid">
+          <div>
+            <h3 className="sv-paper__lead">{story.lead?.headline ?? story.articles[0]?.headline}</h3>
+            <ul className="sv-paper__more">
+              {rest.map((a) => (
+                <li key={a.id}>
+                  <span>{a.kind === 'wherenow' ? 'Where now' : a.kind}</span>
+                  {a.headline}
+                </li>
+              ))}
+            </ul>
+          </div>
+          {takes && (
+            <aside className="sv-paper__takes">
+              <p>Hot takes</p>
+              {takes.takes.slice(0, 4).map((t) => (
+                <div key={t.id}>
+                  <span className="sv-paper__heat" aria-label={`Heat ${t.heat}`}>
+                    {Array.from({ length: t.heat }, (_, i) => (
+                      <Flame key={i} aria-hidden="true" />
+                    ))}
+                  </span>
+                  {t.headline}
+                </div>
+              ))}
+            </aside>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/** A league record and the man who holds it, stiff-arming the field, the mark on a dot-matrix board */
+const RecordScene = ({ row, holder, sprites }: { row: ClubRecordRow; holder: Player; sprites: boolean }) => {
+  const top = row.league?.top ?? [];
+  const t = clubOf(holder);
+  const gap = top[1] ? top[0].value - top[1].value : 0;
+  return (
+    <Stadium club={t?.name ?? 'Eagles'} roll={0.9}>
+      <div className="sv-rec">
+        <div className="sv-rec__board">
+          <p className="sv-kick">League record · {row.scope === 'season' ? 'single season' : 'career'}</p>
+          <h2 className="sv-rec__name">{row.record}</h2>
+          <p className="sv-rec__mark">{row.league?.mark ?? fmt(top[0]?.value ?? 0)}</p>
+          {top[1] && (
+            <p className="sv-rec__gap">
+              {fmt(gap)} clear of {entryName(top[1])}
+            </p>
+          )}
+        </div>
+        <div className="sv-rec__man" style={clubStyle(holder)}>
+          <Figure player={holder} sprites={sprites} action="stiffarm" scale={1.6} />
+          <span className="sv-line__name">{holder.name}</span>
+        </div>
+      </div>
+    </Stadium>
+  );
+};
+
+const WX_ICON = { clear: [Sun, Moon], cloud: [Cloud, Cloud], fog: [CloudFog, CloudFog], rain: [CloudRain, CloudRain], snow: [CloudSnow, CloudSnow], storm: [CloudLightning, CloudLightning] } as const;
+
+/** The corner: the time, the date, the town and its weather (when the location is shared from the menu) */
+const Corner = ({ onWeather }: { onWeather: (fx: ReturnType<typeof weatherKind>['fx'] | null) => void }) => {
   const [now, setNow] = useState(() => new Date());
+  const place = useSaverPlace();
+  const [wx, setWx] = useState<SaverWeather | null>(null);
   useEffect(() => {
     const t = window.setInterval(() => setNow(new Date()), 15_000);
     return () => window.clearInterval(t);
   }, []);
-  return <span className="sv-clock">{now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</span>;
+  useEffect(() => {
+    if (!place) return;
+    let live = true;
+    const load = () => fetchSaverWeather(place).then((w) => live && setWx(w));
+    void load();
+    const t = window.setInterval(load, 20 * 60_000);
+    return () => {
+      live = false;
+      window.clearInterval(t);
+    };
+  }, [place]);
+  const kind = wx ? weatherKind(wx.code) : null;
+  useEffect(() => onWeather(kind?.fx ?? null), [kind?.fx, onWeather]);
+  const Icon = kind ? WX_ICON[kind.fx][kind.fx === 'clear' && wx && !wx.day ? 1 : 0] : null;
+  const deg = place?.unit === 'fahrenheit' ? '°F' : '°C';
+  return (
+    <div className="sv-corner">
+      <span className="sv-corner__time">{now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</span>
+      <span className="sv-corner__date">{now.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}</span>
+      {place && (
+        <span className="sv-corner__wx">
+          {Icon && <Icon className="sv-corner__icon" aria-hidden="true" />}
+          {wx && (
+            <b>
+              {wx.temp}
+              {deg}
+            </b>
+          )}
+          <span>
+            {[kind?.label, place.city].filter(Boolean).join(' · ')}
+            {wx ? ` · H ${wx.hi}° L ${wx.lo}°` : ''}
+          </span>
+        </span>
+      )}
+    </div>
+  );
 };
 
 const Screensaver = ({ onClose }: { onClose: () => void }) => {
@@ -262,6 +511,8 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const { cards: pool, byKey } = useCardPool();
   const { state, cards: owned } = useCollection();
   const { lite } = usePerfMode();
+  const { content } = useLeagueContent();
+  const records = useClubRecords();
   const rootRef = useRef<HTMLDivElement>(null);
 
   const players = useMemo(
@@ -274,7 +525,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   // The playlist: each kind shuffled, then dealt in turn (spotlight, card, line-up, Hall of Famer, rafters, …)
   const scenes = useMemo<Scene[]>(() => {
     if (!players.length) return [];
-    const spot = shuffle(players.slice(0, 80)).map((p): Scene => ({ kind: 'spotlight', player: p }));
+    const spot = shuffle(players.slice(0, 80)).map((p): Scene => ({ kind: 'spotlight', player: p, roll: Math.random() }));
     const ownedCards = pool
       .filter((c) => owned[c.key])
       .sort((a, b) => {
@@ -289,24 +540,46 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
       const c = clubOf(p)?.name;
       if (c) byClub.set(c, [...(byClub.get(c) ?? []), p]);
     });
-    const lineups = shuffle([...byClub.entries()].filter(([, ps]) => ps.length >= 5)).map(([club, ps]): Scene => ({ kind: 'lineup', club, players: ps.slice(0, 5) }));
+    const lineups = shuffle([...byClub.entries()].filter(([, ps]) => ps.length >= 5)).map(([club, ps]): Scene => ({ kind: 'lineup', club, players: ps.slice(0, 5), roll: Math.random() }));
     const byKeyP = new Map(players.map((p) => [playerKey(p), p]));
     const hofScenes = shuffle(hof?.members ?? [])
       .map((m) => ({ m, p: byKeyP.get(m.key) }))
       .filter((x): x is { m: (typeof x)['m']; p: Player } => !!x.p)
       .map(({ m, p }): Scene => ({ kind: 'hof', player: p, label: m.class }));
     const rafters = shuffle(clubsWithRafters.filter((t) => bannersFor(t.id).length >= 2)).map((t): Scene => ({ kind: 'rafters', club: t.name }));
-    const decks = [spot, cardScenes, lineups, hofScenes, rafters].filter((d) => d.length);
+    const POS = ['QB', 'RB', 'WR', 'TE', 'OL', 'DL', 'LB', 'DB'];
+    const duels = shuffle(POS)
+      .map((pos): Scene | null => {
+        const top = players.filter((p) => p.position === pos).slice(0, 2);
+        return top.length === 2 ? { kind: 'duel', a: top[0], b: top[1], pos } : null;
+      })
+      .filter((x): x is Scene => !!x);
+    const champs = shuffle((content?.superBowls ?? []).filter((b) => b.winner && b.score && findNFLTeam(b.winner))).map((bowl): Scene => ({ kind: 'champs', bowl }));
+    const papers = shuffle(content?.seasonStoryIndex ?? []).map(
+      (story): Scene => ({ kind: 'paper', story, takes: content?.hotTakesIndex?.find((t) => t.season === story.season) ?? null }),
+    );
+    const recs = shuffle(
+      (records?.records ?? [])
+        .filter((r) => (r.scope === 'career' || r.scope === 'season') && r.league?.top?.[0])
+        .map((row) => {
+          const e = row.league!.top[0];
+          const holder = byKeyP.get(`${e.pos}:${entryName(e)}`);
+          return holder ? ({ kind: 'record', row, holder } as Scene) : null;
+        })
+        .filter((x): x is Scene => !!x),
+    );
+    const decks = [spot, cardScenes, duels, lineups, champs, hofScenes, recs, papers, rafters].filter((d) => d.length);
     const out: Scene[] = [];
     for (let i = 0; out.length < 60 && decks.some((d) => i < d.length); i++) decks.forEach((d) => d[i] && out.push(d[i]));
     return out;
     // the playlist is dealt once a run; later collection or rafters changes wait for the next run
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [players, hof, pool.length]);
+  }, [players, hof, pool.length, content, records]);
 
   const [idx, setIdx] = useState(0);
   const [prev, setPrev] = useState<number | null>(null);
   const [hint, setHint] = useState(true);
+  const [fx, setFx] = useState<ReturnType<typeof weatherKind>['fx'] | null>(null);
 
   useEffect(() => {
     if (scenes.length < 2) return;
@@ -403,15 +676,23 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const render = (s: Scene) => {
     switch (s.kind) {
       case 'spotlight':
-        return <SpotlightScene player={s.player} rank={rankOf.get(playerKey(s.player)) ?? 0} number={numberFor(s.player)} ovr={ovrMap.get(playerKey(s.player)) ?? null} sprites={sprites} />;
+        return <SpotlightScene player={s.player} roll={s.roll} rank={rankOf.get(playerKey(s.player)) ?? 0} number={numberFor(s.player)} ovr={ovrMap.get(playerKey(s.player)) ?? null} sprites={sprites} />;
       case 'card':
         return byKey.get(s.card.key) ? <CardScene card={s.card} owned={owned} display={state.display} /> : null;
       case 'lineup':
-        return <LineupScene club={s.club} players={s.players} sprites={sprites} />;
+        return <LineupScene club={s.club} players={s.players} roll={s.roll} sprites={sprites} />;
       case 'hof':
         return <HofScene player={s.player} label={s.label} sprites={sprites} />;
       case 'rafters':
         return <RaftersSceneSlide club={s.club} />;
+      case 'duel':
+        return <DuelScene a={s.a} b={s.b} pos={s.pos} sprites={sprites} />;
+      case 'champs':
+        return <ChampsScene bowl={s.bowl} />;
+      case 'paper':
+        return <PaperScene story={s.story} takes={s.takes} />;
+      case 'record':
+        return <RecordScene row={s.row} holder={s.holder} sprites={sprites} />;
     }
   };
 
@@ -424,6 +705,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
           {render(scenes[i])}
         </div>
       ))}
+      {fx && fx !== 'clear' && fx !== 'cloud' && <span className={`sv-weather sv-weather--${fx}`} aria-hidden="true" />}
       <span className="sv-dust" aria-hidden="true" />
       <span className="sv-dust sv-dust--far" aria-hidden="true" />
       <span className="sv-grain" aria-hidden="true" />
@@ -437,7 +719,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
           <BrandGlyph size={28} />
           Retro <b>Vault</b>
         </span>
-        <Clock />
+        <Corner onWeather={setFx} />
         <span key={idx} className="sv-progress" style={{ '--sv-dur': `${SCENE_MS}ms` } as CSSProperties} />
       </div>
       <p className={hint ? 'sv-hint' : 'sv-hint sv-hint--gone'}>Move the mouse or press any key to return</p>

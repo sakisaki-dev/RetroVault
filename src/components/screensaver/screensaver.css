@@ -601,8 +601,7 @@
   height: 90px;
   pointer-events: none;
 }
-.sv-brand,
-.sv-clock {
+.sv-brand {
   position: absolute;
   bottom: 30px;
   display: inline-flex;
@@ -622,14 +621,54 @@
 .sv-brand b {
   color: #ffc63e;
 }
-.sv-clock {
-  right: 44px;
+/* the corner, top right over the sky: the time, the date, the town and its weather */
+.sv-corner {
+  position: fixed;
+  top: 34px;
+  right: 46px;
+  z-index: 26;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  text-align: right;
+  text-shadow: 0 2px 12px rgb(0 0 0 / 0.7);
+  opacity: 0.8;
+  pointer-events: none;
+  animation: sv-drift 530s ease-in-out infinite alternate-reverse;
+}
+.sv-corner__time {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 34px;
+  font-size: clamp(44px, 4vw, 72px);
+  line-height: 0.95;
   font-variant-numeric: tabular-nums;
-  animation-direction: alternate-reverse;
-  animation-duration: 530s;
+  color: #f5f2e8;
+}
+.sv-corner__date {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffc63e;
+}
+.sv-corner__wx {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 15px;
+  color: rgb(245 242 232 / 0.8);
+}
+.sv-corner__wx b {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: #f5f2e8;
+}
+.sv-corner__icon {
+  width: 22px;
+  height: 22px;
+  color: #ffd86b;
 }
 @keyframes sv-drift {
   0% {
@@ -693,9 +732,710 @@
 }
 /* reduced motion: still scenes, crossfades only */
 @media (prefers-reduced-motion: reduce) {
-  .sv :is(.sv-dust, .sv-stadium__lights, .sv-vault__cone, .sv-hall__glow, .sv-brand, .sv-clock, .sv-empty),
+  .sv :is(.sv-dust, .sv-stadium__lights, .sv-vault__cone, .sv-hall__glow, .sv-brand, .sv-corner, .sv-weather, .sv-empty),
   .sv .sv-slide--in *,
   .sv .sv-slide--in .sv-stadium > span {
     animation: none !important;
   }
+}
+
+/* the real weather outside, laid lightly over every scene (rain, snow, fog, a storm's flashes) */
+.sv-weather {
+  position: absolute;
+  inset: -10% 0 0;
+  z-index: 19;
+  pointer-events: none;
+}
+.sv-weather--rain,
+.sv-weather--storm {
+  opacity: 0.32;
+  background:
+    repeating-linear-gradient(103deg, transparent 0 22px, rgb(190 210 255 / 0.5) 22px 23px, transparent 23px 61px) 0 0 / 61px 140px,
+    repeating-linear-gradient(103deg, transparent 0 37px, rgb(190 210 255 / 0.35) 37px 38px, transparent 38px 97px) 0 0 / 97px 210px;
+  animation: sv-rain 0.9s linear infinite;
+}
+@keyframes sv-rain {
+  to {
+    background-position: -30px 140px, -45px 210px;
+  }
+}
+.sv-weather--storm::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgb(220 230 255 / 0.5);
+  opacity: 0;
+  animation: sv-flash 13s linear infinite;
+}
+@keyframes sv-flash {
+  0%, 61%, 63.5%, 100% { opacity: 0; }
+  62% { opacity: 0.5; }
+  63% { opacity: 0.1; }
+}
+.sv-weather--snow {
+  opacity: 0.75;
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.9) 0 1.6px, transparent 2.4px) 0 0 / 131px 109px,
+    radial-gradient(circle, rgb(255 255 255 / 0.7) 0 2.2px, transparent 3px) 40px 60px / 197px 163px,
+    radial-gradient(circle, rgb(255 255 255 / 0.5) 0 1px, transparent 1.6px) 80px 20px / 89px 71px;
+  animation: sv-snow 26s linear infinite;
+}
+@keyframes sv-snow {
+  to {
+    background-position: 60px 109px, -40px 326px, 30px 142px;
+  }
+}
+.sv-weather--fog {
+  inset: 0;
+  background:
+    radial-gradient(60% 30% at 20% 70%, rgb(200 210 230 / 0.16), transparent 70%),
+    radial-gradient(50% 25% at 80% 60%, rgb(200 210 230 / 0.13), transparent 70%);
+  animation: sv-fog 40s ease-in-out infinite alternate;
+}
+@keyframes sv-fog {
+  to {
+    transform: translateX(6%);
+  }
+}
+.sv--lite .sv-weather {
+  animation: none;
+}
+
+/* ================= Stadium variety: the club's own ground (day, dusk, night, a snow game, a dome) ================= */
+.sv-stadium--day .sv-stadium__sky {
+  background:
+    radial-gradient(18% 10% at 22% 22%, rgb(255 255 255 / 0.55), transparent 70%),
+    radial-gradient(24% 9% at 70% 14%, rgb(255 255 255 / 0.45), transparent 70%),
+    radial-gradient(14% 7% at 50% 30%, rgb(255 255 255 / 0.35), transparent 70%),
+    linear-gradient(180deg, #2f6fc4 0%, #5d9ae0 45%, #a9cdf2 72%);
+}
+.sv-stadium--day .sv-stadium__lights {
+  opacity: 0.25;
+}
+.sv-stadium--dusk .sv-stadium__sky {
+  background:
+    radial-gradient(30% 20% at 50% 70%, rgb(255 200 120 / 0.55), transparent 70%),
+    linear-gradient(180deg, #2a1846 0%, #6b2d5c 30%, #c8546a 52%, #f39a5b 68%, #ffd08a 74%);
+}
+.sv-stadium--dusk .sv-stadium__turf,
+.sv-stadium--dusk .sv-stadium__crowd,
+.sv-stadium--dusk .sv-stadium__stands {
+  filter: saturate(1.1) brightness(0.82) sepia(0.15);
+}
+.sv-stadium--snow .sv-stadium__sky {
+  background:
+    radial-gradient(circle at 18% 12%, rgb(255 255 255 / 0.25) 0 1px, transparent 1.6px) 0 0 / 71px 53px,
+    linear-gradient(180deg, #1b2130 0%, #3a4356 50%, #6c7587 74%);
+}
+.sv-stadium__flakes {
+  inset: -10% 0 0;
+  z-index: 3;
+  opacity: 0.8;
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.95) 0 2px, transparent 3px) 0 0 / 141px 117px,
+    radial-gradient(circle, rgb(255 255 255 / 0.7) 0 1.4px, transparent 2.2px) 40px 60px / 97px 83px,
+    radial-gradient(circle, rgb(255 255 255 / 0.5) 0 3px, transparent 4px) 80px 20px / 233px 197px;
+  animation: sv-snow 22s linear infinite;
+}
+/* a dome: a steel roof with rows of lights where the sky would be */
+.sv-stadium__roof {
+  display: none;
+}
+.sv-stadium--dome .sv-stadium__sky {
+  background: linear-gradient(180deg, #0b0e18, #1c2233 60%, #2a3147 74%);
+}
+.sv-stadium--dome .sv-stadium__roof {
+  display: block;
+  top: 0;
+  height: 62%;
+  z-index: 1;
+  background:
+    radial-gradient(circle, rgb(255 248 220 / 0.95) 0 2px, rgb(255 248 220 / 0.25) 3px, transparent 8px) 0 0 / 90px 46px,
+    repeating-linear-gradient(90deg, rgb(140 150 175 / 0.25) 0 2px, transparent 2px 120px),
+    repeating-linear-gradient(0deg, rgb(140 150 175 / 0.18) 0 2px, transparent 2px 46px);
+  clip-path: ellipse(75% 100% at 50% 0%);
+  mask-image: linear-gradient(180deg, #000 30%, transparent);
+}
+.sv-stadium--dome .sv-stadium__lights {
+  display: none;
+}
+/* club branding: its name across the sky, its pennants on the stand front, its logo at midfield */
+.sv-stadium__word {
+  top: 7%;
+  z-index: 1;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(90px, 11vw, 220px);
+  line-height: 1;
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 2px color-mix(in srgb, var(--sv-2) 45%, transparent);
+  opacity: 0.35;
+}
+.sv-stadium__pennants {
+  bottom: calc(34% + var(--sv-row) * 2 - 8px);
+  height: 30px;
+  z-index: 2;
+  background:
+    conic-gradient(from 150deg at 50% 100%, transparent 0 0deg, var(--sv-1) 0deg 60deg, transparent 60deg) 0 0 / 56px 30px,
+    conic-gradient(from 150deg at 50% 100%, transparent 0 0deg, var(--sv-2) 0deg 60deg, transparent 60deg) 28px 0 / 56px 30px;
+  transform: scaleY(-1);
+  filter: drop-shadow(0 -3px 4px rgb(0 0 0 / 0.4));
+  opacity: 0.9;
+}
+.sv-stadium__mid {
+  left: 50% !important;
+  right: auto !important;
+  bottom: 6%;
+  z-index: 2;
+  translate: -50% 0;
+  transform: perspective(600px) rotateX(62deg);
+  transform-origin: 50% 100%;
+  opacity: 0.4;
+  mix-blend-mode: screen;
+}
+.sv-slide--in .sv-stadium > .sv-stadium__mid {
+  animation: none;
+}
+
+/* ================= Hall of Famer: his club's drapes either side, swinging a little ================= */
+.sv-drape {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  display: grid;
+  place-items: end center;
+  width: clamp(120px, 10vw, 180px);
+  height: 64%;
+  padding-bottom: 70px;
+  background: linear-gradient(90deg, rgb(0 0 0 / 0.3), transparent 30%, transparent 70%, rgb(0 0 0 / 0.35)), var(--cs-1);
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
+  box-shadow: inset 0 0 0 4px var(--cs-2);
+  transform-origin: 50% 0;
+  animation: sv-swing 7s ease-in-out infinite alternate;
+  opacity: 0.85;
+}
+.sv-drape::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 14px;
+  background: linear-gradient(180deg, #c99a2e, #7a5a16);
+}
+.sv-drape--l {
+  left: 3vw;
+}
+.sv-drape--r {
+  right: 3vw;
+  animation-delay: -3.5s;
+}
+@keyframes sv-swing {
+  from {
+    transform: rotate(-2.2deg);
+  }
+  to {
+    transform: rotate(2.2deg);
+  }
+}
+
+/* ================= Rafters: the club's colour and logo behind, the banners swinging ================= */
+.sv-rafters {
+  --sv-1: #1b2a6b;
+  background:
+    radial-gradient(60% 50% at 50% 35%, color-mix(in srgb, var(--sv-1) 35%, transparent), transparent 70%),
+    radial-gradient(70% 60% at 50% 30%, #121a38, #04060d 75%);
+}
+.sv-rafters__logo {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0.07;
+  filter: grayscale(0.3) blur(1px);
+}
+.sv-rafters .rafter__sway {
+  animation: sv-rafter-swing var(--dur, 6s) ease-in-out var(--delay, 0s) infinite alternate !important;
+}
+@keyframes sv-rafter-swing {
+  from {
+    transform: rotate(calc(var(--tilt, 0deg) - 3deg));
+  }
+  to {
+    transform: rotate(calc(var(--tilt, 0deg) + 3deg));
+  }
+}
+
+/* ================= Duel: two of a position's greatest, squared up ================= */
+.sv-fig--mirror .sv-fig__sprite {
+  transform: scaleX(-1);
+}
+.sv-duel {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  background: linear-gradient(105deg, color-mix(in srgb, var(--a, #1b2a6b) 70%, #05070f) 0 49.6%, #ffc63e 49.6% 50.4%, color-mix(in srgb, var(--b, #6b1b2a) 70%, #05070f) 50.4%);
+}
+.sv-duel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(40% 50% at 25% 60%, rgb(255 255 255 / 0.1), transparent 70%),
+    radial-gradient(40% 50% at 75% 60%, rgb(255 255 255 / 0.1), transparent 70%),
+    linear-gradient(180deg, rgb(0 0 0 / 0.35), transparent 40%, rgb(0 0 0 / 0.5));
+}
+.sv-duel__side {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.sv-duel__logo {
+  position: absolute;
+  top: -8%;
+  opacity: 0.13;
+}
+.sv-duel__card {
+  text-align: center;
+}
+.sv-duel__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(36px, 3.6vw, 64px);
+  line-height: 0.95;
+  text-transform: uppercase;
+  text-shadow: 0 3px 0 rgb(0 0 0 / 0.5);
+}
+.sv-duel__club {
+  margin: 4px 0 12px;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(245 242 232 / 0.7);
+}
+.sv-duel__nums {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  margin: 0;
+}
+.sv-duel__nums dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(24px, 2.2vw, 38px);
+  line-height: 1;
+}
+.sv-duel__nums dt {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  text-transform: uppercase;
+  color: rgb(245 242 232 / 0.6);
+}
+.sv-duel__mid {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0 2vw;
+}
+.sv-duel__vs {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(80px, 8vw, 150px);
+  line-height: 1;
+  color: #ffc63e;
+  text-shadow: 0 6px 0 #7a5a16, 0 0 50px rgb(255 198 62 / 0.5);
+}
+.sv-slide--in .sv-duel__side {
+  animation: sv-duel-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.sv-slide--in .sv-duel__side--r {
+  animation-name: sv-duel-in-r;
+}
+@keyframes sv-duel-in {
+  from {
+    opacity: 0;
+    transform: translateX(-80px);
+  }
+}
+@keyframes sv-duel-in-r {
+  from {
+    opacity: 0;
+    transform: translateX(80px);
+  }
+}
+.sv-slide--in .sv-duel__vs {
+  animation: sv-vs 1s 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes sv-vs {
+  from {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+}
+
+/* ================= Champions: a Super Bowl in gold light and confetti ================= */
+.sv-champs {
+  --sv-1: #1b2a6b;
+  --sv-2: #ffc63e;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(60% 60% at 50% 45%, color-mix(in srgb, var(--sv-1) 55%, #05070f), #03050c 80%);
+}
+.sv-champs__rays {
+  position: absolute;
+  inset: -50%;
+  background: repeating-conic-gradient(from 0deg at 50% 50%, rgb(255 214 120 / 0.09) 0 6deg, transparent 6deg 18deg);
+  animation: sv-spin 120s linear infinite;
+  mask-image: radial-gradient(closest-side, #000, transparent);
+}
+@keyframes sv-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.sv-champs__body {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.sv-champs__logo {
+  margin: 18px 0 6px;
+  filter: drop-shadow(0 0 40px rgb(255 214 120 / 0.45)) drop-shadow(0 20px 30px rgb(0 0 0 / 0.6));
+}
+.sv-slide--in .sv-champs__logo {
+  animation: sv-banner-in 1.6s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both, sv-float 6s 1.8s ease-in-out infinite alternate;
+}
+.sv-champs__score {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 14px 0 0;
+  font-size: clamp(18px, 1.5vw, 26px);
+  color: rgb(245 242 232 / 0.85);
+}
+.sv-champs__score b {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 3.6vw, 64px);
+  color: #ffc63e;
+}
+.sv-champs__score span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.sv-confetti {
+  position: absolute;
+  inset: -30% 0 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--sv-1), var(--sv-1)) 0 0 / 7px 13px no-repeat,
+    conic-gradient(from 45deg, var(--sv-2) 0 25%, transparent 0) 0 0 / 0 0;
+  background:
+    radial-gradient(ellipse 4px 7px, var(--sv-2) 98%, transparent) 10px 20px / 131px 173px,
+    radial-gradient(ellipse 6px 3px, var(--sv-1) 98%, transparent) 70px 90px / 157px 139px,
+    radial-gradient(ellipse 3px 6px, #ffffff 98%, transparent) 40px 10px / 199px 211px,
+    radial-gradient(ellipse 5px 4px, #ffc63e 98%, transparent) 100px 140px / 233px 187px;
+  animation: sv-fall 14s linear infinite;
+}
+.sv-confetti--b {
+  opacity: 0.6;
+  filter: blur(1px);
+  animation-duration: 21s;
+  background-size: 97px 151px, 181px 127px, 143px 167px, 211px 199px;
+}
+@keyframes sv-fall {
+  to {
+    transform: translate3d(30px, 30%, 0);
+  }
+}
+
+/* ================= The paper: a season's front page ================= */
+.sv-paper {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(70% 70% at 50% 40%, #1a1712, #050403 80%);
+}
+.sv-paper__sheet {
+  width: min(1180px, 82vw);
+  padding: 34px 44px 40px;
+  color: #1b1712;
+  background:
+    radial-gradient(circle, rgb(0 0 0 / 0.05) 0 1px, transparent 1.4px) 0 0 / 5px 5px,
+    linear-gradient(180deg, #f3ead6, #e7dcc2);
+  box-shadow: 0 40px 80px rgb(0 0 0 / 0.7), inset 0 0 80px rgb(120 90 40 / 0.18);
+  transform: rotate(-1.2deg);
+}
+.sv-slide--in .sv-paper__sheet {
+  animation: sv-paper-in 1.6s cubic-bezier(0.22, 1, 0.36, 1) both, sv-paper-drift 14s 1.6s ease-in-out both;
+}
+@keyframes sv-paper-in {
+  from {
+    opacity: 0;
+    transform: rotate(-8deg) scale(0.85) translateY(60px);
+  }
+}
+@keyframes sv-paper-drift {
+  to {
+    transform: rotate(-0.6deg) scale(1.03);
+  }
+}
+.sv-paper__mast {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 16px;
+  padding-bottom: 10px;
+  border-bottom: 4px double #1b1712;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+.sv-paper__mast span:last-child {
+  text-align: right;
+}
+.sv-paper__mast h2 {
+  margin: 0;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(40px, 4.4vw, 76px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.sv-paper__tag {
+  margin: 10px 0 18px;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 18px;
+  text-align: center;
+  border-bottom: 1px solid #1b1712;
+  padding-bottom: 10px;
+}
+.sv-paper__grid {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 30px;
+}
+.sv-paper__lead {
+  margin: 0 0 18px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(40px, 3.6vw, 66px);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.sv-paper__more {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 22px;
+  margin: 0;
+  padding: 14px 0 0;
+  list-style: none;
+  border-top: 1px solid #1b1712;
+  font-family: Georgia, serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.sv-paper__more span {
+  display: block;
+  margin-bottom: 3px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #8a2a1a;
+}
+.sv-paper__takes {
+  padding-left: 22px;
+  border-left: 1px solid #1b1712;
+  font-family: Georgia, serif;
+  font-size: 16px;
+  line-height: 1.25;
+}
+.sv-paper__takes > p {
+  margin: 0 0 10px;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #8a2a1a;
+}
+.sv-paper__takes > div {
+  padding: 8px 0;
+  border-bottom: 1px dotted rgb(27 23 18 / 0.4);
+}
+.sv-paper__heat {
+  display: flex;
+  gap: 1px;
+  margin-bottom: 3px;
+  color: #c2410c;
+}
+.sv-paper__heat svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ================= Record: the mark on a scoreboard, the holder stiff-arming the field ================= */
+.sv-rec {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: end;
+  height: 100%;
+  padding: 12vh 7vw 10vh;
+  gap: 4vw;
+}
+.sv-rec__board {
+  align-self: start;
+  padding: 26px 34px 30px;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.04) 0 1px, transparent 1.2px) 0 0 / 4px 4px,
+    linear-gradient(180deg, #0a0f22, #04060f);
+  box-shadow:
+    0 0 0 3px #2c3350,
+    0 0 0 5px #ffc63e,
+    0 0 0 8px #11152a,
+    0 24px 50px rgb(0 0 0 / 0.6),
+    0 0 80px rgb(255 198 62 / 0.15);
+}
+.sv-rec__name {
+  margin: 8px 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(30px, 2.8vw, 52px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+.sv-rec__mark {
+  margin: 10px 0 0;
+  font-family: var(--font-pixel);
+  font-size: clamp(54px, 6vw, 110px);
+  line-height: 1;
+  color: #ffc63e;
+  text-shadow: 0 0 14px rgb(255 198 62 / 0.75), 0 0 2px rgb(255 230 160 / 0.9);
+}
+.sv-rec__gap {
+  margin: 12px 0 0;
+  font-size: 18px;
+  color: rgb(245 242 232 / 0.75);
+}
+.sv-rec__man {
+  --cs-1: #ffc63e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  justify-self: center;
+}
+.sv-slide--in .sv-rec__man {
+  animation: sv-duel-in-r 1.4s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.sv-slide--in .sv-rec__mark {
+  animation: sv-rise-in 1.2s 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sv :is(.sv-drape, .sv-champs__rays, .sv-confetti, .sv-stadium__flakes),
+  .sv .sv-rafters .rafter__sway {
+    animation: none !important;
+  }
+}
+.sv--lite :is(.sv-confetti--b, .sv-stadium__flakes) {
+  display: none;
+}
+
+/* particles: confetti and snow, one element each */
+.sv-parts {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+}
+.sv-parts i {
+  position: absolute;
+  top: -4%;
+  width: var(--s);
+  height: calc(var(--s) * 1.6);
+  border-radius: 1px;
+  background: var(--c);
+  animation: sv-p-fall var(--t) linear var(--d) infinite;
+}
+.sv-parts--snow i {
+  height: var(--s);
+  border-radius: 50%;
+  filter: blur(0.4px);
+  box-shadow: 0 0 6px rgb(255 255 255 / 0.6);
+}
+@keyframes sv-p-fall {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  to {
+    transform: translate3d(var(--x), 108vh, 0) rotate(var(--r));
+  }
+}
+.sv-parts--snow i {
+  animation-name: sv-p-snow;
+}
+@keyframes sv-p-snow {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(calc(var(--x) * 0.6), 54vh, 0);
+  }
+  to {
+    transform: translate3d(var(--x), 108vh, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sv .sv-parts i {
+    animation: none !important;
+    top: auto;
+  }
+}
+.sv--lite .sv-parts i:nth-child(2n) {
+  display: none;
+}
+/* the dome's lights: sparser, softer, only near the roof */
+.sv-stadium--dome .sv-stadium__roof {
+  height: 50%;
+  opacity: 0.6;
+  background:
+    radial-gradient(circle, rgb(255 248 220 / 0.9) 0 1.5px, rgb(255 248 220 / 0.18) 2.5px, transparent 7px) 0 0 / 150px 64px,
+    repeating-linear-gradient(90deg, rgb(140 150 175 / 0.18) 0 2px, transparent 2px 150px),
+    repeating-linear-gradient(0deg, rgb(140 150 175 / 0.12) 0 2px, transparent 2px 64px);
+}
+.sv-hall__plaque {
+  background: linear-gradient(160deg, #2a200c, #0d0904) !important;
+  z-index: 3;
+}
+.sv-duel__mid .sv-kick {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgb(3 5 12 / 0.85);
+  box-shadow: inset 0 0 0 1px rgb(255 198 62 / 0.4);
 }
