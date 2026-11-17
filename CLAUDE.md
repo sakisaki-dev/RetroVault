@@ -1008,24 +1008,26 @@ pictures".
 - **Install:** in Safari on the iPhone, Share → Add to Home Screen. It opens standalone (no Safari bars) with the
   launch screen, and Home Screen web apps are exempt from Safari's 7-day wipe of script-writable storage (the card
   collection, coins and settings live in localStorage).
-- **Art:** `python3 scripts/build_app_icons.py` draws everything from the game's own art, on whole art pixels blown up
-  by whole steps (nearest neighbour), deterministic. **Icon** (owner: "i liked the old icon … just make it better"): the
-  old brown pixel football on mowed turf, redone: a shaded leather ramp with pebble grain, cream stripes, lace stitches
-  and seams, a specular streak and a warm rim light, a soft drop shadow, on the game's day turf
-  (`private-sprites/field/turf-day-tall.png`: the 5-yard stripes, a yard line and the hash marks, numbers left out)
-  under a vignette; 180/192 at 3x, 512 at 6x, the maskable ones with a smaller ball inside the 40% circle, the favicons
-  (16/32/48) a flat simplified ball. **Launch screens** (owner: "use the game sprites and assets", then "keep the logo as the old one for the launch
-  screen make it more colorful and immersive and use the all time greats instead of the eagles players"): the old logo
-  (the gold pixel football with "RV", "RETRO VAULT" with VAULT in gold, "LEAGUE HUB") over a violet night sky with
-  fireworks in the greats' club colours, floodlight towers with coloured halos and beams, an "ALL-TIME GREATS" LED
-  fascia hung with each great's club pennant (abbreviation and colours from `src/utils/nflTeams.ts`), the game's crowd
-  tiers from `private-sprites/field/` recoloured section by section into those clubs, an LED ribbon of their surnames,
-  the night turf under a violet haze, and the **all-time greats by rule** (`Greats`: the best Hall of Famer at each
-  position by Hall of Fame Score, then Career Legacy, from `halloffame.json`, the best of those first, 7 of them), each
-  in his own banner club's kit (`signatureTeams`) through the site's sprite rules (`widget_sprites.site_rules` /
-  `figure`): the greatest front and centre at 3x celebrating under a spotlight with his name on a club-colour strip at
-  the rail, two beside him and four behind at 2x, under multi-club confetti, the near stands with phone lights below.
-  About 300 art pixels across (`int(w / 300 + 0.5)` device pixels each); the logo and names stay clear of the status
+- **Art:** `python3 scripts/build_app_icons.py` draws everything on whole art pixels blown up by whole steps (nearest
+  neighbour), deterministic. **Icon** ("Kickoff"; owner: "i like the old icon we had it was simple pixelated and fun",
+  then "its a fun football website it doesn't need to be ornate it needs to be colorful memorable and representative"):
+  commit 21fcb29's chunky brown pixel football, kept cell for cell (`ICON_GRID`, `ball_mark`), in front of a stadium in
+  bands on a 24-cell design (`icon_design`): a golden-hour sky with the sun on the horizon, navy stands dotted with gold,
+  the red wall, a chalk sideline and the grass; every size at a whole number of pixels a cell with the bleed cropped,
+  the maskable ones on 32 cells (the ball inside the 80% circle), favicon-32 the 32-cell design at one pixel a cell.
+  **Launch screens** (owner: "use the stadium as the background I did like that but saying 'all time great' the pixel
+  fonts etc etc don't seem professional", with the game's own title screen as the model): a game title screen, no small
+  labels. A golden-hour sky with pixel clouds and the sun low in the bowl; the game's crowd (`private-sprites/field/
+  crowd.png`) in royal navy with gold and white, tiers and rails bent into a bowl; the football on a red plinth; a
+  bevelled **RETRO / VAULT** wordmark in our own block letters (`LETTERS`, `wordmark`: chrome RETRO, gold VAULT, a dark
+  outline closed into one sign per line, a red drop edge); the **all-time greats by rule** across the field (`Greats`:
+  the best Hall of Famer at each position by Hall of Fame Score, then Career Legacy, from `halloffame.json`, the best of
+  those first, then the next best to fill the line, 11 in all), each in his banner club's kit (`signatureTeams`) through
+  the site's sprite rules (`widget_sprites.site_rules` / `figure`), six across the back and five in the gaps in front,
+  the greatest in the middle celebrating; and nearest the camera the head coach seen from behind (`from_behind`: his own
+  sprite in his current club's polo, `coach.json` `currentStint`, turned around: the back of his head in his own hair
+  and skin colours, the polo's collar closed), cut at the waist by the bottom edge.
+  About 300 art pixels across (`int(w / 300 + 0.5)` device pixels each); the wordmark and the sun stay clear of the status
   bar and home indicator (`safe_rows`). It reads the Hall of Fame, so `npm run rebuild` runs `build_app_icons.py
   --splash` after the widget feed and the launch screens follow new Hall of Famers (commit them with the update). It writes
   `public/apple-touch-icon.png`, `icon-192/512.png`, `icon-maskable-192/512.png`, the favicons and the portrait launch
