@@ -106,7 +106,7 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
   // Current card (integer): decides which five are mounted. The float position lives in posRef.
   const [center, setCenter] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const { face, backMounted } = useFlipFaces(flipped, center);
+  const { face, turning, backMounted } = useFlipFaces(flipped, center);
   const [picks, setPicks] = useState<Record<string, { variant: Variant; finish: Finish }>>({});
   const [closing, setClosing] = useState(false);
 
@@ -621,7 +621,7 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
                   data-fly-target={active ? '' : undefined}
                   aria-hidden={!active}
                 >
-                  <div className={cn('cd__flipper', active && flipped && 'is-flipped')} data-face={active ? face : undefined}>
+                  <div className={cn('cd__flipper', active && flipped && 'is-flipped')} data-face={active ? face : undefined} data-turning={active ? (turning ?? undefined) : undefined}>
                     <div className="cd__face" aria-hidden={active && flipped}>
                       <CollectibleCard
                         owned

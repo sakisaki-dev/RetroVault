@@ -392,6 +392,8 @@
 /* ---------- Timeline row ---------- */
 .rf-row {
   margin-top: 1.25rem;
+  /* Lets the scrolling list below shrink to its container (a grid item otherwise grows to its content) */
+  min-width: 0;
 }
 .rf-row__head {
   display: flex;
@@ -419,6 +421,7 @@
 }
 .rf-row__list {
   display: flex;
+  min-width: 0;
   gap: 10px;
   margin: 0 -16px;
   padding: 2px 16px 6px;

@@ -3075,20 +3075,28 @@ button.fut__card:focus-visible {
 .cd__flipper {
   position: relative;
   display: grid;
-  transform-style: preserve-3d;
-  transition: transform 0.85s cubic-bezier(0.3, 1.25, 0.4, 1);
 }
-.cd__flipper.is-flipped {
-  transform: rotateY(180deg);
+/* A flat flip (useFlipFaces.ts): the card squeezes to its edge, the faces swap halfway (data-face), and it opens
+   again. No rotateY or backface-visibility: iOS Safari flickered both faces through each other with those. Two
+   animation names so a flip back mid-turn restarts the squeeze. */
+.cd__flipper[data-turning] {
+  animation: cd-turn-a 420ms cubic-bezier(0.45, 0, 0.55, 1);
+}
+.cd__flipper[data-turning='to-front'] {
+  animation-name: cd-turn-b;
+}
+@keyframes cd-turn-a {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: translateY(-6px) scaleX(0.02); }
+}
+@keyframes cd-turn-b {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: translateY(-6px) scaleX(0.02); }
 }
 .cd__face {
   position: relative;
   grid-area: 1 / 1;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
 }
-/* The far face is hidden outright once the card turns edge-on (useFlipFaces.ts sets data-face): iOS Safari
-   flickered both faces through each other with backface-visibility alone */
 .cd__flipper[data-face='back'] > .cd__face:not(.cd__face--back),
 .cd__flipper[data-face='front'] > .cd__face--back {
   visibility: hidden;
@@ -3096,7 +3104,6 @@ button.fut__card:focus-visible {
 .cd__face--back {
   position: absolute;
   inset: 0;
-  transform: rotateY(180deg);
 }
 .cd__nav {
   display: grid;
@@ -3576,6 +3583,9 @@ button.fut__card:focus-visible {
   .cd-chip,
   .cd__nav {
     transition: none;
+  }
+  .cd__flipper[data-turning] {
+    animation: none;
   }
 }
 

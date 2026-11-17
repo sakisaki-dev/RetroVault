@@ -222,7 +222,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
   const [phase, setPhase] = useState<'open' | 'closing' | 'closed'>('open');
   const info = target?.info;
   const key = info?.key;
-  const { face, backMounted } = useFlipFaces(flipped, key);
+  const { face, turning, backMounted } = useFlipFaces(flipped, key);
   const tier = target?.tier ?? info?.tier ?? 'common';
   // Opens on the target's variant / finish (Card designs), else the owner's display choice, else auto
   const shown = target?.preview ? null : displayWithKit(entry, display, info?.player ?? { name: '' });
@@ -745,7 +745,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                 )}
                 <div className="cd__fly" ref={flyRef} key={key}>
                   <div className="cd__sway">
-                    <div className={cn('cd__flipper', flipped && 'is-flipped')} data-face={face}>
+                    <div className={cn('cd__flipper', flipped && 'is-flipped')} data-face={face} data-turning={turning ?? undefined}>
                       <div className="cd__face" aria-hidden={flipped}>
                         <CollectibleCard
                           owned
