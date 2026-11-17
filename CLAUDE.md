@@ -1144,6 +1144,15 @@ pictures".
   poster uses (cached per set of families). Never pass html-to-image's `preferredFontFormat`: in WebKit it dropped
   `src` from some rules, and the pixel font fell back.
 
+## Club colours
+
+`src/utils/nflTeams.ts` (`primaryColor`, `secondaryColor`, HSL) and the widget's `TEAMS` table
+(`public/widgets/retro-vault-widget.js`, hex) carry each club's **official** colours (owner, 2026-11-17: "move every team
+to their official color if two are similar they really shouldn't be"). Where two clubs' official primaries look alike, a
+club leads with another colour from its own official palette (CIEDE2000 check over every pair): Seahawks action green,
+Titans light blue, Rams sol, Raiders silver, Cowboys silver, Panthers black, Bengals black (their orange is the accent);
+everyone else wears his official primary. Keep the two tables in step; `npm run rebuild` redraws the launch screens.
+
 ## Code notes
 
 - How the game itself works (read from its code: player record, aging, retirement ages, season ratings and awards,

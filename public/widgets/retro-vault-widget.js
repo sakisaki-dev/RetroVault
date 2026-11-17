@@ -64,16 +64,16 @@ const mono = (s) => Font.boldMonospacedSystemFont(s); // JetBrains Mono numbers
 
 const TEAMS = {
   Cardinals: ['#97233F', '#000000', 'ari'], Falcons: ['#A71930', '#000000', 'atl'], Ravens: ['#241773', '#9E7C0C', 'bal'],
-  Bills: ['#00338D', '#C60C30', 'buf'], Panthers: ['#0085CA', '#101820', 'car'], Bears: ['#0B162A', '#C83803', 'chi'],
-  Bengals: ['#FB4F14', '#000000', 'cin'], Browns: ['#311D00', '#FF3C00', 'cle'], Cowboys: ['#003594', '#869397', 'dal'],
+  Bills: ['#00338D', '#C60C30', 'buf'], Panthers: ['#101820', '#0085CA', 'car'], Bears: ['#0B162A', '#C83803', 'chi'],
+  Bengals: ['#000000', '#FB4F14', 'cin'], Browns: ['#311D00', '#FF3C00', 'cle'], Cowboys: ['#869397', '#003594', 'dal'],
   Broncos: ['#FB4F14', '#002244', 'den'], Lions: ['#0076B6', '#B0B7BC', 'det'], Packers: ['#203731', '#FFB612', 'gb'],
   Texans: ['#03202F', '#A71930', 'hou'], Colts: ['#002C5F', '#A2AAAD', 'ind'], Jaguars: ['#006778', '#D7A22A', 'jax'],
-  Chiefs: ['#E31837', '#FFB81C', 'kc'], Raiders: ['#000000', '#A5ACAF', 'lv'], Chargers: ['#0080C6', '#FFC20E', 'lac'],
-  Rams: ['#003594', '#FFD100', 'lar'], Dolphins: ['#008E97', '#FC4C02', 'mia'], Vikings: ['#4F2683', '#FFC62F', 'min'],
-  Patriots: ['#002244', '#C60C30', 'ne'], Saints: ['#101820', '#D3BC8D', 'no'], Giants: ['#0B2265', '#A71930', 'nyg'],
-  Jets: ['#125740', '#FFFFFF', 'nyj'], Eagles: ['#004C54', '#A5ACAF', 'phi'], Steelers: ['#101820', '#FFB612', 'pit'],
-  '49ers': ['#AA0000', '#B3995D', 'sf'], Seahawks: ['#002244', '#69BE28', 'sea'], Buccaneers: ['#D50A0A', '#34302B', 'tb'],
-  Titans: ['#0C2340', '#4B92DB', 'ten'], Commanders: ['#5A1414', '#FFB612', 'wsh'],
+  Chiefs: ['#E31837', '#FFB81C', 'kc'], Raiders: ['#A5ACAF', '#000000', 'lv'], Chargers: ['#0080C6', '#FFC20E', 'lac'],
+  Rams: ['#FFD100', '#003594', 'lar'], Dolphins: ['#008E97', '#FC4C02', 'mia'], Vikings: ['#4F2683', '#FFC62F', 'min'],
+  Patriots: ['#002244', '#C60C30', 'ne'], Saints: ['#D3BC8D', '#101820', 'no'], Giants: ['#0B2265', '#A71930', 'nyg'],
+  Jets: ['#125740', '#FFFFFF', 'nyj'], Eagles: ['#004C54', '#A5ACAF', 'phi'], Steelers: ['#FFB612', '#101820', 'pit'],
+  '49ers': ['#AA0000', '#B3995D', 'sf'], Seahawks: ['#69BE28', '#002244', 'sea'], Buccaneers: ['#D50A0A', '#34302B', 'tb'],
+  Titans: ['#4B92DB', '#0C2340', 'ten'], Commanders: ['#5A1414', '#FFB612', 'wsh'],
 };
 const nick = (team) => {
   if (!team) return '';
