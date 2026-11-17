@@ -926,7 +926,8 @@ source names that file).
 - **Card back** (the face-down side in packs and the walkout; owner picked design 4 of the card-back canvas, 2026-11-17):
   `CardBackArt.tsx`, white chrome refractor (etched diamond texture, a rainbow sweep, `--pk-chrome`), RETRO VAULT top
   and bottom, a navy diamond with a holographic RV ("18–0" for a Perfect Season pack). The rim is an SVG stroke of the
-  shield clipped to itself (a clip-path cuts an inset box-shadow at the corners), silver, gold on the next card to flip.
+  shield clipped to itself (a clip-path cuts an inset box-shadow at the corners), always silver; the next card to flip
+  gets a soft white glow around the shield (owner: a yellow rim clashed with the chrome).
   Identical for every card, so nothing shows a rarity before the flip; the tunnel lays its light over `--pk-chrome`.
 - **Collection economy** (owner approved all six parts; `src/utils/economy.ts` rules and writes, UI in
   `src/components/collection/economy/`): coins become the trading currency; shards stay exactly as they were (claims and

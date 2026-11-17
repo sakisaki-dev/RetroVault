@@ -1665,9 +1665,27 @@ button.fut__card:focus-visible {
 }
 
 /* Reveal: the next card to flip is ringed (static); a flip lands with a light pop in its finish and a bounce */
-.pk-flip__back[tabindex='0'] .pk-back__shape {
-  /* the next card to flip: its silver rim turns gold (any card can be next, so it says nothing of the rarity) */
-  --pk-rim: hsl(var(--gold));
+.pk-flip__back[tabindex='0'] {
+  /* the next card to flip: a soft white glow around the shield, the chrome's own colour (owner: the yellow rim clashed;
+     any card can be next, so it says nothing of the rarity) */
+  filter: drop-shadow(0 0 5px rgb(255 255 255 / 0.55)) drop-shadow(0 0 14px rgb(200 225 255 / 0.35));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pk-flip__back[tabindex='0'] {
+    animation: pk-next-glow 2.2s ease-in-out infinite;
+  }
+  @keyframes pk-next-glow {
+    0%,
+    100% {
+      filter: drop-shadow(0 0 4px rgb(255 255 255 / 0.4)) drop-shadow(0 0 10px rgb(200 225 255 / 0.25));
+    }
+    50% {
+      filter: drop-shadow(0 0 7px rgb(255 255 255 / 0.7)) drop-shadow(0 0 18px rgb(200 225 255 / 0.45));
+    }
+  }
+}
+[data-perf='lite'] .pk-flip__back[tabindex='0'] {
+  animation: none;
 }
 .pk-flip--f-base { --pk-pop: color-mix(in srgb, var(--pk-flash) 70%, white); }
 .pk-flip--f-silver { --pk-pop: hsl(210 40% 92%); }
