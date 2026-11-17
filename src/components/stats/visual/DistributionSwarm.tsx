@@ -13,6 +13,15 @@ import { keyOf } from '../records';
 import { GOLD, fmtShort, niceTicks, swarm, useRoving, useWidth } from './chartKit';
 import { ChartTip, Legend } from './chartParts';
 import { peekProps } from '@/components/peek/peekProps';
+import { findNFLTeam } from '@/utils/nflTeams';
+import { bannerTeamOf } from '@/utils/playerExtras';
+import { POSITION_COLORS } from '../graph/graphConfig';
+
+/** A player's dot wears his club's colour (where he is best known): the league as a crowd of jerseys */
+const clubFill = (p: Player) => {
+  const t = findNFLTeam(bannerTeamOf(p));
+  return t ? `hsl(${t.primaryColor})` : VIZ.series[0];
+};
 
 type MetricId = 'legacy' | 'ovr' | 'tpg';
 
@@ -79,9 +88,9 @@ const DotMark = ({
   >
     <circle className="ring" cx={dot.cx} cy={cy} r={12} fill="transparent" stroke="transparent" strokeWidth={2} />
     {dot.hof ? (
-      <rect x={dot.cx - R} y={cy - R} width={R * 2} height={R * 2} rx={1.5} transform={`rotate(45 ${dot.cx} ${cy})`} fill={GOLD} stroke={VIZ.surface} strokeWidth={1.5} />
+      <rect x={dot.cx - R - 1} y={cy - R - 1} width={R * 2 + 2} height={R * 2 + 2} rx={1.5} transform={`rotate(45 ${dot.cx} ${cy})`} fill={GOLD} stroke="#fff6d0" strokeWidth={1} filter="url(#swarm-glow)" />
     ) : (
-      <circle cx={dot.cx} cy={cy} r={R} fill={VIZ.series[0]} stroke={VIZ.surface} strokeWidth={1.5} />
+      <circle cx={dot.cx} cy={cy} r={R} fill={clubFill(dot.player)} stroke="rgb(255 255 255 / 0.45)" strokeWidth={1} />
     )}
   </g>
 );
@@ -181,8 +190,8 @@ const DistributionSwarm = ({ players, ovrMap, onSelect }: { players: Player[]; o
               },
               {
                 key: 'rest',
-                label: 'Everyone else',
-                swatch: <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full" style={{ background: VIZ.series[0] }} />,
+                label: 'Everyone else, in his club colour',
+                swatch: <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full" style={{ background: 'conic-gradient(#004c54 0 25%, #a71930 0 50%, #4f2683 0 75%, #00338d 0)' }} />,
               },
             ]}
           />
@@ -194,6 +203,21 @@ const DistributionSwarm = ({ players, ovrMap, onSelect }: { players: Player[]; o
           {width > 0 && (
             <div ref={roving.container}>
               <svg width={width} height={height} role="group" aria-label={`Beeswarm of ${m.label} by position. Arrow keys move between players, Enter opens one.`} className="block">
+                <defs>
+                  <filter id="swarm-glow" x="-100%" y="-100%" width="300%" height="300%">
+                    <feGaussianBlur stdDeviation="2.2" result="b" />
+                    <feFlood floodColor="#ffc63e" floodOpacity="0.85" />
+                    <feComposite in2="b" operator="in" />
+                    <feMerge>
+                      <feMergeNode />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                {/* the field: each position row a turf band, alternating like mown stripes */}
+                {rows.map((r, i) => (
+                  <rect key={`band-${r.pos}`} x={0} y={r.top} width={width} height={r.height} fill={i % 2 ? 'rgb(46 125 60 / 0.10)' : 'rgb(46 125 60 / 0.05)'} aria-hidden="true" />
+                ))}
                 {/* Grid + axis */}
                 {base.ticks.map((t) => (
                   <g key={t} aria-hidden="true">
@@ -218,9 +242,12 @@ const DistributionSwarm = ({ players, ovrMap, onSelect }: { players: Player[]; o
                   return (
                     <g key={r.pos}>
                       {i > 0 && <line x1={0} x2={width} y1={r.top} y2={r.top} stroke={VIZ.grid} strokeDasharray="2 4" aria-hidden="true" />}
-                      <text x={0} y={cy + 4} fontSize={11} fontWeight={700} fill={VIZ.ink} className="font-display" aria-hidden="true">
-                        {r.pos}
-                      </text>
+                      <g aria-hidden="true">
+                        <rect x={0} y={cy - 9} width={28} height={18} rx={4} fill={POSITION_COLORS[r.pos as Position] ?? VIZ.series[0]} />
+                        <text x={14} y={cy + 4} textAnchor="middle" fontSize={11} fontWeight={800} fill="#0b1020" className="font-display">
+                          {r.pos}
+                        </text>
+                      </g>
                       {metric !== 'legacy' && <line x1={x(r.median)} x2={x(r.median)} y1={r.top + 3} y2={r.top + r.height - 3} stroke={VIZ.muted} strokeWidth={2} aria-hidden="true" />}
                       {r.dots.map((d) => (
                         <DotMark
@@ -237,6 +264,28 @@ const DistributionSwarm = ({ players, ovrMap, onSelect }: { players: Player[]; o
                           onKey={(e) => roving.onKeyDown(d.key, e, () => onSelect(d.player))}
                         />
                       ))}
+                      {(() => {
+                        const lead = r.dots.reduce<Dot | null>((b, d) => (!b || d.value > b.value ? d : b), null);
+                        if (!lead) return null;
+                        const right = lead.cx > width - 140;
+                        return (
+                          <text
+                            x={right ? lead.cx - 10 : lead.cx + 10}
+                            y={cy + lead.dy - 9}
+                            textAnchor={right ? 'end' : 'start'}
+                            fontSize={11}
+                            fontWeight={700}
+                            fill="#f5f2e8"
+                            stroke="#0b1020"
+                            strokeWidth={3}
+                            paintOrder="stroke"
+                            className="font-display uppercase"
+                            aria-hidden="true"
+                          >
+                            {lead.player.name.split(' ').slice(-1)[0]}
+                          </text>
+                        );
+                      })()}
                     </g>
                   );
                 })}

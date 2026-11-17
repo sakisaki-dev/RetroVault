@@ -37,9 +37,11 @@ const ValueAcrossBoard = ({ players, onSelect }: { players: Player[]; onSelect: 
       </div>
 
       {/* the top three on a podium, each in his club's colours */}
-      <ol className="grid grid-cols-3 gap-2" aria-label="Top three">
+      {/* podium beside the table on wide screens (owner: "the widget is way too big for no reason") */}
+      <div className="grid gap-3 lg:grid-cols-[300px_minmax(0,1fr)] lg:items-start">
+      <ol className="grid grid-cols-3 gap-2 lg:grid-cols-1" aria-label="Top three">
         {all.slice(0, 3).map((r) => (
-          <li key={keyOf(r.player)} className="cs-card cs-card--fig min-w-0 rounded-lg border border-line/60 bg-night/40 p-2" style={clubStyle(r.player)}>
+          <li key={keyOf(r.player)} className="cs-card cs-card--fig cs-card--compact min-w-0 rounded-lg border border-line/60 bg-night/40 p-2" style={clubStyle(r.player)}>
             <StageFigure player={r.player} action={r.rank === 1 ? 'celebrate' : 'idle'} />
             <button
               type="button"
@@ -112,6 +114,7 @@ const ValueAcrossBoard = ({ players, onSelect }: { players: Player[]; onSelect: 
           ))}
         </tbody>
       </table>
+      </div>
 
       {all.length > SHOWN && (
         <button

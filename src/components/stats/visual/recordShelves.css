@@ -1,0 +1,147 @@
+/* The Record Book: plaques on trophy shelves (RecordBook.tsx Shelves / Plaque) */
+
+.rb-wall {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 22px;
+  padding: 16px 14px 18px;
+  border-radius: 18px;
+  /* a dark display case: a back wall with spotlights from above */
+  background:
+    radial-gradient(40% 28% at 20% 0%, rgb(255 236 170 / 0.08), transparent 70%),
+    radial-gradient(40% 28% at 80% 0%, rgb(255 236 170 / 0.08), transparent 70%),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.015) 0 1px, transparent 1px 44px),
+    linear-gradient(180deg, #0a0f24, #060914);
+  box-shadow: inset 0 0 0 1px hsl(var(--line)), inset 0 20px 40px rgb(0 0 0 / 0.35);
+}
+@media (min-width: 640px) {
+  .rb-wall {
+    padding: 20px 20px 22px;
+  }
+}
+
+.rb-shelf {
+  position: relative;
+  /* a shelf is as wide as its plaques: short shelves sit side by side, long ones take the row */
+  flex: 1 1 calc(var(--n, 1) * 240px);
+  min-width: min(100%, 230px);
+}
+.rb-shelf__label {
+  margin: 0 0 8px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.rb-shelf__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (max-width: 480px) {
+  .rb-shelf__row {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 8px;
+  }
+}
+/* the brass rail the plaques stand on */
+.rb-shelf__rail {
+  display: block;
+  height: 6px;
+  margin-top: 6px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #ffe6a0, #c99a2e 55%, #7a5a16);
+  box-shadow: 0 6px 14px rgb(0 0 0 / 0.5);
+  opacity: 0.85;
+}
+
+/* one plaque */
+.rb-plaque {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  height: 100%;
+  min-height: 132px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  background-color: #0d1330;
+  text-align: left;
+  box-shadow: inset 0 0 0 1px rgb(226 181 73 / 0.12), 0 8px 18px rgb(0 0 0 / 0.35);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+button.rb-plaque:hover {
+  transform: translateY(-3px);
+  box-shadow: inset 0 0 0 1px rgb(226 181 73 / 0.35), 0 12px 24px rgb(0 0 0 / 0.45);
+}
+button.rb-plaque:focus-visible {
+  outline: 2px solid #ffc63e;
+  outline-offset: 2px;
+}
+.rb-plaque__title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.rb-plaque__value {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1;
+  color: #f5f2e8;
+  font-variant-numeric: tabular-nums;
+}
+.rb-plaque__value small {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+.rb-plaque__holder {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 700;
+}
+.rb-plaque__sub {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  line-height: 1.35;
+  color: hsl(var(--muted-foreground));
+}
+.rb-plaque > :last-child:not(.cs-fig) {
+  margin-top: auto;
+}
+/* the plaque's sprite: never taller than the plaque */
+@media (min-width: 1024px) {
+  .rb-plaque.cs-card--fig {
+    min-height: 140px;
+    padding-right: 104px;
+  }
+  .rb-plaque.cs-card--fig > .cs-fig--s {
+    width: 112px;
+    height: 112px;
+    right: -8px;
+    bottom: 4px;
+  }
+  .rb-plaque.cs-card--fig > .cs-fig--s .cs-fig__sprite {
+    scale: 1.5;
+  }
+}

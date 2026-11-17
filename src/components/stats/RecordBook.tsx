@@ -7,10 +7,11 @@ import { cn } from '@/lib/utils';
 import { formatDecimal } from '@/utils/metricColors';
 import FitName from './FitName';
 import TeamLogo from '../brand/TeamLogo';
-import GameSprite from '../GameSprite';
 import { peekProps } from '../peek/peekProps';
-import { useGameSprites } from '@/utils/gameSprites';
 import CountUp from '../brand/CountUp';
+import { StageFigure } from './visual/ClubStage';
+import { clubStyle } from './visual/clubTone';
+import './visual/recordShelves.css';
 import { GROUP_META, type PaceEntry, type RecordBoardData } from './records';
 import { GRID_ITEM, gridVars } from './grid';
 import MarginStrip from './visual/MarginStrip';
@@ -43,170 +44,103 @@ const ClubLine = ({ row }: { row?: ClubRecordRow }) => {
   );
 };
 
-/**
- * The record holder's sprite in every chip (the owner's private Retro Bowl sprites, this Mac only; nothing on the public
- * build, where the chip keeps its old shape): stiff-arming his way in where the league broke the club's record,
- * celebrating where the club's record still leads. Long-retired holders wear their stand-in look like everywhere else.
- */
-const HolderSprite = ({ player, team, broken }: { player: { name: string; position?: string; team?: string; bannerTeam?: string }; team?: string; broken: boolean }) =>
-  useGameSprites() ? (
-    <GameSprite player={player} team={team} kind="figure" size="m" action={broken ? 'stiffarm' : 'celebrate'} className="-mb-2.5 -mt-4 self-center" />
-  ) : null;
-
 const inkOf = (team?: string | null) => getTeamTextColor(team) ?? undefined;
-
-const RecordChip = ({ data, index, onSelect, club }: { data: RecordBoardData; index: number; onSelect: Select; club?: ClubRecordRow }) => {
-  const top = data.entries[0];
-  const second = data.entries[1];
-  const margin = marginText(data);
-  const hsl = GROUP_META[data.group].hsl;
-  return (
-    <li className={cn(GRID_ITEM, 'stagger-in')} style={{ ['--i' as string]: index }}>
-      <button
-        type="button"
-        onClick={() => onSelect(top.player)}
-        {...peekProps(top.player)}
-        aria-label={`${data.title} record: ${fmt(top.value, data.decimals)} by ${top.player.name}${margin ? `, ${margin}${second ? ` (${second.player.name})` : ''}` : ''}. Open player`}
-        className="hover-lift flex h-full w-full flex-col gap-1 rounded-lg border border-line bg-panel px-3 py-2.5 text-left"
-        style={{ boxShadow: `inset 0 2px 0 hsl(${hsl})` }}
-      >
-        <span className="flex items-center justify-between gap-2">
-          <span className="truncate font-display text-xs font-bold uppercase tracking-wider" style={{ color: `hsl(${hsl})` }}>
-            {data.title}
-          </span>
-          <Crown className="h-3 w-3 shrink-0 text-gold" aria-hidden="true" />
-        </span>
-        <CountUp value={top.value} decimals={data.decimals} className="font-display text-2xl font-extrabold leading-none text-chalk sm:text-3xl" />
-        <span className="flex min-w-0 items-center gap-1.5">
-          {top.player.team && <TeamLogo team={top.player.team} size={16} decorative backed />}
-          <span className="line-clamp-2 text-xs font-semibold leading-tight" style={{ color: inkOf(top.player.team) ?? 'hsl(var(--secondary-foreground))' }}>
-            {top.player.name}
-          </span>
-        </span>
-        {margin && (
-          <span className="mt-auto block space-y-0.5 pt-1">
-            <MarginStrip board={data} />
-            <span className="block font-mono text-[10px] tabular-nums text-muted-foreground">{margin}</span>
-          </span>
-        )}
-        {!top.player.isRealLegend && <HolderSprite player={top.player} broken={!!club?.broken} />}
-        <ClubLine row={club} />
-      </button>
-    </li>
-  );
-};
-
-/** A single-season record (from the record board file) in the same chip as the career records. */
-const SeasonChip = ({ row, index, players, onSelect }: { row: ClubRecordRow; index: number; players: Player[]; onSelect: Select }) => {
-  const L = row.league!;
-  const top = L.top[0];
-  const next = L.top.find((e, i) => i > 0);
-  const hsl = GROUP_META[SEASON_GROUP(row.record)].hsl;
-  const name = entryName(top);
-  const player = matchPlayerByName(name, players);
-  const gap = next ? L.value - next.value : 0;
-  const body = (
-    <>
-      <span className="flex items-center justify-between gap-2">
-        <span className="truncate font-display text-xs font-bold uppercase tracking-wider" style={{ color: `hsl(${hsl})` }}>
-          {row.short}
-        </span>
-        <Crown className="h-3 w-3 shrink-0 text-gold" aria-hidden="true" />
-      </span>
-      <CountUp value={L.value} decimals={0} className="font-display text-2xl font-extrabold leading-none text-chalk sm:text-3xl" />
-      <span className="flex min-w-0 items-center gap-1.5">
-        {top.team && <TeamLogo team={top.team} size={16} decorative backed />}
-        <span className="line-clamp-2 text-xs font-semibold leading-tight" style={{ color: inkOf(top.team) ?? 'hsl(var(--secondary-foreground))' }}>
-          {name}
-        </span>
-        {top.season && <span className="shrink-0 font-mono text-[10px] text-muted-foreground">{top.season}</span>}
-      </span>
-      {next && (
-        <span className="mt-auto block pt-1 font-mono text-[10px] tabular-nums text-muted-foreground">
-          {gap > 0 ? `+${gap.toLocaleString()} over #2` : 'Tied for the lead'} ({entryName(next)}
-          {next.season ? ` ${next.season}` : ''})
-        </span>
-      )}
-      <HolderSprite player={player ?? { name, team: top.team ?? undefined }} team={top.team ?? undefined} broken={!!row.broken} />
-      <ClubLine row={row} />
-    </>
-  );
-  const cls = 'hover-lift flex h-full w-full flex-col gap-1 rounded-lg border border-line bg-panel px-3 py-2.5 text-left';
-  return (
-    <li className={cn(GRID_ITEM, 'stagger-in')} style={{ ['--i' as string]: index }}>
-      {player ? (
-        <button type="button" onClick={() => onSelect(player)} {...peekProps(player)} aria-label={`${row.record}: ${L.mark} by ${name}. Open player`} className={cls} style={{ boxShadow: `inset 0 2px 0 hsl(${hsl})` }}>
-          {body}
-        </button>
-      ) : (
-        <div className={cls} style={{ boxShadow: `inset 0 2px 0 hsl(${hsl})` }}>
-          {body}
-        </div>
-      )}
-    </li>
-  );
-};
 
 /** "QB S. Brandson" -> "S. Brandson" */
 const boardName = (s: string) => s.replace(/^[A-Z]{1,2} /, '');
 
+// ---------- Record plaques on trophy shelves (owner, 2026-11-17: "the record book … look a little boring") ----------
+
+/** One record as the shelves draw it, whatever its scope */
+interface PlaqueItem {
+  key: string;
+  group: keyof typeof GROUP_META;
+  title: string;
+  value: number;
+  decimals: number;
+  unit?: string;
+  holder: string;
+  player: Player | null;
+  team?: string | null;
+  year?: string | null;
+  /** "+1,013 over #2", "Set in week 17 against the Bills" */
+  sub?: string | null;
+  club?: ClubRecordRow;
+  broken?: boolean;
+}
+
 /**
- * A single-game or long-play record from the club's board (the league data has no single games, so this is the club
- * mark alone), with the save's detail: the week and opponent, the QB on a play, and the exact mark.
+ * A record plaque: tinted in the holder's club colours, his sprite standing in its corner (stiff-arming where the
+ * league broke the club's record, celebrating where it still leads), the mark, his name and one line of context, the
+ * club's own mark under it. One fixed shape for career, season and game records.
  */
-const GameChip = ({ row, index, players, onSelect }: { row: ClubRecordRow; index: number; players: Player[]; onSelect: Select }) => {
-  const c = row.club;
-  const hsl = GROUP_META[SEASON_GROUP(row.record)].hsl;
-  const name = holderName(c);
-  const player = matchPlayerByName(name, players);
-  const exact = c.exact != null;
-  const unit = /yds$/.test(c.mark) ? ' yds' : '';
-  const setIn = setInText(c);
-  const qb = c.qb && c.holder.includes('→') ? boardName(c.qb) : null;
+const Plaque = ({ item, index, onSelect }: { item: PlaqueItem; index: number; onSelect: Select }) => {
+  const hsl = GROUP_META[item.group].hsl;
   const body = (
     <>
-      <span className="truncate font-display text-xs font-bold uppercase tracking-wider" style={{ color: `hsl(${hsl})` }}>
-        {row.record}
+      {item.player && !item.player.isRealLegend && <StageFigure player={item.player} action={item.broken ? 'stiffarm' : 'celebrate'} />}
+      <span className="rb-plaque__title" style={{ color: `hsl(${hsl})` }}>
+        <Crown className="h-3 w-3 shrink-0 text-gold" aria-hidden="true" />
+        <span className="truncate">{item.title}</span>
       </span>
-      <span className="flex items-baseline gap-1">
-        <CountUp value={exact ? c.exact! : c.value ?? 0} decimals={exact ? 2 : 0} className="font-display text-2xl font-extrabold leading-none text-chalk sm:text-3xl" />
-        {unit && <span className="font-display text-xs font-bold uppercase text-muted-foreground">{unit.trim()}</span>}
+      <span className="rb-plaque__value">
+        <CountUp value={item.value} decimals={item.decimals} />
+        {item.unit && <small>{item.unit}</small>}
       </span>
-      <span className="flex min-w-0 items-center gap-1.5">
-        {c.team && <TeamLogo team={c.team} size={16} decorative backed />}
-        <span className="line-clamp-2 text-xs font-semibold leading-tight" style={{ color: inkOf(c.team) ?? 'hsl(var(--secondary-foreground))' }}>
-          {player?.name ?? boardName(name)}
+      <span className="rb-plaque__holder">
+        {item.team && <TeamLogo team={item.team} size={16} decorative backed />}
+        <span className="truncate" style={{ color: inkOf(item.team) ?? 'hsl(var(--secondary-foreground))' }}>
+          {item.holder}
         </span>
-        <span className="shrink-0 font-mono text-[10px] text-muted-foreground">{c.year}</span>
+        {item.year && <span className="shrink-0 font-mono text-[10px] text-muted-foreground">{item.year}</span>}
       </span>
-      {qb && <span className="block truncate font-mono text-[10px] text-muted-foreground">QB {qb}</span>}
-      {setIn && (
-        <span className="flex min-w-0 items-center gap-1.5 border-t border-line/60 pt-1.5 text-[11px] leading-snug text-secondary-foreground">
-          {c.opponent && <TeamLogo team={c.opponent} size={14} decorative backed />}
-          <span className="min-w-0">{setIn}</span>
-        </span>
-      )}
-      {player && !player.isRealLegend && (
-        <span className="mt-auto flex justify-center pt-3">
-          <HolderSprite player={player} team={c.team} broken={false} />
-        </span>
-      )}
+      {item.sub && <span className="rb-plaque__sub">{item.sub}</span>}
+      <ClubLine row={item.club} />
     </>
   );
-  const label = `${row.record}: ${exact ? formatDecimal(c.exact!, 2) + unit : c.mark} by ${player?.name ?? boardName(name)}, ${c.year}${qb ? `, QB ${qb}` : ''}${setIn ? `. ${setIn}` : ''}`;
-  const cls = 'hover-lift flex h-full w-full flex-col gap-1 rounded-lg border border-line bg-panel px-3 py-2.5 text-left';
+  const cls = 'rb-plaque cs-card cs-card--fig stagger-in';
+  const style = { ...(item.player ? clubStyle(item.player) : {}), ['--i' as string]: index };
   return (
-    <li className={cn(GRID_ITEM, 'stagger-in')} style={{ ['--i' as string]: index }}>
-      {player ? (
-        <button type="button" onClick={() => onSelect(player)} {...peekProps(player)} aria-label={`${label}. Open player`} className={cls} style={{ boxShadow: `inset 0 2px 0 hsl(${hsl})` }}>
+    <li className="min-w-0">
+      {item.player ? (
+        <button type="button" className={cls} style={style} onClick={() => onSelect(item.player!)} {...peekProps(item.player)} aria-label={`${item.title}: ${fmt(item.value, item.decimals)}${item.unit ?? ''} by ${item.holder}${item.sub ? `, ${item.sub}` : ''}. Open player`}>
           {body}
         </button>
       ) : (
-        <div className={cls} aria-label={label} role="group" style={{ boxShadow: `inset 0 2px 0 hsl(${hsl})` }}>
+        <div className={cls} style={style} role="group" aria-label={`${item.title}: ${fmt(item.value, item.decimals)} by ${item.holder}`}>
           {body}
         </div>
       )}
     </li>
+  );
+};
+
+const SHELF_ORDER: (keyof typeof GROUP_META)[] = ['qb', 'rb', 'wr', 'te', 'ol', 'def', 'awards'];
+const SHELF_LABEL: Partial<Record<keyof typeof GROUP_META, string>> = { qb: 'Passing', rb: 'Rushing', wr: 'Receiving', te: 'Tight ends', ol: 'Line', def: 'Defense', awards: 'Accolades' };
+
+/** The plaques on trophy shelves, one shelf per unit (Passing, Rushing, Receiving, Defense, Accolades) */
+const Shelves = ({ items, onSelect }: { items: PlaqueItem[]; onSelect: Select }) => {
+  let n = 0;
+  return (
+    <div className="rb-wall">
+      {SHELF_ORDER.map((g) => {
+        const row = items.filter((x) => x.group === g);
+        if (!row.length) return null;
+        return (
+          <section key={g} className="rb-shelf" style={{ ['--n' as string]: row.length }} aria-label={SHELF_LABEL[g] ?? GROUP_META[g].label}>
+            <h3 className="rb-shelf__label" style={{ color: `hsl(${GROUP_META[g].hsl})` }}>
+              {SHELF_LABEL[g] ?? GROUP_META[g].label}
+            </h3>
+            <ul className="rb-shelf__row">
+              {row.map((it) => (
+                <Plaque key={it.key} item={it} index={n++} onSelect={onSelect} />
+              ))}
+            </ul>
+            <span className="rb-shelf__rail" aria-hidden="true" />
+          </section>
+        );
+      })}
+    </div>
   );
 };
 
@@ -222,6 +156,68 @@ export const RecordStrip = ({ headline, players, onSelect }: { headline: RecordB
   const games = rows.filter((r) => (r.scope === 'game' || r.scope === 'other') && !/field goal|FG|return/i.test(r.record));
   const beaten = rows.filter((r) => r.league && r.broken).length;
   const tracked = rows.filter((r) => r.league).length;
+  // every record of the scope on the shelves
+  const items: PlaqueItem[] =
+    scope === 'career'
+      ? headline.map((b) => {
+          const top = b.entries[0];
+          const club = CLUB_RECORD_FOR[b.id] ? byRecord.get(CLUB_RECORD_FOR[b.id]) : undefined;
+          return {
+            key: b.id,
+            group: b.group,
+            title: b.title,
+            value: top.value,
+            decimals: b.decimals,
+            holder: top.player.name,
+            player: top.player,
+            team: top.player.team,
+            sub: marginText(b),
+            club,
+            broken: !!club?.broken,
+          };
+        })
+      : scope === 'season'
+        ? seasons.map((r) => {
+            const L = r.league!;
+            const top = L.top[0];
+            const next = L.top.find((_, i) => i > 0);
+            const name = entryName(top);
+            const gap = next ? L.value - next.value : 0;
+            return {
+              key: r.record,
+              group: SEASON_GROUP(r.record),
+              title: r.short,
+              value: L.value,
+              decimals: 0,
+              holder: name,
+              player: matchPlayerByName(name, players),
+              team: top.team,
+              year: top.season,
+              sub: next ? `${gap > 0 ? `+${gap.toLocaleString()} over #2` : 'Tied for the lead'} (${entryName(next)}${next.season ? ` ${next.season}` : ''})` : null,
+              club: r,
+              broken: !!r.broken,
+            };
+          })
+        : games.map((r) => {
+            const c = r.club;
+            const name = holderName(c);
+            const player = matchPlayerByName(name, players);
+            const exact = c.exact != null;
+            const qb = c.qb && c.holder.includes('→') ? boardName(c.qb) : null;
+            return {
+              key: r.record,
+              group: SEASON_GROUP(r.record),
+              title: r.record,
+              value: exact ? c.exact! : c.value ?? 0,
+              decimals: exact ? 2 : 0,
+              unit: /yds$/.test(c.mark) ? ' yds' : undefined,
+              holder: player?.name ?? boardName(name),
+              player,
+              team: c.team,
+              year: c.year,
+              sub: [setInText(c), qb ? `QB ${qb}` : null].filter(Boolean).join(' · ') || null,
+            };
+          });
   const chip = (on: boolean) =>
     cn('rounded-full border px-3 py-1 font-display text-xs font-bold uppercase tracking-wide', on ? 'border-gold bg-gold text-night' : 'border-line bg-night/60 text-secondary-foreground');
   return (
@@ -259,25 +255,7 @@ export const RecordStrip = ({ headline, players, onSelect }: { headline: RecordB
           </button>
         )}
       </div>
-      {scope === 'career' ? (
-        <ul className="flex flex-wrap gap-2 sm:gap-3" style={gridVars(headline.length, { base: 2, sm: 3, lg: 5, xl: 9 })}>
-          {headline.map((b, i) => (
-            <RecordChip key={b.id} data={b} index={i} onSelect={onSelect} club={CLUB_RECORD_FOR[b.id] ? byRecord.get(CLUB_RECORD_FOR[b.id]) : undefined} />
-          ))}
-        </ul>
-      ) : scope === 'season' ? (
-        <ul className="flex flex-wrap gap-2 sm:gap-3" style={gridVars(seasons.length, { base: 2, sm: 3, lg: 5 })}>
-          {seasons.map((r, i) => (
-            <SeasonChip key={r.record} row={r} index={i} players={players} onSelect={onSelect} />
-          ))}
-        </ul>
-      ) : (
-        <ul className="flex flex-wrap gap-2 sm:gap-3" style={gridVars(games.length, { base: 2, sm: 3, lg: 5 })}>
-          {games.map((r, i) => (
-            <GameChip key={r.record} row={r} index={i} players={players} onSelect={onSelect} />
-          ))}
-        </ul>
-      )}
+      <Shelves items={items} onSelect={onSelect} />
     </section>
   );
 };
@@ -295,9 +273,11 @@ const LeaderTile = ({ data, onSelect }: { data: RecordBoardData; onSelect: Selec
         onClick={() => onSelect(top.player)}
         {...peekProps(top.player)}
         aria-label={`${data.title}: ${top.player.name}, ${fmt(top.value, data.decimals)}${data.minLabel ? ` (${data.minLabel})` : ''}${margin ? `, ${margin}` : ''}. Open player`}
-        className="hover-lift relative flex h-full w-full flex-col gap-1 overflow-hidden rounded-lg border border-line bg-panel p-3 text-left"
+        className="hover-lift cs-card cs-card--fig relative flex h-full w-full flex-col gap-1 overflow-hidden rounded-lg border border-line bg-panel p-3 text-left"
+        style={clubStyle(top.player)}
       >
         <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1" style={{ background: `hsl(${hsl})` }} />
+        {!top.player.isRealLegend && <StageFigure player={top.player} action="run" />}
         <span className="font-display text-xs font-bold uppercase tracking-wider text-muted-foreground">{data.title}</span>
         <span className="font-display text-3xl font-extrabold leading-none tabular-nums" style={{ color: `hsl(${hsl})` }}>
           {fmt(top.value, data.decimals)}

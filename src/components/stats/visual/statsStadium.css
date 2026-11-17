@@ -256,7 +256,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap: clamp(4px, 2vw, 34px);
+  gap: clamp(0px, 1vw, 14px);
   margin: 0;
   padding: 0 12px 20px;
   list-style: none;
@@ -393,5 +393,26 @@
       opacity: 1;
       transform: none;
     }
+  }
+}
+
+/* the best of them stands a step forward, a touch larger */
+.ss__man--best .ss__fig {
+  scale: 1.12;
+  transform-origin: 50% 100%;
+}
+.ss__man--best .ss__name {
+  background: #ffc63e;
+  color: #0b1020;
+  text-shadow: none;
+}
+@media (min-width: 641px) and (max-width: 1500px) {
+  .ss__fig {
+    width: 96px;
+    height: 96px;
+  }
+  .ss__sprite {
+    scale: 0.75;
+    transform-origin: 50% 100%;
   }
 }

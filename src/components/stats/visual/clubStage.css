@@ -136,3 +136,19 @@
     height: 18px;
   }
 }
+
+/* compact staging (the Value / Game podium column): the figure stays at 1x, the tile stays short */
+@media (min-width: 1024px) {
+  .cs-card--fig.cs-card--compact {
+    min-height: 0;
+    padding-right: 84px;
+  }
+  .cs-card--fig.cs-card--compact > .cs-fig--s {
+    width: 72px;
+    height: 72px;
+    right: 4px;
+  }
+  .cs-card--fig.cs-card--compact > .cs-fig--s .cs-fig__sprite {
+    scale: 1;
+  }
+}

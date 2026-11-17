@@ -20,8 +20,8 @@ import './statsStadium.css';
 /*
  * The Stats › Players opener (owner, 2026-11-17: "change this part to be more immersive", the header and headline cards):
  * a night stadium. The jumbotron carries the page title and the league's counts (players, Hall of Famers, 90+ OVR,
- * records) on LED panels; under it the headline record holders stand on the turf in their club kits, each with a plate
- * naming his record (tap: his card, hold: the quick look); the closest record chase runs on a side scoreboard. The
+ * records) on LED panels; under it the league's greatest (top Career Legacy, the best in the middle) stand on the turf
+ * in their club kits, each under a plate with his headline record or his Career Legacy (tap: his card, hold: the quick look); the closest record chase runs on a side scoreboard. The
  * stands, crowd and turf are the game's own art painted to the current club (useFieldArt); the public build draws
  * CSS stands and turf and club logos for the players.
  */
@@ -32,6 +32,7 @@ interface Holder {
 }
 
 const ELITE_OVR = 90;
+const LINEUP = 9;
 
 const StatsStadium = ({ data, book, headline, onSelect }: { data: LeagueData; book: RecordBook; headline: RecordBoardData[]; onSelect: (p: Player) => void }) => {
   const players = useMemo(() => leaguePlayers(data), [data]);
@@ -45,18 +46,23 @@ const StatsStadium = ({ data, book, headline, onSelect }: { data: LeagueData; bo
   const hof = useMemo(() => players.filter(isHallOfFamer).length, [players]);
   const elite = useMemo(() => players.filter((p) => (ovrMap.get(playerKey(p)) ?? 0) >= ELITE_OVR).length, [players, ovrMap]);
 
-  // the headline record holders, once each, in board order (a holder of three records stands once with all three)
+  // the league's greatest on the turf (owner: "add more since these 5 are not the greatest"): the top Career Legacy
+  // players, the best in the middle; each plate names his headline record when he holds one, else his Career Legacy
   const holders = useMemo(() => {
-    const out: Holder[] = [];
+    const recs = new Map<string, RecordBoardData[]>();
     headline.forEach((b) => {
       const p = b.entries[0]?.player;
       if (!p) return;
-      const have = out.find((h) => playerKey(h.player) === playerKey(p));
-      if (have) have.boards.push(b);
-      else out.push({ player: p, boards: [b] });
+      const k = playerKey(p);
+      recs.set(k, [...(recs.get(k) ?? []), b]);
     });
-    return out.slice(0, 6);
-  }, [headline]);
+    const top = [...players].sort((a, b) => b.careerLegacy - a.careerLegacy).slice(0, LINEUP);
+    const ranked: Holder[] = top.map((p) => ({ player: p, boards: recs.get(playerKey(p)) ?? [] }));
+    // the best in the middle, the rest fanning out to either side
+    const out: Holder[] = [];
+    ranked.forEach((h, i) => (i % 2 ? out.push(h) : out.unshift(h)));
+    return { list: out, best: ranked[0] ? playerKey(ranked[0].player) : '' };
+  }, [headline, players]);
   const chase = book.pace[0];
 
   const stageStyle = {
@@ -121,22 +127,37 @@ const StatsStadium = ({ data, book, headline, onSelect }: { data: LeagueData; bo
       )}
 
       {/* The record holders on the turf */}
-      <ul className="ss__lineup" aria-label="Headline record holders">
-        {holders.map((h, i) => {
+      <ul className="ss__lineup" aria-label="The league's greatest, by Career Legacy">
+        {holders.list.map((h, i) => {
           const b = h.boards[0];
-          const v = b.entries[0].value;
+          const best = playerKey(h.player) === holders.best;
           return (
-            <li key={playerKey(h.player)} className="ss__man" style={{ ...clubStyle(h.player), '--i': i } as CSSProperties}>
-              <button type="button" className="ss__man-hit" {...peekProps(h.player)} onClick={() => onSelect(h.player)} aria-label={`${h.player.name}: ${h.boards.map((x) => x.title).join(', ')} record. Open player`}>
+            <li key={playerKey(h.player)} className={best ? 'ss__man ss__man--best' : 'ss__man'} style={{ ...clubStyle(h.player), '--i': i } as CSSProperties}>
+              <button
+                type="button"
+                className="ss__man-hit"
+                {...peekProps(h.player)}
+                onClick={() => onSelect(h.player)}
+                aria-label={`${h.player.name}, Career Legacy ${fmtNum(h.player.careerLegacy, 0)}${h.boards.length ? `, holds the ${h.boards.map((x) => x.title).join(', ')} record` : ''}. Open player`}
+              >
                 <span className="ss__plate" aria-hidden="true">
-                  <span className="ss__plate-k">{b.short}</span>
-                  <span className="ss__plate-v">{fmtNum(v, b.decimals)}</span>
-                  {h.boards.length > 1 && <span className="ss__plate-more">+{h.boards.length - 1}</span>}
+                  {b ? (
+                    <>
+                      <span className="ss__plate-k">{b.short}</span>
+                      <span className="ss__plate-v">{fmtNum(b.entries[0].value, b.decimals)}</span>
+                      {h.boards.length > 1 && <span className="ss__plate-more">+{h.boards.length - 1}</span>}
+                    </>
+                  ) : (
+                    <>
+                      <span className="ss__plate-k">Legacy</span>
+                      <span className="ss__plate-v">{fmtNum(h.player.careerLegacy, 0)}</span>
+                    </>
+                  )}
                 </span>
                 <span className="ss__fig" aria-hidden="true">
                   <span className="ss__shadow" />
                   {sprites && !h.player.isRealLegend ? (
-                    <GameSprite player={h.player} kind="figure" size="m" action={i === 0 ? 'celebrate' : 'idle'} className="ss__sprite" />
+                    <GameSprite player={h.player} kind="figure" size="m" action={best ? 'celebrate' : 'idle'} className="ss__sprite" />
                   ) : (
                     <span className="ss__logo">
                       <TeamLogo team={h.player.team} size={56} decorative />
