@@ -1,0 +1,12 @@
+{
+ "id": "2026-11-17-brandson-retired-number",
+ "created": "2026-11-17",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {"lane": "stats", "op": "fact.set", "target": "players/Sherman Brandson/retired_by",
+   "value": ["Giants", "Vikings", "Ravens"], "source": "owner",
+   "reason": "Owner: \"giants vikings and ravens\" (asked which clubs should retire Sherman Brandson's jersey; replaces Giants and Buccaneers)",
+   "trigger": "Owner statement in notes.md"}
+ ]
+}

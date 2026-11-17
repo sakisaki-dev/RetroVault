@@ -1,0 +1,567 @@
+{
+ "id": "2026-11-17-tribute-brandson-numbers",
+ "created": "2026-11-17",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "tribute",
+   "reason": "Correct the retired-number lines",
+   "trigger": "Owner changed retired_by"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "tribute",
+   "op": "tribute.set",
+   "target": "QB:Sherman Brandson",
+   "source": "data:players.json, market_history.json, stints.json, owner_facts.json, records.json, league_records.json, super_bowls.json, coach.json, halloffame.json, content.json",
+   "reason": "Correction: his number is retired by the Giants, Vikings and Ravens (2026-11-17-brandson-retired-number), not the Buccaneers",
+   "trigger": "Owner changed retired_by for Sherman Brandson",
+   "value": {
+    "reason": "Correction: his number is retired by the Giants, Vikings and Ravens (2026-11-17-brandson-retired-number), not the Buccaneers",
+    "trigger": "Owner changed retired_by for Sherman Brandson",
+    "nickname": "General Sherman",
+    "deck": "Wherever Dorren Skura went, he was under center: Baltimore, Tampa Bay, New York. He waited out the lean years in Minnesota until the coach came back, threw for more yards and touchdowns than anyone the league has seen, and in Y95 finally handed over the crown.",
+    "chapters": [
+     {
+      "id": "sherman-brandson-ravens",
+      "kind": "chapter",
+      "club": "Ravens",
+      "headline": "Baltimore, Where the Long Ball Became a Habit",
+      "body": [
+       "Sherman Brandson's first rings came in Baltimore, on a Ravens club Dorren Skura had already turned into a machine. Y46 set the tone: 16-0-1 in the regular season and a 32-24 win over the Seahawks in Super Bowl CV. In week 3 of that season he found D. Haley for a 77-yard touchdown against the Browns, still the longest passing play on Skura's record board.",
+       "The Ravens went 17-0 in Y48 and beat the Rams 16-9, then 16-1 in Y49 and beat the Eagles 36-28. Y50 was the one that got away: another 17-0 regular season, a 58-yard touchdown run by Denzel Hayes on a Brandson handoff against the Dolphins that is still the longest on the board, and a 36-32 loss to the Saints in Super Bowl CIX. He left Baltimore with 3 rings, and Baltimore has since retired his number."
+      ],
+      "players": [
+       "Sherman Brandson",
+       "Denzel Hayes"
+      ],
+      "teams": [
+       "Ravens",
+       "Seahawks",
+       "Browns",
+       "Rams",
+       "Eagles",
+       "Dolphins",
+       "Saints"
+      ],
+      "stats": [
+       {
+        "label": "Rings with the Ravens",
+        "value": "3",
+        "source": "stints.json Sherman Brandson/stints/0/rings/#"
+       },
+       {
+        "label": "Ravens record, Y46",
+        "value": "16-0-1",
+        "source": "coach.json Y46 record"
+       },
+       {
+        "label": "Super Bowl CV",
+        "value": "32-24",
+        "source": "super_bowls.json Y46 score"
+       },
+       {
+        "label": "Longest passing TD (club record)",
+        "value": "77 yds",
+        "source": "records.json Longest passing TD mark"
+       },
+       {
+        "label": "Week of the 77-yard TD",
+        "value": "3",
+        "source": "records.json Longest passing TD week"
+       },
+       {
+        "label": "Ravens record, Y48",
+        "value": "17-0",
+        "source": "coach.json Y48 record"
+       },
+       {
+        "label": "Super Bowl CVII",
+        "value": "16-9",
+        "source": "super_bowls.json Y48 score"
+       },
+       {
+        "label": "Ravens record, Y49",
+        "value": "16-1",
+        "source": "coach.json Y49 record"
+       },
+       {
+        "label": "Super Bowl CVIII",
+        "value": "36-28",
+        "source": "super_bowls.json Y49 score"
+       },
+       {
+        "label": "Ravens record, Y50",
+        "value": "17-0",
+        "source": "coach.json Y50 record"
+       },
+       {
+        "label": "Longest rushing TD (club record)",
+        "value": "58 yds",
+        "source": "records.json Longest rushing TD mark"
+       },
+       {
+        "label": "Super Bowl CIX",
+        "value": "36-32",
+        "source": "super_bowls.json Y50 score"
+       }
+      ]
+     },
+     {
+      "id": "sherman-brandson-buccaneers",
+      "kind": "chapter",
+      "club": "Buccaneers",
+      "headline": "Tampa Bay, and a Title Won Against His Old Club",
+      "body": [
+       "When Skura moved to Tampa Bay for Y51, Brandson moved too, and the Buccaneers did not lose a step. They went 16-1 and routed the Jaguars 40-13 in Super Bowl CX. A year later they went 16-1 again and met the Ravens in Super Bowl CXI, Brandson against the club where he had won his first rings. Tampa Bay won 32-25.",
+       "Y53 was the cruelest season of his prime. The Buccaneers went 17-0, the only perfect regular season of his three in Tampa Bay, and still went out in the championship round. The Titans won that title instead, 36-31 over the Eagles, with Michael Wilson, his old Baltimore teammate, collecting the ring."
+      ],
+      "players": [
+       "Sherman Brandson",
+       "Michael Wilson"
+      ],
+      "teams": [
+       "Buccaneers",
+       "Jaguars",
+       "Ravens",
+       "Titans",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Buccaneers record, Y51",
+        "value": "16-1",
+        "source": "coach.json Y51 record"
+       },
+       {
+        "label": "Super Bowl CX",
+        "value": "40-13",
+        "source": "super_bowls.json Y51 score"
+       },
+       {
+        "label": "Buccaneers record, Y52",
+        "value": "16-1",
+        "source": "coach.json Y52 record"
+       },
+       {
+        "label": "Super Bowl CXI",
+        "value": "32-25",
+        "source": "super_bowls.json Y52 score"
+       },
+       {
+        "label": "Buccaneers record, Y53",
+        "value": "17-0",
+        "source": "coach.json Y53 record"
+       },
+       {
+        "label": "Super Bowl CXII",
+        "value": "36-31",
+        "source": "super_bowls.json Y53 score"
+       }
+      ]
+     },
+     {
+      "id": "sherman-brandson-giants",
+      "kind": "chapter",
+      "club": "Giants",
+      "headline": "New York, and the Season Nobody Has Come Close To",
+      "body": [
+       "Skura took the Giants job for Y54 and Brandson was under center again. The Giants went 16-1 and beat the Jets 36-28 in Super Bowl CXIII. Then came Y55, the season that still defines him. He threw 94 touchdown passes, the most in a season on Skura's record board, and nothing in the league's tracked seasons since has come within 22 of it; Bones Crawford's 72 in Y89 is the nearest. Nine of them came in a single game against the Chiefs, the club the Giants beat 68-21 in Super Bowl CXIV.",
+       "He played only two seasons in New York and is remembered first as a Giant. The club has retired his number and keeps him in its Ring of Honor beside Michael Wilson and Jackson Wardell Kline. The Giants won a third straight title in Y56, 38-37 over the Bills, and by then Brandson was in Minnesota."
+      ],
+      "players": [
+       "Sherman Brandson",
+       "Bones Crawford",
+       "Michael Wilson",
+       "Jackson Wardell Kline"
+      ],
+      "teams": [
+       "Giants",
+       "Jets",
+       "Chiefs",
+       "Bills"
+      ],
+      "stats": [
+       {
+        "label": "TD passes, Y55 (club record)",
+        "value": "94",
+        "source": "records.json Most TD passes, season mark"
+       },
+       {
+        "label": "Giants record, Y54",
+        "value": "16-1",
+        "source": "coach.json Y54 record"
+       },
+       {
+        "label": "Super Bowl CXIII",
+        "value": "36-28",
+        "source": "super_bowls.json Y54 score"
+       },
+       {
+        "label": "Ahead of the next-best tracked season",
+        "value": "22",
+        "source": "league_records.json records/[record=Most TD passes, season]/league/top/0/value minus league_records.json records/[record=Most TD passes, season]/league/top/1/value"
+       },
+       {
+        "label": "Crawford TD passes, Y89",
+        "value": "72",
+        "source": "league_records.json records/[record=Most TD passes, season]/league/top/1/value"
+       },
+       {
+        "label": "TD passes in one game (club record)",
+        "value": "9",
+        "source": "records.json Most TD passes, game mark"
+       },
+       {
+        "label": "Super Bowl CXIV",
+        "value": "68-21",
+        "source": "super_bowls.json Y55 score"
+       },
+       {
+        "label": "Super Bowl CXV",
+        "value": "38-37",
+        "source": "super_bowls.json Y56 score"
+       }
+      ]
+     },
+     {
+      "id": "sherman-brandson-vikings",
+      "kind": "chapter",
+      "club": "Vikings",
+      "headline": "Minnesota: The Long Wait, Then Three More Rings",
+      "body": [
+       "Brandson spent Y56 through Y60 in Minnesota without a ring while Skura kept winning elsewhere, first with the Giants and then three straight titles in Miami. Then, for Y61, the coach came to the Vikings, and the old partnership picked up as if it had never stopped. The Vikings went 12-5 and beat the Ravens 40-14 in Super Bowl CXX, another title won against Baltimore. They went 14-3 and beat the Jaguars 40-24 in Y62, then 16-1 and beat the Jets 40-31 in Y63: three straight Super Bowls, 40 points in each.",
+       "Y62 is the season Skura's record board dates both of his career marks: 91,463 passing yards and 1,150 touchdown passes. It was also the season God Johnson caught for 4,247 yards, still the best receiving season on the board. Brandson's last season was cut short by injury, and he retired a Viking with 10 rings. Minnesota, New York and Baltimore all retired his number."
+      ],
+      "players": [
+       "Sherman Brandson",
+       "God Johnson"
+      ],
+      "teams": [
+       "Vikings",
+       "Giants",
+       "Dolphins",
+       "Ravens",
+       "Jaguars",
+       "Jets"
+      ],
+      "stats": [
+       {
+        "label": "Vikings record, Y61",
+        "value": "12-5",
+        "source": "coach.json Y61 record"
+       },
+       {
+        "label": "Super Bowl CXX",
+        "value": "40-14",
+        "source": "super_bowls.json Y61 score"
+       },
+       {
+        "label": "Vikings record, Y62",
+        "value": "14-3",
+        "source": "coach.json Y62 record"
+       },
+       {
+        "label": "Super Bowl CXXI",
+        "value": "40-24",
+        "source": "super_bowls.json Y62 score"
+       },
+       {
+        "label": "Vikings record, Y63",
+        "value": "16-1",
+        "source": "coach.json Y63 record"
+       },
+       {
+        "label": "Super Bowl CXXII",
+        "value": "40-31",
+        "source": "super_bowls.json Y63 score"
+       },
+       {
+        "label": "Career passing yards (club record)",
+        "value": "91,463 yds",
+        "source": "records.json Best passing career mark"
+       },
+       {
+        "label": "Career TD passes (club record)",
+        "value": "1,150",
+        "source": "records.json Most TD passes, career mark"
+       },
+       {
+        "label": "Johnson receiving yards, Y62 (club record)",
+        "value": "4,247 yds",
+        "source": "records.json Best receiving season mark"
+       },
+       {
+        "label": "Career rings",
+        "value": "10",
+        "source": "players.json QB:Sherman Brandson rings"
+       }
+      ]
+     },
+     {
+      "id": "sherman-brandson-rival",
+      "kind": "rival",
+      "headline": "Michael Wilson, the Other Quarterback in Baltimore",
+      "body": [
+       "Before Brandson there was Michael Wilson, \"Air Wilson\", already a Raven when he arrived. The two shared Baltimore through Y50 and 3 Super Bowl titles, and Wilson won 5 rings there in all, then the Y53 title with the Titans that Brandson's 17-0 Buccaneers never reached. Side by side, the careers are not close. Wilson completed 72 percent of his passes, Brandson 84.7. Wilson threw for 58,992 yards and 690 touchdowns in 214 games; Brandson for 91,463 and 1,150 in 315. Wilson won 6 MVPs, Brandson 8. Both now hang in the Giants' Ring of Honor."
+      ],
+      "players": [
+       "Michael Wilson",
+       "Sherman Brandson"
+      ],
+      "teams": [
+       "Ravens",
+       "Titans",
+       "Buccaneers",
+       "Giants"
+      ],
+      "stats": [
+       {
+        "label": "Completion rate, Brandson",
+        "value": "84.7%",
+        "source": "players.json QB:Sherman Brandson cmp/att%"
+       },
+       {
+        "label": "Titles together in Baltimore",
+        "value": "3",
+        "source": "stints.json Sherman Brandson/stints/0/rings/#"
+       },
+       {
+        "label": "Wilson rings with the Ravens",
+        "value": "5",
+        "source": "stints.json Michael Wilson/stints/0/rings/#"
+       },
+       {
+        "label": "Buccaneers record, Y53",
+        "value": "17-0",
+        "source": "coach.json Y53 record"
+       },
+       {
+        "label": "Completion rate, Wilson",
+        "value": "72%",
+        "source": "players.json QB:Michael Wilson cmp/att%"
+       },
+       {
+        "label": "Wilson passing yards",
+        "value": "58,992",
+        "source": "players.json QB:Michael Wilson yds"
+       },
+       {
+        "label": "Wilson TD passes",
+        "value": "690",
+        "source": "players.json QB:Michael Wilson td"
+       },
+       {
+        "label": "Wilson games",
+        "value": "214",
+        "source": "players.json QB:Michael Wilson g"
+       },
+       {
+        "label": "Brandson passing yards",
+        "value": "91,463",
+        "source": "players.json QB:Sherman Brandson yds"
+       },
+       {
+        "label": "Brandson TD passes",
+        "value": "1,150",
+        "source": "players.json QB:Sherman Brandson td"
+       },
+       {
+        "label": "Brandson games",
+        "value": "315",
+        "source": "players.json QB:Sherman Brandson g"
+       },
+       {
+        "label": "Wilson MVPs",
+        "value": "6",
+        "source": "players.json QB:Michael Wilson mvp"
+       },
+       {
+        "label": "Brandson MVPs",
+        "value": "8",
+        "source": "players.json QB:Sherman Brandson mvp"
+       }
+      ],
+      "rival": {
+       "player": "QB:Michael Wilson"
+      }
+     },
+     {
+      "id": "sherman-brandson-market",
+      "kind": "market",
+      "headline": "The Most Valuable Card in the League, Until Y95",
+      "body": [
+       "Brandson has not thrown a pass in the market's lifetime, and his card has still climbed. It was valued at 36,912 after Y80 and 40,388 after Y94, rated 99 with an A+ grade the whole way, the most valuable card in the league at every season's end. Each new season rescales Career Legacy, and a frozen line like his only looks better against it. Y95 was the first time another card finished above it: Ryland Maxwell's, at 44,400 to his 40,657."
+      ],
+      "players": [
+       "Sherman Brandson",
+       "Ryland Maxwell"
+      ],
+      "teams": [],
+      "stats": [
+       {
+        "label": "Card value after Y95",
+        "value": "40,657",
+        "source": "market_history.json snap-202611162108 QB:Sherman Brandson value"
+       },
+       {
+        "label": "After Y80",
+        "value": "36,912",
+        "source": "market_history.json snap-202610201709 QB:Sherman Brandson value"
+       },
+       {
+        "label": "After Y94",
+        "value": "40,388",
+        "source": "market_history.json snap-202611141119 QB:Sherman Brandson value"
+       },
+       {
+        "label": "OVR",
+        "value": "99",
+        "source": "market_history.json snap-202611162108 QB:Sherman Brandson ovr"
+       },
+       {
+        "label": "Maxwell card value after Y95",
+        "value": "44,400",
+        "source": "market_history.json snap-202611162108 RB:Ryland Maxwell value"
+       }
+      ],
+      "market": {
+       "players": [
+        "QB:Sherman Brandson",
+        "RB:Ryland Maxwell"
+       ]
+      }
+     },
+     {
+      "id": "sherman-brandson-numbers",
+      "kind": "numbers",
+      "headline": "The Numbers",
+      "body": [
+       "In 315 games: 91,463 passing yards, 1,150 touchdown passes at 3.65 a game, 84.7 percent of his passes completed and only 50 sacks taken. 10 rings, 8 MVPs and 4 Super Bowl MVPs. No Offensive Player of the Year award ever came, the one gap on a shelf full of MVPs."
+      ],
+      "players": [
+       "Sherman Brandson"
+      ],
+      "teams": [],
+      "stats": [
+       {
+        "label": "Passing yards",
+        "value": "91,463",
+        "source": "players.json QB:Sherman Brandson yds"
+       },
+       {
+        "label": "TD passes",
+        "value": "1,150",
+        "source": "players.json QB:Sherman Brandson td"
+       },
+       {
+        "label": "MVPs",
+        "value": "8",
+        "source": "players.json QB:Sherman Brandson mvp"
+       },
+       {
+        "label": "Rings",
+        "value": "10",
+        "source": "players.json QB:Sherman Brandson rings"
+       },
+       {
+        "label": "Super Bowl MVPs",
+        "value": "4",
+        "source": "players.json QB:Sherman Brandson sbmvp"
+       },
+       {
+        "label": "Completion rate",
+        "value": "84.7%",
+        "source": "players.json QB:Sherman Brandson cmp/att%"
+       },
+       {
+        "label": "TD passes a game",
+        "value": "3.65",
+        "source": "players.json QB:Sherman Brandson td/g"
+       },
+       {
+        "label": "Sacks taken",
+        "value": "50",
+        "source": "players.json QB:Sherman Brandson sck"
+       },
+       {
+        "label": "Games",
+        "value": "315",
+        "source": "players.json QB:Sherman Brandson g"
+       }
+      ]
+     },
+     {
+      "id": "sherman-brandson-last-lap",
+      "kind": "lastlap",
+      "headline": "Y95, the Year the Crown Changed Hands",
+      "body": [
+       "For as long as the market has measured it, Brandson held the top Career Legacy in the league. After Y94 he led Ryland Maxwell by 381. Maxwell added 912 in Y95 and finished it at 14,019, 479 ahead of Brandson's 13,540. The passing records are another matter. His 91,463 yards lead Wayne Wilson, \"The Mailman\", by 1,013, his 1,150 touchdown passes lead by 237, and the Hall of Fame ballot scored his case at 100, a perfect mark only Rondale Ikarras and God Johnson share."
+      ],
+      "players": [
+       "Sherman Brandson",
+       "Ryland Maxwell",
+       "Wayne Wilson",
+       "Rondale Ikarras",
+       "God Johnson"
+      ],
+      "teams": [],
+      "stats": [
+       {
+        "label": "Behind Maxwell after Y95",
+        "value": "479",
+        "source": "market_history.json snap-202611162108 RB:Ryland Maxwell legacy minus market_history.json snap-202611162108 QB:Sherman Brandson legacy"
+       },
+       {
+        "label": "Lead after Y94",
+        "value": "381",
+        "source": "market_history.json snap-202611141119 QB:Sherman Brandson legacy minus market_history.json snap-202611141119 RB:Ryland Maxwell legacy"
+       },
+       {
+        "label": "Maxwell Career Legacy gained, Y95",
+        "value": "912",
+        "source": "market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell legacy"
+       },
+       {
+        "label": "Maxwell Career Legacy after Y95",
+        "value": "14,019",
+        "source": "market_history.json snap-202611162108 RB:Ryland Maxwell legacy"
+       },
+       {
+        "label": "Brandson Career Legacy after Y95",
+        "value": "13,540",
+        "source": "market_history.json snap-202611162108 QB:Sherman Brandson legacy"
+       },
+       {
+        "label": "Career passing yards",
+        "value": "91,463",
+        "source": "league_records.json records/[record=Best passing career]/league/top/0/value"
+       },
+       {
+        "label": "Ahead of Wayne Wilson, passing yards",
+        "value": "1,013",
+        "source": "league_records.json records/[record=Best passing career]/league/top/0/value minus league_records.json records/[record=Best passing career]/league/top/1/value"
+       },
+       {
+        "label": "Career TD passes",
+        "value": "1,150",
+        "source": "league_records.json records/[record=Most TD passes, career]/league/top/0/value"
+       },
+       {
+        "label": "Ahead of Wayne Wilson, TD passes",
+        "value": "237",
+        "source": "league_records.json records/[record=Most TD passes, career]/league/top/0/value minus league_records.json records/[record=Most TD passes, career]/league/top/1/value"
+       },
+       {
+        "label": "Hall of Fame score",
+        "value": "100",
+        "source": "halloffame.json members/[key=QB:Sherman Brandson]/score"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

@@ -1473,6 +1473,24 @@
     "tribute": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-17-brandson-retired-number",
+   "dir": "data/uploads/2026-11-17-brandson-retired-number",
+   "applied_at": "2026-11-17T00:01:26-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-17-tribute-brandson-numbers",
+   "dir": "data/uploads/2026-11-17-tribute-brandson-numbers",
+   "applied_at": "2026-11-17T00:03:11-08:00",
+   "mutations": {
+    "tribute": 1
+   },
+   "changed": 1
   }
  ]
 }

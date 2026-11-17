@@ -1369,15 +1369,6 @@
   ],
   "Buccaneers": [
    {
-    "name": "Sherman Brandson",
-    "pos": "QB",
-    "careerLegacy": 12628,
-    "score": 100,
-    "hof": true,
-    "why": "Hall of Famer",
-    "frozenSeason": "Y79"
-   },
-   {
     "name": "Ian Finney",
     "pos": "WR",
     "careerLegacy": 10515,
@@ -2001,6 +1992,15 @@
   ],
   "Ravens": [
    {
+    "name": "Sherman Brandson",
+    "pos": "QB",
+    "careerLegacy": 12628,
+    "score": 100,
+    "hof": true,
+    "why": "Hall of Famer",
+    "frozenSeason": "Y79"
+   },
+   {
     "name": "Rondale Ikarras",
     "pos": "RB",
     "careerLegacy": 11999,
@@ -2197,6 +2197,15 @@
    }
   ],
   "Vikings": [
+   {
+    "name": "Sherman Brandson",
+    "pos": "QB",
+    "careerLegacy": 12628,
+    "score": 100,
+    "hof": true,
+    "why": "Hall of Famer",
+    "frozenSeason": "Y79"
+   },
    {
     "name": "God Johnson",
     "pos": "WR",
