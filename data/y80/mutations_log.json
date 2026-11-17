@@ -1491,6 +1491,15 @@
     "tribute": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-17-retired-numbers-asanjh-ikarras",
+   "dir": "data/uploads/2026-11-17-retired-numbers-asanjh-ikarras",
+   "applied_at": "2026-11-17T00:04:55-08:00",
+   "mutations": {
+    "stats": 2
+   },
+   "changed": 2
   }
  ]
 }

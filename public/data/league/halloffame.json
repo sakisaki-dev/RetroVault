@@ -2010,6 +2010,15 @@
     "frozenSeason": "Y79"
    },
    {
+    "name": "Cairo Asanjh",
+    "pos": "WR",
+    "careerLegacy": 9578,
+    "score": 73,
+    "hof": true,
+    "why": "Hall of Famer",
+    "frozenSeason": "Y79"
+   },
+   {
     "name": "Michael Wilson",
     "pos": "QB",
     "careerLegacy": 8133,
@@ -2056,6 +2065,15 @@
    }
   ],
   "Seahawks": [
+   {
+    "name": "Rondale Ikarras",
+    "pos": "RB",
+    "careerLegacy": 11999,
+    "score": 100,
+    "hof": true,
+    "why": "Hall of Famer",
+    "frozenSeason": "Y79"
+   },
    {
     "name": "Jakeem Friend",
     "pos": "OL",

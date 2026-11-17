@@ -1,0 +1,16 @@
+{
+ "id": "2026-11-17-retired-numbers-asanjh-ikarras",
+ "created": "2026-11-17",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {"lane": "stats", "op": "fact.set", "target": "players/Cairo Asanjh/retired_by",
+   "value": ["Seahawks", "Ravens"], "source": "owner",
+   "reason": "Owner: \"yes for cairo and ikarras everyone else can stay\" (add the Ravens to the Seahawks)",
+   "trigger": "Owner statement in notes.md"},
+  {"lane": "stats", "op": "fact.set", "target": "players/Rondale Ikarras/retired_by",
+   "value": ["Ravens", "Seahawks"], "source": "owner",
+   "reason": "Owner: \"yes for cairo and ikarras everyone else can stay\" (add the Seahawks to the Ravens)",
+   "trigger": "Owner statement in notes.md"}
+ ]
+}

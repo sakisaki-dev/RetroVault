@@ -176,6 +176,10 @@
     ],
     "says": "Asanjh did not play for the Bills."
    },
+   "retired_by": [
+    "Seahawks",
+    "Ravens"
+   ],
    "signature_team": "Seahawks"
   },
   "Cairo Colbert": {
@@ -1077,6 +1081,10 @@
     ],
     "says": "A Ravens legend after three titles in Seattle; his final season was with the Jets."
    },
+   "retired_by": [
+    "Ravens",
+    "Seahawks"
+   ],
    "signature_team": "Ravens"
   },
   "Russ Bello": {
