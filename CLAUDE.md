@@ -1165,6 +1165,10 @@ more immersive", the old header and headline cards): floodlights over a jumbotro
 holders standing on the turf in their kits, each under a plate with his record (+N when he holds more; tap: his card).
 The stand front, crowd and turf are the game's art painted to the current club (`useFieldArt`, night); the public build
 draws them in CSS and shows club logos for the players. The section links sit under it. Below it:
+  The same night carries down the page (`.stats-arena` on the Players page, `stats/visual/statsArena.css`; owner: "the
+  rest feels bland"): section headers are marquee boards (gold flag, a row of bulbs), each section's takeaway is a LIVE
+  ticker band (`.si-take` in SectionIntro), panels sit under a floodlit edge, crowd strips (`CrowdDivider`, the game's
+  crowd painted to the club) part the big sections, and Hidden Gems rows show each gem in his kit on a club-tinted card.
 `src/components/stats/visual/ClubStage.tsx` (`StageFigure`, `RankMedal`), `clubTone.ts` (`clubStyle`, `MEDAL`) and
 `clubStage.css` (owner, 2026-11-17: "the stats players page now feels really dry"): the headline cards (StatsPulse:
 position bars in `POSITION_COLORS`, the Hall's top Career Legacy, the best OVR and the record chaser standing in their
