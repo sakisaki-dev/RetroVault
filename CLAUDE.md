@@ -908,6 +908,13 @@ source names that file).
   Each flip stands one up and the jumbotron counts along. The walkout runs in the same tunnel: the player's sprite in
   the pulled kit runs out of it as a white-rimmed silhouette and celebrates
   on the turf. Odds, ordering, decoys, kit / Prizm / autograph beats, skip keys, reduced motion and lite mode as before.
+- **The binder** (owner, 2026-11-17: "the binder itself isn't very immersive its hard to see my own cards without
+  scrolling"; `src/components/collection/binder/`): right under the pack shelf, a ring binder of sleeve pages (leather
+  cover, steel rings, clear pockets; a milestone skin is the cover), 3 × 3 pockets on a phone, 4 × 3 from 640px, a
+  two-page spread from 1100px; pages turn sideways (scroll snap, arrows, a page slider, ← →). "My cards" by default
+  (remembered per device, `rv:binder:mine`), "Full set" adds the missing cards locked. Search by name or nickname, one
+  Filters sheet (sort, tier, best finish, position, club logos) with removable pills; Swipe and Sell duplicates sit
+  beside the search. Only the pages near the one on show mount their cards.
 - **Collection economy** (owner approved all six parts; `src/utils/economy.ts` rules and writes, UI in
   `src/components/collection/economy/`): coins become the trading currency; shards stay exactly as they were (claims and
   finish upgrades). `CollectionState` gains `coins` (older saves load with 0), `coinLog` (newest first, 40 kept),

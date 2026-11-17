@@ -1,0 +1,567 @@
+/* The binder: a ring binder of sleeve pages (Binder.tsx). Leather cover, three steel rings on the spine, pockets with a
+   clear sleeve's sheen; pages turn sideways with scroll snap. Milestone skins (ec-skin--*) replace the cover. */
+
+.bk-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ---------- Header ---------- */
+.bk-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.bk-head .section-title {
+  margin: 0;
+}
+.bk-tools__acts {
+  display: flex;
+  gap: 8px;
+}
+.bk-tools__acts .col-swipe-btn {
+  position: relative;
+  margin-left: 0;
+  height: 42px;
+  border-radius: 12px;
+}
+/* phones: Swipe and Sell are icon buttons beside the search */
+@media (max-width: 639px) {
+  .bk-tools__acts .col-swipe-btn {
+    width: 42px;
+    padding: 0;
+    justify-content: center;
+  }
+  .bk-tools__acts .bk-lbl {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .bk-filter-btn {
+    padding: 0 12px;
+  }
+}
+.bk-seg {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(var(--night) / 0.7);
+}
+.bk-seg__b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: hsl(var(--muted-foreground));
+  transition: background-color var(--dur-2, 160ms), color var(--dur-2, 160ms);
+}
+.bk-seg__b.is-on {
+  background: hsl(var(--gold));
+  color: hsl(228 47% 10%);
+}
+.bk-seg__n {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+/* ---------- Search, filters, pills ---------- */
+.bk-tools {
+  display: flex;
+  gap: 8px;
+}
+.bk-search {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 6px 0 12px;
+  border-radius: 12px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(var(--panel) / 0.8);
+}
+.bk-search:focus-within {
+  border-color: hsl(var(--gold) / 0.7);
+  box-shadow: 0 0 0 3px hsl(var(--gold) / 0.15);
+}
+.bk-search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 16px; /* 16px keeps iOS from zooming on focus */
+  color: hsl(var(--foreground));
+}
+.bk-search input::-webkit-search-cancel-button {
+  display: none;
+}
+.bk-search__x {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: hsl(var(--muted-foreground));
+}
+.bk-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(var(--panel) / 0.8);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.bk-filter-btn:hover {
+  border-color: hsl(var(--gold) / 0.6);
+}
+.bk-filter-btn.is-on {
+  border-color: hsl(var(--gold));
+  color: hsl(var(--gold));
+}
+.bk-filter-btn__n {
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: hsl(var(--gold));
+  color: hsl(228 47% 10%);
+  font-size: 11px;
+}
+.bk-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.bk-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--gold) / 0.6);
+  background: hsl(var(--gold) / 0.12);
+  color: hsl(var(--gold));
+  font-size: 12px;
+  font-weight: 700;
+}
+.bk-pills__clear {
+  height: 28px;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: hsl(var(--muted-foreground));
+}
+.bk-pills__clear:hover {
+  color: hsl(var(--foreground));
+}
+
+/* ---------- The book ---------- */
+.bk {
+  --bk-spine: 26px;
+  position: relative;
+  border-radius: 18px;
+  padding: 10px 8px 10px var(--bk-spine);
+  background:
+    radial-gradient(ellipse at 20% 0%, hsl(226 45% 30% / 0.55), transparent 60%),
+    radial-gradient(circle at 70% 80%, hsl(0 0% 0% / 0.35), transparent 55%),
+    repeating-radial-gradient(circle at 30% 40%, hsl(0 0% 100% / 0.018) 0 1px, transparent 1px 3px),
+    linear-gradient(160deg, hsl(226 42% 17%), hsl(228 48% 9%));
+  box-shadow:
+    0 18px 40px hsl(0 0% 0% / 0.45),
+    inset 0 1px 0 hsl(0 0% 100% / 0.08),
+    inset 0 0 0 1px hsl(0 0% 0% / 0.5);
+  margin-inline: -6px;
+}
+/* stitching around the cover */
+.bk::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 14px;
+  border: 1.5px dashed hsl(var(--gold) / 0.32);
+  pointer-events: none;
+}
+@media (min-width: 640px) {
+  .bk {
+    --bk-spine: 34px;
+    padding: 14px 14px 14px var(--bk-spine);
+    margin-inline: 0;
+  }
+}
+
+/* three steel rings on the spine (the middle of a spread) */
+.bk__rings {
+  position: absolute;
+  z-index: 3;
+  left: calc(var(--bk-spine) / 2 - 9px);
+  top: 12%;
+  bottom: 12%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.bk__rings i {
+  display: block;
+  width: 18px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #f2f4f8, #9aa1b0 45%, #5c6170 55%, #c9ced8);
+  box-shadow:
+    0 2px 3px hsl(0 0% 0% / 0.6),
+    inset 0 -1px 0 hsl(0 0% 0% / 0.35);
+}
+.bk--spread .bk__rings {
+  left: calc(50% + var(--bk-spine) / 2 - 16px);
+}
+
+.bk__track {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  border-radius: 10px;
+  outline: none;
+}
+.bk__track::-webkit-scrollbar {
+  display: none;
+}
+.bk__track:focus-visible {
+  box-shadow: 0 0 0 2px hsl(var(--gold));
+}
+
+.bk__page {
+  position: relative;
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding: 10px 8px 22px;
+  border-radius: 10px;
+  /* the sleeve sheet: a clear plastic page over a dark backing */
+  background:
+    linear-gradient(90deg, hsl(0 0% 0% / 0.35), transparent 7%),
+    linear-gradient(180deg, hsl(0 0% 100% / 0.05), transparent 30%),
+    hsl(226 30% 12%);
+  box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 0.06);
+}
+.bk--spread .bk__page {
+  flex-basis: 50%;
+}
+.bk--spread .bk__page--left {
+  scroll-snap-align: start;
+  padding-right: 22px;
+  background:
+    linear-gradient(270deg, hsl(0 0% 0% / 0.4), transparent 8%),
+    linear-gradient(180deg, hsl(0 0% 100% / 0.05), transparent 30%),
+    hsl(226 30% 12%);
+}
+.bk--spread .bk__page--right {
+  scroll-snap-align: none;
+  scroll-snap-stop: normal;
+  padding-left: 22px;
+}
+
+.bk__pockets {
+  display: grid;
+  grid-template-columns: repeat(var(--bk-cols, 3), minmax(0, 1fr));
+  gap: 10px 6px;
+}
+@media (min-width: 640px) {
+  .bk__pockets {
+    gap: 14px 12px;
+  }
+}
+
+.bk-pocket {
+  position: relative;
+  min-width: 0;
+  padding: 4px 3px 2px;
+  border-radius: 7px;
+  background: hsl(0 0% 100% / 0.025);
+  box-shadow:
+    inset 0 0 0 1px hsl(0 0% 100% / 0.07),
+    inset 0 2px 0 hsl(0 0% 100% / 0.06);
+}
+/* the sleeve's sheen over the card: never takes a tap */
+.bk-pocket::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(118deg, transparent 32%, hsl(0 0% 100% / 0.06) 44%, transparent 56%);
+  pointer-events: none;
+  z-index: 2;
+}
+.bk-pocket--empty,
+.bk-pocket__ghost {
+  aspect-ratio: 100 / 150;
+}
+.bk-pocket--empty {
+  background: hsl(0 0% 100% / 0.015);
+  box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 0.05);
+}
+.bk-pocket__ghost {
+  display: block;
+  width: 100%;
+  border-radius: 6px;
+  background: hsl(0 0% 100% / 0.03);
+}
+.bk-pocket .vbadges {
+  margin-top: 3px;
+}
+@media (max-width: 400px) {
+  .bk-pocket .vbadges {
+    transform: scale(0.85);
+    transform-origin: 50% 0;
+  }
+}
+
+/* folio number at the foot of each page */
+.bk__folio {
+  position: absolute;
+  bottom: 5px;
+  right: 12px;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: hsl(var(--muted-foreground) / 0.7);
+}
+.bk--spread .bk__page--left .bk__folio {
+  right: auto;
+  left: 12px;
+}
+
+/* ---------- Page turner ---------- */
+.bk-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bk-nav__b {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(var(--panel) / 0.8);
+}
+.bk-nav__b:hover:not(:disabled) {
+  border-color: hsl(var(--gold) / 0.6);
+  color: hsl(var(--gold));
+}
+.bk-nav__b:disabled {
+  opacity: 0.35;
+}
+.bk-nav__mid {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.bk-nav__where {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+@media (max-width: 400px) {
+  .bk-nav__cards {
+    display: none;
+  }
+}
+.bk-nav__range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  max-width: 420px;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, hsl(var(--gold)) calc(var(--p, 0) * 100%), hsl(var(--line)) 0);
+  outline: none;
+}
+.bk-nav__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: hsl(var(--gold));
+  border: 3px solid hsl(228 47% 10%);
+  box-shadow: 0 1px 4px hsl(0 0% 0% / 0.5);
+}
+.bk-nav__range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: hsl(var(--gold));
+  border: 3px solid hsl(228 47% 10%);
+}
+
+/* ---------- Empty ---------- */
+.bk-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 48px 16px;
+  text-align: center;
+  font-size: 14px;
+  color: hsl(var(--muted-foreground));
+}
+.bk--empty .bk-empty {
+  min-height: 260px;
+  justify-content: center;
+}
+
+/* ---------- Filters sheet ---------- */
+.bk-sheet__h {
+  margin: 18px 0 8px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: hsl(var(--muted-foreground));
+}
+.bk-sheet__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.bk-sheet__row--pos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@media (min-width: 640px) {
+  .bk-sheet__row--pos {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+.bk-opt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(var(--panel) / 0.7);
+  font-size: 13px;
+  font-weight: 700;
+  color: hsl(var(--muted-foreground));
+}
+.bk-opt.is-on {
+  border-color: hsl(var(--gold));
+  background: hsl(var(--gold) / 0.14);
+  color: hsl(var(--gold));
+}
+.bk-opt__n {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.7;
+}
+.bk-clubs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(62px, 1fr));
+  gap: 6px;
+}
+.bk-club {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 2px 4px;
+  border-radius: 10px;
+  border: 1px solid hsl(var(--line));
+  background: hsl(var(--panel) / 0.7);
+}
+.bk-club img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+.bk-club__fa {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+}
+.bk-club__name {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: hsl(var(--muted-foreground));
+}
+.bk-club.is-on {
+  border-color: hsl(var(--club, var(--gold)));
+  background: hsl(var(--club, var(--gold)) / 0.3);
+  box-shadow: 0 0 0 1px hsl(var(--club, var(--gold)));
+}
+.bk-club.is-on .bk-club__name {
+  color: hsl(var(--foreground));
+}
+.bk-sheet__foot {
+  position: sticky;
+  bottom: calc(-1 * env(safe-area-inset-bottom, 0px) - 24px);
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 12px 0 calc(env(safe-area-inset-bottom, 0px) + 4px);
+  background: linear-gradient(180deg, transparent, hsl(var(--night)) 30%);
+}
+.bk-sheet__go {
+  flex: 1;
+  height: 46px;
+  border-radius: 12px;
+  background: hsl(var(--gold));
+  color: hsl(228 47% 10%);
+  font-weight: 800;
+  font-size: 15px;
+}
+
+/* ---------- Skins: the milestone covers ---------- */
+.bk.ec-skin {
+  padding: 10px 8px 10px var(--bk-spine);
+  margin-inline: -6px;
+}
+@media (min-width: 640px) {
+  .bk.ec-skin {
+    padding: 14px 14px 14px var(--bk-spine);
+    margin-inline: 0;
+  }
+}
+.bk.ec-skin .bk__page {
+  background:
+    linear-gradient(180deg, hsl(0 0% 100% / 0.06), transparent 30%),
+    hsl(226 30% 12% / 0.82);
+}

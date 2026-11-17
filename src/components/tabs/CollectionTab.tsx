@@ -1,8 +1,8 @@
 import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { useNewSlot, useSlot, type Slot } from '@/utils/slot';
 import { toast } from 'sonner';
-import { Coins, GalleryHorizontal, Hammer, Info, LayoutGrid, Lock } from 'lucide-react';
-import type { Player, Position } from '@/types/player';
+import { Coins, Hammer, Info, LayoutGrid } from 'lucide-react';
+import type { Player } from '@/types/player';
 import { cn } from '@/lib/utils';
 import { reducedMotion, useStagger } from '@/utils/motion';
 import PlayerDetailCard from '@/components/PlayerDetailCard';
@@ -13,12 +13,12 @@ import CollectibleCard from '@/components/collection/CollectibleCard';
 import CardDetail, { type CardDetailTarget } from '@/components/collection/CardDetail';
 import CardBrowser from '@/components/collection/CardBrowser';
 import { designRows, samplePack } from '@/components/collection/designSamples';
-import { FINISH_ICON, FINISH_TEXT } from '@/components/collection/rarityIcons';
 import PackOpening, { PackArt } from '@/components/collection/PackOpening';
 import MarketView from '@/components/collection/market/MarketView';
 import { byTierDesc, useCardPool, type CardInfo } from '@/components/collection/useCardPool';
 import { FACE_LEGEND } from '@/components/collection/cardStats';
-import VariantBadges from '@/components/collection/VariantBadges';
+import Binder from '@/components/collection/binder/Binder';
+import { BINDER_DEFAULTS, matchesQuery, readMinePref, type BinderFilterState } from '@/components/collection/binder/filters';
 import { KIT_SOURCE, displayWithKit } from '@/components/collection/kits';
 import ShardWorkshop from '@/components/collection/ShardWorkshop';
 import DailyDraw from '@/components/collection/DailyDraw';
@@ -65,10 +65,8 @@ import {
   tierRank,
   useCollection,
   variantsOwned,
-  type Finish,
   type EarnablePack,
   type PackType,
-  type Tier,
 } from '@/utils/collection';
 import PixelLoader from '@/components/ui/PixelLoader';
 
@@ -77,9 +75,6 @@ const CardDesigns = lazy(() => import('@/components/collection/CardDesigns'));
 const ArtLab = lazy(() => import('@/components/collection/art/ArtLab'));
 const DialogFallback = () => <PixelLoader variant="overlay" label="Loading" />;
 
-const POSITIONS: Position[] = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
-type Sort = 'set' | 'ovr' | 'tier' | 'finish' | 'recent';
-const PAGE = 60;
 
 const pct = (a: number, b: number) => (b ? Math.round((a / b) * 100) : 0);
 const PACK_SHORT: Record<EarnablePack, string> = { standard: 'Std', premium: 'Prem', elite: 'Elite', perfect: '18–0', holo: 'Holo' };
@@ -98,21 +93,6 @@ const MARKET_HASH = /[?&]view=market\b/;
 const ART_HASH = /[?&]view=art\b/;
 const GIFT_HASH = /[?&]gift=([\w-]+)/;
 const cleanHash = () => window.history.replaceState(window.history.state, '', '#collection');
-
-const Chip = ({ active, onClick, children, label }: { active: boolean; onClick: () => void; children: React.ReactNode; label?: string }) => (
-  <button
-    type="button"
-    aria-pressed={active}
-    aria-label={label}
-    onClick={onClick}
-    className={cn(
-      'inline-flex h-8 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 text-xs font-semibold transition-colors',
-      active ? 'border-gold bg-gold/15 text-gold' : 'border-line bg-panel/70 text-muted-foreground hover:text-foreground',
-    )}
-  >
-    {children}
-  </button>
-);
 
 /** Odds, earning and crafting rules, behind the ⓘ. */
 const RulesPopover = () => (
@@ -328,13 +308,10 @@ const CollectionTab = () => {
   // Autographs freeze the pulled player's career details as of the pull
   const { freeze } = useAutographFreezer(byKey);
 
-  const [tier, setTier] = useState<Tier | 'all'>('all');
-  const [finish, setFinish] = useState<Finish | 'all'>('all');
-  const [pos, setPos] = useState<Position | 'all'>('all');
-  const [team, setTeam] = useState('all');
-  const [missing, setMissing] = useState(true);
-  const [sort, setSort] = useState<Sort>('set');
-  const [limit, setLimit] = useState(PAGE);
+  // The binder's view, search, filters and sort (collection/binder/Binder.tsx); "My cards" is remembered per device
+  const [bf, setBf] = useState<BinderFilterState>(() => ({ ...BINDER_DEFAULTS, mine: readMinePref() }));
+  const { tier, finish, pos, team, sort } = bf;
+  const missing = !bf.mine;
   const detailSlot = useNewSlot<CardDetailTarget | null>(null);
   const playerSlot = useNewSlot<Player | null>(null);
   const setDetail = detailSlot.set;
@@ -350,8 +327,6 @@ const CollectionTab = () => {
   const [artLabSeen, setArtLabSeen] = useState(false);
   useEffect(() => void (designs && setDesignsSeen(true)), [designs]);
   useEffect(() => void (artLab && setArtLabSeen(true)), [artLab]);
-
-  useEffect(() => setLimit(PAGE), [tier, finish, pos, team, missing, sort]);
 
   // #collection?gift=<id> redeems a one-time gift; #collection?view=designs opens the Card designs gallery, ?view=art the Art lab
   useEffect(() => {
@@ -434,7 +409,7 @@ const CollectionTab = () => {
 
   const teamOptions = useMemo(() => [...new Set(cards.map((c) => c.franchise))].sort(), [cards]);
   useEffect(() => {
-    if (team !== 'all' && cards.length && !teamOptions.includes(team)) setTeam('all');
+    if (team !== 'all' && cards.length && !teamOptions.includes(team)) setBf((f) => ({ ...f, team: 'all' }));
   }, [team, cards.length, teamOptions]);
 
   const filtered = useMemo(() => {
@@ -444,7 +419,8 @@ const CollectionTab = () => {
         (finish === 'all' || (!!owned[c.key] && Object.values(owned[c.key].variants).some((v) => v?.best === finish))) &&
         (pos === 'all' || c.player.position === pos) &&
         (team === 'all' || c.franchise === team) &&
-        (missing || !!owned[c.key]),
+        (missing || !!owned[c.key]) &&
+        matchesQuery(c, bf.q),
     );
     const fr = (c: CardInfo) => (owned[c.key] ? finishRank(owned[c.key].best) : -1);
     if (sort === 'ovr') return [...list].sort((a, b) => (b.ovr ?? 0) - (a.ovr ?? 0) || a.setNo - b.setNo);
@@ -452,8 +428,7 @@ const CollectionTab = () => {
     if (sort === 'finish') return [...list].sort((a, b) => fr(b) - fr(a) || byTierDesc(a, b));
     if (sort === 'recent') return [...list].sort((a, b) => (owned[b.key]?.last ?? 0) - (owned[a.key]?.last ?? 0) || a.setNo - b.setNo);
     return list;
-  }, [cards, tier, finish, pos, team, missing, sort, owned]);
-  const shown = filtered.slice(0, limit);
+  }, [cards, tier, finish, pos, team, missing, sort, owned, bf.q]);
   // First appearance staggers in; later filter changes and "Show more" only fade (utils/motion useStagger)
   const gridMotion = useStagger(loaded && cards.length > 0);
   // The swipe browser shows every owned card of the filter (not just the loaded page of the grid)
@@ -462,7 +437,6 @@ const CollectionTab = () => {
   const shelf = SHELF_ORDER.filter((t) => packCount(state, t) > 0);
   const previewCards = useMemo(() => samplePack(designRows(cards), cards), [cards]);
   const openCard = (c: CardInfo, list: CardInfo[], from?: DOMRect) => setDetail({ info: c, list, from });
-  const binderOwned = useMemo(() => shown.filter((c) => !!owned[c.key]), [shown, owned]);
   const describe = (pc: { player: Player }) => byKey.get(`${pc.player.position}:${pc.player.name}`)!;
   // What a card shows by default: the display choice when still owned, else auto (with the best kit owned there)
   const shown_ = (c: CardInfo) => {
@@ -582,6 +556,25 @@ const CollectionTab = () => {
         </div>
       </section>
 
+      {/* Binder: right under the packs, so the cards are the first thing after the shelf */}
+      <Binder
+        loaded={loaded}
+        cards={cards}
+        filtered={filtered}
+        owned={owned}
+        display={state.display}
+        fresh={fresh}
+        filters={bf}
+        setFilters={setBf}
+        teamOptions={teamOptions}
+        ownedCount={ownedCount}
+        skin={binderSkin}
+        onOpen={(c, from) => openCard(c, browseList, from)}
+        onSwipe={() => setBrowsing(true)}
+        swipeCount={browseList.length}
+        onSellDupes={() => setSellingDupes(true)}
+      />
+
       {loaded && cards.length > 0 && <ShardWorkshop cards={cards} owned={owned} shards={state.shards} perPack={shardsPerPack} onOpen={(c) => openCard(c, [c])} />}
 
       {/* Showcase */}
@@ -676,137 +669,6 @@ const CollectionTab = () => {
           </ul>
         </section>
       )}
-
-      {/* Binder */}
-      <section aria-labelledby="col-binder" className={cn('space-y-3', binderSkin && `ec-skin ec-skin--${binderSkin}`)}>
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
-          <h2 id="col-binder" className="section-title">
-            Binder
-          </h2>
-          <span className="text-xs text-muted-foreground" aria-live="polite">
-            {loaded ? `${filtered.length} cards` : 'Loading…'}
-          </span>
-          {loaded && cards.length > 0 && (
-            <button
-              type="button"
-              className="col-swipe-btn"
-              onClick={() => setBrowsing(true)}
-              aria-label={`Swipe through your cards (${browseList.length} in this filter)`}
-            >
-              <GalleryHorizontal className="h-4 w-4" aria-hidden="true" />
-              Swipe
-            </button>
-          )}
-          {loaded && ownedCount > 0 && (
-            <button type="button" className="col-swipe-btn ec-dupes-btn" onClick={() => setSellingDupes(true)} aria-label="Sell duplicate cards to the market">
-              <Coins className="h-4 w-4" aria-hidden="true" />
-              Sell duplicates
-            </button>
-          )}
-        </div>
-        <div className="space-y-2">
-          <div className="-mx-4 flex gap-1.5 overflow-x-auto px-4 pb-1 scrollbar-none sm:mx-0 sm:flex-wrap sm:px-0" role="group" aria-label="Tier and finish">
-            {TIERS.map((t) => (
-              <Chip key={t.key} active={tier === t.key} onClick={() => setTier(tier === t.key ? 'all' : t.key)}>
-                <span className={cn('col-dot', `col-gem--${t.key}`)} aria-hidden="true" />
-                {t.label}
-              </Chip>
-            ))}
-            <span className="mx-1 w-px shrink-0 self-stretch bg-line" aria-hidden="true" />
-            {FINISHES.map((f) => {
-              const Icon = FINISH_ICON[f.key];
-              return (
-                <Chip key={f.key} active={finish === f.key} onClick={() => setFinish(finish === f.key ? 'all' : f.key)} label={`${f.label} finish`}>
-                  <Icon className={cn('h-3.5 w-3.5', FINISH_TEXT[f.key])} aria-hidden="true" />
-                  {f.label}
-                </Chip>
-              );
-            })}
-          </div>
-          <div className="-mx-4 flex gap-1.5 overflow-x-auto px-4 pb-1 scrollbar-none sm:mx-0 sm:flex-wrap sm:px-0" role="group" aria-label="Position">
-            {POSITIONS.map((p) => (
-              <Chip key={p} active={pos === p} onClick={() => setPos(pos === p ? 'all' : p)}>
-                {p}
-              </Chip>
-            ))}
-            <span className="mx-1 w-px shrink-0 self-stretch bg-line" aria-hidden="true" />
-            <Chip active={missing} onClick={() => setMissing((m) => !m)} label="Show missing cards">
-              <Lock className="h-3.5 w-3.5" aria-hidden="true" /> Missing
-            </Chip>
-            <select
-              value={team}
-              onChange={(e) => setTeam(e.target.value)}
-              aria-label="Team"
-              className="h-8 shrink-0 rounded-full border border-line bg-panel/70 px-3 text-xs font-semibold text-foreground"
-            >
-              <option value="all">All teams</option>
-              {teamOptions.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-            <select
-              value={sort}
-              onChange={(e) => setSort(e.target.value as Sort)}
-              aria-label="Sort"
-              className="h-8 shrink-0 rounded-full border border-line bg-panel/70 px-3 text-xs font-semibold text-foreground"
-            >
-              <option value="set">Set #</option>
-              <option value="ovr">OVR</option>
-              <option value="tier">Tier</option>
-              <option value="finish">Finish</option>
-              <option value="recent">Recent</option>
-            </select>
-          </div>
-        </div>
-
-        {!loaded ? (
-          <PixelLoader label="Binder" what="cards" minHeight={420} className="justify-start pt-16" />
-        ) : !cards.length || filtered.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-line p-8 text-center text-sm text-muted-foreground" role="status">
-            {!cards.length ? 'No league data yet.' : 'No cards match.'}
-          </div>
-        ) : (
-          <ul className={cn('fut-grid', gridMotion)} aria-label="Cards">
-            {shown.map((c) => {
-              const entry = owned[c.key];
-              // One tile per player: his display choice, else his rarest variant owned at that variant's best finish
-              const d = entry ? displayWithKit(entry, state.display?.[c.key], c.player) : undefined;
-              return (
-                <li key={c.key} className={cn('fut-tile', fresh?.has(c.key) && 'fut-tile--fresh')} {...peekProps(entry ? c.player : null)}>
-                  <CollectibleCard
-                    player={c.player}
-                    tier={c.tier}
-                    finish={d?.finish ?? 'base'}
-                    variant={d?.variant}
-                    kit={d?.kit}
-                    prizm={d?.prizm}
-                    pinned={d?.pinned}
-                    owned={!!entry}
-                    ovr={c.ovr}
-                    number={c.number}
-                    stats={c.stats}
-                    setNo={c.setNo}
-                    setTotal={cards.length}
-                    hint={c.hint}
-                    marks={entry?.marks}
-                    onOpen={entry ? (from) => openCard(c, binderOwned, from) : undefined}
-                  />
-                  <VariantBadges entry={entry} />
-                </li>
-              );
-            })}
-          </ul>
-        )}
-        {shown.length < filtered.length && (
-          <div className="flex justify-center">
-            <button type="button" onClick={() => setLimit((l) => l + PAGE)} className="h-10 rounded-full border border-line bg-panel px-5 text-sm font-semibold hover:border-gold/60">
-              Show more ({filtered.length - shown.length})
-            </button>
-          </div>
-        )}
-      </section>
 
       <PackOpening
         type={opening}
