@@ -186,7 +186,10 @@ def main() -> None:
     pairs, missing, _ = save_read.match(save, save_read.rv_players())
     looks_by_uid: dict[str, set[tuple[str, int]]] = defaultdict(set)
     for p in save.players:
-        looks_by_uid[p["uid"]].add((str(int(float(p["raw"].get("skin", -1)))), int(float(p["raw"].get("col_skin", -1)))))
+        skin, col = int(float(p["raw"].get("skin", -1))), int(float(p["raw"].get("col_skin", -1)))
+        if skin < 0 or col < 0:  # unset (e.g. col_skin -4 on a draft-pool player): says nothing about the look
+            continue
+        looks_by_uid[p["uid"]].add((str(skin), col))
 
     sprites: dict[str, list[tuple[int, int, str]]] = defaultdict(list)  # uid -> [(kit, pose, file)]
     img_dir = docs / "rb_nfl_players_2024" / "faces_img"

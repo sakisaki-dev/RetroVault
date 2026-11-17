@@ -1437,6 +1437,42 @@
     "stats": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-16-y95-retirements",
+   "dir": "data/uploads/2026-11-16-y95-retirements",
+   "applied_at": "2026-11-16T21:19:52-08:00",
+   "mutations": {
+    "stats": 19
+   },
+   "changed": 19
+  },
+  {
+   "id": "2026-11-16-story-y95",
+   "dir": "data/uploads/2026-11-16-story-y95",
+   "applied_at": "2026-11-16T21:20:35-08:00",
+   "mutations": {
+    "story": 3
+   },
+   "changed": 3
+  },
+  {
+   "id": "2026-11-16-takes-y95",
+   "dir": "data/uploads/2026-11-16-takes-y95",
+   "applied_at": "2026-11-16T21:21:17-08:00",
+   "mutations": {
+    "takes": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-16-tribute-brandson",
+   "dir": "data/uploads/2026-11-16-tribute-brandson",
+   "applied_at": "2026-11-16T21:21:59-08:00",
+   "mutations": {
+    "tribute": 1
+   },
+   "changed": 1
   }
  ]
 }

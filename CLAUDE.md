@@ -529,7 +529,7 @@ source names that file).
   that season's Super Bowl and before the new season starts; otherwise it prints why. Then `fact.set
   players/<name>/status "Retired"` for Retro Vault actives no longer playing, and
   `fact.set players/<name>/team` for club changes. `--tag X` adds `-X` to the bundle id. A player whose save total is **below** Retro Vault's is held back
-  whole and printed for a human (apply-upload refuses drops). Review the printout, then `npm run update -- <bundle>`;
+  whole and printed for a human (apply-upload refuses drops). Review the printout, then `npm run update -- <bundle>`, then `python3 scripts/private_nfl_sprites.py` so new players get their own game sprites (the update doesn't run it; commit `public/private-sprites`);
   speeches, stories and takes follow as usual. `--complete --check` is the dry run (builds the bundle in memory and
   prints it; nothing written). The season is the save's latest completed one: its own year once `history` has a row for
   it, else the year before (careers then = save career − save season for players still playing).
@@ -936,7 +936,7 @@ source names that file).
   quite literally no connection to the outside world other than just me going through MY OWN data"; the repo and the
   Pages site are public, so the art is publicly reachable and stays in git history). **Source:** the owner's save
   (`scripts/pull_save.py` → `data/saves/`), then `python3 scripts/private_nfl_sprites.py`: it matches players with
-  `scripts/save_read.py`'s matcher (a pool uid shared by different-looking players is ambiguous and skipped; one
+  `scripts/save_read.py`'s matcher (a pool uid shared by different-looking players is ambiguous and skipped, an unset skin value such as a draft prospect's `col_skin` -4 doesn't count as a different look; one
   shared by look-alikes, the game's generated templates, is used) and copies every kit and pose of the matched players'
   64 × 64 sprites, the real NFL legends' (arcade games only), and the game's ~100 generated look templates as stand-ins,
   with `nfl/index.json` (players, legends, standins, clubs, and `anchors`: each file's centre line and feet row).

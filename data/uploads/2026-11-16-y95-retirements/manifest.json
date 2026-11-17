@@ -1,0 +1,187 @@
+{
+ "id": "2026-11-16-y95-retirements",
+ "created": "2026-11-16",
+ "save": {
+  "file": "rb_nfl_savedata_4.json",
+  "path": "data/saves/2026-11-16/nfl/Documents/rb_nfl_savedata_4.json",
+  "sha256": "b5b6f9a6a13288c85de7e5ae4e042c8326b50418c9b817e803282934a2dda46f",
+  "season": 95,
+  "week": 32,
+  "complete": true
+ },
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Josh Brooks/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kelvin Core/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Brett Sweat/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Bud Matthew/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Gary Asafo/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Clark Borom/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ceedee Hollins/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Rodger Samuel/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Myquon Renfrow/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Carson Odeleye/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Andrew Pitts/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Parker Hampton/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Javon Trask/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Gunner Okwara/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Treylon Dogbe/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Kyron Atwell/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ian Clapp/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Jontre Owens/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Mykal Shaw/status",
+   "value": "Retired",
+   "source": "owner",
+   "reason": "Owner rule: \"if a player does not show up in the screen recording assume that they have retired\" (absent from every club in the Y95 week-32 save, which covers the whole league)",
+   "trigger": "Season-complete save import 2026-11-16-save-y95"
+  }
+ ]
+}

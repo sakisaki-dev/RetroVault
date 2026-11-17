@@ -1000,25 +1000,25 @@
    "games": 248
   },
   {
-   "key": "QB:Lamar Jackson",
-   "name": "Lamar Jackson",
-   "pos": "QB",
-   "frozenSeason": "Y79",
-   "careerLegacy": 7458,
-   "rank": 7,
+   "key": "DB:Kyron Atwell",
+   "name": "Kyron Atwell",
+   "pos": "DB",
+   "frozenSeason": "Y94",
+   "careerLegacy": 8351,
+   "rank": 3,
    "score": 60,
    "parts": {
-    "standing": 36,
-    "honours": 24,
+    "standing": 49,
+    "honours": 11,
     "records": 0
    },
    "records": [],
-   "rings": 2,
-   "mvp": 4,
+   "rings": 0,
+   "mvp": 0,
    "opoy": 0,
-   "dpoy": 0,
+   "dpoy": 1,
    "sbmvp": 0,
-   "games": 345
+   "games": 267
   }
  ],
  "watch": [
@@ -1110,28 +1110,6 @@
    "dpoy": 2,
    "sbmvp": 0,
    "games": 228,
-   "projected": true
-  },
-  {
-   "key": "DB:Kyron Atwell",
-   "name": "Kyron Atwell",
-   "pos": "DB",
-   "frozenSeason": "Y95",
-   "careerLegacy": 8397,
-   "rank": 3,
-   "score": 60,
-   "parts": {
-    "standing": 49,
-    "honours": 11,
-    "records": 0
-   },
-   "records": [],
-   "rings": 0,
-   "mvp": 0,
-   "opoy": 0,
-   "dpoy": 1,
-   "sbmvp": 0,
-   "games": 267,
    "projected": true
   },
   {
@@ -1322,6 +1300,15 @@
     "hof": false,
     "why": "7 rings with the club",
     "frozenSeason": "Y92"
+   },
+   {
+    "name": "Mykal Shaw",
+    "pos": "DL",
+    "careerLegacy": 7882,
+    "score": 49,
+    "hof": false,
+    "why": "Career Legacy",
+    "frozenSeason": "Y94"
    },
    {
     "name": "Reuben Kilian",
@@ -1635,6 +1622,15 @@
     "frozenSeason": "Y79"
    },
    {
+    "name": "Josh Brooks",
+    "pos": "QB",
+    "careerLegacy": 6865,
+    "score": 9,
+    "hof": false,
+    "why": "Career Legacy",
+    "frozenSeason": "Y94"
+   },
+   {
     "name": "Jayden Daniels",
     "pos": "QB",
     "careerLegacy": 6672,
@@ -1836,6 +1832,15 @@
     "hof": true,
     "why": "Hall of Famer",
     "frozenSeason": "Y87"
+   },
+   {
+    "name": "Kyron Atwell",
+    "pos": "DB",
+    "careerLegacy": 8351,
+    "score": 60,
+    "hof": false,
+    "why": "Career Legacy",
+    "frozenSeason": "Y94"
    },
    {
     "name": "Kane Van Oxley",

@@ -1,7 +1,7 @@
 {
  "season": "Y93",
  "tagline": "The Eagles go 17-0 and beat the Steelers in Super Bowl CLII for a third straight title, Ryland Maxwell takes the career rushing record, and Bones Crawford throws 64 touchdown passes on his way to a fourth MVP.",
- "upload": "2026-11-14-refresh-y93",
+ "upload": "2026-11-16-story-y95",
  "articles": [
   {
    "id": "y93-eagles-perfect",
@@ -143,9 +143,7 @@
      "source": "schedule.json seasons/Y92/coachGames/[week=5]/score"
     }
    ],
-   "related": [
-    "y92-eagles-cli"
-   ]
+   "related": []
   },
   {
    "id": "y93-maxwell-record",
@@ -258,10 +256,7 @@
      "source": "market_history.json snap-202611140247 RB:Ryland Maxwell s.sbmvp"
     }
    ],
-   "related": [
-    "y92-mccoy-record",
-    "y92-mad-max"
-   ]
+   "related": []
   },
   {
    "id": "y93-crawford-mvp",
@@ -375,9 +370,7 @@
      "source": "market_history.json snap-202611140247 OL:Akiem Brock ovr"
     }
    ],
-   "related": [
-    "y92-wingo-crawford"
-   ]
+   "related": []
   },
   {
    "id": "y93-viennes-opoy",
@@ -489,9 +482,7 @@
      "source": "market_history.json snap-202611140247 WR:Keenan Viennes s.g"
     }
    ],
-   "related": [
-    "y92-rookies"
-   ]
+   "related": []
   },
   {
    "id": "y93-watts-lazard",
@@ -684,9 +675,7 @@
      "source": "schedule.json seasons/Y93/coachGames/[week=12]/score"
     }
    ],
-   "related": [
-    "y92-rivals"
-   ]
+   "related": []
   },
   {
    "id": "y93-skura-rahman",
@@ -793,9 +782,7 @@
      "source": "market_history.json snap-202611131841..snap-202611140247 DB:Keesean Hand s.int"
     }
    ],
-   "related": [
-    "y92-rahman-skura-trades"
-   ]
+   "related": []
   },
   {
    "id": "y93-record-chases",
@@ -930,9 +917,7 @@
      "source": "market_history.json snap-202611140247 RB:Lane McCoy s.rtd"
     }
    ],
-   "related": [
-    "y92-hof"
-   ]
+   "related": []
   },
   {
    "id": "y93-quick-hits",

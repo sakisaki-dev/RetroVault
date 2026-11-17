@@ -54,6 +54,9 @@
    "team": "FA",
    "status": "Retired"
   },
+  "Andrew Pitts": {
+   "status": "Retired"
+  },
   "Angelo Jensen": {
    "team": "Rams"
   },
@@ -145,6 +148,9 @@
   "Brennan Higgins": {
    "retired_with": "Commanders"
   },
+  "Brett Sweat": {
+   "status": "Retired"
+  },
   "Brian Baker": {
    "status": "Retired"
   },
@@ -159,7 +165,8 @@
    "team": "Commanders"
   },
   "Bud Matthew": {
-   "team": "Jets"
+   "team": "Jets",
+   "status": "Retired"
   },
   "Cairo Asanjh": {
    "retired_with": "Ravens",
@@ -182,6 +189,9 @@
    "team": "Cardinals",
    "status": "Retired"
   },
+  "Carson Odeleye": {
+   "status": "Retired"
+  },
   "CeeDee Lamb": {
    "retired_with": "Dolphins",
    "status": "Retired",
@@ -190,6 +200,9 @@
     "rings": 0,
     "club": "Cowboys"
    }
+  },
+  "Ceedee Hollins": {
+   "status": "Retired"
   },
   "Chance Woodrum": {
    "team": "Falcons",
@@ -214,6 +227,9 @@
   },
   "Chazz McCray": {
    "team": "Buccaneers",
+   "status": "Retired"
+  },
+  "Clark Borom": {
    "status": "Retired"
   },
   "Connor Goff": {
@@ -409,6 +425,9 @@
   "Fred Kmet": {
    "status": "Retired"
   },
+  "Gary Asafo": {
+   "status": "Retired"
+  },
   "George Donkor": {
    "team": "Raiders"
   },
@@ -447,6 +466,9 @@
    "team": "49ers",
    "status": "Retired"
   },
+  "Gunner Okwara": {
+   "status": "Retired"
+  },
   "Gus Langley": {
    "status": "Retired"
   },
@@ -481,6 +503,9 @@
     "says": "QB and Super Bowl MVP of the Titans' Y74 title; now with the Commanders."
    },
    "signature_team": "Commanders"
+  },
+  "Ian Clapp": {
+   "status": "Retired"
   },
   "Ian Finney": {
    "retired_with": "Buccaneers"
@@ -591,6 +616,9 @@
    },
    "signature_team": "Seahawks"
   },
+  "Javon Trask": {
+   "status": "Retired"
+  },
   "Jawill Perkins": {
    "status": "Retired",
    "signature_team": "Seahawks"
@@ -622,6 +650,12 @@
   },
   "Jimmy Tillery": {
    "team": "Jets"
+  },
+  "Jontre Owens": {
+   "status": "Retired"
+  },
+  "Josh Brooks": {
+   "status": "Retired"
   },
   "Joshuah Egbule": {
    "status": "Retired"
@@ -696,6 +730,9 @@
    "team": "Cowboys",
    "status": "Retired"
   },
+  "Kelvin Core": {
+   "status": "Retired"
+  },
   "Kenyon Shaheed": {
    "team": "FA",
    "status": "Retired"
@@ -732,7 +769,8 @@
    }
   },
   "Kyron Atwell": {
-   "team": "Jets"
+   "team": "Jets",
+   "status": "Retired"
   },
   "Lamar Jackson": {
    "retired_with": "Packers",
@@ -885,6 +923,12 @@
   "Mykal Mosby": {
    "status": "Retired"
   },
+  "Mykal Shaw": {
+   "status": "Retired"
+  },
+  "Myquon Renfrow": {
+   "status": "Retired"
+  },
   "Nick Bolton": {
    "retired_with": "Vikings",
    "real_nfl": {
@@ -930,6 +974,9 @@
   },
   "Orlando Larienne": {
    "team": "Falcons"
+  },
+  "Parker Hampton": {
+   "status": "Retired"
   },
   "Perrion Randall": {
    "team": "Seahawks",
@@ -1009,7 +1056,8 @@
    "status": "Retired"
   },
   "Rodger Samuel": {
-   "team": "Steelers"
+   "team": "Steelers",
+   "status": "Retired"
   },
   "Romeo Rodgers": {
    "status": "Retired"
@@ -1225,6 +1273,9 @@
   },
   "Trequan Roberts": {
    "team": "Saints",
+   "status": "Retired"
+  },
+  "Treylon Dogbe": {
    "status": "Retired"
   },
   "Treyvon Scott": {

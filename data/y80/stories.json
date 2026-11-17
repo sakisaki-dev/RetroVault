@@ -1,1363 +1,10 @@
 {
  "_about": "Season Story: the third AI-authored lane (owner-approved). One news package per completed season, written only by a story.set upload mutation; facts only from the data, every number cited in stats[] with its source (scripts/story_check.py). Never hand-edit.",
  "seasons": {
-  "Y92": {
-   "reason": "Related links into the removed Y91 story trimmed",
-   "trigger": "story.remove Y91 (only the last 3 seasons keep a story)",
-   "upload": "2026-11-14-story-y94",
-   "tagline": "The Eagles repeat with Super Bowl CLI over Dwayne Skura's Colts, Lane McCoy and Ryland Maxwell both pass Rondale Ikarras, and Kyron Atwell enters the Hall of Fame.",
-   "articles": [
-    {
-     "id": "y92-eagles-cli",
-     "kind": "lead",
-     "headline": "Back to Back: Eagles Beat the Colts in Super Bowl CLI",
-     "dek": "Philadelphia went 15-2, won every game after week 5 and beat Indianapolis 30-21 on the Colts' own field for Dorren Skura's second title in a row.",
-     "body": [
-      "Dorren Skura's Eagles are champions again. Philadelphia beat the Colts 30-21 in Super Bowl CLI, the 151st edition of the game, played in Indianapolis, and kept the trophy it took back from Houston a year ago. Skura's lead on the coaches' title board grew again; no other coach on it has more than 6.",
-      "It did not start that way. The Eagles lost two of their first five games, both on the road and both by three points or fewer: 35-32 at Chicago and 33-32 at Jacksonville. Then the losing stopped. Philadelphia won every game after that, 12 in the regular season and 3 more in the playoffs, and the run was still alive when the season ended.",
-      "Over the full season nobody was close. The Eagles scored 652 points, the most in the league, allowed 373, the fewest, and finished first in the power rankings with a point differential of 279. They went 9-0 at home, a year after going 9-0 on the road.",
-      "The playoffs asked more of the offense than a year ago. Green Bay scored 36 in the divisional round and lost 44-36. Seattle scored 34 in the conference final and lost 46-34. In the Super Bowl the Eagles met a Colts team they had beaten 40-10 in week 14, and they won again.",
-      "Ryland Maxwell, \"Mad Max\", was named Super Bowl MVP at the end of a season in which he ran for 2,839 yards. Calvin Wingo II was Offensive Player of the Year. On the other sideline stood Dwayne Skura, a champion in Philadelphia a year earlier, traded to Indianapolis before the season and named Defensive Player of the Year. He had to watch his old team lift the trophy again."
-     ],
-     "players": [
-      "Ryland Maxwell",
-      "Calvin Wingo II",
-      "Dwayne Skura"
-     ],
-     "teams": [
-      "Eagles",
-      "Colts",
-      "Bears",
-      "Jaguars",
-      "Packers",
-      "Seahawks",
-      "Texans"
-     ],
-     "stats": [
-      {
-       "label": "Super Bowl CLI",
-       "value": "30-21",
-       "source": "super_bowls.json Y92 score"
-      },
-      {
-       "label": "Eagles regular season",
-       "value": "15-2",
-       "source": "coach.json Y92 record"
-      },
-      {
-       "label": "Super Bowl number",
-       "value": "151",
-       "source": "super_bowls.json Y92 number"
-      },
-      {
-       "label": "Next coach on the board",
-       "value": "6",
-       "source": "coach.json superBowlRecord/1/titles"
-      },
-      {
-       "label": "Loss at Chicago",
-       "value": "35-32",
-       "source": "schedule.json seasons/Y92/coachGames/[week=3]/score"
-      },
-      {
-       "label": "Loss at Jacksonville",
-       "value": "33-32",
-       "source": "schedule.json seasons/Y92/coachGames/[week=5]/score"
-      },
-      {
-       "label": "Regular-season wins in the streak",
-       "value": "12",
-       "source": "schedule.json seasons/Y92/coachDetail/longestWinStreak"
-      },
-      {
-       "label": "Playoff record",
-       "value": "3-0",
-       "source": "schedule.json seasons/Y92/coachRecord/playoffs"
-      },
-      {
-       "label": "Eagles points scored",
-       "value": "652",
-       "source": "schedule.json seasons/Y92/table/[abbr=PHI]/pf"
-      },
-      {
-       "label": "Eagles points allowed",
-       "value": "373",
-       "source": "schedule.json seasons/Y92/table/[abbr=PHI]/pa"
-      },
-      {
-       "label": "Eagles point differential",
-       "value": "279",
-       "source": "schedule.json seasons/Y92/table/[abbr=PHI]/diff"
-      },
-      {
-       "label": "Eagles at home",
-       "value": "9-0",
-       "source": "schedule.json seasons/Y92/table/[abbr=PHI]/home"
-      },
-      {
-       "label": "Eagles on the road (Y91)",
-       "value": "9-0",
-       "source": "schedule.json seasons/Y91/table/[abbr=PHI]/away"
-      },
-      {
-       "label": "Divisional round",
-       "value": "44-36",
-       "source": "schedule.json seasons/Y92/coachGames/[round=Divisional]/score"
-      },
-      {
-       "label": "Conference final",
-       "value": "46-34",
-       "source": "schedule.json seasons/Y92/coachGames/[round=Conference]/score"
-      },
-      {
-       "label": "Week 14 win over the Colts",
-       "value": "40-10",
-       "source": "schedule.json seasons/Y92/coachGames/[week=14]/score"
-      },
-      {
-       "label": "Colts game, week",
-       "value": "14",
-       "source": "schedule.json seasons/Y92/coachGames/[week=14]/week"
-      },
-      {
-       "label": "Maxwell rushing yards (Y92)",
-       "value": "2,839",
-       "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell s.ryds"
-      },
-      {
-       "label": "Last loss, week",
-       "value": "5",
-       "source": "schedule.json seasons/Y92/coachGames/[week=5]/week"
-      }
-     ],
-     "related": []
-    },
-    {
-     "id": "y92-mccoy-record",
-     "kind": "milestone",
-     "headline": "Lane McCoy Passes Ikarras, and Maxwell Follows Him",
-     "dek": "McCoy ended Y92 holding the career rushing record at 24,507 yards. Ryland Maxwell ran past Rondale Ikarras's 23,178 in the same season and finished it 951 yards behind.",
-     "body": [
-      "Rondale Ikarras's career rushing record fell early in Y92, and by the end of the season it had been passed twice. Lane McCoy of the Broncos began the year 90 yards behind Ikarras, \"The Prodigal Son\", and ran for 1,419 yards and 29 touchdowns in 19 games. He finishes with 24,507 career yards, 1,329 clear of the old mark of 23,178, and his touchdown record now stands at 458. In 326 games he still has no ring.",
-      "The second back past Ikarras came from Philadelphia. Ryland Maxwell ran for 2,839 yards, the most in any season on file, and closed the year at 23,556, 378 beyond Ikarras and 951 behind McCoy. A year ago that gap would have looked permanent. After this season it looks like a race.",
-      "Denver had a good year around its record holder. The Broncos went 11-6 with a rookie quarterback, Sione Garland, and McCoy gave him the ground game to lean on."
-     ],
-     "players": [
-      "Lane McCoy",
-      "Rondale Ikarras",
-      "Ryland Maxwell",
-      "Sione Garland"
-     ],
-     "teams": [
-      "Broncos",
-      "Eagles"
-     ],
-     "stats": [
-      {
-       "label": "McCoy career rushing yards",
-       "value": "24,507",
-       "source": "market_history.json snap-202611130929 RB:Lane McCoy s.ryds"
-      },
-      {
-       "label": "Ikarras career rushing yards",
-       "value": "23,178",
-       "source": "market_history.json snap-202611130929 RB:Rondale Ikarras s.ryds"
-      },
-      {
-       "label": "Maxwell behind McCoy",
-       "value": "951",
-       "source": "market_history.json snap-202611130929 RB:Lane McCoy s.ryds minus market_history.json snap-202611130929 RB:Ryland Maxwell s.ryds"
-      },
-      {
-       "label": "Yards needed at the start of Y92",
-       "value": "90",
-       "source": "market_history.json snap-202611121857 RB:Rondale Ikarras s.ryds minus market_history.json snap-202611121857 RB:Lane McCoy s.ryds"
-      },
-      {
-       "label": "McCoy rushing yards (Y92)",
-       "value": "1,419",
-       "source": "market_history.json snap-202611121857..snap-202611130929 RB:Lane McCoy s.ryds"
-      },
-      {
-       "label": "McCoy rushing TDs (Y92)",
-       "value": "29",
-       "source": "market_history.json snap-202611121857..snap-202611130929 RB:Lane McCoy s.rtd"
-      },
-      {
-       "label": "McCoy games (Y92)",
-       "value": "19",
-       "source": "market_history.json snap-202611121857..snap-202611130929 RB:Lane McCoy s.g"
-      },
-      {
-       "label": "Past the old mark",
-       "value": "1,329",
-       "source": "market_history.json snap-202611130929 RB:Lane McCoy s.ryds minus market_history.json snap-202611130929 RB:Rondale Ikarras s.ryds"
-      },
-      {
-       "label": "McCoy career rushing TDs",
-       "value": "458",
-       "source": "players.json RB:Lane McCoy rtd"
-      },
-      {
-       "label": "McCoy career games",
-       "value": "326",
-       "source": "players.json RB:Lane McCoy g"
-      },
-      {
-       "label": "McCoy rings",
-       "value": "0",
-       "source": "players.json RB:Lane McCoy rings"
-      },
-      {
-       "label": "Maxwell rushing yards (Y92)",
-       "value": "2,839",
-       "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell s.ryds"
-      },
-      {
-       "label": "Maxwell career rushing yards",
-       "value": "23,556",
-       "source": "market_history.json snap-202611130929 RB:Ryland Maxwell s.ryds"
-      },
-      {
-       "label": "Maxwell past Ikarras",
-       "value": "378",
-       "source": "market_history.json snap-202611130929 RB:Ryland Maxwell s.ryds minus market_history.json snap-202611130929 RB:Rondale Ikarras s.ryds"
-      },
-      {
-       "label": "Broncos record",
-       "value": "11-6",
-       "source": "schedule.json seasons/Y92/table/[abbr=DEN]/record"
-      }
-     ],
-     "related": []
-    },
-    {
-     "id": "y92-mad-max",
-     "kind": "feature",
-     "headline": "Mad Max Runs for 2,839 Yards and Takes a Fourth Super Bowl MVP",
-     "dek": "Ryland Maxwell played all 20 games, ran for 32 touchdowns and won his ninth ring, every one of them with Dorren Skura.",
-     "body": [
-      "A year after coming home to Skura, Ryland Maxwell had the biggest season a running back has had on file. He played all 20 of Philadelphia's games and ran for 2,839 yards and 32 touchdowns, 142 yards a game, and he caught 22 passes for 11 more scores.",
-      "He saved the last word for the last game. Maxwell was named MVP of Super Bowl CLI, the fourth Super Bowl MVP of his career, and the win gave him 9 rings, all won with Skura: two with the Jets, five with the Falcons and two with the Eagles.",
-      "The market moved with him. His card's value rose 131.2%, from 12,722 to 29,409, his Career Legacy climbed from 9,794 to 11,001 and his grade went from A plus to S. Among running backs only Rondale Ikarras, at 11,914, has a higher Career Legacy, and Maxwell is now ahead of Ikarras in career rushing yards."
-     ],
-     "players": [
-      "Ryland Maxwell",
-      "Rondale Ikarras"
-     ],
-     "teams": [
-      "Eagles",
-      "Jets",
-      "Falcons"
-     ],
-     "stats": [
-      {
-       "label": "Maxwell rushing yards (Y92)",
-       "value": "2,839",
-       "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell s.ryds"
-      },
-      {
-       "label": "Maxwell games (Y92)",
-       "value": "20",
-       "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell s.g"
-      },
-      {
-       "label": "Maxwell rushing TDs (Y92)",
-       "value": "32",
-       "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell s.rtd"
-      },
-      {
-       "label": "Yards per game (Y92)",
-       "value": "142",
-       "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell s.ryds/s.g"
-      },
-      {
-       "label": "Catches (Y92)",
-       "value": "22",
-       "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell s.rec"
-      },
-      {
-       "label": "Receiving TDs (Y92)",
-       "value": "11",
-       "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell s.rectd"
-      },
-      {
-       "label": "Rings",
-       "value": "9",
-       "source": "market_history.json snap-202611130929 RB:Ryland Maxwell s.rings"
-      },
-      {
-       "label": "Card value change",
-       "value": "131.2%",
-       "source": "market_history.json snap-202611121857..snap-202611130929 RB:Ryland Maxwell value%"
-      },
-      {
-       "label": "Card value before",
-       "value": "12,722",
-       "source": "market_history.json snap-202611121857 RB:Ryland Maxwell value"
-      },
-      {
-       "label": "Card value after",
-       "value": "29,409",
-       "source": "market_history.json snap-202611130929 RB:Ryland Maxwell value"
-      },
-      {
-       "label": "Career Legacy before",
-       "value": "9,794",
-       "source": "market_history.json snap-202611121857 RB:Ryland Maxwell legacy"
-      },
-      {
-       "label": "Career Legacy after",
-       "value": "11,001",
-       "source": "market_history.json snap-202611130929 RB:Ryland Maxwell legacy"
-      },
-      {
-       "label": "Ikarras Career Legacy",
-       "value": "11,914",
-       "source": "market_history.json snap-202611130929 RB:Rondale Ikarras legacy"
-      }
-     ],
-     "related": []
-    },
-    {
-     "id": "y92-rahman-skura-trades",
-     "kind": "trade",
-     "headline": "Rahman to the Rams, Skura to the Colts, and a Reunion in the Super Bowl",
-     "dek": "Philadelphia traded two of its champions before the season. Dwayne Skura was named Defensive Player of the Year and met his old team for the title.",
-     "body": [
-      "The Eagles broke up part of their core before Y92. Receiver Kaulani Rahman, who caught 102 passes for 1,893 yards a year ago, was traded to the Rams. Defensive back Dwayne Skura, who won rings in Philadelphia in Y88, Y89 and Y91, was traded to the Colts.",
-      "Skura made Indianapolis look smart. He played all 21 of the Colts' games, made 233 tackles, the most in the league, intercepted 5 passes and was named Defensive Player of the Year for the first time. The Colts went 11-6, won the AFC South and reached Super Bowl CLI, where the opponent was Philadelphia. The Eagles had beaten them 40-10 in week 14 and beat them again, 30-21. Skura finished on the wrong side of the team he had won with.",
-      "Rahman's first season in Los Angeles was quieter: 57 catches, 637 yards and 9 touchdowns in 18 games for a Rams team that went 9-8 and lost 48-15 in Philadelphia in week 4. His grade slipped from S to A plus. The Eagles barely felt the loss, because the rookie Keenan Viennes caught 91 passes for 1,756 yards in Rahman's old place."
-     ],
-     "players": [
-      "Kaulani Rahman",
-      "Dwayne Skura",
-      "Keenan Viennes"
-     ],
-     "teams": [
-      "Eagles",
-      "Rams",
-      "Colts"
-     ],
-     "stats": [
-      {
-       "label": "Skura tackles (Y92)",
-       "value": "233",
-       "source": "market_history.json snap-202611121857..snap-202611130929 DB:Dwayne Skura s.tkl"
-      },
-      {
-       "label": "Rahman catches (Y91)",
-       "value": "102",
-       "source": "market_history.json snap-202611121506..snap-202611121857 WR:Kaulani Rahman s.rec"
-      },
-      {
-       "label": "Rahman receiving yards (Y91)",
-       "value": "1,893",
-       "source": "market_history.json snap-202611121506..snap-202611121857 WR:Kaulani Rahman s.yds"
-      },
-      {
-       "label": "Skura games (Y92)",
-       "value": "21",
-       "source": "market_history.json snap-202611121857..snap-202611130929 DB:Dwayne Skura s.g"
-      },
-      {
-       "label": "Skura interceptions (Y92)",
-       "value": "5",
-       "source": "market_history.json snap-202611121857..snap-202611130929 DB:Dwayne Skura s.int"
-      },
-      {
-       "label": "Colts record",
-       "value": "11-6",
-       "source": "schedule.json seasons/Y92/table/[abbr=IND]/record"
-      },
-      {
-       "label": "Week 14 win over the Colts",
-       "value": "40-10",
-       "source": "schedule.json seasons/Y92/coachGames/[week=14]/score"
-      },
-      {
-       "label": "Week",
-       "value": "14",
-       "source": "schedule.json seasons/Y92/coachGames/[week=14]/week"
-      },
-      {
-       "label": "Super Bowl CLI",
-       "value": "30-21",
-       "source": "super_bowls.json Y92 score"
-      },
-      {
-       "label": "Rahman catches (Y92)",
-       "value": "57",
-       "source": "market_history.json snap-202611121857..snap-202611130929 WR:Kaulani Rahman s.rec"
-      },
-      {
-       "label": "Rahman receiving yards (Y92)",
-       "value": "637",
-       "source": "market_history.json snap-202611121857..snap-202611130929 WR:Kaulani Rahman s.yds"
-      },
-      {
-       "label": "Rahman TD catches (Y92)",
-       "value": "9",
-       "source": "market_history.json snap-202611121857..snap-202611130929 WR:Kaulani Rahman s.td"
-      },
-      {
-       "label": "Rahman games (Y92)",
-       "value": "18",
-       "source": "market_history.json snap-202611121857..snap-202611130929 WR:Kaulani Rahman s.g"
-      },
-      {
-       "label": "Rams record",
-       "value": "9-8",
-       "source": "schedule.json seasons/Y92/table/[abbr=LAR]/record"
-      },
-      {
-       "label": "Win over the Rams",
-       "value": "48-15",
-       "source": "schedule.json seasons/Y92/coachGames/[week=4]/score"
-      },
-      {
-       "label": "Rams game, week",
-       "value": "4",
-       "source": "schedule.json seasons/Y92/coachGames/[week=4]/week"
-      },
-      {
-       "label": "Viennes catches",
-       "value": "91",
-       "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.rec"
-      },
-      {
-       "label": "Viennes receiving yards",
-       "value": "1,756",
-       "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.yds"
-      }
-     ],
-     "related": []
-    },
-    {
-     "id": "y92-rookies",
-     "kind": "rise",
-     "headline": "Viennes and Hand Win Rings as Rookies, and Garland Throws 40 in Denver",
-     "dek": "Keenan Viennes caught 1,756 yards for the champions. Sione Garland threw 40 touchdown passes and 1 interception for the Broncos.",
-     "body": [
-      "Philadelphia's two newcomers stepped straight into a champion's lineup. Keenan Viennes caught 91 passes for 1,756 yards and 19 touchdowns in all 20 games, 19.3 yards a catch, and his card opens with an S grade. Defensive back Keesean Hand made 135 tackles, 2 interceptions and 2 forced fumbles in 17 games; he missed 3 through injury. Both end their first season with a ring.",
-      "The best rookie quarterback played in Denver. Sione Garland threw for 3,351 yards and 40 touchdowns with 1 interception in 19 games for the 11-6 Broncos. In Tampa Bay, Ja'Marr Chark threw 25 touchdown passes for a club that finished 5-11-1.",
-      "The awards went elsewhere. Teven Charles of the 12-5 Panthers was Offensive Rookie of the Year with 62 catches, 552 yards and 8 touchdowns, and Colts defensive lineman Amik Barnes was Defensive Rookie of the Year with 114 tackles. Cardinals running back Roderic Trawick ran for 1,455 yards and 29 touchdowns in 17 games without catching a pass."
-     ],
-     "players": [
-      "Keenan Viennes",
-      "Keesean Hand",
-      "Sione Garland",
-      "Ja'Marr Chark",
-      "Teven Charles",
-      "Amik Barnes",
-      "Roderic Trawick"
-     ],
-     "teams": [
-      "Eagles",
-      "Broncos",
-      "Buccaneers",
-      "Panthers",
-      "Colts",
-      "Cardinals"
-     ],
-     "stats": [
-      {
-       "label": "Viennes receiving yards",
-       "value": "1,756",
-       "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.yds"
-      },
-      {
-       "label": "Garland TD passes",
-       "value": "40",
-       "source": "market_history.json snap-202611130929 QB:Sione Garland s.td"
-      },
-      {
-       "label": "Garland interceptions",
-       "value": "1",
-       "source": "market_history.json snap-202611130929 QB:Sione Garland s.int"
-      },
-      {
-       "label": "Viennes catches",
-       "value": "91",
-       "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.rec"
-      },
-      {
-       "label": "Viennes TD catches",
-       "value": "19",
-       "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.td"
-      },
-      {
-       "label": "Viennes games",
-       "value": "20",
-       "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.g"
-      },
-      {
-       "label": "Yards per catch",
-       "value": "19.3",
-       "source": "market_history.json snap-202611130929 WR:Keenan Viennes s.yds/rec"
-      },
-      {
-       "label": "Hand tackles",
-       "value": "135",
-       "source": "market_history.json snap-202611130929 DB:Keesean Hand s.tkl"
-      },
-      {
-       "label": "Hand interceptions",
-       "value": "2",
-       "source": "market_history.json snap-202611130929 DB:Keesean Hand s.int"
-      },
-      {
-       "label": "Hand forced fumbles",
-       "value": "2",
-       "source": "market_history.json snap-202611130929 DB:Keesean Hand s.ff"
-      },
-      {
-       "label": "Hand games",
-       "value": "17",
-       "source": "market_history.json snap-202611130929 DB:Keesean Hand s.g"
-      },
-      {
-       "label": "Games missed",
-       "value": "3",
-       "source": "market_history.json snap-202611121857..snap-202611130929 WR:Calvin Wingo II s.g minus market_history.json snap-202611130929 DB:Keesean Hand s.g"
-      },
-      {
-       "label": "Garland passing yards",
-       "value": "3,351",
-       "source": "market_history.json snap-202611130929 QB:Sione Garland s.yds"
-      },
-      {
-       "label": "Garland games",
-       "value": "19",
-       "source": "market_history.json snap-202611130929 QB:Sione Garland s.g"
-      },
-      {
-       "label": "Broncos record",
-       "value": "11-6",
-       "source": "schedule.json seasons/Y92/table/[abbr=DEN]/record"
-      },
-      {
-       "label": "Chark TD passes",
-       "value": "25",
-       "source": "market_history.json snap-202611130929 QB:Ja'Marr Chark s.td"
-      },
-      {
-       "label": "Buccaneers record",
-       "value": "5-11-1",
-       "source": "schedule.json seasons/Y92/table/[abbr=TB]/record"
-      },
-      {
-       "label": "Panthers record",
-       "value": "12-5",
-       "source": "schedule.json seasons/Y92/table/[abbr=CAR]/record"
-      },
-      {
-       "label": "Charles catches",
-       "value": "62",
-       "source": "market_history.json snap-202611130929 WR:Teven Charles s.rec"
-      },
-      {
-       "label": "Charles receiving yards",
-       "value": "552",
-       "source": "market_history.json snap-202611130929 WR:Teven Charles s.yds"
-      },
-      {
-       "label": "Charles TD catches",
-       "value": "8",
-       "source": "market_history.json snap-202611130929 WR:Teven Charles s.td"
-      },
-      {
-       "label": "Barnes tackles",
-       "value": "114",
-       "source": "market_history.json snap-202611130929 DL:Amik Barnes s.tkl"
-      },
-      {
-       "label": "Trawick rushing yards",
-       "value": "1,455",
-       "source": "market_history.json snap-202611130929 RB:Roderic Trawick s.ryds"
-      },
-      {
-       "label": "Trawick rushing TDs",
-       "value": "29",
-       "source": "market_history.json snap-202611130929 RB:Roderic Trawick s.rtd"
-      },
-      {
-       "label": "Trawick games",
-       "value": "17",
-       "source": "market_history.json snap-202611130929 RB:Roderic Trawick s.g"
-      }
-     ],
-     "related": []
-    },
-    {
-     "id": "y92-wingo-crawford",
-     "kind": "feature",
-     "headline": "Wingo Is Offensive Player of the Year, and Crawford Throws 49 in 16 Games",
-     "dek": "Calvin Wingo II caught 22 touchdowns in his third season. Bones Crawford missed 4 games through injury and still threw as many touchdown passes as anyone.",
-     "body": [
-      "Calvin Wingo II keeps filling the shelf. Offensive Rookie of the Year in Y90 and Super Bowl MVP in Y91, the receiver caught 98 passes for 1,764 yards and 22 touchdowns in 20 games and was named Offensive Player of the Year. His overall rose from 75 to 83. Through 60 career games he has 355 catches, 6,552 yards and 68 touchdowns.",
-      "Bones Crawford, \"The Doctor\", played 16 of the Eagles' 20 games and missed 4 through injury. In the 16 he threw for 3,556 yards and 49 touchdowns, the same total Korey Friend of the Colts reached in 21 games, and nobody threw more. The cost was 17 interceptions. His Career Legacy climbed from 6,826 to 7,332 and his card's value from 344 to 1,047.",
-      "Tight end Jacob Proise added 12 touchdown catches, and the Eagles finished with the most points in the league."
-     ],
-     "players": [
-      "Calvin Wingo II",
-      "Bones Crawford",
-      "Korey Friend",
-      "Jacob Proise"
-     ],
-     "teams": [
-      "Eagles",
-      "Colts"
-     ],
-     "stats": [
-      {
-       "label": "Wingo TD catches (Y92)",
-       "value": "22",
-       "source": "market_history.json snap-202611121857..snap-202611130929 WR:Calvin Wingo II s.td"
-      },
-      {
-       "label": "Crawford TD passes (Y92)",
-       "value": "49",
-       "source": "market_history.json snap-202611121857..snap-202611130929 QB:Bones Crawford s.td"
-      },
-      {
-       "label": "Crawford games (Y92)",
-       "value": "16",
-       "source": "market_history.json snap-202611121857..snap-202611130929 QB:Bones Crawford s.g"
-      },
-      {
-       "label": "Games missed",
-       "value": "4",
-       "source": "market_history.json snap-202611121857..snap-202611130929 WR:Calvin Wingo II s.g minus market_history.json snap-202611121857..snap-202611130929 QB:Bones Crawford s.g"
-      },
-      {
-       "label": "Wingo catches (Y92)",
-       "value": "98",
-       "source": "market_history.json snap-202611121857..snap-202611130929 WR:Calvin Wingo II s.rec"
-      },
-      {
-       "label": "Wingo receiving yards (Y92)",
-       "value": "1,764",
-       "source": "market_history.json snap-202611121857..snap-202611130929 WR:Calvin Wingo II s.yds"
-      },
-      {
-       "label": "Eagles games (Y92)",
-       "value": "20",
-       "source": "market_history.json snap-202611121857..snap-202611130929 WR:Calvin Wingo II s.g"
-      },
-      {
-       "label": "Wingo OVR before",
-       "value": "75",
-       "source": "market_history.json snap-202611121857 WR:Calvin Wingo II ovr"
-      },
-      {
-       "label": "Wingo OVR after",
-       "value": "83",
-       "source": "market_history.json snap-202611130929 WR:Calvin Wingo II ovr"
-      },
-      {
-       "label": "Wingo career games",
-       "value": "60",
-       "source": "market_history.json snap-202611130929 WR:Calvin Wingo II s.g"
-      },
-      {
-       "label": "Wingo career catches",
-       "value": "355",
-       "source": "market_history.json snap-202611130929 WR:Calvin Wingo II s.rec"
-      },
-      {
-       "label": "Wingo career receiving yards",
-       "value": "6,552",
-       "source": "market_history.json snap-202611130929 WR:Calvin Wingo II s.yds"
-      },
-      {
-       "label": "Wingo career TD catches",
-       "value": "68",
-       "source": "market_history.json snap-202611130929 WR:Calvin Wingo II s.td"
-      },
-      {
-       "label": "Crawford passing yards (Y92)",
-       "value": "3,556",
-       "source": "market_history.json snap-202611121857..snap-202611130929 QB:Bones Crawford s.yds"
-      },
-      {
-       "label": "Friend TD passes (Y92)",
-       "value": "49",
-       "source": "market_history.json snap-202611121857..snap-202611130929 QB:Korey Friend s.td"
-      },
-      {
-       "label": "Friend games (Y92)",
-       "value": "21",
-       "source": "market_history.json snap-202611121857..snap-202611130929 QB:Korey Friend s.g"
-      },
-      {
-       "label": "Crawford interceptions (Y92)",
-       "value": "17",
-       "source": "market_history.json snap-202611121857..snap-202611130929 QB:Bones Crawford s.int"
-      },
-      {
-       "label": "Crawford Career Legacy before",
-       "value": "6,826",
-       "source": "market_history.json snap-202611121857 QB:Bones Crawford legacy"
-      },
-      {
-       "label": "Crawford Career Legacy after",
-       "value": "7,332",
-       "source": "market_history.json snap-202611130929 QB:Bones Crawford legacy"
-      },
-      {
-       "label": "Crawford card value before",
-       "value": "344",
-       "source": "market_history.json snap-202611121857 QB:Bones Crawford value"
-      },
-      {
-       "label": "Crawford card value after",
-       "value": "1,047",
-       "source": "market_history.json snap-202611130929 QB:Bones Crawford value"
-      },
-      {
-       "label": "Proise TD catches (Y92)",
-       "value": "12",
-       "source": "market_history.json snap-202611121857..snap-202611130929 TE:Jacob Proise s.td"
-      }
-     ],
-     "related": []
-    },
-    {
-     "id": "y92-hof",
-     "kind": "milestone",
-     "headline": "Atwell Enters the Hall, McQuay Returns and Hobbs Takes the Interceptions Record",
-     "dek": "Kyron Atwell crossed the 7,500 bar. Kyric McQuay climbed back over it, Keion Orzech is back above the floor and Damar Hobbs now has 43 career interceptions.",
-     "body": [
-      "The Y92 class is one man. Kyron Atwell of the Jets made 230 tackles and 4 interceptions in 17 games, and his Career Legacy rose from 7,137 to 7,780. He has 2,654 career tackles, 39 interceptions and a Defensive Player of the Year award, and he is still playing.",
-      "Two familiar names are back. Kyric McQuay, \"Baby Manning\", a two-time champion with the Colts who had been removed from the Hall, saw his Career Legacy move from 7,459 to 7,531, past the 7,500 bar, the only way back in. Keion Orzech, who dropped out a year ago, rose from 7,283 to 7,364, back above the 7,300 floor that inducted members must hold. Terron Stidham, inducted last year, slipped from 7,522 to 7,473 and stays in.",
-      "Atwell's next target is a record. Damar Hobbs of the Patriots intercepted 4 passes and went past Daren Teamer's 42 to take the career mark at 43, while making 229 tackles for a club that went 2-15. Atwell is 4 behind him."
-     ],
-     "players": [
-      "Kyron Atwell",
-      "Kyric McQuay",
-      "Keion Orzech",
-      "Terron Stidham",
-      "Damar Hobbs",
-      "Daren Teamer"
-     ],
-     "teams": [
-      "Jets",
-      "Colts",
-      "Patriots"
-     ],
-     "stats": [
-      {
-       "label": "Hall of Fame bar",
-       "value": "7,500",
-       "source": "crossed: market_history.json snap-202611121857..snap-202611130929 DB:Kyron Atwell legacy"
-      },
-      {
-       "label": "Hobbs career interceptions",
-       "value": "43",
-       "source": "players.json DB:Damar Hobbs int"
-      },
-      {
-       "label": "Atwell tackles (Y92)",
-       "value": "230",
-       "source": "market_history.json snap-202611121857..snap-202611130929 DB:Kyron Atwell s.tkl"
-      },
-      {
-       "label": "Atwell interceptions (Y92)",
-       "value": "4",
-       "source": "market_history.json snap-202611121857..snap-202611130929 DB:Kyron Atwell s.int"
-      },
-      {
-       "label": "Atwell games (Y92)",
-       "value": "17",
-       "source": "market_history.json snap-202611121857..snap-202611130929 DB:Kyron Atwell s.g"
-      },
-      {
-       "label": "Atwell Career Legacy before",
-       "value": "7,137",
-       "source": "market_history.json snap-202611121857 DB:Kyron Atwell legacy"
-      },
-      {
-       "label": "Atwell Career Legacy after",
-       "value": "7,780",
-       "source": "market_history.json snap-202611130929 DB:Kyron Atwell legacy"
-      },
-      {
-       "label": "Atwell career tackles",
-       "value": "2,654",
-       "source": "market_history.json snap-202611130929 DB:Kyron Atwell s.tkl"
-      },
-      {
-       "label": "Atwell career interceptions",
-       "value": "39",
-       "source": "players.json DB:Kyron Atwell int"
-      },
-      {
-       "label": "McQuay Career Legacy before",
-       "value": "7,459",
-       "source": "market_history.json snap-202611121857 QB:Kyric McQuay legacy"
-      },
-      {
-       "label": "McQuay Career Legacy after",
-       "value": "7,531",
-       "source": "market_history.json snap-202611130929 QB:Kyric McQuay legacy"
-      },
-      {
-       "label": "McQuay crossed the bar",
-       "value": "7,500",
-       "source": "crossed: market_history.json snap-202611121857..snap-202611130929 QB:Kyric McQuay legacy"
-      },
-      {
-       "label": "Orzech Career Legacy before",
-       "value": "7,283",
-       "source": "market_history.json snap-202611121857 DL:Keion Orzech legacy"
-      },
-      {
-       "label": "Orzech Career Legacy after",
-       "value": "7,364",
-       "source": "market_history.json snap-202611130929 DL:Keion Orzech legacy"
-      },
-      {
-       "label": "Hall of Fame floor",
-       "value": "7,300",
-       "source": "crossed: market_history.json snap-202611121857..snap-202611130929 DL:Keion Orzech legacy"
-      },
-      {
-       "label": "Stidham Career Legacy before",
-       "value": "7,522",
-       "source": "market_history.json snap-202611121857 DB:Terron Stidham legacy"
-      },
-      {
-       "label": "Stidham Career Legacy after",
-       "value": "7,473",
-       "source": "market_history.json snap-202611130929 DB:Terron Stidham legacy"
-      },
-      {
-       "label": "Hobbs interceptions (Y92)",
-       "value": "4",
-       "source": "market_history.json snap-202611121857..snap-202611130929 DB:Damar Hobbs s.int"
-      },
-      {
-       "label": "Teamer career interceptions",
-       "value": "42",
-       "source": "players.json DB:Daren Teamer int"
-      },
-      {
-       "label": "Hobbs tackles (Y92)",
-       "value": "229",
-       "source": "market_history.json snap-202611121857..snap-202611130929 DB:Damar Hobbs s.tkl"
-      },
-      {
-       "label": "Patriots record",
-       "value": "2-15",
-       "source": "schedule.json seasons/Y92/table/[abbr=NE]/record"
-      },
-      {
-       "label": "Atwell behind Hobbs",
-       "value": "4",
-       "source": "players.json DB:Damar Hobbs int minus players.json DB:Kyron Atwell int"
-      }
-     ],
-     "related": []
-    },
-    {
-     "id": "y92-rivals",
-     "kind": "rivalry",
-     "headline": "Chicago Again, Jacksonville by a Point, and a Sweep of Washington",
-     "dek": "The Eagles lost only twice, 35-32 at Chicago and 33-32 at Jacksonville. They swept the Commanders and still had not lost to the Giants since Y88.",
-     "body": [
-      "For the second year running the Bears beat Philadelphia when almost nobody else could. Chicago finished 5-11-1 and 25th in the power rankings, and in week 3 it won 35-32, the upset of the year for the second straight season. That left the series since Y88 level.",
-      "Two weeks later Jacksonville won 33-32, a one-point game on the road. The Jaguars finished 8-9. It was the narrowest defeat of the Eagles' season.",
-      "The Commanders, who had split the series three seasons in a row, got no split this time. Philadelphia won 32-16 at home in the opener and 38-26 in Washington in week 8, its first sweep of Washington since Y88. The Giants came closest to an upset of their own: they lost 38-37 in Philadelphia in week 9 and 40-22 at home in the final week. Skura's Eagles closed the year without a loss to New York in any meeting since Y88."
-     ],
-     "players": [],
-     "teams": [
-      "Eagles",
-      "Bears",
-      "Jaguars",
-      "Commanders",
-      "Giants"
-     ],
-     "stats": [
-      {
-       "label": "Loss at Chicago",
-       "value": "35-32",
-       "source": "schedule.json seasons/Y92/coachGames/[week=3]/score"
-      },
-      {
-       "label": "Loss at Jacksonville",
-       "value": "33-32",
-       "source": "schedule.json seasons/Y92/coachGames/[week=5]/score"
-      },
-      {
-       "label": "Bears record",
-       "value": "5-11-1",
-       "source": "schedule.json seasons/Y92/table/[abbr=CHI]/record"
-      },
-      {
-       "label": "Bears power ranking",
-       "value": "25",
-       "source": "schedule.json seasons/Y92/table/[abbr=CHI]/power"
-      },
-      {
-       "label": "Upset week",
-       "value": "3",
-       "source": "schedule.json seasons/Y92/upset/week"
-      },
-      {
-       "label": "Jaguars record",
-       "value": "8-9",
-       "source": "schedule.json seasons/Y92/table/[abbr=JAX]/record"
-      },
-      {
-       "label": "Opener vs Washington",
-       "value": "32-16",
-       "source": "schedule.json seasons/Y92/coachGames/[week=1]/score"
-      },
-      {
-       "label": "At Washington",
-       "value": "38-26",
-       "source": "schedule.json seasons/Y92/coachGames/[week=8]/score"
-      },
-      {
-       "label": "Washington game, week",
-       "value": "8",
-       "source": "schedule.json seasons/Y92/coachGames/[week=8]/week"
-      },
-      {
-       "label": "Win over the Giants",
-       "value": "38-37",
-       "source": "schedule.json seasons/Y92/coachGames/[week=9]/score"
-      },
-      {
-       "label": "Giants game, week",
-       "value": "9",
-       "source": "schedule.json seasons/Y92/coachGames/[week=9]/week"
-      },
-      {
-       "label": "At the Giants",
-       "value": "40-22",
-       "source": "schedule.json seasons/Y92/coachGames/[week=18]/score"
-      }
-     ],
-     "related": []
-    },
-    {
-     "id": "y92-retirements",
-     "kind": "wherenow",
-     "headline": "Suh, Heath, Peters and Eleven More Retire",
-     "dek": "Fourteen veterans walked away before Y92, among them the Jets linebacker Kalif Suh and the quarterbacks Kahzin Heath and Pete Peters. Andrew Dwight and Russ Bello are free agents.",
-     "body": [
-      "Kalif Suh spent his career with the Jets, won 3 rings there, the last in Y82, and leaves with 980 tackles, 24 sacks, 17 interceptions and 10 forced fumbles. He is a Hall of Famer with a Career Legacy of 9,048.",
-      "Kahzin Heath of the Broncos, an Offensive Rookie of the Year and an MVP, retires with 60,046 passing yards and 572 touchdown passes in 344 games. Pete Peters of the Buccaneers leaves with 60,169 yards and 557 touchdowns in 337 games.",
-      "Quenton Fuller, a Hall of Famer since last year, leaves the Chargers' defensive line with 1,355 tackles. Keelan Blair ran for 17,346 yards and 313 touchdowns for the Cardinals. Five tight ends go at once: Fred Kmet, Dare Talib, Gus Langley, Damarri Melvin and Derek Amadi. So do Yasir Gray, Cordell Bulaga, Thomas Gano and Mykal Mosby.",
-      "Andrew Dwight, the Colts' Defensive Player of the Year in Y91, and Rams receiver Russ Bello are free agents."
-     ],
-     "players": [
-      "Kalif Suh",
-      "Kahzin Heath",
-      "Pete Peters",
-      "Quenton Fuller",
-      "Keelan Blair",
-      "Fred Kmet",
-      "Dare Talib",
-      "Gus Langley",
-      "Damarri Melvin",
-      "Derek Amadi",
-      "Yasir Gray",
-      "Cordell Bulaga",
-      "Thomas Gano",
-      "Mykal Mosby",
-      "Andrew Dwight",
-      "Russ Bello"
-     ],
-     "teams": [
-      "Jets",
-      "Broncos",
-      "Buccaneers",
-      "Chargers",
-      "Cardinals",
-      "Colts",
-      "Rams"
-     ],
-     "stats": [
-      {
-       "label": "Suh rings",
-       "value": "3",
-       "source": "players.json LB:Kalif Suh rings"
-      },
-      {
-       "label": "Suh tackles",
-       "value": "980",
-       "source": "players.json LB:Kalif Suh tkl"
-      },
-      {
-       "label": "Suh sacks",
-       "value": "24",
-       "source": "players.json LB:Kalif Suh sck"
-      },
-      {
-       "label": "Suh interceptions",
-       "value": "17",
-       "source": "players.json LB:Kalif Suh int"
-      },
-      {
-       "label": "Suh forced fumbles",
-       "value": "10",
-       "source": "players.json LB:Kalif Suh ff"
-      },
-      {
-       "label": "Suh Career Legacy",
-       "value": "9,048",
-       "source": "market_history.json snap-202611130929 LB:Kalif Suh legacy"
-      },
-      {
-       "label": "Heath passing yards",
-       "value": "60,046",
-       "source": "players.json QB:Kahzin Heath yds"
-      },
-      {
-       "label": "Heath TD passes",
-       "value": "572",
-       "source": "players.json QB:Kahzin Heath td"
-      },
-      {
-       "label": "Heath games",
-       "value": "344",
-       "source": "players.json QB:Kahzin Heath g"
-      },
-      {
-       "label": "Peters passing yards",
-       "value": "60,169",
-       "source": "players.json QB:Pete Peters yds"
-      },
-      {
-       "label": "Peters TD passes",
-       "value": "557",
-       "source": "players.json QB:Pete Peters td"
-      },
-      {
-       "label": "Peters games",
-       "value": "337",
-       "source": "players.json QB:Pete Peters g"
-      },
-      {
-       "label": "Fuller tackles",
-       "value": "1,355",
-       "source": "players.json DL:Quenton Fuller tkl"
-      },
-      {
-       "label": "Blair rushing yards",
-       "value": "17,346",
-       "source": "players.json RB:Keelan Blair ryds"
-      },
-      {
-       "label": "Blair rushing TDs",
-       "value": "313",
-       "source": "players.json RB:Keelan Blair rtd"
-      }
-     ],
-     "related": []
-    },
-    {
-     "id": "y92-quick-hits",
-     "kind": "quickhits",
-     "headline": "Quick Hits",
-     "dek": "Around the league in Y92.",
-     "body": [
-      "The Colts beat the Ravens 69-12 in week 1, the biggest margin and the most points by one club in the weekly scores on file.",
-      "Korey Friend of the Colts was MVP after throwing for 4,724 yards and 49 touchdowns with 4 interceptions in 21 games.",
-      "Akiem Brock made 63 blocks for the Eagles, 21 more than any other lineman, and his overall rose from 86 to 91.",
-      "Quincy Booker intercepted 6 passes for Philadelphia, no defender had more, and his grade rose from B to A.",
-      "Snoop Dotson had 4 sacks, tied for the most in the league, and won his third ring.",
-      "The Panthers beat the Vikings 64-36 in week 13, 100 points, the shootout of the year.",
-      "Alton Yeldon of the Seahawks ran for 39 touchdowns, the most in the league, and Buffalo went 13-4 to finish second in the power rankings."
-     ],
-     "players": [
-      "Korey Friend",
-      "Akiem Brock",
-      "Quincy Booker",
-      "Snoop Dotson",
-      "Alton Yeldon"
-     ],
-     "teams": [
-      "Colts",
-      "Ravens",
-      "Eagles",
-      "Panthers",
-      "Vikings",
-      "Seahawks",
-      "Bills"
-     ],
-     "stats": [
-      {
-       "label": "Colts over Ravens",
-       "value": "69-12",
-       "source": "schedule.json seasons/Y92/blowout/score"
-      },
-      {
-       "label": "Blowout week",
-       "value": "1",
-       "source": "schedule.json seasons/Y92/blowout/week"
-      },
-      {
-       "label": "Friend passing yards (Y92)",
-       "value": "4,724",
-       "source": "market_history.json snap-202611121857..snap-202611130929 QB:Korey Friend s.yds"
-      },
-      {
-       "label": "Friend TD passes (Y92)",
-       "value": "49",
-       "source": "market_history.json snap-202611121857..snap-202611130929 QB:Korey Friend s.td"
-      },
-      {
-       "label": "Friend interceptions (Y92)",
-       "value": "4",
-       "source": "market_history.json snap-202611121857..snap-202611130929 QB:Korey Friend s.int"
-      },
-      {
-       "label": "Friend games (Y92)",
-       "value": "21",
-       "source": "market_history.json snap-202611121857..snap-202611130929 QB:Korey Friend s.g"
-      },
-      {
-       "label": "Brock blocks (Y92)",
-       "value": "63",
-       "source": "market_history.json snap-202611121857..snap-202611130929 OL:Akiem Brock s.blk"
-      },
-      {
-       "label": "Ahead of the next lineman",
-       "value": "21",
-       "source": "market_history.json snap-202611121857..snap-202611130929 OL:Akiem Brock s.blk minus market_history.json snap-202611121857..snap-202611130929 OL:Perrion Randall s.blk"
-      },
-      {
-       "label": "Brock OVR before",
-       "value": "86",
-       "source": "market_history.json snap-202611121857 OL:Akiem Brock ovr"
-      },
-      {
-       "label": "Brock OVR after",
-       "value": "91",
-       "source": "market_history.json snap-202611130929 OL:Akiem Brock ovr"
-      },
-      {
-       "label": "Booker interceptions (Y92)",
-       "value": "6",
-       "source": "market_history.json snap-202611121857..snap-202611130929 DB:Quincy Booker s.int"
-      },
-      {
-       "label": "Dotson sacks (Y92)",
-       "value": "4",
-       "source": "market_history.json snap-202611121857..snap-202611130929 LB:Snoop Dotson s.sck"
-      },
-      {
-       "label": "Panthers over Vikings",
-       "value": "64-36",
-       "source": "schedule.json seasons/Y92/shootout/score"
-      },
-      {
-       "label": "Shootout week",
-       "value": "13",
-       "source": "schedule.json seasons/Y92/shootout/week"
-      },
-      {
-       "label": "Combined points",
-       "value": "100",
-       "source": "schedule.json seasons/Y92/shootout/total"
-      },
-      {
-       "label": "Yeldon rushing TDs (Y92)",
-       "value": "39",
-       "source": "market_history.json snap-202611121857..snap-202611130929 RB:Alton Yeldon s.rtd"
-      },
-      {
-       "label": "Bills record",
-       "value": "13-4",
-       "source": "schedule.json seasons/Y92/table/[abbr=BUF]/record"
-      }
-     ],
-     "related": []
-    }
-   ],
-   "didYouKnow": [
-    {
-     "id": "y92-dyk-garland",
-     "text": "Sione Garland threw 40 touchdown passes as a rookie for the Broncos and was intercepted once.",
-     "players": [
-      "Sione Garland"
-     ],
-     "teams": [
-      "Broncos"
-     ],
-     "stats": [
-      {
-       "label": "TD passes",
-       "value": "40",
-       "source": "market_history.json snap-202611130929 QB:Sione Garland s.td"
-      }
-     ]
-    },
-    {
-     "id": "y92-dyk-giants",
-     "text": "The Eagles beat the Giants 38-37 and 40-22 in Y92 and closed the season without a loss to New York in any meeting since Y88.",
-     "players": [],
-     "teams": [
-      "Eagles",
-      "Giants"
-     ],
-     "stats": [
-      {
-       "label": "Win over the Giants, week 9",
-       "value": "38-37",
-       "source": "schedule.json seasons/Y92/coachGames/[week=9]/score"
-      },
-      {
-       "label": "At the Giants, week 18",
-       "value": "40-22",
-       "source": "schedule.json seasons/Y92/coachGames/[week=18]/score"
-      }
-     ]
-    },
-    {
-     "id": "y92-dyk-packers",
-     "text": "From Y88 through Y92 the Eagles never lost to the Packers, four of the wins coming in the playoffs.",
-     "players": [],
-     "teams": [
-      "Eagles",
-      "Packers"
-     ],
-     "stats": []
-    },
-    {
-     "id": "y92-dyk-maxwell-rings",
-     "text": "Ryland Maxwell has 9 rings and 4 Super Bowl MVPs, and every ring was won with Dorren Skura.",
-     "players": [
-      "Ryland Maxwell"
-     ],
-     "teams": [],
-     "stats": [
-      {
-       "label": "Rings",
-       "value": "9",
-       "source": "market_history.json snap-202611130929 RB:Ryland Maxwell s.rings"
-      },
-      {
-       "label": "Super Bowl MVPs",
-       "value": "4",
-       "source": "market_history.json snap-202611130929 RB:Ryland Maxwell s.sbmvp"
-      }
-     ]
-    },
-    {
-     "id": "y92-dyk-colts-69",
-     "text": "The Colts scored 69 points against the Ravens in week 1, the most by one club all season.",
-     "players": [],
-     "teams": [
-      "Colts",
-      "Ravens"
-     ],
-     "stats": [
-      {
-       "label": "Points",
-       "value": "69",
-       "source": "schedule.json seasons/Y92/blowout/homeScore"
-      },
-      {
-       "label": "Week",
-       "value": "1",
-       "source": "schedule.json seasons/Y92/blowout/week"
-      }
-     ]
-    },
-    {
-     "id": "y92-dyk-trawick",
-     "text": "Roderic Trawick ran for 29 touchdowns as a rookie for the Cardinals and did not catch a single pass.",
-     "players": [
-      "Roderic Trawick"
-     ],
-     "teams": [
-      "Cardinals"
-     ],
-     "stats": [
-      {
-       "label": "Rushing TDs",
-       "value": "29",
-       "source": "market_history.json snap-202611130929 RB:Roderic Trawick s.rtd"
-      },
-      {
-       "label": "Catches",
-       "value": "0",
-       "source": "market_history.json snap-202611131841 RB:Roderic Trawick s.rec"
-      }
-     ]
-    },
-    {
-     "id": "y92-dyk-crawford",
-     "text": "Bones Crawford threw 3.1 touchdown passes a game in Y92, 49 in 16 games.",
-     "players": [
-      "Bones Crawford"
-     ],
-     "teams": [
-      "Eagles"
-     ],
-     "stats": [
-      {
-       "label": "TD passes per game",
-       "value": "3.1",
-       "source": "market_history.json snap-202611121857..snap-202611130929 QB:Bones Crawford s.td/s.g"
-      },
-      {
-       "label": "TD passes",
-       "value": "49",
-       "source": "market_history.json snap-202611121857..snap-202611130929 QB:Bones Crawford s.td"
-      },
-      {
-       "label": "Games",
-       "value": "16",
-       "source": "market_history.json snap-202611121857..snap-202611130929 QB:Bones Crawford s.g"
-      }
-     ]
-    },
-    {
-     "id": "y92-dyk-mccoy-ring",
-     "text": "Lane McCoy holds the career records for rushing yards and rushing touchdowns and has never won a ring.",
-     "players": [
-      "Lane McCoy"
-     ],
-     "teams": [
-      "Broncos"
-     ],
-     "stats": [
-      {
-       "label": "Rings",
-       "value": "0",
-       "source": "players.json RB:Lane McCoy rings"
-      }
-     ]
-    },
-    {
-     "id": "y92-dyk-skura-dpoy",
-     "text": "Dwayne Skura made 233 tackles in his first season with the Colts, the most in the league, and was Defensive Player of the Year.",
-     "players": [
-      "Dwayne Skura"
-     ],
-     "teams": [
-      "Colts"
-     ],
-     "stats": [
-      {
-       "label": "Tackles (Y92)",
-       "value": "233",
-       "source": "market_history.json snap-202611121857..snap-202611130929 DB:Dwayne Skura s.tkl"
-      }
-     ]
-    }
-   ]
-  },
   "Y93": {
-   "reason": "Refresh stale figures after the Y94 import",
-   "trigger": "Season Y93 completed (coach.season 93)",
-   "upload": "2026-11-14-refresh-y93",
+   "reason": "Related links into the removed Y92 story trimmed",
+   "trigger": "story.remove Y92 (only the last 3 seasons keep a story)",
+   "upload": "2026-11-16-story-y95",
    "tagline": "The Eagles go 17-0 and beat the Steelers in Super Bowl CLII for a third straight title, Ryland Maxwell takes the career rushing record, and Bones Crawford throws 64 touchdown passes on his way to a fourth MVP.",
    "articles": [
     {
@@ -1500,9 +147,7 @@
        "source": "schedule.json seasons/Y92/coachGames/[week=5]/score"
       }
      ],
-     "related": [
-      "y92-eagles-cli"
-     ]
+     "related": []
     },
     {
      "id": "y93-maxwell-record",
@@ -1615,10 +260,7 @@
        "source": "market_history.json snap-202611140247 RB:Ryland Maxwell s.sbmvp"
       }
      ],
-     "related": [
-      "y92-mccoy-record",
-      "y92-mad-max"
-     ]
+     "related": []
     },
     {
      "id": "y93-crawford-mvp",
@@ -1732,9 +374,7 @@
        "source": "market_history.json snap-202611140247 OL:Akiem Brock ovr"
       }
      ],
-     "related": [
-      "y92-wingo-crawford"
-     ]
+     "related": []
     },
     {
      "id": "y93-viennes-opoy",
@@ -1846,9 +486,7 @@
        "source": "market_history.json snap-202611140247 WR:Keenan Viennes s.g"
       }
      ],
-     "related": [
-      "y92-rookies"
-     ]
+     "related": []
     },
     {
      "id": "y93-watts-lazard",
@@ -2041,9 +679,7 @@
        "source": "schedule.json seasons/Y93/coachGames/[week=12]/score"
       }
      ],
-     "related": [
-      "y92-rivals"
-     ]
+     "related": []
     },
     {
      "id": "y93-skura-rahman",
@@ -2150,9 +786,7 @@
        "source": "market_history.json snap-202611131841..snap-202611140247 DB:Keesean Hand s.int"
       }
      ],
-     "related": [
-      "y92-rahman-skura-trades"
-     ]
+     "related": []
     },
     {
      "id": "y93-record-chases",
@@ -2287,9 +921,7 @@
        "source": "market_history.json snap-202611140247 RB:Lane McCoy s.rtd"
       }
      ],
-     "related": [
-      "y92-hof"
-     ]
+     "related": []
     },
     {
      "id": "y93-quick-hits",
@@ -4246,6 +2878,1784 @@
        "label": "Week",
        "value": "5",
        "source": "schedule.json seasons/Y92/coachGames/[week=5]/week"
+      }
+     ]
+    }
+   ]
+  },
+  "Y95": {
+   "reason": "Season Story for Y95",
+   "trigger": "Season Y95 completed (coach.season 95)",
+   "upload": "2026-11-16-story-y95",
+   "tagline": "The Eagles go 17-0 again and edge the Chiefs 24-19 in Super Bowl CLIV for a fifth straight title, Ryland Maxwell runs the career rushing record out to 29,534 yards, and Dallas falls from streak breakers to 2-15.",
+   "articles": [
+    {
+     "id": "y95-eagles-cliv",
+     "kind": "lead",
+     "headline": "Perfect Again: Eagles Go 17-0 and Hold Off the Chiefs 24-19 in Super Bowl CLIV",
+     "dek": "Philadelphia won all 20 of its games, had the league's best offense and its best defense, and needed every point of a 5-point Super Bowl margin for a fifth straight title.",
+     "body": [
+      "Dorren Skura's Eagles have done it again. Two seasons after going 17-0 in Y93, Philadelphia went 17-0 once more, swept three playoff games and beat the Chiefs 24-19 in Super Bowl CLIV, the 154th edition of the game. It is the club's fifth straight championship, the 69th Super Bowl title of Skura's career and the 13th season in which one of his clubs went unbeaten.",
+      "For most of the year nobody came close. The Eagles scored 624 points, the most in the league, and allowed 326, the fewest, for a point differential of 298. They went 8-0 at home, 9-0 on the road and 7-0 against clubs with winning records. The widest margin was 48-6 over the Jaguars in week 9. The narrowest came in week 12 in New York, 32-31 over the Giants.",
+      "The playoffs were quick work until the last game. Tampa Bay fell 40-10 in the divisional round and Detroit 30-16 in the conference final. Then came Kansas City, 15-2 and second in the power rankings. The Chiefs held Philadelphia to 24 points, matching its lowest total of the season, and lost by 5, the closest Super Bowl of the five-title run.",
+      "The usual names carried the trophy. Ryland Maxwell, \"Mad Max\", was Super Bowl MVP for the 6th time, the most on file, in a season in which he missed 2 games through injury and still led the league in rushing. Bones Crawford, \"The Doctor\", was named Most Valuable Player for the 5th time. Calvin Wingo II was Offensive Player of the Year. Maxwell's ring was his 12th; Crawford and Akiem Brock each won their 7th."
+     ],
+     "players": [
+      "Ryland Maxwell",
+      "Bones Crawford",
+      "Calvin Wingo II",
+      "Akiem Brock"
+     ],
+     "teams": [
+      "Eagles",
+      "Chiefs",
+      "Buccaneers",
+      "Lions",
+      "Jaguars",
+      "Giants"
+     ],
+     "stats": [
+      {
+       "label": "Super Bowl CLIV",
+       "value": "24-19",
+       "source": "super_bowls.json Y95 score"
+      },
+      {
+       "label": "Eagles regular season",
+       "value": "17-0",
+       "source": "coach.json Y95 record"
+      },
+      {
+       "label": "Eagles regular season, Y93",
+       "value": "17-0",
+       "source": "coach.json Y93 record"
+      },
+      {
+       "label": "Eagles games, Y95",
+       "value": "20",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g"
+      },
+      {
+       "label": "Super Bowl margin",
+       "value": "5",
+       "source": "schedule.json seasons/Y95/coachGames/[round=Super Bowl]/margin"
+      },
+      {
+       "label": "Super Bowl number",
+       "value": "154",
+       "source": "super_bowls.json Y95 number"
+      },
+      {
+       "label": "Skura's Super Bowl titles",
+       "value": "69",
+       "source": "save_state.json counters/ACH_WIN_RETROBOWL1"
+      },
+      {
+       "label": "Skura's unbeaten seasons",
+       "value": "13",
+       "source": "save_state.json counters/ACH_UNBEATEN_SEASON"
+      },
+      {
+       "label": "Eagles points scored",
+       "value": "624",
+       "source": "schedule.json seasons/Y95/table/[abbr=PHI]/pf"
+      },
+      {
+       "label": "Eagles points allowed",
+       "value": "326",
+       "source": "schedule.json seasons/Y95/table/[abbr=PHI]/pa"
+      },
+      {
+       "label": "Eagles point differential",
+       "value": "298",
+       "source": "schedule.json seasons/Y95/table/[abbr=PHI]/diff"
+      },
+      {
+       "label": "Eagles at home",
+       "value": "8-0",
+       "source": "schedule.json seasons/Y95/table/[abbr=PHI]/home"
+      },
+      {
+       "label": "Eagles on the road",
+       "value": "9-0",
+       "source": "schedule.json seasons/Y95/table/[abbr=PHI]/away"
+      },
+      {
+       "label": "Against winning clubs",
+       "value": "7-0",
+       "source": "schedule.json seasons/Y95/coachDetail/vsWinning"
+      },
+      {
+       "label": "Win over the Jaguars",
+       "value": "48-6",
+       "source": "schedule.json seasons/Y95/coachGames/[week=9]/score"
+      },
+      {
+       "label": "Jaguars game, week",
+       "value": "9",
+       "source": "schedule.json seasons/Y95/coachGames/[week=9]/week"
+      },
+      {
+       "label": "At the Giants",
+       "value": "32-31",
+       "source": "schedule.json seasons/Y95/coachGames/[week=12]/score"
+      },
+      {
+       "label": "Giants game, week",
+       "value": "12",
+       "source": "schedule.json seasons/Y95/coachGames/[week=12]/week"
+      },
+      {
+       "label": "Divisional round",
+       "value": "40-10",
+       "source": "schedule.json seasons/Y95/coachGames/[round=Divisional]/score"
+      },
+      {
+       "label": "Conference final",
+       "value": "30-16",
+       "source": "schedule.json seasons/Y95/coachGames/[round=Conference]/score"
+      },
+      {
+       "label": "Chiefs record",
+       "value": "15-2",
+       "source": "schedule.json seasons/Y95/table/[abbr=KC]/record"
+      },
+      {
+       "label": "Chiefs power ranking",
+       "value": "2",
+       "source": "schedule.json seasons/Y95/table/[abbr=KC]/power"
+      },
+      {
+       "label": "Eagles points in the Super Bowl",
+       "value": "24",
+       "source": "schedule.json seasons/Y95/coachGames/[round=Super Bowl]/for"
+      },
+      {
+       "label": "Maxwell Super Bowl MVPs",
+       "value": "6",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell s.sbmvp"
+      },
+      {
+       "label": "Maxwell games missed through injury",
+       "value": "2",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g minus market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.g"
+      },
+      {
+       "label": "Crawford MVP awards",
+       "value": "5",
+       "source": "market_history.json snap-202611162108 QB:Bones Crawford s.mvp"
+      },
+      {
+       "label": "Maxwell rings",
+       "value": "12",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell s.rings"
+      },
+      {
+       "label": "Crawford rings",
+       "value": "7",
+       "source": "market_history.json snap-202611162108 QB:Bones Crawford s.rings"
+      },
+      {
+       "label": "Brock rings",
+       "value": "7",
+       "source": "market_history.json snap-202611162108 OL:Akiem Brock s.rings"
+      }
+     ],
+     "related": [
+      "y94-eagles-cliii"
+     ],
+     "art": {
+      "scene": "vs",
+      "teams": [
+       "Eagles",
+       "Chiefs"
+      ]
+     }
+    },
+    {
+     "id": "y95-maxwell-29534",
+     "kind": "milestone",
+     "headline": "Mad Max Puts the Career Rushing Record Out of Sight",
+     "dek": "Ryland Maxwell ran for 2,141 yards and 30 touchdowns, reached 29,534 career yards and passed Sherman Brandson at the top of the Career Legacy list.",
+     "body": [
+      "Ryland Maxwell took the career rushing record from Lane McCoy two seasons ago. In Y95 he made it his own. Maxwell ran for 2,141 yards, the most in the league by 386 over Maurice Vigil of the Chiefs, and scored 30 rushing touchdowns. Injury cost him 2 of Philadelphia's 20 games. He finished the season at 29,534 career yards, 5,027 clear of McCoy's 24,507.",
+      "His 396 rushing touchdowns top Skura's record board, but the league mark is another matter: McCoy scored 458, 62 more. The receiving line came back to earth after his 53-touchdown season. Maxwell caught 19 passes, and 7 of them went for scores.",
+      "Everything else kept growing. His 12th ring is the most on file, and every one came with Skura. His 6th Super Bowl MVP is also the most on file. His Career Legacy rose from 13,107 to 14,019, past Brandson's 13,540, and no player on file now rates higher. His card is worth 44,400. He is 33, and the next chase is the one he cannot run down on the field: time."
+     ],
+     "players": [
+      "Ryland Maxwell",
+      "Lane McCoy",
+      "Maurice Vigil",
+      "Sherman Brandson"
+     ],
+     "teams": [
+      "Eagles",
+      "Chiefs"
+     ],
+     "stats": [
+      {
+       "label": "Career rushing yards",
+       "value": "29,534",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell s.ryds"
+      },
+      {
+       "label": "Maxwell rushing yards, Y95",
+       "value": "2,141",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.ryds"
+      },
+      {
+       "label": "Maxwell rushing TDs, Y95",
+       "value": "30",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.rtd"
+      },
+      {
+       "label": "Ahead of Vigil, Y95",
+       "value": "386",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.ryds minus market_history.json snap-202611141119..snap-202611162108 RB:Maurice Vigil s.ryds"
+      },
+      {
+       "label": "Games missed through injury",
+       "value": "2",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g minus market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.g"
+      },
+      {
+       "label": "Eagles games, Y95",
+       "value": "20",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g"
+      },
+      {
+       "label": "Ahead of McCoy",
+       "value": "5,027",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell s.ryds minus players.json RB:Lane McCoy ryds"
+      },
+      {
+       "label": "McCoy career rushing yards",
+       "value": "24,507",
+       "source": "players.json RB:Lane McCoy ryds"
+      },
+      {
+       "label": "Career rushing TDs",
+       "value": "396",
+       "source": "records.json Most rushing TDs, career mark"
+      },
+      {
+       "label": "McCoy career rushing TDs",
+       "value": "458",
+       "source": "players.json RB:Lane McCoy rtd"
+      },
+      {
+       "label": "Behind McCoy",
+       "value": "62",
+       "source": "players.json RB:Lane McCoy rtd minus market_history.json snap-202611162108 RB:Ryland Maxwell s.rtd"
+      },
+      {
+       "label": "TD catches, Y94",
+       "value": "53",
+       "source": "market_history.json snap-202611140247..snap-202611141119 RB:Ryland Maxwell s.rectd"
+      },
+      {
+       "label": "Catches, Y95",
+       "value": "19",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.rec"
+      },
+      {
+       "label": "TD catches, Y95",
+       "value": "7",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.rectd"
+      },
+      {
+       "label": "Rings",
+       "value": "12",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell s.rings"
+      },
+      {
+       "label": "Super Bowl MVPs",
+       "value": "6",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell s.sbmvp"
+      },
+      {
+       "label": "Career Legacy before",
+       "value": "13,107",
+       "source": "market_history.json snap-202611141119 RB:Ryland Maxwell legacy"
+      },
+      {
+       "label": "Career Legacy after",
+       "value": "14,019",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell legacy"
+      },
+      {
+       "label": "Brandson Career Legacy",
+       "value": "13,540",
+       "source": "market_history.json snap-202611162108 QB:Sherman Brandson legacy"
+      },
+      {
+       "label": "Card value",
+       "value": "44,400",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell value"
+      },
+      {
+       "label": "Age",
+       "value": "33",
+       "source": "save_state.json players/RB:Ryland Maxwell/age"
+      }
+     ],
+     "related": [
+      "y94-maxwell-53"
+     ]
+    },
+    {
+     "id": "y95-crawford-brock",
+     "kind": "feature",
+     "headline": "The Doctor Wins a 5th MVP, and Akiem Brock Blocks His Way to a 7th Ring",
+     "dek": "Bones Crawford threw 52 touchdown passes in 18 games. Akiem Brock made 57 blocks, 19 more than any other lineman.",
+     "body": [
+      "Bones Crawford's numbers came down from his 68-touchdown season, and he won the league's top award anyway. Crawford threw for 4,271 yards and 52 touchdowns, the most in the league by 12, and ran for 6 more. Injury cost him 2 of Philadelphia's 20 games. He was named Most Valuable Player for the 5th time, level with Wayne Wilson and Ray Waller and behind only Michael Wilson's 6 and Sherman Brandson's 8.",
+      "There is a flaw in the case, and it is the same one as last year. Crawford threw 10 interceptions, the most in the league, a season after leading it with 20. Nobody seemed to mind. His overall rose from 91 to 94 and his card's value by 48.6%.",
+      "In front of him, Akiem Brock made 57 blocks in 20 games. Shaquem Goedert of the Chiefs was next with 38. Brock and Crawford both won their 7th ring, every one of them in Philadelphia, and Brock's card is now worth 27,222."
+     ],
+     "players": [
+      "Bones Crawford",
+      "Akiem Brock",
+      "Wayne Wilson",
+      "Ray Waller",
+      "Michael Wilson",
+      "Sherman Brandson",
+      "Shaquem Goedert"
+     ],
+     "teams": [
+      "Eagles",
+      "Chiefs"
+     ],
+     "stats": [
+      {
+       "label": "Crawford MVP awards",
+       "value": "5",
+       "source": "market_history.json snap-202611162108 QB:Bones Crawford s.mvp"
+      },
+      {
+       "label": "Crawford TD passes, Y95",
+       "value": "52",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.td"
+      },
+      {
+       "label": "Crawford games, Y95",
+       "value": "18",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.g"
+      },
+      {
+       "label": "Brock blocks, Y95",
+       "value": "57",
+       "source": "market_history.json snap-202611141119..snap-202611162108 OL:Akiem Brock s.blk"
+      },
+      {
+       "label": "Ahead of Goedert",
+       "value": "19",
+       "source": "market_history.json snap-202611141119..snap-202611162108 OL:Akiem Brock s.blk minus market_history.json snap-202611141119..snap-202611162108 OL:Shaquem Goedert s.blk"
+      },
+      {
+       "label": "Crawford TD passes, Y94",
+       "value": "68",
+       "source": "market_history.json snap-202611140247..snap-202611141119 QB:Bones Crawford s.td"
+      },
+      {
+       "label": "Crawford passing yards, Y95",
+       "value": "4,271",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.yds"
+      },
+      {
+       "label": "Ahead of Dunkle",
+       "value": "12",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.td minus market_history.json snap-202611141119..snap-202611162108 QB:Roc Dunkle s.td"
+      },
+      {
+       "label": "Crawford rushing TDs, Y95",
+       "value": "6",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.rtd"
+      },
+      {
+       "label": "Games missed through injury",
+       "value": "2",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g minus market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.g"
+      },
+      {
+       "label": "Eagles games, Y95",
+       "value": "20",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g"
+      },
+      {
+       "label": "Michael Wilson MVP awards",
+       "value": "6",
+       "source": "players.json QB:Michael Wilson mvp"
+      },
+      {
+       "label": "Brandson MVP awards",
+       "value": "8",
+       "source": "players.json QB:Sherman Brandson mvp"
+      },
+      {
+       "label": "Crawford interceptions, Y95",
+       "value": "10",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.int"
+      },
+      {
+       "label": "Crawford interceptions, Y94",
+       "value": "20",
+       "source": "market_history.json snap-202611140247..snap-202611141119 QB:Bones Crawford s.int"
+      },
+      {
+       "label": "Crawford overall before",
+       "value": "91",
+       "source": "market_history.json snap-202611141119 QB:Bones Crawford ovr"
+      },
+      {
+       "label": "Crawford overall after",
+       "value": "94",
+       "source": "market_history.json snap-202611162108 QB:Bones Crawford ovr"
+      },
+      {
+       "label": "Card value change",
+       "value": "48.6%",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford value%"
+      },
+      {
+       "label": "Goedert blocks, Y95",
+       "value": "38",
+       "source": "market_history.json snap-202611141119..snap-202611162108 OL:Shaquem Goedert s.blk"
+      },
+      {
+       "label": "Rings",
+       "value": "7",
+       "source": "market_history.json snap-202611162108 QB:Bones Crawford s.rings"
+      },
+      {
+       "label": "Brock card value",
+       "value": "27,222",
+       "source": "market_history.json snap-202611162108 OL:Akiem Brock value"
+      }
+     ],
+     "related": [
+      "y94-crawford-68",
+      "y94-brock-blocks"
+     ]
+    },
+    {
+     "id": "y95-wingo-viennes",
+     "kind": "rise",
+     "headline": "Wingo Takes Over in Philadelphia, and Viennes Finds New York Harder",
+     "dek": "Calvin Wingo II caught 114 passes for 2,267 yards and 25 touchdowns and was Offensive Player of the Year. Keenan Viennes, the winner a year ago, managed 726 yards for the 5-11-1 Jets.",
+     "body": [
+      "A year ago Calvin Wingo II finished 47 yards behind Keenan Viennes and watched his teammate collect a second Offensive Player of the Year award. In Y95 Viennes was playing for the Jets, and Wingo had the field to himself. He caught 114 passes for 2,267 yards and 25 touchdowns in 20 games, up from 1,994 yards and 7 scores, and was named Offensive Player of the Year for the 2nd time. His card's value rose from 1,758 to 2,584.",
+      "Philadelphia barely noticed the change. Rookie Payton Jarrett caught 81 passes for 1,450 yards and 15 touchdowns.",
+      "New York was a harder place. Viennes played all 17 of the Jets' games and caught 82 passes for 726 yards, 8.9 a catch after 20.6 a year earlier. The Jets finished 5-11-1, and in week 13 the Eagles beat them 35-19. The ratings held up, his overall rising from 79 to 82, but the production did not. In Philadelphia he was a deep threat in the best offense in the league. In New York he has been a possession receiver on a losing club."
+     ],
+     "players": [
+      "Calvin Wingo II",
+      "Keenan Viennes",
+      "Payton Jarrett"
+     ],
+     "teams": [
+      "Eagles",
+      "Jets"
+     ],
+     "stats": [
+      {
+       "label": "Wingo receiving yards, Y95",
+       "value": "2,267",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.yds"
+      },
+      {
+       "label": "Wingo catches, Y95",
+       "value": "114",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.rec"
+      },
+      {
+       "label": "Wingo TD catches, Y95",
+       "value": "25",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.td"
+      },
+      {
+       "label": "Viennes receiving yards, Y95",
+       "value": "726",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Keenan Viennes s.yds"
+      },
+      {
+       "label": "Jets record",
+       "value": "5-11-1",
+       "source": "schedule.json seasons/Y95/table/[abbr=NYJ]/record"
+      },
+      {
+       "label": "Wingo behind Viennes, Y94",
+       "value": "47",
+       "source": "market_history.json snap-202611140247..snap-202611141119 WR:Keenan Viennes s.yds minus market_history.json snap-202611140247..snap-202611141119 WR:Calvin Wingo II s.yds"
+      },
+      {
+       "label": "Wingo games, Y95",
+       "value": "20",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g"
+      },
+      {
+       "label": "Wingo receiving yards, Y94",
+       "value": "1,994",
+       "source": "market_history.json snap-202611140247..snap-202611141119 WR:Calvin Wingo II s.yds"
+      },
+      {
+       "label": "Wingo TD catches, Y94",
+       "value": "7",
+       "source": "market_history.json snap-202611140247..snap-202611141119 WR:Calvin Wingo II s.td"
+      },
+      {
+       "label": "Wingo OPOY awards",
+       "value": "2",
+       "source": "market_history.json snap-202611162108 WR:Calvin Wingo II s.opoy"
+      },
+      {
+       "label": "Wingo card value before",
+       "value": "1,758",
+       "source": "market_history.json snap-202611141119 WR:Calvin Wingo II value"
+      },
+      {
+       "label": "Wingo card value after",
+       "value": "2,584",
+       "source": "market_history.json snap-202611162108 WR:Calvin Wingo II value"
+      },
+      {
+       "label": "Jarrett catches",
+       "value": "81",
+       "source": "market_history.json snap-202611162108 WR:Payton Jarrett s.rec"
+      },
+      {
+       "label": "Jarrett receiving yards",
+       "value": "1,450",
+       "source": "market_history.json snap-202611162108 WR:Payton Jarrett s.yds"
+      },
+      {
+       "label": "Jarrett TD catches",
+       "value": "15",
+       "source": "market_history.json snap-202611162108 WR:Payton Jarrett s.td"
+      },
+      {
+       "label": "Viennes games, Y95",
+       "value": "17",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Keenan Viennes s.g"
+      },
+      {
+       "label": "Viennes catches, Y95",
+       "value": "82",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Keenan Viennes s.rec"
+      },
+      {
+       "label": "Viennes yards per catch, Y95",
+       "value": "8.9",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Keenan Viennes s.yds/s.rec"
+      },
+      {
+       "label": "Viennes yards per catch, Y94",
+       "value": "20.6",
+       "source": "market_history.json snap-202611140247..snap-202611141119 WR:Keenan Viennes s.yds/s.rec"
+      },
+      {
+       "label": "Week of the Jets game",
+       "value": "13",
+       "source": "schedule.json seasons/Y95/coachGames/[week=13]/week"
+      },
+      {
+       "label": "Eagles at the Jets",
+       "value": "35-19",
+       "source": "schedule.json seasons/Y95/coachGames/[week=13]/score"
+      },
+      {
+       "label": "Viennes overall before",
+       "value": "79",
+       "source": "market_history.json snap-202611141119 WR:Keenan Viennes ovr"
+      },
+      {
+       "label": "Viennes overall after",
+       "value": "82",
+       "source": "market_history.json snap-202611162108 WR:Keenan Viennes ovr"
+      }
+     ],
+     "related": [
+      "y94-viennes-wingo"
+     ]
+    },
+    {
+     "id": "y95-cowboys-collapse",
+     "kind": "fall",
+     "headline": "From Streak Breakers to 2-15: Dallas Falls Apart",
+     "dek": "The Cowboys beat the champions twice in Y94. A year later they lost every home game and finished last in the power rankings.",
+     "body": [
+      "No club fell further. A year after the Cowboys ended Philadelphia's 49-game winning streak and beat the champions twice, Dallas finished 2-15, the worst record in the league. The Cowboys went 0-8 at home, allowed 617 points and finished 32nd in the power rankings with a point differential of minus 200. They had gone 9-8 in Y94.",
+      "The Eagles took both meetings this time, 32-27 in Dallas in week 3 and 40-22 in Philadelphia on the final weekend. Dallas won only at Jacksonville and, in week 15, 20-13 at the Giants.",
+      "It was not for lack of a star. Lewis Pettis intercepted 5 passes, tied for the most in the league, and his overall rose from 92 to 95. The passing game around him faded: Taco Coulter, who caught 14 touchdown passes a year ago, caught 5. The schedule was tough, with a strength of 0.564, but the Jets faced a tougher one and won 5 games. Dallas had no such excuse."
+     ],
+     "players": [
+      "Lewis Pettis",
+      "Taco Coulter"
+     ],
+     "teams": [
+      "Cowboys",
+      "Eagles",
+      "Giants",
+      "Jaguars",
+      "Jets"
+     ],
+     "stats": [
+      {
+       "label": "Cowboys record",
+       "value": "2-15",
+       "source": "schedule.json seasons/Y95/table/[abbr=DAL]/record"
+      },
+      {
+       "label": "Eagles' streak ended in Y94",
+       "value": "49",
+       "source": "schedule.json records/[id=coach-win-streak]/value"
+      },
+      {
+       "label": "Cowboys at home",
+       "value": "0-8",
+       "source": "schedule.json seasons/Y95/table/[abbr=DAL]/home"
+      },
+      {
+       "label": "Points allowed",
+       "value": "617",
+       "source": "schedule.json seasons/Y95/table/[abbr=DAL]/pa"
+      },
+      {
+       "label": "Power ranking",
+       "value": "32",
+       "source": "schedule.json seasons/Y95/table/[abbr=DAL]/power"
+      },
+      {
+       "label": "Point differential",
+       "value": "-200",
+       "source": "schedule.json seasons/Y95/table/[abbr=DAL]/diff"
+      },
+      {
+       "label": "Cowboys record, Y94",
+       "value": "9-8",
+       "source": "schedule.json seasons/Y94/table/[abbr=DAL]/record"
+      },
+      {
+       "label": "At Dallas",
+       "value": "32-27",
+       "source": "schedule.json seasons/Y95/coachGames/[week=3]/score"
+      },
+      {
+       "label": "Dallas game, week",
+       "value": "3",
+       "source": "schedule.json seasons/Y95/coachGames/[week=3]/week"
+      },
+      {
+       "label": "Week 18 at home",
+       "value": "40-22",
+       "source": "schedule.json seasons/Y95/coachGames/[week=18]/score"
+      },
+      {
+       "label": "Win at the Giants, week",
+       "value": "15",
+       "source": "schedule.json seasons/Y95/games/215/week"
+      },
+      {
+       "label": "Cowboys points at the Giants",
+       "value": "20",
+       "source": "schedule.json seasons/Y95/games/215/awayScore"
+      },
+      {
+       "label": "Giants points against Dallas",
+       "value": "13",
+       "source": "schedule.json seasons/Y95/games/215/homeScore"
+      },
+      {
+       "label": "Pettis interceptions, Y95",
+       "value": "5",
+       "source": "market_history.json snap-202611141119..snap-202611162108 DB:Lewis Pettis s.int"
+      },
+      {
+       "label": "Pettis overall before",
+       "value": "92",
+       "source": "market_history.json snap-202611141119 DB:Lewis Pettis ovr"
+      },
+      {
+       "label": "Pettis overall after",
+       "value": "95",
+       "source": "market_history.json snap-202611162108 DB:Lewis Pettis ovr"
+      },
+      {
+       "label": "Coulter TD catches, Y94",
+       "value": "14",
+       "source": "market_history.json snap-202611140247..snap-202611141119 WR:Taco Coulter s.td"
+      },
+      {
+       "label": "Coulter TD catches, Y95",
+       "value": "5",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Taco Coulter s.td"
+      },
+      {
+       "label": "Strength of schedule",
+       "value": "0.564",
+       "source": "schedule.json seasons/Y95/table/[abbr=DAL]/sos"
+      },
+      {
+       "label": "Jets strength of schedule",
+       "value": "0.585",
+       "source": "schedule.json seasons/Y95/table/[abbr=NYJ]/sos"
+      },
+      {
+       "label": "Jets wins",
+       "value": "5",
+       "source": "schedule.json seasons/Y95/table/[abbr=NYJ]/w"
+      }
+     ],
+     "related": [
+      "y94-cowboys-streak"
+     ]
+    },
+    {
+     "id": "y95-chiefs-rise",
+     "kind": "feature",
+     "headline": "The Chiefs Go 15-2 and Come Within 5 Points",
+     "dek": "Kansas City reached its first Super Bowl since Y79 behind Roc Dunkle's 40 touchdown passes and Maurice Vigil's league-leading 34 rushing scores.",
+     "body": [
+      "Kansas City was the second-best team in the league all season, and for one night it came close to being the best. The Chiefs went 9-6-2 in Y94. In Y95 they went 15-2, 8-1 at home and 7-1 on the road, and won 8 straight at one point. Their only defeats came 16-9 at Arizona in week 2 and 29-21 at home to the 6-11 Raiders in week 12, the upset of the season.",
+      "Roc Dunkle threw for 4,216 yards and 40 touchdowns, tied for second in the league, with 6 interceptions. Maurice Vigil, 34, led the league with 34 rushing touchdowns, ran for 1,755 yards and passed 20,000 career yards and 350 career rushing touchdowns along the way. Shaquem Goedert's 38 blocks were second only to Akiem Brock's.",
+      "It was the Chiefs' first Super Bowl since a 44-6 loss to the Packers in Y79, and they kept it close, losing 24-19. The problem is the opponent. Kansas City has now met Skura's Eagles 5 times since Y88 and lost all 5."
+     ],
+     "players": [
+      "Roc Dunkle",
+      "Maurice Vigil",
+      "Shaquem Goedert",
+      "Akiem Brock"
+     ],
+     "teams": [
+      "Chiefs",
+      "Raiders",
+      "Cardinals",
+      "Packers",
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Chiefs record",
+       "value": "15-2",
+       "source": "schedule.json seasons/Y95/table/[abbr=KC]/record"
+      },
+      {
+       "label": "Super Bowl margin",
+       "value": "5",
+       "source": "schedule.json seasons/Y95/coachGames/[round=Super Bowl]/margin"
+      },
+      {
+       "label": "Dunkle TD passes, Y95",
+       "value": "40",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Roc Dunkle s.td"
+      },
+      {
+       "label": "Vigil rushing TDs, Y95",
+       "value": "34",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Maurice Vigil s.rtd"
+      },
+      {
+       "label": "Chiefs record, Y94",
+       "value": "9-6-2",
+       "source": "schedule.json seasons/Y94/table/[abbr=KC]/record"
+      },
+      {
+       "label": "Chiefs at home",
+       "value": "8-1",
+       "source": "schedule.json seasons/Y95/table/[abbr=KC]/home"
+      },
+      {
+       "label": "Chiefs on the road",
+       "value": "7-1",
+       "source": "schedule.json seasons/Y95/table/[abbr=KC]/away"
+      },
+      {
+       "label": "Longest winning streak",
+       "value": "8",
+       "source": "schedule.json seasons/Y95/table/[abbr=KC]/longestWinStreak"
+      },
+      {
+       "label": "Cardinals points",
+       "value": "16",
+       "source": "schedule.json seasons/Y95/games/18/homeScore"
+      },
+      {
+       "label": "Chiefs points at Arizona",
+       "value": "9",
+       "source": "schedule.json seasons/Y95/games/18/awayScore"
+      },
+      {
+       "label": "Arizona game, week",
+       "value": "2",
+       "source": "schedule.json seasons/Y95/games/18/week"
+      },
+      {
+       "label": "Loss to the Raiders",
+       "value": "29-21",
+       "source": "schedule.json seasons/Y95/upset/score"
+      },
+      {
+       "label": "Raiders record",
+       "value": "6-11",
+       "source": "schedule.json seasons/Y95/upset/winnerRecord"
+      },
+      {
+       "label": "Raiders game, week",
+       "value": "12",
+       "source": "schedule.json seasons/Y95/upset/week"
+      },
+      {
+       "label": "Dunkle passing yards, Y95",
+       "value": "4,216",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Roc Dunkle s.yds"
+      },
+      {
+       "label": "Dunkle interceptions, Y95",
+       "value": "6",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Roc Dunkle s.int"
+      },
+      {
+       "label": "Vigil age",
+       "value": "34",
+       "source": "save_state.json players/RB:Maurice Vigil/age"
+      },
+      {
+       "label": "Vigil rushing yards, Y95",
+       "value": "1,755",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Maurice Vigil s.ryds"
+      },
+      {
+       "label": "Career rushing yards passed",
+       "value": "20,000",
+       "source": "crossed: market_history.json snap-202611141119..snap-202611162108 RB:Maurice Vigil s.ryds"
+      },
+      {
+       "label": "Career rushing TDs passed",
+       "value": "350",
+       "source": "crossed: market_history.json snap-202611141119..snap-202611162108 RB:Maurice Vigil s.rtd"
+      },
+      {
+       "label": "Goedert blocks, Y95",
+       "value": "38",
+       "source": "market_history.json snap-202611141119..snap-202611162108 OL:Shaquem Goedert s.blk"
+      },
+      {
+       "label": "Super Bowl, Y79",
+       "value": "44-6",
+       "source": "super_bowls.json Y79 score"
+      },
+      {
+       "label": "Super Bowl CLIV",
+       "value": "24-19",
+       "source": "super_bowls.json Y95 score"
+      },
+      {
+       "label": "Meetings with Skura's Eagles since Y88",
+       "value": "5",
+       "source": "schedule.json headToHead/Chiefs/w"
+      }
+     ],
+     "related": [
+      "y94-colts-again"
+     ],
+     "art": {
+      "scene": "turf",
+      "players": [
+       "Maurice Vigil"
+      ],
+      "teams": [
+       "Chiefs"
+      ]
+     }
+    },
+    {
+     "id": "y95-giants-seventeen",
+     "kind": "rivalry",
+     "headline": "Seventeen Meetings, Seventeen Losses: The Giants Still Cannot Beat Philadelphia",
+     "dek": "New York lost 32-31 and 24-15 to the Eagles in Y95. Since Y88 the series stands at 17-0, and Washington's losing run reached 8.",
+     "body": [
+      "Ty Lock's Giants came closer than anyone in Y95, and it was still not enough. In week 12 in New York they lost 32-31, the narrowest of the Eagles' 17 regular-season wins. In week 16 in Philadelphia the Eagles won 24-15. The series that began when Skura arrived in Y88 now stands at 17 meetings and 17 Philadelphia wins, with 572 points to New York's 374.",
+      "The Giants were otherwise a good team. They went 10-6-1, up from 9-8, though a week before the trip to Philadelphia they lost 20-13 at home to the 2-15 Cowboys. Lock, 39, threw for 3,488 yards and 31 touchdowns with 4 interceptions and has 627 touchdown passes in 330 games. Both of his rings came with Skura's Jets. Since Y88 the coach who won them with him has been the one obstacle he cannot clear.",
+      "Washington fared no better. The 12-5 Commanders, fifth in the power rankings with a rookie quarterback, lost 40-20 in Philadelphia and 36-14 at home, their 8th straight defeat by the Eagles."
+     ],
+     "players": [
+      "Ty Lock"
+     ],
+     "teams": [
+      "Giants",
+      "Eagles",
+      "Commanders",
+      "Cowboys",
+      "Jets"
+     ],
+     "stats": [
+      {
+       "label": "Series record",
+       "value": "17-0",
+       "source": "content.json rivalryFiles/[id=rivalry-giants]/record/text"
+      },
+      {
+       "label": "At the Giants",
+       "value": "32-31",
+       "source": "schedule.json seasons/Y95/coachGames/[week=12]/score"
+      },
+      {
+       "label": "Home win over the Giants",
+       "value": "24-15",
+       "source": "schedule.json seasons/Y95/coachGames/[week=16]/score"
+      },
+      {
+       "label": "Commanders losing streak",
+       "value": "8",
+       "source": "content.json rivalryFiles/[id=rivalry-commanders]/streak/games"
+      },
+      {
+       "label": "Giants game, week",
+       "value": "12",
+       "source": "schedule.json seasons/Y95/coachGames/[week=12]/week"
+      },
+      {
+       "label": "Eagles regular-season wins",
+       "value": "17",
+       "source": "schedule.json seasons/Y95/coachRecord/w"
+      },
+      {
+       "label": "Second Giants game, week",
+       "value": "16",
+       "source": "schedule.json seasons/Y95/coachGames/[week=16]/week"
+      },
+      {
+       "label": "Meetings since Y88",
+       "value": "17",
+       "source": "content.json rivalryFiles/[id=rivalry-giants]/games"
+      },
+      {
+       "label": "Eagles points in the series",
+       "value": "572",
+       "source": "content.json rivalryFiles/[id=rivalry-giants]/pointsFor"
+      },
+      {
+       "label": "Giants points in the series",
+       "value": "374",
+       "source": "content.json rivalryFiles/[id=rivalry-giants]/pointsAgainst"
+      },
+      {
+       "label": "Giants record",
+       "value": "10-6-1",
+       "source": "schedule.json seasons/Y95/table/[abbr=NYG]/record"
+      },
+      {
+       "label": "Giants record, Y94",
+       "value": "9-8",
+       "source": "schedule.json seasons/Y94/table/[abbr=NYG]/record"
+      },
+      {
+       "label": "Cowboys points at the Giants",
+       "value": "20",
+       "source": "schedule.json seasons/Y95/games/215/awayScore"
+      },
+      {
+       "label": "Giants points against Dallas",
+       "value": "13",
+       "source": "schedule.json seasons/Y95/games/215/homeScore"
+      },
+      {
+       "label": "Cowboys record",
+       "value": "2-15",
+       "source": "schedule.json seasons/Y95/table/[abbr=DAL]/record"
+      },
+      {
+       "label": "Lock age",
+       "value": "39",
+       "source": "save_state.json players/QB:Ty Lock/age"
+      },
+      {
+       "label": "Lock passing yards, Y95",
+       "value": "3,488",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Ty Lock s.yds"
+      },
+      {
+       "label": "Lock TD passes, Y95",
+       "value": "31",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Ty Lock s.td"
+      },
+      {
+       "label": "Lock interceptions, Y95",
+       "value": "4",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Ty Lock s.int"
+      },
+      {
+       "label": "Lock career TD passes",
+       "value": "627",
+       "source": "players.json QB:Ty Lock td"
+      },
+      {
+       "label": "Lock career games",
+       "value": "330",
+       "source": "players.json QB:Ty Lock g"
+      },
+      {
+       "label": "Commanders record",
+       "value": "12-5",
+       "source": "schedule.json seasons/Y95/table/[abbr=WAS]/record"
+      },
+      {
+       "label": "Commanders power ranking",
+       "value": "5",
+       "source": "schedule.json seasons/Y95/table/[abbr=WAS]/power"
+      },
+      {
+       "label": "Week 15 at home",
+       "value": "40-20",
+       "source": "schedule.json seasons/Y95/coachGames/[week=15]/score"
+      },
+      {
+       "label": "Week 17 at Washington",
+       "value": "36-14",
+       "source": "schedule.json seasons/Y95/coachGames/[week=17]/score"
+      }
+     ],
+     "related": [
+      "y93-giants-lock",
+      "y94-cowboys-streak"
+     ],
+     "art": {
+      "scene": "vs",
+      "teams": [
+       "Eagles",
+       "Giants"
+      ]
+     }
+    },
+    {
+     "id": "y95-swaim-dpoy",
+     "kind": "feature",
+     "headline": "Travon Swaim, 34, Is Defensive Player of the Year at Last",
+     "dek": "The Lions' defensive back made 232 tackles in 20 games and helped a 9-8 club reach the conference final.",
+     "body": [
+      "Travon Swaim has spent a long career in Detroit without a ring, and Y95 brought him the next best thing. At 34 he made 232 tackles, second in the league to the 238 Isaiah Pinkney made for the Ravens, intercepted 3 passes and was named Defensive Player of the Year for the first time. He played all 20 of Detroit's games, playoffs included.",
+      "The Lions went 9-8 with a point differential of minus 56, then won twice in the playoffs before the Eagles beat them 30-16 in the conference final. Philadelphia had already beaten them 54-13 in week 5. Defensive lineman Landon Irwin, 22, led the league with 5 sacks.",
+      "The award moved Swaim's whole case. His Career Legacy climbed from 6,428 to 7,551 and his card's value more than doubled, from 2,459 to 5,983. He has 2,865 career tackles and 33 interceptions in 249 games. All 23 Defensive Player of the Year awards on league cards belong to defensive backs, and the newest one went to a player who waited longer than most."
+     ],
+     "players": [
+      "Travon Swaim",
+      "Isaiah Pinkney",
+      "Landon Irwin"
+     ],
+     "teams": [
+      "Lions",
+      "Ravens",
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Swaim tackles, Y95",
+       "value": "232",
+       "source": "market_history.json snap-202611141119..snap-202611162108 DB:Travon Swaim s.tkl"
+      },
+      {
+       "label": "Swaim age",
+       "value": "34",
+       "source": "save_state.json players/DB:Travon Swaim/age"
+      },
+      {
+       "label": "Swaim games, Y95",
+       "value": "20",
+       "source": "market_history.json snap-202611141119..snap-202611162108 DB:Travon Swaim s.g"
+      },
+      {
+       "label": "Lions record",
+       "value": "9-8",
+       "source": "schedule.json seasons/Y95/table/[abbr=DET]/record"
+      },
+      {
+       "label": "Pinkney tackles, Y95",
+       "value": "238",
+       "source": "market_history.json snap-202611141119..snap-202611162108 DB:Isaiah Pinkney s.tkl"
+      },
+      {
+       "label": "Swaim interceptions, Y95",
+       "value": "3",
+       "source": "market_history.json snap-202611141119..snap-202611162108 DB:Travon Swaim s.int"
+      },
+      {
+       "label": "Lions point differential",
+       "value": "-56",
+       "source": "schedule.json seasons/Y95/table/[abbr=DET]/diff"
+      },
+      {
+       "label": "Conference final",
+       "value": "30-16",
+       "source": "schedule.json seasons/Y95/coachGames/[round=Conference]/score"
+      },
+      {
+       "label": "Week 5 at Detroit",
+       "value": "54-13",
+       "source": "schedule.json seasons/Y95/coachGames/[week=5]/score"
+      },
+      {
+       "label": "Lions game, week",
+       "value": "5",
+       "source": "schedule.json seasons/Y95/coachGames/[week=5]/week"
+      },
+      {
+       "label": "Irwin age",
+       "value": "22",
+       "source": "save_state.json players/DL:Landon Irwin/age"
+      },
+      {
+       "label": "Irwin sacks, Y95",
+       "value": "5",
+       "source": "market_history.json snap-202611141119..snap-202611162108 DL:Landon Irwin s.sck"
+      },
+      {
+       "label": "Career Legacy before",
+       "value": "6,428",
+       "source": "market_history.json snap-202611141119 DB:Travon Swaim legacy"
+      },
+      {
+       "label": "Career Legacy after",
+       "value": "7,551",
+       "source": "market_history.json snap-202611162108 DB:Travon Swaim legacy"
+      },
+      {
+       "label": "Card value before",
+       "value": "2,459",
+       "source": "market_history.json snap-202611141119 DB:Travon Swaim value"
+      },
+      {
+       "label": "Card value after",
+       "value": "5,983",
+       "source": "market_history.json snap-202611162108 DB:Travon Swaim value"
+      },
+      {
+       "label": "Career tackles",
+       "value": "2,865",
+       "source": "market_history.json snap-202611162108 DB:Travon Swaim s.tkl"
+      },
+      {
+       "label": "Career interceptions",
+       "value": "33",
+       "source": "market_history.json snap-202611162108 DB:Travon Swaim s.int"
+      },
+      {
+       "label": "Career games",
+       "value": "249",
+       "source": "market_history.json snap-202611162108 DB:Travon Swaim s.g"
+      },
+      {
+       "label": "Defensive Player of the Year awards, defensive backs",
+       "value": "23",
+       "source": "content.json mechanics/defense/DB/dpoy"
+      }
+     ],
+     "related": [],
+     "art": {
+      "scene": "spotlight",
+      "players": [
+       "Travon Swaim"
+      ],
+      "teams": [
+       "Lions"
+      ]
+     }
+    },
+    {
+     "id": "y95-rookies",
+     "kind": "rise",
+     "headline": "Rookies Who Did Not Wait: Herbig, Howell, Rosas and Jarrett",
+     "dek": "Bryant Herbig threw 30 touchdown passes for the 12-5 Commanders, Tee Rosas tied for the league lead in interceptions, and Payton Jarrett won a ring.",
+     "body": [
+      "Nineteen new players reached league cards in Y95, and several of them played like veterans. Bryant Herbig, 21, threw for 3,904 yards and 30 touchdowns with 3 interceptions for Washington, which went 12-5 and finished fifth in the power rankings. His tight end, fellow rookie Ulysees Howell, caught 107 passes, the fourth most in the league, though for only 551 yards, 5.1 a catch.",
+      "On defense Tee Rosas intercepted 5 passes for the 8-9 Steelers, tied with Lewis Pettis and Akayleb Samia for the league lead, and made 208 tackles. Teair Dye, 21, made 212 tackles for the Bengals.",
+      "The best rookie season came in Philadelphia. Payton Jarrett, 21, caught 81 passes for 1,450 yards and 15 touchdowns, second only to Calvin Wingo II in receiving yards, and won a ring in his first year. His card sells for 13. On that evidence, it will not stay there for long."
+     ],
+     "players": [
+      "Bryant Herbig",
+      "Ulysees Howell",
+      "Tee Rosas",
+      "Teair Dye",
+      "Payton Jarrett",
+      "Lewis Pettis",
+      "Calvin Wingo II"
+     ],
+     "teams": [
+      "Commanders",
+      "Steelers",
+      "Bengals",
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Herbig TD passes",
+       "value": "30",
+       "source": "market_history.json snap-202611162108 QB:Bryant Herbig s.td"
+      },
+      {
+       "label": "Commanders record",
+       "value": "12-5",
+       "source": "schedule.json seasons/Y95/table/[abbr=WAS]/record"
+      },
+      {
+       "label": "Herbig age",
+       "value": "21",
+       "source": "save_state.json players/QB:Bryant Herbig/age"
+      },
+      {
+       "label": "Herbig passing yards",
+       "value": "3,904",
+       "source": "market_history.json snap-202611162108 QB:Bryant Herbig s.yds"
+      },
+      {
+       "label": "Herbig interceptions",
+       "value": "3",
+       "source": "market_history.json snap-202611162108 QB:Bryant Herbig s.int"
+      },
+      {
+       "label": "Commanders power ranking",
+       "value": "5",
+       "source": "schedule.json seasons/Y95/table/[abbr=WAS]/power"
+      },
+      {
+       "label": "Howell catches",
+       "value": "107",
+       "source": "market_history.json snap-202611162108 TE:Ulysees Howell s.rec"
+      },
+      {
+       "label": "Howell receiving yards",
+       "value": "551",
+       "source": "market_history.json snap-202611162108 TE:Ulysees Howell s.yds"
+      },
+      {
+       "label": "Howell yards per catch",
+       "value": "5.1",
+       "source": "market_history.json snap-202611162108 TE:Ulysees Howell s.yds/s.rec"
+      },
+      {
+       "label": "Rosas interceptions",
+       "value": "5",
+       "source": "market_history.json snap-202611162108 DB:Tee Rosas s.int"
+      },
+      {
+       "label": "Steelers record",
+       "value": "8-9",
+       "source": "schedule.json seasons/Y95/table/[abbr=PIT]/record"
+      },
+      {
+       "label": "Rosas tackles",
+       "value": "208",
+       "source": "market_history.json snap-202611162108 DB:Tee Rosas s.tkl"
+      },
+      {
+       "label": "Dye age",
+       "value": "21",
+       "source": "save_state.json players/DB:Teair Dye/age"
+      },
+      {
+       "label": "Dye tackles",
+       "value": "212",
+       "source": "market_history.json snap-202611162108 DB:Teair Dye s.tkl"
+      },
+      {
+       "label": "Jarrett catches",
+       "value": "81",
+       "source": "market_history.json snap-202611162108 WR:Payton Jarrett s.rec"
+      },
+      {
+       "label": "Jarrett receiving yards",
+       "value": "1,450",
+       "source": "market_history.json snap-202611162108 WR:Payton Jarrett s.yds"
+      },
+      {
+       "label": "Jarrett TD catches",
+       "value": "15",
+       "source": "market_history.json snap-202611162108 WR:Payton Jarrett s.td"
+      },
+      {
+       "label": "Jarrett card value",
+       "value": "13",
+       "source": "market_history.json snap-202611162108 WR:Payton Jarrett value"
+      }
+     ],
+     "related": []
+    },
+    {
+     "id": "y95-record-chases",
+     "kind": "chase",
+     "headline": "Two Interceptions From Hobbs: Brooker and Pettis Close In Together",
+     "dek": "Jamon Brooker and Lewis Pettis each have 41 career interceptions, 2 short of Damar Hobbs. Siran Spector moved to second on the rushing touchdown list.",
+     "body": [
+      "Damar Hobbs's career interception record of 43 has two challengers, and they are tied. Jamon Brooker of the Packers picked off 1 pass in Y95 and Lewis Pettis of the Cowboys 5, and both finished at 41. Brooker is 32 and Pettis 34, so the clock is part of the race.",
+      "Siran Spector ran for 23 touchdowns for the Texans and reached 425, past Danny Diggs's 408 and Tim Wright's 417. Only Lane McCoy, with 458, has more, and Spector is 33 away. He also passed 20,000 career rushing yards.",
+      "One chase stopped. Kyron Atwell did not play a game in Y95 and stays at 3,059 tackles, 126 short of K'Lavon Settle's record 3,185. Another finally moved: Deshone Bello of the Jets got the sack he needed and drew level with Kalif Suh at 24."
+     ],
+     "players": [
+      "Damar Hobbs",
+      "Jamon Brooker",
+      "Lewis Pettis",
+      "Siran Spector",
+      "Danny Diggs",
+      "Tim Wright",
+      "Lane McCoy",
+      "Kyron Atwell",
+      "K'Lavon Settle",
+      "Deshone Bello",
+      "Kalif Suh"
+     ],
+     "teams": [
+      "Packers",
+      "Cowboys",
+      "Texans",
+      "Jets"
+     ],
+     "stats": [
+      {
+       "label": "Brooker career interceptions",
+       "value": "41",
+       "source": "market_history.json snap-202611162108 DB:Jamon Brooker s.int"
+      },
+      {
+       "label": "Pettis career interceptions",
+       "value": "41",
+       "source": "market_history.json snap-202611162108 DB:Lewis Pettis s.int"
+      },
+      {
+       "label": "Short of the record",
+       "value": "2",
+       "source": "market_history.json snap-202611162108 DB:Damar Hobbs s.int minus market_history.json snap-202611162108 DB:Jamon Brooker s.int"
+      },
+      {
+       "label": "Hobbs career interceptions",
+       "value": "43",
+       "source": "market_history.json snap-202611162108 DB:Damar Hobbs s.int"
+      },
+      {
+       "label": "Brooker interceptions, Y95",
+       "value": "1",
+       "source": "market_history.json snap-202611141119..snap-202611162108 DB:Jamon Brooker s.int"
+      },
+      {
+       "label": "Pettis interceptions, Y95",
+       "value": "5",
+       "source": "market_history.json snap-202611141119..snap-202611162108 DB:Lewis Pettis s.int"
+      },
+      {
+       "label": "Brooker age",
+       "value": "32",
+       "source": "save_state.json players/DB:Jamon Brooker/age"
+      },
+      {
+       "label": "Pettis age",
+       "value": "34",
+       "source": "save_state.json players/DB:Lewis Pettis/age"
+      },
+      {
+       "label": "Spector rushing TDs, Y95",
+       "value": "23",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Siran Spector s.rtd"
+      },
+      {
+       "label": "Spector career rushing TDs",
+       "value": "425",
+       "source": "market_history.json snap-202611162108 RB:Siran Spector s.rtd"
+      },
+      {
+       "label": "Diggs career rushing TDs",
+       "value": "408",
+       "source": "market_history.json snap-202611162108 RB:Danny Diggs s.rtd"
+      },
+      {
+       "label": "Wright career rushing TDs",
+       "value": "417",
+       "source": "market_history.json snap-202611162108 RB:Tim Wright s.rtd"
+      },
+      {
+       "label": "McCoy career rushing TDs",
+       "value": "458",
+       "source": "players.json RB:Lane McCoy rtd"
+      },
+      {
+       "label": "Spector behind McCoy",
+       "value": "33",
+       "source": "players.json RB:Lane McCoy rtd minus market_history.json snap-202611162108 RB:Siran Spector s.rtd"
+      },
+      {
+       "label": "Career rushing yards passed",
+       "value": "20,000",
+       "source": "crossed: market_history.json snap-202611141119..snap-202611162108 RB:Siran Spector s.ryds"
+      },
+      {
+       "label": "Atwell career tackles",
+       "value": "3,059",
+       "source": "market_history.json snap-202611162108 DB:Kyron Atwell s.tkl"
+      },
+      {
+       "label": "Atwell behind Settle",
+       "value": "126",
+       "source": "market_history.json snap-202611162108 DB:K'Lavon Settle s.tkl minus market_history.json snap-202611162108 DB:Kyron Atwell s.tkl"
+      },
+      {
+       "label": "Settle career tackles",
+       "value": "3,185",
+       "source": "market_history.json snap-202611162108 DB:K'Lavon Settle s.tkl"
+      },
+      {
+       "label": "Bello career sacks",
+       "value": "24",
+       "source": "market_history.json snap-202611162108 DL:Deshone Bello s.sck"
+      },
+      {
+       "label": "Suh career sacks",
+       "value": "24",
+       "source": "market_history.json snap-202611162108 LB:Kalif Suh s.sck"
+      }
+     ],
+     "related": [
+      "y94-record-chases"
+     ]
+    },
+    {
+     "id": "y95-quick-hits",
+     "kind": "quickhits",
+     "headline": "Quick Hits",
+     "dek": "Shootouts, a one-point thriller, a 39-year-old passer and three ties from around the league.",
+     "body": [
+      "The Packers beat the Bears 64-53 in week 18, 117 points in all, the highest-scoring game of the season.",
+      "The Buccaneers beat the Packers 48-47 in week 7, 95 points in all and decided by 1.",
+      "Dustin Milton, 39, threw 40 touchdown passes and 2 interceptions for the 11-5-1 Patriots.",
+      "The Panthers allowed 653 points, the most in the league, and went 3-14.",
+      "The Browns scored 622 points, second only to the Eagles, and went 1-7 on the road.",
+      "Snoop Dotson made 102 tackles, the most by any linebacker, with 3 sacks and 2 forced fumbles, and won his 6th ring.",
+      "Three games ended in ties, among them the Bears and Giants at 27-27 in week 3."
+     ],
+     "players": [
+      "Dustin Milton",
+      "Snoop Dotson"
+     ],
+     "teams": [
+      "Packers",
+      "Bears",
+      "Buccaneers",
+      "Patriots",
+      "Panthers",
+      "Browns",
+      "Giants",
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Shootout",
+       "value": "64-53",
+       "source": "schedule.json seasons/Y95/shootout/score"
+      },
+      {
+       "label": "Shootout, week",
+       "value": "18",
+       "source": "schedule.json seasons/Y95/shootout/week"
+      },
+      {
+       "label": "Points in the shootout",
+       "value": "117",
+       "source": "schedule.json seasons/Y95/shootout/total"
+      },
+      {
+       "label": "Closest game",
+       "value": "48-47",
+       "source": "schedule.json seasons/Y95/league/closest/score"
+      },
+      {
+       "label": "Closest game, week",
+       "value": "7",
+       "source": "schedule.json seasons/Y95/league/closest/week"
+      },
+      {
+       "label": "Points in that game",
+       "value": "95",
+       "source": "schedule.json seasons/Y95/league/closest/total"
+      },
+      {
+       "label": "Margin",
+       "value": "1",
+       "source": "schedule.json seasons/Y95/league/closest/margin"
+      },
+      {
+       "label": "Milton age",
+       "value": "39",
+       "source": "save_state.json players/QB:Dustin Milton/age"
+      },
+      {
+       "label": "Milton TD passes",
+       "value": "40",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Dustin Milton s.td"
+      },
+      {
+       "label": "Milton interceptions",
+       "value": "2",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Dustin Milton s.int"
+      },
+      {
+       "label": "Patriots record",
+       "value": "11-5-1",
+       "source": "schedule.json seasons/Y95/table/[abbr=NE]/record"
+      },
+      {
+       "label": "Panthers points allowed",
+       "value": "653",
+       "source": "schedule.json seasons/Y95/table/[abbr=CAR]/pa"
+      },
+      {
+       "label": "Panthers record",
+       "value": "3-14",
+       "source": "schedule.json seasons/Y95/table/[abbr=CAR]/record"
+      },
+      {
+       "label": "Browns points scored",
+       "value": "622",
+       "source": "schedule.json seasons/Y95/table/[abbr=CLE]/pf"
+      },
+      {
+       "label": "Browns on the road",
+       "value": "1-7",
+       "source": "schedule.json seasons/Y95/table/[abbr=CLE]/away"
+      },
+      {
+       "label": "Dotson tackles",
+       "value": "102",
+       "source": "market_history.json snap-202611141119..snap-202611162108 LB:Snoop Dotson s.tkl"
+      },
+      {
+       "label": "Dotson sacks",
+       "value": "3",
+       "source": "market_history.json snap-202611141119..snap-202611162108 LB:Snoop Dotson s.sck"
+      },
+      {
+       "label": "Dotson forced fumbles",
+       "value": "2",
+       "source": "market_history.json snap-202611141119..snap-202611162108 LB:Snoop Dotson s.ff"
+      },
+      {
+       "label": "Dotson rings",
+       "value": "6",
+       "source": "market_history.json snap-202611162108 LB:Snoop Dotson s.rings"
+      },
+      {
+       "label": "Bears and Giants tie",
+       "value": "27-27",
+       "source": "schedule.json seasons/Y95/league/ties/0/score"
+      },
+      {
+       "label": "Tie, week",
+       "value": "3",
+       "source": "schedule.json seasons/Y95/league/ties/0/week"
+      }
+     ],
+     "related": [
+      "y94-quick-hits"
+     ]
+    }
+   ],
+   "didYouKnow": [
+    {
+     "id": "y95-dyk-legacy",
+     "text": "Ryland Maxwell's Career Legacy of 14,019 is now the highest on file, ahead of Sherman Brandson's 13,540.",
+     "players": [
+      "Ryland Maxwell",
+      "Sherman Brandson"
+     ],
+     "stats": [
+      {
+       "label": "Maxwell Career Legacy",
+       "value": "14,019",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell legacy"
+      },
+      {
+       "label": "Brandson Career Legacy",
+       "value": "13,540",
+       "source": "market_history.json snap-202611162108 QB:Sherman Brandson legacy"
+      }
+     ]
+    },
+    {
+     "id": "y95-dyk-maxwell-rings",
+     "text": "Ryland Maxwell has 12 rings and 6 Super Bowl MVPs, both the most on file. Dorren Skura coached him to every ring, with the Jets, the Falcons and the Eagles.",
+     "players": [
+      "Ryland Maxwell"
+     ],
+     "stats": [
+      {
+       "label": "Rings",
+       "value": "12",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell s.rings"
+      },
+      {
+       "label": "Super Bowl MVPs",
+       "value": "6",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell s.sbmvp"
+      }
+     ]
+    },
+    {
+     "id": "y95-dyk-crawford-picks",
+     "text": "Bones Crawford threw the most interceptions in the league in Y94, 20, and again in Y95, 10. He was named MVP in Y95 anyway.",
+     "players": [
+      "Bones Crawford"
+     ],
+     "stats": [
+      {
+       "label": "Interceptions, Y94",
+       "value": "20",
+       "source": "market_history.json snap-202611140247..snap-202611141119 QB:Bones Crawford s.int"
+      },
+      {
+       "label": "Interceptions, Y95",
+       "value": "10",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.int"
+      }
+     ]
+    },
+    {
+     "id": "y95-dyk-cowboys-home",
+     "text": "The Cowboys lost all 8 of their home games in Y95, a year after ending the Eagles' 49-game winning streak.",
+     "players": [],
+     "teams": [
+      "Cowboys",
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Cowboys at home",
+       "value": "0-8",
+       "source": "schedule.json seasons/Y95/table/[abbr=DAL]/home"
+      },
+      {
+       "label": "Streak",
+       "value": "49",
+       "source": "schedule.json records/[id=coach-win-streak]/value"
+      }
+     ]
+    },
+    {
+     "id": "y95-dyk-chiefs-losses",
+     "text": "The 15-2 Chiefs lost only to the 8-9 Cardinals and the 6-11 Raiders, two clubs with losing records.",
+     "players": [],
+     "teams": [
+      "Chiefs",
+      "Cardinals",
+      "Raiders"
+     ],
+     "stats": [
+      {
+       "label": "Chiefs record",
+       "value": "15-2",
+       "source": "schedule.json seasons/Y95/table/[abbr=KC]/record"
+      },
+      {
+       "label": "Cardinals record",
+       "value": "8-9",
+       "source": "schedule.json seasons/Y95/table/[abbr=ARI]/record"
+      },
+      {
+       "label": "Raiders record",
+       "value": "6-11",
+       "source": "schedule.json seasons/Y95/table/[abbr=LV]/record"
+      }
+     ]
+    },
+    {
+     "id": "y95-dyk-giants",
+     "text": "The Giants have met Dorren Skura's Eagles 17 times since Y88 and lost all 17.",
+     "players": [],
+     "teams": [
+      "Giants",
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Meetings",
+       "value": "17",
+       "source": "content.json rivalryFiles/[id=rivalry-giants]/games"
+      }
+     ]
+    },
+    {
+     "id": "y95-dyk-howell",
+     "text": "Rookie tight end Ulysees Howell caught 107 passes for the Commanders and averaged 5.1 yards a catch.",
+     "players": [
+      "Ulysees Howell"
+     ],
+     "teams": [
+      "Commanders"
+     ],
+     "stats": [
+      {
+       "label": "Catches",
+       "value": "107",
+       "source": "market_history.json snap-202611162108 TE:Ulysees Howell s.rec"
+      },
+      {
+       "label": "Yards per catch",
+       "value": "5.1",
+       "source": "market_history.json snap-202611162108 TE:Ulysees Howell s.yds/s.rec"
+      }
+     ]
+    },
+    {
+     "id": "y95-dyk-irwin",
+     "text": "Landon Irwin of the Lions led the league with 5 sacks in Y95. No other player had more than 3.",
+     "players": [
+      "Landon Irwin"
+     ],
+     "teams": [
+      "Lions"
+     ],
+     "stats": [
+      {
+       "label": "Irwin sacks",
+       "value": "5",
+       "source": "market_history.json snap-202611141119..snap-202611162108 DL:Landon Irwin s.sck"
+      },
+      {
+       "label": "Next best",
+       "value": "3",
+       "source": "market_history.json snap-202611141119..snap-202611162108 LB:Snoop Dotson s.sck"
+      }
+     ]
+    },
+    {
+     "id": "y95-dyk-jarrett",
+     "text": "Payton Jarrett's 1,450 receiving yards as a rookie were the second most in the league, behind only his teammate Calvin Wingo II.",
+     "players": [
+      "Payton Jarrett",
+      "Calvin Wingo II"
+     ],
+     "teams": [
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Jarrett receiving yards",
+       "value": "1,450",
+       "source": "market_history.json snap-202611162108 WR:Payton Jarrett s.yds"
+      }
+     ]
+    },
+    {
+     "id": "y95-dyk-unbeaten",
+     "text": "Y95 was the 13th unbeaten season of Dorren Skura's career. His Eagles had also gone 17-0 two seasons earlier, in Y93.",
+     "players": [],
+     "teams": [
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Unbeaten seasons",
+       "value": "13",
+       "source": "save_state.json counters/ACH_UNBEATEN_SEASON"
+      },
+      {
+       "label": "Y93 record",
+       "value": "17-0",
+       "source": "coach.json Y93 record"
       }
      ]
     }

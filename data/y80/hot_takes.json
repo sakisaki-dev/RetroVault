@@ -3620,6 +3620,712 @@
      ]
     }
    ]
+  },
+  "Y95": {
+   "reason": "Hot Takes for the completed Y95 season",
+   "trigger": "Season Y95 completed (coach.season 95)",
+   "upload": "2026-11-16-takes-y95",
+   "intro": "Y95 ended the way the last four did, with Philadelphia lifting the trophy. Beneath the parade sat a lucky contender, a ringless runner and a star receiver who learned what life outside the Eagles looks like. The arguments are ours to defend; the figures come straight from the league data.",
+   "takes": [
+    {
+     "id": "y95-take-maxwell-greatest",
+     "heat": 3,
+     "headline": "Ryland Maxwell Has Passed Sherman Brandson. Stop Calling It a Debate.",
+     "dek": "Career Legacy 14,019 to 13,540, 12 rings to 10, and both career rushing records.",
+     "body": [
+      "A year ago this column said one more ordinary season would settle it. Maxwell did not have an ordinary season. He ran for 2,141 yards and 30 touchdowns, pushed the career rushing marks to 29,534 yards and 396 touchdowns, and was named Super Bowl MVP for the sixth time. His Career Legacy climbed to 14,019, 479 clear of Brandson's 13,540.",
+      "He did it at 33, and he did it in 18 of the Eagles' 20 games; injury cost him the other 2. Brandson still owns the passing book and 8 MVPs. Maxwell owns 12 rings to Brandson's 10, the rushing book and now the top of the list. The greatest player in league history is a running back, and the argument is over."
+     ],
+     "players": [
+      "Ryland Maxwell",
+      "Sherman Brandson"
+     ],
+     "teams": [
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Ahead of Brandson",
+       "value": "479",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell legacy minus market_history.json snap-202611162108 QB:Sherman Brandson legacy"
+      },
+      {
+       "label": "Maxwell Career Legacy",
+       "value": "14,019",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell legacy"
+      },
+      {
+       "label": "Brandson Career Legacy",
+       "value": "13,540",
+       "source": "market_history.json snap-202611162108 QB:Sherman Brandson legacy"
+      },
+      {
+       "label": "Maxwell rings",
+       "value": "12",
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell s.rings"
+      },
+      {
+       "label": "Brandson rings",
+       "value": "10",
+       "source": "market_history.json snap-202611162108 QB:Sherman Brandson s.rings"
+      },
+      {
+       "label": "Rushing yards, Y95",
+       "value": "2,141",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.ryds"
+      },
+      {
+       "label": "Rushing TDs, Y95",
+       "value": "30",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.rtd"
+      },
+      {
+       "label": "Career rushing yards",
+       "value": "29,534",
+       "source": "players.json RB:Ryland Maxwell ryds"
+      },
+      {
+       "label": "Career rushing TDs",
+       "value": "396",
+       "source": "players.json RB:Ryland Maxwell rtd"
+      },
+      {
+       "label": "Age",
+       "value": "33",
+       "source": "save_state.json players/RB:Ryland Maxwell/age"
+      },
+      {
+       "label": "Games played, Y95",
+       "value": "18",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.g"
+      },
+      {
+       "label": "Eagles games, Y95",
+       "value": "20",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g"
+      },
+      {
+       "label": "Games missed",
+       "value": "2",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g minus market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.g"
+      },
+      {
+       "label": "Brandson MVPs",
+       "value": "8",
+       "source": "market_history.json snap-202611162108 QB:Sherman Brandson s.mvp"
+      }
+     ]
+    },
+    {
+     "id": "y95-take-viennes-product",
+     "heat": 3,
+     "headline": "Keenan Viennes Was a Philadelphia Product, and the Jets Found Out the Hard Way",
+     "dek": "From 2,041 yards as Offensive Player of the Year to 726 in New York.",
+     "body": [
+      "A year ago Viennes won Offensive Player of the Year in an Eagles uniform with 2,041 receiving yards. In Y95 he played all 17 games for the Jets and caught 82 passes for 726 yards, 8.9 a catch. Same player, a full season, about a third of the yardage.",
+      "The strange part is the card. His OVR rose from 79 to 82 and his card value more than doubled, from 160 to 361. The market priced the name. The field priced the system he left. The Jets finished 5-11-1 and lost to Philadelphia 35-19, while Calvin Wingo II stayed behind and won the award Viennes had held. Some receivers make an offense. Viennes, it turns out, was made by one."
+     ],
+     "players": [
+      "Keenan Viennes",
+      "Calvin Wingo II"
+     ],
+     "teams": [
+      "Jets",
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Receiving yards, Y95",
+       "value": "726",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Keenan Viennes s.yds"
+      },
+      {
+       "label": "Receiving yards, Y94",
+       "value": "2,041",
+       "source": "market_history.json snap-202611140247..snap-202611141119 WR:Keenan Viennes s.yds"
+      },
+      {
+       "label": "Games, Y95",
+       "value": "17",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Keenan Viennes s.g"
+      },
+      {
+       "label": "Catches, Y95",
+       "value": "82",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Keenan Viennes s.rec"
+      },
+      {
+       "label": "Yards per catch, Y95",
+       "value": "8.9",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Keenan Viennes s.yds/s.rec"
+      },
+      {
+       "label": "OVR before",
+       "value": "79",
+       "source": "market_history.json snap-202611141119 WR:Keenan Viennes ovr"
+      },
+      {
+       "label": "OVR after",
+       "value": "82",
+       "source": "market_history.json snap-202611162108 WR:Keenan Viennes ovr"
+      },
+      {
+       "label": "Card value before",
+       "value": "160",
+       "source": "market_history.json snap-202611141119 WR:Keenan Viennes value"
+      },
+      {
+       "label": "Card value after",
+       "value": "361",
+       "source": "market_history.json snap-202611162108 WR:Keenan Viennes value"
+      },
+      {
+       "label": "Jets record",
+       "value": "5-11-1",
+       "source": "schedule.json seasons/Y95/table/[abbr=NYJ]/record"
+      },
+      {
+       "label": "Eagles at Jets",
+       "value": "35-19",
+       "source": "schedule.json seasons/Y95/coachGames/[week=13]/score"
+      }
+     ]
+    },
+    {
+     "id": "y95-take-wingo-touchdowns",
+     "heat": 2,
+     "headline": "Calvin Wingo II Won Offensive Player of the Year With Ryland Maxwell's Touchdowns",
+     "dek": "Maxwell's touchdown catches fell from 53 to 7; Wingo's touchdowns rose from 7 to 25.",
+     "body": [
+      "Wingo was very good in Y95: 114 catches, 2,267 yards and 25 touchdowns in 20 games. He was also very good in Y94, when he gained 1,994 yards and scored 7 times. The yardage barely moved. The touchdowns more than tripled.",
+      "They came from somewhere. In Y94 Maxwell caught 53 touchdown passes; in Y95 he caught 7. Bones Crawford stopped flipping the ball to his running back near the goal line and started finding his receiver instead. That is a play-calling story, not a breakout. Wingo is a fine receiver, and his card says so. Offensive Player of the Year, though, went to the man standing where the ball was sent."
+     ],
+     "players": [
+      "Calvin Wingo II",
+      "Ryland Maxwell",
+      "Bones Crawford"
+     ],
+     "teams": [
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Wingo touchdowns, Y95",
+       "value": "25",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.td"
+      },
+      {
+       "label": "Maxwell TD catches, Y94",
+       "value": "53",
+       "source": "market_history.json snap-202611140247..snap-202611141119 RB:Ryland Maxwell s.rectd"
+      },
+      {
+       "label": "Maxwell TD catches, Y95",
+       "value": "7",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.rectd"
+      },
+      {
+       "label": "Wingo touchdowns, Y94",
+       "value": "7",
+       "source": "market_history.json snap-202611140247..snap-202611141119 WR:Calvin Wingo II s.td"
+      },
+      {
+       "label": "Wingo catches, Y95",
+       "value": "114",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.rec"
+      },
+      {
+       "label": "Wingo yards, Y95",
+       "value": "2,267",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.yds"
+      },
+      {
+       "label": "Wingo games, Y95",
+       "value": "20",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g"
+      },
+      {
+       "label": "Wingo yards, Y94",
+       "value": "1,994",
+       "source": "market_history.json snap-202611140247..snap-202611141119 WR:Calvin Wingo II s.yds"
+      }
+     ]
+    },
+    {
+     "id": "y95-take-crawford-mvp",
+     "heat": 2,
+     "headline": "Bones Crawford Halved His Interceptions and Still Threw More Than Anyone. That Is Not an MVP Season.",
+     "dek": "10 interceptions, 3 more than any other passer, and fewer yards than a 39-year-old Patriot.",
+     "body": [
+      "Credit where due: last year this column called Crawford careless for 20 interceptions, and he cut them to 10. That still led the league; Sione Garland of the Broncos was next with 7. And Dustin Milton of the Patriots, at 39, threw for 4,319 yards to Crawford's 4,271.",
+      "Crawford's case is 52 touchdown passes and a 17-0 club. Fine. But his touchdown passes fell from 68, injury cost him 2 of the Eagles' 20 games, and his top receiver piled up 2,267 yards. The MVP rewarded the best team, not the best season. Ryland Maxwell or Calvin Wingo II had the stronger claim, and Milton had the better arm year."
+     ],
+     "players": [
+      "Bones Crawford",
+      "Sione Garland",
+      "Dustin Milton",
+      "Calvin Wingo II"
+     ],
+     "teams": [
+      "Eagles",
+      "Broncos",
+      "Patriots"
+     ],
+     "stats": [
+      {
+       "label": "Crawford interceptions, Y95",
+       "value": "10",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.int"
+      },
+      {
+       "label": "More than the next passer",
+       "value": "3",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.int minus market_history.json snap-202611141119..snap-202611162108 QB:Sione Garland s.int"
+      },
+      {
+       "label": "Garland interceptions, Y95",
+       "value": "7",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Sione Garland s.int"
+      },
+      {
+       "label": "Milton age",
+       "value": "39",
+       "source": "save_state.json players/QB:Dustin Milton/age"
+      },
+      {
+       "label": "Crawford interceptions, Y94",
+       "value": "20",
+       "source": "market_history.json snap-202611140247..snap-202611141119 QB:Bones Crawford s.int"
+      },
+      {
+       "label": "Milton passing yards, Y95",
+       "value": "4,319",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Dustin Milton s.yds"
+      },
+      {
+       "label": "Crawford passing yards, Y95",
+       "value": "4,271",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.yds"
+      },
+      {
+       "label": "Crawford TD passes, Y95",
+       "value": "52",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.td"
+      },
+      {
+       "label": "Eagles record",
+       "value": "17-0",
+       "source": "coach.json Y95 record"
+      },
+      {
+       "label": "Crawford TD passes, Y94",
+       "value": "68",
+       "source": "market_history.json snap-202611140247..snap-202611141119 QB:Bones Crawford s.td"
+      },
+      {
+       "label": "Games missed",
+       "value": "2",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g minus market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.g"
+      },
+      {
+       "label": "Eagles games",
+       "value": "20",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g"
+      },
+      {
+       "label": "Wingo yards, Y95",
+       "value": "2,267",
+       "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.yds"
+      }
+     ]
+    },
+    {
+     "id": "y95-take-cowboys",
+     "heat": 3,
+     "headline": "We Said Dallas Had Philadelphia's Number. Dallas Went 2-15. The Rivalry Is Dead.",
+     "dek": "The worst record in the league, 0-8 at home, and two more losses to the Eagles.",
+     "body": [
+      "Last year this column called the Cowboys the only club that knew how to beat Philadelphia. That aged badly. Dallas finished 2-15, last in the league's power table, winless at home at 0-8 and outscored by 200 points.",
+      "The Eagles beat them twice, 32-27 in Dallas and 40-22 in Philadelphia, and the series now stands 12-3-1 in Philadelphia's favour. A rivalry needs two sides that can win. The Giants took the Eagles to the final snap in a one-point game. The Commanders went 12-5. Dallas is a fixture on the schedule now, not a rival, and this column regrets the error."
+     ],
+     "players": [],
+     "teams": [
+      "Cowboys",
+      "Eagles",
+      "Giants",
+      "Commanders"
+     ],
+     "stats": [
+      {
+       "label": "Cowboys record",
+       "value": "2-15",
+       "source": "schedule.json seasons/Y95/table/[abbr=DAL]/record"
+      },
+      {
+       "label": "Cowboys at home",
+       "value": "0-8",
+       "source": "schedule.json seasons/Y95/table/[abbr=DAL]/home"
+      },
+      {
+       "label": "Point differential",
+       "value": "200",
+       "source": "schedule.json seasons/Y95/table/[abbr=DAL]/diff"
+      },
+      {
+       "label": "Eagles at Dallas",
+       "value": "32-27",
+       "source": "schedule.json seasons/Y95/coachGames/[week=3]/score"
+      },
+      {
+       "label": "Dallas at Eagles",
+       "value": "40-22",
+       "source": "schedule.json seasons/Y95/coachGames/[week=18]/score"
+      },
+      {
+       "label": "Series",
+       "value": "12-3-1",
+       "source": "content.json rivalryFiles/[id=rivalry-cowboys]/record/text"
+      },
+      {
+       "label": "Commanders record",
+       "value": "12-5",
+       "source": "schedule.json seasons/Y95/table/[abbr=WAS]/record"
+      }
+     ]
+    },
+    {
+     "id": "y95-take-ravens-luck",
+     "heat": 2,
+     "headline": "The 14-3 Ravens Were the Luckiest Team in Football",
+     "dek": "A plus-54 point margin, 10-1 in one-score games and about 9.5 wins' worth of football.",
+     "body": [
+      "Baltimore won 14 games and outscored opponents by 54 points. The Chiefs outscored theirs by 142, and the Buccaneers by 124 while winning only 10. The difference is close games: the Ravens went 10-1 in one-score games, and nobody repeats that on purpose.",
+      "By points scored and allowed, the Ravens played like a 9.5-win team, which leaves 4.5 wins of luck, the most in the league. They gave up 31.8 points a game. That is not a contender's defense. Enjoy the 14-3, Baltimore. Next season the close ones start landing the other way."
+     ],
+     "players": [],
+     "teams": [
+      "Ravens",
+      "Chiefs",
+      "Buccaneers"
+     ],
+     "stats": [
+      {
+       "label": "Ravens record",
+       "value": "14-3",
+       "source": "schedule.json seasons/Y95/table/[abbr=BAL]/record"
+      },
+      {
+       "label": "Point differential",
+       "value": "54",
+       "source": "schedule.json seasons/Y95/table/[abbr=BAL]/diff"
+      },
+      {
+       "label": "One-score games",
+       "value": "10-1",
+       "source": "schedule.json seasons/Y95/table/[abbr=BAL]/oneScore"
+      },
+      {
+       "label": "Expected wins",
+       "value": "9.5",
+       "source": "schedule.json seasons/Y95/table/[abbr=BAL]/expWins"
+      },
+      {
+       "label": "Chiefs differential",
+       "value": "142",
+       "source": "schedule.json seasons/Y95/table/[abbr=KC]/diff"
+      },
+      {
+       "label": "Buccaneers differential",
+       "value": "124",
+       "source": "schedule.json seasons/Y95/table/[abbr=TB]/diff"
+      },
+      {
+       "label": "Buccaneers wins",
+       "value": "10",
+       "source": "schedule.json seasons/Y95/table/[abbr=TB]/w"
+      },
+      {
+       "label": "Wins of luck",
+       "value": "4.5",
+       "source": "schedule.json seasons/Y95/table/[abbr=BAL]/luck"
+      },
+      {
+       "label": "Points allowed a game",
+       "value": "31.8",
+       "source": "schedule.json seasons/Y95/table/[abbr=BAL]/papg"
+      }
+     ]
+    },
+    {
+     "id": "y95-take-vigil",
+     "heat": 2,
+     "headline": "Maurice Vigil Outscored Ryland Maxwell on the Ground, and Nobody Outside Kansas City Noticed",
+     "dek": "34 rushing touchdowns to Maxwell's 30, the most in the league, at 34 years old.",
+     "body": [
+      "Maxwell took the career records and the headlines. The league's best goal-line runner in Y95 wore red. Vigil scored 34 rushing touchdowns in 20 games, more than anyone, and added 1,755 yards for a Chiefs club that went 15-2 and reached Super Bowl CLIV.",
+      "There it ended, 24-19, and that is the rest of the Vigil story: 352 career rushing touchdowns, a Chief since Y82 as far as the record shows, and no ring. The Chiefs also lost to the 6-11 Raiders, the upset of the season, and Skura's clubs are now 5-0 against them all time. Vigil deserved a better club. Kansas City deserved a better ending for him."
+     ],
+     "players": [
+      "Maurice Vigil",
+      "Ryland Maxwell"
+     ],
+     "teams": [
+      "Chiefs",
+      "Raiders",
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Rushing TDs, Y95",
+       "value": "34",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Maurice Vigil s.rtd"
+      },
+      {
+       "label": "Maxwell rushing TDs, Y95",
+       "value": "30",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.rtd"
+      },
+      {
+       "label": "Age",
+       "value": "34",
+       "source": "save_state.json players/RB:Maurice Vigil/age"
+      },
+      {
+       "label": "Games, Y95",
+       "value": "20",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Maurice Vigil s.g"
+      },
+      {
+       "label": "Rushing yards, Y95",
+       "value": "1,755",
+       "source": "market_history.json snap-202611141119..snap-202611162108 RB:Maurice Vigil s.ryds"
+      },
+      {
+       "label": "Chiefs record",
+       "value": "15-2",
+       "source": "schedule.json seasons/Y95/table/[abbr=KC]/record"
+      },
+      {
+       "label": "Super Bowl CLIV",
+       "value": "24-19",
+       "source": "super_bowls.json Y95 score"
+      },
+      {
+       "label": "Career rushing TDs",
+       "value": "352",
+       "source": "players.json RB:Maurice Vigil rtd"
+      },
+      {
+       "label": "Raiders record",
+       "value": "6-11",
+       "source": "schedule.json seasons/Y95/upset/winnerRecord"
+      },
+      {
+       "label": "Skura's clubs vs Chiefs, wins",
+       "value": "5",
+       "source": "schedule.json headToHead/Chiefs/w"
+      },
+      {
+       "label": "Losses",
+       "value": "0",
+       "source": "schedule.json headToHead/Chiefs/l"
+      }
+     ]
+    },
+    {
+     "id": "y95-take-swaim",
+     "heat": 1,
+     "headline": "Travon Swaim's Defensive Player of the Year Was a Lifetime Award, and He Earned It",
+     "dek": "249 games for Detroit, a first trophy at 34, and a card that more than doubled.",
+     "body": [
+      "Isaiah Pinkney of the Ravens made 238 tackles in Y95 and Swaim made 232, so this was no runaway on the numbers. It did not need to be. Swaim has played 249 games, a Lion since Y81 as far as the record shows, and his 2,865 career tackles had never brought him this award.",
+      "At 34 he played 20 games, made 232 tackles and 3 interceptions, and the market finally caught up: his card value went from 2,459 to 5,983. Detroit won its division at 9-8 and lost to the Eagles 30-16 in the conference round. The voters picked the career. This time the career was the right answer."
+     ],
+     "players": [
+      "Travon Swaim",
+      "Isaiah Pinkney"
+     ],
+     "teams": [
+      "Lions",
+      "Ravens",
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Career games",
+       "value": "249",
+       "source": "market_history.json snap-202611162108 DB:Travon Swaim s.g"
+      },
+      {
+       "label": "Age",
+       "value": "34",
+       "source": "save_state.json players/DB:Travon Swaim/age"
+      },
+      {
+       "label": "Pinkney tackles, Y95",
+       "value": "238",
+       "source": "market_history.json snap-202611141119..snap-202611162108 DB:Isaiah Pinkney s.tkl"
+      },
+      {
+       "label": "Swaim tackles, Y95",
+       "value": "232",
+       "source": "market_history.json snap-202611141119..snap-202611162108 DB:Travon Swaim s.tkl"
+      },
+      {
+       "label": "Career tackles",
+       "value": "2,865",
+       "source": "market_history.json snap-202611162108 DB:Travon Swaim s.tkl"
+      },
+      {
+       "label": "Games, Y95",
+       "value": "20",
+       "source": "market_history.json snap-202611141119..snap-202611162108 DB:Travon Swaim s.g"
+      },
+      {
+       "label": "Interceptions, Y95",
+       "value": "3",
+       "source": "market_history.json snap-202611141119..snap-202611162108 DB:Travon Swaim s.int"
+      },
+      {
+       "label": "Card value before",
+       "value": "2,459",
+       "source": "market_history.json snap-202611141119 DB:Travon Swaim value"
+      },
+      {
+       "label": "Card value after",
+       "value": "5,983",
+       "source": "market_history.json snap-202611162108 DB:Travon Swaim value"
+      },
+      {
+       "label": "Lions record",
+       "value": "9-8",
+       "source": "schedule.json seasons/Y95/table/[abbr=DET]/record"
+      },
+      {
+       "label": "Conference round",
+       "value": "30-16",
+       "source": "schedule.json seasons/Y95/coachGames/[week=30]/score"
+      }
+     ]
+    },
+    {
+     "id": "y95-take-buccaneers",
+     "heat": 1,
+     "headline": "The Buccaneers Were the Second-Best Team in the NFC, Whatever 10-7 Says",
+     "dek": "Plus-124 in points, 3-6 in one-score games, about 10.8 wins' worth of football.",
+     "body": [
+      "Tampa Bay outscored opponents by 124 points, the best margin in the NFC outside Philadelphia, and finished 10-7, second in its own division behind an 11-6 Falcons club that was plus-17. The gap is close games: the Buccaneers went 3-6 in one-score games.",
+      "By points they played like a 10.8-win team. Then they drew the Eagles in the divisional round and lost 40-10, so nobody will remember this club. They should. Swap the luck with Baltimore and Tampa Bay is the team everyone calls Philadelphia's heir."
+     ],
+     "players": [],
+     "teams": [
+      "Buccaneers",
+      "Falcons",
+      "Eagles",
+      "Ravens"
+     ],
+     "stats": [
+      {
+       "label": "Point differential",
+       "value": "124",
+       "source": "schedule.json seasons/Y95/table/[abbr=TB]/diff"
+      },
+      {
+       "label": "Buccaneers record",
+       "value": "10-7",
+       "source": "schedule.json seasons/Y95/table/[abbr=TB]/record"
+      },
+      {
+       "label": "Falcons record",
+       "value": "11-6",
+       "source": "schedule.json seasons/Y95/table/[abbr=ATL]/record"
+      },
+      {
+       "label": "Falcons differential",
+       "value": "17",
+       "source": "schedule.json seasons/Y95/table/[abbr=ATL]/diff"
+      },
+      {
+       "label": "One-score games",
+       "value": "3-6",
+       "source": "schedule.json seasons/Y95/table/[abbr=TB]/oneScore"
+      },
+      {
+       "label": "Expected wins",
+       "value": "10.8",
+       "source": "schedule.json seasons/Y95/table/[abbr=TB]/expWins"
+      },
+      {
+       "label": "Divisional round",
+       "value": "40-10",
+       "source": "schedule.json seasons/Y95/coachGames/[week=27]/score"
+      }
+     ]
+    },
+    {
+     "id": "y95-take-eagles-broke-league",
+     "heat": 3,
+     "headline": "Five Straight Titles, 17-0 and a 298-Point Margin: Philadelphia Has Broken the League",
+     "dek": "The best offense and the best defense in Y95, and only one Eagles game all year decided by a single point.",
+     "body": [
+      "Super Bowl CLIV was the Eagles' fifth title in a row, and the closest anyone came all season was the Giants, who lost 32-31. Philadelphia scored 36.7 points a game and allowed 19.2, both the best in the league, and went 17-0 for the second time in three seasons.",
+      "The game tries to stop this. Its draft rule caps each class by the last record, and after a perfect season the best prospects in the Y96 class top out at 6 half-stars. It has not mattered. The Chiefs went 15-2, the best record anyone else managed, and still lost the final by 5. The rest of the league is playing for second place, and second place is not close."
+     ],
+     "players": [],
+     "teams": [
+      "Eagles",
+      "Giants",
+      "Chiefs"
+     ],
+     "stats": [
+      {
+       "label": "Point differential",
+       "value": "298",
+       "source": "schedule.json seasons/Y95/table/[abbr=PHI]/diff"
+      },
+      {
+       "label": "Record",
+       "value": "17-0",
+       "source": "coach.json Y95 record"
+      },
+      {
+       "label": "Y93 record",
+       "value": "17-0",
+       "source": "coach.json Y93 record"
+      },
+      {
+       "label": "Closest game",
+       "value": "32-31",
+       "source": "schedule.json seasons/Y95/coachGames/[week=12]/score"
+      },
+      {
+       "label": "Points a game",
+       "value": "36.7",
+       "source": "schedule.json seasons/Y95/table/[abbr=PHI]/ppg"
+      },
+      {
+       "label": "Allowed a game",
+       "value": "19.2",
+       "source": "schedule.json seasons/Y95/table/[abbr=PHI]/papg"
+      },
+      {
+       "label": "Draft cap, half-stars",
+       "value": "6",
+       "source": "content.json mechanics/draft/capHalfStars"
+      },
+      {
+       "label": "Chiefs record",
+       "value": "15-2",
+       "source": "schedule.json seasons/Y95/table/[abbr=KC]/record"
+      },
+      {
+       "label": "Super Bowl margin",
+       "value": "5",
+       "source": "schedule.json seasons/Y95/coachGames/[week=31]/margin"
+      }
+     ]
+    }
+   ]
   }
  }
 }

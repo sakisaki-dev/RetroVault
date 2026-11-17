@@ -361,17 +361,31 @@
   {
    "id": "y94-farewells",
    "kind": "farewells",
-   "club": "Chargers",
+   "club": "Jets",
    "kicker": "Farewells",
    "title": "Final whistles",
-   "text": "19 careers ended in Y94.",
+   "text": "38 careers ended in Y94.",
    "players": [
+    {
+     "key": "DB:Kyron Atwell",
+     "name": "Kyron Atwell",
+     "games": 267,
+     "legacy": 8397,
+     "team": "Jets"
+    },
     {
      "key": "DB:Odell Hainsey",
      "name": "Odell Hainsey",
      "games": 260,
      "legacy": 8016,
      "team": "Chargers"
+    },
+    {
+     "key": "DL:Mykal Shaw",
+     "name": "Mykal Shaw",
+     "games": 286,
+     "legacy": 7929,
+     "team": "Bills"
     },
     {
      "key": "DL:Dallin Santoso",
@@ -393,29 +407,15 @@
      "games": 261,
      "legacy": 7273,
      "team": "Lions"
-    },
-    {
-     "key": "DB:Linval Laulile",
-     "name": "Linval Laulile",
-     "games": 257,
-     "legacy": 7062,
-     "team": "Steelers"
-    },
-    {
-     "key": "QB:Tevin Fox",
-     "name": "Tevin Fox",
-     "games": 403,
-     "legacy": 6676,
-     "team": "Panthers"
     }
    ],
-   "count": 19,
+   "count": 38,
    "teams": [
+    "Bills",
     "Buccaneers",
     "Chargers",
+    "Jets",
     "Lions",
-    "Panthers",
-    "Steelers",
     "Vikings"
    ],
    "n": 7

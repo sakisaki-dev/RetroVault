@@ -373,6 +373,69 @@
    "n": 6
   },
   {
+   "id": "y95-farewells",
+   "kind": "farewells",
+   "club": "Jets",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "19 careers ended in Y95.",
+   "players": [
+    {
+     "key": "DB:Kyron Atwell",
+     "name": "Kyron Atwell",
+     "games": 267,
+     "legacy": 8397,
+     "team": "Jets"
+    },
+    {
+     "key": "DL:Mykal Shaw",
+     "name": "Mykal Shaw",
+     "games": 286,
+     "legacy": 7929,
+     "team": "Bills"
+    },
+    {
+     "key": "QB:Josh Brooks",
+     "name": "Josh Brooks",
+     "games": 350,
+     "legacy": 6904,
+     "team": "Commanders"
+    },
+    {
+     "key": "OL:Javon Trask",
+     "name": "Javon Trask",
+     "games": 256,
+     "legacy": 5065,
+     "team": "Rams"
+    },
+    {
+     "key": "LB:Gunner Okwara",
+     "name": "Gunner Okwara",
+     "games": 260,
+     "rings": 1,
+     "legacy": 4773,
+     "team": "Texans"
+    },
+    {
+     "key": "LB:Treylon Dogbe",
+     "name": "Treylon Dogbe",
+     "games": 259,
+     "legacy": 4397,
+     "team": "Steelers"
+    }
+   ],
+   "count": 19,
+   "teams": [
+    "Bills",
+    "Commanders",
+    "Jets",
+    "Rams",
+    "Steelers",
+    "Texans"
+   ],
+   "n": 7
+  },
+  {
    "id": "y95-power",
    "kind": "power",
    "club": "Eagles",
@@ -410,7 +473,7 @@
     "winnerRecord": "6-11",
     "loserRecord": "15-2"
    },
-   "n": 7
+   "n": 8
   },
   {
    "id": "y95-tribute",
@@ -427,10 +490,80 @@
      "reason": "From the queue"
     }
    ],
+   "link": {
+    "tribute": "QB:Sherman Brandson"
+   },
    "teams": [
     "Buccaneers"
    ],
-   "n": 8
+   "n": 9
+  },
+  {
+   "id": "y95-story",
+   "kind": "story",
+   "club": "Eagles",
+   "kicker": "Season Story",
+   "title": "Perfect Again: Eagles Go 17-0 and Hold Off the Chiefs 24-19 in Super Bowl CLIV",
+   "text": "Philadelphia won all 20 of its games, had the league's best offense and its best defense, and needed every point of a 5-point Super Bowl margin for a fifth straight title.",
+   "quoted": true,
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Eagles"
+    },
+    {
+     "key": "QB:Bones Crawford",
+     "name": "Bones Crawford",
+     "team": "Eagles"
+    },
+    {
+     "key": "WR:Calvin Wingo II",
+     "name": "Calvin Wingo II",
+     "team": "Eagles"
+    }
+   ],
+   "link": {
+    "story": "y95-eagles-cliv"
+   },
+   "teams": [
+    "Eagles",
+    "Chiefs",
+    "Buccaneers",
+    "Lions",
+    "Jaguars",
+    "Giants"
+   ],
+   "n": 10
+  },
+  {
+   "id": "y95-take",
+   "kind": "take",
+   "club": "Eagles",
+   "kicker": "Hottest take",
+   "title": "Ryland Maxwell Has Passed Sherman Brandson. Stop Calling It a Debate.",
+   "text": "Career Legacy 14,019 to 13,540, 12 rings to 10, and both career rushing records.",
+   "quoted": true,
+   "heat": 3,
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Eagles"
+    },
+    {
+     "key": "QB:Sherman Brandson",
+     "name": "Sherman Brandson",
+     "team": "Buccaneers"
+    }
+   ],
+   "link": {
+    "take": "y95-take-maxwell-greatest"
+   },
+   "teams": [
+    "Eagles"
+   ],
+   "n": 11
   },
   {
    "id": "y95-outro",
@@ -451,20 +584,11 @@
      "num": 76
     }
    ],
-   "text": "Through Y95, Skura has won 69 of 76 Super Bowls. Chasing history in Y96: Atwell, 126 tackles from Settle's mark; Brooker, 2 interceptions from Hobbs's mark.",
+   "text": "Through Y95, Skura has won 69 of 76 Super Bowls. Chasing history in Y96: Brooker, 2 interceptions from Hobbs's mark; Spector, 33 rushing TDs from McCoy's mark.",
    "teams": [
     "Eagles"
    ],
    "players": [
-    {
-     "key": "DB:Kyron Atwell",
-     "name": "Kyron Atwell",
-     "team": "Jets",
-     "label": "career tackles",
-     "gap": 126,
-     "share": 96,
-     "holder": "K'Lavon Settle"
-    },
     {
      "key": "DB:Jamon Brooker",
      "name": "Jamon Brooker",
@@ -473,9 +597,18 @@
      "gap": 2,
      "share": 95,
      "holder": "Damar Hobbs"
+    },
+    {
+     "key": "RB:Siran Spector",
+     "name": "Siran Spector",
+     "team": "Texans",
+     "label": "career rushing TDs",
+     "gap": 33,
+     "share": 93,
+     "holder": "Lane McCoy"
     }
    ],
-   "n": 9
+   "n": 12
   }
  ]
 }
