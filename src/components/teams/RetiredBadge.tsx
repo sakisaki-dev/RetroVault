@@ -6,6 +6,7 @@ import { getNFLTeamById } from '@/utils/nflTeams';
 import { getReadableTextOn } from '@/utils/teamColors';
 import { useRafters } from '@/utils/rafters';
 import { openRafters } from '@/utils/raftersLink';
+import TeamLogo from '@/components/brand/TeamLogo';
 import type { RetiredNumber } from '@/utils/jerseys';
 import './rafters.css';
 
@@ -77,6 +78,50 @@ export const RetiredStrip = ({ player, onLeave, className }: { player: Player | 
   const clubs = useRetiredClubs(player);
   const { bannersFor, ringFor } = useRafters();
   if (!clubs.length || !player) return null;
+  // More than one club (owner, 2026-11-17: "make the little banner thing a bit more concise"): one strip, the number
+  // once, a chip per club in its colours (logo, name, ★ for its Ring of Honor); each chip opens that club's rafters
+  if (clubs.length > 1) {
+    const n = clubs[0].number;
+    const same = clubs.every((r) => r.number === n);
+    return (
+      <div className={cn('raf-multi', className)}>
+        <span className="raf-multi__flag" aria-hidden="true">
+          {n}
+        </span>
+        <div className="raf-multi__body">
+          <p className="raf-multi__title">
+            {same ? `#${n} retired by ${clubs.length} clubs` : `Retired by ${clubs.length} clubs`}
+          </p>
+          <ul className="raf-multi__clubs" aria-label="Clubs that retired his number">
+            {clubs.map((r) => {
+              const t = getNFLTeamById(r.teamKey);
+              const inRing = ringFor(t).some((e) => `${e.pos}:${e.name}` === `${player.position}:${player.name}`);
+              return (
+                <li key={r.teamKey}>
+                  <button
+                    type="button"
+                    className="raf-multi__club"
+                    style={colours(r)}
+                    onClick={() => go(r, onLeave)}
+                    aria-label={`${same ? '' : `#${r.number} `}${t?.name ?? r.teamLabel}${inRing ? ', Ring of Honor' : ''}: open their rafters`}
+                  >
+                    {t && <TeamLogo team={t.name} size={18} decorative />}
+                    <span>{t?.name ?? r.teamLabel}</span>
+                    {!same && <span className="raf-multi__n">#{r.number}</span>}
+                    {inRing && (
+                      <span className="raf-multi__ring" title="Ring of Honor" aria-hidden="true">
+                        ★
+                      </span>
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={cn('raf-strips', className)}>
       {clubs.map((r) => {

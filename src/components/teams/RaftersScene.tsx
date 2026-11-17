@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import type { NFLTeam } from '@/utils/nflTeams';
 import { getReadableTextOn } from '@/utils/teamColors';
@@ -34,11 +34,160 @@ const spread = (n: number, i: number) => {
 
 const ringsText = (n: number) => `${n} ring${n === 1 ? '' : 's'} here`;
 
+const reduceMotion = () => {
+  try {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  } catch {
+    return false;
+  }
+};
+
+/** Pendulum: radians, a natural swing of about a second, gentle air damping, a hard stop at MAX */
+const K = 26; // stiffness (g / L)
+const DAMP = 0.9;
+const MAX = (55 * Math.PI) / 180;
+const DRAG_PX = 6; // a press that moves less is a tap (opens his card)
+
+/**
+ * A banner on its wires that swings (owner, 2026-11-17: "make the rafters swing, I can drag them"): grab it and pull it
+ * sideways around the hook where its wires meet the rail, let go and it swings back and forth until it settles. The
+ * wires swing with it, the light cone stays. Only transform is written, one rAF loop per moving banner. A tap still
+ * opens his card and a hold the quick look (a drag past a few pixels swallows the click). Reduced motion: it follows the
+ * finger and eases straight back, no swing.
+ */
+const Pendulum = ({ children, style }: { children: ReactNode; style?: CSSProperties }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let a = 0; // angle, rad (positive: swung right)
+    let v = 0; // rad/s
+    let raf = 0;
+    let id = -1;
+    let px = 0;
+    let py = 0;
+    let sx = 0;
+    let sy = 0;
+    let grab = 0; // pointer angle minus banner angle at the grab
+    let dragging = false;
+    let samples: { t: number; a: number }[] = [];
+    const set = () => {
+      el.style.transform = a ? `rotate(${a.toFixed(4)}rad)` : '';
+    };
+    const pointerAngle = (x: number, y: number) => Math.atan2(px - x, y - py);
+    const stop = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+    };
+    const run = () => {
+      stop();
+      let prev = performance.now();
+      const still = reduceMotion();
+      const step = (now: number) => {
+        const dt = Math.min(0.032, (now - prev) / 1000);
+        prev = now;
+        if (still) {
+          a += (0 - a) * Math.min(1, dt * 12);
+          v = 0;
+        } else {
+          v += (-K * Math.sin(a) - DAMP * v) * dt;
+          a += v * dt;
+          if (Math.abs(a) > MAX) {
+            a = Math.sign(a) * MAX;
+            v *= -0.4;
+          }
+        }
+        set();
+        if (Math.abs(a) < 0.0008 && Math.abs(v) < 0.004) {
+          a = 0;
+          v = 0;
+          set();
+          el.classList.remove('is-swinging');
+          raf = 0;
+          return;
+        }
+        raf = requestAnimationFrame(step);
+      };
+      el.classList.add('is-swinging');
+      raf = requestAnimationFrame(step);
+    };
+    const onDown = (e: PointerEvent) => {
+      if (id !== -1 || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      id = e.pointerId;
+      sx = e.clientX;
+      sy = e.clientY;
+      dragging = false;
+      // the hook: the top centre of the banner's slot (its unrotated parent)
+      const box = (el.parentElement ?? el).getBoundingClientRect();
+      px = box.left + box.width / 2;
+      py = box.top;
+    };
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerId !== id) return;
+      if (!dragging) {
+        if (Math.hypot(e.clientX - sx, e.clientY - sy) < DRAG_PX) return;
+        dragging = true;
+        stop();
+        grab = pointerAngle(e.clientX, e.clientY) - a;
+        samples = [];
+        el.classList.add('is-swinging', 'is-held');
+        try {
+          el.setPointerCapture(id);
+        } catch {
+          /* already released */
+        }
+      }
+      e.preventDefault();
+      a = Math.max(-MAX, Math.min(MAX, pointerAngle(e.clientX, e.clientY) - grab));
+      samples.push({ t: e.timeStamp, a });
+      if (samples.length > 6) samples.shift();
+      set();
+    };
+    const onUp = (e: PointerEvent) => {
+      if (e.pointerId !== id) return;
+      id = -1;
+      el.classList.remove('is-held');
+      if (!dragging) return;
+      const first = samples[0];
+      const last = samples[samples.length - 1];
+      const dt = first && last ? (last.t - first.t) / 1000 : 0;
+      v = dt > 0 ? Math.max(-8, Math.min(8, (last.a - first.a) / dt)) : 0;
+      run();
+    };
+    // a drag is not a tap: swallow the click that follows it (the banner's button opens his card)
+    const onClick = (e: MouseEvent) => {
+      if (dragging) {
+        e.preventDefault();
+        e.stopPropagation();
+        dragging = false;
+      }
+    };
+    el.addEventListener('pointerdown', onDown);
+    el.addEventListener('pointermove', onMove, { passive: false });
+    el.addEventListener('pointerup', onUp);
+    el.addEventListener('pointercancel', onUp);
+    el.addEventListener('click', onClick, true);
+    return () => {
+      stop();
+      el.removeEventListener('pointerdown', onDown);
+      el.removeEventListener('pointermove', onMove);
+      el.removeEventListener('pointerup', onUp);
+      el.removeEventListener('pointercancel', onUp);
+      el.removeEventListener('click', onClick, true);
+    };
+  }, []);
+  return (
+    <span ref={ref} className="rafter__pend" style={style}>
+      {children}
+    </span>
+  );
+};
+
 /**
  * An arena ceiling for a club's retired numbers (Rafters.dc.html): a steel truss, spotlight cones, a banner per number in
  * the club's colours with a gold trim (HALL OF FAME, the number, the surname, position and years with the club, rings
  * won there), the Ring of Honor band over a crowd silhouette, and a note on how numbers go up. Banners sway a little
- * only when motion is allowed. An empty club shows the bare truss and the note.
+ * only when motion is allowed, and swing when dragged (Pendulum). An empty club shows the bare truss and the note.
  */
 const RaftersScene = ({ team, banners, ring, onOpen, onRing, title, headingId = 'retired-numbers', compact = false, className }: Props) => {
   const primary = team?.primaryColor ?? '226 33% 30%';
@@ -83,6 +232,7 @@ const RaftersScene = ({ team, banners, ring, onOpen, onRing, title, headingId = 
             return (
               <li key={`${b.r.number}-${b.r.name}`} className="rafter" style={{ '--wire': `${s.wire}px`, '--tilt': `${s.tilt}deg`, '--dur': `${s.dur}s`, '--delay': `${s.delay}s` } as CSSProperties}>
                 <span className="rafter__cone" aria-hidden="true" />
+                <Pendulum>
                 <span className="rafter__wire rafter__wire--l" aria-hidden="true" />
                 <span className="rafter__wire rafter__wire--r" aria-hidden="true" />
                 <span className="rafter__sway">
@@ -96,6 +246,7 @@ const RaftersScene = ({ team, banners, ring, onOpen, onRing, title, headingId = 
                     </span>
                   )}
                 </span>
+                </Pendulum>
               </li>
             );
           })}

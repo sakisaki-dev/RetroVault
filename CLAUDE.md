@@ -609,13 +609,16 @@ source names that file).
   the surname, position and years with that club and "N rings here" from the career stints), hung a little unevenly and
   swaying only when motion is allowed (never in lite mode), the club's Ring of Honor (halloffame.json `ringOfHonor`) as
   a band over a crowd silhouette, and a note on how numbers go up (an empty club shows the bare truss and that note).
-  Tap a banner for his card, hold it for the quick look. It replaces the old row in the team sheet's Overview
+  Tap a banner for his card, hold it for the quick look; drag it sideways and it swings on its
+  wires like a pendulum and settles (`Pendulum` in RaftersScene.tsx; owner: "make the rafters swing, I can drag them";
+  reduced motion eases straight back). It replaces the old row in the team sheet's Overview
   (`RetiredRafters.tsx` is now a wrapper), sits compact in a Hall of Fame plaque, and has its own Hall of Fame section,
   **The Rafters** (`src/components/hof/HofRafters.tsx`, anchor `hof-rafters-title`, in BottomNav's HOF hold menu), with
   club chips to walk every club. **The player card's badge** (CardBanner.dc.html, `src/components/teams/RetiredBadge.tsx`):
   a retired player's hero gets a small banner per club that hangs his number (at most 3; three slim down), hanging on long wires from the
   top edge (RETIRED, the number, the club's abbreviation, club colours; it replaces the hero's "Number retired by" tag),
-  and the identity strip gets a club-colour strip, "#N retired by the <Club>" with the other numbers in those rafters and
+  and the identity strip gets a club-colour strip, "#N retired by the <Club>" (retired by more than one club: one strip, "#N retired
+  by 3 clubs" with a chip per club and ★ for its Ring of Honor) with the other numbers in those rafters and
   Ring of Honor. Either opens that club's rafters: `openRafters(clubId)` (`src/utils/raftersLink.ts`) closes the card,
   pages/Index.tsx switches to the Hall of Fame tab and the Rafters section picks the club and scrolls to itself. Never on
   Collection card faces (cards are timeless).

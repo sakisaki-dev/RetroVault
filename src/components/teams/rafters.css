@@ -75,7 +75,23 @@
 .rafter {
   position: relative;
   flex: 0 0 auto;
+}
+/* The swinging part (RaftersScene Pendulum): wires and banner turn together about the hook on the rail */
+.rafter__pend {
+  position: relative;
+  display: block;
   padding-top: var(--wire, 26px);
+  transform-origin: 50% 0;
+  touch-action: pan-y; /* a sideways drag swings the banner; an up-down drag still scrolls the page */
+  cursor: grab;
+  z-index: 2;
+}
+.rafter__pend.is-held {
+  cursor: grabbing;
+}
+.rafter__pend.is-swinging {
+  z-index: 4;
+  will-change: transform;
 }
 .rafter__cone {
   position: absolute;
@@ -495,4 +511,88 @@ button.rafter__hit:focus-visible {
 .raf-strip__go {
   flex-shrink: 0;
   color: var(--raf-accent);
+}
+
+/* More than one club retired it: one strip, the number once, a chip per club (RetiredStrip) */
+.raf-multi {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px 8px 8px;
+  border-radius: 12px;
+  border-left: 4px solid #ffc62f;
+  background: linear-gradient(90deg, hsl(228 40% 16%), hsl(228 40% 12% / 0.6));
+}
+.raf-multi__flag {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-start;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 30px;
+  height: 40px;
+  padding-top: 4px;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.15), rgb(0 0 0 / 0.2)), hsl(228 47% 10%);
+  clip-path: polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%);
+  box-shadow: inset 0 0 0 1.5px #ffc62f;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1;
+  color: #ffc62f;
+}
+.raf-multi__body {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+}
+.raf-multi__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.raf-multi__clubs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.raf-multi__club {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 9px 0 6px;
+  border-radius: 999px;
+  background: hsl(var(--raf-club));
+  color: var(--raf-fg);
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.18);
+  transition: filter 0.15s, transform 0.15s;
+}
+.raf-multi__club:hover {
+  filter: brightness(1.12);
+}
+.raf-multi__club:active {
+  transform: scale(0.96);
+}
+.raf-multi__club:focus-visible {
+  outline: 2px solid #ffc62f;
+  outline-offset: 2px;
+}
+.raf-multi__n {
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+.raf-multi__ring {
+  color: var(--raf-accent);
+  font-size: 11px;
 }
