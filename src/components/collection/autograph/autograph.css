@@ -227,3 +227,136 @@
   color: hsl(var(--gold));
   font-weight: 700;
 }
+
+/* ---------- Autograph carousel (card detail strip, Collection browse view) ---------- */
+.ag-car {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+.ag-car__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ag-car__arrows {
+  display: none;
+  gap: 6px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ag-car__arrows {
+    display: inline-flex;
+  }
+}
+.ag-car__arrow {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid hsl(var(--line));
+  background: hsl(var(--panel));
+  color: inherit;
+}
+.ag-car__arrow:disabled {
+  opacity: 0.3;
+}
+.ag-car__arrow:not(:disabled):hover {
+  border-color: hsl(var(--gold) / 0.6);
+}
+.ag-car__row {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 6px 2px 10px;
+  list-style: none;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+}
+.ag-car__row::-webkit-scrollbar {
+  display: none;
+}
+.ag-car__row:focus-visible {
+  outline: 2px solid hsl(var(--gold) / 0.6);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+.ag-car__item {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+}
+.ag-car--card .ag-car__item {
+  width: clamp(132px, 46vw, 200px);
+}
+.ag-car--thumb .ag-car__item {
+  width: 88px;
+}
+.ag-car__tile {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ag-car__tile canvas {
+  box-shadow: 0 10px 24px rgb(0 0 0 / 0.4), 0 0 0 1px rgb(255 255 255 / 0.05);
+  transition: box-shadow 0.18s ease-out;
+}
+.ag-car__tile.is-selected canvas {
+  outline: 2px solid hsl(var(--gold));
+  outline-offset: 2px;
+}
+.ag-car__tile:focus-visible {
+  outline: none;
+}
+.ag-car__tile:focus-visible canvas {
+  box-shadow: 0 0 0 2px hsl(var(--gold) / 0.6);
+}
+.ag-car__cap {
+  min-width: 0;
+  padding: 0 2px;
+}
+.ag-car__dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.ag-car__dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: hsl(var(--line));
+}
+.ag-car__dot.is-on {
+  background: hsl(var(--gold));
+}
+.au-view {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid hsl(var(--line));
+  border-radius: 999px;
+  background: hsl(var(--panel));
+}
+.au-view button {
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: hsl(var(--muted-foreground));
+}
+.au-view button[aria-pressed='true'] {
+  background: hsl(var(--gold) / 0.18);
+  color: hsl(var(--gold));
+}

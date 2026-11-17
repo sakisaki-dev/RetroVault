@@ -5,6 +5,7 @@ import { useMarket } from '@/utils/useMarket';
 import { autographPrice, fmtCoins } from '@/utils/cardMarket';
 import { autographValue, fmtMult, parallelOf, serialStr } from '@/config/autographs';
 import AutographCanvas from './AutographCanvas';
+import AutographCarousel from './AutographCarousel';
 import { autographOddsLine } from './AutographDetails';
 
 const PAGE = 48;
@@ -17,6 +18,7 @@ const PAGE = 48;
 const AutographsSection = ({ autos, onOpen }: { autos: OwnedAuto[]; onOpen: (auto: OwnedAuto, from?: DOMRect) => void }) => {
   const history = useMarket();
   const [limit, setLimit] = useState(PAGE);
+  const [mode, setMode] = useState<'grid' | 'browse'>('grid');
   const list = useMemo(() => [...autos].sort((a, b) => b.pulledAt - a.pulledAt), [autos]);
   const latest = history?.[history.length - 1];
     const total = useMemo(
@@ -39,6 +41,16 @@ const AutographsSection = ({ autos, onOpen }: { autos: OwnedAuto[]; onOpen: (aut
             </>
           )}
         </span>
+        {list.length > 1 && (
+          <span className="au-view ml-auto" role="group" aria-label="Autographs view">
+            <button type="button" aria-pressed={mode === 'grid'} onClick={() => setMode('grid')}>
+              Grid
+            </button>
+            <button type="button" aria-pressed={mode === 'browse'} onClick={() => setMode('browse')}>
+              Browse
+            </button>
+          </span>
+        )}
       </div>
       {list.length === 0 ? (
         <div className="au-empty">
@@ -54,6 +66,8 @@ const AutographsSection = ({ autos, onOpen }: { autos: OwnedAuto[]; onOpen: (aut
             </p>
           </div>
         </div>
+      ) : mode === 'browse' && list.length > 1 ? (
+        <AutographCarousel autos={list} label="Your autographs, swipe to browse" onSelect={onOpen} />
       ) : (
         <>
           <ul className="au-grid" aria-label="Your autographs">
