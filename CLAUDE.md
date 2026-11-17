@@ -872,6 +872,14 @@ source names that file).
   parallel owned unless `DisplayChoice.parallel` picks another ('plain' or a colour); the detail lists the parallels
   owned with their serials. The reveal stamps PRIZM RED /199 etc., Gold and Black walk out with a short PRIZM beat
   (`walkoutBeats.ts`). `npm run -s sim:packs` prints the parallel odds; the Art lab's Card designs tab shows them.
+- **Pack opening, "Out of the tunnel"** (owner approved, 2026-11-16: "love the walkout"; `src/components/collection/tunnel/`,
+  `PackOpening.tsx`, `Walkout.tsx` `tunnel` mode): every pack opens in a pixel-art players' tunnel (drawn once to a
+  canvas by `drawTunnel.ts`, the stadium at the mouth from the game's crowd and turf painted to the current club), tinted
+  by pack type. The tear is unchanged (the owner likes it) but carries the old tell: past halfway the pack is rolled and
+  light leaks from the rip in the best card's tier colour, then a beam, camera flashes and the tunnel flooding with it.
+  Cards land face down on the tunnel floor (best last, its edge glowing), each flip stands one up, and the jumbotron
+  counts along. The walkout runs in the same tunnel: the player's sprite in the pulled kit runs out of it and celebrates
+  on the turf. Odds, ordering, decoys, kit / Prizm / autograph beats, skip keys, reduced motion and lite mode as before.
 - **Collection economy** (owner approved all six parts; `src/utils/economy.ts` rules and writes, UI in
   `src/components/collection/economy/`): coins become the trading currency; shards stay exactly as they were (claims and
   finish upgrades). `CollectionState` gains `coins` (older saves load with 0), `coinLog` (newest first, 40 kept),
