@@ -23,6 +23,8 @@ import LegacyMix from './LegacyMix';
 import { fmtNum } from './viz';
 import { GRID_ITEM, gridVars } from '../grid';
 import { peekProps } from '@/components/peek/peekProps';
+import { StageFigure } from '../visual/ClubStage';
+import { clubStyle } from '../visual/clubTone';
 
 type Select = (p: Player) => void;
 
@@ -44,7 +46,8 @@ const bestAcross = (players: Player[], ctx: AdvContext, id: string, caption: str
 };
 
 const InsightTile = ({ insight, onSelect }: { insight: Insight; onSelect: Select }) => (
-  <li className={`${GRID_ITEM} glass-card flex flex-col gap-1 p-3`}>
+  <li className={`${GRID_ITEM} glass-card cs-card cs-card--fig flex flex-col gap-1 p-3`} style={clubStyle(insight.player)}>
+    <StageFigure player={insight.player} action="celebrate" />
     <MetricLabel metric={insight.metric} className="font-display text-xs font-bold uppercase tracking-wider text-muted-foreground" />
     <span className="font-display text-2xl font-extrabold leading-none text-chalk sm:text-3xl">
       {fmtNum(insight.value, insight.metric.decimals)}

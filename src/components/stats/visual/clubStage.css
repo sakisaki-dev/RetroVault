@@ -1,0 +1,138 @@
+/* Club staging for the Stats › Players page (ClubStage.tsx) */
+
+.cs-card {
+  --cs-1: hsl(var(--gold));
+  --cs-2: hsl(var(--gold));
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-top: 3px solid var(--cs-1);
+}
+/* the club's colour washing in from the top right, where he stands */
+.cs-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--cs-1) 38%, transparent), transparent 62%),
+    radial-gradient(60% 50% at 100% 100%, color-mix(in srgb, var(--cs-2) 14%, transparent), transparent 70%);
+  pointer-events: none;
+}
+/* keep the card's text clear of the figure */
+.cs-card--fig {
+  padding-right: 84px;
+}
+@media (max-width: 480px) {
+  .cs-card--fig {
+    padding-right: 66px;
+  }
+}
+
+.cs-fig {
+  position: absolute;
+  right: 4px;
+  bottom: 6px;
+  display: block;
+  pointer-events: none;
+}
+.cs-fig--s {
+  width: 72px;
+  height: 72px;
+}
+.cs-fig--m {
+  width: 128px;
+  height: 128px;
+}
+@media (max-width: 480px) {
+  .cs-fig--s {
+    width: 60px;
+    height: 60px;
+    right: 2px;
+  }
+}
+.cs-fig__floor {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--cs-1) 85%, white 0%), transparent);
+  opacity: 0.75;
+}
+.cs-fig__sprite {
+  position: absolute !important;
+  left: 50%;
+  bottom: -4px;
+  translate: -50% 0;
+}
+.cs-fig__logo {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0.85;
+}
+
+/* ranks: gold, silver and bronze medals for the top three */
+.cs-medal {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--cs-medal) 60%, white), var(--cs-medal) 60%, color-mix(in srgb, var(--cs-medal) 70%, black));
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.35), 0 2px 6px rgb(0 0 0 / 0.35);
+  color: #0b1020;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 1;
+}
+.cs-rank {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: hsl(var(--muted-foreground));
+}
+
+/* a table row in its club's colour: a stripe on the left, the leader's row tinted */
+.cs-row {
+  box-shadow: inset 3px 0 0 var(--cs-1);
+}
+.cs-row--top {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--cs-1) 26%, transparent), transparent 70%);
+}
+
+/* small coloured bar under a name (Legacy composition) */
+.cs-swatch {
+  display: inline-block;
+  width: 4px;
+  height: 18px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--cs-1), var(--cs-2));
+  flex-shrink: 0;
+}
+
+/* wide screens: the leaders in the lab tiles and on the podium stand twice as tall (whole game pixels, still crisp) */
+@media (min-width: 1024px) {
+  .cs-card--fig {
+    padding-right: 112px;
+    min-height: 150px;
+  }
+  .cs-card--fig > .cs-fig--s {
+    width: 128px;
+    height: 128px;
+    right: -6px;
+  }
+  .cs-card--fig > .cs-fig--s .cs-fig__sprite {
+    scale: 2;
+    transform-origin: 50% 100%;
+  }
+  .cs-card--fig > .cs-fig--s .cs-fig__floor {
+    height: 18px;
+  }
+}

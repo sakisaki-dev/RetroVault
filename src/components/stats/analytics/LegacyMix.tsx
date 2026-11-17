@@ -9,6 +9,7 @@ import Chips from './Chips';
 import { VIZ, fmtNum } from './viz';
 import { keyOf } from '../records';
 import { peekProps } from '@/components/peek/peekProps';
+import { clubStyle } from '../visual/clubTone';
 
 const TOP = 15;
 
@@ -82,7 +83,8 @@ const LegacyMix = ({ players, onSelect, title = 'Legacy composition', poster = f
                       aria-label={`${summary(player, mix)}. Open player`}
                       className="grid w-full grid-cols-[minmax(0,7.5rem)_1fr] items-center gap-2 rounded px-1 py-0.5 text-left hover:bg-panel-2/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:grid-cols-[minmax(0,10rem)_1fr]"
                     >
-                      <span className="flex min-w-0 items-center gap-1.5">
+                      <span className="flex min-w-0 items-center gap-1.5" style={clubStyle(player)}>
+                        <span className="cs-swatch" aria-hidden="true" />
                         <PositionBadge position={player.position} className="hidden min-w-[2rem] px-1 py-0 text-[9px] sm:inline-flex" />
                         <span className="truncate text-xs font-semibold sm:text-sm">{player.name}</span>
                       </span>

@@ -6,6 +6,8 @@ import { cn } from '@/lib/utils';
 import { useStagger } from '@/utils/motion';
 import { VALUE_ACROSS_MIN_GAMES, valueAcrossPositions } from '@/config/advanced';
 import TeamLogo from '../../brand/TeamLogo';
+import { RankMedal, StageFigure } from '../visual/ClubStage';
+import { clubStyle } from '../visual/clubTone';
 import { fmtNum } from './viz';
 import { keyOf } from '../records';
 import { peekProps } from '@/components/peek/peekProps';
@@ -34,11 +36,31 @@ const ValueAcrossBoard = ({ players, onSelect }: { players: Player[]; onSelect: 
         </p>
       </div>
 
+      {/* the top three on a podium, each in his club's colours */}
+      <ol className="grid grid-cols-3 gap-2" aria-label="Top three">
+        {all.slice(0, 3).map((r) => (
+          <li key={keyOf(r.player)} className="cs-card cs-card--fig min-w-0 rounded-lg border border-line/60 bg-night/40 p-2" style={clubStyle(r.player)}>
+            <StageFigure player={r.player} action={r.rank === 1 ? 'celebrate' : 'idle'} />
+            <button
+              type="button"
+              {...peekProps(r.player)}
+              onClick={() => onSelect(r.player)}
+              className="flex w-full min-w-0 flex-col items-start gap-1 rounded text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            >
+              <RankMedal rank={r.rank} />
+              <span className="w-full truncate font-display text-sm font-extrabold uppercase italic leading-tight sm:text-base">{r.player.name}</span>
+              <span className="font-pixel text-[8px] text-muted-foreground">{r.player.position}</span>
+              <span className="font-mono text-base font-bold tabular-nums text-gold sm:text-lg">+{fmtNum(r.sigma, 2)}σ</span>
+            </button>
+          </li>
+        ))}
+      </ol>
+
       <table className="w-full table-fixed text-sm">
         <caption className="sr-only">Players of every position ranked by Value / Game relative to their position (min {VALUE_ACROSS_MIN_GAMES} games)</caption>
         <thead>
           <tr className="text-left font-pixel text-[9px] uppercase text-muted-foreground">
-            <th scope="col" className="w-7 pb-1 font-normal">
+            <th scope="col" className="w-9 pb-1 pl-2 font-normal">
               #
             </th>
             <th scope="col" className="pb-1 font-normal">
@@ -62,8 +84,10 @@ const ValueAcrossBoard = ({ players, onSelect }: { players: Player[]; onSelect: 
         </thead>
         <tbody className={rowMotion}>
           {rows.map((r) => (
-            <tr key={keyOf(r.player)} className="group border-t border-line/40">
-              <td className={cn('py-1.5 font-pixel text-[10px]', r.rank === 1 ? 'text-gold' : 'text-muted-foreground')}>{r.rank}</td>
+            <tr key={keyOf(r.player)} className={cn('group cs-row border-t border-line/40', r.rank === 1 && 'cs-row--top')} style={clubStyle(r.player)}>
+              <td className="py-1.5 pl-2">
+                <RankMedal rank={r.rank} />
+              </td>
               <td className="py-1.5">
                 <button
                   type="button"

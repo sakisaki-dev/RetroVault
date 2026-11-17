@@ -10,6 +10,12 @@ import { VIZ, fmtNum } from '../analytics/viz';
 import type { RecordBook } from '../records';
 import { GOLD } from './chartKit';
 import { peekProps } from '@/components/peek/peekProps';
+import { POSITION_COLORS } from '../graph/graphConfig';
+import { StageFigure } from './ClubStage';
+import { clubStyle } from './clubTone';
+import type { SpriteAction } from '@/utils/gameSprites';
+import type { Position } from '@/types/player';
+import { cn } from '@/lib/utils';
 
 const ELITE_OVR = 90;
 
@@ -18,6 +24,8 @@ interface Col {
   value: number;
   hot: boolean;
   tip: string;
+  /** the bar's own colour (positions wear theirs) */
+  color?: string;
 }
 
 /** Mini column chart (decorative; the card's text and aria summary carry the numbers). */
@@ -27,7 +35,7 @@ const MiniColumns = ({ cols, showLabels }: { cols: Col[]; showLabels?: boolean }
     <span className="block" aria-hidden="true">
       <span className="flex h-12 items-end gap-[2px]">
         {cols.map((c) => (
-          <span key={c.label} title={c.tip} className="flex-1 rounded-t-[3px]" style={{ height: `${Math.max((c.value / max) * 100, c.value ? 6 : 2)}%`, background: c.hot ? GOLD : VIZ.series[0], opacity: c.value ? 1 : 0.3 }} />
+          <span key={c.label} title={c.tip} className="flex-1 rounded-t-[3px]" style={{ height: `${Math.max((c.value / max) * 100, c.value ? 6 : 2)}%`, background: c.hot ? GOLD : c.color ?? VIZ.series[0], opacity: c.value ? 1 : 0.3 }} />
         ))}
       </span>
       {showLabels && (
@@ -43,8 +51,30 @@ const MiniColumns = ({ cols, showLabels }: { cols: Col[]; showLabels?: boolean }
   );
 };
 
-const Card = ({ title, value, decimals = 0, suffix, sub, chart, summary }: { title: string; value: number | null; decimals?: number; suffix?: string; sub: ReactNode; chart: ReactNode; summary: string }) => (
-  <li className="glass-card flex min-w-0 flex-col gap-1.5 p-3">
+const Card = ({
+  title,
+  value,
+  decimals = 0,
+  suffix,
+  sub,
+  chart,
+  summary,
+  star,
+  action = 'idle',
+}: {
+  title: string;
+  value: number | null;
+  decimals?: number;
+  suffix?: string;
+  sub: ReactNode;
+  chart: ReactNode;
+  summary: string;
+  /** The player this card is about stands in its corner, the card tinted in his club's colours */
+  star?: Player | null;
+  action?: SpriteAction;
+}) => (
+  <li className={cn('glass-card flex min-w-0 flex-col gap-1.5 p-3', star && 'cs-card')} style={star ? clubStyle(star) : undefined}>
+    {star && <StageFigure player={star} action={action} className="!bottom-auto !top-2" />}
     <span className="font-display text-xs font-bold uppercase tracking-wider text-muted-foreground">{title}</span>
     <span className="font-display text-3xl font-extrabold leading-none text-chalk sm:text-4xl">
       {value == null ? '—' : <CountUp value={value} decimals={decimals} />}
@@ -61,7 +91,17 @@ const StatsPulse = ({ data, book, onSelect }: { data: LeagueData; book: RecordBo
   const players = useMemo(() => leaguePlayers(data), [data]);
   const ovrMap = useOfficialOvr();
 
-  const pos = useMemo(() => POSITIONS.map((p) => ({ label: p, value: players.filter((x) => x.position === p).length, hot: false, tip: `${p}: ${players.filter((x) => x.position === p).length}` })), [players]);
+  const pos = useMemo(
+    () =>
+      POSITIONS.map((p) => ({
+        label: p,
+        value: players.filter((x) => x.position === p).length,
+        hot: false,
+        color: POSITION_COLORS[p as Position],
+        tip: `${p}: ${players.filter((x) => x.position === p).length}`,
+      })),
+    [players],
+  );
   const hof = players.filter(isHallOfFamer).length;
   const legacyBins = useMemo(() => {
     const top = Math.max(...players.map((p) => p.careerLegacy), HOF_THRESHOLD);
@@ -83,6 +123,9 @@ const StatsPulse = ({ data, book, onSelect }: { data: LeagueData; book: RecordBo
     [ovrs],
   );
   const elite = ovrs.filter((v) => v >= ELITE_OVR).length;
+  // who each card is about: the Hall's top Career Legacy, the best official OVR
+  const hofStar = useMemo(() => players.filter(isHallOfFamer).sort((a, b) => b.careerLegacy - a.careerLegacy)[0] ?? null, [players]);
+  const ovrStar = useMemo(() => [...players].sort((a, b) => (ovrMap.get(playerKey(b)) ?? 0) - (ovrMap.get(playerKey(a)) ?? 0))[0] ?? null, [players, ovrMap]);
   const chase = book.pace[0];
 
   return (
@@ -96,6 +139,8 @@ const StatsPulse = ({ data, book, onSelect }: { data: LeagueData; book: RecordBo
       />
       <Card
         title="Hall of Famers"
+        star={hofStar}
+        action="celebrate"
         value={hof}
         sub={`${players.length ? Math.round((hof / players.length) * 100) : 0}% of the league · voted in`}
         chart={<MiniColumns cols={legacyBins} />}
@@ -103,6 +148,7 @@ const StatsPulse = ({ data, book, onSelect }: { data: LeagueData; book: RecordBo
       />
       <Card
         title={`${ELITE_OVR}+ overall`}
+        star={ovrStar}
         value={ovrs.length ? elite : null}
         sub={ovrs.length ? `of ${ovrs.length} rated players` : 'Loading ratings…'}
         chart={<MiniColumns cols={ovrBins} showLabels />}
@@ -111,6 +157,8 @@ const StatsPulse = ({ data, book, onSelect }: { data: LeagueData; book: RecordBo
       {chase ? (
         <Card
           title="Closest record chase"
+          star={chase.player}
+          action="stiffarm"
           value={Math.floor(chase.percentToRecord)}
           suffix="%"
           sub={

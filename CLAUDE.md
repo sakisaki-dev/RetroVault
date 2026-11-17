@@ -1157,6 +1157,16 @@ pictures".
   poster uses (cached per set of families). Never pass html-to-image's `preferredFontFormat`: in WebKit it dropped
   `src` from some rules, and the pixel font fell back.
 
+## Stats › Players staging
+
+`src/components/stats/visual/ClubStage.tsx` (`StageFigure`, `RankMedal`), `clubTone.ts` (`clubStyle`, `MEDAL`) and
+`clubStage.css` (owner, 2026-11-17: "the stats players page now feels really dry"): the headline cards (StatsPulse:
+position bars in `POSITION_COLORS`, the Hall's top Career Legacy, the best OVR and the record chaser standing in their
+cards), the Analytics Lab leader tiles and a top-three podium over Value / Game wear the player's banner-club colours
+(`cs-card`) with his game sprite on a club-colour floor glow (doubled from 1024px), gold / silver / bronze medals and a
+club stripe per table row; Legacy Composition names get a club swatch. The public build shows the club logo for the
+sprite. The leaderboard's and + index grid's blue / red stay: they mean better / worse than average.
+
 ## Club colours
 
 `src/utils/nflTeams.ts` (`primaryColor`, `secondaryColor`, HSL) and the widget's `TEAMS` table
