@@ -8928,7 +8928,7 @@
   "Akiem Bouye": "Los Angeles Chargers",
   "Akiem Brock": "Philadelphia Eagles",
   "Aldrick Coyle": "San Francisco 49ers",
-  "Alexx Sanchez": "Baltimore Ravens",
+  "Alexx Sanchez": "Tennessee Titans",
   "Alijah Santos": "Washington Commanders",
   "Alohi Devey": "Detroit Lions",
   "Alohi Godwin": "Seattle Seahawks",
@@ -9295,7 +9295,7 @@
   "Niles Swoopes": "Jacksonville Jaguars",
   "Nydair Funk": "Arizona Cardinals",
   "Nydair Sample": "Cincinnati Bengals",
-  "Obinna Leary": "New York Jets",
+  "Obinna Leary": "Seattle Seahawks",
   "Odell Ankou": "Tampa Bay Buccaneers",
   "Odell Hainsey": "Los Angeles Chargers",
   "Olamide Conway": "Tennessee Titans",
@@ -9362,7 +9362,7 @@
   "Sewo Owens": "New York Giants",
   "Shaikal Beebee": "Baltimore Ravens",
   "Shaquem Goedert": "Kansas City Chiefs",
-  "Shareef London": "Atlanta Falcons",
+  "Shareef London": "Tampa Bay Buccaneers",
   "Shawn Milne": "Atlanta Falcons",
   "Shawn Rigg": "Arizona Cardinals",
   "Shawn Skule": "Detroit Lions",
@@ -9470,15 +9470,9 @@
   "Zech Vernon": "San Francisco 49ers"
  },
  "legacyTeams": {
-  "Brandon Jaclyde": "Atlanta Falcons",
   "Gerrit Ogbah": "Philadelphia Eagles",
-  "Hamp McPhee": "Philadelphia Eagles",
   "Kaulani Rahman": "Philadelphia Eagles",
-  "Keenan Viennes": "Philadelphia Eagles",
-  "Perrion Randall": "Atlanta Falcons",
-  "Ryland Maxwell": "Atlanta Falcons",
-  "Siran Spector": "Philadelphia Eagles",
-  "Trysten Floyd": "Atlanta Falcons"
+  "Keenan Viennes": "Philadelphia Eagles"
  },
  "retiredBy": {
   "Cairo Asanjh": [
@@ -9497,8 +9491,8 @@
    "Seattle Seahawks"
   ],
   "Ryland Maxwell": [
-   "Atlanta Falcons",
-   "Philadelphia Eagles"
+   "Philadelphia Eagles",
+   "Atlanta Falcons"
   ],
   "Sherman Brandson": [
    "New York Giants",

@@ -1,0 +1,11 @@
+{
+ "id": "2026-11-17-maxwell-best-known",
+ "created": "2026-11-17",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {"lane": "stats", "op": "fact.remove", "target": "players/Ryland Maxwell/signature_team", "value": null, "source": "owner",
+   "reason": "Owner: \"there needs to be an algorithm for this to determine where he's colored\", choosing \"Rule, keep my picks\": the best-known rule (club_points in build_league_data.py) decides Maxwell's club; the other hand-set signature clubs stay",
+   "trigger": "Owner statement in chat"}
+ ]
+}

@@ -229,6 +229,69 @@ def player_status(p, sheet_row=None) -> str:
             or ("Retired" if p["n"] in RETIRED_WITH else None) or (sheet_row or {}).get("st")) or "Active"
 
 
+# Where a player is best known, by what he did at each club (owner, 2026-11-17: "there needs to be an algorithm for this
+# to determine where he's colored"). Points per club: 1 a season, 2 a ring, the awards he won while there (MVP 4,
+# OPOY/DPOY 3, Super Bowl MVP 2, Rookie of the Year 1: his career counts rising between two consecutive season-end
+# market snapshots, credited to his stint club that season) and 1 per record-board mark he set there (the board counts
+# the coach's club; passer and receiver both credited). Award history starts at the first snapshot season, so older
+# careers are judged on seasons, rings and records. Ties: more rings there, more seasons, the later club.
+CLUB_AWARD_POINTS = {"mvp": 4, "opoy": 3, "dpoy": 3, "sbmvp": 2, "roty": 1}
+_SEASON_END = None
+
+
+def _season_ends():
+    """{season: that season's last market snapshot (its season end)}, read once; the history file may be absent."""
+    global _SEASON_END
+    if _SEASON_END is None:
+        _SEASON_END = {}
+        path = SRC / "market_history.json"
+        if path.exists():
+            for snap in market_history.load(path):
+                try:
+                    _SEASON_END[int(str(snap.get("season", "")).lstrip("Y"))] = snap
+                except ValueError:
+                    pass
+    return _SEASON_END
+
+
+def club_points(name, pos, runs):
+    """{club: points} for one player's stints (see CLUB_AWARD_POINTS)."""
+    def club_in(y):
+        return next((r["team"] for r in runs if r["from"] <= y <= r["to"]), None)
+
+    pts = {}
+    for r in runs:
+        pts[r["team"]] = pts.get(r["team"], 0) + (r["to"] - r["from"] + 1) + 2 * len(r.get("rings", []))
+    ends = _season_ends()
+    key = f"{pos}:{name}"
+    for y, snap in sorted(ends.items()):
+        prev, club = ends.get(y - 1), club_in(y)
+        if not prev or not club:
+            continue
+        a, b = prev["players"].get(key), snap["players"].get(key)
+        if not a or not b:
+            continue
+        for k, w in CLUB_AWARD_POINTS.items():
+            gained = (b.get("s", {}).get(k) or 0) - (a.get("s", {}).get(k) or 0)
+            if gained > 0:
+                pts[club] = pts.get(club, 0) + w * gained
+    first, _, last = name.partition(" ")
+    tag = f"{pos} {first[:1]}. {last}" if last else f"{pos} {name}"
+    for rec in RECORD_ROWS:
+        if tag not in str(rec.get("holder", "")):
+            continue
+        try:
+            club = club_in(int(str(rec.get("year", "")).lstrip("Y")))
+        except ValueError:
+            club = None
+        if club:
+            pts[club] = pts.get(club, 0) + 1
+    return pts
+
+
+RECORD_ROWS = json.loads((SRC / "records.json").read_text()).get("records", []) if (SRC / "records.json").exists() else []
+
+
 def signature_teams(players, teams, stints, sheet=None, legacy=False):
     """The club each league player's card and banners wear: the jersey, helmet and colours.
 
@@ -236,9 +299,9 @@ def signature_teams(players, teams, stints, sheet=None, legacy=False):
     only takes the best years after they retire since that's what's best known." So an active player always wears
     his current team (club of record), overriding the stint rule and any owner signature_team fact. A retired
     player wears where he was best known: owner facts first (players.<name>.signature_team, then the card's
-    legacy_team, "mainly a Seahawk"), else the stint with the most rings, then the most seasons, then the earliest
-    (stints carry no per-stint awards, so awards can't break a tie); no stints = his club of record. Values are
-    full franchise names, like the league CSV's team.
+    legacy_team, "mainly a Seahawk"), else the club with the most points by what he did there (club_points: owner,
+    2026-11-17, "there needs to be an algorithm for this to determine where he's colored"); no stints = his club of
+    record. Values are full franchise names, like the league CSV's team.
 
     legacy=True gives where every player is best known, active or not (the retired rule for everyone): the club that
     retires a Hall of Famer's number (owner: Maxwell's number belongs to the Falcons, not the Eagles he plays for now).
@@ -262,7 +325,8 @@ def signature_teams(players, teams, stints, sheet=None, legacy=False):
             team = full(owner)
         else:
             runs = [s for s in stints.get(name, {}).get("stints", []) if full(s["team"])]
-            best = min(runs, key=lambda s: (-len(s.get("rings", [])), -(s["to"] - s["from"] + 1), s["from"]), default=None)
+            pts = club_points(name, p["pos"], runs)
+            best = max(runs, key=lambda s: (pts.get(s["team"], 0), len(s.get("rings", [])), s["to"] - s["from"] + 1, s["to"]), default=None)
             team = full(best["team"]) if best else current
         if team:
             out[name] = team
@@ -307,7 +371,9 @@ def write_player_extras():
     def club(key):
         t = teams_all.get(key) or next((v for v in teams_all.values() if v.get("name") == key), None)
         return t["name"] if t and t.get("conference") else None
-    out["retiredBy"] = {n: [c for c in (club(t) for t in ts) if c] for n, ts in sorted(RETIRED_BY.items())}
+    # the club he is best known at (best[n]) leads, so it numbers him; the rest hang the same number
+    out["retiredBy"] = {n: sorted([c for c in (club(t) for t in ts) if c], key=lambda c: c != best.get(n))
+                        for n, ts in sorted(RETIRED_BY.items())}
     PLAYER_EXTRAS_OUT.write_text(json.dumps(out, indent=1, ensure_ascii=False))
     print(f"wrote {PLAYER_EXTRAS_OUT.relative_to(ROOT)}: real-NFL splits for {len(out['realNflCareer'])} players")
 
@@ -498,4 +564,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if "--extras" in sys.argv:
+        # after the market snapshot (npm run rebuild): the best-known clubs read the season-end snapshots, so a
+        # season the snapshot just added counts on the same rebuild (two rebuilds stay byte-identical)
+        write_player_extras()
+    else:
+        main()

@@ -1722,6 +1722,15 @@
     "tribute": 1
    },
    "changed": 3
+  },
+  {
+   "id": "2026-11-17-maxwell-best-known",
+   "dir": "data/uploads/2026-11-17-maxwell-best-known",
+   "applied_at": "2026-11-17T13:05:07-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
   }
  ]
 }
