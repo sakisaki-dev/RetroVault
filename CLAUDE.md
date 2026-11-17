@@ -42,7 +42,8 @@ hand-edit generated files, and never edit `data/y80/` directly: every change goe
 legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `schedule_content.py` → `league_records.py` → `career_seasons.py` (`public/data/league/career_seasons.json`: each
 player's card numbers and career totals at every season end, for the Deep Dive's career graphs) →
 `hall_of_fame.py` → `save_state.py` (`public/data/league/save_state.json`) → `build_league_content.py`
-(`public/data/league/content.json`) → `build_widget_data.py` (`public/data/widget.json`) → `audit.ts`. It is
+(`public/data/league/content.json`) → `build_widget_data.py` (`public/data/widget.json`) → `build_app_icons.py --splash`
+(the launch screens' line-up) → `audit.ts`. It is
 deterministic: two runs give byte-identical output.
 
 ## Updating: the upload pipeline (the usual phone request)
@@ -1015,14 +1016,45 @@ pictures".
 - **Install:** in Safari on the iPhone, Share → Add to Home Screen. It opens standalone (no Safari bars) with the
   launch screen, and Home Screen web apps are exempt from Safari's 7-day wipe of script-writable storage (the card
   collection, coins and settings live in localStorage).
-- **Icon now** (owner, 2026-11-16, "Kickoff"): the original brown pixel football in front of a sunset stadium; the PNGs in
-  `public/` come from branch `worktree-agent-a4a0bc0b958bfe613` (2ca4838) until its launch screen ships with it. Don't
-  rerun the script below on this branch: it still draws the retired gold "RV" icon.
-- **Art:** `python3 scripts/build_app_icons.py` draws the pixel icon (a gold football with "RV" on night navy; no game
-  or NFL art) and writes `public/apple-touch-icon.png`, `icon-192/512.png`, `icon-maskable-192/512.png`, the favicons
-  and the portrait launch screens `public/splash/launch-<w>x<h>.png` for the current iPhone sizes (`SPLASH`); `--links`
-  prints the `apple-touch-startup-image` tags that sit in `index.html`. A new iPhone size: add it to `SPLASH`, rerun,
-  paste the links.
+- **Art:** `python3 scripts/build_app_icons.py` draws everything on whole art pixels blown up by whole steps (nearest
+  neighbour), deterministic. **Icon** ("Kickoff"; owner: "i like the old icon we had it was simple pixelated and fun",
+  then "its a fun football website it doesn't need to be ornate it needs to be colorful memorable and representative"):
+  commit 21fcb29's chunky brown pixel football, kept cell for cell (`ICON_GRID`, `ball_mark`), in front of a stadium in
+  bands on a 24-cell design (`icon_design`): a golden-hour sky with the sun on the horizon, navy stands dotted with gold,
+  the red wall, a chalk sideline and the grass; every size at a whole number of pixels a cell with the bleed cropped,
+  the maskable ones on 32 cells (the ball inside the 80% circle), favicon-32 the 32-cell design at one pixel a cell.
+  **Launch screens** (owner: "something super similar to the retrobowl splash screen", then "#3 for the sunset is
+  great"): a game title screen after the game's own, no small labels. A sunset sky (violet to pink to gold) with pixel
+  clouds and a big sun over the bowl; banded stands (pink, orange-gold, blue) dotted with crowd, gold decks with club
+  banners hanging from them; the football on a pink plinth; confetti and streamers; a varsity **RETRO** arched over
+  **VAULT** in our own rounded block caps (`ROUND`, `varsity_wordmark`), RETRO blue and VAULT gold with an inner and an
+  outer line and a shadow (`CONCEPTS`: `gradient` the default, `sky`, `royal`; `--concept`); a painted end zone in the
+  foreground (plum with diagonal hatching, the goal line, orange pylons; no words); and nearest the camera Skura seen
+  from behind in his current club's cap (`from_behind_cap`), cut at the chest. **The line-up is "my guys"** (owner: "make
+  the players on the screen the best in their position that i've played with"; `my_guys`): every league player with a
+  career stint (`stints.json`) on a club in a season Skura coached it (`coach.json` seasons, `currentStint` through the
+  season in progress), ranked by the site's Career Legacy; the best at each position (QB RB WR TE OL LB DB DL), then the
+  next best to 11, the best in the middle of the front row, five in front and six in the gaps behind, long sunset
+  shadows toward the camera. Each wears his banner club's kit (`signatureTeams`, where he is best known) when he played for Skura
+  there, else the club he played for under Skura with the most seasons (then the latest), stints the record confirms
+  first: a stint counts as confirmed unless his `stints.json` record is `ambiguous` (the solver's guess) and no owner fact
+  or roster names that club (`known_clubs`); a player who qualifies only through such a guess is flagged in the
+  printout (owner: "why is levante hopkins in a vikings jersey?": the Titans, his confirmed club). Drawn through the site's sprite rules (`widget_sprites.site_rules` / `figure`), in the game's own poses only
+  (`ROLE_POSES`: QB spinning the ball, RB ball at his side, WR arm raised, TE ball at his side, everyone else standing;
+  never edited pixels), mirrored to face in. His number is the one on his player card: `scripts/splash_jerseys.ts`
+  loads the league as the site does and runs `withHomeClubs` + `buildJerseyIndexWithAlso`; it is drawn the way the
+  game's title screen draws numbers (`NUM_GLYPHS`: one-pixel strokes, 3 × 6, mid-chest, the kit's number colour, the
+  top row shaded; only over the jersey, so a ball or arm stays in front). `--splash` prints every pick with the clubs
+  and seasons that qualified him. `--preview <dir>` writes each concept at 1179 × 2556 and 750 × 1334 outside `public/`.
+  About 300 art pixels across (`int(w / 300 + 0.5)` device pixels each); the wordmark and the sun stay clear of the status
+  bar and home indicator (`safe_rows`). It reads the stints, the coach's seasons and the league, so `npm run rebuild` runs `build_app_icons.py
+  --splash` after the widget feed and the launch screens follow the data (commit them with the update). It writes
+  `public/apple-touch-icon.png`, `icon-192/512.png`, `icon-maskable-192/512.png`, the favicons and the portrait launch
+  screens `public/splash/launch-<w>x<h>.png` for the current iPhone sizes (`SPLASH`); `--icons` / `--splash` build one
+  half, `--links` prints the `apple-touch-startup-image` tags that sit in `index.html`. A new iPhone size: add it to
+  `SPLASH`, rerun, paste the links. iOS caches the icon and the launch screen at Add to Home Screen; re-adding the app
+  picks up new ones. The site header's mark (`BrandGlyph`) is `icon-192.png` itself, so header, tab and Home Screen match;
+  the icon links carry `?v=kickoff` (bump it when the icon changes) so browsers drop a cached icon.
 - **Manifest** (`public/manifest.webmanifest`): a static file, so `start_url`, `scope` and `id` are `./`, which resolve
   against the manifest's own URL (`/RetroVault/` on Pages, `/` locally); never an absolute path.
 - **Standalone layout:** the status bar is `black-translucent`, so the page runs under it: `[data-site-header]` pads by
