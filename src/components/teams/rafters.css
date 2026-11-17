@@ -81,7 +81,7 @@
   position: relative;
   display: block;
   padding-top: var(--wire, 26px);
-  touch-action: pan-y; /* a sideways drag swings the banner; an up-down drag still scrolls the page */
+  touch-action: none; /* the banner takes the finger (swing sideways, pull down); scroll beside it or on the truss */
   cursor: grab;
   z-index: 2;
 }

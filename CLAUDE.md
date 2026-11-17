@@ -611,7 +611,8 @@ source names that file).
   a band over a crowd silhouette, and a note on how numbers go up (an empty club shows the bare truss and that note).
   Tap a banner for his card, hold it for the quick look; drag it sideways and it swings like a swing seat:
   each wire turns about its own fixed hook on the rail and the banner rides the arc of their ends, level (trailing a touch
-  while it moves), then settles (`Pendulum` in RaftersScene.tsx writes `rotate` / `translate` only; owner: "make the
+  while it moves), then settles; pulled down, the wires give up to 34px and spring back with a bounce (`Pendulum` in
+  RaftersScene.tsx writes `rotate` / `scale` / `translate` only, `touch-action: none` on the banner; owner: "make the
   rafters swing, I can drag them", then "it feels like it isn't hanging its just a rotating asset"; reduced motion eases
   straight back). It replaces the old row in the team sheet's Overview
   (`RetiredRafters.tsx` is now a wrapper), sits compact in a Hall of Fame plaque, and has its own Hall of Fame section,
@@ -619,8 +620,8 @@ source names that file).
   club chips to walk every club. **The player card's badge** (CardBanner.dc.html, `src/components/teams/RetiredBadge.tsx`):
   a retired player's hero gets a small banner per club that hangs his number (at most 3; three slim down), hanging on long wires from the
   top edge (RETIRED, the number, the club's abbreviation, club colours; it replaces the hero's "Number retired by" tag),
-  and the identity strip gets a club-colour strip, "#N retired by the <Club>" (retired by more than one club: one strip, "#N retired
-  by 3 clubs" with a chip per club and ★ for its Ring of Honor) with the other numbers in those rafters and
+  and the identity strip gets a club-colour strip, "#N retired by the <Club>" (one strip for one club or several: "#N retired" / "#N
+  retired by 3 clubs" with a chip per club and ★ for its Ring of Honor) with the other numbers in those rafters and
   Ring of Honor. Either opens that club's rafters: `openRafters(clubId)` (`src/utils/raftersLink.ts`) closes the card,
   pages/Index.tsx switches to the Hall of Fame tab and the Rafters section picks the club and scrolls to itself. Never on
   Collection card faces (cards are timeless).

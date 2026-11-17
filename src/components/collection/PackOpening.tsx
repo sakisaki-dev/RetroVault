@@ -722,6 +722,8 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
         '--tn-vx': `${geo.vx * geo.P}px`,
         '--tn-ch': `${geo.ch}px`,
         '--tn-floor': `${(geo.my + geo.mh) * geo.P}px`,
+        // the walkout's runner (192px box) finishes standing about 80% of the mouth's height tall
+        '--wk-s': `${Math.max(0.6667, Math.min(2.2, (geo.mh * geo.P * 0.8) / 192)).toFixed(4)}`,
         '--pk-light': 'hsl(45 100% 88%)',
       } as CSSProperties)
     : ({ '--pk-light': 'hsl(45 100% 88%)' } as CSSProperties);

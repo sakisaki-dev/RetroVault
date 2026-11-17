@@ -832,16 +832,17 @@
   position: absolute;
   inset: 0;
   transform-origin: 50% 100%;
-  /* he finishes at two thirds of l: two screen pixels per game pixel, crisp */
-  transform: scale(0.6667);
+  /* he finishes standing about 80% of the mouth's height tall (--wk-s from the tunnel's geometry, PackOpening; owner,
+     2026-11-17: "make the player sprite MUCH bigger, he looks tiny compare to the tunnel"); pixelated, so still crisp */
+  transform: scale(var(--wk-s, 0.6667));
   animation: wk-run-out 1s cubic-bezier(0.35, 0.1, 0.5, 1) both;
 }
 @keyframes wk-run-out {
   0% {
-    transform: translate(-26vw, calc(var(--tn-ch, 100vh) - var(--tn-floor, 50vh) + 30px)) scale(1.5);
+    transform: translate(-26vw, calc(var(--tn-ch, 100vh) - var(--tn-floor, 50vh) + 30px)) scale(calc(var(--wk-s, 0.6667) * 2.25));
   }
   100% {
-    transform: translate(0, 0) scale(0.6667);
+    transform: translate(0, 0) scale(var(--wk-s, 0.6667));
   }
 }
 .wk-run__hop {

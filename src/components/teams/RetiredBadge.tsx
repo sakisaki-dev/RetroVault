@@ -1,5 +1,4 @@
 import { useMemo, type CSSProperties } from 'react';
-import { ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
 import { getNFLTeamById } from '@/utils/nflTeams';
@@ -76,11 +75,12 @@ export const RetiredHangers = ({ player, onLeave, className }: { player: Player 
  */
 export const RetiredStrip = ({ player, onLeave, className }: { player: Player | null | undefined; onLeave?: () => void; className?: string }) => {
   const clubs = useRetiredClubs(player);
-  const { bannersFor, ringFor } = useRafters();
+  const { ringFor } = useRafters();
   if (!clubs.length || !player) return null;
-  // More than one club (owner, 2026-11-17: "make the little banner thing a bit more concise"): one strip, the number
-  // once, a chip per club in its colours (logo, name, ★ for its Ring of Honor); each chip opens that club's rafters
-  if (clubs.length > 1) {
+  // One strip (owner, 2026-11-17: "make the little banner thing a bit more concise", then the single-club strip to
+  // match): the number once, a chip per club in its colours (logo, name, ★ for its Ring of Honor); a chip opens that
+  // club's rafters
+  {
     const n = clubs[0].number;
     const same = clubs.every((r) => r.number === n);
     return (
@@ -90,9 +90,9 @@ export const RetiredStrip = ({ player, onLeave, className }: { player: Player | 
         </span>
         <div className="raf-multi__body">
           <p className="raf-multi__title">
-            {same ? `#${n} retired by ${clubs.length} clubs` : `Retired by ${clubs.length} clubs`}
+            {clubs.length === 1 ? `#${n} retired` : same ? `#${n} retired by ${clubs.length} clubs` : `Retired by ${clubs.length} clubs`}
           </p>
-          <ul className="raf-multi__clubs" aria-label="Clubs that retired his number">
+          <ul className="raf-multi__clubs" aria-label={clubs.length === 1 ? 'Club that retired his number' : 'Clubs that retired his number'}>
             {clubs.map((r) => {
               const t = getNFLTeamById(r.teamKey);
               const inRing = ringFor(t).some((e) => `${e.pos}:${e.name}` === `${player.position}:${player.name}`);
@@ -122,36 +122,4 @@ export const RetiredStrip = ({ player, onLeave, className }: { player: Player | 
       </div>
     );
   }
-  return (
-    <div className={cn('raf-strips', className)}>
-      {clubs.map((r) => {
-        const t = getNFLTeamById(r.teamKey);
-        const others = bannersFor(r.teamKey).filter((b) => b.r.playerKey !== r.playerKey);
-        const inRing = ringFor(t).some((e) => `${e.pos}:${e.name}` === `${player.position}:${player.name}`);
-        const named = others.slice(0, 2).map((b) => `#${b.r.number} ${b.last}`);
-        const more = others.length - named.length;
-        const sub = [
-          named.length ? `Hangs in their rafters with ${named.join(', ')}${more > 0 ? ` and ${more} more` : ''}` : 'The only number in their rafters',
-          inRing ? 'Ring of Honor' : null,
-        ]
-          .filter(Boolean)
-          .join(' · ');
-        return (
-          <button key={r.teamKey} type="button" className="raf-strip" style={colours(r)} onClick={() => go(r, onLeave)}>
-            <span className="raf-strip__flag" aria-hidden="true">
-              {r.number}
-            </span>
-            <span className="raf-strip__text">
-              <span className="raf-strip__title">
-                #{r.number} retired by the {t?.name ?? r.teamLabel}
-              </span>
-              <span className="raf-strip__sub">{sub}</span>
-            </span>
-            <ChevronRight className="raf-strip__go h-5 w-5" aria-hidden="true" />
-            <span className="sr-only">: open their rafters</span>
-          </button>
-        );
-      })}
-    </div>
-  );
 };
