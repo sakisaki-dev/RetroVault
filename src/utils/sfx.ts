@@ -2,7 +2,7 @@
  * Sound hooks for the pack opening (and anything else that wants them). A no-op until a mute toggle exists: call
  * sfx('tear') etc. at the moments a sound would play, and a future setting can wire real audio in one place.
  */
-export type SfxName = 'tear' | 'tell' | 'deal' | 'flip' | 'flip-best' | 'shard' | 'walkout' | 'summary';
+export type SfxName = 'tear' | 'tell' | 'deal' | 'flip' | 'flip-best' | 'shard' | 'walkout' | 'summary' | 'crowd' | 'roar';
 
 let player: ((name: SfxName) => void) | null = null;
 

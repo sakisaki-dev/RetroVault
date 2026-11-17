@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties, type MouseEvent } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react';
 import { Signature, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -9,7 +9,8 @@ import { prizmInfo, prizmSerial, prizmStamp, tierLabel, variantLabel, type PackC
 import CollectibleCard, { PlayerJersey } from './CollectibleCard';
 import type { CardInfo } from './useCardPool';
 import { AUTO_WRITE_DELAY_MS, AUTO_WRITE_MS, isPrizmChase, type WkBeat, type WkStage } from './walkoutBeats';
-import { kitStamp, kitUniform } from './art/sprite/uniforms';
+import { homeUniform, kitStamp, kitUniform } from './art/sprite/uniforms';
+import { KitFigureImg, useKitFigure } from './tunnel/KitSprite';
 import './kits.css';
 import AutographCanvas from './autograph/AutographCanvas';
 import { useAutographFor } from './autograph/sample';
@@ -110,7 +111,19 @@ interface WalkoutProps {
   onDone: () => void;
   /** Reveal every remaining card (shown while other cards are still face down) */
   onRevealAll?: () => void;
+  /**
+   * Played inside the pack opening's tunnel (tunnel/PackTunnel.tsx): no tunnel of its own (the scene shows through),
+   * and the player runs out of it: his game sprite in the pulled kit, a silhouette against the light until the card
+   * flips, then lit and celebrating on the turf at the mouth.
+   */
+  tunnel?: boolean;
 }
+
+/** When each turn passes edge-on (ms from its start): the faces swap then, so iOS never draws both (collection.css). */
+const FLIP_EDGE_MS = 114;
+const FLIP_TURN_MS = 950;
+/** The holo twist's 360: starts 650 ms in; the back faces the camera between these times (normal, Legendary). */
+const SPIN = { normal: { start: 650, back: 1400, front: 1905, end: 3150 }, legendary: { start: 650, back: 1550, front: 2157, end: 3650 } };
 
 /**
  * FUT-style walkout for Epic+ pulls and every holo: a dark tunnel with light beams, fireworks in the TIER colour,
@@ -122,7 +135,7 @@ interface WalkoutProps {
  * flipped (ALT KIT · <label>); an era kit holds it back for its own THROWBACK beat after the flip and any twist. A
  * Prizm colour parallel shows its stamp the same way (PRIZM RED /199); a Gold or Black holds it for its PRIZM beat.
  */
-const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, onSkip, onDone, onRevealAll }: WalkoutProps) => {
+const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, onSkip, onDone, onRevealAll, tunnel = false }: WalkoutProps) => {
   const team = findNFLTeam(info.player.team);
   const stage = beats[Math.min(step, beats.length - 1)].stage;
   const reached = (s: WkStage) => {
@@ -146,6 +159,41 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
   const parShown = !!par && reached('flip') && (!parChase || reached('prizm')) && (!holo || twisted || isFinal);
   const doneRef = useRef<HTMLButtonElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  // The runner (tunnel only): his sprite in the pulled kit (an autograph has no kit roll: home)
+  const runKit = tunnel ? uniform ?? homeUniform(info.player.team) : null;
+  const figRun = useKitFigure(info.player, runKit, 'run');
+  const figCel = useKitFigure(info.player, runKit, 'celebrate');
+  const runner = tunnel && !reduced && figRun.status === 'ready';
+  // The flip (and a holo's 360) without iOS flicker: the far face is hidden outright once the card is edge-on, and
+  // blend-mode / moving finish layers are off while it turns (data-turning), as in the card detail (useFlipFaces.ts)
+  const flipped = reached('flip');
+  const [face, setFace] = useState<'back' | 'front'>('back');
+  const [turning, setTurning] = useState(false);
+  useEffect(() => {
+    if (!flipped) return;
+    if (reduced) {
+      setFace('front');
+      return;
+    }
+    setTurning(true);
+    const a = window.setTimeout(() => setFace('front'), FLIP_EDGE_MS);
+    const b = window.setTimeout(() => setTurning(false), FLIP_TURN_MS);
+    return () => {
+      window.clearTimeout(a);
+      window.clearTimeout(b);
+    };
+  }, [flipped, reduced]);
+  useEffect(() => {
+    if (!twisted || reduced) return;
+    const s = SPIN[legendary ? 'legendary' : 'normal'];
+    const ids = [
+      window.setTimeout(() => setTurning(true), s.start),
+      window.setTimeout(() => setFace('back'), s.back),
+      window.setTimeout(() => setFace('front'), s.front),
+      window.setTimeout(() => setTurning(false), s.end),
+    ];
+    return () => ids.forEach((id) => window.clearTimeout(id));
+  }, [twisted, reduced, legendary]);
   // Focus the stage (so Space / Enter reach Skip next), then Continue once it is over
   useEffect(() => {
     rootRef.current?.focus({ preventScroll: true });
@@ -176,6 +224,7 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
         `wk--t-${card.tier}`,
         `wk--${stage}`,
         reduced && 'wk--rm',
+        tunnel && 'wk--tunnel',
         reached('flares') && 'wk--lit',
         reached('sweep') && 'wk--team',
         reached('walk') && 'wk--out',
@@ -193,15 +242,19 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
       <div className="wk__shake">
         {!reduced && (
           <>
-            <span className="wk__tunnel" aria-hidden="true" />
-            <span className="wk__floor" aria-hidden="true" />
-            <span className="wk__exit" aria-hidden="true" />
-            <span className="wk__beam wk__beam--l" aria-hidden="true" />
-            <span className="wk__beam wk__beam--r" aria-hidden="true" />
-            {legendary && (
+            {!tunnel && (
               <>
-                <span className="wk__beam wk__beam--cl" aria-hidden="true" />
-                <span className="wk__beam wk__beam--cr" aria-hidden="true" />
+                <span className="wk__tunnel" aria-hidden="true" />
+                <span className="wk__floor" aria-hidden="true" />
+                <span className="wk__exit" aria-hidden="true" />
+                <span className="wk__beam wk__beam--l" aria-hidden="true" />
+                <span className="wk__beam wk__beam--r" aria-hidden="true" />
+                {legendary && (
+                  <>
+                    <span className="wk__beam wk__beam--cl" aria-hidden="true" />
+                    <span className="wk__beam wk__beam--cr" aria-hidden="true" />
+                  </>
+                )}
               </>
             )}
             <span className="wk__wash" aria-hidden="true" />
@@ -256,7 +309,17 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
           </>
         )}
 
-        {!reduced && reached('walk') && !reached('flip') && (
+        {runner && reached('walk') && !signed && (
+          <span className={cn('wk-run', flipped && 'wk-run--in')} aria-hidden="true">
+            <span className="wk-run__path">
+              <span className="wk-run__hop">
+                <KitFigureImg fig={figRun} className="wk-run__pose wk-run__pose--run" />
+                <KitFigureImg fig={figCel.status === 'ready' ? figCel : figRun} className="wk-run__pose wk-run__pose--cel" />
+              </span>
+            </span>
+          </span>
+        )}
+        {!reduced && !runner && reached('walk') && !reached('flip') && (
           <span className={cn('wk__sil', photo && 'wk__sil--photo')} aria-hidden="true">
             {photo ? <img src={photo} alt="" referrerPolicy="no-referrer" draggable={false} /> : <PlayerJersey number={info.number} id={`wk-${info.key.replace(/\W/g, '')}`} />}
           </span>
@@ -288,7 +351,7 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
               </>
             )}
             <div className="wk__spin">
-              <div className="wk__flip">
+              <div className="wk__flip" data-face={face} data-turning={turning ? '' : undefined}>
                 <div className="wk__face">
                   <CollectibleCard
                     owned

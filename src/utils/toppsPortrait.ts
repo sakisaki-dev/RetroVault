@@ -77,7 +77,7 @@ const canvasOf = (w: number, h: number) => {
 };
 
 /** The neutral sprite at `src` painted into `u`, as a data URL. */
-const paintUniform = async (src: string, u: Uniform): Promise<string> => {
+export const paintUniform = async (src: string, u: Uniform): Promise<string> => {
   const img = await loadImage(src);
   const w = img.naturalWidth;
   const h = img.naturalHeight;
