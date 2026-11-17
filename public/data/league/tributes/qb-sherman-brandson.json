@@ -2,7 +2,7 @@
  "key": "QB:Sherman Brandson",
  "name": "Sherman Brandson",
  "pos": "QB",
- "upload": "2026-11-17-tribute-brandson-career",
+ "upload": "2026-11-17-tribute-brandson-rival",
  "nickname": "General Sherman",
  "deck": "Wherever Dorren Skura went, he was under center: Baltimore, Tampa Bay, New York. He waited out the lean years in Minnesota until the coach came back, threw for more yards and touchdowns than anyone the league has seen, and in Y95 finally handed over the crown.",
  "hero": {
@@ -146,11 +146,10 @@
    "headline": "Tampa Bay, and a Title Won Against His Old Club",
    "body": [
     "When Skura moved to Tampa Bay for Y51, Brandson moved too, and the Buccaneers did not lose a step. They went 16-1 and routed the Jaguars 40-13 in Super Bowl CX. A year later they went 16-1 again and met the Ravens in Super Bowl CXI, Brandson against the club where he had won his first rings. Tampa Bay won 32-25.",
-    "Y53 was the cruelest season of his prime. The Buccaneers went 17-0, the only perfect regular season of his three in Tampa Bay, and still went out in the championship round. The Titans won that title instead, 36-31 over the Eagles, with Michael Wilson, his old Baltimore teammate, collecting the ring."
+    "Y53 was the cruelest season of his prime. The Buccaneers went 17-0, the only perfect regular season of his three in Tampa Bay, and still went out in the championship round. The Titans won that title instead, 36-31 over the Eagles, and Brandson's run of titles stopped at two in Tampa Bay."
    ],
    "players": [
-    "Sherman Brandson",
-    "Michael Wilson"
+    "Sherman Brandson"
    ],
    "teams": [
     "Buccaneers",
@@ -331,18 +330,18 @@
   {
    "id": "sherman-brandson-rival",
    "kind": "rival",
-   "headline": "Michael Wilson, the Other Quarterback in Baltimore",
+   "headline": "Michael Wilson, the Quarterback Who Inherited Minnesota",
    "body": [
-    "Before Brandson there was Michael Wilson, \"Air Wilson\", already a Raven when he arrived. The two shared Baltimore through Y50 and 3 Super Bowl titles, and Wilson won 5 rings there in all, then the Y53 title with the Titans that Brandson's 17-0 Buccaneers never reached. Side by side, the careers are not close. Wilson completed 72 percent of his passes, Brandson 84.7. Wilson threw for 58,992 yards and 690 touchdowns in 214 games; Brandson for 91,463 and 1,150 in 315. Wilson won 6 MVPs, Brandson 8. Both now hang in the Giants' Ring of Honor."
+    "Michael Wilson, \"Air Wilson\", never shared a huddle with Brandson. He spent Y60 through Y62 in Baltimore without a ring while Brandson was finishing in Minnesota, then took over the Vikings for Y63, the season after injury ended Brandson's career. The dynasty did not miss a beat: Wilson won 5 rings there in six seasons, throwing to God Johnson, who set the career receiving record on Skura's board in Y67. Side by side, the careers are not close. Wilson completed 72 percent of his passes, Brandson 84.7. Wilson threw for 58,992 yards and 690 touchdowns in 214 games; Brandson for 91,463 and 1,150 in 315. Wilson won 6 MVPs, Brandson 8. Both now hang in the Giants' Ring of Honor."
    ],
    "players": [
     "Michael Wilson",
-    "Sherman Brandson"
+    "Sherman Brandson",
+    "God Johnson"
    ],
    "teams": [
     "Ravens",
-    "Titans",
-    "Buccaneers",
+    "Vikings",
     "Giants"
    ],
    "stats": [
@@ -352,19 +351,9 @@
      "source": "players.json QB:Sherman Brandson cmp/att%"
     },
     {
-     "label": "Titles together in Baltimore",
-     "value": "3",
-     "source": "stints.json Sherman Brandson/stints/0/rings/#"
-    },
-    {
-     "label": "Wilson rings with the Ravens",
+     "label": "Wilson rings with the Vikings",
      "value": "5",
-     "source": "stints.json Michael Wilson/stints/0/rings/#"
-    },
-    {
-     "label": "Buccaneers record, Y53",
-     "value": "17-0",
-     "source": "coach.json Y53 record"
+     "source": "stints.json Michael Wilson/stints/1/rings/#"
     },
     {
      "label": "Completion rate, Wilson",

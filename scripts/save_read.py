@@ -486,6 +486,48 @@ def build_state(save: Save, date: str, tag: str | None = None) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# CAREERS mode: each player's career clock (save.careers), for scripts/infer_stints.py
+# ---------------------------------------------------------------------------
+def careers_value(save: Save) -> dict:
+    """Per Retro Vault key: born (age in season Y = Y - born; ages tick once a season and retirees keep ageing), delay
+    (retirement delays), signed (signed_year: the coach's last transaction with him, signed, re-signed or traded either
+    way), club (his club now; a retiree keeps his last one), left (team_leave_reason) and, for a player no longer
+    playing, last_games (sta_s is not reset after his last season, so it is his final season)."""
+    clubs = {u: t["name"] for u, t in save.teams.items()}
+    pairs, _, _ = match(save, rv_players())
+    out = {}
+    for r, p in pairs:
+        raw = p["raw"]
+        tid = int(raw.get("teamid", -9))
+        left = raw.get("team_leave_reason") or ""
+        playing = tid >= 0 and not left and raw["sta_s"]["games"] > 0
+        e = {"born": int(save.year - raw["age"]), "delay": int(raw.get("delay_retirement") or 0)}
+        if int(raw.get("signed_year") or 0) > 0:
+            e["signed"] = int(raw["signed_year"])
+        if tid in clubs:
+            e["club"] = clubs[tid]
+        if left in ("retired", "cut"):
+            e["left"] = left
+        if not playing and raw["sta_s"]["games"] > 0:
+            e["last_games"] = int(raw["sta_s"]["games"])
+        out[rv_key(r)] = e
+    return dict(sorted(out.items()))
+
+
+def build_careers(save: Save, date: str) -> dict:
+    m = manifest_head(save, f"{date}-save-y{save.year}-careers", date)
+    # the game drops long-retired players from its pool: keep every clock an earlier save gave, this save's win
+    old = ROOT / "data" / "y80" / "save_careers.json"
+    value = {**(json.loads(old.read_text()).get("players", {}) if old.exists() else {}), **careers_value(save)}
+    m["mutations"].append({
+        "lane": "stats", "op": "save.careers", "target": f"Y{save.year}", "value": dict(sorted(value.items())),
+        "source": save_source(save), "reason": "Career clocks (age, retirement delays, the coach's last transaction, last "
+        "club, final-season games) read from the game's save, for the career stints",
+        "trigger": "Owner: \"give me a complete timeline that works and we can be sure is 100% correct based on real data\""})
+    return m
+
+
+# ---------------------------------------------------------------------------
 # SEASON-COMPLETE mode: an ordinary upload bundle
 # ---------------------------------------------------------------------------
 def roman(n: int) -> str:
@@ -765,6 +807,9 @@ def main():
     date = opt("--date") or dt.date.today().isoformat()
     if "--state" in args:
         d = write_bundle(build_state(save, date, opt("--tag")))
+        print(f"wrote {d.relative_to(ROOT)}/manifest.json; next: npm run update -- {d.relative_to(ROOT)}")
+    elif "--careers" in args:
+        d = write_bundle(build_careers(save, date))
         print(f"wrote {d.relative_to(ROOT)}/manifest.json; next: npm run update -- {d.relative_to(ROOT)}")
     elif "--complete" in args:
         m, notes = build_complete(save, date, int(opt("--season")) if opt("--season") else None)

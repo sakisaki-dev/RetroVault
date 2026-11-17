@@ -1450,21 +1450,21 @@
     "frozenSeason": "Y79"
    },
    {
+    "name": "Brennan Higgins",
+    "pos": "WR",
+    "careerLegacy": 5350,
+    "score": 51,
+    "hof": false,
+    "why": "3 rings with the club",
+    "frozenSeason": "Y79"
+   },
+   {
     "name": "Odell Ankou",
     "pos": "LB",
     "careerLegacy": 5123,
     "score": 52,
     "hof": false,
     "why": "3 rings with the club",
-    "frozenSeason": "Y79"
-   },
-   {
-    "name": "Robert Boone",
-    "pos": "DB",
-    "careerLegacy": 4851,
-    "score": 50,
-    "hof": false,
-    "why": "5 rings with the club",
     "frozenSeason": "Y79"
    },
    {
@@ -1507,24 +1507,6 @@
    }
   ],
   "Chargers": [
-   {
-    "name": "Wayne Wilson",
-    "pos": "QB",
-    "careerLegacy": 8711,
-    "score": 73,
-    "hof": true,
-    "why": "Hall of Famer",
-    "frozenSeason": "Y79"
-   },
-   {
-    "name": "Bilal Tolbert",
-    "pos": "LB",
-    "careerLegacy": 7276,
-    "score": 74,
-    "hof": true,
-    "why": "Hall of Famer",
-    "frozenSeason": "Y79"
-   },
    {
     "name": "Odell Hainsey",
     "pos": "DB",
@@ -1620,24 +1602,6 @@
     "hof": false,
     "why": "Career Legacy",
     "frozenSeason": "Y94"
-   },
-   {
-    "name": "Jayden Daniels",
-    "pos": "QB",
-    "careerLegacy": 6672,
-    "score": 41,
-    "hof": false,
-    "why": "3 rings with the club",
-    "frozenSeason": "Y79"
-   },
-   {
-    "name": "Brennan Higgins",
-    "pos": "WR",
-    "careerLegacy": 5350,
-    "score": 51,
-    "hof": false,
-    "why": "3 rings with the club",
-    "frozenSeason": "Y79"
    }
   ],
   "Cowboys": [
@@ -1669,6 +1633,15 @@
     "hof": false,
     "why": "Career Legacy",
     "frozenSeason": "Y91"
+   },
+   {
+    "name": "Jayden Daniels",
+    "pos": "QB",
+    "careerLegacy": 6672,
+    "score": 41,
+    "hof": false,
+    "why": "Career Legacy",
+    "frozenSeason": "Y79"
    },
    {
     "name": "Sauce Gardner",
@@ -2046,6 +2019,15 @@
     "frozenSeason": "Y79"
    },
    {
+    "name": "Alexx Sanchez",
+    "pos": "QB",
+    "careerLegacy": 7430,
+    "score": 51,
+    "hof": false,
+    "why": "4 rings with the club",
+    "frozenSeason": "Y92"
+   },
+   {
     "name": "Shaikal Beebee",
     "pos": "QB",
     "careerLegacy": 6134,
@@ -2093,10 +2075,28 @@
     "frozenSeason": "Y79"
    },
    {
+    "name": "Wayne Wilson",
+    "pos": "QB",
+    "careerLegacy": 8711,
+    "score": 73,
+    "hof": true,
+    "why": "Hall of Famer",
+    "frozenSeason": "Y79"
+   },
+   {
     "name": "Lukas Russell",
     "pos": "WR",
     "careerLegacy": 8607,
     "score": 69,
+    "hof": true,
+    "why": "Hall of Famer",
+    "frozenSeason": "Y79"
+   },
+   {
+    "name": "Bilal Tolbert",
+    "pos": "LB",
+    "careerLegacy": 7276,
+    "score": 74,
     "hof": true,
     "why": "Hall of Famer",
     "frozenSeason": "Y79"
@@ -2167,15 +2167,6 @@
     "hof": true,
     "why": "Hall of Famer",
     "frozenSeason": "Y79"
-   },
-   {
-    "name": "Alexx Sanchez",
-    "pos": "QB",
-    "careerLegacy": 7430,
-    "score": 51,
-    "hof": false,
-    "why": "5 rings with the club",
-    "frozenSeason": "Y92"
    },
    {
     "name": "Darrel Longa",
@@ -2267,6 +2258,15 @@
     "score": 60,
     "hof": false,
     "why": "4 rings with the club",
+    "frozenSeason": "Y79"
+   },
+   {
+    "name": "Robert Boone",
+    "pos": "DB",
+    "careerLegacy": 4851,
+    "score": 50,
+    "hof": false,
+    "why": "5 rings with the club",
     "frozenSeason": "Y79"
    }
   ]

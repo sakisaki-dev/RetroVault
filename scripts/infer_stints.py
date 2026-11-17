@@ -45,6 +45,21 @@ import owner_facts as F  # noqa: E402
 SB = {int(s["year"][1:]): s for s in json.loads((SRC / "super_bowls.json").read_text())}
 COACH = {s["year"]: s for s in json.loads((SRC / "coach.json").read_text())["seasons"]}
 LAST = max(COACH)
+# Facts read from the game's save (data/y80/save_careers.json, written by a save bundle): per player key his birth
+# season (age in season Y = Y - born; ages tick once a season, retirees keep ageing), retirement delays, the season of
+# the coach's last transaction with him (signed, re-signed or traded either way), his last club and, for a retiree,
+# the games of his final season. Rookies enter at 17 or older (nearly all at 21-22; Sawyer, Rookie of the Year in Y72, was 17); the final season is played at
+# 34, 39 for a QB, plus delays (docs/GAME_MECHANICS.md "Retirement").
+SAVE_CAREERS_PATH = SRC / "save_careers.json"
+DEBUT_MIN_AGE = 17
+DEBUT_USUAL = (21, 22)
+SAVE_CAREERS: dict = {}
+# One club starts one quarterback: a star QB (players.json score STAR_QB_SCORE or more) pays QB_SHARE_COST a season for
+# sharing the coach's club with a higher-ranked star QB (owner: two star QBs don't share a club). Soft, so the rings
+# can still force it (Wayne Wilson and Lamar Jackson both won the Y10-11 Chargers titles).
+STAR_QB_SCORE = 1500
+QB_SHARE_COST = 1.0
+AVOID: dict[str, set] = {}
 WIN = {y: s["winner"] for y, s in SB.items()}
 LOSE = {y: s["loser"] for y, s in SB.items()}
 
@@ -243,6 +258,7 @@ def solve(target, era, seqs):
         for t, a, b in exact:
             if (t, a, b) not in stints:
                 return
+
         if longest:
             span: dict[str, int] = {}
             for t, a, b in stints:
@@ -254,6 +270,16 @@ def solve(target, era, seqs):
         if g:
             # can't play more games than the schedule allows; fewer (injuries, rest) is cheaper
             score += max(0.0, g - pred) / 8 + max(0.0, pred - 1.12 * g) / 17
+        for alts in target.get("either", []):
+            # soft: a draft pick the coach traded before he played (Spencer, Y83) leaves no season with the coach
+            if not any(st[0] == t and st[1] <= y <= st[2] for t, y in alts for st in stints):
+                score += 2.0
+        if target.get("avoid"):
+            score += QB_SHARE_COST * sum(1 for t, a, b in stints for y in range(a, b + 1) if (t, y) in target["avoid"])
+        if "born" in target:
+            age0 = s - target["born"]
+            lo, hi = DEBUT_USUAL
+            score += 0.25 * max(0, lo - age0, age0 - hi)
         if era:
             a, b = era
             out = sum(1 for y in range(s, e + 1) if y < a - 1 or y > b + 1)
@@ -380,7 +406,9 @@ def evidence(name, target, chosen, conf, top, f, extra, dated, rec_anchors, care
     return " ".join(parts)
 
 
-def main():
+def main(second_pass: bool = False):
+    global SAVE_CAREERS
+    SAVE_CAREERS = json.loads(SAVE_CAREERS_PATH.read_text()).get("players", {}) if SAVE_CAREERS_PATH.exists() else {}
     players = [p for p in json.loads((SRC / "players.json").read_text()) if not p.get("legend")]
     teams = json.loads((SRC / "teams.json").read_text())
     sheet = {r["n"]: r for r in json.loads((SRC / "spreadsheet_parsed.json").read_text())}
@@ -438,6 +466,23 @@ def main():
             # (a free agent is not playing: his career may end before the last season)
             # on a roster in the last season, or added after the sheet and not retired in the game: still playing
             target["end"] = (LAST, LAST)
+        sv = SAVE_CAREERS.get(f"{p['pos']}:{name}")
+        if sv:
+            # the save's clock: no season before he was 18, none after his final age; the coach's last transaction
+            # with him puts him on the coach's club that season or the one before (a trade away)
+            mx = (39 if p["pos"] == "QB" else 34) + sv.get("delay", 0)
+            s0, s1 = target.get("start", (1, LAST))
+            e0, e1 = target.get("end", (1, LAST))
+            s0 = max(s0, sv["born"] + DEBUT_MIN_AGE)
+            e1 = min(e1, sv["born"] + mx)
+            if s0 <= s1 and e0 <= e1 and s0 <= e1:
+                target["start"], target["end"] = (s0, s1), (e0, e1)
+                target["born"] = sv["born"]
+            y = sv.get("signed")
+            if y and 1 < y <= LAST:
+                target["either"] = [[(COACH[y]["team"], y), (COACH[y - 1]["team"], y - 1)]] if y - 1 in COACH else [[(COACH[y]["team"], y)]]
+        if name in AVOID:
+            target["avoid"] = AVOID[name]
         seqs = candidate_seqs(f, anchors)
         loose = dict(target)
         if name in PLAYED:
@@ -469,12 +514,26 @@ def main():
                     for i in range(len(seq) if fixed_last else len(seq) + 1):
                         trial.append(seq[:i] + [t] + seq[i:])
             sols = solve(target, era, trial)
+            if not sols and "born" in target:
+                # the save's age window leaves rings no single extra club explains (Friend: Vikings and Titans titles
+                # before his Seahawks years): try two extra stops, still inside the window
+                trial2 = []
+                for seq in seqs:
+                    for t1, t2 in itertools.permutations(cands, 2):
+                        if t1 in seq or t2 in seq:
+                            continue
+                        n = len(seq) if fixed_last else len(seq) + 1
+                        for i in range(n):
+                            for j in range(i, n):
+                                sq = seq[:i] + [t1] + seq[i:j] + [t2] + seq[j:]
+                                trial2.append(sq)
+                sols = solve(target, era, trial2)
 
             def penalty(sq, sts):
                 # the added stop is the club not in the original order; prefer one whose rings were the owner's
                 added = [st for st, s0 in zip(sts, sq) if s0 not in f["known"] | {t for t, _ in anchors}]
                 bonus = -1.0 if real and sq[0] == real["club"] else 0
-                return 1.0 + (0 if owner_rings(added) else 0.8) + bonus
+                return len(added) * 1.0 + (0 if owner_rings(added) else 0.8) + bonus
 
             sols = sorted(((round(sc + penalty(sq, sts), 3), sq, sts) for sc, sq, sts in sols), key=lambda x: (x[0], x[1], x[2]))
             if sols:
@@ -518,6 +577,18 @@ def main():
 
     if explain:
         return
+    if not second_pass:
+        # star QBs claim the coach's club-seasons in order of score; re-solve once with the sharing cost
+        score = {p["n"]: p.get("score") or 0 for p in players if p["pos"] == "QB"}
+        taken: set = set()
+        for n in sorted((n for n in score if score[n] >= STAR_QB_SCORE and n in out), key=lambda n: (-score[n], n)):
+            mine = {(x["team"], y) for x in out[n]["stints"] for y in range(x["from"], x["to"] + 1)
+                    if COACH.get(y, {}).get("team") == x["team"]}
+            if mine & taken:
+                AVOID[n] = set(taken)
+            taken |= mine
+        if AVOID:
+            return main(second_pass=True)
     OUT.write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n")
     from collections import Counter
     c = Counter(r[0] for r in report)

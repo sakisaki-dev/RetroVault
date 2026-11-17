@@ -1,0 +1,12 @@
+{
+ "id": "2026-11-17-wilson-career",
+ "created": "2026-11-17",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {"lane": "stats", "op": "fact.set", "target": "players/Michael Wilson/career/stints",
+   "value": [["Ravens", 41, 46], ["Giants", 47, 52], ["Titans", 53, 53]], "source": "owner",
+   "reason": "Owner: \"apply the wilson fix\" (Ravens Y41-46 for the Y41-44 and Y46 titles, Giants Y47-52, Titans Y53 title and retired injured; Brandson takes over in Baltimore from Y47)",
+   "trigger": "Owner statement in notes.md"}
+ ]
+}

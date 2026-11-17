@@ -1,0 +1,11 @@
+{
+ "id": "2026-11-17-wilson-career-from-save",
+ "created": "2026-11-17",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {"lane": "stats", "op": "fact.remove", "target": "players/Michael Wilson/career/stints", "value": null, "source": "owner",
+   "reason": "Owner: \"as for everyone else give me a complete timeline that works and we can be sure is 100% correct based on real data\" (the save's age puts Wilson's debut at Y57 or later, so the Ravens Y41-46 fix of 2026-11-17-wilson-career is impossible; his career is solved from the save's clock instead)",
+   "trigger": "Owner statement in notes.md"}
+ ]
+}

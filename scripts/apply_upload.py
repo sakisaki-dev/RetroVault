@@ -51,6 +51,12 @@ Lanes and ops (deterministic; nothing is inferred here):
                                                     data/y80/save_state.json. Source "save:<file>" only; players keyed
                                                     by Retro Vault key (POS:Name); never morale, height/weight or the
                                                     game's Hall of Fame flags
+         save.careers   target "Y<season>"            value {"POS:Name": {born, delay, signed?, club?, left?, last_games?}}:
+                                                    each player's career clock read from the game's save (birth season:
+                                                    age in season Y = Y - born; retirement delays; the season of the
+                                                    coach's last transaction with him; his last club; a retiree's
+                                                    final-season games), written whole to data/y80/save_careers.json
+                                                    for scripts/infer_stints.py. Source "save:<file>" only
          extras.set     target "<section>/<key>"     value: the new entry in data/y80/screenshot_extras.json, or null to
                                                     delete it. <section> must be an existing section (season_lines,
                                                     player_cards, family, ...); the key can't be empty
@@ -118,6 +124,7 @@ FILES = {
     "tributes": SRC / "tributes.json",
     "schedules": SRC / "schedules.json",
     "save_state": SRC / "save_state.json",
+    "save_careers": SRC / "save_careers.json",
 }
 MARKET = SRC / "market_history.json"  # written by market_snapshot.ts in its own compact layout; renamed as text
 SPRITE_IMAGES = ROOT / "public" / "data" / "sprites"
@@ -134,6 +141,13 @@ TRIBUTES_ABOUT = ("Player Tributes: the fifth AI-authored lane (owner-approved 2
                   "every figure cited in stats[] with its source and checked like the Season Story "
                   "(scripts/story_check.py check_tribute). Never hand-edit.")
 
+SAVE_CAREERS_ABOUT = ("Each player's career clock read from the game's save (scripts/save_read.py --careers), written only "
+                      "by a save.careers upload mutation and replaced whole by each: born (age in season Y = Y - born), "
+                      "delay (retirement delays), signed (the season of the coach's last transaction with him: signed, "
+                      "re-signed or traded either way), club (his last club), left (retired or cut) and, for a retiree, "
+                      "last_games (his final season's games). scripts/infer_stints.py uses them as hard limits on each "
+                      "career. Never hand-edit.")
+
 SAVE_STATE_ABOUT = ("Live state of the current season read from the game's own save (scripts/save_read.py --state), written "
                     "only by a save.state upload mutation: ages, ratings and ceilings, contracts, injuries, the season so "
                     "far per player (Retro Vault keys), club records, the coach's game log, the club's settings, "
@@ -148,7 +162,7 @@ SCHEDULES_ABOUT = ("Week-by-week league scores, final standings and the coach's 
 AI_STEPS = {"transcribe", "portrait→look", "tag notes", "speech", "art", "story", "takes", "tribute"}
 LANE_OPS = {
     "stats": {"player.set", "player.rename", "fact.set", "fact.add", "fact.remove", "superbowl.set", "coach.season", "coach.set",
-              "record.set", "baseline", "extras.set", "schedule.set", "save.state"},
+              "record.set", "baseline", "extras.set", "schedule.set", "save.state", "save.careers"},
     "looks": {"sprite.set", "sprite.image", "card.design"},
     "notes": {"journal.add"},
     "speech": {"speech.set", "speech.remove"},
@@ -226,6 +240,10 @@ def validate(bundle: Path, manifest: dict) -> list[str]:
             errs.append(f"{where}: {src} is not listed in images")
         elif kind == "save" and src[5:] != (manifest.get("save") or {}).get("file"):
             errs.append(f"{where}: {src} is not the manifest's save file ({(manifest.get('save') or {}).get('file')})")
+        if op == "save.careers":
+            if kind != "save":
+                errs.append(f"{where}: save.careers needs source 'save:<file>' (it is read from the game's save)")
+            errs += [f"{where}: {e}" for e in save_careers_errors(str(m.get("target", "")), m.get("value"), manifest)]
         if op == "save.state":
             if kind != "save":
                 errs.append(f"{where}: save.state needs source 'save:<file>' (it is read from the game's save)")
@@ -294,6 +312,36 @@ def save_state_errors(target: str, value, manifest: dict) -> list[str]:
         errs.append(f"clubs outside the 32: {', '.join(map(str, sorted(set(map(str, bad)))))}")
     if len(value.get("clubs") or {}) != 32:
         errs.append(f"clubs lists {len(value.get('clubs') or {})} clubs, not 32")
+    return errs
+
+
+def save_careers_errors(target: str, value, manifest: dict) -> list[str]:
+    """Career clocks: target "Y<season>" matching the manifest's save, players keyed by existing Retro Vault keys, only
+    the known fields, plausible values, clubs from the 32."""
+    import re
+    if not isinstance(value, dict) or not value:
+        return ["value must be a non-empty object keyed POS:Name"]
+    errs = []
+    season = (manifest.get("save") or {}).get("season")
+    if not re.fullmatch(r"Y\d+", target) or (season is not None and target != f"Y{season}"):
+        errs.append(f'target must be "Y<season>" of the manifest\'s save (Y{season})')
+    rows = json.loads(FILES["players"].read_text())
+    keys = {f'{r["pos"]}:{r["n"]}' for r in rows} | {m.get("target") for m in manifest.get("mutations", []) if m.get("op") == "player.set"}
+    clubs = set(json.loads((SRC / "teams.json").read_text()))
+    allowed = {"born", "delay", "signed", "club", "left", "last_games"}
+    for k, v in value.items():
+        if k not in keys:
+            errs.append(f"{k}: not in players.json")
+            continue
+        if not isinstance(v, dict) or "born" not in v or set(v) - allowed:
+            errs.append(f"{k}: needs born and only {sorted(allowed)}")
+            continue
+        if not all(isinstance(v.get(f), int) for f in ("born", "delay", "signed", "last_games") if f in v):
+            errs.append(f"{k}: born, delay, signed and last_games are whole numbers")
+        if v.get("club") is not None and v["club"] not in clubs:
+            errs.append(f"{k}: club {v['club']} is not one of the 32")
+        if v.get("left") not in (None, "retired", "cut"):
+            errs.append(f"{k}: left must be retired or cut")
     return errs
 
 
@@ -502,6 +550,11 @@ def apply(bundle: Path, manifest: dict) -> list[str]:
                 seasons_sorted = dict(sorted(seasons.items(), key=lambda kv: int(kv[0].lstrip("Y"))))
                 data["schedules"]["seasons"] = seasons_sorted
                 changes.append(f"schedule {target}: {len(value.get('weeks', []))} weeks")
+        elif op == "save.careers":
+            rec = {"_about": SAVE_CAREERS_ABOUT, "id": target, "upload": manifest["id"], "players": dict(sorted(value.items()))}
+            if data["save_careers"] != rec:
+                data["save_careers"] = rec
+                changes.append(f"save careers {target}: {len(value)} players")
         elif op == "save.state":
             rec = {"_about": SAVE_STATE_ABOUT, "id": target, "upload": manifest["id"], **value}
             if data["save_state"] != rec:

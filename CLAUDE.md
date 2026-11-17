@@ -533,6 +533,22 @@ source names that file).
   speeches, stories and takes follow as usual. `--complete --check` is the dry run (builds the bundle in memory and
   prints it; nothing written). The season is the save's latest completed one: its own year once `history` has a row for
   it, else the year before (careers then = save career − save season for players still playing).
+- **Career clocks** (`python3 scripts/save_read.py --careers` → `data/uploads/<date>-save-y<n>-careers/`, one
+  `save.careers` mutation, source `save:<file>`, target `Y<season>`; written whole to `data/y80/save_careers.json`;
+  first applied by `2026-11-17-save-y95-careers`; owner: "give me a complete timeline that works and we can be sure is
+  100% correct based on real data"): per Retro Vault key the save's `born` (age in season Y = Y − born: ages tick once a
+  season and retirees keep ageing in the pool), `delay` (retirement delays), `signed` (signed_year: the season of the
+  coach's last transaction with him, signed, re-signed **or traded away**), `club` (his club now, a retiree's last),
+  `left` (retired / cut) and a retiree's `last_games` (sta_s isn't reset: his final season, e.g. Brandson's 6 games in
+  Y62). `infer_stints.py` turns them into rules: no season before age 17 (nearly every debut is 21–22; Sawyer was 17,
+  Maxwell 17), none after the final age (34, 39 for a QB, plus delays); `signed` puts him on the coach's club that
+  season or the one before (soft, cost 2: a draft pick traded before playing leaves no season); debuts away from 21–22
+  cost a little; when one extra club can't explain the rings inside the window, two are tried (Friend: Vikings Y68–69
+  and Titans Y70–72 before his Seahawks years); and a star QB (players.json score 1500+) pays 1 a season for sharing
+  the coach's club with a higher-ranked star QB (a second pass; the rings can still force it, Wayne Wilson and Aubrey
+  Jewell on the Y40 Chargers). Players the save has dropped (long retired, about 190) keep the ring-arithmetic
+  solution. Refresh the clocks after each season-complete import (the save drops more retirees each year, so a later
+  bundle would hold fewer players, so `--careers` merges the stored clocks with the new save's, the new save winning).
 - **Save over transcriptions** (owner, 2026-11-13: "take the save data over the ones i have"): where the save and
   Retro Vault disagree for completed seasons, the save wins. `data/uploads/2026-11-13-save-reconcile/` set the 19
   mismatched (all retired) players' full career lines and awards to the save's `sta_c`, using the existing

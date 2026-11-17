@@ -1518,6 +1518,51 @@
     "tribute": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-17-wilson-career",
+   "dir": "data/uploads/2026-11-17-wilson-career",
+   "applied_at": "2026-11-17T00:33:44-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-17-save-y95-careers",
+   "dir": "data/uploads/2026-11-17-save-y95-careers",
+   "applied_at": "2026-11-17T00:44:37-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-17-wilson-career-from-save",
+   "dir": "data/uploads/2026-11-17-wilson-career-from-save",
+   "applied_at": "2026-11-17T00:45:22-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-17-speech-michael-wilson",
+   "dir": "data/uploads/2026-11-17-speech-michael-wilson",
+   "applied_at": "2026-11-17T00:48:32-08:00",
+   "mutations": {
+    "speech": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-17-tribute-brandson-rival",
+   "dir": "data/uploads/2026-11-17-tribute-brandson-rival",
+   "applied_at": "2026-11-17T00:49:46-08:00",
+   "mutations": {
+    "tribute": 1
+   },
+   "changed": 1
   }
  ]
 }
