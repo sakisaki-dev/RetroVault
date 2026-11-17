@@ -1,14 +1,16 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-/** The flip's length (collection.css `cd-turn`); the faces swap halfway, when the card is edge-on. */
-export const FLIP_MS = 420;
+/** When the spring curve passes 90deg: the moment the far face is hidden. */
+const EDGE_ON_MS = 114;
+
+/** The flip's length (collection.css `.cd__flipper` transition); data-turning holds for all of it. */
+export const FLIP_MS = 850;
 
 /**
- * Drives a .cd__flipper: which face shows (its data-face attribute), whether it is mid-turn (data-turning, which runs
- * the squeeze animation) and whether the back is mounted. The flip is flat on purpose: the card squeezes to its edge,
- * swaps faces and opens again. The old 3D rotateY flip relied on backface-visibility, which iOS Safari doesn't honour
- * on faces with blend-mode and animated layers (the finishes, the tilt), so both faces flickered through each other.
- * The back stays mounted until the turn back to the front has finished. A new `card` starts on the front, still.
+ * Drives a 3D .cd__flipper: which face shows (data-face, switched when the card turns edge-on so the far face is hidden
+ * outright instead of trusting backface-visibility), whether it is mid-turn (data-turning, for the whole flip: the CSS
+ * switches blend modes and animated finish layers off meanwhile, which is what made iOS Safari flicker) and whether the
+ * back is mounted. The back stays mounted until the turn back has finished. A new `card` starts on the front, still.
  */
 export const useFlipFaces = (flipped: boolean, card: unknown) => {
   const [backFace, setBackFace] = useState(flipped);
@@ -32,9 +34,9 @@ export const useFlipFaces = (flipped: boolean, card: unknown) => {
       /* no matchMedia */
     }
     if (!instant) setTurning(flipped ? 'to-back' : 'to-front');
-    const swap = window.setTimeout(() => setBackFace(flipped), instant ? 0 : FLIP_MS / 2);
+    const swap = window.setTimeout(() => setBackFace(flipped), instant ? 0 : EDGE_ON_MS);
     const done = window.setTimeout(() => setTurning(null), instant ? 0 : FLIP_MS);
-    const unmount = flipped ? 0 : window.setTimeout(() => setMounted(false), FLIP_MS + 60);
+    const unmount = flipped ? 0 : window.setTimeout(() => setMounted(false), FLIP_MS + 50);
     return () => {
       window.clearTimeout(swap);
       window.clearTimeout(done);

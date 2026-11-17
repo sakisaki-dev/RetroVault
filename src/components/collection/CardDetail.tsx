@@ -1,5 +1,5 @@
 import { flushSync } from 'react-dom';
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import { useDeferredStage } from '@/hooks/useDeferredStage';
 import { ChevronLeft, ChevronRight, Crown, Hammer, Pin, PinOff, RotateCcw, UserRound } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
@@ -43,10 +43,11 @@ import type { CardInfo } from './useCardPool';
 import { kitName } from './art/sprite/uniforms';
 import { displayWithKit, ownedKits } from './kits';
 import './kits.css';
-import type { OwnedAuto } from '@/utils/collection';
+import { useCollection, type OwnedAuto } from '@/utils/collection';
 import { useMarket } from '@/utils/useMarket';
-import { isSampleAuto, useAutographFor } from './autograph/sample';
+import { bestAuto, isSampleAuto, useAutographFor } from './autograph/sample';
 import AutographDetails from './autograph/AutographDetails';
+import AutographCarousel from './autograph/AutographCarousel';
 import SellPanel from './economy/SellPanel';
 import ShareImageButton from '@/components/share/ShareImageButton';
 import SharePosterFrame from '@/components/share/SharePosterFrame';
@@ -217,6 +218,9 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
   const [viewVariant, setViewVariant] = useState<Variant | null>(null);
   const [viewKit, setViewKit] = useState<string | null>(null);
   const [viewPar, setViewPar] = useState<PrizmParallel | 'plain' | null>(null);
+  // An autograph picked in the carousel under the card (else the one opened from the Autographs binder, else his best)
+  const [pickedAuto, setPickedAuto] = useState<OwnedAuto | null>(null);
+  const { state: collection } = useCollection();
   const [upgrading, setUpgrading] = useState(false);
   const [out, setOut] = useState<Outgoing | null>(null);
   const [phase, setPhase] = useState<'open' | 'closing' | 'closed'>('open');
@@ -230,6 +234,11 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
   const vEntry = entry?.variants[variant];
   const hasVariant = (v: Variant) => !!target?.preview || !!entry?.variants[v];
   const owned = (f: Finish) => !!target?.preview || !!vEntry?.counts[f] || vEntry?.best === f;
+  const myAutos = useMemo(
+    () => (info && !target?.preview ? collection.autos.filter((a) => a.key === info.key).sort((a, b) => b.pulledAt - a.pulledAt) : []),
+    [collection.autos, info, target?.preview],
+  );
+  const chosenAuto = pickedAuto && myAutos.some((a) => a.id === pickedAuto.id) ? pickedAuto : target?.auto && target.auto.key === info?.key ? target.auto : undefined;
   const finish =
     view ?? (viewVariant ? vEntry?.best : undefined) ?? target?.finish ?? (shown && shown.variant === variant ? shown.finish : undefined) ?? vEntry?.best ?? 'base';
   // Autographs are pulled only: never upgraded with shards (each keeps the finish it was pulled at)
@@ -265,6 +274,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
     setViewVariant(null);
     setViewKit(null);
     setViewPar(null);
+    setPickedAuto(null);
     setMsg('');
     setUpgrading(false);
   }, [key]);
@@ -757,7 +767,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                           variant={variant}
                           kit={kit}
                           prizm={prizm}
-                          autograph={target?.preview ? 'sample' : variant === 'auto' && target?.auto?.key === info.key && target.auto.finish === finish ? target.auto : undefined}
+                          autograph={target?.preview ? 'sample' : variant === 'auto' && chosenAuto && chosenAuto.finish === finish ? chosenAuto : undefined}
                           ovr={info.ovr}
                           number={info.number}
                           stats={info.stats}
@@ -830,7 +840,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                             variant={variant}
                             kit={kit}
                             prizm={prizm}
-                            autograph={target?.preview ? 'sample' : variant === 'auto' && target?.auto?.key === info.key && target.auto.finish === finish ? target.auto : undefined}
+                            autograph={target?.preview ? 'sample' : variant === 'auto' && chosenAuto && chosenAuto.finish === finish ? chosenAuto : undefined}
                             ovr={info.ovr}
                             number={info.number}
                             stats={info.stats}
@@ -852,7 +862,25 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                 </div>
 
                 {variant === 'auto' && !target?.preview && (
-                  <AutographPanel info={info} finish={finish} chosen={target?.auto?.key === info.key ? target.auto : undefined} />
+                  <>
+                    {myAutos.length > 1 && (
+                      <div>
+                        <p className="cd__label">Your autographs of him · {myAutos.length}</p>
+                        <AutographCarousel
+                          autos={myAutos}
+                          size="thumb"
+                          label={`${info.player.name} autographs, swipe to browse`}
+                          selectedId={(chosenAuto ?? bestAuto(myAutos.filter((a) => a.finish === finish)) ?? bestAuto(myAutos))?.id}
+                          onSelect={(a) => {
+                            setPickedAuto(a);
+                            setViewVariant('auto');
+                            setView(a.finish);
+                          }}
+                        />
+                      </div>
+                    )}
+                    <AutographPanel info={info} finish={finish} chosen={chosenAuto} />
+                  </>
                 )}
 
                 <div>
