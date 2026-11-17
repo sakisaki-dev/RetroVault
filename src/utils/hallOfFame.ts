@@ -38,8 +38,10 @@ export interface HofCase {
   /** 0-100 */
   score: number;
   parts: HofScoreParts;
-  /** League career records he held then ("Passing yards") */
+  /** League career records he held then ("Passing yards"), +15 each */
   records: string[];
+  /** League season records he held then ("Best rushing season"), +5 each */
+  seasonRecords: string[];
   rings: number;
   mvp: number;
   opoy: number;
@@ -119,6 +121,7 @@ const toCase = (r: Record<string, unknown>): HofCase | null => {
     score: num(r.score),
     parts: { standing: num(parts.standing), honours: num(parts.honours), records: num(parts.records) },
     records: strs(r.records),
+    seasonRecords: strs(r.seasonRecords),
     rings: num(r.rings),
     mvp: num(r.mvp),
     opoy: num(r.opoy),

@@ -413,6 +413,25 @@ button.rafter__hit:focus-visible {
   color: var(--raf-fg);
 }
 
+/* Three clubs (Brandson: Giants, Ravens, Vikings): narrower banners so all three fit over the hero on a phone */
+.raf-hangers--slim {
+  gap: 4px;
+}
+.raf-hangers--slim .raf-hanger,
+.raf-hangers--slim .raf-hanger__bar {
+  width: 52px;
+}
+.raf-hangers--slim .raf-hanger__wires {
+  gap: 30px;
+}
+.raf-hangers--slim .raf-hanger__cloth {
+  width: 46px;
+  height: 74px;
+}
+.raf-hangers--slim .raf-hanger__n {
+  font-size: 28px;
+}
+
 .raf-strips {
   display: flex;
   flex-direction: column;

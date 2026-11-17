@@ -1,7 +1,7 @@
 {
  "season": "Y96",
  "tagline": "The Eagles lose 4 games and win a sixth straight title anyway, 40-26 over the Bengals in Super Bowl CLV, Ryland Maxwell takes a 7th Super Bowl MVP at 34 and re-signs with Akiem Brock for one more run, and Grover Calitro scores 43 times.",
- "upload": "2026-11-17-y96-unretire",
+ "upload": "2026-11-17-maxwell-score-100",
  "articles": [
   {
    "id": "y96-eagles-clv",
@@ -157,7 +157,7 @@
    "body": [
     "Most great runners fade at 34. Ryland Maxwell sped up. He ran for 2,574 yards, 670 more than anyone else in the league, and scored 25 rushing touchdowns in 21 games. He stands at 32,108 career yards, the league record, 7,601 clear of Lane McCoy's 24,507.",
     "The touchdown list is the one race he has not won yet. Maxwell's 421 rushing touchdowns top Skura's record board but rank third in the league, 4 behind Siran Spector's 425 and 37 behind McCoy's 458. Everything else is already his: 125 career touchdown catches, 13 rings and 7 Super Bowl MVPs, the last two both the most on file.",
-    "His Career Legacy stands at 14,903, the highest on file, and the Hall of Fame watch scores him at 99, far above the bar of 65. The Hall will have to wait. Skura re-signed him in Y96, and he opens Y97 at 35, still an Eagle. Every one of his rings came with Dorren Skura: 2 with the Jets, 5 with the Falcons and 6 with the Eagles. One ordinary season would carry him past Spector, and few backs have ever been given the chance to try at 35."
+    "His Career Legacy stands at 14,903, the highest on file, and the Hall of Fame watch scores him at 100, the maximum, far above the bar of 65. The Hall will have to wait. Skura re-signed him in Y96, and he opens Y97 at 35, still an Eagle. Every one of his rings came with Dorren Skura: 2 with the Jets, 5 with the Falcons and 6 with the Eagles. One ordinary season would carry him past Spector, and few backs have ever been given the chance to try at 35."
    ],
    "players": [
     "Ryland Maxwell",
@@ -272,7 +272,7 @@
     },
     {
      "label": "Maxwell Hall of Fame watch score",
-     "value": "99",
+     "value": "100",
      "source": "halloffame.json watch/[key=RB:Ryland Maxwell]/score"
     },
     {
@@ -298,7 +298,7 @@
    "body": [
     "No lineman on league cards came near Akiem Brock in Y96, and none had for years. He made 62 blocks in 21 games, 29 more than JD Pircher of the Bengals or Caleb Linsley of the Giants, and passed 500 for his career on the way to 538 in 181 games.",
     "He spent his whole card career in Philadelphia, and the rings followed: 8 of them, every one with Dorren Skura. In nine seasons together, Skura's Eagles won the title eight times. Y90 was the one that got away.",
-    "The Hall of Fame watch scores him at 79, the best standing among offensive linemen and well clear of the bar of 65; Maxwell's is 99. His Career Legacy stands at 11,394 and his card at 29,312. He was 34 in Y96, the same age as Maxwell, and both re-signed with Skura to play Y97 at 35. Linemen rarely get the headlines in a dynasty built on a record-setting runner and a quarterback who threw 52 touchdown passes in Y96. When the vote does come, it will say what the box scores never could: the runner and the quarterback had help."
+    "The Hall of Fame watch scores him at 79, the best standing among offensive linemen and well clear of the bar of 65; Maxwell's is 100, the maximum. His Career Legacy stands at 11,394 and his card at 29,312. He was 34 in Y96, the same age as Maxwell, and both re-signed with Skura to play Y97 at 35. Linemen rarely get the headlines in a dynasty built on a record-setting runner and a quarterback who threw 52 touchdown passes in Y96. When the vote does come, it will say what the box scores never could: the runner and the quarterback had help."
    ],
    "players": [
     "Akiem Brock",
@@ -389,7 +389,7 @@
     },
     {
      "label": "Maxwell Hall of Fame watch score",
-     "value": "99",
+     "value": "100",
      "source": "halloffame.json watch/[key=RB:Ryland Maxwell]/score"
     },
     {

@@ -9,8 +9,8 @@ import { openRafters } from '@/utils/raftersLink';
 import type { RetiredNumber } from '@/utils/jerseys';
 import './rafters.css';
 
-/** At most this many clubs' banners hang on a card */
-const MAX_CLUBS = 2;
+/** At most this many clubs' banners hang on a card (Sherman Brandson's three clubs all hang; the banners slim down) */
+const MAX_CLUBS = 3;
 
 const colours = (r: RetiredNumber): CSSProperties => {
   const t = getNFLTeamById(r.teamKey);
@@ -19,7 +19,7 @@ const colours = (r: RetiredNumber): CSSProperties => {
   return { '--raf-club': p, '--raf-fg': fg, '--raf-accent': fg === 'hsl(0 0% 100%)' ? '#ffd86b' : 'hsl(228 47% 12%)' } as CSSProperties;
 };
 
-/** The clubs that hang his number (his numbering club first), at most MAX_CLUBS */
+/** The clubs that hang his number (his numbering club first, the rest alphabetically), at most MAX_CLUBS */
 const useRetiredClubs = (player: Pick<Player, 'name' | 'position' | 'isRealLegend'> | null | undefined) => {
   const { retiredForPlayer } = useRafters();
   return useMemo(() => (player && !player.isRealLegend ? retiredForPlayer(player).slice(0, MAX_CLUBS) : []), [player, retiredForPlayer]);
@@ -40,7 +40,7 @@ export const RetiredHangers = ({ player, onLeave, className }: { player: Player 
   const clubs = useRetiredClubs(player);
   if (!clubs.length) return null;
   return (
-    <div className={cn('raf-hangers', className)}>
+    <div className={cn('raf-hangers', clubs.length > 2 && 'raf-hangers--slim', className)}>
       {clubs.map((r) => {
         const t = getNFLTeamById(r.teamKey);
         return (

@@ -11,7 +11,10 @@ A rule over the data, no AI and no hand-picked names:
                         DBs, QBs against QBs): 1st 60, 2nd 54, 3rd 49 ... 10th 27, then 2 fewer a place
     honours   up to 24  30 per MVP, 18 per OPOY/DPOY, 12 per Super Bowl MVP, 4 per ring, capped at 40, times 0.6
     records   +15 each  a league career record he held when he retired (passing, rushing and receiving yards and
-                        touchdowns; tackles, sacks, interceptions, forced fumbles)
+                        touchdowns; tackles, sacks, interceptions, forced fumbles; blocks for OL), and +5 each
+                        a league season record he held then (public/data/league/records.json, scope "season": the
+                        best season among those up to his last; owner: "Count season records, at maybe +5 each. yes
+                        and career blocks for OL")
 - The ballot: every season, eligible retirees at or above the bar go in, highest score first, at most CAP a class
   (the first, inaugural class has no cap); the rest wait on the ballot. In the first year eligible = First Ballot.
   Once in, always in. Owner facts can override: players/<name>/hof "in" (enshrine) or "out" (exclude).
@@ -45,7 +48,24 @@ RECORDS = [  # (label, positions, snapshot field)
     ("Receiving yards", ("WR", "TE"), "yds"), ("Receiving TDs", ("WR", "TE"), "td"),
     ("Tackles", ("LB", "DB", "DL"), "tkl"), ("Sacks", ("LB", "DB", "DL"), "sck"),
     ("Interceptions", ("LB", "DB", "DL"), "int"), ("Forced fumbles", ("LB", "DB", "DL"), "ff"),
+    ("Blocks", ("OL",), "blk"),
 ]
+CAREER_POINTS, SEASON_POINTS = 15, 5
+LEAGUE_RECORDS = ROOT / "public" / "data" / "league" / "records.json"  # scripts/league_records.py, built before this
+
+
+def season_marks() -> list[tuple[str, list[tuple[str, float, int]]]]:
+    """Each league season record: (label, [(holder name, value, season)]) from its top list."""
+    if not LEAGUE_RECORDS.exists():
+        return []
+    out = []
+    for r in json.loads(LEAGUE_RECORDS.read_text()).get("records", []):
+        lg = r.get("league") or {}
+        if r.get("scope") != "season" or not lg.get("top"):
+            continue
+        rows = [(t.get("name") or t.get("player"), float(t.get("value") or 0), season_num(t.get("season"))) for t in lg["top"]]
+        out.append((r["record"], [x for x in rows if x[0]]))
+    return out
 
 
 def standing_points(rank: int) -> int:
@@ -80,6 +100,7 @@ def compute() -> dict:
     first = seasons[0]
     owner_hof = {n: f.get("hof") for n, f in FACTS.get("players", {}).items() if f.get("hof") in ("in", "out")}
     key = {f"{p['pos']}:{p['n']}": p for p in players}
+    marks = season_marks()
 
     def case(k: str, at: int) -> dict | None:
         """The player's Hall of Fame case from the end-of-season snapshot of season `at`."""
@@ -101,10 +122,19 @@ def compute() -> dict:
             mine = (v.get("s") or {}).get(f) or 0
             if mine and all(((v2.get("s") or {}).get(f) or 0) <= mine for k2, v2 in snap.items() if k2.split(":")[0] in poss):
                 held.append(label)
+        # a season record he held when he retired: his best season among those up to `at` tops every other then
+        seasons_held = []
+        for label, rows in marks:
+            upto = [x for x in rows if x[2] and x[2] <= at]
+            mine = [x[1] for x in upto if x[0] == name]
+            if mine and max(mine) >= max(x[1] for x in upto):
+                seasons_held.append(label)
         standing = standing_points(rank)
+        rec_pts = CAREER_POINTS * len(held) + SEASON_POINTS * len(seasons_held)
         return {"key": k, "name": name, "pos": pos, "frozenSeason": f"Y{at}", "careerLegacy": round(legacy),
-                "rank": rank, "score": min(100, standing + honours + 15 * len(held)),
-                "parts": {"standing": standing, "honours": honours, "records": 15 * len(held)}, "records": held,
+                "rank": rank, "score": min(100, standing + honours + rec_pts),
+                "parts": {"standing": standing, "honours": honours, "records": rec_pts}, "records": held,
+                "seasonRecords": seasons_held,
                 "rings": p.get("rings") or 0, "mvp": p.get("mvp") or 0, "opoy": p.get("opoy") or 0,
                 "dpoy": p.get("dpoy") or 0, "sbmvp": p.get("sbmvp") or 0, "games": p.get("g") or 0}
 

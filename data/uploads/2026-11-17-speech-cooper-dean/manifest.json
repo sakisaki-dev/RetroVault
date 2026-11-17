@@ -1,0 +1,27 @@
+{
+ "id": "2026-11-17-speech-cooper-dean",
+ "created": "2026-11-17",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "New Hall of Famer: Cooper Dean",
+   "trigger": "Voted into the Hall of Fame: Inaugural class"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Cooper Dean",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "Voted into the Hall of Fame: Inaugural class",
+    "text": "Eighteen seasons, one club, and more blocks than any lineman before him.\n\nCooper Dean arrived in Washington in Y19, the last of Dorren Skura's four title seasons with the Commanders, and his first year ended with a ring: Super Bowl LXXVIII, a 38-24 win over the Browns. The coach moved on after that season. Dean stayed.\n\nHe stayed through Y36, 292 games as a Commander, and the title never came back while he was there. The work never changed. He was credited with 345 blocks, more than one a game for 18 seasons, and when he retired that was the league's career record for blocks.\n\nThere were no MVP votes and no Player of the Year awards; offensive linemen rarely get them. What he has instead is the top Career Legacy of any lineman of his time and a place in the Commanders' Ring of Honor.\n\nOne ring, 345 blocks, one jersey. Cooper Dean, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "New Hall of Famer",
+   "trigger": "Voted into the Hall of Fame: Inaugural class"
+  }
+ ]
+}

@@ -15,11 +15,14 @@
    "parts": {
     "standing": 60,
     "honours": 24,
-    "records": 30
+    "records": 35
    },
    "records": [
     "Passing yards",
     "Passing TDs"
+   ],
+   "seasonRecords": [
+    "Most TD passes, season"
    ],
    "rings": 10,
    "mvp": 8,
@@ -50,6 +53,7 @@
     "Rushing yards",
     "Rushing TDs"
    ],
+   "seasonRecords": [],
    "rings": 9,
    "mvp": 0,
    "opoy": 4,
@@ -73,11 +77,14 @@
    "parts": {
     "standing": 60,
     "honours": 24,
-    "records": 30
+    "records": 35
    },
    "records": [
     "Receiving yards",
     "Receiving TDs"
+   ],
+   "seasonRecords": [
+    "Best receiving season"
    ],
    "rings": 10,
    "mvp": 1,
@@ -107,6 +114,7 @@
    "records": [
     "Interceptions"
    ],
+   "seasonRecords": [],
    "rings": 0,
    "mvp": 0,
    "opoy": 0,
@@ -116,6 +124,66 @@
    "class": "Inaugural class",
    "classSeason": "Y79",
    "firstBallot": false,
+   "veteran": false,
+   "yearsOnBallot": 1
+  },
+  {
+   "key": "OL:Jakeem Friend",
+   "name": "Jakeem Friend",
+   "pos": "OL",
+   "frozenSeason": "Y92",
+   "careerLegacy": 9723,
+   "rank": 1,
+   "score": 92,
+   "parts": {
+    "standing": 60,
+    "honours": 17,
+    "records": 15
+   },
+   "records": [
+    "Blocks"
+   ],
+   "seasonRecords": [],
+   "rings": 7,
+   "mvp": 0,
+   "opoy": 0,
+   "dpoy": 0,
+   "sbmvp": 0,
+   "games": 273,
+   "class": "Y93",
+   "classSeason": "Y93",
+   "firstBallot": true,
+   "veteran": false,
+   "yearsOnBallot": 1
+  },
+  {
+   "key": "LB:Kalif Suh",
+   "name": "Kalif Suh",
+   "pos": "LB",
+   "frozenSeason": "Y91",
+   "careerLegacy": 8956,
+   "rank": 1,
+   "score": 87,
+   "parts": {
+    "standing": 60,
+    "honours": 7,
+    "records": 20
+   },
+   "records": [
+    "Sacks"
+   ],
+   "seasonRecords": [
+    "Most forced fumbles, season"
+   ],
+   "rings": 3,
+   "mvp": 0,
+   "opoy": 0,
+   "dpoy": 0,
+   "sbmvp": 0,
+   "games": 298,
+   "class": "Y92",
+   "classSeason": "Y92",
+   "firstBallot": true,
    "veteran": false,
    "yearsOnBallot": 1
   },
@@ -135,6 +203,7 @@
    "records": [
     "Forced fumbles"
    ],
+   "seasonRecords": [],
    "rings": 7,
    "mvp": 0,
    "opoy": 0,
@@ -161,6 +230,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 9,
    "mvp": 0,
    "opoy": 0,
@@ -174,30 +244,31 @@
    "yearsOnBallot": 1
   },
   {
-   "key": "LB:Kalif Suh",
-   "name": "Kalif Suh",
-   "pos": "LB",
-   "frozenSeason": "Y91",
-   "careerLegacy": 8956,
-   "rank": 1,
-   "score": 82,
+   "key": "QB:Dennis Baylon",
+   "name": "Dennis Baylon",
+   "pos": "QB",
+   "frozenSeason": "Y79",
+   "careerLegacy": 9618,
+   "rank": 2,
+   "score": 83,
    "parts": {
-    "standing": 60,
-    "honours": 7,
-    "records": 15
+    "standing": 54,
+    "honours": 24,
+    "records": 5
    },
-   "records": [
-    "Sacks"
+   "records": [],
+   "seasonRecords": [
+    "Best passing season"
    ],
-   "rings": 3,
-   "mvp": 0,
+   "rings": 7,
+   "mvp": 3,
    "opoy": 0,
    "dpoy": 0,
-   "sbmvp": 0,
-   "games": 298,
-   "class": "Y92",
-   "classSeason": "Y92",
-   "firstBallot": true,
+   "sbmvp": 4,
+   "games": 253,
+   "class": "Inaugural class",
+   "classSeason": "Y79",
+   "firstBallot": false,
    "veteran": false,
    "yearsOnBallot": 1
   },
@@ -217,6 +288,7 @@
    "records": [
     "Interceptions"
    ],
+   "seasonRecords": [],
    "rings": 0,
    "mvp": 0,
    "opoy": 0,
@@ -245,6 +317,7 @@
    "records": [
     "Tackles"
    ],
+   "seasonRecords": [],
    "rings": 0,
    "mvp": 0,
    "opoy": 0,
@@ -271,38 +344,13 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 9,
    "mvp": 1,
    "opoy": 5,
    "dpoy": 0,
    "sbmvp": 3,
    "games": 250,
-   "class": "Inaugural class",
-   "classSeason": "Y79",
-   "firstBallot": false,
-   "veteran": false,
-   "yearsOnBallot": 1
-  },
-  {
-   "key": "QB:Dennis Baylon",
-   "name": "Dennis Baylon",
-   "pos": "QB",
-   "frozenSeason": "Y79",
-   "careerLegacy": 9618,
-   "rank": 2,
-   "score": 78,
-   "parts": {
-    "standing": 54,
-    "honours": 24,
-    "records": 0
-   },
-   "records": [],
-   "rings": 7,
-   "mvp": 3,
-   "opoy": 0,
-   "dpoy": 0,
-   "sbmvp": 4,
-   "games": 253,
    "class": "Inaugural class",
    "classSeason": "Y79",
    "firstBallot": false,
@@ -323,6 +371,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 7,
    "mvp": 0,
    "opoy": 0,
@@ -336,28 +385,31 @@
    "yearsOnBallot": 1
   },
   {
-   "key": "OL:Jakeem Friend",
-   "name": "Jakeem Friend",
+   "key": "OL:Cooper Dean",
+   "name": "Cooper Dean",
    "pos": "OL",
-   "frozenSeason": "Y92",
-   "careerLegacy": 9723,
+   "frozenSeason": "Y79",
+   "careerLegacy": 8782,
    "rank": 1,
    "score": 77,
    "parts": {
     "standing": 60,
-    "honours": 17,
-    "records": 0
+    "honours": 2,
+    "records": 15
    },
-   "records": [],
-   "rings": 7,
+   "records": [
+    "Blocks"
+   ],
+   "seasonRecords": [],
+   "rings": 1,
    "mvp": 0,
    "opoy": 0,
    "dpoy": 0,
    "sbmvp": 0,
-   "games": 273,
-   "class": "Y93",
-   "classSeason": "Y93",
-   "firstBallot": true,
+   "games": 292,
+   "class": "Inaugural class",
+   "classSeason": "Y79",
+   "firstBallot": false,
    "veteran": false,
    "yearsOnBallot": 1
   },
@@ -377,6 +429,7 @@
    "records": [
     "Sacks"
    ],
+   "seasonRecords": [],
    "rings": 4,
    "mvp": 0,
    "opoy": 0,
@@ -403,6 +456,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 9,
    "mvp": 3,
    "opoy": 2,
@@ -429,6 +483,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 4,
    "mvp": 5,
    "opoy": 0,
@@ -455,6 +510,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 2,
    "mvp": 0,
    "opoy": 2,
@@ -484,6 +540,7 @@
     "Rushing yards",
     "Rushing TDs"
    ],
+   "seasonRecords": [],
    "rings": 0,
    "mvp": 0,
    "opoy": 0,
@@ -510,6 +567,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 4,
    "mvp": 0,
    "opoy": 0,
@@ -538,6 +596,7 @@
    "records": [
     "Interceptions"
    ],
+   "seasonRecords": [],
    "rings": 1,
    "mvp": 0,
    "opoy": 0,
@@ -564,6 +623,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 4,
    "mvp": 0,
    "opoy": 0,
@@ -590,6 +650,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 8,
    "mvp": 1,
    "opoy": 4,
@@ -616,6 +677,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 5,
    "mvp": 5,
    "opoy": 0,
@@ -644,6 +706,7 @@
    "records": [
     "Tackles"
    ],
+   "seasonRecords": [],
    "rings": 0,
    "mvp": 0,
    "opoy": 0,
@@ -670,6 +733,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 4,
    "mvp": 0,
    "opoy": 1,
@@ -696,6 +760,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 3,
    "mvp": 0,
    "opoy": 0,
@@ -722,6 +787,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 0,
    "mvp": 0,
    "opoy": 0,
@@ -748,6 +814,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 8,
    "mvp": 1,
    "opoy": 6,
@@ -774,6 +841,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 6,
    "mvp": 6,
    "opoy": 0,
@@ -798,10 +866,11 @@
     "Jayon Queen",
     "Tyrone Baugh",
     "Levante Hopkins",
+    "Dennis Baylon",
     "Mose Junior",
     "Ian Finney",
-    "Dennis Baylon",
     "Charlie John",
+    "Cooper Dean",
     "Bilal Tolbert",
     "Cairo Asanjh",
     "Wayne Wilson",
@@ -864,6 +933,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 4,
    "mvp": 0,
    "opoy": 0,
@@ -885,6 +955,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 2,
    "mvp": 0,
    "opoy": 2,
@@ -906,6 +977,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 5,
    "mvp": 1,
    "opoy": 3,
@@ -927,33 +999,13 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 7,
    "mvp": 0,
    "opoy": 0,
    "dpoy": 0,
    "sbmvp": 0,
    "games": 289
-  },
-  {
-   "key": "OL:Cooper Dean",
-   "name": "Cooper Dean",
-   "pos": "OL",
-   "frozenSeason": "Y79",
-   "careerLegacy": 8782,
-   "rank": 1,
-   "score": 62,
-   "parts": {
-    "standing": 60,
-    "honours": 2,
-    "records": 0
-   },
-   "records": [],
-   "rings": 1,
-   "mvp": 0,
-   "opoy": 0,
-   "dpoy": 0,
-   "sbmvp": 0,
-   "games": 292
   },
   {
    "key": "RB:Trequan Jensen",
@@ -971,6 +1023,7 @@
    "records": [
     "Rushing TDs"
    ],
+   "seasonRecords": [],
    "rings": 1,
    "mvp": 0,
    "opoy": 0,
@@ -992,6 +1045,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 0,
    "mvp": 0,
    "opoy": 0,
@@ -1013,12 +1067,35 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 0,
    "mvp": 0,
    "opoy": 0,
    "dpoy": 1,
    "sbmvp": 0,
    "games": 267
+  },
+  {
+   "key": "QB:Lamar Jackson",
+   "name": "Lamar Jackson",
+   "pos": "QB",
+   "frozenSeason": "Y79",
+   "careerLegacy": 7458,
+   "rank": 7,
+   "score": 60,
+   "parts": {
+    "standing": 36,
+    "honours": 24,
+    "records": 0
+   },
+   "records": [],
+   "seasonRecords": [],
+   "rings": 2,
+   "mvp": 4,
+   "opoy": 0,
+   "dpoy": 0,
+   "sbmvp": 0,
+   "games": 345
   }
  ],
  "watch": [
@@ -1029,14 +1106,18 @@
    "frozenSeason": "Y96",
    "careerLegacy": 14903,
    "rank": 1,
-   "score": 99,
+   "score": 100,
    "parts": {
     "standing": 60,
     "honours": 24,
-    "records": 15
+    "records": 25
    },
    "records": [
     "Rushing yards"
+   ],
+   "seasonRecords": [
+    "Best rushing season",
+    "Most TD receptions, season"
    ],
    "rings": 13,
    "mvp": 1,
@@ -1062,6 +1143,7 @@
    "records": [
     "Interceptions"
    ],
+   "seasonRecords": [],
    "rings": 0,
    "mvp": 0,
    "opoy": 0,
@@ -1084,6 +1166,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 8,
    "mvp": 0,
    "opoy": 0,
@@ -1106,6 +1189,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 8,
    "mvp": 5,
    "opoy": 0,
@@ -1128,12 +1212,38 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 7,
    "mvp": 0,
    "opoy": 0,
    "dpoy": 0,
    "sbmvp": 0,
    "games": 159,
+   "projected": true
+  },
+  {
+   "key": "LB:Simeon Otton",
+   "name": "Simeon Otton",
+   "pos": "LB",
+   "frozenSeason": "Y96",
+   "careerLegacy": 7747,
+   "rank": 6,
+   "score": 56,
+   "parts": {
+    "standing": 39,
+    "honours": 12,
+    "records": 5
+   },
+   "records": [],
+   "seasonRecords": [
+    "Most forced fumbles, season"
+   ],
+   "rings": 5,
+   "mvp": 0,
+   "opoy": 0,
+   "dpoy": 0,
+   "sbmvp": 0,
+   "games": 261,
    "projected": true
   },
   {
@@ -1150,6 +1260,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 6,
    "mvp": 0,
    "opoy": 0,
@@ -1172,34 +1283,13 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 4,
    "mvp": 0,
    "opoy": 0,
    "dpoy": 0,
    "sbmvp": 0,
    "games": 240,
-   "projected": true
-  },
-  {
-   "key": "LB:Simeon Otton",
-   "name": "Simeon Otton",
-   "pos": "LB",
-   "frozenSeason": "Y96",
-   "careerLegacy": 7747,
-   "rank": 6,
-   "score": 51,
-   "parts": {
-    "standing": 39,
-    "honours": 12,
-    "records": 0
-   },
-   "records": [],
-   "rings": 5,
-   "mvp": 0,
-   "opoy": 0,
-   "dpoy": 0,
-   "sbmvp": 0,
-   "games": 261,
    "projected": true
   },
   {
@@ -1216,6 +1306,7 @@
     "records": 0
    },
    "records": [],
+   "seasonRecords": [],
    "rings": 1,
    "mvp": 2,
    "opoy": 0,
@@ -1262,7 +1353,7 @@
     "name": "Dennis Baylon",
     "pos": "QB",
     "careerLegacy": 9618,
-    "score": 78,
+    "score": 83,
     "hof": true,
     "why": "Hall of Famer",
     "frozenSeason": "Y79"
@@ -1473,7 +1564,7 @@
     "name": "Germain Coulter",
     "pos": "DB",
     "careerLegacy": 4578,
-    "score": 33,
+    "score": 38,
     "hof": false,
     "why": "5 rings with the club",
     "frozenSeason": "Y79"
@@ -1591,9 +1682,9 @@
     "name": "Cooper Dean",
     "pos": "OL",
     "careerLegacy": 8782,
-    "score": 62,
-    "hof": false,
-    "why": "Career Legacy",
+    "score": 77,
+    "hof": true,
+    "why": "Hall of Famer",
     "frozenSeason": "Y79"
    },
    {
@@ -1758,7 +1849,7 @@
     "name": "Jakeem Friend",
     "pos": "OL",
     "careerLegacy": 9723,
-    "score": 77,
+    "score": 92,
     "hof": true,
     "why": "Hall of Famer",
     "frozenSeason": "Y92"
@@ -1767,7 +1858,7 @@
     "name": "Kalif Suh",
     "pos": "LB",
     "careerLegacy": 8956,
-    "score": 82,
+    "score": 87,
     "hof": true,
     "why": "Hall of Famer",
     "frozenSeason": "Y91"
@@ -1812,7 +1903,7 @@
     "name": "Kane Van Oxley",
     "pos": "WR",
     "careerLegacy": 6524,
-    "score": 54,
+    "score": 59,
     "hof": false,
     "why": "3 rings with the club",
     "frozenSeason": "Y90"
@@ -2053,7 +2144,7 @@
     "name": "Jakeem Friend",
     "pos": "OL",
     "careerLegacy": 9723,
-    "score": 77,
+    "score": 92,
     "hof": true,
     "why": "Hall of Famer",
     "frozenSeason": "Y92"

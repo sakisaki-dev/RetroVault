@@ -1702,6 +1702,26 @@
     "stats": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-17-speech-cooper-dean",
+   "dir": "data/uploads/2026-11-17-speech-cooper-dean",
+   "applied_at": "2026-11-17T12:00:59-08:00",
+   "mutations": {
+    "speech": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-17-maxwell-score-100",
+   "dir": "data/uploads/2026-11-17-maxwell-score-100",
+   "applied_at": "2026-11-17T12:02:12-08:00",
+   "mutations": {
+    "story": 1,
+    "takes": 1,
+    "tribute": 1
+   },
+   "changed": 3
   }
  ]
 }

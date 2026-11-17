@@ -14,6 +14,15 @@ import TributeButton from '../tribute/TributeButton';
 import { Laurel, RibbonBanner } from './hofParts';
 import { POS_NAMES, careerLine, clubColors, fmt, ordinal, yearsOf } from './hofUtils';
 
+/** "+15 for one league career record, +5 each for 2 season records" */
+const recordsNote = (career: number, season: number): string => {
+  const bits = [
+    career === 1 ? '+15 for one league career record' : career ? `+15 each for ${career} league career records` : '',
+    season === 1 ? '+5 for one league season record' : season ? `+5 each for ${season} league season records` : '',
+  ].filter(Boolean);
+  return bits.length ? bits.join(', ') : 'No league record when he retired';
+};
+
 const PLAQUE_INK = 'hsl(43 70% 84%)';
 const PLAQUE_MUTED = 'hsl(40 38% 68%)';
 
@@ -262,13 +271,13 @@ const HofPlaque = ({
                   ))}
                 </dl>
 
-                {member.records.length > 0 && (
+                {member.records.length + member.seasonRecords.length > 0 && (
                   <div className="mt-3">
                     <p className="font-pixel text-[8px] uppercase tracking-widest" style={{ color: PLAQUE_MUTED }}>
-                      League career records held when he retired
+                      League records held when he retired
                     </p>
                     <ul className="mt-1 flex flex-wrap gap-1.5">
-                      {member.records.map((r) => (
+                      {[...member.records.map((r) => `Career ${r.toLowerCase()}`), ...member.seasonRecords].map((r) => (
                         <li key={r} className="rounded-sm px-2 py-0.5 text-xs font-bold text-night" style={{ background: 'linear-gradient(180deg, hsl(45 100% 74%), hsl(40 90% 52%))' }}>
                           {r}
                         </li>
@@ -290,7 +299,7 @@ const HofPlaque = ({
                     label="Records"
                     value={member.parts.records}
                     max={Math.max(30, member.parts.records)}
-                    note={member.records.length === 1 ? '+15 for one league career record' : member.records.length ? `+15 each for ${member.records.length} league career records` : 'No league career record when he retired'}
+                    note={recordsNote(member.records.length, member.seasonRecords.length)}
                   />
                   {member.parts.standing + member.parts.honours + member.parts.records > 100 && (
                     <p className="text-xs" style={{ color: PLAQUE_MUTED }}>

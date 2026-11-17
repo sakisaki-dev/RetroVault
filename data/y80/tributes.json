@@ -1136,9 +1136,9 @@
    ]
   },
   "RB:Ryland Maxwell": {
-   "reason": "Correction: Maxwell and Brock have not retired (owner)",
-   "trigger": "Owner: Maxwell and Brock re-signed with the Eagles for Y97 (2026-11-17-save-y97-resigned); audit: Hall of Fame member sources no longer resolve",
-   "upload": "2026-11-17-y96-unretire",
+   "reason": "Refresh: Maxwell's Hall of Fame watch score is now 100 (season records count)",
+   "trigger": "Audit: stale citation, halloffame.json watch/[key=RB:Ryland Maxwell]/score is 100 (Hall of Fame score counts league season records, owner-approved 2026-11-17)",
+   "upload": "2026-11-17-maxwell-score-100",
    "nickname": "Mad Max",
    "deck": "He came out of New York as the smallest piece of a trade and became the back every other back is measured against: rings in three cities, the career rushing record and, at last, the Gauntlet.",
    "chapters": [
@@ -1718,7 +1718,7 @@
      "headline": "Two More Rings, First All Time, and One More Year at 35",
      "body": [
       "There was no argument left to settle, and he played on anyway. In Y95 he ran for 2,141 yards and won a 12th ring, playing 18 of the Eagles' 20 games after injury cost him 2, and passed Sherman Brandson for first in Career Legacy, 14,019 to 13,540. Y96, at 34, was better still: 2,574 yards and 25 rushing touchdowns in 21 games, a 13th ring after a 40-26 win over the Bengals, and a 7th Super Bowl MVP, with the career rushing record now at 32,108 yards.",
-      "Then, instead of leaving on top, he re-signed with Dorren Skura. He opens Y97 at 35, still an Eagle. The Hall of Fame watch already scores him at 99, and the Hall can wait one more year."
+      "Then, instead of leaving on top, he re-signed with Dorren Skura. He opens Y97 at 35, still an Eagle. The Hall of Fame watch already scores him at 100, the maximum, and the Hall can wait one more year."
      ],
      "players": [
       "Ryland Maxwell",
@@ -1811,7 +1811,7 @@
       },
       {
        "label": "Hall of Fame watch score",
-       "value": "99",
+       "value": "100",
        "source": "halloffame.json watch/[key=RB:Ryland Maxwell]/score"
       }
      ]

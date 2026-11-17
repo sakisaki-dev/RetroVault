@@ -607,7 +607,7 @@ source names that file).
   (`RetiredRafters.tsx` is now a wrapper), sits compact in a Hall of Fame plaque, and has its own Hall of Fame section,
   **The Rafters** (`src/components/hof/HofRafters.tsx`, anchor `hof-rafters-title`, in BottomNav's HOF hold menu), with
   club chips to walk every club. **The player card's badge** (CardBanner.dc.html, `src/components/teams/RetiredBadge.tsx`):
-  a retired player's hero gets a small banner per club that hangs his number (at most 2), hanging on long wires from the
+  a retired player's hero gets a small banner per club that hangs his number (at most 3; three slim down), hanging on long wires from the
   top edge (RETIRED, the number, the club's abbreviation, club colours; it replaces the hero's "Number retired by" tag),
   and the identity strip gets a club-colour strip, "#N retired by the <Club>" with the other numbers in those rafters and
   Ring of Honor. Either opens that club's rafters: `openRafters(clubId)` (`src/utils/raftersLink.ts`) closes the card,
@@ -633,7 +633,8 @@ source names that file).
   not a season; one retired before he was recorded freezes at his first snapshot), so later uploads never move a retired
   player in or out. **Hall of Fame Score** 0–100 from that snapshot: standing at his position (his Career Legacy rank
   among every player at his position then: 1st 60, 2nd 54, 3rd 49 … 10th 27, then 2 fewer a place) + honours (30 per
-  MVP, 18 per OPOY/DPOY, 12 per SB MVP, 4 per ring, capped at 40, × 0.6) + 15 per league career record he held. The
+  MVP, 18 per OPOY/DPOY, 12 per SB MVP, 4 per ring, capped at 40, × 0.6) + 15 per league career record he held (the ten in `RECORDS`, Blocks for an OL among them) + 5 per league season record
+  he held then (owner, 2026-11-17: "Count season records, at maybe +5 each. yes and career locks for OL"), capped at 100. The
   **ballot**: each season, eligible retirees at 65 or more go in, highest score first, at most 3 a class (the inaugural
   class uncapped); the rest wait ("years on ballot"). First year eligible = First Ballot; one added to the data after he
   retired is a Veteran. Once in, always in (no floor). Owner override: `fact.set players/<name>/hof "in" | "out"`.

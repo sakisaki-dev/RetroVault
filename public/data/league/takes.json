@@ -2,7 +2,7 @@
  "seasons": [
   {
    "season": "Y96",
-   "upload": "2026-11-17-y96-unretire",
+   "upload": "2026-11-17-maxwell-score-100",
    "intro": "Philadelphia won again, and its two pillars signed up for one more year. The voters made a mess of the awards, the market chased the wrong Eagles, and a record fell in Cincinnati that nobody rewarded. The arguments are ours; the figures are the league's.",
    "takes": [
     {
@@ -612,7 +612,7 @@
      "headline": "Jamon Brooker Just Tied the Career Interceptions Record. He Is the Best Player Without a Ring.",
      "dek": "43 interceptions, level with Hall of Famer Damar Hobbs, 2 Defensive Player of the Year awards and a Hall of Fame watch score of 91.",
      "body": [
-      "Brooker made 186 tackles and 2 interceptions for Green Bay this season, which took him to 43 for his career and level with Damar Hobbs for the league record. Hobbs is in the Hall of Fame. Brooker will be too: the watch already scores him at 91, second among active players only to Ryland Maxwell's 99, with 2 Defensive Player of the Year awards behind it.",
+      "Brooker made 186 tackles and 2 interceptions for Green Bay this season, which took him to 43 for his career and level with Damar Hobbs for the league record. Hobbs is in the Hall of Fame. Brooker will be too: the watch already scores him at 91, second among active players only to Ryland Maxwell's perfect 100, with 2 Defensive Player of the Year awards behind it.",
       "What he does not have is a ring, and at 33 the window is narrowing. Philadelphia hoards them. The best defender of his generation is spending his prime in the wrong building, and whoever trades for him first will be buying the last missing piece of a Hall of Fame career."
      ],
      "players": [
@@ -661,7 +661,7 @@
       },
       {
        "label": "Maxwell Hall of Fame watch score",
-       "value": "99",
+       "value": "100",
        "source": "halloffame.json watch/[key=RB:Ryland Maxwell]/score"
       }
      ]
