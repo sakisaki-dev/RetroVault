@@ -400,46 +400,47 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
             </p>
           )}
 
-          {/* ID strip: position glyph, stitched jersey, franchise */}
-          <div className="pc-idstrip flex flex-wrap items-center gap-x-5 gap-y-2 px-4 py-2.5 sm:px-6">
-            <span className="inline-flex items-center gap-2 text-sm font-semibold text-chalk">
-              <span className="grid h-9 w-9 place-items-center rounded-full bg-black/35 text-[color:var(--tc-accent)] ring-1 ring-[color:var(--tc-accent)]/40">
+          {/* ID tiles under one steel truss (owner, 2026-11-17: the position, number and club "fit this enlarged space", the
+              retired banners on the same line): position, number, club and, for a retired number, its rafters slice */}
+          <div className={cn('pc-ids', retired && 'pc-ids--retired')}>
+            <span className="pc-ids__truss" aria-hidden="true" />
+            <div className="pc-tile">
+              <span className="pc-tile__icon pc-tile__icon--pos">
                 <PositionGlyph position={player.position} />
               </span>
-              {posName}
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <StitchedJersey number={jerseyNumber} primary={theme.p} secondary={theme.s} retired={!!retired} className="h-11" />
-              <span className="leading-tight">
-                <span className="block font-pixel text-[9px] uppercase text-muted-foreground">Number</span>
-                <span className="font-display text-lg font-bold text-chalk">#{jerseyNumber}</span>
-              </span>
-            </span>
-            {team ? (
-              <span className="inline-flex items-center gap-2 text-sm font-semibold text-chalk">
-                <span className="pc-logo-puck">
-                  <TeamLogo team={team} size={26} decorative />
-                </span>
-                <span className="leading-tight">
-                  {otherClubs.length > 0 && <span className="block text-[11px] font-normal text-muted-foreground">Best known with</span>}
-                  {team.fullName}
-                  <span className="block text-[11px] font-normal text-muted-foreground">
+              <span className="pc-tile__k">Position</span>
+              <span className="pc-tile__v">{posName}</span>
+            </div>
+            <div className="pc-tile">
+              <StitchedJersey number={jerseyNumber} primary={theme.p} secondary={theme.s} retired={!!retired} className="pc-tile__jersey" />
+              <span className="pc-tile__k">Number</span>
+              <span className="pc-tile__v pc-tile__v--num">#{jerseyNumber}</span>
+            </div>
+            <div className="pc-tile pc-tile--club">
+              {team ? (
+                <>
+                  <span className="pc-logo-puck pc-tile__puck">
+                    <TeamLogo team={team} size={40} decorative />
+                  </span>
+                  <span className="pc-tile__k">{otherClubs.length > 0 ? 'Best known with' : 'Club'}</span>
+                  <span className="pc-tile__v">{team.fullName}</span>
+                  <span className="pc-tile__sub">
                     {team.conference} {team.division}
                   </span>
                   {otherClubs.map((o) => (
-                    <span key={o.label} className="block text-[11px] font-normal text-muted-foreground">
+                    <span key={o.label} className="pc-tile__sub">
                       {o.label}: {o.club.name}
                     </span>
                   ))}
-                </span>
-              </span>
-            ) : player.team ? (
-              <TeamBadge team={player.team} size="sm" />
-            ) : (
-              <span className="text-xs font-semibold text-muted-foreground">No team</span>
-            )}
-            {formerName && <span className="text-xs text-muted-foreground">Formerly known as {formerName}</span>}
-            <RetiredStrip player={player} onLeave={onClose} className="basis-full sm:basis-auto sm:min-w-[320px] sm:max-w-md" />
+                </>
+              ) : player.team ? (
+                <TeamBadge team={player.team} size="sm" />
+              ) : (
+                <span className="pc-tile__v">No team</span>
+              )}
+            </div>
+            <RetiredStrip player={player} onLeave={onClose} className="pc-ids__retired" />
+            {formerName && <p className="pc-ids__former">Formerly known as {formerName}</p>}
           </div>
         </header>
 

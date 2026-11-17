@@ -623,7 +623,9 @@ source names that file).
   and the identity strip gets a club-colour strip, "#N retired by the <Club>" (a slice of the rafters, `raf-cere`: a steel truss, the number in gold
   with the clubs named, and a banner per club hanging on wires in its colours with a ★ for its Ring of Honor; owner: the
   chip strip "looks a bit boring for what it represents") with the other numbers in those rafters and
-  Ring of Honor. Either opens that club's rafters: `openRafters(clubId)` (`src/utils/raftersLink.ts`) closes the card,
+  Ring of Honor. The card's identity row (`pc-ids` in PlayerDetailCard.tsx, playerCard.css) hangs Position, Number and
+  Club as tiles (position glyph, his jersey, the club puck) under one truss with the rafters strip as a fourth tile:
+  one line from 900px, below that the three tiles in a row and the strip a full-width band sized to its banners. Either opens that club's rafters: `openRafters(clubId)` (`src/utils/raftersLink.ts`) closes the card,
   pages/Index.tsx switches to the Hall of Fame tab and the Rafters section picks the club and scrolls to itself. Never on
   Collection card faces (cards are timeless).
 - **Eras**: the owner's coaching stints (`coach.json`), split at 3+ title-less seasons between titles and merged when

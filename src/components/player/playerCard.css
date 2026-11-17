@@ -501,3 +501,160 @@
 @media (min-width: 640px) { .pc-stage__turf { height: 24px; } }
 /* On a phone the Deep Dive and close buttons span most of the top: the staged header starts below them */
 @media (max-width: 639px) { .ppb--staged .ppb__top { padding-top: 3.1rem; } .ppb--staged .pc-stage { padding-top: 0; } }
+
+/* ---------- ID tiles under one steel truss (PlayerDetailCard) ---------- */
+.pc-ids {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 14px 12px 12px;
+  background: linear-gradient(180deg, rgb(0 0 0 / 0.25), transparent);
+}
+@media (min-width: 640px) {
+  .pc-ids {
+    padding: 16px 24px 14px;
+  }
+}
+/* wide: everything on one line, the retired banners included */
+@media (min-width: 900px) {
+  .pc-ids {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 0.8fr) minmax(0, 1.3fr);
+  }
+  .pc-ids--retired {
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 0.75fr) minmax(0, 1.2fr) minmax(300px, 1.6fr);
+  }
+}
+/* the truss all the tiles hang under */
+.pc-ids__truss {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 12px;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 7px, rgb(140 146 170 / 0.55) 7px 8.5px, transparent 8.5px 14px),
+    repeating-linear-gradient(-45deg, transparent 0 7px, rgb(140 146 170 / 0.55) 7px 8.5px, transparent 8.5px 14px),
+    linear-gradient(180deg, #3a3f52, #23273a);
+  box-shadow: 0 2px 0 #11141f;
+}
+.pc-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  min-height: 118px;
+  margin-top: 6px;
+  padding: 10px 8px;
+  border-radius: 14px;
+  text-align: center;
+  background:
+    radial-gradient(70% 60% at 50% 0%, color-mix(in srgb, var(--tc-accent, #ffc63e) 16%, transparent), transparent 70%),
+    linear-gradient(180deg, #0c1126, #06080f);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08), 0 8px 18px rgb(0 0 0 / 0.3);
+}
+.pc-tile__icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.4);
+  color: var(--tc-accent);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--tc-accent, #ffc63e) 55%, transparent);
+}
+.pc-tile__icon svg {
+  width: 26px;
+  height: 26px;
+}
+.pc-tile__jersey {
+  height: 52px !important;
+  width: auto;
+}
+.pc-tile__puck {
+  width: 52px !important;
+  height: 52px !important;
+}
+.pc-tile__k {
+  margin-top: 4px;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+.pc-tile__v {
+  max-width: 100%;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #f5f2e8;
+  overflow-wrap: anywhere;
+}
+.pc-tile__v--num {
+  font-size: 26px;
+}
+.pc-tile__sub {
+  font-size: 11px;
+  color: hsl(var(--muted-foreground));
+}
+@media (max-width: 480px) {
+  .pc-tile {
+    min-height: 104px;
+    padding: 8px 4px;
+  }
+  .pc-tile__v {
+    font-size: 13px;
+  }
+  .pc-tile__v--num {
+    font-size: 22px;
+  }
+  .pc-tile--club .pc-tile__sub {
+    display: none;
+  }
+}
+/* the retired strip is a tile too: under the shared truss, its own truss hidden, its banners hanging from the top */
+.pc-ids__retired {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+}
+/* stacked (phone, narrow): a full-width band that fits its banners, the text centred beside them, no dead space */
+@media (max-width: 899px) {
+  .pc-ids .raf-cere {
+    min-height: 0;
+    align-items: center;
+    padding-bottom: 14px;
+  }
+  .pc-ids .raf-cere__text {
+    padding-top: 0;
+  }
+  .pc-ids .raf-cere__banners {
+    align-self: flex-start;
+  }
+}
+@media (min-width: 900px) {
+  .pc-ids__retired {
+    grid-column: auto;
+    min-height: 118px;
+  }
+}
+.pc-ids .raf-cere__truss {
+  display: none;
+}
+.pc-ids .raf-cere {
+  padding-top: 12px;
+}
+.pc-ids .raf-cere__banners {
+  margin-top: -18px;
+}
+.pc-ids__former {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+}
