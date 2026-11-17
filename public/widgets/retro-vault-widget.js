@@ -72,7 +72,7 @@ const TEAMS = {
   Rams: ['#FFD100', '#003594', 'lar'], Dolphins: ['#008E97', '#FC4C02', 'mia'], Vikings: ['#4F2683', '#FFC62F', 'min'],
   Patriots: ['#002244', '#C60C30', 'ne'], Saints: ['#D3BC8D', '#101820', 'no'], Giants: ['#0B2265', '#A71930', 'nyg'],
   Jets: ['#125740', '#FFFFFF', 'nyj'], Eagles: ['#004C54', '#A5ACAF', 'phi'], Steelers: ['#FFB612', '#101820', 'pit'],
-  '49ers': ['#AA0000', '#B3995D', 'sf'], Seahawks: ['#69BE28', '#002244', 'sea'], Buccaneers: ['#D50A0A', '#34302B', 'tb'],
+  '49ers': ['#AA0000', '#B3995D', 'sf'], Seahawks: ['#4C8C2B', '#002244', 'sea'], Buccaneers: ['#D50A0A', '#34302B', 'tb'],
   Titans: ['#4B92DB', '#0C2340', 'ten'], Commanders: ['#5A1414', '#FFB612', 'wsh'],
 };
 const nick = (team) => {

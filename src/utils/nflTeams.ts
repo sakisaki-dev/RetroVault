@@ -59,7 +59,7 @@ export const NFL_TEAMS: NFLTeam[] = [
   // NFC West
   { id: 'cardinals', name: 'Cardinals', city: 'Arizona', fullName: 'Arizona Cardinals', abbreviation: 'ARI', conference: 'NFC', division: 'West', primaryColor: '346 62% 36%', secondaryColor: '0 0% 0%', logoUrl: 'https://a.espncdn.com/i/teamlogos/nfl/500/ari.png' },
   { id: '49ers', name: '49ers', city: 'San Francisco', fullName: 'San Francisco 49ers', abbreviation: 'SF', conference: 'NFC', division: 'West', primaryColor: '0 100% 33%', secondaryColor: '42 36% 53%', logoUrl: 'https://a.espncdn.com/i/teamlogos/nfl/500/sf.png' },
-  { id: 'seahawks', name: 'Seahawks', city: 'Seattle', fullName: 'Seattle Seahawks', abbreviation: 'SEA', conference: 'NFC', division: 'West', primaryColor: '94 65% 45%', secondaryColor: '210 100% 13%', logoUrl: 'https://a.espncdn.com/i/teamlogos/nfl/500/sea.png' },
+  { id: 'seahawks', name: 'Seahawks', city: 'Seattle', fullName: 'Seattle Seahawks', abbreviation: 'SEA', conference: 'NFC', division: 'West', primaryColor: '100 53% 36%', secondaryColor: '210 100% 13%', logoUrl: 'https://a.espncdn.com/i/teamlogos/nfl/500/sea.png' },
   { id: 'rams', name: 'Rams', city: 'Los Angeles', fullName: 'Los Angeles Rams', abbreviation: 'LAR', conference: 'NFC', division: 'West', primaryColor: '49 100% 50%', secondaryColor: '219 100% 29%', logoUrl: 'https://a.espncdn.com/i/teamlogos/nfl/500/lar.png' },
 ];
 

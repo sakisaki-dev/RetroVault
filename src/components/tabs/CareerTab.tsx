@@ -4,11 +4,10 @@ import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
 import PlayerCardLayer from '../player/PlayerCardLayer';
 import { useNewSlot } from '@/utils/slot';
-import CountUp from '../brand/CountUp';
 import RecordBook, { RecordStrip } from '../stats/RecordBook';
 import PositionLeaders from '../stats/PositionLeaders';
 import StatTables from '../stats/StatTables';
-import StatsPulse from '../stats/visual/StatsPulse';
+import StatsStadium from '../stats/visual/StatsStadium';
 import { HEADLINE_IDS, LEADER_IDS, buildRecordBook, pickBoards } from '../stats/records';
 import StatsHub from '../stats/hub/StatsHub';
 import { ClockPage, GraphsPage, HeadToHead, PlayerDeepDive, PlayersInsights, TeamRankingsTab, ViewLoading, prefetchStatsSub } from '../stats/hub/lazyViews';
@@ -165,37 +164,26 @@ const CareerTab = () => {
           Suspense below stays mounted, so the old sub-tab stays up until a lazy one has loaded. */}
       {sub === 'players' && (
         <div className="rv-view-in container space-y-10 py-6 sm:py-8">
-          <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="font-pixel text-[10px] uppercase text-gold">League Hub · Players</p>
-              <h1 className="font-display text-4xl font-extrabold italic uppercase leading-none sm:text-5xl">
-                Stats <span className="text-gold">&amp;</span> Records
-              </h1>
-              <nav aria-label="On this page" className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm max-sm:hidden">
-                {JUMPS.map((j) => (
-                  <a
-                    key={j.id}
-                    href={buildHash({ tab: 'career', sub: 'players', section: j.id })}
-                    onClick={(e) => {
-                      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-                      e.preventDefault();
-                      navigate({ tab: 'career', sub: 'players', section: j.id }, { replace: true });
-                      // Same section clicked twice: the route doesn't change, so scroll directly.
-                      if (route.section === j.id) document.getElementById(j.id)?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' });
-                    }}
-                    className="link-chip text-muted-foreground hover:text-gold"
-                  >
-                    {j.label}
-                  </a>
-                ))}
-              </nav>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <span className="lamp">Players <b><CountUp value={book.playerCount} /></b></span>
-              <span className="lamp">Records <b><CountUp value={book.boards.size} /></b></span>
-              <span className="lamp">Chasing <b><CountUp value={Math.min(book.pace.length, 6)} /></b></span>
-            </div>
-          </header>
+          {/* The opener: a night stadium (jumbotron counts, the record holders on the turf, the live chase) */}
+          <StatsStadium data={careerData} book={book} headline={headline} onSelect={setSelectedPlayer} />
+          <nav aria-label="On this page" className="-mt-6 flex flex-wrap justify-center gap-x-3 gap-y-1 text-sm max-sm:hidden">
+            {JUMPS.map((j) => (
+              <a
+                key={j.id}
+                href={buildHash({ tab: 'career', sub: 'players', section: j.id })}
+                onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+                  e.preventDefault();
+                  navigate({ tab: 'career', sub: 'players', section: j.id }, { replace: true });
+                  // Same section clicked twice: the route doesn't change, so scroll directly.
+                  if (route.section === j.id) document.getElementById(j.id)?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' });
+                }}
+                className="link-chip text-muted-foreground hover:text-gold"
+              >
+                {j.label}
+              </a>
+            ))}
+          </nav>
 
           {/* Phones: the page's sections as a sticky, finger-scrolled chip row that follows the scroll */}
           {phone && (
@@ -204,8 +192,6 @@ const CareerTab = () => {
               onJump={(id) => navigate({ tab: 'career', sub: 'players', section: id }, { replace: true })}
             />
           )}
-
-          <StatsPulse data={careerData} book={book} onSelect={setSelectedPlayer} />
 
           {headline.length > 0 && <RecordStrip headline={headline} players={players} onSelect={setSelectedPlayer} />}
 

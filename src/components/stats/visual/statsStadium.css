@@ -1,0 +1,397 @@
+/* The Stats › Players opener: a night stadium (StatsStadium.tsx) */
+
+.ss {
+  --ss-row: 66px; /* one strip of stands / crowd: the game's 33-pixel strip at 2x */
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 560px;
+  border-radius: 20px;
+  border: 1px solid hsl(var(--line));
+  background: #070b1c;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+@media (max-width: 640px) {
+  .ss {
+    --ss-row: 44px;
+    min-height: 620px;
+    margin-inline: -6px;
+    border-radius: 16px;
+  }
+}
+
+/* sky and floodlights */
+.ss__sky {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background:
+    radial-gradient(circle at 18% 12%, rgb(255 255 255 / 0.6) 0 1px, transparent 1.5px) 0 0 / 61px 47px,
+    radial-gradient(circle at 70% 40%, rgb(255 255 255 / 0.4) 0 1px, transparent 1.5px) 0 0 / 89px 71px,
+    linear-gradient(180deg, #050816 0%, #0d1638 46%, #1a2552 70%);
+}
+.ss__lights {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    conic-gradient(from 148deg at 6% -6%, transparent, rgb(255 246 214 / 0.16) 10deg, transparent 22deg),
+    conic-gradient(from 190deg at 94% -6%, transparent, rgb(255 246 214 / 0.16) 10deg, transparent 22deg),
+    radial-gradient(60% 40% at 50% 100%, rgb(255 236 170 / 0.12), transparent 70%);
+  pointer-events: none;
+}
+
+/* the stadium: stand front, crowd, turf (the game's art when present, else CSS) */
+.ss__stands,
+.ss__crowd,
+.ss__turf {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  image-rendering: pixelated;
+}
+.ss__turf {
+  bottom: 0;
+  height: 40%;
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.1) 0 2px, transparent 2px 72px),
+    repeating-linear-gradient(0deg, #2a7a37 0 28px, #24702f 28px 56px);
+}
+.ss__crowd {
+  bottom: 40%;
+  height: var(--ss-row);
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.5) 0 1.5px, transparent 2px) 0 0 / 14px 11px,
+    linear-gradient(180deg, #2b3460, #1c2448);
+}
+.ss__stands {
+  bottom: calc(40% + var(--ss-row));
+  height: var(--ss-row);
+  background: linear-gradient(180deg, #121a3c, #1e2a58);
+}
+.ss--art .ss__turf {
+  background: var(--ss-turf) center 30% / cover no-repeat;
+}
+.ss--art .ss__crowd {
+  background: var(--ss-crowd) center / auto 100% repeat-x;
+}
+.ss--art .ss__stands {
+  background: var(--ss-stands) center / auto 100% repeat-x;
+}
+
+/* ---------- The jumbotron ---------- */
+.ss__tron {
+  position: relative;
+  z-index: 2;
+  justify-self: center;
+  width: min(640px, calc(100% - 32px));
+  margin-top: 22px;
+  padding: 14px 18px 16px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.04) 0 1px, transparent 1.2px) 0 0 / 4px 4px,
+    linear-gradient(180deg, #0a0f22, #04060f);
+  box-shadow:
+    0 0 0 3px #2c3350,
+    0 0 0 5px #ffc63e,
+    0 0 0 8px #11152a,
+    0 18px 40px rgb(0 0 0 / 0.6),
+    0 0 60px rgb(255 198 62 / 0.15);
+  text-align: center;
+}
+.ss__kick {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffc63e;
+}
+.ss__title {
+  margin: 4px 0 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(34px, 6vw, 56px);
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: #f5f2e8;
+  text-shadow: 0 0 18px rgb(120 170 255 / 0.35);
+}
+.ss__title span {
+  color: #ffc63e;
+}
+.ss__leds {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+@media (max-width: 480px) {
+  .ss__leds {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.ss__leds > div {
+  padding: 6px 4px 8px;
+  border-radius: 8px;
+  background: #02040a;
+  box-shadow: inset 0 0 0 1px rgb(255 198 62 / 0.25);
+}
+.ss__leds dt {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+  color: rgb(245 242 232 / 0.6);
+}
+.ss__leds dd {
+  margin: 2px 0 0;
+  font-family: var(--font-pixel);
+  font-size: clamp(22px, 3.2vw, 30px);
+  line-height: 1;
+  color: #ffc63e;
+  text-shadow: 0 0 8px rgb(255 198 62 / 0.7), 0 0 2px rgb(255 230 160 / 0.9);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- The record chase scoreboard ---------- */
+.ss__chase {
+  --cs-1: #ffc63e;
+  position: absolute;
+  z-index: 3;
+  left: 18px;
+  top: 34px;
+  width: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--cs-1) 26%, #070b1c), #070b1c 80%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cs-1) 55%, transparent), 0 10px 24px rgb(0 0 0 / 0.5);
+  text-align: left;
+  transition: filter 0.15s;
+}
+.ss__chase:hover {
+  filter: brightness(1.12);
+}
+.ss__chase:focus-visible {
+  outline: 2px solid #ffc63e;
+  outline-offset: 2px;
+}
+@media (max-width: 1023px) {
+  .ss__chase {
+    position: relative;
+    left: auto;
+    top: auto;
+    justify-self: center;
+    width: min(420px, calc(100% - 32px));
+    margin-top: 18px;
+    z-index: 3;
+  }
+}
+.ss__chase-k {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+  color: #ff6b6b;
+  animation: ss-blink 1.6s steps(2, start) infinite;
+}
+@keyframes ss-blink {
+  to {
+    opacity: 0.35;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ss__chase-k {
+    animation: none;
+  }
+}
+.ss__chase-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #f5f2e8;
+}
+.ss__chase-rec {
+  font-size: 12px;
+  color: rgb(245 242 232 / 0.75);
+}
+.ss__chase-bar {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  margin-top: 4px;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.5);
+  overflow: hidden;
+}
+.ss__chase-bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--cs-1), #ffc63e);
+}
+.ss__chase-num {
+  font-size: 11px;
+  color: rgb(245 242 232 / 0.75);
+}
+.ss__chase-num b {
+  color: #ffc63e;
+  font-family: var(--font-display);
+  font-size: 15px;
+}
+
+/* ---------- The record holders on the turf ---------- */
+.ss__lineup {
+  position: relative;
+  z-index: 2;
+  align-self: end;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(4px, 2vw, 34px);
+  margin: 0;
+  padding: 0 12px 20px;
+  list-style: none;
+}
+.ss__man {
+  --cs-1: #ffc63e;
+  min-width: 0;
+}
+.ss__man-hit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  border-radius: 12px;
+  padding: 4px;
+  transition: transform 0.18s ease;
+}
+.ss__man-hit:hover {
+  transform: translateY(-4px);
+}
+.ss__man-hit:focus-visible {
+  outline: 2px solid #ffc63e;
+}
+/* the record plate over his head, in his club's colours */
+.ss__plate {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--cs-1) 85%, black), color-mix(in srgb, var(--cs-1) 55%, black));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.2), 0 6px 14px rgb(0 0 0 / 0.45);
+  white-space: nowrap;
+}
+.ss__plate-k {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.8);
+}
+.ss__plate-v {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1;
+  color: #fff;
+}
+.ss__plate-more {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: #ffc63e;
+}
+.ss__fig {
+  position: relative;
+  display: block;
+  width: 128px;
+  height: 128px;
+}
+.ss__shadow {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 6px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent);
+}
+.ss__sprite {
+  position: absolute !important;
+  left: 50%;
+  bottom: 0;
+  translate: -50% 0;
+}
+.ss__logo {
+  position: absolute;
+  inset: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--cs-1) 40%, #0b1020);
+}
+.ss__name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 15px;
+  text-transform: uppercase;
+  color: #f5f2e8;
+  text-shadow: 0 2px 0 rgb(0 0 0 / 0.6);
+  padding: 1px 8px;
+  border-radius: 6px;
+  background: rgb(0 0 0 / 0.45);
+  box-shadow: inset 3px 0 0 var(--cs-1);
+}
+@media (max-width: 640px) {
+  .ss__lineup {
+    flex-wrap: wrap;
+    row-gap: 6px;
+    padding-bottom: 14px;
+  }
+  .ss__fig {
+    width: 64px;
+    height: 64px;
+  }
+  .ss__sprite {
+    scale: 0.5;
+    transform-origin: 50% 100%;
+  }
+  .ss__logo {
+    inset: 8px;
+  }
+  .ss__plate {
+    padding: 3px 6px;
+  }
+  .ss__plate-v {
+    font-size: 14px;
+  }
+  .ss__name {
+    font-size: 12px;
+  }
+}
+/* the players step out in turn on the first paint */
+@media (prefers-reduced-motion: no-preference) {
+  .ss__man {
+    animation: ss-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 70ms + 120ms);
+  }
+  @keyframes ss-in {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

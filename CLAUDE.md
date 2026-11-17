@@ -1159,6 +1159,12 @@ pictures".
 
 ## Stats › Players staging
 
+The page opens in a night stadium (`stats/visual/StatsStadium.tsx`, `statsStadium.css`; owner: "change this part to be
+more immersive", the old header and headline cards): floodlights over a jumbotron with the title and LED counts
+(players, Hall of Famers, 90+ OVR, records), the closest record chase on a side scoreboard, and the headline record
+holders standing on the turf in their kits, each under a plate with his record (+N when he holds more; tap: his card).
+The stand front, crowd and turf are the game's art painted to the current club (`useFieldArt`, night); the public build
+draws them in CSS and shows club logos for the players. The section links sit under it. Below it:
 `src/components/stats/visual/ClubStage.tsx` (`StageFigure`, `RankMedal`), `clubTone.ts` (`clubStyle`, `MEDAL`) and
 `clubStage.css` (owner, 2026-11-17: "the stats players page now feels really dry"): the headline cards (StatsPulse:
 position bars in `POSITION_COLORS`, the Hall's top Career Legacy, the best OVR and the record chaser standing in their
@@ -1172,7 +1178,8 @@ sprite. The leaderboard's and + index grid's blue / red stay: they mean better /
 `src/utils/nflTeams.ts` (`primaryColor`, `secondaryColor`, HSL) and the widget's `TEAMS` table
 (`public/widgets/retro-vault-widget.js`, hex) carry each club's **official** colours (owner, 2026-11-17: "move every team
 to their official color if two are similar they really shouldn't be"). Where two clubs' official primaries look alike, a
-club leads with another colour from its own official palette (CIEDE2000 check over every pair): Seahawks action green,
+club leads with another colour from its own official palette (CIEDE2000 check over every pair): Seahawks action green
+(deepened to #4C8C2B, owner: "a little bit too bright"),
 Titans light blue, Rams sol, Raiders silver, Cowboys silver, Panthers black, Bengals black (their orange is the accent);
 everyone else wears his official primary. Keep the two tables in step; `npm run rebuild` redraws the launch screens.
 
