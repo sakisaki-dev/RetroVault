@@ -1,0 +1,17 @@
+{
+ "id": "2026-11-17-brandson-career",
+ "created": "2026-11-17",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {"lane": "stats", "op": "fact.set", "target": "players/Sherman Brandson/career/stints",
+   "value": [["Ravens", 46, 50], ["Buccaneers", 51, 53], ["Giants", 54, 56], ["Vikings", 57, 62]], "source": "owner",
+   "reason": "Owner: \"option 1\" (the QB who was on pace for Baylon's passing record in his final season while God Johnson, then Mason Earl III, set the receiving record in Y62 can only be Brandson: Giants Y54-56, Vikings to Y62, retired injured)",
+   "trigger": "Owner statement in notes.md"},
+  {"lane": "stats", "op": "fact.set", "target": "players/Sherman Brandson/career/says",
+   "value": "A Giants legend. Ravens Y46-50, Buccaneers Y51-53, Giants Y54-56, then the Vikings until Y62, when injury ended his career while he was on pace for Dennis Baylon's passing season record and God Johnson set the receiving season record (owner's choice, option 1).",
+   "source": "owner",
+   "reason": "Owner: \"option 1\" (Brandson's career reconstructed from the owner's memory of the Y62 season)",
+   "trigger": "Owner statement in notes.md"}
+ ]
+}

@@ -177,25 +177,25 @@
    {
     "team": "Giants",
     "from": 54,
-    "to": 55,
+    "to": 56,
     "rings": [
      54,
-     55
+     55,
+     56
     ]
    },
    {
     "team": "Vikings",
-    "from": 56,
-    "to": 63,
+    "from": 57,
+    "to": 62,
     "rings": [
      61,
-     62,
-     63
+     62
     ]
    }
   ],
-  "confidence": "likely",
-  "evidence": "10 rings = Ravens Y46, Y48, Y49; Buccaneers Y51, Y52; Giants Y54, Y55; Vikings Y61, Y62, Y63. Record board (your club's games only): Y46 longest passing td (Ravens); Y46 longest passing play (Ravens); Y50 longest rushing td (Ravens); Y55 most td passes, game (Giants); Y55 most td passes, season (Giants); Y62 best passing career (Vikings); Y62 most td passes, career (Vikings). Owner: “A Giants legend.” Exact seasons are approximate."
+  "confidence": "confirmed",
+  "evidence": "10 rings = Ravens Y46, Y48, Y49; Buccaneers Y51, Y52; Giants Y54, Y55, Y56; Vikings Y61, Y62. Record board (your club's games only): Y46 longest passing td (Ravens); Y46 longest passing play (Ravens); Y50 longest rushing td (Ravens); Y55 most td passes, game (Giants); Y55 most td passes, season (Giants); Y62 best passing career (Vikings); Y62 most td passes, career (Vikings). Owner: “A Giants legend. Ravens Y46-50, Buccaneers Y51-53, Giants Y54-56, then the Vikings until Y62, when injury ended his career while he was on pace for Dennis Baylon's passing season record and God Johnson set the receiving season record (owner's choice, option 1).”"
  },
  "Dennis Baylon": {
   "stints": [

@@ -1500,6 +1500,24 @@
     "stats": 2
    },
    "changed": 2
+  },
+  {
+   "id": "2026-11-17-brandson-career",
+   "dir": "data/uploads/2026-11-17-brandson-career",
+   "applied_at": "2026-11-17T00:29:28-08:00",
+   "mutations": {
+    "stats": 2
+   },
+   "changed": 2
+  },
+  {
+   "id": "2026-11-17-tribute-brandson-career",
+   "dir": "data/uploads/2026-11-17-tribute-brandson-career",
+   "applied_at": "2026-11-17T00:31:40-08:00",
+   "mutations": {
+    "tribute": 1
+   },
+   "changed": 1
   }
  ]
 }

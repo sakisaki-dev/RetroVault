@@ -2,9 +2,9 @@
  "_about": "Player Tributes: the fifth AI-authored lane (owner-approved 2026-11-14, \"both yes\"). A long-form feature per player on his whole career, keyed POS:Name, written only by a tribute.set upload mutation; every figure cited in stats[] with its source and checked like the Season Story (scripts/story_check.py check_tribute). Never hand-edit.",
  "players": {
   "QB:Sherman Brandson": {
-   "reason": "Correction: his number is retired by the Giants, Vikings and Ravens (2026-11-17-brandson-retired-number), not the Buccaneers",
-   "trigger": "Owner changed retired_by for Sherman Brandson",
-   "upload": "2026-11-17-tribute-brandson-numbers",
+   "reason": "Correction: career reconstructed by the owner (2026-11-17-brandson-career)",
+   "trigger": "Owner corrected Sherman Brandson's career stints",
+   "upload": "2026-11-17-tribute-brandson-career",
    "nickname": "General Sherman",
    "deck": "Wherever Dorren Skura went, he was under center: Baltimore, Tampa Bay, New York. He waited out the lean years in Minnesota until the coach came back, threw for more yards and touchdowns than anyone the league has seen, and in Y95 finally handed over the crown.",
    "chapters": [
@@ -153,7 +153,7 @@
      "headline": "New York, and the Season Nobody Has Come Close To",
      "body": [
       "Skura took the Giants job for Y54 and Brandson was under center again. The Giants went 16-1 and beat the Jets 36-28 in Super Bowl CXIII. Then came Y55, the season that still defines him. He threw 94 touchdown passes, the most in a season on Skura's record board, and nothing in the league's tracked seasons since has come within 22 of it; Bones Crawford's 72 in Y89 is the nearest. Nine of them came in a single game against the Chiefs, the club the Giants beat 68-21 in Super Bowl CXIV.",
-      "He played only two seasons in New York and is remembered first as a Giant. The club has retired his number and keeps him in its Ring of Honor beside Michael Wilson and Jackson Wardell Kline. The Giants won a third straight title in Y56, 38-37 over the Bills, and by then Brandson was in Minnesota."
+      "He played three seasons in New York and is remembered first as a Giant. Y56 made it three titles in three years: a 14-2-1 season and a 38-37 escape against the Bills in Super Bowl CXV. The club has retired his number and keeps him in its Ring of Honor beside Michael Wilson and Jackson Wardell Kline."
      ],
      "players": [
       "Sherman Brandson",
@@ -204,6 +204,11 @@
        "source": "super_bowls.json Y55 score"
       },
       {
+       "label": "Giants record, Y56",
+       "value": "14-2-1",
+       "source": "coach.json Y56 record"
+      },
+      {
        "label": "Super Bowl CXV",
        "value": "38-37",
        "source": "super_bowls.json Y56 score"
@@ -214,10 +219,10 @@
      "id": "sherman-brandson-vikings",
      "kind": "chapter",
      "club": "Vikings",
-     "headline": "Minnesota: The Long Wait, Then Three More Rings",
+     "headline": "Minnesota: The Long Wait, Two More Rings, and an Unfinished Chase",
      "body": [
-      "Brandson spent Y56 through Y60 in Minnesota without a ring while Skura kept winning elsewhere, first with the Giants and then three straight titles in Miami. Then, for Y61, the coach came to the Vikings, and the old partnership picked up as if it had never stopped. The Vikings went 12-5 and beat the Ravens 40-14 in Super Bowl CXX, another title won against Baltimore. They went 14-3 and beat the Jaguars 40-24 in Y62, then 16-1 and beat the Jets 40-31 in Y63: three straight Super Bowls, 40 points in each.",
-      "Y62 is the season Skura's record board dates both of his career marks: 91,463 passing yards and 1,150 touchdown passes. It was also the season God Johnson caught for 4,247 yards, still the best receiving season on the board. Brandson's last season was cut short by injury, and he retired a Viking with 10 rings. Minnesota, New York and Baltimore all retired his number."
+      "Brandson spent Y57 through Y60 in Minnesota without a ring while Skura won three straight titles in Miami. Then, for Y61, the coach came to the Vikings, and the old partnership picked up as if it had never stopped. The Vikings went 12-5 and beat the Ravens 40-14 in Super Bowl CXX, another title won against Baltimore. They went 14-3 in Y62 and beat the Jaguars 40-24, 40 points in both Super Bowls.",
+      "Y62 was also his last season, and it ended too early. Injury cut it short while he was on pace for the best passing season on Skura's record board, Dennis Baylon's 7,452 yards from Y33, a mark that still stands. The same season his receiver God Johnson, then Mason Earl III, caught for 4,247 yards, still the best receiving season on the board. Y62 is also where the board dates both of Brandson's career marks: 91,463 passing yards and 1,150 touchdown passes. He retired a Viking with 10 rings. Minnesota, New York and Baltimore all retired his number."
      ],
      "players": [
       "Sherman Brandson",
@@ -225,11 +230,9 @@
      ],
      "teams": [
       "Vikings",
-      "Giants",
       "Dolphins",
       "Ravens",
-      "Jaguars",
-      "Jets"
+      "Jaguars"
      ],
      "stats": [
       {
@@ -253,14 +256,9 @@
        "source": "super_bowls.json Y62 score"
       },
       {
-       "label": "Vikings record, Y63",
-       "value": "16-1",
-       "source": "coach.json Y63 record"
-      },
-      {
-       "label": "Super Bowl CXXII",
-       "value": "40-31",
-       "source": "super_bowls.json Y63 score"
+       "label": "Baylon passing yards, Y33 (club record)",
+       "value": "7,452 yds",
+       "source": "records.json Best passing season mark"
       },
       {
        "label": "Career passing yards (club record)",

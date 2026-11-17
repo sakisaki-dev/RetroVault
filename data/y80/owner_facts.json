@@ -1178,7 +1178,29 @@
    ],
    "retired_with": "Vikings",
    "career": {
-    "says": "A Giants legend."
+    "says": "A Giants legend. Ravens Y46-50, Buccaneers Y51-53, Giants Y54-56, then the Vikings until Y62, when injury ended his career while he was on pace for Dennis Baylon's passing season record and God Johnson set the receiving season record (owner's choice, option 1).",
+    "stints": [
+     [
+      "Ravens",
+      46,
+      50
+     ],
+     [
+      "Buccaneers",
+      51,
+      53
+     ],
+     [
+      "Giants",
+      54,
+      56
+     ],
+     [
+      "Vikings",
+      57,
+      62
+     ]
+    ]
    },
    "retired_by": [
     "Giants",
