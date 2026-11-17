@@ -737,3 +737,39 @@ button.rafter__hit:focus-visible {
     gap: 26px;
   }
 }
+
+/* The Deep Dive hero: the banners hang on the right, between the sprite and the career numbers; on a phone small, in
+   the top right corner, clear of the sprite's head */
+.dd-hangers {
+  right: 14px;
+  gap: 3px;
+}
+@media (max-width: 639px) {
+  .dd-hangers .raf-hanger,
+  .dd-hangers .raf-hanger__bar {
+    width: 36px;
+  }
+  .dd-hangers .raf-hanger__wires {
+    height: 3px;
+    gap: 22px;
+  }
+  .dd-hangers .raf-hanger__cloth {
+    width: 32px;
+    height: 50px;
+    padding-top: 4px;
+  }
+  .dd-hangers .raf-hanger__n {
+    font-size: 19px;
+  }
+  .dd-hangers .raf-hanger__k {
+    font-size: 5px;
+  }
+}
+@media (min-width: 640px) {
+  .dd-hangers {
+    right: 27%;
+  }
+  .dd-hangers .raf-hanger__wires {
+    height: 8px;
+  }
+}

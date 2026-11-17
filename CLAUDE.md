@@ -625,7 +625,9 @@ source names that file).
   chip strip "looks a bit boring for what it represents") with the other numbers in those rafters and
   Ring of Honor. The card's identity row (`pc-ids` in PlayerDetailCard.tsx, playerCard.css) hangs Position, Number and
   Club as tiles (position glyph, his jersey, the club puck) under one truss with the rafters strip as a fourth tile:
-  one line from 900px, below that the three tiles in a row and the strip a full-width band sized to its banners. Either opens that club's rafters: `openRafters(clubId)` (`src/utils/raftersLink.ts`) closes the card,
+  one line from 900px, below that the three tiles in a row and the strip a full-width band sized to its banners. The Deep Dive
+  hero hangs the same banners (`RetiredHangers`, `.dd-hangers`) on its right, between the sprite and the career numbers;
+  small in the top right corner on a phone. Either opens that club's rafters: `openRafters(clubId)` (`src/utils/raftersLink.ts`) closes the card,
   pages/Index.tsx switches to the Hall of Fame tab and the Rafters section picks the club and scrolls to itself. Never on
   Collection card faces (cards are timeless).
 - **Eras**: the owner's coaching stints (`coach.json`), split at 3+ title-less seasons between titles and merged when

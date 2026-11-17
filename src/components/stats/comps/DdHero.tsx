@@ -14,6 +14,7 @@ import TeamLogo from '../../brand/TeamLogo';
 import { bannerStats } from '../../hof/hofUtils';
 import GameSprite from '../../GameSprite';
 import TributeButton from '../../tribute/TributeButton';
+import { RetiredHangers } from '../../teams/RetiredBadge';
 import { keyOf } from '../records';
 import { SmallSampleChip } from './ddParts';
 
@@ -37,7 +38,7 @@ interface Props {
 
 /** Search + navigation bar and the full-width team-themed banner. */
 const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, onOpenCard, family, onFamily }: Props) => {
-  const { numberFor, retiredInfo } = useJerseyNumbers();
+  const { numberFor } = useJerseyNumbers();
   const extras = usePlayerExtras();
   // The banner wears his signature team (where he was best known); the franchise chips list them all
   const club = signatureTeamOf(extras, player);
@@ -45,7 +46,6 @@ const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, on
   const tier = getLegacyTier(player.careerLegacy);
   const known = extras.franchises[normalizeName(player.name)] ?? [];
   const franchises = known.length ? known : player.team ? [player.team] : [];
-  const retired = retiredInfo(player);
 
   return (
     <div className="space-y-3">
@@ -83,6 +83,7 @@ const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, on
         </div>
       </div>
 
+      <div className="relative">
       <button
         type="button"
         onClick={onOpenCard}
@@ -98,14 +99,19 @@ const DdHero = ({ player, options, ovr, wide, onChoose, onRandom, prev, next, on
           number={numberFor(player)}
           ovr={ovr ?? null}
           hallOfFamer={isHallOfFamer(player)}
-          retiredBy={retired?.teamLabel ?? null}
-          eyebrow={`${POSITION_NAMES[player.position]} · Scouting report`}
+          // the hanging banners (RetiredHangers below) carry the retired number
+          retiredBy={null}
+          // on a phone the position alone, so the retired banners in the top right corner stay clear of it
+          eyebrow={wide ? `${POSITION_NAMES[player.position]} · Scouting report` : POSITION_NAMES[player.position]}
           nameAs="h1"
           interactive
           figure={<GameSprite player={player} team={club} kind="figure" size={wide ? 'l' : 'm'} showKit />}
           stats={bannerStats(player)}
         />
       </button>
+      {/* his retired number hangs from the hero's top edge, one banner per club (tap: their rafters) */}
+      <RetiredHangers player={player} className="dd-hangers" />
+      </div>
 
       <div className="flex flex-wrap items-center gap-1.5">
         {/* His Player Tribute, when one has been written */}
