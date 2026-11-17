@@ -1419,6 +1419,24 @@
     "tribute": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-16-save-y95",
+   "dir": "data/uploads/2026-11-16-save-y95",
+   "applied_at": "2026-11-16T21:08:06-08:00",
+   "mutations": {
+    "stats": 295
+   },
+   "changed": 1481
+  },
+  {
+   "id": "2026-11-16-save-y95w32",
+   "dir": "data/uploads/2026-11-16-save-y95w32",
+   "applied_at": "2026-11-16T21:09:06-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
   }
  ]
 }

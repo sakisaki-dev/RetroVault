@@ -1,0 +1,481 @@
+{
+ "season": "Y95",
+ "club": "Eagles",
+ "record": "17-0",
+ "finish": "Champions",
+ "champion": "Eagles",
+ "next": "Y96",
+ "cards": [
+  {
+   "id": "y95-cover",
+   "kind": "cover",
+   "club": "Eagles",
+   "kicker": "Season Rewind",
+   "title": "Y95 Rewind",
+   "text": "Dorren Skura's 95th season as a head coach, with the Eagles: 17-0, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "17-0"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "95",
+     "num": 95
+    },
+    {
+     "label": "Point differential",
+     "value": "+298",
+     "num": 298,
+     "pre": "+"
+    }
+   ],
+   "teams": [
+    "Eagles"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y95-champion",
+   "kind": "champion",
+   "club": "Eagles",
+   "kicker": "Super Bowl CLIV",
+   "title": "Eagles win it all",
+   "text": "The Eagles beat the Chiefs 24-19 in Super Bowl CLIV, the club's 8th title. Skura's 69 titles and counting.",
+   "figures": [
+    {
+     "label": "Eagles",
+     "value": "24",
+     "num": 24
+    },
+    {
+     "label": "Chiefs",
+     "value": "19",
+     "num": 19
+    },
+    {
+     "label": "Season record",
+     "value": "17-0"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "8",
+     "num": 8
+    }
+   ],
+   "teams": [
+    "Eagles",
+    "Chiefs"
+   ],
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Eagles",
+     "star": true
+    },
+    {
+     "key": "OL:Akiem Brock",
+     "name": "Akiem Brock",
+     "team": "Eagles"
+    },
+    {
+     "key": "QB:Bones Crawford",
+     "name": "Bones Crawford",
+     "team": "Eagles"
+    },
+    {
+     "key": "LB:Snoop Dotson",
+     "name": "Snoop Dotson",
+     "team": "Eagles"
+    },
+    {
+     "key": "TE:Jacob Proise",
+     "name": "Jacob Proise",
+     "team": "Eagles"
+    },
+    {
+     "key": "WR:Calvin Wingo II",
+     "name": "Calvin Wingo II",
+     "team": "Eagles"
+    },
+    {
+     "key": "DB:Koa Zuber",
+     "name": "Koa Zuber",
+     "team": "Eagles"
+    },
+    {
+     "key": "DB:Quincy Booker",
+     "name": "Quincy Booker",
+     "team": "Eagles"
+    },
+    {
+     "key": "DB:Keesean Hand",
+     "name": "Keesean Hand",
+     "team": "Eagles"
+    },
+    {
+     "key": "WR:Payton Jarrett",
+     "name": "Payton Jarrett",
+     "team": "Eagles"
+    }
+   ],
+   "ringHolders": 10,
+   "score": "24-19",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y95-awards",
+   "kind": "awards",
+   "club": "Eagles",
+   "kicker": "The awards",
+   "title": "Hardware",
+   "text": "Y95's winners: Crawford (MVP), Wingo II (OPOY), Travon Swaim (DPOY) and Maxwell (SB MVP).",
+   "players": [
+    {
+     "key": "QB:Bones Crawford",
+     "name": "Bones Crawford",
+     "team": "Eagles",
+     "award": "MVP",
+     "awardName": "Most Valuable Player",
+     "line": "4,271 pass yds · 52 pass TD · 6 rush TD in 18 games",
+     "figures": [
+      {
+       "label": "pass yds",
+       "value": "4,271",
+       "num": 4271
+      },
+      {
+       "label": "pass TD",
+       "value": "52",
+       "num": 52
+      },
+      {
+       "label": "rush TD",
+       "value": "6",
+       "num": 6
+      }
+     ],
+     "games": 18
+    },
+    {
+     "key": "WR:Calvin Wingo II",
+     "name": "Calvin Wingo II",
+     "team": "Eagles",
+     "award": "OPOY",
+     "awardName": "Offensive Player of the Year",
+     "line": "114 catches · 2,267 rec yds · 25 TD in 20 games",
+     "figures": [
+      {
+       "label": "catches",
+       "value": "114",
+       "num": 114
+      },
+      {
+       "label": "rec yds",
+       "value": "2,267",
+       "num": 2267
+      },
+      {
+       "label": "TD",
+       "value": "25",
+       "num": 25
+      }
+     ],
+     "games": 20
+    },
+    {
+     "key": "DB:Travon Swaim",
+     "name": "Travon Swaim",
+     "team": "Lions",
+     "award": "DPOY",
+     "awardName": "Defensive Player of the Year",
+     "line": "232 tackles · 3 INT in 20 games",
+     "figures": [
+      {
+       "label": "tackles",
+       "value": "232",
+       "num": 232
+      },
+      {
+       "label": "INT",
+       "value": "3",
+       "num": 3
+      }
+     ],
+     "games": 20
+    },
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Eagles",
+     "award": "SB MVP",
+     "awardName": "Super Bowl MVP",
+     "line": "2,141 rush yds · 30 rush TD · 7 rec TD in 18 games",
+     "figures": [
+      {
+       "label": "rush yds",
+       "value": "2,141",
+       "num": 2141
+      },
+      {
+       "label": "rush TD",
+       "value": "30",
+       "num": 30
+      },
+      {
+       "label": "rec TD",
+       "value": "7",
+       "num": 7
+      }
+     ],
+     "games": 18
+    }
+   ],
+   "teams": [
+    "Eagles",
+    "Lions"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y95-records",
+   "kind": "records",
+   "club": "Eagles",
+   "kicker": "Record book",
+   "title": "Records broken",
+   "text": "2 marks fell in Y95.",
+   "rows": [
+    {
+     "label": "Best rushing career",
+     "mark": "29,534 yds",
+     "scope": "club",
+     "players": [
+      {
+       "key": "RB:Ryland Maxwell",
+       "name": "Ryland Maxwell",
+       "team": "Eagles"
+      }
+     ],
+     "team": "Eagles",
+     "num": 29534,
+     "suf": " yds"
+    },
+    {
+     "label": "Most rushing TDs, career",
+     "mark": "396",
+     "scope": "club",
+     "players": [
+      {
+       "key": "RB:Ryland Maxwell",
+       "name": "Ryland Maxwell",
+       "team": "Eagles"
+      }
+     ],
+     "team": "Eagles",
+     "num": 396
+    }
+   ],
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Eagles"
+    }
+   ],
+   "teams": [
+    "Eagles"
+   ],
+   "n": 4
+  },
+  {
+   "id": "y95-milestones",
+   "kind": "milestones",
+   "club": "Eagles",
+   "kicker": "Milestones",
+   "title": "Round numbers",
+   "text": "Maxwell, 12th ring; Brock, 7th ring; Crawford, 7th ring; Zuber, 6th ring.",
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Eagles",
+     "label": "12th ring",
+     "num": 12
+    },
+    {
+     "key": "OL:Akiem Brock",
+     "name": "Akiem Brock",
+     "team": "Eagles",
+     "label": "7th ring",
+     "num": 7
+    },
+    {
+     "key": "QB:Bones Crawford",
+     "name": "Bones Crawford",
+     "team": "Eagles",
+     "label": "7th ring",
+     "num": 7
+    },
+    {
+     "key": "DB:Koa Zuber",
+     "name": "Koa Zuber",
+     "team": "Eagles",
+     "label": "6th ring",
+     "num": 6
+    }
+   ],
+   "teams": [
+    "Eagles"
+   ],
+   "n": 5
+  },
+  {
+   "id": "y95-market",
+   "kind": "market",
+   "club": "Saints",
+   "kicker": "The market",
+   "title": "Up and down",
+   "text": "Base-card value across Y95: Hull +211%; Funk −22%.",
+   "players": [
+    {
+     "key": "WR:Javien Hull",
+     "name": "Javien Hull",
+     "team": "Saints",
+     "label": "Riser",
+     "pct": 211,
+     "value": 392,
+     "was": 126,
+     "ovr": 83,
+     "grade": "C+"
+    },
+    {
+     "key": "OL:Nydair Funk",
+     "name": "Nydair Funk",
+     "team": "Cardinals",
+     "label": "Faller",
+     "pct": -22,
+     "value": 45,
+     "was": 58,
+     "ovr": 72,
+     "grade": "F"
+    }
+   ],
+   "teams": [
+    "Cardinals",
+    "Saints"
+   ],
+   "n": 6
+  },
+  {
+   "id": "y95-power",
+   "kind": "power",
+   "club": "Eagles",
+   "kicker": "Power rankings",
+   "title": "The Eagles on top",
+   "text": "The Eagles finish Y95 No. 1 in the power rankings at 17-0. Upset of the year: the Raiders (6-11) beat the Chiefs (15-2) 29-21 in week 12.",
+   "figures": [
+    {
+     "label": "Power score",
+     "value": "123.6",
+     "num": 123.6,
+     "dec": 1
+    },
+    {
+     "label": "Record",
+     "value": "17-0"
+    },
+    {
+     "label": "Point differential",
+     "value": "+298",
+     "num": 298,
+     "pre": "+"
+    }
+   ],
+   "teams": [
+    "Eagles",
+    "Raiders",
+    "Chiefs"
+   ],
+   "upset": {
+    "winner": "Raiders",
+    "loser": "Chiefs",
+    "score": "29-21",
+    "week": 12,
+    "winnerRecord": "6-11",
+    "loserRecord": "15-2"
+   },
+   "n": 7
+  },
+  {
+   "id": "y95-tribute",
+   "kind": "tribute",
+   "club": "Buccaneers",
+   "kicker": "Tribute · From the queue",
+   "title": "Sherman Brandson",
+   "text": "The tribute queue's highest Career Legacy (13,540).",
+   "players": [
+    {
+     "key": "QB:Sherman Brandson",
+     "name": "Sherman Brandson",
+     "team": "Buccaneers",
+     "reason": "From the queue"
+    }
+   ],
+   "teams": [
+    "Buccaneers"
+   ],
+   "n": 8
+  },
+  {
+   "id": "y95-outro",
+   "kind": "outro",
+   "club": "Eagles",
+   "kicker": "That was Y95",
+   "title": "Next: Y96",
+   "next": "Y96",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "69",
+     "num": 69
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "76",
+     "num": 76
+    }
+   ],
+   "text": "Through Y95, Skura has won 69 of 76 Super Bowls. Chasing history in Y96: Atwell, 126 tackles from Settle's mark; Brooker, 2 interceptions from Hobbs's mark.",
+   "teams": [
+    "Eagles"
+   ],
+   "players": [
+    {
+     "key": "DB:Kyron Atwell",
+     "name": "Kyron Atwell",
+     "team": "Jets",
+     "label": "career tackles",
+     "gap": 126,
+     "share": 96,
+     "holder": "K'Lavon Settle"
+    },
+    {
+     "key": "DB:Jamon Brooker",
+     "name": "Jamon Brooker",
+     "team": "Packers",
+     "label": "career interceptions",
+     "gap": 2,
+     "share": 95,
+     "holder": "Damar Hobbs"
+    }
+   ],
+   "n": 9
+  }
+ ]
+}

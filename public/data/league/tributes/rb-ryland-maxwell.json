@@ -6,11 +6,11 @@
  "nickname": "Mad Max",
  "deck": "He came out of New York as the smallest piece of a trade and became the back every other back is measured against: rings in three cities, the career rushing record and, at last, the Gauntlet.",
  "hero": {
-  "games": 284,
+  "games": 302,
   "clubs": 3,
   "active": true,
-  "careerLegacy": 13107,
-  "rings": 11
+  "careerLegacy": 14019,
+  "rings": 12
  },
  "journey": [
   {
@@ -37,12 +37,13 @@
   {
    "team": "Eagles",
    "from": 91,
-   "to": 94,
+   "to": 95,
    "rings": [
     91,
     92,
     93,
-    94
+    94,
+    95
    ]
   }
  ],
@@ -668,6 +669,16 @@
        "RB:Ryland Maxwell": 39532,
        "RB:Malakai Sawyer": 7875
       }
+     },
+     {
+      "season": "Y95",
+      "snapshot": "snap-202611162108",
+      "ovr": 99,
+      "grade": "S",
+      "values": {
+       "RB:Ryland Maxwell": 44400,
+       "RB:Malakai Sawyer": 7696
+      }
      }
     ]
    }
@@ -800,25 +811,25 @@
     "rows": [
      {
       "label": "Rush yds a game",
-      "a": 96.5,
+      "a": 97.8,
       "b": 76.5,
       "decimals": 1
      },
      {
       "label": "TDs a game",
-      "a": 1.69,
+      "a": 1.71,
       "b": 1.45,
       "decimals": 2
      },
      {
       "label": "Games",
-      "a": 284,
+      "a": 302,
       "b": 303,
       "decimals": 0
      },
      {
       "label": "Rings",
-      "a": 11,
+      "a": 12,
       "b": 9,
       "decimals": 0
      },
@@ -830,14 +841,14 @@
      },
      {
       "label": "Super Bowl MVPs",
-      "a": 5,
+      "a": 6,
       "b": 5,
       "decimals": 0
      },
      {
       "label": "Career Legacy",
-      "a": 13107,
-      "b": 11508,
+      "a": 14019,
+      "b": 11329,
       "decimals": 0
      }
     ]

@@ -89,18 +89,13 @@
      "team": "Eagles"
     },
     {
-     "key": "TE:Jacob Proise",
-     "name": "Jacob Proise",
-     "team": "Eagles"
-    },
-    {
      "key": "LB:Snoop Dotson",
      "name": "Snoop Dotson",
      "team": "Eagles"
     },
     {
-     "key": "DB:Koa Zuber",
-     "name": "Koa Zuber",
+     "key": "TE:Jacob Proise",
+     "name": "Jacob Proise",
      "team": "Eagles"
     },
     {
@@ -109,18 +104,23 @@
      "team": "Eagles"
     },
     {
+     "key": "DB:Koa Zuber",
+     "name": "Koa Zuber",
+     "team": "Eagles"
+    },
+    {
      "key": "DB:Quincy Booker",
      "name": "Quincy Booker",
      "team": "Eagles"
     },
     {
-     "key": "WR:Keenan Viennes",
-     "name": "Keenan Viennes",
+     "key": "DB:Keesean Hand",
+     "name": "Keesean Hand",
      "team": "Eagles"
     },
     {
-     "key": "DB:Keesean Hand",
-     "name": "Keesean Hand",
+     "key": "WR:Keenan Viennes",
+     "name": "Keenan Viennes",
      "team": "Eagles"
     }
    ],
@@ -376,21 +376,21 @@
      "name": "Damar Hobbs",
      "games": 265,
      "rings": 1,
-     "legacy": 8362,
+     "legacy": 8410,
      "team": "Patriots"
     },
     {
      "key": "DB:Odell Hainsey",
      "name": "Odell Hainsey",
      "games": 260,
-     "legacy": 7968,
+     "legacy": 8016,
      "team": "Chargers"
     },
     {
      "key": "DL:Dallin Santoso",
      "name": "Dallin Santoso",
      "games": 278,
-     "legacy": 7695,
+     "legacy": 7741,
      "team": "Buccaneers"
     },
     {
@@ -398,21 +398,21 @@
      "name": "Nydair Sample",
      "games": 415,
      "rings": 1,
-     "legacy": 7503,
+     "legacy": 7545,
      "team": "Bengals"
     },
     {
      "key": "DB:Oli Alaka",
      "name": "Oli Alaka",
      "games": 246,
-     "legacy": 7489,
+     "legacy": 7534,
      "team": "Vikings"
     },
     {
      "key": "DL:Tyquan Hunter",
      "name": "Tyquan Hunter",
      "games": 261,
-     "legacy": 7230,
+     "legacy": 7273,
      "team": "Lions"
     }
    ],

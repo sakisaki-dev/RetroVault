@@ -89,18 +89,13 @@
      "team": "Eagles"
     },
     {
-     "key": "TE:Jacob Proise",
-     "name": "Jacob Proise",
-     "team": "Eagles"
-    },
-    {
      "key": "LB:Snoop Dotson",
      "name": "Snoop Dotson",
      "team": "Eagles"
     },
     {
-     "key": "DB:Koa Zuber",
-     "name": "Koa Zuber",
+     "key": "TE:Jacob Proise",
+     "name": "Jacob Proise",
      "team": "Eagles"
     },
     {
@@ -109,18 +104,23 @@
      "team": "Eagles"
     },
     {
+     "key": "DB:Koa Zuber",
+     "name": "Koa Zuber",
+     "team": "Eagles"
+    },
+    {
      "key": "DB:Quincy Booker",
      "name": "Quincy Booker",
      "team": "Eagles"
     },
     {
-     "key": "WR:Keenan Viennes",
-     "name": "Keenan Viennes",
+     "key": "DB:Keesean Hand",
+     "name": "Keesean Hand",
      "team": "Eagles"
     },
     {
-     "key": "DB:Keesean Hand",
-     "name": "Keesean Hand",
+     "key": "WR:Keenan Viennes",
+     "name": "Keenan Viennes",
      "team": "Eagles"
     }
    ],
@@ -248,24 +248,9 @@
    "kind": "records",
    "club": "Eagles",
    "kicker": "Record book",
-   "title": "Records broken",
-   "text": "3 marks fell in Y94.",
+   "title": "Record broken",
+   "text": "1 mark fell in Y94.",
    "rows": [
-    {
-     "label": "Best rushing career",
-     "mark": "27,393 yds",
-     "scope": "club",
-     "players": [
-      {
-       "key": "RB:Ryland Maxwell",
-       "name": "Ryland Maxwell",
-       "team": "Eagles"
-      }
-     ],
-     "team": "Eagles",
-     "num": 27393,
-     "suf": " yds"
-    },
     {
      "label": "Most TD receptions, season",
      "mark": "53",
@@ -279,20 +264,6 @@
      ],
      "team": "Eagles",
      "num": 53
-    },
-    {
-     "label": "Most rushing TDs, career",
-     "mark": "366",
-     "scope": "club",
-     "players": [
-      {
-       "key": "RB:Ryland Maxwell",
-       "name": "Ryland Maxwell",
-       "team": "Eagles"
-      }
-     ],
-     "team": "Eagles",
-     "num": 366
     }
    ],
    "players": [
@@ -399,42 +370,42 @@
      "key": "DB:Odell Hainsey",
      "name": "Odell Hainsey",
      "games": 260,
-     "legacy": 7968,
+     "legacy": 8016,
      "team": "Chargers"
     },
     {
      "key": "DL:Dallin Santoso",
      "name": "Dallin Santoso",
      "games": 278,
-     "legacy": 7695,
+     "legacy": 7741,
      "team": "Buccaneers"
     },
     {
      "key": "DB:Oli Alaka",
      "name": "Oli Alaka",
      "games": 246,
-     "legacy": 7489,
+     "legacy": 7534,
      "team": "Vikings"
     },
     {
      "key": "DL:Tyquan Hunter",
      "name": "Tyquan Hunter",
      "games": 261,
-     "legacy": 7230,
+     "legacy": 7273,
      "team": "Lions"
     },
     {
      "key": "DB:Linval Laulile",
      "name": "Linval Laulile",
      "games": 257,
-     "legacy": 7024,
+     "legacy": 7062,
      "team": "Steelers"
     },
     {
      "key": "QB:Tevin Fox",
      "name": "Tevin Fox",
      "games": 403,
-     "legacy": 6638,
+     "legacy": 6676,
      "team": "Panthers"
     }
    ],
@@ -633,7 +604,7 @@
     {
      "key": "QB:Sherman Brandson",
      "name": "Sherman Brandson",
-     "team": "Buccaneers"
+     "team": "Giants"
     }
    ],
    "link": {
@@ -663,30 +634,13 @@
      "num": 75
     }
    ],
-   "text": "Through Y94, Skura has won 68 of 75 Super Bowls. Chasing history in Y95: Atwell, 126 tackles from Settle's mark; Deshone Bello, 1 sack from Kalif Suh's mark.",
+   "text": "Through Y94, Skura has won 68 of 75 Super Bowls.",
    "teams": [
     "Eagles"
    ],
-   "players": [
-    {
-     "key": "DB:Kyron Atwell",
-     "name": "Kyron Atwell",
-     "team": "Jets",
-     "label": "career tackles",
-     "gap": 126,
-     "share": 96,
-     "holder": "K'Lavon Settle"
-    },
-    {
-     "key": "DL:Deshone Bello",
-     "name": "Deshone Bello",
-     "team": "Jets",
-     "label": "career sacks",
-     "gap": 1,
-     "share": 96,
-     "holder": "Kalif Suh"
-    }
-   ],
+   "link": {
+    "season": "Y95"
+   },
    "n": 13
   }
  ]
