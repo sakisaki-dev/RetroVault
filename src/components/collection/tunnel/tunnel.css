@@ -832,7 +832,7 @@
   position: absolute;
   inset: 0;
   transform-origin: 50% 100%;
-  /* he finishes standing about 80% of the mouth's height tall (--wk-s from the tunnel's geometry, PackOpening; owner,
+  /* he finishes standing to the tunnel's scale, his figure about 64% of the mouth's height (--wk-s from the tunnel's geometry, PackOpening; owner,
      2026-11-17: "make the player sprite MUCH bigger, he looks tiny compare to the tunnel"); pixelated, so still crisp */
   transform: scale(var(--wk-s, 0.6667));
   animation: wk-run-out 1s cubic-bezier(0.35, 0.1, 0.5, 1) both;
