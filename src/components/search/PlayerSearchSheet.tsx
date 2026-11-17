@@ -1,12 +1,13 @@
 import { memo, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode, type TouchEvent as RTouchEvent } from 'react';
-import { Clock, CornerDownLeft, Search, Star, X } from 'lucide-react';
+import { Clock, CornerDownLeft, Search, Shield, Star, X } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
 import { cn } from '@/lib/utils';
 import { isHallOfFamer } from '@/config/stats';
 import { useSkillRatings } from '@/utils/useSkillRatings';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { bannerTeamOf, usePlayerExtras } from '@/utils/playerExtras';
-import { findNFLTeam } from '@/utils/nflTeams';
+import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
+import { searchTeams } from '@/utils/teamSearch';
 import { buildSearchIndex, keyOfPlayer, pushRecent, readRecent, searchPlayers } from '@/utils/playerSearch';
 import { useSwipeToDismiss } from '@/hooks/useSwipeToDismiss';
 import { warmPlayerCard } from '@/components/player/warmPlayerCard';
@@ -65,6 +66,8 @@ export interface PlayerSearchSheetProps {
   selectedKey?: string;
   /** A footer note (the header search's pool size) */
   footer?: ReactNode;
+  /** Clubs matching the query lead the results (the header search); picking one calls this */
+  onPickTeam?: (team: NFLTeam) => void;
 }
 
 const teamVars = (team?: string): CSSProperties => {
@@ -167,12 +170,13 @@ interface ListProps {
   suggestions?: SheetGroup[];
   selectedKey?: string;
   onPick: (p: Player) => void;
+  onPickTeam?: (team: NFLTeam) => void;
   /** Reports the Enter target (the first row) */
   firstRef: { current: Player | null };
 }
 
 /** Results for the deferred query: re-renders only when the deferred query, filter or pool change */
-const Results = memo(({ query, pos, players, ovrMap, showOvr, showActive, peek, suggestions, selectedKey, onPick, firstRef }: ListProps) => {
+const Results = memo(({ query, pos, players, ovrMap, showOvr, showActive, peek, suggestions, selectedKey, onPick, onPickTeam, firstRef }: ListProps) => {
   const extras = usePlayerExtras();
   const skills = useSkillRatings();
   const { numberFor } = useJerseyNumbers();
@@ -191,12 +195,40 @@ const Results = memo(({ query, pos, players, ovrMap, showOvr, showActive, peek, 
     });
     return [{ id: 'recent', label: 'Recent', players: recent }, ...more].filter((g) => g.players.length);
   }, [query, index, keep, suggestions]);
+  const clubs = useMemo(() => (onPickTeam && pos === 'ALL' ? searchTeams(query) : []), [onPickTeam, pos, query]);
   const firstPlayer = query.trim() ? groups[0]?.players[0] ?? null : null;
   useLayoutEffect(() => {
     firstRef.current = firstPlayer;
   }, [firstPlayer, firstRef]);
 
-  if (!groups.length)
+  const clubList = clubs.length > 0 && (
+    <section aria-label="Teams">
+      <h3 className="ss-head">
+        <span className="lamp">
+          <Shield className="h-3 w-3" aria-hidden="true" />
+          Teams
+        </span>
+      </h3>
+      <ul className="ss-list">
+        {clubs.map((t) => (
+          <li key={t.id}>
+            <button type="button" className="ss-team" style={teamVars(t.name)} onClick={() => onPickTeam?.(t)}>
+              <TeamLogo team={t.name} size={34} decorative />
+              <span className="ss-team__text">
+                <span className="ss-team__name">{t.name}</span>
+                <span className="ss-team__sub">
+                  {t.city} · {t.conference} {t.division}
+                </span>
+              </span>
+              <span className="ss-team__go">Team page</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+
+  if (!groups.length && !clubList)
     return (
       <p className="ss-empty">
         {query.trim() ? (
@@ -211,6 +243,7 @@ const Results = memo(({ query, pos, players, ovrMap, showOvr, showActive, peek, 
     );
   return (
     <>
+      {clubList}
       {groups.map((g) => (
         <section key={g.id} aria-label={g.label}>
           <h3 className="ss-head">
@@ -269,6 +302,7 @@ const Sheet = ({
   suggestions,
   selectedKey,
   footer,
+  onPickTeam,
   onGone,
 }: PlayerSearchSheetProps & { onGone: () => void }) => {
   const [query, setQuery] = useState('');
@@ -473,6 +507,7 @@ const Sheet = ({
             suggestions={suggestions}
             selectedKey={selectedKey}
             onPick={pick}
+            onPickTeam={onPickTeam}
             firstRef={firstRef}
           />
           {footer && <p className="ss-foot">{footer}</p>}

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { flushSync } from 'react-dom';
-import { Clock, Radar, Search, Sparkles, Star } from 'lucide-react';
+import { Clock, Radar, Search, Shield, Sparkles, Star } from 'lucide-react';
 import InLeague from '@/components/InLeague';
 import type { Player, Position } from '@/types/player';
 import { cn } from '@/lib/utils';
@@ -14,6 +14,7 @@ import { useJerseyNumbers } from '@/utils/jerseys';
 import { useSkillRatings } from '@/utils/useSkillRatings';
 import { getTeamColors } from '@/utils/teamColors';
 import { findNFLTeam } from '@/utils/nflTeams';
+import { openTeamPage, searchTeams } from '@/utils/teamSearch';
 import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 import { useCurrentClub } from '@/utils/club';
 import PlayerDetailCard from './PlayerDetailCard';
@@ -218,7 +219,11 @@ const QuickSearchPhone = () => {
         }}
         title={open && onDeepDive() ? 'Deep Dive' : undefined}
         suggestions={suggestions}
-        footer={`${league.length} league · ${legends.length} NFL players`}
+        footer={`${league.length} league · ${legends.length} NFL players · 32 clubs`}
+        onPickTeam={(t) => {
+          setOpen(false);
+          openTeamPage(t.name);
+        }}
       />
       <PlayerDetailCard player={selected} onClose={() => setSelected(null)} />
     </>
@@ -301,7 +306,10 @@ const QuickSearchDialog = () => {
     ].filter((g) => g.players.length);
   }, [query, pos, recent, byKey, league, legends, ovrMap, currentClub]);
 
-  const activePlayer = searchText.get(active) ?? [...searchText.entries()].find(([t]) => t.toLowerCase() === active.toLowerCase())?.[1] ?? groups[0]?.players[0] ?? null;
+  // Clubs matching the query lead the results; a pick opens its team page (Stats › Teams)
+  const clubs = useMemo(() => (pos === 'ALL' ? searchTeams(query) : []), [query, pos]);
+
+  const activePlayer = active.startsWith('team ') ? null : searchText.get(active) ?? [...searchText.entries()].find(([t]) => t.toLowerCase() === active.toLowerCase())?.[1] ?? groups[0]?.players[0] ?? null;
 
   const choose = (p: Player, deepDive = false) => {
     pushRecent(playerKey(p));
@@ -321,7 +329,7 @@ const QuickSearchDialog = () => {
             onValueChange={setActive}
             className="bg-transparent"
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && e.shiftKey && activePlayer) {
+              if (e.key === 'Enter' && e.shiftKey && activePlayer && !active.startsWith('team ')) {
                 e.preventDefault();
                 choose(activePlayer, true);
               }
@@ -338,7 +346,7 @@ const QuickSearchDialog = () => {
               <CommandInput
                 value={query}
                 onValueChange={setQuery}
-                placeholder="Who are we scouting?"
+                placeholder="Who are we scouting? A player or a club"
                 className="h-12 font-display text-lg tracking-wide placeholder:font-sans placeholder:text-sm"
               />
               <div role="group" aria-label="Filter by position" className="flex gap-1 overflow-x-auto px-3 pb-2.5 [scrollbar-width:none]">
@@ -361,7 +369,43 @@ const QuickSearchDialog = () => {
 
             <div>
               <CommandList className="max-h-[min(26rem,calc(var(--dvh)*0.55))] overscroll-contain p-1.5">
-                <CommandEmpty className="py-10 text-center text-sm text-muted-foreground">No player by that name in the vault.</CommandEmpty>
+                <CommandEmpty className="py-10 text-center text-sm text-muted-foreground">No player or club by that name in the vault.</CommandEmpty>
+                {clubs.length > 0 && (
+                  <CommandGroup
+                    heading={
+                      <span className="flex items-center gap-1.5">
+                        <Shield className="h-3 w-3 text-gold" aria-hidden="true" />
+                        Teams
+                      </span>
+                    }
+                    className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:pb-1 [&_[cmdk-group-heading]]:pt-2 [&_[cmdk-group-heading]]:font-pixel [&_[cmdk-group-heading]]:text-[9px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:text-muted-foreground"
+                  >
+                    {clubs.map((t) => (
+                      <CommandItem
+                        key={`team:${t.id}`}
+                        value={`team ${t.name} ${t.city} ${t.fullName} ${t.abbreviation}`}
+                        keywords={[t.name]}
+                        onSelect={() => {
+                          setOpen(false);
+                          openTeamPage(t.name);
+                        }}
+                        className="qs-item my-1 cursor-pointer overflow-hidden rounded-lg p-0"
+                        style={teamVars(t.name)}
+                      >
+                        <span className="relative flex min-w-0 flex-1 items-center gap-3 py-2 pl-2 pr-3">
+                          <TeamLogo team={t.name} size={36} decorative />
+                          <span className="flex min-w-0 flex-1 flex-col items-start leading-none">
+                            <span className="qs-name truncate font-display text-xl font-extrabold uppercase italic tracking-wide">{t.name}</span>
+                            <span className="qs-sub mt-1 truncate text-[11px]">
+                              {t.city} · {t.conference} {t.division}
+                            </span>
+                          </span>
+                          <span className="qs-sub shrink-0 font-pixel text-[8px] uppercase">Team page</span>
+                        </span>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
                 {groups.map((g) => (
                   <CommandGroup
                     key={g.id}

@@ -1056,6 +1056,14 @@ source names that file).
   run `SERIAL_ONE_BONUS` ×1.15 more (the portfolio uses the best parallel owned at that finish). Never
   hand-edit either file; rebuild and commit both.
 
+## Quick search
+
+The header search (`QuickPlayerSearch.tsx`: the ⌘K dialog on desktop, `search/PlayerSearchSheet.tsx` on a phone)
+finds players and, since 2026-11-17 (owner: "allow me to search teams in the quick search"), clubs: `utils/teamSearch.ts`
+`searchTeams` (every typed word starts a word of the club's name, city, full name or abbreviation; at most 4) leads the
+results as a Teams group, and a pick calls `openTeamPage(name)`: the `#stats/teams?p=<club>` route plus
+`OPEN_TEAM_EVENT`, which the Teams page answers with that club's sheet even when the hash is already there.
+
 ## Home Screen app and share pictures
 
 Owner (2026-11-15): "a proper icon, a splash screen and stopping the 7-day wipe … and give me the option to share

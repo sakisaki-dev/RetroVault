@@ -8,6 +8,7 @@ import PlayerDetailCard from '../PlayerDetailCard';
 import TeamCard from '../teams/TeamCard';
 import CountUp from '../brand/CountUp';
 import TeamSheet from '../teams/TeamSheet';
+import { OPEN_TEAM_EVENT } from '@/utils/teamSearch';
 import PowerRanking from '../teams/PowerRanking';
 import DynastyGrid from '../teams/DynastyGrid';
 import TeamAdvanced from '../teams/TeamAdvanced';
@@ -130,6 +131,16 @@ const TeamRankingsTab = () => {
     const hit = teams.find((t) => t.team?.name === wanted || t.label === wanted);
     if (hit) setOpenKey(hit.key);
   }, [wanted, teams]);
+  // The header's quick search opens a club here even when the hash is already that club's (utils/teamSearch.ts)
+  useEffect(() => {
+    const on = (e: Event) => {
+      const name = (e as CustomEvent<string>).detail;
+      const hit = teams.find((t) => t.team?.name === name || t.label === name);
+      if (hit) setOpenKey(hit.key);
+    };
+    window.addEventListener(OPEN_TEAM_EVENT, on);
+    return () => window.removeEventListener(OPEN_TEAM_EVENT, on);
+  }, [teams]);
   const totals = useMemo(
     () => ({
       yourTitles: superBowls.filter((sb) => sb.yourResult === 'won').length,

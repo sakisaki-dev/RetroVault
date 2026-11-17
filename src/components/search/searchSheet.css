@@ -446,3 +446,45 @@
   .ss-panel { animation-name: ss-fade; }
   .ss-root[data-state='closed'] .ss-panel { animation-name: ss-fade-out; }
 }
+
+/* A club in the results (the header search): logo, name in its colours, the way to its team page */
+.ss-team {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--ss-1);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--ss-1) 45%, transparent), transparent 85%);
+  text-align: left;
+}
+.ss-team:active {
+  transform: scale(0.99);
+}
+.ss-team__text {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.ss-team__name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+}
+.ss-team__sub {
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+}
+.ss-team__go {
+  flex-shrink: 0;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+  color: hsl(var(--gold));
+}
