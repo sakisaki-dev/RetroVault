@@ -81,7 +81,6 @@
   position: relative;
   display: block;
   padding-top: var(--wire, 26px);
-  transform-origin: 50% 0;
   touch-action: pan-y; /* a sideways drag swings the banner; an up-down drag still scrolls the page */
   cursor: grab;
   z-index: 2;
@@ -108,6 +107,7 @@
 .rafter__wire {
   position: absolute;
   top: -6px;
+  transform-origin: 50% 0; /* turns about its hook on the rail */
   width: 2px;
   height: calc(var(--wire, 26px) + 8px);
   background: #6c6a7c;

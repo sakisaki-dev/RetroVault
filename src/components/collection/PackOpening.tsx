@@ -876,6 +876,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                             className="pk-flip__face pk-flip__back"
                             disabled={shown}
                             tabIndex={shown ? -1 : 0}
+                            data-next={next || undefined}
                             aria-hidden={shown}
                             aria-label={`Flip card ${i + 1} of ${pack.length}${next ? ' (next)' : ''}`}
                           >

@@ -609,9 +609,11 @@ source names that file).
   the surname, position and years with that club and "N rings here" from the career stints), hung a little unevenly and
   swaying only when motion is allowed (never in lite mode), the club's Ring of Honor (halloffame.json `ringOfHonor`) as
   a band over a crowd silhouette, and a note on how numbers go up (an empty club shows the bare truss and that note).
-  Tap a banner for his card, hold it for the quick look; drag it sideways and it swings on its
-  wires like a pendulum and settles (`Pendulum` in RaftersScene.tsx; owner: "make the rafters swing, I can drag them";
-  reduced motion eases straight back). It replaces the old row in the team sheet's Overview
+  Tap a banner for his card, hold it for the quick look; drag it sideways and it swings like a swing seat:
+  each wire turns about its own fixed hook on the rail and the banner rides the arc of their ends, level (trailing a touch
+  while it moves), then settles (`Pendulum` in RaftersScene.tsx writes `rotate` / `translate` only; owner: "make the
+  rafters swing, I can drag them", then "it feels like it isn't hanging its just a rotating asset"; reduced motion eases
+  straight back). It replaces the old row in the team sheet's Overview
   (`RetiredRafters.tsx` is now a wrapper), sits compact in a Hall of Fame plaque, and has its own Hall of Fame section,
   **The Rafters** (`src/components/hof/HofRafters.tsx`, anchor `hof-rafters-title`, in BottomNav's HOF hold menu), with
   club chips to walk every club. **The player card's badge** (CardBanner.dc.html, `src/components/teams/RetiredBadge.tsx`):
@@ -936,7 +938,7 @@ source names that file).
   `CardBackArt.tsx`, white chrome refractor (etched diamond texture, a rainbow sweep, `--pk-chrome`), RETRO VAULT top
   and bottom, a navy diamond with a holographic RV ("18–0" for a Perfect Season pack). The rim is an SVG stroke of the
   shield clipped to itself (a clip-path cuts an inset box-shadow at the corners), always silver; the next card to flip
-  gets a soft white glow around the shield (owner: a yellow rim clashed with the chrome).
+  (`data-next`, only that card) gets a soft white glow around the shield (owner: a yellow rim clashed with the chrome).
   Identical for every card, so nothing shows a rarity before the flip; the tunnel lays its light over `--pk-chrome`.
 - **Collection economy** (owner approved all six parts; `src/utils/economy.ts` rules and writes, UI in
   `src/components/collection/economy/`): coins become the trading currency; shards stay exactly as they were (claims and

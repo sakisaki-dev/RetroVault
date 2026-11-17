@@ -29,7 +29,7 @@ interface Props {
 /** Small stable spread from a number: banners hang a little unevenly, always the same way */
 const spread = (n: number, i: number) => {
   const h = (n * 37 + i * 11) % 7;
-  return { wire: 20 + (h % 4) * 6, tilt: ((h % 5) - 2) * 0.55, dur: 5 + (h % 3), delay: -((n * 13) % 9) / 3 };
+  return { wire: 40 + (h % 4) * 8, tilt: ((h % 5) - 2) * 0.55, dur: 5 + (h % 3), delay: -((n * 13) % 9) / 3 };
 };
 
 const ringsText = (n: number) => `${n} ring${n === 1 ? '' : 's'} here`;
@@ -43,15 +43,17 @@ const reduceMotion = () => {
 };
 
 /** Pendulum: radians, a natural swing of about a second, gentle air damping, a hard stop at MAX */
-const K = 26; // stiffness (g / L)
+const K = 18; // stiffness (g / L)
 const DAMP = 0.9;
 const MAX = (55 * Math.PI) / 180;
 const DRAG_PX = 6; // a press that moves less is a tap (opens his card)
 
 /**
- * A banner on its wires that swings (owner, 2026-11-17: "make the rafters swing, I can drag them"): grab it and pull it
- * sideways around the hook where its wires meet the rail, let go and it swings back and forth until it settles. The
- * wires swing with it, the light cone stays. Only transform is written, one rAF loop per moving banner. A tap still
+ * A banner on its wires that swings (owner, 2026-11-17: "make the rafters swing, I can drag them"; then "it feels like it
+ * isn't hanging its just a rotating asset"): a swing seat, not a stick. Each wire turns about its own hook on the rail
+ * (the hooks never move) and the banner rides the arc their ends draw, staying level (it trails a touch while moving), so
+ * it rises a little at the ends of its swing. Grab it and pull it sideways, let go and it swings until it settles. Only
+ * `rotate` / `translate` are written (the idle sway keeps its own transform), one rAF loop per moving banner. A tap still
  * opens his card and a hold the quick look (a drag past a few pixels swallows the click). Reduced motion: it follows the
  * finger and eases straight back, no swing.
  */
@@ -64,17 +66,33 @@ const Pendulum = ({ children, style }: { children: ReactNode; style?: CSSPropert
     let v = 0; // rad/s
     let raf = 0;
     let id = -1;
-    let px = 0;
-    let py = 0;
+    let px = 0; // pointer x of the banner at rest (set at the grab)
     let sx = 0;
     let sy = 0;
-    let grab = 0; // pointer angle minus banner angle at the grab
     let dragging = false;
     let samples: { t: number; a: number }[] = [];
+    const wires = [...el.querySelectorAll<HTMLElement>('.rafter__wire')];
+    const cloth = el.querySelector<HTMLElement>('.rafter__sway');
+    // the wire's length is the pendulum's: the banner hangs from the wires' lower ends
+    const len = () => wires[0]?.offsetHeight || 40;
     const set = () => {
-      el.style.transform = a ? `rotate(${a.toFixed(4)}rad)` : '';
+      const L = len();
+      const on = Math.abs(a) > 1e-5;
+      wires.forEach((w) => (w.style.rotate = on ? `${a.toFixed(4)}rad` : ''));
+      if (cloth) {
+        // clockwise turn (a > 0) swings the lower ends left: x = -L sin a, and they rise by L (1 - cos a)
+        cloth.style.translate = on ? `${(-L * Math.sin(a)).toFixed(2)}px ${(-L * (1 - Math.cos(a))).toFixed(2)}px` : '';
+        // level at rest or held still; while it moves the cloth trails a touch behind the wires (air drag)
+        const lag = Math.max(-0.12, Math.min(0.12, v * 0.04));
+        cloth.style.rotate = on && Math.abs(lag) > 1e-4 ? `${lag.toFixed(4)}rad` : '';
+      }
     };
-    const pointerAngle = (x: number, y: number) => Math.atan2(px - x, y - py);
+    // drag: the banner's sideways offset from its rest, turned into the wires' angle
+    const angleFor = (x: number) => {
+      const L = len();
+      const off = Math.max(-L * Math.sin(MAX), Math.min(L * Math.sin(MAX), x - px));
+      return -Math.asin(off / L);
+    };
     const stop = () => {
       if (raf) cancelAnimationFrame(raf);
       raf = 0;
@@ -117,10 +135,7 @@ const Pendulum = ({ children, style }: { children: ReactNode; style?: CSSPropert
       sx = e.clientX;
       sy = e.clientY;
       dragging = false;
-      // the hook: the top centre of the banner's slot (its unrotated parent)
-      const box = (el.parentElement ?? el).getBoundingClientRect();
-      px = box.left + box.width / 2;
-      py = box.top;
+
     };
     const onMove = (e: PointerEvent) => {
       if (e.pointerId !== id) return;
@@ -128,7 +143,8 @@ const Pendulum = ({ children, style }: { children: ReactNode; style?: CSSPropert
         if (Math.hypot(e.clientX - sx, e.clientY - sy) < DRAG_PX) return;
         dragging = true;
         stop();
-        grab = pointerAngle(e.clientX, e.clientY) - a;
+        // keep the banner under the finger where it was grabbed: its rest is the pointer minus its current offset
+        px = e.clientX + len() * Math.sin(a);
         samples = [];
         el.classList.add('is-swinging', 'is-held');
         try {
@@ -138,7 +154,7 @@ const Pendulum = ({ children, style }: { children: ReactNode; style?: CSSPropert
         }
       }
       e.preventDefault();
-      a = Math.max(-MAX, Math.min(MAX, pointerAngle(e.clientX, e.clientY) - grab));
+      a = angleFor(e.clientX);
       samples.push({ t: e.timeStamp, a });
       if (samples.length > 6) samples.shift();
       set();
