@@ -1162,6 +1162,23 @@ pictures".
   poster uses (cached per set of families). Never pass html-to-image's `preferredFontFormat`: in WebKit it dropped
   `src` from some rules, and the pixel font fell back.
 
+## Screensaver (desktop)
+
+Owner (2026-11-17): "a screensaver option for the desktop site so that I can leave my computer and it'll rifle through
+beautiful artwork, players, banners etc with animations … something I can leave on". The header's last button (top
+right, after the Season lamp; desktop only, `ScreensaverButton.tsx`) opens a popover: Start now, and Start by itself
+after Never / 2 / 5 / 10 / 15 min (default 5; `rv:saver:idle` in localStorage, `src/utils/screensaver.ts`).
+`ScreensaverHost` (pages/Index.tsx) watches for idle time while the tab is visible on a wide screen with a mouse, and
+lazy-loads `src/components/screensaver/Screensaver.tsx` (`screensaver.css`): a full-screen show, one scene every 14 s
+with a crossfade, dealt in turn from shuffled decks (presentation only): **spotlight** (a top-80 Career Legacy player's
+hero banner in a night stadium painted to his club, his rank), **card** (one of the best 40 owned cards turning under a
+spotlight), **line-up** (a club's five best by banner club on its turf, the best celebrating in the middle), **Hall of
+Famer** (on a gold pedestal under a light, with his class), **rafters** (a club with two or more retired numbers;
+the how-to note hidden). Slow camera push, sweeping floodlights, gold dust, text that rises in line by line; the clock
+and wordmark drift and the whole show dims by a fifth over half an hour, so it can be left on. Full screen and a Wake
+Lock when the browser allows; any key, click, wheel or mouse move past 24 px ends it (the click never reaches the page).
+Reduced motion: still scenes, crossfades only; lite mode drops the dust and grain.
+
 ## Stats › Players staging
 
 The page opens in a night stadium (`stats/visual/StatsStadium.tsx`, `statsStadium.css`; owner: "change this part to be

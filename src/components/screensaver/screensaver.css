@@ -1,0 +1,701 @@
+/* The desktop screensaver (Screensaver.tsx). Calm on purpose: slow camera moves, soft light, nothing bright stays put. */
+
+.sv {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+  isolation: isolate;
+  background: #03050c;
+  color: #f5f2e8;
+  cursor: none;
+  user-select: none;
+}
+/* A long session dims the whole show a little (about a fifth over half an hour), kinder to a screen left on */
+.sv::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  animation: sv-dim 1800s linear forwards;
+}
+@keyframes sv-dim {
+  to {
+    opacity: 0.2;
+  }
+}
+/* vignette over everything */
+.sv::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgb(0 0 0 / 0.65));
+}
+
+/* ---------- Slides and crossfades ---------- */
+.sv-slide {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.sv-slide--in {
+  animation: sv-in 1.4s ease both;
+}
+.sv-slide--out {
+  animation: sv-out 1.4s ease both;
+}
+@keyframes sv-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes sv-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* ---------- Atmosphere: gold dust drifting up, film grain ---------- */
+.sv-dust {
+  position: absolute;
+  inset: -20% 0 0;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0.55;
+  background:
+    radial-gradient(circle, rgb(255 214 120 / 0.9) 0 1.2px, transparent 2px) 0 0 / 173px 211px,
+    radial-gradient(circle, rgb(255 236 180 / 0.7) 0 1px, transparent 1.6px) 60px 90px / 241px 167px,
+    radial-gradient(circle, rgb(255 200 90 / 0.6) 0 1.5px, transparent 2.4px) 120px 30px / 307px 283px;
+  animation: sv-rise 90s linear infinite;
+  mix-blend-mode: screen;
+}
+.sv-dust--far {
+  opacity: 0.3;
+  filter: blur(1px);
+  background-size: 113px 149px, 197px 131px, 251px 223px;
+  animation-duration: 160s;
+}
+@keyframes sv-rise {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-40px, -20%, 0);
+  }
+}
+.sv-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 21;
+  pointer-events: none;
+  opacity: 0.35;
+  background: repeating-linear-gradient(180deg, rgb(255 255 255 / 0.025) 0 1px, transparent 1px 3px);
+}
+
+/* ---------- Type ---------- */
+.sv-kick {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffc63e;
+  text-shadow: 0 0 12px rgb(255 198 62 / 0.45);
+}
+.sv-title {
+  margin: 6px 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(54px, 6.4vw, 124px);
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #f5f2e8;
+  text-shadow: 0 4px 0 rgb(0 0 0 / 0.5), 0 0 40px rgb(0 0 0 / 0.6);
+}
+.sv-sub {
+  margin: 14px 0 0;
+  font-size: clamp(16px, 1.3vw, 22px);
+  color: rgb(245 242 232 / 0.82);
+}
+.sv-sub--dim {
+  margin-top: 4px;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(245 242 232 / 0.5);
+}
+.sv-nick {
+  margin: 8px 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(22px, 2vw, 34px);
+  color: #ffd86b;
+}
+.sv-cap {
+  margin: 0;
+  font-size: clamp(16px, 1.3vw, 22px);
+  color: rgb(245 242 232 / 0.8);
+  text-shadow: 0 2px 10px rgb(0 0 0 / 0.8);
+}
+.sv-cap b {
+  color: #ffc63e;
+  font-family: var(--font-display);
+  font-size: 1.25em;
+}
+/* text arrives a beat after the scene, line by line */
+.sv-slide--in :is(.sv-kick, .sv-title, .sv-sub, .sv-nick, .sv-cap) {
+  animation: sv-rise-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.sv-slide--in .sv-kick {
+  animation-delay: 0.5s;
+}
+.sv-slide--in .sv-title {
+  animation-delay: 0.7s;
+}
+.sv-slide--in .sv-nick {
+  animation-delay: 0.9s;
+}
+.sv-slide--in :is(.sv-sub, .sv-cap) {
+  animation-delay: 1.05s;
+}
+@keyframes sv-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+    filter: blur(4px);
+  }
+}
+
+/* ---------- The night stadium ---------- */
+.sv-stadium {
+  --sv-1: #1b2a6b;
+  --sv-2: #ffc63e;
+  --sv-row: clamp(66px, 9vh, 132px);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.sv-stadium > span {
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  pointer-events: none;
+}
+.sv-stadium__sky {
+  inset: -4%;
+  background:
+    radial-gradient(circle at 18% 12%, rgb(255 255 255 / 0.55) 0 1px, transparent 1.6px) 0 0 / 71px 53px,
+    radial-gradient(circle at 70% 40%, rgb(255 255 255 / 0.35) 0 1px, transparent 1.6px) 0 0 / 113px 89px,
+    linear-gradient(180deg, #03050f 0%, #0b1433 48%, color-mix(in srgb, var(--sv-1) 30%, #141d45) 72%);
+}
+.sv-stadium__lights {
+  inset: 0;
+  z-index: 1;
+  background:
+    conic-gradient(from 150deg at 4% -8%, transparent, rgb(255 246 214 / 0.13) 9deg, transparent 20deg),
+    conic-gradient(from 188deg at 96% -8%, transparent, rgb(255 246 214 / 0.13) 9deg, transparent 20deg),
+    conic-gradient(from 168deg at 30% -12%, transparent, rgb(255 246 214 / 0.07) 6deg, transparent 12deg),
+    conic-gradient(from 180deg at 70% -12%, transparent, rgb(255 246 214 / 0.07) 6deg, transparent 12deg);
+  animation: sv-beams 11s ease-in-out infinite alternate;
+  transform-origin: 50% 0;
+}
+@keyframes sv-beams {
+  from {
+    opacity: 0.75;
+    transform: rotate(-0.8deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0.8deg);
+  }
+}
+.sv-stadium__turf {
+  bottom: 0;
+  height: 34%;
+  image-rendering: pixelated;
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.1) 0 2px, transparent 2px 96px),
+    repeating-linear-gradient(0deg, #2a7a37 0 36px, #24702f 36px 72px);
+}
+.sv-stadium__crowd {
+  bottom: 34%;
+  height: var(--sv-row);
+  image-rendering: pixelated;
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.45) 0 1.5px, transparent 2px) 0 0 / 14px 11px,
+    linear-gradient(180deg, #2b3460, #1c2448);
+}
+.sv-stadium__stands {
+  bottom: calc(34% + var(--sv-row));
+  height: var(--sv-row);
+  image-rendering: pixelated;
+  background: linear-gradient(180deg, #121a3c, #1e2a58);
+}
+.sv-stadium--art .sv-stadium__turf {
+  background: var(--sv-turf) center 30% / cover no-repeat;
+}
+.sv-stadium--art .sv-stadium__crowd {
+  background: var(--sv-crowd) center / auto 100% repeat-x;
+}
+.sv-stadium--art .sv-stadium__stands {
+  background: var(--sv-stands) center / auto 100% repeat-x;
+}
+/* the club's colour pooled on the field, darkness above for the type */
+.sv-stadium__wash {
+  inset: 0;
+  z-index: 2;
+  background:
+    radial-gradient(55% 40% at 50% 78%, color-mix(in srgb, var(--sv-1) 45%, transparent), transparent 70%),
+    linear-gradient(180deg, rgb(3 5 12 / 0.55), transparent 30%, transparent 70%, rgb(3 5 12 / 0.55));
+}
+/* the camera: a slow push in, a different way each scene */
+.sv-slide--in .sv-stadium > span:not(.sv-stadium__lights) {
+  animation: sv-push var(--sv-dur, 14s) ease-out both;
+}
+@keyframes sv-push {
+  from {
+    transform: scale(1.08) translateX(1.5%);
+  }
+  to {
+    transform: scale(1) translateX(0);
+  }
+}
+.sv-stadium > :not(span) {
+  position: relative;
+  z-index: 5;
+}
+
+/* ---------- Spotlight: a player's hero banner ---------- */
+.sv-spot {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 4vh 4vw 9vh;
+}
+.sv-spot__banner {
+  width: min(1240px, 84vw);
+  filter: drop-shadow(0 30px 60px rgb(0 0 0 / 0.65));
+}
+.sv-slide--in .sv-spot__banner {
+  animation:
+    sv-banner-in 1.4s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both,
+    sv-float 7s 1.6s ease-in-out infinite alternate;
+}
+@keyframes sv-banner-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+  }
+}
+@keyframes sv-float {
+  to {
+    transform: translateY(-8px);
+  }
+}
+.sv-spot__banner .ppb,
+.sv-spot__banner > * {
+  pointer-events: none;
+}
+
+/* ---------- Card: from the binder, under a spotlight ---------- */
+.sv-vault {
+  --cs-1: #ffc63e;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(45% 55% at 38% 55%, color-mix(in srgb, var(--cs-1) 30%, transparent), transparent 70%),
+    radial-gradient(70% 60% at 60% 100%, color-mix(in srgb, var(--cs-2, #ffc63e) 12%, transparent), transparent 70%),
+    linear-gradient(180deg, #05070f, #0a0f22 60%, #04050b);
+}
+.sv-vault__cone {
+  position: absolute;
+  left: 22%;
+  top: -10%;
+  width: 34%;
+  height: 100%;
+  background: linear-gradient(180deg, rgb(255 246 214 / 0.18), rgb(255 246 214 / 0.03) 80%, transparent);
+  clip-path: polygon(42% 0, 58% 0, 100% 100%, 0 100%);
+  filter: blur(6px);
+  animation: sv-beams 9s ease-in-out infinite alternate;
+}
+.sv-vault__row {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: clamp(48px, 7vw, 140px);
+  padding: 0 6vw;
+}
+.sv-vault__card {
+  width: clamp(300px, 26vw, 460px);
+  perspective: 1400px;
+}
+.sv-vault__card > * {
+  width: 100%;
+  max-width: none;
+}
+.sv-slide--in .sv-vault__card > * {
+  animation:
+    sv-card-in 1.6s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both,
+    sv-turn 9s 1.8s ease-in-out infinite alternate;
+  transform-style: preserve-3d;
+}
+@keyframes sv-card-in {
+  from {
+    opacity: 0;
+    transform: rotateY(-70deg) translateY(30px);
+  }
+}
+@keyframes sv-turn {
+  from {
+    transform: rotateY(-12deg) rotateX(3deg) translateY(0);
+  }
+  to {
+    transform: rotateY(12deg) rotateX(-2deg) translateY(-10px);
+  }
+}
+.sv-vault__text {
+  max-width: 40vw;
+}
+.sv-vault__floor {
+  position: absolute;
+  left: 18%;
+  right: 42%;
+  bottom: 12%;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--cs-1) 45%, transparent), transparent);
+  filter: blur(10px);
+  opacity: 0.7;
+}
+
+/* ---------- Line-up: a club's all-time greats on its turf ---------- */
+.sv-line {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9vh 3vw 7vh;
+}
+.sv-line__head {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 18px 34px 22px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgb(4 6 15 / 0.82), rgb(4 6 15 / 0.6));
+  box-shadow:
+    0 0 0 3px #2c3350,
+    0 0 0 5px #ffc63e,
+    0 0 0 8px #11152a,
+    0 24px 50px rgb(0 0 0 / 0.6),
+    0 0 80px rgb(255 198 62 / 0.15);
+}
+.sv-line__head .sv-title {
+  font-size: clamp(44px, 4.6vw, 88px);
+}
+.sv-line__row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(8px, 2.4vw, 48px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sv-line__man {
+  --cs-1: #ffc63e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.sv-slide--in .sv-line__man {
+  animation: sv-step 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 140ms + 600ms);
+}
+@keyframes sv-step {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+}
+.sv-line__name {
+  padding: 3px 14px;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(18px, 1.6vw, 28px);
+  text-transform: uppercase;
+  background: rgb(0 0 0 / 0.55);
+  box-shadow: inset 4px 0 0 var(--cs-1);
+}
+.sv-line__man--best .sv-line__name {
+  background: #ffc63e;
+  color: #0b1020;
+}
+.sv-line__cl {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  color: rgb(245 242 232 / 0.7);
+  text-shadow: 0 1px 4px #000;
+}
+
+/* ---------- A figure on the turf: the game sprite blown up by whole pixels ---------- */
+.sv-fig {
+  --sv-scale: 1;
+  position: relative;
+  display: block;
+  width: calc(150px * var(--sv-scale));
+  height: calc(192px * var(--sv-scale));
+}
+.sv-fig__shadow {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: calc(6px * var(--sv-scale));
+  height: calc(18px * var(--sv-scale));
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.6), transparent);
+}
+.sv-fig__sprite {
+  position: absolute !important;
+  left: 50%;
+  bottom: 0;
+  translate: -50% 0;
+  scale: var(--sv-scale);
+  transform-origin: 50% 100%;
+  image-rendering: pixelated;
+}
+.sv-fig__logo {
+  position: absolute;
+  inset: 12% 8% 16%;
+  display: grid;
+  place-items: center;
+}
+
+/* ---------- Hall of Famer: a lit hall, a pedestal, a plaque ---------- */
+.sv-hall {
+  --cs-1: #ffc63e;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  align-items: center;
+  gap: 4vw;
+  padding: 0 7vw;
+  background:
+    radial-gradient(40% 50% at 30% 30%, rgb(255 214 120 / 0.16), transparent 70%),
+    linear-gradient(180deg, #07060a, #120e08 55%, #050407);
+}
+.sv-hall__columns {
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
+  background:
+    linear-gradient(180deg, rgb(0 0 0 / 0.0), rgb(0 0 0 / 0.75) 85%),
+    repeating-linear-gradient(90deg, transparent 0 7vw, rgb(255 226 160 / 0.05) 7vw 8vw, rgb(0 0 0 / 0.25) 8vw 9vw, transparent 9vw 16vw);
+}
+.sv-hall__glow {
+  position: absolute;
+  left: 8%;
+  width: 40%;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgb(255 224 150 / 0.22), transparent 75%);
+  clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%);
+  filter: blur(8px);
+  animation: sv-beams 10s ease-in-out infinite alternate;
+}
+.sv-hall__stage {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-self: center;
+}
+.sv-hall__pedestal {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(260px, 22vw, 380px);
+  height: 64px;
+  margin-top: -26px;
+  border-radius: 50%;
+  background: radial-gradient(70% 60% at 50% 35%, #3a2c12, #120d05);
+  box-shadow:
+    inset 0 0 0 4px #c99a2e,
+    inset 0 -10px 18px rgb(0 0 0 / 0.6),
+    0 20px 40px rgb(0 0 0 / 0.7),
+    0 0 60px rgb(255 198 62 / 0.2);
+}
+.sv-hall__plaque {
+  position: relative;
+  z-index: 2;
+  padding: 34px 40px 38px;
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgb(40 30 12 / 0.85), rgb(12 9 4 / 0.9));
+  box-shadow:
+    inset 0 0 0 2px #c99a2e,
+    inset 0 0 0 8px rgb(0 0 0 / 0.35),
+    inset 0 0 0 9px rgb(201 154 46 / 0.4),
+    0 30px 60px rgb(0 0 0 / 0.6);
+}
+.sv-slide--in .sv-hall__stage {
+  animation: sv-banner-in 1.6s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.sv-slide--in .sv-hall__plaque {
+  animation: sv-rise-in 1.4s 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.sv-hall .sv-title {
+  background: linear-gradient(180deg, #fff3c4, #ffc63e 55%, #b07a12);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 4px 0 rgb(0 0 0 / 0.5));
+}
+
+/* ---------- Rafters: a club's retired numbers ---------- */
+.sv-rafters {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(70% 60% at 50% 30%, #121a38, #04060d 75%);
+}
+.sv-rafters__frame {
+  width: min(1400px, 88vw);
+  max-height: 84vh;
+}
+/* the how-to note is for the site, not the show */
+.sv-rafters .rafters__note {
+  display: none;
+}
+.sv-slide--in .sv-rafters__frame {
+  animation: sv-banner-in 1.6s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ---------- Chrome: the wordmark, the clock, the scene's progress (drifting, so nothing burns in) ---------- */
+.sv-chrome {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 25;
+  height: 90px;
+  pointer-events: none;
+}
+.sv-brand,
+.sv-clock {
+  position: absolute;
+  bottom: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.6;
+  animation: sv-drift 420s ease-in-out infinite alternate;
+}
+.sv-brand {
+  left: 40px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 22px;
+  text-transform: uppercase;
+}
+.sv-brand b {
+  color: #ffc63e;
+}
+.sv-clock {
+  right: 44px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 34px;
+  font-variant-numeric: tabular-nums;
+  animation-direction: alternate-reverse;
+  animation-duration: 530s;
+}
+@keyframes sv-drift {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(22px, -14px);
+  }
+  100% {
+    transform: translate(-10px, -26px);
+  }
+}
+.sv-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ffc63e 30%, #ffc63e 70%, transparent);
+  opacity: 0.35;
+  transform-origin: 0 50%;
+  animation: sv-bar var(--sv-dur, 14s) linear both;
+}
+@keyframes sv-bar {
+  from {
+    transform: scaleX(0);
+  }
+}
+.sv-hint {
+  position: absolute;
+  left: 50%;
+  top: 32px;
+  z-index: 26;
+  translate: -50% 0;
+  margin: 0;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(245 242 232 / 0.85);
+  background: rgb(0 0 0 / 0.55);
+  box-shadow: inset 0 0 0 1px rgb(255 198 62 / 0.3);
+  transition: opacity 1.2s ease;
+}
+.sv-hint--gone {
+  opacity: 0;
+}
+.sv-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  animation: sv-float 4s ease-in-out infinite alternate;
+}
+
+/* lite mode: no dust or grain */
+.sv--lite :is(.sv-dust, .sv-grain) {
+  display: none;
+}
+/* reduced motion: still scenes, crossfades only */
+@media (prefers-reduced-motion: reduce) {
+  .sv :is(.sv-dust, .sv-stadium__lights, .sv-vault__cone, .sv-hall__glow, .sv-brand, .sv-clock, .sv-empty),
+  .sv .sv-slide--in *,
+  .sv .sv-slide--in .sv-stadium > span {
+    animation: none !important;
+  }
+}

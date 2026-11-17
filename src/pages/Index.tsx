@@ -13,6 +13,7 @@ import TributeHost from '@/components/tribute/TributeHost';
 import RivalryHost from '@/components/rivalry/RivalryHost';
 import { onRaftersRequest } from '@/utils/raftersLink';
 import QuickPlayerSearch from '@/components/QuickPlayerSearch';
+import ScreensaverHost from '@/components/screensaver/ScreensaverHost';
 import PlayerPeekLayer from '@/components/peek/PlayerPeek';
 import { LeagueProvider } from '@/context/LeagueContext';
 import { onCompFinderRequest, onHeadToHeadRequest } from '@/components/stats/comps/compFinderLink';
@@ -132,6 +133,7 @@ const IndexContent = () => {
         <RivalryHost onTimeline={() => navigate({ tab: 'timeline' })} />
         <QuickPlayerSearch />
         <PlayerPeekLayer />
+        <ScreensaverHost />
         <CardUnlockToasts />
         <LegendExchange />
         <footer className="mt-12 border-t border-line/70 bg-night">

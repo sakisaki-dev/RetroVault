@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Gauge, Search } from 'lucide-react';
+import ScreensaverButton from './screensaver/ScreensaverButton';
 import { setPerfSetting, suggestLite, usePerfMode, type PerfSetting } from '@/hooks/usePerfMode';
 import { cn } from '@/lib/utils';
 import { openQuickSearch } from '@/components/QuickPlayerSearch';
@@ -46,8 +47,8 @@ const PerfToggle = () => {
       )}
     >
       <Gauge className="h-4 w-4" aria-hidden="true" />
-      <span className="hidden min-[1440px]:inline">{lite ? 'Lite' : 'Full'}</span>
-      {setting === 'auto' && <span className="hidden font-mono text-[10px] min-[1440px]:inline">auto</span>}
+      <span className="hidden min-[1600px]:inline">{lite ? 'Lite' : 'Full'}</span>
+      {setting === 'auto' && <span className="hidden font-mono text-[10px] min-[1600px]:inline">auto</span>}
     </button>
   );
 };
@@ -221,8 +222,8 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
             className="ml-auto inline-flex shrink-0 items-center gap-2 rounded-md border border-line bg-night/60 px-2.5 py-1.5 text-sm max-sm:h-11 max-sm:w-11 max-sm:justify-center max-sm:px-0 text-muted-foreground transition-colors hover:border-gold/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold lg:ml-0"
           >
             <Search className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden min-[1440px]:inline">Player</span>
-            <kbd className="hidden rounded border border-line px-1 font-mono text-[10px] sm:inline lg:hidden min-[1440px]:inline">⌘K</kbd>
+            <span className="hidden min-[1600px]:inline">Player</span>
+            <kbd className="hidden rounded border border-line px-1 font-mono text-[10px] sm:inline lg:hidden min-[1600px]:inline">⌘K</kbd>
           </button>
 
           {/* Phones: in the bottom bar's More sheet */}
@@ -235,6 +236,8 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
               Season <b>{board.season}</b>
             </span>
           )}
+
+          <ScreensaverButton />
         </div>
 
         {/* Tablet nav: horizontal scroll (phones use the bottom tab bar, BottomNav) */}
