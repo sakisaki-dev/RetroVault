@@ -620,8 +620,9 @@ source names that file).
   club chips to walk every club. **The player card's badge** (CardBanner.dc.html, `src/components/teams/RetiredBadge.tsx`):
   a retired player's hero gets a small banner per club that hangs his number (at most 3; three slim down), hanging on long wires from the
   top edge (RETIRED, the number, the club's abbreviation, club colours; it replaces the hero's "Number retired by" tag),
-  and the identity strip gets a club-colour strip, "#N retired by the <Club>" (one strip for one club or several: "#N retired" / "#N
-  retired by 3 clubs" with a chip per club and ★ for its Ring of Honor) with the other numbers in those rafters and
+  and the identity strip gets a club-colour strip, "#N retired by the <Club>" (a slice of the rafters, `raf-cere`: a steel truss, the number in gold
+  with the clubs named, and a banner per club hanging on wires in its colours with a ★ for its Ring of Honor; owner: the
+  chip strip "looks a bit boring for what it represents") with the other numbers in those rafters and
   Ring of Honor. Either opens that club's rafters: `openRafters(clubId)` (`src/utils/raftersLink.ts`) closes the card,
   pages/Index.tsx switches to the Hall of Fame tab and the Rafters section picks the club and scrolls to itself. Never on
   Collection card faces (cards are timeless).
