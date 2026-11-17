@@ -548,7 +548,7 @@ source names that file).
   the coach's club with a higher-ranked star QB (a second pass; the rings can still force it, Wayne Wilson and Aubrey
   Jewell on the Y40 Chargers). Players the save has dropped (long retired, about 190) keep the ring-arithmetic
   solution. Refresh the clocks after each season-complete import (the save drops more retirees each year, so a later
-  bundle would hold fewer players, so `--careers` merges the stored clocks with the new save's, the new save winning).
+  bundle would hold fewer players, so `--careers` merges the stored clocks with the new save's: the newer save wins field by field, except `ages` (every age a save recorded, by season) and `born` (the earliest any save implies), because the game sometimes holds a veteran's age for a season (31 players between the Y95 and Y97 saves). Stories cite a past season's age as `save_careers.json age Y95 <POS:Name>`: the age a save recorded that season, else the nearest saves; never `save_state.json` for a past season, which goes stale. A season the save moved past before it was pulled (Y96) keeps its careers, Super Bowl, coach row and records, but loses its weekly games for good).
 - **Save over transcriptions** (owner, 2026-11-13: "take the save data over the ones i have"): where the save and
   Retro Vault disagree for completed seasons, the save wins. `data/uploads/2026-11-13-save-reconcile/` set the 19
   mismatched (all retired) players' full career lines and awards to the save's `sta_c`, using the existing
