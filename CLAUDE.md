@@ -583,7 +583,13 @@ source names that file).
   takes the best years after they retire since that's what's best known." **Active** players always wear their
   current team (overriding the stint rule and any owner `signature_team` fact, which stays stored and takes effect
   once he retires). **Free agents** (owner: "free agent"): `fact.set players/<name>/team "FA"` with status `Active`; the league sheet leaves the club blank (the site's "Free agents" fallback), the banner follows the retired rule (where he was best known), and the audit accepts both. **Retired** players: owner fact `players/<name>/signature_team`, else the card's `legacy_team`,
-  else the stint with the most rings, then most seasons, then earliest; no stints = current team. Stats, rosters,
+  else the club where he is **best known by what he did there** (`club_points` in `build_league_data.py`; owner,
+  2026-11-17: "there needs to be an algorithm for this to determine where he's colored", keeping the 17 hand-set clubs
+  as overrides and dropping Maxwell's): 1 a season, 2 a ring, MVP 4 / OPOY or DPOY 3 / Super Bowl MVP 2 / Rookie of the
+  Year 1 won while there (career counts rising between consecutive season-end market snapshots, so from the first
+  snapshot season on), 1 per record-board mark set there; ties by rings, seasons, the later club. `npm run rebuild` reruns
+  `build_league_data.py --extras` after the market snapshot so a just-added season counts at once. A `retired_by` list
+  leads with that club (it numbers him). No stints = current team. Stats, rosters,
   filters, jersey numbers and market keys keep the current team (`signatureTeamOf` / `withSignatureTeam` in
   `src/utils/playerExtras.ts`); every player also carries it as `bannerTeam` from the league load (`bannerTeamOf`), which
   search, the games, logos and colours read (owner: "change this to be a constant state since we use that regularly"); the player card's "Latest club" line shows for retired players only. Audit errors
