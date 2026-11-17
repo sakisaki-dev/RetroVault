@@ -43,7 +43,7 @@ legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `s
 player's card numbers and career totals at every season end, for the Deep Dive's career graphs) →
 `hall_of_fame.py` → `save_state.py` (`public/data/league/save_state.json`) → `build_league_content.py`
 (`public/data/league/content.json`) → `build_widget_data.py` (`public/data/widget.json`) → `build_app_icons.py --splash`
-(the launch screens' all-time greats) → `audit.ts`. It is
+(the launch screens' line-up) → `audit.ts`. It is
 deterministic: two runs give byte-identical output.
 
 ## Updating: the upload pipeline (the usual phone request)
@@ -1015,21 +1015,29 @@ pictures".
   bands on a 24-cell design (`icon_design`): a golden-hour sky with the sun on the horizon, navy stands dotted with gold,
   the red wall, a chalk sideline and the grass; every size at a whole number of pixels a cell with the bleed cropped,
   the maskable ones on 32 cells (the ball inside the 80% circle), favicon-32 the 32-cell design at one pixel a cell.
-  **Launch screens** (owner: "use the stadium as the background I did like that but saying 'all time great' the pixel
-  fonts etc etc don't seem professional", with the game's own title screen as the model): a game title screen, no small
-  labels. A golden-hour sky with pixel clouds and the sun low in the bowl; the game's crowd (`private-sprites/field/
-  crowd.png`) in royal navy with gold and white, tiers and rails bent into a bowl; the football on a red plinth; a
-  bevelled **RETRO / VAULT** wordmark in our own block letters (`LETTERS`, `wordmark`: chrome RETRO, gold VAULT, a dark
-  outline closed into one sign per line, a red drop edge); the **all-time greats by rule** across the field (`Greats`:
-  the best Hall of Famer at each position by Hall of Fame Score, then Career Legacy, from `halloffame.json`, the best of
-  those first, then the next best to fill the line, 11 in all), each in his banner club's kit (`signatureTeams`) through
-  the site's sprite rules (`widget_sprites.site_rules` / `figure`), six across the back and five in the gaps in front,
-  the greatest in the middle celebrating; and nearest the camera the head coach seen from behind (`from_behind`: his own
-  sprite in his current club's polo, `coach.json` `currentStint`, turned around: the back of his head in his own hair
-  and skin colours, the polo's collar closed), cut at the waist by the bottom edge.
+  **Launch screens** (owner: "something super similar to the retrobowl splash screen", then "#3 for the sunset is
+  great"): a game title screen after the game's own, no small labels. A sunset sky (violet to pink to gold) with pixel
+  clouds and a big sun over the bowl; banded stands (pink, orange-gold, blue) dotted with crowd, gold decks with club
+  banners hanging from them; the football on a pink plinth; confetti and streamers; a varsity **RETRO** arched over
+  **VAULT** in our own rounded block caps (`ROUND`, `varsity_wordmark`), RETRO blue and VAULT gold with an inner and an
+  outer line and a shadow (`CONCEPTS`: `gradient` the default, `sky`, `royal`; `--concept`); a painted end zone in the
+  foreground (plum with diagonal hatching, the goal line, orange pylons; no words); and nearest the camera Skura seen
+  from behind in his current club's cap (`from_behind_cap`), cut at the chest. **The line-up is "my guys"** (owner: "make
+  the players on the screen the best in their position that i've played with"; `my_guys`): every league player with a
+  career stint (`stints.json`) on a club in a season Skura coached it (`coach.json` seasons, `currentStint` through the
+  season in progress), ranked by the site's Career Legacy; the best at each position (QB RB WR TE OL LB DB DL), then the
+  next best to 11, the best in the middle of the front row, five in front and six in the gaps behind, long sunset
+  shadows toward the camera. Each wears the kit of the club he played for under Skura (most seasons together, then the
+  latest) through the site's sprite rules (`widget_sprites.site_rules` / `figure`), in the game's own poses only
+  (`ROLE_POSES`: QB spinning the ball, RB ball at his side, WR arm raised, TE ball at his side, everyone else standing;
+  never edited pixels), mirrored to face in. His number is the one on his player card: `scripts/splash_jerseys.ts`
+  loads the league as the site does and runs `withHomeClubs` + `buildJerseyIndexWithAlso`; it is drawn the way the
+  game's title screen draws numbers (`NUM_GLYPHS`: one-pixel strokes, 3 × 6, mid-chest, the kit's number colour, the
+  top row shaded; only over the jersey, so a ball or arm stays in front). `--splash` prints every pick with the clubs
+  and seasons that qualified him. `--preview <dir>` writes each concept at 1179 × 2556 and 750 × 1334 outside `public/`.
   About 300 art pixels across (`int(w / 300 + 0.5)` device pixels each); the wordmark and the sun stay clear of the status
-  bar and home indicator (`safe_rows`). It reads the Hall of Fame, so `npm run rebuild` runs `build_app_icons.py
-  --splash` after the widget feed and the launch screens follow new Hall of Famers (commit them with the update). It writes
+  bar and home indicator (`safe_rows`). It reads the stints, the coach's seasons and the league, so `npm run rebuild` runs `build_app_icons.py
+  --splash` after the widget feed and the launch screens follow the data (commit them with the update). It writes
   `public/apple-touch-icon.png`, `icon-192/512.png`, `icon-maskable-192/512.png`, the favicons and the portrait launch
   screens `public/splash/launch-<w>x<h>.png` for the current iPhone sizes (`SPLASH`); `--icons` / `--splash` build one
   half, `--links` prints the `apple-touch-startup-image` tags that sit in `index.html`. A new iPhone size: add it to
