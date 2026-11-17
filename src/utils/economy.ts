@@ -61,7 +61,7 @@ import {
  *    finish, art, kit and parallel odds (Legendary is the top).
  * 5. BOUNTIES: 3 or 4 requests per edition, picked from the edition seed (never Math.random); turning a matching copy
  *    in pays its flat reward plus BOUNTY_PRICE_SHARE of the copy's price, once per bounty per edition.
- * 6. MILESTONES: portfolio value crossing MILESTONES unlocks cosmetics (binder skins, pack-opening themes) for good.
+ * 6. MILESTONES: portfolio value crossing MILESTONES unlocks cosmetics (binder skins, card back finishes) for good.
  */
 
 // ---------- Constants ----------
@@ -524,7 +524,7 @@ export const turnInBounty = (seed: number, bounty: Bounty, item: PricedRef): num
 
 // ---------- Portfolio milestones and cosmetics ----------
 
-export type CosmeticKind = 'binder' | 'pack';
+export type CosmeticKind = 'binder' | 'back';
 export interface Cosmetic {
   id: string;
   kind: CosmeticKind;
@@ -545,9 +545,10 @@ export interface Milestone {
  */
 export const MILESTONES: Milestone[] = [
   { id: 'm-250k', at: 50_000, cosmetic: { id: 'turf', kind: 'binder', label: 'Turf binder', blurb: 'Mown stripes and chalk yard lines behind your binder.' } },
-  { id: 'm-1m', at: 250_000, cosmetic: { id: 'floodlights', kind: 'pack', label: 'Floodlights packs', blurb: 'Packs open under stadium light towers.' } },
+  // owner, 2026-11-17: the pack-opening themes barely showed in the tunnel; these two ids now unlock card back finishes
+  { id: 'm-1m', at: 250_000, cosmetic: { id: 'gold', kind: 'back', label: 'Gold refractor backs', blurb: 'Every face-down card in gold chrome, in packs and the walkout.' } },
   { id: 'm-3m', at: 1_000_000, cosmetic: { id: 'gold-leaf', kind: 'binder', label: 'Gold leaf binder', blurb: 'Deep navy leather with gilded edges.' } },
-  { id: 'm-10m', at: 4_000_000, cosmetic: { id: 'gold-rush', kind: 'pack', label: 'Gold rush packs', blurb: 'Packs open in a shower of gold foil.' } },
+  { id: 'm-10m', at: 4_000_000, cosmetic: { id: 'black', kind: 'back', label: 'Black chrome backs', blurb: 'Gunmetal chrome with a gold rim and a gold RV on every face-down card.' } },
   { id: 'm-30m', at: 12_000_000, cosmetic: { id: 'marble', kind: 'binder', label: 'Hall of Fame marble', blurb: 'White marble and brass, like the Hall itself.' } },
 ];
 
@@ -569,7 +570,7 @@ export const setCosmetic = (kind: CosmeticKind, id: string | null): boolean => {
   if (id) cosmetics[kind] = id;
   else delete cosmetics[kind];
   const next: CollectionState = { ...s };
-  if (cosmetics.binder || cosmetics.pack) next.cosmetics = cosmetics;
+  if (cosmetics.binder || cosmetics.back) next.cosmetics = cosmetics;
   else delete next.cosmetics;
   commitCollection(next);
   return true;

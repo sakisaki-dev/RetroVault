@@ -496,7 +496,7 @@ export interface CollectionState {
   /** Portfolio milestone ids reached (economy.ts MILESTONES); once unlocked, always unlocked */
   unlocks?: string[];
   /** Cosmetics switched on (ids from unlocked milestones); missing = the classic look */
-  cosmetics?: { binder?: string; pack?: string };
+  cosmetics?: { binder?: string; back?: string };
 }
 
 /** One coin movement: amount (+ earned, − spent) and what it was for. */
@@ -741,12 +741,13 @@ const parse = (raw: string | null): CollectionState | null => {
     if (b && typeof b === 'object' && typeof b.seed === 'number' && Number.isFinite(b.seed)) s.bounties = { seed: b.seed, done: strs(b.done) };
     const unlocks = strs(d.unlocks);
     if (unlocks.length) s.unlocks = unlocks;
-    const cos = d.cosmetics as { binder?: unknown; pack?: unknown } | undefined;
+    const cos = d.cosmetics as { binder?: unknown; back?: unknown } | undefined;
     if (cos && typeof cos === 'object') {
       const c: NonNullable<CollectionState['cosmetics']> = {};
       if (typeof cos.binder === 'string' && KIT_RE.test(cos.binder)) c.binder = cos.binder;
-      if (typeof cos.pack === 'string' && KIT_RE.test(cos.pack)) c.pack = cos.pack;
-      if (c.binder || c.pack) s.cosmetics = c;
+      // the old pack-opening themes (pack) are gone: their milestones unlock card back finishes now (back)
+      if (typeof cos.back === 'string' && KIT_RE.test(cos.back)) c.back = cos.back;
+      if (c.binder || c.back) s.cosmetics = c;
     }
     return s;
   } catch {

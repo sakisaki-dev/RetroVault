@@ -967,11 +967,12 @@ source names that file).
   riser, a Prizm parallel (or Blue or rarer), an art of a position, an alternate or throwback kit, a Rare/Epic-or-better
   player at Gold/Silver or better, an Epic or Legendary at a position; a turned-in copy pays the flat reward plus
   `BOUNTY_PRICE_SHARE` 0.4 of its price (the same as selling, so the flat reward is the premium), once per bounty per edition (`bounties.seed` resets the board on an update).
-  **Milestones** (`MILESTONES`, portfolio value as the Portfolio panel counts it): 50K Turf binder, 250K Floodlights
-  packs, 1M Gold leaf binder, 4M Gold rush packs, 12M Hall of Fame marble (every player's card once at Base is worth
-  about 1M, every art at Base about 13M); `checkMilestones` records them for good, and an unlocked skin or pack theme
-  is switched on in the Milestones tab (`setCosmetic`; `ec-skin--<id>` on the binder, `pk-theme--<id>` on the pack
-  dialog). **Balance pass** (2026-11-13, a year of simulated play for casual, regular and grinder profiles): trade-up was
+  **Milestones** (`MILESTONES`, portfolio value as the Portfolio panel counts it): 50K Turf binder, 250K Gold refractor
+  card backs, 1M Gold leaf binder, 4M Black chrome card backs, 12M Hall of Fame marble (every player's card once at Base is
+  worth about 1M, every art at Base about 13M; owner, 2026-11-17: the old 250K and 4M pack-opening themes barely showed
+  in the tunnel, so the same milestone ids now unlock card back finishes, kind `back`, drawn by `CardBackArt`
+  `pk-back--gold` / `pk-back--black`); `checkMilestones` records them for good, and an unlocked skin or card back is
+  switched on in the Milestones tab (`setCosmetic`; `ec-skin--<id>` on the binder's cover). **Balance pass** (2026-11-13, a year of simulated play for casual, regular and grinder profiles): trade-up was
   5 for 1 (a trade-up then a sale paid 2 to 5 times selling the inputs), sets paid 0.5 (1.96M in all, about half a
   regular player's coins), bounties 0.75 and milestones 250K to 30M (the top two out of reach in a year); now 8, 0.15,
   0.4 and 50K to 12M. Packs were already a sink (37–40% back). The Exchange section (Shop, Sets, Trade-up, Bounties, Milestones tabs, recent coins) sits under the Market;

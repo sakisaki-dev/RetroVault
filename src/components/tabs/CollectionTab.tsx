@@ -687,7 +687,6 @@ const CollectionTab = () => {
         total={cards.length}
         remaining={opening ? packCount(state, opening) : 0}
         provenance={state.perfect[0]?.label}
-        theme={activeCosmetic(state, 'pack')}
       />
       <SellDuplicates open={sellingDupes} onClose={() => setSellingDupes(false)} byKey={byKey} state={state} />
       <PackOpening

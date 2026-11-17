@@ -10,17 +10,17 @@ interface MilestonesProps {
   value: number | null;
 }
 
-const KIND_LABEL: Record<CosmeticKind, string> = { binder: 'Binder skin', pack: 'Pack opening' };
+const KIND_LABEL: Record<CosmeticKind, string> = { binder: 'Binder skin', back: 'Card backs' };
 const short = (n: number) => (n >= 1_000_000 ? `${n / 1_000_000}M` : `${n / 1000}K`);
 
 /**
  * Portfolio milestones: the collection's market value crossing each line unlocks a cosmetic for good (it stays
- * unlocked if the value later drops). Unlocked ones can be switched on, one binder skin and one pack theme at a time.
+ * unlocked if the value later drops). Unlocked ones can be switched on, one binder skin and one card back finish at a time.
  */
 const Milestones = ({ state, value }: MilestonesProps) => {
   const unlocked = new Set(state.unlocks ?? []);
   const next = MILESTONES.find((m) => !unlocked.has(m.id));
-  const active = { binder: activeCosmetic(state, 'binder'), pack: activeCosmetic(state, 'pack') };
+  const active = { binder: activeCosmetic(state, 'binder'), back: activeCosmetic(state, 'back') };
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-end justify-between gap-2">
