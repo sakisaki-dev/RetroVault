@@ -7,6 +7,7 @@ import { sfx } from '@/utils/sfx';
 import { useCurrentClub } from '@/utils/club';
 import { PACKS, PACK_SHARDS, beginReveal, endReveal, finishLabel, finishRank, prizmInfo, prizmSerial, prizmStamp, tierLabel, tierRank, variantLabel, type Finish, type PackCard, type PackType, type Tier } from '@/utils/collection';
 import CollectibleCard from './CollectibleCard';
+import CardBackArt from './CardBackArt';
 import Walkout from './Walkout';
 import { bestLast, needsWalkout, skipStep, walkoutBeats, type WkBeat } from './walkoutBeats';
 import type { CardInfo } from './useCardPool';
@@ -878,9 +879,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                             aria-hidden={shown}
                             aria-label={`Flip card ${i + 1} of ${pack.length}${next ? ' (next)' : ''}`}
                           >
-                            <span className="pk-back__shape">
-                              <span className="pk-back__logo">{t === 'perfect' ? '18–0' : 'RV'}</span>
-                            </span>
+                            <CardBackArt mark={t === 'perfect' ? '18–0' : 'RV'} />
                           </button>
                         </div>
                       </div>

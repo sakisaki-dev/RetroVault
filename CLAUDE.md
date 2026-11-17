@@ -923,6 +923,11 @@ source names that file).
   swipeable strip. Any player can be claimed (owner: "shouldn't we be able to trade for anybody"), priced by tier
   (`CLAIM_COST` Common 150, Rare 300, Epic 600, Legendary 1,000): tier chips (Legendary first) and a name search fill the
   strip, best OVR first, 60 at most. The binder's locked pockets stay anonymous (no claim from there).
+- **Card back** (the face-down side in packs and the walkout; owner picked design 4 of the card-back canvas, 2026-11-17):
+  `CardBackArt.tsx`, white chrome refractor (etched diamond texture, a rainbow sweep, `--pk-chrome`), RETRO VAULT top
+  and bottom, a navy diamond with a holographic RV ("18–0" for a Perfect Season pack). The rim is an SVG stroke of the
+  shield clipped to itself (a clip-path cuts an inset box-shadow at the corners), silver, gold on the next card to flip.
+  Identical for every card, so nothing shows a rarity before the flip; the tunnel lays its light over `--pk-chrome`.
 - **Collection economy** (owner approved all six parts; `src/utils/economy.ts` rules and writes, UI in
   `src/components/collection/economy/`): coins become the trading currency; shards stay exactly as they were (claims and
   finish upgrades). `CollectionState` gains `coins` (older saves load with 0), `coinLog` (newest first, 40 kept),

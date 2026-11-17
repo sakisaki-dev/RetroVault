@@ -7,6 +7,7 @@ import { findNFLTeam } from '@/utils/nflTeams';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import { prizmInfo, prizmSerial, prizmStamp, tierLabel, variantLabel, type PackCard } from '@/utils/collection';
 import CollectibleCard, { PlayerJersey } from './CollectibleCard';
+import CardBackArt from './CardBackArt';
 import type { CardInfo } from './useCardPool';
 import { AUTO_WRITE_DELAY_MS, AUTO_WRITE_MS, isPrizmChase, type WkBeat, type WkStage } from './walkoutBeats';
 import { homeUniform, kitStamp, kitUniform } from './art/sprite/uniforms';
@@ -374,9 +375,7 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
                   {twisted && <span className="wk__prism-sweep" aria-hidden="true" />}
                 </div>
                 <div className="wk__face wk__face--back" aria-hidden="true">
-                  <span className="pk-back__shape">
-                    <span className="pk-back__logo">RV</span>
-                  </span>
+                  <CardBackArt />
                 </div>
               </div>
             </div>
