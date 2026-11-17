@@ -215,6 +215,8 @@ SPLASH = [
 TEAMS_TS = ROOT / "src" / "utils" / "nflTeams.ts"
 COACH = ROOT / "data" / "y80" / "coach.json"
 STINTS = ROOT / "data" / "y80" / "stints.json"
+OWNER_FACTS = ROOT / "data" / "y80" / "owner_facts.json"
+EXTRAS = PUBLIC / "data" / "player-extras.json"
 LINEUP = 11
 POSITIONS = ("QB", "RB", "WR", "TE", "OL", "LB", "DB", "DL")
 FIG_FOOT = 58
@@ -702,10 +704,41 @@ def coached_seasons() -> dict[int, str]:
     return out
 
 
+def known_clubs() -> dict[str, set[str]]:
+    """Clubs the record vouches for, per player name: owner facts (team, team_history, retired_with, signature_team,
+    retired_by, career on / stints) and the screen rosters (season_rosters, active_rosters)."""
+    out: dict[str, set[str]] = {}
+    if not OWNER_FACTS.exists():
+        return out
+    o = json.loads(OWNER_FACTS.read_text())
+    for name, f in (o.get("players") or {}).items():
+        clubs = out.setdefault(name, set())
+        for k in ("team", "retired_with", "signature_team"):
+            if isinstance(f.get(k), str):
+                clubs.add(f[k])
+        for k in ("team_history", "retired_by"):
+            clubs.update(c for c in f.get(k) or [] if isinstance(c, str))
+        career = f.get("career") or {}
+        clubs.update(e[0] for e in career.get("on") or [] if isinstance(e, list) and e)
+        clubs.update(s.get("team") for s in career.get("stints") or [] if isinstance(s, dict) and s.get("team"))
+    for rosters in [*(o.get("season_rosters") or {}).values(), o.get("active_rosters") or {}]:
+        for club, names in rosters.items():
+            for n in names:
+                out.setdefault(n, set()).add(club)
+    return out
+
+
 def my_guys(site: dict[str, dict]) -> list[dict]:
-    """The line-up by rule: players with a stint on Skura's club in a season he coached it, best Career Legacy at each
-    position, then the next best to LINEUP; each with the club (kit) he played for under Skura."""
+    """The line-up by rule: players with a career stint on Skura's club in a season he coached it, best Career Legacy at
+    each position, then the next best to LINEUP. A stint counts as confirmed when its player's stint record isn't
+    "ambiguous" (the solver's guess) or the record vouches for that club (known_clubs); a player who qualifies only
+    through unconfirmed stints stays in but is flagged. The kit: his banner club (player-extras.json signatureTeams,
+    where he is best known) when he played for Skura there, else the club he played for under Skura with the most
+    seasons, confirmed stints first, then the latest."""
     stints = json.loads(STINTS.read_text())
+    extras = json.loads(EXTRAS.read_text()) if EXTRAS.exists() else {}
+    banners = {n: t.split()[-1] for n, t in (extras.get("signatureTeams") or {}).items() if isinstance(t, str)}
+    known = known_clubs()
     coached = coached_seasons()
     pool = []
     for key, info in site.items():
@@ -713,15 +746,27 @@ def my_guys(site: dict[str, dict]) -> list[dict]:
         rec = stints.get(name)
         if not rec:
             continue
+        sure_record = rec.get("confidence") != "ambiguous"
         together: dict[str, list[int]] = {}
+        sure: set[str] = set()
         for s in rec.get("stints", []):
             for y in range(int(s["from"]), int(s["to"]) + 1):
                 if coached.get(y) == s["team"]:
                     together.setdefault(s["team"], []).append(y)
-        if together:
-            club = max(sorted(together), key=lambda c: (len(together[c]), max(together[c])))
-            pool.append(dict(key=key, pos=pos, name=name, legacy=info["legacy"], number=info["number"], club=club,
-                             together={c: (min(v), max(v), len(v)) for c, v in sorted(together.items())}))
+                    if sure_record or s["team"] in known.get(name, set()):
+                        sure.add(s["team"])
+        if not together:
+            continue
+        banner = banners.get(name)
+        if banner in together:
+            club, why = banner, f"his banner club ({banner}), where he played for Skura"
+        else:
+            club = max(sorted(together), key=lambda c: (c in sure, len(together[c]), max(together[c])))
+            why = (f"banner club {banner or 'none'} not under Skura; most seasons with him"
+                   + (" (confirmed stints first)" if sure else ""))
+        pool.append(dict(key=key, pos=pos, name=name, legacy=info["legacy"], number=info["number"], club=club,
+                         why=why, unconfirmed=not sure,
+                         together={c: (min(v), max(v), len(v), c in sure) for c, v in sorted(together.items())}))
     pool.sort(key=lambda p: (-p["legacy"], p["key"]))
     picked = []
     for pos in POSITIONS:
@@ -787,9 +832,12 @@ class TitleCast:
     def describe(self) -> list[str]:
         out = []
         for i, p in enumerate(self.people):
-            spans = ", ".join(f"{c} Y{a}-Y{b} ({n})" for c, (a, b, n) in p["together"].items())
-            out.append(f"{p['key']} #{p['number']} in the {p['club']} kit ({p.get('file', 'no sprite')}, pose "
-                       f"{self.pose_for(i) if self.poses[i] else '-'}), Career Legacy {p['legacy']:,}; with Skura: {spans}")
+            spans = ", ".join(f"{c} Y{a}-Y{b} ({n}{'' if ok else ', unconfirmed'})"
+                              for c, (a, b, n, ok) in p["together"].items())
+            flag = "  [qualifies only through an unconfirmed (ambiguous) stint]" if p["unconfirmed"] else ""
+            out.append(f"{p['key']} #{p['number']} (his card number) in the {p['club']} kit: {p['why']} "
+                       f"({p.get('file', 'no sprite')}, pose {self.pose_for(i) if self.poses[i] else '-'}); Career "
+                       f"Legacy {p['legacy']:,}; with Skura: {spans}{flag}")
         return out
 
 

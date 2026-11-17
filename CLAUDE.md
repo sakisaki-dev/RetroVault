@@ -1027,8 +1027,11 @@ pictures".
   career stint (`stints.json`) on a club in a season Skura coached it (`coach.json` seasons, `currentStint` through the
   season in progress), ranked by the site's Career Legacy; the best at each position (QB RB WR TE OL LB DB DL), then the
   next best to 11, the best in the middle of the front row, five in front and six in the gaps behind, long sunset
-  shadows toward the camera. Each wears the kit of the club he played for under Skura (most seasons together, then the
-  latest) through the site's sprite rules (`widget_sprites.site_rules` / `figure`), in the game's own poses only
+  shadows toward the camera. Each wears his banner club's kit (`signatureTeams`, where he is best known) when he played for Skura
+  there, else the club he played for under Skura with the most seasons (then the latest), stints the record confirms
+  first: a stint counts as confirmed unless his `stints.json` record is `ambiguous` (the solver's guess) and no owner fact
+  or roster names that club (`known_clubs`); a player who qualifies only through such a guess is flagged in the
+  printout (owner: "why is levante hopkins in a vikings jersey?": the Titans, his confirmed club). Drawn through the site's sprite rules (`widget_sprites.site_rules` / `figure`), in the game's own poses only
   (`ROLE_POSES`: QB spinning the ball, RB ball at his side, WR arm raised, TE ball at his side, everyone else standing;
   never edited pixels), mirrored to face in. His number is the one on his player card: `scripts/splash_jerseys.ts`
   loads the league as the site does and runs `withHomeClubs` + `buildJerseyIndexWithAlso`; it is drawn the way the
