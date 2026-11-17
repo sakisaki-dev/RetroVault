@@ -39,3 +39,6 @@ data/uploads/**/*.heic
 data/saves/
 
 .cache/
+
+# Personal Claude Code settings (subagent model): this Mac only
+.claude/settings.local.json
