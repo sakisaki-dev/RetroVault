@@ -1734,3 +1734,45 @@ export const useCollection = () => {
   const fresh = revealed && revealed.until > Date.now() ? revealed.keys : null;
   return { state, cards: state.cards, packs: packTotal(state), fresh };
 };
+
+/**
+ * Backup and restore (owner, 2026-11-16: re-adding the Home Screen app wiped the binder, since iOS deletes a web
+ * app's storage with the app). A backup is the stored state wrapped with a header; restore accepts that or a bare
+ * state (the shape in localStorage), validates it with the same parser as a load, and replaces the binder.
+ */
+export const BACKUP_KIND = 'retro-vault-collection';
+
+export const collectionBackupText = (): string =>
+  JSON.stringify({ kind: BACKUP_KIND, v: 2, savedAt: new Date().toISOString(), state: readCollection() });
+
+export interface BackupSummary {
+  cards: number;
+  autos: number;
+  coins: number;
+  shards: number;
+  savedAt?: string;
+}
+
+export const summarizeCollection = (s: CollectionState, savedAt?: string): BackupSummary => ({
+  cards: Object.keys(s.cards ?? {}).length,
+  autos: Array.isArray(s.autos) ? s.autos.length : 0,
+  coins: s.coins ?? 0,
+  shards: s.shards ?? 0,
+  savedAt,
+});
+
+/** Parses a backup file's text; null when it isn't a Retro Vault collection. Nothing is written. */
+export const readBackup = (text: string): { state: CollectionState; summary: BackupSummary } | null => {
+  try {
+    const d = JSON.parse(text) as { kind?: unknown; state?: unknown; savedAt?: unknown };
+    const inner = d && typeof d === 'object' && d.kind === BACKUP_KIND ? d.state : d;
+    const state = parse(JSON.stringify(inner));
+    if (!state) return null;
+    return { state, summary: summarizeCollection(state, typeof d.savedAt === 'string' ? d.savedAt : undefined) };
+  } catch {
+    return null;
+  }
+};
+
+/** Replaces the binder with a backup read by readBackup. */
+export const restoreCollection = (state: CollectionState) => write(state, { kind: 'other' });

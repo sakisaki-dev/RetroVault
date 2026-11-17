@@ -8,6 +8,7 @@ import { reducedMotion, useStagger } from '@/utils/motion';
 import PlayerDetailCard from '@/components/PlayerDetailCard';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { StorageTag } from '@/components/homescreen/AddToHomeScreen';
+import BackupButton from '@/components/collection/BackupButton';
 import CollectibleCard from '@/components/collection/CollectibleCard';
 import CardDetail, { type CardDetailTarget } from '@/components/collection/CardDetail';
 import CardBrowser from '@/components/collection/CardBrowser';
@@ -538,6 +539,7 @@ const CollectionTab = () => {
               </button>
               {/* Whether the browser keeps the collection (Home Screen app / persistent storage), utils/homeScreen.ts */}
               <StorageTag />
+              <BackupButton />
               <button type="button" onClick={() => setDesigns(true)} className="link-chip text-gold">
                 <LayoutGrid className="h-3.5 w-3.5" aria-hidden="true" /> Card designs
               </button>

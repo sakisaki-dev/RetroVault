@@ -1066,6 +1066,12 @@ pictures".
   shard counters shows "Saved on this device" when it is granted (or in the Home Screen app), "Add to Home Screen" in
   an iPhone tab. `AddToHomeScreen` (mounted in `src/pages/Index.tsx`) is the gentle guide card for iPhone tabs, at most
   once a week (`rv:a2hs:shown` in localStorage), dismissible, reopened by the tag.
+- **Never tell the owner to delete and re-add the Home Screen app** without a backup first: iOS deletes a web app's
+  storage with it, and on 2026-11-16 re-adding it for a new icon wiped the binder (recovered from the iPhone backup of
+  2026-11-14: `Library/WebClips/<id>.webclip/Storage/.../LocalStorage/localstorage.sqlite3` in HomeDomain, values UTF-16).
+  The Collection header's **Backup** (`src/components/collection/BackupButton.tsx`; `collectionBackupText`, `readBackup`,
+  `restoreCollection` in `src/utils/collection.ts`) saves the binder as a file (share sheet / download) and restores one
+  after a confirm showing both sides.
 - **No service worker:** the site redeploys on every push and a cache-first worker would hide updates. If one is ever
   added: network-first for HTML and `data/`, cache only Vite's hashed `assets/`.
 - **Share pictures** (`src/components/share/`, `src/utils/shareImage.ts`): `ShareImageButton` renders a poster (inside
