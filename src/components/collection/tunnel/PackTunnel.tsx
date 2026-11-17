@@ -11,8 +11,9 @@ import './tunnel.css';
  * the scene the whole pack opening plays in. A players' tunnel seen from inside (drawTunnel.ts: pixel art drawn once),
  * the stadium bright at its mouth (the game's crowd, stand front and turf painted to the coach's club, useFieldArt; a
  * CSS stand and turf in a build without the private sprites), a jumbotron over the crowd and camera flashes popping in
- * the stands. Everything that moves is transform / opacity on small elements: the light (a gradient over the canvas
- * that takes the beam's or the walkout's colour), the crowd bouncing harder with each better card, the flashes.
+ * the stands. Everything that moves is transform / opacity on small elements: the light (a gradient over the canvas, always
+ * the stadium's own warm white: a tunnel that took the pull's colour would give the rarity away), the crowd bouncing
+ * harder with each better card flipped, the flashes.
  *
  * The dialog positions the pack, the beam and the dealt cards against the mouth with the CSS variables this sets on
  * itself (--tn-mx, --tn-my, --tn-mw, --tn-mh, --tn-floor: the mouth in CSS pixels, and the floor line).
@@ -34,8 +35,6 @@ interface PackTunnelProps {
   type: PackType;
   /** The home club: the crowd, the stand front, the turf's sideline, the wall stripe and the floor runner wear its colours */
   club: string | null;
-  /** The light pouring in from the stadium: a tier's colour, or null for the stadium's own white */
-  light: string | null;
   /** How hard the light floods the tunnel (0 calm … 3 a walkout) */
   surge?: number;
   /** Crowd excitement, 0-4: how often flashes pop and how hard the crowd bounces */
@@ -47,6 +46,9 @@ interface PackTunnelProps {
   /** Sets the geometry variables on the dialog too (so the stage, beam and floor can read them) */
   onGeo?: (g: TunnelGeo & { cw: number; ch: number; st: number; sb: number }) => void;
 }
+
+/** The stadium's own light: warm white, whatever was pulled. */
+const LIGHT = 'hsl(45 100% 92%)';
 
 /** Sign over the mouth per pack. */
 const SIGN: Record<PackType, string> = {
@@ -77,7 +79,7 @@ const isLiteMode = () => {
   }
 };
 
-const PackTunnel = forwardRef<TunnelHandle, PackTunnelProps>(({ type, club, light, surge = 0, level, board, reduced, theme, onGeo }, ref) => {
+const PackTunnel = forwardRef<TunnelHandle, PackTunnelProps>(({ type, club, surge = 0, level, board, reduced, theme, onGeo }, ref) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const flashRef = useRef<HTMLDivElement>(null);
@@ -181,14 +183,14 @@ const PackTunnel = forwardRef<TunnelHandle, PackTunnelProps>(({ type, club, ligh
         '--tn-ch': `${geo.H * geo.P}px`,
         '--tn-c1': kit.jersey,
         '--tn-c2': kit.trim,
-        '--tn-light': light ?? 'hsl(45 100% 92%)',
+        '--tn-light': LIGHT,
       } as CSSProperties)
-    : ({ '--tn-light': light ?? 'hsl(45 100% 92%)' } as CSSProperties);
+    : ({ '--tn-light': LIGHT } as CSSProperties);
 
   return (
     <div
       ref={rootRef}
-      className={cn('tn', `tn--${type}`, `tn--lv${Math.max(0, Math.min(4, level))}`, `tn--surge${Math.max(0, Math.min(3, surge))}`, light && 'tn--lit', theme && `tn--theme-${theme}`, reduced && 'tn--rm', !geo && 'tn--measuring')}
+      className={cn('tn', `tn--${type}`, `tn--lv${Math.max(0, Math.min(4, level))}`, `tn--surge${Math.max(0, Math.min(3, surge))}`, theme && `tn--theme-${theme}`, reduced && 'tn--rm', !geo && 'tn--measuring')}
       style={vars}
       aria-hidden="true"
     >
@@ -225,7 +227,7 @@ const PackTunnel = forwardRef<TunnelHandle, PackTunnelProps>(({ type, club, ligh
       <span className="tn__sign">
         <span>{SIGN[type]}</span>
       </span>
-      {/* Light from the stadium: a pool on the floor, a wash up the walls; takes the beam's colour */}
+      {/* Light from the stadium: a pool on the floor, a wash up the walls */}
       <span className="tn__spill" />
       <span className="tn__wash" />
       <span className="tn__vignette" />

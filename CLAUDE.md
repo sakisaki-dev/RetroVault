@@ -876,10 +876,20 @@ source names that file).
 - **Pack opening, "Out of the tunnel"** (owner approved, 2026-11-16: "love the walkout"; `src/components/collection/tunnel/`,
   `PackOpening.tsx`, `Walkout.tsx` `tunnel` mode): every pack opens in a pixel-art players' tunnel (drawn once to a
   canvas by `drawTunnel.ts`, the stadium at the mouth from the game's crowd and turf painted to the current club), tinted
-  by pack type. The tear is unchanged (the owner likes it) but carries the old tell: past halfway the pack is rolled and
-  light leaks from the rip in the best card's tier colour, then a beam, camera flashes and the tunnel flooding with it.
-  Cards land face down on the tunnel floor (best last, its edge glowing), each flip stands one up, and the jumbotron
-  counts along. The walkout runs in the same tunnel: the player's sprite in the pulled kit runs out of it and celebrates
+  by pack type. The tear is kept (drag across the top: the strip lifts with the finger, foil sparks, the pack shakes
+  harder for better pack types, paper bits, camera flashes), but **nothing shows the rarity before a card is turned**
+  (owner, 2026-11-16: "don't do the beam and the highlight for card rarity"): no light leak, beam, tell or finish hint,
+  no tier-coloured tunnel light (the light is always the stadium's warm white), no glow on the best face-down card, the
+  rip, flashes and crowd depend on the pack type only, and the pack is rolled when the tear completes. The jumbotron
+  names a tier only for cards already flipped. Cards land face down, flat and big on the tunnel floor (owner: "bigger
+  similar to previously": the pre-tunnel reveal's 116 px, 120 px at 402 wide, three across then a second row, never
+  tilted, so the card and its tap target are what they look like). **Tapping:** the floor (`.tn-floor`) covers the whole
+  stage above the actions bar and has the one click handler (`onFloorTap`): a tap on a face-down card flips that one, a
+  tap anywhere else the next (the title lets taps through); `openRef` / `walkRef` keep two taps in a frame from
+  flipping a card twice. (The first tunnel build only listened for taps landing exactly on the floor element, which the
+  card list covered, and its cards were tilted in 3D: about 30% of taps missed in Chromium and all of them in WebKit.)
+  Each flip stands one up and the jumbotron counts along. The walkout runs in the same tunnel: the player's sprite in
+  the pulled kit runs out of it as a white-rimmed silhouette and celebrates
   on the turf. Odds, ordering, decoys, kit / Prizm / autograph beats, skip keys, reduced motion and lite mode as before.
 - **Collection economy** (owner approved all six parts; `src/utils/economy.ts` rules and writes, UI in
   `src/components/collection/economy/`): coins become the trading currency; shards stay exactly as they were (claims and

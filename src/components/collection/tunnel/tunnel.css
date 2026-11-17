@@ -3,12 +3,12 @@
  *
  * The scene (.tn) sits under the dialog's UI (.tn-ui): the stadium in the tunnel's mouth (DOM, the game's crowd, stand
  * front and turf painted to the club, pixelated), the tunnel walls over it (a canvas drawn once as pixel art, the mouth
- * transparent) and the light: a pool on the floor and a wash that take --tn-light (the beam's, a card's or a walkout's
- * tier colour). Geometry comes from PackTunnel as CSS pixels: --tn-mx / --tn-my / --tn-mw / --tn-mh (the mouth),
+ * transparent) and the light: a pool on the floor and a wash in --tn-light (the stadium's warm white, never a tier's
+ * colour: the pack's rarity must not show before a card is turned). Geometry comes from PackTunnel as CSS pixels: --tn-mx / --tn-my / --tn-mw / --tn-mh (the mouth),
  * --tn-vx (its centre line), --tn-floor (its bottom: where the tunnel floor starts), --tn-p (one art pixel).
  *
  * Motion is transform / opacity only (the `translate` property for shakes, so they compose with the pack's own float);
- * nothing repaints a large area per frame. Reduced motion: no shake, flashes, bounce or beam travel. Lite mode: no
+ * nothing repaints a large area per frame. Reduced motion: no shake, flashes or bounce. Lite mode: no
  * blur or drop-shadow filters.
  */
 
@@ -291,7 +291,6 @@
   opacity: 0.32;
   transition: opacity 0.6s ease;
 }
-.tn--lit .tn__bloom { opacity: 0.55; }
 .tn--surge3 .tn__bloom { opacity: 0.85; }
 
 /* Camera flashes in the stands */
@@ -508,8 +507,7 @@
   background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--pk-glow, #f2c14a) 30%, transparent), transparent 68%);
   pointer-events: none;
 }
-.pk-phase--tearing .tn-hang::after,
-.pk-phase--tell .tn-hang::after {
+.pk-phase--tearing .tn-hang::after {
   opacity: 0;
   transition: opacity 0.4s;
 }
@@ -525,8 +523,7 @@
   background: radial-gradient(ellipse, hsl(228 60% 2% / 0.75), transparent 70%);
   animation: tn-shadow 3.2s ease-in-out infinite;
 }
-.pk-phase--tearing .tn-hang::before,
-.pk-phase--tell .tn-hang::before {
+.pk-phase--tearing .tn-hang::before {
   animation: none;
   opacity: 0;
   transition: opacity 0.4s;
@@ -545,13 +542,11 @@
   50% { translate: var(--shk) calc(var(--shk) * -0.5); }
   75% { translate: calc(var(--shk) * -0.5) calc(var(--shk) * -0.6); }
 }
-/* The rip: one hard jolt, harder for a better pull */
+/* The rip: one hard jolt */
 .tn-hang--ripped {
-  --jolt: 5px;
+  --jolt: 7px;
   animation: tn-jolt 0.42s linear both;
 }
-.tn-hang--epic { --jolt: 9px; }
-.tn-hang--legendary { --jolt: 13px; }
 @keyframes tn-jolt {
   0%, 100% { translate: 0 0; }
   12% { translate: calc(var(--jolt) * -1) calc(var(--jolt) * 0.4); }
@@ -577,168 +572,7 @@
   .tn-hint.pk-hint { top: calc(var(--tn-floor) + 4px + 108px + 18px); }
 }
 
-/* Light leaking from the rip: neutral until the pack is rolled (past halfway), then the best card's colour */
-.tn-leak {
-  --leak: hsl(48 100% 90%);
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 40px;
-  height: 0;
-  z-index: 2;
-  pointer-events: none;
-}
-.tn-leak--hot,
-.pk-phase--tearing .tn-leak,
-.pk-phase--tell .tn-leak {
-  --leak: var(--beam);
-}
-.tn-leak__line,
-.tn-leak__rays {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  transform-origin: 0 50%;
-  transform: scaleX(var(--tear));
-}
-.tn-leak__line {
-  top: -5px;
-  height: 10px;
-  border-radius: 5px;
-  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--leak) 55%, white) 30%, #fff 50%, color-mix(in srgb, var(--leak) 55%, white) 70%, transparent);
-  box-shadow: 0 0 18px 6px var(--leak), 0 0 46px 14px color-mix(in srgb, var(--leak) 55%, transparent);
-}
-.tn-leak__rays {
-  bottom: 0;
-  height: 170px;
-  transform-origin: 0 100%;
-  background:
-    repeating-linear-gradient(90deg, transparent 0 7px, color-mix(in srgb, var(--leak) 75%, white) 7px 10px, transparent 10px 18px),
-    linear-gradient(0deg, color-mix(in srgb, var(--leak) 70%, transparent), transparent 80%);
-  -webkit-mask-image: linear-gradient(0deg, #000 10%, transparent);
-  mask-image: linear-gradient(0deg, #000 10%, transparent);
-  opacity: calc(0.35 + var(--tear) * 0.65);
-}
-.tn-leak--hot .tn-leak__rays {
-  animation: tn-flicker 0.16s steps(2) infinite;
-}
-@keyframes tn-flicker {
-  50% { opacity: 0.7; }
-}
-
-/* The beam: out of the rip, straight up, in the best card's colour (the old tell's shaft, merged into the tear) */
-.tn-beam {
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% - 40px);
-  width: 64%;
-  height: 160vh;
-  translate: -50% 0;
-  transform-origin: 50% 100%;
-  pointer-events: none;
-  z-index: 1;
-  animation: tn-beam-up 0.42s cubic-bezier(0.2, 0.8, 0.3, 1) both;
-}
-.tn-beam--epic,
-.tn-beam--legendary { width: 90%; }
-.tn-beam__core,
-.tn-beam__halo {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  height: 100%;
-}
-.tn-beam__core {
-  width: 26%;
-  translate: -50% 0;
-  background: linear-gradient(0deg, #fff, color-mix(in srgb, var(--beam) 50%, white) 30%, color-mix(in srgb, var(--beam) 70%, transparent) 70%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%, #000 70%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 30%, #000 70%, transparent);
-}
-.tn-beam__halo {
-  width: 100%;
-  translate: -50% 0;
-  background: linear-gradient(0deg, color-mix(in srgb, var(--beam) 80%, transparent), color-mix(in srgb, var(--beam) 30%, transparent) 50%, transparent 90%);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%, #000 60%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 40%, #000 60%, transparent);
-  opacity: 0.8;
-  animation: tn-beam-pulse 0.9s ease-in-out 0.4s infinite alternate;
-}
-.tn-beam__flare {
-  position: absolute;
-  left: 50%;
-  bottom: -60px;
-  width: 340px;
-  height: 120px;
-  margin-left: -170px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, #fff 0 10%, color-mix(in srgb, var(--beam) 75%, white) 24%, color-mix(in srgb, var(--beam) 35%, transparent) 50%, transparent 70%);
-  animation: tn-flare 0.7s ease-out both;
-}
-@keyframes tn-flare {
-  0% { transform: scale(0.2); opacity: 0; }
-  25% { opacity: 1; }
-  100% { transform: scale(1); opacity: 0.85; }
-}
-.tn-beam__ray {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 34%;
-  height: 100%;
-  margin-left: -17%;
-  transform-origin: 50% 100%;
-  background: linear-gradient(0deg, color-mix(in srgb, var(--beam) 75%, white), color-mix(in srgb, var(--beam) 35%, transparent) 40%, transparent 75%);
-  clip-path: polygon(44% 100%, 56% 100%, 100% 0, 0 0);
-  opacity: 0.65;
-}
-.tn-beam__ray--l { rotate: -16deg; animation: tn-ray-l 1.6s ease-in-out infinite alternate; }
-.tn-beam__ray--r { rotate: 16deg; animation: tn-ray-r 1.6s ease-in-out infinite alternate; }
-@keyframes tn-ray-l { from { rotate: -22deg; } to { rotate: -8deg; } }
-@keyframes tn-ray-r { from { rotate: 22deg; } to { rotate: 8deg; } }
-/* The rip: one flash of the pull's colour over the whole tunnel */
-.tn-ripflash {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(ellipse 80% 60% at 50% calc(var(--tn-floor) - 80px), color-mix(in srgb, var(--pk-light) 70%, white), transparent 70%);
-  animation: tn-ripflash 0.55s ease-out both;
-}
-@keyframes tn-ripflash {
-  0% { opacity: 0; }
-  15% { opacity: 0.85; }
-  100% { opacity: 0; }
-}
-@keyframes tn-beam-up {
-  0% { transform: scaleY(0); opacity: 0; }
-  20% { opacity: 1; }
-  100% { transform: scaleY(1); opacity: 1; }
-}
-@keyframes tn-beam-pulse {
-  from { transform: scaleX(0.8); opacity: 0.6; }
-  to { transform: scaleX(1.15); opacity: 0.95; }
-}
-.pk-phase--tell .tn-beam {
-  animation: tn-beam-out calc(var(--tell-ms, 800ms) + 200ms) ease-in both;
-}
-@keyframes tn-beam-out {
-  0%, 70% { opacity: 1; transform: scaleY(1); }
-  100% { opacity: 0; transform: scaleY(1.05) scaleX(1.6); }
-}
-
-/* The tell: its core and finish hints sit on the rip */
-.tn-tell.pk-tell {
-  overflow: visible;
-  inset: 0;
-}
-.tn-tell .pk-tell__core,
-.tn-tell .pk-tell__burst {
-  top: 40px;
-}
-.tn-tell .pk-tell__glint {
-  top: -40%;
-  bottom: 20%;
-}
+/* Paper and foil bits fly from the rip */
 .tn-hang .pk-bits {
   top: 40px;
   left: 0;
@@ -782,20 +616,29 @@
 }
 
 /* ---------- Reveal: dealt face down on the tunnel floor ---------- */
+/* The reveal's tap target: the whole stage above the actions bar (the title and counter let taps through), so a tap
+   anywhere flips a card; the cards sit on the floor below the mouth (padding-top). */
 .tn-floor {
   position: absolute;
   left: 0;
   right: 0;
-  top: calc(var(--tn-floor) - 4px);
+  top: 0;
   bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+  padding-top: calc(var(--tn-floor) - 4px);
   z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.tn-head {
+  pointer-events: none;
 }
 .tn-floor .pk-provenance {
   position: absolute;
-  top: -34px;
+  top: calc(var(--tn-floor) - 38px);
   left: 0;
   right: 0;
   justify-content: center;
@@ -806,27 +649,17 @@
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
-  gap: 34px 10px;
+  gap: 22px 8px;
   padding: 0 12px;
-  perspective: 1000px;
-  perspective-origin: 50% -30%;
 }
 .tn-fan > li {
   flex: 0 0 var(--pk-w);
   width: var(--pk-w);
 }
-/* Two rows on a phone: the back row sits a little further down the tunnel */
-.tn-fan--rows > li:nth-child(-n + 3) {
-  --row-k: 0.92;
-}
 .tn-dlg .pk-flip {
   --flip-ms: 620ms;
-  --row-k: 1;
   position: relative;
   perspective: none;
-  transform: scale(var(--row-k));
-  transform-origin: 50% 100%;
-  transform-style: preserve-3d;
   animation: tn-deal 0.62s cubic-bezier(0.2, 0.85, 0.3, 1.04) both;
   animation-delay: calc(var(--i) * 0.13s);
 }
@@ -840,15 +673,14 @@
   30% { opacity: 1; }
   100% { opacity: 1; translate: 0 0; }
 }
-/* Lying on the floor face down; turned up it stands and faces the camera */
+/* Face down on the floor at full size and flat (a tilt would shrink both the card and its tap target); turned up it
+   lifts a little */
 .pk-flip__lie {
-  transform-origin: 50% 100%;
-  transform: rotateX(50deg);
-  transform-style: preserve-3d;
+  perspective: 1100px;
   transition: transform calc(var(--flip-ms) * 0.8) cubic-bezier(0.25, 1.2, 0.4, 1);
 }
 .pk-flip--open .pk-flip__lie {
-  transform: rotateX(0deg) translateY(-4%);
+  transform: translateY(-3%);
 }
 .pk-flip--still .pk-flip__lie,
 .pk-flip--still .pk-flip__inner {
@@ -860,7 +692,7 @@
 .pk-flip--away {
   opacity: 0;
 }
-/* The card's shadow on the floor; the best card's floor glows in its colour */
+/* The card's shadow on the floor (the same under every card: the best one is not marked) */
 .pk-flip__shadow {
   position: absolute;
   left: 2%;
@@ -869,28 +701,6 @@
   height: 16px;
   border-radius: 50%;
   background: radial-gradient(ellipse, hsl(228 60% 2% / 0.8), transparent 70%);
-}
-.pk-flip--best .pk-flip__shadow {
-  left: -18%;
-  right: -18%;
-  bottom: -16px;
-  height: 40px;
-  background: radial-gradient(ellipse, color-mix(in srgb, var(--glow) 55%, transparent), transparent 70%);
-}
-/* The best card's edge glows in its colour while it waits (no blur: a slightly larger card shape behind it) */
-.pk-flip__glow {
-  position: absolute;
-  inset: 0;
-  transform-origin: 50% 100%;
-  transform: rotateX(50deg) scale(1.07);
-  clip-path: polygon(0% 8.5%, 6% 4.2%, 17% 3%, 27% 0.6%, 73% 0.6%, 83% 3%, 94% 4.2%, 100% 8.5%, 100% 85%, 90% 91%, 66% 95.4%, 50% 100%, 34% 95.4%, 10% 91%, 0% 85%);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--glow) 40%, white), var(--glow));
-  animation: tn-edge 1.1s ease-in-out infinite alternate;
-  pointer-events: none;
-}
-@keyframes tn-edge {
-  from { opacity: 0.45; }
-  to { opacity: 1; }
 }
 /* The tunnel's light falls on the backs from the mouth */
 .tn-dlg .pk-back__shape {
@@ -1048,9 +858,9 @@
   position: absolute !important;
   inset: 0;
 }
-/* backlit: a silhouette rimmed in the tier colour until the card flips */
+/* backlit: a silhouette rimmed in the stadium's white (never the tier's colour) until the card flips */
 .wk-run__pose--run {
-  filter: brightness(0) drop-shadow(0 0 1px var(--wk-t1)) drop-shadow(0 0 10px color-mix(in srgb, var(--wk-t1) 70%, transparent));
+  filter: brightness(0) drop-shadow(0 0 1px #fff) drop-shadow(0 0 10px hsl(45 100% 92% / 0.7));
 }
 .wk-run__pose--cel {
   opacity: 0;
@@ -1083,13 +893,7 @@
 }
 .pk-rm .tn-hang,
 .pk-rm .tn-hang .pk-pack,
-.pk-rm .tn-hang::before,
-.pk-rm .tn-beam,
-.pk-rm .tn-beam__halo,
-.pk-rm .tn-beam__ray,
-.pk-rm .tn-beam__flare,
-.pk-rm .tn-ripflash,
-.pk-rm .pk-flip__glow {
+.pk-rm .tn-hang::before {
   animation: none !important;
 }
 .pk-rm .tn-sparks {
@@ -1106,9 +910,6 @@
   .tn-dlg .pk-flip {
     animation: pk-fade 0.25s ease-out both;
   }
-}
-[data-perf='lite'] .tn-leak__line {
-  box-shadow: none;
 }
 [data-perf='lite'] .tn-sparks i {
   box-shadow: none;

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent, type TouchEvent as ReactTouchEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type TouchEvent as ReactTouchEvent } from 'react';
 import { Hammer, Repeat, Signature, Sparkles, Trophy } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -32,21 +32,17 @@ const reducedMotion = () => {
  * (tunnel/PackTunnel.tsx), the stadium bright at its mouth:
  *
  * sealed   the pack hangs in the light at the tunnel's mouth; tap, Space or drag across the top to tear (the drag is
- *          the one the owner likes: the strip lifts with the finger, foil sparks fly off it, light leaks from the rip,
- *          the pack shakes harder the better the pack). Once the rip passes halfway the pack is rolled, so the leak
- *          takes the best card's tier colour.
- * tearing  the strip flies off and the light shoots up out of the rip as a beam in that colour; cameras flash in the
- *          stands (more for better packs)
- * tell     the beam holds and the tunnel floods with its colour, with the finish hint (a silver glint, gold sparkle, a
- *          rainbow burst for Holo); longer only for rare pulls
- * reveal   the cards land face down on the tunnel floor (best last, its edge already glowing in its colour); each
- *          advance flips the next: it stands up off the floor and turns. The jumbotron keeps count ("2 OF 5 · RARE ON
- *          THE BOARD") and the crowd gets louder with each better card. Legendary / Holo / autographs / throwbacks /
- *          Gold and Black Prizms / decoys walk out instead, in this same tunnel: the light turns the card's colour and
- *          the player runs out of it (Walkout.tsx, tunnel mode)
+ *          the one the owner likes: the strip lifts with the finger, foil sparks fly off it, the pack shakes harder
+ *          the better the pack type). The pack is rolled when the tear completes.
+ * tearing  the strip flies off with paper and foil bits; cameras flash in the stands (more for better pack types).
+ *          Nothing here depends on what was pulled: no beam, no tier-coloured light, no finish hint.
+ * reveal   the cards land face down, big, on the tunnel floor (best last); a tap anywhere on the stage flips the next,
+ *          a tap on a face-down card flips that one. The jumbotron keeps count of what has been turned ("2 OF 5 · RARE
+ *          ON THE BOARD") and the crowd gets louder with each better card flipped. Legendary / Holo / autographs /
+ *          throwbacks / Gold and Black Prizms / decoys walk out instead, in this same tunnel (Walkout.tsx, tunnel mode)
  * summary  the pack's cards in a grid, the best pull highlighted, shards gained, Add to binder / Open next pack
  */
-type Phase = 'sealed' | 'tearing' | 'tell' | 'reveal' | 'summary';
+type Phase = 'sealed' | 'tearing' | 'reveal' | 'summary';
 
 /** Short line under the pack art. */
 const PACK_SUB: Record<PackType, string> = {
@@ -59,9 +55,6 @@ const PACK_SUB: Record<PackType, string> = {
 };
 
 const TEAR_MS = 720;
-/** Anticipation per best tier, plus extra for a Gold or Holo hint: it escalates only for rare pulls. */
-const TELL_MS: Record<Tier, number> = { common: 520, rare: 720, epic: 1100, legendary: 1600 };
-const TELL_FINISH_MS: Record<Finish, number> = { base: 0, silver: 120, gold: 260, holo: 600 };
 /** Flip time: every card, and the best (last) card, which turns slowest. */
 const FLIP_MS = 620;
 const FLIP_BEST_MS = 1000;
@@ -71,14 +64,14 @@ const FLIP_EDGE = 0.369;
 const TO_SUMMARY_MS = 1300;
 const SWIPE_STEP = 50;
 
-/** Tier colours (the tell, the beam, the tunnel light, the jumbotron). */
+/** Tier colours, shown only for what has already been flipped (the jumbotron's line, a walkout's board). */
 export const TIER_LIGHT: Record<Tier, string> = {
   common: 'hsl(22 62% 56%)',
   rare: 'hsl(208 72% 66%)',
   epic: 'hsl(268 86% 70%)',
   legendary: 'hsl(26 100% 58%)',
 };
-/** Camera flashes when the pack rips, per pack: better packs light the stands up more. */
+/** Camera flashes when the pack rips, per pack type: better packs light the stands up more. */
 const RIP_FLASHES: Record<PackType, number> = { standard: 3, premium: 6, elite: 9, perfect: 12, holo: 12, exchange: 8 };
 /** Pack shake while it is being torn (px at a full rip), per pack. */
 const SHAKE: Record<PackType, number> = { standard: 0.6, premium: 1.2, elite: 1.8, perfect: 2.4, holo: 2.4, exchange: 1.8 };
@@ -180,8 +173,6 @@ const bestOf = (pack: PackCard[]) => pack[pack.length - 1];
 
 /** Paper and foil bits from the tear: [x %, drift px, delay ms]. */
 const BITS = Array.from({ length: 16 }, (_, i) => [4 + ((i * 37) % 92), ((i * 53) % 140) - 70, (i % 5) * 28] as const);
-/** Gold sparkle positions for the tell: [x %, y %, delay ms]. */
-const SPARKLES = Array.from({ length: 12 }, (_, i) => [10 + ((i * 41) % 80), 18 + ((i * 29) % 60), (i * 70) % 420] as const);
 
 /** The flip's bookkeeping per card: which face shows (switched edge-on) and whether it is mid-turn (data-turning). */
 interface FlipFx {
@@ -192,29 +183,32 @@ interface FlipFx {
 }
 const NO_FX: FlipFx = { face: [], turning: [], still: [] };
 
-/** Card size on the tunnel floor: as large as fits the width and the floor's height, rows of up to 3 on a phone. */
+/**
+ * Card size on the tunnel floor: the pre-tunnel reveal's size on a phone (three across, wrapping to a second row), a
+ * touch wider where the floor has room; on a desktop as large as fits the width and the floor's height. Flat, never
+ * foreshortened, so the card and its hit area are the size they look.
+ */
 const floorLayout = (geo: (TunnelGeo & { cw: number; ch: number; sb: number }) | null, n: number) => {
   if (!geo || !n) return { w: 120, rows: 1 };
   const phone = geo.cw < 640;
   const perRow = phone ? Math.min(3, n) : n;
   const rows = Math.ceil(n / perRow);
-  const gap = phone ? 10 : 16;
-  const side = phone ? 16 : 32;
+  const gap = phone ? 8 : 16;
+  const side = phone ? 12 : 32;
   const byW = (geo.cw - side * 2 - gap * (perRow - 1)) / perRow;
   // the floor: from just under the mouth to the actions bar (about 76 px, plus the home indicator on a phone)
   const floorTop = (geo.my + geo.mh) * geo.P + 6;
   const floorH = geo.ch - floorTop - (phone ? 72 : 84) - geo.sb;
-  const byH = (floorH - 34 * (rows - 1) - 26) / rows / 1.42;
-  return { w: Math.max(72, Math.floor(Math.min(byW, byH, 210))), rows };
+  const byH = (floorH - 24 * (rows - 1) - 22) / rows / 1.42;
+  return { w: Math.max(96, Math.floor(Math.min(byW, byH, 210))), rows };
 };
 
 /**
  * Reward pack as an event, FUT style, in a players' tunnel. The pack hangs in the light at the tunnel's mouth and bobs;
  * tap, Space or a drag across the top tears it (the strip rips off with paper and foil bits, sparks fly off the finger,
- * light leaks from the rip). The light shoots up out of the rip as a beam in the best card's tier colour (copper,
- * steel, amethyst, ember) with its finish hint, longer only for rare pulls, while cameras flash in the stands. The
- * cards land face down on the tunnel floor; each advance (tap, Space, Enter or a swipe) stands the next one up and
- * flips it with a light pop in its finish, the best card last and slowest. Legendary and Holo cards, every card that
+ * cameras flash in the stands). The
+ * cards land face down on the tunnel floor; a tap anywhere on the stage (or Space, Enter, a swipe) flips the next one,
+ * a tap on a face-down card flips that one, with a light pop in its finish, the best card last and slowest. Legendary and Holo cards, every card that
  * carries an autograph (revealed last, with its own AUTOGRAPH beat), and about one decoy in five walk out instead, in
  * the same tunnel. A duplicate's shards fly to the counter; new cards get a NEW stamp, new art a NEW ART ribbon, a kit
  * not owned yet a NEW KIT stamp. A non-home kit shows its own stamp under the card (ALT KIT · <label>, THROWBACK ·
@@ -229,6 +223,8 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
   const { attach: attachSamples } = useSampleAutos();
   const [pack, setPack] = useState<PackCard[]>([]);
   const [open, setOpen] = useState<boolean[]>([]);
+  const openRef = useRef<boolean[]>([]);
+  const walkRef = useRef(false);
   const [fx, setFx] = useState<FlipFx>(NO_FX);
   const [walk, setWalk] = useState<WalkState | null>(null);
   const [shownType, setShownType] = useState<PackType>('standard');
@@ -292,32 +288,24 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
     [],
   );
 
+  openRef.current = open;
+  walkRef.current = !!walk;
   const best = pack.length ? bestOf(pack) : null;
-  const tellMs = best ? TELL_MS[best.tier] + TELL_FINISH_MS[best.finish] : 0;
 
-  // tearing → tell → reveal on their own (a tap skips ahead)
+  // tearing → reveal on its own (a tap skips ahead)
   useEffect(() => {
-    if (phase !== 'tearing' && phase !== 'tell') return;
-    const id = window.setTimeout(
-      () => {
-        if (phase === 'tearing') {
-          sfx('tell');
-          setPhase('tell');
-        } else {
-          sfx('deal');
-          setPhase('reveal');
-        }
-      },
-      phase === 'tearing' ? TEAR_MS : tellMs,
-    );
+    if (phase !== 'tearing') return;
+    const id = window.setTimeout(() => {
+      sfx('deal');
+      setPhase('reveal');
+    }, TEAR_MS);
     return () => window.clearTimeout(id);
-  }, [phase, tellMs]);
+  }, [phase]);
 
-  // The stands react: a volley of flashes when the pack rips (more for better packs) and again when the beam flares
+  // The stands react: a volley of flashes when the pack rips (more for better pack types, never for the pull)
   useEffect(() => {
     if (phase === 'tearing') tunnelRef.current?.flash(RIP_FLASHES[t]);
-    if (phase === 'tell' && best) tunnelRef.current?.flash(2 + tierRank(best.tier) * 4 + (best.finish === 'holo' ? 6 : 0));
-    // best and t are fixed for the pack once it is torn
+    // t is fixed for the pack once it is torn
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
 
@@ -393,7 +381,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
 
   /**
    * Rolls the pack (once): hides its cards from the Collection behind until revealed, orders them best last and sets
-   * them up face down. Called when the rip passes halfway (so the leak can take the best card's colour) or on a tap.
+   * them up face down. Called when the tear completes (a tap, or the drag past the end).
    */
   const roll = (): PackCard[] | null => {
     if (rolledRef.current) return rolledRef.current;
@@ -420,7 +408,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
     return ordered;
   };
 
-  /** Rips the pack open (rolling it first if the drag hasn't): the strip flies, the beam shoots up. */
+  /** Rips the pack open: rolls it, the strip flies. */
   const startTear = (): PackCard[] | null => {
     if (phase !== 'sealed' || !type || rippedRef.current) return null;
     const ordered = roll();
@@ -445,6 +433,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
 
   /** Turns card i face up on the floor: it stands up and flips; the faces swap edge-on (no iOS flicker). */
   const turnUp = (i: number, ms: number) => {
+    openRef.current = openRef.current.map((v, j) => v || j === i);
     setOpen((o) => o.map((v, j) => v || j === i));
     setFx((f) => ({ ...f, turning: f.turning.map((v, j) => v || j === i) }));
     later(() => setFx((f) => ({ ...f, face: f.face.map((v, j) => v || j === i) })), Math.round(ms * FLIP_EDGE));
@@ -456,8 +445,10 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
    * else the next in order (a tap on the stage, Space, a swipe).
    */
   const flipNext = (pick?: number) => {
-    if (walk) return;
-    const i = pick != null && pick >= 0 && !open[pick] ? pick : open.indexOf(false);
+    if (walkRef.current) return;
+    // openRef, not the render's state: two taps inside one frame never turn the same card twice
+    const o = openRef.current;
+    const i = pick != null && pick >= 0 && !o[pick] ? pick : o.indexOf(false);
     if (i < 0) {
       setPhase('summary');
       return;
@@ -465,6 +456,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
     const c = pack[i];
     if (needsWalkout(c)) {
       sfx('walkout');
+      walkRef.current = true;
       setWalk({ i, step: 0, beats: walkoutBeats(c, false) });
       return;
     }
@@ -504,10 +496,24 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
     setPhase('summary');
   };
 
+  /**
+   * A tap anywhere on the reveal stage (the one handler: the floor covers the whole stage, so a tap never lands on a
+   * layer that ignores it): on a face-down card it flips that card (owner: "it doesn't allow me to pick a card to
+   * flip"), anywhere else the next in order. A tap on a face-up card or the gaps between cards flips the next too.
+   */
+  const onFloorTap = (e: MouseEvent<HTMLDivElement>) => {
+    if (phase !== 'reveal') return;
+    const li = (e.target as HTMLElement).closest<HTMLElement>('li[data-i]');
+    const pick = li ? Number(li.dataset.i) : undefined;
+    if (walkRef.current) return;
+    if (openRef.current.every(Boolean)) setPhase('summary');
+    else flipNext(pick);
+  };
+
   const walkAdvance = () => setWalk((w) => (w ? { ...w, step: Math.min(w.step + 1, w.beats.length - 1) } : w));
   const walkSkip = () => setWalk((w) => (w ? { ...w, step: skipStep(w.beats, w.step) } : w));
 
-  /** One step forward: tear, skip the tear or tell, flip the next card, or speed up a walkout. */
+  /** One step forward: tear, skip the tear, flip the next card, or speed up a walkout. */
   const advance = () => {
     if (walk) {
       if (walk.step >= walk.beats.length - 1) endWalk();
@@ -515,8 +521,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
       return;
     }
     if (phase === 'sealed') startTear();
-    else if (phase === 'tearing') setPhase('tell');
-    else if (phase === 'tell') setPhase('reveal');
+    else if (phase === 'tearing') setPhase('reveal');
     else if (phase === 'reveal') flipNext();
   };
 
@@ -565,8 +570,6 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
       d.last = now;
       sparkAt(Math.max(0, Math.min(d.w, e.clientX - d.left)));
     }
-    // Past halfway the pack is committed (releasing there tears it anyway): roll it so the leak shows its colour
-    if (k >= 0.5 && !rolledRef.current && !reduced) roll();
     if (k >= 0.98) {
       drag.current = null;
       dragged.current = true;
@@ -580,7 +583,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
     if (d.moved) {
       // The click that follows a drag is not a tap
       dragged.current = true;
-      if (tear >= 0.5 || rolledRef.current) startTear();
+      if (tear >= 0.5) startTear();
       else {
         setTear(0);
         setDragging(false);
@@ -657,25 +660,17 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
   const bestUp = flippedUp.reduce<PackCard | null>((b, c) => (!b || tierRank(c.tier) > tierRank(b.tier) || (c.tier === b.tier && finishRank(c.finish) > finishRank(b.finish)) ? c : b), null);
   const walkStage = walk ? walk.beats[Math.min(walk.step, walk.beats.length - 1)].stage : null;
   const walkFlipped = !!walk && walk.beats.findIndex((b) => b.stage === 'flip') <= walk.step;
-  const leaking = phase === 'sealed' && pack.length > 0;
-  const light: string | null = walking
-    ? TIER_LIGHT[walking.tier]
-    : leaking || phase === 'tearing' || phase === 'tell'
-      ? best && TIER_LIGHT[best.tier]
-      : phase === 'reveal' && bestUp && tierRank(bestUp.tier) >= tierRank('rare')
-        ? TIER_LIGHT[bestUp.tier]
-        : phase === 'summary' && best && tierRank(best.tier) >= tierRank('epic')
-          ? TIER_LIGHT[best.tier]
-          : null;
-  const surge = walking ? (walkFlipped ? 2 : 3) : phase === 'tell' ? (best && tierRank(best.tier) >= tierRank('epic') ? 3 : 2) : phase === 'tearing' ? 2 : leaking ? 1 : phase === 'reveal' && bestUp ? 1 : 0;
+  // The tunnel's light is the stadium's own, never a tier's colour: what was pulled shows only once a card is turned.
+  // How hard it floods follows the stage, not the pull.
+  const surge = walking ? (walkFlipped ? 2 : 3) : phase === 'tearing' ? 2 : phase === 'reveal' && bestUp ? 1 : 0;
   const level = walking
     ? 4
     : phase === 'sealed'
       ? dragging
         ? 1
         : 0
-      : phase === 'tearing' || phase === 'tell'
-        ? Math.max(PACK_LEVEL[t], best ? tierRank(best.tier) + 1 : 1)
+      : phase === 'tearing'
+        ? PACK_LEVEL[t]
         : phase === 'reveal'
           ? bestUp
             ? Math.min(4, tierRank(bestUp.tier) + 1 + (bestUp.finish === 'holo' ? 1 : 0))
@@ -694,10 +689,11 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
         const surname = info.player.name.split(' ').slice(-1)[0];
         return { top: surname, bottom: `${info.ovr ?? '–'} OVR`, tone: TIER_LIGHT[walking.tier] };
       }
-      return { top: 'Walkout', bottom: walkStage === 'tunnel' ? '• • •' : tierLabel(walking.tier), tone: TIER_LIGHT[walking.tier] };
+      // the tier shows only once the card turns
+      return { top: 'Walkout', bottom: '• • •' };
     }
-    if (phase === 'sealed') return leaking || dragging ? { top: 'Retro Vault', bottom: 'Tear it!' } : { top: 'Retro Vault', bottom: t === 'perfect' ? '18–0' : `${packTitle(t)} pack` };
-    if (phase === 'tearing' || phase === 'tell') return { top: 'Here we go', bottom: '• • •' };
+    if (phase === 'sealed') return dragging ? { top: 'Retro Vault', bottom: 'Tear it!' } : { top: 'Retro Vault', bottom: t === 'perfect' ? '18–0' : `${packTitle(t)} pack` };
+    if (phase === 'tearing') return { top: 'Here we go', bottom: '• • •' };
     if (phase === 'reveal') {
       const n = flippedUp.length;
       if (!bestUp) return { top: `0 of ${pack.length}`, bottom: 'Flip a card' };
@@ -707,7 +703,7 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
     return { top: 'Full time', bottom: preview ? `${pack.length} cards` : `${fresh} new`, tone: best ? TIER_LIGHT[best.tier] : undefined };
     // describe is stable per pool; the rest is listed
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [walking, walkFlipped, walkStage, phase, leaking, dragging, t, flippedUp.length, bestUp, pack.length, preview, fresh, best]);
+  }, [walking, walkFlipped, walkStage, phase, dragging, t, flippedUp.length, bestUp, pack.length, preview, fresh, best]);
   // A walkout's card lands: the stadium erupts
   useEffect(() => {
     if (walkFlipped) tunnelRef.current?.flash(16);
@@ -725,9 +721,9 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
         '--tn-vx': `${geo.vx * geo.P}px`,
         '--tn-ch': `${geo.ch}px`,
         '--tn-floor': `${(geo.my + geo.mh) * geo.P}px`,
-        '--pk-light': light ?? 'hsl(45 100% 88%)',
+        '--pk-light': 'hsl(45 100% 88%)',
       } as CSSProperties)
-    : ({ '--pk-light': light ?? 'hsl(45 100% 88%)' } as CSSProperties);
+    : ({ '--pk-light': 'hsl(45 100% 88%)' } as CSSProperties);
 
   return (
     <Dialog open={isOpen} onOpenChange={(o) => !o && onClose()}>
@@ -752,13 +748,13 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
             e.preventDefault();
             if (walk.step >= walk.beats.length - 1) endWalk();
             else walkSkip();
-          } else if (phase === 'tearing' || phase === 'tell' || phase === 'reveal') {
+          } else if (phase === 'tearing' || phase === 'reveal') {
             e.preventDefault();
             openAll();
           }
         }}
       >
-        <PackTunnel ref={tunnelRef} type={t} club={club} light={light} surge={surge} level={level} board={board} reduced={reduced} theme={theme} onGeo={onGeo} />
+        <PackTunnel ref={tunnelRef} type={t} club={club} surge={surge} level={level} board={board} reduced={reduced} theme={theme} onGeo={onGeo} />
 
         <div className="tn-ui">
           <div className="tn-head">
@@ -780,58 +776,32 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
             )}
           </div>
 
-          {(phase === 'sealed' || phase === 'tearing' || phase === 'tell') && (
+          {(phase === 'sealed' || phase === 'tearing') && (
             <div className={cn('pk-stage tn-stage', `pk-stage--${t}`)} onClick={phase !== 'sealed' ? advance : undefined}>
               <div
-                className={cn('tn-hang', dragging && 'tn-hang--drag', phase !== 'sealed' && 'tn-hang--ripped', best && `tn-hang--${best.tier}`)}
-                style={{ '--tear': tear, '--shk': `${SHAKE[t] * Math.max(0.25, tear)}px`, '--beam': (best && TIER_LIGHT[best.tier]) || 'hsl(45 100% 86%)', '--tell-ms': `${tellMs}ms` } as CSSProperties}
+                className={cn('tn-hang', dragging && 'tn-hang--drag', phase !== 'sealed' && 'tn-hang--ripped')}
+                style={{ '--tear': tear, '--shk': `${SHAKE[t] * Math.max(0.25, tear)}px` } as CSSProperties}
               >
-                {/* the light leaking out of the rip, then the beam it becomes */}
-                {(phase === 'sealed' ? tear > 0.02 : true) && (
-                  <span className={cn('tn-leak', leaking && 'tn-leak--hot')} aria-hidden="true">
-                    <span className="tn-leak__line" />
-                    <span className="tn-leak__rays" />
-                  </span>
-                )}
-                {phase !== 'sealed' && best && (
-                  <span className={cn('tn-beam', `tn-beam--${best.tier}`, `tn-beam--f-${best.finish}`)} aria-hidden="true">
-                    {tierRank(best.tier) >= tierRank('epic') && (
-                      <>
-                        <span className="tn-beam__ray tn-beam__ray--l" />
-                        <span className="tn-beam__ray tn-beam__ray--r" />
-                      </>
-                    )}
-                    <span className="tn-beam__halo" />
-                    <span className="tn-beam__core" />
-                    <span className="tn-beam__flare" />
-                  </span>
-                )}
-                {phase !== 'tell' && (
-                  <button
-                    type="button"
-                    className={cn('pk-pack', `pk-pack--${t}`, phase === 'tearing' && 'pk-pack--tearing')}
-                    style={{ '--tear': tear } as CSSProperties}
-                    onClick={onPackClick}
-                    onPointerDown={onPackDown}
-                    onPointerMove={onPackMove}
-                    onPointerUp={onPackUp}
-                    onPointerCancel={() => {
-                      drag.current = null;
-                      // once rolled the pack is opened either way
-                      if (rolledRef.current) startTear();
-                      else {
-                        setTear(0);
-                        setDragging(false);
-                      }
-                    }}
-                    disabled={phase !== 'sealed'}
-                    aria-label={`Tear open the ${spec.label}`}
-                    autoFocus
-                  >
-                    <PackArt type={t} />
-                    <span className="tn-rim" aria-hidden="true" />
-                  </button>
-                )}
+                <button
+                  type="button"
+                  className={cn('pk-pack', `pk-pack--${t}`, phase === 'tearing' && 'pk-pack--tearing')}
+                  style={{ '--tear': tear } as CSSProperties}
+                  onClick={onPackClick}
+                  onPointerDown={onPackDown}
+                  onPointerMove={onPackMove}
+                  onPointerUp={onPackUp}
+                  onPointerCancel={() => {
+                    drag.current = null;
+                    setTear(0);
+                    setDragging(false);
+                  }}
+                  disabled={phase !== 'sealed'}
+                  aria-label={`Tear open the ${spec.label}`}
+                  autoFocus
+                >
+                  <PackArt type={t} />
+                  <span className="tn-rim" aria-hidden="true" />
+                </button>
                 <span ref={sparksRef} className="tn-sparks" aria-hidden="true" />
                 {phase === 'tearing' && (
                   <span className="pk-bits" aria-hidden="true">
@@ -840,37 +810,13 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                     ))}
                   </span>
                 )}
-                {phase === 'tell' && best && (
-                  <span
-                    className={cn('pk-tell tn-tell', `pk-tell--${best.tier}`, `pk-tell--f-${best.finish}`)}
-                    style={{ '--tell-ms': `${tellMs}ms` } as CSSProperties}
-                    aria-hidden="true"
-                  >
-                    <span className="pk-tell__core" />
-                    {best.finish === 'silver' && <span className="pk-tell__glint" />}
-                    {best.finish === 'gold' && (
-                      <span className="pk-tell__sparks">
-                        {SPARKLES.map(([x, y, d], i) => (
-                          <i key={i} style={{ left: `${x}%`, top: `${y}%`, animationDelay: `${d}ms` }} />
-                        ))}
-                      </span>
-                    )}
-                    {best.finish === 'holo' && <span className="pk-tell__burst" />}
-                  </span>
-                )}
               </div>
-              {phase === 'tearing' && <span className="tn-ripflash" aria-hidden="true" />}
               {phase === 'sealed' && <p className="pk-hint tn-hint">Tap or drag across the top to tear</p>}
-              {phase === 'tell' && best && (
-                <p className="sr-only" role="status">
-                  {finishRank(best.finish) >= finishRank('gold') || tierRank(best.tier) >= tierRank('epic') ? 'Something special in this pack…' : 'Opening…'}
-                </p>
-              )}
             </div>
           )}
 
           {phase === 'reveal' && (
-            <div className="tn-floor" onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd} onClick={(e) => e.target === e.currentTarget && advance()}>
+            <div className="tn-floor" onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd} onClick={onFloorTap}>
               {t === 'perfect' && mark && !preview && (
                 <p className="pk-provenance">
                   <Trophy className="h-4 w-4" aria-hidden="true" /> {mark}
@@ -897,12 +843,12 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                         fx.still[i] && 'pk-flip--still',
                         walk?.i === i && 'pk-flip--away',
                       )}
+                      data-i={i}
                       data-face={faceUp ? 'front' : 'back'}
                       data-turning={fx.turning[i] ? '' : undefined}
-                      style={{ '--i': i, '--off': i - (pack.length - 1) / 2, '--glow': TIER_LIGHT[c.tier] } as CSSProperties}
+                      style={{ '--i': i, '--off': i - (pack.length - 1) / 2 } as CSSProperties}
                     >
                       <span className="pk-flip__shadow" aria-hidden="true" />
-                      {isBest && !shown && <span className="pk-flip__glow" aria-hidden="true" />}
                       <div className="pk-flip__lie">
                         <div className="pk-flip__inner">
                           <div className="pk-flip__face" aria-hidden={!shown}>
@@ -927,10 +873,6 @@ const PackOpening = ({ type, onClose, onTear, describe, total, remaining, proven
                           <button
                             type="button"
                             className="pk-flip__face pk-flip__back"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              flipNext(i);
-                            }}
                             disabled={shown}
                             tabIndex={shown ? -1 : 0}
                             aria-hidden={shown}

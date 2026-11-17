@@ -1599,113 +1599,6 @@ button.fut__card:focus-visible {
   100% { opacity: 0; transform: translate(var(--dx), -150px) rotate(320deg); }
 }
 
-/* The tell: a light shaft in the best card's tier colour, plus its finish hint; longer and stronger for rare pulls */
-.pk-tell {
-  --tell: hsl(22 60% 55%);
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-.pk-tell--rare { --tell: hsl(208 70% 66%); }
-.pk-tell--epic { --tell: hsl(268 90% 68%); }
-.pk-tell--legendary { --tell: hsl(22 100% 58%); }
-.pk-tell__shaft {
-  position: absolute;
-  left: 50%;
-  bottom: 22%;
-  width: 26%;
-  height: 120%;
-  margin-left: -13%;
-  background: linear-gradient(0deg, color-mix(in srgb, var(--tell) 85%, white), color-mix(in srgb, var(--tell) 40%, transparent) 55%, transparent);
-  clip-path: polygon(38% 100%, 62% 100%, 100% 0, 0 0);
-  transform-origin: 50% 100%;
-  opacity: 0;
-  animation: pk-shaft var(--tell-ms) cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
-}
-.pk-tell__shaft--2 { transform: rotate(-24deg); animation-delay: calc(var(--tell-ms) * 0.12); }
-.pk-tell__shaft--3 { transform: rotate(24deg); animation-delay: calc(var(--tell-ms) * 0.24); }
-.pk-tell--common .pk-tell__shaft,
-.pk-tell--rare .pk-tell__shaft {
-  width: 18%;
-  margin-left: -9%;
-}
-@keyframes pk-shaft {
-  0% { opacity: 0; scale: 1 0.2; }
-  35% { opacity: 0.9; scale: 1 1; }
-  100% { opacity: 0.7; scale: 1 1; }
-}
-.pk-tell--legendary .pk-tell__shaft--2 { animation-name: pk-shaft, pk-sweep-l; animation-duration: var(--tell-ms), var(--tell-ms); }
-.pk-tell--legendary .pk-tell__shaft--3 { animation-name: pk-shaft, pk-sweep-r; animation-duration: var(--tell-ms), var(--tell-ms); }
-@keyframes pk-sweep-l { from { rotate: -10deg; } to { rotate: 14deg; } }
-@keyframes pk-sweep-r { from { rotate: 10deg; } to { rotate: -14deg; } }
-.pk-tell__core {
-  position: absolute;
-  left: 50%;
-  top: 48%;
-  width: 260px;
-  height: 260px;
-  margin: -130px 0 0 -130px;
-  border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--tell) 70%, white), color-mix(in srgb, var(--tell) 35%, transparent) 40%, transparent 70%);
-  opacity: 0;
-  animation: pk-core var(--tell-ms) ease-out forwards;
-}
-.pk-tell--epic .pk-tell__core,
-.pk-tell--legendary .pk-tell__core {
-  width: 380px;
-  height: 380px;
-  margin: -190px 0 0 -190px;
-}
-@keyframes pk-core {
-  0% { opacity: 0; transform: scale(0.2); }
-  60% { opacity: 0.95; transform: scale(1); }
-  100% { opacity: 0.8; transform: scale(1.08); }
-}
-/* Finish hints */
-.pk-tell__glint {
-  position: absolute;
-  top: 20%;
-  bottom: 20%;
-  left: 0;
-  width: 30%;
-  background: linear-gradient(100deg, transparent, hsl(210 40% 96% / 0.85) 50%, transparent);
-  transform: translateX(-120%) skewX(-14deg);
-  animation: pk-glint var(--tell-ms) 0.1s ease-in-out forwards;
-}
-@keyframes pk-glint {
-  to { transform: translateX(380%) skewX(-14deg); }
-}
-.pk-tell__sparks i {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  background: radial-gradient(circle, #fff 0 18%, hsl(45 100% 62%) 32%, transparent 64%);
-  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
-  opacity: 0;
-  animation: fut-twinkle 0.7s ease-in-out 2 both;
-}
-.pk-tell__burst {
-  position: absolute;
-  left: 50%;
-  top: 48%;
-  width: 640px;
-  height: 640px;
-  margin: -320px 0 0 -320px;
-  border-radius: 50%;
-  background: repeating-conic-gradient(from 0deg, hsl(320 100% 70% / 0.6) 0 7deg, hsl(50 100% 65% / 0.55) 7deg 14deg, hsl(150 100% 60% / 0.55) 14deg 21deg, hsl(200 100% 65% / 0.55) 21deg 28deg, hsl(270 100% 70% / 0.55) 28deg 35deg, transparent 35deg 45deg);
-  -webkit-mask: radial-gradient(circle, #000 18%, transparent 62%);
-  mask: radial-gradient(circle, #000 18%, transparent 62%);
-  opacity: 0;
-  animation: pk-burst-holo var(--tell-ms) ease-out forwards;
-  animation-delay: calc(var(--tell-ms) * 0.35);
-}
-@keyframes pk-burst-holo {
-  0% { opacity: 0; transform: scale(0.2) rotate(0deg); }
-  40% { opacity: 1; }
-  100% { opacity: 0.85; transform: scale(1.05) rotate(70deg); }
-}
-
 /* Reveal: the next card to flip is ringed (static); a flip lands with a light pop in its finish and a bounce */
 .pk-flip__back[tabindex='0'] .pk-back__shape {
   box-shadow: inset 0 0 0 2cqw hsl(var(--gold) / 0.9);
@@ -1907,7 +1800,7 @@ button.fut__card:focus-visible {
 @media (max-width: 480px) {
   .pk-actions > * { flex: 1 1 auto; }
 }
-/* Reduced motion / performance mode: no tell or flips run (the pack goes straight to the summary); the summary fades in */
+/* Reduced motion / performance mode: no flips run (the pack goes straight to the summary); the summary fades in */
 .pk-rm .pk-sum__card {
   animation: pk-fade 0.25s ease-out both;
   animation-delay: 0s;
@@ -1920,7 +1813,6 @@ button.fut__card:focus-visible {
   100% { transform: scale(1); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .pk-tell *,
   .pk-bits,
   .pk-flip__pop {
     animation: none !important;
