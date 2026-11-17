@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { startTransition, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ChevronLeft, ChevronRight, Coins, GalleryHorizontal, Search, SlidersHorizontal, X } from 'lucide-react';
 import type { Position } from '@/types/player';
 import { cn } from '@/lib/utils';
@@ -107,31 +107,70 @@ const Binder = ({
   const views = Math.ceil(pages / step);
 
   const trackRef = useRef<HTMLDivElement>(null);
+  const bookRef = useRef<HTMLDivElement>(null);
+  // `view` follows the scroll (the page counter); `mounted` is the page whose neighbours carry real cards, and it only
+  // moves once a swipe has settled, so no card mounts mid-swipe (that was the stutter). A button turn mounts first.
   const [view, setView] = useState(0);
+  const [mounted, setMounted] = useState(0);
+  const viewRef = useRef(0);
   const raf = useRef(0);
+  const settle = useRef(0);
+  const settleNow = useCallback(() => {
+    window.clearTimeout(settle.current);
+    const v = viewRef.current;
+    startTransition(() => setMounted(v));
+  }, []);
   const onScroll = () => {
+    window.clearTimeout(settle.current);
+    settle.current = window.setTimeout(settleNow, 140);
     if (raf.current) return;
     raf.current = requestAnimationFrame(() => {
       raf.current = 0;
       const t = trackRef.current;
       if (!t || !t.clientWidth) return;
-      setView(Math.max(0, Math.min(views - 1, Math.round(t.scrollLeft / t.clientWidth))));
+      const v = Math.max(0, Math.min(views - 1, Math.round(t.scrollLeft / t.clientWidth)));
+      viewRef.current = v;
+      setView(v);
     });
   };
-  useEffect(() => () => cancelAnimationFrame(raf.current), []);
-  const goTo = (v: number) => {
+  useEffect(() => {
+    const t = trackRef.current;
+    if (!t || !('onscrollend' in t)) return;
+    t.addEventListener('scrollend', settleNow);
+    return () => t.removeEventListener('scrollend', settleNow);
+  });
+  useEffect(
+    () => () => {
+      cancelAnimationFrame(raf.current);
+      window.clearTimeout(settle.current);
+    },
+    [],
+  );
+  const goTo = (v: number, instant = false) => {
     const t = trackRef.current;
     if (!t) return;
     const to = Math.max(0, Math.min(views - 1, v));
-    t.scrollTo({ left: to * t.clientWidth, behavior: reducedMotion() ? 'auto' : 'smooth' });
+    if (to === viewRef.current && !instant) return;
+    viewRef.current = to;
     setView(to);
+    // the destination's cards mount now, the turn starts once they are painted
+    setMounted(to);
+    const smooth = !instant && !reducedMotion();
+    requestAnimationFrame(() => requestAnimationFrame(() => t.scrollTo({ left: to * t.clientWidth, behavior: smooth ? 'smooth' : 'auto' })));
   };
 
-  // A new filter, search or sort opens the binder at its first page
+  // A new filter, search or sort opens the binder at its first page, with a short fade (opacity and transform only)
   const filterKey = `${f.q}|${f.mine}|${f.tier}|${f.finish}|${f.pos}|${f.team}|${f.sort}|${per}|${spread}`;
-  useEffect(() => {
+  const firstKey = useRef(filterKey);
+  useLayoutEffect(() => {
     trackRef.current?.scrollTo({ left: 0 });
+    viewRef.current = 0;
     setView(0);
+    setMounted(0);
+    if (firstKey.current === filterKey) return;
+    firstKey.current = filterKey;
+    if (reducedMotion()) return;
+    bookRef.current?.animate?.([{ opacity: 0.35, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 240, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
   }, [filterKey]);
 
   const onKey = (e: React.KeyboardEvent) => {
@@ -186,12 +225,36 @@ const Binder = ({
           setTotal={cards.length}
           hint={c.hint}
           marks={entry?.marks}
-          onOpen={entry ? (from) => onOpen(c, from) : undefined}
+          onOpen={entry ? (from) => openRef.current(c, from) : undefined}
         />
         <VariantBadges entry={entry} />
       </li>
     );
   };
+
+  // The pages (memoized on the settled page, so the counter and the range slider never re-render the cards)
+  const openRef = useRef(onOpen);
+  openRef.current = onOpen;
+  const pageEls = useMemo(
+    () =>
+      Array.from({ length: pages }, (_, p) => {
+        const live = p >= (mounted - 1) * step && p < (mounted + 2) * step;
+        const slice = filtered.slice(p * per, p * per + per);
+        return (
+          <div key={p} className={cn('bk__page', spread && (p % 2 ? 'bk__page--right' : 'bk__page--left'))}>
+            <ul className="bk__pockets" aria-label={`Page ${p + 1}`}>
+              {Array.from({ length: per }, (_, i) => renderPocket(slice[i], p * per + i, live))}
+            </ul>
+            <span className="bk__folio" aria-hidden="true">
+              {p + 1}
+            </span>
+          </div>
+        );
+      }),
+    // renderPocket reads owned / display / fresh / cards from this render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [pages, mounted, step, per, spread, filtered, owned, display, fresh, cards.length],
+  );
 
   return (
     <section aria-labelledby="col-binder" className="bk-section scroll-mt-20" id="col-binder-section">
@@ -218,7 +281,7 @@ const Binder = ({
             type="search"
             value={f.q}
             onChange={(e) => set({ q: e.target.value })}
-            placeholder={f.mine ? 'Find one of your cards' : 'Find any player'}
+            placeholder={f.mine ? 'Find a card' : 'Find a player'}
             aria-label="Find a player"
             enterKeyHint="search"
             autoComplete="off"
@@ -322,7 +385,7 @@ const Binder = ({
           </div>
         </div>
       ) : (
-        <div className={cn('bk', spread && 'bk--spread', skin && `ec-skin ec-skin--${skin}`)} style={{ ['--bk-cols' as string]: cols }}>
+        <div ref={bookRef} className={cn('bk', spread && 'bk--spread', skin && `ec-skin ec-skin--${skin}`)} style={{ ['--bk-cols' as string]: cols }}>
           <span className="bk__rings" aria-hidden="true">
             <i />
             <i />
@@ -338,20 +401,7 @@ const Binder = ({
             aria-roledescription="binder"
             aria-label={`Binder pages, page ${view * step + 1} of ${pages}. Left and right arrows turn the page.`}
           >
-            {Array.from({ length: pages }, (_, p) => {
-              const live = p >= (view - 1) * step && p < (view + 2) * step;
-              const slice = filtered.slice(p * per, p * per + per);
-              return (
-                <div key={p} className={cn('bk__page', spread && (p % 2 ? 'bk__page--right' : 'bk__page--left'))} aria-hidden={p < view * step || p >= (view + 1) * step}>
-                  <ul className="bk__pockets" aria-label={`Page ${p + 1}`}>
-                    {Array.from({ length: per }, (_, i) => renderPocket(slice[i], p * per + i, live))}
-                  </ul>
-                  <span className="bk__folio" aria-hidden="true">
-                    {p + 1}
-                  </span>
-                </div>
-              );
-            })}
+            {pageEls}
           </div>
         </div>
       )}
@@ -376,7 +426,7 @@ const Binder = ({
                 min={0}
                 max={views - 1}
                 value={view}
-                onChange={(e) => goTo(Number(e.target.value))}
+                onChange={(e) => goTo(Number(e.target.value), true)}
                 aria-label="Turn to page"
                 style={{ ['--p' as string]: views > 1 ? view / (views - 1) : 0 }}
               />

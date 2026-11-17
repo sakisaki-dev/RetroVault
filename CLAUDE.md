@@ -914,7 +914,12 @@ source names that file).
   two-page spread from 1100px; pages turn sideways (scroll snap, arrows, a page slider, ← →). "My cards" by default
   (remembered per device, `rv:binder:mine`), "Full set" adds the missing cards locked. Search by name or nickname, one
   Filters sheet (sort, tier, best finish, position, club logos) with removable pills; Swipe and Sell duplicates sit
-  beside the search. Only the pages near the one on show mount their cards.
+  beside the search. Only the pages near the one on show mount their cards, and only once a swipe settles (a button
+  turn mounts first, then slides), so no card mounts mid-swipe; the pages are memoized on that settled page. The leather
+  cover is `:where(.bk)` so a milestone skin (turf, gold leaf, marble) is the cover, with clear sleeve pages over it.
+  The Exchange sits above the Market (owner, 2026-11-17). **Shard workshop** (`ShardWorkshop.tsx`, `shardWorkshop.css`):
+  a forge, the chosen legend's card on an anvil in his club's glow, a shard gauge with the packs to go, Claim, and one
+  swipeable strip of claimable legends (logo, surname, position and OVR, not owned / new art).
 - **Collection economy** (owner approved all six parts; `src/utils/economy.ts` rules and writes, UI in
   `src/components/collection/economy/`): coins become the trading currency; shards stay exactly as they were (claims and
   finish upgrades). `CollectionState` gains `coins` (older saves load with 0), `coinLog` (newest first, 40 kept),

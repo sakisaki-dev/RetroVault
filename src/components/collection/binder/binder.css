@@ -178,16 +178,21 @@
 }
 
 /* ---------- The book ---------- */
+/* The leather cover sits at zero specificity (:where), so a milestone skin's background (ec-skin--turf …) wins */
 .bk {
   --bk-spine: 26px;
   position: relative;
   border-radius: 18px;
   padding: 10px 8px 10px var(--bk-spine);
+}
+:where(.bk) {
   background:
     radial-gradient(ellipse at 20% 0%, hsl(226 45% 30% / 0.55), transparent 60%),
     radial-gradient(circle at 70% 80%, hsl(0 0% 0% / 0.35), transparent 55%),
     repeating-radial-gradient(circle at 30% 40%, hsl(0 0% 100% / 0.018) 0 1px, transparent 1px 3px),
     linear-gradient(160deg, hsl(226 42% 17%), hsl(228 48% 9%));
+}
+:where(.bk) {
   box-shadow:
     0 18px 40px hsl(0 0% 0% / 0.45),
     inset 0 1px 0 hsl(0 0% 100% / 0.08),
@@ -560,8 +565,123 @@
     margin-inline: 0;
   }
 }
+/* on a skin the sleeve pages are clear plastic: the cover (turf, gold leaf, marble) shows through */
 .bk.ec-skin .bk__page {
   background:
-    linear-gradient(180deg, hsl(0 0% 100% / 0.06), transparent 30%),
-    hsl(226 30% 12% / 0.82);
+    linear-gradient(180deg, hsl(0 0% 100% / 0.09), transparent 35%),
+    hsl(0 0% 0% / 0.18);
+  box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 0.12);
+}
+.bk.ec-skin .bk-pocket {
+  background: hsl(0 0% 100% / 0.05);
+}
+.bk.ec-skin--marble .bk__page {
+  background:
+    linear-gradient(180deg, hsl(0 0% 100% / 0.25), transparent 35%),
+    hsl(30 20% 30% / 0.12);
+}
+.bk.ec-skin--marble .bk__folio {
+  color: #6b5a3e;
+}
+
+/* ---------- Smoothness (owner, 2026-11-17: "the animations are a bit choppy and clunky") ---------- */
+/* each page paints on its own: a page turn never re-lays out its neighbours */
+.bk__page {
+  contain: layout paint style;
+}
+.bk__track {
+  will-change: scroll-position;
+  -webkit-overflow-scrolling: touch;
+}
+/* the two views: one gold thumb slides between equal halves instead of the colour jumping */
+.bk-seg {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+}
+.bk-seg::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  border-radius: 999px;
+  background: hsl(var(--gold));
+  transform: translateX(0);
+  transition: transform 320ms cubic-bezier(0.22, 1.2, 0.36, 1);
+  will-change: transform;
+}
+.bk-seg:has(.bk-seg__b:nth-child(2).is-on)::before {
+  transform: translateX(100%);
+}
+.bk-seg__b {
+  position: relative;
+  justify-content: center;
+  transition: color 220ms ease;
+}
+.bk-seg__b.is-on {
+  background: transparent;
+}
+/* cards slide into their sleeves when a page mounts; pills and the sheet's choices ease */
+@media (prefers-reduced-motion: no-preference) {
+  .bk-pocket > .fut {
+    animation: bk-in 260ms cubic-bezier(0.22, 1, 0.36, 1) backwards; /* backwards: never holds the card's own tilt transform */
+  }
+  .bk-pocket.fut-tile--fresh > .fut {
+    animation:
+      bk-in 260ms cubic-bezier(0.22, 1, 0.36, 1) backwards,
+      fut-fresh 1.6s ease-out 300ms 2;
+  }
+  .bk-pocket:nth-child(3n + 2) > .fut {
+    animation-delay: 30ms;
+  }
+  .bk-pocket:nth-child(3n) > .fut {
+    animation-delay: 60ms;
+  }
+  @keyframes bk-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .bk-pill {
+    animation: bk-pop 200ms cubic-bezier(0.22, 1.2, 0.36, 1) both;
+  }
+  @keyframes bk-pop {
+    from {
+      opacity: 0;
+      transform: scale(0.85);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .bk-opt,
+  .bk-club,
+  .bk-filter-btn,
+  .bk-pill,
+  .bk-nav__b {
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease,
+      transform 160ms ease;
+  }
+  .bk-opt:active,
+  .bk-club:active,
+  .bk-filter-btn:active,
+  .bk-nav__b:active:not(:disabled),
+  .bk-seg__b:active {
+    transform: scale(0.96);
+  }
+}
+[data-perf='lite'] .bk-pocket > .fut,
+[data-perf='lite'] .bk-pill {
+  animation: none;
 }

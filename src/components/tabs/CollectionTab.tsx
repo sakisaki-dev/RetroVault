@@ -616,16 +616,7 @@ const CollectionTab = () => {
         />
       )}
 
-      {/* Market */}
-      {loaded && cards.length > 0 && (
-        <section aria-labelledby="col-market" className="scroll-mt-20">
-          <h2 id="col-market" className="section-title">
-            Market
-          </h2>
-          <MarketView byKey={byKey} owned={owned} autos={state.autos} onOpen={(info, list) => setDetail({ info, list })} />
-        </section>
-      )}
-
+      {/* Exchange (pack shop, bounties, sets, trade-up, milestones) above the Market (owner, 2026-11-17) */}
       {loaded && cards.length > 0 && (
         <Exchange
           cards={cards}
@@ -638,6 +629,17 @@ const CollectionTab = () => {
           onOpenCard={(c) => openCard(c, [c])}
         />
       )}
+
+      {/* Market */}
+      {loaded && cards.length > 0 && (
+        <section aria-labelledby="col-market" className="scroll-mt-20">
+          <h2 id="col-market" className="section-title">
+            Market
+          </h2>
+          <MarketView byKey={byKey} owned={owned} autos={state.autos} onOpen={(info, list) => setDetail({ info, list })} />
+        </section>
+      )}
+
 
       {/* Sets */}
       {sets.length > 0 && ownedCount > 0 && (
