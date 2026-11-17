@@ -9,7 +9,8 @@ import { SIM_MIN_GAMES } from '@/config/advanced';
 import { playerSkillGrades, type GradeStep } from '@/config/skillGrades';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import PositionBadge from '../PositionBadge';
-import TeamLogo from '../brand/TeamLogo';
+import { StageFigure } from './visual/ClubStage';
+import { clubStyle } from './visual/clubTone';
 import { peekProps } from '@/components/peek/peekProps';
 
 /** Skill rating at least this high, and at least this many points above the official OVR. */
@@ -139,10 +140,12 @@ const HiddenGems = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Player
                   {...peekProps(g.player)}
                   onClick={() => onSelect(g.player)}
                   aria-label={`${g.player.name}, ${g.player.position}: overall ${g.ovr}, skill rating ${g.skill} (${g.grade.grade}), ${g.gap} points higher. Open card`}
-                  className="group flex w-full items-center gap-3 rounded-lg border border-line bg-night/40 px-3 py-2.5 text-left transition-colors hover:border-gold/60 hover:bg-panel-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                  className="cs-card group flex w-full items-center gap-3 rounded-lg border border-line bg-night/40 px-3 py-2.5 text-left transition-colors hover:border-gold/60 hover:bg-panel-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                  style={clubStyle(g.player)}
                 >
                   <span className="w-5 shrink-0 text-center font-display text-lg font-extrabold italic text-muted-foreground">{i + 1}</span>
-                  <TeamLogo team={g.player.team} size={28} decorative backed />
+                  {/* the gem himself, in his club's kit (the club logo in the public build) */}
+                  <StageFigure player={g.player} action="idle" className="!relative !bottom-auto !right-auto !h-14 !w-14 shrink-0" />
                   <span className="min-w-0 flex-1">
                     <span className="flex min-w-0 items-center gap-2">
                       <span className="truncate font-semibold group-hover:text-gold">{g.player.name}</span>

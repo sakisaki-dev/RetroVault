@@ -8,6 +8,8 @@ import RecordBook, { RecordStrip } from '../stats/RecordBook';
 import PositionLeaders from '../stats/PositionLeaders';
 import StatTables from '../stats/StatTables';
 import StatsStadium from '../stats/visual/StatsStadium';
+import CrowdDivider from '../stats/visual/CrowdDivider';
+import '../stats/visual/statsArena.css';
 import { HEADLINE_IDS, LEADER_IDS, buildRecordBook, pickBoards } from '../stats/records';
 import StatsHub from '../stats/hub/StatsHub';
 import { ClockPage, GraphsPage, HeadToHead, PlayerDeepDive, PlayersInsights, TeamRankingsTab, ViewLoading, prefetchStatsSub } from '../stats/hub/lazyViews';
@@ -163,7 +165,7 @@ const CareerTab = () => {
       {/* Each sub-tab cross-fades in with a short rise (.rv-view-in). The switch is a transition (hashRoute), and the
           Suspense below stays mounted, so the old sub-tab stays up until a lazy one has loaded. */}
       {sub === 'players' && (
-        <div className="rv-view-in container space-y-10 py-6 sm:py-8">
+        <div className="rv-view-in stats-arena container space-y-10 py-6 sm:py-8">
           {/* The opener: a night stadium (jumbotron counts, the record holders on the turf, the live chase) */}
           <StatsStadium data={careerData} book={book} headline={headline} onSelect={setSelectedPlayer} />
           <nav aria-label="On this page" className="-mt-6 flex flex-wrap justify-center gap-x-3 gap-y-1 text-sm max-sm:hidden">
@@ -195,14 +197,20 @@ const CareerTab = () => {
 
           {headline.length > 0 && <RecordStrip headline={headline} players={players} onSelect={setSelectedPlayer} />}
 
+          <CrowdDivider />
+
           {/* Analytics Lab, Landscape, Hidden Gems, League Shape: their own chunk (stats/hub/lazyViews) */}
           <Suspense fallback={<ViewLoading label="advanced stats" tall={false} />}>
             <PlayersInsights data={careerData} onSelect={setSelectedPlayer} />
           </Suspense>
 
+          <CrowdDivider />
+
           <RecordBook leaders={leaders} pace={book.pace} onSelect={setSelectedPlayer} />
 
           <PositionLeaders boards={book.boards} data={careerData} onSelect={setSelectedPlayer} />
+
+          <CrowdDivider />
 
           <StatTables data={careerData} />
         </div>
