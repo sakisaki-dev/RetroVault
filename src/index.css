@@ -245,6 +245,9 @@
   /* Section heading: condensed caps with a gold rule, like a broadcast lower-third */
   .section-title {
     @apply font-display text-xl font-bold uppercase tracking-wide flex items-center gap-2;
+    /* condensed caps need room under the baseline: a tight line box with text-2xl cropped the letters' feet */
+    line-height: 1.2;
+    padding-block: 0.12em;
   }
   .section-title::after {
     content: '';
@@ -324,7 +327,7 @@
     left: 0;
     z-index: 10;
     background: hsl(var(--card));
-    box-shadow: 1px 0 0 hsl(var(--border));
+    box-shadow: 1px 0 0 hsl(var(--border)), 6px 0 8px -5px hsl(228 60% 3% / 0.7);
   }
   .stats-table th.sticky-col {
     z-index: 30;

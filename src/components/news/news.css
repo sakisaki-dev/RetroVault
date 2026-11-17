@@ -252,7 +252,10 @@ button.wc-item:focus-visible {
 }
 
 /* ---------- Timeline news block: the Wire + Season Story (TimelineNews) ---------- */
-.wc-news { display: grid; gap: 16px; min-width: 0; }
+/* One shrinkable column: a grid's auto track grows to the widest child's min-content (the Wire ticker, rewind rings),
+   which widened the whole page on a phone and left the header and masthead looking shrunk. */
+.wc-news { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; min-width: 0; }
+.wc-news > * { min-width: 0; }
 .wc-wire-all > summary {
   display: flex;
   align-items: center;

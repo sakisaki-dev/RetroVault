@@ -496,6 +496,17 @@ a.ppb__credit:focus-visible { outline: 2px solid hsl(var(--gold)); outline-offse
   .ppb--compact .ppb__figure ~ .ppb__row .ppb__first { font-size: 0.6rem; }
 }
 
+/* very narrow tiles (two across on a small phone): shrink the sprite slot, number plate and badge so the whole surname
+   shows beside them instead of being pushed out of the tile */
+@container (max-width: 240px) {
+  .ppb--compact .ppb__figure { flex: 0 0 2.6rem; width: 2.6rem; min-width: 0; }
+  .ppb--compact:has(.ppb__figure .game-sprite) .ppb__numplate { min-width: 2rem; padding: 0 0.5rem 0 0.35rem; font-size: 1rem; }
+  .ppb--compact:has(.ppb__figure .game-sprite) .ppb__row { gap: 0.25rem; padding-right: 0.4rem; }
+  .ppb--compact .ppb__figure ~ .ppb__row .ppb__first { display: none; }
+  .ppb--compact .ppb__figure ~ .ppb__row .ppb__last { font-size: clamp(0.7rem, 7cqi, 1.1rem); overflow-wrap: normal; }
+  .ppb--compact .ppb__figure ~ .ppb__row .ppb__chip { display: none; }
+}
+
 /* ---------- Centre pedestal (hero and card; owner's pick 2026-11-13) ----------
    Only when a sprite renders (:has(.game-sprite)); without one the classic banner above is untouched (public build).
    The player stands in the middle on a club-colour plinth with his logo set in it; the giant number and the gold bands
