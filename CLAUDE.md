@@ -1166,8 +1166,7 @@ holders standing on the turf in their kits, each under a plate with his record (
 The stand front, crowd and turf are the game's art painted to the current club (`useFieldArt`, night); the public build
 draws them in CSS and shows club logos for the players. The section links sit under it.
   The same night carries down the page (`.stats-arena` on the Players page, `stats/visual/statsArena.css`; owner: "the
-  rest feels bland"): section headers are marquee boards (gold flag, a row of bulbs), each section's takeaway is a LIVE
-  ticker band (`.si-take` in SectionIntro), panels sit under a floodlit edge, crowd strips (`CrowdDivider`, the game's
+  rest feels bland"): section headers are marquee boards (gold flag, a row of bulbs), panels sit under a floodlit edge, crowd strips (`CrowdDivider`, the game's
   crowd painted to the club) part the big sections, and Hidden Gems rows show each gem in his kit on a club-tinted card.
   The stadium's turf stands the league's nine greatest by Career Legacy (the best in the middle, in gold), each plate his
   headline record or his Career Legacy. The Record Book is plaques on trophy shelves (`Shelves` / `Plaque` in
@@ -1175,7 +1174,7 @@ draws them in CSS and shows club logos for the players. The section links sit un
   club-tinted plaque, the mark, his name, one line of context, the club's own mark), shelves per unit sitting side by
   side. Efficiency leader tiles stand their leader the same way; Value / Game puts a compact podium beside its table;
   League Shape's spread draws every player in his club colour on turf bands, Hall of Famers glowing gold, each
-  position's leader named. Section takeaways are amber ticker bands (no LIVE tag). Below it:
+  position's leader named. The sections' one-line takeaways are hidden on this page (owner: "remove the subtext"). Below it:
 `src/components/stats/visual/ClubStage.tsx` (`StageFigure`, `RankMedal`), `clubTone.ts` (`clubStyle`, `MEDAL`) and
 `clubStage.css` (owner, 2026-11-17: "the stats players page now feels really dry"): the headline cards (StatsPulse:
 position bars in `POSITION_COLORS`, the Hall's top Career Legacy, the best OVR and the record chaser standing in their

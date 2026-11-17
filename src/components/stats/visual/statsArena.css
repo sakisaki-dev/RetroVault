@@ -35,20 +35,10 @@
   animation: none;
 }
 
-/* the section's one-line takeaway: a scoreboard ticker band */
+/* the sections' one-line takeaways are not shown on this page (owner: "remove the subtext" under each section header) */
 .stats-arena .si-take {
-  position: relative;
-  padding: 8px 14px;
-  border-left: 3px solid #ffc63e;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #03050c, #0a1026);
-  box-shadow: inset 0 0 0 1px rgb(255 198 62 / 0.18);
-  color: #ffe2a0;
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: 13px;
-  letter-spacing: 0.01em;
+  display: none;
 }
-
 
 /* panels under the lights: a floodlit top edge and a faint glow from above */
 .stats-arena .glass-card {
