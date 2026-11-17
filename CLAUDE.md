@@ -1007,6 +1007,9 @@ pictures".
 - **Install:** in Safari on the iPhone, Share → Add to Home Screen. It opens standalone (no Safari bars) with the
   launch screen, and Home Screen web apps are exempt from Safari's 7-day wipe of script-writable storage (the card
   collection, coins and settings live in localStorage).
+- **Icon now** (owner, 2026-11-16, "Kickoff"): the original brown pixel football in front of a sunset stadium; the PNGs in
+  `public/` come from branch `worktree-agent-a4a0bc0b958bfe613` (2ca4838) until its launch screen ships with it. Don't
+  rerun the script below on this branch: it still draws the retired gold "RV" icon.
 - **Art:** `python3 scripts/build_app_icons.py` draws the pixel icon (a gold football with "RV" on night navy; no game
   or NFL art) and writes `public/apple-touch-icon.png`, `icon-192/512.png`, `icon-maskable-192/512.png`, the favicons
   and the portrait launch screens `public/splash/launch-<w>x<h>.png` for the current iPhone sizes (`SPLASH`); `--links`
