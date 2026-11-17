@@ -1693,6 +1693,15 @@
     "tribute": 1
    },
    "changed": 3
+  },
+  {
+   "id": "2026-11-17-maxwell-retired-number",
+   "dir": "data/uploads/2026-11-17-maxwell-retired-number",
+   "applied_at": "2026-11-17T01:46:48-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
   }
  ]
 }

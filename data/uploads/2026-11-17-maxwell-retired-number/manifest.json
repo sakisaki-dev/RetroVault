@@ -1,0 +1,11 @@
+{
+ "id": "2026-11-17-maxwell-retired-number",
+ "created": "2026-11-17",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {"lane": "stats", "op": "fact.set", "target": "players/Ryland Maxwell/retired_by", "value": ["Falcons", "Eagles"], "source": "owner",
+   "reason": "Owner: \"im saying like sherman who is known for hsi gants stint but has two retired numbers\" (known as a Falcon, his signature club; the Eagles retire his number too once he is a Hall of Famer)",
+   "trigger": "Owner statement in notes.md"}
+ ]
+}
