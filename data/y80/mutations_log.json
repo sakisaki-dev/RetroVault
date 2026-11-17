@@ -1655,6 +1655,44 @@
     "tribute": 2
    },
    "changed": 2
+  },
+  {
+   "id": "2026-11-17-save-y97-resigned",
+   "dir": "data/uploads/2026-11-17-save-y97-resigned",
+   "applied_at": "2026-11-17T01:38:58-08:00",
+   "mutations": {
+    "stats": 2
+   },
+   "changed": 2
+  },
+  {
+   "id": "2026-11-17-save-y97w1-resigned",
+   "dir": "data/uploads/2026-11-17-save-y97w1-resigned",
+   "applied_at": "2026-11-17T01:39:45-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-17-speeches-y96-remove",
+   "dir": "data/uploads/2026-11-17-speeches-y96-remove",
+   "applied_at": "2026-11-17T01:40:32-08:00",
+   "mutations": {
+    "speech": 2
+   },
+   "changed": 2
+  },
+  {
+   "id": "2026-11-17-y96-unretire",
+   "dir": "data/uploads/2026-11-17-y96-unretire",
+   "applied_at": "2026-11-17T01:44:26-08:00",
+   "mutations": {
+    "story": 1,
+    "takes": 1,
+    "tribute": 1
+   },
+   "changed": 3
   }
  ]
 }

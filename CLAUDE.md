@@ -527,7 +527,7 @@ source names that file).
   `coachOpponents` / `opponentTotals` / `coachPlayoffs` already stored are kept, and every difference from a stored
   season is printed). The save keeps only the season it is in, so the schedule is written only from a pull made after
   that season's Super Bowl and before the new season starts; otherwise it prints why. Then `fact.set
-  players/<name>/status "Retired"` for Retro Vault actives no longer playing, and
+  players/<name>/status "Retired"` for Retro Vault actives no longer playing (a player the coach re-signed past the usual age stays on his club with no `team_leave_reason`: still playing, never retired by age alone; owner, Y97: "brock or maxwell both ahven't retired yet"), and
   `fact.set players/<name>/team` for club changes. `--tag X` adds `-X` to the bundle id. A player whose save total is **below** Retro Vault's is held back
   whole and printed for a human (apply-upload refuses drops). Review the printout, then `npm run update -- <bundle>`, then `python3 scripts/private_nfl_sprites.py` so new players get their own game sprites (the update doesn't run it; commit `public/private-sprites`);
   speeches, stories and takes follow as usual. `--complete --check` is the dry run (builds the bundle in memory and

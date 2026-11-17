@@ -1,0 +1,33 @@
+{
+ "id": "2026-11-17-save-y97-resigned",
+ "created": "2026-11-17",
+ "save": {
+  "file": "rb_nfl_savedata_4.json",
+  "path": "data/saves/2026-11-17/nfl/Documents/rb_nfl_savedata_4.json",
+  "sha256": "10a3502a25f7a078d088a7aa832fe19caf57aa1d92196b9009f622c1942e9b1a",
+  "season": 97,
+  "week": 1,
+  "complete": false
+ },
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Ryland Maxwell/status",
+   "value": "Active",
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Still on the Eagles in the Y97 save with no team_leave_reason: re-signed in Y96 past the usual retirement age (owner: \"brock or maxwell both ahven't retired yet\")",
+   "trigger": "Owner correction of 2026-11-17-save-y96"
+  },
+  {
+   "lane": "stats",
+   "op": "fact.set",
+   "target": "players/Akiem Brock/status",
+   "value": "Active",
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Still on the Eagles in the Y97 save with no team_leave_reason: re-signed in Y96 past the usual retirement age (owner: \"brock or maxwell both ahven't retired yet\")",
+   "trigger": "Owner correction of 2026-11-17-save-y96"
+  }
+ ]
+}

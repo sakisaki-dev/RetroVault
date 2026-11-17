@@ -22,7 +22,8 @@ upload bundle are committed.
              --date YYYY-MM-DD (bundle date, default today)
 
 Save format, stat mapping and rounding: docs/GAME_MECHANICS.md "Save format". In short:
-  * a player is playing when teamid >= 0 and age < max age (40 QB/K/P, else 35) + delay_retirement: ages go up at
+  * a player is playing when teamid >= 0 and age < max age (40 QB/K/P, else 35) + delay_retirement, or the coach
+    re-signed him past it (on a club, no team_leave_reason, signed_year set, within 3 years of the max): ages go up at
     each season's end, so the final season is played at max age - 1 (34, or 39 for QB/K/P) and nobody plays at 35/40;
   * sta_c is the career, sta_s the season so far; a player who is not playing keeps his LAST season in sta_s, so his
     career is sta_c as it stands. For a playing player the career before this season is sta_c - sta_s;
@@ -193,7 +194,12 @@ class Save:
     def _player(self, i: int, p: dict) -> dict:
         pos = POS.get(int(p["position"]), str(int(p["position"])))
         # final season at max age - 1: he turns max age at the season's end and goes (nobody plays at 35, or 40 for QB/K/P)
-        playing = p["teamid"] >= 0 and p["age"] < MAX_AGE.get(pos, 35) + p.get("delay_retirement", 0)
+        # unless the coach re-signs him: a player still on a club with no team_leave_reason, within a few years of the
+        # max age, is on that roster (owner, Y97: Maxwell and Brock, re-signed in Y96 at 34, "haven't retired yet");
+        # long-gone players also keep a club and an empty reason, but they are decades past it
+        mx = MAX_AGE.get(pos, 35) + p.get("delay_retirement", 0)
+        kept = not p.get("team_leave_reason") and int(p.get("signed_year") or 0) > 0 and p["age"] < mx + 3
+        playing = p["teamid"] >= 0 and (p["age"] < mx or kept)
         name = f'{p["fname"]} {p["lname"]}'.strip()
         c, s = p["sta_c"], p["sta_s"]
         # a player who isn't playing keeps his last season in sta_s: his career is sta_c as it stands

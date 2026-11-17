@@ -1,7 +1,7 @@
 {
  "_about": "Live state of the current season read from the game's own save (scripts/save_read.py --state), written only by a save.state upload mutation: ages, ratings and ceilings, contracts, injuries, the season so far per player (Retro Vault keys), club records, the coach's game log, the club's settings, coordinators (staff) and lifetime counters (achievements). Replaced whole by each save.state. Facts only; never hand-edit.",
  "id": "Y97w1",
- "upload": "2026-11-17-save-y97w1",
+ "upload": "2026-11-17-save-y97w1-resigned",
  "season": 97,
  "week": 1,
  "club": "Eagles",
@@ -4957,6 +4957,28 @@
     "g": 0
    }
   },
+  "OL:Akiem Brock": {
+   "team": "Eagles",
+   "age": 35,
+   "speed": 3,
+   "strength": 9,
+   "skill": 10,
+   "stamina": 4,
+   "max_speed": 5,
+   "max_strength": 10,
+   "max_skill": 10,
+   "max_stamina": 9,
+   "injury_week": 0,
+   "contract": 1,
+   "salary": 9,
+   "delay_retirement": 0,
+   "xp_level": 10,
+   "spos": "OL",
+   "signed_year": 96,
+   "season": {
+    "g": 0
+   }
+  },
   "OL:Bradlee Philips": {
    "team": "Buccaneers",
    "age": 33,
@@ -6681,6 +6703,28 @@
    "delay_retirement": 0,
    "xp_level": 4,
    "spos": "RB",
+   "season": {
+    "g": 0
+   }
+  },
+  "RB:Ryland Maxwell": {
+   "team": "Eagles",
+   "age": 35,
+   "speed": 9,
+   "strength": 9,
+   "skill": 6,
+   "stamina": 6,
+   "max_speed": 10,
+   "max_strength": 9,
+   "max_skill": 6,
+   "max_stamina": 9,
+   "injury_week": 0,
+   "contract": 1,
+   "salary": 15,
+   "delay_retirement": 0,
+   "xp_level": 22,
+   "spos": "RB",
+   "signed_year": 96,
    "season": {
     "g": 0
    }

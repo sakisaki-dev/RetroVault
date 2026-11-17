@@ -92,34 +92,6 @@
    "yearsOnBallot": 1
   },
   {
-   "key": "RB:Ryland Maxwell",
-   "name": "Ryland Maxwell",
-   "pos": "RB",
-   "frozenSeason": "Y96",
-   "careerLegacy": 14903,
-   "rank": 1,
-   "score": 99,
-   "parts": {
-    "standing": 60,
-    "honours": 24,
-    "records": 15
-   },
-   "records": [
-    "Rushing yards"
-   ],
-   "rings": 13,
-   "mvp": 1,
-   "opoy": 3,
-   "dpoy": 0,
-   "sbmvp": 7,
-   "games": 323,
-   "class": "Y96",
-   "classSeason": "Y96",
-   "firstBallot": true,
-   "veteran": false,
-   "yearsOnBallot": 1
-  },
-  {
    "key": "DB:Jayon Queen",
    "name": "Jayon Queen",
    "pos": "DB",
@@ -282,32 +254,6 @@
    "class": "Inaugural class",
    "classSeason": "Y79",
    "firstBallot": false,
-   "veteran": false,
-   "yearsOnBallot": 1
-  },
-  {
-   "key": "OL:Akiem Brock",
-   "name": "Akiem Brock",
-   "pos": "OL",
-   "frozenSeason": "Y96",
-   "careerLegacy": 11394,
-   "rank": 1,
-   "score": 79,
-   "parts": {
-    "standing": 60,
-    "honours": 19,
-    "records": 0
-   },
-   "records": [],
-   "rings": 8,
-   "mvp": 0,
-   "opoy": 0,
-   "dpoy": 0,
-   "sbmvp": 0,
-   "games": 181,
-   "class": "Y96",
-   "classSeason": "Y96",
-   "firstBallot": true,
    "veteran": false,
    "yearsOnBallot": 1
   },
@@ -900,14 +846,6 @@
     "Lane McCoy",
     "Damar Hobbs"
    ]
-  },
-  {
-   "season": "Y96",
-   "label": "Class of Y96",
-   "members": [
-    "Ryland Maxwell",
-    "Akiem Brock"
-   ]
   }
  ],
  "ballot": [],
@@ -1085,6 +1023,30 @@
  ],
  "watch": [
   {
+   "key": "RB:Ryland Maxwell",
+   "name": "Ryland Maxwell",
+   "pos": "RB",
+   "frozenSeason": "Y96",
+   "careerLegacy": 14903,
+   "rank": 1,
+   "score": 99,
+   "parts": {
+    "standing": 60,
+    "honours": 24,
+    "records": 15
+   },
+   "records": [
+    "Rushing yards"
+   ],
+   "rings": 13,
+   "mvp": 1,
+   "opoy": 3,
+   "dpoy": 0,
+   "sbmvp": 7,
+   "games": 323,
+   "projected": true
+  },
+  {
    "key": "DB:Jamon Brooker",
    "name": "Jamon Brooker",
    "pos": "DB",
@@ -1106,6 +1068,28 @@
    "dpoy": 2,
    "sbmvp": 0,
    "games": 247,
+   "projected": true
+  },
+  {
+   "key": "OL:Akiem Brock",
+   "name": "Akiem Brock",
+   "pos": "OL",
+   "frozenSeason": "Y96",
+   "careerLegacy": 11394,
+   "rank": 1,
+   "score": 79,
+   "parts": {
+    "standing": 60,
+    "honours": 19,
+    "records": 0
+   },
+   "records": [],
+   "rings": 8,
+   "mvp": 0,
+   "opoy": 0,
+   "dpoy": 0,
+   "sbmvp": 0,
+   "games": 181,
    "projected": true
   },
   {
@@ -1682,15 +1666,6 @@
   ],
   "Eagles": [
    {
-    "name": "Akiem Brock",
-    "pos": "OL",
-    "careerLegacy": 11394,
-    "score": 79,
-    "hof": true,
-    "why": "Hall of Famer",
-    "frozenSeason": "Y96"
-   },
-   {
     "name": "Dwayne Skura",
     "pos": "DB",
     "careerLegacy": 5762,
@@ -1701,15 +1676,6 @@
    }
   ],
   "Falcons": [
-   {
-    "name": "Ryland Maxwell",
-    "pos": "RB",
-    "careerLegacy": 14903,
-    "score": 99,
-    "hof": true,
-    "why": "Hall of Famer",
-    "frozenSeason": "Y96"
-   },
    {
     "name": "Vyncint Heath",
     "pos": "WR",

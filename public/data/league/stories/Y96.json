@@ -1,18 +1,18 @@
 {
  "season": "Y96",
- "tagline": "The Eagles lose 4 games and win a sixth straight title anyway, 40-26 over the Bengals in Super Bowl CLV, Ryland Maxwell and Akiem Brock retire into the Hall of Fame, and Grover Calitro scores 43 times.",
- "upload": "2026-11-17-story-y96",
+ "tagline": "The Eagles lose 4 games and win a sixth straight title anyway, 40-26 over the Bengals in Super Bowl CLV, Ryland Maxwell takes a 7th Super Bowl MVP at 34 and re-signs with Akiem Brock for one more run, and Grover Calitro scores 43 times.",
+ "upload": "2026-11-17-y96-unretire",
  "articles": [
   {
    "id": "y96-eagles-clv",
    "kind": "lead",
    "headline": "Six Straight: Eagles Beat the Bengals 40-26 in Super Bowl CLV",
-   "dek": "Philadelphia lost 4 regular-season games, its most under Dorren Skura, and still won a sixth straight title as Ryland Maxwell took a 7th Super Bowl MVP in his final season.",
+   "dek": "Philadelphia lost 4 regular-season games, its most under Dorren Skura, and still won a sixth straight title as Ryland Maxwell took a 7th Super Bowl MVP at 34.",
    "body": [
     "The losses came, and the trophy came anyway. Dorren Skura's Eagles went 13-4 in Y96, the most regular-season defeats in his nine seasons in Philadelphia, after records of 17-0, 15-2 and 17-0 in the three years before. Then they beat the Bengals 40-26 in Super Bowl CLV, the 155th edition of the game, for the club's sixth straight championship.",
     "The core never left the field. Ryland Maxwell, Bones Crawford, Akiem Brock and Calvin Wingo II each played all 21 of Philadelphia's games, playoffs included. Maxwell ran for 2,574 yards, the most in the league. Crawford threw 52 touchdown passes, also the most. Wingo led every receiver with 2,096 yards, and Brock made 62 blocks when no other lineman made more than 33.",
     "Cincinnati arrived with the hottest runner in the league. Grover Calitro had scored 43 rushing touchdowns, the most in a season on league cards, and Alshon Lazard had turned his career back around. The Bengals put up 26 points in the final. Philadelphia scored 40.",
-    "It was also a farewell. Maxwell, 34, won his 13th ring and was named Super Bowl MVP for the 7th time, and then he retired. Brock, also 34, retired with his 8th ring, and the two went into the Hall of Fame together as the Class of Y96. Crawford won his 8th ring as well. The Eagles will open Y97 without the runner and the blocker who had been on the field for every title of the run, and the question for Skura is a new one: what this team looks like when the two constants are gone."
+    "It was not a farewell. Maxwell, 34, won his 13th ring and was named Super Bowl MVP for the 7th time. Brock, also 34, won his 8th ring, and Crawford won his 8th as well. Then the runner and the blocker who had been on the field for every title of the run both re-signed with Skura for one more year, and they open Y97 at 35. The question for the rest of the league is an old one: how to beat this team while its two constants are still on the field."
    ],
    "players": [
     "Ryland Maxwell",
@@ -126,6 +126,16 @@
      "label": "Eagles regular-season losses",
      "value": "4",
      "source": "coach.json Y96 l"
+    },
+    {
+     "label": "Maxwell age, Y97",
+     "value": "35",
+     "source": "save_careers.json age Y97 RB:Ryland Maxwell"
+    },
+    {
+     "label": "Brock age, Y97",
+     "value": "35",
+     "source": "save_careers.json age Y97 OL:Akiem Brock"
     }
    ],
    "related": [
@@ -142,12 +152,12 @@
   {
    "id": "y96-maxwell-farewell",
    "kind": "milestone",
-   "headline": "Mad Max Signs Off: 2,574 Yards, a 7th Super Bowl MVP and the Hall of Fame",
-   "dek": "Ryland Maxwell's last season was one of his best. He retires with 32,108 career rushing yards, 13 rings and the highest Career Legacy on file.",
+   "headline": "Mad Max at 34: 2,574 Yards, a 7th Super Bowl MVP and One More Year",
+   "dek": "Ryland Maxwell's Y96 was one of his best. He has 32,108 career rushing yards, 13 rings and the highest Career Legacy on file, and he re-signed for Y97.",
    "body": [
-    "Most great runners fade. Ryland Maxwell left at full speed. In his final season he ran for 2,574 yards, 670 more than anyone else in the league, and scored 25 rushing touchdowns in 21 games. He finished at 32,108 career yards, the league record, 7,601 clear of Lane McCoy's 24,507.",
-    "The touchdown list is the one race he did not win. Maxwell's 421 rushing touchdowns top Skura's record board but rank third in the league, 4 behind Siran Spector's 425 and 37 behind McCoy's 458. He made up for it everywhere else: 125 career touchdown catches, 13 rings and 7 Super Bowl MVPs, the last two both the most on file.",
-    "His Career Legacy closed at 14,903, the highest on file, and the Hall of Fame voted him in on the first ballot with a score of 99. He was 34. Every one of his rings came with Dorren Skura: 2 with the Jets, 5 with the Falcons and 6 with the Eagles. Few careers in any league have been tied so closely to one coach, and fewer have ended on a Super Bowl MVP."
+    "Most great runners fade at 34. Ryland Maxwell sped up. He ran for 2,574 yards, 670 more than anyone else in the league, and scored 25 rushing touchdowns in 21 games. He stands at 32,108 career yards, the league record, 7,601 clear of Lane McCoy's 24,507.",
+    "The touchdown list is the one race he has not won yet. Maxwell's 421 rushing touchdowns top Skura's record board but rank third in the league, 4 behind Siran Spector's 425 and 37 behind McCoy's 458. Everything else is already his: 125 career touchdown catches, 13 rings and 7 Super Bowl MVPs, the last two both the most on file.",
+    "His Career Legacy stands at 14,903, the highest on file, and the Hall of Fame watch scores him at 99, far above the bar of 65. The Hall will have to wait. Skura re-signed him in Y96, and he opens Y97 at 35, still an Eagle. Every one of his rings came with Dorren Skura: 2 with the Jets, 5 with the Falcons and 6 with the Eagles. One ordinary season would carry him past Spector, and few backs have ever been given the chance to try at 35."
    ],
    "players": [
     "Ryland Maxwell",
@@ -241,11 +251,6 @@
      "source": "market_history.json snap-202611170116 RB:Ryland Maxwell legacy"
     },
     {
-     "label": "Hall of Fame score",
-     "value": "99",
-     "source": "halloffame.json members/[key=RB:Ryland Maxwell]/score"
-    },
-    {
      "label": "Age",
      "value": "34",
      "source": "save_careers.json age Y96 RB:Ryland Maxwell"
@@ -264,6 +269,21 @@
      "label": "Rings with the Eagles",
      "value": "6",
      "source": "stints.json Ryland Maxwell/stints/[team=Eagles]/rings/#"
+    },
+    {
+     "label": "Maxwell Hall of Fame watch score",
+     "value": "99",
+     "source": "halloffame.json watch/[key=RB:Ryland Maxwell]/score"
+    },
+    {
+     "label": "Hall of Fame bar",
+     "value": "65",
+     "source": "halloffame.json bar"
+    },
+    {
+     "label": "Maxwell age, Y97",
+     "value": "35",
+     "source": "save_careers.json age Y97 RB:Ryland Maxwell"
     }
    ],
    "related": [
@@ -273,12 +293,12 @@
   {
    "id": "y96-brock-hof",
    "kind": "feature",
-   "headline": "Akiem Brock Walks Away With 8 Rings and a First-Ballot Plaque",
-   "dek": "The league's best blocker made 62 blocks in his final season, and he and Ryland Maxwell are the Hall of Fame's Class of Y96.",
+   "headline": "Akiem Brock Has 8 Rings, a Hall of Fame Case and One More Year to Play",
+   "dek": "The league's best blocker made 62 blocks in Y96 at 34, and he and Ryland Maxwell are both back for another run.",
    "body": [
     "No lineman on league cards came near Akiem Brock in Y96, and none had for years. He made 62 blocks in 21 games, 29 more than JD Pircher of the Bengals or Caleb Linsley of the Giants, and passed 500 for his career on the way to 538 in 181 games.",
     "He spent his whole card career in Philadelphia, and the rings followed: 8 of them, every one with Dorren Skura. In nine seasons together, Skura's Eagles won the title eight times. Y90 was the one that got away.",
-    "The Hall of Fame took him on the first ballot with a score of 79, the best standing among offensive linemen, beside Maxwell's 99. His Career Legacy finished at 11,394 and his card at 29,312. He was 34, the same age as Maxwell, and the two leave Philadelphia together. Linemen rarely get the headlines in a dynasty built on a record-setting runner and a quarterback who threw 52 touchdown passes in Y96. The vote said what the box scores never could: the runner and the quarterback had help."
+    "The Hall of Fame watch scores him at 79, the best standing among offensive linemen and well clear of the bar of 65; Maxwell's is 99. His Career Legacy stands at 11,394 and his card at 29,312. He was 34 in Y96, the same age as Maxwell, and both re-signed with Skura to play Y97 at 35. Linemen rarely get the headlines in a dynasty built on a record-setting runner and a quarterback who threw 52 touchdown passes in Y96. When the vote does come, it will say what the box scores never could: the runner and the quarterback had help."
    ],
    "players": [
     "Akiem Brock",
@@ -328,16 +348,6 @@
      "source": "market_history.json snap-202611170116 OL:Akiem Brock s.rings"
     },
     {
-     "label": "Hall of Fame score",
-     "value": "79",
-     "source": "halloffame.json members/[key=OL:Akiem Brock]/score"
-    },
-    {
-     "label": "Maxwell Hall of Fame score",
-     "value": "99",
-     "source": "halloffame.json members/[key=RB:Ryland Maxwell]/score"
-    },
-    {
      "label": "Career Legacy",
      "value": "11,394",
      "source": "market_history.json snap-202611170116 OL:Akiem Brock legacy"
@@ -366,6 +376,26 @@
      "label": "Linsley blocks, Y96",
      "value": "33",
      "source": "market_history.json snap-202611162108..snap-202611170116 OL:Caleb Linsley s.blk"
+    },
+    {
+     "label": "Brock Hall of Fame watch score",
+     "value": "79",
+     "source": "halloffame.json watch/[key=OL:Akiem Brock]/score"
+    },
+    {
+     "label": "Hall of Fame bar",
+     "value": "65",
+     "source": "halloffame.json bar"
+    },
+    {
+     "label": "Maxwell Hall of Fame watch score",
+     "value": "99",
+     "source": "halloffame.json watch/[key=RB:Ryland Maxwell]/score"
+    },
+    {
+     "label": "Brock age, Y97",
+     "value": "35",
+     "source": "save_careers.json age Y97 OL:Akiem Brock"
     }
    ],
    "related": [
@@ -621,12 +651,12 @@
    "id": "y96-record-chases",
    "kind": "chase",
    "headline": "Brooker Draws Level With Hobbs at 43, and Swaim Climbs to Third on the Tackle List",
-   "dek": "Jamon Brooker tied the career interception record, Lewis Pettis was shut out, and Ryland Maxwell retired 4 rushing touchdowns short of second place.",
+   "dek": "Jamon Brooker tied the career interception record, Lewis Pettis was shut out, and Ryland Maxwell sits 4 rushing touchdowns short of second place.",
    "body": [
     "A year ago Jamon Brooker and Lewis Pettis were tied at 41 interceptions, 2 short of Damar Hobbs. Brooker got both in Y96. He picked off 2 passes for the Packers and now shares the career record of 43 with Hobbs. At 33, he needs one more to own it.",
     "Pettis played all 17 of the Cowboys' games and did not intercept a pass. He stays at 41, though his overall still rose from 95 to 97.",
     "Travon Swaim made 199 tackles for the Lions and reached 3,064, passing Kyron Atwell's 3,059 for third on the career list. Only K'Lavon Settle, at 3,185, and Terron Stidham, at 3,132, have more, and Swaim is 121 from the record.",
-    "Angelo Moton of the Packers scored 30 rushing touchdowns and passed 350 for his career. And the chase that ended: Maxwell retired at 421, 4 short of Spector's 425 for second on that list."
+    "Angelo Moton of the Packers scored 30 rushing touchdowns and passed 350 for his career. And the chase still open: Maxwell is at 421, 4 short of Spector's 425 for second on that list, and he is back for Y97."
    ],
    "players": [
     "Jamon Brooker",
@@ -1123,7 +1153,7 @@
  "didYouKnow": [
   {
    "id": "y96-dyk-maxwell-rings",
-   "text": "Ryland Maxwell retired with 13 rings and 7 Super Bowl MVPs, both the most on file, and Dorren Skura coached him to every one of the rings.",
+   "text": "Ryland Maxwell has 13 rings and 7 Super Bowl MVPs, both the most on file, and Dorren Skura coached him to every one of the rings.",
    "players": [
     "Ryland Maxwell"
    ],
@@ -1224,7 +1254,7 @@
   },
   {
    "id": "y96-dyk-brock",
-   "text": "Akiem Brock made 62 blocks in his final season, 29 more than any other lineman on league cards.",
+   "text": "Akiem Brock made 62 blocks in Y96, 29 more than any other lineman on league cards.",
    "players": [
     "Akiem Brock"
    ],

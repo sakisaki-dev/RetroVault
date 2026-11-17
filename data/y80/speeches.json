@@ -1,11 +1,6 @@
 {
  "_about": "Hall of Fame induction speeches: one of the two AI-authored things in the system (the other is art). Trigger: the rebuild finds a player who first crossed Career Legacy 7000 (his Hall of Fame class in content.json) with no speech here; npm run audit fails until one is written. Reason: a new Hall of Famer. Rules (CLAUDE.md): only facts from the data, 120-190 words, no em dashes; the audit checks the numbers.",
  "speeches": {
-  "Akiem Brock": {
-   "reason": "New Hall of Famer",
-   "trigger": "Voted into the Hall of Fame: Y96",
-   "text": "Eight rings, 538 blocks and one club.\n\nAkiem Brock spent his whole career on the Eagles' offensive line. He was there when Dorren Skura arrived in Philadelphia in Y88, and he was still there in Y96, when the Eagles won their sixth straight Super Bowl.\n\nLinemen do not collect trophies, and Brock never won an individual award. What he collected was blocks: 538 of them in 181 games, nearly three a game. Only Jakeem Friend has more in league history, and Friend needed 273 games to get there. When Brock retired, no offensive lineman in the league had a higher Career Legacy.\n\nHis rings came in Y88 and Y89, and then, after the loss to the Texans in Super Bowl CXLIX, in every season from Y91 to Y96. The running backs got the yards and the quarterbacks got the headlines. Brock got them there. Akiem Brock, welcome to the Hall of Fame."
-  },
   "Bilal Tolbert": {
    "reason": "New Hall of Famer",
    "trigger": "First crossed Career Legacy 7000: Inaugural class (class of the first market snapshot)",
@@ -120,11 +115,6 @@
    "reason": "New Hall of Famer",
    "trigger": "First crossed Career Legacy 7000: Inaugural class (class of the first market snapshot)",
    "text": "Flashy, loud, unstoppable, and he knew it. He was that guy.\n\nRondale Ikarras never just ran through a hole. He ran through it with style, pointed at the crowd, and made sure the cameras got his good side on the way to the end zone. The Prodigal Son played like every snap was a highlight reel, and most of them were.\n\n23,178 rushing yards. 374 rushing touchdowns. Nine rings, four Offensive Player of the Year awards and five Super Bowl MVPs. The career rushing records carry his name. He won three straight titles in Seattle, then built his legend in Baltimore, where five more rings came with the Ravens, and took one last ride with the Jets before hanging it up.\n\nZero regular-season MVPs. He will tell you about that one. Rondale Ikarras, Ravens legend, welcome to the Hall of Fame."
-  },
-  "Ryland Maxwell": {
-   "reason": "New Hall of Famer",
-   "trigger": "Voted into the Hall of Fame: Y96",
-   "text": "Thirteen rings, and the first player to win every major award.\n\nRyland Maxwell arrived with the Jets in Y80 as Rookie of the Year and won two titles there. He followed Dorren Skura to Atlanta, where the Falcons won five straight from Y83, and rejoined him in Philadelphia in Y91. The Eagles then won six in a row, the last in his final season.\n\nHe ran for 32,108 yards on 3,902 carries, better than eight yards a carry, and scored 421 rushing touchdowns in 323 games. No one in league history has run for more. The club record book holds his 237 yards in a game, 39 rushing touchdowns in a season and 2,839 yards in another.\n\nY94 completed the set. He caught 53 touchdown passes, the league record for a season, and was named MVP, joining a ring, Rookie of the Year, three Offensive Player of the Year awards and seven Super Bowl MVPs. Nobody had run the Gauntlet before him. Mad Max, welcome to the Hall of Fame."
   },
   "Sherman Brandson": {
    "reason": "New Hall of Famer",

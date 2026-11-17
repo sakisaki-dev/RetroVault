@@ -384,61 +384,13 @@
    "n": 6
   },
   {
-   "id": "y96-hof",
-   "kind": "hof",
-   "club": "Falcons",
-   "kicker": "Hall of Fame",
-   "title": "Class of Y96",
-   "text": "2 new members, 2 on the first ballot.",
-   "players": [
-    {
-     "key": "RB:Ryland Maxwell",
-     "name": "Ryland Maxwell",
-     "firstBallot": true,
-     "legacy": 14903,
-     "rings": 13,
-     "team": "Falcons"
-    },
-    {
-     "key": "OL:Akiem Brock",
-     "name": "Akiem Brock",
-     "firstBallot": true,
-     "legacy": 11394,
-     "rings": 8,
-     "team": "Eagles"
-    }
-   ],
-   "count": 2,
-   "teams": [
-    "Eagles",
-    "Falcons"
-   ],
-   "n": 7
-  },
-  {
    "id": "y96-farewells",
    "kind": "farewells",
-   "club": "Falcons",
+   "club": "Jets",
    "kicker": "Farewells",
    "title": "Final whistles",
-   "text": "3 careers ended in Y96.",
+   "text": "1 career ended in Y96.",
    "players": [
-    {
-     "key": "RB:Ryland Maxwell",
-     "name": "Ryland Maxwell",
-     "games": 323,
-     "rings": 13,
-     "legacy": 14903,
-     "team": "Falcons"
-    },
-    {
-     "key": "OL:Akiem Brock",
-     "name": "Akiem Brock",
-     "games": 181,
-     "rings": 8,
-     "legacy": 11394,
-     "team": "Eagles"
-    },
     {
      "key": "QB:Ty Lock",
      "name": "Ty Lock",
@@ -448,13 +400,11 @@
      "team": "Jets"
     }
    ],
-   "count": 3,
+   "count": 1,
    "teams": [
-    "Eagles",
-    "Falcons",
     "Jets"
    ],
-   "n": 8
+   "n": 7
   },
   {
    "id": "y96-tribute",
@@ -477,7 +427,7 @@
    "teams": [
     "Giants"
    ],
-   "n": 9
+   "n": 8
   },
   {
    "id": "y96-story",
@@ -485,7 +435,7 @@
    "club": "Eagles",
    "kicker": "Season Story",
    "title": "Six Straight: Eagles Beat the Bengals 40-26 in Super Bowl CLV",
-   "text": "Philadelphia lost 4 regular-season games, its most under Dorren Skura, and still won a sixth straight title as Ryland Maxwell took a 7th Super Bowl MVP in his final season.",
+   "text": "Philadelphia lost 4 regular-season games, its most under Dorren Skura, and still won a sixth straight title as Ryland Maxwell took a 7th Super Bowl MVP at 34.",
    "quoted": true,
    "players": [
     {
@@ -511,7 +461,7 @@
     "Eagles",
     "Bengals"
    ],
-   "n": 10
+   "n": 9
   },
   {
    "id": "y96-take",
@@ -541,7 +491,7 @@
     "Bengals",
     "Seahawks"
    ],
-   "n": 11
+   "n": 10
   },
   {
    "id": "y96-outro",
@@ -562,7 +512,7 @@
      "num": 77
     }
    ],
-   "text": "Through Y96, Skura has won 70 of 77 Super Bowls. Y97 is under way: the Eagles are 0-0 after week 1. Chasing history in Y97: Travon Swaim, 121 tackles from Settle's mark; Lewis Pettis, 2 interceptions from Hobbs's mark.",
+   "text": "Through Y96, Skura has won 70 of 77 Super Bowls. Y97 is under way: the Eagles are 0-0 after week 1. Chasing history in Y97: Brock, 19 blocks from Jakeem Friend's mark; Travon Swaim, 121 tackles from Settle's mark.",
    "teams": [
     "Eagles"
    ],
@@ -573,6 +523,15 @@
    },
    "players": [
     {
+     "key": "OL:Akiem Brock",
+     "name": "Akiem Brock",
+     "team": "Eagles",
+     "label": "career blocks",
+     "gap": 19,
+     "share": 97,
+     "holder": "Jakeem Friend"
+    },
+    {
      "key": "DB:Travon Swaim",
      "name": "Travon Swaim",
      "team": "Lions",
@@ -580,18 +539,9 @@
      "gap": 121,
      "share": 96,
      "holder": "K'Lavon Settle"
-    },
-    {
-     "key": "DB:Lewis Pettis",
-     "name": "Lewis Pettis",
-     "team": "Cowboys",
-     "label": "career interceptions",
-     "gap": 2,
-     "share": 95,
-     "holder": "Damar Hobbs"
     }
    ],
-   "n": 12
+   "n": 11
   }
  ]
 }

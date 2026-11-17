@@ -1,0 +1,8586 @@
+{
+ "id": "2026-11-17-save-y97w1-resigned",
+ "created": "2026-11-17",
+ "save": {
+  "file": "rb_nfl_savedata_4.json",
+  "path": "data/saves/2026-11-17/nfl/Documents/rb_nfl_savedata_4.json",
+  "sha256": "10a3502a25f7a078d088a7aa832fe19caf57aa1d92196b9009f622c1942e9b1a",
+  "season": 97,
+  "week": 1,
+  "complete": false
+ },
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "save.state",
+   "target": "Y97w1",
+   "value": {
+    "season": 97,
+    "week": 1,
+    "club": "Eagles",
+    "settings": {
+     "facilities": {
+      "rehab": 10,
+      "stadium": 4,
+      "training": 1
+     },
+     "salary_cap": 275,
+     "salary_cap_base": 150,
+     "fans": 75,
+     "coach_rating": 20,
+     "credits": 61,
+     "draft_picks": [
+      1,
+      1,
+      1
+     ],
+     "games_coached": 1912,
+     "difficulty": 4,
+     "training": {
+      "offense": 2,
+      "defense": 2
+     },
+     "roster_cap": 10,
+     "facilities_upgraded": {
+      "rehab": 0,
+      "stadium": 0,
+      "training": 0
+     }
+    },
+    "staff": [
+     {
+      "role": "OC",
+      "name": "Darron Foster",
+      "rating": 3,
+      "age": 54,
+      "contract": 1,
+      "trait": 0,
+      "xp_level": 3,
+      "delay_retirement": 0
+     },
+     {
+      "role": "DC",
+      "name": "Hjalte Minter",
+      "rating": 2,
+      "age": 59,
+      "contract": 1,
+      "trait": 0,
+      "xp_level": 2,
+      "delay_retirement": 0
+     }
+    ],
+    "counters": {
+     "ACH_WIN1": 1645,
+     "ACH_SEASON1": 95,
+     "ACH_WINNING_SEASON": 95,
+     "ACH_UNBEATEN_SEASON": 13,
+     "ACH_WIN_DIVISION": 87,
+     "ACH_WIN_AFC": 34,
+     "ACH_WIN_NFC": 43,
+     "ACH_WIN_RETROBOWL1": 70,
+     "ACH_TEAMS2": 17,
+     "ACH_TRADEIN": 160,
+     "ACH_TRADEOUT": 288,
+     "ACH_DRAFT": 120,
+     "ACH_FREEAGENT": 127,
+     "ACH_FREEAGENT5": 41,
+     "ACH_CUT": 11,
+     "ACH_HIRE_OF": 11,
+     "ACH_HIRE_DF": 20,
+     "ACH_HIRE_OF5": 8,
+     "ACH_HIRE_DF5": 16,
+     "ACH_UPGRADE_STADIUM": 114,
+     "ACH_UPGRADE_TRAINING": 108,
+     "ACH_UPGRADE_REHAB": 149,
+     "ACH_MAX_STADIUM": 7,
+     "ACH_MAX_TRAINING": 8,
+     "ACH_MAX_REHAB": 16,
+     "ACH_SHUTOUT": 7,
+     "ACH_SCORE50": 13,
+     "ACH_DOINK": 15,
+     "ACH_FIELDGOAL50": 3,
+     "ACH_GAME_PASS_400": 177,
+     "ACH_GAME_PASS_500": 2,
+     "ACH_GAME_COMPLETE_100": 171,
+     "ACH_GAME_RUSH_150": 65,
+     "ACH_TD_QB": 332,
+     "ACH_WIN_NOSTARQB": 28
+    },
+    "clubs": {
+     "Bills": {
+      "abbr": "BUF",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 9,
+      "def": 9,
+      "rainfall": 40,
+      "snowfall": 89,
+      "roof": 0
+     },
+     "Dolphins": {
+      "abbr": "MIA",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 4,
+      "def": 10,
+      "rainfall": 59,
+      "snowfall": 0,
+      "roof": 0
+     },
+     "Patriots": {
+      "abbr": "NE",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 10,
+      "def": 3,
+      "rainfall": 49,
+      "snowfall": 52,
+      "roof": 0
+     },
+     "Jets": {
+      "abbr": "NYJ",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 5,
+      "def": 6,
+      "rainfall": 47,
+      "snowfall": 25,
+      "roof": 0
+     },
+     "Broncos": {
+      "abbr": "DEN",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 3,
+      "def": 6,
+      "rainfall": 17,
+      "snowfall": 62,
+      "roof": 0
+     },
+     "Chiefs": {
+      "abbr": "KC",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 8,
+      "def": 9,
+      "rainfall": 40,
+      "snowfall": 15,
+      "roof": 0
+     },
+     "Chargers": {
+      "abbr": "LAC",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 4,
+      "def": 3,
+      "rainfall": 17,
+      "snowfall": 0,
+      "roof": 2
+     },
+     "Raiders": {
+      "abbr": "LV",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 5,
+      "def": 4,
+      "rainfall": 5,
+      "snowfall": 0,
+      "roof": 1
+     },
+     "Ravens": {
+      "abbr": "BAL",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 9,
+      "def": 10,
+      "rainfall": 45,
+      "snowfall": 19,
+      "roof": 0
+     },
+     "Bengals": {
+      "abbr": "CIN",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 8,
+      "def": 4,
+      "rainfall": 42,
+      "snowfall": 14,
+      "roof": 0
+     },
+     "Browns": {
+      "abbr": "CLE",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 2,
+      "def": 6,
+      "rainfall": 40,
+      "snowfall": 61,
+      "roof": 0
+     },
+     "Steelers": {
+      "abbr": "PIT",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 7,
+      "def": 10,
+      "rainfall": 38,
+      "snowfall": 27,
+      "roof": 0
+     },
+     "Texans": {
+      "abbr": "HOU",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 3,
+      "def": 7,
+      "rainfall": 51,
+      "snowfall": 0,
+      "roof": 2
+     },
+     "Colts": {
+      "abbr": "IND",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 10,
+      "def": 5,
+      "rainfall": 42,
+      "snowfall": 21,
+      "roof": 1
+     },
+     "Jaguars": {
+      "abbr": "JAX",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 8,
+      "def": 5,
+      "rainfall": 50,
+      "snowfall": 0,
+      "roof": 0
+     },
+     "Titans": {
+      "abbr": "TEN",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 7,
+      "def": 9,
+      "rainfall": 45,
+      "snowfall": 2,
+      "roof": 0
+     },
+     "Cowboys": {
+      "abbr": "DAL",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 3,
+      "def": 7,
+      "rainfall": 39,
+      "snowfall": 1,
+      "roof": 1
+     },
+     "Giants": {
+      "abbr": "NYG",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 8,
+      "def": 10,
+      "rainfall": 47,
+      "snowfall": 25,
+      "roof": 0
+     },
+     "Eagles": {
+      "abbr": "PHI",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 10,
+      "def": 10,
+      "rainfall": 47,
+      "snowfall": 15,
+      "roof": 0
+     },
+     "Commanders": {
+      "abbr": "WAS",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 10,
+      "def": 7,
+      "rainfall": 43,
+      "snowfall": 13,
+      "roof": 0
+     },
+     "Cardinals": {
+      "abbr": "ARI",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 6,
+      "def": 2,
+      "rainfall": 9,
+      "snowfall": 0,
+      "roof": 1
+     },
+     "Rams": {
+      "abbr": "LAR",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 8,
+      "def": 9,
+      "rainfall": 17,
+      "snowfall": 0,
+      "roof": 2
+     },
+     "49ers": {
+      "abbr": "SF",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 5,
+      "def": 6,
+      "rainfall": 24,
+      "snowfall": 0,
+      "roof": 0
+     },
+     "Seahawks": {
+      "abbr": "SEA",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 9,
+      "def": 6,
+      "rainfall": 37,
+      "snowfall": 5,
+      "roof": 0
+     },
+     "Bears": {
+      "abbr": "CHI",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 10,
+      "def": 3,
+      "rainfall": 38,
+      "snowfall": 35,
+      "roof": 0
+     },
+     "Lions": {
+      "abbr": "DET",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 8,
+      "def": 6,
+      "rainfall": 39,
+      "snowfall": 32,
+      "roof": 2
+     },
+     "Packers": {
+      "abbr": "GB",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 6,
+      "def": 10,
+      "rainfall": 30,
+      "snowfall": 48,
+      "roof": 0
+     },
+     "Vikings": {
+      "abbr": "MIN",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 3,
+      "def": 6,
+      "rainfall": 32,
+      "snowfall": 53,
+      "roof": 2
+     },
+     "Falcons": {
+      "abbr": "ATL",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 6,
+      "def": 7,
+      "rainfall": 51,
+      "snowfall": 1,
+      "roof": 1
+     },
+     "Panthers": {
+      "abbr": "CAR",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 5,
+      "def": 2,
+      "rainfall": 44,
+      "snowfall": 2,
+      "roof": 0
+     },
+     "Saints": {
+      "abbr": "NO",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 5,
+      "def": 4,
+      "rainfall": 63,
+      "snowfall": 0,
+      "roof": 2
+     },
+     "Buccaneers": {
+      "abbr": "TB",
+      "w": 0,
+      "l": 0,
+      "t": 0,
+      "off": 7,
+      "def": 5,
+      "rainfall": 50,
+      "snowfall": 0,
+      "roof": 0
+     }
+    },
+    "coachGames": [
+     {
+      "week": 1,
+      "opp": "SF",
+      "home": false
+     },
+     {
+      "week": 2,
+      "opp": "NYG",
+      "home": true
+     },
+     {
+      "week": 3,
+      "opp": "NO",
+      "home": false
+     },
+     {
+      "week": 4,
+      "opp": "PIT",
+      "home": true
+     },
+     {
+      "week": 5,
+      "opp": "CIN",
+      "home": false
+     },
+     {
+      "week": 6,
+      "opp": "DAL",
+      "home": false
+     },
+     {
+      "week": 7,
+      "opp": "MIN",
+      "home": true
+     },
+     {
+      "week": 8,
+      "opp": "ATL",
+      "home": false
+     },
+     {
+      "week": 9,
+      "opp": "KC",
+      "home": false
+     },
+     {
+      "week": 10,
+      "opp": "TB",
+      "home": true
+     },
+     {
+      "week": 11,
+      "opp": "WAS",
+      "home": false
+     },
+     {
+      "week": 12,
+      "opp": "CAR",
+      "home": true
+     },
+     {
+      "week": 14,
+      "opp": "DAL",
+      "home": true
+     },
+     {
+      "week": 15,
+      "opp": "BAL",
+      "home": false
+     },
+     {
+      "week": 16,
+      "opp": "CLE",
+      "home": true
+     },
+     {
+      "week": 17,
+      "opp": "WAS",
+      "home": true
+     },
+     {
+      "week": 18,
+      "opp": "NYG",
+      "home": false
+     }
+    ],
+    "coachHistory": [
+     {
+      "year": 1,
+      "team": "Vikings",
+      "abbr": "MIN",
+      "w": 12,
+      "l": 5,
+      "t": 0,
+      "pw": 2,
+      "pl": 1,
+      "finish": "Champ Rnd"
+     },
+     {
+      "year": 2,
+      "team": "Vikings",
+      "abbr": "MIN",
+      "w": 11,
+      "l": 6,
+      "t": 0,
+      "pw": 0,
+      "pl": 1,
+      "finish": "Wild Card"
+     },
+     {
+      "year": 3,
+      "team": "Vikings",
+      "abbr": "MIN",
+      "w": 12,
+      "l": 5,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 4,
+      "team": "Vikings",
+      "abbr": "MIN",
+      "w": 13,
+      "l": 4,
+      "t": 0,
+      "pw": 2,
+      "pl": 1,
+      "finish": "Champ Rnd"
+     },
+     {
+      "year": 5,
+      "team": "Dolphins",
+      "abbr": "MIA",
+      "w": 9,
+      "l": 8,
+      "t": 0,
+      "pw": 0,
+      "pl": 0,
+      "finish": "AFC EAS 3rd"
+     },
+     {
+      "year": 6,
+      "team": "Dolphins",
+      "abbr": "MIA",
+      "w": 13,
+      "l": 4,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 7,
+      "team": "Dolphins",
+      "abbr": "MIA",
+      "w": 11,
+      "l": 6,
+      "t": 0,
+      "pw": 3,
+      "pl": 1,
+      "finish": "AFC Champs"
+     },
+     {
+      "year": 8,
+      "team": "Dolphins",
+      "abbr": "MIA",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 9,
+      "team": "Dolphins",
+      "abbr": "MIA",
+      "w": 11,
+      "l": 6,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 10,
+      "team": "Chargers",
+      "abbr": "LAC",
+      "w": 13,
+      "l": 4,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 11,
+      "team": "Chargers",
+      "abbr": "LAC",
+      "w": 13,
+      "l": 4,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 12,
+      "team": "Chargers",
+      "abbr": "LAC",
+      "w": 8,
+      "l": 9,
+      "t": 0,
+      "pw": 0,
+      "pl": 0,
+      "finish": "AFC WES 3rd"
+     },
+     {
+      "year": 13,
+      "team": "Chargers",
+      "abbr": "LAC",
+      "w": 11,
+      "l": 6,
+      "t": 0,
+      "pw": 0,
+      "pl": 1,
+      "finish": "Wild Card"
+     },
+     {
+      "year": 14,
+      "team": "Chargers",
+      "abbr": "LAC",
+      "w": 14,
+      "l": 3,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 15,
+      "team": "Chargers",
+      "abbr": "LAC",
+      "w": 12,
+      "l": 5,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 16,
+      "team": "Commanders",
+      "abbr": "WAS",
+      "w": 12,
+      "l": 5,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 17,
+      "team": "Commanders",
+      "abbr": "WAS",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 18,
+      "team": "Commanders",
+      "abbr": "WAS",
+      "w": 13,
+      "l": 4,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 19,
+      "team": "Commanders",
+      "abbr": "WAS",
+      "w": 14,
+      "l": 3,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 20,
+      "team": "Buccaneers",
+      "abbr": "TB",
+      "w": 12,
+      "l": 5,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 21,
+      "team": "Buccaneers",
+      "abbr": "TB",
+      "w": 13,
+      "l": 4,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 22,
+      "team": "Buccaneers",
+      "abbr": "TB",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 2,
+      "pl": 1,
+      "finish": "NFC Champs"
+     },
+     {
+      "year": 23,
+      "team": "Buccaneers",
+      "abbr": "TB",
+      "w": 17,
+      "l": 0,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 24,
+      "team": "Buccaneers",
+      "abbr": "TB",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 2,
+      "pl": 1,
+      "finish": "NFC Champs"
+     },
+     {
+      "year": 25,
+      "team": "Buccaneers",
+      "abbr": "TB",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 26,
+      "team": "Buccaneers",
+      "abbr": "TB",
+      "w": 15,
+      "l": 1,
+      "t": 1,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 27,
+      "team": "Bills",
+      "abbr": "BUF",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 28,
+      "team": "Bills",
+      "abbr": "BUF",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 29,
+      "team": "Bills",
+      "abbr": "BUF",
+      "w": 17,
+      "l": 0,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 30,
+      "team": "Bills",
+      "abbr": "BUF",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 31,
+      "team": "Bills",
+      "abbr": "BUF",
+      "w": 17,
+      "l": 0,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 32,
+      "team": "Bills",
+      "abbr": "BUF",
+      "w": 17,
+      "l": 0,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 33,
+      "team": "Bills",
+      "abbr": "BUF",
+      "w": 14,
+      "l": 3,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 34,
+      "team": "Seahawks",
+      "abbr": "SEA",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 1,
+      "pl": 1,
+      "finish": "Champ Rnd"
+     },
+     {
+      "year": 35,
+      "team": "Seahawks",
+      "abbr": "SEA",
+      "w": 12,
+      "l": 5,
+      "t": 0,
+      "pw": 1,
+      "pl": 1,
+      "finish": "Divisional"
+     },
+     {
+      "year": 36,
+      "team": "Seahawks",
+      "abbr": "SEA",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 37,
+      "team": "Seahawks",
+      "abbr": "SEA",
+      "w": 14,
+      "l": 3,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 38,
+      "team": "Seahawks",
+      "abbr": "SEA",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 39,
+      "team": "Chargers",
+      "abbr": "LAC",
+      "w": 13,
+      "l": 4,
+      "t": 0,
+      "pw": 1,
+      "pl": 1,
+      "finish": "Divisional"
+     },
+     {
+      "year": 40,
+      "team": "Chargers",
+      "abbr": "LAC",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 41,
+      "team": "Ravens",
+      "abbr": "BAL",
+      "w": 13,
+      "l": 4,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 42,
+      "team": "Ravens",
+      "abbr": "BAL",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 43,
+      "team": "Ravens",
+      "abbr": "BAL",
+      "w": 14,
+      "l": 3,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 44,
+      "team": "Ravens",
+      "abbr": "BAL",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 45,
+      "team": "Ravens",
+      "abbr": "BAL",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 0,
+      "pl": 1,
+      "finish": "AFC NOR 1st"
+     },
+     {
+      "year": 46,
+      "team": "Ravens",
+      "abbr": "BAL",
+      "w": 16,
+      "l": 0,
+      "t": 1,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 47,
+      "team": "Ravens",
+      "abbr": "BAL",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 0,
+      "pl": 1,
+      "finish": "AFC NOR 1st"
+     },
+     {
+      "year": 48,
+      "team": "Ravens",
+      "abbr": "BAL",
+      "w": 17,
+      "l": 0,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 49,
+      "team": "Ravens",
+      "abbr": "BAL",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 50,
+      "team": "Ravens",
+      "abbr": "BAL",
+      "w": 17,
+      "l": 0,
+      "t": 0,
+      "pw": 2,
+      "pl": 1,
+      "finish": "AFC Champs"
+     },
+     {
+      "year": 51,
+      "team": "Buccaneers",
+      "abbr": "TB",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 52,
+      "team": "Buccaneers",
+      "abbr": "TB",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 53,
+      "team": "Buccaneers",
+      "abbr": "TB",
+      "w": 17,
+      "l": 0,
+      "t": 0,
+      "pw": 1,
+      "pl": 1,
+      "finish": "Champ Rnd"
+     },
+     {
+      "year": 54,
+      "team": "Giants",
+      "abbr": "NYG",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 55,
+      "team": "Giants",
+      "abbr": "NYG",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 56,
+      "team": "Giants",
+      "abbr": "NYG",
+      "w": 14,
+      "l": 2,
+      "t": 1,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 57,
+      "team": "Dolphins",
+      "abbr": "MIA",
+      "w": 12,
+      "l": 5,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 58,
+      "team": "Dolphins",
+      "abbr": "MIA",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 59,
+      "team": "Dolphins",
+      "abbr": "MIA",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 60,
+      "team": "Dolphins",
+      "abbr": "MIA",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 2,
+      "pl": 1,
+      "finish": "AFC Champs"
+     },
+     {
+      "year": 61,
+      "team": "Vikings",
+      "abbr": "MIN",
+      "w": 12,
+      "l": 5,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 62,
+      "team": "Vikings",
+      "abbr": "MIN",
+      "w": 14,
+      "l": 3,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 63,
+      "team": "Vikings",
+      "abbr": "MIN",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 64,
+      "team": "Vikings",
+      "abbr": "MIN",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 65,
+      "team": "Vikings",
+      "abbr": "MIN",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 0,
+      "pl": 1,
+      "finish": "NFC NOR 1st"
+     },
+     {
+      "year": 66,
+      "team": "Vikings",
+      "abbr": "MIN",
+      "w": 17,
+      "l": 0,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 67,
+      "team": "Vikings",
+      "abbr": "MIN",
+      "w": 17,
+      "l": 0,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 68,
+      "team": "Vikings",
+      "abbr": "MIN",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 69,
+      "team": "Vikings",
+      "abbr": "MIN",
+      "w": 14,
+      "l": 3,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 70,
+      "team": "Titans",
+      "abbr": "TEN",
+      "w": 13,
+      "l": 4,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 71,
+      "team": "Titans",
+      "abbr": "TEN",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 72,
+      "team": "Titans",
+      "abbr": "TEN",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 73,
+      "team": "Titans",
+      "abbr": "TEN",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 1,
+      "pl": 1,
+      "finish": "Champ Rnd"
+     },
+     {
+      "year": 74,
+      "team": "Seahawks",
+      "abbr": "SEA",
+      "w": 14,
+      "l": 2,
+      "t": 1,
+      "pw": 3,
+      "pl": 1,
+      "finish": "NFC Champs"
+     },
+     {
+      "year": 75,
+      "team": "Seahawks",
+      "abbr": "SEA",
+      "w": 16,
+      "l": 1,
+      "t": 0,
+      "pw": 1,
+      "pl": 1,
+      "finish": "Champ Rnd"
+     },
+     {
+      "year": 76,
+      "team": "Jets",
+      "abbr": "NYJ",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 1,
+      "pl": 1,
+      "finish": "Champ Rnd"
+     },
+     {
+      "year": 77,
+      "team": "Jets",
+      "abbr": "NYJ",
+      "w": 17,
+      "l": 0,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 78,
+      "team": "Jets",
+      "abbr": "NYJ",
+      "w": 13,
+      "l": 4,
+      "t": 0,
+      "pw": 0,
+      "pl": 1,
+      "finish": "Wild Card"
+     },
+     {
+      "year": 79,
+      "team": "Jets",
+      "abbr": "NYJ",
+      "w": 12,
+      "l": 5,
+      "t": 0,
+      "pw": 0,
+      "pl": 1,
+      "finish": "Wild Card"
+     },
+     {
+      "year": 80,
+      "team": "Jets",
+      "abbr": "NYJ",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 81,
+      "team": "Jets",
+      "abbr": "NYJ",
+      "w": 14,
+      "l": 2,
+      "t": 1,
+      "pw": 0,
+      "pl": 1,
+      "finish": "AFC EAS 1st"
+     },
+     {
+      "year": 82,
+      "team": "Jets",
+      "abbr": "NYJ",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 83,
+      "team": "Falcons",
+      "abbr": "ATL",
+      "w": 12,
+      "l": 5,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 84,
+      "team": "Falcons",
+      "abbr": "ATL",
+      "w": 13,
+      "l": 3,
+      "t": 1,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 85,
+      "team": "Falcons",
+      "abbr": "ATL",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 86,
+      "team": "Falcons",
+      "abbr": "ATL",
+      "w": 13,
+      "l": 4,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 87,
+      "team": "Falcons",
+      "abbr": "ATL",
+      "w": 17,
+      "l": 0,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 88,
+      "team": "Eagles",
+      "abbr": "PHI",
+      "w": 14,
+      "l": 2,
+      "t": 1,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 89,
+      "team": "Eagles",
+      "abbr": "PHI",
+      "w": 14,
+      "l": 2,
+      "t": 1,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 90,
+      "team": "Eagles",
+      "abbr": "PHI",
+      "w": 14,
+      "l": 3,
+      "t": 0,
+      "pw": 2,
+      "pl": 1,
+      "finish": "NFC Champs"
+     },
+     {
+      "year": 91,
+      "team": "Eagles",
+      "abbr": "PHI",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 92,
+      "team": "Eagles",
+      "abbr": "PHI",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 93,
+      "team": "Eagles",
+      "abbr": "PHI",
+      "w": 17,
+      "l": 0,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 94,
+      "team": "Eagles",
+      "abbr": "PHI",
+      "w": 15,
+      "l": 2,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 95,
+      "team": "Eagles",
+      "abbr": "PHI",
+      "w": 17,
+      "l": 0,
+      "t": 0,
+      "pw": 3,
+      "pl": 0,
+      "finish": "Champions"
+     },
+     {
+      "year": 96,
+      "team": "Eagles",
+      "abbr": "PHI",
+      "w": 13,
+      "l": 4,
+      "t": 0,
+      "pw": 4,
+      "pl": 0,
+      "finish": "Champions"
+     }
+    ],
+    "leagueGames": [
+     {
+      "week": 1,
+      "home": "Bills",
+      "away": "Steelers"
+     },
+     {
+      "week": 1,
+      "home": "Patriots",
+      "away": "Dolphins"
+     },
+     {
+      "week": 1,
+      "home": "Chiefs",
+      "away": "Browns"
+     },
+     {
+      "week": 1,
+      "home": "Raiders",
+      "away": "Ravens"
+     },
+     {
+      "week": 1,
+      "home": "Bengals",
+      "away": "Commanders"
+     },
+     {
+      "week": 1,
+      "home": "Texans",
+      "away": "Jaguars"
+     },
+     {
+      "week": 1,
+      "home": "Colts",
+      "away": "Buccaneers"
+     },
+     {
+      "week": 1,
+      "home": "Titans",
+      "away": "Falcons"
+     },
+     {
+      "week": 1,
+      "home": "Giants",
+      "away": "Saints"
+     },
+     {
+      "week": 1,
+      "home": "Cardinals",
+      "away": "Packers"
+     },
+     {
+      "week": 1,
+      "home": "Rams",
+      "away": "Jets"
+     },
+     {
+      "week": 1,
+      "home": "49ers",
+      "away": "Eagles"
+     },
+     {
+      "week": 1,
+      "home": "Seahawks",
+      "away": "Bears"
+     },
+     {
+      "week": 1,
+      "home": "Lions",
+      "away": "Broncos"
+     },
+     {
+      "week": 1,
+      "home": "Vikings",
+      "away": "Chargers"
+     },
+     {
+      "week": 1,
+      "home": "Panthers",
+      "away": "Cowboys"
+     },
+     {
+      "week": 2,
+      "home": "Dolphins",
+      "away": "Bills"
+     },
+     {
+      "week": 2,
+      "home": "Jets",
+      "away": "Patriots"
+     },
+     {
+      "week": 2,
+      "home": "Chargers",
+      "away": "Bears"
+     },
+     {
+      "week": 2,
+      "home": "Ravens",
+      "away": "Chiefs"
+     },
+     {
+      "week": 2,
+      "home": "Browns",
+      "away": "Texans"
+     },
+     {
+      "week": 2,
+      "home": "Steelers",
+      "away": "Raiders"
+     },
+     {
+      "week": 2,
+      "home": "Colts",
+      "away": "Panthers"
+     },
+     {
+      "week": 2,
+      "home": "Jaguars",
+      "away": "Broncos"
+     },
+     {
+      "week": 2,
+      "home": "Cowboys",
+      "away": "Bengals"
+     },
+     {
+      "week": 2,
+      "home": "Eagles",
+      "away": "Giants"
+     },
+     {
+      "week": 2,
+      "home": "Rams",
+      "away": "49ers"
+     },
+     {
+      "week": 2,
+      "home": "Seahawks",
+      "away": "Cardinals"
+     },
+     {
+      "week": 2,
+      "home": "Packers",
+      "away": "Saints"
+     },
+     {
+      "week": 2,
+      "home": "Vikings",
+      "away": "Lions"
+     },
+     {
+      "week": 2,
+      "home": "Falcons",
+      "away": "Commanders"
+     },
+     {
+      "week": 2,
+      "home": "Buccaneers",
+      "away": "Titans"
+     },
+     {
+      "week": 3,
+      "home": "Bills",
+      "away": "Vikings"
+     },
+     {
+      "week": 3,
+      "home": "Patriots",
+      "away": "49ers"
+     },
+     {
+      "week": 3,
+      "home": "Broncos",
+      "away": "Jets"
+     },
+     {
+      "week": 3,
+      "home": "Chiefs",
+      "away": "Chargers"
+     },
+     {
+      "week": 3,
+      "home": "Raiders",
+      "away": "Dolphins"
+     },
+     {
+      "week": 3,
+      "home": "Browns",
+      "away": "Cowboys"
+     },
+     {
+      "week": 3,
+      "home": "Steelers",
+      "away": "Bengals"
+     },
+     {
+      "week": 3,
+      "home": "Texans",
+      "away": "Rams"
+     },
+     {
+      "week": 3,
+      "home": "Jaguars",
+      "away": "Falcons"
+     },
+     {
+      "week": 3,
+      "home": "Titans",
+      "away": "Colts"
+     },
+     {
+      "week": 3,
+      "home": "Giants",
+      "away": "Ravens"
+     },
+     {
+      "week": 3,
+      "home": "Commanders",
+      "away": "Buccaneers"
+     },
+     {
+      "week": 3,
+      "home": "Bears",
+      "away": "Packers"
+     },
+     {
+      "week": 3,
+      "home": "Lions",
+      "away": "Cardinals"
+     },
+     {
+      "week": 3,
+      "home": "Panthers",
+      "away": "Seahawks"
+     },
+     {
+      "week": 3,
+      "home": "Saints",
+      "away": "Eagles"
+     },
+     {
+      "week": 4,
+      "home": "Bills",
+      "away": "Texans"
+     },
+     {
+      "week": 4,
+      "home": "Dolphins",
+      "away": "Colts"
+     },
+     {
+      "week": 4,
+      "home": "Patriots",
+      "away": "Seahawks"
+     },
+     {
+      "week": 4,
+      "home": "Jets",
+      "away": "Titans"
+     },
+     {
+      "week": 4,
+      "home": "Broncos",
+      "away": "Ravens"
+     },
+     {
+      "week": 4,
+      "home": "Chargers",
+      "away": "Raiders"
+     },
+     {
+      "week": 4,
+      "home": "Bengals",
+      "away": "Jaguars"
+     },
+     {
+      "week": 4,
+      "home": "Cowboys",
+      "away": "Giants"
+     },
+     {
+      "week": 4,
+      "home": "Eagles",
+      "away": "Steelers"
+     },
+     {
+      "week": 4,
+      "home": "Commanders",
+      "away": "Browns"
+     },
+     {
+      "week": 4,
+      "home": "Cardinals",
+      "away": "Vikings"
+     },
+     {
+      "week": 4,
+      "home": "49ers",
+      "away": "Lions"
+     },
+     {
+      "week": 4,
+      "home": "Bears",
+      "away": "Rams"
+     },
+     {
+      "week": 4,
+      "home": "Packers",
+      "away": "Chiefs"
+     },
+     {
+      "week": 4,
+      "home": "Panthers",
+      "away": "Falcons"
+     },
+     {
+      "week": 4,
+      "home": "Saints",
+      "away": "Buccaneers"
+     },
+     {
+      "week": 5,
+      "home": "Chiefs",
+      "away": "Bills"
+     },
+     {
+      "week": 5,
+      "home": "Chargers",
+      "away": "Browns"
+     },
+     {
+      "week": 5,
+      "home": "Raiders",
+      "away": "Cowboys"
+     },
+     {
+      "week": 5,
+      "home": "Ravens",
+      "away": "Colts"
+     },
+     {
+      "week": 5,
+      "home": "Bengals",
+      "away": "Eagles"
+     },
+     {
+      "week": 5,
+      "home": "Steelers",
+      "away": "Broncos"
+     },
+     {
+      "week": 5,
+      "home": "Texans",
+      "away": "Patriots"
+     },
+     {
+      "week": 5,
+      "home": "Jaguars",
+      "away": "Titans"
+     },
+     {
+      "week": 5,
+      "home": "Commanders",
+      "away": "Giants"
+     },
+     {
+      "week": 5,
+      "home": "Cardinals",
+      "away": "Jets"
+     },
+     {
+      "week": 5,
+      "home": "Rams",
+      "away": "Packers"
+     },
+     {
+      "week": 5,
+      "home": "Seahawks",
+      "away": "Dolphins"
+     },
+     {
+      "week": 5,
+      "home": "Bears",
+      "away": "Lions"
+     },
+     {
+      "week": 5,
+      "home": "Vikings",
+      "away": "49ers"
+     },
+     {
+      "week": 5,
+      "home": "Falcons",
+      "away": "Saints"
+     },
+     {
+      "week": 5,
+      "home": "Buccaneers",
+      "away": "Panthers"
+     },
+     {
+      "week": 6,
+      "home": "Patriots",
+      "away": "Bears"
+     },
+     {
+      "week": 6,
+      "home": "Broncos",
+      "away": "Raiders"
+     },
+     {
+      "week": 6,
+      "home": "Ravens",
+      "away": "Chargers"
+     },
+     {
+      "week": 6,
+      "home": "Browns",
+      "away": "Falcons"
+     },
+     {
+      "week": 6,
+      "home": "Steelers",
+      "away": "Buccaneers"
+     },
+     {
+      "week": 6,
+      "home": "Colts",
+      "away": "Texans"
+     },
+     {
+      "week": 6,
+      "home": "Jaguars",
+      "away": "Dolphins"
+     },
+     {
+      "week": 6,
+      "home": "Titans",
+      "away": "Bills"
+     },
+     {
+      "week": 6,
+      "home": "Cowboys",
+      "away": "Eagles"
+     },
+     {
+      "week": 6,
+      "home": "Giants",
+      "away": "Bengals"
+     },
+     {
+      "week": 6,
+      "home": "Rams",
+      "away": "Commanders"
+     },
+     {
+      "week": 6,
+      "home": "Lions",
+      "away": "Panthers"
+     },
+     {
+      "week": 6,
+      "home": "Packers",
+      "away": "Seahawks"
+     },
+     {
+      "week": 6,
+      "home": "Vikings",
+      "away": "Chiefs"
+     },
+     {
+      "week": 7,
+      "home": "Dolphins",
+      "away": "Cardinals"
+     },
+     {
+      "week": 7,
+      "home": "Patriots",
+      "away": "Jets"
+     },
+     {
+      "week": 7,
+      "home": "Raiders",
+      "away": "Packers"
+     },
+     {
+      "week": 7,
+      "home": "Ravens",
+      "away": "Bengals"
+     },
+     {
+      "week": 7,
+      "home": "Browns",
+      "away": "Broncos"
+     },
+     {
+      "week": 7,
+      "home": "Titans",
+      "away": "Chiefs"
+     },
+     {
+      "week": 7,
+      "home": "Eagles",
+      "away": "Vikings"
+     },
+     {
+      "week": 7,
+      "home": "Seahawks",
+      "away": "Cowboys"
+     },
+     {
+      "week": 7,
+      "home": "Lions",
+      "away": "Rams"
+     },
+     {
+      "week": 7,
+      "home": "Falcons",
+      "away": "Texans"
+     },
+     {
+      "week": 7,
+      "home": "Panthers",
+      "away": "Giants"
+     },
+     {
+      "week": 7,
+      "home": "Saints",
+      "away": "Colts"
+     },
+     {
+      "week": 7,
+      "home": "Buccaneers",
+      "away": "49ers"
+     },
+     {
+      "week": 8,
+      "home": "Bills",
+      "away": "Dolphins"
+     },
+     {
+      "week": 8,
+      "home": "Jets",
+      "away": "Bengals"
+     },
+     {
+      "week": 8,
+      "home": "Broncos",
+      "away": "Vikings"
+     },
+     {
+      "week": 8,
+      "home": "Chiefs",
+      "away": "Lions"
+     },
+     {
+      "week": 8,
+      "home": "Chargers",
+      "away": "Patriots"
+     },
+     {
+      "week": 8,
+      "home": "Browns",
+      "away": "Steelers"
+     },
+     {
+      "week": 8,
+      "home": "Texans",
+      "away": "Panthers"
+     },
+     {
+      "week": 8,
+      "home": "Colts",
+      "away": "Titans"
+     },
+     {
+      "week": 8,
+      "home": "Cowboys",
+      "away": "Saints"
+     },
+     {
+      "week": 8,
+      "home": "Giants",
+      "away": "Packers"
+     },
+     {
+      "week": 8,
+      "home": "Commanders",
+      "away": "Bears"
+     },
+     {
+      "week": 8,
+      "home": "Cardinals",
+      "away": "Rams"
+     },
+     {
+      "week": 8,
+      "home": "49ers",
+      "away": "Seahawks"
+     },
+     {
+      "week": 8,
+      "home": "Falcons",
+      "away": "Eagles"
+     },
+     {
+      "week": 8,
+      "home": "Buccaneers",
+      "away": "Jaguars"
+     },
+     {
+      "week": 9,
+      "home": "Dolphins",
+      "away": "Texans"
+     },
+     {
+      "week": 9,
+      "home": "Chiefs",
+      "away": "Eagles"
+     },
+     {
+      "week": 9,
+      "home": "Ravens",
+      "away": "Commanders"
+     },
+     {
+      "week": 9,
+      "home": "Bengals",
+      "away": "Browns"
+     },
+     {
+      "week": 9,
+      "home": "Steelers",
+      "away": "Cowboys"
+     },
+     {
+      "week": 9,
+      "home": "Colts",
+      "away": "Jets"
+     },
+     {
+      "week": 9,
+      "home": "Jaguars",
+      "away": "Bills"
+     },
+     {
+      "week": 9,
+      "home": "Rams",
+      "away": "Patriots"
+     },
+     {
+      "week": 9,
+      "home": "49ers",
+      "away": "Cardinals"
+     },
+     {
+      "week": 9,
+      "home": "Bears",
+      "away": "Broncos"
+     },
+     {
+      "week": 9,
+      "home": "Lions",
+      "away": "Raiders"
+     },
+     {
+      "week": 9,
+      "home": "Packers",
+      "away": "Chargers"
+     },
+     {
+      "week": 9,
+      "home": "Panthers",
+      "away": "Titans"
+     },
+     {
+      "week": 9,
+      "home": "Saints",
+      "away": "Falcons"
+     },
+     {
+      "week": 10,
+      "home": "Dolphins",
+      "away": "Ravens"
+     },
+     {
+      "week": 10,
+      "home": "Patriots",
+      "away": "Browns"
+     },
+     {
+      "week": 10,
+      "home": "Jets",
+      "away": "Bills"
+     },
+     {
+      "week": 10,
+      "home": "Broncos",
+      "away": "Packers"
+     },
+     {
+      "week": 10,
+      "home": "Chargers",
+      "away": "Commanders"
+     },
+     {
+      "week": 10,
+      "home": "Raiders",
+      "away": "Chiefs"
+     },
+     {
+      "week": 10,
+      "home": "Steelers",
+      "away": "Giants"
+     },
+     {
+      "week": 10,
+      "home": "Colts",
+      "away": "Jaguars"
+     },
+     {
+      "week": 10,
+      "home": "Titans",
+      "away": "49ers"
+     },
+     {
+      "week": 10,
+      "home": "Eagles",
+      "away": "Buccaneers"
+     },
+     {
+      "week": 10,
+      "home": "Bears",
+      "away": "Cardinals"
+     },
+     {
+      "week": 10,
+      "home": "Vikings",
+      "away": "Seahawks"
+     },
+     {
+      "week": 10,
+      "home": "Falcons",
+      "away": "Rams"
+     },
+     {
+      "week": 10,
+      "home": "Saints",
+      "away": "Panthers"
+     },
+     {
+      "week": 11,
+      "home": "Bills",
+      "away": "Colts"
+     },
+     {
+      "week": 11,
+      "home": "Jets",
+      "away": "Dolphins"
+     },
+     {
+      "week": 11,
+      "home": "Chiefs",
+      "away": "Bears"
+     },
+     {
+      "week": 11,
+      "home": "Chargers",
+      "away": "Steelers"
+     },
+     {
+      "week": 11,
+      "home": "Raiders",
+      "away": "Bengals"
+     },
+     {
+      "week": 11,
+      "home": "Browns",
+      "away": "Giants"
+     },
+     {
+      "week": 11,
+      "home": "Jaguars",
+      "away": "Saints"
+     },
+     {
+      "week": 11,
+      "home": "Titans",
+      "away": "Texans"
+     },
+     {
+      "week": 11,
+      "home": "Cowboys",
+      "away": "Ravens"
+     },
+     {
+      "week": 11,
+      "home": "Commanders",
+      "away": "Eagles"
+     },
+     {
+      "week": 11,
+      "home": "Cardinals",
+      "away": "Patriots"
+     },
+     {
+      "week": 11,
+      "home": "Rams",
+      "away": "Vikings"
+     },
+     {
+      "week": 11,
+      "home": "Seahawks",
+      "away": "Lions"
+     },
+     {
+      "week": 11,
+      "home": "Packers",
+      "away": "49ers"
+     },
+     {
+      "week": 11,
+      "home": "Buccaneers",
+      "away": "Falcons"
+     },
+     {
+      "week": 12,
+      "home": "Dolphins",
+      "away": "Rams"
+     },
+     {
+      "week": 12,
+      "home": "Patriots",
+      "away": "Titans"
+     },
+     {
+      "week": 12,
+      "home": "Broncos",
+      "away": "Chargers"
+     },
+     {
+      "week": 12,
+      "home": "Ravens",
+      "away": "Browns"
+     },
+     {
+      "week": 12,
+      "home": "Bengals",
+      "away": "Steelers"
+     },
+     {
+      "week": 12,
+      "home": "Texans",
+      "away": "Jets"
+     },
+     {
+      "week": 12,
+      "home": "Colts",
+      "away": "Seahawks"
+     },
+     {
+      "week": 12,
+      "home": "Jaguars",
+      "away": "Cardinals"
+     },
+     {
+      "week": 12,
+      "home": "Giants",
+      "away": "Cowboys"
+     },
+     {
+      "week": 12,
+      "home": "Eagles",
+      "away": "Panthers"
+     },
+     {
+      "week": 12,
+      "home": "49ers",
+      "away": "Bills"
+     },
+     {
+      "week": 12,
+      "home": "Bears",
+      "away": "Raiders"
+     },
+     {
+      "week": 12,
+      "home": "Lions",
+      "away": "Packers"
+     },
+     {
+      "week": 12,
+      "home": "Vikings",
+      "away": "Buccaneers"
+     },
+     {
+      "week": 12,
+      "home": "Saints",
+      "away": "Commanders"
+     },
+     {
+      "week": 13,
+      "home": "Bills",
+      "away": "Patriots"
+     },
+     {
+      "week": 13,
+      "home": "Dolphins",
+      "away": "Lions"
+     },
+     {
+      "week": 13,
+      "home": "Jets",
+      "away": "Packers"
+     },
+     {
+      "week": 13,
+      "home": "Chiefs",
+      "away": "Broncos"
+     },
+     {
+      "week": 13,
+      "home": "Raiders",
+      "away": "Vikings"
+     },
+     {
+      "week": 13,
+      "home": "Bengals",
+      "away": "Chargers"
+     },
+     {
+      "week": 13,
+      "home": "Steelers",
+      "away": "Ravens"
+     },
+     {
+      "week": 13,
+      "home": "Texans",
+      "away": "Colts"
+     },
+     {
+      "week": 13,
+      "home": "Cowboys",
+      "away": "Falcons"
+     },
+     {
+      "week": 13,
+      "home": "Giants",
+      "away": "Commanders"
+     },
+     {
+      "week": 13,
+      "home": "Cardinals",
+      "away": "Seahawks"
+     },
+     {
+      "week": 13,
+      "home": "49ers",
+      "away": "Bears"
+     },
+     {
+      "week": 13,
+      "home": "Panthers",
+      "away": "Jaguars"
+     },
+     {
+      "week": 13,
+      "home": "Buccaneers",
+      "away": "Saints"
+     },
+     {
+      "week": 14,
+      "home": "Jets",
+      "away": "49ers"
+     },
+     {
+      "week": 14,
+      "home": "Broncos",
+      "away": "Giants"
+     },
+     {
+      "week": 14,
+      "home": "Chiefs",
+      "away": "Raiders"
+     },
+     {
+      "week": 14,
+      "home": "Chargers",
+      "away": "Lions"
+     },
+     {
+      "week": 14,
+      "home": "Bengals",
+      "away": "Saints"
+     },
+     {
+      "week": 14,
+      "home": "Browns",
+      "away": "Ravens"
+     },
+     {
+      "week": 14,
+      "home": "Texans",
+      "away": "Buccaneers"
+     },
+     {
+      "week": 14,
+      "home": "Titans",
+      "away": "Jaguars"
+     },
+     {
+      "week": 14,
+      "home": "Eagles",
+      "away": "Cowboys"
+     },
+     {
+      "week": 14,
+      "home": "Commanders",
+      "away": "Steelers"
+     },
+     {
+      "week": 14,
+      "home": "Rams",
+      "away": "Cardinals"
+     },
+     {
+      "week": 14,
+      "home": "Seahawks",
+      "away": "Bills"
+     },
+     {
+      "week": 14,
+      "home": "Vikings",
+      "away": "Bears"
+     },
+     {
+      "week": 14,
+      "home": "Falcons",
+      "away": "Panthers"
+     },
+     {
+      "week": 15,
+      "home": "Bills",
+      "away": "Rams"
+     },
+     {
+      "week": 15,
+      "home": "Dolphins",
+      "away": "Jets"
+     },
+     {
+      "week": 15,
+      "home": "Broncos",
+      "away": "Bengals"
+     },
+     {
+      "week": 15,
+      "home": "Chargers",
+      "away": "Chiefs"
+     },
+     {
+      "week": 15,
+      "home": "Ravens",
+      "away": "Eagles"
+     },
+     {
+      "week": 15,
+      "home": "Browns",
+      "away": "Raiders"
+     },
+     {
+      "week": 15,
+      "home": "Steelers",
+      "away": "Titans"
+     },
+     {
+      "week": 15,
+      "home": "Colts",
+      "away": "Patriots"
+     },
+     {
+      "week": 15,
+      "home": "Jaguars",
+      "away": "Texans"
+     },
+     {
+      "week": 15,
+      "home": "Cowboys",
+      "away": "Commanders"
+     },
+     {
+      "week": 15,
+      "home": "Giants",
+      "away": "Falcons"
+     },
+     {
+      "week": 15,
+      "home": "Seahawks",
+      "away": "49ers"
+     },
+     {
+      "week": 15,
+      "home": "Lions",
+      "away": "Bears"
+     },
+     {
+      "week": 15,
+      "home": "Packers",
+      "away": "Vikings"
+     },
+     {
+      "week": 15,
+      "home": "Panthers",
+      "away": "Buccaneers"
+     },
+     {
+      "week": 15,
+      "home": "Saints",
+      "away": "Cardinals"
+     },
+     {
+      "week": 16,
+      "home": "Patriots",
+      "away": "Bills"
+     },
+     {
+      "week": 16,
+      "home": "Jets",
+      "away": "Jaguars"
+     },
+     {
+      "week": 16,
+      "home": "Chiefs",
+      "away": "Steelers"
+     },
+     {
+      "week": 16,
+      "home": "Raiders",
+      "away": "Broncos"
+     },
+     {
+      "week": 16,
+      "home": "Bengals",
+      "away": "Ravens"
+     },
+     {
+      "week": 16,
+      "home": "Texans",
+      "away": "Chargers"
+     },
+     {
+      "week": 16,
+      "home": "Titans",
+      "away": "Saints"
+     },
+     {
+      "week": 16,
+      "home": "Eagles",
+      "away": "Browns"
+     },
+     {
+      "week": 16,
+      "home": "Commanders",
+      "away": "Panthers"
+     },
+     {
+      "week": 16,
+      "home": "Cardinals",
+      "away": "Giants"
+     },
+     {
+      "week": 16,
+      "home": "Rams",
+      "away": "Seahawks"
+     },
+     {
+      "week": 16,
+      "home": "49ers",
+      "away": "Dolphins"
+     },
+     {
+      "week": 16,
+      "home": "Bears",
+      "away": "Vikings"
+     },
+     {
+      "week": 16,
+      "home": "Packers",
+      "away": "Lions"
+     },
+     {
+      "week": 16,
+      "home": "Falcons",
+      "away": "Colts"
+     },
+     {
+      "week": 16,
+      "home": "Buccaneers",
+      "away": "Cowboys"
+     },
+     {
+      "week": 17,
+      "home": "Bills",
+      "away": "Cardinals"
+     },
+     {
+      "week": 17,
+      "home": "Patriots",
+      "away": "Jaguars"
+     },
+     {
+      "week": 17,
+      "home": "Jets",
+      "away": "Seahawks"
+     },
+     {
+      "week": 17,
+      "home": "Chargers",
+      "away": "Broncos"
+     },
+     {
+      "week": 17,
+      "home": "Ravens",
+      "away": "Panthers"
+     },
+     {
+      "week": 17,
+      "home": "Bengals",
+      "away": "Chiefs"
+     },
+     {
+      "week": 17,
+      "home": "Steelers",
+      "away": "Browns"
+     },
+     {
+      "week": 17,
+      "home": "Colts",
+      "away": "Raiders"
+     },
+     {
+      "week": 17,
+      "home": "Titans",
+      "away": "Dolphins"
+     },
+     {
+      "week": 17,
+      "home": "Cowboys",
+      "away": "Lions"
+     },
+     {
+      "week": 17,
+      "home": "Eagles",
+      "away": "Commanders"
+     },
+     {
+      "week": 17,
+      "home": "49ers",
+      "away": "Rams"
+     },
+     {
+      "week": 17,
+      "home": "Bears",
+      "away": "Falcons"
+     },
+     {
+      "week": 17,
+      "home": "Vikings",
+      "away": "Packers"
+     },
+     {
+      "week": 17,
+      "home": "Saints",
+      "away": "Texans"
+     },
+     {
+      "week": 17,
+      "home": "Buccaneers",
+      "away": "Giants"
+     },
+     {
+      "week": 18,
+      "home": "Bills",
+      "away": "Jets"
+     },
+     {
+      "week": 18,
+      "home": "Dolphins",
+      "away": "Patriots"
+     },
+     {
+      "week": 18,
+      "home": "Broncos",
+      "away": "Chiefs"
+     },
+     {
+      "week": 18,
+      "home": "Raiders",
+      "away": "Chargers"
+     },
+     {
+      "week": 18,
+      "home": "Ravens",
+      "away": "Steelers"
+     },
+     {
+      "week": 18,
+      "home": "Browns",
+      "away": "Bengals"
+     },
+     {
+      "week": 18,
+      "home": "Texans",
+      "away": "Titans"
+     },
+     {
+      "week": 18,
+      "home": "Jaguars",
+      "away": "Colts"
+     },
+     {
+      "week": 18,
+      "home": "Giants",
+      "away": "Eagles"
+     },
+     {
+      "week": 18,
+      "home": "Commanders",
+      "away": "Cowboys"
+     },
+     {
+      "week": 18,
+      "home": "Cardinals",
+      "away": "49ers"
+     },
+     {
+      "week": 18,
+      "home": "Seahawks",
+      "away": "Rams"
+     },
+     {
+      "week": 18,
+      "home": "Lions",
+      "away": "Vikings"
+     },
+     {
+      "week": 18,
+      "home": "Packers",
+      "away": "Bears"
+     },
+     {
+      "week": 18,
+      "home": "Falcons",
+      "away": "Buccaneers"
+     },
+     {
+      "week": 18,
+      "home": "Panthers",
+      "away": "Saints"
+     }
+    ],
+    "players": {
+     "DB:A.T. Hoyer": {
+      "team": "Raiders",
+      "age": 34,
+      "speed": 5,
+      "strength": 6,
+      "skill": 3,
+      "stamina": 2,
+      "max_speed": 5,
+      "max_strength": 6,
+      "max_skill": 3,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Abraham Jack": {
+      "team": "Bills",
+      "age": 28,
+      "speed": 5,
+      "strength": 6,
+      "skill": 8,
+      "stamina": 3,
+      "max_speed": 7,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 17,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Akayleb Samia": {
+      "team": "Broncos",
+      "age": 33,
+      "speed": 7,
+      "strength": 4,
+      "skill": 8,
+      "stamina": 1,
+      "max_speed": 9,
+      "max_strength": 4,
+      "max_skill": 8,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:DQ Watts": {
+      "team": "Texans",
+      "age": 29,
+      "speed": 2,
+      "strength": 3,
+      "skill": 4,
+      "stamina": 6,
+      "max_speed": 2,
+      "max_strength": 5,
+      "max_skill": 8,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Dalvin Moehrig": {
+      "team": "49ers",
+      "age": 30,
+      "speed": 3,
+      "strength": 1,
+      "skill": 3,
+      "stamina": 2,
+      "max_speed": 8,
+      "max_strength": 6,
+      "max_skill": 7,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Darian Golston": {
+      "team": "Jets",
+      "age": 23,
+      "speed": 3,
+      "strength": 1,
+      "skill": 2,
+      "stamina": 5,
+      "max_speed": 5,
+      "max_strength": 1,
+      "max_skill": 4,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Davion Leo": {
+      "team": "Seahawks",
+      "age": 32,
+      "speed": 5,
+      "strength": 3,
+      "skill": 3,
+      "stamina": 3,
+      "max_speed": 5,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "S",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Dax Kolone": {
+      "team": "Titans",
+      "age": 27,
+      "speed": 5,
+      "strength": 6,
+      "skill": 2,
+      "stamina": 2,
+      "max_speed": 9,
+      "max_strength": 6,
+      "max_skill": 7,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Eno Brunson": {
+      "team": "Packers",
+      "age": 31,
+      "speed": 4,
+      "strength": 4,
+      "skill": 3,
+      "stamina": 10,
+      "max_speed": 5,
+      "max_strength": 6,
+      "max_skill": 7,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "S",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Isaiah Pinkney": {
+      "team": "Ravens",
+      "age": 27,
+      "speed": 2,
+      "strength": 1,
+      "skill": 1,
+      "stamina": 5,
+      "max_speed": 8,
+      "max_strength": 3,
+      "max_skill": 1,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Jamon Brooker": {
+      "team": "Packers",
+      "age": 34,
+      "speed": 4,
+      "strength": 3,
+      "skill": 6,
+      "stamina": 9,
+      "max_speed": 5,
+      "max_strength": 4,
+      "max_skill": 7,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Justice Pettis": {
+      "team": "Saints",
+      "age": 24,
+      "speed": 3,
+      "strength": 2,
+      "skill": 2,
+      "stamina": 5,
+      "max_speed": 3,
+      "max_strength": 4,
+      "max_skill": 7,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:K.J. Brewer": {
+      "team": "Buccaneers",
+      "age": 25,
+      "speed": 4,
+      "strength": 1,
+      "skill": 2,
+      "stamina": 4,
+      "max_speed": 6,
+      "max_strength": 2,
+      "max_skill": 6,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Kalen Bowser": {
+      "team": "Patriots",
+      "age": 25,
+      "speed": 3,
+      "strength": 2,
+      "skill": 5,
+      "stamina": 8,
+      "max_speed": 7,
+      "max_strength": 2,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "S",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Keesean Hand": {
+      "team": "Eagles",
+      "age": 28,
+      "speed": 9,
+      "strength": 6,
+      "skill": 8,
+      "stamina": 10,
+      "max_speed": 9,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 24,
+      "delay_retirement": 0,
+      "xp_level": 10,
+      "spos": "CB",
+      "signed_year": 97,
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Ketner Tauaefa": {
+      "team": "Commanders",
+      "age": 32,
+      "speed": 5,
+      "strength": 4,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 9,
+      "max_strength": 4,
+      "max_skill": 8,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "S",
+      "season": {
+       "g": 2
+      }
+     },
+     "DB:Koa Zuber": {
+      "team": "Eagles",
+      "age": 32,
+      "speed": 9,
+      "strength": 5,
+      "skill": 8,
+      "stamina": 8,
+      "max_speed": 9,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 18,
+      "delay_retirement": 0,
+      "xp_level": 13,
+      "spos": "CB",
+      "signed_year": 96,
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Kolton Cole": {
+      "team": "Chiefs",
+      "age": 34,
+      "speed": 5,
+      "strength": 1,
+      "skill": 1,
+      "stamina": 4,
+      "max_speed": 6,
+      "max_strength": 1,
+      "max_skill": 1,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 4,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "S",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Lamont Edoga": {
+      "team": "Browns",
+      "age": 34,
+      "speed": 5,
+      "strength": 1,
+      "skill": 2,
+      "stamina": 5,
+      "max_speed": 9,
+      "max_strength": 4,
+      "max_skill": 4,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 5,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Lenny Baun": {
+      "team": "Dolphins",
+      "age": 29,
+      "speed": 2,
+      "strength": 3,
+      "skill": 5,
+      "stamina": 5,
+      "max_speed": 3,
+      "max_strength": 5,
+      "max_skill": 6,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Lenny Beachum": {
+      "team": "Chargers",
+      "age": 24,
+      "speed": 5,
+      "strength": 2,
+      "skill": 1,
+      "stamina": 1,
+      "max_speed": 7,
+      "max_strength": 6,
+      "max_skill": 1,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 4,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "S",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Lewis Pettis": {
+      "team": "Cowboys",
+      "age": 34,
+      "speed": 6,
+      "strength": 1,
+      "skill": 4,
+      "stamina": 1,
+      "max_speed": 9,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 1,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 5,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Mack Skule": {
+      "team": "Bears",
+      "age": 31,
+      "speed": 5,
+      "strength": 6,
+      "skill": 2,
+      "stamina": 1,
+      "max_speed": 9,
+      "max_strength": 6,
+      "max_skill": 5,
+      "max_stamina": 1,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Malachi Hollins": {
+      "team": "Giants",
+      "age": 22,
+      "speed": 6,
+      "strength": 3,
+      "skill": 3,
+      "stamina": 1,
+      "max_speed": 6,
+      "max_strength": 6,
+      "max_skill": 4,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 6,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Neal Johnson": {
+      "team": "Cardinals",
+      "age": 31,
+      "speed": 7,
+      "strength": 1,
+      "skill": 1,
+      "stamina": 2,
+      "max_speed": 9,
+      "max_strength": 6,
+      "max_skill": 5,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 6,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Quincy Booker": {
+      "team": "Eagles",
+      "age": 27,
+      "speed": 7,
+      "strength": 6,
+      "skill": 7,
+      "stamina": 9,
+      "max_speed": 9,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 20,
+      "delay_retirement": 0,
+      "xp_level": 9,
+      "spos": "S",
+      "signed_year": 97,
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Raphael Mosely": {
+      "team": "Rams",
+      "age": 33,
+      "speed": 5,
+      "strength": 2,
+      "skill": 4,
+      "stamina": 1,
+      "max_speed": 7,
+      "max_strength": 2,
+      "max_skill": 7,
+      "max_stamina": 1,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Reggie Deayon": {
+      "team": "Colts",
+      "age": 24,
+      "speed": 2,
+      "strength": 1,
+      "skill": 2,
+      "stamina": 6,
+      "max_speed": 8,
+      "max_strength": 6,
+      "max_skill": 7,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Stephen Suh": {
+      "team": "Vikings",
+      "age": 24,
+      "speed": 4,
+      "strength": 4,
+      "skill": 1,
+      "stamina": 9,
+      "max_speed": 7,
+      "max_strength": 6,
+      "max_skill": 6,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Teair Dye": {
+      "team": "Bengals",
+      "age": 23,
+      "speed": 5,
+      "strength": 5,
+      "skill": 8,
+      "stamina": 1,
+      "max_speed": 8,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Tee Rosas": {
+      "team": "Steelers",
+      "age": 23,
+      "speed": 1,
+      "strength": 1,
+      "skill": 3,
+      "stamina": 3,
+      "max_speed": 4,
+      "max_strength": 1,
+      "max_skill": 7,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 5,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Tramon Holton": {
+      "team": "Falcons",
+      "age": 31,
+      "speed": 7,
+      "strength": 2,
+      "skill": 8,
+      "stamina": 8,
+      "max_speed": 8,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 19,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "CB",
+      "signed_year": 87,
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Travon Swaim": {
+      "team": "Lions",
+      "age": 34,
+      "speed": 9,
+      "strength": 6,
+      "skill": 8,
+      "stamina": 7,
+      "max_speed": 9,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 10,
+      "spos": "CB",
+      "season": {
+       "g": 0
+      }
+     },
+     "DB:Tress Pettis": {
+      "team": "Jaguars",
+      "age": 34,
+      "speed": 1,
+      "strength": 1,
+      "skill": 2,
+      "stamina": 6,
+      "max_speed": 2,
+      "max_strength": 5,
+      "max_skill": 3,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 5,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "S",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Alontae Jefe": {
+      "team": "Buccaneers",
+      "age": 24,
+      "speed": 1,
+      "strength": 2,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 7,
+      "max_skill": 5,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Alton Hopkins": {
+      "team": "Cardinals",
+      "age": 27,
+      "speed": 1,
+      "strength": 7,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 8,
+      "max_skill": 8,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Amik Barnes": {
+      "team": "Colts",
+      "age": 26,
+      "speed": 1,
+      "strength": 5,
+      "skill": 1,
+      "stamina": 2,
+      "max_speed": 3,
+      "max_strength": 6,
+      "max_skill": 6,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Blake Kirksey": {
+      "team": "Saints",
+      "age": 32,
+      "speed": 3,
+      "strength": 10,
+      "skill": 7,
+      "stamina": 3,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 8,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 18,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Bobby Grigsby": {
+      "team": "Chargers",
+      "age": 26,
+      "speed": 1,
+      "strength": 1,
+      "skill": 3,
+      "stamina": 5,
+      "max_speed": 5,
+      "max_strength": 3,
+      "max_skill": 4,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Braxton Pennel": {
+      "team": "Commanders",
+      "age": 32,
+      "speed": 1,
+      "strength": 3,
+      "skill": 1,
+      "stamina": 4,
+      "max_speed": 5,
+      "max_strength": 5,
+      "max_skill": 4,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Dekoda Cooks": {
+      "team": "Bills",
+      "age": 23,
+      "speed": 1,
+      "strength": 8,
+      "skill": 3,
+      "stamina": 3,
+      "max_speed": 3,
+      "max_strength": 10,
+      "max_skill": 9,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Deonte Farrell": {
+      "team": "Broncos",
+      "age": 31,
+      "speed": 1,
+      "strength": 10,
+      "skill": 5,
+      "stamina": 5,
+      "max_speed": 3,
+      "max_strength": 10,
+      "max_skill": 7,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 18,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Devonte Kerr": {
+      "team": "Rams",
+      "age": 34,
+      "speed": 1,
+      "strength": 5,
+      "skill": 1,
+      "stamina": 6,
+      "max_speed": 5,
+      "max_strength": 6,
+      "max_skill": 6,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Dillon Tyson": {
+      "team": "Raiders",
+      "age": 26,
+      "speed": 1,
+      "strength": 7,
+      "skill": 5,
+      "stamina": 3,
+      "max_speed": 4,
+      "max_strength": 7,
+      "max_skill": 9,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 15,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Dyami Watson": {
+      "team": "Seahawks",
+      "age": 27,
+      "speed": 1,
+      "strength": 6,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 9,
+      "max_skill": 10,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Dymonte Hageman": {
+      "team": "Texans",
+      "age": 32,
+      "speed": 1,
+      "strength": 4,
+      "skill": 7,
+      "stamina": 1,
+      "max_speed": 2,
+      "max_strength": 9,
+      "max_skill": 7,
+      "max_stamina": 2,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Gus Howland": {
+      "team": "Chiefs",
+      "age": 30,
+      "speed": 1,
+      "strength": 2,
+      "skill": 6,
+      "stamina": 2,
+      "max_speed": 5,
+      "max_strength": 8,
+      "max_skill": 10,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Isaiah Schnell": {
+      "team": "Cowboys",
+      "age": 29,
+      "speed": 1,
+      "strength": 4,
+      "skill": 6,
+      "stamina": 2,
+      "max_speed": 2,
+      "max_strength": 4,
+      "max_skill": 6,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:J.R. Homer": {
+      "team": "Patriots",
+      "age": 29,
+      "speed": 4,
+      "strength": 10,
+      "skill": 2,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 7,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 15,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Jabari Payne": {
+      "team": "Jaguars",
+      "age": 31,
+      "speed": 1,
+      "strength": 5,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 2,
+      "max_strength": 9,
+      "max_skill": 7,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Jace Ray": {
+      "team": "Bears",
+      "age": 32,
+      "speed": 1,
+      "strength": 1,
+      "skill": 8,
+      "stamina": 5,
+      "max_speed": 4,
+      "max_strength": 5,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Jalen Barber": {
+      "team": "Panthers",
+      "age": 33,
+      "speed": 1,
+      "strength": 5,
+      "skill": 4,
+      "stamina": 3,
+      "max_speed": 5,
+      "max_strength": 5,
+      "max_skill": 8,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Jeff Abram": {
+      "team": "Ravens",
+      "age": 22,
+      "speed": 1,
+      "strength": 5,
+      "skill": 3,
+      "stamina": 6,
+      "max_speed": 5,
+      "max_strength": 8,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Kalan Kalu": {
+      "team": "Browns",
+      "age": 22,
+      "speed": 1,
+      "strength": 2,
+      "skill": 1,
+      "stamina": 4,
+      "max_speed": 4,
+      "max_strength": 7,
+      "max_skill": 4,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 4,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Keaton Toney": {
+      "team": "Falcons",
+      "age": 29,
+      "speed": 2,
+      "strength": 8,
+      "skill": 10,
+      "stamina": 3,
+      "max_speed": 2,
+      "max_strength": 10,
+      "max_skill": 10,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 21,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Kenneth Leo": {
+      "team": "Packers",
+      "age": 30,
+      "speed": 3,
+      "strength": 5,
+      "skill": 7,
+      "stamina": 1,
+      "max_speed": 3,
+      "max_strength": 7,
+      "max_skill": 7,
+      "max_stamina": 1,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 15,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Landon Irwin": {
+      "team": "Lions",
+      "age": 24,
+      "speed": 1,
+      "strength": 5,
+      "skill": 3,
+      "stamina": 3,
+      "max_speed": 1,
+      "max_strength": 6,
+      "max_skill": 6,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Nathan Tangelo": {
+      "team": "Bengals",
+      "age": 32,
+      "speed": 4,
+      "strength": 5,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 4,
+      "max_strength": 10,
+      "max_skill": 10,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Olamide Conway": {
+      "team": "Titans",
+      "age": 30,
+      "speed": 1,
+      "strength": 5,
+      "skill": 2,
+      "stamina": 9,
+      "max_speed": 5,
+      "max_strength": 9,
+      "max_skill": 5,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 6,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:P.J. Jerry": {
+      "team": "49ers",
+      "age": 27,
+      "speed": 5,
+      "strength": 10,
+      "skill": 5,
+      "stamina": 3,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 5,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 21,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Richard Ferentz": {
+      "team": "Steelers",
+      "age": 34,
+      "speed": 3,
+      "strength": 8,
+      "skill": 9,
+      "stamina": 1,
+      "max_speed": 3,
+      "max_strength": 8,
+      "max_skill": 10,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Tre' Haack": {
+      "team": "Vikings",
+      "age": 32,
+      "speed": 1,
+      "strength": 3,
+      "skill": 2,
+      "stamina": 8,
+      "max_speed": 5,
+      "max_strength": 7,
+      "max_skill": 7,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Trystan Doctson": {
+      "team": "Giants",
+      "age": 30,
+      "speed": 1,
+      "strength": 6,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 1,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 1,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "DL:Zayne Ajayi": {
+      "team": "Dolphins",
+      "age": 26,
+      "speed": 3,
+      "strength": 5,
+      "skill": 8,
+      "stamina": 6,
+      "max_speed": 4,
+      "max_strength": 9,
+      "max_skill": 8,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 18,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "DL",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Aldrick Coyle": {
+      "team": "49ers",
+      "age": 29,
+      "speed": 2,
+      "strength": 1,
+      "skill": 3,
+      "stamina": 5,
+      "max_speed": 7,
+      "max_strength": 4,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Alontae Agnew": {
+      "team": "Chiefs",
+      "age": 26,
+      "speed": 2,
+      "strength": 1,
+      "skill": 1,
+      "stamina": 4,
+      "max_speed": 3,
+      "max_strength": 6,
+      "max_skill": 6,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 5,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Angelo Jensen": {
+      "team": "Rams",
+      "age": 34,
+      "speed": 1,
+      "strength": 2,
+      "skill": 6,
+      "stamina": 7,
+      "max_speed": 6,
+      "max_strength": 4,
+      "max_skill": 6,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Austin Larsen": {
+      "team": "Texans",
+      "age": 23,
+      "speed": 2,
+      "strength": 3,
+      "skill": 2,
+      "stamina": 6,
+      "max_speed": 5,
+      "max_strength": 4,
+      "max_skill": 7,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Brayden Golden": {
+      "team": "Panthers",
+      "age": 34,
+      "speed": 1,
+      "strength": 3,
+      "skill": 1,
+      "stamina": 6,
+      "max_speed": 1,
+      "max_strength": 4,
+      "max_skill": 5,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 4,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Cal Gowan": {
+      "team": "Buccaneers",
+      "age": 27,
+      "speed": 2,
+      "strength": 5,
+      "skill": 4,
+      "stamina": 9,
+      "max_speed": 5,
+      "max_strength": 5,
+      "max_skill": 7,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Chuck Ertz": {
+      "team": "Colts",
+      "age": 32,
+      "speed": 4,
+      "strength": 8,
+      "skill": 4,
+      "stamina": 2,
+      "max_speed": 6,
+      "max_strength": 8,
+      "max_skill": 5,
+      "max_stamina": 2,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Cyril Boozler": {
+      "team": "Jaguars",
+      "age": 25,
+      "speed": 3,
+      "strength": 2,
+      "skill": 4,
+      "stamina": 2,
+      "max_speed": 7,
+      "max_strength": 7,
+      "max_skill": 4,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Dalton Mauro": {
+      "team": "Giants",
+      "age": 30,
+      "speed": 5,
+      "strength": 4,
+      "skill": 1,
+      "stamina": 7,
+      "max_speed": 7,
+      "max_strength": 4,
+      "max_skill": 3,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Damian Ragas": {
+      "team": "Cowboys",
+      "age": 24,
+      "speed": 3,
+      "strength": 3,
+      "skill": 3,
+      "stamina": 3,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 8,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Danny Crosby": {
+      "team": "Vikings",
+      "age": 25,
+      "speed": 2,
+      "strength": 1,
+      "skill": 6,
+      "stamina": 5,
+      "max_speed": 4,
+      "max_strength": 3,
+      "max_skill": 8,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Davion Means": {
+      "team": "Lions",
+      "age": 34,
+      "speed": 2,
+      "strength": 2,
+      "skill": 4,
+      "stamina": 2,
+      "max_speed": 5,
+      "max_strength": 5,
+      "max_skill": 7,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 4,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Drake Kaskey": {
+      "team": "Jets",
+      "age": 26,
+      "speed": 4,
+      "strength": 4,
+      "skill": 4,
+      "stamina": 10,
+      "max_speed": 4,
+      "max_strength": 8,
+      "max_skill": 4,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 19,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Floyd Speaks": {
+      "team": "Commanders",
+      "age": 22,
+      "speed": 3,
+      "strength": 1,
+      "skill": 3,
+      "stamina": 1,
+      "max_speed": 4,
+      "max_strength": 2,
+      "max_skill": 6,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 3,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Hakeem Ervin": {
+      "team": "Seahawks",
+      "age": 34,
+      "speed": 4,
+      "strength": 6,
+      "skill": 8,
+      "stamina": 6,
+      "max_speed": 4,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Hamp McPhee": {
+      "team": "Ravens",
+      "age": 31,
+      "speed": 3,
+      "strength": 6,
+      "skill": 4,
+      "stamina": 10,
+      "max_speed": 6,
+      "max_strength": 8,
+      "max_skill": 5,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "LB",
+      "signed_year": 89,
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Jakobi Arnette": {
+      "team": "Chargers",
+      "age": 22,
+      "speed": 3,
+      "strength": 5,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 3,
+      "max_strength": 7,
+      "max_skill": 8,
+      "max_stamina": 2,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 6,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Jarius Izzo": {
+      "team": "Steelers",
+      "age": 23,
+      "speed": 1,
+      "strength": 5,
+      "skill": 1,
+      "stamina": 2,
+      "max_speed": 4,
+      "max_strength": 8,
+      "max_skill": 1,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Jeff Mixon": {
+      "team": "Bears",
+      "age": 25,
+      "speed": 6,
+      "strength": 8,
+      "skill": 2,
+      "stamina": 5,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 5,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:K.J. Nsekhe": {
+      "team": "Titans",
+      "age": 22,
+      "speed": 1,
+      "strength": 3,
+      "skill": 4,
+      "stamina": 3,
+      "max_speed": 5,
+      "max_strength": 7,
+      "max_skill": 6,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 5,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Kwon Dawkins": {
+      "team": "Bengals",
+      "age": 33,
+      "speed": 1,
+      "strength": 1,
+      "skill": 2,
+      "stamina": 5,
+      "max_speed": 5,
+      "max_strength": 2,
+      "max_skill": 2,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 6,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Kyler Falah": {
+      "team": "Raiders",
+      "age": 29,
+      "speed": 4,
+      "strength": 3,
+      "skill": 7,
+      "stamina": 2,
+      "max_speed": 7,
+      "max_strength": 3,
+      "max_skill": 8,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Nahshon Butker": {
+      "team": "Packers",
+      "age": 24,
+      "speed": 1,
+      "strength": 4,
+      "skill": 2,
+      "stamina": 7,
+      "max_speed": 5,
+      "max_strength": 7,
+      "max_skill": 4,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Quatro Wilds": {
+      "team": "Colts",
+      "age": 33,
+      "speed": 2,
+      "strength": 4,
+      "skill": 2,
+      "stamina": 2,
+      "max_speed": 6,
+      "max_strength": 7,
+      "max_skill": 2,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 5,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Rudy Ward Jr": {
+      "team": "Dolphins",
+      "age": 33,
+      "speed": 5,
+      "strength": 4,
+      "skill": 1,
+      "stamina": 10,
+      "max_speed": 6,
+      "max_strength": 8,
+      "max_skill": 1,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Shawn Rigg": {
+      "team": "Cardinals",
+      "age": 25,
+      "speed": 3,
+      "strength": 4,
+      "skill": 1,
+      "stamina": 1,
+      "max_speed": 3,
+      "max_strength": 5,
+      "max_skill": 5,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Simeon Otton": {
+      "team": "Falcons",
+      "age": 34,
+      "speed": 7,
+      "strength": 8,
+      "skill": 8,
+      "stamina": 9,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 8,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 18,
+      "delay_retirement": 0,
+      "xp_level": 9,
+      "spos": "LB",
+      "signed_year": 87,
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Sione Tonga": {
+      "team": "Broncos",
+      "age": 22,
+      "speed": 3,
+      "strength": 4,
+      "skill": 5,
+      "stamina": 8,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 8,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Snoop Dotson": {
+      "team": "Eagles",
+      "age": 31,
+      "speed": 7,
+      "strength": 7,
+      "skill": 8,
+      "stamina": 8,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 8,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 27,
+      "delay_retirement": 0,
+      "xp_level": 10,
+      "spos": "LB",
+      "signed_year": 96,
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Storm Shelvin": {
+      "team": "Saints",
+      "age": 33,
+      "speed": 1,
+      "strength": 4,
+      "skill": 1,
+      "stamina": 3,
+      "max_speed": 4,
+      "max_strength": 8,
+      "max_skill": 5,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 6,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "LB:Trayone Burford": {
+      "team": "Browns",
+      "age": 31,
+      "speed": 6,
+      "strength": 3,
+      "skill": 5,
+      "stamina": 7,
+      "max_speed": 7,
+      "max_strength": 3,
+      "max_skill": 7,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "LB",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Akiem Brock": {
+      "team": "Eagles",
+      "age": 35,
+      "speed": 3,
+      "strength": 9,
+      "skill": 10,
+      "stamina": 4,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 10,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 10,
+      "spos": "OL",
+      "signed_year": 96,
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Bradlee Philips": {
+      "team": "Buccaneers",
+      "age": 33,
+      "speed": 3,
+      "strength": 8,
+      "skill": 3,
+      "stamina": 2,
+      "max_speed": 5,
+      "max_strength": 8,
+      "max_skill": 6,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Calais Ham": {
+      "team": "Falcons",
+      "age": 34,
+      "speed": 5,
+      "strength": 9,
+      "skill": 8,
+      "stamina": 5,
+      "max_speed": 5,
+      "max_strength": 9,
+      "max_skill": 8,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 6,
+      "spos": "OL",
+      "signed_year": 86,
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Caleb Linsley": {
+      "team": "Giants",
+      "age": 30,
+      "speed": 5,
+      "strength": 8,
+      "skill": 6,
+      "stamina": 6,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 9,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 17,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Cethan Payne": {
+      "team": "Panthers",
+      "age": 32,
+      "speed": 1,
+      "strength": 6,
+      "skill": 1,
+      "stamina": 1,
+      "max_speed": 1,
+      "max_strength": 10,
+      "max_skill": 1,
+      "max_stamina": 2,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 5,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Cethan Qualls": {
+      "team": "Ravens",
+      "age": 34,
+      "speed": 5,
+      "strength": 8,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 6,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Cordale Sweezy": {
+      "team": "Packers",
+      "age": 32,
+      "speed": 1,
+      "strength": 5,
+      "skill": 3,
+      "stamina": 3,
+      "max_speed": 5,
+      "max_strength": 9,
+      "max_skill": 6,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Cullen Laird": {
+      "team": "Colts",
+      "age": 33,
+      "speed": 4,
+      "strength": 9,
+      "skill": 10,
+      "stamina": 2,
+      "max_speed": 5,
+      "max_strength": 9,
+      "max_skill": 10,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Dareke Judon": {
+      "team": "Bills",
+      "age": 24,
+      "speed": 1,
+      "strength": 4,
+      "skill": 8,
+      "stamina": 1,
+      "max_speed": 3,
+      "max_strength": 4,
+      "max_skill": 10,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Deane Lucas": {
+      "team": "Jets",
+      "age": 34,
+      "speed": 1,
+      "strength": 5,
+      "skill": 3,
+      "stamina": 9,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 6,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Dede Beavers": {
+      "team": "Browns",
+      "age": 24,
+      "speed": 1,
+      "strength": 5,
+      "skill": 3,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 9,
+      "max_skill": 5,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Geno Blough": {
+      "team": "Lions",
+      "age": 24,
+      "speed": 2,
+      "strength": 7,
+      "skill": 6,
+      "stamina": 7,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 10,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Horace Addison": {
+      "team": "Cowboys",
+      "age": 25,
+      "speed": 3,
+      "strength": 5,
+      "skill": 6,
+      "stamina": 2,
+      "max_speed": 4,
+      "max_strength": 9,
+      "max_skill": 8,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:JD Pircher": {
+      "team": "Bengals",
+      "age": 27,
+      "speed": 1,
+      "strength": 10,
+      "skill": 9,
+      "stamina": 5,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 10,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 17,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Jacobi Compton": {
+      "team": "Steelers",
+      "age": 24,
+      "speed": 1,
+      "strength": 5,
+      "skill": 1,
+      "stamina": 7,
+      "max_speed": 5,
+      "max_strength": 8,
+      "max_skill": 6,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Jaleel Edwards": {
+      "team": "Broncos",
+      "age": 24,
+      "speed": 1,
+      "strength": 4,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 8,
+      "max_skill": 6,
+      "max_stamina": 1,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Jamon Ertz": {
+      "team": "Texans",
+      "age": 22,
+      "speed": 3,
+      "strength": 8,
+      "skill": 1,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 1,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 4,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Jordon Toilolo": {
+      "team": "Vikings",
+      "age": 29,
+      "speed": 1,
+      "strength": 4,
+      "skill": 1,
+      "stamina": 2,
+      "max_speed": 1,
+      "max_strength": 8,
+      "max_skill": 6,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 5,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Koa Togiai": {
+      "team": "Jaguars",
+      "age": 29,
+      "speed": 1,
+      "strength": 6,
+      "skill": 4,
+      "stamina": 4,
+      "max_speed": 2,
+      "max_strength": 7,
+      "max_skill": 4,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Laken Linder": {
+      "team": "Titans",
+      "age": 34,
+      "speed": 2,
+      "strength": 8,
+      "skill": 1,
+      "stamina": 7,
+      "max_speed": 2,
+      "max_strength": 10,
+      "max_skill": 7,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Nydair Funk": {
+      "team": "Cardinals",
+      "age": 29,
+      "speed": 1,
+      "strength": 7,
+      "skill": 4,
+      "stamina": 1,
+      "max_speed": 3,
+      "max_strength": 8,
+      "max_skill": 5,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Perrion Randall": {
+      "team": "Seahawks",
+      "age": 34,
+      "speed": 5,
+      "strength": 10,
+      "skill": 8,
+      "stamina": 2,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 9,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "OL",
+      "signed_year": 83,
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Shaquem Goedert": {
+      "team": "Chiefs",
+      "age": 33,
+      "speed": 2,
+      "strength": 7,
+      "skill": 10,
+      "stamina": 2,
+      "max_speed": 2,
+      "max_strength": 8,
+      "max_skill": 10,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Tay Tenuta": {
+      "team": "49ers",
+      "age": 31,
+      "speed": 2,
+      "strength": 1,
+      "skill": 6,
+      "stamina": 2,
+      "max_speed": 5,
+      "max_strength": 4,
+      "max_skill": 10,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 6,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Terez Poe": {
+      "team": "Dolphins",
+      "age": 34,
+      "speed": 2,
+      "strength": 10,
+      "skill": 10,
+      "stamina": 2,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 10,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Trey Gabbert": {
+      "team": "Raiders",
+      "age": 30,
+      "speed": 3,
+      "strength": 8,
+      "skill": 3,
+      "stamina": 6,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 5,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Victor Brandel": {
+      "team": "Commanders",
+      "age": 34,
+      "speed": 2,
+      "strength": 6,
+      "skill": 7,
+      "stamina": 5,
+      "max_speed": 4,
+      "max_strength": 8,
+      "max_skill": 10,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Vyncint Fort": {
+      "team": "Chargers",
+      "age": 29,
+      "speed": 2,
+      "strength": 3,
+      "skill": 1,
+      "stamina": 4,
+      "max_speed": 5,
+      "max_strength": 7,
+      "max_skill": 6,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Vyncint Redmond": {
+      "team": "Rams",
+      "age": 23,
+      "speed": 2,
+      "strength": 7,
+      "skill": 4,
+      "stamina": 3,
+      "max_speed": 4,
+      "max_strength": 7,
+      "max_skill": 7,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "OL:Wayne Blair": {
+      "team": "Patriots",
+      "age": 29,
+      "speed": 4,
+      "strength": 10,
+      "skill": 6,
+      "stamina": 7,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 10,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 19,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "OL",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Alshon Lazard": {
+      "team": "Bengals",
+      "age": 25,
+      "speed": 1,
+      "strength": 4,
+      "skill": 5,
+      "stamina": 8,
+      "max_speed": 5,
+      "max_strength": 9,
+      "max_skill": 9,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 25,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Arthur Onwenu": {
+      "team": "Chargers",
+      "age": 33,
+      "speed": 1,
+      "strength": 4,
+      "skill": 6,
+      "stamina": 2,
+      "max_speed": 4,
+      "max_strength": 4,
+      "max_skill": 8,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 20,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Bones Crawford": {
+      "team": "Eagles",
+      "age": 32,
+      "speed": 5,
+      "strength": 10,
+      "skill": 8,
+      "stamina": 8,
+      "max_speed": 7,
+      "max_strength": 10,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 45,
+      "delay_retirement": 0,
+      "xp_level": 12,
+      "spos": "QB",
+      "signed_year": 96,
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Brandon Jaclyde": {
+      "team": "Dolphins",
+      "age": 38,
+      "speed": 7,
+      "strength": 9,
+      "skill": 10,
+      "stamina": 5,
+      "max_speed": 7,
+      "max_strength": 9,
+      "max_skill": 10,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 34,
+      "delay_retirement": 0,
+      "xp_level": 8,
+      "spos": "QB",
+      "signed_year": 83,
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Bryant Cronk": {
+      "team": "Ravens",
+      "age": 29,
+      "speed": 1,
+      "strength": 4,
+      "skill": 1,
+      "stamina": 5,
+      "max_speed": 5,
+      "max_strength": 5,
+      "max_skill": 3,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 15,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Bryant Herbig": {
+      "team": "Commanders",
+      "age": 23,
+      "speed": 6,
+      "strength": 1,
+      "skill": 5,
+      "stamina": 8,
+      "max_speed": 7,
+      "max_strength": 1,
+      "max_skill": 10,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 25,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Case Larsen": {
+      "team": "Saints",
+      "age": 22,
+      "speed": 2,
+      "strength": 3,
+      "skill": 6,
+      "stamina": 2,
+      "max_speed": 6,
+      "max_strength": 3,
+      "max_skill": 10,
+      "max_stamina": 2,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Damiere Norton": {
+      "team": "Patriots",
+      "age": 22,
+      "speed": 1,
+      "strength": 4,
+      "skill": 5,
+      "stamina": 5,
+      "max_speed": 6,
+      "max_strength": 7,
+      "max_skill": 7,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Irv Kelce": {
+      "team": "Bears",
+      "age": 35,
+      "speed": 2,
+      "strength": 4,
+      "skill": 10,
+      "stamina": 10,
+      "max_speed": 7,
+      "max_strength": 9,
+      "max_skill": 10,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 35,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Ja'Marr Chark": {
+      "team": "Buccaneers",
+      "age": 26,
+      "speed": 3,
+      "strength": 1,
+      "skill": 4,
+      "stamina": 9,
+      "max_speed": 3,
+      "max_strength": 2,
+      "max_skill": 6,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 25,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Jimmy Tillery": {
+      "team": "Jets",
+      "age": 34,
+      "speed": 1,
+      "strength": 5,
+      "skill": 3,
+      "stamina": 1,
+      "max_speed": 3,
+      "max_strength": 9,
+      "max_skill": 7,
+      "max_stamina": 1,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 15,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Jojo McCown": {
+      "team": "49ers",
+      "age": 36,
+      "speed": 3,
+      "strength": 1,
+      "skill": 5,
+      "stamina": 7,
+      "max_speed": 5,
+      "max_strength": 3,
+      "max_skill": 5,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 17,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Juju Ngakoue": {
+      "team": "Bills",
+      "age": 39,
+      "speed": 4,
+      "strength": 6,
+      "skill": 6,
+      "stamina": 5,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 9,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Julian Goedert": {
+      "team": "Seahawks",
+      "age": 34,
+      "speed": 3,
+      "strength": 4,
+      "skill": 1,
+      "stamina": 1,
+      "max_speed": 4,
+      "max_strength": 10,
+      "max_skill": 5,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Kalif Risner": {
+      "team": "Jaguars",
+      "age": 31,
+      "speed": 2,
+      "strength": 6,
+      "skill": 5,
+      "stamina": 9,
+      "max_speed": 7,
+      "max_strength": 6,
+      "max_skill": 7,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 30,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Koda Koroma": {
+      "team": "Vikings",
+      "age": 29,
+      "speed": 3,
+      "strength": 4,
+      "skill": 7,
+      "stamina": 10,
+      "max_speed": 7,
+      "max_strength": 10,
+      "max_skill": 7,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 30,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Lukas Samuels": {
+      "team": "Cardinals",
+      "age": 25,
+      "speed": 2,
+      "strength": 2,
+      "skill": 8,
+      "stamina": 6,
+      "max_speed": 2,
+      "max_strength": 6,
+      "max_skill": 10,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 25,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Makai Merritt": {
+      "team": "Rams",
+      "age": 34,
+      "speed": 1,
+      "strength": 1,
+      "skill": 5,
+      "stamina": 4,
+      "max_speed": 5,
+      "max_strength": 2,
+      "max_skill": 5,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 15,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Margus Leglue": {
+      "team": "Lions",
+      "age": 37,
+      "speed": 6,
+      "strength": 5,
+      "skill": 3,
+      "stamina": 8,
+      "max_speed": 6,
+      "max_strength": 10,
+      "max_skill": 7,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 25,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Mike Bouye": {
+      "team": "Browns",
+      "age": 33,
+      "speed": 6,
+      "strength": 3,
+      "skill": 5,
+      "stamina": 2,
+      "max_speed": 7,
+      "max_strength": 7,
+      "max_skill": 9,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 20,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Olivier Slade": {
+      "team": "Panthers",
+      "age": 24,
+      "speed": 1,
+      "strength": 3,
+      "skill": 1,
+      "stamina": 7,
+      "max_speed": 2,
+      "max_strength": 5,
+      "max_skill": 3,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 15,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Orlando Larienne": {
+      "team": "Falcons",
+      "age": 36,
+      "speed": 7,
+      "strength": 9,
+      "skill": 10,
+      "stamina": 8,
+      "max_speed": 7,
+      "max_strength": 9,
+      "max_skill": 10,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 38,
+      "delay_retirement": 0,
+      "xp_level": 8,
+      "spos": "QB",
+      "signed_year": 87,
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Rico Gee": {
+      "team": "Cowboys",
+      "age": 22,
+      "speed": 1,
+      "strength": 4,
+      "skill": 6,
+      "stamina": 4,
+      "max_speed": 1,
+      "max_strength": 10,
+      "max_skill": 10,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Roc Dunkle": {
+      "team": "Chiefs",
+      "age": 28,
+      "speed": 1,
+      "strength": 4,
+      "skill": 2,
+      "stamina": 6,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 3,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 20,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Ryquell Penn": {
+      "team": "Steelers",
+      "age": 34,
+      "speed": 2,
+      "strength": 4,
+      "skill": 1,
+      "stamina": 4,
+      "max_speed": 6,
+      "max_strength": 9,
+      "max_skill": 2,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 15,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Rysen Nauta": {
+      "team": "Titans",
+      "age": 36,
+      "speed": 7,
+      "strength": 4,
+      "skill": 7,
+      "stamina": 7,
+      "max_speed": 7,
+      "max_strength": 4,
+      "max_skill": 10,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 35,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Sione Garland": {
+      "team": "Broncos",
+      "age": 26,
+      "speed": 2,
+      "strength": 4,
+      "skill": 8,
+      "stamina": 3,
+      "max_speed": 2,
+      "max_strength": 10,
+      "max_skill": 10,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 25,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Tim Sweeney": {
+      "team": "Texans",
+      "age": 34,
+      "speed": 4,
+      "strength": 5,
+      "skill": 5,
+      "stamina": 10,
+      "max_speed": 4,
+      "max_strength": 9,
+      "max_skill": 7,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 30,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Trae Corral": {
+      "team": "Raiders",
+      "age": 27,
+      "speed": 3,
+      "strength": 4,
+      "skill": 3,
+      "stamina": 2,
+      "max_speed": 5,
+      "max_strength": 10,
+      "max_skill": 8,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 15,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "QB:Yurik Okudah": {
+      "team": "Giants",
+      "age": 22,
+      "speed": 1,
+      "strength": 1,
+      "skill": 6,
+      "stamina": 1,
+      "max_speed": 2,
+      "max_strength": 5,
+      "max_skill": 9,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 6,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "QB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Alijah Santos": {
+      "team": "Commanders",
+      "age": 27,
+      "speed": 4,
+      "strength": 6,
+      "skill": 3,
+      "stamina": 3,
+      "max_speed": 8,
+      "max_strength": 7,
+      "max_skill": 6,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 15,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Alohi Devey": {
+      "team": "Lions",
+      "age": 29,
+      "speed": 10,
+      "strength": 2,
+      "skill": 3,
+      "stamina": 4,
+      "max_speed": 10,
+      "max_strength": 2,
+      "max_skill": 3,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 18,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Alton Yeldon": {
+      "team": "Seahawks",
+      "age": 29,
+      "speed": 7,
+      "strength": 8,
+      "skill": 5,
+      "stamina": 6,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 6,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 24,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Angelo Moton": {
+      "team": "Packers",
+      "age": 34,
+      "speed": 9,
+      "strength": 7,
+      "skill": 5,
+      "stamina": 6,
+      "max_speed": 10,
+      "max_strength": 7,
+      "max_skill": 6,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 13,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Brendan Parham": {
+      "team": "Ravens",
+      "age": 32,
+      "speed": 3,
+      "strength": 2,
+      "skill": 2,
+      "stamina": 8,
+      "max_speed": 8,
+      "max_strength": 2,
+      "max_skill": 2,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Camryn Kongbo": {
+      "team": "Cowboys",
+      "age": 29,
+      "speed": 8,
+      "strength": 8,
+      "skill": 1,
+      "stamina": 3,
+      "max_speed": 9,
+      "max_strength": 8,
+      "max_skill": 2,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 18,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:DJ Long": {
+      "team": "Jaguars",
+      "age": 28,
+      "speed": 9,
+      "strength": 5,
+      "skill": 6,
+      "stamina": 6,
+      "max_speed": 9,
+      "max_strength": 5,
+      "max_skill": 6,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 24,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Dee Maher": {
+      "team": "Vikings",
+      "age": 25,
+      "speed": 7,
+      "strength": 7,
+      "skill": 5,
+      "stamina": 3,
+      "max_speed": 9,
+      "max_strength": 9,
+      "max_skill": 6,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 18,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Denzel Brady": {
+      "team": "Jets",
+      "age": 30,
+      "speed": 7,
+      "strength": 5,
+      "skill": 6,
+      "stamina": 2,
+      "max_speed": 9,
+      "max_strength": 9,
+      "max_skill": 6,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 18,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Dixie Leonard": {
+      "team": "Patriots",
+      "age": 23,
+      "speed": 9,
+      "strength": 2,
+      "skill": 2,
+      "stamina": 8,
+      "max_speed": 10,
+      "max_strength": 7,
+      "max_skill": 4,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 18,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Gerrit Ogbah": {
+      "team": "Falcons",
+      "age": 32,
+      "speed": 9,
+      "strength": 9,
+      "skill": 6,
+      "stamina": 9,
+      "max_speed": 9,
+      "max_strength": 9,
+      "max_skill": 6,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 22,
+      "delay_retirement": 0,
+      "xp_level": 8,
+      "spos": "RB",
+      "signed_year": 91,
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Grover Calitro": {
+      "team": "Bengals",
+      "age": 31,
+      "speed": 10,
+      "strength": 7,
+      "skill": 6,
+      "stamina": 1,
+      "max_speed": 10,
+      "max_strength": 9,
+      "max_skill": 6,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 21,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:J.C. Howland": {
+      "team": "49ers",
+      "age": 27,
+      "speed": 6,
+      "strength": 2,
+      "skill": 3,
+      "stamina": 5,
+      "max_speed": 8,
+      "max_strength": 3,
+      "max_skill": 4,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 15,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Jay-Tee Dafney": {
+      "team": "Panthers",
+      "age": 32,
+      "speed": 9,
+      "strength": 4,
+      "skill": 5,
+      "stamina": 5,
+      "max_speed": 10,
+      "max_strength": 4,
+      "max_skill": 6,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Kitt Perine": {
+      "team": "Rams",
+      "age": 25,
+      "speed": 5,
+      "strength": 1,
+      "skill": 1,
+      "stamina": 1,
+      "max_speed": 6,
+      "max_strength": 1,
+      "max_skill": 1,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 6,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Lavonte Liuget": {
+      "team": "Texans",
+      "age": 22,
+      "speed": 7,
+      "strength": 2,
+      "skill": 1,
+      "stamina": 1,
+      "max_speed": 10,
+      "max_strength": 7,
+      "max_skill": 6,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 5,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Lukas Agnew": {
+      "team": "Dolphins",
+      "age": 32,
+      "speed": 8,
+      "strength": 5,
+      "skill": 2,
+      "stamina": 3,
+      "max_speed": 8,
+      "max_strength": 9,
+      "max_skill": 2,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Margus Deaton": {
+      "team": "Broncos",
+      "age": 25,
+      "speed": 1,
+      "strength": 1,
+      "skill": 2,
+      "stamina": 5,
+      "max_speed": 2,
+      "max_strength": 1,
+      "max_skill": 4,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Mario Lamb": {
+      "team": "Chiefs",
+      "age": 22,
+      "speed": 9,
+      "strength": 5,
+      "skill": 1,
+      "stamina": 7,
+      "max_speed": 10,
+      "max_strength": 9,
+      "max_skill": 2,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Niles Canaday": {
+      "team": "Giants",
+      "age": 27,
+      "speed": 2,
+      "strength": 1,
+      "skill": 1,
+      "stamina": 4,
+      "max_speed": 2,
+      "max_strength": 5,
+      "max_skill": 3,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 6,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Phillip Ball": {
+      "team": "Saints",
+      "age": 23,
+      "speed": 5,
+      "strength": 4,
+      "skill": 3,
+      "stamina": 3,
+      "max_speed": 10,
+      "max_strength": 9,
+      "max_skill": 6,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:River Kuechly": {
+      "team": "Colts",
+      "age": 28,
+      "speed": 2,
+      "strength": 6,
+      "skill": 1,
+      "stamina": 2,
+      "max_speed": 6,
+      "max_strength": 8,
+      "max_skill": 3,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Roderic Trawick": {
+      "team": "Cardinals",
+      "age": 26,
+      "speed": 8,
+      "strength": 5,
+      "skill": 5,
+      "stamina": 8,
+      "max_speed": 10,
+      "max_strength": 9,
+      "max_skill": 6,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 24,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Ryland Maxwell": {
+      "team": "Eagles",
+      "age": 35,
+      "speed": 9,
+      "strength": 9,
+      "skill": 6,
+      "stamina": 6,
+      "max_speed": 10,
+      "max_strength": 9,
+      "max_skill": 6,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 15,
+      "delay_retirement": 0,
+      "xp_level": 22,
+      "spos": "RB",
+      "signed_year": 96,
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Sam Swaim": {
+      "team": "Patriots",
+      "age": 27,
+      "speed": 7,
+      "strength": 5,
+      "skill": 5,
+      "stamina": 7,
+      "max_speed": 10,
+      "max_strength": 6,
+      "max_skill": 6,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 21,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Thomas Sweezy": {
+      "team": "Browns",
+      "age": 33,
+      "speed": 5,
+      "strength": 4,
+      "skill": 4,
+      "stamina": 8,
+      "max_speed": 5,
+      "max_strength": 6,
+      "max_skill": 6,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Ty Gurman": {
+      "team": "Bears",
+      "age": 28,
+      "speed": 6,
+      "strength": 4,
+      "skill": 1,
+      "stamina": 4,
+      "max_speed": 8,
+      "max_strength": 4,
+      "max_skill": 2,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Tyreek Devalve": {
+      "team": "Buccaneers",
+      "age": 34,
+      "speed": 10,
+      "strength": 7,
+      "skill": 6,
+      "stamina": 3,
+      "max_speed": 10,
+      "max_strength": 7,
+      "max_skill": 6,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 13,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "RB:Xavier Mosley": {
+      "team": "Raiders",
+      "age": 31,
+      "speed": 5,
+      "strength": 3,
+      "skill": 2,
+      "stamina": 2,
+      "max_speed": 9,
+      "max_strength": 7,
+      "max_skill": 6,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "RB",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Amon-Ra Ford": {
+      "team": "Panthers",
+      "age": 34,
+      "speed": 5,
+      "strength": 1,
+      "skill": 4,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 4,
+      "max_skill": 4,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 4,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Bryce Smoot": {
+      "team": "Jaguars",
+      "age": 23,
+      "speed": 1,
+      "strength": 3,
+      "skill": 3,
+      "stamina": 1,
+      "max_speed": 6,
+      "max_strength": 3,
+      "max_skill": 5,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 5,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Bunchy Barron": {
+      "team": "Commanders",
+      "age": 25,
+      "speed": 5,
+      "strength": 1,
+      "skill": 5,
+      "stamina": 7,
+      "max_speed": 7,
+      "max_strength": 5,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Cassius McCrane": {
+      "team": "Rams",
+      "age": 29,
+      "speed": 2,
+      "strength": 4,
+      "skill": 4,
+      "stamina": 3,
+      "max_speed": 2,
+      "max_strength": 4,
+      "max_skill": 4,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:DQ Diggs": {
+      "team": "Seahawks",
+      "age": 26,
+      "speed": 2,
+      "strength": 6,
+      "skill": 6,
+      "stamina": 8,
+      "max_speed": 2,
+      "max_strength": 7,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Daelin Virgin": {
+      "team": "Cowboys",
+      "age": 28,
+      "speed": 7,
+      "strength": 7,
+      "skill": 6,
+      "stamina": 3,
+      "max_speed": 7,
+      "max_strength": 7,
+      "max_skill": 8,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 19,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Dakota Paye": {
+      "team": "Vikings",
+      "age": 33,
+      "speed": 1,
+      "strength": 2,
+      "skill": 3,
+      "stamina": 6,
+      "max_speed": 2,
+      "max_strength": 4,
+      "max_skill": 7,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Daylon Fries": {
+      "team": "Texans",
+      "age": 29,
+      "speed": 7,
+      "strength": 7,
+      "skill": 8,
+      "stamina": 1,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 8,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 19,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Derwin Bentley": {
+      "team": "Giants",
+      "age": 24,
+      "speed": 7,
+      "strength": 8,
+      "skill": 4,
+      "stamina": 4,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 8,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 19,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Dezmon Tavai": {
+      "team": "Bears",
+      "age": 30,
+      "speed": 2,
+      "strength": 7,
+      "skill": 2,
+      "stamina": 5,
+      "max_speed": 6,
+      "max_strength": 8,
+      "max_skill": 2,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Donell Quinn": {
+      "team": "Broncos",
+      "age": 26,
+      "speed": 2,
+      "strength": 4,
+      "skill": 4,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 8,
+      "max_skill": 4,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Dre Hoecht": {
+      "team": "Chiefs",
+      "age": 22,
+      "speed": 4,
+      "strength": 5,
+      "skill": 4,
+      "stamina": 9,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 4,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Earnest Prosise": {
+      "team": "Cardinals",
+      "age": 28,
+      "speed": 2,
+      "strength": 3,
+      "skill": 1,
+      "stamina": 6,
+      "max_speed": 5,
+      "max_strength": 5,
+      "max_skill": 3,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Eli Danna": {
+      "team": "Dolphins",
+      "age": 33,
+      "speed": 7,
+      "strength": 6,
+      "skill": 5,
+      "stamina": 4,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 8,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Essang Remmers": {
+      "team": "Jets",
+      "age": 31,
+      "speed": 4,
+      "strength": 2,
+      "skill": 3,
+      "stamina": 9,
+      "max_speed": 6,
+      "max_strength": 2,
+      "max_skill": 6,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:George Donkor": {
+      "team": "Raiders",
+      "age": 32,
+      "speed": 5,
+      "strength": 5,
+      "skill": 1,
+      "stamina": 8,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 6,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Grady Cox": {
+      "team": "Chiefs",
+      "age": 33,
+      "speed": 4,
+      "strength": 3,
+      "skill": 3,
+      "stamina": 10,
+      "max_speed": 6,
+      "max_strength": 7,
+      "max_skill": 7,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:J.C. Jordan": {
+      "team": "Broncos",
+      "age": 30,
+      "speed": 2,
+      "strength": 1,
+      "skill": 2,
+      "stamina": 5,
+      "max_speed": 7,
+      "max_strength": 2,
+      "max_skill": 4,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Jacob Proise": {
+      "team": "Eagles",
+      "age": 29,
+      "speed": 7,
+      "strength": 8,
+      "skill": 8,
+      "stamina": 10,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 27,
+      "delay_retirement": 0,
+      "xp_level": 8,
+      "spos": "TE",
+      "signed_year": 97,
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Jamar Dallas": {
+      "team": "Jaguars",
+      "age": 31,
+      "speed": 4,
+      "strength": 1,
+      "skill": 5,
+      "stamina": 9,
+      "max_speed": 5,
+      "max_strength": 1,
+      "max_skill": 8,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Jamel Wilkins": {
+      "team": "Titans",
+      "age": 34,
+      "speed": 3,
+      "strength": 5,
+      "skill": 1,
+      "stamina": 3,
+      "max_speed": 6,
+      "max_strength": 8,
+      "max_skill": 3,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 6,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Jamell Langley": {
+      "team": "Bills",
+      "age": 30,
+      "speed": 4,
+      "strength": 3,
+      "skill": 2,
+      "stamina": 5,
+      "max_speed": 7,
+      "max_strength": 4,
+      "max_skill": 2,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Jamie McGrone": {
+      "team": "Browns",
+      "age": 34,
+      "speed": 6,
+      "strength": 8,
+      "skill": 4,
+      "stamina": 1,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 5,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Jared Diesch": {
+      "team": "Patriots",
+      "age": 24,
+      "speed": 5,
+      "strength": 4,
+      "skill": 3,
+      "stamina": 10,
+      "max_speed": 7,
+      "max_strength": 4,
+      "max_skill": 6,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 19,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Jaron Jolly": {
+      "team": "Raiders",
+      "age": 23,
+      "speed": 4,
+      "strength": 3,
+      "skill": 4,
+      "stamina": 5,
+      "max_speed": 4,
+      "max_strength": 4,
+      "max_skill": 6,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Jarvis Daniels": {
+      "team": "Saints",
+      "age": 33,
+      "speed": 5,
+      "strength": 8,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 5,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Josey Vander": {
+      "team": "Bengals",
+      "age": 26,
+      "speed": 6,
+      "strength": 6,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 7,
+      "max_strength": 6,
+      "max_skill": 6,
+      "max_stamina": 1,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Keesean Rashed": {
+      "team": "Jets",
+      "age": 29,
+      "speed": 3,
+      "strength": 5,
+      "skill": 5,
+      "stamina": 4,
+      "max_speed": 3,
+      "max_strength": 7,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Keion Ferrell": {
+      "team": "49ers",
+      "age": 23,
+      "speed": 3,
+      "strength": 5,
+      "skill": 2,
+      "stamina": 1,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 3,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Kevon Pitts": {
+      "team": "Rams",
+      "age": 31,
+      "speed": 3,
+      "strength": 1,
+      "skill": 2,
+      "stamina": 2,
+      "max_speed": 3,
+      "max_strength": 1,
+      "max_skill": 3,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 5,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Khalid Glasgow": {
+      "team": "Lions",
+      "age": 34,
+      "speed": 4,
+      "strength": 4,
+      "skill": 1,
+      "stamina": 6,
+      "max_speed": 6,
+      "max_strength": 6,
+      "max_skill": 3,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Korey Kilgore": {
+      "team": "Dolphins",
+      "age": 24,
+      "speed": 3,
+      "strength": 1,
+      "skill": 6,
+      "stamina": 9,
+      "max_speed": 7,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Morgan Saltes": {
+      "team": "Buccaneers",
+      "age": 34,
+      "speed": 3,
+      "strength": 5,
+      "skill": 3,
+      "stamina": 1,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 4,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Morris Cooks": {
+      "team": "Vikings",
+      "age": 24,
+      "speed": 5,
+      "strength": 7,
+      "skill": 5,
+      "stamina": 2,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 8,
+      "max_stamina": 2,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Nazair Amerson": {
+      "team": "Bills",
+      "age": 25,
+      "speed": 4,
+      "strength": 4,
+      "skill": 5,
+      "stamina": 8,
+      "max_speed": 7,
+      "max_strength": 6,
+      "max_skill": 6,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Nazair Lacey": {
+      "team": "Ravens",
+      "age": 28,
+      "speed": 7,
+      "strength": 4,
+      "skill": 4,
+      "stamina": 4,
+      "max_speed": 7,
+      "max_strength": 4,
+      "max_skill": 7,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Nick Hilton": {
+      "team": "Saints",
+      "age": 33,
+      "speed": 4,
+      "strength": 3,
+      "skill": 4,
+      "stamina": 9,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 5,
+      "max_stamina": 9,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Preston Gore": {
+      "team": "Texans",
+      "age": 34,
+      "speed": 6,
+      "strength": 8,
+      "skill": 8,
+      "stamina": 6,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 8,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Quay Jansen": {
+      "team": "Cardinals",
+      "age": 26,
+      "speed": 3,
+      "strength": 3,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 6,
+      "max_strength": 3,
+      "max_skill": 8,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Rashard Gunter": {
+      "team": "Bengals",
+      "age": 28,
+      "speed": 4,
+      "strength": 8,
+      "skill": 6,
+      "stamina": 4,
+      "max_speed": 7,
+      "max_strength": 8,
+      "max_skill": 6,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Rashawn Elder": {
+      "team": "Colts",
+      "age": 22,
+      "speed": 3,
+      "strength": 2,
+      "skill": 3,
+      "stamina": 6,
+      "max_speed": 6,
+      "max_strength": 7,
+      "max_skill": 4,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 6,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Ronnie Hardy": {
+      "team": "Buccaneers",
+      "age": 30,
+      "speed": 3,
+      "strength": 2,
+      "skill": 6,
+      "stamina": 5,
+      "max_speed": 7,
+      "max_strength": 4,
+      "max_skill": 6,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Samori Toney": {
+      "team": "Lions",
+      "age": 30,
+      "speed": 4,
+      "strength": 2,
+      "skill": 7,
+      "stamina": 7,
+      "max_speed": 7,
+      "max_strength": 5,
+      "max_skill": 8,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Spencer Ladler": {
+      "team": "Cowboys",
+      "age": 34,
+      "speed": 2,
+      "strength": 6,
+      "skill": 5,
+      "stamina": 10,
+      "max_speed": 2,
+      "max_strength": 6,
+      "max_skill": 5,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 6,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Taylor Ruckert": {
+      "team": "Chargers",
+      "age": 22,
+      "speed": 6,
+      "strength": 6,
+      "skill": 5,
+      "stamina": 2,
+      "max_speed": 7,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Ted Slade": {
+      "team": "Steelers",
+      "age": 22,
+      "speed": 5,
+      "strength": 4,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 4,
+      "max_skill": 8,
+      "max_stamina": 1,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Thayer Lenoir": {
+      "team": "Packers",
+      "age": 30,
+      "speed": 6,
+      "strength": 6,
+      "skill": 5,
+      "stamina": 8,
+      "max_speed": 7,
+      "max_strength": 6,
+      "max_skill": 7,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 22,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Theo Biadasz": {
+      "team": "Falcons",
+      "age": 23,
+      "speed": 3,
+      "strength": 5,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 5,
+      "max_skill": 5,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Tracy Karras": {
+      "team": "Ravens",
+      "age": 25,
+      "speed": 4,
+      "strength": 2,
+      "skill": 5,
+      "stamina": 10,
+      "max_speed": 6,
+      "max_strength": 6,
+      "max_skill": 6,
+      "max_stamina": 10,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Tramon Bouye": {
+      "team": "Giants",
+      "age": 31,
+      "speed": 3,
+      "strength": 4,
+      "skill": 1,
+      "stamina": 4,
+      "max_speed": 3,
+      "max_strength": 4,
+      "max_skill": 4,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 9,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Trayvon Fulton": {
+      "team": "Titans",
+      "age": 29,
+      "speed": 6,
+      "strength": 2,
+      "skill": 6,
+      "stamina": 3,
+      "max_speed": 7,
+      "max_strength": 4,
+      "max_skill": 8,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Tyree Irwin": {
+      "team": "Browns",
+      "age": 32,
+      "speed": 7,
+      "strength": 2,
+      "skill": 6,
+      "stamina": 6,
+      "max_speed": 7,
+      "max_strength": 7,
+      "max_skill": 8,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 14,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "TE:Ulysees Howell": {
+      "team": "Commanders",
+      "age": 23,
+      "speed": 6,
+      "strength": 2,
+      "skill": 8,
+      "stamina": 3,
+      "max_speed": 7,
+      "max_strength": 7,
+      "max_skill": 8,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "TE",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Anree Nacua": {
+      "team": "Colts",
+      "age": 22,
+      "speed": 10,
+      "strength": 2,
+      "skill": 8,
+      "stamina": 1,
+      "max_speed": 10,
+      "max_strength": 6,
+      "max_skill": 10,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Calvin Wingo II": {
+      "team": "Eagles",
+      "age": 28,
+      "speed": 10,
+      "strength": 6,
+      "skill": 8,
+      "stamina": 8,
+      "max_speed": 10,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 30,
+      "delay_retirement": 0,
+      "xp_level": 11,
+      "spos": "WR",
+      "signed_year": 95,
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Corn Tabor": {
+      "team": "Bears",
+      "age": 27,
+      "speed": 10,
+      "strength": 2,
+      "skill": 2,
+      "stamina": 2,
+      "max_speed": 10,
+      "max_strength": 5,
+      "max_skill": 4,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Daelin Norton": {
+      "team": "Jaguars",
+      "age": 28,
+      "speed": 10,
+      "strength": 1,
+      "skill": 4,
+      "stamina": 5,
+      "max_speed": 10,
+      "max_strength": 5,
+      "max_skill": 4,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 20,
+      "delay_retirement": 0,
+      "xp_level": 3,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Jacoby Linder": {
+      "team": "Browns",
+      "age": 23,
+      "speed": 7,
+      "strength": 2,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 10,
+      "max_strength": 3,
+      "max_skill": 10,
+      "max_stamina": 1,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 13,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Jamison Stueber": {
+      "team": "Patriots",
+      "age": 32,
+      "speed": 4,
+      "strength": 5,
+      "skill": 9,
+      "stamina": 4,
+      "max_speed": 5,
+      "max_strength": 6,
+      "max_skill": 9,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 20,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Kai Toure": {
+      "team": "Commanders",
+      "age": 30,
+      "speed": 7,
+      "strength": 4,
+      "skill": 9,
+      "stamina": 3,
+      "max_speed": 9,
+      "max_strength": 4,
+      "max_skill": 10,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 23,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Kaulani Rahman": {
+      "team": "Rams",
+      "age": 34,
+      "speed": 9,
+      "strength": 6,
+      "skill": 10,
+      "stamina": 8,
+      "max_speed": 9,
+      "max_strength": 6,
+      "max_skill": 10,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 18,
+      "delay_retirement": 0,
+      "xp_level": 12,
+      "spos": "WR",
+      "signed_year": 91,
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Keenan Viennes": {
+      "team": "Jets",
+      "age": 32,
+      "speed": 10,
+      "strength": 6,
+      "skill": 10,
+      "stamina": 8,
+      "max_speed": 10,
+      "max_strength": 6,
+      "max_skill": 10,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 33,
+      "delay_retirement": 0,
+      "xp_level": 9,
+      "spos": "WR",
+      "signed_year": 95,
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Lecitus Hayden": {
+      "team": "Bills",
+      "age": 32,
+      "speed": 7,
+      "strength": 2,
+      "skill": 1,
+      "stamina": 6,
+      "max_speed": 7,
+      "max_strength": 2,
+      "max_skill": 6,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Mack Franks": {
+      "team": "Buccaneers",
+      "age": 24,
+      "speed": 7,
+      "strength": 5,
+      "skill": 6,
+      "stamina": 8,
+      "max_speed": 8,
+      "max_strength": 6,
+      "max_skill": 10,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 26,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Martin Ward": {
+      "team": "Raiders",
+      "age": 34,
+      "speed": 10,
+      "strength": 6,
+      "skill": 7,
+      "stamina": 2,
+      "max_speed": 10,
+      "max_strength": 6,
+      "max_skill": 10,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 17,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Morris Samia": {
+      "team": "Cardinals",
+      "age": 28,
+      "speed": 9,
+      "strength": 2,
+      "skill": 4,
+      "stamina": 3,
+      "max_speed": 10,
+      "max_strength": 3,
+      "max_skill": 5,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Nasir Perine": {
+      "team": "Steelers",
+      "age": 31,
+      "speed": 5,
+      "strength": 1,
+      "skill": 4,
+      "stamina": 1,
+      "max_speed": 6,
+      "max_strength": 6,
+      "max_skill": 4,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Olamide Poe": {
+      "team": "Titans",
+      "age": 28,
+      "speed": 2,
+      "strength": 1,
+      "skill": 6,
+      "stamina": 3,
+      "max_speed": 3,
+      "max_strength": 5,
+      "max_skill": 7,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 13,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Payton Jarrett": {
+      "team": "Eagles",
+      "age": 23,
+      "speed": 10,
+      "strength": 4,
+      "skill": 7,
+      "stamina": 8,
+      "max_speed": 10,
+      "max_strength": 6,
+      "max_skill": 10,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 30,
+      "delay_retirement": 0,
+      "xp_level": 5,
+      "spos": "WR",
+      "signed_year": 97,
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Russ Hilton": {
+      "team": "Broncos",
+      "age": 25,
+      "speed": 4,
+      "strength": 2,
+      "skill": 6,
+      "stamina": 6,
+      "max_speed": 4,
+      "max_strength": 3,
+      "max_skill": 10,
+      "max_stamina": 6,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Sewo Owens": {
+      "team": "Giants",
+      "age": 23,
+      "speed": 7,
+      "strength": 2,
+      "skill": 3,
+      "stamina": 3,
+      "max_speed": 10,
+      "max_strength": 6,
+      "max_skill": 5,
+      "max_stamina": 5,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 13,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Shi Eason": {
+      "team": "Falcons",
+      "age": 22,
+      "speed": 5,
+      "strength": 1,
+      "skill": 5,
+      "stamina": 1,
+      "max_speed": 7,
+      "max_strength": 6,
+      "max_skill": 6,
+      "max_stamina": 2,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Stephon Dunkle": {
+      "team": "Steelers",
+      "age": 29,
+      "speed": 6,
+      "strength": 1,
+      "skill": 8,
+      "stamina": 1,
+      "max_speed": 10,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 2,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 16,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Taco Coulter": {
+      "team": "Cowboys",
+      "age": 31,
+      "speed": 4,
+      "strength": 1,
+      "skill": 6,
+      "stamina": 2,
+      "max_speed": 4,
+      "max_strength": 6,
+      "max_skill": 10,
+      "max_stamina": 2,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 13,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Taylor Bane": {
+      "team": "Seahawks",
+      "age": 25,
+      "speed": 5,
+      "strength": 1,
+      "skill": 3,
+      "stamina": 3,
+      "max_speed": 7,
+      "max_strength": 6,
+      "max_skill": 8,
+      "max_stamina": 7,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 13,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Teven Charles": {
+      "team": "Panthers",
+      "age": 26,
+      "speed": 9,
+      "strength": 2,
+      "skill": 6,
+      "stamina": 2,
+      "max_speed": 10,
+      "max_strength": 5,
+      "max_skill": 7,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 20,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Trace Bentley": {
+      "team": "Saints",
+      "age": 22,
+      "speed": 8,
+      "strength": 4,
+      "skill": 4,
+      "stamina": 3,
+      "max_speed": 10,
+      "max_strength": 6,
+      "max_skill": 7,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 12,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Tristan Suggs": {
+      "team": "Texans",
+      "age": 34,
+      "speed": 6,
+      "strength": 4,
+      "skill": 6,
+      "stamina": 5,
+      "max_speed": 10,
+      "max_strength": 4,
+      "max_skill": 8,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 11,
+      "delay_retirement": 0,
+      "xp_level": 4,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Tyrod Ruiz": {
+      "team": "Chiefs",
+      "age": 23,
+      "speed": 4,
+      "strength": 3,
+      "skill": 2,
+      "stamina": 2,
+      "max_speed": 10,
+      "max_strength": 3,
+      "max_skill": 2,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 2,
+      "salary": 10,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Verone Koch": {
+      "team": "Lions",
+      "age": 32,
+      "speed": 5,
+      "strength": 1,
+      "skill": 1,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 3,
+      "max_skill": 5,
+      "max_stamina": 4,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 7,
+      "delay_retirement": 0,
+      "xp_level": 1,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Yosuah Lewan": {
+      "team": "49ers",
+      "age": 31,
+      "speed": 4,
+      "strength": 3,
+      "skill": 1,
+      "stamina": 1,
+      "max_speed": 5,
+      "max_strength": 6,
+      "max_skill": 1,
+      "max_stamina": 3,
+      "injury_week": 0,
+      "contract": 3,
+      "salary": 8,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     },
+     "WR:Zane Correa": {
+      "team": "Ravens",
+      "age": 28,
+      "speed": 4,
+      "strength": 2,
+      "skill": 1,
+      "stamina": 5,
+      "max_speed": 5,
+      "max_strength": 3,
+      "max_skill": 3,
+      "max_stamina": 8,
+      "injury_week": 0,
+      "contract": 1,
+      "salary": 13,
+      "delay_retirement": 0,
+      "xp_level": 2,
+      "spos": "WR",
+      "season": {
+       "g": 0
+      }
+     }
+    },
+    "newPlayers": {}
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Live state of Y97 week 1 read from the game's save",
+   "trigger": "New save pulled from the phone (scripts/pull_save.py)"
+  }
+ ]
+}

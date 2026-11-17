@@ -1,0 +1,12 @@
+{
+ "id": "2026-11-17-speeches-y96-remove",
+ "created": "2026-11-17",
+ "images": [],
+ "ai_steps": [],
+ "mutations": [
+  {"lane": "speech", "op": "speech.remove", "target": "Ryland Maxwell", "value": null, "source": "owner",
+   "reason": "Owner: \"brock or maxwell both ahven't retired yet\" (still on the Eagles in Y97, so not yet eligible for the Hall of Fame; the text stays in 2026-11-17-speeches-y96 for when he is voted in)", "trigger": "Owner statement in notes.md"},
+  {"lane": "speech", "op": "speech.remove", "target": "Akiem Brock", "value": null, "source": "owner",
+   "reason": "Owner: \"brock or maxwell both ahven't retired yet\" (still on the Eagles in Y97, so not yet eligible for the Hall of Fame; the text stays in 2026-11-17-speeches-y96 for when he is voted in)", "trigger": "Owner statement in notes.md"}
+ ]
+}

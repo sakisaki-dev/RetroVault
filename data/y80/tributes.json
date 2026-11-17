@@ -1136,9 +1136,9 @@
    ]
   },
   "RB:Ryland Maxwell": {
-   "reason": "Refresh after his final season: retired after Y96 and voted into the Hall of Fame (Class of Y96)",
-   "trigger": "Y96 imported (2026-11-17-save-y96): Maxwell retired and entered the Hall of Fame; last-lap sources no longer resolve",
-   "upload": "2026-11-17-tributes-y96",
+   "reason": "Correction: Maxwell and Brock have not retired (owner)",
+   "trigger": "Owner: Maxwell and Brock re-signed with the Eagles for Y97 (2026-11-17-save-y97-resigned); audit: Hall of Fame member sources no longer resolve",
+   "upload": "2026-11-17-y96-unretire",
    "nickname": "Mad Max",
    "deck": "He came out of New York as the smallest piece of a trade and became the back every other back is measured against: rings in three cities, the career rushing record and, at last, the Gauntlet.",
    "chapters": [
@@ -1471,7 +1471,7 @@
      "kind": "market",
      "headline": "From 7 to 49,485, a Season Late Every Time",
      "body": [
-      "The card told the story a season late every time. It was worth 7 at the end of Y80 and 12 on the day of the trade. It reached 112 after Y84, with two Falcons titles already won, and 1,520 after Y86. It first passed Sawyer's in Y88, at 7,837, and more than doubled in Y92 alone, from 12,722 to 29,409, the season he ran for 2,839 yards. After Y94 it stood at 39,532, and it closed at 49,485 after Y96, his last season."
+      "The card told the story a season late every time. It was worth 7 at the end of Y80 and 12 on the day of the trade. It reached 112 after Y84, with two Falcons titles already won, and 1,520 after Y86. It first passed Sawyer's in Y88, at 7,837, and more than doubled in Y92 alone, from 12,722 to 29,409, the season he ran for 2,839 yards. After Y94 it stood at 39,532, and it stood at 49,485 after Y96, with another season still to come."
      ],
      "players": [
       "Ryland Maxwell",
@@ -1598,7 +1598,7 @@
      "kind": "rival",
      "headline": "Ikarras, the Measuring Stick",
      "body": [
-      "Every great back gets measured against Rondale Ikarras, \"The Prodigal Son\", the Ravens legend of the Hall of Fame's inaugural class. The comparison ended Maxwell's way. Ikarras ran for 23,178 yards in 303 games, 76.5 a game; Maxwell finished with 32,108 in 323, 99.4 a game. Ikarras won 9 rings to Maxwell's 13 and 4 Offensive Player of the Year awards, one more than Maxwell, but 5 Super Bowl MVPs to his 7. He never won the MVP. Maxwell won it once, and it completed the set."
+      "Every great back gets measured against Rondale Ikarras, \"The Prodigal Son\", the Ravens legend of the Hall of Fame's inaugural class. The comparison has gone Maxwell's way. Ikarras ran for 23,178 yards in 303 games, 76.5 a game; Maxwell has 32,108 in 323, 99.4 a game. Ikarras won 9 rings to Maxwell's 13 and 4 Offensive Player of the Year awards, one more than Maxwell, but 5 Super Bowl MVPs to his 7. He never won the MVP. Maxwell won it once, and it completed the set."
      ],
      "players": [
       "Rondale Ikarras",
@@ -1671,9 +1671,9 @@
     {
      "id": "ryland-maxwell-numbers",
      "kind": "numbers",
-     "headline": "The Final Numbers",
+     "headline": "The Numbers Through Y96",
      "body": [
-      "His career, complete: 32,108 rushing yards, 421 rushing touchdowns and 125 more through the air in 323 games, with 13 rings and a Career Legacy of 14,903, the highest of any player in the league."
+      "His career through Y96: 32,108 rushing yards, 421 rushing touchdowns and 125 more through the air in 323 games, with 13 rings and a Career Legacy of 14,903, the highest of any player in the league, and Y97 still to play."
      ],
      "players": [
       "Ryland Maxwell"
@@ -1715,9 +1715,10 @@
     {
      "id": "ryland-maxwell-last-lap",
      "kind": "lastlap",
-     "headline": "Two More Rings, First All Time, and a First-Ballot Hall of Famer",
+     "headline": "Two More Rings, First All Time, and One More Year at 35",
      "body": [
-      "There was no argument left to settle, and he played on anyway. In Y95 he ran for 2,141 yards and won a 12th ring, playing 18 of the Eagles' 20 games after injury cost him 2, and passed Sherman Brandson for first in Career Legacy, 14,019 to 13,540. Y96, at 34, was the last: 2,574 yards and 25 rushing touchdowns in 21 games, a 13th ring after a 40-26 win over the Bengals, and a 7th Super Bowl MVP. Then he retired, with the career rushing record at 32,108 yards, and the Hall of Fame took him at once, on the first ballot, in the Class of Y96, with a score of 99."
+      "There was no argument left to settle, and he played on anyway. In Y95 he ran for 2,141 yards and won a 12th ring, playing 18 of the Eagles' 20 games after injury cost him 2, and passed Sherman Brandson for first in Career Legacy, 14,019 to 13,540. Y96, at 34, was better still: 2,574 yards and 25 rushing touchdowns in 21 games, a 13th ring after a 40-26 win over the Bengals, and a 7th Super Bowl MVP, with the career rushing record now at 32,108 yards.",
+      "Then, instead of leaving on top, he re-signed with Dorren Skura. He opens Y97 at 35, still an Eagle. The Hall of Fame watch already scores him at 99, and the Hall can wait one more year."
      ],
      "players": [
       "Ryland Maxwell",
@@ -1729,9 +1730,9 @@
      ],
      "stats": [
       {
-       "label": "Hall of Fame score",
-       "value": "99",
-       "source": "halloffame.json members/[key=RB:Ryland Maxwell]/score"
+       "label": "Age, Y97",
+       "value": "35",
+       "source": "save_careers.json age Y97 RB:Ryland Maxwell"
       },
       {
        "label": "Rushing yards, Y95",
@@ -1807,6 +1808,11 @@
        "label": "Career rushing yards (league record)",
        "value": "32,108",
        "source": "league_records.json records/[record=Best rushing career]/league/top/0/value"
+      },
+      {
+       "label": "Hall of Fame watch score",
+       "value": "99",
+       "source": "halloffame.json watch/[key=RB:Ryland Maxwell]/score"
       }
      ]
     }

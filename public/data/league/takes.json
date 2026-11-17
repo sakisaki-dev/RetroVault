@@ -2,8 +2,8 @@
  "seasons": [
   {
    "season": "Y96",
-   "upload": "2026-11-17-takes-y96",
-   "intro": "Philadelphia won again, and then its two pillars walked away. The voters made a mess of the awards, the market chased the wrong Eagles, and a record fell in Cincinnati that nobody rewarded. The arguments are ours; the figures are the league's.",
+   "upload": "2026-11-17-y96-unretire",
+   "intro": "Philadelphia won again, and its two pillars signed up for one more year. The voters made a mess of the awards, the market chased the wrong Eagles, and a record fell in Cincinnati that nobody rewarded. The arguments are ours; the figures are the league's.",
    "takes": [
     {
      "id": "y96-take-calitro-robbed",
@@ -78,11 +78,11 @@
     {
      "id": "y96-take-maxwell-short",
      "heat": 3,
-     "headline": "Ryland Maxwell Retired 4 Touchdowns Short of Second Place. The Greatest Ever Left Too Early.",
-     "dek": "2,574 yards and 25 touchdowns in his last season, and 421 career rushing scores to Lane McCoy's 458.",
+     "headline": "Ryland Maxwell Is 4 Touchdowns Short of Second Place. At 35, He Should Be Chasing First.",
+     "dek": "2,574 yards and 25 touchdowns at 34, and 421 career rushing scores to Lane McCoy's 458.",
      "body": [
-      "Nobody retires after a 2,574-yard season. Maxwell did, at 34, after playing all 21 of Philadelphia's games and collecting his seventh Super Bowl MVP and 13th ring. He owns the career rushing yards record at 32,108, and his Career Legacy of 14,903 is the highest in the league.",
-      "But the touchdown list tells a different story. Lane McCoy scored 458 rushing touchdowns, Siran Spector 425, Maxwell 421. That is 4 short of second place and 37 short of first, a gap one more ordinary Maxwell season would have closed. The greatest running back the league has seen walked away with a number still on the table, and the record book will carry that asterisk for good."
+      "Nobody runs for 2,574 yards at 34. Maxwell did, playing all 21 of Philadelphia's games and collecting his seventh Super Bowl MVP and 13th ring, and then he re-signed for Y97. He owns the career rushing yards record at 32,108, and his Career Legacy of 14,903 is the highest in the league.",
+      "But the touchdown list is still open. Lane McCoy scored 458 rushing touchdowns, Siran Spector 425, Maxwell 421. That is 4 short of second place and 37 short of first, and he scored 25 last season. Second place should fall early in Y97. First is the real chase, and a back who just led the league in rushing is the last player anyone should bet against at 35."
      ],
      "players": [
       "Ryland Maxwell",
@@ -157,6 +157,11 @@
        "label": "Short of first place",
        "value": "37",
        "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/0/value minus league_records.json records/[record=Most rushing TDs, career]/league/top/2/value"
+      },
+      {
+       "label": "Maxwell age, Y97",
+       "value": "35",
+       "source": "save_careers.json age Y97 RB:Ryland Maxwell"
       }
      ]
     },
@@ -241,8 +246,8 @@
      "headline": "Bones Crawford's Card Rose 124% in the Year He Lost the MVP. The Market Is Buying a Retirement.",
      "dek": "From 8,559 to 19,210 after a season with 17 interceptions, 7 more than the year before.",
      "body": [
-      "Crawford was the Y95 MVP with 10 interceptions. In Y96 he threw 17, lost the award to a Detroit quarterback, and watched his card climb from 8,559 to 19,210. That is not a market rewarding a season. That is a market pricing in the fact that Ryland Maxwell and Akiem Brock are gone and somebody in Philadelphia has to be the face of the club.",
-      "He has 5 MVPs and 8 rings, and the Hall of Fame watch already scores him at 73, above the bar of 65. The case is real. But a quarterback whose interceptions rose by 7 just lost the two best players he ever stood behind. Buyers at 19,210 are paying for the dynasty, not for the passer."
+      "Crawford was the Y95 MVP with 10 interceptions. In Y96 he threw 17, lost the award to a Detroit quarterback, and watched his card climb from 8,559 to 19,210. That is not a market rewarding a season. That is a market pricing in the day Ryland Maxwell and Akiem Brock, both 35 in Y97, are gone and somebody in Philadelphia has to be the face of the club.",
+      "He has 5 MVPs and 8 rings, and the Hall of Fame watch already scores him at 73, above the bar of 65. The case is real. But a quarterback whose interceptions rose by 7 is still standing behind the two best players he has ever played with, and they will not be there forever. Buyers at 19,210 are paying for the dynasty, not for the passer."
      ],
      "players": [
       "Bones Crawford",
@@ -302,6 +307,16 @@
        "label": "Hall of Fame bar",
        "value": "65",
        "source": "halloffame.json bar"
+      },
+      {
+       "label": "Maxwell age, Y97",
+       "value": "35",
+       "source": "save_careers.json age Y97 RB:Ryland Maxwell"
+      },
+      {
+       "label": "Brock age, Y97",
+       "value": "35",
+       "source": "save_careers.json age Y97 OL:Akiem Brock"
       }
      ]
     },
@@ -392,7 +407,7 @@
      "dek": "The tight end went from 1,109 to 5,527 while the receiver beside him gained 2,096 yards and 26%.",
      "body": [
       "Proise had a good season: 51 catches, 786 yards and 14 touchdowns in all 21 of Philadelphia's games, and his rating jumped from 84 to 93. The market treated it like a coronation, pushing his card from 1,109 to 5,527.",
-      "Now look one locker over. Calvin Wingo II caught 104 passes for 2,096 yards and 18 touchdowns on the same offense, and his card rose 26%. Proise is a fine tight end on a team that just lost its running back of record, and that rating bump is real. A 398% rise for half of Wingo's production is not a valuation. It is a bubble, and bubbles pop the moment the ring count stops climbing."
+      "Now look one locker over. Calvin Wingo II caught 104 passes for 2,096 yards and 18 touchdowns on the same offense, and his card rose 26%. Proise is a fine tight end on a team built around the league's career rushing leader, and that rating bump is real. A 398% rise for half of Wingo's production is not a valuation. It is a bubble, and bubbles pop the moment the ring count stops climbing."
      ],
      "players": [
       "Jacob Proise",
@@ -542,7 +557,7 @@
      "dek": "4 losses, the most since Philadelphia hired Dorren Skura, and still nobody could finish the job.",
      "body": [
       "The Eagles went 17-0 in Y95. They went 13-4 in Y96, their most losses since Skura arrived in Y88, and then won the Super Bowl 40-26 over Cincinnati for a 6th straight title anyway. That is the indictment, and it is not of Philadelphia.",
-      "Every contender saw a beatable Eagles team this year and none of them could do it in January. The Bengals had the league's record-setting runner and still lost by double digits. Now Ryland Maxwell and Akiem Brock are retired, and the excuses run out. If the rest of the league cannot dethrone a club that just lost its two Hall of Famers, it does not deserve to."
+      "Every contender saw a beatable Eagles team this year and none of them could do it in January. The Bengals had the league's record-setting runner and still lost by double digits. Now Ryland Maxwell and Akiem Brock are coming back at 35, and the rest of the league has one more year of excuses. If it cannot dethrone a club whose two pillars are a season older, it does not deserve to."
      ],
      "players": [
       "Ryland Maxwell",
@@ -578,6 +593,16 @@
        "label": "Super Bowl CLV",
        "value": "40-26",
        "source": "super_bowls.json Y96 score"
+      },
+      {
+       "label": "Maxwell age, Y97",
+       "value": "35",
+       "source": "save_careers.json age Y97 RB:Ryland Maxwell"
+      },
+      {
+       "label": "Brock age, Y97",
+       "value": "35",
+       "source": "save_careers.json age Y97 OL:Akiem Brock"
       }
      ]
     },
@@ -587,12 +612,13 @@
      "headline": "Jamon Brooker Just Tied the Career Interceptions Record. He Is the Best Player Without a Ring.",
      "dek": "43 interceptions, level with Hall of Famer Damar Hobbs, 2 Defensive Player of the Year awards and a Hall of Fame watch score of 91.",
      "body": [
-      "Brooker made 186 tackles and 2 interceptions for Green Bay this season, which took him to 43 for his career and level with Damar Hobbs for the league record. Hobbs is in the Hall of Fame. Brooker will be too: the watch already scores him at 91, the highest of any active player, with 2 Defensive Player of the Year awards behind it.",
+      "Brooker made 186 tackles and 2 interceptions for Green Bay this season, which took him to 43 for his career and level with Damar Hobbs for the league record. Hobbs is in the Hall of Fame. Brooker will be too: the watch already scores him at 91, second among active players only to Ryland Maxwell's 99, with 2 Defensive Player of the Year awards behind it.",
       "What he does not have is a ring, and at 33 the window is narrowing. Philadelphia hoards them. The best defender of his generation is spending his prime in the wrong building, and whoever trades for him first will be buying the last missing piece of a Hall of Fame career."
      ],
      "players": [
       "Jamon Brooker",
-      "Damar Hobbs"
+      "Damar Hobbs",
+      "Ryland Maxwell"
      ],
      "teams": [
       "Packers"
@@ -632,17 +658,22 @@
        "label": "Age in Y96",
        "value": "33",
        "source": "save_careers.json age Y96 DB:Jamon Brooker"
+      },
+      {
+       "label": "Maxwell Hall of Fame watch score",
+       "value": "99",
+       "source": "halloffame.json watch/[key=RB:Ryland Maxwell]/score"
       }
      ]
     },
     {
      "id": "y96-take-brock-hall",
      "heat": 1,
-     "headline": "Akiem Brock Went In First Ballot Without a Single Award, and That Is the Hall Working",
-     "dek": "8 rings, 181 games, and the highest Career Legacy of any offensive lineman.",
+     "headline": "Akiem Brock Has Never Won an Individual Award, and the Hall of Fame Watch Still Scores Him 79",
+     "dek": "8 rings, 181 games, the highest Career Legacy of any offensive lineman, and still playing at 35.",
      "body": [
-      "Offensive linemen rarely collect trophies, and Brock never won an individual award. What he won was 8 rings, every one of them in Philadelphia, across 181 games. His Career Legacy of 11,394 ranks first among offensive linemen, and the ballot scored him at 79, comfortably clear of the bar of 65.",
-      "This is the Hall of Fame doing its job. A trophy-count Hall would have left him waiting behind running backs and quarterbacks with shinier shelves. Instead Brock goes in beside Ryland Maxwell, the back he blocked for, which is exactly where he belongs. Maxwell got the yards. Brock was the reason there was room to get them."
+      "Offensive linemen rarely collect trophies, and Brock has never won an individual award. What he has won is 8 rings, every one of them in Philadelphia, across 181 games. His Career Legacy of 11,394 ranks first among offensive linemen, and the Hall of Fame watch scores him at 79, comfortably clear of the bar of 65.",
+      "That is the Hall doing its job before he even gets there. A trophy-count Hall would leave him waiting behind running backs and quarterbacks with shinier shelves. This one will not. He re-signed for Y97 beside Ryland Maxwell, the back he blocks for, and when the two of them do leave, they should go in together. Maxwell gets the yards. Brock is the reason there is room to get them."
      ],
      "players": [
       "Akiem Brock",
@@ -653,29 +684,34 @@
      ],
      "stats": [
       {
+       "label": "Hall of Fame watch score",
+       "value": "79",
+       "source": "halloffame.json watch/[key=OL:Akiem Brock]/score"
+      },
+      {
        "label": "Rings",
        "value": "8",
-       "source": "halloffame.json members/[key=OL:Akiem Brock]/rings"
+       "source": "halloffame.json watch/[key=OL:Akiem Brock]/rings"
       },
       {
        "label": "Games",
        "value": "181",
-       "source": "halloffame.json members/[key=OL:Akiem Brock]/games"
+       "source": "halloffame.json watch/[key=OL:Akiem Brock]/games"
       },
       {
        "label": "Career Legacy",
        "value": "11,394",
-       "source": "halloffame.json members/[key=OL:Akiem Brock]/careerLegacy"
-      },
-      {
-       "label": "Hall of Fame score",
-       "value": "79",
-       "source": "halloffame.json members/[key=OL:Akiem Brock]/score"
+       "source": "halloffame.json watch/[key=OL:Akiem Brock]/careerLegacy"
       },
       {
        "label": "Hall of Fame bar",
        "value": "65",
        "source": "halloffame.json bar"
+      },
+      {
+       "label": "Age, Y97",
+       "value": "35",
+       "source": "save_careers.json age Y97 OL:Akiem Brock"
       }
      ]
     }
