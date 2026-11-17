@@ -35,8 +35,9 @@
   animation: none;
 }
 
-/* the sections' one-line takeaways are not shown on this page (owner: "remove the subtext" under each section header) */
-.stats-arena .si-take {
+/* no lead under the section headers on this page: neither the one-line takeaway nor the "How to read this" toggle
+   (owner: "remove the subtext", then "remove the toggles") */
+.stats-arena .si {
   display: none;
 }
 

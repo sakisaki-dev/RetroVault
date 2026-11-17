@@ -41,7 +41,7 @@ const SectionIntro = ({ id, takeaway, children, className }: Props) => {
   const [open, setOpen] = useState(() => readOpen(id));
   const panel = useId();
   return (
-    <div className={cn('space-y-1', className)}>
+    <div className={cn('si space-y-1', className)}>
       {takeaway && <p className="si-take max-w-3xl text-sm font-medium text-secondary-foreground">{takeaway}</p>}
       {children && (
         <>
