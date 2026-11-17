@@ -1,0 +1,1306 @@
+{
+ "id": "2026-11-17-tributes-y96",
+ "created": "2026-11-17",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "tribute",
+   "reason": "The Y96 tribute pick, and a refresh of Ryland Maxwell's tribute after his final season",
+   "trigger": "Rebuild printed TRIBUTE NEEDED: Y96 QB:Ty Lock; audit: Maxwell's last-lap sources no longer resolve"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "tribute",
+   "op": "tribute.set",
+   "target": "QB:Ty Lock",
+   "source": "data:players.json, market_history.json, stints.json, owner_facts.json, journal.json, save_careers.json, super_bowls.json, coach.json, schedule.json, content.json, halloffame.json",
+   "reason": "The Y96 tribute pick (tributePlan: retired, retirement recorded in Y96)",
+   "trigger": "Rebuild printed TRIBUTE NEEDED: Y96 QB:Ty Lock",
+   "value": {
+    "reason": "The Y96 tribute pick (tributePlan: retired, retirement recorded in Y96)",
+    "trigger": "TRIBUTE NEEDED: Y96 QB:Ty Lock",
+    "deck": "Two rings and two MVP awards with Dorren Skura's Jets, then a trade across town and thirteen seasons as the Giants' steady hand: a quarterback who outlasted almost everyone and never once beat his old coach's Eagles.",
+    "chapters": [
+     {
+      "id": "ty-lock-jets",
+      "kind": "chapter",
+      "club": "Jets",
+      "headline": "Two Rings and Two MVPs Before New York Let Him Go",
+      "body": [
+       "Ty Lock came into the league with Dorren Skura's Jets in Y78, at 22, and it did not take long. By the end of Y80 he owned a ring, won when a 15-2 club edged the Seahawks 28-26 in Super Bowl CXXXIX, and the league's Most Valuable Player award. His card was still priced at 20, a starter's price, not a star's.",
+       "Y81 was the loudest season of his life: 4,411 passing yards and 51 touchdown passes in 18 games and a second MVP, for a 14-2-1 club that still watched someone else play for the title. Y82 went one better. Lock threw for 4,909 yards and 61 touchdowns, the Jets beat the Eagles 46-8 in Super Bowl CXLI, and he was its MVP.",
+       "He was a gambler then. He threw 92 interceptions in his first 93 games, and nobody in New York minded, because the touchdowns kept coming: 239 of them in five seasons, with 22,189 yards and an A+ grade on his card. Then the winter came and the coach left town."
+      ],
+      "players": [
+       "Ty Lock"
+      ],
+      "teams": [
+       "Jets",
+       "Seahawks",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Touchdown passes, Y81",
+        "value": "51",
+        "source": "market_history.json snap-202610201709..snap-202610220000 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Age in Y78",
+        "value": "22",
+        "source": "save_careers.json age Y78 QB:Ty Lock"
+       },
+       {
+        "label": "Jets record, Y80",
+        "value": "15-2",
+        "source": "coach.json Y80 record"
+       },
+       {
+        "label": "Super Bowl CXXXIX",
+        "value": "28-26",
+        "source": "super_bowls.json Y80 score"
+       },
+       {
+        "label": "Card value after Y80",
+        "value": "20",
+        "source": "market_history.json snap-202610201709 QB:Ty Lock value"
+       },
+       {
+        "label": "Passing yards, Y81",
+        "value": "4,411",
+        "source": "market_history.json snap-202610201709..snap-202610220000 QB:Ty Lock s.yds"
+       },
+       {
+        "label": "Games, Y81",
+        "value": "18",
+        "source": "market_history.json snap-202610201709..snap-202610220000 QB:Ty Lock s.g"
+       },
+       {
+        "label": "Jets record, Y81",
+        "value": "14-2-1",
+        "source": "coach.json Y81 record"
+       },
+       {
+        "label": "Passing yards, Y82",
+        "value": "4,909",
+        "source": "market_history.json snap-202610220000..snap-202610262300 QB:Ty Lock s.yds"
+       },
+       {
+        "label": "Touchdown passes, Y82",
+        "value": "61",
+        "source": "market_history.json snap-202610220000..snap-202610262300 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Super Bowl CXLI",
+        "value": "46-8",
+        "source": "super_bowls.json Y82 score"
+       },
+       {
+        "label": "Interceptions through Y82",
+        "value": "92",
+        "source": "market_history.json snap-202610262300 QB:Ty Lock s.int"
+       },
+       {
+        "label": "Games through Y82",
+        "value": "93",
+        "source": "market_history.json snap-202610262300 QB:Ty Lock s.g"
+       },
+       {
+        "label": "Touchdown passes through Y82",
+        "value": "239",
+        "source": "market_history.json snap-202610262300 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Passing yards through Y82",
+        "value": "22,189",
+        "source": "market_history.json snap-202610262300 QB:Ty Lock s.yds"
+       },
+       {
+        "label": "Grade after Y82",
+        "value": "A+",
+        "source": "market_history.json snap-202610262300 QB:Ty Lock grade"
+       }
+      ]
+     },
+     {
+      "id": "ty-lock-trade",
+      "kind": "trade",
+      "headline": "Across Town in the Winter of the Four-Way Trades",
+      "body": [
+       "The winter after Y82 rearranged the league. Skura left the Jets for Atlanta, and a run of three- and four-team trades moved starters all over the map. Lock ended up with the Giants. The Jets replaced him with Dan Stout, a 79-rated veteran from the Ravens, and the Giants' own quarterback, Drake Wise, went through Atlanta to Baltimore without playing a game for the Falcons.",
+       "By the market's reading that winter, New York got the bargain. Lock's card was worth 63, Wise's 869, though Lock had the rings, the MVPs and the better grade, and Wise had no rings at all. It took years for the prices to catch up. Neither quarterback won anything after the deal: Wise played 105 more games and retired a Raven, and Lock played 237 more in a Giants uniform without another ring."
+      ],
+      "players": [
+       "Ty Lock",
+       "Drake Wise",
+       "Dan Stout"
+      ],
+      "teams": [
+       "Jets",
+       "Giants",
+       "Falcons",
+       "Ravens"
+      ],
+      "stats": [
+       {
+        "label": "Lock's card value at the trade",
+        "value": "63",
+        "source": "market_history.json snap-202610262300 QB:Ty Lock value"
+       },
+       {
+        "label": "Stout OVR",
+        "value": "79",
+        "source": "market_history.json snap-202610262300 QB:Dan Stout ovr"
+       },
+       {
+        "label": "Wise's card value at the trade",
+        "value": "869",
+        "source": "market_history.json snap-202610262300 QB:Drake Wise value"
+       },
+       {
+        "label": "Wise games after the trade",
+        "value": "105",
+        "source": "market_history.json snap-202610262300..snap-202611162108 QB:Drake Wise s.g"
+       },
+       {
+        "label": "Lock games after the trade",
+        "value": "237",
+        "source": "market_history.json snap-202610262300..snap-202611162108 QB:Ty Lock s.g"
+       }
+      ],
+      "trade": {
+       "after": "Y82",
+       "snapshot": "snap-202610262300",
+       "later": "snap-202611162108",
+       "sides": [
+        {
+         "to": "Giants",
+         "players": [
+          "QB:Ty Lock"
+         ]
+        },
+        {
+         "to": "Ravens",
+         "players": [
+          "QB:Drake Wise"
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "id": "ty-lock-giants",
+      "kind": "chapter",
+      "club": "Giants",
+      "headline": "The Gambler Who Stopped Throwing Interceptions",
+      "body": [
+       "The quarterback New York got was not the one the Jets had. In Y83, his first Giants season, Lock threw 33 touchdown passes, barely half the 61 of the year before, and his grade slid from A+ to A− even as his rating climbed to 73. The volume was gone. So, almost entirely, were the mistakes.",
+       "From Y84 through Y88 he threw 11 interceptions in 90 games, a single one in all of Y88, when he threw 38 touchdowns. Over his years as a Giant he threw 45 interceptions in 237 games, after 92 in 93 with the Jets. He became the safest quarterback a club could ask for and one of the most durable: never fewer than 17 games in a season.",
+       "The ratings kept climbing with him. He reached 89 in Y90 and an A grade, and the Giants, 9-8 in Y88, went 11-5-1 in Y91 and 11-6 in each of the next two seasons. What they never did was get past Philadelphia."
+      ],
+      "players": [
+       "Ty Lock"
+      ],
+      "teams": [
+       "Giants",
+       "Jets",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Interceptions as a Giant",
+        "value": "45",
+        "source": "market_history.json snap-202610262300..snap-202611162108 QB:Ty Lock s.int"
+       },
+       {
+        "label": "Touchdown passes, Y83",
+        "value": "33",
+        "source": "market_history.json snap-202610262300..snap-202610281027 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Touchdown passes, Y82",
+        "value": "61",
+        "source": "market_history.json snap-202610220000..snap-202610262300 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Grade after Y83",
+        "value": "A−",
+        "source": "market_history.json snap-202610281027 QB:Ty Lock grade"
+       },
+       {
+        "label": "OVR after Y83",
+        "value": "73",
+        "source": "market_history.json snap-202610281027 QB:Ty Lock ovr"
+       },
+       {
+        "label": "Interceptions, Y84 to Y88",
+        "value": "11",
+        "source": "market_history.json snap-202610281027..snap-202611051109 QB:Ty Lock s.int"
+       },
+       {
+        "label": "Games, Y84 to Y88",
+        "value": "90",
+        "source": "market_history.json snap-202610281027..snap-202611051109 QB:Ty Lock s.g"
+       },
+       {
+        "label": "Interceptions, Y88",
+        "value": "1",
+        "source": "market_history.json snap-202611041446..snap-202611051109 QB:Ty Lock s.int"
+       },
+       {
+        "label": "Touchdown passes, Y88",
+        "value": "38",
+        "source": "market_history.json snap-202611041446..snap-202611051109 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Games as a Giant",
+        "value": "237",
+        "source": "market_history.json snap-202610262300..snap-202611162108 QB:Ty Lock s.g"
+       },
+       {
+        "label": "Interceptions with the Jets",
+        "value": "92",
+        "source": "market_history.json snap-202610262300 QB:Ty Lock s.int"
+       },
+       {
+        "label": "Games with the Jets",
+        "value": "93",
+        "source": "market_history.json snap-202610262300 QB:Ty Lock s.g"
+       },
+       {
+        "label": "Fewest games in a Giants season (Y86, Y88, Y94)",
+        "value": "17",
+        "source": "market_history.json snap-202611041446..snap-202611051109 QB:Ty Lock s.g"
+       },
+       {
+        "label": "OVR after Y90",
+        "value": "89",
+        "source": "market_history.json snap-202611121506 QB:Ty Lock ovr"
+       },
+       {
+        "label": "Grade after Y90",
+        "value": "A",
+        "source": "market_history.json snap-202611121506 QB:Ty Lock grade"
+       },
+       {
+        "label": "Giants record, Y88",
+        "value": "9-8",
+        "source": "schedule.json seasons/Y88/table/[abbr=NYG]/record"
+       },
+       {
+        "label": "Giants record, Y91",
+        "value": "11-5-1",
+        "source": "schedule.json seasons/Y91/table/[abbr=NYG]/record"
+       },
+       {
+        "label": "Giants record, Y92",
+        "value": "11-6",
+        "source": "schedule.json seasons/Y92/table/[abbr=NYG]/record"
+       }
+      ]
+     },
+     {
+      "id": "ty-lock-philadelphia",
+      "kind": "chapter",
+      "club": "Giants",
+      "headline": "Seventeen Tries Against His Old Coach, Seventeen Losses",
+      "body": [
+       "When Skura took over the Eagles in Y88, the coach who had won Lock his two rings moved into his division. They met twice a season, and the Giants lost every time: 17 meetings through Y95, 17 Philadelphia wins, 572 points to 374.",
+       "Some were routs, none worse than 48-9 in Y90. Many were not. The Giants lost 22-21 in Y89, 38-37 in Y92, 24-23 in Y93 and 32-31 in Y95. The cruelest came in the Y93 conference final, a game from the Super Bowl, when the Eagles won 38-28 to end an 11-6 Giants season.",
+       "Lock outlasted almost everyone else in the league. He never found a way past the coach who had made him."
+      ],
+      "players": [
+       "Ty Lock"
+      ],
+      "teams": [
+       "Giants",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Meetings with Skura's Eagles",
+        "value": "17",
+        "source": "content.json rivalryFiles/[id=rivalry-giants]/games"
+       },
+       {
+        "label": "Eagles points in the series",
+        "value": "572",
+        "source": "content.json rivalryFiles/[id=rivalry-giants]/pointsFor"
+       },
+       {
+        "label": "Giants points in the series",
+        "value": "374",
+        "source": "content.json rivalryFiles/[id=rivalry-giants]/pointsAgainst"
+       },
+       {
+        "label": "Biggest margin, Y90",
+        "value": "48-9",
+        "source": "schedule.json seasons/Y90/coachGames/[week=7]/score"
+       },
+       {
+        "label": "Y89",
+        "value": "22-21",
+        "source": "schedule.json seasons/Y89/coachGames/[week=13]/score"
+       },
+       {
+        "label": "Y92",
+        "value": "38-37",
+        "source": "schedule.json seasons/Y92/coachGames/[week=9]/score"
+       },
+       {
+        "label": "Y93",
+        "value": "24-23",
+        "source": "schedule.json seasons/Y93/coachGames/[week=18]/score"
+       },
+       {
+        "label": "Y95",
+        "value": "32-31",
+        "source": "schedule.json seasons/Y95/coachGames/[week=12]/score"
+       },
+       {
+        "label": "Conference final, Y93",
+        "value": "38-28",
+        "source": "schedule.json seasons/Y93/coachGames/[round=Conference]/score"
+       },
+       {
+        "label": "Giants record, Y93",
+        "value": "11-6",
+        "source": "schedule.json seasons/Y93/table/[abbr=NYG]/record"
+       }
+      ]
+     },
+     {
+      "id": "ty-lock-market",
+      "kind": "market",
+      "headline": "A Card That Climbed for Thirteen Years Without a Ring",
+      "body": [
+       "The market came around to Lock slowly and then all at once. His card was worth 63 when he left the Jets and 108 after his first Giants season. It reached 1,110 after Y88 and 2,928 after Y91, and in Y93, a season his touchdown passes fell from 32 to 26, it still rose 30%. After Y94 it passed Wise's for the first time, 5,090 to 5,074, years after Wise had played his last game. It closed at 5,810."
+      ],
+      "players": [
+       "Ty Lock",
+       "Drake Wise"
+      ],
+      "teams": [],
+      "stats": [
+       {
+        "label": "Card value after Y96",
+        "value": "5,810",
+        "source": "market_history.json snap-202611170116 QB:Ty Lock value"
+       },
+       {
+        "label": "At the trade, after Y82",
+        "value": "63",
+        "source": "market_history.json snap-202610262300 QB:Ty Lock value"
+       },
+       {
+        "label": "After Y83",
+        "value": "108",
+        "source": "market_history.json snap-202610281027 QB:Ty Lock value"
+       },
+       {
+        "label": "After Y88",
+        "value": "1,110",
+        "source": "market_history.json snap-202611051109 QB:Ty Lock value"
+       },
+       {
+        "label": "After Y91",
+        "value": "2,928",
+        "source": "market_history.json snap-202611121857 QB:Ty Lock value"
+       },
+       {
+        "label": "Touchdown passes, Y92",
+        "value": "32",
+        "source": "market_history.json snap-202611121857..snap-202611131841 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Touchdown passes, Y93",
+        "value": "26",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Card value change, Y93",
+        "value": "30%",
+        "source": "market_history.json snap-202611131841..snap-202611140247 QB:Ty Lock value%"
+       },
+       {
+        "label": "Lock after Y94",
+        "value": "5,090",
+        "source": "market_history.json snap-202611141119 QB:Ty Lock value"
+       },
+       {
+        "label": "Wise after Y94",
+        "value": "5,074",
+        "source": "market_history.json snap-202611141119 QB:Drake Wise value"
+       }
+      ],
+      "market": {
+       "players": [
+        "QB:Ty Lock",
+        "QB:Drake Wise"
+       ]
+      }
+     },
+     {
+      "id": "ty-lock-rival",
+      "kind": "rival",
+      "headline": "Lock and Wise: Two MVPs Each, Only One With Rings",
+      "body": [
+       "The quarterback who left the Giants as Lock arrived makes the cleanest comparison. Wise threw for 64,703 yards and 641 touchdowns in 347 games; Lock for 68,237 and 627 in 330. Each won 2 MVP awards. Wise was the safer passer by far, 62 interceptions to Lock's 137, and he never won a ring. Lock won 2, both before the trade. The final Career Legacy, 7,550 to 7,473, gives Lock the edge by a whisker."
+      ],
+      "players": [
+       "Ty Lock",
+       "Drake Wise"
+      ],
+      "teams": [],
+      "stats": [
+       {
+        "label": "Wise passing yards",
+        "value": "64,703",
+        "source": "market_history.json snap-202611170116 QB:Drake Wise s.yds"
+       },
+       {
+        "label": "Wise touchdown passes",
+        "value": "641",
+        "source": "market_history.json snap-202611170116 QB:Drake Wise s.td"
+       },
+       {
+        "label": "Wise games",
+        "value": "347",
+        "source": "market_history.json snap-202611170116 QB:Drake Wise s.g"
+       },
+       {
+        "label": "Lock passing yards",
+        "value": "68,237",
+        "source": "market_history.json snap-202611170116 QB:Ty Lock s.yds"
+       },
+       {
+        "label": "Lock touchdown passes",
+        "value": "627",
+        "source": "market_history.json snap-202611170116 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Lock games",
+        "value": "330",
+        "source": "market_history.json snap-202611170116 QB:Ty Lock s.g"
+       },
+       {
+        "label": "MVP awards, each",
+        "value": "2",
+        "source": "market_history.json snap-202611170116 QB:Drake Wise s.mvp"
+       },
+       {
+        "label": "Wise interceptions",
+        "value": "62",
+        "source": "market_history.json snap-202611170116 QB:Drake Wise s.int"
+       },
+       {
+        "label": "Lock interceptions",
+        "value": "137",
+        "source": "market_history.json snap-202611170116 QB:Ty Lock s.int"
+       },
+       {
+        "label": "Lock rings",
+        "value": "2",
+        "source": "market_history.json snap-202611170116 QB:Ty Lock s.rings"
+       },
+       {
+        "label": "Lock Career Legacy after Y96",
+        "value": "7,550",
+        "source": "market_history.json snap-202611170116 QB:Ty Lock legacy"
+       },
+       {
+        "label": "Wise Career Legacy after Y96",
+        "value": "7,473",
+        "source": "market_history.json snap-202611170116 QB:Drake Wise legacy"
+       }
+      ],
+      "rival": {
+       "player": "QB:Drake Wise"
+      }
+     },
+     {
+      "id": "ty-lock-numbers",
+      "kind": "numbers",
+      "headline": "The Final Numbers",
+      "body": [
+       "His career, complete: 68,237 passing yards and 627 touchdown passes in 330 games, 105 more touchdowns on the ground, 2 rings, 2 MVP awards and a Super Bowl MVP."
+      ],
+      "players": [
+       "Ty Lock"
+      ],
+      "teams": [],
+      "stats": [
+       {
+        "label": "Passing yards",
+        "value": "68,237",
+        "source": "market_history.json snap-202611162108 QB:Ty Lock s.yds"
+       },
+       {
+        "label": "Touchdown passes",
+        "value": "627",
+        "source": "market_history.json snap-202611162108 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Games",
+        "value": "330",
+        "source": "market_history.json snap-202611162108 QB:Ty Lock s.g"
+       },
+       {
+        "label": "Rushing TDs",
+        "value": "105",
+        "source": "market_history.json snap-202611162108 QB:Ty Lock s.rtd"
+       },
+       {
+        "label": "Rings",
+        "value": "2",
+        "source": "market_history.json snap-202611162108 QB:Ty Lock s.rings"
+       },
+       {
+        "label": "MVP awards",
+        "value": "2",
+        "source": "market_history.json snap-202611162108 QB:Ty Lock s.mvp"
+       }
+      ]
+     },
+     {
+      "id": "ty-lock-last-lap",
+      "kind": "lastlap",
+      "headline": "Thirty-Nine, Rated Higher Than Ever, and Done",
+      "body": [
+       "Y95 was his last season, at 39, and he played it like a man in no hurry to leave: 3,488 yards, 31 touchdown passes and 4 interceptions for a 10-6-1 Giants club, with his rating at a career-high 94. The Eagles still beat New York twice, the first time 32-31. Then the retirement was recorded, and he did not play again. The Hall of Fame has not voted him in. The record says he is the rare quarterback who won his rings early, outlasted almost everyone, and never needed them to be worth watching."
+      ],
+      "players": [
+       "Ty Lock"
+      ],
+      "teams": [
+       "Giants",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Age in Y95",
+        "value": "39",
+        "source": "save_careers.json age Y95 QB:Ty Lock"
+       },
+       {
+        "label": "Passing yards, Y95",
+        "value": "3,488",
+        "source": "market_history.json snap-202611141119..snap-202611162108 QB:Ty Lock s.yds"
+       },
+       {
+        "label": "Touchdown passes, Y95",
+        "value": "31",
+        "source": "market_history.json snap-202611141119..snap-202611162108 QB:Ty Lock s.td"
+       },
+       {
+        "label": "Interceptions, Y95",
+        "value": "4",
+        "source": "market_history.json snap-202611141119..snap-202611162108 QB:Ty Lock s.int"
+       },
+       {
+        "label": "Giants record, Y95",
+        "value": "10-6-1",
+        "source": "schedule.json seasons/Y95/table/[abbr=NYG]/record"
+       },
+       {
+        "label": "OVR after Y95 (career high)",
+        "value": "94",
+        "source": "market_history.json snap-202611162108 QB:Ty Lock ovr"
+       },
+       {
+        "label": "At the Giants, Y95",
+        "value": "32-31",
+        "source": "schedule.json seasons/Y95/coachGames/[week=12]/score"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "lane": "tribute",
+   "op": "tribute.set",
+   "target": "RB:Ryland Maxwell",
+   "source": "data:market_history.json, players.json, records.json, league_records.json, super_bowls.json, save_careers.json, halloffame.json",
+   "reason": "Refresh after his final season: retired after Y96 and voted into the Hall of Fame (Class of Y96)",
+   "trigger": "Audit: Ryland Maxwell's tribute cites save_state and Hall of Fame watch figures that no longer resolve after Y96",
+   "value": {
+    "reason": "Refresh after his final season: retired after Y96 and voted into the Hall of Fame (Class of Y96)",
+    "trigger": "Y96 imported (2026-11-17-save-y96): Maxwell retired and entered the Hall of Fame; last-lap sources no longer resolve",
+    "nickname": "Mad Max",
+    "deck": "He came out of New York as the smallest piece of a trade and became the back every other back is measured against: rings in three cities, the career rushing record and, at last, the Gauntlet.",
+    "chapters": [
+     {
+      "id": "ryland-maxwell-jets",
+      "kind": "chapter",
+      "club": "Jets",
+      "headline": "A Ring in New York Before Anyone Knew His Name",
+      "body": [
+       "Ryland Maxwell's first ring came in Y80, when Dorren Skura's Jets went 15-2 and beat the Seahawks 28-26 in Super Bowl CXXXIX. Maxwell was part of it and nowhere near the center of it. His card closed that season rated 62 with a C grade, and the market valued it at 7, the kind of price reserved for depth.",
+       "Y81 brought 1,284 rushing yards and no title. Y82 brought both: 1,430 yards, 17 rushing touchdowns and a second ring after a 46-8 rout of the Eagles in Super Bowl CXLI, a club he would one day call home. Through three seasons in New York he had 3,514 rushing yards in 56 games and an Offensive Rookie of the Year award on the shelf. Useful. Not yet a reason to build a franchise around him."
+      ],
+      "players": [
+       "Ryland Maxwell"
+      ],
+      "teams": [
+       "Jets",
+       "Seahawks",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Card value after Y80",
+        "value": "7",
+        "source": "market_history.json snap-202610201709 RB:Ryland Maxwell value"
+       },
+       {
+        "label": "Jets record, Y80",
+        "value": "15-2",
+        "source": "coach.json Y80 record"
+       },
+       {
+        "label": "Super Bowl CXXXIX",
+        "value": "28-26",
+        "source": "super_bowls.json Y80 score"
+       },
+       {
+        "label": "OVR after Y80",
+        "value": "62",
+        "source": "market_history.json snap-202610201709 RB:Ryland Maxwell ovr"
+       },
+       {
+        "label": "Grade after Y80",
+        "value": "C",
+        "source": "market_history.json snap-202610201709 RB:Ryland Maxwell grade"
+       },
+       {
+        "label": "Rushing yards, Y81",
+        "value": "1,284",
+        "source": "market_history.json snap-202610201709..snap-202610220000 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Rushing yards, Y82",
+        "value": "1,430",
+        "source": "market_history.json snap-202610220000..snap-202610262300 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Rushing TDs, Y82",
+        "value": "17",
+        "source": "market_history.json snap-202610220000..snap-202610262300 RB:Ryland Maxwell s.rtd"
+       },
+       {
+        "label": "Super Bowl CXLI",
+        "value": "46-8",
+        "source": "super_bowls.json Y82 score"
+       },
+       {
+        "label": "Rushing yards through Y82",
+        "value": "3,514",
+        "source": "market_history.json snap-202610262300 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Games through Y82",
+        "value": "56",
+        "source": "market_history.json snap-202610262300 RB:Ryland Maxwell s.g"
+       }
+      ]
+     },
+     {
+      "id": "ryland-maxwell-trade",
+      "kind": "trade",
+      "headline": "One Star Out, Three In, and the Smallest Piece Was the Prize",
+      "body": [
+       "When Skura left New York for Atlanta after Y82, the deal that went with him looked lopsided, just not the way it turned out. Malakai Sawyer went back to the Jets as an 89-rated back with a B grade, 203 games and 13,041 career rushing yards, his card priced at 1,755. Coming the other way were Maxwell, rated 65 and valued at 12, Chance Woodrum, a 74-rated defensive back valued at 70, and Kane Van Oxley, \"The Ox\", an S-grade receiver valued at 1,515.",
+       "Was it a risk? By the numbers that winter, Sawyer's card was worth more than a hundred times Maxwell's, and the best asset Atlanta received never played for it: in an offseason of three- and four-team trades across the league, Van Oxley was moved on to the Bears before a single Falcons game. The bet came down to Maxwell and Woodrum. Sawyer played 96 more games and won no more rings. Woodrum won 5 more. Maxwell won 11."
+      ],
+      "players": [
+       "Ryland Maxwell",
+       "Malakai Sawyer",
+       "Chance Woodrum",
+       "Kane Van Oxley"
+      ],
+      "teams": [
+       "Jets",
+       "Falcons",
+       "Bears"
+      ],
+      "stats": [
+       {
+        "label": "Sawyer's card value at the trade",
+        "value": "1,755",
+        "source": "market_history.json snap-202610262300 RB:Malakai Sawyer value"
+       },
+       {
+        "label": "Sawyer OVR",
+        "value": "89",
+        "source": "market_history.json snap-202610262300 RB:Malakai Sawyer ovr"
+       },
+       {
+        "label": "Sawyer grade",
+        "value": "B",
+        "source": "market_history.json snap-202610262300 RB:Malakai Sawyer grade"
+       },
+       {
+        "label": "Sawyer games",
+        "value": "203",
+        "source": "market_history.json snap-202610262300 RB:Malakai Sawyer s.g"
+       },
+       {
+        "label": "Sawyer rushing yards",
+        "value": "13,041",
+        "source": "market_history.json snap-202610262300 RB:Malakai Sawyer s.ryds"
+       },
+       {
+        "label": "Maxwell OVR",
+        "value": "65",
+        "source": "market_history.json snap-202610262300 RB:Ryland Maxwell ovr"
+       },
+       {
+        "label": "Maxwell card value",
+        "value": "12",
+        "source": "market_history.json snap-202610262300 RB:Ryland Maxwell value"
+       },
+       {
+        "label": "Woodrum OVR",
+        "value": "74",
+        "source": "market_history.json snap-202610262300 DB:Chance Woodrum ovr"
+       },
+       {
+        "label": "Woodrum card value",
+        "value": "70",
+        "source": "market_history.json snap-202610262300 DB:Chance Woodrum value"
+       },
+       {
+        "label": "Van Oxley grade",
+        "value": "S",
+        "source": "market_history.json snap-202610262300 WR:Kane Van Oxley grade"
+       },
+       {
+        "label": "Van Oxley card value",
+        "value": "1,515",
+        "source": "market_history.json snap-202610262300 WR:Kane Van Oxley value"
+       },
+       {
+        "label": "Sawyer games after the trade",
+        "value": "96",
+        "source": "market_history.json snap-202610262300..snap-202611170116 RB:Malakai Sawyer s.g"
+       },
+       {
+        "label": "Woodrum rings after the trade",
+        "value": "5",
+        "source": "market_history.json snap-202610262300..snap-202611170116 DB:Chance Woodrum s.rings"
+       },
+       {
+        "label": "Maxwell rings after the trade",
+        "value": "11",
+        "source": "market_history.json snap-202610262300..snap-202611170116 RB:Ryland Maxwell s.rings"
+       }
+      ],
+      "trade": {
+       "after": "Y82",
+       "snapshot": "snap-202610262300",
+       "later": "snap-202611170116",
+       "sides": [
+        {
+         "to": "Jets",
+         "players": [
+          "RB:Malakai Sawyer"
+         ]
+        },
+        {
+         "to": "Falcons",
+         "players": [
+          "RB:Ryland Maxwell",
+          "DB:Chance Woodrum",
+          "WR:Kane Van Oxley"
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "id": "ryland-maxwell-falcons",
+      "kind": "chapter",
+      "club": "Falcons",
+      "headline": "Five Straight Titles, and the Role Player Disappeared",
+      "body": [
+       "Atlanta won Super Bowl CXLII in Y83, beating the Jets and Sawyer 40-25, and did not stop winning them until Y87. Maxwell was Offensive Player of the Year in that first season, with 1,919 rushing yards and 25 touchdowns on the ground, and Super Bowl MVP the next.",
+       "The ratings followed the rings. He was rated 75 by the end of Y84, an A grade at 87 by Y86 and an S at 96 by Y87. Y85 was the season the league took notice: 2,617 rushing yards, 39 rushing touchdowns, still the season mark on Skura's record board, and a 237-yard game against the Bills, still the best rushing game on it. Another Offensive Player of the Year award came with it. By the end of the run he had 7 rings and 15,141 career rushing yards."
+      ],
+      "players": [
+       "Ryland Maxwell",
+       "Malakai Sawyer"
+      ],
+      "teams": [
+       "Falcons",
+       "Jets",
+       "Bills"
+      ],
+      "stats": [
+       {
+        "label": "Super Bowl CXLII",
+        "value": "40-25",
+        "source": "super_bowls.json Y83 score"
+       },
+       {
+        "label": "Rushing yards, Y83",
+        "value": "1,919",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Rushing TDs, Y83",
+        "value": "25",
+        "source": "market_history.json snap-202610262300..snap-202610281027 RB:Ryland Maxwell s.rtd"
+       },
+       {
+        "label": "OVR after Y84",
+        "value": "75",
+        "source": "market_history.json snap-202610281616 RB:Ryland Maxwell ovr"
+       },
+       {
+        "label": "Grade after Y86",
+        "value": "A",
+        "source": "market_history.json snap-202610300346 RB:Ryland Maxwell grade"
+       },
+       {
+        "label": "OVR after Y86",
+        "value": "87",
+        "source": "market_history.json snap-202610300346 RB:Ryland Maxwell ovr"
+       },
+       {
+        "label": "Grade after Y87",
+        "value": "S",
+        "source": "market_history.json snap-202611041446 RB:Ryland Maxwell grade"
+       },
+       {
+        "label": "OVR after Y87",
+        "value": "96",
+        "source": "market_history.json snap-202611041446 RB:Ryland Maxwell ovr"
+       },
+       {
+        "label": "Rushing yards, Y85",
+        "value": "2,617",
+        "source": "market_history.json snap-202610281616..snap-202610281922 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Rushing TDs, Y85 (club record)",
+        "value": "39",
+        "source": "records.json Most rushing TDs, season mark"
+       },
+       {
+        "label": "Best rushing game, Y85 (club record)",
+        "value": "237 yds",
+        "source": "records.json Best rushing game mark"
+       },
+       {
+        "label": "Rings after Y87",
+        "value": "7",
+        "source": "market_history.json snap-202611041446 RB:Ryland Maxwell s.rings"
+       },
+       {
+        "label": "Rushing yards after Y87",
+        "value": "15,141",
+        "source": "market_history.json snap-202611041446 RB:Ryland Maxwell s.ryds"
+       }
+      ]
+     },
+     {
+      "id": "ryland-maxwell-left-behind",
+      "kind": "chapter",
+      "club": "Falcons",
+      "headline": "Left Behind in Atlanta",
+      "body": [
+       "Then Skura moved on to Philadelphia for Y88, and Maxwell stayed. The Eagles won Super Bowl CXLVII that season and CXLVIII the next, the coach's titles now arriving without the back who had carried his last five. In Atlanta, Maxwell kept running: 1,403 yards in Y88, 1,172 in Y89 and 1,223 in Y90, without a single catch in the last two of those seasons. No rings came.",
+       "The market did not seem to mind. In Y88, with no title to show for it, his card passed Sawyer's for the first time, 7,837 to 7,820, and by the end of Y90 he was rated 99. The best back in the league was waiting in the wrong city."
+      ],
+      "players": [
+       "Ryland Maxwell",
+       "Malakai Sawyer"
+      ],
+      "teams": [
+       "Falcons",
+       "Eagles"
+      ],
+      "stats": [
+       {
+        "label": "Rushing yards, Y88",
+        "value": "1,403",
+        "source": "market_history.json snap-202611041446..snap-202611051109 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Rushing yards, Y89",
+        "value": "1,172",
+        "source": "market_history.json snap-202611051109..snap-202611071301 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Rushing yards, Y90",
+        "value": "1,223",
+        "source": "market_history.json snap-202611071301..snap-202611121506 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Maxwell card value after Y88",
+        "value": "7,837",
+        "source": "market_history.json snap-202611051109 RB:Ryland Maxwell value"
+       },
+       {
+        "label": "Sawyer card value after Y88",
+        "value": "7,820",
+        "source": "market_history.json snap-202611051109 RB:Malakai Sawyer value"
+       },
+       {
+        "label": "OVR after Y90",
+        "value": "99",
+        "source": "market_history.json snap-202611121506 RB:Ryland Maxwell ovr"
+       }
+      ]
+     },
+     {
+      "id": "ryland-maxwell-market",
+      "kind": "market",
+      "headline": "From 7 to 49,485, a Season Late Every Time",
+      "body": [
+       "The card told the story a season late every time. It was worth 7 at the end of Y80 and 12 on the day of the trade. It reached 112 after Y84, with two Falcons titles already won, and 1,520 after Y86. It first passed Sawyer's in Y88, at 7,837, and more than doubled in Y92 alone, from 12,722 to 29,409, the season he ran for 2,839 yards. After Y94 it stood at 39,532, and it closed at 49,485 after Y96, his last season."
+      ],
+      "players": [
+       "Ryland Maxwell",
+       "Malakai Sawyer"
+      ],
+      "teams": [],
+      "stats": [
+       {
+        "label": "Card value after Y96",
+        "value": "49,485",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell value"
+       },
+       {
+        "label": "After Y80",
+        "value": "7",
+        "source": "market_history.json snap-202610201709 RB:Ryland Maxwell value"
+       },
+       {
+        "label": "At the trade, after Y82",
+        "value": "12",
+        "source": "market_history.json snap-202610262300 RB:Ryland Maxwell value"
+       },
+       {
+        "label": "After Y84",
+        "value": "112",
+        "source": "market_history.json snap-202610281616 RB:Ryland Maxwell value"
+       },
+       {
+        "label": "After Y86",
+        "value": "1,520",
+        "source": "market_history.json snap-202610300346 RB:Ryland Maxwell value"
+       },
+       {
+        "label": "After Y88",
+        "value": "7,837",
+        "source": "market_history.json snap-202611051109 RB:Ryland Maxwell value"
+       },
+       {
+        "label": "After Y91",
+        "value": "12,722",
+        "source": "market_history.json snap-202611121857 RB:Ryland Maxwell value"
+       },
+       {
+        "label": "After Y92",
+        "value": "29,409",
+        "source": "market_history.json snap-202611131841 RB:Ryland Maxwell value"
+       },
+       {
+        "label": "Rushing yards, Y92",
+        "value": "2,839",
+        "source": "market_history.json snap-202611121857..snap-202611131841 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "After Y94",
+        "value": "39,532",
+        "source": "market_history.json snap-202611141119 RB:Ryland Maxwell value"
+       }
+      ],
+      "market": {
+       "players": [
+        "RB:Ryland Maxwell",
+        "RB:Malakai Sawyer"
+       ]
+      }
+     },
+     {
+      "id": "ryland-maxwell-eagles",
+      "kind": "chapter",
+      "club": "Eagles",
+      "headline": "The Reunion, the Record and the Gauntlet",
+      "body": [
+       "In Y91 coach and back were together again in Philadelphia, and the titles came back with them: four seasons, four rings, starting with a 38-23 win over the Raiders in Super Bowl CL. Y92 brought 2,839 rushing yards, the best season on Skura's record board, and in Y93 Maxwell passed Lane McCoy's 24,507 career rushing yards to take the league record. Along the way the Eagles won 49 straight games, a run that only ended in Dallas in Y94.",
+       "Y94 was a season nobody had seen before. Maxwell caught 53 touchdown passes, the most in a season on Skura's board, and was named Most Valuable Player for the first time. It was the one major award he had never won. With it he became the first player to win every one of them: a ring, the MVP, Offensive Player of the Year, Super Bowl MVP and Offensive Rookie of the Year. Ryland Maxwell ran the Gauntlet."
+      ],
+      "players": [
+       "Ryland Maxwell",
+       "Lane McCoy"
+      ],
+      "teams": [
+       "Eagles",
+       "Raiders",
+       "Cowboys"
+      ],
+      "stats": [
+       {
+        "label": "TD receptions, Y94 (club record)",
+        "value": "53",
+        "source": "records.json Most TD receptions, season mark"
+       },
+       {
+        "label": "Super Bowl CL",
+        "value": "38-23",
+        "source": "super_bowls.json Y91 score"
+       },
+       {
+        "label": "Best rushing season (club record)",
+        "value": "2,839 yds",
+        "source": "records.json Best rushing season mark"
+       },
+       {
+        "label": "McCoy career rushing yards",
+        "value": "24,507",
+        "source": "players.json RB:Lane McCoy ryds"
+       },
+       {
+        "label": "Eagles winning streak",
+        "value": "49",
+        "source": "schedule.json records/[id=coach-win-streak]/value"
+       },
+       {
+        "label": "TD receptions, Y94",
+        "value": "53",
+        "source": "market_history.json snap-202611140247..snap-202611141119 RB:Ryland Maxwell s.rectd"
+       },
+       {
+        "label": "MVPs won in Y94",
+        "value": "1",
+        "source": "market_history.json snap-202611140247..snap-202611141119 RB:Ryland Maxwell s.mvp"
+       }
+      ]
+     },
+     {
+      "id": "ryland-maxwell-rival",
+      "kind": "rival",
+      "headline": "Ikarras, the Measuring Stick",
+      "body": [
+       "Every great back gets measured against Rondale Ikarras, \"The Prodigal Son\", the Ravens legend of the Hall of Fame's inaugural class. The comparison ended Maxwell's way. Ikarras ran for 23,178 yards in 303 games, 76.5 a game; Maxwell finished with 32,108 in 323, 99.4 a game. Ikarras won 9 rings to Maxwell's 13 and 4 Offensive Player of the Year awards, one more than Maxwell, but 5 Super Bowl MVPs to his 7. He never won the MVP. Maxwell won it once, and it completed the set."
+      ],
+      "players": [
+       "Rondale Ikarras",
+       "Ryland Maxwell"
+      ],
+      "teams": [
+       "Ravens"
+      ],
+      "stats": [
+       {
+        "label": "Rushing yards a game, Maxwell",
+        "value": "99.4",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.ryds/s.g"
+       },
+       {
+        "label": "Ikarras rushing yards",
+        "value": "23,178",
+        "source": "players.json RB:Rondale Ikarras ryds"
+       },
+       {
+        "label": "Ikarras games",
+        "value": "303",
+        "source": "players.json RB:Rondale Ikarras g"
+       },
+       {
+        "label": "Rushing yards a game, Ikarras",
+        "value": "76.5",
+        "source": "players.json RB:Rondale Ikarras ryds/g"
+       },
+       {
+        "label": "Maxwell rushing yards",
+        "value": "32,108",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Maxwell games",
+        "value": "323",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Ikarras rings",
+        "value": "9",
+        "source": "players.json RB:Rondale Ikarras rings"
+       },
+       {
+        "label": "Maxwell rings",
+        "value": "13",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.rings"
+       },
+       {
+        "label": "Ikarras Offensive Player of the Year awards",
+        "value": "4",
+        "source": "players.json RB:Rondale Ikarras opoy"
+       },
+       {
+        "label": "Ikarras Super Bowl MVPs",
+        "value": "5",
+        "source": "players.json RB:Rondale Ikarras sbmvp"
+       },
+       {
+        "label": "Maxwell Super Bowl MVPs",
+        "value": "7",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.sbmvp"
+       }
+      ],
+      "rival": {
+       "player": "RB:Rondale Ikarras"
+      }
+     },
+     {
+      "id": "ryland-maxwell-numbers",
+      "kind": "numbers",
+      "headline": "The Final Numbers",
+      "body": [
+       "His career, complete: 32,108 rushing yards, 421 rushing touchdowns and 125 more through the air in 323 games, with 13 rings and a Career Legacy of 14,903, the highest of any player in the league."
+      ],
+      "players": [
+       "Ryland Maxwell"
+      ],
+      "teams": [],
+      "stats": [
+       {
+        "label": "Rushing yards",
+        "value": "32,108",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Rushing TDs",
+        "value": "421",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.rtd"
+       },
+       {
+        "label": "Receiving TDs",
+        "value": "125",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.rectd"
+       },
+       {
+        "label": "Rings",
+        "value": "13",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.rings"
+       },
+       {
+        "label": "Career Legacy",
+        "value": "14,903",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell legacy"
+       },
+       {
+        "label": "Games",
+        "value": "323",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.g"
+       }
+      ]
+     },
+     {
+      "id": "ryland-maxwell-last-lap",
+      "kind": "lastlap",
+      "headline": "Two More Rings, First All Time, and a First-Ballot Hall of Famer",
+      "body": [
+       "There was no argument left to settle, and he played on anyway. In Y95 he ran for 2,141 yards and won a 12th ring, playing 18 of the Eagles' 20 games after injury cost him 2, and passed Sherman Brandson for first in Career Legacy, 14,019 to 13,540. Y96, at 34, was the last: 2,574 yards and 25 rushing touchdowns in 21 games, a 13th ring after a 40-26 win over the Bengals, and a 7th Super Bowl MVP. Then he retired, with the career rushing record at 32,108 yards, and the Hall of Fame took him at once, on the first ballot, in the Class of Y96, with a score of 99."
+      ],
+      "players": [
+       "Ryland Maxwell",
+       "Sherman Brandson"
+      ],
+      "teams": [
+       "Eagles",
+       "Bengals"
+      ],
+      "stats": [
+       {
+        "label": "Hall of Fame score",
+        "value": "99",
+        "source": "halloffame.json members/[key=RB:Ryland Maxwell]/score"
+       },
+       {
+        "label": "Rushing yards, Y95",
+        "value": "2,141",
+        "source": "market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Rings after Y95",
+        "value": "12",
+        "source": "market_history.json snap-202611162108 RB:Ryland Maxwell s.rings"
+       },
+       {
+        "label": "Games, Y95",
+        "value": "18",
+        "source": "market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Eagles games, Y95",
+        "value": "20",
+        "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g"
+       },
+       {
+        "label": "Games missed through injury, Y95",
+        "value": "2",
+        "source": "market_history.json snap-202611141119..snap-202611162108 WR:Calvin Wingo II s.g minus market_history.json snap-202611141119..snap-202611162108 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Maxwell Career Legacy after Y95",
+        "value": "14,019",
+        "source": "market_history.json snap-202611162108 RB:Ryland Maxwell legacy"
+       },
+       {
+        "label": "Brandson Career Legacy after Y95",
+        "value": "13,540",
+        "source": "market_history.json snap-202611162108 QB:Sherman Brandson legacy"
+       },
+       {
+        "label": "Age in Y96",
+        "value": "34",
+        "source": "save_careers.json age Y96 RB:Ryland Maxwell"
+       },
+       {
+        "label": "Rushing yards, Y96",
+        "value": "2,574",
+        "source": "market_history.json snap-202611162108..snap-202611170116 RB:Ryland Maxwell s.ryds"
+       },
+       {
+        "label": "Rushing TDs, Y96",
+        "value": "25",
+        "source": "market_history.json snap-202611162108..snap-202611170116 RB:Ryland Maxwell s.rtd"
+       },
+       {
+        "label": "Games, Y96",
+        "value": "21",
+        "source": "market_history.json snap-202611162108..snap-202611170116 RB:Ryland Maxwell s.g"
+       },
+       {
+        "label": "Rings after Y96",
+        "value": "13",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.rings"
+       },
+       {
+        "label": "Super Bowl CLV",
+        "value": "40-26",
+        "source": "super_bowls.json Y96 score"
+       },
+       {
+        "label": "Super Bowl MVPs",
+        "value": "7",
+        "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.sbmvp"
+       },
+       {
+        "label": "Career rushing yards (league record)",
+        "value": "32,108",
+        "source": "league_records.json records/[record=Best rushing career]/league/top/0/value"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

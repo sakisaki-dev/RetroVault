@@ -244,56 +244,6 @@
    "n": 3
   },
   {
-   "id": "y95-records",
-   "kind": "records",
-   "club": "Eagles",
-   "kicker": "Record book",
-   "title": "Records broken",
-   "text": "2 marks fell in Y95.",
-   "rows": [
-    {
-     "label": "Best rushing career",
-     "mark": "29,534 yds",
-     "scope": "club",
-     "players": [
-      {
-       "key": "RB:Ryland Maxwell",
-       "name": "Ryland Maxwell",
-       "team": "Eagles"
-      }
-     ],
-     "team": "Eagles",
-     "num": 29534,
-     "suf": " yds"
-    },
-    {
-     "label": "Most rushing TDs, career",
-     "mark": "396",
-     "scope": "club",
-     "players": [
-      {
-       "key": "RB:Ryland Maxwell",
-       "name": "Ryland Maxwell",
-       "team": "Eagles"
-      }
-     ],
-     "team": "Eagles",
-     "num": 396
-    }
-   ],
-   "players": [
-    {
-     "key": "RB:Ryland Maxwell",
-     "name": "Ryland Maxwell",
-     "team": "Eagles"
-    }
-   ],
-   "teams": [
-    "Eagles"
-   ],
-   "n": 4
-  },
-  {
    "id": "y95-milestones",
    "kind": "milestones",
    "club": "Eagles",
@@ -333,7 +283,7 @@
    "teams": [
     "Eagles"
    ],
-   "n": 5
+   "n": 4
   },
   {
    "id": "y95-market",
@@ -370,7 +320,7 @@
     "Cardinals",
     "Saints"
    ],
-   "n": 6
+   "n": 5
   },
   {
    "id": "y95-farewells",
@@ -378,34 +328,42 @@
    "club": "Jets",
    "kicker": "Farewells",
    "title": "Final whistles",
-   "text": "19 careers ended in Y95.",
+   "text": "20 careers ended in Y95.",
    "players": [
     {
      "key": "DB:Kyron Atwell",
      "name": "Kyron Atwell",
      "games": 267,
-     "legacy": 8397,
+     "legacy": 8410,
      "team": "Jets"
     },
     {
      "key": "DL:Mykal Shaw",
      "name": "Mykal Shaw",
      "games": 286,
-     "legacy": 7929,
+     "legacy": 7978,
      "team": "Bills"
+    },
+    {
+     "key": "QB:Ty Lock",
+     "name": "Ty Lock",
+     "games": 330,
+     "rings": 2,
+     "legacy": 7550,
+     "team": "Jets"
     },
     {
      "key": "QB:Josh Brooks",
      "name": "Josh Brooks",
      "games": 350,
-     "legacy": 6904,
+     "legacy": 6946,
      "team": "Commanders"
     },
     {
      "key": "OL:Javon Trask",
      "name": "Javon Trask",
      "games": 256,
-     "legacy": 5065,
+     "legacy": 5035,
      "team": "Rams"
     },
     {
@@ -413,27 +371,19 @@
      "name": "Gunner Okwara",
      "games": 260,
      "rings": 1,
-     "legacy": 4773,
+     "legacy": 4800,
      "team": "Texans"
-    },
-    {
-     "key": "LB:Treylon Dogbe",
-     "name": "Treylon Dogbe",
-     "games": 259,
-     "legacy": 4397,
-     "team": "Steelers"
     }
    ],
-   "count": 19,
+   "count": 20,
    "teams": [
     "Bills",
     "Commanders",
     "Jets",
     "Rams",
-    "Steelers",
     "Texans"
    ],
-   "n": 7
+   "n": 6
   },
   {
    "id": "y95-power",
@@ -473,20 +423,20 @@
     "winnerRecord": "6-11",
     "loserRecord": "15-2"
    },
-   "n": 8
+   "n": 7
   },
   {
    "id": "y95-tribute",
    "kind": "tribute",
-   "club": "Buccaneers",
+   "club": "Giants",
    "kicker": "Tribute · From the queue",
    "title": "Sherman Brandson",
-   "text": "The tribute queue's highest Career Legacy (13,540).",
+   "text": "The tribute queue's highest Career Legacy (13,596).",
    "players": [
     {
      "key": "QB:Sherman Brandson",
      "name": "Sherman Brandson",
-     "team": "Buccaneers",
+     "team": "Giants",
      "reason": "From the queue"
     }
    ],
@@ -494,9 +444,9 @@
     "tribute": "QB:Sherman Brandson"
    },
    "teams": [
-    "Buccaneers"
+    "Giants"
    ],
-   "n": 9
+   "n": 8
   },
   {
    "id": "y95-story",
@@ -534,7 +484,7 @@
     "Jaguars",
     "Giants"
    ],
-   "n": 10
+   "n": 9
   },
   {
    "id": "y95-take",
@@ -554,7 +504,7 @@
     {
      "key": "QB:Sherman Brandson",
      "name": "Sherman Brandson",
-     "team": "Buccaneers"
+     "team": "Giants"
     }
    ],
    "link": {
@@ -563,7 +513,7 @@
    "teams": [
     "Eagles"
    ],
-   "n": 11
+   "n": 10
   },
   {
    "id": "y95-outro",
@@ -584,31 +534,14 @@
      "num": 76
     }
    ],
-   "text": "Through Y95, Skura has won 69 of 76 Super Bowls. Chasing history in Y96: Brooker, 2 interceptions from Hobbs's mark; Spector, 33 rushing TDs from McCoy's mark.",
+   "text": "Through Y95, Skura has won 69 of 76 Super Bowls.",
    "teams": [
     "Eagles"
    ],
-   "players": [
-    {
-     "key": "DB:Jamon Brooker",
-     "name": "Jamon Brooker",
-     "team": "Packers",
-     "label": "career interceptions",
-     "gap": 2,
-     "share": 95,
-     "holder": "Damar Hobbs"
-    },
-    {
-     "key": "RB:Siran Spector",
-     "name": "Siran Spector",
-     "team": "Texans",
-     "label": "career rushing TDs",
-     "gap": 33,
-     "share": 93,
-     "holder": "Lane McCoy"
-    }
-   ],
-   "n": 12
+   "link": {
+    "season": "Y96"
+   },
+   "n": 11
   }
  ]
 }

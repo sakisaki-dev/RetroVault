@@ -949,5 +949,15 @@
   "loser": "Chiefs",
   "your_result": "won",
   "your_team": "Eagles"
+ },
+ {
+  "year": "Y96",
+  "number": 155,
+  "roman": "CLV",
+  "winner": "Eagles",
+  "score": "40-26",
+  "loser": "Bengals",
+  "your_result": "won",
+  "your_team": "Eagles"
  }
 ]

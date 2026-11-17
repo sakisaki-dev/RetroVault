@@ -1,8 +1,689 @@
 {
  "seasons": [
   {
+   "season": "Y96",
+   "upload": "2026-11-17-takes-y96",
+   "intro": "Philadelphia won again, and then its two pillars walked away. The voters made a mess of the awards, the market chased the wrong Eagles, and a record fell in Cincinnati that nobody rewarded. The arguments are ours; the figures are the league's.",
+   "takes": [
+    {
+     "id": "y96-take-calitro-robbed",
+     "heat": 3,
+     "headline": "Grover Calitro Set the League Record With 43 Rushing Touchdowns and Lost Offensive Player of the Year. Indefensible.",
+     "dek": "Calitro: 1,904 yards and 43 scores. The winner, Alton Yeldon: 1,558 yards and 27.",
+     "body": [
+      "No back in the tracked history of this league has scored 43 rushing touchdowns in a season. Siran Spector's 42 in Y89 was the mark, and Calitro went past it while carrying Cincinnati to the Super Bowl. He ran for 1,904 yards, 346 more than Alton Yeldon, and scored 16 more touchdowns. Yeldon took the trophy home to Seattle anyway.",
+      "There is no reading of the numbers that makes this vote right. Calitro was the best offensive player outside Philadelphia and arguably the best inside it too. The Bengals lost the final 40-26, and his card still costs 189. The voters will not get a cleaner chance to be correct, and they missed it."
+     ],
+     "players": [
+      "Grover Calitro",
+      "Alton Yeldon"
+     ],
+     "teams": [
+      "Bengals",
+      "Seahawks"
+     ],
+     "stats": [
+      {
+       "label": "Rushing TDs, Y96",
+       "value": "43",
+       "source": "market_history.json snap-202611162108..snap-202611170116 RB:Grover Calitro s.rtd"
+      },
+      {
+       "label": "League season record",
+       "value": "43",
+       "source": "league_records.json records/[record=Most rushing TDs, season]/league/value"
+      },
+      {
+       "label": "Previous best (Spector, Y89)",
+       "value": "42",
+       "source": "league_records.json records/[record=Most rushing TDs, season]/league/top/1/value"
+      },
+      {
+       "label": "Calitro rushing yards, Y96",
+       "value": "1,904",
+       "source": "market_history.json snap-202611162108..snap-202611170116 RB:Grover Calitro s.ryds"
+      },
+      {
+       "label": "Yeldon rushing yards, Y96",
+       "value": "1,558",
+       "source": "market_history.json snap-202611162108..snap-202611170116 RB:Alton Yeldon s.ryds"
+      },
+      {
+       "label": "Yeldon rushing TDs, Y96",
+       "value": "27",
+       "source": "market_history.json snap-202611162108..snap-202611170116 RB:Alton Yeldon s.rtd"
+      },
+      {
+       "label": "Yards ahead of Yeldon",
+       "value": "346",
+       "source": "market_history.json snap-202611162108..snap-202611170116 RB:Grover Calitro s.ryds minus market_history.json snap-202611162108..snap-202611170116 RB:Alton Yeldon s.ryds"
+      },
+      {
+       "label": "Touchdowns ahead of Yeldon",
+       "value": "16",
+       "source": "market_history.json snap-202611162108..snap-202611170116 RB:Grover Calitro s.rtd minus market_history.json snap-202611162108..snap-202611170116 RB:Alton Yeldon s.rtd"
+      },
+      {
+       "label": "Super Bowl CLV",
+       "value": "40-26",
+       "source": "super_bowls.json Y96 score"
+      },
+      {
+       "label": "Calitro card value",
+       "value": "189",
+       "source": "market_history.json snap-202611170116 RB:Grover Calitro value"
+      }
+     ]
+    },
+    {
+     "id": "y96-take-maxwell-short",
+     "heat": 3,
+     "headline": "Ryland Maxwell Retired 4 Touchdowns Short of Second Place. The Greatest Ever Left Too Early.",
+     "dek": "2,574 yards and 25 touchdowns in his last season, and 421 career rushing scores to Lane McCoy's 458.",
+     "body": [
+      "Nobody retires after a 2,574-yard season. Maxwell did, at 34, after playing all 21 of Philadelphia's games and collecting his seventh Super Bowl MVP and 13th ring. He owns the career rushing yards record at 32,108, and his Career Legacy of 14,903 is the highest in the league.",
+      "But the touchdown list tells a different story. Lane McCoy scored 458 rushing touchdowns, Siran Spector 425, Maxwell 421. That is 4 short of second place and 37 short of first, a gap one more ordinary Maxwell season would have closed. The greatest running back the league has seen walked away with a number still on the table, and the record book will carry that asterisk for good."
+     ],
+     "players": [
+      "Ryland Maxwell",
+      "Lane McCoy",
+      "Siran Spector"
+     ],
+     "teams": [
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Short of second place",
+       "value": "4",
+       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/1/value minus league_records.json records/[record=Most rushing TDs, career]/league/top/2/value"
+      },
+      {
+       "label": "Rushing yards, Y96",
+       "value": "2,574",
+       "source": "market_history.json snap-202611162108..snap-202611170116 RB:Ryland Maxwell s.ryds"
+      },
+      {
+       "label": "Rushing TDs, Y96",
+       "value": "25",
+       "source": "market_history.json snap-202611162108..snap-202611170116 RB:Ryland Maxwell s.rtd"
+      },
+      {
+       "label": "Age in Y96",
+       "value": "34",
+       "source": "save_careers.json age Y96 RB:Ryland Maxwell"
+      },
+      {
+       "label": "Games, Y96",
+       "value": "21",
+       "source": "market_history.json snap-202611162108..snap-202611170116 RB:Ryland Maxwell s.g"
+      },
+      {
+       "label": "Super Bowl MVPs",
+       "value": "7",
+       "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.sbmvp"
+      },
+      {
+       "label": "Rings",
+       "value": "13",
+       "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.rings"
+      },
+      {
+       "label": "Career rushing yards",
+       "value": "32,108",
+       "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.ryds"
+      },
+      {
+       "label": "Career Legacy",
+       "value": "14,903",
+       "source": "market_history.json snap-202611170116 RB:Ryland Maxwell legacy"
+      },
+      {
+       "label": "McCoy career rushing TDs",
+       "value": "458",
+       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/0/value"
+      },
+      {
+       "label": "Spector career rushing TDs",
+       "value": "425",
+       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/1/value"
+      },
+      {
+       "label": "Maxwell career rushing TDs",
+       "value": "421",
+       "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.rtd"
+      },
+      {
+       "label": "Short of first place",
+       "value": "37",
+       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/0/value minus league_records.json records/[record=Most rushing TDs, career]/league/top/2/value"
+      }
+     ]
+    },
+    {
+     "id": "y96-take-leglue-mvp",
+     "heat": 2,
+     "headline": "Margus Leglue's MVP Corrected Last Year's Mistake: 41 Touchdowns and 1 Interception Beats 52 and 17",
+     "dek": "Bones Crawford threw more touchdowns. Leglue threw 16 fewer interceptions, and the voters finally weighed both.",
+     "body": [
+      "Last year this column argued that Bones Crawford's interceptions should have cost him the MVP. They did not. This year they did, and the voters were right. Crawford threw for 4,339 yards and 52 touchdowns with 17 interceptions. Leglue threw for 3,803 yards and 41 touchdowns and was picked off once.",
+      "Leglue is 36, has been a Lion since Y80 as far as the record shows, has never won a ring, and had never won this award. His card went from 237 to 874, a 269% jump that still prices him like a role player. Crawford plays with the best supporting cast in football. Leglue made Detroit go by himself. That is what most valuable means."
+     ],
+     "players": [
+      "Margus Leglue",
+      "Bones Crawford"
+     ],
+     "teams": [
+      "Lions",
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Leglue interceptions, Y96",
+       "value": "1",
+       "source": "market_history.json snap-202611162108..snap-202611170116 QB:Margus Leglue s.int"
+      },
+      {
+       "label": "Leglue TD passes, Y96",
+       "value": "41",
+       "source": "market_history.json snap-202611162108..snap-202611170116 QB:Margus Leglue s.td"
+      },
+      {
+       "label": "Crawford TD passes, Y96",
+       "value": "52",
+       "source": "market_history.json snap-202611162108..snap-202611170116 QB:Bones Crawford s.td"
+      },
+      {
+       "label": "Crawford interceptions, Y96",
+       "value": "17",
+       "source": "market_history.json snap-202611162108..snap-202611170116 QB:Bones Crawford s.int"
+      },
+      {
+       "label": "Fewer interceptions",
+       "value": "16",
+       "source": "market_history.json snap-202611162108..snap-202611170116 QB:Bones Crawford s.int minus market_history.json snap-202611162108..snap-202611170116 QB:Margus Leglue s.int"
+      },
+      {
+       "label": "Crawford passing yards, Y96",
+       "value": "4,339",
+       "source": "market_history.json snap-202611162108..snap-202611170116 QB:Bones Crawford s.yds"
+      },
+      {
+       "label": "Leglue passing yards, Y96",
+       "value": "3,803",
+       "source": "market_history.json snap-202611162108..snap-202611170116 QB:Margus Leglue s.yds"
+      },
+      {
+       "label": "Leglue age in Y96",
+       "value": "36",
+       "source": "save_careers.json age Y96 QB:Margus Leglue"
+      },
+      {
+       "label": "Card value before",
+       "value": "237",
+       "source": "market_history.json snap-202611162108 QB:Margus Leglue value"
+      },
+      {
+       "label": "Card value after",
+       "value": "874",
+       "source": "market_history.json snap-202611170116 QB:Margus Leglue value"
+      },
+      {
+       "label": "Card value change",
+       "value": "+269%",
+       "source": "market_history.json snap-202611162108..snap-202611170116 QB:Margus Leglue value%"
+      }
+     ]
+    },
+    {
+     "id": "y96-take-crawford-card",
+     "heat": 2,
+     "headline": "Bones Crawford's Card Rose 124% in the Year He Lost the MVP. The Market Is Buying a Retirement.",
+     "dek": "From 8,559 to 19,210 after a season with 17 interceptions, 7 more than the year before.",
+     "body": [
+      "Crawford was the Y95 MVP with 10 interceptions. In Y96 he threw 17, lost the award to a Detroit quarterback, and watched his card climb from 8,559 to 19,210. That is not a market rewarding a season. That is a market pricing in the fact that Ryland Maxwell and Akiem Brock are gone and somebody in Philadelphia has to be the face of the club.",
+      "He has 5 MVPs and 8 rings, and the Hall of Fame watch already scores him at 73, above the bar of 65. The case is real. But a quarterback whose interceptions rose by 7 just lost the two best players he ever stood behind. Buyers at 19,210 are paying for the dynasty, not for the passer."
+     ],
+     "players": [
+      "Bones Crawford",
+      "Ryland Maxwell",
+      "Akiem Brock"
+     ],
+     "teams": [
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Card value change",
+       "value": "+124%",
+       "source": "market_history.json snap-202611162108..snap-202611170116 QB:Bones Crawford value%"
+      },
+      {
+       "label": "Card value before",
+       "value": "8,559",
+       "source": "market_history.json snap-202611162108 QB:Bones Crawford value"
+      },
+      {
+       "label": "Card value after",
+       "value": "19,210",
+       "source": "market_history.json snap-202611170116 QB:Bones Crawford value"
+      },
+      {
+       "label": "Interceptions, Y96",
+       "value": "17",
+       "source": "market_history.json snap-202611162108..snap-202611170116 QB:Bones Crawford s.int"
+      },
+      {
+       "label": "Interceptions, Y95",
+       "value": "10",
+       "source": "market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.int"
+      },
+      {
+       "label": "More interceptions",
+       "value": "7",
+       "source": "market_history.json snap-202611162108..snap-202611170116 QB:Bones Crawford s.int minus market_history.json snap-202611141119..snap-202611162108 QB:Bones Crawford s.int"
+      },
+      {
+       "label": "MVPs",
+       "value": "5",
+       "source": "market_history.json snap-202611170116 QB:Bones Crawford s.mvp"
+      },
+      {
+       "label": "Rings",
+       "value": "8",
+       "source": "market_history.json snap-202611170116 QB:Bones Crawford s.rings"
+      },
+      {
+       "label": "Hall of Fame watch score",
+       "value": "73",
+       "source": "halloffame.json watch/[key=QB:Bones Crawford]/score"
+      },
+      {
+       "label": "Hall of Fame bar",
+       "value": "65",
+       "source": "halloffame.json bar"
+      }
+     ]
+    },
+    {
+     "id": "y96-take-hoyer-dpoy",
+     "heat": 2,
+     "headline": "A.T. Hoyer Matched the Defensive Player of the Year's 237 Tackles in 3 Fewer Games",
+     "dek": "Abraham Jack needed 20 games for his 237. Hoyer got there in 17, with one more interception.",
+     "body": [
+      "Abraham Jack is a deserving name on a trophy. He is not the most deserving one. Jack made 237 tackles and 2 interceptions across Buffalo's 20 games. A.T. Hoyer made 237 tackles and 3 interceptions in the Raiders' 17. Per game that is 13.94 tackles for Hoyer and 11.85 for Jack, and it is not close.",
+      "The voters rewarded the playoff run, not the player. Hoyer has made 2,911 career tackles without this award, and his card nearly doubling to 5,523 says the market saw what the ballot did not. Jack's own card went to 435. One of these players is a star, and it is the one who stayed home in January."
+     ],
+     "players": [
+      "A.T. Hoyer",
+      "Abraham Jack"
+     ],
+     "teams": [
+      "Raiders",
+      "Bills"
+     ],
+     "stats": [
+      {
+       "label": "Hoyer tackles, Y96",
+       "value": "237",
+       "source": "market_history.json snap-202611162108..snap-202611170116 DB:A.T. Hoyer s.tkl"
+      },
+      {
+       "label": "Jack tackles, Y96",
+       "value": "237",
+       "source": "market_history.json snap-202611162108..snap-202611170116 DB:Abraham Jack s.tkl"
+      },
+      {
+       "label": "Fewer games",
+       "value": "3",
+       "source": "market_history.json snap-202611162108..snap-202611170116 DB:Abraham Jack s.g minus market_history.json snap-202611162108..snap-202611170116 DB:A.T. Hoyer s.g"
+      },
+      {
+       "label": "Jack games, Y96",
+       "value": "20",
+       "source": "market_history.json snap-202611162108..snap-202611170116 DB:Abraham Jack s.g"
+      },
+      {
+       "label": "Hoyer games, Y96",
+       "value": "17",
+       "source": "market_history.json snap-202611162108..snap-202611170116 DB:A.T. Hoyer s.g"
+      },
+      {
+       "label": "Jack interceptions, Y96",
+       "value": "2",
+       "source": "market_history.json snap-202611162108..snap-202611170116 DB:Abraham Jack s.int"
+      },
+      {
+       "label": "Hoyer interceptions, Y96",
+       "value": "3",
+       "source": "market_history.json snap-202611162108..snap-202611170116 DB:A.T. Hoyer s.int"
+      },
+      {
+       "label": "Hoyer tackles per game",
+       "value": "13.94",
+       "source": "market_history.json snap-202611162108..snap-202611170116 DB:A.T. Hoyer s.tkl/s.g"
+      },
+      {
+       "label": "Jack tackles per game",
+       "value": "11.85",
+       "source": "market_history.json snap-202611162108..snap-202611170116 DB:Abraham Jack s.tkl/s.g"
+      },
+      {
+       "label": "Hoyer career tackles",
+       "value": "2,911",
+       "source": "market_history.json snap-202611170116 DB:A.T. Hoyer s.tkl"
+      },
+      {
+       "label": "Hoyer card value",
+       "value": "5,523",
+       "source": "market_history.json snap-202611170116 DB:A.T. Hoyer value"
+      },
+      {
+       "label": "Jack card value",
+       "value": "435",
+       "source": "market_history.json snap-202611170116 DB:Abraham Jack value"
+      }
+     ]
+    },
+    {
+     "id": "y96-take-proise-bubble",
+     "heat": 2,
+     "headline": "Jacob Proise's Card Is Up 398% on 786 Yards. Sell It Before Everyone Else Does.",
+     "dek": "The tight end went from 1,109 to 5,527 while the receiver beside him gained 2,096 yards and 26%.",
+     "body": [
+      "Proise had a good season: 51 catches, 786 yards and 14 touchdowns in all 21 of Philadelphia's games, and his rating jumped from 84 to 93. The market treated it like a coronation, pushing his card from 1,109 to 5,527.",
+      "Now look one locker over. Calvin Wingo II caught 104 passes for 2,096 yards and 18 touchdowns on the same offense, and his card rose 26%. Proise is a fine tight end on a team that just lost its running back of record, and that rating bump is real. A 398% rise for half of Wingo's production is not a valuation. It is a bubble, and bubbles pop the moment the ring count stops climbing."
+     ],
+     "players": [
+      "Jacob Proise",
+      "Calvin Wingo II"
+     ],
+     "teams": [
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Card value change",
+       "value": "+398%",
+       "source": "market_history.json snap-202611162108..snap-202611170116 TE:Jacob Proise value%"
+      },
+      {
+       "label": "Receiving yards, Y96",
+       "value": "786",
+       "source": "market_history.json snap-202611162108..snap-202611170116 TE:Jacob Proise s.yds"
+      },
+      {
+       "label": "Card value before",
+       "value": "1,109",
+       "source": "market_history.json snap-202611162108 TE:Jacob Proise value"
+      },
+      {
+       "label": "Card value after",
+       "value": "5,527",
+       "source": "market_history.json snap-202611170116 TE:Jacob Proise value"
+      },
+      {
+       "label": "Wingo receiving yards, Y96",
+       "value": "2,096",
+       "source": "market_history.json snap-202611162108..snap-202611170116 WR:Calvin Wingo II s.yds"
+      },
+      {
+       "label": "Wingo card value change",
+       "value": "+26%",
+       "source": "market_history.json snap-202611162108..snap-202611170116 WR:Calvin Wingo II value%"
+      },
+      {
+       "label": "Catches, Y96",
+       "value": "51",
+       "source": "market_history.json snap-202611162108..snap-202611170116 TE:Jacob Proise s.rec"
+      },
+      {
+       "label": "Receiving TDs, Y96",
+       "value": "14",
+       "source": "market_history.json snap-202611162108..snap-202611170116 TE:Jacob Proise s.td"
+      },
+      {
+       "label": "Games, Y96",
+       "value": "21",
+       "source": "market_history.json snap-202611162108..snap-202611170116 TE:Jacob Proise s.g"
+      },
+      {
+       "label": "OVR before",
+       "value": "84",
+       "source": "market_history.json snap-202611162108 TE:Jacob Proise ovr"
+      },
+      {
+       "label": "OVR after",
+       "value": "93",
+       "source": "market_history.json snap-202611170116 TE:Jacob Proise ovr"
+      },
+      {
+       "label": "Wingo catches, Y96",
+       "value": "104",
+       "source": "market_history.json snap-202611162108..snap-202611170116 WR:Calvin Wingo II s.rec"
+      },
+      {
+       "label": "Wingo receiving TDs, Y96",
+       "value": "18",
+       "source": "market_history.json snap-202611162108..snap-202611170116 WR:Calvin Wingo II s.td"
+      }
+     ]
+    },
+    {
+     "id": "y96-take-lock-hall",
+     "heat": 3,
+     "headline": "Ty Lock Threw for 68,237 Yards and the Hall of Fame Said No. The Hall Got It Right.",
+     "dek": "2 rings, both with the Jets, then a Giants career from Y83 to Y95 without another.",
+     "body": [
+      "Lock's first ballot came and went, and the outrage is already loud. It should not be. He threw for 68,237 yards and 627 touchdowns, and he also threw 137 interceptions. His 2 MVPs and 2 rings are real, but both rings came with the Jets, and the Giants won nothing with him from Y83 through Y95.",
+      "Measure him against the real standard. Sherman Brandson threw for 91,463 yards. Bones Crawford, whom this column called the better quarterback 3 seasons ago, already has 5 MVPs and 8 rings. Lock was very good for a very long time. The Hall exists for the players who were the best, and he never was."
+     ],
+     "players": [
+      "Ty Lock",
+      "Sherman Brandson",
+      "Bones Crawford"
+     ],
+     "teams": [
+      "Giants",
+      "Jets"
+     ],
+     "stats": [
+      {
+       "label": "Career passing yards",
+       "value": "68,237",
+       "source": "players.json QB:Ty Lock yds"
+      },
+      {
+       "label": "Career TD passes",
+       "value": "627",
+       "source": "players.json QB:Ty Lock td"
+      },
+      {
+       "label": "Career interceptions",
+       "value": "137",
+       "source": "players.json QB:Ty Lock int"
+      },
+      {
+       "label": "MVPs",
+       "value": "2",
+       "source": "players.json QB:Ty Lock mvp"
+      },
+      {
+       "label": "Rings",
+       "value": "2",
+       "source": "players.json QB:Ty Lock rings"
+      },
+      {
+       "label": "Brandson career passing yards",
+       "value": "91,463",
+       "source": "league_records.json records/[record=Best passing career]/league/value"
+      },
+      {
+       "label": "Seasons since that column",
+       "value": "3",
+       "source": "coach.json Y96 year minus coach.json Y93 year"
+      },
+      {
+       "label": "Crawford MVPs",
+       "value": "5",
+       "source": "market_history.json snap-202611170116 QB:Bones Crawford s.mvp"
+      },
+      {
+       "label": "Crawford rings",
+       "value": "8",
+       "source": "market_history.json snap-202611170116 QB:Bones Crawford s.rings"
+      }
+     ]
+    },
+    {
+     "id": "y96-take-eagles-weakest",
+     "heat": 3,
+     "headline": "Six Straight Titles, and the 13-4 Eagles Were the Weakest Champion of the Run",
+     "dek": "4 losses, the most since Philadelphia hired Dorren Skura, and still nobody could finish the job.",
+     "body": [
+      "The Eagles went 17-0 in Y95. They went 13-4 in Y96, their most losses since Skura arrived in Y88, and then won the Super Bowl 40-26 over Cincinnati for a 6th straight title anyway. That is the indictment, and it is not of Philadelphia.",
+      "Every contender saw a beatable Eagles team this year and none of them could do it in January. The Bengals had the league's record-setting runner and still lost by double digits. Now Ryland Maxwell and Akiem Brock are retired, and the excuses run out. If the rest of the league cannot dethrone a club that just lost its two Hall of Famers, it does not deserve to."
+     ],
+     "players": [
+      "Ryland Maxwell",
+      "Akiem Brock",
+      "Grover Calitro"
+     ],
+     "teams": [
+      "Eagles",
+      "Bengals"
+     ],
+     "stats": [
+      {
+       "label": "Straight titles",
+       "value": "6",
+       "source": "stints.json Ryland Maxwell/stints/2/rings/#"
+      },
+      {
+       "label": "Y96 record",
+       "value": "13-4",
+       "source": "coach.json Y96 record"
+      },
+      {
+       "label": "Losses, Y96",
+       "value": "4",
+       "source": "coach.json Y96 l"
+      },
+      {
+       "label": "Y95 record",
+       "value": "17-0",
+       "source": "coach.json Y95 record"
+      },
+      {
+       "label": "Super Bowl CLV",
+       "value": "40-26",
+       "source": "super_bowls.json Y96 score"
+      }
+     ]
+    },
+    {
+     "id": "y96-take-brooker-ringless",
+     "heat": 2,
+     "headline": "Jamon Brooker Just Tied the Career Interceptions Record. He Is the Best Player Without a Ring.",
+     "dek": "43 interceptions, level with Hall of Famer Damar Hobbs, 2 Defensive Player of the Year awards and a Hall of Fame watch score of 91.",
+     "body": [
+      "Brooker made 186 tackles and 2 interceptions for Green Bay this season, which took him to 43 for his career and level with Damar Hobbs for the league record. Hobbs is in the Hall of Fame. Brooker will be too: the watch already scores him at 91, the highest of any active player, with 2 Defensive Player of the Year awards behind it.",
+      "What he does not have is a ring, and at 33 the window is narrowing. Philadelphia hoards them. The best defender of his generation is spending his prime in the wrong building, and whoever trades for him first will be buying the last missing piece of a Hall of Fame career."
+     ],
+     "players": [
+      "Jamon Brooker",
+      "Damar Hobbs"
+     ],
+     "teams": [
+      "Packers"
+     ],
+     "stats": [
+      {
+       "label": "Career interceptions",
+       "value": "43",
+       "source": "market_history.json snap-202611170116 DB:Jamon Brooker s.int"
+      },
+      {
+       "label": "League career record",
+       "value": "43",
+       "source": "league_records.json records/[record=Most interceptions, career]/league/value"
+      },
+      {
+       "label": "Defensive Player of the Year awards",
+       "value": "2",
+       "source": "market_history.json snap-202611170116 DB:Jamon Brooker s.dpoy"
+      },
+      {
+       "label": "Hall of Fame watch score",
+       "value": "91",
+       "source": "halloffame.json watch/[key=DB:Jamon Brooker]/score"
+      },
+      {
+       "label": "Tackles, Y96",
+       "value": "186",
+       "source": "market_history.json snap-202611162108..snap-202611170116 DB:Jamon Brooker s.tkl"
+      },
+      {
+       "label": "Interceptions, Y96",
+       "value": "2",
+       "source": "market_history.json snap-202611162108..snap-202611170116 DB:Jamon Brooker s.int"
+      },
+      {
+       "label": "Age in Y96",
+       "value": "33",
+       "source": "save_careers.json age Y96 DB:Jamon Brooker"
+      }
+     ]
+    },
+    {
+     "id": "y96-take-brock-hall",
+     "heat": 1,
+     "headline": "Akiem Brock Went In First Ballot Without a Single Award, and That Is the Hall Working",
+     "dek": "8 rings, 181 games, and the highest Career Legacy of any offensive lineman.",
+     "body": [
+      "Offensive linemen rarely collect trophies, and Brock never won an individual award. What he won was 8 rings, every one of them in Philadelphia, across 181 games. His Career Legacy of 11,394 ranks first among offensive linemen, and the ballot scored him at 79, comfortably clear of the bar of 65.",
+      "This is the Hall of Fame doing its job. A trophy-count Hall would have left him waiting behind running backs and quarterbacks with shinier shelves. Instead Brock goes in beside Ryland Maxwell, the back he blocked for, which is exactly where he belongs. Maxwell got the yards. Brock was the reason there was room to get them."
+     ],
+     "players": [
+      "Akiem Brock",
+      "Ryland Maxwell"
+     ],
+     "teams": [
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Rings",
+       "value": "8",
+       "source": "halloffame.json members/[key=OL:Akiem Brock]/rings"
+      },
+      {
+       "label": "Games",
+       "value": "181",
+       "source": "halloffame.json members/[key=OL:Akiem Brock]/games"
+      },
+      {
+       "label": "Career Legacy",
+       "value": "11,394",
+       "source": "halloffame.json members/[key=OL:Akiem Brock]/careerLegacy"
+      },
+      {
+       "label": "Hall of Fame score",
+       "value": "79",
+       "source": "halloffame.json members/[key=OL:Akiem Brock]/score"
+      },
+      {
+       "label": "Hall of Fame bar",
+       "value": "65",
+       "source": "halloffame.json bar"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "season": "Y95",
-   "upload": "2026-11-16-takes-y95",
+   "upload": "2026-11-17-takes-y96",
    "intro": "Y95 ended the way the last four did, with Philadelphia lifting the trophy. Beneath the parade sat a lucky contender, a ringless runner and a star receiver who learned what life outside the Eagles looks like. The arguments are ours to defend; the figures come straight from the league data.",
    "takes": [
     {
@@ -60,17 +741,17 @@
       {
        "label": "Career rushing yards",
        "value": "29,534",
-       "source": "players.json RB:Ryland Maxwell ryds"
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell s.ryds"
       },
       {
        "label": "Career rushing TDs",
        "value": "396",
-       "source": "players.json RB:Ryland Maxwell rtd"
+       "source": "market_history.json snap-202611162108 RB:Ryland Maxwell s.rtd"
       },
       {
        "label": "Age",
        "value": "33",
-       "source": "save_state.json players/RB:Ryland Maxwell/age"
+       "source": "save_careers.json age Y95 RB:Ryland Maxwell"
       },
       {
        "label": "Games played, Y95",
@@ -268,7 +949,7 @@
       {
        "label": "Milton age",
        "value": "39",
-       "source": "save_state.json players/QB:Dustin Milton/age"
+       "source": "save_careers.json age Y95 QB:Dustin Milton"
       },
       {
        "label": "Crawford interceptions, Y94",
@@ -466,7 +1147,7 @@
       {
        "label": "Age",
        "value": "34",
-       "source": "save_state.json players/RB:Maurice Vigil/age"
+       "source": "save_careers.json age Y95 RB:Maurice Vigil"
       },
       {
        "label": "Games, Y95",
@@ -537,7 +1218,7 @@
       {
        "label": "Age",
        "value": "34",
-       "source": "save_state.json players/DB:Travon Swaim/age"
+       "source": "save_careers.json age Y95 DB:Travon Swaim"
       },
       {
        "label": "Pinkney tackles, Y95",

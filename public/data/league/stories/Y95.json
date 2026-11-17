@@ -1,7 +1,7 @@
 {
  "season": "Y95",
  "tagline": "The Eagles go 17-0 again and edge the Chiefs 24-19 in Super Bowl CLIV for a fifth straight title, Ryland Maxwell runs the career rushing record out to 29,534 yards, and Dallas falls from streak breakers to 2-15.",
- "upload": "2026-11-16-story-y95",
+ "upload": "2026-11-17-story-y96",
  "articles": [
   {
    "id": "y95-eagles-cliv",
@@ -9,7 +9,7 @@
    "headline": "Perfect Again: Eagles Go 17-0 and Hold Off the Chiefs 24-19 in Super Bowl CLIV",
    "dek": "Philadelphia won all 20 of its games, had the league's best offense and its best defense, and needed every point of a 5-point Super Bowl margin for a fifth straight title.",
    "body": [
-    "Dorren Skura's Eagles have done it again. Two seasons after going 17-0 in Y93, Philadelphia went 17-0 once more, swept three playoff games and beat the Chiefs 24-19 in Super Bowl CLIV, the 154th edition of the game. It is the club's fifth straight championship, the 69th Super Bowl title of Skura's career and the 13th season in which one of his clubs went unbeaten.",
+    "Dorren Skura's Eagles have done it again. Two seasons after going 17-0 in Y93, Philadelphia went 17-0 once more, swept three playoff games and beat the Chiefs 24-19 in Super Bowl CLIV, the 154th edition of the game. It is the club's fifth straight championship and the 13th season in which one of his clubs went unbeaten.",
     "For most of the year nobody came close. The Eagles scored 624 points, the most in the league, and allowed 326, the fewest, for a point differential of 298. They went 8-0 at home, 9-0 on the road and 7-0 against clubs with winning records. The widest margin was 48-6 over the Jaguars in week 9. The narrowest came in week 12 in New York, 32-31 over the Giants.",
     "The playoffs were quick work until the last game. Tampa Bay fell 40-10 in the divisional round and Detroit 30-16 in the conference final. Then came Kansas City, 15-2 and second in the power rankings. The Chiefs held Philadelphia to 24 points, matching its lowest total of the season, and lost by 5, the closest Super Bowl of the five-title run.",
     "The usual names carried the trophy. Ryland Maxwell, \"Mad Max\", was Super Bowl MVP for the 6th time, the most on file, in a season in which he missed 2 games through injury and still led the league in rushing. Bones Crawford, \"The Doctor\", was named Most Valuable Player for the 5th time. Calvin Wingo II was Offensive Player of the Year. Maxwell's ring was his 12th; Crawford and Akiem Brock each won their 7th."
@@ -58,11 +58,6 @@
      "label": "Super Bowl number",
      "value": "154",
      "source": "super_bowls.json Y95 number"
-    },
-    {
-     "label": "Skura's Super Bowl titles",
-     "value": "69",
-     "source": "save_state.json counters/ACH_WIN_RETROBOWL1"
     },
     {
      "label": "Skura's unbeaten seasons",
@@ -250,7 +245,7 @@
     {
      "label": "Career rushing TDs",
      "value": "396",
-     "source": "records.json Most rushing TDs, career mark"
+     "source": "market_history.json snap-202611162108 RB:Ryland Maxwell s.rtd"
     },
     {
      "label": "McCoy career rushing TDs",
@@ -310,7 +305,7 @@
     {
      "label": "Age",
      "value": "33",
-     "source": "save_state.json players/RB:Ryland Maxwell/age"
+     "source": "save_careers.json age Y95 RB:Ryland Maxwell"
     }
    ],
    "related": [
@@ -831,7 +826,7 @@
     {
      "label": "Vigil age",
      "value": "34",
-     "source": "save_state.json players/RB:Maurice Vigil/age"
+     "source": "save_careers.json age Y95 RB:Maurice Vigil"
     },
     {
      "label": "Vigil rushing yards, Y95",
@@ -981,7 +976,7 @@
     {
      "label": "Lock age",
      "value": "39",
-     "source": "save_state.json players/QB:Ty Lock/age"
+     "source": "save_careers.json age Y95 QB:Ty Lock"
     },
     {
      "label": "Lock passing yards, Y95",
@@ -1030,7 +1025,6 @@
     }
    ],
    "related": [
-    "y93-giants-lock",
     "y94-cowboys-streak"
    ],
    "art": {
@@ -1049,7 +1043,7 @@
    "body": [
     "Travon Swaim has spent a long career in Detroit without a ring, and Y95 brought him the next best thing. At 34 he made 232 tackles, second in the league to the 238 Isaiah Pinkney made for the Ravens, intercepted 3 passes and was named Defensive Player of the Year for the first time. He played all 20 of Detroit's games, playoffs included.",
     "The Lions went 9-8 with a point differential of minus 56, then won twice in the playoffs before the Eagles beat them 30-16 in the conference final. Philadelphia had already beaten them 54-13 in week 5. Defensive lineman Landon Irwin, 22, led the league with 5 sacks.",
-    "The award moved Swaim's whole case. His Career Legacy climbed from 6,428 to 7,551 and his card's value more than doubled, from 2,459 to 5,983. He has 2,865 career tackles and 33 interceptions in 249 games. All 23 Defensive Player of the Year awards on league cards belong to defensive backs, and the newest one went to a player who waited longer than most."
+    "The award moved Swaim's whole case. His Career Legacy climbed from 6,428 to 7,551 and his card's value more than doubled, from 2,459 to 5,983. He has 2,865 career tackles and 33 interceptions in 249 games. Every Defensive Player of the Year award on league cards has gone to a defensive back, and the newest one went to a player who waited longer than most."
    ],
    "players": [
     "Travon Swaim",
@@ -1070,7 +1064,7 @@
     {
      "label": "Swaim age",
      "value": "34",
-     "source": "save_state.json players/DB:Travon Swaim/age"
+     "source": "save_careers.json age Y95 DB:Travon Swaim"
     },
     {
      "label": "Swaim games, Y95",
@@ -1115,7 +1109,7 @@
     {
      "label": "Irwin age",
      "value": "22",
-     "source": "save_state.json players/DL:Landon Irwin/age"
+     "source": "save_careers.json age Y95 DL:Landon Irwin"
     },
     {
      "label": "Irwin sacks, Y95",
@@ -1156,11 +1150,6 @@
      "label": "Career games",
      "value": "249",
      "source": "market_history.json snap-202611162108 DB:Travon Swaim s.g"
-    },
-    {
-     "label": "Defensive Player of the Year awards, defensive backs",
-     "value": "23",
-     "source": "content.json mechanics/defense/DB/dpoy"
     }
    ],
    "related": [],
@@ -1213,7 +1202,7 @@
     {
      "label": "Herbig age",
      "value": "21",
-     "source": "save_state.json players/QB:Bryant Herbig/age"
+     "source": "save_careers.json age Y95 QB:Bryant Herbig"
     },
     {
      "label": "Herbig passing yards",
@@ -1263,7 +1252,7 @@
     {
      "label": "Dye age",
      "value": "21",
-     "source": "save_state.json players/DB:Teair Dye/age"
+     "source": "save_careers.json age Y95 DB:Teair Dye"
     },
     {
      "label": "Dye tackles",
@@ -1356,12 +1345,12 @@
     {
      "label": "Brooker age",
      "value": "32",
-     "source": "save_state.json players/DB:Jamon Brooker/age"
+     "source": "save_careers.json age Y95 DB:Jamon Brooker"
     },
     {
      "label": "Pettis age",
      "value": "34",
-     "source": "save_state.json players/DB:Lewis Pettis/age"
+     "source": "save_careers.json age Y95 DB:Lewis Pettis"
     },
     {
      "label": "Spector rushing TDs, Y95",
@@ -1495,7 +1484,7 @@
     {
      "label": "Milton age",
      "value": "39",
-     "source": "save_state.json players/QB:Dustin Milton/age"
+     "source": "save_careers.json age Y95 QB:Dustin Milton"
     },
     {
      "label": "Milton TD passes",

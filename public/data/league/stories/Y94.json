@@ -1,7 +1,7 @@
 {
  "season": "Y94",
  "tagline": "The Eagles beat the Colts 48-10 in Super Bowl CLIII for a fourth straight title, the Cowboys end a 49-game winning streak, and Ryland Maxwell catches a record 53 touchdown passes on his way to a first MVP.",
- "upload": "2026-11-14-story-y94",
+ "upload": "2026-11-17-story-y96",
  "articles": [
   {
    "id": "y94-eagles-cliii",
@@ -160,9 +160,7 @@
      "source": "market_history.json snap-202611141119 RB:Ryland Maxwell s.mvp"
     }
    ],
-   "related": [
-    "y93-eagles-perfect"
-   ]
+   "related": []
   },
   {
    "id": "y94-maxwell-53",
@@ -281,9 +279,7 @@
      "source": "market_history.json snap-202611141119 RB:Ryland Maxwell value"
     }
    ],
-   "related": [
-    "y93-maxwell-record"
-   ]
+   "related": []
   },
   {
    "id": "y94-crawford-68",
@@ -403,9 +399,7 @@
      "source": "market_history.json snap-202611141119 QB:Bones Crawford s.rings"
     }
    ],
-   "related": [
-    "y93-crawford-mvp"
-   ]
+   "related": []
   },
   {
    "id": "y94-cowboys-streak",
@@ -504,9 +498,7 @@
      "source": "schedule.json seasons/Y94/table/[abbr=NYG]/record"
     }
    ],
-   "related": [
-    "y93-giants-lock"
-   ]
+   "related": []
   },
   {
    "id": "y94-viennes-wingo",
@@ -630,9 +622,7 @@
      "source": "market_history.json snap-202611141119 WR:Keenan Viennes value"
     }
    ],
-   "related": [
-    "y93-viennes-opoy"
-   ]
+   "related": []
   },
   {
    "id": "y94-brock-blocks",
@@ -747,9 +737,7 @@
      "source": "market_history.json snap-202611140247..snap-202611141119 DB:Koa Zuber s.tkl"
     }
    ],
-   "related": [
-    "y93-crawford-mvp"
-   ]
+   "related": []
   },
   {
    "id": "y94-colts-again",
@@ -853,9 +841,7 @@
      "source": "market_history.json snap-202611141119 RB:River Kuechly value"
     }
    ],
-   "related": [
-    "y93-skura-rahman"
-   ]
+   "related": []
   },
   {
    "id": "y94-record-chases",
@@ -988,9 +974,7 @@
      "source": "market_history.json snap-202611141119 LB:Kalif Suh s.sck minus market_history.json snap-202611141119 DL:Deshone Bello s.sck"
     }
    ],
-   "related": [
-    "y93-record-chases"
-   ]
+   "related": []
   },
   {
    "id": "y94-lazard-fall",
@@ -1101,9 +1085,7 @@
      "source": "schedule.json seasons/Y94/table/[abbr=CIN]/pf"
     }
    ],
-   "related": [
-    "y93-watts-lazard"
-   ]
+   "related": []
   },
   {
    "id": "y94-retirements",
@@ -1211,10 +1193,7 @@
      "source": "market_history.json snap-202611141119 DL:Dallin Santoso s.sck"
     }
    ],
-   "related": [
-    "y93-skura-rahman",
-    "y93-quick-hits"
-   ]
+   "related": []
   },
   {
    "id": "y94-quick-hits",

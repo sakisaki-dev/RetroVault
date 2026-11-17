@@ -501,7 +501,8 @@ def careers_value(save: Save) -> dict:
         tid = int(raw.get("teamid", -9))
         left = raw.get("team_leave_reason") or ""
         playing = tid >= 0 and not left and raw["sta_s"]["games"] > 0
-        e = {"born": int(save.year - raw["age"]), "delay": int(raw.get("delay_retirement") or 0)}
+        e = {"born": int(save.year - raw["age"]), "delay": int(raw.get("delay_retirement") or 0),
+             "ages": {str(save.year): int(raw["age"])}}
         if int(raw.get("signed_year") or 0) > 0:
             e["signed"] = int(raw["signed_year"])
         if tid in clubs:
@@ -514,11 +515,24 @@ def careers_value(save: Save) -> dict:
     return dict(sorted(out.items()))
 
 
+def merge_careers(old: dict, new: dict) -> dict:
+    """Stored clocks plus a newer save's. The game sometimes holds a veteran's age for a season (31 of ~330 between the
+    Y95 and Y97 saves), so `born` keeps the earliest season any save implies (the loosest limit on his first season),
+    `ages` keeps every age a save recorded, and the rest comes from the newer save."""
+    out = dict(old)
+    for k, e in new.items():
+        o = old.get(k)
+        if o:
+            e = {**o, **e, "born": min(o["born"], e["born"]), "ages": {**o.get("ages", {}), **e.get("ages", {})}}
+        out[k] = e
+    return dict(sorted(out.items()))
+
+
 def build_careers(save: Save, date: str) -> dict:
     m = manifest_head(save, f"{date}-save-y{save.year}-careers", date)
     # the game drops long-retired players from its pool: keep every clock an earlier save gave, this save's win
     old = ROOT / "data" / "y80" / "save_careers.json"
-    value = {**(json.loads(old.read_text()).get("players", {}) if old.exists() else {}), **careers_value(save)}
+    value = merge_careers(json.loads(old.read_text()).get("players", {}) if old.exists() else {}, careers_value(save))
     m["mutations"].append({
         "lane": "stats", "op": "save.careers", "target": f"Y{save.year}", "value": dict(sorted(value.items())),
         "source": save_source(save), "reason": "Career clocks (age, retirement delays, the coach's last transaction, last "

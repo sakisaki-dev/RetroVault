@@ -1,0 +1,40 @@
+{
+ "id": "2026-11-17-speeches-y96",
+ "created": "2026-11-17",
+ "images": [],
+ "ai_steps": [
+  {
+   "step": "speech",
+   "reason": "Write induction speeches for the Y96 class (Ryland Maxwell, Akiem Brock)",
+   "trigger": "Rebuild printed SPEECH NEEDED after the Y96 import (2026-11-17-save-y96)"
+  }
+ ],
+ "mutations": [
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Ryland Maxwell",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "Voted into the Hall of Fame: Y96",
+    "text": "Thirteen rings, and the first player to win every major award.\n\nRyland Maxwell arrived with the Jets in Y80 as Rookie of the Year and won two titles there. He followed Dorren Skura to Atlanta, where the Falcons won five straight from Y83, and rejoined him in Philadelphia in Y91. The Eagles then won six in a row, the last in his final season.\n\nHe ran for 32,108 yards on 3,902 carries, better than eight yards a carry, and scored 421 rushing touchdowns in 323 games. No one in league history has run for more. The club record book holds his 237 yards in a game, 39 rushing touchdowns in a season and 2,839 yards in another.\n\nY94 completed the set. He caught 53 touchdown passes, the league record for a season, and was named MVP, joining a ring, Rookie of the Year, three Offensive Player of the Year awards and seven Super Bowl MVPs. Nobody had run the Gauntlet before him. Mad Max, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "New Hall of Famer",
+   "trigger": "Voted into the Hall of Fame: Y96"
+  },
+  {
+   "lane": "speech",
+   "op": "speech.set",
+   "target": "Akiem Brock",
+   "value": {
+    "reason": "New Hall of Famer",
+    "trigger": "Voted into the Hall of Fame: Y96",
+    "text": "Eight rings, 538 blocks and one club.\n\nAkiem Brock spent his whole career on the Eagles' offensive line. He was there when Dorren Skura arrived in Philadelphia in Y88, and he was still there in Y96, when the Eagles won their sixth straight Super Bowl.\n\nLinemen do not collect trophies, and Brock never won an individual award. What he collected was blocks: 538 of them in 181 games, nearly three a game. Only Jakeem Friend has more in league history, and Friend needed 273 games to get there. When Brock retired, no offensive lineman in the league had a higher Career Legacy.\n\nHis rings came in Y88 and Y89, and then, after the loss to the Texans in Super Bowl CXLIX, in every season from Y91 to Y96. The running backs got the yards and the quarterbacks got the headlines. Brock got them there. Akiem Brock, welcome to the Hall of Fame."
+   },
+   "source": "owner",
+   "reason": "New Hall of Famer",
+   "trigger": "Voted into the Hall of Fame: Y96"
+  }
+ ]
+}

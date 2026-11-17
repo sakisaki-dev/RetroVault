@@ -145,7 +145,9 @@ SAVE_CAREERS_ABOUT = ("Each player's career clock read from the game's save (scr
                       "by a save.careers upload mutation and replaced whole by each: born (age in season Y = Y - born), "
                       "delay (retirement delays), signed (the season of the coach's last transaction with him: signed, "
                       "re-signed or traded either way), club (his last club), left (retired or cut) and, for a retiree, "
-                      "last_games (his final season's games). scripts/infer_stints.py uses them as hard limits on each "
+                      "last_games (his final season's games), ages (every age a save recorded, by season: the game "
+                      "sometimes holds a veteran's age, so born is the earliest season any save implies). "
+                      "scripts/infer_stints.py uses them as hard limits on each "
                       "career. Never hand-edit.")
 
 SAVE_STATE_ABOUT = ("Live state of the current season read from the game's own save (scripts/save_read.py --state), written "
@@ -328,7 +330,7 @@ def save_careers_errors(target: str, value, manifest: dict) -> list[str]:
     rows = json.loads(FILES["players"].read_text())
     keys = {f'{r["pos"]}:{r["n"]}' for r in rows} | {m.get("target") for m in manifest.get("mutations", []) if m.get("op") == "player.set"}
     clubs = set(json.loads((SRC / "teams.json").read_text()))
-    allowed = {"born", "delay", "signed", "club", "left", "last_games"}
+    allowed = {"born", "delay", "signed", "club", "left", "last_games", "ages"}
     for k, v in value.items():
         if k not in keys:
             errs.append(f"{k}: not in players.json")
@@ -338,6 +340,9 @@ def save_careers_errors(target: str, value, manifest: dict) -> list[str]:
             continue
         if not all(isinstance(v.get(f), int) for f in ("born", "delay", "signed", "last_games") if f in v):
             errs.append(f"{k}: born, delay, signed and last_games are whole numbers")
+        ages = v.get("ages", {})
+        if not isinstance(ages, dict) or not all(str(y).isdigit() and isinstance(a, int) for y, a in ages.items()):
+            errs.append(f"{k}: ages maps a season number to a whole age")
         if v.get("club") is not None and v["club"] not in clubs:
             errs.append(f"{k}: club {v['club']} is not one of the 32")
         if v.get("left") not in (None, "retired", "cut"):

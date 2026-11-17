@@ -55,7 +55,10 @@ numbers are compared at the precision written, so "17.2" matches 17.21):
                                                     "clubs/Eagles/w"), league_records.json (public/data/league/
                                                     records.json: the league-wide marks, e.g. "league_records.json
                                                     records/[record=Best rushing career]/league/top/1/value"),
-                                                    halloffame.json (the ballot: members, watch, near); list items by
+                                                    halloffame.json (the ballot: members, watch, near); a past
+                                                    season's age is "save_careers.json age Y95 RB:Ryland Maxwell"
+                                                    (the age a save recorded that season, else the nearest saves; save_state ages are the current season only
+                                                    and go stale); list items by
                                                     index or [key=value]; # = list length. content.json
                                                     mechanics/... holds the rule facts' numbers
   <source> minus <source>                           a gap between two figures (yards to the record; a record-board
@@ -206,6 +209,28 @@ def resolve(d: Data, source: str):
                 raise Unresolved(f"{target} has no {k}")
             return p[k]
         return ratio(get, expr)
+    if file == "save_careers.json" and rest.startswith("age "):
+        # "save_careers.json age Y95 RB:Ryland Maxwell": his age in that season (Y - born); frozen, never stale
+        _, season, key = rest.split(" ", 2)
+        e = ((_read(SRC / "save_careers.json", {}) or {}).get("players") or {}).get(key)
+        if e is None:
+            raise Unresolved(f"no career clock for {key} in save_careers.json")
+        if not season.startswith("Y") or not season[1:].isdigit():
+            raise Unresolved(f"season must be Y<n>, got {season}")
+        n = int(season[1:])
+        seen = {int(y): a for y, a in (e.get("ages") or {}).items()}
+        if n in seen:
+            return seen[n]  # the age a save recorded that season
+        before = [y for y in seen if y < n]
+        after = [y for y in seen if y > n]
+        if before and after:  # between two saves: never older than the later one says (the game can hold an age)
+            b, a = max(before), min(after)
+            return min(seen[a], seen[b] + (n - b))
+        if after:
+            return seen[min(after)] - (min(after) - n)
+        if before:
+            return seen[max(before)] + (n - max(before))
+        return n - e["born"]
     if file == "market_history.json":
         snap, _, rest2 = rest.partition(" ")
         key, _, field = rest2.rpartition(" ")

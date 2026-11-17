@@ -13,7 +13,8 @@
    "retired_with": "Chargers"
   },
   "Akiem Brock": {
-   "team": "Eagles"
+   "team": "Eagles",
+   "status": "Retired"
   },
   "Alexx Sanchez": {
    "status": "Retired"
@@ -1092,6 +1093,7 @@
   },
   "Ryland Maxwell": {
    "team": "Eagles",
+   "status": "Retired",
    "career": {
     "order": [
      "Jets",
@@ -1332,6 +1334,7 @@
   },
   "Ty Lock": {
    "team": "Giants",
+   "status": "Retired",
    "career": {
     "order": [
      "Jets",
