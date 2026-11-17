@@ -3,7 +3,7 @@ import type { Finish, Tier } from '@/utils/collection';
 import type { CardInfo } from '../useCardPool';
 
 /** The binder's view, search, filters and sort (Binder.tsx) */
-export type BinderSort = 'set' | 'ovr' | 'tier' | 'finish' | 'recent';
+export type BinderSort = 'set' | 'ovr' | 'tier' | 'finish' | 'recent' | 'name' | 'pos' | 'club';
 export interface BinderFilterState {
   q: string;
   mine: boolean;
@@ -12,17 +12,33 @@ export interface BinderFilterState {
   pos: Position | 'all';
   team: string;
   sort: BinderSort;
+  /** Reverse the sort's natural order */
+  rev: boolean;
 }
-export const BINDER_DEFAULTS: BinderFilterState = { q: '', mine: true, tier: 'all', finish: 'all', pos: 'all', team: 'all', sort: 'set' };
+export const BINDER_DEFAULTS: BinderFilterState = { q: '', mine: true, tier: 'all', finish: 'all', pos: 'all', team: 'all', sort: 'set', rev: false };
 
 export const POSITIONS: Position[] = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
 export const SORTS: { key: BinderSort; label: string }[] = [
-  { key: 'set', label: 'Set number' },
-  { key: 'recent', label: 'Newest pulls' },
-  { key: 'tier', label: 'Tier' },
+  { key: 'set', label: 'Set #' },
+  { key: 'recent', label: 'Newest' },
+  { key: 'tier', label: 'Rarity' },
   { key: 'finish', label: 'Finish' },
   { key: 'ovr', label: 'OVR' },
+  { key: 'name', label: 'Name' },
+  { key: 'pos', label: 'Position' },
+  { key: 'club', label: 'Club' },
 ];
+/** What each sort puts first, for the reverse button's label */
+export const SORT_FIRST: Record<BinderSort, [string, string]> = {
+  set: ['No. 1 first', 'Last number first'],
+  recent: ['Newest first', 'Oldest first'],
+  tier: ['Rarest first', 'Commonest first'],
+  finish: ['Best finish first', 'Base first'],
+  ovr: ['Highest first', 'Lowest first'],
+  name: ['A to Z', 'Z to A'],
+  pos: ['QB first', 'DL first'],
+  club: ['A to Z', 'Z to A'],
+};
 const MINE_KEY = 'rv:binder:mine';
 
 export const readMinePref = (): boolean => {

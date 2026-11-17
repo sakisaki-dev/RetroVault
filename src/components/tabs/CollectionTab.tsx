@@ -423,12 +423,19 @@ const CollectionTab = () => {
         matchesQuery(c, bf.q),
     );
     const fr = (c: CardInfo) => (owned[c.key] ? finishRank(owned[c.key].best) : -1);
-    if (sort === 'ovr') return [...list].sort((a, b) => (b.ovr ?? 0) - (a.ovr ?? 0) || a.setNo - b.setNo);
-    if (sort === 'tier') return [...list].sort(byTierDesc);
-    if (sort === 'finish') return [...list].sort((a, b) => fr(b) - fr(a) || byTierDesc(a, b));
-    if (sort === 'recent') return [...list].sort((a, b) => (owned[b.key]?.last ?? 0) - (owned[a.key]?.last ?? 0) || a.setNo - b.setNo);
-    return list;
-  }, [cards, tier, finish, pos, team, missing, sort, owned, bf.q]);
+    const surname = (c: CardInfo) => c.player.name.split(' ').slice(-1)[0];
+    const POS_ORDER = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
+    let out = list;
+    if (sort === 'ovr') out = [...list].sort((a, b) => (b.ovr ?? 0) - (a.ovr ?? 0) || a.setNo - b.setNo);
+    else if (sort === 'tier') out = [...list].sort(byTierDesc);
+    else if (sort === 'finish') out = [...list].sort((a, b) => fr(b) - fr(a) || byTierDesc(a, b));
+    else if (sort === 'recent') out = [...list].sort((a, b) => (owned[b.key]?.last ?? 0) - (owned[a.key]?.last ?? 0) || a.setNo - b.setNo);
+    else if (sort === 'name') out = [...list].sort((a, b) => surname(a).localeCompare(surname(b)) || a.player.name.localeCompare(b.player.name));
+    else if (sort === 'pos')
+      out = [...list].sort((a, b) => POS_ORDER.indexOf(a.player.position) - POS_ORDER.indexOf(b.player.position) || (b.ovr ?? 0) - (a.ovr ?? 0) || a.setNo - b.setNo);
+    else if (sort === 'club') out = [...list].sort((a, b) => a.cardTeam.localeCompare(b.cardTeam) || (b.ovr ?? 0) - (a.ovr ?? 0) || a.setNo - b.setNo);
+    return bf.rev ? [...out].reverse() : out;
+  }, [cards, tier, finish, pos, team, missing, sort, owned, bf.q, bf.rev]);
   // First appearance staggers in; later filter changes and "Show more" only fade (utils/motion useStagger)
   const gridMotion = useStagger(loaded && cards.length > 0);
   // The swipe browser shows every owned card of the filter (not just the loaded page of the grid)

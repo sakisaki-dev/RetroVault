@@ -1,5 +1,5 @@
 import { startTransition, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { ChevronLeft, ChevronRight, Coins, GalleryHorizontal, Search, SlidersHorizontal, X } from 'lucide-react';
+import { ArrowDownUp, ChevronLeft, ChevronRight, Coins, GalleryHorizontal, Search, SlidersHorizontal, X } from 'lucide-react';
 import type { Position } from '@/types/player';
 import { cn } from '@/lib/utils';
 import { reducedMotion } from '@/utils/motion';
@@ -13,7 +13,7 @@ import VariantBadges from '../VariantBadges';
 import { displayWithKit } from '../kits';
 import { FINISH_ICON, FINISH_TEXT } from '../rarityIcons';
 import type { CardInfo } from '../useCardPool';
-import { BINDER_DEFAULTS, POSITIONS, SORTS, matchesQuery, writeMinePref, type BinderFilterState } from './filters';
+import { BINDER_DEFAULTS, POSITIONS, SORTS, SORT_FIRST, matchesQuery, writeMinePref, type BinderFilterState } from './filters';
 import './binder.css';
 
 /*
@@ -160,7 +160,7 @@ const Binder = ({
   };
 
   // A new filter, search or sort opens the binder at its first page, with a short fade (opacity and transform only)
-  const filterKey = `${f.q}|${f.mine}|${f.tier}|${f.finish}|${f.pos}|${f.team}|${f.sort}|${per}|${spread}`;
+  const filterKey = `${f.q}|${f.mine}|${f.tier}|${f.finish}|${f.pos}|${f.team}|${f.sort}|${f.rev}|${per}|${spread}`;
   const firstKey = useRef(filterKey);
   useLayoutEffect(() => {
     trackRef.current?.scrollTo({ left: 0 });
@@ -173,6 +173,17 @@ const Binder = ({
     bookRef.current?.animate?.([{ opacity: 0.35, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 240, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
   }, [filterKey]);
 
+  // The chosen sort stays in view in its sideways row (never scrolls the page itself)
+  const sortRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const row = sortRef.current;
+    const on = row?.querySelector<HTMLElement>('.is-on');
+    if (!row || !on) return;
+    const left = on.offsetLeft - row.offsetLeft;
+    if (left < row.scrollLeft || left + on.offsetWidth > row.scrollLeft + row.clientWidth - 18)
+      row.scrollTo({ left: Math.max(0, left - 24), behavior: reducedMotion() ? 'auto' : 'smooth' });
+  }, [f.sort]);
+
   const onKey = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
       e.preventDefault();
@@ -180,9 +191,10 @@ const Binder = ({
     }
   };
 
-  const active = (f.tier !== 'all' ? 1 : 0) + (f.finish !== 'all' ? 1 : 0) + (f.pos !== 'all' ? 1 : 0) + (f.team !== 'all' ? 1 : 0) + (f.sort !== 'set' ? 1 : 0);
+  const active = (f.tier !== 'all' ? 1 : 0) + (f.finish !== 'all' ? 1 : 0) + (f.pos !== 'all' ? 1 : 0) + (f.team !== 'all' ? 1 : 0);
   const anyFilter = active > 0 || !!f.q.trim();
-  const clearAll = () => setFilters({ ...BINDER_DEFAULTS, mine: f.mine });
+  const clearKeepSort = { sort: f.sort, rev: f.rev };
+  const clearAll = () => setFilters({ ...BINDER_DEFAULTS, mine: f.mine, ...clearKeepSort });
   const setMine = (mine: boolean) => {
     writeMinePref(mine);
     set({ mine });
@@ -195,7 +207,6 @@ const Binder = ({
 
   const first = view * step * per;
   const shownTo = Math.min(n, first + step * per);
-  const sortLabel = SORTS.find((s) => s.key === f.sort)?.label ?? 'Set number';
 
   const renderPocket = (c: CardInfo | undefined, i: number, live: boolean) => {
     if (!c) return <li key={`empty-${i}`} className="bk-pocket bk-pocket--empty" aria-hidden="true" />;
@@ -293,7 +304,7 @@ const Binder = ({
             </button>
           )}
         </label>
-        <button type="button" className={cn('bk-filter-btn', active > 0 && 'is-on')} onClick={() => setSheet(true)} aria-label={`Filters and sort${active ? `, ${active} on` : ''}`}>
+        <button type="button" className={cn('bk-filter-btn', active > 0 && 'is-on')} onClick={() => setSheet(true)} aria-label={`Filters${active ? `, ${active} on` : ''}`}>
           <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
           <span>Filters</span>
           {active > 0 && <span className="bk-filter-btn__n">{active}</span>}
@@ -312,6 +323,37 @@ const Binder = ({
             </button>
           )}
         </div>
+      </div>
+
+      {/* Sort: one tap, always in view (owner, 2026-11-17: "give me the ability to sort the cards in the binder") */}
+      <div className="bk-sort" role="group" aria-label="Sort the binder">
+        <span className="bk-sort__k" aria-hidden="true">
+          Sort
+        </span>
+        <div className="bk-sort__chips" ref={sortRef}>
+          {SORTS.map((s) => (
+            <button
+              key={s.key}
+              type="button"
+              className={cn('bk-sort__c', f.sort === s.key && 'is-on')}
+              aria-pressed={f.sort === s.key}
+              onClick={() => set({ sort: s.key, rev: f.sort === s.key ? f.rev : false })}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+        <button
+          type="button"
+          className={cn('bk-sort__rev', f.rev && 'is-on')}
+          aria-pressed={f.rev}
+          onClick={() => set({ rev: !f.rev })}
+          aria-label={`Order: ${SORT_FIRST[f.sort][f.rev ? 1 : 0]}. Tap to reverse.`}
+          title={SORT_FIRST[f.sort][f.rev ? 1 : 0]}
+        >
+          <ArrowDownUp className="h-4 w-4" aria-hidden="true" />
+          <span className="bk-sort__dir">{SORT_FIRST[f.sort][f.rev ? 1 : 0]}</span>
+        </button>
       </div>
 
       {anyFilter && (
@@ -339,7 +381,6 @@ const Binder = ({
               {f.team}
             </Pill>
           )}
-          {f.sort !== 'set' && <Pill label={`sort by ${sortLabel}`} onClear={() => set({ sort: 'set' })}>Sort: {sortLabel}</Pill>}
           <button type="button" className="bk-pills__clear" onClick={clearAll}>
             Clear all
           </button>
@@ -443,15 +484,6 @@ const Binder = ({
         <SheetContent side="bottom" className="bk-sheet max-h-[calc(var(--dvh,1vh)*85)] overflow-y-auto">
           <SheetTitle className="font-display text-2xl uppercase italic">Filter the binder</SheetTitle>
           <SheetDescription>{f.mine ? 'Your cards only.' : 'Every card in the set, missing ones locked.'}</SheetDescription>
-
-          <h3 className="bk-sheet__h">Sort</h3>
-          <div className="bk-sheet__row">
-            {SORTS.map((s) => (
-              <Opt key={s.key} on={f.sort === s.key} onClick={() => set({ sort: s.key })}>
-                {s.label}
-              </Opt>
-            ))}
-          </div>
 
           <h3 className="bk-sheet__h">Tier</h3>
           <div className="bk-sheet__row">

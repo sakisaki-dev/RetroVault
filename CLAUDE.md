@@ -912,8 +912,9 @@ source names that file).
   scrolling"; `src/components/collection/binder/`): right under the pack shelf, a ring binder of sleeve pages (leather
   cover, steel rings, clear pockets; a milestone skin is the cover), 3 × 3 pockets on a phone, 4 × 3 from 640px, a
   two-page spread from 1100px; pages turn sideways (scroll snap, arrows, a page slider, ← →). "My cards" by default
-  (remembered per device, `rv:binder:mine`), "Full set" adds the missing cards locked. Search by name or nickname, one
-  Filters sheet (sort, tier, best finish, position, club logos) with removable pills; Swipe and Sell duplicates sit
+  (remembered per device, `rv:binder:mine`), "Full set" adds the missing cards locked. Search by name or nickname, a
+  sort row always in view (Set #, Newest, Rarity, Finish, OVR, Name, Position, Club, and a reverse button), one
+  Filters sheet (tier, best finish, position, club logos) with removable pills; Swipe and Sell duplicates sit
   beside the search. Only the pages near the one on show mount their cards, and only once a swipe settles (a button
   turn mounts first, then slides), so no card mounts mid-swipe; the pages are memoized on that settled page. The leather
   cover is `:where(.bk)` so a milestone skin (turf, gold leaf, marble) is the cover, with clear sleeve pages over it.
