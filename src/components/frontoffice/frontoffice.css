@@ -194,7 +194,8 @@
 .fo-trophy svg {
   display: block;
   width: 2.25rem;
-  height: 3.6rem;
+  height: 3.5rem;
+  image-rendering: pixelated;
   filter: drop-shadow(0 4px 6px hsl(228 60% 2% / 0.7));
 }
 .fo-trophy__year {

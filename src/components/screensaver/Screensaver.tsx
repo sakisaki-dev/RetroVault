@@ -36,10 +36,10 @@ import { stadiumWeather, pctText } from '@/utils/stadiumWeather';
 import { useSeasonRewind } from '@/utils/seasonRewind';
 import type { SeasonRewindIndexEntry } from '@/utils/leagueContent';
 import { RewindCardView } from '@/components/rewind/RewindCards';
-import { TrophyArt, TrophyDefs } from '@/components/frontoffice/TrophyCabinet';
 import { teamColor } from '@/components/frontoffice/shared';
 import '@/components/rewind/rewind.css';
 import { trackTimes, useNowPlaying, useSpotifyConnected, type NowPlaying } from '@/utils/spotify';
+import { PixelCup } from '@/components/frontoffice/PixelCup';
 import './screensaver.css';
 
 /*
@@ -179,69 +179,12 @@ const Particles = ({ kind, count, colors }: { kind: 'confetti' | 'snow'; count: 
   </span>
 );
 
-/**
- * Rain: one streak per drop, moved by transform only (composited, no repaint), each with its own lane, speed, length
- * and depth (near drops longer, faster and brighter), so it falls smoothly with no visible loop
- */
-const Rain = () => (
-  <>
-    {Array.from({ length: 110 }, (_, i) => {
-      const z = hash(i + 101); // 0 far … 1 near
-      return (
-        <i
-          key={i}
-          style={
-            {
-              left: `${hash(i + 3) * 115 - 5}%`,
-              '--d': `${-hash(i + 17) * 3}s`,
-              '--t': `${0.95 - z * 0.45}s`,
-              '--l': `${40 + z * 70}px`,
-              '--w': `${z > 0.75 ? 2 : 1}px`,
-              opacity: 0.25 + z * 0.55,
-            } as CSSProperties
-          }
-        />
-      );
-    })}
-  </>
-);
-
-/** Snow: one flake per element, each with its own lane, size, speed and sway (near flakes bigger, faster, sharper) */
-const Snow = () => (
-  <>
-    {Array.from({ length: 140 }, (_, i) => {
-      const z = hash(i + 211);
-      return (
-        <i
-          key={i}
-          style={
-            {
-              left: `${hash(i + 5) * 110 - 5}%`,
-              '--d': `${-hash(i + 23) * 16}s`,
-              '--t': `${16 - z * 9}s`,
-              '--s': `${2 + z * 5}px`,
-              '--sway': `${(hash(i + 41) - 0.5) * 70}px`,
-              '--b': `${(1 - z) * 1.6}px`,
-              opacity: 0.35 + z * 0.6,
-            } as CSSProperties
-          }
-        />
-      );
-    })}
-  </>
-);
-
-/**
- * Snow that settles (owner, 2026-11-18: "have the snow pile on the cards or whatever elements including the ground and
- * clear / fall on transitions"): while it snows (the real weather, or a snow game's ground) a cap builds up on the top
- * edge of each scene's main surfaces and a drift on the ground over the scene's 14 s; when the scene changes the caps
- * slide off and fall with it. The surfaces are measured once the scene has settled; a cap on a floating banner floats
- * with it.
- */
+/** The surfaces snow settles on and rain bounces off (WeatherCanvas) */
 const SNOW_SURFACES = [
   '.sv-spot__banner',
   '.sv-duel__card',
   '.sv-hall__plaque',
+  '.sv-tro__svg',
   '.sv-troom__shelf',
   '.sv-rec__board',
   '.sv-market__board',
@@ -249,65 +192,400 @@ const SNOW_SURFACES = [
   '.sv-paper__sheet',
   '.sv-rw__phone',
   '.sv-stunt__stand',
-  '.sv-champs__body',
-  '.sv-gauntlet__body',
-  '.sv-hofclass__body',
   '.sv-fly__cap',
 ].join(',');
-interface Cap { x: number; y: number; w: number; float?: { dur: string; delay: string } }
-const SnowCaps = ({ weather }: { weather: boolean }) => {
-  const ref = useRef<HTMLSpanElement>(null);
-  const [caps, setCaps] = useState<Cap[] | null>(null);
-  const [snowing, setSnowing] = useState(false);
+/** Where a surface really meets falling snow or rain, in viewport px: its box's top edge, except where the drawn
+ * object sits inside transparent space (owner: "the transparent border for their assets isn't the actual point at
+ * which they contact"): a pixel cup is touched at its rim (row 0 of its 18 × 28 grid, columns 4 to 14), a trophy
+ * shelf at the top of its wooden board (the bottom 14 px) */
+const contactLedge = (el: Element): { x: number; y: number; w: number } | null => {
+  const r = el.getBoundingClientRect();
+  if (r.width < 24) return null;
+  if (el.classList.contains('sv-tro__svg')) return { x: r.left + (r.width * 4) / 18, y: r.top, w: (r.width * 10) / 18 };
+  if (el.classList.contains('sv-troom__shelf')) return { x: r.left, y: r.bottom - 14, w: r.width };
+  return { x: r.left, y: r.top, w: r.width };
+};
+/**
+ * Rain and snow as particles with physics (owner, 2026-11-18: "the snow kinda looks really mid … look online for snow
+ * effects and physics", then "do the same particle physics for rain, don't let it collect but let it bounce off of the
+ * cards, trophies etc"). One canvas; each drop or flake has a depth (near: bigger, faster, brighter). Real fall speeds
+ * set the scale (snow 0.5–2 m/s, rain 5–9 m/s, about seven times faster): rain leans with the wind and, where it meets
+ * the top of a card, banner, board or shelf (the same surfaces snow settles on) or the turf, bursts into droplets that
+ * bounce off and fade; snow flutters and drifts in gusts and settles on those surfaces and the ground, melting into the
+ * caps and drifts. The surfaces are re-read every half second, so a floating banner keeps its edge.
+ */
+interface Drop { x: number; y: number; z: number; v: number; len: number }
+interface Bit { x: number; y: number; vx: number; vy: number; life: number; max: number; r: number }
+interface Flake { x: number; y: number; z: number; r: number; v: number; ph: number; fq: number; amp: number; rest: number }
+interface Ledge { x1: number; x2: number; y: number; h?: Float32Array; grain?: Float32Array }
+const WeatherCanvas = ({ kind, wind, scene, lite }: { kind: 'rain' | 'storm' | 'snow'; wind: number; scene: number; lite: boolean }) => {
+  const ref = useRef<HTMLCanvasElement>(null);
+  const ledges = useRef<Ledge[]>([]);
+  const windRef = useRef(wind);
+  windRef.current = wind;
+  // the surfaces of the scene on screen (none for the first moments of a scene, while it rises in)
+  const sceneChange = useRef(0);
+  const dropped = useRef<Ledge[]>([]);
   useEffect(() => {
-    const t = window.setTimeout(() => {
-      const slide = ref.current?.parentElement;
-      if (!slide) return;
-      // the real weather, or a snow game at the club's ground
-      if (!weather && !slide.querySelector('.sv-stadium--snow')) return;
-      setSnowing(true);
-      const box = slide.getBoundingClientRect();
-      const found: Cap[] = [];
-      slide.querySelectorAll<HTMLElement>(SNOW_SURFACES).forEach((el) => {
-        if (found.length >= 8) return;
-        const r = el.getBoundingClientRect();
-        if (r.width < 120 || r.top < box.top + 20) return;
-        const cs = getComputedStyle(el);
-        const names = cs.animationName.split(',').map((x) => x.trim());
-        const k = names.indexOf('sv-float');
-        const float =
-          k >= 0
-            ? {
-                dur: cs.animationDuration.split(',')[k]?.trim() ?? '7s',
-                delay: `${(parseFloat(cs.animationDelay.split(',')[k] ?? '0') || 0) - 1.7}s`,
-              }
-            : undefined;
-        found.push({ x: r.left - box.left, y: r.top - box.top, w: r.width, float });
+    sceneChange.current += 1;
+    let t2 = 0;
+    const read = () => {
+      const dpr = devicePixelRatio || 1;
+      const out: Ledge[] = [];
+      document.querySelectorAll<HTMLElement>(SNOW_SURFACES.split(',').map((x) => `.sv-slide--in ${x}`).join(',')).forEach((el) => {
+        // a surface fading out (a banner leaving at the end of its scene) holds no snow
+        let op = 1;
+        for (let e: HTMLElement | null = el; e && !e.classList.contains('sv-slide'); e = e.parentElement) op *= Number(getComputedStyle(e).opacity);
+        if (op < 0.5) return;
+        const r = contactLedge(el);
+        if (r && r.y > 10) out.push({ x1: r.x * dpr, x2: (r.x + r.w) * dpr, y: r.y * dpr });
       });
-      setCaps(found);
-    }, 1700);
-    return () => window.clearTimeout(t);
-  }, [weather]);
-  return (
-    <span ref={ref} className="sv-snowcaps" aria-hidden="true">
-      {caps?.map((c, i) => (
-        <i
-          key={i}
-          className={c.float ? 'sv-snowcap sv-snowcap--float' : 'sv-snowcap'}
-          style={
-            {
-              left: c.x - 4,
-              top: c.y,
-              width: c.w + 8,
-              '--seed': `${(hash(i + 7) * 60) | 0}px`,
-              ...(c.float ? { '--fdur': c.float.dur, '--fdelay': c.float.delay } : {}),
-            } as CSSProperties
+      // the same surfaces as last time (a floating banner moved a few px): keep what has piled up on them
+      if (ledges.current.length === out.length) out.forEach((l, i) => ((l.h = ledges.current[i].h), (l.grain = ledges.current[i].grain)));
+      else dropped.current.push(...ledges.current);
+      ledges.current = out;
+    };
+    const t1 = window.setTimeout(() => {
+      read();
+      t2 = window.setInterval(read, 500);
+    }, 1600);
+    return () => {
+      window.clearTimeout(t1);
+      window.clearInterval(t2);
+    };
+  }, [scene]);
+  useEffect(() => {
+    const cv = ref.current;
+    const ctx = cv?.getContext('2d');
+    if (!cv || !ctx) return;
+    const dpr = devicePixelRatio || 1;
+    let W = 0;
+    let H = 0;
+    const size = () => {
+      W = cv.width = Math.round(innerWidth * dpr);
+      H = cv.height = Math.round(innerHeight * dpr);
+    };
+    size();
+    addEventListener('resize', size);
+    const rnd = Math.random;
+    const snow = kind === 'snow';
+    const N = Math.round((snow ? 280 : kind === 'storm' ? 560 : 400) * (lite ? 0.5 : 1));
+    // where a particle meets the field: nearer ones lower on the screen
+    const groundY = (z: number) => H * (0.8 + 0.17 * z);
+    const drops: Drop[] = [];
+    const flakes: Flake[] = [];
+    const bits: Bit[] = [];
+    const spawnDrop = (d: Drop | null, anywhere: boolean): Drop => {
+      const z = d?.z ?? rnd();
+      const o = d ?? ({} as Drop);
+      o.z = z;
+      o.v = (620 + 520 * z + rnd() * 80) * dpr; // px/s
+      o.len = (10 + 26 * z) * dpr;
+      o.x = (rnd() * 1.3 - 0.05) * W;
+      o.y = anywhere ? rnd() * H : -o.len - rnd() * H * 0.25;
+      return o;
+    };
+    const spawnFlake = (f: Flake | null, anywhere: boolean): Flake => {
+      const z = f?.z ?? rnd() ** 1.4; // more far flakes than near ones
+      const o = f ?? ({} as Flake);
+      o.z = z;
+      o.r = (0.8 + 3.6 * z * z + rnd() * 0.6) * dpr;
+      o.v = (28 + 82 * z + rnd() * 14) * dpr;
+      o.ph = rnd() * Math.PI * 2;
+      o.fq = 0.6 + rnd() * 1.4;
+      o.amp = (8 + 22 * rnd()) * (0.4 + z) * dpr;
+      o.x = (rnd() * 1.3 - 0.05) * W;
+      o.y = anywhere ? rnd() * H : -10 * dpr - rnd() * H * 0.2;
+      o.rest = 0;
+      return o;
+    };
+    for (let i = 0; i < N; i++) {
+      if (snow) flakes.push(spawnFlake(null, true));
+      else drops.push(spawnDrop(null, true));
+    }
+    // a soft flake, drawn once and scaled: the near ones look out of focus
+    const flakeImg = document.createElement('canvas');
+    flakeImg.width = flakeImg.height = 32;
+    const fg = flakeImg.getContext('2d')!;
+    const grad = fg.createRadialGradient(16, 16, 0, 16, 16, 16);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.45, 'rgba(255,255,255,0.85)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    fg.fillStyle = grad;
+    fg.fillRect(0, 0, 32, 32);
+    const splash = (x: number, y: number, z: number, vx: number) => {
+      const n = 2 + Math.round(rnd() * 2 + z * 2);
+      for (let k = 0; k < n && bits.length < 900; k++)
+        bits.push({
+          x,
+          y: y - 1,
+          vx: ((rnd() - 0.5) * 220 + vx * 0.15) * dpr,
+          vy: -(90 + rnd() * 200) * (0.5 + z) * dpr,
+          life: 0,
+          max: 0.25 + rnd() * 0.25,
+          r: (0.6 + z * 1.2) * dpr,
+        });
+    };
+    // what has piled up, as a height profile along each surface and along the ground (one bin every 3 px)
+    const BIN = 3 * dpr;
+    const heights = (l: Ledge) => (l.h ??= new Float32Array(Math.max(2, Math.ceil((l.x2 - l.x1) / BIN))));
+    const topAt = (l: Ledge, x: number) => (snow ? l.y - (heights(l)[Math.min(heights(l).length - 1, Math.max(0, Math.floor((x - l.x1) / BIN)))] || 0) : l.y);
+    const hit = (x: number, y0: number, y1: number): Ledge | null => {
+      for (const l of ledges.current) {
+        if (x < l.x1 || x > l.x2) continue;
+        const top = topAt(l, x);
+        if (y0 < top && y1 >= top) return l;
+      }
+      return null;
+    };
+    // the most a surface holds: a few px on a cup's rim, about 26 px along a banner; less towards the ends
+    // each surface's own unevenness: drifts and dips at several scales, fixed for that surface
+    const grainOf = (l: Ledge) => {
+      if (l.grain) return l.grain;
+      const n = heights(l).length;
+      const g = new Float32Array(n);
+      const p = [rnd() * 9, rnd() * 9, rnd() * 9];
+      for (let i = 0; i < n; i++) {
+        const x = i / n;
+        g[i] = Math.max(0.15, 0.62 + 0.22 * Math.sin(x * 5.3 + p[0]) + 0.14 * Math.sin(x * 13.7 + p[1]) + 0.1 * Math.sin(x * 31 + p[2]) + (rnd() - 0.5) * 0.12);
+      }
+      return (l.grain = g);
+    };
+    const capMax = (l: Ledge, i: number, n: number) => {
+      const full = Math.min(18 * dpr, (l.x2 - l.x1) * 0.09);
+      const edge = Math.min(i, n - 1 - i) * BIN;
+      // rounded ends: snow slumps off the corners
+      const e = Math.min(1, edge / (8 * dpr));
+      return full * Math.sqrt(1 - (1 - e) * (1 - e)) * grainOf(l)[i];
+    };
+    const deposit = (l: Ledge, x: number, amount: number) => {
+      const h = heights(l);
+      const n = h.length;
+      const c = Math.floor((x - l.x1) / BIN);
+      for (let k = -4; k <= 4; k++) {
+        const i = c + k;
+        if (i < 0 || i >= n) continue;
+        h[i] = Math.min(capMax(l, i, n), h[i] + amount * Math.exp(-(k * k) / 5));
+      }
+    };
+    const ground = new Float32Array(Math.ceil(W / (6 * dpr)) + 2);
+    const groundSeed = [rnd() * 6, rnd() * 6, rnd() * 6];
+    const groundMax = (i: number) => {
+      const x = i / ground.length;
+      // banks and hollows, not a flat band
+      const n = 0.5 + 0.3 * Math.sin(x * 5.1 + groundSeed[0]) + 0.16 * Math.sin(x * 13.3 + groundSeed[1]) + 0.07 * Math.sin(x * 37 + groundSeed[2]) + 0.03 * Math.sin(x * 97 + groundSeed[1]);
+      return H * 0.065 * Math.max(0.12, n);
+    };
+    const chunks: { x: number; y: number; vx: number; vy: number; r: number; life: number }[] = [];
+    let seenChange = sceneChange.current;
+    let sinking = 0;
+    let last = performance.now();
+    let raf = 0;
+    const frame = (now: number) => {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      const t = now / 1000;
+      const w = windRef.current;
+      ctx.clearRect(0, 0, W, H);
+      if (!snow) {
+        ctx.lineCap = 'round';
+        for (const d of drops) {
+          const vx = -(70 + w * 620) * (0.55 + 0.45 * d.z) * dpr;
+          const y0 = d.y;
+          d.x += vx * dt;
+          d.y += d.v * dt;
+          // near drops strike the surfaces; every drop ends on the field
+          const l = d.z > 0.3 ? hit(d.x, y0, d.y) : null;
+          if (l) {
+            splash(d.x, l.y, d.z, vx);
+            spawnDrop(d, false);
+            continue;
           }
-        />
-      ))}
-      {snowing && <i className="sv-snowdrift" />}
-    </span>
-  );
+          if (d.y >= groundY(d.z)) {
+            if (d.z > 0.35 && rnd() < 0.7) splash(d.x, groundY(d.z), d.z * 0.7, vx);
+            spawnDrop(d, false);
+            continue;
+          }
+          const k = d.len / d.v;
+          ctx.strokeStyle = `rgba(200,218,255,${0.18 + 0.5 * d.z})`;
+          ctx.lineWidth = (0.6 + 1.3 * d.z) * dpr;
+          ctx.beginPath();
+          ctx.moveTo(d.x, d.y);
+          ctx.lineTo(d.x - vx * k, d.y - d.len);
+          ctx.stroke();
+        }
+      } else {
+        for (const f of flakes) {
+          if (f.rest > 0) {
+            // settled: melts into the cap or the drift
+            f.rest -= dt;
+            if (f.rest <= 0) spawnFlake(f, false);
+            else {
+              ctx.globalAlpha = Math.min(1, f.rest / 2) * (0.5 + 0.5 * f.z);
+              ctx.drawImage(flakeImg, f.x - f.r * 1.4, f.y - f.r * 1.4, f.r * 2.8, f.r * 2.8);
+            }
+            continue;
+          }
+          const gust = (Math.sin(t * 0.37 + f.y * 0.003) * 14 + Math.sin(t * 0.11 + f.ph) * (10 + 40 * w)) * dpr;
+          const vx = -(12 + w * 210) * (0.5 + 0.5 * f.z) * dpr + gust + Math.cos(t * f.fq + f.ph) * f.amp;
+          const y0 = f.y;
+          f.x += vx * dt;
+          f.y += f.v * dt;
+          const l = f.z > 0.35 ? hit(f.x, y0, f.y) : null;
+          if (l) {
+            // it lands and becomes part of the pile
+            deposit(l, f.x, f.r * 0.55);
+            spawnFlake(f, false);
+            continue;
+          }
+          const gi = Math.floor(f.x / (6 * dpr));
+          if (f.z > 0.7 && gi >= 0 && gi < ground.length && f.y >= H - ground[gi] - 2 * dpr) {
+            for (let k = -3; k <= 3; k++) {
+              const i = gi + k;
+              if (i >= 0 && i < ground.length) ground[i] = Math.min(groundMax(i), ground[i] + f.r * 0.5 * Math.exp(-(k * k) / 4));
+            }
+            spawnFlake(f, false);
+            continue;
+          }
+          if (f.y >= groundY(f.z)) {
+            f.y = groundY(f.z);
+            f.rest = 1.5 + rnd() * 2.5;
+          }
+          if (f.x < -0.1 * W) f.x += 1.2 * W;
+          ctx.globalAlpha = 0.3 + 0.65 * f.z;
+          const s = f.r * (f.z > 0.75 ? 3.2 : 2.4);
+          ctx.drawImage(flakeImg, f.x - s / 2, f.y - s / 2, s, s);
+        }
+        ctx.globalAlpha = 1;
+        // a new scene: what piled up on the old one breaks into clumps that slide off and fall; the drift sinks away
+        const breakOff = (list: Ledge[]) => {
+          for (const l of list) {
+            const h = l.h;
+            if (!h) continue;
+            for (let i = 0; i < h.length; i += 4)
+              if (h[i] > 1.5 * dpr && chunks.length < 700)
+                chunks.push({ x: l.x1 + i * BIN, y: l.y - h[i] / 2, vx: (rnd() - 0.5) * 60 * dpr - w * 80 * dpr, vy: rnd() * 40 * dpr, r: Math.max(2 * dpr, h[i] * (0.6 + rnd() * 0.5)), life: 0 });
+          }
+        };
+        if (dropped.current.length) {
+          breakOff(dropped.current);
+          dropped.current = [];
+        }
+        if (seenChange !== sceneChange.current) {
+          seenChange = sceneChange.current;
+          for (const l of ledges.current) {
+            const h = l.h;
+            if (!h) continue;
+            for (let i = 0; i < h.length; i += 4)
+              if (h[i] > 1.5 * dpr && chunks.length < 700)
+                chunks.push({ x: l.x1 + i * BIN, y: l.y - h[i] / 2, vx: (rnd() - 0.5) * 60 * dpr - w * 80 * dpr, vy: rnd() * 40 * dpr, r: Math.max(2 * dpr, h[i] * (0.6 + rnd() * 0.5)), life: 0 });
+          }
+          ledges.current = [];
+          sinking = 1;
+        }
+        if (sinking > 0) {
+          sinking = Math.max(0, sinking - dt / 1.2);
+          for (let i = 0; i < ground.length; i++) ground[i] *= 1 - dt * 3.5;
+        }
+        // the fine snow too small to see adds to every pile a little all the time, unevenly
+        const fine = dt / 13;
+        for (const l of ledges.current) {
+          const h = heights(l);
+          const n = h.length;
+          for (let i = 0; i < n; i++) h[i] = Math.min(capMax(l, i, n), h[i] + capMax(l, i, n) * fine * (0.4 + 1.2 * rnd()));
+          // snow slumps a little into soft mounds
+          for (let i = 1; i < n - 1; i++) h[i] = h[i] * 0.98 + (h[i - 1] + h[i + 1]) * 0.01;
+        }
+        if (!sinking) for (let i = 0; i < ground.length; i++) ground[i] = Math.min(groundMax(i), ground[i] + groundMax(i) * fine * 0.9);
+        for (let i = 1; i < ground.length - 1; i++) ground[i] = ground[i] * 0.9 + (ground[i - 1] + ground[i + 1]) * 0.05;
+        // draw the piles: white on top, a cool blue-grey shadow under, a bright rim of light
+        const pile = (x0: number, base: number, h: Float32Array, step: number, top: number) => {
+          const g = ctx.createLinearGradient(0, base - top, 0, base);
+          g.addColorStop(0, '#ffffff');
+          g.addColorStop(0.55, '#eef3fb');
+          g.addColorStop(1, '#c9d6ea');
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.moveTo(x0 - step, base);
+          for (let i = 0; i < h.length; i++) {
+            const x = x0 + i * step;
+            const nx = x0 + (i + 1) * step;
+            const y = base - h[i];
+            const ny = base - (h[i + 1] ?? h[i]);
+            ctx.quadraticCurveTo(x, y, (x + nx) / 2, (y + ny) / 2);
+          }
+          ctx.lineTo(x0 + h.length * step + step, base);
+          ctx.closePath();
+          ctx.shadowColor = 'rgba(160,185,225,0.55)';
+          ctx.shadowBlur = 6 * dpr;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+          ctx.lineWidth = 0.8 * dpr;
+          ctx.stroke();
+          // a few crystals catching the light
+          ctx.fillStyle = '#ffffff';
+          for (let i = 3; i < h.length; i += 11) {
+            if (h[i] < 3 * dpr || Math.sin(t * 1.3 + i * 7.7) < 0.92) continue;
+            ctx.fillRect(x0 + i * step, base - h[i] + 1.5 * dpr, 1.6 * dpr, 1.6 * dpr);
+          }
+        };
+        for (const l of ledges.current) {
+          const h = heights(l);
+          let top = 0;
+          for (const v of h) top = Math.max(top, v);
+          if (top > 0.6 * dpr) {
+            // a new cap fades in rather than starting as a hard line
+            ctx.globalAlpha = Math.min(1, top / (5 * dpr));
+            pile(l.x1, l.y, h, BIN, top);
+            ctx.globalAlpha = 1;
+          }
+        }
+        let gtop = 0;
+        for (const v of ground) gtop = Math.max(gtop, v);
+        if (gtop > 1) pile(0, H, ground, 6 * dpr, gtop);
+        // clumps falling off a surface at the change of scene
+        for (let i = chunks.length - 1; i >= 0; i--) {
+          const c = chunks[i];
+          c.life += dt;
+          c.vy += 1300 * dpr * dt;
+          c.x += c.vx * dt;
+          c.y += c.vy * dt;
+          if (c.life > 1.4 || c.y > H) {
+            chunks.splice(i, 1);
+            continue;
+          }
+          ctx.globalAlpha = Math.max(0, 1 - c.life / 1.4);
+          ctx.drawImage(flakeImg, c.x - c.r, c.y - c.r, c.r * 2, c.r * 2);
+        }
+        ctx.globalAlpha = 1;
+      }
+      // droplets bouncing off: gravity pulls them back down, they fade as they go
+      ctx.fillStyle = 'rgba(210,225,255,0.9)';
+      for (let i = bits.length - 1; i >= 0; i--) {
+        const b = bits[i];
+        b.life += dt;
+        if (b.life >= b.max) {
+          bits.splice(i, 1);
+          continue;
+        }
+        b.vy += 1700 * dpr * dt;
+        b.x += b.vx * dt;
+        b.y += b.vy * dt;
+        ctx.globalAlpha = 1 - b.life / b.max;
+        ctx.fillRect(b.x, b.y, b.r * 1.6, b.r * 1.6);
+      }
+      ctx.globalAlpha = 1;
+      raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(raf);
+      removeEventListener('resize', size);
+    };
+  }, [kind, lite]);
+  if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return null;
+  return <canvas ref={ref} className="sv-weather__canvas" aria-hidden="true" />;
 };
 
 type Look = 'day' | 'dusk' | 'night' | 'snow' | 'dome';
@@ -1052,7 +1330,7 @@ const FlyoverScene = ({ club, roll }: { club: string; roll: number }) => {
       </div>
       {rainy && (
         <span className="sv-weather sv-weather--rain sv-fly__rain" aria-hidden="true">
-          <Rain />
+          <WeatherCanvas kind="rain" wind={0.2} scene={-1} lite={false} />
         </span>
       )}
       <div className="sv-fly__cap">
@@ -1117,10 +1395,11 @@ const RewindScene = ({ entry, from }: { entry: SeasonRewindIndexEntry; from: num
 /** The trophy room: one shelf of trophies a club, each engraved with the season Skura won it there (the Front Office cabinet's cup) */
 const Trophy = ({ year, big, band, glint }: { year: number; big: boolean; band: string; glint?: number }) => (
   <span className={big ? 'sv-tro sv-tro--big' : 'sv-tro'}>
-    <TrophyArt band={band} className="sv-tro__svg" glint={glint} />
+    <PixelCup band={band} className="sv-tro__svg" spark={glint} />
     <span className="sv-tro__year">Y{year}</span>
   </span>
 );
+
 const TrophiesScene = ({ club, years }: { club: string; years: number[] }) => {
   const { lite } = usePerfMode();
   // the glint is an SVG animation, so reduced motion and lite mode leave it out here
@@ -1134,7 +1413,6 @@ const TrophiesScene = ({ club, years }: { club: string; years: number[] }) => {
   const band = teamColor(club);
   return (
     <div className="sv-troom" style={style}>
-      <TrophyDefs />
       <span className="sv-troom__logo" aria-hidden="true">
         <TeamLogo team={club} size={520} decorative />
       </span>
@@ -1811,13 +2089,11 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
       {!asleep && shown.map((i) => (
         <div key={`${i}-${scenes[i].kind}`} className={i === idx ? 'sv-slide sv-slide--in' : 'sv-slide sv-slide--out'} style={{ '--sv-dur': `${SCENE_MS}ms` } as CSSProperties}>
           {render(scenes[i])}
-          {fx === 'snow' || !lite ? <SnowCaps weather={fx === 'snow'} /> : null}
         </div>
       ))}
       {!asleep && fx && fx !== 'clear' && fx !== 'cloud' && (
         <span className={`sv-weather sv-weather--${fx}`} aria-hidden="true">
-          {(fx === 'rain' || fx === 'storm') && <Rain />}
-          {fx === 'snow' && <Snow />}
+          {(fx === 'rain' || fx === 'storm' || fx === 'snow') && <WeatherCanvas kind={fx} wind={weather.wind} scene={idx} lite={lite} />}
         </span>
       )}
       {!asleep && (

@@ -1186,12 +1186,17 @@ across the sky, pennants on the stand front and its logo at midfield; a Hall of 
 **Weather corner** (owner: "add in a bit of weather, time and location"): top right, the time, the date and, once
 "Use my location" in the menu is pressed (the browser asks once; rounded to 2 decimals, kept on the device as
 `rv:saver:place`, the town from BigDataCloud's reverse geocode), the current weather from Open-Meteo (no key, cached 20
-min as `rv:saver:wx`, °F for a US locale), and the real rain, snow, fog or storm laid lightly over every scene (rain and snow are single drops and flakes moved by
-transform, each with its own lane, size, speed and depth; snow sways and drifts with the wind). While it snows (the real weather, or a snow game's ground) the snow settles (owner: "have the snow pile on the cards
-or whatever elements including the ground and clear / fall on transitions"; `SnowCaps`): once a scene has settled its
-main surfaces (`SNOW_SURFACES`: banners, cards, plaques, boards, shelves) are measured and a lumpy cap builds on each top
-edge over the scene, a drift banks up along the bottom, and on the change of scene the caps slide off and fall and the
-drift clears (a cap on a floating banner floats with it). The wind counts too (owner: "if it's windy they sway more"): Open-Meteo's wind and gusts become `--sv-wind` 0–1
+min as `rv:saver:wx`, °F for a US locale), and the real rain, snow, fog or storm laid lightly over every scene. Rain and snow are particles with physics on one
+canvas (`WeatherCanvas`; owner: "make it more realistic … look online for snow effects and physics", "do the same particle
+physics for rain … let it bounce off of the cards, trophies"): each drop or flake has a depth (near: bigger, faster,
+brighter), real fall speeds set the scale (snow 0.5–2 m/s, rain 5–9 m/s), wind leans the rain and pushes the snow in
+gusts with a flutter. Rain bursts into droplets that bounce off the top of each scene's surfaces and the turf and never
+collects. Snow lands and builds up: a height profile along each surface and the ground grows from the flakes that land
+plus fine snowfall, uneven by each surface's own grain, rounded at the ends, slumping into mounds, shaded white over a
+cool blue shadow with a few glinting crystals; when a surface fades out or the scene changes its snow breaks into clumps
+that fall, and the drift sinks away. The surfaces (`SNOW_SURFACES`) meet the weather at their real contact line
+(`contactLedge`; owner: "the transparent border for their assets isn't the actual point at which they contact"): a pixel
+cup at its rim, a trophy shelf at its wooden board, a card or banner at its top edge. The wind counts too (owner: "if it's windy they sway more"): Open-Meteo's wind and gusts become `--sv-wind` 0–1
 (`windForce`, calm under 8 km/h), so the Hall of Fame drapes and the rafters swing wider and faster in an uneven, gusty
 rhythm, the stand-front pennants flutter (open-air grounds only), the rain (single drops moved by transform) leans with
 it, and the corner names it from Breezy (20 km/h) up to Gale.
@@ -1214,7 +1219,7 @@ and wordmark drift and the whole show dims by a fifth over half an hour, so it c
 from the save's stadium figures under one of three slow aerial camera moves, its weather odds from `stadiumWeather`,
 rain falling on a wet ground's rolls), **Season Rewind** (a season's Rewind cards three at a time in a phone frame,
 `RewindCardView` from the Rewind files, every card of every season in turn), **the trophy room** (each club Skura won
-with: a shelf of the Front Office trophy cabinet's cups (`TrophyArt`, team-colour band; its `glint` prop runs a light over the cup's own silver shapes, `CupSilver`, left out under reduced motion and lite mode), each engraved with the season, `coach.json` finishes) and **card stunt** (the home
+with: a shelf of pixel cups (`PixelCup`, `src/components/frontoffice/PixelCup.tsx`: the cabinet cup redrawn on an 18 × 28 grid in its exact colours, owner's concept A; the Front Office trophy cabinet draws the same cup), a club-colour band and a sparkle blinking on each rim, each engraved with the season, `coach.json` finishes) and **card stunt** (the home
 end of each club he coached: one canvas of seats whose cards turn column by column to print the club's banner, owner:
 "imagine these cards are printed off the official banner": its colour, trim stripes, the real logo on a white roundel
 and its name in block type, drawn once and sampled to one colour a card (`bannerColors`), then a wave rolls across;

@@ -1,83 +1,10 @@
-import { useId, useState } from 'react';
+import { useState } from 'react';
+import { PixelCup } from './PixelCup';
 import TeamLogo from '@/components/brand/TeamLogo';
 import { cn } from '@/lib/utils';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { FINISH_META, seasonRecord, yourScore, type SeasonRow, type YourGame } from '@/utils/frontOffice';
 import { staggerStyle, teamColor, teamVars } from './shared';
-
-/** Shared SVG gradients for every trophy on the page (one copy in the DOM). */
-export const TrophyDefs = () => (
-  <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
-    <defs>
-      <linearGradient id="fo-silver" x1="0" x2="1" y1="0" y2="0">
-        <stop offset="0" stopColor="#8d96a8" />
-        <stop offset="0.28" stopColor="#f4f7fb" />
-        <stop offset="0.5" stopColor="#c3cad6" />
-        <stop offset="0.78" stopColor="#eef1f6" />
-        <stop offset="1" stopColor="#7c8597" />
-      </linearGradient>
-      <linearGradient id="fo-plinth" x1="0" x2="0" y1="0" y2="1">
-        <stop offset="0" stopColor="#2a2f3d" />
-        <stop offset="1" stopColor="#0b0e16" />
-      </linearGradient>
-    </defs>
-  </svg>
-);
-
-/** The cup's silver parts (handles, bowl, stem, knot, foot) in one paint: drawn once in silver, and again for a glint */
-const CupSilver = ({ paint }: { paint: string }) => (
-  <>
-    <path d="M9 7 H4.5 C4.5 15 7 18.5 11 19.5" fill="none" stroke={paint} strokeWidth="2.2" strokeLinecap="round" />
-    <path d="M27 7 H31.5 C31.5 15 29 18.5 25 19.5" fill="none" stroke={paint} strokeWidth="2.2" strokeLinecap="round" />
-    <path d="M8 3.5 H28 V13 C28 21.5 23.5 26.5 18 26.5 C12.5 26.5 8 21.5 8 13 Z" fill={paint} />
-    <rect x="16.4" y="26" width="3.2" height="9" fill={paint} />
-    <ellipse cx="18" cy="30" rx="3.4" ry="1.5" fill={paint} />
-    <path d="M12 36.5 C12 34.8 14.5 34 18 34 C21.5 34 24 34.8 24 36.5 Z" fill={paint} />
-  </>
-);
-
-/**
- * Original generic championship cup: two-handled bowl, stem, tiered base with a team-color band. `glint` (seconds of
- * delay) runs a light across the silver now and then, on the cup's own shapes only (the screensaver's trophy room).
- */
-export const TrophyArt = ({ band, className, glint }: { band: string; className?: string; glint?: number }) => {
-  const id = `fo-glint-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
-  return (
-    <svg viewBox="0 0 36 58" aria-hidden="true" focusable="false" className={className}>
-      <CupSilver paint="url(#fo-silver)" />
-      <path d="M8 3.5 H28 V5.2 H8 Z" fill="#ffffff" opacity="0.55" />
-      {/* emblem: four-point star */}
-      <path d="M18 9 L19.3 13.2 L23.5 14.5 L19.3 15.8 L18 20 L16.7 15.8 L12.5 14.5 L16.7 13.2 Z" fill="#9aa3b5" opacity="0.85" />
-      {/* shine */}
-      <path d="M11 7 C10.6 13 11.5 18 14 22" fill="none" stroke="#ffffff" strokeWidth="1.1" opacity="0.7" strokeLinecap="round" />
-      {glint !== undefined && (
-        <>
-          <defs>
-            <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="20" y2="8">
-              <stop offset="0.35" stopColor="#ffffff" stopOpacity="0" />
-              <stop offset="0.5" stopColor="#ffffff" stopOpacity="0.75" />
-              <stop offset="0.65" stopColor="#ffffff" stopOpacity="0" />
-              <animateTransform
-                attributeName="gradientTransform"
-                type="translate"
-                values="-30 0; -30 0; 40 0"
-                keyTimes="0; 0.6; 1"
-                dur="7s"
-                begin={`${glint}s`}
-                repeatCount="indefinite"
-              />
-            </linearGradient>
-          </defs>
-          <CupSilver paint={`url(#${id})`} />
-        </>
-      )}
-      {/* base */}
-      <rect x="8" y="37" width="20" height="13" rx="1.5" fill="url(#fo-plinth)" />
-      <rect x="8" y="41.5" width="20" height="3" fill={`hsl(${band})`} />
-      <rect x="6.5" y="50" width="23" height="4" rx="1" fill="url(#fo-plinth)" stroke="#3a4152" strokeWidth="0.5" />
-    </svg>
-  );
-};
 
 interface Shelf {
   team: string;
@@ -100,7 +27,6 @@ const TrophyCabinet = ({ shelves, seasonByYear }: { shelves: Shelf[]; seasonByYe
 
   return (
     <section aria-labelledby="fo-cabinet" className="fo-panel fo-cabinet space-y-4 p-4 sm:p-6">
-      <TrophyDefs />
       <div className="flex flex-wrap items-end justify-between gap-2">
         <h2 id="fo-cabinet" className="section-title min-w-0 flex-1">
           Trophy cabinet
@@ -144,7 +70,7 @@ const TrophyCabinet = ({ shelves, seasonByYear }: { shelves: Shelf[]; seasonByYe
                         aria-label={`Champions: ${describe(g)}`}
                         onClick={() => setActive((a) => (a === g.year ? null : g.year))}
                       >
-                        <TrophyArt band={band} />
+                        <PixelCup band={band} className="fo-trophy__cup" />
                         <span className="fo-trophy__year" aria-hidden="true">
                           Y{g.year}
                         </span>
