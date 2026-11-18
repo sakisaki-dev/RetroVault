@@ -17,7 +17,7 @@ import { useCollection } from '@/utils/collection';
 import { usePerfMode } from '@/hooks/usePerfMode';
 import { useLiveSeason } from '@/utils/seasonLive';
 import { useMarket } from '@/utils/useMarket';
-import { fetchSaverWeather, isNightRest, useSaverNight, useSaverPlace, useSaverSleep, weatherKind, windForce, windLabel, type SaverWeather } from '@/utils/screensaver';
+import { fetchSaverWeather, isNightRest, useSaverFx, useSaverNight, useSaverPlace, useSaverSleep, weatherKind, windForce, windLabel, type SaverWeather } from '@/utils/screensaver';
 import { Music, Flame, Cloud, CloudFog, CloudLightning, CloudRain, CloudSnow, Moon, Sun } from 'lucide-react';
 import { useFieldArt } from '@/components/teamlab/fieldArt';
 import { useCardPool, type CardInfo } from '@/components/collection/useCardPool';
@@ -1979,7 +1979,10 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
     const t = window.setInterval(check, 30_000);
     return () => window.clearInterval(t);
   }, [sleepMin, night]);
-  const fx = weather.fx;
+  // the menu can force rain, snow or a storm (or none) whatever the real weather
+  const fxChoice = useSaverFx();
+  const fx = fxChoice === 'real' ? weather.fx : fxChoice === 'none' ? null : fxChoice;
+  const wind = fxChoice === 'real' ? weather.wind : Math.max(weather.wind, fxChoice === 'storm' ? 0.55 : 0.15);
 
   useEffect(() => {
     if (scenes.length < 2 || resting) return;
@@ -2141,8 +2144,8 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   return (
     <div
       ref={rootRef}
-      className={`sv ${lite ? 'sv--lite' : ''} ${weather.wind >= 0.1 ? 'sv--windy' : ''} ${resting ? 'sv--rest' : ''}`}
-      style={{ '--sv-wind': weather.wind } as CSSProperties}
+      className={`sv ${lite ? 'sv--lite' : ''} ${wind >= 0.1 ? 'sv--windy' : ''} ${resting ? 'sv--rest' : ''}`}
+      style={{ '--sv-wind': wind } as CSSProperties}
       role="dialog" aria-modal="true" aria-label="Screensaver: press any key to return">
       {!asleep && shown.map((i) => (
         <div key={`${i}-${scenes[i].kind}`} className={i === idx ? 'sv-slide sv-slide--in' : 'sv-slide sv-slide--out'} style={{ '--sv-dur': `${SCENE_MS}ms` } as CSSProperties}>
@@ -2151,7 +2154,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
       ))}
       {!asleep && fx && fx !== 'clear' && fx !== 'cloud' && (
         <span className={`sv-weather sv-weather--${fx}`} aria-hidden="true">
-          {(fx === 'rain' || fx === 'storm' || fx === 'snow') && <WeatherCanvas kind={fx} wind={weather.wind} scene={idx} lite={lite} />}
+          {(fx === 'rain' || fx === 'storm' || fx === 'snow') && <WeatherCanvas kind={fx} wind={wind} scene={idx} lite={lite} />}
         </span>
       )}
       {!asleep && (

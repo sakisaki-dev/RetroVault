@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MapPin, MonitorPlay, Music } from 'lucide-react';
+import { setSaverFx, useSaverFx } from '@/utils/screensaver';
 import { setBusSetting, useBusSetting, useRoute } from '@/utils/bus';
 import { connectSpotify, disconnectSpotify, spotifyAvailable, useSpotifyConnected } from '@/utils/spotify';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -11,6 +12,7 @@ const ScreensaverButton = ({ season }: { season: string | number }) => {
   const idle = useSaverIdle();
   const spotify = useSpotifyConnected();
   const bus = useBusSetting();
+  const fx = useSaverFx();
   const route = useRoute('11');
   const sleep = useSaverSleep();
   const night = useSaverNight();
@@ -122,6 +124,33 @@ const ScreensaverButton = ({ season }: { season: string | number }) => {
             )}
           </>
         )}
+        <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Weather effects</p>
+        <div className="mt-2 flex flex-wrap gap-1.5" role="radiogroup" aria-label="Weather effects">
+          {(
+            [
+              ['real', 'Real'],
+              ['rain', 'Rain'],
+              ['snow', 'Snow'],
+              ['storm', 'Storm'],
+              ['none', 'None'],
+            ] as const
+          ).map(([v, label]) => (
+            <button
+              key={v}
+              type="button"
+              role="radio"
+              aria-checked={fx === v}
+              onClick={() => setSaverFx(v)}
+              className={cn(
+                'rounded-full border px-3 py-1 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
+                fx === v ? 'border-gold bg-gold/15 text-gold' : 'border-line text-muted-foreground hover:text-foreground',
+              )}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <p className="mt-1.5 text-xs text-muted-foreground">Real follows your local weather (turn on your location below); the others play whatever it's doing outside.</p>
         <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Bus · Route 11</p>
         <div className="mt-2 flex flex-col gap-1.5 text-sm">
           <label className="flex flex-col gap-1">

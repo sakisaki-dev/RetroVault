@@ -1236,7 +1236,9 @@ mounted and the tab is visible; `src/utils/spotify.ts`). Browser only: Spotify's
 hides the option while it is empty), tokens kept in this browser (`rv:spotify`), scopes to read what is playing only;
 `ScreensaverHost` finishes a sign-in when Spotify sends the browser back (?code=…) and restores the hash route. The
 Spotify app's Redirect URIs must list https://sakisaki-dev.github.io/RetroVault/ and the local addresses used
-(http://127.0.0.1:<port>/; Spotify refuses "localhost"). **The bus line** (owner, 2026-11-18: "the 11 that i consistently take … give me a small alert saying leave now and the next
+(http://127.0.0.1:<port>/; Spotify refuses "localhost"). **Weather effects** (owner: "add snow and rain as toggles … even if the weather isn't"): the menu's Real (the local
+weather, default) / Rain / Snow / Storm / None (`rv:saver:fx`, `useSaverFx`); a forced effect blows with at least a light
+wind (a storm a strong one). **The bus line** (owner, 2026-11-18: "the 11 that i consistently take … give me a small alert saying leave now and the next
 bus option", style A "one line, like the weather … a bit more subtle"): under the weather, the route's small badge and one
 quiet line: "Leave now · bus 8:24 · next 8:54" (soft amber), "Leave in 6 min …" within 20 minutes, else "Next bus 9:24 ·
 leave 9:19" (`BusLine`, `src/utils/bus.ts`: leave = bus − walk − 1 min; a bus counts while the walk still makes it). The

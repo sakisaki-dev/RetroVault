@@ -100,6 +100,28 @@ const sub = (l: () => void) => {
 };
 export const useSaverSleep = () => useSyncExternalStore(sub, () => sleep, () => DEFAULT_SLEEP);
 export const useSaverNight = () => useSyncExternalStore(sub, () => night, () => false);
+/**
+ * Weather effects over the show (owner, 2026-11-18: "add snow and rain as toggles in the screensaver settings even if
+ * the weather isn't"): the real weather (default), or rain, snow or a storm whatever it is outside, or none
+ */
+export type SaverFx = 'real' | 'rain' | 'snow' | 'storm' | 'none';
+export const SAVER_FX_KEY = 'rv:saver:fx';
+const FX_CHOICES: SaverFx[] = ['real', 'rain', 'snow', 'storm', 'none'];
+let fxSetting: SaverFx = (() => {
+  try {
+    const v = localStorage.getItem(SAVER_FX_KEY) as SaverFx | null;
+    return v && FX_CHOICES.includes(v) ? v : 'real';
+  } catch {
+    return 'real';
+  }
+})();
+export const setSaverFx = (v: SaverFx) => {
+  fxSetting = v;
+  store(SAVER_FX_KEY, v);
+  listeners.forEach((l) => l());
+};
+export const useSaverFx = () => useSyncExternalStore(sub, () => fxSetting, (): SaverFx => 'real');
+
 /** Inside the overnight rest window (local time) */
 export const isNightRest = (d = new Date()) => {
   const h = d.getHours();
