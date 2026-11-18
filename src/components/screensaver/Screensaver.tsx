@@ -18,7 +18,7 @@ import { usePerfMode } from '@/hooks/usePerfMode';
 import { useLiveSeason } from '@/utils/seasonLive';
 import { useMarket } from '@/utils/useMarket';
 import { fetchSaverWeather, isNightRest, useSaverNight, useSaverPlace, useSaverSleep, weatherKind, windForce, windLabel, type SaverWeather } from '@/utils/screensaver';
-import { Flame, Cloud, CloudFog, CloudLightning, CloudRain, CloudSnow, Moon, Sun } from 'lucide-react';
+import { Music, Flame, Cloud, CloudFog, CloudLightning, CloudRain, CloudSnow, Moon, Sun } from 'lucide-react';
 import { useFieldArt } from '@/components/teamlab/fieldArt';
 import { useCardPool, type CardInfo } from '@/components/collection/useCardPool';
 import { displayWithKit } from '@/components/collection/kits';
@@ -36,7 +36,10 @@ import { stadiumWeather, pctText } from '@/utils/stadiumWeather';
 import { useSeasonRewind } from '@/utils/seasonRewind';
 import type { SeasonRewindIndexEntry } from '@/utils/leagueContent';
 import { RewindCardView } from '@/components/rewind/RewindCards';
+import { TrophyArt, TrophyDefs } from '@/components/frontoffice/TrophyCabinet';
+import { teamColor } from '@/components/frontoffice/shared';
 import '@/components/rewind/rewind.css';
+import { useNowPlaying, type NowPlaying } from '@/utils/spotify';
 import './screensaver.css';
 
 /*
@@ -213,6 +216,18 @@ const lookFor = (club: string, roll: number, live: ReturnType<typeof useLiveSeas
   if ((c?.roof ?? 0) > 0) return 'dome';
   if ((c?.snowfall ?? 0) >= 50 && roll < 0.45) return 'snow';
   return roll < 0.3 ? 'day' : roll < 0.55 ? 'dusk' : 'night';
+};
+
+/** A club's name as a small chip: its logo, its name, edged in its own colours (readable on any background) */
+const ClubTag = ({ team, label }: { team: string; label?: string }) => {
+  const t = findNFLTeam(team);
+  const style = (t ? { '--c1': `hsl(${t.primaryColor})`, '--c2': `hsl(${t.secondaryColor})` } : {}) as CSSProperties;
+  return (
+    <span className="sv-club" style={style}>
+      <TeamLogo team={t?.name ?? team} size={18} decorative />
+      <span>{label ?? t?.fullName ?? team}</span>
+    </span>
+  );
 };
 
 /** The stadium behind a scene: the game's stands, crowd and turf painted to the club, its logo at midfield, its pennants */
@@ -437,7 +452,9 @@ const DuelScene = ({ a, b, pos, sprites }: { a: Player; b: Player; pos: string; 
         <Figure player={p} sprites={sprites} scale={1.7} mirror={right} />
         <div className="sv-duel__card">
           <h3 className="sv-duel__name">{p.name}</h3>
-          <p className="sv-duel__club">{t?.fullName ?? p.team}</p>
+          <p className="sv-duel__club">
+            <ClubTag team={t?.name ?? p.team} />
+          </p>
           <dl className="sv-duel__nums">
             {[...bannerStats(p), { label: 'Career Legacy', value: Math.round(p.careerLegacy) }].map((x) => (
               <div key={x.label}>
@@ -859,7 +876,7 @@ const WX_ICON = { clear: [Sun, Moon], cloud: [Cloud, Cloud], fog: [CloudFog, Clo
 /** The corner: the time, the date, the town and its weather (when the location is shared from the menu) */
 type Weather = { fx: ReturnType<typeof weatherKind>['fx'] | null; wind: number };
 
-const Corner = ({ onWeather }: { onWeather: (w: Weather) => void }) => {
+const Corner = ({ onWeather, children }: { onWeather: (w: Weather) => void; children?: ReactNode }) => {
   const [now, setNow] = useState(() => new Date());
   const place = useSaverPlace();
   const [wx, setWx] = useState<SaverWeather | null>(null);
@@ -904,6 +921,7 @@ const Corner = ({ onWeather }: { onWeather: (w: Weather) => void }) => {
           </span>
         </span>
       )}
+      {children}
     </div>
   );
 };
@@ -967,7 +985,11 @@ const RewindScene = ({ entry, from }: { entry: SeasonRewindIndexEntry; from: num
         <p className="sv-cap">
           {[entry.club && findNFLTeam(entry.club)?.fullName, entry.record].filter(Boolean).join(' · ')}
         </p>
-        {entry.champion && <p className="sv-sub sv-sub--dim">Champions: {findNFLTeam(entry.champion)?.fullName ?? entry.champion}</p>}
+        {entry.champion && (
+          <p className="sv-sub sv-sub--dim">
+            Champions: <ClubTag team={entry.champion} />
+          </p>
+        )}
       </div>
       <div className="sv-rw__phone">
         <div className="sv-rw__segs" aria-hidden="true">
@@ -987,37 +1009,27 @@ const RewindScene = ({ entry, from }: { entry: SeasonRewindIndexEntry; from: num
   );
 };
 
-/** The trophy room: one shelf of trophies a club, each engraved with the season Skura won it there */
-const Trophy = ({ year, big }: { year: number; big: boolean }) => (
+/** The trophy room: one shelf of trophies a club, each engraved with the season Skura won it there (the Front Office cabinet's cup) */
+const Trophy = ({ year, big, band, glint }: { year: number; big: boolean; band: string; glint?: number }) => (
   <span className={big ? 'sv-tro sv-tro--big' : 'sv-tro'}>
-    <svg viewBox="0 0 40 72" aria-hidden="true" className="sv-tro__svg">
-      <defs>
-        <linearGradient id="sv-silver" x1="0" x2="1">
-          <stop offset="0" stopColor="#8d96a6" />
-          <stop offset="0.35" stopColor="#f4f7fb" />
-          <stop offset="0.6" stopColor="#c5ccd8" />
-          <stop offset="1" stopColor="#6c7484" />
-        </linearGradient>
-      </defs>
-      <ellipse cx="20" cy="13" rx="8" ry="12" transform="rotate(-28 20 13)" fill="url(#sv-silver)" />
-      <path d="M14.5 6.5l10 13M16 9.5l2-1.4M18.4 12.8l2-1.4M20.8 16l2-1.4" stroke="#7d8696" strokeWidth="0.8" />
-      <path d="M19 24h2l1.6 26h-5.2z" fill="url(#sv-silver)" />
-      <path d="M12 50h16l3 9H9z" fill="url(#sv-silver)" />
-      <rect x="7" y="59" width="26" height="10" rx="1" fill="#2a2016" />
-      <rect x="7" y="59" width="26" height="2" fill="#5b4428" />
-    </svg>
+    <TrophyArt band={band} className="sv-tro__svg" glint={glint} />
     <span className="sv-tro__year">Y{year}</span>
   </span>
 );
 const TrophiesScene = ({ club, years }: { club: string; years: number[] }) => {
+  const { lite } = usePerfMode();
+  // the glint is an SVG animation, so reduced motion and lite mode leave it out here
+  const still = lite || (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const t = findNFLTeam(club);
   const style = (t ? { '--sv-1': `hsl(${t.primaryColor})`, '--sv-2': `hsl(${t.secondaryColor})` } : {}) as CSSProperties;
   const ys = [...years].sort((a, b) => a - b);
   const perShelf = ys.length <= 8 ? 8 : ys.length <= 24 ? 12 : 16;
   const shelves: number[][] = [];
   for (let k = 0; k < ys.length; k += perShelf) shelves.push(ys.slice(k, k + perShelf));
+  const band = teamColor(club);
   return (
     <div className="sv-troom" style={style}>
+      <TrophyDefs />
       <span className="sv-troom__logo" aria-hidden="true">
         <TeamLogo team={club} size={520} decorative />
       </span>
@@ -1034,7 +1046,7 @@ const TrophiesScene = ({ club, years }: { club: string; years: number[] }) => {
           <div key={r} className="sv-troom__shelf" style={{ '--r': r } as CSSProperties}>
             {row.map((y, k) => (
               <span key={y} className="sv-troom__slot" style={{ '--k': k + r * 3 } as CSSProperties}>
-                <Trophy year={y} big={ys.length <= 8} />
+                <Trophy year={y} big={ys.length <= 8} band={band} glint={still ? undefined : 1 + (k + r * 3) * 0.35} />
               </span>
             ))}
           </div>
@@ -1163,6 +1175,38 @@ const StuntScene = ({ club }: { club: string }) => {
         </div>
       </div>
     </Stadium>
+  );
+};
+
+/** Now playing on Spotify: the album cover, the song, the artist, the track running along under them */
+const NowPlayingCard = ({ np }: { np: NowPlaying }) => {
+  const from = np.duration ? Math.min(1, np.progress / np.duration) : 0;
+  const rest = Math.max(0, np.duration - np.progress);
+  return (
+    <div className={np.playing ? 'sv-np' : 'sv-np sv-np--paused'}>
+      {np.art ? (
+        <img className="sv-np__art" src={np.art} alt="" />
+      ) : (
+        <span className="sv-np__art sv-np__art--none" aria-hidden="true">
+          <Music />
+        </span>
+      )}
+      <span className="sv-np__txt">
+        <span className="sv-np__kick">
+          <span className="sv-np__eq" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </span>
+          {np.playing ? 'Now playing' : 'Paused'}
+        </span>
+        <span className="sv-np__title">{np.title}</span>
+        <span className="sv-np__artist">{np.artist}</span>
+        <span className="sv-np__bar">
+          <span key={`${np.title}-${np.at}`} style={{ '--np-from': from, '--np-rest': `${rest}ms` } as CSSProperties} />
+        </span>
+      </span>
+    </div>
   );
 };
 
@@ -1358,6 +1402,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const sleepMin = useSaverSleep();
   const night = useSaverNight();
   const [resting, setResting] = useState(() => night && isNightRest());
+  const nowPlaying = useNowPlaying(!resting);
   // a 3 s fade to black, then nothing is drawn at all
   const [asleep, setAsleep] = useState(resting);
   useEffect(() => {
@@ -1563,7 +1608,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
           <BrandGlyph size={28} />
           Retro <b>Vault</b>
         </span>
-        <Corner onWeather={setWeather} />
+        <Corner onWeather={setWeather}>{nowPlaying && <NowPlayingCard np={nowPlaying} />}</Corner>
         <span key={idx} className="sv-progress" style={{ '--sv-dur': `${SCENE_MS}ms` } as CSSProperties} />
       </div>
       <p className={hint ? 'sv-hint' : 'sv-hint sv-hint--gone'}>Move the mouse or press any key to return</p>

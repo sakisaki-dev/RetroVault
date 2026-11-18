@@ -1,4 +1,5 @@
 import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
+import { completeSpotifyLogin } from '@/utils/spotify';
 import { isNightRest, onScreensaverStart, saverSupported, useSaverIdle, useSaverNight } from '@/utils/screensaver';
 
 const Screensaver = lazy(() => import('./Screensaver'));
@@ -16,6 +17,10 @@ const ScreensaverHost = () => {
   const last = useRef(Date.now());
 
   useEffect(() => onScreensaverStart(() => saverSupported() && setOn(true)), []);
+  // back from Spotify's sign-in (the screensaver's now playing card): finish it and tidy the address
+  useEffect(() => {
+    void completeSpotifyLogin();
+  }, []);
 
   useEffect(() => {
     if (on || !idle) return;

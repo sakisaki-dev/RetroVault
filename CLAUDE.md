@@ -1209,9 +1209,15 @@ and wordmark drift and the whole show dims by a fifth over half an hour, so it c
 from the save's stadium figures under one of three slow aerial camera moves, its weather odds from `stadiumWeather`,
 rain falling on a wet ground's rolls), **Season Rewind** (a season's Rewind cards three at a time in a phone frame,
 `RewindCardView` from the Rewind files, every card of every season in turn), **the trophy room** (each club Skura won
-with: a shelf of silver trophies, each engraved with the season, `coach.json` finishes) and **card stunt** (the home
+with: a shelf of the Front Office trophy cabinet's cups (`TrophyArt`, team-colour band; its `glint` prop runs a light over the cup's own silver shapes, `CupSilver`, left out under reduced motion and lite mode), each engraved with the season, `coach.json` finishes) and **card stunt** (the home
 end of each club he coached: one canvas of seats whose cards turn column by column to spell the club's name in a 5×7
-pixel alphabet, `GLYPHS`, in its colours, then a wave rolls across; reduced motion draws the finished stunt). **Letting the display sleep** (owner, 2026-11-18): the same menu sets "Let the display sleep after" Never / 30 min / 1 h
+pixel alphabet, `GLYPHS`, in its colours, then a wave rolls across; reduced motion draws the finished stunt). **Now playing** (owner, 2026-11-18): with Spotify connected from the same menu, a card under the clock and weather shows
+the song playing (cover, title, artist, the track running on between polls), polled every 8 s while the show runs
+(`src/utils/spotify.ts`). Browser only: Spotify's PKCE sign-in with the public Client ID `SPOTIFY_CLIENT_ID` (the menu
+hides the option while it is empty), tokens kept in this browser (`rv:spotify`), scopes to read what is playing only;
+`ScreensaverHost` finishes a sign-in when Spotify sends the browser back (?code=…) and restores the hash route. The
+Spotify app's Redirect URIs must list https://sakisaki-dev.github.io/RetroVault/ and the local addresses used
+(http://127.0.0.1:<port>/; Spotify refuses "localhost"). **Letting the display sleep** (owner, 2026-11-18): the same menu sets "Let the display sleep after" Never / 30 min / 1 h
 (default) / 2 h / 4 h (`rv:saver:sleep`) and "Rest overnight" (`rv:saver:night`, 11 pm to 7 am: it never starts by
 itself then). Resting fades the show to black over 3 s, then draws nothing and gives up the Wake Lock, so the computer's
 own display sleep takes over; any key or mouse move still ends it. Full screen and a Wake

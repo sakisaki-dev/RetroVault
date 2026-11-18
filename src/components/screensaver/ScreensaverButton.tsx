@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { MapPin, MonitorPlay } from 'lucide-react';
+import { MapPin, MonitorPlay, Music } from 'lucide-react';
+import { connectSpotify, disconnectSpotify, spotifyAvailable, useSpotifyConnected } from '@/utils/spotify';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { NIGHT_FROM, NIGHT_TO, SAVER_IDLE_CHOICES, SAVER_SLEEP_CHOICES, forgetSaverPlace, requestSaverPlace, setSaverIdle, setSaverNight, setSaverSleep, startScreensaver, useSaverIdle, useSaverNight, useSaverPlace, useSaverSleep } from '@/utils/screensaver';
@@ -7,6 +8,7 @@ import { NIGHT_FROM, NIGHT_TO, SAVER_IDLE_CHOICES, SAVER_SLEEP_CHOICES, forgetSa
 /** The header's Season lamp on a desktop: opens the screensaver menu (start now, start by itself after, local weather) */
 const ScreensaverButton = ({ season }: { season: string | number }) => {
   const idle = useSaverIdle();
+  const spotify = useSpotifyConnected();
   const sleep = useSaverSleep();
   const night = useSaverNight();
   const hour = (h: number) => new Date(2000, 0, 1, h).toLocaleTimeString([], { hour: 'numeric' });
@@ -89,6 +91,34 @@ const ScreensaverButton = ({ season }: { season: string | number }) => {
           </span>
         </label>
         <p className="mt-1.5 text-xs text-muted-foreground">Resting fades the show to black and lets your computer's own display sleep take over.</p>
+        {spotifyAvailable() && (
+          <>
+            <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Now playing</p>
+            {spotify ? (
+              <div className="mt-2 flex items-center justify-between gap-2 text-sm">
+                <span className="inline-flex items-center gap-1.5 text-foreground">
+                  <Music className="h-4 w-4 shrink-0 text-turf" aria-hidden="true" />
+                  Spotify connected
+                </span>
+                <button type="button" onClick={disconnectSpotify} className="shrink-0 text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline">
+                  Disconnect
+                </button>
+              </div>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => void connectSpotify()}
+                  className="mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-md border border-line px-3 py-1.5 text-sm text-foreground transition-colors hover:border-gold/60"
+                >
+                  <Music className="h-4 w-4" aria-hidden="true" />
+                  Connect Spotify
+                </button>
+                <p className="mt-1.5 text-xs text-muted-foreground">Shows the song playing on your Spotify in a corner of the screensaver. Only this browser talks to Spotify.</p>
+              </>
+            )}
+          </>
+        )}
         <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Local weather</p>
         {place ? (
           <div className="mt-2 flex items-center justify-between gap-2 text-sm">
