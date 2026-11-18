@@ -69,25 +69,27 @@ def main():
             index[(d, i)] = len(points)
             points.append({"id": key, "stop": sid, "name": stops[sid]["stop_name"], "toward": nxt, "headsign": None, "dir": d})
 
-    service = defaultdict(lambda: defaultdict(list))  # service -> point -> minutes
+    # each trip as its departure minute at every boarding point (None where it doesn't stop), so a ride can be read
+    # end to end: when the bus leaves your stop and when that same bus reaches where you're going
+    service = defaultdict(list)  # service -> [trip times per point]
     for tid, rows in times.items():
         t = trips[tid]
         d = t.get("direction_id", "0")
-        seq = [s for _, s, _ in rows]
-        for i, (_, sid, m) in enumerate(rows[:-1]):
-            p = index.get((d, i))
-            if p is None or points[p]["stop"] != sid:
-                # a short trip: match the stop by its first unused place in the full pattern
-                full = order[d]
-                try:
-                    j = full.index(sid, i)
-                except ValueError:
-                    continue
-                p = index.get((d, j))
-                if p is None:
-                    continue
-            points[p]["headsign"] = points[p]["headsign"] or t.get("trip_headsign")
-            service[t["service_id"]][p].append(m)
+        full = order[d]
+        row = [None] * len(points)
+        j = 0
+        for _, sid, m in rows[:-1]:
+            try:
+                j = full.index(sid, j)
+            except ValueError:
+                continue
+            p = index.get((d, j))
+            if p is not None:
+                row[p] = m
+                points[p]["headsign"] = points[p]["headsign"] or t.get("trip_headsign")
+            j += 1
+        # the last stop: where the trip ends (an arrival, so it is kept on the point before it is not boardable)
+        service[t["service_id"]].append(row)
 
     # the dates each service runs, from the calendar and its exceptions
     days = {}
@@ -125,8 +127,8 @@ def main():
         "ends": end.isoformat() if end else None,
         "points": points,
         "services": [
-            {"dates": sorted(days.get(sid, [])), "times": {str(p): sorted(set(v)) for p, v in sorted(pts.items())}}
-            for sid, pts in sorted(service.items())
+            {"dates": sorted(days.get(sid, [])), "trips": sorted(rows, key=lambda r: min(x for x in r if x is not None))}
+            for sid, rows in sorted(service.items())
             if days.get(sid)
         ],
     }

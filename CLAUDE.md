@@ -1255,7 +1255,8 @@ leave 9:19" (`BusLine`, `src/utils/bus.ts`: leave = bus − walk − 1 min; a bu
 timetable is public data, the whole route: `python3 scripts/transit_route.py 11` (not in `npm run rebuild`) writes
 `public/data/transit/route-11.json` from Santa Cruz METRO's GTFS (every boarding point, a loop's stop twice, told apart
 by the next stop; each service pattern's dates and departure minutes); rerun it when METRO publishes a new timetable (the
-file's `ends`, 2026-12-16 now; the line hides after it). Which stop and how long the walk (default 7 min) are set in the
+file's `ends`, 2026-12-16 now; the line hides after it). Which stop, where to ("Going to": the line adds "→ Science Hill 8:42", when that same bus gets there; the file keeps each
+trip whole, its minute at every point) and how long the walk (default 7 min) are set in the
 Season menu ("Bus · Route 11") and kept in the browser only (`rv:saver:bus`), never in the repo. METRO's live feed
 (rt.scmetro.org GTFS-RT) can't be read from a web page (no cross-origin access), so it is the scheduled time. **Letting the display sleep** (owner, 2026-11-18): the same menu sets "Let the display sleep after" Never / 30 min / 1 h
 (default) / 2 h / 4 h (`rv:saver:sleep`) and "Rest overnight" (`rv:saver:night`, 11 pm to 7 am: it never starts by

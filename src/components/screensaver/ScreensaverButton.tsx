@@ -157,7 +157,7 @@ const ScreensaverButton = ({ season }: { season: string | number }) => {
             <span className="text-xs text-muted-foreground">Your stop</span>
             <select
               value={bus?.point ?? ''}
-              onChange={(e) => setBusSetting(e.target.value ? { route: '11', point: e.target.value, walk: bus?.walk ?? 7 } : null)}
+              onChange={(e) => setBusSetting(e.target.value ? { route: '11', point: e.target.value, walk: bus?.walk ?? 7, to: bus?.to } : null)}
               className="rounded-md border border-line bg-night px-2 py-1.5 text-sm text-foreground"
             >
               <option value="">Off</option>
@@ -168,6 +168,28 @@ const ScreensaverButton = ({ season }: { season: string | number }) => {
               ))}
             </select>
           </label>
+          {bus && (
+            <label className="flex flex-col gap-1">
+              <span className="text-xs text-muted-foreground">Going to</span>
+              <select
+                value={bus.to ?? ''}
+                onChange={(e) => setBusSetting({ ...bus, to: e.target.value || undefined })}
+                className="rounded-md border border-line bg-night px-2 py-1.5 text-sm text-foreground"
+              >
+                <option value="">Don't show</option>
+                {(() => {
+                  // the stops after yours on the same run
+                  const pts = route?.points ?? [];
+                  const from = pts.findIndex((p) => p.id === bus.point);
+                  return pts.slice(from + 1).map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}
+                    </option>
+                  ));
+                })()}
+              </select>
+            </label>
+          )}
           {bus && (
             <label className="flex items-center justify-between gap-2">
               <span className="text-xs text-muted-foreground">Walk to the stop</span>

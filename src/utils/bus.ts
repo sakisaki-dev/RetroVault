@@ -13,6 +13,8 @@ export interface BusSetting {
   point: string;
   /** minutes from the door to the stop */
   walk: number;
+  /** where the viewer gets off (a point's id), to show when the bus gets there */
+  to?: string;
 }
 export interface RoutePoint {
   id: string;
@@ -25,7 +27,8 @@ export interface RouteFile {
   name: string;
   ends: string | null;
   points: RoutePoint[];
-  services: { dates: string[]; times: Record<string, number[]> }[];
+  /** each service pattern: the dates it runs and its trips, each the minute it leaves every point (null: skipped) */
+  services: { dates: string[]; trips: (number | null)[][] }[];
 }
 
 const KEY = 'rv:saver:bus';
@@ -85,40 +88,54 @@ export const useRoute = (route: string | null | undefined) => {
 
 const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 
-/** Departures from a boarding point, as Dates, from today on (today and tomorrow are enough for a line) */
-export const departures = (file: RouteFile, point: string, now: Date): Date[] => {
-  const p = String(file.points.findIndex((x) => x.id === point));
-  if (p === '-1') return [];
-  const out: Date[] = [];
+export interface Departure {
+  at: Date;
+  /** when the same bus reaches the stop the viewer is going to */
+  arrive: Date | null;
+}
+
+/** Departures from a boarding point from today on (today and tomorrow are enough for a line), with the arrival at `to` */
+export const departures = (file: RouteFile, point: string, now: Date, to?: string): Departure[] => {
+  const p = file.points.findIndex((x) => x.id === point);
+  if (p < 0) return [];
+  const q = to ? file.points.findIndex((x) => x.id === to) : -1;
+  const out: Departure[] = [];
   for (let day = 0; day < 2; day++) {
     const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + day);
     const key = iso(d);
+    const at = (m: number) => new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, m);
     for (const s of file.services) {
       if (!s.dates.includes(key)) continue;
-      for (const m of s.times[p] ?? []) out.push(new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, m));
+      for (const trip of s.trips) {
+        const m = trip[p];
+        if (m == null) continue;
+        const a = q >= 0 ? trip[q] : null;
+        out.push({ at: at(m), arrive: a != null && a > m ? at(a) : null });
+      }
     }
   }
-  return out.sort((a, b) => a.getTime() - b.getTime());
+  return out.sort((a, b) => a.at.getTime() - b.at.getTime());
 };
 
 export type BusState =
-  | { kind: 'now'; bus: Date; next: Date | null }
-  | { kind: 'soon'; bus: Date; next: Date | null; inMin: number }
-  | { kind: 'later'; bus: Date; leave: Date }
+  | { kind: 'now'; bus: Date; arrive: Date | null; next: Date | null }
+  | { kind: 'soon'; bus: Date; arrive: Date | null; next: Date | null; inMin: number }
+  | { kind: 'later'; bus: Date; arrive: Date | null; leave: Date }
   | { kind: 'none' };
 
 /** Leave now (it's walking time, a minute to spare), leave in N minutes (within 20), or the next bus and when to go */
-export const busState = (deps: Date[], walk: number, now: Date): BusState => {
+export const busState = (deps: Departure[], walk: number, now: Date): BusState => {
   const t = now.getTime();
-  const catchable = deps.filter((d) => d.getTime() - walk * 60_000 >= t - 30_000);
-  const bus = catchable[0];
-  if (!bus) return { kind: 'none' };
-  const next = catchable[1] ?? null;
+  const catchable = deps.filter((d) => d.at.getTime() - walk * 60_000 >= t - 30_000);
+  const first = catchable[0];
+  if (!first) return { kind: 'none' };
+  const bus = first.at;
+  const next = catchable[1]?.at ?? null;
   const leave = new Date(bus.getTime() - (walk + 1) * 60_000);
   const inMin = Math.ceil((leave.getTime() - t) / 60_000);
-  if (inMin <= 0) return { kind: 'now', bus, next };
-  if (inMin <= 20) return { kind: 'soon', bus, next, inMin };
-  return { kind: 'later', bus, leave };
+  if (inMin <= 0) return { kind: 'now', bus, arrive: first.arrive, next };
+  if (inMin <= 20) return { kind: 'soon', bus, arrive: first.arrive, next, inMin };
+  return { kind: 'later', bus, arrive: first.arrive, leave };
 };
 
 /** "8:24" (no AM / PM: the clock above says which) */

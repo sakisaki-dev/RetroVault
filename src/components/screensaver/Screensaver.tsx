@@ -1325,26 +1325,33 @@ const BusLine = ({ now }: { now: Date }) => {
   const file = useRoute(bus?.route);
   if (!bus || !file) return null;
   if (file.ends && file.ends < now.toISOString().slice(0, 10)) return null;
-  const st = busState(departures(file, bus.point, now), bus.walk, now);
+  const st = busState(departures(file, bus.point, now, bus.to), bus.walk, now);
   if (st.kind === 'none') return null;
+  // "→ Science Hill 8:42": the stop's short name (the part in brackets, else the street)
+  const dest = bus.to ? file.points.find((p) => p.id === bus.to)?.name ?? '' : '';
+  const short = (dest.match(/\((?:UCSC - )?([^)]+)\)/)?.[1] ?? dest).trim();
+  const arrive = st.arrive && short ? ` → ${short} ${hm(st.arrive)}` : '';
   return (
     <span className={st.kind === 'now' ? 'sv-bus sv-bus--now' : 'sv-bus'}>
       <i className="sv-bus__badge">{file.route}</i>
       {st.kind === 'now' && (
         <>
           <b>Leave now</b> · bus {hm(st.bus)}
+          {arrive}
           {st.next && ` · next ${hm(st.next)}`}
         </>
       )}
       {st.kind === 'soon' && (
         <>
           <b>Leave in {st.inMin} min</b> · bus {hm(st.bus)}
+          {arrive}
           {st.next && ` · next ${hm(st.next)}`}
         </>
       )}
       {st.kind === 'later' && (
         <>
-          Next bus {hm(st.bus)} · leave {hm(st.leave)}
+          Next bus {hm(st.bus)}
+          {arrive} · leave {hm(st.leave)}
         </>
       )}
     </span>
