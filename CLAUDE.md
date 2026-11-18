@@ -1186,7 +1186,10 @@ across the sky, pennants on the stand front and its logo at midfield; a Hall of 
 **Weather corner** (owner: "add in a bit of weather, time and location"): top right, the time, the date and, once
 "Use my location" in the menu is pressed (the browser asks once; rounded to 2 decimals, kept on the device as
 `rv:saver:place`, the town from BigDataCloud's reverse geocode), the current weather from Open-Meteo (no key, cached 20
-min as `rv:saver:wx`, °F for a US locale), and the real rain, snow, fog or storm laid lightly over every scene.
+min as `rv:saver:wx`, °F for a US locale), and the real rain, snow, fog or storm laid lightly over every scene. The wind counts too (owner: "if it's windy they sway more"): Open-Meteo's wind and gusts become `--sv-wind` 0–1
+(`windForce`, calm under 8 km/h), so the Hall of Fame drapes and the rafters swing wider and faster in an uneven, gusty
+rhythm, the stand-front pennants flutter (open-air grounds only), the rain (single drops moved by transform) leans with
+it, and the corner names it from Breezy (20 km/h) up to Gale.
 Twenty scene kinds (owner: "get us to 20 total scenes"), dealt in turn: spotlight, card, duel, did you know (a
 widget.json fact on a broadcast lower third), line-up, champions, **the coach** (Skura's game sprite in the current
 club's polo, his titles from widget.json, seasons and every club's logo), Hall of Famer, **hot take** (a widget.json

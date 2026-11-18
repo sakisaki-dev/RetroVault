@@ -17,7 +17,7 @@ import { useCollection } from '@/utils/collection';
 import { usePerfMode } from '@/hooks/usePerfMode';
 import { useLiveSeason } from '@/utils/seasonLive';
 import { useMarket } from '@/utils/useMarket';
-import { fetchSaverWeather, useSaverPlace, weatherKind, type SaverWeather } from '@/utils/screensaver';
+import { fetchSaverWeather, useSaverPlace, weatherKind, windForce, windLabel, type SaverWeather } from '@/utils/screensaver';
 import { Flame, Cloud, CloudFog, CloudLightning, CloudRain, CloudSnow, Moon, Sun } from 'lucide-react';
 import { useFieldArt } from '@/components/teamlab/fieldArt';
 import { useCardPool, type CardInfo } from '@/components/collection/useCardPool';
@@ -848,7 +848,9 @@ const DynastyScene = ({ era, players, sprites }: { era: EraLite; players: Player
 const WX_ICON = { clear: [Sun, Moon], cloud: [Cloud, Cloud], fog: [CloudFog, CloudFog], rain: [CloudRain, CloudRain], snow: [CloudSnow, CloudSnow], storm: [CloudLightning, CloudLightning] } as const;
 
 /** The corner: the time, the date, the town and its weather (when the location is shared from the menu) */
-const Corner = ({ onWeather }: { onWeather: (fx: ReturnType<typeof weatherKind>['fx'] | null) => void }) => {
+type Weather = { fx: ReturnType<typeof weatherKind>['fx'] | null; wind: number };
+
+const Corner = ({ onWeather }: { onWeather: (w: Weather) => void }) => {
   const [now, setNow] = useState(() => new Date());
   const place = useSaverPlace();
   const [wx, setWx] = useState<SaverWeather | null>(null);
@@ -868,7 +870,10 @@ const Corner = ({ onWeather }: { onWeather: (fx: ReturnType<typeof weatherKind>[
     };
   }, [place]);
   const kind = wx ? weatherKind(wx.code) : null;
-  useEffect(() => onWeather(kind?.fx ?? null), [kind?.fx, onWeather]);
+  const force = windForce(wx);
+  useEffect(() => onWeather({ fx: kind?.fx ?? null, wind: force }), [kind?.fx, force, onWeather]);
+  const windy = wx?.wind ? windLabel(wx.wind) : null;
+  const windText = wx?.wind && windy ? `${windy} ${place?.unit === 'fahrenheit' ? `${Math.round(wx.wind / 1.609)} mph` : `${wx.wind} km/h`}` : null;
   const Icon = kind ? WX_ICON[kind.fx][kind.fx === 'clear' && wx && !wx.day ? 1 : 0] : null;
   const deg = place?.unit === 'fahrenheit' ? '°F' : '°C';
   return (
@@ -885,7 +890,7 @@ const Corner = ({ onWeather }: { onWeather: (fx: ReturnType<typeof weatherKind>[
             </b>
           )}
           <span>
-            {[kind?.label, place.city].filter(Boolean).join(' · ')}
+            {[kind?.label, windText, place.city].filter(Boolean).join(' · ')}
             {wx ? ` · H ${wx.hi}° L ${wx.lo}°` : ''}
           </span>
         </span>
@@ -1067,7 +1072,8 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const [idx, setIdx] = useState(0);
   const [prev, setPrev] = useState<number | null>(null);
   const [hint, setHint] = useState(true);
-  const [fx, setFx] = useState<ReturnType<typeof weatherKind>['fx'] | null>(null);
+  const [weather, setWeather] = useState<Weather>({ fx: null, wind: 0 });
+  const fx = weather.fx;
 
   useEffect(() => {
     if (scenes.length < 2) return;
@@ -1209,7 +1215,11 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const shown = [prev, idx].filter((i): i is number => i !== null && !!scenes[i]);
 
   return (
-    <div ref={rootRef} className={`sv ${lite ? 'sv--lite' : ''}`} role="dialog" aria-modal="true" aria-label="Screensaver: press any key to return">
+    <div
+      ref={rootRef}
+      className={`sv ${lite ? 'sv--lite' : ''} ${weather.wind >= 0.1 ? 'sv--windy' : ''}`}
+      style={{ '--sv-wind': weather.wind } as CSSProperties}
+      role="dialog" aria-modal="true" aria-label="Screensaver: press any key to return">
       {shown.map((i) => (
         <div key={`${i}-${scenes[i].kind}`} className={i === idx ? 'sv-slide sv-slide--in' : 'sv-slide sv-slide--out'} style={{ '--sv-dur': `${SCENE_MS}ms` } as CSSProperties}>
           {render(scenes[i])}
@@ -1233,7 +1243,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
           <BrandGlyph size={28} />
           Retro <b>Vault</b>
         </span>
-        <Corner onWeather={setFx} />
+        <Corner onWeather={setWeather} />
         <span key={idx} className="sv-progress" style={{ '--sv-dur': `${SCENE_MS}ms` } as CSSProperties} />
       </div>
       <p className={hint ? 'sv-hint' : 'sv-hint sv-hint--gone'}>Move the mouse or press any key to return</p>

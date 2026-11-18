@@ -157,11 +157,14 @@ export interface SaverWeather {
   day: boolean;
   hi: number;
   lo: number;
+  /** wind speed in km/h (missing in a cache from before wind was read) */
+  wind?: number;
+  gust?: number;
 }
 
 /** The current weather at the saved place, from the device cache when it is under 20 minutes old */
 export const fetchSaverWeather = async (p: SaverPlace): Promise<SaverWeather | null> => {
-  const key = `${p.lat},${p.lon},${p.unit}`;
+  const key = `${p.lat},${p.lon},${p.unit},w`;
   try {
     const c = JSON.parse(localStorage.getItem(WX_KEY) ?? 'null');
     if (c && c.key === key && Date.now() - c.at < 20 * 60_000) return c.wx;
@@ -171,7 +174,7 @@ export const fetchSaverWeather = async (p: SaverPlace): Promise<SaverWeather | n
   try {
     const url =
       `https://api.open-meteo.com/v1/forecast?latitude=${p.lat}&longitude=${p.lon}` +
-      `&current=temperature_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min&forecast_days=1&timezone=auto&temperature_unit=${p.unit}`;
+      `&current=temperature_2m,weather_code,is_day,wind_speed_10m,wind_gusts_10m&wind_speed_unit=kmh&daily=temperature_2m_max,temperature_2m_min&forecast_days=1&timezone=auto&temperature_unit=${p.unit}`;
     const j = await (await fetch(url)).json();
     const wx: SaverWeather = {
       temp: Math.round(j.current.temperature_2m),
@@ -179,6 +182,8 @@ export const fetchSaverWeather = async (p: SaverPlace): Promise<SaverWeather | n
       day: j.current.is_day === 1,
       hi: Math.round(j.daily.temperature_2m_max[0]),
       lo: Math.round(j.daily.temperature_2m_min[0]),
+      wind: Math.round(j.current.wind_speed_10m ?? 0),
+      gust: Math.round(j.current.wind_gusts_10m ?? 0),
     };
     try {
       localStorage.setItem(WX_KEY, JSON.stringify({ key, at: Date.now(), wx }));
@@ -205,3 +210,17 @@ export const weatherKind = (code: number): { label: string; fx: 'clear' | 'cloud
   if (code >= 95) return { label: 'Thunderstorm', fx: 'storm' };
   return { label: 'Cloudy', fx: 'cloud' };
 };
+
+/**
+ * How hard the wind blows for the screensaver, 0 (calm) to 1 (a gale): banners swing wider and faster and the rain
+ * leans with it. Light air under 8 km/h counts as calm; gusts count for a third.
+ */
+export const windForce = (wx: SaverWeather | null): number => {
+  if (!wx?.wind) return 0;
+  const kmh = wx.wind + Math.max(0, (wx.gust ?? 0) - wx.wind) / 3;
+  return Math.round(Math.min(1, Math.max(0, (kmh - 8) / 42)) * 100) / 100;
+};
+
+/** A word for the corner once the wind is worth naming (Beaufort 4 and up) */
+export const windLabel = (kmh: number): string | null =>
+  kmh >= 62 ? 'Gale' : kmh >= 39 ? 'Very windy' : kmh >= 29 ? 'Windy' : kmh >= 20 ? 'Breezy' : null;

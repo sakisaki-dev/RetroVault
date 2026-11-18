@@ -357,7 +357,11 @@
 @keyframes sv-card-in {
   from {
     opacity: 0;
-    transform: rotateY(-70deg) translateY(30px);
+    transform: rotateY(-70deg) rotateX(3deg) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(-12deg) rotateX(3deg) translateY(0);
   }
 }
 @keyframes sv-turn {
@@ -761,15 +765,16 @@
   height: var(--l);
   border-radius: 1px;
   background: linear-gradient(180deg, rgb(200 218 255 / 0), rgb(200 218 255 / 0.85));
+  --lean: calc(10deg + var(--sv-wind, 0) * 26deg);
   will-change: transform;
   animation: sv-drop var(--t) linear var(--d) infinite;
 }
 @keyframes sv-drop {
   from {
-    transform: translate3d(0, -20vh, 0) rotate(12deg);
+    transform: translate3d(0, -20vh, 0) rotate(var(--lean));
   }
   to {
-    transform: translate3d(-24vh, 115vh, 0) rotate(12deg);
+    transform: translate3d(calc(-135vh * tan(var(--lean))), 115vh, 0) rotate(var(--lean));
   }
 }
 .sv-weather--storm::after {
@@ -922,6 +927,22 @@
   animation: none;
 }
 
+/* wind: the stand-front pennants flutter (open-air grounds only) */
+@media (prefers-reduced-motion: no-preference) {
+  .sv--windy .sv-stadium:not(.sv-stadium--dome) > .sv-stadium__pennants {
+    transform-origin: 50% 0;
+    animation: sv-flutter calc(1.6s - var(--sv-wind, 0) * 0.9s) ease-in-out infinite alternate !important;
+  }
+}
+@keyframes sv-flutter {
+  from {
+    transform: scaleY(-1) skewX(calc(var(--sv-wind, 0) * -10deg));
+  }
+  to {
+    transform: scaleY(-0.9) skewX(calc(var(--sv-wind, 0) * 14deg));
+  }
+}
+
 /* ================= Hall of Famer: his club's drapes either side, swinging a little ================= */
 .sv-drape {
   position: absolute;
@@ -936,7 +957,8 @@
   clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
   box-shadow: inset 0 0 0 4px var(--cs-2);
   transform-origin: 50% 0;
-  animation: sv-swing 7s ease-in-out infinite alternate;
+  --amp: calc(2.2deg + var(--sv-wind, 0) * 9deg);
+  animation: sv-swing calc(7s - var(--sv-wind, 0) * 3.8s) ease-in-out infinite alternate;
   opacity: 0.85;
 }
 .sv-drape::before {
@@ -955,10 +977,16 @@
 }
 @keyframes sv-swing {
   from {
-    transform: rotate(-2.2deg);
+    transform: rotate(calc(var(--amp) * -1));
+  }
+  55% {
+    transform: rotate(calc(var(--amp) * 0.45));
+  }
+  70% {
+    transform: rotate(calc(var(--amp) * 0.2));
   }
   to {
-    transform: rotate(2.2deg);
+    transform: rotate(var(--amp));
   }
 }
 
@@ -978,14 +1006,18 @@
   filter: grayscale(0.3) blur(1px);
 }
 .sv-rafters .rafter__sway {
-  animation: sv-rafter-swing var(--dur, 6s) ease-in-out var(--delay, 0s) infinite alternate !important;
+  --amp: calc(3deg + var(--sv-wind, 0) * 8deg);
+  animation: sv-rafter-swing calc(var(--dur, 6s) * (1 - var(--sv-wind, 0) * 0.55)) ease-in-out var(--delay, 0s) infinite alternate !important;
 }
 @keyframes sv-rafter-swing {
   from {
-    transform: rotate(calc(var(--tilt, 0deg) - 3deg));
+    transform: rotate(calc(var(--tilt, 0deg) - var(--amp)));
+  }
+  55% {
+    transform: rotate(calc(var(--tilt, 0deg) + var(--amp) * 0.4));
   }
   to {
-    transform: rotate(calc(var(--tilt, 0deg) + 3deg));
+    transform: rotate(calc(var(--tilt, 0deg) + var(--amp)));
   }
 }
 
@@ -1378,7 +1410,7 @@
   animation: sv-rise-in 1.2s 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 @media (prefers-reduced-motion: reduce) {
-  .sv :is(.sv-drape, .sv-champs__rays, .sv-confetti, .sv-stadium__flakes),
+  .sv :is(.sv-drape, .sv-champs__rays, .sv-confetti, .sv-stadium__flakes, .sv-stadium__pennants),
   .sv .sv-rafters .rafter__sway {
     animation: none !important;
   }
