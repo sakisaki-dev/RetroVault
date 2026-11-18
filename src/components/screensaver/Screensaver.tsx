@@ -39,7 +39,7 @@ import { RewindCardView } from '@/components/rewind/RewindCards';
 import { TrophyArt, TrophyDefs } from '@/components/frontoffice/TrophyCabinet';
 import { teamColor } from '@/components/frontoffice/shared';
 import '@/components/rewind/rewind.css';
-import { useNowPlaying, type NowPlaying } from '@/utils/spotify';
+import { trackTimes, useNowPlaying, useSpotifyConnected, type NowPlaying } from '@/utils/spotify';
 import './screensaver.css';
 
 /*
@@ -74,7 +74,8 @@ type Scene =
   | { kind: 'flyover'; club: string; roll: number }
   | { kind: 'rewind'; entry: SeasonRewindIndexEntry; from: number }
   | { kind: 'trophies'; club: string; years: number[] }
-  | { kind: 'stunt'; club: string };
+  | { kind: 'stunt'; club: string }
+  | { kind: 'pa' };
 
 interface CoachStint { club: string; years: number[]; seasons: number; titles: number; w: number; l: number; t: number }
 /** Seasons as spans: [34, 35, 71, 72] → "Y34–35, Y71–72" */
@@ -1178,32 +1179,91 @@ const StuntScene = ({ club }: { club: string }) => {
   );
 };
 
-/** Now playing on Spotify: the album cover, the song, the artist, the track running along under them */
+/** The cover as stadium-screen pixels: drawn small once, shown big with hard edges */
+const PixelCover = ({ src }: { src: string | null }) => {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const cv = ref.current;
+    const ctx = cv?.getContext('2d');
+    if (!cv || !ctx || !src) return;
+    const img = new Image();
+    img.onload = () => {
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(img, 0, 0, cv.width, cv.height);
+    };
+    img.src = src;
+  }, [src]);
+  return src ? <canvas ref={ref} width={40} height={40} className="sv-pa__cover" aria-hidden="true" /> : <span className="sv-pa__cover sv-pa__cover--none" aria-hidden="true"><Music /></span>;
+};
+
+/**
+ * Stadium PA (owner, 2026-11-18: "for the stadium PA panel make it a screensaver"): the song playing on Spotify on the
+ * big screen over the current club's ground: the cover as screen pixels, the title running in gold lights, an
+ * equalizer, the track. Only dealt while Spotify is connected; skipped at once when nothing is playing.
+ */
+const PaScene = ({ np, club }: { np: NowPlaying; club: string }) => {
+  const line = `${np.title} · ${np.artist}`.toUpperCase();
+  const t = trackTimes(np);
+  return (
+    <Stadium club={club} roll={0.9} className="sv-pa-ground">
+      <div className={np.playing ? 'sv-pa' : 'sv-pa sv-pa--paused'}>
+        <p className="sv-kick">Stadium PA · now playing</p>
+        <div className="sv-pa__board">
+          <PixelCover src={np.art} />
+          <div className="sv-pa__info">
+            <span className="sv-pa__live">
+              <i />
+              {np.playing ? 'On the speakers' : 'Paused'}
+            </span>
+            <span className="sv-pa__marquee">
+              <span className="sv-pa__run">
+                <span>{line}</span>
+                <span>{line}</span>
+              </span>
+            </span>
+            {np.album && <span className="sv-pa__album">{np.album}</span>}
+            <span className="sv-pa__eq" aria-hidden="true">
+              {Array.from({ length: 24 }, (_, k) => (
+                <i key={k} style={{ '--d': `${-hash(k + 3) * 0.9}s`, '--t': `${0.45 + hash(k + 11) * 0.5}s` } as CSSProperties} />
+              ))}
+            </span>
+            <span className="sv-pa__times">
+              <span>{t.at}</span>
+              <span className="sv-pa__bar">
+                <span key={`${np.title}-${np.at}`} style={{ '--np-from': np.duration ? Math.min(1, np.progress / np.duration) : 0, '--np-rest': `${Math.max(0, np.duration - np.progress)}ms` } as CSSProperties} />
+              </span>
+              <span>{t.of}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </Stadium>
+  );
+};
+
+/** Now playing on Spotify, bottom right: a small stadium scoreboard (the cover as screen pixels, the song in gold) */
 const NowPlayingCard = ({ np }: { np: NowPlaying }) => {
   const from = np.duration ? Math.min(1, np.progress / np.duration) : 0;
   const rest = Math.max(0, np.duration - np.progress);
   return (
     <div className={np.playing ? 'sv-np' : 'sv-np sv-np--paused'}>
-      {np.art ? (
-        <img className="sv-np__art" src={np.art} alt="" />
-      ) : (
-        <span className="sv-np__art sv-np__art--none" aria-hidden="true">
-          <Music />
+      <span className="sv-np__head">
+        <span className="sv-np__eq" aria-hidden="true">
+          <i />
+          <i />
+          <i />
         </span>
-      )}
-      <span className="sv-np__txt">
-        <span className="sv-np__kick">
-          <span className="sv-np__eq" aria-hidden="true">
-            <i />
-            <i />
-            <i />
+        Stadium PA
+        <b>{np.playing ? 'On air' : 'Paused'}</b>
+      </span>
+      <span className="sv-np__screen">
+        <PixelCover src={np.art} />
+        <span className="sv-np__txt">
+          <span className="sv-np__title">{np.title}</span>
+          <span className="sv-np__artist">{np.artist}</span>
+          <span className="sv-np__bar">
+            <span key={`${np.title}-${np.at}`} style={{ '--np-from': from, '--np-rest': `${rest}ms` } as CSSProperties} />
           </span>
-          {np.playing ? 'Now playing' : 'Paused'}
-        </span>
-        <span className="sv-np__title">{np.title}</span>
-        <span className="sv-np__artist">{np.artist}</span>
-        <span className="sv-np__bar">
-          <span key={`${np.title}-${np.at}`} style={{ '--np-from': from, '--np-rest': `${rest}ms` } as CSSProperties} />
         </span>
       </span>
     </div>
@@ -1225,6 +1285,8 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const feed = useWidgetFeed();
   const marketHist = useMarket();
   const live = useLiveSeason();
+  const spotifyOn = useSpotifyConnected();
+  const paClub = useCurrentClub() ?? 'Eagles';
   const rootRef = useRef<HTMLDivElement>(null);
 
   const players = useMemo(
@@ -1386,7 +1448,9 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
         .filter((x) => x.years.length),
     ).map((x): Scene => ({ kind: 'trophies', club: x.club, years: x.years }));
     const stunts = shuffle([...stints.keys()]).map((club): Scene => ({ kind: 'stunt', club }));
-    const decks = [spot, flyovers, cardScenes, duels, rewinds, dyks, lineups, trophies, champs, coachDeck, stunts, hofScenes, takeScenes, recs, rising, papers, chases, rivals, market, classes, dynasties, gauntlet, farewell, rafters].filter((d) => d.length);
+    // the PA comes round a few times a run while Spotify is connected (skipped when nothing is playing)
+    const pas: Scene[] = spotifyOn ? [{ kind: 'pa' }, { kind: 'pa' }, { kind: 'pa' }] : [];
+    const decks = [spot, pas, flyovers, cardScenes, duels, rewinds, dyks, lineups, trophies, champs, coachDeck, stunts, hofScenes, takeScenes, recs, rising, papers, chases, rivals, market, classes, dynasties, gauntlet, farewell, rafters].filter((d) => d.length);
     const out: Scene[] = [];
     for (let i = 0; out.length < 60 && decks.some((d) => i < d.length); i++) decks.forEach((d) => d[i] && out.push(d[i]));
     return out;
@@ -1403,6 +1467,8 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const night = useSaverNight();
   const [resting, setResting] = useState(() => night && isNightRest());
   const nowPlaying = useNowPlaying(!resting);
+  const onPa = scenes[idx]?.kind === 'pa';
+  const paIdle = onPa && !nowPlaying;
   // a 3 s fade to black, then nothing is drawn at all
   const [asleep, setAsleep] = useState(resting);
   useEffect(() => {
@@ -1423,12 +1489,13 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
 
   useEffect(() => {
     if (scenes.length < 2 || resting) return;
+    // the PA with nothing playing passes straight on to the next scene
     const t = window.setTimeout(() => {
       setPrev(idx);
       setIdx((i) => (i + 1) % scenes.length);
-    }, SCENE_MS);
+    }, paIdle ? 0 : SCENE_MS);
     return () => window.clearTimeout(t);
-  }, [idx, scenes.length, resting]);
+  }, [idx, scenes.length, resting, paIdle]);
   useEffect(() => {
     if (prev === null) return;
     const t = window.setTimeout(() => setPrev(null), FADE_MS);
@@ -1570,6 +1637,8 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
         return <TrophiesScene club={s.club} years={s.years} />;
       case 'stunt':
         return <StuntScene club={s.club} />;
+      case 'pa':
+        return nowPlaying ? <PaScene np={nowPlaying} club={paClub} /> : null;
     }
   };
 
@@ -1608,7 +1677,8 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
           <BrandGlyph size={28} />
           Retro <b>Vault</b>
         </span>
-        <Corner onWeather={setWeather}>{nowPlaying && <NowPlayingCard np={nowPlaying} />}</Corner>
+        <Corner onWeather={setWeather} />
+        {nowPlaying && !onPa && <NowPlayingCard np={nowPlaying} />}
         <span key={idx} className="sv-progress" style={{ '--sv-dur': `${SCENE_MS}ms` } as CSSProperties} />
       </div>
       <p className={hint ? 'sv-hint' : 'sv-hint sv-hint--gone'}>Move the mouse or press any key to return</p>

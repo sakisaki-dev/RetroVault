@@ -1,4 +1,4 @@
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 
 /*
  * Spotify now playing for the screensaver (owner, 2026-11-18). Browser only, no server: the Authorization Code flow
@@ -26,6 +26,8 @@ export interface NowPlaying {
   artist: string;
   album: string;
   art: string | null;
+  /** the track on open.spotify.com */
+  url: string | null;
   playing: boolean;
   progress: number;
   duration: number;
@@ -160,6 +162,7 @@ export const fetchNowPlaying = async (): Promise<NowPlaying | null> => {
       artist: (it.artists ?? []).map((a: { name: string }) => a.name).join(', '),
       album: it.album?.name ?? '',
       art: art?.url ?? null,
+      url: it.external_urls?.spotify ?? null,
       playing: !!j.is_playing,
       progress: j.progress_ms ?? 0,
       duration: it.duration_ms ?? 0,
@@ -170,23 +173,87 @@ export const fetchNowPlaying = async (): Promise<NowPlaying | null> => {
   }
 };
 
-/** Polls what is playing every 8 s while `on` (the screensaver showing, not resting) */
-export const useNowPlaying = (on: boolean) => {
+/*
+ * One poller for the whole page: the header pill, the phone strip and the screensaver all read the same song. It asks
+ * Spotify every 8 s while anything is listening and the tab is visible, and stops when nothing is.
+ */
+const npListeners = new Set<() => void>();
+let current: NowPlaying | null = null;
+let users = 0;
+let timer = 0;
+const emit = () => npListeners.forEach((l) => l());
+const poll = async () => {
+  if (document.hidden || !tokens) return;
+  const n = await fetchNowPlaying();
+  const same = n && current && n.title === current.title && n.artist === current.artist && n.playing === current.playing && Math.abs(n.progress - current.progress - (n.at - current.at)) < 3000;
+  if (same) return;
+  current = n;
+  emit();
+};
+const start = () => {
+  if (timer) return;
+  void poll();
+  timer = window.setInterval(poll, 8_000);
+  document.addEventListener('visibilitychange', poll);
+};
+const stop = () => {
+  window.clearInterval(timer);
+  timer = 0;
+  document.removeEventListener('visibilitychange', poll);
+};
+listeners.add(() => {
+  // signed out: nothing plays; signed in while someone listens: start asking
+  if (!tokens) {
+    current = null;
+    emit();
+  } else if (users) start();
+});
+
+/** What is playing now (shared across the page), or null; `on` false stops this reader from keeping the poller alive */
+export const useNowPlaying = (on = true) => {
   const connected = useSpotifyConnected();
-  const [now, setNow] = useState<NowPlaying | null>(null);
   useEffect(() => {
-    if (!on || !connected) {
-      setNow(null);
-      return;
-    }
-    let alive = true;
-    const poll = () => fetchNowPlaying().then((n) => alive && setNow(n));
-    void poll();
-    const t = window.setInterval(poll, 8_000);
+    if (!on || !connected) return;
+    users += 1;
+    start();
     return () => {
-      alive = false;
-      window.clearInterval(t);
+      users -= 1;
+      if (!users) stop();
     };
   }, [on, connected]);
-  return now;
+  const np = useSyncExternalStore(
+    (l) => {
+      npListeners.add(l);
+      return () => npListeners.delete(l);
+    },
+    () => current,
+    () => null,
+  );
+  return on && connected ? np : null;
 };
+
+/** Hidden for this visit (the pill and the strip's close button); a new song brings it back */
+let hiddenFor: string | null = null;
+const hideListeners = new Set<() => void>();
+export const hideNowPlaying = (np: NowPlaying) => {
+  hiddenFor = `${np.title}|${np.artist}`;
+  hideListeners.forEach((l) => l());
+};
+export const useNowPlayingShown = (np: NowPlaying | null) => {
+  const h = useSyncExternalStore(
+    (l) => {
+      hideListeners.add(l);
+      return () => hideListeners.delete(l);
+    },
+    () => hiddenFor,
+    () => null,
+  );
+  return !!np && h !== `${np.title}|${np.artist}`;
+};
+
+const mmss = (ms: number) => {
+  const s = Math.max(0, Math.round(ms / 1000));
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+};
+/** "1:23" / "4:01" for a track */
+export const trackTimes = (np: NowPlaying) => ({ at: mmss(np.progress + (np.playing ? Date.now() - np.at : 0)), of: mmss(np.duration) });

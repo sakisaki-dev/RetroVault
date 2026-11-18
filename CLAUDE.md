@@ -1211,9 +1211,14 @@ rain falling on a wet ground's rolls), **Season Rewind** (a season's Rewind card
 `RewindCardView` from the Rewind files, every card of every season in turn), **the trophy room** (each club Skura won
 with: a shelf of the Front Office trophy cabinet's cups (`TrophyArt`, team-colour band; its `glint` prop runs a light over the cup's own silver shapes, `CupSilver`, left out under reduced motion and lite mode), each engraved with the season, `coach.json` finishes) and **card stunt** (the home
 end of each club he coached: one canvas of seats whose cards turn column by column to spell the club's name in a 5×7
-pixel alphabet, `GLYPHS`, in its colours, then a wave rolls across; reduced motion draws the finished stunt). **Now playing** (owner, 2026-11-18): with Spotify connected from the same menu, a card under the clock and weather shows
-the song playing (cover, title, artist, the track running on between polls), polled every 8 s while the show runs
-(`src/utils/spotify.ts`). Browser only: Spotify's PKCE sign-in with the public Client ID `SPOTIFY_CLIENT_ID` (the menu
+pixel alphabet, `GLYPHS`, in its colours, then a wave rolls across; reduced motion draws the finished stunt). **Now playing** (owner, 2026-11-18): with Spotify connected from the same menu, a small stadium scoreboard in the bottom
+right ("Stadium PA", the cover as screen pixels, the song in gold, the track running on between polls) shows the song
+playing, and a **Stadium PA** scene puts it on the big screen over the current club's ground (dealt three times a run
+while connected, skipped at once when nothing plays). The site shows it too (owner: "I like the phone strip and the
+pill"; `src/components/nowplaying/`): a pill beside the Season lamp from 640px (spinning cover, equalizer, the song; a
+click opens a card with the cover, times, Open in Spotify, Hide) and a strip above the phone's tab bar that tucks away
+with it; Hide lasts for the current song. One poller serves them all (`useNowPlaying`: every 8 s while any reader is
+mounted and the tab is visible; `src/utils/spotify.ts`). Browser only: Spotify's PKCE sign-in with the public Client ID `SPOTIFY_CLIENT_ID` (the menu
 hides the option while it is empty), tokens kept in this browser (`rv:spotify`), scopes to read what is playing only;
 `ScreensaverHost` finishes a sign-in when Spotify sends the browser back (?code=…) and restores the hash route. The
 Spotify app's Redirect URIs must list https://sakisaki-dev.github.io/RetroVault/ and the local addresses used

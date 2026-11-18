@@ -2268,56 +2268,48 @@
 }
 
 
-/* ================= Now playing on Spotify: a card under the clock and weather, top right ================= */
+/* ================= Now playing on Spotify: a small stadium scoreboard, bottom right ================= */
 .sv-np {
-  margin-top: 14px;
-  text-align: left;
-  text-shadow: none;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: min(420px, 34vw);
-  padding: 12px 16px 12px 12px;
-  border-radius: 14px;
-  background: rgb(6 8 14 / 0.72);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08), 0 14px 34px rgb(0 0 0 / 0.5);
-  backdrop-filter: blur(8px);
-  animation: sv-rise-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.sv-np__art {
-  flex: none;
-  width: 72px;
-  height: 72px;
+  position: fixed;
+  right: 40px;
+  bottom: 34px;
+  z-index: 26;
+  width: min(340px, 26vw);
   border-radius: 8px;
-  object-fit: cover;
+  overflow: hidden;
   background: #1a2137;
-  box-shadow: 0 6px 16px rgb(0 0 0 / 0.5);
+  box-shadow:
+    0 0 0 2px #2a3150,
+    0 18px 40px rgb(0 0 0 / 0.6);
+  animation: sv-rise-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) both, sv-drift 420s ease-in-out -120s infinite alternate;
 }
-.sv-np__txt {
+.sv-np__head {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-  flex: 1;
-}
-.sv-np__kick {
-  display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
+  padding: 6px 10px;
+  border-bottom: 2px solid #ffc63e;
+  background: linear-gradient(180deg, #222a44, #161c30);
   font-family: var(--font-pixel);
   font-size: 10px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+  color: #ffc63e;
+}
+.sv-np__head b {
+  margin-left: auto;
+  font-weight: 400;
   color: #1ed760;
 }
-.sv-np--paused .sv-np__kick {
-  color: rgb(245 242 232 / 0.55);
+.sv-np--paused .sv-np__head b {
+  color: rgb(245 242 232 / 0.5);
 }
 .sv-np__eq {
   display: inline-flex;
   align-items: flex-end;
   gap: 2px;
   height: 10px;
+  color: #1ed760;
 }
 .sv-np__eq i {
   width: 2px;
@@ -2341,21 +2333,46 @@
   }
 }
 .sv-np--paused .sv-np__eq i {
-  animation: none;
-  transform: scaleY(0.25);
+  animation-play-state: paused;
+}
+/* the screen: dot-matrix black, the cover in screen pixels, the song in gold lights */
+.sv-np__screen {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 6px;
+  padding: 10px;
+  border-radius: 3px;
+  background-color: #03050a;
+  background-image: radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1.3px);
+  background-size: 4px 4px;
+}
+.sv-np__screen .sv-pa__cover {
+  width: 64px;
+  height: 64px;
+  box-shadow: 0 0 18px rgb(255 255 255 / 0.06);
+}
+.sv-np__txt {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
 }
 .sv-np__title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 22px;
+  font-size: 21px;
   line-height: 1.05;
+  color: #ffc63e;
+  text-shadow: 0 0 10px rgb(255 198 62 / 0.45);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .sv-np__artist {
-  font-size: 15px;
-  color: rgb(245 242 232 / 0.7);
+  font-size: 14px;
+  color: rgb(245 242 232 / 0.72);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2364,8 +2381,7 @@
   position: relative;
   height: 3px;
   margin-top: 5px;
-  border-radius: 2px;
-  background: rgb(255 255 255 / 0.15);
+  background: #1d2338;
   overflow: hidden;
 }
 /* the track runs on between polls: from where Spotify said it was to the end, over the time left */
@@ -2395,12 +2411,169 @@
     animation: none !important;
   }
 }
-.sv-np__art--none {
+
+/* ================= Stadium PA: the song on the big screen over the club's ground ================= */
+.sv-pa-ground .sv-stadium__word {
+  opacity: 0.2;
+}
+.sv-pa {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 9vh;
+  gap: 18px;
+}
+.sv-pa__board {
+  display: flex;
+  gap: 2.4vw;
+  width: min(1100px, 76vw);
+  padding: 2.2vw;
+  border-radius: 10px;
+  background-color: #03050a;
+  background-image: radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1.3px);
+  background-size: 5px 5px;
+  box-shadow:
+    0 0 0 12px #1a2137,
+    0 0 0 15px #2a3150,
+    0 40px 100px rgb(0 0 0 / 0.75),
+    0 0 140px color-mix(in srgb, var(--sv-1) 35%, transparent);
+}
+.sv-slide--in .sv-pa__board {
+  animation: sv-rw-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.sv-pa__cover {
+  flex: none;
+  width: min(330px, 22vw);
+  height: min(330px, 22vw);
+  image-rendering: pixelated;
+  border-radius: 2px;
+  background: #0b0f1d;
+  box-shadow: 0 0 40px rgb(255 255 255 / 0.08);
+}
+.sv-pa__cover--none {
   display: grid;
   place-items: center;
   color: #1ed760;
 }
-.sv-np__art--none svg {
-  width: 30px;
-  height: 30px;
+.sv-pa__cover--none svg {
+  width: 40%;
+  height: 40%;
+}
+.sv-pa__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.sv-pa__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #1ed760;
+}
+.sv-pa__live i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 12px currentColor;
+}
+.sv-pa--paused .sv-pa__live {
+  color: rgb(245 242 232 / 0.55);
+}
+/* the title and artist running in gold lights */
+.sv-pa__marquee {
+  overflow: hidden;
+  padding: 10px 0;
+  border-top: 1px solid #1d2338;
+  border-bottom: 1px solid #1d2338;
+}
+.sv-pa__run {
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
+  animation: sv-pa-run 18s linear infinite;
+}
+.sv-pa__run > span {
+  padding-right: 120px;
+  font-family: var(--font-pixel);
+  font-size: clamp(30px, 3vw, 54px);
+  color: #ffc63e;
+  text-shadow: 0 0 16px rgb(255 198 62 / 0.6);
+}
+@keyframes sv-pa-run {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.sv-pa__album {
+  font-size: clamp(16px, 1.3vw, 22px);
+  color: rgb(245 242 232 / 0.7);
+}
+.sv-pa__eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: clamp(60px, 9vh, 110px);
+  margin-top: auto;
+}
+.sv-pa__eq i {
+  flex: 1;
+  height: 100%;
+  background: linear-gradient(180deg, #ffc63e, #1ed760 60%);
+  transform-origin: 50% 100%;
+  animation: sv-pa-eq var(--t, 0.6s) ease-in-out var(--d, 0s) infinite alternate;
+}
+@keyframes sv-pa-eq {
+  from {
+    transform: scaleY(0.12);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+.sv-pa--paused .sv-pa__eq i,
+.sv-pa--paused .sv-pa__run {
+  animation-play-state: paused;
+}
+.sv-pa__times {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  color: rgb(245 242 232 / 0.6);
+}
+.sv-pa__bar {
+  position: relative;
+  flex: 1;
+  height: 6px;
+  background: #1d2338;
+  overflow: hidden;
+}
+.sv-pa__bar > span {
+  position: absolute;
+  inset: 0;
+  background: #1ed760;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--np-from, 0));
+  animation: sv-np-run var(--np-rest, 0s) linear forwards;
+}
+.sv-pa--paused .sv-pa__bar > span {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sv .sv-pa__run,
+  .sv .sv-pa__eq i,
+  .sv .sv-pa__board {
+    animation: none !important;
+  }
 }

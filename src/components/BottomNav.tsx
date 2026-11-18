@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent as RPointerEvent } from 'react';
+import { NowPlayingStrip } from '@/components/nowplaying/NowPlaying';
 import {
   ArrowLeftRight,
   BarChart3,
@@ -447,6 +448,8 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
         }}
       />
       <nav ref={ref} aria-label="Primary" className="bnav sm:hidden" data-gesture={hover ? 'true' : undefined}>
+        {/* What is playing on Spotify rides above the dock and tucks away with it */}
+        <NowPlayingStrip />
         {/* The dock: a floating capsule in the widget's gold rim; the pill under the current tab slides between tabs */}
         <div ref={dockRef} className="bnav__dock" style={{ '--ai': activeIdx, '--ac': activeColor } as CSSProperties}>
         <span className="bnav__pill" aria-hidden="true" />

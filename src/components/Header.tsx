@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Gauge, Search } from 'lucide-react';
 import ScreensaverButton from './screensaver/ScreensaverButton';
+import { NowPlayingPill } from './nowplaying/NowPlaying';
 import { setPerfSetting, suggestLite, usePerfMode, type PerfSetting } from '@/hooks/usePerfMode';
 import { cn } from '@/lib/utils';
 import { openQuickSearch } from '@/components/QuickPlayerSearch';
@@ -230,6 +231,9 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
           <span className="contents max-sm:hidden">
             <PerfToggle />
           </span>
+
+          {/* What is playing on Spotify, while connected and a song is on (phones: the strip above the tab bar) */}
+          <NowPlayingPill />
 
           {/* The Season lamp; on a desktop it is also the screensaver's button */}
           {board.season && (
