@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MapPin, MonitorPlay, Music } from 'lucide-react';
+import { setBusSetting, useBusSetting, useRoute } from '@/utils/bus';
 import { connectSpotify, disconnectSpotify, spotifyAvailable, useSpotifyConnected } from '@/utils/spotify';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
@@ -9,6 +10,8 @@ import { NIGHT_FROM, NIGHT_TO, SAVER_IDLE_CHOICES, SAVER_SLEEP_CHOICES, forgetSa
 const ScreensaverButton = ({ season }: { season: string | number }) => {
   const idle = useSaverIdle();
   const spotify = useSpotifyConnected();
+  const bus = useBusSetting();
+  const route = useRoute('11');
   const sleep = useSaverSleep();
   const night = useSaverNight();
   const hour = (h: number) => new Date(2000, 0, 1, h).toLocaleTimeString([], { hour: 'numeric' });
@@ -119,7 +122,43 @@ const ScreensaverButton = ({ season }: { season: string | number }) => {
             )}
           </>
         )}
+        <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Bus · Route 11</p>
+        <div className="mt-2 flex flex-col gap-1.5 text-sm">
+          <label className="flex flex-col gap-1">
+            <span className="text-xs text-muted-foreground">Your stop</span>
+            <select
+              value={bus?.point ?? ''}
+              onChange={(e) => setBusSetting(e.target.value ? { route: '11', point: e.target.value, walk: bus?.walk ?? 7 } : null)}
+              className="rounded-md border border-line bg-night px-2 py-1.5 text-sm text-foreground"
+            >
+              <option value="">Off</option>
+              {(route?.points ?? []).map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name} → {p.toward}
+                </option>
+              ))}
+            </select>
+          </label>
+          {bus && (
+            <label className="flex items-center justify-between gap-2">
+              <span className="text-xs text-muted-foreground">Walk to the stop</span>
+              <select
+                value={bus.walk}
+                onChange={(e) => setBusSetting({ ...bus, walk: Number(e.target.value) })}
+                className="rounded-md border border-line bg-night px-2 py-1 text-sm text-foreground"
+              >
+                {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15, 20].map((m) => (
+                  <option key={m} value={m}>
+                    {m} min
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+          <p className="text-xs text-muted-foreground">Leave now, leave in, or the next bus under the weather, by METRO's timetable. Kept on this device.</p>
+        </div>
         <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Local weather</p>
+
         {place ? (
           <div className="mt-2 flex items-center justify-between gap-2 text-sm">
             <span className="inline-flex min-w-0 items-center gap-1.5 text-foreground">

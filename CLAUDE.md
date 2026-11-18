@@ -1236,7 +1236,16 @@ mounted and the tab is visible; `src/utils/spotify.ts`). Browser only: Spotify's
 hides the option while it is empty), tokens kept in this browser (`rv:spotify`), scopes to read what is playing only;
 `ScreensaverHost` finishes a sign-in when Spotify sends the browser back (?code=…) and restores the hash route. The
 Spotify app's Redirect URIs must list https://sakisaki-dev.github.io/RetroVault/ and the local addresses used
-(http://127.0.0.1:<port>/; Spotify refuses "localhost"). **Letting the display sleep** (owner, 2026-11-18): the same menu sets "Let the display sleep after" Never / 30 min / 1 h
+(http://127.0.0.1:<port>/; Spotify refuses "localhost"). **The bus line** (owner, 2026-11-18: "the 11 that i consistently take … give me a small alert saying leave now and the next
+bus option", style A "one line, like the weather … a bit more subtle"): under the weather, the route's small badge and one
+quiet line: "Leave now · bus 8:24 · next 8:54" (soft amber), "Leave in 6 min …" within 20 minutes, else "Next bus 9:24 ·
+leave 9:19" (`BusLine`, `src/utils/bus.ts`: leave = bus − walk − 1 min; a bus counts while the walk still makes it). The
+timetable is public data, the whole route: `python3 scripts/transit_route.py 11` (not in `npm run rebuild`) writes
+`public/data/transit/route-11.json` from Santa Cruz METRO's GTFS (every boarding point, a loop's stop twice, told apart
+by the next stop; each service pattern's dates and departure minutes); rerun it when METRO publishes a new timetable (the
+file's `ends`, 2026-12-16 now; the line hides after it). Which stop and how long the walk (default 7 min) are set in the
+Season menu ("Bus · Route 11") and kept in the browser only (`rv:saver:bus`), never in the repo. METRO's live feed
+(rt.scmetro.org GTFS-RT) can't be read from a web page (no cross-origin access), so it is the scheduled time. **Letting the display sleep** (owner, 2026-11-18): the same menu sets "Let the display sleep after" Never / 30 min / 1 h
 (default) / 2 h / 4 h (`rv:saver:sleep`) and "Rest overnight" (`rv:saver:night`, 11 pm to 7 am: it never starts by
 itself then). Resting fades the show to black over 3 s, then draws nothing and gives up the Wake Lock, so the computer's
 own display sleep takes over; any key or mouse move still ends it. Full screen and a Wake

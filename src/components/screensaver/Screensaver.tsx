@@ -40,6 +40,7 @@ import { teamColor } from '@/components/frontoffice/shared';
 import '@/components/rewind/rewind.css';
 import { trackTimes, useNowPlaying, useSpotifyConnected, type NowPlaying } from '@/utils/spotify';
 import { PixelCup } from '@/components/frontoffice/PixelCup';
+import { busState, departures, hm, useBusSetting, useRoute } from '@/utils/bus';
 import './screensaver.css';
 
 /*
@@ -1259,6 +1260,42 @@ const WX_ICON = { clear: [Sun, Moon], cloud: [Cloud, Cloud], fog: [CloudFog, Clo
 /** The corner: the time, the date, the town and its weather (when the location is shared from the menu) */
 type Weather = { fx: ReturnType<typeof weatherKind>['fx'] | null; wind: number };
 
+/**
+ * The bus line under the weather (owner: style A "one line, like the weather", "a bit more subtle"): the route's small
+ * badge and one quiet line: leave now, leave in N minutes, or the next bus and when to set off, from the stop and walk
+ * set in the menu, by the published timetable
+ */
+const BusLine = ({ now }: { now: Date }) => {
+  const bus = useBusSetting();
+  const file = useRoute(bus?.route);
+  if (!bus || !file) return null;
+  if (file.ends && file.ends < now.toISOString().slice(0, 10)) return null;
+  const st = busState(departures(file, bus.point, now), bus.walk, now);
+  if (st.kind === 'none') return null;
+  return (
+    <span className={st.kind === 'now' ? 'sv-bus sv-bus--now' : 'sv-bus'}>
+      <i className="sv-bus__badge">{file.route}</i>
+      {st.kind === 'now' && (
+        <>
+          <b>Leave now</b> · bus {hm(st.bus)}
+          {st.next && ` · next ${hm(st.next)}`}
+        </>
+      )}
+      {st.kind === 'soon' && (
+        <>
+          <b>Leave in {st.inMin} min</b> · bus {hm(st.bus)}
+          {st.next && ` · next ${hm(st.next)}`}
+        </>
+      )}
+      {st.kind === 'later' && (
+        <>
+          Next bus {hm(st.bus)} · leave {hm(st.leave)}
+        </>
+      )}
+    </span>
+  );
+};
+
 const Corner = ({ onWeather, children }: { onWeather: (w: Weather) => void; children?: ReactNode }) => {
   const [now, setNow] = useState(() => new Date());
   const place = useSaverPlace();
@@ -1304,6 +1341,7 @@ const Corner = ({ onWeather, children }: { onWeather: (w: Weather) => void; chil
           </span>
         </span>
       )}
+      <BusLine now={now} />
       {children}
     </div>
   );
