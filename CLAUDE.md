@@ -1187,7 +1187,11 @@ across the sky, pennants on the stand front and its logo at midfield; a Hall of 
 "Use my location" in the menu is pressed (the browser asks once; rounded to 2 decimals, kept on the device as
 `rv:saver:place`, the town from BigDataCloud's reverse geocode), the current weather from Open-Meteo (no key, cached 20
 min as `rv:saver:wx`, °F for a US locale), and the real rain, snow, fog or storm laid lightly over every scene (rain and snow are single drops and flakes moved by
-transform, each with its own lane, size, speed and depth; snow sways and drifts with the wind). The wind counts too (owner: "if it's windy they sway more"): Open-Meteo's wind and gusts become `--sv-wind` 0–1
+transform, each with its own lane, size, speed and depth; snow sways and drifts with the wind). While it snows (the real weather, or a snow game's ground) the snow settles (owner: "have the snow pile on the cards
+or whatever elements including the ground and clear / fall on transitions"; `SnowCaps`): once a scene has settled its
+main surfaces (`SNOW_SURFACES`: banners, cards, plaques, boards, shelves) are measured and a lumpy cap builds on each top
+edge over the scene, a drift banks up along the bottom, and on the change of scene the caps slide off and fall and the
+drift clears (a cap on a floating banner floats with it). The wind counts too (owner: "if it's windy they sway more"): Open-Meteo's wind and gusts become `--sv-wind` 0–1
 (`windForce`, calm under 8 km/h), so the Hall of Fame drapes and the rafters swing wider and faster in an uneven, gusty
 rhythm, the stand-front pennants flutter (open-air grounds only), the rain (single drops moved by transform) leans with
 it, and the corner names it from Breezy (20 km/h) up to Gale.

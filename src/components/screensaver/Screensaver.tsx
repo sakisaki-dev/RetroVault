@@ -231,6 +231,85 @@ const Snow = () => (
   </>
 );
 
+/**
+ * Snow that settles (owner, 2026-11-18: "have the snow pile on the cards or whatever elements including the ground and
+ * clear / fall on transitions"): while it snows (the real weather, or a snow game's ground) a cap builds up on the top
+ * edge of each scene's main surfaces and a drift on the ground over the scene's 14 s; when the scene changes the caps
+ * slide off and fall with it. The surfaces are measured once the scene has settled; a cap on a floating banner floats
+ * with it.
+ */
+const SNOW_SURFACES = [
+  '.sv-spot__banner',
+  '.sv-duel__card',
+  '.sv-hall__plaque',
+  '.sv-troom__shelf',
+  '.sv-rec__board',
+  '.sv-market__board',
+  '.sv-pa__board',
+  '.sv-paper__sheet',
+  '.sv-rw__phone',
+  '.sv-stunt__stand',
+  '.sv-champs__body',
+  '.sv-gauntlet__body',
+  '.sv-hofclass__body',
+  '.sv-fly__cap',
+].join(',');
+interface Cap { x: number; y: number; w: number; float?: { dur: string; delay: string } }
+const SnowCaps = ({ weather }: { weather: boolean }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [caps, setCaps] = useState<Cap[] | null>(null);
+  const [snowing, setSnowing] = useState(false);
+  useEffect(() => {
+    const t = window.setTimeout(() => {
+      const slide = ref.current?.parentElement;
+      if (!slide) return;
+      // the real weather, or a snow game at the club's ground
+      if (!weather && !slide.querySelector('.sv-stadium--snow')) return;
+      setSnowing(true);
+      const box = slide.getBoundingClientRect();
+      const found: Cap[] = [];
+      slide.querySelectorAll<HTMLElement>(SNOW_SURFACES).forEach((el) => {
+        if (found.length >= 8) return;
+        const r = el.getBoundingClientRect();
+        if (r.width < 120 || r.top < box.top + 20) return;
+        const cs = getComputedStyle(el);
+        const names = cs.animationName.split(',').map((x) => x.trim());
+        const k = names.indexOf('sv-float');
+        const float =
+          k >= 0
+            ? {
+                dur: cs.animationDuration.split(',')[k]?.trim() ?? '7s',
+                delay: `${(parseFloat(cs.animationDelay.split(',')[k] ?? '0') || 0) - 1.7}s`,
+              }
+            : undefined;
+        found.push({ x: r.left - box.left, y: r.top - box.top, w: r.width, float });
+      });
+      setCaps(found);
+    }, 1700);
+    return () => window.clearTimeout(t);
+  }, [weather]);
+  return (
+    <span ref={ref} className="sv-snowcaps" aria-hidden="true">
+      {caps?.map((c, i) => (
+        <i
+          key={i}
+          className={c.float ? 'sv-snowcap sv-snowcap--float' : 'sv-snowcap'}
+          style={
+            {
+              left: c.x - 4,
+              top: c.y,
+              width: c.w + 8,
+              '--seed': `${(hash(i + 7) * 60) | 0}px`,
+              ...(c.float ? { '--fdur': c.float.dur, '--fdelay': c.float.delay } : {}),
+            } as CSSProperties
+          }
+        />
+      ))}
+      {snowing && <i className="sv-snowdrift" />}
+    </span>
+  );
+};
+
 type Look = 'day' | 'dusk' | 'night' | 'snow' | 'dome';
 
 /**
@@ -1732,6 +1811,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
       {!asleep && shown.map((i) => (
         <div key={`${i}-${scenes[i].kind}`} className={i === idx ? 'sv-slide sv-slide--in' : 'sv-slide sv-slide--out'} style={{ '--sv-dur': `${SCENE_MS}ms` } as CSSProperties}>
           {render(scenes[i])}
+          {fx === 'snow' || !lite ? <SnowCaps weather={fx === 'snow'} /> : null}
         </div>
       ))}
       {!asleep && fx && fx !== 'clear' && fx !== 'cloud' && (
