@@ -26,6 +26,8 @@ import ProPlayerBanner from '@/components/brand/ProPlayerBanner';
 import { BrandGlyph } from '@/components/brand/BrandMark';
 import TeamLogo from '@/components/brand/TeamLogo';
 import GameSprite from '@/components/GameSprite';
+import CoachSprite from '@/components/CoachSprite';
+import { useCurrentClub } from '@/utils/club';
 import RaftersScene from '@/components/teams/RaftersScene';
 import { bannerStats } from '@/components/hof/hofUtils';
 import { clubStyle } from '@/components/stats/visual/clubTone';
@@ -48,7 +50,62 @@ type Scene =
   | { kind: 'duel'; a: Player; b: Player; pos: string }
   | { kind: 'champs'; bowl: SuperBowlEntry }
   | { kind: 'paper'; story: SeasonStoryIndexEntry; takes: HotTakesIndexEntry | null }
-  | { kind: 'record'; row: ClubRecordRow; holder: Player };
+  | { kind: 'record'; row: ClubRecordRow; holder: Player }
+  | { kind: 'coach'; roll: number }
+  | { kind: 'rising'; items: { p: Player; line: string }[] }
+  | { kind: 'farewell'; items: { p: Player; line: string }[] }
+  | { kind: 'market'; rows: { p: Player; pct: number }[] }
+  | { kind: 'dyk'; text: string; p: Player | null; club: string; roll: number }
+  | { kind: 'chase'; p: Player; c: WidgetChase; roll: number }
+  | { kind: 'gauntlet'; holders: Player[]; closest: { p: Player; missing: string[] } | null }
+  | { kind: 'rivalry'; file: RivalryFileLite; a: Player | null; b: Player | null }
+  | { kind: 'hofclass'; label: string; members: Player[] }
+  | { kind: 'take'; take: WidgetTake; players: Player[] }
+  | { kind: 'dynasty'; era: EraLite; players: Player[] };
+
+/* The slices of widget.json and content.json the new scenes read (every field optional in the files) */
+interface WidgetChase { player: string; stat: string; unit: string; have: number; mark: number; toGo: number; pct: number; holder: string; team: string }
+interface WidgetTake { id: string; headline: string; dek?: string; heat: number; team?: string; players?: { player: string }[] }
+interface WidgetFeed {
+  coachTitles?: number;
+  liveSeason?: string;
+  ceilings?: { player: string; age: number; stars: number; ceiling: number }[];
+  retirements?: { player: string; age: number; seasonsLeft: number }[];
+  movers?: { key: string; pct: number }[];
+  didYouKnow?: { text: string; player?: string; team?: string }[];
+  chases?: WidgetChase[];
+  gauntlet?: { holders?: { player: string }[]; closest?: { player: string; missing: string[] } };
+  takes?: WidgetTake[];
+}
+interface RivalryFileLite {
+  team: string;
+  coachTeam: string;
+  status: string;
+  first: string;
+  last: string;
+  games: number;
+  record: { text: string };
+  streak?: { team: string; games: number };
+  stars?: { coach?: { key: string }; rival?: { key: string } };
+}
+interface EraLite { name: string; startYear: number; endYear: number; superBowlRange?: string; yourTeams: string[]; keyPlayers: string[]; notes?: string }
+
+let widgetReq: Promise<WidgetFeed | null> | null = null;
+/** undefined while loading, null when the feed can't be read */
+const useWidgetFeed = () => {
+  const [w, setW] = useState<WidgetFeed | null | undefined>(undefined);
+  useEffect(() => {
+    let live = true;
+    widgetReq ??= fetch(`${import.meta.env.BASE_URL}data/widget.json`)
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null);
+    widgetReq.then((x) => live && setW(x));
+    return () => {
+      live = false;
+    };
+  }, []);
+  return w;
+};
 
 const SCENE_MS = 14_000;
 const FADE_MS = 1_400;
@@ -452,6 +509,278 @@ const RecordScene = ({ row, holder, sprites }: { row: ClubRecordRow; holder: Pla
   );
 };
 
+
+/** A row of players on the turf, each with a plate under his name */
+const Row = ({ items, sprites, best = 0, action = 'idle' }: { items: { p: Player; line: string }[]; sprites: boolean; best?: number; action?: SpriteAction }) => (
+  <ul className="sv-line__row">
+    {items.map(({ p, line }, i) => (
+      <li key={playerKey(p)} className={i === best ? 'sv-line__man sv-line__man--best' : 'sv-line__man'} style={{ ...clubStyle(p), '--i': i } as CSSProperties}>
+        <Figure player={p} sprites={sprites} action={i === best ? 'celebrate' : action} scale={i === best ? 1.2 : 1} />
+        <span className="sv-line__name">{p.name.split(' ').slice(-1)[0]}</span>
+        <span className="sv-line__cl">{line}</span>
+      </li>
+    ))}
+  </ul>
+);
+
+/** A headline board over the field (the line-up's jumbotron style) */
+const Board = ({ kick, title, sub, logo }: { kick: string; title: string; sub?: string; logo?: string }) => (
+  <div className="sv-line__head">
+    {logo && <TeamLogo team={logo} size={92} decorative />}
+    <div>
+      <p className="sv-kick">{kick}</p>
+      <h2 className="sv-title">{title}</h2>
+      {sub && <p className="sv-sub">{sub}</p>}
+    </div>
+  </div>
+);
+
+const CoachScene = ({ roll, titles }: { roll: number; titles: number | null }) => {
+  const { content } = useLeagueContent();
+  const club = useCurrentClub() ?? 'Eagles';
+  const seasons = content?.coach?.seasons ?? [];
+  const clubs: string[] = [];
+  seasons.forEach((x) => {
+    const n = findNFLTeam(x.team)?.name;
+    if (n && !clubs.includes(n)) clubs.push(n);
+  });
+  return (
+    <Stadium club={club} roll={roll}>
+      <div className="sv-coach">
+        <div className="sv-coach__man">
+          <span className="sv-fig" style={{ '--sv-scale': 1.8 } as CSSProperties}>
+            <span className="sv-fig__shadow" />
+            <CoachSprite who="head" team={club} kind="figure" size="l" className="sv-fig__sprite" />
+          </span>
+        </div>
+        <div className="sv-rec__board sv-coach__board">
+          <p className="sv-kick">Head coach</p>
+          <h2 className="sv-rec__name">{content?.coach?.name ?? 'Dorren Skura'}</h2>
+          {titles != null && (
+            <p className="sv-rec__mark">
+              {titles}
+              <small> titles</small>
+            </p>
+          )}
+          <p className="sv-rec__gap">
+            {seasons.length} seasons · {clubs.length} clubs
+          </p>
+          <div className="sv-coach__clubs">
+            {clubs.map((c) => (
+              <TeamLogo key={c} team={c} size={34} decorative />
+            ))}
+          </div>
+        </div>
+      </div>
+    </Stadium>
+  );
+};
+
+const RowScene = ({ kick, title, sub, items, sprites, roll, club, action }: { kick: string; title: string; sub?: string; items: { p: Player; line: string }[]; sprites: boolean; roll: number; club: string; action?: SpriteAction }) => (
+  <Stadium club={club} roll={roll}>
+    <div className="sv-line">
+      <Board kick={kick} title={title} sub={sub} />
+      <Row items={items} sprites={sprites} action={action} />
+    </div>
+  </Stadium>
+);
+
+const MarketScene = ({ rows, sprites }: { rows: { p: Player; pct: number }[]; sprites: boolean }) => (
+  <div className="sv-market">
+    <div className="sv-market__board">
+      <p className="sv-kick">Card market · biggest movers</p>
+      <ul>
+        {rows.map(({ p, pct }) => (
+          <li key={playerKey(p)} style={clubStyle(p)}>
+            <span className="sv-market__sw" />
+            <span className="sv-market__name">{p.name}</span>
+            <span className="sv-market__pos">{p.position}</span>
+            <b className={pct >= 0 ? 'sv-up' : 'sv-down'}>
+              {pct >= 0 ? '▲' : '▼'} {Math.abs(pct)}%
+            </b>
+          </li>
+        ))}
+      </ul>
+      <span className="sv-market__ticker" aria-hidden="true">
+        {rows.map(({ p, pct }) => `${p.name.toUpperCase()} ${pct >= 0 ? '▲' : '▼'}${Math.abs(pct)}%`).join('   ·   ')}
+      </span>
+    </div>
+    {rows[0] && (
+      <div className="sv-market__man" style={clubStyle(rows[0].p)}>
+        <Figure player={rows[0].p} sprites={sprites} action="celebrate" scale={1.6} />
+      </div>
+    )}
+  </div>
+);
+
+const DykScene = ({ text, p, club, roll, sprites }: { text: string; p: Player | null; club: string; roll: number; sprites: boolean }) => (
+  <Stadium club={club} roll={roll}>
+    <div className="sv-dyk">
+      {p && (
+        <div className="sv-dyk__man" style={clubStyle(p)}>
+          <Figure player={p} sprites={sprites} scale={1.7} />
+        </div>
+      )}
+      <div className="sv-dyk__third">
+        <p className="sv-dyk__tab">Did you know</p>
+        <p className="sv-dyk__text">{text}</p>
+      </div>
+    </div>
+  </Stadium>
+);
+
+const ChaseScene = ({ p, c, roll, sprites }: { p: Player; c: WidgetChase; roll: number; sprites: boolean }) => (
+  <Stadium club={clubOf(p)?.name ?? c.team} roll={roll}>
+    <div className="sv-rec">
+      <div className="sv-rec__board">
+        <p className="sv-kick">Record chase · {c.holder} holds it</p>
+        <h2 className="sv-rec__name">
+          {p.name}: {fmt(c.have)} {c.unit}
+        </h2>
+        <div className="sv-chase">
+          <i style={{ '--w': `${Math.min(100, c.pct)}%` } as CSSProperties} />
+        </div>
+        <p className="sv-rec__gap">
+          <b>{fmt(c.toGo)}</b> to go to {fmt(c.mark)} · {c.pct}% of the way
+        </p>
+      </div>
+      <div className="sv-rec__man" style={clubStyle(p)}>
+        <Figure player={p} sprites={sprites} action="run" scale={1.6} />
+        <span className="sv-line__name">{p.name}</span>
+      </div>
+    </div>
+  </Stadium>
+);
+
+const AWARDS = ['Ring', 'MVP', 'Player of the Year', 'Rookie of the Year', 'Super Bowl MVP'];
+const GauntletScene = ({ holders, closest, sprites }: { holders: Player[]; closest: { p: Player; missing: string[] } | null; sprites: boolean }) => (
+  <div className="sv-gauntlet">
+    <span className="sv-champs__rays" aria-hidden="true" />
+    <div className="sv-gauntlet__body">
+      <p className="sv-kick">The Gauntlet · every award on his side of the ball</p>
+      <h2 className="sv-title">Ran the Gauntlet</h2>
+      <ul className="sv-gauntlet__row">
+        {holders.slice(0, 5).map((p, i) => (
+          <li key={playerKey(p)} style={{ ...clubStyle(p), '--i': i } as CSSProperties}>
+            <Figure player={p} sprites={sprites} action="celebrate" scale={1.05} />
+            <span className="sv-line__name">{p.name.split(' ').slice(-1)[0]}</span>
+            <span className="sv-gauntlet__rings">
+              {AWARDS.map((a) => (
+                <i key={a} title={a} />
+              ))}
+            </span>
+          </li>
+        ))}
+      </ul>
+      {closest && (
+        <p className="sv-sub">
+          Closest: <b>{closest.p.name}</b>, missing {closest.missing.join(' and ')}
+        </p>
+      )}
+    </div>
+  </div>
+);
+
+const RivalryScene = ({ file, a, b, sprites }: { file: RivalryFileLite; a: Player | null; b: Player | null; sprites: boolean }) => {
+  const ta = findNFLTeam(file.coachTeam);
+  const tb = findNFLTeam(file.team);
+  return (
+    <div className="sv-duel sv-rival" style={{ '--a': ta ? `hsl(${ta.primaryColor})` : undefined, '--b': tb ? `hsl(${tb.primaryColor})` : undefined } as CSSProperties}>
+      <div className="sv-duel__side">
+        {ta && <TeamLogo team={ta.name} size={180} decorative />}
+        {a && <Figure player={a} sprites={sprites} scale={1.2} />}
+        <h3 className="sv-duel__name">{ta?.name}</h3>
+      </div>
+      <div className="sv-duel__mid">
+        <p className="sv-kick">Rivalry file · {file.first}–{file.last}</p>
+        <span className="sv-duel__vs">{file.record.text}</span>
+        <p className="sv-sub">
+          {file.games} meetings
+          {file.streak ? ` · longest streak ${file.streak.games}, ${file.streak.team}` : ''}
+        </p>
+      </div>
+      <div className="sv-duel__side sv-duel__side--r">
+        {tb && <TeamLogo team={tb.name} size={180} decorative />}
+        {b && <Figure player={b} sprites={sprites} scale={1.2} mirror />}
+        <h3 className="sv-duel__name">{tb?.name}</h3>
+      </div>
+    </div>
+  );
+};
+
+const HofClassScene = ({ label, members, sprites }: { label: string; members: Player[]; sprites: boolean }) => (
+  <div className="sv-hall sv-hofclass">
+    <span className="sv-hall__columns" aria-hidden="true" />
+    <span className="sv-hall__glow sv-hall__glow--wide" aria-hidden="true" />
+    <div className="sv-hofclass__body">
+      <p className="sv-kick">Hall of Fame</p>
+      <h2 className="sv-title">{label}</h2>
+      <ul className="sv-hofclass__steps">
+        {members.slice(0, 7).map((p, i) => (
+          <li key={playerKey(p)} style={{ ...clubStyle(p), '--i': i, '--step': Math.abs(i - Math.floor(Math.min(7, members.length) / 2)) } as CSSProperties}>
+            <Figure player={p} sprites={sprites} action={i === Math.floor(Math.min(7, members.length) / 2) ? 'celebrate' : 'idle'} scale={0.95} />
+            <span className="sv-line__name">{p.name.split(' ').slice(-1)[0]}</span>
+          </li>
+        ))}
+      </ul>
+      {members.length > 7 && <p className="sv-sub sv-sub--dim">and {members.length - 7} more</p>}
+    </div>
+  </div>
+);
+
+const TakeScene = ({ take, players, sprites }: { take: WidgetTake; players: Player[]; sprites: boolean }) => {
+  const t = findNFLTeam(take.team ?? '');
+  const style = (t ? { '--cs-1': `hsl(${t.primaryColor})` } : {}) as CSSProperties;
+  return (
+    <div className="sv-take" style={style}>
+      <span className="sv-take__heat" aria-label={`Heat ${take.heat}`}>
+        {Array.from({ length: take.heat }, (_, i) => (
+          <Flame key={i} aria-hidden="true" />
+        ))}
+      </span>
+      <p className="sv-kick">Hot take</p>
+      <blockquote className="sv-take__q">{take.headline}</blockquote>
+      {take.dek && <p className="sv-sub">{take.dek}</p>}
+      <div className="sv-take__men">
+        {players.slice(0, 2).map((p, i) => (
+          <span key={playerKey(p)} style={clubStyle(p)}>
+            <Figure player={p} sprites={sprites} scale={1.1} mirror={i === 1} />
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const DynastyScene = ({ era, players, sprites }: { era: EraLite; players: Player[]; sprites: boolean }) => {
+  const club = findNFLTeam(era.yourTeams[era.yourTeams.length - 1] ?? '')?.name ?? 'Eagles';
+  const lead = (era.notes ?? '').split('. ')[0];
+  return (
+    <Stadium club={club} roll={0.6}>
+      <div className="sv-line">
+        <div className="sv-line__head">
+          <TeamLogo team={club} size={92} decorative />
+          <div>
+            <p className="sv-kick">
+              Y{era.startYear}–{era.endYear}
+              {era.superBowlRange ? ` · Super Bowls ${era.superBowlRange}` : ''}
+            </p>
+            <h2 className="sv-title">{era.name}</h2>
+            {lead && <p className="sv-sub">{lead}.</p>}
+          </div>
+        </div>
+        <div className="sv-dynasty__row">
+          <span className="sv-fig" style={{ '--sv-scale': 1.15 } as CSSProperties}>
+            <span className="sv-fig__shadow" />
+            <CoachSprite who="head" team={club} kind="figure" size="l" className="sv-fig__sprite" />
+          </span>
+          <Row items={players.slice(0, 5).map((p) => ({ p, line: fmt(p.careerLegacy) }))} sprites={sprites} />
+        </div>
+      </div>
+    </Stadium>
+  );
+};
+
 const WX_ICON = { clear: [Sun, Moon], cloud: [Cloud, Cloud], fog: [CloudFog, CloudFog], rain: [CloudRain, CloudRain], snow: [CloudSnow, CloudSnow], storm: [CloudLightning, CloudLightning] } as const;
 
 /** The corner: the time, the date, the town and its weather (when the location is shared from the menu) */
@@ -508,11 +837,12 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const sprites = !!useGameSprites();
   const { data: hof } = useHallOfFame();
   const { clubsWithRafters, bannersFor } = useRafters();
-  const { cards: pool, byKey } = useCardPool();
+  const { cards: pool, byKey, loaded: poolLoaded } = useCardPool();
   const { state, cards: owned } = useCollection();
   const { lite } = usePerfMode();
-  const { content } = useLeagueContent();
+  const { content, loading: contentLoading } = useLeagueContent();
   const records = useClubRecords();
+  const feed = useWidgetFeed();
   const rootRef = useRef<HTMLDivElement>(null);
 
   const players = useMemo(
@@ -523,8 +853,15 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const rankOf = useMemo(() => new Map(players.map((p, i) => [playerKey(p), i + 1])), [players]);
 
   // The playlist: each kind shuffled, then dealt in turn (spotlight, card, line-up, Hall of Famer, rafters, …)
+  // the playlist is dealt once everything it reads is in (dealt early, it would reshuffle and skip scenes mid-show)
+  const [waited, setWaited] = useState(false);
+  useEffect(() => {
+    const t = window.setTimeout(() => setWaited(true), 4_000);
+    return () => window.clearTimeout(t);
+  }, []);
+  const ready = players.length > 0 && ((feed !== undefined && !contentLoading && hof !== undefined && !!records && poolLoaded) || waited);
   const scenes = useMemo<Scene[]>(() => {
-    if (!players.length) return [];
+    if (!ready) return [];
     const spot = shuffle(players.slice(0, 80)).map((p): Scene => ({ kind: 'spotlight', player: p, roll: Math.random() }));
     const ownedCards = pool
       .filter((c) => owned[c.key])
@@ -568,13 +905,61 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
         })
         .filter((x): x is Scene => !!x),
     );
-    const decks = [spot, cardScenes, duels, lineups, champs, hofScenes, recs, papers, rafters].filter((d) => d.length);
+    const P = (k?: string) => (k ? byKeyP.get(k) : undefined);
+    const byName = new Map(players.map((p) => [p.name, p]));
+    const w = feed;
+    const coachDeck: Scene[] = content?.coach ? [{ kind: 'coach', roll: Math.random() }] : [];
+    const rising: Scene[] = (() => {
+      const items = (w?.ceilings ?? []).map((c) => ({ p: P(c.player), line: `${c.stars}★ → ${c.ceiling}★ · age ${c.age}` })).filter((x): x is { p: Player; line: string } => !!x.p);
+      return items.length >= 3 ? [{ kind: 'rising', items: items.slice(0, 5) }] : [];
+    })();
+    const farewell: Scene[] = (() => {
+      const items = (w?.retirements ?? [])
+        .filter((r) => r.seasonsLeft === 0)
+        .map((r) => ({ p: P(r.player), line: `age ${r.age}` }))
+        .filter((x): x is { p: Player; line: string } => !!x.p);
+      return items.length >= 2 ? [{ kind: 'farewell', items: items.slice(0, 5) }] : [];
+    })();
+    const market: Scene[] = (() => {
+      const rows = (w?.movers ?? []).map((m) => ({ p: P(m.key), pct: m.pct })).filter((x): x is { p: Player; pct: number } => !!x.p);
+      return rows.length ? [{ kind: 'market', rows }] : [];
+    })();
+    const dyks = shuffle(w?.didYouKnow ?? [])
+      .slice(0, 30)
+      .map((d): Scene => {
+        const p = P(d.player) ?? null;
+        return { kind: 'dyk', text: d.text, p, club: (p && clubOf(p)?.name) || findNFLTeam(d.team ?? '')?.name || 'Eagles', roll: Math.random() };
+      });
+    const chases = shuffle(w?.chases ?? [])
+      .map((c) => ({ c, p: P(c.player) }))
+      .filter((x): x is { c: WidgetChase; p: Player } => !!x.p)
+      .map(({ c, p }): Scene => ({ kind: 'chase', c, p, roll: Math.random() }));
+    const gauntlet: Scene[] = (() => {
+      const holders = (w?.gauntlet?.holders ?? []).map((h) => P(h.player)).filter((x): x is Player => !!x);
+      const cp = P(w?.gauntlet?.closest?.player);
+      return holders.length ? [{ kind: 'gauntlet', holders, closest: cp ? { p: cp, missing: w!.gauntlet!.closest!.missing } : null }] : [];
+    })();
+    const rivals = shuffle(((content?.rivalryFiles ?? []) as unknown as RivalryFileLite[]).filter((f) => f.status === 'lasting')).map(
+      (file): Scene => ({ kind: 'rivalry', file, a: P(file.stars?.coach?.key) ?? null, b: P(file.stars?.rival?.key) ?? null }),
+    );
+    const classes = shuffle(((content?.hofClasses ?? []) as unknown as { label: string; keys?: string[] }[]))
+      .map((c) => ({ label: c.label, members: (c.keys ?? []).map((k) => P(k)).filter((x): x is Player => !!x) }))
+      .filter((c) => c.members.length >= 2)
+      .map((c): Scene => ({ kind: 'hofclass', label: c.label, members: c.members }));
+    const takeScenes = shuffle(w?.takes ?? []).map(
+      (take): Scene => ({ kind: 'take', take, players: (take.players ?? []).map((x) => P(x.player)).filter((x): x is Player => !!x) }),
+    );
+    const dynasties = shuffle(((content?.eras ?? []) as unknown as EraLite[]))
+      .map((era) => ({ era, players: era.keyPlayers.map((n) => byName.get(n)).filter((x): x is Player => !!x) }))
+      .filter((x) => x.players.length >= 2)
+      .map(({ era, players: ps }): Scene => ({ kind: 'dynasty', era, players: ps }));
+    const decks = [spot, cardScenes, duels, dyks, lineups, champs, coachDeck, hofScenes, takeScenes, recs, rising, papers, chases, rivals, market, classes, dynasties, gauntlet, farewell, rafters].filter((d) => d.length);
     const out: Scene[] = [];
     for (let i = 0; out.length < 60 && decks.some((d) => i < d.length); i++) decks.forEach((d) => d[i] && out.push(d[i]));
     return out;
     // the playlist is dealt once a run; later collection or rafters changes wait for the next run
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [players, hof, pool.length, content, records]);
+  }, [ready]);
 
   const [idx, setIdx] = useState(0);
   const [prev, setPrev] = useState<number | null>(null);
@@ -693,6 +1078,28 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
         return <PaperScene story={s.story} takes={s.takes} />;
       case 'record':
         return <RecordScene row={s.row} holder={s.holder} sprites={sprites} />;
+      case 'coach':
+        return <CoachScene roll={s.roll} titles={feed?.coachTitles ?? null} />;
+      case 'rising':
+        return <RowScene kick="Room to grow · the game's star ceilings" title="Rising stars" items={s.items} sprites={sprites} roll={0.1} club={clubOf(s.items[0].p)?.name ?? 'Eagles'} />;
+      case 'farewell':
+        return <RowScene kick={feed?.liveSeason ? `Season ${feed.liveSeason}` : 'This season'} title="Final season" sub="Their last lap by the game's retirement clock" items={s.items} sprites={sprites} roll={0.4} club={clubOf(s.items[0].p)?.name ?? 'Eagles'} />;
+      case 'market':
+        return <MarketScene rows={s.rows} sprites={sprites} />;
+      case 'dyk':
+        return <DykScene text={s.text} p={s.p} club={s.club} roll={s.roll} sprites={sprites} />;
+      case 'chase':
+        return <ChaseScene p={s.p} c={s.c} roll={s.roll} sprites={sprites} />;
+      case 'gauntlet':
+        return <GauntletScene holders={s.holders} closest={s.closest} sprites={sprites} />;
+      case 'rivalry':
+        return <RivalryScene file={s.file} a={s.a} b={s.b} sprites={sprites} />;
+      case 'hofclass':
+        return <HofClassScene label={s.label} members={s.members} sprites={sprites} />;
+      case 'take':
+        return <TakeScene take={s.take} players={s.players} sprites={sprites} />;
+      case 'dynasty':
+        return <DynastyScene era={s.era} players={s.players} sprites={sprites} />;
     }
   };
 

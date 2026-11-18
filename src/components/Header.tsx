@@ -231,13 +231,15 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
             <PerfToggle />
           </span>
 
+          {/* The Season lamp; on a desktop it is also the screensaver's button */}
           {board.season && (
-            <span className="lamp shrink-0" aria-label={`Season ${board.season}`}>
-              Season <b>{board.season}</b>
-            </span>
+            <>
+              <span className="lamp shrink-0 lg:hidden" aria-label={`Season ${board.season}`}>
+                Season <b>{board.season}</b>
+              </span>
+              <ScreensaverButton season={board.season} />
+            </>
           )}
-
-          <ScreensaverButton />
         </div>
 
         {/* Tablet nav: horizontal scroll (phones use the bottom tab bar, BottomNav) */}

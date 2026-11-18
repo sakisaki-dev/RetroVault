@@ -4,8 +4,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils';
 import { SAVER_IDLE_CHOICES, forgetSaverPlace, requestSaverPlace, setSaverIdle, startScreensaver, useSaverIdle, useSaverPlace } from '@/utils/screensaver';
 
-/** Header control (desktop only): start the screensaver now, or pick when it starts by itself */
-const ScreensaverButton = () => {
+/** The header's Season lamp on a desktop: opens the screensaver menu (start now, start by itself after, local weather) */
+const ScreensaverButton = ({ season }: { season: string | number }) => {
   const idle = useSaverIdle();
   const place = useSaverPlace();
   const [busy, setBusy] = useState(false);
@@ -22,11 +22,12 @@ const ScreensaverButton = () => {
       <PopoverTrigger asChild>
         <button
           type="button"
-          aria-label="Screensaver"
+          aria-label={`Season ${season}. Screensaver`}
           title="Screensaver"
-          className="hidden shrink-0 items-center rounded-md border border-line px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:border-gold/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold lg:inline-flex"
+          className="lamp hidden shrink-0 cursor-pointer transition-[box-shadow,border-color] hover:border-gold/60 hover:shadow-[inset_0_0_10px_hsl(var(--gold)/0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold lg:inline-flex"
         >
-          <MonitorPlay className="h-4 w-4" aria-hidden="true" />
+          <MonitorPlay className="h-3 w-3 opacity-70" aria-hidden="true" />
+          Season <b>{season}</b>
         </button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-72 border-line bg-panel p-4">

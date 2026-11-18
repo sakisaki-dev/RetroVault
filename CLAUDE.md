@@ -1165,8 +1165,9 @@ pictures".
 ## Screensaver (desktop)
 
 Owner (2026-11-17): "a screensaver option for the desktop site so that I can leave my computer and it'll rifle through
-beautiful artwork, players, banners etc with animations … something I can leave on". The header's last button (top
-right, after the Season lamp; desktop only, `ScreensaverButton.tsx`) opens a popover: Start now, and Start by itself
+beautiful artwork, players, banners etc with animations … something I can leave on". On a desktop the header's Season lamp
+is the screensaver's button (owner: "make the slideshow button the Y86 or whatever button"; a small screen icon in the
+lamp, `ScreensaverButton.tsx`; phones and tablets keep the plain lamp) and opens a popover: Start now, and Start by itself
 after Never / 2 / 5 / 10 / 15 min (default 5; `rv:saver:idle` in localStorage, `src/utils/screensaver.ts`).
 `ScreensaverHost` (pages/Index.tsx) watches for idle time while the tab is visible on a wide screen with a mouse, and
 lazy-loads `src/components/screensaver/Screensaver.tsx` (`screensaver.css`): a full-screen show, one scene every 14 s
@@ -1186,7 +1187,16 @@ across the sky, pennants on the stand front and its logo at midfield; a Hall of 
 "Use my location" in the menu is pressed (the browser asks once; rounded to 2 decimals, kept on the device as
 `rv:saver:place`, the town from BigDataCloud's reverse geocode), the current weather from Open-Meteo (no key, cached 20
 min as `rv:saver:wx`, °F for a US locale), and the real rain, snow, fog or storm laid lightly over every scene.
-Confetti and snowflakes are single elements with their own place, size, speed and drift (`Particles`). Slow camera push, sweeping floodlights, gold dust, text that rises in line by line; the clock
+Twenty scene kinds (owner: "get us to 20 total scenes"), dealt in turn: spotlight, card, duel, did you know (a
+widget.json fact on a broadcast lower third), line-up, champions, **the coach** (Skura's game sprite in the current
+club's polo, his titles from widget.json, seasons and every club's logo), Hall of Famer, **hot take** (a widget.json
+take as a pull quote with heat flames and its players), record, **rising stars** (widget.json ceilings), the paper,
+**record chase** (widget.json chases, the bar filling), rivalry file (content.json `rivalryFiles`, lasting ones),
+**market** (widget.json movers on an LED stock board with a ticker), **Hall of Fame class** (on gold steps),
+**dynasty** (a content.json era: years, Super Bowls, the first line of its notes, the coach and its key players),
+**the Gauntlet** (holders with five rings lighting up, the closest active player), **final season** (widget.json
+retirements, at dusk), rafters. The playlist is dealt once its data is in (widget.json, content, the Hall of Fame,
+records, the card pool; 4 s at most), so it never reshuffles mid-show. Confetti and snowflakes are single elements with their own place, size, speed and drift (`Particles`). Slow camera push, sweeping floodlights, gold dust, text that rises in line by line; the clock
 and wordmark drift and the whole show dims by a fifth over half an hour, so it can be left on. Full screen and a Wake
 Lock when the browser allows; any key, click, wheel or mouse move past 24 px ends it (the click never reaches the page).
 Reduced motion: still scenes, crossfades only; lite mode drops the dust and grain.
