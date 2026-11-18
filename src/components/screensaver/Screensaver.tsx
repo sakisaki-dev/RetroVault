@@ -2049,9 +2049,10 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   }, [idx, scenes.length, resting, paIdle]);
   useEffect(() => {
     if (prev === null) return;
-    const t = window.setTimeout(() => setPrev(null), FADE_MS);
+    // the old scene leaves the page as soon as it has faded (a short fade in lite)
+    const t = window.setTimeout(() => setPrev(null), lite ? 650 : FADE_MS);
     return () => window.clearTimeout(t);
-  }, [prev]);
+  }, [prev, lite]);
   useEffect(() => {
     const t = window.setTimeout(() => setHint(false), 4_000);
     return () => window.clearTimeout(t);

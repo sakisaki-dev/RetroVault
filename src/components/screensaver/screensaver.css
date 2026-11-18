@@ -2793,3 +2793,31 @@
     display: none;
   }
 }
+
+/* ================= Lite, further (owner: "even without effects it's super choppy" on the TV) =================
+   A weak graphics chip redraws every full-screen layer whenever anything on screen moves, so in lite the show is
+   calm between scenes: loops play once and settle, the slow half-hour dim is a fixed level, the decorative full-screen
+   overlays are gone and the crossfade is short. The weather (rain streaks, the snow canvas) keeps moving. */
+.sv--lite *:not(.sv-weather i),
+.sv--lite *::before,
+.sv--lite *::after {
+  animation-iteration-count: 1 !important;
+}
+.sv--lite::after {
+  animation: none;
+  opacity: 0.08;
+}
+.sv--lite::before,
+.sv--lite .sv-stadium__wash,
+.sv--lite .sv-progress {
+  display: none;
+}
+.sv--lite :is(.sv-brand, .sv-corner, .sv-tower) {
+  animation: none !important;
+}
+.sv--lite .sv-slide--in {
+  animation-duration: 0.6s;
+}
+.sv--lite .sv-slide--out {
+  animation-duration: 0.6s;
+}
