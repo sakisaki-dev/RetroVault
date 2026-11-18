@@ -1223,10 +1223,10 @@ with: a shelf of pixel cups (`PixelCup`, `src/components/frontoffice/PixelCup.ts
 end of each club he coached: one canvas of seats whose cards turn column by column to print the club's banner, owner:
 "imagine these cards are printed off the official banner": its colour, trim stripes, the real logo on a white roundel
 and its name in block type, drawn once and sampled to one colour a card (`bannerColors`), then a wave rolls across;
-reduced motion draws the finished stunt). **Now playing** (owner, 2026-11-18): with Spotify connected from the same menu, a stadium videoboard standing in the bottom-right
-corner (owner: "more of a jumbotron aspect that's more immersive": lit Retro Vault lettering and floodlights on the
-housing, a dot-matrix LED screen with the cover as screen pixels, the song running in amber lights, an equalizer and the
-track, a ribbon board under it, cross-braced steel legs) shows the song
+reduced motion draws the finished stunt). **Now playing** (owner, 2026-11-18): with Spotify connected from the same menu, the end-zone scoreboard tower in the bottom-right
+corner (owner: concept A, "a bit more subtle and on theme"; `.sv-tower`): two steel legs on the bottom edge, cut off by
+the right edge, the cover on the replay panel, HOME the song, AWAY the artist, the time into the track on a dim red
+game clock, muted colours shows the song
 playing, and a **Stadium PA** scene puts it on the big screen over the current club's ground (dealt three times a run
 while connected, skipped at once when nothing plays). The site shows it too (owner: "I like the phone strip and the
 pill"; `src/components/nowplaying/`): a pill beside the Season lamp from 640px (spinning cover, equalizer, the song; only the cover below 1600px so
@@ -1236,7 +1236,11 @@ mounted and the tab is visible; `src/utils/spotify.ts`). Browser only: Spotify's
 hides the option while it is empty), tokens kept in this browser (`rv:spotify`), scopes to read what is playing only;
 `ScreensaverHost` finishes a sign-in when Spotify sends the browser back (?code=…) and restores the hash route. The
 Spotify app's Redirect URIs must list https://sakisaki-dev.github.io/RetroVault/ and the local addresses used
-(http://127.0.0.1:<port>/; Spotify refuses "localhost"). **Weather effects** (owner: "add snow and rain as toggles … even if the weather isn't"): the menu's Real (the local
+(http://127.0.0.1:<port>/; Spotify refuses "localhost"). **Where the stadium meets the sky** (owner: "pick whichever one per city that you feel"; `Rim`, `RIMS`, `.sv-stadium__rim`):
+downtown grounds see their city's skyline with lit windows through fog beyond the rim (`city`), the great old bowls their
+far side curving round (`bowl`), Washington and the 49ers a second deck receding (`deck`), the rest a floodlight haze
+rising off the rim with two light towers (`haze`); a dome keeps its roof; by day the city is a blue haze without lights.
+**Weather effects** (owner: "add snow and rain as toggles … even if the weather isn't"): the menu's Real (the local
 weather, default) / Rain / Snow / Storm / None (`rv:saver:fx`, `useSaverFx`); a forced effect blows with at least a light
 wind (a storm a strong one). **The bus line** (owner, 2026-11-18: "the 11 that i consistently take … give me a small alert saying leave now and the next
 bus option", style A "one line, like the weather … a bit more subtle"): under the weather, the route's small badge and one

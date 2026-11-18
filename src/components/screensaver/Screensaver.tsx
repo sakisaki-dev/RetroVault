@@ -589,6 +589,21 @@ const WeatherCanvas = ({ kind, wind, scene, lite }: { kind: 'rain' | 'storm' | '
   return <canvas ref={ref} className="sv-weather__canvas" aria-hidden="true" />;
 };
 
+/**
+ * Where the stadium meets the sky (owner, 2026-11-18: "for the sky i think all of them look great, pick whichever one per
+ * city that you feel"): downtown grounds see the city's skyline through fog beyond the rim, the great old bowls show
+ * their far side curving round, a few big two-tier grounds a second deck receding, the rest a floodlight haze rising
+ * off the rim. A dome has its roof instead.
+ */
+type Rim = 'city' | 'bowl' | 'deck' | 'haze';
+const RIMS: Record<string, Rim> = {
+  Bears: 'city', Steelers: 'city', Browns: 'city', Ravens: 'city', Bengals: 'city', Seahawks: 'city', Broncos: 'city',
+  Titans: 'city', Panthers: 'city', Eagles: 'city', Jets: 'city', Giants: 'city',
+  Chiefs: 'bowl', Packers: 'bowl', Bills: 'bowl', Patriots: 'bowl', Dolphins: 'bowl', Buccaneers: 'bowl', Jaguars: 'bowl',
+  Commanders: 'deck', '49ers': 'deck',
+};
+const rimFor = (club: string): Rim => RIMS[findNFLTeam(club)?.name ?? club] ?? 'haze';
+
 type Look = 'day' | 'dusk' | 'night' | 'snow' | 'dome';
 
 /**
@@ -634,6 +649,7 @@ const Stadium = ({ club, roll, children, className }: { club: string; roll: numb
       </span>
       <span className="sv-stadium__lights" aria-hidden="true" />
       <span className="sv-stadium__roof" aria-hidden="true" />
+      {look !== 'dome' && <span className={`sv-stadium__rim sv-stadium__rim--${rimFor(club)}`} aria-hidden="true" />}
       <span className="sv-stadium__stands" aria-hidden="true" />
       <span className="sv-stadium__pennants" aria-hidden="true" />
       <span className="sv-stadium__crowd" aria-hidden="true" />
@@ -1712,51 +1728,49 @@ const PaScene = ({ np, club }: { np: NowPlaying; club: string }) => {
 };
 
 /**
- * Now playing on Spotify, bottom right (owner: "more of a jumbotron aspect that's more immersive"): a small stadium
- * videoboard standing in the corner on cross-braced steel legs: lit lettering on the housing, floodlights on its
- * corners, a dot-matrix LED screen with the cover as screen pixels, the song running in amber lights, the artist and an
- * equalizer, and a ribbon board under it
+ * Now playing on Spotify, bottom right (owner, concept A "end-zone tower … a bit more subtle and on theme"): the end-zone
+ * scoreboard, standing on two steel legs at the bottom edge and cut off by the right edge: the cover on the replay
+ * panel, HOME the song, AWAY the artist, the time into the track on the game clock, in muted stadium colours
  */
 const NowPlayingCard = ({ np }: { np: NowPlaying }) => {
+  const [, tick] = useState(0);
+  useEffect(() => {
+    if (!np.playing) return;
+    const t = window.setInterval(() => tick((n) => n + 1), 1000);
+    return () => window.clearInterval(t);
+  }, [np.playing]);
+  const ms = Math.min(np.duration || Infinity, np.progress + (np.playing ? Date.now() - np.at : 0));
+  const clock = `${String(Math.floor(ms / 60000)).padStart(2, '0')}:${String(Math.floor(ms / 1000) % 60).padStart(2, '0')}`;
   const from = np.duration ? Math.min(1, np.progress / np.duration) : 0;
   const rest = Math.max(0, np.duration - np.progress);
-  const line = `${np.title} · ${np.artist}`.toUpperCase();
   return (
-    <div className={np.playing ? 'sv-jt' : 'sv-jt sv-jt--paused'}>
-      <span className="sv-jt__lamps" aria-hidden="true">
+    <div className={np.playing ? 'sv-tower' : 'sv-tower sv-tower--paused'}>
+      <span className="sv-tower__lamps" aria-hidden="true">
         <i />
         <i />
       </span>
-      <span className="sv-jt__sign">
-        Retro <b>Vault</b>
-      </span>
-      <span className="sv-jt__housing">
-        <span className="sv-jt__screen">
-          <PixelCover src={np.art} />
-          <span className="sv-jt__info">
-            <span className="sv-jt__run">
-              <span>{line}</span>
-              <span>{line}</span>
-            </span>
-            <span className="sv-jt__artist">{np.album || np.artist}</span>
-            <span className="sv-jt__eq" aria-hidden="true">
-              {Array.from({ length: 14 }, (_, k) => (
-                <i key={k} style={{ '--d': `${-hash(k + 3) * 0.9}s`, '--t': `${0.45 + hash(k + 11) * 0.5}s` } as CSSProperties} />
-              ))}
-            </span>
-            <span className="sv-jt__bar">
-              <span key={`${np.title}-${np.at}`} style={{ '--np-from': from, '--np-rest': `${rest}ms` } as CSSProperties} />
-            </span>
+      <span className="sv-tower__board">
+        <span className="sv-tower__head">
+          Now playing <b>{np.playing ? 'Live' : 'Paused'}</b>
+        </span>
+        <span className="sv-tower__body">
+          <span className="sv-tower__replay">
+            <span className="sv-tower__label">Replay</span>
+            <PixelCover src={np.art} />
+          </span>
+          <span className="sv-tower__score">
+            <span className="sv-tower__label">Home</span>
+            <span className="sv-tower__home">{np.title}</span>
+            <span className="sv-tower__label">Away</span>
+            <span className="sv-tower__away">{np.artist}</span>
+            <span className="sv-tower__clock">{clock}</span>
           </span>
         </span>
-        <span className="sv-jt__ribbon">
-          <span className="sv-jt__ribbon-run">
-            <span>{np.playing ? '♪ Now playing on the PA' : '❚❚ Paused'} · {np.title}</span>
-            <span>{np.playing ? '♪ Now playing on the PA' : '❚❚ Paused'} · {np.title}</span>
-          </span>
+        <span className="sv-tower__bar">
+          <span key={`${np.title}-${np.at}`} style={{ '--np-from': from, '--np-rest': `${rest}ms` } as CSSProperties} />
         </span>
       </span>
-      <span className="sv-jt__legs" aria-hidden="true">
+      <span className="sv-tower__legs" aria-hidden="true">
         <i />
         <i />
       </span>

@@ -2223,165 +2223,141 @@
 }
 
 
-/* ================= Now playing on Spotify: a stadium videoboard standing in the bottom-right corner ================= */
-.sv-jt {
+/* ================= Now playing on Spotify: the end-zone scoreboard tower in the bottom-right corner ================= */
+.sv-tower {
   position: fixed;
-  right: 48px;
+  right: -26px;
   bottom: 0;
   z-index: 26;
-  width: min(400px, 30vw);
+  width: min(330px, 24vw);
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  filter: drop-shadow(0 18px 36px rgb(0 0 0 / 0.6));
+  opacity: 0.88;
+  filter: drop-shadow(0 14px 28px rgb(0 0 0 / 0.55));
   animation: sv-rise-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-/* floodlights on the housing's corners, washing down over it */
-.sv-jt__lamps {
-  position: absolute;
-  inset: 6px 12px auto;
+/* two lamp strips on top of the board */
+.sv-tower__lamps {
   display: flex;
   justify-content: space-between;
-  pointer-events: none;
+  padding: 0 18px;
+  height: 7px;
 }
-.sv-jt__lamps i {
-  position: relative;
-  width: 26px;
-  height: 12px;
-  /* a short post down to the housing's corner */
-  border-bottom: 6px solid transparent;
-  background-clip: padding-box;
-  border-radius: 3px;
+.sv-tower__lamps i {
+  width: 34%;
+  height: 100%;
+  border-radius: 2px 2px 0 0;
   background:
-    radial-gradient(circle, #fffbe8 0 2px, transparent 2.5px) 0 0 / 6.5px 6px,
-    #3a4258;
-  box-shadow: 0 0 14px rgb(255 240 200 / 0.55);
+    radial-gradient(circle, rgb(255 248 225 / 0.8) 0 1.5px, transparent 2px) 0 0 / 6px 7px,
+    #2a3146;
+  box-shadow: 0 -2px 8px rgb(255 240 200 / 0.18);
 }
-.sv-jt__lamps i::before {
-  content: '';
-  position: absolute;
-  left: 11px;
-  top: 12px;
-  width: 4px;
-  height: 8px;
-  background: #3a4258;
+.sv-tower__board {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 7px 34px 7px 8px;
+  border-radius: 5px 0 0 5px;
+  background: #121725;
+  box-shadow:
+    inset 0 0 0 2px #2a3146,
+    inset 0 2px 0 rgb(255 255 255 / 0.05);
 }
-.sv-jt__lamps i::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  width: 150px;
-  height: 120px;
-  translate: -50% 0;
-  background: radial-gradient(60% 100% at 50% 0%, rgb(255 244 210 / 0.18), transparent 70%);
-}
-/* lit letters along the top of the housing */
-.sv-jt__sign {
-  align-self: center;
-  padding: 3px 14px 2px;
-  border-radius: 4px 4px 0 0;
-  background: linear-gradient(180deg, #2a3146, #1a2033);
-  border: 2px solid #3a4258;
-  border-bottom: 0;
+.sv-tower__head {
+  display: flex;
+  align-items: center;
   font-family: var(--font-display);
   font-weight: 800;
   font-style: italic;
-  font-size: 15px;
-  letter-spacing: 0.04em;
+  font-size: 13px;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: #f5f2e8;
-  text-shadow: 0 0 8px rgb(255 255 255 / 0.5);
+  color: rgb(233 178 90 / 0.85);
 }
-.sv-jt__sign b {
-  color: #ffc63e;
-  text-shadow: 0 0 10px rgb(255 198 62 / 0.7);
+.sv-tower__head b {
+  margin-left: auto;
+  font-family: var(--font-pixel);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: rgb(30 215 96 / 0.7);
 }
-.sv-jt__housing {
+.sv-tower--paused .sv-tower__head b {
+  color: rgb(245 242 232 / 0.45);
+}
+.sv-tower__body {
+  display: flex;
+  gap: 7px;
+}
+.sv-tower__replay,
+.sv-tower__score {
   display: flex;
   flex-direction: column;
-  padding: 8px;
-  border-radius: 8px;
-  background: linear-gradient(180deg, #232a3f, #151a28);
-  box-shadow:
-    inset 0 0 0 2px #3a4258,
-    inset 0 2px 0 rgb(255 255 255 / 0.08);
-}
-/* the LED screen: black dot matrix, the cover in screen pixels, the song in amber lights */
-.sv-jt__screen {
-  display: flex;
-  gap: 12px;
-  padding: 10px;
-  border-radius: 3px;
-  background-color: #020306;
-  background-image: radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1.3px);
+  gap: 3px;
+  padding: 6px;
+  border-radius: 2px;
+  background-color: #04060b;
+  background-image: radial-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1.3px);
   background-size: 4px 4px;
-  box-shadow: inset 0 0 18px rgb(0 0 0 / 0.9);
 }
-.sv-jt__screen .sv-pa__cover {
-  width: 92px;
-  height: 92px;
-  box-shadow: 0 0 22px rgb(255 255 255 / 0.08);
+.sv-tower__replay .sv-pa__cover {
+  width: 64px;
+  height: 64px;
+  opacity: 0.92;
 }
-.sv-jt__info {
+.sv-tower__score {
   flex: 1;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
 }
-.sv-jt__run {
-  display: inline-flex;
-  width: max-content;
-  white-space: nowrap;
-  will-change: transform;
-  animation: sv-pa-run 14s linear infinite;
-}
-.sv-jt__info {
-  overflow: hidden;
-}
-.sv-jt__run > span {
-  padding-right: 60px;
+.sv-tower__label {
   font-family: var(--font-pixel);
-  font-size: 19px;
-  line-height: 1.15;
-  color: #ffb43e;
-  text-shadow: 0 0 10px rgb(255 180 62 / 0.65);
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(245 242 232 / 0.4);
 }
-.sv-jt__artist {
-  font-size: 13px;
-  color: rgb(245 242 232 / 0.7);
+.sv-tower__home,
+.sv-tower__away {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.02;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.sv-jt__eq {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 26px;
-  margin-top: auto;
+.sv-tower__home {
+  font-size: 17px;
+  color: #e9b25a;
 }
-.sv-jt__eq i {
-  flex: 1;
-  height: 100%;
-  background: linear-gradient(180deg, #ffc63e, #1ed760 60%);
-  transform-origin: 50% 100%;
-  animation: sv-pa-eq var(--t, 0.6s) ease-in-out var(--d, 0s) infinite alternate;
+.sv-tower__away {
+  font-size: 14px;
+  color: rgb(245 242 232 / 0.78);
 }
-.sv-jt__bar {
+.sv-tower__clock {
+  margin-top: 2px;
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  color: #c9524a;
+  text-shadow: 0 0 6px rgb(201 82 74 / 0.4);
+}
+.sv-tower__bar {
   position: relative;
-  height: 3px;
+  height: 2px;
   background: #1d2338;
   overflow: hidden;
 }
-.sv-jt__bar > span {
+.sv-tower__bar > span {
   position: absolute;
   inset: 0;
-  background: #1ed760;
+  background: rgb(30 215 96 / 0.75);
   transform-origin: 0 50%;
   transform: scaleX(var(--np-from, 0));
   animation: sv-np-run var(--np-rest, 0s) linear forwards;
+}
+.sv-tower--paused .sv-tower__bar > span {
+  animation-play-state: paused;
 }
 @keyframes sv-np-run {
   from {
@@ -2391,64 +2367,20 @@
     transform: scaleX(1);
   }
 }
-/* the ribbon board under the screen */
-.sv-jt__ribbon {
-  margin-top: 6px;
-  height: 20px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  border-radius: 2px;
-  background-color: #020306;
-  background-image: radial-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1.3px);
-  background-size: 3px 3px;
-}
-.sv-jt__ribbon-run {
-  display: inline-flex;
-  width: max-content;
-  white-space: nowrap;
-  animation: sv-pa-run 11s linear infinite;
-}
-.sv-jt__ribbon-run > span {
-  padding-right: 50px;
-  font-family: var(--font-pixel);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #1ed760;
-  text-shadow: 0 0 6px rgb(30 215 96 / 0.6);
-}
-.sv-jt--paused .sv-jt__run,
-.sv-jt--paused .sv-jt__ribbon-run,
-.sv-jt--paused .sv-jt__eq i,
-.sv-jt--paused .sv-jt__bar > span {
-  animation-play-state: paused;
-}
-.sv-jt--paused .sv-jt__ribbon-run > span {
-  color: rgb(245 242 232 / 0.55);
-  text-shadow: none;
-}
-/* two cross-braced steel legs down to the ground */
-.sv-jt__legs {
+/* two steel legs standing on the bottom edge */
+.sv-tower__legs {
   display: flex;
   justify-content: space-between;
-  height: 40px;
-  padding: 0 46px;
+  height: 30px;
+  padding: 0 70px 0 44px;
 }
-.sv-jt__legs i {
-  width: 18px;
+.sv-tower__legs i {
+  width: 12px;
   height: 100%;
-  border-left: 3px solid #3a4258;
-  border-right: 3px solid #3a4258;
-  background:
-    repeating-linear-gradient(45deg, transparent 0 6px, #3a4258 6px 8px, transparent 8px 12px),
-    repeating-linear-gradient(-45deg, transparent 0 6px, #2f364b 6px 8px, transparent 8px 12px);
+  background: linear-gradient(90deg, #232a3d, #3a4258 50%, #232a3d);
 }
 @media (prefers-reduced-motion: reduce) {
-  .sv .sv-jt,
-  .sv .sv-jt__run,
-  .sv .sv-jt__ribbon-run,
-  .sv .sv-jt__eq i {
+  .sv .sv-tower {
     animation: none !important;
   }
 }
@@ -2677,4 +2609,124 @@
 }
 .sv-bus--now .sv-bus__badge {
   box-shadow: inset 0 0 0 1px rgb(242 199 102 / 0.7);
+}
+
+
+/* ================= Where the stadium meets the sky (Rim): city, far side of the bowl, a second deck, haze ================= */
+.sv-stadium__rim {
+  bottom: calc(34% + var(--sv-row) * 2 - 2px);
+  height: 24vh;
+  image-rendering: pixelated;
+}
+/* haze: the floodlights' glow rising off the rim in stepped bands, two light towers through it */
+.sv-stadium__rim--haze {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 3px, rgb(3 5 15 / 0.22) 3px 4px),
+    linear-gradient(0deg, rgb(255 226 170 / 0.32), rgb(255 226 170 / 0.12) 40%, transparent 85%);
+}
+.sv-stadium__rim--haze::before,
+.sv-stadium__rim--haze::after,
+.sv-stadium__rim--deck::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 46px;
+  height: 92%;
+  background:
+    radial-gradient(circle, #fffbe8 0 2.5px, transparent 3px) 0 0 / 9px 8px,
+    linear-gradient(#2a3150, #2a3150);
+  background-repeat: repeat, no-repeat;
+  background-size: 9px 8px, 100% 100%;
+  clip-path: polygon(0 0, 100% 0, 100% 16%, 57% 16%, 57% 100%, 43% 100%, 43% 16%, 0 16%);
+  filter: drop-shadow(0 0 10px rgb(255 240 200 / 0.6));
+}
+.sv-stadium__rim--haze::before {
+  left: 12%;
+}
+.sv-stadium__rim--haze::after {
+  right: 12%;
+  height: 80%;
+}
+/* a second deck: a farther, darker tier of seats with a roof lip, the shadow gap under it */
+.sv-stadium__rim--deck {
+  height: 13vh;
+  background:
+    linear-gradient(180deg, #070a16 0 10%, transparent 10%),
+    linear-gradient(0deg, rgb(0 0 0 / 0.55) 0 10%, transparent 10%),
+    radial-gradient(circle, rgb(220 228 255 / 0.28) 0 1px, transparent 1.5px) 0 0 / 7px 6px,
+    linear-gradient(180deg, color-mix(in srgb, var(--sv-1) 22%, #0b1230), #141c3c);
+}
+.sv-stadium__rim--deck::before {
+  left: 8%;
+  bottom: 100%;
+  height: 9vh;
+}
+/* the far side of the bowl: the opposite stand curving round, rows of seats, a lit edge */
+.sv-stadium__rim--bowl {
+  height: 20vh;
+  left: -10%;
+  right: -10%;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background:
+    repeating-radial-gradient(ellipse 60% 100% at 50% 100%, transparent 0 9px, rgb(220 228 255 / 0.07) 9px 11px),
+    radial-gradient(circle, rgb(220 228 255 / 0.22) 0 1px, transparent 1.5px) 0 0 / 8px 7px,
+    linear-gradient(180deg, color-mix(in srgb, var(--sv-1) 28%, #0d1636), #121a3a);
+  box-shadow:
+    0 -2px 0 rgb(255 236 190 / 0.35),
+    0 -10px 30px rgb(255 226 170 / 0.12);
+}
+/* the city beyond the rim: a skyline with lit windows, fog lifting off the roof edge */
+.sv-stadium__rim--city {
+  --sky-b: #050813;
+  background:
+    linear-gradient(0deg, rgb(150 170 210 / 0.28), transparent 38%),
+    linear-gradient(var(--sky-b), var(--sky-b)) 2% 100% / 7% 46% no-repeat,
+    linear-gradient(var(--sky-b), var(--sky-b)) 10% 100% / 5% 68% no-repeat,
+    linear-gradient(var(--sky-b), var(--sky-b)) 16% 100% / 8% 40% no-repeat,
+    linear-gradient(var(--sky-b), var(--sky-b)) 27% 100% / 4% 82% no-repeat,
+    linear-gradient(var(--sky-b), var(--sky-b)) 33% 100% / 9% 55% no-repeat,
+    linear-gradient(var(--sky-b), var(--sky-b)) 45% 100% / 6% 72% no-repeat,
+    linear-gradient(var(--sky-b), var(--sky-b)) 54% 100% / 10% 44% no-repeat,
+    linear-gradient(var(--sky-b), var(--sky-b)) 66% 100% / 5% 90% no-repeat,
+    linear-gradient(var(--sky-b), var(--sky-b)) 73% 100% / 8% 58% no-repeat,
+    linear-gradient(var(--sky-b), var(--sky-b)) 84% 100% / 6% 74% no-repeat,
+    linear-gradient(var(--sky-b), var(--sky-b)) 93% 100% / 9% 48% no-repeat;
+}
+/* lit windows on the same buildings */
+.sv-stadium__rim--city::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgb(255 222 150 / 0.75) 0 1px, transparent 1.4px) 0 0 / 6px 7px;
+  -webkit-mask:
+    linear-gradient(#000, #000) 2% 100% / 7% 40% no-repeat,
+    linear-gradient(#000, #000) 10% 100% / 5% 62% no-repeat,
+    linear-gradient(#000, #000) 27% 100% / 4% 76% no-repeat,
+    linear-gradient(#000, #000) 45% 100% / 6% 66% no-repeat,
+    linear-gradient(#000, #000) 66% 100% / 5% 84% no-repeat,
+    linear-gradient(#000, #000) 84% 100% / 6% 68% no-repeat;
+  mask:
+    linear-gradient(#000, #000) 2% 100% / 7% 40% no-repeat,
+    linear-gradient(#000, #000) 10% 100% / 5% 62% no-repeat,
+    linear-gradient(#000, #000) 27% 100% / 4% 76% no-repeat,
+    linear-gradient(#000, #000) 45% 100% / 6% 66% no-repeat,
+    linear-gradient(#000, #000) 66% 100% / 5% 84% no-repeat,
+    linear-gradient(#000, #000) 84% 100% / 6% 68% no-repeat;
+  opacity: 0.55;
+}
+/* by day the city is a blue haze with no lights; at dusk the windows come on a little */
+.sv-stadium--day .sv-stadium__rim--city {
+  --sky-b: rgb(70 104 160 / 0.55);
+}
+.sv-stadium--day .sv-stadium__rim--city::after,
+.sv-stadium--day .sv-stadium__rim--haze,
+.sv-stadium--day :is(.sv-stadium__rim--haze, .sv-stadium__rim--deck)::before,
+.sv-stadium--day .sv-stadium__rim--haze::after {
+  opacity: 0.25;
+}
+.sv-stadium--dusk .sv-stadium__rim--city {
+  --sky-b: #2a1d3c;
+}
+.sv-stadium--dusk .sv-stadium__rim--city::after {
+  opacity: 0.35;
 }
