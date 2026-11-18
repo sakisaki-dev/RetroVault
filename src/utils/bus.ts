@@ -66,8 +66,11 @@ const cache = new Map<string, Promise<RouteFile | null>>();
 export const loadRoute = (route: string) => {
   let p = cache.get(route);
   if (!p) {
-    p = fetch(`${import.meta.env.BASE_URL}data/transit/route-${route}.json`)
+    // no-cache: a browser holding an older copy of the timetable checks for the new one
+    p = fetch(`${import.meta.env.BASE_URL}data/transit/route-${route}.json`, { cache: 'no-cache' })
       .then((r) => (r.ok ? (r.json() as Promise<RouteFile>) : null))
+      // an older file (times per stop, no trips) can't give rides: treat it as missing
+      .then((f) => (f && Array.isArray(f.services) && f.services.every((x) => Array.isArray(x.trips)) ? f : null))
       .catch(() => null);
     cache.set(route, p);
   }
@@ -105,8 +108,8 @@ export const departures = (file: RouteFile, point: string, now: Date, to?: strin
     const key = iso(d);
     const at = (m: number) => new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, m);
     for (const s of file.services) {
-      if (!s.dates.includes(key)) continue;
-      for (const trip of s.trips) {
+      if (!s.dates?.includes(key)) continue;
+      for (const trip of s.trips ?? []) {
         const m = trip[p];
         if (m == null) continue;
         const a = q >= 0 ? trip[q] : null;
