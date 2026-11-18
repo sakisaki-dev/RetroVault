@@ -34,7 +34,11 @@ export const suggestLite = (): boolean => {
     /* no matchMedia */
   }
   const nav = navigator as Navigator & { deviceMemory?: number };
-  return nav.deviceMemory != null && nav.deviceMemory <= 2;
+  if (nav.deviceMemory != null && nav.deviceMemory <= 2) return true;
+  // TV browsers run on phone-class chips (owner, 2026-11-18: the screensaver on a Fire TV's Silk was "super choppy"):
+  // Fire TV (Silk, AFT* models), Android TV, Tizen, webOS, smart-TV and console browsers
+  if (/Silk|AFT[A-Z]|Android TV|BRAVIA|SMART-?TV|SmartTV|Tizen|Web0S|webOS|CrKey|AppleTV|PlayStation|Xbox/i.test(nav.userAgent)) return true;
+  return nav.hardwareConcurrency != null && nav.hardwareConcurrency <= 2;
 };
 
 let setting: PerfSetting = typeof window === 'undefined' ? 'auto' : read();

@@ -1186,8 +1186,9 @@ across the sky, pennants on the stand front and its logo at midfield; a Hall of 
 **Weather corner** (owner: "add in a bit of weather, time and location"): top right, the time, the date and, once
 "Use my location" in the menu is pressed (the browser asks once; rounded to 2 decimals, kept on the device as
 `rv:saver:place`, the town from BigDataCloud's reverse geocode), the current weather from Open-Meteo (no key, cached 20
-min as `rv:saver:wx`, °F for a US locale), and the real rain, snow, fog or storm laid lightly over every scene. Rain and snow are particles with physics on one
-canvas (`WeatherCanvas`; owner: "make it more realistic … look online for snow effects and physics", "do the same particle
+min as `rv:saver:wx`, °F for a US locale), and the real rain, snow, fog or storm laid lightly over every scene. Rain is CSS streaks moved by transform (`Rain`; owner:
+"keep the rain that we had previously … the rain is making everything super slow": no canvas, no splashes). Snow is
+particles with physics on one canvas (`WeatherCanvas`; owner: "make it more realistic … look online for snow effects and physics", "do the same particle
 physics for rain … let it bounce off of the cards, trophies"): each drop or flake has a depth (near: bigger, faster,
 brighter), real fall speeds set the scale (snow 0.5–2 m/s, rain 5–9 m/s), wind leans the rain and pushes the snow in
 gusts with a flutter. Rain bursts into droplets that bounce off the top of each scene's surfaces and the turf and never
@@ -1240,6 +1241,11 @@ Spotify app's Redirect URIs must list https://sakisaki-dev.github.io/RetroVault/
 downtown grounds see their city's skyline with lit windows through fog beyond the rim (`city`), the great old bowls their
 far side curving round (`bowl`), Washington and the 49ers a second deck receding (`deck`), the rest a floodlight haze
 rising off the rim with two light towers (`haze`); a dome keeps its roof; by day the city is a blue haze without lights.
+**Lite mode on a TV** (owner: the screensaver on a Fire TV's Silk was "super choppy"): `suggestLite` turns the site's
+Lite mode on by itself for TV and console browsers (Silk, Fire TV `AFT…`, Android TV, Tizen, webOS…) and devices with 2
+cores or less; in the screensaver Lite draws the snow canvas at half a CSS pixel with a third of the flakes, drops every
+filter, blur and blend, the camera moves on the stadium layers, the floodlight sweep, gold dust and grain, half the rain
+and a third of the confetti. A cap's ledge starts where an element's rounded top corner ends (no snow hanging off it).
 **Weather effects** (owner: "add snow and rain as toggles … even if the weather isn't"): the menu's Real (the local
 weather, default) / Rain / Snow / Storm / None (`rv:saver:fx`, `useSaverFx`); a forced effect blows with at least a light
 wind (a storm a strong one). **The bus line** (owner, 2026-11-18: "the 11 that i consistently take … give me a small alert saying leave now and the next

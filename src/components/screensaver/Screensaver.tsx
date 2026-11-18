@@ -14,7 +14,7 @@ import { useClubRecords, entryName, type ClubRecordRow } from '@/components/stat
 import { useHallOfFame } from '@/utils/hallOfFame';
 import { useRafters } from '@/utils/rafters';
 import { useCollection } from '@/utils/collection';
-import { usePerfMode } from '@/hooks/usePerfMode';
+import { isLite, usePerfMode } from '@/hooks/usePerfMode';
 import { useLiveSeason } from '@/utils/seasonLive';
 import { useMarket } from '@/utils/useMarket';
 import { fetchSaverWeather, isNightRest, useSaverFx, useSaverNight, useSaverPlace, useSaverSleep, weatherKind, windForce, windLabel, type SaverWeather } from '@/utils/screensaver';
@@ -202,10 +202,45 @@ const SNOW_SURFACES = [
 const contactLedge = (el: Element): { x: number; y: number; w: number } | null => {
   const r = el.getBoundingClientRect();
   if (r.width < 24) return null;
+  // a rounded top corner (the element's own, or the card drawn inside it) holds no snow: the ledge starts where it's flat
+  const radius = (e: Element | null) => {
+    if (!e) return 0;
+    const cs = getComputedStyle(e);
+    return Math.max(parseFloat(cs.borderTopLeftRadius) || 0, parseFloat(cs.borderTopRightRadius) || 0);
+  };
+  const round = Math.min(r.width / 4, Math.max(radius(el), radius(el.firstElementChild)));
   if (el.classList.contains('sv-tro__svg')) return { x: r.left + (r.width * 4) / 18, y: r.top, w: (r.width * 10) / 18 };
   if (el.classList.contains('sv-troom__shelf')) return { x: r.left, y: r.bottom - 14, w: r.width };
-  return { x: r.left, y: r.top, w: r.width };
+  return { x: r.left + round, y: r.top, w: r.width - round * 2 };
 };
+/**
+ * Rain (owner, 2026-11-18: "keep the rain that we had previously … the rain is making everything super slow"): one streak
+ * per drop moved by CSS transform only (composited, no canvas, no splashes), each with its own lane, speed, length and
+ * depth, leaning with the wind (--sv-wind)
+ */
+const Rain = () => (
+  <>
+    {Array.from({ length: 110 }, (_, i) => {
+      const z = hash(i + 101); // 0 far … 1 near
+      return (
+        <i
+          key={i}
+          style={
+            {
+              left: `${hash(i + 3) * 115 - 5}%`,
+              '--d': `${-hash(i + 17) * 3}s`,
+              '--t': `${0.95 - z * 0.45}s`,
+              '--l': `${40 + z * 70}px`,
+              '--w': `${z > 0.75 ? 2 : 1}px`,
+              opacity: 0.25 + z * 0.55,
+            } as CSSProperties
+          }
+        />
+      );
+    })}
+  </>
+);
+
 /**
  * Rain and snow as particles with physics (owner, 2026-11-18: "the snow kinda looks really mid … look online for snow
  * effects and physics", then "do the same particle physics for rain, don't let it collect but let it bounce off of the
@@ -224,6 +259,10 @@ const WeatherCanvas = ({ kind, wind, scene, lite }: { kind: 'rain' | 'storm' | '
   const ledges = useRef<Ledge[]>([]);
   const windRef = useRef(wind);
   windRef.current = wind;
+  // pixels per CSS pixel: the screen's own density, or half a CSS pixel in lite mode (a TV's chip draws an eighth as many)
+  const pxScale = lite ? 0.5 : devicePixelRatio || 1;
+  const scaleRef = useRef(pxScale);
+  scaleRef.current = pxScale;
   // the surfaces of the scene on screen (none for the first moments of a scene, while it rises in)
   const sceneChange = useRef(0);
   const dropped = useRef<Ledge[]>([]);
@@ -231,7 +270,7 @@ const WeatherCanvas = ({ kind, wind, scene, lite }: { kind: 'rain' | 'storm' | '
     sceneChange.current += 1;
     let t2 = 0;
     const read = () => {
-      const dpr = devicePixelRatio || 1;
+      const dpr = scaleRef.current;
       const out: Ledge[] = [];
       document.querySelectorAll<HTMLElement>(SNOW_SURFACES.split(',').map((x) => `.sv-slide--in ${x}`).join(',')).forEach((el) => {
         // a surface fading out (a banner leaving at the end of its scene) holds no snow
@@ -259,7 +298,7 @@ const WeatherCanvas = ({ kind, wind, scene, lite }: { kind: 'rain' | 'storm' | '
     const cv = ref.current;
     const ctx = cv?.getContext('2d');
     if (!cv || !ctx) return;
-    const dpr = devicePixelRatio || 1;
+    const dpr = scaleRef.current;
     let W = 0;
     let H = 0;
     const size = () => {
@@ -270,7 +309,7 @@ const WeatherCanvas = ({ kind, wind, scene, lite }: { kind: 'rain' | 'storm' | '
     addEventListener('resize', size);
     const rnd = Math.random;
     const snow = kind === 'snow';
-    const N = Math.round((snow ? 280 : kind === 'storm' ? 560 : 400) * (lite ? 0.5 : 1));
+    const N = Math.round((snow ? 280 : kind === 'storm' ? 560 : 400) * (lite ? 0.35 : 1));
     // where a particle meets the field: nearer ones lower on the screen
     const groundY = (z: number) => H * (0.8 + 0.17 * z);
     const drops: Drop[] = [];
@@ -507,7 +546,7 @@ const WeatherCanvas = ({ kind, wind, scene, lite }: { kind: 'rain' | 'storm' | '
           g.addColorStop(1, '#c9d6ea');
           ctx.fillStyle = g;
           ctx.beginPath();
-          ctx.moveTo(x0 - step, base);
+          ctx.moveTo(x0, base);
           for (let i = 0; i < h.length; i++) {
             const x = x0 + i * step;
             const nx = x0 + (i + 1) * step;
@@ -515,10 +554,10 @@ const WeatherCanvas = ({ kind, wind, scene, lite }: { kind: 'rain' | 'storm' | '
             const ny = base - (h[i + 1] ?? h[i]);
             ctx.quadraticCurveTo(x, y, (x + nx) / 2, (y + ny) / 2);
           }
-          ctx.lineTo(x0 + h.length * step + step, base);
+          ctx.lineTo(x0 + (h.length - 1) * step, base);
           ctx.closePath();
           ctx.shadowColor = 'rgba(160,185,225,0.55)';
-          ctx.shadowBlur = 6 * dpr;
+          ctx.shadowBlur = lite ? 0 : 6 * dpr;
           ctx.fill();
           ctx.shadowBlur = 0;
           ctx.strokeStyle = 'rgba(255,255,255,0.7)';
@@ -1384,7 +1423,7 @@ const FlyoverScene = ({ club, roll }: { club: string; roll: number }) => {
       </div>
       {rainy && (
         <span className="sv-weather sv-weather--rain sv-fly__rain" aria-hidden="true">
-          <WeatherCanvas kind="rain" wind={0.2} scene={-1} lite={false} />
+          <Rain />
         </span>
       )}
       <div className="sv-fly__cap">
@@ -1600,8 +1639,9 @@ const StuntScene = ({ club }: { club: string }) => {
     const COLS = STUNT_COLS;
     const ROWS = STUNT_ROWS;
     const crowd = ['#3b3f4f', '#565b6e', '#2c2f3c', '#6b5a4a', '#4a4f63'];
-    const W = (cv.width = cv.clientWidth * devicePixelRatio);
-    const H = (cv.height = cv.clientHeight * devicePixelRatio);
+    const k = isLite() ? 0.5 : devicePixelRatio;
+    const W = (cv.width = cv.clientWidth * k);
+    const H = (cv.height = cv.clientHeight * k);
     const cw = W / COLS;
     const ch = H / ROWS;
     const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -2168,7 +2208,8 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
       ))}
       {!asleep && fx && fx !== 'clear' && fx !== 'cloud' && (
         <span className={`sv-weather sv-weather--${fx}`} aria-hidden="true">
-          {(fx === 'rain' || fx === 'storm' || fx === 'snow') && <WeatherCanvas kind={fx} wind={wind} scene={idx} lite={lite} />}
+          {(fx === 'rain' || fx === 'storm') && <Rain />}
+          {fx === 'snow' && <WeatherCanvas kind={fx} wind={wind} scene={idx} lite={lite} />}
         </span>
       )}
       {!asleep && (

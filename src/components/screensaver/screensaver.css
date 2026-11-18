@@ -2730,3 +2730,66 @@
 .sv-stadium--dusk .sv-stadium__rim--city::after {
   opacity: 0.35;
 }
+
+
+/* ================= Lite mode (TVs, weak devices; auto on a Fire TV): keep the show, drop what costs ================= */
+/* no filters, blurs or blends anywhere: each one makes the chip repaint a whole layer every frame */
+.sv--lite *,
+.sv--lite *::before,
+.sv--lite *::after {
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  mix-blend-mode: normal !important;
+}
+/* no camera moves on the stadium's stacked layers, no sweeping floodlights, no gold dust or grain */
+.sv--lite .sv-slide--in .sv-stadium > span,
+.sv--lite .sv-stadium__lights,
+.sv--lite .sv-slide--in .sv-fly__cam {
+  animation: none !important;
+}
+.sv--lite :is(.sv-dust, .sv-grain, .sv-stadium__lights) {
+  display: none;
+}
+/* the weather canvas is drawn at half resolution and stretched */
+.sv--lite .sv-weather__canvas {
+  image-rendering: auto;
+}
+/* fewer falling bits */
+.sv--lite .sv-parts i:nth-child(3n) {
+  display: none;
+}
+
+/* rain: CSS streaks moved by transform only (the canvas is for snow); each falls on a slant and leans with the wind */
+.sv-weather--rain,
+.sv-weather--storm {
+  opacity: 0.55;
+}
+.sv-weather--rain i,
+.sv-weather--storm i {
+  position: absolute;
+  top: 0;
+  width: var(--w);
+  height: var(--l);
+  border-radius: 1px;
+  background: linear-gradient(180deg, rgb(200 218 255 / 0), rgb(200 218 255 / 0.85));
+  --lean: calc(10deg + var(--sv-wind, 0) * 26deg);
+  will-change: transform;
+  animation: sv-drop var(--t) linear var(--d) infinite;
+}
+@keyframes sv-drop {
+  from {
+    transform: translate3d(0, -20vh, 0) rotate(var(--lean));
+  }
+  to {
+    transform: translate3d(calc(-135vh * tan(var(--lean))), 115vh, 0) rotate(var(--lean));
+  }
+}
+.sv--lite .sv-weather i:nth-child(2n) {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sv .sv-weather i {
+    display: none;
+  }
+}
