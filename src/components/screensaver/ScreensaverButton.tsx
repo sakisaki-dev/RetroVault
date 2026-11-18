@@ -34,7 +34,7 @@ const ScreensaverButton = ({ season }: { season: string | number }) => {
           type="button"
           aria-label={`Season ${season}. Screensaver`}
           title="Screensaver"
-          className="lamp hidden shrink-0 cursor-pointer transition-[box-shadow,border-color] hover:border-gold/60 hover:shadow-[inset_0_0_10px_hsl(var(--gold)/0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold lg:inline-flex"
+          className="lamp hidden shrink-0 cursor-pointer transition-[box-shadow,border-color] hover:border-gold/60 hover:shadow-[inset_0_0_10px_hsl(var(--gold)/0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:inline-flex"
         >
           <MonitorPlay className="h-3 w-3 opacity-70" aria-hidden="true" />
           Season <b>{season}</b>

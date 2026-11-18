@@ -135,10 +135,14 @@ export const onScreensaverStart = (fn: () => void) => {
   return () => window.removeEventListener(START, fn);
 };
 
-/** A desktop: wide and a mouse or trackpad */
+/**
+ * Where it starts by itself after the idle time: a big screen that isn't a phone or tablet in the hand: wide, with no
+ * coarse (touch) pointer, so a desktop with a mouse or a TV browser driven by a remote (Fire TV's Silk reports no
+ * pointer at all; owner, 2026-11-18: "trying to use the screensaver on my tv with the amazon silk browser")
+ */
 export const saverSupported = () => {
   try {
-    return window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches;
+    return window.matchMedia('(min-width: 900px)').matches && !window.matchMedia('(pointer: coarse)').matches;
   } catch {
     return false;
   }

@@ -16,7 +16,8 @@ const ScreensaverHost = () => {
   const night = useSaverNight();
   const last = useRef(Date.now());
 
-  useEffect(() => onScreensaverStart(() => saverSupported() && setOn(true)), []);
+  // Start now (the menu's button) works on any screen; only the idle start checks for a big screen
+  useEffect(() => onScreensaverStart(() => setOn(true)), []);
   // back from Spotify's sign-in (the screensaver's now playing card): finish it and tidy the address
   useEffect(() => {
     void completeSpotifyLogin();

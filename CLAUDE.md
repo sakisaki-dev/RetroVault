@@ -1169,7 +1169,7 @@ beautiful artwork, players, banners etc with animations … something I can leav
 is the screensaver's button (owner: "make the slideshow button the Y86 or whatever button"; a small screen icon in the
 lamp, `ScreensaverButton.tsx`; phones and tablets keep the plain lamp) and opens a popover: Start now, and Start by itself
 after Never / 2 / 5 / 10 / 15 min (default 5; `rv:saver:idle` in localStorage, `src/utils/screensaver.ts`).
-`ScreensaverHost` (pages/Index.tsx) watches for idle time while the tab is visible on a wide screen with a mouse, and
+`ScreensaverHost` (pages/Index.tsx) watches for idle time while the tab is visible on a big screen with no touch pointer (`saverSupported`: 900px+ and not `pointer: coarse`, so a desktop or a TV browser; owner: "trying to use the screensaver on my tv with the amazon silk browser"); Start now works on any screen, and the Season lamp is the menu's button from 640px, and
 lazy-loads `src/components/screensaver/Screensaver.tsx` (`screensaver.css`): a full-screen show, one scene every 14 s
 with a crossfade, dealt in turn from shuffled decks (presentation only): **spotlight** (a top-80 Career Legacy player's
 hero banner in a night stadium painted to his club, his rank), **card** (one of the best 40 owned cards turning under a
