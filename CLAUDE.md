@@ -1223,9 +1223,10 @@ with: a shelf of pixel cups (`PixelCup`, `src/components/frontoffice/PixelCup.ts
 end of each club he coached: one canvas of seats whose cards turn column by column to print the club's banner, owner:
 "imagine these cards are printed off the official banner": its colour, trim stripes, the real logo on a white roundel
 and its name in block type, drawn once and sampled to one colour a card (`bannerColors`), then a wave rolls across;
-reduced motion draws the finished stunt). **Now playing** (owner, 2026-11-18): with Spotify connected from the same menu, a small jumbotron standing in the bottom-right
-corner on steel truss legs ("Stadium PA", the cover as screen pixels, the song in gold, the track running on between
-polls; owner: "give it a jumbotron look with the steel frame legs") shows the song
+reduced motion draws the finished stunt). **Now playing** (owner, 2026-11-18): with Spotify connected from the same menu, a stadium videoboard standing in the bottom-right
+corner (owner: "more of a jumbotron aspect that's more immersive": lit Retro Vault lettering and floodlights on the
+housing, a dot-matrix LED screen with the cover as screen pixels, the song running in amber lights, an equalizer and the
+track, a ribbon board under it, cross-braced steel legs) shows the song
 playing, and a **Stadium PA** scene puts it on the big screen over the current club's ground (dealt three times a run
 while connected, skipped at once when nothing plays). The site shows it too (owner: "I like the phone strip and the
 pill"; `src/components/nowplaying/`): a pill beside the Season lamp from 640px (spinning cover, equalizer, the song; only the cover below 1600px so

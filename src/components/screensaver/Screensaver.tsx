@@ -1673,32 +1673,52 @@ const PaScene = ({ np, club }: { np: NowPlaying; club: string }) => {
   );
 };
 
-/** Now playing on Spotify, bottom right: a small stadium scoreboard (the cover as screen pixels, the song in gold) */
+/**
+ * Now playing on Spotify, bottom right (owner: "more of a jumbotron aspect that's more immersive"): a small stadium
+ * videoboard standing in the corner on cross-braced steel legs: lit lettering on the housing, floodlights on its
+ * corners, a dot-matrix LED screen with the cover as screen pixels, the song running in amber lights, the artist and an
+ * equalizer, and a ribbon board under it
+ */
 const NowPlayingCard = ({ np }: { np: NowPlaying }) => {
   const from = np.duration ? Math.min(1, np.progress / np.duration) : 0;
   const rest = Math.max(0, np.duration - np.progress);
+  const line = `${np.title} · ${np.artist}`.toUpperCase();
   return (
-    <div className={np.playing ? 'sv-np' : 'sv-np sv-np--paused'}>
-      <span className="sv-np__head">
-        <span className="sv-np__eq" aria-hidden="true">
-          <i />
-          <i />
-          <i />
-        </span>
-        Stadium PA
-        <b>{np.playing ? 'On air' : 'Paused'}</b>
+    <div className={np.playing ? 'sv-jt' : 'sv-jt sv-jt--paused'}>
+      <span className="sv-jt__lamps" aria-hidden="true">
+        <i />
+        <i />
       </span>
-      <span className="sv-np__screen">
-        <PixelCover src={np.art} />
-        <span className="sv-np__txt">
-          <span className="sv-np__title">{np.title}</span>
-          <span className="sv-np__artist">{np.artist}</span>
-          <span className="sv-np__bar">
-            <span key={`${np.title}-${np.at}`} style={{ '--np-from': from, '--np-rest': `${rest}ms` } as CSSProperties} />
+      <span className="sv-jt__sign">
+        Retro <b>Vault</b>
+      </span>
+      <span className="sv-jt__housing">
+        <span className="sv-jt__screen">
+          <PixelCover src={np.art} />
+          <span className="sv-jt__info">
+            <span className="sv-jt__run">
+              <span>{line}</span>
+              <span>{line}</span>
+            </span>
+            <span className="sv-jt__artist">{np.album || np.artist}</span>
+            <span className="sv-jt__eq" aria-hidden="true">
+              {Array.from({ length: 14 }, (_, k) => (
+                <i key={k} style={{ '--d': `${-hash(k + 3) * 0.9}s`, '--t': `${0.45 + hash(k + 11) * 0.5}s` } as CSSProperties} />
+              ))}
+            </span>
+            <span className="sv-jt__bar">
+              <span key={`${np.title}-${np.at}`} style={{ '--np-from': from, '--np-rest': `${rest}ms` } as CSSProperties} />
+            </span>
+          </span>
+        </span>
+        <span className="sv-jt__ribbon">
+          <span className="sv-jt__ribbon-run">
+            <span>{np.playing ? '♪ Now playing on the PA' : '❚❚ Paused'} · {np.title}</span>
+            <span>{np.playing ? '♪ Now playing on the PA' : '❚❚ Paused'} · {np.title}</span>
           </span>
         </span>
       </span>
-      <span className="sv-np__legs" aria-hidden="true">
+      <span className="sv-jt__legs" aria-hidden="true">
         <i />
         <i />
       </span>
