@@ -1933,3 +1933,334 @@
   max-width: 180px;
   text-align: center;
 }
+
+
+/* ================= Stadium flyover: the club's ground under a slow aerial camera ================= */
+.sv-fly {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #03050c;
+}
+.sv-fly__cam {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 70%;
+}
+.sv-slide--in .sv-fly__cam {
+  animation: sv-fly-a var(--sv-dur, 14s) cubic-bezier(0.45, 0, 0.3, 1) both;
+}
+.sv-slide--in .sv-fly--1 .sv-fly__cam {
+  animation-name: sv-fly-b;
+}
+.sv-slide--in .sv-fly--2 .sv-fly__cam {
+  animation-name: sv-fly-c;
+}
+/* a: in from high over the stand and down to the field; b: a long sideways track; c: a slow pull back from midfield */
+@keyframes sv-fly-a {
+  from {
+    transform: perspective(1200px) rotateX(16deg) scale(1.55) translate3d(0, -14%, 0);
+  }
+  to {
+    transform: perspective(1200px) rotateX(0deg) scale(1.08) translate3d(0, 0, 0);
+  }
+}
+@keyframes sv-fly-b {
+  from {
+    transform: perspective(1200px) rotateY(-7deg) scale(1.35) translate3d(9%, 0, 0);
+  }
+  to {
+    transform: perspective(1200px) rotateY(6deg) scale(1.35) translate3d(-9%, 0, 0);
+  }
+}
+@keyframes sv-fly-c {
+  from {
+    transform: perspective(1200px) rotateX(22deg) scale(1.9) translate3d(0, 10%, 0);
+  }
+  to {
+    transform: perspective(1200px) rotateX(6deg) scale(1.1) translate3d(0, 0, 0);
+  }
+}
+.sv-fly__rain {
+  z-index: 5;
+}
+.sv-fly__cap {
+  padding: 18px 26px 20px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgb(4 6 12 / 0.78), rgb(4 6 12 / 0.35) 80%, transparent);
+  position: absolute;
+  left: 6vw;
+  bottom: 9vh;
+  z-index: 6;
+  max-width: 70vw;
+}
+.sv-fly__title {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  font-size: clamp(44px, 5vw, 96px);
+}
+.sv-fly__title img,
+.sv-fly__title svg {
+  width: 1em;
+  height: 1em;
+}
+
+/* ================= Season Rewind, played back in a phone frame ================= */
+.sv-rw {
+  --sv-1: #1b2a6b;
+  --sv-2: #ffc63e;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  align-items: center;
+  gap: 8vw;
+  padding: 0 6vw;
+  background:
+    radial-gradient(50% 70% at 72% 50%, color-mix(in srgb, var(--sv-1) 60%, transparent), transparent 75%),
+    radial-gradient(40% 50% at 20% 80%, color-mix(in srgb, var(--sv-2) 18%, transparent), transparent 70%),
+    #04060d;
+  transition: background 1s ease;
+}
+.sv-rw__side .sv-title {
+  font-size: clamp(90px, 11vw, 220px);
+}
+.sv-rw__phone {
+  position: relative;
+  height: min(80vh, 860px);
+  aspect-ratio: 9 / 16;
+  border-radius: 34px;
+  padding: 10px;
+  background: linear-gradient(160deg, #2a2f3d, #0c0e14);
+  box-shadow:
+    0 0 0 2px rgb(255 255 255 / 0.08),
+    0 40px 90px rgb(0 0 0 / 0.65),
+    0 0 120px color-mix(in srgb, var(--sv-1) 45%, transparent);
+}
+.sv-slide--in .sv-rw__phone {
+  animation: sv-rw-in 1.4s cubic-bezier(0.22, 1, 0.36, 1) both, sv-float 9s 1.4s ease-in-out infinite alternate;
+}
+@keyframes sv-rw-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px) rotate(3deg);
+  }
+}
+.sv-rw__screen {
+  position: relative;
+  height: 100%;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--rw-c1, #10162a);
+}
+/* the card's top padding makes room for the viewer's header; the frame here has only the segments */
+.sv-rw__screen .rw-card {
+  padding-top: 46px;
+}
+.sv-rw__segs {
+  position: absolute;
+  inset: 22px 26px auto;
+  z-index: 3;
+  display: flex;
+  gap: 5px;
+}
+.sv-rw__segs span {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 0.3);
+  overflow: hidden;
+  position: relative;
+}
+.sv-rw__segs span::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+.sv-rw__segs .is-done::after {
+  transform: none;
+}
+.sv-rw__segs .is-on::after {
+  animation: sv-seg var(--rw-each, 4.4s) linear forwards;
+}
+@keyframes sv-seg {
+  to {
+    transform: none;
+  }
+}
+
+/* ================= The trophy room ================= */
+.sv-troom {
+  --sv-1: #1b2a6b;
+  --sv-2: #ffc63e;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--sv-1) 30%, #07090f) 0%, #07090f 70%),
+    #07090f;
+}
+.sv-troom__logo {
+  position: absolute;
+  left: 50%;
+  top: 34%;
+  translate: -50% -50%;
+  opacity: 0.08;
+  filter: blur(1px) grayscale(0.2);
+}
+.sv-troom__light {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(30% 50% at 25% 0%, rgb(255 236 190 / 0.14), transparent 70%),
+    radial-gradient(30% 50% at 75% 0%, rgb(255 236 190 / 0.14), transparent 70%);
+}
+.sv-troom__head {
+  position: absolute;
+  top: 9vh;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 2;
+}
+.sv-troom__head .sv-title {
+  font-size: clamp(48px, 5vw, 100px);
+}
+.sv-troom__case {
+  position: absolute;
+  left: 50%;
+  bottom: 7vh;
+  translate: -50% 0;
+  width: min(88vw, 1500px);
+  display: flex;
+  flex-direction: column;
+  gap: 2.2vh;
+  z-index: 2;
+}
+.sv-troom__shelf {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 1.2vw;
+  padding: 0 2vw 14px;
+}
+/* the shelf: a wood board in the club's trim, lit from above */
+.sv-troom__shelf::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 14px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #6a4d2c, #3a2815 70%, #22170c);
+  box-shadow: 0 -2px 0 var(--sv-2), 0 16px 30px rgb(0 0 0 / 0.6);
+}
+.sv-troom__slot {
+  display: grid;
+  justify-items: center;
+}
+.sv-slide--in .sv-troom__slot {
+  animation: sv-tro-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(0.8s + var(--k, 0) * 0.09s) both;
+}
+@keyframes sv-tro-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+.sv-tro {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+}
+.sv-tro__svg {
+  height: clamp(70px, 9vh, 110px);
+  width: auto;
+  filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.55));
+}
+.sv-tro--big .sv-tro__svg {
+  height: clamp(130px, 22vh, 230px);
+}
+.sv-troom__case--16 .sv-tro__svg {
+  height: clamp(54px, 7vh, 84px);
+}
+/* a glint runs over the silver */
+.sv-tro::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 22px;
+  background: linear-gradient(105deg, transparent 40%, rgb(255 255 255 / 0.55) 50%, transparent 60%);
+  background-size: 300% 100%;
+  mix-blend-mode: overlay;
+  animation: sv-glint 7s ease-in-out infinite;
+  animation-delay: calc(var(--k, 0) * 0.35s);
+  pointer-events: none;
+}
+@keyframes sv-glint {
+  0%, 60% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -40% 0;
+  }
+}
+.sv-tro__year {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #e9d6a6;
+  padding: 2px 6px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #b48a3c, #7a5a20);
+  color: #1d1406;
+}
+
+/* ================= Card stunt: the home end spells the club's name ================= */
+.sv-stunt {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  justify-items: center;
+  padding: 8vh 4vw 5vh;
+}
+.sv-stunt__stand {
+  width: min(92vw, 1700px);
+  height: min(48vh, 520px);
+  align-self: center;
+  border-radius: 10px;
+  transform: perspective(1400px) rotateX(14deg);
+  transform-origin: 50% 100%;
+  box-shadow: 0 30px 80px rgb(0 0 0 / 0.6), 0 0 0 4px rgb(0 0 0 / 0.35);
+  image-rendering: pixelated;
+}
+.sv-stunt__cap {
+  text-align: center;
+  padding: 10px 22px;
+  border-radius: 8px;
+  background: rgb(4 6 12 / 0.72);
+}
+.sv-stunt-ground .sv-stadium__word,
+.sv-stunt-ground .sv-stadium__mid {
+  opacity: 0.15;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sv .sv-fly__cam,
+  .sv .sv-rw__phone,
+  .sv .sv-tro::before {
+    animation: none !important;
+  }
+}
+.sv--lite .sv-tro::before {
+  display: none;
+}

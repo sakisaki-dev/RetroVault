@@ -32,6 +32,11 @@ import { useCurrentClub } from '@/utils/club';
 import RaftersScene from '@/components/teams/RaftersScene';
 import { bannerStats } from '@/components/hof/hofUtils';
 import { clubStyle } from '@/components/stats/visual/clubTone';
+import { stadiumWeather, pctText } from '@/utils/stadiumWeather';
+import { useSeasonRewind } from '@/utils/seasonRewind';
+import type { SeasonRewindIndexEntry } from '@/utils/leagueContent';
+import { RewindCardView } from '@/components/rewind/RewindCards';
+import '@/components/rewind/rewind.css';
 import './screensaver.css';
 
 /*
@@ -62,7 +67,11 @@ type Scene =
   | { kind: 'rivalry'; file: RivalryFileLite; a: Player | null; b: Player | null }
   | { kind: 'hofclass'; label: string; members: Player[] }
   | { kind: 'take'; take: WidgetTake; players: Player[] }
-  | { kind: 'dynasty'; era: EraLite; players: Player[] };
+  | { kind: 'dynasty'; era: EraLite; players: Player[] }
+  | { kind: 'flyover'; club: string; roll: number }
+  | { kind: 'rewind'; entry: SeasonRewindIndexEntry; from: number }
+  | { kind: 'trophies'; club: string; years: number[] }
+  | { kind: 'stunt'; club: string };
 
 interface CoachStint { club: string; years: number[]; seasons: number; titles: number; w: number; l: number; t: number }
 /** Seasons as spans: [34, 35, 71, 72] → "Y34–35, Y71–72" */
@@ -207,7 +216,7 @@ const lookFor = (club: string, roll: number, live: ReturnType<typeof useLiveSeas
 };
 
 /** The stadium behind a scene: the game's stands, crowd and turf painted to the club, its logo at midfield, its pennants */
-const Stadium = ({ club, roll, children, className }: { club: string; roll: number; children: ReactNode; className?: string }) => {
+const Stadium = ({ club, roll, children, className }: { club: string; roll: number; children?: ReactNode; className?: string }) => {
   const live = useLiveSeason();
   const look = lookFor(club, roll, live);
   const art = useFieldArt(club, look === 'day' || look === 'dusk' ? 'day' : look === 'snow' ? 'snow' : 'night');
@@ -899,6 +908,264 @@ const Corner = ({ onWeather }: { onWeather: (w: Weather) => void }) => {
   );
 };
 
+
+/** Stadium flyover: the club's own ground (its roof, its snow and rain) under a slow aerial camera, its weather odds */
+const FlyoverScene = ({ club, roll }: { club: string; roll: number }) => {
+  const live = useLiveSeason();
+  const t = findNFLTeam(club);
+  const wx = stadiumWeather(live?.clubs?.[club]);
+  const late = wx?.phases.find((ph) => ph.key === 'late');
+  const playoff = wx?.phases.find((ph) => ph.key === 'playoffs');
+  const facts = !wx
+    ? []
+    : wx.covered
+      ? ['Under a roof · no weather, ever']
+      : [`Rain in ${pctText(late?.rain ?? 0)} of games`, ...((late?.snow ?? 0) > 0.005 ? [`snow in ${pctText(late?.snow ?? 0)} after week 11`] : []), ...((playoff?.snow ?? 0) > 0.005 ? [`${pctText(playoff?.snow ?? 0)} in a home playoff game`] : [])];
+  const rainy = !!wx && !wx.covered && (late?.rain ?? 0) >= 0.25 && roll > 0.5;
+  return (
+    <div className={`sv-fly sv-fly--${Math.floor(roll * 3)}`}>
+      <div className="sv-fly__cam">
+        <Stadium club={club} roll={roll} />
+      </div>
+      {rainy && (
+        <span className="sv-weather sv-weather--rain sv-fly__rain" aria-hidden="true">
+          <Rain />
+        </span>
+      )}
+      <div className="sv-fly__cap">
+        <p className="sv-kick">Stadium tour</p>
+        <h2 className="sv-title sv-fly__title">
+          <TeamLogo team={club} size={64} decorative /> {t?.fullName ?? club}
+        </h2>
+        {facts.length > 0 && <p className="sv-cap">{facts.join(' · ')}</p>}
+      </div>
+    </div>
+  );
+};
+
+/** Season Rewind, played back: three of a season's cards in turn, in a phone frame over the club's colours */
+const REWIND_EACH = 4_400;
+const RewindScene = ({ entry, from }: { entry: SeasonRewindIndexEntry; from: number }) => {
+  const { getAllPlayers } = useLeague();
+  const players = useMemo(() => getAllPlayers(), [getAllPlayers]);
+  const { rewind } = useSeasonRewind(entry);
+  const cards = rewind?.cards.slice(from, from + 3) ?? [];
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    if (cards.length < 2) return;
+    const t = window.setInterval(() => setI((n) => Math.min(n + 1, cards.length - 1)), REWIND_EACH);
+    return () => window.clearInterval(t);
+  }, [cards.length]);
+  const cur = cards[i];
+  const club = findNFLTeam(cur?.club ?? entry.club ?? '');
+  const style = (club ? { '--sv-1': `hsl(${club.primaryColor})`, '--sv-2': `hsl(${club.secondaryColor})` } : {}) as CSSProperties;
+  return (
+    <div className="sv-rw" style={style}>
+      <div className="sv-rw__side">
+        <p className="sv-kick">Season Rewind</p>
+        <h2 className="sv-title">{entry.season}</h2>
+        <p className="sv-cap">
+          {[entry.club && findNFLTeam(entry.club)?.fullName, entry.record].filter(Boolean).join(' · ')}
+        </p>
+        {entry.champion && <p className="sv-sub sv-sub--dim">Champions: {findNFLTeam(entry.champion)?.fullName ?? entry.champion}</p>}
+      </div>
+      <div className="sv-rw__phone">
+        <div className="sv-rw__segs" aria-hidden="true">
+          {cards.map((c, k) => (
+            <span key={c.id} className={k < i ? 'is-done' : k === i ? 'is-on' : ''} style={{ '--rw-each': `${REWIND_EACH}ms` } as CSSProperties} />
+          ))}
+        </div>
+        <div className="sv-rw__screen">
+          {cur && (
+            <div key={cur.id} className="rw-slide">
+              <RewindCardView card={cur} season={entry.season} players={players} onPlayer={() => {}} onLink={() => {}} />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/** The trophy room: one shelf of trophies a club, each engraved with the season Skura won it there */
+const Trophy = ({ year, big }: { year: number; big: boolean }) => (
+  <span className={big ? 'sv-tro sv-tro--big' : 'sv-tro'}>
+    <svg viewBox="0 0 40 72" aria-hidden="true" className="sv-tro__svg">
+      <defs>
+        <linearGradient id="sv-silver" x1="0" x2="1">
+          <stop offset="0" stopColor="#8d96a6" />
+          <stop offset="0.35" stopColor="#f4f7fb" />
+          <stop offset="0.6" stopColor="#c5ccd8" />
+          <stop offset="1" stopColor="#6c7484" />
+        </linearGradient>
+      </defs>
+      <ellipse cx="20" cy="13" rx="8" ry="12" transform="rotate(-28 20 13)" fill="url(#sv-silver)" />
+      <path d="M14.5 6.5l10 13M16 9.5l2-1.4M18.4 12.8l2-1.4M20.8 16l2-1.4" stroke="#7d8696" strokeWidth="0.8" />
+      <path d="M19 24h2l1.6 26h-5.2z" fill="url(#sv-silver)" />
+      <path d="M12 50h16l3 9H9z" fill="url(#sv-silver)" />
+      <rect x="7" y="59" width="26" height="10" rx="1" fill="#2a2016" />
+      <rect x="7" y="59" width="26" height="2" fill="#5b4428" />
+    </svg>
+    <span className="sv-tro__year">Y{year}</span>
+  </span>
+);
+const TrophiesScene = ({ club, years }: { club: string; years: number[] }) => {
+  const t = findNFLTeam(club);
+  const style = (t ? { '--sv-1': `hsl(${t.primaryColor})`, '--sv-2': `hsl(${t.secondaryColor})` } : {}) as CSSProperties;
+  const ys = [...years].sort((a, b) => a - b);
+  const perShelf = ys.length <= 8 ? 8 : ys.length <= 24 ? 12 : 16;
+  const shelves: number[][] = [];
+  for (let k = 0; k < ys.length; k += perShelf) shelves.push(ys.slice(k, k + perShelf));
+  return (
+    <div className="sv-troom" style={style}>
+      <span className="sv-troom__logo" aria-hidden="true">
+        <TeamLogo team={club} size={520} decorative />
+      </span>
+      <span className="sv-troom__light" aria-hidden="true" />
+      <div className="sv-troom__head">
+        <p className="sv-kick">The trophy room · Dorren Skura</p>
+        <h2 className="sv-title">{t?.fullName ?? club}</h2>
+        <p className="sv-cap">
+          <b>{ys.length}</b> Super Bowl {ys.length === 1 ? 'title' : 'titles'} here · {spans(ys)}
+        </p>
+      </div>
+      <div className={`sv-troom__case sv-troom__case--${perShelf}`}>
+        {shelves.map((row, r) => (
+          <div key={r} className="sv-troom__shelf" style={{ '--r': r } as CSSProperties}>
+            {row.map((y, k) => (
+              <span key={y} className="sv-troom__slot" style={{ '--k': k + r * 3 } as CSSProperties}>
+                <Trophy year={y} big={ys.length <= 8} />
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/** A 5×7 pixel alphabet for the card stunt (rows top to bottom, 1 = a card turned to the club's second colour) */
+const GLYPHS: Record<string, string[]> = {
+  A: ['01110', '10001', '10001', '11111', '10001', '10001', '10001'],
+  B: ['11110', '10001', '10001', '11110', '10001', '10001', '11110'],
+  C: ['01111', '10000', '10000', '10000', '10000', '10000', '01111'],
+  D: ['11110', '10001', '10001', '10001', '10001', '10001', '11110'],
+  E: ['11111', '10000', '10000', '11110', '10000', '10000', '11111'],
+  F: ['11111', '10000', '10000', '11110', '10000', '10000', '10000'],
+  G: ['01111', '10000', '10000', '10011', '10001', '10001', '01111'],
+  H: ['10001', '10001', '10001', '11111', '10001', '10001', '10001'],
+  I: ['11111', '00100', '00100', '00100', '00100', '00100', '11111'],
+  J: ['00111', '00010', '00010', '00010', '00010', '10010', '01100'],
+  K: ['10001', '10010', '10100', '11000', '10100', '10010', '10001'],
+  L: ['10000', '10000', '10000', '10000', '10000', '10000', '11111'],
+  M: ['10001', '11011', '10101', '10101', '10001', '10001', '10001'],
+  N: ['10001', '11001', '10101', '10011', '10001', '10001', '10001'],
+  O: ['01110', '10001', '10001', '10001', '10001', '10001', '01110'],
+  P: ['11110', '10001', '10001', '11110', '10000', '10000', '10000'],
+  Q: ['01110', '10001', '10001', '10001', '10101', '10010', '01101'],
+  R: ['11110', '10001', '10001', '11110', '10100', '10010', '10001'],
+  S: ['01111', '10000', '10000', '01110', '00001', '00001', '11110'],
+  T: ['11111', '00100', '00100', '00100', '00100', '00100', '00100'],
+  U: ['10001', '10001', '10001', '10001', '10001', '10001', '01110'],
+  V: ['10001', '10001', '10001', '10001', '10001', '01010', '00100'],
+  W: ['10001', '10001', '10001', '10101', '10101', '10101', '01010'],
+  X: ['10001', '10001', '01010', '00100', '01010', '10001', '10001'],
+  Y: ['10001', '10001', '01010', '00100', '00100', '00100', '00100'],
+  Z: ['11111', '00001', '00010', '00100', '01000', '10000', '11111'],
+  '4': ['00010', '00110', '01010', '10010', '11111', '00010', '00010'],
+  '9': ['01110', '10001', '10001', '01111', '00001', '00010', '01100'],
+};
+
+/**
+ * Card stunt: the stand is a grid of fans holding cards; column by column they turn them to spell the club's name in
+ * its colours, hold it, then a wave rolls across. One canvas, drawn per frame (no DOM per seat)
+ */
+const StuntScene = ({ club }: { club: string }) => {
+  const ref = useRef<HTMLCanvasElement>(null);
+  const t = findNFLTeam(club);
+  useEffect(() => {
+    const cv = ref.current;
+    const ctx = cv?.getContext('2d');
+    if (!cv || !ctx) return;
+    const word = (t?.name ?? club).toUpperCase();
+    // a 5×7 pixel alphabet, scaled up whole cells, so every letter reads cleanly however long the name
+    const len = word.length;
+    const COLS = 128;
+    const ROWS = 27;
+    const kx = Math.max(1, Math.min(3, Math.floor((COLS - 6) / (len * 6 - 1))));
+    const ky = Math.max(2, Math.min(3, kx + 1));
+    const tw = (len * 6 - 1) * kx;
+    const x0 = Math.floor((COLS - tw) / 2);
+    const y0 = Math.floor((ROWS - 7 * ky) / 2);
+    const lit = new Set<number>();
+    [...word].forEach((ch, i) => {
+      const g = GLYPHS[ch];
+      if (!g) return;
+      g.forEach((row, gy) =>
+        [...row].forEach((bit, gx) => {
+          if (bit !== '1') return;
+          for (let a = 0; a < kx; a++) for (let b = 0; b < ky; b++) lit.add((y0 + gy * ky + b) * COLS + x0 + (i * 6 + gx) * kx + a);
+        }),
+      );
+    });
+    const on = (c: number, r: number) => lit.has(r * COLS + c);
+    const c1 = t ? `hsl(${t.primaryColor})` : '#1b2a6b';
+    const c2 = t ? `hsl(${t.secondaryColor})` : '#ffc63e';
+    const crowd = ['#3b3f4f', '#565b6e', '#2c2f3c', '#6b5a4a', '#4a4f63'];
+    const W = (cv.width = cv.clientWidth * devicePixelRatio);
+    const H = (cv.height = cv.clientHeight * devicePixelRatio);
+    const cw = W / COLS;
+    const ch = H / ROWS;
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const t0 = performance.now();
+    let raf = 0;
+    const draw = (now: number) => {
+      const s = still ? 6 : (now - t0) / 1000;
+      ctx.fillStyle = '#05070d';
+      ctx.fillRect(0, 0, W, H);
+      for (let c = 0; c < COLS; c++) {
+        // the turn sweeps left to right from 1.2 s; the wave rolls from 7 s every 3.4 s
+        const turn = Math.min(1, Math.max(0, (s - 1.2 - c * 0.025) / 0.35));
+        const wavePos = s < 7 ? -99 : ((s - 7) % 3.4) / 3.4 * (COLS + 24) - 12;
+        const lift = Math.max(0, 1 - Math.abs(c - wavePos) / 5);
+        for (let r = 0; r < ROWS; r++) {
+          const x = c * cw;
+          const y = r * ch - lift * ch * 0.55;
+          const seat = hash(c * 131 + r * 7 + 1);
+          if (turn <= 0) {
+            ctx.fillStyle = crowd[Math.floor(seat * crowd.length)];
+            ctx.fillRect(x + cw * 0.18, y + ch * 0.2, cw * 0.64, ch * 0.62);
+            continue;
+          }
+          const sq = Math.abs(Math.cos(turn * Math.PI)); // the card flips: thin at the half-turn
+          const face = turn < 0.5 ? crowd[Math.floor(seat * crowd.length)] : on(c, r) ? c2 : c1;
+          const h = ch * 0.9 * Math.max(0.08, sq);
+          ctx.fillStyle = face;
+          ctx.fillRect(x + cw * 0.06, y + (ch - h) / 2, cw * 0.88, h);
+          if (lift > 0.05 && turn >= 1) {
+            ctx.fillStyle = `rgba(255,255,255,${lift * 0.28})`;
+            ctx.fillRect(x + cw * 0.06, y + ch * 0.05, cw * 0.88, ch * 0.9);
+          }
+        }
+      }
+      if (!still) raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(raf);
+  }, [club, t]);
+  return (
+    <Stadium club={club} roll={0.9} className="sv-stunt-ground">
+      <div className="sv-stunt">
+        <canvas ref={ref} className="sv-stunt__stand" aria-hidden="true" />
+        <div className="sv-stunt__cap">
+          <p className="sv-kick">Card stunt · the home end</p>
+          <p className="sv-cap">{t?.fullName ?? club}</p>
+        </div>
+      </div>
+    </Stadium>
+  );
+};
+
 const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const { getAllPlayers, dataVersion } = useLeague();
   const ovrMap = useOfficialOvr();
@@ -913,6 +1180,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const records = useClubRecords();
   const feed = useWidgetFeed();
   const marketHist = useMarket();
+  const live = useLiveSeason();
   const rootRef = useRef<HTMLDivElement>(null);
 
   const players = useMemo(
@@ -929,7 +1197,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
     const t = window.setTimeout(() => setWaited(true), 4_000);
     return () => window.clearTimeout(t);
   }, []);
-  const ready = players.length > 0 && ((feed !== undefined && !contentLoading && hof !== undefined && !!records && poolLoaded && !!marketHist) || waited);
+  const ready = players.length > 0 && ((feed !== undefined && !contentLoading && hof !== undefined && !!records && poolLoaded && !!marketHist && live !== undefined) || waited);
   const scenes = useMemo<Scene[]>(() => {
     if (!ready) return [];
     const spot = shuffle(players.slice(0, 80)).map((p): Scene => ({ kind: 'spotlight', player: p, roll: Math.random() }));
@@ -1061,7 +1329,20 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
       .map((era) => ({ era, players: era.keyPlayers.map((n) => byName.get(n)).filter((x): x is Player => !!x) }))
       .filter((x) => x.players.length >= 2)
       .map(({ era, players: ps }): Scene => ({ kind: 'dynasty', era, players: ps }));
-    const decks = [spot, cardScenes, duels, dyks, lineups, champs, coachDeck, hofScenes, takeScenes, recs, rising, papers, chases, rivals, market, classes, dynasties, gauntlet, farewell, rafters].filter((d) => d.length);
+    // stadium flyovers (every club with stadium figures), Season Rewind playback (the cards in threes), the trophy room
+    // (each club Skura won with) and card stunts (the clubs he coached)
+    const clubNames = Object.keys(live?.clubs ?? {}).filter((c) => findNFLTeam(c));
+    const flyovers = shuffle(clubNames).map((club): Scene => ({ kind: 'flyover', club, roll: Math.random() }));
+    const rewinds = shuffle(
+      (content?.seasonRewindIndex ?? []).flatMap((entry) => Array.from({ length: Math.ceil(entry.count / 3) }, (_, k): Scene => ({ kind: 'rewind', entry, from: k * 3 }))),
+    );
+    const trophies = shuffle(
+      [...stints.values()]
+        .map((st) => ({ club: st.club, years: (content?.coach?.seasons ?? []).filter((x) => x.finish === 'Champions' && findNFLTeam(x.team)?.name === st.club).map((x) => x.year) }))
+        .filter((x) => x.years.length),
+    ).map((x): Scene => ({ kind: 'trophies', club: x.club, years: x.years }));
+    const stunts = shuffle([...stints.keys()]).map((club): Scene => ({ kind: 'stunt', club }));
+    const decks = [spot, flyovers, cardScenes, duels, rewinds, dyks, lineups, trophies, champs, coachDeck, stunts, hofScenes, takeScenes, recs, rising, papers, chases, rivals, market, classes, dynasties, gauntlet, farewell, rafters].filter((d) => d.length);
     const out: Scene[] = [];
     for (let i = 0; out.length < 60 && decks.some((d) => i < d.length); i++) decks.forEach((d) => d[i] && out.push(d[i]));
     return out;
@@ -1236,6 +1517,14 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
         return <TakeScene take={s.take} players={s.players} sprites={sprites} />;
       case 'dynasty':
         return <DynastyScene era={s.era} players={s.players} sprites={sprites} />;
+      case 'flyover':
+        return <FlyoverScene club={s.club} roll={s.roll} />;
+      case 'rewind':
+        return <RewindScene entry={s.entry} from={s.from} />;
+      case 'trophies':
+        return <TrophiesScene club={s.club} years={s.years} />;
+      case 'stunt':
+        return <StuntScene club={s.club} />;
     }
   };
 

@@ -1190,7 +1190,7 @@ min as `rv:saver:wx`, °F for a US locale), and the real rain, snow, fog or stor
 (`windForce`, calm under 8 km/h), so the Hall of Fame drapes and the rafters swing wider and faster in an uneven, gusty
 rhythm, the stand-front pennants flutter (open-air grounds only), the rain (single drops moved by transform) leans with
 it, and the corner names it from Breezy (20 km/h) up to Gale.
-Twenty scene kinds (owner: "get us to 20 total scenes"), dealt in turn: spotlight, card, duel, did you know (a
+Twenty scene kinds (owner: "get us to 20 total scenes"; 24 since the four below), dealt in turn: spotlight, card, duel, did you know (a
 widget.json fact on a broadcast lower third), line-up, champions, **the coach** (Skura's game sprite in the current
 club's polo, his titles from widget.json, seasons and every club's logo), Hall of Famer, **hot take** (a widget.json
 take as a pull quote with heat flames and its players), record, **rising stars** (widget.json ceilings), the paper,
@@ -1205,7 +1205,13 @@ snapshots (base value 50+); the Gauntlet is computed from every player's awards 
 Rookie of the Year, Super Bowl MVP) plus "One short" groups of five with the missing award. About 470 distinct
 screens. The playlist is dealt once its data is in (widget.json, content, the Hall of Fame,
 records, the card pool; 4 s at most), so it never reshuffles mid-show. Confetti and snowflakes are single elements with their own place, size, speed and drift (`Particles`). Slow camera push, sweeping floodlights, gold dust, text that rises in line by line; the clock
-and wordmark drift and the whole show dims by a fifth over half an hour, so it can be left on. **Letting the display sleep** (owner, 2026-11-18): the same menu sets "Let the display sleep after" Never / 30 min / 1 h
+and wordmark drift and the whole show dims by a fifth over half an hour, so it can be left on. **Four more scenes** (owner, 2026-11-18: "4, 5, 6, 8"), 24 kinds in all: **stadium tour** (every club's own ground
+from the save's stadium figures under one of three slow aerial camera moves, its weather odds from `stadiumWeather`,
+rain falling on a wet ground's rolls), **Season Rewind** (a season's Rewind cards three at a time in a phone frame,
+`RewindCardView` from the Rewind files, every card of every season in turn), **the trophy room** (each club Skura won
+with: a shelf of silver trophies, each engraved with the season, `coach.json` finishes) and **card stunt** (the home
+end of each club he coached: one canvas of seats whose cards turn column by column to spell the club's name in a 5×7
+pixel alphabet, `GLYPHS`, in its colours, then a wave rolls across; reduced motion draws the finished stunt). **Letting the display sleep** (owner, 2026-11-18): the same menu sets "Let the display sleep after" Never / 30 min / 1 h
 (default) / 2 h / 4 h (`rv:saver:sleep`) and "Rest overnight" (`rv:saver:night`, 11 pm to 7 am: it never starts by
 itself then). Resting fades the show to black over 3 s, then draws nothing and gives up the Wake Lock, so the computer's
 own display sleep takes over; any key or mouse move still ends it. Full screen and a Wake
