@@ -805,16 +805,38 @@
   63% { opacity: 0.1; }
 }
 .sv-weather--snow {
-  opacity: 0.75;
-  background:
-    radial-gradient(circle, rgb(255 255 255 / 0.9) 0 1.6px, transparent 2.4px) 0 0 / 131px 109px,
-    radial-gradient(circle, rgb(255 255 255 / 0.7) 0 2.2px, transparent 3px) 40px 60px / 197px 163px,
-    radial-gradient(circle, rgb(255 255 255 / 0.5) 0 1px, transparent 1.6px) 80px 20px / 89px 71px;
-  animation: sv-snow 26s linear infinite;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0.85;
 }
-@keyframes sv-snow {
-  to {
-    background-position: 60px 109px, -40px 326px, 30px 142px;
+/* each flake falls in its own lane, swaying side to side, blown along by the wind (--sv-wind) */
+.sv-weather--snow i {
+  position: absolute;
+  top: 0;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: #fff;
+  filter: blur(var(--b, 0px));
+  box-shadow: 0 0 6px rgb(255 255 255 / 0.5);
+  will-change: transform;
+  animation: sv-flake var(--t) linear var(--d) infinite;
+}
+@keyframes sv-flake {
+  0% {
+    transform: translate3d(0, -6vh, 0);
+  }
+  25% {
+    transform: translate3d(calc(var(--sway) + var(--sv-wind, 0) * -12vh), 24vh, 0);
+  }
+  50% {
+    transform: translate3d(calc(var(--sv-wind, 0) * -24vh), 52vh, 0);
+  }
+  75% {
+    transform: translate3d(calc(var(--sway) * -1 + var(--sv-wind, 0) * -36vh), 80vh, 0);
+  }
+  100% {
+    transform: translate3d(calc(var(--sv-wind, 0) * -48vh), 108vh, 0);
   }
 }
 .sv-weather--fog {
@@ -832,7 +854,8 @@
 .sv--lite .sv-weather {
   animation: none;
 }
-.sv--lite .sv-weather i:nth-child(2n) {
+.sv--lite .sv-weather i:nth-child(2n),
+.sv--lite .sv-weather--snow i:nth-child(3n) {
   display: none;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -866,16 +889,6 @@
   background:
     radial-gradient(circle at 18% 12%, rgb(255 255 255 / 0.25) 0 1px, transparent 1.6px) 0 0 / 71px 53px,
     linear-gradient(180deg, #1b2130 0%, #3a4356 50%, #6c7587 74%);
-}
-.sv-stadium__flakes {
-  inset: -10% 0 0;
-  z-index: 3;
-  opacity: 0.8;
-  background:
-    radial-gradient(circle, rgb(255 255 255 / 0.95) 0 2px, transparent 3px) 0 0 / 141px 117px,
-    radial-gradient(circle, rgb(255 255 255 / 0.7) 0 1.4px, transparent 2.2px) 40px 60px / 97px 83px,
-    radial-gradient(circle, rgb(255 255 255 / 0.5) 0 3px, transparent 4px) 80px 20px / 233px 197px;
-  animation: sv-snow 22s linear infinite;
 }
 /* a dome: a steel roof with rows of lights where the sky would be */
 .sv-stadium__roof {
@@ -1447,12 +1460,12 @@
   animation: sv-rise-in 1.2s 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 @media (prefers-reduced-motion: reduce) {
-  .sv :is(.sv-drape, .sv-champs__rays, .sv-confetti, .sv-stadium__flakes, .sv-stadium__pennants),
+  .sv :is(.sv-drape, .sv-champs__rays, .sv-confetti, .sv-stadium__pennants),
   .sv .sv-rafters .rafter__sway {
     animation: none !important;
   }
 }
-.sv--lite :is(.sv-confetti--b, .sv-stadium__flakes) {
+.sv--lite .sv-confetti--b {
   display: none;
 }
 

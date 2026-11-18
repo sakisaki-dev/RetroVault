@@ -206,6 +206,31 @@ const Rain = () => (
   </>
 );
 
+/** Snow: one flake per element, each with its own lane, size, speed and sway (near flakes bigger, faster, sharper) */
+const Snow = () => (
+  <>
+    {Array.from({ length: 140 }, (_, i) => {
+      const z = hash(i + 211);
+      return (
+        <i
+          key={i}
+          style={
+            {
+              left: `${hash(i + 5) * 110 - 5}%`,
+              '--d': `${-hash(i + 23) * 16}s`,
+              '--t': `${16 - z * 9}s`,
+              '--s': `${2 + z * 5}px`,
+              '--sway': `${(hash(i + 41) - 0.5) * 70}px`,
+              '--b': `${(1 - z) * 1.6}px`,
+              opacity: 0.35 + z * 0.6,
+            } as CSSProperties
+          }
+        />
+      );
+    })}
+  </>
+);
+
 type Look = 'day' | 'dusk' | 'night' | 'snow' | 'dome';
 
 /**
@@ -1712,6 +1737,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
       {!asleep && fx && fx !== 'clear' && fx !== 'cloud' && (
         <span className={`sv-weather sv-weather--${fx}`} aria-hidden="true">
           {(fx === 'rain' || fx === 'storm') && <Rain />}
+          {fx === 'snow' && <Snow />}
         </span>
       )}
       {!asleep && (

@@ -43,13 +43,11 @@ const PerfToggle = () => {
       aria-label={`Performance mode: ${name}. Turns off card tilt, shimmer, blur and long walkouts. Click to change.`}
       title={`Performance mode: ${name}`}
       className={cn(
-        'inline-flex shrink-0 items-center gap-1.5 rounded-md border px-2 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
+        'inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
         lite ? 'border-turf/70 text-turf' : 'border-line text-muted-foreground hover:border-gold/60 hover:text-foreground',
       )}
     >
-      <Gauge className="h-4 w-4" aria-hidden="true" />
-      <span className="hidden min-[1600px]:inline">{lite ? 'Lite' : 'Full'}</span>
-      {setting === 'auto' && <span className="hidden font-mono text-[10px] min-[1600px]:inline">auto</span>}
+      <Gauge className="h-3.5 w-3.5" aria-hidden="true" />
     </button>
   );
 };
@@ -216,21 +214,23 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
 
           <div className="hidden lg:block flex-1 min-w-0 self-end">{nav}</div>
 
-          <button
-            type="button"
-            onClick={openQuickSearch}
-            aria-label="Look up a player (Command K)"
-            className="ml-auto inline-flex shrink-0 items-center gap-2 rounded-md border border-line bg-night/60 px-2.5 py-1.5 text-sm max-sm:h-11 max-sm:w-11 max-sm:justify-center max-sm:px-0 text-muted-foreground transition-colors hover:border-gold/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold lg:ml-0"
-          >
-            <Search className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden min-[1600px]:inline">Player</span>
-            <kbd className="hidden rounded border border-line px-1 font-mono text-[10px] sm:inline lg:hidden min-[1600px]:inline">⌘K</kbd>
-          </button>
+          {/* Search and the performance toggle: two small icons side by side */}
+          <div className="ml-auto flex shrink-0 items-center gap-1.5 lg:ml-0">
+            <button
+              type="button"
+              onClick={openQuickSearch}
+              aria-label="Look up a player or club (Command K)"
+              title="Search (⌘K)"
+              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-line bg-night/60 max-sm:h-11 max-sm:w-11 text-muted-foreground transition-colors hover:border-gold/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            >
+              <Search className="h-3.5 w-3.5 max-sm:h-4 max-sm:w-4" aria-hidden="true" />
+            </button>
 
-          {/* Phones: in the bottom bar's More sheet */}
-          <span className="contents max-sm:hidden">
-            <PerfToggle />
-          </span>
+            {/* Phones: in the bottom bar's More sheet */}
+            <span className="contents max-sm:hidden">
+              <PerfToggle />
+            </span>
+          </div>
 
           {/* What is playing on Spotify, while connected and a song is on (phones: the strip above the tab bar) */}
           <NowPlayingPill />

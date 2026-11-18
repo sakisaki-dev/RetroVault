@@ -1186,7 +1186,8 @@ across the sky, pennants on the stand front and its logo at midfield; a Hall of 
 **Weather corner** (owner: "add in a bit of weather, time and location"): top right, the time, the date and, once
 "Use my location" in the menu is pressed (the browser asks once; rounded to 2 decimals, kept on the device as
 `rv:saver:place`, the town from BigDataCloud's reverse geocode), the current weather from Open-Meteo (no key, cached 20
-min as `rv:saver:wx`, °F for a US locale), and the real rain, snow, fog or storm laid lightly over every scene. The wind counts too (owner: "if it's windy they sway more"): Open-Meteo's wind and gusts become `--sv-wind` 0–1
+min as `rv:saver:wx`, °F for a US locale), and the real rain, snow, fog or storm laid lightly over every scene (rain and snow are single drops and flakes moved by
+transform, each with its own lane, size, speed and depth; snow sways and drifts with the wind). The wind counts too (owner: "if it's windy they sway more"): Open-Meteo's wind and gusts become `--sv-wind` 0–1
 (`windForce`, calm under 8 km/h), so the Hall of Fame drapes and the rafters swing wider and faster in an uneven, gusty
 rhythm, the stand-front pennants flutter (open-air grounds only), the rain (single drops moved by transform) leans with
 it, and the corner names it from Breezy (20 km/h) up to Gale.
