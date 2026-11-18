@@ -17,7 +17,7 @@ import { useCollection } from '@/utils/collection';
 import { usePerfMode } from '@/hooks/usePerfMode';
 import { useLiveSeason } from '@/utils/seasonLive';
 import { useMarket } from '@/utils/useMarket';
-import { fetchSaverWeather, useSaverPlace, weatherKind, windForce, windLabel, type SaverWeather } from '@/utils/screensaver';
+import { fetchSaverWeather, isNightRest, useSaverNight, useSaverPlace, useSaverSleep, weatherKind, windForce, windLabel, type SaverWeather } from '@/utils/screensaver';
 import { Flame, Cloud, CloudFog, CloudLightning, CloudRain, CloudSnow, Moon, Sun } from 'lucide-react';
 import { useFieldArt } from '@/components/teamlab/fieldArt';
 import { useCardPool, type CardInfo } from '@/components/collection/useCardPool';
@@ -1073,16 +1073,36 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const [prev, setPrev] = useState<number | null>(null);
   const [hint, setHint] = useState(true);
   const [weather, setWeather] = useState<Weather>({ fx: null, wind: 0 });
+  // Resting: after the sleep time (or overnight) the show fades to black and lets the display sleep
+  const sleepMin = useSaverSleep();
+  const night = useSaverNight();
+  const [resting, setResting] = useState(() => night && isNightRest());
+  // a 3 s fade to black, then nothing is drawn at all
+  const [asleep, setAsleep] = useState(resting);
+  useEffect(() => {
+    if (!resting) return;
+    const t = window.setTimeout(() => setAsleep(true), 3_000);
+    return () => window.clearTimeout(t);
+  }, [resting]);
+  useEffect(() => {
+    const started = Date.now();
+    const check = () => {
+      if ((sleepMin && Date.now() - started >= sleepMin * 60_000) || (night && isNightRest())) setResting(true);
+    };
+    check();
+    const t = window.setInterval(check, 30_000);
+    return () => window.clearInterval(t);
+  }, [sleepMin, night]);
   const fx = weather.fx;
 
   useEffect(() => {
-    if (scenes.length < 2) return;
+    if (scenes.length < 2 || resting) return;
     const t = window.setTimeout(() => {
       setPrev(idx);
       setIdx((i) => (i + 1) % scenes.length);
     }, SCENE_MS);
     return () => window.clearTimeout(t);
-  }, [idx, scenes.length]);
+  }, [idx, scenes.length, resting]);
   useEffect(() => {
     if (prev === null) return;
     const t = window.setTimeout(() => setPrev(null), FADE_MS);
@@ -1144,9 +1164,19 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
     };
   }, [exit]);
 
-  // Full screen when the browser allows it (the header button's click), and keep the display awake
+  // Full screen when the browser allows it (the header button's click)
   useEffect(() => {
     rootRef.current?.requestFullscreen?.().catch(() => {});
+    const prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.documentElement.style.overflow = prevOverflow;
+    };
+  }, []);
+
+  // Keep the display awake while the show runs; resting gives the lock back so the display can sleep
+  useEffect(() => {
+    if (resting) return;
     let lock: { release: () => Promise<void> } | null = null;
     const wake = async () => {
       try {
@@ -1158,14 +1188,11 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
     void wake();
     const onVis = () => document.visibilityState === 'visible' && void wake();
     document.addEventListener('visibilitychange', onVis);
-    const prevOverflow = document.documentElement.style.overflow;
-    document.documentElement.style.overflow = 'hidden';
     return () => {
       document.removeEventListener('visibilitychange', onVis);
       lock?.release().catch(() => {});
-      document.documentElement.style.overflow = prevOverflow;
     };
-  }, []);
+  }, [resting]);
 
   const render = (s: Scene) => {
     switch (s.kind) {
@@ -1217,28 +1244,32 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   return (
     <div
       ref={rootRef}
-      className={`sv ${lite ? 'sv--lite' : ''} ${weather.wind >= 0.1 ? 'sv--windy' : ''}`}
+      className={`sv ${lite ? 'sv--lite' : ''} ${weather.wind >= 0.1 ? 'sv--windy' : ''} ${resting ? 'sv--rest' : ''}`}
       style={{ '--sv-wind': weather.wind } as CSSProperties}
       role="dialog" aria-modal="true" aria-label="Screensaver: press any key to return">
-      {shown.map((i) => (
+      {!asleep && shown.map((i) => (
         <div key={`${i}-${scenes[i].kind}`} className={i === idx ? 'sv-slide sv-slide--in' : 'sv-slide sv-slide--out'} style={{ '--sv-dur': `${SCENE_MS}ms` } as CSSProperties}>
           {render(scenes[i])}
         </div>
       ))}
-      {fx && fx !== 'clear' && fx !== 'cloud' && (
+      {!asleep && fx && fx !== 'clear' && fx !== 'cloud' && (
         <span className={`sv-weather sv-weather--${fx}`} aria-hidden="true">
           {(fx === 'rain' || fx === 'storm') && <Rain />}
         </span>
       )}
-      <span className="sv-dust" aria-hidden="true" />
-      <span className="sv-dust sv-dust--far" aria-hidden="true" />
-      <span className="sv-grain" aria-hidden="true" />
-      {!scenes.length && (
+      {!asleep && (
+        <>
+          <span className="sv-dust" aria-hidden="true" />
+          <span className="sv-dust sv-dust--far" aria-hidden="true" />
+          <span className="sv-grain" aria-hidden="true" />
+        </>
+      )}
+      {!scenes.length && !asleep && (
         <div className="sv-empty">
           <BrandGlyph size={96} />
         </div>
       )}
-      <div className="sv-chrome" aria-hidden="true">
+      <div className="sv-chrome" aria-hidden="true" hidden={asleep}>
         <span className="sv-brand">
           <BrandGlyph size={28} />
           Retro <b>Vault</b>

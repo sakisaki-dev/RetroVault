@@ -1205,7 +1205,10 @@ snapshots (base value 50+); the Gauntlet is computed from every player's awards 
 Rookie of the Year, Super Bowl MVP) plus "One short" groups of five with the missing award. About 470 distinct
 screens. The playlist is dealt once its data is in (widget.json, content, the Hall of Fame,
 records, the card pool; 4 s at most), so it never reshuffles mid-show. Confetti and snowflakes are single elements with their own place, size, speed and drift (`Particles`). Slow camera push, sweeping floodlights, gold dust, text that rises in line by line; the clock
-and wordmark drift and the whole show dims by a fifth over half an hour, so it can be left on. Full screen and a Wake
+and wordmark drift and the whole show dims by a fifth over half an hour, so it can be left on. **Letting the display sleep** (owner, 2026-11-18): the same menu sets "Let the display sleep after" Never / 30 min / 1 h
+(default) / 2 h / 4 h (`rv:saver:sleep`) and "Rest overnight" (`rv:saver:night`, 11 pm to 7 am: it never starts by
+itself then). Resting fades the show to black over 3 s, then draws nothing and gives up the Wake Lock, so the computer's
+own display sleep takes over; any key or mouse move still ends it. Full screen and a Wake
 Lock when the browser allows; any key, click, wheel or mouse move past 24 px ends it (the click never reaches the page).
 Reduced motion: still scenes, crossfades only; lite mode drops the dust and grain.
 

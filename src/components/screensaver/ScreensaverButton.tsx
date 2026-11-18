@@ -2,11 +2,14 @@ import { useState } from 'react';
 import { MapPin, MonitorPlay } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { SAVER_IDLE_CHOICES, forgetSaverPlace, requestSaverPlace, setSaverIdle, startScreensaver, useSaverIdle, useSaverPlace } from '@/utils/screensaver';
+import { NIGHT_FROM, NIGHT_TO, SAVER_IDLE_CHOICES, SAVER_SLEEP_CHOICES, forgetSaverPlace, requestSaverPlace, setSaverIdle, setSaverNight, setSaverSleep, startScreensaver, useSaverIdle, useSaverNight, useSaverPlace, useSaverSleep } from '@/utils/screensaver';
 
 /** The header's Season lamp on a desktop: opens the screensaver menu (start now, start by itself after, local weather) */
 const ScreensaverButton = ({ season }: { season: string | number }) => {
   const idle = useSaverIdle();
+  const sleep = useSaverSleep();
+  const night = useSaverNight();
+  const hour = (h: number) => new Date(2000, 0, 1, h).toLocaleTimeString([], { hour: 'numeric' });
   const place = useSaverPlace();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
@@ -58,6 +61,34 @@ const ScreensaverButton = ({ season }: { season: string | number }) => {
             </button>
           ))}
         </div>
+        <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Let the display sleep after</p>
+        <div className="mt-2 flex flex-wrap gap-1.5" role="radiogroup" aria-label="Let the display sleep after">
+          {SAVER_SLEEP_CHOICES.map((m) => (
+            <button
+              key={m}
+              type="button"
+              role="radio"
+              aria-checked={sleep === m}
+              onClick={() => setSaverSleep(m)}
+              className={cn(
+                'rounded-full border px-3 py-1 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
+                sleep === m ? 'border-gold bg-gold/15 text-gold' : 'border-line text-muted-foreground hover:text-foreground',
+              )}
+            >
+              {m === 0 ? 'Never' : m < 60 ? `${m} min` : `${m / 60} h`}
+            </button>
+          ))}
+        </div>
+        <label className="mt-3 flex cursor-pointer items-start gap-2 text-sm text-foreground">
+          <input type="checkbox" checked={night} onChange={(e) => setSaverNight(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[hsl(var(--gold))]" />
+          <span>
+            Rest overnight
+            <span className="block text-xs text-muted-foreground">
+              Dark from {hour(NIGHT_FROM)} to {hour(NIGHT_TO)}, and it won't start by itself then.
+            </span>
+          </span>
+        </label>
+        <p className="mt-1.5 text-xs text-muted-foreground">Resting fades the show to black and lets your computer's own display sleep take over.</p>
         <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Local weather</p>
         {place ? (
           <div className="mt-2 flex items-center justify-between gap-2 text-sm">

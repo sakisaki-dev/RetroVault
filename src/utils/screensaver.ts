@@ -47,6 +47,65 @@ export const useSaverIdle = () =>
     () => DEFAULT_IDLE,
   );
 
+/*
+ * Letting the display sleep (owner, 2026-11-18): after the chosen time the show fades to black and gives up its Wake
+ * Lock, so the computer's own display sleep takes over; "Rest overnight" does the same from 11 pm to 7 am and keeps it
+ * from starting by itself then. Any key or mouse move still ends it as usual.
+ */
+export const SAVER_SLEEP_KEY = 'rv:saver:sleep';
+export const SAVER_NIGHT_KEY = 'rv:saver:night';
+/** Minutes before the show rests; 0 = keep the display awake */
+export const SAVER_SLEEP_CHOICES = [0, 30, 60, 120, 240] as const;
+const DEFAULT_SLEEP = 60;
+export const NIGHT_FROM = 23;
+export const NIGHT_TO = 7;
+
+const readNum = (key: string, choices: readonly number[], fallback: number) => {
+  try {
+    const raw = localStorage.getItem(key);
+    const v = Number(raw);
+    return raw !== null && choices.includes(v) ? v : fallback;
+  } catch {
+    return fallback;
+  }
+};
+let sleep = readNum(SAVER_SLEEP_KEY, SAVER_SLEEP_CHOICES, DEFAULT_SLEEP);
+let night = (() => {
+  try {
+    return localStorage.getItem(SAVER_NIGHT_KEY) === '1';
+  } catch {
+    return false;
+  }
+})();
+const store = (key: string, v: string) => {
+  try {
+    localStorage.setItem(key, v);
+  } catch {
+    /* lasts this visit */
+  }
+};
+export const setSaverSleep = (min: number) => {
+  sleep = min;
+  store(SAVER_SLEEP_KEY, String(min));
+  listeners.forEach((l) => l());
+};
+export const setSaverNight = (on: boolean) => {
+  night = on;
+  store(SAVER_NIGHT_KEY, on ? '1' : '0');
+  listeners.forEach((l) => l());
+};
+const sub = (l: () => void) => {
+  listeners.add(l);
+  return () => listeners.delete(l);
+};
+export const useSaverSleep = () => useSyncExternalStore(sub, () => sleep, () => DEFAULT_SLEEP);
+export const useSaverNight = () => useSyncExternalStore(sub, () => night, () => false);
+/** Inside the overnight rest window (local time) */
+export const isNightRest = (d = new Date()) => {
+  const h = d.getHours();
+  return h >= NIGHT_FROM || h < NIGHT_TO;
+};
+
 /** Start it now (the header button). Called inside the click, so it can go full screen. */
 export const startScreensaver = () => window.dispatchEvent(new Event(START));
 export const onScreensaverStart = (fn: () => void) => {

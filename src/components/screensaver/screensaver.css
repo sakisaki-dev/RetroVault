@@ -27,6 +27,20 @@
     opacity: 0.2;
   }
 }
+/* resting: the show fades to black and lets the display sleep */
+.sv > * {
+  transition: opacity 3s ease;
+}
+.sv--rest {
+  background: #000;
+}
+.sv--rest > * {
+  opacity: 0 !important;
+}
+.sv--rest::before,
+.sv--rest::after {
+  display: none;
+}
 /* vignette over everything */
 .sv::before {
   content: '';
