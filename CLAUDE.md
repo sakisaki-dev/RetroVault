@@ -1210,13 +1210,16 @@ from the save's stadium figures under one of three slow aerial camera moves, its
 rain falling on a wet ground's rolls), **Season Rewind** (a season's Rewind cards three at a time in a phone frame,
 `RewindCardView` from the Rewind files, every card of every season in turn), **the trophy room** (each club Skura won
 with: a shelf of the Front Office trophy cabinet's cups (`TrophyArt`, team-colour band; its `glint` prop runs a light over the cup's own silver shapes, `CupSilver`, left out under reduced motion and lite mode), each engraved with the season, `coach.json` finishes) and **card stunt** (the home
-end of each club he coached: one canvas of seats whose cards turn column by column to spell the club's name in a 5×7
-pixel alphabet, `GLYPHS`, in its colours, then a wave rolls across; reduced motion draws the finished stunt). **Now playing** (owner, 2026-11-18): with Spotify connected from the same menu, a small stadium scoreboard in the bottom
-right ("Stadium PA", the cover as screen pixels, the song in gold, the track running on between polls) shows the song
+end of each club he coached: one canvas of seats whose cards turn column by column to print the club's banner, owner:
+"imagine these cards are printed off the official banner": its colour, trim stripes, the real logo on a white roundel
+and its name in block type, drawn once and sampled to one colour a card (`bannerColors`), then a wave rolls across;
+reduced motion draws the finished stunt). **Now playing** (owner, 2026-11-18): with Spotify connected from the same menu, a small jumbotron standing in the bottom-right
+corner on steel truss legs ("Stadium PA", the cover as screen pixels, the song in gold, the track running on between
+polls; owner: "give it a jumbotron look with the steel frame legs") shows the song
 playing, and a **Stadium PA** scene puts it on the big screen over the current club's ground (dealt three times a run
 while connected, skipped at once when nothing plays). The site shows it too (owner: "I like the phone strip and the
-pill"; `src/components/nowplaying/`): a pill beside the Season lamp from 640px (spinning cover, equalizer, the song; a
-click opens a card with the cover, times, Open in Spotify, Hide) and a strip above the phone's tab bar that tucks away
+pill"; `src/components/nowplaying/`): a pill beside the Season lamp from 640px (spinning cover, equalizer, the song; only the cover below 1600px so
+the tabs always fit; a click opens a card with the cover, times, Open in Spotify, Hide) and a strip above the phone's tab bar that tucks away
 with it; Hide lasts for the current song. One poller serves them all (`useNowPlaying`: every 8 s while any reader is
 mounted and the tab is visible; `src/utils/spotify.ts`). Browser only: Spotify's PKCE sign-in with the public Client ID `SPOTIFY_CLIENT_ID` (the menu
 hides the option while it is empty), tokens kept in this browser (`rv:spotify`), scopes to read what is playing only;

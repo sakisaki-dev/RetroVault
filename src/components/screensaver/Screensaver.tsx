@@ -1057,42 +1057,103 @@ const TrophiesScene = ({ club, years }: { club: string; years: number[] }) => {
   );
 };
 
-/** A 5×7 pixel alphabet for the card stunt (rows top to bottom, 1 = a card turned to the club's second colour) */
-const GLYPHS: Record<string, string[]> = {
-  A: ['01110', '10001', '10001', '11111', '10001', '10001', '10001'],
-  B: ['11110', '10001', '10001', '11110', '10001', '10001', '11110'],
-  C: ['01111', '10000', '10000', '10000', '10000', '10000', '01111'],
-  D: ['11110', '10001', '10001', '10001', '10001', '10001', '11110'],
-  E: ['11111', '10000', '10000', '11110', '10000', '10000', '11111'],
-  F: ['11111', '10000', '10000', '11110', '10000', '10000', '10000'],
-  G: ['01111', '10000', '10000', '10011', '10001', '10001', '01111'],
-  H: ['10001', '10001', '10001', '11111', '10001', '10001', '10001'],
-  I: ['11111', '00100', '00100', '00100', '00100', '00100', '11111'],
-  J: ['00111', '00010', '00010', '00010', '00010', '10010', '01100'],
-  K: ['10001', '10010', '10100', '11000', '10100', '10010', '10001'],
-  L: ['10000', '10000', '10000', '10000', '10000', '10000', '11111'],
-  M: ['10001', '11011', '10101', '10101', '10001', '10001', '10001'],
-  N: ['10001', '11001', '10101', '10011', '10001', '10001', '10001'],
-  O: ['01110', '10001', '10001', '10001', '10001', '10001', '01110'],
-  P: ['11110', '10001', '10001', '11110', '10000', '10000', '10000'],
-  Q: ['01110', '10001', '10001', '10001', '10101', '10010', '01101'],
-  R: ['11110', '10001', '10001', '11110', '10100', '10010', '10001'],
-  S: ['01111', '10000', '10000', '01110', '00001', '00001', '11110'],
-  T: ['11111', '00100', '00100', '00100', '00100', '00100', '00100'],
-  U: ['10001', '10001', '10001', '10001', '10001', '10001', '01110'],
-  V: ['10001', '10001', '10001', '10001', '10001', '01010', '00100'],
-  W: ['10001', '10001', '10001', '10101', '10101', '10101', '01010'],
-  X: ['10001', '10001', '01010', '00100', '01010', '10001', '10001'],
-  Y: ['10001', '10001', '01010', '00100', '00100', '00100', '00100'],
-  Z: ['11111', '00001', '00010', '00100', '01000', '10000', '11111'],
-  '4': ['00010', '00110', '01010', '10010', '11111', '00010', '00010'],
-  '9': ['01110', '10001', '10001', '01111', '00001', '00010', '01100'],
+/**
+ * Card stunt: the home end holds up cards that, together, print the club's own banner: its colour, trim stripes in
+ * its second colour, its logo on a white roundel and its name in block type (the city is left off: too small to read). Column by column the fans turn their
+ * cards over, hold the banner, then a wave rolls across. One canvas: the banner is drawn once, sampled to one colour a
+ * card, and the seats are drawn from that each frame (no DOM per seat).
+ */
+const STUNT_COLS = 156;
+const STUNT_ROWS = 42;
+const hslL = (hsl: string) => Number(hsl.split(' ')[2]?.replace('%', '') ?? 50);
+const bannerColors = async (t: ReturnType<typeof findNFLTeam>, club: string): Promise<string[]> => {
+  const S = 8; // the banner is drawn 8× the seat grid, then averaged down to one colour a seat
+  const W = STUNT_COLS * S;
+  const H = STUNT_ROWS * S;
+  const b = document.createElement('canvas');
+  b.width = W;
+  b.height = H;
+  const g = b.getContext('2d')!;
+  const c1 = t ? `hsl(${t.primaryColor})` : '#1b2a6b';
+  const c2 = t ? `hsl(${t.secondaryColor})` : '#ffc63e';
+  // light primaries (silver, sol) take dark lettering, the rest white
+  const ink = t && hslL(t.primaryColor) > 62 ? '#0b0f1d' : '#ffffff';
+  g.fillStyle = c1;
+  g.fillRect(0, 0, W, H);
+  // trim: a second-colour stripe with a white pinstripe, top and bottom
+  const band = H * 0.09;
+  for (const y of [0, H - band]) {
+    g.fillStyle = c2;
+    g.fillRect(0, y, W, band);
+  }
+  g.fillStyle = '#ffffff';
+  g.fillRect(0, band, W, H * 0.018);
+  g.fillRect(0, H - band - H * 0.018, W, H * 0.018);
+  // the logo on a white roundel ringed in the second colour, at the left
+  const R = H * 0.34;
+  const cx = H * 0.5 + W * 0.03;
+  const cy = H / 2;
+  g.beginPath();
+  g.arc(cx, cy, R + H * 0.03, 0, Math.PI * 2);
+  g.fillStyle = c2;
+  g.fill();
+  g.beginPath();
+  g.arc(cx, cy, R, 0, Math.PI * 2);
+  g.fillStyle = '#ffffff';
+  g.fill();
+  if (t?.logoUrl) {
+    const img = await new Promise<HTMLImageElement | null>((res) => {
+      const im = new Image();
+      im.crossOrigin = 'anonymous';
+      im.onload = () => res(im);
+      im.onerror = () => res(null);
+      im.src = t.logoUrl;
+    });
+    if (img) {
+      const L = R * 1.62;
+      g.drawImage(img, cx - L / 2, cy - L / 2, L, L);
+    }
+  }
+  // the name: the city small over the club name, as big as fits beside the logo
+  try {
+    await document.fonts.load('800 italic 100px "Barlow Condensed"');
+  } catch {
+    /* system font */
+  }
+  const left = cx + R + W * 0.04;
+  const room = W - left - W * 0.03;
+  const name = (t?.name ?? club).toUpperCase();
+  let size = H * 0.62;
+  const font = (px: number) => `italic 800 ${px}px "Barlow Condensed", Impact, sans-serif`;
+  g.font = font(size);
+  while (g.measureText(name).width > room && size > 10) g.font = font((size -= 2));
+  g.fillStyle = ink;
+  g.textBaseline = 'alphabetic';
+  g.textAlign = 'center';
+  const mid = left + room / 2;
+  g.fillText(name, mid, H * 0.73);
+  // one colour a seat: let the browser average each 8×8 block
+  const small = document.createElement('canvas');
+  small.width = STUNT_COLS;
+  small.height = STUNT_ROWS;
+  const sg = small.getContext('2d')!;
+  sg.imageSmoothingQuality = 'high';
+  sg.drawImage(b, 0, 0, STUNT_COLS, STUNT_ROWS);
+  let px: Uint8ClampedArray;
+  try {
+    px = sg.getImageData(0, 0, STUNT_COLS, STUNT_ROWS).data;
+  } catch {
+    return [];
+  }
+  const out: string[] = [];
+  for (let i = 0; i < STUNT_COLS * STUNT_ROWS; i++) {
+    // cards are printed card stock: each a touch lighter or darker than the next
+    const k = 0.94 + hash(i * 7 + 3) * 0.1;
+    out.push(`rgb(${Math.min(255, px[i * 4] * k)},${Math.min(255, px[i * 4 + 1] * k)},${Math.min(255, px[i * 4 + 2] * k)})`);
+  }
+  return out;
 };
 
-/**
- * Card stunt: the stand is a grid of fans holding cards; column by column they turn them to spell the club's name in
- * its colours, hold it, then a wave rolls across. One canvas, drawn per frame (no DOM per seat)
- */
 const StuntScene = ({ club }: { club: string }) => {
   const ref = useRef<HTMLCanvasElement>(null);
   const t = findNFLTeam(club);
@@ -1100,50 +1161,36 @@ const StuntScene = ({ club }: { club: string }) => {
     const cv = ref.current;
     const ctx = cv?.getContext('2d');
     if (!cv || !ctx) return;
-    const word = (t?.name ?? club).toUpperCase();
-    // a 5×7 pixel alphabet, scaled up whole cells, so every letter reads cleanly however long the name
-    const len = word.length;
-    const COLS = 128;
-    const ROWS = 27;
-    const kx = Math.max(1, Math.min(3, Math.floor((COLS - 6) / (len * 6 - 1))));
-    const ky = Math.max(2, Math.min(3, kx + 1));
-    const tw = (len * 6 - 1) * kx;
-    const x0 = Math.floor((COLS - tw) / 2);
-    const y0 = Math.floor((ROWS - 7 * ky) / 2);
-    const lit = new Set<number>();
-    [...word].forEach((ch, i) => {
-      const g = GLYPHS[ch];
-      if (!g) return;
-      g.forEach((row, gy) =>
-        [...row].forEach((bit, gx) => {
-          if (bit !== '1') return;
-          for (let a = 0; a < kx; a++) for (let b = 0; b < ky; b++) lit.add((y0 + gy * ky + b) * COLS + x0 + (i * 6 + gx) * kx + a);
-        }),
-      );
-    });
-    const on = (c: number, r: number) => lit.has(r * COLS + c);
-    const c1 = t ? `hsl(${t.primaryColor})` : '#1b2a6b';
-    const c2 = t ? `hsl(${t.secondaryColor})` : '#ffc63e';
+    const COLS = STUNT_COLS;
+    const ROWS = STUNT_ROWS;
     const crowd = ['#3b3f4f', '#565b6e', '#2c2f3c', '#6b5a4a', '#4a4f63'];
     const W = (cv.width = cv.clientWidth * devicePixelRatio);
     const H = (cv.height = cv.clientHeight * devicePixelRatio);
     const cw = W / COLS;
     const ch = H / ROWS;
     const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const t0 = performance.now();
+    let faces: string[] | null = null;
+    let t0 = performance.now();
     let raf = 0;
+    let alive = true;
+    void bannerColors(t, club).then((f) => {
+      if (!alive) return;
+      faces = f.length ? f : null;
+      t0 = performance.now();
+    });
+    const fallback = t ? `hsl(${t.primaryColor})` : '#1b2a6b';
     const draw = (now: number) => {
-      const s = still ? 6 : (now - t0) / 1000;
+      // the stand waits in its seats until the banner is ready, then the turn sweeps from 1 s
+      const s = !faces ? 0 : still ? 9 : (now - t0) / 1000;
       ctx.fillStyle = '#05070d';
       ctx.fillRect(0, 0, W, H);
+      const wavePos = s < 6.5 ? -99 : (((s - 6.5) % 3.6) / 3.6) * (COLS + 30) - 15;
       for (let c = 0; c < COLS; c++) {
-        // the turn sweeps left to right from 1.2 s; the wave rolls from 7 s every 3.4 s
-        const turn = Math.min(1, Math.max(0, (s - 1.2 - c * 0.025) / 0.35));
-        const wavePos = s < 7 ? -99 : ((s - 7) % 3.4) / 3.4 * (COLS + 24) - 12;
-        const lift = Math.max(0, 1 - Math.abs(c - wavePos) / 5);
+        const turn = Math.min(1, Math.max(0, (s - 1 - c * 0.02) / 0.4));
+        const lift = Math.max(0, 1 - Math.abs(c - wavePos) / 6);
         for (let r = 0; r < ROWS; r++) {
           const x = c * cw;
-          const y = r * ch - lift * ch * 0.55;
+          const y = r * ch - lift * ch * 0.6;
           const seat = hash(c * 131 + r * 7 + 1);
           if (turn <= 0) {
             ctx.fillStyle = crowd[Math.floor(seat * crowd.length)];
@@ -1151,20 +1198,23 @@ const StuntScene = ({ club }: { club: string }) => {
             continue;
           }
           const sq = Math.abs(Math.cos(turn * Math.PI)); // the card flips: thin at the half-turn
-          const face = turn < 0.5 ? crowd[Math.floor(seat * crowd.length)] : on(c, r) ? c2 : c1;
-          const h = ch * 0.9 * Math.max(0.08, sq);
+          const face = turn < 0.5 ? crowd[Math.floor(seat * crowd.length)] : (faces?.[r * COLS + c] ?? fallback);
+          const h = ch * 0.92 * Math.max(0.08, sq);
           ctx.fillStyle = face;
-          ctx.fillRect(x + cw * 0.06, y + (ch - h) / 2, cw * 0.88, h);
+          ctx.fillRect(x + cw * 0.05, y + (ch - h) / 2, cw * 0.9, h);
           if (lift > 0.05 && turn >= 1) {
-            ctx.fillStyle = `rgba(255,255,255,${lift * 0.28})`;
-            ctx.fillRect(x + cw * 0.06, y + ch * 0.05, cw * 0.88, ch * 0.9);
+            ctx.fillStyle = `rgba(255,255,255,${lift * 0.22})`;
+            ctx.fillRect(x + cw * 0.05, y + ch * 0.04, cw * 0.9, ch * 0.92);
           }
         }
       }
-      if (!still) raf = requestAnimationFrame(draw);
+      if (!still || !faces) raf = requestAnimationFrame(draw);
     };
     raf = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      alive = false;
+      cancelAnimationFrame(raf);
+    };
   }, [club, t]);
   return (
     <Stadium club={club} roll={0.9} className="sv-stunt-ground">
@@ -1265,6 +1315,10 @@ const NowPlayingCard = ({ np }: { np: NowPlaying }) => {
             <span key={`${np.title}-${np.at}`} style={{ '--np-from': from, '--np-rest': `${rest}ms` } as CSSProperties} />
           </span>
         </span>
+      </span>
+      <span className="sv-np__legs" aria-hidden="true">
+        <i />
+        <i />
       </span>
     </div>
   );

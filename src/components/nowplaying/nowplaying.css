@@ -135,13 +135,15 @@
 .np-strip--paused .np-eq {
   color: hsl(var(--muted-foreground));
 }
-/* the pill wants room: it drops its words first on a narrower header */
-@media (max-width: 1279px) {
-  .np-pill__txt {
+/* the pill never pushes the tabs off the header: below 1600px it is just the spinning cover (the card has the rest) */
+@media (max-width: 1599px) {
+  .np-pill__txt,
+  .np-pill .np-eq {
     display: none;
   }
   .np-pill {
-    padding-right: 10px;
+    gap: 0;
+    padding: 0 3px;
   }
 }
 
