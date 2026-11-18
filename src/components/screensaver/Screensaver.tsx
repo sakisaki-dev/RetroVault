@@ -753,7 +753,9 @@ const TakeScene = ({ take, players, sprites }: { take: WidgetTake; players: Play
 };
 
 const DynastyScene = ({ era, players, sprites }: { era: EraLite; players: Player[]; sprites: boolean }) => {
-  const club = findNFLTeam(era.yourTeams[era.yourTeams.length - 1] ?? '')?.name ?? 'Eagles';
+  // the club the era is named for ("Ravens dynasty"), else its last club
+  const named = era.yourTeams.find((t) => era.name.toLowerCase().startsWith((findNFLTeam(t)?.name ?? t).toLowerCase()));
+  const club = findNFLTeam(named ?? era.yourTeams[era.yourTeams.length - 1] ?? '')?.name ?? 'Eagles';
   const lead = (era.notes ?? '').split('. ')[0];
   return (
     <Stadium club={club} roll={0.6}>
