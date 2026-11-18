@@ -748,15 +748,28 @@
 }
 .sv-weather--rain,
 .sv-weather--storm {
-  opacity: 0.32;
-  background:
-    repeating-linear-gradient(103deg, transparent 0 22px, rgb(190 210 255 / 0.5) 22px 23px, transparent 23px 61px) 0 0 / 61px 140px,
-    repeating-linear-gradient(103deg, transparent 0 37px, rgb(190 210 255 / 0.35) 37px 38px, transparent 38px 97px) 0 0 / 97px 210px;
-  animation: sv-rain 0.9s linear infinite;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0.55;
 }
-@keyframes sv-rain {
+/* each drop falls on a slight slant; the streak is tilted to match its path */
+.sv-weather--rain i,
+.sv-weather--storm i {
+  position: absolute;
+  top: 0;
+  width: var(--w);
+  height: var(--l);
+  border-radius: 1px;
+  background: linear-gradient(180deg, rgb(200 218 255 / 0), rgb(200 218 255 / 0.85));
+  will-change: transform;
+  animation: sv-drop var(--t) linear var(--d) infinite;
+}
+@keyframes sv-drop {
+  from {
+    transform: translate3d(0, -20vh, 0) rotate(12deg);
+  }
   to {
-    background-position: -30px 140px, -45px 210px;
+    transform: translate3d(-24vh, 115vh, 0) rotate(12deg);
   }
 }
 .sv-weather--storm::after {
@@ -799,6 +812,14 @@
 }
 .sv--lite .sv-weather {
   animation: none;
+}
+.sv--lite .sv-weather i:nth-child(2n) {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sv .sv-weather i {
+    display: none;
+  }
 }
 
 /* ================= Stadium variety: the club's own ground (day, dusk, night, a snow game, a dome) ================= */

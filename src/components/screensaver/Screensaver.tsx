@@ -166,6 +166,33 @@ const Particles = ({ kind, count, colors }: { kind: 'confetti' | 'snow'; count: 
   </span>
 );
 
+/**
+ * Rain: one streak per drop, moved by transform only (composited, no repaint), each with its own lane, speed, length
+ * and depth (near drops longer, faster and brighter), so it falls smoothly with no visible loop
+ */
+const Rain = () => (
+  <>
+    {Array.from({ length: 110 }, (_, i) => {
+      const z = hash(i + 101); // 0 far … 1 near
+      return (
+        <i
+          key={i}
+          style={
+            {
+              left: `${hash(i + 3) * 115 - 5}%`,
+              '--d': `${-hash(i + 17) * 3}s`,
+              '--t': `${0.95 - z * 0.45}s`,
+              '--l': `${40 + z * 70}px`,
+              '--w': `${z > 0.75 ? 2 : 1}px`,
+              opacity: 0.25 + z * 0.55,
+            } as CSSProperties
+          }
+        />
+      );
+    })}
+  </>
+);
+
 type Look = 'day' | 'dusk' | 'night' | 'snow' | 'dome';
 
 /**
@@ -1188,7 +1215,11 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
           {render(scenes[i])}
         </div>
       ))}
-      {fx && fx !== 'clear' && fx !== 'cloud' && <span className={`sv-weather sv-weather--${fx}`} aria-hidden="true" />}
+      {fx && fx !== 'clear' && fx !== 'cloud' && (
+        <span className={`sv-weather sv-weather--${fx}`} aria-hidden="true">
+          {(fx === 'rain' || fx === 'storm') && <Rain />}
+        </span>
+      )}
       <span className="sv-dust" aria-hidden="true" />
       <span className="sv-dust sv-dust--far" aria-hidden="true" />
       <span className="sv-grain" aria-hidden="true" />
