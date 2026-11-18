@@ -30,7 +30,7 @@ The interesting part is underneath the UI:
 - **A fact-checker for generated prose.** Every number in a news article must cite a source path that resolves
   to that exact value.
 
-The bundled dataset is a single Retro Bowl league: 88 seasons, 203 player careers, 32 clubs and every Super Bowl.
+The bundled dataset is a single Retro Bowl league: 96 seasons, 548 player careers, 32 clubs and every Super Bowl.
 
 <p align="center"><b><a href="https://sakisaki-dev.github.io/RetroVault/">▶ Try the live demo</a></b> · installable on a phone home screen</p>
 
@@ -213,6 +213,32 @@ Phone-first layouts with no horizontal scroll at 390 px. A **Scriptable widget**
 (`public/widgets/retro-vault-widget.js`) renders every iOS widget family from one ~70 KB JSON feed, from the lock
 screen to large. It draws with `DrawContext`, rotates content on a seeded shuffle and computes club colours that
 meet a WCAG 4.5:1 contrast ratio against its backgrounds.
+
+### Desktop screensaver
+
+<img src="docs/readme/screensaver.jpg" alt="Screensaver scenes: a player spotlight, a duel, the league paper, the coach, a Super Bowl and the Gauntlet" width="100%">
+
+Leave the desktop site idle (2 to 15 minutes, or start it from the Season lamp) and it becomes a full-screen show:
+20 kinds of scene, about 470 distinct screens, all built from the data at run time and dealt in a fresh shuffle each
+time. Player banners in a night, dusk, day, snow or dome stadium chosen from each club's real ground, cards from
+the binder turning under a spotlight, position duels, club line-ups, Super Bowl champions in confetti, Hall of Fame
+classes on gold steps, the league paper, hot takes, record chases, the market board, rivalry files, dynasties and
+the coach's career club by club. It is built to be left on: slow camera moves only, the clock and wordmark drift,
+the show dims over half an hour, and it holds a Wake Lock while it runs. An opt-in corner shows the time, date and
+local weather (Open-Meteo, rounded coordinates kept on the device), and real rain or snow falls over every scene.
+
+### Recent additions
+
+- **The rafters.** Each club's retired numbers hang as banners from a steel truss that swing when dragged and
+  stretch when pulled; the player card and the Deep Dive hang the same banners.
+- **A rule for where a player is best known.** Seasons, rings, awards and records won at each club decide the
+  colours a retired player's card and banners wear.
+- **Official club colours**, with a perceptual-distance check (CIEDE2000) so no two clubs look alike.
+- **A stadium-themed Stats page.** The league's nine greatest stand on the turf under a jumbotron, and the record
+  book is a wall of plaques on trophy shelves.
+- **The binder.** Ring-binder sleeve pages with sort, search and filters; packs open in a players' tunnel; a
+  chrome card back; claim any player in the Shard Workshop.
+- **Club search** in the quick search.
 
 ---
 

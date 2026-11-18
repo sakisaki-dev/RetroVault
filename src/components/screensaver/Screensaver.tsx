@@ -16,6 +16,7 @@ import { useRafters } from '@/utils/rafters';
 import { useCollection } from '@/utils/collection';
 import { usePerfMode } from '@/hooks/usePerfMode';
 import { useLiveSeason } from '@/utils/seasonLive';
+import { useMarket } from '@/utils/useMarket';
 import { fetchSaverWeather, useSaverPlace, weatherKind, type SaverWeather } from '@/utils/screensaver';
 import { Flame, Cloud, CloudFog, CloudLightning, CloudRain, CloudSnow, Moon, Sun } from 'lucide-react';
 import { useFieldArt } from '@/components/teamlab/fieldArt';
@@ -51,17 +52,32 @@ type Scene =
   | { kind: 'champs'; bowl: SuperBowlEntry }
   | { kind: 'paper'; story: SeasonStoryIndexEntry; takes: HotTakesIndexEntry | null }
   | { kind: 'record'; row: ClubRecordRow; holder: Player }
-  | { kind: 'coach'; roll: number }
+  | { kind: 'coach'; roll: number; stint: CoachStint | null }
   | { kind: 'rising'; items: { p: Player; line: string }[] }
   | { kind: 'farewell'; items: { p: Player; line: string }[] }
-  | { kind: 'market'; rows: { p: Player; pct: number }[] }
+  | { kind: 'market'; title: string; rows: MarketRow[] }
   | { kind: 'dyk'; text: string; p: Player | null; club: string; roll: number }
   | { kind: 'chase'; p: Player; c: WidgetChase; roll: number }
-  | { kind: 'gauntlet'; holders: Player[]; closest: { p: Player; missing: string[] } | null }
+  | { kind: 'gauntlet'; title: string; kick: string; entries: { p: Player; has: boolean[] }[] }
   | { kind: 'rivalry'; file: RivalryFileLite; a: Player | null; b: Player | null }
   | { kind: 'hofclass'; label: string; members: Player[] }
   | { kind: 'take'; take: WidgetTake; players: Player[] }
   | { kind: 'dynasty'; era: EraLite; players: Player[] };
+
+interface CoachStint { club: string; years: number[]; seasons: number; titles: number; w: number; l: number; t: number }
+/** Seasons as spans: [34, 35, 71, 72] → "Y34–35, Y71–72" */
+const spans = (years: number[]) => {
+  const ys = [...years].sort((a, b) => a - b);
+  const out: string[] = [];
+  for (let i = 0; i < ys.length; i++) {
+    let j = i;
+    while (j + 1 < ys.length && ys[j + 1] === ys[j] + 1) j++;
+    out.push(j > i ? `Y${ys[i]}–${ys[j]}` : `Y${ys[i]}`);
+    i = j;
+  }
+  return out.join(', ');
+};
+interface MarketRow { p: Player; text: string; up: boolean | null }
 
 /* The slices of widget.json and content.json the new scenes read (every field optional in the files) */
 interface WidgetChase { player: string; stat: string; unit: string; have: number; mark: number; toGo: number; pct: number; holder: string; team: string }
@@ -535,15 +551,17 @@ const Board = ({ kick, title, sub, logo }: { kick: string; title: string; sub?: 
   </div>
 );
 
-const CoachScene = ({ roll, titles }: { roll: number; titles: number | null }) => {
+const CoachScene = ({ roll, titles, stint }: { roll: number; titles: number | null; stint: CoachStint | null }) => {
   const { content } = useLeagueContent();
-  const club = useCurrentClub() ?? 'Eagles';
+  const current = useCurrentClub() ?? 'Eagles';
+  const club = stint?.club ?? current;
   const seasons = content?.coach?.seasons ?? [];
   const clubs: string[] = [];
   seasons.forEach((x) => {
     const n = findNFLTeam(x.team)?.name;
     if (n && !clubs.includes(n)) clubs.push(n);
   });
+  const t = findNFLTeam(club);
   return (
     <Stadium club={club} roll={roll}>
       <div className="sv-coach">
@@ -554,22 +572,41 @@ const CoachScene = ({ roll, titles }: { roll: number; titles: number | null }) =
           </span>
         </div>
         <div className="sv-rec__board sv-coach__board">
-          <p className="sv-kick">Head coach</p>
-          <h2 className="sv-rec__name">{content?.coach?.name ?? 'Dorren Skura'}</h2>
-          {titles != null && (
-            <p className="sv-rec__mark">
-              {titles}
-              <small> titles</small>
-            </p>
+          {stint ? (
+            <>
+              <p className="sv-kick">
+                Head coach · {t?.fullName ?? club} · {spans(stint.years)}
+              </p>
+              <h2 className="sv-rec__name">{content?.coach?.name ?? 'Dorren Skura'}</h2>
+              <p className="sv-rec__mark">
+                {stint.titles}
+                <small> {stint.titles === 1 ? 'title' : 'titles'} here</small>
+              </p>
+              <p className="sv-rec__gap">
+                {stint.seasons} {stint.seasons === 1 ? 'season' : 'seasons'} · {stint.w}-{stint.l}
+                {stint.t ? `-${stint.t}` : ''} in the regular season
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="sv-kick">Head coach · career</p>
+              <h2 className="sv-rec__name">{content?.coach?.name ?? 'Dorren Skura'}</h2>
+              {titles != null && (
+                <p className="sv-rec__mark">
+                  {titles}
+                  <small> titles</small>
+                </p>
+              )}
+              <p className="sv-rec__gap">
+                {seasons.length} seasons · {clubs.length} clubs
+              </p>
+              <div className="sv-coach__clubs">
+                {clubs.map((c) => (
+                  <TeamLogo key={c} team={c} size={34} decorative />
+                ))}
+              </div>
+            </>
           )}
-          <p className="sv-rec__gap">
-            {seasons.length} seasons · {clubs.length} clubs
-          </p>
-          <div className="sv-coach__clubs">
-            {clubs.map((c) => (
-              <TeamLogo key={c} team={c} size={34} decorative />
-            ))}
-          </div>
         </div>
       </div>
     </Stadium>
@@ -585,29 +622,30 @@ const RowScene = ({ kick, title, sub, items, sprites, roll, club, action }: { ki
   </Stadium>
 );
 
-const MarketScene = ({ rows, sprites }: { rows: { p: Player; pct: number }[]; sprites: boolean }) => (
+const MarketScene = ({ title, rows, sprites }: { title: string; rows: MarketRow[]; sprites: boolean }) => (
   <div className="sv-market">
     <div className="sv-market__board">
-      <p className="sv-kick">Card market · biggest movers</p>
+      <p className="sv-kick">Card market · {title}</p>
       <ul>
-        {rows.map(({ p, pct }) => (
+        {rows.map(({ p, text, up }) => (
           <li key={playerKey(p)} style={clubStyle(p)}>
             <span className="sv-market__sw" />
             <span className="sv-market__name">{p.name}</span>
             <span className="sv-market__pos">{p.position}</span>
-            <b className={pct >= 0 ? 'sv-up' : 'sv-down'}>
-              {pct >= 0 ? '▲' : '▼'} {Math.abs(pct)}%
+            <b className={up === null ? 'sv-flat' : up ? 'sv-up' : 'sv-down'}>
+              {up === null ? '' : up ? '▲ ' : '▼ '}
+              {text}
             </b>
           </li>
         ))}
       </ul>
       <span className="sv-market__ticker" aria-hidden="true">
-        {rows.map(({ p, pct }) => `${p.name.toUpperCase()} ${pct >= 0 ? '▲' : '▼'}${Math.abs(pct)}%`).join('   ·   ')}
+        {rows.map(({ p, text, up }) => `${p.name.toUpperCase()} ${up === null ? '' : up ? '▲' : '▼'}${text}`).join('   ·   ')}
       </span>
     </div>
     {rows[0] && (
       <div className="sv-market__man" style={clubStyle(rows[0].p)}>
-        <Figure player={rows[0].p} sprites={sprites} action="celebrate" scale={1.6} />
+        <Figure player={rows[0].p} sprites={sprites} action={rows[0].up === false ? 'idle' : 'celebrate'} scale={1.6} />
       </div>
     )}
   </div>
@@ -653,30 +691,27 @@ const ChaseScene = ({ p, c, roll, sprites }: { p: Player; c: WidgetChase; roll: 
 );
 
 const AWARDS = ['Ring', 'MVP', 'Player of the Year', 'Rookie of the Year', 'Super Bowl MVP'];
-const GauntletScene = ({ holders, closest, sprites }: { holders: Player[]; closest: { p: Player; missing: string[] } | null; sprites: boolean }) => (
+const awardsOf = (p: Player) => [p.rings > 0, p.mvp > 0, p.opoy > 0, p.roty > 0, p.sbmvp > 0];
+const GauntletScene = ({ title, kick, entries, sprites }: { title: string; kick: string; entries: { p: Player; has: boolean[] }[]; sprites: boolean }) => (
   <div className="sv-gauntlet">
     <span className="sv-champs__rays" aria-hidden="true" />
     <div className="sv-gauntlet__body">
-      <p className="sv-kick">The Gauntlet · every award on his side of the ball</p>
-      <h2 className="sv-title">Ran the Gauntlet</h2>
+      <p className="sv-kick">{kick}</p>
+      <h2 className="sv-title">{title}</h2>
       <ul className="sv-gauntlet__row">
-        {holders.slice(0, 5).map((p, i) => (
+        {entries.slice(0, 5).map(({ p, has }, i) => (
           <li key={playerKey(p)} style={{ ...clubStyle(p), '--i': i } as CSSProperties}>
-            <Figure player={p} sprites={sprites} action="celebrate" scale={1.05} />
+            <Figure player={p} sprites={sprites} action={has.every(Boolean) ? 'celebrate' : 'idle'} scale={1.05} />
             <span className="sv-line__name">{p.name.split(' ').slice(-1)[0]}</span>
             <span className="sv-gauntlet__rings">
-              {AWARDS.map((a) => (
-                <i key={a} title={a} />
+              {AWARDS.map((a, k) => (
+                <i key={a} title={a} className={has[k] ? undefined : 'sv-off'} />
               ))}
             </span>
+            {!has.every(Boolean) && <span className="sv-line__cl">needs {AWARDS.filter((_, k) => !has[k]).join(', ')}</span>}
           </li>
         ))}
       </ul>
-      {closest && (
-        <p className="sv-sub">
-          Closest: <b>{closest.p.name}</b>, missing {closest.missing.join(' and ')}
-        </p>
-      )}
     </div>
   </div>
 );
@@ -845,6 +880,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const { content, loading: contentLoading } = useLeagueContent();
   const records = useClubRecords();
   const feed = useWidgetFeed();
+  const marketHist = useMarket();
   const rootRef = useRef<HTMLDivElement>(null);
 
   const players = useMemo(
@@ -861,7 +897,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
     const t = window.setTimeout(() => setWaited(true), 4_000);
     return () => window.clearTimeout(t);
   }, []);
-  const ready = players.length > 0 && ((feed !== undefined && !contentLoading && hof !== undefined && !!records && poolLoaded) || waited);
+  const ready = players.length > 0 && ((feed !== undefined && !contentLoading && hof !== undefined && !!records && poolLoaded && !!marketHist) || waited);
   const scenes = useMemo<Scene[]>(() => {
     if (!ready) return [];
     const spot = shuffle(players.slice(0, 80)).map((p): Scene => ({ kind: 'spotlight', player: p, roll: Math.random() }));
@@ -910,21 +946,53 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
     const P = (k?: string) => (k ? byKeyP.get(k) : undefined);
     const byName = new Map(players.map((p) => [p.name, p]));
     const w = feed;
-    const coachDeck: Scene[] = content?.coach ? [{ kind: 'coach', roll: Math.random() }] : [];
+    // the coach: his career, and each club he coached (its seasons, record and titles there)
+    const stints = new Map<string, CoachStint>();
+    (content?.coach?.seasons ?? []).forEach((x) => {
+      const club = findNFLTeam(x.team)?.name;
+      if (!club) return;
+      const st = stints.get(club) ?? { club, years: [], seasons: 0, titles: 0, w: 0, l: 0, t: 0 };
+      st.years.push(x.year);
+      st.seasons += 1;
+      st.titles += x.finish === 'Champions' ? 1 : 0;
+      st.w += x.w;
+      st.l += x.l;
+      st.t += x.t ?? 0;
+      stints.set(club, st);
+    });
+    const coachDeck: Scene[] = content?.coach
+      ? shuffle([null, ...stints.values()]).map((stint): Scene => ({ kind: 'coach', roll: Math.random(), stint }))
+      : [];
+    // rising stars and final season: a different five each run
     const rising: Scene[] = (() => {
-      const items = (w?.ceilings ?? []).map((c) => ({ p: P(c.player), line: `${c.stars}★ → ${c.ceiling}★ · age ${c.age}` })).filter((x): x is { p: Player; line: string } => !!x.p);
+      const items = shuffle(w?.ceilings ?? [])
+        .map((c) => ({ p: P(c.player), line: `${c.stars}★ → ${c.ceiling}★ · age ${c.age}` }))
+        .filter((x): x is { p: Player; line: string } => !!x.p);
       return items.length >= 3 ? [{ kind: 'rising', items: items.slice(0, 5) }] : [];
     })();
     const farewell: Scene[] = (() => {
-      const items = (w?.retirements ?? [])
-        .filter((r) => r.seasonsLeft === 0)
+      const items = shuffle((w?.retirements ?? []).filter((r) => r.seasonsLeft === 0))
         .map((r) => ({ p: P(r.player), line: `age ${r.age}` }))
         .filter((x): x is { p: Player; line: string } => !!x.p);
       return items.length >= 2 ? [{ kind: 'farewell', items: items.slice(0, 5) }] : [];
     })();
+    // the market: the biggest risers and fallers between the last two snapshots, and the most valuable cards
     const market: Scene[] = (() => {
-      const rows = (w?.movers ?? []).map((m) => ({ p: P(m.key), pct: m.pct })).filter((x): x is { p: Player; pct: number } => !!x.p);
-      return rows.length ? [{ kind: 'market', rows }] : [];
+      const snaps = marketHist ?? [];
+      const a = snaps[snaps.length - 2]?.players ?? {};
+      const b = snaps[snaps.length - 1]?.players ?? {};
+      const moves = Object.entries(b)
+        .map(([k, pt]) => ({ p: P(k), pct: a[k] && a[k].value >= 50 ? Math.round(((pt.value - a[k].value) / a[k].value) * 100) : null, value: pt.value }))
+        .filter((x): x is { p: Player; pct: number | null; value: number } => !!x.p);
+      const withPct = moves.filter((x): x is { p: Player; pct: number; value: number } => x.pct !== null && x.pct !== 0);
+      const out: Scene[] = [];
+      const up = [...withPct].sort((x, y) => y.pct - x.pct).filter((x) => x.pct > 0).slice(0, 5);
+      const down = [...withPct].sort((x, y) => x.pct - y.pct).filter((x) => x.pct < 0).slice(0, 5);
+      const top = [...moves].sort((x, y) => y.value - x.value).slice(0, 5);
+      if (up.length) out.push({ kind: 'market', title: 'biggest risers', rows: up.map((x) => ({ p: x.p, text: `${x.pct}%`, up: true })) });
+      if (down.length) out.push({ kind: 'market', title: 'biggest fallers', rows: down.map((x) => ({ p: x.p, text: `${Math.abs(x.pct)}%`, up: false })) });
+      if (top.length) out.push({ kind: 'market', title: 'most valuable cards', rows: top.map((x) => ({ p: x.p, text: `${fmt(x.value)} c`, up: null })) });
+      return shuffle(out);
     })();
     const dyks = shuffle(w?.didYouKnow ?? [])
       .slice(0, 30)
@@ -936,10 +1004,16 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
       .map((c) => ({ c, p: P(c.player) }))
       .filter((x): x is { c: WidgetChase; p: Player } => !!x.p)
       .map(({ c, p }): Scene => ({ kind: 'chase', c, p, roll: Math.random() }));
+    // the Gauntlet from every player's awards: who has the full set, and groups of five who are one short
     const gauntlet: Scene[] = (() => {
-      const holders = (w?.gauntlet?.holders ?? []).map((h) => P(h.player)).filter((x): x is Player => !!x);
-      const cp = P(w?.gauntlet?.closest?.player);
-      return holders.length ? [{ kind: 'gauntlet', holders, closest: cp ? { p: cp, missing: w!.gauntlet!.closest!.missing } : null }] : [];
+      const all = players.map((p) => ({ p, has: awardsOf(p) }));
+      const full = all.filter((x) => x.has.every(Boolean));
+      const short = shuffle(all.filter((x) => x.has.filter(Boolean).length === 4));
+      const out: Scene[] = [];
+      if (full.length) out.push({ kind: 'gauntlet', title: 'Ran the Gauntlet', kick: 'The Gauntlet · every award on his side of the ball', entries: full });
+      for (let k = 0; k < short.length && out.length < 6; k += 5)
+        out.push({ kind: 'gauntlet', title: 'One short', kick: 'The Gauntlet · four of the five', entries: short.slice(k, k + 5) });
+      return shuffle(out);
     })();
     const rivals = shuffle(((content?.rivalryFiles ?? []) as unknown as RivalryFileLite[]).filter((f) => f.status === 'lasting')).map(
       (file): Scene => ({ kind: 'rivalry', file, a: P(file.stars?.coach?.key) ?? null, b: P(file.stars?.rival?.key) ?? null }),
@@ -1081,19 +1155,19 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
       case 'record':
         return <RecordScene row={s.row} holder={s.holder} sprites={sprites} />;
       case 'coach':
-        return <CoachScene roll={s.roll} titles={feed?.coachTitles ?? null} />;
+        return <CoachScene roll={s.roll} titles={feed?.coachTitles ?? null} stint={s.stint} />;
       case 'rising':
         return <RowScene kick="Room to grow · the game's star ceilings" title="Rising stars" items={s.items} sprites={sprites} roll={0.1} club={clubOf(s.items[0].p)?.name ?? 'Eagles'} />;
       case 'farewell':
         return <RowScene kick={feed?.liveSeason ? `Season ${feed.liveSeason}` : 'This season'} title="Final season" sub="Their last lap by the game's retirement clock" items={s.items} sprites={sprites} roll={0.4} club={clubOf(s.items[0].p)?.name ?? 'Eagles'} />;
       case 'market':
-        return <MarketScene rows={s.rows} sprites={sprites} />;
+        return <MarketScene title={s.title} rows={s.rows} sprites={sprites} />;
       case 'dyk':
         return <DykScene text={s.text} p={s.p} club={s.club} roll={s.roll} sprites={sprites} />;
       case 'chase':
         return <ChaseScene p={s.p} c={s.c} roll={s.roll} sprites={sprites} />;
       case 'gauntlet':
-        return <GauntletScene holders={s.holders} closest={s.closest} sprites={sprites} />;
+        return <GauntletScene title={s.title} kick={s.kick} entries={s.entries} sprites={sprites} />;
       case 'rivalry':
         return <RivalryScene file={s.file} a={s.a} b={s.b} sprites={sprites} />;
       case 'hofclass':

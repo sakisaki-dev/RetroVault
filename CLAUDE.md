@@ -1195,7 +1195,12 @@ take as a pull quote with heat flames and its players), record, **rising stars**
 **market** (widget.json movers on an LED stock board with a ticker), **Hall of Fame class** (on gold steps),
 **dynasty** (a content.json era: years, Super Bowls, the first line of its notes, the coach and its key players),
 **the Gauntlet** (holders with five rings lighting up, the closest active player), **final season** (widget.json
-retirements, at dusk), rafters. The playlist is dealt once its data is in (widget.json, content, the Hall of Fame,
+retirements, at dusk), rafters. Every kind rotates (owner: "all of them yes"): the coach is his career or one club he coached (its seasons as spans,
+regular-season record and titles there, in its polo and stadium); rising stars and final season show a different five
+each run; the market has biggest risers, biggest fallers and most valuable cards from the last two market.json
+snapshots (base value 50+); the Gauntlet is computed from every player's awards (full set: ring, MVP, OPOY/DPOY,
+Rookie of the Year, Super Bowl MVP) plus "One short" groups of five with the missing award. About 470 distinct
+screens. The playlist is dealt once its data is in (widget.json, content, the Hall of Fame,
 records, the card pool; 4 s at most), so it never reshuffles mid-show. Confetti and snowflakes are single elements with their own place, size, speed and drift (`Particles`). Slow camera push, sweeping floodlights, gold dust, text that rises in line by line; the clock
 and wordmark drift and the whole show dims by a fifth over half an hour, so it can be left on. Full screen and a Wake
 Lock when the browser allows; any key, click, wheel or mouse move past 24 px ends it (the click never reaches the page).
