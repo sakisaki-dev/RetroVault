@@ -8,7 +8,7 @@ import { useEffect, useState, useSyncExternalStore } from 'react';
  * The Spotify app's Redirect URIs must list this site's address exactly: https://sakisaki-dev.github.io/RetroVault/
  * on Pages, and http://127.0.0.1:<port>/ for the dev server or the LAN preview (Spotify refuses "localhost").
  */
-export const SPOTIFY_CLIENT_ID = '';
+export const SPOTIFY_CLIENT_ID = '7ce2b1e0170b40bfb7ca4034eb59e298';
 
 const TOKEN_KEY = 'rv:spotify';
 const VERIFIER_KEY = 'rv:spotify:verifier';
