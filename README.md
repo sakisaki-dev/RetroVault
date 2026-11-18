@@ -5,15 +5,6 @@
 <p align="center">
   <a href="https://sakisaki-dev.github.io/RetroVault/"><img alt="Live demo" src="https://img.shields.io/badge/%E2%96%B6%20LIVE%20DEMO-sakisaki--dev.github.io%2FRetroVault-ffc83d?style=for-the-badge&labelColor=090d1a"></a>
 </p>
-<p align="center">
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178c6?style=flat-square&logo=typescript&logoColor=white">
-  <img alt="React" src="https://img.shields.io/badge/React-20232a?style=flat-square&logo=react&logoColor=61dafb">
-  <img alt="Vite" src="https://img.shields.io/badge/Vite-646cff?style=flat-square&logo=vite&logoColor=white">
-  <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind-0f172a?style=flat-square&logo=tailwindcss&logoColor=38bdf8">
-  <img alt="Python" src="https://img.shields.io/badge/Python-3776ab?style=flat-square&logo=python&logoColor=white">
-  <img alt="GitHub Actions" src="https://img.shields.io/badge/CI-GitHub%20Actions-2088ff?style=flat-square&logo=githubactions&logoColor=white">
-  <img alt="No backend" src="https://img.shields.io/badge/backend-none%20(static)-2fb36a?style=flat-square">
-</p>
 
 **Retro Vault** is a static, phone-first analytics platform for a long-running football league. Raw game
 screenshots go in; a validated dataset, a few dozen derived metrics, generated news, a card economy with a market,
@@ -30,7 +21,7 @@ The interesting part is underneath the UI:
 - **A fact-checker for generated prose.** Every number in a news article must cite a source path that resolves
   to that exact value.
 
-The bundled dataset is a single Retro Bowl league: 96 seasons, 548 player careers, 32 clubs and every Super Bowl.
+The bundled dataset is a single Retro Bowl league: 96 seasons, 548 player careers, 32 clubs and all 96 Super Bowls.
 
 <p align="center"><b><a href="https://sakisaki-dev.github.io/RetroVault/">▶ Try the live demo</a></b> · installable on a phone home screen</p>
 
@@ -38,22 +29,22 @@ The bundled dataset is a single Retro Bowl league: 96 seasons, 548 player career
 
 ## Contents
 
-- [Architecture](#%EF%B8%8F-architecture)
-- [Analytics and modelling](#-analytics-and-modelling)
-- [Data quality](#-data-quality)
-- [Features](#-features)
-- [Frontend engineering](#%EF%B8%8F-frontend-engineering)
-- [Running it](#-running-it)
-- [Repository map](#%EF%B8%8F-repository-map)
+- [Architecture](#architecture)
+- [Analytics and modelling](#analytics-and-modelling)
+- [Data quality](#data-quality)
+- [Features](#features)
+- [Frontend engineering](#frontend-engineering)
+- [Running it](#running-it)
+- [Repository map](#repository-map)
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```mermaid
 flowchart LR
   subgraph Ingest
-    A["📸 Screenshots"] --> B["Upload bundle<br/>manifest.json<br/>(typed mutations)"]
+    A["Screenshots"] --> B["Upload bundle<br/>manifest.json<br/>(typed mutations)"]
   end
   subgraph Pipeline["Build pipeline (npm run rebuild)"]
     B --> C["apply_upload<br/>validate · apply once · log"]
@@ -68,7 +59,7 @@ flowchart LR
   end
   K -- yes --> L["public/data/*.json"] --> M["React SPA<br/>GitHub Pages"]
   L --> N["iOS widget<br/>(Scriptable)"]
-  K -- no --> X["❌ stop"]
+  K -- no --> X["stop"]
 ```
 
 **Data in, everything else generated.** `data/y80/` holds only facts: career lines, awards, Super Bowls, coach
@@ -82,7 +73,7 @@ Each mutation must carry a source (`image:<file>`, `owner` or `data:<files>`), a
 applies exactly once (its id is logged in `mutations_log.json`), so the whole dataset can be replayed from its
 history.
 
-**Reproducible builds.** `npm run rebuild` runs seven stages in a fixed order. Output is deterministic: sorted
+**Reproducible builds.** `npm run rebuild` runs its stages (13 commands, ending with the audit) in a fixed order. Output is deterministic: sorted
 keys, stable tie-breaks and seeds derived from content hashes (FNV-1a) rather than clocks. Re-running the
 pipeline on unchanged data produces no diff, which makes code review of generated data possible.
 
@@ -96,7 +87,7 @@ stories by a source-resolving fact-checker. Nothing else in the system depends o
 
 ---
 
-## 📊 Analytics and modelling
+## Analytics and modelling
 
 All formulas are documented in [`docs/STATS_REFERENCE.md`](docs/STATS_REFERENCE.md).
 
@@ -117,7 +108,7 @@ All formulas are documented in [`docs/STATS_REFERENCE.md`](docs/STATS_REFERENCE.
 
 ---
 
-## ✅ Data quality
+## Data quality
 
 Bad data is designed to fail loudly, before it reaches the site.
 
@@ -143,7 +134,7 @@ Bad data is designed to fail loudly, before it reaches the site.
 
 ---
 
-## 🎮 Features
+## Features
 
 ### Arcade: ten games generated from the data
 
@@ -153,10 +144,10 @@ Every game is built from real career data, with a pool of 66 real NFL legends mi
 
 | | | |
 |---|---|---|
-| 🏈 **Can you go 18-0?** A season simulator: opponents' ratings blend each club's real power score with a random roll | 📊 **Blind Rank** Order five players by OVR, one at a time | ✂️ **Keep 3, Cut 3** Keep the three highest OVRs |
-| 🕵️ **Guess the Legend** Six progressive clues | ⬆️⬇️ **Higher or Lower** Streaks on career stats and awards | 🔢 **League Grid** A 3×3 constraint puzzle over real careers |
-| 🎭 **Who's the Imposter?** Five players share a hidden trait | 🔗 **Six Degrees** Path-finding through teammates, eras and lineages, scored against par | 🎯 **Over/Under** Career prop lines with parlays |
-| 🧪 **Build-a-Legend** Assemble traits, then a similarity search finds who it plays like | | |
+| **Can you go 18-0?** A season simulator: opponents' ratings blend each club's real power score with a random roll | **Blind Rank** Order five players by OVR, one at a time | **Keep 3, Cut 3** Keep the three highest OVRs |
+| **Guess the Legend** Six progressive clues | **Higher or Lower** Streaks on career stats and awards | **League Grid** A 3×3 constraint puzzle over real careers |
+| **Who's the Imposter?** Five players share a hidden trait | **Six Degrees** Path-finding through teammates, eras and lineages, scored against par | **Over/Under** Career prop lines with parlays |
+| **Build-a-Legend** Assemble traits, then a similarity search finds who it plays like | | |
 
 ### Stats hub: record book, graph builder, deep dive
 
@@ -210,7 +201,7 @@ A lineup builder that grades each unit and produces a game plan and trade target
 <img src="docs/readme/phones.jpg" alt="The site on a phone: Arcade, Timeline, Hall of Fame and Collection" width="100%">
 
 Phone-first layouts with no horizontal scroll at 390 px. A **Scriptable widget**
-(`public/widgets/retro-vault-widget.js`) renders every iOS widget family from one ~70 KB JSON feed, from the lock
+(`public/widgets/retro-vault-widget.js`) renders every iOS widget family from one JSON feed of about 80 KB, from the lock
 screen to large. It draws with `DrawContext`, rotates content on a seeded shuffle and computes club colours that
 meet a WCAG 4.5:1 contrast ratio against its backgrounds.
 
@@ -242,7 +233,7 @@ local weather (Open-Meteo, rounded coordinates kept on the device), and real rai
 
 ---
 
-## 🖥️ Frontend engineering
+## Frontend engineering
 
 - **React and TypeScript** with strict types for every data contract (`src/utils/leagueContent.ts`,
   `src/utils/schedule.ts`), hash routing with deep links (`#stats/deepdive?p=QB:Name`) and lazy-loaded tabs.
@@ -257,7 +248,7 @@ local weather (Open-Meteo, rounded coordinates kept on the device), and real rai
 
 ---
 
-## 🚀 Running it
+## Running it
 
 ```bash
 git clone https://github.com/sakisaki-dev/RetroVault.git
@@ -265,6 +256,9 @@ cd RetroVault
 npm install
 npm run dev              # dev server with hot reload
 ```
+
+The app only needs Node (CI uses Node 20). The data pipeline (`npm run rebuild`, `update`, `apply-upload`,
+`ledger`) also needs Python 3 with `numpy` and `Pillow` (`pip install numpy pillow`).
 
 | Command | Purpose |
 |---|---|
@@ -278,7 +272,7 @@ npm run dev              # dev server with hot reload
 
 ---
 
-## 🗂️ Repository map
+## Repository map
 
 ```text
 RetroVault/
@@ -302,7 +296,7 @@ RetroVault/
 
 ---
 
-## 🙏 Credits
+## Credits
 
 Initial UI prototyping was assisted by [Lovable](https://www.lovable.dev). The architecture, data pipeline,
 analytics, persistence and application logic were designed and implemented by the author.
