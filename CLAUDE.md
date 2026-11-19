@@ -1185,8 +1185,8 @@ from the save's stadium figures (`lookFor`): a covered stadium is a dome (a stee
 across the sky, pennants on the stand front and its logo at midfield; a Hall of Famer gets his club's drapes, swinging.
 **Weather corner** (owner: "add in a bit of weather, time and location"): top right, the time, the date and, once
 "Use my location" in the menu is pressed (the browser asks once; rounded to 2 decimals, kept on the device as
-`rv:saver:place`, the town from BigDataCloud's reverse geocode), the current weather from Open-Meteo (no key, cached 20
-min as `rv:saver:wx`, °F for a US locale), and the real rain, snow, fog or storm laid lightly over every scene. Rain is CSS streaks moved by transform (`Rain`; owner:
+`rv:saver:place`, the town from BigDataCloud's reverse geocode), the current weather from Open-Meteo (no key, cached 10
+min as `rv:saver:wx`; the menu's Weather tab shows the last reading, °F for a US locale), and the real rain, snow, fog or storm laid lightly over every scene. Rain is CSS streaks moved by transform (`Rain`; owner:
 "keep the rain that we had previously … the rain is making everything super slow": no canvas, no splashes). Snow is
 particles with physics on one canvas (`WeatherCanvas`; owner: "make it more realistic … look online for snow effects and physics", "do the same particle
 physics for rain … let it bounce off of the cards, trophies"): each drop or flake has a depth (near: bigger, faster,

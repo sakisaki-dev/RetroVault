@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { Bus, CloudSun, MapPin, MonitorPlay, Music, Timer } from 'lucide-react';
-import { setSaverFx, useSaverFx } from '@/utils/screensaver';
+import { lastSaverWeather, setSaverFx, useSaverFx, weatherKind } from '@/utils/screensaver';
 import { setBusSetting, useBusSetting, useRoute } from '@/utils/bus';
 import { connectSpotify, disconnectSpotify, spotifyAvailable, useSpotifyConnected } from '@/utils/spotify';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -196,6 +196,17 @@ const ScreensaverButton = ({ season }: { season: string | number }) => {
                 )}
               </div>
               {err && <span className="text-[11px] text-muted-foreground">{err}</span>}
+              {(() => {
+                // what the screensaver last saw, so it's clear what Real will show
+                const wx = place ? lastSaverWeather() : null;
+                if (!place) return <span className="text-[11px] leading-snug text-muted-foreground">Real needs your location to know the weather.</span>;
+                if (!wx) return <span className="text-[11px] leading-snug text-muted-foreground">Checks the weather when the screensaver starts.</span>;
+                return (
+                  <span className="text-[11px] leading-snug text-muted-foreground">
+                    Last seen: {weatherKind(wx.code).label} · {wx.temp}°{place.unit === 'fahrenheit' ? 'F' : 'C'} (rechecked every 10 min)
+                  </span>
+                );
+              })()}
             </>
           )}
 

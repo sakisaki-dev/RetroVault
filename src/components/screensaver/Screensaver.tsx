@@ -1371,7 +1371,7 @@ const Corner = ({ onWeather, children }: { onWeather: (w: Weather) => void; chil
     let live = true;
     const load = () => fetchSaverWeather(place).then((w) => live && setWx(w));
     void load();
-    const t = window.setInterval(load, 20 * 60_000);
+    const t = window.setInterval(load, 10 * 60_000);
     return () => {
       live = false;
       window.clearInterval(t);

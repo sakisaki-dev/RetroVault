@@ -247,12 +247,12 @@ export interface SaverWeather {
   gust?: number;
 }
 
-/** The current weather at the saved place, from the device cache when it is under 20 minutes old */
+/** The current weather at the saved place, from the device cache when it is under 10 minutes old */
 export const fetchSaverWeather = async (p: SaverPlace): Promise<SaverWeather | null> => {
   const key = `${p.lat},${p.lon},${p.unit},w`;
   try {
     const c = JSON.parse(localStorage.getItem(WX_KEY) ?? 'null');
-    if (c && c.key === key && Date.now() - c.at < 20 * 60_000) return c.wx;
+    if (c && c.key === key && Date.now() - c.at < 10 * 60_000) return c.wx;
   } catch {
     /* no cache */
   }
@@ -276,6 +276,16 @@ export const fetchSaverWeather = async (p: SaverPlace): Promise<SaverWeather | n
       /* fine */
     }
     return wx;
+  } catch {
+    return null;
+  }
+};
+
+/** What the screensaver last read for the saved place (the menu shows it), or null */
+export const lastSaverWeather = (): SaverWeather | null => {
+  try {
+    const c = JSON.parse(localStorage.getItem(WX_KEY) ?? 'null');
+    return c?.wx ?? null;
   } catch {
     return null;
   }
