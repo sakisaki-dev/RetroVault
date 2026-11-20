@@ -1,7 +1,7 @@
 {
  "season": "Y96",
  "tagline": "The Eagles lose 4 games and win a sixth straight title anyway, 40-26 over the Bengals in Super Bowl CLV, Ryland Maxwell takes a 7th Super Bowl MVP at 34 and re-signs with Akiem Brock for one more run, and Grover Calitro scores 43 times.",
- "upload": "2026-11-17-maxwell-score-100",
+ "upload": "2026-11-19-story-y97",
  "articles": [
   {
    "id": "y96-eagles-clv",
@@ -266,9 +266,9 @@
      "source": "stints.json Ryland Maxwell/stints/[team=Falcons]/rings/#"
     },
     {
-     "label": "Rings with the Eagles",
+     "label": "Rings with the Eagles through Y96",
      "value": "6",
-     "source": "stints.json Ryland Maxwell/stints/[team=Eagles]/rings/#"
+     "source": "stints.json Ryland Maxwell/stints/[team=Eagles]/rings/# minus market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.rings"
     },
     {
      "label": "Maxwell Hall of Fame watch score",
@@ -298,7 +298,7 @@
    "body": [
     "No lineman on league cards came near Akiem Brock in Y96, and none had for years. He made 62 blocks in 21 games, 29 more than JD Pircher of the Bengals or Caleb Linsley of the Giants, and passed 500 for his career on the way to 538 in 181 games.",
     "He spent his whole card career in Philadelphia, and the rings followed: 8 of them, every one with Dorren Skura. In nine seasons together, Skura's Eagles won the title eight times. Y90 was the one that got away.",
-    "The Hall of Fame watch scores him at 79, the best standing among offensive linemen and well clear of the bar of 65; Maxwell's is 100, the maximum. His Career Legacy stands at 11,394 and his card at 29,312. He was 34 in Y96, the same age as Maxwell, and both re-signed with Skura to play Y97 at 35. Linemen rarely get the headlines in a dynasty built on a record-setting runner and a quarterback who threw 52 touchdown passes in Y96. When the vote does come, it will say what the box scores never could: the runner and the quarterback had help."
+    "The Hall of Fame watch scores him at 97, the best standing among offensive linemen and well clear of the bar of 65; Maxwell's is 100, the maximum. His Career Legacy stands at 11,394 and his card at 29,312. He was 34 in Y96, the same age as Maxwell, and both re-signed with Skura to play Y97 at 35. Linemen rarely get the headlines in a dynasty built on a record-setting runner and a quarterback who threw 52 touchdown passes in Y96. When the vote does come, it will say what the box scores never could: the runner and the quarterback had help."
    ],
    "players": [
     "Akiem Brock",
@@ -379,7 +379,7 @@
     },
     {
      "label": "Brock Hall of Fame watch score",
-     "value": "79",
+     "value": "97",
      "source": "halloffame.json watch/[key=OL:Akiem Brock]/score"
     },
     {
@@ -634,9 +634,7 @@
      "source": "market_history.json snap-202611162108..snap-202611170116 RB:Alton Yeldon s.rtd"
     }
    ],
-   "related": [
-    "y94-lazard-fall"
-   ],
+   "related": [],
    "art": {
     "scene": "turf",
     "players": [
@@ -798,7 +796,7 @@
    "dek": "The Giants' quarterback since Y83 is retired after 330 games and 627 touchdown passes. Yurik Okudah threw 34 in his first season.",
    "body": [
     "Ty Lock's retirement is now on the record, and his last snaps came in Y95, when he was 39. He played 330 games, threw for 68,237 yards and 627 touchdowns with 137 interceptions, and won 2 MVP awards. Both of his rings came early, with Dorren Skura's Jets, before a multi-team trade sent him to New York ahead of Y83.",
-    "New York was his home for thirteen seasons and never gave him a ring. From Y88 on, the obstacle was his old coach: by the end of Y95 the Giants had met Skura's Eagles 17 times and lost all 17.",
+    "New York was his home for thirteen seasons and never gave him a ring. From Y88 on, the obstacle was his old coach: by the end of Y95 the Giants had never once beaten Skura's Eagles.",
     "His successor arrived ready. Yurik Okudah, a rookie, threw for 3,610 yards and 34 touchdowns with 2 interceptions in 19 games. His card sells for 23, the price of an unknown, but the market's skill grade already reads A+. Lock spent a career chasing Philadelphia. Okudah has time to start his own chase."
    ],
    "players": [
@@ -840,11 +838,6 @@
      "label": "Lock MVP awards",
      "value": "2",
      "source": "market_history.json snap-202611170116 QB:Ty Lock s.mvp"
-    },
-    {
-     "label": "Meetings with Skura's Eagles",
-     "value": "17",
-     "source": "content.json rivalryFiles/[id=rivalry-giants]/games"
     },
     {
      "label": "Okudah TD passes",

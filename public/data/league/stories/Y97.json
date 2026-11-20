@@ -1,0 +1,1439 @@
+{
+ "season": "Y97",
+ "tagline": "The Eagles go 15-2 and beat the Colts 38-22 in Super Bowl CLVI for a seventh straight title, Bones Crawford throws 64 touchdown passes for a 6th MVP, and Ryland Maxwell, 35, wins an 8th Super Bowl MVP.",
+ "upload": "2026-11-19-story-y97",
+ "articles": [
+  {
+   "id": "y97-eagles-clvi",
+   "kind": "lead",
+   "headline": "Seven Straight: Eagles Beat the Colts 38-22 in Super Bowl CLVI",
+   "dek": "Philadelphia went 15-2, allowed the fewest points in the league and won a seventh straight title as Ryland Maxwell took his 8th Super Bowl MVP at 35.",
+   "body": [
+    "There was no slippage this time. A year after a 13-4 regular season, Dorren Skura's Eagles went 15-2 in Y97, 8-0 at home, and outscored their opponents by 221 points. Then they beat the Packers 40-15, the Seahawks 32-21 and, in Super Bowl CLVI, the Colts 38-22. It is the club's seventh straight championship, a run that began the season after the Y90 final loss to the Texans.",
+    "The offense was a quarterback at his peak throwing to two receivers at once. Bones Crawford threw 64 touchdown passes, 25 more than anyone else, and was named MVP for the 6th time. Calvin Wingo II caught passes for 2,158 yards and Payton Jarrett for 2,007; the next best receiver in the league finished with 895. The defense allowed 358 points, the fewest in the league.",
+    "The old guard held. Ryland Maxwell, 35, missed 2 of the 20 games through injury and still led the league with 1,847 rushing yards. He took his career rushing touchdowns to 440, second on the league list, and was named Super Bowl MVP for the 8th time. Akiem Brock, also 35, made 43 blocks, 9 more than any other lineman, and won his 9th ring alongside Crawford.",
+    "The two losses told their own story. Both came against division rivals: 38-28 in Dallas to a Cowboys team that finished 5-11-1, and 33-32 in Washington. Both were answered in Philadelphia later in the season. For a dynasty still built around a 35-year-old runner and a 35-year-old blocker, the question for Y98 is no longer whether the Eagles can win, but how long those two can keep playing."
+   ],
+   "players": [
+    "Bones Crawford",
+    "Ryland Maxwell",
+    "Akiem Brock",
+    "Calvin Wingo II",
+    "Payton Jarrett"
+   ],
+   "teams": [
+    "Eagles",
+    "Colts",
+    "Packers",
+    "Seahawks",
+    "Cowboys",
+    "Commanders",
+    "Texans"
+   ],
+   "stats": [
+    {
+     "label": "Super Bowl CLVI",
+     "value": "38-22",
+     "source": "super_bowls.json Y97 score"
+    },
+    {
+     "label": "Eagles regular season",
+     "value": "15-2",
+     "source": "coach.json Y97 record"
+    },
+    {
+     "label": "Eagles regular season, Y96",
+     "value": "13-4",
+     "source": "coach.json Y96 record"
+    },
+    {
+     "label": "At home",
+     "value": "8-0",
+     "source": "schedule.json seasons/Y97/coachDetail/home"
+    },
+    {
+     "label": "Point differential",
+     "value": "221",
+     "source": "schedule.json seasons/Y97/coachRecord/diff"
+    },
+    {
+     "label": "Divisional round",
+     "value": "40-15",
+     "source": "schedule.json seasons/Y97/coachGames/[round=Divisional]/score"
+    },
+    {
+     "label": "Conference round",
+     "value": "32-21",
+     "source": "schedule.json seasons/Y97/coachGames/[round=Conference]/score"
+    },
+    {
+     "label": "Straight titles since the Y90 final",
+     "value": "7",
+     "source": "coach.json Y97 year minus coach.json Y90 year"
+    },
+    {
+     "label": "Crawford TD passes, Y97",
+     "value": "64",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.td"
+    },
+    {
+     "label": "Ahead of Bryant Cronk",
+     "value": "25",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.td minus market_history.json snap-202611170116..snap-202611192114 QB:Bryant Cronk s.td"
+    },
+    {
+     "label": "Crawford MVPs",
+     "value": "6",
+     "source": "market_history.json snap-202611192114 QB:Bones Crawford s.mvp"
+    },
+    {
+     "label": "Wingo receiving yards, Y97",
+     "value": "2,158",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.yds"
+    },
+    {
+     "label": "Jarrett receiving yards, Y97",
+     "value": "2,007",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Payton Jarrett s.yds"
+    },
+    {
+     "label": "Next best receiver, Taco Coulter",
+     "value": "895",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Taco Coulter s.yds"
+    },
+    {
+     "label": "Points allowed",
+     "value": "358",
+     "source": "schedule.json seasons/Y97/coachRecord/pa"
+    },
+    {
+     "label": "Maxwell age",
+     "value": "35",
+     "source": "save_careers.json age Y97 RB:Ryland Maxwell"
+    },
+    {
+     "label": "Games missed through injury",
+     "value": "2",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.g minus market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.g"
+    },
+    {
+     "label": "Eagles games, Y97",
+     "value": "20",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.g"
+    },
+    {
+     "label": "Maxwell rushing yards, Y97",
+     "value": "1,847",
+     "source": "market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Maxwell career rushing TDs",
+     "value": "440",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell s.rtd"
+    },
+    {
+     "label": "Maxwell Super Bowl MVPs",
+     "value": "8",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell s.sbmvp"
+    },
+    {
+     "label": "Brock age",
+     "value": "35",
+     "source": "save_careers.json age Y97 OL:Akiem Brock"
+    },
+    {
+     "label": "Brock blocks, Y97",
+     "value": "43",
+     "source": "market_history.json snap-202611170116..snap-202611192114 OL:Akiem Brock s.blk"
+    },
+    {
+     "label": "Ahead of Perrion Randall",
+     "value": "9",
+     "source": "market_history.json snap-202611170116..snap-202611192114 OL:Akiem Brock s.blk minus market_history.json snap-202611170116..snap-202611192114 OL:Perrion Randall s.blk"
+    },
+    {
+     "label": "Brock rings",
+     "value": "9",
+     "source": "market_history.json snap-202611192114 OL:Akiem Brock s.rings"
+    },
+    {
+     "label": "Week 6 at Dallas",
+     "value": "38-28",
+     "source": "schedule.json seasons/Y97/coachGames/[week=6]/score"
+    },
+    {
+     "label": "Cowboys record",
+     "value": "5-11-1",
+     "source": "schedule.json seasons/Y97/table/[abbr=DAL]/record"
+    },
+    {
+     "label": "Week 11 at Washington",
+     "value": "33-32",
+     "source": "schedule.json seasons/Y97/coachGames/[week=11]/score"
+    }
+   ],
+   "related": [
+    "y96-eagles-clv"
+   ],
+   "art": {
+    "scene": "vs",
+    "teams": [
+     "Eagles",
+     "Colts"
+    ]
+   }
+  },
+  {
+   "id": "y97-maxwell-35",
+   "kind": "milestone",
+   "headline": "Mad Max at 35: 1,847 Yards, an 8th Super Bowl MVP and the First 50,000 Card",
+   "dek": "Ryland Maxwell led the league in rushing again, passed Siran Spector on the career touchdown list and is now 18 short of Lane McCoy's league mark.",
+   "body": [
+    "Age has not found Ryland Maxwell yet. At 35 he ran for 1,847 yards, the most in the league and 150 more than Seattle's Alton Yeldon, and scored 19 rushing touchdowns plus 5 more as a receiver. Injury cost him 2 of Philadelphia's 20 games. It did not cost him the rushing title.",
+    "The career yardage record was already his; now it is out of sight. He stands at 33,955 rushing yards, the league mark, 9,448 clear of McCoy. The touchdown list is different. His 440 rushing touchdowns top Skura's record board and passed Spector's 425, but the league mark still belongs to McCoy at 458, 18 away. At his Y97 pace that is about one more healthy season.",
+    "The postseason was his as well. Maxwell was named Super Bowl MVP for the 8th time and won his 14th ring, every one of them with Dorren Skura. The market has noticed: his card is worth 50,066, the first in the market's history to pass 50,000, and 8,821 more than Sherman Brandson's, the next most valuable."
+   ],
+   "players": [
+    "Ryland Maxwell",
+    "Alton Yeldon",
+    "Lane McCoy",
+    "Siran Spector",
+    "Sherman Brandson"
+   ],
+   "teams": [
+    "Eagles",
+    "Seahawks"
+   ],
+   "stats": [
+    {
+     "label": "Maxwell rushing yards, Y97",
+     "value": "1,847",
+     "source": "market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Maxwell card value",
+     "value": "50,066",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "Value passed",
+     "value": "50,000",
+     "source": "crossed: market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "Maxwell age",
+     "value": "35",
+     "source": "save_careers.json age Y97 RB:Ryland Maxwell"
+    },
+    {
+     "label": "Maxwell Super Bowl MVPs",
+     "value": "8",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell s.sbmvp"
+    },
+    {
+     "label": "Short of McCoy's league mark",
+     "value": "18",
+     "source": "players.json RB:Lane McCoy rtd minus market_history.json snap-202611192114 RB:Ryland Maxwell s.rtd"
+    },
+    {
+     "label": "Ahead of Alton Yeldon",
+     "value": "150",
+     "source": "market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.ryds minus market_history.json snap-202611170116..snap-202611192114 RB:Alton Yeldon s.ryds"
+    },
+    {
+     "label": "Maxwell rushing TDs, Y97",
+     "value": "19",
+     "source": "market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.rtd"
+    },
+    {
+     "label": "Maxwell TD catches, Y97",
+     "value": "5",
+     "source": "market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.rectd"
+    },
+    {
+     "label": "Games missed through injury",
+     "value": "2",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.g minus market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.g"
+    },
+    {
+     "label": "Eagles games, Y97",
+     "value": "20",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.g"
+    },
+    {
+     "label": "Maxwell career rushing yards",
+     "value": "33,955",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Ahead of McCoy",
+     "value": "9,448",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell s.ryds minus players.json RB:Lane McCoy ryds"
+    },
+    {
+     "label": "Maxwell career rushing TDs",
+     "value": "440",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell s.rtd"
+    },
+    {
+     "label": "Spector career rushing TDs",
+     "value": "425",
+     "source": "players.json RB:Siran Spector rtd"
+    },
+    {
+     "label": "McCoy career rushing TDs, league mark",
+     "value": "458",
+     "source": "players.json RB:Lane McCoy rtd"
+    },
+    {
+     "label": "Maxwell rings",
+     "value": "14",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell s.rings"
+    },
+    {
+     "label": "Ahead of Brandson's card",
+     "value": "8,821",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell value minus market_history.json snap-202611192114 QB:Sherman Brandson value"
+    }
+   ],
+   "related": [
+    "y96-maxwell-farewell"
+   ]
+  },
+  {
+   "id": "y97-crawford-mvp",
+   "kind": "feature",
+   "headline": "The Doctor Answers Back: 64 Touchdown Passes and a 6th MVP",
+   "dek": "A year after Margus Leglue's MVP was read as a verdict on his 17 interceptions, Bones Crawford threw for 4,857 yards and took the award back.",
+   "body": [
+    "Last season's argument was about turnovers. This season's was about everything else. Crawford threw for 4,857 yards, 883 more than Jacksonville's Kalif Risner, and 64 touchdowns, 25 more than Baltimore's Bryant Cronk in second place. He played all 20 of Philadelphia's games, and the MVP came back to him for the 6th time.",
+    "The interceptions did not go away. He threw 15, more than twice the 7 thrown by Cronk, the next most in the league, and the Eagles won anyway: a quarterback throwing to Calvin Wingo II and Payton Jarrett can afford a few mistakes. He now has 610 career touchdown passes and 49,651 yards in 192 games, and 9 rings.",
+    "Leglue did not fade so much as get outgunned. At 37 the Lions quarterback threw 37 touchdown passes for a 12-5 club. It was a fine season. It was not 64."
+   ],
+   "players": [
+    "Bones Crawford",
+    "Margus Leglue",
+    "Kalif Risner",
+    "Bryant Cronk",
+    "Calvin Wingo II",
+    "Payton Jarrett"
+   ],
+   "teams": [
+    "Eagles",
+    "Lions",
+    "Jaguars",
+    "Ravens"
+   ],
+   "stats": [
+    {
+     "label": "Crawford TD passes, Y97",
+     "value": "64",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.td"
+    },
+    {
+     "label": "Crawford MVPs",
+     "value": "6",
+     "source": "market_history.json snap-202611192114 QB:Bones Crawford s.mvp"
+    },
+    {
+     "label": "Crawford interceptions, Y96",
+     "value": "17",
+     "source": "market_history.json snap-202611162108..snap-202611170116 QB:Bones Crawford s.int"
+    },
+    {
+     "label": "Crawford passing yards, Y97",
+     "value": "4,857",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.yds"
+    },
+    {
+     "label": "Ahead of Kalif Risner",
+     "value": "883",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.yds minus market_history.json snap-202611170116..snap-202611192114 QB:Kalif Risner s.yds"
+    },
+    {
+     "label": "Ahead of Bryant Cronk",
+     "value": "25",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.td minus market_history.json snap-202611170116..snap-202611192114 QB:Bryant Cronk s.td"
+    },
+    {
+     "label": "Crawford games, Y97",
+     "value": "20",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.g"
+    },
+    {
+     "label": "Crawford interceptions, Y97",
+     "value": "15",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.int"
+    },
+    {
+     "label": "Cronk interceptions, next most",
+     "value": "7",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bryant Cronk s.int"
+    },
+    {
+     "label": "Crawford career TD passes",
+     "value": "610",
+     "source": "market_history.json snap-202611192114 QB:Bones Crawford s.td"
+    },
+    {
+     "label": "Crawford career passing yards",
+     "value": "49,651",
+     "source": "market_history.json snap-202611192114 QB:Bones Crawford s.yds"
+    },
+    {
+     "label": "Crawford career games",
+     "value": "192",
+     "source": "market_history.json snap-202611192114 QB:Bones Crawford s.g"
+    },
+    {
+     "label": "Crawford rings",
+     "value": "9",
+     "source": "market_history.json snap-202611192114 QB:Bones Crawford s.rings"
+    },
+    {
+     "label": "Leglue age",
+     "value": "37",
+     "source": "save_careers.json age Y97 QB:Margus Leglue"
+    },
+    {
+     "label": "Leglue TD passes, Y97",
+     "value": "37",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Margus Leglue s.td"
+    },
+    {
+     "label": "Lions record",
+     "value": "12-5",
+     "source": "schedule.json seasons/Y97/table/[abbr=DET]/record"
+    }
+   ],
+   "related": [
+    "y96-leglue-mvp"
+   ],
+   "art": {
+    "scene": "vs",
+    "players": [
+     "Bones Crawford",
+     "Margus Leglue"
+    ]
+   }
+  },
+  {
+   "id": "y97-wingo-jarrett",
+   "kind": "rise",
+   "headline": "Wingo 2,158, Jarrett 2,007: Philadelphia's Receivers Lap the League",
+   "dek": "Calvin Wingo II was Offensive Player of the Year for the 3rd time. Payton Jarrett, 23, caught 23 touchdowns and the longest pass on Skura's record board.",
+   "body": [
+    "Most clubs would settle for one receiver like this. Philadelphia had two. Wingo caught 109 passes for 2,158 yards and 22 touchdowns; Jarrett caught 100 for 2,007 and 23. The next most productive receiver in the league, Dallas's Taco Coulter, finished with 895 yards.",
+    "Wingo's 3rd Offensive Player of the Year award came with his 7th ring. His OVR rose to 96 and his card's value climbed 42.3% to 4,651.",
+    "Jarrett is the part that should worry the rest of the league. In week 15 against the Ravens he caught a throw from Bones Crawford that travelled 32 yards in the air, the longest on Skura's record board. His card rose from 37 to 92, and the market's skill grade moved from A+ to S. He is 23 and already owns 3 rings."
+   ],
+   "players": [
+    "Calvin Wingo II",
+    "Payton Jarrett",
+    "Taco Coulter",
+    "Bones Crawford"
+   ],
+   "teams": [
+    "Eagles",
+    "Cowboys",
+    "Ravens"
+   ],
+   "stats": [
+    {
+     "label": "Wingo receiving yards, Y97",
+     "value": "2,158",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.yds"
+    },
+    {
+     "label": "Jarrett receiving yards, Y97",
+     "value": "2,007",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Payton Jarrett s.yds"
+    },
+    {
+     "label": "Wingo Offensive Player of the Year awards",
+     "value": "3",
+     "source": "market_history.json snap-202611192114 WR:Calvin Wingo II s.opoy"
+    },
+    {
+     "label": "Jarrett age",
+     "value": "23",
+     "source": "save_careers.json age Y97 WR:Payton Jarrett"
+    },
+    {
+     "label": "Jarrett TD catches, Y97",
+     "value": "23",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Payton Jarrett s.td"
+    },
+    {
+     "label": "Wingo catches, Y97",
+     "value": "109",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.rec"
+    },
+    {
+     "label": "Wingo TD catches, Y97",
+     "value": "22",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.td"
+    },
+    {
+     "label": "Jarrett catches, Y97",
+     "value": "100",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Payton Jarrett s.rec"
+    },
+    {
+     "label": "Taco Coulter receiving yards",
+     "value": "895",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Taco Coulter s.yds"
+    },
+    {
+     "label": "Wingo rings",
+     "value": "7",
+     "source": "market_history.json snap-202611192114 WR:Calvin Wingo II s.rings"
+    },
+    {
+     "label": "Wingo OVR",
+     "value": "96",
+     "source": "market_history.json snap-202611192114 WR:Calvin Wingo II ovr"
+    },
+    {
+     "label": "Wingo card value change",
+     "value": "42.3%",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II value%"
+    },
+    {
+     "label": "Wingo card value",
+     "value": "4,651",
+     "source": "market_history.json snap-202611192114 WR:Calvin Wingo II value"
+    },
+    {
+     "label": "Record set, week",
+     "value": "15",
+     "source": "records.json Longest pass (air) week"
+    },
+    {
+     "label": "Longest pass (air)",
+     "value": "32 yds",
+     "source": "records.json Longest pass (air) mark"
+    },
+    {
+     "label": "Jarrett card value, Y96",
+     "value": "37",
+     "source": "market_history.json snap-202611170116 WR:Payton Jarrett value"
+    },
+    {
+     "label": "Jarrett card value, Y97",
+     "value": "92",
+     "source": "market_history.json snap-202611192114 WR:Payton Jarrett value"
+    },
+    {
+     "label": "Jarrett grade, Y96",
+     "value": "A+",
+     "source": "market_history.json snap-202611170116 WR:Payton Jarrett grade"
+    },
+    {
+     "label": "Jarrett grade, Y97",
+     "value": "S",
+     "source": "market_history.json snap-202611192114 WR:Payton Jarrett grade"
+    },
+    {
+     "label": "Jarrett rings",
+     "value": "3",
+     "source": "market_history.json snap-202611192114 WR:Payton Jarrett s.rings"
+    }
+   ],
+   "related": [
+    "y96-rookies"
+   ]
+  },
+  {
+   "id": "y97-brock-35",
+   "kind": "feature",
+   "headline": "Akiem Brock at 35: 43 Blocks, a 9th Ring and No Lineman Close",
+   "dek": "The league's best blocker came back for one more season, played every game and finished with an OVR of 99.",
+   "body": [
+    "Akiem Brock was 34 when Y96 ended, and he re-signed for one more year instead of retiring. Philadelphia got its money's worth. He made 43 blocks in all 20 of the Eagles' games, 9 more than Seattle's Perrion Randall and 10 more than Washington's Victor Brandel, and his OVR rose to 99.",
+    "He now has 581 career blocks in 201 games and 9 rings, every one of them won with Dorren Skura in Philadelphia. That ties him with Bones Crawford, and among the Eagles only Ryland Maxwell, with 14, has more.",
+    "The market keeps climbing with him. His card rose 13.7% to 33,323, behind only Maxwell among players still on a club. Linemen rarely carry a dynasty's headlines, but the two most valuable cards among active players both belong to Philadelphia: the runner, and the man who blocks for him."
+   ],
+   "players": [
+    "Akiem Brock",
+    "Perrion Randall",
+    "Victor Brandel",
+    "Bones Crawford",
+    "Ryland Maxwell"
+   ],
+   "teams": [
+    "Eagles",
+    "Seahawks",
+    "Commanders"
+   ],
+   "stats": [
+    {
+     "label": "Brock blocks, Y97",
+     "value": "43",
+     "source": "market_history.json snap-202611170116..snap-202611192114 OL:Akiem Brock s.blk"
+    },
+    {
+     "label": "Brock rings",
+     "value": "9",
+     "source": "market_history.json snap-202611192114 OL:Akiem Brock s.rings"
+    },
+    {
+     "label": "Brock OVR",
+     "value": "99",
+     "source": "market_history.json snap-202611192114 OL:Akiem Brock ovr"
+    },
+    {
+     "label": "Brock age",
+     "value": "35",
+     "source": "save_careers.json age Y97 OL:Akiem Brock"
+    },
+    {
+     "label": "Brock age, Y96",
+     "value": "34",
+     "source": "save_careers.json age Y96 OL:Akiem Brock"
+    },
+    {
+     "label": "Brock games, Y97",
+     "value": "20",
+     "source": "market_history.json snap-202611170116..snap-202611192114 OL:Akiem Brock s.g"
+    },
+    {
+     "label": "Ahead of Perrion Randall",
+     "value": "9",
+     "source": "market_history.json snap-202611170116..snap-202611192114 OL:Akiem Brock s.blk minus market_history.json snap-202611170116..snap-202611192114 OL:Perrion Randall s.blk"
+    },
+    {
+     "label": "Ahead of Victor Brandel",
+     "value": "10",
+     "source": "market_history.json snap-202611170116..snap-202611192114 OL:Akiem Brock s.blk minus market_history.json snap-202611170116..snap-202611192114 OL:Victor Brandel s.blk"
+    },
+    {
+     "label": "Brock career blocks",
+     "value": "581",
+     "source": "market_history.json snap-202611192114 OL:Akiem Brock s.blk"
+    },
+    {
+     "label": "Brock career games",
+     "value": "201",
+     "source": "market_history.json snap-202611192114 OL:Akiem Brock s.g"
+    },
+    {
+     "label": "Maxwell rings",
+     "value": "14",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell s.rings"
+    },
+    {
+     "label": "Brock card value change",
+     "value": "13.7%",
+     "source": "market_history.json snap-202611170116..snap-202611192114 OL:Akiem Brock value%"
+    },
+    {
+     "label": "Brock card value",
+     "value": "33,323",
+     "source": "market_history.json snap-202611192114 OL:Akiem Brock value"
+    }
+   ],
+   "related": [
+    "y96-brock-hof"
+   ]
+  },
+  {
+   "id": "y97-record-chases",
+   "kind": "chase",
+   "headline": "Brooker Takes the Interception Record at 47, and Pettis Closes on Swaim",
+   "dek": "Green Bay's Jamon Brooker pulled 4 clear of Damar Hobbs and Lewis Pettis. Pettis is 67 tackles from the career mark, and Snoop Dotson is 1 sack from a share of second place.",
+   "body": [
+    "The interception record changed hands without a ceremony. Jamon Brooker began Y97 level with Damar Hobbs at 43, picked off 4 passes for the 12-5 Packers and finished at 47, the most on league cards. Lewis Pettis of Dallas also reached 43, so the two men behind Brooker now share second.",
+    "Pettis has a bigger prize in sight. He made 200 tackles in all 17 of the Cowboys' games and stands at 3,189. The problem is that Travon Swaim is still playing too: he added 192 of his own in Detroit, so the gap only shrank from 75 to 67. Both men are 34.",
+    "In Philadelphia, Snoop Dotson added 1 sack and an 8th ring, though injury cost him 1 of the Eagles' 20 games. He has 23 career sacks, 1 behind the 24 that Deshone Bello and Kalif Suh share, second only to the 112 on Skura's record board."
+   ],
+   "players": [
+    "Jamon Brooker",
+    "Damar Hobbs",
+    "Lewis Pettis",
+    "Travon Swaim",
+    "Snoop Dotson",
+    "Deshone Bello",
+    "Kalif Suh"
+   ],
+   "teams": [
+    "Packers",
+    "Cowboys",
+    "Lions",
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "Brooker career interceptions",
+     "value": "47",
+     "source": "market_history.json snap-202611192114 DB:Jamon Brooker s.int"
+    },
+    {
+     "label": "Brooker interceptions, Y97",
+     "value": "4",
+     "source": "market_history.json snap-202611170116..snap-202611192114 DB:Jamon Brooker s.int"
+    },
+    {
+     "label": "Pettis tackles to Swaim",
+     "value": "67",
+     "source": "market_history.json snap-202611192114 DB:Travon Swaim s.tkl minus market_history.json snap-202611192114 DB:Lewis Pettis s.tkl"
+    },
+    {
+     "label": "Dotson sacks short of 24",
+     "value": "1",
+     "source": "league_records.json records/[record=Most sacks, career]/league/top/1/value minus market_history.json snap-202611192114 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Brooker interceptions before Y97",
+     "value": "43",
+     "source": "market_history.json snap-202611170116 DB:Jamon Brooker s.int"
+    },
+    {
+     "label": "Packers record",
+     "value": "12-5",
+     "source": "schedule.json seasons/Y97/table/[abbr=GB]/record"
+    },
+    {
+     "label": "Pettis career interceptions",
+     "value": "43",
+     "source": "market_history.json snap-202611192114 DB:Lewis Pettis s.int"
+    },
+    {
+     "label": "Pettis tackles, Y97",
+     "value": "200",
+     "source": "market_history.json snap-202611170116..snap-202611192114 DB:Lewis Pettis s.tkl"
+    },
+    {
+     "label": "Pettis games, Y97",
+     "value": "17",
+     "source": "market_history.json snap-202611170116..snap-202611192114 DB:Lewis Pettis s.g"
+    },
+    {
+     "label": "Pettis career tackles",
+     "value": "3,189",
+     "source": "market_history.json snap-202611192114 DB:Lewis Pettis s.tkl"
+    },
+    {
+     "label": "Swaim tackles, Y97",
+     "value": "192",
+     "source": "market_history.json snap-202611170116..snap-202611192114 DB:Travon Swaim s.tkl"
+    },
+    {
+     "label": "Gap before Y97",
+     "value": "75",
+     "source": "market_history.json snap-202611170116 DB:Travon Swaim s.tkl minus market_history.json snap-202611170116 DB:Lewis Pettis s.tkl"
+    },
+    {
+     "label": "Pettis age",
+     "value": "34",
+     "source": "save_careers.json age Y97 DB:Lewis Pettis"
+    },
+    {
+     "label": "Dotson rings",
+     "value": "8",
+     "source": "market_history.json snap-202611192114 LB:Snoop Dotson s.rings"
+    },
+    {
+     "label": "Dotson games missed through injury",
+     "value": "1",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.g minus market_history.json snap-202611170116..snap-202611192114 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Eagles games, Y97",
+     "value": "20",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.g"
+    },
+    {
+     "label": "Dotson career sacks",
+     "value": "23",
+     "source": "market_history.json snap-202611192114 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Bello and Suh career sacks",
+     "value": "24",
+     "source": "league_records.json records/[record=Most sacks, career]/league/top/1/value"
+    },
+    {
+     "label": "Record board, career sacks",
+     "value": "112",
+     "source": "records.json Most sacks, career mark"
+    }
+   ],
+   "related": [
+    "y96-record-chases"
+   ]
+  },
+  {
+   "id": "y97-colts-run",
+   "kind": "rise",
+   "headline": "Twelfth in the Power Rankings, Last Team Standing in the AFC: Inside the Colts' Run",
+   "dek": "Indianapolis went 10-7, finished third in its own division and won three playoff games behind a 21-year-old quarterback in his first season.",
+   "body": [
+    "Nobody picked Indianapolis. The Colts finished 10-7, 12th in the power rankings and behind both the 12-4-1 Titans and the 10-6-1 Jaguars in their own division. Then they won three playoff games to reach Super Bowl CLVI, and they played 21 games in all, more than any club in the league.",
+    "Jackson Poyer, 21, ran the offense in his first season on league cards and threw for 3,565 yards and 29 touchdowns with just 2 interceptions. River Kuechly ran for 1,659 yards and 31 touchdowns, and Rashawn Elder, 22, caught 119 passes, the most in the league. Reggie Deayon led the defense with 225 tackles.",
+    "The final is where the run ran out. The Eagles scored 38 and won by 16. Still, the Colts have their quarterback. Poyer's card sells for 18, the price of an unknown, but his Career Legacy already stands at 3,825 after one season."
+   ],
+   "players": [
+    "Jackson Poyer",
+    "River Kuechly",
+    "Rashawn Elder",
+    "Reggie Deayon"
+   ],
+   "teams": [
+    "Colts",
+    "Titans",
+    "Jaguars",
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "Colts record",
+     "value": "10-7",
+     "source": "schedule.json seasons/Y97/table/[abbr=IND]/record"
+    },
+    {
+     "label": "Colts power ranking",
+     "value": "12",
+     "source": "schedule.json seasons/Y97/table/[abbr=IND]/power"
+    },
+    {
+     "label": "Poyer age",
+     "value": "21",
+     "source": "save_careers.json age Y97 QB:Jackson Poyer"
+    },
+    {
+     "label": "Titans record",
+     "value": "12-4-1",
+     "source": "schedule.json seasons/Y97/table/[abbr=TEN]/record"
+    },
+    {
+     "label": "Jaguars record",
+     "value": "10-6-1",
+     "source": "schedule.json seasons/Y97/table/[abbr=JAX]/record"
+    },
+    {
+     "label": "Colts games, Y97",
+     "value": "21",
+     "source": "market_history.json snap-202611170116..snap-202611192114 TE:Rashawn Elder s.g"
+    },
+    {
+     "label": "Poyer passing yards",
+     "value": "3,565",
+     "source": "market_history.json snap-202611192114 QB:Jackson Poyer s.yds"
+    },
+    {
+     "label": "Poyer TD passes",
+     "value": "29",
+     "source": "market_history.json snap-202611192114 QB:Jackson Poyer s.td"
+    },
+    {
+     "label": "Poyer interceptions",
+     "value": "2",
+     "source": "market_history.json snap-202611192114 QB:Jackson Poyer s.int"
+    },
+    {
+     "label": "Kuechly rushing yards, Y97",
+     "value": "1,659",
+     "source": "market_history.json snap-202611170116..snap-202611192114 RB:River Kuechly s.ryds"
+    },
+    {
+     "label": "Kuechly rushing TDs, Y97",
+     "value": "31",
+     "source": "market_history.json snap-202611170116..snap-202611192114 RB:River Kuechly s.rtd"
+    },
+    {
+     "label": "Elder age",
+     "value": "22",
+     "source": "save_careers.json age Y97 TE:Rashawn Elder"
+    },
+    {
+     "label": "Elder catches, Y97",
+     "value": "119",
+     "source": "market_history.json snap-202611170116..snap-202611192114 TE:Rashawn Elder s.rec"
+    },
+    {
+     "label": "Deayon tackles, Y97",
+     "value": "225",
+     "source": "market_history.json snap-202611170116..snap-202611192114 DB:Reggie Deayon s.tkl"
+    },
+    {
+     "label": "Eagles points in the final",
+     "value": "38",
+     "source": "schedule.json seasons/Y97/coachGames/[round=Super Bowl]/for"
+    },
+    {
+     "label": "Margin",
+     "value": "16",
+     "source": "schedule.json seasons/Y97/coachGames/[round=Super Bowl]/margin"
+    },
+    {
+     "label": "Poyer card value",
+     "value": "18",
+     "source": "market_history.json snap-202611192114 QB:Jackson Poyer value"
+    },
+    {
+     "label": "Poyer Career Legacy",
+     "value": "3,825",
+     "source": "market_history.json snap-202611192114 QB:Jackson Poyer legacy"
+    }
+   ],
+   "related": [
+    "y96-rookies"
+   ]
+  },
+  {
+   "id": "y97-bengals-fall",
+   "kind": "fall",
+   "headline": "From the Super Bowl to 7-10: Cincinnati Falls Back to the Pack",
+   "dek": "Grover Calitro went from 43 rushing touchdowns to 16, and the Bengals' best day of the season came 55-10 against the Jets.",
+   "body": [
+    "A year ago the Bengals were in the Super Bowl and Grover Calitro had just scored more rushing touchdowns in a season than anyone on league cards. In Y97 Cincinnati went 7-10, scored 489 points, allowed exactly 489 and finished 21st in the power rankings.",
+    "Calitro played all 17 games and still fell off a cliff: 1,116 yards and 16 touchdowns, after 1,904 yards and 43 touchdowns the season before. The market's skill grade slipped from B+ to B. Alshon Lazard threw for 3,042 yards and 24 touchdowns with 1 interception, tidy numbers that never turned into a winning record.",
+    "The one afternoon that looked like Y96 came in week 8, a 55-10 win at the Jets, the biggest blowout of the season. The Jets, the club Dorren Skura coached before Atlanta and Philadelphia, finished 5-12."
+   ],
+   "players": [
+    "Grover Calitro",
+    "Alshon Lazard"
+   ],
+   "teams": [
+    "Bengals",
+    "Jets"
+   ],
+   "stats": [
+    {
+     "label": "Bengals record",
+     "value": "7-10",
+     "source": "schedule.json seasons/Y97/table/[abbr=CIN]/record"
+    },
+    {
+     "label": "Calitro rushing TDs, Y96",
+     "value": "43",
+     "source": "market_history.json snap-202611162108..snap-202611170116 RB:Grover Calitro s.rtd"
+    },
+    {
+     "label": "Calitro rushing TDs, Y97",
+     "value": "16",
+     "source": "market_history.json snap-202611170116..snap-202611192114 RB:Grover Calitro s.rtd"
+    },
+    {
+     "label": "At the Jets",
+     "value": "55-10",
+     "source": "schedule.json seasons/Y97/blowout/score"
+    },
+    {
+     "label": "Bengals points for",
+     "value": "489",
+     "source": "schedule.json seasons/Y97/table/[abbr=CIN]/pf"
+    },
+    {
+     "label": "Bengals points against",
+     "value": "489",
+     "source": "schedule.json seasons/Y97/table/[abbr=CIN]/pa"
+    },
+    {
+     "label": "Bengals power ranking",
+     "value": "21",
+     "source": "schedule.json seasons/Y97/table/[abbr=CIN]/power"
+    },
+    {
+     "label": "Calitro games, Y97",
+     "value": "17",
+     "source": "market_history.json snap-202611170116..snap-202611192114 RB:Grover Calitro s.g"
+    },
+    {
+     "label": "Calitro rushing yards, Y97",
+     "value": "1,116",
+     "source": "market_history.json snap-202611170116..snap-202611192114 RB:Grover Calitro s.ryds"
+    },
+    {
+     "label": "Calitro rushing yards, Y96",
+     "value": "1,904",
+     "source": "market_history.json snap-202611162108..snap-202611170116 RB:Grover Calitro s.ryds"
+    },
+    {
+     "label": "Calitro grade, Y96",
+     "value": "B+",
+     "source": "market_history.json snap-202611170116 RB:Grover Calitro grade"
+    },
+    {
+     "label": "Calitro grade, Y97",
+     "value": "B",
+     "source": "market_history.json snap-202611192114 RB:Grover Calitro grade"
+    },
+    {
+     "label": "Lazard passing yards, Y97",
+     "value": "3,042",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Alshon Lazard s.yds"
+    },
+    {
+     "label": "Lazard TD passes, Y97",
+     "value": "24",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Alshon Lazard s.td"
+    },
+    {
+     "label": "Lazard interceptions, Y97",
+     "value": "1",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Alshon Lazard s.int"
+    },
+    {
+     "label": "Blowout, week",
+     "value": "8",
+     "source": "schedule.json seasons/Y97/blowout/week"
+    },
+    {
+     "label": "Jets record",
+     "value": "5-12",
+     "source": "schedule.json seasons/Y97/table/[abbr=NYJ]/record"
+    }
+   ],
+   "related": [
+    "y96-calitro-bengals"
+   ]
+  },
+  {
+   "id": "y97-nfc-east",
+   "kind": "rivalry",
+   "headline": "Two Losses, Two Rivals: Dallas and Washington Finally Draw Blood",
+   "dek": "The 5-11-1 Cowboys pulled off the upset of the season and Washington won by a point. The Giants are still waiting for their first win over Skura's Eagles.",
+   "body": [
+    "Philadelphia lost only twice in Y97, and both defeats came inside the NFC East. In week 6 the Cowboys, on their way to a 5-11-1 finish, beat the Eagles 38-28 in Dallas, the biggest upset of the league season by the records of the two clubs.",
+    "In week 11 it was Washington's turn. Bryant Herbig's Commanders won 33-32 at home, the only one-score game the Eagles lost all season. Herbig threw 34 touchdown passes with 1 interception for an 11-6 club that has now beaten Skura's Eagles 5 times in their recorded meetings since Y88.",
+    "Both debts were paid in Philadelphia: 34-23 over Dallas in week 14 and 40-20 over Washington in week 17. The Giants lost 30-18 and 40-21 and have still never beaten Skura's Eagles in a recorded meeting. New York did win the wildest game of the year, 54-51 at Tampa Bay in week 17, with Yurik Okudah throwing 28 touchdown passes in 17 games."
+   ],
+   "players": [
+    "Bryant Herbig",
+    "Yurik Okudah"
+   ],
+   "teams": [
+    "Eagles",
+    "Cowboys",
+    "Commanders",
+    "Giants",
+    "Buccaneers"
+   ],
+   "stats": [
+    {
+     "label": "Upset of the season",
+     "value": "38-28",
+     "source": "schedule.json seasons/Y97/upset/score"
+    },
+    {
+     "label": "Cowboys record",
+     "value": "5-11-1",
+     "source": "schedule.json seasons/Y97/table/[abbr=DAL]/record"
+    },
+    {
+     "label": "Upset, week",
+     "value": "6",
+     "source": "schedule.json seasons/Y97/upset/week"
+    },
+    {
+     "label": "Week 11 at Washington",
+     "value": "33-32",
+     "source": "schedule.json seasons/Y97/coachGames/[week=11]/score"
+    },
+    {
+     "label": "Week, Commanders win",
+     "value": "11",
+     "source": "schedule.json seasons/Y97/coachGames/[week=11]/week"
+    },
+    {
+     "label": "Herbig TD passes, Y97",
+     "value": "34",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bryant Herbig s.td"
+    },
+    {
+     "label": "Herbig interceptions, Y97",
+     "value": "1",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bryant Herbig s.int"
+    },
+    {
+     "label": "Commanders record",
+     "value": "11-6",
+     "source": "schedule.json seasons/Y97/table/[abbr=WAS]/record"
+    },
+    {
+     "label": "Commanders wins over Skura's Eagles",
+     "value": "5",
+     "source": "schedule.json headToHead/Commanders/l"
+    },
+    {
+     "label": "Week 14 vs Dallas",
+     "value": "34-23",
+     "source": "schedule.json seasons/Y97/coachGames/[week=14]/score"
+    },
+    {
+     "label": "Week, Dallas rematch",
+     "value": "14",
+     "source": "schedule.json seasons/Y97/coachGames/[week=14]/week"
+    },
+    {
+     "label": "Week 17 vs Washington",
+     "value": "40-20",
+     "source": "schedule.json seasons/Y97/coachGames/[week=17]/score"
+    },
+    {
+     "label": "Week, Washington rematch",
+     "value": "17",
+     "source": "schedule.json seasons/Y97/coachGames/[week=17]/week"
+    },
+    {
+     "label": "Week 2 vs Giants",
+     "value": "30-18",
+     "source": "schedule.json seasons/Y97/coachGames/[week=2]/score"
+    },
+    {
+     "label": "Week 18 at Giants",
+     "value": "40-21",
+     "source": "schedule.json seasons/Y97/coachGames/[week=18]/score"
+    },
+    {
+     "label": "Giants at Buccaneers",
+     "value": "54-51",
+     "source": "schedule.json seasons/Y97/shootout/score"
+    },
+    {
+     "label": "Shootout, week",
+     "value": "17",
+     "source": "schedule.json seasons/Y97/shootout/week"
+    },
+    {
+     "label": "Okudah TD passes, Y97",
+     "value": "28",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Yurik Okudah s.td"
+    },
+    {
+     "label": "Okudah games, Y97",
+     "value": "17",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Yurik Okudah s.g"
+    }
+   ],
+   "related": [
+    "y95-giants-seventeen"
+   ],
+   "art": {
+    "scene": "vs",
+    "teams": [
+     "Eagles",
+     "Cowboys"
+    ]
+   }
+  },
+  {
+   "id": "y97-quick-hits",
+   "kind": "quickhits",
+   "headline": "Quick Hits",
+   "dek": "Around the league in Y97.",
+   "body": [
+    "Denver's Akayleb Samia made 242 tackles, and his card more than doubled, up 165.6% to 5,060.",
+    "Jacoby Nunez, 21, led the league with 249 tackles for the 4-13 Panthers in his first season on league cards.",
+    "Seattle's Alton Yeldon led the league with 33 rushing touchdowns, and Buffalo's Chandon Liedtke, 21, scored 32.",
+    "Buffalo scored 621 points, the most in the league, and went 11-6.",
+    "Atlanta's Tramon Holton, 31, was Defensive Player of the Year with 210 tackles for a 9-8 Falcons club.",
+    "Three games ended in ties, among them a 37-37 draw between the Cardinals and the Jaguars in week 12.",
+    "The Chiefs lost 40-8 at home to the Eagles in week 9, Philadelphia's biggest win of the season.",
+    "The Raiders went 3-14 and finished last in the power rankings."
+   ],
+   "players": [
+    "Akayleb Samia",
+    "Jacoby Nunez",
+    "Alton Yeldon",
+    "Chandon Liedtke",
+    "Tramon Holton"
+   ],
+   "teams": [
+    "Broncos",
+    "Panthers",
+    "Seahawks",
+    "Bills",
+    "Falcons",
+    "Cardinals",
+    "Jaguars",
+    "Chiefs",
+    "Eagles",
+    "Raiders"
+   ],
+   "stats": [
+    {
+     "label": "Samia tackles, Y97",
+     "value": "242",
+     "source": "market_history.json snap-202611170116..snap-202611192114 DB:Akayleb Samia s.tkl"
+    },
+    {
+     "label": "Samia card value change",
+     "value": "165.6%",
+     "source": "market_history.json snap-202611170116..snap-202611192114 DB:Akayleb Samia value%"
+    },
+    {
+     "label": "Samia card value",
+     "value": "5,060",
+     "source": "market_history.json snap-202611192114 DB:Akayleb Samia value"
+    },
+    {
+     "label": "Nunez age",
+     "value": "21",
+     "source": "save_careers.json age Y97 DB:Jacoby Nunez"
+    },
+    {
+     "label": "Nunez tackles",
+     "value": "249",
+     "source": "market_history.json snap-202611192114 DB:Jacoby Nunez s.tkl"
+    },
+    {
+     "label": "Panthers record",
+     "value": "4-13",
+     "source": "schedule.json seasons/Y97/table/[abbr=CAR]/record"
+    },
+    {
+     "label": "Yeldon rushing TDs, Y97",
+     "value": "33",
+     "source": "market_history.json snap-202611170116..snap-202611192114 RB:Alton Yeldon s.rtd"
+    },
+    {
+     "label": "Liedtke age",
+     "value": "21",
+     "source": "save_careers.json age Y97 RB:Chandon Liedtke"
+    },
+    {
+     "label": "Liedtke rushing TDs",
+     "value": "32",
+     "source": "market_history.json snap-202611192114 RB:Chandon Liedtke s.rtd"
+    },
+    {
+     "label": "Bills points",
+     "value": "621",
+     "source": "schedule.json seasons/Y97/table/[abbr=BUF]/pf"
+    },
+    {
+     "label": "Bills record",
+     "value": "11-6",
+     "source": "schedule.json seasons/Y97/table/[abbr=BUF]/record"
+    },
+    {
+     "label": "Holton age",
+     "value": "31",
+     "source": "save_careers.json age Y97 DB:Tramon Holton"
+    },
+    {
+     "label": "Holton tackles, Y97",
+     "value": "210",
+     "source": "market_history.json snap-202611170116..snap-202611192114 DB:Tramon Holton s.tkl"
+    },
+    {
+     "label": "Falcons record",
+     "value": "9-8",
+     "source": "schedule.json seasons/Y97/table/[abbr=ATL]/record"
+    },
+    {
+     "label": "Ties",
+     "value": "3",
+     "source": "schedule.json seasons/Y97/league/ties/#"
+    },
+    {
+     "label": "Cardinals at Jaguars",
+     "value": "37-37",
+     "source": "schedule.json seasons/Y97/league/ties/2/score"
+    },
+    {
+     "label": "Tie, week",
+     "value": "12",
+     "source": "schedule.json seasons/Y97/league/ties/2/week"
+    },
+    {
+     "label": "At Kansas City",
+     "value": "40-8",
+     "source": "schedule.json seasons/Y97/coachGames/[week=9]/score"
+    },
+    {
+     "label": "Chiefs game, week",
+     "value": "9",
+     "source": "schedule.json seasons/Y97/coachGames/[week=9]/week"
+    },
+    {
+     "label": "Raiders record",
+     "value": "3-14",
+     "source": "schedule.json seasons/Y97/table/[abbr=LV]/record"
+    }
+   ],
+   "related": [
+    "y96-quick-hits"
+   ]
+  }
+ ],
+ "didYouKnow": [
+  {
+   "id": "y97-dyk-crawford-ints",
+   "text": "Bones Crawford threw 64 touchdown passes and 15 interceptions in Y97 and won the MVP. No other quarterback threw more than 7 interceptions.",
+   "players": [
+    "Bones Crawford"
+   ],
+   "stats": [
+    {
+     "label": "Crawford TD passes",
+     "value": "64",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.td"
+    },
+    {
+     "label": "Crawford interceptions",
+     "value": "15",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.int"
+    },
+    {
+     "label": "Next most, Bryant Cronk",
+     "value": "7",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bryant Cronk s.int"
+    }
+   ]
+  },
+  {
+   "id": "y97-dyk-eagles-defense",
+   "text": "The Eagles allowed 358 points in Y97, the fewest in the league and 50 fewer than the 12-5 Patriots, the next stingiest club.",
+   "players": [],
+   "teams": [
+    "Eagles",
+    "Patriots"
+   ],
+   "stats": [
+    {
+     "label": "Eagles points allowed",
+     "value": "358",
+     "source": "schedule.json seasons/Y97/coachRecord/pa"
+    },
+    {
+     "label": "Fewer than the Patriots",
+     "value": "50",
+     "source": "schedule.json seasons/Y97/table/[abbr=NE]/pa minus schedule.json seasons/Y97/table/[abbr=PHI]/pa"
+    },
+    {
+     "label": "Patriots record",
+     "value": "12-5",
+     "source": "schedule.json seasons/Y97/table/[abbr=NE]/record"
+    }
+   ]
+  },
+  {
+   "id": "y97-dyk-maxwell-card",
+   "text": "Ryland Maxwell's card is worth 50,066, the first in the market's history to pass 50,000.",
+   "players": [
+    "Ryland Maxwell"
+   ],
+   "stats": [
+    {
+     "label": "Card value",
+     "value": "50,066",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "Passed",
+     "value": "50,000",
+     "source": "crossed: market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell value"
+    }
+   ]
+  },
+  {
+   "id": "y97-dyk-poyer",
+   "text": "Jackson Poyer threw 29 touchdown passes and 2 interceptions in his first season on league cards, at 21, and played all 21 of the Colts' games.",
+   "players": [
+    "Jackson Poyer"
+   ],
+   "teams": [
+    "Colts"
+   ],
+   "stats": [
+    {
+     "label": "TD passes",
+     "value": "29",
+     "source": "market_history.json snap-202611192114 QB:Jackson Poyer s.td"
+    },
+    {
+     "label": "Interceptions",
+     "value": "2",
+     "source": "market_history.json snap-202611192114 QB:Jackson Poyer s.int"
+    },
+    {
+     "label": "Age",
+     "value": "21",
+     "source": "save_careers.json age Y97 QB:Jackson Poyer"
+    },
+    {
+     "label": "Games",
+     "value": "21",
+     "source": "market_history.json snap-202611192114 QB:Jackson Poyer s.g"
+    }
+   ]
+  },
+  {
+   "id": "y97-dyk-brooker",
+   "text": "Jamon Brooker has 47 career interceptions, the most on league cards, and 2 Defensive Player of the Year awards, but no ring.",
+   "players": [
+    "Jamon Brooker"
+   ],
+   "stats": [
+    {
+     "label": "Career interceptions",
+     "value": "47",
+     "source": "market_history.json snap-202611192114 DB:Jamon Brooker s.int"
+    },
+    {
+     "label": "DPOY awards",
+     "value": "2",
+     "source": "market_history.json snap-202611192114 DB:Jamon Brooker s.dpoy"
+    }
+   ]
+  },
+  {
+   "id": "y97-dyk-jarrett",
+   "text": "Payton Jarrett is 23 and already has 3 rings, 54 career touchdown catches and the longest pass in the air on Dorren Skura's record board, 32 yards.",
+   "players": [
+    "Payton Jarrett"
+   ],
+   "stats": [
+    {
+     "label": "Age",
+     "value": "23",
+     "source": "save_careers.json age Y97 WR:Payton Jarrett"
+    },
+    {
+     "label": "Rings",
+     "value": "3",
+     "source": "market_history.json snap-202611192114 WR:Payton Jarrett s.rings"
+    },
+    {
+     "label": "Career TD catches",
+     "value": "54",
+     "source": "market_history.json snap-202611192114 WR:Payton Jarrett s.td"
+    },
+    {
+     "label": "Longest pass (air)",
+     "value": "32 yds",
+     "source": "records.json Longest pass (air) mark"
+    }
+   ]
+  },
+  {
+   "id": "y97-dyk-colts-games",
+   "text": "The Colts played 21 games in Y97, more than any other club, after a 10-7 regular season that ranked 12th in the power rankings.",
+   "players": [],
+   "teams": [
+    "Colts"
+   ],
+   "stats": [
+    {
+     "label": "Colts games",
+     "value": "21",
+     "source": "market_history.json snap-202611170116..snap-202611192114 TE:Rashawn Elder s.g"
+    },
+    {
+     "label": "Colts record",
+     "value": "10-7",
+     "source": "schedule.json seasons/Y97/table/[abbr=IND]/record"
+    },
+    {
+     "label": "Power ranking",
+     "value": "12",
+     "source": "schedule.json seasons/Y97/table/[abbr=IND]/power"
+    }
+   ]
+  }
+ ]
+}

@@ -1767,6 +1767,15 @@
     "takes": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-19-story-y97",
+   "dir": "data/uploads/2026-11-19-story-y97",
+   "applied_at": "2026-11-19T21:30:06-08:00",
+   "mutations": {
+    "story": 4
+   },
+   "changed": 4
   }
  ]
 }

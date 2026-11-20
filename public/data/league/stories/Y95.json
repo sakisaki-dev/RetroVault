@@ -1,7 +1,7 @@
 {
  "season": "Y95",
  "tagline": "The Eagles go 17-0 again and edge the Chiefs 24-19 in Super Bowl CLIV for a fifth straight title, Ryland Maxwell runs the career rushing record out to 29,534 yards, and Dallas falls from streak breakers to 2-15.",
- "upload": "2026-11-17-story-y96",
+ "upload": "2026-11-19-story-y97",
  "articles": [
   {
    "id": "y95-eagles-cliv",
@@ -170,9 +170,7 @@
      "source": "market_history.json snap-202611162108 OL:Akiem Brock s.rings"
     }
    ],
-   "related": [
-    "y94-eagles-cliii"
-   ],
+   "related": [],
    "art": {
     "scene": "vs",
     "teams": [
@@ -308,9 +306,7 @@
      "source": "save_careers.json age Y95 RB:Ryland Maxwell"
     }
    ],
-   "related": [
-    "y94-maxwell-53"
-   ]
+   "related": []
   },
   {
    "id": "y95-crawford-brock",
@@ -442,10 +438,7 @@
      "source": "market_history.json snap-202611162108 OL:Akiem Brock value"
     }
    ],
-   "related": [
-    "y94-crawford-68",
-    "y94-brock-blocks"
-   ]
+   "related": []
   },
   {
    "id": "y95-wingo-viennes",
@@ -583,9 +576,7 @@
      "source": "market_history.json snap-202611162108 WR:Keenan Viennes ovr"
     }
    ],
-   "related": [
-    "y94-viennes-wingo"
-   ]
+   "related": []
   },
   {
    "id": "y95-cowboys-collapse",
@@ -715,9 +706,7 @@
      "source": "schedule.json seasons/Y95/table/[abbr=NYJ]/w"
     }
    ],
-   "related": [
-    "y94-cowboys-streak"
-   ]
+   "related": []
   },
   {
    "id": "y95-chiefs-rise",
@@ -727,7 +716,7 @@
    "body": [
     "Kansas City was the second-best team in the league all season, and for one night it came close to being the best. The Chiefs went 9-6-2 in Y94. In Y95 they went 15-2, 8-1 at home and 7-1 on the road, and won 8 straight at one point. Their only defeats came 16-9 at Arizona in week 2 and 29-21 at home to the 6-11 Raiders in week 12, the upset of the season.",
     "Roc Dunkle threw for 4,216 yards and 40 touchdowns, tied for second in the league, with 6 interceptions. Maurice Vigil, 34, led the league with 34 rushing touchdowns, ran for 1,755 yards and passed 20,000 career yards and 350 career rushing touchdowns along the way. Shaquem Goedert's 38 blocks were second only to Akiem Brock's.",
-    "It was the Chiefs' first Super Bowl since a 44-6 loss to the Packers in Y79, and they kept it close, losing 24-19. The problem is the opponent. Kansas City has now met Skura's Eagles 5 times since Y88 and lost all 5."
+    "It was the Chiefs' first Super Bowl since a 44-6 loss to the Packers in Y79, and they kept it close, losing 24-19. The problem is the opponent. Kansas City has never beaten Skura's Eagles in a recorded meeting since Y88."
    ],
    "players": [
     "Roc Dunkle",
@@ -857,16 +846,9 @@
      "label": "Super Bowl CLIV",
      "value": "24-19",
      "source": "super_bowls.json Y95 score"
-    },
-    {
-     "label": "Meetings with Skura's Eagles since Y88",
-     "value": "5",
-     "source": "schedule.json headToHead/Chiefs/w"
     }
    ],
-   "related": [
-    "y94-colts-again"
-   ],
+   "related": [],
    "art": {
     "scene": "turf",
     "players": [
@@ -881,9 +863,9 @@
    "id": "y95-giants-seventeen",
    "kind": "rivalry",
    "headline": "Seventeen Meetings, Seventeen Losses: The Giants Still Cannot Beat Philadelphia",
-   "dek": "New York lost 32-31 and 24-15 to the Eagles in Y95. Since Y88 the series stands at 17-0, and Washington's losing run reached 8.",
+   "dek": "New York lost 32-31 and 24-15 to the Eagles in Y95. Since Y88 New York has never won a meeting, and Washington's losing run reached 8.",
    "body": [
-    "Ty Lock's Giants came closer than anyone in Y95, and it was still not enough. In week 12 in New York they lost 32-31, the narrowest of the Eagles' 17 regular-season wins. In week 16 in Philadelphia the Eagles won 24-15. The series that began when Skura arrived in Y88 now stands at 17 meetings and 17 Philadelphia wins, with 572 points to New York's 374.",
+    "Ty Lock's Giants came closer than anyone in Y95, and it was still not enough. In week 12 in New York they lost 32-31, the narrowest of the Eagles' 17 regular-season wins. In week 16 in Philadelphia the Eagles won 24-15. The series that began when Skura arrived in Y88 still has no New York win in it.",
     "The Giants were otherwise a good team. They went 10-6-1, up from 9-8, though a week before the trip to Philadelphia they lost 20-13 at home to the 2-15 Cowboys. Lock, 39, threw for 3,488 yards and 31 touchdowns with 4 interceptions and has 627 touchdown passes in 330 games. Both of his rings came with Skura's Jets. Since Y88 the coach who won them with him has been the one obstacle he cannot clear.",
     "Washington fared no better. The 12-5 Commanders, fifth in the power rankings with a rookie quarterback, lost 40-20 in Philadelphia and 36-14 at home, their 8th straight defeat by the Eagles."
    ],
@@ -898,11 +880,6 @@
     "Jets"
    ],
    "stats": [
-    {
-     "label": "Series record",
-     "value": "17-0",
-     "source": "content.json rivalryFiles/[id=rivalry-giants]/record/text"
-    },
     {
      "label": "At the Giants",
      "value": "32-31",
@@ -932,21 +909,6 @@
      "label": "Second Giants game, week",
      "value": "16",
      "source": "schedule.json seasons/Y95/coachGames/[week=16]/week"
-    },
-    {
-     "label": "Meetings since Y88",
-     "value": "17",
-     "source": "content.json rivalryFiles/[id=rivalry-giants]/games"
-    },
-    {
-     "label": "Eagles points in the series",
-     "value": "572",
-     "source": "content.json rivalryFiles/[id=rivalry-giants]/pointsFor"
-    },
-    {
-     "label": "Giants points in the series",
-     "value": "374",
-     "source": "content.json rivalryFiles/[id=rivalry-giants]/pointsAgainst"
     },
     {
      "label": "Giants record",
@@ -1024,9 +986,7 @@
      "source": "schedule.json seasons/Y95/coachGames/[week=17]/score"
     }
    ],
-   "related": [
-    "y94-cowboys-streak"
-   ],
+   "related": [],
    "art": {
     "scene": "vs",
     "teams": [
@@ -1413,9 +1373,7 @@
      "source": "market_history.json snap-202611162108 LB:Kalif Suh s.sck"
     }
    ],
-   "related": [
-    "y94-record-chases"
-   ]
+   "related": []
   },
   {
    "id": "y95-quick-hits",
@@ -1552,9 +1510,7 @@
      "source": "schedule.json seasons/Y95/league/ties/0/week"
     }
    ],
-   "related": [
-    "y94-quick-hits"
-   ]
+   "related": []
   }
  ],
  "didYouKnow": [
@@ -1666,7 +1622,7 @@
   },
   {
    "id": "y95-dyk-giants",
-   "text": "The Giants have met Dorren Skura's Eagles 17 times since Y88 and lost all 17.",
+   "text": "The Giants met Dorren Skura's Eagles twice in Y95 and lost both, by 1 point and by 9. New York has never beaten his Eagles.",
    "players": [],
    "teams": [
     "Giants",
@@ -1674,9 +1630,14 @@
    ],
    "stats": [
     {
-     "label": "Meetings",
-     "value": "17",
-     "source": "content.json rivalryFiles/[id=rivalry-giants]/games"
+     "label": "Week 12 margin",
+     "value": "1",
+     "source": "schedule.json seasons/Y95/coachGames/[week=12]/margin"
+    },
+    {
+     "label": "Week 16 margin",
+     "value": "9",
+     "source": "schedule.json seasons/Y95/coachGames/[week=16]/margin"
     }
    ]
   },
