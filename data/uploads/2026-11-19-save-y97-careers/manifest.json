@@ -1,0 +1,3968 @@
+{
+ "id": "2026-11-19-save-y97-careers",
+ "created": "2026-11-19",
+ "save": {
+  "file": "rb_nfl_savedata_4.json",
+  "path": "data/saves/2026-11-19/nfl/Documents/rb_nfl_savedata_4.json",
+  "sha256": "5572d866944ab703d30d394a2c3558df4dc5a3fcdda5a193d3be6a56172b1fb4",
+  "season": 97,
+  "week": 32,
+  "complete": true
+ },
+ "ai_steps": [],
+ "mutations": [
+  {
+   "lane": "stats",
+   "op": "save.careers",
+   "target": "Y97",
+   "value": {
+    "DB:A.T. Hoyer": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 34
+     },
+     "club": "Raiders"
+    },
+    "DB:Abraham Jack": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "club": "Bills"
+    },
+    "DB:Akayleb Samia": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Broncos"
+    },
+    "DB:Chance Woodrum": {
+     "born": 56,
+     "delay": 0,
+     "ages": {
+      "94": 38,
+      "95": 39,
+      "97": 41
+     },
+     "signed": 85,
+     "club": "Falcons",
+     "left": "retired"
+    },
+    "DB:DQ Watts": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Texans"
+    },
+    "DB:Dalvin Moehrig": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "49ers"
+    },
+    "DB:Darian Golston": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Jets"
+    },
+    "DB:Davion Leo": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Seahawks"
+    },
+    "DB:Dax Kolone": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "club": "Titans"
+    },
+    "DB:Dorance York": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Commanders"
+    },
+    "DB:Eno Brunson": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Packers"
+    },
+    "DB:Germain Coulter": {
+     "born": 0,
+     "delay": 0,
+     "ages": {
+      "94": 94,
+      "95": 95,
+      "97": 97
+     },
+     "signed": 24,
+     "club": "Buccaneers",
+     "left": "retired"
+    },
+    "DB:Ian Clapp": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "signed": 86,
+     "club": "Falcons"
+    },
+    "DB:Isaiah Pinkney": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "club": "Ravens"
+    },
+    "DB:Jacoby Nunez": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Panthers"
+    },
+    "DB:Jalyn Kush": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33
+     },
+     "club": "Panthers"
+    },
+    "DB:Jamon Brooker": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Packers"
+    },
+    "DB:Jontre Owens": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Bengals"
+    },
+    "DB:Justice Pettis": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Saints"
+    },
+    "DB:K.J. Brewer": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Buccaneers"
+    },
+    "DB:Kalen Bowser": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Patriots"
+    },
+    "DB:Keesean Hand": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "signed": 97,
+     "club": "Eagles"
+    },
+    "DB:Ketner Tauaefa": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Commanders"
+    },
+    "DB:Koa Zuber": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "signed": 96,
+     "club": "Eagles"
+    },
+    "DB:Kolton Cole": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 34
+     },
+     "club": "Chiefs"
+    },
+    "DB:Kyron Atwell": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "signed": 88,
+     "club": "Jets"
+    },
+    "DB:Lamont Edoga": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 34
+     },
+     "club": "Browns"
+    },
+    "DB:Lenny Baun": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Dolphins"
+    },
+    "DB:Lenny Beachum": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Chargers"
+    },
+    "DB:Lewis Pettis": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34,
+      "95": 34,
+      "97": 34
+     },
+     "club": "Cowboys"
+    },
+    "DB:Mack Skule": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Bears"
+    },
+    "DB:Malachi Hollins": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Giants"
+    },
+    "DB:Neal Johnson": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Cardinals"
+    },
+    "DB:Pharoah Orzech": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34,
+      "95": 34
+     },
+     "club": "Giants"
+    },
+    "DB:Quincy Booker": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "signed": 97,
+     "club": "Eagles"
+    },
+    "DB:Raphael Mosely": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Rams"
+    },
+    "DB:Reggie Deayon": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Colts"
+    },
+    "DB:Rob Lowe": {
+     "born": 7,
+     "delay": 0,
+     "ages": {
+      "94": 87,
+      "95": 88,
+      "97": 90
+     },
+     "signed": 31,
+     "club": "Bills",
+     "left": "retired"
+    },
+    "DB:Robert Boone": {
+     "born": 33,
+     "delay": 0,
+     "ages": {
+      "94": 61,
+      "95": 62,
+      "97": 64
+     },
+     "signed": 62,
+     "club": "Vikings",
+     "left": "retired"
+    },
+    "DB:Sauce Gardner": {
+     "born": -24,
+     "delay": 0,
+     "ages": {
+      "94": 118,
+      "95": 119,
+      "97": 121
+     },
+     "signed": 9,
+     "club": "Dolphins",
+     "left": "retired"
+    },
+    "DB:Stephen Suh": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Vikings"
+    },
+    "DB:Taywan Tuttle": {
+     "born": -9,
+     "delay": 0,
+     "ages": {
+      "94": 103,
+      "95": 104,
+      "97": 106
+     },
+     "signed": 15,
+     "club": "Chargers",
+     "left": "retired"
+    },
+    "DB:Teair Dye": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Bengals"
+    },
+    "DB:Tee Rosas": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Steelers"
+    },
+    "DB:Tramon Holton": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "signed": 87,
+     "club": "Falcons"
+    },
+    "DB:Travon Swaim": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34,
+      "97": 34
+     },
+     "club": "Lions"
+    },
+    "DB:Tress Pettis": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 34
+     },
+     "club": "Jaguars"
+    },
+    "DB:Trysten Floyd": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33
+     },
+     "signed": 85,
+     "club": "Commanders"
+    },
+    "DL:Alontae Jefe": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Buccaneers"
+    },
+    "DL:Alton Hopkins": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "club": "Cardinals"
+    },
+    "DL:Amik Barnes": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Colts"
+    },
+    "DL:Blake Kirksey": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Saints"
+    },
+    "DL:Bobby Grigsby": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Chargers"
+    },
+    "DL:Braxton Pennel": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Commanders"
+    },
+    "DL:Clinton Maher": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34,
+      "95": 34
+     },
+     "club": "Ravens"
+    },
+    "DL:Dekoda Cooks": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Bills"
+    },
+    "DL:Deonte Farrell": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Broncos"
+    },
+    "DL:Deshone Bello": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Jets"
+    },
+    "DL:Devonte Kerr": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Rams"
+    },
+    "DL:Dillon Tyson": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Raiders"
+    },
+    "DL:Dyami Watson": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "club": "Seahawks"
+    },
+    "DL:Dymonte Hageman": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Texans"
+    },
+    "DL:Gus Howland": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Chiefs"
+    },
+    "DL:Isaiah Schnell": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Cowboys"
+    },
+    "DL:J.R. Homer": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Patriots"
+    },
+    "DL:Jabari Payne": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Jaguars"
+    },
+    "DL:Jace Ray": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Bears"
+    },
+    "DL:Jalen Barber": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Panthers"
+    },
+    "DL:Jeff Abram": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Ravens"
+    },
+    "DL:Kalan Kalu": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Browns"
+    },
+    "DL:Keaton Toney": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Falcons"
+    },
+    "DL:Kenneth Leo": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Packers"
+    },
+    "DL:Lachlan Walford": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Jets"
+    },
+    "DL:Landon Irwin": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Lions"
+    },
+    "DL:Levante Banner": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34,
+      "95": 34
+     },
+     "club": "Browns"
+    },
+    "DL:Mykal Shaw": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Bills"
+    },
+    "DL:Nathan Tangelo": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Bengals"
+    },
+    "DL:Olamide Conway": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Titans"
+    },
+    "DL:P.J. Jerry": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "club": "49ers"
+    },
+    "DL:Richard Ferentz": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34,
+      "97": 34
+     },
+     "club": "Steelers"
+    },
+    "DL:Tre' Haack": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Vikings"
+    },
+    "DL:Trystan Doctson": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Giants"
+    },
+    "DL:Zander Kolar": {
+     "born": -5,
+     "delay": 0,
+     "ages": {
+      "94": 99,
+      "95": 100,
+      "97": 102
+     },
+     "signed": 18,
+     "club": "Commanders",
+     "left": "retired"
+    },
+    "DL:Zayne Ajayi": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Dolphins"
+    },
+    "LB:Aldrick Coyle": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "49ers"
+    },
+    "LB:Alontae Agnew": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Chiefs"
+    },
+    "LB:Angelo Jensen": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 34
+     },
+     "club": "Rams"
+    },
+    "LB:Austin Larsen": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Texans"
+    },
+    "LB:Bilal Tolbert": {
+     "born": 12,
+     "delay": 0,
+     "ages": {
+      "94": 82,
+      "95": 83,
+      "97": 85
+     },
+     "signed": 39,
+     "club": "Chargers",
+     "left": "retired"
+    },
+    "LB:Brayden Golden": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Panthers"
+    },
+    "LB:Bryson Lucas": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Commanders"
+    },
+    "LB:Cal Gowan": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "club": "Buccaneers"
+    },
+    "LB:Charles Heflin": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Patriots"
+    },
+    "LB:Chuck Ertz": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Colts"
+    },
+    "LB:Cyril Boozler": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Jaguars"
+    },
+    "LB:Dalton Mauro": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Giants"
+    },
+    "LB:Damian Ragas": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Cowboys"
+    },
+    "LB:Dane Danna": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Bills"
+    },
+    "LB:Danny Crosby": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Vikings"
+    },
+    "LB:Davion Means": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Lions"
+    },
+    "LB:Dedrick Gould": {
+     "born": 26,
+     "delay": 0,
+     "ages": {
+      "94": 68,
+      "95": 69,
+      "97": 71
+     },
+     "signed": 48,
+     "club": "Ravens",
+     "left": "retired"
+    },
+    "LB:Drake Kaskey": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Jets"
+    },
+    "LB:Earl Boehm": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33
+     },
+     "club": "Bills"
+    },
+    "LB:Floyd Speaks": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Commanders"
+    },
+    "LB:Gunner Okwara": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Texans"
+    },
+    "LB:Hakeem Ervin": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Seahawks"
+    },
+    "LB:Hamp McPhee": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "signed": 89,
+     "club": "Ravens"
+    },
+    "LB:Jakobi Arnette": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Chargers"
+    },
+    "LB:Jarius Izzo": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Steelers"
+    },
+    "LB:Jeff Mixon": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Bears"
+    },
+    "LB:K.J. Nsekhe": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Titans"
+    },
+    "LB:Khalen Swoopes": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33
+     },
+     "club": "Patriots"
+    },
+    "LB:Kwon Dawkins": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Bengals"
+    },
+    "LB:Kyler Falah": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Raiders"
+    },
+    "LB:Mark Sieler": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Broncos"
+    },
+    "LB:Nahshon Butker": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Packers"
+    },
+    "LB:Nick Bolton": {
+     "born": -23,
+     "delay": 0,
+     "ages": {
+      "94": 117,
+      "95": 118,
+      "97": 120
+     },
+     "signed": 3,
+     "club": "Vikings",
+     "left": "retired"
+    },
+    "LB:Quatro Wilds": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Colts"
+    },
+    "LB:Rudy Ward Jr": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Dolphins"
+    },
+    "LB:Shawn Rigg": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Cardinals"
+    },
+    "LB:Simeon Otton": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 34
+     },
+     "signed": 87,
+     "club": "Falcons"
+    },
+    "LB:Sione Tonga": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Broncos"
+    },
+    "LB:Snoop Dotson": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "signed": 96,
+     "club": "Eagles"
+    },
+    "LB:Storm Shelvin": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Saints"
+    },
+    "LB:Terrel Brandel": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Chargers"
+    },
+    "LB:Tom Egbule": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34,
+      "95": 34
+     },
+     "club": "Titans"
+    },
+    "LB:Trayone Burford": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Browns"
+    },
+    "LB:Treylon Dogbe": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Steelers"
+    },
+    "OL:Akiem Brock": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 35
+     },
+     "signed": 96,
+     "club": "Eagles"
+    },
+    "OL:Andrew Biegel": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Texans"
+    },
+    "OL:Bradlee Philips": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Buccaneers"
+    },
+    "OL:Calais Ham": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "signed": 86,
+     "club": "Falcons"
+    },
+    "OL:Caleb Linsley": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Giants"
+    },
+    "OL:Cethan Payne": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Panthers"
+    },
+    "OL:Cethan Qualls": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 34
+     },
+     "club": "Ravens"
+    },
+    "OL:Cordale Sweezy": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Packers"
+    },
+    "OL:Cullen Laird": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Colts"
+    },
+    "OL:Dareke Judon": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Bills"
+    },
+    "OL:Deane Lucas": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Jets"
+    },
+    "OL:Dede Beavers": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Browns"
+    },
+    "OL:Geno Blough": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Lions"
+    },
+    "OL:Geremy Bozeman": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Saints"
+    },
+    "OL:Horace Addison": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Cowboys"
+    },
+    "OL:JD Pircher": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "club": "Bengals"
+    },
+    "OL:Jacobi Compton": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Steelers"
+    },
+    "OL:Jakeem Friend": {
+     "born": 51,
+     "delay": 0,
+     "ages": {
+      "94": 43,
+      "95": 44,
+      "97": 46
+     },
+     "signed": 81,
+     "club": "Jets",
+     "left": "retired"
+    },
+    "OL:Jaleel Edwards": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Broncos"
+    },
+    "OL:Jamon Ertz": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Texans"
+    },
+    "OL:Javon Trask": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Rams"
+    },
+    "OL:Jermar Reiff": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34,
+      "95": 34
+     },
+     "club": "Saints"
+    },
+    "OL:Jordon Toilolo": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Vikings"
+    },
+    "OL:Juston Farniok": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Bears"
+    },
+    "OL:Koa Togiai": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Jaguars"
+    },
+    "OL:Laken Linder": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 34
+     },
+     "club": "Titans"
+    },
+    "OL:Nydair Funk": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Cardinals"
+    },
+    "OL:Perrion Randall": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 34
+     },
+     "signed": 83,
+     "club": "Seahawks"
+    },
+    "OL:Shaquem Goedert": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Chiefs"
+    },
+    "OL:Taron Pinnock": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33
+     },
+     "club": "Bears"
+    },
+    "OL:Tay Tenuta": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "49ers"
+    },
+    "OL:Terez Poe": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34,
+      "97": 34
+     },
+     "club": "Dolphins"
+    },
+    "OL:Trey Gabbert": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Raiders"
+    },
+    "OL:Victor Brandel": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Commanders"
+    },
+    "OL:Vyncint Fort": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Chargers"
+    },
+    "OL:Vyncint Redmond": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Rams"
+    },
+    "OL:Wayne Blair": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Patriots"
+    },
+    "QB:Alexx Sanchez": {
+     "born": 18,
+     "delay": 0,
+     "ages": {
+      "94": 76,
+      "95": 77,
+      "97": 79
+     },
+     "signed": 44,
+     "club": "Titans",
+     "left": "retired"
+    },
+    "QB:Alshon Lazard": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Bengals"
+    },
+    "QB:Arthur Onwenu": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Chargers"
+    },
+    "QB:Aubrey Jewell": {
+     "born": 1,
+     "delay": 0,
+     "ages": {
+      "94": 93,
+      "95": 94,
+      "97": 96
+     },
+     "signed": 27,
+     "club": "Rams",
+     "left": "retired"
+    },
+    "QB:Avonte Gooden": {
+     "born": -14,
+     "delay": 0,
+     "ages": {
+      "94": 108,
+      "95": 109,
+      "97": 111
+     },
+     "signed": 19,
+     "club": "Commanders"
+    },
+    "QB:Bones Crawford": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "signed": 96,
+     "club": "Eagles"
+    },
+    "QB:Brandon Jaclyde": {
+     "born": 59,
+     "delay": 0,
+     "ages": {
+      "94": 35,
+      "95": 36,
+      "97": 38
+     },
+     "signed": 83,
+     "club": "Dolphins"
+    },
+    "QB:Bryant Cronk": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Ravens"
+    },
+    "QB:Bryant Herbig": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Commanders"
+    },
+    "QB:Case Larsen": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Saints"
+    },
+    "QB:Damiere Norton": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Patriots"
+    },
+    "QB:Dennis Baylon": {
+     "born": 1,
+     "delay": 0,
+     "ages": {
+      "94": 93,
+      "95": 94,
+      "97": 96
+     },
+     "signed": 40,
+     "club": "Chargers",
+     "left": "retired"
+    },
+    "QB:Drake Maye": {
+     "born": -22,
+     "delay": 0,
+     "ages": {
+      "94": 116,
+      "95": 117,
+      "97": 119
+     },
+     "signed": 3,
+     "club": "Vikings",
+     "left": "retired"
+    },
+    "QB:Dustin Milton": {
+     "born": 56,
+     "delay": 0,
+     "ages": {
+      "94": 38,
+      "95": 39
+     },
+     "club": "Patriots"
+    },
+    "QB:Irv Kelce": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 35
+     },
+     "club": "Bears"
+    },
+    "QB:Ja'Marr Chark": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Buccaneers"
+    },
+    "QB:Jackson Poyer": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Colts"
+    },
+    "QB:Jarrell Cann": {
+     "born": 56,
+     "delay": 0,
+     "ages": {
+      "94": 38,
+      "95": 39
+     },
+     "club": "Cowboys"
+    },
+    "QB:Jason Macleone": {
+     "born": 45,
+     "delay": 0,
+     "ages": {
+      "94": 49,
+      "95": 50,
+      "97": 52
+     },
+     "signed": 75,
+     "club": "Seahawks",
+     "left": "retired"
+    },
+    "QB:Jayden Daniels": {
+     "born": -23,
+     "delay": 0,
+     "ages": {
+      "94": 117,
+      "95": 118,
+      "97": 120
+     },
+     "club": "Commanders",
+     "left": "retired"
+    },
+    "QB:Jimmy Tillery": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Jets"
+    },
+    "QB:Jojo McCown": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34,
+      "97": 36
+     },
+     "club": "49ers"
+    },
+    "QB:Josh Brooks": {
+     "born": 55,
+     "delay": 0,
+     "ages": {
+      "94": 39
+     },
+     "signed": 88,
+     "club": "Commanders"
+    },
+    "QB:Juju Ngakoue": {
+     "born": 58,
+     "delay": 0,
+     "ages": {
+      "94": 36,
+      "95": 37,
+      "97": 39
+     },
+     "club": "Bills"
+    },
+    "QB:Julian Goedert": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 34
+     },
+     "club": "Seahawks"
+    },
+    "QB:Kalif Risner": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Jaguars"
+    },
+    "QB:Koda Koroma": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Vikings"
+    },
+    "QB:Korey Friend": {
+     "born": 56,
+     "delay": 0,
+     "ages": {
+      "94": 38,
+      "95": 39
+     },
+     "club": "Colts"
+    },
+    "QB:Lamar Jackson": {
+     "born": -27,
+     "delay": 0,
+     "ages": {
+      "94": 121,
+      "95": 122,
+      "97": 124
+     },
+     "signed": 12,
+     "club": "Packers",
+     "left": "retired"
+    },
+    "QB:Lukas Samuels": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Cardinals"
+    },
+    "QB:Makai Merritt": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Rams"
+    },
+    "QB:Margus Leglue": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34,
+      "95": 35,
+      "97": 37
+     },
+     "club": "Lions"
+    },
+    "QB:Michael Wilson": {
+     "born": 40,
+     "delay": 0,
+     "ages": {
+      "94": 54,
+      "95": 55,
+      "97": 57
+     },
+     "signed": 71,
+     "club": "Titans",
+     "left": "cut",
+     "last_games": 11
+    },
+    "QB:Mike Bouye": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Browns"
+    },
+    "QB:Olivier Slade": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Panthers"
+    },
+    "QB:Orlando Larienne": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34,
+      "97": 36
+     },
+     "signed": 87,
+     "club": "Falcons"
+    },
+    "QB:Ray Waller": {
+     "born": -5,
+     "delay": 0,
+     "ages": {
+      "94": 99,
+      "95": 100,
+      "97": 102
+     },
+     "signed": 26,
+     "club": "Buccaneers",
+     "left": "retired"
+    },
+    "QB:Rico Gee": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Cowboys"
+    },
+    "QB:Riley Grigsby": {
+     "born": 56,
+     "delay": 0,
+     "ages": {
+      "94": 38,
+      "95": 39
+     },
+     "club": "Saints"
+    },
+    "QB:Roc Dunkle": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "club": "Chiefs"
+    },
+    "QB:Ryquell Penn": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Steelers"
+    },
+    "QB:Rysen Nauta": {
+     "born": 59,
+     "delay": 0,
+     "ages": {
+      "94": 35,
+      "95": 35,
+      "97": 36
+     },
+     "club": "Titans"
+    },
+    "QB:Sherman Brandson": {
+     "born": 28,
+     "delay": 0,
+     "ages": {
+      "94": 66,
+      "95": 67,
+      "97": 69
+     },
+     "signed": 62,
+     "club": "Vikings",
+     "left": "cut",
+     "last_games": 6
+    },
+    "QB:Sione Garland": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Broncos"
+    },
+    "QB:Solomon Toohill": {
+     "born": 57,
+     "delay": 0,
+     "ages": {
+      "94": 37,
+      "95": 38
+     },
+     "club": "Packers"
+    },
+    "QB:Tim Sweeney": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Texans"
+    },
+    "QB:Trae Corral": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "club": "Raiders"
+    },
+    "QB:Ty Lock": {
+     "born": 56,
+     "delay": 0,
+     "ages": {
+      "94": 38,
+      "95": 39,
+      "97": 41
+     },
+     "signed": 83,
+     "club": "Giants",
+     "left": "retired"
+    },
+    "QB:Tylan McCain": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Packers"
+    },
+    "QB:Wayne Wilson": {
+     "born": 17,
+     "delay": 0,
+     "ages": {
+      "94": 77,
+      "95": 78,
+      "97": 80
+     },
+     "signed": 40,
+     "club": "Bills",
+     "left": "retired"
+    },
+    "QB:Yurik Okudah": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Giants"
+    },
+    "RB:Alijah Santos": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "club": "Commanders"
+    },
+    "RB:Alohi Devey": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Lions"
+    },
+    "RB:Alton Yeldon": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Seahawks"
+    },
+    "RB:Angelo Moton": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Packers"
+    },
+    "RB:Breece Hall": {
+     "born": -23,
+     "delay": 0,
+     "ages": {
+      "94": 117,
+      "95": 118,
+      "97": 120
+     },
+     "signed": 11,
+     "club": "Chargers",
+     "left": "retired"
+    },
+    "RB:Brendan Parham": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Ravens"
+    },
+    "RB:Camryn Kongbo": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 28,
+      "97": 29
+     },
+     "club": "Cowboys"
+    },
+    "RB:Chandon Liedtke": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Bills"
+    },
+    "RB:DJ Long": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "club": "Jaguars"
+    },
+    "RB:Daren Jurgens": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Chargers"
+    },
+    "RB:Darian Coyle": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Steelers"
+    },
+    "RB:Dee Maher": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Vikings"
+    },
+    "RB:Dekoda Walton": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33
+     },
+     "club": "Bills"
+    },
+    "RB:Denzel Brady": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Jets"
+    },
+    "RB:Denzel Hayes": {
+     "born": 25,
+     "delay": 0,
+     "ages": {
+      "94": 69,
+      "95": 70,
+      "97": 72
+     },
+     "signed": 54,
+     "club": "Bears",
+     "left": "retired"
+    },
+    "RB:Dixie Leonard": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Patriots"
+    },
+    "RB:Eli Kenney": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Titans"
+    },
+    "RB:Gerrit Ogbah": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "signed": 91,
+     "club": "Falcons"
+    },
+    "RB:Grover Calitro": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Bengals"
+    },
+    "RB:J.C. Howland": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "club": "49ers"
+    },
+    "RB:Jahmyr Gibbs": {
+     "born": -19,
+     "delay": 0,
+     "ages": {
+      "94": 113,
+      "95": 114,
+      "97": 116
+     },
+     "signed": 8,
+     "club": "Dolphins",
+     "left": "retired"
+    },
+    "RB:Jay-Tee Dafney": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 32
+     },
+     "club": "Panthers"
+    },
+    "RB:Kelvin Core": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Saints"
+    },
+    "RB:Kitt Inman": {
+     "born": -2,
+     "delay": 0,
+     "ages": {
+      "94": 96,
+      "95": 97,
+      "97": 99
+     },
+     "signed": 26,
+     "club": "Buccaneers",
+     "left": "retired"
+    },
+    "RB:Kitt Perine": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Rams"
+    },
+    "RB:Lavonte Liuget": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Texans"
+    },
+    "RB:Lukas Agnew": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Dolphins"
+    },
+    "RB:Malakai Sawyer": {
+     "born": 55,
+     "delay": 0,
+     "ages": {
+      "94": 39,
+      "95": 40,
+      "97": 42
+     },
+     "signed": 79,
+     "club": "Jets",
+     "left": "retired"
+    },
+    "RB:Margus Deaton": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Broncos"
+    },
+    "RB:Mario Lamb": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Chiefs"
+    },
+    "RB:Maurice Vigil": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Chiefs"
+    },
+    "RB:Niles Canaday": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "club": "Giants"
+    },
+    "RB:Phil Ekuale": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33
+     },
+     "club": "Steelers"
+    },
+    "RB:Phillip Ball": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Saints"
+    },
+    "RB:Quatro Pierre": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33
+     },
+     "club": "Chargers"
+    },
+    "RB:River Kuechly": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "club": "Colts"
+    },
+    "RB:Roderic Trawick": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Cardinals"
+    },
+    "RB:Rondale Ikarras": {
+     "born": 18,
+     "delay": 0,
+     "ages": {
+      "94": 76,
+      "95": 77,
+      "97": 79
+     },
+     "signed": 47,
+     "club": "Jets",
+     "left": "retired"
+    },
+    "RB:Ryland Maxwell": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 33,
+      "97": 35
+     },
+     "signed": 96,
+     "club": "Eagles"
+    },
+    "RB:Sam Swaim": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "club": "Patriots"
+    },
+    "RB:Siran Spector": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "signed": 88,
+     "club": "Texans"
+    },
+    "RB:Thomas Sweezy": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Browns"
+    },
+    "RB:Ty Gurman": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "club": "Bears"
+    },
+    "RB:Tyreek Devalve": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 33,
+      "97": 34
+     },
+     "club": "Buccaneers"
+    },
+    "RB:Tytus Fleming": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Titans"
+    },
+    "RB:Xavier Mosley": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Raiders"
+    },
+    "TE:Akiem Bouye": {
+     "born": -9,
+     "delay": 0,
+     "ages": {
+      "94": 103,
+      "95": 104,
+      "97": 106
+     },
+     "signed": 14,
+     "club": "Chargers",
+     "left": "retired"
+    },
+    "TE:Amon-Ra Ford": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Panthers"
+    },
+    "TE:Andrew Pitts": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "49ers"
+    },
+    "TE:Bryce Smoot": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Jaguars"
+    },
+    "TE:Bunchy Barron": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Commanders"
+    },
+    "TE:Carson Odeleye": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Patriots"
+    },
+    "TE:Carter Develin": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Seahawks"
+    },
+    "TE:Cassius McCrane": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Rams"
+    },
+    "TE:Ceedee Hollins": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Commanders"
+    },
+    "TE:Charlie John": {
+     "born": 6,
+     "delay": 0,
+     "ages": {
+      "94": 88,
+      "95": 89,
+      "97": 91
+     },
+     "signed": 33,
+     "club": "Bills",
+     "left": "retired"
+    },
+    "TE:Cornell Rhyan": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Bears"
+    },
+    "TE:DQ Diggs": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Seahawks"
+    },
+    "TE:Daelin Virgin": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "club": "Cowboys"
+    },
+    "TE:Dakota Paye": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Vikings"
+    },
+    "TE:Daylon Fries": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Texans"
+    },
+    "TE:DeAndre Fluker": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "49ers"
+    },
+    "TE:Derwin Bentley": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Giants"
+    },
+    "TE:Dezmon Tavai": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Bears"
+    },
+    "TE:Donald Spencer": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33
+     },
+     "signed": 83,
+     "club": "Chargers"
+    },
+    "TE:Donell Quinn": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Broncos"
+    },
+    "TE:Dre Hoecht": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Chiefs"
+    },
+    "TE:Dustin Jaimes": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Falcons"
+    },
+    "TE:Earnest Prosise": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "club": "Cardinals"
+    },
+    "TE:Eli Danna": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Dolphins"
+    },
+    "TE:Essang Remmers": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Jets"
+    },
+    "TE:George Donkor": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Raiders"
+    },
+    "TE:George Nnadi": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34,
+      "95": 34
+     },
+     "club": "Bears"
+    },
+    "TE:Grady Cox": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Chiefs"
+    },
+    "TE:J.C. Jordan": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Broncos"
+    },
+    "TE:Jacob Proise": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "signed": 97,
+     "club": "Eagles"
+    },
+    "TE:Jaelon Bennett": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Seahawks"
+    },
+    "TE:Jamar Dallas": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Jaguars"
+    },
+    "TE:Jamel Wilkins": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 34
+     },
+     "club": "Titans"
+    },
+    "TE:Jamell Langley": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Bills"
+    },
+    "TE:Jamie McGrone": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Browns"
+    },
+    "TE:Jared Diesch": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Patriots"
+    },
+    "TE:Jaron Jolly": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Raiders"
+    },
+    "TE:Jarvis Daniels": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Saints"
+    },
+    "TE:Jaylen Conklin": {
+     "born": 52,
+     "delay": 0,
+     "ages": {
+      "94": 42,
+      "95": 43,
+      "97": 45
+     },
+     "signed": 81,
+     "club": "Jets",
+     "left": "retired"
+    },
+    "TE:Josey Vander": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Bengals"
+    },
+    "TE:Keesean Rashed": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Jets"
+    },
+    "TE:Keion Ferrell": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "49ers"
+    },
+    "TE:Kevon Pitts": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Rams"
+    },
+    "TE:Khalid Glasgow": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Lions"
+    },
+    "TE:Korey Kilgore": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Dolphins"
+    },
+    "TE:Levante Hopkins": {
+     "born": 41,
+     "delay": 0,
+     "ages": {
+      "94": 53,
+      "95": 54,
+      "97": 56
+     },
+     "signed": 73,
+     "club": "Titans",
+     "left": "retired"
+    },
+    "TE:Marc Saine II": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33
+     },
+     "signed": 86,
+     "club": "Falcons"
+    },
+    "TE:Mason Taylor": {
+     "born": -19,
+     "delay": 0,
+     "ages": {
+      "94": 113,
+      "95": 114,
+      "97": 116
+     },
+     "signed": 7,
+     "club": "Dolphins",
+     "left": "retired"
+    },
+    "TE:Morgan Saltes": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Buccaneers"
+    },
+    "TE:Morris Cooks": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Vikings"
+    },
+    "TE:Myquon Renfrow": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Raiders"
+    },
+    "TE:Nazair Amerson": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Bills"
+    },
+    "TE:Nazair Lacey": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "club": "Ravens"
+    },
+    "TE:Nick Hilton": {
+     "born": 64,
+     "delay": 0,
+     "ages": {
+      "94": 30,
+      "95": 31,
+      "97": 33
+     },
+     "club": "Saints"
+    },
+    "TE:Parker Hampton": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Jaguars"
+    },
+    "TE:Preston Gore": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Texans"
+    },
+    "TE:Quay Jansen": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Cardinals"
+    },
+    "TE:Rashard Gunter": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "club": "Bengals"
+    },
+    "TE:Rashawn Elder": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Colts"
+    },
+    "TE:Rodger Samuel": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Steelers"
+    },
+    "TE:Ronnie Hardy": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Buccaneers"
+    },
+    "TE:Samori Toney": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Lions"
+    },
+    "TE:Shemar Wood": {
+     "born": 6,
+     "delay": 0,
+     "ages": {
+      "94": 88,
+      "95": 89,
+      "97": 91
+     },
+     "signed": 25,
+     "club": "Buccaneers",
+     "left": "retired"
+    },
+    "TE:Spencer Ladler": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Cowboys"
+    },
+    "TE:Taylor Ruckert": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Chargers"
+    },
+    "TE:Teagan Banjo": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33
+     },
+     "club": "49ers"
+    },
+    "TE:Ted Slade": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Steelers"
+    },
+    "TE:Tee Holtz": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Panthers"
+    },
+    "TE:Terence Dye": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Panthers"
+    },
+    "TE:Terrell Shipley": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Colts"
+    },
+    "TE:Tevin Kinnard": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Chargers"
+    },
+    "TE:Thayer Lenoir": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Packers"
+    },
+    "TE:Theo Biadasz": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Falcons"
+    },
+    "TE:Tracy Karras": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Ravens"
+    },
+    "TE:Tramon Bouye": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Giants"
+    },
+    "TE:Trayvon Fulton": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Titans"
+    },
+    "TE:Treyvon Scott": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Steelers"
+    },
+    "TE:Tyquan Vasey": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Chargers"
+    },
+    "TE:Tyree Irwin": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Browns"
+    },
+    "TE:Ulysees Howell": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Commanders"
+    },
+    "TE:Vonn Kennedy": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34,
+      "95": 34
+     },
+     "club": "Chiefs"
+    },
+    "WR:Alohi Godwin": {
+     "born": 1,
+     "delay": 1,
+     "ages": {
+      "94": 93,
+      "95": 94,
+      "97": 96
+     },
+     "signed": 34,
+     "club": "Seahawks",
+     "left": "retired"
+    },
+    "WR:Anree Nacua": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Colts"
+    },
+    "WR:Apollo Adam": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "signed": 88,
+     "club": "Falcons"
+    },
+    "WR:Brennan Higgins": {
+     "born": 1,
+     "delay": 0,
+     "ages": {
+      "94": 93,
+      "95": 94,
+      "97": 96
+     },
+     "signed": 22,
+     "club": "Commanders",
+     "left": "retired"
+    },
+    "WR:Brett Sweat": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "signed": 88,
+     "club": "Giants"
+    },
+    "WR:Bud Matthew": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Jets"
+    },
+    "WR:Cairo Asanjh": {
+     "born": 11,
+     "delay": 0,
+     "ages": {
+      "94": 83,
+      "95": 84,
+      "97": 86
+     },
+     "signed": 41,
+     "club": "Ravens",
+     "left": "retired"
+    },
+    "WR:Calvin Wingo II": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "signed": 95,
+     "club": "Eagles"
+    },
+    "WR:CeeDee Lamb": {
+     "born": -25,
+     "delay": 0,
+     "ages": {
+      "94": 119,
+      "95": 120,
+      "97": 122
+     },
+     "signed": 7,
+     "club": "Dolphins",
+     "left": "retired"
+    },
+    "WR:Clark Borom": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Browns"
+    },
+    "WR:Corn Tabor": {
+     "born": 70,
+     "delay": 0,
+     "ages": {
+      "94": 24,
+      "95": 25,
+      "97": 27
+     },
+     "club": "Bears"
+    },
+    "WR:Daelin Norton": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "club": "Jaguars"
+    },
+    "WR:Darian Milne": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33
+     },
+     "club": "Vikings"
+    },
+    "WR:Felton Myers": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Chargers"
+    },
+    "WR:Gary Asafo": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34
+     },
+     "club": "Chiefs"
+    },
+    "WR:God Johnson": {
+     "born": 36,
+     "delay": 0,
+     "ages": {
+      "94": 58,
+      "95": 59,
+      "97": 61
+     },
+     "signed": 66,
+     "club": "Vikings",
+     "left": "retired"
+    },
+    "WR:Hamp Devey": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34,
+      "95": 34
+     },
+     "club": "Packers"
+    },
+    "WR:Hroniss Clapp": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Dolphins"
+    },
+    "WR:Ian Finney": {
+     "born": -6,
+     "delay": 1,
+     "ages": {
+      "94": 100,
+      "95": 101,
+      "97": 103
+     },
+     "signed": 24,
+     "club": "Buccaneers",
+     "left": "retired"
+    },
+    "WR:Ja'Sir Hamlin": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Vikings"
+    },
+    "WR:Jacoby Linder": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Browns"
+    },
+    "WR:Jamison Stueber": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Patriots"
+    },
+    "WR:Javien Hull": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Saints"
+    },
+    "WR:Ja’Marr Chase": {
+     "born": -24,
+     "delay": 0,
+     "ages": {
+      "94": 118,
+      "95": 119,
+      "97": 121
+     },
+     "signed": 3,
+     "club": "Vikings",
+     "left": "retired"
+    },
+    "WR:Kai Toure": {
+     "born": 67,
+     "delay": 0,
+     "ages": {
+      "94": 27,
+      "95": 28,
+      "97": 30
+     },
+     "club": "Commanders"
+    },
+    "WR:Kane Van Oxley": {
+     "born": 56,
+     "delay": 0,
+     "ages": {
+      "94": 38,
+      "95": 38,
+      "97": 39
+     },
+     "signed": 83,
+     "club": "Bears",
+     "left": "retired"
+    },
+    "WR:Kaulani Rahman": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "signed": 91,
+     "club": "Rams"
+    },
+    "WR:Keenan Viennes": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "signed": 95,
+     "club": "Jets"
+    },
+    "WR:Lamont Duck": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34,
+      "95": 34
+     },
+     "club": "Bengals"
+    },
+    "WR:Le'Veon Ogbah": {
+     "born": 60,
+     "delay": 0,
+     "ages": {
+      "94": 34,
+      "95": 34
+     },
+     "club": "Colts"
+    },
+    "WR:Lecitus Hayden": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Bills"
+    },
+    "WR:Lukas Russell": {
+     "born": 10,
+     "delay": 0,
+     "ages": {
+      "94": 84,
+      "95": 85,
+      "97": 87
+     },
+     "signed": 38,
+     "club": "Seahawks",
+     "left": "retired"
+    },
+    "WR:Mack Franks": {
+     "born": 73,
+     "delay": 0,
+     "ages": {
+      "94": 21,
+      "95": 22,
+      "97": 24
+     },
+     "club": "Buccaneers"
+    },
+    "WR:Martin Ward": {
+     "born": 63,
+     "delay": 0,
+     "ages": {
+      "94": 31,
+      "95": 32,
+      "97": 34
+     },
+     "club": "Raiders"
+    },
+    "WR:Montez Lowry": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Packers"
+    },
+    "WR:Morris Samia": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "club": "Cardinals"
+    },
+    "WR:Nasir Perine": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Steelers"
+    },
+    "WR:Netane Jacobs": {
+     "born": 61,
+     "delay": 0,
+     "ages": {
+      "94": 33,
+      "95": 34
+     },
+     "club": "Dolphins"
+    },
+    "WR:Olamide Poe": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "club": "Titans"
+    },
+    "WR:Payton Jarrett": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "signed": 97,
+     "club": "Eagles"
+    },
+    "WR:Pharoah Hunter": {
+     "born": 42,
+     "delay": 0,
+     "ages": {
+      "94": 52,
+      "95": 53,
+      "97": 55
+     },
+     "signed": 74,
+     "club": "Seahawks",
+     "left": "retired"
+    },
+    "WR:Reuben Kilian": {
+     "born": 1,
+     "delay": 0,
+     "ages": {
+      "94": 93,
+      "95": 94,
+      "97": 96
+     },
+     "signed": 28,
+     "club": "Bills"
+    },
+    "WR:Russ Hilton": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Broncos"
+    },
+    "WR:Sewo Owens": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Giants"
+    },
+    "WR:Shi Eason": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Falcons"
+    },
+    "WR:Stephon Dunkle": {
+     "born": 68,
+     "delay": 0,
+     "ages": {
+      "94": 26,
+      "95": 27,
+      "97": 29
+     },
+     "club": "Steelers"
+    },
+    "WR:Taco Coulter": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "Cowboys"
+    },
+    "WR:Taylor Bane": {
+     "born": 72,
+     "delay": 0,
+     "ages": {
+      "94": 22,
+      "95": 23,
+      "97": 25
+     },
+     "club": "Seahawks"
+    },
+    "WR:Teven Charles": {
+     "born": 71,
+     "delay": 0,
+     "ages": {
+      "94": 23,
+      "95": 24,
+      "97": 26
+     },
+     "club": "Panthers"
+    },
+    "WR:Trace Bentley": {
+     "born": 75,
+     "delay": 0,
+     "ages": {
+      "97": 22
+     },
+     "club": "Saints"
+    },
+    "WR:Tristan Suggs": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33,
+      "97": 34
+     },
+     "club": "Texans"
+    },
+    "WR:Ty Moxon": {
+     "born": 76,
+     "delay": 0,
+     "ages": {
+      "97": 21
+     },
+     "club": "Bengals"
+    },
+    "WR:Tyrod Ruiz": {
+     "born": 74,
+     "delay": 0,
+     "ages": {
+      "95": 21,
+      "97": 23
+     },
+     "club": "Chiefs"
+    },
+    "WR:Ulysees Sutton": {
+     "born": 62,
+     "delay": 0,
+     "ages": {
+      "94": 32,
+      "95": 33
+     },
+     "club": "Chargers"
+    },
+    "WR:Verone Koch": {
+     "born": 65,
+     "delay": 0,
+     "ages": {
+      "94": 29,
+      "95": 30,
+      "97": 32
+     },
+     "club": "Lions"
+    },
+    "WR:Vyncint Heath": {
+     "born": 55,
+     "delay": 0,
+     "ages": {
+      "94": 39,
+      "95": 40,
+      "97": 40
+     },
+     "signed": 88,
+     "club": "Eagles",
+     "left": "retired"
+    },
+    "WR:Yosuah Lewan": {
+     "born": 66,
+     "delay": 0,
+     "ages": {
+      "94": 28,
+      "95": 29,
+      "97": 31
+     },
+     "club": "49ers"
+    },
+    "WR:Zane Correa": {
+     "born": 69,
+     "delay": 0,
+     "ages": {
+      "94": 25,
+      "95": 26,
+      "97": 28
+     },
+     "club": "Ravens"
+    }
+   },
+   "source": "save:rb_nfl_savedata_4.json",
+   "reason": "Career clocks (age, retirement delays, the coach's last transaction, last club, final-season games) read from the game's save, for the career stints",
+   "trigger": "Owner: \"give me a complete timeline that works and we can be sure is 100% correct based on real data\""
+  }
+ ]
+}

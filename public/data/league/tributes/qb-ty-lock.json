@@ -8,7 +8,7 @@
   "games": 330,
   "clubs": 2,
   "active": false,
-  "careerLegacy": 7550,
+  "careerLegacy": 7590,
   "rings": 2
  },
  "journey": [
@@ -681,6 +681,16 @@
        "QB:Ty Lock": 5810,
        "QB:Drake Wise": 4658
       }
+     },
+     {
+      "season": "Y97",
+      "snapshot": "snap-202611192114",
+      "ovr": 94,
+      "grade": "A",
+      "values": {
+       "QB:Ty Lock": 5852,
+       "QB:Drake Wise": 4695
+      }
      }
     ]
    }
@@ -806,8 +816,8 @@
      },
      {
       "label": "Career Legacy",
-      "a": 7550,
-      "b": 7473,
+      "a": 7590,
+      "b": 7517,
       "decimals": 0
      }
     ]

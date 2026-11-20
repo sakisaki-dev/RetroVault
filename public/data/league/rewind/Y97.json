@@ -1,0 +1,558 @@
+{
+ "season": "Y97",
+ "club": "Eagles",
+ "record": "15-2",
+ "finish": "Champions",
+ "champion": "Eagles",
+ "next": "Y98",
+ "cards": [
+  {
+   "id": "y97-cover",
+   "kind": "cover",
+   "club": "Eagles",
+   "kicker": "Season Rewind",
+   "title": "Y97 Rewind",
+   "text": "Dorren Skura's 97th season as a head coach, with the Eagles: 15-2, Champions.",
+   "figures": [
+    {
+     "label": "Record",
+     "value": "15-2"
+    },
+    {
+     "label": "Finish",
+     "value": "Champions"
+    },
+    {
+     "label": "Season as coach",
+     "value": "97",
+     "num": 97
+    },
+    {
+     "label": "Point differential",
+     "value": "+221",
+     "num": 221,
+     "pre": "+"
+    }
+   ],
+   "teams": [
+    "Eagles"
+   ],
+   "n": 1
+  },
+  {
+   "id": "y97-champion",
+   "kind": "champion",
+   "club": "Eagles",
+   "kicker": "Super Bowl CLVI",
+   "title": "Eagles win it all",
+   "text": "The Eagles beat the Colts 38-22 in Super Bowl CLVI, the club's 10th title. Skura's 71 titles and counting.",
+   "figures": [
+    {
+     "label": "Eagles",
+     "value": "38",
+     "num": 38
+    },
+    {
+     "label": "Colts",
+     "value": "22",
+     "num": 22
+    },
+    {
+     "label": "Season record",
+     "value": "15-2"
+    },
+    {
+     "label": "Franchise titles",
+     "value": "10",
+     "num": 10
+    }
+   ],
+   "teams": [
+    "Eagles",
+    "Colts"
+   ],
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Eagles",
+     "star": true
+    },
+    {
+     "key": "OL:Akiem Brock",
+     "name": "Akiem Brock",
+     "team": "Eagles"
+    },
+    {
+     "key": "QB:Bones Crawford",
+     "name": "Bones Crawford",
+     "team": "Eagles"
+    },
+    {
+     "key": "LB:Snoop Dotson",
+     "name": "Snoop Dotson",
+     "team": "Eagles"
+    },
+    {
+     "key": "TE:Jacob Proise",
+     "name": "Jacob Proise",
+     "team": "Eagles"
+    },
+    {
+     "key": "WR:Calvin Wingo II",
+     "name": "Calvin Wingo II",
+     "team": "Eagles"
+    },
+    {
+     "key": "DB:Koa Zuber",
+     "name": "Koa Zuber",
+     "team": "Eagles"
+    },
+    {
+     "key": "DB:Quincy Booker",
+     "name": "Quincy Booker",
+     "team": "Eagles"
+    },
+    {
+     "key": "DB:Keesean Hand",
+     "name": "Keesean Hand",
+     "team": "Eagles"
+    },
+    {
+     "key": "WR:Payton Jarrett",
+     "name": "Payton Jarrett",
+     "team": "Eagles"
+    }
+   ],
+   "ringHolders": 10,
+   "score": "38-22",
+   "result": "won",
+   "n": 2
+  },
+  {
+   "id": "y97-awards",
+   "kind": "awards",
+   "club": "Eagles",
+   "kicker": "The awards",
+   "title": "Hardware",
+   "text": "Y97's winners: Crawford (MVP), Wingo II (OPOY), Holton (DPOY) and Maxwell (SB MVP).",
+   "players": [
+    {
+     "key": "QB:Bones Crawford",
+     "name": "Bones Crawford",
+     "team": "Eagles",
+     "award": "MVP",
+     "awardName": "Most Valuable Player",
+     "line": "4,857 pass yds · 64 pass TD · 7 rush TD in 20 games",
+     "figures": [
+      {
+       "label": "pass yds",
+       "value": "4,857",
+       "num": 4857
+      },
+      {
+       "label": "pass TD",
+       "value": "64",
+       "num": 64
+      },
+      {
+       "label": "rush TD",
+       "value": "7",
+       "num": 7
+      }
+     ],
+     "games": 20
+    },
+    {
+     "key": "WR:Calvin Wingo II",
+     "name": "Calvin Wingo II",
+     "team": "Eagles",
+     "award": "OPOY",
+     "awardName": "Offensive Player of the Year",
+     "line": "109 catches · 2,158 rec yds · 22 TD in 20 games",
+     "figures": [
+      {
+       "label": "catches",
+       "value": "109",
+       "num": 109
+      },
+      {
+       "label": "rec yds",
+       "value": "2,158",
+       "num": 2158
+      },
+      {
+       "label": "TD",
+       "value": "22",
+       "num": 22
+      }
+     ],
+     "games": 20
+    },
+    {
+     "key": "DB:Tramon Holton",
+     "name": "Tramon Holton",
+     "team": "Falcons",
+     "award": "DPOY",
+     "awardName": "Defensive Player of the Year",
+     "line": "210 tackles · 2 INT in 18 games",
+     "figures": [
+      {
+       "label": "tackles",
+       "value": "210",
+       "num": 210
+      },
+      {
+       "label": "INT",
+       "value": "2",
+       "num": 2
+      }
+     ],
+     "games": 18
+    },
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Eagles",
+     "award": "SB MVP",
+     "awardName": "Super Bowl MVP",
+     "line": "1,847 rush yds · 19 rush TD · 5 rec TD in 18 games",
+     "figures": [
+      {
+       "label": "rush yds",
+       "value": "1,847",
+       "num": 1847
+      },
+      {
+       "label": "rush TD",
+       "value": "19",
+       "num": 19
+      },
+      {
+       "label": "rec TD",
+       "value": "5",
+       "num": 5
+      }
+     ],
+     "games": 18
+    }
+   ],
+   "teams": [
+    "Eagles",
+    "Falcons"
+   ],
+   "n": 3
+  },
+  {
+   "id": "y97-records",
+   "kind": "records",
+   "club": "Eagles",
+   "kicker": "Record book",
+   "title": "Records broken",
+   "text": "3 marks fell in Y97.",
+   "rows": [
+    {
+     "label": "Longest pass (air)",
+     "mark": "32 yds",
+     "scope": "club",
+     "players": [
+      {
+       "key": "QB:Bones Crawford",
+       "name": "Bones Crawford",
+       "team": "Eagles"
+      },
+      {
+       "key": "WR:Payton Jarrett",
+       "name": "Payton Jarrett",
+       "team": "Eagles"
+      }
+     ],
+     "team": "Eagles",
+     "note": "week 15 against the Ravens",
+     "num": 32,
+     "suf": " yds"
+    },
+    {
+     "label": "Best rushing career",
+     "mark": "33,955 yds",
+     "scope": "club",
+     "players": [
+      {
+       "key": "RB:Ryland Maxwell",
+       "name": "Ryland Maxwell",
+       "team": "Eagles"
+      }
+     ],
+     "team": "Eagles",
+     "num": 33955,
+     "suf": " yds"
+    },
+    {
+     "label": "Most rushing TDs, career",
+     "mark": "440",
+     "scope": "club",
+     "players": [
+      {
+       "key": "RB:Ryland Maxwell",
+       "name": "Ryland Maxwell",
+       "team": "Eagles"
+      }
+     ],
+     "team": "Eagles",
+     "num": 440
+    }
+   ],
+   "players": [
+    {
+     "key": "QB:Bones Crawford",
+     "name": "Bones Crawford",
+     "team": "Eagles"
+    },
+    {
+     "key": "WR:Payton Jarrett",
+     "name": "Payton Jarrett",
+     "team": "Eagles"
+    },
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Eagles"
+    }
+   ],
+   "teams": [
+    "Eagles"
+   ],
+   "n": 4
+  },
+  {
+   "id": "y97-milestones",
+   "kind": "milestones",
+   "club": "Eagles",
+   "kicker": "Milestones",
+   "title": "Round numbers",
+   "text": "Maxwell, 14th ring; Brock, 9th ring; Crawford, 9th ring; Zuber, 8th ring.",
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Eagles",
+     "label": "14th ring",
+     "num": 14
+    },
+    {
+     "key": "OL:Akiem Brock",
+     "name": "Akiem Brock",
+     "team": "Eagles",
+     "label": "9th ring",
+     "num": 9
+    },
+    {
+     "key": "QB:Bones Crawford",
+     "name": "Bones Crawford",
+     "team": "Eagles",
+     "label": "9th ring",
+     "num": 9
+    },
+    {
+     "key": "DB:Koa Zuber",
+     "name": "Koa Zuber",
+     "team": "Eagles",
+     "label": "8th ring",
+     "num": 8
+    }
+   ],
+   "teams": [
+    "Eagles"
+   ],
+   "n": 5
+  },
+  {
+   "id": "y97-market",
+   "kind": "market",
+   "club": "Broncos",
+   "kicker": "The market",
+   "title": "Up and down",
+   "text": "Base-card value across Y97: Akayleb Samia +166%; Thayer Lenoir −2%.",
+   "players": [
+    {
+     "key": "DB:Akayleb Samia",
+     "name": "Akayleb Samia",
+     "team": "Broncos",
+     "label": "Riser",
+     "pct": 166,
+     "value": 5060,
+     "was": 1905,
+     "ovr": 93,
+     "grade": "A"
+    },
+    {
+     "key": "TE:Thayer Lenoir",
+     "name": "Thayer Lenoir",
+     "team": "Packers",
+     "label": "Faller",
+     "pct": -2,
+     "value": 161,
+     "was": 165,
+     "ovr": 79,
+     "grade": "B−"
+    }
+   ],
+   "teams": [
+    "Broncos",
+    "Packers"
+   ],
+   "n": 6
+  },
+  {
+   "id": "y97-power",
+   "kind": "power",
+   "club": "Eagles",
+   "kicker": "Power rankings",
+   "title": "The Eagles on top",
+   "text": "The Eagles finish Y97 No. 1 in the power rankings at 15-2. Upset of the year: the Cowboys (5-11-1) beat the Eagles (15-2) 38-28 in week 6.",
+   "figures": [
+    {
+     "label": "Power score",
+     "value": "105.5",
+     "num": 105.5,
+     "dec": 1
+    },
+    {
+     "label": "Record",
+     "value": "15-2"
+    },
+    {
+     "label": "Point differential",
+     "value": "+221",
+     "num": 221,
+     "pre": "+"
+    }
+   ],
+   "teams": [
+    "Eagles",
+    "Cowboys"
+   ],
+   "upset": {
+    "winner": "Cowboys",
+    "loser": "Eagles",
+    "score": "38-28",
+    "week": 6,
+    "winnerRecord": "5-11-1",
+    "loserRecord": "15-2"
+   },
+   "n": 7
+  },
+  {
+   "id": "y97-rivalry",
+   "kind": "rivalry",
+   "club": "Commanders",
+   "kicker": "Rivalry file",
+   "title": "Eagles vs Commanders",
+   "text": "Split in Y97: 33-32 in Washington in week 11, then 40-20 in Philadelphia in week 17. The series stands 12-5-1 for the Eagles after 18 meetings.",
+   "figures": [
+    {
+     "label": "Y97 meetings",
+     "value": "1-1"
+    },
+    {
+     "label": "The series",
+     "value": "12-5-1"
+    },
+    {
+     "label": "Meetings",
+     "value": "18",
+     "num": 18
+    }
+   ],
+   "meetings": [
+    {
+     "week": 11,
+     "round": "Week 11",
+     "for": 32,
+     "against": 33,
+     "result": "L"
+    },
+    {
+     "week": 17,
+     "round": "Week 17",
+     "for": 40,
+     "against": 20,
+     "result": "W"
+    }
+   ],
+   "link": {
+    "rivalry": "rivalry-commanders"
+   },
+   "teams": [
+    "Eagles",
+    "Commanders"
+   ],
+   "n": 8
+  },
+  {
+   "id": "y97-tribute",
+   "kind": "tribute",
+   "club": "Vikings",
+   "kicker": "Tribute · From the queue",
+   "title": "God Johnson",
+   "text": "The tribute queue's highest Career Legacy (12,840).",
+   "players": [
+    {
+     "key": "WR:God Johnson",
+     "name": "God Johnson",
+     "team": "Vikings",
+     "reason": "From the queue"
+    }
+   ],
+   "teams": [
+    "Vikings"
+   ],
+   "n": 9
+  },
+  {
+   "id": "y97-outro",
+   "kind": "outro",
+   "club": "Eagles",
+   "kicker": "That was Y97",
+   "title": "Next: Y98",
+   "next": "Y98",
+   "figures": [
+    {
+     "label": "Skura's titles",
+     "value": "71",
+     "num": 71
+    },
+    {
+     "label": "Super Bowl trips",
+     "value": "78",
+     "num": 78
+    }
+   ],
+   "text": "Through Y97, Skura has won 71 of 78 Super Bowls. Chasing history in Y98: Lewis Pettis, 67 tackles from Travon Swaim's mark; Maxwell, 18 rushing TDs from McCoy's mark.",
+   "teams": [
+    "Eagles"
+   ],
+   "players": [
+    {
+     "key": "DB:Lewis Pettis",
+     "name": "Lewis Pettis",
+     "team": "Cowboys",
+     "label": "career tackles",
+     "gap": 67,
+     "share": 98,
+     "holder": "Travon Swaim"
+    },
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "team": "Eagles",
+     "label": "career rushing TDs",
+     "gap": 18,
+     "share": 96,
+     "holder": "Lane McCoy"
+    }
+   ],
+   "n": 10
+  }
+ ]
+}

@@ -334,14 +334,14 @@
      "key": "DB:Kyron Atwell",
      "name": "Kyron Atwell",
      "games": 267,
-     "legacy": 8410,
+     "legacy": 8209,
      "team": "Jets"
     },
     {
      "key": "DL:Mykal Shaw",
      "name": "Mykal Shaw",
      "games": 286,
-     "legacy": 7978,
+     "legacy": 7980,
      "team": "Bills"
     },
     {
@@ -349,21 +349,21 @@
      "name": "Ty Lock",
      "games": 330,
      "rings": 2,
-     "legacy": 7550,
+     "legacy": 7590,
      "team": "Jets"
     },
     {
      "key": "QB:Josh Brooks",
      "name": "Josh Brooks",
      "games": 350,
-     "legacy": 6946,
+     "legacy": 6989,
      "team": "Commanders"
     },
     {
      "key": "OL:Javon Trask",
      "name": "Javon Trask",
      "games": 256,
-     "legacy": 5035,
+     "legacy": 5072,
      "team": "Rams"
     },
     {
@@ -371,7 +371,7 @@
      "name": "Gunner Okwara",
      "games": 260,
      "rings": 1,
-     "legacy": 4800,
+     "legacy": 4830,
      "team": "Texans"
     }
    ],
@@ -431,7 +431,7 @@
    "club": "Giants",
    "kicker": "Tribute · From the queue",
    "title": "Sherman Brandson",
-   "text": "The tribute queue's highest Career Legacy (13,596).",
+   "text": "The tribute queue's highest Career Legacy (13,653).",
    "players": [
     {
      "key": "QB:Sherman Brandson",

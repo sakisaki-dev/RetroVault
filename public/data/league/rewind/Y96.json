@@ -237,40 +237,11 @@
   {
    "id": "y96-records",
    "kind": "records",
-   "club": "Eagles",
+   "club": "Bengals",
    "kicker": "Record book",
-   "title": "Records broken",
-   "text": "3 marks fell in Y96.",
+   "title": "Record broken",
+   "text": "1 mark fell in Y96.",
    "rows": [
-    {
-     "label": "Best rushing career",
-     "mark": "32,108 yds",
-     "scope": "club",
-     "players": [
-      {
-       "key": "RB:Ryland Maxwell",
-       "name": "Ryland Maxwell",
-       "team": "Eagles"
-      }
-     ],
-     "team": "Eagles",
-     "num": 32108,
-     "suf": " yds"
-    },
-    {
-     "label": "Most rushing TDs, career",
-     "mark": "421",
-     "scope": "club",
-     "players": [
-      {
-       "key": "RB:Ryland Maxwell",
-       "name": "Ryland Maxwell",
-       "team": "Eagles"
-      }
-     ],
-     "team": "Eagles",
-     "num": 421
-    },
     {
      "label": "Most rushing TDs, season",
      "mark": "43",
@@ -288,19 +259,13 @@
    ],
    "players": [
     {
-     "key": "RB:Ryland Maxwell",
-     "name": "Ryland Maxwell",
-     "team": "Eagles"
-    },
-    {
      "key": "RB:Grover Calitro",
      "name": "Grover Calitro",
      "team": "Bengals"
     }
    ],
    "teams": [
-    "Bengals",
-    "Eagles"
+    "Bengals"
    ],
    "n": 4
   },
@@ -396,7 +361,7 @@
      "name": "Ty Lock",
      "games": 330,
      "rings": 2,
-     "legacy": 7550,
+     "legacy": 7590,
      "team": "Jets"
     }
    ],
@@ -409,7 +374,7 @@
   {
    "id": "y96-tribute",
    "kind": "tribute",
-   "club": "Giants",
+   "club": "Jets",
    "kicker": "Tribute · Final season",
    "title": "Ty Lock",
    "text": "Retirement recorded in Y96.",
@@ -417,7 +382,7 @@
     {
      "key": "QB:Ty Lock",
      "name": "Ty Lock",
-     "team": "Giants",
+     "team": "Jets",
      "reason": "Final season"
     }
    ],
@@ -425,7 +390,7 @@
     "tribute": "QB:Ty Lock"
    },
    "teams": [
-    "Giants"
+    "Jets"
    ],
    "n": 8
   },
@@ -512,35 +477,13 @@
      "num": 77
     }
    ],
-   "text": "Through Y96, Skura has won 70 of 77 Super Bowls. Y97 is under way: the Eagles are 0-0 after week 1. Chasing history in Y97: Brock, 19 blocks from Jakeem Friend's mark; Travon Swaim, 121 tackles from Settle's mark.",
+   "text": "Through Y96, Skura has won 70 of 77 Super Bowls.",
    "teams": [
     "Eagles"
    ],
-   "live": {
-    "club": "Eagles",
-    "week": 1,
-    "record": "0-0"
+   "link": {
+    "season": "Y97"
    },
-   "players": [
-    {
-     "key": "OL:Akiem Brock",
-     "name": "Akiem Brock",
-     "team": "Eagles",
-     "label": "career blocks",
-     "gap": 19,
-     "share": 97,
-     "holder": "Jakeem Friend"
-    },
-    {
-     "key": "DB:Travon Swaim",
-     "name": "Travon Swaim",
-     "team": "Lions",
-     "label": "career tackles",
-     "gap": 121,
-     "share": 96,
-     "holder": "K'Lavon Settle"
-    }
-   ],
    "n": 11
   }
  ]

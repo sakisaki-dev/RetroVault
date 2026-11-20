@@ -1,7 +1,7 @@
 {
  "_about": "Each player's career clock read from the game's save (scripts/save_read.py --careers), written only by a save.careers upload mutation and replaced whole by each: born (age in season Y = Y - born), delay (retirement delays), signed (the season of the coach's last transaction with him: signed, re-signed or traded either way), club (his last club), left (retired or cut) and, for a retiree, last_games (his final season's games), ages (every age a save recorded, by season: the game sometimes holds a veteran's age, so born is the earliest season any save implies). scripts/infer_stints.py uses them as hard limits on each career. Never hand-edit.",
  "id": "Y97",
- "upload": "2026-11-17-save-y97-careers-ages",
+ "upload": "2026-11-19-save-y97-careers",
  "players": {
   "DB:A.T. Hoyer": {
    "born": 62,
@@ -94,6 +94,14 @@
    },
    "club": "Titans"
   },
+  "DB:Dorance York": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Commanders"
+  },
   "DB:Eno Brunson": {
    "born": 66,
    "delay": 0,
@@ -134,6 +142,14 @@
     "97": 27
    },
    "club": "Ravens"
+  },
+  "DB:Jacoby Nunez": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Panthers"
   },
   "DB:Jalyn Kush": {
    "born": 62,
@@ -701,6 +717,14 @@
    },
    "club": "Packers"
   },
+  "DL:Lachlan Walford": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Jets"
+  },
   "DL:Landon Irwin": {
    "born": 73,
    "delay": 0,
@@ -890,6 +914,14 @@
    },
    "club": "Buccaneers"
   },
+  "LB:Charles Heflin": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Patriots"
+  },
   "LB:Chuck Ertz": {
    "born": 65,
    "delay": 0,
@@ -929,6 +961,14 @@
     "97": 24
    },
    "club": "Cowboys"
+  },
+  "LB:Dane Danna": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Bills"
   },
   "LB:Danny Crosby": {
    "born": 72,
@@ -1350,6 +1390,14 @@
    },
    "club": "Lions"
   },
+  "OL:Geremy Bozeman": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Saints"
+  },
   "OL:Horace Addison": {
    "born": 72,
    "delay": 0,
@@ -1436,6 +1484,14 @@
     "97": 29
    },
    "club": "Vikings"
+  },
+  "OL:Juston Farniok": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Bears"
   },
   "OL:Koa Togiai": {
    "born": 68,
@@ -1730,6 +1786,14 @@
     "97": 26
    },
    "club": "Buccaneers"
+  },
+  "QB:Jackson Poyer": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Colts"
   },
   "QB:Jarrell Cann": {
    "born": 56,
@@ -2050,6 +2114,14 @@
    "club": "Giants",
    "left": "retired"
   },
+  "QB:Tylan McCain": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Packers"
+  },
   "QB:Wayne Wilson": {
    "born": 17,
    "delay": 0,
@@ -2142,6 +2214,14 @@
    },
    "club": "Cowboys"
   },
+  "RB:Chandon Liedtke": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Bills"
+  },
   "RB:DJ Long": {
    "born": 69,
    "delay": 0,
@@ -2151,6 +2231,22 @@
     "97": 28
    },
    "club": "Jaguars"
+  },
+  "RB:Daren Jurgens": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Chargers"
+  },
+  "RB:Darian Coyle": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Steelers"
   },
   "RB:Dee Maher": {
    "born": 72,
@@ -2481,6 +2577,14 @@
    },
    "club": "Buccaneers"
   },
+  "RB:Tytus Fleming": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Titans"
+  },
   "RB:Xavier Mosley": {
    "born": 66,
    "delay": 0,
@@ -2548,6 +2652,14 @@
    },
    "club": "Patriots"
   },
+  "TE:Carter Develin": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Seahawks"
+  },
   "TE:Cassius McCrane": {
    "born": 68,
    "delay": 0,
@@ -2577,6 +2689,14 @@
    "signed": 33,
    "club": "Bills",
    "left": "retired"
+  },
+  "TE:Cornell Rhyan": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Bears"
   },
   "TE:DQ Diggs": {
    "born": 71,
@@ -2617,6 +2737,14 @@
     "97": 29
    },
    "club": "Texans"
+  },
+  "TE:DeAndre Fluker": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "49ers"
   },
   "TE:Derwin Bentley": {
    "born": 73,
@@ -2665,6 +2793,14 @@
     "97": 22
    },
    "club": "Chiefs"
+  },
+  "TE:Dustin Jaimes": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Falcons"
   },
   "TE:Earnest Prosise": {
    "born": 69,
@@ -3117,6 +3253,14 @@
    },
    "club": "Panthers"
   },
+  "TE:Terence Dye": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Panthers"
+  },
   "TE:Terrell Shipley": {
    "born": 61,
    "delay": 0,
@@ -3125,6 +3269,14 @@
     "95": 34
    },
    "club": "Colts"
+  },
+  "TE:Tevin Kinnard": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Chargers"
   },
   "TE:Thayer Lenoir": {
    "born": 67,
@@ -3352,6 +3504,14 @@
    },
    "club": "Vikings"
   },
+  "WR:Felton Myers": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Chargers"
+  },
   "WR:Gary Asafo": {
    "born": 60,
    "delay": 0,
@@ -3381,6 +3541,14 @@
    },
    "club": "Packers"
   },
+  "WR:Hroniss Clapp": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Dolphins"
+  },
   "WR:Ian Finney": {
    "born": -6,
    "delay": 1,
@@ -3392,6 +3560,14 @@
    "signed": 24,
    "club": "Buccaneers",
    "left": "retired"
+  },
+  "WR:Ja'Sir Hamlin": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Vikings"
   },
   "WR:Jacoby Linder": {
    "born": 74,
@@ -3536,6 +3712,14 @@
     "97": 34
    },
    "club": "Raiders"
+  },
+  "WR:Montez Lowry": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Packers"
   },
   "WR:Morris Samia": {
    "born": 69,
@@ -3693,6 +3877,14 @@
     "97": 34
    },
    "club": "Texans"
+  },
+  "WR:Ty Moxon": {
+   "born": 76,
+   "delay": 0,
+   "ages": {
+    "97": 21
+   },
+   "club": "Bengals"
   },
   "WR:Tyrod Ruiz": {
    "born": 74,

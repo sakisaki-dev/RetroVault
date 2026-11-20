@@ -9,7 +9,7 @@
   "games": 315,
   "clubs": 4,
   "active": false,
-  "careerLegacy": 13596,
+  "careerLegacy": 13653,
   "rings": 10,
   "hallOfFame": "Inaugural class"
  },
@@ -448,8 +448,8 @@
      },
      {
       "label": "Career Legacy",
-      "a": 13596,
-      "b": 8799,
+      "a": 13653,
+      "b": 8838,
       "decimals": 0
      }
     ]
@@ -684,6 +684,16 @@
       "values": {
        "QB:Sherman Brandson": 40947,
        "RB:Ryland Maxwell": 49485
+      }
+     },
+     {
+      "season": "Y97",
+      "snapshot": "snap-202611192114",
+      "ovr": 99,
+      "grade": "A+",
+      "values": {
+       "QB:Sherman Brandson": 41245,
+       "RB:Ryland Maxwell": 50066
       }
      }
     ]

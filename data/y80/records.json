@@ -41,13 +41,13 @@
   },
   {
    "record": "Longest pass (air)",
-   "mark": "31 yds",
-   "holder": "QB B. Crawford → WR K. Rahman",
-   "year": "Y90",
-   "week": 13,
+   "mark": "32 yds",
+   "holder": "QB B. Crawford → WR P. Jarrett",
+   "year": "Y97",
+   "week": 15,
    "opponent": "Ravens",
    "qb": "QB B. Crawford",
-   "exact": 31.06
+   "exact": 31.53
   },
   {
    "record": "Longest field goal",
@@ -121,10 +121,10 @@
   },
   {
    "record": "Best rushing career",
-   "mark": "32,108 yds",
+   "mark": "33,955 yds",
    "holder": "RB R. Maxwell",
-   "year": "Y96",
-   "exact": 32107.94
+   "year": "Y97",
+   "exact": 33955.26
   },
   {
    "record": "Most TD passes, game",
@@ -182,9 +182,9 @@
   },
   {
    "record": "Most rushing TDs, career",
-   "mark": "421",
+   "mark": "440",
    "holder": "RB R. Maxwell",
-   "year": "Y96"
+   "year": "Y97"
   },
   {
    "record": "Most FG yards, game",
