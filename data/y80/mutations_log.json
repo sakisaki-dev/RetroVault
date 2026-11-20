@@ -1749,6 +1749,24 @@
     "stats": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-19-tribute-god-johnson",
+   "dir": "data/uploads/2026-11-19-tribute-god-johnson",
+   "applied_at": "2026-11-19T21:23:55-08:00",
+   "mutations": {
+    "tribute": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-19-takes-y97",
+   "dir": "data/uploads/2026-11-19-takes-y97",
+   "applied_at": "2026-11-19T21:25:19-08:00",
+   "mutations": {
+    "takes": 1
+   },
+   "changed": 1
   }
  ]
 }

@@ -1817,6 +1817,480 @@
      ]
     }
    ]
+  },
+  "WR:God Johnson": {
+   "reason": "The Y97 tribute pick (tributePlan: queue, no one cleared the bar; the queue's highest Career Legacy)",
+   "trigger": "TRIBUTE NEEDED: Y97 WR:God Johnson",
+   "upload": "2026-11-19-tribute-god-johnson",
+   "deck": "Every season he played, he played for Dorren Skura, first in Miami and then in Minnesota. He arrived as Mason Earl III, changed his name along the way, and left as God Johnson, holder of the league's receiving records and a ring for almost every year he played.",
+   "chapters": [
+    {
+     "id": "god-johnson-miami",
+     "kind": "chapter",
+     "club": "Dolphins",
+     "headline": "Miami, Where Mason Earl III Learned What Winning Felt Like",
+     "body": [
+      "He came into the league in Y58 at 22, under another name. Mason Earl III joined a Dolphins club Dorren Skura had just taken to a title, and he joined it at full speed. Miami went 15-2 and beat the Cowboys 40-33 in Super Bowl CXVII, and the rookie receiver had a ring in his first season.",
+      "Y59 was a demolition. The Dolphins went 16-1 and buried the Lions 46-9 in Super Bowl CXVIII, and he already stood first among the key players of Miami's run, ahead of Marlowe Hunter and Rod Kuechly.",
+      "Y60 is the one Miami still turns over. Another 16-1 season, another trip to the Super Bowl, and this time the Cowboys got even, 28-24 in Super Bowl CXIX. He left Florida with 2 rings in three seasons. When Skura took the Vikings job for Y61, the young receiver went north with him, and the league would not see the end of that partnership for nine more years."
+     ],
+     "players": [
+      "God Johnson",
+      "Marlowe Hunter",
+      "Rod Kuechly"
+     ],
+     "teams": [
+      "Dolphins",
+      "Cowboys",
+      "Lions",
+      "Vikings"
+     ],
+     "stats": [
+      {
+       "label": "Rings with the Dolphins",
+       "value": "2",
+       "source": "stints.json God Johnson/stints/0/rings/#"
+      },
+      {
+       "label": "Age in Y58",
+       "value": "22",
+       "source": "save_careers.json age Y58 WR:God Johnson"
+      },
+      {
+       "label": "Dolphins record, Y58",
+       "value": "15-2",
+       "source": "coach.json Y58 record"
+      },
+      {
+       "label": "Super Bowl CXVII",
+       "value": "40-33",
+       "source": "super_bowls.json Y58 score"
+      },
+      {
+       "label": "Dolphins record, Y59",
+       "value": "16-1",
+       "source": "coach.json Y59 record"
+      },
+      {
+       "label": "Super Bowl CXVIII",
+       "value": "46-9",
+       "source": "super_bowls.json Y59 score"
+      },
+      {
+       "label": "Super Bowl CXIX, lost",
+       "value": "28-24",
+       "source": "super_bowls.json Y60 score"
+      }
+     ]
+    },
+    {
+     "id": "god-johnson-brandson-years",
+     "kind": "chapter",
+     "club": "Vikings",
+     "headline": "Two Seasons With Brandson, and a Receiving Year Nobody Has Touched",
+     "body": [
+      "Minnesota already had Sherman Brandson under center and Jackson Wardell Kline at the other receiver spot. Add Skura and the young man from Miami, and the Vikings went 12-5 in Y61 and beat the Ravens 40-14 in Super Bowl CXX.",
+      "Y62 is the season his name is attached to forever, though the name on the record board is the old one. Mason Earl III caught for 4,247 yards, the best receiving season on Skura's board. Nothing in the seasons the league has tracked since has come close: the next best is Kaulani Rahman's 2,635 for the Eagles in Y89, a gap of 1,612 yards. The Vikings went 14-3 and beat the Jaguars 40-24 in Super Bowl CXXI.",
+      "It was also the last season of the partnership. Injury ended Brandson's career that year, with the passing records he still holds already on the board. The quarterback who made the receiver was gone. The receiver was about to prove he did not need him."
+     ],
+     "players": [
+      "God Johnson",
+      "Sherman Brandson",
+      "Jackson Wardell Kline",
+      "Kaulani Rahman"
+     ],
+     "teams": [
+      "Vikings",
+      "Ravens",
+      "Jaguars",
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Receiving yards, Y62",
+       "value": "4,247 yds",
+       "source": "records.json Best receiving season mark"
+      },
+      {
+       "label": "Vikings record, Y61",
+       "value": "12-5",
+       "source": "coach.json Y61 record"
+      },
+      {
+       "label": "Super Bowl CXX",
+       "value": "40-14",
+       "source": "super_bowls.json Y61 score"
+      },
+      {
+       "label": "Next best tracked season (Rahman, Y89)",
+       "value": "2,635",
+       "source": "league_records.json records/[record=Best receiving season]/league/top/1/value"
+      },
+      {
+       "label": "Gap to the next best season",
+       "value": "1,612",
+       "source": "league_records.json records/[record=Best receiving season]/league/top/0/value minus league_records.json records/[record=Best receiving season]/league/top/1/value"
+      },
+      {
+       "label": "Vikings record, Y62",
+       "value": "14-3",
+       "source": "coach.json Y62 record"
+      },
+      {
+       "label": "Super Bowl CXXI",
+       "value": "40-24",
+       "source": "super_bowls.json Y62 score"
+      }
+     ]
+    },
+    {
+     "id": "god-johnson-dynasty",
+     "kind": "chapter",
+     "club": "Vikings",
+     "headline": "A New Name, a New Quarterback, and the Same Result Every February",
+     "body": [
+      "Michael Wilson took over in Y63, and the Vikings did not blink. They went 16-1 and beat the Jets 40-31 in Super Bowl CXXII, then went 16-1 again and survived the Chargers 40-39 in Super Bowl CXXIII. Wilson won 5 rings in Minnesota, and the man he threw to was there for every one.",
+      "Somewhere after Y62, Mason Earl III became God Johnson. The name drew smiles. The production did not. By Y67 the club's record board carried his name twice, for career receiving yards and career touchdown catches, and those totals passed Ian Finney's to lead the whole league.",
+      "Y65 was the lone blemish of the decade: a 16-1 season that ended short of the Super Bowl. Minnesota answered with back-to-back 17-0 seasons, beating the Chiefs 38-25 and the Steelers 40-24, and re-signed him in Y66 along the way. Kline was beside him the whole run and collected 6 Offensive Player of the Year awards to Johnson's 3. Johnson took 5 Super Bowl MVP awards. When the lights were brightest, the ball found him."
+     ],
+     "players": [
+      "God Johnson",
+      "Michael Wilson",
+      "Jackson Wardell Kline",
+      "Ian Finney"
+     ],
+     "teams": [
+      "Vikings",
+      "Jets",
+      "Chargers",
+      "Chiefs",
+      "Steelers"
+     ],
+     "stats": [
+      {
+       "label": "Rings with the Vikings",
+       "value": "8",
+       "source": "stints.json God Johnson/stints/1/rings/#"
+      },
+      {
+       "label": "Vikings record, Y63",
+       "value": "16-1",
+       "source": "coach.json Y63 record"
+      },
+      {
+       "label": "Super Bowl CXXII",
+       "value": "40-31",
+       "source": "super_bowls.json Y63 score"
+      },
+      {
+       "label": "Super Bowl CXXIII",
+       "value": "40-39",
+       "source": "super_bowls.json Y64 score"
+      },
+      {
+       "label": "Wilson's rings in Minnesota",
+       "value": "5",
+       "source": "stints.json Michael Wilson/stints/1/rings/#"
+      },
+      {
+       "label": "Vikings record, Y65",
+       "value": "16-1",
+       "source": "coach.json Y65 record"
+      },
+      {
+       "label": "Vikings record, Y66",
+       "value": "17-0",
+       "source": "coach.json Y66 record"
+      },
+      {
+       "label": "Super Bowl CXXV",
+       "value": "38-25",
+       "source": "super_bowls.json Y66 score"
+      },
+      {
+       "label": "Super Bowl CXXVI",
+       "value": "40-24",
+       "source": "super_bowls.json Y67 score"
+      },
+      {
+       "label": "Kline's Offensive Player of the Year awards",
+       "value": "6",
+       "source": "players.json WR:Jackson Wardell Kline opoy"
+      },
+      {
+       "label": "Johnson's Offensive Player of the Year awards",
+       "value": "3",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.opoy"
+      },
+      {
+       "label": "Super Bowl MVP awards",
+       "value": "5",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.sbmvp"
+      }
+     ]
+    },
+    {
+     "id": "god-johnson-rival",
+     "kind": "rival",
+     "headline": "Johnson and Finney: The Record and the Man Who Held It First",
+     "body": [
+      "Before Johnson, the receiving records belonged to Ian Finney, \"The Infinity Man\", who won his rings in Washington and Tampa Bay decades earlier. Finney caught 1,902 passes for 32,980 yards and 292 touchdowns in 250 games. Johnson caught 2,081 for 36,005 and 378 in 234, which is 3,025 more yards and 86 more touchdowns in 16 fewer games. Finney won 5 Offensive Player of the Year awards to Johnson's 3, but Johnson has the rings, 10 to 9, and the Super Bowl MVPs, 5 to 3."
+     ],
+     "players": [
+      "God Johnson",
+      "Ian Finney"
+     ],
+     "teams": [
+      "Commanders",
+      "Buccaneers"
+     ],
+     "stats": [
+      {
+       "label": "Finney receptions",
+       "value": "1,902",
+       "source": "market_history.json snap-202611192114 WR:Ian Finney s.rec"
+      },
+      {
+       "label": "Finney receiving yards",
+       "value": "32,980",
+       "source": "market_history.json snap-202611192114 WR:Ian Finney s.yds"
+      },
+      {
+       "label": "Finney receiving TDs",
+       "value": "292",
+       "source": "market_history.json snap-202611192114 WR:Ian Finney s.td"
+      },
+      {
+       "label": "Finney games",
+       "value": "250",
+       "source": "market_history.json snap-202611192114 WR:Ian Finney s.g"
+      },
+      {
+       "label": "Johnson receptions",
+       "value": "2,081",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.rec"
+      },
+      {
+       "label": "Johnson receiving yards",
+       "value": "36,005",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.yds"
+      },
+      {
+       "label": "Johnson receiving TDs",
+       "value": "378",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.td"
+      },
+      {
+       "label": "Johnson games",
+       "value": "234",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.g"
+      },
+      {
+       "label": "Yards ahead of Finney",
+       "value": "3,025",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.yds minus market_history.json snap-202611192114 WR:Ian Finney s.yds"
+      },
+      {
+       "label": "Touchdowns ahead of Finney",
+       "value": "86",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.td minus market_history.json snap-202611192114 WR:Ian Finney s.td"
+      },
+      {
+       "label": "Fewer games than Finney",
+       "value": "16",
+       "source": "market_history.json snap-202611192114 WR:Ian Finney s.g minus market_history.json snap-202611192114 WR:God Johnson s.g"
+      },
+      {
+       "label": "Finney Offensive Player of the Year awards",
+       "value": "5",
+       "source": "market_history.json snap-202611192114 WR:Ian Finney s.opoy"
+      },
+      {
+       "label": "Johnson Offensive Player of the Year awards",
+       "value": "3",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.opoy"
+      },
+      {
+       "label": "Johnson rings",
+       "value": "10",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.rings"
+      },
+      {
+       "label": "Finney rings",
+       "value": "9",
+       "source": "market_history.json snap-202611192114 WR:Ian Finney s.rings"
+      },
+      {
+       "label": "Finney Super Bowl MVP awards",
+       "value": "3",
+       "source": "market_history.json snap-202611192114 WR:Ian Finney s.sbmvp"
+      }
+     ],
+     "rival": {
+      "player": "WR:Ian Finney"
+     }
+    },
+    {
+     "id": "god-johnson-market",
+     "kind": "market",
+     "headline": "A Retired Receiver's Card That Never Stopped Climbing",
+     "body": [
+      "He had been retired for a decade when the market first priced him, in Y79, at 31,983, second only to Brandson. He has not caught a pass since, and his card has risen 20% anyway, to 38,525 after Y97, because every new season rescales Career Legacy and a finished line like his only looks better against it. His Career Legacy went from 11,531 to 12,840. The one thing the market could not hold off was Ryland Maxwell: after Y94 the running back's 13,107 passed Johnson's 12,655, and Johnson has ranked third behind Maxwell and Brandson since."
+     ],
+     "players": [
+      "God Johnson",
+      "Sherman Brandson",
+      "Ryland Maxwell"
+     ],
+     "teams": [],
+     "stats": [
+      {
+       "label": "Card value after Y97",
+       "value": "38,525",
+       "source": "market_history.json snap-202611192114 WR:God Johnson value"
+      },
+      {
+       "label": "Card value at the first reading, Y79",
+       "value": "31,983",
+       "source": "market_history.json git-8a6ef95 WR:God Johnson value"
+      },
+      {
+       "label": "Card value change since",
+       "value": "20%",
+       "source": "market_history.json git-8a6ef95..snap-202611192114 WR:God Johnson value%"
+      },
+      {
+       "label": "Career Legacy, Y79",
+       "value": "11,531",
+       "source": "market_history.json git-8a6ef95 WR:God Johnson legacy"
+      },
+      {
+       "label": "Career Legacy after Y97",
+       "value": "12,840",
+       "source": "market_history.json snap-202611192114 WR:God Johnson legacy"
+      },
+      {
+       "label": "Maxwell Career Legacy after Y94",
+       "value": "13,107",
+       "source": "market_history.json snap-202611141119 RB:Ryland Maxwell legacy"
+      },
+      {
+       "label": "Johnson Career Legacy after Y94",
+       "value": "12,655",
+       "source": "market_history.json snap-202611141119 WR:God Johnson legacy"
+      }
+     ],
+     "market": {
+      "players": [
+       "WR:God Johnson",
+       "QB:Sherman Brandson",
+       "RB:Ryland Maxwell"
+      ]
+     }
+    },
+    {
+     "id": "god-johnson-numbers",
+     "kind": "numbers",
+     "headline": "The Numbers",
+     "body": [
+      "In 234 games: 2,081 catches, 36,005 receiving yards at 17.3 a catch and 378 touchdowns, one on every 5.5 receptions. He fumbled 3 times in his career. 10 rings, 5 Super Bowl MVPs, 3 Offensive Player of the Year awards and an MVP."
+     ],
+     "players": [
+      "God Johnson"
+     ],
+     "teams": [],
+     "stats": [
+      {
+       "label": "Receiving yards",
+       "value": "36,005",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.yds"
+      },
+      {
+       "label": "Receiving TDs",
+       "value": "378",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.td"
+      },
+      {
+       "label": "Receptions",
+       "value": "2,081",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.rec"
+      },
+      {
+       "label": "Games",
+       "value": "234",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.g"
+      },
+      {
+       "label": "Yards per catch",
+       "value": "17.3",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.yds/s.rec"
+      },
+      {
+       "label": "Catches per touchdown",
+       "value": "5.5",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.rec/s.td"
+      },
+      {
+       "label": "Career fumbles",
+       "value": "3",
+       "source": "players.json WR:God Johnson fum"
+      },
+      {
+       "label": "Rings",
+       "value": "10",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.rings"
+      },
+      {
+       "label": "Super Bowl MVPs",
+       "value": "5",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.sbmvp"
+      },
+      {
+       "label": "Offensive Player of the Year",
+       "value": "3",
+       "source": "market_history.json snap-202611192114 WR:God Johnson s.opoy"
+      }
+     ]
+    },
+    {
+     "id": "god-johnson-last-lap",
+     "kind": "lastlap",
+     "headline": "Y69: One More Ring, Then the Hall Waited for Him",
+     "body": [
+      "His last season came at 33, and it ended the way most of his seasons did. The Vikings went 14-3 and routed the Chiefs 48-18 in Super Bowl CXXVIII, his eighth title in Minnesota and his tenth in all. He retired a Viking, and Skura left for the Titans the next season. When the Hall of Fame opened its doors, he was in the inaugural class, his case scored at 100, the highest mark the ballot gives, and ranked first among receivers. Minnesota keeps him in its Ring of Honor."
+     ],
+     "players": [
+      "God Johnson"
+     ],
+     "teams": [
+      "Vikings",
+      "Chiefs",
+      "Titans"
+     ],
+     "stats": [
+      {
+       "label": "Age in Y69",
+       "value": "33",
+       "source": "save_careers.json age Y69 WR:God Johnson"
+      },
+      {
+       "label": "Vikings record, Y69",
+       "value": "14-3",
+       "source": "coach.json Y69 record"
+      },
+      {
+       "label": "Super Bowl CXXVIII",
+       "value": "48-18",
+       "source": "super_bowls.json Y69 score"
+      },
+      {
+       "label": "Hall of Fame Score",
+       "value": "100",
+       "source": "halloffame.json members/[key=WR:God Johnson]/score"
+      }
+     ]
+    }
+   ]
   }
  }
 }

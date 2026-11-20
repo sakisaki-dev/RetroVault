@@ -1,6 +1,706 @@
 {
  "seasons": [
   {
+   "season": "Y97",
+   "upload": "2026-11-19-takes-y97",
+   "intro": "Philadelphia won again, this time with a quarterback playing better than anyone in the sport. The defensive vote went sideways, the AFC sent a pretender to the final, and the market kept paying for last year. The arguments are ours; the figures are the league's.",
+   "takes": [
+    {
+     "id": "y97-take-holton-dpoy",
+     "heat": 3,
+     "headline": "Tramon Holton Won Defensive Player of the Year. Two Defensive Backs Made 32 and 39 More Tackles.",
+     "dek": "Holton: 210 tackles in 18 games. Akayleb Samia: 242 in 17. A rookie, Jacoby Nunez, made 249.",
+     "body": [
+      "Holton had a fine season in Atlanta. He made 210 tackles and 2 interceptions, and the Falcons scraped into January at 9-8. That is a Pro Bowl line, not a trophy line. Akayleb Samia made 242 tackles and 2 interceptions for Denver in a game fewer, 14.24 a game to Holton's 11.67. Jacoby Nunez, in his first season in Carolina, made 249, the most in the league.",
+      "The market already ruled on this vote. Samia's card jumped 166% to 5,060. Holton's sits at 165, with a C grade and an overall of 78. The voters handed the award to the only one of the three whose team won a playoff berth, and called it defense. It was a standings tiebreaker."
+     ],
+     "players": [
+      "Tramon Holton",
+      "Akayleb Samia",
+      "Jacoby Nunez"
+     ],
+     "teams": [
+      "Falcons",
+      "Broncos",
+      "Panthers"
+     ],
+     "stats": [
+      {
+       "label": "Holton tackles, Y97",
+       "value": "210",
+       "source": "market_history.json snap-202611170116..snap-202611192114 DB:Tramon Holton s.tkl"
+      },
+      {
+       "label": "Holton games, Y97",
+       "value": "18",
+       "source": "market_history.json snap-202611170116..snap-202611192114 DB:Tramon Holton s.g"
+      },
+      {
+       "label": "Samia tackles, Y97",
+       "value": "242",
+       "source": "market_history.json snap-202611170116..snap-202611192114 DB:Akayleb Samia s.tkl"
+      },
+      {
+       "label": "Samia games, Y97",
+       "value": "17",
+       "source": "market_history.json snap-202611170116..snap-202611192114 DB:Akayleb Samia s.g"
+      },
+      {
+       "label": "Nunez tackles, Y97 (his first season)",
+       "value": "249",
+       "source": "market_history.json snap-202611192114 DB:Jacoby Nunez s.tkl"
+      },
+      {
+       "label": "Samia's edge",
+       "value": "32",
+       "source": "market_history.json snap-202611170116..snap-202611192114 DB:Akayleb Samia s.tkl minus market_history.json snap-202611170116..snap-202611192114 DB:Tramon Holton s.tkl"
+      },
+      {
+       "label": "Nunez's edge",
+       "value": "39",
+       "source": "market_history.json snap-202611192114 DB:Jacoby Nunez s.tkl minus market_history.json snap-202611170116..snap-202611192114 DB:Tramon Holton s.tkl"
+      },
+      {
+       "label": "Holton interceptions, Y97",
+       "value": "2",
+       "source": "market_history.json snap-202611170116..snap-202611192114 DB:Tramon Holton s.int"
+      },
+      {
+       "label": "Samia interceptions, Y97",
+       "value": "2",
+       "source": "market_history.json snap-202611170116..snap-202611192114 DB:Akayleb Samia s.int"
+      },
+      {
+       "label": "Falcons record",
+       "value": "9-8",
+       "source": "schedule.json seasons/Y97/table/[team=Falcons]/record"
+      },
+      {
+       "label": "Samia tackles per game",
+       "value": "14.24",
+       "source": "market_history.json snap-202611170116..snap-202611192114 DB:Akayleb Samia s.tkl/s.g"
+      },
+      {
+       "label": "Holton tackles per game",
+       "value": "11.67",
+       "source": "market_history.json snap-202611170116..snap-202611192114 DB:Tramon Holton s.tkl/s.g"
+      },
+      {
+       "label": "Samia card change",
+       "value": "166%",
+       "source": "market_history.json snap-202611170116..snap-202611192114 DB:Akayleb Samia value%"
+      },
+      {
+       "label": "Samia card value",
+       "value": "5,060",
+       "source": "market_history.json snap-202611192114 DB:Akayleb Samia value"
+      },
+      {
+       "label": "Holton card value",
+       "value": "165",
+       "source": "market_history.json snap-202611192114 DB:Tramon Holton value"
+      },
+      {
+       "label": "Holton overall",
+       "value": "78",
+       "source": "market_history.json snap-202611192114 DB:Tramon Holton ovr"
+      }
+     ]
+    },
+    {
+     "id": "y97-take-crawford-best",
+     "heat": 3,
+     "headline": "Bones Crawford Threw 64 Touchdowns, 25 More Than Anyone. He Is the Best Player in Football Now.",
+     "dek": "A sixth MVP, 4,857 yards, and a card that rose 33% while Ryland Maxwell's barely moved.",
+     "body": [
+      "The league's second-best passer this season was Bryant Cronk of Baltimore, with 39 touchdown passes. The Doctor threw 64. That gap is not a margin, it is a different sport. Crawford added 4,857 yards, played all 20 of Philadelphia's games and collected his sixth MVP and 9th ring.",
+      "Ryland Maxwell is still the most valuable card in the game at 50,066, and nobody will ever run the way he has. But Maxwell's card rose 1% this season and Crawford's rose 33% to 25,496, and the market has it right. At 32, Crawford is the engine of this dynasty now. The 15 interceptions are the only argument against him, and they did not cost Philadelphia a thing."
+     ],
+     "players": [
+      "Bones Crawford",
+      "Bryant Cronk",
+      "Ryland Maxwell"
+     ],
+     "teams": [
+      "Eagles",
+      "Ravens"
+     ],
+     "stats": [
+      {
+       "label": "TD passes, Y97",
+       "value": "64",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.td"
+      },
+      {
+       "label": "Ahead of the next passer",
+       "value": "25",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.td minus market_history.json snap-202611170116..snap-202611192114 QB:Bryant Cronk s.td"
+      },
+      {
+       "label": "Cronk TD passes, Y97",
+       "value": "39",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bryant Cronk s.td"
+      },
+      {
+       "label": "Passing yards, Y97",
+       "value": "4,857",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.yds"
+      },
+      {
+       "label": "Games, Y97",
+       "value": "20",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.g"
+      },
+      {
+       "label": "Rings",
+       "value": "9",
+       "source": "market_history.json snap-202611192114 QB:Bones Crawford s.rings"
+      },
+      {
+       "label": "Maxwell card value",
+       "value": "50,066",
+       "source": "market_history.json snap-202611192114 RB:Ryland Maxwell value"
+      },
+      {
+       "label": "Maxwell card change",
+       "value": "1%",
+       "source": "market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell value%"
+      },
+      {
+       "label": "Crawford card change",
+       "value": "33%",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford value%"
+      },
+      {
+       "label": "Crawford card value",
+       "value": "25,496",
+       "source": "market_history.json snap-202611192114 QB:Bones Crawford value"
+      },
+      {
+       "label": "Crawford age, Y97",
+       "value": "32",
+       "source": "save_careers.json age Y97 QB:Bones Crawford"
+      },
+      {
+       "label": "Interceptions, Y97",
+       "value": "15",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.int"
+      }
+     ]
+    },
+    {
+     "id": "y97-take-maxwell-mccoy",
+     "heat": 3,
+     "headline": "Ryland Maxwell Is 18 Touchdowns From Lane McCoy. He Scored 19 This Year. One More Season.",
+     "dek": "Injury cost him 2 games and he still led the league with 1,847 rushing yards at 35.",
+     "body": [
+      "Maxwell played 18 of Philadelphia's 20 games, missing 2 through injury, and still ran for 1,847 yards, more than any back in the league. He scored 19 rushing touchdowns, won his eighth Super Bowl MVP and his 14th ring. His career rushing yards record now stands at 33,955, which is 9,448 more than McCoy, the next man on the list.",
+      "The yardage record is finished business. The touchdown record is not. McCoy scored 458 rushing touchdowns. Maxwell has 440. At his Y97 pace that is one season of work, and anyone who watched him this year saw a 35-year-old who has not slowed down. Walking away 18 short of the last record that matters would be the only failure of his career."
+     ],
+     "players": [
+      "Ryland Maxwell",
+      "Lane McCoy"
+     ],
+     "teams": [
+      "Eagles",
+      "Broncos"
+     ],
+     "stats": [
+      {
+       "label": "Short of McCoy",
+       "value": "18",
+       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/0/value minus league_records.json records/[record=Most rushing TDs, career]/league/top/1/value"
+      },
+      {
+       "label": "Rushing TDs, Y97",
+       "value": "19",
+       "source": "market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.rtd"
+      },
+      {
+       "label": "Games, Y97",
+       "value": "18",
+       "source": "market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.g"
+      },
+      {
+       "label": "Eagles games, Y97",
+       "value": "20",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.g"
+      },
+      {
+       "label": "Missed through injury",
+       "value": "2",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.g minus market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.g"
+      },
+      {
+       "label": "Rushing yards, Y97",
+       "value": "1,847",
+       "source": "market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.ryds"
+      },
+      {
+       "label": "Rings",
+       "value": "14",
+       "source": "market_history.json snap-202611192114 RB:Ryland Maxwell s.rings"
+      },
+      {
+       "label": "Career rushing yards",
+       "value": "33,955",
+       "source": "league_records.json records/[record=Best rushing career]/league/top/0/value"
+      },
+      {
+       "label": "Ahead of McCoy",
+       "value": "9,448",
+       "source": "league_records.json records/[record=Best rushing career]/league/top/0/value minus league_records.json records/[record=Best rushing career]/league/top/1/value"
+      },
+      {
+       "label": "McCoy career rushing TDs",
+       "value": "458",
+       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/0/value"
+      },
+      {
+       "label": "Maxwell career rushing TDs",
+       "value": "440",
+       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/1/value"
+      },
+      {
+       "label": "Age, Y97",
+       "value": "35",
+       "source": "save_careers.json age Y97 RB:Ryland Maxwell"
+      }
+     ]
+    },
+    {
+     "id": "y97-take-jarrett-bargain",
+     "heat": 2,
+     "headline": "Payton Jarrett's Card Costs 92. Calvin Wingo II's Costs 4,651. They Had the Same Season.",
+     "dek": "Wingo won Offensive Player of the Year with 2,158 yards and 22 touchdowns. Jarrett, 23, had 2,007 and 23.",
+     "body": [
+      "Philadelphia had two receivers clear two thousand yards this season, and only one of them is priced like it. Wingo caught 109 passes for 2,158 yards and 22 touchdowns and took home his third Offensive Player of the Year award. Fair enough. Jarrett caught 100 for 2,007 yards and 23 touchdowns, one more score than the winner, in the same 20 games.",
+      "Jarrett is 23 and already carries an S grade. His card went from 37 to 92 and is still a rounding error next to Wingo's 4,651. The market is pricing what Jarrett has done, 54 career touchdowns, instead of what he is doing. That gap closes, and anyone holding the cheap card when it does will look very smart."
+     ],
+     "players": [
+      "Payton Jarrett",
+      "Calvin Wingo II"
+     ],
+     "teams": [
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Jarrett card value",
+       "value": "92",
+       "source": "market_history.json snap-202611192114 WR:Payton Jarrett value"
+      },
+      {
+       "label": "Wingo card value",
+       "value": "4,651",
+       "source": "market_history.json snap-202611192114 WR:Calvin Wingo II value"
+      },
+      {
+       "label": "Wingo yards, Y97",
+       "value": "2,158",
+       "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.yds"
+      },
+      {
+       "label": "Wingo TDs, Y97",
+       "value": "22",
+       "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.td"
+      },
+      {
+       "label": "Jarrett age, Y97",
+       "value": "23",
+       "source": "save_careers.json age Y97 WR:Payton Jarrett"
+      },
+      {
+       "label": "Jarrett yards, Y97",
+       "value": "2,007",
+       "source": "market_history.json snap-202611170116..snap-202611192114 WR:Payton Jarrett s.yds"
+      },
+      {
+       "label": "Jarrett TDs, Y97",
+       "value": "23",
+       "source": "market_history.json snap-202611170116..snap-202611192114 WR:Payton Jarrett s.td"
+      },
+      {
+       "label": "Wingo catches, Y97",
+       "value": "109",
+       "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.rec"
+      },
+      {
+       "label": "Wingo OPOY awards",
+       "value": "3",
+       "source": "market_history.json snap-202611192114 WR:Calvin Wingo II s.opoy"
+      },
+      {
+       "label": "Jarrett catches, Y97",
+       "value": "100",
+       "source": "market_history.json snap-202611170116..snap-202611192114 WR:Payton Jarrett s.rec"
+      },
+      {
+       "label": "One more score",
+       "value": "1",
+       "source": "market_history.json snap-202611170116..snap-202611192114 WR:Payton Jarrett s.td minus market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.td"
+      },
+      {
+       "label": "Games, Y97",
+       "value": "20",
+       "source": "market_history.json snap-202611170116..snap-202611192114 WR:Payton Jarrett s.g"
+      },
+      {
+       "label": "Jarrett card before",
+       "value": "37",
+       "source": "market_history.json snap-202611170116 WR:Payton Jarrett value"
+      },
+      {
+       "label": "Jarrett career TDs",
+       "value": "54",
+       "source": "market_history.json snap-202611192114 WR:Payton Jarrett s.td"
+      }
+     ]
+    },
+    {
+     "id": "y97-take-colts-pretenders",
+     "heat": 2,
+     "headline": "The Colts Were the 12th-Best Team in Football and Third in Their Own Division. They Did Not Belong.",
+     "dek": "A 10-7 club reached Super Bowl CLVI and lost 38-22. River Kuechly deserved a better team.",
+     "body": [
+      "Indianapolis finished 10-7, behind the 12-4-1 Titans and the Jaguars in the AFC South, and ranked 12th in the league's power table. It lost 7 games, then caught fire in January and walked into the Super Bowl against a 15-2 team. Philadelphia won 38-22 and it never felt in doubt.",
+      "The one Colt who earned the stage was River Kuechly. He ran for 1,659 yards and 31 touchdowns and played all 21 of Indianapolis's games. His card is graded S and still sells for 202. The AFC needs a real contender, and until it builds one, the Super Bowl is a coronation with a halftime show."
+     ],
+     "players": [
+      "River Kuechly"
+     ],
+     "teams": [
+      "Colts",
+      "Eagles",
+      "Titans",
+      "Jaguars"
+     ],
+     "stats": [
+      {
+       "label": "Power rank",
+       "value": "12",
+       "source": "schedule.json seasons/Y97/table/[team=Colts]/power"
+      },
+      {
+       "label": "Division rank",
+       "value": "3",
+       "source": "schedule.json seasons/Y97/table/[team=Colts]/divisionRank"
+      },
+      {
+       "label": "Colts record",
+       "value": "10-7",
+       "source": "schedule.json seasons/Y97/table/[team=Colts]/record"
+      },
+      {
+       "label": "Super Bowl CLVI",
+       "value": "38-22",
+       "source": "super_bowls.json Y97 score"
+      },
+      {
+       "label": "Eagles record",
+       "value": "15-2",
+       "source": "coach.json Y97 record"
+      },
+      {
+       "label": "Colts losses",
+       "value": "7",
+       "source": "schedule.json seasons/Y97/table/[team=Colts]/l"
+      },
+      {
+       "label": "Kuechly rushing yards, Y97",
+       "value": "1,659",
+       "source": "market_history.json snap-202611170116..snap-202611192114 RB:River Kuechly s.ryds"
+      },
+      {
+       "label": "Kuechly rushing TDs, Y97",
+       "value": "31",
+       "source": "market_history.json snap-202611170116..snap-202611192114 RB:River Kuechly s.rtd"
+      },
+      {
+       "label": "Kuechly games, Y97",
+       "value": "21",
+       "source": "market_history.json snap-202611170116..snap-202611192114 RB:River Kuechly s.g"
+      },
+      {
+       "label": "Kuechly card value",
+       "value": "202",
+       "source": "market_history.json snap-202611192114 RB:River Kuechly value"
+      },
+      {
+       "label": "Titans record",
+       "value": "12-4-1",
+       "source": "schedule.json seasons/Y97/table/[team=Titans]/record"
+      }
+     ]
+    },
+    {
+     "id": "y97-take-giants-nineteen",
+     "heat": 3,
+     "headline": "Stop Calling It a Rivalry. The Giants Are 0-19 Against Philadelphia.",
+     "dek": "Nineteen meetings since Y88, 642 points to 413, and the Giants still have never won one.",
+     "body": [
+      "New York went 10-6-1 this season, a respectable year by any measure, and then lost to the Eagles 40-21 in the final week like it always does. That made it 19 straight, from Y88 to now, with Philadelphia outscoring the Giants 642 to 413 across the series. The biggest of them was 48-9 in Y90.",
+      "A rivalry needs two sides. Pharoah Orzech is the Giants' best player and has nothing to show for this matchup but losses. The Cowboys have beaten Philadelphia. The Commanders have beaten Philadelphia. The Giants have not, not once, and until they do they are a scheduled win with a division title attached."
+     ],
+     "players": [
+      "Pharoah Orzech"
+     ],
+     "teams": [
+      "Giants",
+      "Eagles",
+      "Cowboys",
+      "Commanders"
+     ],
+     "stats": [
+      {
+       "label": "Eagles wins in the series",
+       "value": "19",
+       "source": "content.json rivalryFiles/[id=rivalry-giants]/record/w"
+      },
+      {
+       "label": "Giants wins",
+       "value": "0",
+       "source": "content.json rivalryFiles/[id=rivalry-giants]/record/l"
+      },
+      {
+       "label": "Points for Philadelphia",
+       "value": "642",
+       "source": "content.json rivalryFiles/[id=rivalry-giants]/pointsFor"
+      },
+      {
+       "label": "Points for New York",
+       "value": "413",
+       "source": "content.json rivalryFiles/[id=rivalry-giants]/pointsAgainst"
+      },
+      {
+       "label": "Giants record, Y97",
+       "value": "10-6-1",
+       "source": "schedule.json seasons/Y97/table/[team=Giants]/record"
+      },
+      {
+       "label": "Week 18",
+       "value": "40-21",
+       "source": "schedule.json seasons/Y97/coachGames/[week=18]/score"
+      },
+      {
+       "label": "Biggest margin, Eagles points",
+       "value": "48",
+       "source": "content.json rivalryFiles/[id=rivalry-giants]/biggest/for"
+      },
+      {
+       "label": "Biggest margin, Giants points",
+       "value": "9",
+       "source": "content.json rivalryFiles/[id=rivalry-giants]/biggest/against"
+      }
+     ]
+    },
+    {
+     "id": "y97-take-calitro-market",
+     "heat": 2,
+     "headline": "Grover Calitro's Touchdowns Fell From 43 to 16, and His Card Went Up 72%. The Market Is Drunk.",
+     "dek": "The Bengals went from Super Bowl CLV to 7-10, and their star back's price rose anyway.",
+     "body": [
+      "Last season Calitro set the league record with 43 rushing touchdowns and dragged Cincinnati to the Super Bowl. This season he played all 17 games and scored 16. His rushing yards fell from 1,904 to 1,116. The Bengals went 7-10 and scored exactly as many points as they allowed, 489.",
+      "None of that stopped his card climbing from 189 to 325. Last year this column called his snub for Offensive Player of the Year indefensible, and it was. But the market is now paying for that season a year late, after the player and the team both came back to earth. Buying Calitro today is buying a record that is already in the book."
+     ],
+     "players": [
+      "Grover Calitro"
+     ],
+     "teams": [
+      "Bengals"
+     ],
+     "stats": [
+      {
+       "label": "Rushing TDs, Y96",
+       "value": "43",
+       "source": "market_history.json snap-202611162108..snap-202611170116 RB:Grover Calitro s.rtd"
+      },
+      {
+       "label": "Rushing TDs, Y97",
+       "value": "16",
+       "source": "market_history.json snap-202611170116..snap-202611192114 RB:Grover Calitro s.rtd"
+      },
+      {
+       "label": "Card change",
+       "value": "72%",
+       "source": "market_history.json snap-202611170116..snap-202611192114 RB:Grover Calitro value%"
+      },
+      {
+       "label": "Bengals record, Y97",
+       "value": "7-10",
+       "source": "schedule.json seasons/Y97/table/[team=Bengals]/record"
+      },
+      {
+       "label": "Games, Y97",
+       "value": "17",
+       "source": "market_history.json snap-202611170116..snap-202611192114 RB:Grover Calitro s.g"
+      },
+      {
+       "label": "Rushing yards, Y96",
+       "value": "1,904",
+       "source": "market_history.json snap-202611162108..snap-202611170116 RB:Grover Calitro s.ryds"
+      },
+      {
+       "label": "Rushing yards, Y97",
+       "value": "1,116",
+       "source": "market_history.json snap-202611170116..snap-202611192114 RB:Grover Calitro s.ryds"
+      },
+      {
+       "label": "Points scored",
+       "value": "489",
+       "source": "schedule.json seasons/Y97/table/[team=Bengals]/pf"
+      },
+      {
+       "label": "Points allowed",
+       "value": "489",
+       "source": "schedule.json seasons/Y97/table/[team=Bengals]/pa"
+      },
+      {
+       "label": "Card before",
+       "value": "189",
+       "source": "market_history.json snap-202611170116 RB:Grover Calitro value"
+      },
+      {
+       "label": "Card now",
+       "value": "325",
+       "source": "market_history.json snap-202611192114 RB:Grover Calitro value"
+      }
+     ]
+    },
+    {
+     "id": "y97-take-hoyer-raiders",
+     "heat": 2,
+     "headline": "A.T. Hoyer Is 150 Tackles From the Career Record and Wasting It on the Worst Team in Football",
+     "dek": "195 tackles for a 3-14 club that ranked last in the power table and allowed 625 points.",
+     "body": [
+      "Hoyer made 195 tackles in all 17 of the Raiders' games this season, and the Raiders still went 3-14, last of 32 in the power table, with 625 points allowed. They did not win a game after their fifth. Hoyer now has 3,106 career tackles. Travon Swaim's league record is 3,256.",
+      "Hoyer is 34. His card rose 29% to 7,106, so the market knows exactly what he is. Las Vegas does not seem to. A tackler chasing the most important defensive record in the league deserves a team whose games mean something in December, and every week he spends on this roster is a week that chase gets less attention than it has earned."
+     ],
+     "players": [
+      "A.T. Hoyer",
+      "Travon Swaim"
+     ],
+     "teams": [
+      "Raiders"
+     ],
+     "stats": [
+      {
+       "label": "Short of the record",
+       "value": "150",
+       "source": "league_records.json records/[record=Most tackles, career]/league/top/0/value minus market_history.json snap-202611192114 DB:A.T. Hoyer s.tkl"
+      },
+      {
+       "label": "Tackles, Y97",
+       "value": "195",
+       "source": "market_history.json snap-202611170116..snap-202611192114 DB:A.T. Hoyer s.tkl"
+      },
+      {
+       "label": "Raiders record",
+       "value": "3-14",
+       "source": "schedule.json seasons/Y97/table/[team=Raiders]/record"
+      },
+      {
+       "label": "Games, Y97",
+       "value": "17",
+       "source": "market_history.json snap-202611170116..snap-202611192114 DB:A.T. Hoyer s.g"
+      },
+      {
+       "label": "Power rank",
+       "value": "32",
+       "source": "schedule.json seasons/Y97/table/[team=Raiders]/power"
+      },
+      {
+       "label": "Points allowed",
+       "value": "625",
+       "source": "schedule.json seasons/Y97/table/[team=Raiders]/pa"
+      },
+      {
+       "label": "Career tackles",
+       "value": "3,106",
+       "source": "market_history.json snap-202611192114 DB:A.T. Hoyer s.tkl"
+      },
+      {
+       "label": "Swaim's league record",
+       "value": "3,256",
+       "source": "league_records.json records/[record=Most tackles, career]/league/top/0/value"
+      },
+      {
+       "label": "Age, Y97",
+       "value": "34",
+       "source": "save_careers.json age Y97 DB:A.T. Hoyer"
+      },
+      {
+       "label": "Card change",
+       "value": "29%",
+       "source": "market_history.json snap-202611170116..snap-202611192114 DB:A.T. Hoyer value%"
+      },
+      {
+       "label": "Card value",
+       "value": "7,106",
+       "source": "market_history.json snap-202611192114 DB:A.T. Hoyer value"
+      }
+     ]
+    },
+    {
+     "id": "y97-take-cowboys-upset",
+     "heat": 1,
+     "headline": "The 5-11-1 Cowboys Handed the Champions One of Their 2 Losses. Dallas Should Be Embarrassed, Not Proud.",
+     "dek": "A 38-28 win in week 6 was the upset of the season. Philadelphia answered 34-23 in week 14.",
+     "body": [
+      "Dallas beat the Eagles 38-28 at home in week 6, the biggest upset of the season by the league's own measure. It then went on to finish 5-11-1, fourth in the NFC East. One great afternoon does not excuse the other sixteen games.",
+      "The win will be remembered in Dallas as proof the old rivalry is alive. The series says otherwise. Philadelphia leads it 13-4-1, beat the Cowboys 34-23 in the rematch, and went on to win the Super Bowl. A team that can play with the champions for one week and lose to everyone else for a season does not have a rivalry problem. It has a consistency problem, and that is worse."
+     ],
+     "players": [],
+     "teams": [
+      "Cowboys",
+      "Eagles"
+     ],
+     "stats": [
+      {
+       "label": "Cowboys record",
+       "value": "5-11-1",
+       "source": "schedule.json seasons/Y97/table/[team=Cowboys]/record"
+      },
+      {
+       "label": "Eagles losses",
+       "value": "2",
+       "source": "coach.json Y97 l"
+      },
+      {
+       "label": "Upset of the season",
+       "value": "38-28",
+       "source": "schedule.json seasons/Y97/upset/score"
+      },
+      {
+       "label": "Week",
+       "value": "6",
+       "source": "schedule.json seasons/Y97/upset/week"
+      },
+      {
+       "label": "Rematch",
+       "value": "34-23",
+       "source": "schedule.json seasons/Y97/coachGames/[week=14]/score"
+      },
+      {
+       "label": "Rematch week",
+       "value": "14",
+       "source": "schedule.json seasons/Y97/coachGames/[week=14]/week"
+      },
+      {
+       "label": "Division rank",
+       "value": "4",
+       "source": "schedule.json seasons/Y97/table/[team=Cowboys]/divisionRank"
+      },
+      {
+       "label": "Series record",
+       "value": "13-4-1",
+       "source": "content.json rivalryFiles/[id=rivalry-cowboys]/record/text"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "season": "Y96",
    "upload": "2026-11-17-maxwell-score-100",
    "intro": "Philadelphia won again, and its two pillars signed up for one more year. The voters made a mess of the awards, the market chased the wrong Eagles, and a record fell in Cincinnati that nobody rewarded. The arguments are ours; the figures are the league's.",

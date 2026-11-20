@@ -504,10 +504,44 @@
      "reason": "From the queue"
     }
    ],
+   "link": {
+    "tribute": "WR:God Johnson"
+   },
    "teams": [
     "Vikings"
    ],
    "n": 9
+  },
+  {
+   "id": "y97-take",
+   "kind": "take",
+   "club": "Falcons",
+   "kicker": "Hottest take",
+   "title": "Tramon Holton Won Defensive Player of the Year. Two Defensive Backs Made 32 and 39 More Tackles.",
+   "text": "Holton: 210 tackles in 18 games. Akayleb Samia: 242 in 17. A rookie, Jacoby Nunez, made 249.",
+   "quoted": true,
+   "heat": 3,
+   "players": [
+    {
+     "key": "DB:Tramon Holton",
+     "name": "Tramon Holton",
+     "team": "Falcons"
+    },
+    {
+     "key": "DB:Akayleb Samia",
+     "name": "Akayleb Samia",
+     "team": "Broncos"
+    }
+   ],
+   "link": {
+    "take": "y97-take-holton-dpoy"
+   },
+   "teams": [
+    "Falcons",
+    "Broncos",
+    "Panthers"
+   ],
+   "n": 10
   },
   {
    "id": "y97-outro",
@@ -552,7 +586,7 @@
      "holder": "Lane McCoy"
     }
    ],
-   "n": 10
+   "n": 11
   }
  ]
 }
