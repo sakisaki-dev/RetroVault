@@ -467,7 +467,7 @@ current data is a no-op.
 ## Save import (the game's own save replaces screen recordings)
 
 The owner's NFL Retro Bowl save comes off the iPhone with `scripts/pull_save.py` into `data/saves/<date>/nfl/Documents/`
-(**git-ignored, private: never commit or push the raw save**; only the data files derived from it through an upload
+(a second pull the same day goes to `<date>-<HHMMSS>/`, never over the first, and the pull prints the season and whether it is complete, so several seasons can be pulled offline, one after each Super Bowl, and imported in order later with `--save`; **git-ignored, private: never commit or push the raw save**; only the data files derived from it through an upload
 bundle are committed, like screenshots). `scripts/save_read.py` reads the newest pull, picks the slot with the highest
 `settings.year` (or `--slot N`, or `--save <file>`), normalises it and matches its players to `players.json` by
 normalised name (accents folded, apostrophes dropped, the site's `normalizeName`) and position (save codes 8 CB and 9 S

@@ -96,7 +96,10 @@ def main() -> None:
         die("Couldn't find Retro Bowl in the backup. App ids that mention bowl or NFL: "
             + (", ".join(bowl) or "none") + ".\nThe backup was kept; send me that line.")
 
+    # one folder per pull, never overwritten: a second pull the same day (a flight with several seasons) gets the time
     out = OUT_ROOT / date.today().isoformat()
+    if out.exists():
+        out = OUT_ROOT / f"{date.today().isoformat()}-{time.strftime('%H%M%S')}"
     n = size = 0
     for file_id, domain, rel, flags in rows:
         if domain not in domains or flags != 1:  # 1 = a file (2 = folder, 4 = link)
@@ -104,7 +107,7 @@ def main() -> None:
         src = bdir / file_id[:2] / file_id
         if not src.exists():
             continue
-        dst = out / domain / rel
+        dst = out / ("college" if "college" in domain.lower() else "nfl") / rel  # the names save_read.py expects
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
         if sha1(src) != sha1(dst):
@@ -116,6 +119,17 @@ def main() -> None:
 
     print(f"\n✓ Copied {n} files ({size / 1e6:.1f} MB) from {', '.join(domains)}")
     print(f"  into {out}")
+    try:  # which season this pull caught (so a pull between seasons can be checked on the spot, offline)
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import json
+        from save_read import Save
+        docs = out / "nfl" / "Documents"
+        best = max(docs.glob("rb_nfl_savedata_[0-9]*.json"), key=lambda f: json.loads(f.read_text()).get("settings", {}).get("year", -1))
+        sv = Save(best)
+        print(f"  Save: Y{sv.year} week {sv.week}, " + ("season complete: good, this keeps the whole season"
+              if sv.season_done else "season in progress (pull again after the Super Bowl, before the next season starts)"))
+    except Exception as e:  # the copy is what matters; the check is a courtesy
+        print(f"  (couldn't read the season from the save: {e})")
 
     if deletable and "--delete" not in sys.argv:
         print(f"\nKept the full backup ({bdir.name}): the next backup only sends changes. Delete it any time with --delete")
