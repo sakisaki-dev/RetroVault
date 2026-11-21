@@ -46,13 +46,13 @@ const perfectWatch = (s: LiveSeason, view: SeasonView) => {
 
 const LiveSections = {
   /** Between the game log and the league table: the award race and the leaders */
-  Players: ({ s, lookup }: { s: LiveSeason; lookup: PlayerLookup }) => {
+  Players: ({ s, lookup, final = false }: { s: LiveSeason; lookup: PlayerLookup; final?: boolean }) => {
     const entries = useMemo(() => seasonEntries(s), [s]);
     const races = useMemo(() => awardRaces(s, entries), [s, entries]);
     const boards = useMemo(() => leaderBoards(entries), [entries]);
     return (
       <>
-        <AwardRaces races={races} lookup={lookup} weeksPlayed={Math.max(0, Math.min(s.week, SEASON_WEEKS + 1) - 1)} />
+        <AwardRaces races={races} lookup={lookup} weeksPlayed={Math.max(0, Math.min(s.week, SEASON_WEEKS + 1) - 1)} final={final} />
         <Leaders boards={boards} lookup={lookup} />
       </>
     );
@@ -78,7 +78,8 @@ const SeasonTab = () => {
   const lookup = useCallback<PlayerLookup>((k) => players.get(k), [players]);
 
   const past = useMemo(() => (schedule ? scheduleSeasons(schedule) : []), [schedule]);
-  const liveId = live ? `Y${live.season}` : null;
+  // once a season-complete import has written the season's weekly scores, it is a finished season, not a live one
+  const liveId = live && !past.some((p) => p.season === `Y${live.season}`) ? `Y${live.season}` : null;
   const liveView = useMemo(() => (live ? liveSeasonView(live, liveSched ?? past.find((p) => p.season === `Y${live.season}`)) : null), [live, liveSched, past]);
   const options = useMemo(() => {
     const ids = past.map((p) => p.season).filter((id) => id !== liveId);
@@ -139,6 +140,8 @@ const SeasonTab = () => {
             <GameLog season={season} />
             <AroundTheLeague season={season} />
             {isLive && <LiveSections.Players s={live!} lookup={lookup} />}
+            {/* a finished season the save still holds (pulled after its Super Bowl): its award ratings and leaders, final */}
+            {!isLive && live && shown === `Y${live.season}` && <LiveSections.Players s={live} lookup={lookup} final />}
             {season.league && (
               <div className="space-y-2">
                 <SectionTitle icon={BarChart3}>{season.season} by the numbers</SectionTitle>

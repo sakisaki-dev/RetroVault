@@ -134,7 +134,7 @@ const RaceTrack = ({ race, lookup }: { race: AwardRace; lookup: PlayerLookup }) 
   );
 };
 
-export const AwardRaces = ({ races, lookup, weeksPlayed }: { races: AwardRace[]; lookup: PlayerLookup; weeksPlayed: number }) => {
+export const AwardRaces = ({ races, lookup, weeksPlayed, final = false }: { races: AwardRace[]; lookup: PlayerLookup; weeksPlayed: number; final?: boolean }) => {
   const [id, setId] = useState(races[0]?.id);
   const race = races.find((r) => r.id === id) ?? races[0];
   if (!race) return null;
@@ -143,7 +143,7 @@ export const AwardRaces = ({ races, lookup, weeksPlayed }: { races: AwardRace[];
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <SectionTitle icon={Crown}>Award race · projected</SectionTitle>
+        <SectionTitle icon={Crown}>{final ? 'Award race · final ratings' : 'Award race · projected'}</SectionTitle>
         <div role="tablist" aria-label="Award" className="inline-flex max-w-full overflow-x-auto rounded-lg bg-secondary/50 p-0.5 text-xs font-semibold">
           {races.map((r) => (
             <button
@@ -207,7 +207,7 @@ export const AwardRaces = ({ races, lookup, weeksPlayed }: { races: AwardRace[];
           <p className="py-3 text-center text-sm text-muted-foreground">Nobody eligible yet.</p>
         )}
         <p className="text-[11px] leading-snug text-muted-foreground">
-          The game's own season rating (docs/GAME_MECHANICS.md), projected from weeks 1–{weeksPlayed}: QB min(150, (passing + 1.35 × rushing yards) ÷ 3,300 × 100) +
+          The game's own season rating (docs/GAME_MECHANICS.md), {final ? 'over the whole season' : `projected from weeks 1–${weeksPlayed}`}: QB min(150, (passing + 1.35 × rushing yards) ÷ 3,300 × 100) +
           passing TDs − INTs − 0.5 × sacks; RB, WR, TE the same yardage part (÷ 1,750, 2,100, 1,350) + 1.25 × receiving TDs − 5 × fumbles; defenders 0.5 × tackles + 3 ×
           (INTs + sacks + forced fumbles). One award per player: MVP and OPOY never the same player, a QB never OPOY, rookies (21) only Rookie of the Year. Counted: at
           least half his club's games.
