@@ -134,7 +134,7 @@
    {
     "team": "Browns",
     "from": 44,
-    "to": 61,
+    "to": 62,
     "rings": []
    }
   ],
@@ -146,8 +146,8 @@
   "stints": [
    {
     "team": "Titans",
-    "from": 34,
-    "to": 42,
+    "from": 35,
+    "to": 43,
     "rings": []
    }
   ],
@@ -160,7 +160,7 @@
    {
     "team": "Ravens",
     "from": 53,
-    "to": 72,
+    "to": 73,
     "rings": []
    }
   ],
@@ -173,7 +173,7 @@
    {
     "team": "Broncos",
     "from": 13,
-    "to": 36,
+    "to": 38,
     "rings": []
    }
   ],
@@ -198,41 +198,20 @@
  "Alexx Sanchez": {
   "stints": [
    {
-    "team": "Ravens",
-    "from": 40,
-    "to": 44,
-    "rings": [
-     41,
-     42,
-     43,
-     44
-    ]
-   },
-   {
     "team": "Titans",
-    "from": 45,
-    "to": 56,
+    "from": 53,
+    "to": 74,
     "rings": [
-     53
+     53,
+     70,
+     71,
+     72,
+     74
     ]
    }
   ],
-  "confidence": "ambiguous",
-  "evidence": "5 rings = Ravens Y41, Y42, Y43, Y44; Titans Y53. His known clubs (Titans) can't account for every ring, so the best fit adds a stop: Ravens Y40-44, Titans Y45-56.",
-  "alternatives": [
-   [
-    {
-     "team": "Ravens",
-     "from": 36,
-     "to": 46
-    },
-    {
-     "team": "Titans",
-     "from": 47,
-     "to": 52
-    }
-   ]
-  ]
+  "confidence": "strong",
+  "evidence": "5 rings = Titans Y53, Y70, Y71, Y72, Y74. The only window that fits."
  },
  "Sherman Brandson": {
   "stints": [
@@ -439,25 +418,26 @@
  "Forrest Everett": {
   "stints": [
    {
-    "team": "Ravens",
+    "team": "Seahawks",
     "from": 31,
-    "to": 45,
+    "to": 38,
     "rings": [
-     41,
-     42,
-     43,
-     44
+     36,
+     37,
+     38
     ]
    },
    {
     "team": "Broncos",
-    "from": 46,
+    "from": 39,
     "to": 46,
-    "rings": []
+    "rings": [
+     39
+    ]
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "4 rings = Ravens Y41, Y42, Y43, Y44. His known clubs (Broncos) can't account for every ring, so the best fit adds a stop: Ravens Y31-45, Broncos Y46.",
+  "evidence": "4 rings = Seahawks Y36, Y37, Y38; Broncos Y39. His known clubs (Broncos) can't account for every ring, so the best fit adds a stop: Seahawks Y31-38, Broncos Y39-46.",
   "alternatives": [
    [
     {
@@ -528,8 +508,8 @@
   "stints": [
    {
     "team": "Broncos",
-    "from": 44,
-    "to": 52,
+    "from": 45,
+    "to": 53,
     "rings": []
    }
   ],
@@ -645,7 +625,7 @@
   "stints": [
    {
     "team": "49ers",
-    "from": 42,
+    "from": 43,
     "to": 56,
     "rings": []
    }
@@ -1203,7 +1183,7 @@
    {
     "team": "49ers",
     "from": 43,
-    "to": 54,
+    "to": 55,
     "rings": []
    }
   ],
@@ -1216,7 +1196,7 @@
    {
     "team": "Raiders",
     "from": 41,
-    "to": 57,
+    "to": 58,
     "rings": []
    }
   ],
@@ -1304,38 +1284,26 @@
  "Tyler Pacheco": {
   "stints": [
    {
-    "team": "Buccaneers",
-    "from": 17,
-    "to": 25,
+    "team": "Bills",
+    "from": 18,
+    "to": 30,
     "rings": [
-     20,
-     21,
-     23,
-     25
+     27,
+     28,
+     29,
+     30
     ]
    },
    {
     "team": "Packers",
-    "from": 26,
-    "to": 32,
+    "from": 31,
+    "to": 33,
     "rings": []
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "4 rings = Buccaneers Y20, Y21, Y23, Y25. His known clubs (Packers) can't account for every ring, so the best fit adds a stop: Buccaneers Y17-25, Packers Y26-32.",
+  "evidence": "4 rings = Bills Y27, Y28, Y29, Y30. His known clubs (Packers) can't account for every ring, so the best fit adds a stop: Bills Y18-30, Packers Y31-33.",
   "alternatives": [
-   [
-    {
-     "team": "Bills",
-     "from": 15,
-     "to": 30
-    },
-    {
-     "team": "Packers",
-     "from": 31,
-     "to": 31
-    }
-   ],
    [
     {
      "team": "Bills",
@@ -1358,6 +1326,18 @@
      "team": "Packers",
      "from": 33,
      "to": 44
+    }
+   ],
+   [
+    {
+     "team": "Bills",
+     "from": 30,
+     "to": 33
+    },
+    {
+     "team": "Packers",
+     "from": 34,
+     "to": 45
     }
    ]
   ]
@@ -1398,8 +1378,8 @@
   "stints": [
    {
     "team": "Rams",
-    "from": 45,
-    "to": 53,
+    "from": 46,
+    "to": 54,
     "rings": []
    }
   ],
@@ -1444,7 +1424,7 @@
   "stints": [
    {
     "team": "Raiders",
-    "from": 42,
+    "from": 43,
     "to": 56,
     "rings": []
    }
@@ -1645,7 +1625,7 @@
    {
     "team": "Broncos",
     "from": 42,
-    "to": 56,
+    "to": 57,
     "rings": []
    }
   ],
@@ -1806,7 +1786,7 @@
   "stints": [
    {
     "team": "Rams",
-    "from": 37,
+    "from": 38,
     "to": 51,
     "rings": []
    }
@@ -1835,7 +1815,7 @@
    {
     "team": "Jets",
     "from": 30,
-    "to": 45,
+    "to": 46,
     "rings": []
    }
   ],
@@ -1946,7 +1926,7 @@
    {
     "team": "Ravens",
     "from": 45,
-    "to": 53,
+    "to": 54,
     "rings": [
      46,
      48,
@@ -1955,13 +1935,13 @@
    },
    {
     "team": "Bengals",
-    "from": 54,
-    "to": 56,
+    "from": 55,
+    "to": 55,
     "rings": []
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "3 rings = Ravens Y46, Y48, Y49. His known clubs (Bengals) can't account for every ring, so the best fit adds a stop: Ravens Y45-53, Bengals Y54-56.",
+  "evidence": "3 rings = Ravens Y46, Y48, Y49. His known clubs (Bengals) can't account for every ring, so the best fit adds a stop: Ravens Y45-54, Bengals Y55.",
   "alternatives": [
    [
     {
@@ -2006,7 +1986,7 @@
    {
     "team": "Buccaneers",
     "from": 61,
-    "to": 77,
+    "to": 78,
     "rings": []
    }
   ],
@@ -2032,7 +2012,7 @@
    {
     "team": "Titans",
     "from": 31,
-    "to": 43,
+    "to": 44,
     "rings": []
    }
   ],
@@ -2401,7 +2381,7 @@
    }
   ],
   "confidence": "confirmed",
-  "evidence": "8 rings = Jets Y77, Y80, Y82; Falcons Y83, Y84, Y85, Y86, Y87. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
+  "evidence": "8 rings = Jets Y77, Y80, Y82; Falcons Y83, Y84, Y85, Y86, Y87. On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y85 Falcons roster. On the Y86 Falcons roster. On the Y87 Falcons roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
  },
  "Jamir Crane": {
   "stints": [
@@ -2422,8 +2402,8 @@
   "stints": [
    {
     "team": "Bills",
-    "from": 54,
-    "to": 54,
+    "from": 55,
+    "to": 55,
     "rings": []
    }
   ],
@@ -2491,8 +2471,8 @@
   "stints": [
    {
     "team": "Bills",
-    "from": 54,
-    "to": 54,
+    "from": 55,
+    "to": 55,
     "rings": []
    }
   ],
@@ -2781,7 +2761,7 @@
    }
   ],
   "confidence": "confirmed",
-  "evidence": "14 rings = Jets Y80, Y82; Falcons Y83, Y84, Y85, Y86, Y87; Eagles Y91, Y92, Y93, Y94, Y95, Y96, Y97. Record board (your club's games only): Y85 best rushing game (Falcons); Y85 most rushing tds, season (Falcons); Y92 best rushing season (Eagles); Y94 most td receptions, season (Eagles); Y97 best rushing career (Eagles); Y97 most rushing tds, career (Eagles). On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Falcons roster. On the Y91 Eagles roster. On the Y92 Eagles roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
+  "evidence": "14 rings = Jets Y80, Y82; Falcons Y83, Y84, Y85, Y86, Y87; Eagles Y91, Y92, Y93, Y94, Y95, Y96, Y97. Record board (your club's games only): Y85 best rushing game (Falcons); Y85 most rushing tds, season (Falcons); Y92 best rushing season (Eagles); Y94 most td receptions, season (Eagles); Y97 best rushing career (Eagles); Y97 most rushing tds, career (Eagles). On the Y80 Jets roster. On the Y81 Jets roster. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Falcons roster. On the Y91 Eagles roster. On the Y92 Eagles roster. On the Y85 Falcons roster. On the Y86 Falcons roster. On the Y87 Falcons roster. On the Y93 Eagles roster. On the Y94 Eagles roster. On the Y95 Eagles roster. On the Y96 Eagles roster. On the Y97 Eagles roster. Owner: “Went with the coach from the Jets to the Falcons after Y82, in the trade that sent Malakai Sawyer back to the Jets.”"
  },
  "Ty Lock": {
   "stints": [
@@ -2909,7 +2889,7 @@
    }
   ],
   "confidence": "confirmed",
-  "evidence": "2 rings = Falcons Y85, Y86. On the Y80 Seahawks roster. On the Y81 Seahawks roster. Owner: “Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints.”"
+  "evidence": "2 rings = Falcons Y85, Y86. On the Y80 Seahawks roster. On the Y81 Seahawks roster. On the Y86 Falcons roster. Owner: “Traded from the Seahawks to the Jets after Y81, then traded on to the Saints before playing a game for the Jets; played Y82 for the Saints.”"
  },
  "Deonte Sutton": {
   "stints": [
@@ -3047,7 +3027,7 @@
    {
     "team": "Titans",
     "from": 80,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -3082,8 +3062,8 @@
   "stints": [
    {
     "team": "Packers",
-    "from": 78,
-    "to": 97,
+    "from": 77,
+    "to": 95,
     "rings": [
      79
     ]
@@ -3197,7 +3177,7 @@
   "stints": [
    {
     "team": "Eagles",
-    "from": 82,
+    "from": 80,
     "to": 88,
     "rings": [
      88
@@ -3206,14 +3186,14 @@
    {
     "team": "Texans",
     "from": 89,
-    "to": 97,
+    "to": 95,
     "rings": [
      90
     ]
    }
   ],
   "confidence": "ambiguous",
-  "evidence": "2 rings = Eagles Y88; Texans Y90. On the Y90 Texans roster. On the Y91 Texans roster. On the Y92 Texans roster. His known clubs (Texans) can't account for every ring, so the best fit adds a stop: Eagles Y82-88, Texans Y89-97."
+  "evidence": "2 rings = Eagles Y88; Texans Y90. On the Y90 Texans roster. On the Y91 Texans roster. On the Y92 Texans roster. His known clubs (Texans) can't account for every ring, so the best fit adds a stop: Eagles Y80-88, Texans Y89-95."
  },
  "Tristan Tart": {
   "stints": [
@@ -3310,7 +3290,7 @@
    }
   ],
   "confidence": "confirmed",
-  "evidence": "8 rings = Jets Y82; Falcons Y83, Y84, Y85, Y86, Y87; Eagles Y88, Y89. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y88 Eagles roster. On the Y89 Eagles roster. Owner: “Traded from the Jets to the Falcons in a multi-team trade before Y83.”"
+  "evidence": "8 rings = Jets Y82; Falcons Y83, Y84, Y85, Y86, Y87; Eagles Y88, Y89. On the Y82 Jets roster. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y85 Falcons roster. On the Y86 Falcons roster. On the Y87 Falcons roster. Owner: “Traded from the Jets to the Falcons in a multi-team trade before Y83.”"
  },
  "Dwayne Skura": {
   "stints": [
@@ -3432,7 +3412,7 @@
   "stints": [
    {
     "team": "Falcons",
-    "from": 82,
+    "from": 81,
     "to": 83,
     "rings": [
      83
@@ -3441,7 +3421,7 @@
    {
     "team": "Dolphins",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -3462,13 +3442,13 @@
    }
   ],
   "confidence": "confirmed",
-  "evidence": "3 rings = Falcons Y83, Y84, Y85. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “The Falcons' tight end in Y83.”"
+  "evidence": "3 rings = Falcons Y83, Y84, Y85. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y85 Falcons roster. Owner: “The Falcons' tight end in Y83.”"
  },
  "Perrion Randall": {
   "stints": [
    {
     "team": "Falcons",
-    "from": 82,
+    "from": 83,
     "to": 83,
     "rings": [
      83
@@ -3477,7 +3457,7 @@
    {
     "team": "Seahawks",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -3498,7 +3478,7 @@
    }
   ],
   "confidence": "confirmed",
-  "evidence": "3 rings = Falcons Y83, Y84, Y85. On the Y83 Falcons roster. On the Y84 Falcons roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
+  "evidence": "3 rings = Falcons Y83, Y84, Y85. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y85 Falcons roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
  },
  "Simeon Otton": {
   "stints": [
@@ -3516,7 +3496,7 @@
    }
   ],
   "confidence": "confirmed",
-  "evidence": "5 rings = Falcons Y83, Y84, Y85, Y86, Y87. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Falcons roster. On the Y91 Falcons roster. On the Y92 Falcons roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
+  "evidence": "5 rings = Falcons Y83, Y84, Y85, Y86, Y87. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Falcons roster. On the Y91 Falcons roster. On the Y92 Falcons roster. On the Y85 Falcons roster. On the Y86 Falcons roster. On the Y87 Falcons roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
  },
  "Trysten Floyd": {
   "stints": [
@@ -3533,12 +3513,12 @@
    {
     "team": "Commanders",
     "from": 86,
-    "to": 97,
+    "to": 95,
     "rings": []
    }
   ],
   "confidence": "confirmed",
-  "evidence": "3 rings = Falcons Y83, Y84, Y85. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Commanders roster. On the Y91 Commanders roster. On the Y92 Commanders roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
+  "evidence": "3 rings = Falcons Y83, Y84, Y85. On the Y83 Falcons roster. On the Y84 Falcons roster. On the Y90 Commanders roster. On the Y91 Commanders roster. On the Y92 Commanders roster. On the Y85 Falcons roster. Owner: “On the Falcons' defense in Y83, alongside Chance Woodrum.”"
  },
  "Bud Matthew": {
   "stints": [
@@ -3569,7 +3549,7 @@
    {
     "team": "Falcons",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": [
      84,
      85,
@@ -3579,7 +3559,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "4 rings = Falcons Y84, Y85, Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. On the Y92 Falcons roster. The only window that fits."
+  "evidence": "4 rings = Falcons Y84, Y85, Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. On the Y92 Falcons roster. On the Y85 Falcons roster. On the Y86 Falcons roster. On the Y87 Falcons roster. The only window that fits."
  },
  "Shawn Milne": {
   "stints": [
@@ -3612,7 +3592,7 @@
    {
     "team": "Falcons",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": [
      84,
      85,
@@ -3622,7 +3602,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "4 rings = Falcons Y84, Y85, Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. On the Y92 Falcons roster. The only window that fits."
+  "evidence": "4 rings = Falcons Y84, Y85, Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. On the Y92 Falcons roster. On the Y85 Falcons roster. On the Y86 Falcons roster. On the Y87 Falcons roster. The only window that fits."
  },
  "Marvell Rodgers": {
   "stints": [
@@ -3641,7 +3621,7 @@
    {
     "team": "Lions",
     "from": 81,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -3665,7 +3645,7 @@
    {
     "team": "Jets",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -3676,8 +3656,8 @@
   "stints": [
    {
     "team": "Chargers",
-    "from": 56,
-    "to": 76,
+    "from": 57,
+    "to": 75,
     "rings": []
    }
   ],
@@ -3701,8 +3681,8 @@
   "stints": [
    {
     "team": "Patriots",
-    "from": 78,
-    "to": 97,
+    "from": 77,
+    "to": 95,
     "rings": [
      81
     ]
@@ -3716,7 +3696,7 @@
    {
     "team": "Falcons",
     "from": 85,
-    "to": 97,
+    "to": 95,
     "rings": [
      85,
      86,
@@ -3725,7 +3705,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Falcons Y85, Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. On the Y92 Falcons roster. The only window that fits."
+  "evidence": "3 rings = Falcons Y85, Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. On the Y92 Falcons roster. On the Y86 Falcons roster. On the Y87 Falcons roster. The only window that fits."
  },
  "Kahzin Heath": {
   "stints": [
@@ -3784,7 +3764,7 @@
    {
     "team": "Falcons",
     "from": 86,
-    "to": 97,
+    "to": 95,
     "rings": [
      86,
      87
@@ -3792,7 +3772,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Falcons Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. On the Y92 Falcons roster. The only window that fits."
+  "evidence": "2 rings = Falcons Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. On the Y92 Falcons roster. On the Y87 Falcons roster. The only window that fits."
  },
  "Ian Clapp": {
   "stints": [
@@ -3807,14 +3787,14 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "2 rings = Falcons Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. On the Y92 Falcons roster. The only window that fits."
+  "evidence": "2 rings = Falcons Y86, Y87. On the Y90 Falcons roster. On the Y91 Falcons roster. On the Y92 Falcons roster. On the Y87 Falcons roster. The only window that fits."
  },
  "Bryson Lucas": {
   "stints": [
    {
     "team": "Commanders",
-    "from": 83,
-    "to": 97,
+    "from": 82,
+    "to": 95,
     "rings": []
    }
   ],
@@ -3838,7 +3818,7 @@
    {
     "team": "Falcons",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": [
      87
     ]
@@ -3851,8 +3831,8 @@
   "stints": [
    {
     "team": "Raiders",
-    "from": 86,
-    "to": 97,
+    "from": 87,
+    "to": 98,
     "rings": []
    }
   ],
@@ -3863,8 +3843,8 @@
   "stints": [
    {
     "team": "Steelers",
-    "from": 84,
-    "to": 97,
+    "from": 82,
+    "to": 95,
     "rings": []
    }
   ],
@@ -3887,8 +3867,8 @@
   "stints": [
    {
     "team": "Cowboys",
-    "from": 76,
-    "to": 97,
+    "from": 74,
+    "to": 95,
     "rings": []
    }
   ],
@@ -3928,7 +3908,7 @@
    {
     "team": "Texans",
     "from": 83,
-    "to": 97,
+    "to": 98,
     "rings": [
      90
     ]
@@ -3951,7 +3931,7 @@
    {
     "team": "Falcons",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -3963,7 +3943,7 @@
    {
     "team": "Texans",
     "from": 83,
-    "to": 97,
+    "to": 98,
     "rings": [
      90
     ]
@@ -3976,8 +3956,8 @@
   "stints": [
    {
     "team": "Texans",
-    "from": 83,
-    "to": 97,
+    "from": 81,
+    "to": 95,
     "rings": [
      90
     ]
@@ -3991,7 +3971,7 @@
    {
     "team": "Eagles",
     "from": 88,
-    "to": 97,
+    "to": 98,
     "rings": [
      88,
      89,
@@ -4006,7 +3986,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "9 rings = Eagles Y88, Y89, Y91, Y92, Y93, Y94, Y95, Y96, Y97. Record board (your club's games only): Y97 longest pass (air) (Eagles). On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Eagles roster. The only window that fits."
+  "evidence": "9 rings = Eagles Y88, Y89, Y91, Y92, Y93, Y94, Y95, Y96, Y97. Record board (your club's games only): Y97 longest pass (air) (Eagles). On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Eagles roster. On the Y93 Eagles roster. On the Y94 Eagles roster. On the Y95 Eagles roster. On the Y96 Eagles roster. On the Y97 Eagles roster. The only window that fits."
  },
  "Kenyon Shaheed": {
   "stints": [
@@ -4049,8 +4029,8 @@
   "stints": [
    {
     "team": "Eagles",
-    "from": 88,
-    "to": 97,
+    "from": 87,
+    "to": 98,
     "rings": [
      88,
      89,
@@ -4065,13 +4045,13 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "9 rings = Eagles Y88, Y89, Y91, Y92, Y93, Y94, Y95, Y96, Y97. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Eagles roster. The only window that fits."
+  "evidence": "9 rings = Eagles Y88, Y89, Y91, Y92, Y93, Y94, Y95, Y96, Y97. On the Y88 Eagles roster. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Eagles roster. On the Y93 Eagles roster. On the Y94 Eagles roster. On the Y95 Eagles roster. On the Y96 Eagles roster. On the Y97 Eagles roster. The only window that fits."
  },
  "Hamp McPhee": {
   "stints": [
    {
     "team": "Eagles",
-    "from": 87,
+    "from": 86,
     "to": 88,
     "rings": [
      88
@@ -4080,7 +4060,7 @@
    {
     "team": "Ravens",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4107,7 +4087,7 @@
    {
     "team": "Jets",
     "from": 83,
-    "to": 97,
+    "to": 95,
     "rings": []
    }
   ],
@@ -4130,8 +4110,8 @@
   "stints": [
    {
     "team": "Steelers",
-    "from": 83,
-    "to": 97,
+    "from": 81,
+    "to": 95,
     "rings": []
    }
   ],
@@ -4166,7 +4146,7 @@
   "stints": [
    {
     "team": "Bills",
-    "from": 62,
+    "from": 63,
     "to": 76,
     "rings": []
    }
@@ -4180,7 +4160,7 @@
    {
     "team": "Eagles",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": [
      89,
      91,
@@ -4194,13 +4174,13 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "8 rings = Eagles Y89, Y91, Y92, Y93, Y94, Y95, Y96, Y97. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Eagles roster. The only window that fits."
+  "evidence": "8 rings = Eagles Y89, Y91, Y92, Y93, Y94, Y95, Y96, Y97. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Eagles roster. On the Y93 Eagles roster. On the Y94 Eagles roster. On the Y95 Eagles roster. On the Y96 Eagles roster. On the Y97 Eagles roster. The only window that fits."
  },
  "Lewis Pettis": {
   "stints": [
    {
     "team": "Cowboys",
-    "from": 80,
+    "from": 81,
     "to": 97,
     "rings": []
    }
@@ -4213,7 +4193,7 @@
    {
     "team": "Rams",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4225,7 +4205,7 @@
    {
     "team": "Falcons",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4237,7 +4217,7 @@
    {
     "team": "Rams",
     "from": 82,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4248,8 +4228,8 @@
   "stints": [
    {
     "team": "Bills",
-    "from": 84,
-    "to": 97,
+    "from": 82,
+    "to": 95,
     "rings": []
    }
   ],
@@ -4284,10 +4264,18 @@
      96,
      97
     ]
+   },
+   {
+    "team": "Bears",
+    "from": 98,
+    "to": 98,
+    "rings": [
+     98
+    ]
    }
   ],
   "confidence": "strong",
-  "evidence": "8 rings = Eagles Y89, Y91, Y92, Y93, Y94, Y95, Y96, Y97. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Eagles roster. The only window that fits."
+  "evidence": "9 rings = Eagles Y89, Y91, Y92, Y93, Y94, Y95, Y96, Y97; Bears Y98. On the Y89 Eagles roster. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Eagles roster. On the Y93 Eagles roster. On the Y94 Eagles roster. On the Y95 Eagles roster. On the Y96 Eagles roster. On the Y97 Eagles roster. On the Y98 Bears roster. The only window that fits."
  },
  "Juju Ngakoue": {
   "stints": [
@@ -4305,8 +4293,8 @@
   "stints": [
    {
     "team": "Seahawks",
-    "from": 88,
-    "to": 97,
+    "from": 89,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4330,7 +4318,7 @@
    {
     "team": "Raiders",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4353,7 +4341,7 @@
   "stints": [
    {
     "team": "Jaguars",
-    "from": 42,
+    "from": 43,
     "to": 56,
     "rings": []
    }
@@ -4367,7 +4355,7 @@
    {
     "team": "49ers",
     "from": 88,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4379,7 +4367,7 @@
    {
     "team": "49ers",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4391,7 +4379,7 @@
    {
     "team": "49ers",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4403,7 +4391,7 @@
    {
     "team": "49ers",
     "from": 82,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4414,7 +4402,7 @@
   "stints": [
    {
     "team": "49ers",
-    "from": 80,
+    "from": 81,
     "to": 94,
     "rings": []
    }
@@ -4438,8 +4426,8 @@
   "stints": [
    {
     "team": "49ers",
-    "from": 85,
-    "to": 97,
+    "from": 83,
+    "to": 95,
     "rings": []
    }
   ],
@@ -4451,7 +4439,7 @@
    {
     "team": "49ers",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4463,7 +4451,13 @@
    {
     "team": "Bears",
     "from": 87,
-    "to": 97,
+    "to": 95,
+    "rings": []
+   },
+   {
+    "team": "Jaguars",
+    "from": 96,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4498,8 +4492,8 @@
   "stints": [
    {
     "team": "Bears",
-    "from": 85,
-    "to": 97,
+    "from": 83,
+    "to": 95,
     "rings": []
    }
   ],
@@ -4511,7 +4505,13 @@
    {
     "team": "Bears",
     "from": 83,
-    "to": 97,
+    "to": 95,
+    "rings": []
+   },
+   {
+    "team": "Bills",
+    "from": 96,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4523,7 +4523,13 @@
    {
     "team": "Bears",
     "from": 90,
-    "to": 97,
+    "to": 95,
+    "rings": []
+   },
+   {
+    "team": "Buccaneers",
+    "from": 96,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4535,7 +4541,13 @@
    {
     "team": "Bears",
     "from": 88,
-    "to": 97,
+    "to": 95,
+    "rings": []
+   },
+   {
+    "team": "Panthers",
+    "from": 96,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4546,8 +4558,8 @@
   "stints": [
    {
     "team": "Bears",
-    "from": 82,
-    "to": 97,
+    "from": 80,
+    "to": 95,
     "rings": []
    }
   ],
@@ -4570,8 +4582,8 @@
   "stints": [
    {
     "team": "Bengals",
-    "from": 85,
-    "to": 97,
+    "from": 86,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4583,7 +4595,7 @@
    {
     "team": "Bengals",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4622,8 +4634,8 @@
   "stints": [
    {
     "team": "Bengals",
-    "from": 86,
-    "to": 97,
+    "from": 87,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4647,7 +4659,7 @@
    {
     "team": "Bengals",
     "from": 90,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4658,8 +4670,8 @@
   "stints": [
    {
     "team": "Bengals",
-    "from": 82,
-    "to": 97,
+    "from": 80,
+    "to": 95,
     "rings": []
    }
   ],
@@ -4671,7 +4683,7 @@
    {
     "team": "Bills",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4706,8 +4718,8 @@
   "stints": [
    {
     "team": "Bills",
-    "from": 84,
-    "to": 97,
+    "from": 82,
+    "to": 95,
     "rings": []
    }
   ],
@@ -4719,7 +4731,7 @@
    {
     "team": "Bills",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4743,7 +4755,7 @@
    {
     "team": "Bills",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4755,7 +4767,7 @@
    {
     "team": "Broncos",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4767,7 +4779,7 @@
    {
     "team": "Broncos",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4778,8 +4790,8 @@
   "stints": [
    {
     "team": "Broncos",
-    "from": 83,
-    "to": 97,
+    "from": 82,
+    "to": 95,
     "rings": []
    }
   ],
@@ -4827,7 +4839,7 @@
    {
     "team": "Broncos",
     "from": 88,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4862,8 +4874,8 @@
   "stints": [
    {
     "team": "Browns",
-    "from": 82,
-    "to": 97,
+    "from": 80,
+    "to": 95,
     "rings": []
    }
   ],
@@ -4875,7 +4887,7 @@
    {
     "team": "Browns",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4899,7 +4911,7 @@
    {
     "team": "Browns",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4911,7 +4923,7 @@
    {
     "team": "Browns",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4923,7 +4935,7 @@
    {
     "team": "Browns",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4935,7 +4947,7 @@
    {
     "team": "Browns",
     "from": 86,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -4971,7 +4983,7 @@
    {
     "team": "Buccaneers",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5007,7 +5019,7 @@
    {
     "team": "Buccaneers",
     "from": 88,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5019,7 +5031,7 @@
    {
     "team": "Cardinals",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5030,7 +5042,7 @@
   "stints": [
    {
     "team": "Cardinals",
-    "from": 80,
+    "from": 81,
     "to": 94,
     "rings": []
    }
@@ -5055,7 +5067,7 @@
    {
     "team": "Cardinals",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5091,7 +5103,7 @@
    {
     "team": "Cardinals",
     "from": 90,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5103,7 +5115,7 @@
    {
     "team": "Cardinals",
     "from": 90,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5138,8 +5150,8 @@
   "stints": [
    {
     "team": "Chargers",
-    "from": 83,
-    "to": 97,
+    "from": 81,
+    "to": 95,
     "rings": []
    }
   ],
@@ -5151,7 +5163,7 @@
    {
     "team": "Chargers",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5163,7 +5175,7 @@
    {
     "team": "Chargers",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5174,8 +5186,8 @@
   "stints": [
    {
     "team": "Chargers",
-    "from": 85,
-    "to": 97,
+    "from": 83,
+    "to": 95,
     "rings": []
    }
   ],
@@ -5186,8 +5198,8 @@
   "stints": [
    {
     "team": "Chargers",
-    "from": 85,
-    "to": 97,
+    "from": 83,
+    "to": 95,
     "rings": []
    }
   ],
@@ -5198,8 +5210,8 @@
   "stints": [
    {
     "team": "Chargers",
-    "from": 84,
-    "to": 97,
+    "from": 82,
+    "to": 95,
     "rings": []
    }
   ],
@@ -5210,8 +5222,8 @@
   "stints": [
    {
     "team": "Chargers",
-    "from": 85,
-    "to": 97,
+    "from": 83,
+    "to": 95,
     "rings": []
    }
   ],
@@ -5222,7 +5234,7 @@
   "stints": [
    {
     "team": "Chiefs",
-    "from": 82,
+    "from": 83,
     "to": 97,
     "rings": []
    }
@@ -5235,7 +5247,7 @@
    {
     "team": "Chiefs",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5259,7 +5271,7 @@
    {
     "team": "Chiefs",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5271,7 +5283,7 @@
    {
     "team": "Chiefs",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5282,8 +5294,8 @@
   "stints": [
    {
     "team": "Chiefs",
-    "from": 84,
-    "to": 97,
+    "from": 82,
+    "to": 95,
     "rings": []
    }
   ],
@@ -5295,7 +5307,7 @@
    {
     "team": "Chiefs",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5306,8 +5318,8 @@
   "stints": [
    {
     "team": "Chiefs",
-    "from": 82,
-    "to": 97,
+    "from": 81,
+    "to": 95,
     "rings": []
    }
   ],
@@ -5342,8 +5354,8 @@
   "stints": [
    {
     "team": "Colts",
-    "from": 85,
-    "to": 97,
+    "from": 86,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5355,7 +5367,7 @@
    {
     "team": "Colts",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5367,7 +5379,7 @@
    {
     "team": "Colts",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5378,8 +5390,8 @@
   "stints": [
    {
     "team": "Colts",
-    "from": 78,
-    "to": 97,
+    "from": 76,
+    "to": 95,
     "rings": []
    }
   ],
@@ -5391,7 +5403,7 @@
    {
     "team": "Colts",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5414,8 +5426,8 @@
   "stints": [
    {
     "team": "Colts",
-    "from": 84,
-    "to": 97,
+    "from": 82,
+    "to": 95,
     "rings": []
    }
   ],
@@ -5426,8 +5438,8 @@
   "stints": [
    {
     "team": "Colts",
-    "from": 82,
-    "to": 97,
+    "from": 80,
+    "to": 95,
     "rings": []
    }
   ],
@@ -5439,7 +5451,7 @@
    {
     "team": "Commanders",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5450,8 +5462,8 @@
   "stints": [
    {
     "team": "Commanders",
-    "from": 84,
-    "to": 97,
+    "from": 83,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5474,7 +5486,7 @@
   "stints": [
    {
     "team": "Commanders",
-    "from": 79,
+    "from": 80,
     "to": 94,
     "rings": []
    }
@@ -5510,8 +5522,8 @@
   "stints": [
    {
     "team": "Commanders",
-    "from": 88,
-    "to": 97,
+    "from": 87,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5523,7 +5535,7 @@
    {
     "team": "Cowboys",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5559,7 +5571,7 @@
    {
     "team": "Cowboys",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5571,7 +5583,7 @@
    {
     "team": "Cowboys",
     "from": 90,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5595,7 +5607,7 @@
    {
     "team": "Cowboys",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5607,7 +5619,7 @@
    {
     "team": "Dolphins",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5631,7 +5643,7 @@
    {
     "team": "Dolphins",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5655,7 +5667,7 @@
    {
     "team": "Dolphins",
     "from": 86,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5679,7 +5691,7 @@
    {
     "team": "Dolphins",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5690,8 +5702,8 @@
   "stints": [
    {
     "team": "Dolphins",
-    "from": 84,
-    "to": 97,
+    "from": 82,
+    "to": 95,
     "rings": []
    }
   ],
@@ -5703,7 +5715,7 @@
    {
     "team": "Eagles",
     "from": 90,
-    "to": 97,
+    "to": 98,
     "rings": [
      91,
      92,
@@ -5716,14 +5728,14 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "7 rings = Eagles Y91, Y92, Y93, Y94, Y95, Y96, Y97. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Eagles roster. The only window that fits."
+  "evidence": "7 rings = Eagles Y91, Y92, Y93, Y94, Y95, Y96, Y97. On the Y90 Eagles roster. On the Y91 Eagles roster. On the Y92 Eagles roster. On the Y93 Eagles roster. On the Y94 Eagles roster. On the Y95 Eagles roster. On the Y96 Eagles roster. On the Y97 Eagles roster. The only window that fits."
  },
  "Pharoah Orzech": {
   "stints": [
    {
     "team": "Giants",
-    "from": 82,
-    "to": 97,
+    "from": 80,
+    "to": 95,
     "rings": []
    }
   ],
@@ -5735,7 +5747,7 @@
    {
     "team": "Giants",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5747,7 +5759,7 @@
    {
     "team": "Giants",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5771,7 +5783,7 @@
    {
     "team": "Giants",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5782,7 +5794,7 @@
   "stints": [
    {
     "team": "Giants",
-    "from": 79,
+    "from": 80,
     "to": 94,
     "rings": []
    }
@@ -5795,7 +5807,7 @@
    {
     "team": "Giants",
     "from": 86,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5831,7 +5843,7 @@
    {
     "team": "Jaguars",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5843,7 +5855,7 @@
    {
     "team": "Jaguars",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5855,7 +5867,7 @@
    {
     "team": "Jaguars",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5867,7 +5879,7 @@
    {
     "team": "Jaguars",
     "from": 90,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5879,7 +5891,7 @@
    {
     "team": "Jaguars",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5903,7 +5915,7 @@
    {
     "team": "Jaguars",
     "from": 90,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5915,7 +5927,7 @@
    {
     "team": "Jets",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5927,7 +5939,7 @@
    {
     "team": "Jets",
     "from": 88,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5939,7 +5951,7 @@
    {
     "team": "Jets",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5951,7 +5963,7 @@
    {
     "team": "Jets",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -5999,7 +6011,7 @@
    {
     "team": "Lions",
     "from": 80,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6011,7 +6023,7 @@
    {
     "team": "Lions",
     "from": 88,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6035,7 +6047,7 @@
    {
     "team": "Lions",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6047,7 +6059,7 @@
    {
     "team": "Lions",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6059,7 +6071,7 @@
    {
     "team": "Packers",
     "from": 86,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6071,7 +6083,7 @@
    {
     "team": "Packers",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6097,7 +6109,7 @@
    {
     "team": "Packers",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6109,7 +6121,7 @@
    {
     "team": "Packers",
     "from": 87,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6120,8 +6132,8 @@
   "stints": [
    {
     "team": "Packers",
-    "from": 81,
-    "to": 97,
+    "from": 80,
+    "to": 95,
     "rings": []
    }
   ],
@@ -6132,8 +6144,8 @@
   "stints": [
    {
     "team": "Panthers",
-    "from": 84,
-    "to": 97,
+    "from": 83,
+    "to": 95,
     "rings": []
    }
   ],
@@ -6145,7 +6157,7 @@
    {
     "team": "Panthers",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6157,7 +6169,7 @@
    {
     "team": "Panthers",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6169,7 +6181,7 @@
    {
     "team": "Panthers",
     "from": 86,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6193,7 +6205,7 @@
    {
     "team": "Panthers",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6205,7 +6217,7 @@
    {
     "team": "Panthers",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6216,8 +6228,8 @@
   "stints": [
    {
     "team": "Panthers",
-    "from": 83,
-    "to": 97,
+    "from": 81,
+    "to": 95,
     "rings": []
    }
   ],
@@ -6255,7 +6267,7 @@
    {
     "team": "Patriots",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6266,8 +6278,8 @@
   "stints": [
    {
     "team": "Patriots",
-    "from": 85,
-    "to": 97,
+    "from": 83,
+    "to": 95,
     "rings": []
    }
   ],
@@ -6279,7 +6291,7 @@
    {
     "team": "Patriots",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6319,7 +6331,7 @@
    {
     "team": "Patriots",
     "from": 86,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6331,7 +6343,7 @@
    {
     "team": "Raiders",
     "from": 82,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6355,7 +6367,7 @@
    {
     "team": "Raiders",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6367,7 +6379,7 @@
    {
     "team": "Raiders",
     "from": 88,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6379,7 +6391,7 @@
    {
     "team": "Raiders",
     "from": 74,
-    "to": 93,
+    "to": 95,
     "rings": []
    }
   ],
@@ -6427,7 +6439,7 @@
    {
     "team": "Rams",
     "from": 83,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6439,7 +6451,7 @@
    {
     "team": "Rams",
     "from": 88,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6451,7 +6463,7 @@
    {
     "team": "Rams",
     "from": 86,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6462,7 +6474,7 @@
   "stints": [
    {
     "team": "Rams",
-    "from": 79,
+    "from": 80,
     "to": 94,
     "rings": []
    }
@@ -6474,8 +6486,8 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 83,
-    "to": 97,
+    "from": 81,
+    "to": 95,
     "rings": []
    }
   ],
@@ -6486,7 +6498,7 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 82,
+    "from": 83,
     "to": 97,
     "rings": []
    }
@@ -6499,7 +6511,7 @@
    {
     "team": "Ravens",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6511,7 +6523,7 @@
    {
     "team": "Ravens",
     "from": 86,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6534,8 +6546,8 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 90,
-    "to": 97,
+    "from": 89,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6546,8 +6558,8 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 90,
-    "to": 97,
+    "from": 89,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6559,7 +6571,7 @@
    {
     "team": "Saints",
     "from": 86,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6571,7 +6583,7 @@
    {
     "team": "Saints",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6582,8 +6594,8 @@
   "stints": [
    {
     "team": "Saints",
-    "from": 83,
-    "to": 97,
+    "from": 81,
+    "to": 95,
     "rings": []
    }
   ],
@@ -6594,8 +6606,8 @@
   "stints": [
    {
     "team": "Saints",
-    "from": 79,
-    "to": 97,
+    "from": 77,
+    "to": 95,
     "rings": []
    }
   ],
@@ -6619,7 +6631,7 @@
    {
     "team": "Saints",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6631,7 +6643,7 @@
    {
     "team": "Saints",
     "from": 85,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6642,8 +6654,8 @@
   "stints": [
    {
     "team": "Saints",
-    "from": 84,
-    "to": 97,
+    "from": 82,
+    "to": 95,
     "rings": []
    }
   ],
@@ -6655,7 +6667,7 @@
    {
     "team": "Seahawks",
     "from": 86,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6691,7 +6703,7 @@
    {
     "team": "Seahawks",
     "from": 83,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6714,8 +6726,8 @@
   "stints": [
    {
     "team": "Seahawks",
-    "from": 84,
-    "to": 97,
+    "from": 82,
+    "to": 95,
     "rings": []
    }
   ],
@@ -6727,7 +6739,7 @@
    {
     "team": "Steelers",
     "from": 81,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6751,7 +6763,7 @@
    {
     "team": "Steelers",
     "from": 83,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6763,7 +6775,7 @@
    {
     "team": "Steelers",
     "from": 86,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6774,8 +6786,8 @@
   "stints": [
    {
     "team": "Steelers",
-    "from": 89,
-    "to": 97,
+    "from": 88,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6787,7 +6799,7 @@
    {
     "team": "Texans",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": [
      90
     ]
@@ -6801,7 +6813,7 @@
    {
     "team": "Texans",
     "from": 86,
-    "to": 97,
+    "to": 98,
     "rings": [
      90
     ]
@@ -6829,7 +6841,7 @@
    {
     "team": "Texans",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": [
      90
     ]
@@ -6857,7 +6869,7 @@
    {
     "team": "Titans",
     "from": 88,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6868,8 +6880,8 @@
   "stints": [
    {
     "team": "Titans",
-    "from": 82,
-    "to": 97,
+    "from": 80,
+    "to": 95,
     "rings": []
    }
   ],
@@ -6881,7 +6893,7 @@
    {
     "team": "Titans",
     "from": 83,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6892,8 +6904,8 @@
   "stints": [
    {
     "team": "Titans",
-    "from": 84,
-    "to": 97,
+    "from": 82,
+    "to": 95,
     "rings": []
    }
   ],
@@ -6917,7 +6929,7 @@
    {
     "team": "Titans",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6929,7 +6941,7 @@
    {
     "team": "Titans",
     "from": 90,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6953,7 +6965,7 @@
    {
     "team": "Vikings",
     "from": 86,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6979,7 +6991,7 @@
    {
     "team": "Vikings",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -6991,7 +7003,7 @@
    {
     "team": "Vikings",
     "from": 89,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7015,7 +7027,7 @@
    {
     "team": "Vikings",
     "from": 84,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7038,8 +7050,8 @@
   "stints": [
    {
     "team": "Vikings",
-    "from": 85,
-    "to": 97,
+    "from": 83,
+    "to": 95,
     "rings": []
    }
   ],
@@ -7051,7 +7063,7 @@
    {
     "team": "49ers",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7063,7 +7075,7 @@
    {
     "team": "49ers",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7075,7 +7087,13 @@
    {
     "team": "Bears",
     "from": 91,
-    "to": 97,
+    "to": 95,
+    "rings": []
+   },
+   {
+    "team": "Titans",
+    "from": 96,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7087,7 +7105,7 @@
    {
     "team": "Bengals",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7099,7 +7117,7 @@
    {
     "team": "Buccaneers",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7111,7 +7129,7 @@
    {
     "team": "Cardinals",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7122,8 +7140,8 @@
   "stints": [
    {
     "team": "Commanders",
-    "from": 91,
-    "to": 97,
+    "from": 90,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7135,7 +7153,7 @@
    {
     "team": "Eagles",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": [
      91,
      92,
@@ -7148,14 +7166,14 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "7 rings = Eagles Y91, Y92, Y93, Y94, Y95, Y96, Y97. On the Y91 Eagles roster. On the Y92 Eagles roster. The only window that fits."
+  "evidence": "7 rings = Eagles Y91, Y92, Y93, Y94, Y95, Y96, Y97. On the Y91 Eagles roster. On the Y92 Eagles roster. On the Y93 Eagles roster. On the Y94 Eagles roster. On the Y95 Eagles roster. On the Y96 Eagles roster. On the Y97 Eagles roster. The only window that fits."
  },
  "Jacob Proise": {
   "stints": [
    {
     "team": "Eagles",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": [
      91,
      92,
@@ -7168,14 +7186,14 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "7 rings = Eagles Y91, Y92, Y93, Y94, Y95, Y96, Y97. On the Y91 Eagles roster. On the Y92 Eagles roster. The only window that fits."
+  "evidence": "7 rings = Eagles Y91, Y92, Y93, Y94, Y95, Y96, Y97. On the Y91 Eagles roster. On the Y92 Eagles roster. On the Y93 Eagles roster. On the Y94 Eagles roster. On the Y95 Eagles roster. On the Y96 Eagles roster. On the Y97 Eagles roster. The only window that fits."
  },
  "Niles Canaday": {
   "stints": [
    {
     "team": "Giants",
     "from": 90,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7187,7 +7205,7 @@
    {
     "team": "Patriots",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7199,7 +7217,7 @@
    {
     "team": "Raiders",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7223,7 +7241,7 @@
    {
     "team": "Ravens",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7235,7 +7253,7 @@
    {
     "team": "Seahawks",
     "from": 90,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7247,7 +7265,7 @@
    {
     "team": "Titans",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7259,7 +7277,7 @@
    {
     "team": "Bengals",
     "from": 92,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7271,7 +7289,7 @@
    {
     "team": "Broncos",
     "from": 92,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7283,7 +7301,7 @@
    {
     "team": "Broncos",
     "from": 92,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7295,7 +7313,7 @@
    {
     "team": "Buccaneers",
     "from": 92,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7307,7 +7325,7 @@
    {
     "team": "Cardinals",
     "from": 92,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7319,7 +7337,7 @@
    {
     "team": "Cardinals",
     "from": 92,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7331,7 +7349,7 @@
    {
     "team": "Chargers",
     "from": 92,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7343,7 +7361,7 @@
    {
     "team": "Chiefs",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7355,7 +7373,7 @@
    {
     "team": "Colts",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7367,7 +7385,7 @@
    {
     "team": "Dolphins",
     "from": 92,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7379,7 +7397,7 @@
    {
     "team": "Eagles",
     "from": 92,
-    "to": 97,
+    "to": 98,
     "rings": [
      92,
      93,
@@ -7391,7 +7409,7 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "6 rings = Eagles Y92, Y93, Y94, Y95, Y96, Y97. On the Y92 Eagles roster. The only window that fits."
+  "evidence": "6 rings = Eagles Y92, Y93, Y94, Y95, Y96, Y97. On the Y92 Eagles roster. On the Y93 Eagles roster. On the Y94 Eagles roster. On the Y95 Eagles roster. On the Y96 Eagles roster. On the Y97 Eagles roster. The only window that fits."
  },
  "Keenan Viennes": {
   "stints": [
@@ -7408,19 +7426,19 @@
    {
     "team": "Jets",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Eagles Y92, Y93, Y94. On the Y92 Eagles roster. The only window that fits."
+  "evidence": "3 rings = Eagles Y92, Y93, Y94. On the Y92 Eagles roster. On the Y93 Eagles roster. On the Y94 Eagles roster. The only window that fits."
  },
  "Drake Kaskey": {
   "stints": [
    {
     "team": "Jets",
     "from": 92,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7432,7 +7450,7 @@
    {
     "team": "Panthers",
     "from": 92,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7444,7 +7462,7 @@
    {
     "team": "Raiders",
     "from": 92,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7456,7 +7474,7 @@
    {
     "team": "Seahawks",
     "from": 91,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7468,7 +7486,7 @@
    {
     "team": "Buccaneers",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7480,7 +7498,7 @@
    {
     "team": "Patriots",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7491,8 +7509,8 @@
   "stints": [
    {
     "team": "Commanders",
-    "from": 97,
-    "to": 97,
+    "from": 98,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7504,7 +7522,7 @@
    {
     "team": "Jaguars",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7516,7 +7534,7 @@
    {
     "team": "Vikings",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7540,7 +7558,7 @@
    {
     "team": "Cardinals",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7552,7 +7570,7 @@
    {
     "team": "Cowboys",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7564,7 +7582,7 @@
    {
     "team": "Bengals",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7576,7 +7594,7 @@
    {
     "team": "Cardinals",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7588,7 +7606,7 @@
    {
     "team": "Vikings",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7600,7 +7618,7 @@
    {
     "team": "Rams",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7612,7 +7630,7 @@
    {
     "team": "Broncos",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7623,8 +7641,8 @@
   "stints": [
    {
     "team": "Commanders",
-    "from": 93,
-    "to": 97,
+    "from": 92,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7636,7 +7654,7 @@
    {
     "team": "Bills",
     "from": 92,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7647,8 +7665,8 @@
   "stints": [
    {
     "team": "Ravens",
-    "from": 93,
-    "to": 97,
+    "from": 92,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7660,7 +7678,7 @@
    {
     "team": "Broncos",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7672,7 +7690,7 @@
    {
     "team": "Seahawks",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7684,7 +7702,7 @@
    {
     "team": "Saints",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7696,7 +7714,7 @@
    {
     "team": "Chargers",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7708,7 +7726,7 @@
    {
     "team": "Colts",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7720,7 +7738,7 @@
    {
     "team": "Vikings",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7732,7 +7750,7 @@
    {
     "team": "Buccaneers",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7744,7 +7762,7 @@
    {
     "team": "Lions",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7756,7 +7774,7 @@
    {
     "team": "Cowboys",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7768,7 +7786,7 @@
    {
     "team": "Packers",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7780,7 +7798,7 @@
    {
     "team": "Bills",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7792,7 +7810,7 @@
    {
     "team": "Browns",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7804,7 +7822,7 @@
    {
     "team": "Lions",
     "from": 93,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7816,7 +7834,7 @@
    {
     "team": "Steelers",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7828,7 +7846,7 @@
    {
     "team": "Broncos",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7840,7 +7858,7 @@
    {
     "team": "Panthers",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7852,7 +7870,7 @@
    {
     "team": "Giants",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7864,7 +7882,7 @@
    {
     "team": "Patriots",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7876,7 +7894,7 @@
    {
     "team": "Dolphins",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7888,7 +7906,7 @@
    {
     "team": "Vikings",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7900,7 +7918,7 @@
    {
     "team": "Buccaneers",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7912,7 +7930,7 @@
    {
     "team": "Jets",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7924,7 +7942,7 @@
    {
     "team": "Bengals",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7936,7 +7954,7 @@
    {
     "team": "Steelers",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7948,7 +7966,7 @@
    {
     "team": "Bills",
     "from": 94,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7960,7 +7978,7 @@
    {
     "team": "Texans",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7972,7 +7990,7 @@
    {
     "team": "Steelers",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7984,7 +8002,7 @@
    {
     "team": "Rams",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -7996,7 +8014,7 @@
    {
     "team": "Commanders",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8007,8 +8025,8 @@
   "stints": [
    {
     "team": "Patriots",
-    "from": 96,
-    "to": 97,
+    "from": 98,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8020,7 +8038,7 @@
    {
     "team": "Saints",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8032,7 +8050,7 @@
    {
     "team": "Jaguars",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8044,7 +8062,7 @@
    {
     "team": "Raiders",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8056,7 +8074,7 @@
    {
     "team": "49ers",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8068,7 +8086,7 @@
    {
     "team": "Falcons",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8080,7 +8098,7 @@
    {
     "team": "Commanders",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8092,7 +8110,7 @@
    {
     "team": "Browns",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8104,7 +8122,7 @@
    {
     "team": "Eagles",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": [
      95,
      96,
@@ -8113,14 +8131,14 @@
    }
   ],
   "confidence": "strong",
-  "evidence": "3 rings = Eagles Y95, Y96, Y97. Record board (your club's games only): Y97 longest pass (air) (Eagles). The only window that fits."
+  "evidence": "3 rings = Eagles Y95, Y96, Y97. Record board (your club's games only): Y97 longest pass (air) (Eagles). On the Y96 Eagles roster. On the Y97 Eagles roster. The only window that fits."
  },
  "Sewo Owens": {
   "stints": [
    {
     "team": "Giants",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8132,7 +8150,7 @@
    {
     "team": "Chiefs",
     "from": 95,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8144,7 +8162,7 @@
    {
     "team": "Giants",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8156,7 +8174,7 @@
    {
     "team": "Ravens",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8168,7 +8186,7 @@
    {
     "team": "Browns",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8180,7 +8198,7 @@
    {
     "team": "Commanders",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8192,7 +8210,7 @@
    {
     "team": "Chargers",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8204,7 +8222,7 @@
    {
     "team": "Titans",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8216,7 +8234,7 @@
    {
     "team": "Broncos",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8228,7 +8246,7 @@
    {
     "team": "Texans",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8240,7 +8258,7 @@
    {
     "team": "Saints",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8252,7 +8270,7 @@
    {
     "team": "Patriots",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8264,7 +8282,7 @@
    {
     "team": "Cowboys",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8276,7 +8294,7 @@
    {
     "team": "Giants",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8288,7 +8306,7 @@
    {
     "team": "Texans",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8300,7 +8318,7 @@
    {
     "team": "Chiefs",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8312,7 +8330,7 @@
    {
     "team": "Chiefs",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8324,7 +8342,7 @@
    {
     "team": "Colts",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8336,7 +8354,7 @@
    {
     "team": "Chargers",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8348,7 +8366,7 @@
    {
     "team": "Steelers",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8360,7 +8378,7 @@
    {
     "team": "Colts",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8372,7 +8390,7 @@
    {
     "team": "Falcons",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8384,7 +8402,7 @@
    {
     "team": "Saints",
     "from": 96,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8396,7 +8414,7 @@
    {
     "team": "Commanders",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8408,7 +8426,7 @@
    {
     "team": "Panthers",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8420,7 +8438,7 @@
    {
     "team": "Jets",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8432,7 +8450,7 @@
    {
     "team": "Patriots",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8444,7 +8462,7 @@
    {
     "team": "Bills",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8456,7 +8474,7 @@
    {
     "team": "Saints",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8466,9 +8484,9 @@
  "Juston Farniok": {
   "stints": [
    {
-    "team": "Bears",
+    "team": "Dolphins",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8480,7 +8498,7 @@
    {
     "team": "Colts",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8492,7 +8510,7 @@
    {
     "team": "Packers",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8504,7 +8522,7 @@
    {
     "team": "Bills",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8516,7 +8534,7 @@
    {
     "team": "Chargers",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8528,7 +8546,7 @@
    {
     "team": "Steelers",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8540,7 +8558,7 @@
    {
     "team": "Titans",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8552,7 +8570,7 @@
    {
     "team": "Seahawks",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8562,9 +8580,9 @@
  "Cornell Rhyan": {
   "stints": [
    {
-    "team": "Bears",
+    "team": "Buccaneers",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8576,7 +8594,7 @@
    {
     "team": "49ers",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8588,7 +8606,7 @@
    {
     "team": "Falcons",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8600,7 +8618,7 @@
    {
     "team": "Panthers",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8612,7 +8630,7 @@
    {
     "team": "Chargers",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8624,7 +8642,7 @@
    {
     "team": "Chargers",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8636,7 +8654,7 @@
    {
     "team": "Dolphins",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8648,7 +8666,7 @@
    {
     "team": "Vikings",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8660,7 +8678,7 @@
    {
     "team": "Packers",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
@@ -8672,11 +8690,341 @@
    {
     "team": "Bengals",
     "from": 97,
-    "to": 97,
+    "to": 98,
     "rings": []
    }
   ],
   "confidence": "strong",
   "evidence": "No rings."
+ },
+ "Colton Morgan": {
+  "stints": [
+   {
+    "team": "Chiefs",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Dean Kirk": {
+  "stints": [
+   {
+    "team": "Bears",
+    "from": 98,
+    "to": 98,
+    "rings": [
+     98
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Bears Y98. The only window that fits."
+ },
+ "Demone Blair": {
+  "stints": [
+   {
+    "team": "Browns",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Kerrith Marpet": {
+  "stints": [
+   {
+    "team": "Bears",
+    "from": 98,
+    "to": 98,
+    "rings": [
+     98
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Bears Y98. The only window that fits."
+ },
+ "Nikola Merritt": {
+  "stints": [
+   {
+    "team": "Cowboys",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Xavien Ellison": {
+  "stints": [
+   {
+    "team": "Bears",
+    "from": 98,
+    "to": 98,
+    "rings": [
+     98
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Bears Y98. The only window that fits."
+ },
+ "Ted Myers": {
+  "stints": [
+   {
+    "team": "Rams",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Foster Wallow": {
+  "stints": [
+   {
+    "team": "Eagles",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Marqise Arcuri": {
+  "stints": [
+   {
+    "team": "Seahawks",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Phil Otton": {
+  "stints": [
+   {
+    "team": "Lions",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Taron Elam": {
+  "stints": [
+   {
+    "team": "Falcons",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Grant Isidora": {
+  "stints": [
+   {
+    "team": "Bears",
+    "from": 98,
+    "to": 98,
+    "rings": [
+     98
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Bears Y98. The only window that fits."
+ },
+ "Paul Addae": {
+  "stints": [
+   {
+    "team": "Ravens",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "JJ Starling": {
+  "stints": [
+   {
+    "team": "Bears",
+    "from": 98,
+    "to": 98,
+    "rings": [
+     98
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Bears Y98. The only window that fits."
+ },
+ "Darren Carter": {
+  "stints": [
+   {
+    "team": "Packers",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "DeSean Fries": {
+  "stints": [
+   {
+    "team": "Eagles",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Makai Singer": {
+  "stints": [
+   {
+    "team": "Bears",
+    "from": 98,
+    "to": 98,
+    "rings": [
+     98
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Bears Y98. The only window that fits."
+ },
+ "Jarrad Bourne": {
+  "stints": [
+   {
+    "team": "Packers",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Khaleke Gage": {
+  "stints": [
+   {
+    "team": "Cowboys",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Kristian Smoke": {
+  "stints": [
+   {
+    "team": "Bears",
+    "from": 98,
+    "to": 98,
+    "rings": [
+     98
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Bears Y98. The only window that fits."
+ },
+ "Randall Zylstra": {
+  "stints": [
+   {
+    "team": "Lions",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Cooper Grigsby": {
+  "stints": [
+   {
+    "team": "Rams",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Creed Lock": {
+  "stints": [
+   {
+    "team": "Raiders",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Harvey Ratley": {
+  "stints": [
+   {
+    "team": "Bears",
+    "from": 98,
+    "to": 98,
+    "rings": [
+     98
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Bears Y98. The only window that fits."
+ },
+ "Jahleel Hull": {
+  "stints": [
+   {
+    "team": "Texans",
+    "from": 98,
+    "to": 98,
+    "rings": []
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "No rings."
+ },
+ "Ken Strange": {
+  "stints": [
+   {
+    "team": "Bears",
+    "from": 98,
+    "to": 98,
+    "rings": [
+     98
+    ]
+   }
+  ],
+  "confidence": "strong",
+  "evidence": "1 ring = Bears Y98. The only window that fits."
  }
 }

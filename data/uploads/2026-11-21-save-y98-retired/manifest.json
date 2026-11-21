@@ -1,0 +1,224 @@
+{
+  "id": "2026-11-21-save-y98-retired",
+  "created": "2026-11-21",
+  "title": "Players who played Y97 and are gone from the Y98 season-end save: retired after Y97",
+  "images": [],
+  "ai_steps": [],
+  "save": {
+    "file": "rb_nfl_savedata_4.json",
+    "path": "data/saves/2026-11-21/nfl/Documents/rb_nfl_savedata_4.json",
+    "sha256": "9262464167a894153bfcaa3a5d9426021b99a2e69472fbbfad97acad44144e82",
+    "season": 98,
+    "week": 32,
+    "complete": true
+  },
+  "mutations": [
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Jamon Brooker/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Kolton Cole/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Lamont Edoga/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Lewis Pettis/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Tress Pettis/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Devonte Kerr/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Jace Ray/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Davion Means/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Hakeem Ervin/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Jeff Mixon/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Simeon Otton/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Cethan Qualls/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Terez Poe/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Juju Ngakoue/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Angelo Moton/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Tyreek Devalve/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Jamel Wilkins/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Khalid Glasgow/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Morgan Saltes/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Spencer Ladler/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Kaulani Rahman/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Martin Ward/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    },
+    {
+      "lane": "stats",
+      "op": "fact.set",
+      "target": "players/Tristan Suggs/status",
+      "value": "Retired",
+      "source": "save:rb_nfl_savedata_4.json",
+      "reason": "Owner: \"if a player does not show up in the screen recording assume that they have retired\" (played in Y97, absent from the whole Y98 save: retired after Y97)",
+      "trigger": "Season Y98 complete in the save"
+    }
+  ]
+}

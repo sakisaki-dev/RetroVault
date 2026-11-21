@@ -969,5 +969,15 @@
   "loser": "Colts",
   "your_result": "won",
   "your_team": "Eagles"
+ },
+ {
+  "year": "Y98",
+  "number": 157,
+  "roman": "CLVII",
+  "winner": "Bears",
+  "score": "40-38",
+  "loser": "Dolphins",
+  "your_result": "won",
+  "your_team": "Bears"
  }
 ]

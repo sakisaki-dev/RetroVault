@@ -404,6 +404,70 @@
    "n": 6
   },
   {
+   "id": "y97-farewells",
+   "kind": "farewells",
+   "club": "Eagles",
+   "kicker": "Farewells",
+   "title": "Final whistles",
+   "text": "24 careers ended in Y97.",
+   "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "games": 341,
+     "rings": 14,
+     "legacy": 15757,
+     "team": "Eagles"
+    },
+    {
+     "key": "DB:Jamon Brooker",
+     "name": "Jamon Brooker",
+     "games": 266,
+     "legacy": 9173,
+     "team": "Packers"
+    },
+    {
+     "key": "DB:Lewis Pettis",
+     "name": "Lewis Pettis",
+     "games": 298,
+     "legacy": 8304,
+     "team": "Cowboys"
+    },
+    {
+     "key": "LB:Simeon Otton",
+     "name": "Simeon Otton",
+     "games": 279,
+     "rings": 5,
+     "legacy": 7955,
+     "team": "Falcons"
+    },
+    {
+     "key": "DB:Lamont Edoga",
+     "name": "Lamont Edoga",
+     "games": 256,
+     "legacy": 7509,
+     "team": "Browns"
+    },
+    {
+     "key": "DL:Devonte Kerr",
+     "name": "Devonte Kerr",
+     "games": 254,
+     "legacy": 7023,
+     "team": "Rams"
+    }
+   ],
+   "count": 24,
+   "teams": [
+    "Browns",
+    "Cowboys",
+    "Eagles",
+    "Falcons",
+    "Packers",
+    "Rams"
+   ],
+   "n": 7
+  },
+  {
    "id": "y97-power",
    "kind": "power",
    "club": "Eagles",
@@ -440,7 +504,7 @@
     "winnerRecord": "5-11-1",
     "loserRecord": "15-2"
    },
-   "n": 7
+   "n": 8
   },
   {
    "id": "y97-rivalry",
@@ -487,7 +551,7 @@
     "Eagles",
     "Commanders"
    ],
-   "n": 8
+   "n": 9
   },
   {
    "id": "y97-tribute",
@@ -495,7 +559,7 @@
    "club": "Vikings",
    "kicker": "Tribute · From the queue",
    "title": "God Johnson",
-   "text": "The tribute queue's highest Career Legacy (12,840).",
+   "text": "The tribute queue's highest Career Legacy (12,878).",
    "players": [
     {
      "key": "WR:God Johnson",
@@ -510,7 +574,7 @@
    "teams": [
     "Vikings"
    ],
-   "n": 9
+   "n": 10
   },
   {
    "id": "y97-story",
@@ -549,7 +613,7 @@
     "Commanders",
     "Texans"
    ],
-   "n": 10
+   "n": 11
   },
   {
    "id": "y97-take",
@@ -580,7 +644,7 @@
     "Broncos",
     "Panthers"
    ],
-   "n": 11
+   "n": 12
   },
   {
    "id": "y97-outro",
@@ -601,31 +665,14 @@
      "num": 78
     }
    ],
-   "text": "Through Y97, Skura has won 71 of 78 Super Bowls. Chasing history in Y98: Lewis Pettis, 67 tackles from Travon Swaim's mark; Maxwell, 18 rushing TDs from McCoy's mark.",
+   "text": "Through Y97, Skura has won 71 of 78 Super Bowls.",
    "teams": [
     "Eagles"
    ],
-   "players": [
-    {
-     "key": "DB:Lewis Pettis",
-     "name": "Lewis Pettis",
-     "team": "Cowboys",
-     "label": "career tackles",
-     "gap": 67,
-     "share": 98,
-     "holder": "Travon Swaim"
-    },
-    {
-     "key": "RB:Ryland Maxwell",
-     "name": "Ryland Maxwell",
-     "team": "Eagles",
-     "label": "career rushing TDs",
-     "gap": 18,
-     "share": 96,
-     "holder": "Lane McCoy"
-    }
-   ],
-   "n": 12
+   "link": {
+    "season": "Y98"
+   },
+   "n": 13
   }
  ]
 }

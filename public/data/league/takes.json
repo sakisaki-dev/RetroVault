@@ -1,6 +1,874 @@
 {
  "seasons": [
   {
+   "season": "Y98",
+   "upload": "2026-11-21-takes-y98",
+   "intro": "A new coach in Chicago and a familiar ending. The Bears won it all on nerve and good fortune, the Eagles learned who their quarterback really was, and the trophies kept finding the wrong men. The arguments are ours; the figures are the league's.",
+   "takes": [
+    {
+     "id": "y98-take-bears-luck",
+     "heat": 3,
+     "headline": "The 16-1 Bears Were Lucky. The Ravens Were the Best Team in Football.",
+     "dek": "Chicago's points say 11.1 wins. Baltimore outscored the league by 147, Chicago by 130.",
+     "body": [
+      "Nobody should hand back the trophy. But the Bears' record and the Bears' football were two different things. Chicago went 10-1 in one-score games, and its points for and against, 554 to 424, are those of an 11.1-win team. That is 4.9 wins of good fortune, the most of any club in the league. The Ravens went 13-4 and outscored opponents by 147, more than Chicago's 130.",
+      "January kept the dice hot. The Bears beat a 9-8 Dolphins side by 2 in the Super Bowl, 40-38. Dorren Skura turns close games into wins better than any coach alive, and that is a real skill. Just do not call this the most dominant season the league has seen. It was the luckiest."
+     ],
+     "players": [
+      "JJ Starling",
+      "Bryant Cronk"
+     ],
+     "teams": [
+      "Bears",
+      "Ravens",
+      "Dolphins"
+     ],
+     "stats": [
+      {
+       "label": "Wins above the points",
+       "value": "4.9",
+       "source": "schedule.json seasons/Y98/table/[team=Bears]/luck"
+      },
+      {
+       "label": "Bears record",
+       "value": "16-1",
+       "source": "coach.json Y98 record"
+      },
+      {
+       "label": "Expected wins from points",
+       "value": "11.1",
+       "source": "schedule.json seasons/Y98/table/[team=Bears]/expWins"
+      },
+      {
+       "label": "One-score games",
+       "value": "10-1",
+       "source": "schedule.json seasons/Y98/table/[team=Bears]/oneScore"
+      },
+      {
+       "label": "Bears points for",
+       "value": "554",
+       "source": "schedule.json seasons/Y98/table/[team=Bears]/pf"
+      },
+      {
+       "label": "Bears points against",
+       "value": "424",
+       "source": "schedule.json seasons/Y98/table/[team=Bears]/pa"
+      },
+      {
+       "label": "Ravens point differential",
+       "value": "147",
+       "source": "schedule.json seasons/Y98/table/[team=Ravens]/diff"
+      },
+      {
+       "label": "Bears point differential",
+       "value": "130",
+       "source": "schedule.json seasons/Y98/table/[team=Bears]/diff"
+      },
+      {
+       "label": "Ravens record",
+       "value": "13-4",
+       "source": "schedule.json seasons/Y98/table/[team=Ravens]/record"
+      },
+      {
+       "label": "Dolphins record",
+       "value": "9-8",
+       "source": "schedule.json seasons/Y98/table/[team=Dolphins]/record"
+      },
+      {
+       "label": "Super Bowl margin",
+       "value": "2",
+       "source": "schedule.json seasons/Y98/coachGames/[week=31]/margin"
+      },
+      {
+       "label": "Super Bowl score",
+       "value": "40-38",
+       "source": "super_bowls.json Y98 score"
+      }
+     ]
+    },
+    {
+     "id": "y98-take-crawford-system",
+     "heat": 3,
+     "headline": "Bones Crawford Lost Dorren Skura and 29 Touchdowns. The Doctor Was a System Quarterback.",
+     "dek": "64 touchdown passes in Y97 with Skura, 35 in Y98 without him, and a card that slipped 3%.",
+     "body": [
+      "Skura left Philadelphia for Chicago, and The Doctor stayed behind. The drop was immediate. Crawford threw 64 touchdown passes in Y97 across 20 games, 3.2 a game. In Y98 he threw 35 in 18 games, 1.94 a game, and his yards fell from 4,857 to 3,508. The Eagles still went 13-4 and won all 8 home games, a credit to the roster, but they were gone after 1 playoff game.",
+      "Meanwhile a first-year passer in Chicago threw 61 in Skura's offense. Crawford is 33 and a six-time MVP, and nothing takes that away. But the cleanest test of who made whom was run this season, and the answer came back in the coach's favor. The market agrees: his card fell 3% to 24,847."
+     ],
+     "players": [
+      "Bones Crawford",
+      "JJ Starling"
+     ],
+     "teams": [
+      "Eagles",
+      "Bears"
+     ],
+     "stats": [
+      {
+       "label": "Touchdown passes lost",
+       "value": "29",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.td minus market_history.json snap-202611192114..snap-202611211421 QB:Bones Crawford s.td"
+      },
+      {
+       "label": "TD passes, Y97",
+       "value": "64",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.td"
+      },
+      {
+       "label": "TD passes, Y98",
+       "value": "35",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Bones Crawford s.td"
+      },
+      {
+       "label": "Games, Y97",
+       "value": "20",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.g"
+      },
+      {
+       "label": "Games, Y98",
+       "value": "18",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Bones Crawford s.g"
+      },
+      {
+       "label": "TD passes per game, Y97",
+       "value": "3.2",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.td/s.g"
+      },
+      {
+       "label": "TD passes per game, Y98",
+       "value": "1.94",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Bones Crawford s.td/s.g"
+      },
+      {
+       "label": "Passing yards, Y97",
+       "value": "4,857",
+       "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.yds"
+      },
+      {
+       "label": "Passing yards, Y98",
+       "value": "3,508",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Bones Crawford s.yds"
+      },
+      {
+       "label": "Eagles record",
+       "value": "13-4",
+       "source": "schedule.json seasons/Y98/table/[team=Eagles]/record"
+      },
+      {
+       "label": "Eagles at home",
+       "value": "8-0",
+       "source": "schedule.json seasons/Y98/table/[team=Eagles]/home"
+      },
+      {
+       "label": "Eagles playoff games",
+       "value": "1",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Bones Crawford s.g minus schedule.json seasons/Y98/regularSeasonGames"
+      },
+      {
+       "label": "Starling TD passes",
+       "value": "61",
+       "source": "market_history.json snap-202611211421 QB:JJ Starling s.td"
+      },
+      {
+       "label": "Crawford age, Y98",
+       "value": "33",
+       "source": "save_careers.json age Y98 QB:Bones Crawford"
+      },
+      {
+       "label": "Card change",
+       "value": "3%",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Bones Crawford value%"
+      },
+      {
+       "label": "Card value",
+       "value": "24,847",
+       "source": "market_history.json snap-202611211421 QB:Bones Crawford value"
+      }
+     ]
+    },
+    {
+     "id": "y98-take-starling-mvp",
+     "heat": 2,
+     "headline": "JJ Starling Threw 20 Interceptions, Twice Anyone Else. He Was Still the Right MVP.",
+     "dek": "61 touchdown passes and 5,019 yards in his first season, at 23.",
+     "body": [
+      "The case against Starling writes itself: 20 interceptions, double the 10 thrown by Seattle's Julian Goedert, the next most in the league. Bryant Herbig in Washington threw 38 touchdowns against 2 interceptions and is the tidier quarterback by a distance.",
+      "Tidy does not win MVPs. Starling threw 61 touchdown passes, 18 more than Makai Merritt of the Rams in second, and 5,019 yards, the most in the league. He did it in his first season, at 23, for a 16-1 champion that leaned on him in all 20 of its games. The interceptions are a bill Chicago can afford. Clean that number up and the Bears have the best quarterback in football for a decade."
+     ],
+     "players": [
+      "JJ Starling",
+      "Julian Goedert",
+      "Bryant Herbig",
+      "Makai Merritt"
+     ],
+     "teams": [
+      "Bears",
+      "Seahawks",
+      "Commanders",
+      "Rams"
+     ],
+     "stats": [
+      {
+       "label": "Interceptions, Y98",
+       "value": "20",
+       "source": "market_history.json snap-202611211421 QB:JJ Starling s.int"
+      },
+      {
+       "label": "Goedert interceptions",
+       "value": "10",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Julian Goedert s.int"
+      },
+      {
+       "label": "Herbig TD passes",
+       "value": "38",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Bryant Herbig s.td"
+      },
+      {
+       "label": "Herbig interceptions",
+       "value": "2",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Bryant Herbig s.int"
+      },
+      {
+       "label": "TD passes, Y98",
+       "value": "61",
+       "source": "market_history.json snap-202611211421 QB:JJ Starling s.td"
+      },
+      {
+       "label": "Ahead of Merritt",
+       "value": "18",
+       "source": "market_history.json snap-202611211421 QB:JJ Starling s.td minus market_history.json snap-202611192114..snap-202611211421 QB:Makai Merritt s.td"
+      },
+      {
+       "label": "Merritt TD passes",
+       "value": "43",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Makai Merritt s.td"
+      },
+      {
+       "label": "Passing yards, Y98",
+       "value": "5,019",
+       "source": "market_history.json snap-202611211421 QB:JJ Starling s.yds"
+      },
+      {
+       "label": "Career games (all this season)",
+       "value": "20",
+       "source": "players.json QB:JJ Starling g"
+      },
+      {
+       "label": "Age, Y98",
+       "value": "23",
+       "source": "save_careers.json age Y98 QB:JJ Starling"
+      },
+      {
+       "label": "Bears record",
+       "value": "16-1",
+       "source": "coach.json Y98 record"
+      }
+     ]
+    },
+    {
+     "id": "y98-take-maxwell-short",
+     "heat": 3,
+     "headline": "Ryland Maxwell Retired 18 Touchdowns Short of Lane McCoy. The One Blemish Is Self-Inflicted.",
+     "dek": "A Hall of Fame score of 100 on the first ballot, and 440 rushing touchdowns to McCoy's 458.",
+     "body": [
+      "Maxwell walks into the Hall with a perfect 100 on the ballot, the class of Y98 alongside Jamon Brooker. He owns the rushing yards record by 9,448 over McCoy, with 33,955, and he has 14 rings. He scored 19 rushing touchdowns in his final season, Y97, at 35, a pace that would have closed the gap in one more year.",
+      "He did not take that year. McCoy keeps the touchdown record, 458 to 440, and the greatest back the league has seen retires with one asterisk he chose himself. Nobody is owed a farewell tour. But a man who ran for 1,847 yards in his last season left something on the field, and the record book will say so forever."
+     ],
+     "players": [
+      "Ryland Maxwell",
+      "Lane McCoy",
+      "Jamon Brooker"
+     ],
+     "teams": [
+      "Eagles",
+      "Broncos"
+     ],
+     "stats": [
+      {
+       "label": "Short of McCoy",
+       "value": "18",
+       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/0/value minus league_records.json records/[record=Most rushing TDs, career]/league/top/1/value"
+      },
+      {
+       "label": "Hall of Fame score",
+       "value": "100",
+       "source": "halloffame.json members/[key=RB:Ryland Maxwell]/score"
+      },
+      {
+       "label": "Career rushing TDs",
+       "value": "440",
+       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/1/value"
+      },
+      {
+       "label": "McCoy career rushing TDs",
+       "value": "458",
+       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/0/value"
+      },
+      {
+       "label": "Ahead of McCoy, rushing yards",
+       "value": "9,448",
+       "source": "league_records.json records/[record=Best rushing career]/league/top/0/value minus league_records.json records/[record=Best rushing career]/league/top/1/value"
+      },
+      {
+       "label": "Career rushing yards",
+       "value": "33,955",
+       "source": "league_records.json records/[record=Best rushing career]/league/top/0/value"
+      },
+      {
+       "label": "Rings",
+       "value": "14",
+       "source": "players.json RB:Ryland Maxwell rings"
+      },
+      {
+       "label": "Rushing TDs, Y97",
+       "value": "19",
+       "source": "market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.rtd"
+      },
+      {
+       "label": "Age, Y97",
+       "value": "35",
+       "source": "save_careers.json age Y97 RB:Ryland Maxwell"
+      },
+      {
+       "label": "Rushing yards, Y97",
+       "value": "1,847",
+       "source": "market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.ryds"
+      }
+     ]
+    },
+    {
+     "id": "y98-take-brooker-ringless",
+     "heat": 2,
+     "headline": "Jamon Brooker Is the Greatest Defensive Back Who Ever Played. Rings Are a Quarterback Stat.",
+     "dek": "47 career interceptions, the league record, 2,835 tackles, 2 Defensive Player of the Year awards and no ring.",
+     "body": [
+      "The class of Y98 will be remembered for Ryland Maxwell, and Brooker will be filed as the other name on the plaque. That is wrong. Brooker retired with 47 interceptions, more than any player in league history and 4 clear of Damar Hobbs and Lewis Pettis. He made 2,835 tackles across 266 games, and his 259 tackles for Green Bay in Y88 remain the second-best season on the league list. His Hall of Fame score was 97, first ballot.",
+      "He never won a ring, and some will hold that against him. They should not. Defensive backs do not pick their quarterbacks. Brooker spent a career making other clubs' passers miserable, and he did it better than anyone."
+     ],
+     "players": [
+      "Jamon Brooker",
+      "Ryland Maxwell",
+      "Damar Hobbs",
+      "Lewis Pettis"
+     ],
+     "teams": [
+      "Packers"
+     ],
+     "stats": [
+      {
+       "label": "Career interceptions",
+       "value": "47",
+       "source": "league_records.json records/[record=Most interceptions, career]/league/top/0/value"
+      },
+      {
+       "label": "Ahead of the next two",
+       "value": "4",
+       "source": "league_records.json records/[record=Most interceptions, career]/league/top/0/value minus league_records.json records/[record=Most interceptions, career]/league/top/1/value"
+      },
+      {
+       "label": "Career tackles",
+       "value": "2,835",
+       "source": "players.json DB:Jamon Brooker tkl"
+      },
+      {
+       "label": "Career games",
+       "value": "266",
+       "source": "players.json DB:Jamon Brooker g"
+      },
+      {
+       "label": "Defensive Player of the Year awards",
+       "value": "2",
+       "source": "players.json DB:Jamon Brooker dpoy"
+      },
+      {
+       "label": "Tackles, Y88 (Packers)",
+       "value": "259",
+       "source": "league_records.json records/[record=Most tackles, season]/league/top/1/value"
+      },
+      {
+       "label": "Hall of Fame score",
+       "value": "97",
+       "source": "halloffame.json members/[key=DB:Jamon Brooker]/score"
+      }
+     ]
+    },
+    {
+     "id": "y98-take-golston-dpoy",
+     "heat": 2,
+     "headline": "Abraham Jack Won a Third Defensive Player of the Year. Darian Golston Was Better, and It Was Not Close.",
+     "dek": "Golston: 231 tackles and a league-high 6 interceptions in 17 games. Jack: 224 and 2 in 18.",
+     "body": [
+      "Jack had a strong year in Buffalo, and the Bills won the AFC East at 11-6. But Golston, 24 and playing for a 9-8 Jets side, made more tackles in fewer games and picked off 6 passes, the most in the league. Per game that is 13.59 tackles to Jack's 12.44. Neal Johnson made 248 tackles for the 3-14 Cardinals, more than anyone, and got nothing.",
+      "The voters keep rewarding the defender on the better team. Jack's card still carries a C+ grade after the award; Golston's is an A. The market can read a stat line. The ballot, again, cannot."
+     ],
+     "players": [
+      "Abraham Jack",
+      "Darian Golston",
+      "Neal Johnson"
+     ],
+     "teams": [
+      "Bills",
+      "Jets",
+      "Cardinals"
+     ],
+     "stats": [
+      {
+       "label": "Golston interceptions, Y98",
+       "value": "6",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Darian Golston s.int"
+      },
+      {
+       "label": "Golston tackles, Y98",
+       "value": "231",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Darian Golston s.tkl"
+      },
+      {
+       "label": "Golston games, Y98",
+       "value": "17",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Darian Golston s.g"
+      },
+      {
+       "label": "Jack tackles, Y98",
+       "value": "224",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Abraham Jack s.tkl"
+      },
+      {
+       "label": "Jack interceptions, Y98",
+       "value": "2",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Abraham Jack s.int"
+      },
+      {
+       "label": "Jack games, Y98",
+       "value": "18",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Abraham Jack s.g"
+      },
+      {
+       "label": "Jack's Defensive Player of the Year awards",
+       "value": "3",
+       "source": "players.json DB:Abraham Jack dpoy"
+      },
+      {
+       "label": "Bills record",
+       "value": "11-6",
+       "source": "schedule.json seasons/Y98/table/[team=Bills]/record"
+      },
+      {
+       "label": "Golston age, Y98",
+       "value": "24",
+       "source": "save_careers.json age Y98 DB:Darian Golston"
+      },
+      {
+       "label": "Jets record",
+       "value": "9-8",
+       "source": "schedule.json seasons/Y98/table/[team=Jets]/record"
+      },
+      {
+       "label": "Golston tackles per game",
+       "value": "13.59",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Darian Golston s.tkl/s.g"
+      },
+      {
+       "label": "Jack tackles per game",
+       "value": "12.44",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Abraham Jack s.tkl/s.g"
+      },
+      {
+       "label": "Johnson tackles, Y98",
+       "value": "248",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Neal Johnson s.tkl"
+      },
+      {
+       "label": "Cardinals record",
+       "value": "3-14",
+       "source": "schedule.json seasons/Y98/table/[team=Cardinals]/record"
+      },
+      {
+       "label": "Jack grade",
+       "value": "C+",
+       "source": "market_history.json snap-202611211421 DB:Abraham Jack grade"
+      },
+      {
+       "label": "Golston grade",
+       "value": "A",
+       "source": "market_history.json snap-202611211421 DB:Darian Golston grade"
+      }
+     ]
+    },
+    {
+     "id": "y98-take-santos-opoy",
+     "heat": 2,
+     "headline": "Makai Singer Won Offensive Player of the Year Riding a Champion. Alijah Santos Was the Better Back.",
+     "dek": "Santos ran for 1,765 yards and 33 touchdowns in Washington; Singer had 1,688 and 18.",
+     "body": [
+      "Singer had a fine first season in Chicago: 1,688 rushing yards, 18 rushing touchdowns and 10 more through the air, in 20 games. But the award went to the champion's back, not the league's best one. Santos ran for 1,765 yards, the most in football, and scored 33 rushing touchdowns, 15 more than Singer, in the same 20 games for a 12-5 Commanders side that reached the conference final.",
+      "Singer's own teammate Ken Strange had a stronger claim too: 2,080 receiving yards and 20 touchdowns at 21. The Offensive Player of the Year should go to the best offensive season. Santos had it, Strange had the next one, and Singer collected the trophy."
+     ],
+     "players": [
+      "Makai Singer",
+      "Alijah Santos",
+      "Ken Strange"
+     ],
+     "teams": [
+      "Bears",
+      "Commanders"
+     ],
+     "stats": [
+      {
+       "label": "Santos rushing TDs, Y98",
+       "value": "33",
+       "source": "market_history.json snap-202611192114..snap-202611211421 RB:Alijah Santos s.rtd"
+      },
+      {
+       "label": "Santos rushing yards, Y98",
+       "value": "1,765",
+       "source": "market_history.json snap-202611192114..snap-202611211421 RB:Alijah Santos s.ryds"
+      },
+      {
+       "label": "Singer rushing yards, Y98",
+       "value": "1,688",
+       "source": "market_history.json snap-202611211421 RB:Makai Singer s.ryds"
+      },
+      {
+       "label": "Singer rushing TDs, Y98",
+       "value": "18",
+       "source": "market_history.json snap-202611211421 RB:Makai Singer s.rtd"
+      },
+      {
+       "label": "Singer receiving TDs, Y98",
+       "value": "10",
+       "source": "market_history.json snap-202611211421 RB:Makai Singer s.rectd"
+      },
+      {
+       "label": "Singer games, Y98",
+       "value": "20",
+       "source": "market_history.json snap-202611211421 RB:Makai Singer s.g"
+      },
+      {
+       "label": "Santos games, Y98",
+       "value": "20",
+       "source": "market_history.json snap-202611192114..snap-202611211421 RB:Alijah Santos s.g"
+      },
+      {
+       "label": "Santos's edge in rushing TDs",
+       "value": "15",
+       "source": "market_history.json snap-202611192114..snap-202611211421 RB:Alijah Santos s.rtd minus market_history.json snap-202611211421 RB:Makai Singer s.rtd"
+      },
+      {
+       "label": "Commanders record",
+       "value": "12-5",
+       "source": "schedule.json seasons/Y98/table/[team=Commanders]/record"
+      },
+      {
+       "label": "Strange receiving yards, Y98",
+       "value": "2,080",
+       "source": "market_history.json snap-202611211421 WR:Ken Strange s.yds"
+      },
+      {
+       "label": "Strange TDs, Y98",
+       "value": "20",
+       "source": "market_history.json snap-202611211421 WR:Ken Strange s.td"
+      },
+      {
+       "label": "Strange age, Y98",
+       "value": "21",
+       "source": "save_careers.json age Y98 WR:Ken Strange"
+      }
+     ]
+    },
+    {
+     "id": "y98-take-dolphins-afc",
+     "heat": 2,
+     "headline": "The AFC Sent Its 14th-Best Team to the Super Bowl. The 9-8 Dolphins Nearly Stole It.",
+     "dek": "Plus 9 in point differential and 2 points from a title, while 13-4 Baltimore went one and done.",
+     "body": [
+      "Miami won 9 games, outscored opponents by a total of 9 and finished 14th on the power table. Then it played 4 more games in January and took the Bears to a 40-38 finish. Credit Brandon Jaclyde, 38 and still throwing, with 36 touchdowns and 5 interceptions across 21 games, and Eli Danna, whose card jumped 230% after 99 catches.",
+      "But the Ravens were the AFC's real team: 13-4, a league-best plus 147, second on the power table, and out after a single playoff game, 18 games in all. A conference that sends its 14th-best club to the final has a problem at the top, and Baltimore's early exit is the evidence."
+     ],
+     "players": [
+      "Brandon Jaclyde",
+      "Eli Danna",
+      "Bryant Cronk"
+     ],
+     "teams": [
+      "Dolphins",
+      "Ravens",
+      "Bears"
+     ],
+     "stats": [
+      {
+       "label": "Dolphins power rank",
+       "value": "14",
+       "source": "schedule.json seasons/Y98/table/[team=Dolphins]/power"
+      },
+      {
+       "label": "Dolphins record",
+       "value": "9-8",
+       "source": "schedule.json seasons/Y98/table/[team=Dolphins]/record"
+      },
+      {
+       "label": "Dolphins wins",
+       "value": "9",
+       "source": "schedule.json seasons/Y98/table/[team=Dolphins]/w"
+      },
+      {
+       "label": "Dolphins point differential",
+       "value": "9",
+       "source": "schedule.json seasons/Y98/table/[team=Dolphins]/diff"
+      },
+      {
+       "label": "Super Bowl margin",
+       "value": "2",
+       "source": "schedule.json seasons/Y98/coachGames/[week=31]/margin"
+      },
+      {
+       "label": "Ravens record",
+       "value": "13-4",
+       "source": "schedule.json seasons/Y98/table/[team=Ravens]/record"
+      },
+      {
+       "label": "Dolphins playoff games",
+       "value": "4",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Brandon Jaclyde s.g minus schedule.json seasons/Y98/regularSeasonGames"
+      },
+      {
+       "label": "Super Bowl score",
+       "value": "40-38",
+       "source": "super_bowls.json Y98 score"
+      },
+      {
+       "label": "Jaclyde age, Y98",
+       "value": "38",
+       "source": "save_careers.json age Y98 QB:Brandon Jaclyde"
+      },
+      {
+       "label": "Jaclyde TD passes",
+       "value": "36",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Brandon Jaclyde s.td"
+      },
+      {
+       "label": "Jaclyde interceptions",
+       "value": "5",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Brandon Jaclyde s.int"
+      },
+      {
+       "label": "Jaclyde games",
+       "value": "21",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Brandon Jaclyde s.g"
+      },
+      {
+       "label": "Danna card change",
+       "value": "230%",
+       "source": "market_history.json snap-202611192114..snap-202611211421 TE:Eli Danna value%"
+      },
+      {
+       "label": "Danna catches",
+       "value": "99",
+       "source": "market_history.json snap-202611192114..snap-202611211421 TE:Eli Danna s.rec"
+      },
+      {
+       "label": "Ravens point differential",
+       "value": "147",
+       "source": "schedule.json seasons/Y98/table/[team=Ravens]/diff"
+      },
+      {
+       "label": "Ravens power rank",
+       "value": "2",
+       "source": "schedule.json seasons/Y98/table/[team=Ravens]/power"
+      },
+      {
+       "label": "Ravens games (Cronk)",
+       "value": "18",
+       "source": "market_history.json snap-202611192114..snap-202611211421 QB:Bryant Cronk s.g"
+      }
+     ]
+    },
+    {
+     "id": "y98-take-dotson-sacks",
+     "heat": 2,
+     "headline": "Snoop Dotson's Sack Mark Is 26. A Dolphins Linebacker Had 112. Stop Calling It a Crown.",
+     "dek": "A move to Chicago, 3 sacks, 85 tackles, and a card that more than doubled to 24,593.",
+     "body": [
+      "Dotson followed Dorren Skura from Philadelphia to Chicago, played all 20 games, won his 9th ring and pushed his career sack count to 26, the most on the league list behind the club board's T. Watt and his 112 for the Dolphins in Y6. The card market went wild: up 112% to 24,593.",
+      "Look at what actually happened. Dotson recorded 3 sacks and 85 tackles. Sacks are so rare in this league that the best season on the league list outside the club board is 5, by Landon Irwin in Y95. A career mark of 26 is a curiosity, not a crown. Dotson is a great linebacker with a Hall of Fame watch score of 97, but the price jump paid for the move and the ring, not the sack total."
+     ],
+     "players": [
+      "Snoop Dotson",
+      "Landon Irwin"
+     ],
+     "teams": [
+      "Bears",
+      "Eagles",
+      "Dolphins",
+      "Lions"
+     ],
+     "stats": [
+      {
+       "label": "Career sacks",
+       "value": "26",
+       "source": "league_records.json records/[record=Most sacks, career]/league/top/1/value"
+      },
+      {
+       "label": "Club board career sacks (T. Watt)",
+       "value": "112",
+       "source": "records.json Most sacks, career mark"
+      },
+      {
+       "label": "Games, Y98",
+       "value": "20",
+       "source": "market_history.json snap-202611192114..snap-202611211421 LB:Snoop Dotson s.g"
+      },
+      {
+       "label": "Rings",
+       "value": "9",
+       "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.rings"
+      },
+      {
+       "label": "Card change",
+       "value": "112%",
+       "source": "market_history.json snap-202611192114..snap-202611211421 LB:Snoop Dotson value%"
+      },
+      {
+       "label": "Card value",
+       "value": "24,593",
+       "source": "market_history.json snap-202611211421 LB:Snoop Dotson value"
+      },
+      {
+       "label": "Sacks, Y98",
+       "value": "3",
+       "source": "market_history.json snap-202611192114..snap-202611211421 LB:Snoop Dotson s.sck"
+      },
+      {
+       "label": "Tackles, Y98",
+       "value": "85",
+       "source": "market_history.json snap-202611192114..snap-202611211421 LB:Snoop Dotson s.tkl"
+      },
+      {
+       "label": "Irwin sacks, Y95",
+       "value": "5",
+       "source": "league_records.json records/[record=Most sacks, season]/league/top/1/value"
+      },
+      {
+       "label": "Hall of Fame watch score",
+       "value": "97",
+       "source": "halloffame.json watch/[key=LB:Snoop Dotson]/score"
+      }
+     ]
+    },
+    {
+     "id": "y98-take-mosely-market",
+     "heat": 2,
+     "headline": "Raphael Mosely's Card Nearly Tripled at 34. The Market Is Paying Peak Price for a Late Surge.",
+     "dek": "Up 183% to 4,580 on 182 tackles and 4 interceptions for the Rams.",
+     "body": [
+      "Mosely had a good season. His overall rose from 89 to 93, and he made 182 tackles in 19 games and picked off 4 passes for a 13-4 Rams side. None of that explains a card that went from 1,617 to 4,580.",
+      "Look at the defensive backs around him. Akayleb Samia made 218 tackles, also at 34, and his card rose 38%. Darian Golston made 231 tackles with 6 interceptions at 24, and his card is worth 67. Mosely carries a B- grade, and the market just priced him like a star. Buyers are paying for one strong year from a veteran deep into his career, and that is the most expensive kind of card to hold."
+     ],
+     "players": [
+      "Raphael Mosely",
+      "Akayleb Samia",
+      "Darian Golston"
+     ],
+     "teams": [
+      "Rams",
+      "Broncos",
+      "Jets"
+     ],
+     "stats": [
+      {
+       "label": "Card change",
+       "value": "183%",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Raphael Mosely value%"
+      },
+      {
+       "label": "Age, Y98",
+       "value": "34",
+       "source": "save_careers.json age Y98 DB:Raphael Mosely"
+      },
+      {
+       "label": "Card value",
+       "value": "4,580",
+       "source": "market_history.json snap-202611211421 DB:Raphael Mosely value"
+      },
+      {
+       "label": "Card value before",
+       "value": "1,617",
+       "source": "market_history.json snap-202611192114 DB:Raphael Mosely value"
+      },
+      {
+       "label": "Tackles, Y98",
+       "value": "182",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Raphael Mosely s.tkl"
+      },
+      {
+       "label": "Interceptions, Y98",
+       "value": "4",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Raphael Mosely s.int"
+      },
+      {
+       "label": "Games, Y98",
+       "value": "19",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Raphael Mosely s.g"
+      },
+      {
+       "label": "Overall before",
+       "value": "89",
+       "source": "market_history.json snap-202611192114 DB:Raphael Mosely ovr"
+      },
+      {
+       "label": "Overall now",
+       "value": "93",
+       "source": "market_history.json snap-202611211421 DB:Raphael Mosely ovr"
+      },
+      {
+       "label": "Rams record",
+       "value": "13-4",
+       "source": "schedule.json seasons/Y98/table/[team=Rams]/record"
+      },
+      {
+       "label": "Samia tackles, Y98",
+       "value": "218",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Akayleb Samia s.tkl"
+      },
+      {
+       "label": "Samia age, Y98",
+       "value": "34",
+       "source": "save_careers.json age Y98 DB:Akayleb Samia"
+      },
+      {
+       "label": "Samia card change",
+       "value": "38%",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Akayleb Samia value%"
+      },
+      {
+       "label": "Golston tackles, Y98",
+       "value": "231",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Darian Golston s.tkl"
+      },
+      {
+       "label": "Golston interceptions, Y98",
+       "value": "6",
+       "source": "market_history.json snap-202611192114..snap-202611211421 DB:Darian Golston s.int"
+      },
+      {
+       "label": "Golston age, Y98",
+       "value": "24",
+       "source": "save_careers.json age Y98 DB:Darian Golston"
+      },
+      {
+       "label": "Golston card value",
+       "value": "67",
+       "source": "market_history.json snap-202611211421 DB:Darian Golston value"
+      },
+      {
+       "label": "Mosely grade",
+       "value": "B−",
+       "source": "market_history.json snap-202611211421 DB:Raphael Mosely grade"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "season": "Y97",
    "upload": "2026-11-19-takes-y97",
    "intro": "Philadelphia won again, this time with a quarterback playing better than anyone in the sport. The defensive vote went sideways, the AFC sent a pretender to the final, and the market kept paying for last year. The arguments are ours; the figures are the league's.",
@@ -702,7 +1570,7 @@
   },
   {
    "season": "Y96",
-   "upload": "2026-11-17-maxwell-score-100",
+   "upload": "2026-11-21-hof-y98-refresh",
    "intro": "Philadelphia won again, and its two pillars signed up for one more year. The voters made a mess of the awards, the market chased the wrong Eagles, and a record fell in Cincinnati that nobody rewarded. The arguments are ours; the figures are the league's.",
    "takes": [
     {
@@ -796,7 +1664,7 @@
       {
        "label": "Short of second place",
        "value": "4",
-       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/1/value minus league_records.json records/[record=Most rushing TDs, career]/league/top/2/value"
+       "source": "market_history.json snap-202611170116 RB:Siran Spector s.rtd minus market_history.json snap-202611170116 RB:Ryland Maxwell s.rtd"
       },
       {
        "label": "Rushing yards, Y96",
@@ -841,12 +1709,12 @@
       {
        "label": "McCoy career rushing TDs",
        "value": "458",
-       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/0/value"
+       "source": "market_history.json snap-202611170116 RB:Lane McCoy s.rtd"
       },
       {
        "label": "Spector career rushing TDs",
        "value": "425",
-       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/1/value"
+       "source": "market_history.json snap-202611170116 RB:Siran Spector s.rtd"
       },
       {
        "label": "Maxwell career rushing TDs",
@@ -856,7 +1724,7 @@
       {
        "label": "Short of first place",
        "value": "37",
-       "source": "league_records.json records/[record=Most rushing TDs, career]/league/top/0/value minus league_records.json records/[record=Most rushing TDs, career]/league/top/2/value"
+       "source": "market_history.json snap-202611170116 RB:Lane McCoy s.rtd minus market_history.json snap-202611170116 RB:Ryland Maxwell s.rtd"
       },
       {
        "label": "Maxwell age, Y97",
@@ -947,7 +1815,7 @@
      "dek": "From 8,559 to 19,210 after a season with 17 interceptions, 7 more than the year before.",
      "body": [
       "Crawford was the Y95 MVP with 10 interceptions. In Y96 he threw 17, lost the award to a Detroit quarterback, and watched his card climb from 8,559 to 19,210. That is not a market rewarding a season. That is a market pricing in the day Ryland Maxwell and Akiem Brock, both 35 in Y97, are gone and somebody in Philadelphia has to be the face of the club.",
-      "He has 5 MVPs and 8 rings, and the Hall of Fame watch already scores him at 73, above the bar of 65. The case is real. But a quarterback whose interceptions rose by 7 is still standing behind the two best players he has ever played with, and they will not be there forever. Buyers at 19,210 are paying for the dynasty, not for the passer."
+      "He has 5 MVPs and 8 rings, and the Hall of Fame watch already scores him above the bar of 65. The case is real. But a quarterback whose interceptions rose by 7 is still standing behind the two best players he has ever played with, and they will not be there forever. Buyers at 19,210 are paying for the dynasty, not for the passer."
      ],
      "players": [
       "Bones Crawford",
@@ -997,11 +1865,6 @@
        "label": "Rings",
        "value": "8",
        "source": "market_history.json snap-202611170116 QB:Bones Crawford s.rings"
-      },
-      {
-       "label": "Hall of Fame watch score",
-       "value": "73",
-       "source": "halloffame.json watch/[key=QB:Bones Crawford]/score"
       },
       {
        "label": "Hall of Fame bar",
@@ -1272,7 +2135,7 @@
       {
        "label": "Straight titles",
        "value": "6",
-       "source": "stints.json Ryland Maxwell/stints/2/rings/#"
+       "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.rings minus market_history.json snap-202611121506 RB:Ryland Maxwell s.rings"
       },
       {
        "label": "Y96 record",
@@ -1310,9 +2173,9 @@
      "id": "y96-take-brooker-ringless",
      "heat": 2,
      "headline": "Jamon Brooker Just Tied the Career Interceptions Record. He Is the Best Player Without a Ring.",
-     "dek": "43 interceptions, level with Hall of Famer Damar Hobbs, 2 Defensive Player of the Year awards and a Hall of Fame watch score of 91.",
+     "dek": "43 interceptions, level with Hall of Famer Damar Hobbs, 2 Defensive Player of the Year awards and a first-ballot Hall of Fame vote to come.",
      "body": [
-      "Brooker made 186 tackles and 2 interceptions for Green Bay this season, which took him to 43 for his career and level with Damar Hobbs for the league record. Hobbs is in the Hall of Fame. Brooker will be too: the watch already scores him at 91, second among active players only to Ryland Maxwell's perfect 100, with 2 Defensive Player of the Year awards behind it.",
+      "Brooker made 186 tackles and 2 interceptions for Green Bay this season, which took him to 43 for his career and level with Damar Hobbs for the league record. Hobbs is in the Hall of Fame. Brooker will be too: the Y98 class voted him in on a score of 97, second only to Ryland Maxwell's perfect 100, with 2 Defensive Player of the Year awards behind it.",
       "What he does not have is a ring, and at 33 the window is narrowing. Philadelphia hoards them. The best defender of his generation is spending his prime in the wrong building, and whoever trades for him first will be buying the last missing piece of a Hall of Fame career."
      ],
      "players": [
@@ -1330,9 +2193,9 @@
        "source": "market_history.json snap-202611170116 DB:Jamon Brooker s.int"
       },
       {
-       "label": "League career record",
+       "label": "Hobbs career interceptions (the record)",
        "value": "43",
-       "source": "league_records.json records/[record=Most interceptions, career]/league/value"
+       "source": "market_history.json snap-202611170116 DB:Damar Hobbs s.int"
       },
       {
        "label": "Defensive Player of the Year awards",
@@ -1340,9 +2203,9 @@
        "source": "market_history.json snap-202611170116 DB:Jamon Brooker s.dpoy"
       },
       {
-       "label": "Hall of Fame watch score",
-       "value": "91",
-       "source": "halloffame.json watch/[key=DB:Jamon Brooker]/score"
+       "label": "Hall of Fame score",
+       "value": "97",
+       "source": "halloffame.json members/[key=DB:Jamon Brooker]/score"
       },
       {
        "label": "Tackles, Y96",
@@ -1360,19 +2223,19 @@
        "source": "save_careers.json age Y96 DB:Jamon Brooker"
       },
       {
-       "label": "Maxwell Hall of Fame watch score",
+       "label": "Maxwell Hall of Fame score",
        "value": "100",
-       "source": "halloffame.json watch/[key=RB:Ryland Maxwell]/score"
+       "source": "halloffame.json members/[key=RB:Ryland Maxwell]/score"
       }
      ]
     },
     {
      "id": "y96-take-brock-hall",
      "heat": 1,
-     "headline": "Akiem Brock Has Never Won an Individual Award, and the Hall of Fame Watch Still Scores Him 79",
+     "headline": "Akiem Brock Has Never Won an Individual Award, and the Hall of Fame Watch Still Clears Him",
      "dek": "8 rings, 181 games, the highest Career Legacy of any offensive lineman, and still playing at 35.",
      "body": [
-      "Offensive linemen rarely collect trophies, and Brock has never won an individual award. What he has won is 8 rings, every one of them in Philadelphia, across 181 games. His Career Legacy of 11,394 ranks first among offensive linemen, and the Hall of Fame watch scores him at 79, comfortably clear of the bar of 65.",
+      "Offensive linemen rarely collect trophies, and Brock has never won an individual award. What he has won is 8 rings, every one of them in Philadelphia, across 181 games. His Career Legacy of 11,394 ranks first among offensive linemen, and the Hall of Fame watch scores him comfortably clear of the bar of 65.",
       "That is the Hall doing its job before he even gets there. A trophy-count Hall would leave him waiting behind running backs and quarterbacks with shinier shelves. This one will not. He re-signed for Y97 beside Ryland Maxwell, the back he blocks for, and when the two of them do leave, they should go in together. Maxwell gets the yards. Brock is the reason there is room to get them."
      ],
      "players": [
@@ -1384,24 +2247,19 @@
      ],
      "stats": [
       {
-       "label": "Hall of Fame watch score",
-       "value": "79",
-       "source": "halloffame.json watch/[key=OL:Akiem Brock]/score"
-      },
-      {
        "label": "Rings",
        "value": "8",
-       "source": "halloffame.json watch/[key=OL:Akiem Brock]/rings"
+       "source": "market_history.json snap-202611170116 OL:Akiem Brock s.rings"
       },
       {
        "label": "Games",
        "value": "181",
-       "source": "halloffame.json watch/[key=OL:Akiem Brock]/games"
+       "source": "market_history.json snap-202611170116 OL:Akiem Brock s.g"
       },
       {
        "label": "Career Legacy",
        "value": "11,394",
-       "source": "halloffame.json watch/[key=OL:Akiem Brock]/careerLegacy"
+       "source": "market_history.json snap-202611170116 OL:Akiem Brock legacy"
       },
       {
        "label": "Hall of Fame bar",

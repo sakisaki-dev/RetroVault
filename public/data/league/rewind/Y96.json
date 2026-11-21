@@ -351,22 +351,31 @@
   {
    "id": "y96-farewells",
    "kind": "farewells",
-   "club": "Jets",
+   "club": "Eagles",
    "kicker": "Farewells",
    "title": "Final whistles",
-   "text": "1 career ended in Y96.",
+   "text": "2 careers ended in Y96.",
    "players": [
+    {
+     "key": "RB:Ryland Maxwell",
+     "name": "Ryland Maxwell",
+     "games": 341,
+     "rings": 14,
+     "legacy": 15757,
+     "team": "Eagles"
+    },
     {
      "key": "QB:Ty Lock",
      "name": "Ty Lock",
      "games": 330,
      "rings": 2,
-     "legacy": 7590,
+     "legacy": 7627,
      "team": "Jets"
     }
    ],
-   "count": 1,
+   "count": 2,
    "teams": [
+    "Eagles",
     "Jets"
    ],
    "n": 7

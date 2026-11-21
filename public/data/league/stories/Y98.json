@@ -1,0 +1,1426 @@
+{
+ "season": "Y98",
+ "tagline": "Dorren Skura moves to Chicago, goes 16-1 and edges the Dolphins 40-38 in Super Bowl CLVII for an eighth straight title, JJ Starling throws 61 touchdown passes for the MVP in his first season, and Ryland Maxwell enters the Hall of Fame.",
+ "upload": "2026-11-21-story-y98",
+ "articles": [
+  {
+   "id": "y98-bears-clvii",
+   "kind": "lead",
+   "headline": "Eight Straight, New Colors: Skura's Bears Edge the Dolphins 40-38 in Super Bowl CLVII",
+   "dek": "Dorren Skura left Philadelphia after seven straight titles, went 16-1 in Chicago and won another with a roster built almost entirely of first-year players.",
+   "body": [
+    "The address changed. The ending did not. After seven straight championships in Philadelphia, Dorren Skura took over a Bears club that had gone 11-6 in Y97, and Chicago went 16-1. The only loss came in week 5, 25-22 at Green Bay. The Bears then won their last 12 regular-season games, beat the Giants 46-25 and the Commanders 40-29 at home, and held off the Dolphins 40-38 in Super Bowl CLVII. It is Skura's eighth straight title across two clubs, and the first Super Bowl the Bears have ever won.",
+    "It was not a dominant team on paper. Chicago outscored its opponents by 130 points, fewer than the Ravens' 147, and its 424 points allowed were the fewest in the league by a modest margin. What the Bears did was win close games: 10-1 in one-score games in the regular season. By points scored and allowed they were an 11-win team. They won 16.",
+    "The roster was new almost to a man. JJ Starling, 23, threw 61 touchdown passes in his first season and was named MVP. Ken Strange caught passes for 2,080 yards, Makai Singer ran for 1,688 and won Offensive Player of the Year, and Harvey Ratley was Super Bowl MVP. The thread back to the old dynasty was Snoop Dotson, who followed Skura from Philadelphia, won a 9th ring and finished with more career sacks than anyone on league cards.",
+    "The final was Skura's closest Super Bowl win since his Jets beat Seattle 28-26 in Y80. Miami, 5-12 a year earlier, came within 2 points behind Brandon Jaclyde, the 38-year-old who quarterbacked Skura's Falcons to the Y83 title. The dynasty survived the move. Whether a lineup this young can carry it is the question for Y99."
+   ],
+   "players": [
+    "JJ Starling",
+    "Ken Strange",
+    "Makai Singer",
+    "Harvey Ratley",
+    "Snoop Dotson",
+    "Brandon Jaclyde"
+   ],
+   "teams": [
+    "Bears",
+    "Dolphins",
+    "Eagles",
+    "Packers",
+    "Giants",
+    "Commanders",
+    "Ravens",
+    "Jets",
+    "Seahawks",
+    "Falcons"
+   ],
+   "stats": [
+    {
+     "label": "Super Bowl CLVII",
+     "value": "40-38",
+     "source": "super_bowls.json Y98 score"
+    },
+    {
+     "label": "Bears regular season",
+     "value": "16-1",
+     "source": "coach.json Y98 record"
+    },
+    {
+     "label": "Straight titles in Philadelphia",
+     "value": "7",
+     "source": "coach.json Y97 year minus coach.json Y90 year"
+    },
+    {
+     "label": "Straight titles for Skura",
+     "value": "8",
+     "source": "coach.json Y98 year minus coach.json Y90 year"
+    },
+    {
+     "label": "Bears, Y97",
+     "value": "11-6",
+     "source": "schedule.json seasons/Y97/table/[abbr=CHI]/record"
+    },
+    {
+     "label": "Week 5 at Green Bay",
+     "value": "25-22",
+     "source": "schedule.json seasons/Y98/coachGames/[week=5]/score"
+    },
+    {
+     "label": "Loss, week",
+     "value": "5",
+     "source": "schedule.json seasons/Y98/coachGames/[week=5]/week"
+    },
+    {
+     "label": "Longest win streak",
+     "value": "12",
+     "source": "schedule.json seasons/Y98/table/[abbr=CHI]/longestWinStreak"
+    },
+    {
+     "label": "Divisional round",
+     "value": "46-25",
+     "source": "schedule.json seasons/Y98/coachGames/[round=Divisional]/score"
+    },
+    {
+     "label": "Conference round",
+     "value": "40-29",
+     "source": "schedule.json seasons/Y98/coachGames/[round=Conference]/score"
+    },
+    {
+     "label": "Point differential",
+     "value": "130",
+     "source": "schedule.json seasons/Y98/table/[abbr=CHI]/diff"
+    },
+    {
+     "label": "Ravens point differential",
+     "value": "147",
+     "source": "schedule.json seasons/Y98/table/[abbr=BAL]/diff"
+    },
+    {
+     "label": "Points allowed",
+     "value": "424",
+     "source": "schedule.json seasons/Y98/table/[abbr=CHI]/pa"
+    },
+    {
+     "label": "One-score games",
+     "value": "10-1",
+     "source": "schedule.json seasons/Y98/table/[abbr=CHI]/oneScore"
+    },
+    {
+     "label": "Expected wins by points",
+     "value": "11",
+     "source": "schedule.json seasons/Y98/table/[abbr=CHI]/expWins"
+    },
+    {
+     "label": "Starling age",
+     "value": "23",
+     "source": "save_careers.json age Y98 QB:JJ Starling"
+    },
+    {
+     "label": "Starling TD passes",
+     "value": "61",
+     "source": "market_history.json snap-202611211421 QB:JJ Starling s.td"
+    },
+    {
+     "label": "Strange receiving yards",
+     "value": "2,080",
+     "source": "market_history.json snap-202611211421 WR:Ken Strange s.yds"
+    },
+    {
+     "label": "Singer rushing yards",
+     "value": "1,688",
+     "source": "market_history.json snap-202611211421 RB:Makai Singer s.ryds"
+    },
+    {
+     "label": "Dotson rings",
+     "value": "9",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.rings"
+    },
+    {
+     "label": "Jets over Seattle, Y80",
+     "value": "28-26",
+     "source": "super_bowls.json Y80 score"
+    },
+    {
+     "label": "Dolphins, Y97",
+     "value": "5-12",
+     "source": "schedule.json seasons/Y97/table/[abbr=MIA]/record"
+    },
+    {
+     "label": "Margin",
+     "value": "2",
+     "source": "schedule.json seasons/Y98/coachGames/[week=31]/margin"
+    },
+    {
+     "label": "Jaclyde age",
+     "value": "38",
+     "source": "save_careers.json age Y98 QB:Brandon Jaclyde"
+    }
+   ],
+   "related": [
+    "y97-eagles-clvi"
+   ],
+   "art": {
+    "scene": "vs",
+    "teams": [
+     "Bears",
+     "Dolphins"
+    ]
+   }
+  },
+  {
+   "id": "y98-starling-mvp",
+   "kind": "feature",
+   "headline": "61 Touchdowns, 20 Interceptions and an MVP: The Case For and Against JJ Starling",
+   "dek": "Chicago's first-year quarterback led the league in touchdown passes and in interceptions, and the market still prices his card at 32.",
+   "body": [
+    "No quarterback has arrived like this in years. JJ Starling, 23, threw for 5,019 yards and 61 touchdowns in 20 games, completed 310 of 363 passes, 85.4%, and was named MVP in his first season on league cards. The next best touchdown total belonged to the Rams' Makai Merritt, with 43. Starling ran for 8 more.",
+    "The other column is harder to ignore. His 20 interceptions were the most in the league, double Seattle's Julian Goedert and far more than the 3 Bones Crawford threw in Philadelphia. A year ago Crawford threw 64 touchdown passes for the same coach. Starling's line reads like a quarterback who throws every ball he likes and lets a 2,080-yard receiver sort it out.",
+    "The market has not bought in. His card carries an overall rating of 66 and a value of 32, a sliver of the 24,847 that Crawford's commands. The skill grade is already A+, but the record is one season long. If Starling cuts the interceptions in half, that price will not last."
+   ],
+   "players": [
+    "JJ Starling",
+    "Makai Merritt",
+    "Julian Goedert",
+    "Bones Crawford",
+    "Ken Strange"
+   ],
+   "teams": [
+    "Bears",
+    "Rams",
+    "Seahawks",
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "Starling TD passes",
+     "value": "61",
+     "source": "market_history.json snap-202611211421 QB:JJ Starling s.td"
+    },
+    {
+     "label": "Starling interceptions",
+     "value": "20",
+     "source": "market_history.json snap-202611211421 QB:JJ Starling s.int"
+    },
+    {
+     "label": "Starling card value",
+     "value": "32",
+     "source": "market_history.json snap-202611211421 QB:JJ Starling value"
+    },
+    {
+     "label": "Starling age",
+     "value": "23",
+     "source": "save_careers.json age Y98 QB:JJ Starling"
+    },
+    {
+     "label": "Starling passing yards",
+     "value": "5,019",
+     "source": "market_history.json snap-202611211421 QB:JJ Starling s.yds"
+    },
+    {
+     "label": "Starling games",
+     "value": "20",
+     "source": "market_history.json snap-202611211421 QB:JJ Starling s.g"
+    },
+    {
+     "label": "Completions",
+     "value": "310",
+     "source": "players.json QB:JJ Starling cmp"
+    },
+    {
+     "label": "Attempts",
+     "value": "363",
+     "source": "players.json QB:JJ Starling att"
+    },
+    {
+     "label": "Completion rate",
+     "value": "85.4%",
+     "source": "players.json QB:JJ Starling cmp/att%"
+    },
+    {
+     "label": "Merritt TD passes, Y98",
+     "value": "43",
+     "source": "market_history.json snap-202611192114..snap-202611211421 QB:Makai Merritt s.td"
+    },
+    {
+     "label": "Starling rushing TDs",
+     "value": "8",
+     "source": "market_history.json snap-202611211421 QB:JJ Starling s.rtd"
+    },
+    {
+     "label": "Crawford interceptions, Y98",
+     "value": "3",
+     "source": "market_history.json snap-202611192114..snap-202611211421 QB:Bones Crawford s.int"
+    },
+    {
+     "label": "Crawford TD passes, Y97",
+     "value": "64",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.td"
+    },
+    {
+     "label": "Strange receiving yards",
+     "value": "2,080",
+     "source": "market_history.json snap-202611211421 WR:Ken Strange s.yds"
+    },
+    {
+     "label": "Starling OVR",
+     "value": "66",
+     "source": "market_history.json snap-202611211421 QB:JJ Starling ovr"
+    },
+    {
+     "label": "Crawford card value",
+     "value": "24,847",
+     "source": "market_history.json snap-202611211421 QB:Bones Crawford value"
+    },
+    {
+     "label": "Starling skill grade",
+     "value": "A+",
+     "source": "market_history.json snap-202611211421 QB:JJ Starling grade"
+    },
+    {
+     "label": "Goedert interceptions, Y98",
+     "value": "10",
+     "source": "market_history.json snap-202611192114..snap-202611211421 QB:Julian Goedert s.int"
+    }
+   ],
+   "related": [
+    "y97-crawford-mvp"
+   ]
+  },
+  {
+   "id": "y98-first-year-weapons",
+   "kind": "rise",
+   "headline": "Strange 2,080, Ratley 1,747, Smoke 19 Touchdowns: Chicago's First-Year Weapons",
+   "dek": "Ken Strange was Offensive Rookie of the Year, Harvey Ratley the Super Bowl MVP and Makai Singer Offensive Player of the Year, all in their first seasons.",
+   "body": [
+    "Philadelphia's two-receiver offense stayed behind when Skura left. Chicago built a new one at once. Ken Strange, 21, caught 113 passes for 2,080 yards and 20 touchdowns, the most yards in the league, 333 more than his own teammate. That teammate, Harvey Ratley, also 21, had 1,747 yards and was named Super Bowl MVP. The best receiver outside Chicago, the Rams' Cooper Grigsby, finished with 1,074.",
+    "Tight end Kristian Smoke caught 19 touchdowns on 70 receptions, a score on 27.1% of his catches. Makai Singer ran for 1,688 yards, second in the league to Washington's Alijah Santos, and was named Offensive Player of the Year. Up front, Grant Isidora, 21, made 39 blocks, the most by any lineman and 6 more than Green Bay's Cordale Sweezy.",
+    "Every one of them played all 20 of Chicago's games, and none had played a league game before Y98."
+   ],
+   "players": [
+    "Ken Strange",
+    "Harvey Ratley",
+    "Kristian Smoke",
+    "Makai Singer",
+    "Grant Isidora",
+    "Cooper Grigsby",
+    "Alijah Santos",
+    "Cordale Sweezy"
+   ],
+   "teams": [
+    "Bears",
+    "Rams",
+    "Commanders",
+    "Packers",
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "Strange receiving yards",
+     "value": "2,080",
+     "source": "market_history.json snap-202611211421 WR:Ken Strange s.yds"
+    },
+    {
+     "label": "Ratley receiving yards",
+     "value": "1,747",
+     "source": "market_history.json snap-202611211421 WR:Harvey Ratley s.yds"
+    },
+    {
+     "label": "Smoke TD catches",
+     "value": "19",
+     "source": "market_history.json snap-202611211421 TE:Kristian Smoke s.td"
+    },
+    {
+     "label": "Strange age",
+     "value": "21",
+     "source": "save_careers.json age Y98 WR:Ken Strange"
+    },
+    {
+     "label": "Strange catches",
+     "value": "113",
+     "source": "market_history.json snap-202611211421 WR:Ken Strange s.rec"
+    },
+    {
+     "label": "Strange TD catches",
+     "value": "20",
+     "source": "market_history.json snap-202611211421 WR:Ken Strange s.td"
+    },
+    {
+     "label": "Strange ahead of Ratley",
+     "value": "333",
+     "source": "market_history.json snap-202611211421 WR:Ken Strange s.yds minus market_history.json snap-202611211421 WR:Harvey Ratley s.yds"
+    },
+    {
+     "label": "Ratley age",
+     "value": "21",
+     "source": "save_careers.json age Y98 WR:Harvey Ratley"
+    },
+    {
+     "label": "Grigsby receiving yards",
+     "value": "1,074",
+     "source": "market_history.json snap-202611211421 WR:Cooper Grigsby s.yds"
+    },
+    {
+     "label": "Smoke catches",
+     "value": "70",
+     "source": "market_history.json snap-202611211421 TE:Kristian Smoke s.rec"
+    },
+    {
+     "label": "Smoke TD rate",
+     "value": "27.1%",
+     "source": "players.json TE:Kristian Smoke td/rec%"
+    },
+    {
+     "label": "Singer rushing yards",
+     "value": "1,688",
+     "source": "market_history.json snap-202611211421 RB:Makai Singer s.ryds"
+    },
+    {
+     "label": "Santos rushing yards, Y98",
+     "value": "1,765",
+     "source": "market_history.json snap-202611192114..snap-202611211421 RB:Alijah Santos s.ryds"
+    },
+    {
+     "label": "Isidora age",
+     "value": "21",
+     "source": "save_careers.json age Y98 OL:Grant Isidora"
+    },
+    {
+     "label": "Isidora blocks",
+     "value": "39",
+     "source": "market_history.json snap-202611211421 OL:Grant Isidora s.blk"
+    },
+    {
+     "label": "Ahead of Sweezy",
+     "value": "6",
+     "source": "market_history.json snap-202611211421 OL:Grant Isidora s.blk minus market_history.json snap-202611192114..snap-202611211421 OL:Cordale Sweezy s.blk"
+    },
+    {
+     "label": "Bears games",
+     "value": "20",
+     "source": "market_history.json snap-202611211421 WR:Ken Strange s.g"
+    }
+   ],
+   "related": [
+    "y97-wingo-jarrett"
+   ]
+  },
+  {
+   "id": "y98-dotson-sacks",
+   "kind": "milestone",
+   "headline": "Snoop Dotson Follows Skura to Chicago and Takes the Sack Lead With Him",
+   "dek": "The 32-year-old linebacker added 3 sacks and a 9th ring, and his 26 career sacks are now the most on any league card.",
+   "body": [
+    "When Dorren Skura moved to Chicago, one piece of the Philadelphia defense moved with him. Snoop Dotson, 32, played all 20 of the Bears' games, made 85 tackles, intercepted a pass and recorded 3 sacks, tied for the most in the league.",
+    "That settled a race a year in the making. Dotson began Y98 at 23 career sacks, 1 behind the 24 that Deshone Bello and Kalif Suh share. He finished at 26, the most on any player's career card. Only the 112 on Skura's record board, a club mark that has stood since Y6, is higher.",
+    "The rings kept coming as well. His 9th came in his first season away from the Eagles, and the market took notice: his card value rose 112% to 24,593. The Hall of Fame watch now scores him at 97, well above the bar of 65. For a linebacker who spent years in the shadow of Philadelphia's offense, Chicago has been a fine place to be the veteran in the room."
+   ],
+   "players": [
+    "Snoop Dotson",
+    "Deshone Bello",
+    "Kalif Suh"
+   ],
+   "teams": [
+    "Bears",
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "Dotson career sacks",
+     "value": "26",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Dotson age",
+     "value": "32",
+     "source": "save_careers.json age Y98 LB:Snoop Dotson"
+    },
+    {
+     "label": "Dotson sacks, Y98",
+     "value": "3",
+     "source": "market_history.json snap-202611192114..snap-202611211421 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Dotson rings",
+     "value": "9",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.rings"
+    },
+    {
+     "label": "Dotson games, Y98",
+     "value": "20",
+     "source": "market_history.json snap-202611192114..snap-202611211421 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Dotson tackles, Y98",
+     "value": "85",
+     "source": "market_history.json snap-202611192114..snap-202611211421 LB:Snoop Dotson s.tkl"
+    },
+    {
+     "label": "Dotson sacks before Y98",
+     "value": "23",
+     "source": "market_history.json snap-202611192114 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Short of Bello and Suh",
+     "value": "1",
+     "source": "players.json DL:Deshone Bello sck minus market_history.json snap-202611192114 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Bello and Suh career sacks",
+     "value": "24",
+     "source": "players.json DL:Deshone Bello sck"
+    },
+    {
+     "label": "Record board, career sacks",
+     "value": "112",
+     "source": "records.json Most sacks, career mark"
+    },
+    {
+     "label": "Card value change",
+     "value": "112%",
+     "source": "market_history.json snap-202611192114..snap-202611211421 LB:Snoop Dotson value%"
+    },
+    {
+     "label": "Card value",
+     "value": "24,593",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson value"
+    },
+    {
+     "label": "Hall of Fame watch score",
+     "value": "97",
+     "source": "halloffame.json watch/[key=LB:Snoop Dotson]/score"
+    },
+    {
+     "label": "Hall of Fame bar",
+     "value": "65",
+     "source": "halloffame.json bar"
+    }
+   ],
+   "related": [
+    "y97-record-chases"
+   ],
+   "art": {
+    "scene": "turf",
+    "players": [
+     "Snoop Dotson"
+    ],
+    "teams": [
+     "Bears"
+    ]
+   }
+  },
+  {
+   "id": "y98-jaclyde-dolphins",
+   "kind": "feature",
+   "headline": "Jaclyde at 38: The Dolphins Go From 5-12 to 2 Points Short of a Title",
+   "dek": "Miami's quarterback won a ring with Skura's Falcons in Y83 before the trade that sent him south. In Super Bowl CLVII he nearly took one from his old coach.",
+   "body": [
+    "Brandon Jaclyde has been a Dolphin since Y84, the season after he quarterbacked Dorren Skura's Falcons to a title and was traded to Miami. Miami did not reach a Super Bowl in any of the seasons between. Then, at 38, he led a team that had gone 5-12 in Y97 to a 9-8 record and a playoff run that ended only in the final, a 40-38 loss to Skura's Bears.",
+    "Jaclyde threw 36 touchdown passes and only 5 interceptions in 21 games. Lukas Agnew, 33, ran for 1,416 yards and 29 touchdowns, and tight end Eli Danna, 34, caught 99 passes. The market moved on all of them: Danna's card rose 230% and Jaclyde's climbed from 574 to 771.",
+    "There is history in the loss. Every Super Bowl the Dolphins have won came with Skura as their coach, the last of them in Y59. Miami's finals in Y21 and Y37 were lost to his Buccaneers and his Seahawks. No club had come as close to beating him in a Super Bowl since Seattle in Y80, and it still was not enough."
+   ],
+   "players": [
+    "Brandon Jaclyde",
+    "Lukas Agnew",
+    "Eli Danna"
+   ],
+   "teams": [
+    "Dolphins",
+    "Bears",
+    "Falcons",
+    "Buccaneers",
+    "Seahawks"
+   ],
+   "stats": [
+    {
+     "label": "Jaclyde age",
+     "value": "38",
+     "source": "save_careers.json age Y98 QB:Brandon Jaclyde"
+    },
+    {
+     "label": "Dolphins, Y97",
+     "value": "5-12",
+     "source": "schedule.json seasons/Y97/table/[abbr=MIA]/record"
+    },
+    {
+     "label": "Super Bowl margin",
+     "value": "2",
+     "source": "schedule.json seasons/Y98/coachGames/[week=31]/margin"
+    },
+    {
+     "label": "Dolphins, Y98",
+     "value": "9-8",
+     "source": "schedule.json seasons/Y98/table/[abbr=MIA]/record"
+    },
+    {
+     "label": "Super Bowl CLVII",
+     "value": "40-38",
+     "source": "super_bowls.json Y98 score"
+    },
+    {
+     "label": "Jaclyde TD passes, Y98",
+     "value": "36",
+     "source": "market_history.json snap-202611192114..snap-202611211421 QB:Brandon Jaclyde s.td"
+    },
+    {
+     "label": "Jaclyde interceptions, Y98",
+     "value": "5",
+     "source": "market_history.json snap-202611192114..snap-202611211421 QB:Brandon Jaclyde s.int"
+    },
+    {
+     "label": "Jaclyde games, Y98",
+     "value": "21",
+     "source": "market_history.json snap-202611192114..snap-202611211421 QB:Brandon Jaclyde s.g"
+    },
+    {
+     "label": "Agnew age",
+     "value": "33",
+     "source": "save_careers.json age Y98 RB:Lukas Agnew"
+    },
+    {
+     "label": "Agnew rushing yards, Y98",
+     "value": "1,416",
+     "source": "market_history.json snap-202611192114..snap-202611211421 RB:Lukas Agnew s.ryds"
+    },
+    {
+     "label": "Agnew rushing TDs, Y98",
+     "value": "29",
+     "source": "market_history.json snap-202611192114..snap-202611211421 RB:Lukas Agnew s.rtd"
+    },
+    {
+     "label": "Danna age",
+     "value": "34",
+     "source": "save_careers.json age Y98 TE:Eli Danna"
+    },
+    {
+     "label": "Danna catches, Y98",
+     "value": "99",
+     "source": "market_history.json snap-202611192114..snap-202611211421 TE:Eli Danna s.rec"
+    },
+    {
+     "label": "Danna card value change",
+     "value": "230%",
+     "source": "market_history.json snap-202611192114..snap-202611211421 TE:Eli Danna value%"
+    },
+    {
+     "label": "Jaclyde card value, Y97",
+     "value": "574",
+     "source": "market_history.json snap-202611192114 QB:Brandon Jaclyde value"
+    },
+    {
+     "label": "Jaclyde card value",
+     "value": "771",
+     "source": "market_history.json snap-202611211421 QB:Brandon Jaclyde value"
+    }
+   ],
+   "related": [],
+   "art": {
+    "scene": "vs",
+    "players": [
+     "Brandon Jaclyde"
+    ],
+    "teams": [
+     "Dolphins",
+     "Bears"
+    ]
+   }
+  },
+  {
+   "id": "y98-eagles-after",
+   "kind": "fall",
+   "headline": "Life After Skura: The Eagles Go 13-4 and Exit After One Playoff Game",
+   "dek": "Bones Crawford's touchdown passes nearly halved, Payton Jarrett fell from 2,007 yards to 304, and the seven-time defending champions watched the final from home.",
+   "body": [
+    "Philadelphia did not collapse. The Eagles went 13-4, outscored their opponents by 120 points and finished third in the power rankings. For most clubs that is a fine season. For a club that had won the last seven titles, it was the end of something: one playoff game, one loss, and the trophy went to Skura's new club instead.",
+    "The passing game took the hardest hit. Bones Crawford, 33, threw 35 touchdown passes, down from 64, though he was intercepted only 3 times. Calvin Wingo II fell from 2,158 receiving yards to 749. Payton Jarrett, a 2,007-yard receiver in Y97, caught 65 passes for 304 yards, 4.7 a catch.",
+    "There were bright spots. DeSean Fries, 21, ran for 1,496 yards and 25 touchdowns in his first season, though he fumbled 13 times. Akiem Brock, 35, made 28 blocks in 18 games. But Crawford's card slipped from 25,496 to 24,847, and the roster that won seven straight is largely still there. The coach is not, and the difference showed."
+   ],
+   "players": [
+    "Bones Crawford",
+    "Calvin Wingo II",
+    "Payton Jarrett",
+    "DeSean Fries",
+    "Akiem Brock"
+   ],
+   "teams": [
+    "Eagles",
+    "Bears"
+   ],
+   "stats": [
+    {
+     "label": "Eagles regular season",
+     "value": "13-4",
+     "source": "schedule.json seasons/Y98/table/[abbr=PHI]/record"
+    },
+    {
+     "label": "Eagles playoff games",
+     "value": "1",
+     "source": "market_history.json snap-202611192114..snap-202611211421 QB:Bones Crawford s.g minus schedule.json seasons/Y98/regularSeasonGames"
+    },
+    {
+     "label": "Jarrett receiving yards, Y97",
+     "value": "2,007",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Payton Jarrett s.yds"
+    },
+    {
+     "label": "Jarrett receiving yards, Y98",
+     "value": "304",
+     "source": "market_history.json snap-202611192114..snap-202611211421 WR:Payton Jarrett s.yds"
+    },
+    {
+     "label": "Eagles point differential",
+     "value": "120",
+     "source": "schedule.json seasons/Y98/table/[abbr=PHI]/diff"
+    },
+    {
+     "label": "Eagles power ranking",
+     "value": "3",
+     "source": "schedule.json seasons/Y98/table/[abbr=PHI]/power"
+    },
+    {
+     "label": "Straight titles before Y98",
+     "value": "7",
+     "source": "coach.json Y97 year minus coach.json Y90 year"
+    },
+    {
+     "label": "Crawford age",
+     "value": "33",
+     "source": "save_careers.json age Y98 QB:Bones Crawford"
+    },
+    {
+     "label": "Crawford TD passes, Y98",
+     "value": "35",
+     "source": "market_history.json snap-202611192114..snap-202611211421 QB:Bones Crawford s.td"
+    },
+    {
+     "label": "Crawford TD passes, Y97",
+     "value": "64",
+     "source": "market_history.json snap-202611170116..snap-202611192114 QB:Bones Crawford s.td"
+    },
+    {
+     "label": "Crawford interceptions, Y98",
+     "value": "3",
+     "source": "market_history.json snap-202611192114..snap-202611211421 QB:Bones Crawford s.int"
+    },
+    {
+     "label": "Wingo receiving yards, Y97",
+     "value": "2,158",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.yds"
+    },
+    {
+     "label": "Wingo receiving yards, Y98",
+     "value": "749",
+     "source": "market_history.json snap-202611192114..snap-202611211421 WR:Calvin Wingo II s.yds"
+    },
+    {
+     "label": "Jarrett catches, Y98",
+     "value": "65",
+     "source": "market_history.json snap-202611192114..snap-202611211421 WR:Payton Jarrett s.rec"
+    },
+    {
+     "label": "Jarrett yards per catch, Y98",
+     "value": "4.7",
+     "source": "market_history.json snap-202611192114..snap-202611211421 WR:Payton Jarrett s.yds/s.rec"
+    },
+    {
+     "label": "Fries age",
+     "value": "21",
+     "source": "save_careers.json age Y98 RB:DeSean Fries"
+    },
+    {
+     "label": "Fries rushing yards",
+     "value": "1,496",
+     "source": "market_history.json snap-202611211421 RB:DeSean Fries s.ryds"
+    },
+    {
+     "label": "Fries rushing TDs",
+     "value": "25",
+     "source": "market_history.json snap-202611211421 RB:DeSean Fries s.rtd"
+    },
+    {
+     "label": "Fries fumbles",
+     "value": "13",
+     "source": "players.json RB:DeSean Fries fum"
+    },
+    {
+     "label": "Brock age",
+     "value": "35",
+     "source": "save_careers.json age Y98 OL:Akiem Brock"
+    },
+    {
+     "label": "Brock blocks, Y98",
+     "value": "28",
+     "source": "market_history.json snap-202611192114..snap-202611211421 OL:Akiem Brock s.blk"
+    },
+    {
+     "label": "Brock games, Y98",
+     "value": "18",
+     "source": "market_history.json snap-202611192114..snap-202611211421 OL:Akiem Brock s.g"
+    },
+    {
+     "label": "Crawford card value, Y97",
+     "value": "25,496",
+     "source": "market_history.json snap-202611192114 QB:Bones Crawford value"
+    },
+    {
+     "label": "Crawford card value",
+     "value": "24,847",
+     "source": "market_history.json snap-202611211421 QB:Bones Crawford value"
+    }
+   ],
+   "related": [
+    "y97-wingo-jarrett"
+   ]
+  },
+  {
+   "id": "y98-hall-maxwell-brooker",
+   "kind": "milestone",
+   "headline": "Mad Max and Brooker Walk Into the Hall of Fame on the First Ballot",
+   "dek": "Ryland Maxwell retired with 33,955 rushing yards and 14 rings; Jamon Brooker with 47 interceptions and no ring at all. Both were voted in at once.",
+   "body": [
+    "The Class of Y98 is small, and the vote was not close. Ryland Maxwell goes in with a Hall of Fame score of 100, the maximum, and Jamon Brooker with 97, both far above the bar of 65 and both in their first year on the ballot.",
+    "Maxwell's case needs no argument. He retired after Y97 with 33,955 career rushing yards, the league record, and 440 rushing touchdowns, the most on Skura's record board but 18 short of Lane McCoy's league mark of 458. That chase is over, and McCoy keeps it. Maxwell also took 14 rings, every one with Dorren Skura, and 8 Super Bowl MVPs, and his card, at 50,066, is still the most valuable in the game.",
+    "Brooker's career ran the other way. He played all 266 of his games for Green Bay, won Defensive Player of the Year twice and finished with 47 interceptions, the most on any league card and 4 clear of Damar Hobbs and Lewis Pettis. He never won a ring. The voters did not hold it against him."
+   ],
+   "players": [
+    "Ryland Maxwell",
+    "Jamon Brooker",
+    "Lane McCoy",
+    "Damar Hobbs",
+    "Lewis Pettis"
+   ],
+   "teams": [
+    "Eagles",
+    "Packers",
+    "Falcons",
+    "Jets"
+   ],
+   "stats": [
+    {
+     "label": "Maxwell career rushing yards",
+     "value": "33,955",
+     "source": "players.json RB:Ryland Maxwell ryds"
+    },
+    {
+     "label": "Maxwell rings",
+     "value": "14",
+     "source": "players.json RB:Ryland Maxwell rings"
+    },
+    {
+     "label": "Brooker career interceptions",
+     "value": "47",
+     "source": "players.json DB:Jamon Brooker int"
+    },
+    {
+     "label": "Maxwell Hall of Fame score",
+     "value": "100",
+     "source": "halloffame.json members/[key=RB:Ryland Maxwell]/score"
+    },
+    {
+     "label": "Brooker Hall of Fame score",
+     "value": "97",
+     "source": "halloffame.json members/[key=DB:Jamon Brooker]/score"
+    },
+    {
+     "label": "Hall of Fame bar",
+     "value": "65",
+     "source": "halloffame.json bar"
+    },
+    {
+     "label": "Maxwell career rushing TDs",
+     "value": "440",
+     "source": "players.json RB:Ryland Maxwell rtd"
+    },
+    {
+     "label": "Short of McCoy",
+     "value": "18",
+     "source": "players.json RB:Lane McCoy rtd minus players.json RB:Ryland Maxwell rtd"
+    },
+    {
+     "label": "McCoy career rushing TDs",
+     "value": "458",
+     "source": "players.json RB:Lane McCoy rtd"
+    },
+    {
+     "label": "Maxwell Super Bowl MVPs",
+     "value": "8",
+     "source": "players.json RB:Ryland Maxwell sbmvp"
+    },
+    {
+     "label": "Maxwell card value",
+     "value": "50,066",
+     "source": "market_history.json snap-202611211421 RB:Ryland Maxwell value"
+    },
+    {
+     "label": "Brooker games",
+     "value": "266",
+     "source": "players.json DB:Jamon Brooker g"
+    },
+    {
+     "label": "Brooker DPOY awards",
+     "value": "2",
+     "source": "players.json DB:Jamon Brooker dpoy"
+    },
+    {
+     "label": "Ahead of Hobbs and Pettis",
+     "value": "4",
+     "source": "players.json DB:Jamon Brooker int minus players.json DB:Lewis Pettis int"
+    }
+   ],
+   "related": [
+    "y97-maxwell-35"
+   ],
+   "art": {
+    "scene": "podium",
+    "players": [
+     "Ryland Maxwell",
+     "Jamon Brooker"
+    ]
+   }
+  },
+  {
+   "id": "y98-record-chases",
+   "kind": "chase",
+   "headline": "Hoyer Closes to 77 Tackles of Swaim, and McCoy's Touchdown Mark Survives",
+   "dek": "A.T. Hoyer made 222 tackles for the Raiders and is chasing two career records at once. Akayleb Samia passed 3,000.",
+   "body": [
+    "With Lewis Pettis retired, the tackle race has a new challenger. A.T. Hoyer made 222 tackles in 17 games for the 6-11 Raiders and stands at 3,328, second on the league list. Travon Swaim, still playing in Detroit, added 149 of his own to reach 3,405, so the gap is 77. Both men are 34.",
+    "Hoyer is also 7 interceptions from Jamon Brooker's record of 47 after picking off 3 more, and his card rose 29% on the season. In Denver, Akayleb Samia made 218 tackles and passed 3,000 for his career, finishing at 3,047.",
+    "One chase ended without a finish line. Ryland Maxwell retired 18 rushing touchdowns short of Lane McCoy, so the league mark of 458 stays with McCoy. And the sack list has a new leader in Snoop Dotson, whose 26 put him 2 clear of Deshone Bello and Kalif Suh."
+   ],
+   "players": [
+    "A.T. Hoyer",
+    "Travon Swaim",
+    "Akayleb Samia",
+    "Lewis Pettis",
+    "Jamon Brooker",
+    "Ryland Maxwell",
+    "Lane McCoy",
+    "Snoop Dotson",
+    "Deshone Bello",
+    "Kalif Suh"
+   ],
+   "teams": [
+    "Raiders",
+    "Lions",
+    "Broncos",
+    "Bears"
+   ],
+   "stats": [
+    {
+     "label": "Hoyer short of Swaim",
+     "value": "77",
+     "source": "market_history.json snap-202611211421 DB:Travon Swaim s.tkl minus market_history.json snap-202611211421 DB:A.T. Hoyer s.tkl"
+    },
+    {
+     "label": "Hoyer tackles, Y98",
+     "value": "222",
+     "source": "market_history.json snap-202611192114..snap-202611211421 DB:A.T. Hoyer s.tkl"
+    },
+    {
+     "label": "Samia career tackles passed",
+     "value": "3,000",
+     "source": "crossed: market_history.json snap-202611192114..snap-202611211421 DB:Akayleb Samia s.tkl"
+    },
+    {
+     "label": "Hoyer games, Y98",
+     "value": "17",
+     "source": "market_history.json snap-202611192114..snap-202611211421 DB:A.T. Hoyer s.g"
+    },
+    {
+     "label": "Raiders record",
+     "value": "6-11",
+     "source": "schedule.json seasons/Y98/table/[abbr=LV]/record"
+    },
+    {
+     "label": "Hoyer career tackles",
+     "value": "3,328",
+     "source": "market_history.json snap-202611211421 DB:A.T. Hoyer s.tkl"
+    },
+    {
+     "label": "Swaim tackles, Y98",
+     "value": "149",
+     "source": "market_history.json snap-202611192114..snap-202611211421 DB:Travon Swaim s.tkl"
+    },
+    {
+     "label": "Swaim career tackles",
+     "value": "3,405",
+     "source": "market_history.json snap-202611211421 DB:Travon Swaim s.tkl"
+    },
+    {
+     "label": "Hoyer age",
+     "value": "34",
+     "source": "save_careers.json age Y98 DB:A.T. Hoyer"
+    },
+    {
+     "label": "Swaim age",
+     "value": "34",
+     "source": "save_careers.json age Y98 DB:Travon Swaim"
+    },
+    {
+     "label": "Hoyer short of Brooker",
+     "value": "7",
+     "source": "players.json DB:Jamon Brooker int minus market_history.json snap-202611211421 DB:A.T. Hoyer s.int"
+    },
+    {
+     "label": "Brooker record",
+     "value": "47",
+     "source": "players.json DB:Jamon Brooker int"
+    },
+    {
+     "label": "Hoyer interceptions, Y98",
+     "value": "3",
+     "source": "market_history.json snap-202611192114..snap-202611211421 DB:A.T. Hoyer s.int"
+    },
+    {
+     "label": "Hoyer card value change",
+     "value": "29%",
+     "source": "market_history.json snap-202611192114..snap-202611211421 DB:A.T. Hoyer value%"
+    },
+    {
+     "label": "Samia tackles, Y98",
+     "value": "218",
+     "source": "market_history.json snap-202611192114..snap-202611211421 DB:Akayleb Samia s.tkl"
+    },
+    {
+     "label": "Samia career tackles",
+     "value": "3,047",
+     "source": "market_history.json snap-202611211421 DB:Akayleb Samia s.tkl"
+    },
+    {
+     "label": "Maxwell short of McCoy",
+     "value": "18",
+     "source": "players.json RB:Lane McCoy rtd minus players.json RB:Ryland Maxwell rtd"
+    },
+    {
+     "label": "McCoy career rushing TDs",
+     "value": "458",
+     "source": "players.json RB:Lane McCoy rtd"
+    },
+    {
+     "label": "Dotson career sacks",
+     "value": "26",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Ahead of Bello and Suh",
+     "value": "2",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.sck minus players.json DL:Deshone Bello sck"
+    }
+   ],
+   "related": [
+    "y97-record-chases"
+   ]
+  },
+  {
+   "id": "y98-rivals",
+   "kind": "rivalry",
+   "headline": "Green Bay Ends Its Long Skid Against Skura, and the Giants Fall to 0-20",
+   "dek": "The Packers handed the Bears their only loss of the season. The Giants and Commanders both lost to Chicago in the playoffs.",
+   "body": [
+    "The move to Chicago put the Packers in Skura's division, and they were the only club to beat him. Green Bay won 25-22 at home in week 5, ending a run of 10 straight wins by Skura's clubs over the Packers that stretched back to the Y88 conference round. The Bears answered 38-32 in Chicago in week 13, and the series now stands at 11-1.",
+    "The old NFC East rivals followed him into the postseason. The Giants went 12-5 and lost 46-25 in Chicago in the divisional round. In 20 recorded meetings with Skura's clubs since Y88 they have never won.",
+    "Washington, also 12-5, lost twice: 30-13 at home in week 16 and 40-29 in the conference round. Skura's clubs now lead that series 14-5-1. A year earlier Washington had beaten Philadelphia 33-32. Chicago gave them nothing."
+   ],
+   "players": [],
+   "teams": [
+    "Packers",
+    "Bears",
+    "Giants",
+    "Commanders",
+    "Eagles"
+   ],
+   "stats": [
+    {
+     "label": "Week 5 at Green Bay",
+     "value": "25-22",
+     "source": "schedule.json seasons/Y98/coachGames/[week=5]/score"
+    },
+    {
+     "label": "Giants wins against Skura's clubs",
+     "value": "0",
+     "source": "content.json rivalryFiles/[id=rivalry-giants]/record/l"
+    },
+    {
+     "label": "Meetings with the Giants",
+     "value": "20",
+     "source": "content.json rivalryFiles/[id=rivalry-giants]/games"
+    },
+    {
+     "label": "Loss, week",
+     "value": "5",
+     "source": "schedule.json seasons/Y98/coachGames/[week=5]/week"
+    },
+    {
+     "label": "Straight wins over the Packers",
+     "value": "10",
+     "source": "content.json rivalryFiles/[id=rivalry-packers]/streak/games"
+    },
+    {
+     "label": "Week 13 vs Green Bay",
+     "value": "38-32",
+     "source": "schedule.json seasons/Y98/coachGames/[week=13]/score"
+    },
+    {
+     "label": "Rematch, week",
+     "value": "13",
+     "source": "schedule.json seasons/Y98/coachGames/[week=13]/week"
+    },
+    {
+     "label": "Series with the Packers",
+     "value": "11-1",
+     "source": "content.json rivalryFiles/[id=rivalry-packers]/record/text"
+    },
+    {
+     "label": "Giants record",
+     "value": "12-5",
+     "source": "schedule.json seasons/Y98/table/[abbr=NYG]/record"
+    },
+    {
+     "label": "Divisional round",
+     "value": "46-25",
+     "source": "schedule.json seasons/Y98/coachGames/[round=Divisional]/score"
+    },
+    {
+     "label": "Commanders record",
+     "value": "12-5",
+     "source": "schedule.json seasons/Y98/table/[abbr=WAS]/record"
+    },
+    {
+     "label": "Week 16 at Washington",
+     "value": "30-13",
+     "source": "schedule.json seasons/Y98/coachGames/[week=16]/score"
+    },
+    {
+     "label": "Week, Washington",
+     "value": "16",
+     "source": "schedule.json seasons/Y98/coachGames/[week=16]/week"
+    },
+    {
+     "label": "Conference round",
+     "value": "40-29",
+     "source": "schedule.json seasons/Y98/coachGames/[round=Conference]/score"
+    },
+    {
+     "label": "Commanders over the Eagles, Y97",
+     "value": "33-32",
+     "source": "schedule.json seasons/Y97/coachGames/[week=11]/score"
+    },
+    {
+     "label": "Series with the Commanders",
+     "value": "14-5-1",
+     "source": "content.json rivalryFiles/[id=rivalry-commanders]/record/text"
+    }
+   ],
+   "related": [
+    "y97-nfc-east"
+   ],
+   "art": {
+    "scene": "vs",
+    "teams": [
+     "Bears",
+     "Packers"
+    ]
+   }
+  },
+  {
+   "id": "y98-quick-hits",
+   "kind": "quickhits",
+   "headline": "Quick Hits",
+   "dek": "Upsets, blowouts, a 113-point shootout and the rest of the league in Y98.",
+   "body": [
+    "Upset of the year: the 49ers, who finished 5-12, won 31-23 in week 4 at Washington, a 12-5 club.",
+    "The 3-14 Cardinals produced the biggest blowout of the season, 59-16 over those same 49ers in week 18.",
+    "Jacksonville won 62-51 in Seattle in week 12, 113 points in a single game.",
+    "Phillip Ball ran for 39 touchdowns for the 5-12 Saints, whose defense allowed 625 points, the most in the league.",
+    "Buffalo's Abraham Jack made 224 tackles and won his 3rd Defensive Player of the Year award; Arizona's Neal Johnson made 248, the most in the league.",
+    "The Rams scored 643 points, the most in the league, and Raphael Mosely's card rose 183% after 182 tackles.",
+    "Alijah Santos led the league with 1,765 rushing yards and scored 33 rushing touchdowns for Washington."
+   ],
+   "players": [
+    "Phillip Ball",
+    "Abraham Jack",
+    "Neal Johnson",
+    "Raphael Mosely",
+    "Alijah Santos"
+   ],
+   "teams": [
+    "49ers",
+    "Commanders",
+    "Cardinals",
+    "Jaguars",
+    "Seahawks",
+    "Saints",
+    "Bills",
+    "Rams"
+   ],
+   "stats": [
+    {
+     "label": "Upset",
+     "value": "31-23",
+     "source": "schedule.json seasons/Y98/upset/score"
+    },
+    {
+     "label": "49ers record",
+     "value": "5-12",
+     "source": "schedule.json seasons/Y98/upset/winnerRecord"
+    },
+    {
+     "label": "Upset, week",
+     "value": "4",
+     "source": "schedule.json seasons/Y98/upset/week"
+    },
+    {
+     "label": "Commanders record",
+     "value": "12-5",
+     "source": "schedule.json seasons/Y98/upset/loserRecord"
+    },
+    {
+     "label": "Cardinals record",
+     "value": "3-14",
+     "source": "schedule.json seasons/Y98/table/[abbr=ARI]/record"
+    },
+    {
+     "label": "Blowout",
+     "value": "59-16",
+     "source": "schedule.json seasons/Y98/blowout/score"
+    },
+    {
+     "label": "Blowout, week",
+     "value": "18",
+     "source": "schedule.json seasons/Y98/blowout/week"
+    },
+    {
+     "label": "Shootout",
+     "value": "62-51",
+     "source": "schedule.json seasons/Y98/shootout/score"
+    },
+    {
+     "label": "Shootout, week",
+     "value": "12",
+     "source": "schedule.json seasons/Y98/shootout/week"
+    },
+    {
+     "label": "Shootout points",
+     "value": "113",
+     "source": "schedule.json seasons/Y98/shootout/total"
+    },
+    {
+     "label": "Ball rushing TDs, Y98",
+     "value": "39",
+     "source": "market_history.json snap-202611192114..snap-202611211421 RB:Phillip Ball s.rtd"
+    },
+    {
+     "label": "Saints record",
+     "value": "5-12",
+     "source": "schedule.json seasons/Y98/table/[abbr=NO]/record"
+    },
+    {
+     "label": "Saints points allowed",
+     "value": "625",
+     "source": "schedule.json seasons/Y98/table/[abbr=NO]/pa"
+    },
+    {
+     "label": "Jack tackles, Y98",
+     "value": "224",
+     "source": "market_history.json snap-202611192114..snap-202611211421 DB:Abraham Jack s.tkl"
+    },
+    {
+     "label": "Jack DPOY awards",
+     "value": "3",
+     "source": "market_history.json snap-202611211421 DB:Abraham Jack s.dpoy"
+    },
+    {
+     "label": "Johnson tackles, Y98",
+     "value": "248",
+     "source": "market_history.json snap-202611192114..snap-202611211421 DB:Neal Johnson s.tkl"
+    },
+    {
+     "label": "Rams points",
+     "value": "643",
+     "source": "schedule.json seasons/Y98/table/[abbr=LAR]/pf"
+    },
+    {
+     "label": "Mosely card value change",
+     "value": "183%",
+     "source": "market_history.json snap-202611192114..snap-202611211421 DB:Raphael Mosely value%"
+    },
+    {
+     "label": "Mosely tackles, Y98",
+     "value": "182",
+     "source": "market_history.json snap-202611192114..snap-202611211421 DB:Raphael Mosely s.tkl"
+    },
+    {
+     "label": "Santos rushing yards, Y98",
+     "value": "1,765",
+     "source": "market_history.json snap-202611192114..snap-202611211421 RB:Alijah Santos s.ryds"
+    },
+    {
+     "label": "Santos rushing TDs, Y98",
+     "value": "33",
+     "source": "market_history.json snap-202611192114..snap-202611211421 RB:Alijah Santos s.rtd"
+    }
+   ],
+   "related": [
+    "y97-quick-hits"
+   ]
+  }
+ ],
+ "didYouKnow": [
+  {
+   "id": "y98-dyk-starling",
+   "text": "JJ Starling completed 85.4% of his passes in his first season and still threw 20 interceptions, the most in the league.",
+   "players": [
+    "JJ Starling"
+   ],
+   "stats": [
+    {
+     "label": "Completion rate",
+     "value": "85.4%",
+     "source": "players.json QB:JJ Starling cmp/att%"
+    },
+    {
+     "label": "Interceptions",
+     "value": "20",
+     "source": "market_history.json snap-202611211421 QB:JJ Starling s.int"
+    }
+   ]
+  },
+  {
+   "id": "y98-dyk-close-games",
+   "text": "The Bears went 10-1 in one-score games in the regular season. By points scored and allowed they projected as an 11-win team, and they won 16.",
+   "players": [],
+   "teams": [
+    "Bears"
+   ],
+   "stats": [
+    {
+     "label": "One-score games",
+     "value": "10-1",
+     "source": "schedule.json seasons/Y98/table/[abbr=CHI]/oneScore"
+    },
+    {
+     "label": "Expected wins",
+     "value": "11",
+     "source": "schedule.json seasons/Y98/table/[abbr=CHI]/expWins"
+    },
+    {
+     "label": "Wins",
+     "value": "16",
+     "source": "coach.json Y98 w"
+    }
+   ]
+  },
+  {
+   "id": "y98-dyk-dolphins",
+   "text": "Every Super Bowl the Dolphins have won came with Dorren Skura as their coach. Their Y98 final, a 40-38 loss, came against him.",
+   "players": [],
+   "teams": [
+    "Dolphins"
+   ],
+   "stats": [
+    {
+     "label": "Super Bowl CLVII",
+     "value": "40-38",
+     "source": "super_bowls.json Y98 score"
+    }
+   ]
+  },
+  {
+   "id": "y98-dyk-smoke",
+   "text": "Kristian Smoke scored on 27.1% of his catches as a first-year tight end: 19 touchdowns on 70 receptions.",
+   "players": [
+    "Kristian Smoke"
+   ],
+   "stats": [
+    {
+     "label": "TD rate",
+     "value": "27.1%",
+     "source": "players.json TE:Kristian Smoke td/rec%"
+    },
+    {
+     "label": "TD catches",
+     "value": "19",
+     "source": "market_history.json snap-202611211421 TE:Kristian Smoke s.td"
+    },
+    {
+     "label": "Catches",
+     "value": "70",
+     "source": "market_history.json snap-202611211421 TE:Kristian Smoke s.rec"
+    }
+   ]
+  },
+  {
+   "id": "y98-dyk-isidora",
+   "text": "Grant Isidora, 21, made 39 blocks in his first season, more than any other lineman in the league.",
+   "players": [
+    "Grant Isidora"
+   ],
+   "stats": [
+    {
+     "label": "Age",
+     "value": "21",
+     "source": "save_careers.json age Y98 OL:Grant Isidora"
+    },
+    {
+     "label": "Blocks",
+     "value": "39",
+     "source": "market_history.json snap-202611211421 OL:Grant Isidora s.blk"
+    }
+   ]
+  },
+  {
+   "id": "y98-dyk-fries",
+   "text": "Eagles first-year back DeSean Fries ran for 25 touchdowns and fumbled 13 times in 18 games.",
+   "players": [
+    "DeSean Fries"
+   ],
+   "stats": [
+    {
+     "label": "Rushing TDs",
+     "value": "25",
+     "source": "market_history.json snap-202611211421 RB:DeSean Fries s.rtd"
+    },
+    {
+     "label": "Fumbles",
+     "value": "13",
+     "source": "players.json RB:DeSean Fries fum"
+    },
+    {
+     "label": "Games",
+     "value": "18",
+     "source": "market_history.json snap-202611211421 RB:DeSean Fries s.g"
+    }
+   ]
+  },
+  {
+   "id": "y98-dyk-jaclyde",
+   "text": "Brandon Jaclyde, 38, threw 5 interceptions in 21 games for Miami, 15 fewer than MVP JJ Starling.",
+   "players": [
+    "Brandon Jaclyde",
+    "JJ Starling"
+   ],
+   "stats": [
+    {
+     "label": "Age",
+     "value": "38",
+     "source": "save_careers.json age Y98 QB:Brandon Jaclyde"
+    },
+    {
+     "label": "Interceptions",
+     "value": "5",
+     "source": "market_history.json snap-202611192114..snap-202611211421 QB:Brandon Jaclyde s.int"
+    },
+    {
+     "label": "Games",
+     "value": "21",
+     "source": "market_history.json snap-202611192114..snap-202611211421 QB:Brandon Jaclyde s.g"
+    },
+    {
+     "label": "Fewer than Starling",
+     "value": "15",
+     "source": "market_history.json snap-202611211421 QB:JJ Starling s.int minus market_history.json snap-202611192114..snap-202611211421 QB:Brandon Jaclyde s.int"
+    }
+   ]
+  }
+ ]
+}

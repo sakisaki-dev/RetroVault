@@ -8,7 +8,7 @@
   "games": 234,
   "clubs": 2,
   "active": false,
-  "careerLegacy": 12840,
+  "careerLegacy": 12878,
   "rings": 10,
   "hallOfFame": "Inaugural class"
  },
@@ -388,8 +388,8 @@
      },
      {
       "label": "Career Legacy",
-      "a": 12840,
-      "b": 11478,
+      "a": 12878,
+      "b": 11511,
       "decimals": 0
      }
     ]
@@ -665,6 +665,17 @@
       "values": {
        "WR:God Johnson": 38525,
        "QB:Sherman Brandson": 41245,
+       "RB:Ryland Maxwell": 50066
+      }
+     },
+     {
+      "season": "Y98",
+      "snapshot": "snap-202611211421",
+      "ovr": 99,
+      "grade": "S",
+      "values": {
+       "WR:God Johnson": 38717,
+       "QB:Sherman Brandson": 41517,
        "RB:Ryland Maxwell": 50066
       }
      }

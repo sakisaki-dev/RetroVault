@@ -1785,6 +1785,89 @@
     "stats": 1
    },
    "changed": 1
+  },
+  {
+   "id": "2026-11-21-save-y98",
+   "dir": "data/uploads/2026-11-21-save-y98",
+   "applied_at": "2026-11-21T14:21:06-08:00",
+   "mutations": {
+    "stats": 304
+   },
+   "changed": 1554
+  },
+  {
+   "id": "2026-11-21-save-y98-retired",
+   "dir": "data/uploads/2026-11-21-save-y98-retired",
+   "applied_at": "2026-11-21T14:24:57-08:00",
+   "mutations": {
+    "stats": 23
+   },
+   "changed": 23
+  },
+  {
+   "id": "2026-11-21-save-y98-retired-earlier",
+   "dir": "data/uploads/2026-11-21-save-y98-retired-earlier",
+   "applied_at": "2026-11-21T14:26:30-08:00",
+   "mutations": {
+    "stats": 44
+   },
+   "changed": 44
+  },
+  {
+   "id": "2026-11-21-save-y98-careers",
+   "dir": "data/uploads/2026-11-21-save-y98-careers",
+   "applied_at": "2026-11-21T14:27:44-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-21-save-y98w32",
+   "dir": "data/uploads/2026-11-21-save-y98w32",
+   "applied_at": "2026-11-21T14:29:01-08:00",
+   "mutations": {
+    "stats": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-21-hof-y98-refresh",
+   "dir": "data/uploads/2026-11-21-hof-y98-refresh",
+   "applied_at": "2026-11-21T14:34:14-08:00",
+   "mutations": {
+    "speech": 2,
+    "takes": 1,
+    "tribute": 1
+   },
+   "changed": 4
+  },
+  {
+   "id": "2026-11-21-tribute-dotson",
+   "dir": "data/uploads/2026-11-21-tribute-dotson",
+   "applied_at": "2026-11-21T14:35:25-08:00",
+   "mutations": {
+    "tribute": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-21-takes-y98",
+   "dir": "data/uploads/2026-11-21-takes-y98",
+   "applied_at": "2026-11-21T14:36:45-08:00",
+   "mutations": {
+    "takes": 1
+   },
+   "changed": 1
+  },
+  {
+   "id": "2026-11-21-story-y98",
+   "dir": "data/uploads/2026-11-21-story-y98",
+   "applied_at": "2026-11-21T14:45:08-08:00",
+   "mutations": {
+    "story": 4
+   },
+   "changed": 4
   }
  ]
 }

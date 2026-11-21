@@ -1,0 +1,836 @@
+{
+ "key": "LB:Snoop Dotson",
+ "name": "Snoop Dotson",
+ "pos": "LB",
+ "upload": "2026-11-21-tribute-dotson",
+ "deck": "He arrived in Philadelphia as a depth linebacker, won a ring nearly every winter Dorren Skura coached him, and followed the coach to Chicago to win one more. Along the way he became the most prolific pass rusher on any career card the league keeps.",
+ "hero": {
+  "games": 198,
+  "clubs": 2,
+  "active": true,
+  "careerLegacy": 10239,
+  "rings": 9
+ },
+ "journey": [
+  {
+   "team": "Eagles",
+   "from": 89,
+   "to": 97,
+   "rings": [
+    89,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97
+   ]
+  },
+  {
+   "team": "Bears",
+   "from": 98,
+   "to": 98,
+   "rings": [
+    98
+   ]
+  }
+ ],
+ "chapters": [
+  {
+   "id": "snoop-dotson-arrival",
+   "kind": "chapter",
+   "club": "Eagles",
+   "headline": "A Young Linebacker Walks Into a Champion's Locker Room in Philadelphia",
+   "body": [
+    "Dorren Skura's first Eagles club had just won Super Bowl CXLVII when Snoop Dotson made the roster for Y89, at 23. The defense he joined was already good. It got better. Philadelphia went 14-2-1 and beat the Bengals 44-14 in Super Bowl CXLVIII, and the linebacker finished his first recorded season with a ring and 59 tackles across 20 games.",
+    "The market was not impressed yet. His card opened at a value of 12 with an overall rating of 66, the profile of a depth player. The skill grade told a different story, an A minus already, a hint that the tape was running ahead of the ratings. Nobody in that locker room could have guessed that the linebacker would outlast nearly all of it."
+   ],
+   "players": [
+    "Snoop Dotson"
+   ],
+   "teams": [
+    "Eagles",
+    "Bengals"
+   ],
+   "stats": [
+    {
+     "label": "Age in Y89",
+     "value": "23",
+     "source": "save_careers.json age Y89 LB:Snoop Dotson"
+    },
+    {
+     "label": "Eagles record, Y89",
+     "value": "14-2-1",
+     "source": "coach.json Y89 record"
+    },
+    {
+     "label": "Super Bowl CXLVIII",
+     "value": "44-14",
+     "source": "super_bowls.json Y89 score"
+    },
+    {
+     "label": "Tackles by the end of Y89",
+     "value": "59",
+     "source": "market_history.json snap-202611071301 LB:Snoop Dotson s.tkl"
+    },
+    {
+     "label": "Games by the end of Y89",
+     "value": "20",
+     "source": "market_history.json snap-202611071301 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Card value after Y89",
+     "value": "12",
+     "source": "market_history.json snap-202611071301 LB:Snoop Dotson value"
+    },
+    {
+     "label": "Overall after Y89",
+     "value": "66",
+     "source": "market_history.json snap-202611071301 LB:Snoop Dotson ovr"
+    },
+    {
+     "label": "Skill grade after Y89",
+     "value": "A−",
+     "source": "market_history.json snap-202611071301 LB:Snoop Dotson grade"
+    }
+   ]
+  },
+  {
+   "id": "snoop-dotson-texans-final",
+   "kind": "chapter",
+   "club": "Eagles",
+   "headline": "The One That Got Away, and the Linebacker Who Came Back Better",
+   "body": [
+    "Y90 is the season Philadelphia still turns over. The Eagles went 14-3 and reached Super Bowl CXLIX, and the Texans won it 32-22. Dotson was not whole for all of it: injury cost him 2 games, 18 played to the 20 Akiem Brock logged. He still made 75 tackles, his overall rating jumped from 66 to 71, and his grade rose to S, where it has stayed in every season since.",
+    "The answer came in Y91. Healthy for all 20 games, he made 95 tackles with 3 sacks and 2 forced fumbles, the Eagles went 15-2 and beat the Raiders 38-23 in Super Bowl CL, and his overall climbed to 79. Y92 brought 4 sacks, another title, 30-21 over the Colts, and a rating of 84. The depth player from Y89 had become a linebacker opponents game-planned around."
+   ],
+   "players": [
+    "Snoop Dotson",
+    "Akiem Brock"
+   ],
+   "teams": [
+    "Eagles",
+    "Texans",
+    "Raiders",
+    "Colts"
+   ],
+   "stats": [
+    {
+     "label": "Games missed through injury, Y90",
+     "value": "2",
+     "source": "market_history.json snap-202611071301..snap-202611121506 OL:Akiem Brock s.g minus market_history.json snap-202611071301..snap-202611121506 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Eagles record, Y90",
+     "value": "14-3",
+     "source": "coach.json Y90 record"
+    },
+    {
+     "label": "Super Bowl CXLIX, lost",
+     "value": "32-22",
+     "source": "super_bowls.json Y90 score"
+    },
+    {
+     "label": "Games played, Y90",
+     "value": "18",
+     "source": "market_history.json snap-202611071301..snap-202611121506 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Brock's games, Y90",
+     "value": "20",
+     "source": "market_history.json snap-202611071301..snap-202611121506 OL:Akiem Brock s.g"
+    },
+    {
+     "label": "Tackles, Y90",
+     "value": "75",
+     "source": "market_history.json snap-202611071301..snap-202611121506 LB:Snoop Dotson s.tkl"
+    },
+    {
+     "label": "Overall after Y89",
+     "value": "66",
+     "source": "market_history.json snap-202611071301 LB:Snoop Dotson ovr"
+    },
+    {
+     "label": "Overall after Y90",
+     "value": "71",
+     "source": "market_history.json snap-202611121506 LB:Snoop Dotson ovr"
+    },
+    {
+     "label": "Games, Y91",
+     "value": "20",
+     "source": "market_history.json snap-202611121506..snap-202611121857 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Tackles, Y91",
+     "value": "95",
+     "source": "market_history.json snap-202611121506..snap-202611121857 LB:Snoop Dotson s.tkl"
+    },
+    {
+     "label": "Sacks, Y91",
+     "value": "3",
+     "source": "market_history.json snap-202611121506..snap-202611121857 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Forced fumbles, Y91",
+     "value": "2",
+     "source": "market_history.json snap-202611121506..snap-202611121857 LB:Snoop Dotson s.ff"
+    },
+    {
+     "label": "Eagles record, Y91",
+     "value": "15-2",
+     "source": "coach.json Y91 record"
+    },
+    {
+     "label": "Super Bowl CL",
+     "value": "38-23",
+     "source": "super_bowls.json Y91 score"
+    },
+    {
+     "label": "Overall after Y91",
+     "value": "79",
+     "source": "market_history.json snap-202611121857 LB:Snoop Dotson ovr"
+    },
+    {
+     "label": "Sacks, Y92",
+     "value": "4",
+     "source": "market_history.json snap-202611121857..snap-202611131841 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Super Bowl CLI",
+     "value": "30-21",
+     "source": "super_bowls.json Y92 score"
+    },
+    {
+     "label": "Overall after Y92",
+     "value": "84",
+     "source": "market_history.json snap-202611131841 LB:Snoop Dotson ovr"
+    }
+   ]
+  },
+  {
+   "id": "snoop-dotson-dynasty",
+   "kind": "chapter",
+   "club": "Eagles",
+   "headline": "Five Straight Februaries, and the Steadiest Defender of the Eagles Dynasty",
+   "body": [
+    "From Y93 to Y97 the Eagles won every Super Bowl, and Dotson won every one with them, his ring count climbing from 3 to 8. Philadelphia went 17-0 in Y93 and again in Y95, and the linebacker played all 20 games of both seasons.",
+    "His best tackling year was Y95: 102 of them, with 3 sacks. Y96 was the most complete. He had 4 sacks, 5 interceptions and 2 forced fumbles across 21 games, and his Career Legacy passed 7,500, the Hall of Fame bar, for the first time. His overall reached 96 that season and 98 the next.",
+    "Y97 was the one dent. Injury cost him a game, 19 played to the 20 Brock logged, and he managed only 1 sack. He made 90 tackles anyway, and Philadelphia beat the Colts 38-22. Nobody knew it yet, but it was his last game in green."
+   ],
+   "players": [
+    "Snoop Dotson",
+    "Akiem Brock"
+   ],
+   "teams": [
+    "Eagles",
+    "Colts"
+   ],
+   "stats": [
+    {
+     "label": "Rings after Y97",
+     "value": "8",
+     "source": "market_history.json snap-202611192114 LB:Snoop Dotson s.rings"
+    },
+    {
+     "label": "Rings after Y92",
+     "value": "3",
+     "source": "market_history.json snap-202611131841 LB:Snoop Dotson s.rings"
+    },
+    {
+     "label": "Eagles record, Y93",
+     "value": "17-0",
+     "source": "coach.json Y93 record"
+    },
+    {
+     "label": "Eagles record, Y95",
+     "value": "17-0",
+     "source": "coach.json Y95 record"
+    },
+    {
+     "label": "Games, Y93",
+     "value": "20",
+     "source": "market_history.json snap-202611131841..snap-202611140247 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Tackles, Y95",
+     "value": "102",
+     "source": "market_history.json snap-202611141119..snap-202611162108 LB:Snoop Dotson s.tkl"
+    },
+    {
+     "label": "Sacks, Y95",
+     "value": "3",
+     "source": "market_history.json snap-202611141119..snap-202611162108 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Sacks, Y96",
+     "value": "4",
+     "source": "market_history.json snap-202611162108..snap-202611170116 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Interceptions, Y96",
+     "value": "5",
+     "source": "market_history.json snap-202611162108..snap-202611170116 LB:Snoop Dotson s.int"
+    },
+    {
+     "label": "Forced fumbles, Y96",
+     "value": "2",
+     "source": "market_history.json snap-202611162108..snap-202611170116 LB:Snoop Dotson s.ff"
+    },
+    {
+     "label": "Games, Y96",
+     "value": "21",
+     "source": "market_history.json snap-202611162108..snap-202611170116 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Career Legacy passed, Y96",
+     "value": "7,500",
+     "source": "crossed: market_history.json snap-202611162108..snap-202611170116 LB:Snoop Dotson legacy"
+    },
+    {
+     "label": "Overall after Y96",
+     "value": "96",
+     "source": "market_history.json snap-202611170116 LB:Snoop Dotson ovr"
+    },
+    {
+     "label": "Overall after Y97",
+     "value": "98",
+     "source": "market_history.json snap-202611192114 LB:Snoop Dotson ovr"
+    },
+    {
+     "label": "Games missed through injury, Y97",
+     "value": "1",
+     "source": "market_history.json snap-202611170116..snap-202611192114 OL:Akiem Brock s.g minus market_history.json snap-202611170116..snap-202611192114 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Games, Y97",
+     "value": "19",
+     "source": "market_history.json snap-202611170116..snap-202611192114 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Sacks, Y97",
+     "value": "1",
+     "source": "market_history.json snap-202611170116..snap-202611192114 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Tackles, Y97",
+     "value": "90",
+     "source": "market_history.json snap-202611170116..snap-202611192114 LB:Snoop Dotson s.tkl"
+    },
+    {
+     "label": "Super Bowl CLVI",
+     "value": "38-22",
+     "source": "super_bowls.json Y97 score"
+    }
+   ]
+  },
+  {
+   "id": "snoop-dotson-chicago",
+   "kind": "chapter",
+   "club": "Bears",
+   "headline": "Skura Goes to Chicago, and His Linebacker Goes With Him",
+   "body": [
+    "After Y97, Dorren Skura left Philadelphia for the Bears, and in his first season there the coach brought Dotson to Chicago. Much of the dynasty stayed behind: Bones Crawford and Akiem Brock are still Eagles. At 32, Dotson started over in a new city beside a young quarterback, JJ Starling, who threw for 5,019 yards that season.",
+    "Chicago went 16-1. Dotson played all 20 games, made 85 tackles and added 3 sacks, which lifted his career total to 26, past the 24 that Deshone Bello and Kalif Suh share. Only the 112 T. Watt holds on Skura's own record board, from the Dolphins in Y6, stands above him.",
+    "The playoffs ran through old enemies. The Giants fell 46-25 in the divisional round, making the coach's record against them 20-0 across the Eagles and Bears years. Washington went down 40-29, and in Super Bowl CLVII Chicago held off the Dolphins 40-38. Dotson had his ninth ring, the first he ever won away from Philadelphia."
+   ],
+   "players": [
+    "Snoop Dotson",
+    "Bones Crawford",
+    "Akiem Brock",
+    "JJ Starling",
+    "Deshone Bello",
+    "Kalif Suh"
+   ],
+   "teams": [
+    "Bears",
+    "Eagles",
+    "Giants",
+    "Commanders",
+    "Dolphins"
+   ],
+   "stats": [
+    {
+     "label": "Age in Y98",
+     "value": "32",
+     "source": "save_careers.json age Y98 LB:Snoop Dotson"
+    },
+    {
+     "label": "Starling passing yards, Y98",
+     "value": "5,019",
+     "source": "save_state.json players/QB:JJ Starling/season/yds"
+    },
+    {
+     "label": "Bears record, Y98",
+     "value": "16-1",
+     "source": "coach.json Y98 record"
+    },
+    {
+     "label": "Games, Y98",
+     "value": "20",
+     "source": "market_history.json snap-202611192114..snap-202611211421 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Tackles, Y98",
+     "value": "85",
+     "source": "market_history.json snap-202611192114..snap-202611211421 LB:Snoop Dotson s.tkl"
+    },
+    {
+     "label": "Sacks, Y98",
+     "value": "3",
+     "source": "market_history.json snap-202611192114..snap-202611211421 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Career sacks after Y98",
+     "value": "26",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Bello and Suh, career sacks",
+     "value": "24",
+     "source": "league_records.json records/[record=Most sacks, career]/league/top/2/value"
+    },
+    {
+     "label": "T. Watt's career sacks, club board",
+     "value": "112",
+     "source": "records.json Most sacks, career mark"
+    },
+    {
+     "label": "Divisional round vs Giants",
+     "value": "46-25",
+     "source": "schedule.json seasons/Y98/coachGames/[week=27]/score"
+    },
+    {
+     "label": "Coach's record against the Giants",
+     "value": "20-0",
+     "source": "content.json rivalryFiles/[id=rivalry-giants]/record/text"
+    },
+    {
+     "label": "Conference final vs Commanders",
+     "value": "40-29",
+     "source": "schedule.json seasons/Y98/coachGames/[week=30]/score"
+    },
+    {
+     "label": "Super Bowl CLVII",
+     "value": "40-38",
+     "source": "super_bowls.json Y98 score"
+    },
+    {
+     "label": "Rings after Y98",
+     "value": "9",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.rings"
+    }
+   ]
+  },
+  {
+   "id": "snoop-dotson-rival",
+   "kind": "rival",
+   "rival": {
+    "player": "LB:Kalif Suh"
+   },
+   "headline": "Dotson and Suh: Two Linebackers, One Sack Mark, a Hundred Games Apart",
+   "body": [
+    "Before Dotson, the sack mark among the league's career cards was shared, and one of the two names on it was Kalif Suh, a linebacker who had 4 sacks for Skura's Jets in Y81. Suh needed 298 games to reach 24 career sacks. Dotson has 26 in 198, a hundred fewer games. Suh made more tackles, 980 to 806, and forced 10 fumbles to Dotson's 9. The difference is the jewelry: Suh retired with 3 rings, and Dotson has 9 and is still playing."
+   ],
+   "players": [
+    "Snoop Dotson",
+    "Kalif Suh"
+   ],
+   "teams": [
+    "Jets"
+   ],
+   "stats": [
+    {
+     "label": "Suh's sacks, Y81",
+     "value": "4",
+     "source": "league_records.json records/[record=Most sacks, season]/league/top/2/value"
+    },
+    {
+     "label": "Suh games",
+     "value": "298",
+     "source": "market_history.json snap-202611211421 LB:Kalif Suh s.g"
+    },
+    {
+     "label": "Suh career sacks",
+     "value": "24",
+     "source": "market_history.json snap-202611211421 LB:Kalif Suh s.sck"
+    },
+    {
+     "label": "Dotson career sacks",
+     "value": "26",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Dotson games",
+     "value": "198",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Fewer games than Suh",
+     "value": "100",
+     "source": "market_history.json snap-202611211421 LB:Kalif Suh s.g minus market_history.json snap-202611211421 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Suh tackles",
+     "value": "980",
+     "source": "market_history.json snap-202611211421 LB:Kalif Suh s.tkl"
+    },
+    {
+     "label": "Dotson tackles",
+     "value": "806",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.tkl"
+    },
+    {
+     "label": "Suh forced fumbles",
+     "value": "10",
+     "source": "market_history.json snap-202611211421 LB:Kalif Suh s.ff"
+    },
+    {
+     "label": "Dotson forced fumbles",
+     "value": "9",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.ff"
+    },
+    {
+     "label": "Suh rings",
+     "value": "3",
+     "source": "market_history.json snap-202611211421 LB:Kalif Suh s.rings"
+    },
+    {
+     "label": "Dotson rings",
+     "value": "9",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.rings"
+    }
+   ],
+   "data": {
+    "player": "LB:Kalif Suh",
+    "name": "Kalif Suh",
+    "pos": "LB",
+    "nickname": null,
+    "rows": [
+     {
+      "label": "Tackles a game",
+      "a": 4.07,
+      "b": 3.29,
+      "decimals": 2
+     },
+     {
+      "label": "Games",
+      "a": 198,
+      "b": 298,
+      "decimals": 0
+     },
+     {
+      "label": "Rings",
+      "a": 9,
+      "b": 3,
+      "decimals": 0
+     },
+     {
+      "label": "MVPs",
+      "a": 0,
+      "b": 0,
+      "decimals": 0
+     },
+     {
+      "label": "Super Bowl MVPs",
+      "a": 0,
+      "b": 0,
+      "decimals": 0
+     },
+     {
+      "label": "Career Legacy",
+      "a": 10239,
+      "b": 9173,
+      "decimals": 0
+     }
+    ]
+   }
+  },
+  {
+   "id": "snoop-dotson-market",
+   "kind": "market",
+   "market": {
+    "players": [
+     "LB:Snoop Dotson",
+     "LB:Kalif Suh",
+     "DB:Jamon Brooker"
+    ]
+   },
+   "headline": "From a Depth Card to the Most Valuable Defender on the Board",
+   "body": [
+    "The market first priced him after Y89 at 12, with an overall of 66 and a Career Legacy of 911. Nine seasons later the card reads 24,593, overall 98, Career Legacy 10,239. The biggest jump was the last one: the move to Chicago and a ninth ring took the card from 11,583 after Y97 to its current price, up 112% in a single season. No other defender's card is close. Jamon Brooker's is next at 10,355, and Kalif Suh's sits at 9,846."
+   ],
+   "players": [
+    "Snoop Dotson",
+    "Jamon Brooker",
+    "Kalif Suh"
+   ],
+   "teams": [],
+   "stats": [
+    {
+     "label": "Card value after Y98",
+     "value": "24,593",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson value"
+    },
+    {
+     "label": "Card value after Y89",
+     "value": "12",
+     "source": "market_history.json snap-202611071301 LB:Snoop Dotson value"
+    },
+    {
+     "label": "Overall after Y89",
+     "value": "66",
+     "source": "market_history.json snap-202611071301 LB:Snoop Dotson ovr"
+    },
+    {
+     "label": "Career Legacy after Y89",
+     "value": "911",
+     "source": "market_history.json snap-202611071301 LB:Snoop Dotson legacy"
+    },
+    {
+     "label": "Overall after Y98",
+     "value": "98",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson ovr"
+    },
+    {
+     "label": "Career Legacy after Y98",
+     "value": "10,239",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson legacy"
+    },
+    {
+     "label": "Card value after Y97",
+     "value": "11,583",
+     "source": "market_history.json snap-202611192114 LB:Snoop Dotson value"
+    },
+    {
+     "label": "Card value change, Y98",
+     "value": "112%",
+     "source": "market_history.json snap-202611192114..snap-202611211421 LB:Snoop Dotson value%"
+    },
+    {
+     "label": "Brooker card value",
+     "value": "10,355",
+     "source": "market_history.json snap-202611211421 DB:Jamon Brooker value"
+    },
+    {
+     "label": "Suh card value",
+     "value": "9,846",
+     "source": "market_history.json snap-202611211421 LB:Kalif Suh value"
+    }
+   ],
+   "data": {
+    "players": [
+     "LB:Snoop Dotson",
+     "LB:Kalif Suh",
+     "DB:Jamon Brooker"
+    ],
+    "series": [
+     {
+      "season": "Y89",
+      "snapshot": "snap-202611071301",
+      "ovr": 66,
+      "grade": "A−",
+      "values": {
+       "LB:Snoop Dotson": 12,
+       "LB:Kalif Suh": 5943,
+       "DB:Jamon Brooker": 180
+      }
+     },
+     {
+      "season": "Y90",
+      "snapshot": "snap-202611121506",
+      "ovr": 71,
+      "grade": "S",
+      "values": {
+       "LB:Snoop Dotson": 33,
+       "LB:Kalif Suh": 8490,
+       "DB:Jamon Brooker": 966
+      }
+     },
+     {
+      "season": "Y91",
+      "snapshot": "snap-202611121857",
+      "ovr": 79,
+      "grade": "S",
+      "values": {
+       "LB:Snoop Dotson": 172,
+       "LB:Kalif Suh": 9381,
+       "DB:Jamon Brooker": 1372
+      }
+     },
+     {
+      "season": "Y92",
+      "snapshot": "snap-202611131841",
+      "ovr": 84,
+      "grade": "S",
+      "values": {
+       "LB:Snoop Dotson": 613,
+       "LB:Kalif Suh": 9604,
+       "DB:Jamon Brooker": 1574
+      }
+     },
+     {
+      "season": "Y93",
+      "snapshot": "snap-202611140247",
+      "ovr": 88,
+      "grade": "S",
+      "values": {
+       "LB:Snoop Dotson": 1157,
+       "LB:Kalif Suh": 9644,
+       "DB:Jamon Brooker": 2462
+      }
+     },
+     {
+      "season": "Y94",
+      "snapshot": "snap-202611141119",
+      "ovr": 93,
+      "grade": "S",
+      "values": {
+       "LB:Snoop Dotson": 3211,
+       "LB:Kalif Suh": 9858,
+       "DB:Jamon Brooker": 4637
+      }
+     },
+     {
+      "season": "Y95",
+      "snapshot": "snap-202611162108",
+      "ovr": 94,
+      "grade": "S",
+      "values": {
+       "LB:Snoop Dotson": 5562,
+       "LB:Kalif Suh": 9967,
+       "DB:Jamon Brooker": 5896
+      }
+     },
+     {
+      "season": "Y96",
+      "snapshot": "snap-202611170116",
+      "ovr": 96,
+      "grade": "S",
+      "values": {
+       "LB:Snoop Dotson": 8538,
+       "LB:Kalif Suh": 10851,
+       "DB:Jamon Brooker": 8200
+      }
+     },
+     {
+      "season": "Y97",
+      "snapshot": "snap-202611192114",
+      "ovr": 98,
+      "grade": "S",
+      "values": {
+       "LB:Snoop Dotson": 11583,
+       "LB:Kalif Suh": 10122,
+       "DB:Jamon Brooker": 10361
+      }
+     },
+     {
+      "season": "Y98",
+      "snapshot": "snap-202611211421",
+      "ovr": 98,
+      "grade": "S",
+      "values": {
+       "LB:Snoop Dotson": 24593,
+       "LB:Kalif Suh": 9846,
+       "DB:Jamon Brooker": 10355
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "snoop-dotson-numbers",
+   "kind": "numbers",
+   "headline": "The Numbers",
+   "body": [
+    "In 198 games: 806 tackles, 4.1 a game, 26 sacks, 21 interceptions and 9 forced fumbles. 9 rings. Not one MVP, not one Defensive Player of the Year award. He won everything a team can win and almost nothing a voter hands out."
+   ],
+   "players": [
+    "Snoop Dotson"
+   ],
+   "teams": [],
+   "stats": [
+    {
+     "label": "Games",
+     "value": "198",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.g"
+    },
+    {
+     "label": "Tackles",
+     "value": "806",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.tkl"
+    },
+    {
+     "label": "Tackles a game",
+     "value": "4.1",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.tkl/s.g"
+    },
+    {
+     "label": "Sacks",
+     "value": "26",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.sck"
+    },
+    {
+     "label": "Interceptions",
+     "value": "21",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.int"
+    },
+    {
+     "label": "Forced fumbles",
+     "value": "9",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.ff"
+    },
+    {
+     "label": "Rings",
+     "value": "9",
+     "source": "market_history.json snap-202611211421 LB:Snoop Dotson s.rings"
+    }
+   ]
+  },
+  {
+   "id": "snoop-dotson-last-lap",
+   "kind": "lastlap",
+   "headline": "A Few Seasons Left on the Clock, and a Plaque Already Waiting",
+   "body": [
+    "He is 32, and the save shows 2 years left on his deal. With no retirement delays on his file, the game's clock makes Y100 his final season. The Hall of Fame cannot vote on him until he stops, but the ballot already scores his case at 97, far past the bar of 65, and he ranks first among linebackers by Career Legacy. One more mark is in reach: Tyrone Baugh holds the career record for forced fumbles with 11, 2 ahead of him."
+   ],
+   "players": [
+    "Snoop Dotson",
+    "Tyrone Baugh"
+   ],
+   "teams": [],
+   "stats": [
+    {
+     "label": "Age",
+     "value": "32",
+     "source": "save_state.json players/LB:Snoop Dotson/age"
+    },
+    {
+     "label": "Contract years left",
+     "value": "2",
+     "source": "save_state.json players/LB:Snoop Dotson/contract"
+    },
+    {
+     "label": "Hall of Fame score (projected)",
+     "value": "97",
+     "source": "halloffame.json watch/[key=LB:Snoop Dotson]/score"
+    },
+    {
+     "label": "Hall of Fame bar",
+     "value": "65",
+     "source": "halloffame.json bar"
+    },
+    {
+     "label": "Baugh career forced fumbles",
+     "value": "11",
+     "source": "players.json LB:Tyrone Baugh ff"
+    },
+    {
+     "label": "Forced fumbles behind Baugh",
+     "value": "2",
+     "source": "players.json LB:Tyrone Baugh ff minus players.json LB:Snoop Dotson ff"
+    }
+   ]
+  }
+ ]
+}

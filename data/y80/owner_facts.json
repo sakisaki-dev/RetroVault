@@ -1,6 +1,6 @@
 {
  "_about": "Owner-confirmed facts (data entry, never analysis). Written only by scripts/apply_upload.py from an upload manifest (data/uploads/*/manifest.json). players.<name>: team = club of record when the sheet says CUR/UNK or is out of date; team_history = earlier clubs; retired_with = the club on the game's Player HOF screen; status = Active/Retired when the sheet has no row; tag = the owner's own one-liner; card = player-card fields (team, former_team, legacy_team, note); career = what the owner said about the career path (order of clubs, on = [team, season] he was there, longest = the club he spent most seasons with, stints = exact [team, from, to], next_team = traded after the last season, says = the owner's words); real_nfl = real NFL games / rings / club before the save (imported players). active_rosters = the game's current team screens. season_rosters.<year> = who played for each club that season (games gained between screenshot sets).",
- "current_club": "Eagles",
+ "current_club": "Bears",
  "players": {
   "Abraham Ward Jr": {
    "status": "Retired"
@@ -49,7 +49,8 @@
    }
   },
   "Andrew Biegel": {
-   "team": "Texans"
+   "team": "Texans",
+   "status": "Retired"
   },
   "Andrew Dwight": {
    "team": "FA",
@@ -62,7 +63,8 @@
    "team": "Rams"
   },
   "Angelo Moton": {
-   "team": "Packers"
+   "team": "Packers",
+   "status": "Retired"
   },
   "Anree Wren": {
    "status": "Retired"
@@ -71,7 +73,8 @@
    "status": "Retired"
   },
   "Apollo Adam": {
-   "team": "Falcons"
+   "team": "Falcons",
+   "status": "Retired"
   },
   "Aqib McClain": {
    "team": "49ers",
@@ -163,7 +166,8 @@
    "status": "Retired"
   },
   "Bryson Lucas": {
-   "team": "Commanders"
+   "team": "Commanders",
+   "status": "Retired"
   },
   "Bud Matthew": {
    "team": "Jets",
@@ -209,6 +213,9 @@
   "Ceedee Hollins": {
    "status": "Retired"
   },
+  "Cethan Qualls": {
+   "status": "Retired"
+  },
   "Chance Woodrum": {
    "team": "Falcons",
    "status": "Retired",
@@ -237,6 +244,9 @@
   "Clark Borom": {
    "status": "Retired"
   },
+  "Clinton Maher": {
+   "status": "Retired"
+  },
   "Connor Goff": {
    "status": "Retired"
   },
@@ -251,6 +261,12 @@
   },
   "Corey Ivey": {
    "status": "Retired"
+  },
+  "Corn Tabor": {
+   "team": "Titans"
+  },
+  "Cornell Rhyan": {
+   "team": "Buccaneers"
   },
   "Craig Whitney": {
    "status": "Retired"
@@ -309,7 +325,13 @@
    "team": "Bills",
    "status": "Retired"
   },
+  "Darian Milne": {
+   "status": "Retired"
+  },
   "Darrel Longa": {
+   "status": "Retired"
+  },
+  "Davion Means": {
    "status": "Retired"
   },
   "Daviyon Paye": {
@@ -326,6 +348,9 @@
    "retired_with": "Ravens"
   },
   "Dee Irvin": {
+   "status": "Retired"
+  },
+  "Dekoda Walton": {
    "status": "Retired"
   },
   "Dennis Baylon": {
@@ -347,12 +372,22 @@
    "status": "Retired"
   },
   "Deshone Bello": {
-   "team": "Jets"
+   "team": "Jets",
+   "status": "Retired"
   },
   "Deven Fox": {
    "status": "Retired"
   },
+  "Devonte Kerr": {
+   "status": "Retired"
+  },
+  "Dezmon Tavai": {
+   "team": "Panthers"
+  },
   "Divine Gilmore": {
+   "status": "Retired"
+  },
+  "Donald Spencer": {
    "status": "Retired"
   },
   "Dontae Trawick": {
@@ -386,7 +421,8 @@
    }
   },
   "Dustin Milton": {
-   "team": "Patriots"
+   "team": "Patriots",
+   "status": "Retired"
   },
   "Dwayne Skura": {
    "team": "Colts",
@@ -400,7 +436,11 @@
    }
   },
   "Earl Boehm": {
-   "team": "Bills"
+   "team": "Bills",
+   "status": "Retired"
+  },
+  "Eli Kenney": {
+   "status": "Retired"
   },
   "Eric Raimann": {
    "status": "Retired",
@@ -435,6 +475,9 @@
   },
   "George Donkor": {
    "team": "Raiders"
+  },
+  "George Nnadi": {
+   "status": "Retired"
   },
   "Germain Coulter": {
    "status": "Retired"
@@ -477,7 +520,13 @@
   "Gus Langley": {
    "status": "Retired"
   },
+  "Hakeem Ervin": {
+   "status": "Retired"
+  },
   "Hakeem Peppers": {
+   "status": "Retired"
+  },
+  "Hamp Devey": {
    "status": "Retired"
   },
   "Hamp McPhee": {
@@ -515,6 +564,9 @@
   "Ian Finney": {
    "retired_with": "Buccaneers"
   },
+  "Irv Kelce": {
+   "team": "Bills"
+  },
   "Isaiah Karras": {
    "team": "Patriots",
    "status": "Retired"
@@ -522,9 +574,15 @@
   "JR Bashaam": {
    "status": "Retired"
   },
+  "Jace Ray": {
+   "status": "Retired"
+  },
   "Jackson Wardell Kline": {
    "retired_with": "Dolphins",
    "signature_team": "Giants"
+  },
+  "Jaelon Bennett": {
+   "status": "Retired"
   },
   "Jahmyr Gibbs": {
    "retired_with": "Dolphins",
@@ -567,11 +625,18 @@
     "Jets"
    ]
   },
+  "Jalyn Kush": {
+   "status": "Retired"
+  },
+  "Jamel Wilkins": {
+   "status": "Retired"
+  },
   "Jamil Warner": {
    "status": "Retired"
   },
   "Jamon Brooker": {
-   "team": "Packers"
+   "team": "Packers",
+   "status": "Retired"
   },
   "Jaron Dareus": {
    "status": "Retired"
@@ -580,7 +645,8 @@
    "status": "Retired"
   },
   "Jarrell Cann": {
-   "team": "Cowboys"
+   "team": "Cowboys",
+   "status": "Retired"
   },
   "Jashaun Fleming": {
    "status": "Retired",
@@ -621,6 +687,9 @@
    },
    "signature_team": "Seahawks"
   },
+  "Javien Hull": {
+   "status": "Retired"
+  },
   "Javon Trask": {
    "status": "Retired"
   },
@@ -650,7 +719,13 @@
     "club": "Bengals"
    }
   },
+  "Jeff Mixon": {
+   "status": "Retired"
+  },
   "Jeffrey Wilson": {
+   "status": "Retired"
+  },
+  "Jermar Reiff": {
    "status": "Retired"
   },
   "Jimmy Tillery": {
@@ -672,7 +747,11 @@
    "status": "Retired"
   },
   "Juju Ngakoue": {
-   "team": "Bills"
+   "team": "Bills",
+   "status": "Retired"
+  },
+  "Juston Farniok": {
+   "team": "Dolphins"
   },
   "Juwann Gilman": {
    "team": "Cardinals",
@@ -720,7 +799,8 @@
    "status": "Retired"
   },
   "Kaulani Rahman": {
-   "team": "Rams"
+   "team": "Rams",
+   "status": "Retired"
   },
   "Keaton Toney": {
    "team": "Falcons"
@@ -746,6 +826,12 @@
    "team": "Jaguars",
    "status": "Retired"
   },
+  "Khalen Swoopes": {
+   "status": "Retired"
+  },
+  "Khalid Glasgow": {
+   "status": "Retired"
+  },
   "Kiondre Hageman": {
    "status": "Retired"
   },
@@ -756,7 +842,13 @@
   "Koa Zuber": {
    "team": "Eagles"
   },
+  "Kolton Cole": {
+   "status": "Retired"
+  },
   "Kolton Moreau": {
+   "status": "Retired"
+  },
+  "Korey Friend": {
    "status": "Retired"
   },
   "Krys Pickens": {
@@ -786,13 +878,25 @@
    },
    "signature_team": "Ravens"
   },
+  "Lamont Duck": {
+   "status": "Retired"
+  },
+  "Lamont Edoga": {
+   "status": "Retired"
+  },
   "Lane McCoy": {
    "status": "Retired"
   },
   "Laurent Akins": {
    "status": "Retired"
   },
+  "Le'Veon Ogbah": {
+   "status": "Retired"
+  },
   "Le'Veon Richard": {
+   "status": "Retired"
+  },
+  "Levante Banner": {
    "status": "Retired"
   },
   "Levante Hopkins": {
@@ -822,7 +926,8 @@
    "signature_team": "Titans"
   },
   "Lewis Pettis": {
-   "team": "Cowboys"
+   "team": "Cowboys",
+   "status": "Retired"
   },
   "Linval Laulile": {
    "team": "Steelers",
@@ -834,6 +939,9 @@
   "Lukas Russell": {
    "retired_with": "Seahawks",
    "signature_team": "Seahawks"
+  },
+  "Mack Skule": {
+   "team": "Jaguars"
   },
   "Malakai Sawyer": {
    "team": "Jets",
@@ -879,8 +987,15 @@
   "Malcom McCloud": {
    "status": "Retired"
   },
+  "Marc Saine II": {
+   "status": "Retired"
+  },
+  "Mark Sieler": {
+   "status": "Retired"
+  },
   "Martin Ward": {
-   "team": "Raiders"
+   "team": "Raiders",
+   "status": "Retired"
   },
   "Marvell Rodgers": {
    "team": "Titans",
@@ -896,6 +1011,9 @@
   },
   "Matthew Waynes": {
    "team": "Panthers",
+   "status": "Retired"
+  },
+  "Maurice Vigil": {
    "status": "Retired"
   },
   "Michael Wilson": {
@@ -924,6 +1042,9 @@
   "Micky Celek": {
    "status": "Retired"
   },
+  "Morgan Saltes": {
+   "status": "Retired"
+  },
   "Mykal Mosby": {
    "status": "Retired"
   },
@@ -931,6 +1052,9 @@
    "status": "Retired"
   },
   "Myquon Renfrow": {
+   "status": "Retired"
+  },
+  "Netane Jacobs": {
    "status": "Retired"
   },
   "Nick Bolton": {
@@ -1011,13 +1135,20 @@
   "Pharoah Hunter": {
    "retired_with": "Seahawks"
   },
+  "Pharoah Orzech": {
+   "status": "Retired"
+  },
   "Phil Ekuale": {
-   "team": "Steelers"
+   "team": "Steelers",
+   "status": "Retired"
   },
   "Preston Gore": {
    "team": "Texans"
   },
   "Pyke T. Lowe": {
+   "status": "Retired"
+  },
+  "Quatro Pierre": {
    "status": "Retired"
   },
   "Quenton Fuller": {
@@ -1046,6 +1177,9 @@
     ],
     "says": "Ray Waller never played for the Colts."
    }
+  },
+  "Riley Grigsby": {
+   "status": "Retired"
   },
   "Riley Roche": {
    "status": "Retired"
@@ -1093,7 +1227,7 @@
   },
   "Ryland Maxwell": {
    "team": "Eagles",
-   "status": "Active",
+   "status": "Retired",
    "career": {
     "order": [
      "Jets",
@@ -1214,6 +1348,7 @@
    "signature_team": "Giants"
   },
   "Simeon Otton": {
+   "status": "Retired",
    "career": {
     "order": [
      "Falcons"
@@ -1228,16 +1363,23 @@
    }
   },
   "Siran Spector": {
-   "team": "Texans"
+   "team": "Texans",
+   "status": "Retired"
   },
   "Snoop Dotson": {
-   "team": "Eagles"
+   "team": "Bears"
+  },
+  "Solomon Toohill": {
+   "status": "Retired"
   },
   "Sony Driskel": {
    "status": "Retired"
   },
   "Spencer Daniels": {
    "team": "Jaguars",
+   "status": "Retired"
+  },
+  "Spencer Ladler": {
    "status": "Retired"
   },
   "Tajae Westry": {
@@ -1256,13 +1398,31 @@
     "says": "Taron Hayes never played for the Jets or the Titans."
    }
   },
+  "Taron Pinnock": {
+   "status": "Retired"
+  },
   "Tavon Lemieux": {
    "status": "Retired"
   },
   "Taywan Orzech": {
    "status": "Retired"
   },
+  "Teagan Banjo": {
+   "status": "Retired"
+  },
+  "Tee Holtz": {
+   "status": "Retired"
+  },
   "Teez Givens": {
+   "status": "Retired"
+  },
+  "Terez Poe": {
+   "status": "Retired"
+  },
+  "Terrel Brandel": {
+   "status": "Retired"
+  },
+  "Terrell Shipley": {
    "status": "Retired"
   },
   "Terron Stidham": {
@@ -1279,6 +1439,9 @@
    "team": "Texans"
   },
   "Tim Wright": {
+   "status": "Retired"
+  },
+  "Tom Egbule": {
    "status": "Retired"
   },
   "Tracy Merritt": {
@@ -1310,11 +1473,18 @@
    "team": "Saints",
    "status": "Retired"
   },
+  "Tress Pettis": {
+   "status": "Retired"
+  },
   "Treylon Dogbe": {
    "status": "Retired"
   },
   "Treyvon Scott": {
-   "team": "Steelers"
+   "team": "Steelers",
+   "status": "Retired"
+  },
+  "Tristan Suggs": {
+   "status": "Retired"
   },
   "Tristan Tart": {
    "team": "Ravens",
@@ -1322,6 +1492,7 @@
   },
   "Trysten Floyd": {
    "team": "Commanders",
+   "status": "Retired",
    "career": {
     "order": [
      "Falcons"
@@ -1334,6 +1505,9 @@
     ],
     "says": "On the Falcons' defense in Y83, alongside Chance Woodrum."
    }
+  },
+  "Ty Gurman": {
+   "team": "Buccaneers"
   },
   "Ty Lock": {
    "team": "Giants",
@@ -1360,8 +1534,12 @@
   "Tyquan Hunter": {
    "status": "Retired"
   },
+  "Tyquan Vasey": {
+   "status": "Retired"
+  },
   "Tyreek Devalve": {
-   "team": "Buccaneers"
+   "team": "Buccaneers",
+   "status": "Retired"
   },
   "Tyrion Kline": {
    "signature_team": "Chargers"
@@ -1376,6 +1554,9 @@
    "status": "Retired",
    "signature_team": "Dolphins"
   },
+  "Ulysees Sutton": {
+   "status": "Retired"
+  },
   "Vic Cannon": {
    "team": "Chargers",
    "status": "Retired"
@@ -1384,6 +1565,9 @@
    "status": "Retired"
   },
   "Von Horsted": {
+   "status": "Retired"
+  },
+  "Vonn Kennedy": {
    "status": "Retired"
   },
   "Vyncint Heath": {

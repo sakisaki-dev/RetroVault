@@ -916,11 +916,20 @@
    "l": 2,
    "t": 0,
    "finish": "Champions"
+  },
+  {
+   "year": 98,
+   "team": "Bears",
+   "abbr": "CHI",
+   "w": 16,
+   "l": 1,
+   "t": 0,
+   "finish": "Champions"
   }
  ],
  "currentStint": {
-  "team": "Eagles",
-  "abbr": "PHI",
-  "from": 88
+  "team": "Bears",
+  "abbr": "CHI",
+  "from": 98
  }
 }

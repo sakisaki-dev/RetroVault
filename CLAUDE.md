@@ -575,7 +575,7 @@ source names that file).
 - **Career stints** (`scripts/infer_stints.py` → `data/y80/stints.json`): ring arithmetic over Super Bowl winners,
   games per season, hard anchors from the record board (`records.json` counts the owner's club only) and from
   `owner_facts.json` (`career.on`, `career.stints`, `season_rosters`), and the owner's order of clubs. Evidence text
-  is templated ("4 rings = Chargers Y10, Y11, Y14, Y15"). The seasons the market snapshots show him playing (his games went up between two season ends; a lone rise in the first recorded season is an import correction) bound his career: it covers them, and ends at the last one when he was recorded later with no more games. Ambiguous players become `openQuestions` in content.json;
+  is templated ("4 rings = Chargers Y10, Y11, Y14, Y15"). The seasons the market snapshots show him playing (his games went up between two season ends; a lone rise in the first recorded season is an import correction) bound his career: it covers them, and ends at the last one when he was recorded later with no more games. A season between two snapshots in which his games and rings both rose puts him on that season's champion (inside the save's age window; Dotson's Y97 ring was the Eagles'), and the save's final age never cuts a season the snapshots show him playing (a player re-signed past it, Maxwell Y96–97). Ambiguous players become `openQuestions` in content.json;
   the owner's answer is a `fact.set players/<name>/career` mutation.
 - **Signature team** (`signature_team()` in `scripts/build_league_data.py` → `signatureTeams` in
   `public/data/player-extras.json`): the club a player's card, art, walkout, HOF card and player banners wear. Owner

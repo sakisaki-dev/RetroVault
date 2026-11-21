@@ -2,15 +2,16 @@
  "key": "RB:Ryland Maxwell",
  "name": "Ryland Maxwell",
  "pos": "RB",
- "upload": "2026-11-17-maxwell-score-100",
+ "upload": "2026-11-21-hof-y98-refresh",
  "nickname": "Mad Max",
  "deck": "He came out of New York as the smallest piece of a trade and became the back every other back is measured against: rings in three cities, the career rushing record and, at last, the Gauntlet.",
  "hero": {
   "games": 341,
   "clubs": 3,
-  "active": true,
-  "careerLegacy": 15713,
-  "rings": 14
+  "active": false,
+  "careerLegacy": 15757,
+  "rings": 14,
+  "hallOfFame": "Y98"
  },
  "journey": [
   {
@@ -706,6 +707,16 @@
        "RB:Ryland Maxwell": 50066,
        "RB:Malakai Sawyer": 7476
       }
+     },
+     {
+      "season": "Y98",
+      "snapshot": "snap-202611211421",
+      "ovr": 99,
+      "grade": "S",
+      "values": {
+       "RB:Ryland Maxwell": 50066,
+       "RB:Malakai Sawyer": 7452
+      }
      }
     ]
    }
@@ -884,8 +895,8 @@
      },
      {
       "label": "Career Legacy",
-      "a": 15713,
-      "b": 11077,
+      "a": 15757,
+      "b": 11108,
       "decimals": 0
      }
     ]
@@ -938,10 +949,10 @@
   {
    "id": "ryland-maxwell-last-lap",
    "kind": "lastlap",
-   "headline": "Two More Rings, First All Time, and One More Year at 35",
+   "headline": "Three More Rings, First All Time, and One Last Title at 35",
    "body": [
     "There was no argument left to settle, and he played on anyway. In Y95 he ran for 2,141 yards and won a 12th ring, playing 18 of the Eagles' 20 games after injury cost him 2, and passed Sherman Brandson for first in Career Legacy, 14,019 to 13,540. Y96, at 34, was better still: 2,574 yards and 25 rushing touchdowns in 21 games, a 13th ring after a 40-26 win over the Bengals, and a 7th Super Bowl MVP, with the career rushing record now at 32,108 yards.",
-    "Then, instead of leaving on top, he re-signed with Dorren Skura. He opens Y97 at 35, still an Eagle. The Hall of Fame watch already scores him at 100, the maximum, and the Hall can wait one more year."
+    "Then, rather than leave on top, he re-signed with Dorren Skura and played Y97 at 35. Injury cost him 2 of the club's 20 games; he ran for 1,847 yards and won a 14th ring, 38-22 over the Colts, with an 8th Super Bowl MVP. He retired with the rushing record at 33,955 yards, and the Y98 class voted him into the Hall on the first ballot, scoring 100, the maximum."
    ],
    "players": [
     "Ryland Maxwell",
@@ -949,7 +960,8 @@
    ],
    "teams": [
     "Eagles",
-    "Bengals"
+    "Bengals",
+    "Colts"
    ],
    "stats": [
     {
@@ -1030,12 +1042,47 @@
     {
      "label": "Career rushing yards (league record)",
      "value": "32,108",
-     "source": "league_records.json records/[record=Best rushing career]/league/top/0/value"
+     "source": "market_history.json snap-202611170116 RB:Ryland Maxwell s.ryds"
     },
     {
-     "label": "Hall of Fame watch score",
+     "label": "Eagles games, Y97",
+     "value": "20",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.g"
+    },
+    {
+     "label": "Games missed through injury, Y97",
+     "value": "2",
+     "source": "market_history.json snap-202611170116..snap-202611192114 WR:Calvin Wingo II s.g minus market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.g"
+    },
+    {
+     "label": "Rushing yards, Y97",
+     "value": "1,847",
+     "source": "market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Rings after Y97",
+     "value": "14",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell s.rings"
+    },
+    {
+     "label": "Super Bowl CLVI",
+     "value": "38-22",
+     "source": "super_bowls.json Y97 score"
+    },
+    {
+     "label": "Super Bowl MVPs after Y97",
+     "value": "8",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell s.sbmvp"
+    },
+    {
+     "label": "Career rushing yards, final",
+     "value": "33,955",
+     "source": "market_history.json snap-202611192114 RB:Ryland Maxwell s.ryds"
+    },
+    {
+     "label": "Hall of Fame score",
      "value": "100",
-     "source": "halloffame.json watch/[key=RB:Ryland Maxwell]/score"
+     "source": "halloffame.json members/[key=RB:Ryland Maxwell]/score"
     }
    ]
   }

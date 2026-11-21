@@ -301,6 +301,40 @@
      "wins": 0,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "5-12",
+    "w": 5,
+    "l": 12,
+    "t": 0,
+    "pct": 0.294,
+    "pf": 468,
+    "pa": 605,
+    "diff": -137,
+    "ppg": 27.5,
+    "papg": 35.6,
+    "sos": 0.497,
+    "powerScore": 17.2,
+    "power": 30,
+    "divisionRank": 3,
+    "pythag": 0.352,
+    "expWins": 6.0,
+    "luck": -1.0,
+    "marginSd": 15.6,
+    "homeEdge": -0.319,
+    "adjMargin": -8.2,
+    "home": "1-7",
+    "away": "4-5",
+    "oneScore": "3-6",
+    "streak": "L5",
+    "last5": "LLLLL",
+    "change": {
+     "power": 1,
+     "diff": 40,
+     "wins": 1,
+     "since": "Y97"
+    }
    }
   ],
   "Bears": [
@@ -602,6 +636,40 @@
      "diff": 147,
      "wins": 5,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "16-1",
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "pct": 0.941,
+    "pf": 554,
+    "pa": 424,
+    "diff": 130,
+    "ppg": 32.6,
+    "papg": 24.9,
+    "sos": 0.495,
+    "powerScore": 105.4,
+    "power": 1,
+    "divisionRank": 1,
+    "pythag": 0.653,
+    "expWins": 11.1,
+    "luck": 4.9,
+    "marginSd": 6.4,
+    "homeEdge": 0.111,
+    "adjMargin": 7.4,
+    "home": "8-0",
+    "away": "8-1",
+    "oneScore": "10-1",
+    "streak": "W12",
+    "last5": "WWWWW",
+    "change": {
+     "power": 5,
+     "diff": 23,
+     "wins": 5,
+     "since": "Y97"
     }
    }
   ],
@@ -905,6 +973,40 @@
      "wins": 1,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "8-9",
+    "w": 8,
+    "l": 9,
+    "t": 0,
+    "pct": 0.471,
+    "pf": 560,
+    "pa": 601,
+    "diff": -41,
+    "ppg": 32.9,
+    "papg": 35.4,
+    "sos": 0.535,
+    "powerScore": 44.8,
+    "power": 19,
+    "divisionRank": 3,
+    "pythag": 0.458,
+    "expWins": 7.8,
+    "luck": 0.2,
+    "marginSd": 14.2,
+    "homeEdge": -0.056,
+    "adjMargin": -1.0,
+    "home": "4-5",
+    "away": "4-4",
+    "oneScore": "4-3",
+    "streak": "W3",
+    "last5": "WLWWW",
+    "change": {
+     "power": 2,
+     "diff": -41,
+     "wins": 1,
+     "since": "Y97"
+    }
    }
   ],
   "Bills": [
@@ -1206,6 +1308,40 @@
      "diff": 79,
      "wins": -1,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "11-6",
+    "w": 11,
+    "l": 6,
+    "t": 0,
+    "pct": 0.647,
+    "pf": 537,
+    "pa": 497,
+    "diff": 40,
+    "ppg": 31.6,
+    "papg": 29.2,
+    "sos": 0.471,
+    "powerScore": 67.1,
+    "power": 7,
+    "divisionRank": 1,
+    "pythag": 0.546,
+    "expWins": 9.3,
+    "luck": 1.7,
+    "marginSd": 14.9,
+    "homeEdge": 0.278,
+    "adjMargin": 1.2,
+    "home": "7-2",
+    "away": "4-4",
+    "oneScore": "3-1",
+    "streak": "L1",
+    "last5": "WWLWL",
+    "change": {
+     "power": 1,
+     "diff": -74,
+     "wins": 0,
+     "since": "Y97"
     }
    }
   ],
@@ -1509,6 +1645,40 @@
      "wins": -2,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "5-12",
+    "w": 5,
+    "l": 12,
+    "t": 0,
+    "pct": 0.294,
+    "pf": 437,
+    "pa": 540,
+    "diff": -103,
+    "ppg": 25.7,
+    "papg": 31.8,
+    "sos": 0.516,
+    "powerScore": 20.9,
+    "power": 28,
+    "divisionRank": 4,
+    "pythag": 0.377,
+    "expWins": 6.4,
+    "luck": -1.4,
+    "marginSd": 16.4,
+    "homeEdge": 0.556,
+    "adjMargin": -5.4,
+    "home": "5-4",
+    "away": "0-8",
+    "oneScore": "2-6",
+    "streak": "L3",
+    "last5": "WWLLL",
+    "change": {
+     "power": -8,
+     "diff": -43,
+     "wins": -3,
+     "since": "Y97"
+    }
    }
   ],
   "Browns": [
@@ -1810,6 +1980,40 @@
      "diff": -116,
      "wins": -4,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "3-14",
+    "w": 3,
+    "l": 14,
+    "t": 0,
+    "pct": 0.176,
+    "pf": 485,
+    "pa": 609,
+    "diff": -124,
+    "ppg": 28.5,
+    "papg": 35.8,
+    "sos": 0.524,
+    "powerScore": 7.7,
+    "power": 31,
+    "divisionRank": 4,
+    "pythag": 0.368,
+    "expWins": 6.3,
+    "luck": -3.3,
+    "marginSd": 9.9,
+    "homeEdge": 0.333,
+    "adjMargin": -6.3,
+    "home": "3-6",
+    "away": "0-8",
+    "oneScore": "1-6",
+    "streak": "L3",
+    "last5": "LWLLL",
+    "change": {
+     "power": -6,
+     "diff": -38,
+     "wins": -2,
+     "since": "Y97"
     }
    }
   ],
@@ -2113,6 +2317,40 @@
      "wins": -3,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "10-7",
+    "w": 10,
+    "l": 7,
+    "t": 0,
+    "pct": 0.588,
+    "pf": 612,
+    "pa": 576,
+    "diff": 36,
+    "ppg": 36.0,
+    "papg": 33.9,
+    "sos": 0.457,
+    "powerScore": 60.3,
+    "power": 11,
+    "divisionRank": 1,
+    "pythag": 0.536,
+    "expWins": 9.1,
+    "luck": 0.9,
+    "marginSd": 16.7,
+    "homeEdge": 0.069,
+    "adjMargin": 0.4,
+    "home": "5-3",
+    "away": "5-4",
+    "oneScore": "4-3",
+    "streak": "L2",
+    "last5": "WLWLL",
+    "change": {
+     "power": 11,
+     "diff": 93,
+     "wins": 3,
+     "since": "Y97"
+    }
    }
   ],
   "Cardinals": [
@@ -2414,6 +2652,40 @@
      "diff": -43,
      "wins": -3,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "3-14",
+    "w": 3,
+    "l": 14,
+    "t": 0,
+    "pct": 0.176,
+    "pf": 445,
+    "pa": 579,
+    "diff": -134,
+    "ppg": 26.2,
+    "papg": 34.1,
+    "sos": 0.509,
+    "powerScore": 6.2,
+    "power": 32,
+    "divisionRank": 4,
+    "pythag": 0.349,
+    "expWins": 5.9,
+    "luck": -2.9,
+    "marginSd": 17.4,
+    "homeEdge": 0.139,
+    "adjMargin": -7.5,
+    "home": "2-6",
+    "away": "1-8",
+    "oneScore": "1-4",
+    "streak": "W1",
+    "last5": "LLLLW",
+    "change": {
+     "power": -8,
+     "diff": -45,
+     "wins": -2,
+     "since": "Y97"
     }
    }
   ],
@@ -2717,6 +2989,40 @@
      "wins": -1,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "9-8",
+    "w": 9,
+    "l": 8,
+    "t": 0,
+    "pct": 0.529,
+    "pf": 556,
+    "pa": 565,
+    "diff": -9,
+    "ppg": 32.7,
+    "papg": 33.2,
+    "sos": 0.529,
+    "powerScore": 53.3,
+    "power": 16,
+    "divisionRank": 2,
+    "pythag": 0.49,
+    "expWins": 8.3,
+    "luck": 0.7,
+    "marginSd": 16.1,
+    "homeEdge": 0.056,
+    "adjMargin": 0.6,
+    "home": "5-4",
+    "away": "4-4",
+    "oneScore": "5-3",
+    "streak": "W1",
+    "last5": "LLWLW",
+    "change": {
+     "power": 0,
+     "diff": -3,
+     "wins": 0,
+     "since": "Y97"
+    }
    }
   ],
   "Chiefs": [
@@ -3018,6 +3324,40 @@
      "diff": -112,
      "wins": -4,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "10-7",
+    "w": 10,
+    "l": 7,
+    "t": 0,
+    "pct": 0.588,
+    "pf": 592,
+    "pa": 524,
+    "diff": 68,
+    "ppg": 34.8,
+    "papg": 30.8,
+    "sos": 0.484,
+    "powerScore": 64.2,
+    "power": 9,
+    "divisionRank": 1,
+    "pythag": 0.572,
+    "expWins": 9.7,
+    "luck": 0.3,
+    "marginSd": 12.1,
+    "homeEdge": -0.069,
+    "adjMargin": 3.4,
+    "home": "5-4",
+    "away": "5-3",
+    "oneScore": "4-5",
+    "streak": "W1",
+    "last5": "WLWLW",
+    "change": {
+     "power": 1,
+     "diff": 38,
+     "wins": -1,
+     "since": "Y97"
     }
    }
   ],
@@ -3321,6 +3661,40 @@
      "wins": 0,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "7-9-1",
+    "w": 7,
+    "l": 9,
+    "t": 1,
+    "pct": 0.441,
+    "pf": 567,
+    "pa": 576,
+    "diff": -9,
+    "ppg": 33.4,
+    "papg": 33.9,
+    "sos": 0.503,
+    "powerScore": 43.5,
+    "power": 20,
+    "divisionRank": 4,
+    "pythag": 0.491,
+    "expWins": 8.3,
+    "luck": -0.8,
+    "marginSd": 17.2,
+    "homeEdge": 0.361,
+    "adjMargin": -0.4,
+    "home": "5-3-1",
+    "away": "2-6",
+    "oneScore": "0-3-1",
+    "streak": "L1",
+    "last5": "WLLWL",
+    "change": {
+     "power": -8,
+     "diff": -78,
+     "wins": -3,
+     "since": "Y97"
+    }
    }
   ],
   "Commanders": [
@@ -3622,6 +3996,40 @@
      "diff": -21,
      "wins": -1,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "12-5",
+    "w": 12,
+    "l": 5,
+    "t": 0,
+    "pct": 0.706,
+    "pf": 590,
+    "pa": 470,
+    "diff": 120,
+    "ppg": 34.7,
+    "papg": 27.6,
+    "sos": 0.528,
+    "powerScore": 82.3,
+    "power": 5,
+    "divisionRank": 3,
+    "pythag": 0.632,
+    "expWins": 10.7,
+    "luck": 1.3,
+    "marginSd": 13.7,
+    "homeEdge": -0.153,
+    "adjMargin": 8.2,
+    "home": "5-3",
+    "away": "7-2",
+    "oneScore": "5-3",
+    "streak": "W2",
+    "last5": "WWLWW",
+    "change": {
+     "power": 4,
+     "diff": 77,
+     "wins": 1,
+     "since": "Y97"
     }
    }
   ],
@@ -3925,6 +4333,40 @@
      "wins": 3,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "6-11",
+    "w": 6,
+    "l": 11,
+    "t": 0,
+    "pct": 0.353,
+    "pf": 519,
+    "pa": 561,
+    "diff": -42,
+    "ppg": 30.5,
+    "papg": 33.0,
+    "sos": 0.559,
+    "powerScore": 33.9,
+    "power": 24,
+    "divisionRank": 4,
+    "pythag": 0.454,
+    "expWins": 7.7,
+    "luck": -1.7,
+    "marginSd": 15.0,
+    "homeEdge": -0.194,
+    "adjMargin": -0.1,
+    "home": "2-6",
+    "away": "4-5",
+    "oneScore": "2-7",
+    "streak": "L3",
+    "last5": "LWLLL",
+    "change": {
+     "power": -1,
+     "diff": 41,
+     "wins": 1,
+     "since": "Y97"
+    }
    }
   ],
   "Dolphins": [
@@ -4226,6 +4668,40 @@
      "diff": -183,
      "wins": -4,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "9-8",
+    "w": 9,
+    "l": 8,
+    "t": 0,
+    "pct": 0.529,
+    "pf": 543,
+    "pa": 534,
+    "diff": 9,
+    "ppg": 31.9,
+    "papg": 31.4,
+    "sos": 0.488,
+    "powerScore": 53.3,
+    "power": 14,
+    "divisionRank": 2,
+    "pythag": 0.51,
+    "expWins": 8.7,
+    "luck": 0.3,
+    "marginSd": 16.6,
+    "homeEdge": 0.056,
+    "adjMargin": 0.0,
+    "home": "5-4",
+    "away": "4-4",
+    "oneScore": "4-2",
+    "streak": "W2",
+    "last5": "WWLWW",
+    "change": {
+     "power": 15,
+     "diff": 177,
+     "wins": 4,
+     "since": "Y97"
     }
    }
   ],
@@ -4529,6 +5005,40 @@
      "wins": -2,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "13-4",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "pct": 0.765,
+    "pf": 568,
+    "pa": 448,
+    "diff": 120,
+    "ppg": 33.4,
+    "papg": 26.4,
+    "sos": 0.493,
+    "powerScore": 86.8,
+    "power": 3,
+    "divisionRank": 1,
+    "pythag": 0.637,
+    "expWins": 10.8,
+    "luck": 2.2,
+    "marginSd": 13.6,
+    "homeEdge": 0.444,
+    "adjMargin": 6.8,
+    "home": "8-0",
+    "away": "5-4",
+    "oneScore": "5-1",
+    "streak": "W5",
+    "last5": "WWWWW",
+    "change": {
+     "power": -2,
+     "diff": -101,
+     "wins": -2,
+     "since": "Y97"
+    }
    }
   ],
   "Falcons": [
@@ -4830,6 +5340,40 @@
      "diff": -16,
      "wins": -2,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "6-11",
+    "w": 6,
+    "l": 11,
+    "t": 0,
+    "pct": 0.353,
+    "pf": 517,
+    "pa": 545,
+    "diff": -28,
+    "ppg": 30.4,
+    "papg": 32.1,
+    "sos": 0.497,
+    "powerScore": 32.7,
+    "power": 25,
+    "divisionRank": 3,
+    "pythag": 0.469,
+    "expWins": 8.0,
+    "luck": -2.0,
+    "marginSd": 17.2,
+    "homeEdge": -0.194,
+    "adjMargin": -1.8,
+    "home": "2-6",
+    "away": "4-5",
+    "oneScore": "0-4",
+    "streak": "L2",
+    "last5": "LLWLL",
+    "change": {
+     "power": -8,
+     "diff": -29,
+     "wins": -3,
+     "since": "Y97"
     }
    }
   ],
@@ -5133,6 +5677,40 @@
      "wins": 0,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "12-5",
+    "w": 12,
+    "l": 5,
+    "t": 0,
+    "pct": 0.706,
+    "pf": 550,
+    "pa": 454,
+    "diff": 96,
+    "ppg": 32.4,
+    "papg": 26.7,
+    "sos": 0.478,
+    "powerScore": 78.2,
+    "power": 6,
+    "divisionRank": 2,
+    "pythag": 0.612,
+    "expWins": 10.4,
+    "luck": 1.6,
+    "marginSd": 13.9,
+    "homeEdge": 0.319,
+    "adjMargin": 4.8,
+    "home": "7-1",
+    "away": "5-4",
+    "oneScore": "3-1",
+    "streak": "L1",
+    "last5": "WLWWL",
+    "change": {
+     "power": 7,
+     "diff": 66,
+     "wins": 2,
+     "since": "Y97"
+    }
    }
   ],
   "Jaguars": [
@@ -5434,6 +6012,40 @@
      "diff": 175,
      "wins": 6,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "10-7",
+    "w": 10,
+    "l": 7,
+    "t": 0,
+    "pct": 0.588,
+    "pf": 610,
+    "pa": 556,
+    "diff": 54,
+    "ppg": 35.9,
+    "papg": 32.7,
+    "sos": 0.465,
+    "powerScore": 62.2,
+    "power": 10,
+    "divisionRank": 1,
+    "pythag": 0.555,
+    "expWins": 9.4,
+    "luck": 0.6,
+    "marginSd": 17.0,
+    "homeEdge": -0.069,
+    "adjMargin": 1.8,
+    "home": "5-4",
+    "away": "5-3",
+    "oneScore": "1-2",
+    "streak": "W1",
+    "last5": "LWWLW",
+    "change": {
+     "power": 5,
+     "diff": 42,
+     "wins": 0,
+     "since": "Y97"
     }
    }
   ],
@@ -5737,6 +6349,40 @@
      "wins": 0,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "9-8",
+    "w": 9,
+    "l": 8,
+    "t": 0,
+    "pct": 0.529,
+    "pf": 550,
+    "pa": 501,
+    "diff": 49,
+    "ppg": 32.4,
+    "papg": 29.5,
+    "sos": 0.448,
+    "powerScore": 55.2,
+    "power": 12,
+    "divisionRank": 3,
+    "pythag": 0.555,
+    "expWins": 9.4,
+    "luck": -0.4,
+    "marginSd": 13.7,
+    "homeEdge": 0.292,
+    "adjMargin": 0.8,
+    "home": "6-3",
+    "away": "3-5",
+    "oneScore": "2-3",
+    "streak": "W3",
+    "last5": "WLWWW",
+    "change": {
+     "power": 14,
+     "diff": 168,
+     "wins": 4,
+     "since": "Y97"
+    }
    }
   ],
   "Lions": [
@@ -6038,6 +6684,40 @@
      "diff": 133,
      "wins": 3,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "7-9-1",
+    "w": 7,
+    "l": 9,
+    "t": 1,
+    "pct": 0.441,
+    "pf": 568,
+    "pa": 562,
+    "diff": 6,
+    "ppg": 33.4,
+    "papg": 33.1,
+    "sos": 0.531,
+    "powerScore": 45.9,
+    "power": 17,
+    "divisionRank": 3,
+    "pythag": 0.506,
+    "expWins": 8.6,
+    "luck": -1.1,
+    "marginSd": 13.5,
+    "homeEdge": -0.597,
+    "adjMargin": 1.6,
+    "home": "1-7",
+    "away": "6-2-1",
+    "oneScore": "3-4-1",
+    "streak": "L3",
+    "last5": "LWLLL",
+    "change": {
+     "power": -12,
+     "diff": -71,
+     "wins": -5,
+     "since": "Y97"
     }
    }
   ],
@@ -6341,6 +7021,40 @@
      "wins": 5,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "10-7",
+    "w": 10,
+    "l": 7,
+    "t": 0,
+    "pct": 0.588,
+    "pf": 600,
+    "pa": 536,
+    "diff": 64,
+    "ppg": 35.3,
+    "papg": 31.5,
+    "sos": 0.495,
+    "powerScore": 64.3,
+    "power": 8,
+    "divisionRank": 2,
+    "pythag": 0.566,
+    "expWins": 9.6,
+    "luck": 0.4,
+    "marginSd": 12.2,
+    "homeEdge": 0.069,
+    "adjMargin": 3.6,
+    "home": "5-3",
+    "away": "5-4",
+    "oneScore": "4-4",
+    "streak": "L1",
+    "last5": "WWLWL",
+    "change": {
+     "power": -4,
+     "diff": -55,
+     "wins": -2,
+     "since": "Y97"
+    }
    }
   ],
   "Panthers": [
@@ -6642,6 +7356,40 @@
      "diff": 118,
      "wins": 1,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "7-10",
+    "w": 7,
+    "l": 10,
+    "t": 0,
+    "pct": 0.412,
+    "pf": 530,
+    "pa": 552,
+    "diff": -22,
+    "ppg": 31.2,
+    "papg": 32.5,
+    "sos": 0.535,
+    "powerScore": 40.6,
+    "power": 22,
+    "divisionRank": 2,
+    "pythag": 0.476,
+    "expWins": 8.1,
+    "luck": -1.1,
+    "marginSd": 14.6,
+    "homeEdge": -0.069,
+    "adjMargin": 0.1,
+    "home": "3-5",
+    "away": "4-5",
+    "oneScore": "2-3",
+    "streak": "W1",
+    "last5": "LLLLW",
+    "change": {
+     "power": 6,
+     "diff": 70,
+     "wins": 3,
+     "since": "Y97"
     }
    }
   ],
@@ -6945,6 +7693,40 @@
      "wins": 1,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "5-12",
+    "w": 5,
+    "l": 12,
+    "t": 0,
+    "pct": 0.294,
+    "pf": 519,
+    "pa": 615,
+    "diff": -96,
+    "ppg": 30.5,
+    "papg": 36.2,
+    "sos": 0.486,
+    "powerScore": 20.4,
+    "power": 29,
+    "divisionRank": 4,
+    "pythag": 0.401,
+    "expWins": 6.8,
+    "luck": -1.8,
+    "marginSd": 12.1,
+    "homeEdge": 0.319,
+    "adjMargin": -6.2,
+    "home": "4-5",
+    "away": "1-7",
+    "oneScore": "2-5",
+    "streak": "L1",
+    "last5": "LLWWL",
+    "change": {
+     "power": -27,
+     "diff": -244,
+     "wins": -7,
+     "since": "Y97"
+    }
    }
   ],
   "Raiders": [
@@ -7246,6 +8028,40 @@
      "diff": -114,
      "wins": -3,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "6-11",
+    "w": 6,
+    "l": 11,
+    "t": 0,
+    "pct": 0.353,
+    "pf": 485,
+    "pa": 589,
+    "diff": -104,
+    "ppg": 28.5,
+    "papg": 34.6,
+    "sos": 0.493,
+    "powerScore": 25.8,
+    "power": 26,
+    "divisionRank": 3,
+    "pythag": 0.387,
+    "expWins": 6.6,
+    "luck": -0.6,
+    "marginSd": 15.5,
+    "homeEdge": -0.042,
+    "adjMargin": -6.4,
+    "home": "3-6",
+    "away": "3-5",
+    "oneScore": "3-3",
+    "streak": "L9",
+    "last5": "LLLLL",
+    "change": {
+     "power": 6,
+     "diff": 27,
+     "wins": 3,
+     "since": "Y97"
     }
    }
   ],
@@ -7549,6 +8365,40 @@
      "wins": 0,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "13-4",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "pct": 0.765,
+    "pf": 643,
+    "pa": 529,
+    "diff": 114,
+    "ppg": 37.8,
+    "papg": 31.1,
+    "sos": 0.488,
+    "powerScore": 86.0,
+    "power": 4,
+    "divisionRank": 1,
+    "pythag": 0.614,
+    "expWins": 10.4,
+    "luck": 2.6,
+    "marginSd": 16.4,
+    "homeEdge": -0.028,
+    "adjMargin": 6.2,
+    "home": "6-2",
+    "away": "7-2",
+    "oneScore": "7-2",
+    "streak": "W6",
+    "last5": "WWWWW",
+    "change": {
+     "power": 7,
+     "diff": 11,
+     "wins": 3,
+     "since": "Y97"
+    }
    }
   ],
   "Ravens": [
@@ -7850,6 +8700,40 @@
      "diff": 16,
      "wins": -4,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "13-4",
+    "w": 13,
+    "l": 4,
+    "t": 0,
+    "pct": 0.765,
+    "pf": 583,
+    "pa": 436,
+    "diff": 147,
+    "ppg": 34.3,
+    "papg": 25.6,
+    "sos": 0.486,
+    "powerScore": 88.9,
+    "power": 2,
+    "divisionRank": 1,
+    "pythag": 0.666,
+    "expWins": 11.3,
+    "luck": 1.7,
+    "marginSd": 14.4,
+    "homeEdge": 0.028,
+    "adjMargin": 8.1,
+    "home": "7-2",
+    "away": "6-2",
+    "oneScore": "5-1",
+    "streak": "L2",
+    "last5": "WWWLL",
+    "change": {
+     "power": 12,
+     "diff": 77,
+     "wins": 3,
+     "since": "Y97"
     }
    }
   ],
@@ -8153,6 +9037,40 @@
      "wins": -2,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "5-12",
+    "w": 5,
+    "l": 12,
+    "t": 0,
+    "pct": 0.294,
+    "pf": 563,
+    "pa": 625,
+    "diff": -62,
+    "ppg": 33.1,
+    "papg": 36.8,
+    "sos": 0.486,
+    "powerScore": 23.4,
+    "power": 27,
+    "divisionRank": 4,
+    "pythag": 0.438,
+    "expWins": 7.5,
+    "luck": -2.5,
+    "marginSd": 14.0,
+    "homeEdge": -0.319,
+    "adjMargin": -4.2,
+    "home": "1-7",
+    "away": "4-5",
+    "oneScore": "1-6",
+    "streak": "W1",
+    "last5": "LWLLW",
+    "change": {
+     "power": 3,
+     "diff": 41,
+     "wins": 1,
+     "since": "Y97"
+    }
    }
   ],
   "Seahawks": [
@@ -8454,6 +9372,40 @@
      "diff": 112,
      "wins": 4,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "7-9-1",
+    "w": 7,
+    "l": 9,
+    "t": 1,
+    "pct": 0.441,
+    "pf": 472,
+    "pa": 517,
+    "diff": -45,
+    "ppg": 27.8,
+    "papg": 30.4,
+    "sos": 0.519,
+    "powerScore": 40.9,
+    "power": 21,
+    "divisionRank": 2,
+    "pythag": 0.446,
+    "expWins": 7.6,
+    "luck": -0.1,
+    "marginSd": 12.0,
+    "homeEdge": -0.125,
+    "adjMargin": -1.9,
+    "home": "3-5",
+    "away": "4-4-1",
+    "oneScore": "5-5-1",
+    "streak": "L1",
+    "last5": "WWWWL",
+    "change": {
+     "power": -14,
+     "diff": -176,
+     "wins": -4,
+     "since": "Y97"
     }
    }
   ],
@@ -8757,6 +9709,40 @@
      "wins": 1,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "9-8",
+    "w": 9,
+    "l": 8,
+    "t": 0,
+    "pct": 0.529,
+    "pf": 546,
+    "pa": 544,
+    "diff": 2,
+    "ppg": 32.1,
+    "papg": 32.0,
+    "sos": 0.503,
+    "powerScore": 53.3,
+    "power": 15,
+    "divisionRank": 2,
+    "pythag": 0.502,
+    "expWins": 8.5,
+    "luck": 0.5,
+    "marginSd": 15.4,
+    "homeEdge": 0.056,
+    "adjMargin": 0.2,
+    "home": "5-4",
+    "away": "4-4",
+    "oneScore": "5-3",
+    "streak": "W2",
+    "last5": "LLLWW",
+    "change": {
+     "power": 3,
+     "diff": 42,
+     "wins": 0,
+     "since": "Y97"
+    }
    }
   ],
   "Texans": [
@@ -9058,6 +10044,40 @@
      "diff": 23,
      "wins": 5,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "9-7-1",
+    "w": 9,
+    "l": 7,
+    "t": 1,
+    "pct": 0.559,
+    "pf": 547,
+    "pa": 546,
+    "diff": 1,
+    "ppg": 32.2,
+    "papg": 32.1,
+    "sos": 0.453,
+    "powerScore": 54.1,
+    "power": 13,
+    "divisionRank": 2,
+    "pythag": 0.501,
+    "expWins": 8.5,
+    "luck": 1.0,
+    "marginSd": 13.3,
+    "homeEdge": 0.111,
+    "adjMargin": -1.8,
+    "home": "5-3-1",
+    "away": "4-4",
+    "oneScore": "4-3-1",
+    "streak": "L1",
+    "last5": "WWWWL",
+    "change": {
+     "power": 6,
+     "diff": 49,
+     "wins": 1,
+     "since": "Y97"
     }
    }
   ],
@@ -9361,6 +10381,40 @@
      "wins": 5,
      "since": "Y95"
     }
+   },
+   {
+    "season": "Y98",
+    "record": "8-9",
+    "w": 8,
+    "l": 9,
+    "t": 0,
+    "pct": 0.471,
+    "pf": 509,
+    "pa": 530,
+    "diff": -21,
+    "ppg": 29.9,
+    "papg": 31.2,
+    "sos": 0.517,
+    "powerScore": 45.9,
+    "power": 18,
+    "divisionRank": 3,
+    "pythag": 0.476,
+    "expWins": 8.1,
+    "luck": -0.1,
+    "marginSd": 14.3,
+    "homeEdge": -0.292,
+    "adjMargin": -0.6,
+    "home": "3-6",
+    "away": "5-3",
+    "oneScore": "5-4",
+    "streak": "W1",
+    "last5": "LLLLW",
+    "change": {
+     "power": -15,
+     "diff": -103,
+     "wins": -4,
+     "since": "Y97"
+    }
    }
   ],
   "Vikings": [
@@ -9662,6 +10716,40 @@
      "diff": -171,
      "wins": -4,
      "since": "Y95"
+    }
+   },
+   {
+    "season": "Y98",
+    "record": "7-10",
+    "w": 7,
+    "l": 10,
+    "t": 0,
+    "pct": 0.412,
+    "pf": 430,
+    "pa": 509,
+    "diff": -79,
+    "ppg": 25.3,
+    "papg": 29.9,
+    "sos": 0.533,
+    "powerScore": 35.5,
+    "power": 23,
+    "divisionRank": 4,
+    "pythag": 0.401,
+    "expWins": 6.8,
+    "luck": 0.2,
+    "marginSd": 15.3,
+    "homeEdge": -0.306,
+    "adjMargin": -3.3,
+    "home": "2-6",
+    "away": "5-4",
+    "oneScore": "3-1",
+    "streak": "W3",
+    "last5": "WLWWW",
+    "change": {
+     "power": 4,
+     "diff": 19,
+     "wins": 3,
+     "since": "Y97"
     }
    }
   ]
@@ -41293,12 +42381,3713 @@
     }
    ],
    "regularSeasonGames": 17
+  },
+  "Y98": {
+   "season": "Y98",
+   "coachTeam": "Bears",
+   "coachAbbr": "CHI",
+   "coachRecord": {
+    "w": 16,
+    "l": 1,
+    "t": 0,
+    "pf": 554,
+    "pa": 424,
+    "diff": 130,
+    "power": 1,
+    "record": "16-1",
+    "playoffs": "3-0"
+   },
+   "coachGames": [
+    {
+     "week": 1,
+     "round": "Week 1",
+     "site": "home",
+     "opp": "Panthers",
+     "oppAbbr": "CAR",
+     "for": 40,
+     "against": 26,
+     "result": "W",
+     "margin": 14,
+     "score": "40-26",
+     "oppRecord": "7-10"
+    },
+    {
+     "week": 2,
+     "round": "Week 2",
+     "site": "away",
+     "opp": "Lions",
+     "oppAbbr": "DET",
+     "for": 32,
+     "against": 29,
+     "result": "W",
+     "margin": 3,
+     "score": "32-29",
+     "oppRecord": "7-9-1"
+    },
+    {
+     "week": 3,
+     "round": "Week 3",
+     "site": "home",
+     "opp": "Steelers",
+     "oppAbbr": "PIT",
+     "for": 24,
+     "against": 22,
+     "result": "W",
+     "margin": 2,
+     "score": "24-22",
+     "oppRecord": "9-8"
+    },
+    {
+     "week": 4,
+     "round": "Week 4",
+     "site": "away",
+     "opp": "Vikings",
+     "oppAbbr": "MIN",
+     "for": 30,
+     "against": 12,
+     "result": "W",
+     "margin": 18,
+     "score": "30-12",
+     "oppRecord": "7-10"
+    },
+    {
+     "week": 5,
+     "round": "Week 5",
+     "site": "away",
+     "opp": "Packers",
+     "oppAbbr": "GB",
+     "for": 22,
+     "against": 25,
+     "result": "L",
+     "margin": -3,
+     "score": "25-22",
+     "oppRecord": "10-7"
+    },
+    {
+     "week": 6,
+     "round": "Week 6",
+     "site": "home",
+     "opp": "Ravens",
+     "oppAbbr": "BAL",
+     "for": 32,
+     "against": 27,
+     "result": "W",
+     "margin": 5,
+     "score": "32-27",
+     "oppRecord": "13-4"
+    },
+    {
+     "week": 7,
+     "round": "Week 7",
+     "site": "away",
+     "opp": "Falcons",
+     "oppAbbr": "ATL",
+     "for": 16,
+     "against": 14,
+     "result": "W",
+     "margin": 2,
+     "score": "16-14",
+     "oppRecord": "6-11"
+    },
+    {
+     "week": 8,
+     "round": "Week 8",
+     "site": "home",
+     "opp": "Rams",
+     "oppAbbr": "LAR",
+     "for": 30,
+     "against": 23,
+     "result": "W",
+     "margin": 7,
+     "score": "30-23",
+     "oppRecord": "13-4"
+    },
+    {
+     "week": 9,
+     "round": "Bye"
+    },
+    {
+     "week": 10,
+     "round": "Week 10",
+     "site": "away",
+     "opp": "Browns",
+     "oppAbbr": "CLE",
+     "for": 40,
+     "against": 23,
+     "result": "W",
+     "margin": 17,
+     "score": "40-23",
+     "oppRecord": "3-14"
+    },
+    {
+     "week": 11,
+     "round": "Week 11",
+     "site": "away",
+     "opp": "Bengals",
+     "oppAbbr": "CIN",
+     "for": 40,
+     "against": 38,
+     "result": "W",
+     "margin": 2,
+     "score": "40-38",
+     "oppRecord": "8-9"
+    },
+    {
+     "week": 12,
+     "round": "Week 12",
+     "site": "home",
+     "opp": "Vikings",
+     "oppAbbr": "MIN",
+     "for": 40,
+     "against": 38,
+     "result": "W",
+     "margin": 2,
+     "score": "40-38",
+     "oppRecord": "7-10"
+    },
+    {
+     "week": 13,
+     "round": "Week 13",
+     "site": "home",
+     "opp": "Packers",
+     "oppAbbr": "GB",
+     "for": 38,
+     "against": 32,
+     "result": "W",
+     "margin": 6,
+     "score": "38-32",
+     "oppRecord": "10-7"
+    },
+    {
+     "week": 14,
+     "round": "Week 14",
+     "site": "away",
+     "opp": "Titans",
+     "oppAbbr": "TEN",
+     "for": 36,
+     "against": 31,
+     "result": "W",
+     "margin": 5,
+     "score": "36-31",
+     "oppRecord": "8-9"
+    },
+    {
+     "week": 15,
+     "round": "Week 15",
+     "site": "home",
+     "opp": "Buccaneers",
+     "oppAbbr": "TB",
+     "for": 32,
+     "against": 27,
+     "result": "W",
+     "margin": 5,
+     "score": "32-27",
+     "oppRecord": "10-7"
+    },
+    {
+     "week": 16,
+     "round": "Week 16",
+     "site": "away",
+     "opp": "Commanders",
+     "oppAbbr": "WAS",
+     "for": 30,
+     "against": 13,
+     "result": "W",
+     "margin": 17,
+     "score": "30-13",
+     "oppRecord": "12-5"
+    },
+    {
+     "week": 17,
+     "round": "Week 17",
+     "site": "away",
+     "opp": "Saints",
+     "oppAbbr": "NO",
+     "for": 40,
+     "against": 25,
+     "result": "W",
+     "margin": 15,
+     "score": "40-25",
+     "oppRecord": "5-12"
+    },
+    {
+     "week": 18,
+     "round": "Week 18",
+     "site": "home",
+     "opp": "Lions",
+     "oppAbbr": "DET",
+     "for": 32,
+     "against": 19,
+     "result": "W",
+     "margin": 13,
+     "score": "32-19",
+     "oppRecord": "7-9-1"
+    },
+    {
+     "week": 27,
+     "round": "Divisional",
+     "site": "home",
+     "opp": "Giants",
+     "oppAbbr": "NYG",
+     "for": 46,
+     "against": 25,
+     "playoff": true,
+     "result": "W",
+     "margin": 21,
+     "score": "46-25",
+     "oppRecord": "12-5"
+    },
+    {
+     "week": 30,
+     "round": "Conference",
+     "site": "home",
+     "opp": "Commanders",
+     "oppAbbr": "WAS",
+     "for": 40,
+     "against": 29,
+     "playoff": true,
+     "result": "W",
+     "margin": 11,
+     "score": "40-29",
+     "oppRecord": "12-5"
+    },
+    {
+     "week": 31,
+     "round": "Super Bowl",
+     "site": "home",
+     "opp": "Dolphins",
+     "oppAbbr": "MIA",
+     "for": 40,
+     "against": 38,
+     "playoff": true,
+     "result": "W",
+     "margin": 2,
+     "score": "40-38",
+     "oppRecord": "9-8"
+    }
+   ],
+   "coachDetail": {
+    "home": "8-0",
+    "away": "8-1",
+    "oneScore": "11-1",
+    "vsWinning": "6-1",
+    "vsWinningGames": 7,
+    "ppg": 34.0,
+    "papg": 25.8,
+    "avgOppOff": null,
+    "avgOppDef": null,
+    "longestWinStreak": 12,
+    "bestWin": {
+     "week": 27,
+     "round": "Divisional",
+     "opp": "Giants",
+     "for": 46,
+     "against": 25,
+     "margin": 21
+    },
+    "worstLoss": {
+     "week": 5,
+     "round": "Week 5",
+     "opp": "Packers",
+     "for": 22,
+     "against": 25,
+     "margin": -3
+    },
+    "results": "WWWWLWWWWWWWWWWWWWWW"
+   },
+   "league": {
+    "games": 272,
+    "points": 17255,
+    "ppg": 31.7,
+    "combinedAvg": 63.4,
+    "homeWinPct": 0.511,
+    "homeWins": 138,
+    "awayWins": 132,
+    "ties": [
+     {
+      "week": 2,
+      "away": "Seahawks",
+      "home": "Colts",
+      "awayScore": 36,
+      "homeScore": 36,
+      "winner": null,
+      "loser": null,
+      "score": "36-36",
+      "margin": 0,
+      "total": 72
+     },
+     {
+      "week": 9,
+      "away": "Lions",
+      "home": "Texans",
+      "awayScore": 33,
+      "homeScore": 33,
+      "winner": null,
+      "loser": null,
+      "score": "33-33",
+      "margin": 0,
+      "total": 66
+     }
+    ],
+    "oneScoreGames": 108,
+    "oneScoreShare": 0.397,
+    "fiftyPointGames": 39,
+    "avgMargin": 12.5,
+    "weeks": [
+     {
+      "week": 1,
+      "avg": 30.2,
+      "high": 53
+     },
+     {
+      "week": 2,
+      "avg": 33.8,
+      "high": 51
+     },
+     {
+      "week": 3,
+      "avg": 31.1,
+      "high": 62
+     },
+     {
+      "week": 4,
+      "avg": 30.1,
+      "high": 47
+     },
+     {
+      "week": 5,
+      "avg": 31.1,
+      "high": 53
+     },
+     {
+      "week": 6,
+      "avg": 32.8,
+      "high": 51
+     },
+     {
+      "week": 7,
+      "avg": 31.7,
+      "high": 55
+     },
+     {
+      "week": 8,
+      "avg": 31.5,
+      "high": 55
+     },
+     {
+      "week": 9,
+      "avg": 30.8,
+      "high": 50
+     },
+     {
+      "week": 10,
+      "avg": 31.4,
+      "high": 65
+     },
+     {
+      "week": 11,
+      "avg": 34.1,
+      "high": 64
+     },
+     {
+      "week": 12,
+      "avg": 33.5,
+      "high": 62
+     },
+     {
+      "week": 13,
+      "avg": 27.3,
+      "high": 50
+     },
+     {
+      "week": 14,
+      "avg": 32.0,
+      "high": 51
+     },
+     {
+      "week": 15,
+      "avg": 33.7,
+      "high": 61
+     },
+     {
+      "week": 16,
+      "avg": 29.9,
+      "high": 52
+     },
+     {
+      "week": 17,
+      "avg": 36.1,
+      "high": 59
+     },
+     {
+      "week": 18,
+      "avg": 29.4,
+      "high": 59
+     }
+    ],
+    "closest": {
+     "week": 12,
+     "away": "Raiders",
+     "home": "Giants",
+     "awayScore": 35,
+     "homeScore": 36,
+     "winner": "Giants",
+     "loser": "Raiders",
+     "score": "36-35",
+     "margin": 1,
+     "total": 71
+    },
+    "mostInLoss": {
+     "week": 12,
+     "away": "Jaguars",
+     "home": "Seahawks",
+     "awayScore": 62,
+     "homeScore": 51,
+     "winner": "Jaguars",
+     "loser": "Seahawks",
+     "score": "62-51",
+     "margin": 11,
+     "total": 113
+    },
+    "fewestInWin": {
+     "week": 15,
+     "away": "Seahawks",
+     "home": "Cardinals",
+     "awayScore": 13,
+     "homeScore": 12,
+     "winner": "Seahawks",
+     "loser": "Cardinals",
+     "score": "13-12",
+     "margin": 1,
+     "total": 25
+    }
+   },
+   "table": [
+    {
+     "team": "Bears",
+     "abbr": "CHI",
+     "conference": "NFC",
+     "division": "NFC North",
+     "divisionRank": 1,
+     "w": 16,
+     "l": 1,
+     "t": 0,
+     "record": "16-1",
+     "pct": 0.941,
+     "pf": 554,
+     "pa": 424,
+     "diff": 130,
+     "ppg": 32.6,
+     "papg": 24.9,
+     "sos": 0.495,
+     "powerScore": 105.4,
+     "power": 1,
+     "pythag": 0.653,
+     "expWins": 11.1,
+     "luck": 4.9,
+     "marginSd": 6.4,
+     "homeEdge": 0.111,
+     "adjMargin": 7.4,
+     "home": "8-0",
+     "away": "8-1",
+     "oneScore": "10-1",
+     "longestWinStreak": 12,
+     "streak": "W12",
+     "last5": "WWWWW",
+     "results": "WWWWLWWWWWWWWWWWW"
+    },
+    {
+     "team": "Ravens",
+     "abbr": "BAL",
+     "conference": "AFC",
+     "division": "AFC North",
+     "divisionRank": 1,
+     "w": 13,
+     "l": 4,
+     "t": 0,
+     "record": "13-4",
+     "pct": 0.765,
+     "pf": 583,
+     "pa": 436,
+     "diff": 147,
+     "ppg": 34.3,
+     "papg": 25.6,
+     "sos": 0.486,
+     "powerScore": 88.9,
+     "power": 2,
+     "pythag": 0.666,
+     "expWins": 11.3,
+     "luck": 1.7,
+     "marginSd": 14.4,
+     "homeEdge": 0.028,
+     "adjMargin": 8.1,
+     "home": "7-2",
+     "away": "6-2",
+     "oneScore": "5-1",
+     "longestWinStreak": 9,
+     "streak": "L2",
+     "last5": "WWWLL",
+     "results": "WWWWLLWWWWWWWWWLL"
+    },
+    {
+     "team": "Eagles",
+     "abbr": "PHI",
+     "conference": "NFC",
+     "division": "NFC East",
+     "divisionRank": 1,
+     "w": 13,
+     "l": 4,
+     "t": 0,
+     "record": "13-4",
+     "pct": 0.765,
+     "pf": 568,
+     "pa": 448,
+     "diff": 120,
+     "ppg": 33.4,
+     "papg": 26.4,
+     "sos": 0.493,
+     "powerScore": 86.8,
+     "power": 3,
+     "pythag": 0.637,
+     "expWins": 10.8,
+     "luck": 2.2,
+     "marginSd": 13.6,
+     "homeEdge": 0.444,
+     "adjMargin": 6.8,
+     "home": "8-0",
+     "away": "5-4",
+     "oneScore": "5-1",
+     "longestWinStreak": 5,
+     "streak": "W5",
+     "last5": "WWWWW",
+     "results": "WWLWWLWLWWWLWWWWW"
+    },
+    {
+     "team": "Rams",
+     "abbr": "LAR",
+     "conference": "NFC",
+     "division": "NFC West",
+     "divisionRank": 1,
+     "w": 13,
+     "l": 4,
+     "t": 0,
+     "record": "13-4",
+     "pct": 0.765,
+     "pf": 643,
+     "pa": 529,
+     "diff": 114,
+     "ppg": 37.8,
+     "papg": 31.1,
+     "sos": 0.488,
+     "powerScore": 86.0,
+     "power": 4,
+     "pythag": 0.614,
+     "expWins": 10.4,
+     "luck": 2.6,
+     "marginSd": 16.4,
+     "homeEdge": -0.028,
+     "adjMargin": 6.2,
+     "home": "6-2",
+     "away": "7-2",
+     "oneScore": "7-2",
+     "longestWinStreak": 6,
+     "streak": "W6",
+     "last5": "WWWWW",
+     "results": "LWWLWWWLWWLWWWWWW"
+    },
+    {
+     "team": "Commanders",
+     "abbr": "WAS",
+     "conference": "NFC",
+     "division": "NFC East",
+     "divisionRank": 3,
+     "w": 12,
+     "l": 5,
+     "t": 0,
+     "record": "12-5",
+     "pct": 0.706,
+     "pf": 590,
+     "pa": 470,
+     "diff": 120,
+     "ppg": 34.7,
+     "papg": 27.6,
+     "sos": 0.528,
+     "powerScore": 82.3,
+     "power": 5,
+     "pythag": 0.632,
+     "expWins": 10.7,
+     "luck": 1.3,
+     "marginSd": 13.7,
+     "homeEdge": -0.153,
+     "adjMargin": 8.2,
+     "home": "5-3",
+     "away": "7-2",
+     "oneScore": "5-3",
+     "longestWinStreak": 6,
+     "streak": "W2",
+     "last5": "WWLWW",
+     "results": "WLWLLWWLWWWWWWLWW"
+    },
+    {
+     "team": "Giants",
+     "abbr": "NYG",
+     "conference": "NFC",
+     "division": "NFC East",
+     "divisionRank": 2,
+     "w": 12,
+     "l": 5,
+     "t": 0,
+     "record": "12-5",
+     "pct": 0.706,
+     "pf": 550,
+     "pa": 454,
+     "diff": 96,
+     "ppg": 32.4,
+     "papg": 26.7,
+     "sos": 0.478,
+     "powerScore": 78.2,
+     "power": 6,
+     "pythag": 0.612,
+     "expWins": 10.4,
+     "luck": 1.6,
+     "marginSd": 13.9,
+     "homeEdge": 0.319,
+     "adjMargin": 4.8,
+     "home": "7-1",
+     "away": "5-4",
+     "oneScore": "3-1",
+     "longestWinStreak": 10,
+     "streak": "L1",
+     "last5": "WLWWL",
+     "results": "LLLWWWWWWWWWWLWWL"
+    },
+    {
+     "team": "Bills",
+     "abbr": "BUF",
+     "conference": "AFC",
+     "division": "AFC East",
+     "divisionRank": 1,
+     "w": 11,
+     "l": 6,
+     "t": 0,
+     "record": "11-6",
+     "pct": 0.647,
+     "pf": 537,
+     "pa": 497,
+     "diff": 40,
+     "ppg": 31.6,
+     "papg": 29.2,
+     "sos": 0.471,
+     "powerScore": 67.1,
+     "power": 7,
+     "pythag": 0.546,
+     "expWins": 9.3,
+     "luck": 1.7,
+     "marginSd": 14.9,
+     "homeEdge": 0.278,
+     "adjMargin": 1.2,
+     "home": "7-2",
+     "away": "4-4",
+     "oneScore": "3-1",
+     "longestWinStreak": 6,
+     "streak": "L1",
+     "last5": "WWLWL",
+     "results": "LWWLLWWWWWWLWWLWL"
+    },
+    {
+     "team": "Packers",
+     "abbr": "GB",
+     "conference": "NFC",
+     "division": "NFC North",
+     "divisionRank": 2,
+     "w": 10,
+     "l": 7,
+     "t": 0,
+     "record": "10-7",
+     "pct": 0.588,
+     "pf": 600,
+     "pa": 536,
+     "diff": 64,
+     "ppg": 35.3,
+     "papg": 31.5,
+     "sos": 0.495,
+     "powerScore": 64.3,
+     "power": 8,
+     "pythag": 0.566,
+     "expWins": 9.6,
+     "luck": 0.4,
+     "marginSd": 12.2,
+     "homeEdge": 0.069,
+     "adjMargin": 3.6,
+     "home": "5-3",
+     "away": "5-4",
+     "oneScore": "4-4",
+     "longestWinStreak": 4,
+     "streak": "L1",
+     "last5": "WWLWL",
+     "results": "LWWLWLWWWWLLWWLWL"
+    },
+    {
+     "team": "Chiefs",
+     "abbr": "KC",
+     "conference": "AFC",
+     "division": "AFC West",
+     "divisionRank": 1,
+     "w": 10,
+     "l": 7,
+     "t": 0,
+     "record": "10-7",
+     "pct": 0.588,
+     "pf": 592,
+     "pa": 524,
+     "diff": 68,
+     "ppg": 34.8,
+     "papg": 30.8,
+     "sos": 0.484,
+     "powerScore": 64.2,
+     "power": 9,
+     "pythag": 0.572,
+     "expWins": 9.7,
+     "luck": 0.3,
+     "marginSd": 12.1,
+     "homeEdge": -0.069,
+     "adjMargin": 3.4,
+     "home": "5-4",
+     "away": "5-3",
+     "oneScore": "4-5",
+     "longestWinStreak": 3,
+     "streak": "W1",
+     "last5": "WLWLW",
+     "results": "WLWLWLWWWLLWWLWLW"
+    },
+    {
+     "team": "Jaguars",
+     "abbr": "JAX",
+     "conference": "AFC",
+     "division": "AFC South",
+     "divisionRank": 1,
+     "w": 10,
+     "l": 7,
+     "t": 0,
+     "record": "10-7",
+     "pct": 0.588,
+     "pf": 610,
+     "pa": 556,
+     "diff": 54,
+     "ppg": 35.9,
+     "papg": 32.7,
+     "sos": 0.465,
+     "powerScore": 62.2,
+     "power": 10,
+     "pythag": 0.555,
+     "expWins": 9.4,
+     "luck": 0.6,
+     "marginSd": 17.0,
+     "homeEdge": -0.069,
+     "adjMargin": 1.8,
+     "home": "5-4",
+     "away": "5-3",
+     "oneScore": "1-2",
+     "longestWinStreak": 3,
+     "streak": "W1",
+     "last5": "LWWLW",
+     "results": "WWWLLWLWWLWLLWWLW"
+    },
+    {
+     "team": "Buccaneers",
+     "abbr": "TB",
+     "conference": "NFC",
+     "division": "NFC South",
+     "divisionRank": 1,
+     "w": 10,
+     "l": 7,
+     "t": 0,
+     "record": "10-7",
+     "pct": 0.588,
+     "pf": 612,
+     "pa": 576,
+     "diff": 36,
+     "ppg": 36.0,
+     "papg": 33.9,
+     "sos": 0.457,
+     "powerScore": 60.3,
+     "power": 11,
+     "pythag": 0.536,
+     "expWins": 9.1,
+     "luck": 0.9,
+     "marginSd": 16.7,
+     "homeEdge": 0.069,
+     "adjMargin": 0.4,
+     "home": "5-3",
+     "away": "5-4",
+     "oneScore": "4-3",
+     "longestWinStreak": 4,
+     "streak": "L2",
+     "last5": "WLWLL",
+     "results": "WLLWWWWLWWWLWLWLL"
+    },
+    {
+     "team": "Jets",
+     "abbr": "NYJ",
+     "conference": "AFC",
+     "division": "AFC East",
+     "divisionRank": 3,
+     "w": 9,
+     "l": 8,
+     "t": 0,
+     "record": "9-8",
+     "pct": 0.529,
+     "pf": 550,
+     "pa": 501,
+     "diff": 49,
+     "ppg": 32.4,
+     "papg": 29.5,
+     "sos": 0.448,
+     "powerScore": 55.2,
+     "power": 12,
+     "pythag": 0.555,
+     "expWins": 9.4,
+     "luck": -0.4,
+     "marginSd": 13.7,
+     "homeEdge": 0.292,
+     "adjMargin": 0.8,
+     "home": "6-3",
+     "away": "3-5",
+     "oneScore": "2-3",
+     "longestWinStreak": 4,
+     "streak": "W3",
+     "last5": "WLWWW",
+     "results": "WWWWLLLLLLWLWLWWW"
+    },
+    {
+     "team": "Texans",
+     "abbr": "HOU",
+     "conference": "AFC",
+     "division": "AFC South",
+     "divisionRank": 2,
+     "w": 9,
+     "l": 7,
+     "t": 1,
+     "record": "9-7-1",
+     "pct": 0.559,
+     "pf": 547,
+     "pa": 546,
+     "diff": 1,
+     "ppg": 32.2,
+     "papg": 32.1,
+     "sos": 0.453,
+     "powerScore": 54.1,
+     "power": 13,
+     "pythag": 0.501,
+     "expWins": 8.5,
+     "luck": 1.0,
+     "marginSd": 13.3,
+     "homeEdge": 0.111,
+     "adjMargin": -1.8,
+     "home": "5-3-1",
+     "away": "4-4",
+     "oneScore": "4-3-1",
+     "longestWinStreak": 4,
+     "streak": "L1",
+     "last5": "WWWWL",
+     "results": "WLWWLWLWTLLLWWWWL"
+    },
+    {
+     "team": "Dolphins",
+     "abbr": "MIA",
+     "conference": "AFC",
+     "division": "AFC East",
+     "divisionRank": 2,
+     "w": 9,
+     "l": 8,
+     "t": 0,
+     "record": "9-8",
+     "pct": 0.529,
+     "pf": 543,
+     "pa": 534,
+     "diff": 9,
+     "ppg": 31.9,
+     "papg": 31.4,
+     "sos": 0.488,
+     "powerScore": 53.3,
+     "power": 14,
+     "pythag": 0.51,
+     "expWins": 8.7,
+     "luck": 0.3,
+     "marginSd": 16.6,
+     "homeEdge": 0.056,
+     "adjMargin": 0.0,
+     "home": "5-4",
+     "away": "4-4",
+     "oneScore": "4-2",
+     "longestWinStreak": 3,
+     "streak": "W2",
+     "last5": "WWLWW",
+     "results": "LLWLWWWLLLLWWWLWW"
+    },
+    {
+     "team": "Steelers",
+     "abbr": "PIT",
+     "conference": "AFC",
+     "division": "AFC North",
+     "divisionRank": 2,
+     "w": 9,
+     "l": 8,
+     "t": 0,
+     "record": "9-8",
+     "pct": 0.529,
+     "pf": 546,
+     "pa": 544,
+     "diff": 2,
+     "ppg": 32.1,
+     "papg": 32.0,
+     "sos": 0.503,
+     "powerScore": 53.3,
+     "power": 15,
+     "pythag": 0.502,
+     "expWins": 8.5,
+     "luck": 0.5,
+     "marginSd": 15.4,
+     "homeEdge": 0.056,
+     "adjMargin": 0.2,
+     "home": "5-4",
+     "away": "4-4",
+     "oneScore": "5-3",
+     "longestWinStreak": 4,
+     "streak": "W2",
+     "last5": "LLLWW",
+     "results": "LWLWWLLLWWWWLLLWW"
+    },
+    {
+     "team": "Chargers",
+     "abbr": "LAC",
+     "conference": "AFC",
+     "division": "AFC West",
+     "divisionRank": 2,
+     "w": 9,
+     "l": 8,
+     "t": 0,
+     "record": "9-8",
+     "pct": 0.529,
+     "pf": 556,
+     "pa": 565,
+     "diff": -9,
+     "ppg": 32.7,
+     "papg": 33.2,
+     "sos": 0.529,
+     "powerScore": 53.3,
+     "power": 16,
+     "pythag": 0.49,
+     "expWins": 8.3,
+     "luck": 0.7,
+     "marginSd": 16.1,
+     "homeEdge": 0.056,
+     "adjMargin": 0.6,
+     "home": "5-4",
+     "away": "4-4",
+     "oneScore": "5-3",
+     "longestWinStreak": 5,
+     "streak": "W1",
+     "last5": "LLWLW",
+     "results": "WWWWWLLLWWLLLLWLW"
+    },
+    {
+     "team": "Lions",
+     "abbr": "DET",
+     "conference": "NFC",
+     "division": "NFC North",
+     "divisionRank": 3,
+     "w": 7,
+     "l": 9,
+     "t": 1,
+     "record": "7-9-1",
+     "pct": 0.441,
+     "pf": 568,
+     "pa": 562,
+     "diff": 6,
+     "ppg": 33.4,
+     "papg": 33.1,
+     "sos": 0.531,
+     "powerScore": 45.9,
+     "power": 17,
+     "pythag": 0.506,
+     "expWins": 8.6,
+     "luck": -1.1,
+     "marginSd": 13.5,
+     "homeEdge": -0.597,
+     "adjMargin": 1.6,
+     "home": "1-7",
+     "away": "6-2-1",
+     "oneScore": "3-4-1",
+     "longestWinStreak": 4,
+     "streak": "L3",
+     "last5": "LWLLL",
+     "results": "WLWWWWLWTLLLLWLLL"
+    },
+    {
+     "team": "Titans",
+     "abbr": "TEN",
+     "conference": "AFC",
+     "division": "AFC South",
+     "divisionRank": 3,
+     "w": 8,
+     "l": 9,
+     "t": 0,
+     "record": "8-9",
+     "pct": 0.471,
+     "pf": 509,
+     "pa": 530,
+     "diff": -21,
+     "ppg": 29.9,
+     "papg": 31.2,
+     "sos": 0.517,
+     "powerScore": 45.9,
+     "power": 18,
+     "pythag": 0.476,
+     "expWins": 8.1,
+     "luck": -0.1,
+     "marginSd": 14.3,
+     "homeEdge": -0.292,
+     "adjMargin": -0.6,
+     "home": "3-6",
+     "away": "5-3",
+     "oneScore": "5-4",
+     "longestWinStreak": 3,
+     "streak": "W1",
+     "last5": "LLLLW",
+     "results": "LWLLWLWWWLWWLLLLW"
+    },
+    {
+     "team": "Bengals",
+     "abbr": "CIN",
+     "conference": "AFC",
+     "division": "AFC North",
+     "divisionRank": 3,
+     "w": 8,
+     "l": 9,
+     "t": 0,
+     "record": "8-9",
+     "pct": 0.471,
+     "pf": 560,
+     "pa": 601,
+     "diff": -41,
+     "ppg": 32.9,
+     "papg": 35.4,
+     "sos": 0.535,
+     "powerScore": 44.8,
+     "power": 19,
+     "pythag": 0.458,
+     "expWins": 7.8,
+     "luck": 0.2,
+     "marginSd": 14.2,
+     "homeEdge": -0.056,
+     "adjMargin": -1.0,
+     "home": "4-5",
+     "away": "4-4",
+     "oneScore": "4-3",
+     "longestWinStreak": 3,
+     "streak": "W3",
+     "last5": "WLWWW",
+     "results": "LLWWLLLWLWLLWLWWW"
+    },
+    {
+     "team": "Colts",
+     "abbr": "IND",
+     "conference": "AFC",
+     "division": "AFC South",
+     "divisionRank": 4,
+     "w": 7,
+     "l": 9,
+     "t": 1,
+     "record": "7-9-1",
+     "pct": 0.441,
+     "pf": 567,
+     "pa": 576,
+     "diff": -9,
+     "ppg": 33.4,
+     "papg": 33.9,
+     "sos": 0.503,
+     "powerScore": 43.5,
+     "power": 20,
+     "pythag": 0.491,
+     "expWins": 8.3,
+     "luck": -0.8,
+     "marginSd": 17.2,
+     "homeEdge": 0.361,
+     "adjMargin": -0.4,
+     "home": "5-3-1",
+     "away": "2-6",
+     "oneScore": "0-3-1",
+     "longestWinStreak": 3,
+     "streak": "L1",
+     "last5": "WLLWL",
+     "results": "WTLWWWLLLWLLWLLWL"
+    },
+    {
+     "team": "Seahawks",
+     "abbr": "SEA",
+     "conference": "NFC",
+     "division": "NFC West",
+     "divisionRank": 2,
+     "w": 7,
+     "l": 9,
+     "t": 1,
+     "record": "7-9-1",
+     "pct": 0.441,
+     "pf": 472,
+     "pa": 517,
+     "diff": -45,
+     "ppg": 27.8,
+     "papg": 30.4,
+     "sos": 0.519,
+     "powerScore": 40.9,
+     "power": 21,
+     "pythag": 0.446,
+     "expWins": 7.6,
+     "luck": -0.1,
+     "marginSd": 12.0,
+     "homeEdge": -0.125,
+     "adjMargin": -1.9,
+     "home": "3-5",
+     "away": "4-4-1",
+     "oneScore": "5-5-1",
+     "longestWinStreak": 4,
+     "streak": "L1",
+     "last5": "WWWWL",
+     "results": "LTLLWWLLLWLLWWWWL"
+    },
+    {
+     "team": "Panthers",
+     "abbr": "CAR",
+     "conference": "NFC",
+     "division": "NFC South",
+     "divisionRank": 2,
+     "w": 7,
+     "l": 10,
+     "t": 0,
+     "record": "7-10",
+     "pct": 0.412,
+     "pf": 530,
+     "pa": 552,
+     "diff": -22,
+     "ppg": 31.2,
+     "papg": 32.5,
+     "sos": 0.535,
+     "powerScore": 40.6,
+     "power": 22,
+     "pythag": 0.476,
+     "expWins": 8.1,
+     "luck": -1.1,
+     "marginSd": 14.6,
+     "homeEdge": -0.069,
+     "adjMargin": 0.1,
+     "home": "3-5",
+     "away": "4-5",
+     "oneScore": "2-3",
+     "longestWinStreak": 4,
+     "streak": "W1",
+     "last5": "LLLLW",
+     "results": "LLLWLLWLWWWWLLLLW"
+    },
+    {
+     "team": "Vikings",
+     "abbr": "MIN",
+     "conference": "NFC",
+     "division": "NFC North",
+     "divisionRank": 4,
+     "w": 7,
+     "l": 10,
+     "t": 0,
+     "record": "7-10",
+     "pct": 0.412,
+     "pf": 430,
+     "pa": 509,
+     "diff": -79,
+     "ppg": 25.3,
+     "papg": 29.9,
+     "sos": 0.533,
+     "powerScore": 35.5,
+     "power": 23,
+     "pythag": 0.401,
+     "expWins": 6.8,
+     "luck": 0.2,
+     "marginSd": 15.3,
+     "homeEdge": -0.306,
+     "adjMargin": -3.3,
+     "home": "2-6",
+     "away": "5-4",
+     "oneScore": "3-1",
+     "longestWinStreak": 3,
+     "streak": "W3",
+     "last5": "WLWWW",
+     "results": "WLLLWLLLLLLWWLWWW"
+    },
+    {
+     "team": "Cowboys",
+     "abbr": "DAL",
+     "conference": "NFC",
+     "division": "NFC East",
+     "divisionRank": 4,
+     "w": 6,
+     "l": 11,
+     "t": 0,
+     "record": "6-11",
+     "pct": 0.353,
+     "pf": 519,
+     "pa": 561,
+     "diff": -42,
+     "ppg": 30.5,
+     "papg": 33.0,
+     "sos": 0.559,
+     "powerScore": 33.9,
+     "power": 24,
+     "pythag": 0.454,
+     "expWins": 7.7,
+     "luck": -1.7,
+     "marginSd": 15.0,
+     "homeEdge": -0.194,
+     "adjMargin": -0.1,
+     "home": "2-6",
+     "away": "4-5",
+     "oneScore": "2-7",
+     "longestWinStreak": 2,
+     "streak": "L3",
+     "last5": "LWLLL",
+     "results": "LWLWLWWLLLLWLWLLL"
+    },
+    {
+     "team": "Falcons",
+     "abbr": "ATL",
+     "conference": "NFC",
+     "division": "NFC South",
+     "divisionRank": 3,
+     "w": 6,
+     "l": 11,
+     "t": 0,
+     "record": "6-11",
+     "pct": 0.353,
+     "pf": 517,
+     "pa": 545,
+     "diff": -28,
+     "ppg": 30.4,
+     "papg": 32.1,
+     "sos": 0.497,
+     "powerScore": 32.7,
+     "power": 25,
+     "pythag": 0.469,
+     "expWins": 8.0,
+     "luck": -2.0,
+     "marginSd": 17.2,
+     "homeEdge": -0.194,
+     "adjMargin": -1.8,
+     "home": "2-6",
+     "away": "4-5",
+     "oneScore": "0-4",
+     "longestWinStreak": 2,
+     "streak": "L2",
+     "last5": "LLWLL",
+     "results": "LLWLLWLWWLWLLLWLL"
+    },
+    {
+     "team": "Raiders",
+     "abbr": "LV",
+     "conference": "AFC",
+     "division": "AFC West",
+     "divisionRank": 3,
+     "w": 6,
+     "l": 11,
+     "t": 0,
+     "record": "6-11",
+     "pct": 0.353,
+     "pf": 485,
+     "pa": 589,
+     "diff": -104,
+     "ppg": 28.5,
+     "papg": 34.6,
+     "sos": 0.493,
+     "powerScore": 25.8,
+     "power": 26,
+     "pythag": 0.387,
+     "expWins": 6.6,
+     "luck": -0.6,
+     "marginSd": 15.5,
+     "homeEdge": -0.042,
+     "adjMargin": -6.4,
+     "home": "3-6",
+     "away": "3-5",
+     "oneScore": "3-3",
+     "longestWinStreak": 4,
+     "streak": "L9",
+     "last5": "LLLLL",
+     "results": "WLWLWWWWLLLLLLLLL"
+    },
+    {
+     "team": "Saints",
+     "abbr": "NO",
+     "conference": "NFC",
+     "division": "NFC South",
+     "divisionRank": 4,
+     "w": 5,
+     "l": 12,
+     "t": 0,
+     "record": "5-12",
+     "pct": 0.294,
+     "pf": 563,
+     "pa": 625,
+     "diff": -62,
+     "ppg": 33.1,
+     "papg": 36.8,
+     "sos": 0.486,
+     "powerScore": 23.4,
+     "power": 27,
+     "pythag": 0.438,
+     "expWins": 7.5,
+     "luck": -2.5,
+     "marginSd": 14.0,
+     "homeEdge": -0.319,
+     "adjMargin": -4.2,
+     "home": "1-7",
+     "away": "4-5",
+     "oneScore": "1-6",
+     "longestWinStreak": 1,
+     "streak": "W1",
+     "last5": "LWLLW",
+     "results": "WLLLWLLLWLLLLWLLW"
+    },
+    {
+     "team": "Broncos",
+     "abbr": "DEN",
+     "conference": "AFC",
+     "division": "AFC West",
+     "divisionRank": 4,
+     "w": 5,
+     "l": 12,
+     "t": 0,
+     "record": "5-12",
+     "pct": 0.294,
+     "pf": 437,
+     "pa": 540,
+     "diff": -103,
+     "ppg": 25.7,
+     "papg": 31.8,
+     "sos": 0.516,
+     "powerScore": 20.9,
+     "power": 28,
+     "pythag": 0.377,
+     "expWins": 6.4,
+     "luck": -1.4,
+     "marginSd": 16.4,
+     "homeEdge": 0.556,
+     "adjMargin": -5.4,
+     "home": "5-4",
+     "away": "0-8",
+     "oneScore": "2-6",
+     "longestWinStreak": 2,
+     "streak": "L3",
+     "last5": "WWLLL",
+     "results": "LWLWLLLLWLLLWWLLL"
+    },
+    {
+     "team": "Patriots",
+     "abbr": "NE",
+     "conference": "AFC",
+     "division": "AFC East",
+     "divisionRank": 4,
+     "w": 5,
+     "l": 12,
+     "t": 0,
+     "record": "5-12",
+     "pct": 0.294,
+     "pf": 519,
+     "pa": 615,
+     "diff": -96,
+     "ppg": 30.5,
+     "papg": 36.2,
+     "sos": 0.486,
+     "powerScore": 20.4,
+     "power": 29,
+     "pythag": 0.401,
+     "expWins": 6.8,
+     "luck": -1.8,
+     "marginSd": 12.1,
+     "homeEdge": 0.319,
+     "adjMargin": -6.2,
+     "home": "4-5",
+     "away": "1-7",
+     "oneScore": "2-5",
+     "longestWinStreak": 2,
+     "streak": "L1",
+     "last5": "LLWWL",
+     "results": "LWLLLLWLLLWLLLWWL"
+    },
+    {
+     "team": "49ers",
+     "abbr": "SF",
+     "conference": "NFC",
+     "division": "NFC West",
+     "divisionRank": 3,
+     "w": 5,
+     "l": 12,
+     "t": 0,
+     "record": "5-12",
+     "pct": 0.294,
+     "pf": 468,
+     "pa": 605,
+     "diff": -137,
+     "ppg": 27.5,
+     "papg": 35.6,
+     "sos": 0.497,
+     "powerScore": 17.2,
+     "power": 30,
+     "pythag": 0.352,
+     "expWins": 6.0,
+     "luck": -1.0,
+     "marginSd": 15.6,
+     "homeEdge": -0.319,
+     "adjMargin": -8.2,
+     "home": "1-7",
+     "away": "4-5",
+     "oneScore": "3-6",
+     "longestWinStreak": 3,
+     "streak": "L5",
+     "last5": "LLLLL",
+     "results": "LLLWLLWLLWWWLLLLL"
+    },
+    {
+     "team": "Browns",
+     "abbr": "CLE",
+     "conference": "AFC",
+     "division": "AFC North",
+     "divisionRank": 4,
+     "w": 3,
+     "l": 14,
+     "t": 0,
+     "record": "3-14",
+     "pct": 0.176,
+     "pf": 485,
+     "pa": 609,
+     "diff": -124,
+     "ppg": 28.5,
+     "papg": 35.8,
+     "sos": 0.524,
+     "powerScore": 7.7,
+     "power": 31,
+     "pythag": 0.368,
+     "expWins": 6.3,
+     "luck": -3.3,
+     "marginSd": 9.9,
+     "homeEdge": 0.333,
+     "adjMargin": -6.3,
+     "home": "3-6",
+     "away": "0-8",
+     "oneScore": "1-6",
+     "longestWinStreak": 1,
+     "streak": "L3",
+     "last5": "LWLLL",
+     "results": "LLLLLWLWLLLLLWLLL"
+    },
+    {
+     "team": "Cardinals",
+     "abbr": "ARI",
+     "conference": "NFC",
+     "division": "NFC West",
+     "divisionRank": 4,
+     "w": 3,
+     "l": 14,
+     "t": 0,
+     "record": "3-14",
+     "pct": 0.176,
+     "pf": 445,
+     "pa": 579,
+     "diff": -134,
+     "ppg": 26.2,
+     "papg": 34.1,
+     "sos": 0.509,
+     "powerScore": 6.2,
+     "power": 32,
+     "pythag": 0.349,
+     "expWins": 5.9,
+     "luck": -2.9,
+     "marginSd": 17.4,
+     "homeEdge": 0.139,
+     "adjMargin": -7.5,
+     "home": "2-6",
+     "away": "1-8",
+     "oneScore": "1-4",
+     "longestWinStreak": 2,
+     "streak": "W1",
+     "last5": "LLLLW",
+     "results": "WWLLLLLLLLLLLLLLW"
+    }
+   ],
+   "leaders": {
+    "bestOffense": "Rams",
+    "bestDefense": "Bears",
+    "worstDefense": "Saints",
+    "bestDiff": "Ravens"
+   },
+   "upset": {
+    "week": 4,
+    "away": "49ers",
+    "home": "Commanders",
+    "awayScore": 31,
+    "homeScore": 23,
+    "winner": "49ers",
+    "loser": "Commanders",
+    "score": "31-23",
+    "margin": 8,
+    "total": 54,
+    "winnerRecord": "5-12",
+    "loserRecord": "12-5",
+    "gap": 0.412
+   },
+   "blowout": {
+    "week": 18,
+    "away": "49ers",
+    "home": "Cardinals",
+    "awayScore": 16,
+    "homeScore": 59,
+    "winner": "Cardinals",
+    "loser": "49ers",
+    "score": "59-16",
+    "margin": 43,
+    "total": 75
+   },
+   "shootout": {
+    "week": 12,
+    "away": "Jaguars",
+    "home": "Seahawks",
+    "awayScore": 62,
+    "homeScore": 51,
+    "winner": "Jaguars",
+    "loser": "Seahawks",
+    "score": "62-51",
+    "margin": 11,
+    "total": 113
+   },
+   "games": [
+    {
+     "week": 1,
+     "away": "MIA",
+     "home": "NYJ",
+     "awayScore": 24,
+     "homeScore": 33
+    },
+    {
+     "week": 1,
+     "away": "DEN",
+     "home": "KC",
+     "awayScore": 20,
+     "homeScore": 30
+    },
+    {
+     "week": 1,
+     "away": "LAC",
+     "home": "DAL",
+     "awayScore": 34,
+     "homeScore": 19
+    },
+    {
+     "week": 1,
+     "away": "CIN",
+     "home": "HOU",
+     "awayScore": 32,
+     "homeScore": 41
+    },
+    {
+     "week": 1,
+     "away": "CLE",
+     "home": "LV",
+     "awayScore": 33,
+     "homeScore": 50
+    },
+    {
+     "week": 1,
+     "away": "PIT",
+     "home": "JAX",
+     "awayScore": 29,
+     "homeScore": 39
+    },
+    {
+     "week": 1,
+     "away": "IND",
+     "home": "SF",
+     "awayScore": 48,
+     "homeScore": 27
+    },
+    {
+     "week": 1,
+     "away": "TEN",
+     "home": "ARI",
+     "awayScore": 29,
+     "homeScore": 30
+    },
+    {
+     "week": 1,
+     "away": "LAR",
+     "home": "WAS",
+     "awayScore": 30,
+     "homeScore": 53
+    },
+    {
+     "week": 1,
+     "away": "SEA",
+     "home": "PHI",
+     "awayScore": 6,
+     "homeScore": 40
+    },
+    {
+     "week": 1,
+     "away": "DET",
+     "home": "NYG",
+     "awayScore": 23,
+     "homeScore": 18
+    },
+    {
+     "week": 1,
+     "away": "GB",
+     "home": "BAL",
+     "awayScore": 30,
+     "homeScore": 31
+    },
+    {
+     "week": 1,
+     "away": "MIN",
+     "home": "ATL",
+     "awayScore": 27,
+     "homeScore": 12
+    },
+    {
+     "week": 1,
+     "away": "CAR",
+     "home": "CHI",
+     "awayScore": 26,
+     "homeScore": 40
+    },
+    {
+     "week": 1,
+     "away": "NO",
+     "home": "BUF",
+     "awayScore": 41,
+     "homeScore": 13
+    },
+    {
+     "week": 1,
+     "away": "TB",
+     "home": "NE",
+     "awayScore": 30,
+     "homeScore": 29
+    },
+    {
+     "week": 2,
+     "away": "NE",
+     "home": "NO",
+     "awayScore": 43,
+     "homeScore": 40
+    },
+    {
+     "week": 2,
+     "away": "NYJ",
+     "home": "CIN",
+     "awayScore": 34,
+     "homeScore": 9
+    },
+    {
+     "week": 2,
+     "away": "KC",
+     "home": "LAC",
+     "awayScore": 34,
+     "homeScore": 45
+    },
+    {
+     "week": 2,
+     "away": "LV",
+     "home": "DEN",
+     "awayScore": 25,
+     "homeScore": 28
+    },
+    {
+     "week": 2,
+     "away": "BAL",
+     "home": "MIN",
+     "awayScore": 50,
+     "homeScore": 24
+    },
+    {
+     "week": 2,
+     "away": "HOU",
+     "home": "PIT",
+     "awayScore": 20,
+     "homeScore": 28
+    },
+    {
+     "week": 2,
+     "away": "JAX",
+     "home": "CLE",
+     "awayScore": 47,
+     "homeScore": 26
+    },
+    {
+     "week": 2,
+     "away": "TEN",
+     "home": "MIA",
+     "awayScore": 51,
+     "homeScore": 23
+    },
+    {
+     "week": 2,
+     "away": "NYG",
+     "home": "DAL",
+     "awayScore": 26,
+     "homeScore": 45
+    },
+    {
+     "week": 2,
+     "away": "WAS",
+     "home": "PHI",
+     "awayScore": 27,
+     "homeScore": 34
+    },
+    {
+     "week": 2,
+     "away": "ARI",
+     "home": "SF",
+     "awayScore": 43,
+     "homeScore": 20
+    },
+    {
+     "week": 2,
+     "away": "SEA",
+     "home": "IND",
+     "awayScore": 36,
+     "homeScore": 36
+    },
+    {
+     "week": 2,
+     "away": "CHI",
+     "home": "DET",
+     "awayScore": 32,
+     "homeScore": 29
+    },
+    {
+     "week": 2,
+     "away": "GB",
+     "home": "TB",
+     "awayScore": 40,
+     "homeScore": 37
+    },
+    {
+     "week": 2,
+     "away": "ATL",
+     "home": "BUF",
+     "awayScore": 19,
+     "homeScore": 35
+    },
+    {
+     "week": 2,
+     "away": "CAR",
+     "home": "LAR",
+     "awayScore": 44,
+     "homeScore": 51
+    },
+    {
+     "week": 3,
+     "away": "BUF",
+     "home": "NE",
+     "awayScore": 45,
+     "homeScore": 39
+    },
+    {
+     "week": 3,
+     "away": "DEN",
+     "home": "JAX",
+     "awayScore": 23,
+     "homeScore": 28
+    },
+    {
+     "week": 3,
+     "away": "LAC",
+     "home": "TEN",
+     "awayScore": 27,
+     "homeScore": 26
+    },
+    {
+     "week": 3,
+     "away": "BAL",
+     "home": "CLE",
+     "awayScore": 27,
+     "homeScore": 20
+    },
+    {
+     "week": 3,
+     "away": "PIT",
+     "home": "CHI",
+     "awayScore": 22,
+     "homeScore": 24
+    },
+    {
+     "week": 3,
+     "away": "IND",
+     "home": "HOU",
+     "awayScore": 24,
+     "homeScore": 38
+    },
+    {
+     "week": 3,
+     "away": "DAL",
+     "home": "NYJ",
+     "awayScore": 30,
+     "homeScore": 54
+    },
+    {
+     "week": 3,
+     "away": "NYG",
+     "home": "KC",
+     "awayScore": 9,
+     "homeScore": 18
+    },
+    {
+     "week": 3,
+     "away": "PHI",
+     "home": "ATL",
+     "awayScore": 29,
+     "homeScore": 40
+    },
+    {
+     "week": 3,
+     "away": "WAS",
+     "home": "ARI",
+     "awayScore": 40,
+     "homeScore": 16
+    },
+    {
+     "week": 3,
+     "away": "LAR",
+     "home": "SEA",
+     "awayScore": 23,
+     "homeScore": 16
+    },
+    {
+     "week": 3,
+     "away": "SF",
+     "home": "LV",
+     "awayScore": 33,
+     "homeScore": 36
+    },
+    {
+     "week": 3,
+     "away": "DET",
+     "home": "CAR",
+     "awayScore": 42,
+     "homeScore": 34
+    },
+    {
+     "week": 3,
+     "away": "MIN",
+     "home": "CIN",
+     "awayScore": 16,
+     "homeScore": 33
+    },
+    {
+     "week": 3,
+     "away": "NO",
+     "home": "GB",
+     "awayScore": 30,
+     "homeScore": 49
+    },
+    {
+     "week": 3,
+     "away": "TB",
+     "home": "MIA",
+     "awayScore": 41,
+     "homeScore": 62
+    },
+    {
+     "week": 4,
+     "away": "BUF",
+     "home": "DEN",
+     "awayScore": 15,
+     "homeScore": 28
+    },
+    {
+     "week": 4,
+     "away": "MIA",
+     "home": "BAL",
+     "awayScore": 20,
+     "homeScore": 36
+    },
+    {
+     "week": 4,
+     "away": "NE",
+     "home": "LAC",
+     "awayScore": 23,
+     "homeScore": 26
+    },
+    {
+     "week": 4,
+     "away": "NYJ",
+     "home": "LV",
+     "awayScore": 33,
+     "homeScore": 24
+    },
+    {
+     "week": 4,
+     "away": "CIN",
+     "home": "GB",
+     "awayScore": 34,
+     "homeScore": 31
+    },
+    {
+     "week": 4,
+     "away": "CLE",
+     "home": "DET",
+     "awayScore": 24,
+     "homeScore": 33
+    },
+    {
+     "week": 4,
+     "away": "PIT",
+     "home": "TEN",
+     "awayScore": 47,
+     "homeScore": 22
+    },
+    {
+     "week": 4,
+     "away": "HOU",
+     "home": "LAR",
+     "awayScore": 41,
+     "homeScore": 37
+    },
+    {
+     "week": 4,
+     "away": "JAX",
+     "home": "IND",
+     "awayScore": 27,
+     "homeScore": 45
+    },
+    {
+     "week": 4,
+     "away": "DAL",
+     "home": "SEA",
+     "awayScore": 34,
+     "homeScore": 31
+    },
+    {
+     "week": 4,
+     "away": "PHI",
+     "home": "KC",
+     "awayScore": 35,
+     "homeScore": 32
+    },
+    {
+     "week": 4,
+     "away": "ARI",
+     "home": "NYG",
+     "awayScore": 23,
+     "homeScore": 34
+    },
+    {
+     "week": 4,
+     "away": "SF",
+     "home": "WAS",
+     "awayScore": 31,
+     "homeScore": 23
+    },
+    {
+     "week": 4,
+     "away": "CHI",
+     "home": "MIN",
+     "awayScore": 30,
+     "homeScore": 12
+    },
+    {
+     "week": 4,
+     "away": "NO",
+     "home": "CAR",
+     "awayScore": 34,
+     "homeScore": 37
+    },
+    {
+     "week": 4,
+     "away": "TB",
+     "home": "ATL",
+     "awayScore": 36,
+     "homeScore": 26
+    },
+    {
+     "week": 5,
+     "away": "BUF",
+     "home": "PIT",
+     "awayScore": 35,
+     "homeScore": 47
+    },
+    {
+     "week": 5,
+     "away": "NE",
+     "home": "MIA",
+     "awayScore": 16,
+     "homeScore": 24
+    },
+    {
+     "week": 5,
+     "away": "DEN",
+     "home": "PHI",
+     "awayScore": 24,
+     "homeScore": 41
+    },
+    {
+     "week": 5,
+     "away": "KC",
+     "home": "NYJ",
+     "awayScore": 29,
+     "homeScore": 27
+    },
+    {
+     "week": 5,
+     "away": "LAC",
+     "home": "WAS",
+     "awayScore": 40,
+     "homeScore": 34
+    },
+    {
+     "week": 5,
+     "away": "LV",
+     "home": "HOU",
+     "awayScore": 38,
+     "homeScore": 17
+    },
+    {
+     "week": 5,
+     "away": "CIN",
+     "home": "IND",
+     "awayScore": 21,
+     "homeScore": 47
+    },
+    {
+     "week": 5,
+     "away": "TEN",
+     "home": "CLE",
+     "awayScore": 31,
+     "homeScore": 30
+    },
+    {
+     "week": 5,
+     "away": "NYG",
+     "home": "SF",
+     "awayScore": 31,
+     "homeScore": 27
+    },
+    {
+     "week": 5,
+     "away": "ARI",
+     "home": "SEA",
+     "awayScore": 27,
+     "homeScore": 30
+    },
+    {
+     "week": 5,
+     "away": "LAR",
+     "home": "DAL",
+     "awayScore": 30,
+     "homeScore": 26
+    },
+    {
+     "week": 5,
+     "away": "CHI",
+     "home": "GB",
+     "awayScore": 22,
+     "homeScore": 25
+    },
+    {
+     "week": 5,
+     "away": "DET",
+     "home": "BAL",
+     "awayScore": 50,
+     "homeScore": 39
+    },
+    {
+     "week": 5,
+     "away": "MIN",
+     "home": "JAX",
+     "awayScore": 53,
+     "homeScore": 27
+    },
+    {
+     "week": 5,
+     "away": "ATL",
+     "home": "NO",
+     "awayScore": 30,
+     "homeScore": 33
+    },
+    {
+     "week": 5,
+     "away": "CAR",
+     "home": "TB",
+     "awayScore": 15,
+     "homeScore": 30
+    },
+    {
+     "week": 6,
+     "away": "NYJ",
+     "home": "BUF",
+     "awayScore": 30,
+     "homeScore": 43
+    },
+    {
+     "week": 6,
+     "away": "DEN",
+     "home": "MIA",
+     "awayScore": 30,
+     "homeScore": 37
+    },
+    {
+     "week": 6,
+     "away": "LV",
+     "home": "NE",
+     "awayScore": 36,
+     "homeScore": 29
+    },
+    {
+     "week": 6,
+     "away": "BAL",
+     "home": "CHI",
+     "awayScore": 27,
+     "homeScore": 32
+    },
+    {
+     "week": 6,
+     "away": "HOU",
+     "home": "SF",
+     "awayScore": 37,
+     "homeScore": 34
+    },
+    {
+     "week": 6,
+     "away": "IND",
+     "home": "PIT",
+     "awayScore": 44,
+     "homeScore": 33
+    },
+    {
+     "week": 6,
+     "away": "JAX",
+     "home": "TEN",
+     "awayScore": 33,
+     "homeScore": 22
+    },
+    {
+     "week": 6,
+     "away": "PHI",
+     "home": "LAR",
+     "awayScore": 20,
+     "homeScore": 31
+    },
+    {
+     "week": 6,
+     "away": "SEA",
+     "home": "KC",
+     "awayScore": 42,
+     "homeScore": 23
+    },
+    {
+     "week": 6,
+     "away": "DET",
+     "home": "MIN",
+     "awayScore": 30,
+     "homeScore": 6
+    },
+    {
+     "week": 6,
+     "away": "GB",
+     "home": "DAL",
+     "awayScore": 36,
+     "homeScore": 45
+    },
+    {
+     "week": 6,
+     "away": "ATL",
+     "home": "ARI",
+     "awayScore": 51,
+     "homeScore": 29
+    },
+    {
+     "week": 6,
+     "away": "NO",
+     "home": "CLE",
+     "awayScore": 30,
+     "homeScore": 31
+    },
+    {
+     "week": 6,
+     "away": "TB",
+     "home": "CIN",
+     "awayScore": 51,
+     "homeScore": 27
+    },
+    {
+     "week": 7,
+     "away": "BUF",
+     "home": "CAR",
+     "awayScore": 32,
+     "homeScore": 31
+    },
+    {
+     "week": 7,
+     "away": "NYJ",
+     "home": "TB",
+     "awayScore": 19,
+     "homeScore": 22
+    },
+    {
+     "week": 7,
+     "away": "LAC",
+     "home": "KC",
+     "awayScore": 35,
+     "homeScore": 38
+    },
+    {
+     "week": 7,
+     "away": "BAL",
+     "home": "PIT",
+     "awayScore": 37,
+     "homeScore": 6
+    },
+    {
+     "week": 7,
+     "away": "HOU",
+     "home": "NE",
+     "awayScore": 30,
+     "homeScore": 41
+    },
+    {
+     "week": 7,
+     "away": "TEN",
+     "home": "CIN",
+     "awayScore": 37,
+     "homeScore": 25
+    },
+    {
+     "week": 7,
+     "away": "DAL",
+     "home": "ARI",
+     "awayScore": 46,
+     "homeScore": 23
+    },
+    {
+     "week": 7,
+     "away": "NYG",
+     "home": "NO",
+     "awayScore": 40,
+     "homeScore": 27
+    },
+    {
+     "week": 7,
+     "away": "WAS",
+     "home": "DEN",
+     "awayScore": 55,
+     "homeScore": 39
+    },
+    {
+     "week": 7,
+     "away": "LAR",
+     "home": "JAX",
+     "awayScore": 50,
+     "homeScore": 20
+    },
+    {
+     "week": 7,
+     "away": "SF",
+     "home": "DET",
+     "awayScore": 50,
+     "homeScore": 40
+    },
+    {
+     "week": 7,
+     "away": "CHI",
+     "home": "ATL",
+     "awayScore": 16,
+     "homeScore": 14
+    },
+    {
+     "week": 7,
+     "away": "MIN",
+     "home": "PHI",
+     "awayScore": 16,
+     "homeScore": 34
+    },
+    {
+     "week": 8,
+     "away": "MIA",
+     "home": "NO",
+     "awayScore": 49,
+     "homeScore": 31
+    },
+    {
+     "week": 8,
+     "away": "NE",
+     "home": "BUF",
+     "awayScore": 35,
+     "homeScore": 48
+    },
+    {
+     "week": 8,
+     "away": "DEN",
+     "home": "LV",
+     "awayScore": 17,
+     "homeScore": 22
+    },
+    {
+     "week": 8,
+     "away": "KC",
+     "home": "IND",
+     "awayScore": 33,
+     "homeScore": 26
+    },
+    {
+     "week": 8,
+     "away": "BAL",
+     "home": "LAC",
+     "awayScore": 33,
+     "homeScore": 10
+    },
+    {
+     "week": 8,
+     "away": "CLE",
+     "home": "CIN",
+     "awayScore": 26,
+     "homeScore": 35
+    },
+    {
+     "week": 8,
+     "away": "DAL",
+     "home": "WAS",
+     "awayScore": 36,
+     "homeScore": 40
+    },
+    {
+     "week": 8,
+     "away": "PHI",
+     "home": "NYG",
+     "awayScore": 17,
+     "homeScore": 36
+    },
+    {
+     "week": 8,
+     "away": "ARI",
+     "home": "HOU",
+     "awayScore": 20,
+     "homeScore": 40
+    },
+    {
+     "week": 8,
+     "away": "LAR",
+     "home": "CHI",
+     "awayScore": 23,
+     "homeScore": 30
+    },
+    {
+     "week": 8,
+     "away": "SF",
+     "home": "TEN",
+     "awayScore": 29,
+     "homeScore": 32
+    },
+    {
+     "week": 8,
+     "away": "SEA",
+     "home": "GB",
+     "awayScore": 16,
+     "homeScore": 30
+    },
+    {
+     "week": 8,
+     "away": "DET",
+     "home": "TB",
+     "awayScore": 55,
+     "homeScore": 23
+    },
+    {
+     "week": 8,
+     "away": "ATL",
+     "home": "NYJ",
+     "awayScore": 51,
+     "homeScore": 39
+    },
+    {
+     "week": 8,
+     "away": "CAR",
+     "home": "MIN",
+     "awayScore": 37,
+     "homeScore": 27
+    },
+    {
+     "week": 9,
+     "away": "NE",
+     "home": "ATL",
+     "awayScore": 17,
+     "homeScore": 47
+    },
+    {
+     "week": 9,
+     "away": "NYJ",
+     "home": "DEN",
+     "awayScore": 23,
+     "homeScore": 32
+    },
+    {
+     "week": 9,
+     "away": "KC",
+     "home": "DAL",
+     "awayScore": 41,
+     "homeScore": 36
+    },
+    {
+     "week": 9,
+     "away": "LAC",
+     "home": "BUF",
+     "awayScore": 13,
+     "homeScore": 24
+    },
+    {
+     "week": 9,
+     "away": "LV",
+     "home": "MIA",
+     "awayScore": 27,
+     "homeScore": 13
+    },
+    {
+     "week": 9,
+     "away": "CIN",
+     "home": "BAL",
+     "awayScore": 41,
+     "homeScore": 49
+    },
+    {
+     "week": 9,
+     "away": "IND",
+     "home": "LAR",
+     "awayScore": 24,
+     "homeScore": 50
+    },
+    {
+     "week": 9,
+     "away": "JAX",
+     "home": "ARI",
+     "awayScore": 46,
+     "homeScore": 17
+    },
+    {
+     "week": 9,
+     "away": "TEN",
+     "home": "SEA",
+     "awayScore": 36,
+     "homeScore": 34
+    },
+    {
+     "week": 9,
+     "away": "WAS",
+     "home": "NYG",
+     "awayScore": 13,
+     "homeScore": 30
+    },
+    {
+     "week": 9,
+     "away": "DET",
+     "home": "HOU",
+     "awayScore": 33,
+     "homeScore": 33
+    },
+    {
+     "week": 9,
+     "away": "GB",
+     "home": "PIT",
+     "awayScore": 40,
+     "homeScore": 23
+    },
+    {
+     "week": 9,
+     "away": "MIN",
+     "home": "CLE",
+     "awayScore": 20,
+     "homeScore": 30
+    },
+    {
+     "week": 9,
+     "away": "TB",
+     "home": "CAR",
+     "awayScore": 40,
+     "homeScore": 30
+    },
+    {
+     "week": 10,
+     "away": "MIA",
+     "home": "BUF",
+     "awayScore": 9,
+     "homeScore": 23
+    },
+    {
+     "week": 10,
+     "away": "LV",
+     "home": "LAC",
+     "awayScore": 31,
+     "homeScore": 44
+    },
+    {
+     "week": 10,
+     "away": "CIN",
+     "home": "KC",
+     "awayScore": 43,
+     "homeScore": 40
+    },
+    {
+     "week": 10,
+     "away": "PIT",
+     "home": "DEN",
+     "awayScore": 43,
+     "homeScore": 14
+    },
+    {
+     "week": 10,
+     "away": "HOU",
+     "home": "JAX",
+     "awayScore": 20,
+     "homeScore": 43
+    },
+    {
+     "week": 10,
+     "away": "DAL",
+     "home": "TB",
+     "awayScore": 31,
+     "homeScore": 65
+    },
+    {
+     "week": 10,
+     "away": "NYG",
+     "home": "NE",
+     "awayScore": 41,
+     "homeScore": 27
+    },
+    {
+     "week": 10,
+     "away": "PHI",
+     "home": "SF",
+     "awayScore": 30,
+     "homeScore": 14
+    },
+    {
+     "week": 10,
+     "away": "WAS",
+     "home": "SEA",
+     "awayScore": 36,
+     "homeScore": 30
+    },
+    {
+     "week": 10,
+     "away": "LAR",
+     "home": "TEN",
+     "awayScore": 27,
+     "homeScore": 20
+    },
+    {
+     "week": 10,
+     "away": "CHI",
+     "home": "CLE",
+     "awayScore": 40,
+     "homeScore": 23
+    },
+    {
+     "week": 10,
+     "away": "GB",
+     "home": "IND",
+     "awayScore": 50,
+     "homeScore": 47
+    },
+    {
+     "week": 10,
+     "away": "ATL",
+     "home": "CAR",
+     "awayScore": 10,
+     "homeScore": 29
+    },
+    {
+     "week": 10,
+     "away": "NO",
+     "home": "DET",
+     "awayScore": 30,
+     "homeScore": 20
+    },
+    {
+     "week": 11,
+     "away": "BUF",
+     "home": "LV",
+     "awayScore": 44,
+     "homeScore": 23
+    },
+    {
+     "week": 11,
+     "away": "NYJ",
+     "home": "NE",
+     "awayScore": 24,
+     "homeScore": 37
+    },
+    {
+     "week": 11,
+     "away": "DEN",
+     "home": "LAC",
+     "awayScore": 20,
+     "homeScore": 61
+    },
+    {
+     "week": 11,
+     "away": "KC",
+     "home": "WAS",
+     "awayScore": 30,
+     "homeScore": 34
+    },
+    {
+     "week": 11,
+     "away": "BAL",
+     "home": "JAX",
+     "awayScore": 30,
+     "homeScore": 20
+    },
+    {
+     "week": 11,
+     "away": "CLE",
+     "home": "IND",
+     "awayScore": 16,
+     "homeScore": 34
+    },
+    {
+     "week": 11,
+     "away": "PIT",
+     "home": "MIN",
+     "awayScore": 36,
+     "homeScore": 21
+    },
+    {
+     "week": 11,
+     "away": "NYG",
+     "home": "LAR",
+     "awayScore": 64,
+     "homeScore": 33
+    },
+    {
+     "week": 11,
+     "away": "ARI",
+     "home": "PHI",
+     "awayScore": 30,
+     "homeScore": 40
+    },
+    {
+     "week": 11,
+     "away": "SF",
+     "home": "DAL",
+     "awayScore": 26,
+     "homeScore": 21
+    },
+    {
+     "week": 11,
+     "away": "SEA",
+     "home": "HOU",
+     "awayScore": 47,
+     "homeScore": 29
+    },
+    {
+     "week": 11,
+     "away": "CHI",
+     "home": "CIN",
+     "awayScore": 40,
+     "homeScore": 38
+    },
+    {
+     "week": 11,
+     "away": "DET",
+     "home": "GB",
+     "awayScore": 29,
+     "homeScore": 34
+    },
+    {
+     "week": 11,
+     "away": "CAR",
+     "home": "MIA",
+     "awayScore": 33,
+     "homeScore": 26
+    },
+    {
+     "week": 11,
+     "away": "TB",
+     "home": "NO",
+     "awayScore": 52,
+     "homeScore": 50
+    },
+    {
+     "week": 12,
+     "away": "NE",
+     "home": "KC",
+     "awayScore": 16,
+     "homeScore": 30
+    },
+    {
+     "week": 12,
+     "away": "LAC",
+     "home": "NYJ",
+     "awayScore": 38,
+     "homeScore": 41
+    },
+    {
+     "week": 12,
+     "away": "LV",
+     "home": "NYG",
+     "awayScore": 35,
+     "homeScore": 36
+    },
+    {
+     "week": 12,
+     "away": "CIN",
+     "home": "PIT",
+     "awayScore": 39,
+     "homeScore": 46
+    },
+    {
+     "week": 12,
+     "away": "CLE",
+     "home": "BAL",
+     "awayScore": 28,
+     "homeScore": 33
+    },
+    {
+     "week": 12,
+     "away": "IND",
+     "home": "TEN",
+     "awayScore": 13,
+     "homeScore": 39
+    },
+    {
+     "week": 12,
+     "away": "JAX",
+     "home": "SEA",
+     "awayScore": 62,
+     "homeScore": 51
+    },
+    {
+     "week": 12,
+     "away": "DAL",
+     "home": "DEN",
+     "awayScore": 27,
+     "homeScore": 19
+    },
+    {
+     "week": 12,
+     "away": "PHI",
+     "home": "BUF",
+     "awayScore": 23,
+     "homeScore": 21
+    },
+    {
+     "week": 12,
+     "away": "WAS",
+     "home": "MIA",
+     "awayScore": 43,
+     "homeScore": 19
+    },
+    {
+     "week": 12,
+     "away": "LAR",
+     "home": "ARI",
+     "awayScore": 45,
+     "homeScore": 37
+    },
+    {
+     "week": 12,
+     "away": "GB",
+     "home": "CAR",
+     "awayScore": 9,
+     "homeScore": 27
+    },
+    {
+     "week": 12,
+     "away": "MIN",
+     "home": "CHI",
+     "awayScore": 38,
+     "homeScore": 40
+    },
+    {
+     "week": 12,
+     "away": "ATL",
+     "home": "DET",
+     "awayScore": 51,
+     "homeScore": 31
+    },
+    {
+     "week": 12,
+     "away": "NO",
+     "home": "SF",
+     "awayScore": 26,
+     "homeScore": 41
+    },
+    {
+     "week": 13,
+     "away": "BUF",
+     "home": "NYJ",
+     "awayScore": 50,
+     "homeScore": 28
+    },
+    {
+     "week": 13,
+     "away": "MIA",
+     "home": "ATL",
+     "awayScore": 49,
+     "homeScore": 13
+    },
+    {
+     "week": 13,
+     "away": "KC",
+     "home": "LV",
+     "awayScore": 44,
+     "homeScore": 24
+    },
+    {
+     "week": 13,
+     "away": "PIT",
+     "home": "CLE",
+     "awayScore": 33,
+     "homeScore": 31
+    },
+    {
+     "week": 13,
+     "away": "IND",
+     "home": "BAL",
+     "awayScore": 26,
+     "homeScore": 30
+    },
+    {
+     "week": 13,
+     "away": "TEN",
+     "home": "HOU",
+     "awayScore": 17,
+     "homeScore": 14
+    },
+    {
+     "week": 13,
+     "away": "PHI",
+     "home": "WAS",
+     "awayScore": 22,
+     "homeScore": 30
+    },
+    {
+     "week": 13,
+     "away": "ARI",
+     "home": "DEN",
+     "awayScore": 19,
+     "homeScore": 27
+    },
+    {
+     "week": 13,
+     "away": "LAR",
+     "home": "LAC",
+     "awayScore": 34,
+     "homeScore": 30
+    },
+    {
+     "week": 13,
+     "away": "SF",
+     "home": "JAX",
+     "awayScore": 20,
+     "homeScore": 15
+    },
+    {
+     "week": 13,
+     "away": "SEA",
+     "home": "NYG",
+     "awayScore": 6,
+     "homeScore": 20
+    },
+    {
+     "week": 13,
+     "away": "GB",
+     "home": "CHI",
+     "awayScore": 32,
+     "homeScore": 38
+    },
+    {
+     "week": 13,
+     "away": "CAR",
+     "home": "NO",
+     "awayScore": 48,
+     "homeScore": 20
+    },
+    {
+     "week": 13,
+     "away": "TB",
+     "home": "MIN",
+     "awayScore": 16,
+     "homeScore": 29
+    },
+    {
+     "week": 14,
+     "away": "MIA",
+     "home": "NE",
+     "awayScore": 50,
+     "homeScore": 35
+    },
+    {
+     "week": 14,
+     "away": "LV",
+     "home": "PHI",
+     "awayScore": 23,
+     "homeScore": 51
+    },
+    {
+     "week": 14,
+     "away": "CLE",
+     "home": "GB",
+     "awayScore": 30,
+     "homeScore": 50
+    },
+    {
+     "week": 14,
+     "away": "PIT",
+     "home": "CIN",
+     "awayScore": 22,
+     "homeScore": 27
+    },
+    {
+     "week": 14,
+     "away": "JAX",
+     "home": "HOU",
+     "awayScore": 38,
+     "homeScore": 41
+    },
+    {
+     "week": 14,
+     "away": "NYG",
+     "home": "LAC",
+     "awayScore": 50,
+     "homeScore": 37
+    },
+    {
+     "week": 14,
+     "away": "WAS",
+     "home": "DAL",
+     "awayScore": 30,
+     "homeScore": 24
+    },
+    {
+     "week": 14,
+     "away": "ARI",
+     "home": "IND",
+     "awayScore": 17,
+     "homeScore": 36
+    },
+    {
+     "week": 14,
+     "away": "SEA",
+     "home": "SF",
+     "awayScore": 29,
+     "homeScore": 24
+    },
+    {
+     "week": 14,
+     "away": "CHI",
+     "home": "TEN",
+     "awayScore": 36,
+     "homeScore": 31
+    },
+    {
+     "week": 14,
+     "away": "MIN",
+     "home": "DET",
+     "awayScore": 24,
+     "homeScore": 20
+    },
+    {
+     "week": 14,
+     "away": "ATL",
+     "home": "TB",
+     "awayScore": 33,
+     "homeScore": 36
+    },
+    {
+     "week": 14,
+     "away": "CAR",
+     "home": "BAL",
+     "awayScore": 20,
+     "homeScore": 44
+    },
+    {
+     "week": 14,
+     "away": "NO",
+     "home": "NYJ",
+     "awayScore": 16,
+     "homeScore": 23
+    },
+    {
+     "week": 15,
+     "away": "NE",
+     "home": "CLE",
+     "awayScore": 23,
+     "homeScore": 36
+    },
+    {
+     "week": 15,
+     "away": "NYJ",
+     "home": "MIA",
+     "awayScore": 30,
+     "homeScore": 33
+    },
+    {
+     "week": 15,
+     "away": "KC",
+     "home": "BUF",
+     "awayScore": 41,
+     "homeScore": 46
+    },
+    {
+     "week": 15,
+     "away": "LAC",
+     "home": "DEN",
+     "awayScore": 10,
+     "homeScore": 43
+    },
+    {
+     "week": 15,
+     "away": "BAL",
+     "home": "TEN",
+     "awayScore": 41,
+     "homeScore": 22
+    },
+    {
+     "week": 15,
+     "away": "HOU",
+     "home": "IND",
+     "awayScore": 48,
+     "homeScore": 24
+    },
+    {
+     "week": 15,
+     "away": "JAX",
+     "home": "CIN",
+     "awayScore": 47,
+     "homeScore": 36
+    },
+    {
+     "week": 15,
+     "away": "DAL",
+     "home": "LV",
+     "awayScore": 39,
+     "homeScore": 18
+    },
+    {
+     "week": 15,
+     "away": "NYG",
+     "home": "PHI",
+     "awayScore": 34,
+     "homeScore": 43
+    },
+    {
+     "week": 15,
+     "away": "WAS",
+     "home": "CAR",
+     "awayScore": 34,
+     "homeScore": 17
+    },
+    {
+     "week": 15,
+     "away": "SF",
+     "home": "LAR",
+     "awayScore": 36,
+     "homeScore": 61
+    },
+    {
+     "week": 15,
+     "away": "SEA",
+     "home": "ARI",
+     "awayScore": 13,
+     "homeScore": 12
+    },
+    {
+     "week": 15,
+     "away": "DET",
+     "home": "PIT",
+     "awayScore": 44,
+     "homeScore": 37
+    },
+    {
+     "week": 15,
+     "away": "GB",
+     "home": "MIN",
+     "awayScore": 43,
+     "homeScore": 22
+    },
+    {
+     "week": 15,
+     "away": "NO",
+     "home": "ATL",
+     "awayScore": 51,
+     "homeScore": 36
+    },
+    {
+     "week": 15,
+     "away": "TB",
+     "home": "CHI",
+     "awayScore": 27,
+     "homeScore": 32
+    },
+    {
+     "week": 16,
+     "away": "BUF",
+     "home": "TB",
+     "awayScore": 13,
+     "homeScore": 40
+    },
+    {
+     "week": 16,
+     "away": "MIA",
+     "home": "LAC",
+     "awayScore": 29,
+     "homeScore": 32
+    },
+    {
+     "week": 16,
+     "away": "DEN",
+     "home": "NYG",
+     "awayScore": 23,
+     "homeScore": 27
+    },
+    {
+     "week": 16,
+     "away": "LV",
+     "home": "KC",
+     "awayScore": 20,
+     "homeScore": 50
+    },
+    {
+     "week": 16,
+     "away": "CIN",
+     "home": "DET",
+     "awayScore": 41,
+     "homeScore": 33
+    },
+    {
+     "week": 16,
+     "away": "CLE",
+     "home": "HOU",
+     "awayScore": 33,
+     "homeScore": 35
+    },
+    {
+     "week": 16,
+     "away": "PIT",
+     "home": "BAL",
+     "awayScore": 16,
+     "homeScore": 38
+    },
+    {
+     "week": 16,
+     "away": "IND",
+     "home": "NYJ",
+     "awayScore": 13,
+     "homeScore": 31
+    },
+    {
+     "week": 16,
+     "away": "TEN",
+     "home": "JAX",
+     "awayScore": 27,
+     "homeScore": 50
+    },
+    {
+     "week": 16,
+     "away": "PHI",
+     "home": "DAL",
+     "awayScore": 23,
+     "homeScore": 20
+    },
+    {
+     "week": 16,
+     "away": "ARI",
+     "home": "LAR",
+     "awayScore": 26,
+     "homeScore": 37
+    },
+    {
+     "week": 16,
+     "away": "SF",
+     "home": "SEA",
+     "awayScore": 24,
+     "homeScore": 26
+    },
+    {
+     "week": 16,
+     "away": "CHI",
+     "home": "WAS",
+     "awayScore": 30,
+     "homeScore": 13
+    },
+    {
+     "week": 16,
+     "away": "MIN",
+     "home": "NO",
+     "awayScore": 35,
+     "homeScore": 27
+    },
+    {
+     "week": 16,
+     "away": "ATL",
+     "home": "GB",
+     "awayScore": 37,
+     "homeScore": 20
+    },
+    {
+     "week": 16,
+     "away": "CAR",
+     "home": "NE",
+     "awayScore": 37,
+     "homeScore": 52
+    },
+    {
+     "week": 17,
+     "away": "MIA",
+     "home": "KC",
+     "awayScore": 50,
+     "homeScore": 43
+    },
+    {
+     "week": 17,
+     "away": "NYJ",
+     "home": "CAR",
+     "awayScore": 44,
+     "homeScore": 34
+    },
+    {
+     "week": 17,
+     "away": "DEN",
+     "home": "NE",
+     "awayScore": 34,
+     "homeScore": 41
+    },
+    {
+     "week": 17,
+     "away": "CIN",
+     "home": "CLE",
+     "awayScore": 47,
+     "homeScore": 29
+    },
+    {
+     "week": 17,
+     "away": "HOU",
+     "home": "BAL",
+     "awayScore": 39,
+     "homeScore": 26
+    },
+    {
+     "week": 17,
+     "away": "JAX",
+     "home": "BUF",
+     "awayScore": 24,
+     "homeScore": 33
+    },
+    {
+     "week": 17,
+     "away": "TEN",
+     "home": "IND",
+     "awayScore": 36,
+     "homeScore": 47
+    },
+    {
+     "week": 17,
+     "away": "DAL",
+     "home": "NYG",
+     "awayScore": 20,
+     "homeScore": 38
+    },
+    {
+     "week": 17,
+     "away": "PHI",
+     "home": "LAC",
+     "awayScore": 59,
+     "homeScore": 44
+    },
+    {
+     "week": 17,
+     "away": "WAS",
+     "home": "LV",
+     "awayScore": 48,
+     "homeScore": 26
+    },
+    {
+     "week": 17,
+     "away": "ARI",
+     "home": "MIN",
+     "awayScore": 17,
+     "homeScore": 29
+    },
+    {
+     "week": 17,
+     "away": "LAR",
+     "home": "SF",
+     "awayScore": 48,
+     "homeScore": 16
+    },
+    {
+     "week": 17,
+     "away": "CHI",
+     "home": "NO",
+     "awayScore": 40,
+     "homeScore": 25
+    },
+    {
+     "week": 17,
+     "away": "GB",
+     "home": "DET",
+     "awayScore": 54,
+     "homeScore": 37
+    },
+    {
+     "week": 17,
+     "away": "ATL",
+     "home": "PIT",
+     "awayScore": 30,
+     "homeScore": 37
+    },
+    {
+     "week": 17,
+     "away": "TB",
+     "home": "SEA",
+     "awayScore": 28,
+     "homeScore": 33
+    },
+    {
+     "week": 18,
+     "away": "BUF",
+     "home": "MIA",
+     "awayScore": 17,
+     "homeScore": 26
+    },
+    {
+     "week": 18,
+     "away": "NE",
+     "home": "NYJ",
+     "awayScore": 16,
+     "homeScore": 37
+    },
+    {
+     "week": 18,
+     "away": "KC",
+     "home": "DEN",
+     "awayScore": 36,
+     "homeScore": 16
+    },
+    {
+     "week": 18,
+     "away": "LAC",
+     "home": "LV",
+     "awayScore": 30,
+     "homeScore": 27
+    },
+    {
+     "week": 18,
+     "away": "BAL",
+     "home": "CIN",
+     "awayScore": 12,
+     "homeScore": 32
+    },
+    {
+     "week": 18,
+     "away": "CLE",
+     "home": "PIT",
+     "awayScore": 39,
+     "homeScore": 41
+    },
+    {
+     "week": 18,
+     "away": "HOU",
+     "home": "TEN",
+     "awayScore": 24,
+     "homeScore": 31
+    },
+    {
+     "week": 18,
+     "away": "IND",
+     "home": "JAX",
+     "awayScore": 33,
+     "homeScore": 44
+    },
+    {
+     "week": 18,
+     "away": "DAL",
+     "home": "PHI",
+     "awayScore": 20,
+     "homeScore": 27
+    },
+    {
+     "week": 18,
+     "away": "NYG",
+     "home": "WAS",
+     "awayScore": 16,
+     "homeScore": 37
+    },
+    {
+     "week": 18,
+     "away": "SF",
+     "home": "ARI",
+     "awayScore": 16,
+     "homeScore": 59
+    },
+    {
+     "week": 18,
+     "away": "SEA",
+     "home": "LAR",
+     "awayScore": 26,
+     "homeScore": 33
+    },
+    {
+     "week": 18,
+     "away": "DET",
+     "home": "CHI",
+     "awayScore": 19,
+     "homeScore": 32
+    },
+    {
+     "week": 18,
+     "away": "MIN",
+     "home": "GB",
+     "awayScore": 31,
+     "homeScore": 27
+    },
+    {
+     "week": 18,
+     "away": "CAR",
+     "home": "ATL",
+     "awayScore": 31,
+     "homeScore": 17
+    },
+    {
+     "week": 18,
+     "away": "NO",
+     "home": "TB",
+     "awayScore": 52,
+     "homeScore": 38
+    }
+   ],
+   "regularSeasonGames": 17
   }
  },
  "headToHead": {
+  "Commanders": {
+   "team": "Commanders",
+   "w": 14,
+   "l": 5,
+   "t": 1,
+   "meetings": [
+    {
+     "season": "Y88",
+     "week": 4,
+     "round": "Week 4",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 24,
+     "against": 29,
+     "result": "L"
+    },
+    {
+     "season": "Y88",
+     "week": 13,
+     "round": "Week 13",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 40,
+     "against": 40,
+     "result": "T"
+    },
+    {
+     "season": "Y89",
+     "week": 8,
+     "round": "Week 8",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 30,
+     "against": 33,
+     "result": "L"
+    },
+    {
+     "season": "Y89",
+     "week": 14,
+     "round": "Week 14",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 30,
+     "against": 20,
+     "result": "W"
+    },
+    {
+     "season": "Y90",
+     "week": 11,
+     "round": "Week 11",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 30,
+     "against": 28,
+     "result": "W"
+    },
+    {
+     "season": "Y90",
+     "week": 16,
+     "round": "Week 16",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 24,
+     "against": 28,
+     "result": "L"
+    },
+    {
+     "season": "Y91",
+     "week": 16,
+     "round": "Week 16",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 38,
+     "against": 16,
+     "result": "W"
+    },
+    {
+     "season": "Y91",
+     "week": 18,
+     "round": "Week 18",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 20,
+     "against": 29,
+     "result": "L"
+    },
+    {
+     "season": "Y92",
+     "week": 1,
+     "round": "Week 1",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 32,
+     "against": 16,
+     "result": "W"
+    },
+    {
+     "season": "Y92",
+     "week": 8,
+     "round": "Week 8",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 38,
+     "against": 26,
+     "result": "W"
+    },
+    {
+     "season": "Y93",
+     "week": 4,
+     "round": "Week 4",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 48,
+     "against": 22,
+     "result": "W"
+    },
+    {
+     "season": "Y93",
+     "week": 12,
+     "round": "Week 12",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 40,
+     "against": 28,
+     "result": "W"
+    },
+    {
+     "season": "Y94",
+     "week": 2,
+     "round": "Week 2",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 40,
+     "against": 19,
+     "result": "W"
+    },
+    {
+     "season": "Y94",
+     "week": 13,
+     "round": "Week 13",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 30,
+     "against": 25,
+     "result": "W"
+    },
+    {
+     "season": "Y95",
+     "week": 15,
+     "round": "Week 15",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 40,
+     "against": 20,
+     "result": "W"
+    },
+    {
+     "season": "Y95",
+     "week": 17,
+     "round": "Week 17",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 36,
+     "against": 14,
+     "result": "W"
+    },
+    {
+     "season": "Y97",
+     "week": 11,
+     "round": "Week 11",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 32,
+     "against": 33,
+     "result": "L"
+    },
+    {
+     "season": "Y97",
+     "week": 17,
+     "round": "Week 17",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 40,
+     "against": 20,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 16,
+     "round": "Week 16",
+     "site": "away",
+     "coachTeam": "Bears",
+     "for": 30,
+     "against": 13,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 30,
+     "round": "Conference",
+     "site": "home",
+     "coachTeam": "Bears",
+     "for": 40,
+     "against": 29,
+     "result": "W"
+    }
+   ],
+   "record": "14-5-1",
+   "games": 20
+  },
   "Giants": {
    "team": "Giants",
-   "w": 19,
+   "w": 20,
    "l": 0,
    "t": 0,
    "meetings": [
@@ -41491,200 +46280,20 @@
      "for": 40,
      "against": 21,
      "result": "W"
-    }
-   ],
-   "record": "19-0",
-   "games": 19
-  },
-  "Commanders": {
-   "team": "Commanders",
-   "w": 12,
-   "l": 5,
-   "t": 1,
-   "meetings": [
+    },
     {
-     "season": "Y88",
-     "week": 4,
-     "round": "Week 4",
+     "season": "Y98",
+     "week": 27,
+     "round": "Divisional",
      "site": "home",
-     "coachTeam": "Eagles",
-     "for": 24,
-     "against": 29,
-     "result": "L"
-    },
-    {
-     "season": "Y88",
-     "week": 13,
-     "round": "Week 13",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 40,
-     "against": 40,
-     "result": "T"
-    },
-    {
-     "season": "Y89",
-     "week": 8,
-     "round": "Week 8",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 30,
-     "against": 33,
-     "result": "L"
-    },
-    {
-     "season": "Y89",
-     "week": 14,
-     "round": "Week 14",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 30,
-     "against": 20,
-     "result": "W"
-    },
-    {
-     "season": "Y90",
-     "week": 11,
-     "round": "Week 11",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 30,
-     "against": 28,
-     "result": "W"
-    },
-    {
-     "season": "Y90",
-     "week": 16,
-     "round": "Week 16",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 24,
-     "against": 28,
-     "result": "L"
-    },
-    {
-     "season": "Y91",
-     "week": 16,
-     "round": "Week 16",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 38,
-     "against": 16,
-     "result": "W"
-    },
-    {
-     "season": "Y91",
-     "week": 18,
-     "round": "Week 18",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 20,
-     "against": 29,
-     "result": "L"
-    },
-    {
-     "season": "Y92",
-     "week": 1,
-     "round": "Week 1",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 32,
-     "against": 16,
-     "result": "W"
-    },
-    {
-     "season": "Y92",
-     "week": 8,
-     "round": "Week 8",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 38,
-     "against": 26,
-     "result": "W"
-    },
-    {
-     "season": "Y93",
-     "week": 4,
-     "round": "Week 4",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 48,
-     "against": 22,
-     "result": "W"
-    },
-    {
-     "season": "Y93",
-     "week": 12,
-     "round": "Week 12",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 40,
-     "against": 28,
-     "result": "W"
-    },
-    {
-     "season": "Y94",
-     "week": 2,
-     "round": "Week 2",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 40,
-     "against": 19,
-     "result": "W"
-    },
-    {
-     "season": "Y94",
-     "week": 13,
-     "round": "Week 13",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 30,
+     "coachTeam": "Bears",
+     "for": 46,
      "against": 25,
      "result": "W"
-    },
-    {
-     "season": "Y95",
-     "week": 15,
-     "round": "Week 15",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 40,
-     "against": 20,
-     "result": "W"
-    },
-    {
-     "season": "Y95",
-     "week": 17,
-     "round": "Week 17",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 36,
-     "against": 14,
-     "result": "W"
-    },
-    {
-     "season": "Y97",
-     "week": 11,
-     "round": "Week 11",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 32,
-     "against": 33,
-     "result": "L"
-    },
-    {
-     "season": "Y97",
-     "week": 17,
-     "round": "Week 17",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 40,
-     "against": 20,
-     "result": "W"
     }
    ],
-   "record": "12-5-1",
-   "games": 18
+   "record": "20-0",
+   "games": 20
   },
   "Cowboys": {
    "team": "Cowboys",
@@ -41878,8 +46487,8 @@
   },
   "Packers": {
    "team": "Packers",
-   "w": 10,
-   "l": 0,
+   "w": 11,
+   "l": 1,
    "t": 0,
    "meetings": [
     {
@@ -41981,14 +46590,34 @@
      "for": 40,
      "against": 15,
      "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 5,
+     "round": "Week 5",
+     "site": "away",
+     "coachTeam": "Bears",
+     "for": 22,
+     "against": 25,
+     "result": "L"
+    },
+    {
+     "season": "Y98",
+     "week": 13,
+     "round": "Week 13",
+     "site": "home",
+     "coachTeam": "Bears",
+     "for": 38,
+     "against": 32,
+     "result": "W"
     }
    ],
-   "record": "10-0",
-   "games": 10
+   "record": "11-1",
+   "games": 12
   },
   "Buccaneers": {
    "team": "Buccaneers",
-   "w": 7,
+   "w": 8,
    "l": 1,
    "t": 0,
    "meetings": [
@@ -42071,14 +46700,24 @@
      "for": 38,
      "against": 32,
      "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 15,
+     "round": "Week 15",
+     "site": "home",
+     "coachTeam": "Bears",
+     "for": 32,
+     "against": 27,
+     "result": "W"
     }
    ],
-   "record": "7-1",
-   "games": 8
+   "record": "8-1",
+   "games": 9
   },
   "Rams": {
    "team": "Rams",
-   "w": 7,
+   "w": 8,
    "l": 1,
    "t": 0,
    "meetings": [
@@ -42161,10 +46800,280 @@
      "for": 46,
      "against": 17,
      "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 8,
+     "round": "Week 8",
+     "site": "home",
+     "coachTeam": "Bears",
+     "for": 30,
+     "against": 23,
+     "result": "W"
     }
    ],
-   "record": "7-1",
+   "record": "8-1",
+   "games": 9
+  },
+  "Lions": {
+   "team": "Lions",
+   "w": 8,
+   "l": 0,
+   "t": 0,
+   "meetings": [
+    {
+     "season": "Y89",
+     "week": 4,
+     "round": "Week 4",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 32,
+     "against": 24,
+     "result": "W"
+    },
+    {
+     "season": "Y91",
+     "week": 11,
+     "round": "Week 11",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 32,
+     "against": 19,
+     "result": "W"
+    },
+    {
+     "season": "Y93",
+     "week": 7,
+     "round": "Week 7",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 46,
+     "against": 29,
+     "result": "W"
+    },
+    {
+     "season": "Y94",
+     "week": 27,
+     "round": "Divisional",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 48,
+     "against": 26,
+     "result": "W"
+    },
+    {
+     "season": "Y95",
+     "week": 5,
+     "round": "Week 5",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 54,
+     "against": 13,
+     "result": "W"
+    },
+    {
+     "season": "Y95",
+     "week": 30,
+     "round": "Conference",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 30,
+     "against": 16,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 2,
+     "round": "Week 2",
+     "site": "away",
+     "coachTeam": "Bears",
+     "for": 32,
+     "against": 29,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 18,
+     "round": "Week 18",
+     "site": "home",
+     "coachTeam": "Bears",
+     "for": 32,
+     "against": 19,
+     "result": "W"
+    }
+   ],
+   "record": "8-0",
    "games": 8
+  },
+  "Vikings": {
+   "team": "Vikings",
+   "w": 8,
+   "l": 0,
+   "t": 0,
+   "meetings": [
+    {
+     "season": "Y89",
+     "week": 3,
+     "round": "Week 3",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 32,
+     "against": 17,
+     "result": "W"
+    },
+    {
+     "season": "Y91",
+     "week": 7,
+     "round": "Week 7",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 32,
+     "against": 30,
+     "result": "W"
+    },
+    {
+     "season": "Y93",
+     "week": 27,
+     "round": "Divisional",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 40,
+     "against": 34,
+     "result": "W"
+    },
+    {
+     "season": "Y94",
+     "week": 7,
+     "round": "Week 7",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 32,
+     "against": 31,
+     "result": "W"
+    },
+    {
+     "season": "Y95",
+     "week": 6,
+     "round": "Week 6",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 40,
+     "against": 24,
+     "result": "W"
+    },
+    {
+     "season": "Y97",
+     "week": 7,
+     "round": "Week 7",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 38,
+     "against": 20,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 4,
+     "round": "Week 4",
+     "site": "away",
+     "coachTeam": "Bears",
+     "for": 30,
+     "against": 12,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 12,
+     "round": "Week 12",
+     "site": "home",
+     "coachTeam": "Bears",
+     "for": 40,
+     "against": 38,
+     "result": "W"
+    }
+   ],
+   "record": "8-0",
+   "games": 8
+  },
+  "Panthers": {
+   "team": "Panthers",
+   "w": 7,
+   "l": 0,
+   "t": 0,
+   "meetings": [
+    {
+     "season": "Y88",
+     "week": 1,
+     "round": "Week 1",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 38,
+     "against": 37,
+     "result": "W"
+    },
+    {
+     "season": "Y89",
+     "week": 27,
+     "round": "Divisional",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 46,
+     "against": 24,
+     "result": "W"
+    },
+    {
+     "season": "Y90",
+     "week": 14,
+     "round": "Week 14",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 27,
+     "against": 10,
+     "result": "W"
+    },
+    {
+     "season": "Y92",
+     "week": 6,
+     "round": "Week 6",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 48,
+     "against": 20,
+     "result": "W"
+    },
+    {
+     "season": "Y94",
+     "week": 6,
+     "round": "Week 6",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 38,
+     "against": 24,
+     "result": "W"
+    },
+    {
+     "season": "Y97",
+     "week": 12,
+     "round": "Week 12",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 36,
+     "against": 25,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 1,
+     "round": "Week 1",
+     "site": "home",
+     "coachTeam": "Bears",
+     "for": 40,
+     "against": 26,
+     "result": "W"
+    }
+   ],
+   "record": "7-0",
+   "games": 7
   },
   "Chiefs": {
    "team": "Chiefs",
@@ -42236,210 +47145,140 @@
    "record": "6-0",
    "games": 6
   },
-  "Lions": {
-   "team": "Lions",
-   "w": 6,
-   "l": 0,
-   "t": 0,
-   "meetings": [
-    {
-     "season": "Y89",
-     "week": 4,
-     "round": "Week 4",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 32,
-     "against": 24,
-     "result": "W"
-    },
-    {
-     "season": "Y91",
-     "week": 11,
-     "round": "Week 11",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 32,
-     "against": 19,
-     "result": "W"
-    },
-    {
-     "season": "Y93",
-     "week": 7,
-     "round": "Week 7",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 46,
-     "against": 29,
-     "result": "W"
-    },
-    {
-     "season": "Y94",
-     "week": 27,
-     "round": "Divisional",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 48,
-     "against": 26,
-     "result": "W"
-    },
-    {
-     "season": "Y95",
-     "week": 5,
-     "round": "Week 5",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 54,
-     "against": 13,
-     "result": "W"
-    },
-    {
-     "season": "Y95",
-     "week": 30,
-     "round": "Conference",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 30,
-     "against": 16,
-     "result": "W"
-    }
-   ],
-   "record": "6-0",
-   "games": 6
-  },
-  "Panthers": {
-   "team": "Panthers",
+  "Falcons": {
+   "team": "Falcons",
    "w": 6,
    "l": 0,
    "t": 0,
    "meetings": [
     {
      "season": "Y88",
-     "week": 1,
-     "round": "Week 1",
+     "week": 8,
+     "round": "Week 8",
      "site": "away",
      "coachTeam": "Eagles",
      "for": 38,
-     "against": 37,
+     "against": 13,
      "result": "W"
     },
     {
-     "season": "Y89",
+     "season": "Y88",
      "week": 27,
      "round": "Divisional",
      "site": "home",
      "coachTeam": "Eagles",
-     "for": 46,
-     "against": 24,
+     "for": 24,
+     "against": 14,
      "result": "W"
     },
     {
      "season": "Y90",
-     "week": 14,
-     "round": "Week 14",
+     "week": 2,
+     "round": "Week 2",
      "site": "home",
      "coachTeam": "Eagles",
-     "for": 27,
-     "against": 10,
-     "result": "W"
-    },
-    {
-     "season": "Y92",
-     "week": 6,
-     "round": "Week 6",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 48,
-     "against": 20,
+     "for": 32,
+     "against": 16,
      "result": "W"
     },
     {
      "season": "Y94",
-     "week": 6,
-     "round": "Week 6",
-     "site": "away",
+     "week": 11,
+     "round": "Week 11",
+     "site": "home",
      "coachTeam": "Eagles",
-     "for": 38,
-     "against": 24,
+     "for": 40,
+     "against": 26,
      "result": "W"
     },
     {
      "season": "Y97",
-     "week": 12,
-     "round": "Week 12",
-     "site": "home",
+     "week": 8,
+     "round": "Week 8",
+     "site": "away",
      "coachTeam": "Eagles",
-     "for": 36,
-     "against": 25,
+     "for": 32,
+     "against": 26,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 7,
+     "round": "Week 7",
+     "site": "away",
+     "coachTeam": "Bears",
+     "for": 16,
+     "against": 14,
      "result": "W"
     }
    ],
    "record": "6-0",
    "games": 6
   },
-  "Vikings": {
-   "team": "Vikings",
+  "Saints": {
+   "team": "Saints",
    "w": 6,
    "l": 0,
    "t": 0,
    "meetings": [
     {
-     "season": "Y89",
+     "season": "Y88",
+     "week": 3,
+     "round": "Week 3",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 24,
+     "against": 14,
+     "result": "W"
+    },
+    {
+     "season": "Y90",
      "week": 3,
      "round": "Week 3",
      "site": "away",
-     "coachTeam": "Eagles",
-     "for": 32,
-     "against": 17,
-     "result": "W"
-    },
-    {
-     "season": "Y91",
-     "week": 7,
-     "round": "Week 7",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 32,
-     "against": 30,
-     "result": "W"
-    },
-    {
-     "season": "Y93",
-     "week": 27,
-     "round": "Divisional",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 40,
-     "against": 34,
-     "result": "W"
-    },
-    {
-     "season": "Y94",
-     "week": 7,
-     "round": "Week 7",
-     "site": "home",
      "coachTeam": "Eagles",
      "for": 32,
      "against": 31,
      "result": "W"
     },
     {
+     "season": "Y94",
+     "week": 10,
+     "round": "Week 10",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 38,
+     "against": 20,
+     "result": "W"
+    },
+    {
      "season": "Y95",
-     "week": 6,
-     "round": "Week 6",
+     "week": 2,
+     "round": "Week 2",
      "site": "home",
      "coachTeam": "Eagles",
      "for": 40,
-     "against": 24,
+     "against": 16,
      "result": "W"
     },
     {
      "season": "Y97",
-     "week": 7,
-     "round": "Week 7",
-     "site": "home",
+     "week": 3,
+     "round": "Week 3",
+     "site": "away",
      "coachTeam": "Eagles",
-     "for": 38,
-     "against": 20,
+     "for": 36,
+     "against": 14,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 17,
+     "round": "Week 17",
+     "site": "away",
+     "coachTeam": "Bears",
+     "for": 40,
+     "against": 25,
      "result": "W"
     }
    ],
@@ -42566,120 +47405,120 @@
    "record": "5-0",
    "games": 5
   },
-  "Falcons": {
-   "team": "Falcons",
+  "Ravens": {
+   "team": "Ravens",
    "w": 5,
    "l": 0,
    "t": 0,
    "meetings": [
     {
-     "season": "Y88",
-     "week": 8,
-     "round": "Week 8",
+     "season": "Y89",
+     "week": 12,
+     "round": "Week 12",
      "site": "away",
      "coachTeam": "Eagles",
-     "for": 38,
-     "against": 13,
-     "result": "W"
-    },
-    {
-     "season": "Y88",
-     "week": 27,
-     "round": "Divisional",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 24,
-     "against": 14,
+     "for": 30,
+     "against": 17,
      "result": "W"
     },
     {
      "season": "Y90",
-     "week": 2,
-     "round": "Week 2",
-     "site": "home",
+     "week": 13,
+     "round": "Week 13",
+     "site": "away",
      "coachTeam": "Eagles",
      "for": 32,
-     "against": 16,
+     "against": 12,
      "result": "W"
     },
     {
      "season": "Y94",
-     "week": 11,
-     "round": "Week 11",
-     "site": "home",
+     "week": 12,
+     "round": "Week 12",
+     "site": "away",
      "coachTeam": "Eagles",
-     "for": 40,
-     "against": 26,
+     "for": 30,
+     "against": 14,
      "result": "W"
     },
     {
      "season": "Y97",
-     "week": 8,
-     "round": "Week 8",
+     "week": 15,
+     "round": "Week 15",
      "site": "away",
      "coachTeam": "Eagles",
+     "for": 30,
+     "against": 23,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 6,
+     "round": "Week 6",
+     "site": "home",
+     "coachTeam": "Bears",
      "for": 32,
-     "against": 26,
+     "against": 27,
      "result": "W"
     }
    ],
    "record": "5-0",
    "games": 5
   },
-  "Saints": {
-   "team": "Saints",
+  "Steelers": {
+   "team": "Steelers",
    "w": 5,
    "l": 0,
    "t": 0,
    "meetings": [
     {
-     "season": "Y88",
-     "week": 3,
-     "round": "Week 3",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 24,
-     "against": 14,
-     "result": "W"
-    },
-    {
      "season": "Y90",
-     "week": 3,
-     "round": "Week 3",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 32,
-     "against": 31,
-     "result": "W"
-    },
-    {
-     "season": "Y94",
-     "week": 10,
-     "round": "Week 10",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 38,
-     "against": 20,
-     "result": "W"
-    },
-    {
-     "season": "Y95",
-     "week": 2,
-     "round": "Week 2",
+     "week": 15,
+     "round": "Week 15",
      "site": "home",
      "coachTeam": "Eagles",
      "for": 40,
-     "against": 16,
+     "against": 27,
+     "result": "W"
+    },
+    {
+     "season": "Y92",
+     "week": 11,
+     "round": "Week 11",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 24,
+     "against": 19,
+     "result": "W"
+    },
+    {
+     "season": "Y93",
+     "week": 31,
+     "round": "Super Bowl",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 30,
+     "against": 17,
      "result": "W"
     },
     {
      "season": "Y97",
+     "week": 4,
+     "round": "Week 4",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 32,
+     "against": 7,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
      "week": 3,
      "round": "Week 3",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 36,
-     "against": 14,
+     "site": "home",
+     "coachTeam": "Bears",
+     "for": 24,
+     "against": 22,
      "result": "W"
     }
    ],
@@ -42734,6 +47573,56 @@
     }
    ],
    "record": "3-1",
+   "games": 4
+  },
+  "Bengals": {
+   "team": "Bengals",
+   "w": 4,
+   "l": 0,
+   "t": 0,
+   "meetings": [
+    {
+     "season": "Y89",
+     "week": 31,
+     "round": "Super Bowl",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 44,
+     "against": 14,
+     "result": "W"
+    },
+    {
+     "season": "Y90",
+     "week": 8,
+     "round": "Week 8",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 22,
+     "against": 20,
+     "result": "W"
+    },
+    {
+     "season": "Y97",
+     "week": 5,
+     "round": "Week 5",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 31,
+     "against": 15,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 11,
+     "round": "Week 11",
+     "site": "away",
+     "coachTeam": "Bears",
+     "for": 40,
+     "against": 38,
+     "result": "W"
+    }
+   ],
+   "record": "4-0",
    "games": 4
   },
   "Bills": {
@@ -42836,6 +47725,56 @@
    "record": "4-0",
    "games": 4
   },
+  "Dolphins": {
+   "team": "Dolphins",
+   "w": 4,
+   "l": 0,
+   "t": 0,
+   "meetings": [
+    {
+     "season": "Y88",
+     "week": 7,
+     "round": "Week 7",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 32,
+     "against": 21,
+     "result": "W"
+    },
+    {
+     "season": "Y89",
+     "week": 5,
+     "round": "Week 5",
+     "site": "home",
+     "coachTeam": "Eagles",
+     "for": 40,
+     "against": 10,
+     "result": "W"
+    },
+    {
+     "season": "Y93",
+     "week": 9,
+     "round": "Week 9",
+     "site": "away",
+     "coachTeam": "Eagles",
+     "for": 32,
+     "against": 28,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 31,
+     "round": "Super Bowl",
+     "site": "home",
+     "coachTeam": "Bears",
+     "for": 40,
+     "against": 38,
+     "result": "W"
+    }
+   ],
+   "record": "4-0",
+   "games": 4
+  },
   "Jets": {
    "team": "Jets",
    "w": 4,
@@ -42880,56 +47819,6 @@
      "coachTeam": "Eagles",
      "for": 35,
      "against": 19,
-     "result": "W"
-    }
-   ],
-   "record": "4-0",
-   "games": 4
-  },
-  "Ravens": {
-   "team": "Ravens",
-   "w": 4,
-   "l": 0,
-   "t": 0,
-   "meetings": [
-    {
-     "season": "Y89",
-     "week": 12,
-     "round": "Week 12",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 30,
-     "against": 17,
-     "result": "W"
-    },
-    {
-     "season": "Y90",
-     "week": 13,
-     "round": "Week 13",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 32,
-     "against": 12,
-     "result": "W"
-    },
-    {
-     "season": "Y94",
-     "week": 12,
-     "round": "Week 12",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 30,
-     "against": 14,
-     "result": "W"
-    },
-    {
-     "season": "Y97",
-     "week": 15,
-     "round": "Week 15",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 30,
-     "against": 23,
      "result": "W"
     }
    ],
@@ -42986,96 +47875,6 @@
    "record": "4-0",
    "games": 4
   },
-  "Steelers": {
-   "team": "Steelers",
-   "w": 4,
-   "l": 0,
-   "t": 0,
-   "meetings": [
-    {
-     "season": "Y90",
-     "week": 15,
-     "round": "Week 15",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 40,
-     "against": 27,
-     "result": "W"
-    },
-    {
-     "season": "Y92",
-     "week": 11,
-     "round": "Week 11",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 24,
-     "against": 19,
-     "result": "W"
-    },
-    {
-     "season": "Y93",
-     "week": 31,
-     "round": "Super Bowl",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 30,
-     "against": 17,
-     "result": "W"
-    },
-    {
-     "season": "Y97",
-     "week": 4,
-     "round": "Week 4",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 32,
-     "against": 7,
-     "result": "W"
-    }
-   ],
-   "record": "4-0",
-   "games": 4
-  },
-  "Bengals": {
-   "team": "Bengals",
-   "w": 3,
-   "l": 0,
-   "t": 0,
-   "meetings": [
-    {
-     "season": "Y89",
-     "week": 31,
-     "round": "Super Bowl",
-     "site": "home",
-     "coachTeam": "Eagles",
-     "for": 44,
-     "against": 14,
-     "result": "W"
-    },
-    {
-     "season": "Y90",
-     "week": 8,
-     "round": "Week 8",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 22,
-     "against": 20,
-     "result": "W"
-    },
-    {
-     "season": "Y97",
-     "week": 5,
-     "round": "Week 5",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 31,
-     "against": 15,
-     "result": "W"
-    }
-   ],
-   "record": "3-0",
-   "games": 3
-  },
   "Broncos": {
    "team": "Broncos",
    "w": 3,
@@ -43116,40 +47915,40 @@
    "record": "3-0",
    "games": 3
   },
-  "Dolphins": {
-   "team": "Dolphins",
+  "Browns": {
+   "team": "Browns",
    "w": 3,
    "l": 0,
    "t": 0,
    "meetings": [
     {
-     "season": "Y88",
-     "week": 7,
-     "round": "Week 7",
+     "season": "Y90",
+     "week": 6,
+     "round": "Week 6",
      "site": "home",
      "coachTeam": "Eagles",
-     "for": 32,
-     "against": 21,
+     "for": 42,
+     "against": 14,
      "result": "W"
     },
     {
-     "season": "Y89",
-     "week": 5,
-     "round": "Week 5",
+     "season": "Y97",
+     "week": 16,
+     "round": "Week 16",
      "site": "home",
      "coachTeam": "Eagles",
-     "for": 40,
-     "against": 10,
+     "for": 24,
+     "against": 19,
      "result": "W"
     },
     {
-     "season": "Y93",
-     "week": 9,
-     "round": "Week 9",
+     "season": "Y98",
+     "week": 10,
+     "round": "Week 10",
      "site": "away",
-     "coachTeam": "Eagles",
-     "for": 32,
-     "against": 28,
+     "coachTeam": "Bears",
+     "for": 40,
+     "against": 23,
      "result": "W"
     }
    ],
@@ -43316,35 +48115,45 @@
    "record": "2-1",
    "games": 3
   },
-  "Browns": {
-   "team": "Browns",
-   "w": 2,
+  "Titans": {
+   "team": "Titans",
+   "w": 3,
    "l": 0,
    "t": 0,
    "meetings": [
     {
-     "season": "Y90",
-     "week": 6,
-     "round": "Week 6",
-     "site": "home",
+     "season": "Y92",
+     "week": 2,
+     "round": "Week 2",
+     "site": "away",
      "coachTeam": "Eagles",
-     "for": 42,
-     "against": 14,
+     "for": 40,
+     "against": 16,
      "result": "W"
     },
     {
-     "season": "Y97",
-     "week": 16,
-     "round": "Week 16",
-     "site": "home",
+     "season": "Y95",
+     "week": 7,
+     "round": "Week 7",
+     "site": "away",
      "coachTeam": "Eagles",
-     "for": 24,
-     "against": 19,
+     "for": 28,
+     "against": 21,
+     "result": "W"
+    },
+    {
+     "season": "Y98",
+     "week": 14,
+     "round": "Week 14",
+     "site": "away",
+     "coachTeam": "Bears",
+     "for": 36,
+     "against": 31,
      "result": "W"
     }
    ],
-   "record": "2-0",
-   "games": 2
+   "record": "3-0",
+   "games": 3
   },
   "Chargers": {
    "team": "Chargers",
@@ -43370,36 +48179,6 @@
      "coachTeam": "Eagles",
      "for": 40,
      "against": 29,
-     "result": "W"
-    }
-   ],
-   "record": "2-0",
-   "games": 2
-  },
-  "Titans": {
-   "team": "Titans",
-   "w": 2,
-   "l": 0,
-   "t": 0,
-   "meetings": [
-    {
-     "season": "Y92",
-     "week": 2,
-     "round": "Week 2",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 40,
-     "against": 16,
-     "result": "W"
-    },
-    {
-     "season": "Y95",
-     "week": 7,
-     "round": "Week 7",
-     "site": "away",
-     "coachTeam": "Eagles",
-     "for": 28,
-     "against": 21,
      "result": "W"
     }
    ],

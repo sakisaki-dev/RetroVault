@@ -1,7 +1,7 @@
 {
  "season": "Y97",
  "tagline": "The Eagles go 15-2 and beat the Colts 38-22 in Super Bowl CLVI for a seventh straight title, Bones Crawford throws 64 touchdown passes for a 6th MVP, and Ryland Maxwell, 35, wins an 8th Super Bowl MVP.",
- "upload": "2026-11-19-story-y97",
+ "upload": "2026-11-21-story-y98",
  "articles": [
   {
    "id": "y97-eagles-clvi",
@@ -681,7 +681,7 @@
     {
      "label": "Dotson sacks short of 24",
      "value": "1",
-     "source": "league_records.json records/[record=Most sacks, career]/league/top/1/value minus market_history.json snap-202611192114 LB:Snoop Dotson s.sck"
+     "source": "players.json DL:Deshone Bello sck minus market_history.json snap-202611192114 LB:Snoop Dotson s.sck"
     },
     {
      "label": "Brooker interceptions before Y97",
@@ -751,7 +751,7 @@
     {
      "label": "Bello and Suh career sacks",
      "value": "24",
-     "source": "league_records.json records/[record=Most sacks, career]/league/top/1/value"
+     "source": "players.json DL:Deshone Bello sck"
     },
     {
      "label": "Record board, career sacks",
@@ -1108,9 +1108,7 @@
      "source": "market_history.json snap-202611170116..snap-202611192114 QB:Yurik Okudah s.g"
     }
    ],
-   "related": [
-    "y95-giants-seventeen"
-   ],
+   "related": [],
    "art": {
     "scene": "vs",
     "teams": [

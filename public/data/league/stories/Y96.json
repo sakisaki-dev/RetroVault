@@ -1,7 +1,7 @@
 {
  "season": "Y96",
  "tagline": "The Eagles lose 4 games and win a sixth straight title anyway, 40-26 over the Bengals in Super Bowl CLV, Ryland Maxwell takes a 7th Super Bowl MVP at 34 and re-signs with Akiem Brock for one more run, and Grover Calitro scores 43 times.",
- "upload": "2026-11-19-story-y97",
+ "upload": "2026-11-21-story-y98",
  "articles": [
   {
    "id": "y96-eagles-clv",
@@ -138,9 +138,7 @@
      "source": "save_careers.json age Y97 OL:Akiem Brock"
     }
    ],
-   "related": [
-    "y95-eagles-cliv"
-   ],
+   "related": [],
    "art": {
     "scene": "vs",
     "teams": [
@@ -271,9 +269,9 @@
      "source": "stints.json Ryland Maxwell/stints/[team=Eagles]/rings/# minus market_history.json snap-202611170116..snap-202611192114 RB:Ryland Maxwell s.rings"
     },
     {
-     "label": "Maxwell Hall of Fame watch score",
+     "label": "Maxwell Hall of Fame score",
      "value": "100",
-     "source": "halloffame.json watch/[key=RB:Ryland Maxwell]/score"
+     "source": "halloffame.json members/[key=RB:Ryland Maxwell]/score"
     },
     {
      "label": "Hall of Fame bar",
@@ -286,9 +284,7 @@
      "source": "save_careers.json age Y97 RB:Ryland Maxwell"
     }
    ],
-   "related": [
-    "y95-maxwell-29534"
-   ]
+   "related": []
   },
   {
    "id": "y96-brock-hof",
@@ -388,9 +384,9 @@
      "source": "halloffame.json bar"
     },
     {
-     "label": "Maxwell Hall of Fame watch score",
+     "label": "Maxwell Hall of Fame score",
      "value": "100",
-     "source": "halloffame.json watch/[key=RB:Ryland Maxwell]/score"
+     "source": "halloffame.json members/[key=RB:Ryland Maxwell]/score"
     },
     {
      "label": "Brock age, Y97",
@@ -398,9 +394,7 @@
      "source": "save_careers.json age Y97 OL:Akiem Brock"
     }
    ],
-   "related": [
-    "y95-crawford-brock"
-   ]
+   "related": []
   },
   {
    "id": "y96-leglue-mvp",
@@ -517,9 +511,7 @@
      "source": "market_history.json snap-202611170116 QB:Bones Crawford s.rings"
     }
    ],
-   "related": [
-    "y95-crawford-brock"
-   ],
+   "related": [],
    "art": {
     "scene": "vs",
     "players": [
@@ -785,9 +777,7 @@
      "source": "players.json RB:Siran Spector rtd"
     }
    ],
-   "related": [
-    "y95-record-chases"
-   ]
+   "related": []
   },
   {
    "id": "y96-lock-okudah",
@@ -865,9 +855,7 @@
      "source": "market_history.json snap-202611170116 QB:Yurik Okudah value"
     }
    ],
-   "related": [
-    "y95-giants-seventeen"
-   ]
+   "related": []
   },
   {
    "id": "y96-rookies",
@@ -1001,9 +989,7 @@
      "source": "market_history.json snap-202611170116 WR:Payton Jarrett value"
     }
    ],
-   "related": [
-    "y95-rookies"
-   ]
+   "related": []
   },
   {
    "id": "y96-quick-hits",
@@ -1138,9 +1124,7 @@
      "source": "market_history.json snap-202611162108..snap-202611170116 DB:Koa Zuber s.int"
     }
    ],
-   "related": [
-    "y95-quick-hits"
-   ]
+   "related": []
   }
  ],
  "didYouKnow": [

@@ -84,9 +84,16 @@ def played_seasons() -> dict[str, tuple[int, int, bool]]:
                   and ((ends[y][k].get("s") or {}).get("g") or 0) > ((ends[seasons[i - 1]][k].get("s") or {}).get("g") or 0)]
         if played and not (len(played) == 1 and played[0] == seasons[1]):
             out[name] = (played[0], played[-1], any(y > played[-1] and k in ends[y] for y in seasons))
+        # a season he played and gained a ring in (never the first pair, where the import was corrected): he was on
+        # that season's champion (Dotson's Y97 ring was the Eagles', the season before he followed Skura to Chicago)
+        rings = [y for y in played if y != seasons[1] and y in WIN
+                 and ((ends[y][k].get("s") or {}).get("rings") or 0) > ((ends[seasons[seasons.index(y) - 1]][k].get("s") or {}).get("rings") or 0)]
+        if rings:
+            RING_SEASONS[name] = rings
     return out
 
 
+RING_SEASONS: dict[str, list[int]] = {}
 PLAYED = played_seasons()
 OWNER = {y: s["team"] for y, s in COACH.items()}
 PLAYOFF = {"Champions": 3.6, "AFC Champs": 3.0, "NFC Champs": 3.0, "Champ Rnd": 2.4, "Divisional": 1.5, "Wild Card": 1.0}
@@ -443,6 +450,10 @@ def main(second_pass: bool = False):
         owner_on = [(short(t, teams), int(y)) for t, y in career.get("on", [])]
         exact = [(short(t, teams), int(a), int(b)) for t, a, b in career.get("stints", [])]
         roster_years = [(y, r[name]) for y, r in F.SEASON_ROSTERS.items() if name in r]
+        sv0 = SAVE_CAREERS.get(f"{p['pos']}:{name}") or {}
+        # (only inside the save's age window: a long-retired player's corrected totals are not a season played)
+        roster_years += [(y, WIN[y]) for y in RING_SEASONS.get(name, []) if (y, WIN[y]) not in roster_years
+                         and (not sv0.get("born") or y - sv0["born"] <= (39 if p["pos"] == "QB" else 34) + sv0.get("delay", 0) + 3)]
         anchors = sorted({*[(t, y) for t, y, _ in rec_anchors], *owner_on, *[(short(t, teams), y) for y, t in roster_years],
                           *[(t, y) for t, a, b in exact for y in range(a, b + 1)]}, key=lambda a: (a[1], a[0]))
         if f["main"] and f["order"] and f["main"] not in f["order"] and not f["next"] and f["main"] not in f["never"] \
@@ -474,7 +485,9 @@ def main(second_pass: bool = False):
             s0, s1 = target.get("start", (1, LAST))
             e0, e1 = target.get("end", (1, LAST))
             s0 = max(s0, sv["born"] + DEBUT_MIN_AGE)
-            e1 = min(e1, sv["born"] + mx)
+            # never before a season the snapshots show him playing: a player the coach re-signed past the usual age
+            # plays on with no delay recorded (Maxwell, Y96-97 at 35), and retired he must still cover those seasons
+            e1 = min(e1, max(sv["born"] + mx, PLAYED[name][1] if name in PLAYED else 0))
             if s0 <= s1 and e0 <= e1 and s0 <= e1:
                 target["start"], target["end"] = (s0, s1), (e0, e1)
                 target["born"] = sv["born"]
