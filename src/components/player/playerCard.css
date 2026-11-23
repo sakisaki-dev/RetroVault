@@ -538,7 +538,8 @@
     linear-gradient(180deg, #3a3f52, #23273a);
   box-shadow: 0 2px 0 #11141f;
 }
-.pc-tile {
+/* the identity tiles only (Position, Number, Club): the card's other .pc-tile panels keep the style above */
+.pc-ids .pc-tile {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -604,7 +605,7 @@
   color: hsl(var(--muted-foreground));
 }
 @media (max-width: 480px) {
-  .pc-tile {
+  .pc-ids .pc-tile {
     min-height: 104px;
     padding: 8px 4px;
   }
