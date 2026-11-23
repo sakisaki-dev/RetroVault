@@ -12,6 +12,7 @@ import {
   saveGameStat,
   type GamePlayer,
   type PosFilter,
+  useRatingTag
 } from './gameUtils';
 import { DeckCard, Hud, HudStat, Land, Pips, Slab, launchFrom, teamLook, usePointerDrag, useRevealClock } from './rosterKit';
 import HowToStrip from './HowToStrip';
@@ -43,6 +44,7 @@ const verdictFor = (pts: number) =>
         : 'The film room is open all night.';
 
 const BlindRank = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map<string, number> }) => {
+  const tag = useRatingTag();
   const key = useMemo(() => rankKey(ovrMap), [ovrMap]);
 
   const poolFor = (pos: PosFilter) => players.filter(matchesPos(pos));
@@ -140,7 +142,7 @@ const BlindRank = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map<str
         steps={[
           <>Five players come out one at a time. Read the card on the clock.</>,
           <>
-            Put him in a slot: <b>#1</b> is the highest OVR, <b>#5</b> the lowest. Tap a slot or drag the card onto it.
+            Put him in a slot: <b>#1</b> is the highest {tag}, <b>#5</b> the lowest. Tap a slot or drag the card onto it.
           </>,
           <>Slots are final. Exact slot scores 2, one off scores 1. Ten is perfect.</>,
         ]}
@@ -192,7 +194,7 @@ const BlindRank = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map<str
                 </div>
                 <div className="rk-score-verdict">{reveal.done ? verdictFor(points) : 'Revealing the board'}</div>
                 <div className="rk-score-detail">
-                  {rowPts.filter((p) => p === 2).length} exact · {rowPts.filter((p) => p === 1).length} one off · ranked by OVR
+                  {rowPts.filter((p) => p === 2).length} exact · {rowPts.filter((p) => p === 1).length} one off · ranked by {tag}
                 </div>
                 <div className="rk-score-actions">
                   <ArcadeButton tone="go" onClick={() => restart(round.pos)} autoFocus>
@@ -217,9 +219,9 @@ const BlindRank = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map<str
             )}
           </div>
 
-          <ol className="br-ladder" aria-label="Your board, highest OVR at the top">
+          <ol className="br-ladder" aria-label={`Your board, highest ${tag} at the top`}>
             <li className="br-end top" aria-hidden="true">
-              Highest OVR
+              Highest {tag}
             </li>
             {round.slots.map((pi, i) => {
               if (pi == null) {
@@ -270,7 +272,7 @@ const BlindRank = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map<str
               );
             })}
             <li className="br-end bottom" aria-hidden="true">
-              Lowest OVR
+              Lowest {tag}
             </li>
           </ol>
         </div>

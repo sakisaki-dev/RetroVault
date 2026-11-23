@@ -7,8 +7,12 @@ import { useEffect, useState } from 'react';
  * (components/stats/comps/graphs/careerModel.ts).
  */
 
-/** [ovr, skill, legacy, value, grade, ...totals in `fields[group]` order]; null = not in that season's snapshot */
-export type CareerRow = [number, number | null, number, number, string, ...number[]];
+/**
+ * [ovr, skill, legacy, value, grade, ...totals in `fields[group]` order, sovr]; null = not in that season's snapshot.
+ * `ovr` is the career card rating; `sovr` (the last element) is his SEASON OVR that season (scripts/season_ovr.py),
+ * null when he has no line (first recorded season, or his games did not rise).
+ */
+export type CareerRow = [number, number | null, number, number, string, ...(number | null)[]];
 
 export interface CareerSeasonsFile {
   /** Season numbers with a season-end snapshot, oldest first (79 = Y79) */
@@ -17,6 +21,8 @@ export interface CareerSeasonsFile {
   snapshots: string[];
   /** Total fields per position group (QB, RB, WR, TE, OL, DEF) */
   fields: Record<string, string[]>;
+  /** The season in progress's season OVR per player (live save), null when no season is in progress */
+  live?: { season: number; ovr: Record<string, number> } | null;
   /** "POS:Name" → his first recorded season and one row per season from it */
   players: Record<string, { from: number; rows: (CareerRow | null)[] }>;
 }

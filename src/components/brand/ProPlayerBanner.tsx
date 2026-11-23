@@ -1,3 +1,4 @@
+import { ovrLabelOf } from '@/utils/useOfficialOvr';
 import { useEffect, useState, type CSSProperties, type ElementType, type ReactNode } from 'react';
 import { Trophy } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -26,6 +27,10 @@ export interface ProPlayerBannerProps {
   /** OVR-style rating slot (e.g. overallRating()); omit to hide */
   ovr?: number | null;
   ovrLabel?: string;
+  /** Tooltip on the OVR badge (defaults to the label and value) */
+  ovrTitle?: string;
+  /** A second rating badge beside the first (an active player: SZN first, CAR here) */
+  ovrAlt?: { label: string; value: number; title?: string } | null;
   /** Metallic gold edge + HOF tag */
   hallOfFamer?: boolean;
   /** Team nickname ("Bills") when the player's number is retired; shows a tag */
@@ -75,7 +80,9 @@ const ProPlayerBanner = ({
   number,
   size = 'card',
   ovr,
-  ovrLabel = 'OVR',
+  ovrLabel: ovrLabelProp,
+  ovrTitle,
+  ovrAlt,
   hallOfFamer = false,
   retiredBy,
   nickname,
@@ -131,11 +138,20 @@ const ProPlayerBanner = ({
       </span>
     ) : null;
 
+  const ovrLabel = ovrLabelProp ?? ovrLabelOf({ position, name });
   const ovrBadge =
     ovr != null && !sealed ? (
-      <span className="ppb__ovr" title={`${ovrLabel} ${ovr}`}>
-        <b>{ovr}</b>
-        <span>{ovrLabel}</span>
+      <span className="ppb__ovrs">
+        <span className="ppb__ovr" title={ovrTitle ?? `${ovrLabel} ${ovr}`}>
+          <b>{ovr}</b>
+          <span>{ovrLabel}</span>
+        </span>
+        {ovrAlt && (
+          <span className="ppb__ovr ppb__ovr--alt" title={ovrAlt.title ?? `${ovrAlt.label} ${ovrAlt.value}`}>
+            <b>{ovrAlt.value}</b>
+            <span>{ovrAlt.label}</span>
+          </span>
+        )}
       </span>
     ) : null;
 

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLeague } from '@/context/LeagueContext';
 import type { Position } from '@/types/player';
 import { normalizeLeague } from '@/config/stats';
-import { buildGamePool, officialOvrMap, type GamePlayer, type LegendPhoto } from '@/config/ovr';
+import { buildGamePool, displayOvr, officialOvrMap, type GamePlayer, type LegendPhoto, type OvrBasis, type SeasonOvrFile } from '@/config/ovr';
 
 // ---------- Loaders (one request per page load; 404 / bad JSON resolve to empty) ----------
 
@@ -36,6 +36,7 @@ const normalizeLegend = (raw: unknown): GamePlayer | null => {
   return out as unknown as GamePlayer;
 };
 
+let seasonOvrRequest: Promise<SeasonOvrFile | null> | null = null;
 let legendsRequest: Promise<GamePlayer[]> | null = null;
 let exclusionsRequest: Promise<Set<string>> | null = null;
 
@@ -43,6 +44,22 @@ const fetchJson = (path: string): Promise<unknown> =>
   fetch(`${import.meta.env.BASE_URL}${path}`, { cache: 'no-cache' })
     .then((res) => (res.ok ? res.json() : null))
     .catch(() => null);
+
+/** Fetches data/league/season_ovr.json once per page load (null when missing: every rating is then the career one). */
+let seasonOvrLoaded: SeasonOvrFile | null = null;
+/**
+ * The label of the rating the site SHOWS for a player: SZN when it is his season OVR (an active player with a season
+ * line), else CAR (retired, or no games this season). Read after the season file has loaded (ratings are empty before).
+ */
+export const ovrLabelOf = (p: { position: string; name: string; status?: string }): 'SZN' | 'CAR' =>
+  p.status !== 'Retired' && seasonOvrLoaded?.ovr[`${p.position}:${p.name}`] != null ? 'SZN' : 'CAR';
+
+export const loadSeasonOvr = (): Promise<SeasonOvrFile | null> => {
+  seasonOvrRequest ??= fetchJson('data/league/season_ovr.json').then((d) =>
+    (seasonOvrLoaded = d && typeof d === 'object' && (d as SeasonOvrFile).ovr ? (d as SeasonOvrFile) : null),
+  );
+  return seasonOvrRequest;
+};
 
 /** Fetches /data/legends.json once per page load. Missing file, 404 or bad JSON all resolve to []. */
 export const loadLegends = (): Promise<GamePlayer[]> => {
@@ -71,14 +88,16 @@ export const useGamePool = () => {
   const { getAllPlayers, dataVersion } = useLeague();
   const [allLegends, setAllLegends] = useState<GamePlayer[]>([]);
   const [excluded, setExcluded] = useState<Set<string>>(() => new Set());
+  const [seasonOvr, setSeasonOvr] = useState<SeasonOvrFile | null>(null);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     let alive = true;
-    Promise.all([loadLegends(), loadExclusions()]).then(([list, ex]) => {
+    Promise.all([loadLegends(), loadExclusions(), loadSeasonOvr()]).then(([list, ex, so]) => {
       if (!alive) return;
       setAllLegends(list);
       setExcluded(ex);
+      setSeasonOvr(so);
       setLoaded(true);
     });
     return () => {
@@ -94,16 +113,22 @@ export const useGamePool = () => {
     [allLeague, allLegends],
   );
   const { league, legends } = useMemo(() => buildGamePool(allLeague, scaledLegends, excluded), [allLeague, scaledLegends, excluded]);
-  const ovrMap = useMemo(
+  /** The CAREER rating (card market, collectible tiers) */
+  const careerOvrMap = useMemo(
     () => (loaded ? officialOvrMap(allLeague, scaledLegends, excluded) : new Map<string, number>()),
     [loaded, allLeague, scaledLegends, excluded],
   );
+  /** The DISPLAYED rating: season OVR for active players, career for retirees (config/ovr.ts displayOvr) */
+  const shown = useMemo(
+    () => displayOvr([...allLeague, ...scaledLegends], careerOvrMap, seasonOvr),
+    [allLeague, scaledLegends, careerOvrMap, seasonOvr],
+  );
 
-  return { league, legends, ovrMap, loaded, dataVersion };
+  return { league, legends, ovrMap: shown.ovr, careerOvrMap, ovrBasis: shown.basis as Map<string, OvrBasis>, seasonOvr, loaded, dataVersion };
 };
 
 /**
- * Official OVR for stats pages: Map keyed by "POS:Name" (see playerKey). Same numbers as the arcade.
+ * Displayed OVR for stats pages (season for active players, career for retirees; see config/ovr.ts displayOvr): Map keyed by "POS:Name" (see playerKey). Same numbers as the arcade.
  * Empty until legends.json / game-exclusions.json resolve (both tolerate 404s).
  */
 export const useOfficialOvr = (): Map<string, number> => useGamePool().ovrMap;

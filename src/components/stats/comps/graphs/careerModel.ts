@@ -21,7 +21,10 @@ export type SeasonStatus = 'first' | 'played' | 'short' | 'idle' | 'multi' | 'li
 
 export interface SeasonPoint {
   year: number;
-  ovr: number;
+  /** Season OVR (scripts/season_ovr.py), null when he has no line that season */
+  ovr: number | null;
+  /** CAR: the career OVR as it stood at this season's end (the stored snapshot `ovr`) */
+  car: number;
   skill: number | null;
   legacy: number;
   value: number;
@@ -116,6 +119,7 @@ export const buildLeague = (file: CareerSeasonsFile, save: SaveState | null): Le
       }
       const totals: Record<string, number> = {};
       fields.forEach((f, j) => (totals[f] = Number(row[5 + j]) || 0));
+      const sovr = row[5 + fields.length];
       let status: SeasonStatus = 'first';
       let box: Record<string, number> | null = null;
       let awards: Record<string, number> | null = null;
@@ -143,7 +147,9 @@ export const buildLeague = (file: CareerSeasonsFile, save: SaveState | null): Le
       if (sp) rates.forEach((r) => (rv[r.id] = r.get(sp)));
       const pt: SeasonPoint = {
         year,
-        ovr: Number(row[0]) || 0,
+        /** His SEASON OVR (null: no line that season) */
+        ovr: typeof sovr === 'number' ? sovr : null,
+        car: Number(row[0]) || 0,
         skill: row[1] == null ? null : Number(row[1]),
         legacy: Number(row[2]) || 0,
         value: Number(row[3]) || 0,
@@ -176,7 +182,7 @@ export const buildLeague = (file: CareerSeasonsFile, save: SaveState | null): Le
       const sp = seasonPlayer(pos, box, games);
       const rv: Record<string, number> = {};
       rates.forEach((r) => (rv[r.id] = r.get(sp)));
-      pts.push({ ...lastPt, year: liveSeason!, totals, box, awards: null, games, status: 'live', rates: rv, pct: {}, careerYear: (lastPt.careerYear ?? 0) + 1 });
+      pts.push({ ...lastPt, year: liveSeason!, ovr: file.live?.season === liveSeason ? (file.live.ovr[key] ?? null) : null, totals, box, awards: null, games, status: 'live', rates: rv, pct: {}, careerYear: (lastPt.careerYear ?? 0) + 1 });
     }
     if (pts.length) byKey.set(key, pts);
   }

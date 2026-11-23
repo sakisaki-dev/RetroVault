@@ -18,6 +18,7 @@ import {
   saveGameStat,
   type GamePlayer,
   type StatCategory,
+  useRatingTag
 } from './gameUtils';
 import { ClubLogo, playerClub, splitName, useReducedMotion } from './stageKit';
 import HowToStrip from './HowToStrip';
@@ -79,6 +80,7 @@ const Fighter = ({
   ovr: number | null;
   rollMs: number;
 }) => {
+  const tag = useRatingTag();
   const look = playerClub(player);
   const { numberFor } = useJerseyNumbers();
   const { first, last } = splitName(player.name);
@@ -100,7 +102,7 @@ const Fighter = ({
         <div className="hl-card-tags">
           <span className="hl-pos">{player.position}</span>
           <InLeague player={player} />
-          {revealed && ovr != null && <span className="hl-ovr">{ovr} OVR</span>}
+          {revealed && ovr != null && <span className="hl-ovr">{ovr} {tag}</span>}
           {revealed && legend && <span className="hl-legend">{legendLabel(player)}</span>}
         </div>
         <div className="hl-card-name">

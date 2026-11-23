@@ -43,7 +43,7 @@ const hintFor = (tier: Tier) => `${tierLabel(tier)} · ${fmtPct(STANDARD.tiers[t
  * (by franchise, then position and name). Real NFL legends are not collectible; they stay in the games only.
  */
 export const useCardPool = () => {
-  const { league, ovrMap, loaded } = useGamePool();
+  const { league, careerOvrMap: ovrMap, loaded } = useGamePool();
   const { numberFor, retiredInfo } = useJerseyNumbers();
   const extras = usePlayerExtras();
 

@@ -11,7 +11,7 @@ import type { Player, Position } from '@/types/player';
 import TeamLogo from './brand/TeamLogo';
 import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 import { useJerseyNumbers } from '@/utils/jerseys';
-import { useOfficialOvr } from '@/utils/useOfficialOvr';
+import { ovrLabelOf, useOfficialOvr } from '@/utils/useOfficialOvr';
 import { POSITION_NAMES } from '@/utils/playerMeta';
 import { bannerTeamOf } from '@/utils/playerExtras';
 import { usePhone } from '@/hooks/usePhone';
@@ -93,7 +93,7 @@ const MiniBanner = ({ player, number, ovr, compact = false }: { player: Player; 
         {ovr != null && (
           <span className="flex min-w-[2.1rem] flex-col items-center rounded border border-[color:var(--pss-1)] bg-black/50 px-1 py-0.5">
             <span className="font-display text-sm font-extrabold leading-none tabular-nums text-chalk">{ovr}</span>
-            <span className="font-pixel text-[6px] uppercase text-muted-foreground">OVR</span>
+            <span className="font-pixel text-[6px] uppercase text-muted-foreground">{ovrLabelOf(player)}</span>
           </span>
         )}
       </span>

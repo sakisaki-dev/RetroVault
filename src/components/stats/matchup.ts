@@ -199,8 +199,8 @@ export const LEAGUE_DEFS: Record<string, MetricDef> = {
     minLabel: ALL,
   },
   ovr: {
-    label: 'Official OVR',
-    short: 'OVR',
+    label: 'Rating (SZN active, CAR retired)',
+    short: 'SZN/CAR',
     definition: 'The 62–99 rating used everywhere in the app and arcade: League Score rank within the position.',
     minLabel: ALL,
   },
@@ -303,7 +303,7 @@ export const buildMatchup = (
       row({ id: 'dominance', label: 'Dominance', def: LEAGUE_DEFS.dominance, decimals: 1, a: { value: p1.dominance, tierKey: 'dominance' }, b: { value: p2.dominance, tierKey: 'dominance' } }),
       row({ id: 'careerLegacy', label: 'Career Legacy', def: LEAGUE_DEFS.careerLegacy, decimals: 0, a: { value: p1.careerLegacy, tierKey: 'careerLegacy' }, b: { value: p2.careerLegacy, tierKey: 'careerLegacy' } }),
       row({ id: 'tpg', label: 'TPG', def: LEAGUE_DEFS.tpg, decimals: 2, a: { value: p1.tpg, tierKey: 'tpg' }, b: { value: p2.tpg, tierKey: 'tpg' } }),
-      row({ id: 'ovr', label: 'Official OVR', def: LEAGUE_DEFS.ovr, decimals: 0, a: { value: ovrMap.get(keyOf(p1)) ?? null }, b: { value: ovrMap.get(keyOf(p2)) ?? null } }),
+      row({ id: 'ovr', label: 'Rating (SZN active, CAR retired)', def: LEAGUE_DEFS.ovr, decimals: 0, a: { value: ovrMap.get(keyOf(p1)) ?? null }, b: { value: ovrMap.get(keyOf(p2)) ?? null } }),
       row({ id: 'leagueScore', label: 'League Score', def: LEAGUE_DEFS.leagueScore, decimals: 0, a: { value: leagueScore(p1) }, b: { value: leagueScore(p2) } }),
     ],
   });

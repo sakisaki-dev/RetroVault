@@ -23,7 +23,7 @@ export const heroGeom = (career: Career, metric: GraphMetric, width: number, hei
   const fin = values.filter((v): v is number => v != null && Number.isFinite(v));
   const lo = fin.length ? Math.min(...fin) : 0;
   const hi = fin.length ? Math.max(...fin) : 1;
-  const base = metric.group === 'Card' && metric.id !== 'ovr' && metric.id !== 'skill' && !metric.invert ? 0 : lo;
+  const base = metric.group === 'Card' && metric.id !== 'szn' && metric.id !== 'car' && metric.id !== 'skill' && !metric.invert ? 0 : lo;
   const { ticks, domain } = niceTicks(Math.min(base, lo), hi === lo ? hi + 1 : hi, 4);
   const [d0, d1] = metric.invert ? [Math.max(1, domain[0]), domain[1]] : domain;
   const top = HERO_M.t + 6;

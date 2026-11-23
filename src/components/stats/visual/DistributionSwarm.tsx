@@ -27,7 +27,7 @@ type MetricId = 'legacy' | 'ovr' | 'tpg';
 
 const METRICS: { id: MetricId; label: string; short: string; decimals: number }[] = [
   { id: 'legacy', label: 'Career Legacy', short: 'Legacy', decimals: 0 },
-  { id: 'ovr', label: 'Official OVR', short: 'OVR', decimals: 0 },
+  { id: 'ovr', label: 'Rating (SZN active, CAR retired)', short: 'SZN/CAR', decimals: 0 },
   { id: 'tpg', label: 'Talent per game', short: 'TPG', decimals: 2 },
 ];
 

@@ -4,7 +4,7 @@ import { isHallOfFamer } from '@/config/stats';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import GameSprite from '../GameSprite';
 import ProPlayerBanner, { type ProPlayerBannerSize } from '../brand/ProPlayerBanner';
-import { isLegend, legendLabel, type GamePlayer } from './gameUtils';
+import { isLegend, legendLabel, useRatingTag, type GamePlayer } from './gameUtils';
 import { bannerTeamOf } from '@/utils/playerExtras';
 
 /** "Author · License" for a legend's Commons photo, or null when there is nothing to credit. */
@@ -54,6 +54,7 @@ const GameBanner = ({
   className,
   style,
 }: GameBannerProps) => {
+  const ratingTag = useRatingTag();
   const { numberFor, retiredInfo } = useJerseyNumbers();
 
   if (sealed) {
@@ -86,6 +87,7 @@ const GameBanner = ({
         number={numberFor(player)}
         size={size}
         ovr={ovr}
+        ovrLabel={ratingTag}
         hallOfFamer={reveal && !legend && isHallOfFamer(player)}
         retiredBy={reveal && !legend ? retiredInfo(player)?.teamLabel ?? null : null}
         eyebrow={eyebrowText}

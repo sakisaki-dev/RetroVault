@@ -1,3 +1,4 @@
+import { ovrLabelOf } from '@/utils/useOfficialOvr';
 import { Flag } from 'lucide-react';
 import type { Player } from '@/types/player';
 import { similarAmong, type Comp, type SimilarityMode } from '@/config/advanced';
@@ -61,7 +62,7 @@ const CompRow = ({ comp, ovr, onSelect }: { comp: Comp; ovr?: number; onSelect: 
         </span>
         <span className="flex shrink-0 flex-col items-end">
           <span className="font-display text-lg font-extrabold tabular-nums text-gold">{pct}%</span>
-          {ovr != null && <span className="font-pixel text-[8px] text-muted-foreground">OVR {ovr}</span>}
+          {ovr != null && <span className="font-pixel text-[8px] text-muted-foreground">{ovrLabelOf(comp.player)} {ovr}</span>}
         </span>
       </button>
     </li>

@@ -4,7 +4,7 @@ import { ArrowLeftRight, IdCard, Radar, Star, Swords } from 'lucide-react';
 import type { Player } from '@/types/player';
 import { useLeague } from '@/context/LeagueContext';
 import { isHallOfFamer } from '@/config/stats';
-import { useOfficialOvr } from '@/utils/useOfficialOvr';
+import { ovrLabelOf, useOfficialOvr } from '@/utils/useOfficialOvr';
 import { useSkillRatings } from '@/utils/useSkillRatings';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { bannerTeamOf } from '@/utils/playerExtras';
@@ -536,7 +536,7 @@ const PeekCard = ({
                 {ovr != null && (
                   <span className="pk-ovr">
                     <b>{ovr}</b>
-                    <i>OVR</i>
+                    <i>{ovrLabelOf(p)}</i>
                   </span>
                 )}
                 {grade && (

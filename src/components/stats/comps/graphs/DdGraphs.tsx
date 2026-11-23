@@ -54,7 +54,9 @@ const DdGraphs = ({ player, players, wide }: { player: Player; players: Player[]
     return career?.hasSeasons ? all : all.filter((m) => m.group === 'Card');
   }, [player.position, career]);
   const [idx, setIdx] = useState(-1);
-  const [metricId, setMetricId] = useState('value');
+  const [metricId, setMetricId] = useState<string | null>(null);
+  // SZN (this season's rating) leads for an active player, CAR (the career rating) for a retiree
+  const defaultMetric = player.status === 'Active' ? 'szn' : 'car';
   useEffect(() => setIdx(-1), [player]);
   // the cursor starts on his latest season with a season line (a retiree's idle seasons after it are still there to scrub)
   const lastLine = career ? career.points.reduce((k, p, i) => (p.box ? i : k), career.points.length - 1) : 0;
@@ -73,7 +75,7 @@ const DdGraphs = ({ player, players, wide }: { player: Player; players: Player[]
           single seasons to break down.
         </p>
       )}
-      <CareerHero player={player} career={career} metrics={metrics} metricId={metrics.some((m) => m.id === metricId) ? metricId : metrics[0].id} onMetric={setMetricId} idx={at} onIdx={setIdx} wide={wide} reduced={reduced} />
+      <CareerHero player={player} career={career} metrics={metrics} metricId={metrics.some((m) => m.id === (metricId ?? defaultMetric)) ? (metricId ?? defaultMetric) : metrics[0].id} onMetric={setMetricId} idx={at} onIdx={setIdx} wide={wide} reduced={reduced} />
       <div className="cg-grid">
         <TrophyShelf player={player} career={career} idx={at} onIdx={setIdx} wide={wide} />
         {career.hasSeasons && <HeatStrip player={player} career={career} idx={at} onIdx={setIdx} wide={wide} />}
@@ -91,7 +93,7 @@ const DdGraphs = ({ player, players, wide }: { player: Player; players: Player[]
           first recorded season has no season line, a change of more than 21 games (an import correction) is left out, and seasons under 8 games are flagged and kept out
           of the percentile pools. The snapshots keep yards, touchdowns, catches, interceptions, tackles, sacks, forced fumbles and blocks, not attempts, carries or
           fumbles, so rates that need those (Y/A, Cmp%, Y/C) exist only for a season the live save covers. Percentiles rank a season among every {player.position} with 8+
-          games that season. OVR, card value, Career Legacy (and its rank) are the snapshot&rsquo;s own numbers; Career Legacy re-scales with the league each upload. The
+          games that season. SZN (the season rating) and CAR (the career rating at that season end), card value, Career Legacy (and its rank) are the snapshot&rsquo;s own numbers; Career Legacy re-scales with the league each upload. The
           Hall of Fame Score is the ballot&rsquo;s rule applied to each season end. Career years before the records are estimated at 17 games a season.
         </p>
       </details>

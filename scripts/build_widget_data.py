@@ -103,7 +103,7 @@ def sheet() -> dict[str, dict]:
 
 SHEET = sheet()
 LATEST = MARKET[-1]["players"] if MARKET else {}
-PREV = MARKET[-2]["players"] if len(MARKET) > 1 else {}
+PREV = MARKET[-2]["players"] if len(MARKET) > 1 and not MARKET[-1].get("rebase") else {}  # a re-pricing is no mover
 KEY = {p["n"]: f"{p['pos']}:{p['n']}" for p in B.LEAGUE}
 ACTIVE = {k for k, r in SHEET.items() if r.get("Status") == "Active"}
 

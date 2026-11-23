@@ -6,7 +6,7 @@ import { liftForDarkBg } from '@/utils/teamColors';
 import { bannerTeamOf } from '@/utils/playerExtras';
 import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
 import { CountUp } from './ArcadeUI';
-import { getScoutLine, isLegend, legendLabel, type GamePlayer, type ScoutStat } from './gameUtils';
+import { getScoutLine, isLegend, legendLabel, type GamePlayer, type ScoutStat, useRatingTag } from './gameUtils';
 import { isHallOfFamer } from '@/config/stats';
 import GameSprite from '../GameSprite';
 import './rosterkit.css';
@@ -114,6 +114,7 @@ export const Slab = ({
   style?: CSSProperties;
   children?: ReactNode;
 }) => {
+  const ratingTag = useRatingTag();
   const { numberFor } = useJerseyNumbers();
   const look = teamLook(player);
   const [first, last] = splitName(player.name);
@@ -150,7 +151,7 @@ export const Slab = ({
           <b>{look.abbr}</b>
         </span>
         {reveal && ovr != null ? (
-          <span className="rk-ovr" aria-label={`OVR ${ovr}`}>
+          <span className="rk-ovr" aria-label={`${ratingTag} ${ovr}`}>
             {ovr}
           </span>
         ) : (

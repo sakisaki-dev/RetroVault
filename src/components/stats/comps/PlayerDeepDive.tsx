@@ -13,6 +13,7 @@ import {
   type SimilarityMode,
 } from '@/config/advanced';
 import { playerSkillGrades } from '@/config/skillGrades';
+import DdSkillsSwitch from './DdSkillsSwitch';
 import { useGamePool } from '@/utils/useOfficialOvr';
 import { cn } from '@/lib/utils';
 import Chips from '../analytics/Chips';
@@ -118,7 +119,7 @@ const pctIn = (vals: number[], v: number) => {
  */
 const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey, onPlayerChange, onCompare }: PlayerDeepDiveProps) => {
   const players = useMemo(() => (data ? leaguePlayers(data) : (playersProp ?? []).filter((p) => !p.isRealLegend)), [data, playersProp]);
-  const { ovrMap, legends } = useGamePool();
+  const { ovrMap, careerOvrMap, legends, seasonOvr, ovrBasis } = useGamePool();
   const wide = useMedia('(min-width: 768px)');
   const reduced = usePrefersReducedMotion();
   const sorted = useMemo(() => [...players].sort((a, b) => b.careerLegacy - a.careerLegacy), [players]);
@@ -280,6 +281,19 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
   const prev = idx > 0 ? ladder[idx - 1] : null;
   const next = idx >= 0 && idx < ladder.length - 1 ? ladder[idx + 1] : null;
   const ovr = ovrMap.get(keyOf(player));
+  const car = careerOvrMap.get(keyOf(player));
+  const seasonShown = ovrBasis.get(keyOf(player)) === 'season' && seasonOvr && ovr != null;
+  const carTitle = car == null ? undefined : `CAR ${car}: career OVR, his whole career ranked within ${player.position}s (every player, active and retired).`;
+  // Two ratings (owner, 2026-11-23): SZN = this season alone, CAR = the whole career. A retired player shows CAR only.
+  const ovrTitle = seasonShown
+    ? `SZN ${ovr}: season OVR for Y${seasonOvr.season}${seasonOvr.live ? ' so far' : ''}, his season line ranked within ${player.position}s who played it (small samples shrunk toward the position mean).`
+    : car == null
+      ? undefined
+      : player.status === 'Active'
+        ? `${carTitle} No games in Y${seasonOvr?.season ?? ''}, so there is no season OVR.`
+        : `${carTitle} Retired players have no season OVR; their past seasons appear in the career graphs.`;
+  const ovrLabel = seasonShown ? 'SZN' : 'CAR';
+  const ovrAlt = seasonShown && car != null ? { label: 'CAR', value: car, title: carTitle } : null;
   const insufficient = !hasSimilarityData(player);
   const compare = onCompare ?? openInHeadToHead;
   const vals = posValues.get(position)!;
@@ -328,6 +342,9 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
         player={player}
         options={sorted}
         ovr={ovr}
+        ovrTitle={ovrTitle}
+        ovrLabel={ovrLabel}
+        ovrAlt={ovrAlt}
         wide={wide}
         onChoose={(k) => choose(k, { scroll: false })}
         onRandom={random}
@@ -358,7 +375,7 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
 
         <div key={keyOf(player)} className="min-w-0 space-y-8">
           <DdSection id="dd-ratings" index={0} title="Skill ratings" icon={Gauge} kicker={`Letter grades by percentile among ${player.position}s with ${SIM_MIN_GAMES}+ games (S = top 8%). Same grades as Build-a-Legend.`}>
-            {grades && <DdSkills player={player} ovr={ovr} traits={grades.traits} overall={grades.overall} players={players} onOpenPlayer={(p) => choose(keyOf(p))} />}
+            <DdSkillsSwitch player={player} car={car} players={players} seasonOvr={seasonOvr} onOpenPlayer={(p) => choose(keyOf(p))} />
           </DdSection>
 
           <DdSection id="dd-who" index={1} title="Who plays like him" icon={Users} kicker="His closest comps by play style and overall, his style hexagon with any comp overlaid, and the full ranked list.">
@@ -465,7 +482,7 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
           </DdSection>
 
           <DdSection id="dd-records" index={7} title="Records & awards" icon={Medal}>
-            <DdRecords player={player} book={book} ovr={ovr} onOpenPlayer={(p) => choose(keyOf(p))} />
+            <DdRecords player={player} book={book} ovr={car} onOpenPlayer={(p) => choose(keyOf(p))} />
           </DdSection>
         </div>
       </div>

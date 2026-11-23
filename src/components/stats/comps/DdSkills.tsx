@@ -10,6 +10,8 @@ interface Props {
   player: Player;
   /** Official OVR (the only OVR on the page). */
   ovr: number | undefined;
+  /** Which rating `ovr` is: SZN (this season) or CAR (career) */
+  ovrLabel?: string;
   traits: SkillGrade[];
   overall: Overall | null;
   /** League players (the grade pools are built from these) */
@@ -28,7 +30,7 @@ const toPeek = (title: string, metric: string, pos: string, b: SkillBoard): Peek
 });
 
 /** Broadcast-style rating cards: one letter grade per play-style skill, graded by percentile within the position. */
-const DdSkills = ({ player, ovr, traits, overall, players, onOpenPlayer }: Props) => {
+const DdSkills = ({ player, ovr, ovrLabel = 'CAR', traits, overall, players, onOpenPlayer }: Props) => {
   const graded = traits.filter((t) => t.grade);
   if (!graded.length) {
     return (
@@ -64,8 +66,8 @@ const DdSkills = ({ player, ovr, traits, overall, players, onOpenPlayer }: Props
               <p className="font-pixel text-[9px] uppercase text-gold">Skill grade</p>
               <div className="flex flex-wrap gap-1.5">
                 {ovr != null && (
-                  <span className="lamp" title="Official overall rating">
-                    OVR <b>{ovr}</b>
+                  <span className="lamp" title={ovrLabel === 'SZN' ? 'Season OVR: this season ranked within the position' : 'Career OVR: the whole career ranked within the position'}>
+                    {ovrLabel} <b>{ovr}</b>
                   </span>
                 )}
                 <span className="lamp" title="Per-game skills only; ignores career length and awards">

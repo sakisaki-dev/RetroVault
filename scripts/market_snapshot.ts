@@ -29,12 +29,13 @@ const HISTORY = 'data/y80/market_history.json';
 const OUT = 'public/data/market.json';
 const CSV = 'public/data/initial-data.csv';
 const LEGENDS = 'public/data/legends.json';
+const SEASON_OVR = 'public/data/league/season_ovr.json';
 const EXCLUSIONS = 'public/data/game-exclusions.json';
 const KEYS = ['quarterbacks', 'runningbacks', 'widereceivers', 'tightends', 'offensiveline', 'linebackers', 'defensivebacks', 'defensiveline'];
 const POSITIONS: Position[] = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
 
 /** Market points from the three data files' contents (the same inputs officialOvrMap uses on the site). */
-const compute = (csv: string, legendsJson: string | null, exclusionsJson: string | null) => {
+const compute = (csv: string, legendsJson: string | null, exclusionsJson: string | null, season: Record<string, number> = {}) => {
   const data = parseCSV(csv) as unknown as Record<string, Player[]>;
   const league = normalizeLeague(KEYS.flatMap((k) => data[k] ?? [])).filter((p) => !p.isRealLegend);
   const rawLegends: unknown = legendsJson ? JSON.parse(legendsJson) : [];
@@ -43,7 +44,7 @@ const compute = (csv: string, legendsJson: string | null, exclusionsJson: string
     .map((r) => ({ ...r, name: String(r.name).trim(), isRealLegend: true }) as Player);
   const ex = exclusionsJson ? (JSON.parse(exclusionsJson) as { excludeFromGames?: unknown }).excludeFromGames : [];
   const excluded = new Set(Array.isArray(ex) ? ex.filter((k): k is string => typeof k === 'string') : []);
-  return snapshotPlayers(league, legends, excluded);
+  return snapshotPlayers(league, legends, excluded, season);
 };
 
 const git = (...args: string[]) => execFileSync('git', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] });
@@ -62,7 +63,7 @@ const dateLabel = (iso: string) => {
   return m ? `${MONTHS[Number(m[2]) - 1]} ${Number(m[3])}, ${m[4]}:${m[5]}` : iso;
 };
 
-type Snap = MarketSnapshot & { season?: string; upload?: string };
+type Snap = MarketSnapshot & { season?: string; upload?: string; rebase?: boolean };
 const SUPER_BOWLS = 'data/y80/super_bowls.json';
 /** "Y80": the latest Super Bowl year in a super_bowls.json text. */
 const seasonOf = (json: string | null): string | undefined => {
@@ -161,7 +162,9 @@ const main = () => {
   }
 
   const read = (p: string) => (existsSync(p) ? readFileSync(p, 'utf8') : null);
-  const players = compute(readFileSync(CSV, 'utf8'), read(LEGENDS), read(EXCLUSIONS));
+  // SZN: the season OVR of the latest completed season (scripts/season_ovr.py runs before this step in npm run rebuild)
+  const seasonOvr = read(SEASON_OVR) ? (JSON.parse(read(SEASON_OVR)!) as { ovr?: Record<string, number> }).ovr ?? {} : {};
+  const players = compute(readFileSync(CSV, 'utf8'), read(LEGENDS), read(EXCLUSIONS), seasonOvr);
   const now = new Date();
   const iso = localIso(now);
   const season = seasonOf(read(SUPER_BOWLS));
@@ -170,7 +173,11 @@ const main = () => {
   fillSeasons(history);
   fillExtras(history);
   const upload = lastUpload(read('data/y80/mutations_log.json'));
-  const added = append(history, { id, label, date: iso, ...(season ? { season } : {}), ...(upload ? { upload } : {}), players } as Snap);
+  // The first snapshot whose prices read SZN (cardMarket.ts priceRating) is a re-pricing, not a market move: flagged
+  // `rebase` so the "What changed" movers, widget and Season Rewind skip the pair (scripts/market_history.py comparable)
+  const last = history[history.length - 1];
+  const rebase = !!last && !Object.values(last.players).some((v) => v.szn != null) && Object.values(players).some((v) => v.szn != null);
+  const added = append(history, { id, label, date: iso, ...(rebase ? { rebase: true } : {}), ...(season ? { season } : {}), ...(upload ? { upload } : {}), players } as Snap);
 
   // Changes only (src/utils/marketHistory.ts): keyframes every KEYFRAME_EVERY snapshots plus the first and the latest,
   // deltas between. One line per player row, so a data update reads as a small diff.

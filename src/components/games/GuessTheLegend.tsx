@@ -27,6 +27,7 @@ import {
   teamStyle,
   teamVars,
   type GamePlayer,
+  useRatingTag
 } from './gameUtils';
 
 /** A player's club colour, lifted to read on the dark arcade. */
@@ -56,7 +57,7 @@ const TEAM_CLUE = 6;
  * Clues run from vague to specific. Position stays hidden until clue 5: the stat line (whose categories give the
  * position away) comes with it, and the skill fingerprint shows bare letter grades with no trait names.
  */
-const buildClues = (p: Player, rating: number, league: Player[]): Clue[] => {
+const buildClues = (p: Player, rating: number, league: Player[], tag: string): Clue[] => {
   const initials = p.name
     .split(/\s+/)
     .filter(Boolean)
@@ -72,7 +73,7 @@ const buildClues = (p: Player, rating: number, league: Player[]): Clue[] => {
       title: 'Rating',
       content: (
         <>
-          <ClueStat label="OVR" value={rating} />
+          <ClueStat label={tag} value={rating} />
           <ClueStat label="League Score" value={fmt(leagueScore(p))} />
         </>
       ),
@@ -219,6 +220,7 @@ const makeDealer = (pool: Player[]) => {
 };
 
 const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<string, number> }) => {
+  const tag = useRatingTag();
   // Prefer established players so puzzles are fair; fall back to everyone in small leagues.
   const pool = useMemo(() => {
     const established = players.filter((p) => p.games >= 50 && (isLegend(p) || p.careerLegacy > 0));
@@ -240,7 +242,7 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
   const [confetti, setConfetti] = useState<number | false>(false);
 
   const ovrOf = useCallback((p: Player) => ovrMap.get(playerKey(p)) ?? 62, [ovrMap]);
-  const clues = useMemo(() => buildClues(answer, ovrOf(answer), players), [answer, ovrOf, players]);
+  const clues = useMemo(() => buildClues(answer, ovrOf(answer), players, tag), [answer, ovrOf, players, tag]);
   const solved = guesses.some((g) => playerKey(g) === playerKey(answer));
   const failed = !solved && guesses.length >= MAX_GUESSES;
   const finished = solved || failed;
@@ -314,7 +316,7 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
           {/* Position and team feedback stay hidden until their clues unlock, so one wrong guess can't give them away */}
           <Tile label="Pos" value={g.position} state={revealed >= POSITION_CLUE ? (g.position === answer.position ? 'match' : 'wrong') : 'hidden'} />
           <Tile label="Team" value={gTeam?.abbreviation ?? '-'} state={revealed >= TEAM_CLUE ? teamTile(gTeam, aTeam) : 'hidden'} />
-          <Tile label="OVR" value={ovrOf(g)} state={numberTile(ovrOf(g), ovrOf(answer))} />
+          <Tile label={tag} value={ovrOf(g)} state={numberTile(ovrOf(g), ovrOf(answer))} />
           <Tile label="Rings" value={g.rings} state={numberTile(g.rings, answer.rings)} />
         </div>
       </li>
@@ -478,7 +480,7 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
               <p>
                 Each tile compares your guess with the mystery player. <b className="turf">Green</b> is a match, <b className="sky">blue</b> the same
                 division, <b className="gold">yellow</b> the same conference, <b className="flag">red</b> a different position, and{' '}
-                <b className="orange">Higher ▲ / Lower ▼</b> says where his OVR or rings sit. Position and team tiles open with clues 5 and 6.
+                <b className="orange">Higher ▲ / Lower ▼</b> says where his {tag} or rings sit. Position and team tiles open with clues 5 and 6.
               </p>
             </details>
           </section>
@@ -501,6 +503,7 @@ const Silhouette = () => (
 
 /** The sealed card: a silhouette that takes on what the clues reveal (OVR from clue 1, position at 5, club colours and initials at 6). */
 const MysteryCard = ({ answer, revealed, ovr, shake }: { answer: Player; revealed: number; ovr: number; shake: number }) => {
+  const tag = useRatingTag();
   const teamKnown = revealed >= TEAM_CLUE;
   const posKnown = revealed >= POSITION_CLUE;
   const style = teamKnown ? teamStyle(bannerTeamOf(answer)) : MYSTERY_STYLE;
@@ -515,7 +518,7 @@ const MysteryCard = ({ answer, revealed, ovr, shake }: { answer: Player; reveale
       key={`card-${shake}`}
       style={teamVars(style)}
       role="img"
-      aria-label={`Mystery player card. OVR ${ovr}${posKnown ? `, ${answer.position}` : ''}${teamKnown ? `, ${style.team?.name ?? 'unknown club'}, initials ${initials}` : ''}.`}
+      aria-label={`Mystery player card. ${tag} ${ovr}${posKnown ? `, ${answer.position}` : ''}${teamKnown ? `, ${style.team?.name ?? 'unknown club'}, initials ${initials}` : ''}.`}
     >
       <span className="gl-card-rays" aria-hidden="true" />
       {teamKnown && <TeamLogo team={style.team} className="gl-card-logo" />}
@@ -525,7 +528,7 @@ const MysteryCard = ({ answer, revealed, ovr, shake }: { answer: Player; reveale
       </span>
       <div className="gl-card-ovr" aria-hidden="true">
         <b className="num">{ovr}</b>
-        <span>OVR</span>
+        <span>{tag}</span>
       </div>
       <div className={cn('gl-card-pos', posKnown && 'on')} aria-hidden="true">
         {posKnown ? answer.position : '??'}

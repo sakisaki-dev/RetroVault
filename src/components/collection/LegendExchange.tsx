@@ -18,7 +18,7 @@ const MESSAGE = 'Your NFL legend cards were exchanged: open your Legends Exchang
 
 /** Runs the exchange once the league and the OVR pool have loaded. Mounted only when a legend card is owned. */
 const ExchangeRunner = ({ legendKeys }: { legendKeys: Set<string> }) => {
-  const { league, legends, ovrMap, loaded } = useGamePool();
+  const { league, legends, careerOvrMap: ovrMap, loaded } = useGamePool();
   const ready = loaded && league.length > 0;
 
   const pool = useMemo<TierPool | null>(() => {

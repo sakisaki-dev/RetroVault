@@ -69,7 +69,7 @@ export const PROP_STATS: PropStat[] = [
   { key: 'mvp', label: 'MVPs', phrase: 'MVP awards', kind: 'award', positions: [...OFFENSE_SKILL, ...DEFENSE], weight: 1 },
   { key: 'careerLegacy', label: 'Career Legacy', phrase: 'Career Legacy score', kind: 'metric', leagueOnly: true, weight: 1, decimals: 2 },
   { key: 'trueTalent', label: 'True Talent', phrase: 'True Talent score', kind: 'metric', leagueOnly: true, weight: 1, decimals: 2 },
-  { key: 'ovr', label: 'OVR', phrase: 'overall rating', kind: 'ovr', leagueOnly: true, weight: 1 },
+  { key: 'ovr', label: 'Rating', phrase: 'overall rating (CAR or SZN, as chosen)', kind: 'ovr', leagueOnly: true, weight: 1 },
 ];
 
 const isRealLegend = (p: Player) => (p as GamePlayer).isRealLegend === true;

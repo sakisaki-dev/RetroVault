@@ -21,7 +21,7 @@ import TeamLogo from './brand/TeamLogo';
 import CountUp from './brand/CountUp';
 import ProPlayerBanner from './brand/ProPlayerBanner';
 import { overallRating } from './brand/ProPlayerBanner.utils';
-import { useOfficialOvr } from '@/utils/useOfficialOvr';
+import { useGamePool } from '@/utils/useOfficialOvr';
 import PlayerEditDialog from './PlayerEditDialog';
 import { getFamilyTies, normalizeName, signatureTeamOf, usePlayerExtras } from '@/utils/playerExtras';
 import PositionGlyph from './player/PositionGlyph';
@@ -117,7 +117,7 @@ const RATING_CHIPS = [
 /** Immersive, team-themed player page: broadcast banner, tabs for every stat, advanced metrics, career arc and comps. */
 const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardProps) => {
   const { getAllPlayers, legends } = useLeague();
-  const officialOvr = useOfficialOvr();
+  const { ovrMap: officialOvr, careerOvrMap, ovrBasis } = useGamePool();
   const skillMap = useSkillRatings();
   const extras = usePlayerExtras();
   const { content } = useLeagueContent();
@@ -243,6 +243,9 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   const theme = teamThemeVars(team);
   const jerseyNumber = numberFor(player);
   const ovr = overallRating(player, officialOvr);
+  // SZN (this season, active players) beside CAR (career); a retired player shows CAR only
+  const car = careerOvrMap.get(`${player.position}:${player.name}`) ?? null;
+  const seasonShown = ovrBasis.get(`${player.position}:${player.name}`) === 'season' && ovr != null;
   const score = leagueScore(player);
   const valueRow = valueBoard?.rows.find((r) => r.player.name === player.name) ?? null;
   const skill = skillMap.get(`${player.position}:${player.name}`) ?? null;
@@ -258,7 +261,8 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   const points = awardPoints(player);
 
   const scoreboard = [
-    { key: 'ovr', label: 'OVR', title: 'Official overall rating (62–99), League Score rank within the position', value: ovr, decimals: 0 },
+    { key: 'ovr', label: seasonShown ? 'SZN' : 'CAR', title: seasonShown ? 'Season OVR (62–99): this season ranked within the position among players who played it' : 'Career OVR (62–99), League Score rank within the position', value: ovr, decimals: 0 },
+    ...(seasonShown && car != null ? [{ key: 'car', label: 'CAR', title: 'Career OVR (62–99): the whole career ranked within the position', value: car, decimals: 0 }] : []),
     ...(skill ? [{ key: 'skill', label: `Skill · ${skill.grade.grade}`, title: 'Skill rating: per-game skills graded against the position, ignores career length and awards', value: skill.rating, decimals: 0 }] : []),
     { key: 'score', label: 'League Score', title: 'Production + awards (the input to OVR)', value: score, decimals: 0 },
     ...(player.games > 0
@@ -323,6 +327,8 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
             team={team ?? player.team}
             number={jerseyNumber}
             ovr={ovr}
+            ovrLabel={seasonShown ? 'SZN' : 'CAR'}
+            ovrAlt={seasonShown && car != null ? { label: 'CAR', value: car } : null}
             hallOfFamer={hof}
             // the hanging banner (RetiredHangers below) carries the retired number in the hero
             retiredBy={null}

@@ -125,7 +125,7 @@ const TradeCard = ({ c, subject }: { c: TributeChapter; subject: string }) => {
                       <span className="trib-trade__pos">{p.pos}</span>
                     </span>
                     <span className="trib-trade__line">
-                      {p.ovr != null ? `OVR ${p.ovr}` : ''}
+                      {p.ovr != null ? `CAR ${p.ovr}` : ''}
                       {p.grade ? ` · ${p.grade}` : ''}
                       {p.value != null ? ` · ${fmt(p.value)}` : ''}
                     </span>

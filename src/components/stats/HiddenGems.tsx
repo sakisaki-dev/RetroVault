@@ -1,3 +1,4 @@
+import { ovrLabelOf } from '@/utils/useOfficialOvr';
 import { useMemo, useState } from 'react';
 import { gemsTakeaway } from './takeaways';
 import SectionIntro from './SectionIntro';
@@ -167,7 +168,7 @@ const HiddenGems = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Player
                         {g.player.games} G{g.best && <> · Best: {g.best}</>}
                       </span>
                       <span className="shrink-0 tabular-nums">
-                        OVR <b className="text-chalk">{g.ovr}</b> → Skill <b className="text-gold">{g.skill}</b>
+                        {ovrLabelOf(g.player)} <b className="text-chalk">{g.ovr}</b> → Skill <b className="text-gold">{g.skill}</b>
                       </span>
                     </span>
                   </span>

@@ -50,7 +50,7 @@ const CompareOverlay = ({
   metrics: GraphMetric[];
 }) => {
   const [mode, setMode] = useState<Mode>('avg');
-  const [metricId, setMetricId] = useState('ovr');
+  const [metricId, setMetricId] = useState('szn');
   const metric = metrics.find((m) => m.id === metricId) ?? metrics[0];
   const comps = useMemo(
     () => similarPlayers(players, player, 8, 'level').filter((c) => league.byKey.get(`${c.player.position}:${c.player.name}`)?.some((p) => p.careerYear != null)),
@@ -131,7 +131,7 @@ const CompareOverlay = ({
       )}
       <MetricChips metrics={metrics.filter((m) => !m.invert)} value={metric.id} onChange={setMetricId} label="Comparison metric" />
       {xs.length > 1 ? (
-        <MultiLine series={series} xs={xs} xLabel={(x) => `Yr ${x}`} yFmt={(v) => metric.fmt(v)} band={band} zero={!['ovr', 'skill'].includes(metric.id)} ariaLabel={`${player.name} against ${mode === 'avg' ? 'the league average' : mode === 'comp' ? 'a comparable' : 'the top five'} by career year`} selX={career.points[idx]?.careerYear ?? null} />
+        <MultiLine series={series} xs={xs} xLabel={(x) => `Yr ${x}`} yFmt={(v) => metric.fmt(v)} band={band} zero={!['szn', 'car', 'skill'].includes(metric.id)} ariaLabel={`${player.name} against ${mode === 'avg' ? 'the league average' : mode === 'comp' ? 'a comparable' : 'the top five'} by career year`} selX={career.points[idx]?.careerYear ?? null} />
       ) : (
         <p className="cg-note">Not enough seasons with {metric.label.toLowerCase()} to compare.</p>
       )}

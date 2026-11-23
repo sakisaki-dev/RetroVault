@@ -1,3 +1,4 @@
+import { ovrLabelOf } from '@/utils/useOfficialOvr';
 import type { Player } from '@/types/player';
 import type { NFLTeam } from '@/utils/nflTeams';
 import { AWARD_META, POSITION_NAMES } from '@/utils/playerMeta';
@@ -34,7 +35,7 @@ const PlayerSharePoster = ({
   const theme = teamThemeVars(team);
   const awards = AWARD_META[isDefensivePosition(player.position) ? 'defense' : 'offense'].filter((a) => a.key !== 'rings' && (player[a.key] ?? 0) > 0);
   const tiles = [
-    { key: 'ovr', label: 'OVR', value: num(ovr), gold: true },
+    { key: 'ovr', label: ovrLabelOf(player), value: num(ovr), gold: true },
     { key: 'rings', label: player.rings === 1 ? 'Ring' : 'Rings', value: num(player.rings ?? 0), gold: true },
     { key: 'legacy', label: 'Career Legacy', value: player.trueTalent > 0 ? num(player.careerLegacy) : '–' },
     { key: 'games', label: 'Games', value: num(player.games) },

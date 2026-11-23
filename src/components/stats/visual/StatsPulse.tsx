@@ -3,7 +3,7 @@ import type { LeagueData, Player } from '@/types/player';
 import { POSITIONS, leaguePlayers } from '@/config/advanced';
 import { playerKey } from '@/config/ovr';
 import { HOF_THRESHOLD, isHallOfFamer } from '@/config/stats';
-import { useOfficialOvr } from '@/utils/useOfficialOvr';
+import { useGamePool } from '@/utils/useOfficialOvr';
 import CountUp from '../../brand/CountUp';
 import TeamLogo from '../../brand/TeamLogo';
 import { VIZ, fmtNum } from '../analytics/viz';
@@ -89,7 +89,7 @@ const Card = ({
 /** Headline numbers with a mini chart each: league size, the Hall of Fame, elite OVRs and the closest record chase. */
 const StatsPulse = ({ data, book, onSelect }: { data: LeagueData; book: RecordBook; onSelect: (p: Player) => void }) => {
   const players = useMemo(() => leaguePlayers(data), [data]);
-  const ovrMap = useOfficialOvr();
+  const ovrMap = useGamePool().careerOvrMap;
 
   const pos = useMemo(
     () =>
@@ -152,7 +152,7 @@ const StatsPulse = ({ data, book, onSelect }: { data: LeagueData; book: RecordBo
         value={ovrs.length ? elite : null}
         sub={ovrs.length ? `of ${ovrs.length} rated players` : 'Loading ratings…'}
         chart={<MiniColumns cols={ovrBins} showLabels />}
-        summary={`Official OVR histogram in 5-point bins: ${ovrBins.map((b) => `${b.label} ${b.value}`).join(', ')}.`}
+        summary={`CAR (career OVR) histogram in 5-point bins: ${ovrBins.map((b) => `${b.label} ${b.value}`).join(', ')}.`}
       />
       {chase ? (
         <Card

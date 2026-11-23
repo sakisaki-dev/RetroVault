@@ -1,3 +1,4 @@
+import { ovrLabelOf } from '@/utils/useOfficialOvr';
 import { useState } from 'react';
 import { Hexagon, Swords } from 'lucide-react';
 import type { Player } from '@/types/player';
@@ -127,7 +128,7 @@ const DdWhoPlays = ({ player, model, mode, onMode, comps, topSets, overlay, onOv
               )}
           </span>
           <span className="lamp !px-1.5">
-            OVR <b>{cOvr ?? '—'}</b>
+            {ovrLabelOf(c.player)} <b>{cOvr ?? '—'}</b>
           </span>
           {hasRadar ? (
             <CompRadar

@@ -159,7 +159,7 @@ const metricStats = (): GraphStat[] =>
   });
 
 const RATINGS: GraphStat[] = [
-  { id: 'ovr', label: 'Official OVR', short: 'OVR', group: 'Ratings', definition: 'Official overall rating (career production and awards), same as the arcade.', positions: POSITIONS, decimals: 0, get: (p, d) => d.ovrMap.get(playerKey(p)) ?? null },
+  { id: 'ovr', label: 'Rating (SZN active, CAR retired)', short: 'SZN/CAR', group: 'Ratings', definition: 'Official overall rating (career production and awards), same as the arcade.', positions: POSITIONS, decimals: 0, get: (p, d) => d.ovrMap.get(playerKey(p)) ?? null },
   { id: 'skill', label: 'Skill rating', short: 'Skill', group: 'Ratings', definition: 'Per-game skills graded against the position, on the OVR curve. League players only.', positions: POSITIONS, decimals: 0, get: (p, d) => d.skillMap.get(playerKey(p))?.rating ?? null },
   { id: 'careerLegacy', label: 'Career Legacy', short: 'Legacy', group: 'Ratings', definition: 'Career Legacy = 4·TT + 4·Dominance + 2·G. 7,000+ is the Hall of Fame.', positions: POSITIONS, decimals: 0, get: (p) => positive(field(p, 'careerLegacy')) },
   { id: 'trueTalent', label: 'True Talent', short: 'TT', group: 'Ratings', definition: 'True Talent, position-normalised.', positions: POSITIONS, decimals: 1, get: (p) => positive(field(p, 'trueTalent')) },

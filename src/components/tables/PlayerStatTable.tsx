@@ -12,7 +12,7 @@ import TeamBadge from '../brand/TeamBadge';
 import TeamLogo, { resolveTeam } from '../brand/TeamLogo';
 import { calculateLeaders } from '@/utils/csvParser';
 import { playerKey } from '@/config/ovr';
-import { useOfficialOvr } from '@/utils/useOfficialOvr';
+import { useGamePool } from '@/utils/useOfficialOvr';
 import { useSkillRatings } from '@/utils/useSkillRatings';
 import { getTeamColors } from '@/utils/teamColors';
 import { HeaderTip, LeaderStat, PlayerNameCell, TierMetric } from './cells';
@@ -57,7 +57,7 @@ interface PlayerStatTableProps<T extends Player> {
   children?: ReactNode;
 }
 
-const RATING_KEYS = new Set(['ovr', 'skill']);
+const RATING_KEYS = new Set(['szn', 'car', 'skill']);
 
 /** Skill rating with its letter grade chip. */
 const SkillCell = ({ overall }: { overall?: Overall }) =>
@@ -129,10 +129,12 @@ function PlayerStatTable<T extends Player>({
   // Key columns by default (career line, Legacy, OVR, Skill); "All columns" adds awards, Talent, Dom and TPG
   const [allCols, setAllCols] = useState(false);
   const metricCols = allCols ? METRIC_COLUMNS : METRIC_COLUMNS.filter((m) => m.essential);
-  const ovrMap = useOfficialOvr();
+  const { careerOvrMap, seasonOvr } = useGamePool();
+  // SZN = this season's OVR (active players who played it); CAR = the career OVR (everyone)
+  const sznOf = (p: Player) => (p.status === 'Active' ? seasonOvr?.ovr[playerKey(p)] : undefined);
   const skillMap = useSkillRatings();
   const ratingOf = (key: string, p: Player) =>
-    key === 'ovr' ? ovrMap.get(playerKey(p)) : key === 'skill' ? skillMap.get(playerKey(p))?.rating : undefined;
+    key === 'car' ? careerOvrMap.get(playerKey(p)) : key === 'szn' ? sznOf(p) : key === 'skill' ? skillMap.get(playerKey(p))?.rating : undefined;
 
   const filteredPlayers = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -163,7 +165,7 @@ function PlayerStatTable<T extends Player>({
     return [...filteredPlayers].sort((a, b) => dir * ((getter(a) || 0) - (getter(b) || 0)));
     // ratingOf reads the two rating maps
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredPlayers, sort, columns, ovrMap, skillMap]);
+  }, [filteredPlayers, sort, columns, careerOvrMap, seasonOvr, skillMap]);
 
   if (filteredPlayers.length === 0) return null;
 
@@ -216,7 +218,8 @@ function PlayerStatTable<T extends Player>({
                 {metricCols.map((m) => (
                   <SortHeader key={m.key} k={m.key} label={m.label} tip={m.tip} sort={sort} onToggle={toggleSort} />
                 ))}
-                <SortHeader k="ovr" label="OVR" tip="Official overall (62–99): career production and awards, ranked within the position" sort={sort} onToggle={toggleSort} />
+                <SortHeader k="szn" label="SZN" tip="Season OVR (62–99): this season's line, ranked within the position among players who played it. Active players only" sort={sort} onToggle={toggleSort} />
+                <SortHeader k="car" label="CAR" tip="Career OVR (62–99): career production and awards, ranked within the position (active and retired)" sort={sort} onToggle={toggleSort} />
                 <SortHeader k="skill" label="Skill" tip="Skill rating: per-game skills graded against the position (S to F), ignores career length and awards" sort={sort} onToggle={toggleSort} />
               </tr>
             </thead>
@@ -279,7 +282,8 @@ function PlayerStatTable<T extends Player>({
                         />
                       </td>
                     ))}
-                    <td className="num font-display text-base font-bold tabular-nums">{ovrMap.get(playerKey(player)) ?? '—'}</td>
+                    <td className="num font-display text-base font-bold tabular-nums">{sznOf(player) ?? '—'}</td>
+                    <td className="num font-display text-base font-bold tabular-nums">{careerOvrMap.get(playerKey(player)) ?? '—'}</td>
                     <td className="num">
                       <SkillCell overall={skillMap.get(playerKey(player))} />
                     </td>

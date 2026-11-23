@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import InLeague from '@/components/InLeague';
 import { awardPack } from '@/utils/collection';
 import { Confetti, CountUp } from './ArcadeUI';
-import { isLegend, legendLabel, loadGameStat, playerKey, saveGameStat, type GamePlayer } from './gameUtils';
+import { isLegend, legendLabel, loadGameStat, playerKey, saveGameStat, type GamePlayer, useRatingTag } from './gameUtils';
 import {
   JITTER,
   LEVEL_NAMES,
@@ -82,6 +82,7 @@ const LineMeter = ({ prop, hit }: { prop: OUProp; hit: boolean }) => {
 };
 
 const OverUnder = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<string, number> }) => {
+  const tag = useRatingTag();
   const reduced = useReducedMotion();
   const uid = useId();
 
@@ -322,7 +323,7 @@ const OverUnder = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<st
                     </span>
                     <span className="ou2-tags">
                       <span className="ou2-pos">{prop.player.position}</span>
-                      {ovr != null && <span className="ou2-ovr">{ovr} OVR</span>}
+                      {ovr != null && <span className="ou2-ovr">{ovr} {tag}</span>}
                       {isShown && isLegend(prop.player) && <span className="ou2-legend">{legendLabel(prop.player)}</span>}
                     </span>
                     <span className="ou2-no" aria-hidden="true">

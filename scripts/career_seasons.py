@@ -19,6 +19,7 @@ import re
 from pathlib import Path
 
 import market_history
+import season_ovr
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "data" / "y80"
@@ -51,6 +52,7 @@ def build() -> dict:
         if y:
             ends[y] = s  # the last snapshot of a season wins
     seasons = sorted(ends)
+    sovr = season_ovr.history_ratings()  # {season: {key: season OVR}}; the first season has no line
     keys = sorted({k for y in seasons for k in ends[y]["players"]})
     players: dict[str, dict] = {}
     for k in keys:
@@ -69,18 +71,19 @@ def build() -> dict:
                 first = y
             s = p.get("s") or {}
             rows.append([p.get("ovr", 0), p.get("skill"), p.get("legacy", 0), p.get("value", 0), p.get("grade") or "",
-                         *[int(s.get(f) or 0) for f in fields]])
+                         *[int(s.get(f) or 0) for f in fields], sovr.get(y, {}).get(k)])
         while rows and rows[-1] is None:
             rows.pop()
         if first is not None:
             players[k] = {"from": first, "rows": rows}
     return {
         "_about": "Season-end career lines from the market history (scripts/career_seasons.py). Row = [ovr, skill, "
-                  "legacy, value, grade, ...fields[group]] at the end of each season from `from`; null = not in "
-                  "that season's snapshot. A season's own line is the change between two consecutive rows.",
+                  "legacy, value, grade, ...fields[group], sovr] at the end of each season from `from`; null = not in "
+                  "that season's snapshot. sovr = his SEASON OVR that season (scripts/season_ovr.py; null = no line: first season or no games); ovr is the career card rating. A season's own line is the change between two consecutive rows.",
         "seasons": seasons,
         "snapshots": [ends[y]["id"] for y in seasons],
         "fields": FIELDS,
+        "live": ({"season": live[0], "ovr": dict(sorted(live[1].items()))} if (live := season_ovr.live_ratings()) else None),
         "players": players,
     }
 

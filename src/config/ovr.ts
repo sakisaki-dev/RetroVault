@@ -125,3 +125,73 @@ export const officialOvrMap = (league: Player[], legends: Player[], excluded: Se
   });
   return map;
 };
+
+// ---------- What the site SHOWS: season OVR for active players (owner, 2026-11-23) ----------
+// The functions above are the CAREER rating (League Score over the whole career, ranked within position over the game
+// pool): the card market, collectible tiers and prices stay on it. The DISPLAYED OVR is `displayOvr`: an active
+// player's rating for the current season (scripts/season_ovr.py -> public/data/league/season_ovr.json, built so this
+// stays synchronous), a retired player's career rating.
+
+/** The current season's OVR per player (season_ovr.json). */
+export interface SeasonOvrFile {
+  season: number;
+  /** true while the season is in progress (the save's season so far), false = the latest completed season */
+  live: boolean;
+  ovr: Record<string, number>;
+  /** Where `lines` come from: the save's own season stats, or the change between two season-end snapshots (fewer stats) */
+  linesFrom?: 'save' | 'history';
+  /** "POS:Name" -> this season's stat line in Player fields (games, passYds...), everyone who played it */
+  lines?: Record<string, Record<string, number>>;
+}
+
+const STAT_FIELDS = ['games', 'attempts', 'completions', 'passYds', 'passTD', 'interceptions', 'sacks', 'rushAtt', 'rushYds', 'rushTD', 'fumbles', 'receptions', 'recYds', 'recTD', 'longest', 'blocks', 'tackles', 'forcedFumbles'];
+
+/**
+ * The player as his season line: every stat the line lacks is NaN (never 0), so a skill that needs it shows "no data"
+ * instead of a false zero. Awards and card numbers stay his own.
+ */
+export const seasonPlayerOf = <P extends Player>(p: P, line: Record<string, number>): P => {
+  const out: Record<string, unknown> = { ...p };
+  STAT_FIELDS.forEach((f) => {
+    if (f in out) out[f] = typeof line[f] === 'number' ? line[f] : f === 'games' ? 0 : Number.NaN;
+  });
+  return out as unknown as P;
+};
+
+export type OvrBasis = 'season' | 'career';
+
+/**
+ * THE one switch for retired players (owner undecided, 2026-11-23): what a retiree shows. Today his career OVR.
+ * Change this function (e.g. return his last season's rating) and every display follows.
+ */
+export const retiredRating = (careerOvr: number, _p: Player): number => careerOvr;
+
+/**
+ * The displayed OVR for every key in `career`: an active league player with a season line shows his season OVR; an
+ * active player with none (no games this season, e.g. injured all year) falls back to his career OVR, basis 'career'
+ * (the Deep Dive says so); everyone else (retired, real legends) shows retiredRating.
+ */
+export const displayOvr = (
+  players: Player[],
+  career: Map<string, number>,
+  season: SeasonOvrFile | null,
+): { ovr: Map<string, number>; basis: Map<string, OvrBasis> } => {
+  const ovrOut = new Map(career);
+  const basis = new Map<string, OvrBasis>();
+  players.forEach((p) => {
+    const key = playerKey(p);
+    const c = career.get(key);
+    if (c == null) return;
+    basis.set(key, 'career');
+    if (p.isRealLegend || p.status !== 'Active') {
+      ovrOut.set(key, retiredRating(c, p));
+      return;
+    }
+    const s = season?.ovr[key];
+    if (s != null) {
+      ovrOut.set(key, s);
+      basis.set(key, 'season');
+    }
+  });
+  return { ovr: ovrOut, basis };
+};

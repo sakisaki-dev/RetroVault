@@ -8278,16 +8278,6 @@
  ],
  "headlines": [
   {
-   "kind": "superbowl",
-   "text": "Bears win Super Bowl CLVII",
-   "players": [],
-   "teams": [
-    "Bears",
-    "Dolphins"
-   ],
-   "weight": 100
-  },
-  {
    "kind": "hof",
    "text": "New Hall of Famer: Jamon Brooker (first ballot)",
    "players": [
@@ -8304,87 +8294,6 @@
    ],
    "teams": [],
    "weight": 90
-  },
-  {
-   "kind": "milestone",
-   "text": "Dotson passes 25 career sacks",
-   "players": [
-    "Snoop Dotson"
-   ],
-   "teams": [],
-   "weight": 79
-  },
-  {
-   "kind": "milestone",
-   "text": "Akayleb Samia passes 3,000 career tackles",
-   "players": [
-    "Akayleb Samia"
-   ],
-   "teams": [],
-   "weight": 77
-  },
-  {
-   "kind": "new-player",
-   "text": "New player: JJ Starling (QB, Career Legacy 5,047)",
-   "players": [
-    "JJ Starling"
-   ],
-   "teams": [],
-   "weight": 73
-  },
-  {
-   "kind": "award",
-   "text": "Dotson wins his 9th ring",
-   "players": [
-    "Snoop Dotson"
-   ],
-   "teams": [],
-   "weight": 73
-  },
-  {
-   "kind": "new-player",
-   "text": "New player: Kristian Smoke (TE, Career Legacy 4,062)",
-   "players": [
-    "Kristian Smoke"
-   ],
-   "teams": [],
-   "weight": 72
-  },
-  {
-   "kind": "milestone",
-   "text": "Ferentz plays his 300th game",
-   "players": [
-    "Richard Ferentz"
-   ],
-   "teams": [],
-   "weight": 72
-  },
-  {
-   "kind": "milestone",
-   "text": "Travon Swaim plays his 300th game",
-   "players": [
-    "Travon Swaim"
-   ],
-   "teams": [],
-   "weight": 72
-  },
-  {
-   "kind": "new-player",
-   "text": "New player: Grant Isidora (OL, Career Legacy 2,501)",
-   "players": [
-    "Grant Isidora"
-   ],
-   "teams": [],
-   "weight": 71
-  },
-  {
-   "kind": "new-player",
-   "text": "New player: Paul Addae (OL, Career Legacy 1,711)",
-   "players": [
-    "Paul Addae"
-   ],
-   "teams": [],
-   "weight": 71
   },
   {
    "kind": "chase",
@@ -8408,10 +8317,10 @@
   }
  ],
  "headlinesInfo": {
-  "scope": "Last update",
-  "since": "Y97 · Nov 19, 21:14",
-  "label": "Y98 · Nov 21, 14:21",
-  "upload": "2026-11-21-save-y98"
+  "scope": "This update",
+  "upload": "2026-11-21-story-y98",
+  "since": "Y98 · Nov 21, 14:21",
+  "label": "Y98 · Nov 23, 14:50"
  },
  "hofClasses": [
   {
@@ -10990,13 +10899,12 @@
    "club": "Bears",
    "champion": "Bears",
    "record": "16-1",
-   "count": 13,
+   "count": 12,
    "kinds": [
     "cover",
     "champion",
     "awards",
     "milestones",
-    "market",
     "hof",
     "farewells",
     "power",

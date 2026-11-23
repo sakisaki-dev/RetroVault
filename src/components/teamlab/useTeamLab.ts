@@ -90,7 +90,7 @@ export const useLegendsToggle = () => {
  */
 export const useTeamLabContext = (includeLegends: boolean) => {
   const { careerData, getAllPlayers } = useLeague();
-  const { legends, ovrMap, loaded } = useGamePool();
+  const { legends, careerOvrMap: ovrMap, loaded } = useGamePool();
   const extras = usePlayerExtras();
   // The owner's current club, from the data (coach.json); "Load my <club>" and the upgrade picks use it
   const club = useCurrentClub() ?? '';

@@ -1,3 +1,4 @@
+import { ovrLabelOf } from '@/utils/useOfficialOvr';
 import { memo, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode, type TouchEvent as RTouchEvent } from 'react';
 import { Clock, CornerDownLeft, Search, Shield, Star, X } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
@@ -109,7 +110,7 @@ const Row = memo(({ player: p, number, ovr, grade, showActive, peek, first, sele
         aria-current={selected ? 'true' : undefined}
         onPointerDown={() => warmPlayerCard(p)}
         onClick={() => onPick(p)}
-        aria-label={`${p.name}, ${p.position}${team ? `, ${team.fullName}` : ''}${ovr != null ? `, OVR ${ovr}` : ''}`}
+        aria-label={`${p.name}, ${p.position}${team ? `, ${team.fullName}` : ''}${ovr != null ? `, ${ovrLabelOf(p)} ${ovr}` : ''}`}
         {...(peek ? peekProps(p) : {})}
       >
         <span className="ss-logo" aria-hidden="true">
@@ -149,7 +150,7 @@ const Row = memo(({ player: p, number, ovr, grade, showActive, peek, first, sele
           {ovr != null && (
             <span className="ss-ovr">
               <b>{ovr}</b>
-              <i>OVR</i>
+              <i>{ovrLabelOf(p)}</i>
             </span>
           )}
         </span>

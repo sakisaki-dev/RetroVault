@@ -51,6 +51,21 @@ league.filter((p) => !findNFLTeam(p.team) && !freeAgents.has(p.name)).forEach((p
     ? warnings.push(`No team yet: ${p.position} ${p.name} (UNK in players.json: ask the owner)`)
     : errors.push(`No team: ${p.position} ${p.name}`));
 
+// 1b. Season OVR (scripts/season_ovr.py): every rating is on the 62-99 curve and belongs to a league player; every active
+// player who played the season has one (the rest fall back to the career OVR on the site)
+if (!existsSync('public/data/league/season_ovr.json')) errors.push('public/data/league/season_ovr.json is missing (npm run rebuild)');
+else {
+  const so = read('public/data/league/season_ovr.json') as { season: number; ovr: Record<string, number> };
+  const keys = new Set(league.map((p) => `${p.position}:${p.name}`));
+  Object.entries(so.ovr).forEach(([k, v]) => {
+    if (!keys.has(k)) errors.push(`season_ovr.json rates ${k}, who is not in the league`);
+    if (!(v >= 62 && v <= 99)) errors.push(`season_ovr.json: ${k} has OVR ${v} outside 62-99`);
+  });
+  const active = league.filter((p) => p.status === 'Active');
+  const missing = active.filter((p) => !(`${p.position}:${p.name}` in so.ovr));
+  if (missing.length) warnings.push(`${missing.length} active players have no Y${so.season} season OVR (no games that season; the site shows their career OVR): ${missing.slice(0, 6).map((p) => p.name).join(', ')}${missing.length > 6 ? '…' : ''}`);
+}
+
 // 2. Every Hall of Famer has a custom induction speech (the generic template must never show)
 const speeches: Record<string, string> = content.speeches ?? {};
 league

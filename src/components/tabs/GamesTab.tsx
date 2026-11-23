@@ -14,7 +14,7 @@ import BuildALegend from '../games/BuildALegend';
 import ModeArt from '../games/ModeArt';
 import { ArcadeButton, Lamp } from '../games/ArcadeUI';
 import { HomeNews } from '../news/WhatChanged';
-import { STAT_KEYS, loadGameStat, saveGameStat, useGamePlayers, type GamePlayer } from '../games/gameUtils';
+import { ArcadeRatingContext, STAT_KEYS, loadGameStat, saveGameStat, useGamePlayers, type ArcadeRating, type GamePlayer } from '../games/gameUtils';
 import { fnv1a } from '@/utils/edition';
 import PixelLoader from '@/components/ui/PixelLoader';
 
@@ -61,8 +61,8 @@ const GAMES: GameDef[] = [
   {
     id: 'rank',
     title: 'Blind Rank',
-    pitch: 'Slot five players by OVR before you see who comes next.',
-    rule: 'Five players arrive one at a time. Slot each from 1 to 5 by OVR before you see who comes next. No moving them later.',
+    pitch: 'Slot five players by rating (CAR, or SZN) before you see who comes next.',
+    rule: 'Five players arrive one at a time. Slot each from 1 to 5 by rating (CAR, or SZN) before you see who comes next. No moving them later.',
     color: 'var(--gold)',
     record: best(STAT_KEYS.rankBest, 'Best round', (n) => `${n}/10`),
     render: (players, ovrMap) => <BlindRank players={players} ovrMap={ovrMap} />,
@@ -71,7 +71,7 @@ const GAMES: GameDef[] = [
     id: 'kc',
     title: 'Keep 3, Cut 3',
     pitch: 'Six players, three roster spots. Every call is final.',
-    rule: 'Six players arrive one at a time. Keep the three highest OVRs and cut the rest. Every call is final.',
+    rule: 'Six players arrive one at a time. Keep the three highest ratings (CAR, or SZN) and cut the rest. Every call is final.',
     color: 'var(--flag)',
     record: () => {
       const n = loadGameStat(STAT_KEYS.kcRounds, 0);
@@ -223,7 +223,9 @@ const FitArt = ({ children }: { children: ReactNode }) => {
 
 const GamesTab = () => {
   const [includeLegends, setIncludeLegends] = useState(() => loadGameStat(STAT_KEYS.includeLegends, 1) !== 0);
-  const { players, league, legends, ovrMap, legendsLoaded, dataVersion } = useGamePlayers(includeLegends);
+  // Which rating the games rank by (owner, 2026-11-23): CAR (career, everyone; default) or SZN (this season, actives only)
+  const [rating, setRating] = useState<ArcadeRating>(() => (loadGameStat('rating:szn', 0) ? 'szn' : 'car'));
+  const { players, league, legends, ovrMap, legendsLoaded, dataVersion } = useGamePlayers(includeLegends, rating);
   const [game, setGame] = useState<GameId | null>(null);
   const [last, setLast] = useState<GameId | null>(readLast);
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -258,6 +260,12 @@ const GamesTab = () => {
       cab.focus({ preventScroll: true });
     } else headingRef.current?.focus({ preventScroll: true });
   }, [game]);
+
+  const toggleRating = () => {
+    const next: ArcadeRating = rating === 'szn' ? 'car' : 'szn';
+    setRating(next);
+    saveGameStat('rating:szn', next === 'szn' ? 1 : 0);
+  };
 
   const toggleLegends = () => {
     const next = !includeLegends;
@@ -300,7 +308,11 @@ const GamesTab = () => {
           </div>
           <div className="hall-switches">
             <Lamp label="Players" value={league.length} />
-            <button type="button" role="switch" aria-checked={includeLegends} className="toggle" onClick={toggleLegends}>
+            <button type="button" role="switch" aria-checked={rating === 'szn'} className="toggle" onClick={toggleRating} title="Rank by CAR (career OVR, everyone) or SZN (this season's OVR, active players only)">
+              <span className="track" aria-hidden="true" />
+              {rating === 'szn' ? 'SZN · this season' : 'CAR · career'}
+            </button>
+            <button type="button" role="switch" aria-checked={includeLegends && rating !== 'szn'} disabled={rating === 'szn'} className="toggle" onClick={toggleLegends}>
               <span className="track" aria-hidden="true" />
               NFL legends
               {includeLegends && legends.length > 0 && <b className="num hall-toggle-n">{legends.length}</b>}
@@ -444,7 +456,9 @@ const GamesTab = () => {
             </p>
             {/* Wait for legends.json / exclusions so OVRs are final, and re-mount on data / legends changes */}
             {legendsLoaded ? (
-              <div key={`${active.id}-${dataVersion}-${includeLegends ? legends.length : 0}`}>{active.render(players, ovrMap)}</div>
+              <ArcadeRatingContext.Provider value={rating}>
+                <div key={`${active.id}-${dataVersion}-${rating}-${includeLegends ? legends.length : 0}`}>{active.render(players, ovrMap)}</div>
+              </ArcadeRatingContext.Provider>
             ) : (
               <PixelLoader label="Warming up" what="the player pool" minHeight={320} />
             )}

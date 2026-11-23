@@ -210,43 +210,6 @@
    "n": 4
   },
   {
-   "id": "y98-market",
-   "kind": "market",
-   "club": "Dolphins",
-   "kicker": "The market",
-   "title": "Up and down",
-   "text": "Base-card value across Y98: Eli Danna +230%; Barnes −14%.",
-   "players": [
-    {
-     "key": "TE:Eli Danna",
-     "name": "Eli Danna",
-     "team": "Dolphins",
-     "label": "Riser",
-     "pct": 230,
-     "value": 1353,
-     "was": 410,
-     "ovr": 90,
-     "grade": "B−"
-    },
-    {
-     "key": "DL:Amik Barnes",
-     "name": "Amik Barnes",
-     "team": "Colts",
-     "label": "Faller",
-     "pct": -14,
-     "value": 44,
-     "was": 51,
-     "ovr": 71,
-     "grade": "C−"
-    }
-   ],
-   "teams": [
-    "Colts",
-    "Dolphins"
-   ],
-   "n": 5
-  },
-  {
    "id": "y98-hof",
    "kind": "hof",
    "club": "Eagles",
@@ -276,7 +239,7 @@
     "Eagles",
     "Packers"
    ],
-   "n": 6
+   "n": 5
   },
   {
    "id": "y98-farewells",
@@ -340,7 +303,7 @@
     "Falcons",
     "Packers"
    ],
-   "n": 7
+   "n": 6
   },
   {
    "id": "y98-power",
@@ -380,7 +343,7 @@
     "winnerRecord": "5-12",
     "loserRecord": "12-5"
    },
-   "n": 8
+   "n": 7
   },
   {
    "id": "y98-rivalry",
@@ -427,7 +390,7 @@
     "Bears",
     "Packers"
    ],
-   "n": 9
+   "n": 8
   },
   {
    "id": "y98-tribute",
@@ -468,7 +431,7 @@
    "teams": [
     "Bears"
    ],
-   "n": 10
+   "n": 9
   },
   {
    "id": "y98-story",
@@ -510,7 +473,7 @@
     "Seahawks",
     "Falcons"
    ],
-   "n": 11
+   "n": 10
   },
   {
    "id": "y98-take",
@@ -541,7 +504,7 @@
     "Ravens",
     "Dolphins"
    ],
-   "n": 12
+   "n": 11
   },
   {
    "id": "y98-outro",
@@ -586,7 +549,7 @@
      "holder": "Jamon Brooker"
     }
    ],
-   "n": 13
+   "n": 12
   }
  ]
 }

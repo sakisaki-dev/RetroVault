@@ -10,7 +10,7 @@ import HowToStrip from './HowToStrip';
 import { getTeamTextColor } from '@/utils/teamColors';
 import './sixDegrees.css';
 import GameBanner from './GameBanner';
-import { loadGameStat, playerKey, saveGameStat, teamStyle, teamVars, type GamePlayer } from './gameUtils';
+import { loadGameStat, playerKey, saveGameStat, teamStyle, teamVars, type GamePlayer, useRatingTag } from './gameUtils';
 import {
   buildSixDegreesGraph,
   edgeBetween,
@@ -71,6 +71,7 @@ const nameParts = (name: string) => {
 
 /** A player as a route token in his club colours (best-known club): logo, name, position and OVR. */
 const Token = ({ p, label, ovr, tone, className }: { p: GamePlayer; label: string; ovr: number | null; tone?: 'start' | 'goal'; className?: string }) => {
+  const tag = useRatingTag();
   const st = teamStyle(bannerTeamOf(p));
   const { first, last } = nameParts(p.name);
   return (
@@ -84,7 +85,7 @@ const Token = ({ p, label, ovr, tone, className }: { p: GamePlayer; label: strin
         {ovr != null && (
           <>
             {' '}
-            · <b>{ovr}</b> OVR
+            · <b>{ovr}</b> {tag}
           </>
         )}
       </span>

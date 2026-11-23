@@ -1,4 +1,4 @@
-import { useMemo, type CSSProperties } from 'react';
+import { createContext, useContext, useMemo, type CSSProperties } from 'react';
 import type { Player, Position } from '@/types/player';
 import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
 import { leagueScore, playerKey, type GamePlayer } from '@/config/ovr';
@@ -409,8 +409,21 @@ export const saveGameStat = (key: string, value: number) => {
  * `ovrMap` is the official OVR over the full game pool (legends included even when they are switched
  * off), so every rating matches the stats pages.
  */
-export const useGamePlayers = (includeLegends: boolean) => {
-  const { league, legends, ovrMap, loaded, dataVersion } = useGamePool();
-  const players = useMemo<GamePlayer[]>(() => (includeLegends ? [...league, ...legends] : league), [includeLegends, league, legends]);
-  return { players, league, legends, ovrMap, legendsLoaded: loaded, dataVersion };
+/** The rating the arcade is ranking by (owner, 2026-11-23): CAR = career OVR, everyone; SZN = this season, actives only. */
+export type ArcadeRating = 'car' | 'szn';
+export const ArcadeRatingContext = createContext<ArcadeRating>('car');
+/** "CAR" or "SZN": the label for any rating a game prints */
+export const useRatingTag = (): 'CAR' | 'SZN' => (useContext(ArcadeRatingContext) === 'szn' ? 'SZN' : 'CAR');
+
+export const useGamePlayers = (includeLegends: boolean, rating: 'car' | 'szn' = 'car') => {
+  const { league, legends, careerOvrMap, ovrMap: shownMap, seasonOvr, ovrBasis, loaded, dataVersion } = useGamePool();
+  // The arcade picks one rating explicitly (owner, 2026-11-23). CAR (default): the career OVR across everyone, active and
+  // retired, real legends included. SZN: this season's OVR, active league players who played it only (no legends).
+  const szn = rating === 'szn';
+  const players = useMemo<GamePlayer[]>(
+    () => (szn ? league.filter((p) => ovrBasis.get(playerKey(p)) === 'season') : includeLegends ? [...league, ...legends] : league),
+    [szn, includeLegends, league, legends, ovrBasis],
+  );
+  const ovrMap = szn ? shownMap : careerOvrMap;
+  return { players, league, legends, ovrMap, rating, seasonOvr, legendsLoaded: loaded, dataVersion };
 };

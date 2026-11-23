@@ -1326,7 +1326,7 @@ def pair_headlines(prev: dict | None, cur: dict | None, bundles: list[dict]) -> 
                 add("grade", f"{short(n)} climbs to an {gb} grade" if gb in "AF" else f"{short(n)} climbs to a {gb} grade", 48, players=[n])
         # Market: top risers and fallers by base-card value
         moves = []
-        for k in set(a) & set(b):
+        for k in (set(a) & set(b)) if not (cur or {}).get("rebase") else ():  # a re-pricing (SZN joined the price) is no market move
             va, vb = a[k].get("value", 0), b[k].get("value", 0)
             if va >= MARKET_MIN_VALUE and va and abs(vb - va) / va >= MARKET_MIN_MOVE:
                 moves.append(((vb - va) / va, k))

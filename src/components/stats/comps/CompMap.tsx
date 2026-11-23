@@ -1,3 +1,4 @@
+import { ovrLabelOf } from '@/utils/useOfficialOvr';
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent as RPointerEvent } from 'react';
 import { Maximize2, Minus, Plus } from 'lucide-react';
 import type { Player } from '@/types/player';
@@ -300,7 +301,7 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
           {findNFLTeam(hover.player.team)?.fullName ?? hover.player.team ?? 'No team'}
           {hover.ovr != null && (
             <>
-              {' · '}OVR <b className="text-chalk">{hover.ovr}</b>
+              {' · '}{ovrLabelOf(hover.player)} <b className="text-chalk">{hover.ovr}</b>
             </>
           )}
           {hover.player.games < SIM_MIN_GAMES && <span className="text-gold"> · small sample</span>}

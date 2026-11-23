@@ -12,6 +12,7 @@ import {
   saveGameStat,
   type GamePlayer,
   type PosFilter,
+  useRatingTag
 } from './gameUtils';
 import { DeckCard, Hud, HudStat, Land, Pips, Slab, launchFrom, usePointerDrag, useRevealClock } from './rosterKit';
 import HowToStrip from './HowToStrip';
@@ -38,6 +39,7 @@ const verdictFor = (got: number) =>
 
 /** Keep 3, Cut 3: blind, six players arrive one at a time and each call is final. */
 const KeepCut = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map<string, number> }) => {
+  const tag = useRatingTag();
   const key = useMemo(() => rankKey(ovrMap), [ovrMap]);
 
   const poolFor = (pos: PosFilter) => players.filter(matchesPos(pos));
@@ -192,7 +194,7 @@ const KeepCut = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map<strin
         steps={[
           <>Six players come out one at a time. Three make the roster.</>,
           <>
-            Keep the three with the highest OVR. Swipe the card right or tap <b>Keep</b>, swipe left or tap <b>Cut</b>.
+            Keep the three with the highest {tag}. Swipe the card right or tap <b>Keep</b>, swipe left or tap <b>Cut</b>.
           </>,
           <>Every call is final and you never see who is next. Each pile holds three.</>,
         ]}
@@ -283,7 +285,7 @@ const KeepCut = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap: Map<strin
                 </ArcadeButton>
               </div>
             </div>
-            <ol className="kc-ladder" aria-label="True order by OVR">
+            <ol className="kc-ladder" aria-label={`True order by ${tag}`}>
               {sorted!.map((p, i) => {
                 const shown = i < reveal.step;
                 const c = choiceOf(p);

@@ -496,7 +496,7 @@ const Market = ({ card, players, onPlayer }: CardProps) => (
           <span className="rw-mover__val">
             {p.was?.toLocaleString("en-US")} →{" "}
             {p.value?.toLocaleString("en-US")} coins
-            {p.ovr ? ` · OVR ${p.ovr}` : ""}
+            {p.ovr ? ` · CAR ${p.ovr}` : ""}
             {p.grade ? ` · ${p.grade}` : ""}
           </span>
           <NameStrip p={p} players={players} onPlayer={onPlayer} />

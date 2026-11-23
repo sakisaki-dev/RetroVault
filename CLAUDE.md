@@ -39,7 +39,7 @@ The site loads only the bundled files in `public/data/`, which `npm run rebuild`
 hand-edit generated files, and never edit `data/y80/` directly: every change goes through an upload bundle.
 
 `npm run rebuild` runs, in order: `infer_stints.py` (career stints) → `build_league_data.py` (league CSV, extras,
-legends, sprites) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `schedule_content.py` → `league_records.py` → `career_seasons.py` (`public/data/league/career_seasons.json`: each
+legends, sprites) → `season_ovr.py` (SZN, `public/data/league/season_ovr.json`) → `market_snapshot.ts` (Career Legacy / OVR snapshot) → `schedule_content.py` → `league_records.py` → `career_seasons.py` (`public/data/league/career_seasons.json`: each
 player's card numbers and career totals at every season end, for the Deep Dive's career graphs) →
 `hall_of_fame.py` → `save_state.py` (`public/data/league/save_state.json`) → `build_league_content.py`
 (`public/data/league/content.json`) → `build_widget_data.py` (`public/data/widget.json`) → `build_app_icons.py --splash`
@@ -1058,6 +1058,21 @@ source names that file).
   drops any copy from a build without it, which then shows the classic art. After regenerating the sprites on the
   Mac, commit the folder with the update (`git add public/private-sprites`). The raw save (`data/saves/`) stays
   private and git-ignored.
+- **Two OVRs: SZN and CAR** (owner, 2026-11-23: "have that apply across the board on the real Retro Bowl as well until they
+  retire, when the whole career is evaluated"). **CAR** is the career OVR (`src/config/ovr.ts`, `data/y80/formula/OVR.md`:
+  League Score over the whole career, ranked within position over everyone, active and retired). **SZN** is a season OVR
+  (`scripts/season_ovr.py`, run by `npm run rebuild` after the league data and before the market snapshot): the same League
+  Score on ONE season's line (the change between two season-end snapshots; the live season from save_state.json), small
+  samples shrunk toward the position mean by games (17), ranked within position among players who played that season.
+  Written to `public/data/league/season_ovr.json` (current season, with the stat `lines`) and, for every recorded season,
+  as `sovr` in `career_seasons.json` (the Deep Dive graphs' "Season OVR" series; first recorded season has none). Active
+  players show SZN beside CAR (Deep Dive hero and player card: two badges; compact spots, search rows and tiles, show SZN
+  via `displayOvr`, both in the tooltip); a **retired player shows CAR only** (`retiredRating` in ovr.ts is the one switch),
+  and an active player with no season line (games did not rise) shows CAR. The Players table has SZN and CAR columns, each
+  sortable. The Deep Dive's Skill ratings have a This season / Career switch for actives (`DdSkillsSwitch.tsx`, season
+  stats from `season_ovr.json` `lines`; retirees Career only). The arcade ranks by CAR (`useGamePlayers(includeLegends,
+  'car')`, everyone incl. legends); `'szn'` is the this-season mode (actives only); Team Lab and the collection tiers use CAR.
+  `useGamePool()` returns `ovrMap` (displayed), `careerOvrMap`, `ovrBasis` and `seasonOvr`.
 - **Card market**: `scripts/market_snapshot.ts` appends a snapshot to `data/y80/market_history.json` (built into
   `public/data/market.json`) whenever any player's OVR, skill or Career Legacy changed. **Both files store changes
   only** (format 2, `src/utils/marketHistory.ts`): the first, the latest and every 10th snapshot are full keyframes
@@ -1068,7 +1083,11 @@ source names that file).
   `compactMarket()` refuses to write a form that doesn't expand back. Snapshot ids (story citations) are unchanged.
   The audit errors when either file isn't in that format, the latest isn't full, or market.json isn't the history
   minus `s`. The value formula lives in
-  `src/utils/cardMarket.ts`. A card's price is value × finish × variant × its kit × its Prizm parallel: an alternate
+  `src/utils/cardMarket.ts`. **The price reads a blend** (owner, 2026-11-23): an active player's base value uses `priceRating` =
+  round(0.8 × CAR + 0.2 × SZN) (`CAR_WEIGHT` / `SZN_WEIGHT` in `cardMarket.ts`); a retired player, or an active one with no season
+  line, CAR alone. A market point's stored `ovr` stays CAR (stories cite it) and carries a new `szn`; the first snapshot priced
+  this way is flagged `rebase` (a re-pricing, not a market move: the Wire's movers, the widget and the Rewind market card
+  skip that pair). Collectible tiers (`tierFor`) stay on CAR; owned cards stay frozen at their pull. A card's price is value × finish × variant × its kit × its Prizm parallel: an alternate
   `ALT_VALUE_BONUS` ×1.2, an era kit `ERA_VALUE_BONUS` ×1.4 (the kit it wears; the portfolio uses the best kit owned per
   variant); a parallel `PARALLEL_MULTIPLIER` Red ×1.3, Blue ×1.6, Green ×2, Gold ×3.5, Black ×8, serial 1 of a numbered
   run `SERIAL_ONE_BONUS` ×1.15 more (the portfolio uses the best parallel owned at that finish). Never

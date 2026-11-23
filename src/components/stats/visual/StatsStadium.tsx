@@ -3,7 +3,7 @@ import type { LeagueData, Player } from '@/types/player';
 import { leaguePlayers } from '@/config/advanced';
 import { playerKey } from '@/config/ovr';
 import { isHallOfFamer } from '@/config/stats';
-import { useOfficialOvr } from '@/utils/useOfficialOvr';
+import { useGamePool } from '@/utils/useOfficialOvr';
 import { useCurrentClub } from '@/utils/club';
 import { useLeagueContent, latestSeasonYear } from '@/utils/leagueContent';
 import { useGameSprites } from '@/utils/gameSprites';
@@ -36,7 +36,7 @@ const LINEUP = 9;
 
 const StatsStadium = ({ data, book, headline, onSelect }: { data: LeagueData; book: RecordBook; headline: RecordBoardData[]; onSelect: (p: Player) => void }) => {
   const players = useMemo(() => leaguePlayers(data), [data]);
-  const ovrMap = useOfficialOvr();
+  const ovrMap = useGamePool().careerOvrMap;
   const club = useCurrentClub() ?? 'Eagles';
   const { content } = useLeagueContent();
   const season = latestSeasonYear(content);
@@ -99,7 +99,7 @@ const StatsStadium = ({ data, book, headline, onSelect }: { data: LeagueData; bo
             </dd>
           </div>
           <div>
-            <dt>{ELITE_OVR}+ OVR</dt>
+            <dt title="Career OVR (CAR) of 90 or more">{ELITE_OVR}+ CAR</dt>
             <dd>{ovrMap.size ? <CountUp value={elite} /> : '–'}</dd>
           </div>
           <div>

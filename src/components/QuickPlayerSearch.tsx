@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { playerKey } from '@/config/ovr';
 import { isHallOfFamer } from '@/config/stats';
-import { useGamePool } from '@/utils/useOfficialOvr';
+import { ovrLabelOf, useGamePool } from '@/utils/useOfficialOvr';
 import { useGameSprites } from '@/utils/gameSprites';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { useSkillRatings } from '@/utils/useSkillRatings';
@@ -79,7 +79,7 @@ const ResultRow = ({ player, number, ovr, grade }: { player: Player; number: num
       {ovr != null && (
         <span className="qs-ovr flex min-w-[2.4rem] flex-col items-center rounded-md px-1.5 py-1">
           <span className="font-display text-lg font-extrabold leading-none tabular-nums">{ovr}</span>
-          <span className="font-pixel text-[6px] uppercase">OVR</span>
+          <span className="font-pixel text-[6px] uppercase">{ovrLabelOf(player)}</span>
         </span>
       )}
     </span>

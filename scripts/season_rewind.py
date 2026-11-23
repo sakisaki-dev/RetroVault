@@ -310,8 +310,8 @@ def build(B, tribute_plan: list[dict]) -> tuple[list[dict], list[dict]]:
                 if not gauntlet:
                     cards[-1].pop("gauntlet")
 
-        # 6. market
-        if cur and prev:
+        # 6. market (a season whose last snapshot is a re-pricing has no comparable market move)
+        if cur and prev and not any(sn.get("rebase") and str(sn.get("season", "")).lstrip("Y") == str(y) for sn in B.MARKET):
             moves = []
             for k in sorted(set(cur) & set(prev)):
                 va, vb = prev[k].get("value") or 0, cur[k].get("value") or 0
