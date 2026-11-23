@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useDeferredValue, useMemo, useState } from 'react';
 import { tablesTakeaway } from './takeaways';
 import SectionIntro from './SectionIntro';
 import { Search, Table2, UserPlus } from 'lucide-react';
@@ -31,7 +31,9 @@ const matchesSearch = (p: Player, q: string) =>
 
 /** Raw career tables, one position at a time, with search, team filter and Add Player. */
 const StatTables = ({ data }: { data: LeagueData }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [typed, setSearchQuery] = useState('');
+  // typing never waits for the tables: the filter reads the deferred query (utils/usePlayerSearch.ts, the same rule everywhere)
+  const searchQuery = useDeferredValue(typed);
   const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
   const [isAddingPlayer, setIsAddingPlayer] = useState(false);
   const tabs = TABS.filter((t) => data[t.key].length > 0);
@@ -101,7 +103,7 @@ const StatTables = ({ data }: { data: LeagueData }) => {
               type="search"
               aria-label="Search players by name or nickname"
               placeholder="Search players…"
-              value={searchQuery}
+              value={typed}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="border-border/30 bg-secondary/50 pl-10"
             />

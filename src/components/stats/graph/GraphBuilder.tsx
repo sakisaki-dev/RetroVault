@@ -1,4 +1,5 @@
 import { useEffect, useId, useMemo, useState, type ReactNode } from 'react';
+import { usePlayerSearch } from '@/utils/usePlayerSearch';
 import { ArrowUpDown, BarChart3, Check, ChevronDown, Clock, Link2, Pin, SlidersHorizontal, Sparkles, Star, Table2, X } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
 import { POSITIONS } from '@/config/advanced';
@@ -263,7 +264,7 @@ const GraphBuilder = ({
   const uid = useId();
   const [mark, setMark] = useState<Mark>('dots');
   const [asTable, setAsTable] = useState(false);
-  const [search, setSearch] = useState('');
+  const [search, setSearchRaw] = useState('');
   const [copied, setCopied] = useState(false);
   const [more, setMore] = useState(false);
   const model = useMemo(() => buildGraph(config, players, legends, deps), [config, players, legends, deps]);
@@ -301,6 +302,13 @@ const GraphBuilder = ({
     () => NFL_TEAMS.filter((t) => players.some((p) => findNFLTeam(p.team)?.id === t.id)).sort((a, b) => a.name.localeCompare(b.name)),
     [players],
   );
+  // the name boxes' suggestions: the shared fast path (utils/usePlayerSearch.ts), at most 40, never every dot on the chart
+  const chartPlayers = useMemo(() => model?.points.map((p) => p.player) ?? [], [model]);
+  const names = usePlayerSearch(chartPlayers);
+  const setSearch = (v: string) => {
+    setSearchRaw(v);
+    names.setQuery(v);
+  };
   const highlight = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (q.length < 2 || !model) return null;
@@ -484,7 +492,7 @@ const GraphBuilder = ({
                 </label>
                 <input id={`${uid}-mq`} type="search" value={search} list={`${uid}-mnames`} onChange={(e) => setSearch(e.target.value)} placeholder="Name…" className={cn(inputCls, 'h-11 text-base')} />
                 <datalist id={`${uid}-mnames`}>
-                  {model?.points.map((p) => <option key={p.key} value={p.player.name} />)}
+                  {names.rows.map((p) => <option key={`${p.position}:${p.name}`} value={p.name} />)}
                 </datalist>
                 {search.trim().length >= 2 && <p className="text-xs text-muted-foreground">{highlight ? 'Ringed and labelled in gold.' : 'Not on this chart.'}</p>}
               </div>
@@ -629,7 +637,7 @@ const GraphBuilder = ({
                 className={inputCls}
               />
               <datalist id={`${uid}-names`}>
-                {model?.points.map((p) => <option key={p.key} value={p.player.name} />)}
+                {names.rows.map((p) => <option key={`${p.position}:${p.name}`} value={p.name} />)}
               </datalist>
             </div>
           </div>

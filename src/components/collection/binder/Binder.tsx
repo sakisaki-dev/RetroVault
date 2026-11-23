@@ -1,4 +1,4 @@
-import { startTransition, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { startTransition, useCallback, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ArrowDownUp, ChevronLeft, ChevronRight, Coins, GalleryHorizontal, Search, SlidersHorizontal, X } from 'lucide-react';
 import type { Position } from '@/types/player';
 import { cn } from '@/lib/utils';
@@ -201,7 +201,8 @@ const Binder = ({
   };
 
   // Counts for the sheet: how many cards each choice would show with the other filters as they are
-  const pool = useMemo(() => cards.filter((c) => (!f.mine || !!owned[c.key]) && matchesQuery(c, f.q)), [cards, owned, f.mine, f.q]);
+  const dq = useDeferredValue(f.q); // typing never waits for the binder
+  const pool = useMemo(() => cards.filter((c) => (!f.mine || !!owned[c.key]) && matchesQuery(c, dq)), [cards, owned, f.mine, dq]);
   const tierCount = (t: Tier) => pool.filter((c) => c.tier === t).length;
   const posCount = (p: Position) => pool.filter((c) => c.player.position === p).length;
 

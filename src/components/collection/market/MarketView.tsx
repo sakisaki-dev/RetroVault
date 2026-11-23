@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useDeferredValue, useMemo, useState } from 'react';
 import { Gem, Search, TrendingDown, TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { OwnedAuto, OwnedCard } from '@/utils/collection';
@@ -55,7 +55,7 @@ const MarketView = ({ byKey, owned, autos, onOpen }: MarketViewProps) => {
   const index = useMemo(() => (history ? marketIndex(history) : []), [history]);
   const news = useMemo(() => (history ? marketNews(history, 8) : []), [history]);
 
-  const q = query.trim().toLowerCase();
+  const q = useDeferredValue(query).trim().toLowerCase(); // typing never waits for the list
   const filtered = useMemo(
     () => rows.filter((r) => (pos === 'all' || r.info.player.position === pos) && (!q || r.info.player.name.toLowerCase().includes(q))),
     [rows, pos, q],

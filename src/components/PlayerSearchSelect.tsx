@@ -9,7 +9,9 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { getTeamColors } from '@/utils/teamColors';
 import type { Player, Position } from '@/types/player';
 import TeamLogo from './brand/TeamLogo';
-import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
+import { usePlayerExtras } from '@/utils/playerExtras';
+import { usePlayerSearch } from '@/utils/usePlayerSearch';
+import { pushRecent } from '@/utils/playerSearch';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { ovrLabelOf, useOfficialOvr } from '@/utils/useOfficialOvr';
 import { POSITION_NAMES } from '@/utils/playerMeta';
@@ -123,19 +125,12 @@ const PlayerSearchSelect = ({
   const { numberFor } = useJerseyNumbers();
   const ovrMap = useOfficialOvr();
 
+  const search = usePlayerSearch(players, { pos, ovr: ovrMap });
+
   const selectedPlayer = value ? players.find((p) => playerKey(p) === value) ?? null : null;
 
-  // Position groups in football order; best players first inside each (by OVR, then name)
-  const groups = useMemo(() => {
-    const by = new Map<Position, Player[]>();
-    players.forEach((p) => by.set(p.position, [...(by.get(p.position) ?? []), p]));
-    const ovrOf = (p: Player) => ovrMap.get(playerKey(p)) ?? 0;
-    return POSITION_ORDER.filter((k) => by.has(k)).map((k) => ({
-      pos: k,
-      players: by.get(k)!.sort((a, b) => ovrOf(b) - ovrOf(a) || a.name.localeCompare(b.name)),
-    }));
-  }, [players, ovrMap]);
-  const shown = pos === 'ALL' ? groups : groups.filter((g) => g.pos === pos);
+  // The position chips: only positions present in the list
+  const groups = useMemo(() => POSITION_ORDER.filter((k) => players.some((p) => p.position === k)).map((k) => ({ pos: k })), [players]);
   const phone = usePhone();
   const suggestions = useMemo((): SheetGroup[] | undefined => {
     if (!phone || !showOvr) return undefined;
@@ -208,7 +203,10 @@ const PlayerSearchSelect = ({
       open={open}
       onOpenChange={(o) => {
         setOpen(o);
-        if (!o) setPos('ALL');
+        if (!o) {
+          setPos('ALL');
+          search.setQuery('');
+        }
       }}
     >
       <PopoverTrigger asChild>
@@ -222,8 +220,8 @@ const PlayerSearchSelect = ({
         sideOffset={6}
         collisionPadding={12}
       >
-        <Command className="bg-popover" filter={matchPlayer}>
-          <CommandInput placeholder="Name, nickname, position or team..." className="h-11" />
+        <Command className="bg-popover" shouldFilter={false}>
+          <CommandInput value={search.query} onValueChange={search.setQuery} placeholder="Name, nickname, position or team..." className="h-11" />
           {groups.length > 1 && (
             <div role="group" aria-label="Filter by position" className="flex gap-1 overflow-x-auto border-b border-line px-2 py-1.5 [scrollbar-width:none]">
               {(['ALL', ...groups.map((g) => g.pos)] as const).map((k) => (
@@ -243,49 +241,55 @@ const PlayerSearchSelect = ({
             </div>
           )}
           <CommandList className="h-80 max-h-[55vh] overscroll-contain">
-            <CommandEmpty>No player found.</CommandEmpty>
-            {shown.map((g) => (
-              <CommandGroup
-                key={g.pos}
-                heading={
-                  <span className="flex items-center gap-2">
-                    <span className="rounded bg-gold/15 px-1.5 py-0.5 font-pixel text-[9px] text-gold ring-1 ring-gold/40">{g.pos}</span>
-                    <span className="font-display text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{POSITION_NAMES[g.pos]}s</span>
-                  </span>
-                }
-                className="overflow-visible px-1.5 pb-1 pt-0 [&_[cmdk-group-heading]]:sticky [&_[cmdk-group-heading]]:top-0 [&_[cmdk-group-heading]]:z-10 [&_[cmdk-group-heading]]:-mx-1.5 [&_[cmdk-group-heading]]:bg-popover/95 [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:backdrop-blur"
-              >
-                {g.players.map((player) => {
-                  const key = playerKey(player);
-                  const isSelected = value === key;
-                  return (
-                    <CommandItem
-                      key={key}
-                      keywords={[player.name]}
-                      value={`${player.name} ${player.nickname ?? ''} ${extras.formerNames[normalizeName(player.name)] ?? ''} ${player.position} ${bannerTeamOf(player)} ${player.team || 'no team'} ${key}`}
-                      onSelect={() => {
-                        onValueChange(isSelected ? '' : key);
-                        setOpen(false);
-                      }}
-                      aria-label={`${player.name}${bannerTeamOf(player) ? `, ${bannerTeamOf(player)}` : ''}, number ${numberFor(player)}`}
-                      className={cn(
-                        'my-1 cursor-pointer overflow-hidden rounded-md px-2 py-1.5 text-foreground transition-[box-shadow,transform] motion-safe:data-[selected=true]:translate-x-0.5',
-                        'data-[selected=true]:bg-transparent data-[selected=true]:text-foreground',
-                        'shadow-[inset_3px_0_0_var(--pss-1),inset_0_0_0_1px_hsl(var(--line)/0.6)]',
-                        'data-[selected=true]:shadow-[inset_3px_0_0_var(--pss-1),inset_0_0_0_2px_hsl(var(--gold))]',
-                        isSelected && 'shadow-[inset_3px_0_0_var(--pss-1),inset_0_0_0_2px_hsl(var(--gold)/0.7)]',
-                      )}
-                      style={{
-                        ...bannerVars(bannerTeamOf(player)),
-                        background: 'linear-gradient(100deg, color-mix(in srgb, var(--pss-1) 28%, transparent), color-mix(in srgb, var(--pss-1) 6%, transparent) 55%, transparent 80%)',
-                      }}
-                    >
-                      <MiniBanner player={player} number={numberFor(player)} ovr={showOvr ? ovrMap.get(key) : undefined} />
-                    </CommandItem>
-                  );
-                })}
-              </CommandGroup>
-            ))}
+            {search.searching && !search.rows.length && <CommandEmpty>No player found.</CommandEmpty>}
+            {(search.searching
+              ? [{ id: 'results', label: 'Players', list: search.rows }]
+              : [
+                  { id: 'recent', label: 'Recently picked', list: search.recent },
+                  { id: 'top', label: 'Top rated', list: search.featured.filter((p) => !search.recent.includes(p)) },
+                ]
+            )
+              .filter((g) => g.list.length)
+              .map((g) => (
+                <CommandGroup
+                  key={g.id}
+                  heading={<span className="font-display text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{g.label}</span>}
+                  className="overflow-visible px-1.5 pb-1 pt-0 [&_[cmdk-group-heading]]:px-1.5 [&_[cmdk-group-heading]]:py-1.5"
+                >
+                  {g.list.map((player) => {
+                    const key = playerKey(player);
+                    const isSelected = value === key;
+                    return (
+                      <CommandItem
+                        key={key}
+                        value={key}
+                        onSelect={() => {
+                          pushRecent(key);
+                          onValueChange(isSelected ? '' : key);
+                          setOpen(false);
+                        }}
+                        aria-label={`${player.name}${bannerTeamOf(player) ? `, ${bannerTeamOf(player)}` : ''}, number ${numberFor(player)}`}
+                        className={cn(
+                          'my-1 cursor-pointer overflow-hidden rounded-md px-2 py-1.5 text-foreground transition-[box-shadow,transform] motion-safe:data-[selected=true]:translate-x-0.5',
+                          'data-[selected=true]:bg-transparent data-[selected=true]:text-foreground',
+                          'shadow-[inset_3px_0_0_var(--pss-1),inset_0_0_0_1px_hsl(var(--line)/0.6)]',
+                          'data-[selected=true]:shadow-[inset_3px_0_0_var(--pss-1),inset_0_0_0_2px_hsl(var(--gold))]',
+                          isSelected && 'shadow-[inset_3px_0_0_var(--pss-1),inset_0_0_0_2px_hsl(var(--gold)/0.7)]',
+                        )}
+                        style={{
+                          ...bannerVars(bannerTeamOf(player)),
+                          background: 'linear-gradient(100deg, color-mix(in srgb, var(--pss-1) 28%, transparent), color-mix(in srgb, var(--pss-1) 6%, transparent) 55%, transparent 80%)',
+                        }}
+                      >
+                        <MiniBanner player={player} number={numberFor(player)} ovr={showOvr ? ovrMap.get(key) : undefined} />
+                      </CommandItem>
+                    );
+                  })}
+                </CommandGroup>
+              ))}
+            <p className="px-3 pb-2 pt-1 text-center text-[11px] text-muted-foreground">
+              {search.searching ? (search.more ? 'Keep typing to narrow the list.' : '') : 'Type a name, nickname, position or club to find any player.'}
+            </p>
           </CommandList>
         </Command>
       </PopoverContent>

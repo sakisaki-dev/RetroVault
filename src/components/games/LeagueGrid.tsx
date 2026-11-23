@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { awardPack } from '@/utils/collection';
 import InLeague from '@/components/InLeague';
-import { matchPlayer } from '@/components/PlayerSearchSelect';
+import { usePlayerSearch } from '@/utils/usePlayerSearch';
 import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 import type { Player } from '@/types/player';
 import { isHallOfFamer } from '@/config/stats';
@@ -261,19 +261,13 @@ const ScoutSheet = ({
   onPick: (key: string) => void;
   onClose: () => void;
 }) => {
-  const [q, setQ] = useState('');
+  const search = usePlayerSearch(players, { limit: 7 }); // the one fast path (utils/usePlayerSearch.ts)
+  const q = search.query;
+  const setQ = search.setQuery;
   const [hi, setHi] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => inputRef.current?.focus({ preventScroll: true }), []);
-  const results = useMemo(() => {
-    if (!q.trim()) return [];
-    return players
-      .map((p) => ({ p, s: matchPlayer(`${p.name} ${p.nickname ?? ''} ${p.position} ${bannerTeamOf(p)} ${p.team ?? ''}`, q, [p.name]) }))
-      .filter((x) => x.s > 0)
-      .sort((a, b) => b.s - a.s || a.p.name.localeCompare(b.p.name))
-      .slice(0, 7)
-      .map((x) => x.p);
-  }, [players, q]);
+  const results = search.rows as GamePlayer[];
   useEffect(() => setHi(0), [q]);
   // Escape closes from anywhere in the sheet
   useEffect(() => {
