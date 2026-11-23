@@ -679,7 +679,7 @@ const CardBrowser = ({ open, list, owned, display, total, covered = false, focus
               <p className="cbw__name">{cur.player.name}</p>
               <p className="cbw__team">
                 {cur.player.position} · {cur.cardTeam}
-                {cur.ovr != null && <> · OVR {cur.ovr}</>}
+                {cur.ovr != null && <> · CAR {cur.ovr}</>}
               </p>
               <ul className="cbw__chips" aria-label="Card">
                 <li className={cn('cbw__chip col-gem', `col-gem--${cur.tier}`)}>

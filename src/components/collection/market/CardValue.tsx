@@ -71,7 +71,7 @@ const CardValue = ({ cardKey, name, finish, variant, ownedFinish, player, kit, p
   const points = series.map((p) => ({
     label: p.label,
     value: price(p.value, finish, variant),
-    detail: `OVR ${p.ovr} · Skill ${p.skill ?? '–'} · Legacy ${fmtCoins(p.legacy)}`,
+    detail: `CAR ${p.ovr} · Skill ${p.skill ?? '–'} · Legacy ${fmtCoins(p.legacy)}`,
   }));
   const ovr = series.map((p) => ({ label: p.label, value: p.ovr }));
   const skill = series.filter((p) => p.skill != null).map((p) => ({ label: p.label, value: p.skill as number }));
@@ -105,9 +105,9 @@ const CardValue = ({ cardKey, name, finish, variant, ownedFinish, player, kit, p
       <div className="mk-card__minis">
         <div>
           <p className="mk-card__mini-label">
-            OVR <span className="tabular-nums text-foreground">{ovr.length > 1 && ovr[0].value !== last.ovr ? `${ovr[0].value} → ${last.ovr}` : last.ovr}</span>
+            CAR <span className="tabular-nums text-foreground">{ovr.length > 1 && ovr[0].value !== last.ovr ? `${ovr[0].value} → ${last.ovr}` : last.ovr}</span>
           </p>
-          <PriceChart mini points={ovr} title={`OVR history of ${name}`} />
+          <PriceChart mini points={ovr} title={`CAR history of ${name}`} />
         </div>
         <div>
           <p className="mk-card__mini-label">

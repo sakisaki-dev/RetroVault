@@ -301,9 +301,9 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
                 </span>
               )}
               {hero === 'ovr' && (
-                <span key="ovr" className="wk__ovr" aria-label={`OVR ${info.ovr ?? 'unknown'}`}>
+                <span key="ovr" className="wk__ovr" aria-label={`CAR ${info.ovr ?? 'unknown'}`}>
                   <OvrCount to={info.ovr} ms={Math.min(1100, ovrBeat * 0.75)} />
-                  <span className="wk__ovr-label">OVR</span>
+                  <span className="wk__ovr-label">CAR</span>
                 </span>
               )}
             </div>

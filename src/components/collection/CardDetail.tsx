@@ -820,7 +820,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                   <DialogDescription className="mt-1.5">
                     {variantLabel(variant)} · {finishLabel(finish)}
                     {worn && worn.kind !== 'home' ? ` · ${kitName(worn.uniform)}` : ''}
-                    {prizm ? ` · ${prizmInfo(prizm.c).label} ${prizmSerial(prizm)}` : ''} · {POSITION_NAMES[info.player.position] ?? info.player.position} · {info.cardTeam} · OVR {info.ovr ?? '–'}
+                    {prizm ? ` · ${prizmInfo(prizm.c).label} ${prizmSerial(prizm)}` : ''} · {POSITION_NAMES[info.player.position] ?? info.player.position} · {info.cardTeam} · CAR {info.ovr ?? '–'}
                   </DialogDescription>
                   {/* The card as shown (its art, finish, kit and parallel) as a picture for the share sheet */}
                   <ShareImageButton

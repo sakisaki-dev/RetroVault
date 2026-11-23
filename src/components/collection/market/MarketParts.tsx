@@ -136,7 +136,7 @@ export const MoverRow = ({ row, rank, maxAbs, onOpen }: { row: MarketRow; rank: 
         <span className="mk-tile__who">
           <span className="mk-tile__name">{row.info.player.name}</span>
           <span className="mk-tile__meta">
-            {row.info.cardTeam} · OVR {row.info.ovr ?? '–'}
+            {row.info.cardTeam} · CAR {row.info.ovr ?? '–'}
           </span>
           {maxAbs != null && maxAbs > 0 && (
             <span className="mk-tile__bar" aria-hidden="true">
