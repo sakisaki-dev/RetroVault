@@ -24,7 +24,7 @@ import type { MarketHistory, MarketPoint, MarketSnapshot } from '@/utils/cardMar
 
 export const MARKET_FORMAT = 2;
 export const KEYFRAME_EVERY = 10;
-const FIELD_ORDER = ['ovr', 'skill', 'legacy', 'value', 'grade', 's'];
+const FIELD_ORDER = ['ovr', 'szn', 'skill', 'legacy', 'value', 'grade', 's'];
 
 type Point = Record<string, unknown>;
 export interface MarketDelta {

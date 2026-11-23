@@ -12,7 +12,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-FIELD_ORDER = ["ovr", "skill", "legacy", "value", "grade", "s"]
+FIELD_ORDER = ["ovr", "szn", "skill", "legacy", "value", "grade", "s"]
 
 
 def _ordered(p: dict) -> dict:
