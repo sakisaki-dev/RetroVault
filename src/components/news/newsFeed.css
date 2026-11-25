@@ -13,8 +13,11 @@
 @keyframes en-blink { 50% { opacity: 0.25; } }
 
 /* cards: lift on a pointer, press on touch */
-.en-card, .en-lead, .en-card:active, .en-lead:active, @media (hover: hover) {
-  .en-card:hover,   .en-lead:hover { translate: 0 -2px; }
+.en-card, .en-lead { transition: translate var(--hv-dur) var(--ease-out), scale var(--hv-dur) var(--ease-out), background-color var(--hv-dur) var(--ease-out); }
+.en-card:active, .en-lead:active { scale: var(--hv-press); }
+@media (hover: hover) {
+  .en-card:hover { translate: 0 var(--hv-lift); }
+  .en-lead:hover { translate: 0 -2px; }
   .en-card:hover::before { width: 56px; }
   .en-lead:hover .ss-lead__title { color: var(--ss-gold); }
 }

@@ -82,3 +82,6 @@
     border-radius: 6px;
   }
 }
+
+/* nothing inside the page may widen it (a sprite or watermark a few px past a card edge on a phone) */
+.stats-arena { overflow-x: clip; }
