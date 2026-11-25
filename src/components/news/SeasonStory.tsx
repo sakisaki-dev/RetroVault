@@ -349,9 +349,14 @@ const Front = ({ story, index, players, onPlayer, onRead, onOpen, champion }: Fr
   const groups = useMemo(() => {
     const listed = new Set(GROUPS.flatMap((g) => g.kinds));
     const all = [...GROUPS, { id: 'other', label: 'More', kinds: [] as StoryKind[] }];
-    return all
+    const filled = all
       .map((g) => ({ ...g, items: more.filter((a) => (g.id === 'other' ? !listed.has(a.kind) : g.kinds.includes(a.kind))) }))
       .filter((g) => g.items.length);
+    // a season has ~9 articles over 7 kinds: a section of one story reads thin, so lone stories share one More stories section
+    const lone = filled.filter((g) => g.items.length < 2 && g.id !== 'other').flatMap((g) => g.items);
+    const kept = filled.filter((g) => g.items.length >= 2 && g.id !== 'other');
+    const rest = [...lone, ...(filled.find((g) => g.id === 'other')?.items ?? [])];
+    return rest.length ? [...kept, { id: 'other', label: kept.length ? 'More stories' : 'Stories', kinds: [] as StoryKind[], items: rest }] : kept;
   }, [more]);
 
   return (
