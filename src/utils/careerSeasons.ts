@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { dataFetch } from '@/utils/dataStore';
 
 /**
  * Season-end career lines (public/data/league/career_seasons.json, built by scripts/career_seasons.py from the market
@@ -37,7 +38,7 @@ let loaded: CareerSeasonsFile | null | undefined;
 
 /** Fetches the file once per page load; null when it is missing (not built yet) or unreadable. */
 export const loadCareerSeasons = (): Promise<CareerSeasonsFile | null> => {
-  request ??= fetch(`${import.meta.env.BASE_URL}data/league/career_seasons.json`, { cache: 'no-cache' })
+  request ??= dataFetch(`${import.meta.env.BASE_URL}data/league/career_seasons.json`, { cache: 'no-cache' })
     .then((r) => (r.ok ? r.json() : null))
     .then(valid)
     .catch(() => null)

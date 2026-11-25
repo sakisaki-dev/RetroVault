@@ -3,6 +3,7 @@ import { useLeague } from '@/context/LeagueContext';
 import type { Position } from '@/types/player';
 import { normalizeLeague } from '@/config/stats';
 import { buildGamePool, displayOvr, officialOvrMap, type GamePlayer, type LegendPhoto, type OvrBasis, type SeasonOvrFile } from '@/config/ovr';
+import { dataFetch } from '@/utils/dataStore';
 
 // ---------- Loaders (one request per page load; 404 / bad JSON resolve to empty) ----------
 
@@ -41,7 +42,7 @@ let legendsRequest: Promise<GamePlayer[]> | null = null;
 let exclusionsRequest: Promise<Set<string>> | null = null;
 
 const fetchJson = (path: string): Promise<unknown> =>
-  fetch(`${import.meta.env.BASE_URL}${path}`, { cache: 'no-cache' })
+  dataFetch(`${import.meta.env.BASE_URL}${path}`, { cache: 'no-cache' })
     .then((res) => (res.ok ? res.json() : null))
     .catch(() => null);
 

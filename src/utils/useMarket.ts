@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { MarketHistory } from '@/utils/cardMarket';
 import { expandMarket } from '@/utils/marketHistory';
+import { dataFetch } from '@/utils/dataStore';
 
 let request: Promise<MarketHistory> | null = null;
 /** The loaded history, once it is in: later mounts render it on their first render (no "Loading" frame) */
@@ -11,7 +12,7 @@ let loaded: MarketHistory | null = null;
  * changes into full snapshots (utils/marketHistory.ts). Missing or bad → [].
  */
 export const loadMarket = (): Promise<MarketHistory> => {
-  request ??= fetch(`${import.meta.env.BASE_URL}data/market.json`, { cache: 'no-cache' })
+  request ??= dataFetch(`${import.meta.env.BASE_URL}data/market.json`, { cache: 'no-cache' })
     .then((res) => (res.ok ? res.json() : []))
     .then((raw: unknown) => expandMarket(raw))
     .then((d) =>

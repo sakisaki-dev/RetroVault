@@ -5,6 +5,7 @@ import type { Helmet } from './helmets';
 import type { PoseOut } from './poses';
 import type { TeamStyle } from '../teamStyle';
 import { seedOf } from '../shared';
+import { dataFetch } from '@/utils/dataStore';
 
 /*
  * Faces: looks (sprites.json → SpriteLook, the standard generic character, skin ramp), heads and hair.
@@ -173,7 +174,7 @@ const listeners = new Set<() => void>();
 const load = () => {
   if (table || loading || typeof fetch === 'undefined') return;
   loading = true;
-  fetch(`${import.meta.env.BASE_URL}data/sprites.json`, { cache: 'no-cache' })
+  dataFetch(`${import.meta.env.BASE_URL}data/sprites.json`, { cache: 'no-cache' })
     .then((r) => (r.ok ? r.json() : {}))
     .catch(() => ({}))
     .then((d: unknown) => {

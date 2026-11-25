@@ -75,8 +75,14 @@ export const useCardPool = () => {
   );
 
   const cards = useMemo<CardInfo[]>(() => {
-    const byName = (a: Player, b: Player) => a.position.localeCompare(b.position) || a.name.localeCompare(b.name);
-    const lg = league.filter((p) => !p.isRealLegend).sort((a, b) => franchiseOf(a).localeCompare(franchiseOf(b)) || byName(a, b));
+    // One collator and one franchise label per player: String.localeCompare builds a collator on every call, which
+    // is slow when the whole league is sorted on a phone
+    const coll = new Intl.Collator();
+    const fr = new Map<Player, string>();
+    const byName = (a: Player, b: Player) => coll.compare(a.position, b.position) || coll.compare(a.name, b.name);
+    const lg = league.filter((p) => !p.isRealLegend);
+    lg.forEach((p) => fr.set(p, franchiseOf(p)));
+    lg.sort((a, b) => coll.compare(fr.get(a)!, fr.get(b)!) || byName(a, b));
     return lg.map((p, i) => describe(p, i + 1));
   }, [league, describe]);
 

@@ -47,6 +47,7 @@
  * (years: "Y1–15", your_teams, key_players, your_result, your_team).
  */
 import { useEffect, useState } from 'react';
+import { dataFetch } from '@/utils/dataStore';
 
 export const CONTENT_URL = `${import.meta.env.BASE_URL}data/league/content.json`;
 export const CONTENT_STORAGE_KEY = 'retroVault:content';
@@ -910,7 +911,7 @@ let bundledPromise: Promise<LeagueContent | null> | null = null;
 const fetchBundled = (): Promise<LeagueContent | null> => {
   if (!bundledPromise) {
     // no-cache: always revalidate so a rebuilt content.json (e.g. new speeches) shows on the next load
-    bundledPromise = fetch(CONTENT_URL, { cache: 'no-cache' })
+    bundledPromise = dataFetch(CONTENT_URL, { cache: 'no-cache' })
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => (json ? normalizeLeagueContent(json) : null))
       .catch(() => null);
@@ -993,7 +994,7 @@ export const loadSeasonStory = (entry: Pick<SeasonStoryIndexEntry, 'season' | 'f
   const key = entry.file;
   let req = storyRequests.get(key);
   if (!req) {
-    req = fetch(`${import.meta.env.BASE_URL}data/league/${entry.file}`, { cache: 'no-cache' })
+    req = dataFetch(`${import.meta.env.BASE_URL}data/league/${entry.file}`, { cache: 'no-cache' })
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => {
         const s = normalizeSeasonStory(json);
@@ -1064,7 +1065,7 @@ let takesLoaded: HotTakesSeason[] | null | undefined;
 /** Fetches every season's Hot Takes once per page load (no-cache revalidates a rebuilt file). Never throws; null on failure. */
 export const loadHotTakes = (): Promise<HotTakesSeason[] | null> => {
   if (!takesRequest) {
-    takesRequest = fetch(`${import.meta.env.BASE_URL}data/league/takes.json`, { cache: 'no-cache' })
+    takesRequest = dataFetch(`${import.meta.env.BASE_URL}data/league/takes.json`, { cache: 'no-cache' })
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => (json ? normalizeHotTakes(json) : null))
       .catch(() => null)
@@ -1197,7 +1198,7 @@ const tributesLoaded = new Map<string, Tribute | null>();
 export const loadTribute = (entry: Pick<TributeIndexEntry, 'key' | 'file'>): Promise<Tribute | null> => {
   let req = tributeRequests.get(entry.file);
   if (!req) {
-    req = fetch(`${import.meta.env.BASE_URL}data/league/${entry.file}`, { cache: 'no-cache' })
+    req = dataFetch(`${import.meta.env.BASE_URL}data/league/${entry.file}`, { cache: 'no-cache' })
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => {
         const t = normalizeTribute(json);

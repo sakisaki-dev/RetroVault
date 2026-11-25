@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { SeasonRewindIndexEntry } from "./leagueContent";
+import { dataFetch } from '@/utils/dataStore';
 
 /**
  * Season Rewind (scripts/season_rewind.py): a tap-through recap of each completed season, every card a template
@@ -174,7 +175,7 @@ export const loadSeasonRewind = (
 ): Promise<SeasonRewind | null> => {
   let req = requests.get(entry.file);
   if (!req) {
-    req = fetch(`${import.meta.env.BASE_URL}data/league/${entry.file}`, {
+    req = dataFetch(`${import.meta.env.BASE_URL}data/league/${entry.file}`, {
       cache: "no-cache",
     })
       .then((res) => (res.ok ? res.json() : null))
