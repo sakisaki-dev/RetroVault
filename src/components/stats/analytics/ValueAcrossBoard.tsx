@@ -1,3 +1,4 @@
+import { cardTap } from '@/utils/cardTap';
 import { useMemo, useState } from 'react';
 import FitName from '../FitName';
 import { Scale } from 'lucide-react';
@@ -42,7 +43,7 @@ const ValueAcrossBoard = ({ players, onSelect }: { players: Player[]; onSelect: 
       <div className="grid gap-3 lg:grid-cols-[300px_minmax(0,1fr)] lg:items-start">
       <ol className="grid grid-cols-3 gap-2 lg:grid-cols-1" aria-label="Top three">
         {all.slice(0, 3).map((r) => (
-          <li key={keyOf(r.player)} className="cs-card cs-flat cs-card--fig cs-card--compact min-w-0 rounded-lg p-2" style={clubStyle(r.player)}>
+          <li key={keyOf(r.player)} className="ix-card cs-card cs-flat cs-card--fig cs-card--compact min-w-0 rounded-lg p-2" style={clubStyle(r.player)} onClick={cardTap}>
             <ClubWatermark player={r.player} size={110} />
             <StageFigure player={r.player} action={r.rank === 1 ? 'celebrate' : 'idle'} />
             <button

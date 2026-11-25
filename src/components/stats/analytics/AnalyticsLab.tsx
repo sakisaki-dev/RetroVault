@@ -1,3 +1,4 @@
+import { cardTap } from '@/utils/cardTap';
 import { useMemo, useState } from 'react';
 import { labTakeaway } from '../takeaways';
 import SectionIntro from '../SectionIntro';
@@ -46,7 +47,7 @@ const bestAcross = (players: Player[], ctx: AdvContext, id: string, caption: str
 };
 
 const InsightTile = ({ insight, onSelect }: { insight: Insight; onSelect: Select }) => (
-  <li className={`${GRID_ITEM} glass-card cs-card cs-flat cs-card--fig flex flex-col gap-1 p-3`} style={clubStyle(insight.player)}>
+  <li className={`${GRID_ITEM} glass-card ix-card cs-card cs-flat cs-card--fig flex flex-col gap-1 p-3`} style={clubStyle(insight.player)} onClick={cardTap}>
     <ClubWatermark player={insight.player} />
     <StageFigure player={insight.player} action="celebrate" />
     <MetricLabel metric={insight.metric} className="font-display text-xs font-bold uppercase tracking-wider cs-flat__sub" />

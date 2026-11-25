@@ -1,3 +1,4 @@
+import { cardTap } from '@/utils/cardTap';
 import { useMemo, type ReactNode } from 'react';
 import type { LeagueData, Player } from '@/types/player';
 import { POSITIONS, leaguePlayers } from '@/config/advanced';
@@ -61,6 +62,7 @@ const Card = ({
   summary,
   star,
   action = 'idle',
+  tap = false,
 }: {
   title: string;
   value: number | null;
@@ -72,8 +74,10 @@ const Card = ({
   /** The player this card is about stands in its corner, the card tinted in his club's colours */
   star?: Player | null;
   action?: SpriteAction;
+  /** the card holds one player button: a tap anywhere on the card presses it */
+  tap?: boolean;
 }) => (
-  <li className={cn('glass-card flex min-w-0 flex-col gap-1.5 p-3', star && 'cs-card cs-flat')} style={star ? clubStyle(star) : undefined}>
+  <li className={cn('glass-card flex min-w-0 flex-col gap-1.5 p-3', star && 'cs-card cs-flat', tap && 'ix-card')} style={star ? clubStyle(star) : undefined} onClick={tap ? cardTap : undefined}>
     {star && <ClubWatermark player={star} size={120} />}
     {star && <StageFigure player={star} action={action} className="!bottom-auto !top-2" />}
     <span className="font-display text-xs font-bold uppercase tracking-wider text-muted-foreground">{title}</span>
@@ -158,6 +162,7 @@ const StatsPulse = ({ data, book, onSelect }: { data: LeagueData; book: RecordBo
       {chase ? (
         <Card
           title="Closest record chase"
+          tap
           star={chase.player}
           action="stiffarm"
           value={Math.floor(chase.percentToRecord)}
