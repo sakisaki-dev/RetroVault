@@ -6,7 +6,7 @@ import { finishLabel, prizmInfo, prizmSerial, useCollection, variantLabel, type 
 import { autographPrice, cardPrice, fmtCoins } from '@/utils/cardMarket';
 import { autographValue, parallelOf, serialStr } from '@/config/autographs';
 import { SELL_RATE, sellCopies, sellPrice, type CopyRef } from '@/utils/economy';
-import { useMarket } from '@/utils/useMarket';
+import { useMarketLatest } from '@/utils/useMarket';
 import type { CardInfo } from '../useCardPool';
 import type { OwnedAuto } from '@/utils/collection';
 import './economy.css';
@@ -33,7 +33,7 @@ interface SellPanelProps {
  * finish, and above all a player's only card (he leaves the binder), asks first.
  */
 const SellPanel = ({ info, entry, variant, finish, kit, kitKind, kitLabel, prizm, auto, onSold }: SellPanelProps) => {
-  const history = useMarket();
+  const history = useMarketLatest();
   const { state } = useCollection();
   const [confirm, setConfirm] = useState(false);
   useEffect(() => setConfirm(false), [info.key, variant, finish, kit, prizm?.c, prizm?.n, auto?.id]);

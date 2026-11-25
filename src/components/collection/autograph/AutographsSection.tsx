@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Signature } from 'lucide-react';
 import { type OwnedAuto } from '@/utils/collection';
-import { useMarket } from '@/utils/useMarket';
+import { useMarketLatest } from '@/utils/useMarket';
 import { autographPrice, fmtCoins } from '@/utils/cardMarket';
 import { autographValue, fmtMult, parallelOf, serialStr } from '@/config/autographs';
 import AutographCanvas from './AutographCanvas';
@@ -16,7 +16,7 @@ const PAGE = 48;
  * and the pull date). Empty: what they are and the odds.
  */
 const AutographsSection = ({ autos, onOpen }: { autos: OwnedAuto[]; onOpen: (auto: OwnedAuto, from?: DOMRect) => void }) => {
-  const history = useMarket();
+  const history = useMarketLatest();
   const [limit, setLimit] = useState(PAGE);
   const [mode, setMode] = useState<'grid' | 'browse'>('grid');
   const list = useMemo(() => [...autos].sort((a, b) => b.pulledAt - a.pulledAt), [autos]);

@@ -568,6 +568,12 @@ if (existsSync('data/y80/schedules.json')) {
     if (JSON.stringify(lean) !== JSON.stringify(site)) errors.push('public/data/market.json does not match data/y80/market_history.json (npm run market)');
   }
 }
+if (existsSync('public/data/market.json')) {
+  // the small latest-prices file the Collection reads first: the last two snapshots of market.json, in full
+  const site = expandMarket(read('public/data/market.json'));
+  const small = existsSync('public/data/market-latest.json') ? read('public/data/market-latest.json') : null;
+  if (JSON.stringify(small) !== JSON.stringify(site.slice(-2))) errors.push('public/data/market-latest.json is not the last two snapshots of public/data/market.json (npm run market)');
+}
 if (!existsSync('public/data/widget.json')) errors.push('public/data/widget.json is missing (npm run rebuild writes it)');
 else {
   try {

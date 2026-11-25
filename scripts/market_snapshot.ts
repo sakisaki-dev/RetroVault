@@ -27,6 +27,7 @@ import { compactMarket, expandMarket, type StoredMarket } from '@/utils/marketHi
 
 const HISTORY = 'data/y80/market_history.json';
 const OUT = 'public/data/market.json';
+const OUT_LATEST = 'public/data/market-latest.json';
 const CSV = 'public/data/initial-data.csv';
 const LEGENDS = 'public/data/legends.json';
 const SEASON_OVR = 'public/data/league/season_ovr.json';
@@ -150,6 +151,13 @@ const localIso = (d: Date) => {
 };
 
 const main = () => {
+  // --latest-only: rewrite just the small latest-prices file from the committed market.json (no new snapshot)
+  if (process.argv.includes('--latest-only')) {
+    const all = expandMarket(JSON.parse(readFileSync(OUT, 'utf8')));
+    writeFileSync(OUT_LATEST, JSON.stringify(all.slice(-2)));
+    console.log(`Market latest: ${OUT_LATEST} (${Math.min(2, all.length)} snapshots)`);
+    return;
+  }
   const doBackfill = process.argv.includes('--backfill');
   let history: Snap[] = [];
   if (doBackfill) {
@@ -200,6 +208,9 @@ const main = () => {
     players: Object.fromEntries(Object.entries(h.players).map(([k, { s: _s, ...v }]) => [k, v])),
   }));
   writeFileSync(OUT, JSON.stringify(compactMarket(lean)));
+  // The small file the Collection's first screen reads (prices, tiers, the binder, the Exchange's day change): the last
+  // two snapshots in full, a plain array (expandMarket reads it as is). The full history above loads only where it is drawn.
+  writeFileSync(OUT_LATEST, JSON.stringify(lean.slice(-2)));
   console.log(
     `Market: ${history.length} snapshot${history.length === 1 ? '' : 's'}, ${Object.keys(players).length} cards` +
       (added ? ` (added "${label}")` : ' (no OVR / skill / legacy changes; nothing added)'),

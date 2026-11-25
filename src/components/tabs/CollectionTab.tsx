@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, type ReactNode, useEffect, useMemo, useState } from 'react';
 import { useNewSlot, useSlot, type Slot } from '@/utils/slot';
 import { toast } from 'sonner';
 import { Coins, Hammer, Info, LayoutGrid } from 'lucide-react';
@@ -14,6 +14,7 @@ import CardDetail, { type CardDetailTarget } from '@/components/collection/CardD
 import CardBrowser from '@/components/collection/CardBrowser';
 import { designRows, samplePack } from '@/components/collection/designSamples';
 import PackOpening, { PackArt } from '@/components/collection/PackOpening';
+import { useNearViewport } from '@/components/SpritePlaceholder';
 import MarketView from '@/components/collection/market/MarketView';
 import { byTierDesc, useCardPool, type CardInfo } from '@/components/collection/useCardPool';
 import { FACE_LEGEND } from '@/components/collection/cardStats';
@@ -72,6 +73,13 @@ import {
 import PixelLoader from '@/components/ui/PixelLoader';
 
 // The Card designs gallery and the Art lab are their own chunks, loaded the first time they open
+/** The market view draws the whole price history (market.json, ~3 MB): it mounts, and asks for the file, only once it is near the screen. */
+const MarketGate = ({ children }: { children: ReactNode }) => {
+  const [ref, near] = useNearViewport();
+  // off screen it is just an empty box of the loader's height (no loader running for a section nobody is looking at)
+  return <div ref={ref}>{near ? children : <div style={{ minHeight: 360 }} aria-hidden="true" />}</div>;
+};
+
 const CardDesigns = lazy(() => import('@/components/collection/CardDesigns'));
 const ArtLab = lazy(() => import('@/components/collection/art/ArtLab'));
 const DialogFallback = () => <PixelLoader variant="overlay" label="Loading" />;
@@ -656,7 +664,9 @@ const CollectionTab = () => {
           <h2 id="col-market" className="section-title">
             Market
           </h2>
-          <MarketView byKey={byKey} owned={owned} autos={state.autos} onOpen={(info, list) => setDetail({ info, list })} />
+          <MarketGate>
+            <MarketView byKey={byKey} owned={owned} autos={state.autos} onOpen={(info, list) => setDetail({ info, list })} />
+          </MarketGate>
         </section>
       )}
 

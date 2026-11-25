@@ -44,7 +44,7 @@ import { kitName } from './art/sprite/uniforms';
 import { displayWithKit, ownedKits } from './kits';
 import './kits.css';
 import { useCollection, type OwnedAuto } from '@/utils/collection';
-import { useMarket } from '@/utils/useMarket';
+import { useMarketLatest } from '@/utils/useMarket';
 import { bestAuto, isSampleAuto, useAutographFor } from './autograph/sample';
 import AutographDetails from './autograph/AutographDetails';
 import AutographCarousel from './autograph/AutographCarousel';
@@ -76,7 +76,7 @@ export interface CardDetailTarget {
  * inscription, value and pull, under the card like any card's details. A sample (none owned) shows nothing. */
 const AutographPanel = ({ info, finish, chosen }: { info: CardInfo; finish: Finish; chosen?: OwnedAuto }) => {
   const auto = useAutographFor({ player: info.player, number: info.number ?? 0 }, finish, chosen);
-  const history = useMarket();
+  const history = useMarketLatest();
   if (isSampleAuto(auto)) return null;
   const value = history ? (history[history.length - 1]?.players[info.key]?.value ?? null) : undefined;
   return (

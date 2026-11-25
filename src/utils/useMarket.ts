@@ -23,6 +23,41 @@ export const loadMarket = (): Promise<MarketHistory> => {
   return request;
 };
 
+let latestRequest: Promise<MarketHistory> | null = null;
+/** The last two snapshots, once they are in */
+let latestLoaded: MarketHistory | null = null;
+
+/**
+ * The small file (public/data/market-latest.json, built by scripts/market_snapshot.ts: the last two snapshots in full) that
+ * everything pricing a card reads: its latest value, the day's change, tiers. The full history (market.json, ~3 MB) is
+ * for the views that draw history. Falls back to the full file when the small one is missing (an older build).
+ */
+export const loadMarketLatest = (): Promise<MarketHistory> => {
+  if (loaded) return Promise.resolve(loaded.slice(-2));
+  latestRequest ??= dataFetch(`${import.meta.env.BASE_URL}data/market-latest.json`, { cache: 'no-cache' })
+    .then((res) => (res.ok ? res.json() : null))
+    .then((raw: unknown) => (Array.isArray(raw) && raw.length ? raw.filter((s) => s && typeof s.id === 'string' && s.players && typeof s.players === 'object') : loadMarket().then((h) => h.slice(-2))))
+    .catch(() => loadMarket().then((h) => h.slice(-2)))
+    .then((h) => (latestLoaded = h as MarketHistory));
+  return latestRequest;
+};
+
+/**
+ * The last two snapshots (oldest first, so `history[history.length - 1]` is the latest); null while loading. Same values
+ * as the end of `useMarket()`, without waiting for the whole history.
+ */
+export const useMarketLatest = (): MarketHistory | null => {
+  const [history, setHistory] = useState<MarketHistory | null>(() => (loaded ? loaded.slice(-2) : latestLoaded));
+  useEffect(() => {
+    let alive = true;
+    loadMarketLatest().then((h) => alive && setHistory(h));
+    return () => {
+      alive = false;
+    };
+  }, []);
+  return history;
+};
+
 /** Card market history, oldest snapshot first; null while loading. */
 export const useMarket = (): MarketHistory | null => {
   const [history, setHistory] = useState<MarketHistory | null>(loaded);

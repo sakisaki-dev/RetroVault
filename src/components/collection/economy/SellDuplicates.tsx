@@ -6,7 +6,7 @@ import { Switch } from '@/components/ui/switch';
 import type { CollectionState } from '@/utils/collection';
 import { fmtCoins } from '@/utils/cardMarket';
 import { SELL_RATE, sellCopies, sellPrice } from '@/utils/economy';
-import { useMarket } from '@/utils/useMarket';
+import { useMarketLatest } from '@/utils/useMarket';
 import type { CardInfo } from '../useCardPool';
 import { allCopies, duplicateCopies } from './copies';
 import './economy.css';
@@ -25,7 +25,7 @@ interface SellDuplicatesProps {
  * or Prizm colour in that variant × finish is kept too, and autographs (each unique) are never bulk-sold.
  */
 const SellDuplicates = ({ open, onClose, byKey, state }: SellDuplicatesProps) => {
-  const history = useMarket();
+  const history = useMarketLatest();
   const [keepUnique, setKeepUnique] = useState(true);
   const latest = history?.length ? history[history.length - 1] : undefined;
   const list = useMemo(

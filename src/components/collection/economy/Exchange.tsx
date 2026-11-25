@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { TIERS, type AutographFreezer, type CollectionState, type PackType, type Tier, type TierPool } from '@/utils/collection';
 import { fmtCoins } from '@/utils/cardMarket';
 import { checkMilestones, collectionSets, editionBounties, bountiesDone, setProgress } from '@/utils/economy';
-import { useMarket } from '@/utils/useMarket';
+import { useMarketLatest } from '@/utils/useMarket';
 import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 import type { LeagueContent } from '@/utils/leagueContent';
 import type { CardInfo } from '../useCardPool';
@@ -48,7 +48,7 @@ export const CoinBalance = ({ coins }: { coins: number }) => (
  */
 const Exchange = ({ cards, byKey, tierPool, state, content, freeze, onOpenPack, onOpenCard }: ExchangeProps) => {
   const [tab, setTab] = useState<Tab>('shop');
-  const history = useMarket();
+  const history = useMarketLatest();
   const extras = usePlayerExtras();
   const latest = history?.length ? history[history.length - 1] : undefined;
   const prev = history && history.length > 1 ? history[history.length - 2] : undefined;

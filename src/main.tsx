@@ -20,7 +20,7 @@ prewarmData([
   "data/league/season_ovr.json",
   "data/legends.json",
   "data/game-exclusions.json",
-  ...(collectionOpen ? ["data/market.json"] : []),
+  ...(collectionOpen ? ["data/market-latest.json"] : []),
   ...(hofOpen ? ["data/league/halloffame.json"] : []),
 ]);
 

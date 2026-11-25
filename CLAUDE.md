@@ -1094,6 +1094,11 @@ source names that file).
   variant); a parallel `PARALLEL_MULTIPLIER` Red ×1.3, Blue ×1.6, Green ×2, Gold ×3.5, Black ×8, serial 1 of a numbered
   run `SERIAL_ONE_BONUS` ×1.15 more (the portfolio uses the best parallel owned at that finish). Never
   hand-edit either file; rebuild and commit both.
+  **`public/data/market-latest.json`** (written by `market_snapshot.ts` beside market.json on every run, or alone with
+  `npm run -s market -- --latest-only`, which appends no snapshot) is the last two snapshots in full: everything that only
+  prices a card (card detail, sell, the Exchange, autographs, the `collectionOpen` prewarm in `main.tsx`) reads it through
+  `useMarketLatest` (falls back to the full file), and the Collection's Market view loads the ~3 MB history only once it is
+  near the screen (`MarketGate`). The audit errors when it differs from the last two snapshots of market.json.
 
 ## Quick search
 
