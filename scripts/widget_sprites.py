@@ -50,7 +50,7 @@ def site_rules(jobs: list[dict]) -> tuple[dict, list]:
     with tempfile.TemporaryDirectory() as tmp:
         out = Path(tmp) / "picks.cjs"
         subprocess.run([str(esbuild), str(ROOT / "scripts" / "widget_sprite_picks.ts"), "--bundle", "--platform=node",
-                        f"--alias:@={ROOT / 'src'}", '--define:import.meta.env.BASE_URL="/"', f"--outfile={out}",
+                        f"--alias:@={ROOT / 'src'}", '--define:import.meta.env.BASE_URL="/"', '--define:import.meta.env.DEV=false', f"--outfile={out}",
                         "--log-level=error"], check=True, cwd=ROOT)
         payload = json.dumps({"index": json.loads((NFL / "index.json").read_text()),
                               "looks": json.loads(LOOKS.read_text()) if LOOKS.exists() else {}, "jobs": jobs})

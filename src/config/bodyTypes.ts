@@ -81,6 +81,8 @@ const pick = <T,>(classes: [T, T, T], odds: [number, number, number], roll: numb
 };
 
 const cache = new Map<string, BodyRoll>();
+/** The per-position height/build rolls are switched off; OWNER_BODIES still apply. */
+const BODY_ROLLS_OFF = true;
 
 /**
  * Owner-set bodies (keyed "POS:Name"), which win over the roll. Ryland Maxwell (owner, 2026-11-13: "make maxwell a bit
@@ -101,13 +103,14 @@ export const bodyFor = (key: string, look?: BodyLook | null): BodyRoll => {
     cache.set(ck, out);
     return out;
   }
-  const pos = key.slice(0, key.indexOf(':'));
-  const odds = BODY_ODDS[pos] ?? DEFAULT_ODDS;
-  if (look?.height !== undefined || look?.build !== undefined) {
+  // No random body rolls any more (owner, 2026-11-25: players "sized differently … look strange"): everyone but an
+  // owner-set body is the game's own template, unchanged
+  if (BODY_ROLLS_OFF || look?.height !== undefined || look?.build !== undefined) {
     const out: BodyRoll = { height: 'normal', build: 'normal', rows: 0, cols: 0, locked: true };
     cache.set(ck, out);
     return out;
   }
+  const odds = BODY_ODDS[key.slice(0, key.indexOf(':'))] ?? DEFAULT_ODDS;
   const height = pick<HeightClass>(['short', 'normal', 'tall'], odds.height, fnv(`${key}|height`));
   const build = pick<BuildClass>(['lean', 'normal', 'broad'], odds.build, fnv(`${key}|build`));
   const rows = HEIGHT_ROWS[height][fnv(`${key}|stretch`) % 100 < 55 ? 0 : 1];

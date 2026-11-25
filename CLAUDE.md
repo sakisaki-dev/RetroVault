@@ -1019,13 +1019,11 @@ source names that file).
   the photo's star. **Poses carry meaning** (`action`; the save's poses: 1 standing, 2 ball at his side, 3 arm raised,
   4 ball tucked, 5 spinning the ball): idle (his role's pose: QB 2, RB/WR/TE 4, everyone else 1); celebrate 3 (a
   correct answer, a Hall of Fame induction, the champions' star); stiffarm 4 (a club record the league broke, Record
-  Book); run 4 (transitions); nothing cycles at random, reduced motion is static. **Body types** (owner: "a per
-  position randomizer with chances on how big they are … small chances that we have a tall RB"):
-  `src/config/bodyTypes.ts` rolls height (short/normal/tall) and build (lean/normal/broad) once per `POS:Name` from
-  per-position odds (OL/DL tall and broad, RB short and stocky, WR tall and lean, DB lean, ~5–8% outliers), at most
-  2 rows and 1 column a side (subtle on purpose); a sprites.json look that sets `height`/`build` (Sherman Brandson) is
-  never reshaped: he is drawn exactly as the game has him (owner: "sherm looks nothing like his avatar now … just
-  scale him a bit as before"), and his banner `statureScale` is his only size-up. `processSprite` in `gameKitPaint.ts` applies it pixel for pixel to every save
+  Book); run 4 (transitions); nothing cycles at random, reduced motion is static. **Body types**: switched off (owner, 2026-11-25: players "sized differently … look strange as f", in this site and the
+  NFL edition). `src/config/bodyTypes.ts` keeps the per-position odds but `BODY_ROLLS_OFF` makes every player the game's
+  own template; only `OWNER_BODIES` (Ryland Maxwell, owner: "make maxwell a bit bigger") still reshape. A sprites.json look
+  that sets `height`/`build` (Sherman Brandson) is drawn exactly as the game has him, and his banner `statureScale` is his
+  only size-up. `processSprite` in `gameKitPaint.ts` applies it pixel for pixel to every save
   source (club kits, painted neutrals, stand-ins): whole rows repeated or dropped in the thigh, chest and sock bands,
   one column a side mirrored about the centre line (head untouched, feet row and centre line fixed, so anchors hold),
   cached per file × club × body. **Where:** every `ProPlayerBanner` by default (its `figure`; hero and card sizes stand him in the centre on a club-colour pedestal with the giant number behind, name panel left, the hero's career numbers right (`stats`, `bannerStats()`), switched on by CSS `:has(.game-sprite)` so the public build keeps the classic banner; null for real NFL legends
