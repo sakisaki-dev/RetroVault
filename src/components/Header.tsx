@@ -4,7 +4,7 @@ import ScreensaverButton from './screensaver/ScreensaverButton';
 import { NowPlayingPill } from './nowplaying/NowPlaying';
 import { setPerfSetting, suggestLite, usePerfMode, type PerfSetting } from '@/hooks/usePerfMode';
 import { cn } from '@/lib/utils';
-import { openQuickSearch } from '@/components/QuickPlayerSearch';
+import { openQuickSearch } from '@/utils/quickSearchEvent';
 import { useLeague } from '@/context/LeagueContext';
 import { loadGameSprites } from '@/utils/gameSprites';
 import { findNFLTeam } from '@/utils/nflTeams';
