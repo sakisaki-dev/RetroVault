@@ -46,7 +46,7 @@ const Segmented = <T extends string>({
   value: T;
   options: { key: T; label: string }[];
   onChange: (v: T) => void;
-}) => <Choice<T> label={label} prefix={label} value={value} options={options.map((o) => ({ value: o.key, label: o.label, text: o.label }))} onChange={onChange} />;
+}) => <Choice<T> label={label} prefix={label === 'Sort' ? undefined : label} value={value} options={options.map((o) => ({ value: o.key, label: o.label, text: o.label }))} onChange={onChange} />;
 
 const CONF_OPTIONS: { key: ConferenceFilter; label: string }[] = [
   { key: 'all', label: 'All' },
@@ -202,7 +202,7 @@ const TeamRankingsTab = () => {
             <span className="font-pixel text-[9px] text-muted-foreground">{visible.length}</span>
           </h2>
         </div>
-        <div className="glass-card flex flex-wrap items-center gap-2 p-3 lg:gap-x-4">
+        <div className="glass-card flex flex-wrap items-center gap-1.5 p-3 lg:gap-x-4">
           <Segmented<TeamSortKey> label="Sort" value={sortKey} options={TEAM_SORTS} onChange={setSortKey} />
           <Segmented<ConferenceFilter> label="Conf" value={conference} options={CONF_OPTIONS} onChange={setConference} />
           <Segmented<DivisionFilter> label="Div" value={division} options={DIV_OPTIONS} onChange={setDivision} />
