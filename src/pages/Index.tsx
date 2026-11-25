@@ -7,7 +7,7 @@ import BottomNav from '@/components/BottomNav';
 import PullToSearch from '@/components/PullToSearch';
 import AddToHomeScreen from '@/components/homescreen/AddToHomeScreen';
 import TabFallback from '@/components/TabFallback';
-import LazyHost from '@/components/LazyHost';
+import LazyHost, { whenSettled } from '@/components/LazyHost';
 import { QUICK_SEARCH_EVENT } from '@/utils/quickSearchEvent';
 import { PLAY_CEREMONY_EVENT } from '@/utils/hallOfFameWatch';
 import TributeHost from '@/components/tribute/TributeHost';
@@ -84,7 +84,7 @@ const IndexContent = () => {
   useEffect(() => {
     // the collection module (cards, packs, autographs) is not in the entry bundle: asked for once the page is up
     let dead = false;
-    import('@/utils/collection').then(({ GIFTS, giftSummary, redeemAutoGifts }) => {
+    const cancel = whenSettled(() => import('@/utils/collection').then(({ GIFTS, giftSummary, redeemAutoGifts }) => {
       if (dead) return;
       redeemAutoGifts().forEach((id) =>
         toast.success(`New packs added: ${giftSummary(id)}`, {
@@ -93,9 +93,10 @@ const IndexContent = () => {
           action: { label: 'Open', onClick: () => navigate({ tab: 'collection' }) },
         }),
       );
-    });
+    }));
     return () => {
       dead = true;
+      cancel();
     };
     // Once per load; navigate is stable
     // eslint-disable-next-line react-hooks/exhaustive-deps
