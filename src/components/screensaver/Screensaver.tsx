@@ -41,6 +41,12 @@ import '@/components/rewind/rewind.css';
 import { trackTimes, useNowPlaying, useSpotifyConnected, type NowPlaying } from '@/utils/spotify';
 import { PixelCup } from '@/components/frontoffice/PixelCup';
 import { busState, departures, hm, useBusSetting, useRoute } from '@/utils/bus';
+import { useCareerSeasons } from '@/utils/careerSeasons';
+import { usePlayerExtras } from '@/utils/playerExtras';
+import { rivalryFilesOf } from '@/utils/rivalryFiles';
+import CareerArcScene, { arcFor, type CareerArcData } from './scenes/CareerArcScene';
+import RivalryNightScene, { type RivalryNightData } from './scenes/RivalryNightScene';
+import RingSweepScene, { type RingClub } from './scenes/RingSweepScene';
 import './screensaver.css';
 
 /*
@@ -68,7 +74,9 @@ type Scene =
   | { kind: 'dyk'; text: string; p: Player | null; club: string; roll: number }
   | { kind: 'chase'; p: Player; c: WidgetChase; roll: number }
   | { kind: 'gauntlet'; title: string; kick: string; entries: { p: Player; has: boolean[] }[] }
-  | { kind: 'rivalry'; file: RivalryFileLite; a: Player | null; b: Player | null }
+  | { kind: 'rivalry'; data: RivalryNightData }
+  | { kind: 'careerarc'; data: CareerArcData }
+  | { kind: 'ringsweep'; all: RingClub[]; picks: string[] }
   | { kind: 'hofclass'; label: string; members: Player[] }
   | { kind: 'take'; take: WidgetTake; players: Player[] }
   | { kind: 'dynasty'; era: EraLite; players: Player[] }
@@ -106,17 +114,6 @@ interface WidgetFeed {
   chases?: WidgetChase[];
   gauntlet?: { holders?: { player: string }[]; closest?: { player: string; missing: string[] } };
   takes?: WidgetTake[];
-}
-interface RivalryFileLite {
-  team: string;
-  coachTeam: string;
-  status: string;
-  first: string;
-  last: string;
-  games: number;
-  record: { text: string };
-  streak?: { team: string; games: number };
-  stars?: { coach?: { key: string }; rival?: { key: string } };
 }
 interface EraLite { name: string; startYear: number; endYear: number; superBowlRange?: string; yourTeams: string[]; keyPlayers: string[]; notes?: string }
 
@@ -657,7 +654,7 @@ const lookFor = (club: string, roll: number, live: ReturnType<typeof useLiveSeas
 };
 
 /** A club's name as a small chip: its logo, its name, edged in its own colours (readable on any background) */
-const ClubTag = ({ team, label }: { team: string; label?: string }) => {
+export const ClubTag = ({ team, label }: { team: string; label?: string }) => {
   const t = findNFLTeam(team);
   const style = (t ? { '--c1': `hsl(${t.primaryColor})`, '--c2': `hsl(${t.secondaryColor})` } : {}) as CSSProperties;
   return (
@@ -669,7 +666,7 @@ const ClubTag = ({ team, label }: { team: string; label?: string }) => {
 };
 
 /** The stadium behind a scene: the game's stands, crowd and turf painted to the club, its logo at midfield, its pennants */
-const Stadium = ({ club, roll, children, className }: { club: string; roll: number; children?: ReactNode; className?: string }) => {
+export const Stadium = ({ club, roll, children, className }: { club: string; roll: number; children?: ReactNode; className?: string }) => {
   const live = useLiveSeason();
   const look = lookFor(club, roll, live);
   const art = useFieldArt(club, look === 'day' || look === 'dusk' ? 'day' : look === 'snow' ? 'snow' : 'night');
@@ -703,11 +700,11 @@ const Stadium = ({ club, roll, children, className }: { club: string; roll: numb
   );
 };
 
-const Figure = ({ player, sprites, action = 'idle', scale = 1, mirror = false }: { player: Player; sprites: boolean; action?: SpriteAction; scale?: number; mirror?: boolean }) => (
+export const Figure = ({ player, sprites, action = 'idle', scale = 1, mirror = false, team }: { player: Player; sprites: boolean; action?: SpriteAction; scale?: number; mirror?: boolean; team?: string }) => (
   <span className={mirror ? 'sv-fig sv-fig--mirror' : 'sv-fig'} style={{ '--sv-scale': scale } as CSSProperties}>
     <span className="sv-fig__shadow" />
     {sprites ? (
-      <GameSprite player={player} kind="figure" size="l" action={action} className="sv-fig__sprite" />
+      <GameSprite player={player} team={team} kind="figure" size="l" action={action} className="sv-fig__sprite" />
     ) : (
       <span className="sv-fig__logo">
         <TeamLogo team={bannerTeamOf(player)} size={120} decorative />
@@ -1207,33 +1204,6 @@ const GauntletScene = ({ title, kick, entries, sprites }: { title: string; kick:
     </div>
   </div>
 );
-
-const RivalryScene = ({ file, a, b, sprites }: { file: RivalryFileLite; a: Player | null; b: Player | null; sprites: boolean }) => {
-  const ta = findNFLTeam(file.coachTeam);
-  const tb = findNFLTeam(file.team);
-  return (
-    <div className="sv-duel sv-rival" style={{ '--a': ta ? `hsl(${ta.primaryColor})` : undefined, '--b': tb ? `hsl(${tb.primaryColor})` : undefined } as CSSProperties}>
-      <div className="sv-duel__side">
-        {ta && <TeamLogo team={ta.name} size={180} decorative />}
-        {a && <Figure player={a} sprites={sprites} scale={1.2} />}
-        <h3 className="sv-duel__name">{ta?.name}</h3>
-      </div>
-      <div className="sv-duel__mid">
-        <p className="sv-kick">Rivalry file · {file.first}–{file.last}</p>
-        <span className="sv-duel__vs">{file.record.text}</span>
-        <p className="sv-sub">
-          {file.games} meetings
-          {file.streak ? ` · longest streak ${file.streak.games}, ${file.streak.team}` : ''}
-        </p>
-      </div>
-      <div className="sv-duel__side sv-duel__side--r">
-        {tb && <TeamLogo team={tb.name} size={180} decorative />}
-        {b && <Figure player={b} sprites={sprites} scale={1.2} mirror />}
-        <h3 className="sv-duel__name">{tb?.name}</h3>
-      </div>
-    </div>
-  );
-};
 
 const HofClassScene = ({ label, members, sprites }: { label: string; members: Player[]; sprites: boolean }) => (
   <div className="sv-hall sv-hofclass">
@@ -1838,6 +1808,9 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
   const { content, loading: contentLoading } = useLeagueContent();
   const records = useClubRecords();
   const feed = useWidgetFeed();
+  const careerFile = useCareerSeasons();
+  const extras = usePlayerExtras();
+  const extrasIn = Object.keys(extras.stints).length > 0;
   const marketHist = useMarket();
   const live = useLiveSeason();
   const spotifyOn = useSpotifyConnected();
@@ -1858,7 +1831,7 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
     const t = window.setTimeout(() => setWaited(true), 4_000);
     return () => window.clearTimeout(t);
   }, []);
-  const ready = players.length > 0 && ((feed !== undefined && !contentLoading && hof !== undefined && !!records && poolLoaded && !!marketHist && live !== undefined) || waited);
+  const ready = players.length > 0 && ((feed !== undefined && !contentLoading && hof !== undefined && !!records && poolLoaded && !!marketHist && live !== undefined && careerFile !== undefined && extrasIn) || waited);
   const scenes = useMemo<Scene[]>(() => {
     if (!ready) return [];
     const spot = shuffle(players.slice(0, 80)).map((p): Scene => ({ kind: 'spotlight', player: p, roll: Math.random() }));
@@ -1976,9 +1949,42 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
         out.push({ kind: 'gauntlet', title: 'One short', kick: 'The Gauntlet · four of the five', entries: short.slice(k, k + 5) });
       return shuffle(out);
     })();
-    const rivals = shuffle(((content?.rivalryFiles ?? []) as unknown as RivalryFileLite[]).filter((f) => f.status === 'lasting')).map(
-      (file): Scene => ({ kind: 'rivalry', file, a: P(file.stars?.coach?.key) ?? null, b: P(file.stars?.rival?.key) ?? null }),
+    // rivalry night: lasting rivalry files first, then the lapsed ones
+    const rivalFiles = rivalryFilesOf(content);
+    const rivals = [...shuffle(rivalFiles.filter((f) => f.status === 'lasting')), ...shuffle(rivalFiles.filter((f) => f.status !== 'lasting'))].map(
+      (file): Scene => ({ kind: 'rivalry', data: { file, a: P(file.stars?.coach?.key) ?? null, b: P(file.stars?.rival?.key) ?? null } }),
     );
+    // career arc: legends with at least 4 season ratings, a new dozen each run
+    const arcs = careerFile
+      ? shuffle(
+          players
+            .slice(0, 160)
+            .map((p) => ({ p, pts: arcFor(careerFile, p, extras, content?.superBowls ?? []) }))
+            .filter((x): x is { p: Player; pts: NonNullable<typeof x.pts> } => !!x.pts)
+            .slice(0, 40),
+        )
+          .slice(0, 12)
+          .map((x): Scene => ({ kind: 'careerarc', data: { player: x.p, points: x.pts, roll: Math.random() } }))
+      : [];
+    // ring of honor sweep: every club's ring (best Career Legacy honoured player with a card), panned four clubs a scene
+    const ringAll: RingClub[] = Object.entries(hof?.ringOfHonor ?? {})
+      .flatMap(([name, ring]): RingClub[] => {
+        const t = findNFLTeam(name);
+        const star = [...ring].sort((a, b) => b.careerLegacy - a.careerLegacy).map((e) => ({ e, p: P(`${e.pos}:${e.name}`) ?? byName.get(e.name) })).find((x) => x.p);
+        if (!t || !star?.p) return [];
+        const won = (content?.superBowls ?? []).filter((b) => b.winner && findNFLTeam(b.winner)?.name === t.name);
+        return [{ name: t.name, titles: won.length, lastTitle: won.length ? Math.max(...won.map((b) => b.year)) : null, hof: ring.filter((e) => e.hof).length, honoured: ring.length, star: star.p, starWhy: star.e.hof ? 'Hall of Famer' : 'Ring of Honor' }];
+      })
+      .sort((a, b) => b.titles - a.titles || b.honoured - a.honoured || a.name.localeCompare(b.name));
+    const ringSweeps: Scene[] = (() => {
+      const names = shuffle(ringAll.map((c) => c.name));
+      const out: Scene[] = [];
+      for (let k = 0; k < 3 && names.length >= 3; k++) {
+        const picks = names.slice(k * 4, k * 4 + 4).sort((a, b) => ringAll.findIndex((c) => c.name === a) - ringAll.findIndex((c) => c.name === b));
+        if (picks.length >= 3) out.push({ kind: 'ringsweep', all: ringAll, picks });
+      }
+      return out;
+    })();
     const classes = shuffle(((content?.hofClasses ?? []) as unknown as { label: string; keys?: string[] }[]))
       .map((c) => ({ label: c.label, members: (c.keys ?? []).map((k) => P(k)).filter((x): x is Player => !!x) }))
       .filter((c) => c.members.length >= 2)
@@ -2005,8 +2011,12 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
     const stunts = shuffle([...stints.keys()]).map((club): Scene => ({ kind: 'stunt', club }));
     // the PA comes round a few times a run while Spotify is connected (skipped when nothing is playing)
     const pas: Scene[] = spotifyOn ? [{ kind: 'pa' }, { kind: 'pa' }, { kind: 'pa' }] : [];
-    const decks = [spot, pas, flyovers, cardScenes, duels, rewinds, dyks, lineups, trophies, champs, coachDeck, stunts, hofScenes, takeScenes, recs, rising, papers, chases, rivals, market, classes, dynasties, gauntlet, farewell, rafters].filter((d) => d.length);
+    const decks = [spot, pas, flyovers, cardScenes, duels, rewinds, dyks, lineups, trophies, champs, coachDeck, stunts, hofScenes, takeScenes, recs, rising, papers, chases, rivals, arcs, ringSweeps, market, classes, dynasties, gauntlet, farewell, rafters].filter((d) => d.length);
     const out: Scene[] = [];
+    // dev only: ?saverScene=careerarc|rivalry|ringsweep plays just that scene kind (several runs of it)
+    const only = import.meta.env.DEV ? new URLSearchParams(window.location.search).get('saverScene') : null;
+    const mine = only ? decks.flat().filter((x) => x.kind === only) : [];
+    if (mine.length) return Array.from({ length: 12 }, (_, i) => mine[i % mine.length]);
     for (let i = 0; out.length < 60 && decks.some((d) => i < d.length); i++) decks.forEach((d) => d[i] && out.push(d[i]));
     return out;
     // the playlist is dealt once a run; later collection or rafters changes wait for the next run
@@ -2181,7 +2191,11 @@ const Screensaver = ({ onClose }: { onClose: () => void }) => {
       case 'gauntlet':
         return <GauntletScene title={s.title} kick={s.kick} entries={s.entries} sprites={sprites} />;
       case 'rivalry':
-        return <RivalryScene file={s.file} a={s.a} b={s.b} sprites={sprites} />;
+        return <RivalryNightScene data={s.data} sprites={sprites} />;
+      case 'careerarc':
+        return <CareerArcScene data={s.data} ovr={ovrMap.get(playerKey(s.data.player)) ?? null} sprites={sprites} />;
+      case 'ringsweep':
+        return <RingSweepScene all={s.all} picks={s.picks} sprites={sprites} />;
       case 'hofclass':
         return <HofClassScene label={s.label} members={s.members} sprites={sprites} />;
       case 'take':
