@@ -99,7 +99,7 @@ const FrontOfficeTab = () => {
   const franchiseCount = rows.length ? new Set(stints.map((s) => s.team)).size : resume.franchises.length;
 
   return (
-    <div className="rv-load-in container mx-auto space-y-8 px-4 py-6 sm:space-y-10 sm:py-8">
+    <div data-mo-stack className="rv-load-in container mx-auto space-y-8 px-4 py-6 sm:space-y-10 sm:py-8">
       <CoachHeader resume={resume} franchiseCount={franchiseCount} stintCount={stints.length} coach={coach} facts={facts} />
       <ClubOffice players={players} onPlayerSelect={setSelected} coachName={coach?.name} />
       <TrophyCabinet shelves={shelves} seasonByYear={rows.length ? seasonByYear : undefined} />

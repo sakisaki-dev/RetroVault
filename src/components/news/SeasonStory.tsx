@@ -594,7 +594,7 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
   if (!story) {
     // the season's file is loading (or failed): the masthead from the index, then a placeholder
     return (
-      <section id="season-story" className="ss en scroll-mt-24" aria-labelledby="ss-title" aria-busy={loading || undefined}>
+      <section id="season-story" className="ss en scroll-mt-24" data-no-mo="" aria-labelledby="ss-title" aria-busy={loading || undefined}>
         <header className="ss-mast">
           <div className="ss-mast__text">
             <p className="ss-mast__kicker">
@@ -624,7 +624,7 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
   const champion = leadArticle && leadHero?.mode === 'vs' ? superBowls.find((sb) => `Y${sb.year}` === story.season)?.winner ?? null : null;
 
   return (
-    <section id="season-story" className="ss en scroll-mt-24" aria-labelledby="ss-title">
+    <section id="season-story" className="ss en scroll-mt-24" data-no-mo="" aria-labelledby="ss-title">
       <header className="ss-mast">
         <div className="ss-mast__text">
           <p className="ss-mast__kicker">

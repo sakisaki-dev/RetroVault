@@ -463,8 +463,11 @@ const CollectionTab = () => {
   // Binder skin unlocked by a portfolio milestone (utils/economy.ts), when switched on
   const binderSkin = activeCosmetic(state, 'binder');
 
+  // the league file is still on its way: the football holds the page's height instead of a 0 / 0 binder that fills in later
+  if (!loaded) return <PixelLoader label="Collection" what="the collection" minHeight="70vh" className="container justify-start pt-[18vh]" />;
+
   return (
-    <div className="container space-y-6 px-4 py-5 sm:px-6 sm:py-8">
+    <div className="rv-load-in container space-y-6 px-4 py-5 sm:px-6 sm:py-8">
       {/* Hero */}
       <section aria-labelledby="col-title" className="col-hero p-4 sm:p-6" style={{ ['--ed' as string]: accent.hsl }}>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
