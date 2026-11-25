@@ -670,6 +670,11 @@ const LandscapeScatter = ({
       const dy = t.clientY - g.my;
       if (g.mode === 'maybe-pan') {
         if (Math.hypot(dx, dy) < 8) return;
+        // A mostly vertical drag is the page scrolling (touch-action pan-y); sideways drags pan the zoomed chart
+        if (Math.abs(dy) > Math.abs(dx)) {
+          g = null;
+          return;
+        }
         g.mode = 'pan';
       }
       if (g.mode !== 'pan') return;
@@ -721,13 +726,13 @@ const LandscapeScatter = ({
 
   const q = spec.quadrants;
   const yTitle = `${spec.yLabel}${spec.logY ? ' (log)' : ''} ${spec.yInvert ? '(lower is better) ' : ''}→`;
-  const qStyle = { fill: GOLD, fillOpacity: 0.8, fontSize: narrow ? 10 : 12, fontWeight: 800, letterSpacing: 1 } as const;
+  const qStyle = { fill: GOLD, fillOpacity: 0.8, fontSize: narrow ? 11 : 12, fontWeight: 800, letterSpacing: 1 } as const;
   const fmtTick = (t: number) => fmtShort(t);
 
   return (
     <div ref={boxRef} className="relative w-full" onMouseLeave={() => setHover(null)}>
       {geo && (
-        <div ref={gestureRef} className="relative" style={touch ? { touchAction: zoomed ? 'none' : 'pan-x pan-y' } : undefined}>
+        <div ref={gestureRef} className="relative" style={touch ? { touchAction: 'pan-y' } : undefined}>
           <svg ref={svgRef} width={width} height={height} role="group" aria-label={ariaLabel} className="rv-chart-in block select-none">
             {touch && (
               <defs>
@@ -780,12 +785,12 @@ const LandscapeScatter = ({
                   <line x1={plot[0]} x2={plot[2]} y1={geo.Y(geo.sy)} y2={geo.Y(geo.sy)} stroke={spec.ySplit ? GOLD : VIZ.muted} strokeOpacity={spec.ySplit ? 0.8 : 0.6} strokeDasharray="5 4" />
                   </g>
                   {spec.ySplit && (
-                    <text x={plot[2] - 4} y={geo.Y(geo.sy) - 5} textAnchor="end" fontSize={10} fontWeight={700} fill={GOLD}>
+                    <text x={plot[2] - 4} y={geo.Y(geo.sy) - 5} textAnchor="end" fontSize={11} fontWeight={700} fill={GOLD}>
                       {spec.ySplit.label}
                     </text>
                   )}
                   {spec.xSplit && (
-                    <text x={geo.X(geo.sx) + 4} y={plot[3] - 6} fontSize={10} fontWeight={700} fill={GOLD}>
+                    <text x={geo.X(geo.sx) + 4} y={plot[3] - 6} fontSize={11} fontWeight={700} fill={GOLD}>
                       {spec.xSplit.label}
                     </text>
                   )}
@@ -794,7 +799,7 @@ const LandscapeScatter = ({
               {spec.diagonal && (
                 <g clipPath={clip}>
                   <line x1={geo.X(geo.ax.domain[0])} y1={geo.Y(geo.ax.domain[0])} x2={geo.X(geo.ax.domain[1])} y2={geo.Y(geo.ax.domain[1])} stroke={VIZ.ink} strokeOpacity={0.35} strokeWidth={1.5} />
-                  <text x={geo.X(geo.ax.domain[1]) - 4} y={geo.Y(geo.ax.domain[1]) + 14} textAnchor="end" fontSize={10} fill={VIZ.muted}>
+                  <text x={geo.X(geo.ax.domain[1]) - 4} y={geo.Y(geo.ax.domain[1]) + 14} textAnchor="end" fontSize={11} fill={VIZ.muted}>
                     y = x
                   </text>
                 </g>
@@ -898,7 +903,7 @@ const LandscapeScatter = ({
           {touch && (
             <div className="mt-1 flex items-center gap-1.5">
               <p className="mr-auto text-xs text-muted-foreground" aria-live="polite">
-                {zoomed ? 'Drag to move around · pinch to zoom' : 'Tap a dot · pinch with two fingers to zoom'}
+                {zoomed ? 'Slide sideways to pan · two fingers to zoom' : 'Tap a dot · pinch with two fingers to zoom'}
               </p>
               {zoomed && (
                 <button

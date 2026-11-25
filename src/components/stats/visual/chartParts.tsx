@@ -1,8 +1,23 @@
 import type { ReactNode } from 'react';
 
 /** Floating tooltip inside a `relative` chart box. Flips left of the point past the middle. */
-export const ChartTip = ({ x, y, width, children }: { x: number; y: number; width: number; children: ReactNode }) => {
+/**
+ * `dock` (touch): the card sits at the top of the chart on the side away from the finger, at a readable size, and
+ * stays put until the next tap (the caller closes it on a tap away).
+ */
+export const ChartTip = ({ x, y, width, children, dock }: { x: number; y: number; width: number; children: ReactNode; dock?: boolean }) => {
   const left = x > width / 2;
+  if (dock) {
+    return (
+      <div
+        role="status"
+        className="pointer-events-none absolute z-20 w-max max-w-[min(15rem,calc(100%-16px))] rounded-lg border border-gold/50 bg-popover px-3 py-2 text-[13px] leading-snug shadow-elevated"
+        style={{ top: 6, ...(left ? { left: 8 } : { right: 8 }) }}
+      >
+        {children}
+      </div>
+    );
+  }
   return (
     <div
       role="presentation"

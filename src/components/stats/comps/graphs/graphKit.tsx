@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useCallback, useEffect, useId, useState } from 'react';
 import type { Position } from '@/types/player';
 import { fmtFixed } from '@/utils/numberFormat';
 import { findNFLTeam } from '@/utils/nflTeams';
@@ -137,4 +137,23 @@ export const yLabel = (y: number) => `Y${y}`;
 export const linear = (d0: number, d1: number, r0: number, r1: number) => {
   const span = d1 - d0 || 1;
   return (v: number) => r0 + ((v - d0) / span) * (r1 - r0);
+};
+
+/**
+ * Tap-to-inspect for touch (hover tooltips never survive a finger lift): `picked` stays until the next tap on the
+ * chart moves it or a tap anywhere else closes it. Spread `boxProps` on the chart's wrapper.
+ */
+export const useTapPick = <T,>() => {
+  const id = useId();
+  const [picked, setPicked] = useState<T | null>(null);
+  useEffect(() => {
+    if (picked == null) return;
+    const away = (e: PointerEvent) => {
+      if (!(e.target as Element | null)?.closest?.(`[data-tapbox="${id}"]`)) setPicked(null);
+    };
+    document.addEventListener('pointerdown', away);
+    return () => document.removeEventListener('pointerdown', away);
+  }, [picked, id]);
+  const pick = useCallback((v: T | null) => setPicked(v), []);
+  return { picked, pick, boxProps: { 'data-tapbox': id } as const };
 };
