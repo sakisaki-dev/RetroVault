@@ -11,7 +11,8 @@ const ACTIVITY = ['pointermove', 'pointerdown', 'keydown', 'wheel', 'scroll', 't
  * desktop while the tab is visible. The screensaver itself is lazy, so nothing loads until it runs.
  */
 const ScreensaverHost = () => {
-  const [on, setOn] = useState(false);
+  // dev only: ?saverScene=<kind> starts the show at once on that scene kind
+  const [on, setOn] = useState(() => import.meta.env.DEV && new URLSearchParams(window.location.search).has('saverScene'));
   const idle = useSaverIdle();
   const night = useSaverNight();
   const last = useRef(Date.now());

@@ -1228,7 +1228,7 @@ Twenty scene kinds (owner: "get us to 20 total scenes"; 24 since the four below)
 widget.json fact on a broadcast lower third), line-up, champions, **the coach** (Skura's game sprite in the current
 club's polo, his titles from widget.json, seasons and every club's logo), Hall of Famer, **hot take** (a widget.json
 take as a pull quote with heat flames and its players), record, **rising stars** (widget.json ceilings), the paper,
-**record chase** (widget.json chases, the bar filling), rivalry file (content.json `rivalryFiles`, lasting ones),
+**record chase** (widget.json chases, the bar filling), **rivalry night** (content.json `rivalryFiles`, lasting first then lapsed; replaced the old rivalry file scene, which it contains: a split field in the two clubs' colours, Skura on the coach's side, each side's star from the file, the series record, longest streak, biggest margin and the last six meetings as results),
 **market** (widget.json movers on an LED stock board with a ticker), **Hall of Fame class** (on gold steps),
 **dynasty** (a content.json era: years, Super Bowls, the first line of its notes, the coach and its key players),
 **the Gauntlet** (holders with five rings lighting up, the closest active player), **final season** (widget.json
@@ -1239,7 +1239,7 @@ snapshots (base value 50+); the Gauntlet is computed from every player's awards 
 Rookie of the Year, Super Bowl MVP) plus "One short" groups of five with the missing award. About 470 distinct
 screens. The playlist is dealt once its data is in (widget.json, content, the Hall of Fame,
 records, the card pool; 4 s at most), so it never reshuffles mid-show. Confetti and snowflakes are single elements with their own place, size, speed and drift (`Particles`). Slow camera push, sweeping floodlights, gold dust, text that rises in line by line; the clock
-and wordmark drift and the whole show dims by a fifth over half an hour, so it can be left on. **Four more scenes** (owner, 2026-11-18: "4, 5, 6, 8"), 24 kinds in all: **stadium tour** (every club's own ground
+and wordmark drift and the whole show dims by a fifth over half an hour, so it can be left on. **Four more scenes** (owner, 2026-11-18: "4, 5, 6, 8"), 24 kinds in all (27 with the three below): **stadium tour** (every club's own ground
 from the save's stadium figures under one of three slow aerial camera moves, its weather odds from `stadiumWeather`,
 rain falling on a wet ground's rolls), **Season Rewind** (a season's Rewind cards three at a time in a phone frame,
 `RewindCardView` from the Rewind files, every card of every season in turn), **the trophy room** (each club Skura won
@@ -1247,7 +1247,7 @@ with: a shelf of pixel cups (`PixelCup`, `src/components/frontoffice/PixelCup.ts
 end of each club he coached: one canvas of seats whose cards turn column by column to print the club's banner, owner:
 "imagine these cards are printed off the official banner": its colour, trim stripes, the real logo on a white roundel
 and its name in block type, drawn once and sampled to one colour a card (`bannerColors`), then a wave rolls across;
-reduced motion draws the finished stunt). **Now playing** (owner, 2026-11-18): with Spotify connected from the same menu, the end-zone scoreboard tower in the bottom-right
+reduced motion draws the finished stunt). **Career arc, rivalry night and ring of honor sweep** (ported from the NFL edition; `scenes/` under `src/components/screensaver/`): **career arc** (a top Career Legacy player with at least 4 recorded seasons walks along his season-rating bars, SZN from career_seasons.json `sovr`, each bar in the colour of that season's club from stints.json, gold at 90+, a trophy on a title season: his rings rose and his club won the Super Bowl or his stint lists the year; a new dozen each run), **rivalry night** (above) and the **ring of honor sweep** (halloffame.json `ringOfHonor`: every club with a ring as a plaque on one rail in order of Super Bowl titles, the camera panning four clubs a scene; as each lights, that club's own stadium fades in (lite mode keeps the first), its best-Career-Legacy honoured player steps out in its kit, and a jumbotron shows the club's Super Bowl titles, Hall of Famers and honoured count). Reduced motion and lite mode show the finished bars and stop the pan. Dev only: `?saverScene=careerarc|rivalry|ringsweep` starts the show on that kind. **Now playing** (owner, 2026-11-18): with Spotify connected from the same menu, the end-zone scoreboard tower in the bottom-right
 corner (owner: concept A, "a bit more subtle and on theme"; `.sv-tower`): two steel legs on the bottom edge, cut off by
 the right edge, the cover on the replay panel, HOME the song, AWAY the artist, the time into the track on a dim red
 game clock, muted colours shows the song
