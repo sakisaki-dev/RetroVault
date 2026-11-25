@@ -470,6 +470,12 @@
  * Dialogs (src/components/ui/dialog.tsx): a zero-height sticky bar holds the close button and, on touch screens, the
  * grab handle for swipe-to-close. Scrolling dialogs keep their scroll to themselves.
  */
+/* A dialog is always fixed. A lazily loaded component sheet that styles its own content with a single class (the player
+   card's .pc-root { position: relative }) lands after this file and would win by order, dropping the dialog into the
+   page flow at the foot of the document; the doubled class beats it whatever the load order. */
+.dlg.dlg-anim {
+  position: fixed;
+}
 .dlg {
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
