@@ -52,3 +52,14 @@ export const StageFigure = ({
     </span>
   );
 };
+
+/** The big cropped club logo behind a flat-colour card (the club wall cards' watermark) */
+export const ClubWatermark = ({ player, team, size = 150 }: { player?: Player | null; team?: string | null; size?: number }) => {
+  const club = (player && !player.isRealLegend ? bannerTeamOf(player) : '') || team;
+  if (!club) return null;
+  return (
+    <span className="cs-wm" aria-hidden="true">
+      <TeamLogo team={club} size={size} decorative />
+    </span>
+  );
+};

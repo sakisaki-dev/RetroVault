@@ -11,7 +11,7 @@ import type { RecordBook } from '../records';
 import { GOLD } from './chartKit';
 import { peekProps } from '@/components/peek/peekProps';
 import { POSITION_COLORS } from '../graph/graphConfig';
-import { StageFigure } from './ClubStage';
+import { ClubWatermark, StageFigure } from './ClubStage';
 import { clubStyle } from './clubTone';
 import type { SpriteAction } from '@/utils/gameSprites';
 import type { Position } from '@/types/player';
@@ -73,7 +73,8 @@ const Card = ({
   star?: Player | null;
   action?: SpriteAction;
 }) => (
-  <li className={cn('glass-card flex min-w-0 flex-col gap-1.5 p-3', star && 'cs-card')} style={star ? clubStyle(star) : undefined}>
+  <li className={cn('glass-card flex min-w-0 flex-col gap-1.5 p-3', star && 'cs-card cs-flat')} style={star ? clubStyle(star) : undefined}>
+    {star && <ClubWatermark player={star} size={120} />}
     {star && <StageFigure player={star} action={action} className="!bottom-auto !top-2" />}
     <span className="font-display text-xs font-bold uppercase tracking-wider text-muted-foreground">{title}</span>
     <span className="font-display text-3xl font-extrabold leading-none text-chalk sm:text-4xl">

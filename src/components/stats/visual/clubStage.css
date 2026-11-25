@@ -152,3 +152,48 @@
     scale: 1;
   }
 }
+
+/* ---- flat club-colour cards (owner: "don't do gradients here, use the team logo, colourful and fun", then "too
+   bright, keep it a bit more subtle"): the club colour toned into the night panel, a club-colour top stripe ---- */
+.cs-flat {
+  background: color-mix(in srgb, var(--cs-flat-bg, #1a2147) 34%, #131a2e) !important;
+  color: var(--cs-flat-ink, #fff);
+  border: 1px solid color-mix(in srgb, var(--cs-flat, #1a2147) 45%, transparent);
+  border-top: 3px solid var(--cs-flat, #1a2147);
+  border-radius: 14px;
+  box-shadow: 0 8px 18px rgb(0 0 0 / 0.3);
+}
+.cs-flat::before {
+  display: none;
+}
+.cs-flat .cs-fig__floor {
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.3), transparent);
+}
+/* the big cropped logo, the way the club wall cards carry it */
+.cs-wm {
+  position: absolute;
+  right: -26px;
+  top: -22px;
+  z-index: 0;
+  opacity: 0.2;
+  pointer-events: none;
+  filter: saturate(1.1);
+}
+.cs-flat > :not(.cs-wm) {
+  position: relative;
+  z-index: 1;
+}
+.cs-flat > .cs-fig {
+  position: absolute;
+}
+.cs-flat__big {
+  color: var(--cs-flat-ink, #fff);
+  font-family: 'Barlow Condensed', var(--font-display);
+  text-shadow: 0 2px 0 rgb(0 0 0 / 0.25);
+}
+.cs-flat__sub {
+  color: color-mix(in srgb, var(--cs-flat-ink, #fff) 78%, transparent);
+}
+.cs-flat .cs-medal {
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 0.5), 0 2px 4px rgb(0 0 0 / 0.4);
+}

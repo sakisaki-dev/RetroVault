@@ -33,6 +33,7 @@
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: #ffc63e !important;
 }
 .rb-shelf__row {
   display: grid;
@@ -70,15 +71,11 @@
   min-height: 132px;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid rgb(255 255 255 / 0.08);
-  background-color: #0d1330;
   text-align: left;
-  box-shadow: inset 0 0 0 1px rgb(226 181 73 / 0.12), 0 8px 18px rgb(0 0 0 / 0.35);
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 button.rb-plaque:hover {
   transform: translateY(-3px);
-  box-shadow: inset 0 0 0 1px rgb(226 181 73 / 0.35), 0 12px 24px rgb(0 0 0 / 0.45);
 }
 button.rb-plaque:focus-visible {
   outline: 2px solid #ffc63e;
@@ -94,23 +91,48 @@ button.rb-plaque:focus-visible {
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  color: var(--cs-flat-ink, #fff);
+  opacity: 0.88;
 }
 .rb-plaque__value {
   display: flex;
   align-items: baseline;
   gap: 4px;
-  font-family: var(--font-display);
+  font-family: 'Barlow Condensed', var(--font-display);
   font-weight: 800;
-  font-size: 30px;
+  font-size: 40px;
   line-height: 1;
-  color: #f5f2e8;
+  color: var(--cs-flat-ink, #fff);
+  text-shadow: 0 2px 0 rgb(0 0 0 / 0.25);
   font-variant-numeric: tabular-nums;
 }
 .rb-plaque__value small {
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
-  color: hsl(var(--muted-foreground));
+  color: inherit;
+  opacity: 0.8;
+}
+.rb-plaque__crown {
+  align-self: center;
+  width: 18px;
+  height: 18px;
+  color: #ffc63e;
+  fill: #ffc63e;
+  filter: drop-shadow(0 0 1px #10142a) drop-shadow(0 1px 0 rgb(0 0 0 / 0.6));
+}
+.rb-plaque__chip {
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #10142a;
+  color: #ffc63e;
+  box-shadow: 0 0 0 1px rgb(255 198 62 / 0.6);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 .rb-plaque__holder {
   display: flex;
@@ -119,12 +141,13 @@ button.rb-plaque:focus-visible {
   min-width: 0;
   font-size: 13px;
   font-weight: 700;
+  color: var(--cs-flat-ink, #fff);
 }
 .rb-plaque__sub {
   font-family: var(--font-mono, ui-monospace, monospace);
   font-size: 10px;
   line-height: 1.35;
-  color: hsl(var(--muted-foreground));
+  opacity: 0.85;
 }
 .rb-plaque > :last-child:not(.cs-fig) {
   margin-top: auto;

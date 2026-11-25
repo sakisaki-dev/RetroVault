@@ -7,9 +7,10 @@ import { cn } from '@/lib/utils';
 import { formatDecimal } from '@/utils/metricColors';
 import FitName from './FitName';
 import TeamLogo from '../brand/TeamLogo';
+import { bannerTeamOf } from '@/utils/playerExtras';
 import { peekProps } from '../peek/peekProps';
 import CountUp from '../brand/CountUp';
-import { StageFigure } from './visual/ClubStage';
+import { ClubWatermark, StageFigure } from './visual/ClubStage';
 import { clubStyle } from './visual/clubTone';
 import './visual/recordShelves.css';
 import { GROUP_META, type PaceEntry, type RecordBoardData } from './records';
@@ -17,7 +18,6 @@ import { GRID_ITEM, gridVars } from './grid';
 import MarginStrip from './visual/MarginStrip';
 import { marginText } from './visual/chartKit';
 import ChaseChart from './visual/ChaseChart';
-import { getTeamTextColor } from '@/utils/teamColors';
 import { matchPlayerByName } from '@/utils/leagueContent';
 import { CLUB_RECORD_FOR, SEASON_GROUP, entryName, holderName, setInText, useClubRecords, type ClubRecordRow } from './clubRecords';
 
@@ -44,7 +44,6 @@ const ClubLine = ({ row }: { row?: ClubRecordRow }) => {
   );
 };
 
-const inkOf = (team?: string | null) => getTeamTextColor(team) ?? undefined;
 
 /** "QB S. Brandson" -> "S. Brandson" */
 const boardName = (s: string) => s.replace(/^[A-Z]{1,2} /, '');
@@ -75,30 +74,32 @@ interface PlaqueItem {
  * club's own mark under it. One fixed shape for career, season and game records.
  */
 const Plaque = ({ item, index, onSelect }: { item: PlaqueItem; index: number; onSelect: Select }) => {
-  const hsl = GROUP_META[item.group].hsl;
+  // the club he is best known for (retired) or plays for (active): the banner team, the one his sprite and colours wear
+  const club = (item.player && !item.player.isRealLegend ? bannerTeamOf(item.player) : '') || item.team;
   const body = (
     <>
+      <ClubWatermark player={item.player} team={club} size={170} />
       {item.player && !item.player.isRealLegend && <StageFigure player={item.player} action={item.broken ? 'stiffarm' : 'celebrate'} />}
-      <span className="rb-plaque__title" style={{ color: `hsl(${hsl})` }}>
-        <Crown className="h-3 w-3 shrink-0 text-gold" aria-hidden="true" />
+      <span className="rb-plaque__title">
         <span className="truncate">{item.title}</span>
       </span>
       <span className="rb-plaque__value">
+        <Crown className="rb-plaque__crown" aria-hidden="true" />
         <CountUp value={item.value} decimals={item.decimals} />
         {item.unit && <small>{item.unit}</small>}
       </span>
       <span className="rb-plaque__holder">
-        {item.team && <TeamLogo team={item.team} size={16} decorative backed />}
-        <span className="truncate" style={{ color: inkOf(item.team) ?? 'hsl(var(--secondary-foreground))' }}>
+        {club && <TeamLogo team={club} size={18} decorative backed />}
+        <span className="truncate">
           {item.holder}
         </span>
         {item.year && <span className="shrink-0 font-mono text-[10px] text-muted-foreground">{item.year}</span>}
       </span>
-      {item.sub && <span className="rb-plaque__sub">{item.sub}</span>}
+      {item.sub && <span className={/over #2/.test(item.sub) ? 'rb-plaque__chip' : 'rb-plaque__sub'}>{item.sub}</span>}
       <ClubLine row={item.club} />
     </>
   );
-  const cls = 'rb-plaque cs-card cs-card--fig stagger-in';
+  const cls = 'rb-plaque cs-card cs-flat cs-card--fig stagger-in';
   const style = { ...(item.player ? clubStyle(item.player) : {}), ['--i' as string]: index };
   return (
     <li className="min-w-0">

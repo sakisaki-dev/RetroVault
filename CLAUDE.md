@@ -1314,6 +1314,7 @@ cards), the Analytics Lab leader tiles and a top-three podium over Value / Game 
 (`cs-card`) with his game sprite on a club-colour floor glow (doubled from 1024px), gold / silver / bronze medals and a
 club stripe per table row; Legacy Composition names get a club swatch. The public build shows the club logo for the
 sprite. The leaderboard's and + index grid's blue / red stay: they mean better / worse than average.
+  **Flat club tones** (owner: "no gradients for the analytics lab and the record book … the team colours subtly"): the Record Book plaques, the Analytics Lab leader tiles, the Value / Game top three and the StatsPulse cards that stand a player (`cs-flat` in `clubStage.css`, `flatVars` in `clubTone.ts`) are flat: the club colour (primary, or secondary when the primary is near-black; a pale colour such as silver is capped at 42% lightness) toned 34% into the night panel, a 3px club-colour top stripe, a club-colour border, chalk text, a big cropped logo watermark (`ClubWatermark`, `cs-wm`) behind the sprite. The plaque's club is the banner team. The "Club best" / "Club" lines stay.
 
 ## Club colours
 

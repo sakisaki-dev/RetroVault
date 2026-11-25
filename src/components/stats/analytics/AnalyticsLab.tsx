@@ -23,7 +23,7 @@ import LegacyMix from './LegacyMix';
 import { fmtNum } from './viz';
 import { GRID_ITEM, gridVars } from '../grid';
 import { peekProps } from '@/components/peek/peekProps';
-import { StageFigure } from '../visual/ClubStage';
+import { ClubWatermark, StageFigure } from '../visual/ClubStage';
 import { clubStyle } from '../visual/clubTone';
 
 type Select = (p: Player) => void;
@@ -46,10 +46,11 @@ const bestAcross = (players: Player[], ctx: AdvContext, id: string, caption: str
 };
 
 const InsightTile = ({ insight, onSelect }: { insight: Insight; onSelect: Select }) => (
-  <li className={`${GRID_ITEM} glass-card cs-card cs-card--fig flex flex-col gap-1 p-3`} style={clubStyle(insight.player)}>
+  <li className={`${GRID_ITEM} glass-card cs-card cs-flat cs-card--fig flex flex-col gap-1 p-3`} style={clubStyle(insight.player)}>
+    <ClubWatermark player={insight.player} />
     <StageFigure player={insight.player} action="celebrate" />
-    <MetricLabel metric={insight.metric} className="font-display text-xs font-bold uppercase tracking-wider text-muted-foreground" />
-    <span className="font-display text-2xl font-extrabold leading-none text-chalk sm:text-3xl">
+    <MetricLabel metric={insight.metric} className="font-display text-xs font-bold uppercase tracking-wider cs-flat__sub" />
+    <span className="cs-flat__big font-display text-3xl font-extrabold leading-none sm:text-4xl">
       {fmtNum(insight.value, insight.metric.decimals)}
       {insight.metric.suffix ?? ''}
     </span>
@@ -57,13 +58,13 @@ const InsightTile = ({ insight, onSelect }: { insight: Insight; onSelect: Select
       type="button"
       {...peekProps(insight.player)}
       onClick={() => onSelect(insight.player)}
-      className="flex min-w-0 items-center gap-1.5 rounded text-left text-sm font-semibold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+      className="flex min-w-0 items-center gap-1.5 rounded text-left text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
     >
       {insight.player.team && <TeamLogo team={insight.player.team} size={18} decorative backed />}
       <span className="truncate"><FitName name={insight.player.name} /></span>
-      <span className="shrink-0 font-pixel text-[9px] text-muted-foreground">{insight.player.position}</span>
+      <span className="shrink-0 font-pixel text-[9px] cs-flat__sub">{insight.player.position}</span>
     </button>
-    <span className="mt-auto pt-1 text-[11px] text-muted-foreground">{insight.caption}</span>
+    <span className="mt-auto pt-1 text-[11px] cs-flat__sub">{insight.caption}</span>
   </li>
 );
 

@@ -6,11 +6,12 @@ import { cn } from '@/lib/utils';
 import { useStagger } from '@/utils/motion';
 import { VALUE_ACROSS_MIN_GAMES, valueAcrossPositions } from '@/config/advanced';
 import TeamLogo from '../../brand/TeamLogo';
-import { RankMedal, StageFigure } from '../visual/ClubStage';
+import { ClubWatermark, RankMedal, StageFigure } from '../visual/ClubStage';
 import { clubStyle } from '../visual/clubTone';
 import { fmtNum } from './viz';
 import { keyOf } from '../records';
 import { peekProps } from '@/components/peek/peekProps';
+import { bannerTeamOf } from '@/utils/playerExtras';
 
 const SHOWN = 10;
 
@@ -41,7 +42,8 @@ const ValueAcrossBoard = ({ players, onSelect }: { players: Player[]; onSelect: 
       <div className="grid gap-3 lg:grid-cols-[300px_minmax(0,1fr)] lg:items-start">
       <ol className="grid grid-cols-3 gap-2 lg:grid-cols-1" aria-label="Top three">
         {all.slice(0, 3).map((r) => (
-          <li key={keyOf(r.player)} className="cs-card cs-card--fig cs-card--compact min-w-0 rounded-lg border border-line/60 bg-night/40 p-2" style={clubStyle(r.player)}>
+          <li key={keyOf(r.player)} className="cs-card cs-flat cs-card--fig cs-card--compact min-w-0 rounded-lg p-2" style={clubStyle(r.player)}>
+            <ClubWatermark player={r.player} size={110} />
             <StageFigure player={r.player} action={r.rank === 1 ? 'celebrate' : 'idle'} />
             <button
               type="button"
@@ -50,9 +52,12 @@ const ValueAcrossBoard = ({ players, onSelect }: { players: Player[]; onSelect: 
               className="flex w-full min-w-0 flex-col items-start gap-1 rounded text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               <RankMedal rank={r.rank} />
-              <span className="w-full truncate font-display text-sm font-extrabold uppercase italic leading-tight sm:text-base">{r.player.name}</span>
-              <span className="font-pixel text-[8px] text-muted-foreground">{r.player.position}</span>
-              <span className="font-mono text-base font-bold tabular-nums text-gold sm:text-lg">+{fmtNum(r.sigma, 2)}σ</span>
+              <span className="flex w-full min-w-0 items-center gap-1">
+                {bannerTeamOf(r.player) && <TeamLogo team={bannerTeamOf(r.player)} size={16} decorative backed />}
+                <span className="truncate font-display text-sm font-extrabold uppercase italic leading-tight sm:text-base">{r.player.name}</span>
+              </span>
+              <span className="font-pixel text-[8px] cs-flat__sub">{r.player.position}</span>
+              <span className="cs-flat__big font-display text-xl font-extrabold tabular-nums sm:text-2xl">+{fmtNum(r.sigma, 2)}σ</span>
             </button>
           </li>
         ))}
