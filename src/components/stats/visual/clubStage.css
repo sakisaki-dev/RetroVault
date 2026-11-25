@@ -197,3 +197,13 @@
 .cs-flat .cs-medal {
   box-shadow: 0 0 0 2px rgb(255 255 255 / 0.5), 0 2px 4px rgb(0 0 0 / 0.4);
 }
+
+/* phone: three podium tiles a third wide each. The sprite stands at the top, the medal beside it, and the
+   name and the sigma take the full tile width below, so nothing is cut or sits under the figure. */
+@media (max-width: 639px) {
+  .cs-pod > .cs-card--fig { padding: 70px 8px 8px; }
+  .cs-pod > .cs-card--fig > .cs-fig--s { right: auto; left: 50%; bottom: auto; top: 6px; margin-left: -30px; }
+  .cs-pod > .cs-card--fig > button { position: static !important; }
+  .cs-pod .cs-medal { position: absolute; top: 8px; left: 8px; }
+  .cs-pod__name { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; overflow-wrap: anywhere; font-size: 13px; line-height: 1.05; }
+}

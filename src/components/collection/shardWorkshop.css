@@ -257,7 +257,7 @@
 .sw__pick-tag {
   margin-top: 2px;
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: 8px;
   text-transform: uppercase;
   color: hsl(199 90% 75%);
 }

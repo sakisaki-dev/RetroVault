@@ -55,7 +55,7 @@ const TierBoard = ({ tiers, onSelect }: { tiers: Tier[]; onSelect: (p: Player) =
       <li key={t.letter} className="grid grid-cols-[3.25rem_minmax(0,1fr)] border-t border-line first:border-t-0 sm:grid-cols-[4.5rem_minmax(0,1fr)]">
         <div className="flex flex-col items-center justify-center px-1 py-2 text-center" style={{ background: letterColor(t.letter), color: '#0b1020' }}>
           <span className="font-display text-3xl font-extrabold italic leading-none sm:text-4xl">{t.letter}</span>
-          <span className="mt-0.5 font-pixel text-[6px] uppercase leading-tight sm:text-[7px]">{t.label}</span>
+          <span className="mt-0.5 font-pixel text-[8px] uppercase leading-tight">{t.label}</span>
         </div>
         <div className="min-h-[3rem] bg-night/40 p-2">
           {t.entries.length ? (

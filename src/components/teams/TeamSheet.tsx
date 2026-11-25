@@ -147,7 +147,7 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
             <>
               {/* Hero */}
               <SheetHeader
-                className="relative overflow-hidden p-5 pr-12 pb-4 text-left space-y-0"
+                className="relative overflow-hidden p-5 pr-12 pb-4 text-left space-y-0 max-sm:pt-8"
                 style={{
                   background: `linear-gradient(125deg, hsl(${primary}) 0%, hsl(${primary}) 58%, hsl(${secondary}) 140%)`,
                   color: fg,
@@ -191,7 +191,7 @@ const TeamSheet = ({ summary, record, coached, league, ovrFor, onClose }: TeamSh
                   <dl className="relative !mt-4 grid grid-cols-5 gap-1 rounded-lg bg-black/45 p-2 text-center text-white backdrop-blur-[2px]">
                     {heroStats.map(([k, v]) => (
                       <div key={k} className="flex min-w-0 flex-col-reverse">
-                        <dt className="mt-1 truncate font-pixel text-[7px] sm:text-[8px] uppercase opacity-75">{k}</dt>
+                        <dt className="mt-1 truncate font-pixel text-[8px] uppercase opacity-75">{k}</dt>
                         <dd className={cn('font-display text-xl sm:text-3xl font-extrabold leading-none tabular-nums', k === 'Titles' && Number(v) > 0 && 'text-gold')}>
                           {v}
                         </dd>

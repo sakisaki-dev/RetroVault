@@ -159,7 +159,7 @@
   padding: 2px 5px;
   border-radius: 4px;
   font-family: var(--font-pixel);
-  font-size: 7px;
+  font-size: 8px;
   text-transform: uppercase;
 }
 .pk-hof { background: hsl(var(--gold) / 0.18); color: hsl(var(--gold)); box-shadow: inset 0 0 0 1px hsl(var(--gold) / 0.5); }
@@ -192,7 +192,7 @@
 }
 .pk-ovr i {
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: 8px;
   font-style: normal;
   color: hsl(var(--gold));
 }
@@ -234,7 +234,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: var(--font-pixel);
-  font-size: 7px;
+  font-size: 8px;
   text-transform: uppercase;
   color: hsl(var(--muted-foreground));
 }

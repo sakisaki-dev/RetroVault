@@ -478,7 +478,7 @@ const CollectionTab = () => {
     <div className="rv-load-in container space-y-6 px-4 py-5 sm:px-6 sm:py-8">
       {/* Hero */}
       <section aria-labelledby="col-title" className="col-hero p-4 sm:p-6" style={{ ['--ed' as string]: accent.hsl }}>
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
+        <div className="col-hero__row flex flex-wrap items-center gap-x-6 gap-y-4">
           <div
             className="col-ring"
             style={{ ['--p' as string]: pct(ownedCount, cards.length) }}
@@ -491,7 +491,7 @@ const CollectionTab = () => {
             </span>
           </div>
           <div className="min-w-0 flex-1 space-y-3">
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="col-hero__head flex flex-wrap items-center gap-2">
               <h1 id="col-title" className="font-display text-4xl uppercase italic sm:text-5xl">
                 Collection
               </h1>
@@ -502,7 +502,7 @@ const CollectionTab = () => {
                 </span>
               )}
             </div>
-            <ul className="flex flex-wrap gap-2" aria-label="Collected by tier">
+            <ul className="col-hero__tiers flex flex-wrap gap-2" aria-label="Collected by tier">
               {tierStats.map((t) => (
                 <li key={t.key} className={cn('col-gem', `col-gem--${t.key}`)}>
                   <i aria-hidden="true" />

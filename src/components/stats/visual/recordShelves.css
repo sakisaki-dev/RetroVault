@@ -44,9 +44,38 @@
   list-style: none;
 }
 @media (max-width: 480px) {
+  /* one plaque a row on a phone: the holder's whole name and the gap over #2 need the width */
   .rb-shelf__row {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 8px;
+  }
+  .rb-plaque.cs-card--fig {
+    padding-right: 76px;
+    min-height: 118px;
+  }
+  .rb-plaque__holder {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    row-gap: 2px;
+  }
+  .rb-plaque__holder > span.truncate {
+    flex: 1 1 0;
+    min-width: 0;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.15;
+  }
+  .rb-plaque__chip {
+    max-width: 100%;
+    font-size: 10px;
+    line-height: 1.2;
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
   }
 }
 /* the brass rail the plaques stand on */

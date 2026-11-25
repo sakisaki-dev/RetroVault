@@ -173,7 +173,7 @@ const PlusHeatTable = ({ players, ctx, position, extras = [], onSelect }: Props)
                       onClick={() => onSelect(p)}
                       className="flex w-full items-center gap-1 truncate text-left text-xs font-semibold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:text-sm"
                     >
-                      <span className="shrink-0 rounded-sm bg-flag/80 px-0.5 font-pixel text-[6px] text-night">NFL</span>
+                      <span className="shrink-0 rounded-sm bg-flag/80 px-0.5 font-pixel text-[8px] text-night">NFL</span>
                       <span className="truncate">{p.name}</span>
                     </button>
                   </th>

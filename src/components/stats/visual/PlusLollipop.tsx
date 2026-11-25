@@ -12,7 +12,7 @@ import { niceTicks } from './chartKit';
 
 const ABOVE = `rgb(${VIZ.above})`;
 const BELOW = `rgb(${VIZ.below})`;
-const GRID = 'grid grid-cols-[1.1rem_minmax(0,6.25rem)_minmax(0,1fr)_3.4rem] items-center gap-x-2 sm:grid-cols-[1.25rem_minmax(0,9rem)_minmax(0,1fr)_4rem]';
+const GRID = 'grid grid-cols-[1.1rem_minmax(0,8.4rem)_minmax(0,1fr)_3.2rem] items-center gap-x-2 sm:grid-cols-[1.25rem_minmax(0,9rem)_minmax(0,1fr)_4rem]';
 
 interface Scale {
   /** Value plotted for a row (+ index when the metric has one, else the raw value). */
@@ -52,7 +52,7 @@ const LollipopRow = ({ r, board, scale, onSelect }: { r: Row; board: MetricBoard
         className={cn(GRID, 'h-7 w-full rounded px-1 text-left hover:bg-panel-2/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold')}
       >
         <span className={cn('text-center font-pixel text-[9px]', r.rank === 1 ? 'text-gold' : 'text-muted-foreground')} aria-hidden="true">
-          {r.nfl ? <span className="rounded-sm bg-flag/80 px-0.5 text-[6px] text-night">NFL</span> : r.rank}
+          {r.nfl ? <span className="rounded-sm bg-flag/80 px-0.5 text-[9px] text-night">NFL</span> : r.rank}
         </span>
         <span className="flex min-w-0 items-center gap-1.5" aria-hidden="true">
           {r.player.team ? <TeamLogo team={r.player.team} size={16} decorative backed /> : <span className="w-4" />}

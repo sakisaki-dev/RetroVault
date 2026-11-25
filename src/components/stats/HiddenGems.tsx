@@ -133,9 +133,9 @@ const HiddenGems = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Player
         {list.length === 0 ? (
           <p className="py-6 text-center text-sm text-muted-foreground">Nobody fits right now.</p>
         ) : (
-          <ol className="grid gap-2 md:grid-cols-2">
+          <ol className="grid grid-cols-1 gap-2 md:grid-cols-2">
             {list.map((g, i) => (
-              <li key={playerKey(g.player)}>
+              <li key={playerKey(g.player)} className="min-w-0">
                 <button
                   type="button"
                   {...peekProps(g.player)}
@@ -148,8 +148,8 @@ const HiddenGems = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Player
                   {/* the gem himself, in his club's kit (the club logo in the public build) */}
                   <StageFigure player={g.player} action="idle" className="!relative !bottom-auto !right-auto !h-14 !w-14 shrink-0" />
                   <span className="min-w-0 flex-1">
-                    <span className="flex min-w-0 items-center gap-2">
-                      <span className="truncate font-semibold group-hover:text-gold">{g.player.name}</span>
+                    <span className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+                      <span className="max-w-full truncate font-semibold group-hover:text-gold">{g.player.name}</span>
                       <PositionBadge position={g.player.position} />
                       {g.player.games < SMALL_SAMPLE && (
                         <span className="shrink-0 rounded bg-panel-2 px-1.5 py-0.5 font-pixel text-[8px] uppercase text-muted-foreground" title="Under 32 games: rates can still swing">

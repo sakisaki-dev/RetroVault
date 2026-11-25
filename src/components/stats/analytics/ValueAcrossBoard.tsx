@@ -41,7 +41,7 @@ const ValueAcrossBoard = ({ players, onSelect }: { players: Player[]; onSelect: 
       {/* the top three on a podium, each in his club's colours */}
       {/* podium beside the table on wide screens (owner: "the widget is way too big for no reason") */}
       <div className="grid gap-3 lg:grid-cols-[300px_minmax(0,1fr)] lg:items-start">
-      <ol className="grid grid-cols-3 gap-2 lg:grid-cols-1" aria-label="Top three">
+      <ol className="cs-pod grid grid-cols-3 gap-2 lg:grid-cols-1" aria-label="Top three">
         {all.slice(0, 3).map((r) => (
           <li key={keyOf(r.player)} className="ix-card cs-card cs-flat cs-card--fig cs-card--compact min-w-0 rounded-lg p-2" style={clubStyle(r.player)} onClick={cardTap}>
             <ClubWatermark player={r.player} size={110} />
@@ -55,7 +55,7 @@ const ValueAcrossBoard = ({ players, onSelect }: { players: Player[]; onSelect: 
               <RankMedal rank={r.rank} />
               <span className="flex w-full min-w-0 items-center gap-1">
                 {bannerTeamOf(r.player) && <TeamLogo team={bannerTeamOf(r.player)} size={16} decorative backed />}
-                <span className="truncate font-display text-sm font-extrabold uppercase italic leading-tight sm:text-base">{r.player.name}</span>
+                <span className="cs-pod__name truncate font-display text-sm font-extrabold uppercase italic leading-tight sm:text-base">{r.player.name}</span>
               </span>
               <span className="font-pixel text-[8px] cs-flat__sub">{r.player.position}</span>
               <span className="cs-flat__big font-display text-xl font-extrabold tabular-nums sm:text-2xl">+{fmtNum(r.sigma, 2)}σ</span>
@@ -77,15 +77,15 @@ const ValueAcrossBoard = ({ players, onSelect }: { players: Player[]; onSelect: 
             <th scope="col" className="hidden w-12 pb-1 text-right font-normal sm:table-cell">
               G
             </th>
-            <th scope="col" className="w-14 pb-1 text-right font-normal">
+            <th scope="col" className="w-12 pb-1 text-right font-normal sm:w-14">
               Val/G
             </th>
-            <th scope="col" className="w-14 pb-1 text-right font-normal">
+            <th scope="col" className="w-12 pb-1 text-right font-normal sm:w-14">
               <abbr title="Standard deviations above the position average" className="no-underline">
                 σ
               </abbr>
             </th>
-            <th scope="col" className="w-16 pb-1 text-right font-normal">
+            <th scope="col" className="w-10 pb-1 text-right font-normal sm:w-16">
               At pos
             </th>
           </tr>
@@ -114,7 +114,7 @@ const ValueAcrossBoard = ({ players, onSelect }: { players: Player[]; onSelect: 
               <td className="py-1.5 text-right font-mono text-xs tabular-nums text-muted-foreground">
                 #{r.posRank}
                 <span className="sr-only"> of {r.posCount} {r.player.position}s</span>
-                <span aria-hidden="true">/{r.posCount}</span>
+                <span aria-hidden="true" className="max-sm:hidden">/{r.posCount}</span>
               </td>
             </tr>
           ))}

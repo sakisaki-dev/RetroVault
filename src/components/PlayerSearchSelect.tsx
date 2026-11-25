@@ -95,7 +95,7 @@ const MiniBanner = ({ player, number, ovr, compact = false }: { player: Player; 
         {ovr != null && (
           <span className="flex min-w-[2.1rem] flex-col items-center rounded border border-[color:var(--pss-1)] bg-black/50 px-1 py-0.5">
             <span className="font-display text-sm font-extrabold leading-none tabular-nums text-chalk">{ovr}</span>
-            <span className="font-pixel text-[6px] uppercase text-muted-foreground">{ovrLabelOf(player)}</span>
+            <span className="font-pixel text-[8px] uppercase text-muted-foreground">{ovrLabelOf(player)}</span>
           </span>
         )}
       </span>

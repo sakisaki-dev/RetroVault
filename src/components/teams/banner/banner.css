@@ -116,16 +116,20 @@
   .bn3 { --bn-h: 380px; }
   .bn3-jumbo { top: 148px; gap: 8px; padding: 6px 10px; }
   .bn3-jumbo .bn-title { font-size: 34px; }
-  .bn3-jumbo .bn-kicker { font-size: 6px; white-space: nowrap; }
+  .bn3-jumbo .bn-kicker { font-size: 8px; white-space: nowrap; }
   .bn3-jumbo .bn-count { min-width: 0; padding: 3px 5px 2px; }
   .bn3-jumbo .bn-count dd { font-size: 18px; }
-  .bn3-jumbo .bn-count dt { font-size: 6px; }
+  .bn3-jumbo .bn-count dt { font-size: 8px; }
   .bn3-stands { top: 60px; }
   .bn3-crowd { top: 186px; height: 84px; }
   .bn3-turf { top: 262px; }
   .bn3-fig:nth-child(1), .bn3-fig:nth-child(5) { display: none; }
   .bn3-row { gap: 6px; }
-  .bn3-name b { max-width: 64px; overflow: hidden; text-overflow: ellipsis; }
+  /* the three name strips share the row: each column a third wide, the name on its own line(s), never cut */
+  .bn3-row { padding: 0 4px; gap: 4px; align-items: flex-end; }
+  .bn3-fig { flex: 1 1 0; min-width: 0; }
+  .bn3-name { flex-wrap: wrap; justify-content: center; white-space: normal; max-width: 100%; border-radius: 12px; padding: 3px 6px; row-gap: 2px; text-align: center; }
+  .bn3-name b { flex: 1 1 100%; font-size: 11px; line-height: 1.05; overflow-wrap: anywhere; }
 }
 @media (prefers-reduced-motion: reduce) { .bn3-plaque { animation: none; } }
 [data-perf='lite'] .bn3-plaque { animation: none; }

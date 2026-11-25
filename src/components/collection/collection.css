@@ -4052,3 +4052,14 @@ button.fut__card:focus-visible {
 .pk-back--black .pk-back__word {
   color: #c9ced8;
 }
+
+/* phone: the progress ring sits top right beside the title, the tier chips take a two-column grid, so the hero is a
+   compact block instead of a ring floating mid-card beside four stacked pills */
+@media (max-width: 639px) {
+  .col-hero__row { display: block; position: relative; }
+  .col-hero__row > .col-ring { position: absolute; top: 0; right: 0; width: 84px; height: 84px; }
+  .col-hero__row > .col-ring .font-display { font-size: 1.5rem; }
+  .col-hero__head { padding-right: 92px; min-height: 84px; align-content: center; }
+  .col-hero__tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 12px; }
+  .col-hero__tiers .col-gem { justify-content: flex-start; }
+}

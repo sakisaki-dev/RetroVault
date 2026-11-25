@@ -101,8 +101,8 @@ const DdWhoPlays = ({ player, model, mode, onMode, comps, topSets, overlay, onOv
           <span className={cn('font-display text-lg font-extrabold tabular-nums', on ? 'text-gold' : 'text-muted-foreground')}>{i + 1}</span>
           {c.player.team ? <TeamLogo team={c.player.team} size={24} decorative backed /> : <span className="w-6" />}
           <span className="flex min-w-0 flex-col">
-            <span className="flex min-w-0 items-center gap-1">
-              <span className="truncate text-sm font-semibold">{c.player.name}</span>
+            <span className="flex min-w-0 items-center gap-x-1 max-sm:flex-wrap">
+              <span className="truncate text-sm font-semibold max-sm:whitespace-normal max-sm:leading-tight">{c.player.name}</span>
               {nfl ? (
                 <span className="shrink-0 rounded bg-red-500/15 px-1 font-pixel text-[8px] uppercase text-red-300 ring-1 ring-red-400/40">NFL</span>
               ) : (
