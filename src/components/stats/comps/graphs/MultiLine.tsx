@@ -3,7 +3,7 @@ import { peekKeyProps } from '@/components/peek/peekProps';
 import { VIZ } from '../../analytics/viz';
 import { ChartTip } from '../../visual/chartParts';
 import { niceTicks, useWidth } from '../../visual/chartKit';
-import { linear, shortNum } from './graphKit';
+import { linear, shortNum, useTapPick } from './graphKit';
 
 export interface LineSeries {
   key: string;
@@ -65,6 +65,7 @@ const MultiLine = memo(
   }) => {
     const [ref, width] = useWidth();
     const [hover, setHover] = useState<number | null>(null);
+    const tap = useTapPick<number>();
     const geo = useMemo(() => {
       if (!width || !xs.length) return null;
       const ys = [...series.flatMap((s) => s.points.map((p) => p.y)), ...(band ?? []).flatMap((b) => [b.lo, b.hi]), ...(refLine ? [refLine.y] : [])];
@@ -79,7 +80,7 @@ const MultiLine = memo(
         .filter((s) => s.points.length && s.endLabel !== false)
         .map((s) => ({ key: s.key, y: sy(s.points[s.points.length - 1].y) }))
         .sort((a, b) => a.y - b.y);
-      for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 11) ends[i].y = ends[i - 1].y + 11;
+      for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 13) ends[i].y = ends[i - 1].y + 13;
       const labelY = new Map(ends.map((e) => [e.key, e.y]));
       return { ticks, sx, sy, labelY };
     }, [width, xs, series, band, refLine, height, zero]);
@@ -91,9 +92,9 @@ const MultiLine = memo(
       xs.forEach((x) => Math.abs(geo.sx(x) - (clientX - r.left)) < Math.abs(geo.sx(best) - (clientX - r.left)) && (best = x));
       return best;
     };
-    const tipX = hover ?? null;
+    const tipX = hover ?? tap.picked;
     return (
-      <div className="cg-svgbox" ref={ref} data-no-swipe-x>
+      <div className="cg-svgbox" ref={ref} data-no-swipe-x {...tap.boxProps}>
         {geo && (
           <svg
             width={width}
@@ -101,8 +102,9 @@ const MultiLine = memo(
             role="img"
             aria-label={ariaLabel}
             className="block"
-            onPointerMove={(e) => setHover(nearest(e.clientX, e.currentTarget as unknown as HTMLElement))}
-            onPointerLeave={() => setHover(null)}
+            onPointerDown={(e) => e.pointerType !== 'mouse' && tap.pick(nearest(e.clientX, e.currentTarget as unknown as HTMLElement))}
+            onPointerMove={(e) => (e.pointerType === 'mouse' ? setHover(nearest(e.clientX, e.currentTarget as unknown as HTMLElement)) : e.buttons && tap.pick(nearest(e.clientX, e.currentTarget as unknown as HTMLElement)))}
+            onPointerLeave={(e) => e.pointerType === 'mouse' && setHover(null)}
             onClick={(e) => {
               const x = nearest(e.clientX, e.currentTarget as unknown as HTMLElement);
               if (x != null) onX?.(x);
@@ -111,14 +113,14 @@ const MultiLine = memo(
             {geo.ticks.map((t) => (
               <g key={t}>
                 <line x1={M.l} x2={width - M.r} y1={geo.sy(t)} y2={geo.sy(t)} stroke={VIZ.grid} strokeDasharray="2 3" />
-                <text x={M.l - 5} y={geo.sy(t) + 3.5} textAnchor="end" fontSize="10" fill={VIZ.muted} className="tabular-nums">
+                <text x={M.l - 5} y={geo.sy(t) + 3.5} textAnchor="end" fontSize="11" fill={VIZ.muted} className="tabular-nums">
                   {yFmt(t)}
                 </text>
               </g>
             ))}
             {xs.map((x, i) =>
-              i % step === 0 || (i === xs.length - 1 && i % step >= step / 2) ? (
-                <text key={x} x={geo.sx(x)} y={height - 6} textAnchor="middle" fontSize="10" fill={x === selX ? 'hsl(43 100% 62%)' : VIZ.muted} className="tabular-nums">
+              (xs.length - 1 - i) % step === 0 ? (
+                <text key={x} x={geo.sx(x)} y={height - 6} textAnchor="middle" fontSize="11" fill={x === selX ? 'hsl(43 100% 62%)' : VIZ.muted} className="tabular-nums">
                   {xLabel(x)}
                 </text>
               ) : null,
@@ -137,7 +139,7 @@ const MultiLine = memo(
             {refLine && (
               <g>
                 <line x1={M.l} x2={width - M.r} y1={geo.sy(refLine.y)} y2={geo.sy(refLine.y)} stroke="hsl(354 90% 65%)" strokeDasharray="6 4" strokeWidth={1.25} />
-                <text x={M.l + 4} y={geo.sy(refLine.y) - 4} fontSize="9.5" fill="hsl(354 90% 70%)" fontWeight={700}>
+                <text x={M.l + 4} y={geo.sy(refLine.y) - 4} fontSize="11" fill="hsl(354 90% 70%)" fontWeight={700}>
                   {refLine.label}
                 </text>
               </g>
@@ -158,7 +160,7 @@ const MultiLine = memo(
                     <text
                       x={geo.sx(s.points[s.points.length - 1].x) + 5}
                       y={(geo.labelY.get(s.key) ?? geo.sy(s.points[s.points.length - 1].y)) + 3.5}
-                      fontSize="10"
+                      fontSize="11"
                       fontWeight={s.width && s.width > 2 ? 800 : 600}
                       fill={s.color}
                       {...peekKeyProps(s.peekKey)}
@@ -179,7 +181,7 @@ const MultiLine = memo(
           </svg>
         )}
         {geo && tipX != null && (
-          <ChartTip x={geo.sx(tipX)} y={M.t + 30} width={width}>
+          <ChartTip x={geo.sx(tipX)} y={M.t + 30} width={width} dock={hover == null}>
             <p className="mb-1 font-semibold">{xLabel(tipX)}</p>
             <ul className="space-y-0.5 tabular-nums">
               {series

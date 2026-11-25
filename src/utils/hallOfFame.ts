@@ -12,6 +12,7 @@
  * so membership agrees everywhere; this file adds the score, classes, ballot, watch list and Rings of Honor.
  */
 import { useEffect, useState } from 'react';
+import { dataFetch } from '@/utils/dataStore';
 
 export const HALL_OF_FAME_URL = `${import.meta.env.BASE_URL}data/league/halloffame.json`;
 
@@ -177,7 +178,7 @@ let loaded: HallOfFameData | null | undefined;
 /** Fetches halloffame.json once per page load (no-cache revalidates a rebuilt file). Never throws; null on failure. */
 export const loadHallOfFame = (): Promise<HallOfFameData | null> => {
   if (!request) {
-    request = fetch(HALL_OF_FAME_URL, { cache: 'no-cache' })
+    request = dataFetch(HALL_OF_FAME_URL, { cache: 'no-cache' })
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => (json ? normalizeHallOfFame(json) : null))
       .catch(() => null)

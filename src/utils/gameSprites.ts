@@ -2,6 +2,7 @@ import { setSpriteCacheStamp } from '@/utils/spriteLoader';
 import { useSyncExternalStore } from 'react';
 import type * as SpriteArt from './gameSpriteArt';
 import { findNFLTeam } from './nflTeams';
+import { dataFetch } from '@/utils/dataStore';
 
 /**
  * Retro Bowl's own player sprites (New Star Games' art; the NFL edition's NFL and NFLPA marks) in
@@ -135,7 +136,7 @@ const loadImage = (src: string) =>
 
 /** JSON from the private folder, or null: a 404, or the dev server's SPA fallback (HTML) when the folder is gone. */
 const privateJson = (path: string): Promise<unknown> =>
-  fetch(PRIVATE_BASE + path, { cache: 'no-cache' })
+  dataFetch(PRIVATE_BASE + path, { cache: 'no-cache' })
     .then((r) => (r.ok ? r.text() : null))
     .then((text) => {
       if (!text) return null;
@@ -159,7 +160,7 @@ const validNfl = (d: unknown): d is NflSprites => {
 let looksJob: Promise<RegularSprites['skins']> | null = null;
 /** The site's own locked looks (public data/sprites.json), fetched once. */
 const siteLooks = () =>
-  (looksJob ??= fetch(`${import.meta.env.BASE_URL}data/sprites.json`)
+  (looksJob ??= dataFetch(`${import.meta.env.BASE_URL}data/sprites.json`)
     .then((r) => (r.ok ? r.json() : {}))
     .catch(() => ({}))
     .then((d: unknown) => (d && typeof d === 'object' ? (d as RegularSprites['skins']) : {})));

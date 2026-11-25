@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { dataFetch } from '@/utils/dataStore';
 
 /**
  * The live state read from the owner's game save (public/data/league/save_state.json, exported by
@@ -56,7 +57,7 @@ let cache: Promise<SaveState | null> | null = null;
 
 /** Loads the save state once per page load (null when the file is missing: no save imported yet). */
 export const loadSaveState = (): Promise<SaveState | null> => {
-  cache ??= fetch(`${import.meta.env.BASE_URL}data/league/save_state.json`)
+  cache ??= dataFetch(`${import.meta.env.BASE_URL}data/league/save_state.json`)
     .then((r) => (r.ok ? (r.json() as Promise<SaveState>) : null))
     .then((d) => (d && typeof d === 'object' && d.players ? d : null))
     .catch(() => null);

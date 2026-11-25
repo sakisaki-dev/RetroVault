@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { dataFetch } from '@/utils/dataStore';
 
 // Optional per-player extras from public/data/player-extras.json (built by scripts/build_league_data.py).
 // Everything here is secondary display info and must never be merged into league career totals.
@@ -59,13 +60,21 @@ export interface PlayerExtras {
 const EMPTY: PlayerExtras = { realNflCareer: {}, cards: {}, formerNames: {}, family: {}, franchises: {}, stints: {}, signatureTeams: {}, legacyTeams: {}, retiredBy: {} };
 
 /** Name key that ignores case, extra spaces and curly vs straight apostrophes/quotes. */
-export const normalizeName = (name: string) =>
-  name
-    .replace(/[‘’ʼ`´]/g, "'")
-    .replace(/[“”]/g, '"')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase();
+// Memoized: the league's names are normalized again for every map and index built from them, and the same strings come back each time.
+const NORMAL = new Map<string, string>();
+export const normalizeName = (name: string): string => {
+  let n = NORMAL.get(name);
+  if (n === undefined) {
+    n = name
+      .replace(/[‘’ʼ`´]/g, "'")
+      .replace(/[“”]/g, '"')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
+    NORMAL.set(name, n);
+  }
+  return n;
+};
 
 const reindex = <T,>(rec: unknown): Record<string, T> => {
   const out: Record<string, T> = {};
@@ -146,7 +155,7 @@ export const loadPlayerExtras = (): Promise<IndexedExtras> => {
   if (cache) return Promise.resolve(cache);
   if (!inflight) {
     const url = `${import.meta.env.BASE_URL}data/player-extras.json`;
-    inflight = fetch(url, { cache: 'no-cache' })
+    inflight = dataFetch(url, { cache: 'no-cache' })
       .then((res) => (res.ok ? (res.json() as Promise<Partial<PlayerExtras>>) : EMPTY))
       .catch(() => EMPTY)
       .then((raw) => {

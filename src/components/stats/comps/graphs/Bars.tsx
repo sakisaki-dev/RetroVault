@@ -8,7 +8,7 @@ import { GOLD, niceTicks, useWidth } from '../../visual/chartKit';
 import type { Career } from './careerStory';
 import { seasonScore, type SeasonPoint } from './careerModel';
 import { groupOf, type Group } from './statDefs';
-import { clubInk, linear, shortNum, yLabel } from './graphKit';
+import { clubInk, linear, shortNum, useTapPick, yLabel } from './graphKit';
 
 const M = { l: 36, r: 40, t: 14, b: 22 };
 
@@ -44,6 +44,7 @@ const BarLine = ({
 }) => {
   const [ref, width] = useWidth();
   const [hover, setHover] = useState<number | null>(null);
+  const tap = useTapPick<number>();
   const height = 210;
   const pts = career.points;
   const n = pts.length;
@@ -77,9 +78,9 @@ const BarLine = ({
         }, [])
         .join(' ')
     : '';
-  const hi = hover ?? null;
+  const hi = hover ?? tap.picked;
   return (
-    <div ref={ref} className="cg-svgbox" data-no-swipe-x>
+    <div ref={ref} className="cg-svgbox" data-no-swipe-x {...tap.boxProps}>
       {geo && (
         <svg
           width={width}
@@ -87,8 +88,9 @@ const BarLine = ({
           role="img"
           aria-label={ariaLabel}
           className="block"
-          onPointerMove={(e) => setHover(at(e.clientX, e.currentTarget))}
-          onPointerLeave={() => setHover(null)}
+          onPointerDown={(e) => e.pointerType !== 'mouse' && tap.pick(at(e.clientX, e.currentTarget))}
+          onPointerMove={(e) => (e.pointerType === 'mouse' ? setHover(at(e.clientX, e.currentTarget)) : e.buttons && tap.pick(at(e.clientX, e.currentTarget)))}
+          onPointerLeave={(e) => e.pointerType === 'mouse' && setHover(null)}
           onClick={(e) => {
             const i = at(e.clientX, e.currentTarget);
             if (i != null) onIdx(i);
@@ -102,7 +104,7 @@ const BarLine = ({
               return (
                 <g>
                   <rect x={M.l + a * geo.colW} y={M.t - 4} width={(b - a + 1) * geo.colW} height={height - M.b - M.t + 4} fill="hsl(43 100% 62% / 0.1)" stroke="hsl(43 100% 62% / 0.45)" strokeDasharray="3 3" />
-                  <text x={M.l + a * geo.colW + 4} y={M.t + 6} fontSize="9" fontWeight={800} fill={GOLD}>
+                  <text x={M.l + a * geo.colW + 4} y={M.t + 6} fontSize="11" fontWeight={800} fill={GOLD}>
                     {shade.label}
                   </text>
                 </g>
@@ -111,13 +113,13 @@ const BarLine = ({
           {geo.bt.map((t) => (
             <g key={`b${t}`}>
               <line x1={M.l} x2={width - M.r} y1={geo.by(t)} y2={geo.by(t)} stroke={VIZ.grid} strokeDasharray="2 3" />
-              <text x={M.l - 5} y={geo.by(t) + 3.5} textAnchor="end" fontSize="10" fill={VIZ.muted} className="tabular-nums">
+              <text x={M.l - 5} y={geo.by(t) + 3.5} textAnchor="end" fontSize="11" fill={VIZ.muted} className="tabular-nums">
                 {barFmt(t)}
               </text>
             </g>
           ))}
           {geo.lt.map((t) => (
-            <text key={`l${t}`} x={width - M.r + 5} y={geo.ly(t) + 3.5} fontSize="10" fill={VIZ.series[0]} className="tabular-nums">
+            <text key={`l${t}`} x={width - M.r + 5} y={geo.ly(t) + 3.5} fontSize="11" fill={VIZ.series[0]} className="tabular-nums">
               {lineFmt(t)}
             </text>
           ))}
@@ -149,8 +151,9 @@ const BarLine = ({
           <path d={linePath} fill="none" stroke={VIZ.series[0]} strokeWidth={2.25} strokeLinejoin="round" />
           {line.map((v, i) => (v == null || !Number.isFinite(v) ? null : <circle key={i} cx={geo.x(i)} cy={geo.ly(v)} r={2.6} fill={VIZ.surface} stroke={VIZ.series[0]} strokeWidth={1.5} />))}
           {pts.map((p, i) =>
-            i % Math.max(1, Math.ceil(n / Math.floor((width - M.l - M.r) / 30))) === 0 || i === n - 1 ? (
-              <text key={p.year} x={geo.x(i)} y={height - 6} textAnchor="middle" fontSize="10" fill={i === idx ? GOLD : VIZ.muted} className="tabular-nums">
+            // counted back from the last season so the newest label is always drawn and never crowds the one before it
+            (n - 1 - i) % Math.max(1, Math.ceil(n / Math.floor((width - M.l - M.r) / 30))) === 0 ? (
+              <text key={p.year} x={geo.x(i)} y={height - 6} textAnchor="middle" fontSize="11" fill={i === idx ? GOLD : VIZ.muted} className="tabular-nums">
                 {geo.colW >= 26 ? yLabel(p.year) : `'${p.year % 100}`}
               </text>
             ) : null,
@@ -159,7 +162,7 @@ const BarLine = ({
         </svg>
       )}
       {geo && hi != null && (
-        <ChartTip x={geo.x(hi)} y={M.t + 40} width={width}>
+        <ChartTip x={geo.x(hi)} y={M.t + 40} width={width} dock={hover == null}>
           <p className="mb-1 font-semibold">
             {yLabel(pts[hi].year)}
             {career.clubs[hi] ? ` · ${career.clubs[hi]}` : ''}

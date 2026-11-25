@@ -31,9 +31,9 @@ import PlayerSearchSheet, { type SheetGroup } from './search/PlayerSearchSheet';
 import './quickSearch.css';
 import { bannerTeamOf } from '@/utils/playerExtras';
 
-/** Fired by the header's search button (and anything else) to open the quick search. */
-export const QUICK_SEARCH_EVENT = 'retrovault:quick-search';
-export const openQuickSearch = () => window.dispatchEvent(new Event(QUICK_SEARCH_EVENT));
+import { QUICK_SEARCH_EVENT, openQuickSearch } from '@/utils/quickSearchEvent';
+
+export { QUICK_SEARCH_EVENT, openQuickSearch };
 
 const POSITIONS: Position[] = ['QB', 'RB', 'WR', 'TE', 'OL', 'LB', 'DB', 'DL'];
 

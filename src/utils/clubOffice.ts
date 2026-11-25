@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { dataFetch } from '@/utils/dataStore';
 
 /**
  * The Front Office dashboard's model of the club (public/data/league/save_state.json, written by a save.state upload
@@ -75,7 +76,7 @@ let cache: OfficeState | null | undefined;
 let request: Promise<OfficeState | null> | null = null;
 
 export const loadOfficeState = (): Promise<OfficeState | null> => {
-  request ??= fetch(`${import.meta.env.BASE_URL}data/league/save_state.json`, { cache: 'no-cache' })
+  request ??= dataFetch(`${import.meta.env.BASE_URL}data/league/save_state.json`, { cache: 'no-cache' })
     .then((r) => (r.ok ? (r.json() as Promise<OfficeState>) : null))
     .catch(() => null)
     .then((s) => (cache = s && s.settings && s.players ? s : null));

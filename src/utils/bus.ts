@@ -1,4 +1,5 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
+import { dataFetch } from '@/utils/dataStore';
 
 /*
  * The screensaver's bus line (owner, 2026-11-18: "a small alert saying leave now and the next bus option"; style A,
@@ -67,7 +68,7 @@ export const loadRoute = (route: string) => {
   let p = cache.get(route);
   if (!p) {
     // no-cache: a browser holding an older copy of the timetable checks for the new one
-    p = fetch(`${import.meta.env.BASE_URL}data/transit/route-${route}.json`, { cache: 'no-cache' })
+    p = dataFetch(`${import.meta.env.BASE_URL}data/transit/route-${route}.json`, { cache: 'no-cache' })
       .then((r) => (r.ok ? (r.json() as Promise<RouteFile>) : null))
       // an older file (times per stop, no trips) can't give rides: treat it as missing
       .then((f) => (f && Array.isArray(f.services) && f.services.every((x) => Array.isArray(x.trips)) ? f : null))

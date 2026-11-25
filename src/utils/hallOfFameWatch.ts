@@ -22,7 +22,8 @@ export const HOF_SEEN_KEY = 'retroVault:hofSeen';
 export const RING_SEEN_KEY = 'retroVault:ringSeen';
 export const HOF_CLASSES_KEY = 'retroVault:hofClasses';
 
-const PLAY_EVENT = 'retroVault:ceremony-play';
+export const PLAY_CEREMONY_EVENT = 'retroVault:ceremony-play';
+const PLAY_EVENT = PLAY_CEREMONY_EVENT;
 const CLASSES_EVENT = 'retroVault:hof-classes-changed';
 
 /** Most ceremonies played automatically after one data change (the strongest legacies first). */

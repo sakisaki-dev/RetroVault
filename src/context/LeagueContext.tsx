@@ -4,6 +4,7 @@ import { parseCSV } from '@/utils/csvParser';
 import { getPlayerEdits, type PlayerEdit } from '@/utils/indexedDB';
 import { normalizeLeague } from '@/config/stats';
 import { loadPlayerExtras, signatureTeamOf } from '@/utils/playerExtras';
+import { dataFetch } from '@/utils/dataStore';
 
 interface LeagueContextType {
   /** League players with position-normalized metrics. Excludes real-life legends. */
@@ -47,7 +48,7 @@ const clearLegacyKeys = () => {
 };
 
 const fetchLeagueCsv = async (): Promise<string> => {
-  const res = await fetch(LEAGUE_URL, { cache: 'no-cache' });
+  const res = await dataFetch(LEAGUE_URL, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`Could not load ${LEAGUE_URL} (${res.status})`);
   return res.text();
 };

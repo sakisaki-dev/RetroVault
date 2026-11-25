@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Search } from 'lucide-react';
-import { openQuickSearch } from '@/components/QuickPlayerSearch';
+import { openQuickSearch } from '@/utils/quickSearchEvent';
 import { MOBILE_MOTION, dur, ease, reducedMotion } from '@/utils/motion';
 
 /*

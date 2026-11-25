@@ -274,7 +274,7 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
       if (px < -20 || px > W + 20 || py < -20 || py > H + 20) return [];
       const isSel = p.key === selectedKey;
       const right = px < W * 0.75;
-      const size = wide ? (isSel ? 15 : 12.5) : isSel ? 12 : 10.5;
+      const size = wide ? (isSel ? 15 : 12.5) : isSel ? 12.5 : 11.5;
       const text = isSel || wide || view.k > 1.5 ? p.player.name : p.player.name.split(' ').slice(-1)[0];
       const width = text.length * size * (isSel ? 0.62 : 0.56);
       const x = px + (right ? 1 : -1) * (p.r + (isSel ? 15 : 6));
@@ -485,7 +485,7 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
             <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />
           </ZoomButton>
         </div>
-        {zoomed && <span className="pointer-events-none absolute bottom-2 left-2 rounded bg-night/80 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">{view.k.toFixed(1)}×</span>}
+        {zoomed && <span className="pointer-events-none absolute bottom-2 left-2 rounded bg-night/80 px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">{view.k.toFixed(1)}×</span>}
       </div>
       {fams && fams.shaped && (
         <FamilyPanel
