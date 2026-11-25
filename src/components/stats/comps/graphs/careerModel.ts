@@ -23,7 +23,7 @@ export interface SeasonPoint {
   year: number;
   /** Season OVR (scripts/season_ovr.py), null when he has no line that season */
   ovr: number | null;
-  /** CAR: the career OVR as it stood at this season's end (the stored snapshot `ovr`) */
+  /** OVR: the career OVR as it stood at this season's end (the stored snapshot `ovr`) */
   car: number;
   skill: number | null;
   legacy: number;

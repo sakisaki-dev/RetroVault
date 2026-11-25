@@ -47,8 +47,8 @@ import { AUTOGRAPH_MEAN_MULT } from '@/config/autographs';
 
 /**
  * The rating the PRICE reads (owner, 2026-11-23): an active player's card value blends his season rating into his career
- * one, rating = round(CAR_WEIGHT * CAR + SZN_WEIGHT * SZN) = 0.8 CAR + 0.2 SZN; a retired player, or an active one with
- * no season line, is priced on CAR alone. CAR = the career OVR (config/ovr.ts officialOvrMap), SZN = the season OVR
+ * one, rating = round(CAR_WEIGHT * OVR + SZN_WEIGHT * SZN) = 0.8 OVR + 0.2 SZN; a retired player, or an active one with
+ * no season line, is priced on OVR alone. OVR = the career OVR (config/ovr.ts officialOvrMap), SZN = the season OVR
  * (scripts/season_ovr.py). A point's stored `ovr` stays the career rating (stories cite it); `szn` is the new input.
  */
 export const CAR_WEIGHT = 0.8;
@@ -126,7 +126,7 @@ export function autographPrice(value: number, mult: number, finish: Finish = 'ba
 // ---------- Snapshots ----------
 
 export interface MarketPoint {
-  /** CAR: the career OVR (the price reads priceRating(ovr, szn)) */
+  /** OVR: the career OVR (the price reads priceRating(ovr, szn)) */
   ovr: number;
   /** SZN: the season OVR of an active player who played the latest season (absent: priced on `ovr` alone) */
   szn?: number;

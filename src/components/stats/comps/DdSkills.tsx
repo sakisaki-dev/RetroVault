@@ -10,7 +10,7 @@ interface Props {
   player: Player;
   /** Official OVR (the only OVR on the page). */
   ovr: number | undefined;
-  /** Which rating `ovr` is: SZN (this season) or CAR (career) */
+  /** Which rating `ovr` is: SZN (this season) or OVR (career) */
   ovrLabel?: string;
   traits: SkillGrade[];
   overall: Overall | null;
@@ -30,7 +30,7 @@ const toPeek = (title: string, metric: string, pos: string, b: SkillBoard): Peek
 });
 
 /** Broadcast-style rating cards: one letter grade per play-style skill, graded by percentile within the position. */
-const DdSkills = ({ player, ovr, ovrLabel = 'CAR', traits, overall, players, onOpenPlayer }: Props) => {
+const DdSkills = ({ player, ovr, ovrLabel = 'OVR', traits, overall, players, onOpenPlayer }: Props) => {
   const graded = traits.filter((t) => t.grade);
   if (!graded.length) {
     return (

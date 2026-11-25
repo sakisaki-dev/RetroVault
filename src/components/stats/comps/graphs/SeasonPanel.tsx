@@ -40,7 +40,7 @@ const SeasonPanel = ({ player, career, idx }: { player: Player; career: Career; 
   const delta = (a: number, b: number | undefined) => (b == null || a === b ? null : a - b);
   const tiles = [
     { k: 'SZN', v: p.ovr == null ? '—' : fmtFixed(p.ovr, 0), d: p.ovr == null || prev?.ovr == null ? null : delta(p.ovr, prev.ovr) },
-    { k: 'CAR', v: p.car ? fmtFixed(p.car, 0) : '—', d: p.car && prev?.car ? delta(p.car, prev.car) : null },
+    { k: 'OVR', v: p.car ? fmtFixed(p.car, 0) : '—', d: p.car && prev?.car ? delta(p.car, prev.car) : null },
     { k: 'Value', v: shortNum(p.value), d: prev ? delta(p.value, prev.value) : null, pct: true },
     { k: 'Legacy', v: fmtFixed(p.legacy, 0), d: delta(p.legacy, prev?.legacy) },
     { k: 'Rank', v: `#${p.legacyRank}`, d: prev ? -(delta(p.legacyRank, prev.legacyRank) ?? 0) || null : null },

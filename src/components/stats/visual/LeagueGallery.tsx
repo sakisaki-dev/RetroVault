@@ -138,7 +138,7 @@ const LeagueGallery = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Pla
               onChange={setTierBy}
               options={[
                 { value: 'skill' as TierBy, label: 'Skill rating' },
-                { value: 'ovr' as TierBy, label: 'Rating (SZN active, CAR retired)' },
+                { value: 'ovr' as TierBy, label: 'Rating (SZN active, OVR retired)' },
               ]}
             />
           }
@@ -156,7 +156,7 @@ const LeagueGallery = ({ data, onSelect }: { data: LeagueData; onSelect: (p: Pla
                   <tr>
                     <th scope="col" className="px-2 py-1.5 font-normal">Tier</th>
                     <th scope="col" className="px-2 py-1.5 font-normal">Player</th>
-                    <th scope="col" className="px-2 py-1.5 text-right font-normal">{tierBy === 'skill' ? 'Skill' : 'SZN/CAR'}</th>
+                    <th scope="col" className="px-2 py-1.5 text-right font-normal">{tierBy === 'skill' ? 'Skill' : 'SZN/OVR'}</th>
                   </tr>
                 </thead>
                 <tbody>

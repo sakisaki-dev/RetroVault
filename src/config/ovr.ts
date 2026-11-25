@@ -195,3 +195,11 @@ export const displayOvr = (
   });
   return { ovr: ovrOut, basis };
 };
+
+/**
+ * The label the site prints for the career rating (owner, 2026-11-24: "rename the CAR to just OVR, since that's what it
+ * is"). SZN (this season) is unchanged; an active player reads "SZN 94 · OVR 87". Only the label: CAR in the code's
+ * comments and names (`car`, `careerOvrMap`) still means this rating. Never a club abbreviation: Carolina's CAR lives
+ * in nflTeams.ts.
+ */
+export const CAREER_LABEL = 'OVR' as const;

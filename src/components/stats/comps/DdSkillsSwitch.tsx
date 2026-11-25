@@ -7,7 +7,7 @@ import DdSkills from './DdSkills';
 
 interface Props {
   player: Player;
-  /** CAR: his career OVR */
+  /** OVR: his career OVR */
   car: number | undefined;
   /** League players (career) */
   players: Player[];
@@ -68,7 +68,7 @@ const DdSkillsSwitch = ({ player, car, players, seasonOvr, onOpenPlayer }: Props
       <DdSkills
         player={useSeason ? seasonMe! : player}
         ovr={useSeason ? seasonOvr?.ovr[key] : car}
-        ovrLabel={useSeason ? 'SZN' : 'CAR'}
+        ovrLabel={useSeason ? 'SZN' : 'OVR'}
         traits={grades.traits}
         overall={grades.overall}
         players={useSeason ? seasonPlayers : players}

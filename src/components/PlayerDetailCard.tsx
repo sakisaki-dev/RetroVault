@@ -243,7 +243,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   const theme = teamThemeVars(team);
   const jerseyNumber = numberFor(player);
   const ovr = overallRating(player, officialOvr);
-  // SZN (this season, active players) beside CAR (career); a retired player shows CAR only
+  // SZN (this season, active players) beside OVR (career); a retired player shows OVR only
   const car = careerOvrMap.get(`${player.position}:${player.name}`) ?? null;
   const seasonShown = ovrBasis.get(`${player.position}:${player.name}`) === 'season' && ovr != null;
   const score = leagueScore(player);
@@ -261,8 +261,8 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
   const points = awardPoints(player);
 
   const scoreboard = [
-    { key: 'ovr', label: seasonShown ? 'SZN' : 'CAR', title: seasonShown ? 'Season OVR (62–99): this season ranked within the position among players who played it' : 'Career OVR (62–99), League Score rank within the position', value: ovr, decimals: 0 },
-    ...(seasonShown && car != null ? [{ key: 'car', label: 'CAR', title: 'Career OVR (62–99): the whole career ranked within the position', value: car, decimals: 0 }] : []),
+    { key: 'ovr', label: seasonShown ? 'SZN' : 'OVR', title: seasonShown ? 'Season OVR (62–99): this season ranked within the position among players who played it' : 'Career OVR (62–99), League Score rank within the position', value: ovr, decimals: 0 },
+    ...(seasonShown && car != null ? [{ key: 'car', label: 'OVR', title: 'Career OVR (62–99): the whole career ranked within the position', value: car, decimals: 0 }] : []),
     ...(skill ? [{ key: 'skill', label: `Skill · ${skill.grade.grade}`, title: 'Skill rating: per-game skills graded against the position, ignores career length and awards', value: skill.rating, decimals: 0 }] : []),
     { key: 'score', label: 'League Score', title: 'Production + awards (the input to OVR)', value: score, decimals: 0 },
     ...(player.games > 0
@@ -327,8 +327,8 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
             team={team ?? player.team}
             number={jerseyNumber}
             ovr={ovr}
-            ovrLabel={seasonShown ? 'SZN' : 'CAR'}
-            ovrAlt={seasonShown && car != null ? { label: 'CAR', value: car } : null}
+            ovrLabel={seasonShown ? 'SZN' : 'OVR'}
+            ovrAlt={seasonShown && car != null ? { label: 'OVR', value: car } : null}
             hallOfFamer={hof}
             // the hanging banner (RetiredHangers below) carries the retired number in the hero
             retiredBy={null}

@@ -99,7 +99,7 @@ const StatsStadium = ({ data, book, headline, onSelect }: { data: LeagueData; bo
             </dd>
           </div>
           <div>
-            <dt title="Career OVR (CAR) of 90 or more">{ELITE_OVR}+ CAR</dt>
+            <dt title="Career OVR of 90 or more">{ELITE_OVR}+ OVR</dt>
             <dd>{ovrMap.size ? <CountUp value={elite} /> : '–'}</dd>
           </div>
           <div>

@@ -130,7 +130,7 @@ function PlayerStatTable<T extends Player>({
   const [allCols, setAllCols] = useState(false);
   const metricCols = allCols ? METRIC_COLUMNS : METRIC_COLUMNS.filter((m) => m.essential);
   const { careerOvrMap, seasonOvr } = useGamePool();
-  // SZN = this season's OVR (active players who played it); CAR = the career OVR (everyone)
+  // SZN = this season's OVR (active players who played it); OVR = the career OVR (everyone)
   const sznOf = (p: Player) => (p.status === 'Active' ? seasonOvr?.ovr[playerKey(p)] : undefined);
   const skillMap = useSkillRatings();
   const ratingOf = (key: string, p: Player) =>
@@ -219,7 +219,7 @@ function PlayerStatTable<T extends Player>({
                   <SortHeader key={m.key} k={m.key} label={m.label} tip={m.tip} sort={sort} onToggle={toggleSort} />
                 ))}
                 <SortHeader k="szn" label="SZN" tip="Season OVR (62–99): this season's line, ranked within the position among players who played it. Active players only" sort={sort} onToggle={toggleSort} />
-                <SortHeader k="car" label="CAR" tip="Career OVR (62–99): career production and awards, ranked within the position (active and retired)" sort={sort} onToggle={toggleSort} />
+                <SortHeader k="car" label="OVR" tip="Career OVR (62–99): career production and awards, ranked within the position (active and retired)" sort={sort} onToggle={toggleSort} />
                 <SortHeader k="skill" label="Skill" tip="Skill rating: per-game skills graded against the position (S to F), ignores career length and awards" sort={sort} onToggle={toggleSort} />
               </tr>
             </thead>

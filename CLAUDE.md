@@ -1058,7 +1058,7 @@ source names that file).
   drops any copy from a build without it, which then shows the classic art. After regenerating the sprites on the
   Mac, commit the folder with the update (`git add public/private-sprites`). The raw save (`data/saves/`) stays
   private and git-ignored.
-- **Two OVRs: SZN and CAR** (owner, 2026-11-23: "have that apply across the board on the real Retro Bowl as well until they
+- **Two OVRs: SZN and CAR, shown as SZN and OVR** (owner, 2026-11-24: "rename the CAR to just OVR, since that's what it is": the career rating's label on the site is **OVR** everywhere, `CAREER_LABEL` in `src/config/ovr.ts`: badges, tooltips, the Players table column, the Deep Dive, card rating labels, the arcade toggles; an active player reads "SZN 94 · OVR 87". Only the label changed: the code, this section and the data still call the rating CAR (`car`, `careerOvrMap`), and the maths is untouched. SZN stays SZN) (owner, 2026-11-23: "have that apply across the board on the real Retro Bowl as well until they
   retire, when the whole career is evaluated"). **CAR** is the career OVR (`src/config/ovr.ts`, `data/y80/formula/OVR.md`:
   League Score over the whole career, ranked within position over everyone, active and retired). **SZN** is a season OVR
   (`scripts/season_ovr.py`, run by `npm run rebuild` after the league data and before the market snapshot): the same League

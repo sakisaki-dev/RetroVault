@@ -283,8 +283,8 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
   const ovr = ovrMap.get(keyOf(player));
   const car = careerOvrMap.get(keyOf(player));
   const seasonShown = ovrBasis.get(keyOf(player)) === 'season' && seasonOvr && ovr != null;
-  const carTitle = car == null ? undefined : `CAR ${car}: career OVR, his whole career ranked within ${player.position}s (every player, active and retired).`;
-  // Two ratings (owner, 2026-11-23): SZN = this season alone, CAR = the whole career. A retired player shows CAR only.
+  const carTitle = car == null ? undefined : `OVR ${car}: career OVR, his whole career ranked within ${player.position}s (every player, active and retired).`;
+  // Two ratings (owner, 2026-11-23): SZN = this season alone, OVR = the whole career. A retired player shows OVR only.
   const ovrTitle = seasonShown
     ? `SZN ${ovr}: season OVR for Y${seasonOvr.season}${seasonOvr.live ? ' so far' : ''}, his season line ranked within ${player.position}s who played it (small samples shrunk toward the position mean).`
     : car == null
@@ -292,8 +292,8 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
       : player.status === 'Active'
         ? `${carTitle} No games in Y${seasonOvr?.season ?? ''}, so there is no season OVR.`
         : `${carTitle} Retired players have no season OVR; their past seasons appear in the career graphs.`;
-  const ovrLabel = seasonShown ? 'SZN' : 'CAR';
-  const ovrAlt = seasonShown && car != null ? { label: 'CAR', value: car, title: carTitle } : null;
+  const ovrLabel = seasonShown ? 'SZN' : 'OVR';
+  const ovrAlt = seasonShown && car != null ? { label: 'OVR', value: car, title: carTitle } : null;
   const insufficient = !hasSimilarityData(player);
   const compare = onCompare ?? openInHeadToHead;
   const vals = posValues.get(position)!;

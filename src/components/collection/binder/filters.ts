@@ -23,7 +23,7 @@ export const SORTS: { key: BinderSort; label: string }[] = [
   { key: 'recent', label: 'Newest' },
   { key: 'tier', label: 'Rarity' },
   { key: 'finish', label: 'Finish' },
-  { key: 'ovr', label: 'CAR' },
+  { key: 'ovr', label: 'OVR' },
   { key: 'name', label: 'Name' },
   { key: 'pos', label: 'Position' },
   { key: 'club', label: 'Club' },

@@ -49,10 +49,10 @@ const fetchJson = (path: string): Promise<unknown> =>
 let seasonOvrLoaded: SeasonOvrFile | null = null;
 /**
  * The label of the rating the site SHOWS for a player: SZN when it is his season OVR (an active player with a season
- * line), else CAR (retired, or no games this season). Read after the season file has loaded (ratings are empty before).
+ * line), else OVR (retired, or no games this season). Read after the season file has loaded (ratings are empty before).
  */
-export const ovrLabelOf = (p: { position: string; name: string; status?: string }): 'SZN' | 'CAR' =>
-  p.status !== 'Retired' && seasonOvrLoaded?.ovr[`${p.position}:${p.name}`] != null ? 'SZN' : 'CAR';
+export const ovrLabelOf = (p: { position: string; name: string; status?: string }): 'SZN' | 'OVR' =>
+  p.status !== 'Retired' && seasonOvrLoaded?.ovr[`${p.position}:${p.name}`] != null ? 'SZN' : 'OVR';
 
 export const loadSeasonOvr = (): Promise<SeasonOvrFile | null> => {
   seasonOvrRequest ??= fetchJson('data/league/season_ovr.json').then((d) =>

@@ -29,7 +29,7 @@ export interface ProPlayerBannerProps {
   ovrLabel?: string;
   /** Tooltip on the OVR badge (defaults to the label and value) */
   ovrTitle?: string;
-  /** A second rating badge beside the first (an active player: SZN first, CAR here) */
+  /** A second rating badge beside the first (an active player: SZN first, OVR here) */
   ovrAlt?: { label: string; value: number; title?: string } | null;
   /** Metallic gold edge + HOF tag */
   hallOfFamer?: boolean;

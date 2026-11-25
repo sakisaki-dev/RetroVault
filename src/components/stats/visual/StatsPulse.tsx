@@ -152,7 +152,7 @@ const StatsPulse = ({ data, book, onSelect }: { data: LeagueData; book: RecordBo
         value={ovrs.length ? elite : null}
         sub={ovrs.length ? `of ${ovrs.length} rated players` : 'Loading ratings…'}
         chart={<MiniColumns cols={ovrBins} showLabels />}
-        summary={`CAR (career OVR) histogram in 5-point bins: ${ovrBins.map((b) => `${b.label} ${b.value}`).join(', ')}.`}
+        summary={`OVR (career rating) histogram in 5-point bins: ${ovrBins.map((b) => `${b.label} ${b.value}`).join(', ')}.`}
       />
       {chase ? (
         <Card
