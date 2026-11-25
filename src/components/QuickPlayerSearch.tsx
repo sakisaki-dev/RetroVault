@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { flushSync } from 'react-dom';
 import { Clock, Radar, Search, Shield, Sparkles, Star } from 'lucide-react';
 import InLeague from '@/components/InLeague';
@@ -309,6 +309,24 @@ const QuickSearchDialog = () => {
   // Clubs matching the query lead the results; a pick opens its team page (Stats › Teams)
   const clubs = useMemo(() => (pos === 'ALL' ? searchTeams(query) : []), [query, pos]);
 
+  // Typing never scrolls the list (cmdk scrolls its selected item into view when the groups reorder): reset to the
+  // top on every query change, and for a moment after it while cmdk re-selects. Arrow keys still scroll the active row.
+  const listRef = useRef<HTMLDivElement | null>(null);
+  const typedAt = useRef(0);
+  const toTop = () => {
+    if (listRef.current) listRef.current.scrollTop = 0;
+  };
+  const onQuery = (v: string) => {
+    typedAt.current = performance.now();
+    setActive('');
+    setQuery(v);
+  };
+  useLayoutEffect(() => {
+    toTop();
+    const id = requestAnimationFrame(toTop);
+    return () => cancelAnimationFrame(id);
+  }, [query, clubs.length, pos]);
+
   const activePlayer = active.startsWith('team ') ? null : searchText.get(active) ?? [...searchText.entries()].find(([t]) => t.toLowerCase() === active.toLowerCase())?.[1] ?? groups[0]?.players[0] ?? null;
 
   const choose = (p: Player, deepDive = false) => {
@@ -345,7 +363,7 @@ const QuickSearchDialog = () => {
               </div>
               <CommandInput
                 value={query}
-                onValueChange={setQuery}
+                onValueChange={onQuery}
                 placeholder="Who are we scouting? A player or a club"
                 className="h-12 font-display text-lg tracking-wide placeholder:font-sans placeholder:text-sm"
               />
@@ -368,8 +386,8 @@ const QuickSearchDialog = () => {
             </div>
 
             <div>
-              <CommandList className="max-h-[min(26rem,calc(var(--dvh)*0.55))] overscroll-contain p-1.5">
-                <CommandEmpty className="py-10 text-center text-sm text-muted-foreground">No player or club by that name in the vault.</CommandEmpty>
+              <CommandList ref={listRef} onScroll={() => performance.now() - typedAt.current < 600 && toTop()} className="max-h-[min(26rem,calc(var(--dvh)*0.55))] overscroll-contain p-1.5">
+                <CommandEmpty className="py-10 text-center text-sm text-muted-foreground">No players or clubs match <b>{query.trim()}</b>.</CommandEmpty>
                 {clubs.length > 0 && (
                   <CommandGroup
                     heading={

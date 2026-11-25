@@ -184,7 +184,7 @@ const Results = memo(({ query, pos, players, ovrMap, showOvr, showActive, peek, 
   const index = useMemo(() => buildSearchIndex(players, { ovr: ovrMap, formerNames: extras.formerNames }), [players, ovrMap, extras]);
   const keep = useMemo(() => (pos === 'ALL' ? undefined : (p: Player) => p.position === pos), [pos]);
   const groups = useMemo((): SheetGroup[] => {
-    if (query.trim()) return [{ id: 'results', label: 'Results', players: searchPlayers(index, query, LIMIT, keep).map((e) => e.p) }];
+    if (query.trim()) return [{ id: 'results', label: 'Results', players: searchPlayers(index, query, LIMIT, keep).map((e) => e.p) }].filter((g) => g.players.length);
     const recent = readRecent()
       .map((k) => index.byKey.get(k)?.p)
       .filter((p): p is Player => !!p && (!keep || keep(p)));
@@ -234,7 +234,7 @@ const Results = memo(({ query, pos, players, ovrMap, showOvr, showActive, peek, 
       <p className="ss-empty">
         {query.trim() ? (
           <>
-            No player matches <b>{query.trim()}</b>
+            No players or clubs match <b>{query.trim()}</b>
             {pos !== 'ALL' ? ` at ${pos}` : ''}.
           </>
         ) : (
@@ -365,9 +365,12 @@ const Sheet = ({
   useEffect(() => {
     const html = document.documentElement;
     const prev = html.style.overflow;
+    const prevBody = document.body.style.overflow;
     html.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
     return () => {
       html.style.overflow = prev;
+      document.body.style.overflow = prevBody;
     };
   }, []);
 
@@ -409,6 +412,12 @@ const Sheet = ({
   };
 
   const stale = query !== deferredQuery || pos !== deferredPos;
+
+  // Typing never scrolls the list: it stays at the top while the groups (Teams, Players) change
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  useLayoutEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+  }, [query, deferredQuery, pos]);
 
   return (
     <div ref={rootRef} className="ss-root" data-state={open ? 'open' : 'closed'}>
@@ -496,7 +505,7 @@ const Sheet = ({
             ))}
           </div>
         </div>
-        <div className={cn('ss-scroll', stale && 'is-stale')} onTouchStart={onListTouchStart} onTouchMove={onListTouchMove}>
+        <div ref={scrollRef} className={cn('ss-scroll', stale && 'is-stale')} onTouchStart={onListTouchStart} onTouchMove={onListTouchMove}>
           <Results
             query={deferredQuery}
             pos={deferredPos}
