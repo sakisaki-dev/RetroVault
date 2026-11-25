@@ -3,6 +3,7 @@ import { ArrowDown, ArrowUp, Star, StarHalf } from 'lucide-react';
 import GameSprite from '@/components/GameSprite';
 import ClubStrip from '@/components/brand/ClubStrip';
 import { cn } from '@/lib/utils';
+import { Select } from '@/components/controls';
 import type { Player } from '@/types/player';
 import { useGameSprites } from '@/utils/gameSprites';
 import { usePhone } from '@/hooks/usePhone';
@@ -176,13 +177,11 @@ const CapSheet = ({ state, rows, playerFor, onPlayerSelect }: CapSheetProps) => 
       </div>
 
       {/* Sort chips on phones; the table head sorts on wider screens */}
-      <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none md:hidden" role="group" aria-label="Sort the cap sheet">
-        {SORTS.map((s) => (
-          <button key={s.key} type="button" onClick={() => pick(s.key)} className={cn('fo-sortchip', sort.key === s.key && 'is-on')} aria-pressed={sort.key === s.key}>
-            {s.label}
-            {sort.key === s.key && <SortIcon className="h-3 w-3" aria-hidden="true" />}
-          </button>
-        ))}
+      <div className="flex items-center gap-2 md:hidden">
+        <Select<SortKey> label="Sort the cap sheet" prefix="SORT" className="min-w-0 flex-1" value={sort.key} onChange={(k) => k !== sort.key && pick(k)} options={SORTS.map((x) => ({ value: x.key, label: x.label, text: x.label }))} />
+        <button type="button" className="fo-sortchip is-on" aria-label={sort.desc ? 'Sorted high to low, reverse' : 'Sorted low to high, reverse'} onClick={() => setSort((x) => ({ ...x, desc: !x.desc }))}>
+          <SortIcon className="h-3.5 w-3.5" aria-hidden="true" />
+        </button>
       </div>
 
       <div className="fo-cap" role="table" aria-label={`${state.club} cap sheet`}>

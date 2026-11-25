@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { BarChart3, History, Trophy } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Choice } from '@/components/controls';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
 import { scheduleSeasons, useSchedule } from '@/utils/schedule';
@@ -112,24 +113,13 @@ const SeasonTab = () => {
             </p>
           </div>
           {options.length > 1 && (
-            <div role="group" aria-label="Season" className="flex max-w-full gap-1 overflow-x-auto rounded-lg bg-secondary/50 p-0.5 text-xs font-semibold">
-              {options.map((id) => (
-                <button
-                  key={id}
-                  type="button"
-                  aria-pressed={id === shown}
-                  onClick={() => setPicked(id)}
-                  className={cn(
-                    'inline-flex min-h-[36px] flex-shrink-0 items-center gap-1.5 rounded-md px-3 py-1.5 tabular-nums transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-                    id === shown ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground',
-                  )}
-                >
-                  {id === liveId && <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[hsl(357_90%_60%)] shadow-[0_0_6px_hsl(357_90%_60%)]" />}
-                  {id}
-                  {id === liveId && <span className="sr-only"> (live)</span>}
-                </button>
-              ))}
-            </div>
+            <Choice<string>
+              label="Season"
+              prefix="SEASON"
+              value={shown ?? options[0]}
+              onChange={setPicked}
+              options={options.map((id) => ({ value: id, text: id, label: id === liveId ? `${id} · live` : id }))}
+            />
           )}
         </div>
 

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ArrowDown, ArrowUp, ArrowUpDown, CalendarRange, Dice5, Gauge, Home, LineChart, Scale, Shield, TrendingUp, Waves } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Choice } from '@/components/controls';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { useCurrentClub } from '@/utils/club';
 import { reducedMotion } from '@/utils/motion';
@@ -182,25 +183,7 @@ const alignClass = (a: Column['align']) => (a === 'left' ? 'text-left' : a === '
 /** Season pills; nothing to pick (one season) = not shown. */
 const SeasonPicker = ({ seasons, value, onChange }: { seasons: ScheduleSeason[]; value: string; onChange: (s: string) => void }) =>
   seasons.length < 2 ? null : (
-  <div role="group" aria-label="Season" className="flex min-w-0 items-center gap-2">
-    <span className="font-pixel text-[9px] uppercase text-muted-foreground shrink-0">Season</span>
-    <div className="flex min-w-0 gap-1 overflow-x-auto scrollbar-none rounded-lg bg-secondary/50 p-1">
-      {seasons.map((s) => (
-        <button
-          key={s.season}
-          type="button"
-          aria-pressed={value === s.season}
-          onClick={() => onChange(s.season)}
-          className={cn(
-            'tap-40 shrink-0 rounded-md px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
-            value === s.season ? 'bg-gold text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
-          )}
-        >
-          {s.season}
-        </button>
-      ))}
-    </div>
-  </div>
+  <Choice<string> label="Season" prefix="SEASON" value={value} onChange={onChange} options={seasons.map((s) => ({ value: s.season, label: s.season, text: s.season }))} />
 );
 
 const AdvancedTable = ({ season, compact, onTrack }: { season: ScheduleSeason; compact: boolean; onTrack?: (team: string) => void }) => {

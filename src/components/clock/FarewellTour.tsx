@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { Choice } from '@/components/controls';
 import ProPlayerBanner from '@/components/brand/ProPlayerBanner';
 import ClubStrip from '@/components/brand/ClubStrip';
 import TeamLogo from '@/components/brand/TeamLogo';
@@ -143,13 +144,7 @@ const FarewellTour = ({ all, season, week, onSelect }: Props) => {
         week {week}.
       </p>
       <LastLap list={top} season={season} onSelect={onSelect} />
-      <div role="group" aria-label="Filter by position" className="clk-chips">
-        {(['ALL', ...positions] as const).map((p) => (
-          <button key={p} type="button" aria-pressed={pos === p} onClick={() => setPos(p)} className={cn('clk-chip', pos === p && 'is-on')}>
-            {p === 'ALL' ? 'All' : p}
-          </button>
-        ))}
-      </div>
+      <Choice<string> label="Filter by position" prefix="POS" value={pos} onChange={(v) => setPos(v as typeof pos)} options={(['ALL', ...positions] as const).map((p) => ({ value: p as string, label: p === 'ALL' ? 'All' : p, text: p === 'ALL' ? 'All' : p }))} />
       <GroupRows id="clk-final" title="Final season" note={`ends Y${season}`} rows={ranked(final)} season={season} onSelect={onSelect} />
       <GroupRows id="clk-one" title="One more season" note={`ends Y${season + 1}`} rows={ranked(one)} season={season} onSelect={onSelect} />
     </div>

@@ -176,10 +176,22 @@ export const Stepper = ({
     onChange(values ? values[n] : n);
   };
   const onKey = (e: KeyboardEvent) => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') (e.preventDefault(), go(1));
-    else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') (e.preventDefault(), go(-1));
-    else if (e.key === 'Home' && Number.isFinite(lo)) (e.preventDefault(), onChange(values ? values[0] : lo));
-    else if (e.key === 'End' && Number.isFinite(hi)) (e.preventDefault(), onChange(values ? values[hi] : hi));
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      go(1);
+    }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      go(-1);
+    }
+    else if (e.key === 'Home' && Number.isFinite(lo)) {
+      e.preventDefault();
+      onChange(values ? values[0] : lo);
+    }
+    else if (e.key === 'End' && Number.isFinite(hi)) {
+      e.preventDefault();
+      onChange(values ? values[hi] : hi);
+    }
   };
   return (
     <div className={cn('cs-stepper', className)} role="group" aria-label={label}>

@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Globe2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Stepper } from '@/components/controls';
 import type { RoundGame, SeasonView } from '@/utils/seasonLive';
 import ScoreBar, { WeatherIcons } from './ScoreBar';
 import { SectionTitle } from './SeasonGames';
@@ -33,38 +34,13 @@ const AroundTheLeague = ({ season }: { season: SeasonView }) => {
   const weeks = season.weeks ?? [];
   const lastPlayed = [...weeks].reverse().find((w) => w.games.some((g) => g.awayScore !== undefined))?.week;
   const [pick, setPick] = useState<number | null>(null);
-  const bar = useRef<HTMLDivElement | null>(null);
   const week = weeks.find((w) => w.week === pick) ?? weeks.find((w) => w.week === lastPlayed) ?? weeks[weeks.length - 1];
-  // Keep the shown week's pill in view inside the scrolling picker (never scrolls the page)
-  useEffect(() => {
-    const el = bar.current?.querySelector<HTMLElement>('[aria-pressed="true"]');
-    if (el && bar.current) bar.current.scrollLeft = el.offsetLeft - bar.current.clientWidth / 2 + el.offsetWidth / 2;
-  }, [week?.week]);
   if (!weeks.length || !week) return null;
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <SectionTitle icon={Globe2}>Around the league</SectionTitle>
-        <div ref={bar} role="group" aria-label="Week" className="scrollbar-none relative flex max-w-full gap-1 overflow-x-auto rounded-lg bg-secondary/50 p-0.5 text-xs font-semibold">
-          {weeks.map((w) => {
-            const toPlay = !w.games.some((g) => g.awayScore !== undefined);
-            return (
-              <button
-                key={w.week}
-                type="button"
-                aria-pressed={w.week === week.week}
-                aria-label={`Week ${w.week}${toPlay ? ', to play' : ''}`}
-                onClick={() => setPick(w.week)}
-                className={cn(
-                  'min-h-[36px] min-w-[36px] flex-shrink-0 rounded-md px-2 py-1.5 tabular-nums transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-                  w.week === week.week ? 'bg-background text-foreground shadow-sm' : toPlay ? 'text-muted-foreground/60 hover:text-foreground' : 'text-muted-foreground hover:text-foreground',
-                )}
-              >
-                {w.week}
-              </button>
-            );
-          })}
-        </div>
+        <Stepper label="Week" values={weeks.map((w) => w.week)} value={week.week} onChange={setPick} format={(n) => `Week ${n}`} />
       </div>
       <ul className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
         {week.games.map((g) => (

@@ -7,6 +7,7 @@ import TeamLogo from '../brand/TeamLogo';
 import { splitPlayerName } from '../brand/ProPlayerBanner.utils';
 import { FrameCrest, HallHeading, MedalCoin } from './hofParts';
 import { POSITIONS, clubFill, tierClass, tierOf, yearsOf } from './hofUtils';
+import { Choice, FilterGroup, FilterSheet } from '@/components/controls';
 import { cn } from '@/lib/utils';
 import GameSprite from '../GameSprite';
 import { statureScale, useGameSprites } from '@/utils/gameSprites';
@@ -171,24 +172,34 @@ const HofGallery = ({
         </p>
       </div>
 
-      <div className="mb-3 space-y-2">
-        <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1 scrollbar-none" role="group" aria-label="Filter by position">
-          <button type="button" className={chip(!pos)} aria-pressed={!pos} onClick={() => setPos(null)}>
-            All
-          </button>
-          {positions.map((p) => (
-            <button key={p} type="button" className={chip(pos === p)} aria-pressed={pos === p} onClick={() => setPos(pos === p ? null : p)}>
-              {p}
-            </button>
-          ))}
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <label className="flex min-w-0 flex-1 items-center gap-2 text-sm sm:flex-none">
-            <span className="font-pixel text-[9px] uppercase text-muted-foreground">Club</span>
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        <FilterSheet
+          active={[
+            ...(pos ? [{ id: 'pos', label: pos, onClear: () => setPos(null) }] : []),
+            ...(club ? [{ id: 'club', label: findNFLTeam(club)?.name ?? club, onClear: () => setClub('') }] : []),
+            ...(classLabel ? [{ id: 'class', label: classLabel, onClear: onClearClass }] : []),
+          ]}
+          onReset={() => {
+            setPos(null);
+            setClub('');
+            if (classLabel) onClearClass();
+          }}
+        >
+          <FilterGroup label="Position">
+            <Choice
+              wrap
+              label="Filter by position"
+              value={pos ?? 'ALL'}
+              onChange={(v) => setPos(v === 'ALL' ? null : v)}
+              options={[{ value: 'ALL', label: 'All' }, ...positions.map((p) => ({ value: p as string, label: p as string }))]}
+            />
+          </FilterGroup>
+          <FilterGroup label="Club">
             <select
+              aria-label="Club"
               value={club}
               onChange={(e) => setClub(e.target.value)}
-              className="min-h-[36px] min-w-0 flex-1 rounded-md border border-line bg-card px-2 text-base text-chalk focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:w-48 sm:flex-none sm:text-sm"
+              className="min-h-[36px] w-full min-w-0 rounded-md border border-line bg-card px-2 text-base text-chalk focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:text-sm"
             >
               <option value="">All clubs</option>
               {clubs.map((c) => (
@@ -197,29 +208,9 @@ const HofGallery = ({
                 </option>
               ))}
             </select>
-          </label>
-          <div className="flex rounded-full border border-line bg-card p-0.5" role="group" aria-label="Sort">
-            {SORTS.map((s) => (
-              <button
-                key={s.key}
-                type="button"
-                aria-pressed={sort === s.key}
-                onClick={() => setSort(s.key)}
-                className={cn(
-                  'min-h-[32px] rounded-full px-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
-                  sort === s.key ? 'bg-gold text-night' : 'text-muted-foreground hover:text-chalk',
-                )}
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
-          {classLabel && (
-            <button type="button" onClick={onClearClass} className={chip(true)} aria-label={`Clear the class filter (${classLabel})`}>
-              {classLabel} <span aria-hidden="true" className="ml-1.5">×</span>
-            </button>
-          )}
-        </div>
+          </FilterGroup>
+        </FilterSheet>
+        <Choice<SortKey> label="Sort" value={sort} onChange={setSort} options={SORTS.map((x) => ({ value: x.key, label: x.label }))} />
       </div>
 
       {shown.length ? (

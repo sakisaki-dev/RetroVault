@@ -3,6 +3,7 @@ import { leadersTakeaway } from './takeaways';
 import SectionIntro from './SectionIntro';
 import { Crown, ListOrdered } from 'lucide-react';
 import type { LeagueData, Player } from '@/types/player';
+import { Choice } from '@/components/controls';
 import { cn } from '@/lib/utils';
 import { formatDecimal } from '@/utils/metricColors';
 import PositionBadge from '../PositionBadge';
@@ -102,28 +103,13 @@ const GroupCard = ({ group, boards, onSelect }: { group: GroupKey; boards: Recor
             {label}
           </h3>
           {boards.length > 1 && (
-            <div role="group" aria-label={`${label} stat`} className="flex flex-wrap gap-1">
-              {boards.map((b) => {
-                const on = b.id === active.id;
-                return (
-                  <button
-                    key={b.id}
-                    type="button"
-                    aria-pressed={on}
-                    title={b.title}
-                    onClick={() => setActiveId(b.id)}
-                    className={cn(
-                      'tap-40 min-h-[28px] rounded px-2 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors',
-                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
-                      on ? 'text-night' : 'bg-night/60 text-muted-foreground hover:text-foreground',
-                    )}
-                    style={on ? { background: `hsl(${hsl})` } : undefined}
-                  >
-                    {b.short}
-                  </button>
-                );
-              })}
-            </div>
+            <Choice<string>
+              label={`${label} stat`}
+              prefix="STAT"
+              value={active.id}
+              onChange={setActiveId}
+              options={boards.map((x) => ({ value: x.id, label: x.short, text: x.short }))}
+            />
           )}
         </header>
 

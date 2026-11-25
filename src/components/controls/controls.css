@@ -26,11 +26,12 @@
 .cs-seg:hover:not(.is-on):not(:disabled) { color: var(--cs-ink); border-color: hsl(var(--gold) / 0.6); }
 .cs-seg.is-on { background: var(--cs-c1, var(--cs-gold)); border-color: transparent; color: var(--cs-ink-on, hsl(var(--night))); }
 .cs-toggle[style] .cs-seg.is-on { --cs-ink-on: var(--cs-ink); }
+.cs-seg:focus-visible, .cs-select__btn:focus-visible, .cs-stepper__btn:focus-visible, .cs-stepper__val:focus-visible, .cs-select__opt:focus-visible {
   outline: 2px solid var(--cs-gold);
   outline-offset: 2px;
 }
 .cs-seg:disabled { opacity: 0.4; cursor: not-allowed; }
-.cs-toggle { display: inline-flex; mcs-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.cs-toggle { display: inline-flex; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
 .cs-toggle::-webkit-scrollbar { display: none; }
 .cs-toggle--wrap { flex-wrap: wrap; overflow: visible; gap: 4px; }
 .cs-toggle:not(.cs-toggle--wrap) { gap: 4px; padding: 3px; border-radius: 999px; background: hsl(var(--card) / 0.6); border: 1px solid var(--cs-edge); }
@@ -39,7 +40,7 @@
 .cs-toggle--sm .cs-seg { min-height: 24px; padding: 3px 10px; font-size: 12.5px; }
 
 /* ---------- PixelSelect, PixelStepper ---------- */
-.cs-select { position: relative; display: inline-block; mcs-width: 100%; }
+.cs-select { position: relative; display: inline-block; max-width: 100%; }
 .cs-select__btn {
   display: inline-flex;
   align-items: center;
@@ -69,8 +70,8 @@
   left: 0;
   top: calc(100% + 4px);
   min-width: 100%;
-  mcs-width: min(320px, calc(100vw - 24px));
-  mcs-height: 260px;
+  max-width: min(320px, calc(100vw - 24px));
+  max-height: 260px;
   overflow-y: auto;
   margin: 0;
   padding: 4px;
@@ -94,7 +95,7 @@
 .cs-select__opt.is-active { background: var(--cs-gold); color: hsl(var(--night)); }
 .cs-select__hint { font-family: var(--font-display); font-size: 12px; opacity: 0.7; align-self: center; }
 
-.cs-stepper { display: inline-flex; align-items: stretch; mcs-width: 100%; border: 1px solid var(--cs-edge); border-radius: 999px; background: hsl(var(--card)); overflow: hidden; }
+.cs-stepper { display: inline-flex; align-items: stretch; max-width: 100%; border: 1px solid var(--cs-edge); border-radius: 999px; background: hsl(var(--card)); overflow: hidden; }
 .cs-stepper__btn {
   width: 34px; min-height: 32px;
   display: grid; place-items: center;

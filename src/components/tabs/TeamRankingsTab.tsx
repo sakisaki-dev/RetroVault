@@ -3,6 +3,7 @@ import { Building2, UserX } from 'lucide-react';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
 import { cn } from '@/lib/utils';
+import { Choice } from '@/components/controls';
 import PositionBadge from '../PositionBadge';
 import PlayerDetailCard from '../PlayerDetailCard';
 import TeamCard from '../teams/TeamCard';
@@ -45,27 +46,7 @@ const Segmented = <T extends string>({
   value: T;
   options: { key: T; label: string }[];
   onChange: (v: T) => void;
-}) => (
-  <div role="group" aria-label={label} className="flex items-center gap-2 min-w-0">
-    <span className="font-pixel text-[9px] uppercase text-muted-foreground shrink-0 w-9 sm:w-auto">{label}</span>
-    <div className="flex min-w-0 gap-1 overflow-x-auto scrollbar-none rounded-lg bg-secondary/50 p-1">
-      {options.map((o) => (
-        <button
-          key={o.key}
-          type="button"
-          aria-pressed={value === o.key}
-          onClick={() => onChange(o.key)}
-          className={cn(
-            'shrink-0 rounded-md px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wide transition-colors max-sm:min-h-10',
-            value === o.key ? 'bg-gold text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
-          )}
-        >
-          {o.label}
-        </button>
-      ))}
-    </div>
-  </div>
-);
+}) => <Choice<T> label={label} prefix={label} value={value} options={options.map((o) => ({ value: o.key, label: o.label, text: o.label }))} onChange={onChange} />;
 
 const CONF_OPTIONS: { key: ConferenceFilter; label: string }[] = [
   { key: 'all', label: 'All' },
@@ -221,7 +202,7 @@ const TeamRankingsTab = () => {
             <span className="font-pixel text-[9px] text-muted-foreground">{visible.length}</span>
           </h2>
         </div>
-        <div className="glass-card flex flex-col gap-2.5 p-3 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-6">
+        <div className="glass-card flex flex-wrap items-center gap-2 p-3 lg:gap-x-4">
           <Segmented<TeamSortKey> label="Sort" value={sortKey} options={TEAM_SORTS} onChange={setSortKey} />
           <Segmented<ConferenceFilter> label="Conf" value={conference} options={CONF_OPTIONS} onChange={setConference} />
           <Segmented<DivisionFilter> label="Div" value={division} options={DIV_OPTIONS} onChange={setDivision} />

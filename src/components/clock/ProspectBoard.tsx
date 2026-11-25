@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { Choice } from '@/components/controls';
 import type { Player, Position } from '@/types/player';
 import { TOP_PICKS_CEILING, draftBands, draftCeiling, growthSeasons, improveChance, prospectBoard, PROSPECT_MAX_AGE, starsOf, type ClockPlayer } from './clockModel';
 import ClubStrip from '@/components/brand/ClubStrip';
@@ -125,13 +126,7 @@ const ProspectBoard = ({ all, onSelect, draft }: Props) => {
         {capped ? `; ${capped} already sit at every ceiling` : ''}.
       </p>
       {draft && <DraftStrip d={draft} />}
-      <div role="group" aria-label="Filter by position" className="clk-chips">
-        {(['ALL', ...positions] as const).map((p) => (
-          <button key={p} type="button" aria-pressed={pos === p} onClick={() => setPos(p)} className={cn('clk-chip', pos === p && 'is-on')}>
-            {p === 'ALL' ? 'All' : p}
-          </button>
-        ))}
-      </div>
+      <Choice<string> label="Filter by position" prefix="POS" value={pos} onChange={(v) => setPos(v as typeof pos)} options={(['ALL', ...positions] as const).map((p) => ({ value: p as string, label: p === 'ALL' ? 'All' : p, text: p === 'ALL' ? 'All' : p }))} />
       <section aria-labelledby="clk-room">
         <h3 id="clk-room" className="clk-sb clk-sb--sticky">
           <span className="clk-sb__t">Room to grow</span>
