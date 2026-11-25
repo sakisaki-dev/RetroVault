@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react';
 import { CAREER_LABEL } from '@/config/ovr';
 import type { ArcadeRating } from './gameUtils';
+import { Segmented } from '@/components/controls';
+import { FilterGroup, SettingsPopover } from '@/components/controls';
 import './gameToggles.css';
 
 /**
@@ -67,46 +69,41 @@ interface Props {
   note?: string | null;
 }
 
-const Chips = <T extends string>({ label, value, options, onPick, locked, hint }: { label: string; value: T; options: { id: T; text: string; title?: string }[]; onPick: (v: T) => void; locked?: boolean; hint?: string }) => (
-  <div className={`gt-grp${locked ? ' is-locked' : ''}`} role="radiogroup" aria-label={label} title={hint}>
-    <span className="gt-lab">{label}</span>
-    <span className="gt-chips">
-      {options.map((o) => (
-        <button key={o.id} type="button" role="radio" aria-checked={value === o.id} className="gt-chip" title={o.title} disabled={locked && value !== o.id} onClick={() => onPick(o.id)}>
-          {o.text}
-        </button>
-      ))}
-    </span>
-  </div>
-);
-
 const GameToggles = ({ settings, onChange, showRating = true, note }: Props) => {
   const szn = showRating && settings.rating === 'szn';
+  const pool = szn ? 'active' : settings.pool;
+  const summary = `${pool === 'active' ? 'Active' : 'All'}${showRating ? ` · ${settings.rating === 'szn' ? 'SZN' : CAREER_LABEL}` : ''}`;
   return (
     <div className="gt" data-szn={szn ? '1' : undefined}>
-      <Chips
-        label="Players"
-        value={szn ? 'active' : settings.pool}
-        locked={szn}
-        hint={szn ? 'SZN rates this season, so active players only' : undefined}
-        options={[
-          { id: 'all', text: 'All', title: 'Every player in this game, retired too' },
-          { id: 'active', text: 'Active', title: 'Only players on a club now' },
-        ]}
-        onPick={(pool) => onChange({ pool })}
-      />
-      {showRating && (
-        <Chips<ArcadeRating>
-          label="Rating"
-          value={settings.rating}
-          options={[
-            { id: 'szn', text: 'SZN', title: "This season's rating (active players only)" },
-            { id: 'car', text: CAREER_LABEL, title: 'Career rating' },
-          ]}
-          onPick={(rating) => onChange({ rating })}
-        />
-      )}
-      {szn && <span className="gt-hint">SZN rates this season, so active players only</span>}
+      <SettingsPopover title="Game settings" summary={summary}>
+        <FilterGroup label="Players">
+          <Segmented
+            label="Players"
+            size="md"
+            value={pool}
+            onChange={(p) => onChange({ pool: p })}
+            options={[
+              { value: 'all', label: 'All', disabled: szn },
+              { value: 'active', label: 'Active' },
+            ]}
+          />
+        </FilterGroup>
+        {showRating && (
+          <FilterGroup label="Rating">
+            <Segmented<ArcadeRating>
+              label="Rating"
+              size="md"
+              value={settings.rating}
+              onChange={(rating) => onChange({ rating })}
+              options={[
+                { value: 'szn', label: 'SZN' },
+                { value: 'car', label: CAREER_LABEL },
+              ]}
+            />
+            <span className="ctl-hint">SZN rates this season, so active players only.</span>
+          </FilterGroup>
+        )}
+      </SettingsPopover>
       {note && <span className="gt-hint gt-note">{note}</span>}
     </div>
   );

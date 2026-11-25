@@ -1,6 +1,6 @@
 import { useDeferredValue, useMemo, useState } from 'react';
 import { Gem, Search, TrendingDown, TrendingUp } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Segmented, Select } from '@/components/controls';
 import type { OwnedAuto, OwnedCard } from '@/utils/collection';
 import { marketIndex, marketMovers, marketNews, pctChange, priceSeries, type MarketHistory } from '@/utils/cardMarket';
 import { useMarket } from '@/utils/useMarket';
@@ -96,21 +96,23 @@ const MarketView = ({ byKey, owned, autos, onOpen }: MarketViewProps) => {
       />
 
       <div className="mk-filters" role="group" aria-label="Market filters">
-        <div className="mk-seg" role="group" aria-label="Change since">
-          <button type="button" aria-pressed={period === 'last'} onClick={() => setPeriod('last')}>
-            Last update
-          </button>
-          <button type="button" aria-pressed={period === 'all'} onClick={() => setPeriod('all')}>
-            All time
-          </button>
-        </div>
-        <div className="mk-pos" role="group" aria-label="Position">
-          {['all', ...POSITIONS].map((p) => (
-            <button key={p} type="button" aria-pressed={pos === p} onClick={() => setPos(p)} className={cn(pos === p && 'is-on')}>
-              {p === 'all' ? 'All' : p}
-            </button>
-          ))}
-        </div>
+        <Segmented<'last' | 'all'>
+          label="Change since"
+          size="sm"
+          value={period}
+          onChange={setPeriod}
+          options={[
+            { value: 'last', label: 'Last update' },
+            { value: 'all', label: 'All time' },
+          ]}
+        />
+        <Select<string>
+          label="Position"
+          prefix="POS"
+          value={pos}
+          onChange={setPos}
+          options={['all', ...POSITIONS].map((p) => ({ value: p, label: p === 'all' ? 'All' : p }))}
+        />
         <label className="mk-search">
           <Search className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
           <span className="sr-only">Search players</span>

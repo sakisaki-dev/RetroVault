@@ -771,3 +771,5 @@
     justify-content: center;
   }
 }
+
+.bk-sort__sel { flex: 1; min-width: 0; max-width: 220px; }

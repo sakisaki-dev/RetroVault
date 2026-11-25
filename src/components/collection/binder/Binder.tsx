@@ -1,6 +1,7 @@
 import { startTransition, useCallback, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ArrowDownUp, ChevronLeft, ChevronRight, Coins, GalleryHorizontal, Search, SlidersHorizontal, X } from 'lucide-react';
 import type { Position } from '@/types/player';
+import { Select } from '@/components/controls';
 import { cn } from '@/lib/utils';
 import { reducedMotion } from '@/utils/motion';
 import { FINISHES, TIERS, type DisplayChoice, type OwnedCard, type Tier } from '@/utils/collection';
@@ -173,17 +174,6 @@ const Binder = ({
     bookRef.current?.animate?.([{ opacity: 0.35, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 240, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
   }, [filterKey]);
 
-  // The chosen sort stays in view in its sideways row (never scrolls the page itself)
-  const sortRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const row = sortRef.current;
-    const on = row?.querySelector<HTMLElement>('.is-on');
-    if (!row || !on) return;
-    const left = on.offsetLeft - row.offsetLeft;
-    if (left < row.scrollLeft || left + on.offsetWidth > row.scrollLeft + row.clientWidth - 18)
-      row.scrollTo({ left: Math.max(0, left - 24), behavior: reducedMotion() ? 'auto' : 'smooth' });
-  }, [f.sort]);
-
   const onKey = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
       e.preventDefault();
@@ -331,19 +321,13 @@ const Binder = ({
         <span className="bk-sort__k" aria-hidden="true">
           Sort
         </span>
-        <div className="bk-sort__chips" ref={sortRef}>
-          {SORTS.map((s) => (
-            <button
-              key={s.key}
-              type="button"
-              className={cn('bk-sort__c', f.sort === s.key && 'is-on')}
-              aria-pressed={f.sort === s.key}
-              onClick={() => set({ sort: s.key, rev: f.sort === s.key ? f.rev : false })}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
+        <Select
+          className="bk-sort__sel"
+          label="Sort the binder by"
+          value={f.sort}
+          onChange={(k) => set({ sort: k, rev: f.sort === k ? f.rev : false })}
+          options={SORTS.map((x) => ({ value: x.key, label: x.label }))}
+        />
         <button
           type="button"
           className={cn('bk-sort__rev', f.rev && 'is-on')}

@@ -1,0 +1,17 @@
+/* Deep Dive hero pills (DdHero.tsx): two rows of one pill style. Row 1 his facts, row 2 his path: college → draft → clubs. */
+.dd-facts, .dd-path { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.dd-path { margin-top: 6px; }
+.dd-path:empty { display: none; }
+.dd-facts > *, .dd-path > *, .dd-path li > * {
+  height: 30px; display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box;
+  border-radius: 999px; padding: 0 11px; font-size: 12.5px; line-height: 1; white-space: nowrap;
+}
+/* the old boxed "lamp" chips (GP, HOF, Family) read as the same rounded pill here */
+.dd-facts > .lamp { border: 1px solid hsl(var(--line)); background: hsl(var(--panel)); font-family: inherit; letter-spacing: 0.02em; text-transform: none; }
+.dd-facts > .lamp b { margin-left: 2px; }
+/* the path's pills read in order (his clubs) and wrap; no separators */
+.dd-path ul { display: contents; }
+.dd-path li { display: contents; }
+/* the card hint: desktop only, pushed to the row's end */
+.dd-facts__hint { margin-left: auto; border: 0 !important; background: none !important; padding: 0 !important; color: hsl(var(--muted-foreground)); font-size: 12px; }
+@media (max-width: 767px) { .dd-facts__hint { display: none !important; } }
