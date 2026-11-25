@@ -1,0 +1,21 @@
+.arcade .gt { margin-left: auto; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 6px 10px; position: relative; z-index: 1; min-width: 0; }
+.arcade .gt-grp { display: inline-flex; align-items: center; gap: 6px; }
+.arcade .gt-lab { font-family: var(--f-pixel); font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.arcade .gt-chips { display: inline-flex; padding: 2px; gap: 2px; border-radius: 999px; background: #000; border: 1px solid #333; }
+.arcade .gt-chip {
+  font-family: var(--f-pixel); font-size: 10px; text-transform: uppercase; color: var(--muted); background: transparent; border: 0; border-radius: 999px;
+  padding: 5px 10px; min-height: 28px; cursor: pointer; transition: background 0.15s, color 0.15s;
+}
+.arcade .gt-chip:hover:not(:disabled) { color: var(--chalk); }
+.arcade .gt-chip[aria-checked='true'] { background: var(--turf-deep); color: var(--gold); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 45%, transparent); }
+.arcade .gt-chip:disabled { cursor: not-allowed; }
+.arcade .gt-grp.is-locked .gt-chips { opacity: 0.85; }
+.arcade .gt-grp.is-locked .gt-chip[aria-checked='true']::after { content: ' \1F512'; font-size: 8px; }
+.arcade .gt-hint { flex-basis: 100%; text-align: right; font-size: 11px; line-height: 1.25; color: var(--muted); }
+.arcade .gt-note { color: var(--gold); }
+@media (max-width: 640px) {
+  .arcade .gamebar { flex-wrap: wrap; }
+  .arcade .gt { flex-basis: 100%; margin-left: 0; justify-content: flex-start; }
+  .arcade .gt-hint { text-align: left; }
+  .arcade .gt-chip { padding: 5px 9px; }
+}

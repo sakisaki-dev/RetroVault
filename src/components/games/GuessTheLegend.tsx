@@ -16,6 +16,7 @@ import {
   MYSTERY_STYLE,
   STAT_KEYS,
   fmt,
+  getRateScoutLine,
   getStatLine,
   isDefender,
   isLegend,
@@ -68,6 +69,8 @@ const buildClues = (p: Player, rating: number, league: Player[], tag: string): C
     .traits.filter((t) => t.grade && Number.isFinite(t.percentile))
     .sort((a, b) => b.percentile - a.percentile)
     .slice(0, 4);
+  const rates = getRateScoutLine(p).filter((s): s is { label: string; value: string } => s.value != null);
+  const fallbackStats = (rates.length >= 3 ? rates : getStatLine(p)).slice(0, 4);
   return [
     {
       title: 'Rating',
@@ -101,10 +104,11 @@ const buildClues = (p: Player, rating: number, league: Player[], tag: string): C
     },
     {
       title: 'Skill fingerprint',
-      content: grades.length ? (
+      // Never an empty clue: a player with too few graded traits gets his per-game rates instead (always on file), then the classic stat line
+      content: grades.length >= 2 ? (
         grades.map((g, i) => <ClueStat key={i} label={i === 0 ? 'Best skill' : `Skill ${i + 1}`} value={g.grade!.grade} />)
       ) : (
-        <ClueStat label="Skills" value="Not enough data" />
+        fallbackStats.map((s) => <ClueStat key={s.label} label={s.label} value={s.value} />)
       ),
     },
     {
@@ -317,7 +321,7 @@ const GuessTheLegend = ({ players, ovrMap }: { players: Player[]; ovrMap: Map<st
           <Tile label="Pos" value={g.position} state={revealed >= POSITION_CLUE ? (g.position === answer.position ? 'match' : 'wrong') : 'hidden'} />
           <Tile label="Team" value={gTeam?.abbreviation ?? '-'} state={revealed >= TEAM_CLUE ? teamTile(gTeam, aTeam) : 'hidden'} />
           <Tile label={tag} value={ovrOf(g)} state={numberTile(ovrOf(g), ovrOf(answer))} />
-          <Tile label="Rings" value={g.rings} state={numberTile(g.rings, answer.rings)} />
+          <Tile label="Rings" value={g.rings ?? 0} state={numberTile(g.rings ?? 0, answer.rings ?? 0)} />
         </div>
       </li>
     );
