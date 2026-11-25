@@ -1,0 +1,147 @@
+/* Teams hero, "Ring of honor": the stadium bowl from midfield, every club a plaque on the ring, the top franchises' greatest players on the turf. */
+.bn {
+  --bn-h: 360px;
+  --bn-gold: hsl(var(--gold));
+  position: relative;
+  height: var(--bn-h);
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid hsl(var(--line));
+  background: #090d1a;
+  isolation: isolate;
+  contain: paint;
+}
+@media (max-width: 640px) {
+  .bn { --bn-h: 340px; }
+}
+.bn-kicker {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.2;
+}
+.bn-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.9;
+  font-size: 56px;
+  color: var(--bn-gold);
+  text-shadow: 0 3px 0 rgb(0 0 0 / 0.55);
+}
+.bn-word { display: flex; flex-direction: column; gap: 4px; }
+.bn-counts { display: flex; gap: 6px; margin: 0; }
+.bn-count {
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  padding: 5px 11px 4px;
+  min-width: 68px;
+  border-radius: 10px;
+  background: rgb(4 6 15 / 0.72);
+  border: 1px solid hsl(var(--line));
+}
+/* floodlight beams */
+.bn-beam {
+  position: absolute; top: -10%; width: 44%; height: 125%; z-index: 4; pointer-events: none;
+  background: linear-gradient(180deg, rgb(255 248 220 / 0.28), rgb(255 248 220 / 0) 78%);
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+  mix-blend-mode: screen;
+  transform-origin: 50% 0;
+}
+.bn-beam--l { left: -4%; transform: rotate(-20deg); }
+.bn-beam--r { right: -4%; transform: rotate(20deg); }
+@media (prefers-reduced-motion: no-preference) {
+  .bn-beam--l { animation: bn-sweep-l 9s ease-in-out infinite alternate; }
+  .bn-beam--r { animation: bn-sweep-r 9s ease-in-out infinite alternate; animation-delay: -4.5s; }
+}
+@keyframes bn-sweep-l { from { transform: rotate(-26deg); } to { transform: rotate(-12deg); } }
+@keyframes bn-sweep-r { from { transform: rotate(26deg); } to { transform: rotate(12deg); } }
+[data-perf='lite'] .bn-beam { display: none; }
+/* ================= 3 · Ring of honor ================= */
+.bn3 { background: linear-gradient(#050816, #10183a 40%); }
+.bn3-stands, .bn3-crowd, .bn3-turf { position: absolute; left: 0; right: 0; image-rendering: pixelated; background-repeat: repeat-x; }
+.bn3-stands { top: 48px; height: 112px; background-color: #1e2a58; background-image: var(--bn-stands); background-size: auto 100%; }
+.bn3-crowd { top: 150px; height: 92px; background-color: #2b3460; background-image: var(--bn-crowd); background-size: auto 100%; }
+.bn3-turf { top: 236px; bottom: 0; background-color: #1f6b2e; background-image: var(--bn-turf); background-size: auto 270%; background-position: center 48%; box-shadow: inset 0 3px 0 rgb(255 255 255 / 0.22); }
+.bn3-turf::after { content: ''; position: absolute; inset: 0; background: radial-gradient(70% 100% at 50% 100%, transparent 45%, rgb(0 0 0 / 0.45)); }
+.bn3-rim {
+  position: absolute; z-index: 2; left: -10%; right: -10%; top: 14px; height: 120px;
+  border-top: 3px solid hsl(var(--gold)); border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: linear-gradient(rgb(5 8 22 / 0.94), rgb(5 8 22 / 0.55) 55%, transparent);
+  box-shadow: 0 -2px 18px rgb(255 215 120 / 0.25);
+}
+.bn3-ring { position: absolute; z-index: 3; left: 0; right: 0; top: 0; margin: 0; padding: 0 6px; list-style: none; display: grid; grid-template-columns: repeat(32, minmax(0, 1fr)); gap: 2px; }
+.bn3-li { display: block; margin-top: calc(var(--dy32) + 5px); }
+.bn3-plaque {
+  position: relative; width: 100%; cursor: pointer; border: 0; margin: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 0; padding: 3px 0 0; height: 44px;
+  border-radius: 6px 6px 10px 10px; background: var(--c1); box-shadow: inset 0 0 0 1px var(--c2), 0 3px 0 rgb(0 0 0 / 0.45);
+  animation: bn3-sway 7s ease-in-out infinite alternate; transform-origin: 50% 0;
+}
+.bn3-li:nth-child(3n) .bn3-plaque { animation-delay: -2.3s; } .bn3-li:nth-child(3n+1) .bn3-plaque { animation-delay: -4.6s; }
+.bn3-plaque:hover, .bn3-plaque:focus-visible { filter: brightness(1.15); outline: none; }
+.bn3-plaque:focus-visible, .bn3-fig:focus-visible { box-shadow: 0 0 0 2px #fff; }
+.bn3-plaque img, .bn3-plaque svg { max-width: 82%; height: auto; }
+/* a logo in its own club colour (the Jets' green on green) needs a light edge to read on its plaque */
+.bn3-plaque img { filter: drop-shadow(0 0 1px rgb(255 255 255 / 0.95)) drop-shadow(0 0 1px rgb(255 255 255 / 0.8)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.5)); }
+.bn3-plaque b { font-size: 7px; line-height: 1; color: #ffd75a; letter-spacing: -0.5px; text-shadow: 0 1px 0 rgb(0 0 0 / 0.6); min-height: 8px; }
+.bn3-plaque.is-first { box-shadow: inset 0 0 0 2px #ffd75a, 0 0 14px rgb(255 215 90 / 0.7), 0 3px 0 rgb(0 0 0 / 0.45); }
+@keyframes bn3-sway { from { transform: rotate(-1.6deg); } to { transform: rotate(1.6deg); } }
+.bn3-jumbo {
+  position: absolute; z-index: 4; left: 50%; top: 82px; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 18px; padding: 9px 18px 9px 20px;
+  border-radius: 12px; background: #04060f; border: 2px solid #3a4160;
+  box-shadow: 0 0 0 1px #000, 0 0 30px rgb(255 215 120 / 0.28);
+}
+.bn3-jumbo::before, .bn3-jumbo::after { content: ''; position: absolute; bottom: 100%; width: 3px; height: 26px; background: #6d7694; }
+.bn3-jumbo::before { left: 16%; } .bn3-jumbo::after { right: 16%; }
+.bn3-jumbo .bn-title { font-size: 48px; }
+.bn3-row { position: absolute; z-index: 4; left: 0; right: 0; bottom: 8px; display: flex; justify-content: center; align-items: flex-end; gap: clamp(0px, 3.5vw, 64px); padding: 0 8px; }
+.bn3-fig { background: none; border: 0; padding: 0; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; filter: drop-shadow(0 6px 4px rgb(0 0 0 / 0.5)); }
+.bn3-fig:nth-child(1), .bn3-fig:nth-child(5) { margin-bottom: 8px; }
+.bn3-fig.is-first { margin-bottom: -2px; }
+.bn3-name { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px 2px 5px; border-radius: 999px; background: rgb(4 6 15 / 0.85); border: 1px solid hsl(var(--line)); line-height: 1; white-space: nowrap; }
+.bn3-name i { font-style: normal; font-family: var(--font-display); font-weight: 800; font-size: 11px; color: #ffd75a; }
+.bn3-name b { font-family: var(--font-display); font-weight: 800; font-size: 12px; text-transform: uppercase; color: #fff; }
+.bn3-fig.is-first .bn3-name { border-color: #ffd75a; }
+@media (max-width: 640px) {
+  .bn3-ring { grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 3px; }
+  .bn3-li { margin-top: calc(var(--dy16) * 0.5 + 4px); }
+  .bn3-li:nth-child(n+17) { margin-top: calc(var(--dy16) * 0.5 + 6px); }
+  .bn3-plaque { height: 40px; }
+  .bn3-rim { top: 10px; }
+  .bn3 { --bn-h: 380px; }
+  .bn3-jumbo { top: 148px; gap: 8px; padding: 6px 10px; }
+  .bn3-jumbo .bn-title { font-size: 34px; }
+  .bn3-jumbo .bn-kicker { font-size: 6px; white-space: nowrap; }
+  .bn3-jumbo .bn-count { min-width: 0; padding: 3px 5px 2px; }
+  .bn3-jumbo .bn-count dd { font-size: 18px; }
+  .bn3-jumbo .bn-count dt { font-size: 6px; }
+  .bn3-stands { top: 60px; }
+  .bn3-crowd { top: 186px; height: 84px; }
+  .bn3-turf { top: 262px; }
+  .bn3-fig:nth-child(1), .bn3-fig:nth-child(5) { display: none; }
+  .bn3-row { gap: 6px; }
+  .bn3-name b { max-width: 64px; overflow: hidden; text-overflow: ellipsis; }
+}
+@media (prefers-reduced-motion: reduce) { .bn3-plaque { animation: none; } }
+[data-perf='lite'] .bn3-plaque { animation: none; }
+.bn3-fig:disabled { cursor: default; }
+@media (max-width: 640px) {
+  .bn-count { min-width: 0; }
+  .bn-count dt { white-space: normal; text-align: center; line-height: 1.1; }
+  .bn-counts { gap: 4px; }
+}
+
+/* player names are club-colour strips (never underlined text) */
+.bn3-name { background: var(--c1, rgb(4 6 15 / 0.85)); border-color: var(--c2, hsl(var(--line))); text-decoration: none; }
+.bn3-name b { color: var(--ink, #fff); text-shadow: 0 1px 0 rgb(0 0 0 / 0.25); }
+.bn3-name i { color: var(--ink, #ffd75a); opacity: 0.85; }
+.bn3-name em { font-style: normal; font-family: var(--font-pixel); font-size: 7px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink, #fff); opacity: 0.8; }
+.bn3-fig.is-first .bn3-name { box-shadow: 0 0 0 1px #ffd75a; }
+.bn3-jumbo .bn-kicker { white-space: nowrap; }
+@media (min-width: 641px) { .bn3-jumbo .bn-count dt { white-space: nowrap; } }
+@media (max-width: 640px) { .bn3-name { padding: 2px 6px 2px 4px; gap: 3px; } .bn3-name b { max-width: 50px; font-size: 11px; } .bn3-name em, .bn3-name img, .bn3-name svg { display: none; } .bn3-row { gap: 4px; padding: 0 4px; } }

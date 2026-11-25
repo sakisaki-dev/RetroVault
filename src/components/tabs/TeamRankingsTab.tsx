@@ -9,6 +9,8 @@ import TeamCard from '../teams/TeamCard';
 import CountUp from '../brand/CountUp';
 import TeamSheet from '../teams/TeamSheet';
 import { OPEN_TEAM_EVENT } from '@/utils/teamSearch';
+import BannerRing from '../teams/banner/BannerRing';
+import { useBannerData } from '../teams/banner/useBannerData';
 import PowerRanking from '../teams/PowerRanking';
 import DynastyGrid from '../teams/DynastyGrid';
 import TeamAdvanced from '../teams/TeamAdvanced';
@@ -122,9 +124,10 @@ const TeamRankingsTab = () => {
     return out;
   }, [visible, sortKey]);
 
+  const bannerData = useBannerData();
   const openSummary = teams.find((t) => t.key === openKey) ?? null;
   // A club strip elsewhere (the Season page) links here as #stats/teams?p=<club>: open that club's sheet once
-  const { route } = useHubRoute();
+  const { route, navigate } = useHubRoute();
   const wanted = route.sub === 'teams' ? route.p : undefined;
   useEffect(() => {
     if (!wanted) return;
@@ -165,7 +168,14 @@ const TeamRankingsTab = () => {
 
   return (
     <div className="container py-6 sm:py-8 space-y-6">
-      {/* Page header */}
+      {/* Page hero: the Ring of Honor banner (plaques open the club sheet, players the Deep Dive); the plain header where it can't draw */}
+      {bannerData ? (
+        <BannerRing
+          data={bannerData}
+          onOpenClub={setOpenKey}
+          onOpenPlayer={(p) => navigate({ tab: 'career', sub: 'deepdive', p: `${p.position}:${p.name}` })}
+        />
+      ) : (
       <header className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div className="min-w-0">
           <p className="font-pixel text-[10px] uppercase text-gold">League Hub · Franchises</p>
@@ -183,6 +193,8 @@ const TeamRankingsTab = () => {
           <span className="lamp">Hall of Famers <b><CountUp value={totals.hof} /></b></span>
         </div>
       </header>
+
+      )}
 
       {/* League overview: power ranking + dynasty timeline */}
       {teams.length > 0 && (
