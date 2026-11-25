@@ -77,7 +77,7 @@ const CareerArcScene = ({ data, ovr, sprites }: { data: CareerArcData; ovr: numb
   const cur = points[Math.max(0, idx)];
   const done = idx >= N - 1;
   const nums = [
-    ...(ovr != null ? [{ label: 'CAR', value: String(ovr) }] : []),
+    ...(ovr != null ? [{ label: 'OVR', value: String(ovr) }] : []),
     { label: 'Peak SZN', value: `${peak.v} (Y${peak.year})` },
     { label: 'Title seasons', value: String(titles) },
     ...bannerStats(p).slice(0, 2).map((s) => ({ label: s.label, value: Math.round(s.value).toLocaleString('en-US') })),
