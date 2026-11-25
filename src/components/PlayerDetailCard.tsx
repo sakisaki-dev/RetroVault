@@ -1,3 +1,4 @@
+import ClubTile from './player/ClubTile';
 import { Suspense, lazy, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Activity, BarChart3, Gauge, Layers, LayoutDashboard, Milestone, Pencil, Radar, Trophy, Users } from 'lucide-react';
 import { openInCompFinder } from './stats/comps/compFinderLink';
@@ -422,7 +423,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
               <span className="pc-tile__k">Number</span>
               <span className="pc-tile__v pc-tile__v--num">#{jerseyNumber}</span>
             </div>
-            <div className="pc-tile pc-tile--club">
+            <ClubTile team={team} onLeave={onClose} className="pc-tile pc-tile--club">
               {team ? (
                 <>
                   <span className="pc-logo-puck pc-tile__puck">
@@ -444,7 +445,7 @@ const PlayerDetailCard = ({ player: selectedProp, onClose }: PlayerDetailCardPro
               ) : (
                 <span className="pc-tile__v">No team</span>
               )}
-            </div>
+            </ClubTile>
             <RetiredStrip player={player} onLeave={onClose} className="pc-ids__retired" />
             {formerName && <p className="pc-ids__former">Formerly known as {formerName}</p>}
           </div>

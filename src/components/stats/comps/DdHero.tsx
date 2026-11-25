@@ -16,6 +16,7 @@ import GameSprite from '../../GameSprite';
 import TributeButton from '../../tribute/TributeButton';
 import { RetiredHangers } from '../../teams/RetiredBadge';
 import { keyOf } from '../records';
+import { openTeamPage } from '@/utils/teamSearch';
 import { SmallSampleChip } from './ddParts';
 
 const ctl =
@@ -148,9 +149,17 @@ const DdHero = ({ player, options, ovr, ovrTitle, ovrLabel, ovrAlt, wide, onChoo
         {franchises.length > 0 && (
           <ul className="flex flex-wrap items-center gap-1.5" aria-label="Franchise history">
             {franchises.map((f, i) => (
-              <li key={`${f}-${i}`} className="inline-flex items-center gap-1 rounded-full border border-line bg-panel px-2 py-0.5 text-xs">
-                <TeamLogo team={f} size={16} decorative backed />
-                <span>{findNFLTeam(f)?.name ?? f}</span>
+              <li key={`${f}-${i}`}>
+                <button
+                  type="button"
+                  disabled={!findNFLTeam(f)}
+                  onClick={() => openTeamPage(findNFLTeam(f)!.name)}
+                  title={`Open the ${findNFLTeam(f)?.fullName ?? f} team page`}
+                  className="ix-card inline-flex cursor-pointer items-center gap-1 rounded-full border border-line bg-panel px-2 py-0.5 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold disabled:cursor-default"
+                >
+                  <TeamLogo team={f} size={16} decorative backed />
+                  <span>{findNFLTeam(f)?.name ?? f}</span>
+                </button>
               </li>
             ))}
           </ul>

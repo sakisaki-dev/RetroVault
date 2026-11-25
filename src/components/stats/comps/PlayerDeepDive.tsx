@@ -234,19 +234,35 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
   // ---------- Section index (scroll-spy) ----------
   const [active, setActive] = useState<string>(SECTIONS[0].id);
   useEffect(() => {
-    if (typeof IntersectionObserver === 'undefined') return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-        if (vis) setActive(vis.target.id);
-      },
-      { rootMargin: '-25% 0px -65% 0px' },
-    );
-    SECTIONS.forEach((s) => {
-      const el = document.getElementById(s.id);
-      if (el) io.observe(el);
-    });
-    return () => io.disconnect();
+    // Scroll-spy on the scroll position itself: the section whose top has passed a line 30% down the screen is the
+    // one being read (an IntersectionObserver missed sections that mount late and tall ones that never crossed its band).
+    let raf = 0;
+    const pickActive = () => {
+      raf = 0;
+      const line = window.innerHeight * 0.3;
+      let cur: string = SECTIONS[0].id;
+      for (const s of SECTIONS) {
+        const el = document.getElementById(s.id);
+        if (el && el.getBoundingClientRect().top - line <= 0) cur = s.id;
+      }
+      // at the very bottom the last section counts even if its top never reaches the line
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+        const last = [...SECTIONS].reverse().find((s) => document.getElementById(s.id));
+        if (last) cur = last.id;
+      }
+      setActive(cur);
+    };
+    const onScroll = () => {
+      if (!raf) raf = window.requestAnimationFrame(pickActive);
+    };
+    pickActive();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (raf) window.cancelAnimationFrame(raf);
+    };
   }, [player]);
   const jump = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
@@ -431,6 +447,7 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
                   topComps={mapComps}
                   overlayKey={overlay && !overlay.player.isRealLegend ? keyOf(overlay.player) : ''}
                   onPick={(p) => choose(keyOf(p))}
+                  quickLookWith={player ?? undefined}
                   wide={wide}
                   focusZoom={wide ? 1.8 : 1.6}
                 />

@@ -1,5 +1,5 @@
 import { ovrLabelOf } from '@/utils/useOfficialOvr';
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent as RPointerEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type PointerEvent as RPointerEvent } from 'react';
 import { Maximize2, Minus, Plus } from 'lucide-react';
 import type { Player } from '@/types/player';
 import { SIM_MIN_GAMES } from '@/config/advanced';
@@ -13,6 +13,7 @@ import { FamilyPanel, FamilyZoneLabels, FamilyZoneLayer } from '../visual/Family
 import { buildZones } from '../visual/zones';
 import { dotColors } from './compColors';
 import { peekProps } from '../../peek/peekProps';
+import { openPlayerPeek, registerPeekContext, type PeekContext } from '../../peek/PlayerPeek';
 import type { SimilarityMap } from './compModel';
 
 const GOLD = 'hsl(43 100% 62%)';
@@ -35,6 +36,8 @@ interface Props {
   onOpenMember?: (p: Player) => void;
   /** Tooltip label for the nearest neighbour (default "Top comp"). */
   nnLabel?: string;
+  /** The Deep Dive: a tap on a dot opens the quick look (Head-to-Head runs this player against the tapped one, Deep Dive switches the dive) instead of switching at once. */
+  quickLookWith?: Player;
 }
 
 interface View {
@@ -62,7 +65,22 @@ const ZoomButton = ({ label, onClick, children, disabled }: { label: string; onC
 );
 
 /** 2-D similarity map of one position: dots that sit close together play alike. Drag to pan, pinch / ctrl+wheel / buttons to zoom. */
-const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide, focusZoom, zones: zonesProp = true, onOpenMember, nnLabel = 'Top comp' }: Props) => {
+const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide, focusZoom, zones: zonesProp = true, onOpenMember, nnLabel = 'Top comp', quickLookWith }: Props) => {
+  const peekCtx = useMemo<PeekContext | undefined>(() => (quickLookWith ? { h2hWith: quickLookWith, onDive: onPick } : undefined), [quickLookWith, onPick]);
+  useEffect(() => (peekCtx ? registerPeekContext('nbhd', peekCtx) : undefined), [peekCtx]);
+  const open = (p: Player, e: { clientX: number; clientY: number; currentTarget: Element }, keyboard = false) => {
+    if (!peekCtx) return onPick(p);
+    const k = peekProps(p)['data-player-key'];
+    if (!k) return onPick(p);
+    let { clientX: x, clientY: y } = e;
+    if (keyboard || (x === 0 && y === 0)) {
+      const b = e.currentTarget.getBoundingClientRect();
+      x = b.left + b.width / 2;
+      y = b.top + b.height / 2;
+      keyboard = true;
+    }
+    openPlayerPeek(k, x, y, { ctx: peekCtx, keyboard });
+  };
   const reduced = usePrefersReducedMotion();
   const [hoverKey, setHoverKey] = useState<string | null>(null);
   const [zonesOn, setZonesOn] = useState(true);
@@ -271,13 +289,6 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
     });
   })();
 
-  const onKey = (e: KeyboardEvent, p: Player) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      onPick(p);
-    }
-  };
-
   const tip = hover && (() => {
     const fx = sx(hover.px) / W;
     const fy = sy(hover.py) / H;
@@ -413,10 +424,16 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
                 role="button"
                 aria-pressed={isSel}
                 aria-label={`${p.player.name}, ${findNFLTeam(p.player.team)?.abbreviation ?? p.player.team ?? 'no team'}${p.ovr != null ? `, OVR ${p.ovr}` : ''}${hof ? ', Hall of Famer' : ''}${fams && famOf(p.key) != null ? `, ${fams.families[famOf(p.key)!].name}` : ''}${p.nn >= 0 ? `. Top comp ${layout[p.nn].player.name} ${Math.round(p.nnScore)}%` : ''}`}
-                onClick={() => {
-                  if (!dragged.current) onPick(p.player);
+                onClick={(e) => {
+                  if (!dragged.current) open(p.player, e);
                 }}
-                onKeyDown={(e) => onKey(e, p.player)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    open(p.player, { clientX: 0, clientY: 0, currentTarget: e.currentTarget }, true);
+                  }
+                }}
+                data-peek-ctx={peekCtx ? 'nbhd' : undefined}
                 onMouseEnter={() => setHoverKey(p.key)}
                 onFocus={() => setHoverKey(p.key)}
                 onBlur={() => setHoverKey((k) => (k === p.key ? null : k))}

@@ -2,6 +2,7 @@ import type { Player } from '@/types/player';
 import TeamLogo from '@/components/brand/TeamLogo';
 import { cn } from '@/lib/utils';
 import { fmtFixed } from '@/utils/numberFormat';
+import { useSchedule } from '@/utils/schedule';
 import { GOLD } from '../../visual/chartKit';
 import { VIZ, ordinal } from '../../analytics/viz';
 import type { Career } from './careerStory';
@@ -148,6 +149,7 @@ export const ClubSplits = ({ player, career }: { player: Player; career: Career 
 
 /** His best and worst recorded seasons by season score, each with its line, plus his percentile ranks at a glance. */
 export const BestSeasons = ({ player, career, onIdx }: { player: Player; career: Career; onIdx: (i: number) => void }) => {
+  const schedule = useSchedule();
   const box = BOX[groupOf(player.position)];
   const scored = career.points
     .map((p, i) => ({ p, i, s: seasonScore(player.position, p) }))
@@ -166,9 +168,20 @@ export const BestSeasons = ({ player, career, onIdx }: { player: Player; career:
     .filter((t) => t.n >= 2);
   const Row = ({ r, rank, tone }: { r: (typeof scored)[number]; rank: string; tone: 'best' | 'worst' }) => {
     const ink = clubInk(career.clubs[r.i]);
+    // the club's record that season (only seasons with weekly scores), and what he won in it
+    const row = schedule?.seasons[`Y${r.p.year}`]?.table.find((t) => t.team === ink.team?.name || t.abbr === ink.team?.abbreviation);
+    const aw = r.p.awards ?? {};
+    const honours = [
+      aw.rings > 0 ? 'Ring' : '',
+      aw.mvp > 0 ? 'MVP' : '',
+      aw.opoy > 0 ? 'OPOY' : '',
+      aw.dpoy > 0 ? 'DPOY' : '',
+      aw.sbmvp > 0 ? 'SB MVP' : '',
+    ].filter(Boolean);
     return (
       <li>
         <button type="button" className="cg-season" onClick={() => onIdx(r.i)} style={{ borderLeftColor: ink.mark }}>
+          {ink.team && <TeamLogo team={ink.team.name} size={26} decorative />}
           <span className={cn('cg-season__rank', tone === 'worst' && 'cg-season__rank--low')}>{rank}</span>
           <span className="min-w-0 flex-1">
             <span className="block font-display text-sm font-bold uppercase leading-tight text-chalk">
@@ -177,6 +190,15 @@ export const BestSeasons = ({ player, career, onIdx }: { player: Player; career:
             <span className="block truncate text-[11px] text-muted-foreground">
               {r.p.games} G · {box.map((b) => `${shortNum(r.p.box?.[b.key] ?? 0)} ${b.short.toLowerCase()}`).join(' · ')}
             </span>
+            {(row || honours.length > 0 || r.p.ovr != null) && (
+              <span className="cg-season__tags">
+                {row && <span className="cg-season__tag">Club {row.record}</span>}
+                {r.p.ovr != null && <span className="cg-season__tag">SZN {Math.round(r.p.ovr)}</span>}
+                {honours.map((h) => (
+                  <span key={h} className="cg-season__tag cg-season__tag--gold">{h}</span>
+                ))}
+              </span>
+            )}
           </span>
           <span className="cg-season__score">{Math.round(r.s)}</span>
         </button>

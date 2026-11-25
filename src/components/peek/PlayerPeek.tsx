@@ -95,7 +95,34 @@ interface PeekState {
   held: boolean;
   /** Opened from the keyboard: focus the first action */
   keyboard?: boolean;
+  /** Where it was opened from, when the page has its own idea of "the other player" (see PeekContext) */
+  ctx?: PeekContext;
 }
+
+/**
+ * A page's own context for the card it opens: the Deep Dive's neighbourhood chart makes the dived player the "other"
+ * side (Head-to-Head runs him against the clicked player) and has Deep Dive switch the dive instead of navigating.
+ */
+export interface PeekContext {
+  /** Head-to-Head opens this player (side A) against the peeked one (side B) */
+  h2hWith?: Player;
+  /** Deep Dive: runs this instead of opening the Comp Finder */
+  onDive?: (p: Player) => void;
+}
+const contexts = new Map<string, PeekContext>();
+/** Registers a context for elements marked `data-peek-ctx={id}` (a hold on them opens the card with it); returns the unregister. */
+export const registerPeekContext = (id: string, ctx: PeekContext) => {
+  contexts.set(id, ctx);
+  return () => {
+    if (contexts.get(id) === ctx) contexts.delete(id);
+  };
+};
+/** Opens the quick look on "POS:Name" at a point in viewport px (a click or tap); `keyboard` focuses its first action. */
+export const openPlayerPeek = (key: string, x: number, y: number, o: { ctx?: PeekContext; keyboard?: boolean } = {}) => {
+  hover.set(null);
+  actionRects = [];
+  peek.set({ key, x, y, held: false, keyboard: o.keyboard, ctx: o.ctx });
+};
 
 const makeStore = <T,>(initial: T) => {
   let v = initial;
@@ -157,11 +184,15 @@ const PlayerPeekLayer = () => {
   const [card, setCard] = useState<Player | null>(null);
   const run = useRef<(id: ActionId, p: Player, other: Player | null) => void>(() => undefined);
   run.current = (id, p, other) => {
+    const ctx = peek.get()?.ctx;
     closePeek();
     window.dispatchEvent(new CustomEvent(PEEK_ACTION_EVENT, { detail: { id, key: `${p.position}:${p.name}` } }));
     if (id === 'card') setCard(p);
-    else if (id === 'dive') openInCompFinder(p);
-    else if (id === 'h2h') prefillHeadToHead(p);
+    else if (id === 'dive') (ctx?.onDive ?? openInCompFinder)(p);
+    else if (id === 'h2h') {
+      if (ctx?.h2hWith && ctx.h2hWith !== p && ctx.h2hWith.name !== p.name) openInHeadToHead(ctx.h2hWith, p);
+      else prefillHeadToHead(p);
+    }
     else if (other) openInHeadToHead(p, other);
   };
 
@@ -205,10 +236,11 @@ const PlayerPeekLayer = () => {
       const key = el.dataset.playerKey ?? '';
       return byKeyRef.current.has(key) ? { el, key } : null;
     };
-    const open = (key: string, x: number, y: number, held: boolean, keyboard = false) => {
+    const open = (key: string, x: number, y: number, held: boolean, keyboard = false, el?: HTMLElement) => {
       hover.set(null);
       actionRects = [];
-      peek.set({ key, x, y, held, keyboard });
+      const cid = el?.closest<HTMLElement>('[data-peek-ctx]')?.dataset.peekCtx;
+      peek.set({ key, x, y, held, keyboard, ctx: cid ? contexts.get(cid) : undefined });
       warmPlayerCard(byKeyRef.current.get(key));
     };
 
@@ -228,7 +260,7 @@ const PlayerPeekLayer = () => {
         if (!start) return;
         swallowClick = true;
         haptic();
-        open(start.key, lastX, lastY, true);
+        open(start.key, lastX, lastY, true, false, start.el);
       }, HOLD_MS);
     };
     const onMove = (e: PointerEvent) => {
@@ -302,7 +334,7 @@ const PlayerPeekLayer = () => {
         x = r.left + Math.min(r.width / 2, 120);
         y = r.top + r.height / 2;
       }
-      open(t.key, x, y, false, keyboard);
+      open(t.key, x, y, false, keyboard, t.el);
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && peek.get()) {
@@ -408,7 +440,13 @@ const PeekCard = ({
   const { numberFor } = useJerseyNumbers();
   const club = bannerTeamOf(p);
   const team = findNFLTeam(club);
-  const other = useMemo(() => compareTarget(p, byKey), [p, byKey]);
+  // On a page with its own "other player" (the Deep Dive's neighbourhood: the player being dived), Compare always runs
+  // against him, never whoever was peeked last
+  const pinned = state.ctx?.h2hWith;
+  const other = useMemo(
+    () => (pinned && pinned.name !== p.name ? pinned : compareTarget(p, byKey)),
+    [p, byKey, pinned],
+  );
   const stats = headlineStats(p).slice(0, 4);
   const hof = isHallOfFamer(p);
   const cardRef = useRef<HTMLDivElement | null>(null);
