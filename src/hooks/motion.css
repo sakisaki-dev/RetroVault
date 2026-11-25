@@ -1,0 +1,63 @@
+/*
+ * Scroll-in motion for the Season, Game and Teams pages (src/components/motion/Reveal.tsx). One vocabulary, the same
+ * quick ease the Stats stadium uses (ss-in): a container gets data-mo="wait" when it mounts and "go" once, the first
+ * time it scrolls into view; its children carry one of the mo-* classes and an optional --i for the stagger.
+ * Nothing is hidden unless the container is in "wait", which JS only sets when motion is allowed and lite mode is off,
+ * so the resting state is always the visible one. Animations use `backwards` fill and the individual translate and
+ * scale properties, so an element's own transform is never overridden once it has played.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  [data-mo='wait'].mo-auto { opacity: 0; }
+  [data-mo='go'].mo-auto { animation: mo-rise var(--mo-dur) var(--ease-out) backwards; animation-delay: min(calc(var(--i, 0) * var(--mo-gap)), var(--mo-gap-max)); }
+  [data-mo='wait'] :is(.mo-rise, .mo-fade, .mo-pop, .mo-run-l, .mo-run-r, .mo-step) {
+    opacity: 0;
+  }
+  [data-mo='wait'] .mo-grow {
+    scale: 0 1;
+  }
+  [data-mo='wait'] .mo-grow-y {
+    scale: 1 0;
+  }
+  [data-mo='go'] :is(.mo-rise, .mo-fade, .mo-pop, .mo-run-l, .mo-run-r, .mo-step, .mo-grow, .mo-grow-y) {
+    animation-duration: var(--mo-dur);
+    animation-timing-function: var(--ease-out);
+    animation-fill-mode: backwards;
+    animation-delay: min(calc(var(--i, 0) * var(--mo-gap)), var(--mo-gap-max));
+  }
+  [data-mo='go'] .mo-rise { animation-name: mo-rise; }
+  [data-mo='go'] .mo-fade { animation-name: mo-fade; animation-duration: var(--mo-dur-quick); }
+  [data-mo='go'] .mo-pop { animation-name: mo-pop; animation-duration: var(--mo-dur-quick); }
+  [data-mo='go'] .mo-run-l { animation-name: mo-run-l; animation-duration: var(--mo-dur-run); }
+  [data-mo='go'] .mo-run-r { animation-name: mo-run-r; animation-duration: var(--mo-dur-run); }
+  [data-mo='go'] .mo-step { animation-name: mo-step; animation-duration: var(--mo-dur-run); }
+  [data-mo='go'] .mo-grow { animation-name: mo-grow; animation-duration: var(--mo-dur-grow); transform-origin: var(--mo-o, 0%) 50%; }
+  [data-mo='go'] .mo-grow.mo-grow--r { --mo-o: 100%; }
+  [data-mo='go'] .mo-grow-y { animation-name: mo-grow-y; animation-duration: var(--mo-dur-grow); transform-origin: 50% 100%; }
+  @keyframes mo-grow-y { from { scale: 1 0; } to { scale: 1 1; } }
+  @keyframes mo-rise { from { opacity: 0; translate: 0 var(--mo-rise); } to { opacity: 1; translate: 0 0; } }
+  @keyframes mo-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes mo-pop { from { opacity: 0; scale: 0.86; } to { opacity: 1; scale: 1; } }
+  @keyframes mo-run-l { from { opacity: 0; translate: calc(var(--mo-run) * -1) 0; } to { opacity: 1; translate: 0 0; } }
+  @keyframes mo-run-r { from { opacity: 0; translate: var(--mo-run) 0; } to { opacity: 1; translate: 0 0; } }
+  @keyframes mo-step { from { opacity: 0; translate: 0 var(--mo-run); } to { opacity: 1; translate: 0 0; } }
+  @keyframes mo-grow { from { scale: 0 1; } to { scale: 1 1; } }
+  /* a tab's content cross-fades when it swaps (the parent re-keys it) */
+  .mo-xfade { animation: mo-fade var(--dur-3) var(--ease-out) both; }
+  /* hover lift, on a pointer only */
+  @media (hover: hover) {
+    .mo-lift { transition: translate var(--hv-dur) var(--ease-out), filter var(--hv-dur) var(--ease-out); }
+    .mo-lift:hover { translate: 0 var(--hv-lift); filter: brightness(1.06); }
+  }
+}
+/* lite mode: nothing moves, nothing hides */
+[data-perf='lite'] [data-mo].mo-auto { animation: none !important; opacity: 1 !important; translate: none !important; }
+[data-perf='lite'] [data-mo] :is(.mo-rise, .mo-fade, .mo-pop, .mo-run-l, .mo-run-r, .mo-step, .mo-grow, .mo-grow-y) {
+  animation: none !important;
+  opacity: 1 !important;
+  scale: none !important;
+  translate: none !important;
+}
+/* a number that counts up keeps its width: the final figure sizes the slot, the live one sits on it */
+.mo-count { position: relative; display: inline-block; }
+.mo-count__live { position: absolute; inset: 0; white-space: nowrap; }
+.mo-count .mo-count__size { visibility: hidden; }

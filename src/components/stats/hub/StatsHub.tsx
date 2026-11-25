@@ -9,6 +9,7 @@ import { keyOf } from '../records';
 import { buildHash, lastNavKind, useHubRoute, type StatsSub } from './hashRoute';
 import { EDGE_PX, scrollsSideways } from '@/hooks/useSwipeToDismiss';
 import { dur, ease, reducedMotion } from '@/utils/motion';
+import '@/styles/interact.css';
 
 const SUB_TABS: { id: StatsSub; label: string; short: string; Icon: typeof Users; blurb: string }[] = [
   { id: 'players', label: 'Players', short: 'Players', Icon: Users, blurb: 'Records, full stat tables, advanced analytics and leaders' },

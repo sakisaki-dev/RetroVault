@@ -3,6 +3,7 @@ import { ArrowRight, BookOpen, ChevronRight, Clock, CornerDownRight, Newspaper, 
 import { cn } from '@/lib/utils';
 import type { Player } from '@/types/player';
 import {
+  matchPlayerByName,
   storyEntryOf,
   useLeagueContent,
   useSeasonStory,
@@ -20,8 +21,16 @@ import { HeroLogos, PlayerBanners, StoryThumb, firstClubIn, mainClubOf, pairOf, 
 import TeamLogo from '@/components/brand/TeamLogo';
 import TeamPhoto from './TeamPhoto';
 import ArticleArt from './ArticleArt';
+import GameSprite from '@/components/GameSprite';
+import { useReveal } from '@/components/motion/Reveal';
+import { peekProps } from '@/components/peek/peekProps';
+import { bannerTeamOf } from '@/utils/playerExtras';
+import { getTeamTextColor } from '@/utils/teamColors';
+import { FillGrid } from './FillGrid';
+import { Rubric } from './Rubric';
 import './news-art.css';
 import './story.css';
+import './newsFeed.css';
 import PixelLoader from '@/components/ui/PixelLoader';
 import { RivalryFileStrip } from '@/components/rivalry/RivalryFilesRow';
 import { rivalryFilesOf } from '@/utils/rivalryFiles';
@@ -57,6 +66,21 @@ export const KIND_LABEL: Record<StoryKind, string> = {
   quickhits: 'Quick hits',
 };
 
+/** One accent per article kind (the card's top stripe and the section's rule) */
+export const KIND_ACCENT: Record<StoryKind, string> = {
+  lead: '#ffc83d', feature: '#2dd4bf', trade: '#5cc8ff', rise: '#3ddc84', fall: '#ff5a61', rivalry: '#ff9f43', chase: '#ffc83d',
+  milestone: '#f5a524', wherenow: '#b69cff', quickhits: '#ffc83d',
+};
+/** The feed's sections, in reading order: which kinds each holds (an unlisted kind falls into More) */
+const GROUPS: { id: string; label: string; kinds: StoryKind[] }[] = [
+  { id: 'features', label: 'Features', kinds: ['feature'] },
+  { id: 'trades', label: 'Trades', kinds: ['trade'] },
+  { id: 'movers', label: 'Risers and fallers', kinds: ['rise', 'fall'] },
+  { id: 'rivalries', label: 'Rivalries', kinds: ['rivalry'] },
+  { id: 'records', label: 'Records and milestones', kinds: ['chase', 'milestone'] },
+  { id: 'wherenow', label: 'Where are they now', kinds: ['wherenow'] },
+];
+
 const BYLINE = 'Retro Vault Desk';
 const words = (a: StoryArticle) => [a.dek, ...a.body].join(' ').split(/\s+/).filter(Boolean).length;
 export const readTime = (a: StoryArticle) => `${Math.max(1, Math.ceil(words(a) / 200))} min read`;
@@ -87,7 +111,7 @@ const heroOf = (a: StoryArticle, players: Player[]): { teams: string[]; mode: 'o
   return { teams: [mainClubOf(a, players)].filter(Boolean), mode: 'one' };
 };
 
-const KindLabel = ({ kind }: { kind: StoryKind }) => <span className={cn('ss-kind', `ss-kind--${kind}`)}>{KIND_LABEL[kind]}</span>;
+const KindLabel = ({ kind }: { kind: StoryKind }) => <span className={cn('ss-kind en-kind', `ss-kind--${kind}`)}>{KIND_LABEL[kind]}</span>;
 
 const StatCallouts = ({ stats, max }: { stats: StoryStat[]; max?: number }) => {
   const shown = max ? stats.slice(0, max) : stats;
@@ -138,13 +162,18 @@ const useRivalryFileOf = (a: StoryArticle) => {
 };
 
 /** One story in the front page's lists: kind and read time, headline, dek, one stat badge, chips */
-const StoryItem = ({ a, i, season, index, players, onPlayer, onRead, onOpen }: ItemProps) => {
+interface Cell {
+  style: CSSProperties;
+  wide: boolean;
+}
+const StoryItem = ({ a, i, season, index, players, onPlayer, onRead, onOpen, cell }: ItemProps & { cell?: Cell }) => {
+  const reveal = useReveal<HTMLLIElement>();
   const c = callout(a);
   const file = useRivalryFileOf(a);
   const prior = a.related.map((id) => findRef(index, id)).find((r) => r && r.season !== season);
   const club = mainClubOf(a, players);
   return (
-    <li className="ss-item stagger-in" style={{ ...teamVars(club), '--i': i } as CSSProperties}>
+    <li ref={reveal} className={cn('ss-item mo-auto en-card', cell?.wide && 'en-card--wide')} data-kind={a.kind} style={{ ...teamVars(club), '--k': KIND_ACCENT[a.kind], '--i': Math.min(i, 5), ...cell?.style } as CSSProperties}>
       <button type="button" className="ss-cover" onClick={() => onRead(a.id)} aria-label={`Read: ${a.headline}`} />
       <div className="ss-item__head">
         <div className="ss-item__headtext">
@@ -271,6 +300,232 @@ const Reader = ({ open, index, players, onPlayer, onOpen, onClose }: ReaderProps
   );
 };
 
+interface FrontProps {
+  story: SeasonStory;
+  index: SeasonStoryIndexEntry[];
+  players: Player[];
+  onPlayer: (p: Player) => void;
+  onRead: (id: string) => void;
+  onOpen: (id: string) => void;
+  champion: string | null;
+}
+
+/**
+ * The season's front page: the lead, then every other article in sections by kind (each a filled card grid, none
+ * folded), with a sticky sidebar from 1024px (Top stories, Did you know, the players and clubs the season's articles
+ * name). Picking a club in the sidebar narrows the sections to its stories.
+ */
+const Front = ({ story, index, players, onPlayer, onRead, onOpen, champion }: FrontProps) => {
+  const [club, setClub] = useState<string>('all');
+  const lead = story.articles.find((a) => a.kind === 'lead');
+  const hits = story.articles.find((a) => a.kind === 'quickhits');
+  const feed = useMemo(() => story.articles.filter((a) => a !== lead && a !== hits), [story, lead, hits]);
+  const top = feed.slice(0, 3);
+  const more = useMemo(() => feed.slice(3).filter((a) => club === 'all' || a.teams.includes(club)), [feed, club]);
+  const leadHero = lead ? heroOf(lead, players) : null;
+  const itemProps = { season: story.season, index, players, onPlayer, onRead, onOpen };
+
+  // the players the season's articles name most (the lead and the feed), and the clubs they cover
+  const trending = useMemo(() => {
+    const c = new Map<string, { p: Player; n: number }>();
+    [...(lead ? [lead] : []), ...feed].forEach((a) =>
+      a.players.forEach((name) => {
+        const p = matchPlayerByName(name, players);
+        if (!p) return;
+        const k = `${p.position}:${p.name}`;
+        const e = c.get(k);
+        if (e) e.n += 1;
+        else c.set(k, { p, n: 1 });
+      }),
+    );
+    return [...c.values()].sort((a, b) => b.n - a.n || b.p.careerLegacy - a.p.careerLegacy).slice(0, 8);
+  }, [lead, feed, players]);
+  const clubs = useMemo(() => {
+    const c = new Map<string, number>();
+    [...(lead ? [lead] : []), ...feed].forEach((a) => a.teams.forEach((t) => c.set(t, (c.get(t) ?? 0) + 1)));
+    return [...c.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  }, [lead, feed]);
+
+  const groups = useMemo(() => {
+    const listed = new Set(GROUPS.flatMap((g) => g.kinds));
+    const all = [...GROUPS, { id: 'other', label: 'More', kinds: [] as StoryKind[] }];
+    return all
+      .map((g) => ({ ...g, items: more.filter((a) => (g.id === 'other' ? !listed.has(a.kind) : g.kinds.includes(a.kind))) }))
+      .filter((g) => g.items.length);
+  }, [more]);
+
+  return (
+    <div className="ss-front">
+        {lead && (
+          <article className="ss-lead stagger-in" style={{ ...teamVars(leadHero?.teams[0]), '--i': 0 } as CSSProperties}>
+            <button type="button" className="ss-cover" onClick={() => onRead(lead.id)} aria-label={`Read: ${lead.headline}`} />
+            <div className={cn('ss-lead__art', leadHero && leadHero.mode !== 'one' && 'ss-lead__art--pair')} title={lead.stats[0]?.source ? `Source: ${lead.stats[0].source}` : undefined}>
+              <ArticleArt
+                variant="hero"
+                kind="lead"
+                players={lead.players}
+                teams={lead.teams}
+                art={lead.art}
+                league={players}
+                className="ss-lead__scene"
+                fallback={leadHero && <HeroLogos teams={leadHero.teams} mode={leadHero.mode} />}
+              />
+              {lead.stats[0] && (
+                <p className="ss-lead__big">
+                  <b>{lead.stats[0].value}</b>
+                  <span>{lead.stats[0].label}</span>
+                </p>
+              )}
+            </div>
+            <div className="ss-lead__text">
+              <KindLabel kind="lead" />
+              <h3 className="ss-lead__title">{lead.headline}</h3>
+              <p className="ss-lead__dek">{lead.dek}</p>
+              <StatBadges stats={lead.stats.slice(1, 3)} />
+              <PlayerBanners names={lead.players} players={players} onPlayer={onPlayer} max={3} className="nz-banners--lead" />
+              {champion && <TeamPhoto season={story.season} winner={champion} players={players} featured={lead.players} />}
+              <p className="ss-byline">
+                <Newspaper className="h-3.5 w-3.5" aria-hidden="true" /> {BYLINE}
+                <span aria-hidden="true">·</span>
+                <Clock className="h-3.5 w-3.5" aria-hidden="true" /> {readTime(lead)}
+                <span className="ss-read" aria-hidden="true">
+                  Read the story <ChevronRight className="h-4 w-4" />
+                </span>
+              </p>
+            </div>
+          </article>
+        )}
+
+
+      <aside className="ss-side">
+        <div className="ss-side__in">
+          {top.length > 0 && (
+            <section className="ss-top en-mod" aria-labelledby="ss-top-title">
+              <Rubric id="ss-top-title" kicker="Front page" count={top.length}>
+                Top stories
+              </Rubric>
+              <FillGrid
+                items={top}
+                minW={230}
+                max={3}
+                gap={12}
+                className="en-cards en-cards--top"
+                render={(a, i, cell) => <StoryItem key={a.id} a={a} i={i + 1} cell={cell} {...itemProps} />}
+              />
+            </section>
+          )}
+
+          <div className="ss-dyk en-mod">
+            <DidYouKnowDeck key={story.season} facts={story.didYouKnow} season={story.season} players={players} onPlayer={onPlayer} />
+          </div>
+
+          {trending.length >= 3 && (
+            <section className="ss-trend en-mod" aria-labelledby="en-trend-title">
+              <Rubric id="en-trend-title" kicker="In the stories" count={trending.length}>
+                Players in the news
+              </Rubric>
+              <ol className="en-rank">
+                {trending.map(({ p, n }, i) => {
+                  const c = bannerTeamOf(p);
+                  return (
+                    <li key={`${p.position}:${p.name}`} style={{ ...teamVars(c), '--ink': getTeamTextColor(c) ?? 'var(--tc)' } as CSSProperties}>
+                      <button type="button" className="en-rank__btn" {...peekProps(p)} onClick={() => onPlayer(p)} aria-label={`${p.name}, in ${n} stories. Open his card`}>
+                        <span className="en-rank__n">{i + 1}</span>
+                        <span className="en-trend__sprite" aria-hidden="true">
+                          <GameSprite player={p} team={c} kind="bust" size="s" />
+                        </span>
+                        <span className="en-rank__name">{p.name}</span>
+                        <span className="en-trend__n">{n} {n === 1 ? 'story' : 'stories'}</span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ol>
+            </section>
+          )}
+
+          {clubs.length > 0 && (
+            <section className="ss-around en-mod" aria-labelledby="en-around-title">
+              <Rubric id="en-around-title" kicker="By club" count={clubs.length}>
+                Around the league
+              </Rubric>
+              <FillGrid
+                items={clubs}
+                minW={64}
+                max={4}
+                gap={6}
+                className="en-around"
+                render={([t, n], _i, cell) => (
+                  <li key={t} style={{ ...teamVars(t), ...cell.style }}>
+                    <button type="button" className="en-around__btn" aria-pressed={club === t} onClick={() => setClub(club === t ? 'all' : t)} aria-label={`${t}, ${n} ${n === 1 ? 'story' : 'stories'}`} title={t}>
+                      <TeamLogo team={t} size={26} decorative />
+                      <b>{n}</b>
+                    </button>
+                  </li>
+                )}
+              />
+            </section>
+          )}
+        </div>
+      </aside>
+
+      {(groups.length > 0 || club !== 'all') && (
+        <div className="ss-more en-sections">
+          {club !== 'all' && (
+            <button type="button" className="en-filter" style={teamVars(club)} onClick={() => setClub('all')}>
+              <TeamLogo team={club} size={16} decorative /> Stories naming the {club} · show all
+            </button>
+          )}
+          {groups.length === 0 && <p className="ss-loading">No more stories name the {club} this season.</p>}
+          {groups.map((g, gi) => (
+            <section key={g.id} className="en-section" aria-labelledby={`en-sec-${g.id}`} style={{ ...(club !== 'all' ? teamVars(club) : {}), '--k': KIND_ACCENT[g.kinds[0] ?? 'feature'] } as CSSProperties}>
+              <Rubric id={`en-sec-${g.id}`} kicker={club !== 'all' ? club : `Section ${String(gi + 1).padStart(2, '0')}`} count={g.items.length} club={club !== 'all' ? club : undefined} big>
+                {g.label}
+              </Rubric>
+              <FillGrid
+                items={g.items}
+                minW={270}
+                max={3}
+                gap={14}
+                className="en-cards"
+                render={(a, i, cell) => <StoryItem key={a.id} a={a} i={i + 4} cell={cell} {...itemProps} />}
+              />
+            </section>
+          ))}
+        </div>
+      )}
+
+      {hits && (
+        <section className="ss-hits en-section" aria-labelledby="ss-hits-title" style={{ '--k': 'var(--ss-gold)' } as CSSProperties}>
+          <Rubric id="ss-hits-title" kicker="In brief" count={hits.body.length} icon={<Zap className="h-4 w-4" aria-hidden="true" />} big>
+            Quick hits
+          </Rubric>
+          <FillGrid
+            as="ol"
+            items={hits.body}
+            minW={300}
+            max={2}
+            gap={10}
+            className="en-hits"
+            render={(line, i, cell) => {
+              const c = firstClubIn(line);
+              return (
+                <li key={line} className="ss-hit en-hit" style={{ ...teamVars(c), ...cell.style }}>
+                  <span className="ss-hit__n" aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  {c && <TeamLogo team={c} size={20} decorative className="ss-hit__logo" />}
+                  <span>{line}</span>
+                </li>
+              );
+            }}
+          />
+        </section>
+      )}
+    </div>
+  );
+};
+
 interface DeskProps {
   /** content.json's story index (oldest first); each season's full story loads when it is shown */
   index: SeasonStoryIndexEntry[];
@@ -339,7 +594,7 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
   if (!story) {
     // the season's file is loading (or failed): the masthead from the index, then a placeholder
     return (
-      <section id="season-story" className="ss scroll-mt-24" aria-labelledby="ss-title" aria-busy={loading || undefined}>
+      <section id="season-story" className="ss en scroll-mt-24" aria-labelledby="ss-title" aria-busy={loading || undefined}>
         <header className="ss-mast">
           <div className="ss-mast__text">
             <p className="ss-mast__kicker">
@@ -363,18 +618,13 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
       </section>
     );
   }
-  const lead = story.articles.find((a) => a.kind === 'lead');
-  const hits = story.articles.find((a) => a.kind === 'quickhits');
-  const feed = story.articles.filter((a) => a !== lead && a !== hits);
-  const top = feed.slice(0, 3);
-  const leadHero = lead ? heroOf(lead, players) : null;
+  const leadArticle = story.articles.find((a) => a.kind === 'lead');
+  const leadHero = leadArticle ? heroOf(leadArticle, players) : null;
   // The champions' team photo (private sprites only): a lead about the Super Bowl, and the season's winner
-  const champion = lead && leadHero?.mode === 'vs' ? superBowls.find((sb) => `Y${sb.year}` === story.season)?.winner ?? null : null;
-  const more = feed.slice(3);
-  const itemProps = { season: story.season, index, players, onPlayer, onRead: setOpenId, onOpen: openArticle };
+  const champion = leadArticle && leadHero?.mode === 'vs' ? superBowls.find((sb) => `Y${sb.year}` === story.season)?.winner ?? null : null;
 
   return (
-    <section id="season-story" className="ss scroll-mt-24" aria-labelledby="ss-title">
+    <section id="season-story" className="ss en scroll-mt-24" aria-labelledby="ss-title">
       <header className="ss-mast">
         <div className="ss-mast__text">
           <p className="ss-mast__kicker">
@@ -388,99 +638,7 @@ export const SeasonStoryDesk = ({ index, players, onPlayer, season: controlled, 
         {switcher}
       </header>
 
-      <div className="ss-front">
-        {lead && (
-          <article className="ss-lead stagger-in" style={{ ...teamVars(leadHero?.teams[0]), '--i': 0 } as CSSProperties}>
-            <button type="button" className="ss-cover" onClick={() => setOpenId(lead.id)} aria-label={`Read: ${lead.headline}`} />
-            <div className={cn('ss-lead__art', leadHero && leadHero.mode !== 'one' && 'ss-lead__art--pair')} title={lead.stats[0]?.source ? `Source: ${lead.stats[0].source}` : undefined}>
-              <ArticleArt
-                variant="hero"
-                kind="lead"
-                players={lead.players}
-                teams={lead.teams}
-                art={lead.art}
-                league={players}
-                className="ss-lead__scene"
-                fallback={leadHero && <HeroLogos teams={leadHero.teams} mode={leadHero.mode} />}
-              />
-              {lead.stats[0] && (
-                <p className="ss-lead__big">
-                  <b>{lead.stats[0].value}</b>
-                  <span>{lead.stats[0].label}</span>
-                </p>
-              )}
-            </div>
-            <div className="ss-lead__text">
-              <KindLabel kind="lead" />
-              <h3 className="ss-lead__title">{lead.headline}</h3>
-              <p className="ss-lead__dek">{lead.dek}</p>
-              <StatBadges stats={lead.stats.slice(1, 3)} />
-              <PlayerBanners names={lead.players} players={players} onPlayer={onPlayer} max={3} className="nz-banners--lead" />
-              {champion && <TeamPhoto season={story.season} winner={champion} players={players} featured={lead.players} />}
-              <p className="ss-byline">
-                <Newspaper className="h-3.5 w-3.5" aria-hidden="true" /> {BYLINE}
-                <span aria-hidden="true">·</span>
-                <Clock className="h-3.5 w-3.5" aria-hidden="true" /> {readTime(lead)}
-                <span className="ss-read" aria-hidden="true">
-                  Read the story <ChevronRight className="h-4 w-4" />
-                </span>
-              </p>
-            </div>
-          </article>
-        )}
-
-        {top.length > 0 && (
-          <section className="ss-top" aria-labelledby="ss-top-title">
-            <h3 id="ss-top-title" className="ss-rubric">
-              Top stories
-            </h3>
-            <ul className="ss-list ss-list--top">
-              {top.map((a, i) => (
-                <StoryItem key={a.id} a={a} i={i + 1} {...itemProps} />
-              ))}
-            </ul>
-          </section>
-        )}
-
-        <div className="ss-dyk">
-          <DidYouKnowDeck key={story.season} facts={story.didYouKnow} season={story.season} players={players} onPlayer={onPlayer} />
-        </div>
-
-        {more.length > 0 && (
-          <section className="ss-more" aria-labelledby="ss-more-title">
-            <h3 id="ss-more-title" className="ss-rubric">
-              More from {story.season}
-            </h3>
-            <ul className="ss-list ss-list--more">
-              {more.map((a, i) => (
-                <StoryItem key={a.id} a={a} i={i + 4} {...itemProps} />
-              ))}
-            </ul>
-          </section>
-        )}
-
-        {hits && (
-          <section className="ss-hits" aria-labelledby="ss-hits-title">
-            <h3 id="ss-hits-title" className="ss-rubric ss-rubric--gold">
-              <Zap className="h-3.5 w-3.5" aria-hidden="true" /> Quick hits
-            </h3>
-            <ol className="ss-hits__list">
-              {hits.body.map((line, i) => {
-                const club = firstClubIn(line);
-                return (
-                  <li key={line} className="ss-hit" style={teamVars(club)}>
-                    <span className="ss-hit__n" aria-hidden="true">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    {club && <TeamLogo team={club} size={20} decorative className="ss-hit__logo" />}
-                    <span>{line}</span>
-                  </li>
-                );
-              })}
-            </ol>
-          </section>
-        )}
-      </div>
+      <Front story={story} index={index} players={players} onPlayer={onPlayer} onRead={setOpenId} onOpen={openArticle} champion={champion} />
 
       <HotTakesDesk season={story.season} players={players} onPlayer={onPlayer} />
 

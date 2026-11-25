@@ -1,0 +1,275 @@
+/*
+ * One interaction language for the Stats pages (Players, Teams, Graphs, Head to head, Deep Dive, the Record Book).
+ * Owner: "the hover and other animations are lacking, make it immersive, some things hover, some don't".
+ *
+ * Scoped to .rv-stats (every Stats page: tabs, chart dimming and the Players-only adapters) and .rv-ix (<main>, the rest of the
+ * site: Season, Game, Teams, Arcade, Collection, Front Office, News), and only touches things that DO something (a button, a link, a tab, a row
+ * with a button in it), so a static panel never looks clickable. The pieces:
+ *
+ *   cards, tiles, plaques  lift 3px, a deeper shadow, the club colour rim brightening   (.ix-card + adapters below)
+ *   sprites on cards       a small hop                                                   (.ix-hop, the card's figure)
+ *   name strips            a slight scale and a brighter fill                             (.club-strip)
+ *   table rows             a club-colour left edge, a tint, the pointer                   (.ix-row + clickable tr)
+ *   tabs, chips            a fill that slides in, an underline for tabs                   ([role=tab], [aria-pressed])
+ *   press                  scale .98 on every button and link
+ *   keyboard               one gold focus ring
+ *   charts                 hovered points grow, the rest dim                              (any svg <g role=button>)
+ *
+ * Hover only on a real pointer (@media (hover: hover)); touch gets the press state, never a sticky hover. Motion is
+ * off under reduced motion and lite mode (colour and outline changes stay). Movement uses the individual `translate`
+ * and `scale` properties so it never fights an element's own transform (the swaying banner plaques, the stagger-in).
+ */
+
+:is(.rv-stats, .rv-ix) {
+  --ix-lift: var(--hv-lift);
+  --ix-ease: var(--ease-out);
+  --ix-dur: var(--hv-dur);
+  --ix-press: var(--hv-press);
+  --press-scale: var(--hv-press);
+}
+
+/* ---- every clickable thing: the pointer, no tap flash, no double-tap zoom, the press ---- */
+:is(.rv-stats, .rv-ix) :where(button, a[href], [role='button'], [role='tab'], [role='link'], summary):not(:disabled, [aria-disabled='true']) {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+:is(.rv-stats, .rv-ix) :where(button, a[href], [role='button'], [role='tab'], summary):not(:disabled, [aria-disabled='true'], .club-strip, td, th):active {
+  scale: var(--ix-press);
+}
+
+/* ---- keyboard: one gold ring ---- */
+:is(.rv-stats, .rv-ix) :is(button, a[href], [role='button'], [role='tab'], summary, [tabindex='0'], input, select):focus-visible {
+  outline: 2px solid hsl(var(--gold));
+  outline-offset: 2px;
+}
+
+/* ---- cards, tiles, plaques ---------------------------------------------------------------------------------- */
+:is(.rv-stats, .rv-ix) :is(.ix-card, button.rb-plaque, button.cs-card, a.cs-card, button.glass-card, a.glass-card, .cw-tile, .cg-season, .cg-spark, .cg-ticket, .rbk-chip, .bn3-plaque) {
+  transition: translate var(--ix-dur) var(--ix-ease), scale 90ms var(--ix-ease), filter var(--ix-dur) var(--ix-ease), outline-color var(--ix-dur) var(--ix-ease),
+    background-color var(--ix-dur) var(--ix-ease), border-color var(--ix-dur) var(--ix-ease);
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+}
+@media (hover: hover) {
+  :is(.rv-stats, .rv-ix) :is(.ix-card, button.rb-plaque, button.cs-card, a.cs-card, button.glass-card, a.glass-card, .cw-tile, .cg-season, .cg-spark, .cg-ticket, .rbk-chip):hover {
+    translate: 0 var(--ix-lift);
+    filter: brightness(1.06) drop-shadow(0 12px 14px rgb(0 0 0 / 0.42));
+    outline-color: color-mix(in srgb, var(--cs-1, hsl(var(--gold))) 58%, white 42%);
+  }
+  /* the swaying banner plaques: lift along their own hang, the rim through a light edge */
+  :is(.rv-stats, .rv-ix) .bn3-plaque:hover {
+    translate: 0 2px;
+    filter: brightness(1.18) drop-shadow(0 6px 6px rgb(0 0 0 / 0.4));
+  }
+  /* his figure hops when the card he stands on is hovered (a pose swap isn't needed for the feel) */
+  :is(.rv-stats, .rv-ix) :is(.ix-card, button.cs-card, a.cs-card, button.rb-plaque, .cw-tile):hover :is(.cs-fig__sprite, .cw-fig, .ix-hop) {
+    translate: -50% -5px;
+  }
+  :is(.rv-stats, .rv-ix) :is(.ix-card, button.cs-card, a.cs-card, button.rb-plaque, .cw-tile):hover .cw-fig,
+  :is(.rv-stats, .rv-ix) :is(.ix-card, button.cs-card, a.cs-card, button.rb-plaque, .cw-tile):hover .ix-hop {
+    translate: 0 -5px;
+  }
+}
+:is(.rv-stats, .rv-ix) :is(.cs-fig__sprite, .cw-fig, .ix-hop) {
+  transition: translate 220ms cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+
+/* the Teams hero figures: they lift with their name plate, no box around them */
+:is(.rv-stats, .rv-ix) .bn3-fig {
+  transition: translate var(--ix-dur) var(--ix-ease), scale 90ms var(--ix-ease), filter var(--ix-dur) var(--ix-ease);
+}
+@media (hover: hover) {
+  :is(.rv-stats, .rv-ix) .bn3-fig:not(:disabled):hover {
+    translate: 0 -4px;
+    filter: brightness(1.1) drop-shadow(0 10px 6px rgb(0 0 0 / 0.5));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.rv-stats, .rv-ix) .bn3-fig:hover { translate: none; }
+}
+[data-perf='lite'] :is(.rv-stats, .rv-ix) .bn3-fig:hover { translate: none; filter: none; }
+:is(.rv-stats, .rv-ix) .cw-tile:has(.cw-hit) { cursor: pointer; }
+
+/* ---- name strips: a slight scale and a brighter fill ---- */
+@media (hover: hover) {
+  :is(.rv-stats, .rv-ix) :is(button, a).club-strip:hover {
+    scale: 1.03;
+    filter: brightness(1.2) saturate(1.05);
+  }
+}
+:is(.rv-stats, .rv-ix) :is(button, a).club-strip:active {
+  scale: var(--ix-press);
+}
+:is(.rv-stats, .rv-ix) :is(button, a).club-strip {
+  transition: transform var(--dur-1, 120ms) var(--ease-out), filter var(--dur-1, 120ms) var(--ease-out), scale var(--dur-1, 120ms) var(--ease-out);
+}
+
+/* ---- rows: a club-colour edge, a tint and the pointer, only where a row opens something ---- */
+:is(.rv-stats, .rv-ix) :is(tr:has(button, a[href], [role='button']), tr.cursor-pointer, .ix-row) {
+  cursor: pointer;
+}
+:is(.rv-stats, .rv-ix) :is(.ix-row, .dyn-row, .atp-row, .fl-pick, button.sbl__row, .rbk-row) {
+  transition: background-color var(--ix-dur) var(--ix-ease), box-shadow var(--ix-dur) var(--ix-ease), translate var(--ix-dur) var(--ix-ease), border-color var(--ix-dur) var(--ix-ease);
+}
+:is(.rv-stats, .rv-ix) :is(tr:has(button, a[href], [role='button']), tr.cursor-pointer) > :is(td, th):first-child {
+  transition: box-shadow var(--ix-dur) var(--ix-ease);
+}
+@media (hover: hover) {
+  :is(.rv-stats, .rv-ix) :is(tr:has(button, a[href], [role='button']), tr.cursor-pointer):hover > :is(td, th) {
+    background-image: linear-gradient(color-mix(in srgb, var(--cs-1, hsl(var(--gold))) 14%, transparent), color-mix(in srgb, var(--cs-1, hsl(var(--gold))) 14%, transparent));
+  }
+  :is(.rv-stats, .rv-ix) :is(tr:has(button, a[href], [role='button']), tr.cursor-pointer):hover > :is(td, th):first-child {
+    box-shadow: inset 3px 0 0 var(--cs-1, hsl(var(--gold)));
+  }
+  :is(.rv-stats, .rv-ix) :is(.ix-row, .dyn-row, .atp-row, .fl-pick, button.sbl__row, .rbk-row):hover {
+    background-image: linear-gradient(90deg, color-mix(in srgb, var(--cs-1, var(--p, hsl(var(--gold)))) 14%, transparent), transparent 85%);
+    box-shadow: inset 3px 0 0 var(--cs-1, var(--p, hsl(var(--gold))));
+  }
+}
+
+/* ---- tabs: an underline slides in; chips: the fill slides in ---- */
+.rv-stats :where([role='tab'], button[aria-pressed], .ix-chip) {
+  transition: background-color var(--ix-dur) var(--ix-ease), border-color var(--ix-dur) var(--ix-ease), color var(--ix-dur) var(--ix-ease), background-size 220ms var(--ix-ease),
+    scale 90ms var(--ix-ease);
+}
+.rv-stats [role='tab'] {
+  background-image: linear-gradient(hsl(var(--gold)), hsl(var(--gold)));
+  background-repeat: no-repeat;
+  background-position: 50% calc(100% - 1px);
+  background-size: 0 2px;
+}
+.rv-stats [role='tab'][aria-selected='true'] {
+  background-size: 60% 2px;
+}
+@media (hover: hover) {
+  .rv-stats [role='tab']:not([aria-selected='true']):hover {
+    background-size: 60% 2px;
+    color: hsl(var(--foreground));
+  }
+  .rv-stats :is(button[aria-pressed='false'], .ix-chip:not(.is-on)):hover {
+    border-color: hsl(var(--gold) / 0.7);
+    background-color: hsl(var(--gold) / 0.12);
+    color: hsl(var(--foreground));
+  }
+  .rv-stats :is(button[aria-pressed='true']):hover {
+    filter: brightness(1.08);
+  }
+}
+
+/* ---- charts: the hovered point grows, the others step back ---- */
+.rv-stats svg g[role='button'] {
+  transition: opacity 160ms var(--ix-ease), scale 160ms var(--ix-ease);
+  transform-box: fill-box;
+  transform-origin: center;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .rv-stats svg:has(> g[role='button']:hover) > g[role='button']:not(:hover),
+  .rv-stats svg:has(g[role='button']:hover) g[role='button']:not(:hover) {
+    opacity: 0.35;
+  }
+  .rv-stats svg g[role='button']:hover {
+    scale: 1.45;
+  }
+}
+/* small grid cells (the heat map, the trophy shelf columns): a quick grow and a rim, no lift */
+:is(.rv-stats, .rv-ix) :is(.cg-heat__cell, .cg-shelf__col, .arc-ring) {
+  transition: scale 140ms var(--ix-ease), filter 140ms var(--ix-ease), outline-color 140ms var(--ix-ease);
+  outline: 2px solid transparent;
+  outline-offset: 1px;
+}
+@media (hover: hover) {
+  :is(.rv-stats, .rv-ix) :is(.cg-heat__cell:not(.cg-heat__cell--none), .cg-shelf__col, .arc-ring):hover {
+    scale: 1.12;
+    filter: brightness(1.15);
+    outline-color: hsl(var(--gold) / 0.8);
+    position: relative;
+    z-index: 2;
+  }
+}
+/* the older lift utility moves with the same property as everything else, so it never doubles */
+:is(.rv-stats, .rv-ix) .hover-lift:hover {
+  transform: none;
+}
+/* a club-wall tile is a div with a full-size button over it: the press goes on the tile */
+:is(.rv-stats, .rv-ix) .cw-tile:has(.cw-hit:active) {
+  scale: var(--ix-press);
+}
+
+/* ---- reduced motion and lite mode: no movement, colour and outline only ---- */
+@media (prefers-reduced-motion: reduce) {
+  :is(.rv-stats, .rv-ix) :is(.ix-card, button.rb-plaque, button.cs-card, a.cs-card, button.glass-card, a.glass-card, .cw-tile, .cg-season, .cg-spark, .cg-ticket, .rbk-chip, .bn3-plaque):hover,
+  :is(.rv-stats, .rv-ix) :is(button, a).club-strip:hover,
+  :is(.rv-stats, .rv-ix) svg g[role='button']:hover,
+  :is(.rv-stats, .rv-ix) :is(.cg-heat__cell, .cg-shelf__col, .arc-ring):hover {
+    translate: none;
+    scale: none;
+  }
+  :is(.rv-stats, .rv-ix) :is(.ix-card, button.rb-plaque, button.cs-card, a.cs-card, .cw-tile):hover :is(.cs-fig__sprite, .cw-fig, .ix-hop) {
+    translate: -50% 0;
+  }
+  :is(.rv-stats, .rv-ix) :is(.ix-card, button.rb-plaque, button.cs-card, a.cs-card, .cw-tile):hover :is(.cw-fig, .ix-hop) {
+    translate: none;
+  }
+  :is(.rv-stats, .rv-ix) :where(button, a[href], [role='button'], [role='tab'], summary):active {
+    scale: none;
+  }
+}
+[data-perf='lite'] :is(.rv-stats, .rv-ix) :is(.ix-card, button.rb-plaque, button.cs-card, a.cs-card, button.glass-card, a.glass-card, .cw-tile, .cg-season, .cg-spark, .cg-ticket, .rbk-chip, .bn3-plaque):hover {
+  translate: none;
+  filter: none;
+}
+[data-perf='lite'] :is(.rv-stats, .rv-ix) :is(button, a).club-strip:hover,
+[data-perf='lite'] :is(.rv-stats, .rv-ix) svg g[role='button']:hover,
+[data-perf='lite'] :is(.rv-stats, .rv-ix) :is(.cg-heat__cell, .cg-shelf__col, .arc-ring):hover {
+  scale: none;
+}
+[data-perf='lite'] :is(.rv-stats, .rv-ix) svg g[role='button'] {
+  transition: none;
+}
+[data-perf='lite'] :is(.rv-stats, .rv-ix) :is(.ix-card, button.rb-plaque, button.cs-card, a.cs-card, .cw-tile):hover :is(.cs-fig__sprite, .cw-fig, .ix-hop) {
+  translate: -50% 0;
+}
+[data-perf='lite'] :is(.rv-stats, .rv-ix) :is(.ix-card, button.rb-plaque, button.cs-card, a.cs-card, .cw-tile):hover :is(.cw-fig, .ix-hop) {
+  translate: none;
+}
+[data-perf='lite'] :is(.rv-stats, .rv-ix) :where(button, a[href], [role='button'], [role='tab'], summary):active {
+  scale: none;
+}
+
+/* sortable column heads and the season table's heads: they warm to gold */
+@media (hover: hover) {
+  :is(.rv-stats, .rv-ix) :is(th button, button.ss-head, th[aria-sort]):hover {
+    color: hsl(var(--gold));
+  }
+}
+
+/*
+ * The rest of the site (.rv-ix on <main>): any button or link that is a card, tile or plaque by name gets the same lift,
+ * rim and press without being listed one by one. Collectible cards (.fut), pack and tunnel art, the Rewind viewer and
+ * the screensaver keep their own motion. A card that is not itself a button (.ix-card) lifts too; its cursor says so when
+ * it holds a button or link.
+ */
+.rv-ix :is(button, a[href], [role='button']):is([class*='card'], [class*='tile'], [class*='plaque'], [class*='-cab'], [class*='stall']):not(:disabled, [aria-disabled='true'], .fut, .fut *, [class*='fut__'], [class*='pk-'], [class*='tn-'], [class*='rw-'], [class*='sv-'], [class*='bk-'], .cl-cname, .club-strip, [class*='__name']) {
+  transition: translate var(--ix-dur) var(--ix-ease), scale 90ms var(--ix-ease), filter var(--ix-dur) var(--ix-ease), outline-color var(--ix-dur) var(--ix-ease);
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+}
+.rv-ix .ix-card:has(button, a[href], [role='button']) {
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .rv-ix :is(button, a[href], [role='button']):is([class*='card'], [class*='tile'], [class*='plaque'], [class*='-cab'], [class*='stall']):not(:disabled, [aria-disabled='true'], .fut, .fut *, [class*='fut__'], [class*='pk-'], [class*='tn-'], [class*='rw-'], [class*='sv-'], [class*='bk-'], .cl-cname, .club-strip, [class*='__name']):hover {
+    translate: 0 var(--ix-lift);
+    filter: brightness(1.06) drop-shadow(0 12px 14px rgb(0 0 0 / 0.42));
+    outline-color: color-mix(in srgb, var(--cs-1, hsl(var(--gold))) 58%, white 42%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rv-ix :is(button, a[href], [role='button']):is([class*='card'], [class*='tile'], [class*='plaque'], [class*='-cab'], [class*='stall']):hover { translate: none; }
+}
+[data-perf='lite'] .rv-ix :is(button, a[href], [role='button']):is([class*='card'], [class*='tile'], [class*='plaque'], [class*='-cab'], [class*='stall']):hover {
+  translate: none;
+  filter: none;
+}

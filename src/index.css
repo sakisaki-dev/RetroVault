@@ -95,12 +95,30 @@
     --dur-2: 200ms;
     --dur-3: 280ms;
     --dur-4: 360ms;
-    --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+    /* One landing curve for everything: a long soft deceleration (desktop and phones alike) */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     --ease-spring: cubic-bezier(0.32, 1.25, 0.5, 1);
     --ease-exit: cubic-bezier(0.4, 0, 1, 1);
     --stagger: 35ms;
+    /*
+     * Scroll-in and page-entrance tokens (src/hooks/motion.css mo-*, src/components/motion/Reveal.tsx): one duration,
+     * one distance, one stagger step. The variants are multiples (--mo-dur-quick fades, --mo-dur-run sprites running
+     * in, --mo-dur-grow bars).
+     */
+    --mo-dur: 460ms;
+    --mo-dur-quick: 320ms;
+    --mo-dur-run: 560ms;
+    --mo-dur-grow: 640ms;
+    --mo-rise: 14px;
+    --mo-run: 34px;
+    --mo-gap: 55ms;
+    --mo-gap-max: 650ms;
+    /* Hover and press tokens (src/styles/interact.css): a lift on a pointer, a press everywhere */
+    --hv-dur: 180ms;
+    --hv-lift: -3px;
+    --hv-press: 0.98;
     /* How far views and list items rise as they appear */
-    --rise: 10px;
+    --rise: var(--mo-rise);
     --press-scale: 0.97;
     /* Role tokens: views (tab changes), modal open / close, and the exit curve (phones redefine them below) */
     --dur-view: var(--dur-3);
@@ -617,7 +635,7 @@
     --ease-exit: cubic-bezier(0.4, 0, 0.6, 1);
     --ease-close: cubic-bezier(0.4, 0, 0.6, 1);
     --stagger: 45ms;
-    --rise: 12px;
+    --rise: var(--mo-rise);
     --rise-view: 18px;
     --press-scale: 0.98;
   }
@@ -631,6 +649,15 @@
     --dur-4: 120ms;
     --stagger: 0ms;
     --rise: 0px;
+    --mo-dur: 120ms;
+    --mo-dur-quick: 120ms;
+    --mo-dur-run: 120ms;
+    --mo-dur-grow: 120ms;
+    --mo-rise: 0px;
+    --mo-run: 0px;
+    --mo-gap: 0ms;
+    --hv-lift: 0px;
+    --hv-press: 1;
     --press-scale: 1;
     --ease-spring: var(--ease-out);
     --dur-view: 120ms;
