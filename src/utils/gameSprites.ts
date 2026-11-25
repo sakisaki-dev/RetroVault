@@ -1,3 +1,4 @@
+import { setSpriteCacheStamp } from '@/utils/spriteLoader';
 import { useSyncExternalStore } from 'react';
 import type * as SpriteArt from './gameSpriteArt';
 import { findNFLTeam } from './nflTeams';
@@ -116,6 +117,7 @@ export const PRIVATE_BASE = `${import.meta.env.BASE_URL}private-sprites/`;
 
 let sprites: GameSprites | null = null;
 let started = false;
+let settled = false;
 const listeners = new Set<() => void>();
 const publish = (part: Partial<GameSprites>) => {
   sprites = { nfl: null, regular: null, looks: null, ...sprites, ...part };
@@ -167,10 +169,15 @@ export const loadGameSprites = (): void => {
   if (started || !ENABLED || typeof window === 'undefined') return;
   started = true;
   // the NFL index with the site's locked looks, together, so a locked body (Sherman Brandson) never draws twice
-  Promise.all([privateJson('nfl/index.json'), siteLooks()]).then(([nfl, looks]) => {
-    if (validNfl(nfl)) publish({ nfl, looks });
+  const nflJob = Promise.all([privateJson('nfl/index.json'), siteLooks()]).then(([nfl, looks]) => {
+    if (validNfl(nfl)) {
+      // the stored PNG copies are tied to the save the index was cut from; a new pull clears them
+      const x = nfl as { save?: unknown; saveYears?: unknown; size?: unknown; players: Record<string, unknown> };
+      setSpriteCacheStamp(JSON.stringify([x.save, x.saveYears, x.size, Object.keys(x.players).length]));
+      publish({ nfl, looks });
+    }
   });
-  privateJson('index.json')
+  const regularJob = privateJson('index.json')
     .then(async (index) => {
       if (!validIndex(index)) return;
       const [faces, bodies, helmet] = await Promise.all([index.faces.file, index.bodies.file, index.helmet.file].map((f) => loadImage(PRIVATE_BASE + f)));
@@ -181,7 +188,16 @@ export const loadGameSprites = (): void => {
     .catch(() => {
       /* no regular sheets: callers fall back silently */
     });
+  Promise.allSettled([nflJob, regularJob]).then(() => {
+    settled = true;
+    listeners.forEach((l) => l());
+  });
 };
+
+/** True while the sprite indexes are still loading on a machine that has them (never on the public site). */
+const loadingSnapshot = () => ENABLED && !settled;
+/** The sprite indexes are still on their way: a sprite box draws its placeholder, not nothing (GameSprite, CoachSprite). */
+export const useSpritesLoading = (): boolean => useSyncExternalStore(subscribe, loadingSnapshot, () => false);
 
 const subscribe = (l: () => void) => {
   listeners.add(l);

@@ -6,6 +6,7 @@ import { setPerfSetting, suggestLite, usePerfMode, type PerfSetting } from '@/ho
 import { cn } from '@/lib/utils';
 import { openQuickSearch } from '@/components/QuickPlayerSearch';
 import { useLeague } from '@/context/LeagueContext';
+import { loadGameSprites } from '@/utils/gameSprites';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { isHallOfFamer } from '@/config/stats';
 import { useLeagueContent } from '@/utils/leagueContent';
@@ -54,6 +55,8 @@ const PerfToggle = () => {
 
 const Header = ({ activeTab, onTabChange }: HeaderProps) => {
   const { careerData, getAllPlayers, dataVersion } = useLeague();
+  // the sprite index starts with the app, not with the first sprite that mounts
+  useEffect(() => loadGameSprites(), []);
   const season = useLeagueContent().content?.season;
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const headerRef = useRef<HTMLElement | null>(null);

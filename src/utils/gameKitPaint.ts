@@ -1,3 +1,4 @@
+import { requestSpriteImage, type SpriteImage } from '@/utils/spriteLoader';
 import { homeUniform, pantsBands, sleeveBands, sockBands } from '@/components/collection/art/sprite/uniforms';
 
 /**
@@ -81,14 +82,6 @@ export const paletteFor = (team: string) => {
     socks: { [TRIM]: rgbOf(u.socks), [BASE]: rgbOf(sockBands(u)[0] ?? u.socks), [SHADE]: shade(rgbOf(u.socks), -0.3) } as Record<number, RGB>,
   };
 };
-
-const loadImage = (src: string) =>
-  new Promise<HTMLImageElement>((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error('sprite'));
-    img.src = src;
-  });
 
 /** Paints the neutral kit's three colours, row band by row band, into `team`'s home kit (in place). */
 const paintPixels = (px: Uint8ClampedArray, w: number, h: number, team: string) => {
@@ -193,25 +186,32 @@ export interface SpriteJob {
   foot?: number;
 }
 
-const cache = new Map<string, Promise<string>>();
+interface Slot {
+  promise: Promise<string>;
+  /** callers holding it (a sprite on screen); a slot nobody holds and still waiting for its files is dropped */
+  refs: number;
+  settled: boolean;
+  loads: Array<() => void>;
+}
+const cache = new Map<string, Slot>();
 /** Most processed sprites kept (a formation, search and the Record Book stay well under it). */
 const CACHE_MAX = 600;
 
-/**
- * The sprite at `src` painted (job.paint) and reshaped to his body (job.rows, job.cols), as a data URL, cached per
- * sprite file x club x body (so per player key x kit x pose). Returns `src` itself when there is nothing to do.
- */
-export const processSprite = (src: string, job: SpriteJob = {}): Promise<string> => {
+const sizeOf = (i: SpriteImage) => ('naturalWidth' in i ? [i.naturalWidth, i.naturalHeight] : [i.width, i.height]);
+
+const slotFor = (src: string, job: SpriteJob): Slot | null => {
   const rows = job.rows ?? 0;
   const cols = job.cols ?? 0;
-  if (!job.paint && !job.polo && !rows && !cols) return Promise.resolve(src);
+  if (!job.paint && !job.polo && !rows && !cols) return null;
   const key = `${src}|${job.paint ?? ''}|${job.polo?.color ?? ''}|${rows},${cols}`;
   const hit = cache.get(key);
   if (hit) return hit;
-  const job2 = loadImage(src).then((img) => {
+  const req = requestSpriteImage(src);
+  const promise = req.promise.then((img) => {
     const c = document.createElement('canvas');
-    const w = (c.width = img.naturalWidth);
-    const h = (c.height = img.naturalHeight);
+    const [iw, ih] = sizeOf(img);
+    const w = (c.width = iw);
+    const h = (c.height = ih);
     const ctx = c.getContext('2d');
     if (!ctx) return src;
     ctx.drawImage(img, 0, 0);
@@ -225,10 +225,52 @@ export const processSprite = (src: string, job: SpriteJob = {}): Promise<string>
     ctx.putImageData(data, 0, 0);
     return c.toDataURL('image/png');
   });
+  const slot: Slot = { promise, refs: 0, settled: false, loads: [req.release] };
+  promise.then(
+    () => {
+      slot.settled = true;
+    },
+    () => {
+      if (cache.get(key) === slot) cache.delete(key);
+    },
+  );
+  promise.catch(() => undefined);
   if (cache.size >= CACHE_MAX) cache.delete(cache.keys().next().value!);
-  cache.set(key, job2);
-  job2.catch(() => cache.delete(key));
-  return job2;
+  cache.set(key, slot);
+  return slot;
+};
+
+/**
+ * The sprite at `src` painted (job.paint) and reshaped to his body (job.rows, job.cols), as a data URL, cached per
+ * sprite file x club x body (so per player key x kit x pose). Returns `src` itself when there is nothing to do.
+ */
+export const processSprite = (src: string, job: SpriteJob = {}): Promise<string> => {
+  const slot = slotFor(src, job);
+  if (!slot) return Promise.resolve(src);
+  slot.refs++; // never released: a caller that is not a mounted sprite keeps the result
+  return slot.promise;
+};
+
+/**
+ * Same as processSprite, for a sprite on screen: `release()` when it unmounts or changes. A job still waiting for its
+ * files (the row was typed past, scrolled away) is then dropped before it loads (spriteLoader.ts), so what is on screen
+ * now is loaded first.
+ */
+export const processSpriteHeld = (src: string, job: SpriteJob = {}): { promise: Promise<string>; release: () => void } => {
+  const slot = slotFor(src, job);
+  if (!slot) return { promise: Promise.resolve(src), release: () => undefined };
+  slot.refs++;
+  let released = false;
+  return {
+    promise: slot.promise,
+    release: () => {
+      if (released) return;
+      released = true;
+      if (--slot.refs > 0 || slot.settled) return;
+      for (const [k, v] of cache) if (v === slot) cache.delete(k);
+      slot.loads.forEach((r) => r());
+    },
+  };
 };
 
 /** The neutral-kit sprite at `src` painted into `team`'s home kit, as a data URL (cached per sprite × club). */

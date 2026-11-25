@@ -683,6 +683,20 @@
   animation: rv-fade-in var(--dur-2) var(--ease-out) backwards;
 }
 
+/* A sprite's box while its file is on the way (SpritePlaceholder.tsx): a faint pixel figure that stays invisible for the
+   first 120 ms, so a cached or quick sprite never shows it, then fades in and breathes. Still under reduced motion and lite mode. */
+.sprite-ph {
+  fill: rgb(255 255 255 / 0.1);
+  opacity: 0;
+  animation: sprite-ph-in 160ms ease-out 120ms forwards, sprite-ph-breathe 1.4s ease-in-out 280ms infinite;
+}
+@keyframes sprite-ph-in { to { opacity: 1; } }
+@keyframes sprite-ph-breathe { 0%, 100% { fill: rgb(255 255 255 / 0.07); } 50% { fill: rgb(255 255 255 / 0.15); } }
+@media (prefers-reduced-motion: reduce) {
+  .sprite-ph { animation: sprite-ph-in 0.01ms linear 120ms forwards; }
+}
+:root[data-perf="lite"] .sprite-ph { animation: sprite-ph-in 0.01ms linear 120ms forwards; }
+
 /* Lists and grids (useStagger): staggered fade-up on first appearance, capped at 12 items */
 .rv-stagger > * {
   animation: rv-rise var(--dur-3) var(--ease-out) backwards;
