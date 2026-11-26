@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } fro
  * Shared zoom + pan for SVG plots. Zoom is semantic: the hook returns the visible x / y domains, so the chart redraws
  * its axes and ticks crisply and its marks keep their screen size (clusters spread apart). Gestures: two fingers pinch
  * around the pinch centre (and pan with the midpoint), one finger pans only while zoomed (otherwise the page scrolls),
- * double-tap zooms in around the point and again resets, the wheel zooms around the cursor. Taps are reported through
+ * double-tap zooms in around the point and again resets, Ctrl/Cmd + wheel or a trackpad pinch zooms around the cursor. Taps are reported through
  * `onTap` with the point in viewBox units, so a chart can pick the nearest marks or a cluster of them.
  *
  * Domains are numeric with y growing upward (invert a rank axis by negating it). `lockY` zooms x only (line charts).
@@ -289,6 +289,8 @@ export function useChartZoom(opts: {
       }
     };
     const wheel = (e: WheelEvent) => {
+      // only a trackpad pinch (ctrlKey) or Ctrl / Cmd + scroll zooms: a plain scroll over a chart keeps scrolling the page
+      if (!e.ctrlKey && !e.metaKey) return;
       e.preventDefault();
       cancelAnimationFrame(anim.current);
       const f = frac(e.clientX, e.clientY);
