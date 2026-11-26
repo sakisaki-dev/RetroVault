@@ -732,7 +732,7 @@ const LandscapeScatter = ({
   return (
     <div ref={boxRef} className="relative w-full" onMouseLeave={() => setHover(null)}>
       {geo && (
-        <div ref={gestureRef} className="relative" style={touch ? { touchAction: 'pan-y' } : undefined}>
+        <div ref={gestureRef} className="relative" data-no-swipe style={touch ? { touchAction: 'pan-y' } : undefined}>
           <svg ref={svgRef} width={width} height={height} role="group" aria-label={ariaLabel} className="rv-chart-in block select-none">
             {touch && (
               <defs>
