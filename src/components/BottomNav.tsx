@@ -1,3 +1,4 @@
+import { requestSection } from '@/utils/sectionLink';
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent as RPointerEvent } from 'react';
 import { NowPlayingStrip } from '@/components/nowplaying/NowPlaying';
 import {
@@ -25,6 +26,7 @@ import {
   Star,
   Swords,
   TrendingUp,
+  Trophy,
   Users,
   type LucideIcon,
 } from 'lucide-react';
@@ -87,9 +89,26 @@ interface Section {
   sub?: StatsSub;
   /** Element id to scroll to on the tab's page */
   anchor?: string;
+  /** A page section to open (the Arcade's games) */
+  section?: string;
 }
-/** Hold-a-tab sections (the Arcade has no fixed sections: its games are one page) */
+/** Hold-a-tab sections (the Arcade's are its ten games) */
 const SECTIONS: Record<string, { title: string; items: Section[] }> = {
+  games: {
+    title: 'Arcade',
+    items: [
+      { id: 'perfect', label: 'Go 18–0', Icon: Trophy, section: 'perfect' },
+      { id: 'hol', label: 'Higher or Lower', Icon: TrendingUp, section: 'hol' },
+      { id: 'legend', label: 'Guess the Legend', Icon: Crown, section: 'legend' },
+      { id: 'grid', label: 'League Grid', Icon: Layers, section: 'grid' },
+      { id: 'rank', label: 'Blind Rank', Icon: Gem, section: 'rank' },
+      { id: 'imposter', label: 'Imposter', Icon: Users, section: 'imposter' },
+      { id: 'kc', label: 'Keep 3, Cut 3', Icon: Swords, section: 'kc' },
+      { id: 'sixdeg', label: 'Six Degrees', Icon: Radar, section: 'sixdeg' },
+      { id: 'ou', label: 'Over / Under', Icon: Gauge, section: 'ou' },
+      { id: 'build', label: 'Build-a-Legend', Icon: Star, section: 'build' },
+    ],
+  },
   career: {
     title: 'Stats',
     items: [
@@ -149,7 +168,7 @@ const PerfRow = () => {
         <Gauge className={cn('h-5 w-5', lite ? 'text-turf' : 'text-muted-foreground')} aria-hidden="true" />
         Performance mode
       </p>
-      <p className="mt-0.5 text-xs text-muted-foreground">Turns off card shimmer, glare and long walkouts.</p>
+      <p className="mt-0.5 text-xs text-muted-foreground">Turns off card shimmer, glare and long walkouts. On also reduces motion everywhere (counting numbers, animations, smooth scrolling).</p>
       <div role="group" aria-label="Performance mode" className="mt-2 grid grid-cols-3 gap-1.5">
         {opts.map((o) => (
           <button
@@ -221,6 +240,11 @@ const BottomNav = ({ activeTab, onTabChange, onRoute }: { activeTab: string; onT
   };
 
   const goSection = (tab: string, s: Section) => {
+    if (s.section) {
+      if (tab !== activeTab) onTabChange(tab);
+      requestSection(tab, s.section);
+      return;
+    }
     if (s.sub) {
       if (onRoute) onRoute({ tab: 'career', sub: s.sub });
       else onTabChange(tab);

@@ -5,7 +5,7 @@ import { familiesFor } from '@/config/families';
 import { useOfficialOvr } from '@/utils/useOfficialOvr';
 import CompMap from '../comps/CompMap';
 import { buildShapeMap } from './shapeMap';
-import { openInCompFinder } from '../comps/compFinderLink';
+import { openPlayerCard } from '@/utils/playerCardLink';
 import { peekProps } from '@/components/peek/peekProps';
 
 const useWide = () => {
@@ -43,7 +43,7 @@ const FamilyMap = ({ players, position }: { players: Player[]; position: Positio
           <ol className="flex flex-wrap gap-1.5">
             {fams.families[0].members.map((p) => (
               <li key={p.name}>
-                <button type="button" className="rounded-full border border-line/70 px-2 py-0.5 text-xs font-semibold text-foreground hover:border-gold/60 hover:text-gold" {...peekProps(p)} onClick={() => openInCompFinder(p)}>
+                <button type="button" className="rounded-full border border-line/70 px-2 py-0.5 text-xs font-semibold text-foreground hover:border-gold/60 hover:text-gold" {...peekProps(p)} onClick={() => openPlayerCard(`${p.position}:${p.name}`)}>
                   {p.name} <span className="font-mono text-[10px] text-muted-foreground">{Math.round(p.careerLegacy).toLocaleString()}</span>
                 </button>
               </li>
@@ -55,7 +55,7 @@ const FamilyMap = ({ players, position }: { players: Player[]; position: Positio
   }
   return (
     <div className="space-y-2">
-      <CompMap map={map} ovrMap={ovrMap} selectedKey="" topComps={[]} overlayKey="" onPick={(p) => openInCompFinder(p)} wide={wide} nnLabel="Closest shape" />
+      <CompMap map={map} ovrMap={ovrMap} selectedKey="" topComps={[]} overlayKey="" onPick={(p) => openPlayerCard(`${p.position}:${p.name}`)} wide={wide} nnLabel="Closest shape" />
       <details className="text-xs text-muted-foreground">
         <summary className="cursor-pointer font-semibold hover:text-foreground">How the zones work</summary>
         <p className="mt-1.5">

@@ -1,4 +1,5 @@
 import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import { cn } from '@/lib/utils';
 import type { NFLTeam } from '@/utils/nflTeams';
 import { getReadableTextOn } from '@/utils/teamColors';
@@ -36,7 +37,7 @@ const ringsText = (n: number) => `${n} ring${n === 1 ? '' : 's'} here`;
 
 const reduceMotion = () => {
   try {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return isReducedMotion();
   } catch {
     return false;
   }

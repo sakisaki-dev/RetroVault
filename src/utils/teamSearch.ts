@@ -33,3 +33,15 @@ export const openTeamPage = (name: string) => {
   if (window.location.hash !== hash) window.location.hash = hash;
   window.dispatchEvent(new CustomEvent(OPEN_TEAM_EVENT, { detail: name }));
 };
+
+/** How well the clubs found match what was typed, on the scale the player scores use (exact 900, name start 700, abbreviation or city start 600, other 400). */
+export const clubsScore = (query: string, clubs: NFLTeam[]): number => {
+  const q = fold(query).trim();
+  let best = 0;
+  for (const t of clubs) {
+    const exact = [t.name, t.abbreviation, t.city, t.fullName].some((x) => fold(x) === q);
+    const s = exact ? 900 : fold(t.name).startsWith(q) ? 700 : fold(t.abbreviation).startsWith(q) || fold(t.city).startsWith(q) ? 600 : 400;
+    best = Math.max(best, s);
+  }
+  return best;
+};

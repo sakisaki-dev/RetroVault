@@ -189,7 +189,7 @@
   padding: 0.1rem 0 0;
   border-radius: 0.35rem;
   color: inherit;
-  transition: transform 0.18s ease, filter 0.18s ease;
+  transition: transform var(--hv-dur) var(--ease-out), filter var(--hv-dur) var(--ease-out);
 }
 .fo-trophy svg {
   display: block;
@@ -230,7 +230,7 @@
   padding-bottom: 0.1rem;
   border-radius: 0.35rem;
   opacity: 0.55;
-  transition: opacity 0.18s ease, transform 0.18s ease;
+  transition: opacity 0.18s ease, transform var(--hv-dur) var(--ease-out);
 }
 .fo-plaque__face {
   display: flex;
@@ -280,7 +280,7 @@
   transform: translate(-50%, 4px);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition: opacity 0.15s ease, transform var(--hv-dur) var(--ease-out);
 }
 @media (hover: hover) {
   .fo-trophy:hover .fo-tip,

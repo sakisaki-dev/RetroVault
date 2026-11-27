@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useState, type CSSProperties } from 'react';
 import { Music, X } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { hideNowPlaying, trackTimes, useNowPlaying, useNowPlayingShown, type NowPlaying } from '@/utils/spotify';
@@ -56,25 +56,84 @@ const Times = ({ np }: { np: NowPlaying }) => {
   );
 };
 
+type PillMode = 'full' | 'cover' | 'hidden';
+
+/** The desktop tab row, if it is on screen (the tablet copy sits on its own row) */
+const desktopTabRow = () => {
+  const rows = document.querySelectorAll<HTMLElement>('[data-site-header] nav[aria-label="Primary"] ul');
+  for (const r of rows) if (r.clientWidth > 0) return r;
+  return null;
+};
+
+/**
+ * The pill gives way to the tabs (owner: "resize the spotify so this isn't possible"): it measures the tab row and
+ * steps down full -> cover only -> hidden until the tabs no longer scroll. Re-measured when the header's width, the
+ * song or the fonts change; never a fixed breakpoint.
+ */
+const usePillMode = (active: boolean, key: string): PillMode => {
+  const [mode, setMode] = useState<PillMode>('full');
+  const [epoch, setEpoch] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    const header = document.querySelector('[data-site-header]');
+    const redo = () => {
+      setMode('full');
+      setEpoch((n) => n + 1);
+    };
+    const ro = typeof ResizeObserver !== 'undefined' && header ? new ResizeObserver(redo) : null;
+    if (header) ro?.observe(header);
+    // the tab row itself shrinking (the season lamp arriving, a wider tab) can only take the pill down a step
+    const squeeze = () => {
+      const row = desktopTabRow();
+      if (row && row.scrollWidth > row.clientWidth + 1) setMode((m) => (m === 'full' ? 'cover' : 'hidden'));
+    };
+    const rows = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(squeeze) : null;
+    document.querySelectorAll('[data-site-header] nav[aria-label="Primary"] ul').forEach((u) => rows?.observe(u));
+    void document.fonts?.ready.then(redo);
+    document.fonts?.addEventListener?.('loadingdone', redo);
+    return () => {
+      ro?.disconnect();
+      rows?.disconnect();
+      document.fonts?.removeEventListener?.('loadingdone', redo);
+    };
+  }, [active]);
+  useEffect(() => {
+    if (active) {
+      setMode('full');
+      setEpoch((n) => n + 1);
+    }
+  }, [active, key]);
+  useLayoutEffect(() => {
+    if (!active || mode === 'hidden') return;
+    const row = desktopTabRow();
+    if (row && row.scrollWidth > row.clientWidth + 1) setMode(mode === 'full' ? 'cover' : 'hidden');
+  }, [active, mode, epoch]);
+  return mode;
+};
+
 /** Header: a pill beside the Season lamp (a spinning record, the equalizer, the song); a click opens the card */
 export const NowPlayingPill = () => {
   const np = useNowPlaying();
   const shown = useNowPlayingShown(np);
-  if (!np || !shown) return null;
+  const on = !!np && shown;
+  const mode = usePillMode(on, np ? `${np.title}|${np.artist}|${np.art}` : '');
+  if (!np || !shown || mode === 'hidden') return null;
   return (
     <Popover>
       <PopoverTrigger asChild>
         <button
           type="button"
-          className={`np-pill ${np.playing ? '' : 'np-pill--paused'} hidden sm:inline-flex`}
+          className={`np-pill ${np.playing ? '' : 'np-pill--paused'} ${mode === 'cover' ? 'np-pill--cover' : ''} hidden sm:inline-flex`}
           aria-label={`${np.playing ? 'Now playing' : 'Paused'}: ${np.title} by ${np.artist}`}
         >
           <Cover np={np} className="np-pill__disc" />
           <Eq />
-          <span className="np-pill__txt">
-            <span className="np-pill__title">{np.title}</span>
-            <span className="np-pill__artist">{np.artist}</span>
-          </span>
+          {mode === 'full' && (
+            <span className="np-pill__txt">
+              <span className="np-pill__title">{np.title}</span>
+              <span className="np-pill__artist">{np.artist}</span>
+            </span>
+          )}
         </button>
       </PopoverTrigger>
       <PopoverContent align="end" className="np-card w-80 border-line bg-panel p-0">

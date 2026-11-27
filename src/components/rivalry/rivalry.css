@@ -358,10 +358,10 @@
   background: linear-gradient(90deg, hsl(var(--rf-b) / 0.55), hsl(var(--rf-b) / 0.12));
   text-align: left;
   color: #fff;
-  transition: filter 0.15s;
+  transition: filter var(--hv-dur) var(--ease-out);
 }
 .rf-paper:not(:disabled):hover {
-  filter: brightness(1.15);
+  filter: brightness(1.08);
 }
 .rf-paper__kicker {
   display: inline-flex;
@@ -470,7 +470,7 @@
   border: 1px solid rgb(125 134 163 / 0.22);
   background: #10172a;
   text-align: left;
-  transition: transform 0.15s, border-color 0.15s;
+  transition: transform var(--hv-dur) var(--ease-out), border-color var(--hv-dur) var(--ease-out);
 }
 .rf-card:hover {
   border-color: rgb(241 195 92 / 0.5);
@@ -601,10 +601,10 @@
   background: linear-gradient(90deg, hsl(var(--rf-b)), hsl(var(--rf-b) / 0.45));
   text-align: left;
   color: #fff;
-  transition: filter 0.15s;
+  transition: filter var(--hv-dur) var(--ease-out);
 }
 .rf-strip:hover {
-  filter: brightness(1.15);
+  filter: brightness(1.08);
 }
 .rf-strip__text {
   display: flex;

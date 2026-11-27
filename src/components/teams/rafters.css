@@ -147,7 +147,7 @@
   border-radius: 4px;
   text-align: center;
   filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.45));
-  transition: filter 0.15s;
+  transition: filter var(--hv-dur) var(--ease-out);
 }
 button.rafter__hit:hover {
   filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.45)) brightness(1.1);
@@ -465,7 +465,7 @@ button.rafter__hit:focus-visible {
   background: linear-gradient(90deg, hsl(var(--raf-club)), hsl(var(--raf-club) / 0.55));
   text-align: left;
   color: var(--raf-fg);
-  transition: filter 0.15s;
+  transition: filter var(--hv-dur) var(--ease-out);
 }
 .raf-strip:hover {
   filter: brightness(1.1);
@@ -576,10 +576,10 @@ button.rafter__hit:focus-visible {
   font-size: 12px;
   font-weight: 700;
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.18);
-  transition: filter 0.15s, transform 0.15s;
+  transition: filter var(--hv-dur) var(--ease-out), transform var(--hv-dur) var(--ease-out);
 }
 .raf-multi__club:hover {
-  filter: brightness(1.12);
+  filter: brightness(1.08);
 }
 .raf-multi__club:active {
   transform: scale(0.96);
@@ -668,10 +668,10 @@ button.rafter__hit:focus-visible {
   align-items: center;
   transform-origin: 50% 0;
   filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.5));
-  transition: filter 0.15s;
+  transition: filter var(--hv-dur) var(--ease-out);
 }
 .raf-cere__banner:hover {
-  filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.5)) brightness(1.12);
+  filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.5)) brightness(1.08);
 }
 .raf-cere__banner:focus-visible {
   outline: 2px solid #ffc63e;

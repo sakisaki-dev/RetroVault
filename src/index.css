@@ -114,8 +114,8 @@
     --mo-gap: 55ms;
     --mo-gap-max: 650ms;
     /* Hover and press tokens (src/styles/interact.css): a lift on a pointer, a press everywhere */
-    --hv-dur: 180ms;
-    --hv-lift: -3px;
+    --hv-dur: 320ms;
+    --hv-lift: -2px;
     --hv-press: 0.98;
     /* How far views and list items rise as they appear */
     --rise: var(--mo-rise);
@@ -704,6 +704,10 @@
 /* Tab and sub-tab changes (pages/Index.tsx, StatsHub): a quick cross-fade with a short rise */
 .rv-view-in {
   animation: rv-rise-view var(--dur-view) var(--ease-out) backwards;
+}
+/* a page whose blocks cascade in themselves (useAutoReveal) only fades, so nothing rises twice */
+.rv-view-in.rv-view-fade {
+  animation-name: rv-fade-in;
 }
 /* Suspense fallbacks wait ~150 ms before showing, so a fast chunk never flashes a skeleton */
 .rv-fallback {

@@ -5,9 +5,12 @@ import { toast } from 'sonner';
 import Header from '@/components/Header';
 import BottomNav from '@/components/BottomNav';
 import PullToSearch from '@/components/PullToSearch';
+import { useBootClubColours } from '@/utils/bootClub';
+import SwipeNav from '@/components/SwipeNav';
 import AddToHomeScreen from '@/components/homescreen/AddToHomeScreen';
 import TabFallback from '@/components/TabFallback';
 import LazyHost, { whenSettled } from '@/components/LazyHost';
+import { OPEN_PLAYER_CARD_EVENT } from '@/utils/playerCardLink';
 import { QUICK_SEARCH_EVENT } from '@/utils/quickSearchEvent';
 import { PLAY_CEREMONY_EVENT } from '@/utils/hallOfFameWatch';
 import TributeHost from '@/components/tribute/TributeHost';
@@ -24,6 +27,7 @@ import { decodeProgress, importProgress } from '@/utils/deviceSync';
 // Hosts nothing needs at first paint: separate chunks, loaded once the line is quiet or when something wakes them
 // (components/LazyHost.tsx replays the waking event, so an open request made before the chunk arrived still answers)
 const loadQuickSearch = () => import('@/components/QuickPlayerSearch');
+const PEEK_WAKE = [OPEN_PLAYER_CARD_EVENT];
 const loadPeekLayer = () => import('@/components/peek/PlayerPeek');
 const loadUnlockToasts = () => import('@/components/collection/CardUnlockToasts');
 const loadLegendExchange = () => import('@/components/collection/LegendExchange');
@@ -43,10 +47,11 @@ const FrontOfficeTab = lazy(() => import('@/components/tabs/FrontOfficeTab'));
 const CollectionTab = lazy(() => import('@/components/tabs/CollectionTab'));
 const TeamLabTab = lazy(() => import('@/components/teamlab/TeamLabTab'));
 
-/** Pages whose sections rise in as they scroll into view (the Arcade, Collection and Team Lab are tools, never animated this way). */
-const SCROLL_IN_TABS = new Set(['season', 'timeline', 'office', 'hof']);
+/** Every page cascades in (useAutoReveal); Stats runs its own per sub-tab. */
+const OWN_REVEAL_TABS = new Set(['career']);
 
 const IndexContent = () => {
+  useBootClubColours();
   const scrollIn = useAutoReveal<HTMLDivElement>();
   // The visible page lives in the URL hash (#stats/teams, #stats/deepdive?p=…) so it is linkable and Back works.
   const { route, target, navigate } = useHashRoute('games');
@@ -135,7 +140,7 @@ const IndexContent = () => {
             {/* Tab changes are transitions (hashRoute), so the old tab stays until the new one is ready; it then
                 cross-fades in (.rv-view-in). The fallback only shows on a cold first load, after ~150 ms. */}
             <Suspense fallback={<TabFallback />}>
-              <div key={activeTab} ref={SCROLL_IN_TABS.has(activeTab) ? scrollIn : undefined} className="rv-view-in">
+              <div key={activeTab} ref={OWN_REVEAL_TABS.has(activeTab) ? undefined : scrollIn} className={OWN_REVEAL_TABS.has(activeTab) ? 'rv-view-in' : 'rv-view-in rv-view-fade'}>
                 {activeTab === 'career' && <CareerTab />}
                 {activeTab === 'lab' && <TeamLabTab />}
                 {activeTab === 'hof' && <HallOfFameTab />}
@@ -150,13 +155,14 @@ const IndexContent = () => {
         </HubRouteContext.Provider>
 
         <PullToSearch />
+        <SwipeNav />
         <BottomNav activeTab={target.tab} onTabChange={(tab) => navigate({ tab })} onRoute={(to) => navigate(to)} />
         <AddToHomeScreen />
         <LazyHost load={loadCeremony} wake={CEREMONY_WAKE} />
         <TributeHost />
         <RivalryHost onTimeline={() => navigate({ tab: 'timeline' })} />
         <LazyHost load={loadQuickSearch} wake={QUICK_SEARCH_WAKE} wakeKey={quickSearchKey} />
-        <LazyHost load={loadPeekLayer} />
+        <LazyHost load={loadPeekLayer} wake={PEEK_WAKE} />
         <SpriteNameToast />
         <ScreensaverHost />
         <LazyHost load={loadUnlockToasts} />

@@ -61,7 +61,7 @@
 }
 button.club-strip { cursor: pointer; }
 button.club-strip:hover,
-a.club-strip:hover { filter: brightness(1.14); transform: translateY(-1px); text-decoration: none; }
+a.club-strip:hover { filter: brightness(1.08); transform: translateY(-1px); text-decoration: none; }
 button.club-strip:active { transform: scale(var(--press-scale, 0.97)); }
 .club-strip:focus-visible { outline: 2px solid hsl(var(--gold)); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) {

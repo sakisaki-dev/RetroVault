@@ -45,6 +45,7 @@ import { kitName, kitsOf, type Uniform } from '../sprite/uniforms';
 import { KIT_SOURCE, clubKits } from '../../kits';
 import { Chips, Lazy } from './LabParts';
 import AutographPreview from '../../autograph/AutographPreview';
+import { reducedMotion } from '@/utils/motion';
 
 /** What every lab tab receives: the picked player, every league card (for sample packs) and the set size. */
 export interface LabTabProps {
@@ -77,13 +78,6 @@ const sampleSerial = (c: PrizmParallel, number: number | null | undefined) => {
 };
 
 /** Same rule as the pack dialog: performance mode or the OS setting means the short versions. */
-const reducedMotion = () => {
-  try {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  } catch {
-    return false;
-  }
-};
 
 /** A card as the pack dialog wants it. Preview mode hides the NEW / duplicate tags, so the flags don't matter. */
 const asPackCard = (c: RolledCard): PackCard => ({ ...c, isNew: true, newVariant: false, upgrade: false, newKit: false, newParallel: false, duplicate: false, shards: 0 });

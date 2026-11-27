@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import type { Player } from '@/types/player';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { usePerfMode } from '@/hooks/usePerfMode';
@@ -18,7 +19,7 @@ const STEP = 3400;
 const REACH = 6;
 const DROP = 130;
 
-const reduced = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const reduced = () => typeof window !== 'undefined' && isReducedMotion();
 
 const RingSweepScene = ({ all, picks, sprites }: { all: RingClub[]; picks: string[]; sprites: boolean }) => {
   const order = useMemo(() => picks.map((n) => all.findIndex((c) => c.name === n)).filter((i) => i >= 0), [all, picks]);

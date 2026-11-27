@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import { awardPack } from '@/utils/collection';
 import { cn } from '@/lib/utils';
 import type { Position } from '@/types/player';
@@ -360,7 +361,7 @@ const advance = (s: Season): Season => {
 
 // ---------- Component ----------
 
-const reducedMotion = () => !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+const reducedMotion = () => isReducedMotion();
 /** Scroll to the game's title bar (not the page top: on a phone the arcade header would push the stage off screen). */
 const toTop = () => {
   const el = document.getElementById('arcade-game-title');

@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { getReadableTextOn } from '@/utils/teamColors';
 import TeamLogo from '@/components/timeline/TeamLogo';
-import { openInCompFinder } from '@/components/stats/comps/compFinderLink';
+import { openPlayerCard } from '@/utils/playerCardLink';
 import type { Player } from '@/types/player';
 import './clubStrip.css';
 
@@ -88,8 +88,8 @@ export const PlayerStrip = ({
     tag={card ? tag : 'No card'}
     size={size}
     className={className}
-    onClick={card ? () => openInCompFinder({ position, name } as Pick<Player, 'position' | 'name'> as Player) : undefined}
-    ariaLabel={card ? `${name}, ${position}, ${team}: open in the Deep Dive` : undefined}
+    onClick={card ? () => openPlayerCard(`${position}:${name}`) : undefined}
+    ariaLabel={card ? `${name}, ${position}, ${team}: open his card` : undefined}
     playerKey={card ? `${position}:${name}` : undefined}
   />
 );

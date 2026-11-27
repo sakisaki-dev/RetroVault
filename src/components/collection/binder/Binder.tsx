@@ -1,7 +1,7 @@
 import { startTransition, useCallback, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ArrowDownUp, ChevronLeft, ChevronRight, Coins, GalleryHorizontal, Search, SlidersHorizontal, X } from 'lucide-react';
 import type { Position } from '@/types/player';
-import { Select } from '@/components/controls';
+import { PillScroller } from '@/components/controls';
 import { cn } from '@/lib/utils';
 import { reducedMotion } from '@/utils/motion';
 import { FINISHES, TIERS, type DisplayChoice, type OwnedCard, type Tier } from '@/utils/collection';
@@ -342,8 +342,8 @@ const Binder = ({
         <span className="bk-sort__k" aria-hidden="true">
           Sort
         </span>
-        <Select
-          className="bk-sort__sel"
+        <PillScroller
+          className="bk-sort__pills"
           label="Sort the binder by"
           value={f.sort}
           onChange={(k) => set({ sort: k, rev: f.sort === k ? f.rev : false })}

@@ -32,6 +32,7 @@ import {
 import { usePlayerExtras } from '@/utils/playerExtras';
 import { useHubRoute } from '../stats/hub/hashRoute';
 import { peekProps } from '@/components/peek/peekProps';
+import { openPlayerCard } from '@/utils/playerCardLink';
 
 type ConferenceFilter = 'all' | 'AFC' | 'NFC';
 type DivisionFilter = 'all' | (typeof DIVISIONS)[number];
@@ -154,7 +155,7 @@ const TeamRankingsTab = () => {
         <BannerRing
           data={bannerData}
           onOpenClub={setOpenKey}
-          onOpenPlayer={(p) => navigate({ tab: 'career', sub: 'deepdive', p: `${p.position}:${p.name}` })}
+          onOpenPlayer={(p) => openPlayerCard(`${p.position}:${p.name}`)}
         />
       ) : (
       <header className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">

@@ -1,4 +1,6 @@
+import { useSectionRequest } from '@/utils/sectionLink';
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import '../games/arcade.css';
 import '../games/arcadeHall.css';
 import GuessTheLegend from '../games/GuessTheLegend';
@@ -19,6 +21,7 @@ import { HomeNews } from '../news/WhatChanged';
 import { ArcadeRatingContext, STAT_KEYS, loadGameStat, saveGameStat, useGamePlayers, type ArcadeRating, type GamePlayer } from '../games/gameUtils';
 import { fnv1a } from '@/utils/edition';
 import PixelLoader from '@/components/ui/PixelLoader';
+import { useLeague } from '@/context/LeagueContext';
 
 type GameId = 'rank' | 'perfect' | 'kc' | 'legend' | 'hol' | 'grid' | 'imposter' | 'sixdeg' | 'ou' | 'build';
 
@@ -169,7 +172,7 @@ const gameOfTheDay = (now: Date): GameDef => {
   return GAMES[fnv1a(`arcade-gotd:${day}`) % GAMES.length];
 };
 
-const reducedMotion = () => typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+const reducedMotion = () => typeof window !== 'undefined' && isReducedMotion();
 const pad2 = (n: number) => String(n).padStart(2, '0');
 const mcVars = (g: GameDef) => ({ '--mc': g.color }) as CSSProperties;
 
@@ -231,6 +234,7 @@ const GamesTab = () => {
   // Each game keeps its own Players (All / Active) and Rating (SZN / OVR) choice; the hall's switch seeds a game with none saved
   const gs = useGameSettings(game, rating);
   const effRating: ArcadeRating = game ? gs.settings.rating : rating;
+  const leagueState = useLeague();
   const { players: rawPlayers, league, legends, ovrMap, legendsLoaded, dataVersion } = useGamePlayers(includeLegends, effRating);
   // Active only: SZN already is; otherwise the active league players. Too few left (under 40): keep the game playable with everyone and say so.
   const MIN_ACTIVE = 40;
@@ -293,6 +297,8 @@ const GamesTab = () => {
     setGame(id);
   };
 
+  useSectionRequest('games', (v) => { if (GAMES.some((x) => x.id === v)) open(v as GameId); });
+
   // Records are read on each render of the landing, so a new best shows as soon as you come back.
   const records = GAMES.map((g) => g.record());
   const played = records.filter(Boolean).length;
@@ -334,6 +340,17 @@ const GamesTab = () => {
       </div>
     </header>
   );
+
+  if (league.length < 5 && leagueState.isLoading) {
+    return (
+      <div className="arcade">
+        <div className="wrap">
+          {marquee}
+          <PixelLoader label="Loading" what="the arcade" minHeight="50vh" />
+        </div>
+      </div>
+    );
+  }
 
   if (league.length < 5) {
     return (

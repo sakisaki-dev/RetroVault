@@ -141,7 +141,7 @@
 .arcade .hall-feature-rule { margin: 0; color: #cbd4f1; font-size: 15px; line-height: 1.45; max-width: 52ch; }
 .arcade .hall-feature-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 4px; }
 .arcade .hall-play { min-height: 52px; padding: 12px 24px; font-size: 22px; box-shadow: 0 5px 0 #8a6400, 0 0 26px #ffc83d55; }
-.arcade .hall-play span { font-size: 18px; transition: transform 0.2s; }
+.arcade .hall-play span { font-size: 18px; transition: transform var(--hv-dur) var(--ease-out); }
 .arcade .hall-play:hover span { transform: translateX(3px); }
 .arcade .hall-score,
 .arcade .cab-score {
@@ -204,7 +204,7 @@
   border-radius: 16px 16px 10px 10px;
   background: linear-gradient(180deg, color-mix(in srgb, var(--mc) 20%, #161d36) 0%, #10162b 42%, #0b1020 100%);
   box-shadow: 0 0 0 2px #000, inset 0 0 0 1px color-mix(in srgb, var(--mc) 32%, transparent), inset 0 1px 0 #ffffff1a, 0 14px 26px #0009;
-  transition: transform 0.25s var(--ease-out, ease), box-shadow 0.25s;
+  transition: transform var(--hv-dur) var(--ease-out), box-shadow var(--hv-dur) var(--ease-out);
 }
 /* coloured floor light under each cabinet */
 .arcade .cab::after {

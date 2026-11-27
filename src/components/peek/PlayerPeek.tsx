@@ -17,6 +17,7 @@ import { headlineStats } from '@/components/player/statLines';
 import { warmPlayerCard } from '@/components/player/warmPlayerCard';
 import { openInCompFinder, openInHeadToHead, prefillHeadToHead } from '@/components/stats/comps/compFinderLink';
 import PlayerDetailCard from '@/components/PlayerDetailCard';
+import { OPEN_PLAYER_CARD_EVENT, takePendingCard } from '@/utils/playerCardLink';
 import GameSprite from '@/components/GameSprite';
 import InLeague from '@/components/InLeague';
 import TeamLogo from '@/components/brand/TeamLogo';
@@ -195,6 +196,22 @@ const PlayerPeekLayer = () => {
     }
     else if (other) openInHeadToHead(p, other);
   };
+
+  // openPlayerCard (utils/playerCardLink): a tap on a stadium figure or ticker name opens his card
+  const [wantCard, setWantCard] = useState<string | null>(() => takePendingCard());
+  useEffect(() => {
+    const on = () => setWantCard(takePendingCard());
+    window.addEventListener(OPEN_PLAYER_CARD_EVENT, on);
+    return () => window.removeEventListener(OPEN_PLAYER_CARD_EVENT, on);
+  }, []);
+  useEffect(() => {
+    const p = wantCard ? byKey.get(wantCard) : undefined;
+    if (!p) return;
+    setWantCard(null);
+    setArmed(true);
+    warmPlayerCard(p);
+    setCard(p);
+  }, [wantCard, byKey]);
 
   useEffect(() => {
     if (state && !armed) setArmed(true);

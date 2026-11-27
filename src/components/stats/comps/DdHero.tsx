@@ -123,6 +123,7 @@ const DdHero = ({ player, options, ovr, ovrTitle, ovrLabel, ovrAlt, wide, onChoo
       </div>
 
       {/* two tidy rows of one pill style: his facts, then his path (clubs); the card hint on desktop only */}
+      <div className="dd-bio">
       <div className="dd-facts">
         {/* His Player Tribute, when one has been written */}
         <TributeButton playerKey={keyOf(player)} label="Read his tribute" className="h-8 border border-gold/60 bg-gold/10 px-2.5 text-sm text-gold hover:bg-gold/20" />
@@ -148,10 +149,6 @@ const DdHero = ({ player, options, ovr, ovrTitle, ovrLabel, ovrAlt, wide, onChoo
             Family <b style={{ color: family.color }}>{family.name}</b>
           </button>
         )}
-        <span className="dd-facts__hint">
-          <IdCard className="h-3.5 w-3.5" aria-hidden="true" />
-          Tap the banner for the full player card
-        </span>
       </div>
       <div className="dd-path" aria-label="Clubs">
         {franchises.length > 0 && (
@@ -173,6 +170,11 @@ const DdHero = ({ player, options, ovr, ovrTitle, ovrLabel, ovrAlt, wide, onChoo
           </ul>
         )}
       </div>
+      </div>
+      <p className="dd-facts__hint">
+        <IdCard className="h-3.5 w-3.5" aria-hidden="true" />
+        Tap the banner for the full player card
+      </p>
     </div>
   );
 };

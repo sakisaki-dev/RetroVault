@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 
 /*
  * Shared motion system. The CSS custom properties in src/index.css (--dur-*, --ease-*, --stagger, --rise) are the
@@ -73,13 +74,8 @@ export const STAGGER_CAP = 12;
 /** Phones stagger only the first few items; the rest simply appear (index.css) */
 export const STAGGER_CAP_MOBILE = 6;
 
-export const reducedMotion = (): boolean => {
-  try {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  } catch {
-    return false;
-  }
-};
+/** True when motion should be reduced: the OS setting or the site's own switch (hooks/usePerfMode.ts, the one source) */
+export const reducedMotion = (): boolean => isReducedMotion();
 
 /**
  * Staggered first appearance for a list or grid: put the returned class on the container. Its first items fade up

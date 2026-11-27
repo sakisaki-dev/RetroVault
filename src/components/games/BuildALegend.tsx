@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import type { Player, Position } from '@/types/player';
 import InLeague from '@/components/InLeague';
 import HowToStrip from './HowToStrip';
@@ -46,7 +47,7 @@ const LIVE_AFTER = 3;
 const C_BUILD = '#bf8516';
 const C_MATCH = '#2f86d6';
 
-const reducedMotion = () => typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+const reducedMotion = () => typeof window !== 'undefined' && isReducedMotion();
 
 const ordinal = (n: number) => {
   if (!Number.isFinite(n)) return '—';

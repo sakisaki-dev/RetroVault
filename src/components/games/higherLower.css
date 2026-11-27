@@ -83,7 +83,7 @@
 /* ---------- Calls ---------- */
 .arcade .hl-calls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
 .arcade .hl-calls .btn { grid-column: 1 / -1; min-height: 58px; font-size: 22px; }
-.arcade .hl-call { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 64px; border: 0; border-radius: 10px; font-family: var(--f-display); font-weight: 800; font-size: 26px; text-transform: uppercase; letter-spacing: 0.03em; transition: transform 0.08s, box-shadow 0.08s, filter 0.15s; }
+.arcade .hl-call { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 64px; border: 0; border-radius: 10px; font-family: var(--f-display); font-weight: 800; font-size: 26px; text-transform: uppercase; letter-spacing: 0.03em; transition: transform 0.08s, box-shadow 0.08s, filter var(--hv-dur) var(--ease-out); }
 .arcade .hl-call .arrow { font-size: 18px; }
 .arcade .hl-call.more { background: linear-gradient(180deg, #3fd486, var(--turf)); color: #03140a; box-shadow: 0 5px 0 #0c4a28, 0 0 0 3px #000; }
 .arcade .hl-call.fewer { background: linear-gradient(180deg, #ff7a88, var(--flag)); color: #250006; box-shadow: 0 5px 0 #8a1020, 0 0 0 3px #000; }

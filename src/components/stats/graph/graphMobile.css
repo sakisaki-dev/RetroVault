@@ -15,15 +15,13 @@
   translate: 0 calc(100% + 24px);
   opacity: 0;
   transition:
-    translate var(--dur-close) var(--ease-close),
-    opacity var(--dur-close) var(--ease-close);
+    translate var(--dur-close) var(--ease-close), opacity var(--dur-close) var(--ease-close);
 }
 .gp-sheet[data-open='true'] {
   translate: 0 0;
   opacity: 1;
   transition:
-    translate var(--dur-open) var(--ease-spring),
-    opacity var(--dur-2) var(--ease-out);
+    translate var(--dur-open) var(--ease-spring), opacity var(--dur-2) var(--ease-out);
 }
 .gp-banner {
   position: relative;

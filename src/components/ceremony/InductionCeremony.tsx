@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import { createPortal } from 'react-dom';
 import { ChevronRight, FastForward, Medal, Sparkles, Star, Trophy, X } from 'lucide-react';
 import type { Player } from '@/types/player';
@@ -32,7 +33,7 @@ interface InductionCeremonyProps {
 }
 
 const prefersReducedMotion = () =>
-  typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  typeof window !== 'undefined' && isReducedMotion();
 
 const CONFETTI_COLORS = ['43 100% 62%', '48 100% 80%', '36 90% 48%', '0 0% 100%', '43 100% 70%'];
 

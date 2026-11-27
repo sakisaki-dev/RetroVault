@@ -21,7 +21,7 @@
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
-  transition: border-color 150ms, background-color 150ms, color 150ms;
+  transition: border-color var(--hv-dur) var(--ease-out), background-color var(--hv-dur) var(--ease-out), color var(--hv-dur) var(--ease-out);
   -webkit-tap-highlight-color: transparent;
 }
 .shr-btn:hover {

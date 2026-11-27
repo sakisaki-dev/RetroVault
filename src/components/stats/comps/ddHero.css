@@ -1,6 +1,10 @@
 /* Deep Dive hero pills (DdHero.tsx): two rows of one pill style. Row 1 his facts, row 2 his path: college → draft → clubs. */
 .dd-facts, .dd-path { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .dd-path { margin-top: 6px; }
+/* one flowing row of pills under the banner at their natural width (facts, then clubs), wrapping on a phone */
+.dd-bio { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.dd-bio > .dd-facts, .dd-bio > .dd-path { display: contents; }
+.dd-bio > .dd-path { margin-top: 0; }
 .dd-path:empty { display: none; }
 .dd-facts > *, .dd-path > *, .dd-path li > * {
   height: 30px; display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box;
@@ -13,5 +17,5 @@
 .dd-path ul { display: contents; }
 .dd-path li { display: contents; }
 /* the card hint: desktop only, pushed to the row's end */
-.dd-facts__hint { margin-left: auto; border: 0 !important; background: none !important; padding: 0 !important; color: hsl(var(--muted-foreground)); font-size: 12px; }
+.dd-facts__hint { display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-top: 4px; color: hsl(var(--muted-foreground)); font-size: 11px; }
 @media (max-width: 767px) { .dd-facts__hint { display: none !important; } }

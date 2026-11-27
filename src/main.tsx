@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import CrashScreen from "./components/CrashScreen";
@@ -27,9 +28,19 @@ prewarmData([
 // Tap feedback for every button, chip, row and card (src/utils/motion.ts)
 installPressFeedback();
 
+// The pre-JS vault loader in index.html leaves once React has committed its first screen (a frame later, so it has painted)
+const BootDone = () => {
+  useEffect(() => {
+    const id = requestAnimationFrame(() => requestAnimationFrame(() => (window as unknown as { __rvBootDone?: () => void }).__rvBootDone?.()));
+    return () => cancelAnimationFrame(id);
+  }, []);
+  return null;
+};
+
 // A render error shows what broke (and a reload button) instead of a blank page
 createRoot(document.getElementById("root")!).render(
   <CrashScreen>
     <App />
+    <BootDone />
   </CrashScreen>,
 );

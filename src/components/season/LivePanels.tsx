@@ -7,7 +7,7 @@ import { useGameSprites, type SpriteAction } from '@/utils/gameSprites';
 import { findNFLTeam } from '@/utils/nflTeams';
 import { PlayerStrip } from '@/components/brand/ClubStrip';
 import ProPlayerBanner from '@/components/brand/ProPlayerBanner';
-import { openInCompFinder } from '@/components/stats/comps/compFinderLink';
+import { openPlayerCard } from '@/utils/playerCardLink';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import type { AwardRace, LeaderBoard, RatingPart, SeasonEntry, SeasonRating } from '@/utils/seasonLive';
 import { BOARD_BG, LampGrid, color } from './seasonGamesUi';
@@ -219,8 +219,8 @@ export const AwardRaces = ({ races, lookup, weeksPlayed, final = false }: { race
 
 /* ---------------- League leaders ---------------- */
 
-/** Opens a carded player's Deep Dive. */
-const openDive = (e: SeasonEntry) => openInCompFinder({ position: e.pos, name: e.name } as Player);
+/** Opens a carded player's card. */
+const openDive = (e: SeasonEntry) => openPlayerCard(`${e.pos}:${e.name}`);
 
 /**
  * One category as a leaderboard: the leader as a ProPlayerBanner card (club colours, giant number, his sprite on the

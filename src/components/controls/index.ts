@@ -4,3 +4,4 @@ export { Segmented, type SegOption } from './Segmented';
 export { Select, Stepper, type SelectOption } from './Select';
 export { FilterSheet, FilterGroup, type ActiveFilter } from './FilterSheet';
 export { SettingsPopover } from './SettingsPopover';
+export { PillScroller, type PillOption } from './PillScroller';

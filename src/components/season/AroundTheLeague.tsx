@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Globe2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Stepper } from '@/components/controls';
+import { PillScroller } from '@/components/controls';
 import type { RoundGame, SeasonView } from '@/utils/seasonLive';
 import ScoreBar, { WeatherIcons } from './ScoreBar';
 import { SectionTitle } from './SeasonGames';
@@ -38,10 +38,8 @@ const AroundTheLeague = ({ season }: { season: SeasonView }) => {
   if (!weeks.length || !week) return null;
   return (
     <div className="space-y-2">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <SectionTitle icon={Globe2}>Around the league</SectionTitle>
-        <Stepper label="Week" values={weeks.map((w) => w.week)} value={week.week} onChange={setPick} format={(n) => `Week ${n}`} />
-      </div>
+      <SectionTitle icon={Globe2}>Around the league</SectionTitle>
+      <PillScroller<number> label="Week" value={week.week} onChange={setPick} options={weeks.map((w) => ({ value: w.week, label: `Week ${w.week}` }))} />
       <ul className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
         {week.games.map((g) => (
           <GameBar key={`${g.away}-${g.home}`} g={g} week={week.week} coach={[g.away, g.home].some((t) => t === season.coachTeam || t === season.coachAbbr)} />

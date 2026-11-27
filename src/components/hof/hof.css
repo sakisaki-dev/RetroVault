@@ -85,7 +85,7 @@
   box-shadow: 0 6px 14px hsl(228 60% 2% / 0.5);
   text-align: left;
   color: #fff;
-  transition: transform var(--dur-2) var(--ease-out);
+  transition: transform var(--hv-dur) var(--ease-out);
 }
 .hof-bust:focus-visible {
   outline: 2px solid hsl(var(--gold));
@@ -496,8 +496,7 @@
   text-shadow: 0 1px 0 hsl(45 100% 82% / 0.45);
   opacity: 0.8;
   transition:
-    opacity var(--dur-2) var(--ease-out),
-    transform var(--dur-2) var(--ease-out);
+    opacity var(--dur-2) var(--ease-out), transform var(--hv-dur) var(--ease-out);
 }
 /* the tag's hole */
 .hof-tag::before {

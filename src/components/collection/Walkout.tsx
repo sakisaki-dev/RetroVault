@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import { Signature, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -65,7 +66,7 @@ const CLUES: WkStage[] = ['logo', 'pos', 'ovr'];
 
 const reducedMotion = () => {
   try {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return isReducedMotion();
   } catch {
     return false;
   }

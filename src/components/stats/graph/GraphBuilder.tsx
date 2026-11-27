@@ -5,7 +5,7 @@ import type { Player, Position } from '@/types/player';
 import { POSITIONS } from '@/config/advanced';
 import { familiesFor } from '@/config/families';
 import { FamilyPanel as FamilyPanelBox } from '../visual/FamilyZones';
-import { openInCompFinder } from '../comps/compFinderLink';
+import { openPlayerCard } from '@/utils/playerCardLink';
 import { cn } from '@/lib/utils';
 import Collapse from '@/components/ui/collapse';
 import { POSITION_NAMES } from '@/utils/playerMeta';
@@ -460,7 +460,7 @@ const GraphBuilder = ({
             open={famOpen}
             onHover={setFamHover}
             onOpen={setFamOpen}
-            onPick={(p) => openInCompFinder(p)}
+            onPick={(p) => openPlayerCard(`${p.position}:${p.name}`)}
           />
         )}
 
@@ -674,7 +674,7 @@ const GraphBuilder = ({
               open={famOpen}
               onHover={setFamHover}
               onOpen={setFamOpen}
-              onPick={(p) => openInCompFinder(p)}
+              onPick={(p) => openPlayerCard(`${p.position}:${p.name}`)}
             />
           )}
           <p className="flex items-center justify-between gap-2 text-[11px] text-muted-foreground">
