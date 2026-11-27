@@ -773,3 +773,5 @@
 }
 
 .bk-sort__sel { flex: 1; min-width: 0; max-width: 220px; }
+.bk-sort__pills { flex: 1; min-width: 0; width: auto; }
+.bk-sort__pills .ctl-pills__pill { min-height: 32px; padding: 4px 12px; font-size: 13px; }

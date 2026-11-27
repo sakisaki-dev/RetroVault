@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { BarChart3, History, Trophy } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Choice } from '@/components/controls';
+import { PillScroller } from '@/components/controls';
 import { useLeague } from '@/context/LeagueContext';
 import type { Player } from '@/types/player';
 import { scheduleSeasons, useSchedule } from '@/utils/schedule';
@@ -113,12 +113,12 @@ const SeasonTab = () => {
             </p>
           </div>
           {options.length > 1 && (
-            <Choice<string>
+            <PillScroller<string>
               label="Season"
-              prefix="SEASON"
+              className="min-w-0 flex-1 sm:max-w-[60%]"
               value={shown ?? options[0]}
               onChange={setPicked}
-              options={options.map((id) => ({ value: id, text: id, label: id === liveId ? `${id} · live` : id }))}
+              options={options.map((id) => ({ value: id, label: id === liveId ? `${id} · live` : id }))}
             />
           )}
         </div>

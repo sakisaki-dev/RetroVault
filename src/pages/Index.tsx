@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import Header from '@/components/Header';
 import BottomNav from '@/components/BottomNav';
 import PullToSearch from '@/components/PullToSearch';
+import SwipeNav from '@/components/SwipeNav';
 import AddToHomeScreen from '@/components/homescreen/AddToHomeScreen';
 import TabFallback from '@/components/TabFallback';
 import LazyHost, { whenSettled } from '@/components/LazyHost';
@@ -149,6 +150,7 @@ const IndexContent = () => {
         </HubRouteContext.Provider>
 
         <PullToSearch />
+        <SwipeNav />
         <BottomNav activeTab={target.tab} onTabChange={(tab) => navigate({ tab })} onRoute={(to) => navigate(to)} />
         <AddToHomeScreen />
         <LazyHost load={loadCeremony} wake={CEREMONY_WAKE} />
