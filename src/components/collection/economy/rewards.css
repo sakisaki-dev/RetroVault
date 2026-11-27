@@ -185,3 +185,7 @@ html[data-reduce-motion] .rw-case__doors, html[data-reduce-motion] .rw-case__gli
 .rw-wall__item .rw-pen { filter: drop-shadow(0 2px 0 rgb(0 0 0 / 0.5)); }
 .rw-wall__n { font-family: var(--font-pixel); font-size: 8px; color: hsl(var(--muted-foreground)); }
 .rw-wall__item.is-done .rw-wall__n { color: hsl(var(--gold)); }
+
+/* only on-screen previews animate (phones froze with every preview running); off-screen cards skip rendering */
+.rw-root .rw-card__stage:not(.rw-live) *, .rw-root .rw-card__stage:not(.rw-live) *::before, .rw-root .rw-card__stage:not(.rw-live) *::after { animation-play-state: paused !important; }
+.rw-root .rw-card { content-visibility: auto; contain-intrinsic-size: auto 330px; }

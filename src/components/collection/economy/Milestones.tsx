@@ -1,4 +1,4 @@
-import { useMemo, type CSSProperties } from 'react';
+import { useEffect, useMemo, useRef, type CSSProperties } from 'react';
 import { Lock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { CollectionState } from '@/utils/collection';
@@ -165,6 +165,16 @@ const Milestones = ({ state, value, byKey, top, sets }: MilestonesProps) => {
   const pyro = pyroOn(state);
   const total = byKey.size;
   const cups = MILESTONES.filter((m) => unlocked.has(m.id)).length;
+  // Phones choked with every preview animating at once (~220 animations, ~2,800 pixel rects): a preview only animates
+  // while it is on screen (.rw-live), the rest hold still
+  const root = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = root.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver((es) => es.forEach((e) => e.target.classList.toggle('rw-live', e.isIntersecting)), { rootMargin: '80px 0px' });
+    el.querySelectorAll('.rw-card__stage').forEach((n) => io.observe(n));
+    return () => io.disconnect();
+  });
 
   const owned = useMemo(
     () =>
@@ -224,7 +234,7 @@ const Milestones = ({ state, value, byKey, top, sets }: MilestonesProps) => {
   };
 
   return (
-    <div className="space-y-5">
+    <div ref={root} className="rw-root space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-2">
         <div>
           <p className="ec-kicker">Portfolio value</p>
