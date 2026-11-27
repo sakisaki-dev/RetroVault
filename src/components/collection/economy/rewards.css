@@ -78,15 +78,68 @@
 .bk__page.bk__page--pen { padding-top: 36px; }
 
 /* ---------- Trophy case ---------- */
-.rw-case { position: relative; border-radius: 16px; padding: 14px; background: linear-gradient(#3a2a1a, #24180c); border: 4px solid #5a4126; box-shadow: 0 14px 30px rgb(0 0 0 / 0.5), inset 0 0 40px rgb(0 0 0 / 0.5); overflow: hidden; }
-.rw-case::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(120deg, transparent 28%, rgb(255 255 255 / 0.09) 38%, transparent 48%); }
+.rw-case { position: relative; border-radius: 16px; background: linear-gradient(#3a2a1a, #24180c); border: 4px solid #5a4126; box-shadow: 0 14px 30px rgb(0 0 0 / 0.5), inset 0 0 40px rgb(0 0 0 / 0.5); overflow: hidden; }
 .rw-case__row { display: flex; align-items: flex-end; justify-content: center; flex-wrap: wrap; gap: 14px; padding-bottom: 10px; border-bottom: 6px solid #8a6a3a; }
 .rw-case__row + .rw-case__row { margin-top: 12px; }
-.rw-case__card { width: clamp(92px, 26vw, 128px); }
 .rw-case__cup { width: 34px; text-align: center; }
 .rw-case__cup svg { display: block; width: 100%; height: auto; image-rendering: pixelated; }
 .rw-case__cup span { display: block; margin-top: 2px; font-family: var(--font-pixel); font-size: 8px; color: #e9d7aa; text-transform: uppercase; }
 .rw-case__k { font-family: var(--font-pixel); font-size: 9px; letter-spacing: 0.14em; color: #e9d7aa; text-transform: uppercase; }
+
+/* the toggle: the cabinet's brass name plate */
+.rw-case__bar { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 52px; padding: 8px 14px; text-align: left; transition: background-color var(--hv-dur) var(--ease-out); }
+@media (hover: hover) { .rw-case__bar:hover { background: rgb(255 220 150 / 0.05); } }
+.rw-case__badge { width: 20px; height: auto; flex: none; image-rendering: pixelated; filter: drop-shadow(0 2px 0 rgb(0 0 0 / 0.5)); }
+.rw-case__bar .rw-case__k { font-size: 11px; color: #f3dfae; }
+.rw-case__n { font-family: var(--font-pixel); font-size: 9px; color: #b89a64; }
+.rw-case__go { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; border-radius: 999px; border: 1px solid #8a6a3a; background: linear-gradient(#6b4d2a, #4a3419); font-family: var(--font-pixel); font-size: 9px; color: #f3dfae; text-transform: uppercase; }
+.rw-case__go svg { transition: rotate var(--dur-3) var(--ease-out); }
+.rw-case[data-open] .rw-case__go svg { rotate: 180deg; }
+
+/* the cabinet: velvet back wall, two wooden shelves with a brass lip */
+.rw-case__body { position: relative; margin: 0 10px 10px; padding: 12px 10px 4px; border-radius: 10px; border: 3px solid #5a4126; background: radial-gradient(120% 70% at 50% 0%, #4a1f26 0%, #2a1116 55%, #1a0a0e 100%); box-shadow: inset 0 0 30px rgb(0 0 0 / 0.65); overflow: hidden; }
+.rw-case__body::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(120deg, transparent 28%, rgb(255 255 255 / 0.07) 38%, transparent 48%); }
+.rw-case__shelf { position: relative; border-bottom: 8px solid #8a6a3a; box-shadow: 0 2px 0 #c59a4e, 0 8px 12px rgb(0 0 0 / 0.5); }
+.rw-case__shelf + .rw-case__shelf { margin-top: 16px; }
+.rw-case__shelf--cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: end; padding-top: 6px; }
+.rw-case__bay { position: relative; display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.rw-case__bay:first-child { order: 2; } /* 1st in the middle, raised */
+.rw-case__bay:nth-child(2) { order: 1; }
+.rw-case__bay:nth-child(3) { order: 3; }
+.rw-case__lamp { position: absolute; left: 50%; top: -14px; width: 140%; height: calc(100% + 10px); translate: -50% 0; pointer-events: none; background: radial-gradient(50% 60% at 50% 0%, rgb(255 226 160 / 0.32), transparent 70%); clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%); }
+.rw-case__card { position: relative; z-index: 1; width: min(100%, 128px); }
+.rw-case__card--empty { aspect-ratio: 5 / 7; border-radius: 8px; border: 2px dashed rgb(233 215 170 / 0.25); background: rgb(0 0 0 / 0.2); }
+.rw-case__plinth { position: relative; z-index: 1; display: block; width: 78%; margin-top: 6px; padding: 3px 0; border-radius: 3px 3px 0 0; background: linear-gradient(#d9b26a, #8a6a3a); box-shadow: inset 0 1px 0 #fbe3a8; font-family: var(--font-pixel); font-size: 8px; text-align: center; color: #3a2a1a; text-transform: uppercase; }
+.rw-case__bay:first-child .rw-case__plinth { padding: 9px 0; }
+.rw-case__shelf--cups { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; justify-items: center; padding: 4px 0 6px; }
+.rw-case__shelf--cups .rw-case__cup { width: min(40px, 100%); }
+.rw-case__shelf--cups .rw-case__cup:not([data-won]) svg { opacity: 0.22; filter: grayscale(1) brightness(0.6); }
+.rw-case__shelf--cups .rw-case__cup:not([data-won]) span { color: #8a7650; }
+
+/* opening: doors part, lamps warm up, cards rise, cups drop in, a glint crosses the glass (only when data-play) */
+.rw-case__doors { position: absolute; inset: 0; z-index: 5; display: flex; pointer-events: none; }
+.rw-case__doors i { flex: 1; border: 3px solid #8a6a3a; background: linear-gradient(115deg, rgb(200 225 255 / 0.18), rgb(200 225 255 / 0.06) 40%, rgb(255 255 255 / 0.2) 46%, rgb(200 225 255 / 0.05) 52%), #1a0a0ecc; backdrop-filter: blur(2px); }
+.rw-case__glint { position: absolute; inset: 0; z-index: 4; pointer-events: none; background: linear-gradient(110deg, transparent 35%, rgb(255 255 255 / 0.22) 45%, transparent 55%); translate: -100% 0; }
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-reduce-motion]):not([data-perf='lite']) .rw-case__body[data-play] { animation: rw-cab-in 260ms var(--ease-out) backwards; }
+  html:not([data-reduce-motion]):not([data-perf='lite']) .rw-case__body[data-play] .rw-case__doors i { animation: rw-door 720ms cubic-bezier(0.65, 0, 0.35, 1) 160ms forwards; }
+  html:not([data-reduce-motion]):not([data-perf='lite']) .rw-case__body[data-play] .rw-case__doors i:last-child { --d: 1; }
+  html:not([data-reduce-motion]):not([data-perf='lite']) .rw-case__body[data-play] .rw-case__lamp { animation: rw-lamp 520ms steps(1, end) calc(560ms + var(--i) * 140ms) backwards; }
+  html:not([data-reduce-motion]):not([data-perf='lite']) .rw-case__body[data-play] .rw-case__card, html:not([data-reduce-motion]):not([data-perf='lite']) .rw-case__body[data-play] .rw-case__card--empty { animation: rw-rise 620ms cubic-bezier(0.34, 1.4, 0.64, 1) calc(720ms + var(--i) * 140ms) backwards; }
+  html:not([data-reduce-motion]):not([data-perf='lite']) .rw-case__body[data-play] .rw-case__plinth { animation: rw-fade 300ms var(--ease-out) calc(600ms + var(--i) * 140ms) backwards; }
+  html:not([data-reduce-motion]):not([data-perf='lite']) .rw-case__body[data-play] .rw-case__cup { animation: rw-drop 520ms cubic-bezier(0.3, 1.5, 0.6, 1) calc(1050ms + min(var(--i) * 70ms, 900ms)) backwards; }
+  html:not([data-reduce-motion]):not([data-perf='lite']) .rw-case__body[data-play] .rw-case__glint { animation: rw-glint 900ms var(--ease-out) 1900ms forwards; }
+}
+@keyframes rw-cab-in { from { opacity: 0; } }
+@keyframes rw-door { to { translate: calc((var(--d, 0) * 2 - 1) * 102%) 0; opacity: 0.4; } }
+@keyframes rw-lamp { 0% { opacity: 0; } 20% { opacity: 1; } 35% { opacity: 0.2; } 55% { opacity: 1; } 70% { opacity: 0.5; } 100% { opacity: 1; } }
+@keyframes rw-rise { from { opacity: 0; translate: 0 34px; scale: 0.86; } }
+@keyframes rw-fade { from { opacity: 0; } }
+@keyframes rw-drop { 0% { opacity: 0; translate: 0 -46px; } 60% { opacity: 1; } }
+@keyframes rw-glint { to { translate: 100% 0; } }
+/* reduced motion or lite: the doors and glint never show, everything is simply there */
+@media (prefers-reduced-motion: reduce) { .rw-case__doors, .rw-case__glint { display: none; } }
+html[data-reduce-motion] .rw-case__doors, html[data-reduce-motion] .rw-case__glint, [data-perf='lite'] .rw-case__doors, [data-perf='lite'] .rw-case__glint { display: none; }
 
 /* ---------- Milestones page ---------- */
 .rw-track { position: relative; height: 46px; margin: 4px 6px 0; }
