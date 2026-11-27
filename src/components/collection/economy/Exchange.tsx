@@ -104,7 +104,7 @@ const Exchange = ({ cards, byKey, tierPool, state, content, freeze, onOpenPack, 
   ];
 
   return (
-    <section id="col-exchange" aria-labelledby="col-exchange-title" className="ec scroll-mt-20">
+    <section id="col-exchange" aria-labelledby="col-exchange-title" className="ec scroll-mt-20" data-no-mo>
       <div className="ec__head">
         <div>
           <p className="ec-kicker">Coins in, cards out</p>
