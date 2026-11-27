@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import Header from '@/components/Header';
 import BottomNav from '@/components/BottomNav';
 import PullToSearch from '@/components/PullToSearch';
+import { useBootClubColours } from '@/utils/bootClub';
 import SwipeNav from '@/components/SwipeNav';
 import AddToHomeScreen from '@/components/homescreen/AddToHomeScreen';
 import TabFallback from '@/components/TabFallback';
@@ -49,6 +50,7 @@ const TeamLabTab = lazy(() => import('@/components/teamlab/TeamLabTab'));
 const OWN_REVEAL_TABS = new Set(['career']);
 
 const IndexContent = () => {
+  useBootClubColours();
   const scrollIn = useAutoReveal<HTMLDivElement>();
   // The visible page lives in the URL hash (#stats/teams, #stats/deepdive?p=…) so it is linkable and Back works.
   const { route, target, navigate } = useHashRoute('games');

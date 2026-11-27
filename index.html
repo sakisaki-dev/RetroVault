@@ -36,43 +36,124 @@
     <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="%BASE_URL%splash/launch-828x1792.png" />
     <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="%BASE_URL%splash/launch-750x1334.png" />
 
-    <!-- Pre-JS boot splash: inline CSS and HTML only, painted with the first bytes of the page. Nothing render-blocking
-         sits before it: the Google Fonts sheet loads without blocking and the build makes the app's own stylesheet
-         non-blocking too (vite.config.ts). main.tsx calls __rvBootDone() after React's first commit and once the
-         stylesheet is in; the splash then fades and fires rv:boot-lift (the page entrance cascade waits for it).
-         The splash is the one piece to swap for a new loader: keep #rv-boot, __rvBootDone and lift(). -->
+    <!-- Boot loader (the helmet wheel): inline CSS, HTML and a tiny script, no images; painted with the first bytes of the page.
+         Nothing render-blocking sits before it: the Google Fonts sheet loads without blocking and the build makes the app's
+         own stylesheet non-blocking too (vite.config.ts). A dusk vault door in the stadium wall: the wheel ticks while the
+         site loads, its hub a pixel helmet in the coach's club colours (src/utils/bootClub.ts keeps them in localStorage;
+         first visit = Retro Bowl red). main.tsx calls __rvBootDone() after React's first commit and once the stylesheet
+         is in; the door rolls aside onto the dusk field, fades gently to black, then the page rises in (rv:boot-lift
+         starts the page entrance cascade). Dark on purpose (night site, #0b1020-ish); draws only when the frame changes. -->
     <style>
-      html,body{background:#080c18;margin:0}
-      #rv-boot{position:fixed;inset:0;z-index:2147483000;background:#080c18;display:flex;align-items:center;justify-content:center;transition:opacity .3s ease-out}
-      #rv-boot.fade{opacity:0;pointer-events:none}
-      #rv-boot svg{width:48px;height:27px;image-rendering:pixelated;animation:boot-hop .64s infinite cubic-bezier(.25,.6,.4,1)}
-      #rv-boot p{position:absolute;left:24px;right:24px;bottom:12%;margin:0;font:500 13px/1.4 -apple-system,system-ui,sans-serif;color:#9aa4bd;text-align:center;opacity:0;transition:opacity .4s}
+      html,body{background:#150d26;margin:0}
+      #rv-boot{position:fixed;inset:0;z-index:2147483000;background:#150d26;overflow:hidden}
+      #rv-boot.fade{opacity:0;transition:opacity .25s ease-out}
+      #rv-boot.roll{pointer-events:none}
+      #rv-cv{position:absolute;inset:0;width:100%;height:100%;display:block;image-rendering:pixelated;image-rendering:crisp-edges}
+      #rv-boot p{position:absolute;left:24px;right:24px;bottom:calc(8% + env(safe-area-inset-bottom,0px));margin:0;font:500 13px/1.4 -apple-system,system-ui,sans-serif;color:#9c93b8;text-align:center;opacity:0;transition:opacity .4s}
       #rv-boot p.on{opacity:1}
-      @keyframes boot-hop{50%{transform:translateY(-14px) rotate(180deg)}to{transform:translateY(0) rotate(360deg)}}
-      @media (prefers-reduced-motion:reduce){#rv-boot svg{animation:none}}
+      #rv-boot button{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:calc(8% - 50px + env(safe-area-inset-bottom,0px));min-height:44px;padding:0 22px;border:0;border-radius:8px;background:#a8832e;color:#150d26;font:800 15px -apple-system,system-ui,sans-serif}
+      #rv-boot button.on{display:block}
     </style>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Barlow:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Silkscreen:wght@400;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Barlow:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Silkscreen:wght@400;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" /></noscript>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://a.espncdn.com" />
-
   </head>
 
   <body>
-    <div id="rv-boot" role="status" aria-label="Loading"><svg viewBox="0 0 16 9" shape-rendering="crispEdges"><rect x="5" y="0" width="1.04" height="1.04" fill="#2a140a"/><rect x="6" y="0" width="1.04" height="1.04" fill="#2a140a"/><rect x="7" y="0" width="1.04" height="1.04" fill="#2a140a"/><rect x="8" y="0" width="1.04" height="1.04" fill="#2a140a"/><rect x="9" y="0" width="1.04" height="1.04" fill="#2a140a"/><rect x="10" y="0" width="1.04" height="1.04" fill="#2a140a"/><rect x="3" y="1" width="1.04" height="1.04" fill="#2a140a"/><rect x="4" y="1" width="1.04" height="1.04" fill="#2a140a"/><rect x="5" y="1" width="1.04" height="1.04" fill="#c27a3f"/><rect x="6" y="1" width="1.04" height="1.04" fill="#c27a3f"/><rect x="7" y="1" width="1.04" height="1.04" fill="#c27a3f"/><rect x="8" y="1" width="1.04" height="1.04" fill="#c27a3f"/><rect x="9" y="1" width="1.04" height="1.04" fill="#c27a3f"/><rect x="10" y="1" width="1.04" height="1.04" fill="#c27a3f"/><rect x="11" y="1" width="1.04" height="1.04" fill="#2a140a"/><rect x="12" y="1" width="1.04" height="1.04" fill="#2a140a"/><rect x="1" y="2" width="1.04" height="1.04" fill="#2a140a"/><rect x="2" y="2" width="1.04" height="1.04" fill="#9b5426"/><rect x="3" y="2" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="4" y="2" width="1.04" height="1.04" fill="#9b5426"/><rect x="5" y="2" width="1.04" height="1.04" fill="#9b5426"/><rect x="6" y="2" width="1.04" height="1.04" fill="#9b5426"/><rect x="7" y="2" width="1.04" height="1.04" fill="#9b5426"/><rect x="8" y="2" width="1.04" height="1.04" fill="#9b5426"/><rect x="9" y="2" width="1.04" height="1.04" fill="#9b5426"/><rect x="10" y="2" width="1.04" height="1.04" fill="#9b5426"/><rect x="11" y="2" width="1.04" height="1.04" fill="#9b5426"/><rect x="12" y="2" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="13" y="2" width="1.04" height="1.04" fill="#9b5426"/><rect x="14" y="2" width="1.04" height="1.04" fill="#2a140a"/><rect x="0" y="3" width="1.04" height="1.04" fill="#2a140a"/><rect x="1" y="3" width="1.04" height="1.04" fill="#9b5426"/><rect x="2" y="3" width="1.04" height="1.04" fill="#9b5426"/><rect x="3" y="3" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="4" y="3" width="1.04" height="1.04" fill="#9b5426"/><rect x="5" y="3" width="1.04" height="1.04" fill="#9b5426"/><rect x="6" y="3" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="7" y="3" width="1.04" height="1.04" fill="#9b5426"/><rect x="8" y="3" width="1.04" height="1.04" fill="#9b5426"/><rect x="9" y="3" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="10" y="3" width="1.04" height="1.04" fill="#9b5426"/><rect x="11" y="3" width="1.04" height="1.04" fill="#9b5426"/><rect x="12" y="3" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="13" y="3" width="1.04" height="1.04" fill="#9b5426"/><rect x="14" y="3" width="1.04" height="1.04" fill="#9b5426"/><rect x="15" y="3" width="1.04" height="1.04" fill="#2a140a"/><rect x="0" y="4" width="1.04" height="1.04" fill="#2a140a"/><rect x="1" y="4" width="1.04" height="1.04" fill="#9b5426"/><rect x="2" y="4" width="1.04" height="1.04" fill="#9b5426"/><rect x="3" y="4" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="4" y="4" width="1.04" height="1.04" fill="#9b5426"/><rect x="5" y="4" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="6" y="4" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="7" y="4" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="8" y="4" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="9" y="4" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="10" y="4" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="11" y="4" width="1.04" height="1.04" fill="#9b5426"/><rect x="12" y="4" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="13" y="4" width="1.04" height="1.04" fill="#9b5426"/><rect x="14" y="4" width="1.04" height="1.04" fill="#9b5426"/><rect x="15" y="4" width="1.04" height="1.04" fill="#2a140a"/><rect x="0" y="5" width="1.04" height="1.04" fill="#2a140a"/><rect x="1" y="5" width="1.04" height="1.04" fill="#9b5426"/><rect x="2" y="5" width="1.04" height="1.04" fill="#9b5426"/><rect x="3" y="5" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="4" y="5" width="1.04" height="1.04" fill="#9b5426"/><rect x="5" y="5" width="1.04" height="1.04" fill="#9b5426"/><rect x="6" y="5" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="7" y="5" width="1.04" height="1.04" fill="#9b5426"/><rect x="8" y="5" width="1.04" height="1.04" fill="#9b5426"/><rect x="9" y="5" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="10" y="5" width="1.04" height="1.04" fill="#9b5426"/><rect x="11" y="5" width="1.04" height="1.04" fill="#9b5426"/><rect x="12" y="5" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="13" y="5" width="1.04" height="1.04" fill="#9b5426"/><rect x="14" y="5" width="1.04" height="1.04" fill="#9b5426"/><rect x="15" y="5" width="1.04" height="1.04" fill="#2a140a"/><rect x="1" y="6" width="1.04" height="1.04" fill="#2a140a"/><rect x="2" y="6" width="1.04" height="1.04" fill="#9b5426"/><rect x="3" y="6" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="4" y="6" width="1.04" height="1.04" fill="#9b5426"/><rect x="5" y="6" width="1.04" height="1.04" fill="#9b5426"/><rect x="6" y="6" width="1.04" height="1.04" fill="#9b5426"/><rect x="7" y="6" width="1.04" height="1.04" fill="#9b5426"/><rect x="8" y="6" width="1.04" height="1.04" fill="#9b5426"/><rect x="9" y="6" width="1.04" height="1.04" fill="#9b5426"/><rect x="10" y="6" width="1.04" height="1.04" fill="#9b5426"/><rect x="11" y="6" width="1.04" height="1.04" fill="#9b5426"/><rect x="12" y="6" width="1.04" height="1.04" fill="#f6ecd9"/><rect x="13" y="6" width="1.04" height="1.04" fill="#9b5426"/><rect x="14" y="6" width="1.04" height="1.04" fill="#2a140a"/><rect x="3" y="7" width="1.04" height="1.04" fill="#2a140a"/><rect x="4" y="7" width="1.04" height="1.04" fill="#2a140a"/><rect x="5" y="7" width="1.04" height="1.04" fill="#9b5426"/><rect x="6" y="7" width="1.04" height="1.04" fill="#9b5426"/><rect x="7" y="7" width="1.04" height="1.04" fill="#9b5426"/><rect x="8" y="7" width="1.04" height="1.04" fill="#9b5426"/><rect x="9" y="7" width="1.04" height="1.04" fill="#9b5426"/><rect x="10" y="7" width="1.04" height="1.04" fill="#9b5426"/><rect x="11" y="7" width="1.04" height="1.04" fill="#2a140a"/><rect x="12" y="7" width="1.04" height="1.04" fill="#2a140a"/><rect x="5" y="8" width="1.04" height="1.04" fill="#2a140a"/><rect x="6" y="8" width="1.04" height="1.04" fill="#2a140a"/><rect x="7" y="8" width="1.04" height="1.04" fill="#2a140a"/><rect x="8" y="8" width="1.04" height="1.04" fill="#2a140a"/><rect x="9" y="8" width="1.04" height="1.04" fill="#2a140a"/><rect x="10" y="8" width="1.04" height="1.04" fill="#2a140a"/></svg><p id="rv-boot-msg"></p></div>
+    <div id="rv-boot" role="status" aria-label="Loading"><canvas id="rv-cv"></canvas><p id="rv-boot-msg"></p><button id="rv-boot-btn" type="button" onclick="location.reload()">Tap to reload</button></div>
     <div id="root"></div>
     <script>
       (function(){
-        var b=document.getElementById("rv-boot"),m=document.getElementById("rv-boot-msg"),done=false,lifted=false;
-        setTimeout(function(){if(!done){m.className="on";m.textContent="Slow connection, still loading"}},5000);
-        function lift(){if(lifted)return;lifted=true;window.__rvBootLifted=true;try{dispatchEvent(new Event("rv:boot-lift"))}catch(e){}}
-        function open(){
-          if(done)return;done=true;lift();b.className="fade";
-          setTimeout(function(){if(b.parentNode)b.parentNode.removeChild(b)},350);
+        var b=document.getElementById("rv-boot"),cv=document.getElementById("rv-cv"),m=document.getElementById("rv-boot-msg"),k=document.getElementById("rv-boot-btn"),root=document.getElementById("root");
+        var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
+        var t0=performance.now(),ready=false,openAt=-1,gone=false,raf=0,ctx=cv.getContext("2d"),lifted=false,wa0=0;
+        function say(x,btn){m.textContent=x;m.className="on";if(btn)k.className="on"}
+        setTimeout(function(){if(!ready)say("Slow connection, still loading")},5000);
+        setTimeout(function(){if(!ready)say("Still can’t load. Check your connection and try again.",1)},20000);
+        /* the club's colours, written by the app on an earlier visit (src/utils/bootClub.ts); Retro Bowl red until then */
+        var CP="#c8102e",CS="#d8d2e6";
+        try{var c=JSON.parse(localStorage.getItem("rv:boot-club")||"null");if(c&&/^#[0-9a-f]{6}$/i.test(c.p)&&/^#[0-9a-f]{6}$/i.test(c.s)){CP=c.p;CS=c.s}}catch(e){}
+        /* dusk palette: deep violet sky, a low dim glow, muted steel and gold, dark turf */
+        var SKY=["#0e0b24","#151032","#1f1640","#2f1c4a","#452350","#62304e"],
+            P={ol:"#0a0714",steel:"#4a3566",steel3:"#2f2145",gold:"#a8832e",goldd:"#7a5c1e",spoke:"#a79bc4",hub:"#7a7098",wall:"#1a1230",wall2:"#150e28",t1:"#14301c",t2:"#112a18",glow:"#8a4a3a",sun:"#a85a3c"};
+        function clamp(v,a,c){return v<a?a:v>c?c:v}
+        function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
+        function seg(t,a,c){return clamp((t-a)/(c-a),0,1)}
+        var W,H,PX,cx,cy,R,last="";
+        function size(){
+          var w=b.clientWidth||innerWidth,h=b.clientHeight||innerHeight;
+          PX=w>=768?4:3;W=Math.max(40,Math.round(w/PX));H=Math.max(40,Math.round(h/PX));
+          cv.width=W;cv.height=H;ctx=cv.getContext("2d");last="";
+          cx=W/2;cy=Math.round(H*(W<H?.47:.5));R=Math.round(W<H?W*.4:Math.min(W*.28,H*.4));
         }
+        function px(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))}
+        function disc(x,y,r,c){for(var j=-r;j<=r;j++){var w=Math.sqrt(Math.max(0,r*r-j*j));px(x-w,y+j,w*2,1,c)}}
+        function ring(x,y,r,t,c){for(var j=-r;j<=r;j++){var wo=Math.sqrt(Math.max(0,r*r-j*j)),wi=Math.sqrt(Math.max(0,(r-t)*(r-t)-j*j));px(x-wo,y+j,wo-wi,1,c);px(x+wi,y+j,wo-wi,1,c)}}
+        var HELM=["...hhhhh..","..hhhshhh.",".hhhwshhhh",".hhhhshhmm",".hhhhhh.m.","..hhhh.mm."];
+        function helmet(x,y,s){var pal={h:CP,s:CS,w:"#cfc8e0",m:"#8d86a8"};for(var j=0;j<HELM.length;j++)for(var i=0;i<10;i++){var ch=HELM[j].charAt(i);if(ch!==".")px(x+(i-5)*s,y+(j-3)*s,s,s,pal[ch])}}
+        function draw(t,o){
+          var WA=Math.PI/16,wa=o<0?-Math.floor(t/170)*WA:wa0-ease(seg(o,0,500))*Math.PI*1.9;
+          var roll=ease(seg(o,550,1300)),dx=-roll*R*2.6,rho=dx/R,bolt=seg(o,350,550)*4;
+          var top=cy-R-2,hor=Math.round(cy+R*.3),band=(hor-top)/SKY.length,i,y,x;
+          /* what lies behind the door: a dusk sky with a low glow, a small dim sun, dark striped turf */
+          for(i=0;i<SKY.length;i++)px(cx-R-2,top+i*band,R*2+4,band+1,SKY[i]);
+          px(cx-R-2,hor-2,R*2+4,2,P.glow);disc(Math.round(cx),hor,Math.max(2,Math.round(R*.11)),P.sun);
+          for(y=hor;y<cy+R+3;y+=4)px(cx-R-2,y,R*2+4,4,((y-hor)/4)%2?P.t1:P.t2);
+          /* the stadium wall round the hole */
+          ctx.save();ctx.beginPath();ctx.rect(0,0,W,H);ctx.arc(cx,cy,R+1,0,Math.PI*2,true);ctx.clip("evenodd");
+          px(0,0,W,H,P.wall);for(y=0;y<H;y+=8)for(x=((y/8)%2)*6;x<W;x+=12)px(x,y,11,7,P.wall2);
+          ctx.restore();
+          ring(cx,cy,R+4,4,P.gold);ring(cx,cy,R+5,1,P.ol);
+          /* the door: steel, an inner ring, bolts that pull in, the wheel and the helmet hub */
+          var dcx=cx+dx,s=Math.max(1,Math.floor(R*.4/10));
+          disc(dcx,cy,R,P.ol);disc(dcx,cy,R-1,P.steel);ring(dcx,cy,Math.round(R*.7),2,P.steel3);
+          for(i=0;i<10;i++){var a=rho+i*Math.PI/5,rr=R+1-bolt;px(dcx+Math.cos(a)*rr-1,cy+Math.sin(a)*rr-1,3,3,P.gold)}
+          ring(dcx,cy,Math.round(R*.48),2,P.spoke);
+          for(i=0;i<6;i++){var b2=wa+rho+i*Math.PI/3;for(var r=R*.24;r<R*.48;r++)px(dcx+Math.cos(b2)*r,cy+Math.sin(b2)*r,2,2,P.spoke);px(dcx+Math.cos(b2)*R*.53-2,cy+Math.sin(b2)*R*.53-2,4,4,P.goldd)}
+          disc(dcx,cy,Math.round(R*.26),P.ol);disc(dcx,cy,Math.round(R*.26)-1,P.hub);helmet(dcx,cy,s);
+          /* the gentle fade to black at the end (never a flash) */
+          var kk=seg(o,1350,1850);if(kk>0){ctx.globalAlpha=kk*kk;px(0,0,W,H,"#000");ctx.globalAlpha=1}
+        }
+        function lift(){if(lifted)return;lifted=true;window.__rvBootLifted=true;try{dispatchEvent(new Event("rv:boot-lift"))}catch(e){}}
+        function finish(){
+          lift();if(gone)return;gone=true;cancelAnimationFrame(raf);
+          root.style.transform="";root.style.transformOrigin="";
+          if(b.parentNode)b.parentNode.removeChild(b);cv.width=cv.height=0;
+          removeEventListener("resize",onResize);
+        }
+        function frame(now){
+          if(gone)return;
+          var t=now-t0;
+          if(openAt<0&&ready&&t>=500){openAt=t;wa0=-Math.floor(t/170)*(Math.PI/16)}
+          if(openAt<0){
+            var key=Math.floor(t/170)+"|"+W+"x"+H;
+            if(key!==last){last=key;draw(t,-1)}
+            raf=requestAnimationFrame(frame);return;
+          }
+          var o=t-openAt;
+          if(o>1050)b.className="roll";
+          if(o>1050)m.className=k.className="";
+          draw(t,o);
+          if(o>=1850){
+            lift();var p=ease(seg(o,1850,2450));
+            cv.style.opacity=String(1-p);
+            root.style.transformOrigin="50% 30%";root.style.transform="translateY("+(16*(1-p)).toFixed(2)+"px) scale("+(.985+.015*p).toFixed(4)+")";
+          }
+          if(o>=2500){finish();return}
+          raf=requestAnimationFrame(frame);
+        }
+        var rt;function onResize(){clearTimeout(rt);rt=setTimeout(function(){if(!gone){size();draw(performance.now()-t0,-1)}},100)}
+        function fadeOut(){
+          if(gone)return;lift();cancelAnimationFrame(raf);m.className=k.className="";b.className="roll fade";
+          setTimeout(finish,300);
+        }
+        function open(){ready=true;if(reduce)setTimeout(fadeOut,0)}
+        size();addEventListener("resize",onResize);
+        draw(0,-1);last="0|"+W+"x"+H;if(!reduce)raf=requestAnimationFrame(frame);
         window.__rvBootDone=function(){
-          if(done)return;
+          if(ready)return;
           var l=document.querySelector("link[data-app-css]");
           if(!l||l.dataset.ok){open();return}
           l.addEventListener("load",open);l.addEventListener("error",open);setTimeout(open,15000)
