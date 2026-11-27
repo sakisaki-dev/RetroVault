@@ -1,3 +1,4 @@
+import { useSectionRequest } from '@/utils/sectionLink';
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { isReducedMotion } from '@/hooks/usePerfMode';
 import '../games/arcade.css';
@@ -295,6 +296,8 @@ const GamesTab = () => {
     } else cameFrom.current = game;
     setGame(id);
   };
+
+  useSectionRequest('games', (v) => { if (GAMES.some((x) => x.id === v)) open(v as GameId); });
 
   // Records are read on each render of the landing, so a new best shows as soon as you come back.
   const records = GAMES.map((g) => g.record());
