@@ -15,6 +15,10 @@ import { displayWithKit } from '../kits';
 import { FINISH_ICON, FINISH_TEXT } from '../rarityIcons';
 import type { CardInfo } from '../useCardPool';
 import { BINDER_DEFAULTS, POSITIONS, SORTS, SORT_FIRST, matchesQuery, writeMinePref, type BinderFilterState } from './filters';
+import CoverScene from '../economy/CoverScene';
+import Pennant from '../economy/Pennant';
+import SlabFrame from '../economy/SlabFrame';
+import type { JerseyLook } from '../economy/useRewards';
 import './binder.css';
 
 /*
@@ -74,6 +78,12 @@ interface BinderProps {
   ownedCount: number;
   /** Milestone binder skin (economy cosmetics), the binder's cover */
   skin?: string | null;
+  /** The three most valuable owned cards' jerseys (the Locker room cover) */
+  jerseys?: JerseyLook[];
+  /** The card in the graded slab (owned) */
+  slab?: string;
+  /** Clubs whose set is complete: their pennants hang over the first page */
+  pennants?: string[];
   onOpen: (c: CardInfo, from?: DOMRect) => void;
   onSwipe: () => void;
   swipeCount: number;
@@ -92,6 +102,9 @@ const Binder = ({
   teamOptions,
   ownedCount,
   skin,
+  jerseys,
+  slab,
+  pennants,
   onOpen,
   onSwipe,
   swipeCount,
@@ -210,7 +223,7 @@ const Binder = ({
       );
     const d = entry ? displayWithKit(entry, display?.[c.key], c.player) : undefined;
     return (
-      <li key={c.key} className={cn('bk-pocket', fresh?.has(c.key) && 'fut-tile--fresh', !entry && 'bk-pocket--locked')} {...peekProps(entry ? c.player : null)}>
+      <li key={c.key} className={cn('bk-pocket', fresh?.has(c.key) && 'fut-tile--fresh', !entry && 'bk-pocket--locked', entry && slab === c.key && 'bk-pocket--slab')} {...peekProps(entry ? c.player : null)}>
         <CollectibleCard
           player={c.player}
           tier={c.tier}
@@ -229,6 +242,7 @@ const Binder = ({
           marks={entry?.marks}
           onOpen={entry ? (from) => openRef.current(c, from) : undefined}
         />
+        {entry && slab === c.key && <SlabFrame />}
         <VariantBadges entry={entry} />
       </li>
     );
@@ -243,7 +257,14 @@ const Binder = ({
         const live = p >= (mounted - 1) * step && p < (mounted + 2) * step;
         const slice = filtered.slice(p * per, p * per + per);
         return (
-          <div key={p} className={cn('bk__page', spread && (p % 2 ? 'bk__page--right' : 'bk__page--left'))}>
+          <div key={p} className={cn('bk__page', spread && (p % 2 ? 'bk__page--right' : 'bk__page--left'), p === 0 && pennants?.length && 'bk__page--pen')}>
+            {p === 0 && !!pennants?.length && (
+              <span className="bk__pennants" aria-label={`Club pennants: ${pennants.join(', ')}`}>
+                {pennants.map((club) => (
+                  <Pennant key={club} club={club} dir="down" />
+                ))}
+              </span>
+            )}
             <ul className="bk__pockets" aria-label={`Page ${p + 1}`}>
               {Array.from({ length: per }, (_, i) => renderPocket(slice[i], p * per + i, live))}
             </ul>
@@ -255,7 +276,7 @@ const Binder = ({
       }),
     // renderPocket reads owned / display / fresh / cards from this render
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [pages, mounted, step, per, spread, filtered, owned, display, fresh, cards.length],
+    [pages, mounted, step, per, spread, filtered, owned, display, fresh, cards.length, slab, pennants],
   );
 
   return (
@@ -379,6 +400,7 @@ const Binder = ({
         <div className="bk-empty" role="status">No league data yet.</div>
       ) : n === 0 ? (
         <div className={cn('bk', 'bk--empty', skin && `ec-skin ec-skin--${skin}`)} role="status">
+          <CoverScene skin={skin} jerseys={jerseys} />
           <span className="bk__rings" aria-hidden="true">
             <i />
             <i />
@@ -412,6 +434,7 @@ const Binder = ({
         </div>
       ) : (
         <div ref={bookRef} className={cn('bk', spread && 'bk--spread', skin && `ec-skin ec-skin--${skin}`)} style={{ ['--bk-cols' as string]: cols }}>
+          <CoverScene skin={skin} jerseys={jerseys} />
           <span className="bk__rings" aria-hidden="true">
             <i />
             <i />

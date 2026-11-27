@@ -491,32 +491,6 @@
 }
 .ec-bounty__title { margin-top: 4px; font-family: var(--font-display); font-size: 21px; font-weight: 800; line-height: 1.05; }
 
-/* Milestones: a ladder */
-.ec-ladder { display: grid; gap: 8px; }
-.ec-rung {
-  display: grid;
-  grid-template-columns: 56px minmax(0, 1fr);
-  gap: 12px;
-  align-items: center;
-  padding: 10px 12px;
-  border-radius: 14px;
-  border: 1px solid hsl(var(--line));
-  background: hsl(228 47% 6% / 0.6);
-}
-.ec-rung.is-open { border-color: hsl(var(--gold) / 0.55); }
-.ec-swatch {
-  width: 56px;
-  height: 56px;
-  border-radius: 10px;
-  border: 1px solid hsl(0 0% 100% / 0.15);
-  overflow: hidden;
-}
-.ec-rung:not(.is-open) .ec-swatch { filter: saturate(0.35) brightness(0.6); }
-.ec-swatch--turf { background: repeating-linear-gradient(90deg, hsl(140 45% 26%) 0 9px, hsl(140 40% 21%) 9px 18px); box-shadow: inset 0 0 0 2px hsl(0 0% 100% / 0.4); }
-.ec-swatch--gold-leaf { background: linear-gradient(135deg, #a8781b, #fff0a8 30%, hsl(226 45% 14%) 31%, hsl(226 45% 10%)); }
-.ec-swatch--marble { background: radial-gradient(ellipse at 30% 30%, #ffffff, #e7e3dc 40%, #cfc8bb), linear-gradient(120deg, transparent 45%, hsl(30 10% 60% / 0.5) 48%, transparent 52%); background-blend-mode: multiply; }
-.ec-swatch--floodlights { background: radial-gradient(circle at 25% 15%, #fff 0 3px, transparent 4px), radial-gradient(circle at 75% 15%, #fff 0 3px, transparent 4px), conic-gradient(from 160deg at 25% 15%, transparent, hsl(55 100% 90% / 0.5) 10deg, transparent 20deg), linear-gradient(180deg, hsl(228 50% 10%), hsl(147 50% 18%)); }
-.ec-swatch--gold-rush { background: radial-gradient(circle at 20% 30%, #ffe680 0 2px, transparent 3px), radial-gradient(circle at 60% 60%, #ffe680 0 2px, transparent 3px), radial-gradient(circle at 80% 20%, #fff2b0 0 1.5px, transparent 2.5px), linear-gradient(160deg, #5a3b05, #c99a2e 50%, #3b2603); }
 .ec-meter {
   position: relative;
   height: 10px;
@@ -552,25 +526,6 @@
     repeating-linear-gradient(0deg, hsl(140 42% 17%) 0 44px, hsl(140 38% 14%) 44px 88px);
   box-shadow: inset 0 0 0 3px hsl(0 0% 100% / 0.12), inset 0 0 60px hsl(0 0% 0% / 0.35);
 }
-.ec-skin--gold-leaf {
-  background:
-    radial-gradient(ellipse at 50% 0%, hsl(43 80% 50% / 0.12), transparent 60%),
-    repeating-linear-gradient(45deg, hsl(0 0% 100% / 0.015) 0 3px, transparent 3px 7px),
-    linear-gradient(180deg, hsl(226 45% 12%), hsl(228 50% 7%));
-  border: 2px solid transparent;
-  border-image: linear-gradient(135deg, #a8781b, #fff0a8 35%, #e2b549 60%, #7a5410) 1;
-  box-shadow: inset 0 0 40px hsl(0 0% 0% / 0.5);
-}
-.ec-skin--marble {
-  background:
-    linear-gradient(115deg, transparent 40%, hsl(30 10% 55% / 0.18) 42%, transparent 46%),
-    linear-gradient(35deg, transparent 60%, hsl(30 10% 50% / 0.14) 61%, transparent 64%),
-    radial-gradient(ellipse at 30% 20%, #f7f4ee, #e3ddd2 55%, #cdc5b6);
-  box-shadow: inset 0 0 0 3px #b8925a, inset 0 0 0 5px #f0d9a8;
-}
-/* The binder header (title and count) sits on the marble itself: dark ink there; chips and tiles keep their own panels */
-.ec-skin--marble > div:first-child > .section-title,
-.ec-skin--marble > div:first-child > span { color: #2b2418; }
 
 /* ---------- Pack-opening themes (portfolio milestones), on .pk-dialog ---------- */
 .pk-theme--floodlights {
@@ -622,5 +577,8 @@
   .ec-copies { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ec-bounty .ec-copies { grid-template-columns: minmax(0, 1fr); }
 }
-.ec-skin--marble .col-swipe-btn { background: #2b2418; border-color: #b8925a; color: #f2d58a; }
-.ec-skin--marble .col-swipe-btn:hover { background: #3d3324; }
+
+/* ---------- Pyro pixel frames: four frames swapped in steps, never blended ---------- */
+.px-fl { opacity: 0; animation: px-fl 0.48s steps(1) infinite; animation-delay: calc(var(--i) * 0.12s); }
+@keyframes px-fl { 0% { opacity: 1; } 25%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .px-fl { animation: none; } .px-fl[style*='--i: 0'] { opacity: 1; } }

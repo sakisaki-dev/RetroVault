@@ -942,3 +942,11 @@
     font-size: 10px;
   }
 }
+
+/* Pyro walkout (reward): pixel flame cannons on both sides of the tunnel mouth, whole-pixel scale (4 per art pixel, 3 on a phone) */
+.wk__pyro { position: absolute; inset: 0; pointer-events: none; z-index: 2; --px: 4px; }
+@media (max-width: 639px) { .wk__pyro { --px: 3px; } }
+.wk__cannon { position: absolute; bottom: 26%; width: calc(13 * var(--px)); height: calc(35 * var(--px)); image-rendering: pixelated; }
+.wk__cannon--l { left: max(3%, calc(50% - 150px - 13 * var(--px))); }
+.wk__cannon--r { right: max(3%, calc(50% - 150px - 13 * var(--px))); }
+.wk__cannon--r { scale: -1 1; }

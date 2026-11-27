@@ -16,6 +16,12 @@ import './kits.css';
 import AutographCanvas from './autograph/AutographCanvas';
 import { useAutographFor } from './autograph/sample';
 import { autographValue, fmtMult, inkRowOf, parallelOf, serialStr } from '@/config/autographs';
+import { displayName } from '@/utils/displayName';
+import { CAREER_LABEL } from '@/config/ovr';
+import { reducedMotion } from '@/utils/motion';
+import { useCollection } from '@/utils/collection';
+import { pyroOn } from '@/utils/economy';
+import { PyroCannon } from './economy/pixel';
 
 /** Firework bursts: [left %, top %, delay s]; Legendary fires a second volley. */
 const VOLLEY = [
@@ -146,6 +152,9 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
   const holo = card.finish === 'holo';
   const twisted = holo && reached('twist');
   const legendary = card.tier === 'legendary';
+  // Pyro walkout reward: pixel flame cannons flank the tunnel mouth for a Legendary (presentation only), off in lite mode
+  const { state: colState } = useCollection();
+  const pyro = tunnel && legendary && !reduced && pyroOn(colState) && document.documentElement.dataset.perf !== 'lite';
   const isFinal = stage === 'final';
   // The Autograph variant's autograph: the pull's own, else (an Art lab walkout) his sample roll
   const sampled = useAutographFor(info, card.finish, card.auto ?? 'sample');
@@ -270,6 +279,12 @@ const Walkout = ({ card, info, total, beats, step, reduced, badge, onAdvance, on
                 ))}
               </span>
             ))}
+          </span>
+        )}
+        {pyro && reached('flares') && (
+          <span className="wk__pyro" aria-hidden="true">
+            <PyroCannon className="wk__cannon wk__cannon--l" />
+            <PyroCannon className="wk__cannon wk__cannon--r" />
           </span>
         )}
         {!reduced && stage === 'sweep' && <span className="wk__sweep" aria-hidden="true" />}

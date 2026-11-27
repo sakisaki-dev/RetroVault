@@ -4,9 +4,8 @@ import { Award, Layers, Repeat2, ScrollText, Store } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { TIERS, type AutographFreezer, type CollectionState, type PackType, type Tier, type TierPool } from '@/utils/collection';
 import { fmtCoins } from '@/utils/cardMarket';
-import { checkMilestones, collectionSets, editionBounties, bountiesDone, setProgress } from '@/utils/economy';
+import { checkMilestones, editionBounties, bountiesDone, setProgress } from '@/utils/economy';
 import { useMarketLatest } from '@/utils/useMarket';
-import { normalizeName, usePlayerExtras } from '@/utils/playerExtras';
 import type { LeagueContent } from '@/utils/leagueContent';
 import type { CardInfo } from '../useCardPool';
 import { allCopies, portfolioValue } from './copies';
@@ -15,6 +14,7 @@ import Sets from './Sets';
 import TradeUp from './TradeUp';
 import Bounties from './Bounties';
 import Milestones from './Milestones';
+import { useSets, useTopCards } from './useRewards';
 import './economy.css';
 
 type Tab = 'shop' | 'sets' | 'trade' | 'bounties' | 'milestones';
@@ -49,7 +49,6 @@ export const CoinBalance = ({ coins }: { coins: number }) => (
 const Exchange = ({ cards, byKey, tierPool, state, content, freeze, onOpenPack, onOpenCard }: ExchangeProps) => {
   const [tab, setTab] = useState<Tab>('shop');
   const history = useMarketLatest();
-  const extras = usePlayerExtras();
   const latest = history?.length ? history[history.length - 1] : undefined;
   const prev = history && history.length > 1 ? history[history.length - 2] : undefined;
 
@@ -80,20 +79,11 @@ const Exchange = ({ cards, byKey, tierPool, state, content, freeze, onOpenPack, 
   // Milestones: record every line the portfolio has crossed (never removes one)
   useEffect(() => {
     if (value == null || !cards.length) return;
-    checkMilestones(value).forEach((m) => toast.success(`Milestone: ${m.cosmetic.label} unlocked`, { description: 'Switch it on under Exchange · Milestones.' }));
+    checkMilestones(value).forEach((m) => toast.success(`Milestone: ${m.label} unlocked`, { description: 'See it under Exchange · Milestones.' }));
   }, [value, cards.length]);
 
-  const sets = useMemo(
-    () =>
-      collectionSets({
-        // Stints are keyed by normalized name (playerExtras.ts)
-        cards: cards.map((c) => ({ key: c.key, name: normalizeName(c.player.name), currentTeam: c.currentTeam, active: c.player.status === 'Active' })),
-        superBowls: content?.superBowls ?? [],
-        stints: extras.stints,
-        hofClasses: content?.hofClasses ?? [],
-      }),
-    [cards, content, extras.stints],
-  );
+  const sets = useSets(cards, content);
+  const top = useTopCards(byKey, state);
   const setsReady = useMemo(() => sets.filter((s) => !state.setsClaimed?.includes(s.id) && setProgress(s, state.cards).done).length, [sets, state.setsClaimed, state.cards]);
 
   const seed = content?.edition?.seed ?? 0;
@@ -154,7 +144,7 @@ const Exchange = ({ cards, byKey, tierPool, state, content, freeze, onOpenPack, 
           ) : (
             <p className="text-sm text-muted-foreground">The bounty board loads with the league data.</p>
           ))}
-        {tab === 'milestones' && <Milestones state={state} value={value} />}
+        {tab === 'milestones' && <Milestones state={state} value={value} byKey={byKey} top={top} sets={sets} />}
       </div>
 
       {!!state.coinLog?.length && (

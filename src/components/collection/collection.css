@@ -4010,48 +4010,97 @@ button.fut__card:focus-visible {
   }
 }
 
-/* Card back finishes unlocked by portfolio milestones (CardBackArt, economy.ts MILESTONES kind 'back') */
-.pk-back--gold {
+/* Card back finishes unlocked by portfolio milestones (CardBackArt, economy.ts MILESTONES kind 'back'). Each sets
+   --pk-chrome (the tunnel lays its light over it) and is identical for every card. */
+/* Field holo: a top-down field, end zones top and bottom, a holo sheen sliding across (still when motion is reduced) */
+.pk-back--field {
   --pk-chrome:
-    linear-gradient(115deg, transparent 22%, rgb(255 255 255 / 0.45) 38%, rgb(255 240 180 / 0.3) 46%, transparent 60%),
-    repeating-linear-gradient(60deg, rgb(255 255 255 / 0.1) 0 0.67cqw, transparent 0.67cqw 3cqw),
-    repeating-linear-gradient(-60deg, rgb(90 55 0 / 0.14) 0 0.67cqw, transparent 0.67cqw 3cqw),
-    linear-gradient(160deg, #fff0b0, #c99a2e 38%, #f4d47a 58%, #9c6f18);
-  --pk-rim: #e2b549;
+    linear-gradient(180deg, #003594 0 9%, transparent 9% 91%, #a5161a 91%),
+    repeating-linear-gradient(180deg, transparent 0 9.4%, rgb(255 255 255 / 0.85) 9.4% 10.2%, transparent 10.2% 18.4%),
+    repeating-linear-gradient(180deg, #2e7d32 0 4.5%, #2a7030 4.5% 9%);
+  --pk-rim: #e8f2e6;
 }
-.pk-back--gold .pk-back__diamond {
-  box-shadow: 0 0 0 1.33cqw #f4d47a, 0 0 0 2.33cqw #0b1020, 0 2.7cqw 6cqw rgb(0 0 0 / 0.45);
+.pk-back--field .pk-back__diamond {
+  background: rgb(5 8 16 / 0.78);
+  box-shadow: 0 0 0 1.33cqw #fff, 0 0 0 2.33cqw #0b1020, 0 2.7cqw 6cqw rgb(0 0 0 / 0.45);
 }
-.pk-back--gold .pk-back__logo {
-  background-image: linear-gradient(120deg, #fff6d0, #f4d47a 35%, #c99a2e 60%, #fff0b0);
+.pk-back--field .pk-back__word {
+  color: #fff;
+  font-size: 4cqw;
 }
-.pk-back--gold .pk-back__sub {
-  color: #f4d47a;
+.pk-back--field .pk-back__word--top { top: 5.4%; }
+.pk-back--field .pk-back__word--bottom { bottom: 6.2%; }
+.pk-back--field .pk-back__sub { color: #cdeee0; }
+.pk-back--field::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 25%, rgb(255 255 255 / 0.32) 45%, rgb(150 255 220 / 0.2) 55%, transparent 75%);
+  transform: translateX(-60%);
 }
-.pk-back--gold .pk-back__word {
-  color: #3a2606;
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-perf='lite']) .pk-back--field::after { animation: pk-sweep 3.2s ease-in-out infinite; }
 }
-.pk-back--black {
+@keyframes pk-sweep { 0%, 100% { transform: translateX(-60%); } 50% { transform: translateX(60%); } }
+/* Jumbotron: LED dot board spelling RV; the dots flicker on when the back first shows (a pack opening) */
+.pk-back--led {
   --pk-chrome:
-    linear-gradient(115deg, transparent 24%, rgb(255 90 190 / 0.28) 34%, rgb(90 210 255 / 0.32) 44%, rgb(255 230 110 / 0.28) 54%, transparent 66%),
-    repeating-linear-gradient(60deg, rgb(255 255 255 / 0.06) 0 0.67cqw, transparent 0.67cqw 3cqw),
-    repeating-linear-gradient(-60deg, rgb(255 255 255 / 0.04) 0 0.67cqw, transparent 0.67cqw 3cqw),
-    linear-gradient(160deg, #3a3f4a, #121419 40%, #2c3039 62%, #0a0b0e);
-  --pk-rim: #e2b549;
+    radial-gradient(circle, rgb(255 180 80 / 0.16) 0.4cqw, transparent 0.7cqw) 0 0 / 1.8cqw 1.8cqw,
+    #05070f;
+  --pk-rim: #ffb347;
 }
-.pk-back--black .pk-back__diamond {
-  background: linear-gradient(135deg, #22262f, #0a0b0e);
-  box-shadow: 0 0 0 1.33cqw #e2b549, 0 0 0 2.33cqw #0a0b0e, 0 2.7cqw 6cqw rgb(0 0 0 / 0.6);
+.pk-back--led .pk-back__diamond { display: none; }
+.pk-back--led .pk-back__word { color: #ffb347; text-shadow: 0 0 1cqw #ff9900; letter-spacing: 1.2cqw; }
+.pk-back--led .pk-back__sub { display: none; }
+.pk-back__led {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 12), 4.2cqw);
+  gap: 1.1cqw;
 }
-.pk-back--black .pk-back__logo {
-  background-image: linear-gradient(120deg, #fff6d0, #f4d47a 35%, #c99a2e 60%, #fff0b0);
+.pk-back__led i {
+  width: 4.2cqw;
+  height: 4.2cqw;
+  border-radius: 50%;
+  background: #2a1a08;
 }
-.pk-back--black .pk-back__sub {
-  color: #e2b549;
+.pk-back__led i.on { background: #ffb347; box-shadow: 0 0 1.6cqw #ff9a1a; }
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-perf='lite']) .pk-back__led i.on { animation: pk-led 0.9s steps(1) both; animation-delay: calc(var(--k, 0) * 70ms); }
 }
-.pk-back--black .pk-back__word {
-  color: #c9ced8;
+@keyframes pk-led { 0%, 30% { background: #2a1a08; box-shadow: none; } 40% { background: #ffb347; box-shadow: 0 0 1.6cqw #ff9a1a; } 55% { background: #2a1a08; box-shadow: none; } 70%, 100% { background: #ffb347; box-shadow: 0 0 1.6cqw #ff9a1a; } }
+/* Wax pack: a 70s cardboard back, cream and brick with a printed dot texture */
+.pk-back--wax {
+  --pk-chrome:
+    radial-gradient(circle, rgb(122 36 24 / 0.1) 0.3cqw, transparent 0.55cqw) 0 0 / 1.4cqw 1.4cqw,
+    #f1e4c4;
+  --pk-rim: #7a2418;
 }
+.pk-back--wax .pk-back__diamond {
+  background: repeating-linear-gradient(45deg, #e9d7aa 0 1.4cqw, #f1e4c4 1.4cqw 2.8cqw);
+  box-shadow: 0 0 0 1.33cqw #7a2418, 0 0 0 2.33cqw #f1e4c4, 0 2.7cqw 6cqw rgb(0 0 0 / 0.3);
+}
+.pk-back--wax .pk-back__logo { background-image: none; color: #7a2418; -webkit-text-fill-color: #7a2418; }
+.pk-back--wax .pk-back__sub { color: #7a2418; }
+.pk-back--wax .pk-back__word { color: #7a2418; font-size: 3.6cqw; }
+/* Black ice: dark glass with blue and violet light trapped in the cracks and a glowing RV */
+.pk-back--ice {
+  --pk-chrome:
+    linear-gradient(32deg, transparent 48%, rgb(207 227 255 / 0.5) 48.4%, transparent 49%),
+    linear-gradient(-58deg, transparent 60%, rgb(207 227 255 / 0.35) 60.4%, transparent 61%),
+    linear-gradient(80deg, transparent 30%, rgb(207 227 255 / 0.3) 30.4%, transparent 31%),
+    conic-gradient(from 0deg at 30% 40%, transparent, rgb(140 190 255 / 0.25), transparent 20%),
+    conic-gradient(from 90deg at 70% 70%, transparent, rgb(200 140 255 / 0.2), transparent 25%),
+    linear-gradient(160deg, #0b0f1d, #1c2440 40%, #0b0f1d 60%, #2a3a6a);
+  --pk-rim: #8fb4ee;
+}
+.pk-back--ice .pk-back__diamond {
+  background: rgb(5 8 16 / 0.7);
+  box-shadow: 0 0 0 1.33cqw #cfe3ff, 0 0 0 2.33cqw #0b1020, 0 0 6cqw rgb(140 190 255 / 0.6);
+}
+.pk-back--ice .pk-back__logo { background-image: linear-gradient(120deg, #fff, #cfe3ff 40%, #d8b8ff 70%, #fff); }
+.pk-back--ice .pk-back__sub { color: #cfe3ff; }
+.pk-back--ice .pk-back__word { color: #cfe3ff; }
 
 /* phone: the progress ring sits top right beside the title, the tier chips take a two-column grid, so the hero is a
    compact block instead of a ring floating mid-card beside four stacked pills */

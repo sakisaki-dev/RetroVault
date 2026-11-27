@@ -61,7 +61,7 @@ import {
  *    finish, art, kit and parallel odds (Legendary is the top).
  * 5. BOUNTIES: 3 or 4 requests per edition, picked from the edition seed (never Math.random); turning a matching copy
  *    in pays its flat reward plus BOUNTY_PRICE_SHARE of the copy's price, once per bounty per edition.
- * 6. MILESTONES: portfolio value crossing MILESTONES unlocks cosmetics (binder skins, card back finishes) for good.
+ * 6. MILESTONES: portfolio value crossing MILESTONES unlocks rewards (binder covers, card backs, slab, pyro, trophy case) for good.
  */
 
 // ---------- Constants ----------
@@ -524,32 +524,40 @@ export const turnInBounty = (seed: number, bounty: Bounty, item: PricedRef): num
 
 // ---------- Portfolio milestones and cosmetics ----------
 
+/** Binder covers and card backs are "cosmetics" you switch on; the slab, pyro and trophy case are their own reward kinds. */
 export type CosmeticKind = 'binder' | 'back';
-export interface Cosmetic {
-  id: string;
-  kind: CosmeticKind;
-  label: string;
-  blurb: string;
-}
+export type RewardKind = CosmeticKind | 'slab' | 'pyro' | 'case';
 export interface Milestone {
+  /** Unlock id, stored in `unlocks`. The five original ids (m-250k, m-1m, m-3m, m-10m, m-30m) keep their threshold, so
+   *  what was unlocked stays unlocked, now granting the replacement reward. */
   id: string;
   /** Portfolio value (coins) that unlocks it */
   at: number;
-  cosmetic: Cosmetic;
+  kind: RewardKind;
+  /** The cosmetic id for a binder / back (`ec-skin--<key>`, `pk-back--<key>`); the id itself otherwise */
+  key: string;
+  label: string;
+  blurb: string;
 }
 
 /**
- * Calibrated against the expected portfolio value of packs opened (CLAUDE.md "Collection economy"). Balance pass
- * 2026-11-13 (a year of simulated play): 50K, 250K, 1M, 4M, 12M, so a regular player unlocks the first within a week
- * and 4M around day 170, and the last takes a dedicated player most of a year. Ids are kept, so unlocks stay unlocked.
+ * Calibrated against the expected portfolio value of packs opened (CLAUDE.md "Collection economy"). 50K to 25M, in
+ * value order. Owner-approved concepts (2026-11-27 rewards mockup).
  */
 export const MILESTONES: Milestone[] = [
-  { id: 'm-250k', at: 50_000, cosmetic: { id: 'turf', kind: 'binder', label: 'Turf binder', blurb: 'Mown stripes and chalk yard lines behind your binder.' } },
-  // owner, 2026-11-17: the pack-opening themes barely showed in the tunnel; these two ids now unlock card back finishes
-  { id: 'm-1m', at: 250_000, cosmetic: { id: 'gold', kind: 'back', label: 'Gold refractor backs', blurb: 'Every face-down card in gold chrome, in packs and the walkout.' } },
-  { id: 'm-3m', at: 1_000_000, cosmetic: { id: 'gold-leaf', kind: 'binder', label: 'Gold leaf binder', blurb: 'Deep navy leather with gilded edges.' } },
-  { id: 'm-10m', at: 4_000_000, cosmetic: { id: 'black', kind: 'back', label: 'Black chrome backs', blurb: 'Gunmetal chrome with a gold rim and a gold RV on every face-down card.' } },
-  { id: 'm-30m', at: 12_000_000, cosmetic: { id: 'marble', kind: 'binder', label: 'Hall of Fame marble', blurb: 'White marble and brass, like the Hall itself.' } },
+  { id: 'm-250k', at: 50_000, kind: 'binder', key: 'turf', label: 'Turf', blurb: 'Mown stripes and chalk yard lines.' },
+  { id: 'm-night', at: 250_000, kind: 'binder', key: 'night', label: 'Night game', blurb: 'Floodlights over the stands and the field.' },
+  { id: 'm-1m', at: 250_000, kind: 'back', key: 'field', label: 'Field holo', blurb: 'A top-down field with a holo sheen.' },
+  { id: 'm-slab', at: 500_000, kind: 'slab', key: 'slab', label: 'Graded slab', blurb: 'One favourite card in a graded case.' },
+  { id: 'm-led', at: 1_000_000, kind: 'back', key: 'led', label: 'Jumbotron', blurb: 'An LED board spelling RV.' },
+  { id: 'm-3m', at: 1_000_000, kind: 'binder', key: 'ball', label: 'Game ball', blurb: 'Pebbled leather, laces and stitching.' },
+  { id: 'm-pyro', at: 2_000_000, kind: 'pyro', key: 'pyro', label: 'Pyro walkout', blurb: 'Flame cannons for Legendary walkouts.' },
+  { id: 'm-10m', at: 4_000_000, kind: 'back', key: 'wax', label: 'Wax pack', blurb: 'A 70s cardboard back.' },
+  { id: 'm-book', at: 4_000_000, kind: 'binder', key: 'playbook', label: 'Playbook', blurb: 'A play in chalk on a framed board.' },
+  { id: 'm-case', at: 8_000_000, kind: 'case', key: 'case', label: 'Trophy case', blurb: 'Your best cards and trophies, in glass.' },
+  { id: 'm-30m', at: 12_000_000, kind: 'binder', key: 'locker', label: 'Locker room', blurb: 'Stalls hung with your top three jerseys.' },
+  { id: 'm-ice', at: 12_000_000, kind: 'back', key: 'ice', label: 'Black ice', blurb: 'Dark glass with light in the cracks.' },
+  { id: 'm-ring', at: 25_000_000, kind: 'binder', key: 'ring', label: 'Championship ring', blurb: 'Gold and a blue stone on velvet.' },
 ];
 
 /** Records every milestone the portfolio value has reached (never removes one). Returns the ones new now. */
@@ -561,24 +569,50 @@ export const checkMilestones = (value: number): Milestone[] => {
   return fresh;
 };
 
-/** Switches a cosmetic on (an unlocked one) or, with null, back to the classic look. */
-export const setCosmetic = (kind: CosmeticKind, id: string | null): boolean => {
-  const s = readCollection();
-  const m = id ? MILESTONES.find((x) => x.cosmetic.id === id && x.cosmetic.kind === kind) : null;
-  if (id && (!m || !s.unlocks?.includes(m.id))) return false;
-  const cosmetics = { ...s.cosmetics };
-  if (id) cosmetics[kind] = id;
-  else delete cosmetics[kind];
+type Cosmetics = NonNullable<CollectionState['cosmetics']>;
+const writeCosmetics = (s: CollectionState, cosmetics: Cosmetics) => {
   const next: CollectionState = { ...s };
-  if (cosmetics.binder || cosmetics.back) next.cosmetics = cosmetics;
+  const clean = Object.fromEntries(Object.entries(cosmetics).filter(([, v]) => v)) as Cosmetics;
+  if (Object.keys(clean).length) next.cosmetics = clean;
   else delete next.cosmetics;
   commitCollection(next);
+};
+
+export const rewardUnlocked = (s: CollectionState, kind: RewardKind, key?: string): boolean =>
+  MILESTONES.some((m) => m.kind === kind && (key == null || m.key === key) && !!s.unlocks?.includes(m.id));
+
+/** Switches a binder cover or card back on (an unlocked one) or, with null, back to the classic look. */
+export const setCosmetic = (kind: CosmeticKind, id: string | null): boolean => {
+  const s = readCollection();
+  if (id && !rewardUnlocked(s, kind, id)) return false;
+  writeCosmetics(s, { ...s.cosmetics, [kind]: id ?? undefined });
   return true;
 };
 
-/** The cosmetic switched on for a kind, if it is still unlocked. */
+/** The cover or back switched on for a kind, if it is still unlocked. */
 export const activeCosmetic = (s: CollectionState, kind: CosmeticKind): string | undefined => {
   const id = s.cosmetics?.[kind];
-  const m = MILESTONES.find((x) => x.cosmetic.id === id && x.cosmetic.kind === kind);
-  return m && s.unlocks?.includes(m.id) ? id : undefined;
+  return id && rewardUnlocked(s, kind, id) ? id : undefined;
 };
+
+/** The card shown in the graded slab (an owned card), once the slab is unlocked. */
+export const slabKey = (s: CollectionState): string | undefined => {
+  const k = s.cosmetics?.slab;
+  return k && s.cards[k] && rewardUnlocked(s, 'slab') ? k : undefined;
+};
+export const setSlab = (key: string | null): boolean => {
+  const s = readCollection();
+  if (!rewardUnlocked(s, 'slab') || (key && !s.cards[key])) return false;
+  writeCosmetics(s, { ...s.cosmetics, slab: key ?? undefined });
+  return true;
+};
+
+/** Pyro is on once unlocked, unless switched off. */
+export const pyroOn = (s: CollectionState): boolean => rewardUnlocked(s, 'pyro') && s.cosmetics?.pyro !== 'off';
+export const setPyro = (on: boolean): boolean => {
+  const s = readCollection();
+  if (!rewardUnlocked(s, 'pyro')) return false;
+  writeCosmetics(s, { ...s.cosmetics, pyro: on ? undefined : 'off' });
+  return true;
+};
+export const caseUnlocked = (s: CollectionState): boolean => rewardUnlocked(s, 'case');

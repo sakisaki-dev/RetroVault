@@ -49,6 +49,8 @@ import { bestAuto, isSampleAuto, useAutographFor } from './autograph/sample';
 import AutographDetails from './autograph/AutographDetails';
 import AutographCarousel from './autograph/AutographCarousel';
 import SellPanel from './economy/SellPanel';
+import SlabFrame from './economy/SlabFrame';
+import { slabKey as slabOf } from '@/utils/economy';
 import ShareImageButton from '@/components/share/ShareImageButton';
 import SharePosterFrame from '@/components/share/SharePosterFrame';
 import { shareFileName } from '@/utils/shareImage';
@@ -757,6 +759,7 @@ const CardDetail = ({ target, entry, shards, shardsPerPack = 0, display, total, 
                   <div className="cd__sway">
                     <div className={cn('cd__flipper', flipped && 'is-flipped')} data-face={face} data-turning={turning ?? undefined}>
                       <div className="cd__face" aria-hidden={flipped}>
+                        {!target?.preview && slabOf(collection) === info.key && <SlabFrame big />}
                         <CollectibleCard
                           owned
                           large

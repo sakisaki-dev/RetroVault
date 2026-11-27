@@ -565,7 +565,7 @@
     margin-inline: 0;
   }
 }
-/* on a skin the sleeve pages are clear plastic: the cover (turf, gold leaf, marble) shows through */
+/* on a skin the sleeve pages are clear plastic: the cover (turf, night game, game ball …) shows through */
 .bk.ec-skin .bk__page {
   background:
     linear-gradient(180deg, hsl(0 0% 100% / 0.09), transparent 35%),
@@ -575,15 +575,6 @@
 .bk.ec-skin .bk-pocket {
   background: hsl(0 0% 100% / 0.05);
 }
-.bk.ec-skin--marble .bk__page {
-  background:
-    linear-gradient(180deg, hsl(0 0% 100% / 0.25), transparent 35%),
-    hsl(30 20% 30% / 0.12);
-}
-.bk.ec-skin--marble .bk__folio {
-  color: #6b5a3e;
-}
-
 /* ---------- Smoothness (owner, 2026-11-17: "the animations are a bit choppy and clunky") ---------- */
 /* each page paints on its own: a page turn never re-lays out its neighbours */
 .bk__page {

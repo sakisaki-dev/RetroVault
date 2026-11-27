@@ -5,6 +5,13 @@ import { playerKey } from '@/config/ovr';
 import { FINISHES, LEGACY_VARIANT, PRIZM_PARALLELS, TIERS, VARIANTS, finishRank, isPrizmParallel, isVariant, prizmInfo, tierRank, type Finish, type PrizmCopy, type PrizmParallel, type Tier, type Variant } from '@/config/cardTiers';
 import { parseRoll, parseSnapshot, rollAutograph, type AutographRoll, type AutographSnapshot } from '@/config/autographs';
 
+/** Old cosmetic ids after the 2026-11-27 rework: an unlocked old reward grants its replacement (same unlock id). */
+export const LEGACY_COSMETICS: Record<'binder' | 'back', Record<string, string>> = {
+  binder: { 'gold-leaf': 'ball', marble: 'locker' },
+  back: { gold: 'field', black: 'wax' },
+};
+
+
 export * from '@/config/cardTiers';
 
 /**
@@ -496,7 +503,7 @@ export interface CollectionState {
   /** Portfolio milestone ids reached (economy.ts MILESTONES); once unlocked, always unlocked */
   unlocks?: string[];
   /** Cosmetics switched on (ids from unlocked milestones); missing = the classic look */
-  cosmetics?: { binder?: string; back?: string };
+  cosmetics?: { binder?: string; back?: string; slab?: string; pyro?: 'off' };
 }
 
 /** One coin movement: amount (+ earned, − spent) and what it was for. */
@@ -741,13 +748,15 @@ const parse = (raw: string | null): CollectionState | null => {
     if (b && typeof b === 'object' && typeof b.seed === 'number' && Number.isFinite(b.seed)) s.bounties = { seed: b.seed, done: strs(b.done) };
     const unlocks = strs(d.unlocks);
     if (unlocks.length) s.unlocks = unlocks;
-    const cos = d.cosmetics as { binder?: unknown; back?: unknown } | undefined;
+    const cos = d.cosmetics as { binder?: unknown; back?: unknown; slab?: unknown; pyro?: unknown } | undefined;
     if (cos && typeof cos === 'object') {
       const c: NonNullable<CollectionState['cosmetics']> = {};
-      if (typeof cos.binder === 'string' && KIT_RE.test(cos.binder)) c.binder = cos.binder;
-      // the old pack-opening themes (pack) are gone: their milestones unlock card back finishes now (back)
-      if (typeof cos.back === 'string' && KIT_RE.test(cos.back)) c.back = cos.back;
-      if (c.binder || c.back) s.cosmetics = c;
+      // ids from before the 2026-11-27 rewards rework map to their replacements (economy.ts LEGACY_COSMETICS)
+      if (typeof cos.binder === 'string' && KIT_RE.test(cos.binder)) c.binder = LEGACY_COSMETICS.binder[cos.binder] ?? cos.binder;
+      if (typeof cos.back === 'string' && KIT_RE.test(cos.back)) c.back = LEGACY_COSMETICS.back[cos.back] ?? cos.back;
+      if (typeof cos.slab === 'string' && cos.slab.length < 120) c.slab = cos.slab;
+      if (cos.pyro === 'off') c.pyro = 'off';
+      if (Object.keys(c).length) s.cosmetics = c;
     }
     return s;
   } catch {

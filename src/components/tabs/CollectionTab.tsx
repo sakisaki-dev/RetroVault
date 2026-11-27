@@ -26,7 +26,9 @@ import DailyDraw from '@/components/collection/DailyDraw';
 import OpenAll from '@/components/collection/OpenAll';
 import Exchange from '@/components/collection/economy/Exchange';
 import SellDuplicates from '@/components/collection/economy/SellDuplicates';
-import { activeCosmetic } from '@/utils/economy';
+import { activeCosmetic, slabKey } from '@/utils/economy';
+import TrophyCase from '@/components/collection/economy/TrophyCase';
+import { completedClubs, jerseyOf, useSets, useTopCards } from '@/components/collection/economy/useRewards';
 import AutographsSection from '@/components/collection/autograph/AutographsSection';
 import { autographOddsLine } from '@/components/collection/autograph/AutographDetails';
 import { PARALLELS } from '@/config/autographs';
@@ -470,6 +472,12 @@ const CollectionTab = () => {
   const accent = editionAccent(content?.edition);
   // Binder skin unlocked by a portfolio milestone (utils/economy.ts), when switched on
   const binderSkin = activeCosmetic(state, 'binder');
+  // Rewards: the top three cards (Locker room jerseys, Trophy case), club pennants, the graded slab
+  const topCards = useTopCards(byKey, state);
+  const jerseys = useMemo(() => topCards.map(jerseyOf), [topCards]);
+  const rewardSets = useSets(cards, content);
+  const pennants = useMemo(() => completedClubs(rewardSets, state.cards), [rewardSets, state.cards]);
+  const slab = slabKey(state);
 
   // the league file is still on its way: the football holds the page's height instead of a 0 / 0 binder that fills in later
   if (!loaded) return <PixelLoader label="Collection" what="the collection" minHeight="70vh" className="container justify-start pt-[18vh]" />;
@@ -584,6 +592,9 @@ const CollectionTab = () => {
         </div>
       </section>
 
+      {/* Trophy case (8M reward): the three most valuable cards and a cup per milestone, at the top of the Collection */}
+      <TrophyCase state={state} top={topCards} total={cards.length} onOpen={(c) => openCard(c, [c])} />
+
       {/* Binder: right under the packs, so the cards are the first thing after the shelf */}
       <Binder
         loaded={loaded}
@@ -597,6 +608,9 @@ const CollectionTab = () => {
         teamOptions={teamOptions}
         ownedCount={ownedCount}
         skin={binderSkin}
+        jerseys={jerseys}
+        slab={slab}
+        pennants={pennants}
         onOpen={(c, from) => openCard(c, browseList, from)}
         onSwipe={() => setBrowsing(true)}
         swipeCount={browseList.length}
