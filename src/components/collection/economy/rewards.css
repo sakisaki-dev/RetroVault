@@ -188,4 +188,3 @@ html[data-reduce-motion] .rw-case__doors, html[data-reduce-motion] .rw-case__gli
 
 /* only on-screen previews animate (phones froze with every preview running); off-screen cards skip rendering */
 .rw-root .rw-card__stage:not(.rw-live) *, .rw-root .rw-card__stage:not(.rw-live) *::before, .rw-root .rw-card__stage:not(.rw-live) *::after { animation-play-state: paused !important; }
-.rw-root .rw-card { content-visibility: auto; contain-intrinsic-size: auto 330px; }

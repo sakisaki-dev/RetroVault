@@ -234,7 +234,7 @@ const Milestones = ({ state, value, byKey, top, sets }: MilestonesProps) => {
   };
 
   return (
-    <div ref={root} className="rw-root space-y-5">
+    <div ref={root} className="rw-root space-y-5" data-no-swipe>
       <div className="flex flex-wrap items-end justify-between gap-2">
         <div>
           <p className="ec-kicker">Portfolio value</p>
