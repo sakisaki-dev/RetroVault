@@ -3,7 +3,7 @@ description: Add attached Retro Bowl screenshots (and any notes) to the league, 
 argument-hint: "[notes about trades, teams, nicknames…]"
 ---
 
-The owner wants an update. Follow CLAUDE.md exactly: the "When the owner says 'update'" flow and the
+The owner wants an update. Follow docs/CLAUDE_REFERENCE.md "Updating: the upload pipeline" exactly (read that whole section first): the "When the owner says 'update'" flow and the
 "Season update plan" table. Owner notes for this update, if any: $ARGUMENTS
 
 1. Setup (cloud/phone sessions start clean): `npm ci` if `node_modules` is missing. Work on `retrovault-v2`;
@@ -19,12 +19,12 @@ The owner wants an update. Follow CLAUDE.md exactly: the "When the owner says 'u
      with `stats[]` sources, continue threads from last season via `related[]`) in a follow-up bundle; run update.
      `TAKES NEEDED: Y<n>` → the Hot Takes (`takes.set`) the same way. For each article and take pick its sprite
      scene with the optional `art` hint ({scene: vs | turf | weather | podium | spotlight | lineup, players, teams,
-     weather}; CLAUDE.md step 6); leave it out where the rule's choice is right.
+     weather}; docs/CLAUDE_REFERENCE.md step 6); leave it out where the rule's choice is right.
    - Audit flags stale numbers in a speech or story → refresh it the same way.
    - The audit must end with 0 errors.
 5. New players without a known team stay `"UNK"`: **ask the owner for their teams** (give hints from their last
    game) before or right after committing, then apply the answers as a small follow-up bundle.
-6. Commit everything except images (`git add data public scripts src CLAUDE.md`, never `images/`), with a message
+6. Commit everything except images (`git add data public scripts src docs CLAUDE.md`, never `images/`), with a message
    listing who was added or updated and the bundle id, then `git push origin retrovault-v2`. GitHub Pages redeploys
    the site in about 2 minutes and the widget picks up `public/data/widget.json` within about 2 hours.
 7. Reply briefly: season result, players updated/added, new Hall of Famers, the story headlines, records, players
