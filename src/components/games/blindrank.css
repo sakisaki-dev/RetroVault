@@ -9,7 +9,7 @@
 
 .arcade .br .rk-deck-face { touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; }
 .arcade .br .is-dragging .rk-deck-face { cursor: grabbing; z-index: 30; box-shadow: 0 24px 50px #000c, 0 0 0 3px var(--gold); transition: none; }
-.arcade .br .rk-deck-face { transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.arcade .br .rk-deck-face { transition: transform var(--hv-dur) var(--ease-out); }
 .arcade .br-next { margin: 8px 2px 0; font-family: var(--f-pixel); font-size: 10px; color: var(--muted); text-transform: uppercase; }
 
 /* Ladder */
@@ -21,12 +21,12 @@
 .arcade .br-slot {
   position: relative; width: 100%; min-height: 62px; display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 10px; padding: 0 14px 0 0;
   border: 2px dashed #34406b; border-radius: 10px; background: repeating-linear-gradient(135deg, #0f1529 0 10px, #111830 10px 20px); color: var(--muted); text-align: left;
-  transition: border-color 0.15s, background 0.15s, transform 0.15s, box-shadow 0.15s;
+  transition: border-color var(--hv-dur) var(--ease-out), background var(--hv-dur) var(--ease-out), transform var(--hv-dur) var(--ease-out), box-shadow var(--hv-dur) var(--ease-out);
 }
 .arcade .br-slot-no { font-family: var(--f-display); font-weight: 800; font-style: italic; font-size: 32px; line-height: 1; text-align: center; color: var(--gold); opacity: 0.85; }
 .arcade .br-slot-cta { font-family: var(--f-pixel); font-size: 11px; text-transform: uppercase; }
-.arcade .br-slot-arrow { font-size: 12px; color: var(--gold); opacity: 0; transform: translateX(6px); transition: opacity 0.15s, transform 0.15s; }
-.arcade .br-slot:hover, .arcade .br-slot:focus-visible, .arcade .br-slot.over { border-style: solid; border-color: var(--gold); background: linear-gradient(90deg, #ffc83d26, #1a2240); color: var(--chalk); transform: translateX(-3px); box-shadow: 0 0 18px #ffc83d33; }
+.arcade .br-slot-arrow { font-size: 12px; color: var(--gold); opacity: 0; transform: translateX(6px); transition: opacity 0.15s, transform var(--hv-dur) var(--ease-out); }
+.arcade .br-slot:hover, .arcade .br-slot:focus-visible, .arcade .br-slot.over { border-style: solid; border-color: rgb(255 255 255 / 0.3); background: linear-gradient(90deg, #ffc83d26, #1a2240); color: var(--chalk); transform: translateX(-3px); }
 .arcade .br-slot:hover .br-slot-arrow, .arcade .br-slot:focus-visible .br-slot-arrow, .arcade .br-slot.over .br-slot-arrow { opacity: 1; transform: none; }
 .arcade .br-slot.armed { border-color: #ffc83d88; }
 .arcade .br-slot.over { transform: scale(1.03); }

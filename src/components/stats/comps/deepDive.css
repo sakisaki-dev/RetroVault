@@ -91,7 +91,7 @@
   min-height: 36px;
   background: linear-gradient(100deg, color-mix(in srgb, var(--rb-1) 30%, transparent), color-mix(in srgb, var(--rb-1) 6%, transparent) 62%, transparent);
   box-shadow: inset 4px 0 0 var(--rb-1), inset 0 0 0 1px hsl(var(--line) / 0.6);
-  transition: background-color 0.12s ease, box-shadow 0.12s ease;
+  transition: background-color var(--hv-dur) var(--ease-out), box-shadow var(--hv-dur) var(--ease-out);
 }
 .rbk-row:hover,
 .rbk-row:focus-visible {
@@ -110,7 +110,7 @@
 .rbk-sheet .rbk-row { min-height: 44px; }
 
 /* The popover and the phone sheet use the shared motion (.pop-anim / .sheet-anim in src/index.css) */
-.rbk-chip { transition: border-color 0.12s ease, background-color 0.12s ease; }
+.rbk-chip { transition: border-color var(--hv-dur) var(--ease-out), background-color var(--hv-dur) var(--ease-out); }
 
 [data-perf='lite'] .rbk-row,
 [data-perf='lite'] .rbk-chip {

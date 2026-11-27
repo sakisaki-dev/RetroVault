@@ -45,22 +45,21 @@
 }
 
 /* ---- cards, tiles, plaques ---------------------------------------------------------------------------------- */
-:is(.rv-stats, .rv-ix) :is(.ix-card, button.rb-plaque, button.cs-card, a.cs-card, button.glass-card, a.glass-card, .cw-tile, .cg-season, .cg-spark, .cg-ticket, .rbk-chip, .bn3-plaque) {
+:is(.rv-stats, .rv-ix) :is(.ix-card, button.rb-plaque, button.cs-card, a.cs-card, button.glass-card, a.glass-card, .cg-season, .cg-spark, .cg-ticket, .rbk-chip, .bn3-plaque) {
   transition: translate var(--ix-dur) var(--ix-ease), scale 90ms var(--ix-ease), filter var(--ix-dur) var(--ix-ease), outline-color var(--ix-dur) var(--ix-ease),
     background-color var(--ix-dur) var(--ix-ease), border-color var(--ix-dur) var(--ix-ease);
   outline: 2px solid transparent;
   outline-offset: -2px;
 }
 @media (hover: hover) {
-  :is(.rv-stats, .rv-ix) :is(.ix-card, button.rb-plaque, button.cs-card, a.cs-card, button.glass-card, a.glass-card, .cw-tile, .cg-season, .cg-spark, .cg-ticket, .rbk-chip):hover {
+  :is(.rv-stats, .rv-ix) :is(.ix-card, button.rb-plaque, button.cs-card, a.cs-card, button.glass-card, a.glass-card, .cg-season, .cg-spark, .cg-ticket, .rbk-chip):hover {
     translate: 0 var(--ix-lift);
-    filter: brightness(1.06) drop-shadow(0 12px 14px rgb(0 0 0 / 0.42));
-    outline-color: color-mix(in srgb, var(--cs-1, hsl(var(--gold))) 58%, white 42%);
+    filter: brightness(1.04) drop-shadow(0 10px 14px rgb(0 0 0 / 0.3));
   }
   /* the swaying banner plaques: lift along their own hang, the rim through a light edge */
   :is(.rv-stats, .rv-ix) .bn3-plaque:hover {
     translate: 0 2px;
-    filter: brightness(1.18) drop-shadow(0 6px 6px rgb(0 0 0 / 0.4));
+    filter: brightness(1.08) drop-shadow(0 6px 6px rgb(0 0 0 / 0.4));
   }
   /* his figure hops when the card he stands on is hovered (a pose swap isn't needed for the feel) */
   :is(.rv-stats, .rv-ix) :is(.ix-card, button.cs-card, a.cs-card, button.rb-plaque, .cw-tile):hover :is(.cs-fig__sprite, .cw-fig, .ix-hop) {
@@ -95,7 +94,7 @@
 @media (hover: hover) {
   :is(.rv-stats, .rv-ix) :is(button, a).club-strip:hover {
     scale: 1.03;
-    filter: brightness(1.2) saturate(1.05);
+    filter: brightness(1.08) saturate(1.05);
   }
 }
 :is(.rv-stats, .rv-ix) :is(button, a).club-strip:active {
@@ -175,15 +174,14 @@
 }
 /* small grid cells (the heat map, the trophy shelf columns): a quick grow and a rim, no lift */
 :is(.rv-stats, .rv-ix) :is(.cg-heat__cell, .cg-shelf__col, .arc-ring) {
-  transition: scale 140ms var(--ix-ease), filter 140ms var(--ix-ease), outline-color 140ms var(--ix-ease);
+  transition: scale 300ms var(--ix-ease), filter 300ms var(--ix-ease);
   outline: 2px solid transparent;
   outline-offset: 1px;
 }
 @media (hover: hover) {
   :is(.rv-stats, .rv-ix) :is(.cg-heat__cell:not(.cg-heat__cell--none), .cg-shelf__col, .arc-ring):hover {
-    scale: 1.12;
-    filter: brightness(1.15);
-    outline-color: hsl(var(--gold) / 0.8);
+    scale: 1.06;
+    filter: brightness(1.1);
     position: relative;
     z-index: 2;
   }
@@ -262,8 +260,7 @@
 @media (hover: hover) {
   .rv-ix :is(button, a[href], [role='button']):is([class*='card'], [class*='tile'], [class*='plaque'], [class*='-cab'], [class*='stall']):not(:disabled, [aria-disabled='true'], .fut, .fut *, [class*='fut__'], [class*='pk-'], [class*='tn-'], [class*='rw-'], [class*='sv-'], [class*='bk-'], .cl-cname, .club-strip, [class*='__name']):hover {
     translate: 0 var(--ix-lift);
-    filter: brightness(1.06) drop-shadow(0 12px 14px rgb(0 0 0 / 0.42));
-    outline-color: color-mix(in srgb, var(--cs-1, hsl(var(--gold))) 58%, white 42%);
+    filter: brightness(1.04) drop-shadow(0 10px 14px rgb(0 0 0 / 0.3));
   }
 }
 @media (prefers-reduced-motion: reduce) {

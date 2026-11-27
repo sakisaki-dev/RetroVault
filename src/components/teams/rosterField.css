@@ -41,7 +41,7 @@
   padding: 0 2px 2px;
   cursor: pointer;
 }
-.rf-spot:hover { filter: brightness(1.12); }
+.rf-spot:hover { filter: brightness(1.08); }
 .rf-spot:focus-visible { outline: 2px solid hsl(var(--gold)); outline-offset: 1px; }
 .rf-spot .game-sprite { margin: -16px -24px -22px; filter: drop-shadow(0 2px 0 #0006); }
 .rf-tag {

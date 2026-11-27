@@ -109,7 +109,7 @@
   font-size: 13px;
   font-weight: 700;
   color: hsl(var(--muted-foreground));
-  transition: color var(--dur-2) ease, border-color var(--dur-2) ease, background var(--dur-2) ease;
+  transition: color var(--hv-dur) var(--ease-out), border-color var(--hv-dur) var(--ease-out), background var(--hv-dur) var(--ease-out);
 }
 .ec-tab:hover { color: hsl(var(--chalk)); }
 .ec-tab[aria-selected='true'] {
@@ -144,7 +144,7 @@
   font-size: 14px;
   font-weight: 800;
   white-space: nowrap;
-  transition: transform var(--dur-2) var(--ease-spring), filter var(--dur-2) ease, border-color var(--dur-2) ease;
+  transition: transform var(--hv-dur) var(--ease-spring), filter var(--hv-dur) var(--ease-out), border-color var(--hv-dur) var(--ease-out);
 }
 .ec-btn:active:not(:disabled) { transform: scale(0.97); }
 .ec-btn:disabled { cursor: not-allowed; filter: grayscale(0.8) brightness(0.65); }
@@ -373,7 +373,7 @@
   border: 1px solid hsl(var(--line));
   background: hsl(228 47% 6% / 0.6);
   text-align: left;
-  transition: border-color var(--dur-2) ease, background var(--dur-2) ease;
+  transition: border-color var(--hv-dur) var(--ease-out), background var(--hv-dur) var(--ease-out);
 }
 .ec-copy::before {
   content: '';

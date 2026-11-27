@@ -74,9 +74,9 @@
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+  transition: background-color var(--hv-dur) var(--ease-out), color var(--hv-dur) var(--ease-out), border-color var(--hv-dur) var(--ease-out);
 }
-.ss-season:hover { border-color: var(--ss-gold); color: var(--ss-chalk); }
+.ss-season:hover { border-color: rgb(255 255 255 / 0.3); color: var(--ss-chalk); }
 .ss-season[aria-pressed='true'] { background: var(--ss-chalk); border-color: var(--ss-chalk); color: var(--ss-bg); }
 .ss-season:focus-visible { outline: 3px solid var(--ss-gold); outline-offset: 2px; }
 
@@ -248,7 +248,7 @@
   font-size: 12px;
   font-weight: 600;
 }
-.ss-continued--inline { border-radius: 999px; transition: background-color 120ms ease-out; }
+.ss-continued--inline { border-radius: 999px; transition: background-color var(--hv-dur) var(--ease-out); }
 /* no underline (owner rule): the inline link fills in as a pill on hover */
 .ss-continued--inline:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
 
@@ -389,7 +389,7 @@
   text-transform: uppercase;
   text-wrap: balance;
   overflow-wrap: anywhere;
-  transition: color var(--dur-2) var(--ease-out);
+  transition: color var(--hv-dur) var(--ease-out);
 }
 .ss-item__dek { margin: 0; font-size: 13.5px; line-height: 1.45; color: #c9d1ee; }
 .ss-item .ss-badges { margin-top: 2px; }
@@ -506,7 +506,7 @@
   text-align: left;
   cursor: pointer;
 }
-.ss-next:hover { border-color: var(--ss-gold); }
+.ss-next:hover { border-color: rgb(255 255 255 / 0.3); }
 .ss-next__title { flex: 1; min-width: 0; font-weight: 600; }
 .ss-sources { font-size: 12px; color: var(--ss-muted); }
 .ss-sources summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; }

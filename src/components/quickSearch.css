@@ -17,7 +17,7 @@
   background: linear-gradient(100deg, color-mix(in srgb, var(--qs-1) 26%, transparent), color-mix(in srgb, var(--qs-1) 6%, transparent) 60%, transparent);
   box-shadow: inset 4px 0 0 var(--qs-1), inset 0 0 0 1px hsl(var(--line) / 0.7);
   color: hsl(var(--foreground));
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+  transition: transform 0.12s ease, box-shadow var(--hv-dur) var(--ease-out), background var(--hv-dur) var(--ease-out);
 }
 .qs-item .qs-plate {
   background: linear-gradient(135deg, var(--qs-1), color-mix(in srgb, var(--qs-1) 65%, black));

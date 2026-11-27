@@ -152,7 +152,7 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: hsl(var(--muted-foreground));
-  transition: color 0.15s;
+  transition: color var(--hv-dur) var(--ease-out);
 }
 .pc-tab:hover {
   color: hsl(var(--chalk));
@@ -170,7 +170,7 @@
   border-radius: 3px 3px 0 0;
   background: var(--tc-accent);
   transform: scaleX(0);
-  transition: transform 0.2s;
+  transition: transform var(--hv-dur) var(--ease-out);
 }
 .pc-tab[data-state='active']::after {
   transform: scaleX(1);

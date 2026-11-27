@@ -62,8 +62,8 @@
 
 /* Legends toggle */
 .arcade .toggle { display: inline-flex; align-items: center; gap: 8px; font-family: var(--f-pixel); font-size: 11px; background: #000; color: var(--chalk); padding: 5px 8px 5px 6px; border-radius: 999px; border: 1px solid #333; text-transform: uppercase; }
-.arcade .toggle .track { width: 34px; height: 18px; border-radius: 999px; background: var(--panel-2); box-shadow: inset 0 0 0 2px var(--line); position: relative; transition: background 0.15s; flex: none; }
-.arcade .toggle .track::after { content: ''; position: absolute; top: 3px; left: 3px; width: 12px; height: 12px; border-radius: 50%; background: var(--muted); transition: transform 0.15s, background 0.15s; }
+.arcade .toggle .track { width: 34px; height: 18px; border-radius: 999px; background: var(--panel-2); box-shadow: inset 0 0 0 2px var(--line); position: relative; transition: background var(--hv-dur) var(--ease-out); flex: none; }
+.arcade .toggle .track::after { content: ''; position: absolute; top: 3px; left: 3px; width: 12px; height: 12px; border-radius: 50%; background: var(--muted); transition: transform var(--hv-dur) var(--ease-out), background var(--hv-dur) var(--ease-out); }
 .arcade .toggle[aria-checked='true'] .track { background: var(--turf-deep); }
 .arcade .toggle[aria-checked='true'] .track::after { transform: translateX(16px); background: var(--gold); }
 
@@ -129,8 +129,8 @@
 
 /* ---------- Game chrome ---------- */
 
-.arcade .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; border-radius: 6px; padding: 10px 16px; min-height: 44px; font-family: var(--f-display); font-weight: 800; font-size: 18px; text-transform: uppercase; letter-spacing: 0.03em; background: var(--panel-2); color: var(--chalk); box-shadow: 0 0 0 2px var(--line), 0 4px 0 #000; transition: transform 0.08s, box-shadow 0.08s, filter 0.15s; }
-.arcade .btn:hover:not(:disabled) { filter: brightness(1.12); }
+.arcade .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; border-radius: 6px; padding: 10px 16px; min-height: 44px; font-family: var(--f-display); font-weight: 800; font-size: 18px; text-transform: uppercase; letter-spacing: 0.03em; background: var(--panel-2); color: var(--chalk); box-shadow: 0 0 0 2px var(--line), 0 4px 0 #000; transition: transform 0.08s, box-shadow 0.08s, filter var(--hv-dur) var(--ease-out); }
+.arcade .btn:hover:not(:disabled) { filter: brightness(1.08); }
 .arcade .btn:active:not(:disabled) { transform: translateY(2px); }
 .arcade .btn.go { background: var(--gold); color: #1a1300; box-shadow: 0 4px 0 #8a6400; }
 .arcade .btn.green { background: var(--turf); color: #03140a; box-shadow: 0 4px 0 #0c4a28; }
@@ -342,7 +342,7 @@
     repeating-linear-gradient(90deg, #ffffff07 0 1px, #0000 1px 3px, #00000018 3px 4px),
     linear-gradient(160deg, #3b414c, #272b33 55%, #1a1d23);
   box-shadow: 0 0 0 2px var(--case-gold-lo), 0 0 0 3px #000, inset 0 0 0 1px var(--case-gold), inset 0 1px 0 2px #ffffff10, inset 0 -6px 0 #0005, 0 18px 30px #000c;
-  transition: transform 0.25s, opacity 0.25s, box-shadow 0.25s; }
+  transition: transform var(--hv-dur) var(--ease-out), opacity 0.25s, box-shadow var(--hv-dur) var(--ease-out); }
 .arcade .case::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 4;
   background: linear-gradient(105deg, transparent 35%, #ffffff14 45%, transparent 55%); background-size: 250% 100%; background-position: 120% 0; }
 .arcade .case:hover::after { animation: case-sheen 1.1s ease-out 1; }

@@ -245,7 +245,7 @@
   color: var(--ss-chalk, #f3f5ff);
   text-align: left;
   cursor: pointer;
-  transition: border-color var(--dur-2) var(--ease-out);
+  transition: border-color var(--hv-dur) var(--ease-out);
 }
 .fs-nav__btn:hover { border-color: var(--fs-accent); }
 .fs-nav__btn:focus-visible { outline: 3px solid var(--ss-gold, #ffc83d); outline-offset: 2px; }

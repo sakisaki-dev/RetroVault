@@ -25,12 +25,12 @@
 .arcade .lg2-corner { display: grid; place-items: center; border-radius: 8px; background: #000a; font-family: var(--f-pixel); font-size: 9px; color: var(--gold); text-transform: uppercase; text-align: center; padding: 4px; }
 @media (min-width: 640px) { .arcade .lg2-corner { font-size: 11px; } }
 
-.arcade .lg2-head { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 64px; padding: 6px 4px; border-radius: 8px; text-align: center; background: linear-gradient(180deg, #1b2547, #0b1124); box-shadow: inset 0 0 0 2px #ffc83d33, 0 3px 0 #000; font-family: var(--f-display); font-weight: 800; font-size: 13px; line-height: 1.02; text-transform: uppercase; color: var(--chalk); transition: box-shadow 0.2s, transform 0.2s; animation: arc-rise 0.4s ease both; }
+.arcade .lg2-head { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 64px; padding: 6px 4px; border-radius: 8px; text-align: center; background: linear-gradient(180deg, #1b2547, #0b1124); box-shadow: inset 0 0 0 2px #ffc83d33, 0 3px 0 #000; font-family: var(--f-display); font-weight: 800; font-size: 13px; line-height: 1.02; text-transform: uppercase; color: var(--chalk); transition: box-shadow var(--hv-dur) var(--ease-out), transform var(--hv-dur) var(--ease-out); animation: arc-rise 0.4s ease both; }
 .arcade .lg2-head .lg2-glyph { color: var(--gold); filter: drop-shadow(0 0 6px #ffc83d66); }
 .arcade .lg2-head.lit { box-shadow: inset 0 0 0 2px var(--gold), 0 0 18px #ffc83d55, 0 3px 0 #000; transform: translateY(-2px); }
 @media (min-width: 640px) { .arcade .lg2-head { font-size: 17px; min-height: 76px; } }
 
-.arcade .lg2-row { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-radius: 8px; padding: 6px 4px; text-align: center; color: var(--tx, var(--chalk)); background: linear-gradient(120deg, var(--c1, #1b2440) 0 62%, var(--c2, #2b3760) 62% 70%, var(--c1, #1b2440) 70%); box-shadow: inset 0 0 0 2px #0006, 0 3px 0 #000; font-family: var(--f-display); font-weight: 800; text-transform: uppercase; line-height: 1; transition: box-shadow 0.2s, transform 0.2s; }
+.arcade .lg2-row { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-radius: 8px; padding: 6px 4px; text-align: center; color: var(--tx, var(--chalk)); background: linear-gradient(120deg, var(--c1, #1b2440) 0 62%, var(--c2, #2b3760) 62% 70%, var(--c1, #1b2440) 70%); box-shadow: inset 0 0 0 2px #0006, 0 3px 0 #000; font-family: var(--f-display); font-weight: 800; text-transform: uppercase; line-height: 1; transition: box-shadow var(--hv-dur) var(--ease-out), transform var(--hv-dur) var(--ease-out); }
 .arcade .lg2-row.lit { box-shadow: inset 0 0 0 2px var(--gold), 0 0 18px #ffc83d55, 0 3px 0 #000; transform: translateX(2px); }
 .arcade .lg2-row-logo { width: 38px; height: 38px; object-fit: contain; filter: drop-shadow(0 2px 0 #0009); }
 .arcade .lg2-row-pos { font-family: var(--f-pixel); font-size: 18px; color: var(--gold); }
@@ -52,12 +52,12 @@
 
 .arcade .lg2-cell-wrap { display: contents; }
 .arcade .lg2-cell { position: relative; aspect-ratio: 1; min-width: 0; border-radius: 10px; overflow: hidden; }
-.arcade .lg2-cell.open { display: grid; place-items: center; border: 0; padding: 0; cursor: pointer; background: radial-gradient(circle at 50% 40%, #182345, #0a1022 75%); box-shadow: inset 0 0 0 2px #2b376099, inset 0 -12px 20px #0006, 0 3px 0 #000; transition: transform 0.15s, box-shadow 0.15s; }
+.arcade .lg2-cell.open { display: grid; place-items: center; border: 0; padding: 0; cursor: pointer; background: radial-gradient(circle at 50% 40%, #182345, #0a1022 75%); box-shadow: inset 0 0 0 2px #2b376099, inset 0 -12px 20px #0006, 0 3px 0 #000; transition: transform var(--hv-dur) var(--ease-out), box-shadow var(--hv-dur) var(--ease-out); }
 .arcade .lg2-cell-ghost { position: absolute; inset: 18%; width: 64%; height: 64%; object-fit: contain; opacity: 0.08; filter: grayscale(0.3); transition: opacity 0.2s; }
-.arcade .lg2-plus { position: relative; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; font-family: var(--f-display); font-weight: 800; font-size: 26px; line-height: 1; color: var(--gold); background: #000a; box-shadow: 0 0 0 2px #ffc83d55; transition: transform 0.15s, box-shadow 0.15s; }
-.arcade .lg2-cell.open:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 2px var(--gold), 0 0 16px #ffc83d44, 0 5px 0 #000; }
+.arcade .lg2-plus { position: relative; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; font-family: var(--f-display); font-weight: 800; font-size: 26px; line-height: 1; color: var(--gold); background: #000a; box-shadow: 0 0 0 2px #ffc83d55; transition: transform var(--hv-dur) var(--ease-out), box-shadow var(--hv-dur) var(--ease-out); }
+.arcade .lg2-cell.open:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 2px rgb(255 255 255 / 0.3), 0 5px 0 #000; }
 .arcade .lg2-cell.open:hover .lg2-cell-ghost, .arcade .lg2-cell.open.active .lg2-cell-ghost { opacity: 0.2; }
-.arcade .lg2-cell.open:hover .lg2-plus { transform: scale(1.12); box-shadow: 0 0 0 2px var(--gold), 0 0 14px #ffc83d88; }
+.arcade .lg2-cell.open:hover .lg2-plus { transform: scale(1.08); box-shadow: 0 0 0 2px rgb(255 255 255 / 0.3); }
 .arcade .lg2-cell.open:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
 .arcade .lg2-cell.open.active { box-shadow: inset 0 0 0 3px var(--gold), 0 0 22px #ffc83d77, 0 3px 0 #000; }
 .arcade .lg2-cell.open.active .lg2-plus { animation: lg2-pulse 1s ease-in-out infinite; }
@@ -114,7 +114,7 @@
 .arcade .lg2-feedback:empty { display: none; }
 .arcade .lg2-empty { margin: 4px 2px; color: var(--muted); font-size: 14px; }
 .arcade .lg2-results { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
-.arcade .lg2-opt { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 6px 10px 6px 6px; border-radius: 8px; cursor: pointer; background: #0b1226; box-shadow: inset 4px 0 0 var(--c1); transition: background 0.1s; }
+.arcade .lg2-opt { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 6px 10px 6px 6px; border-radius: 8px; cursor: pointer; background: #0b1226; box-shadow: inset 4px 0 0 var(--c1); transition: background var(--hv-dur) var(--ease-out); }
 .arcade .lg2-opt.hi { background: color-mix(in srgb, var(--c1) 28%, #0b1226); box-shadow: inset 4px 0 0 var(--c2), inset 0 0 0 2px color-mix(in srgb, var(--ink) 60%, transparent); }
 .arcade .lg2-opt.used { opacity: 0.5; }
 .arcade .lg2-opt-badge { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 6px; background: var(--c1); box-shadow: inset 0 -4px 0 var(--c2); }

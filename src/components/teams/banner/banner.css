@@ -82,7 +82,7 @@
   animation: bn3-sway 7s ease-in-out infinite alternate; transform-origin: 50% 0;
 }
 .bn3-li:nth-child(3n) .bn3-plaque { animation-delay: -2.3s; } .bn3-li:nth-child(3n+1) .bn3-plaque { animation-delay: -4.6s; }
-.bn3-plaque:hover, .bn3-plaque:focus-visible { filter: brightness(1.15); outline: none; }
+.bn3-plaque:hover, .bn3-plaque:focus-visible { filter: brightness(1.08); outline: none; }
 .bn3-plaque:focus-visible, .bn3-fig:focus-visible { box-shadow: 0 0 0 2px #fff; }
 .bn3-plaque img, .bn3-plaque svg { max-width: 82%; height: auto; }
 /* a logo in its own club colour (the Jets' green on green) needs a light edge to read on its plaque */

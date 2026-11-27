@@ -458,7 +458,7 @@
   box-shadow:
     0 4px 0 #9a6400,
     0 0 24px rgb(255 200 61 / 0.35);
-  transition: transform 120ms ease-out, box-shadow 120ms ease-out;
+  transition: transform 120ms ease-out, box-shadow var(--hv-dur) var(--ease-out);
 }
 .cr-btn:active {
   transform: translateY(3px);

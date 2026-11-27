@@ -30,10 +30,10 @@
 }
 button.wc-item {
   cursor: pointer;
-  transition: border-color 0.15s, background-color 0.15s;
+  transition: border-color var(--hv-dur) var(--ease-out), background-color var(--hv-dur) var(--ease-out);
 }
 button.wc-item:hover {
-  border-color: var(--wc-gold);
+  border-color: rgb(255 255 255 / 0.3);
   background: #1b2440;
 }
 button.wc-item:focus-visible {
@@ -117,7 +117,7 @@ button.wc-item:focus-visible {
   cursor: pointer;
 }
 /* no underline (owner rule): a soft pill fills in and the chevron nudges on hover */
-.wc-strip__more { border-radius: 999px; transition: background-color 120ms ease-out; }
+.wc-strip__more { border-radius: 999px; transition: background-color var(--hv-dur) var(--ease-out); }
 .wc-strip__more svg { transition: transform 120ms ease-out; }
 .wc-strip__more:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
 .wc-strip__more:hover svg { transform: translateX(2px); }

@@ -206,7 +206,7 @@
   background:
     radial-gradient(70% 140% at 100% 0%, color-mix(in srgb, var(--club, hsl(var(--gold))) 40%, transparent), transparent 65%),
     hsl(228 55% 5%);
-  transition: transform var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+  transition: transform var(--hv-dur) var(--ease-out), border-color var(--hv-dur) var(--ease-out);
 }
 .season-link::after {
   content: '';
@@ -217,7 +217,7 @@
   background-size: 4px 4px;
 }
 @media (hover: hover) {
-  .season-link:hover { transform: translateY(-2px); border-color: hsl(var(--gold) / 0.7); }
+  .season-link:hover { transform: translateY(-2px); border-color: rgb(255 255 255 / 0.3); }
 }
 .season-link:focus-visible { outline: 2px solid hsl(var(--gold)); outline-offset: 3px; }
 .season-link__logo { flex-shrink: 0; width: 48px; height: 48px; filter: drop-shadow(0 3px 8px #000a); }

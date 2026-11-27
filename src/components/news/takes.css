@@ -160,7 +160,7 @@ button.cc-chip:focus-visible { outline: 3px solid var(--x-gold, #ffc83d); outlin
   background: var(--x-panel);
   color: var(--x-chalk);
   cursor: pointer;
-  transition: border-color var(--dur-2) var(--ease-out), background-color var(--dur-2) var(--ease-out);
+  transition: border-color var(--hv-dur) var(--ease-out), background-color var(--hv-dur) var(--ease-out);
 }
 .dyk-btn:hover:not(:disabled) { border-color: var(--x-sky); background: var(--x-panel-2); }
 .dyk-btn:focus-visible { outline: 3px solid var(--x-gold); outline-offset: 2px; }
@@ -239,7 +239,7 @@ button.cc-chip:focus-visible { outline: 3px solid var(--x-gold, #ffc83d); outlin
   border: 1px solid color-mix(in srgb, currentColor 32%, transparent);
   border-radius: 999px;
   background: color-mix(in srgb, currentColor 8%, transparent);
-  transition: background-color 120ms ease-out, border-color 120ms ease-out;
+  transition: background-color var(--hv-dur) var(--ease-out), border-color var(--hv-dur) var(--ease-out);
 }
 .dyk-more::after { content: '\203A'; font-weight: 700; transition: transform 120ms ease-out; }
 .dyk-more[aria-expanded='true']::after { transform: rotate(-90deg); }
@@ -321,7 +321,7 @@ button.cc-chip:focus-visible { outline: 3px solid var(--x-gold, #ffc83d); outlin
 .ht-item__main { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
 .ht-item__title {
   margin: 0;
-  transition: color var(--dur-2) var(--ease-out);
+  transition: color var(--hv-dur) var(--ease-out);
   font-family: var(--font-display, 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif);
   font-size: 17px;
   font-weight: 800;
@@ -378,7 +378,7 @@ button.cc-chip:focus-visible { outline: 3px solid var(--x-gold, #ffc83d); outlin
   color: var(--x-gold);
 }
 /* no underline (owner rule): the cue fills in as a pill and its chevron nudges while the take is hovered */
-.ht-read { margin-left: -6px; padding: 2px 6px; border-radius: 999px; transition: background-color 120ms ease-out; }
+.ht-read { margin-left: -6px; padding: 2px 6px; border-radius: 999px; transition: background-color var(--hv-dur) var(--ease-out); }
 .ht-read svg { transition: transform 120ms ease-out; }
 .ht-item:hover .ht-read { background: color-mix(in srgb, currentColor 14%, transparent); }
 .ht-item:hover .ht-read svg { transform: translateX(2px); }

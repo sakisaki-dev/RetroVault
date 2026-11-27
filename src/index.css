@@ -114,8 +114,8 @@
     --mo-gap: 55ms;
     --mo-gap-max: 650ms;
     /* Hover and press tokens (src/styles/interact.css): a lift on a pointer, a press everywhere */
-    --hv-dur: 180ms;
-    --hv-lift: -3px;
+    --hv-dur: 320ms;
+    --hv-lift: -2px;
     --hv-press: 0.98;
     /* How far views and list items rise as they appear */
     --rise: var(--mo-rise);

@@ -23,7 +23,7 @@
   cursor: pointer;
   transition: background-color 0.15s, border-color 0.15s, color 0.15s;
 }
-.cs-seg:hover:not(.is-on):not(:disabled) { color: var(--cs-ink); border-color: hsl(var(--gold) / 0.6); }
+.cs-seg:hover:not(.is-on):not(:disabled) { color: var(--cs-ink); border-color: hsl(var(--foreground) / 0.4); }
 .cs-seg.is-on { background: var(--cs-c1, var(--cs-gold)); border-color: transparent; color: var(--cs-ink-on, hsl(var(--night))); }
 .cs-toggle[style] .cs-seg.is-on { --cs-ink-on: var(--cs-ink); }
 .cs-seg:focus-visible, .cs-select__btn:focus-visible, .cs-stepper__btn:focus-visible, .cs-stepper__val:focus-visible, .cs-select__opt:focus-visible {

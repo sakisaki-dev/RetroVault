@@ -126,7 +126,7 @@
 .arcade .bal-lever-arm.yank { animation: bal-yank 0.75s cubic-bezier(0.3, 0.7, 0.3, 1) both; }
 @keyframes bal-yank { 0% { --pull: 0; } 30% { --pull: 1; } 55% { --pull: 0.9; } 100% { --pull: 0; } }
 .arcade .bal-lever-arm .rod { position: absolute; left: -5px; bottom: 0; width: 10px; height: var(--len); border-radius: 5px; transform-origin: 50% 100%; transform: scaleY(calc(1 - 2 * var(--pull))); background: linear-gradient(90deg, #7c8199, #f1f3fb, #7c8199); box-shadow: 0 0 0 1px #000; }
-.arcade .bal-lever-arm .knob { position: absolute; left: -18px; width: 36px; height: 36px; border-radius: 50%; top: calc(-1 * var(--len) - 18px + 2 * var(--len) * var(--pull)); background: radial-gradient(circle at 35% 30%, #ffb3b9, var(--flag) 55%, #8a1020); box-shadow: 0 0 16px #ff4f6188, 0 4px 0 #000, inset 0 -3px 0 #0004; transition: box-shadow 0.15s; }
+.arcade .bal-lever-arm .knob { position: absolute; left: -18px; width: 36px; height: 36px; border-radius: 50%; top: calc(-1 * var(--len) - 18px + 2 * var(--len) * var(--pull)); background: radial-gradient(circle at 35% 30%, #ffb3b9, var(--flag) 55%, #8a1020); box-shadow: 0 0 16px #ff4f6188, 0 4px 0 #000, inset 0 -3px 0 #0004; transition: box-shadow var(--hv-dur) var(--ease-out); }
 .arcade .bal-lever:hover:not(:disabled) .knob { box-shadow: 0 0 26px #ff4f61cc, 0 4px 0 #000, inset 0 -3px 0 #0004; }
 .arcade .bal-lever:not(:disabled) { cursor: grab; }
 .arcade .bal-lever.dragging { cursor: grabbing; }
@@ -137,7 +137,7 @@
 .arcade .bal-deck { grid-area: deck; display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 8px; }
 .arcade .bal-btn {
   min-width: 0; min-height: 54px; padding: 6px 8px; border: 0; border-radius: 12px; display: grid; place-content: center; justify-items: center; gap: 3px;
-  font-family: var(--f-display); font-weight: 800; font-size: 18px; line-height: 1; text-transform: uppercase; transition: transform 0.1s, filter 0.15s, box-shadow 0.1s;
+  font-family: var(--f-display); font-weight: 800; font-size: 18px; line-height: 1; text-transform: uppercase; transition: transform 0.1s, filter var(--hv-dur) var(--ease-out), box-shadow var(--hv-dur) var(--ease-out);
 }
 .arcade .bal-btn > span { white-space: nowrap; }
 .arcade .bal-btn small { font-family: var(--f-pixel); font-size: 8px; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
@@ -219,7 +219,7 @@
 .arcade .bal-tile {
   --c1: #232c48; --c2: #3a466e; --tx: #f1f4ff; --ink: var(--chalk);
   position: relative; width: 100%; min-height: 84px; height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: 4px; padding: 8px 9px 9px; border: 0; border-radius: 10px; text-align: left; overflow: hidden;
-  background: #0a0f1e; box-shadow: inset 0 0 0 1.5px #ffffff1a; color: var(--chalk); transition: transform 0.15s, box-shadow 0.15s, background 0.25s;
+  background: #0a0f1e; box-shadow: inset 0 0 0 1.5px #ffffff1a; color: var(--chalk); transition: transform var(--hv-dur) var(--ease-out), box-shadow var(--hv-dur) var(--ease-out), background var(--hv-dur) var(--ease-out);
 }
 .arcade .bal-tile-top { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .arcade .bal-tile-top .key { flex: none; font-family: var(--f-pixel); font-size: 9px; background: #000; color: var(--gold); padding: 2px 4px; border-radius: 3px; }
@@ -245,7 +245,7 @@
 .arcade .bal-tile.steal { cursor: pointer; color: var(--tx); background: linear-gradient(135deg, color-mix(in srgb, var(--c1) 82%, #000) 0%, color-mix(in srgb, var(--c1) 55%, #0b1020) 62%, color-mix(in srgb, var(--c2) 45%, #0b1020) 100%); box-shadow: 0 0 0 2px #000, inset 0 0 0 1.5px color-mix(in srgb, var(--c2) 70%, #fff 10%), 0 4px 0 #000; animation: bal-light 0.45s cubic-bezier(0.2, 0.8, 0.2, 1.2) both; animation-delay: calc(var(--i) * 45ms); }
 .arcade .bal-tile.steal .bal-tile-mid .val span, .arcade .bal-tile.steal .bal-tile-foot .his { color: color-mix(in srgb, var(--tx) 78%, transparent); }
 .arcade .bal-tile.steal::after { content: 'Steal'; position: absolute; right: 8px; bottom: 8px; font-family: var(--f-pixel); font-size: 9px; text-transform: uppercase; color: #1a1300; background: var(--gold); padding: 3px 5px; border-radius: 3px; box-shadow: 0 2px 0 #000; }
-.arcade .bal-tile.steal:hover, .arcade .bal-tile.steal:focus-visible { transform: translateY(-3px); box-shadow: 0 0 0 2px #000, inset 0 0 0 2px var(--gold), 0 7px 0 #000, 0 0 22px #ffc83d55; }
+.arcade .bal-tile.steal:hover, .arcade .bal-tile.steal:focus-visible { transform: translateY(-3px); box-shadow: 0 0 0 2px #000, inset 0 0 0 2px rgb(255 255 255 / 0.3), 0 7px 0 #000; }
 .arcade .bal-tile.steal:active { transform: translateY(1px); }
 @keyframes bal-light { from { opacity: 0.3; transform: scale(0.94); filter: brightness(1.8); } to { opacity: 1; transform: none; filter: none; } }
 .arcade .bal-tile.nodata { opacity: 0.45; cursor: not-allowed; }
@@ -291,7 +291,7 @@
 @media (min-width: 700px) { .arcade .bal-positions { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
 .arcade .bal-pos {
   min-height: 64px; padding: 8px 4px; border: 0; border-radius: 10px; display: grid; place-content: center; justify-items: center; gap: 2px;
-  background: #0d1326; box-shadow: inset 0 0 0 1.5px var(--line), 0 3px 0 #000; transition: transform 0.12s, box-shadow 0.15s, background 0.15s;
+  background: #0d1326; box-shadow: inset 0 0 0 1.5px var(--line), 0 3px 0 #000; transition: transform 0.12s, box-shadow var(--hv-dur) var(--ease-out), background var(--hv-dur) var(--ease-out);
 }
 .arcade .bal-pos b { font-family: var(--f-display); font-weight: 800; font-size: 24px; line-height: 1; }
 .arcade .bal-pos span { font-family: var(--f-pixel); font-size: 8px; color: var(--muted); text-transform: uppercase; }

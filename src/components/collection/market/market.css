@@ -249,7 +249,7 @@
   border-radius: 0.6rem;
   background: hsl(var(--night) / 0.65);
   text-align: left;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s;
+  transition: transform var(--hv-dur) var(--ease-out), box-shadow var(--hv-dur) var(--ease-out), border-color var(--hv-dur) var(--ease-out);
 }
 .mk-tile::before {
   content: '';
@@ -258,7 +258,7 @@
   width: 4px;
   background: linear-gradient(180deg, var(--mk-team, hsl(var(--line))), var(--mk-team2, hsl(var(--line))));
 }
-.mk-tile:hover, .mk-tile:focus-visible { transform: translateY(-2px); border-color: hsl(var(--gold) / 0.55); box-shadow: 0 10px 22px -12px hsl(0 0% 0% / 0.8); }
+.mk-tile:hover, .mk-tile:focus-visible { transform: translateY(-2px); border-color: rgb(255 255 255 / 0.3); box-shadow: 0 10px 22px -12px hsl(0 0% 0% / 0.8); }
 @media (prefers-reduced-motion: reduce) { .mk-tile, .mk-tile:hover { transition: none; transform: none; } }
 .mk-tile__rank { width: 0.8rem; flex-shrink: 0; font-family: var(--font-mono); font-size: 0.68rem; color: hsl(var(--muted-foreground)); }
 .mk-tile__jersey {
@@ -306,9 +306,9 @@
   line-height: 1.1;
   text-align: center;
   container-type: size;
-  transition: filter 0.12s;
+  transition: filter var(--hv-dur) var(--ease-out);
 }
-.mk-heat__tile:hover, .mk-heat__tile:focus-visible { filter: brightness(1.25); outline: 2px solid hsl(var(--chalk)); outline-offset: -2px; z-index: 1; }
+.mk-heat__tile:hover, .mk-heat__tile:focus-visible { filter: brightness(1.08); outline: 2px solid hsl(var(--chalk)); outline-offset: -2px; z-index: 1; }
 .mk-heat__name { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 2px; font-size: clamp(0.55rem, 14cqw, 0.95rem); font-weight: 800; text-shadow: 0 1px 2px #000; }
 .mk-heat__chg { font-family: var(--font-mono); font-size: clamp(0.5rem, 11cqw, 0.75rem); opacity: 0.95; text-shadow: 0 1px 2px #000; }
 @container (max-width: 44px) { .mk-heat__name { display: none; } }
@@ -333,7 +333,7 @@
   background: hsl(var(--night) / 0.6);
   text-align: left;
 }
-.mk-hold:hover, .mk-hold:focus-visible { border-color: hsl(var(--gold) / 0.55); }
+.mk-hold:hover, .mk-hold:focus-visible { border-color: rgb(255 255 255 / 0.3); }
 .mk-hold__label { grid-column: 1 / -1; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: hsl(var(--muted-foreground)); }
 .mk-hold__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.82rem; font-weight: 700; }
 .mk-hold__meta { grid-column: 1; font-size: 0.66rem; color: hsl(var(--muted-foreground)); }

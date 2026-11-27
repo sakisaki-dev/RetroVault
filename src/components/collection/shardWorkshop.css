@@ -167,7 +167,7 @@
   font-size: 14px;
   background: hsl(var(--gold));
   color: hsl(228 47% 10%);
-  transition: transform 160ms ease, opacity 200ms ease;
+  transition: transform var(--hv-dur) var(--ease-out), opacity 200ms ease;
 }
 .sw__claim:active:not(:disabled) {
   transform: scale(0.97);
@@ -221,7 +221,7 @@
   border-radius: 12px;
   border: 1px solid hsl(var(--line));
   background: linear-gradient(180deg, hsl(var(--sw-club) / 0.25), hsl(var(--panel) / 0.8) 70%);
-  transition: border-color 180ms ease, box-shadow 180ms ease, transform 160ms ease;
+  transition: border-color var(--hv-dur) var(--ease-out), box-shadow var(--hv-dur) var(--ease-out), transform var(--hv-dur) var(--ease-out);
 }
 .sw__pick:active {
   transform: scale(0.96);
@@ -372,7 +372,7 @@
   font-size: 12px;
   font-weight: 700;
   color: hsl(var(--muted-foreground));
-  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+  transition: background-color var(--hv-dur) var(--ease-out), border-color var(--hv-dur) var(--ease-out), color var(--hv-dur) var(--ease-out);
 }
 .sw__tier.is-on {
   border-color: hsl(var(--gold));
