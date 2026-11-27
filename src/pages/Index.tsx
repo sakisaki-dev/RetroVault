@@ -9,6 +9,7 @@ import SwipeNav from '@/components/SwipeNav';
 import AddToHomeScreen from '@/components/homescreen/AddToHomeScreen';
 import TabFallback from '@/components/TabFallback';
 import LazyHost, { whenSettled } from '@/components/LazyHost';
+import { OPEN_PLAYER_CARD_EVENT } from '@/utils/playerCardLink';
 import { QUICK_SEARCH_EVENT } from '@/utils/quickSearchEvent';
 import { PLAY_CEREMONY_EVENT } from '@/utils/hallOfFameWatch';
 import TributeHost from '@/components/tribute/TributeHost';
@@ -24,6 +25,7 @@ import { decodeProgress, importProgress } from '@/utils/deviceSync';
 // Hosts nothing needs at first paint: separate chunks, loaded once the line is quiet or when something wakes them
 // (components/LazyHost.tsx replays the waking event, so an open request made before the chunk arrived still answers)
 const loadQuickSearch = () => import('@/components/QuickPlayerSearch');
+const PEEK_WAKE = [OPEN_PLAYER_CARD_EVENT];
 const loadPeekLayer = () => import('@/components/peek/PlayerPeek');
 const loadUnlockToasts = () => import('@/components/collection/CardUnlockToasts');
 const loadLegendExchange = () => import('@/components/collection/LegendExchange');
@@ -157,7 +159,7 @@ const IndexContent = () => {
         <TributeHost />
         <RivalryHost onTimeline={() => navigate({ tab: 'timeline' })} />
         <LazyHost load={loadQuickSearch} wake={QUICK_SEARCH_WAKE} wakeKey={quickSearchKey} />
-        <LazyHost load={loadPeekLayer} />
+        <LazyHost load={loadPeekLayer} wake={PEEK_WAKE} />
         <ScreensaverHost />
         <LazyHost load={loadUnlockToasts} />
         <LazyHost load={loadLegendExchange} />
