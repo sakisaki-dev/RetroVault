@@ -13,6 +13,7 @@ import { PLAY_CEREMONY_EVENT } from '@/utils/hallOfFameWatch';
 import TributeHost from '@/components/tribute/TributeHost';
 import RivalryHost from '@/components/rivalry/RivalryHost';
 import { onRaftersRequest } from '@/utils/raftersLink';
+import SpriteNameToast from '@/components/hovername/SpriteNameToast';
 import ScreensaverHost from '@/components/screensaver/ScreensaverHost';
 import { LeagueProvider } from '@/context/LeagueContext';
 import { onCompFinderRequest, onHeadToHeadRequest } from '@/components/stats/comps/compFinderLink';
@@ -156,6 +157,7 @@ const IndexContent = () => {
         <RivalryHost onTimeline={() => navigate({ tab: 'timeline' })} />
         <LazyHost load={loadQuickSearch} wake={QUICK_SEARCH_WAKE} wakeKey={quickSearchKey} />
         <LazyHost load={loadPeekLayer} />
+        <SpriteNameToast />
         <ScreensaverHost />
         <LazyHost load={loadUnlockToasts} />
         <LazyHost load={loadLegendExchange} />

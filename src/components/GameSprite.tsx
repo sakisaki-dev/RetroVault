@@ -49,6 +49,8 @@ export interface GameSpriteProps {
    * the sprite (a story's cover, a card). Only where the sprite stands for one league player outside the games.
    */
   peek?: boolean;
+  /** Name toast on hover / focus (components/hovername). Default: on for m and l sprites; pass true for a small one standing in a scene, false to opt out. */
+  hoverName?: boolean;
   className?: string;
   style?: CSSProperties;
   // ---- v1 props, still read (other pages use them): kind 'face' = bust, 'body' = figure; pose → action; scale /
@@ -176,7 +178,9 @@ const GameSprite = (props: GameSpriteProps) => {
   const tick = useTicker(regular.length > 1, action === 'run' ? 10 : 6);
   const peekKey = peek && !legend && position && name ? `${position}:${name}` : undefined;
   const cls = cn('game-sprite pointer-events-none relative inline-block shrink-0 select-none', className);
-  const peekAttrs = peekKey ? { 'data-player-key': peekKey, 'data-peek-through': '' } : {};
+  const hoverOn = (props.hoverName ?? size !== 's') && kind !== 'helmet' && !!name;
+  const hoverAttrs = hoverOn ? { 'data-hover-name': name, 'data-hover-pos': position ?? '', 'data-hover-club': club ?? '' } : {};
+  const peekAttrs = { ...(peekKey ? { 'data-player-key': peekKey, 'data-peek-through': '' } : {}), ...hoverAttrs };
 
   const kitTag = (() => {
     if (!showKit || !nfl) return null;

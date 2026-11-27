@@ -1,0 +1,26 @@
+.sprite-toast {
+  position: fixed;
+  z-index: 200;
+  transform: translate(-50%, calc(-100% - 6px));
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: min(260px, 90vw);
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgb(9 13 26 / 0.94);
+  border: 1px solid var(--st-club);
+  border-bottom-width: 3px;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.5);
+  pointer-events: none;
+  white-space: nowrap;
+  animation: sprite-toast-in 140ms ease-out both;
+}
+.sprite-toast__pos { font-family: var(--font-pixel); font-size: 8px; line-height: 1; letter-spacing: 0.06em; color: var(--st-club); }
+.sprite-toast__name { font-family: var(--font-display, inherit); font-size: 13px; font-weight: 700; line-height: 1.1; color: #f4f1ea; overflow: hidden; text-overflow: ellipsis; }
+@keyframes sprite-toast-in {
+  from { opacity: 0; transform: translate(-50%, calc(-100% - 1px)); }
+  to { opacity: 1; transform: translate(-50%, calc(-100% - 6px)); }
+}
+:root[data-reduce-motion] .sprite-toast { animation: sprite-toast-fade 100ms linear both; }
+@keyframes sprite-toast-fade { from { opacity: 0; } to { opacity: 1; } }

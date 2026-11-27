@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useLeagueContent } from '@/utils/leagueContent';
 import { cn } from '@/lib/utils';
 import { SPRITE_BASELINE as BASELINE, SPRITE_BUST as BUST, coachSpriteFor, useGameSprites, useSpritesLoading, type CoachPick } from '@/utils/gameSprites';
 import SpritePlaceholder, { useNearViewport } from '@/components/SpritePlaceholder';
@@ -22,6 +23,8 @@ export interface CoachSpriteProps {
   style?: CSSProperties;
   /** A tooltip (and the figure is then exposed to assistive tech under it); unset = decorative */
   title?: string;
+  /** Name toast on hover (components/hovername): default on for m and l */
+  hoverName?: boolean;
 }
 
 const usePainted = (pick: CoachPick | null, near: boolean): string | null => {
@@ -53,8 +56,9 @@ const usePainted = (pick: CoachPick | null, near: boolean): string | null => {
 
 const px = (extra?: CSSProperties): CSSProperties => ({ imageRendering: 'pixelated', ...extra });
 
-const CoachSprite = ({ who, team, kind = 'figure', size = 'm', className, style, title }: CoachSpriteProps) => {
+const CoachSprite = ({ who, team, kind = 'figure', size = 'm', className, style, title, hoverName }: CoachSpriteProps) => {
   const sprites = useGameSprites();
+  const coachName = useLeagueContent().content?.coach?.name;
   const pick = useMemo(() => coachSpriteFor(sprites?.nfl ?? null, who, team), [sprites, who, team]);
   const [boxRef, near] = useNearViewport();
   const src = usePainted(pick, near);
@@ -63,10 +67,11 @@ const CoachSprite = ({ who, team, kind = 'figure', size = 'm', className, style,
   if (!pick && !loading) return null;
   const u = SPRITE_UNIT[size];
   const waiting = !(src && loadedSrc === src);
+  const hov = (hoverName ?? size !== 's') ? { 'data-hover-name': who === 'head' ? coachName || 'Head coach' : who, 'data-hover-pos': who === 'head' ? 'HC' : 'COORD', 'data-hover-club': team ?? '' } : {};
   const cls = cn('game-sprite coach-sprite pointer-events-none relative inline-block shrink-0 select-none', className);
   if (kind === 'bust') {
     return (
-      <span ref={boxRef} aria-hidden={!title} title={title} className={cn(cls, 'overflow-hidden')} style={{ width: BUST.w * u, height: BUST.h * u, ...style }}>
+      <span ref={boxRef} aria-hidden={!title} title={title} {...hov} className={cn(cls, 'overflow-hidden')} style={{ width: BUST.w * u, height: BUST.h * u, ...style }}>
         {waiting && <SpritePlaceholder bust />}
         {src && (
           <img
@@ -86,7 +91,7 @@ const CoachSprite = ({ who, team, kind = 'figure', size = 'm', className, style,
     );
   }
   return (
-    <span ref={boxRef} aria-hidden={!title} title={title} data-unit={u} className={cls} style={{ width: 64 * u, height: 64 * u, ...style }}>
+    <span ref={boxRef} aria-hidden={!title} title={title} {...hov} data-unit={u} className={cls} style={{ width: 64 * u, height: 64 * u, ...style }}>
       {waiting && <SpritePlaceholder />}
       {src && (
         <img
