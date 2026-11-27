@@ -110,7 +110,7 @@
   line-height: 1.05;
 }
 .np-pill__title {
-  max-width: 160px;
+  max-width: 150px;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 15px;
@@ -119,7 +119,7 @@
   text-overflow: ellipsis;
 }
 .np-pill__artist {
-  max-width: 160px;
+  max-width: 150px;
   font-size: 11px;
   color: hsl(var(--muted-foreground));
   white-space: nowrap;
@@ -135,16 +135,10 @@
 .np-strip--paused .np-eq {
   color: hsl(var(--muted-foreground));
 }
-/* the pill never pushes the tabs off the header: below 1600px it is just the spinning cover (the card has the rest) */
-@media (max-width: 1599px) {
-  .np-pill__txt,
-  .np-pill .np-eq {
-    display: none;
-  }
-  .np-pill {
-    gap: 0;
-    padding: 0 3px;
-  }
+/* the pill never pushes the tabs off the header: NowPlaying.tsx measures the tab row and drops the text, then the pill (cover and equalizer only), then hides it */
+.np-pill--cover {
+  gap: 6px;
+  padding: 0 9px 0 3px;
 }
 
 /* ---------- the card ---------- */

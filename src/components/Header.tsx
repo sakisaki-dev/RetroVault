@@ -165,7 +165,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
                 onClick={() => onTabChange(tab.value)}
                 aria-current={isActive ? 'page' : undefined}
                 className={cn(
-                  'relative h-11 px-3 sm:px-3.5 font-display text-[17px] font-bold uppercase tracking-wide whitespace-nowrap transition-colors',
+                  'relative h-11 px-3 sm:px-3.5 lg:px-2 xl:px-3.5 font-display text-[17px] lg:text-[15px] xl:text-[17px] font-bold uppercase tracking-wide whitespace-nowrap transition-colors',
                   // The underline grows out from the centre as a tab becomes active (transform only)
                   'after:absolute after:inset-x-2 after:bottom-0 after:h-[3px] after:rounded-t after:transition-[transform,background-color] after:duration-[var(--dur-3)] after:ease-[var(--ease-spring)]',
                   isActive
