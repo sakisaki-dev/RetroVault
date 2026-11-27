@@ -19,6 +19,9 @@ import TeamLogo from '@/components/brand/TeamLogo';
 import './searchSheet.css';
 import { reducedMotion } from '@/utils/motion';
 
+/** Open sheets holding the page's scroll lock */
+let sheetLocks = 0;
+
 /*
  * The phone player search: a full-screen sheet, like a native app's search.
  *
@@ -373,15 +376,17 @@ const Sheet = ({
   }, []);
 
   // The page under the sheet doesn't scroll
+  // Counted, so two sheets open at once can never leave the page locked: the last one out always clears it
   useEffect(() => {
-    const html = document.documentElement;
-    const prev = html.style.overflow;
-    const prevBody = document.body.style.overflow;
-    html.style.overflow = 'hidden';
+    sheetLocks += 1;
+    document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     return () => {
-      html.style.overflow = prev;
-      document.body.style.overflow = prevBody;
+      sheetLocks = Math.max(0, sheetLocks - 1);
+      if (sheetLocks === 0) {
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+      }
     };
   }, []);
 
