@@ -1,5 +1,5 @@
 import { ovrLabelOf } from '@/utils/useOfficialOvr';
-import { memo, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode, type TouchEvent as RTouchEvent } from 'react';
+import { Fragment, memo, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode, type TouchEvent as RTouchEvent } from 'react';
 import { Clock, CornerDownLeft, Search, Shield, Star, X } from 'lucide-react';
 import type { Player, Position } from '@/types/player';
 import { cn } from '@/lib/utils';
@@ -8,8 +8,8 @@ import { useSkillRatings } from '@/utils/useSkillRatings';
 import { useJerseyNumbers } from '@/utils/jerseys';
 import { bannerTeamOf, usePlayerExtras } from '@/utils/playerExtras';
 import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
-import { searchTeams } from '@/utils/teamSearch';
-import { buildSearchIndex, keyOfPlayer, pushRecent, readRecent, searchPlayers } from '@/utils/playerSearch';
+import { clubsScore, searchTeams } from '@/utils/teamSearch';
+import { buildSearchIndex, keyOfPlayer, pushRecent, readRecent, searchPlayers, searchPlayersScored } from '@/utils/playerSearch';
 import { useSwipeToDismiss } from '@/hooks/useSwipeToDismiss';
 import { warmPlayerCard } from '@/components/player/warmPlayerCard';
 import { PEEK_ACTION_EVENT, peekProps } from '@/components/peek/peekProps';
@@ -184,8 +184,11 @@ const Results = memo(({ query, pos, players, ovrMap, showOvr, showActive, peek, 
   const { numberFor } = useJerseyNumbers();
   const index = useMemo(() => buildSearchIndex(players, { ovr: ovrMap, formerNames: extras.formerNames }), [players, ovrMap, extras]);
   const keep = useMemo(() => (pos === 'ALL' ? undefined : (p: Player) => p.position === pos), [pos]);
-  const groups = useMemo((): SheetGroup[] => {
-    if (query.trim()) return [{ id: 'results', label: 'Results', players: searchPlayers(index, query, LIMIT, keep).map((e) => e.p) }].filter((g) => g.players.length);
+  const [groups, topScore] = useMemo((): [SheetGroup[], number] => {
+    if (query.trim()) {
+      const hits = searchPlayersScored(index, query, LIMIT, keep);
+      return [[{ id: 'results', label: 'Results', players: hits.map((x) => x.e.p) }].filter((g) => g.players.length), hits[0]?.s ?? 0];
+    }
     const recent = readRecent()
       .map((k) => index.byKey.get(k)?.p)
       .filter((p): p is Player => !!p && (!keep || keep(p)));
@@ -195,9 +198,17 @@ const Results = memo(({ query, pos, players, ovrMap, showOvr, showActive, peek, 
       ps.forEach((p) => seen.add(keyOfPlayer(p)));
       return { ...g, players: ps };
     });
-    return [{ id: 'recent', label: 'Recent', players: recent }, ...more].filter((g) => g.players.length);
+    return [[{ id: 'recent', label: 'Recent', players: recent }, ...more].filter((g) => g.players.length), 0];
   }, [query, index, keep, suggestions]);
   const clubs = useMemo(() => (onPickTeam && pos === 'ALL' ? searchTeams(query) : []), [onPickTeam, pos, query]);
+  // Groups lead with the one that matches the query best; a tie keeps Teams first
+  const order = useMemo(() => {
+    const scored = [
+      { id: 'teams', s: clubs.length ? clubsScore(query, clubs) : -1 },
+      { id: 'players', s: groups.length ? (query.trim() ? topScore : 0) : -1 },
+    ];
+    return scored.sort((a, b) => b.s - a.s).map((x) => x.id);
+  }, [query, clubs, groups.length, topScore]);
   const firstPlayer = query.trim() ? groups[0]?.players[0] ?? null : null;
   useLayoutEffect(() => {
     firstRef.current = firstPlayer;
@@ -245,8 +256,7 @@ const Results = memo(({ query, pos, players, ovrMap, showOvr, showActive, peek, 
     );
   return (
     <>
-      {clubList}
-      {groups.map((g) => (
+      {order.map((id) => id === 'teams' ? <Fragment key={id}>{clubList}</Fragment> : <Fragment key={id}>{groups.map((g) => (
         <section key={g.id} aria-label={g.label}>
           <h3 className="ss-head">
             <span className="lamp">
@@ -275,7 +285,7 @@ const Results = memo(({ query, pos, players, ovrMap, showOvr, showActive, peek, 
             })}
           </ul>
         </section>
-      ))}
+      ))}</Fragment>)}
     </>
   );
 });
@@ -347,7 +357,7 @@ const Sheet = ({
     const apply = () => {
       raf = 0;
       el.style.height = `${Math.round(vv.height)}px`;
-      el.style.transform = vv.offsetTop ? `translateY(${Math.round(vv.offsetTop)}px)` : '';
+      el.style.transform = vv.offsetTop ? `translate3d(0, ${Math.round(vv.offsetTop)}px, 0)` : '';
     };
     const on = () => {
       if (!raf) raf = requestAnimationFrame(apply);
@@ -404,12 +414,19 @@ const Sheet = ({
 
   // Scrolling the results drops the keyboard, like a native search
   const touchY = useRef(0);
+  const dragged = useRef(false);
   const onListTouchStart = (e: RTouchEvent) => {
     touchY.current = e.touches[0]?.clientY ?? 0;
+    dragged.current = false;
   };
   const onListTouchMove = (e: RTouchEvent) => {
     const y = e.touches[0]?.clientY ?? 0;
-    if (Math.abs(y - touchY.current) > 12 && document.activeElement === inputRef.current) inputRef.current?.blur();
+    if (Math.abs(y - touchY.current) > 24) dragged.current = true;
+  };
+  // blurring mid-drag resizes the sheet under the moving list (the jolt): drop the keyboard once the finger lifts
+  const onListTouchEnd = () => {
+    if (dragged.current && document.activeElement === inputRef.current) inputRef.current?.blur();
+    dragged.current = false;
   };
 
   const stale = query !== deferredQuery || pos !== deferredPos;
@@ -506,7 +523,7 @@ const Sheet = ({
             ))}
           </div>
         </div>
-        <div ref={scrollRef} className={cn('ss-scroll', stale && 'is-stale')} onTouchStart={onListTouchStart} onTouchMove={onListTouchMove}>
+        <div ref={scrollRef} className={cn('ss-scroll', stale && 'is-stale')} onTouchStart={onListTouchStart} onTouchMove={onListTouchMove} onTouchEnd={onListTouchEnd}>
           <Results
             query={deferredQuery}
             pos={deferredPos}

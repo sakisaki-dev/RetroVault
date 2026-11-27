@@ -1,0 +1,72 @@
+diff a/src/components/search/PlayerSearchSheet.tsx b/src/components/search/PlayerSearchSheet.tsx	(rejected hunks)
+@@ -3,7 +3,7 @@ import { CollegeMark } from '@/components/player/DraftTiles';
+ import { markInfo } from '@/utils/collegeData';
+ import { displayName, firstAndLast } from '@/utils/displayName';
+ import { ovrLabelOf } from '@/utils/useOfficialOvr';
+-import { memo, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode, type TouchEvent as RTouchEvent } from 'react';
++import { Fragment, memo, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode, type TouchEvent as RTouchEvent } from 'react';
+ import { Clock, CornerDownLeft, Radio, Search, Shield, Star, X, GraduationCap } from 'lucide-react';
+ import type { Player, Position } from '@/types/player';
+ import { cn } from '@/lib/utils';
+@@ -12,9 +12,9 @@ import { useSkillRatings } from '@/utils/useSkillRatings';
+ import { useJerseyNumbers } from '@/utils/jerseys';
+ import { bannerTeamOf, usePlayerExtras } from '@/utils/playerExtras';
+ import { findNFLTeam, type NFLTeam } from '@/utils/nflTeams';
+-import { clubsOfQuery, type Meeting } from '@/utils/gameFinder';
+-import { MeetingButton, useMeetings } from './GameMeetings';
+-import { buildSearchIndex, keyOfPlayer, pushRecent, readRecent, searchPlayers } from '@/utils/playerSearch';
++import { clubsOfQuery, clubsScore, gamesScore, type Meeting } from '@/utils/gameFinder';
++import { MeetingButton, useGameQuery, useMeetings } from './GameMeetings';
++import { buildSearchIndex, keyOfPlayer, pushRecent, readRecent, searchPlayers, searchPlayersScored } from '@/utils/playerSearch';
+ import { useSwipeToDismiss } from '@/hooks/useSwipeToDismiss';
+ import { pushOverlay } from '@/utils/overlayHistory';
+ import { warmPlayerCard } from '@/components/player/warmPlayerCard';
+@@ -213,11 +216,23 @@ const Results = memo(({ query, pos, players, ovrMap, showOvr, showActive, peek,
+       ps.forEach((p) => seen.add(keyOfPlayer(p)));
+       return { ...g, players: ps };
+     });
+-    return [{ id: 'recent', label: 'Recent', players: recent }, ...more].filter((g) => g.players.length);
++    return [[{ id: 'recent', label: 'Recent', players: recent }, ...more].filter((g) => g.players.length), 0];
+   }, [query, index, keep, suggestions]);
+   const clubs = useMemo(() => (onPickTeam && pos === 'ALL' ? clubsOfQuery(query) : []), [onPickTeam, pos, query]);
+   const meetings = useMeetings(onPickGame ? query : '');
++  const gameQuery = useGameQuery(onPickGame ? query : '');
+   const schools = useCollegeSearch(query, !!onPickCollege && pos === 'ALL');
++  // Groups lead with the one that matches the query best; ties keep Teams, Colleges, Games, Players
++  const order = useMemo(() => {
++    const ql = query.trim().toLowerCase();
++    const scored = [
++      { id: 'teams', s: clubs.length ? clubsScore(query, clubs) : -1 },
++      { id: 'schools', s: schools.length ? (schools.some((c) => [c.name, c.s].some((n) => n.toLowerCase().startsWith(ql))) ? 600 : 300) : -1 },
++      { id: 'games', s: meetings.length ? gamesScore(gameQuery) : -1 },
++      { id: 'players', s: groups.length ? (query.trim() ? topScore : 0) : -1 },
++    ];
++    return scored.sort((a, b) => b.s - a.s).map((x) => x.id);
++  }, [query, clubs, schools, meetings.length, gameQuery, groups.length, topScore]);
+   const firstPlayer = query.trim() ? groups[0]?.players[0] ?? null : null;
+   useLayoutEffect(() => {
+     firstRef.current = firstPlayer;
+@@ -313,9 +328,11 @@ const Results = memo(({ query, pos, players, ovrMap, showOvr, showActive, peek,
+     );
+   return (
+     <>
+-      {clubList}
+-      {schoolList}
+-      {gameList}
++      {order.map((id) => {
++        if (id === 'teams') return <Fragment key={id}>{clubList}</Fragment>;
++        if (id === 'schools') return <Fragment key={id}>{schoolList}</Fragment>;
++        if (id === 'games') return <Fragment key={id}>{gameList}</Fragment>;
++        return <Fragment key={id}>
+       {groups.map((g) => (
+         <section key={g.id} aria-label={g.label}>
+           <h3 className="ss-head">
+@@ -588,7 +614,7 @@ const Sheet = ({
+             ))}
+           </div>}
+         </div>
+-        <div ref={scrollRef} className={cn('ss-scroll', stale && 'is-stale')} onTouchStart={onListTouchStart} onTouchMove={onListTouchMove}>
++        <div ref={scrollRef} className={cn('ss-scroll', stale && 'is-stale')} onTouchStart={onListTouchStart} onTouchMove={onListTouchMove} onTouchEnd={onListTouchEnd}>
+           <Results
+             query={deferredQuery}
+             pos={deferredPos}

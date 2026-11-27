@@ -27,6 +27,30 @@ export const foldText = (s: string) =>
 
 const words = (s: string) => foldText(s).split(/[\s\-:()/,]+/).filter(Boolean);
 
+const SUFFIXES = new Set(['jr', 'sr', 'ii', 'iii', 'iv', 'v']);
+
+/**
+ * Initials by rule: the first letter of each name word (split on spaces and hyphens, "Jaxon Smith-Njigba" → jsn,
+ * "Amon-Ra St. Brown" → arsb), with the suffix's letter as another form ("Brian Thomas Jr." → bt and btj), and one
+ * letter per capital for names like McCaffrey ("Christian McCaffrey" → cmc). Never hand-listed.
+ */
+export const initialsOf = (name: string): string[] => {
+  const raw = name.replace(/\s+/g, ' ').trim().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/['".]/g, '');
+  const parts = raw.split(/[\s\-]+/).filter(Boolean);
+  const core = parts.filter((w, i) => !(i > 0 && SUFFIXES.has(w.toLowerCase())));
+  const suffix = parts.slice(core.length);
+  const out = new Set<string>();
+  const base = core.map((w) => w[0]).join('').toLowerCase();
+  if (base.length >= 2) out.add(base);
+  if (suffix.length && base) out.add(base + suffix.map((w) => w[0]).join('').toLowerCase());
+  const caps = core.map((w) => (w.match(/[A-Z]/g) ?? [w[0]]).join('')).join('').toLowerCase();
+  if (caps.length >= 2) {
+    out.add(caps);
+    if (suffix.length) out.add(caps + suffix.map((w) => w[0]).join('').toLowerCase());
+  }
+  return [...out];
+};
+
 export interface SearchEntry {
   p: Player;
   key: string;
@@ -36,6 +60,8 @@ export interface SearchEntry {
   name: string[];
   /** position, club names and abbreviations */
   aux: string[];
+  /** initials fans type ("jsn", "btj", "arsb", "cmc"), derived by rule from the name */
+  ini: string[];
   rank: number;
 }
 
@@ -78,6 +104,7 @@ export const buildSearchIndex = (
       last: nameWords[nameWords.length - 1] ?? '',
       name,
       aux: [...aux],
+      ini: initialsOf(p.name),
       rank: (opts.ovr?.get(key) ?? 0) * 100000 + (p.careerLegacy || 0),
     };
   });
@@ -120,10 +147,16 @@ const wordScore = (w: string, e: SearchEntry): number => {
   return 0;
 };
 
-export const searchPlayers = (index: SearchIndex, query: string, limit = 20, keep?: (p: Player) => boolean): SearchEntry[] => {
+/** Initials only for 2 to 4 letters typed as one word: a flood of two-letter hits is ranked by prominence */
+const INITIALS_SCORE = 250;
+const isInitialsQuery = (q: string) => /^[a-z]{2,4}$/.test(q);
+
+/** Ranked hits with their scores (the header search orders its result groups by the best score of each). */
+export const searchPlayersScored = (index: SearchIndex, query: string, limit = 20, keep?: (p: Player) => boolean): { e: SearchEntry; s: number }[] => {
   const q = foldText(query).trim();
   if (!q) return [];
   const qWords = q.split(/\s+/);
+  const initials = qWords.length === 1 && isInitialsQuery(q);
   const scored: { e: SearchEntry; s: number }[] = [];
   for (const e of index.entries) {
     if (keep && !keep(e.p)) continue;
@@ -137,15 +170,24 @@ export const searchPlayers = (index: SearchIndex, query: string, limit = 20, kee
       }
       s += ws;
     }
+    if (ok) {
+      if (e.full.startsWith(q)) s += 400;
+      else if (e.last.startsWith(q)) s += 380;
+      else if (e.last.startsWith(qWords[0])) s += 60;
+    } else if (initials && e.ini.includes(q)) {
+      ok = true;
+      s = INITIALS_SCORE;
+    }
     if (!ok) continue;
-    if (e.full.startsWith(q)) s += 400;
-    else if (e.last.startsWith(q)) s += 380;
-    else if (e.last.startsWith(qWords[0])) s += 60;
+    if (initials && e.ini.includes(q)) s = Math.max(s, INITIALS_SCORE);
     scored.push({ e, s });
   }
   scored.sort((a, b) => b.s - a.s || b.e.rank - a.e.rank);
-  return scored.slice(0, limit).map((x) => x.e);
+  return scored.slice(0, limit);
 };
+
+export const searchPlayers = (index: SearchIndex, query: string, limit = 20, keep?: (p: Player) => boolean): SearchEntry[] =>
+  searchPlayersScored(index, query, limit, keep).map((x) => x.e);
 
 // ---------- Recent players (shared by the header search and every picker) ----------
 

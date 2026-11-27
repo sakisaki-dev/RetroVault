@@ -14,8 +14,8 @@ import { MOBILE_MOTION, dur, ease, reducedMotion } from '@/utils/motion';
  * under it); otherwise native scrolling is untouched. Lite mode / reduced motion: no rubber band or content shift,
  * just the threshold and the open.
  */
-const THRESHOLD = 76; // px of (resisted) pull
-const FLICK = 0.6; // px per ms
+const THRESHOLD = 130; // px of (resisted) pull (a longer pull, so a scroll never opens it)
+const FLICK = 1.1; // px per ms
 const HINT_KEY = 'retroVault:pullSearchUsed';
 const EXCLUDE =
   'input, textarea, select, [contenteditable="true"], [role="dialog"], [data-swipe-root="down"], [data-no-pull], svg[role="group"], canvas, .fut, .cbw, .gp-sheet, .bnav, [style*="touch-action"]';
@@ -93,7 +93,11 @@ const PullToSearch = () => {
     let vel = 0;
     let shown = 0;
     let still = false;
-    const main = () => document.getElementById('main');
+    let raf = 0;
+    let want = 0;
+    let ready = false;
+    let mainEl: HTMLElement | null = null;
+    let clearTimer = 0;
 
     // Resisted distance: linear-ish up to the threshold, then a rubber band
     const resist = (d: number) => {
@@ -101,27 +105,47 @@ const PullToSearch = () => {
       if (still) return Math.min(r, THRESHOLD);
       return r <= THRESHOLD ? r : THRESHOLD + (r - THRESHOLD) * 0.3;
     };
-    const paint = (d: number, animate: false | 'back' | 'open') => {
+    // Transform-only writes (translate / scale / opacity never touch layout)
+    const write = (d: number, open: boolean) => {
       shown = d;
       const p = Math.min(1, d / THRESHOLD);
-      const t = animate === false ? 'none' : `translate ${dur.slow}ms ${ease.spring}, scale ${dur.slow}ms ${ease.spring}, opacity ${dur.base}ms ${ease.out}`;
-      pill.style.transition = t;
-      pill.style.translate = `-50% ${Math.round(d - 52)}px`;
-      pill.style.scale = String(0.7 + 0.3 * p);
-      pill.style.opacity = animate === 'open' ? '0' : String(Math.min(1, p * 1.4));
-      pill.dataset.ready = p >= 1 ? 'true' : 'false';
-      const m = main();
-      if (m) {
-        m.style.transition = animate === false ? 'none' : `translate ${dur.slow}ms ${ease.spring}`;
-        m.style.translate = d && !still ? `0 ${Math.round(d * 0.5)}px` : '';
+      pill.style.translate = `-50% ${(d - 52).toFixed(1)}px`;
+      pill.style.scale = (0.7 + 0.3 * p).toFixed(3);
+      pill.style.opacity = open ? '0' : String(Math.min(1, p * 1.4));
+      const r = p >= 1;
+      if (r !== ready) {
+        ready = r;
+        pill.dataset.ready = r ? 'true' : 'false';
       }
+      if (mainEl) mainEl.style.translate = d && !still ? `0 ${(d * 0.5).toFixed(1)}px` : '';
     };
-    const clear = () => {
-      window.setTimeout(() => {
+    // Finger-follow: the latest distance is painted once per frame, no transition in the way
+    const follow = (d: number) => {
+      want = d;
+      if (!raf)
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          write(want, false);
+        });
+    };
+    // Settle (back or open): cancel the pending frame, then animate from where the finger left it
+    const settle = (open: boolean) => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+      const t = `translate ${dur.slow}ms ${ease.spring}, scale ${dur.slow}ms ${ease.spring}, opacity ${dur.base}ms ${ease.out}`;
+      pill.style.transition = t;
+      if (mainEl) mainEl.style.transition = `translate ${dur.slow}ms ${ease.spring}`;
+      write(0, open);
+      const m = mainEl;
+      window.clearTimeout(clearTimer);
+      clearTimer = window.setTimeout(() => {
         if (state !== 'idle') return;
         pill.style.transition = '';
-        const m = main();
-        if (m) m.style.transition = '';
+        pill.style.willChange = '';
+        if (m) {
+          m.style.transition = '';
+          m.style.willChange = '';
+        }
       }, dur.slow + 40);
     };
 
@@ -143,13 +167,12 @@ const PullToSearch = () => {
       const t = e.touches[0];
       if (!t || e.touches.length !== 1) {
         state = 'idle';
-        paint(0, 'back');
-        clear();
+        settle(false);
         return;
       }
-      const dx = t.clientX - x0;
       const dy = t.clientY - y0;
       if (state === 'pending') {
+        const dx = t.clientX - x0;
         if (Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
         // Down and mostly vertical, with the page still at the top; anything else is ordinary scrolling
         if (dy <= 0 || Math.abs(dx) > dy * 0.8 || window.scrollY > 0) {
@@ -158,12 +181,21 @@ const PullToSearch = () => {
         }
         state = 'pull';
         setHint(false);
+        // Once per pull: no transition under the finger, and the layers promoted before the first frame
+        window.clearTimeout(clearTimer);
+        mainEl = document.getElementById('main');
+        pill.style.transition = 'none';
+        pill.style.willChange = 'translate, scale, opacity';
+        if (mainEl) {
+          mainEl.style.transition = 'none';
+          if (!still) mainEl.style.willChange = 'translate';
+        }
       }
       if (e.cancelable) e.preventDefault();
       if (e.timeStamp > lastT) vel = 0.7 * ((t.clientY - lastY) / (e.timeStamp - lastT)) + 0.3 * vel;
       lastY = t.clientY;
       lastT = e.timeStamp;
-      paint(resist(Math.max(0, dy)), false);
+      follow(resist(Math.max(0, dy)));
     };
     const onEnd = () => {
       if (state !== 'pull') {
@@ -171,15 +203,16 @@ const PullToSearch = () => {
         return;
       }
       state = 'idle';
+      // The distance the finger last reached (a frame may still be pending)
+      shown = want;
       const go = shown >= THRESHOLD - 0.5 || (vel > FLICK && shown > 28);
       if (go) {
         primeKeyboard();
         markUsed();
         setHint(false);
         openQuickSearch();
-        paint(0, 'open');
-      } else paint(0, 'back');
-      clear();
+        settle(true);
+      } else settle(false);
     };
 
     document.addEventListener('touchstart', onStart, { passive: true });
@@ -187,6 +220,8 @@ const PullToSearch = () => {
     document.addEventListener('touchend', onEnd, { passive: true });
     document.addEventListener('touchcancel', onEnd, { passive: true });
     return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.clearTimeout(clearTimer);
       document.removeEventListener('touchstart', onStart);
       document.removeEventListener('touchmove', onMove);
       document.removeEventListener('touchend', onEnd);
