@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ArrowDown, ArrowUp, ArrowUpDown, CalendarRange, Dice5, Gauge, Home, LineChart, Scale, Shield, TrendingUp, Waves } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Choice } from '@/components/controls';
@@ -8,6 +8,9 @@ import { reducedMotion } from '@/utils/motion';
 import { scheduleSeasons, useSchedule, type ScheduleSeason, type TableRow, type TeamSeasonRow } from '@/utils/schedule';
 import TeamLogo from '../timeline/TeamLogo';
 import SectionIntro from '../stats/SectionIntro';
+import { niceTicks } from '../stats/visual/chartKit';
+import { useChartZoom, type TapInfo } from '@/utils/useChartZoom';
+import { ChartPicker, ZoomControls, type PickItem } from '../charts/ChartZoomKit';
 
 /**
  * Stats → Teams: advanced team stats from the weekly league scores (public/data/league/schedule.json, built by
@@ -598,25 +601,89 @@ const LeagueChart = ({ progression, clubs, team, onTeam }: { progression: Record
     [progression],
   );
   const seasons = useMemo(() => [...new Set(series.flatMap((s) => s.rows.map((r) => r.season)))].sort((a, b) => seasonNum(a) - seasonNum(b)), [series]);
-  if (!seasons.length) return null;
   const value = (r: TeamSeasonRow) => (metric === 'power' ? r.power : metric === 'diff' ? r.diff : r.pct);
   const labelW = 46;
   const H = metric === 'power' ? Math.max(360, clubs * 15 + 50) : 300;
   const pad = { l: 40, r: labelW, t: 18, b: 24 };
   const nums = seasons.map(seasonNum);
-  const min = Math.min(...nums), max = Math.max(...nums);
+  const min = nums.length ? Math.min(...nums) : 0, max = nums.length ? Math.max(...nums) : 1;
   const inner = width - pad.l - pad.r;
-  const x = (season: string) => (max === min ? pad.l + inner / 2 : pad.l + ((seasonNum(season) - min) / (max - min)) * inner);
   const vals = series.flatMap((s) => s.rows.map(value));
   const lo = metric === 'power' ? 1 : metric === 'pct' ? 0 : Math.min(-50, ...vals);
   const hi = metric === 'power' ? clubs : metric === 'pct' ? 1 : Math.max(50, ...vals);
   const bound = metric === 'diff' ? Math.ceil(Math.max(Math.abs(lo), Math.abs(hi)) / 50) * 50 : 0;
-  const y = (v: number) => {
-    const t = metric === 'power' ? (v - 1) / Math.max(1, clubs - 1) : metric === 'pct' ? 1 - v : (bound - v) / (2 * bound);
-    return pad.t + t * (H - pad.t - pad.b);
-  };
-  const ticks = metric === 'power' ? [1, 8, 16, 24, clubs] : metric === 'pct' ? [1, 0.75, 0.5, 0.25, 0] : [bound, bound / 2, 0, -bound / 2, -bound];
+  // zoom works on "up is more" numbers: power ranks are negated so No. 1 stays on top
+  const yUp = (v: number) => (metric === 'power' ? -v : v);
+  const domX = useMemo<[number, number]>(() => (max === min ? [min - 1, max + 1] : [min, max]), [min, max]);
+  const domY = useMemo<[number, number]>(() => (metric === 'power' ? [-clubs, -1] : metric === 'pct' ? [0, 1] : [-bound, bound]), [metric, clubs, bound]);
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const clipId = useId().replace(/:/g, '');
+  const [pick, setPick] = useState<{ x: number; y: number; items: PickItem[] } | null>(null);
+  const zoom = useChartZoom({
+    svgRef,
+    box: { W: width, H, l: pad.l, t: pad.t, r: pad.r, b: pad.b },
+    domX,
+    domY,
+    resetKey: `${metric}|${seasons.join()}`,
+    onTap: (t) => onChartTap(t),
+    onDoubleTap: () => setPick(null),
+  });
+  const [zx0, zx1] = zoom.dx;
+  const [zy0, zy1] = zoom.dy;
+  useEffect(() => setPick(null), [zx0, zx1, zy0, zy1, metric]);
+  const x = (season: string) => pad.l + ((seasonNum(season) - zx0) / (zx1 - zx0)) * inner;
+  const yAt = (v: number) => pad.t + (1 - (yUp(v) - zy0) / (zy1 - zy0)) * (H - pad.t - pad.b);
+  const y = yAt;
   const tickLabel = (t: number) => (metric === 'power' ? `#${t}` : metric === 'pct' ? rate(t) : signed(t));
+  const baseTicks = metric === 'power' ? [1, 8, 16, 24, clubs] : metric === 'pct' ? [1, 0.75, 0.5, 0.25, 0] : [bound, bound / 2, 0, -bound / 2, -bound];
+  const ticks = zoom.zoomed
+    ? niceTicks(zy0, zy1, 5)
+        .ticks.filter((t) => t >= zy0 && t <= zy1 && (metric !== 'power' || Number.isInteger(t)))
+        .map((t) => (metric === 'power' ? -t : t))
+    : baseTicks;
+  const shownSeasons = zoom.zoomed ? seasons.filter((ss) => seasonNum(ss) >= zx0 - 0.01 && seasonNum(ss) <= zx1 + 0.01) : seasons;
+  const inPlot = (px: number, py: number) => px >= pad.l - 2 && px <= width - pad.r + 2 && py >= pad.t - 2 && py <= H - pad.b + 2;
+  // A tap picks every club whose line passes within a fingertip; one opens that club, several open a short list
+  const onChartTap = (t: TapInfo) => {
+    const r = (t.pointerType === 'mouse' || t.pointerType === 'pen' ? 9 : 24) * t.unit;
+    const hits: { s: (typeof series)[number]; d: number; row: TeamSeasonRow }[] = [];
+    series.forEach((s) => {
+      let best: { d: number; row: TeamSeasonRow } | null = null;
+      s.rows.forEach((row, i) => {
+        const ax = x(row.season), ay = y(value(row));
+        const dp = Math.hypot(ax - t.vx, ay - t.vy);
+        if (!best || dp < best.d) best = { d: dp, row };
+        const prev = s.rows[i - 1];
+        if (prev) {
+          const bx = x(prev.season), by = y(value(prev));
+          const vx = ax - bx, vy = ay - by;
+          const L = vx * vx + vy * vy || 1;
+          const u = Math.max(0, Math.min(1, ((t.vx - bx) * vx + (t.vy - by) * vy) / L));
+          const ds = Math.hypot(bx + u * vx - t.vx, by + u * vy - t.vy);
+          if (ds < best.d) best = { d: ds, row: u > 0.5 ? row : prev };
+        }
+      });
+      if (best && (best as { d: number }).d <= r) hits.push({ s, ...(best as { d: number; row: TeamSeasonRow }) });
+    });
+    hits.sort((a, b) => a.d - b.d);
+    if (!hits.length) {
+      setPick(null);
+      return;
+    }
+    if (hits.length === 1) {
+      setPick(null);
+      onTeam(hits[0].s.team);
+      return;
+    }
+    const box = wrapRef.current?.getBoundingClientRect();
+    setPick({
+      x: t.clientX - (box?.left ?? 0),
+      y: t.clientY - (box?.top ?? 0),
+      items: hits.slice(0, 8).map((h) => ({ key: h.s.team, title: h.s.team, team: h.s.team, sub: `${h.row.season} · ${tickLabel(value(h.row))} ${metric === 'power' ? 'power' : metric === 'diff' ? 'diff' : 'win'}`, onPick: () => onTeam(h.s.team) })),
+    });
+  };
+  if (!seasons.length) return null;
   const focus = hover ?? team;
   const ordered = [...series].sort((a, b) => (a.team === focus ? 1 : b.team === focus ? -1 : 0));
   // end-of-line labels: power ranks are unique, so every club gets one; other metrics label only the focused club
@@ -640,7 +707,9 @@ const LeagueChart = ({ progression, clubs, team, onTeam }: { progression: Record
         </div>
       </div>
       <div ref={ref} className="min-w-0" onMouseLeave={() => setHover(null)}>
+        <div ref={wrapRef} className="relative" data-no-swipe>
         <svg
+          ref={svgRef}
           width={width}
           height={H}
           viewBox={`0 0 ${width} ${H}`}
@@ -651,6 +720,11 @@ const LeagueChart = ({ progression, clubs, team, onTeam }: { progression: Record
             .join(', ')}.`}
           className="block"
         >
+          <defs>
+            <clipPath id={clipId}>
+              <rect x={pad.l - 8} y={0} width={width - pad.r - pad.l + 14} height={H - pad.b + 4} />
+            </clipPath>
+          </defs>
           {ticks.map((t) => (
             <g key={t}>
               <line x1={pad.l} x2={width - pad.r} y1={y(t)} y2={y(t)} className="stroke-border" strokeOpacity={metric === 'diff' && t === 0 ? 0.9 : 0.4} strokeDasharray={metric === 'diff' && t === 0 ? undefined : '2 3'} />
@@ -659,11 +733,12 @@ const LeagueChart = ({ progression, clubs, team, onTeam }: { progression: Record
               </text>
             </g>
           ))}
-          {seasons.map((ss) => (
+          {shownSeasons.map((ss) => (
             <text key={ss} x={x(ss)} y={H - 6} fontSize={10} textAnchor="middle" className="fill-muted-foreground">
               {ss}
             </text>
           ))}
+          <g clipPath={`url(#${clipId})`}>
           {ordered.map((s) => {
             const on = s.team === focus;
             const stroke = teamColor(s.team);
@@ -684,15 +759,25 @@ const LeagueChart = ({ progression, clubs, team, onTeam }: { progression: Record
                 {s.rows.map((r) => (
                   <circle key={r.season} cx={x(r.season)} cy={y(value(r))} r={on ? 5 : 3.5} fill={stroke} className={on ? 'stroke-foreground' : undefined} strokeWidth={on ? 1.5 : 0} />
                 ))}
-                {(metric === 'power' || on) && (
-                  <text x={Math.min(width - pad.r + 6, x(lastOf(s).season) + 9)} y={y(value(lastOf(s))) + 3.5} fontSize={on ? 11 : 9.5} className={on ? 'fill-foreground font-bold' : 'fill-muted-foreground'}>
-                    {s.abbr}
-                  </text>
-                )}
               </g>
             );
           })}
+          </g>
+          {ordered.map((s) => {
+            const on = s.team === focus;
+            const lx = x(lastOf(s).season);
+            const ly = y(value(lastOf(s)));
+            if (!(metric === 'power' || on) || !inPlot(lx, ly)) return null;
+            return (
+              <text key={s.team} x={Math.min(width - pad.r + 6, lx + 9)} y={ly + 3.5} fontSize={on ? 11 : 9.5} style={{ pointerEvents: 'none' }} className={on ? 'fill-foreground font-bold' : 'fill-muted-foreground'}>
+                {s.abbr}
+              </text>
+            );
+          })}
         </svg>
+        <ZoomControls zoom={zoom} />
+        {pick && <ChartPicker at={pick} items={pick.items} width={width} heading={`${pick.items.length} clubs here`} onClose={() => setPick(null)} />}
+        </div>
       </div>
       <p className="text-xs text-muted-foreground">
         {seasons.length === 1

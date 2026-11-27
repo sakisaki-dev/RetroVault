@@ -15,6 +15,8 @@ import { dotColors } from './compColors';
 import { peekProps } from '../../peek/peekProps';
 import { openPlayerPeek, registerPeekContext, type PeekContext } from '../../peek/PlayerPeek';
 import type { SimilarityMap } from './compModel';
+import { nearestMarks, tapRadiusPx } from '@/utils/useChartZoom';
+import { ChartPicker, type PickItem } from '../../charts/ChartZoomKit';
 
 const GOLD = 'hsl(43 100% 62%)';
 const MAX_ZOOM = 6;
@@ -210,7 +212,13 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [W, H]);
 
+  const lastType = useRef('mouse');
+  const lastClick = useRef<{ x: number; y: number; t: number } | null>(null);
+  const [pick, setPick] = useState<{ x: number; y: number; items: PickItem[] } | null>(null);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => setPick(null), [view, map]);
   const onPointerDown = (e: RPointerEvent<SVGSVGElement>) => {
+    lastType.current = e.pointerType;
     pointers.current.set(e.pointerId, toSvg(e.clientX, e.clientY));
     dragged.current = false;
   };
@@ -333,17 +341,61 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
 
   const zoomed = view.k > 1.001;
 
+  // Taps: a double tap zooms in around the point (again: resets); a tap on a crowd opens a short list of the dots under the finger
+  const onClickCapture = (e: React.MouseEvent<SVGSVGElement>) => {
+    if (e.detail === 0 || dragged.current) return;
+    const at = toSvg(e.clientX, e.clientY);
+    const now = performance.now();
+    const prev = lastClick.current;
+    if (prev && now - prev.t < 320 && Math.hypot(prev.x - e.clientX, prev.y - e.clientY) < 28) {
+      lastClick.current = null;
+      e.stopPropagation();
+      setPick(null);
+      if (zoomed) setView({ k: 1, tx: 0, ty: 0 });
+      else zoomAt(2.6, at.x, at.y);
+      return;
+    }
+    lastClick.current = { x: e.clientX, y: e.clientY, t: now };
+    const rect = svgRef.current?.getBoundingClientRect();
+    const unit = rect ? W / rect.width : 1;
+    const hits = nearestMarks(layout, (p) => ({ x: sx(p.px), y: sy(p.py) }), at.x, at.y, tapRadiusPx(lastType.current) * unit, 8);
+    if (hits.length < 2) {
+      setPick(null);
+      if (hits.length === 1 && !(e.target as Element).closest('[data-player-key]')) {
+        e.stopPropagation();
+        onPick(hits[0].item.player);
+      }
+      return;
+    }
+    e.stopPropagation();
+    const box = wrapRef.current?.getBoundingClientRect();
+    setPick({
+      x: e.clientX - (box?.left ?? 0),
+      y: e.clientY - (box?.top ?? 0),
+      items: hits.map(({ item: p }) => ({
+        key: p.key,
+        title: p.player.name,
+        team: p.player.team,
+        badge: isHallOfFamer(p.player) ? 'HOF' : undefined,
+        sub: `${p.player.position}${p.ovr != null ? ` · OVR ${p.ovr}` : ''}`,
+        onPick: () => onPick(p.player),
+      })),
+    });
+  };
+
   return (
     <div className="space-y-2">
-      <div className="relative w-full overflow-hidden rounded-lg border border-line/60" style={{ background: 'radial-gradient(ellipse at center, rgba(57,135,229,0.07), transparent 70%)' }}>
+      <div ref={wrapRef} className="relative w-full rounded-lg border border-line/60" style={{ background: 'radial-gradient(ellipse at center, rgba(57,135,229,0.07), transparent 70%)' }}>
         <svg
           ref={svgRef}
           viewBox={`0 0 ${W} ${H}`}
-          className="rv-chart-in block h-auto w-full select-none"
+          className="rv-chart-in block h-auto w-full select-none overflow-hidden rounded-lg"
           style={{ touchAction: zoomed ? 'none' : 'pan-y', cursor: zoomed ? 'grab' : undefined }}
           role="group"
           aria-label={`Similarity map of ${layout.length} ${map.position}s. Closer dots play more alike. Tab through players, Enter selects.`}
           onMouseLeave={() => setHoverKey(null)}
+          data-no-swipe
+          onClickCapture={onClickCapture}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
@@ -474,6 +526,7 @@ const CompMap = ({ map, ovrMap, selectedKey, topComps, overlayKey, onPick, wide,
           </g>
         </svg>
         {tip}
+        {pick && <ChartPicker at={pick} items={pick.items} width={wrapRef.current?.clientWidth ?? W} heading={`${pick.items.length} players here`} onClose={() => setPick(null)} />}
         <div className="absolute right-2 top-2 flex flex-col gap-1">
           <ZoomButton label="Zoom in" onClick={() => zoomAt(1.5)} disabled={view.k >= MAX_ZOOM}>
             <Plus className="h-4 w-4" aria-hidden="true" />
