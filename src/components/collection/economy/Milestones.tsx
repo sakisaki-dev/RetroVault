@@ -4,8 +4,7 @@ import { cn } from '@/lib/utils';
 import type { CollectionState } from '@/utils/collection';
 import { fmtCoins } from '@/utils/cardMarket';
 import { NFL_TEAMS } from '@/utils/nflTeams';
-import { displayName } from '@/utils/displayName';
-import { PixelSelect } from '@/components/arcade';
+import { Select } from '@/components/controls';
 import { MILESTONES, activeCosmetic, pyroOn, setCosmetic, setPyro, setSlab, slabKey, type Milestone } from '@/utils/economy';
 import type { CollectionSet } from '@/utils/economy';
 import CardBackArt from '../CardBackArt';
@@ -205,13 +204,13 @@ const Milestones = ({ state, value, byKey, top, sets }: MilestonesProps) => {
     if (m.kind === 'slab') {
       return (
         <div className="flex w-full flex-col gap-2">
-          <PixelSelect
+          <Select
             label="Card in the slab"
             prefix="Card"
             placeholder="Pick a card"
             value={slab ?? null}
             onChange={(k) => setSlab(k)}
-            options={owned.map((c) => ({ value: c.key, label: displayName(c.player.name), text: displayName(c.player.name), hint: c.ovr ?? undefined }))}
+            options={owned.map((c) => ({ value: c.key, label: c.player.name, text: c.player.name, hint: c.ovr ?? undefined }))}
           />
           {slab && (
             <button type="button" className="ec-btn ec-btn--sm ec-btn--ghost" onClick={() => setSlab(null)}>

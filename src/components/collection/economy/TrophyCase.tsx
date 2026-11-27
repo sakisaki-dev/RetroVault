@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { MILESTONES, caseUnlocked } from '@/utils/economy';
 import type { CollectionState } from '@/utils/collection';
-import { displayName } from '@/utils/displayName';
 import CollectibleCard from '../CollectibleCard';
 import { displayWithKit } from '../kits';
 import PixelCup from '@/components/frontoffice/PixelCup';
@@ -28,7 +27,7 @@ const TrophyCase = ({ state, top, total, onOpen, preview = false }: { state: Col
           const entry = state.cards[t.info.key];
           const d = entry ? displayWithKit(entry, state.display?.[t.info.key], t.info.player) : undefined;
           return (
-            <div key={t.info.key} className="rw-case__card" title={displayName(t.info.player.name)}>
+            <div key={t.info.key} className="rw-case__card" title={t.info.player.name}>
               <CollectibleCard
                 owned
                 player={t.info.player}
