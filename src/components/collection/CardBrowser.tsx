@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import { createPortal } from 'react-dom';
 import { ChevronUp, RotateCcw, X } from 'lucide-react';
 import { isLite } from '@/hooks/usePerfMode';
@@ -72,7 +73,7 @@ type Mode = 'full' | 'flat' | 'still';
 const motionMode = (): Mode => {
   let reduce = false;
   try {
-    reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    reduce = isReducedMotion();
   } catch {
     /* no matchMedia */
   }

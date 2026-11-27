@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { reducedMotion } from '@/utils/motion';
 
 /** When the spring curve passes 90deg: the moment the far face is hidden. */
 const EDGE_ON_MS = 114;
@@ -29,7 +30,7 @@ export const useFlipFaces = (flipped: boolean, card: unknown) => {
     if (flipped) setMounted(true);
     let instant = false;
     try {
-      instant = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      instant = reducedMotion();
     } catch {
       /* no matchMedia */
     }

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type TouchEvent as ReactTouchEvent } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import { Hammer, Repeat, Signature, Sparkles, Trophy } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -22,7 +23,7 @@ import './kits.css';
 
 const reducedMotion = () => {
   try {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return isReducedMotion();
   } catch {
     return false;
   }

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type MutableRefObject, type Ref } from 'react';
 import { dur, ease, isMobileMotion } from '@/utils/motion';
+import { reducedMotion } from '@/utils/motion';
 
 /*
  * Swipe down to dismiss (touch only), for dialogs and bottom sheets.
@@ -45,14 +46,6 @@ export const EDGE_PX = 24;
 const CLOSE_FRACTION_X = 0.33; // of the element's width
 const CLOSE_MAX_X = 150;
 
-// Motion follows the OS setting only: performance mode drops costly paint effects, never transform / opacity motion
-const reducedMotion = () => {
-  try {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  } catch {
-    return false;
-  }
-};
 
 /** Can this element scroll sideways? (read once, at the touch's start) */
 export const scrollsSideways = (el: HTMLElement) => {

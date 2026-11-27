@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import '../games/arcade.css';
 import '../games/arcadeHall.css';
 import GuessTheLegend from '../games/GuessTheLegend';
@@ -169,7 +170,7 @@ const gameOfTheDay = (now: Date): GameDef => {
   return GAMES[fnv1a(`arcade-gotd:${day}`) % GAMES.length];
 };
 
-const reducedMotion = () => typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+const reducedMotion = () => typeof window !== 'undefined' && isReducedMotion();
 const pad2 = (n: number) => String(n).padStart(2, '0');
 const mcVars = (g: GameDef) => ({ '--mc': g.color }) as CSSProperties;
 

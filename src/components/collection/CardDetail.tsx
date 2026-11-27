@@ -1,4 +1,5 @@
 import { flushSync } from 'react-dom';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import { useDeferredStage } from '@/hooks/useDeferredStage';
 import { ChevronLeft, ChevronRight, Crown, Hammer, Pin, PinOff, RotateCcw, UserRound } from 'lucide-react';
@@ -104,7 +105,7 @@ interface CardDetailProps {
 
 const motionOk = () => {
   try {
-    return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return !isReducedMotion();
   } catch {
     return false;
   }

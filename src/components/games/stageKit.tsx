@@ -43,18 +43,7 @@ export const splitName = (name: string) => {
   return { first: parts.slice(0, -1).join(' '), last: parts[parts.length - 1] };
 };
 
-export const useReducedMotion = () => {
-  const q = '(prefers-reduced-motion: reduce)';
-  const [r, setR] = useState(() => typeof window !== 'undefined' && !!window.matchMedia?.(q).matches);
-  useEffect(() => {
-    const mq = window.matchMedia?.(q);
-    if (!mq) return;
-    const on = () => setR(mq.matches);
-    mq.addEventListener('change', on);
-    return () => mq.removeEventListener('change', on);
-  }, []);
-  return r;
-};
+export { useReducedMotion } from '@/hooks/usePerfMode';
 
 /** Club logo that hides itself when the CDN image fails. */
 export const ClubLogo = ({ look, className, size }: { look: ClubLook; className?: string; size?: number }) =>

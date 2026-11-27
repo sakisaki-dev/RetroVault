@@ -149,7 +149,7 @@ const PerfRow = () => {
         <Gauge className={cn('h-5 w-5', lite ? 'text-turf' : 'text-muted-foreground')} aria-hidden="true" />
         Performance mode
       </p>
-      <p className="mt-0.5 text-xs text-muted-foreground">Turns off card shimmer, glare and long walkouts.</p>
+      <p className="mt-0.5 text-xs text-muted-foreground">Turns off card shimmer, glare and long walkouts. On also reduces motion everywhere (counting numbers, animations, smooth scrolling).</p>
       <div role="group" aria-label="Performance mode" className="mt-2 grid grid-cols-3 gap-1.5">
         {opts.map((o) => (
           <button

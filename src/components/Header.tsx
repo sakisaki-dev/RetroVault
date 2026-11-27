@@ -41,8 +41,8 @@ const PerfToggle = () => {
       type="button"
       onClick={() => setPerfSetting(next[setting])}
       aria-pressed={lite}
-      aria-label={`Performance mode: ${name}. Turns off card tilt, shimmer, blur and long walkouts. Click to change.`}
-      title={`Performance mode: ${name}`}
+      aria-label={`Performance mode: ${name}. On also reduces motion everywhere: counting numbers, animations and smooth scrolling. Click to change.`}
+      title={`Performance mode: ${name} (On reduces motion)`}
       className={cn(
         'inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
         lite ? 'border-turf/70 text-turf' : 'border-line text-muted-foreground hover:border-gold/60 hover:text-foreground',

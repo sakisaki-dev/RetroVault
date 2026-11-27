@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import { cn } from '@/lib/utils';
 import InLeague from '@/components/InLeague';
 import { useJerseyNumbers } from '@/utils/jerseys';
@@ -18,7 +19,7 @@ import './rosterkit.css';
  */
 
 export const prefersReducedMotion = () =>
-  typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  typeof window !== 'undefined' && isReducedMotion();
 
 export const useMedia = (query: string) => {
   const [on, setOn] = useState(() => typeof window !== 'undefined' && !!window.matchMedia?.(query).matches);

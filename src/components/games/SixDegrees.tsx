@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import PlayerSearchSelect from '@/components/PlayerSearchSelect';
 import InLeague from '@/components/InLeague';
 import { cn } from '@/lib/utils';
@@ -225,7 +226,7 @@ const SixDegrees = ({ players, ovrMap }: { players: GamePlayer[]; ovrMap?: Map<s
   const resultRef = useRef<HTMLElement>(null);
   useEffect(() => {
     if (status === 'play') return;
-    const reduce = !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const reduce = isReducedMotion();
     const id = window.setTimeout(() => resultRef.current?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }), reduce ? 0 : 450);
     return () => window.clearTimeout(id);
   }, [status]);

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import { cn } from '@/lib/utils';
 import { identity, type AutographRoll, type AutographSnapshot } from '@/config/autographs';
 import { autographFontsReady, loadAutographFonts } from './fonts';
@@ -22,7 +23,7 @@ interface AutographCanvasProps {
 
 const reducedMotion = () => {
   try {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return isReducedMotion();
   } catch {
     return false;
   }

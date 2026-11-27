@@ -17,6 +17,7 @@ import GameSprite from '@/components/GameSprite';
 import InLeague from '@/components/InLeague';
 import TeamLogo from '@/components/brand/TeamLogo';
 import './searchSheet.css';
+import { reducedMotion } from '@/utils/motion';
 
 /*
  * The phone player search: a full-screen sheet, like a native app's search.
@@ -386,7 +387,7 @@ const Sheet = ({
     if (open) return;
     inputRef.current?.blur();
     const panel = panelRef.current;
-    if (!panel || panel.dataset.swiped !== undefined || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!panel || panel.dataset.swiped !== undefined || reducedMotion()) {
       onGone();
       return;
     }

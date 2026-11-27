@@ -1,4 +1,5 @@
 import type { SlotId } from '@/utils/teamLab';
+import { reducedMotion } from '@/utils/motion';
 
 export const SLOT_NAMES: Record<SlotId, string> = {
   qb: 'Quarterback',
@@ -17,6 +18,6 @@ export const SLOT_NAMES: Record<SlotId, string> = {
 export const openSlotPicker = (slot: SlotId) => {
   const row = document.getElementById(`lab-slot-${slot}`);
   if (!row) return;
-  row.scrollIntoView({ block: 'nearest', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  row.scrollIntoView({ block: 'nearest', behavior: reducedMotion() ? 'auto' : 'smooth' });
   row.querySelector<HTMLButtonElement>('button[role="combobox"]')?.click();
 };

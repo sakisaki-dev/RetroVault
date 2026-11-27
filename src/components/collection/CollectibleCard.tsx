@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, type CSSProperties, type PointerEvent, type ReactNode } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import { Pin } from 'lucide-react';
 import { isLite } from '@/hooks/usePerfMode';
 import { cn } from '@/lib/utils';
@@ -17,7 +18,7 @@ import './collection.css';
 
 const motionOk = () => {
   try {
-    return !isLite() && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return !isLite() && !isReducedMotion();
   } catch {
     return false;
   }

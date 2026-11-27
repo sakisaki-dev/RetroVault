@@ -2,6 +2,7 @@ import { createElement, useCallback, useEffect, useState, type CSSProperties, ty
 import CountUp from '@/components/brand/CountUp';
 import { isLite } from '@/hooks/usePerfMode';
 import '@/hooks/motion.css';
+import { reducedMotion } from '@/utils/motion';
 
 /**
  * Scroll-in motion, once. The container is "wait" while its mo-* children are held back and "go" after it first
@@ -10,7 +11,7 @@ import '@/hooks/motion.css';
 const motionOk = () => {
   if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') return false;
   try {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+    if (reducedMotion()) return false;
   } catch {
     /* no matchMedia */
   }

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { type OwnedAuto } from '@/utils/collection';
@@ -49,7 +50,7 @@ const AutographCarousel = ({ autos, selectedId, onSelect, size = 'card', label }
     if (!el || !li) return;
     let behavior: ScrollBehavior = smooth ? 'smooth' : 'auto';
     try {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) behavior = 'auto';
+      if (isReducedMotion()) behavior = 'auto';
     } catch {
       /* no matchMedia */
     }

@@ -2,10 +2,10 @@ import { forwardRef, useEffect, useRef, useState, type ButtonHTMLAttributes, typ
 import { cn } from '@/lib/utils';
 import type { NFLTeam } from '@/utils/nflTeams';
 import { fmtFixed } from '@/utils/numberFormat';
+import { reducedMotion } from '@/utils/motion';
 
 const t1 = (n: number, d: number) => (d ? Number(n.toFixed(d)) : n);
 
-const reducedMotion = () => typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
 /** Scoreboard lamp: black pill with gold pixel text. */
 export const Lamp = ({ label, value, live = false, flicker = false }: { label: ReactNode; value?: ReactNode; live?: boolean; flicker?: boolean }) => (

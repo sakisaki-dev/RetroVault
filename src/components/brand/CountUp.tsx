@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { reducedMotion } from '@/utils/motion';
 
 interface CountUpProps {
   value: number;
@@ -9,7 +10,7 @@ interface CountUpProps {
 }
 
 const prefersReducedMotion = () =>
-  typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  reducedMotion();
 
 // One formatter per precision: toLocaleString with options builds a new Intl.NumberFormat on every call, and a
 // count-up formats every frame (a player card has ~15 of them running at once)

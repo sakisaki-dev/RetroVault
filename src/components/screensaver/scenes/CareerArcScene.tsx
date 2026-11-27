@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { isReducedMotion } from '@/hooks/usePerfMode';
 import { Trophy } from 'lucide-react';
 import type { Player } from '@/types/player';
 import { playerKey } from '@/config/ovr';
@@ -23,7 +24,7 @@ import './liveScenes.css';
 export interface ArcPoint { year: number; v: number; title: boolean; club: string }
 export interface CareerArcData { player: Player; points: ArcPoint[]; roll: number }
 
-const reduced = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const reduced = () => typeof window !== 'undefined' && isReducedMotion();
 
 /** His seasons with a season OVR; null under `min` bars */
 export const arcFor = (file: CareerSeasonsFile, p: Player, extras: IndexedExtras, bowls: SuperBowlEntry[], min = 4): ArcPoint[] | null => {

@@ -29,18 +29,7 @@ export const plusFill = (plus: number | null) => {
   return `rgba(${t >= 0 ? VIZ.above : VIZ.below}, ${alpha.toFixed(3)})`;
 };
 
-export const usePrefersReducedMotion = () => {
-  const query = '(prefers-reduced-motion: reduce)';
-  const [reduced, setReduced] = useState(() => typeof window !== 'undefined' && window.matchMedia?.(query).matches);
-  useEffect(() => {
-    const mq = window.matchMedia?.(query);
-    if (!mq) return;
-    const on = () => setReduced(mq.matches);
-    mq.addEventListener('change', on);
-    return () => mq.removeEventListener('change', on);
-  }, []);
-  return reduced;
-};
+export { useReducedMotion as usePrefersReducedMotion } from '@/hooks/usePerfMode';
 
 export const fmtNum = (v: number, decimals: number) =>
   fmtFixed(Number.isFinite(v) ? v : 0, decimals);
