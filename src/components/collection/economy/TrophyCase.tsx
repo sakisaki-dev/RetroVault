@@ -2,7 +2,8 @@ import { useMemo, useState, type CSSProperties } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { MILESTONES, caseUnlocked } from '@/utils/economy';
 import type { CollectionState } from '@/utils/collection';
-import { isLite, useReducedMotion } from '@/hooks/usePerfMode';
+import { isLite } from '@/hooks/usePerfMode';
+import { reducedMotion } from '@/utils/motion';
 import CollectibleCard from '../CollectibleCard';
 import { displayWithKit } from '../kits';
 import PixelCup from '@/components/frontoffice/PixelCup';
@@ -26,7 +27,7 @@ export const caseCups = (state: CollectionState) => MILESTONES.filter((m) => sta
  */
 const TrophyCase = ({ state, top, total, onOpen, preview = false }: { state: CollectionState; top: TopCard[]; total: number; onOpen?: (c: TopCard['info']) => void; preview?: boolean }) => {
   const cups = useMemo(() => caseCups(state), [state]);
-  const reduce = useReducedMotion();
+  const reduce = reducedMotion();
   const [open, setOpen] = useState(() => {
     try {
       return localStorage.getItem(KEY) === '1';
