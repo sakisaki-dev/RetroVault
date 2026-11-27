@@ -101,6 +101,7 @@ export default class CrashScreen extends Component<{ children: ReactNode }, Stat
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
+    (window as unknown as { __rvBootDone?: () => void }).__rvBootDone?.(); // the pre-JS loader must not cover this screen
     const stack = [
       ...(error.stack ?? '').split('\n').slice(0, 6),
       '— component —',

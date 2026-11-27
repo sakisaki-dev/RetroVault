@@ -169,7 +169,8 @@ const normalizeAndSplit = (data: LeagueData): { careerData: LeagueData; legends:
 export const LeagueProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [careerData, setCareerData] = useState<LeagueData | null>(null);
   const [legends, setLegends] = useState<Player[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // true from the first render: the league sheet is already on its way (the effect below), so a tab never reads "no data" first
+  const [isLoading, setIsLoading] = useState(true);
   const [dataVersion, setDataVersion] = useState(0);
 
   const applyLeague = useCallback(async (csv: string) => {

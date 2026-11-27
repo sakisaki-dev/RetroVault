@@ -57,32 +57,80 @@ export const Reveal = <T extends ElementType = 'div'>({ as, ...rest }: RevealPro
  * by its place (capped). Sections already inside a Reveal keep that Reveal's motion; later children (a tab's panel,
  * a lazy chunk) are picked up as they mount. Motion off (reduced motion, lite mode) leaves everything as is.
  */
+/** Fine units first (a section's heading, chips, panels), then a page container's other blocks (hero, tab bar). */
+const FINE = 'section[aria-labelledby] > *, [data-mo-stack] > *';
+const COARSE = '.container > *';
+/** Page-open cascade: the first window after a page mounts, blocks on screen play in order, top to bottom. */
+const OPEN_MS = 900;
+const OPEN_CAP = 9;
+
 export const useAutoReveal = <T extends HTMLElement>(): RefCallback<T> =>
   useCallback((root: T | null) => {
     if (!root || !motionOk()) return;
-    let first = true;
+    let opened = performance.now();
+    // a route inside the tab (a club, a school, a game, a player) opens like a page too: what it mounts cascades in
+    const reopen = () => {
+      if (root.isConnected) opened = performance.now();
+      else ['rv:page', 'popstate'].forEach((t) => window.removeEventListener(t, reopen));
+    };
+    ['rv:page', 'popstate'].forEach((t) => window.addEventListener(t, reopen));
+    let rank = 0;
+    const held: HTMLElement[] = [];
+    const booting = () => !!document.getElementById('rv-boot') && !(window as { __rvBootLifted?: boolean }).__rvBootLifted;
+    if (booting()) {
+      const lift = () => {
+        window.removeEventListener('rv:boot-lift', lift);
+        opened = performance.now();
+        held.splice(0).forEach((el) => (el.dataset.mo = 'go'));
+      };
+      window.addEventListener('rv:boot-lift', lift);
+      setTimeout(lift, 8000); // the loader never lifted (an error path): never leave the page hidden
+    }
+    const skip = (el: HTMLElement) => !!el.dataset.mo || !!el.closest('[data-mo], [data-no-mo]');
     const scan = () => {
-      // what is already on screen when the page opens is never held back (no blank flash on load); a section that
-      // lands later (a lazy chunk, a fetched file) rises in as it arrives
-      const fold = first ? window.innerHeight : -1;
-      first = false;
-      root.querySelectorAll<HTMLElement>('section[aria-labelledby] > *, [data-mo-stack] > *').forEach((el) => {
-        if (el.dataset.mo || el.closest('[data-mo], [data-no-mo]')) return;
-        if (fold > 0 && el.getBoundingClientRect().top < fold - 24) {
-          el.dataset.mo = 'seen'; // on screen at load: never held back, never rescanned
-          return;
-        }
+      // owner: "everything just goes into the page" (the Game page has its own entrance). While the page is opening,
+      // what is on screen cascades in top to bottom, as the Game page's header does; later blocks (below the fold,
+      // a lazy chunk, a fetched file) wait and rise as they scroll in
+      const opening = booting() || performance.now() - opened < OPEN_MS;
+      const fold = window.innerHeight - 24;
+      const picked: HTMLElement[] = [];
+      root.querySelectorAll<HTMLElement>(FINE).forEach((el) => !skip(el) && (el.dataset.mo = 'pick', picked.push(el)));
+      root.querySelectorAll<HTMLElement>(COARSE).forEach((el) => {
+        if (skip(el) || el.querySelector('[data-mo]') || !el.getClientRects().length) return;
+        el.dataset.mo = 'pick';
+        picked.push(el);
+      });
+      const tops = new Map(picked.map((el) => [el, el.getBoundingClientRect().top]));
+      picked.sort((a, b) => tops.get(a)! - tops.get(b)!);
+      for (const el of picked) {
         el.classList.add('mo-auto');
+        if (tops.get(el)! < fold) {
+          if (!opening) {
+            el.dataset.mo = 'seen'; // a block that lands on screen after the page opened: shown as is, no pop
+            el.classList.remove('mo-auto');
+            continue;
+          }
+          el.style.setProperty('--i', String(Math.min(rank++, OPEN_CAP)));
+          // first open: the vault loader (index.html) still covers the page; the cascade plays as it dissolves
+          if (booting()) {
+            el.dataset.mo = 'wait';
+            held.push(el);
+          } else el.dataset.mo = 'go';
+          continue;
+        }
         el.style.setProperty('--i', String(Math.min(Array.prototype.indexOf.call(el.parentElement?.children ?? [], el), 4)));
         el.dataset.mo = 'wait';
         shared().observe(el);
-      });
+      }
     };
     scan();
     let frame = 0;
-    new MutationObserver(() => {
-      if (!frame) frame = requestAnimationFrame(() => ((frame = 0), scan()));
-    }).observe(root, { childList: true, subtree: true });
+    const mo = new MutationObserver((list) => {
+      if (!root.isConnected) return mo.disconnect();
+      if (frame || !list.some((m) => Array.prototype.some.call(m.addedNodes, (n: Node) => n.nodeType === 1))) return;
+      frame = requestAnimationFrame(() => ((frame = 0), scan()));
+    });
+    mo.observe(root, { childList: true, subtree: true });
   }, []);
 
 /** `--i` for a stagger. */

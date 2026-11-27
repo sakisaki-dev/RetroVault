@@ -245,6 +245,8 @@ export const useHashRoute = (defaultTab = 'games') => {
     }
     // Replacements keep a view's own state in the URL (a chart, the Deep Dive player, a section): those stay urgent
     if (changed) show(next, !!opts?.replace);
+    // a new page (not a filter replacing state) lets its blocks cascade in again (motion/Reveal useAutoReveal)
+    if (changed && !opts?.replace) window.dispatchEvent(new Event('rv:page'));
   }, [show]);
 
   // Apply the scroll in the commit that shows the new route, before it paints

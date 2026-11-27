@@ -705,6 +705,10 @@
 .rv-view-in {
   animation: rv-rise-view var(--dur-view) var(--ease-out) backwards;
 }
+/* a page whose blocks cascade in themselves (useAutoReveal) only fades, so nothing rises twice */
+.rv-view-in.rv-view-fade {
+  animation-name: rv-fade-in;
+}
 /* Suspense fallbacks wait ~150 ms before showing, so a fast chunk never flashes a skeleton */
 .rv-fallback {
   animation: rv-fade-in var(--dur-2) var(--ease-out) 150ms backwards;
