@@ -41,7 +41,7 @@ const DdSkills = ({ player, ovr, ovrLabel = 'OVR', traits, overall, players, onO
   }
   const best = [...graded].sort((a, b) => b.percentile - a.percentile)[0];
   return (
-    <div className="grid gap-3 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)]">
+    <div className="grid gap-3 lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] lg:items-stretch">
       {overall && (
         <LeaderboardPeek
           player={player}
@@ -57,11 +57,11 @@ const DdSkills = ({ player, ovr, ovrLabel = 'OVR', traits, overall, players, onO
             type="button"
             aria-label={`Skill grade ${overall.grade.grade}, skill rating ${overall.rating}. Show the ${player.position} leaderboard`}
             className={cn(
-              'rbk-chip glass-card flex flex-row items-center gap-4 p-4 text-left hover:border-gold/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold lg:flex-col lg:items-start',
+              'rbk-chip glass-card flex h-full w-full flex-row items-center gap-3 p-3 text-left hover:border-gold/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
               overall.grade.grade === 'S' && 'dd-card--s',
             )}
           >
-            <GradeChip grade={overall.grade} size="xl" />
+            <GradeChip grade={overall.grade} size="lg" />
             <div className="min-w-0 space-y-1.5">
               <p className="font-pixel text-[9px] uppercase text-gold">Skill grade</p>
               <div className="flex flex-wrap gap-1.5">
@@ -83,7 +83,14 @@ const DdSkills = ({ player, ovr, ovrLabel = 'OVR', traits, overall, players, onO
           </button>
         </LeaderboardPeek>
       )}
-      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3" aria-label={`${player.name} skill grades`}>
+      {/* tiles follow the tile count (4 across for 8, 2 for 2) and their rows stretch to the grade card's height */}
+      <ul
+        className={cn(
+          'grid grid-cols-1 gap-2 sm:grid-cols-2',
+          'lg:auto-rows-fr lg:self-stretch [&>li]:h-full [&>li>*]:h-full',
+          traits.length === 8 ? 'xl:grid-cols-4' : traits.length === 2 ? 'xl:grid-cols-2' : 'xl:grid-cols-3',
+        )}
+        aria-label={`${player.name} skill grades`}>
         {traits.map((t, i) => {
           const s = t.grade?.grade === 'S';
           return (
