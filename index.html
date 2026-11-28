@@ -36,19 +36,22 @@
     <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="%BASE_URL%splash/launch-828x1792.png" />
     <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="%BASE_URL%splash/launch-750x1334.png" />
 
-    <!-- Boot loader (the helmet wheel): inline CSS, HTML and a tiny script, no images; painted with the first bytes of the page.
+    <!-- Boot loader (the vault door): inline CSS, HTML and a tiny script, no images; painted with the first bytes of the page.
          Nothing render-blocking sits before it: the Google Fonts sheet loads without blocking and the build makes the app's
-         own stylesheet non-blocking too (vite.config.ts). A dusk vault door in the stadium wall: the wheel ticks while the
-         site loads, its hub a pixel helmet in the coach's club colours (src/utils/bootClub.ts keeps them in localStorage;
-         first visit = Retro Bowl red). main.tsx calls __rvBootDone() after React's first commit and once the stylesheet
-         is in; the door rolls aside onto the dusk field, fades gently to black, then the page rises in (rv:boot-lift
-         starts the page entrance cascade). Dark on purpose (night site, #0b1020-ish); draws only when the frame changes. -->
+         own stylesheet non-blocking too (vite.config.ts). A pixel vault door set in a brick wall: the wheel ticks while the
+         site loads, its hub a pixel football on the coach's club colour, its knobs the second colour (src/utils/bootClub.ts
+         keeps them in localStorage; first visit = Retro Bowl red). main.tsx calls __rvBootDone() after React's first commit
+         and once the stylesheet is in; the bolts pull in, the wheel spins, the door rolls aside along its track and the
+         camera flies through the doorway into the site, which is the vault's inside (the page sits behind the hole, dim and
+         small, and grows and brightens as the wall zooms past). rv:boot-lift starts the page entrance cascade. No sunset, no
+         fade to black. Draws the door only when it changes. -->
     <style>
       html,body{background:#150d26;margin:0}
-      #rv-boot{position:fixed;inset:0;z-index:2147483000;background:#150d26;overflow:hidden}
+      #rv-boot{position:fixed;inset:0;z-index:2147483000;overflow:hidden;transform-origin:50% 50%}
       #rv-boot.fade{opacity:0;transition:opacity .25s ease-out}
       #rv-boot.roll{pointer-events:none}
-      #rv-cv{position:absolute;inset:0;width:100%;height:100%;display:block;image-rendering:pixelated;image-rendering:crisp-edges}
+      #rv-boot canvas{position:absolute;display:block;image-rendering:pixelated;image-rendering:crisp-edges}
+      #rv-wall{inset:0;width:100%;height:100%}
       #rv-boot p{position:absolute;left:24px;right:24px;bottom:calc(8% + env(safe-area-inset-bottom,0px));margin:0;font:500 13px/1.4 -apple-system,system-ui,sans-serif;color:#9c93b8;text-align:center;opacity:0;transition:opacity .4s}
       #rv-boot p.on{opacity:1}
       #rv-boot button{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:calc(8% - 50px + env(safe-area-inset-bottom,0px));min-height:44px;padding:0 22px;border:0;border-radius:8px;background:#a8832e;color:#150d26;font:800 15px -apple-system,system-ui,sans-serif}
@@ -62,96 +65,106 @@
   </head>
 
   <body>
-    <div id="rv-boot" role="status" aria-label="Loading"><canvas id="rv-cv"></canvas><p id="rv-boot-msg"></p><button id="rv-boot-btn" type="button" onclick="location.reload()">Tap to reload</button></div>
+    <div id="rv-boot" role="status" aria-label="Loading"><canvas id="rv-wall"></canvas><canvas id="rv-door"></canvas><p id="rv-boot-msg"></p><button id="rv-boot-btn" type="button" onclick="location.reload()">Tap to reload</button></div>
     <div id="root"></div>
     <script>
       (function(){
-        var b=document.getElementById("rv-boot"),cv=document.getElementById("rv-cv"),m=document.getElementById("rv-boot-msg"),k=document.getElementById("rv-boot-btn"),root=document.getElementById("root");
+        var b=document.getElementById("rv-boot"),wc=document.getElementById("rv-wall"),dc=document.getElementById("rv-door"),m=document.getElementById("rv-boot-msg"),k=document.getElementById("rv-boot-btn"),root=document.getElementById("root");
         var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
-        var t0=performance.now(),ready=false,openAt=-1,gone=false,raf=0,ctx=cv.getContext("2d"),lifted=false,wa0=0;
+        var t0=performance.now(),ready=false,openAt=-1,gone=false,raf=0,lifted=false,wa0=0,last="";
         function say(x,btn){m.textContent=x;m.className="on";if(btn)k.className="on"}
         setTimeout(function(){if(!ready)say("Slow connection, still loading")},5000);
         setTimeout(function(){if(!ready)say("Still can’t load. Check your connection and try again.",1)},20000);
         /* the club's colours, written by the app on an earlier visit (src/utils/bootClub.ts); Retro Bowl red until then */
         var CP="#c8102e",CS="#d8d2e6";
         try{var c=JSON.parse(localStorage.getItem("rv:boot-club")||"null");if(c&&/^#[0-9a-f]{6}$/i.test(c.p)&&/^#[0-9a-f]{6}$/i.test(c.s)){CP=c.p;CS=c.s}}catch(e){}
-        /* dusk palette: deep violet sky, a low dim glow, muted steel and gold, dark turf */
-        var SKY=["#0e0b24","#151032","#1f1640","#2f1c4a","#452350","#62304e"],
-            P={ol:"#0a0714",steel:"#4a3566",steel3:"#2f2145",gold:"#a8832e",goldd:"#7a5c1e",spoke:"#a79bc4",hub:"#7a7098",wall:"#1a1230",wall2:"#150e28",t1:"#14301c",t2:"#112a18",glow:"#8a4a3a",sun:"#a85a3c"};
+        var n=parseInt(CS.slice(1),16),CSL="rgb("+[n>>16,n>>8&255,n&255].map(function(v){return Math.round(v+(255-v)*.4)}).join(",")+")";
         function clamp(v,a,c){return v<a?a:v>c?c:v}
-        function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
         function seg(t,a,c){return clamp((t-a)/(c-a),0,1)}
-        var W,H,PX,cx,cy,R,last="";
-        function size(){
-          var w=b.clientWidth||innerWidth,h=b.clientHeight||innerHeight;
-          PX=w>=768?4:3;W=Math.max(40,Math.round(w/PX));H=Math.max(40,Math.round(h/PX));
-          cv.width=W;cv.height=H;ctx=cv.getContext("2d");last="";
-          cx=W/2;cy=Math.round(H*(W<H?.47:.5));R=Math.round(W<H?W*.4:Math.min(W*.28,H*.4));
+        function io(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
+        function ein(t){return t*t*t}
+        function eout(t){return 1-Math.pow(1-t,3)}
+        function P(x,a,y,w,h,col){x.fillStyle=col;x.fillRect(Math.round(a),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))}
+        /* the door, 150 art pixels across: the body, the wheel's rim and the hub never change, so they're drawn once */
+        var PN=150,DR=PN/2-1,DM=PN/2,WR=DR*.52,base,cap,W,H,R,cx,cy;
+        function layer(){var e=document.createElement("canvas");e.width=e.height=PN;return e}
+        function statics(){
+          base=layer();var x=base.getContext("2d"),i,j,d,col,a,q;
+          var T=["#d4dae5","#b3bac8","#959daf","#7b8396","#62697c","#4b5163"],B=[[0,8,2,10],[12,4,14,6],[3,11,1,9],[15,7,13,5]];
+          for(j=-DR;j<=DR;j++)for(i=-DR;i<=DR;i++){d=Math.hypot(i,j);if(d>DR)continue;
+            if(d>DR-1.5)col="#1c2029";else if(Math.abs(d-DR*.75)<1)col="#30353f";
+            else{var l=(i+j)/(2*DR)*1.4+d/DR*.9+(B[(j+DR)&3][(i+DR)&3]/16-.5)*.35;col=T[clamp(Math.floor((l+1)*2.4),0,5)]}
+            P(x,DM+i,DM+j,1,1,col)}
+          for(a=0;a<Math.PI*2;a+=.01)for(q=-2;q<=2;q++)P(x,DM+Math.cos(a)*(WR+q),DM+Math.sin(a)*(WR+q),1,1,Math.abs(q)==2?"#262a33":"#c2c8d4");
+          cap=layer();x=cap.getContext("2d");var hr=Math.round(DR*.32),A=14,Bb=9,e2;
+          for(j=-hr;j<=hr;j++)for(i=-hr;i<=hr;i++){d=Math.hypot(i,j);if(d<=hr)P(x,DM+i,DM+j,1,1,d>hr-2?"#d9b75a":d>hr-3?"#2a1f0a":CP)}
+          /* the football: brown leather lit from the top left, white stripes and laces */
+          for(j=-Bb;j<=Bb;j++)for(i=-A;i<=A;i++){e2=(i*i)/(A*A)+(j*j)/(Bb*Bb);if(e2>1)continue;
+            if(e2>.78)col="#2a1408";else{var lt=(-i-j*1.6)/(A+Bb);col=lt>.35?"#b8693a":lt>-.15?"#94502a":"#6e3a1c";
+              if(Math.abs(Math.abs(i)-9)<1&&e2<.7)col="#f2ead8";if(j===0&&Math.abs(i)<=5)col="#f2ead8";if(Math.abs(j)===1&&Math.abs(i)<=5&&i%2===0)col="#f2ead8"}
+            P(x,DM+i,DM+j,1,1,col)}
+          P(x,DM-8,DM-6,3,1,"#d98a55");P(x,DM-10,DM-5,2,1,"#d98a55");
         }
-        function px(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))}
-        function disc(x,y,r,c){for(var j=-r;j<=r;j++){var w=Math.sqrt(Math.max(0,r*r-j*j));px(x-w,y+j,w*2,1,c)}}
-        function ring(x,y,r,t,c){for(var j=-r;j<=r;j++){var wo=Math.sqrt(Math.max(0,r*r-j*j)),wi=Math.sqrt(Math.max(0,(r-t)*(r-t)-j*j));px(x-wo,y+j,wo-wi,1,c);px(x+wi,y+j,wo-wi,1,c)}}
-        var HELM=["...hhhhh..","..hhhshhh.",".hhhwshhhh",".hhhhshhmm",".hhhhhh.m.","..hhhh.mm."];
-        function helmet(x,y,s){var pal={h:CP,s:CS,w:"#cfc8e0",m:"#8d86a8"};for(var j=0;j<HELM.length;j++)for(var i=0;i<10;i++){var ch=HELM[j].charAt(i);if(ch!==".")px(x+(i-5)*s,y+(j-3)*s,s,s,pal[ch])}}
-        function draw(t,o){
-          var WA=Math.PI/16,wa=o<0?-Math.floor(t/170)*WA:wa0-ease(seg(o,0,500))*Math.PI*1.9;
-          var roll=ease(seg(o,550,1300)),dx=-roll*R*2.6,rho=dx/R,bolt=seg(o,350,550)*4;
-          var top=cy-R-2,hor=Math.round(cy+R*.3),band=(hor-top)/SKY.length,i,y,x;
-          /* what lies behind the door: a dusk sky with a low glow, a small dim sun, dark striped turf */
-          for(i=0;i<SKY.length;i++)px(cx-R-2,top+i*band,R*2+4,band+1,SKY[i]);
-          px(cx-R-2,hor-2,R*2+4,2,P.glow);disc(Math.round(cx),hor,Math.max(2,Math.round(R*.11)),P.sun);
-          for(y=hor;y<cy+R+3;y+=4)px(cx-R-2,y,R*2+4,4,((y-hor)/4)%2?P.t1:P.t2);
-          /* the stadium wall round the hole */
-          ctx.save();ctx.beginPath();ctx.rect(0,0,W,H);ctx.arc(cx,cy,R+1,0,Math.PI*2,true);ctx.clip("evenodd");
-          px(0,0,W,H,P.wall);for(y=0;y<H;y+=8)for(x=((y/8)%2)*6;x<W;x+=12)px(x,y,11,7,P.wall2);
-          ctx.restore();
-          ring(cx,cy,R+4,4,P.gold);ring(cx,cy,R+5,1,P.ol);
-          /* the door: steel, an inner ring, bolts that pull in, the wheel and the helmet hub */
-          var dcx=cx+dx,s=Math.max(1,Math.floor(R*.4/10));
-          disc(dcx,cy,R,P.ol);disc(dcx,cy,R-1,P.steel);ring(dcx,cy,Math.round(R*.7),2,P.steel3);
-          for(i=0;i<10;i++){var a=rho+i*Math.PI/5,rr=R+1-bolt;px(dcx+Math.cos(a)*rr-1,cy+Math.sin(a)*rr-1,3,3,P.gold)}
-          ring(dcx,cy,Math.round(R*.48),2,P.spoke);
-          for(i=0;i<6;i++){var b2=wa+rho+i*Math.PI/3;for(var r=R*.24;r<R*.48;r++)px(dcx+Math.cos(b2)*r,cy+Math.sin(b2)*r,2,2,P.spoke);px(dcx+Math.cos(b2)*R*.53-2,cy+Math.sin(b2)*R*.53-2,4,4,P.goldd)}
-          disc(dcx,cy,Math.round(R*.26),P.ol);disc(dcx,cy,Math.round(R*.26)-1,P.hub);helmet(dcx,cy,s);
-          /* the gentle fade to black at the end (never a flash) */
-          var kk=seg(o,1350,1850);if(kk>0){ctx.globalAlpha=kk*kk;px(0,0,W,H,"#000");ctx.globalAlpha=1}
+        function door(wa,bolt){
+          var x=dc.getContext("2d"),i,a,kk,q;x.clearRect(0,0,PN,PN);x.drawImage(base,0,0);
+          for(i=0;i<12;i++){a=i*Math.PI/6;for(kk=0;kk<8;kk++){var rr=DR-8+kk-bolt*12;P(x,DM+Math.cos(a)*rr-2,DM+Math.sin(a)*rr-2,5,5,kk<2?"#2a1f0a":kk<5?"#e2bf62":"#9a7428")}}
+          for(i=0;i<24;i++){a=i*Math.PI/12;var rv=DR*.86;P(x,DM+Math.cos(a)*rv-1,DM+Math.sin(a)*rv-1,2,2,"#e8edf5");P(x,DM+Math.cos(a)*rv,DM+Math.sin(a)*rv,1,1,"#3a404e")}
+          for(i=0;i<6;i++){a=wa+i*Math.PI/3;var ca=Math.cos(a),sa=Math.sin(a);
+            for(q=DR*.22;q<WR;q+=.5)for(kk=-2;kk<=2;kk++)P(x,DM+ca*q-sa*kk,DM+sa*q+ca*kk,1,1,Math.abs(kk)==2?"#3a404e":kk?"#9aa2b2":"#d3d8e2");
+            var kx=DM+ca*(WR+7),ky=DM+sa*(WR+7);
+            for(var j=-4;j<=4;j++)for(var i2=-4;i2<=4;i2++){var dd=Math.hypot(i2,j);if(dd<=4.3)P(x,kx+i2,ky+j,1,1,dd>3.3?"#0a0714":(i2<0&&j<0?CSL:CS))}}
+          x.drawImage(cap,0,0);
+        }
+        /* the wall: dark bricks, the hole cut out (the page shows through it once the door is away), a pixel gold frame */
+        function layout(){
+          W=b.clientWidth||innerWidth;H=b.clientHeight||innerHeight;var tall=W<H;
+          cx=W/2;cy=H*(tall?.46:.48);R=Math.round(tall?W*.38:Math.min(W*.24,H*.36));
+          dc.width=dc.height=PN;dc.style.width=dc.style.height=2*R+"px";dc.style.left=cx-R+"px";dc.style.top=cy-R+"px";
+          var s=tall?2:3,w=Math.ceil(W/s),h=Math.ceil(H/s),x,y,i,j,d;wc.width=w;wc.height=h;x=wc.getContext("2d");
+          P(x,0,0,w,h,"#141022");
+          for(y=0;y<h;y+=10)for(i=-1;i*24<w+24;i++)P(x,i*24+((y/10)%2?12:0)+1,y+1,22,8,((i+y)%3)?"#1b1630":"#1e1934");
+          var pcx=cx/s,pcy=cy/s,pr=R/s;
+          for(j=Math.floor(-pr-6);j<=pr+6;j++)for(i=Math.floor(-pr-6);i<=pr+6;i++){d=Math.hypot(i,j);
+            if(d<pr+.5)x.clearRect(Math.round(pcx+i),Math.round(pcy+j),1,1);
+            else if(d<pr+5)P(x,pcx+i,pcy+j,1,1,d>pr+4?"#2a1f0a":(Math.sin(Math.atan2(j,i)*3+1)>.3?"#d8b55a":"#9b7a30"))}
+          var g=x.createRadialGradient(pcx,pcy,pr,pcx,pcy,Math.max(w,h)*.75);g.addColorStop(0,"rgba(0,0,0,0)");g.addColorStop(1,"rgba(0,0,0,.65)");
+          x.save();x.beginPath();x.rect(0,0,w,h);x.arc(pcx,pcy,pr+5,0,Math.PI*2,true);x.clip("evenodd");x.fillStyle=g;x.fillRect(0,0,w,h);x.restore();
+          b.style.transformOrigin=cx+"px "+cy+"px";last="";
         }
         function lift(){if(lifted)return;lifted=true;window.__rvBootLifted=true;try{dispatchEvent(new Event("rv:boot-lift"))}catch(e){}}
         function finish(){
           lift();if(gone)return;gone=true;cancelAnimationFrame(raf);
-          root.style.transform="";root.style.transformOrigin="";
-          if(b.parentNode)b.parentNode.removeChild(b);cv.width=cv.height=0;
+          root.style.transform=root.style.transformOrigin=root.style.filter="";
+          if(b.parentNode)b.parentNode.removeChild(b);wc.width=wc.height=dc.width=dc.height=0;
           removeEventListener("resize",onResize);
         }
+        function tick(t){return -Math.floor(t/160)*Math.PI/16}
         function frame(now){
           if(gone)return;
           var t=now-t0;
-          if(openAt<0&&ready&&t>=500){openAt=t;wa0=-Math.floor(t/170)*(Math.PI/16)}
-          if(openAt<0){
-            var key=Math.floor(t/170)+"|"+W+"x"+H;
-            if(key!==last){last=key;draw(t,-1)}
-            raf=requestAnimationFrame(frame);return;
-          }
-          var o=t-openAt;
-          if(o>1050)b.className="roll";
-          if(o>1050)m.className=k.className="";
-          draw(t,o);
-          if(o>=1850){
-            lift();var p=ease(seg(o,1850,2450));
-            cv.style.opacity=String(1-p);
-            root.style.transformOrigin="50% 30%";root.style.transform="translateY("+(16*(1-p)).toFixed(2)+"px) scale("+(.985+.015*p).toFixed(4)+")";
-          }
-          if(o>=2500){finish();return}
+          if(openAt<0&&ready&&t>=500){openAt=t;wa0=tick(t);root.style.transformOrigin=cx+"px "+(cy+(window.scrollY||0))+"px"}
+          var o=openAt<0?-1:t-openAt,wa=o<0?tick(t):wa0-io(seg(o,250,950))*Math.PI*1.6,bolt=o<0?0:io(seg(o,0,380));
+          var key=wa.toFixed(3)+"|"+bolt.toFixed(3);
+          if(key!==last){last=key;door(wa,bolt)}
+          if(o<0){raf=requestAnimationFrame(frame);return}
+          /* the door rolls aside; the camera flies through the hole; the page (the vault's inside) grows and brightens */
+          var op=io(seg(o,850,1600)),z=ein(seg(o,1350,2250)),pg=eout(seg(o,1000,2300));
+          dc.style.transform="translateX("+(-op*R*2.5).toFixed(1)+"px) rotate("+(-op*2.5*180/Math.PI).toFixed(2)+"deg)";
+          b.style.transform="scale("+(1+z*9).toFixed(4)+")";b.style.opacity=String(1-seg(o,1950,2250));
+          root.style.transform="scale("+(.82+.18*pg).toFixed(4)+")";root.style.filter=pg<1?"brightness("+(.3+.7*pg).toFixed(3)+")":"";
+          if(o>0){b.className="roll";m.className=k.className=""}
+          if(o>=1350)lift();
+          if(o>=2300){finish();return}
           raf=requestAnimationFrame(frame);
         }
-        var rt;function onResize(){clearTimeout(rt);rt=setTimeout(function(){if(!gone){size();draw(performance.now()-t0,-1)}},100)}
+        var rt;function onResize(){clearTimeout(rt);rt=setTimeout(function(){if(!gone&&openAt<0)layout()},100)}
         function fadeOut(){
           if(gone)return;lift();cancelAnimationFrame(raf);m.className=k.className="";b.className="roll fade";
           setTimeout(finish,300);
         }
-        function open(){ready=true;if(reduce)setTimeout(fadeOut,0)}
-        size();addEventListener("resize",onResize);
-        draw(0,-1);last="0|"+W+"x"+H;if(!reduce)raf=requestAnimationFrame(frame);
+        function open(){if(ready)return;ready=true;if(reduce)setTimeout(fadeOut,0);else{root.style.transformOrigin=cx+"px "+(cy+(window.scrollY||0))+"px";root.style.transform="scale(.82)";root.style.filter="brightness(.3)"}}
+        statics();layout();addEventListener("resize",onResize);
+        door(tick(0),0);last=tick(0).toFixed(3)+"|0.000";if(!reduce)raf=requestAnimationFrame(frame);
         window.__rvBootDone=function(){
           if(ready)return;
           var l=document.querySelector("link[data-app-css]");
