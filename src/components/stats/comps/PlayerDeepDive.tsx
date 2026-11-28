@@ -39,6 +39,7 @@ import { canGoBackInApp } from '../hub/hashRoute';
 import { usePageSwipeBack } from '@/hooks/usePageSwipeBack';
 import { mergeRefs } from '@/hooks/useSwipeToDismiss';
 import './deepDive.css';
+import { scrollToSection } from '@/utils/scrollToSection';
 
 type Select = (p: Player) => void;
 
@@ -170,7 +171,7 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
   useEffect(() => {
     if (!sectionReq || !byKey.has(selKey)) return;
     const t = window.setTimeout(() => {
-      document.getElementById(sectionReq)?.scrollIntoView({ behavior: 'instant' as ScrollBehavior, block: 'start' });
+      scrollToSection(sectionReq, false);
       setSectionReq(null);
     }, 120);
     return () => window.clearTimeout(t);
@@ -265,7 +266,7 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
     };
   }, [player]);
   const jump = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    scrollToSection(id, !reduced);
     setActive(id);
   };
 
@@ -372,7 +373,7 @@ const PlayerDeepDive = ({ data, players: playersProp, onSelect, initialPlayerKey
           shapeMap
             ? () => {
                 setFamView(true);
-                document.getElementById('dd-map')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+                scrollToSection('dd-map', !reduced);
               }
             : undefined
         }
